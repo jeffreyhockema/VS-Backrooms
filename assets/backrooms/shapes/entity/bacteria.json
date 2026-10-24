@@ -53091,25 +53091,465 @@
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 0.0
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
 						},
 						"ElbowWireL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.012,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.994
+							"rotationZ": 0
 						},
 						"ElbowWireR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.531,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 1.912
+							"rotationZ": 0
+						},
+						"Finger0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Finger0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Finger1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Finger1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Finger2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Finger2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Finger3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Finger3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"ForearmL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"ForearmR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"HandL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"HandR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Head": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"HipWire0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"HipWire1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"HipWire2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"HipWire3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Hips": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Jaw": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"JawWire0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"JawWire1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"JawWire2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Neck": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"ShinL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"ShinR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"ShoulderL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"ShoulderR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"ShoulderWireL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"ShoulderWireR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Stain": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0,
+							"stretchX": 0.2,
+							"stretchY": 1,
+							"stretchZ": 0.2
+						},
+						"ThighL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"ThighR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Tip0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Tip0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Tip1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Tip1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Tip2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Tip2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Tip3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Tip3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"UpperArmL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"UpperArmR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Waist": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						}
+					}
+				},
+				{
+					"frame": 3,
+					"elements": {
+						"Chest": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 8,
+							"rotationY": 0.0,
+							"rotationZ": -10
+						},
+						"ElbowWireL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -3.671
+						},
+						"ElbowWireR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -3.304
+						},
+						"Finger0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
 						},
 						"ForearmL": {
 							"offsetX": 0,
@@ -53147,46 +53587,46 @@
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.0,
+							"rotationX": -20,
 							"rotationY": 0.0,
-							"rotationZ": 0.0
+							"rotationZ": 30
 						},
 						"HipWire0": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.773,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 0.376
+							"rotationZ": 5.808
 						},
 						"HipWire1": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.649,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.427
+							"rotationZ": -0.451
 						},
 						"HipWire2": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 2.096,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.947
+							"rotationZ": -5.516
 						},
 						"HipWire3": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.394,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -1.607
+							"rotationZ": 4.017
 						},
 						"Hips": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
+							"offsetX": 0.0,
+							"offsetY": -0.751,
+							"offsetZ": 0.0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0
@@ -53197,31 +53637,31 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 0.0
+							"rotationZ": 40
 						},
 						"JawWire0": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.9,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -0.746
+							"rotationZ": 2.918
 						},
 						"JawWire1": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.339,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.629
+							"rotationZ": -5.904
 						},
 						"JawWire2": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.234,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.853
+							"rotationZ": 0.899
 						},
 						"Neck": {
 							"offsetX": 0,
@@ -53229,7 +53669,7 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 0.0
+							"rotationZ": -16
 						},
 						"ShinL": {
 							"offsetX": 0,
@@ -53247,11 +53687,27 @@
 							"rotationY": 0.0,
 							"rotationZ": 0.0
 						},
-						"ShoulderWireL": {
+						"ShoulderL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderWireL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
 							"rotationY": 0,
 							"rotationZ": 0.0
 						},
@@ -53259,13 +53715,13 @@
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 2.034,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.187
+							"rotationZ": 5.678
 						},
 						"Stain": {
 							"offsetX": 0,
-							"offsetY": 0,
+							"offsetY": 0.096,
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
@@ -53290,7 +53746,7 @@
 							"rotationY": 0.0,
 							"rotationZ": 0.0
 						},
-						"UpperArmL": {
+						"Tip0L": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
@@ -53298,7 +53754,7 @@
 							"rotationY": 0.0,
 							"rotationZ": 0.0
 						},
-						"UpperArmR": {
+						"Tip0R": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
@@ -53306,218 +53762,50 @@
 							"rotationY": 0.0,
 							"rotationZ": 0.0
 						},
-						"Waist": {
+						"Tip1L": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0
-						}
-					}
-				},
-				{
-					"frame": 3,
-					"elements": {
-						"Chest": {
+						},
+						"Tip1R": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 8,
-							"rotationY": 0.0,
-							"rotationZ": -10
-						},
-						"ElbowWireL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.394,
-							"rotationY": 0,
-							"rotationZ": -2.823
-						},
-						"ElbowWireR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.9,
-							"rotationY": 0,
-							"rotationZ": 2.673
-						},
-						"ForearmL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 2.308,
-							"rotationY": 0.0,
-							"rotationZ": -2.308
-						},
-						"ForearmR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -1.154,
-							"rotationY": 0.0,
-							"rotationZ": 2.769
-						},
-						"HandL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 2.308
-						},
-						"HandR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": -1.154
-						},
-						"Head": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -20,
-							"rotationY": 0.0,
-							"rotationZ": 30
-						},
-						"HipWire0": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.339,
-							"rotationY": 0,
-							"rotationZ": -0.837
-						},
-						"HipWire1": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.234,
-							"rotationY": 0,
-							"rotationZ": -1.527
-						},
-						"HipWire2": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.953,
-							"rotationY": 0,
-							"rotationZ": 2.928
-						},
-						"HipWire3": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -0.263,
-							"rotationY": 0,
-							"rotationZ": -2.481
-						},
-						"Hips": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0
 						},
-						"Jaw": {
+						"Tip2L": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 40
-						},
-						"JawWire0": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -2.083,
-							"rotationY": 0,
-							"rotationZ": 0.469
-						},
-						"JawWire1": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -0.773,
-							"rotationY": 0,
-							"rotationZ": 1.839
-						},
-						"JawWire2": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.699,
-							"rotationY": 0,
-							"rotationZ": -2.987
-						},
-						"Neck": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": -16
-						},
-						"ShinL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0
 						},
-						"ShinR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
+						"Tip2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0
 						},
-						"ShoulderWireL": {
+						"Tip3L": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.649,
-							"rotationY": 0,
-							"rotationZ": 1.191
-						},
-						"ShoulderWireR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 2.096,
-							"rotationY": 0,
-							"rotationZ": 1.191
-						},
-						"Stain": {
-							"offsetX": 0.0,
-							"offsetY": 0.04,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 0.0,
-							"stretchX": 0.209,
-							"stretchY": 1.0,
-							"stretchZ": 0.209
-						},
-						"ThighL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0
 						},
-						"ThighR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
+						"Tip3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0
@@ -53539,9 +53827,9 @@
 							"rotationZ": 14
 						},
 						"Waist": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0
@@ -53563,49 +53851,113 @@
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -0.48,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -1.888
+							"rotationZ": -3.671
 						},
 						"ElbowWireR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -2.1,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.992
+							"rotationZ": -3.304
+						},
+						"Finger0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
 						},
 						"ForearmL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 5.385,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": -5.385
+							"rotationZ": 0.0
 						},
 						"ForearmR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -2.692,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 6.462
+							"rotationZ": 0.0
 						},
 						"HandL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 5.385
+							"rotationZ": 0.0
 						},
 						"HandR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": -2.692
+							"rotationZ": 0.0
 						},
 						"Head": {
 							"offsetX": 0,
@@ -53619,37 +53971,37 @@
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -0.565,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.208
+							"rotationZ": 5.808
 						},
 						"HipWire1": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.819,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 0.031
+							"rotationZ": -0.451
 						},
 						"HipWire2": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.469,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.165
+							"rotationZ": -5.516
 						},
 						"HipWire3": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.088,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.996
+							"rotationZ": 4.017
 						},
 						"Hips": {
 							"offsetX": 0.0,
-							"offsetY": 0.0,
+							"offsetY": -0.751,
 							"offsetZ": 0.0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
@@ -53667,25 +54019,25 @@
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -2.01,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 1.936
+							"rotationZ": 2.918
 						},
 						"JawWire1": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.088,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 0.345
+							"rotationZ": -5.904
 						},
 						"JawWire2": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 2.054,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.408
+							"rotationZ": 0.899
 						},
 						"Neck": {
 							"offsetX": 0,
@@ -53696,17 +54048,33 @@
 							"rotationZ": -10
 						},
 						"ShinL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0
 						},
 						"ShinR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0
@@ -53715,41 +54083,105 @@
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.405,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.445
+							"rotationZ": 0.0
 						},
 						"ShoulderWireR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.861,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -0.407
+							"rotationZ": 5.678
 						},
 						"Stain": {
-							"offsetX": 0.0,
-							"offsetY": 0.093,
-							"offsetZ": 0.0,
+							"offsetX": 0,
+							"offsetY": 0.225,
+							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0,
-							"stretchX": 0.221,
-							"stretchY": 1.0,
-							"stretchZ": 0.221
+							"stretchX": 0.2,
+							"stretchY": 1,
+							"stretchZ": 0.2
 						},
 						"ThighL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0
 						},
 						"ThighR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0
@@ -53771,238 +54203,6 @@
 							"rotationZ": 4
 						},
 						"Waist": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 0.0
-						}
-					}
-				},
-				{
-					"frame": 9,
-					"elements": {
-						"Chest": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -7.778,
-							"rotationY": 0.0,
-							"rotationZ": -2.444
-						},
-						"ElbowWireL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -0.894,
-							"rotationY": 0,
-							"rotationZ": -1.191
-						},
-						"ElbowWireR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -2.063,
-							"rotationY": 0,
-							"rotationZ": 2.823
-						},
-						"ForearmL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 6.923,
-							"rotationY": 0.0,
-							"rotationZ": -6.923
-						},
-						"ForearmR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -3.462,
-							"rotationY": 0.0,
-							"rotationZ": 8.308
-						},
-						"HandL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 6.923
-						},
-						"HandR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": -3.462
-						},
-						"Head": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 20.889,
-							"rotationY": 0.0,
-							"rotationZ": 19.333
-						},
-						"HipWire0": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -0.132,
-							"rotationY": 0,
-							"rotationZ": -2.673
-						},
-						"HipWire1": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.997,
-							"rotationY": 0,
-							"rotationZ": 0.837
-						},
-						"HipWire2": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.125,
-							"rotationY": 0,
-							"rotationZ": 1.527
-						},
-						"HipWire3": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.438,
-							"rotationY": 0,
-							"rotationZ": -2.928
-						},
-						"Hips": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 0.0
-						},
-						"Jaw": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 34.222
-						},
-						"JawWire0": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.84,
-							"rotationY": 0,
-							"rotationZ": 2.481
-						},
-						"JawWire1": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.522,
-							"rotationY": 0,
-							"rotationZ": -0.469
-						},
-						"JawWire2": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 2.1,
-							"rotationY": 0,
-							"rotationZ": -1.839
-						},
-						"Neck": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": -7.778
-						},
-						"ShinL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 0.0
-						},
-						"ShinR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 0.0
-						},
-						"ShoulderWireL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.699,
-							"rotationY": 0,
-							"rotationZ": 2.823
-						},
-						"ShoulderWireR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.618,
-							"rotationY": 0,
-							"rotationZ": -1.191
-						},
-						"Stain": {
-							"offsetX": 0.0,
-							"offsetY": 0.119,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 0.0,
-							"stretchX": 0.226,
-							"stretchY": 1.0,
-							"stretchZ": 0.226
-						},
-						"ThighL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 0.0
-						},
-						"ThighR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 0.0
-						},
-						"UpperArmL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -30.0,
-							"rotationY": 0.0,
-							"rotationZ": -12.222
-						},
-						"UpperArmR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 37.778,
-							"rotationY": 0.0,
-							"rotationZ": -2.667
-						},
-						"Waist": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
@@ -54013,7 +54213,7 @@
 					}
 				},
 				{
-					"frame": 16,
+					"frame": 12,
 					"elements": {
 						"Chest": {
 							"offsetX": 0,
@@ -54021,55 +54221,119 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 10
+							"rotationZ": 8
 						},
 						"ElbowWireL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.936,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 1.554
+							"rotationZ": -3.671
 						},
 						"ElbowWireR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.27,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 0.807
+							"rotationZ": -3.304
+						},
+						"Finger0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Finger3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0
 						},
 						"ForearmL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 12.308,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": -12.308
+							"rotationZ": 0.0
 						},
 						"ForearmR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -6.154,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 14.769
+							"rotationZ": 0.0
 						},
 						"HandL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 12.308
+							"rotationZ": 0.0
 						},
 						"HandR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": -6.154
+							"rotationZ": 0.0
 						},
 						"Head": {
 							"offsetX": 0,
@@ -54083,41 +54347,41 @@
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.304,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.659
+							"rotationZ": 5.808
 						},
 						"HipWire1": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.918,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.833
+							"rotationZ": -0.451
 						},
 						"HipWire2": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -0.35,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -1.22
+							"rotationZ": -5.516
 						},
 						"HipWire3": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -2.093,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -1.163
+							"rotationZ": 4.017
 						},
 						"Hips": {
-							"offsetX": 0,
-							"offsetY": -6,
-							"offsetZ": 0,
+							"offsetX": 0.091,
+							"offsetY": 1.305,
+							"offsetZ": 0.0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 0.0
+							"rotationZ": 4
 						},
 						"Jaw": {
 							"offsetX": 0,
@@ -54131,25 +54395,25 @@
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -0.691,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.812
+							"rotationZ": 2.918
 						},
 						"JawWire1": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.749,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.687
+							"rotationZ": -5.904
 						},
 						"JawWire2": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.561,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 0.867
+							"rotationZ": 0.899
 						},
 						"Neck": {
 							"offsetX": 0,
@@ -54157,7 +54421,7 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 0
+							"rotationZ": 2
 						},
 						"ShinL": {
 							"offsetX": 0,
@@ -54165,7 +54429,7 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 62
+							"rotationZ": 50
 						},
 						"ShinR": {
 							"offsetX": 0,
@@ -54173,50 +54437,130 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 58
+							"rotationZ": 46
+						},
+						"ShoulderL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
 						},
 						"ShoulderWireL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 2.088,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.463
+							"rotationZ": 0.0
 						},
 						"ShoulderWireR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.307,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.934
+							"rotationZ": 5.678
 						},
 						"Stain": {
-							"offsetX": 0.0,
-							"offsetY": 0.212,
-							"offsetZ": 0.0,
+							"offsetX": 0,
+							"offsetY": 0.386,
+							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0,
-							"stretchX": 0.247,
-							"stretchY": 1.0,
-							"stretchZ": 0.247
+							"stretchX": 0.2,
+							"stretchY": 1,
+							"stretchZ": 0.2
 						},
 						"ThighL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -14,
+							"rotationX": -8,
 							"rotationY": 0.0,
-							"rotationZ": -50
+							"rotationZ": -40
 						},
 						"ThighR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 14,
+							"rotationX": 8,
 							"rotationY": 0.0,
-							"rotationZ": -44
+							"rotationZ": -34
+						},
+						"Tip0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"Tip3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
 						},
 						"UpperArmL": {
 							"offsetX": 0,
@@ -54240,52 +54584,116 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 24
+							"rotationZ": 14
 						}
 					}
 				},
 				{
-					"frame": 26,
+					"frame": 17,
 					"elements": {
 						"Chest": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -6,
+							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 38
+							"rotationZ": 12
 						},
 						"ElbowWireL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.673,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.833
+							"rotationZ": 6.329
 						},
 						"ElbowWireR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.814,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.659
+							"rotationZ": 6.696
+						},
+						"Finger0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -14
+						},
+						"Finger0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -8
+						},
+						"Finger1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -14
+						},
+						"Finger1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -8
+						},
+						"Finger2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -14
+						},
+						"Finger2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -8
+						},
+						"Finger3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -14
+						},
+						"Finger3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -8
 						},
 						"ForearmL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 20,
+							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": -20
+							"rotationZ": -14
 						},
 						"ForearmR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -10,
+							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 24
+							"rotationZ": -24
 						},
 						"HandL": {
 							"offsetX": 0,
@@ -54293,7 +54701,7 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 20
+							"rotationZ": 0.0
 						},
 						"HandR": {
 							"offsetX": 0,
@@ -54301,55 +54709,55 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": -10
+							"rotationZ": 0.0
 						},
 						"Head": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 30,
-							"rotationY": 10,
-							"rotationZ": 10
+							"rotationX": 14,
+							"rotationY": 0.0,
+							"rotationZ": 16
 						},
 						"HipWire0": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 2.077,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 0.807
+							"rotationZ": 15.808
 						},
 						"HipWire1": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.22,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 1.554
+							"rotationZ": 9.549
 						},
 						"HipWire2": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.968,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.934
+							"rotationZ": 4.484
 						},
 						"HipWire3": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.198,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.463
+							"rotationZ": 14.017
 						},
 						"Hips": {
-							"offsetX": 0,
-							"offsetY": -13,
-							"offsetZ": 0,
-							"rotationX": 0.0,
+							"offsetX": 4.343,
+							"offsetY": 6.439,
+							"offsetZ": -0.543,
+							"rotationX": 4,
 							"rotationY": 0.0,
-							"rotationZ": 0.0
+							"rotationZ": 34
 						},
 						"Jaw": {
 							"offsetX": 0,
@@ -54357,279 +54765,47 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 24
+							"rotationZ": 30
 						},
 						"JawWire0": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.372,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -0.438
+							"rotationZ": 12.918
 						},
 						"JawWire1": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.881,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -1.863
+							"rotationZ": 4.096
 						},
 						"JawWire2": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -0.437,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.989
+							"rotationZ": 10.899
 						},
 						"Neck": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 20,
+							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": -10
+							"rotationZ": 6
 						},
 						"ShinL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 110
-						},
-						"ShinR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 104
-						},
-						"ShoulderWireL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.854,
-							"rotationY": 0,
-							"rotationZ": -1.163
-						},
-						"ShoulderWireR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.646,
-							"rotationY": 0,
-							"rotationZ": -1.22
-						},
-						"Stain": {
-							"offsetX": 0.0,
-							"offsetY": 0.344,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 0.0,
-							"stretchX": 0.276,
-							"stretchY": 1.0,
-							"stretchZ": 0.276
-						},
-						"ThighL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -24,
-							"rotationY": 0.0,
-							"rotationZ": -88
-						},
-						"ThighR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 22,
-							"rotationY": 0.0,
-							"rotationZ": -80
-						},
-						"UpperArmL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -62,
-							"rotationY": 0.0,
-							"rotationZ": -36
-						},
-						"UpperArmR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 50,
-							"rotationY": 0.0,
-							"rotationZ": -56
-						},
-						"Waist": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 8,
 							"rotationY": 0.0,
 							"rotationZ": 56
-						}
-					}
-				},
-				{
-					"frame": 30,
-					"elements": {
-						"Chest": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -6,
-							"rotationY": 0.0,
-							"rotationZ": 38
-						},
-						"ElbowWireL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.012,
-							"rotationY": 0,
-							"rotationZ": 1.912
-						},
-						"ElbowWireR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.531,
-							"rotationY": 0,
-							"rotationZ": -2.994
-						},
-						"ForearmL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 20,
-							"rotationY": 0.0,
-							"rotationZ": -20
-						},
-						"ForearmR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -10,
-							"rotationY": 0.0,
-							"rotationZ": 24
-						},
-						"HandL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 20
-						},
-						"HandR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": -10
-						},
-						"Head": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 30,
-							"rotationY": 10,
-							"rotationZ": 10
-						},
-						"HipWire0": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.773,
-							"rotationY": 0,
-							"rotationZ": 2.187
-						},
-						"HipWire1": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -0.649,
-							"rotationY": 0,
-							"rotationZ": 0.0
-						},
-						"HipWire2": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -2.096,
-							"rotationY": 0,
-							"rotationZ": -2.187
-						},
-						"HipWire3": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -0.394,
-							"rotationY": 0,
-							"rotationZ": 2.994
-						},
-						"Hips": {
-							"offsetX": 0,
-							"offsetY": -12.5,
-							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 0.0
-						},
-						"Jaw": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 24
-						},
-						"JawWire0": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.9,
-							"rotationY": 0,
-							"rotationZ": -1.912
-						},
-						"JawWire1": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.339,
-							"rotationY": 0,
-							"rotationZ": -0.376
-						},
-						"JawWire2": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.234,
-							"rotationY": 0,
-							"rotationZ": 2.427
-						},
-						"Neck": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 20,
-							"rotationY": 0.0,
-							"rotationZ": -10
-						},
-						"ShinL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 110
 						},
 						"ShinR": {
 							"offsetX": 0,
@@ -54637,255 +54813,39 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 104
+							"rotationZ": 34
 						},
-						"ShoulderWireL": {
+						"ShoulderL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0,
-							"rotationZ": -2.427
-						},
-						"ShoulderWireR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -2.034,
-							"rotationY": 0,
-							"rotationZ": 0.376
-						},
-						"Stain": {
-							"offsetX": 0.0,
-							"offsetY": 0.397,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
+							"rotationX": -6,
 							"rotationY": 0.0,
-							"rotationZ": 0.0,
-							"stretchX": 0.288,
-							"stretchY": 1.0,
-							"stretchZ": 0.288
+							"rotationZ": 0.0
 						},
-						"ThighL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -24,
-							"rotationY": 0.0,
-							"rotationZ": -88
-						},
-						"ThighR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 22,
-							"rotationY": 0.0,
-							"rotationZ": -80
-						},
-						"UpperArmL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -62,
-							"rotationY": 0.0,
-							"rotationZ": -36
-						},
-						"UpperArmR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 50,
-							"rotationY": 0.0,
-							"rotationZ": -56
-						},
-						"Waist": {
+						"ShoulderR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 8,
 							"rotationY": 0.0,
-							"rotationZ": 52
-						}
-					}
-				},
-				{
-					"frame": 34,
-					"elements": {
-						"Chest": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -6.0,
-							"rotationY": 0.0,
-							"rotationZ": 38.0
+							"rotationZ": 0.0
 						},
-						"ElbowWireL": {
+						"ShoulderWireL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -0.176,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 0.438
-						},
-						"ElbowWireR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.983,
-							"rotationY": 0,
-							"rotationZ": -2.463
-						},
-						"ForearmL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 20.0,
-							"rotationY": 0.0,
-							"rotationZ": -20.0
-						},
-						"ForearmR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -10.0,
-							"rotationY": 0.0,
-							"rotationZ": 24.0
-						},
-						"HandL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 20.0
-						},
-						"HandR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": -10.0
-						},
-						"Head": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 30.0,
-							"rotationY": 10.0,
 							"rotationZ": 10.0
 						},
-						"HipWire0": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.162,
-							"rotationY": 0,
-							"rotationZ": 2.934
-						},
-						"HipWire1": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.405,
-							"rotationY": 0,
-							"rotationZ": -1.554
-						},
-						"HipWire2": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.861,
-							"rotationY": 0,
-							"rotationZ": -0.807
-						},
-						"HipWire3": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.48,
-							"rotationY": 0,
-							"rotationZ": 2.659
-						},
-						"Hips": {
-							"offsetX": 0.0,
-							"offsetY": -12.5,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 0.0
-						},
-						"Jaw": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 24.0
-						},
-						"JawWire0": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 2.1,
-							"rotationY": 0,
-							"rotationZ": -2.833
-						},
-						"JawWire1": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.565,
-							"rotationY": 0,
-							"rotationZ": 1.22
-						},
-						"JawWire2": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.819,
-							"rotationY": 0,
-							"rotationZ": 1.163
-						},
-						"Neck": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 20.0,
-							"rotationY": 0.0,
-							"rotationZ": -10.0
-						},
-						"ShinL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 110.0
-						},
-						"ShinR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 104.0
-						},
-						"ShoulderWireL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -0.854,
-							"rotationY": 0,
-							"rotationZ": -2.989
-						},
 						"ShoulderWireR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -2.071,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 1.863
+							"rotationZ": 15.678
 						},
 						"Stain": {
 							"offsetX": 0,
@@ -54894,94 +54854,1350 @@
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0,
-							"stretchX": 0.3,
+							"stretchX": 0.255,
 							"stretchY": 1,
-							"stretchZ": 0.3
+							"stretchZ": 0.255
 						},
 						"ThighL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -24.0,
-							"rotationY": 0.0,
-							"rotationZ": -88.0
-						},
-						"ThighR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 22.0,
-							"rotationY": 0.0,
-							"rotationZ": -80.0
-						},
-						"UpperArmL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -62.0,
-							"rotationY": 0.0,
-							"rotationZ": -36.0
-						},
-						"UpperArmR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 50.0,
-							"rotationY": 0.0,
-							"rotationZ": -56.0
-						},
-						"Waist": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 8.0,
-							"rotationY": 0.0,
-							"rotationZ": 52.0
-						}
-					}
-				},
-				{
-					"frame": 40,
-					"elements": {
-						"Chest": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -6,
-							"rotationY": 0.0,
-							"rotationZ": 38
-						},
-						"ElbowWireL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 1.088,
-							"rotationY": 0,
-							"rotationZ": -1.863
-						},
-						"ElbowWireR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 2.01,
-							"rotationY": 0,
-							"rotationZ": -0.438
-						},
-						"ForearmL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 20,
-							"rotationY": 0.0,
-							"rotationZ": -20
-						},
-						"ForearmR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": -10,
 							"rotationY": 0.0,
-							"rotationZ": 24
+							"rotationZ": -46
+						},
+						"ThighR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 8,
+							"rotationY": 0.0,
+							"rotationZ": -22
+						},
+						"Tip0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -19.6
+						},
+						"Tip0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -11.2
+						},
+						"Tip1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -19.6
+						},
+						"Tip1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -11.2
+						},
+						"Tip2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -19.6
+						},
+						"Tip2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -11.2
+						},
+						"Tip3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -19.6
+						},
+						"Tip3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -11.2
+						},
+						"UpperArmL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -50,
+							"rotationY": 0.0,
+							"rotationZ": -6
+						},
+						"UpperArmR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 44,
+							"rotationY": 0.0,
+							"rotationZ": -30
+						},
+						"Waist": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 16
+						}
+					}
+				},
+				{
+					"frame": 18,
+					"elements": {
+						"Chest": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -0.6,
+							"rotationY": 0.0,
+							"rotationZ": 7.6
+						},
+						"ElbowWireL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 8.329
+						},
+						"ElbowWireR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 8.696
+						},
+						"Finger0L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -17.2
+						},
+						"Finger0R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -10.4
+						},
+						"Finger1L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -17.2
+						},
+						"Finger1R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -10.4
+						},
+						"Finger2L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -17.2
+						},
+						"Finger2R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -10.4
+						},
+						"Finger3L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -17.2
+						},
+						"Finger3R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -10.4
+						},
+						"ForearmL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 6.0,
+							"rotationY": 0.0,
+							"rotationZ": -10.6
+						},
+						"ForearmR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -4.6,
+							"rotationY": 0.0,
+							"rotationZ": -16.6
+						},
+						"HandL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 2.0
+						},
+						"HandR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -1.8
+						},
+						"Head": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 16.0,
+							"rotationY": 1.6,
+							"rotationZ": 14.8
+						},
+						"HipWire0": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 17.808
+						},
+						"HipWire1": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 11.549
+						},
+						"HipWire2": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 6.484
+						},
+						"HipWire3": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 16.017
+						},
+						"Hips": {
+							"offsetX": 4.892,
+							"offsetY": 4.53,
+							"offsetZ": -0.937,
+							"rotationX": 8.0,
+							"rotationY": 0.0,
+							"rotationZ": 47.2
+						},
+						"Jaw": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 28.8
+						},
+						"JawWire0": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 14.918
+						},
+						"JawWire1": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 6.096
+						},
+						"JawWire2": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 12.899
+						},
+						"Neck": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -1.6,
+							"rotationY": 0.0,
+							"rotationZ": -2.0
+						},
+						"ShinL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -2.0,
+							"rotationY": 0.0,
+							"rotationZ": 42.4
+						},
+						"ShinR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 1.6,
+							"rotationY": 0.0,
+							"rotationZ": 25.2
+						},
+						"ShoulderL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -6.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 8.4,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderWireL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 12.0
+						},
+						"ShoulderWireR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 17.678
+						},
+						"Stain": {
+							"offsetX": 0,
+							"offsetY": 0.45,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0,
+							"stretchX": 0.273,
+							"stretchY": 1,
+							"stretchZ": 0.273
+						},
+						"ThighL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -9.8,
+							"rotationY": 0.0,
+							"rotationZ": -31.2
+						},
+						"ThighR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 9.2,
+							"rotationY": 0.0,
+							"rotationZ": -13.6
+						},
+						"Tip0L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -24.08
+						},
+						"Tip0R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -14.56
+						},
+						"Tip1L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -24.08
+						},
+						"Tip1R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -14.56
+						},
+						"Tip2L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -24.08
+						},
+						"Tip2R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -14.56
+						},
+						"Tip3L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -24.08
+						},
+						"Tip3R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -14.56
+						},
+						"UpperArmL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -47.8,
+							"rotationY": 0.0,
+							"rotationZ": 0.4
+						},
+						"UpperArmR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 44.0,
+							"rotationY": 0.0,
+							"rotationZ": -23.2
+						},
+						"Waist": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.6,
+							"rotationY": 0.0,
+							"rotationZ": 11.8
+						}
+					}
+				},
+				{
+					"frame": 19,
+					"elements": {
+						"Chest": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -1.2,
+							"rotationY": 0.0,
+							"rotationZ": 3.2
+						},
+						"ElbowWireL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 10.329
+						},
+						"ElbowWireR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 10.696
+						},
+						"Finger0L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20.4
+						},
+						"Finger0R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -12.8
+						},
+						"Finger1L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20.4
+						},
+						"Finger1R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -12.8
+						},
+						"Finger2L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20.4
+						},
+						"Finger2R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -12.8
+						},
+						"Finger3L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20.4
+						},
+						"Finger3R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -12.8
+						},
+						"ForearmL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 12.0,
+							"rotationY": 0.0,
+							"rotationZ": -7.2
+						},
+						"ForearmR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -9.2,
+							"rotationY": 0.0,
+							"rotationZ": -9.2
+						},
+						"HandL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 4.0
+						},
+						"HandR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -3.6
+						},
+						"Head": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 18.0,
+							"rotationY": 3.2,
+							"rotationZ": 13.6
+						},
+						"HipWire0": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 19.808
+						},
+						"HipWire1": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 13.549
+						},
+						"HipWire2": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 8.484
+						},
+						"HipWire3": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 18.017
+						},
+						"Hips": {
+							"offsetX": 2.693,
+							"offsetY": 1.53,
+							"offsetZ": -0.658,
+							"rotationX": 12.0,
+							"rotationY": 0.0,
+							"rotationZ": 60.4
+						},
+						"Jaw": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 27.6
+						},
+						"JawWire0": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 16.918
+						},
+						"JawWire1": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 8.096
+						},
+						"JawWire2": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 14.899
+						},
+						"Neck": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -3.2,
+							"rotationY": 0.0,
+							"rotationZ": -10.0
+						},
+						"ShinL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -4.0,
+							"rotationY": 0.0,
+							"rotationZ": 28.8
+						},
+						"ShinR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 3.2,
+							"rotationY": 0.0,
+							"rotationZ": 16.4
+						},
+						"ShoulderL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -6.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 8.8,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderWireL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 14.0
+						},
+						"ShoulderWireR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 19.678
+						},
+						"Stain": {
+							"offsetX": 0,
+							"offsetY": 0.45,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0,
+							"stretchX": 0.291,
+							"stretchY": 1,
+							"stretchZ": 0.291
+						},
+						"ThighL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -9.6,
+							"rotationY": 0.0,
+							"rotationZ": -16.4
+						},
+						"ThighR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 10.4,
+							"rotationY": 0.0,
+							"rotationZ": -5.2
+						},
+						"Tip0L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.56
+						},
+						"Tip0R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -17.92
+						},
+						"Tip1L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.56
+						},
+						"Tip1R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -17.92
+						},
+						"Tip2L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.56
+						},
+						"Tip2R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -17.92
+						},
+						"Tip3L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.56
+						},
+						"Tip3R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -17.92
+						},
+						"UpperArmL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -45.6,
+							"rotationY": 0.0,
+							"rotationZ": 6.8
+						},
+						"UpperArmR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 44.0,
+							"rotationY": 0.0,
+							"rotationZ": -16.4
+						},
+						"Waist": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 1.2,
+							"rotationY": 0.0,
+							"rotationZ": 7.6
+						}
+					}
+				},
+				{
+					"frame": 20,
+					"elements": {
+						"Chest": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -1.8,
+							"rotationY": 0.0,
+							"rotationZ": -1.2
+						},
+						"ElbowWireL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 12.329
+						},
+						"ElbowWireR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 12.696
+						},
+						"Finger0L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -23.6
+						},
+						"Finger0R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -15.2
+						},
+						"Finger1L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -23.6
+						},
+						"Finger1R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -15.2
+						},
+						"Finger2L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -23.6
+						},
+						"Finger2R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -15.2
+						},
+						"Finger3L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -23.6
+						},
+						"Finger3R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -15.2
+						},
+						"ForearmL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 18.0,
+							"rotationY": 0.0,
+							"rotationZ": -3.8
+						},
+						"ForearmR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -13.8,
+							"rotationY": 0.0,
+							"rotationZ": -1.8
+						},
+						"HandL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 6.0
+						},
+						"HandR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -5.4
+						},
+						"Head": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 20.0,
+							"rotationY": 4.8,
+							"rotationZ": 12.4
+						},
+						"HipWire0": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 21.808
+						},
+						"HipWire1": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 15.549
+						},
+						"HipWire2": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 10.484
+						},
+						"HipWire3": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 20.017
+						},
+						"Hips": {
+							"offsetX": -0.548,
+							"offsetY": -0.161,
+							"offsetZ": 0.164,
+							"rotationX": 16.0,
+							"rotationY": 0.0,
+							"rotationZ": 73.6
+						},
+						"Jaw": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 26.4
+						},
+						"JawWire0": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 18.918
+						},
+						"JawWire1": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 10.096
+						},
+						"JawWire2": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 16.899
+						},
+						"Neck": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -4.8,
+							"rotationY": 0.0,
+							"rotationZ": -18.0
+						},
+						"ShinL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -6.0,
+							"rotationY": 0.0,
+							"rotationZ": 15.2
+						},
+						"ShinR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 4.8,
+							"rotationY": 0.0,
+							"rotationZ": 7.6
+						},
+						"ShoulderL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -6.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 9.2,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderWireL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 16.0
+						},
+						"ShoulderWireR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 21.678
+						},
+						"Stain": {
+							"offsetX": 0,
+							"offsetY": 0.45,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0,
+							"stretchX": 0.309,
+							"stretchY": 1,
+							"stretchZ": 0.309
+						},
+						"ThighL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -9.4,
+							"rotationY": 0.0,
+							"rotationZ": -1.6
+						},
+						"ThighR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 11.6,
+							"rotationY": 0.0,
+							"rotationZ": 3.2
+						},
+						"Tip0L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -33.04
+						},
+						"Tip0R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -21.28
+						},
+						"Tip1L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -33.04
+						},
+						"Tip1R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -21.28
+						},
+						"Tip2L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -33.04
+						},
+						"Tip2R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -21.28
+						},
+						"Tip3L": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -33.04
+						},
+						"Tip3R": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -21.28
+						},
+						"UpperArmL": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": -43.4,
+							"rotationY": 0.0,
+							"rotationZ": 13.2
+						},
+						"UpperArmR": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 44.0,
+							"rotationY": 0.0,
+							"rotationZ": -9.6
+						},
+						"Waist": {
+							"offsetX": 0.0,
+							"offsetY": 0.0,
+							"offsetZ": 0.0,
+							"rotationX": 1.8,
+							"rotationY": 0.0,
+							"rotationZ": 3.4
+						}
+					}
+				},
+				{
+					"frame": 22,
+					"elements": {
+						"Chest": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -3,
+							"rotationY": 0.0,
+							"rotationZ": -10
+						},
+						"ElbowWireL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 16.329
+						},
+						"ElbowWireR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 16.696
+						},
+						"Finger0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -30
+						},
+						"Finger0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20
+						},
+						"Finger1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -30
+						},
+						"Finger1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20
+						},
+						"Finger2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -30
+						},
+						"Finger2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20
+						},
+						"Finger3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -30
+						},
+						"Finger3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20
+						},
+						"ForearmL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 30,
+							"rotationY": 0.0,
+							"rotationZ": 3
+						},
+						"ForearmR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -23,
+							"rotationY": 0.0,
+							"rotationZ": 13
 						},
 						"HandL": {
 							"offsetX": 0,
@@ -54989,7 +56205,7 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 20
+							"rotationZ": 10
 						},
 						"HandR": {
 							"offsetX": 0,
@@ -54997,55 +56213,55 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": -10
+							"rotationZ": -9
 						},
 						"Head": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 30,
-							"rotationY": 10,
+							"rotationX": 24,
+							"rotationY": 8,
 							"rotationZ": 10
 						},
 						"HipWire0": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -0.088,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.463
+							"rotationZ": 25.808
 						},
 						"HipWire1": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -2.054,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.934
+							"rotationZ": 19.549
 						},
 						"HipWire2": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -0.934,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 1.554
+							"rotationZ": 14.484
 						},
 						"HipWire3": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.59,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 0.807
+							"rotationZ": 24.017
 						},
 						"Hips": {
-							"offsetX": 0,
-							"offsetY": -12.5,
-							"offsetZ": 0,
-							"rotationX": 0.0,
+							"offsetX": -6.706,
+							"offsetY": 1.183,
+							"offsetZ": 3.032,
+							"rotationX": 24,
 							"rotationY": 0.0,
-							"rotationZ": 0.0
+							"rotationZ": 100
 						},
 						"Jaw": {
 							"offsetX": 0,
@@ -55059,297 +56275,81 @@
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.724,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.659
+							"rotationZ": 22.918
 						},
 						"JawWire1": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -0.732,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.833
+							"rotationZ": 14.096
 						},
 						"JawWire2": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -2.088,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -1.22
+							"rotationZ": 20.899
 						},
 						"Neck": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 20,
+							"rotationX": -8,
 							"rotationY": 0.0,
-							"rotationZ": -10
+							"rotationZ": -34
 						},
 						"ShinL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.0,
+							"rotationX": -10,
 							"rotationY": 0.0,
-							"rotationZ": 110
+							"rotationZ": -12
 						},
 						"ShinR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 104
-						},
-						"ShoulderWireL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.819,
-							"rotationY": 0,
-							"rotationZ": -2.229
-						},
-						"ShoulderWireR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.469,
-							"rotationY": 0,
-							"rotationZ": 2.989
-						},
-						"Stain": {
-							"offsetX": 0.0,
-							"offsetY": 0.45,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 0.0,
-							"stretchX": 0.475,
-							"stretchY": 1.0,
-							"stretchZ": 0.475
-						},
-						"ThighL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -24,
-							"rotationY": 0.0,
-							"rotationZ": -88
-						},
-						"ThighR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 22,
-							"rotationY": 0.0,
-							"rotationZ": -80
-						},
-						"UpperArmL": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -62,
-							"rotationY": 0.0,
-							"rotationZ": -36
-						},
-						"UpperArmR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 50,
-							"rotationY": 0.0,
-							"rotationZ": -56
-						},
-						"Waist": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 8,
 							"rotationY": 0.0,
-							"rotationZ": 52
-						}
-					}
-				},
-				{
-					"frame": 58,
-					"elements": {
-						"Chest": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -6.0,
-							"rotationY": 0.0,
-							"rotationZ": 38.0
+							"rotationZ": -10
 						},
-						"ElbowWireL": {
+						"ShoulderL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.372,
-							"rotationY": 0,
-							"rotationZ": -0.063
-						},
-						"ElbowWireR": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.198,
-							"rotationY": 0,
-							"rotationZ": 2.229
-						},
-						"ForearmL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 20.0,
-							"rotationY": 0.0,
-							"rotationZ": -20.0
-						},
-						"ForearmR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -10.0,
-							"rotationY": 0.0,
-							"rotationZ": 24.0
-						},
-						"HandL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 20.0
-						},
-						"HandR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": -10.0
-						},
-						"Head": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 33.789,
-							"rotationY": 10.0,
-							"rotationZ": 15.684
-						},
-						"HipWire0": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.968,
-							"rotationY": 0,
-							"rotationZ": -2.989
-						},
-						"HipWire1": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.22,
-							"rotationY": 0,
-							"rotationZ": 1.863
-						},
-						"HipWire2": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 2.077,
-							"rotationY": 0,
-							"rotationZ": 0.438
-						},
-						"HipWire3": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.814,
-							"rotationY": 0,
-							"rotationZ": -2.463
-						},
-						"Hips": {
-							"offsetX": 0.0,
-							"offsetY": -15.342,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
+							"rotationX": -6,
 							"rotationY": 0.0,
 							"rotationZ": 0.0
 						},
-						"Jaw": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 24.0
-						},
-						"JawWire0": {
+						"ShoulderR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.673,
-							"rotationY": 0,
-							"rotationZ": 2.934
-						},
-						"JawWire1": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": -1.646,
-							"rotationY": 0,
-							"rotationZ": -1.554
-						},
-						"JawWire2": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 0.854,
-							"rotationY": 0,
-							"rotationZ": -0.807
-						},
-						"Neck": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 20.0,
+							"rotationX": 10,
 							"rotationY": 0.0,
-							"rotationZ": -10.0
-						},
-						"ShinL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 110.0
-						},
-						"ShinR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 0.0,
-							"rotationY": 0.0,
-							"rotationZ": 104.0
+							"rotationZ": 0.0
 						},
 						"ShoulderWireL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -0.437,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.997
+							"rotationZ": 20.0
 						},
 						"ShoulderWireR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.881,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.143
+							"rotationZ": 25.678
 						},
 						"Stain": {
 							"offsetX": 0,
@@ -55358,49 +56358,489 @@
 							"rotationX": 0.0,
 							"rotationY": 0.0,
 							"rotationZ": 0.0,
-							"stretchX": 1.0,
+							"stretchX": 0.345,
 							"stretchY": 1,
-							"stretchZ": 1.0
+							"stretchZ": 0.345
 						},
 						"ThighL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -24.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9,
 							"rotationY": 0.0,
-							"rotationZ": -88.0
+							"rotationZ": 28
 						},
 						"ThighR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 22.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 14,
 							"rotationY": 0.0,
-							"rotationZ": -80.0
+							"rotationZ": 20
+						},
+						"Tip0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -42.0
+						},
+						"Tip0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.0
+						},
+						"Tip1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -42.0
+						},
+						"Tip1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.0
+						},
+						"Tip2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -42.0
+						},
+						"Tip2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.0
+						},
+						"Tip3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -42.0
+						},
+						"Tip3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.0
 						},
 						"UpperArmL": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": -62.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -39,
 							"rotationY": 0.0,
-							"rotationZ": -36.0
+							"rotationZ": 26
 						},
 						"UpperArmR": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 50.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 44,
 							"rotationY": 0.0,
-							"rotationZ": -56.0
+							"rotationZ": 4
 						},
 						"Waist": {
-							"offsetX": 0.0,
-							"offsetY": 0.0,
-							"offsetZ": 0.0,
-							"rotationX": 8.0,
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 3,
 							"rotationY": 0.0,
-							"rotationZ": 57.684
+							"rotationZ": -5
+						}
+					}
+				},
+				{
+					"frame": 27,
+					"elements": {
+						"Chest": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -3,
+							"rotationY": 0.0,
+							"rotationZ": -10
+						},
+						"ElbowWireL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 16.329
+						},
+						"ElbowWireR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 16.696
+						},
+						"Finger0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -30
+						},
+						"Finger0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20
+						},
+						"Finger1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -30
+						},
+						"Finger1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20
+						},
+						"Finger2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -30
+						},
+						"Finger2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20
+						},
+						"Finger3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -30
+						},
+						"Finger3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20
+						},
+						"ForearmL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 30,
+							"rotationY": 0.0,
+							"rotationZ": 3
+						},
+						"ForearmR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -23,
+							"rotationY": 0.0,
+							"rotationZ": 13
+						},
+						"HandL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 10
+						},
+						"HandR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -9
+						},
+						"Head": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 24,
+							"rotationY": 10,
+							"rotationZ": 0
+						},
+						"HipWire0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 25.808
+						},
+						"HipWire1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 19.549
+						},
+						"HipWire2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 14.484
+						},
+						"HipWire3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 24.017
+						},
+						"Hips": {
+							"offsetX": -9.524,
+							"offsetY": 0.499,
+							"offsetZ": 2.735,
+							"rotationX": 16,
+							"rotationY": 0.0,
+							"rotationZ": 93
+						},
+						"Jaw": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 24
+						},
+						"JawWire0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 22.918
+						},
+						"JawWire1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 14.096
+						},
+						"JawWire2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 20.899
+						},
+						"Neck": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -8,
+							"rotationY": 0.0,
+							"rotationZ": -34
+						},
+						"ShinL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -10,
+							"rotationY": 0.0,
+							"rotationZ": -12
+						},
+						"ShinR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 8,
+							"rotationY": 0.0,
+							"rotationZ": -10
+						},
+						"ShoulderL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -6,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 10,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderWireL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 20.0
+						},
+						"ShoulderWireR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 25.678
+						},
+						"Stain": {
+							"offsetX": 0,
+							"offsetY": 0.45,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": 0.0,
+							"stretchX": 0.436,
+							"stretchY": 1,
+							"stretchZ": 0.436
+						},
+						"ThighL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9,
+							"rotationY": 0.0,
+							"rotationZ": 28
+						},
+						"ThighR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 14,
+							"rotationY": 0.0,
+							"rotationZ": 20
+						},
+						"Tip0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -42.0
+						},
+						"Tip0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.0
+						},
+						"Tip1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -42.0
+						},
+						"Tip1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.0
+						},
+						"Tip2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -42.0
+						},
+						"Tip2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.0
+						},
+						"Tip3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -42.0
+						},
+						"Tip3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.0
+						},
+						"UpperArmL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -39,
+							"rotationY": 0.0,
+							"rotationZ": 26
+						},
+						"UpperArmR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 44,
+							"rotationY": 0.0,
+							"rotationZ": 4
+						},
+						"Waist": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 4,
+							"rotationY": 0.0,
+							"rotationZ": -2
 						}
 					}
 				},
@@ -55411,41 +56851,105 @@
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -6,
+							"rotationX": -3,
 							"rotationY": 0.0,
-							"rotationZ": 38
+							"rotationZ": -10
 						},
 						"ElbowWireL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.198,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 0.345
+							"rotationZ": 16.329
 						},
 						"ElbowWireR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.372,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 1.936
+							"rotationZ": 16.696
+						},
+						"Finger0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -30
+						},
+						"Finger0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20
+						},
+						"Finger1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -30
+						},
+						"Finger1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20
+						},
+						"Finger2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -30
+						},
+						"Finger2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20
+						},
+						"Finger3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -30
+						},
+						"Finger3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -20
 						},
 						"ForearmL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 20,
+							"rotationX": 30,
 							"rotationY": 0.0,
-							"rotationZ": -20
+							"rotationZ": 3
 						},
 						"ForearmR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -10,
+							"rotationX": -23,
 							"rotationY": 0.0,
-							"rotationZ": 24
+							"rotationZ": 13
 						},
 						"HandL": {
 							"offsetX": 0,
@@ -55453,7 +56957,7 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 20
+							"rotationZ": 10
 						},
 						"HandR": {
 							"offsetX": 0,
@@ -55461,7 +56965,7 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": -10
+							"rotationZ": -9
 						},
 						"Head": {
 							"offsetX": 0,
@@ -55469,47 +56973,47 @@
 							"offsetZ": 0,
 							"rotationX": 34,
 							"rotationY": 10,
-							"rotationZ": 16
+							"rotationZ": 14
 						},
 						"HipWire0": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.881,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.996
+							"rotationZ": 25.808
 						},
 						"HipWire1": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.437,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.165
+							"rotationZ": 19.549
 						},
 						"HipWire2": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 2.098,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 0.031
+							"rotationZ": 14.484
 						},
 						"HipWire3": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.607,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.208
+							"rotationZ": 24.017
 						},
 						"Hips": {
-							"offsetX": 0,
-							"offsetY": -15.5,
-							"offsetZ": 0,
-							"rotationX": 0.0,
+							"offsetX": -9.896,
+							"offsetY": -0.0,
+							"offsetZ": 2.104,
+							"rotationX": 12,
 							"rotationY": 0.0,
-							"rotationZ": 0.0
+							"rotationZ": 90
 						},
 						"Jaw": {
 							"offsetX": 0,
@@ -55517,71 +57021,87 @@
 							"offsetZ": 0,
 							"rotationX": 0.0,
 							"rotationY": 0.0,
-							"rotationZ": 24
+							"rotationZ": 22
 						},
 						"JawWire0": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.796,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.992
+							"rotationZ": 22.918
 						},
 						"JawWire1": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -1.5,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -1.888
+							"rotationZ": 14.096
 						},
 						"JawWire2": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.05,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -0.407
+							"rotationZ": 20.899
 						},
 						"Neck": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 20,
+							"rotationX": -8,
 							"rotationY": 0.0,
-							"rotationZ": -10
+							"rotationZ": -34
 						},
 						"ShinL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.0,
+							"rotationX": -10,
 							"rotationY": 0.0,
-							"rotationZ": 110
+							"rotationZ": -12
 						},
 						"ShinR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 0.0,
+							"rotationX": 8,
 							"rotationY": 0.0,
-							"rotationZ": 104
+							"rotationZ": -10
+						},
+						"ShoulderL": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -6,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
+						},
+						"ShoulderR": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 10,
+							"rotationY": 0.0,
+							"rotationZ": 0.0
 						},
 						"ShoulderWireL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -0.22,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 2.953
+							"rotationZ": 20.0
 						},
 						"ShoulderWireR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 1.968,
+							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -2.408
+							"rotationZ": 25.678
 						},
 						"Stain": {
 							"offsetX": 0,
@@ -55598,41 +57118,105 @@
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -24,
+							"rotationX": -9,
 							"rotationY": 0.0,
-							"rotationZ": -88
+							"rotationZ": 28
 						},
 						"ThighR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 22,
+							"rotationX": 14,
 							"rotationY": 0.0,
-							"rotationZ": -80
+							"rotationZ": 20
+						},
+						"Tip0L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -42.0
+						},
+						"Tip0R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.0
+						},
+						"Tip1L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -42.0
+						},
+						"Tip1R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.0
+						},
+						"Tip2L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -42.0
+						},
+						"Tip2R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.0
+						},
+						"Tip3L": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -42.0
+						},
+						"Tip3R": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0.0,
+							"rotationY": 0.0,
+							"rotationZ": -28.0
 						},
 						"UpperArmL": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": -62,
+							"rotationX": -39,
 							"rotationY": 0.0,
-							"rotationZ": -36
+							"rotationZ": 26
 						},
 						"UpperArmR": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 50,
+							"rotationX": 44,
 							"rotationY": 0.0,
-							"rotationZ": -56
+							"rotationZ": 4
 						},
 						"Waist": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
-							"rotationX": 8,
+							"rotationX": 3,
 							"rotationY": 0.0,
-							"rotationZ": 58
+							"rotationZ": -5
 						}
 					}
 				}
