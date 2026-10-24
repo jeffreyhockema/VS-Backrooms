@@ -36,3 +36,27 @@ end; a worker that reaches one stops and asks.
 | 16 | The backroomsMenace setting | **Every setting thinned alike** (the Spawns multipliers stay) | the user's call |
 | 17 | More than one kind of menace at once | **One kind at a time** (a pack is one); set-pieces, dens and events are the exceptions | the user's call |
 | 18 | Distant sounds | **Cut hard**: about one per 5 to 10 real minutes in a Class 1 heart | the user: "cut sounds hard too" |
+
+## Taken (2026-10-23, P7 round 5: dial-in; see dialin.md)
+
+The user's play-test after rounds 1 to 4: "the other extreme" from 0.514 (too rare to see anything), Level 1 the most
+dangerous level (the Flickering), nothing seen in Level 94. Eighteen answers, all taken the same evening.
+
+| # | Question | Decision | Why |
+|---|---|---|---|
+| 19 | The normal setting's rate | **A creature every 10 to 12 real minutes in Level 1's heart**, a sound every 4, the edge one creature every 4 to 5 minutes | the geometric middle of 0.514 (2 to 3 min) and 0.515 (34 min) |
+| 20 | The settings | **Six**: off, **very low = today's numbers**, low, normal, high, very high (about 2x, 3x, 5x, 8x today). High and very high also change the glimpse/stalk/hunt mix and the caps; the others only the rate. Existing "normal" worlds get the new normal | the user's first thought was "today = very low"; the code string is what a world stores, so a new value is save-safe |
+| 21 | What hurt in Level 1 | The Flickering's Hounds; otherwise "just tense" | the user's play-test |
+| 22 | The Flickering | **Respects the hard gap and the one-kind rule again** (round 4 took the gate off); cooldown stays 20 in-game hours; the Hounds still always come | the lore's Level 1 hunt, but not on top of another encounter |
+| 23 | The Screaming | **Level 2 only** | Level 1 keeps one set-piece; the rats' event belongs to Pipe Dreams |
+| 24 | Level 1's dens | **Drop Hound packs**; Warren, Hive and Lair stay | Hounds in Level 1 come only from the dark sections and the Flickering. Dens are runtime: no layout version |
+| 25 | Solitude spread | **Level 1 1.3, Level 3 0.45, Level 8 0.5, Level 9 0.3, Level Fun 0.4, Level 94 nights 0.6**; the rest unchanged | Classes 4 and 5 about 2 to 3 times busier than Class 1, not 1.5 |
+| 26 | Level 10's barn-edge Hounds and Clumps | **Removed: Level 10 is empty** | Wikidot: "No Hostile Entities"; the worms are its hazard |
+| 27 | Level 94's danger | **0.4** (was 0) | Class 3; Animations about Level 4's strength; the King's trial unchanged |
+| 28 | Level 94 before tuning | **A headless night test in the hills** (open-ground sightline hypothesis) | the user's visit was 5 min, partly still or indoors |
+| 29 | One kind at a time | **Strict in Class 0 to 2 levels; two kinds may be about in Classes 3 to 5** | the deep levels should be genuinely busy |
+| 30 | The hard gap | **25 % of the mean** (was 40) | lucky clusters may happen; the mean stays |
+| 31 | Ambient Facelings | **About one per 8 real minutes in Levels 1, 4 and 5**; 15 elsewhere; Level 11 keeps its groups | harmless set dressing where people live |
+| 32 | The bands | **Approach from 50 % of the ring's width, threshold from 80 %** (were 60 / 85) | more of each level in the livelier bands; the band only changes rates and rosters |
+| 33 | Acceptance test | **A felt-rate harness mode**: actual spawns and refused spots per level and band over a simulated hour, run before the zip; plus a log counter for silent spawn failures | the rate check counts rolls, not spawns |
+| 34 | Creative mode | **A cheat-menu toggle** so creative also receives stalkers and hunters (off by default) | the user tours levels in creative |
