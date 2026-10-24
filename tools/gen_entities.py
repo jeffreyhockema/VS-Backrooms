@@ -1139,7 +1139,8 @@ MOTH_SENSES = dict(sightLit=24, sightDim=8, sightDark=0, hearing=10)
 
 
 def deathmoth():
-    animations = [anim("fly", "fly", 1.0), anim("glide", "glide", 1.0), anim("rest", "rest", 1.0), anim("feed", "feed", 1.0)]
+    animations = [anim("fly", "fly", 1.0), anim("glide", "glide", 1.0), anim("rest", "rest", 1.0), anim("feed", "feed", 1.0),
+                  anim("die", "die", 1.0, weight=10, triggeredBy={"onControls": ["dead"]})]
     female_animations = animations + [anim("bite", "bite", 1.0, weight=10, blendMode="AddAverage"), anim("threat", "threat", 1.0, weight=5)]
     tasks_by = {
         "*-female": [{"code": "backrooms-moth", "priority": 1.5, "speed": 0.04, "damage": 1.5, "bites": True, "orbitRadius": 1.3,

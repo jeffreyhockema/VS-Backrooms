@@ -17839,7 +17839,7 @@
 			"name": "die",
 			"code": "die",
 			"quantityframes": 40,
-			"onActivityStopped": "EaseOut",
+			"onActivityStopped": "Stop",
 			"onAnimationEnd": "Hold",
 			"keyframes": [
 				{
@@ -18019,23 +18019,23 @@
 					}
 				},
 				{
-					"frame": 8,
+					"frame": 3,
 					"elements": {
 						"Body": {
-							"offsetX": 0.5,
-							"offsetY": -4.0,
-							"offsetZ": 0,
+							"offsetX": 0.0,
+							"offsetY": -0.0,
+							"offsetZ": 0.0,
 							"rotationX": 0,
 							"rotationY": 0,
 							"rotationZ": 0
 						},
 						"Eye": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
+							"offsetX": -1.06,
+							"offsetY": 0.356,
+							"offsetZ": 0.0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -10
+							"rotationZ": -8
 						},
 						"Femur0": {
 							"offsetX": 0,
@@ -18043,7 +18043,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -16.305
+							"rotationZ": -0.0
 						},
 						"Femur1": {
 							"offsetX": 0,
@@ -18051,7 +18051,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -17.115
+							"rotationZ": -0.0
 						},
 						"Femur2": {
 							"offsetX": 0,
@@ -18059,7 +18059,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -17.932
+							"rotationZ": -0.0
 						},
 						"Femur3": {
 							"offsetX": 0,
@@ -18067,7 +18067,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -17.932
+							"rotationZ": -0.0
 						},
 						"Femur4": {
 							"offsetX": 0,
@@ -18075,7 +18075,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -17.115
+							"rotationZ": -0.0
 						},
 						"Femur5": {
 							"offsetX": 0,
@@ -18083,14 +18083,14 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -16.305
+							"rotationZ": -0.0
 						},
 						"Hip0": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": -0.639,
+							"rotationY": 0.0,
 							"rotationZ": 0
 						},
 						"Hip1": {
@@ -18098,7 +18098,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": -1.304,
+							"rotationY": 0.0,
 							"rotationZ": 0
 						},
 						"Hip2": {
@@ -18106,7 +18106,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": -0.665,
+							"rotationY": 0.0,
 							"rotationZ": 0
 						},
 						"Hip3": {
@@ -18114,7 +18114,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": 0.665,
+							"rotationY": 0.0,
 							"rotationZ": 0
 						},
 						"Hip4": {
@@ -18122,7 +18122,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": 1.304,
+							"rotationY": 0.0,
 							"rotationZ": 0
 						},
 						"Hip5": {
@@ -18130,7 +18130,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": 0.639,
+							"rotationY": 0.0,
 							"rotationZ": 0
 						},
 						"Pupil": {
@@ -18141,8 +18141,8 @@
 							"rotationY": 0,
 							"rotationZ": 0,
 							"stretchX": 1,
-							"stretchY": 0.5,
-							"stretchZ": 0.5
+							"stretchY": 0.45,
+							"stretchZ": 0.45
 						},
 						"Tibia0": {
 							"offsetX": 0,
@@ -18150,7 +18150,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 7.003
+							"rotationZ": 0.0
 						},
 						"Tibia1": {
 							"offsetX": 0,
@@ -18158,7 +18158,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 8.344
+							"rotationZ": 0.0
 						},
 						"Tibia2": {
 							"offsetX": 0,
@@ -18166,7 +18166,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 9.701
+							"rotationZ": 0.0
 						},
 						"Tibia3": {
 							"offsetX": 0,
@@ -18174,7 +18174,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 9.701
+							"rotationZ": 0.0
 						},
 						"Tibia4": {
 							"offsetX": 0,
@@ -18182,7 +18182,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 8.344
+							"rotationZ": 0.0
 						},
 						"Tibia5": {
 							"offsetX": 0,
@@ -18190,7 +18190,359 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 7.003
+							"rotationZ": 0.0
+						}
+					}
+				},
+				{
+					"frame": 8,
+					"elements": {
+						"Body": {
+							"offsetX": 0.0,
+							"offsetY": -4.27,
+							"offsetZ": 0.0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Eye": {
+							"offsetX": -0.117,
+							"offsetY": -1.407,
+							"offsetZ": 0.0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -16
+						},
+						"Femur0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -21.36
+						},
+						"Femur1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -20.296
+						},
+						"Femur2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -24.461
+						},
+						"Femur3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -24.429
+						},
+						"Femur4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -23.893
+						},
+						"Femur5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -13.853
+						},
+						"Hip0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -6.804,
+							"rotationZ": 0
+						},
+						"Hip1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 1.875,
+							"rotationZ": 0
+						},
+						"Hip2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0.174,
+							"rotationZ": 0
+						},
+						"Hip3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0.0,
+							"rotationZ": 0
+						},
+						"Hip4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0.607,
+							"rotationZ": 0
+						},
+						"Hip5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -9.579,
+							"rotationZ": 0
+						},
+						"Pupil": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0,
+							"stretchX": 1,
+							"stretchY": 0.6,
+							"stretchZ": 0.6
+						},
+						"Tibia0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 12.472
+						},
+						"Tibia1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 11.172
+						},
+						"Tibia2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 18.12
+						},
+						"Tibia3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 18.081
+						},
+						"Tibia4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 17.11
+						},
+						"Tibia5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0.75
+						}
+					}
+				},
+				{
+					"frame": 14,
+					"elements": {
+						"Body": {
+							"offsetX": 0.0,
+							"offsetY": -13.819,
+							"offsetZ": 0.0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Eye": {
+							"offsetX": 2.924,
+							"offsetY": -5.064,
+							"offsetZ": 0.615,
+							"rotationX": 6,
+							"rotationY": 0,
+							"rotationZ": -30
+						},
+						"Femur0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -86.289
+						},
+						"Femur1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -37.187
+						},
+						"Femur2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -111.652
+						},
+						"Femur3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -73.458
+						},
+						"Femur4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -84.773
+						},
+						"Femur5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.082
+						},
+						"Hip0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -16.0,
+							"rotationZ": 0
+						},
+						"Hip1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 11.271,
+							"rotationZ": 0
+						},
+						"Hip2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 17.238,
+							"rotationZ": 0
+						},
+						"Hip3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -13.794,
+							"rotationZ": 0
+						},
+						"Hip4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 8.438,
+							"rotationZ": 0
+						},
+						"Hip5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -33.754,
+							"rotationZ": 0
+						},
+						"Pupil": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0,
+							"stretchX": 1,
+							"stretchY": 1.3,
+							"stretchZ": 1.3
+						},
+						"Tibia0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 44.663
+						},
+						"Tibia1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -2.256
+						},
+						"Tibia2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 66.831
+						},
+						"Tibia3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 34.447
+						},
+						"Tibia4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 43.579
+						},
+						"Tibia5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -29.233
 						}
 					}
 				},
@@ -18198,20 +18550,20 @@
 					"frame": 20,
 					"elements": {
 						"Body": {
-							"offsetX": 1.0,
-							"offsetY": -14.0,
-							"offsetZ": 0,
+							"offsetX": 0.0,
+							"offsetY": -17.932,
+							"offsetZ": 0.0,
 							"rotationX": 0,
 							"rotationY": 0,
 							"rotationZ": 0
 						},
 						"Eye": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 10,
+							"offsetX": -1.541,
+							"offsetY": 0.614,
+							"offsetZ": 7.314,
+							"rotationX": 100,
 							"rotationY": 8,
-							"rotationZ": 30
+							"rotationZ": -30
 						},
 						"Femur0": {
 							"offsetX": 0,
@@ -18219,7 +18571,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -54.43
+							"rotationZ": -115.704
 						},
 						"Femur1": {
 							"offsetX": 0,
@@ -18227,7 +18579,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -58.532
+							"rotationZ": -39.23
 						},
 						"Femur2": {
 							"offsetX": 0,
@@ -18235,7 +18587,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -63.166
+							"rotationZ": -123.982
 						},
 						"Femur3": {
 							"offsetX": 0,
@@ -18243,7 +18595,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -63.166
+							"rotationZ": -59.441
 						},
 						"Femur4": {
 							"offsetX": 0,
@@ -18251,7 +18603,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -58.532
+							"rotationZ": -97.745
 						},
 						"Femur5": {
 							"offsetX": 0,
@@ -18259,14 +18611,14 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -54.43
+							"rotationZ": -15.584
 						},
 						"Hip0": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": -1.07,
+							"rotationY": -17.92,
 							"rotationZ": 0
 						},
 						"Hip1": {
@@ -18274,7 +18626,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": -2.212,
+							"rotationY": 13.44,
 							"rotationZ": 0
 						},
 						"Hip2": {
@@ -18282,7 +18634,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": -1.144,
+							"rotationY": 26.88,
 							"rotationZ": 0
 						},
 						"Hip3": {
@@ -18290,7 +18642,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": 1.144,
+							"rotationY": -26.88,
 							"rotationZ": 0
 						},
 						"Hip4": {
@@ -18298,7 +18650,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": 2.212,
+							"rotationY": 11.2,
 							"rotationZ": 0
 						},
 						"Hip5": {
@@ -18306,7 +18658,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": 1.07,
+							"rotationY": -38.08,
 							"rotationZ": 0
 						},
 						"Pupil": {
@@ -18317,8 +18669,8 @@
 							"rotationY": 0,
 							"rotationZ": 0,
 							"stretchX": 1,
-							"stretchY": 1.4,
-							"stretchZ": 1.4
+							"stretchY": 1.7,
+							"stretchZ": 1.7
 						},
 						"Tibia0": {
 							"offsetX": 0,
@@ -18326,7 +18678,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 21.876
+							"rotationZ": 57.224
 						},
 						"Tibia1": {
 							"offsetX": 0,
@@ -18334,7 +18686,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 25.961
+							"rotationZ": -9.101
 						},
 						"Tibia2": {
 							"offsetX": 0,
@@ -18342,7 +18694,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 30.395
+							"rotationZ": 66.831
 						},
 						"Tibia3": {
 							"offsetX": 0,
@@ -18350,7 +18702,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 30.395
+							"rotationZ": 12.071
 						},
 						"Tibia4": {
 							"offsetX": 0,
@@ -18358,7 +18710,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 25.961
+							"rotationZ": 44.571
 						},
 						"Tibia5": {
 							"offsetX": 0,
@@ -18366,28 +18718,28 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 21.876
+							"rotationZ": -37.248
 						}
 					}
 				},
 				{
-					"frame": 30,
+					"frame": 26,
 					"elements": {
 						"Body": {
-							"offsetX": 1.2,
-							"offsetY": -19.5,
-							"offsetZ": 0,
+							"offsetX": 0.0,
+							"offsetY": -17.984,
+							"offsetZ": 0.0,
 							"rotationX": 0,
 							"rotationY": 0,
 							"rotationZ": 0
 						},
 						"Eye": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 14,
-							"rotationY": 10,
-							"rotationZ": 62
+							"offsetX": -0.808,
+							"offsetY": 0.213,
+							"offsetZ": 7.453,
+							"rotationX": 94,
+							"rotationY": 5,
+							"rotationZ": -24
 						},
 						"Femur0": {
 							"offsetX": 0,
@@ -18395,7 +18747,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -66.319
+							"rotationZ": -130.187
 						},
 						"Femur1": {
 							"offsetX": 0,
@@ -18403,7 +18755,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -72.263
+							"rotationZ": -44.234
 						},
 						"Femur2": {
 							"offsetX": 0,
@@ -18411,7 +18763,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -79.269
+							"rotationZ": -124.127
 						},
 						"Femur3": {
 							"offsetX": 0,
@@ -18419,7 +18771,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -79.269
+							"rotationZ": -63.79
 						},
 						"Femur4": {
 							"offsetX": 0,
@@ -18427,7 +18779,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -72.263
+							"rotationZ": -103.39
 						},
 						"Femur5": {
 							"offsetX": 0,
@@ -18435,14 +18787,14 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -66.319
+							"rotationZ": -22.364
 						},
 						"Hip0": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": -1.181,
+							"rotationY": -16.64,
 							"rotationZ": 0
 						},
 						"Hip1": {
@@ -18450,7 +18802,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": -2.448,
+							"rotationY": 12.48,
 							"rotationZ": 0
 						},
 						"Hip2": {
@@ -18458,7 +18810,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": -1.271,
+							"rotationY": 24.96,
 							"rotationZ": 0
 						},
 						"Hip3": {
@@ -18466,7 +18818,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": 1.271,
+							"rotationY": -24.96,
 							"rotationZ": 0
 						},
 						"Hip4": {
@@ -18474,7 +18826,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": 2.448,
+							"rotationY": 10.4,
 							"rotationZ": 0
 						},
 						"Hip5": {
@@ -18482,7 +18834,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": 1.181,
+							"rotationY": -35.36,
 							"rotationZ": 0
 						},
 						"Pupil": {
@@ -18493,8 +18845,8 @@
 							"rotationY": 0,
 							"rotationZ": 0,
 							"stretchX": 1,
-							"stretchY": 1.6,
-							"stretchZ": 1.6
+							"stretchY": 1.5,
+							"stretchZ": 1.5
 						},
 						"Tibia0": {
 							"offsetX": 0,
@@ -18502,7 +18854,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 21.206
+							"rotationZ": 66.831
 						},
 						"Tibia1": {
 							"offsetX": 0,
@@ -18510,7 +18862,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 26.572
+							"rotationZ": -3.59
 						},
 						"Tibia2": {
 							"offsetX": 0,
@@ -18518,7 +18870,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 32.585
+							"rotationZ": 66.831
 						},
 						"Tibia3": {
 							"offsetX": 0,
@@ -18526,7 +18878,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 32.585
+							"rotationZ": 16.244
 						},
 						"Tibia4": {
 							"offsetX": 0,
@@ -18534,7 +18886,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 26.572
+							"rotationZ": 48.676
 						},
 						"Tibia5": {
 							"offsetX": 0,
@@ -18542,7 +18894,183 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 21.206
+							"rotationZ": -28.855
+						}
+					}
+				},
+				{
+					"frame": 32,
+					"elements": {
+						"Body": {
+							"offsetX": 0.0,
+							"offsetY": -18.009,
+							"offsetZ": 0.0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Eye": {
+							"offsetX": -1.403,
+							"offsetY": 0.436,
+							"offsetZ": 7.355,
+							"rotationX": 98,
+							"rotationY": 8,
+							"rotationZ": -28
+						},
+						"Femur0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -130.055
+						},
+						"Femur1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -46.789
+						},
+						"Femur2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -124.199
+						},
+						"Femur3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -66.066
+						},
+						"Femur4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -106.765
+						},
+						"Femur5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -25.674
+						},
+						"Hip0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -16.0,
+							"rotationZ": 0
+						},
+						"Hip1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 12.0,
+							"rotationZ": 0
+						},
+						"Hip2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 24.0,
+							"rotationZ": 0
+						},
+						"Hip3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -24.0,
+							"rotationZ": 0
+						},
+						"Hip4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 10.0,
+							"rotationZ": 0
+						},
+						"Hip5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -34.0,
+							"rotationZ": 0
+						},
+						"Pupil": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0,
+							"stretchX": 1,
+							"stretchY": 1.7,
+							"stretchZ": 1.7
+						},
+						"Tibia0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 66.831
+						},
+						"Tibia1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -0.843
+						},
+						"Tibia2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 66.831
+						},
+						"Tibia3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 18.375
+						},
+						"Tibia4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 51.07
+						},
+						"Tibia5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -24.845
 						}
 					}
 				},
@@ -18550,20 +19078,20 @@
 					"frame": 39,
 					"elements": {
 						"Body": {
-							"offsetX": 1.2,
-							"offsetY": -19.0,
-							"offsetZ": 0,
+							"offsetX": 0.0,
+							"offsetY": -18.009,
+							"offsetZ": 0.0,
 							"rotationX": 0,
 							"rotationY": 0,
 							"rotationZ": 0
 						},
 						"Eye": {
-							"offsetX": 0,
-							"offsetY": 0,
-							"offsetZ": 0,
-							"rotationX": 14,
-							"rotationY": 10,
-							"rotationZ": 64
+							"offsetX": -1.652,
+							"offsetY": 0.55,
+							"offsetZ": 7.295,
+							"rotationX": 100,
+							"rotationY": 9,
+							"rotationZ": -30
 						},
 						"Femur0": {
 							"offsetX": 0,
@@ -18571,7 +19099,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -64.433
+							"rotationZ": -130.055
 						},
 						"Femur1": {
 							"offsetX": 0,
@@ -18579,7 +19107,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -70.209
+							"rotationZ": -46.789
 						},
 						"Femur2": {
 							"offsetX": 0,
@@ -18587,7 +19115,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -76.976
+							"rotationZ": -124.199
 						},
 						"Femur3": {
 							"offsetX": 0,
@@ -18595,7 +19123,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -76.976
+							"rotationZ": -66.066
 						},
 						"Femur4": {
 							"offsetX": 0,
@@ -18603,7 +19131,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -70.209
+							"rotationZ": -106.765
 						},
 						"Femur5": {
 							"offsetX": 0,
@@ -18611,14 +19139,14 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": -64.433
+							"rotationZ": -25.674
 						},
 						"Hip0": {
 							"offsetX": 0,
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": -1.181,
+							"rotationY": -16.0,
 							"rotationZ": 0
 						},
 						"Hip1": {
@@ -18626,7 +19154,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": -2.448,
+							"rotationY": 12.0,
 							"rotationZ": 0
 						},
 						"Hip2": {
@@ -18634,7 +19162,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": -1.271,
+							"rotationY": 24.0,
 							"rotationZ": 0
 						},
 						"Hip3": {
@@ -18642,7 +19170,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": 1.271,
+							"rotationY": -24.0,
 							"rotationZ": 0
 						},
 						"Hip4": {
@@ -18650,7 +19178,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": 2.448,
+							"rotationY": 10.0,
 							"rotationZ": 0
 						},
 						"Hip5": {
@@ -18658,7 +19186,7 @@
 							"offsetY": 0,
 							"offsetZ": 0,
 							"rotationX": 0,
-							"rotationY": 1.181,
+							"rotationY": -34.0,
 							"rotationZ": 0
 						},
 						"Pupil": {
@@ -18669,8 +19197,8 @@
 							"rotationY": 0,
 							"rotationZ": 0,
 							"stretchX": 1,
-							"stretchY": 1.6,
-							"stretchZ": 1.6
+							"stretchY": 1.75,
+							"stretchZ": 1.75
 						},
 						"Tibia0": {
 							"offsetX": 0,
@@ -18678,7 +19206,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 20.471
+							"rotationZ": 66.831
 						},
 						"Tibia1": {
 							"offsetX": 0,
@@ -18686,7 +19214,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 25.761
+							"rotationZ": -0.843
 						},
 						"Tibia2": {
 							"offsetX": 0,
@@ -18694,7 +19222,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 31.657
+							"rotationZ": 66.831
 						},
 						"Tibia3": {
 							"offsetX": 0,
@@ -18702,7 +19230,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 31.657
+							"rotationZ": 18.375
 						},
 						"Tibia4": {
 							"offsetX": 0,
@@ -18710,7 +19238,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 25.761
+							"rotationZ": 51.07
 						},
 						"Tibia5": {
 							"offsetX": 0,
@@ -18718,7 +19246,7 @@
 							"offsetZ": 0,
 							"rotationX": 0,
 							"rotationY": 0,
-							"rotationZ": 20.471
+							"rotationZ": -24.845
 						}
 					}
 				}

@@ -34,7 +34,7 @@ import random
 import rig
 from rig import Model, speckle, vlines, hlines, mix, shade, clamp, pose
 from rig import lit_fill as fill
-from gen_models import lit, cycle, full, ramp, s, blotch, line, texel, texrow, TAU
+from gen_models import death, lit, cycle, full, ramp, s, blotch, line, texel, texrow, TAU
 
 # ---------------------------------------------------------------- Colours
 
@@ -507,27 +507,49 @@ def giantspider():
 
     m.animation("hurt", 16, {0: full(every, flinch(0)), 4: full(every, flinch(1.0)), 9: full(every, flinch(0.4)), 15: full(every, flinch(0))}, end="Stop")
 
-    # ---- Death: the body sinks to the floor and the legs curl in under it, one pair after another ----
-    def collapse(k):
-        curls = {}
-        order = ["L4", "R4", "L3", "R3", "L2", "R2", "L1", "R1"]
-        for i, n in enumerate(order):
-            curls[n] = 70 * min(1.0, max(0.0, k * 1.6 - i * 0.07))
-        d = {"Body": pose((6 * k, 0, -4 * k), (0, -7.5 * k, 0)), "Abdomen": pose((0, 0, -9 * k))}
-        for spec in SP_LEGS:
-            # Each leg folds shut like a fist: the femur stands up, the tibia folds back in over the body and the
-            # metatarsus hooks down
-            n, c = spec[0], curls[spec[0]] / 70
-            d[f"Femur{n}"] = pose((0, 0, -45 * c))
-            d[f"Tibia{n}"] = pose((0, 0, 150 * c))
-            d[f"Meta{n}"] = pose((0, 0, 55 * c))
-        d.update(palps(0.25, 0, up=40 * k))
-        d.update(jaws(0, 20 * k))
+    # ---- Death: the legs stiffen, it loses its footing and rolls onto its back, rocks, and the legs curl in over the
+    # belly joint by joint, the tips toward the middle, as a dead spider's do; the body ends on the floor ----
+    FEM_D, TIB_D, MET_D = 55, 50, 105
+
+    def legs_dead(c, spread=1.0):
+        """Every leg curled by `c` (0 rest .. 1 curled): the femur drops to a steep angle, the tibia folds back in
+        toward the body and the metatarsus hooks over, tips toward the middle; each leg a little different, and they
+        curl one after another. `spread` keeps them a little open while it is still going."""
+        d = {}
+        for i, spec in enumerate(SP_LEGS):
+            n = spec[0]
+            j = [0.0, 9.0, -7.0, 13.0, -11.0, 6.0, -5.0, 10.0][i]
+            q = min(1.0, max(0.0, c * 1.25 - 0.04 * i))
+            d[f"Femur{n}"] = pose((0, 0, (FEM_D + j * 0.6) * q * spread))
+            d[f"Tibia{n}"] = pose((0, 0, (TIB_D + j) * q))
+            d[f"Meta{n}"] = pose((0, 0, (MET_D + j * 0.7) * q))
         return d
 
-    m.animation("die", 60, {0: full(every, collapse(0)), 12: full(every, collapse(0.3)), 26: full(every, collapse(0.6)),
-                            40: full(every, collapse(0.9)), 50: full(every, collapse(1.0)), 59: full(every, collapse(1.0))},
-                end="Hold", stopped="Stop")
+    def sdie(roll, c, abd=0.0, tilt=0.0, jaw=20, palp=40, spread=1.0, twitch=None):
+        d = {"Body": pose((roll, 0, tilt)), "Abdomen": pose((0, 0, abd))}
+        d.update(legs_dead(c, spread))
+        d.update(palps(0.25, 0, up=palp))
+        d.update(jaws(0, jaw))
+        d.update(twitch or {})
+        return d
+
+    # (roll, curl, abdomen, tilt, jaw, palps, spread) at the poses it passes through; the keyframes between are
+    # lerped from these, close together through the roll over so the body stays on the floor all the way
+    anchors = {8: (34, 0.12, -6, -3, 26, -20, 1.0), 14: (110, 0.2, -8, -4, 29, 5, 0.85), 20: (194, 0.3, -10, -6, 34, 30, 0.9),
+               26: (176, 0.4, -9, -6, 32, 34, 1.0), 38: (183, 0.65, -9, -7, 30, 38, 1.0), 50: (181, 0.9, -8, -7, 24, 43, 1.0),
+               59: (181, 1.0, -8, -7, 22, 44, 1.0)}
+    fr = sorted(anchors)
+
+    def anchor_at(f):
+        for lo, hi in zip(fr, fr[1:]):
+            if lo <= f <= hi:
+                u = (f - lo) / (hi - lo)
+                return tuple(a_ + (b_ - a_) * u for a_, b_ in zip(anchors[lo], anchors[hi]))
+
+    keys = {0: {}, 3: sdie(0, 0, abd=-3, jaw=12, palp=-10, twitch={f"Femur{s_[0]}": pose((0, 0, -10)) for s_ in SP_LEGS})}   # the hit: it stiffens
+    for f in (8, 10, 12, 15, 17, 18, 19, 20, 22, 25, 30, 40, 59):
+        keys[f] = sdie(*anchor_at(f))
+    death(m, 60, every, keys, standing=(3,))
     return m
 
 

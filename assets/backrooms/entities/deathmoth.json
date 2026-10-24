@@ -256,6 +256,18 @@
 						"blendMode": "Average"
 					},
 					{
+						"code": "die",
+						"animation": "die",
+						"animationSpeed": 1.0,
+						"blendMode": "Average",
+						"weight": 10,
+						"triggeredBy": {
+							"onControls": [
+								"dead"
+							]
+						}
+					},
+					{
 						"code": "bite",
 						"animation": "bite",
 						"animationSpeed": 1.0,
@@ -294,6 +306,18 @@
 						"animation": "feed",
 						"animationSpeed": 1.0,
 						"blendMode": "Average"
+					},
+					{
+						"code": "die",
+						"animation": "die",
+						"animationSpeed": 1.0,
+						"blendMode": "Average",
+						"weight": 10,
+						"triggeredBy": {
+							"onControls": [
+								"dead"
+							]
+						}
 					}
 				]
 			}
@@ -353,6 +377,18 @@
 						"blendMode": "Average"
 					},
 					{
+						"code": "die",
+						"animation": "die",
+						"animationSpeed": 1.0,
+						"blendMode": "Average",
+						"weight": 10,
+						"triggeredBy": {
+							"onControls": [
+								"dead"
+							]
+						}
+					},
+					{
 						"code": "bite",
 						"animation": "bite",
 						"animationSpeed": 1.0,
@@ -391,6 +427,18 @@
 						"animation": "feed",
 						"animationSpeed": 1.0,
 						"blendMode": "Average"
+					},
+					{
+						"code": "die",
+						"animation": "die",
+						"animationSpeed": 1.0,
+						"blendMode": "Average",
+						"weight": 10,
+						"triggeredBy": {
+							"onControls": [
+								"dead"
+							]
+						}
 					}
 				]
 			}

@@ -37,7 +37,7 @@ import numpy as np
 import rig
 from rig import Model, pose, mix, shade, clamp, speckle, hlines, vlines
 from rig import lit_fill as fill
-from gen_models import blotch, line, texel, cycle, full
+from gen_models import blotch, line, texel, cycle, full, death
 
 TAU = math.tau
 CODE = "neighborhoodwatch"
@@ -470,21 +470,42 @@ def animations(m):
         14: frame(),
     }, end="Stop")
 
-    # Die: the legs splay outward and the body comes down onto them, the eye rolling over
-    def splay(k):
+    # Die: a hit (the eye jerks, the pupil pinches), the legs buckle one after another with the feet planted, the hub
+    # sinks between them and the eye comes down onto the floor; it rolls over to stare at the ceiling, and the legs go
+    # slack: the points slide out and curl in, each leg folded differently, knees arched, the eye lying on the floor.
+    # Where each foot ends: (yaw turned from its place, distance out from the axis, height of the point)
+    ends = {0: (-16, 24, 0.0), 1: (12, 34, 0.0), 2: (24, 18, 0.0), 3: (-24, 30, 0.0), 4: (10, 25, 0.0), 5: (-34, 39, 0.0)}
+    order = (0, 5, 1, 4, 2, 3)
+    HUB = 6.0                                           # where the hub ends up: the eye (1.5 above it) on the floor
+
+    def slump(k, eye, pupil, eye_dy=0.0, eye_dx=0.0, out=1.0):
+        """k 0..1: how far the legs have gone (staggered by `order`), the hub following them down onto the floor."""
+        kb = k * k * (3 - 2 * k) if k < 1 else 1.0
+        body = (0.0, -(Y0 - HUB) * kb, 0.0)
         feet = {}
         for i in range(6):
+            kk = min(1.0, max(0.0, k * 1.5 - order.index(i) * 0.1))
+            kk = kk * kk * (3 - 2 * kk)
             rx, ry, rz = rest_foot(i)
-            out = 1 + 0.45 * k
-            feet[i] = (rx * out, ry, rz * out)
-        return feet
-    m.animation("die", 40, {
+            dyaw, r, y = ends[i]
+            yaw = math.radians(LEG_YAWS[i] + dyaw * kk * out)
+            r = FOOT_U + (r - FOOT_U) * kk * out
+            feet[i] = (-math.cos(yaw) * r, FOOT_Y + (y - FOOT_Y) * kk, math.sin(yaw) * r)
+        # the eye's offset is inside its own turn: turn the wanted world move (down onto the floor) back through it
+        local = rig._rot3(*eye).T @ np.array([eye_dx, -(HUB + 1.5) * kb + eye_dy, 0.0])
+        return frame(body=body, feet=feet, eye=eye, eye_off=tuple(round(float(v), 3) for v in local), pupil=pupil)
+
+    die_keys = {
         0: frame(),
-        8: frame(body=(0.5, -4.0, 0), feet=splay(0.3), eye=(0, 0, -10), pupil=0.5),
-        20: frame(body=(1.0, -14.0, 0), feet=splay(0.75), eye=(10, 8, 30), pupil=1.4),
-        30: frame(body=(1.2, -19.5, 0), feet=splay(1.0), eye=(14, 10, 62), pupil=1.6),
-        39: frame(body=(1.2, -19.0, 0), feet=splay(1.0), eye=(14, 10, 64), pupil=1.6),
-    }, end="Hold")
+        3: slump(0.0, (0, 0, -8), 0.45, 0.5, -1.0),
+        8: slump(0.3, (0, 0, -16), 0.6, 0.3, -0.5),
+        14: slump(0.7, (6, 0, -30), 1.3),
+        20: slump(1.0, (100, 8, -30), 1.7, 0.0, 0.0, out=1.12),
+        26: slump(1.0, (94, 5, -24), 1.5, 0.0, 0.0, out=1.04),
+        32: slump(1.0, (98, 8, -28), 1.7, 0.0, 0.0, out=1.0),
+        39: slump(1.0, (100, 9, -30), 1.75, 0.0, 0.0, out=1.0),
+    }
+    death(m, 40, ANIMATED, die_keys, standing=(3,), soft=[f"Nerve{j}" for j in range(len(NERVE_PTS) - 1)])
 
 
 # ---------------------------------------------------------------- The entity type

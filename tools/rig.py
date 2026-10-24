@@ -588,6 +588,59 @@ def part_matrices(model):
     return out
 
 
+def posed_matrices(model, keyframe):
+    """Each part's transform in a keyframe pose ({part name: pose dict}, as given to Model.animation): the rest
+    transform with the pose's rotation added to the rest rotation, its stretch, and its offset applied inside the
+    rotation, as the game composes an animated element (ShapeElement.GetLocalTransformMatrix)."""
+    import numpy as np
+    out = {}
+    for p in model.parts:
+        ps = keyframe.get(p.name, {})
+        r, o, s = ps.get("rot", (0, 0, 0)), ps.get("off", (0, 0, 0)), ps.get("str", (1, 1, 1))
+        base = out[id(p.parent)] if p.parent is not None else np.eye(4)
+        pf = p.parent.frm if p.parent is not None else (0.0, 0.0, 0.0)
+        rot = np.eye(4)
+        rot[:3, :3] = _rot3(*(p.rest[i] + r[i] for i in range(3)))
+        out[id(p)] = base @ _shift(np.array(p.pivot) - np.array(pf)) @ rot @ np.diag([s[0], s[1], s[2], 1.0]) \
+            @ _shift(np.array(p.frm) + np.array(o) - np.array(p.pivot))
+    return out
+
+
+def posed_extent(model, keyframe, ignore=()):
+    """(lowest, highest) y of every drawn box in a keyframe pose, in model px (the floor is y = 0), leaving out the
+    parts named in `ignore` (soft things such as hair, which bend where they meet the floor)."""
+    import numpy as np
+    mats = posed_matrices(model, keyframe)
+    ys = []
+    for p in model.parts:
+        if not p.faces or p.name in ignore:
+            continue
+        c = np.array([[x * p.size[0], y * p.size[1], z * p.size[2], 1] for x in (0, 1) for y in (0, 1) for z in (0, 1)])
+        ys.extend((mats[id(p)] @ c.T)[1])
+    return min(ys), max(ys)
+
+
+def settle(model, keyframe, floor=0.0, ignore=()):
+    """A death pose's last step: moves the root part(s) straight down (or up) in the world so the lowest drawn box
+    rests at `floor` px (0 is the floor; a little below, -0.3 or so, presses the body into it instead of hovering).
+    The root's offset is in its own rotated frame, so the world move is turned back through the root's rotation.
+    Parts named in `ignore` do not hold the body up. Returns the keyframe (changed in place)."""
+    import numpy as np
+    low, _ = posed_extent(model, keyframe, ignore)
+    drop = low - floor
+    for p in model.parts:
+        if p.parent is not None:
+            continue
+        ps = dict(keyframe.get(p.name, {}))
+        r = ps.get("rot", (0, 0, 0))
+        local = _rot3(*(p.rest[i] + r[i] for i in range(3))).T @ np.array([0.0, -drop, 0.0])
+        o = ps.get("off", (0, 0, 0))
+        ps["rot"] = tuple(r)
+        ps["off"] = tuple(round(float(o[i] + local[i]), 3) for i in range(3))
+        keyframe[p.name] = ps
+    return keyframe
+
+
 class _Box:
     """One box to bake: its transform, size, faces as atlas rectangles, and how it takes part."""
 
