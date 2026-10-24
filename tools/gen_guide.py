@@ -400,7 +400,7 @@ Water is the bar above your food bar. It runs down about as hunger does: a full 
 
 **Drinks**
 Drinks fill the water bar, and most of them feed you a little besides.
-- [Almond Water](item-backrooms:almondwater) fills two-fifths of the bar and gives no food at all. It restores 15% stability, heals 1, and leaves an empty bottle when you have drunk it.
+- [Almond Water](item-backrooms:almondwater) fills two-fifths of the bar and gives no food at all. It restores 15% stability, heals 1, and leaves an [empty bottle](item-backrooms:emptybottle) when you have drunk it.
 - Cashew Water and a plain water bottle fill two-fifths of the bar, and give no food. [Cashew Water](item-backrooms:cashewwater) restores 8% stability.
 - [Almond Milk](item-backrooms:almondmilk) fills about a third of the bar, and feeds you too. It restores 10% stability.
 - [Soda](item-backrooms:soda) fills about a fifth of the bar. Juice boxes ([juice box](item-backrooms:l188-juicebox)) and strawberry milk ([strawberry milk](item-backrooms:l974-strawberrymilk)) fill about a quarter.
@@ -414,7 +414,7 @@ With empty hands, hold {rightmouse} on water for a second and you drink your fil
 - **Boiling water scalds.** The hot pools of Level 5's sumps are boiling, and they burn you a little when you drink.
 
 **Bottles**
-Drinking a bottled drink leaves an empty bottle, and empty bottles stack 16. Right-click a liquid with one in hand to fill it: clean, murky or salt, according to the water it is in. Boiling water fills a clean bottle.
+Drinking a bottled drink leaves an [empty bottle](item-backrooms:emptybottle), and empty bottles stack 16. Right-click a liquid with one in hand to fill it: [clean](item-backrooms:bottledwater-clean), [murky](item-backrooms:bottledwater-murky) or [salt](item-backrooms:bottledwater-salt), according to the water it is in. Boiling water fills a clean bottle.
 Murky water is the one to carry. Put a bottle of it in a lit [firepit](block-firepit-lit) and it boils clean. Salt water never does. That is how water gets from the wet levels into the dry ones.
 
 **Running low**
@@ -469,7 +469,7 @@ Any bed will do, and some do better.
 - **Makeshift beds and bedrolls** of the camps (Levels 1, 4, 7 and 8) are the least. A poor bed refills you more slowly: from dead on your feet it takes more than half a game day to make you fully rested.
 
 **The carpet bedroll**
-The one bed you can make yourself is the carpet bedroll, from 4 carpet fibres + 2 wallpaper strips, in a grid two wide and three tall: fibres along the top and the bottom, strips across the middle. It is enough to sleep on, not enough to sleep well. Put it down anywhere, and when you pick it up again it comes back whole.
+The one bed you can make yourself is the [carpet bedroll](block-backrooms:carpetbedroll-north), from 4 carpet fibres + 2 wallpaper strips, in a grid two wide and three tall: fibres along the top and the bottom, strips across the middle. It is enough to sleep on, not enough to sleep well. Put it down anywhere, and when you pick it up again it comes back whole.
 
 **What wakes you**
 You wake rested ("You wake rested"), or sooner for one of these, and the game says which:
@@ -482,7 +482,7 @@ You wake rested ("You wake rested"), or sooner for one of these, and the game sa
 Sleeping outside a safe place invites a visit. A night's sleep in an ordinary level may draw something to your bed: a hunting creature, placed out of sight a dozen or more blocks away, coming for you. The odds rise with the level's danger: about one night in eight in Level 1, one in four in Level 5, and more than one in three in the deepest levels. Level 0, the safe places and anywhere beside a wanderer never get a visit. A closed door within four blocks of the bed halves the odds, which is what the wanderers' notes mean by "barricade your door". The sleeper wakes as the creature closes in.
 
 **Almond Water for rest**
-[Almond Water](item-backrooms:almondwater) is the drink for it: Blue Almond Water makes you drowsy at once, so you can lie down straight away, and steadies you (a quarter restored). Green Almond Water keeps the tiredness off for about twenty minutes, and the exhaustion lifts while it does. When it wears off, the sleep it held back lands all at once, about sixteen minutes' worth of tiredness. Drink two and it lands twice.
+[Almond Water](item-backrooms:almondwater) is the drink for it: [Blue Almond Water](item-backrooms:almondwaterblue) makes you drowsy at once, so you can lie down straight away, and steadies you (a quarter restored). [Green Almond Water](item-backrooms:almondwatergreen) keeps the tiredness off for about twenty minutes, and the exhaustion lifts while it does. When it wears off, the sleep it held back lands all at once, about sixteen minutes' worth of tiredness. Drink two and it lands twice.
 
 **Sitting by a fire is not sleep**
 Resting by a fire, or beside a wanderer, keeps the things that live here back (see [Home and Expeditions](backrooms-home)), but only sleep refills this bar. Eat and drink before you lie down: a sleeper who is hungry or thirsty is woken at once.
