@@ -1287,7 +1287,8 @@ public sealed partial class WorldGenerator
         int top = Geometry.BandTop - Geometry.FloorY - 1;
         // The third step: its head is up to the slab, which is open over it
         if (t.Zone == WorldLayout.FlightZoneNowhere) return t.Stair == 3 && rel == WorldGeometry.Level1RoomHeight + 1 ? 0 : -1;
-        int step = t.Zone - WorldLayout.NowhereWall + 4; // 4 to 6 for the doorway and the two rises; 7 for the landing
+        // 4, 5 and 6 for the doorway and the two rises, straight on or along the wall; 7 for the landing
+        int step = t.Zone is WorldLayout.NowhereWall ? 4 : t.Zone is WorldLayout.NowhereRise or WorldLayout.NowhereTurn1 ? 5 : t.Zone is WorldLayout.NowhereTop or WorldLayout.NowhereTurn2 ? 6 : 7;
         if (rel > top || rel < step - 1 && t.Zone != WorldLayout.NowhereLanding) return -1;
         if (t.Zone == WorldLayout.NowhereLanding) return rel == 6 ? concreteId : rel > 6 ? 0 : -1;
         if (rel == step) return stairIds[Facing(t.Pier)];
@@ -1297,7 +1298,7 @@ public sealed partial class WorldGenerator
     private int Level1Block(in Tile t, int rel, int gx, int gz)
     {
         const int room = WorldGeometry.Level1RoomHeight;
-        if (t.Zone >= WorldLayout.FlightZoneNowhere && t.Zone <= WorldLayout.NowhereLanding && layout.Version >= 10 && NowhereBlock(t, rel) is int dark and >= 0) return dark;
+        if (t.Zone >= WorldLayout.FlightZoneNowhere && t.Zone <= WorldLayout.NowhereTurn2 && layout.Version >= 10 && NowhereBlock(t, rel) is int dark and >= 0) return dark;
         if (rel > room + 1) return concreteId;
         if (rel == 0) return floorIds[(int)t.Floor];
         if (rel == room + 1) return t.IsWallLike ? concreteId : concreteCeilingId;

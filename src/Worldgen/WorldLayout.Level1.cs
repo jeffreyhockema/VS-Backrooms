@@ -610,9 +610,11 @@ public sealed partial class WorldLayout
     /// <see cref="Tile.Zone"/> of the parts of a stairs to nowhere that goes on in the dark (layout version 10, see
     /// <see cref="AddStairsToNowhereV4"/>): its three steps (<see cref="FlightZoneNowhere"/>), the wall column behind
     /// them with a doorway cut in it (<see cref="NowhereWall"/>), the two tiles beyond it over the next stall's ceiling
-    /// (<see cref="NowhereRise"/>, <see cref="NowhereTop"/>) and the dead-end landing after them (<see cref="NowhereLanding"/>).
+    /// (<see cref="NowhereRise"/>, <see cref="NowhereTop"/>) and the dead-end landing after them (<see cref="NowhereLanding"/>); or, where the space beyond
+    /// the wall is not plain, a run along the wall's own row from the doorway: two steps (<see cref="NowhereTurn1"/>, <see cref="NowhereTurn2"/>) and the
+    /// same landing, whose <see cref="Tile.Pier"/> is then the way along the wall.
     /// </summary>
-    public const byte FlightZoneNowhere = 5, NowhereWall = 6, NowhereRise = 7, NowhereTop = 8, NowhereLanding = 9;
+    public const byte FlightZoneNowhere = 5, NowhereWall = 6, NowhereRise = 7, NowhereTop = 8, NowhereLanding = 9, NowhereTurn1 = 10, NowhereTurn2 = 11;
 
     /// <summary>The least height over the floor of the feet of whoever stands on the dark landing at the top of a stairs to nowhere (its floor is at 6).</summary>
     public const double NowhereTripRel = 6.5;
@@ -1260,18 +1262,52 @@ public sealed partial class WorldLayout
             }
         }
         if (Version < 10) return;
-        // The way on: the wall column, then three tiles beyond it, two wide, in the cell and plain floor under the slab
-        bool Plain(int px, int pz) => px >= 1 && pz >= 1 && px < MacroSize - 1 && pz < MacroSize - 1 && b.At(px, pz) is var t && t.Kind == TileKind.Floor
-            && t.Floor != FloorKind.L1Hall && t.Stair == 0 && t.Under == 0 && t.Zone == 0 && !t.Sealed && CoreAt(cores, px, pz) == null;
+        // (A beam over a step is structure, and stays: the wall is left blank)
         for (int dx = 0; dx < 2; dx++)
-        {
-            for (int k = 2; k <= 4; k++)
-                if (!Plain(sx + dx, sz + sdz * k)) return;
-            // (A beam over a step is structure, and stays: the wall is left blank)
             for (int k = 0; k < 3; k++)
                 if (b.At(sx + dx, sz - sdz * k).Beam) return;
-        }
         ArchPier climb = sdz < 0 ? ArchPier.North : ArchPier.South;
+        // The way on, straight: the wall column, then three tiles beyond it, two wide, in the cell and plain floor under the slab
+        bool Plain(int px, int pz) => px >= 1 && pz >= 1 && px < MacroSize - 1 && pz < MacroSize - 1 && b.At(px, pz) is var t && t.Kind == TileKind.Floor
+            && t.Floor != FloorKind.L1Hall && t.Stair == 0 && t.Under == 0 && t.Zone == 0 && !t.Sealed && CoreAt(cores, px, pz) == null;
+        bool straight = true;
+        for (int dx = 0; dx < 2 && straight; dx++)
+            for (int k = 2; k <= 4; k++)
+                straight &= Plain(sx + dx, sz + sdz * k);
+        // Or turned: along the wall's own row, one wide, over the wall (see NowhereBlock). The row is the wall's alone, and what
+        // is on its far side must be a car park's slab: a floor tile of this cell that is plain, or the next cell's, if that is
+        // car park too and the run stands clear of the bays where a stair core could be
+        int wz = sz + sdz;
+        bool FarSide(int px)
+        {
+            int fz = wz + sdz;
+            if (fz >= 0 && fz < MacroSize)
+                return b.At(px, fz) is var t && (t.Kind == TileKind.Floor && t.Floor != FloorKind.L1Hall && t.Stair == 0 && t.Under == 0 && t.Zone == 0
+                    && CoreAt(cores, px, fz) == null || t.Kind == TileKind.Wall && t.Pattern == WallPattern.Concrete && t.Under == 0);
+            if (!IsCarParkAt(mx * MacroSize + px, mz * MacroSize + fz)) return false;
+            int ox = (mx - L1DistrictOf(mx) * L1District) * MacroSize;
+            foreach (int bayIndex in CoreBays)
+            {
+                int x0 = bayIndex * BayWidth - ox;
+                if (px >= x0 && px < x0 + BayWidth) return false;
+            }
+            return true;
+        }
+        bool WallAt(int px) => px >= 1 && px < MacroSize - 1 && Concrete(px, wz) && b.At(px, wz).Zone == 0
+            && b.At(px, sz) is var f && f.Kind == TileKind.Floor && f.Floor != FloorKind.L1Hall && CoreAt(cores, px, sz) == null && f.Under == 0
+            && FarSide(px);
+        int turn = 0;
+        if (!straight)
+        {
+            if (!WallAt(sx) || !WallAt(sx + 1)) return;
+            foreach (int dir in ((sx + sz) & 1) == 0 ? new[] { 1, -1 } : new[] { -1, 1 })
+            {
+                bool run = true;
+                for (int k = 1; k <= 3 && run; k++) run &= WallAt(dir > 0 ? sx + 1 + k : sx - k);
+                if (run) { turn = dir; break; }
+            }
+            if (turn == 0) return;
+        }
         for (int dx = 0; dx < 2; dx++)
         {
             for (int k = 0; k < 3; k++)
@@ -1284,12 +1320,28 @@ public sealed partial class WorldLayout
                 step.Overhead = 0;
                 step.Ceiling = CeilingKind.Tile;
             }
+            if (!straight)
+            {
+                ref Tile landing = ref b.At(sx + dx, wz);
+                landing.Zone = NowhereWall;
+                landing.Pier = climb;
+                continue;
+            }
             for (int k = 1; k <= 4; k++)
             {
                 ref Tile t = ref b.At(sx + dx, sz + sdz * k);
                 t.Zone = (byte)(NowhereWall + k - 1);
                 t.Pier = climb;
             }
+        }
+        if (straight) return;
+        // The run along the wall: a step at rel 5, a step at rel 6, a dead-end landing at rel 6, climbing the way it turns
+        ArchPier along = turn > 0 ? ArchPier.East : ArchPier.West;
+        for (int k = 1; k <= 3; k++)
+        {
+            ref Tile t = ref b.At(turn > 0 ? sx + 1 + k : sx - k, wz);
+            t.Zone = k == 1 ? NowhereTurn1 : k == 2 ? NowhereTurn2 : NowhereLanding;
+            t.Pier = along;
         }
     }
 

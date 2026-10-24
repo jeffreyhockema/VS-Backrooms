@@ -431,7 +431,16 @@ public sealed partial class ThresholdNetwork
     {
         if (landing.Level != 1 || landing.Zone != WorldLayout.NowhereLanding) return null;
         (int dx, int dz) = Climb(landing.Pier);
+        // Straight on: four tiles back along the climb is the third step. Along the wall: three back is the doorway's last
+        // tile, and the third step is one back from that, the way the doorway's step climbs
         (int X, int Z) step = (x - dx * 4, z - dz * 4);
+        if (layout.TileAt(step.X, step.Z).Zone != WorldLayout.FlightZoneNowhere)
+        {
+            Tile door = layout.TileAt(x - dx * 3, z - dz * 3);
+            if (door.Zone != WorldLayout.NowhereWall) return null;
+            (int cx, int cz) = Climb(door.Pier);
+            step = (x - dx * 3 - cx, z - dz * 3 - cz);
+        }
         return layout.TileAt(step.X, step.Z).Zone == WorldLayout.FlightZoneNowhere ? layout.FeatureOrigin(step.X, step.Z, t => t.Level == 1 && OldStairs(t)) : null;
     }
 
