@@ -173,37 +173,46 @@ def jawskeleton():
 
 
 def ribcage():
-    """The giant ribcage, standing one block wide and 28 units tall as the old tent of slabs did: a spine of vertebrae
-    along the top (z 1 to 15, y 28 to 31) and six arched two-piece ribs a side, each leaving the spine, curving out and
-    coming down to the floor, a little uneven in height, reach and spacing; two of the tips are broken short."""
+    """The giant ribcage, one block wide and 28 units tall as the old tent of slabs was: a heavy spine of slightly
+    irregular vertebrae along the top (z 1 to 15, y 28 to 31) and six ribs a side, each of three bones that start
+    inside the spine: a short near-horizontal piece, a sloping shoulder, and a long near-vertical shank tucking back in
+    at the floor. The cage is a rounded barrel, widest about a third of the way down. They are uneven in reach, tuck
+    and spacing, one is broken short and one lies on the floor inside the cage."""
     import math
-    rng = random.Random(77)
+    rng = random.Random(91)
     els = []
-    zs = [2.0, 4.6, 7.2, 9.6, 12.0, 14.2]
     for i in range(9):
-        z = 1.7 + i * 1.65
-        els += [bx(f"Vert{i}", (5.6, 28.0, z - 0.7), (10.4, 30.6, z + 0.7), "bone"),
-                bx(f"Disc{i}", (5.9, 28.3, z + 0.7), (10.1, 30.3, z + 0.95), "bp-joint"),
-                bx(f"Spine{i}", (7.5, 30.6, z - 0.4), (8.5, 31.6, z + 0.4), "bp-joint")]
-    for i, z in enumerate(zs):
-        prof = math.sin(math.pi * (i + 0.8) / (len(zs) + 0.6))      # the middle ribs reach furthest and are the tallest
+        z = 1.8 + i * 1.6
+        ox, oy, yaw = rng.uniform(-0.4, 0.4), rng.uniform(-0.3, 0.3), rng.uniform(-7, 7)
+        org = (8 + ox, 29.0 + oy, z)
+        els += [bx(f"Vert{i}", (5.7 + ox, 28.0 + oy, z - 0.85), (10.3 + ox, 30.6 + oy, z + 0.85), "bone", rot=(0, yaw, 0), origin=org),
+                bx(f"Disc{i}", (6.0 + ox, 28.3 + oy, z + 0.8), (10.0 + ox, 30.3 + oy, z + 1.0), "bp-joint", rot=(0, yaw, 0), origin=org),
+                bx(f"Spine{i}", (7.4 + ox, 30.6 + oy, z - 0.45), (8.6 + ox, 31.7 + oy, z + 0.45), "bp-joint", rot=(0, yaw, 0), origin=org)]
+    zs = [2.4, 4.9, 7.3, 9.7, 12.1, 14.4]
+    for i, z0 in enumerate(zs):
+        prof = math.sin(math.pi * (i + 0.9) / (len(zs) + 0.8))   # the middle ribs reach furthest
         for side in (-1, 1):
             tag = "L" if side < 0 else "R"
-            reach = 5.6 + 3.6 * prof + rng.uniform(-0.5, 0.5)
-            low = 1.0 + rng.uniform(0, 1.2)
-            top = 26.4
-            x0, y0 = 8 + side * 2.4, top - 0.5                     # where it leaves the spine
-            x1, y1 = 8 + side * (reach - 0.6), top - 5.0 - 3 * prof  # the shoulder of the arch
-            x2, y2 = 8 + side * reach, low                          # the tip
-            if (i + (side > 0)) % 5 == 3:                           # a broken one
-                x2, y2 = x1 + side * 0.4, y1 - 8 - rng.uniform(0, 3)
-            t = 1.3 + 0.4 * prof
-            for k, (a, b, th) in enumerate((((x0, y0), (x1, y1), t), ((x1, y1), (x2, y2), t * 0.85))):
-                dx, dy = abs(b[0] - a[0]), b[1] - a[1]
+            z = z0 + rng.uniform(-0.3, 0.3)
+            w = 7.0 + 2.2 * prof + rng.uniform(-0.4, 0.4)
+            tuck = rng.uniform(2.4, 3.8)
+            low = 0.4 + rng.uniform(0, 0.5)
+            pts = [(8 + side * 1.4, 29.3), (8 + side * w * 0.55, 28.6), (8 + side * w, 20.0), (8 + side * (w - tuck), low)]
+            broken = (i, side) == (2, -1)
+            if broken:
+                pts = pts[:3] + [(pts[2][0] - side * 0.3, 11.5)]
+            t = 0.95 + 0.35 * prof
+            for k in range(3):
+                a_, b_ = pts[k], pts[k + 1]
+                dx, dy = b_[0] - a_[0], b_[1] - a_[1]
                 ang = math.degrees(math.atan2(dy, dx))
-                length = math.hypot(dx, dy)
-                tilt = -ang if side < 0 else ang
-                # a rod along x rotated about z: +x end up for a positive angle
-                els += rod(f"Rib{tag}{i}_{k}", (a[0] + b[0]) / 2, (a[1] + b[1]) / 2, z + 0.15 * k, length, th,
-                           tilt=tilt, knob=1.3, v0=(i * 2 + k) % 12)
+                if ang > 90:
+                    ang -= 180
+                elif ang <= -90:
+                    ang += 180
+                length = math.hypot(dx, dy) + 0.8                # overlaps the next piece
+                els += rod(f"Rib{tag}{i}_{k}", (a_[0] + b_[0]) / 2, (a_[1] + b_[1]) / 2, z + 0.1 * k, length, t * (1 - 0.12 * k),
+                           tilt=ang, knob=1.25, v0=(i * 3 + k) % 12)
+    els += rod("Fallen", 9.6, 0.55, 8.4, 10.0, 1.1, yaw=12, axis="z", v0=4)
+    els += rod("FallenB", 10.8, 0.5, 2.4, 3.6, 0.9, yaw=-30, axis="z", knob=1.2, v0=7)
     return els
