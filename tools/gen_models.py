@@ -1934,23 +1934,62 @@ def deathrat(variant="common"):
         9: full(hurt_names, tail(0.9)),
     }, end="Stop")
 
-    # Death: it stops, rolls onto its side, the legs curl in, the tail gives one last twitch
-    die_names = ["Body", "Neck", "Head", "Jaw", "LegFrontL", "LegFrontR", "LegHindL", "LegHindR", "PawFrontL", "PawFrontR"] + [f"Tail{i}" for i in range(len(TAIL))]
-    m.animation("die", 24, {
-        0: full(die_names, tail(0)),
-        8: full(die_names, dict({"Body": pose((40, 0, 4), (0, -0.6, 0)), "Neck": pose((0, 0, 10)), "Head": pose((8, 0, 6)), "Jaw": pose((0, 0, 14)),
-                                 "LegFrontL": pose((0, 0, -30)), "LegFrontR": pose((0, 0, -20)), "LegHindL": pose((0, 0, 20)), "LegHindR": pose((0, 0, 30))},
-                                **tail(0.2, sweep=6))),
-        16: full(die_names, dict({"Body": pose((82, 0, 6), (0, -1.6, 0)), "Neck": pose((0, 0, 14)), "Head": pose((12, 0, 8)), "Jaw": pose((0, 0, 18)),
-                                  "LegFrontL": pose((0, 0, -55)), "LegFrontR": pose((0, 0, -45)), "LegHindL": pose((0, 0, 45)), "LegHindR": pose((0, 0, 55)),
-                                  "PawFrontL": pose((0, 0, -30)), "PawFrontR": pose((0, 0, -30))}, **tail(0.4, sweep=4, whip=40))),
-        19: full(die_names, dict({"Body": pose((84, 0, 6), (0, -1.7, 0)), "Neck": pose((0, 0, 14)), "Head": pose((12, 0, 8)), "Jaw": pose((0, 0, 18)),
-                                  "LegFrontL": pose((0, 0, -58)), "LegFrontR": pose((0, 0, -48)), "LegHindL": pose((0, 0, 48)), "LegHindR": pose((0, 0, 58)),
-                                  "PawFrontL": pose((0, 0, -30)), "PawFrontR": pose((0, 0, -30))}, **tail(0.5, sweep=4, whip=-30))),
-        23: full(die_names, dict({"Body": pose((85, 0, 6), (0, -1.7, 0)), "Neck": pose((0, 0, 14)), "Head": pose((12, 0, 8)), "Jaw": pose((0, 0, 18)),
-                                  "LegFrontL": pose((0, 0, -60)), "LegFrontR": pose((0, 0, -50)), "LegHindL": pose((0, 0, 50)), "LegHindR": pose((0, 0, 60)),
-                                  "PawFrontL": pose((0, 0, -30)), "PawFrontR": pose((0, 0, -30))}, **tail(0.5, sweep=0, lift=-4))),
-    }, end="Hold", stopped="Stop")
+    # Death (see docs/design/entity-ai-overhaul/death-poses.md): a squeal and a jerk, the front legs buckle and the
+    # chest drops onto them, the haunches give, it rolls onto its left side, rocks once and settles curled: the legs
+    # folded with the paws drawn in toward the belly (the right legs, on top, fallen across the left), the back
+    # curved, the tail limp in a curve along the floor, the head laid down last with the mouth hanging open. On its
+    # left side the floor is +Z in the body's frame: a limb falls onto it with -X rotation, the tail and neck reach it
+    # with Y rotation (-Y for the tail, +Y for the neck), and a curl (Z rotation) lies flat along the floor.
+    die_names = ["Body", "Rump", "Neck", "Head", "Snout", "Jaw", "EarL", "EarR", "LegFrontL", "LegFrontR", "LegHindL", "LegHindR",
+                 "PawFrontL", "PawFrontR", "FootHindL", "FootHindR"] + [f"Tail{i}" for i in range(len(TAIL))]
+
+    def limp_tail(k, curl=1.0, flick=0.0):
+        """The tail fallen to the floor (k 0..1) in a lazy curve along it; its rest droop (Z) lies flat once on the side."""
+        return {f"Tail{i}": pose((0, k * (-22, -12, 10, 10, 0, -4)[i] + flick * (i / 5), curl * (8, -6, -8, -6, -4, 0)[i])) for i in range(len(TAIL))}
+
+    def curled(roll, slack, jaw):
+        """On its left side (`roll` degrees about the spine), from the fold it fell in (slack 0) to the pose it rests in
+        (slack 1): the back curved, the front legs folded up under the chin, the hind legs drawn up to the belly."""
+        def at(a, b):
+            return tuple(a[i] + (b[i] - a[i]) * slack for i in range(3))
+        return {
+            "Body": pose((roll, 0, at((4, 0, 0), (6, 0, 0))[0])), "Rump": pose(at((0, 0, -14), (2, -4, -26))),
+            "Neck": pose(at((0, 6, 14), (0, 8, 24))), "Head": pose(at((4, 4, 8), (10, 6, 16))), "Snout": pose(at((0, 0, 2), (0, 0, 4))),
+            "Jaw": pose((0, 0, jaw)), "EarL": pose((0, 0, 14)), "EarR": pose((-10, 0, 18)),
+            "LegFrontL": pose(at((6, 0, -40), (8, 0, -52))), "PawFrontL": pose(at((0, 0, 60), (0, 0, 74))),
+            "LegFrontR": pose(at((-20, 0, -44), (-46, 0, -36))), "PawFrontR": pose(at((0, 0, 54), (-8, 0, 82))),
+            "LegHindL": pose(at((4, 0, -40), (6, 0, -34))), "FootHindL": pose(at((0, 0, 40), (0, 0, 50))),
+            "LegHindR": pose(at((-20, 0, -44), (-44, 0, -24))), "FootHindR": pose(at((0, 0, 36), (-6, 0, 58))),
+        }
+
+    death(m, 36, die_names, {
+        0: tail(0),
+        # the hit: a jerk, the head snaps up, the mouth opens, the tail whips
+        3: dict({"Body": pose((4, 6, -6)), "Neck": pose((0, 6, -10)), "Head": pose((0, 10, -6)), "Jaw": pose((0, 0, 30)),
+                 "EarL": pose((0, 0, 20)), "EarR": pose((0, 0, 20)), "LegFrontL": pose((0, 0, -6)), "LegFrontR": pose((0, 0, -4))},
+                **tail(0.1, sweep=10, lift=14)),
+        # the front legs buckle: the chest drops onto the folding forelegs, the hips still up
+        7: dict({"Body": pose((8, 4, 14)), "Rump": pose((0, 0, -8)), "Neck": pose((0, 4, 4)), "Head": pose((2, 6, 0)), "Jaw": pose((0, 0, 24)),
+                 "LegFrontL": pose((-6, 0, -50)), "LegFrontR": pose((8, 0, -44)), "PawFrontL": pose((0, 0, 70)), "PawFrontR": pose((0, 0, 64)),
+                 "LegHindL": pose((0, 0, -6)), "LegHindR": pose((0, 0, -4))}, **tail(0.2, sweep=6, lift=6)),
+        10: dict({"Body": pose((22, 3, 12)), "Rump": pose((0, 0, -8)), "Neck": pose((0, 5, 6)), "Head": pose((2, 6, 2)), "Jaw": pose((0, 0, 23)),
+                  "LegFrontL": pose((-3, 0, -48)), "LegFrontR": pose((0, 0, -42)), "PawFrontL": pose((0, 0, 68)), "PawFrontR": pose((0, 0, 62)),
+                  "LegHindL": pose((2, 0, -18)), "LegHindR": pose((-3, 0, -18)), "FootHindL": pose((0, 0, 14)), "FootHindR": pose((0, 0, 14))},
+                 **tail(0.25, sweep=4, lift=2)),
+        # the haunches give and it tips over onto its left side, falling fast
+        12: dict({"Body": pose((40, 2, 8)), "Rump": pose((0, 0, -8)), "Neck": pose((0, 6, 8)), "Head": pose((2, 6, 4)), "Jaw": pose((0, 0, 22)),
+                  "LegFrontL": pose((0, 0, -44)), "LegFrontR": pose((-6, 0, -40)), "PawFrontL": pose((0, 0, 64)), "PawFrontR": pose((0, 0, 60)),
+                  "LegHindL": pose((4, 0, -30)), "LegHindR": pose((-6, 0, -34)), "FootHindL": pose((0, 0, 30)), "FootHindR": pose((0, 0, 30))},
+                 **limp_tail(0.3, curl=0.3)),
+        15: dict(curled(78, 0.0, jaw=21), **limp_tail(0.6, curl=0.5, flick=16)),
+        # down, a little past; the legs still folded from the fall
+        17: dict(curled(104, 0.0, jaw=20), **limp_tail(0.9, curl=0.6, flick=10)),
+        # rocks back once, the top legs dropping across the lower ones
+        22: dict(curled(90, 0.6, jaw=30), **limp_tail(0.8, curl=0.9, flick=14)),
+        # settling: the legs go slack, the head sinks to the floor, a last twitch of the tail
+        28: dict(curled(97, 0.9, jaw=26), **limp_tail(1.0, curl=1.0, flick=4)),
+        35: dict(curled(96, 1.0, jaw=28), **limp_tail(1.0, curl=1.0)),
+    }, soft=[f"Whisker{sd}{i}" for sd in "LR" for i in range(3)])
     return m
 
 
@@ -2279,6 +2318,73 @@ def deathmoth(female):
             return d
 
         m.animation("feed", 60, cycle(60, 12, feed))
+
+    # Death (see docs/design/entity-ai-overhaul/death-poses.md): a last spasm of the wings, which close together over
+    # the back and stop; the legs give and it comes down (the entity itself falls under physics, so the model stays
+    # at its feet's level), topples onto its left side, the closed wings slapping down onto the floor, bounces once and
+    # settles: the wings laid together along the floor like a shut book, the legs curled in toward the belly, as a dead
+    # moth's do, the head bowed, the antennae limp. Closed over the back, the left wing's rotX is -90 and the right's
+    # +90; on its left side the floor is +Z in the body's frame, so adding to both lays them down toward it.
+    mouth = ["MandibleL", "MandibleR"] if female else ["Proboscis0", "Proboscis1", "Proboscis2"]
+    die_names = (["Thorax", "Head", "Abdomen1", "Abdomen2", "AbdomenTip", "AntennaL", "AntennaR"] + wing_names + mouth
+                 + [f"{p}{i}{sd}" for p in ("Leg", "Shin", "Tarsus") for i in range(3) for sd in "LR"])
+
+    def curl(k, twitch=0.0):
+        """The legs drawn in by k (0..1; +X folds a left leg in under the belly, -X a right one): the femurs bunched
+        toward the middle, the shins and claws hooked in; each a little different, and `twitch` stirs the middle right
+        one."""
+        d = {}
+        for i in range(3):
+            for sd, sgn in (("L", 1), ("R", -1)):
+                j = i + (0 if sd == "L" else 1)
+                d[f"Leg{i}{sd}"] = pose((sgn * k * (8 + 6 * (j % 3)), 0, k * (16, -4, -18)[i] + (twitch if (i, sd) == (1, "R") else 0)))
+                d[f"Shin{i}{sd}"] = pose((sgn * k * (30 + 8 * ((j + 1) % 3)), 0, k * (-10, 6, 12)[i]))
+                d[f"Tarsus{i}{sd}"] = pose((sgn * k * (40 + 10 * (j % 2)), 0, 0))
+        return d
+
+    def mouthparts(k):
+        if female:
+            return {"MandibleL": pose((0, -18 * k, 0)), "MandibleR": pose((0, 12 * k, 0))}
+        return {"Proboscis0": pose((0, 0, -20 * k)), "Proboscis1": pose((0, 0, -30 * k)), "Proboscis2": pose((0, 0, -20 * k))}
+
+    def shut(lay, back=0.0, lay_r=None):
+        """The wings closed together over the back, laid over toward the floor (+Z in the body's frame) by `lay` (the
+        right wing, on top once it lies on its side, by `lay_r`, so it rests on the left one)."""
+        lay_r = lay if lay_r is None else lay_r
+        return {"ForewingL": pose((-90 + lay, -back, 0)), "ForewingR": pose((90 + lay_r, back, 0)),
+                "HindwingL": pose((-88 + lay, -back * 0.85, 0)), "HindwingR": pose((88 + lay_r, back * 0.85, 0))}
+
+    def dead(roll, k, lay, lay_r, twitch=0.0):
+        """On its left side (`roll` degrees about the body's axis): the wings laid along the floor, the abdomen a
+        little curled, the head bowed, the legs curled by k."""
+        return dict({
+            "Thorax": pose((roll, 0, 3)), "Head": pose((0, 6 * k, 14 * k)),
+            "Abdomen1": pose((0, 4 * k, -4 * k)), "Abdomen2": pose((0, 6 * k, 6 * k)), "AbdomenTip": pose((0, 4 * k, 8 * k)),
+            "AntennaL": pose((-60 * k, -20 * k, 10 * k)), "AntennaR": pose((14 * k, -4 * k, 26 * k)),
+        }, **shut(lay, back=8 * k, lay_r=lay_r), **curl(k, twitch), **mouthparts(k))
+
+    bounce = rig.settle(m, full(die_names, dead(87, 0.75, -6, 4)), 0.6)   # off the floor: kept as it is
+    death(m, 34, die_names, {
+        0: {},
+        # the hit: the wings snap up, the abdomen jerks under, the legs splay
+        3: dict({"Thorax": pose((0, 0, -6)), "Abdomen1": pose((0, 0, -14)), "Abdomen2": pose((0, 0, -10)), "AbdomenTip": pose((0, 0, -8)),
+                 "Head": pose((0, 0, -8))}, **wings(-66, -60), **curl(-0.3), **mouthparts(1.0)),
+        # the wings close over the back and stop; the legs give, the body comes down and starts to tip to its left
+        6: dict({"Thorax": pose((12, 0, 2)), "Abdomen1": pose((0, 0, -8)), "Abdomen2": pose((0, 0, -6)), "Head": pose((0, 0, 4))},
+                **shut(0), **curl(0.3), **mouthparts(1.0)),
+        10: dict({"Thorax": pose((58, 0, 3)), "Abdomen1": pose((0, 2, -6)), "Abdomen2": pose((0, 2, -2)), "Head": pose((0, 3, 8))},
+                 **shut(-4), **curl(0.5), **mouthparts(1.0)),
+        12: dict({"Thorax": pose((78, 0, 3)), "Abdomen1": pose((0, 2, -4)), "Abdomen2": pose((0, 3, 0)), "Head": pose((0, 4, 10))},
+                 **shut(0), **curl(0.55), **mouthparts(1.0)),
+        # down on its side, the wings slapping onto the floor
+        13: dead(90, 0.6, 0, 9),
+        # a small bounce off the floor, the wings lifting with it
+        16: bounce,
+        # down again, the wings slapping down a little past and settling along the floor
+        19: dead(92, 0.85, 3, 16),
+        25: dead(88, 0.95, 1, 11, twitch=18),
+        33: dead(90, 1.0, 2, 13),
+    }, standing=(3,), airborne=(16,))
     return m
 
 
