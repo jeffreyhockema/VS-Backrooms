@@ -293,6 +293,12 @@ public partial class CheatSystem : ModSystem
                     args.Caller.Entity.Die(EnumDespawnReason.Death, new DamageSource { Source = EnumDamageSource.Suicide, Type = EnumDamageType.Injury });
                     return TextCommandResult.Success();
                 })
+            .EndSubCommand()
+            .BeginSubCommand("corpse")
+                .WithDescription("Dev test of the corpse a death leaves: list (the default), make (a corpse of yours with test stacks at your feet, or at the spawn from the console), simdeath (items dropped for a made-up death, to be caught), age [id] (turns the newest or that body to bones), clear (removes them all)")
+                // (A console line ends in a carriage return the parser keeps as an argument; it is trimmed)
+                .WithArgs(parsers.OptionalWord("action"), parsers.OptionalWord("id"))
+                .HandleWith(args => TextCommandResult.Success(sapi.ModLoader.GetModSystem<Corpse.CorpseSystem>()?.Debug(args.Caller, args[0] as string, args[1] as string) ?? "Not a Backrooms world"))
             .EndSubCommand();
     }
 
@@ -447,7 +453,7 @@ public partial class CheatSystem : ModSystem
     {
         int radius = Math.Clamp((int)args[0], 1, 512);
         Entity[] creatures = sapi.World.GetEntitiesAround(args.Caller.Entity.Pos.XYZ, radius, radius,
-            e => e is not EntityPlayer && e.Alive && e.Code?.Domain == "backrooms");
+            e => e is not EntityPlayer and not Corpse.EntityCorpse && e.Alive && e.Code?.Domain == "backrooms");
         foreach (Entity creature in creatures) creature.Die(EnumDespawnReason.Removed);
         return TextCommandResult.Success($"Removed {creatures.Length} creatures within {radius} blocks");
     }
