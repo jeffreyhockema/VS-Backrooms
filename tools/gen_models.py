@@ -572,27 +572,80 @@ def skinstealer():
         11: rest_hurt,
     }, end="Stop")
 
-    # Death: whatever holds the skin up fails. The knees buckle, the torso folds, the head drops, one arm goes under
-    # the body, and it all twists a little on the way down.
-    rest_die = {k: pose() for k in ("Pelvis", "TorsoLower", "TorsoUpper", "Neck", "Head", "ThighL", "ThighR", "ShinL", "ShinR",
-                                    "FootL", "FootR", "ArmL", "ArmR", "ForearmL", "ForearmR", "Jaw")}
-    m.animation("die", 30, {
-        0: rest_die,
-        8: merge({0: rest_die}, {0: {"Pelvis": pose((0, 8, 0), (0, -4, 0)), "ThighL": pose((0, 0, -35)), "ThighR": pose((0, 0, -22)),
-                                    "ShinL": pose((0, 0, 70)), "ShinR": pose((0, 0, 50)), "FootL": pose((0, 0, -25)), "FootR": pose((0, 0, -20)),
-                                    "TorsoLower": pose((0, 0, 10)), "Neck": pose((0, 0, 6)), "Head": pose((-6, 0, 4)),
-                                    "ArmL": pose((-12, 0, -10)), "ArmR": pose((-20, 0, 6)), "Jaw": pose((0, 0, 10))}})[0],
-        16: merge({0: rest_die}, {0: {"Pelvis": pose((4, 22, 10), (0, -11, 0)), "ThighL": pose((0, 0, -80)), "ThighR": pose((0, 0, -60)),
-                                     "ShinL": pose((0, 0, 105)), "ShinR": pose((0, 0, 95)), "FootL": pose((0, 0, -30)), "FootR": pose((0, 0, -40)),
-                                     "TorsoLower": pose((0, 0, 35)), "TorsoUpper": pose((0, 6, 30)), "Neck": pose((0, 0, 20)), "Head": pose((-14, 0, 15)),
-                                     "ArmL": pose((28, 0, -50)), "ForearmL": pose((0, 0, -60)), "ArmR": pose((-48, 0, -14)), "ForearmR": pose((0, 0, -20)),
-                                     "Jaw": pose((0, 0, 16))}})[0],
-        29: merge({0: rest_die}, {0: {"Pelvis": pose((8, 30, 25), (0, -13.5, 0)), "ThighL": pose((0, 0, -85)), "ThighR": pose((0, 0, -70)),
-                                     "ShinL": pose((0, 0, 110)), "ShinR": pose((0, 0, 100)), "FootL": pose((0, 0, -30)), "FootR": pose((0, 0, -40)),
-                                     "TorsoLower": pose((0, 0, 45)), "TorsoUpper": pose((0, 10, 35)), "Neck": pose((0, 0, 28)), "Head": pose((-22, 0, 20)),
-                                     "ArmL": pose((36, 0, -70)), "ForearmL": pose((0, 0, -80)), "ArmR": pose((-58, 0, -8)), "ForearmR": pose((0, 0, -30)),
-                                     "Jaw": pose((0, 0, 20))}})[0],
-    }, end="Hold", stopped="Stop")
+    # Death (see docs/design/entity-ai-overhaul/death-poses.md): whatever holds the skin up fails. A jolt, the knees
+    # go with the feet still planted, it kneels for a moment as the torso folds at the hips, then pitches forward onto
+    # its chest, turned a little onto its left side, the arms flung out by the landing, rocks and goes slack: the left
+    # arm out along the floor, the right bent up with the hand by the face, the right knee drawn up out to the side,
+    # the head laid on its left cheek last with the jaw hanging open. With the body face down, the floor is -X in the
+    # pelvis's frame; +X on the pelvis rolls it onto its left side. (The held limbs were placed with a small solver
+    # against floor contact and hand/knee targets, so they rest on the floor without propping the torso up.)
+    die_names = [p.name for p in m.parts]
+
+    def legs(tl, tr, pz=0.0):
+        """The knees folding straight down over planted feet: thigh angles (world, forward is -) under a pelvis
+        pitched by pz; the shins fold twice as far, the feet stay flat."""
+        return {"ThighL": pose((2, 0, tl - pz)), "ShinL": pose((0, 0, -2 * tl)), "FootL": pose((0, 0, tl)),
+                "ThighR": pose((-2, 0, tr - pz)), "ShinR": pose((0, 0, -2 * tr)), "FootR": pose((0, 0, tr))}
+
+    def curl(cl, cr):
+        return {f"Finger{i}{sd}": pose((0, 0, c - 7 * ((i + j) % 3))) for j, (sd, c) in enumerate((("L", cl), ("R", cr))) for i in range(3)}
+
+    def prone(roll, slack, jaw, head_k, **limbs):
+        """Face down, rolled `roll` degrees onto its left side, from the way it landed (slack 0) to the way it rests
+        (slack 1): the left arm flung out to the side, the right bent up with the hand by the face, the left leg
+        trailing, the right knee drawn up out to the side; the head turned onto its left cheek by head_k (0..1)."""
+        def at(a, b):
+            return tuple(a[i] + (b[i] - a[i]) * slack for i in range(3))
+        return dict({
+            "Pelvis": pose((roll, 3, 93)), "TorsoLower": pose(at((0, 2, -6), (-1, 6, -3))), "TorsoUpper": pose(at((0, 2, -10), (-4, 8, -8))),
+            "Neck": pose(at((0, 0, -14), (1, -7, -12))), "Head": pose((15 * head_k, -61 * head_k, -8 + 6 * head_k)), "Jaw": pose((0, 0, jaw)),
+            "NeckFold": pose((0, 0, -6 * head_k)),
+            "ArmL": pose(at((-102, -10, 62), (-57, -17, 41))), "ForearmL": pose(at((7, 0, -30), (2, 0, -25))), "HandL": pose(at((-5, 0, 17), (6, 0, 22))),
+            "ArmR": pose(at((52, -38, -18), (67, -40, -6))), "ForearmR": pose(at((-30, 0, -105), (-33, 0, -125))), "HandR": pose(at((4, 0, 4), (2, 0, -5))),
+            "ThighL": pose(at((-6, -20, -6), (-10, -40, -1))), "ShinL": pose(at((-2, 0, 16), (-6, 0, 8))), "FootL": pose(at((0, -10, 20), (2, -23, 1))),
+            "ThighR": pose(at((6, -20, -30), (14, -40, -55))), "ShinR": pose(at((-8, 0, 40), (-15, 0, 56))), "FootR": pose(at((0, -6, 14), (-5, -12, -2))),
+        }, **curl(-12 - 10 * slack, -18 - 14 * slack), **{k: pose(v) for k, v in limbs.items()})
+
+    death(m, 40, die_names, {
+        0: {},
+        # the hit: it stiffens, the head jerks back and the jaw drops, the arms twitch out
+        3: dict({"TorsoUpper": pose((0, 4, -6)), "Neck": pose((0, 0, -6)), "Head": pose((6, 8, -10)), "Jaw": pose((0, 0, 20)),
+                 "ArmL": pose((-10, 0, -6)), "ArmR": pose((8, 0, -8))}, **curl(10, 8)),
+        # the knees go, the feet still planted; the torso sags forward, the head lolls
+        8: dict({"Pelvis": pose((3, 4, 0)), "TorsoLower": pose((0, 0, 8)), "TorsoUpper": pose((0, 2, 6)), "Neck": pose((0, 0, 8)), "Head": pose((-6, 4, 6)),
+                 "Jaw": pose((0, 0, 16)), "ArmL": pose((-6, 0, -4)), "ArmR": pose((4, 0, -2)), "ForearmL": pose((0, 0, 6)), "ForearmR": pose((0, 0, 4))},
+                **legs(-34, -26), **curl(-4, -6)),
+        # the knees reach the floor
+        11: dict({"Pelvis": pose((5, 6, 10)), "TorsoLower": pose((0, 0, 12)), "TorsoUpper": pose((0, 3, 9)), "Neck": pose((0, 0, 10)), "Head": pose((-8, 5, 8)),
+                  "Jaw": pose((0, 0, 17)), "ArmL": pose((-10, 0, -16)), "ArmR": pose((5, 0, -12)), "ForearmL": pose((0, 0, -2)), "ForearmR": pose((0, 0, -4))},
+                 **legs(-52, -46, pz=10), **curl(-5, -7)),
+        # down on its knees, folding at the hips, the arms swinging forward and loose
+        13: dict({"Pelvis": pose((6, 8, 22)), "TorsoLower": pose((0, 0, 14)), "TorsoUpper": pose((0, 4, 12)), "Neck": pose((0, 0, 10)), "Head": pose((-8, 6, 10)),
+                  "Jaw": pose((0, 0, 18)), "ArmL": pose((-12, 0, -30)), "ArmR": pose((6, 0, -24)), "ForearmL": pose((0, 0, -8)), "ForearmR": pose((0, 0, -10)),
+                  "ThighL": pose((2, 0, -62)), "ShinL": pose((0, 0, 118)), "FootL": pose((0, 0, -30)),
+                  "ThighR": pose((-2, 0, -56)), "ShinR": pose((0, 0, 112)), "FootR": pose((0, 0, -24))}, **curl(-6, -8)),
+        # pitching forward, rolling to the left, the hips lifting off the heels; the arms trail, limp
+        18: dict({"Pelvis": pose((12, 4, 56)), "TorsoLower": pose((0, 0, 6)), "TorsoUpper": pose((0, 2, 2)), "Neck": pose((0, 0, -2)), "Head": pose((-4, -6, 2)),
+                  "Jaw": pose((0, 0, 22)), "ArmL": pose((-24, 0, -4)), "ArmR": pose((20, 0, -14)), "ForearmL": pose((4, 0, -40)), "ForearmR": pose((-4, 0, -30)),
+                  "HandL": pose((0, 0, 10)), "HandR": pose((0, 0, 12)),
+                  "ThighL": pose((2, 0, -40)), "ShinL": pose((0, 0, 90)), "FootL": pose((0, 0, 30)),
+                  "ThighR": pose((4, 0, -46)), "ShinR": pose((0, 0, 92)), "FootR": pose((0, 0, 24))}, **curl(-8, -10)),
+        # the chest hits first, the legs sliding out behind, the arms flung out by the landing
+        20: dict({"Pelvis": pose((24, 2, 78)), "TorsoLower": pose((0, 0, 0)), "TorsoUpper": pose((-2, 2, -4)), "Neck": pose((0, 0, -4)), "Head": pose((4, -16, -4)),
+                  "Jaw": pose((0, 0, 26)), "ArmL": pose((-70, -8, 40)), "ArmR": pose((40, -26, -40)), "ForearmR": pose((-14, 0, -70)), "ForearmL": pose((0, 0, -16)),
+                  "HandL": pose((0, 0, 10)), "HandR": pose((0, 0, 16)),
+                  "ThighL": pose((0, 0, -18)), "ShinL": pose((0, 0, 50)), "FootL": pose((0, 0, 40)),
+                  "ThighR": pose((14, 0, -30)), "ShinR": pose((-10, 0, 60)), "FootR": pose((0, -10, 36))}, **curl(-10, -14)),
+        # impact: flat on its chest, rolled a little past
+        22: prone(31, 0.0, jaw=26, head_k=0.4),
+        # it rocks back
+        26: prone(22, 0.5, jaw=30, head_k=0.7, ArmL=(-78, -10, 48), ForearmL=(7, 0, -31), HandL=(5, 0, 23),
+                  ArmR=(56, -40, -14), ForearmR=(-39, 0, -119), HandR=(7, 0, 1), ThighR=(17, -40, -52), ShinR=(-15, 0, 53), FootR=(-8, -14, 3)),
+        # and settles, the limbs slack; the head turns onto its cheek last
+        31: prone(25, 0.85, jaw=28, head_k=0.9, ArmL=(-68, -7, 38), ForearmL=(8, 0, -14), HandL=(6, 0, 17),
+                  ArmR=(56, -40, -14), ForearmR=(-39, 0, -119), HandR=(7, 0, 1)),
+        39: prone(24, 1.0, jaw=30, head_k=1.0),
+    }, standing=(3,))
     return m
 
 
@@ -1454,20 +1507,92 @@ def duller():
         11: full(hurt_names, {}),
     }, end="Stop")
 
-    # Death: the balance it never quite had goes. Knees buckle, it folds, and the long arms sprawl out in front.
-    die_names = ["Pelvis", "Torso", "Neck", "Head", "ThighL", "ThighR", "ShinL", "ShinR", "FootL", "FootR", "ArmL", "ArmR", "ForearmL", "ForearmR"]
-    m.animation("die", 36, {
-        0: full(die_names, {}),
-        10: full(die_names, {"Pelvis": pose((6, 0, 6), (0, -5, 0)), "Torso": pose((0, 0, 20)), "Neck": pose((0, 0, 14)), "Head": pose((0, 0, 8)),
-                             "ThighL": pose((0, 0, -50)), "ThighR": pose((0, 0, -36)), "ShinL": pose((0, 0, 95)), "ShinR": pose((0, 0, 85)),
-                             "ArmL": pose((-12, 0, -20)), "ArmR": pose((16, 0, -6))}),
-        20: full(die_names, {"Pelvis": pose((14, 10, 14), (0, -11, 0)), "Torso": pose((0, 4, 48)), "Neck": pose((6, 0, 26)), "Head": pose((0, 0, 14)),
-                             "ThighL": pose((0, 0, -78)), "ThighR": pose((0, 0, -62)), "ShinL": pose((0, 0, 108)), "ShinR": pose((0, 0, 98)), "FootL": pose((0, 0, -30)), "FootR": pose((0, 0, -36)),
-                             "ArmL": pose((-28, 0, -70)), "ArmR": pose((30, 0, -56)), "ForearmL": pose((0, 0, -20)), "ForearmR": pose((0, 0, -16))}),
-        35: full(die_names, {"Pelvis": pose((18, 14, 20), (0, -13.5, 0)), "Torso": pose((0, 6, 60)), "Neck": pose((10, 0, 34)), "Head": pose((0, 0, 20)),
-                             "ThighL": pose((0, 0, -84)), "ThighR": pose((0, 0, -70)), "ShinL": pose((0, 0, 112)), "ShinR": pose((0, 0, 104)), "FootL": pose((0, 0, -30)), "FootR": pose((0, 0, -36)),
-                             "ArmL": pose((-34, 0, -96)), "ArmR": pose((36, 0, -84)), "ForearmL": pose((0, 0, -10)), "ForearmR": pose((0, 0, -6))}),
-    }, end="Hold", stopped="Stop")
+    # Death (see docs/design/entity-ai-overhaul/death-poses.md): the balance it never quite had goes. A jolt, the left
+    # knee gives and it lurches left, the right gives and it overcorrects, and it comes apart on the way down like
+    # something badly put together: the knees folding a little sideways, the torso twisting off the hips, the head
+    # lolling the wrong way. It pitches forward onto its chest, turned onto its right side, wobbles twice and lies
+    # still: the long right arm flung out along the floor, the left bent up with the big hand by the head, the left
+    # knee drawn up out to the side, the head laid on its right cheek last, a little too far over. The extension
+    # segments stay inside the forearms. With the body face down, -X on the pelvis rolls it onto its right side.
+    # (The held limbs were placed with a small solver against floor contact and hand/knee targets.)
+    die_names = [p.name for p in m.parts]
+
+    def hands(cl, cr):
+        d = {f: pose((0, 0, cl - 9 * ((i * 3) % 4))) for i, f in enumerate(fingers_l[:4])}
+        d.update({f: pose((0, 0, cr - 8 * ((i * 5) % 3))) for i, f in enumerate(fingers_r[:4])})
+        d["ThumbL"], d["ThumbR"] = pose((-10, 0, cl * 0.5)), pose((8, 0, cr * 0.5))
+        return d
+
+    def prone(roll, slack, wob=0.0, head_k=1.0, **limbs):
+        """Face down, rolled `roll` degrees onto its right side, from the way it landed (slack 0) to the way it rests
+        (slack 1); `wob` bends the loose torso and neck for the wobble, head_k turns the head onto its cheek."""
+        def at(a, b):
+            return tuple(a[i] + (b[i] - a[i]) * slack for i in range(3))
+        return dict({
+            "Pelvis": pose((roll, -1, 90)), "Torso": pose((-1 + 4 * wob, -10 + 6 * wob, -6 - 4 * wob)),
+            "Neck": pose((-1 - 6 * wob, 11 * head_k, -7 + 3 * wob)), "Head": pose((-15 * head_k, 55 * head_k, 0)), "Jaw": pose((0, 0, 6 * slack)),
+            "ArmL": pose(at((20, 50, -95), (25, 56, -104))), "ForearmL": pose(at((-30, 0, -95), (-40, 0, -111))), "HandL": pose(at((0, 0, 5), (-5, 0, -3))),
+            "ArmR": pose(at((120, 10, 24), (128, 12, 28))), "ForearmR": pose(at((15, 0, -10), (23, 0, -5))), "HandR": pose(at((0, 0, 10), (2, 0, 15))),
+            "ThighL": pose(at((-26, 34, -30), (6, 53, -71))), "ShinL": pose(at((16, 0, 24), (3, 0, 90))), "FootL": pose(at((-3, 10, 4), (6, 14, 3))),
+            "ThighR": pose(at((1, -20, -4), (1, -27, 2))), "ShinR": pose(at((-2, 0, 10), (-4, 0, 10))), "FootR": pose(at((-1, -4, 0), (-1, -4, -10))),
+        }, **hands(-30 - 6 * slack, -20 - 8 * slack), **{k: pose(v) for k, v in limbs.items()})
+
+    def between(a, b, t=0.5):
+        """A pose partway from a to b, joint by joint; as a keyframe of its own it is settled onto the floor, so a
+        planted foot or knee does not dip through it on the way."""
+        return {n: pose(tuple(x + (y - x) * t for x, y in zip(a.get(n, pose())["rot"], b.get(n, pose())["rot"]))) for n in set(a) | set(b)}
+
+    # the left knee gives, it lurches left; the torso wobbles back the other way
+    lurch = dict({"Pelvis": pose((10, 4, 4)), "Torso": pose((-14, -6, 6)), "Neck": pose((-10, 4, 4)), "Head": pose((-6, 0, 2)),
+                  "ThighL": pose((-4, 0, -32)), "ShinL": pose((-8, 0, 64)), "FootL": pose((0, 0, -28)),
+                  "ThighR": pose((-10, 0, 2)), "ShinR": pose((0, 0, 4)), "FootR": pose((10, 0, -4)),
+                  "ArmL": pose((-6, 0, 4)), "ArmR": pose((-14, 0, -6))}, **hands(4, 2))
+    # the right knee goes too and it overcorrects to the right, folding forward, the left knee caving inward
+    buckle = dict({"Pelvis": pose((-10, -6, 14)), "Torso": pose((-12, 10, 20)), "ShoulderR": pose((-6, 0, 0)), "Neck": pose((-14, -8, 16)), "Head": pose((-8, 0, 8)),
+                   "ThighL": pose((10, 0, -62)), "ShinL": pose((-14, 0, 96)), "FootL": pose((0, 0, -30)),
+                   "ThighR": pose((-6, 0, -44)), "ShinR": pose((4, 0, 80)), "FootR": pose((0, 0, -30)),
+                   "ArmL": pose((-22, 0, -34)), "ArmR": pose((86, 0, -24)), "ForearmL": pose((0, 0, -22)), "ForearmR": pose((0, 0, -16))}, **hands(-4, -8))
+    # down on its knees, pitching forward off the hips: the left hand hits the floor and the elbow buckles, the right
+    # arm flung out to the side as it tips that way
+    pitch = dict({"Pelvis": pose((-14, -4, 50)), "Torso": pose((-10, 8, 20)), "Neck": pose((-8, 0, 10)), "Head": pose((-6, 10, 6)),
+                  "ThighL": pose((10, 0, -50)), "ShinL": pose((-12, 0, 92)), "FootL": pose((0, 0, -10)),
+                  "ThighR": pose((-6, 0, -42)), "ShinR": pose((4, 0, 84)), "FootR": pose((0, 0, -6)),
+                  "ArmL": pose((4, 4, -59)), "ForearmL": pose((2, 0, -53)), "HandL": pose((0, 0, -17)),
+                  "ArmR": pose((127, 11, 23)), "ForearmR": pose((4, 0, -1)), "HandR": pose((0, 0, 5))}, **hands(-10, -6))
+    # impact: down on its chest, rolled a little past onto its right side
+    impact = prone(-38, 0.0, wob=0.6, head_k=0.4,
+                   ArmR=(116, 19, 33), ForearmR=(23, 0, 5), HandR=(1, 0, 10),
+                   ArmL=(3, 34, -82), ForearmL=(-40, 0, -99), HandL=(-25, 0, 30),
+                   ThighL=(-18, 33, -43), ShinL=(21, 0, 42), FootL=(-3, 18, 4),
+                   ThighR=(-3, -33, -1), ShinR=(-3, 0, 0), FootR=(-2, -6, 25))
+
+    death(m, 40, die_names, {
+        0: {},
+        # the hit: it jerks upright, the head snaps back and sideways, the arms twitch out, the hands splay
+        3: dict({"Torso": pose((0, 8, -6)), "Neck": pose((14, 0, -10)), "Head": pose((6, 0, -4)),
+                 "ArmL": pose((-14, 0, -6)), "ArmR": pose((12, 0, 4))}, **hands(12, 10)),
+        7: lurch,
+        9: between(lurch, buckle),
+        11: buckle,
+        13: between(buckle, pitch, 0.4),
+        16: pitch,
+        17: between(pitch, impact, 0.3),
+        20: impact,
+        # the first wobble back, the loose torso bending under it
+        24: prone(-24, 0.4, wob=-1.0, head_k=0.6,
+                  ArmR=(133, 16, 14), ForearmR=(19, 0, 10), HandR=(0, 0, 13),
+                  ArmL=(27, 74, -103), ForearmL=(-19, 0, -107), HandL=(-10, 0, -1),
+                  ThighL=(11, 55, -74), ShinL=(2, 0, 84), FootL=(7, 15, 3),
+                  ThighR=(-1, -24, -4), ShinR=(-4, 0, 8), FootR=(0, -1, -6)),
+        # and over again, less
+        28: prone(-33, 0.7, wob=0.5, head_k=0.85,
+                  ArmR=(123, 18, 27), ForearmR=(25, 0, 4), HandR=(1, 0, 13),
+                  ArmL=(14, 45, -94), ForearmL=(-47, 0, -110), HandL=(-9, 0, 2),
+                  ThighL=(9, 52, -74), ShinL=(4, 0, 92), FootL=(5, 13, 3),
+                  ThighR=(1, -29, 3), ShinR=(-3, 0, 2), FootR=(-1, -4, -7)),
+        # settling: the limbs go slack, the head lies over last
+        39: prone(-30, 1.0),
+    }, standing=(3,))
     return m
 
 
