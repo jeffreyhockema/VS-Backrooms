@@ -437,7 +437,7 @@ public sealed partial class WorldLayout
     /// Level 94's houses get the Suburbs' outsides of layout version 9 (PlanExteriorV9, with their faux second storey in mind):
     /// tall windows in each room's stretch of wall (upstairs over them, a sash over a door), real front and back doors that
     /// open, a brick chimney stack outside a gable end on level ground or rising through the ridge, a gable that faces the
-    /// street on some houses (in 1-10 a one-block window, a doorway with no door and a chimney flush in the side wall).</item>
+    /// street on some houses (in 1-10 a one-block window, a doorway with no door and a chimney flush in the side wall). The End's atrium escalator climbs west along a row of the void and steps straight onto the one railing-free tile of the deck (in 1-10 it climbed south beside the deck past a three-tile gap and ended against a shelf).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 11;
