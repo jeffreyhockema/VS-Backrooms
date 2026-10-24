@@ -216,7 +216,7 @@ The longer you are out without a rest, the bolder what lives here becomes (see [
 - **A bed.** The head end of a hotel bed (Level 5) comes away as a real bed you can sleep in; a hay bed is 3 hay from Level 10. A bed at home is where you rest properly: nothing visits a sleeper in Level 0. See [Rest and Sleep](backrooms-rest).
 
 **Food that comes back**
-Nothing in Levels 0 to 5 restocks except the Snackrooms' machines, Level 4's fountains and the Almond Water seeps and dispensers listed in [Food and Water](backrooms-food). What does come back: fish (Level 7), game and berries (Level 9), crops, livestock and honey (Level 10), the iceboxes and milk vans of Level 94, and a farm of your own. Preserve with salt (Level 8's halite, ground in a quern) or a sealed crock.
+Nothing in Levels 0 to 5 restocks except the Snackrooms' food machines and, in a world with Thirst off, the drink dispensers listed in [Food and Water](backrooms-food); with Thirst on, drink dispensers are one-time stock. What does come back: fish (Level 7), game and berries (Level 9), crops, livestock and honey (Level 10), the iceboxes and milk vans of Level 94, and a farm of your own. Preserve with salt (Level 8's halite, ground in a quern) or a sealed crock.
 
 **Planning an expedition**
 - Rest first. Take four bags, a blade, a torch and a candle, Almond Water, food for the way back, a bandage, chalk if you have it, and any note you have not read yet (a note read in a new level tells of that level).
@@ -407,7 +407,7 @@ Drinks fill the water bar, and most of them feed you a little besides.
 - [Red Water](item-backrooms:redwater) fills about an eighth of the bar, and [Memory Juice](item-backrooms:end-memoryjuice) less than a tenth.
 
 **Drinking from the world**
-With empty hands, hold {rightmouse} on water for a second and you drink your fill of a litre. Where you find the water tells you what it is.
+Crouch, and with empty hands hold {rightmouse} on the water for a second and you drink your fill of a litre. Where you find the water tells you what it is.
 - **Clean water** is the still water of the deep places: the pools of Level 8's caves, the ponds of Level 10, the pools of Level 37, the basin of Level 94's town fountain, and Level 974. It fills the bar as well as a bottle of Almond Water does, and it does you no harm.
 - **Puddles and tainted water** is what most of the levels hold: the sumps and puddles of Levels 1 to 5, the flooded tunnels, the pools of the houses in Levels 9 and 94, the city's water and fountains, the natatorium of Level 3999 and the water of Level 188. It fills the bar only half as well, costs a little stability, and one time in four sickens you. Your stomach turns, and for about twenty minutes you burn both food and water faster.
 - **The sea is salt.** Level 7's sea and the sea of Level Fun are brine. Drinking it makes you thirstier, not less.
@@ -438,7 +438,7 @@ Only sealed boxes and crates hold food, and most were found torn or prised open 
 - **Level 188:** the lobby's breakfast dispensers ({rightmouse}): [cereal](item-backrooms:l188-cereal) and [juice boxes](item-backrooms:l188-juicebox), three of each, then empty; the minibars in the rooms.
 
 **Food and water that come back**
-See [Home and Expeditions](backrooms-home): fish, game, crops, livestock, the refilling dispensers, and a farm of your own. Everything else is finite: a level is a larder that empties. Drink dispensers that hand out water are one-time stock now; only the Level 8 seeps and the Level 10 ponds fill again, slowly.
+See [Home and Expeditions](backrooms-home): fish, game, crops, livestock, the refilling dispensers, and a farm of your own. Everything else is finite: a level is a larder that empties. Drink dispensers that hand out water are one-time stock now; only the Level 8 seeps fill again, slowly (the Level 10 ponds are water, which you can drink from as it is).
 
 **Cold**
 Nothing here is cold enough to kill you quickly, but the cold levels are cold enough to hurt without clothes: Level 6 (8 °C), Level 8 (9 °C), Level 7 (12 °C, 6 °C under the sea), the Hub's tunnels (6 °C, and 2 °C in the Far Tunnels), Level 188's courtyard (8 °C), Level 3999's Blackout (14 °C) and the open decks of Level Fun (11 °C). Clothes come from Level 5's wardrobes and suitcases, Level 9's dressers and Level 188's rooms; Level 5's furnaces and boilers and Level 1's burn barrels give off warmth. Level 0's blackout zones (10 °C) are the useful cold: food in a chest there keeps more than twice as long as in the Lobby proper, and any fully enclosed room counts as a cellar for the vanilla [preservation](gamemechanicinfo-foodpreservation) rules.
@@ -479,7 +479,7 @@ You wake rested ("You wake rested"), or sooner for one of these, and the game sa
 - **Sneaking:** crouch, and you get up.
 
 **Night visits**
-Sleeping outside a safe place invites a visit. A night's sleep in an ordinary level may draw something to your bed: a hunting creature, placed out of sight a dozen or more blocks away, coming for you. The odds rise with the level's danger: about one night in eight in Level 1, one in four in Level 5, and more than one in three in the deepest levels. Level 0, the safe places and anywhere beside a wanderer never get a visit. A closed door within four blocks of the bed halves the odds, which is what the wanderers' notes mean by "barricade your door". The sleeper wakes as the creature closes in.
+Sleeping outside a safe place invites a visit. A night's sleep in an ordinary level may draw something to your bed: a hunting creature, placed out of sight a dozen or more blocks away, coming for you. The odds rise with the level's danger: about one night in sixteen in Level 1, one in four or five in Level 5, and more than one in three in the deepest levels. Level 0, the safe places and anywhere beside a wanderer never get a visit. A closed door within four blocks of the bed halves the odds, which is what the wanderers' notes mean by "barricade your door". The sleeper wakes as the creature closes in.
 
 **Almond Water for rest**
 [Almond Water](item-backrooms:almondwater) is the drink for it: [Blue Almond Water](item-backrooms:almondwaterblue) makes you drowsy at once, so you can lie down straight away, and steadies you (a quarter restored). [Green Almond Water](item-backrooms:almondwatergreen) keeps the tiredness off for about twenty minutes, and the exhaustion lifts while it does. When it wears off, the sleep it held back lands all at once, about sixteen minutes' worth of tiredness. Drink two and it lands twice.

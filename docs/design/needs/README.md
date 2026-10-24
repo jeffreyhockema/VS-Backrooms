@@ -103,8 +103,8 @@ Drinks keep `nutritionProps` (satiety 0 where needed) so vanilla's eat pipeline,
 rats' bait logic keep treating them as consumables; hydration is read from `attributes.hydration`. Item tooltips
 gain a "Hydration: 40%" line.
 
-**World water.** With empty hands, hold right-click on a liquid block for one second to drink one litre. The
-client makes liquids selectable while thirst is on and the active slot is empty (`ForceLiquidSelectable`); a
+**World water.** Crouching, with empty hands, hold right-click on a liquid block for one second to drink one litre. The
+client makes liquids selectable only while thirst is on, the active slot is empty and the player crouches (`ForceLiquidSelectable`; otherwise items on a pool floor could not be picked); a
 `BlockBehavior` added to every `game:water-*`, `saltwater-*` and `boilingwater-*` block on both sides handles
 start/step/stop and the server applies the effect. What you get depends on the water's **class**, decided by
 level and block (`WaterClass.At(world, pos)`):
@@ -182,7 +182,7 @@ and told why when:
 `0.06 * Danger.OfLevel(level) * Setting.Spawns * doorFactor`, `doorFactor` 0.5 when a closed door stands within 4
 blocks of the bed (Level 1's "barricade your door"). A visit asks the director to place a Hunt-kind creature from
 the level's roster 12 to 18 blocks away, out of sight, hunting the sleeper; the proximity rule above then wakes
-them as it closes. Over a full sleep that is about 13% in Level 1, 26% in Level 5, 36% in the deepest levels, 0 in
+them as it closes. Over a full sleep that is about 6% in Level 1, 22% in Level 5, 37% in the deepest levels, 0 in
 Level 0 (danger 0), 0 near a wanderer, in Level 974, Level 37 or the Level 0 home base (all Safe band). A visit
 respects the one-kind rule and the hard gap like any other body, and counts as the body.
 
@@ -308,7 +308,8 @@ the stated exception.
 With thirst off: no drain, HUD bar hidden, drinks are food again (today's satiety), no empty bottles, world water
 cannot be drunk, bottles already in hand still work as drinks, dispensers restock as today, heat drains hunger.
 With fatigue off: no growth, bar hidden, beds still work (vanilla's own `tiredness` gate and a fixed 8-hour
-rest), no night visits, no penalties.
+rest), no night visits, no penalties. With fatigue off beds still wake you for pain, something close, hunger or
+thirst.
 
 ## 11. Save compatibility
 
