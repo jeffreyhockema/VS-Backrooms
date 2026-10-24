@@ -6,7 +6,7 @@ namespace Backrooms.Worldgen;
 /// <summary>
 /// The Hub, the hidden crossroads of the Backrooms: kept as level 17 (<see cref="Hub"/>) and shown as "Hub". An endless
 /// network of road tunnels of seamed concrete slabs, lit orange by caged lamps, an asphalt road with three lines of yellow
-/// studs, silent; both walls lined with great concrete doors, a crop circle carved over each, one for every level, and
+/// studs (from layout version 11 a two-lane road with a yellow middle line in the big tunnels, one lane in the narrow), silent; both walls lined with great concrete doors, a crop circle carved over each, one for every level, and
 /// almost all of them locked (docs/design/new-levels/hub-plan.md).
 ///
 /// Like the Poolrooms it is not a ring: it lies far out to the south-east, a region you can only noclip into, its floor
@@ -117,11 +117,85 @@ public sealed partial class WorldLayout
         public (int Along, int Across) Local(int x, int z) => AlongX ? (x, z - C) : (z, x - C);
         public (int X, int Z) World(int along, int across) => AlongX ? (along, C + across) : (C + across, along);
 
+        /// <summary>
+        /// (Layout version 11) where the stretch turns into the next one of its tunnel at its low or high end, the bend:
+        /// null where it runs on, meets other tunnels or ends blind.
+        /// </summary>
+        public HubBend BendLow, BendHigh;
+
         public bool Inside(int x, int z)
         {
+            // (Layout version 11) round a bend the tunnel follows the curve
+            if (BendLow != null && BendLow.Holds(x, z)) return BendLow.Open(x, z);
+            if (BendHigh != null && BendHigh.Holds(x, z)) return BendHigh.Open(x, z);
             var (a, c) = Local(x, z);
             return c >= -Half && c <= Half && a >= A0 - Half && a <= A1 + Half;
         }
+
+        /// <summary>The bend whose curve holds a block position, if any.</summary>
+        public HubBend BendAt(int x, int z) =>
+            BendLow != null && BendLow.Holds(x, z) ? BendLow : BendHigh != null && BendHigh.Holds(x, z) ? BendHigh : null;
+    }
+
+    /// <summary>
+    /// (Layout version 11) a tunnel turning a right angle where two of its stretches meet end to end, as a road tunnel
+    /// curves: round a centre (<see cref="Ox"/>, <see cref="Oz"/>) off the inside corner, its inside wall a quarter
+    /// circle of radius <see cref="Inner"/> and its outside wall one a tunnel's width further out, so it keeps its width
+    /// all round the curve (not two flat end walls meeting square). The curve fills the square from the centre out to
+    /// the far side of the two stretches' ends (<see cref="Sx"/>, <see cref="Sz"/> point that way), and each stretch
+    /// starts curving <see cref="Inner"/> blocks before the walls' inside corner.
+    /// </summary>
+    private sealed class HubBend
+    {
+        public double Ox, Oz, Ex, Ez, Inner;
+        public int Sx, Sz, Half;
+
+        /// <summary>The block position lies in the curve's square.</summary>
+        public bool Holds(int x, int z) =>
+            (x + 0.5 - Ox) * Sx > 0 && (z + 0.5 - Oz) * Sz > 0 && (x + 0.5 - Ex) * Sx < 0 && (z + 0.5 - Ez) * Sz < 0;
+
+        /// <summary>How far the middle of a block lies from the curve's centre.</summary>
+        public double Radius(int x, int z) => Math.Sqrt((x + 0.5 - Ox) * (x + 0.5 - Ox) + (z + 0.5 - Oz) * (z + 0.5 - Oz));
+
+        /// <summary>Within the curve: between its inside and outside walls.</summary>
+        public bool Open(int x, int z)
+        {
+            double r = Radius(x, z);
+            return r >= Inner && r < Inner + 2 * Half + 1;
+        }
+
+        /// <summary>Across the curve: where a position lies from the middle line, as a straight stretch's offset (-Half on the inside wall's side).</summary>
+        public int Across(int x, int z) => (int)Math.Floor(Radius(x, z) - (Inner + Half + 0.5) + 0.5);
+
+        private volatile HashSet<(int, int)> line;
+
+        /// <summary>
+        /// The tiles of the yellow line down the middle of the curve: a path of tiles each beside the next (so the line
+        /// can be joined up block to block), from where it leaves one stretch's middle line to where it meets the other's,
+        /// keeping as close to the curve's middle as it can.
+        /// </summary>
+        public bool OnLine(int x, int z)
+        {
+            HashSet<(int, int)> set = line;
+            if (set == null)
+            {
+                set = new HashSet<(int, int)>();
+                double mid = Inner + Half + 0.5;
+                int cx = (int)Math.Floor(Ox + Sx * mid), cz = (int)Math.Floor(Oz + Sz * 0.75);
+                while (Holds(cx, cz) && set.Count < 4096)
+                {
+                    set.Add((cx, cz));
+                    // On round the curve: back toward the centre's line along x, or out along z, whichever keeps closer to it
+                    int ax = cx - Sx, bz = cz + Sz;
+                    double da = Math.Abs(Radius(ax, cz) - mid), db = Math.Abs(Radius(cx, bz) - mid);
+                    if (da <= db) cx = ax; else cz = bz;
+                }
+                line = set;
+            }
+            return set.Contains((x, z));
+        }
+
+
     }
 
     /// <summary>A door's place: on a stretch, on one side (+1 or -1 across), or in its end wall (0), at a point along it.</summary>
@@ -164,6 +238,9 @@ public sealed partial class WorldLayout
     {
         var plan = new HubPlan();
         int ox = HubOriginX, oz = HubOriginZ;
+        // (Layout version 11: a road tunnel network's long straights, round bends and clean junctions; see HubStraighten,
+        // HubBend, HubParallelClash, HubTrimStubs)
+        bool v11 = Version >= 11;
         double theta0 = Hashing.Unit(Hashing.Hash(seed, 17, 0, SaltHubTheta)) * Math.PI * 2;
         plan.Theta0 = theta0;
 
@@ -206,9 +283,15 @@ public sealed partial class WorldLayout
                 double r = radius + (Hashing.Unit(h) * 2 - 1) * jitter;
                 points.Add(At(theta0 + 2 * Math.PI * i / n, r));
             }
+            // (Layout version 11) a ring road runs in long straights: no stretch across shorter than four times its width
+            if (v11 && ring > 0) HubStraighten(points, true, 4 * (2 * half + 1));
             for (int i = 0; i < n; i++) Join(points[i], points[(i + 1) % n], half, HubRingSeg, 0, Hashing.Hash(seed, ring, i + 1000, SaltHubRing));
         }
-        Loop(HubRoundabout, HubMainHalf, 0, 0);
+        // (Layout version 11) the roundabout is round: a ring road of the main tunnels' width all the way round the
+        // Tower, its lines of studs curving with it (in 1-10 a lumpy loop of square jogs)
+        if (v11) HubRoundRoundabout(plan, ox, oz, Add);
+        else Loop(HubRoundabout, HubMainHalf, 0, 0);
+        int firstRing = plan.Segs.Count;
         for (int ring = 0; ring < HubRingRadii.Length; ring++)
             Loop(HubRingRadii[ring], ring < 3 ? HubMainHalf : HubSideHalf, ring + 1, 10);
 
@@ -227,14 +310,22 @@ public sealed partial class WorldLayout
                 double off = (Hashing.Unit(Hashing.Mix(h)) * 2 - 1) * 10;
                 points.Add((ox + (int)Math.Round(Math.Cos(angle) * r + px * off), oz + (int)Math.Round(Math.Sin(angle) * r + pz * off)));
             }
+            // (Layout version 11) no stretch across shorter than four times the tunnel's width: it runs straight on until it has wandered
+            // far enough off to turn, round a bend, and back (the first point stays on the roundabout)
+            if (v11) HubStraighten(points, false, 4 * (2 * HubMainHalf + 1));
             // The last stretch runs straight out along the spoke's main axis until it meets the rim
             var (lx, lz) = points[^1];
             bool xMain = Math.Abs(Math.Cos(angle)) >= Math.Abs(Math.Sin(angle));
             int reach = HubRingRadii[^1] + 4;
-            points.Add(xMain ? (ox + (int)Math.Round(Math.Sign(Math.Cos(angle)) * Math.Sqrt(Math.Max(0, (double)reach * reach - (double)(lz - oz) * (lz - oz)))), lz)
-                : (lx, oz + (int)Math.Round(Math.Sign(Math.Sin(angle)) * Math.Sqrt(Math.Max(0, (double)reach * reach - (double)(lx - ox) * (lx - ox))))));
+            (int, int) rim = xMain ? (ox + (int)Math.Round(Math.Sign(Math.Cos(angle)) * Math.Sqrt(Math.Max(0, (double)reach * reach - (double)(lz - oz) * (lz - oz)))), lz)
+                : (lx, oz + (int)Math.Round(Math.Sign(Math.Sin(angle)) * Math.Sqrt(Math.Max(0, (double)reach * reach - (double)(lx - ox) * (lx - ox)))));
+            // (Layout version 11) ending in the middle of the rim road, rather than short of it or a stub past it
+            if (v11 && HubRimMeeting(plan, (lx, lz), rim, xMain) is { } meet) rim = meet;
+            points.Add(rim);
             for (int i = 0; i + 1 < points.Count; i++) Join(points[i], points[i + 1], HubMainHalf, HubSpokeSeg, k + 1, Hashing.Hash(seed, k, i + 500, SaltHubSpoke));
         }
+        // (Layout version 11) where a ring road runs alongside a tunnel, close, it joins it for that stretch
+        if (v11) HubAlignAlongside(plan, firstRing);
         int mainCount = plan.Segs.Count;
         foreach (HubSeg s in plan.Segs) Bin(plan, s);
 
@@ -244,10 +335,18 @@ public sealed partial class WorldLayout
         {
             ulong h = Hashing.Hash(seed, i, j, SaltHubLattice);
             int x = ox + i * HubLatticePitch + (int)((Hashing.Unit(h) * 2 - 1) * 20), z = oz + j * HubLatticePitch + (int)((Hashing.Unit(Hashing.Mix(h)) * 2 - 1) * 20);
+            // (Layout version 11) a node is put 20 blocks off its place or not at all, each way, so two side tunnels
+            // meet in line or a proper bend apart, never a jog of a few blocks
+            if (v11)
+            {
+                x = ox + i * HubLatticePitch + 20 * ((int)(Hashing.Unit(h) * 3) - 1);
+                z = oz + j * HubLatticePitch + 20 * ((int)(Hashing.Unit(Hashing.Mix(h)) * 3) - 1);
+            }
             double r = Math.Sqrt((double)(x - ox) * (x - ox) + (double)(z - oz) * (z - oz));
             return r >= 140 && r <= HubRingRadii[^1] - 30 ? (x, z) : null;
         }
         var edges = new List<(int I, int J, int I2, int J2, List<HubSeg> Segs)>();
+        var sideBins = new Dictionary<(int, int), List<HubSeg>>();
         for (int j = -span; j <= span; j++)
             for (int i = -span; i <= span; i++)
             {
@@ -264,11 +363,17 @@ public sealed partial class WorldLayout
                     bool near = false;
                     foreach (HubSeg s in segs)
                         if (SegDistance(s, ox, oz) < 100) near = true;
+                    // (Layout version 11) nor alongside another tunnel, merged into it or with a sliver of wall between
+                    if (v11 && !near)
+                        foreach (HubSeg s in segs)
+                            if (HubParallelClash(plan.Bins, s) || HubParallelClash(sideBins, s)) near = true;
                     if (near)
                     {
                         plan.Segs.RemoveRange(before, plan.Segs.Count - before);
                         continue;
                     }
+                    if (v11)
+                        foreach (HubSeg s in segs) BinInto(sideBins, s);
                     edges.Add((i, j, i + di, j + dj, segs));
                 }
             }
@@ -326,20 +431,297 @@ public sealed partial class WorldLayout
             }
         }
 
+        if (v11)
+        {
+            HubTrimStubs(plan);
+            HubFindBends(plan);
+        }
         PlaceHubFeatures(plan);
         return plan;
     }
 
-    private static void Bin(HubPlan plan, HubSeg s)
+    private static void Bin(HubPlan plan, HubSeg s) => BinInto(plan.Bins, s);
+
+    private static void BinInto(Dictionary<(int, int), List<HubSeg>> bins, HubSeg s)
     {
         var (x0, z0) = s.World(s.A0 - s.Half - 2, -s.Half - 2);
         var (x1, z1) = s.World(s.A1 + s.Half + 2, s.Half + 2);
         for (int bz = Hashing.FloorDiv(Math.Min(z0, z1), HubBin); bz <= Hashing.FloorDiv(Math.Max(z0, z1), HubBin); bz++)
             for (int bx = Hashing.FloorDiv(Math.Min(x0, x1), HubBin); bx <= Hashing.FloorDiv(Math.Max(x0, x1), HubBin); bx++)
             {
-                if (!plan.Bins.TryGetValue((bx, bz), out var list)) plan.Bins[(bx, bz)] = list = new List<HubSeg>();
+                if (!bins.TryGetValue((bx, bz), out var list)) bins[(bx, bz)] = list = new List<HubSeg>();
                 list.Add(s);
             }
+    }
+
+    // ================= Layout version 11: a road tunnel network =================
+
+    /// <summary>
+    /// (Layout version 11) takes the jogs out of a tunnel's wandering line of points: a step across shorter than
+    /// <paramref name="minRun"/> (where the tunnel would shift sideways by less than a few times its width: a widened
+    /// lump or a dog-leg of stubs) is dropped, so the tunnel runs straight on until it has wandered far enough to turn
+    /// properly. The first point stays; a closed loop is closed by carrying its last short step back along it.
+    /// </summary>
+    private static void HubStraighten(List<(int X, int Z)> points, bool closed, int minRun)
+    {
+        static bool Short(int d, int minRun) => d != 0 && Math.Abs(d) < minRun;
+        for (int i = 1; i < points.Count; i++)
+        {
+            var (px, pz) = points[i - 1];
+            var (x, z) = points[i];
+            points[i] = (Short(x - px, minRun) ? px : x, Short(z - pz, minRun) ? pz : z);
+        }
+        if (!closed || points.Count < 3) return;
+        for (int axis = 0; axis < 2; axis++)
+        {
+            int Get(int i) => axis == 0 ? points[i].X : points[i].Z;
+            void Set(int i, int v) => points[i] = axis == 0 ? (v, points[i].Z) : (points[i].X, v);
+            if (!Short(Get(0) - Get(points.Count - 1), minRun)) continue;
+            Set(points.Count - 1, Get(0));
+            for (int i = points.Count - 1; i >= 2 && Short(Get(i) - Get(i - 1), minRun); i--) Set(i - 1, Get(i));
+        }
+    }
+
+    /// <summary>
+    /// (Layout version 11) where a tunnel running out from <paramref name="from"/> toward <paramref name="to"/> (along x
+    /// if <paramref name="alongX"/>) meets the middle of the rim road: the nearest crossing to <paramref name="to"/> of
+    /// a rim stretch across its way, or null.
+    /// </summary>
+    private static (int, int)? HubRimMeeting(HubPlan plan, (int X, int Z) from, (int X, int Z) to, bool alongX)
+    {
+        (int, int)? best = null;
+        int bestD = int.MaxValue;
+        foreach (HubSeg r in plan.Segs)
+        {
+            if (r.Kind != HubRingSeg || r.Half != HubSideHalf || r.AlongX == alongX) continue;
+            // (The rim is the outermost ring, the only side-width ring the tunnels reach the end of)
+            int line = alongX ? from.Z : from.X;
+            if (line < r.A0 || line > r.A1) continue;
+            int at = r.C, d = Math.Abs(at - (alongX ? to.X : to.Z));
+            if (d >= bestD || d > 40) continue;
+            // (Out past the last stretch's start)
+            if (alongX ? Math.Sign(at - from.X) != Math.Sign(to.X - from.X) : Math.Sign(at - from.Z) != Math.Sign(to.Z - from.Z)) continue;
+            bestD = d;
+            best = alongX ? (at, from.Z) : (from.X, at);
+        }
+        return best;
+    }
+
+    /// <summary>
+    /// (Layout version 11) the roundabout round the Tower as a circle: four stretches of main tunnel on the sides of a
+    /// square round the Tower, each quarter laid out as one curve round the Tower's middle (<see cref="HubBend"/>), so the
+    /// road's middle line is a circle of radius <see cref="HubRoundabout"/> + 1 and its walls circles a tunnel's width
+    /// apart. The ten approaches open into its inside wall; the ten tunnels start on it.
+    /// </summary>
+    private static void HubRoundRoundabout(HubPlan plan, int ox, int oz, Action<HubSeg> add)
+    {
+        const int L = HubRoundabout + 1, h = HubMainHalf;
+        var north = new HubSeg { AlongX = true, C = oz - L, A0 = ox - L, A1 = ox + L, Half = h, Kind = HubRingSeg };
+        var south = new HubSeg { AlongX = true, C = oz + L, A0 = ox - L, A1 = ox + L, Half = h, Kind = HubRingSeg };
+        var west = new HubSeg { AlongX = false, C = ox - L, A0 = oz - L, A1 = oz + L, Half = h, Kind = HubRingSeg };
+        var east = new HubSeg { AlongX = false, C = ox + L, A0 = oz - L, A1 = oz + L, Half = h, Kind = HubRingSeg };
+        foreach (HubSeg s in new[] { north, east, south, west }) add(s);
+        HubBend Quarter(int sx, int sz) => new()
+        {
+            Sx = sx, Sz = sz, Half = h, Inner = L - h - 0.5, Ox = ox + 0.5, Oz = oz + 0.5,
+            Ex = ox + 0.5 + sx * (L + h + 2), Ez = oz + 0.5 + sz * (L + h + 2),
+        };
+        north.BendHigh = east.BendLow = Quarter(1, -1);
+        east.BendHigh = south.BendHigh = Quarter(1, 1);
+        south.BendLow = west.BendHigh = Quarter(-1, 1);
+        west.BendLow = north.BendLow = Quarter(-1, -1);
+    }
+
+    /// <summary>
+    /// (Layout version 11) a ring road's stretch that would run alongside one of the ten tunnels, so close the two merge
+    /// into a lump or leave a sliver of wall, is moved onto the tunnel's line (with the stretches in line with it), and
+    /// the stretches that turn off at its ends are made longer or shorter to meet it: the ring road joins the tunnel
+    /// for a while, as roads do. The roundabout (the stretches before <paramref name="firstRing"/>) stays as it is.
+    /// </summary>
+    private static void HubAlignAlongside(HubPlan plan, int firstRing)
+    {
+        for (int pass = 0; pass < 4; pass++)
+        {
+            bool moved = false;
+            for (int i = firstRing; i < plan.Segs.Count; i++)
+            {
+                HubSeg r = plan.Segs[i];
+                if (r.Kind != HubRingSeg) continue;
+                foreach (HubSeg p in plan.Segs)
+                {
+                    if (p.Kind != HubSpokeSeg || p.AlongX != r.AlongX || p.C == r.C) continue;
+                    int wall = Math.Abs(p.C - r.C) - p.Half - r.Half - 1;
+                    int overlap = Math.Min(p.A1 + p.Half, r.A1 + r.Half) - Math.Max(p.A0 - p.Half, r.A0 - r.Half);
+                    if (wall >= 4 || overlap <= 0) continue;
+                    HubShiftRun(plan, firstRing, r, p.C);
+                    moved = true;
+                    break;
+                }
+            }
+            if (!moved) break;
+        }
+    }
+
+    /// <summary>(Layout version 11) moves a ring stretch, and those in line with it end to end, sideways onto line <paramref name="c"/>; the stretches meeting its ends follow.</summary>
+    private static void HubShiftRun(HubPlan plan, int firstRing, HubSeg r, int c)
+    {
+        int old = r.C;
+        var run = new List<HubSeg> { r };
+        int lo = r.A0, hi = r.A1;
+        for (bool grew = true; grew;)
+        {
+            grew = false;
+            for (int i = firstRing; i < plan.Segs.Count; i++)
+            {
+                HubSeg o = plan.Segs[i];
+                if (o.Kind != HubRingSeg || o.AlongX != r.AlongX || o.C != old || run.Contains(o)) continue;
+                if (o.A1 != lo && o.A0 != hi) continue;
+                run.Add(o);
+                lo = Math.Min(lo, o.A0);
+                hi = Math.Max(hi, o.A1);
+                grew = true;
+            }
+        }
+        foreach (HubSeg o in run) o.C = c;
+        for (int i = firstRing; i < plan.Segs.Count; i++)
+        {
+            HubSeg q = plan.Segs[i];
+            if (q.Kind != HubRingSeg || q.AlongX == r.AlongX || q.C != lo && q.C != hi) continue;
+            if (q.A0 == old) q.A0 = c;
+            else if (q.A1 == old) q.A1 = c;
+            else continue;
+            if (q.A1 < q.A0) (q.A0, q.A1) = (q.A1, q.A0);
+        }
+    }
+
+    /// <summary>
+    /// (Layout version 11) whether a side tunnel's stretch would run alongside one already planned (in
+    /// <paramref name="bins"/>), so close that the two merge into one wide lump or leave a sliver of wall under four
+    /// blocks thick between them. Stretches in line with each other (one tunnel going on) and across each other (a
+    /// junction) are fine.
+    /// </summary>
+    private static bool HubParallelClash(Dictionary<(int, int), List<HubSeg>> bins, HubSeg s)
+    {
+        var (x0, z0) = s.World(s.A0 - s.Half - 2, -s.Half - 2);
+        var (x1, z1) = s.World(s.A1 + s.Half + 2, s.Half + 2);
+        for (int bz = Hashing.FloorDiv(Math.Min(z0, z1), HubBin); bz <= Hashing.FloorDiv(Math.Max(z0, z1), HubBin); bz++)
+            for (int bx = Hashing.FloorDiv(Math.Min(x0, x1), HubBin); bx <= Hashing.FloorDiv(Math.Max(x0, x1), HubBin); bx++)
+            {
+                if (!bins.TryGetValue((bx, bz), out var list)) continue;
+                foreach (HubSeg o in list)
+                {
+                    if (o == s || o.AlongX != s.AlongX || o.C == s.C) continue;
+                    int wall = Math.Abs(o.C - s.C) - o.Half - s.Half - 1;
+                    int overlap = Math.Min(o.A1 + o.Half, s.A1 + s.Half) - Math.Max(o.A0 - o.Half, s.A0 - s.Half);
+                    if (wall < 4 && overlap > 0) return true;
+                }
+            }
+        return false;
+    }
+
+    /// <summary>
+    /// (Layout version 11) the side tunnels' ends tidied where they meet another tunnel: a blind end that pokes on
+    /// past a tunnel it crosses by less than <see cref="HubStubLength"/> is cut back to end in it (it was a stub, not a
+    /// tunnel), and an end that opens into another tunnel stops at that tunnel's far wall instead of notching it.
+    /// </summary>
+    private static void HubTrimStubs(HubPlan plan)
+    {
+        foreach (HubSeg s in plan.Segs)
+        {
+            if (s.Kind != HubSideSeg) continue;
+            foreach (bool high in new[] { false, true })
+            {
+                int dir = high ? 1 : -1, end = high ? s.A1 : s.A0;
+                bool In(int along)
+                {
+                    var (x, z) = s.World(along, 0);
+                    return HubInsideAny(plan, x, z, s);
+                }
+                // The last place, going out toward the end (and the half width past it), still inside another tunnel
+                int last = int.MinValue;
+                for (int d = -HubStubLength; d <= s.Half; d++)
+                    if (In(end + dir * d)) last = d;
+                if (last == int.MinValue) continue;
+                bool capped = high ? s.CapHigh : s.CapLow;
+                // Nothing pokes past the other tunnel; or an open end that only touches another tunnel past its end
+                if (last >= s.Half || !capped && !In(end)) continue;
+                // End so the walls stop at the other tunnel's far side (a stub's blind end and its door go)
+                int moved = end + dir * (last - s.Half);
+                if (high ? moved <= s.A0 + s.Half : moved >= s.A1 - s.Half) continue;
+                if (capped)
+                {
+                    if (high) s.CapHigh = false; else s.CapLow = false;
+                }
+                if (high) s.A1 = moved; else s.A0 = moved;
+            }
+        }
+    }
+
+    /// <summary>How long a blind stub past a crossing may be before it counts as a tunnel of its own (layout version 11).</summary>
+    private const int HubStubLength = 24;
+
+    /// <summary>
+    /// (Layout version 11) the bends: wherever exactly two stretches of the same width end at one point at right angles,
+    /// with no other tunnel there, the corner is laid out round the inside of the walls (<see cref="HubBend"/>).
+    /// </summary>
+    private static void HubFindBends(HubPlan plan)
+    {
+        var ends = new Dictionary<(int, int), List<(HubSeg S, bool High)>>();
+        foreach (HubSeg s in plan.Segs)
+            foreach (bool high in new[] { false, true })
+            {
+                var p = s.World(high ? s.A1 : s.A0, 0);
+                if (!ends.TryGetValue(p, out var list)) ends[p] = list = new List<(HubSeg, bool)>();
+                list.Add((s, high));
+            }
+        foreach (var (p, list) in ends)
+        {
+            if (list.Count != 2) continue;
+            var (a, aHigh) = list[0];
+            var (b, bHigh) = list[1];
+            if (a.AlongX == b.AlongX || a.Half != b.Half || a.Kind != b.Kind) continue;
+            int h = a.Half, inner = h + 2;
+            // (Long enough to curve at both ends)
+            if (a.A1 - a.A0 < 2 * (h + inner) + 2 || b.A1 - b.A0 < 2 * (h + inner) + 2) continue;
+            if (aHigh ? a.CapHigh : a.CapLow) continue;
+            if (bHigh ? b.CapHigh : b.CapLow) continue;
+            // (The roundabout's quarters are curves already)
+            if ((aHigh ? a.BendHigh : a.BendLow) != null || (bHigh ? b.BendHigh : b.BendLow) != null) continue;
+            // The way into the curve's square from its centre, for each axis: toward a's end along a, toward b's end along b
+            int sx = a.AlongX ? (aHigh ? 1 : -1) : (bHigh ? 1 : -1);
+            int sz = a.AlongX ? (bHigh ? 1 : -1) : (aHigh ? 1 : -1);
+            var bend = new HubBend
+            {
+                Sx = sx, Sz = sz, Half = h, Inner = inner,
+                Ox = p.Item1 + 0.5 - sx * (h + 0.5 + inner), Oz = p.Item2 + 0.5 - sz * (h + 0.5 + inner),
+                Ex = p.Item1 + 0.5 + sx * (h + 0.5), Ez = p.Item2 + 0.5 + sz * (h + 0.5),
+            };
+            // No other tunnel anywhere in the curve's square
+            bool clear = true;
+            for (int z = (int)Math.Floor(Math.Min(bend.Oz, bend.Ez)); z <= (int)Math.Floor(Math.Max(bend.Oz, bend.Ez)) && clear; z += 2)
+                for (int x = (int)Math.Floor(Math.Min(bend.Ox, bend.Ex)); x <= (int)Math.Floor(Math.Max(bend.Ox, bend.Ex)) && clear; x += 2)
+                    if (plan.Bins.TryGetValue((Hashing.FloorDiv(x, HubBin), Hashing.FloorDiv(z, HubBin)), out var near))
+                        foreach (HubSeg o in near)
+                            if (o != a && o != b && o.Inside(x, z)) { clear = false; break; }
+            if (!clear) continue;
+            if (aHigh) a.BendHigh = bend; else a.BendLow = bend;
+            if (bHigh) b.BendHigh = bend; else b.BendLow = bend;
+            // (The curve's inside reaches past the stretches' own squares: bin them wider)
+            foreach (HubSeg s in new[] { a, b })
+            {
+                var (x0, z0) = s.World(s.A0 - s.Half - inner - 2, -s.Half - inner - 2);
+                var (x1, z1) = s.World(s.A1 + s.Half + inner + 2, s.Half + inner + 2);
+                for (int bz = Hashing.FloorDiv(Math.Min(z0, z1), HubBin); bz <= Hashing.FloorDiv(Math.Max(z0, z1), HubBin); bz++)
+                    for (int bx = Hashing.FloorDiv(Math.Min(x0, x1), HubBin); bx <= Hashing.FloorDiv(Math.Max(x0, x1), HubBin); bx++)
+                    {
+                        if (!plan.Bins.TryGetValue((bx, bz), out var bin)) plan.Bins[(bx, bz)] = bin = new List<HubSeg>();
+                        // (In plan order, as every bin keeps them)
+                        if (bin.Contains(s)) continue;
+                        int at = bin.FindIndex(o => o.Id > s.Id);
+                        bin.Insert(at < 0 ? bin.Count : at, s);
+                    }
+            }
+        }
     }
 
     /// <summary>The distance from a point to the middle line of a stretch.</summary>
@@ -387,9 +769,40 @@ public sealed partial class WorldLayout
         {
             if (!s.Inside(x, z)) continue;
             int across = Math.Abs(s.Local(x, z).Across) + (s.Main ? 0 : 100);
+            // (Layout version 11) where a ring road runs on one of the ten tunnels' line, the stretch is the tunnel's
+            if (Version >= 11) across = 2 * across + (s.Kind == HubRingSeg ? 1 : 0);
             if (across < bestAcross) { best = s; bestAcross = across; }
         }
         return best;
+    }
+
+    /// <summary>(Layout version 11) whether another tunnel runs across stretch <paramref name="s"/> at a block position: a junction.</summary>
+    private static bool HubCrossing(HubPlan plan, HubSeg s, int x, int z)
+    {
+        if (!plan.Bins.TryGetValue((Hashing.FloorDiv(x, HubBin), Hashing.FloorDiv(z, HubBin)), out var list)) return false;
+        HubBend bend = s.BendAt(x, z);
+        foreach (HubSeg o in list)
+        {
+            if (o == s || o.AlongX == s.AlongX || !o.Inside(x, z)) continue;
+            // (Not the stretch the tunnel turns into round a bend)
+            if (bend != null && (o.BendLow == bend || o.BendHigh == bend)) continue;
+            return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// (Layout version 11) whether a ring road's stretch runs here on the line of one of the ten tunnels (it joins the
+    /// tunnel for a while, <see cref="HubAlignAlongside"/>): the tunnel's own doors and lamps are the ones along it.
+    /// </summary>
+    private static bool HubOnSpoke(HubPlan plan, HubSeg s, int along)
+    {
+        if (s.Kind != HubRingSeg) return false;
+        var (x, z) = s.World(along, 0);
+        if (!plan.Bins.TryGetValue((Hashing.FloorDiv(x, HubBin), Hashing.FloorDiv(z, HubBin)), out var list)) return false;
+        foreach (HubSeg o in list)
+            if (o.Kind == HubSpokeSeg && o.AlongX == s.AlongX && o.C == s.C && along >= o.A0 - o.Half - 4 && along <= o.A1 + o.Half + 4) return true;
+        return false;
     }
 
     /// <summary>An approach to the Tower: which of the ten (0-9) a position lies in, if any, and how far off its middle.</summary>
@@ -681,8 +1094,17 @@ public sealed partial class WorldLayout
             any = true;
             int across = s.Local(x, z).Across;
             byte[,] table = s.Main ? HubVaultMain : HubVaultSide;
-            int c = Math.Min(Math.Abs(across), table.GetLength(0) - 1);
             ArchPier inward = across >= 0 ? (s.AlongX ? ArchPier.North : ArchPier.West) : (s.AlongX ? ArchPier.South : ArchPier.East);
+            // (Layout version 11) round a bend the vault curves with the tunnel: its offset is the distance from the
+            // inside corner, and its curved pieces face along the radius, toward the middle line
+            if (s.BendAt(x, z) is { } bend)
+            {
+                across = bend.Across(x, z);
+                double rx = x + 0.5 - bend.Ox, rz = z + 0.5 - bend.Oz;
+                if (across < 0) (rx, rz) = (-rx, -rz);
+                inward = Math.Abs(rx) >= Math.Abs(rz) ? (rx > 0 ? ArchPier.West : ArchPier.East) : (rz > 0 ? ArchPier.North : ArchPier.South);
+            }
+            int c = Math.Min(Math.Abs(across), table.GetLength(0) - 1);
             for (int i = 0; i < n; i++)
             {
                 byte piece = table[c, i], here = cells[i];
@@ -695,6 +1117,39 @@ public sealed partial class WorldLayout
             }
         }
         return any;
+    }
+
+    /// <summary>
+    /// For the layout harness: the plan in numbers (stretches by kind, blind ends, bends), and how many pairs of
+    /// stretches run alongside each other so close they merge or leave a sliver of wall under four blocks thick.
+    /// </summary>
+    public string HubPlanSummary()
+    {
+        HubPlan plan = HubRoads;
+        int main = 0, side = 0, caps = 0, bends = 0, clashMain = 0, clashSide = 0, shortest = int.MaxValue;
+        foreach (HubSeg s in plan.Segs)
+        {
+            if (s.Kind == HubSideSeg) side++; else main++;
+            if (s.CapLow) caps++;
+            if (s.CapHigh) caps++;
+            if (s.BendLow != null) bends++;
+            if (s.BendHigh != null) bends++;
+            if (s.Main) shortest = Math.Min(shortest, s.A1 - s.A0);
+            // (Not the round roundabout's quarters, whose stretches are only the frame of their curves)
+            static bool Round(HubSeg q) => q.BendLow is { Inner: > 12.0 } && q.BendHigh is { Inner: > 12.0 };
+            foreach (HubSeg o in plan.Segs)
+            {
+                if (o.Id <= s.Id || o.AlongX != s.AlongX || o.C == s.C || Round(s) || Round(o)) continue;
+                int wall = Math.Abs(o.C - s.C) - o.Half - s.Half - 1;
+                int overlap = Math.Min(o.A1 + o.Half, s.A1 + s.Half) - Math.Max(o.A0 - o.Half, s.A0 - s.Half);
+                if (wall < 4 && overlap > 0)
+                {
+                    if (s.Main && o.Main) clashMain++; else clashSide++;
+                }
+            }
+        }
+        return $"stretches: {main} main, {side} side; {caps} blind ends, {bends / 2} round bends; shortest main stretch {shortest}; " +
+               $"alongside too close: {clashMain} main pairs, {clashSide} pairs with a side tunnel";
     }
 
     /// <summary>How far a block position is from the middle of the Tower.</summary>
@@ -747,6 +1202,9 @@ public sealed partial class WorldLayout
                     continue;
                 }
                 bool edge = !In(gx + 1, gz) || !In(gx - 1, gz) || !In(gx, gz + 1) || !In(gx, gz - 1);
+                // (Layout version 11) the sidewalk goes on round a wall's corner, the tile at the corner's tip too, so it
+                // never breaks off where a side tunnel opens (the generator gives it a rounded kerb)
+                if (Version >= 11 && !edge) edge = !In(gx + 1, gz + 1) || !In(gx - 1, gz + 1) || !In(gx + 1, gz - 1) || !In(gx - 1, gz - 1);
                 var (along, across) = s.Local(gx, gz);
                 t = new Tile { Kind = TileKind.Floor, Pattern = WallPattern.HubWall, Zone = zone, Height = (byte)s.Height };
                 if (edge)
@@ -754,11 +1212,45 @@ public sealed partial class WorldLayout
                     t.Floor = FloorKind.HubSidewalk;
                     continue;
                 }
-                // The road: three dotted lines of yellow studs in a main tunnel, one in a side tunnel
-                bool line = s.Main ? across is -3 or 0 or 3 : across == 0;
                 ulong h = Hashing.Hash(seed, gx, gz, SaltHubFloor);
-                t.Floor = line && Hashing.Mod(along, 2) == 0 ? FloorKind.HubStud
-                    : Hashing.Unit(h) < 0.03 ? FloorKind.HubAsphaltPatch : Hashing.Unit(h) < 0.11 ? FloorKind.HubAsphaltWorn : FloorKind.HubAsphalt;
+                FloorKind asphalt = Hashing.Unit(h) < 0.03 ? FloorKind.HubAsphaltPatch : Hashing.Unit(h) < 0.11 ? FloorKind.HubAsphaltWorn : FloorKind.HubAsphalt;
+                if (Version >= 11)
+                {
+                    // (Layout version 11) the markings of a real road tunnel: a big tunnel is a two-lane road, a yellow line
+                    // down the middle of its carriageway (the middle row: the carriageway between the kerbs is an odd
+                    // number of blocks wide), unbroken along the straights and round the bends, stopping short of every
+                    // junction; a narrow tunnel is one lane, no middle line, and a broken white give-way line across it
+                    // where it comes out into another tunnel
+                    t.Floor = asphalt;
+                    HubBend bend = s.BendAt(gx, gz);
+                    if (s.Main)
+                    {
+                        bool middle = bend != null ? bend.OnLine(gx, gz) : across == 0;
+                        if (middle && !HubCrossing(plan, s, gx, gz))
+                        {
+                            t.Floor = FloorKind.HubLine;
+                            // Which way the line runs here: along the stretch, or round the bend across its radius
+                            bool eastWest = bend == null ? s.AlongX : Math.Abs(gz + 0.5 - bend.Oz) > Math.Abs(gx + 0.5 - bend.Ox);
+                            t.Pier = eastWest ? ArchPier.East : ArchPier.North;
+                        }
+                    }
+                    else if (bend == null && !HubCrossing(plan, s, gx, gz))
+                    {
+                        var (bx, bz) = s.World(along + 1, across);
+                        var (cx, cz) = s.World(along - 1, across);
+                        if (HubCrossing(plan, s, bx, bz) || HubCrossing(plan, s, cx, cz))
+                        {
+                            t.Floor = FloorKind.HubGiveWay;
+                            t.Pier = s.AlongX ? ArchPier.East : ArchPier.North;
+                        }
+                    }
+                }
+                else
+                {
+                    // The road: three dotted lines of yellow studs in a main tunnel, one in a side tunnel
+                    bool line = s.Main ? across is -3 or 0 or 3 : across == 0;
+                    t.Floor = line && Hashing.Mod(along, 2) == 0 ? FloorKind.HubStud : asphalt;
+                }
                 if (s.Main)
                 {
                     // Jet fans hung in pairs, and a gantry of lane signals, along each stretch
@@ -813,6 +1305,7 @@ public sealed partial class WorldLayout
             var (l, c, r, facing) = SlotTiles(s, slot);
             if (!InCell(l.X, l.Z) && !InCell(c.X, c.Z) && !InCell(r.X, r.Z)) continue;
             if (!SlotFits(plan, s, slot)) continue;
+            if (Version >= 11 && HubOnSpoke(plan, s, slot.Along)) continue;
             double dist = HubDistance(c.X, c.Z);
             var (kind, sigil) = HubSlotContent(plan, slot, dist);
             if (slot.Side == 0 && plan.TileEnds.Contains((s.Id, slot.Along == s.A1))) continue;
@@ -857,12 +1350,42 @@ public sealed partial class WorldLayout
             // (Side -1 at 4, 12, 20 ...; side +1 at 0, 8, 16 ..., clear of both walls' door slots)
             int side = k % 2 == 1 ? -1 : 1;
             if (!s.Main && side > 0 || a > s.A1) continue;
+            if (Version >= 11 && HubOnSpoke(plan, s, a)) continue;
             var (_, p, _, facing) = SlotTiles(s, new HubSlot(s.Id, side, a));
             double dist = HubDistance(p.X, p.Z);
             double deadShare = dist < HubKnownRadius ? 0.04 : 0.2 + 0.55 * Math.Clamp((dist - HubKnownRadius) / (HubRingRadii[^1] - HubKnownRadius), 0, 1);
             // (In layout version 9 at the top of the straight wall, under the vault's springing, as in the lore's photo)
             Hang(p, facing, Hashing.Unit(Hashing.Hash(seed, p.X, p.Z, SaltHubLamp)) < deadShare ? HubWallDeadLamp : HubWallLamp, (byte)(Version >= 9 ? 5 : 4), 0);
         }
+        // (Layout version 11) round a bend the lamps follow the curved walls, one every eight blocks of the curve, on
+        // the outside wall (and staggered between, on the inside wall of a main tunnel)
+        if (Version >= 11)
+            foreach (HubBend bend in new[] { s.BendLow, s.BendHigh })
+            {
+                if (bend == null) continue;
+                double mid = bend.Inner + bend.Half + 0.5, step = 8 / mid;
+                for (int k = 0; (k + 0.5) * step < Math.PI / 2; k++)
+                    foreach (bool outer in s.Main ? new[] { true, false } : new[] { true })
+                    {
+                        double angle = (k + (outer ? 0.5 : 1.0)) * step;
+                        if (angle >= Math.PI / 2) continue;
+                        double radius = outer ? bend.Inner + 2 * bend.Half + 0.5 : bend.Inner + 0.5;
+                        double ux = bend.Sx * Math.Cos(angle), uz = bend.Sz * Math.Sin(angle);
+                        int fx = (int)Math.Floor(bend.Ox + ux * radius), fz = (int)Math.Floor(bend.Oz + uz * radius);
+                        // Facing into the tunnel: in toward the curve's centre off the outside wall, out from it off the inside one
+                        double dx = outer ? -ux : ux, dz = outer ? -uz : uz;
+                        foreach (ArchPier facing in Math.Abs(dx) >= Math.Abs(dz)
+                                     ? new[] { dx > 0 ? ArchPier.East : ArchPier.West, dz > 0 ? ArchPier.South : ArchPier.North }
+                                     : new[] { dz > 0 ? ArchPier.South : ArchPier.North, dx > 0 ? ArchPier.East : ArchPier.West })
+                        {
+                            var (sx, sz) = FacingStep(facing);
+                            double dist = HubDistance(fx, fz);
+                            double deadShare = dist < HubKnownRadius ? 0.04 : 0.2 + 0.55 * Math.Clamp((dist - HubKnownRadius) / (HubRingRadii[^1] - HubKnownRadius), 0, 1);
+                            byte lamp = Hashing.Unit(Hashing.Hash(seed, fx, fz, SaltHubLamp)) < deadShare ? HubWallDeadLamp : HubWallLamp;
+                            if (Hang((fx - sx, fz - sz), facing, lamp, 5, 0)) break;
+                        }
+                    }
+            }
         if (s.Kind == HubSpokeSeg)
         {
             for (int a = s.A0 + 18; a <= s.A1 - 4; a += 64)
