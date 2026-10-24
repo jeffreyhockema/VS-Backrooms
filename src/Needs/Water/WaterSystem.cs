@@ -172,7 +172,7 @@ public class BlockBehaviorDrinkable : BlockBehavior
                 Drinks.AddStability(entity, WaterClass.TaintedStability);
                 bool sick = world.Rand.NextDouble() < WaterClass.SickChance;
                 if (sick) NeedsApi.MakeSick(entity, WaterClass.SickHours);
-                message = sick ? "backrooms:drink-sick" : "backrooms:drink-tainted";
+                message = "backrooms:drink-tainted"; // (MakeSick says the rest)
                 break;
             case WaterKind.Salt:
                 NeedsApi.Hydrate(entity, WaterClass.SaltHydration);

@@ -190,9 +190,7 @@ public class ItemAlmondWater : Item
         double taint = Attributes?["taintChance"].AsDouble(0) ?? 0;
         if (taint > 0 && byEntity.World.Rand.NextDouble() < taint)
         {
-            Backrooms.Needs.Needs.MakeSick(byEntity, Backrooms.Needs.Water.WaterClass.SickHours);
-            if (byEntity is EntityPlayer { Player: IServerPlayer sick })
-                sick.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(sick, "backrooms:drink-sick"), EnumChatType.Notification);
+            Backrooms.Needs.Needs.MakeSick(byEntity, Backrooms.Needs.Water.WaterClass.SickHours); // (MakeSick tells the player)
         }
         if (Attributes?["leavesBottle"].AsString() is string bottle)
         {
