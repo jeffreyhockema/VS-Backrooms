@@ -2800,11 +2800,13 @@ def clump(variant="common"):
 
     # The limbs: built pointing -x from their root, pitched down, then turned to their yaw; the lower segment bends
     # further so the end lands on the floor; the hand or foot lies flat there.
+    limb_rest = {}
     for i, (yaw, (rx, ry, rz), kind, thick, la, lb, pitch, tone) in enumerate(LIMBS):
         a = math.radians(pitch)
         ey = ry - la * math.sin(a)
         sb = max(-1.0, min(1.0, (ey - 0.55) / lb))
         b = math.degrees(math.asin(sb)) - pitch                         # the extra pitch of the lower segment
+        limb_rest[i] = (pitch, b)
         tl = thick * (1.15 if kind in ("leg", "thighhand") else 1.0)
         up = m.part(f"Limb{i}A", (rx - la, ry - tl / 2, rz - tl / 2), (la + 1.0, tl, tl), pivot=(rx, ry, rz), parent=core,
                     rest=(0, yaw, pitch), paint=c_limb, tag={"tone": tone, "root": True})
@@ -2936,29 +2938,52 @@ def clump(variant="common"):
 
     m.animation("crawl", 24, cycle(24, 12, crawl))
 
-    # Death: coordination goes. A supporting limb fails and the mass tips; arms reach out; one tries to push upright
-    # and weakens; the mass sinks; a last finger moves; stillness.
-    die_names = ["CoreA", "CaptureUpper", "CaptureFore"] + limb_a + limb_b + jaws + hand_fingers + cap_fingers
-    m.animation("die", 40, {
-        0: full(die_names, {}),
-        6: full(die_names, dict({"CoreA": pose((10, 0, 4), (0, -0.8, 0)), "Limb1A": pose((0, 0, 30)), "Limb1B": pose((0, 0, -20)),
-                                 "Limb4A": pose((0, 0, 24))}, **jaw_open(12))),
-        14: full(die_names, dict({"CoreA": pose((16, 6, 8), (0, -1.6, 0)), "Limb1A": pose((0, 0, 32)), "Limb1B": pose((0, 0, -24)), "Limb4A": pose((0, 0, 26)),
-                                  "Limb0A": pose((0, 0, -26)), "Limb7A": pose((0, -10, -30)), "Limb3A": pose((0, 0, -20)),
-                                  "Limb6A": pose((0, 0, -28)), "Limb6B": pose((0, 0, 30)), "CaptureUpper": pose((0, 10, -8))}, **jaw_open(30))),
-        24: full(die_names, dict({"CoreA": pose((20, 8, 10), (0, -2.4, 0), s=(1.06, 0.8, 1.06)), "Limb1A": pose((0, 0, 32)), "Limb1B": pose((0, 0, -24)), "Limb4A": pose((0, 0, 28)),
-                                  "Limb0A": pose((0, 0, -10)), "Limb7A": pose((0, -10, -12)), "Limb3A": pose((0, 0, -6)),
-                                  "Limb6A": pose((0, 0, -4)), "Limb6B": pose((0, 0, 8)), "CaptureUpper": pose((0, 10, 2)), "CaptureFore": pose((0, -30, 0))},
-                                 **jaw_open(20), **{f: pose((0, 0, 20)) for f in hand_fingers + cap_fingers})),
-        33: full(die_names, dict({"CoreA": pose((22, 8, 12), (0, -2.8, 0), s=(1.08, 0.72, 1.08)), "Limb1A": pose((0, 0, 32)), "Limb1B": pose((0, 0, -24)), "Limb4A": pose((0, 0, 28)),
-                                  "Limb0A": pose((0, 0, -6)), "Limb7A": pose((0, -10, -6)), "Limb3A": pose((0, 0, -2)), "Limb6A": pose((0, 0, 2)), "Limb6B": pose((0, 0, 2)),
-                                  "CaptureUpper": pose((0, 10, 4)), "CaptureFore": pose((0, -30, 0))},
-                                 **jaw_open(14), **{f: pose((0, 0, 24 if f != "CaptureHandF2" else -10)) for f in hand_fingers + cap_fingers})),
-        39: full(die_names, dict({"CoreA": pose((22, 8, 12), (0, -2.8, 0), s=(1.08, 0.72, 1.08)), "Limb1A": pose((0, 0, 32)), "Limb1B": pose((0, 0, -24)), "Limb4A": pose((0, 0, 28)),
-                                  "Limb0A": pose((0, 0, -6)), "Limb7A": pose((0, -10, -6)), "Limb3A": pose((0, 0, -2)), "Limb6A": pose((0, 0, 2)), "Limb6B": pose((0, 0, 2)),
-                                  "CaptureUpper": pose((0, 10, 4)), "CaptureFore": pose((0, -30, 0))},
-                                 **jaw_open(14), **{f: pose((0, 0, 24)) for f in hand_fingers + cap_fingers})),
-    }, end="Hold", stopped="Stop")
+    # Death: coordination goes. A supporting limb fails and the mass lurches; the limbs scrabble, then give, one after
+    # another, and the mass sags onto the floor, stretched wide and low, the limbs spreading out flat from it, bent at
+    # the joints, no two alike; the flaps hang open, the hands curl and one finger moves last.
+    ends = [f"{'Hand' if LIMBS[i][2] in ('arm', 'thighhand', 'child') else 'Foot'}{i}" for i in range(len(LIMBS))]
+    die_names = ["CoreA", "CaptureUpper", "CaptureFore", "CaptureWrist"] + limb_a + limb_b + ends + jaws + hand_fingers + cap_fingers
+
+    # Where each limb lies when it has gone slack: (upper slope, lower slope) in degrees below horizontal; no two alike
+    slack = {0: (22, 6), 1: (30, 2), 2: (12, 4), 3: (26, 16), 4: (36, 18), 5: (8, 2), 6: (28, 12), 7: (20, 3), 8: (10, 5), 9: (32, 14)}
+
+    def sag(c, roll=(0, 0, 0), wide=(1.0, 1.0, 1.0), finger=24, jaw=20, hold=()):
+        """c 0..1: how far the limbs have given (each lets go in its own time, flattening from its rest pitch)."""
+        d = {"CoreA": pose(roll, s=wide), "CaptureUpper": pose((0, 6 * c, -8 * c)), "CaptureFore": pose((0, -6 * c, 0))}
+        for i in range(len(LIMBS)):
+            pitch, b = limb_rest[i]
+            ci = min(1.0, max(0.0, c * 1.3 - (i * 0.06 + (0.1 if i in (1, 4, 6) else 0.0))))
+            side = -1 if (LIMBS[i][0] % 360) < 180 else 1
+            sprawl = [0.9, 1.0, 0.5, 1.1, 0.8, 0.6, 1.2, 0.9, 0.7, 0.4][i]
+            if i in hold:
+                d[f"Limb{i}A"] = pose((0, 0, -22))                                         # one still scrabbling at the floor
+                d[f"Limb{i}B"] = pose((0, 0, 24))
+                continue
+            ta, tb = slack[i]                                                          # the slopes it settles to
+            d[f"Limb{i}A"] = pose((0, side * 10 * ci * sprawl, (ta - pitch) * ci))
+            d[f"Limb{i}B"] = pose((0, side * [-34, 62, -10, 40, -64, 12, 58, -22, 38, -16][i] * ci, (tb - ta - b) * ci))
+            d[ends[i]] = pose((0, 0, ((pitch + b - tb) + [4, 8, 2, 10, 5, 3, 7, 1, 6, 9][i]) * ci))   # lies flat, a little curled
+        for f in hand_fingers + cap_fingers:
+            d[f] = pose((0, 0, finger - (30 if f == "CaptureHandF2" and c > 0.95 else 0)))
+        d.update(jaw_open(jaw))
+        return d
+
+    death(m, 40, die_names, {
+        0: {},
+        3: sag(0.0, roll=(3, 0, -2), jaw=14, finger=10),                                      # the hit: it jerks, the mouth gapes
+        8: sag(0.2, roll=(4, 1, 2), wide=(1.0, 0.95, 1.0), jaw=26, finger=12, hold=(1, 4)),   # a leg gives
+        13: sag(0.45, roll=(7, 2, 4), wide=(1.04, 0.85, 1.04), jaw=34, finger=16, hold=(4,)),
+        18: sag(0.7, roll=(9, 3, 5), wide=(1.1, 0.7, 1.1), jaw=30, finger=18),                # the mass drops
+        22: sag(0.95, roll=(12, 3, 6), wide=(1.2, 0.58, 1.2), jaw=24, finger=22),             # impact, a little low
+        27: sag(0.9, roll=(10, 3, -2), wide=(1.16, 0.62, 1.16), jaw=22, finger=24),            # rocks back
+        33: sag(1.0, roll=(10, 3, -2), wide=(1.18, 0.6, 1.18), jaw=18, finger=26),
+        39: sag(1.0, roll=(10, 3, -2), wide=(1.18, 0.6, 1.18), jaw=16, finger=28),
+    }, standing=(3,))
+    # The stretch the mass settles under is not counted by the settle, so it hovers a little at the end: press it down
+    for f, k in m.animations[-1][2].items():
+        if f >= 18:
+            o = k["CoreA"]["off"]
+            k["CoreA"]["off"] = (o[0], round(o[1] - min(1.4, 0.1 * (f - 15)), 3), o[2])
     return m
 
 
@@ -5821,31 +5846,59 @@ def bacteria():
     }
     m.animation("hurt", 15, ba_keys(15, hu, overlay=drift(14, 2, -10, 15), loop=False), end="Stop")
 
-    # Die (2 s, held): convulses, the head snapping back; then drops like a puppet with its strings cut, the legs
-    # folding under, the torso folding over, the arms sprawling on the carpet; then sinks a little into the stain
-    # spreading out under it, as if going back into the mould.
-    folded = {"Hips": R(o=(0, -12.5, 0)), "Waist": R(z=52, x=8), "Chest": R(z=38, x=-6), "Neck": R(z=-10, x=20), "Head": R(z=10, x=30, y=10),
-              "Jaw": R(z=24), "ThighL": R(z=-88, x=-24), "ThighR": R(z=-80, x=22), "ShinL": R(z=110), "ShinR": R(z=104),
-              "UpperArmL": R(x=-62, z=-36), "UpperArmR": R(x=50, z=-56), "ForearmL": R(z=-20, x=20), "ForearmR": R(z=24, x=-10),
-              "HandL": R(z=20), "HandR": R(z=-10)}
-    die = {
-        0: {"Hips": R(), "Waist": R(), "Chest": R(), "Neck": R(), "Head": R(), "Jaw": R(), "ThighL": R(), "ThighR": R(), "ShinL": R(),
-            "ShinR": R(), "UpperArmL": R(), "UpperArmR": R(), "ForearmL": R(), "ForearmR": R(), "HandL": R(), "HandR": R(),
-            "Stain": R(st=(0.2, 1, 0.2))},
-        3: {"Chest": R(z=-10, x=8), "Neck": R(z=-16), "Head": R(z=30, x=-20), "Jaw": R(z=40), "UpperArmL": R(x=-40, z=10), "UpperArmR": R(x=36, z=14)},
-        7: {"Chest": R(z=-6, x=-10), "Neck": R(z=-10), "Head": R(z=22, x=24), "Jaw": R(z=36), "UpperArmL": R(x=-30, z=-10), "UpperArmR": R(x=40, z=4)},
-        9: {"Hips": R(), "Waist": R(), "ThighL": R(), "ThighR": R(), "ShinL": R(), "ShinR": R()},
-        16: {"Hips": R(o=(0, -6, 0)), "Waist": R(z=24), "Chest": R(z=10), "Neck": R(z=0), "Head": R(z=10, x=10), "Jaw": R(z=28),
-             "ThighL": R(z=-50, x=-14), "ThighR": R(z=-44, x=14), "ShinL": R(z=62), "ShinR": R(z=58),
-             "UpperArmL": R(x=-30, z=-20), "UpperArmR": R(x=30, z=-26)},
-        26: dict(folded, Hips=R(o=(0, -13, 0)), Waist=R(z=56, x=8)),
-        30: dict(folded),
-        34: {"Stain": R(o=(0, 0.45, 0), st=(0.3, 1, 0.3))},
-        58: {"Stain": R(o=(0, 0.45, 0), st=(1.0, 1, 1.0))},
-        40: dict(folded, Hips=R(o=(0, -12.5, 0))),
-        59: dict(folded, Hips=R(o=(0, -15.5, 0)), Waist=R(z=58, x=8), Head=R(z=16, x=34, y=10)),
+    # Die (2 s, held): convulses, the head snapping back; the knees go and it folds at the waist; it topples forward like
+    # a puppet with its strings cut, the arms flung out and the wire of it whipping; lands, rocks, and goes slack, lying
+    # along the carpet on its chest, one arm under it, one out, the legs folded, the head turned; the stain it came out
+    # of spreads under it, as if it were going back into the mould.
+    die_names = ["Hips", "Waist", "Chest", "Neck", "Head", "Jaw", "ShoulderL", "ShoulderR", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR",
+                 "HandL", "HandR", "ThighL", "ThighR", "ShinL", "ShinR"] + wires + fingers
+
+    def bd(hips=R(), waist=R(), chest=R(), neck=R(), head=R(), jaw=R(), shl=R(), shr=R(), ual=R(), uar=R(), fal=R(), far=R(),
+           hl=R(), hr=R(), tl=R(), tr=R(), sl=R(), sr=R(), curl=(0, 0), loose=0.0):
+        d = {"Hips": hips, "Waist": waist, "Chest": chest, "Neck": neck, "Head": head, "Jaw": jaw, "ShoulderL": shl, "ShoulderR": shr,
+             "UpperArmL": ual, "UpperArmR": uar, "ForearmL": fal, "ForearmR": far, "HandL": hl, "HandR": hr,
+             "ThighL": tl, "ThighR": tr, "ShinL": sl, "ShinR": sr}
+        d.update(fingers_curl("L", curl[0]))
+        d.update(fingers_curl("R", curl[1]))
+        for i, n in enumerate(wires):
+            d[n] = pose((0, 0, loose + 6 * math.sin(i * 1.9)))
+        return d
+
+    # (prone: the hips tipped 90 degrees forward and every joint after them given back what the rest pose leans, so
+    # the trunk, the legs and the arms lie along the floor, splayed and bent, not propped on anything)
+    held = bd(hips=R(z=90, x=12), waist=R(z=-5, x=3), chest=R(z=-10, x=-3), neck=R(z=-34, x=-8), head=R(z=0, x=24, y=10), jaw=R(z=24),
+              shl=R(x=-6), shr=R(x=10), ual=R(x=-39, z=26), uar=R(x=44, z=4), fal=R(x=30, z=3), far=R(x=-23, z=13), hl=R(z=10), hr=R(z=-9),
+              tl=R(x=-9, z=28), tr=R(x=14, z=20), sl=R(x=-10, z=-12), sr=R(x=8, z=-10), curl=(30, 20), loose=20)
+    keys = {
+        0: {},
+        3: bd(chest=R(z=-10, x=8), neck=R(z=-16), head=R(z=30, x=-20), jaw=R(z=40), ual=R(x=-40, z=10), uar=R(x=36, z=14)),   # the hit
+        7: bd(chest=R(z=-6, x=-10), neck=R(z=-10), head=R(z=22, x=24), jaw=R(z=36), ual=R(x=-30, z=-10), uar=R(x=40, z=4)),
+        12: bd(hips=R(z=4), waist=R(z=14), chest=R(z=8), neck=R(z=2), head=R(z=10, x=10), jaw=R(z=28), ual=R(x=-30, z=-20), uar=R(x=30, z=-26),
+               tl=R(z=-40, x=-8), tr=R(z=-34, x=8), sl=R(z=50), sr=R(z=46)),                                                   # the knees go
+        17: bd(hips=R(z=34, x=4), waist=R(z=16), chest=R(z=12), neck=R(z=6), head=R(z=16, x=14), jaw=R(z=30), shl=R(x=-6), shr=R(x=8),
+               ual=R(x=-50, z=-6), uar=R(x=44, z=-30), fal=R(z=-14), far=R(z=-24), tl=R(z=-46, x=-10), tr=R(z=-22, x=8), sl=R(z=56), sr=R(z=34),
+               curl=(14, 8), loose=10),                                                                                       # topples
+        22: dict(held, **{"Hips": R(z=100, x=24), "Head": R(z=10, x=24, y=8)}),                                                # lands, a little past
+        27: dict(held, **{"Hips": R(z=93, x=16), "Waist": R(z=-2, x=4)}),                                                       # rocks back
+        59: dict(held, **{"Head": R(z=14, x=34, y=10), "Jaw": R(z=22)}),
     }
-    m.animation("die", 60, ba_keys(60, die, overlay=drift(3, 1, 0, 60), loop=False), end="Hold", stopped="Stop")
+    def _mid(a, b, u):
+        out = {}
+        for n in set(a) | set(b):
+            pa, pb = a.get(n) or pose(), b.get(n) or pose()
+            out[n] = pose(tuple(pa["rot"][i] + (pb["rot"][i] - pa["rot"][i]) * u for i in range(3)),
+                          tuple(pa["off"][i] + (pb["off"][i] - pa["off"][i]) * u for i in range(3)))
+        return out
+
+    keys[18] = _mid(keys[17], keys[22], 0.2)
+    keys[19] = _mid(keys[17], keys[22], 0.4)
+    keys[20] = _mid(keys[17], keys[22], 0.6)             # the fall, so the frames between stay on the floor
+    soft = ["Stain"] + wires
+    death(m, 60, die_names, {f: (k if f else {}) for f, k in keys.items()}, standing=(3, 7), soft=soft)
+    # death() settles every root: the stain is a root too, so it gets its own keyframes back
+    for f, k in m.animations[-1][2].items():
+        g = min(1.0, max(0.0, (f - 14) / 44))
+        k["Stain"] = R(st=(0.2 + 0.8 * g, 1, 0.2 + 0.8 * g)) if f == 0 else R(o=(0, 0.45 * min(1.0, f / 14), 0), st=(0.2 + 0.8 * g, 1, 0.2 + 0.8 * g))
 
     # Emerge (2.5 s): out of a black stain on the carpet. The fingers come up first, then the arms, which reach out and
     # grip the floor; the head pushes up between them, then the shoulders; it hauls the rest of itself out bent double,
