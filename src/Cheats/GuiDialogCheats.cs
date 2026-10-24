@@ -176,6 +176,11 @@ public class GuiDialogCheats : GuiDialog
             B("Food 5%", "/backrooms stat food 0.05"),
             B("Stability 0", "/backrooms stat stability 0"),
             B("Stability 0.4", "/backrooms stat stability 0.4"),
+            B("Thirst 10%", "/backrooms stat thirst 0.1", "Hydration to 10%: parched, the bar flashes"),
+            B("Rest 10%", "/backrooms stat rest 0.1", "Rest to 10% (about 54 awake hours): exhausted"),
+            B("Drowsy", "/backrooms stat rest 0.58", "Rest to 58% (25 awake hours): drowsy, you can sleep now"),
+            B("Dead tired", "/backrooms stat rest 0", "Rest to 0 (60 awake hours): dead on your feet, the screen dims and blinks"),
+            B("Needs", "/backrooms needs", "Says your hydration, awake hours and band, caffeine, sickness, bed and the director's multiplier"),
         }, 4);
 
         y = Heading(c, "Time out (raises menace until you rest)", y + RowGap);

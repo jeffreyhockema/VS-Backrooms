@@ -13,7 +13,7 @@ namespace Backrooms.Cheats;
 /// </summary>
 public class HudCheatInfo : HudElement
 {
-    private const int Width = 460, Height = 150;
+    private const int Width = 460, Height = 168;
 
     private readonly WorldLayout layout;
     private readonly WorldGeometry geometry;
@@ -77,7 +77,10 @@ public class HudCheatInfo : HudElement
 
         double stability = player.WatchedAttributes.GetDouble("temporalStability", 1);
         sb.Append($"Stability here {layout.StabilityAt(player.Pos.X, player.Pos.Y, player.Pos.Z, geometry.FloorY):0.00}, yours {stability:0.00}");
-        sb.Append($"   temperature {layout.TemperatureAt(x, (int)player.Pos.Y, z, geometry.FloorY):0}°C");
+        sb.AppendLine($"   temperature {layout.TemperatureAt(x, (int)player.Pos.Y, z, geometry.FloorY):0}°C");
+        float awake = Needs.Needs.AwakeHours(player);
+        string band = awake >= Needs.Needs.DeadHours ? "dead on feet" : awake >= Needs.Needs.ExhaustedHours ? "exhausted" : awake >= Needs.Needs.DrowsyHours ? "drowsy" : "fine";
+        sb.Append($"hydration {Needs.Needs.Hydration(player):0}  awake {awake:0.0} h ({band}{(Needs.Needs.Caffeinated(player) ? ", caffeinated" : "")})");
 
         SingleComposer.GetDynamicText("text").SetNewText(sb.ToString());
     }

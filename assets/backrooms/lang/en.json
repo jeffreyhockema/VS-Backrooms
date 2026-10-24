@@ -117,6 +117,8 @@
 	"block-furnace-*": "Furnace",
 	"block-car-*": "Abandoned Car",
 	"block-carcollider": "Abandoned Car",
+	"hud-hydration": "Hydration {0} / {1}",
+	"hud-rest": "Rest {0}%",
 	"blockdesc-crate": "Supplies left behind in the Habitable Zone. Break it open.",
 
 	"item-glassshard": "Glass Shard",

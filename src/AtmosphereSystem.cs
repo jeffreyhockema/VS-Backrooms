@@ -192,6 +192,8 @@ public partial class AtmosphereSystem : ModSystem
     // brown-grey of its own brightness and down to StrainDark of it, and the ambient light (and the fog with it) falls
     // by StrainDim. Lamps are block light, which the ambient doesn't touch, so a lit room stays lit.
     private const float StrainStart = 0.3f;
+    // Exhaustion (dead on your feet): up to this share of the light is taken off, and this much of the colour
+    private const float WearyDim = 0.25f, WearyGrey = 0.35f;
     private const float StrainDensityGain = 1.6f, StrainDensityAdd = 0.008f, StrainDensityCap = 0.05f;
     private const float StrainGrey = 0.75f, StrainDark = 0.6f, StrainDim = 0.3f;
     /// <summary>The brown-grey low stability turns the fog to, as a tint on its brightness (it keeps its brightness).</summary>
@@ -232,6 +234,8 @@ public partial class AtmosphereSystem : ModSystem
     private bool shiftWasActive, shiftSeen;
     // How far the player's low stability shows in the air (0 not at all, 1 at zero stability), eased
     private float strain;
+    // How far dead-on-your-feet exhaustion shows (0 not at all, 1 at the 84 h cap), eased; and the dark blink it brings
+    private float weary, wearyBlink, nextWearyBlink = 40;
 
     // Which level the player was last in, and when each level's name was last shown
     private int lastLevelKey = -1;
@@ -383,7 +387,20 @@ public partial class AtmosphereSystem : ModSystem
         shiftWasActive = shift > 0;
         if (shift > 0 && rand.NextDouble() < dt * (shift < 1 ? 2.5 : 0.25)) flash = 1f;
         flash = Math.Max(0f, flash - dt * 6f);
-        float black = Math.Max(blink, shift * (1f - 0.8f * flash));
+        // Exhaustion (Needs): from 60 awake hours, and not while caffeinated, the air dims and greys and the view blinks
+        // dark for 0.3 s every 30 to 60 s. Nothing at all with fatigue off (DeadOnFeet is false then).
+        bool wearyNow = !spectator && Needs.Needs.DeadOnFeet(entity) && !Needs.Needs.Caffeinated(entity);
+        float wearyTarget = wearyNow ? GameMath.Lerp(0.6f, 1f, GameMath.Clamp((Needs.Needs.AwakeHours(entity) - Needs.Needs.DeadHours) / (Needs.Needs.CapHours - Needs.Needs.DeadHours), 0f, 1f)) : 0f;
+        weary += (wearyTarget - weary) * Math.Min(1f, dt * 1.5f);
+        if (wearyTarget == 0 && weary < 0.005f) weary = 0f;
+        if (wearyNow)
+        {
+            nextWearyBlink -= dt;
+            if (nextWearyBlink <= 0) { wearyBlink = 0.3f; nextWearyBlink = 30f + (float)rand.NextDouble() * 30f; }
+        }
+        else nextWearyBlink = 30f + (float)rand.NextDouble() * 30f;
+        wearyBlink = Math.Max(0f, wearyBlink - dt);
+        float black = Math.Max(Math.Max(blink, wearyBlink > 0 ? 1f : 0f), shift * (1f - 0.8f * flash));
 
         // The player's own stability: below 0.3 the air shows it, more the lower it falls, coming and going over about
         // a second so it never jumps. It is laid over whatever air the player is in now, so it goes with them through
@@ -465,7 +482,12 @@ public partial class AtmosphereSystem : ModSystem
         fog.FogDensity.Weight = ownWeight;
         float[] fogColor = fog.FogColor.Value;
         Strained(baseColor, strainColor);
-        for (int i = 0; i < 3; i++) fogColor[i] = GameMath.Lerp(GameMath.Lerp(baseColor[i], strainColor[i], strain), 0.01f, black);
+        for (int i = 0; i < 3; i++)
+        {
+            float c = GameMath.Lerp(baseColor[i], strainColor[i], strain);
+            c = GameMath.Lerp(c, 0.30f * baseColor[0] + 0.59f * baseColor[1] + 0.11f * baseColor[2], WearyGrey * weary);
+            fogColor[i] = GameMath.Lerp(c, 0.01f, black);
+        }
         fog.FogColor.Weight = ownWeight;
         fog.FogMin.Value = Math.Max(m, Math.Max(BlackoutFogMin * shift * (1f - 0.8f * flash), BlinkFogMin * blink));
         fog.FogMin.Weight = ownWeight;
@@ -474,7 +496,7 @@ public partial class AtmosphereSystem : ModSystem
         // own (baseScene at sceneWeight) dimmed is sceneWeight (1 - dim) baseScene + (1 - sceneWeight)(1 - dim) before,
         // which is the same thing at the w and v below. Where the level keeps the outside day and night (weight 0
         // there), that dims the night by the same share as the day rather than lighting it up.
-        float dim = StrainDim * strain, sceneW = 1f - (1f - sceneWeight) * (1f - dim);
+        float dim = 1f - (1f - StrainDim * strain) * (1f - WearyDim * weary), sceneW = 1f - (1f - sceneWeight) * (1f - dim);
         fog.SceneBrightness.Value = sceneW > 0.001f ? sceneWeight * (1f - dim) * baseScene / sceneW : baseScene;
         fog.SceneBrightness.Weight = sceneW;
         fog.FogBrightness.Weight = fogBrightWeight;
