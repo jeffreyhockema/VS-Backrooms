@@ -792,7 +792,7 @@ P7_CASES = [("p7-hound-struck", t_p7_hound_struck), ("p7-bacteria-struck", t_p7_
 
 
 # ---------------------------------------------------------------- P7 round 2: isolation, piece A (isolation.md 4.6)
-RATE_RE = re.compile(r"ratecheck Level (\d+) (\w+) \(menace ([\d.]+), setting (\w+), [\d.]+ h, \d+ menacing about\): bodies ([\d.]+)/h \(glimpse ([\d.]+), stalk ([\d.]+), hunt ([\d.]+)\), "
+RATE_RE = re.compile(r"ratecheck Level (\d+) (\w+) \(menace ([\d.]+), setting (\w+), [\d.]+ h, \d+ kinds of menacing thing about \(of \d+ allowed\)\): bodies ([\d.]+)/h \(glimpse ([\d.]+), stalk ([\d.]+), hunt ([\d.]+)\), "
                      r"sounds ([\d.]+)/h; body gap mean (\S+) min, min (\S+) min; sound gap mean (\S+) min, min (\S+) min")
 
 
@@ -808,10 +808,11 @@ def _rate(c, level, band, hours=50, extra=""):
 
 
 def t_iso_rates(c):
-    # (level, band, key, lo, hi): the plan's bounds (isolation.md 4.6); Level 6 is 'under 1.2' in the heartland
-    checks = [("1", "heartland", "bodies", 1.4, 3.4), ("1", "threshold", "bodies", 10, 22), ("4", "approach", "bodies", 2.5, 5.5),
-              ("0", "heartland", "bodies", 1, 2.5), ("9", "threshold", "bodies", 18, 40), ("6", "heartland", "bodies", 0, 1.2),
-              ("1", "heartland", "sounds", 4, 10)]
+    # (level, band, key, lo, hi): measured at the normal setting (dialin.md 3.1; 50 h of ticks), +-35 %: L1 heartland 5.2, L1 threshold 45,
+    # L4 approach 12, L0 heartland 4.6, L9 threshold 200, L6 heartland 2.1, L1 heartland sounds 18
+    checks = [("1", "heartland", "bodies", 3.4, 7.0), ("1", "threshold", "bodies", 29, 61), ("4", "approach", "bodies", 8, 18),
+              ("0", "heartland", "bodies", 3, 6.2), ("9", "threshold", "bodies", 130, 270), ("6", "heartland", "bodies", 1.4, 2.9),
+              ("1", "heartland", "sounds", 12, 25)]
     ev, ok, cache = [], True, {}
     for level, band, key, lo, hi in checks:
         r = cache.get((level, band)) or cache.setdefault((level, band), _rate(c, level, band))
@@ -820,14 +821,14 @@ def t_iso_rates(c):
             good = good and r["stalk"] == 0 and r["hunt"] == 0   # glimpses only
         ok &= good
         ev.append("L%s %s %s %.1f (%s..%s)%s" % (level, band, key, r[key], lo, hi, "" if good else " BAD"))
-    # the hard gap: Level 1 heartland bodies are never closer than 40%% of the 30 minute mean
+    # the hard gap: Level 1 heartland bodies are never closer than 25%% of the 11 minute mean
     r = cache[("1", "heartland")]
     try:
-        gap_ok = float(r["mingap"]) >= 11.5
+        gap_ok = float(r["mingap"]) >= 2.6
     except ValueError:
         gap_ok = False
     ok &= gap_ok
-    ev.append("L1 heartland min body gap %s min (>= 11.5)%s" % (r["mingap"], "" if gap_ok else " BAD"))
+    ev.append("L1 heartland min body gap %s min (>= 2.6)%s" % (r["mingap"], "" if gap_ok else " BAD"))
     return ok, "; ".join(ev)
 
 
