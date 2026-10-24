@@ -422,7 +422,7 @@ public sealed partial class WorldLayout
     /// Level 0's arched areas keep the Lobby's plan (rooms, halls, doorways) in plain cream stucco (<see cref="WallPattern.Stucco"/>, its
     /// own blocks), with some walls between two spaces made walls of archways over half walls (WorldLayout.Level0.Arches.cs, ArchWalls;
     /// one room in a few gets a second, and now and then a bay is a full-height arch door); two gaps side by side in a district's
-    /// wall leave one arch (ArchGap) and the stash's supply boxes never stand beside an arch (NextToArch).</item>
+    /// wall leave one arch (ArchGap) and the stash's supply boxes never stand beside an arch (NextToArch). A Level 1 stairs to nowhere goes on in the dark: a doorway cut in the wall, two more steps (over the next stall's ceiling where that is plain floor in the cell, else along the wall's own row) and a dead-end landing, where the trip now comes (AddStairsToNowhereV4, NowhereBlock, FlightZoneNowhere).</item>
     /// <item><b>11</b>: five small corrections that would have moved saved worlds. A tent, bedroll or sofa searching the open air
     /// for room takes a 4 by 4 window of starting places at random (the hash was cast to int before its modulo, so half the
     /// time the window was wrong: <see cref="Enlarge"/>). Level 0's party cells keep out of the inner two fifths of the Lobby, by

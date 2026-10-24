@@ -221,18 +221,15 @@ public sealed partial class ThresholdNetwork
             case 1 or 4 when tile.Zone == WorldLayout.FlightZoneDown && rel <= WorldLayout.DownTripRel:
                 // Down a stairwell's flight, through the floor and on down to its last step, in the dark under the far wall
                 return FlightDownTrip(level, Whole(level == 1 ? L1FlightDown : L4FlightDown));
-            case 1 when tile.Stair >= 2 && rel >= 2.4 && !WorldLayout.IsShaftFlight(tile):
-            {
+            case 1 when tile.Zone == WorldLayout.NowhereLanding && rel >= WorldLayout.NowhereTripRel && layout.Version >= 10 && NowhereFlight(x, z, tile) is { } flight:
+                // From layout version 10, the stairs to nowhere go on in the dark through a doorway in the wall and over the
+                // next stall's ceiling to a landing, where the trip is (their steps no longer trip, see below)
+                return NowhereTrip(flight);
+            case 1 when tile.Stair >= 2 && rel >= 2.4 && !WorldLayout.IsShaftFlight(tile) && tile.Zone != WorldLayout.FlightZoneNowhere:
                 // Level 1's other stairs climb into the ceiling (or a wall) and come out of another stairwell, or now and
                 // then up the stairs of the Abandoned Office. Up to layout version 4 that was every stairwell's; since,
                 // only the stairs to nowhere's, and they come out at the top of a stairwell's flight down, on any floor
-                var stairs = Whole(OldStairs);
-                ulong key = KeyOf(stairs, SaltStairs + 1);
-                bool office = Hashing.Unit(key) >= 0.85;
-                Passage up = office || layout.Version < 4 ? BothWays(stairs, key, office ? 4 : 1, Stairs) : ToStairwell(stairs, key, 1, L1FlightDown, L1FlightDownFirst);
-                up.Upstairs = true;
-                return up;
-            }
+                return NowhereTrip(Whole(OldStairs));
             case 4 when tile.Stair >= 1 && rel >= 1.4 && !WorldLayout.IsShaftFlight(tile):
             {
                 // Office stairwells loop back to the same floor... usually
@@ -411,6 +408,40 @@ public sealed partial class ThresholdNetwork
             }
         }
         return null;
+    }
+
+    /// <summary>
+    /// Up Level 1's stairs to nowhere (the steps, or from layout version 10 the landing they go on to): out of another
+    /// stairwell, or now and then up the stairs of the Abandoned Office.
+    /// </summary>
+    private Passage NowhereTrip((int X, int Z) stairs)
+    {
+        ulong key = KeyOf(stairs, SaltStairs + 1);
+        bool office = Hashing.Unit(key) >= 0.85;
+        Passage up = office || layout.Version < 4 ? BothWays(stairs, key, office ? 4 : 1, Stairs) : ToStairwell(stairs, key, 1, L1FlightDown, L1FlightDownFirst);
+        up.Upstairs = true;
+        return up;
+    }
+
+    /// <summary>
+    /// The stairs to nowhere (the origin of its steps) whose dark landing a tile is (layout version 10): four tiles back
+    /// along the way it climbs is the third step. Null if it is not.
+    /// </summary>
+    public (int X, int Z)? NowhereFlight(int x, int z, in Tile landing)
+    {
+        if (landing.Level != 1 || landing.Zone != WorldLayout.NowhereLanding) return null;
+        (int dx, int dz) = Climb(landing.Pier);
+        // Straight on: four tiles back along the climb is the third step. Along the wall: three back is the doorway's last
+        // tile, and the third step is one back from that, the way the doorway's step climbs
+        (int X, int Z) step = (x - dx * 4, z - dz * 4);
+        if (layout.TileAt(step.X, step.Z).Zone != WorldLayout.FlightZoneNowhere)
+        {
+            Tile door = layout.TileAt(x - dx * 3, z - dz * 3);
+            if (door.Zone != WorldLayout.NowhereWall) return null;
+            (int cx, int cz) = Climb(door.Pier);
+            step = (x - dx * 3 - cx, z - dz * 3 - cz);
+        }
+        return layout.TileAt(step.X, step.Z).Zone == WorldLayout.FlightZoneNowhere ? layout.FeatureOrigin(step.X, step.Z, t => t.Level == 1 && OldStairs(t)) : null;
     }
 
     /// <summary>

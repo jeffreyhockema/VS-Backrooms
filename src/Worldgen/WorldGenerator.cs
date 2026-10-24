@@ -1276,9 +1276,29 @@ public sealed partial class WorldGenerator
 
     // ---- Level 1: concrete car park and maintenance halls ----
 
+    /// <summary>
+    /// From layout version 10, the dark way on from a stairs to nowhere (see <see cref="WorldLayout.AddStairsToNowhereV4"/>): a
+    /// fourth step in the doorway cut in the wall (air over it to rel 6), the fifth and sixth over the ceiling of the stall
+    /// beyond (that stall's slab block is the fifth step's, the sixth stands on it) and a dead-end landing at the sixth's
+    /// height, the air over each two blocks, up to the shaft's top under the roof. -1: as the tile always is.
+    /// </summary>
+    private int NowhereBlock(in Tile t, int rel)
+    {
+        int top = Geometry.BandTop - Geometry.FloorY - 1;
+        // The third step: its head is up to the slab, which is open over it
+        if (t.Zone == WorldLayout.FlightZoneNowhere) return t.Stair == 3 && rel == WorldGeometry.Level1RoomHeight + 1 ? 0 : -1;
+        // 4, 5 and 6 for the doorway and the two rises, straight on or along the wall; 7 for the landing
+        int step = t.Zone is WorldLayout.NowhereWall ? 4 : t.Zone is WorldLayout.NowhereRise or WorldLayout.NowhereTurn1 ? 5 : t.Zone is WorldLayout.NowhereTop or WorldLayout.NowhereTurn2 ? 6 : 7;
+        if (rel > top || rel < step - 1 && t.Zone != WorldLayout.NowhereLanding) return -1;
+        if (t.Zone == WorldLayout.NowhereLanding) return rel == 6 ? concreteId : rel > 6 ? 0 : -1;
+        if (rel == step) return stairIds[Facing(t.Pier)];
+        return rel > step ? 0 : -1;
+    }
+
     private int Level1Block(in Tile t, int rel, int gx, int gz)
     {
         const int room = WorldGeometry.Level1RoomHeight;
+        if (t.Zone >= WorldLayout.FlightZoneNowhere && t.Zone <= WorldLayout.NowhereTurn2 && layout.Version >= 10 && NowhereBlock(t, rel) is int dark and >= 0) return dark;
         if (rel > room + 1) return concreteId;
         if (rel == 0) return floorIds[(int)t.Floor];
         if (rel == room + 1) return t.IsWallLike ? concreteId : concreteCeilingId;

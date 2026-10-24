@@ -46,6 +46,8 @@ static class Links {
       if (layout.FindDescentLanding(k * 104729UL + 11) is { } d) AddCells(WorldLayout.MacroOf(d.X), WorldLayout.MacroOf(d.Z), 0);
       if (layout.Version >= 9 && layout.FindEntryRoomArrival(k * 104729UL + 11) is { } e) AddCells(WorldLayout.MacroOf(e.X), WorldLayout.MacroOf(e.Z), 0);
     }
+    // A stairs to nowhere that goes on in the dark (layout version 10, seed 12345), for the trip from its landing
+    if (layout.Version >= 10) AddCells(512947 / 32, 512231 / 32, 0);
     Console.WriteLine($"sampling {cells.Count} cells");
 
     var sw = System.Diagnostics.Stopwatch.StartNew();
@@ -60,8 +62,8 @@ static class Links {
         foreach (double rel in new[] { 3.0, 1.2, -300.0, 6.0, 10.0 }) {
           Passage p = net.Walked(x, z, t, rel);
           if (p == null) continue;
-          if (rel == 10.0 && !WorldLayout.IsEntryStair(t)) continue;
-          string label = $"L{t.Level,-2} " + (t.Kind == TileKind.Pit ? (t.Level == 0 ? "pit" : t.Under == Unders.Collapse ? "fallen-in street" : "open manhole") : WorldLayout.IsEntryStair(t) ? "entry room stairs" : t.Stair > 0 && t.Under == 0 ? (!WorldLayout.IsShaftFlight(t) ? "stairs" : t.Zone == WorldLayout.FlightZoneDown ? "flight down"
+          if (rel == 10.0 && !WorldLayout.IsEntryStair(t) && t.Zone != WorldLayout.NowhereLanding) continue;
+          string label = $"L{t.Level,-2} " + (t.Zone == WorldLayout.NowhereLanding ? "stairs, dark landing" : t.Kind == TileKind.Pit ? (t.Level == 0 ? "pit" : t.Under == Unders.Collapse ? "fallen-in street" : "open manhole") : WorldLayout.IsEntryStair(t) ? "entry room stairs" : t.Stair > 0 && t.Under == 0 ? (!WorldLayout.IsShaftFlight(t) ? "stairs" : t.Zone == WorldLayout.FlightZoneDown ? "flight down"
               : t.Zone == WorldLayout.FlightZoneFun ? "flight up to Fun" : "flight up")
             : t.Variant == Props.Tripwire ? "tripwire" : t.Variant == Props.FieldGate ? "field gate" : t.Under switch { Unders.Circle => "stone circle", Unders.Cave => "sea cave",
               Unders.Descent2 or Unders.Descent3 => "stairs down", Unders.LakeBottom => "lake bottom", Unders.Noclip => "barn wall", Unders.GarageRamp => "garage ramp",
@@ -191,8 +193,9 @@ static class Links {
           }
         }
         if (p.ReturnFeature == ThresholdNetwork.Stairs) {
-          // Climb the stairs it arrived beside: any step high enough must lead home
+          // Climb the stairs it arrived beside: any step high enough must lead home (from layout version 10 the way on to the landing of a stairs to nowhere's)
           bool ok = false; for (int dz = -8; dz <= 8 && !ok; dz++) for (int dx = -8; dx <= 8 && !ok; dx++) { Tile st = layout.TileAt(f.X + dx, f.Z + dz);
+            if (st.Zone == WorldLayout.NowhereLanding && net.NowhereFlight(f.X + dx, f.Z + dz, st) == f) { Passage land = net.Walked(f.X + dx, f.Z + dz, st, 10.0); if (land != null) ok = net.Take(land, null) == home; continue; }
             if (!ThresholdNetwork.Stairs(st) || layout.FeatureOrigin(f.X + dx, f.Z + dz, ThresholdNetwork.Stairs) != f) continue;
             Passage up = net.Walked(f.X + dx, f.Z + dz, st, 3.0); if (up != null) ok = net.Take(up, null) == home; }
           if (ok) s.ApiBackOk++; else s.ApiBackBad++;
