@@ -4,6 +4,7 @@ import random
 
 from PIL import Image, ImageDraw
 
+import bonekit
 import matlib as M
 from detail_kit import T, seed_of
 from detail_textures import S, block_wall, flat, grime, noise, rgb, save, stripes, text
@@ -996,7 +997,7 @@ def level6_b9():
 
 def level7():
     level7_b10()  # (B10) the rock, the ceiling over the sea, tar and wet wood
-    flat("bone", 0xE4D8BC, 6)
+    bonekit.textures()  # (bones) the bone, joint, socket and tooth textures
     flat("scrap", 0x7A4A2A, 14)
     img = noise(0x8A7A50, 5, "canvas")
     d = ImageDraw.Draw(img)

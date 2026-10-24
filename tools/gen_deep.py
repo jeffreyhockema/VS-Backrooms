@@ -5,6 +5,7 @@ import math
 import os
 
 import deep_textures
+import bonekit as BK
 import deepprops as DP
 import l11art as L11
 import deepprops_tex
@@ -700,27 +701,15 @@ def level7():
           "Scalding, steadily bubbling tar")
     name("tar", "Tar")
 
-    prop("bonepile", "Bones", [bx(f"Bone{i}", (x, 0, z), (x + w, 1.5, z + d), "bone") for i, (x, z, w, d) in
-                               enumerate(((2, 3, 9, 1.5), (5, 8, 1.5, 7), (9, 6, 6, 1.5), (3, 11, 7, 1.2), (11, 10, 1.4, 5)))] +
-         [bx("Skull", (10, 0, 2), (14, 4, 6), "bone")], box=(0.1, 0, 0.1, 0.9, 0.25, 0.9), oriented=False, collide=False,
+    prop("bonepile", "Bones", BK.bonepile(), box=(0.1, 0, 0.1, 0.9, 0.25, 0.9), oriented=False, collide=False,
          material="Stone", sounds=STONE, extra={"drops": drops(("game:bone", 2, 1))})
     prop("scrapmetal", "Rusted Scrap", [
         bx("Plate1", (1, 0, 2), (12, 1, 10), "scrap", rot=(0, 20, 8)), bx("Plate2", (5, 0, 7), (15, 2, 14), "scrap", rot=(6, -15, 0)),
         bx("Rod", (2, 0.5, 12), (14, 1.5, 13), "rust")], box=(0.06, 0, 0.06, 0.94, 0.2, 0.94), oriented=False, collide=False,
          material="Metal", sounds=METAL, extra={"drops": drops(("metalbracket", 0.8, 0.5), ("scrapwire", 0.5, 0.5))})
-    prop("jawskeleton", "Skeleton", [
-        bx("Spine", (7.5, 0.5, 2), (8.5, 1.5, 14), "bone"),
-        bx("Ribs1", (4, 0, 5), (12, 2.5, 6), "bone"), bx("Ribs2", (4, 0, 7), (12, 2.5, 8), "bone"), bx("Ribs3", (4.5, 0, 9), (11.5, 2.2, 10), "bone"),
-        bx("Skull", (5.5, 0, -2), (10.5, 4, 2), "bone"), bx("Jaw", (4.5, 0, -6), (11.5, 1.5, -1), "bone"),
-        bx("Teeth", (5, 1.5, -6), (11, 2.3, -4), "bone"),
-        bx("ArmL", (2, 0, 4), (3, 1, 12), "bone"), bx("ArmR", (13, 0, 4), (14, 1, 12), "bone"),
-        bx("LegL", (6, 0, 14), (7, 1, 24), "bone"), bx("LegR", (9, 0, 14), (10, 1, 24), "bone")],
-         box=(0.1, 0, 0, 0.9, 0.25, 1), collide=False, material="Stone", sounds=STONE, extra={"drops": drops(("game:bone", 3, 1))})
-    rib = []
-    for i, z in enumerate((2, 6, 10, 14)):
-        rib += [bx(f"RibL{i}", (-2, 0, z), (0, 28, z + 1.5), "bone", rot=(0, 0, -12), origin=(-1, 0, z)),
-                bx(f"RibR{i}", (16, 0, z), (18, 28, z + 1.5), "bone", rot=(0, 0, 12), origin=(17, 0, z))]
-    prop("ribcage", "Enormous Ribs", rib + [bx("Spine", (4, 28, 0), (12, 31, 16), "bone")], box=(0, 0, 0, 1, 0.25, 1), collide=False,
+    prop("jawskeleton", "Skeleton", BK.jawskeleton(), box=(0.1, 0, 0, 0.9, 0.25, 1), collide=False, material="Stone", sounds=STONE,
+         extra={"drops": drops(("game:bone", 3, 1))})
+    prop("ribcage", "Enormous Ribs", BK.ribcage(), box=(0, 0, 0, 1, 0.25, 1), collide=False,
          material="Stone", sounds=STONE)
     prop("backpack", "Lost Backpack", [
         bx("Bag", (4, 0, 5), (12, 9, 11), "canvas"), bx("Flap", (4, 7, 4.5), (12, 10, 11), "canvas"),
