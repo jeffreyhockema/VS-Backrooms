@@ -96,7 +96,8 @@ public class BlockBackroomsBed : Block
         if (!world.Claims.TryAccess(byPlayer, blockSel.Position, EnumBlockAccessFlags.Use)) return false;
         BlockPos head = HeadPos(blockSel.Position);
         // (A half whose other half is gone cannot be slept on)
-        if (world.BlockAccessor.GetBlock(head) is not BlockBackroomsBed { IsHead: true }) return false;
+        if (world.BlockAccessor.GetBlock(head) is not BlockBackroomsBed { IsHead: true } headBlock
+            || (!head.Equals(blockSel.Position) && !IsPartOfSameBed(headBlock))) return false;
 
         // The one rule both sides share: vanilla tiredness above 8 (the fatigue behaviour drives it from awake hours)
         if (byPlayer.Entity.GetBehavior("tiredness") is EntityBehaviorTiredness { Tiredness: <= 8f })
@@ -130,8 +131,39 @@ public class BlockBackroomsBed : Block
     private void Refuse(IWorldAccessor world, IPlayer player, string code, string langKey)
     {
         if (world.Side == EnumAppSide.Client) (api as ICoreClientAPI)?.TriggerIngameError(this, code, Lang.Get(langKey));
-        else (player as IServerPlayer)?.SendIngameError(code, Lang.Get(langKey));
+        else if (player is IServerPlayer sp) sp.SendIngameError(code, Say.T(sp, langKey));
     }
+
+    /// <summary>
+    /// A two-block bed that picks up as its head (<c>bedDropHead</c>) is placed the way the vanilla bed is: the head half
+    /// goes on the far side of the clicked block, the foot on it, both facing so that the foot lies in the direction
+    /// <c>bedFoot</c> says. Other blocks place as one block.
+    /// </summary>
+    public override bool TryPlaceBlock(IWorldAccessor world, IPlayer byPlayer, ItemStack itemstack, BlockSelection blockSel, ref string failureCode)
+    {
+        if (Attributes?["bedDropHead"].AsBool() != true || !IsTwoBlock || !Variant.ContainsKey("part"))
+            return base.TryPlaceBlock(world, byPlayer, itemstack, blockSel, ref failureCode);
+        if (!world.Claims.TryAccess(byPlayer, blockSel.Position, EnumBlockAccessFlags.BuildOrBreak))
+        {
+            byPlayer.InventoryManager.ActiveHotbarSlot.MarkDirty();
+            return false;
+        }
+        if (!CanPlaceBlock(world, byPlayer, blockSel, ref failureCode)) return false;
+        BlockFacing f = SuggestedHVOrientation(byPlayer, blockSel)[0];
+        var headSel = new BlockSelection { Position = blockSel.Position.AddCopy(f), Face = BlockFacing.UP };
+        if (!CanPlaceBlock(world, byPlayer, headSel, ref failureCode)) return false;
+        // (The foot lies from the head toward the clicked block, which is f.Opposite from the head)
+        string side = Attributes["bedFoot"].AsString() == "side" ? f.Opposite.Code : f.Code;
+        Block head = Half("head", side, world), foot = Half("feet", side, world);
+        if (head == null || foot == null) return false;
+        head.DoPlaceBlock(world, byPlayer, headSel, itemstack);
+        foot.DoPlaceBlock(world, byPlayer, blockSel, itemstack);
+        return true;
+    }
+
+    /// <summary>The block of this bed's family for a part and a side, or null.</summary>
+    private Block Half(string part, string side, IWorldAccessor world) =>
+        world.GetBlock(BlockCodes.WithVariant(this, "part", part)) is { } p ? world.GetBlock(BlockCodes.WithVariant(p, "side", side)) : null;
 
     public override void OnBlockRemoved(IWorldAccessor world, BlockPos pos)
     {
@@ -157,7 +189,7 @@ public class BlockBackroomsBed : Block
 
     public override ItemStack[] GetDrops(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier = 1f)
     {
-        if (Attributes?["bedDropHead"].AsBool() == true && (Drops == null || Drops.Length == 0) && HeadStack(world) is { } stack)
+        if (Attributes?["bedDropHead"].AsBool() == true && HeadStack(world) is { } stack)
             return new[] { stack };
         return base.GetDrops(world, pos, byPlayer, dropQuantityMultiplier);
     }

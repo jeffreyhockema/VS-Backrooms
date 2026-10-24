@@ -407,23 +407,5 @@
 		"bedFoot": "side",
 		"bedDropHead": true,
 		"bedBreakPartner": true
-	},
-	"drops": [
-		{
-			"type": "item",
-			"code": "game:cloth-plain",
-			"quantity": {
-				"avg": 2,
-				"var": 0.5
-			}
-		},
-		{
-			"type": "block",
-			"code": "game:linen-normal-down",
-			"quantity": {
-				"avg": 0.1,
-				"var": 0
-			}
-		}
-	]
+	}
 }

@@ -51,7 +51,6 @@ def bedroom():
            box=(0, 0, 0, 1, 0.6875, 1), material="Cloth", sounds=CLOTH, data={
                "class": "BackroomsBed", "entityClassByType": {"*-head-*": "BackroomsBed"}, "resistance": 2,
                "attributes": dict(FURN, sleepEfficiency=0.8, restQuality=1.0, bedFoot="side", bedDropHead=True, bedBreakPartner=True),
-               "drops": drops((CLOTHI, 2, 0.5), ("block:game:linen-normal-down", 0.1, 0)),
                "creativeinventory": {"general": ["l188-bed-l-head-north"], "backrooms": ["l188-bed-l-head-north"]}},
            comment="Level 188: half of a double bed (l/r: the half on the left/right of someone lying in it), a real bed (the mod's BackroomsBed, side = head toward feet): "
                    "grey upholstered base, white duvet, two pillows, a grey throw across the foot")
