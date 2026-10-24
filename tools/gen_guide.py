@@ -308,6 +308,7 @@ What you make comes back whole: break a block you crafted (an axe or bare hands 
 
 **Backrooms recipes**
 - [Glass shiv](item-backrooms:glassshiv) (knife, 60 uses, cuts two a block) = glass shard + wallpaper strip + carpet fibre
+- [Glass spear](item-backrooms:glassspear) (spear, 12 uses, thrown or in the hand) = glass shard + carpet fibre + stick, one above the other
 - [Improvised scraper](item-backrooms:scraper) (knife, 180 uses, cuts two a block) = metal bracket + wallpaper strip + 2 carpet fibres
 - 1 dry grass = 2 wallpaper strips
 - 1 flax twine = 3 carpet fibres
