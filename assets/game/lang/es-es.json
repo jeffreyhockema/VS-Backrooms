@@ -1,3 +1,5 @@
 {
-	"title-tutorial-backrooms-firststeps": "Backrooms: Primeros Pasos"
+	"title-tutorial-backrooms-firststeps": "Backrooms: Primeros Pasos",
+	"playerrevival-remainingtime": "{0} minutos del juego para que otro jugador te reviva. Tus pertenencias esperan junto a tu cuerpo, el tiempo que haga falta.",
+	"ingame-minutes-left-for-player-revival": "{0} minutos del juego para que otro jugador te reviva. Tus pertenencias esperan junto a tu cuerpo, el tiempo que haga falta."
 }

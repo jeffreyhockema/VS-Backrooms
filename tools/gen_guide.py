@@ -46,7 +46,7 @@ Note: This guide is purposely kept short. The other guides in the Guides tab are
 You have woken in Level 0, the Lobby: yellow wallpaper, damp carpet and humming lights, going on in every direction. Nothing grows here, it never rains, there are no seasons and no winter, and there is no one to be found. What you need was left behind by those who came before, in supply boxes, in the furniture, and in the building itself. A [wanderer's note](item-backrooms:wanderernote-door) is in your pocket: {rightmouse} with it in hand to read it. It will tell you the first three rules, and mark the nearest unopened supply box on your map (or, in a world made with less map, tell you which way it lies: see [Finding the Way](backrooms-finding)).
 
 **What is different here**
-- **You only ever wake up in Level 0.** Die anywhere and you wake in the Lobby; what you carried stays where you fell. A [temporal gear](item-gear-temporal) moves where you wake, but only within Level 0. See [Home and Expeditions](backrooms-home).
+- **You only ever wake up in Level 0.** Die anywhere and you wake in the Lobby, and what you carried waits in your body where you fell, for as long as it takes. A [temporal gear](item-gear-temporal) moves where you wake, but only within Level 0. See [Home and Expeditions](backrooms-home).
 - **Nothing grows in Levels 0 to 5.** Trees, grass and animals exist only on the open-sky levels far out (9, 10, 11 and 94). Your first tools, fire and bags all come from salvage.
 - **The levels nest like rings.** Walk far enough from where you woke and the Lobby gives way to Level 1, then 2, and so on. The walls between them break only below their roof line, and have a doorway through every few hundred blocks. See [Finding the Way](backrooms-finding).
 - **Hunger runs a quarter faster** than usual, and faster still in the hot levels. There is no thirst. See [Food, Heat and Cold](backrooms-food).
@@ -192,7 +192,10 @@ PAGES["home"] = ("Game Mechanic: Home and Expeditions", """
 **Home and Expeditions**
 *You only ever wake up in Level 0. Make it somewhere worth waking up.*
 
-The Backrooms are survived from a home, in expeditions. Everything that follows is built on one fact: however deep you go, when you die you wake in the Lobby, with nothing, and what you carried lies where you fell, in a level you cannot wake up in.
+The Backrooms are survived from a home, in expeditions. Everything that follows is built on one fact: however deep you go, when you die you wake in the Lobby, with nothing, and what you carried lies in your body where you fell, in a level you cannot wake up in.
+
+**Your body**
+Where you fell, your body lies, in your own skin and clothes, with everything you carried inside it. It does not go away, and nothing eats it: it waits as long as it takes, and after a few in-game days it is only bones, still holding all of it. The map marks each body of yours with a skull and pins the newest one, so it shows at the edge of the minimap when it is far away. {rightmouse} it to search it like a chest, or {shift} and {rightmouse} to take everything that fits. When it is empty it crumbles, and its mark goes with it. What you were wearing stays on you.
 
 **Where you wake**
 Where you woke is home until you move it; the map marks it as "Where I woke up". To move it, hold a [temporal gear](item-gear-temporal) and {rightmouse} the floor anywhere in Level 0. Anywhere else it will not take hold (and is not used up). Gears are very rare: a sealed supply box holds one about once in a hundred, deep caches a little more often, and the prize counter of Level 3999 sells one for 200 tickets. Good places to call home: the Manila Room (nothing hostile goes in, and it steadies you), beside a way out you know, and beside a flooded room, for water.
