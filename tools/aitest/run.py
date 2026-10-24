@@ -973,6 +973,8 @@ ISO_HOUND_CASES = [("iso-hound-nerve", t_iso_hound_nerve), ("iso-hound-back-turn
 
 HOUND_AT_RE = re.compile(r"\[backrooms\] hound #(\d+) at (-?\d+),(-?\d+),(-?\d+): starts:")
 FLICKER_DELAY_RE = re.compile(r"flicker: the Hounds come in ([\d.]+) s")
+CUE_RE = re.compile(r"\[backrooms\] sound (\S+) for")
+BAND_RE = re.compile(r"hound x\d+ \(\w+\) for .*band (\w+)")
 
 
 def t_p7_flicker(c):
@@ -994,26 +996,37 @@ def t_p7_flicker(c):
         m = c.srv.mark()
         t0 = time.time()
         c.srv.cmd("/backrooms flicker")
+        # Another menacing entity about (a Wretch stalking): the Hounds must come all the same
+        time.sleep(0.5)
+        if dummy:
+            c.srv.cmd("/backrooms encounter wretch stalk %d %d" % (dummy[0], dummy[1]))
         r = c.srv.wait(lambda l: ("lights fail" in l and l) or ("Needs a player" in l and l) or ("Hounds are coming" in l and l), m, 10)
         if not r or "lights fail" not in r:
             ev = "attempt %d: flicker reply: %s" % (attempt + 1, r)
             continue
         first = None
+        cue_at = None
         end = time.time() + 45
         while time.time() < end and first is None:
+            if cue_at is None and any(CUE_RE.search(l) for l in c.srv.since(m)):
+                cue_at = time.time() - t0
             for l in c.srv.since(m):
                 mm = HOUND_AT_RE.search(l)
                 if mm:
                     first = (time.time() - t0, int(mm.group(2)), int(mm.group(4)), mm.group(1))
                     break
             time.sleep(0.2)
+        cues = [mm.group(1) for mm in (CUE_RE.search(l) for l in c.srv.since(m)) if mm]
+        band = next((mm.group(1) for mm in (BAND_RE.search(l) for l in c.srv.since(m)) if mm), "?")
         delay = next((float(mm.group(1)) for mm in (FLICKER_DELAY_RE.search(l) for l in c.srv.since(m)) if mm), None)
         if first is None:
             ev = "attempt %d: no Hound put down in 45 s (delay %s)" % (attempt + 1, delay)
             continue
         off = ((first[1] - dummy[0]) ** 2 + (first[2] - dummy[1]) ** 2) ** 0.5
         ev = "attempt %d: delay %.1f s, first Hound at %.1f s, %.0f blocks off" % (attempt + 1, delay or -1, first[0], off)
-        late_enough = first[0] >= 7.5 and delay is not None and 8 <= delay <= 15.1
+        cue_ok = len(cues) >= 1 and all("wolf" in x for x in cues) and cue_at is not None and cue_at <= 4.8
+        ev += "; first cue at %s s, cues %s; band %s" % (cue_at, cues, band)
+        late_enough = first[0] >= 4.5 and delay is not None and 5 <= delay <= 10.1 and cue_ok
         # Run the dummy away: while the lights are out it must not be called off for lack of blood nor leave, and ends up hunting or searching
         c.srv.cmd("/backrooms dummy run on")
         c.srv.cmd("/backrooms dummy move 30 0")
