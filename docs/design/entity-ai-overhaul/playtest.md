@@ -112,3 +112,44 @@ gives the numbers to set against what you feel.
 9. Sounds: minutes apart at the least. Long stretches of nothing but the hum are the norm.
 10. Paste the output of `/backrooms ratecheck` for Levels 0, 1, 4 and 9, in the heartland band (say 20 hours each), and
     say how it compares with what you saw. The Creatures tab's "Rate check here" button runs the same for where you stand.
+
+## 10. Round 5: dial-in
+
+What round 5 (`dialin.md`, decisions 19 to 34) should feel like: on Normal, a creature about every ten to twelve minutes
+in Level 1's heart, Level 3 busy, Level 10 empty, and a Level 94 night with something in it. Play a fresh world on the
+build from the merged round, on Normal unless a step says otherwise. The rates are in minutes; `/backrooms ratecheck`
+gives the numbers to set against what you feel, and `/backrooms feltrate` (below) the spawns that actually land.
+
+1. Level 1's heart, Normal: walk it for half an hour. Expect a creature about every 10 to 12 minutes and a sound every
+   few. A quarter of an hour with nothing is normal; two creatures in a quarter of an hour is too many. Note when.
+2. Level 1's edge: a creature every 4 to 5 minutes or so. More than two in a minute is too many.
+3. The Flickering: when a section's lights fail, Hounds come and hunt until the lights return. It never starts while
+   something else is about you. If one begins a few seconds after a sighting, that is a bug: note the time and what came
+   before it.
+4. Level 1 has no Hound packs in its dens. The bones and the grey hives are still there, with rats or nothing inside. A
+   Hound in Level 1 comes from a dark section or a Flickering, never from a den.
+5. The Screaming is Level 2's: rare, near its edges, a pack of Death Rats that runs past. It never happens in Level 1.
+6. Level 3 is busy: expect something on most walks (a Duller, Skin-Stealers, a Clump). Compared with Level 4, it should
+   feel like a different place. Two kinds at once are allowed here.
+7. Level 4 stays calm: a Duller now and then, a Hound seldom.
+8. Level 10 is empty of anything hostile. No Hounds at its edge, no Clumps by the barns. Only the worms underfoot.
+9. Levels 8 and 9 are busy: off the lit road in Level 8, and in the Suburbs' dark streets, something turns up on most walks.
+10. Level 94 at night: stand in the hills after dusk for ten minutes (the first visit was five, partly still). Expect
+    something in sight within that time, often sooner. Standing still for a few seconds is the doll's protection, so
+    test that too. By day, and indoors, nothing comes. If ten real minutes pass with nothing in sight, say so, with
+    where you stood.
+11. Two kinds at once: never in Levels 0, 1, 4, 5, 6, 10 and 11 (outside the set-pieces); allowed in Levels 2, 3, 7, 8,
+    9, 94 and Fun. The entity log (`entitylog on`) shows which kind came first.
+12. Settings: in new worlds, compare Very low, Normal and Very high for half an hour each in Level 1's heart. Very low
+    should feel about three and a half times rarer than Normal; Very high about two and a half times busier, with more
+    hunters and harder hits.
+    Off leaves only sounds. Say which setting you played.
+13. Creative: `/backrooms creativehunts` toggles whether a creative player is hunted (the Creatures tab button "Creative is
+    hunted on/off" does the same). Off: creative sees glimpses only, as before. On: stalkers and hunters, and the set-pieces,
+    reach you in creative too. Check both, and that toggling back restores the glimpses.
+14. Facelings: in Levels 1, 4 and 5 about one every 8 minutes, and about one every 15 elsewhere. Level 11 keeps its small
+    groups.
+15. Paste the output of `/backrooms feltrate <level> [band]` for Levels 1, 3, 9 and 94 (Level 1 and 3 in the heartland,
+    Level 9 at the edge, Level 94 in the hills at night), and of `/backrooms ratecheck` for the same four, and say how
+    they compare with what you felt. Any count of refused spawns (no floor, in sight, den dweller) goes in too.
+    `/backrooms menace` shows the refused body rolls for your level.

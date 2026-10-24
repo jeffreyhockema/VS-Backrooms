@@ -216,3 +216,32 @@ Branch `iso/ambient`. New `src/Entities/MenaceSystem.Ambient.cs` holds `SpawnAmb
   `p1-hunt-to-search` 6/6, zero error lines.
 - Still to check in a client: everything in playtest.md section 9 (above all the four Hound counters, doors headless-
   untested, and the felt rate of bodies and sounds).
+
+### P7, round 5 (2026-10-23): piece C, docs
+
+Branch `dialin/docs` (worktree `VS Backrooms-dialin-docs`, from `p7/dialin`). Docs only; no .cs, worldconfig.json or run.py touched.
+- `tools/gen_guide.py`: a new "The setting" bullet in the entities page's "How danger works" names the six Backrooms
+  entities settings with what each changes (the rarest is Very low, about one creature in forty minutes in Level 1's
+  heart; Normal every ten to twelve; High and Very high add hunters, more at once, harder hits). Level 10 is empty: its
+  levels line says nothing hostile lives there, and the entities page's calm line, the Hounds' header (no longer "the
+  edge of 10") and the Clumps' header (no longer "by Level 10's barns") agree. The Screaming is Level 2's: the entities
+  line says "the edges of Level 2" and "a pack of Death Rats". Levels 3, 8 and 9 each say they are busy compared with
+  Levels 0, 1 and 4. The Flickering bullet says it never starts while something else is about you.
+  Note: the entities page had no world-setting paragraph before, so the setting text is new, not an edit.
+- `docs/design/entity-difficulty.md`: section 3d (the six settings and damage/spawn table, bands and hard gap, the
+  solitude changes, the Level 1 Normal rates and worked examples, one kind at a time by class).
+- `playtest.md`: section 10 "Round 5: dial-in", 15 steps (Level 1 heart and edge, the Flickering, Level 1 dens, the
+  Screaming, Levels 3, 4, 8, 9, 10, 94 by night, two kinds at once, settings, creative toggle, Facelings, paste outputs).
+- `CHANGELOG.md` Unreleased: one entry for the round (the player's view, no mechanism names beyond the setting and
+  command). Also corrected the round 1 entry's Screaming sentence to "Death Rats in Level 2" only, since the Screaming is
+  Level 2's alone now.
+- README Status row for P7: "round 5 (dial-in) in progress, see dialin.md".
+- Spanish: `worldconfig-es-419.json` and `worldconfig-es-es.json` contain no "Verylow" yet (they still have Low/High only),
+  so no Spanish wording was checked. For the overseer: when piece A adds the keys, the Spanish check is theirs.
+- gen_guide: `python tools/gen_guide.py` ran with "links ok"; it rewrote `assets/backrooms/lang/en.json` (4 lines).
+  `python tools/gen_notes.py --check`: exit 0, no complaints, so no verbatim phrase had to be restored.
+- Could not check: the in-game handbook rendering (the lang text only); the Level 94 rate claims (depend on the
+  headless night test, dialin.md section 7); the six settings' rates against the code (piece A not merged here, so
+  `worldconfig.json` still has four values); the `/backrooms feltrate` and `creativehunts` commands named in the
+  playtest steps (pieces B, not merged here); VINTAGE_STORY was set but no script needed it.
+- Points for the overseer: the rates in the new text (Level 1 heartland 12 min Normal, Very low about 40 min, Low about 20, High about 8, Very high about 5) are the dialin.md 3.1 numbers worked out by hand; check them against `/backrooms ratecheck` after the merge and adjust the handbook sentence if they differ.
