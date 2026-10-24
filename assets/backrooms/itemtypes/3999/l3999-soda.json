@@ -49,12 +49,16 @@
 			"foodcategory": "NoNutrition"
 		}
 	},
+	"class": "BackroomsAlmondWater",
 	"attributes": {
 		"handbook": {
 			"groupBy": [
 				"l3999-soda-*"
 			]
 		},
+		"stabilityRestored": 0,
+		"wardsDullers": false,
+		"hydration": 300,
 		"groundStorageTransform": {
 			"origin": {
 				"x": 0.5,

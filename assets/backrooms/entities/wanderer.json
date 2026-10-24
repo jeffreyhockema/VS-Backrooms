@@ -111,6 +111,32 @@
 						}
 					},
 					{
+						"code": "backrooms:almondwaterblue",
+						"type": "item",
+						"stacksize": 1,
+						"stock": {
+							"avg": 2,
+							"var": 0.5
+						},
+						"price": {
+							"avg": 2,
+							"var": 0.5
+						}
+					},
+					{
+						"code": "backrooms:almondwatergreen",
+						"type": "item",
+						"stacksize": 1,
+						"stock": {
+							"avg": 2,
+							"var": 0.5
+						},
+						"price": {
+							"avg": 2,
+							"var": 0.5
+						}
+					},
+					{
 						"code": "game:candle",
 						"type": "item",
 						"stacksize": 3,

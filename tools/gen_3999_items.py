@@ -81,7 +81,8 @@ def items():
         "variantgroups": [{"code": "flavour", "states": list(flavours)}], "maxstacksize": 8, "creativeinventory": INV, "materialDensity": 600,
         "textureByType": {f"l3999-soda-{f}": {"base": f"item/3999/soda-{f}"} for f in flavours},
         "nutritionPropsByType": {f"l3999-soda-{f}": {"satiety": 100, "foodcategory": "Fruit" if f == "cherry" else "NoNutrition"} for f in flavours},
-        "attributes": {"handbook": {"groupBy": ["l3999-soda-*"]}},
+        "class": "BackroomsAlmondWater",
+        "attributes": {"handbook": {"groupBy": ["l3999-soda-*"]}, "stabilityRestored": 0, "wardsDullers": False, "hydration": 300},
     }, **SPRITE)), "Paradise Pop: a can of neon soda from the vending machines (cherry, lime, grape)")
     for f, n in flavours.items():
         LANG[f"item-l3999-soda-{f}"] = f"Paradise Pop ({n})"

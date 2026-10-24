@@ -191,7 +191,9 @@ public partial class HubSystem : ModSystem
         AssetLocation code = drop?.Code;
         if (code == null) return false;
         string p = code.Path;
-        if (code.Domain == "backrooms") return p is "almondwater" or "crackers" or "cannedbeans" or "chips" or "candybar" or "soda" or "waterbottle";
+        if (code.Domain == "backrooms")
+            return p is "almondwater" or "almondwaterblue" or "almondwatergreen" or "emptybottle" or "crackers" or "cannedbeans" or "chips" or "candybar" or "soda" or "waterbottle"
+                || p.StartsWith("bottledwater");
         return p.StartsWith("fruit-") || p.StartsWith("cheese-") || p.StartsWith("bandage");
     }
 

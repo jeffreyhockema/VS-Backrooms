@@ -346,7 +346,8 @@ def level61():
         bx("Glass", (2, 4, 1.5), (14, 25, 1.6), "fridgeglass", faces=("north",), full=True)] + drinks,
          box=(0.06, 0, 0.06, 0.94, 1.88, 0.94), material="Metal", sounds=METAL, light=[30, 1, 6],
          extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
-                "attributes": {"dispenses": ["backrooms:soda", "backrooms:waterbottle", "backrooms:almondwater", "backrooms:cashewwater"], "restock": True}})
+                "attributes": {"dispenses": ["backrooms:soda", "backrooms:waterbottle", "backrooms:almondwater", "backrooms:cashewwater",
+                                               "backrooms:almondwaterblue", "backrooms:almondwatergreen"], "restock": True}})
 
     # The heap of a vending machine room ("unenterable due to the sheer amount of vending machines piled on top of each
     # other"): dead machines standing, toppled onto their backs, and lying across the tops of the standing ones
@@ -355,10 +356,13 @@ def level61():
 
     food("chips", "Bag of Chips", 160, "Grain", "Salty, crisp, and from nowhere.")
     food("candybar", "Chocolate Bar", 200, "Dairy", "Sweet enough to make you forget where you are, almost.")
-    food("soda", "Can of Soda", 90, "NoNutrition", "Fizzy and far too sweet. Nobody knows who stocks the fridges.", stack=8)
+    food("soda", "Can of Soda", 90, "NoNutrition", "Fizzy and far too sweet. Nobody knows who stocks the fridges.", stack=8,
+         extra={"class": "BackroomsAlmondWater", "attributes": {"stabilityRestored": 0, "wardsDullers": False, "hydration": 300}})
     food("cashewwater", "Cashew Water", 140, "NoNutrition", "Like Almond Water, but nuttier. It steadies you a little, though not as much.",
-         health=1, stack=8, extra={"class": "BackroomsAlmondWater", "attributes": {"stabilityRestored": 0.08}})
-    food("waterbottle", "Bottle of Water", 100, "NoNutrition", "Plain water. Down here, that's rare.", health=1, stack=8)
+         health=1, stack=8, extra={"class": "BackroomsAlmondWater", "attributes": {"stabilityRestored": 0.08, "hydration": 600, "satietyWhenThirst": 0, "leavesBottle": "backrooms:emptybottle"}})
+    food("waterbottle", "Bottle of Water", 100, "NoNutrition", "Plain water. Down here, that's rare.", health=1, stack=8,
+         extra={"class": "BackroomsAlmondWater", "attributes": {"stabilityRestored": 0, "wardsDullers": False, "hydration": 600, "satietyWhenThirst": 0,
+                                                              "leavesBottle": "backrooms:emptybottle"}})
 
 
 def dead_machine(pose):

@@ -10,6 +10,8 @@
 	creativeinventory: { "general": ["*"], "items": ["*"] },
 	// Drunk like food: holding right click raises the bottle (drink sound and hint come from BackroomsAlmondWater)
 	nutritionProps: { satiety: 120, health: 1, foodcategory: "NoNutrition" },
+	// Thirst on: hydrates 40% of the meter, gives no satiety, leaves its bottle (BackroomsAlmondWater reads these)
+	attributes: { hydration: 600, satietyWhenThirst: 0, leavesBottle: "backrooms:emptybottle" },
 	materialDensity: 1000,
 	// Items are drawn in the inventory with the screen's y axis down and no extra half turn (blocks get 180 added), so the
 	// usual -22.6 would stand the bottle on its cap: 180 + 22.6 puts it the right way up, seen from above

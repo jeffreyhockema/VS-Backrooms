@@ -120,6 +120,7 @@ public class ItemRedWater : Item
         if (byEntity.World.Side != EnumAppSide.Server || slot.StackSize >= before) return;
 
         if (byEntity.GetBehavior<EntityBehaviorHealth>() is { } health) health.Health = health.MaxHealth;
+        Backrooms.Needs.Water.Drinks.Hydrate(this, byEntity);
         double cap = Math.Max(CapFloor, byEntity.WatchedAttributes.GetDouble(PoolSystem.CapKey, 1) - CapLoss);
         byEntity.WatchedAttributes.SetDouble(PoolSystem.CapKey, cap);
         if (byEntity is EntityPlayer { Player: IServerPlayer player })

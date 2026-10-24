@@ -1440,6 +1440,8 @@ def trade(code, price, stock=2, stack=1, kind="item"):
 
 WANDERER_SELLS = [
     trade("backrooms:almondwater", 1, 6, 2),
+    trade("backrooms:almondwaterblue", 2, 2, 1),
+    trade("backrooms:almondwatergreen", 2, 2, 1),
     trade("game:candle", 1, 4, 3),
     trade("backrooms:crackers", 1, 4, 3),
     trade("backrooms:cannedbeans", 2, 3, 2),

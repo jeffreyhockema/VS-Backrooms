@@ -2773,5 +2773,27 @@
 
 	"block-improvbed-*": "Makeshift Bed",
 	"block-leanto-*": "Lean-To",
-	"block-poolwall-archtop-*": "Tiled Archway (Arched Head)"
+	"block-poolwall-archtop-*": "Tiled Archway (Arched Head)",
+
+	"item-almondwaterblue": "Blue Almond Water",
+	"itemdesc-almondwaterblue": "Almond Water with a blue cap, cold to the touch. It steadies you more than the plain kind, and your eyelids go heavy at once. Drink it when you mean to sleep.",
+	"item-almondwatergreen": "Green Almond Water",
+	"itemdesc-almondwatergreen": "Almond Water with a green cap, bitter under the sweetness. It steadies you a little and keeps the tiredness off for ten hours. When it wears off, all of it arrives at once.",
+	"item-emptybottle": "Empty Bottle",
+	"itemdesc-emptybottle": "A glass bottle with nothing in it. Right-click water to fill it.",
+	"item-bottledwater-clean": "Bottle of Clean Water",
+	"itemdesc-bottledwater-clean": "Clear and cold. Safe to drink.",
+	"item-bottledwater-murky": "Bottle of Murky Water",
+	"itemdesc-bottledwater-murky": "Brown, with a skin of silt. It will hydrate you, a little, and your stomach may not forgive it. Boil it in a firepit to make it clean.",
+	"item-bottledwater-salt": "Bottle of Salt Water",
+	"itemdesc-bottledwater-salt": "Brine from the sea. Drinking it dries you out. Boiling does not help.",
+	"heldhelp-fillbottle": "Fill with water",
+	"iteminfo-hydration": "Hydration: {0}%",
+	"iteminfo-stability": "Stability: {0}%",
+	"drink-clean": "Cool and clean. You feel better.",
+	"drink-tainted": "It tastes of old pipes and dust.",
+	"drink-sick": "Your stomach turns.",
+	"drink-salt": "It's brine. Your throat burns.",
+	"drink-scald": "The water is scalding!",
+	"dispenser-restocks-slowly": "Sold out. It restocks once a fortnight."
 }

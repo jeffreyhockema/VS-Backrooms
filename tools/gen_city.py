@@ -2016,7 +2016,8 @@ def props():
         bx("UmbrellaEdge", (-6, 34, -6), (22, 36, 22), "canopy", faces=("north", "south", "east", "west"))],
          box=(0, 0, 0.18, 1, 1.12, 0.82), material="Metal", sounds=METAL,
          extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
-                "attributes": {"dispenses": ["backrooms:almondwater", "backrooms:almondwater", "backrooms:waterbottle"], "restock": True}},
+                "attributes": {"dispenses": ["backrooms:almondwater", "backrooms:almondwater", "backrooms:waterbottle",
+                                               "backrooms:almondwaterblue", "backrooms:almondwatergreen"], "restock": True}},
          comment="A street vendor's cart, still selling Almond Water. Nobody is minding it")
     rack = [bx("Rail", (0, 24, 7.5), (16, 25, 8.5), "chrome"), bx("PostL", (0.5, 0, 7.5), (1.5, 25, 8.5), "chrome"),
             bx("PostR", (14.5, 0, 7.5), (15.5, 25, 8.5), "chrome"), bx("Feet", (0, 0, 4), (16, 1, 12), "chrome")]

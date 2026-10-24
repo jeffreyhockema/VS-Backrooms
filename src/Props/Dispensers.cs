@@ -63,19 +63,43 @@ public class BlockEntityDispenser : BlockEntity
 {
     private const double RestockDays = 7;
 
+    /// <summary>With thirst on, an Almond Water seep still fills up, but only once a fortnight and with a few portions.</summary>
+    private const double SeepRestockDays = 14;
+
     /// <summary>Items left; rolled when first loaded, then saved with the block.</summary>
     private int stock = -1;
     private double emptySinceDay = -1;
 
-    private bool Restocks => Block?.Attributes?["restock"].AsBool() == true;
+    /// <summary>
+    /// Water is as scarce as food (docs/design/needs/README.md section 3): with thirst on, a dispenser that hands out only drinks
+    /// (every item it gives has a <c>hydration</c>) never restocks, and holds just its one-time stock, except the Level 8 seeps.
+    /// Food dispensers, and every dispenser with thirst off, are as they always were.
+    /// </summary>
+    private bool ScarceDrinks => Needs.Needs.ThirstOn(Api.World) && GivesOnlyDrinks();
+
+    private bool Seep => Block?.Code?.Path.StartsWith("almondseep") == true;
+
+    private bool Restocks => Block?.Attributes?["restock"].AsBool() == true && (!ScarceDrinks || Seep);
+
+    private double RestockAfterDays => ScarceDrinks && Seep ? SeepRestockDays : RestockDays;
+
+    private bool GivesOnlyDrinks()
+    {
+        string[] options = Block?.Attributes?["dispenses"].AsArray<string>();
+        if (options is not { Length: > 0 }) options = new[] { "backrooms:almondwater" };
+        foreach (string code in options)
+            if (Api.World.GetItem(new AssetLocation(code))?.Attributes?["hydration"].Exists != true) return false;
+        return true;
+    }
 
     /// <summary>
-    /// A full load, scaled by the world's scarcity: 1-3 items, or 4-8 for one that restocks. On Scarce one that restocks
-    /// always gets at least one; one that doesn't may be found empty.
+    /// A full load, scaled by the world's scarcity: 1-3 items, or 4-8 for one that restocks (1-3 for a drink dispenser, which
+    /// keeps what it holds: a seep's refill too). On Scarce one that restocks always gets at least one; one that doesn't may
+    /// be found empty.
     /// </summary>
-    private int RollStock() => Restocks
+    private int RollStock() => Restocks && !ScarceDrinks
         ? ScarcitySystem.Portions(Api.World, Api.World.Rand.Next(4, 9), min: 1)
-        : ScarcitySystem.Portions(Api.World, Api.World.Rand.Next(1, 4));
+        : ScarcitySystem.Portions(Api.World, Api.World.Rand.Next(1, 4), min: Restocks ? 1 : 0);
 
     public override void Initialize(ICoreAPI api)
     {
@@ -88,7 +112,7 @@ public class BlockEntityDispenser : BlockEntity
     {
         if (Api.Side != EnumAppSide.Server) return;
         // A week to restock, longer where food is scarcer (three weeks on Scarce) and half that on Plentiful
-        if (stock <= 0 && Restocks && emptySinceDay >= 0 && Api.World.Calendar.TotalDays - emptySinceDay >= RestockDays / ScarcitySystem.FoodScale(Api.World))
+        if (stock <= 0 && Restocks && emptySinceDay >= 0 && Api.World.Calendar.TotalDays - emptySinceDay >= RestockAfterDays / ScarcitySystem.FoodScale(Api.World))
         {
             stock = RollStock();
             emptySinceDay = -1;
@@ -123,7 +147,7 @@ public class BlockEntityDispenser : BlockEntity
         if (Block?.Attributes?["stockless"].AsBool(false) == true) return; // (Level 3999's: never empty)
         // (-1: not rolled yet, or not sent yet. Unknown, not empty)
         if (stock < 0) return;
-        dsc.AppendLine(stock > 0 ? Lang.Get("backrooms:dispenser-stock", stock) : Lang.Get(Restocks ? "backrooms:dispenser-restocks" : "backrooms:dispenser-empty"));
+        dsc.AppendLine(stock > 0 ? Lang.Get("backrooms:dispenser-stock", stock) : Lang.Get(Restocks ? (ScarceDrinks ? "backrooms:dispenser-restocks-slowly" : "backrooms:dispenser-restocks") : "backrooms:dispenser-empty"));
     }
 
     public override void ToTreeAttributes(ITreeAttribute tree)

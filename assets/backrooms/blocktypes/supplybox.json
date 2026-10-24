@@ -16,6 +16,9 @@
 	// of walking at the Backrooms' 125% hunger, which burns about 1.2 a second on the move.
 	drops: [
 		{ type: "item", code: "almondwater", quantity: { avg: 0.8, var: 0.6 } },
+		// The rarer flavours: Blue (steadier, sleep) and Green (holds tiredness off)
+		{ type: "item", code: "almondwaterblue", quantity: { avg: 0.05, var: 0 } },
+		{ type: "item", code: "almondwatergreen", quantity: { avg: 0.05, var: 0 } },
 		{ type: "item", code: "crackers", quantity: { avg: 0.5, var: 0.5 } },
 		{ type: "item", code: "cannedbeans", quantity: { avg: 0.3, var: 0.3 } },
 		// What a wanderer before you scraped together

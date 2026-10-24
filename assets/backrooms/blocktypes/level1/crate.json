@@ -14,6 +14,8 @@
 	lightAbsorption: 99,
 	drops: [
 		{ type: "item", code: "almondwater", quantity: { avg: 0.6, var: 0.5 } },
+		{ type: "item", code: "almondwaterblue", quantity: { avg: 0.05, var: 0 } },
+		{ type: "item", code: "almondwatergreen", quantity: { avg: 0.05, var: 0 } },
 		{ type: "item", code: "crackers", quantity: { avg: 0.45, var: 0.45 } },
 		{ type: "item", code: "cannedbeans", quantity: { avg: 0.3, var: 0.3 } },
 		// Crate boards, bindings, scrap and the odd luxury

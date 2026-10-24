@@ -1,7 +1,10 @@
 using System;
+using System.Text;
 using Backrooms.Worldgen;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using Vintagestory.API.Common.Entities;
+using Vintagestory.API.Config;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 
@@ -110,11 +113,46 @@ public class RealitySystem : ModSystem
     }
 }
 
-/// <summary>Almond Water steadies the mind: drinking it restores some of the drinker's stability.</summary>
+/// <summary>
+/// Almond Water steadies the mind: drinking it restores some of the drinker's stability. It is also the mod's general drink class
+/// (docs/design/needs/README.md section 3), driven by the item's attributes: <c>stabilityRestored</c> (0.15 if absent), and with
+/// thirst on <c>hydration</c>, <c>satietyWhenThirst</c> (the satiety it gives instead of its food value), <c>sleepAid</c> (drowsy at
+/// once), <c>caffeineHours</c>, <c>taintChance</c> (gut rot), <c>leavesBottle</c> and <c>wardsDullers</c> (true if absent).
+/// </summary>
 public class ItemAlmondWater : Item
 {
     /// <summary>How much stability a drink restores, unless its <c>stabilityRestored</c> attribute says otherwise.</summary>
     private const double StabilityRestored = 0.15;
+
+    /// <summary>The nutrition this drink has while thirst is on (a copy of its own with <c>satietyWhenThirst</c>), made once.</summary>
+    private FoodNutritionProperties thirstProps;
+
+    private double Stability => Attributes?["stabilityRestored"].AsDouble(StabilityRestored) ?? StabilityRestored;
+
+    /// <summary>With thirst on a drink is no meal: its satiety is <c>satietyWhenThirst</c> (an item without the attribute keeps its own).</summary>
+    public override FoodNutritionProperties GetNutritionProperties(IWorldAccessor world, ItemStack itemstack, Entity forEntity)
+    {
+        FoodNutritionProperties props = base.GetNutritionProperties(world, itemstack, forEntity);
+        if (props == null || Attributes?["satietyWhenThirst"].Exists != true || !Backrooms.Needs.Needs.ThirstOn(world)) return props;
+        if (thirstProps == null)
+        {
+            thirstProps = props.Clone();
+            thirstProps.Satiety = Attributes["satietyWhenThirst"].AsFloat(0);
+            thirstProps.SaturationLossDelay = props.SaturationLossDelay;
+        }
+        return thirstProps;
+    }
+
+    /// <summary>The tooltip gains the hydration, and the stability, a drink gives.</summary>
+    public override void GetHeldItemInfo(ItemSlot inSlot, StringBuilder dsc, IWorldAccessor world, bool withDebugInfo)
+    {
+        base.GetHeldItemInfo(inSlot, dsc, world, withDebugInfo);
+        if (Backrooms.Needs.Water.Drinks.HydrationOf(this) is float hydration && Backrooms.Needs.Needs.ThirstOn(world))
+            dsc.AppendLine(Lang.Get("backrooms:iteminfo-hydration", Math.Round(hydration / Backrooms.Needs.Needs.MaxHydration * 100)));
+        double stability = Stability;
+        if (Math.Abs(stability) > 0.0005)
+            dsc.AppendLine(Lang.Get("backrooms:iteminfo-stability", (stability >= 0 ? "+" : "") + Math.Round(stability * 100)));
+    }
 
     /// <summary>Drunk, not eaten: the game's own drinking sound (four swallows), as a held cup of water makes. The arm
     /// raises the bottle to the mouth with the same "eat" pose every drink in the game uses, and it still counts as food.</summary>
@@ -140,10 +178,26 @@ public class ItemAlmondWater : Item
         base.tryEatStop(secondsUsed, slot, byEntity);
         if (byEntity.World.Side != EnumAppSide.Server || slot.StackSize >= before) return;
 
-        double stability = byEntity.WatchedAttributes.GetDouble("temporalStability", 1);
-        double restored = Attributes?["stabilityRestored"].AsDouble(StabilityRestored) ?? StabilityRestored;
-        byEntity.WatchedAttributes.SetDouble("temporalStability", Math.Min(1, stability + restored));
+        Backrooms.Needs.Water.Drinks.AddStability(byEntity, Stability);
         // ...and keeps the Dullers off for a while
-        Backrooms.Entities.AlmondWater.Drank(byEntity);
+        if (Attributes?["wardsDullers"].AsBool(true) != false) Backrooms.Entities.AlmondWater.Drank(byEntity);
+
+        // Thirst: the drink hydrates (nothing happens with thirst off), may help or hinder sleep, and leaves its bottle
+        if (!Backrooms.Needs.Needs.ThirstOn(byEntity.World)) return;
+        Backrooms.Needs.Water.Drinks.Hydrate(this, byEntity);
+        if (Attributes?["sleepAid"].AsBool(false) == true) Backrooms.Needs.Needs.MakeDrowsy(byEntity);
+        if (Attributes?["caffeineHours"].Exists == true) Backrooms.Needs.Needs.Caffeinate(byEntity, Attributes["caffeineHours"].AsDouble());
+        double taint = Attributes?["taintChance"].AsDouble(0) ?? 0;
+        if (taint > 0 && byEntity.World.Rand.NextDouble() < taint)
+        {
+            Backrooms.Needs.Needs.MakeSick(byEntity, Backrooms.Needs.Water.WaterClass.SickHours);
+            if (byEntity is EntityPlayer { Player: IServerPlayer sick })
+                sick.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(sick, "backrooms:drink-sick"), EnumChatType.Notification);
+        }
+        if (Attributes?["leavesBottle"].AsString() is string bottle)
+        {
+            Item empty = byEntity.World.GetItem(new AssetLocation(bottle));
+            if (empty != null) Backrooms.Needs.Water.Drinks.Give(byEntity, new ItemStack(empty));
+        }
     }
 }

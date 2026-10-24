@@ -595,6 +595,7 @@ public class ItemMemoryJuice : Item
         double stability = byEntity.WatchedAttributes.GetDouble("temporalStability", 1);
         byEntity.WatchedAttributes.SetDouble("temporalStability", Math.Min(1, stability + 0.2));
         byEntity.WatchedAttributes.SetDouble("backrooms:memoryUntil", byEntity.World.Calendar.TotalHours + 0.25);
+        Backrooms.Needs.Water.Drinks.Hydrate(this, byEntity);
     }
 }
 

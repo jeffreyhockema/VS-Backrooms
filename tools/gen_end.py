@@ -2395,7 +2395,7 @@ def items():
     itm("end-memoryjuice", ground_storable(dict({
         "class": "BackroomsMemoryJuice", "maxstacksize": 8, "shape": {"base": "item/end/memoryjuice"},
         "creativeinventory": {"general": ["*"], "items": ["*"]},
-        "nutritionProps": {"satiety": 20, "foodcategory": "NoNutrition"}, "materialDensity": 1000,
+        "nutritionProps": {"satiety": 20, "foodcategory": "NoNutrition"}, "materialDensity": 1000, "attributes": {"hydration": 100},
     }, **BOTTLE_TRANSFORMS), height=0.625), "Memory Juice: drink it for +0.2 stability and a while of feeling at home. The Junkies' currency")
 
 
