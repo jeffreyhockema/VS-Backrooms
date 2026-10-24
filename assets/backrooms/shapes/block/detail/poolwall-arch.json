@@ -7,11 +7,11 @@
 	},
 	"elements": [
 		{
-			"name": "Wall",
+			"name": "Back",
 			"from": [
 				0,
 				0,
-				0
+				2
 			],
 			"to": [
 				16,
@@ -19,21 +19,12 @@
 				16
 			],
 			"faces": {
-				"north": {
-					"texture": "#pooltile",
-					"uv": [
-						0,
-						0,
-						16,
-						16
-					]
-				},
 				"east": {
 					"texture": "#pooltile",
 					"uv": [
 						0,
 						0,
-						16,
+						14,
 						16
 					]
 				},
@@ -51,7 +42,7 @@
 					"uv": [
 						0,
 						0,
-						16,
+						14,
 						16
 					]
 				},
@@ -59,7 +50,7 @@
 					"texture": "#pooltile",
 					"uv": [
 						0,
-						0,
+						2,
 						16,
 						16
 					]
@@ -68,7 +59,7 @@
 					"texture": "#pooltile",
 					"uv": [
 						0,
-						0,
+						2,
 						16,
 						16
 					]
@@ -76,66 +67,136 @@
 			}
 		},
 		{
-			"name": "Arch",
+			"name": "JambL",
 			"from": [
-				3,
 				0,
-				-0.02
+				0,
+				0
 			],
 			"to": [
-				13,
-				12,
-				0.2
+				1,
+				16,
+				2
 			],
 			"faces": {
 				"north": {
-					"texture": "#archglow",
+					"texture": "#pooltile",
 					"uv": [
 						0,
 						0,
-						10,
-						12
-					],
-					"glow": 255
-				}
-			}
-		},
-		{
-			"name": "ArchTop",
-			"from": [
-				4.5,
-				12,
-				-0.02
-			],
-			"to": [
-				11.5,
-				14,
-				0.2
-			],
-			"faces": {
-				"north": {
-					"texture": "#archglow",
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
 					"uv": [
 						0,
 						0,
-						7.0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
 						2
-					],
-					"glow": 255
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
 				}
 			}
 		},
 		{
-			"name": "ArchCrown",
+			"name": "JambR",
 			"from": [
-				6.5,
-				14,
-				-0.02
+				15,
+				0,
+				0
 			],
 			"to": [
-				9.5,
+				16,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						15,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Glow",
+			"from": [
+				1,
+				0,
+				1.95
+			],
+			"to": [
 				15,
-				0.2
+				16,
+				2
 			],
 			"faces": {
 				"north": {
@@ -143,8 +204,8 @@
 					"uv": [
 						0,
 						0,
-						3.0,
-						1
+						16,
+						16
 					],
 					"glow": 255
 				}

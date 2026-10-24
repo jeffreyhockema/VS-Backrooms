@@ -1,0 +1,1290 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"archglow": "backrooms:block/detail/archglow",
+		"pooltile": "backrooms:block/detail/pooltile"
+	},
+	"elements": [
+		{
+			"name": "Back",
+			"from": [
+				0,
+				0,
+				2
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						2,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						2,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "JambL",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				1,
+				7,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						9,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						7
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						7
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "JambR",
+			"from": [
+				15,
+				0,
+				0
+			],
+			"to": [
+				16,
+				7,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						15,
+						9,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						7
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						7
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Glow",
+			"from": [
+				1,
+				0,
+				1.95
+			],
+			"to": [
+				15,
+				7,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#archglow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "HeadL0",
+			"from": [
+				0,
+				7,
+				0
+			],
+			"to": [
+				1,
+				8,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						8,
+						1,
+						9
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "HeadR0",
+			"from": [
+				15,
+				7,
+				0
+			],
+			"to": [
+				16,
+				8,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						15,
+						8,
+						16,
+						9
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Head0",
+			"from": [
+				1,
+				7,
+				1.95
+			],
+			"to": [
+				15,
+				8,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#archglow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "HeadL1",
+			"from": [
+				0,
+				8,
+				0
+			],
+			"to": [
+				1,
+				9,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						7,
+						1,
+						8
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "HeadR1",
+			"from": [
+				15,
+				8,
+				0
+			],
+			"to": [
+				16,
+				9,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						15,
+						7,
+						16,
+						8
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Head1",
+			"from": [
+				1,
+				8,
+				1.95
+			],
+			"to": [
+				15,
+				9,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#archglow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "HeadL2",
+			"from": [
+				0,
+				9,
+				0
+			],
+			"to": [
+				1.5,
+				10,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						6,
+						1.5,
+						7
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "HeadR2",
+			"from": [
+				14.5,
+				9,
+				0
+			],
+			"to": [
+				16,
+				10,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						14.5,
+						6,
+						16,
+						7
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Head2",
+			"from": [
+				1.5,
+				9,
+				1.95
+			],
+			"to": [
+				14.5,
+				10,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#archglow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "HeadL3",
+			"from": [
+				0,
+				10,
+				0
+			],
+			"to": [
+				2.0,
+				11,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						5,
+						2.0,
+						6
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "HeadR3",
+			"from": [
+				14.0,
+				10,
+				0
+			],
+			"to": [
+				16,
+				11,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						14.0,
+						5,
+						16,
+						6
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Head3",
+			"from": [
+				2.0,
+				10,
+				1.95
+			],
+			"to": [
+				14.0,
+				11,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#archglow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "HeadL4",
+			"from": [
+				0,
+				11,
+				0
+			],
+			"to": [
+				2.5,
+				12,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						4,
+						2.5,
+						5
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "HeadR4",
+			"from": [
+				13.5,
+				11,
+				0
+			],
+			"to": [
+				16,
+				12,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						13.5,
+						4,
+						16,
+						5
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Head4",
+			"from": [
+				2.5,
+				11,
+				1.95
+			],
+			"to": [
+				13.5,
+				12,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#archglow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "HeadL5",
+			"from": [
+				0,
+				12,
+				0
+			],
+			"to": [
+				3.5,
+				13,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						3,
+						3.5,
+						4
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						3.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						3.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "HeadR5",
+			"from": [
+				12.5,
+				12,
+				0
+			],
+			"to": [
+				16,
+				13,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						12.5,
+						3,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						3.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						3.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Head5",
+			"from": [
+				3.5,
+				12,
+				1.95
+			],
+			"to": [
+				12.5,
+				13,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#archglow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "HeadL6",
+			"from": [
+				0,
+				13,
+				0
+			],
+			"to": [
+				5.5,
+				14,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						2,
+						5.5,
+						3
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						5.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						5.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "HeadR6",
+			"from": [
+				10.5,
+				13,
+				0
+			],
+			"to": [
+				16,
+				14,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						10.5,
+						2,
+						16,
+						3
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						5.5,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						5.5,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Head6",
+			"from": [
+				5.5,
+				13,
+				1.95
+			],
+			"to": [
+				10.5,
+				14,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#archglow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Lintel",
+			"from": [
+				0,
+				14,
+				0
+			],
+			"to": [
+				16,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"west": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"up": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#pooltile",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		}
+	]
+}
