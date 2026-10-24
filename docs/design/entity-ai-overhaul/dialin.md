@@ -200,4 +200,12 @@ telling the peer sessions.
 ## 7. The Level 94 night test (overseer, before the workers start)
 
 A straw dummy at a Level 94 arrival spot, `/time set 23`, entity log on, `dummies on`, ten real minutes: the band the
-director gives it, how many sight tests were refused for a clear line, what was put down. Result: (pending)
+director gives it, how many sight tests were refused for a clear line, what was put down.
+
+**Result (22:48, build from p7/dialin):** dummy at 512197 187 384248 (within 400 blocks of the mountain: band
+**Threshold** on all 19 status lines, menace about 0.85 to 1.0). Sight tests **38 refused for a clear line, 1 hidden**:
+every stalker or hunter spot within the 14 to 30 block band was in a clear line from the dummy's eyes. Bodies in ten
+minutes: **one glimpse** (animation-clay, which wants to be seen) where two or three were due; the rest was silence with
+no log line. The hypothesis holds: in the open at night the Animations cannot be put down as stalkers or hunters.
+Piece B implements the section 4 fix (a wider second pass, 30 to 48 blocks, under open sky, the sight test still
+deciding) and the `felt-rates` case's Level 94 row checks it (band Threshold at the arrival spots).
