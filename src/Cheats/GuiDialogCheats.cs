@@ -39,7 +39,7 @@ public class GuiDialogCheats : GuiDialog
     /// <summary>The world settings the World tab can change, with their options (as in worldconfig.json).</summary>
     private static readonly (string Code, string Label, string[] Values)[] Settings =
     {
-        ("backroomsMenace", "Entities", new[] { "off", "low", "normal", "high" }),
+        ("backroomsMenace", "Entities", new[] { "off", "verylow", "low", "normal", "high", "veryhigh" }),
         (ScarcitySystem.ConfigKey, "Scarcity", new[] { "plentiful", "normal", "sparse", "scarce" }),
         (MapSetting.Code, "Map", new[] { "seen", "nowaypoints", "none" }),
     };
