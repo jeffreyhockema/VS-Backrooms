@@ -276,3 +276,12 @@ Level 94 before the second pass (first run, other dummy spot, Approach): stalk 8
 **Review** (sonnet, blind): fixed the rat-pack cap not being counted, the stalk-or-hunt gate hiding a zero kind (now the lower of the two), the "18 looks" wording, a message when no rolls exist. Left: other creative gates (above).
 
 **Lessons**: the `dummies off` reply is cached per dummy; always re-assess after a move. A heredoc-driven edit script mangles `\n` inside strings: use sed on single lines or the Edit tool.
+
+### P7, round 5 (2026-10-23/24): integration (overseer)
+
+- Merged into `p7/dialin`: A (dialin/director), C (dialin/docs), main (921d558, handbook regenerated from the merged gen_guide.py; CHANGELOG conflict kept both sides), B (dialin/felt; tracker conflict kept both reports). Then `p7/dialin` fast-forwarded to `main`.
+- Gates on the final build: harness `--only iso,iso-hound,p7,felt` 10/11 with `p7-bacteria-struck` failing once (the strike landed in the same second the Bacteria had begun a vague-track hunt, so the hunt ended by the ordinary rule: a pre-existing timing race; passed 2/2 on its own); 0 error lines. A copy of the user's play-test world `sunny cave tales` loaded headless with 0 error lines, setting read as normal (ratecheck Level 1 heartland 4.9/h, gap 12.3 min). Release zip `bin/backroomsss_0.515.0.zip` rebuilt from the merged branch and copied to the main checkout.
+- Level 94 night test (dialin.md section 7): before piece B, 38 sight tests refused / 1 hidden and one glimpse in ten minutes; after, 10 / 8 and seven bodies in ten minutes at a Threshold arrival spot.
+- Felt rates on the final build (`felt-rates`, 40 tries, normal): stalk-or-hunt placement L1 approach 95 %, L2 38 % (Pipe Dreams: 1522 looks with no floor), L3 100 %, L4 68 %, L5 100 %, L8 threshold 88 %, L9 85 %, L94 100 %; felt bodies/h L1 approach 8.8, L2 11.8, L3 34.8, L4 11.2, L5 13.9, L8 threshold 92.5, L9 59.3, L94 32.9 (rolls x placement; the one-kind rule and the caps thin these further).
+- For the user's play-test: Level 3's approach band (a body about every 2 minutes), Level 9's (about every minute) and Level 94's nights are busy by design (decisions 25 and 27); if that is too much, the solitude of Levels 3, 8 and 9 is the one number to raise.
+- Not checked: a client; the Flickering's restored gate live; a creative player actually hunted; walking behaviour of stalkers put down 30 to 48 blocks out under the open sky.
