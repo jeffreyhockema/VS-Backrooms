@@ -114,7 +114,8 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level974 => 0,
         Backrooms.Worldgen.WorldLayout.Level3999 => 0.8, // (only its Neon Blackout has anything in it)
         Backrooms.Worldgen.WorldLayout.Level188 => 0.45, // the Courtyard of Windows: unsafe (Class 2-5 by the wikis), its windows worst of all
-        // Level 94 keeps its own balance (the King's trial)
+        // Level 94 (Class 3): its Animations hit and chase like Level 4's creatures; the King's trial keeps its own balance
+        Backrooms.Worldgen.WorldLayout.Motion => 0.4,
         _ => 0,
     };
 
@@ -297,12 +298,8 @@ public static class Roster
             E(Watcher, Approach, Menacing, 0.3) with { Outdoors = true },
             // (The Mangled is not put down by the director: it comes with its own fog, see MangledEvent)
         },
-        // The fields are safe; only near the barns where the city lies through the wall do Hounds come
-        [10] = new[]
-        {
-            E(Hound, Edge, Menacing, 1.0, 1, 2),
-            E(Clump, Edge, Encounters.Stalk, 0.4) with { Ambush = true },
-        },
+        // The fields are empty ("No Hostile Entities"): the worms are their hazard; only sounds remain
+        [10] = Array.Empty<RosterEntry>(),
         // The Poolrooms: devoid of life, as far as anyone knows; only in the dark of the Sanguine Reservoir is anything ever seen
         [Backrooms.Worldgen.WorldLayout.Poolrooms] = new[]
         {
@@ -408,13 +405,25 @@ public static class Roster
         _ => 0,
     };
 
-    /// <summary>The cap, with one more allowed where the level's danger is 0.5 or more (Level 5 down, and the Poolrooms) and another at 0.8 (Level 9 down, and Level 3999's Blackout).</summary>
+    /// <summary>The cap, with one more allowed where the level's danger is 0.5 or more (Level 5 down, and the Poolrooms) and another at 0.8 (Level 9 down, and Level 3999's Blackout), and the high settings' bonus on top.</summary>
     public static int Cap(MenaceBand band, int level)
     {
         int cap = Cap(band);
         if (cap == 0) return 0;
         double d = Danger.OfLevel(level);
-        return cap + (d >= 0.5 ? 1 : 0) + (d >= 0.8 ? 1 : 0);
+        return cap + (d >= 0.5 ? 1 : 0) + (d >= 0.8 ? 1 : 0) + (band == MenaceBand.Heartland ? heartCapBonus : capBonus);
+    }
+
+    // The world's entities setting (MenaceSystem.Difficulties): set once when the world loads; the rolls stay pure
+    private static double mixDanger;
+    private static int capBonus, heartCapBonus;
+
+    /// <summary>Sets what the world's entities setting adds: danger on the body mix, and cap bonuses (the approach and threshold bands, and the heartland).</summary>
+    public static void ApplySetting(double mix, int outerCap, int heartCap)
+    {
+        mixDanger = mix;
+        capBonus = outerCap;
+        heartCapBonus = heartCap;
     }
 
     /// <summary>
@@ -424,7 +433,7 @@ public static class Roster
     public static (double Glimpse, double Stalk, double Hunt) Weights(MenaceBand band, int level)
     {
         var w = Weights(band);
-        double d = Danger.OfLevel(level);
+        double d = Math.Min(1, Danger.OfLevel(level) + mixDanger);
         if (band == MenaceBand.Safe || d <= 0) return w;
         double stalk = band == MenaceBand.Heartland ? 0.15 * d : 0.1 * d;
         double hunt = band switch { MenaceBand.Heartland => 0.03 * d, MenaceBand.Approach => 0.15 * d, _ => 0.25 * d };
@@ -434,6 +443,7 @@ public static class Roster
     /// <summary>
     /// Level 1's Hounds (play-test: too frequent, and now they hit like wolves-to-bears): was 1.0 of a table whose other
     /// Stalk/Hunt weights sum to about 2.0, then 0.35, now 0.2 (round 2: isolation; about a tenth of the Approach band's bodies).
+    /// Level 1's dens no longer hold Hound packs (<see cref="DenActive"/>) and the Flickering still brings them.
     /// </summary>
     public const double Level1HoundWeight = 0.2;
 
@@ -450,25 +460,47 @@ public static class Roster
     public static double Solitude(int level) => level switch
     {
         0 => 1.5,
-        1 => 1.0,
+        1 => 1.3,
         2 => 0.7,
-        3 => 0.6,
+        3 => 0.45,
         4 => 1.5,
         5 => 1.2,
         6 => 3.0,
         7 => 1.0,
-        8 => 0.8,
-        9 => 0.6,
+        8 => 0.5,
+        9 => 0.3,
         10 => 2.0,
         11 => 1.2,
         Backrooms.Worldgen.WorldLayout.Poolrooms => 4.0, // Level 37: entirely devoid of life
-        Backrooms.Worldgen.WorldLayout.Motion => 1.0,
-        Backrooms.Worldgen.WorldLayout.FunLevel => 0.7,
+        Backrooms.Worldgen.WorldLayout.Motion => 0.6, // Level 94 by night: Class 3
+        Backrooms.Worldgen.WorldLayout.FunLevel => 0.4,
         Backrooms.Worldgen.WorldLayout.TheEnd => 4.0,
         Backrooms.Worldgen.WorldLayout.Level3999 => 0.8,
         Backrooms.Worldgen.WorldLayout.Level188 => 1.0,
         _ => 1.0,
     };
+
+    /// <summary>
+    /// The lore's Survival Difficulty class of a level (0 to 5), from the Wikidot pages (dialin.md section 2): how many kinds of
+    /// menacing thing may be about at once (<see cref="MaxKinds"/>).
+    /// </summary>
+    public static int LoreClass(int level) => level switch
+    {
+        0 or 1 or 4 or 6 or 10 => 1,
+        5 or 11 => 2,
+        2 or Backrooms.Worldgen.WorldLayout.Motion or Backrooms.Worldgen.WorldLayout.Level188 => 3,
+        3 or 7 or 8 => 4,
+        9 or Backrooms.Worldgen.WorldLayout.FunLevel => 5,
+        Backrooms.Worldgen.WorldLayout.Poolrooms or Backrooms.Worldgen.WorldLayout.TheEnd => 0,
+        Backrooms.Worldgen.WorldLayout.Level3999 or Backrooms.Worldgen.WorldLayout.Hub or Backrooms.Worldgen.WorldLayout.Level974 or Backrooms.Worldgen.WorldLayout.RunLevel => 1,
+        _ => 1,
+    };
+
+    /// <summary>How many different kinds of menacing entity may be about a player at once: one in Classes 0 to 2, two in Classes 3 to 5.</summary>
+    public static int MaxKinds(int level) => LoreClass(level) >= 3 ? 2 : 1;
+
+    /// <summary>Whether a den of this kind is lived in: Level 1's Hound packs have moved on (their bones remain; Hounds there come from the dark and the Flickering).</summary>
+    public static bool DenActive(int level, Backrooms.Worldgen.DenKind kind) => kind != Backrooms.Worldgen.DenKind.None && !(level == 1 && kind == Backrooms.Worldgen.DenKind.Pack);
 
     /// <summary>The mean real minutes between bodies (a glimpse, a stalker, a hunter) at solitude 1, by band; <paramref name="inDen"/> for a player in a den.</summary>
     public static double BodyMinutes(MenaceBand band, bool inDen) => inDen ? 3 : band switch

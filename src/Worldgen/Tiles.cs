@@ -442,6 +442,14 @@ public enum FloorKind : byte
     /// <summary>The Hub: the Tower's polished marble, plain and inlaid.</summary>
     HubMarble = 154,
     HubMarbleInlay = 155,
+    /// <summary>
+    /// The Hub (layout version 11): the yellow line down the middle of a big tunnel's two lanes (its way in
+    /// <see cref="Tile.Pier"/>: east for a line running east-west, north for north-south; the generator joins it to the
+    /// line tiles beside it, round the bends too), and a narrow tunnel's broken white give-way line where it meets
+    /// another tunnel (Pier: the way the traffic runs, east or north).
+    /// </summary>
+    HubLine = 156,
+    HubGiveWay = 157,
     /// <summary>Level 974 (block 164-179): blush carpet, the kitchen's pink-and-white checker, the bathrooms' white hexagons.</summary>
     L974Floor = 164,
     L974Checker = 165,

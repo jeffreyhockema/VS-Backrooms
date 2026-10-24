@@ -35,8 +35,8 @@
       "code": "backroomsMenace",
       "dataType": "dropdown",
       "category": "survivalchallenges",
-      "values": ["off", "low", "normal", "high"],
-      "names": ["Off", "Low", "Normal", "High"],
+      "values": ["off", "verylow", "low", "normal", "high", "veryhigh"],
+      "names": ["Off", "Very low", "Low", "Normal", "High", "Very high"],
       "default": "normal"
     },
     {

@@ -319,6 +319,7 @@ public partial class MenaceSystem
         int y = Senses.FindFloor(sapi.World, x, (int)Math.Floor(dummy.Pos.Y), z, 2, 6);
         if (y == int.MinValue) return TextCommandResult.Error("No floor there");
         dummy.TeleportToDouble(x + 0.5, y, z + 0.5);
+        if (watches.TryGetValue(dummy.EntityId, out Watch moved)) Assess(dummy, moved); // (its band is the new place's)
         return TextCommandResult.Success(string.Format(CultureInfo.InvariantCulture, "Dummy #{0} moved to {1} {2} {3}, light {4}", dummy.EntityId, x, y, z, Perception.LightOn(dummy)));
     }
 

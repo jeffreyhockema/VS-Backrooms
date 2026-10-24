@@ -12,8 +12,8 @@ namespace Backrooms.Entities;
 /// </summary>
 public partial class MenaceSystem
 {
-    /// <summary>Real minutes between two ambient creatures put down for one person, and how far the wait is jittered either way.</summary>
-    private const double AmbientMinutes = 15, AmbientMinutesCrowd = 3, AmbientMinutesDay94 = 5, AmbientJitterLow = 0.7, AmbientJitterHigh = 1.3;
+    /// <summary>Real minutes between two ambient creatures put down for one person (Levels 1, 4 and 5 are lived in: <see cref="AmbientMinutesLived"/>), and how far the wait is jittered either way.</summary>
+    private const double AmbientMinutes = 15, AmbientMinutesLived = 8, AmbientMinutesCrowd = 3, AmbientMinutesDay94 = 5, AmbientJitterLow = 0.7, AmbientJitterHigh = 1.3;
 
     /// <summary>Ambient creatures within <see cref="AmbientRadius"/> blocks of a person: ordinarily, and in Level 11 and the Snackrooms.</summary>
     private const int AmbientCap = 1, AmbientCapCrowd = 3, AmbientRadius = 48;
@@ -76,7 +76,7 @@ public partial class MenaceSystem
         }
         if (!TrySpawn(target, a, entry, Encounter.Ambient)) return;
         double minutes = a.Level == WorldLayout.Motion && !a.Castle && !Regions.MotionSystem.IsNight(sapi.World.Calendar) ? AmbientMinutesDay94
-            : crowd ? AmbientMinutesCrowd : AmbientMinutes;
+            : crowd ? AmbientMinutesCrowd : a.Level is 1 or 4 or 5 ? AmbientMinutesLived : AmbientMinutes;
         long wait = (long)(minutes * 60_000 * (AmbientJitterLow + (AmbientJitterHigh - AmbientJitterLow) * rand.NextDouble()));
         ambientNextMs[target.EntityId] = now + wait;
         if (Logging) sapi.Logger.Notification("[backrooms] ambient {0} put down by the wanderers' roll; the next in {1:0} s", entry.Code, wait / 1000.0);
