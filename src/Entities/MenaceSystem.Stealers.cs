@@ -56,8 +56,9 @@ public partial class MenaceSystem
                 return TextCommandResult.Error("fed, hungry or status");
         }
         double until = stealer.Attributes.GetDouble(EntityBehaviorMenace.FedKey, 0), now = sapi.World.Calendar.TotalHours;
-        return TextCommandResult.Success(string.Format(CultureInfo.InvariantCulture, "Skin-Stealer #{0}: {1}{2}, {3}",
-            stealer.EntityId, menace.Fed ? "fed" : "hungry", menace.Fed ? $" for another {until - now:0.0} hours" : "", menace.Kind));
+        return TextCommandResult.Success(string.Format(CultureInfo.InvariantCulture, "Skin-Stealer #{0}: {1}{2}, {3}, at {4:0.0},{5:0.0},{6:0.0}",
+            stealer.EntityId, menace.Fed ? "fed" : "hungry", menace.Fed ? $" for another {until - now:0.0} hours" : "", menace.Kind,
+            stealer.Pos.X, stealer.Pos.Y, stealer.Pos.Z));
     }
 
     private static void SetLook(Entity entity, int look)

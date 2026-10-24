@@ -198,6 +198,16 @@ public class AiTaskMenace : AiTaskBase
     /// <summary>What it was (and whether passive) before it first turned on a retaliation target, to go back to.</summary>
     private Encounter kindBeforeRetaliation = Encounter.Stalk;
     private bool passiveBeforeRetaliation;
+    /// <summary>
+    /// A fed Skin-Stealer keeps to itself, but anyone who comes within <c>fedGuardRange</c> blocks (or touches it) is turned on:
+    /// a short, violent hunt that ends, back to idling, once they are past <c>fedGuardRelease</c> blocks or have been
+    /// clear of the range for <c>fedGuardSeconds</c>. 0: not so. A hungry one that stalks <c>escalateThreshold</c> (the edge) or
+    /// <c>escalateApproach</c> seconds (further in; both times vary by a third either way) comes for them (0: it does not).
+    /// </summary>
+    private readonly float fedGuardRange, fedGuardRelease, fedGuardSeconds, escalateThreshold, escalateApproach;
+    private bool guarding;
+    private long nextGuardCheckMs, guardNearMs;
+    private float stalkClock, stalkEscalateAt = -1;
     /// <summary>A hunt the director put down: until when (and how often) its belief is refreshed with a head start.</summary>
     private bool sentHunt;
     private long nextSentReseedMs, nextShareMs, nextPackCheckMs, noEdgeUntilMs, edgeComputedMs;
@@ -254,6 +264,11 @@ public class AiTaskMenace : AiTaskBase
         avoidsLight = taskConfig["avoidsLight"].AsBool(false);
         coward = taskConfig["coward"].AsBool(false);
         retaliates = taskConfig["retaliates"].AsBool(true);
+        fedGuardRange = taskConfig["fedGuardRange"].AsFloat(0);
+        fedGuardRelease = taskConfig["fedGuardRelease"].AsFloat(12);
+        fedGuardSeconds = taskConfig["fedGuardSeconds"].AsFloat(6);
+        escalateThreshold = taskConfig["escalateThreshold"].AsFloat(0);
+        escalateApproach = taskConfig["escalateApproach"].AsFloat(0);
         prefersHidden = taskConfig["prefersHidden"].AsBool(false);
         retreatBelow = taskConfig["retreatBelow"].AsFloat(0);
         bool staredDown = taskConfig["staredDown"].AsBool(false);
@@ -340,6 +355,7 @@ public class AiTaskMenace : AiTaskBase
         if (menace == null) return false;
         director ??= entity.Api.ModLoader.GetModSystem<MenaceSystem>();
         Encounter kind = menace.Kind;
+        if (kind == Encounter.Ambient) return fedGuardRange > 0 && menace.Fed && TryGuard();
         return kind is Encounter.Glimpse or Encounter.Stalk or Encounter.Hunt or Encounter.Leave or Encounter.Investigate or Encounter.Search;
     }
 
@@ -539,6 +555,8 @@ public class AiTaskMenace : AiTaskBase
         lastChaseDistance = -1;
         if (kind != Encounter.Hunt) turnedOnTarget = false;
         sentHunt = false;
+        stalkClock = 0;
+        stalkEscalateAt = -1;
         if (kind == Encounter.Stalk && before != Encounter.Hunt && stalkSound != null && entity.World.Rand.NextDouble() < 0.6) PlaySound(stalkSound);
         if (kind == Encounter.Hunt)
         {
@@ -743,6 +761,7 @@ public class AiTaskMenace : AiTaskBase
         if (Grudge && !lightBound) return true;
         double believedDistance = Perceives ? entity.Pos.DistanceTo(Believed) : distance;
         Random rand = entity.World.Rand;
+        if (EscalationDue(a)) return true;
         if (lightBound)
         {
             // Smilers come only for those in the dark
@@ -757,6 +776,25 @@ public class AiTaskMenace : AiTaskBase
         if (Senses.Stability(target) < 0.4) return (!Perceives || seen.Contact != Contact.None) && rand.NextDouble() < 0.2 * 0.3 * turnMul && Charge("unsteady");
         return (!Perceives || seen.Contact != Contact.None) && a.Value >= 0.8 && rand.NextDouble() < 0.04 * 0.3 * turnMul && Charge("menace");
     }
+
+    /// <summary>
+    /// A hungry Skin-Stealer does not follow for ever: after stalking a while in sight (or on their trail) it comes for them, sooner the
+    /// further out they are (the Threshold band's edge sooner than the Approach band). The wait is drawn afresh each stalk.
+    /// </summary>
+    private bool EscalationDue(MenaceSystem.Assessment a)
+    {
+        float basis = a.Band == MenaceBand.Threshold ? escalateThreshold : a.Band == MenaceBand.Approach ? escalateApproach : 0;
+        if (basis <= 0 || kindIsNotStalk()) return false;
+        if (stalkEscalateAt < 0) stalkEscalateAt = basis * (0.67f + 0.66f * (float)entity.World.Rand.NextDouble());
+        // (Counted only while it knows where they are; lost, it starts over)
+        if (!Perceives || seen.Contact != Contact.None) stalkClock += thinkStep;
+        else stalkClock = Math.Max(0, stalkClock - thinkStep);
+        if (stalkClock < stalkEscalateAt) return false;
+        Log("has stalked long enough ({0:0} s, band {1}): it comes", stalkClock, a.Band);
+        return true;
+    }
+
+    private bool kindIsNotStalk() => Kind != Encounter.Stalk;
 
     /// <summary>Says (to the entity log) what set a Hound off, and that it turns to the hunt.</summary>
     private bool Charge(string trigger)
@@ -2023,6 +2061,7 @@ public class AiTaskMenace : AiTaskBase
             return;
         }
         if (!retaliates) return;
+        guarding = false; // (a blow is a fight, not a warning: the full retaliation below)
         // Turning on whoever hurt it, even a wanderer that meant no harm: for a while (see EndRetaliation)
         long now = entity.World.ElapsedMilliseconds;
         if (!entity.Attributes.HasAttribute(FirstOwnerKey) && EntityBehaviorMenace.OwnerOf(entity) >= 0)
@@ -2068,6 +2107,47 @@ public class AiTaskMenace : AiTaskBase
         Hold(stunAnim ?? "hurt", (int)(stunSeconds * 1000));
     }
 
+    /// <summary>
+    /// A fed Skin-Stealer minds its own business, but turns on someone who comes within <c>fedGuardRange</c> (a short hunt,
+    /// see <see cref="EndRetaliation"/>). Looked at a few times a second. Never creative players, anyone in a sanctuary, or a passive level.
+    /// </summary>
+    private bool TryGuard()
+    {
+        long now = entity.World.ElapsedMilliseconds;
+        if (now < nextGuardCheckMs || !entity.Alive || menace.Passive || menace.Harmless) return false;
+        nextGuardCheckMs = now + 400;
+        director ??= entity.Api.ModLoader.GetModSystem<MenaceSystem>();
+        Vec3d at = Senses.Centre(entity);
+        Entity intruder = null;
+        double best = double.MaxValue;
+        foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, fedGuardRange, 3, e => e.Alive && (IsLivePlayer(e) || Senses.IsTestTarget(e))))
+        {
+            if (IsCreative(e)) continue;
+            double d = entity.Pos.DistanceTo(e.Pos);
+            // (Past a wall it is no concern of its, unless they are all but touching)
+            if (d > 2.5 && !Senses.ClearLine(entity.World, at, Senses.Centre(e))) continue;
+            if (d < best) { best = d; intruder = e; }
+        }
+        if (intruder == null || director.AssessmentOf(intruder).Band == MenaceBand.Safe) return false;
+        Log("{0} comes within {1:0.0} blocks of a fed one: it turns on them", intruder.Code.Path, best);
+        if (!entity.Attributes.HasAttribute(FirstOwnerKey) && EntityBehaviorMenace.OwnerOf(entity) >= 0)
+            entity.Attributes.SetLong(FirstOwnerKey, EntityBehaviorMenace.OwnerOf(entity));
+        kindBeforeRetaliation = Encounter.Ambient;
+        passiveBeforeRetaliation = menace.Passive;
+        retaliationStartMs = guardNearMs = now;
+        guarding = true;
+        huntProvoked = true;
+        turnedOnTarget = true;
+        lastBloodMs = now;
+        calmUntilMs = 0;
+        menace.Target = target = intruder;
+        ResetBelief();
+        if (Perceives) belief.Take(intruder.Pos.XYZ, 1, Contact.Sensed, now, senses.MemorySeconds);
+        menace.Passive = false;
+        Kind = Encounter.Hunt;
+        return true;
+    }
+
     /// <summary>Set once, on the entity, to whoever it was put down for before it first turned on anyone else.</summary>
     public const string FirstOwnerKey = "backrooms:firstOwner";
 
@@ -2084,6 +2164,29 @@ public class AiTaskMenace : AiTaskBase
     /// </summary>
     private bool EndRetaliation(long now)
     {
+        if (guarding && retaliationStartMs >= 0)
+        {
+            // A guard is short: past the release distance, or clear of the range for a few seconds, it is calm again
+            double d = entity.Pos.DistanceTo(target.Pos);
+            if (d <= fedGuardRange) guardNearMs = now;
+            if (d <= fedGuardRelease && now - Math.Max(guardNearMs, lastHitMs) < fedGuardSeconds * 1000) return false;
+            guarding = false;
+            retaliationStartMs = -1;
+            Stop();
+            Log("guard over ({0:0.0} blocks off): it goes back to its muttering", d);
+            long owner0 = entity.Attributes.GetLong(FirstOwnerKey, -1);
+            Entity home = owner0 >= 0 ? entity.World.GetEntityById(owner0) : null;
+            if (home != null && home.Alive) menace.Target = target = home;
+            ResetBelief();
+            menace.Passive = passiveBeforeRetaliation;
+            huntProvoked = false;
+            turnedOnTarget = false;
+            calmUntilMs = now + 4000;
+            nextGuardCheckMs = now + 3000;
+            entity.Attributes.RemoveAttribute(EntityBehaviorMenace.EncounterSinceKey);
+            Kind = Encounter.Ambient;
+            return true;
+        }
         if (retaliateSeconds <= 0 || retaliationStartMs < 0) return false;
         long first = entity.Attributes.GetLong(FirstOwnerKey, -1);
         if (first < 0 || target.EntityId == first && kindBeforeRetaliation != Encounter.Ambient)

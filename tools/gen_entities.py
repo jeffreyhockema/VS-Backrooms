@@ -830,6 +830,9 @@ def model_anims(*extra, walk=1.0, run=1.0, attack=1.0):
 WANDER = {"code": "wander", "priority": 1.0, "priorityForCancel": 1.35, "movespeed": 0.008, "animation": "walk", "animationSpeed": 1.0,
           "maxDistanceToSpawn": 24}
 LOOKAROUND = {"code": "lookaround", "priority": 0.5}
+# AiTaskAmble: somewhere it can walk to (a search over the floor), never at a wall, turns to look down the hall and stands a while
+AMBLE = {"code": "backrooms-amble", "priority": 1.0, "priorityForCancel": 1.35, "movespeed": 0.01, "walkAnimation": "walk",
+         "maxDistanceToSpawn": 24, "minWalk": 5, "maxWalk": 16, "mincooldown": 3000, "maxcooldown": 12000}
 
 
 def idle(animation, priority=1.2, min_ms=4000, max_ms=12000, cool_min=8000, cool_max=30000):
@@ -1003,11 +1006,13 @@ def faceling(child=False):
     }
 
 def tall_body(code, hitbox, eye, health, task, menace, drops, sounds, size=1.0, idle_anim="despair", idles=None, looks=(), extra_anims=(),
-              walk=1.0, run=1.0, weight=90):
+              walk=1.0, run=1.0, weight=90, amble=None):
     """A tall one of ours on its own model (Skin-Stealer, Duller, the Mangled, the Bacteria, the Wretches). The hitbox
     is kept to two blocks for the ones that must pass through doorways, though the model stands taller."""
     idles = idles or [idle(idle_anim, 1.15, 4000, 8000, 30000, 90000)]
-    tasks = [task] + idles + [dict(WANDER, movespeed=0.006), LOOKAROUND]
+    # (An amble, where given, goes to places it can reach along the halls in place of vanilla's straight-line wander and lookaround)
+    wander = [dict(AMBLE, **amble)] if amble is not None else [dict(WANDER, movespeed=0.006), LOOKAROUND]
+    tasks = [task] + idles + wander
     texture = {"base": f"backrooms:entity/{code}"}
     if looks:
         texture["alternates"] = [{"base": f"backrooms:entity/{code}-{look}"} for look in looks]
@@ -1044,7 +1049,12 @@ def skinstealer():
                        investigateSeconds=8, searchSeconds=10, retaliateSeconds=60,
                        # Harder (README 6.1): a kill feeds it for a day (fed, it is docile: the director's, and the behaviour's, to
                        # say), and a hit of 5 or more stuns it for a moment, once in a while: the opening
-                       feedsOnKill=True, fedHours=24, stunDamage=5, stunSeconds=1.2, stunCooldownSeconds=8, stunAnimation="hurt")
+                       feedsOnKill=True, fedHours=24, stunDamage=5, stunSeconds=1.2, stunCooldownSeconds=8, stunAnimation="hurt",
+                       # P7 round 2 (play-test). Fed, it keeps to itself but turns on anyone who comes within 5 blocks, a short hunt that
+                       # ends (muttering again) once they are 12 off or have kept clear for 6 s. Hungry, it does not simply watch and go: a
+                       # glimpse that has watched them follows (Approach band and out), and a stalk comes for them after about 8 s at the
+                       # Threshold, 20 s in the Approach band (AiTaskMenace.EscalationDue)
+                       fedGuardRange=5, fedGuardRelease=12, fedGuardSeconds=6, glimpseTurnsToStalk=True, escalateThreshold=8, escalateApproach=20)
     # The model stands 38.7 px; drawn at 0.92 it is 35.6 px (2.2 blocks), a head taller than a player, eyes at 2.05
     # (Health 34 to 51: 40 to 60 at Level 1, where the danger adds 17 %. Its second look, the fed one in its disguise, is
     # chosen by the director; the behaviour bleeds clear when struck, and a fed one says "hello?" now and then)
@@ -1052,7 +1062,9 @@ def skinstealer():
                      {"stalkSeconds": 180, "maxEncounterSeconds": 300, "bleedsClear": True,
                       "fedVoices": ["backrooms:entity/hello", "backrooms:entity/hello", "backrooms:entity/cough"]},
                      [drop("game:hide-raw-large", 1)], {"hurt": "game:creature/drifter-hurt", "death": "game:creature/drifter-death"},
-                     size=0.92, idle_anim="skinadjust", looks=("fed",))
+                     size=0.92, idle_anim="skinadjust", looks=("fed",),
+                     # (Fed, it walks slowly to somewhere real, stands and mutters; it used to take vanilla's straight-line wander)
+                     amble=dict(movespeed=0.007, minWalk=4, maxWalk=12, mincooldown=6000, maxcooldown=22000))
 
 
 def duller():
