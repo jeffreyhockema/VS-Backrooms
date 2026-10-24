@@ -52,7 +52,7 @@ public partial class MenaceSystem
         f.InSight += t.InSight;
         f.RatCap += t.RatCap;
         if (Logging)
-            sapi.Logger.Notification("[backrooms] {0}: no spot after 18 looks ({1} no floor/room, {2} in sight{3}); band {4:0}-{5:0} blocks", code, t.NoFloor, t.InSight, t.RatCap > 0 ? ", rat packs at their cap" : "", min, max);
+            sapi.Logger.Notification("[backrooms] {0}: no spot after {6} looks ({1} no floor/room, {2} in sight{3}); band {4:0}-{5:0} blocks", code, t.NoFloor, t.InSight, t.RatCap > 0 ? ", rat packs at their cap" : "", min, max, t.NoFloor + t.InSight);
     }
 
     private string FailedBodiesLine(int level)
@@ -94,8 +94,7 @@ public partial class MenaceSystem
         Assessment at = a; // (the spot is the target's own; the band asked about only picks the roster and the rates)
         var text = new StringBuilder();
         text.AppendFormat(CultureInfo.InvariantCulture, "feltrate Level {0} {1} ({2} #{3}, {4} tries, setting {5}):", a.Level, bandWord, entity.Code.Path, entity.EntityId, tries, Setting.Code);
-        double felt = 0, stalkHunt = 0;
-        int stalkHuntKinds = 0;
+        double felt = 0, stalkHunt = 1;
         int noFloor = 0, inSight = 0;
         foreach (Encounter kind in new[] { Encounter.Glimpse, Encounter.Stalk, Encounter.Hunt })
         {
@@ -115,12 +114,12 @@ public partial class MenaceSystem
             double success = options.Length == 0 ? 0 : (double)ok / tries;
             double rate = rates.TryGetValue(kind, out double r) ? r : 0;
             felt += success * rate;
-            if (kind != Encounter.Glimpse && options.Length > 0) { stalkHunt += success; stalkHuntKinds++; }
+            if (kind != Encounter.Glimpse && options.Length > 0) stalkHunt = Math.Min(stalkHunt, success);
             text.AppendFormat(CultureInfo.InvariantCulture, "\n  {0}: {1} kinds on the roster, placed {2:0}% ({3:0.0} rolls/h, {4:0.0} felt/h)", kind, options.Length, success * 100, rate, success * rate);
         }
-        text.AppendFormat(CultureInfo.InvariantCulture, "\nstalk-or-hunt {0:0}%", stalkHuntKinds == 0 ? 0 : stalkHunt / stalkHuntKinds * 100);
+        text.AppendFormat(CultureInfo.InvariantCulture, "\nstalk-or-hunt {0:0}%", stalkHunt * 100);
         text.AppendFormat(CultureInfo.InvariantCulture, "; looks refused: {0} no floor/room, {1} in sight", noFloor, inSight);
-        text.AppendFormat(CultureInfo.InvariantCulture, "; felt bodies {0:0.0}/h", felt);
+        text.AppendFormat(CultureInfo.InvariantCulture, "; felt bodies {0:0.0}/h{1}", felt, rates.Count == 0 ? " (no rolls in this band or setting)" : "");
         return TextCommandResult.Success(text.ToString());
     }
 }

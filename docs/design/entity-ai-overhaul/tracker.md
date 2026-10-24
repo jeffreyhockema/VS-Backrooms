@@ -204,3 +204,35 @@ Branch `iso/ambient`. New `src/Entities/MenaceSystem.Ambient.cs` holds `SpawnAmb
   `p1-hunt-to-search` 6/6, zero error lines.
 - Still to check in a client: everything in playtest.md section 9 (above all the four Hound counters, doors headless-
   untested, and the felt rate of bodies and sounds).
+
+### P7, round 5 (2026-10-23): piece B, ambient, creative toggle, felt rate
+
+Branch `dialin/felt` (off `p7/dialin`), not merged.
+
+**Changed**
+- Ambient Facelings (3.7): `AmbientMinutesLived` 8 in Levels 1, 4, 5; 15 elsewhere; Level 11/Snackrooms 3 and Level 94 day 5 as before.
+- Creative gets hunted (3.8): static `MenaceSystem.CreativeHunted` (reset in `Dispose`), `/backrooms creativehunts [on|off]`, cheat-menu button "Creative hunted" (Director section; it toggles, the reply says which). `Direct` starts with `creative &= !CreativeHunted` (covers the Flickering, the Screaming and the body kind check without touching piece A's lines) and `DirectByPlace` lets such a player roll. `Strike.IsCreative` (AiTaskLurkers.cs) also honours it (spectators stay excluded), else bodies would spawn and ignore the player. Not changed, left creative-immune on purpose: `BeastSystem`, `MangledEvent`, the hive/den target filters (`Hives.cs`, `MenaceSystem.Hives.cs`), Facelings' own creative checks. Say if those should follow.
+- Felt rate (3.9): `TrySpawn(..., bool dryRun = false)` (no spawn, no state; the refusal counts are in `MenaceSystem.LastTry`, a `SpawnTry` struct); new `MenaceSystem.FeltRate.cs`: `/backrooms feltrate <level id|here> [band] [tries=60]` (console: latest dummy; player: the player), prints per kind the roster size, placement %, rolls/h (from `RateCheck`, 400 simulated hours, the world's setting) and felt/h, the stalk-or-hunt % (the lower of stalk and hunt), refused looks by reason. Cheat-menu button "Felt rate here". Silent-failure counters per level (ordinary glimpse/stalk/hunt bodies that found no spot, including a rat pack at its cap): printed by `/backrooms menace`; with the entity log on each failure logs "no spot after N looks (...)".
+- Section 4 (Level 94 night test confirmed all 38 sight tests refused): `TrySpawn` second pass. After the usual 18 looks fail, for a stalker/hunter (not ambush, aquatic, set piece or minDistance) with the target under open sky (`GetRainMapHeightAt <= feet + 1`) it makes 18 more looks at 30 to 48 blocks, spots also under open sky; the sight test is unchanged and glimpses/ambient/set pieces are unchanged.
+- `/backrooms dummy move` now re-assesses the dummy (its band was stale; the harness needs it).
+
+**Harness**: `felt-rates` (`--only felt`): a dummy per level (1, 2, 3, 4, 5, 8 via `dummy place nest`, 9, 94 after `/time set 23`, `/time set 12` after), approach band preferred (threshold accepted after 5 tries, walked outward with `dummy move`), `feltrate here <band> 40`, asserts stalk-or-hunt >= 25 %. Final run on the fixed build: felt-rates, iso-rates, iso-one-kind all PASS, 0 error lines.
+
+| Level (band) | glimpse % | stalk % | hunt % | refused looks (no floor / in sight, 40 tries x3 kinds) | felt bodies/h |
+|---|---|---|---|---|---|
+| 1 (Threshold) | 18 | 85 | 93 | 972 / 139 | 11.8 |
+| 2 (Approach) | 10 | 83 | 95 | 1098 / 85 | 4.4 |
+| 3 (Approach) | 0 | 100 | 100 | 636 / 232 | 5.7 |
+| 4 (Approach) | 93 | 100 | 100 | 116 / 197 | 3.6 |
+| 5 (Approach) | 35 | 100 | 100 | 672 / 128 | 3.5 |
+| 8 (Threshold, nest) | 15 | 95 | 88 | 1163 / 94 | 15.9 |
+| 9 (Approach) | 80 | 88 | 85 | 600 / 184 | 7.9 |
+| 94 night (Approach) | 100 | 100 | 100 | 13 / 149 | 5.7 |
+
+Level 94 before the second pass (first run, other dummy spot, Approach): stalk 80 %, hunt 58 %, 783 looks refused in sight; after: 100 %/100 %, 149 refused in sight (the second pass absorbs them). Not measured at the overseer's Threshold arrival spot 512197 187 384248 itself (the dummy spot is random); glimpse % is low in places because a glimpse wants to be seen. Level 8's arrival spots are Safe (sanctuaries), hence the nest placement. Note the overseer's real-time test still needs a re-run on the merged build.
+
+**Not checked**: a client; real (walking) behaviour in the second-pass band (30 to 48 blocks: stalkers arrive later, hunters have far to run); a creative player actually hunted (needs a client).
+
+**Review** (sonnet, blind): fixed the rat-pack cap not being counted, the stalk-or-hunt gate hiding a zero kind (now the lower of the two), the "18 looks" wording, a message when no rolls exist. Left: other creative gates (above).
+
+**Lessons**: the `dummies off` reply is cached per dummy; always re-assess after a move. A heredoc-driven edit script mangles `\n` inside strings: use sed on single lines or the Edit tool.

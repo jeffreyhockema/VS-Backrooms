@@ -974,7 +974,7 @@ public partial class MenaceSystem : ModSystem
         LastTry = default;
         if (!types.TryGetValue(entry.Code, out EntityProperties type)) return false;
         // A capped scavenger pack is silence, like any failed spawn: say so before the search for a spot, not after it
-        if (Scavengers(entry, a, kind, setPiece) && RatPacksNear(target) >= MaxRatPacks) { LastTry.RatCap = 1; return false; }
+        if (Scavengers(entry, a, kind, setPiece) && RatPacksNear(target) >= MaxRatPacks) { LastTry.RatCap = 1; if (!dryRun && minDistance <= 0 && !setPiece && kind != Encounter.Ambient) NoteFailedBody(a.Level, entry.Code, LastTry, 0, 0); return false; }
         (double min, double max) = kind switch
         {
             Encounter.Glimpse => (22.0, 40.0),
