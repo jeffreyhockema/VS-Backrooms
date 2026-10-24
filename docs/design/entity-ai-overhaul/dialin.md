@@ -209,3 +209,5 @@ minutes: **one glimpse** (animation-clay, which wants to be seen) where two or t
 no log line. The hypothesis holds: in the open at night the Animations cannot be put down as stalkers or hunters.
 Piece B implements the section 4 fix (a wider second pass, 30 to 48 blocks, under open sky, the sight test still
 deciding) and the `felt-rates` case's Level 94 row checks it (band Threshold at the arrival spots).
+
+**Rerun on the merged build (23:53, the same test, dummy at 511979 187 383730, band Threshold):** sight tests 10 refused, 8 hidden; **seven bodies in ten minutes** (Hound hunt, Skin-Stealer glimpse, wooden Animation stalk, clay Animation hunt, a pair of clay stalkers, a paper stalker), one ambient. The open-sky second pass works; a night near a town at normal is busy, as decisions 25 and 27 intend (the user's play-test judges whether it is too busy).
