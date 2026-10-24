@@ -732,7 +732,19 @@ public sealed partial class WorldGenerator
             // The passage round a break in the road is bare: nothing hangs from its roof or stands on its floor
             if (layout.Version >= 10 && caveColumns.Get(gx, gz).InCrawl(rel)) return 0;
             // Flooded deep pockets, speleothems hanging from ceilings and rising from floors
-            if (rel < -18 && IsPool(gx, gz) && PoolHeldIn(gx, y, gz))
+            if (layout.Version >= 11)
+            {
+                // From layout version 11 every pool is a true basin: all the open cave at its depth in a pool column is
+                // water, and the open cave beside that water, which would let it stand in a wall over the lower floor
+                // or pour out, is a rim of rock instead
+                if (rel < -18)
+                {
+                    if (IsPoolCell(gx, gz)) { fluid = waterId; return 0; }
+                    foreach ((int dx, int dz) in Neighbours4)
+                        if (IsCave(gx + dx, y, gz + dz) && IsPoolCell(gx + dx, gz + dz)) return RockAt(gx, y, gz);
+                }
+            }
+            else if (rel < -18 && IsPool(gx, gz) && PoolHeldIn(gx, y, gz))
             {
                 fluid = waterId;
                 return 0;
@@ -779,6 +791,15 @@ public sealed partial class WorldGenerator
         // Deep down, crystals grown large: amethyst, smoky, milky or rose quartz, one kind to a stretch of cave
         if (roll < 0.84 && rel < -24) return BigCrystal(gx, gz, up: true);
         return 0;
+    }
+
+    /// <summary>Layout version 11: a column that floods (a pool column with no break-in-the-road passage beside it, which the water would pour into).</summary>
+    private bool IsPoolCell(int gx, int gz)
+    {
+        if (!IsPool(gx, gz)) return false;
+        foreach ((int dx, int dz) in Neighbours4)
+            if (caveColumns.Get(gx + dx, gz + dz).CrawlDepth != 0) return false;
+        return true;
     }
 
     // (no flooded pocket over the passage round a break in the road, which would pour in)

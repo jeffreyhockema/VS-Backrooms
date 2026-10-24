@@ -400,7 +400,7 @@ public class BackroomsModSystem : ModSystem
         // (Level 7 from layout version 9: down to the midnight zone's seabed, and up to the high ceiling)
         bool highSea = dumpLevel == 7 && layout.Version >= 9;
         int y0 = dumpLevel switch { WorldLayout.Poolrooms => floor - WorldGeometry.PoolPitDepth - 2, WorldLayout.Motion => floor - 10, _ when region => g.BandBottomFor(dumpLevel),
-            _ when highSea => floor - WorldLayout.AbyssDepth - 4, _ => floor - 10 };
+            _ when highSea => floor - WorldLayout.AbyssDepth - 4, 8 => floor - 64, _ => floor - 10 };
         int y1 = dumpLevel switch
         {
             _ when highSea => Math.Min(g.TopY, floor + WorldLayout.SeaCeiling + 1),
