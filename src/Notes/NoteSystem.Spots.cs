@@ -11,7 +11,7 @@ namespace Backrooms.Notes;
 /// <summary>
 /// Where notes come from besides the block types' own drops (docs/design/notes-plan.md, section 6):
 /// <list type="bullet">
-/// <item><b>More ordinary notes in Levels 0 and 1</b> (about double), and a few more from desks, bedrolls, runners'
+/// <item><b>More ordinary notes in Level 0</b> (the usual number there; Levels 1 and up give half as many as they once did), and a few more from desks, bedrolls, runners'
 /// remains and The End's desks everywhere.</item>
 /// <item><b>Folded notes</b> (the rare class) from what was left where few go: more the deeper the level, three times
 /// as likely behind a locked door, half again at the far edge of a ring, and often in a den's cache or a Red Room.</item>
@@ -25,21 +25,27 @@ public partial class NoteSystem
     private const string SpotsKey = "backrooms-notespots";
     private const ulong SaltExtra = 0x7080, SaltRare = 0x7081, SaltKind = 0x7082;
 
-    /// <summary>What a broken block may give besides its own drops: (path, extra ordinary note in Levels 0-1, extra anywhere, folded note base chance).</summary>
+    /// <summary>
+    /// What a broken block may give besides its own drops: (path, extra ordinary note in Level 0 only, extra anywhere, folded
+    /// note base chance). The blocks' own ordinary-note drops are half what they were, and Level 0's extra here makes the
+    /// other half back, so Level 0 drops exactly what it always did and Levels 1 and up drop half as many (no layout or
+    /// save data involved: only what a box gives when it is broken).
+    /// </summary>
     private static readonly (string Path, double ExtraNear, double ExtraAll, double Rare)[] Sources =
     {
-        ("supplybox-torn", 0.06, 0, 0),
-        ("supplybox", 0.10, 0, 0.012),
+        ("supplybox-torn", 0.09, 0, 0),
+        ("supplybox", 0.175, 0, 0.012),
         ("crate-open", 0.02, 0, 0),
         ("crate", 0.03, 0, 0.008),
-        ("backpack", 0, 0, 0.08),
-        ("bedroll", 0, 0.03, 0.04),
-        ("tent", 0, 0, 0.04),
-        ("sleepingbag", 0, 0.03, 0.04),
-        ("camptent", 0, 0, 0.04),
-        ("filingcabinet", 0, 0.01, 0.01),
-        ("writingdesk", 0, 0.01, 0.01),
-        ("desk", 0, 0.02, 0.01),
+        ("backpack", 0.25, 0, 0.08),
+        ("bedroll", 0.06, 0.03, 0.04),
+        ("tent", 0.25, 0, 0.04),
+        ("sleepingbag", 0.06, 0.03, 0.04),
+        ("camptent", 0.275, 0, 0.04),
+        ("seachest", 0.07, 0, 0),
+        ("filingcabinet", 0.025, 0.01, 0.01),
+        ("writingdesk", 0.025, 0.01, 0.01),
+        ("desk", 0.02, 0.02, 0.01),
         ("run-remains", 0, 0.25, 0.15),
         ("end-desk", 0, 0.06, 0.03),
     };
@@ -82,7 +88,7 @@ public partial class NoteSystem
         var at = new Vec3d(pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5);
 
         // More ordinary notes
-        double extra = source.ExtraAll + (level <= 1 ? source.ExtraNear : 0);
+        double extra = source.ExtraAll + (level == 0 ? source.ExtraNear : 0);
         if (extra > 0 && Hashing.Unit(h) < extra)
         {
             string kind = source.Path == "run-remains" ? "way" : source.Path == "end-desk" ? "door" : PickKind(Hashing.Hash((ulong)sapi.World.Seed, pos.X, pos.Z, SaltKind));

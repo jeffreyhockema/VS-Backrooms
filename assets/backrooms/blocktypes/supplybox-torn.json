@@ -91,7 +91,7 @@
 			"type": "item",
 			"code": "wanderernote-door",
 			"quantity": {
-				"avg": 0.03,
+				"avg": 0.015,
 				"var": 0
 			}
 		},
@@ -99,7 +99,7 @@
 			"type": "item",
 			"code": "wanderernote-way",
 			"quantity": {
-				"avg": 0.03,
+				"avg": 0.015,
 				"var": 0
 			}
 		}

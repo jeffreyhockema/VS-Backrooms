@@ -32,10 +32,10 @@
 		{ type: "item", code: "game:drygrass", quantity: { avg: 0.6, var: 0.6 } },
 		{ type: "item", code: "game:gear-rusty", quantity: { avg: 0.06, var: 0 } },
 		// Directions someone wrote down (read one to have it marked on your map)
-		{ type: "item", code: "wanderernote-door", quantity: { avg: 0.04, var: 0 } },
-		{ type: "item", code: "wanderernote-way", quantity: { avg: 0.04, var: 0 } },
-		{ type: "item", code: "wanderernote-cache", quantity: { avg: 0.04, var: 0 } },
-		{ type: "item", code: "wanderernote-refuge", quantity: { avg: 0.03, var: 0 } },
+		{ type: "item", code: "wanderernote-door", quantity: { avg: 0.02, var: 0 } },
+		{ type: "item", code: "wanderernote-way", quantity: { avg: 0.02, var: 0 } },
+		{ type: "item", code: "wanderernote-cache", quantity: { avg: 0.02, var: 0 } },
+		{ type: "item", code: "wanderernote-refuge", quantity: { avg: 0.015, var: 0 } },
 		// Now and then someone was planning to stay
 		{ type: "item", code: "seedpacket-turnip", quantity: { avg: 0.02, var: 0 } },
 		{ type: "item", code: "seedpacket-carrot", quantity: { avg: 0.02, var: 0 } },

@@ -157,7 +157,7 @@
 			"type": "item",
 			"code": "wanderernote-cache",
 			"quantity": {
-				"avg": 0.3,
+				"avg": 0.15,
 				"var": 0
 			}
 		},
@@ -165,7 +165,7 @@
 			"type": "item",
 			"code": "wanderernote-door",
 			"quantity": {
-				"avg": 0.2,
+				"avg": 0.1,
 				"var": 0
 			}
 		}

@@ -37,6 +37,7 @@ if (args.Length > 3 && args[2] == "region") {
 
 // L0HALL=1: also write hall.bin (Level 0 hallway tiles, one byte per tile) for hallview.py
 if (Environment.GetEnvironmentVariable("L0HALL") == "1") { var hb = new byte[size * size]; for (int z = 0; z < size; z++) for (int x = 0; x < size; x++) hb[z * size + x] = layout.LevelAt(WorldLayout.MacroOf(m0x * 32 + x), WorldLayout.MacroOf(m0z * 32 + z)) == 0 ? layout.Level0HallAt(m0x * 32 + x, m0z * 32 + z) : (byte)0; File.WriteAllBytes("hall.bin", hb); }
+if (args.Length > 2 && args[2] == "notesupply") { NoteSupply.Run(layout); return; }
 if (args.Length > 2 && args[2] == "notes") { NotesSim.Run(args, layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "timing") { Timing.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 4 && args[2] == "plan") { Debugger.Plan(layout, m0x * 32 + int.Parse(args[3]), m0z * 32 + int.Parse(args[4])); return; }
