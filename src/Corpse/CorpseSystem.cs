@@ -54,8 +54,8 @@ public class CorpseSystem : ModSystem
 
     private const string SaveKey = "backrooms-corpses";
 
-    /// <summary>How long after a death the dropped items are taken for its own (ms); the game drops them within a tick or two.</summary>
-    private const int CatchMs = 1200;
+    /// <summary>How long after a death a drop can still be its own (ms): the game drops them within a tick or two, a lagging server later.</summary>
+    private const int CatchMs = 15000;
 
     /// <summary>What a death took with it, from the moment of dying until the corpse is made.</summary>
     private sealed class Dying
@@ -66,8 +66,15 @@ public class CorpseSystem : ModSystem
         public float Yaw;
         public ITreeAttribute Skin, Gear;
         public readonly List<ItemStack> Stacks = new();
-        /// <summary>Set when its body is being made, so that nothing makes a second one (or drops the stacks twice).</summary>
+        /// <summary>Set when its first body is being made, so that nothing makes a second one (or drops the stacks twice).</summary>
         public bool Settled;
+        /// <summary>The body, once made; drops that come late are put into it.</summary>
+        public EntityCorpse Body;
+        /// <summary>Loose items seen near the death, not yet known to be its own (decided on the next tick).</summary>
+        public readonly List<EntityItem> Candidates = new();
+        public bool ConfirmQueued;
+        /// <summary>What was in the crafting grid at death (the game drops those without marking them as the player's): item code and quantity.</summary>
+        public readonly List<(string Code, int Size)> Crafting = new();
     }
 
     private ICoreServerAPI sapi;
@@ -179,8 +186,15 @@ public class CorpseSystem : ModSystem
             Skin = body.WatchedAttributes.GetTreeAttribute("skinConfig")?.Clone() as ITreeAttribute,
             Gear = CopyClothes(player),
         };
+        try
+        {
+            if (player.InventoryManager.GetOwnInventory(GlobalConstants.craftingInvClassName) is IInventory grid)
+                foreach (ItemSlot slot in grid)
+                    if (!slot.Empty && slot.GetType().Name != "ItemSlotCraftingOutput") d.Crafting.Add((slot.Itemstack.Collectible.Code.ToString(), slot.StackSize));
+        }
+        catch (Exception) { }
         dying[d.Uid] = d;
-        sapi.World.RegisterCallback(_ => Settle(d), CatchMs + 100);
+        sapi.World.RegisterCallback(_ => Expire(d), CatchMs + 100);
     }
 
     /// <summary>What the player is wearing, as the tree the body's own clothes are kept in (they are not dropped: they stay on the player).</summary>
@@ -196,10 +210,13 @@ public class CorpseSystem : ModSystem
         catch (Exception) { return null; }
     }
 
-    /// <summary>Catches an item the game has just dropped from a dying player's inventory.</summary>
+    /// <summary>
+    /// A loose item has appeared near a death. The game marks the stacks it drops from a player's inventory with their
+    /// uid, but only after spawning them, so nothing is decided here: it is looked at again on the next tick (<see cref="Confirm"/>).
+    /// </summary>
     private void OnEntitySpawned(Entity entity)
     {
-        if (dying.Count == 0 || entity is not EntityItem { Itemstack: { } stack } item || !item.Alive) return;
+        if (dying.Count == 0 || entity is not EntityItem { Itemstack: { } } item || !item.Alive) return;
         long now = sapi.World.ElapsedMilliseconds;
         Dying best = null;
         double bestDistance = 2.0;
@@ -210,20 +227,68 @@ public class CorpseSystem : ModSystem
             if (distance < bestDistance) { best = d; bestDistance = distance; }
         }
         if (best == null) return;
-        best.Stacks.Add(stack.Clone());
-        item.Die(EnumDespawnReason.Removed);
+        best.Candidates.Add(item);
+        if (best.ConfirmQueued) return;
+        best.ConfirmQueued = true;
+        sapi.Event.EnqueueMainThreadTask(() => Confirm(best, false), "corpse");
+    }
+
+    /// <summary>
+    /// The candidates of a death, one tick on: the ones the game marked as the dead player's (or, unmarked, matching what was in
+    /// their crafting grid) are taken, and the rest are left in the world untouched. The first taken make the body; later ones
+    /// (a lagging server drops late) go into it.
+    /// </summary>
+    private void Confirm(Dying d, bool stopping)
+    {
+        d.ConfirmQueued = false;
+        var taken = new List<ItemStack>();
+        foreach (EntityItem item in d.Candidates)
+        {
+            if (!item.Alive || item.Itemstack == null) continue;
+            string marked = item.ByPlayerUid;
+            bool ours = marked == d.Uid;
+            if (!ours && marked == null)
+            {
+                string code = item.Itemstack.Collectible.Code.ToString();
+                int i = d.Crafting.FindIndex(c => c.Code == code && c.Size == item.Itemstack.StackSize);
+                if (i >= 0) { d.Crafting.RemoveAt(i); ours = true; }
+            }
+            if (!ours) continue;
+            taken.Add(item.Itemstack.Clone());
+            item.Die(EnumDespawnReason.Removed);
+        }
+        d.Candidates.Clear();
+        if (taken.Count == 0) return;
+        if (d.Body != null && d.Body.Alive && !d.Body.Replaced)
+        {
+            sapi.Logger.Notification("[backrooms] corpse: {0} more stacks of {1}'s, dropped late, go into the body", taken.Count, d.Name);
+            try { AddToBody(d, taken); }
+            catch (Exception ex)
+            {
+                sapi.Logger.Error("[backrooms] corpse: could not add late drops to the body of {0}; dropping them where they fell: {1}", d.Name, ex);
+                DropLoose(taken, d.Pos);
+            }
+            return;
+        }
+        d.Stacks.AddRange(taken);
+        if (!d.Settled) Settle(d, stopping);
+    }
+
+    /// <summary>The window of a death is over.</summary>
+    private void Expire(Dying d)
+    {
+        if (dying.TryGetValue(d.Uid, out Dying current) && current == d) dying.Remove(d.Uid);
     }
 
     /// <summary>The server is stopping: every death still collecting drops gets its body now (the chunks are still loaded).</summary>
     private void SettleAll()
     {
-        foreach (Dying d in dying.Values.ToList()) Settle(d, true);
+        foreach (Dying d in dying.Values.ToList()) Confirm(d, true);
     }
 
-    /// <summary>The drops are over: the corpse, if anything was dropped.</summary>
+    /// <summary>The first drops are in: the corpse.</summary>
     private void Settle(Dying d, bool stopping = false)
     {
-        if (dying.TryGetValue(d.Uid, out Dying current) && current == d) dying.Remove(d.Uid);
         if (d.Stacks.Count == 0 || d.Settled) return;
         d.Settled = true;
         int things = d.Stacks.Sum(s => s.StackSize);
@@ -235,19 +300,54 @@ public class CorpseSystem : ModSystem
             sapi.Logger.Error("[backrooms] corpse: could not find the floor for {0}: {1}", d.Name, ex);
             spot = d.Pos.Clone();
         }
-        MakeBody(d, spot, stopping ? 3 : 0);
+        MakeBody(d, spot, stopping ? LoadTries : 0, false);
     }
 
-    /// <summary>Makes the body once the column it lies in is loaded (it is, where someone has just died; a last safe place may not be).</summary>
-    private void MakeBody(Dying d, Vec3d spot, int tries)
+    private const int LoadTries = 6;
+
+    private void DropLoose(IEnumerable<ItemStack> stacks, Vec3d at)
+    {
+        foreach (ItemStack stack in stacks)
+        {
+            Entity loose = sapi.World.SpawnItemEntity(stack, at.AddCopy(0, 0.3, 0));
+            loose?.Attributes.SetInt("minsecondsToDespawn", 7 * 24 * 3600);
+        }
+    }
+
+    /// <summary>
+    /// Makes the body once the column it lies in is loaded: it is where someone has just died, but a last safe place may not be.
+    /// The column is asked for again, up to <see cref="LoadTries"/> times; after that the body goes to the floor of the death
+    /// itself (<paramref name="fallback"/>), which is loaded, and if even that is not, it waits for it. A body is never made in a
+    /// column that is not loaded: it would not be saved.
+    /// </summary>
+    private void MakeBody(Dying d, Vec3d spot, int tries, bool fallback)
     {
         var at = new BlockPos((int)Math.Floor(spot.X), (int)Math.Floor(spot.Y), (int)Math.Floor(spot.Z), 0);
-        if (sapi.World.BlockAccessor.GetChunkAtBlockPos(at) == null && tries < 3)
+        if (sapi.World.BlockAccessor.GetChunkAtBlockPos(at) == null)
         {
+            if (tries >= LoadTries && !fallback)
+            {
+                Vec3d near = null;
+                try { near = FloorBelow(d.Pos.X, d.Pos.Y, d.Pos.Z, 48); } catch (Exception) { }
+                near ??= d.Pos.Clone();
+                sapi.Logger.Warning("[backrooms] corpse: the column of {0:0.#} {1:0.#} {2:0.#} would not load; {3}'s body goes to {4:0.#} {5:0.#} {6:0.#}", spot.X, spot.Y, spot.Z, d.Name, near.X, near.Y, near.Z);
+                MakeBody(d, near, 0, true);
+                return;
+            }
+            int attempt = tries;
+            bool again = false;
+            void Retry()
+            {
+                if (again) return;
+                again = true;
+                MakeBody(d, spot, attempt + 1, fallback);
+            }
             sapi.WorldManager.LoadChunkColumnPriority(at.X / GlobalConstants.ChunkSize, at.Z / GlobalConstants.ChunkSize, new ChunkLoadOptions
             {
-                OnLoaded = () => sapi.Event.EnqueueMainThreadTask(() => MakeBody(d, spot, tries + 1), "corpse"),
+                OnLoaded = () => sapi.Event.EnqueueMainThreadTask(Retry, "corpse"),
             });
+            // (If the load never reports, ask again)
+            sapi.World.RegisterCallback(_ => Retry(), 5000);
             return;
         }
         EntityCorpse body;
@@ -261,13 +361,10 @@ public class CorpseSystem : ModSystem
         {
             // (Whatever happens, nothing is lost: the stacks lie there as they would have)
             sapi.Logger.Error("[backrooms] corpse: could not make the body for {0}; dropping their things where they fell: {1}", d.Name, ex);
-            foreach (ItemStack stack in d.Stacks)
-            {
-                Entity loose = sapi.World.SpawnItemEntity(stack, spot.AddCopy(0, 0.3, 0));
-                loose?.Attributes.SetInt("minsecondsToDespawn", 7 * 24 * 3600);
-            }
+            DropLoose(d.Stacks, spot);
             return;
         }
+        d.Body = body;
 
         // The body exists and holds the stacks; whatever goes wrong from here must not drop them a second time
         try
@@ -281,6 +378,49 @@ public class CorpseSystem : ModSystem
         {
             sapi.Logger.Error("[backrooms] corpse: the body of {0} is made, but its marker or message failed: {1}", d.Name, ex);
         }
+    }
+
+    /// <summary>
+    /// Stacks dropped after the body was made: into its empty slots, else (its slots are fixed) into a new body of the right size
+    /// that takes its place, with its record and marker.
+    /// </summary>
+    private void AddToBody(Dying d, List<ItemStack> extra)
+    {
+        EntityCorpse body = d.Body;
+        EntityBehaviorCorpseContents contents = body.GetBehavior<EntityBehaviorCorpseContents>();
+        var rest = new List<ItemStack>();
+        foreach (ItemStack stack in extra)
+        {
+            ItemSlot free = contents.Inventory.FirstOrDefault(sl => sl.Empty);
+            if (free == null) { rest.Add(stack); continue; }
+            free.Itemstack = stack;
+            free.MarkDirty();
+        }
+        contents.Store();
+        if (rest.Count == 0) return;
+        var all = contents.Inventory.Where(sl => !sl.Empty).Select(sl => sl.Itemstack.Clone()).ToList();
+        all.AddRange(rest);
+        d.Stacks.Clear();
+        d.Stacks.AddRange(all);
+        swapFrom = body;
+        EntityCorpse bigger;
+        try
+        {
+            bigger = Spawn(d, body.Pos.XYZ);
+            if (sapi.World.GetEntityById(bigger.EntityId) != bigger) throw new InvalidOperationException("the game did not take the body");
+        }
+        catch (Exception)
+        {
+            // (The old body keeps what fits; the rest is dropped where it lies)
+            DropLoose(rest, body.Pos.XYZ);
+            return;
+        }
+        finally { swapFrom = null; }
+        bigger.WatchedAttributes.SetDouble(EntityCorpse.DiedKey, body.DiedDays);
+        Adopt(bigger);
+        body.Replaced = true;
+        body.Die(EnumDespawnReason.Removed);
+        d.Body = bigger;
     }
 
     /// <summary>Puts a body down: the player's skin and clothes, and the stacks inside.</summary>
@@ -641,22 +781,53 @@ public class CorpseSystem : ModSystem
                     Gear = player == null ? null : CopyClothes(player),
                 };
                 d.Stacks.AddRange(TestStacks());
-                MakeBody(d, ResolveSpot(at, d.Uid), 0);
+                MakeBody(d, ResolveSpot(at, d.Uid), 0, false);
                 return $"A corpse of {d.Name} with {d.Stacks.Count} stacks at {at.X:0.#} {at.Y:0.#} {at.Z:0.#}";
             }
             case "simdeath":
             {
-                // A death with no player to die: items dropped where "Test Pilgrim" fell are caught as a real death's would be
+                // A death with no player to die: the drops of "Test Pilgrim" are marked as the game marks them (a tick after they
+                // spawn), a crafting-grid one is not, and there are strangers' items too: one unmarked beside the body, one marked
+                // as another player's. One more drop comes late, after the body is made (arg "late" seconds, default 5)
                 Vec3d at = player?.Entity?.Pos.XYZ.Clone() ?? DefaultSpot();
                 var d = new Dying { Uid = "simdeath", Name = "Test Pilgrim", Ms = sapi.World.ElapsedMilliseconds, Pos = at, Yaw = 1f };
                 dying[d.Uid] = d;
-                sapi.World.RegisterCallback(_ => Settle(d), CatchMs + 100);
-                int n = 0;
-                foreach (ItemStack stack in TestStacks()) { sapi.World.SpawnItemEntity(stack, at.Clone()); n++; }
-                // A stranger's item far from the body must not be taken
-                ItemStack other = TestStacks().First();
-                sapi.World.SpawnItemEntity(other, at.AddCopy(6, 0, 0));
-                return $"Dropped {n} stacks at {at.X:0.#} {at.Y:0.#} {at.Z:0.#} for a death; one more 6 blocks away that should stay";
+                sapi.World.RegisterCallback(_ => Expire(d), CatchMs + 100);
+                List<ItemStack> stacks = TestStacks();
+                ItemStack grid = stacks[^1];
+                d.Crafting.Add((grid.Collectible.Code.ToString(), grid.StackSize));
+                foreach (ItemStack stack in stacks)
+                {
+                    Entity drop = sapi.World.SpawnItemEntity(stack.Clone(), at.Clone());
+                    if (stack != grid) drop.WatchedAttributes.SetString("byPlayerUid", d.Uid);
+                }
+                sapi.World.SpawnItemEntity(new ItemStack(sapi.World.GetItem(new AssetLocation("backrooms:chalk")), 7), at.AddCopy(0.5, 0, 0));
+                Entity theirs = sapi.World.SpawnItemEntity(new ItemStack(sapi.World.GetItem(new AssetLocation("backrooms:chalk")), 9), at.AddCopy(0, 0, 0.5));
+                theirs.WatchedAttributes.SetString("byPlayerUid", "someone-else");
+                sapi.World.SpawnItemEntity(stacks[0].Clone(), at.AddCopy(6, 0, 0));
+                int late = int.TryParse((arg ?? "").Trim(), out int seconds) ? seconds : 5;
+                sapi.World.RegisterCallback(_ =>
+                {
+                    Entity drop = sapi.World.SpawnItemEntity(new ItemStack(sapi.World.GetItem(new AssetLocation("backrooms:chalk")), 3), at.Clone());
+                    drop.WatchedAttributes.SetString("byPlayerUid", d.Uid);
+                    // ...and enough more to fill the body's slots, to test it growing
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Entity more = sapi.World.SpawnItemEntity(new ItemStack(sapi.World.GetItem(new AssetLocation("game:stick")), i + 1), at.Clone());
+                        more.WatchedAttributes.SetString("byPlayerUid", d.Uid);
+                    }
+                }, late * 1000);
+                return $"Dropped {stacks.Count} stacks for a death at {at.X:0.#} {at.Y:0.#} {at.Z:0.#} (one unmarked, as from a crafting grid), two strangers' chalk beside it and one stack 6 blocks away that should stay; 9 more come in {late} s";
+            }
+            case "far":
+            {
+                // A body 4000 blocks from the death, in a column that is not loaded (the last-safe-place case): it is loaded first
+                Vec3d at = DefaultSpot();
+                var d = new Dying { Uid = "far", Name = "Far Pilgrim", Ms = sapi.World.ElapsedMilliseconds, Pos = at, Yaw = 2f, Settled = true };
+                d.Stacks.AddRange(TestStacks());
+                Vec3d spot = at.AddCopy(4000, 0, 0);
+                MakeBody(d, spot, 0, false);
+                return $"A body for {d.Name} asked for at {spot.X:0.#} {spot.Y:0.#} {spot.Z:0.#}; see the log";
             }
             case "age":
             {
@@ -677,7 +848,7 @@ public class CorpseSystem : ModSystem
                 return $"Removed {n} loaded corpses, and the records of the others";
             }
             default:
-                return "Usage: /backrooms corpse [list | make | simdeath | age [id] | clear]";
+                return "Usage: /backrooms corpse [list | make | simdeath [late seconds] | far | age [id] | clear]";
         }
     }
 
