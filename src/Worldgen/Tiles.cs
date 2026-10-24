@@ -895,6 +895,8 @@ public static class PoolWalls
     public const byte Rail = 2;
     /// <summary>A glowing arched opening in a rotunda's wall, onto light.</summary>
     public const byte Arch = 3;
+    /// <summary>Layout version 11 on: a tall tiled archway, two plain blocks under a round-headed one (not three stacked arches).</summary>
+    public const byte ArchTall = 4;
 }
 
 /// <summary>

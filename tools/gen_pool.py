@@ -5,6 +5,7 @@ Everything in the Poolrooms is the same white ceramic tile, small square tiles w
 undamaged. The slits in the walls glow warm white (they are where the light comes from); the arches round a
 rotunda glow whiter. In the Sanguine Reservoir a red film lies in the grout.
 """
+import math
 import os
 import random
 
@@ -163,7 +164,7 @@ def blocks():
                comment="Level 37: white ceramic tile, every surface; lit warm where light falls through a slit; red-filmed in the Reservoir; the black of a tunnel mouth",
                lightHsvByType={"*-sunlit": [8, 2, 5]}, lightAbsorptionByType={"*-sunlit": 0, "*": 99}, randomizeAxes="xyz")
 
-    # Tile walls carrying a slit of light, a glowing arch, or a handrail on one face (modelled facing north). The
+    # Tile walls carrying a slit of light, a tiled archway (an opening onto light), or a handrail on one face (modelled facing north). The
     # slit is an opening: tile reveals frame a glow set back into the wall, so it reads as light coming through
     wall = cube("pooltile")
     slit = [bx("Back", (0, 0, 1.5), (16, 16, 16), "pooltile", faces=("east", "south", "west", "up", "down")),
@@ -182,12 +183,41 @@ def blocks():
                 el["faces"][f]["rotation"] = 90
         return el
 
+    def arch_b11(round_top):
+        """A tiled archway: an opening in the wall, tile reveals framing a glow set back 2 pixels, as if daylight came
+        from beyond. Two of the plain kind stack under one rounded one (an opening 14 wide, 2 blocks and a half
+        high, with a semicircular head)."""
+        D, X1, X2 = 2, 1, 15
+        keep = ("north", "east", "west", "up", "down")
+
+        def tile(name, x1, y1, x2, y2):
+            el = bx(name, (x1, y1, 0), (x2, y2, D), "pooltile", faces=keep)
+            # Keep the mosaic in register with the plain wall beside it
+            el["faces"]["north"]["uv"] = [x1, 16 - y2, x2, 16 - y1]
+            return el
+
+        def glow(name, x1, y1, x2, y2):
+            return bx(name, (x1, y1, D - 0.05), (x2, y2, D), "archglow", glow=255, faces=("north",), full=True)
+
+        els = [bx("Back", (0, 0, D), (16, 16, 16), "pooltile", faces=("east", "south", "west", "up", "down"))]
+        els[0]["faces"]["up"]["uv"] = els[0]["faces"]["down"]["uv"] = [0, D, 16, 16]
+        if not round_top:
+            els += [tile("JambL", 0, 0, X1, 16), tile("JambR", X2, 0, 16, 16), glow("Glow", X1, 0, X2, 16)]
+            return els
+        spring, r = 7, 7
+        els += [tile("JambL", 0, 0, X1, spring), tile("JambR", X2, 0, 16, spring), glow("Glow", X1, 0, X2, spring)]
+        for i in range(r):
+            y = spring + i
+            w = min(7, round(math.sqrt(r * r - (i + 0.5) ** 2) * 2) / 2)
+            lo, hi = 8 - w, 8 + w
+            els += [tile(f"HeadL{i}", 0, y, lo, y + 1), tile(f"HeadR{i}", hi, y, 16, y + 1), glow(f"Head{i}", lo, y, hi, y + 1)]
+        els.append(tile("Lintel", 0, spring + r, 16, 16))
+        return els
+
     parts = {
         "slit": slit,
-        "arch": [wall,
-                 bx("Arch", (3, 0, -0.02), (13, 12, 0.2), "archglow", glow=255, faces=("north",)),
-                 bx("ArchTop", (4.5, 12, -0.02), (11.5, 14, 0.2), "archglow", glow=255, faces=("north",)),
-                 bx("ArchCrown", (6.5, 14, -0.02), (9.5, 15, 0.2), "archglow", glow=255, faces=("north",))],
+        "arch": arch_b11(False),
+        "archtop": arch_b11(True),
         "rail": rail_b13(wall),
     }
     by_type = {}
@@ -200,11 +230,12 @@ def blocks():
         "creativeinventory": {"general": ["*-north"], "construction": ["*-north"]},
         "blockmaterial": "Ceramic", "drawtype": "json", "shapeByType": by_type,
         "lightAbsorption": 99, "resistance": 4, "sounds": STONE,
-        "lightHsvByType": {"*-slit-*": [8, 1, 18], "*-arch-*": [8, 0, 17]},
-        "lightAbsorptionByType": {"*-slit-*": 0, "*-arch-*": 0, "*": 99},
-    }, "Level 37: tile walls with a slit of glare, a glowing arch, or a handrail, on one face")
+        "lightHsvByType": {"*-slit-*": [8, 1, 18], "*-arch-*": [8, 0, 17], "*-archtop-*": [8, 0, 17]},
+        "lightAbsorptionByType": {"*-slit-*": 0, "*-arch-*": 0, "*-archtop-*": 0, "*": 99},
+    }, "Level 37: tile walls with a slit of glare, a tiled archway (an opening onto light), or a handrail, on one face")
     name("poolwall-slit-*", "Slit of Light")
-    name("poolwall-arch-*", "Glowing Arch")
+    name("poolwall-arch-*", "Tiled Archway")
+    name("poolwall-archtop-*", "Tiled Archway (Arched Head)")
     name("poolwall-rail-*", "Pool Tile with Handrail")
 
     pool_door_block_b13()

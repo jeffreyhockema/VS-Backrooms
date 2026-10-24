@@ -866,7 +866,7 @@
 	"block-pooltile-red": "Pool Tile (Red Film)",
 	"block-pooltile-void": "Darkness",
 	"block-poolwall-slit-*": "Slit of Light",
-	"block-poolwall-arch-*": "Glowing Arch",
+	"block-poolwall-arch-*": "Tiled Archway",
 	"block-poolwall-rail-*": "Pool Tile with Handrail",
 	"block-pooldoor-*": "POOL Door",
 	"block-poolladder-*": "Pool Ladder",
@@ -2758,5 +2758,7 @@
 	"block-built-wallpaper-dotted-upper": "Dotted Yellow Wallpaper",
 	"block-built-wallpaper-dotted-baseboard": "Dotted Yellow Wallpaper",
 	"block-built-wallpaper-cream-upper": "Pale Wallpaper",
-	"block-built-wallpaper-cream-baseboard": "Pale Wallpaper"
+	"block-built-wallpaper-cream-baseboard": "Pale Wallpaper",
+
+	"block-poolwall-archtop-*": "Tiled Archway (Arched Head)"
 }
