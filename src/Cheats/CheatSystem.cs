@@ -109,7 +109,7 @@ public partial class CheatSystem : ModSystem
     /// <summary>The targets that are part of play; the rest are camera spots for the screenshots, and the manhole test.</summary>
     public static readonly string[] GameplayTargets = { "gate", "threshold", "cache", "refuge", "den", "redroom" };
 
-    public static readonly string[] Stats = { "health", "food", "stability" };
+    public static readonly string[] Stats = { "health", "food", "stability", "thirst", "rest" };
 
     /// <summary>What <c>/backrooms kit</c> gives, by kind (testing when none is given).</summary>
     public static readonly (string Code, string Name, (string Code, int Quantity)[] Things)[] Kits =
@@ -172,7 +172,7 @@ public partial class CheatSystem : ModSystem
                 .HandleWith(OnFogSpellCommand)
             .EndSubCommand()
             .BeginSubCommand("heal")
-                .WithDescription("Restores your health, food, body temperature and stability, and resets your time out (menace exposure)")
+                .WithDescription("Restores your health, food, water, body temperature and stability, rests you (no awake hours, no caffeine crash, no gut rot), and resets your time out (menace exposure)")
                 .RequiresPlayer()
                 .HandleWith(OnHealCommand)
             .EndSubCommand()
@@ -232,7 +232,7 @@ public partial class CheatSystem : ModSystem
                 .HandleWith(OnDirectorCommand)
             .EndSubCommand()
             .BeginSubCommand("stat")
-                .WithDescription("Sets your health or food (as a fraction of the most, 0-1) or your stability (0-1)")
+                .WithDescription("Sets your health, food or thirst (hydration, as a fraction of the most, 0-1), your stability (0-1) or your rest (1 rested, 0 dead on your feet: awake hours = (1 - value) x 60)")
                 .RequiresPlayer()
                 .WithArgs(parsers.WordRange("stat", Stats), parsers.Double("value"))
                 .HandleWith(OnStatCommand)
@@ -310,7 +310,17 @@ public partial class CheatSystem : ModSystem
         if (entity.GetBehavior<EntityBehaviorBodyTemperature>() is { } temperature) temperature.CurBodyTemperature = temperature.NormalBodyTemperature;
         entity.WatchedAttributes.SetDouble("temporalStability", 1);
         entity.Attributes.SetDouble(MenaceSystem.RestedKey, sapi.World.Calendar.TotalHours);
-        return TextCommandResult.Success("Healed, fed, warmed, stable and rested");
+        // The needs: full of water, no awake hours, no caffeine (nor its crash), no gut rot
+        Needs.Needs.SetHydration(entity, Needs.Needs.MaxHydration);
+        Needs.Needs.SetAwakeHours(entity, 0);
+        if (entity.WatchedAttributes.GetTreeAttribute(Needs.Needs.FatigueTree) is { } fatigue)
+        {
+            fatigue.SetDouble("caffeineUntil", 0);
+            fatigue.SetFloat("crashHours", 0);
+            entity.WatchedAttributes.MarkPathDirty(Needs.Needs.FatigueTree);
+        }
+        entity.WatchedAttributes.SetDouble(Needs.Needs.SickKey, 0);
+        return TextCommandResult.Success("Healed, fed, watered, warmed, stable and rested");
     }
 
     private TextCommandResult OnKitCommand(TextCommandCallingArgs args)
@@ -1057,6 +1067,12 @@ public partial class CheatSystem : ModSystem
                 if (entity.GetBehavior<EntityBehaviorHunger>() is not { } hunger) return TextCommandResult.Error("You have no hunger");
                 hunger.Saturation = value * hunger.MaxSaturation;
                 return TextCommandResult.Success($"Satiety {hunger.Saturation:0} / {hunger.MaxSaturation:0}");
+            case "thirst":
+                Needs.Needs.SetHydration(entity, value * Needs.Needs.MaxHydration);
+                return TextCommandResult.Success($"Hydration {Needs.Needs.Hydration(entity):0} / {Needs.Needs.MaxHydration:0} ({Needs.NeedsMath.ThirstBand(value)}{(Needs.Needs.ThirstOn(sapi.World) ? "" : "; thirst is off in this world")})");
+            case "rest":
+                Needs.Needs.SetAwakeHours(entity, (1 - value) * Needs.Needs.DeadHours);
+                return TextCommandResult.Success($"Awake {Needs.Needs.AwakeHours(entity):0.#} h ({Needs.NeedsMath.Band(Needs.Needs.AwakeHours(entity))}{(Needs.Needs.FatigueOn(sapi.World) ? "" : "; fatigue is off in this world")})");
             default:
                 entity.WatchedAttributes.SetDouble("temporalStability", value);
                 return TextCommandResult.Success($"Stability {value:0.00}");

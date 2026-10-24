@@ -49,3 +49,9 @@ In Level 0 (the Lobby, where nothing hunts), the dummy carrying a candle: a crea
 ## Hound cases (`--only iso-hound`)
 
 `iso-hound-nerve` (a dummy staring a Hound down from 10 blocks: no hunt for its nerve, then "hunts: nerve"), `iso-hound-back-turned` (the target's back turned, in sight within 16 blocks: hunted after 2 seconds), `iso-hound-runner` (a running dummy beats the stare: "hunts: ran") and `iso-hound-gives-up` (a dark dummy out of its line: its belief fades, it searches and leaves, and does not hunt again).
+
+## Needs cases (`--only needs`, thirst and fatigue)
+
+`needs-boot` (no log line about the needs' player patch or behaviours failing), `needs-selftest` (`/backrooms needstest`: every
+pure-math check of docs/design/needs/README.md passes) and `needs-rates` (`ratecheck 1 heartland 400 awake=0` against
+`awake=70`: the director's needs multiplier is about 2.9; at 0 awake hours it is 1, so `iso-rates` is untouched).

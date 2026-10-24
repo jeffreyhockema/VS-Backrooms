@@ -82,7 +82,7 @@ public partial class MenaceSystem
 
         RosterEntry[] roster = a.Snackrooms ? Roster.Snackrooms : a.Castle ? Roster.Castle : Roster.For(a.Level);
         var rates = new Dictionary<Encounter, double>();
-        string rateText = RateCheck(a.Level, bandWord, 400, Setting.Spawns, Setting.Code, 0, new Random(12345));
+        string rateText = RateCheck(a.Level, bandWord, 400, Setting.Spawns, Setting.Code, 0, new Random(12345), Needs.Needs.DirectorMult(entity));
         Match m = rateText == null ? null : RatesPattern.Match(rateText);
         if (m != null && m.Success)
         {

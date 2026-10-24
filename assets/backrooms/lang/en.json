@@ -151,6 +151,22 @@
 	"dispenser-stock": "{0} left",
 	"dispenser-empty": "It's empty.",
 
+	"woke-rested": "You wake rested.",
+	"woke-pain": "Pain wakes you.",
+	"woke-menace": "You wake with a start. Something is in the room.",
+	"woke-thirst": "Thirst wakes you.",
+	"woke-hunger": "Hunger wakes you.",
+	"cantsleep-hungry": "You're too hungry to sleep.",
+	"cantsleep-thirsty": "You're too thirsty to sleep.",
+	"cantsleep-menace": "Not with something this close.",
+	"sleep-hint": "You could sleep now. Find a bed, or anything like one.",
+	"caffeine-crash": "The Green Almond Water wears off, and the hours you held back land all at once.",
+	"sick-start": "Your stomach turns.",
+	"needs-oldworld": "This world now has thirst and fatigue: you need water and sleep as well as food. To turn one off, type /worldconfig backroomsThirst false or /worldconfig backroomsFatigue false (it takes effect at once).",
+	"deathmsg-thirst-1": "Player {0} died of thirst.",
+	"deathmsg-thirst-2": "Player {0} never found the water.",
+	"deathmsg-thirst-3": "Player {0} dried up in the Backrooms.",
+
 	"blockdesc-supplybox": "Left behind by a previous wanderer. Break it open to see what is inside.",
 	"itemdesc-almondwater": "A sweet, milky drink. It tastes faintly of almonds and makes the hum of the lights a little quieter. Steadies you when reality starts to slip.",
 

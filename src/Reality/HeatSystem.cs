@@ -7,10 +7,11 @@ using Vintagestory.API.Server;
 namespace Backrooms.Reality;
 
 /// <summary>
-/// Heat: the hot levels cost food. Vintage Story has no harm from heat and thirst was left out, so the heat of Pipe
-/// Dreams (38 °C), the Electrical Station (35 °C) and the boiler halls (42 °C) works through hunger instead, with
-/// the game's own "hungerrate" stat: from 30 °C up, you burn through food faster, up to half again as fast. Crossing
-/// them means carrying rations, or finding a way round.
+/// Heat: the hot levels make you thirsty. Vintage Story has no harm from heat, so the heat of Pipe Dreams (38 °C), the
+/// Electrical Station (35 °C) and the boiler halls (42 °C) works through the needs: from 30 °C up you dry out faster, up
+/// to half again as fast, through the mod's "thirstrate" stat (docs/design/needs/README.md, section 3). In a world with
+/// thirst switched off it works through hunger instead, with the game's own "hungerrate" stat, as it did before thirst
+/// existed. Crossing them means carrying water (or rations), or finding a way round.
 /// </summary>
 public class HeatSystem : ModSystem
 {
@@ -46,13 +47,11 @@ public class HeatSystem : ModSystem
             int level = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z));
             float temperature = layout.TemperatureAt(x, y, z, geometry.FloorFor(level));
             float extra = Math.Clamp((temperature - From) * PerDegree, 0, MaxExtra);
-            // Only touch the stat when it changes: it is synced to the client
-            if (Math.Abs(Current(entity) - extra) < 0.001f) continue;
-            if (extra <= 0) entity.Stats.Remove("hungerrate", StatCode);
-            else entity.Stats.Set("hungerrate", StatCode, extra, false);
+            // Thirst while it is on, else hunger (the setting is read live, so a change moves the penalty across);
+            // the stat is only touched when it changes: it is synced to the client
+            bool thirst = Needs.Needs.ThirstOn(sapi.World);
+            Needs.Needs.SetStat(entity, thirst ? "thirstrate" : "hungerrate", StatCode, extra);
+            Needs.Needs.SetStat(entity, thirst ? "hungerrate" : "thirstrate", StatCode, 0);
         }
     }
-
-    private static float Current(Entity entity) =>
-        entity.Stats["hungerrate"].ValuesByKey.TryGetValue(StatCode, out var value) ? value.Value : 0f;
 }

@@ -1250,6 +1250,41 @@ def t_felt_rates(c):
 
 FELT_CASES = [("felt-rates", t_felt_rates)]
 
+# ---- Needs, piece A (docs/design/needs/README.md, section 12): thirst and fatigue. The pure-math self-test, a clean boot with the
+# player patch, and the director's multiplier through the rate check (1 at 0 awake hours, so iso-rates is untouched).
+NEEDS_TEST_RE = re.compile(r"needstest: (\d+) checks, (\d+) failed")
+
+
+def t_needs_selftest(c):
+    m = c.srv.mark()
+    c.srv.cmd("/backrooms needstest")
+    r = c.srv.wait(lambda l: NEEDS_TEST_RE.search(l), m, 20)
+    if not r:
+        return False, "no needstest summary"
+    time.sleep(0.5)
+    fails = [l.strip() for l in c.srv.since(m) if re.search(r"\bFAIL ", l)]
+    checks, failed = int(r.group(1)), int(r.group(2))
+    return failed == 0 and not fails and checks >= 40, "%d checks, %d failed%s" % (checks, failed, "".join("\n  " + f[:200] for f in fails[:8]))
+
+
+def t_needs_boot(c):
+    """The server booted with the needs' player patch and behaviours: nothing in the log about them failing."""
+    bad = [l for l in c.srv.since(0) if re.search(r"needs|backrooms-thirst|backrooms-fatigue|player-needs", l, re.I)
+           and re.search(r"error|exception|fail|not found|unknown|could not", l, re.I) and not l.startswith(">>>") and "needstest" not in l]
+    return not bad, "%d needs error lines in the boot log%s" % (len(bad), "".join("\n  " + b[:200] for b in bad[:5]))
+
+
+def t_needs_rates(c):
+    """`ratecheck awake=<h>`: the multiplier is 1 at 0 awake hours and about 2.9 at 70 (Level 1 heartland, 400 simulated hours)."""
+    base = _rate(c, "1", "heartland", 400, "awake=0")
+    tired = _rate(c, "1", "heartland", 400, "awake=70")
+    ratio = tired["bodies"] / base["bodies"] if base["bodies"] > 0 else 0
+    ok = 2.3 <= ratio <= 3.6
+    return ok, "Level 1 heartland bodies/h: awake 0 %.2f, awake 70 %.2f, ratio %.2f (want about 2.9)" % (base["bodies"], tired["bodies"], ratio)
+
+
+NEEDS_CASES = [("needs-boot", t_needs_boot), ("needs-selftest", t_needs_selftest), ("needs-rates", t_needs_rates)]
+
 
 def smoke(c):
     """`dummies on` with a Level 1 dummy for 60 s must produce no errors."""
@@ -1293,11 +1328,13 @@ def main():
         only = (only - {"iso"}) | {n for n, _ in ISO_CASES}
     if only and "felt" in only:
         only = (only - {"felt"}) | {n for n, _ in FELT_CASES}
+    if only and "needs" in only:
+        only = (only - {"needs"}) | {n for n, _ in NEEDS_CASES}
     if only and "iso-hound" in only:
         only = (only - {"iso-hound"}) | {n for n, _ in ISO_HOUND_CASES}
     if only:
         # A mistyped name would otherwise boot the server (up to 15 minutes), run nothing and exit 0
-        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES} | {"p1-no-errors", "dummies-smoke"}
+        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES} | {"p1-no-errors", "dummies-smoke"}
         if only - known:
             sys.exit("unknown case(s): " + ", ".join(sorted(only - known)))
     started = time.time()
@@ -1311,7 +1348,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()
