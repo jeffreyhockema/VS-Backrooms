@@ -6,7 +6,7 @@ using Backrooms.Worldgen;
 namespace Backrooms.Thresholds;
 
 /// <summary>What a two-way threshold that is used (not walked into) is, for the way back that can be built where it comes out.</summary>
-public enum WayBackKind : byte { None = 0, Door = 1, Elevator = 2 }
+public enum WayBackKind : byte { None = 0, Door = 1, Elevator = 2, Vent = 3 }
 
 /// <summary>
 /// The blocks a way back built at an arrival is made of: each level's own door or elevator. Saved by value with the
@@ -32,6 +32,8 @@ public enum WayBackStyle : byte
     HotelLift = 8,
     /// <summary><c>backrooms:cagelift-hotel</c>: the antique copper cage, two wide, in Level 5's panelled walls.</summary>
     HotelCage = 9,
+    /// <summary><c>backrooms:ventgrate</c>: a vent grille, one block, at the foot of a wall of Level 2's tunnels: the way back out of a vent.</summary>
+    Vent = 10,
 }
 
 /// <summary>
@@ -95,6 +97,7 @@ public sealed partial class ThresholdNetwork
         "elevator" or "l3999-elevator" => WayBackKind.Elevator,
         "door" or "tunneldoor" or "basement" or "substation" or "maintenance" or "rowhouse" or "pooldoor" or "dollhouse" or "kitchendoor"
             or "endexit" or "endbookstore" or "fundoor" or "mascotdoor" or "funlobbydoor" or "l3999-staff" or "l3999-revolving" or "l188-fireexit" => WayBackKind.Door,
+        "vent" => WayBackKind.Vent,
         _ => WayBackKind.None,
     };
 
@@ -121,6 +124,8 @@ public sealed partial class ThresholdNetwork
             5 => Hashing.Unit(pick) < 0.3 ? WayBackStyle.HotelLift : WayBackStyle.HotelCage,
             _ => null,
         },
+        // (Level 8's vents lead up into Level 2's pipes and tunnels, and you come out of a vent in their wall)
+        WayBackKind.Vent => level == 2 ? WayBackStyle.Vent : null,
         _ => null,
     };
 

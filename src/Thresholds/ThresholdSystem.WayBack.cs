@@ -54,7 +54,7 @@ public partial class ThresholdSystem
     };
 
     /// <summary>How many blocks high a way back is: a door's two leaves, a lift's two and its header (or the cage's dial).</summary>
-    private static int WayBackHeight(WayBackStyle style) => style is WayBackStyle.OfficeLift or WayBackStyle.HotelLift or WayBackStyle.HotelCage ? 3 : 2;
+    private static int WayBackHeight(WayBackStyle style) => style is WayBackStyle.OfficeLift or WayBackStyle.HotelLift or WayBackStyle.HotelCage ? 3 : style == WayBackStyle.Vent ? 1 : 2;
 
     /// <summary>The code of a block of a way back: leaf <paramref name="leaf"/> (0 the first) at <paramref name="rel"/> above the floor.</summary>
     private string WayBackCode(WayBack way, int leaf, int rel)
@@ -71,6 +71,7 @@ public partial class ThresholdSystem
         {
             case WayBackStyle.OfficeDoor: return $"officedoor-{part}";
             case WayBackStyle.MetalDoor: return $"metaldoor-{part}";
+            case WayBackStyle.Vent: return "ventgrate";
             case WayBackStyle.PoolDoor: return $"pooldoor-{part}";
             case WayBackStyle.FreightLift: return $"elevatordoor-{part}";
             case WayBackStyle.TunnelDoor:
@@ -178,8 +179,8 @@ public partial class ThresholdSystem
             .BeginSubCommand("wayback")
                 .WithDescription("(Dev test) Goes through the threshold block of a kind (door, elevator, tunneldoor, basement, ...) at x z as someone standing beside it would, the first time or again: "
                     + "then sees to the door or elevator built as its way back where it comes out (or the thin spot), tries that way back, and writes the blocks round the arrival to ModData/backrooms/wayback-<kind>-x-z.txt. "
-                    + "Kind sim-door or sim-elevator with a level and a number instead of x z: a made-up door or elevator into that level (the harness's `wayback` mode), with the spawn as home; "
-                    + "simblocked-door or simblocked-elevator: the same with a chest put in the wall first, so the way back cannot be built")
+                    + "Kind sim-door, sim-elevator or sim-vent with a level and a number instead of x z: a made-up door or elevator into that level (the harness's `wayback` mode), with the spawn as home; "
+                    + "simblocked-door, simblocked-elevator or simblocked-vent: the same with a chest put in the wall first, so the way back cannot be built")
                 .WithArgs(parsers.Word("kind"), parsers.Int("x"), parsers.Int("z"))
                 .HandleWith(args =>
                 {
@@ -207,12 +208,12 @@ public partial class ThresholdSystem
         {
             // A made-up door or elevator into level x (number z), from far outside the world, as the harness's own
             int level = x, n = z;
-            bool elevator = kind.EndsWith("elevator");
+            bool elevator = kind.EndsWith("elevator"), vent = kind.EndsWith("vent");
             passage = new Passage
             {
                 // (Each its own: a made-up door and a made-up elevator of the same number are not the same threshold)
-                Source = (-4_000_000 - n, -4_000_000 - level - (elevator ? 0 : 100)), Key = (ulong)n * 7919UL + 13, TwoWay = true,
-                WayBack = elevator ? WayBackKind.Elevator : WayBackKind.Door,
+                Source = (-4_000_000 - n, -4_000_000 - level - (elevator ? 0 : vent ? 200 : 100)), Key = (ulong)n * 7919UL + 13, TwoWay = true,
+                WayBack = elevator ? WayBackKind.Elevator : vent ? WayBackKind.Vent : WayBackKind.Door,
                 Find = k => layout.FindArrival(level, k) is { } a ? (a.X, a.Z, layout.ArrivalHeight(a.X, a.Z)) : null,
             };
             EntityPos spawn = sapi.World.DefaultSpawnPosition;
