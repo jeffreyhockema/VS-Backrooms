@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Level 188: you can climb through the windows now. The frame of the windows onto elsewhere (in the courtyard, and in Level 0, Level 1 and Level Fun) left an opening 1.81 blocks high, a little less than you are tall, so nothing could pass; the frame no longer blocks the top and bottom of the opening (jump onto the sill and walk in). The iron hatch in the middle of the deck is also much quieter: you hear it grind open only within about ten blocks, loudest close by.
 
 - Level 37: the rotundas' glowing arches are real tiled archways now, not three small glowing stickers stacked on the wall: an opening 14 pixels wide and two and a half blocks tall with a round head, tile reveals round it and the glow set back inside as if daylight came from beyond (new worlds; the old blocks are now tall recessed openings, and the light is as bright as before).
 - Level 94 (new worlds): the houses on the hills and in the towns have the Suburbs' real outsides: tall windows in every room's wall (a picture window in the living room, upstairs windows over them, shutters on some), front and back doors that open, and a brick chimney on every house, standing outside a gable end or rising through the ridge, instead of a slit of a window, a doorway with no door and a chimney flat in the wall. The doll's house and flooded house doors are unchanged.
