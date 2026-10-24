@@ -2150,12 +2150,8 @@ def level5():
         box("Bottle", (13.5, 12.5, 13.5), (15, 17, 15), "bottle"), box("Neck", (13.9, 17, 13.9), (14.6, 19, 14.6), "bottle"),
         box("Glass1", (0.8, 12.5, 0.8), (2, 14.5, 2), "crystal"), box("Glass2", (14, 12.5, 0.8), (15.2, 14.5, 2), "crystal"),
         box("Glass3", (0.8, 12.5, 14), (2, 14.5, 15.2), "crystal"), box("Ashtray", (7, 12.5, 14.2), (9, 13, 15.6), "crystal")])
-    save("turntable", t, [
-        box("Base", (2, 0, 2), (14, 10, 14), "wood"),
-        box("Platter", (3.5, 10, 3.5), (12.5, 10.6, 12.5), "record"),
-        box("Arm", (11, 10.5, 4), (12, 11.5, 11), "brass"),
-        box("Horn", (10, 10.5, 10), (15, 17, 15), "brass"),
-    ])
+    save("turntable", dict(l5, **{k: f"backrooms:block/detail/{k}" for k in (
+        "l5record", "l5vinylside", "l5platter", "l5ttcloth", "l5curioback")}), L5.turntable())  # (Level 5 art)
     if D4_BOILER:
         oriented("boiler", dict(t, **BOILER_TEX, **BOILER_D4_TEX), boiler_d4())
     else:

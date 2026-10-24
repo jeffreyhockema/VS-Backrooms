@@ -291,3 +291,114 @@ def gilt_mirror():
     els.append(b("Glass", (1.75, 1.25, -0.45), (14.25, 14.75, -0.35), "l5mirror", faces=("north",), uv=[0, 0, 16, 16]))
     els += ring("Bevel", 1.75, 1.25, 14.25, 14.75, 0.5, -0.6, -0.35, "l5mirrorbevel", faces=("north",))
     return els
+
+
+# ======================= Turntable =======================
+
+def turntable():
+    """A 1920s phonograph console in mahogany (footprint 2-14 x 2-14, the old block's; 10.4 high to the record): bun
+    feet under a moulded plinth, a bevelled cabinet with a brass-framed gold speaker cloth on the front and a brass
+    crank on the east side, a moulded top with a green baize deck, and on it a steel platter carrying a shellac record
+    (a round label, a spindle), a tonearm on a brass pivot with a counterweight and a headshell with its needle resting
+    on the grooves, and a volume knob. The lid is propped open at the back, lined with velvet."""
+    octagon = _octagon()
+    w, br = "mahogany", "brass"
+    els = []
+    for i, (x, z) in enumerate(((2.5, 2.5), (11.5, 2.5), (2.5, 11.5), (11.5, 11.5))):
+        els += [b(f"Foot{i}", (x, 0, z), (x + 2, 0.7, z + 2), w, faces=NOD),
+                b(f"Ankle{i}", (x + 0.25, 0.7, z + 0.25), (x + 1.75, 1.4, z + 1.75), w, faces=("north", "east", "south", "west"))]
+    els.append(b("Plinth", (2, 1.4, 2), (14, 2.2, 14), w))
+    els += K.bevelled_box("Body", (2.5, 2.2, 2.5), (13.5, 8.5, 13.5), w, b=0.25)
+    # the speaker: a gold cloth behind a brass frame
+    els += K.frame_members("Grille", 4, 3.2, 12, 7.6, 1.9, 2.5, 0.5, br)[0]
+    els.append(b("Cloth", (4.5, 3.7, 2.0), (11.5, 7.1, 2.5), "l5ttcloth", faces=("north",)))
+    # the crank on the east side
+    els += [b("CrankStub", (13.5, 5.4, 7.5), (14.5, 5.9, 8.0), br, faces=("north", "east", "south", "up", "down")),
+            b("CrankArm", (14.5, 3.9, 7.5), (15.0, 5.9, 8.0), br),
+            b("CrankKnob", (14.3, 3.4, 7.25), (15.2, 3.9, 8.25), w)]
+    els += K.bevelled_box("Top", (1.75, 8.5, 1.75), (14.25, 9.5, 14.25), w, b=0.25)
+    els.append(b("Baize", (2.75, 9.5, 2.75), (13.75, 9.75, 13.25), "felt", faces=("north", "east", "south", "west", "up")))
+    # the platter and the record
+    cx, cz = 7.6, 8.2
+    els += octagon("Platter", cx, cz, 4.9, 9.75, 10.05, "l5platter", faces=("north", "east", "south", "west", "up"), lift=0.005)
+    els += octagon("RecordEdge", cx, cz, 4.6, 10.05, 10.5, "l5vinylside", faces=("north", "east", "south", "west"))
+    els.append(b("Record", (cx - 4.75, 10.5, cz - 4.75), (cx + 4.75, 10.55, cz + 4.75), "l5record", faces=("up",), uv=[0, 0, 9.5, 9.5]))
+    els.append(b("Spindle", (cx - 0.25, 10.55, cz - 0.25), (cx + 0.25, 11.3, cz + 0.25), br, faces=("north", "east", "south", "west", "up")))
+    # the tonearm: pivot base, collar, a tube turned toward the record, the counterweight behind and the headshell
+    px, pz = 12.9, 4.2
+    els += [b("ArmBase", (px - 0.8, 9.75, pz - 0.8), (px + 0.8, 10.4, pz + 0.8), br, faces=NOD),
+            b("ArmCollar", (px - 0.5, 10.4, pz - 0.5), (px + 0.5, 11.2, pz + 0.5), br, faces=NOD)]
+    th = math.degrees(math.atan2(-2.55, 2.25))
+    els += [b("Arm", (px - 0.25, 11.2, pz), (px + 0.25, 11.7, pz + 3.4), br, rot=(0, th, 0), origin=(px, 11.2, pz)),
+            b("Counterweight", (px - 0.5, 11.0, pz - 1.4), (px + 0.5, 12.0, pz - 0.2), br, rot=(0, th, 0), origin=(px, 11.2, pz))]
+    ex, ez = px + 3.4 * math.sin(math.radians(th)), pz + 3.4 * math.cos(math.radians(th))
+    els += [b("Headshell", (ex - 0.5, 10.9, ez), (ex + 0.5, 11.4, ez + 1.3), br, rot=(0, -75, 0), origin=(ex, 11.2, ez)),
+            b("Needle", (ex - 0.25, 10.55, ez + 1.0), (ex + 0.25, 10.9, ez + 1.3), "l5platter", rot=(0, -75, 0), origin=(ex, 11.2, ez))]
+    els += K.bevelled_box("Knob", (3.1, 9.75, 2.9), (4.1, 10.5, 3.9), br, b=0.25)
+    # the lid, hinged at the back (z 13.5, y 9.5) and propped open: its outside faces the back, its velvet lining the front
+    hinge = (8.0, 9.5, 13.5)
+    els += [b("LidShell", (2.25, 9.75, 2.5), (13.75, 10.25, 13.5), w, rot=(97, 0, 0), origin=hinge),
+            b("LidLining", (2.75, 9.5, 3.0), (13.25, 9.75, 13.0), "l5curioback", faces=("down",), rot=(97, 0, 0), origin=hinge)]
+    return els
+
+
+# ======================= Room service tray =======================
+
+def room_service_tray():
+    """A silver-plated room service tray (3.2-12.8 x 3.9-12.1 x up to 1.6, front to the north), its plate worn to copper
+    at the corners: a floor, walls with a rolled lip and a tab handle at each short end, a starched cloth, and on it a
+    domed cloche on a china plate (brass knob), a cup of coffee on a saucer with a teaspoon, a folded napkin with a
+    knife on it, a fork, and a bud vase with a red rose."""
+    octagon = _octagon()
+    t = "l5trayplate"
+    side = ("north", "east", "south", "west", "up")
+    els = [b("Floor", (3.2, 0, 3.9), (12.8, 0.4, 12.1), t),
+           b("WallN", (3.2, 0.4, 3.9), (12.8, 1.3, 4.4), t, faces=("north", "east", "south", "west")),
+           b("WallS", (3.2, 0.4, 11.6), (12.8, 1.3, 12.1), t, faces=("north", "east", "south", "west")),
+           b("WallW", (3.2, 0.4, 4.4), (3.7, 1.3, 11.6), t, faces=("north", "south", "west", "up")),
+           b("WallE", (12.3, 0.4, 4.4), (12.8, 1.3, 11.6), t, faces=("north", "south", "east", "up")),
+           b("LipN", (3.2, 1.3, 3.9), (12.8, 1.6, 4.6), t, faces=("north", "east", "south", "west", "up")),
+           b("LipS", (3.2, 1.3, 11.4), (12.8, 1.6, 12.1), t, faces=("north", "east", "south", "west", "up")),
+           b("LipW", (3.2, 1.3, 4.6), (3.9, 1.6, 11.4), t, faces=("north", "south", "west", "up")),
+           b("LipE", (12.1, 1.3, 4.6), (12.8, 1.6, 11.4), t, faces=("north", "south", "east", "up"))]
+    # a tab handle at each end
+    els += [b("HandleW", (2.7, 0.6, 6.3), (3.2, 1.1, 9.7), t, faces=("north", "south", "west", "up", "down")),
+            b("HandleWTip", (2.4, 0.6, 6.8), (2.7, 1.1, 9.2), t, faces=("north", "south", "west", "up", "down")),
+            b("HandleE", (12.8, 0.6, 6.3), (13.3, 1.1, 9.7), t, faces=("north", "south", "east", "up", "down")),
+            b("HandleETip", (13.3, 0.6, 6.8), (13.6, 1.1, 9.2), t, faces=("north", "south", "east", "up", "down"))]
+    els.append(b("Cloth", (3.9, 0.4, 4.6), (12.1, 0.9, 11.4), "l5sheet", faces=side))
+    # the cloche on its plate
+    cx, cz = 6.5, 8.2
+    els += octagon("CPlate", cx, cz, 2.6, 0.9, 1.1, "l5china", faces=side, lift=0.005)
+    ys = (1.1, 1.45, 1.8, 2.15, 2.5, 2.8, 3.05, 3.25, 3.4)  # a domed profile, an ellipse 2.4 wide and 2.4 high, as steps
+    for k in range(len(ys) - 1):
+        mid = ((ys[k] + ys[k + 1]) / 2 - 1.1) / 2.4
+        els += octagon(f"Dome{k}", cx, cz, round(2.4 * math.sqrt(max(0.0, 1 - mid * mid)), 2), ys[k], ys[k + 1], "l5silver", faces=side, lift=0.005)
+    els += octagon("CKnob", cx, cz, 0.55, 3.4, 4.1, "brass", faces=("north", "east", "south", "west", "up"), lift=0.005)
+    # coffee: saucer, cup, handle, the coffee, a teaspoon
+    kx, kz = 10.7, 9.3
+    els += octagon("Saucer", kx, kz, 1.35, 0.9, 1.1, "l5china", faces=side, lift=0.005)
+    els += octagon("Cup", kx, kz, 0.85, 1.1, 1.9, "china", faces=("north", "east", "south", "west", "up"), lift=0.005)
+    els += octagon("Coffee", kx, kz, 0.65, 1.9, 1.95, "l5coffee", faces=("up",), lift=0.003)
+    els += [b("CupHandle", (kx + 0.85, 1.2, kz - 0.25), (kx + 1.3, 1.7, kz + 0.25), "china"),
+            b("SpoonBowl", (9.9, 1.1, 7.95), (10.6, 1.3, 8.4), "l5silver", faces=side),
+            b("SpoonHandle", (10.6, 1.1, 8.05), (11.9, 1.3, 8.3), "l5silver", faces=side)]
+    # the napkin, folded, with a knife across it; a fork on the cloth
+    els += [b("Napkin", (9.0, 0.9, 4.8), (10.5, 1.25, 6.2), "l5napkin", faces=side),
+            b("NapkinFold", (9.0, 1.25, 4.8), (10.5, 1.5, 5.4), "l5napkin", faces=side),
+            b("KnifeBlade", (9.1, 1.25, 5.6), (10.0, 1.45, 6.1), "l5silver", faces=side),
+            b("KnifeHandle", (10.0, 1.25, 5.65), (10.45, 1.5, 6.05), "china", faces=side)]
+    els += [b("ForkTine1", (3.9, 0.9, 4.7), (4.9, 1.15, 5.1), "l5silver", faces=side),
+            b("ForkTine2", (3.9, 0.9, 5.3), (4.9, 1.15, 5.7), "l5silver", faces=side),
+            b("ForkHead", (4.9, 0.9, 4.7), (5.3, 1.15, 5.7), "l5silver", faces=side),
+            b("ForkHandle", (5.3, 0.9, 5.0), (8.2, 1.15, 5.4), "l5silver", faces=side)]
+    # the bud vase and its rose
+    vx, vz = 11.4, 5.6
+    els += octagon("VaseBase", vx, vz, 0.6, 0.9, 1.4, "l5vase", faces=side, lift=0.005)
+    els += octagon("VaseBody", vx, vz, 0.5, 1.4, 2.8, "l5vase", faces=("north", "east", "south", "west"), lift=0.005)
+    els += octagon("VaseLip", vx, vz, 0.65, 2.8, 3.2, "l5vase", faces=side, lift=0.005)
+    els += [b("Stem", (vx - 0.25, 3.2, vz - 0.25), (vx + 0.25, 4.8, vz + 0.25), "l5stem", faces=("north", "east", "south", "west")),
+            b("Leaf", (vx + 0.25, 3.7, vz - 0.25), (vx + 1.0, 3.95, vz + 0.25), "l5stem", rot=(0, 0, 25), origin=(vx + 0.25, 3.8, vz)),
+            b("Bloom", (vx - 0.6, 4.8, vz - 0.6), (vx + 0.6, 5.7, vz + 0.6), "l5rose"),
+            b("BloomTop", (vx - 0.4, 5.7, vz - 0.4), (vx + 0.4, 6.0, vz + 0.4), "l5rose", faces=side)]
+    return els
