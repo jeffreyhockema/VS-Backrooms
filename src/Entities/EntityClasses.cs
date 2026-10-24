@@ -7,6 +7,25 @@ namespace Backrooms.Entities;
 public class EntityDeathmoth : EntityButterfly
 {
     public override bool IsInteractable => true;
+
+    /// <summary>EntityAgent's own tick, called past EntityButterfly's override (a non-virtual call through its function pointer).</summary>
+    private static readonly System.IntPtr AgentTick = typeof(EntityAgent).GetMethod(nameof(EntityAgent.OnGameTick)).MethodHandle.GetFunctionPointer();
+    private System.Action<float> agentTick;
+
+    /// <summary>
+    /// Dead, on the client, it skips the butterfly's tick: that clears the running animations and starts "fly" again
+    /// whenever it is not feeding or resting, which would wipe the die animation and set a dead moth flapping.
+    /// </summary>
+    public override void OnGameTick(float dt)
+    {
+        if (!Alive && Api?.Side == EnumAppSide.Client)
+        {
+            agentTick ??= (System.Action<float>)System.Activator.CreateInstance(typeof(System.Action<float>), this, AgentTick);
+            agentTick(dt);
+            return;
+        }
+        base.OnGameTick(dt);
+    }
 }
 
 /// <summary>
