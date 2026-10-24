@@ -3961,27 +3961,66 @@ def mangled():
         return d
     m.animation("hurt", 16, {0: full(hurt_names, {}), 4: full(hurt_names, flinch(1.0)), 9: full(hurt_names, flinch(0.4)), 15: full(hurt_names, {})}, end="Stop")
 
-    # ---- Death (it never dies; the animation is there all the same): the legs buckle one after another, the body
-    # comes down into the street and the legs curl in over it like a dead spider's; the knot rolls out in front ----
+    # ---- Death (it never dies; the animation is there all the same): the legs buckle one after another and the body
+    # comes down into the street; the legs fold at their joints, zigzagging out across the road, the knot of faces
+    # slumps over to lie on its side with the tendrils trailing along the ground after it; the abdomen sags ----
     die_names = ["Body", "Abdomen", "Stalk", "Knot"] + leg_names + all_tendrils + jaw_names + face_names
+    TB = -1.5                                           # which way (and how hard) the tendrils droop
+    DIE_BODY = (7, 0, 5)                                # the body's lean when it lies there
+    # How each leg ends up: its femur's, tibia's and metatarsus's angle below horizontal (negative: up), then the
+    # tibia's swing back across and the metatarsus's swing out again (the legs lie in zigzags, no two alike)
+    leg_end = [(9, -2, 3, 128, -96), (6, 2, 5, 150, -118), (10, -5, 1, 118, -104), (8, 0, 4, 140, -84),
+               (7, -3, 2, 136, 110), (9, 3, 5, 122, 92), (11, -1, 2, 148, 120), (6, -4, 3, 112, 100)]
 
-    def collapse(k):
-        drop = 72 * min(1.0, k * 1.15) ** 1.6
-        d = {"Body": pose((3 * k, 0, 4 * k), (0, -drop, 0)), "Abdomen": pose((0, 0, -10 * k)),
-             "Stalk": pose((0, 0, -70 * k)), "Knot": pose((20 * k, 0, -30 * k))}
+    def lay(i, kb, st, sm):
+        """The pose z of leg i's femur, tibia and metatarsus that put each at its angle below horizontal in the world,
+        with the body leaned and the swings turned (the swings tilt the joints' axes, so this is solved, not added)."""
+        import numpy as np
+        yaw, _r0, _lf, af, _lt, at, am, _th = MG_LEGS[i]
+        fd, td, md, ty, my = leg_end[i]
+        R = rig._rot3(*(c * kb for c in DIE_BODY)) @ rig._rot3(0, yaw, 0)
+        out = []
+        for rest_z, drop, ry in ((af, fd, 0), (at - af, td, ty * side[i] * st), (am - at, md, my * sm)):
+            best = min(np.arange(-70.0, 70.0, 0.25),
+                       key=lambda z: abs((R @ rig._rot3(0, ry, z) @ np.array([-1.0, 0, 0]))[1] + math.sin(math.radians(drop))))
+            R = R @ rig._rot3(0, ry, best)
+            out.append(best - rest_z)
+        return out
+
+    def collapse(kl, ky, kb, hit=0.0, stagger=0.06):
+        """kl: how far the legs have given (staggered by MG_ORDER), ky: how far they have folded, kb: the knot slumped."""
+        d = {"Body": pose(tuple(c * kb for c in DIE_BODY)), "Abdomen": pose((0, 0, -12 * kb)),
+             "Stalk": pose((88 * kb, 0, -8 * kb)), "Knot": pose((80 * kb, 12 * kb, 10 * kb))}
         for i in range(8):
-            kk = min(1.0, max(0.0, k * 1.5 - MG_ORDER.index(i) * 0.06))
-            d[f"Femur{i}"] = pose((0, 0, -14 * kk))
-            d[f"Tibia{i}"] = pose((0, 0, 70 * kk))
-            d[f"Meta{i}"] = pose((0, 0, 60 * kk))
-        d.update({nm: pose((0, 0, -6 * k if nm.endswith("_0") else 4 * k)) for nm in all_tendrils})
-        d.update({nm: pose((0, 0, -30 * (1 - k) - 6), (0, -1, 0)) for nm in jaw_names})
-        d.update(emerge({i: 2.0 * (1 - k) for i in range(len(MG_FACES))}))
+            q = MG_ORDER.index(i) * stagger
+            a = min(1.0, max(0.0, kl * (1 + 7 * stagger) - q))
+            b = min(1.0, max(0.0, ky * (1 + 7 * stagger) - q))
+            a, b = a * a * (3 - 2 * a), b * b * (3 - 2 * b)
+            fz, tz, mz = lay(i, kb, b * a, b * a)
+            ty, my = leg_end[i][3] * side[i], leg_end[i][4]
+            d[f"Femur{i}"] = pose((0, 0, fz * a - 3 * hit))
+            d[f"Tibia{i}"] = pose((0, ty * b * a, tz * a))
+            d[f"Meta{i}"] = pose((0, my * b * a, mz * a))
+        kt = min(1.0, kb * 1.6)
+        for i, names in enumerate(tendril_names):                 # slack: draped down off the knot and curling along the street
+            for j, nm in enumerate(names):
+                bend = (34 if j == 0 else 15 + 4 * ((i + j) % 3)) * TB
+                d[nm] = pose((6 * kt * (1 if (i + j) % 2 else -1) * TB, 0, bend * kt if MG_TENDRILS[i][4] or j else bend * kt * 1.3))
+        d.update({nm: pose((0, 0, -34 * hit - 10 * kb - 6), (0, -1, 0)) for nm in jaw_names})
+        d.update(emerge({i: 2.2 * hit + 1.5 * (1 - kb) * (1 - kl) for i in range(len(MG_FACES))}))
         return d
 
-    m.animation("die", 60, {0: full(die_names, {}), 12: full(die_names, collapse(0.25)), 26: full(die_names, collapse(0.55)),
-                            40: full(die_names, collapse(0.85)), 50: full(die_names, collapse(1.0)), 59: full(die_names, collapse(1.0))},
-                end="Hold", stopped="Stop")
+    die_keys = {0: collapse(0, 0, 0),
+                4: collapse(0.0, 0.0, 0.0, hit=1.0),                    # the hit: every mouth gapes, the legs shudder
+                14: collapse(0.25, 0.0, 0.1, hit=0.3),                    # the first legs buckle
+                22: collapse(0.45, 0.0, 0.3),                             # the body comes down
+                26: collapse(0.72, 0.05, 0.5),
+                29: collapse(1.0, 0.15, 0.8),                             # impact: the legs thrown wide, the knot slams
+                34: collapse(1.0, 0.3, 1.0),                              # a small rock back
+                41: collapse(1.0, 0.65, 0.95),                            # the legs begin to fold
+                47: collapse(1.0, 0.92, 1.0),
+                53: collapse(1.0, 1.0, 1.0)}
+    death(m, 54, die_names, die_keys, standing=(4,), soft=[p.name for p in m.parts if p.name.startswith(("Tendril", "Claw", "Hook"))])
     return m
 
 
