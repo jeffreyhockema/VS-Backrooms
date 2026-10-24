@@ -1773,7 +1773,7 @@ def stock():
             boxes += [faces_box(f"Box{layer}{i}", (x, y, z), (x + 7.3, y + 5.9, z + 7.3),
                                 {"north": "cardboard", "south": "cardboard", "east": "cardboard", "west": "cardboard", "up": "cardboardtop"})]
     wrap = [faces_box("Wrap", (0.4, 2, 0.4), (15.6, 20.2, 15.6), {"north": "wrap", "south": "wrap", "east": "wrap", "west": "wrap", "up": "wrap"}),
-            faces_box("Label", (4, 12, 0.6), (12, 18, 0.62), {"north": "stocklabel"}, uv=(0, 0, 16, 16))]
+            faces_box("Label", (4, 12, 0.5), (12, 18, 0.56), {"north": "stocklabel"}, uv=(0, 0, 16, 16))]
     step = [bx("RailL", (3, 0, 7.4), (4.5, 30, 8.9), "pallet"), bx("RailR", (11.5, 0, 7.4), (13, 30, 8.9), "pallet"),
             bx("BackL", (3.2, 0, 9.4), (4.4, 27, 10.4), "pallet"), bx("BackR", (11.6, 0, 9.4), (12.8, 27, 10.4), "pallet"),
             bx("Top", (2.6, 30, 7), (13.4, 31.2, 10.6), "pallet")]
@@ -2421,9 +2421,9 @@ def sounds():
     # The CRT's whine: an 11 kHz flyback line, a 60 Hz hum and its harmonics, a faint crackle; a 4 s loop
     t = seconds(4)
     hum = sum(a * np.sin(2 * np.pi * f * t) for f, a in ((60, 1.0), (120, 0.55), (180, 0.35), (240, 0.2), (300, 0.12)))
-    whine = np.sin(2 * np.pi * 11000 * t) * (0.9 + 0.1 * np.sin(2 * np.pi * 2 * t))
+    whine = np.sin(2 * np.pi * 5200 * t) * (0.9 + 0.1 * np.sin(2 * np.pi * 2 * t))  # lowered from 11 kHz and made faint: it was painful up close
     crackle = norm(band(rng.normal(size=len(t)), 2000, 6000))
-    write("crtbuzz", 0.45 * hum + 0.35 * whine + 0.08 * crackle, 0.7, fade=False)
+    write("crtbuzz", 0.5 * hum + 0.03 * whine + 0.05 * crackle, 0.22, fade=False)
 
     # Switching on: the degauss thunk (a low boing pulsed at 60 Hz) and the whine rising into hearing
     t = seconds(1.2)
