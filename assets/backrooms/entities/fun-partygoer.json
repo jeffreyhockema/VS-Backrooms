@@ -71,7 +71,7 @@
 				}
 			]
 		},
-		"size": 1.0,
+		"size": 0.86,
 		"behaviors": [
 			{
 				"code": "repulseagents",

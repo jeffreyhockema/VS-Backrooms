@@ -1505,7 +1505,8 @@ def balloon(nm, cx, cy, cz, colour, k=1.0, neck=True):
     w, h, n = 3.0 * k, 3.5 * k, 2.1 * k
     hb = 2.5 * k  # the crossed boxes are shorter; a taller narrow core rounds the top and the bottom
     els = [bxf(nm + "A", (cx - w, cy - hb + 0.3 * k, cz - n), (cx + w, cy + hb + 0.3 * k, cz + n), t),
-           bxf(nm + "B", (cx - n, cy - hb + 0.3 * k, cz - w), (cx + n, cy + hb + 0.3 * k, cz + w), t),
+           # (B stands a hair shorter than A: equal tops would be coplanar where the two boxes cross, and z-fight)
+           bxf(nm + "B", (cx - n, cy - hb + 0.45 * k, cz - w), (cx + n, cy + hb + 0.15 * k, cz + w), t),
            bxf(nm + "Core", (cx - 2.2 * k, cy - h, cz - 2.2 * k), (cx + 2.2 * k, cy + h, cz + 2.2 * k), t)]
     if neck:
         els.append(bxf(nm + "Neck", (cx - 1.3 * k, cy - h - 1.2 * k, cz - 1.3 * k), (cx + 1.3 * k, cy - h, cz + 1.3 * k), t))
@@ -1565,14 +1566,15 @@ def balloons():
         for i in range(8):
             t = math.radians(90 * i / 7)
             x = -16 + 19 * math.cos(t)
-            y = 3.5 + 46 * math.sin(t)
+            y = 3.5 + 40 * math.sin(t)  # the top balloon's top edge is 47 of the corridor's 48 voxels (three blocks)
             if part == "r":
                 x = 16 - x
             col = cols[i if part == "l" else 7 - i]
             r = 3.5
             zc = 12.2 + (0.8 if i % 2 else -0.4)
+            # (A and B differ in depth too, or their fronts and backs would be coplanar and flicker)
             els += [bxf(f"B{i}A", (x - r, y - r * 0.8, zc - r * 0.7), (x + r, y + r * 0.8, zc + r * 0.7), f"latex-{col}"),
-                    bxf(f"B{i}B", (x - r * 0.7, y - r, zc - r * 0.7), (x + r * 0.7, y + r, zc + r * 0.7), f"latex-{col}")]
+                    bxf(f"B{i}B", (x - r * 0.7, y - r, zc - r * 0.6), (x + r * 0.7, y + r, zc + r * 0.6), f"latex-{col}")]
         prop(f"fun-balloonarch-{part}", "Balloon Arch", els, collide=False, material="Cloth", sounds=POP,
              box=(0, 0, 0.6, 0.5, 1, 1) if part == "l" else (0.5, 0, 0.6, 1, 1, 1),
              comment="Level Fun: half of a balloon arch over a doorway; an arch means guests inside",
@@ -2650,7 +2652,7 @@ def entities():
             "attributes": {"killedByInfoText": "backrooms:deadcreature-partygoer", "fireDamageClosed": 0.25, "fireDamageOpen": 3.0,
                            "headDamageOpen": 2.0},
             "drops": [E.drop("fun-partyhat-stripes", 0.2), E.drop("fun-partyhat-dots", 0.2), E.drop("game:gear-rusty", 0.5, 0.5)] + extra_drops,
-            "client": E.common_client(f"backrooms:entity/{shape_}", tex(shape_, ("red", "blue", "green", "white")), pg_anims),
+            "client": E.common_client(f"backrooms:entity/{shape_}", tex(shape_, ("red", "blue", "green", "white")), pg_anims, size=0.86),
             "server": E.server(30, tasks, menace={"huntSeconds": 90}, decay=None),
             "sounds": {"hurt": "game:creature/drifter-hurt", "death": snd + "die",
                        "idle": snd + "step*"},
