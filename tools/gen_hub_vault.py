@@ -143,8 +143,63 @@ def edge_lines():
     K.name("hub-asphalt-edge-*", "Asphalt with Edge Line")
 
 
+LINE_KINDS = ("ns", "we", "ne", "es", "sw", "wn", "givewayns", "givewaywe")
+
+
+def road_lines():
+    """(Layout version 11) the road's markings, painted on each of the road's three versions like the edge line:
+    - the yellow middle line of a big tunnel's two lanes, 4 px of 32 wide in the middle of the block, so it sits on the
+      middle of the carriageway's middle block: straight (ns: running north-south, we) and round a corner (ne joins
+      the north side's middle to the east side's, on a quarter circle round the block's north-east corner; es, sw, wn
+      the same turned), so it runs on unbroken round the bends;
+    - the broken white give-way line across a narrow tunnel where it comes out into another (givewayns: across a
+      tunnel running north-south, so the paint runs east-west; givewaywe), a dash 22 px long with gaps between blocks.
+    The north side of a texture is its top row, as for the edge line."""
+    yellow, white = (214, 168, 46), (200, 196, 182)
+    S = K.S
+    for k, key in enumerate(("asphalt-plain", "asphalt-plain-2", "asphalt-plain-3")):
+        src = Image.open(os.path.join(K.ASSETS, "textures", "block", "hub", key + ".png")).convert("RGBA")
+        for kind in LINE_KINDS:
+            img = src.copy()
+            p = img.load()
+            rng = random.Random(K.seed_of(f"hubline{k}{kind}"))
+            corner = {"ne": (S, 0), "es": (S, S), "sw": (0, S), "wn": (0, 0)}.get(kind)
+            for y in range(S):
+                for x in range(S):
+                    cx, cy = x + 0.5, y + 0.5
+                    if kind == "ns":
+                        d, paint = abs(cx - S / 2), yellow
+                    elif kind == "we":
+                        d, paint = abs(cy - S / 2), yellow
+                    elif corner:
+                        d, paint = abs(math.hypot(cx - corner[0], cy - corner[1]) - S / 2), yellow
+                    elif kind == "givewayns":
+                        d, paint = (abs(cy - S / 2) if 5 <= x < 27 else 99), white
+                    else:
+                        d, paint = (abs(cx - S / 2) if 5 <= y < 27 else 99), white
+                    if d >= 2.5:
+                        continue
+                    r, g, bl, al = p[x, y]
+                    m = 0.8 + rng.uniform(-0.08, 0.06) - (0.25 if d > 1.8 else 0.1 if d > 1.2 else 0)
+                    p[x, y] = tuple(int(round(c * (1 - m) + q * m)) for c, q in zip((r, g, bl), paint)) + (al,)
+            K.save_tex(img, f"asphalt-line-{kind}" + ("" if k == 0 else f"-{k + 1}"))
+    by_type = {}
+    for kind in LINE_KINDS:
+        names = [f"asphalt-line-{kind}"] + [f"asphalt-line-{kind}-{k}" for k in (2, 3)]
+        up = {"base": "block/hub/" + names[0], "alternates": [{"base": "block/hub/" + n} for n in names[1:]]}
+        by_type[f"*-{kind}"] = {"all": K.versions_of("asphalt-plain"), "up": up}
+    K.block("hub-asphalt-line", {
+        "variantgroups": [{"code": "kind", "states": list(LINE_KINDS)}],
+        "creativeinventory": {"general": ["*-ns"], "construction": ["*-ns"]},
+        "blockmaterial": "Stone", "drawtype": "cube", "texturesByType": by_type,
+        "lightAbsorption": 99, "resistance": 4, "sounds": K.STONE,
+    }, "(Layout version 11) asphalt with the road's markings: the yellow middle line (straight or round a corner) and the white give-way line")
+    K.name("hub-asphalt-line-*", "Asphalt with Road Marking")
+
+
 def generate(csharp_path=None):
     edge_lines()
+    road_lines()
     pieces = {}  # name -> heights
     tables = {}
     for tag, half, surface in PROFILES:

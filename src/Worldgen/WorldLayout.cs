@@ -437,7 +437,17 @@ public sealed partial class WorldLayout
     /// Level 94's houses get the Suburbs' outsides of layout version 9 (PlanExteriorV9, with their faux second storey in mind):
     /// tall windows in each room's stretch of wall (upstairs over them, a sash over a door), real front and back doors that
     /// open, a brick chimney stack outside a gable end on level ground or rising through the ridge, a gable that faces the
-    /// street on some houses (in 1-10 a one-block window, a doorway with no door and a chimney flush in the side wall).</item>
+    /// street on some houses (in 1-10 a one-block window, a doorway with no door and a chimney flush in the side wall).
+    /// The Hub is laid out as a road tunnel network (WorldLayout.LevelHub.cs, its "Layout version 11" part): the tunnels'
+    /// wandering lines have no jog across shorter than four widths (HubStraighten), so they run in long straights; where
+    /// two stretches of a tunnel meet at a right angle it curves round a bend of even width (HubBend; in 1-10 two flat
+    /// end walls met square); the roundabout is a circle; a ring road's stretch alongside a numbered tunnel is moved onto
+    /// its line (HubAlignAlongside), side tunnels are never planned alongside another (HubParallelClash), their lattice
+    /// nodes are 20 blocks off or not at all, and their stubs past a crossing are cut back (HubTrimStubs). The sidewalk goes
+    /// round a wall's corner (the tile at the corner's tip is sidewalk too) and the generator gives it kerb corners
+    /// (hub-curbcorner, hub-curbinner). The big tunnels' three dotted lines of studs are one yellow middle line (FloorKind
+    /// HubLine) that follows the bends and stops at junctions; the narrow tunnels have none, and a give-way line
+    /// (HubGiveWay) where they meet another tunnel. Lamps also hang round a bend's curved walls.</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 11;

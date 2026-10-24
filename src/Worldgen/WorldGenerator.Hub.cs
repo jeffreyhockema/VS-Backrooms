@@ -16,7 +16,8 @@ public sealed partial class WorldGenerator
 {
     private int hubAsphaltId, hubWornId, hubPatchId, hubStudId, hubSidewalkId, hubCeilingId, hubMarbleId, hubAshlarId,
         hubVoidId, hubFalseWallId, hubTileId;
-    private readonly int[] hubWallIds = new int[4], hubCrumbIds = new int[3], hubFanIds = new int[2], hubCurbIds = new int[4], hubEdgeLineIds = new int[4];
+    private readonly int[] hubWallIds = new int[4], hubCrumbIds = new int[3], hubFanIds = new int[2], hubCurbIds = new int[4], hubEdgeLineIds = new int[4],
+        hubCurbCornerIds = new int[4], hubCurbInnerIds = new int[4], hubLineIds = new int[8];
     /// <summary>(Layout version 9) the rounded tunnels' vault pieces, by piece index (<see cref="WorldLayout.HubVaultPieces"/>) and facing.</summary>
     private int[,] hubVaultIds;
     private readonly int[,] hubLampIds = new int[2, 4], hubSignalIds = new int[2, 4], hubStencilIds = new int[12, 4],
@@ -61,6 +62,9 @@ public sealed partial class WorldGenerator
         hubStatueFillId = HubId("hub-statuefill", 0);
         hubVoidId = HubId("hub-void", concreteId);
         hubTileId = modBlocks.TryGetValue("pooltile-plain", out int tile) ? tile : wall;
+        // (Layout version 11) the road markings: the middle line straight (ns, we) and round a corner (ne, es, sw, wn:
+        // joining those two sides' middles), and the give-way line across a narrow tunnel (for traffic running ns, we)
+        for (int i = 0; i < HubLineKinds.Length; i++) hubLineIds[i] = HubId($"hub-asphalt-line-{HubLineKinds[i]}", hubAsphaltId);
         string[] seams = { "plain", "left", "bottom", "corner" };
         for (int i = 0; i < 4; i++) hubWallIds[i] = HubId($"hub-wall-{seams[i]}", wall);
         hubFalseWallId = HubId("hub-falsewall", 0);
@@ -77,6 +81,8 @@ public sealed partial class WorldGenerator
             hubLampIds[0, f] = HubId($"hub-lamp-on-{side}", hubWallIds[0]);
             hubLampIds[1, f] = HubId($"hub-lamp-dead-{side}", hubWallIds[0]);
             hubCurbIds[f] = HubId($"hub-curb-{side}", hubSidewalkId);
+            hubCurbCornerIds[f] = HubId($"hub-curbcorner-{side}", hubCurbIds[f]);
+            hubCurbInnerIds[f] = HubId($"hub-curbinner-{side}", hubSidewalkId);
             hubEdgeLineIds[f] = HubId($"hub-asphalt-edge-{side}", hubAsphaltId);
             hubSignalIds[0, f] = HubId($"hub-lanesignal-go-{side}", 0);
             hubSignalIds[1, f] = HubId($"hub-lanesignal-stop-{side}", 0);
@@ -176,13 +182,30 @@ public sealed partial class WorldGenerator
                         FloorKind.HubAsphaltPatch => hubPatchId,
                         FloorKind.HubMarble or FloorKind.HubMarbleInlay => hubMarbleId,
                         FloorKind.PoolTile => hubTileId,
-                        FloorKind.HubSidewalk => concreteId,
+                        FloorKind.HubLine => hubLineIds[HubLinePiece(t, gx, gz)],
+                        FloorKind.HubGiveWay => hubLineIds[t.Pier == ArchPier.East ? 7 : 6],
+                        // (Layout version 11) under a sidewalk's rounded corner the road shows round the kerb
+                        FloorKind.HubSidewalk => layout.Version >= 11 && HubKerbV11(gx, gz) is var k && k.Kind == KerbCorner ? hubAsphaltId : concreteId,
                         _ => hubAsphaltId,
                     };
                 }
                 // A stretch of wall that isn't there: it looks like the wall, and you walk into it
                 if (t.Under == Unders.HubFalseWall) return hubFalseWallId != 0 ? hubFalseWallId : 0;
-                if (rel == 1 && t.Floor == FloorKind.HubSidewalk) return layout.Version >= 9 ? HubKerb(gx, gz) : hubSidewalkId;
+                if (rel == 1 && t.Floor == FloorKind.HubSidewalk)
+                {
+                    if (layout.Version >= 11)
+                    {
+                        var (kind, facing) = HubKerbV11(gx, gz);
+                        return kind switch
+                        {
+                            KerbStraight => hubCurbIds[Facing(facing)],
+                            KerbCorner => hubCurbCornerIds[Facing(facing)],
+                            KerbInner => hubCurbInnerIds[Facing(facing)],
+                            _ => hubSidewalkId,
+                        };
+                    }
+                    return layout.Version >= 9 ? HubKerb(gx, gz) : hubSidewalkId;
+                }
                 // What hangs on the wall behind this tile: a lamp, a stencil, a plaque, the M.E.G.'s banner and key cabinet
                 if (t.Detail != 0 && rel == t.Depth)
                 {
@@ -430,6 +453,83 @@ public sealed partial class WorldGenerator
         if (!HubOpen(road) || road.Floor is FloorKind.HubSidewalk or FloorKind.PoolTile) return hubSidewalkId;
         ArchPier side = wx > 0 ? ArchPier.West : wx < 0 ? ArchPier.East : wz > 0 ? ArchPier.North : ArchPier.South;
         return hubCurbIds[Facing(side)];
+    }
+
+    private static readonly string[] HubLineKinds = { "ns", "we", "ne", "es", "sw", "wn", "givewayns", "givewaywe" };
+
+    /// <summary>
+    /// (Layout version 11) the piece of the yellow middle line on a tile (an index into <see cref="HubLineKinds"/>):
+    /// joined to the line tiles beside it, straight through or round a corner; where it stops or meets more than two,
+    /// straight along its own way (<see cref="Tile.Pier"/>).
+    /// </summary>
+    private int HubLinePiece(in Tile t, int gx, int gz)
+    {
+        bool Line(int dx, int dz) => layout.TileAt(gx + dx, gz + dz).Floor == FloorKind.HubLine;
+        bool n = Line(0, -1), e = Line(1, 0), s = Line(0, 1), w = Line(-1, 0);
+        int count = (n ? 1 : 0) + (e ? 1 : 0) + (s ? 1 : 0) + (w ? 1 : 0);
+        if (count == 2)
+        {
+            if (n && s) return 0;
+            if (e && w) return 1;
+            return n && e ? 2 : e && s ? 3 : s && w ? 4 : 5;
+        }
+        if (count == 1) return n || s ? 0 : 1;
+        return t.Pier == ArchPier.East ? 1 : 0;
+    }
+
+    private static readonly (int X, int Z)[] KerbDirs = { (0, -1), (1, 0), (0, 1), (-1, 0) };
+    private static readonly ArchPier[] KerbNames = { ArchPier.North, ArchPier.East, ArchPier.South, ArchPier.West };
+    private const int KerbNone = 0, KerbStraight = 1, KerbCorner = 2, KerbInner = 3;
+
+    /// <summary>
+    /// (Layout version 11) the sidewalk's piece and its turn, from what is round it, so the kerb runs on unbroken round
+    /// every corner: a straight kerb (hub-curb) where the road is on one side; a rounded corner (hub-curbcorner, turned
+    /// by its first kerbed side going clockwise: north for north and east) where it is on two sides that meet, round a
+    /// wall's corner or where the sidewalk ends; in a wall's inside corner, the slab with a kerb post at the corner the
+    /// road touches (hub-curbinner, turned by that corner: north for north-east); else the plain slab. "Road" is any
+    /// floor that is not sidewalk (asphalt, the Tower's marble, a white-tile end).
+    /// </summary>
+    private (int Kind, ArchPier Facing) HubKerbV11(int gx, int gz)
+    {
+        // Clockwise from north: north, east, south, west
+        bool Road(int dx, int dz)
+        {
+            Tile n = layout.TileAt(gx + dx, gz + dz);
+            return HubOpen(n) && n.Floor != FloorKind.HubSidewalk;
+        }
+        bool Walk(int dx, int dz)
+        {
+            Tile n = layout.TileAt(gx + dx, gz + dz);
+            return HubOpen(n) && n.Floor == FloorKind.HubSidewalk;
+        }
+        var dirs = KerbDirs;
+        var names = KerbNames;
+        int mask = 0, count = 0;
+        for (int i = 0; i < 4; i++)
+            if (Road(dirs[i].X, dirs[i].Z)) { mask |= 1 << i; count++; }
+        if (count == 1)
+            for (int i = 0; i < 4; i++)
+                if ((mask & (1 << i)) != 0) return (KerbStraight, names[i]);
+        if (count == 2)
+            for (int i = 0; i < 4; i++)
+                if ((mask & (1 << i)) != 0 && (mask & (1 << ((i + 1) % 4))) != 0) return (KerbCorner, names[i]);
+        if (count == 0)
+        {
+            // A corner the road touches, between two sides of sidewalk
+            int found = -1;
+            for (int i = 0; i < 4; i++)
+            {
+                var (ax, az) = dirs[i];
+                var (bx, bz) = dirs[(i + 1) % 4];
+                if (Walk(ax, az) && Walk(bx, bz) && Road(ax + bx, az + bz))
+                {
+                    if (found >= 0) return (KerbNone, ArchPier.North);
+                    found = i;
+                }
+            }
+            if (found >= 0) return (KerbInner, names[found]);
+        }
+        return (KerbNone, ArchPier.North);
     }
 
     private static bool HubOpen(in Tile n) => n.Kind is TileKind.Floor or TileKind.Pit && n.Under != Unders.HubFalseWall;

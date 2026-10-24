@@ -2772,5 +2772,10 @@
 
 	"block-improvbed-*": "Makeshift Bed",
 	"block-leanto-*": "Lean-To",
-	"block-poolwall-archtop-*": "Tiled Archway (Arched Head)"
+	"block-poolwall-archtop-*": "Tiled Archway (Arched Head)",
+
+	"block-hub-curbcorner-*": "Kerb",
+	"block-hub-curbinner-*": "Sidewalk",
+
+	"block-hub-asphalt-line-*": "Asphalt with Road Marking"
 }
