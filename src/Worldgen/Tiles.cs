@@ -1478,6 +1478,16 @@ public static class Props
     /// <summary>Level 188's courtyard: a bench (Pier its facing), a bollard lamp, a tuft of moss (walked through), the drain under the downpipe (walked through).</summary>
     public const ushort L188Bench = 540, L188Bollard = 541, L188MossTuft = 542, L188Drain = 543;
 
+    // ===== Improvised camps, from layout version 11 (585-589): what the lost make a camp of, in place of store-bought gear =====
+    /// <summary>
+    /// A bed made of what was lying about, walked over: Stack 0 flattened cardboard boxes with a coat for a blanket, 1 a heap
+    /// of old curtains and blankets with a cushion, 2 a mattress dragged off a bed. Pier is the way it lies.
+    /// </summary>
+    public const ushort ImprovBed = 585;
+    /// <summary>A lean-to: Stack 0 a blue tarp stretched over two stacked chairs, 1 a door propped over two filing cabinets. Faces Pier (its open side).</summary>
+    public const ushort LeanTo = 586;
+    public const ushort ImprovFirst = 585, ImprovLast = 589;
+
     // ===== Level 7 from layout version 9 (590-599) =====
     /// <summary>
     /// A chest in a sunken room on Level 7's seabed (WorldLayout.AddSunkenRoom), facing Pier: Stack 0 a sea chest (the

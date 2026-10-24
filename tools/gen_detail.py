@@ -693,6 +693,72 @@ def sleeping_bag():
         comment="A sleeping bag two blocks long, head to the north (head, foot)")
 
 
+def improvised_camps():
+    """The camps of layout version 11, made of what was lying about instead of store-bought gear: a bed of flattened boxes, of
+    old blankets and curtains, or a dragged-off mattress (laid like a bedroll, walked over); a lean-to of a tarp over two stacked-up
+    chairs, or of a door over two filing cabinets (facing north: the open side to the north, the low edge at the back)."""
+    def sheet(nm, frm, to, ry, origin):
+        """A flattened carton: sides cardboard, top the taped lid, turned about the vertical."""
+        return [bx(nm, frm, to, "cardboard", faces=("north", "east", "south", "west", "down"), rot=(0, ry, 0), origin=origin),
+                bx(nm + "Top", frm, to, "cardboardtop", faces=("up",), rot=(0, ry, 0), origin=origin)]
+
+    cardboard = (sheet("Sheet1", (1, 0, 1), (10, 0.7, 15), 8, (5.5, 0, 8)) + sheet("Sheet2", (6, 0.7, 0.5), (15, 1.4, 14), -12, (10.5, 0, 7))
+                 + sheet("Sheet3", (2, 1.4, 6), (12, 2.0, 15.5), 4, (7, 0, 11))
+                 + [bx("Coat", (2.5, 2.0, 7), (13, 3.2, 14), "blanketplaid", rot=(0, -6, 0), origin=(8, 0, 10)),
+                    bx("CoatFold", (2.5, 3.2, 7), (13, 3.7, 9.5), "blanketplaid", rot=(0, -6, 0), origin=(8, 0, 10)),
+                    bx("Jumper", (3, 2.0, 1.5), (12, 3.9, 5.5), "bedrollpillow", rot=(0, 5, 0), origin=(7, 0, 3.5))])
+    blankets = [bx("Curtain", (1.5, 0, 1.5), (14.5, 1.8, 14.5), "curtainvelvet", rot=(0, 10, 0), origin=(8, 0, 8)),
+                bx("Blanket", (2.5, 1.8, 3), (13, 3.2, 13), "blanketplaid", rot=(0, -9, 0), origin=(8, 0, 8)),
+                bx("Heap", (4.5, 3.2, 5), (11.5, 4.4, 11), "curtainvelvet", rot=(0, 20, 0), origin=(8, 0, 8)),
+                bx("Fold", (2.5, 3.2, 10.5), (12.5, 3.9, 13.5), "blanketplaid", rot=(0, -9, 0), origin=(8, 0, 8)),
+                bx("Cushion", (3, 3.2, 1.5), (9.5, 5.4, 6.5), "bedrollpillow", rot=(0, 14, 0), origin=(6, 0, 4))]
+    mattress = [bx("Mattress", (1.5, 0, 0.5), (14.5, 3.4, 15.5), "mattressticking", rot=(0, 7, 0), origin=(8, 0, 8)),
+                bx("Piping", (1.2, 3.4, 0.2), (14.8, 3.8, 15.8), "mattressticking", rot=(0, 7, 0), origin=(8, 0, 8)),
+                bx("Throw", (2.5, 3.8, 7), (13.5, 4.5, 15), "blanketplaid", rot=(0, 3, 0), origin=(8, 0, 8)),
+                bx("Pillow", (3.5, 3.8, 1.5), (12, 5.4, 5.5), "bedrollpillow", rot=(0, 4, 0), origin=(8, 0, 8))]
+    prop("improvbed", "Makeshift Bed", {"cardboard": cardboard, "blankets": blankets, "mattress": mattress},
+         box=(0.06, 0, 0.06, 0.94, 0.17, 0.94), material="Cloth", sounds=CLOTH,
+         comment="An improvised bed (layout version 11): flattened boxes and a coat, a heap of old blankets and curtains, a mattress")
+
+    def chair(nm, x0):
+        """A kitchen chair standing upright: four legs, a seat, a back of two rails."""
+        els = [bx(f"{nm}Leg{i}", (x0 + dx, 0, z0), (x0 + dx + 0.9, 6.6, z0 + 0.9), "wooddark")
+               for i, (dx, z0) in enumerate(((0, 1.5), (5, 1.5), (0, 6), (5, 6)))]
+        els += [bx(f"{nm}Seat", (x0 - 0.3, 6.6, 1.2), (x0 + 6.2, 7.6, 7.2), "wood"),
+                bx(f"{nm}Back1", (x0, 7.6, 1.2), (x0 + 0.9, 13, 2.1), "wooddark"), bx(f"{nm}Back2", (x0 + 5, 7.6, 1.2), (x0 + 5.9, 13, 2.1), "wooddark"),
+                bx(f"{nm}Rail1", (x0, 9.5, 1.2), (x0 + 5.9, 10.3, 2.1), "wood"), bx(f"{nm}Rail2", (x0, 11.8, 1.2), (x0 + 5.9, 12.6, 2.1), "wood")]
+        return els
+
+    def slab(nm, tex, thick, wide, top, rise, run, z0=1.0, x0=None):
+        """A flat sheet (a tarp, a door) from its high edge at the front down to the floor at the back: turned about its high edge."""
+        ang = math.degrees(math.atan2(rise, run))
+        length = math.hypot(rise, run)
+        x0 = 8 - wide / 2 if x0 is None else x0
+        return bx(nm, (x0, top, z0), (x0 + wide, top + thick, z0 + length), tex, rot=(ang, 0, 0), origin=(8, top, z0))
+
+    tarp = (chair("L", 1.5) + chair("R", 8.5)
+            + [slab("Tarp", "tarp", 0.5, 15.4, 13.3, 10.2, 13.6),
+               bx("Hem", (0.3, 12.6, 0.4), (15.7, 13.4, 1.6), "tarp"),
+               bx("RopeL", (3.6, 12.4, 2.2), (4.0, 13.4, 2.6), "bedroll"), bx("RopeR", (11.7, 12.4, 2.2), (12.1, 13.4, 2.6), "bedroll"),
+               bx("Ground", (2, 0, 6), (14, 0.2, 14), "cardboardtop")]
+              + carton("BoxL", (1, 0, 12.4), (6.5, 3.4, 15.6)) + carton("BoxR", (9.5, 0, 12.8), (15, 3.0, 15.6)))
+
+    def cabinet(nm, x0):
+        """A two-drawer filing cabinet, grey steel, its drawers to the north."""
+        return [bx(f"{nm}Body", (x0, 0, 1.5), (x0 + 5.6, 11, 8), "steel"),
+                bx(f"{nm}Front", (x0 + 0.3, 0.8, 1.2), (x0 + 5.3, 5.2, 1.5), "cabinetfront", faces=("north",)),
+                bx(f"{nm}Front2", (x0 + 0.3, 5.8, 1.2), (x0 + 5.3, 10.2, 1.5), "cabinetfront", faces=("north",)),
+                bx(f"{nm}Handle", (x0 + 1.6, 3.4, 0.7), (x0 + 4.0, 3.9, 1.2), "steeldark"),
+                bx(f"{nm}Handle2", (x0 + 1.6, 8.4, 0.7), (x0 + 4.0, 8.9, 1.2), "steeldark")]
+
+    door = (cabinet("L", 1.5) + cabinet("R", 8.9)
+            + [slab("Door", "l1wood", 1.6, 14.4, 11.6, 8.2, 13.4, z0=1.2),
+               bx("Knob", (7.4, 10.4, 0.6), (8.6, 11.6, 1.8), "steeldark"),
+               bx("Brick1", (1, 0, 12.6), (5, 2.2, 15.4), "palletwood"), bx("Brick2", (10.5, 0, 12.6), (14.8, 1.8, 15.4), "palletwood")])
+    prop("leanto", "Lean-To", {"tarp": tarp, "door": door}, box=(0.03, 0, 0.03, 0.97, 0.85, 0.97), material="Cloth", sounds=CLOTH,
+         comment="An improvised lean-to (layout version 11): a tarp over two chairs, or a door over two filing cabinets")
+
+
 def level1():
     cube_block("whiteblock", "Painted Block Wall", ["upper", "base", "lintel"],
                {"upper": "whiteblock", "base": "whiteblock-base", "lintel": "whiteblock-lintel"},
@@ -772,6 +838,7 @@ def level1():
         bx("Fold", (3, 1.4, 8), (13, 2, 14.5), "bedroll")], box=(0.19, 0, 0.09, 0.81, 0.15, 0.91), material="Cloth", sounds=CLOTH)
     camp_tent()
     sleeping_bag()
+    improvised_camps()
     prop("camplantern", "Camping Lantern", [
         bx("Base", (6, 0, 6), (10, 1, 10), "metaldark"),
         bx("Glass", (6.5, 1, 6.5), (9.5, 5.5, 9.5), "lanternglass", glow=220),

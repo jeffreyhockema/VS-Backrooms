@@ -575,7 +575,7 @@ public sealed partial class WorldLayout
                         double left = Hashing.Unit(Hashing.Mix(h));
                         if (left < 0.12) { tile.Variant = Props.Flashlight; tile.Pier = (ArchPier)(h % 4); }
                         else if (left < 0.18) { tile.Variant = Props.Backpack; tile.Pier = toOpen; }
-                        else if (left < 0.22) { tile.Variant = Props.Bedroll; tile.Pier = toOpen; }
+                        else if (left < 0.22) { tile.Variant = Version >= 11 ? Props.ImprovBed : Props.Bedroll; tile.Pier = toOpen; if (Version >= 11) tile.Stack = 1; }
                     }
                     // A wire strung low across a straight, narrow passage
                     else if (ways == 2 && (e && w || s && n) && r > 0.985)

@@ -423,7 +423,11 @@ public sealed partial class WorldLayout
     /// own blocks), with some walls between two spaces made walls of archways over half walls (WorldLayout.Level0.Arches.cs, ArchWalls;
     /// one room in a few gets a second, and now and then a bay is a full-height arch door); two gaps side by side in a district's
     /// wall leave one arch (ArchGap) and the stash's supply boxes never stand beside an arch (NextToArch). A Level 1 stairs to nowhere goes on in the dark: a doorway cut in the wall, two more steps (over the next stall's ceiling where that is plain floor in the cell, else along the wall's own row) and a dead-end landing, where the trip now comes (AddStairsToNowhereV4, NowhereBlock, FlightZoneNowhere).</item>
-    /// <item><b>11</b>: five small corrections that would have moved saved worlds. A tent, bedroll or sofa searching the open air
+    /// <item><b>11</b>: camping gear is rare outside Level 8 and what is left is improvised. Level 1's encampments and camp rooms are
+    /// three in ten of what they were, Level 4's wanderers sleep on a bed of boxes, blankets or a mattress and have a lean-to now and then,
+    /// Level 7's island camps are half as many, and lairs, Level 6's dead ends and the sunken camps hold the same beds (<see cref="Props.ImprovBed"/>,
+    /// <see cref="Props.LeanTo"/>, in place of tents and sleeping bags and bedrolls; Level 8 keeps its tents). Level 8's M.E.G. markers
+    /// along the 9th Road stand every seventy-two blocks, not every twenty-four. Five small corrections that would have moved saved worlds. A tent, bedroll or sofa searching the open air
     /// for room takes a 4 by 4 window of starting places at random (the hash was cast to int before its modulo, so half the
     /// time the window was wrong: <see cref="Enlarge"/>). Level 0's party cells keep out of the inner two fifths of the Lobby, by
     /// <see cref="LevelDepth"/> (the test meant for it was always true). Every stretch of the hotel's lobby gets a front hall:
@@ -1090,7 +1094,7 @@ public sealed partial class WorldLayout
 
     /// <summary>Props on a floor tile that don't stop anyone walking on: low clutter, plants, wires, an open gate.</summary>
     internal static bool IsWalkThroughProp(ushort variant) => variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable
-        or Props.Bedroll or Props.SleepingBag or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts
+        or Props.Bedroll or Props.SleepingBag or Props.ImprovBed or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts
         // The far places kept as 14-20 say which of their own props are walked through
         || variant >= Props.RunFirst && (RunWalkThrough(variant) || FunWalkThrough(variant) || EndWalkThrough(variant)
             || HubWalkThrough(variant) || L974WalkThrough(variant) || L3999WalkThrough(variant) || L188WalkThrough(variant));

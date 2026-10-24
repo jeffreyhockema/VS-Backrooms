@@ -937,7 +937,7 @@ public sealed partial class WorldLayout
             }
             return false;
         }
-        void Put(int dx, int dz, byte prop, ArchPier facing, bool box = false)
+        void Put(int dx, int dz, ushort prop, ArchPier facing, bool box = false, byte stack = 0)
         {
             (int tx, int tz) = Turn(dx, dz);
             int x = sx + tx, z = sz + tz;
@@ -956,6 +956,7 @@ public sealed partial class WorldLayout
             {
                 t.Variant = prop;
                 t.Pier = TurnPier(facing);
+                t.Stack = stack;
             }
         }
         // From layout version 6 the bedrolls are sleeping bags and the tent a camp tent, as big as the real things: the
@@ -968,6 +969,21 @@ public sealed partial class WorldLayout
             return PutParts(b.At, MacroSize, Free, prop, sx + tx, sz + tz, TurnPier(facing));
         }
         bool v6 = Version >= 6;
+        // From layout version 11 the wanderer sleeps on what they could find: a bed of boxes, blankets or a mattress (two now and
+        // then), a lean-to of a tarp over chairs in the corner now and then, no tent and no sleeping bags
+        if (Version >= 11)
+        {
+            Put(-1, -2, Props.ImprovBed, ArchPier.South, stack: (byte)rng.Range(0, 2));
+            if (rng.Chance(0.4)) Put(1, -2, Props.ImprovBed, ArchPier.South, stack: (byte)rng.Range(0, 2));
+            Put(0, -2, Props.Lantern, ArchPier.North);
+            Put(-2, 1, Props.FoldingTable, ArchPier.North);
+            Put(-1, 1, Props.FoldingChair, ArchPier.West);
+            Put(2, 1, Props.CardboardBoxes, ArchPier.North);
+            Put(2, 2, 0, ArchPier.North, box: true);
+            if (rng.Chance(0.4)) Put(1, 2, Props.CardboardBoxes, ArchPier.North);
+            if (rng.Chance(0.25)) Put(-2, -3, Props.LeanTo, ArchPier.East, stack: (byte)rng.Range(0, 1));
+            return;
+        }
         // Two bedrolls side by side behind the wanderer, the lantern between their heads
         if (v6)
         {

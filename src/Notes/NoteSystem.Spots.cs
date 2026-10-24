@@ -42,6 +42,9 @@ public partial class NoteSystem
         ("tent", 0.25, 0, 0.04),
         ("sleepingbag", 0.06, 0.03, 0.04),
         ("camptent", 0.275, 0, 0.04),
+        // The improvised camps of layout version 11 (there are far fewer camps, so each gives as much as the gear it replaces)
+        ("improvbed", 0.06, 0.03, 0.04),
+        ("leanto", 0.25, 0, 0.04),
         ("seachest", 0.07, 0, 0),
         ("filingcabinet", 0.025, 0.01, 0.01),
         ("writingdesk", 0.025, 0.01, 0.01),

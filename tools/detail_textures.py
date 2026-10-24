@@ -316,6 +316,41 @@ def level1():
     save(T.match_mean(img, 74), "bedroll")
     img = M.fabric(seed_of("bedrollpillow"), base=(142, 130, 112), weave="plain", contrast=6, grain=2, mottle=6)
     save(T.match_mean(img, 128), "bedrollpillow")
+    # Improvised camps (layout version 11): a mattress dragged off a bed (cream ticking, thin blue stripes, brown stains), a wool
+    # blanket (a faded red plaid), and a pair of old curtains (green velvet, hanging folds)
+    img = M.fabric(seed_of("mattressticking"), base=(190, 182, 162), weave="twill", contrast=5, grain=2, mottle=5, thread=1)
+    stain = M.fbm((S, S), seed_of("mattressstain"), (8, 8), 0.7)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            c = px[x, y]
+            if x % 8 in (2, 3):
+                c = M.mix(c, (96, 112, 138), 0.5)
+            if stain[y][x] > 0.22:
+                c = M.mix(c, (128, 98, 62), min(0.6, (stain[y][x] - 0.22) * 2.4))
+            px[x, y] = M.rgba(c)
+    save(T.match_mean(img, 150), "mattressticking")
+    img = M.fabric(seed_of("blanketplaid"), base=(132, 72, 56), weave="twill", contrast=6, grain=2, mottle=5, thread=2)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            k = 0.0
+            if x % 16 < 5:
+                k += 0.45
+            if y % 16 < 5:
+                k += 0.45
+            c = M.mix(px[x, y], M.lift(px[x, y], -42), k)
+            if x % 16 == 8 or y % 16 == 8:
+                c = M.mix(c, (186, 170, 120), 0.55)
+            px[x, y] = M.rgba(c)
+    save(T.match_mean(img, 92), "blanketplaid")
+    img = M.fabric(seed_of("curtainvelvet"), base=(74, 98, 70), weave="plain", contrast=5, grain=2, mottle=7, thread=1)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            fold = math.sin(2 * math.pi * x / 16)
+            px[x, y] = M.rgba(M.lift(px[x, y], fold * 16))
+    save(T.match_mean(img, 80), "curtainvelvet")
     # The two-block camp tent's fly: green ripstop nylon (a faint grid), a darker seam every half block, a grommet
     # (B4) A ripstop weave from matlib.fabric, the cloth a touch uneven where it hangs (soft broad light and dark),
     # a flat-felled seam every half block (a dark fold with its two rows of stitching lit), and a grommet

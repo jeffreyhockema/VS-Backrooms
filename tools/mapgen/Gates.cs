@@ -11,7 +11,7 @@ static class Gates
         if (t.Kind is TileKind.Doorway or TileKind.ArchDoor or TileKind.Water) return true;
         if (t.Kind != TileKind.Floor) return false;
         if (t.Stack > 0 && t.Variant == 0 || t.SupplyBox) return false;
-        return t.Variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll or Props.SleepingBag or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts;
+        return t.Variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll or Props.SleepingBag or Props.ImprovBed or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts;
     }
 
     public static void Run(WorldLayout layout, int smx, int smz, int radius)
