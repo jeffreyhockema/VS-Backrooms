@@ -109,9 +109,14 @@ public partial class MenaceSystem
         _ => 0.9,
     };
 
-    /// <summary>Runs the rolls over simulated hours of ticks and reports the rates (/backrooms ratecheck). Null if the band is not one.</summary>
-    public static string RateCheck(int level, string bandWord, double hours, double spawns, string settingCode, int kinds, Random rand)
+    /// <summary>
+    /// Runs the rolls over simulated hours of ticks and reports the rates (/backrooms ratecheck). Null if the band is not one.
+    /// <paramref name="needsMult"/> is a player's thirst-and-fatigue multiplier on the setting's spawns (<see cref="Needs.Needs.DirectorMult"/>).
+    /// </summary>
+    public static string RateCheck(int level, string bandWord, double hours, double spawns, string settingCode, int kinds, Random rand, double needsMult = 1, string needsNote = null)
     {
+        bandWord = BandWord(bandWord);
+        spawns *= needsMult;
         bool inDen = bandWord == "den";
         MenaceBand band = inDen ? MenaceBand.Threshold : bandWord switch
         {
@@ -151,7 +156,18 @@ public partial class MenaceSystem
             + "body gap mean {10} min, min {11} min; sound gap mean {12} min, min {13} min",
             level, bandWord, menace, settingCode, hours, bodies / hours, glimpse / hours, stalk / hours, hunt / hours, sounds / hours,
             Mean(bodyGapSum, Math.Max(0, bodies - 1)), Lowest(bodyGapMin), Mean(soundGapSum, Math.Max(0, sounds - 1)), Lowest(soundGapMin), kinds, Roster.MaxKinds(level));
+        if (needsMult != 1 || needsNote != null) text.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, "; needs x{0:0.00}{1}", needsMult, needsNote == null ? "" : " (" + needsNote + ")");
         return text.ToString();
+    }
+
+    /// <summary>A band word, or the start of one ("heart" for heartland); anything else is returned as it is (and is no band).</summary>
+    private static string BandWord(string word)
+    {
+        word = (word ?? "").Trim().ToLowerInvariant();
+        if (word.Length == 0) return word;
+        foreach (string band in new[] { "heartland", "approach", "threshold", "den" })
+            if (band.StartsWith(word, StringComparison.Ordinal)) return band;
+        return word;
     }
 
     private TextCommandResult OnRateCheckCommand(TextCommandCallingArgs args)
@@ -162,26 +178,54 @@ public partial class MenaceSystem
         string band;
         double hours = 50;
         int kinds = 0;
-        if (!args.Parsers[3].IsMissing)
+        double? awake = null;
+        // The words after the level: the band and the hours (for "here", only the hours), and key=value words in any of them:
+        // menacing=<n> (kinds of menacing thing about) and awake=<hours> (thirst-and-fatigue's multiplier for that many awake hours)
+        var plain = new System.Collections.Generic.List<string>();
+        for (int i = 1; i <= 4; i++)
         {
-            string extra = ((string)args[3]).Trim().ToLowerInvariant();
-            if (!extra.StartsWith("menacing=", StringComparison.Ordinal) || !int.TryParse(extra.Substring(9), out kinds)) return TextCommandResult.Error("The last argument is menacing=<n>, how many kinds of menacing thing are about");
+            if (args.Parsers[i].IsMissing) continue;
+            string word = ((string)args[i]).Trim().ToLowerInvariant();
+            if (word.Length == 0) continue;
+            if (word.StartsWith("menacing=", StringComparison.Ordinal))
+            {
+                if (!int.TryParse(word.Substring(9), out kinds)) return TextCommandResult.Error("menacing=<n>: how many kinds of menacing thing are about");
+            }
+            else if (word.StartsWith("awake=", StringComparison.Ordinal))
+            {
+                if (!double.TryParse(word.Substring(6), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double h)) return TextCommandResult.Error("awake=<hours>: the awake hours to rate (the needs' multiplier)");
+                awake = Math.Clamp(h, 0, Needs.Needs.CapHours);
+            }
+            else plain.Add(word);
         }
+        bool Hours(string word) => double.TryParse(word, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out hours);
+        double mult = 1;
+        string note = null;
         if (levelWord == "here")
         {
             if (args.Caller.Entity == null) return TextCommandResult.Error("From the console, give a level and a band");
             Assessment a = AssessmentOf(args.Caller.Entity);
             level = a.Level;
             band = a.Den != DenKind.None ? "den" : a.Band.ToString().ToLowerInvariant();
-            if (!args.Parsers[1].IsMissing && double.TryParse(((string)args[1]).Trim(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double h)) hours = h;
+            if (plain.Count > 0 && !Hours(plain[0])) hours = 50;
+            if (awake == null)
+            {
+                mult = Needs.Needs.DirectorMult(args.Caller.Entity);
+                note = "yours";
+            }
         }
         else
         {
-            if (!int.TryParse(levelWord, out level) || args.Parsers[1].IsMissing) return TextCommandResult.Error("Give a level (its id) and a band: /backrooms ratecheck <level> <heartland|approach|threshold|den> [hours]");
-            band = ((string)args[1]).Trim().ToLowerInvariant();
-            if (!args.Parsers[2].IsMissing) hours = (double)args[2];
+            if (!int.TryParse(levelWord, out level) || plain.Count == 0) return TextCommandResult.Error("Give a level (its id) and a band: /backrooms ratecheck <level> <heartland|approach|threshold|den> [hours] [menacing=<n>] [awake=<hours>]");
+            band = BandWord(plain[0]);
+            if (plain.Count > 1 && !Hours(plain[1])) return TextCommandResult.Error("The hours are a number");
         }
-        string text = RateCheck(level, band, Math.Clamp(hours, 1, 2000), Setting.Spawns, Setting.Code, Math.Max(0, kinds), new Random());
+        if (awake is double h2)
+        {
+            mult = Needs.NeedsMath.DirectorMult((float)h2, true, false, false);
+            note = string.Format(System.Globalization.CultureInfo.InvariantCulture, "awake {0:0.#} h", h2);
+        }
+        string text = RateCheck(level, band, Math.Clamp(hours, 1, 2000), Setting.Spawns, Setting.Code, Math.Max(0, kinds), new Random(), mult, note);
         return text == null ? TextCommandResult.Error($"No rolls in the {band} band: use heartland, approach, threshold or den") : TextCommandResult.Success(text);
     }
 }

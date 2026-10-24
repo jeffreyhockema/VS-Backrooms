@@ -223,8 +223,8 @@ public partial class MenaceSystem : ModSystem
                 })
             .EndSubCommand()
             .BeginSubCommand("ratecheck")
-                .WithDescription("Simulates the director's rolls for hours (default 50) in a level (its id, 94 is 13) and band (heartland, approach, threshold, den) and prints bodies and sounds per hour (the rolls only: real rates are lower, since a body also waits for fewer kinds of menacing thing about than the level allows (one in Classes 0 to 2, two in 3 to 5) and for a spot to put it; the optional last argument menacing=<n> says how many kinds are about); \"ratecheck here\" uses your own level and band")
-                .WithArgs(api.ChatCommands.Parsers.Word("level"), api.ChatCommands.Parsers.OptionalWord("band"), api.ChatCommands.Parsers.OptionalDouble("hours"), api.ChatCommands.Parsers.OptionalWord("menacing"))
+                .WithDescription("Simulates the director's rolls for hours (default 50) in a level (its id, 94 is 13) and band (heartland, approach, threshold, den) and prints bodies and sounds per hour (the rolls only: real rates are lower, since a body also waits for fewer kinds of menacing thing about than the level allows (one in Classes 0 to 2, two in 3 to 5) and for a spot to put it; the optional menacing=<n> says how many kinds are about; awake=<hours> applies the thirst-and-fatigue multiplier for that many awake hours); \"ratecheck here\" uses your own level and band (and your own multiplier)")
+                .WithArgs(api.ChatCommands.Parsers.Word("level"), api.ChatCommands.Parsers.OptionalWord("band"), api.ChatCommands.Parsers.OptionalWord("hours"), api.ChatCommands.Parsers.OptionalWord("menacing"), api.ChatCommands.Parsers.OptionalWord("awake"))
                 .HandleWith(OnRateCheckCommand)
             .EndSubCommand()
             .BeginSubCommand("encounter")
@@ -749,7 +749,8 @@ public partial class MenaceSystem : ModSystem
         if (!rolls) return;
         // Bodies and sounds are rolled apart, as rates with hard gaps (EncounterRoll); no fallback sounds: a failed spawn is silence
         long nowMs = sapi.World.ElapsedMilliseconds;
-        RollKind roll = EncounterRoll.Roll(a.Band, a.Level, a.Value, Setting.Spawns, nowMs - watch.LastBodyMs, nowMs - watch.LastSoundMs, a.Den != DenKind.None, CountMenacingKinds(target), a.Worst, rand);
+        // (Thirst and fatigue scale the odds for this player: Needs.DirectorMult, 1 when rested and watered)
+        RollKind roll = EncounterRoll.Roll(a.Band, a.Level, a.Value, Setting.Spawns * Backrooms.Needs.Needs.DirectorMult(target), nowMs - watch.LastBodyMs, nowMs - watch.LastSoundMs, a.Den != DenKind.None, CountMenacingKinds(target), a.Worst, rand);
         if (roll == RollKind.Nothing) return;
         if (roll == RollKind.Sound)
         {
@@ -763,8 +764,8 @@ public partial class MenaceSystem : ModSystem
         Encounters flag = kind switch { Encounter.Glimpse => Encounters.Glimpse, Encounter.Stalk => Encounters.Stalk, _ => Encounters.Hunt };
         RosterEntry[] options = roster.Where(e => (e.Kinds & flag) != 0 && e.MinBand <= a.Band && (!e.SubwayOnly || a.Subway) && (!e.ShiftOnly || a.Shift)
             && (!e.LightsOutOnly || a.Worst || a.Shift) && types.ContainsKey(e.Code)).ToArray();
-        // Someone starving draws the Wretches, three times over: they know what is coming for them
-        if (Starving(target)) options = options.Select(e => e.Code == Roster.Wretch ? e with { Weight = e.Weight * 3 } : e).ToArray();
+        // Someone starving, parched or dead on their feet draws the Wretches, three times over: they know what is coming for them
+        if (Wretched(target)) options = options.Select(e => e.Code == Roster.Wretch ? e with { Weight = e.Weight * 3 } : e).ToArray();
         // In a den, mostly what lives there comes
         if (Roster.DenEntry(a.Den) is { } dweller && (dweller.Kinds & flag) != 0 && types.ContainsKey(dweller.Code) && rand.NextDouble() < DwellerChance && DwellerFits(roster, dweller, a)) options = new[] { dweller };
         RosterEntry entry = Pick(options);
@@ -780,7 +781,11 @@ public partial class MenaceSystem : ModSystem
 
     /// <summary>Whether a set-piece body (the Flickering, the Screaming) may come: the hard gap since the last body has passed and the level's one-kind rule (<see cref="Roster.MaxKinds"/>) allows another kind.</summary>
     private bool BodyAllowed(Entity target, Watch watch, Assessment a) =>
-        EncounterRoll.BodyMayCome(CountMenacingKinds(target), Roster.MaxKinds(a.Level), sapi.World.ElapsedMilliseconds - watch.LastBodyMs, EncounterRoll.BodyGapMs(a.Band, a.Level, a.Value, Setting.Spawns, a.Den != DenKind.None));
+        EncounterRoll.BodyMayCome(CountMenacingKinds(target), Roster.MaxKinds(a.Level), sapi.World.ElapsedMilliseconds - watch.LastBodyMs, EncounterRoll.BodyGapMs(a.Band, a.Level, a.Value, Setting.Spawns * Backrooms.Needs.Needs.DirectorMult(target), a.Den != DenKind.None));
+
+    /// <summary>The Wretch's prey (Entity 15, "starved, parched, sleepless"): starving, parched, or dead on their feet (and not held up by caffeine).</summary>
+    private static bool Wretched(Entity target) =>
+        Starving(target) || Backrooms.Needs.Needs.Parched(target) || Backrooms.Needs.Needs.DeadOnFeet(target) && !Backrooms.Needs.Needs.Caffeinated(target);
 
     /// <summary>Whether someone is down to the last quarter of their satiety.</summary>
     private static bool Starving(Entity target)
@@ -983,7 +988,7 @@ public partial class MenaceSystem : ModSystem
 
     /// <summary>Puts down an entity (and the rest of its pack) for an encounter with a target. Returns whether it did.</summary>
     /// <param name="setPiece">The Flickering's hounds, the Screaming's rats, a test: the pack is clipped to the Threshold cap rather than the current band's.</param>
-    public bool TrySpawn(Entity target, Assessment a, RosterEntry entry, Encounter kind, double untilHours = -1, bool setPiece = false, double minDistance = 0, int failedTries = 0, bool dryRun = false)
+    public bool TrySpawn(Entity target, Assessment a, RosterEntry entry, Encounter kind, double untilHours = -1, bool setPiece = false, double minDistance = 0, int failedTries = 0, bool dryRun = false, double maxDistance = 0)
     {
         LastTry = default;
         if (!types.TryGetValue(entry.Code, out EntityProperties type)) return false;
@@ -1012,6 +1017,8 @@ public partial class MenaceSystem : ModSystem
         // A set piece's pack is put well away, and not where anyone has just been looking
         // (Each failed try before this one brings the band nearer at its inner edge and out at its far edge)
         if (minDistance > 0) (min, max) = (Math.Max(14, minDistance - 3 * Math.Min(failedTries, 3)), minDistance + FlickerSpread + 6 * Math.Min(failedTries, 4));
+        // (A band given outright, a night visit's 12 to 18 blocks: taken as it is)
+        if (minDistance > 0 && maxDistance > minDistance) (min, max) = (minDistance, maxDistance);
         int refusedSeen = 0, refusedView = 0, refusedSpot = 0;
 
         bool widened = false;

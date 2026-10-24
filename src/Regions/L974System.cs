@@ -345,7 +345,7 @@ public class L974System : ModSystem
     {
         entity.WatchedAttributes.SetInt(VisitKey, 0);
         entity.WatchedAttributes.SetDouble(LeftKey, Now);
-        if (entity.GetBehavior<EntityBehaviorTemporalStabilityAffected>() is { } tsa) tsa.stabilityOffset = 0;
+        Needs.Needs.SetStabilityOffset(entity, "l974", 0);
     }
 
     // ================= Every second, for everyone =================
@@ -375,7 +375,8 @@ public class L974System : ModSystem
 
             // The pink: kind at first (the level's own 1.3), then less and less so the longer you stay
             double effective = offended ? 0.4 : hours < CalmHours ? 1.3 : hours < WarpHours ? 0.9 : hours < 60 ? 0.6 : 0.3;
-            if (entity.GetBehavior<EntityBehaviorTemporalStabilityAffected>() is { } tsa) tsa.stabilityOffset = effective - 1.3;
+            // (Through the needs' registry, which sums it with fatigue's and thirst's into the field vanilla reads)
+            Needs.Needs.SetStabilityOffset(entity, "l974", effective - 1.3);
             int stage = hours < CalmHours ? 0 : hours < WarpHours ? 1 : hours < 60 ? 2 : 3;
             int sugarStage = hours >= AllSugarHours ? 1 : 0;
             int was = entity.WatchedAttributes.GetInt(StageKey);
