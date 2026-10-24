@@ -66,6 +66,8 @@ public class CorpseSystem : ModSystem
         public float Yaw;
         public ITreeAttribute Skin, Gear;
         public readonly List<ItemStack> Stacks = new();
+        /// <summary>Set when its body is being made, so that nothing makes a second one (or drops the stacks twice).</summary>
+        public bool Settled;
     }
 
     private ICoreServerAPI sapi;
@@ -126,6 +128,8 @@ public class CorpseSystem : ModSystem
             api.Event.PlayerRespawn += OnPlayerRespawn;
             api.Event.PlayerNowPlaying += OnPlayerNowPlaying;
             api.Event.RegisterGameTickListener(_ => TrackSafePlaces(), 1000);
+            // A server stopping inside a death's catch window: the stacks are already out of the world, so the bodies are made now
+            api.Event.ServerRunPhase(EnumServerRunPhase.Shutdown, SettleAll);
         });
     }
 
@@ -163,6 +167,8 @@ public class CorpseSystem : ModSystem
     private void OnEntityDeath(Entity entity, DamageSource source)
     {
         if (entity is not EntityPlayer { Player: IServerPlayer player } body) return;
+        // (A world that keeps the inventory drops nothing: catching what happens to lie nearby would take a stranger's things)
+        if (body.Properties?.Server?.Attributes?.GetBool("keepContents", false) == true) return;
         var d = new Dying
         {
             Uid = player.PlayerUID,
@@ -208,15 +214,28 @@ public class CorpseSystem : ModSystem
         item.Die(EnumDespawnReason.Removed);
     }
 
+    /// <summary>The server is stopping: every death still collecting drops gets its body now (the chunks are still loaded).</summary>
+    private void SettleAll()
+    {
+        foreach (Dying d in dying.Values.ToList()) Settle(d, true);
+    }
+
     /// <summary>The drops are over: the corpse, if anything was dropped.</summary>
-    private void Settle(Dying d)
+    private void Settle(Dying d, bool stopping = false)
     {
         if (dying.TryGetValue(d.Uid, out Dying current) && current == d) dying.Remove(d.Uid);
-        if (d.Stacks.Count == 0) return;
+        if (d.Stacks.Count == 0 || d.Settled) return;
+        d.Settled = true;
         int things = d.Stacks.Sum(s => s.StackSize);
         sapi.Logger.Notification("[backrooms] corpse: {0} died at {1:0.#} {2:0.#} {3:0.#} with {4} stacks ({5} things)", d.Name, d.Pos.X, d.Pos.Y, d.Pos.Z, d.Stacks.Count, things);
-        Vec3d spot = ResolveSpot(d.Pos, d.Uid);
-        MakeBody(d, spot, 0);
+        Vec3d spot;
+        try { spot = ResolveSpot(d.Pos, d.Uid); }
+        catch (Exception ex)
+        {
+            sapi.Logger.Error("[backrooms] corpse: could not find the floor for {0}: {1}", d.Name, ex);
+            spot = d.Pos.Clone();
+        }
+        MakeBody(d, spot, stopping ? 3 : 0);
     }
 
     /// <summary>Makes the body once the column it lies in is loaded (it is, where someone has just died; a last safe place may not be).</summary>
@@ -231,13 +250,12 @@ public class CorpseSystem : ModSystem
             });
             return;
         }
+        EntityCorpse body;
         try
         {
-            EntityCorpse body = Spawn(d, spot);
-            CorpseRecord r = Adopt(body);
-            IServerPlayer owner = sapi.World.PlayerByUid(d.Uid) as IServerPlayer;
-            if (owner != null) AddMarker(owner, r);
-            MarkTold(d.Uid, r);
+            body = Spawn(d, spot);
+            // (Spawning can be refused without an exception, e.g. in repair mode: then the body is not in the world)
+            if (sapi.World.GetEntityById(body.EntityId) != body) throw new InvalidOperationException("the game did not take the body");
         }
         catch (Exception ex)
         {
@@ -248,6 +266,20 @@ public class CorpseSystem : ModSystem
                 Entity loose = sapi.World.SpawnItemEntity(stack, spot.AddCopy(0, 0.3, 0));
                 loose?.Attributes.SetInt("minsecondsToDespawn", 7 * 24 * 3600);
             }
+            return;
+        }
+
+        // The body exists and holds the stacks; whatever goes wrong from here must not drop them a second time
+        try
+        {
+            CorpseRecord r = Adopt(body);
+            IServerPlayer owner = sapi.World.PlayerByUid(d.Uid) as IServerPlayer;
+            if (owner != null) AddMarker(owner, r);
+            MarkTold(d.Uid, r);
+        }
+        catch (Exception ex)
+        {
+            sapi.Logger.Error("[backrooms] corpse: the body of {0} is made, but its marker or message failed: {1}", d.Name, ex);
         }
     }
 
