@@ -21,6 +21,7 @@ public sealed partial class WorldGenerator
     private static readonly string[] L974Rugs = { "nw", "ne", "sw", "se" };
 
     private readonly int[] l974Wall = new int[6], l974Floor = new int[3], l974Slope = new int[4], l974Lintel = new int[2], l974Casing = new int[2];
+    private readonly int[,] l974Jamb = new int[2, 4]; // base (rel 1) or plain (rel 2-3), the side the opening is on
     private readonly int[,,] l974Window = new int[4, 4, 4]; // part (bl br tl tr), painting, facing
     private readonly int[,] l974Fairy = new int[2, 4];
     private readonly int[] l974NightLight = new int[4], l974Rod = new int[4];
@@ -51,6 +52,11 @@ public sealed partial class WorldGenerator
         l974Lintel[1] = L974Block("l974-lintel-we", l974Wall[2]);
         l974Casing[0] = L974Block("l974-casing-ns");
         l974Casing[1] = L974Block("l974-casing-we");
+        for (int f = 0; f < 4; f++)
+        {
+            l974Jamb[0, f] = L974Block("l974-jamb-base-" + Sides[f], l974Wall[1]);
+            l974Jamb[1, f] = L974Block("l974-jamb-plain-" + Sides[f], l974Wall[0]);
+        }
         for (int f = 0; f < 4; f++)
         {
             string side = Sides[f];
@@ -139,6 +145,7 @@ public sealed partial class WorldGenerator
                 if (rel == 0) return concreteId;
                 bool bath = t.Pattern == WallPattern.L974BathTile;
                 if (rel == 4) return l974Wall[2];
+                if (t.Pattern == WallPattern.L974Jamb) return l974Jamb[rel == 1 ? 0 : 1, Facing(t.Pier)];
                 if (t.Pattern == WallPattern.L974Window && rel is 2 or 3)
                 {
                     int part = (rel == 3 ? 2 : 0) + (t.Stack & 1);

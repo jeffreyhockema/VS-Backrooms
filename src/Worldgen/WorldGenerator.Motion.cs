@@ -136,6 +136,15 @@ public sealed partial class WorldGenerator
                 upper.Kind = TileKind.Wall;
                 upper.Variant = (byte)(t.Pattern is >= WallPattern.SidingWhite and <= WallPattern.Brick ? 1 : 0);
                 upper.Under = 0;
+                if (layout.Version >= 11) upper.Stack = WorldLayout.WinSash; // (the door's own Stack is its hinges and latch)
+            }
+            // From layout version 11 the windows are the Suburbs' tall ones; upstairs a picture window is a sash in its
+            // middle and siding at its ends
+            else if (layout.Version >= 11 && t.Kind == TileKind.Wall && t.Stack == WorldLayout.WinPicture && t.Variant is 1 or 2)
+            {
+                bool Picture(int x, int z) { Tile n = TileAt(x, z); return n.Kind == TileKind.Wall && n.Stack == WorldLayout.WinPicture && n.Variant is 1 or 2; }
+                if (Picture(gx - 1, gz) && Picture(gx + 1, gz) || Picture(gx, gz - 1) && Picture(gx, gz + 1)) upper.Stack = WorldLayout.WinSash;
+                else upper.Variant = 0;
             }
             return Level9Block(upper, gx, gz, c - 4, t.Detail - 1);
         }

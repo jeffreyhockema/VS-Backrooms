@@ -433,7 +433,11 @@ public sealed partial class WorldLayout
     /// <see cref="LevelDepth"/> (the test meant for it was always true). Every stretch of the hotel's lobby gets a front hall:
     /// only Level 5 cells compete for it (<see cref="IsFrontHall"/>). Level 3999's dark-near early-out counts the corner of its
     /// square reach as farther out than the side, so a rusted cabinet is no longer missed in the band round a blackout. A glitch
-    /// wall in Level 3999 is taken only where the alley tile in front of it is plain floor (<see cref="PlaceL3999GlitchWall"/>). A Level 37 rotunda's arched openings are tall tiled archways, two plain blocks under a round-headed one, instead of three stacked arches (<see cref="PoolWalls.ArchTall"/>).</item> Level 8's cave pools are true basins: the open cave beside pool water at its depth is a rim of rock, so no wall of water stands over a lower floor.</item>
+    /// wall in Level 3999 is taken only where the alley tile in front of it is plain floor (<see cref="PlaceL3999GlitchWall"/>). A Level 37 rotunda's arched openings are tall tiled archways, two plain blocks under a round-headed one, instead of three stacked arches (<see cref="PoolWalls.ArchTall"/>). Level 974's doorways have nothing in them: the casing is on the walls either side (<see cref="WallPattern.L974Jamb"/>), and the bed's alcove is a niche let into the bedroom's east wall (the house is <see cref="L974HouseWide"/> wide, <see cref="L974Plan11"/>; the stub walls pushed back two blocks).</item> Level 8's cave pools are true basins: the open cave beside pool water at its depth is a rim of rock, so no wall of water stands over a lower floor.</item>
+    /// Level 94's houses get the Suburbs' outsides of layout version 9 (PlanExteriorV9, with their faux second storey in mind):
+    /// tall windows in each room's stretch of wall (upstairs over them, a sash over a door), real front and back doors that
+    /// open, a brick chimney stack outside a gable end on level ground or rising through the ridge, a gable that faces the
+    /// street on some houses (in 1-10 a one-block window, a doorway with no door and a chimney flush in the side wall). The End's atrium escalator climbs west along a row of the void and steps straight onto the one railing-free tile of the deck (in 1-10 it climbed south beside the deck past a three-tile gap and ended against a shelf).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 11;

@@ -352,7 +352,9 @@ def frame_composite(tex="alu", z=FRAME_Z, outer=1.5, mull=0.5):
             bx("Transom", (outer, 16 - mull, z1), (32 - outer, 16 + mull, z2), tex, faces=fr)]
 
 
-FRAME_BOXES = [(30.5, 0, 1, 32, 32, 5), (0, 0, 1, 1.5, 32, 5), (1.5, 0, 1, 30.5, 1.5, 5), (1.5, 30.5, 1, 30.5, 32, 5)]
+# The side jambs only: with the bottom and top bars too the opening was 1.81 blocks high (sill top to head), under the
+# player's 1.85, so nobody could climb through. The bars are still drawn; they just no longer stop anyone.
+FRAME_BOXES = [(30.5, 0, 1, 32, 32, 5), (0, 0, 1, 1.5, 32, 5)]
 
 
 def blind_composite(down, z=(13.5, 14), roll_tex="roll", glow_blind=False, cord_x=29.2, room_side=+1):

@@ -986,7 +986,7 @@ public class BlockBehaviorL188Hatch : BlockBehavior
                 if (path == null || !path.StartsWith("l188-hatch-")) continue;
                 BlockBehaviorL188Door.Swap(world, at, open ? path.Replace("-closed-", "-open-") : path.Replace("-open-", "-closed-"));
             }
-        world.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/188/hatch"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 16);
+        world.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/188/hatch"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 10, 0.45f);
         if (open) (byPlayer as IServerPlayer)?.SendMessage(GlobalConstants.GeneralChatGroup, Say.T((IServerPlayer)byPlayer, "backrooms:l188-hatch-open"), EnumChatType.Notification);
         return true;
     }

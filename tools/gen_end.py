@@ -1850,11 +1850,15 @@ def balustrades(flat=None):
         if flat is None:
             # measured square to the line: the handrail tops out 16 px over the line (where it meets the landing's
             # rail); the skirt reaches down to the block's low corner, so it closes the space under the steps
-            els += [incline(f"Skirt{side}", x1, x2, -11.4, 2.5, "brushed"), incline(f"Glass{side}", gx1, gx2, 2.5, 9.5, "glass"),
+            # (the skirt stands 0.3 px proud of the block's side: flush with it, its face lay in the same plane as the
+            # wall blocks the escalator stands on and against, and the two flickered)
+            sk1, sk2 = (x1 - 0.3, x2) if side == "W" else (x1, x2 + 0.3)
+            els += [incline(f"Skirt{side}", sk1, sk2, -11.4, 2.5, "brushed"), incline(f"Glass{side}", gx1, gx2, 2.5, 9.5, "glass"),
                     incline(f"Rail{side}", x1 - 0.2, x2 + 0.2, 9.5, 11.3, "rubber")]
         else:
             y0, z1, z2 = flat
-            els += [bx(f"Skirt{side}", (x1, y0 - 3, z1), (x2, y0 + 2.5, z2), "brushed"), bx(f"Glass{side}", (gx1, y0 + 2.5, z1), (gx2, y0 + 14.5, z2), "glass"),
+            sk1, sk2 = (x1 - 0.3, x2) if side == "W" else (x1, x2 + 0.3)
+            els += [bx(f"Skirt{side}", (sk1, y0 - 3, z1), (sk2, y0 + 2.5, z2), "brushed"), bx(f"Glass{side}", (gx1, y0 + 2.5, z1), (gx2, y0 + 14.5, z2), "glass"),
                     bx(f"Rail{side}", (x1 - 0.2, y0 + 14.5, z1), (x2 + 0.2, y0 + 16.3, z2), "rubber")]
     return els
 
@@ -1869,7 +1873,10 @@ def atrium():
     step += balustrades()
     # The head of the flight: the last steps (it climbs like the others), the comb plate on the top step, newels
     top = [json.loads(json.dumps(e)) for e in step]
-    top += [faces_box("Comb", (1.5, 16, 0), (14.5, 16.4, 4), {"up": "comb", "north": "brushed", "south": "brushed"}, uv=(0, 16, 16, 12)),
+    for e in top:
+        if e["name"] == "Step3":
+            e["to"][1] = 15.4  # the comb plate lies on it and ends flush with the block's top, which is the deck's
+    top += [faces_box("Comb", (1.5, 15.4, 0), (14.5, 16, 4), {"up": "comb", "north": "brushed", "south": "brushed"}, uv=(0, 16, 16, 12)),
             bx("NewelW", (-0.2, 16, 0), (1.7, 32.3, 1.6), "rubber"), bx("NewelE", (14.3, 16, 0), (16.2, 32.3, 1.6), "rubber")]
     bottom = [faces_box("Comb", (1.5, 0, 0), (14.5, 0.8, 16), {"up": "comb", "north": "brushed", "south": "brushed"})]
     bottom += balustrades((0, 0, 14)) + [bx("NewelW", (-0.2, 6, 13.8), (1.7, 16.3, 15.6), "rubber"), bx("NewelE", (14.3, 6, 13.8), (16.2, 16.3, 15.6), "rubber"),
@@ -1878,8 +1885,11 @@ def atrium():
     for part, els in (("step", step), ("top", top), ("bottom", bottom)):
         shapes.update(by_side(f"*-{part}", shp(f"end-escalator-{part}", els)))
     coll = {}
-    coll.update(boxes_by_side("*-step", [(0, 0, 0, 1, 0.5, 1), (0, 0.5, 0, 1, 1, 0.5)]))
-    coll.update(boxes_by_side("*-top", [(0, 0, 0, 1, 0.5, 1), (0, 0.5, 0, 1, 1, 0.5)]))
+    # a collision step for every visible one (a quarter block each), so you walk up it without jumping and stand on the
+    # treads, not above them
+    quarters = [(0, 0, 0.75 - 0.25 * k, 1, 0.25 * (k + 1), 1 - 0.25 * k) for k in range(4)]
+    coll.update(boxes_by_side("*-step", quarters))
+    coll.update(boxes_by_side("*-top", quarters))
     coll.update(boxes_by_side("*-bottom", [(0, 0, 0, 1, 0.05, 1)]))
     blk("end-escalator", {
         "variantgroups": [{"code": "part", "states": ["step", "top", "bottom"]}, {"code": "side", "states": SIDES}],

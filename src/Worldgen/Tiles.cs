@@ -207,6 +207,8 @@ public enum WallPattern : byte
     L974BathTile = 147,
     /// <summary>Level 974: a window that is a painting (Stack 0 left, 1 right as seen from the room; Pier the way it faces; Detail the painting).</summary>
     L974Window = 148,
+    /// <summary>Level 974 (layout version 11 on): the wall beside a doorway, with the door's casing on it (Pier the side the opening is on).</summary>
+    L974Jamb = 149,
 
     // ===== Levels 3999 and 188 (19, 20): one block of values each, as for 14-18 =====
 

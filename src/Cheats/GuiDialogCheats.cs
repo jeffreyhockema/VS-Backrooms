@@ -162,6 +162,9 @@ public class GuiDialogCheats : GuiDialog
         {
             B("Heal and rest", "/backrooms heal", "Health, food, body temperature and stability back to full, and your time out reset"),
             B("Die (test waking)", "/backrooms die"),
+            B("Corpses: list", "/backrooms corpse list", "Lists every corpse a death has left: whose, where, how old, what it holds"),
+            B("Corpse: make one", "/backrooms corpse make", "Puts a corpse of yours with some test things at your feet"),
+            B("Corpse: to bones", "/backrooms corpse age", "Turns the newest corpse to bones now"),
             B("Lantern in hand", "/backrooms light lantern", "A lit light in your active hotbar slot (only a light in hand lights Level 6)"),
             B("Torch in hand", "/backrooms light torch"),
         }, 4);
