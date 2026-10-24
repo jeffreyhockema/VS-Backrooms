@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- The bones are redrawn. The bone pile was five loose boxes and a cube on one flat cream noise texture; it is now a modelled heap of long bones with shadowed knuckles, small ribs, vertebrae and a skull with eye sockets, nose and teeth, lying on one another. The skeleton now lies inside its one block (its legs used to run a block and a half out of it), with skull and jaw, spine, four pairs of arched ribs, pelvis, arms and bent legs. Bone is a dry, matte off-white with grey-brown mottle, fibre streaks and pores, as vanilla's bones are, and the giant ribs share it. Drops, breaking and boxes are as before.
 - A fed Skin-Stealer that turns hungry sheds the clothes it wore while fed, as the hungry ones look.
 - Out of Level ! for the first time, a present waits by the door you came out of: brown paper and twine, a tag that says "For getting out", and inside 25 rusty gears and 2 temporal gears. Once per player, ever.
 - The door you come out of Level ! by is now a real door of the level you arrive in (a locked one, never a way somewhere, and never one of The End's EXIT doors), turned into a red fire door; with none near, it is set into the wall. It no longer stands against the wall beside another door, and it carries a NO RE-ENTRY sign instead of a huge red "!" (doors already standing in your world get the new face too). `/backrooms runescape [1|4|end] [reset]` tries it.
