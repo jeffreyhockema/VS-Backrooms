@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- The End: the labels on the wrapped stock no longer flicker, and the old computers' buzz (the three on the central desk most of all) is a low hum now, not a painful whine.
+- Level Fun: the Partygoers fit through the doorways (a little smaller), so they can leave a room; the balloon arches stay under the ceiling and no longer flicker; the lure balloon hangs on one continuous string.
+- Level 5: the turntable is a mahogany phonograph with a record, brass tonearm and an open velvet-lined lid, and the room service tray a worn silver-plate service with a cloche, coffee, napkin and a rose.
 - You come out of a Level 8 vent through a vent. The vents beside the 9th Road used to put you down in a thin spot in Level 2; now a vent grille is set in the foot of a plain tunnel wall near where you arrive, and you stand on the floor in front of it, facing out. Crawl back into it and it leads home, and it stays (worlds already played keep the thin spots they have). One-way vents (the Snackrooms' to the Electrical Station) and The End's vent into open air are unchanged. `/backrooms wayback sim-vent <level> <n>` tries it.
 - When the lights go out in Level 1 it is always dangerous now. Within a few seconds you hear the Hounds, far off (only Hounds, never a rat); five to ten seconds later they are put down out of sight, and they keep coming for as long as the dark lasts, even if you keep running and looking about. The Screaming's dark brings hunters too: Hounds in Level 1, Death Rats in Level 2, and it lasts long enough for them to arrive.
 - A fed Skin-Stealer keeps to itself, ambling slowly between real places and stopping to mutter instead of walking into walls; but come within a few blocks of it and it turns on you, until you back well off. It never hunts while fed.
