@@ -34,8 +34,9 @@ import re
 
 import numpy as np
 
+import rig
 from rig import ASSETS, Model, clamp, fill, fur, mix, pose, rect, shade, speckle
-from gen_models import blotch, cycle, lit, line, plateau, ragged, s, texel
+from gen_models import blotch, cycle, death, full, lit, line, plateau, ragged, s, texel
 
 TAU = math.tau
 
@@ -531,25 +532,158 @@ def animate(m):
         11: {n: pose() for n in hurt_names},
     }, end="Stop")
 
-    # Death: the knees go, he folds forward onto the floor, the tentacles fall slack and the wings settle over him
-    die_names = ["Pelvis", "Waist", "Chest", "Head", "ThighL", "ThighR", "ShinL", "ShinR", "ShoeL", "ShoeR", "ArmL", "ArmR",
-                 "ForearmL", "ForearmR", "WingL", "WingR"]
-    def die_key(t):
-        d = {n: pose() for n in die_names}
-        k1, k2 = min(1.0, t * 2), max(0.0, t * 2 - 1)
-        d.update({
-            "Pelvis": pose((0, 0, 70 * k2), (0, -6 * k1 - 5 * k2, 0)),
-            "ThighL": pose((0, 0, -80 * k1)), "ThighR": pose((0, 0, -70 * k1)),
-            "ShinL": pose((0, 0, 100 * k1)), "ShinR": pose((0, 0, 95 * k1)),
-            "ShoeL": pose((0, 0, -20 * k1)), "ShoeR": pose((0, 0, -25 * k1)),
-            "Waist": pose((0, 0, 10 * k1)), "Chest": pose((0, 6 * k2, 12 * k1)), "Head": pose((-10 * k2, 0, 18 * k2)),
-            "ArmL": pose((0, 0, -40 * k2)), "ArmR": pose((-10 * k1, 0, -50 * k2)), "ForearmL": pose((0, 0, -30 * k2)), "ForearmR": pose((0, 0, -20 * k2)),
-            "WingL": pose((-20 * k2, 0, -30 * k2)), "WingR": pose((20 * k2, 0, -30 * k2)),
-        })
-        d.update({n: pose((0, 0, -10 * t)) for names in FACE_TENTACLES for n in names})
+    # Death (see docs/design/entity-ai-overhaul/death-poses.md): a jolt (the head snaps back, the tentacles and wings
+    # flare), the knees go and he drops onto them, slumps, then pitches forward onto his face, rolling a little onto
+    # his right side; he rocks once and settles: the left hand by the head with the claws curled, the right arm along
+    # his side, the left knee drawn up and out, the right leg trailing with the toe on the floor, the head on its right
+    # cheek, the beard spilled on the floor, the tentacle arms limp along it, the wings slumped open on either side of
+    # him (fur side up, the hindwings fanned behind). Face down, a hanging part's Z swing is toward or away from the
+    # floor and its X swing out along it. Wings and tentacles are soft: they do not hold him up.
+    die_soft = [p.name for p in m.parts if p.name.startswith(("Wing", "Tent", "Beard"))]
+    die_names = (["Pelvis", "Waist", "Chest", "Head", "ThighL", "ThighR", "ShinL", "ShinR", "ShoeL", "ShoeR",
+                  "ArmL", "ArmR", "ForearmL", "ForearmR", "HandL", "HandR"]
+                 + [f"Finger{i}{sd}" for sd in "LR" for i in range(3)] + ["ThumbL", "ThumbR"] + die_soft)
+
+    def plant(k, part, at):
+        """Moves the body along the floor so `part`'s pivot is over `at` (x, z) (the floor contact stays put)."""
+        p = m.by_name[part]
+        mats = rig.posed_matrices(m, k)
+        w = mats[id(p)] @ np.array([p.pivot[i] - p.frm[i] for i in range(3)] + [1.0])
+        root = k["Pelvis"]
+        R = rig._rot3(*root["rot"])
+        local = R.T @ np.array([at[0] - w[0], 0.0, at[1] - w[2]])
+        o = root.get("off", (0, 0, 0))
+        k["Pelvis"] = pose(root["rot"], tuple(round(float(o[i] + local[i]), 3) for i in range(3)))
+        return k
+
+    def tween(a, b, t):
+        """The pose t of the way from keyframe a to keyframe b (a frame passed through, put on the floor)."""
+        a, b = full(die_names, a), full(die_names, b)
+        return {n: pose(*(tuple(a[n][c][i] + (b[n][c][i] - a[n][c][i]) * t for i in range(3)) for c in ("rot", "off"))) for n in die_names}
+
+    def where(k, part):
+        p = m.by_name[part]
+        w = rig.posed_matrices(m, k)[id(p)] @ np.array([p.pivot[i] - p.frm[i] for i in range(3)] + [1.0])
+        return float(w[0]), float(w[2])
+
+    def curl(c_l, c_r):
+        """The fingers curled (the claws with them), each a little differently."""
+        d = {f"Finger{i}{sd}": pose((0, 0, c + 8 * ((i + j) % 3))) for j, (sd, c) in enumerate((("L", c_l), ("R", c_r))) for i in range(3)}
+        d["ThumbL"], d["ThumbR"] = pose((-c_l * 0.4, 0, c_l * 0.5)), pose((c_r * 0.4, 0, c_r * 0.5))
         return d
 
-    m.animation("die", 40, {f: die_key(f / 39) for f in (0, 8, 16, 24, 32, 39)}, end="Hold", stopped="Stop")
+    def limp(k_tent, k_beard, flare=0.0):
+        """The tentacles: flared stiff (flare) or hanging slack, curling a little more at each segment (k 0..1)."""
+        d = {}
+        for t, names in enumerate(FACE_TENTACLES):
+            for i, n in enumerate(names):
+                d[n] = pose((0, 0, -flare * (16 + 6 * i) + k_beard * (6 + 4 * i) * (1 if t % 2 else 0.6)))
+        for sd, sign in (("L", 1), ("R", -1)):
+            for i, n in enumerate(ARM_TENTACLES[sd]):
+                d[n] = pose((-sign * flare * (24 - 4 * i), 0, -flare * (10 + 4 * i) + k_tent * (8 + 5 * i)))
+        return d
+
+    # The soft parts lying: as he lands, and as they settle on the floor
+    soft_land = {
+        "WingL": (-40, 0, -20), "WingTipL": (30, 0, -30), "WingHindL": (17, 0, -18), "WingR": (40, 0, -6),
+        "WingTipR": (3, 0, 30), "WingHindR": (-14, 0, -6), "TentL0": (-35.7, 0, -49.6), "TentL1": (-18.9, 0, 4.4),
+        "TentL2": (-18.9, 0, 2.6), "TentL3": (-25.2, 0, -8.2), "TentL4": (18.6, 0, -2.2), "TentR0": (21.6, 0, -33.4),
+        "TentR1": (8.1, 0, 4.4), "TentR2": (8.1, 0, 46.4), "TentR3": (9.9, 0, 33.2), "TentR4": (16.2, 0, 23.6),
+        "Beard0_0": (75.2, 0, -55), "Beard0_1": (7, 0, -16), "Beard0_2": (8.6, 0, -10), "Beard0_3": (9.3, 0, 62),
+        "Beard1_0": (65.8, 0, -55), "Beard1_1": (5.2, 0, -16), "Beard1_2": (5.8, 0, -10), "Beard1_3": (14.7, 0, 62),
+        "Beard2_0": (56, 0, -55), "Beard2_1": (3.4, 0, -16), "Beard2_2": (2.7, 0, -10), "Beard2_3": (46.9, 0, 62),
+        "Beard3_0": (46, 0, -55), "Beard3_1": (1.4, 0, -16), "Beard3_2": (-0.3, 0, -10), "Beard3_3": (52.1, 0, 56),
+        "Beard4_0": (36.2, 0, -55), "Beard4_1": (-0.4, 0, -16), "Beard4_2": (-3.4, 0, -10),
+        "Beard4_3": (54.3, 0, 44), "Beard5_0": (26.8, 0, -55), "Beard5_1": (-2.2, 0, -16),
+        "Beard5_2": (-6.2, 0, -10), "Beard5_3": (50.7, 0, 29), "Beard6_0": (81.4, 0, -55), "Beard6_1": (8.2, 0, -16),
+        "Beard6_2": (10.6, 0, -10), "Beard6_3": (11.7, 0, 26), "Beard7_0": (20.6, 0, -55),
+        "Beard7_1": (-3.4, 0, -16), "Beard7_2": (-8.2, 0, -10), "Beard7_3": (48.3, 0, 26)}
+    soft_held = {
+        "WingL": (-51, 0, -24), "WingTipL": (-6, 0, 12), "WingHindL": (27, 0, 0), "WingR": (51, 0, -12),
+        "WingTipR": (3, 0, 12), "WingHindR": (-30, 0, -3), "TentL0": (-51, 0, -66), "TentL1": (-27, 0, 24),
+        "TentL2": (-27, 0, 21), "TentL3": (-36, 0, 3), "TentL4": (-42, 0, 3), "TentR0": (72, 0, -39),
+        "TentR1": (27, 0, 24), "TentR2": (27, 0, 9), "TentR3": (33, 0, 12), "TentR4": (54, 0, -9),
+        "Beard0_0": (125.3, 0, -45), "Beard0_1": (20.8, 0, -9), "Beard0_2": (14.4, 0, 0), "Beard0_3": (15.5, 0, 12),
+        "Beard1_0": (109.7, 0, -45), "Beard1_1": (8.8, 0, -27), "Beard1_2": (9.6, 0, 0), "Beard1_3": (9.5, 0, 12),
+        "Beard2_0": (93.3, 0, -45), "Beard2_1": (5.6, 0, -18), "Beard2_2": (4.6, 0, -15), "Beard2_3": (3.2, 0, 12),
+        "Beard3_0": (76.7, 0, -45), "Beard3_1": (2.4, 0, -6), "Beard3_2": (-0.6, 0, -15), "Beard3_3": (-3.2, 0, 0),
+        "Beard4_0": (60.3, 0, -45), "Beard4_1": (-0.8, 0, -6), "Beard4_2": (-5.6, 0, 0), "Beard4_3": (-9.5, 0, 33),
+        "Beard5_0": (44.7, 0, -45), "Beard5_1": (-3.8, 0, -6), "Beard5_2": (-10.4, 0, 0), "Beard5_3": (44.5, 0, 36),
+        "Beard6_0": (135.7, 0, -45), "Beard6_1": (22.8, 0, -6), "Beard6_2": (17.6, 0, 0), "Beard6_3": (-25.5, 0, 12),
+        "Beard7_0": (34.3, 0, -45), "Beard7_1": (-5.8, 0, -6), "Beard7_2": (-13.6, 0, 0), "Beard7_3": (40.5, 0, 36)}
+
+    def lying(roll, slack):
+        """Face down, rolled `roll` onto his right side, from the sprawl he lands in (slack 0) to the pose he rests in
+        (slack 1)."""
+        def at(a, b):
+            return tuple(a[i] + (b[i] - a[i]) * slack for i in range(3))
+        d = {
+            "Pelvis": pose((roll, 0, at((0, 0, 90), (0, 0, 88))[2])), "Waist": pose(at((0, 0, -4), (2, -3, -3))), "Chest": pose(at((0, 0, -6), (3, -4, -4))),
+            "Head": pose(at((0, 60, -6), (0, 80, 0))),
+            "ArmL": pose(at((-100, 0, -30), (-111, 0, -9))), "ForearmL": pose(at((-70, 0, 0), (-93, 0, 3))), "HandL": pose(at((0, 0, -10), (-6, 0, -18))),
+            "ArmR": pose(at((8, 0, 14), (9, 0, 6))), "ForearmR": pose(at((6, 0, 0), (12, 0, 9))), "HandR": pose(at((0, 0, 0), (0, 20, 10))),
+            "ThighL": pose(at((-50, 0, -10), (-72, 0, -18))), "ShinL": pose(at((60, 0, 0), (93, 0, 3))), "ShoeL": pose(at((-50, 0, 60), (-78, 0, 84))),
+            "ThighR": pose(at((4, 0, 0), (6, 0, 0))), "ShinR": pose(at((0, 0, 20), (3, 0, 9))), "ShoeR": pose(at((30, 0, 50), (42, 0, 60))),
+        }
+        d.update({n: pose(at(soft_land[n], r)) for n, r in soft_held.items()})
+        d.update(curl(at((10, 0, 0), (40, 0, 0))[0], at((6, 0, 0), (34, 0, 0))[0]))
+        return d
+
+    keys = {
+        0: {},
+        # the jolt: the head snaps back, the arms jerk out, the tentacles and the wings flare
+        3: dict({"Waist": pose((0, 0, -6)), "Chest": pose((0, 6, -8)), "Head": pose((10, 0, -16)),
+                 "ArmL": pose((-16, 0, -14)), "ArmR": pose((12, 0, -8)), "ForearmL": pose((0, 0, -24)), "ForearmR": pose((0, 0, -18)),
+                 "WingL": pose((-12, 0, 6)), "WingR": pose((12, 0, 6))}, **limp(0, 0, flare=1.0), **curl(-10, -6)),
+        # the knees go, the feet where they stood; he slumps
+        8: dict({"Pelvis": pose((2, 0, 8)), "ThighL": pose((0, 0, -58)), "ThighR": pose((0, 0, -50)),
+                 "ShinL": pose((0, 0, 85)), "ShinR": pose((0, 0, 78)), "ShoeL": pose((0, 0, -35)), "ShoeR": pose((0, 0, -36)),
+                 "Waist": pose((0, 0, 10)), "Chest": pose((0, 4, 8)), "Head": pose((6, 0, 16)),
+                 "ArmL": pose((-4, 0, -8)), "ArmR": pose((6, 0, -6)), "ForearmL": pose((0, 0, -10)), "ForearmR": pose((0, 0, -8)),
+                 "WingL": pose((-4, 0, 2)), "WingR": pose((4, 0, 2))}, **limp(0.3, 0.3), **curl(4, 2)),
+        # on his knees, swaying, the head hanging
+        13: dict({"Pelvis": pose((3, 0, 10)), "ThighL": pose((0, 0, -22)), "ThighR": pose((0, 0, -16)),
+                  "ShinL": pose((0, 0, 125)), "ShinR": pose((0, 0, 121)), "ShoeL": pose((0, 0, 0)), "ShoeR": pose((0, 0, 4)),
+                  "Waist": pose((0, -4, 16)), "Chest": pose((2, 6, 14)), "Head": pose((8, 10, 26)),
+                  "ArmL": pose((-10, 0, 14)), "ArmR": pose((8, 0, 6)), "ForearmL": pose((0, 0, -34)), "ForearmR": pose((0, 0, -22)),
+                  "WingL": pose((-8, 0, 0)), "WingR": pose((8, 0, 0))}, **limp(0.5, 0.5), **curl(10, 6)),
+        # tipping forward over the knees, the left hand going out, the wings sliding off his back
+        18: dict({"Pelvis": pose((-4, 0, 40)), "ThighL": pose((0, 0, -22)), "ThighR": pose((0, 0, -16)),
+                  "ShinL": pose((0, 0, 95)), "ShinR": pose((0, 0, 91)), "ShoeL": pose((0, 0, -10)), "ShoeR": pose((0, 0, -6)),
+                  "Waist": pose((0, -2, 8)), "Chest": pose((0, 4, 6)), "Head": pose((4, 24, 8)),
+                  "ArmL": pose((-30, 0, -60)), "ArmR": pose((10, 0, 10)), "ForearmL": pose((-20, 0, -20)), "ForearmR": pose((0, 0, -10)),
+                  "WingL": pose((-20, 0, -6)), "WingR": pose((20, 0, -6))}, **limp(0.6, 0.6), **curl(6, 10)),
+        # falling, the knees sliding back
+        23: dict({"Pelvis": pose((-10, 0, 68)), "ThighL": pose((0, 0, -28)), "ThighR": pose((0, 0, -22)),
+                  "ShinL": pose((0, 0, 75)), "ShinR": pose((0, 0, 71)), "ShoeL": pose((0, 0, -10)), "ShoeR": pose((0, 0, -6)),
+                  "Waist": pose((0, -2, 0)), "Chest": pose((0, 2, -2)), "Head": pose((2, 44, 0)),
+                  "ArmL": pose((-75, 0, -70)), "ArmR": pose((10, 0, 20)), "ForearmL": pose((-55, 0, -5)), "ForearmR": pose((0, 0, -10)),
+                  "WingL": pose((-34, 0, -14)), "WingR": pose((34, 0, -10))}, **limp(0.7, 0.7), **curl(8, 12)),
+        # down on his face, a little past onto his right side
+        26: lying(-22, 0.0),
+        # rocks back
+        30: lying(-8, 0.5),
+        # settling: the wings and tentacles slump, the head sinks onto its cheek
+        39: lying(-14, 1.0),
+    }
+    rest_feet = [where({}, "ShoeL"), where({}, "ShoeR")]
+    for f in (8, 13):
+        k = full(die_names, keys[f])
+        feet = [where(k, "ShoeL"), where(k, "ShoeR")]
+        plant(k, "Pelvis", (where(k, "Pelvis")[0] + sum(r[0] - q[0] for r, q in zip(rest_feet, feet)) / 2,
+                            where(k, "Pelvis")[1] + sum(r[1] - q[1] for r, q in zip(rest_feet, feet)) / 2))
+        keys[f] = k
+    knees = where(keys[13], "ShinL")
+    for f in (18, 23):
+        k = full(die_names, keys[f])
+        keys[f] = plant(k, "ShinL", knees)
+    hips = where(keys[23], "Pelvis")
+    for f in (26, 30, 39):
+        keys[f] = plant(full(die_names, keys[f]), "Pelvis", (hips[0] - 1.0, hips[1]))
+    keys[5] = tween(keys[3], keys[8], 0.45)
+    keys[9] = tween(keys[8], keys[13], 0.33)
+    keys[11] = tween(keys[8], keys[13], 0.6)
+    death(m, 40, die_names, dict(sorted(keys.items())), standing=(3,), soft=die_soft)
 
     # ---- The unveiled form's own (claws as blades, wings half open, everything thrashing) ----
     def fury(p):
