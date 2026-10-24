@@ -54,7 +54,7 @@ public class Rewards : ModSystem
         // Levels 1 to 3
         new[] { ("game:bandage-clean", 1, 1, 1.0), ("game:candle", 1, 2, 1.0), ("backrooms:crackers", 1, 2, 1.0), ("game:flaxtwine", 1, 3, 0.8), (Gear, 1, 1, 0.6) },
         // Levels 4 to 6
-        new[] { (Gear, 1, 2, 1.2), ("game:metalbit-copper", 2, 4, 1.0), ("game:poultice-linen-horsetail", 1, 1, 0.8), ("backrooms:almondwater", 1, 2, 1.0), ("backrooms:firesalt", 1, 2, 0.6) },
+        new[] { (Gear, 1, 2, 1.2), ("game:metalbit-copper", 2, 4, 1.0), ("game:poultice-linen-horsetail", 1, 1, 0.8), ("backrooms:almondwater", 1, 2, 1.0), ("backrooms:almondwaterblue", 1, 1, 0.3), ("backrooms:almondwatergreen", 1, 1, 0.3), ("backrooms:firesalt", 1, 2, 0.6) },
         // Level 7 down
         new[] { (Gear, 2, 3, 1.2), ("game:metalbit-tinbronze", 2, 4, 1.0), ("game:bandage-clean", 2, 3, 0.8), ("game:metalbit-iron", 1, 3, 0.5), ("game:gear-temporal", 1, 1, 0.06) },
     };

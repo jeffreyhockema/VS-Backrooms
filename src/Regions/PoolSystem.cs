@@ -113,6 +113,12 @@ public class ItemRedWater : Item
 {
     private const double CapLoss = 0.05, CapFloor = 0.5;
 
+    public override void GetHeldItemInfo(ItemSlot inSlot, System.Text.StringBuilder dsc, IWorldAccessor world, bool withDebugInfo)
+    {
+        base.GetHeldItemInfo(inSlot, dsc, world, withDebugInfo);
+        Backrooms.Needs.Water.Drinks.AppendHydrationInfo(this, world, dsc);
+    }
+
     protected override void tryEatStop(float secondsUsed, ItemSlot slot, EntityAgent byEntity)
     {
         int before = slot.StackSize;

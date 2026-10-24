@@ -587,6 +587,12 @@ public class ItemCatalogueCard : Item
 /// <summary>Memory Juice: an unlabelled amber bottle from The End's desks. It steadies you a little (+0.2 stability), and tastes like home.</summary>
 public class ItemMemoryJuice : Item
 {
+    public override void GetHeldItemInfo(ItemSlot inSlot, System.Text.StringBuilder dsc, IWorldAccessor world, bool withDebugInfo)
+    {
+        base.GetHeldItemInfo(inSlot, dsc, world, withDebugInfo);
+        Backrooms.Needs.Water.Drinks.AppendHydrationInfo(this, world, dsc);
+    }
+
     protected override void tryEatStop(float secondsUsed, ItemSlot slot, EntityAgent byEntity)
     {
         int before = slot.StackSize;

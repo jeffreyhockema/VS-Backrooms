@@ -18,6 +18,7 @@ public class HudNeeds : HudElement
 {
     private const float FrameWidth = 850f;
     private const double ThirstRestFlash = 0.2;
+    private const float FlashEverySeconds = 2.5f;
 
     private static readonly double[] ThirstColor = { 0.22, 0.52, 0.86, 0.9 };
     private static readonly double[] RestColor = { 0.56, 0.44, 0.78, 0.9 };
@@ -28,6 +29,8 @@ public class HudNeeds : HudElement
     private float hydration = Needs.MaxHydration, maxHydration = Needs.MaxHydration, rest = 1f;
     private float lastHydration = -1, lastMaxHydration = -1, lastRest = -1;
     private long listener;
+    private float flashAcc;
+    private GuiComposer composer;
 
     public HudNeeds(ICoreClientAPI capi) : base(capi)
     {
@@ -79,6 +82,11 @@ public class HudNeeds : HudElement
         maxHydration = Needs.MaxHydration;
         rest = Needs.RestFraction(entity);
 
+        // (A bar's ShouldFlash is a one-shot shake of half a second; vanilla re-arms it every 2.5 s)
+        flashAcc += dt;
+        bool rearm = flashAcc >= FlashEverySeconds;
+        if (rearm) flashAcc = 0;
+
         if (thirstBar != null)
         {
             if (hydration != lastHydration || maxHydration != lastMaxHydration)
@@ -88,7 +96,7 @@ public class HudNeeds : HudElement
                 lastHydration = hydration;
                 lastMaxHydration = maxHydration;
             }
-            thirstBar.ShouldFlash = hydration / maxHydration < ThirstRestFlash;
+            if (rearm && hydration / maxHydration < ThirstRestFlash) thirstBar.ShouldFlash = true;
         }
         if (restBar != null)
         {
@@ -98,7 +106,7 @@ public class HudNeeds : HudElement
                 restBar.SetValues(rest, 0f, 1f);
                 lastRest = rest;
             }
-            restBar.ShouldFlash = rest < ThirstRestFlash;
+            if (rearm && rest < ThirstRestFlash) restBar.ShouldFlash = true;
         }
     }
 
@@ -124,12 +132,15 @@ public class HudNeeds : HudElement
         ElementBounds restBounds = ElementStdBounds.Statbar(EnumDialogArea.LeftTop, FrameWidth * 0.41).WithFixedHeight(10.0).WithFixedAlignmentOffset(0.0, restOffset);
         restBounds.WithFixedHeight(10.0);
 
+        // (Replacing a composer does not dispose the old one: its textures would leak on every recompose)
+        composer?.Dispose();
         Composers["needs"] = capi.Gui.CreateCompo("backrooms-needs", frame.FlatCopy().FixedGrow(0.0, 20.0))
             .BeginChildElements(frame)
             .AddIf(thirst).AddInvStatbar(thirstBounds, ThirstColor, "thirstbar").EndIf()
             .AddIf(fatigue).AddStatbar(restBounds, RestColor, "restbar").EndIf()
             .EndChildElements()
             .Compose();
+        composer = Composers["needs"];
 
         thirstBar = thirst ? Composers["needs"].GetStatbar("thirstbar") : null;
         restBar = fatigue ? Composers["needs"].GetStatbar("restbar") : null;

@@ -21,6 +21,13 @@ public static class Drinks
     public static float? HydrationOf(CollectibleObject collectible) =>
         collectible?.Attributes?["hydration"].Exists == true ? collectible.Attributes["hydration"].AsFloat() : null;
 
+    /// <summary>A drink's tooltip line "Hydration: N%" (with thirst on, for an item that has a <c>hydration</c>).</summary>
+    public static void AppendHydrationInfo(CollectibleObject collectible, IWorldAccessor world, System.Text.StringBuilder dsc)
+    {
+        if (HydrationOf(collectible) is float hydration && NeedsApi.ThirstOn(world))
+            dsc.AppendLine(Lang.Get("backrooms:iteminfo-hydration", Math.Round(hydration / NeedsApi.MaxHydration * 100)));
+    }
+
     /// <summary>Server: moves the entity's temporal stability by <paramref name="amount"/> (at most 1, as drinks always did).</summary>
     public static void AddStability(Entity entity, double amount)
     {
@@ -85,6 +92,12 @@ public class ItemEmptyBottle : Item
 /// the tears are for is not built yet.</summary>
 public class ItemLucaTears : Item
 {
+    public override void GetHeldItemInfo(ItemSlot inSlot, System.Text.StringBuilder dsc, IWorldAccessor world, bool withDebugInfo)
+    {
+        base.GetHeldItemInfo(inSlot, dsc, world, withDebugInfo);
+        Drinks.AppendHydrationInfo(this, world, dsc);
+    }
+
     protected override void tryEatStop(float secondsUsed, ItemSlot slot, EntityAgent byEntity)
     {
         int before = slot.StackSize;

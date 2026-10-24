@@ -147,8 +147,7 @@ public class ItemAlmondWater : Item
     public override void GetHeldItemInfo(ItemSlot inSlot, StringBuilder dsc, IWorldAccessor world, bool withDebugInfo)
     {
         base.GetHeldItemInfo(inSlot, dsc, world, withDebugInfo);
-        if (Backrooms.Needs.Water.Drinks.HydrationOf(this) is float hydration && Backrooms.Needs.Needs.ThirstOn(world))
-            dsc.AppendLine(Lang.Get("backrooms:iteminfo-hydration", Math.Round(hydration / Backrooms.Needs.Needs.MaxHydration * 100)));
+        Backrooms.Needs.Water.Drinks.AppendHydrationInfo(this, world, dsc);
         double stability = Stability;
         if (Math.Abs(stability) > 0.0005)
             dsc.AppendLine(Lang.Get("backrooms:iteminfo-stability", (stability >= 0 ? "+" : "") + Math.Round(stability * 100)));
@@ -183,10 +182,14 @@ public class ItemAlmondWater : Item
         if (Attributes?["wardsDullers"].AsBool(true) != false) Backrooms.Entities.AlmondWater.Drank(byEntity);
 
         // Thirst: the drink hydrates (nothing happens with thirst off), may help or hinder sleep, and leaves its bottle
+        // (Sleep aid and caffeine are fatigue's: they work with thirst off)
+        if (Backrooms.Needs.Needs.FatigueOn(byEntity.World))
+        {
+            if (Attributes?["sleepAid"].AsBool(false) == true) Backrooms.Needs.Needs.MakeDrowsy(byEntity);
+            if (Attributes?["caffeineHours"].Exists == true) Backrooms.Needs.Needs.Caffeinate(byEntity, Attributes["caffeineHours"].AsDouble());
+        }
         if (!Backrooms.Needs.Needs.ThirstOn(byEntity.World)) return;
         Backrooms.Needs.Water.Drinks.Hydrate(this, byEntity);
-        if (Attributes?["sleepAid"].AsBool(false) == true) Backrooms.Needs.Needs.MakeDrowsy(byEntity);
-        if (Attributes?["caffeineHours"].Exists == true) Backrooms.Needs.Needs.Caffeinate(byEntity, Attributes["caffeineHours"].AsDouble());
         double taint = Attributes?["taintChance"].AsDouble(0) ?? 0;
         if (taint > 0 && byEntity.World.Rand.NextDouble() < taint)
         {

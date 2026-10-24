@@ -16,7 +16,8 @@ namespace Backrooms.Needs.Water;
 /// <summary>
 /// Drinking from the world (docs/design/needs/README.md section 3): every water block (water, salt water, boiling water)
 /// gets <see cref="BlockBehaviorDrinkable"/> after the assets load, on both sides (a behaviour added then is not sent
-/// to clients); and the client makes liquids selectable while thirst is on and the hand is empty.
+/// to clients); and the client makes liquids selectable while thirst is on, the hand is empty and the player crouches (so that
+/// an empty-handed player who is not crouching can still select what lies under water).
 /// </summary>
 public class WaterSystem : ModSystem
 {
@@ -48,13 +49,14 @@ public class WaterSystem : ModSystem
         api.Event.RegisterGameTickListener(OnClientTick, 100);
     }
 
-    /// <summary>Liquids are selectable (so a right-click can land on water) only while thirst is on and the active hotbar slot is empty.</summary>
+    /// <summary>Liquids are selectable (so a right-click can land on water) only while thirst is on, the active hotbar slot is empty and the player sneaks.</summary>
     private void OnClientTick(float dt)
     {
         IClientPlayer player = capi.World.Player;
         bool want = player != null && NeedsApi.ThirstOn(capi.World)
             && player.WorldData.CurrentGameMode == EnumGameMode.Survival
-            && player.InventoryManager.ActiveHotbarSlot?.Empty != false;
+            && player.InventoryManager.ActiveHotbarSlot?.Empty != false
+            && player.Entity?.Controls.Sneak == true;
         if (want)
         {
             capi.World.ForceLiquidSelectable = true;
@@ -76,7 +78,7 @@ public class WaterSystem : ModSystem
 }
 
 /// <summary>
-/// Right-click and hold on water with an empty hand for a second to drink a litre of it. What it does depends on
+/// Crouch and right-click and hold on water with empty hands for a second to drink a litre of it. What it does depends on
 /// <see cref="WaterClass"/>. Only while thirst is on.
 /// </summary>
 public class BlockBehaviorDrinkable : BlockBehavior
@@ -93,13 +95,18 @@ public class BlockBehaviorDrinkable : BlockBehavior
     private static bool MayDrink(IWorldAccessor world, IPlayer player) =>
         NeedsApi.ThirstOn(world) && player?.InventoryManager?.ActiveHotbarSlot?.Empty == true;
 
+    /// <summary>Whether a player may begin drinking: they crouch (on both sides), as well as <see cref="MayDrink"/>.</summary>
+    private static bool MayBegin(IWorldAccessor world, IPlayer player) =>
+        MayDrink(world, player) && player.Entity?.Controls.Sneak == true;
+
     public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
     {
-        if (!MayDrink(world, byPlayer) || blockSel == null) return false;
+        if (!MayBegin(world, byPlayer) || blockSel == null) return false;
         handling = EnumHandling.PreventDefault;
         EntityPlayer entity = byPlayer.Entity;
         entity.AnimManager?.StartAnimation("eat");
-        PlayDrinkSound(world, entity, 4);
+        // (As vanilla's tryEatBegin: the first sound after half a second, whatever the hand is doing yet)
+        world.RegisterCallback(_ => PlayDrinkSound(world, entity, 4), 500);
         if (world.Side == EnumAppSide.Server)
             lock (drinking) drinking[byPlayer.PlayerUID] = (blockSel.Position.Copy(), world.ElapsedMilliseconds);
         return true;
@@ -138,18 +145,19 @@ public class BlockBehaviorDrinkable : BlockBehavior
     }
 
     public override int GetPlacedBlockInteractionHelpCount(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer, ref EnumHandling handling) =>
-        MayDrink(world, forPlayer) ? 1 : 0;
+        MayBegin(world, forPlayer) ? 1 : 0;
 
     public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer, ref EnumHandling handling) =>
-        MayDrink(world, forPlayer)
+        MayBegin(world, forPlayer)
             ? new[] { new WorldInteraction { ActionLangCode = "backrooms:heldhelp-drink", MouseButton = EnumMouseButton.Right } }
             : System.Array.Empty<WorldInteraction>();
 
     private static void PlayDrinkSound(IWorldAccessor world, EntityPlayer entity, int repeats)
     {
+        // (Checked here, before each sound: HandUse is only set once OnBlockInteractStart has returned true)
         if (repeats <= 0 || entity.Controls.HandUse != EnumHandInteract.BlockInteract) return;
         entity.PlayEntitySound("drink", world.PlayerByUid(entity.PlayerUID));
-        world.RegisterCallback(_ => PlayDrinkSound(world, entity, repeats - 1), repeats == 4 ? 500 : 300);
+        world.RegisterCallback(_ => PlayDrinkSound(world, entity, repeats - 1), 300);
     }
 
     /// <summary>Server: the effect of one litre from the water at <paramref name="pos"/>.</summary>
