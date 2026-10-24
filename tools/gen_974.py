@@ -407,16 +407,40 @@ def structure():
                                      "sidesolid": {"all": True}, "sideopaque": {"all": False}, "attributes": {"l974structure": True}},
                    comment="Level 974: over a doorway (ns: the opening passes north-south), white header boards on both faces")
 
-    # Door casings (rel 1-3 in each doorway): jamb liners and architraves on both faces; no collision
+    # Door casings (rel 1-3 in each doorway), as built before layout version 11. The doorway itself held this block, so
+    # it was something to walk through that the cursor still picked out; it also showed through (its architraves were
+    # slabs with no face on the doorway side, culled from there). The code stays for the doorways of saved worlds:
+    # the slabs are closed now, and the block has neither a collision nor a selection box.
     def jamb(west=True):
         els = [bx("Liner", (0, 0, 0), (0.75, 16, 16), "trim", faces=("east",)),
-               bx("ArchN", (-2.5, 0, -1.7), (1.5, 16, 0), "trim", faces=("north", "east", "west")),
-               bx("ArchS", (-2.5, 0, 16), (1.5, 16, 17.7), "trim", faces=("south", "east", "west"))]
+               bx("ArchN", (-2.5, 0, -1.7), (1.5, 16, 0), "trim", faces=("north", "south", "east", "west")),
+               bx("ArchS", (-2.5, 0, 16), (1.5, 16, 17.7), "trim", faces=("south", "north", "east", "west"))]
         return els if west else mirror_x(els)
 
-    variants_block("l974-casing", "Door Casing", [("axis", ["ns", "we"])], lambda v: jamb(True) + jamb(False), rot="axis", box=(0, 0, 0, 1, 1, 1), collide=False,
-                   data={"drops": [], "resistance": 6, "attributes": {"l974structure": True}},
-                   comment="Level 974: a doorway's white casing (ns: the opening passes north-south); walk through it")
+    variants_block("l974-casing", "Door Casing", [("axis", ["ns", "we"])], lambda v: jamb(True) + jamb(False), rot="axis", collide=False,
+                   data={"drops": [], "resistance": 6, "selectionbox": None, "selectionboxes": [], "attributes": {"l974structure": True}},
+                   comment="Level 974: a doorway's white casing, as stood IN the doorway before layout version 11 (kept for saved worlds: no collision, nothing to select; new houses use l974-jamb)")
+
+    # Door jambs (layout version 11 on): the casing is part of the wall blocks either side of a doorway, so the opening
+    # is empty air. Modelled with the opening to the north: the wall's face on the opening is white, and an architrave
+    # (2.5 px wide, 1.7 proud, as wide as the lintel's header overhangs) stands on both room faces along its edge.
+    # (Kinds: base, with the baseboard, for rel 1; plain, for rel 2-3.)
+    def jambwall(v):
+        c = cube("paint-1")
+        c["faces"]["north"]["texture"] = "#trim"
+        els = [c]
+        if v["kind"] == "base":
+            els += four(baseboard())
+        els += [bx("ArchE", (16, 0, 0), (17.7, 16, 2.5), "trim", faces=("east", "north", "south")),
+                bx("ArchW", (-1.7, 0, 0), (0, 16, 2.5), "trim", faces=("west", "north", "south"))]
+        return els
+
+    variants_block("l974-jamb", "Door Jamb", [("kind", ["base", "plain"]), ("side", SIDES)], jambwall, rot="side", data={
+        "blockmaterial": "Stone", "sounds": STONE, "lightAbsorption": 99, "resistance": 6, "sidesolid": {"all": True},
+        "sideopaque": {"all": True}, "drops": [], "texturesByType": {"*": {"paint-1": B16_ALT("paint-1")}},
+        "attributes": {"l974structure": True},
+    }, comment="Level 974: the wall beside a doorway, its casing on the wall (the suffix is the side the opening is on)",
+        names={"l974-jamb-*": "Door Jamb"})
     # Windows: 2 x 2 blocks at rel 2-3, each quadrant (as seen from the room: bl, br, tl, tr) a wall block with the
     # window in its north face; behind the glass a painting of a sky.
     paintings = ["clouds", "hills", "rainbow", "sunset"]
@@ -1145,7 +1169,7 @@ def lang():
         "level-18": "Level 974: Kitty's House",
         "levelhint-18": "You are a guest here. Be a good one.",
         "levelname-18": "Level 974",
-        "l974-arrive": "You wake in a pink bedroom that feels as if it has always been yours. Somewhere, a music box is playing.",
+        "l974-arrive": "You wake in a pink bedroom that feels as if it has always been yours. Somewhere, a music box is playing. There is no door to the outside: when you want to leave, hold out the thing you brought and call, \"Here Kitty, Kitty, Kitty!\"",
         "l974-call": "\"Here Kitty, Kitty, Kitty!\"",
         "l974-ask": "Kitty holds out a long black arm.",
         "l974-gift-taken": "Kitty takes the {0}. You are suddenly, overwhelmingly sleepy.",
