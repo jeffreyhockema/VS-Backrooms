@@ -128,6 +128,11 @@
 			"rotateY": 90
 		}
 	},
+	"class": "BackroomsBed",
+	"entityClass": "BackroomsBed",
+	"attributes": {
+		"restQuality": 0.6
+	},
 	"drops": [
 		{
 			"type": "item",
@@ -149,7 +154,7 @@
 			"type": "item",
 			"code": "wanderernote-door",
 			"quantity": {
-				"avg": 0.06,
+				"avg": 0.12,
 				"var": 0
 			}
 		}

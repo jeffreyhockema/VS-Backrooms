@@ -1,4 +1,4 @@
-// Level 974: a narrow white bed heaped with plushies, a real bed (vanilla BlockBed: -{head|feet}-{side}, side = head toward foot)
+// Level 974: a narrow white bed heaped with plushies, a real bed (the mod's BackroomsBed: -{head|feet}-{side}, side = head toward foot)
 {
 	"code": "l974-bed",
 	"variantgroups": [
@@ -567,13 +567,17 @@
 			"rotateY": 90
 		}
 	},
-	"class": "BlockBed",
+	"class": "BackroomsBed",
 	"entityClassByType": {
-		"*-head-*": "Bed"
+		"*-head-*": "BackroomsBed"
 	},
 	"attributes": {
 		"l974furniture": true,
-		"sleepEfficiency": 0.85
+		"sleepEfficiency": 0.85,
+		"restQuality": 1.0,
+		"bedFoot": "side",
+		"bedDropHead": true,
+		"bedBreakPartner": true
 	},
 	"maxStackSize": 1
 }

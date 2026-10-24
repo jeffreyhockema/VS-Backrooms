@@ -623,10 +623,10 @@ def furniture():
 
     variants_block("l974-bed", "Little Bed", [("bedding", ["hearts", "strawberries", "stars"]), ("part", ["head", "feet"]), ("side", SIDES)], bed,
                    rot="side", box=(0, 0, 0, 1, 0.5625, 1), data={
-                       "class": "BlockBed", "entityClassByType": {"*-head-*": "Bed"}, "blockmaterial": "Cloth", "sounds": CLOTH,
-                       "attributes": dict(FURNITURE, sleepEfficiency=0.85), "resistance": 2, "maxStackSize": 1,
+                       "class": "BackroomsBed", "entityClassByType": {"*-head-*": "BackroomsBed"}, "blockmaterial": "Cloth", "sounds": CLOTH,
+                       "attributes": dict(FURNITURE, sleepEfficiency=0.85, restQuality=1.0, bedFoot="side", bedDropHead=True, bedBreakPartner=True), "resistance": 2, "maxStackSize": 1,
                        "creativeinventory": {"general": ["l974-bed-hearts-head-north"], "backrooms": ["l974-bed-hearts-head-north"]},
-                   }, comment="Level 974: a narrow white bed heaped with plushies, a real bed (vanilla BlockBed: -{head|feet}-{side}, side = head toward foot)",
+                   }, comment="Level 974: a narrow white bed heaped with plushies, a real bed (the mod's BackroomsBed: -{head|feet}-{side}, side = head toward foot)",
                    names={"l974-bed-*": "Little Bed"})
 
     # ---- Bedside table with its pink lamp (on/off: the lights go out when Kitty is offended), a water bottle, vitamins

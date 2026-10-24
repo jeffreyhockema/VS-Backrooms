@@ -1,0 +1,12 @@
+[
+	{
+		"ingredientPattern": "FF,WW,FF",
+		"ingredients": {
+			"F": { "type": "item", "code": "carpetfibre" },
+			"W": { "type": "item", "code": "wallpaperstrip" }
+		},
+		"width": 2,
+		"height": 3,
+		"output": { "type": "block", "code": "carpetbedroll-north", "quantity": 1 }
+	}
+]

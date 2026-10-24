@@ -1540,8 +1540,10 @@ def props():
                 bx(f"Brace{n}", (1.8, 0.4, z - 0.3), (14.2, 1, z + 0.3), "chrome")]
     prop("run-safecot", "Cot", {"head": clip(cot, "z", 0, 16, 0), "foot": clip(cot, "z", 16, 32, -16)},
          box=(0, 0, 0, 1, 0.5, 1), material="Cloth", sounds=CLOTH,
-         comment="A cot in a Safe Zone side room, two blocks (head, foot; head to the north). Decor, not a bed",
-         extra={"drops": drops(("game:cloth-plain", 1, 0.5), ("metalbracket", 1, 0.5))})
+         comment="A cot in a Safe Zone side room, two blocks (head, foot; head to the north). A bed (needs: BackroomsBed)",
+         extra={"drops": drops(("game:cloth-plain", 1, 0.5), ("metalbracket", 1, 0.5)),
+                "class": "BackroomsBed", "entityClassByType": {"*-head-*": "BackroomsBed"},
+                "attributes": {"restQuality": 0.75, "bedFoot": "opposite"}})
 
 
 # ======================= What trips a sprinter =======================

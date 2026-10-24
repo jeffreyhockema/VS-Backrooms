@@ -204,7 +204,7 @@ def split_blocks(els, width, depth):
     return out
 
 
-def multiblock_prop(code, english, els, width, depth, parts, boxes, material="Wood", sounds=WOOD, comment=None):
+def multiblock_prop(code, english, els, width, depth, parts, boxes, material="Wood", sounds=WOOD, comment=None, extra=None):
     """
     A prop as big as the real thing, over width x depth blocks: one model (facing north, see split_blocks) cut into a
     block per part, `parts` named row by row from the front-left (west) corner, each with its own box (`boxes`, by
@@ -226,6 +226,7 @@ def multiblock_prop(code, english, els, width, depth, parts, boxes, material="Wo
         "blockmaterial": material, "drawtype": "json", "sidesolid": {"all": False}, "sideopaque": {"all": False},
         "lightAbsorption": 0, "resistance": 1.5, "sounds": sounds,
         "collisionboxByType": boxes_by_type, "selectionboxByType": boxes_by_type,
+        **(extra or {}),
     }, comment or english)
     name(code + "-*", english)
 
@@ -690,7 +691,10 @@ def sleeping_bag():
            bx("Pillow", (4, 1.4, 1.5), (12, 3.8, 5.8), "bedrollpillow")]
     multiblock_prop("sleepingbag", "Sleeping Bag", els, 1, 2, ("head", "foot"), {
         "head": (0.15, 0, 0.07, 0.85, 0.16, 1), "foot": (0.15, 0, 0, 0.85, 0.16, 0.97)}, material="Cloth", sounds=CLOTH,
-        comment="A sleeping bag two blocks long, head to the north (head, foot)")
+        comment="A sleeping bag two blocks long, head to the north (head, foot)",
+        # (Needs: a bed. Modelled head to the north, so the foot lies opposite the side code; the head half holds the entity)
+        extra={"class": "BackroomsBed", "entityClassByType": {"*-head-*": "BackroomsBed"},
+               "attributes": {"restQuality": 0.75, "bedFoot": "opposite"}})
 
 
 def improvised_camps():
@@ -718,7 +722,8 @@ def improvised_camps():
                 bx("Pillow", (3.5, 3.8, 1.5), (12, 5.4, 5.5), "bedrollpillow", rot=(0, 4, 0), origin=(8, 0, 8))]
     prop("improvbed", "Makeshift Bed", {"cardboard": cardboard, "blankets": blankets, "mattress": mattress},
          box=(0.06, 0, 0.06, 0.94, 0.17, 0.94), material="Cloth", sounds=CLOTH,
-         comment="An improvised bed (layout version 11): flattened boxes and a coat, a heap of old blankets and curtains, a mattress")
+         comment="An improvised bed (layout version 11): flattened boxes and a coat, a heap of old blankets and curtains, a mattress",
+         extra={"class": "BackroomsBed", "entityClass": "BackroomsBed", "attributes": {"restQuality": 0.6}})
 
     def chair(nm, x0):
         """A kitchen chair standing upright: four legs, a seat, a back of two rails."""
@@ -835,7 +840,8 @@ def level1():
         bx("Bedroll", (4.5, 0.2, 3), (11.5, 1.5, 14), "bedroll")], box=(0.06, 0, 0, 0.94, 0.85, 1), material="Cloth", sounds=CLOTH)
     prop("bedroll", "Bedroll", [
         bx("Roll", (3, 0, 1.5), (13, 1.4, 14.5), "bedroll"), bx("Pillow", (3.5, 1.4, 2), (12.5, 3, 4.5), "bedrollpillow"),
-        bx("Fold", (3, 1.4, 8), (13, 2, 14.5), "bedroll")], box=(0.19, 0, 0.09, 0.81, 0.15, 0.91), material="Cloth", sounds=CLOTH)
+        bx("Fold", (3, 1.4, 8), (13, 2, 14.5), "bedroll")], box=(0.19, 0, 0.09, 0.81, 0.15, 0.91), material="Cloth", sounds=CLOTH,
+         extra={"class": "BackroomsBed", "entityClass": "BackroomsBed", "attributes": {"restQuality": 0.6}})
     camp_tent()
     sleeping_bag()
     improvised_camps()
@@ -890,7 +896,9 @@ def level1():
     # sides, a pillow, a quilt folded at the foot, drop rails both sides at the head and the chart on the footboard.
     # Modelled head to the north across two blocks (head, foot), as before; its own texture keys (hospbed-*)
     hospital = hospital_bed_b14()
-    prop("hospitalbed", "Hospital Bed", hospital, box=(0, 0, 0, 1, 0.85, 1), material="Cloth", sounds=CLOTH)
+    prop("hospitalbed", "Hospital Bed", hospital, box=(0, 0, 0, 1, 0.85, 1), material="Cloth", sounds=CLOTH,
+         extra={"class": "BackroomsBed", "entityClassByType": {"*-head-*": "BackroomsBed"},
+                "attributes": {"restQuality": 0.9, "bedFoot": "opposite"}})
     prop("foldingtable", "Folding Table", [
         bx("Top", (0, 11, 1), (16, 12, 15), "tabletop"), bx("Edge", (0, 10.5, 1), (16, 11, 15), "foldsteel"),
         bx("Leg1", (1, 0, 2), (2, 10.5, 3), "foldsteel"), bx("Leg2", (14, 0, 2), (15, 10.5, 3), "foldsteel"),

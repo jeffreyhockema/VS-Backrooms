@@ -2773,5 +2773,12 @@
 
 	"block-improvbed-*": "Makeshift Bed",
 	"block-leanto-*": "Lean-To",
-	"block-poolwall-archtop-*": "Tiled Archway (Arched Head)"
+	"block-poolwall-archtop-*": "Tiled Archway (Arched Head)",
+	"block-carpetbedroll-*": "Carpet Bedroll",
+	"blockdesc-carpetbedroll": "Carpet fibres sewn into wallpaper strips and rolled. Enough to sleep on, not enough to sleep well.",
+	"blockhelp-bed": "Sleep",
+	"bedinfo": "Rest: {0}% of a proper bed",
+	"cantsleep-hungry": "You are too hungry to sleep.",
+	"cantsleep-thirsty": "You are too thirsty to sleep.",
+	"cantsleep-menace": "Something is too close to sleep."
 }

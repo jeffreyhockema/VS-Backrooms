@@ -490,8 +490,11 @@ def level5():
     shaped("level5", "chandelier", "block/chandelier", material="Metal", sounds=GLASS, oriented=False,
            comment="Great chandelier in the grand rooms", box=(0.25, 0, 0.25, 0.75, 1, 0.75), lightHsv=[6, 4, 18],
            particleProperties=_chandelier_flames())
-    shaped("level5", "bed-head", "block/bed-head", material="Cloth", sounds=CLOTH, comment="Guest bed, head end", box=(0, 0, 0, 1, 0.6, 1))
-    shaped("level5", "bed-foot", "block/bed-foot", material="Cloth", sounds=CLOTH, comment="Guest bed, foot end", box=(0, 0, 0, 1, 0.6, 1))
+    # A real bed (needs: the mod's BackroomsBed; modelled head to the north, so the foot lies opposite the side code)
+    bed = {"class": "BackroomsBed", "attributes": {"restQuality": 1.0, "bedFoot": "opposite"}}
+    shaped("level5", "bed-head", "block/bed-head", material="Cloth", sounds=CLOTH, comment="Guest bed, head end", box=(0, 0, 0, 1, 0.6, 1),
+           **dict(bed, entityClass="BackroomsBed"))
+    shaped("level5", "bed-foot", "block/bed-foot", material="Cloth", sounds=CLOTH, comment="Guest bed, foot end", box=(0, 0, 0, 1, 0.6, 1), **bed)
     shaped("level5", "nightstand", "block/nightstand", comment="Nightstand with a lamp", box=(0.125, 0, 0.25, 0.875, 0.65, 0.875), lightHsv=[6, 5, 9])
     shaped("level5", "wardrobe", "block/wardrobe", comment="Mahogany wardrobe", box=(0.06, 0, 0.3, 0.94, 1, 1))
     shaped("level5", "wingchair", "block/wingchair", material="Cloth", sounds=CLOTH, comment="Wingback armchair", box=(0.1, 0, 0.1, 0.9, 0.6, 0.95))

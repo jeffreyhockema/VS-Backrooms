@@ -1,4 +1,4 @@
-// Level 188: half of a double bed (l/r: the half on the left/right of someone lying in it), a real bed (vanilla BlockBed, side = head toward feet): grey upholstered base, white duvet, two pillows, a grey throw across the foot
+// Level 188: half of a double bed (l/r: the half on the left/right of someone lying in it), a real bed (the mod's BackroomsBed, side = head toward feet): grey upholstered base, white duvet, two pillows, a grey throw across the foot
 {
 	"code": "l188-bed",
 	"variantgroups": [
@@ -396,13 +396,17 @@
 			"rotateY": 90
 		}
 	},
-	"class": "BlockBed",
+	"class": "BackroomsBed",
 	"entityClassByType": {
-		"*-head-*": "Bed"
+		"*-head-*": "BackroomsBed"
 	},
 	"attributes": {
 		"l188furniture": true,
-		"sleepEfficiency": 0.8
+		"sleepEfficiency": 0.8,
+		"restQuality": 1.0,
+		"bedFoot": "side",
+		"bedDropHead": true,
+		"bedBreakPartner": true
 	},
 	"drops": [
 		{
