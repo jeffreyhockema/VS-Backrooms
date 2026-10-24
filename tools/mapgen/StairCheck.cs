@@ -43,7 +43,14 @@ static class StairCheck {
       if (t.Stair == 1) { // bottom step: tile behind it (opposite the climb) should be standable floor
         var (bx,bz) = t.Pier switch { ArchPier.East => (x-1,z), ArchPier.West => (x+1,z), ArchPier.North => (x,z+1), _ => (x,z-1) };
         var b = At(bx,bz); bool ok = b.Kind == TileKind.Floor && b.Variant == 0 && b.Stair == 0 && !b.SupplyBox;
-        Note($"L{t.Level} flights", x, z); if (!ok) Note($"L{t.Level} bottom step approach blocked", x, z);
+        Note($"L{t.Level} flights", x, z); if (t.Zone == WorldLayout.FlightZoneNowhere) Note($"L1 stairs to nowhere with the dark way on, climbing {t.Pier}", x, z); else if (t.Level == 1) {
+          Note("L1 stairs to nowhere into a blank wall", x, z);
+          var (cx, cz) = Climb(t.Pier);
+          // (step 1 is two tiles back from step 3; the wall is just past step 3, the way beyond it three tiles more)
+          for (int k = 4; k <= 6; k++) { int qx = x + cx * k, qz = z + cz * k; Tile q = At(qx, qz); int lx = qx & 31, lz = qz & 31;
+            string why = lx < 1 || lz < 1 || lx > 30 || lz > 30 ? "cell edge" : q.Kind != TileKind.Floor ? "not floor: " + q.Kind : q.Floor == FloorKind.L1Hall ? "hall" : q.Stair != 0 ? "stairs" : q.Under != 0 ? "under" : q.Zone != 0 ? "zone" : q.Sealed ? "sealed" : null;
+            if (why != null) { Note("  blank because beyond: " + why, x, z); break; } }
+        } if (!ok) Note($"L{t.Level} bottom step approach blocked", x, z);
       }
     }
   }

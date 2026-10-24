@@ -606,6 +606,17 @@ public sealed partial class WorldLayout
     /// </summary>
     public const byte FlightZoneUp = 1, FlightZoneDown = 2, FlightZoneFun = 3;
 
+    /// <summary>
+    /// <see cref="Tile.Zone"/> of the parts of a stairs to nowhere that goes on in the dark (layout version 10, see
+    /// <see cref="AddStairsToNowhereV4"/>): its three steps (<see cref="FlightZoneNowhere"/>), the wall column behind
+    /// them with a doorway cut in it (<see cref="NowhereWall"/>), the two tiles beyond it over the next stall's ceiling
+    /// (<see cref="NowhereRise"/>, <see cref="NowhereTop"/>) and the dead-end landing after them (<see cref="NowhereLanding"/>).
+    /// </summary>
+    public const byte FlightZoneNowhere = 5, NowhereWall = 6, NowhereRise = 7, NowhereTop = 8, NowhereLanding = 9;
+
+    /// <summary>The least height over the floor of the feet of whoever stands on the dark landing at the top of a stairs to nowhere (its floor is at 6).</summary>
+    public const double NowhereTripRel = 6.5;
+
     /// <summary>Whether a tile is a step of a flight with a shaft (Level 1 or 4, from layout version 4).</summary>
     public static bool IsShaftFlight(in Tile t) => t.Level is 1 or 4 && t.Stair > 0 && t.Zone is FlightZoneUp or FlightZoneDown or FlightZoneFun;
 
@@ -1206,7 +1217,11 @@ public sealed partial class WorldLayout
     /// <summary>
     /// From layout version 4: a short concrete staircase at the back of a stall, two wide, climbing straight into the
     /// concrete wall behind it (a fire wall, or a shear wall between two columns), where a way up was walled over.
-    /// The stall's wheel stop is gone; nothing else is moved.
+    /// The stall's wheel stop is gone; nothing else is moved. From layout version 10 the flight goes on in the dark where the
+    /// space allows: the third step's slab and the wall are cut through at the top of the third step (a doorway two wide, with a fourth step in it), and
+    /// two more steps rise over the ceiling of the stall beyond, to a dead-end landing, all in the band between the slab and
+    /// the roof (the generator opens it: <c>NowhereBlock</c>); the tiles beyond must be plain floor of the same cell, 
+    /// nothing else (no core, hall, wall, other stairs or way elsewhere), or the wall stays blank as before.
     /// </summary>
     private void AddStairsToNowhereV4(Builder b, int mx, int mz, List<StairCore> cores)
     {
@@ -1242,6 +1257,38 @@ public sealed partial class WorldLayout
                 step.Variant = 0;
                 step.Stair = (byte)(3 - k);
                 step.Pier = sdz < 0 ? ArchPier.North : ArchPier.South;
+            }
+        }
+        if (Version < 10) return;
+        // The way on: the wall column, then three tiles beyond it, two wide, in the cell and plain floor under the slab
+        bool Plain(int px, int pz) => px >= 1 && pz >= 1 && px < MacroSize - 1 && pz < MacroSize - 1 && b.At(px, pz) is var t && t.Kind == TileKind.Floor
+            && t.Floor != FloorKind.L1Hall && t.Stair == 0 && t.Under == 0 && t.Zone == 0 && !t.Sealed && CoreAt(cores, px, pz) == null;
+        for (int dx = 0; dx < 2; dx++)
+        {
+            for (int k = 2; k <= 4; k++)
+                if (!Plain(sx + dx, sz + sdz * k)) return;
+            // (A beam over a step is structure, and stays: the wall is left blank)
+            for (int k = 0; k < 3; k++)
+                if (b.At(sx + dx, sz - sdz * k).Beam) return;
+        }
+        ArchPier climb = sdz < 0 ? ArchPier.North : ArchPier.South;
+        for (int dx = 0; dx < 2; dx++)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                // The steps are climbed with the head up to the slab, so nothing hangs over them (the conduit along the back
+                // row of the stalls, a sprinkler or a fixture would be bumped), and the slab over the third is open
+                ref Tile step = ref b.At(sx + dx, sz - sdz * k);
+                step.Zone = FlightZoneNowhere;
+                step.Pipe = 0;
+                step.Overhead = 0;
+                step.Ceiling = CeilingKind.Tile;
+            }
+            for (int k = 1; k <= 4; k++)
+            {
+                ref Tile t = ref b.At(sx + dx, sz + sdz * k);
+                t.Zone = (byte)(NowhereWall + k - 1);
+                t.Pier = climb;
             }
         }
     }

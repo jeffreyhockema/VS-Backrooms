@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- In new worlds a Level 1 stairs to nowhere with room behind its wall now goes on in the dark: a doorway is cut in the wall at the top of the third step, the stairs climb through it and two steps more over the next stall's ceiling to a dead-end landing, and you are taken elsewhere there rather than at the wall. Most of them (the ones against a district's outer wall) stay blank. Turn round and you can walk back out.
 - A fed Skin-Stealer that turns hungry sheds the clothes it wore while fed, as the hungry ones look.
 - Out of Level ! for the first time, a present waits by the door you came out of: brown paper and twine, a tag that says "For getting out", and inside 25 rusty gears and 2 temporal gears. Once per player, ever.
 - The door you come out of Level ! by is now a real door of the level you arrive in (a locked one, never a way somewhere, and never one of The End's EXIT doors), turned into a red fire door; with none near, it is set into the wall. It no longer stands against the wall beside another door, and it carries a NO RE-ENTRY sign instead of a huge red "!" (doors already standing in your world get the new face too). `/backrooms runescape [1|4|end] [reset]` tries it.
