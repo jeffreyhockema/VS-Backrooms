@@ -217,6 +217,8 @@ public class GuiDialogCheats : GuiDialog
             B("Resume director", "/backrooms director on"),
             B("Make noise", "/backrooms noise", "As loud as you can be: what hunts by sound comes to see"),
             B("Stop probes", "/backrooms perceive stop", "Ends every perception probe (Perceive), and its reports"),
+            B("Felt rate here", "/backrooms feltrate here", "Tries the director's placement 60 times each for a glimpse, a stalker and a hunter where you stand, and says how many it could put down, why not, and the bodies an hour you would really meet"),
+            B("Creative hunted", "/backrooms creativehunts", "Toggles whether a creative-mode player is hunted like anyone else (off by default); the reply says which"),
             B("Rate check here", "/backrooms ratecheck here", "Simulates 50 hours of the director's rolls for your level and band, and says how many bodies and sounds an hour that comes to"),
         }, 4);
 

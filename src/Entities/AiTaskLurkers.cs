@@ -37,7 +37,7 @@ public static class Strike
     /// attached yet (still joining, or just gone) counts as one too: its game mode is unknown, so it is not a target for that tick.
     /// </summary>
     public static bool IsCreative(Entity target) =>
-        target is EntityPlayer player && (player.Player == null || player.Player.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator);
+        target is EntityPlayer player && (player.Player == null || player.Player.WorldData.CurrentGameMode is EnumGameMode.Spectator || player.Player.WorldData.CurrentGameMode is EnumGameMode.Creative && !MenaceSystem.CreativeHunted);
 
     /// <summary>Whether an entity is a player in spectator mode (the filter of scatter and draw checks, where creative players still count).</summary>
     public static bool IsSpectator(Entity target) =>
