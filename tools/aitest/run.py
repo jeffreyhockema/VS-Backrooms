@@ -55,6 +55,7 @@ class Server:
             with self.lock:
                 self.lines.append(s)
             if "Dedicated Server now running" in s or "Server running" in s:
+                if not self.ready.is_set(): self.boot_end = len(self.lines)
                 self.ready.set()
 
     def mark(self):
@@ -1269,7 +1270,7 @@ def t_needs_selftest(c):
 
 def t_needs_boot(c):
     """The server booted with the needs' player patch and behaviours: nothing in the log about them failing."""
-    bad = [l for l in c.srv.since(0) if re.search(r"needs|backrooms-thirst|backrooms-fatigue|player-needs", l, re.I)
+    bad = [l for l in c.srv.since(0)[:getattr(c.srv, "boot_end", 10 ** 9)] if re.search(r"needs|backrooms-thirst|backrooms-fatigue|player-needs", l, re.I)
            and re.search(r"error|exception|fail|not found|unknown|could not", l, re.I) and not l.startswith(">>>") and "needstest" not in l]
     return not bad, "%d needs error lines in the boot log%s" % (len(bad), "".join("\n  " + b[:200] for b in bad[:5]))
 

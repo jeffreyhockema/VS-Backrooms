@@ -20,8 +20,12 @@ public partial class MenaceSystem
     {
         Entity target = player?.Entity;
         if (target == null || layout == null || Paused || !Setting.Entities) return false;
-        if (!watches.TryGetValue(target.EntityId, out Watch watch)) watches[target.EntityId] = watch = new Watch();
-        Assess(target, watch);
+        // (The caller's roll has just looked; a second Assess would advance the rest and noise clocks again)
+        if (!watches.TryGetValue(target.EntityId, out Watch watch))
+        {
+            watches[target.EntityId] = watch = new Watch();
+            Assess(target, watch);
+        }
         Assessment a = watch.Now;
         if (a.Band == MenaceBand.Safe || a.Trial) return false;
         if (!BodyAllowed(target, watch, a))

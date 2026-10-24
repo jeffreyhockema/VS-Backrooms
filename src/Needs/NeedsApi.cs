@@ -235,6 +235,12 @@ public static class Needs
         }
     }
 
+    /// <summary>Whether a player has any contribution (only those get the once-a-second write).</summary>
+    internal static bool HasOffsets(long entityId)
+    {
+        lock (offsets) return offsets.ContainsKey(entityId);
+    }
+
     internal static void ForgetOffsets(long entityId)
     {
         lock (offsets) offsets.Remove(entityId);

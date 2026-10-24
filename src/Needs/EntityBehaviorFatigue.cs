@@ -32,6 +32,7 @@ public class EntityBehaviorFatigue : EntityBehavior
     private float lastSynced = -1;
     private double sleptAcc, sleptTotal;
     private string pendingWake;
+    private bool cleared;
 
     public EntityBehaviorFatigue(Entity entity) : base(entity) { }
 
@@ -70,33 +71,45 @@ public class EntityBehaviorFatigue : EntityBehavior
     public override void OnGameTick(float deltaTime)
     {
         if (entity.World.Side != EnumAppSide.Server || entity is not EntityPlayer player || !player.Alive) return;
+        // (Inert outside Backrooms worlds: the beds there are vanilla's own, with vanilla's own wake rules)
+        if (!BackroomsWorld.IsBackroomsClimate(entity.World.Config))
+        {
+            if (!cleared) ClearPenalties();
+            pendingWake = null;
+            return;
+        }
+        cleared = false;
+        bool exempt = EntityBehaviorThirst.Exempt(player);
         // (Pain wakes at once; the rest is looked at once a second)
         bool sleeping = Sleeping(player);
         if (pendingWake != null)
         {
-            if (sleeping) Wake(player, pendingWake);
+            if (sleeping && !exempt) Wake(player, pendingWake);
             pendingWake = null;
             sleeping = false;
         }
         counter += deltaTime;
         if (counter < 1f) return;
+        float seconds = counter;
         counter = 0;
 
         IWorldAccessor world = entity.World;
         double now = world.Calendar.TotalHours;
-        // (Game hours since the last look; a jump of the clock (/time) counts for at most two hours)
-        float hours = lastHours < 0 ? 0 : (float)GameMath.Clamp(now - lastHours, 0, 2);
+        // (Game hours since the last look; a jump of the clock (/time) counts for at most two hours, or what a full sleep speed
+        // can run in the real time between looks: the calendar goes about 2.4 hours a second then)
+        double most = Math.Max(2, 1.5 * seconds * world.Calendar.SpeedOfTime * world.Calendar.CalendarSpeedMul / 3600);
+        float hours = lastHours < 0 ? 0 : (float)GameMath.Clamp(now - lastHours, 0, most);
         lastHours = now;
         if (!sleeping) sleptAcc = sleptTotal = 0;
 
-        if (sleeping && WakeReason(player) is { } reason)
+        if (sleeping && !exempt && WakeReason(player) is { } reason)
         {
             Wake(player, reason);
             sleeping = false;
         }
 
         bool on = Needs.FatigueOn(world);
-        if (!on || EntityBehaviorThirst.Exempt(player))
+        if (!on || exempt)
         {
             ClearPenalties();
             // With fatigue off the mod's beds rest by vanilla tiredness (vanilla's own beds do it themselves)
@@ -174,6 +187,9 @@ public class EntityBehaviorFatigue : EntityBehavior
     private static string WakeReason(EntityPlayer player)
     {
         if (Needs.MenaceNear(player.World, player.Pos.XYZ)) return "menace";
+        // (Vanilla's bed wakes a sleeper when a temporal storm begins, unless the world allows sleeping through one)
+        if (player.World.Config.GetString("temporalStormSleeping", "0") == "0"
+            && player.World.Api.ModLoader.GetModSystem<SystemTemporalStability>(true)?.StormStrength > 0f) return "storm";
         if (Needs.ThirstOn(player.World) && Needs.HydrationFraction(player) < NeedsMath.WakeFraction) return "thirst";
         if (Needs.SatietyFraction(player) < NeedsMath.WakeFraction) return "hunger";
         return null;
@@ -202,6 +218,7 @@ public class EntityBehaviorFatigue : EntityBehavior
 
     private void ClearPenalties()
     {
+        cleared = true;
         Needs.SetStat(entity, "walkspeed", WalkStat, 0);
         Needs.SetStabilityOffset(entity, "needs:fatigue", 0);
     }

@@ -55,7 +55,10 @@ public class NeedsSystem : ModSystem
         // (The death message is private to the server's entity simulation; without this patch a death of thirst reads "Player died.")
         if (AccessTools.TypeByName("Vintagestory.Server.ServerSystemEntitySimulation") is { } simulation
             && AccessTools.Method(simulation, "GetDeathMessage") is { } method)
-            harmony.Patch(method, postfix: new HarmonyMethod(typeof(NeedsSystem), nameof(DeathMessagePostfix)));
+        {
+            try { harmony.Patch(method, postfix: new HarmonyMethod(typeof(NeedsSystem), nameof(DeathMessagePostfix))); }
+            catch (Exception e) { api.Logger.Warning("[backrooms] needs: the death message hook could not be applied ({0}); a death of thirst reads as a plain death", e.Message); }
+        }
         else api.Logger.Warning("[backrooms] needs: the death message hook was not found; a death of thirst reads as a plain death");
 
         api.Event.ServerRunPhase(EnumServerRunPhase.RunGame, () =>
@@ -100,7 +103,7 @@ public class NeedsSystem : ModSystem
     private void OnTick(float dt)
     {
         foreach (IPlayer online in sapi.World.AllOnlinePlayers)
-            if (online.Entity is { } entity) Needs.ApplyStabilityOffset(entity);
+            if (online.Entity is { } entity && Needs.HasOffsets(entity.EntityId)) Needs.ApplyStabilityOffset(entity);
     }
 
     private void OnPlayerDisconnect(IServerPlayer player)
