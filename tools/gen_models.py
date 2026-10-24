@@ -4014,9 +4014,11 @@ def mangled():
                 4: collapse(0.0, 0.0, 0.0, hit=1.0),                    # the hit: every mouth gapes, the legs shudder
                 14: collapse(0.25, 0.0, 0.1, hit=0.3),                    # the first legs buckle
                 22: collapse(0.45, 0.0, 0.3),                             # the body comes down
+                24: collapse(0.585, 0.025, 0.4),                          # (keeps the trailing legs' tips out of the floor)
                 26: collapse(0.72, 0.05, 0.5),
                 29: collapse(1.0, 0.15, 0.8),                             # impact: the legs thrown wide, the knot slams
                 34: collapse(1.0, 0.3, 1.0),                              # a small rock back
+                37: collapse(1.0, 0.47, 0.98),                            # (keeps the folding legs' tips out of the floor)
                 41: collapse(1.0, 0.65, 0.95),                            # the legs begin to fold
                 47: collapse(1.0, 0.92, 1.0),
                 53: collapse(1.0, 1.0, 1.0)}

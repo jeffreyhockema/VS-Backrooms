@@ -110857,6 +110857,899 @@
 					}
 				},
 				{
+					"frame": 24,
+					"elements": {
+						"Abdomen": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -4.8
+						},
+						"Body": {
+							"offsetX": -0.286,
+							"offsetY": -8.197,
+							"offsetZ": 0.401,
+							"rotationX": 2.8,
+							"rotationY": 0.0,
+							"rotationZ": 2.0
+						},
+						"Face0": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face1": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face10": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face11": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face12": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face13": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face14": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face15": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face2": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face3": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face4": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face5": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face6": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face7": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face8": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face9": {
+							"offsetX": -0.373,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Femur0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 51.497
+						},
+						"Femur1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 46.844
+						},
+						"Femur2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 39.184
+						},
+						"Femur3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 25.428
+						},
+						"Femur4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 30.712
+						},
+						"Femur5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 25.448
+						},
+						"Femur6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 58.264
+						},
+						"Femur7": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 42.613
+						},
+						"Jaw0": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw1": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw10": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw11": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw12": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw13": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw14": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw15": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw2": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw3": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw4": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw5": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw6": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw7": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw8": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Jaw9": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -10.0
+						},
+						"Knot": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 32.0,
+							"rotationY": 4.8,
+							"rotationZ": 4.0
+						},
+						"Meta0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -0.327,
+							"rotationZ": -21.246
+						},
+						"Meta1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -0.0,
+							"rotationZ": -11.96
+						},
+						"Meta2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -0.0,
+							"rotationZ": -6.98
+						},
+						"Meta3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -0.0,
+							"rotationZ": -9.578
+						},
+						"Meta4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0.0,
+							"rotationZ": -12.012
+						},
+						"Meta5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0.0,
+							"rotationZ": -6.247
+						},
+						"Meta6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0.0,
+							"rotationZ": -10.397
+						},
+						"Meta7": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0.0,
+							"rotationZ": -13.665
+						},
+						"Stalk": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 35.2,
+							"rotationY": 0,
+							"rotationZ": -3.2
+						},
+						"Tendril0_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -32.64
+						},
+						"Tendril0_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril0_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril0_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril0_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril0_5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril0_6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril0_7": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril0_8": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril1_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -32.64
+						},
+						"Tendril1_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril1_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril1_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril1_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril1_5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril1_6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril1_7": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril1_8": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril2_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -32.64
+						},
+						"Tendril2_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril2_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril2_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril2_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril2_5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril2_6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril2_7": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril2_8": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril3_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -42.432
+						},
+						"Tendril3_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril3_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril3_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril3_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril3_5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril4_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -42.432
+						},
+						"Tendril4_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril4_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril4_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril4_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril4_5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril5_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -42.432
+						},
+						"Tendril5_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril5_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril5_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril5_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril5_5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril5_6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril6_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -42.432
+						},
+						"Tendril6_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tendril6_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -22.08
+						},
+						"Tendril6_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -5.76,
+							"rotationY": 0,
+							"rotationZ": -14.4
+						},
+						"Tendril6_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 5.76,
+							"rotationY": 0,
+							"rotationZ": -18.24
+						},
+						"Tibia0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0.436,
+							"rotationZ": -119.16
+						},
+						"Tibia1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0.0,
+							"rotationZ": -110.831
+						},
+						"Tibia2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0.0,
+							"rotationZ": -94.549
+						},
+						"Tibia3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0.0,
+							"rotationZ": -57.469
+						},
+						"Tibia4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -0.0,
+							"rotationZ": -69.341
+						},
+						"Tibia5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -0.0,
+							"rotationZ": -52.549
+						},
+						"Tibia6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -0.0,
+							"rotationZ": -126.491
+						},
+						"Tibia7": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -0.0,
+							"rotationZ": -94.216
+						}
+					}
+				},
+				{
 					"frame": 26,
 					"elements": {
 						"Abdomen": {
@@ -113532,6 +114425,899 @@
 							"rotationX": 0,
 							"rotationY": -16.999,
 							"rotationZ": -131.5
+						}
+					}
+				},
+				{
+					"frame": 37,
+					"elements": {
+						"Abdomen": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -11.76
+						},
+						"Body": {
+							"offsetX": -6.617,
+							"offsetY": -77.181,
+							"offsetZ": 9.319,
+							"rotationX": 6.86,
+							"rotationY": 0.0,
+							"rotationZ": 4.9
+						},
+						"Face0": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face1": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face10": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face11": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face12": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face13": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face14": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face15": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face2": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face3": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face4": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face5": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face6": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face7": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face8": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Face9": {
+							"offsetX": -0.0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 0
+						},
+						"Femur0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 50.75
+						},
+						"Femur1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 54.25
+						},
+						"Femur2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 58.5
+						},
+						"Femur3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 55.5
+						},
+						"Femur4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 57.0
+						},
+						"Femur5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 72.75
+						},
+						"Femur6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 72.0
+						},
+						"Femur7": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": 64.0
+						},
+						"Jaw0": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw1": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw10": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw11": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw12": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw13": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw14": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw15": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw2": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw3": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw4": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw5": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw6": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw7": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw8": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Jaw9": {
+							"offsetX": 0,
+							"offsetY": -1,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 0,
+							"rotationZ": -15.8
+						},
+						"Knot": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 78.4,
+							"rotationY": 11.76,
+							"rotationZ": 9.8
+						},
+						"Meta0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -71.205,
+							"rotationZ": -33.0
+						},
+						"Meta1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -67.365,
+							"rotationZ": -19.5
+						},
+						"Meta2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -40.754,
+							"rotationZ": -19.75
+						},
+						"Meta3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -18.933,
+							"rotationZ": -24.75
+						},
+						"Meta4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 33.634,
+							"rotationZ": -28.75
+						},
+						"Meta5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 14.107,
+							"rotationZ": -19.25
+						},
+						"Meta6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 79.035,
+							"rotationZ": -23.25
+						},
+						"Meta7": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 48.11,
+							"rotationZ": -22.75
+						},
+						"Stalk": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 86.24,
+							"rotationY": 0,
+							"rotationZ": -7.84
+						},
+						"Tendril0_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -51.0
+						},
+						"Tendril0_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril0_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril0_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril0_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril0_5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril0_6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril0_7": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril0_8": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril1_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -51.0
+						},
+						"Tendril1_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril1_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril1_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril1_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril1_5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril1_6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril1_7": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril1_8": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril2_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -51.0
+						},
+						"Tendril2_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril2_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril2_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril2_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril2_5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril2_6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril2_7": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril2_8": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril3_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -66.3
+						},
+						"Tendril3_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril3_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril3_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril3_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril3_5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril4_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -66.3
+						},
+						"Tendril4_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril4_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril4_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril4_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril4_5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril5_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -66.3
+						},
+						"Tendril5_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril5_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril5_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril5_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril5_5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril5_6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril6_0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -66.3
+						},
+						"Tendril6_1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tendril6_2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -34.5
+						},
+						"Tendril6_3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": -9.0,
+							"rotationY": 0,
+							"rotationZ": -22.5
+						},
+						"Tendril6_4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 9.0,
+							"rotationY": 0,
+							"rotationZ": -28.5
+						},
+						"Tibia0": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 94.94,
+							"rotationZ": -121.0
+						},
+						"Tibia1": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 85.633,
+							"rotationZ": -130.0
+						},
+						"Tibia2": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 46.24,
+							"rotationZ": -141.5
+						},
+						"Tibia3": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": 31.554,
+							"rotationZ": -120.5
+						},
+						"Tibia4": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -41.584,
+							"rotationZ": -119.75
+						},
+						"Tibia5": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -18.707,
+							"rotationZ": -140.5
+						},
+						"Tibia6": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -97.476,
+							"rotationZ": -130.75
+						},
+						"Tibia7": {
+							"offsetX": 0,
+							"offsetY": 0,
+							"offsetZ": 0,
+							"rotationX": 0,
+							"rotationY": -53.884,
+							"rotationZ": -130.5
 						}
 					}
 				},

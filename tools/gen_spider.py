@@ -547,7 +547,7 @@ def giantspider():
                 return tuple(a_ + (b_ - a_) * u for a_, b_ in zip(anchors[lo], anchors[hi]))
 
     keys = {0: {}, 3: sdie(0, 0, abd=-3, jaw=12, palp=-10, twitch={f"Femur{s_[0]}": pose((0, 0, -10)) for s_ in SP_LEGS})}   # the hit: it stiffens
-    for f in (8, 12, 15, 18, 20, 22, 25, 30, 40, 59):
+    for f in (8, 10, 12, 15, 17, 18, 19, 20, 22, 25, 30, 40, 59):
         keys[f] = sdie(*anchor_at(f))
     death(m, 60, every, keys, standing=(3,))
     return m
