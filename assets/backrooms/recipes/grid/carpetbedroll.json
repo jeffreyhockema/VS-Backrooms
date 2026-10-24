@@ -1,9 +1,11 @@
 [
+	// Carpet bedroll: a stack of 8 carpet fibres in each top slot, a flax twine in each middle slot, 2 wallpaper strips in each bottom slot
 	{
-		"ingredientPattern": "FF,WW,FF",
+		"ingredientPattern": "FF,TT,WW",
 		"ingredients": {
-			"F": { "type": "item", "code": "carpetfibre" },
-			"W": { "type": "item", "code": "wallpaperstrip" }
+			"F": { "type": "item", "code": "carpetfibre", "quantity": 8 },
+			"T": { "type": "item", "code": "game:flaxtwine" },
+			"W": { "type": "item", "code": "wallpaperstrip", "quantity": 2 }
 		},
 		"width": 2,
 		"height": 3,

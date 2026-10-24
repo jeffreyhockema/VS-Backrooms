@@ -469,7 +469,7 @@ Any bed will do, and some do better.
 - **Makeshift beds and bedrolls** of the camps (Levels 1, 4, 7 and 8) are the least. A poor bed refills you more slowly: from dead on your feet it takes more than half a game day to make you fully rested.
 
 **The carpet bedroll**
-The one bed you can make yourself is the [carpet bedroll](block-backrooms:carpetbedroll-north), from 4 carpet fibres + 2 wallpaper strips, in a grid two wide and three tall: fibres along the top and the bottom, strips across the middle. It is enough to sleep on, not enough to sleep well. Put it down anywhere, and when you pick it up again it comes back whole.
+The one bed you can make yourself is the [carpet bedroll](block-backrooms:carpetbedroll-north), from 16 carpet fibres + 2 flax twine + 4 wallpaper strips, in a grid two wide and three tall: a stack of 8 fibres in each top slot, a twine in each middle slot, 2 strips in each bottom slot (3 carpet fibres make a twine). It is enough to sleep on, not enough to sleep well. Put it down anywhere, and when you pick it up again it comes back whole.
 
 **What wakes you**
 You wake rested ("You wake rested"), or sooner for one of these, and the game says which:

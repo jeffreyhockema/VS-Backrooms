@@ -277,7 +277,7 @@ Rules:
   `entityClass`, `restQuality` and `bedFoot`; regenerate and keep the CRLF churn out of the commit.
 
 **Carpet bedroll** (`carpetbedroll-{north,east,south,west}`, item of the same name): the `bedroll` shape with Level 0's
-chevron carpet texture; recipe `FF / WW / FF` (4 carpet fibres, 2 wallpaper strips, shaped 2 wide 3 tall); placed
+chevron carpet texture; recipe `FF / TT / WW` (16 carpet fibres as two stacks of 8, 2 flax twine, 4 wallpaper strips as two stacks of 2; shaped 2 wide 3 tall; the user's numbers); placed
 with `BlockBehaviorOrientable`; breaks back into itself (not into cloth and grass like the found ones). Handbook text
 calls it what it is: enough to sleep on, not enough to sleep well.
 
