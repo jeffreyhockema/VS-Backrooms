@@ -304,6 +304,109 @@ def furnace_textures():
     save(img, "l5castiron")
 
 
+# ======================= The turntable and the room service tray =======================
+
+def turntable_textures():
+    # the record: a cut-out disc 19 px across in the top-left (9.5 units, the top face's size). Shellac black with
+    # fine groove bands (a lit lead-in, three tracks parted by smooth gaps, a dead-wax ring), a wedge of sheen and a
+    # label: oxblood red with a gold rim, two lines of lettering and the spindle hole
+    img = clear()
+    rng = random.Random(seed_of("l5record"))
+    c = 9.5
+    for y in range(19):
+        for x in range(19):
+            dx, dy = x + 0.5 - c, y + 0.5 - c
+            r = math.hypot(dx, dy)
+            if r > 9.5:
+                continue
+            if r > 9.0:
+                col = (58, 56, 58)  # the edge catches the light
+            elif r > 3.6:
+                band = int(r * 1.0) % 2
+                gap = 5.6 < r < 6.1 or 7.3 < r < 7.7 or 3.6 < r < 4.2
+                col = (30, 30, 33) if gap else (22 + 5 * band, 22 + 5 * band, 25 + 5 * band)
+                # a soft wedge of light across the upper-left and a fainter one opposite
+                ang = (math.degrees(math.atan2(dy, dx)) + 360) % 360
+                for centre, amt in ((225, 20), (45, 8)):
+                    d = min(abs(ang - centre), 360 - abs(ang - centre))
+                    if d < 26:
+                        col = M.lift(col, amt * (1 - d / 26) * (0.6 + 0.4 * band))
+                col = M.lift(col, rng.uniform(-1.5, 1.5))
+            elif r > 1.0:
+                col = (150, 34, 30) if r < 3.1 else (196, 160, 72)
+                col = M.lift(col, rng.uniform(-3, 3))
+            else:
+                col = (12, 10, 10)
+            put(img, x, y, col)
+    for x in range(6, 13):  # the label's lettering: two rows, one px high
+        if x % 3 != 0:
+            put(img, x, 7, (214, 184, 100))
+    for x in range(7, 12):
+        if x != 9:
+            put(img, x, 12, (214, 184, 100))
+    save(img, "l5record")
+
+    # its edge and the platter's: black shellac / a turned steel platter, both with a lit top and shaded bottom
+    img = M.rubber(seed_of("l5vinylside"), base=(26, 26, 28))
+    save(img, "l5vinylside")
+    img = M.brushed_metal(seed_of("l5platter"), base=(132, 134, 134), grain=2, direction="h", streak=5, sheen=12)
+    save(img, "l5platter")
+
+    # the speaker cloth: old gold-brown basket weave over a dark lattice every 4 px, faded in a band across the middle
+    img = M.fabric(seed_of("l5ttcloth"), base=(136, 104, 58), weave="plain", contrast=6, grain=2, mottle=4, thread=2)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            if (x + y) % 8 == 0 or (x - y) % 8 == 0:
+                px[x, y] = M.rgba(M.shade_px(px[x, y][:3], -0.28))
+            elif (x % 4 == 2 and y % 4 == 2):
+                px[x, y] = M.rgba(M.shade_px(px[x, y][:3], 0.10))
+    M.ao_border(img, 2, 0.14)
+    save(img, "l5ttcloth")
+
+
+def tray_textures():
+    # silver plate gone through at the edges and corners to the copper beneath, a little tarnish in the corners
+    img = M.brushed_metal(seed_of("l5trayplate"), base=(204, 208, 212), grain=2, direction="h", streak=5, sheen=10)
+    M.grime(img, 0.14, seed_of("l5traytarnish"), color=(112, 108, 102), cells=(4, 2), cover=0.35)
+    rng = random.Random(seed_of("l5traywear"))
+    for _ in range(9):
+        x, y = rng.choice((rng.randrange(0, 2), rng.randrange(30, 32))), rng.choice((rng.randrange(0, 6), rng.randrange(26, 32)))
+        if rng.random() < 0.5:
+            x, y = y, x
+        put(img, x, y, M.lift((176, 118, 84), rng.uniform(-14, 8)))
+    M.scratches(img, 6, seed_of("l5trayscratch"), length=(3, 7), light=0.14)
+    save(img, "l5trayplate")
+
+    # the napkin: starched white linen, one navy line a px in from the edge
+    img = M.fabric(seed_of("l5napkin"), base=(240, 237, 228), weave="plain", contrast=3, grain=2, mottle=3, thread=1)
+    for i in range(S):
+        for k in (2, S - 3):
+            put(img, i, k, (60, 74, 112))
+            put(img, k, i, (60, 74, 112))
+    save(img, "l5napkin")
+
+    # a red rose, its petals in curled rings of two reds, a dark heart
+    img = M.noise_hv((150, 20, 34), 4, seed_of("l5rose"), S, 5, (8, 4), hue=1.0)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            r = max(abs(x - 15.5), abs(y - 15.5))
+            f = (-0.30, -0.10, -0.38, 0.06, -0.22, 0.12, -0.12, 0.0)[int(r / 2) % 8]
+            px[x, y] = M.rgba(M.shade_px(px[x, y][:3], f))
+    save(img, "l5rose")
+    img = M.noise_hv((46, 84, 40), 3, seed_of("l5stem"), S, 4, (8, 4), hue=1.0)
+    save(img, "l5stem")
+    # coffee with a pale crema ring
+    img = M.noise_hv((52, 30, 18), 2, seed_of("l5coffee"), S, 3, (8, 4), hue=0.6)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            if abs(math.hypot(x - 15.5, y - 15.5) - 12) < 1.5:
+                px[x, y] = M.rgba(M.lift(px[x, y][:3], 22))
+    save(img, "l5coffee")
+
+
 def generate():
     furnace_textures()
     glass_textures()
@@ -311,3 +414,5 @@ def generate():
     clock_textures()
     bed_textures()
     ice_textures()
+    turntable_textures()
+    tray_textures()

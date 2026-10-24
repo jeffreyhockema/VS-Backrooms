@@ -1427,9 +1427,7 @@ def refinements():
     prop("icemachine", "Ice Machine", L5.ice_machine(),  # (Level 5 art)
          box=(0.06, 0, 0.18, 0.94, 1.62, 0.94), material="Metal", sounds=METAL,
          extra={"drops": drops(("metalbracket", 1, 0.5), ("scrapwire", 1, 0.5))})
-    prop("roomservicetray", "Room Service Tray", [
-        bx("Tray", (3, 0, 4), (13, 0.6, 12), "silver"), bx("Plate", (5, 0.6, 5.5), (10, 1, 10.5), "china"),
-        bx("Cloche", (5.5, 1, 6), (9.5, 4, 10), "silver"), bx("Glass", (11, 0.6, 5), (12, 3, 6), "lanternglass")],
+    prop("roomservicetray", "Room Service Tray", L5.room_service_tray(),  # (Level 5 art)
          box=(0.18, 0, 0.25, 0.82, 0.25, 0.75), collide=False, material="Metal", sounds=METAL,
          extra={"drops": drops(("crackers", 0.5, 0.4), ("glassshard", 0.3, 0.3))})
     prop("laundrycart", "Laundry Cart", [
