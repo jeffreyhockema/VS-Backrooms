@@ -1,0 +1,50 @@
+// A bedroll you make from what the building gives: carpet fibres sewn into wallpaper strips. Enough to sleep on, not enough
+// to sleep well (rest quality 0.6). One block, head toward the side it faces; the bedroll shape with Level 0's chevron carpet.
+// Hand-written (no generator): the shape and its pillow are tools/gen_detail.py's "bedroll".
+{
+	code: "carpetbedroll",
+	class: "BackroomsBed",
+	entityClass: "BackroomsBed",
+	variantgroups: [
+		{ code: "side", states: ["north", "east", "south", "west"] }
+	],
+	behaviors: [{ name: "BackroomsHorizontalOrientable" }],
+	attributes: { restQuality: 0.6 },
+	creativeinventory: { "general": ["*-north"], "decorative": ["*-north"] },
+	blockmaterial: "Cloth",
+	drawtype: "json",
+	shapeByType: {
+		"*-north": { base: "block/detail/bedroll", rotateY: 0 },
+		"*-east": { base: "block/detail/bedroll", rotateY: 270 },
+		"*-south": { base: "block/detail/bedroll", rotateY: 180 },
+		"*-west": { base: "block/detail/bedroll", rotateY: 90 }
+	},
+	// The roll itself in the carpet's chevron weave (the pillow keeps its own cloth)
+	textures: {
+		bedroll: { base: "block/carpet-normal" }
+	},
+	sidesolid: { all: false },
+	sideopaque: { all: false },
+	lightAbsorption: 0,
+	resistance: 1.5,
+	maxStackSize: 8,
+	collisionboxByType: {
+		"*-north": { x1: 0.19, y1: 0, z1: 0.09, x2: 0.81, y2: 0.15, z2: 0.91 },
+		"*-east": { x1: 0.19, y1: 0, z1: 0.09, x2: 0.81, y2: 0.15, z2: 0.91, rotateY: 270 },
+		"*-south": { x1: 0.19, y1: 0, z1: 0.09, x2: 0.81, y2: 0.15, z2: 0.91, rotateY: 180 },
+		"*-west": { x1: 0.19, y1: 0, z1: 0.09, x2: 0.81, y2: 0.15, z2: 0.91, rotateY: 90 }
+	},
+	selectionboxByType: {
+		"*-north": { x1: 0.19, y1: 0, z1: 0.09, x2: 0.81, y2: 0.15, z2: 0.91 },
+		"*-east": { x1: 0.19, y1: 0, z1: 0.09, x2: 0.81, y2: 0.15, z2: 0.91, rotateY: 270 },
+		"*-south": { x1: 0.19, y1: 0, z1: 0.09, x2: 0.81, y2: 0.15, z2: 0.91, rotateY: 180 },
+		"*-west": { x1: 0.19, y1: 0, z1: 0.09, x2: 0.81, y2: 0.15, z2: 0.91, rotateY: 90 }
+	},
+	drops: [{ type: "block", code: "carpetbedroll-north" }],
+	sounds: {
+		walk: "game:walk/cloth",
+		place: "game:block/cloth",
+		break: "game:block/cloth",
+		hit: "game:block/cloth"
+	}
+}

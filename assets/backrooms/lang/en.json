@@ -2822,5 +2822,9 @@
 	"drink-sick": "Your stomach turns.",
 	"drink-salt": "It's brine. Your throat burns.",
 	"drink-scald": "The water is scalding!",
-	"dispenser-restocks-slowly": "Sold out. It restocks once a fortnight."
+	"dispenser-restocks-slowly": "Sold out. It restocks once a fortnight.",
+	"block-carpetbedroll-*": "Carpet Bedroll",
+	"blockdesc-carpetbedroll": "Carpet fibres sewn into wallpaper strips and rolled. Enough to sleep on, not enough to sleep well.",
+	"blockhelp-bed": "Sleep",
+	"bedinfo": "Rest: {0}% of a proper bed"
 }

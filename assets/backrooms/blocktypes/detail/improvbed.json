@@ -168,6 +168,11 @@
 			"rotateY": 90
 		}
 	},
+	"class": "BackroomsBed",
+	"entityClass": "BackroomsBed",
+	"attributes": {
+		"restQuality": 0.6
+	},
 	"drops": [
 		{
 			"type": "item",
