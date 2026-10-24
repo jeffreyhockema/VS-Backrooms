@@ -208,6 +208,20 @@ public partial class MenaceSystem : ModSystem
                 .RequiresPlayer()
                 .HandleWith(OnMenaceCommand)
             .EndSubCommand()
+            .BeginSubCommand("feltrate")
+                .WithDescription("Dry-runs the director's placement for glimpses, stalkers and hunters at the straw dummy (latest) or you: success per kind, why spots were refused, and the felt bodies an hour (the rate check's, times the success). Args: level (its id, 94 is 13, or here), band (heartland, approach, threshold; default your own), tries (60)")
+                .WithArgs(api.ChatCommands.Parsers.Word("level"), api.ChatCommands.Parsers.OptionalWord("band"), api.ChatCommands.Parsers.OptionalInt("tries"))
+                .HandleWith(OnFeltRateCommand)
+            .EndSubCommand()
+            .BeginSubCommand("creativehunts")
+                .WithDescription("Whether a creative-mode player is hunted like anyone else (on/off; toggles without), for testing")
+                .WithArgs(api.ChatCommands.Parsers.OptionalBool("on"))
+                .HandleWith(args =>
+                {
+                    CreativeHunted = args.Parsers[0].IsMissing ? !CreativeHunted : (bool)args[0];
+                    return TextCommandResult.Success("Creative is hunted " + (CreativeHunted ? "on" : "off"));
+                })
+            .EndSubCommand()
             .BeginSubCommand("ratecheck")
                 .WithDescription("Simulates the director's rolls for hours (default 50) in a level (its id, 94 is 13) and band (heartland, approach, threshold, den) and prints bodies and sounds per hour (the rolls only: real rates are lower, since a body also waits for fewer kinds of menacing thing about than the level allows (one in Classes 0 to 2, two in 3 to 5) and for a spot to put it; the optional last argument menacing=<n> says how many kinds are about); \"ratecheck here\" uses your own level and band")
                 .WithArgs(api.ChatCommands.Parsers.Word("level"), api.ChatCommands.Parsers.OptionalWord("band"), api.ChatCommands.Parsers.OptionalDouble("hours"), api.ChatCommands.Parsers.OptionalWord("menacing"))
@@ -296,6 +310,7 @@ public partial class MenaceSystem : ModSystem
         }
         // (Static, so it would outlast this world into the next one opened in the same process)
         Senses.LightsOut = false;
+        CreativeHunted = false;
         Perception.Reset();
         BlockEntityClumpRemnant.Live.Clear();
         base.Dispose();
@@ -631,7 +646,7 @@ public partial class MenaceSystem : ModSystem
             foreach (int i in group)
             {
                 (Entity entity, Watch watch, bool creative) = directed[i];
-                if (creative || watch.Now.Trial || watch.Now.Band == MenaceBand.Safe || anyPlayer && entity is not EntityPlayer) continue;
+                if (creative && !CreativeHunted || watch.Now.Trial || watch.Now.Band == MenaceBand.Safe || anyPlayer && entity is not EntityPlayer) continue;
                 if (rolls < 0 || watch.Now.Value > directed[rolls].Watch.Now.Value) rolls = i;
             }
             // The place shares its body and sound clocks: the roller sees the latest of the group's, and all are stamped with the result
@@ -704,6 +719,7 @@ public partial class MenaceSystem : ModSystem
     /// </summary>
     private void Direct(Entity target, Watch watch, bool creative, bool rolls = true)
     {
+        creative &= !CreativeHunted; // (/backrooms creativehunts: a creative player is directed like anyone else)
         Assessment a = watch.Now;
         if (a.Trial) return; // the King's trial is his own affair
         RosterEntry[] roster = a.Snackrooms ? Roster.Snackrooms : a.Castle ? Roster.Castle : Roster.For(a.Level);
@@ -967,11 +983,12 @@ public partial class MenaceSystem : ModSystem
 
     /// <summary>Puts down an entity (and the rest of its pack) for an encounter with a target. Returns whether it did.</summary>
     /// <param name="setPiece">The Flickering's hounds, the Screaming's rats, a test: the pack is clipped to the Threshold cap rather than the current band's.</param>
-    public bool TrySpawn(Entity target, Assessment a, RosterEntry entry, Encounter kind, double untilHours = -1, bool setPiece = false, double minDistance = 0, int failedTries = 0)
+    public bool TrySpawn(Entity target, Assessment a, RosterEntry entry, Encounter kind, double untilHours = -1, bool setPiece = false, double minDistance = 0, int failedTries = 0, bool dryRun = false)
     {
+        LastTry = default;
         if (!types.TryGetValue(entry.Code, out EntityProperties type)) return false;
         // A capped scavenger pack is silence, like any failed spawn: say so before the search for a spot, not after it
-        if (Scavengers(entry, a, kind, setPiece) && RatPacksNear(target) >= MaxRatPacks) return false;
+        if (Scavengers(entry, a, kind, setPiece) && RatPacksNear(target) >= MaxRatPacks) { LastTry.RatCap = 1; if (!dryRun && minDistance <= 0 && !setPiece && kind != Encounter.Ambient) NoteFailedBody(a.Level, entry.Code, LastTry, 0, 0); return false; }
         (double min, double max) = kind switch
         {
             Encounter.Glimpse => (22.0, 40.0),
@@ -997,15 +1014,24 @@ public partial class MenaceSystem : ModSystem
         if (minDistance > 0) (min, max) = (Math.Max(14, minDistance - 3 * Math.Min(failedTries, 3)), minDistance + FlickerSpread + 6 * Math.Min(failedTries, 4));
         int refusedSeen = 0, refusedView = 0, refusedSpot = 0;
 
-        for (int attempt = 0; attempt < 18; attempt++)
+        bool widened = false;
+        for (int attempt = 0; attempt < 2 * Looks; attempt++)
         {
+            // Under the open sky a stalker or hunter often has no unseen spot within the usual band (every spot is in a clear line):
+            // after the usual looks all failed, look again 30 to 48 blocks out, where a hill crest or a house may stand between
+            if (attempt == Looks)
+            {
+                if (kind is not (Encounter.Stalk or Encounter.Hunt) || entry.Ambush || entry.Aquatic || minDistance > 0 || setPiece || !UnderOpenSky(target.Pos.X, target.Pos.Y, target.Pos.Z)) break;
+                (min, max) = (OpenMinDistance, OpenMaxDistance);
+                widened = true;
+            }
             double angle = rand.NextDouble() * Math.PI * 2;
             if (ahead is double heading && attempt % 3 != 2) angle = heading + (rand.NextDouble() - 0.5) * 1.6;
             if (entry.Ambush) angle = Math.Atan2(view.Z, view.X) + (rand.NextDouble() - 0.5) * 1.2;
             double distance = min + rand.NextDouble() * (max - min);
             int x = (int)Math.Floor(target.Pos.X + Math.Cos(angle) * distance), z = (int)Math.Floor(target.Pos.Z + Math.Sin(angle) * distance);
             Vec3d spot = entry.Aquatic ? FindWaterSpot(target, a, x, z) : FindSpot(target, a, entry, kind, x, z);
-            if (spot == null) { refusedSpot++; continue; }
+            if (spot == null || widened && !UnderOpenSky(spot.X, spot.Y, spot.Z)) { refusedSpot++; continue; }
 
             // A glimpse is meant to be seen; stalkers, hunters, what lies in wait and wanderers arrive unseen.
             // Nothing is put down where someone could see any part of it: no spawn is better than a visible one. (What moves
@@ -1022,12 +1048,23 @@ public partial class MenaceSystem : ModSystem
                 refusedView++;
                 continue;
             }
-            SpawnPack(target, entry, kind, type, spot, a, untilHours, setPiece);
+            LastTry = new SpawnTry { NoFloor = refusedSpot, InSight = refusedSeen, JustSeen = refusedView };
+            if (!dryRun) SpawnPack(target, entry, kind, type, spot, a, untilHours, setPiece);
             return true;
         }
+        LastTry = new SpawnTry { NoFloor = refusedSpot, InSight = refusedSeen, JustSeen = refusedView };
+        if (!dryRun && minDistance <= 0 && !setPiece && kind != Encounter.Ambient) NoteFailedBody(a.Level, entry.Code, LastTry, min, max);
         if (Logging && minDistance > 0) sapi.Logger.Notification("[backrooms] {0}: no spot after 18 looks ({1} no floor/room, {2} in sight, {3} where they were just looking{4}); band {5:0}-{6:0} blocks", entry.Code, refusedSpot, refusedSeen, refusedView, failedTries >= RecentViewDroppedAfter ? "; recent view ignored" : "", min, max);
         return false;
     }
+
+    /// <summary>The looks for a spot a try makes (and as many more at <see cref="OpenMinDistance"/> to <see cref="OpenMaxDistance"/> blocks under the open sky).</summary>
+    private const int Looks = 18;
+    private const double OpenMinDistance = 30, OpenMaxDistance = 48;
+
+    /// <summary>Whether nothing roofs the column above a standing place (no block that stops rain over the head).</summary>
+    private bool UnderOpenSky(double x, double y, double z) =>
+        sapi.World.BlockAccessor.GetRainMapHeightAt((int)Math.Floor(x), (int)Math.Floor(z)) <= (int)Math.Floor(y) + 1;
 
     /// <summary>The heights (fractions of the hitbox) and sides rays are cast to when asking whether something could be seen.</summary>
     private static readonly (double Up, double Side)[] SightPoints = { (0.05, 0), (0.5, 0), (0.5, -0.5), (0.5, 0.5), (0.95, 0), (0.95, -0.5), (0.95, 0.5) };
@@ -1341,6 +1378,7 @@ public partial class MenaceSystem : ModSystem
         {
             text.AppendFormat("\n{0}: {1}, {2:0} blocks", e.Code.Path, e.GetBehavior<EntityBehaviorMenace>().Kind, e.Pos.DistanceTo(entity.Pos.XYZ));
         }
+        text.Append('\n').Append(FailedBodiesLine(a.Level));
         text.Append('\n').Append(CostLine());
         return TextCommandResult.Success(text.ToString());
     }

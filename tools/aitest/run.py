@@ -1168,6 +1168,88 @@ def t_p7s_hungry_glimpse(c):
 
 STEALER_CASES = [("p7-stealer-fed", t_p7s_fed_guard), ("p7-stealer-hungry", t_p7s_hungry_comes), ("p7-stealer-glimpse", t_p7s_hungry_glimpse)]
 
+# ---- P7 round 5, piece B: the felt rate (dialin.md 3.9). The director's placement dry-run in every busy level: a roll that finds no
+# spot is silence, so stalk-or-hunt must be placeable at least a quarter of the time wherever the player stands in the approach band.
+FELT_LEVELS = ["1", "2", "3", "4", "5", "8", "9", "94"]
+FELT_TABLE = []
+
+
+def _felt_band(c):
+    m1 = c.srv.mark()
+    c.srv.cmd("/backrooms dummies off")
+    r = c.srv.wait(lambda l: re.search(r"#\d+ at .*band (\w+)", l), m1, 5)
+    return r.group(1) if r else "?"
+
+
+def _felt_place(c, level):
+    """A dummy in the approach band if the level has one (else threshold, else the busiest band it gets); a dummy that lands in a
+    quieter band is walked outward (`dummy move`) a few times."""
+    best = None
+    for n in range(12):
+        c.reset()
+        c.place(None, "nest" if level == "8" else level)
+        band = _felt_band(c)
+        for dx, dz in ((120, 0), (0, 120), (-240, 0), (0, -240), (240, 240)):
+            if band in ("Approach", "Threshold"):
+                break
+            c.srv.cmd("/backrooms dummy move %d %d" % (dx, dz))
+            time.sleep(2)
+            band = _felt_band(c)
+        if band == "Approach":
+            return band
+        if band == "Threshold" and n >= 4:
+            return band
+        if best is None or band in ("Threshold", "Approach") or (band == "Heartland" and best not in ("Threshold", "Approach")):
+            if band != "Safe":
+                best = band
+    return best
+
+
+def t_felt_rates(c):
+    ev, ok = [], True
+    FELT_TABLE.clear()
+    for level in FELT_LEVELS:
+        night = level == "94"
+        if night:
+            c.srv.cmd("/time set 23")
+            time.sleep(2)
+        try:
+            band = _felt_place(c, level)
+            if band is None or band == "?":
+                ok = False
+                ev.append("L%s: no dummy outside the Safe band" % level)
+                continue
+            m = c.srv.mark()
+            c.srv.cmd("/backrooms feltrate here %s 40" % band.lower())
+            r = c.srv.wait(lambda l: "stalk-or-hunt" in l and "felt bodies" in l, m, 90)
+            if not r:
+                ok = False
+                ev.append("L%s: no feltrate reply" % level)
+                continue
+            reply = "\n".join(c.srv.since(m))
+            mm = re.search(r"stalk-or-hunt (\d+)%.*?(\d+) no floor/room, (\d+) in sight.*?felt bodies ([\d.]+)/h", reply, re.S)
+            if not mm:
+                ok = False
+                ev.append("L%s: unreadable reply %r" % (level, reply[-200:]))
+                continue
+            kinds = {k: int(v) for k, v in re.findall(r"(Glimpse|Stalk|Hunt): \d+ kinds on the roster, placed (\d+)%", reply)}
+            sh = int(mm.group(1))
+            good = sh >= 25
+            ok &= good
+            FELT_TABLE.append((level, band, kinds, sh, int(mm.group(2)), int(mm.group(3)), float(mm.group(4))))
+            ev.append("L%s %s: glimpse %s%% stalk %s%% hunt %s%%, stalk-or-hunt %d%%%s, refused looks %s no floor %s in sight, felt %.1f/h" % (
+                level, band, kinds.get("Glimpse", "-"), kinds.get("Stalk", "-"), kinds.get("Hunt", "-"), sh, "" if good else " BAD",
+                mm.group(2), mm.group(3), float(mm.group(4))))
+        finally:
+            if night:
+                c.srv.cmd("/time set 12")
+                time.sleep(1)
+    c.reset()
+    return ok, "\n  ".join([""] + ev)
+
+
+FELT_CASES = [("felt-rates", t_felt_rates)]
+
 
 def smoke(c):
     """`dummies on` with a Level 1 dummy for 60 s must produce no errors."""
@@ -1209,11 +1291,13 @@ def main():
         only = (only - {"p7-stealer"}) | {n for n, _ in STEALER_CASES}
     if only and "iso" in only:
         only = (only - {"iso"}) | {n for n, _ in ISO_CASES}
+    if only and "felt" in only:
+        only = (only - {"felt"}) | {n for n, _ in FELT_CASES}
     if only and "iso-hound" in only:
         only = (only - {"iso-hound"}) | {n for n, _ in ISO_HOUND_CASES}
     if only:
         # A mistyped name would otherwise boot the server (up to 15 minutes), run nothing and exit 0
-        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES} | {"p1-no-errors", "dummies-smoke"}
+        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES} | {"p1-no-errors", "dummies-smoke"}
         if only - known:
             sys.exit("unknown case(s): " + ", ".join(sorted(only - known)))
     started = time.time()
@@ -1227,7 +1311,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()
