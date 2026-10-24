@@ -30,7 +30,7 @@ public static class EncounterRoll
     public const double TickSeconds = 2;
 
     /// <summary>The hard gap after the last body (or sound), as a share of the mean interval; the random wait after it makes up the rest, so the mean stays as stated.</summary>
-    public const double HardGapShare = 0.4;
+    public const double HardGapShare = 0.25;
 
     /// <summary>The menace factor on both intervals: (1.5 - menace), clamped. A calm player waits longer, an unsteady one at the edge less.</summary>
     public const double MenaceFactorBase = 1.5, MenaceFactorMin = 0.5, MenaceFactorMax = 1.5;
@@ -54,20 +54,20 @@ public static class EncounterRoll
     public static double BodyGapMs(MenaceBand band, int level, double menace, double spawns, bool inDen) =>
         HardGapShare * BodyMeanMs(band, level, menace, spawns, inDen);
 
-    /// <summary>The gate on every body, the set-pieces included: nothing menacing about already (one kind at a time) and the hard gap since the last body passed.</summary>
-    public static bool BodyMayCome(int menacingCount, double sinceBodyMs, double gapMs) => menacingCount == 0 && sinceBodyMs >= gapMs;
+    /// <summary>The gate on every body, the set-pieces included: fewer kinds of menacing thing about than the level allows (<see cref="Roster.MaxKinds"/>: one in Classes 0 to 2, two in 3 to 5) and the hard gap since the last body passed.</summary>
+    public static bool BodyMayCome(int kinds, int maxKinds, double sinceBodyMs, double gapMs) => kinds < maxKinds && sinceBodyMs >= gapMs;
 
     /// <summary>
     /// One tick's roll: the body roll first (through <see cref="BodyMayCome"/>), then the sound roll, which the one-kind rule does not touch.
     /// </summary>
-    /// <param name="menacing">How many menacing entities are about already.</param>
+    /// <param name="kinds">How many different kinds of menacing entity are about already.</param>
     /// <param name="isWorst">In one of the worst places (a Red Room): Level 0's hunters are stalkers anywhere else.</param>
     /// <param name="sinceBodyMs">Real milliseconds since the last body for this place (a large number if never).</param>
     /// <param name="sinceSoundMs">Real milliseconds since the last distant sound.</param>
-    public static RollKind Roll(MenaceBand band, int level, double menace, double spawns, double sinceBodyMs, double sinceSoundMs, bool inDen, int menacing, bool isWorst, Random rand)
+    public static RollKind Roll(MenaceBand band, int level, double menace, double spawns, double sinceBodyMs, double sinceSoundMs, bool inDen, int kinds, bool isWorst, Random rand)
     {
         double body = BodyMeanMs(band, level, menace, spawns, inDen);
-        if (BodyMayCome(menacing, sinceBodyMs, HardGapShare * body) && rand.NextDouble() < TickSeconds * 1000 / ((1 - HardGapShare) * body))
+        if (BodyMayCome(kinds, Roster.MaxKinds(level), sinceBodyMs, HardGapShare * body) && rand.NextDouble() < TickSeconds * 1000 / ((1 - HardGapShare) * body))
         {
             RollKind kind = BodyKind(band, level, rand);
             // The Lobby is empty, as the lore has it: nothing hunts there but in the Red Rooms
@@ -110,7 +110,7 @@ public partial class MenaceSystem
     };
 
     /// <summary>Runs the rolls over simulated hours of ticks and reports the rates (/backrooms ratecheck). Null if the band is not one.</summary>
-    public static string RateCheck(int level, string bandWord, double hours, double spawns, string settingCode, int menacing, Random rand)
+    public static string RateCheck(int level, string bandWord, double hours, double spawns, string settingCode, int kinds, Random rand)
     {
         bool inDen = bandWord == "den";
         MenaceBand band = inDen ? MenaceBand.Threshold : bandWord switch
@@ -130,7 +130,7 @@ public partial class MenaceSystem
         {
             sinceBody += tick;
             sinceSound += tick;
-            RollKind kind = EncounterRoll.Roll(band, level, menace, spawns, sinceBody, sinceSound, inDen, menacing, false, rand);
+            RollKind kind = EncounterRoll.Roll(band, level, menace, spawns, sinceBody, sinceSound, inDen, kinds, false, rand);
             if (kind == RollKind.Nothing) continue;
             if (kind == RollKind.Sound)
             {
@@ -147,10 +147,10 @@ public partial class MenaceSystem
         string Mean(double ms, int n) => n > 0 ? (ms / n / 60000).ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) : "-";
         string Lowest(double ms) => ms < double.MaxValue ? (ms / 60000).ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) : "-";
         var text = new StringBuilder();
-        text.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, "ratecheck Level {0} {1} (menace {2:0.0}, setting {3}, {4:0.#} h, {14} menacing about): bodies {5:0.0}/h (glimpse {6:0.0}, stalk {7:0.0}, hunt {8:0.0}), sounds {9:0.0}/h; "
+        text.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, "ratecheck Level {0} {1} (menace {2:0.0}, setting {3}, {4:0.#} h, {14} kinds of menacing thing about (of {15} allowed)): bodies {5:0.0}/h (glimpse {6:0.0}, stalk {7:0.0}, hunt {8:0.0}), sounds {9:0.0}/h; "
             + "body gap mean {10} min, min {11} min; sound gap mean {12} min, min {13} min",
             level, bandWord, menace, settingCode, hours, bodies / hours, glimpse / hours, stalk / hours, hunt / hours, sounds / hours,
-            Mean(bodyGapSum, Math.Max(0, bodies - 1)), Lowest(bodyGapMin), Mean(soundGapSum, Math.Max(0, sounds - 1)), Lowest(soundGapMin), menacing);
+            Mean(bodyGapSum, Math.Max(0, bodies - 1)), Lowest(bodyGapMin), Mean(soundGapSum, Math.Max(0, sounds - 1)), Lowest(soundGapMin), kinds, Roster.MaxKinds(level));
         return text.ToString();
     }
 
@@ -161,11 +161,11 @@ public partial class MenaceSystem
         int level;
         string band;
         double hours = 50;
-        int menacing = 0;
+        int kinds = 0;
         if (!args.Parsers[3].IsMissing)
         {
             string extra = ((string)args[3]).Trim().ToLowerInvariant();
-            if (!extra.StartsWith("menacing=", StringComparison.Ordinal) || !int.TryParse(extra.Substring(9), out menacing)) return TextCommandResult.Error("The last argument is menacing=<n>");
+            if (!extra.StartsWith("menacing=", StringComparison.Ordinal) || !int.TryParse(extra.Substring(9), out kinds)) return TextCommandResult.Error("The last argument is menacing=<n>, how many kinds of menacing thing are about");
         }
         if (levelWord == "here")
         {
@@ -181,7 +181,7 @@ public partial class MenaceSystem
             band = ((string)args[1]).Trim().ToLowerInvariant();
             if (!args.Parsers[2].IsMissing) hours = (double)args[2];
         }
-        string text = RateCheck(level, band, Math.Clamp(hours, 1, 2000), Setting.Spawns, Setting.Code, Math.Max(0, menacing), new Random());
+        string text = RateCheck(level, band, Math.Clamp(hours, 1, 2000), Setting.Spawns, Setting.Code, Math.Max(0, kinds), new Random());
         return text == null ? TextCommandResult.Error($"No rolls in the {band} band: use heartland, approach, threshold or den") : TextCommandResult.Success(text);
     }
 }
