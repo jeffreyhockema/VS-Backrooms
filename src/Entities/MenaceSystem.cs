@@ -209,7 +209,7 @@ public partial class MenaceSystem : ModSystem
                 .HandleWith(OnMenaceCommand)
             .EndSubCommand()
             .BeginSubCommand("ratecheck")
-                .WithDescription("Simulates the director's rolls for hours (default 50) in a level (its id, 94 is 13) and band (heartland, approach, threshold, den) and prints bodies and sounds per hour (the rolls only: real rates are lower, since a body also waits for nothing menacing about and for a spot to put it) ; \"ratecheck here\" uses your own level and band")
+                .WithDescription("Simulates the director's rolls for hours (default 50) in a level (its id, 94 is 13) and band (heartland, approach, threshold, den) and prints bodies and sounds per hour (the rolls only: real rates are lower, since a body also waits for fewer kinds of menacing thing about than the level allows (one in Classes 0 to 2, two in 3 to 5) and for a spot to put it; the optional last argument menacing=<n> says how many kinds are about); \"ratecheck here\" uses your own level and band")
                 .WithArgs(api.ChatCommands.Parsers.Word("level"), api.ChatCommands.Parsers.OptionalWord("band"), api.ChatCommands.Parsers.OptionalDouble("hours"), api.ChatCommands.Parsers.OptionalWord("menacing"))
                 .HandleWith(OnRateCheckCommand)
             .EndSubCommand()
@@ -242,7 +242,7 @@ public partial class MenaceSystem : ModSystem
                     if (!watches.TryGetValue(entity.EntityId, out Watch watch)) watches[entity.EntityId] = watch = new Watch();
                     Assess(entity, watch);
                     StartScreaming(entity, watch);
-                    return TextCommandResult.Success(watch.Now.Level is 1 or 2 ? "Something is screaming" : "The rats are coming (the lights only fail in Levels 1 and 2)");
+                    return TextCommandResult.Success(watch.Now.Level is 1 or 2 ? "Something is screaming" : "The rats are coming (the Screaming is Level 2's; the lights only fail in Levels 1 and 2 here)");
                 })
             .EndSubCommand()
             .BeginSubCommand("entitylog")

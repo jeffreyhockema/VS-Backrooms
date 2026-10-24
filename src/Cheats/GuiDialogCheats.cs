@@ -262,7 +262,7 @@ public class GuiDialogCheats : GuiDialog
         y = ButtonGrid(c, y, new[]
         {
             B("L1 Flickering", "/backrooms flicker", "The lights round you go out and Hounds hunt until they come back"),
-            B("Rats' Screaming", "/backrooms scream", "The lights fail in Levels 1 and 2 and a pack of Death Rats runs past"),
+            B("Rats' Screaming", "/backrooms scream", "The lights fail (the Screaming comes by itself only in Level 2) and a pack of Death Rats runs past"),
             B("Mangled's weather", "/backrooms mangled", "Its cold weather comes down on you; in the Suburbs, it then comes"),
             B("L10 fog spell", "/backrooms fogspell", "Moves the calendar on to the thick of the next spell of fog over Level 10's fields"),
             B("L5 Beast", "/backrooms beast", "The Beast of Level 5 chooses you: the music stops, a drum, then he comes with his offer (anywhere)"),

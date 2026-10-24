@@ -164,6 +164,18 @@ Branch `iso/director`. The director rolls bodies and sounds as rates now (isolat
 - The mod page's lineup image `docs/moddb/img/42-what-lives-here.jpg` has no Watcher; re-render it if a new lineup is made.
 - Fixed now: a fed Skin-Stealer turning hungry kept its clothed look (EntityBehaviorMenace).
 
+### P7, round 5 (2026-10-23): piece A, director and settings
+
+Branch `dialin/director` (off `p7/dialin`), not merged.
+- **Settings:** six codes (off, verylow, low, normal, high, veryhigh) in `worldconfig.json`, the three worldconfig lang files and the cheat menu. `Difficulties`: spawns 1 / 1 / 2 / 3.5 / 5.5 / 8.5, damage 0 / 0.5 / 0.75 / 1 / 1.3 / 1.6; high adds 0.3 danger to the body mix and +1 cap in the approach and threshold bands, very high 0.6 and +1 in every band. Held in `Roster` statics set once by `Roster.ApplySetting` at world load (the rolls stay pure; `ratecheck` therefore always shows mix and caps of the world's setting). Unknown codes fall back to normal and log a line.
+- **Director:** `HardGapShare` 0.25; bands from depth 0.5 / 0.8; the Flickering start takes `BodyAllowed` again; the Screaming starts only in Level 2 (the `scream` cheat still reaches the Level 1 Hound branch); Level 1 Pack dens are no den in `Rate` via `Roster.DenActive` (the only place `DenNear` feeds the director; Hives only look for Hive dens).
+- **One kind by class:** `Roster.LoreClass` / `MaxKinds` (2 kinds in Classes 3 to 5: Levels 2, 3, 7, 8, 9, Fun, 94, 188), `CountMenacingKinds`, `EncounterRoll.BodyMayCome(kinds, maxKinds, sinceBodyMs, gapMs)`. Ratecheck's `menacing=<n>` is a kinds count; its output line says "n kinds of menacing thing about (of m allowed)".
+- **Rosters:** Level 10 empty; Danger Motion 0.4; Solitude 1 1.3, 3 0.45, 8 0.5, 9 0.3, Fun 0.4, Motion 0.6.
+- **Measured ratecheck (normal, 50 h; bodies/h):** L1 heartland 5.4 (11 min mean; sounds 18/h), L1 approach 14.2, L1 threshold 45, L3 heartland 16, L94 approach 33 / threshold 100, L9 heartland 23, L9 threshold 202, L5 approach 17, L2 approach 28, L4 approach 13, L0 heartland 4.5 (glimpses only), L6 heartland 2.2. Very high, L1 heartland: 13.5/h (2.4x normal), high 8.9, low 2.9, verylow 1.5, off 1.7 (rolls only; no bodies are put down).
+- **Harness:** `iso` 2/2 (iso-rates recentred at +-35 % of the measured values, hard-gap floor 2.6 min; iso-one-kind), `iso-hound` 4/4, `p7` 4/4. All six setting codes load through `/worldconfig` plus restart with no warning; `bogus` logs the fallback and reads normal. Blind reviewer: no plan mismatches; fixed the stale ratecheck description and scream strings.
+- **Could not check:** a client play (felt rate, Flickering gating live); the Flickering's new gate headless (the start needs a roll in the outer ring); the 0.514.0 world load (overseer).
+- **Lessons:** `--withconfig` WorldConfig does not override the playstyle's `backroomsMenace`; to start a headless server on another setting run `/worldconfig backroomsMenace <code>`, stop and restart on the same data dir. An existing "low" world gets spawns 2 (was 0.6) and damage 0.75 (was 0.5): piece C's changelog should say so.
+
 ## Lessons
 
 (Engine gotchas, profile fields that had to be added, harness quirks. Start here before P0: the gotchas in README
