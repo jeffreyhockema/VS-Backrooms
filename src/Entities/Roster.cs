@@ -567,5 +567,9 @@ public static class Roster
         },
     };
 
+    /// <summary>The far-off cries of a dark's hunters: only Hound sounds for the Hounds, only rat sounds for the rats.</summary>
+    public static DistantSound[] HoundCues => new[] { HoundHowl, HoundGrowl };
+    public static DistantSound[] RatCues => new[] { Squeak, Scuttle };
+
     public static DistantSound[] SoundsFor(int level) => SoundsByLevel.TryGetValue(level, out DistantSound[] s) ? s : Array.Empty<DistantSound>();
 }

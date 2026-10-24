@@ -973,6 +973,8 @@ ISO_HOUND_CASES = [("iso-hound-nerve", t_iso_hound_nerve), ("iso-hound-back-turn
 
 HOUND_AT_RE = re.compile(r"\[backrooms\] hound #(\d+) at (-?\d+),(-?\d+),(-?\d+): starts:")
 FLICKER_DELAY_RE = re.compile(r"flicker: the Hounds come in ([\d.]+) s")
+CUE_RE = re.compile(r"\[backrooms\] sound (\S+) for")
+BAND_RE = re.compile(r"hound x\d+ \(\w+\) for .*band (\w+)")
 
 
 def t_p7_flicker(c):
@@ -994,26 +996,37 @@ def t_p7_flicker(c):
         m = c.srv.mark()
         t0 = time.time()
         c.srv.cmd("/backrooms flicker")
+        # Another menacing entity about (a Wretch stalking): the Hounds must come all the same
+        time.sleep(0.5)
+        if dummy:
+            c.srv.cmd("/backrooms encounter wretch stalk %d %d" % (dummy[0], dummy[1]))
         r = c.srv.wait(lambda l: ("lights fail" in l and l) or ("Needs a player" in l and l) or ("Hounds are coming" in l and l), m, 10)
         if not r or "lights fail" not in r:
             ev = "attempt %d: flicker reply: %s" % (attempt + 1, r)
             continue
         first = None
+        cue_at = None
         end = time.time() + 45
         while time.time() < end and first is None:
+            if cue_at is None and any(CUE_RE.search(l) for l in c.srv.since(m)):
+                cue_at = time.time() - t0
             for l in c.srv.since(m):
                 mm = HOUND_AT_RE.search(l)
                 if mm:
                     first = (time.time() - t0, int(mm.group(2)), int(mm.group(4)), mm.group(1))
                     break
             time.sleep(0.2)
+        cues = [mm.group(1) for mm in (CUE_RE.search(l) for l in c.srv.since(m)) if mm]
+        band = next((mm.group(1) for mm in (BAND_RE.search(l) for l in c.srv.since(m)) if mm), "?")
         delay = next((float(mm.group(1)) for mm in (FLICKER_DELAY_RE.search(l) for l in c.srv.since(m)) if mm), None)
         if first is None:
             ev = "attempt %d: no Hound put down in 45 s (delay %s)" % (attempt + 1, delay)
             continue
         off = ((first[1] - dummy[0]) ** 2 + (first[2] - dummy[1]) ** 2) ** 0.5
         ev = "attempt %d: delay %.1f s, first Hound at %.1f s, %.0f blocks off" % (attempt + 1, delay or -1, first[0], off)
-        late_enough = first[0] >= 7.5 and delay is not None and 8 <= delay <= 15.1
+        cue_ok = len(cues) >= 1 and all("wolf" in x for x in cues) and cue_at is not None and cue_at <= 4.8
+        ev += "; first cue at %s s, cues %s; band %s" % (cue_at, cues, band)
+        late_enough = first[0] >= 4.5 and delay is not None and 5 <= delay <= 10.1 and cue_ok
         # Run the dummy away: while the lights are out it must not be called off for lack of blood nor leave, and ends up hunting or searching
         c.srv.cmd("/backrooms dummy run on")
         c.srv.cmd("/backrooms dummy move 30 0")
@@ -1040,6 +1053,119 @@ def t_p7_flicker(c):
 
 FLICKER_CASES = [("p7-flicker", t_p7_flicker)]
 
+
+
+# ---------------------------------------------------------------- P7 round 2: the Skin-Stealer (group p7-stealer)
+STEALER_RE = re.compile(r"Skin-Stealer #(\d+): (fed|hungry).*?, (\w+), at (-?[\d.]+),(-?[\d.]+),(-?[\d.]+)")
+
+
+def _stealer_status(c):
+    m = c.srv.mark()
+    c.srv.cmd("/backrooms feed status")
+    r = c.srv.wait(lambda l: STEALER_RE.search(l) or ("No Skin-Stealer" in l and l), m, 8)
+    return r if hasattr(r, "group") else None
+
+
+def _move_dummy_to(c, e, want, at):
+    """Moves the dummy (tracked in e.dummy) to `want` blocks from the point `at` (x, z), along the line from where it stands."""
+    dx, dz = at[0] - e.dummy[0], at[1] - e.dummy[1]
+    dist = (dx * dx + dz * dz) ** 0.5 or 1
+    mx, mz = round(dx * (dist - want) / dist), round(dz * (dist - want) / dist)
+    c.srv.cmd("/backrooms dummy move %d %d" % (mx, mz))
+    e.dummy = (e.dummy[0] + mx, e.dummy[1] + mz)
+    time.sleep(1.5)
+
+
+def t_p7s_fed_guard(c):
+    # A fed stealer 12+ blocks off stays Ambient; the dummy comes within about 3 blocks and it turns on them (Ambient > Hunt); the
+    # dummy goes 20 blocks off and it is calm again (Hunt > Ambient), without Stalk, Leave or a hunt from afar.
+    ev = "no spot"
+    for _ in range(6):
+        try:
+            e = Enc(c, "skinstealer", "ambient", 14, level="1", min_band=("Heartland", "Approach", "Threshold"), ident=False)
+        except RuntimeError as ex:
+            return False, str(ex)
+        time.sleep(1)
+        m = c.srv.mark()
+        c.srv.cmd("/backrooms feed fed")
+        st = c.srv.wait(lambda l: STEALER_RE.search(l) or ("No Skin-Stealer" in l and l), m, 8)
+        e.mark = c.srv.mark()
+        if not hasattr(st, "group"):
+            e.finish()
+            continue
+        e.id = st.group(1)
+        pos = (float(st.group(4)), float(st.group(6)))
+        far = ((pos[0] - e.dummy[0]) ** 2 + (pos[1] - e.dummy[1]) ** 2) ** 0.5
+        if far < 8:
+            e.finish()
+            continue
+        time.sleep(8)
+        quiet = not [k for k in e.kinds()] and not [l for l in e.lines() if l.startswith(("Stalk", "Hunt"))]
+        _move_dummy_to(c, e, 3, pos)
+        turned = e.wait_for(lambda: e.has("Ambient", "Hunt"), 8)
+        t_turn = time.time() - e.t0
+        time.sleep(2)
+        _move_dummy_to(c, e, 22, pos)
+        calm = e.wait_for(lambda: e.has("Hunt", "Ambient"), 14)
+        bad = [k for k in e.kinds() if k[1] in ("Stalk", "Leave", "Search", "Glimpse")]
+        ev = "band %s; %.0f blocks off at first, quiet 8 s: %s; turned on them: %s; calm after backing off: %s; kinds %s" % (
+            e.band, far, quiet, turned, calm, e.changes() or "none")
+        e.finish()
+        if quiet and turned and calm and not bad:
+            return True, ev
+    return False, ev
+
+
+def t_p7s_hungry_comes(c):
+    # A hungry stealer stalks a dummy in the Approach or Threshold band: it must come for them (Stalk > Hunt) without leaving.
+    ev = "no spot"
+    for _ in range(6):
+        try:
+            e = Enc(c, "skinstealer", "stalk", 14, level="1", min_band=("Approach", "Threshold"))
+        except RuntimeError as ex:
+            return False, str(ex)
+        e.wait_for(lambda: e.dist() is not None, 8)
+        c.srv.cmd("/backrooms feed hungry")
+        limit = 22 if e.band == "Threshold" else 40
+        # (A spot where it never sees the dummy proves nothing)
+        if not e.wait_for(lambda: e.count_lines("sees its target") > 0, 6):
+            ev = "never saw the dummy"
+            e.finish()
+            continue
+        t0 = time.time()
+        came = e.wait_for(lambda: e.has("Stalk", "Hunt") or e.has("Glimpse", "Hunt"), limit)
+        took = time.time() - t0
+        left = [k for k in e.kinds() if k[1] == "Leave"]
+        ev = "band %s; came for them: %s after %.0f s (limit %d); Leave %s; kinds %s; escalation lines %d" % (
+            e.band, came, took, limit, bool(left), e.changes() or "none", e.count_lines("stalked long enough"))
+        e.finish()
+        if came and not left:
+            return True, ev
+    return False, ev
+
+
+def t_p7s_hungry_glimpse(c):
+    # A hungry glimpse that has watched them for a while follows (Glimpse > Stalk) rather than walking off, from the Approach band out.
+    ev = "no spot"
+    for _ in range(6):
+        try:
+            e = Enc(c, "skinstealer", "glimpse", 18, light=14, level="1", min_band=("Approach", "Threshold"))
+        except RuntimeError as ex:
+            return False, str(ex)
+        # (A glimpse that stands and sees: crossings go straight to Leave with no walking, and some are put down fed, so docile)
+        if not e.wait_for(lambda: e.count_lines("sees its target") > 0 or e.has("Glimpse", "Leave") or e.has("Ambient", "Hunt"), 6)                 or e.count_lines("sees its target") == 0:
+            ev = "no standing glimpse with a clear line (%s)" % (e.changes() or "none")
+            e.finish()
+            continue
+        turned = e.wait_for(lambda: e.has("Glimpse", "Stalk") or e.has("Glimpse", "Hunt"), 12)
+        ev = "band %s; glimpse turned to stalk: %s; kinds %s" % (e.band, turned, e.changes() or "none")
+        e.finish()
+        if turned:
+            return True, ev
+    return False, ev
+
+
+STEALER_CASES = [("p7-stealer-fed", t_p7s_fed_guard), ("p7-stealer-hungry", t_p7s_hungry_comes), ("p7-stealer-glimpse", t_p7s_hungry_glimpse)]
 
 
 def smoke(c):
@@ -1078,13 +1204,15 @@ def main():
         only = (only - {"p26"}) | {n for n, _ in P26_CASES}
     if only and "p7" in only:
         only = (only - {"p7"}) | {n for n, _ in P7_CASES}
+    if only and "p7-stealer" in only:
+        only = (only - {"p7-stealer"}) | {n for n, _ in STEALER_CASES}
     if only and "iso" in only:
         only = (only - {"iso"}) | {n for n, _ in ISO_CASES}
     if only and "iso-hound" in only:
         only = (only - {"iso-hound"}) | {n for n, _ in ISO_HOUND_CASES}
     if only:
         # A mistyped name would otherwise boot the server (up to 15 minutes), run nothing and exit 0
-        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES} | {"p1-no-errors", "dummies-smoke"}
+        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES} | {"p1-no-errors", "dummies-smoke"}
         if only - known:
             sys.exit("unknown case(s): " + ", ".join(sorted(only - known)))
     started = time.time()
@@ -1098,7 +1226,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()

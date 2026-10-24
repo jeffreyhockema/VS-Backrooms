@@ -218,7 +218,13 @@
 						"stunDamage": 5,
 						"stunSeconds": 1.2,
 						"stunCooldownSeconds": 8,
-						"stunAnimation": "hurt"
+						"stunAnimation": "hurt",
+						"fedGuardRange": 5,
+						"fedGuardRelease": 12,
+						"fedGuardSeconds": 6,
+						"glimpseTurnsToStalk": true,
+						"escalateThreshold": 8,
+						"escalateApproach": 20
 					},
 					{
 						"code": "idle",
@@ -231,17 +237,16 @@
 						"maxcooldown": 90000
 					},
 					{
-						"code": "wander",
+						"code": "backrooms-amble",
 						"priority": 1.0,
 						"priorityForCancel": 1.35,
-						"movespeed": 0.006,
-						"animation": "walk",
-						"animationSpeed": 1.0,
-						"maxDistanceToSpawn": 24
-					},
-					{
-						"code": "lookaround",
-						"priority": 0.5
+						"movespeed": 0.007,
+						"walkAnimation": "walk",
+						"maxDistanceToSpawn": 24,
+						"minWalk": 4,
+						"maxWalk": 12,
+						"mincooldown": 6000,
+						"maxcooldown": 22000
 					}
 				]
 			},
