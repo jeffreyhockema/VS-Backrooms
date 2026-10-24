@@ -7,7 +7,7 @@ Everything the mod adds, level by level. It is full of spoilers: if you would ra
 Create a new world and pick the **Backrooms: Survival Story** playstyle. It only affects worlds created with that playstyle. Normal worlds are untouched. A world keeps the layout it was made with; this guide describes the newest.
 
 - **Map (M / F6):** the map only shows what you have actually seen. It reveals the area around you along your line of sight, so walls block it. Explored areas are remembered between sessions, so you can find your way back.
-- **Handbook (H):** in a Backrooms world the Guides tab is rewritten for the Backrooms, in the voice of the vanilla guides. The Starter Guide, the Progression Guide and Reality Stability replace their vanilla pages; eight pages are added after the Progression Guide (Home and Expeditions; Finding the Way; Salvage; Food, Heat and Cold; The Levels: 0 to 11; The Levels: Beyond the Rings; Ways Between Levels; What Lives Here); and every other vanilla guide (knapping, farming, smelting, steelmaking…) keeps its text but opens with an "In the Backrooms" preface saying what is different here. Other worlds keep the vanilla handbook.
+- **Handbook (H):** in a Backrooms world the Guides tab is rewritten for the Backrooms, in the voice of the vanilla guides. The Starter Guide, the Progression Guide and Reality Stability replace their vanilla pages; nine pages are added after the Progression Guide (Home and Expeditions; Finding the Way; Salvage; Food and Water; Rest and Sleep; The Levels: 0 to 11; The Levels: Beyond the Rings; Ways Between Levels; What Lives Here); and every other vanilla guide (knapping, farming, smelting, steelmaking…) keeps its text but opens with an "In the Backrooms" preface saying what is different here. Other worlds keep the vanilla handbook.
 - **Tutorial:** the Tutorials tab holds *Backrooms: First Steps*, a 15-step quick start on the game's own tutorial system (read the pocket note, open the boxes, glass, cutting, shiv, bags, scraper, tinder, torch, map, handbook) that replaces the vanilla First Steps in Backrooms worlds and starts by itself the first time you join one (`.tutorial hud` hides it; your progress is kept on your own computer).
 - **Starting waypoint:** "Where I woke up" marks your starting point.
 - **Your own waypoints:** right-click the map to add one.
@@ -27,7 +27,7 @@ The Backrooms are survived from a home, in expeditions.
 - **You only ever wake up in Level 0.** Die anywhere and you wake in the Lobby, and what you carried waits in your body where you fell, for as long as it takes (the map marks it, and it never despawns). A temporal gear still moves where you wake, but only within Level 0; elsewhere it will not take hold and is not used up. Everything a home needs (a door, a chest, fire, seeds, soil) has to be brought back from deeper levels.
 - **The walls between levels are solid, but for gates.** A gate (a doorway through) comes every few hundred blocks along a boundary. Chalk arrows on the walls nearby point the way to one, and wanderers' notes tell of them. Walking the wall looking for one is walking the most dangerous ground of a level.
 - **Food is scarce.** Most supply boxes and crates were gone through long ago: a torn box or an emptied crate can be told from across the room and never holds food. Level 0's boxes were left in twos and threes in the corners of rooms, about one cell in six (one in three or four in the blackouts), plus the caches at the hearts of dens; a sealed box holds some five minutes of walking's food. The deeper the level, the less is picked over; rooms behind locked doors and the hearts of dens were never touched. Hunger runs at 125%.
-- **Heat and cold.** From 30 °C up you go hungry faster, up to half again as fast (Levels 2 and 3, Level 5's boiler halls). Levels 6 and 8 are cold enough to want clothes. Level 0's blackout zones are cold and damp, so food keeps there.
+- **Heat and cold.** From 30 °C up you go thirsty faster (or hungry, with Thirst turned off), up to half again as fast (Levels 2 and 3, Level 5's boiler halls). Levels 6 and 8 are cold enough to want clothes. Level 0's blackout zones are cold and damp, so food keeps there.
 - **Farming at home.** Crops grow in Level 0 under the ceiling lights (light 15 under a working troffer gives about 60% of daylight growth) on soil from potted plants, watered from a flooded room or a bucket. Seed packets come from Level 9's sheds and kitchens and, rarely, supply boxes.
 
 | New | What it is | Where |
@@ -122,6 +122,37 @@ Some limits:
 - The Level 10 crops grow in old, exhausted farmland, so seeds planted back in it will not grow. Hoe fresh soil instead.
 - Temporal gears are very rare: a supply box gives one about once in a hundred.
 
+### Water
+
+Water is a bar of its own, above the food bar. It runs down about as hunger does: a full one lasts about 25 minutes of walking, or about 100 minutes standing still, and sprinting empties it faster. Above 30 °C it runs faster, up to half again as fast; heat makes you thirsty, not hungry.
+
+- **Drinks.** Almond Water, Cashew Water and a plain water bottle fill two-fifths of the bar and give no food. Almond Water restores 15% stability and leaves an empty bottle. Almond Milk fills about a third and feeds you; soda about a fifth; juice boxes and strawberry milk about a quarter; Red Water about an eighth; Memory Juice less than a tenth. Chips, crackers and the other food are as before.
+- **Water in the world.** With empty hands, hold right-click on water for a second to drink a litre. The clean pools of Level 8's caves, Level 10's ponds, the pools of Level 37, the basin of Level 94's town fountain and Level 974 fill the bar as well as Almond Water does. The sumps and puddles of Levels 1 to 5, the flooded tunnels, house pools, city water and fountains, the natatorium of Level 3999 and the water of Level 188 are tainted: half as much, a little stability lost, and one drink in four gives gut rot (thirst and hunger run faster for about 20 minutes). Level 7's sea and Level Fun's sea are salt: drinking makes you thirstier. The boiling pools of Level 5's sumps scald.
+- **Bottles.** Empty bottles stack 16. Fill one from any water, clean, murky or salt by where it came from. A murky bottle boils clean in a lit firepit; salt water never does, and that is how water gets from the wet levels into the dry ones.
+- **Running low.** Below two-fifths of the bar you slow, a quarter slower at empty; below a fifth it flashes. At empty you lose a little health every few seconds (0.2 every six seconds), Reality Stability drains (a -0.2 offset), and the Wretches come for the parched as they do for the starving.
+- **Settings.** *Thirst* (under Survival challenges) turns all of this off. With it off, drinks are food as before, nothing runs dry, no bottles are left, world water cannot be drunk, and heat drains hunger.
+
+### Rest
+
+The Rest bar sits above your health. It starts full at 48 minutes of play awake (a game hour is two real minutes here, and a day is 48), and it empties as you stay awake.
+
+- **Rested** (0 to 48 minutes awake). Nothing. A bed will not take you yet: "not tired enough".
+- **Drowsy** (48 to 90 minutes). You can sleep, and you are told once: "You could sleep now". From about an hour awake Reality Stability starts to drain, a little.
+- **Exhausted** (90 to 120 minutes). You walk a tenth slower, Reality Stability drains faster the longer you go, and the things that live here come more often (up to two and a half times as often, as the Hunt grows).
+- **Dead on your feet** (from two hours). You walk a fifth slower, your Reality Stability drains hard (a -0.5 offset), the bar flashes, the screen dims and blinks, and the things that live here come up to three and a half times as often. The Wretches come for you as they do for the starving. Nothing kills you outright; the Backrooms do.
+
+**Sleeping.** Right-click a bed once you are drowsy. While you sleep the Rest bar fills, and the clock runs fast as in any Vintage Story world: a night's sleep in a good bed takes you from dead on your feet to rested. On a server the clock hurries only when everyone is asleep.
+
+**Beds.** Each bed has a quality that sets how fast it refills you. Hotel beds (Level 5's rooms, the houses of Levels 9, 11 and 94, Kitty's bedroom and Level 188's rooms) are the best, at full quality. Hospital beds are 0.9. Cots (the Safe Zone, the Hub) and sleeping bags are 0.75. Makeshift beds and bedrolls of the camps are 0.6, and so is the carpet bedroll, which you can make: a 2 by 3 grid of **4 carpet fibres + 2 wallpaper strips** (fibres along the top and bottom, strips across the middle). It goes down anywhere, and breaks back into itself.
+
+**What wakes you.** You wake rested, or sooner if you take damage ("Pain wakes you"), a creature that hunts or stalks you comes within six blocks ("Something is in the room"), or your water or food falls below a tenth ("Thirst wakes you" or "Hunger wakes you"; you cannot sleep again until you have eaten or drunk). Crouching gets you up.
+
+**Night visits.** Sleeping in an ordinary level can draw a visit: a hunting creature placed out of sight 12 to 18 blocks away, coming for the sleeper. Per slept game hour the odds are 6% times the level's danger: about one night in eight in Level 1, one in four in Level 5, more than one in three in the deepest levels. Level 0, the safe places and anywhere beside a wanderer never get a visit. A closed door within four blocks of the bed halves the odds.
+
+**Blue and Green Almond Water.** Blue hydrates and makes you drowsy at once, and steadies you (+0.25). Green hydrates, holds the tiredness off for about twenty minutes, and then the sleep it held back lands at once (eight hours of wakefulness, sixteen real minutes; drink two and it lands twice).
+
+Sitting by a fire or beside a wanderer keeps the things back (see [Home and expeditions](#home-and-expeditions)), but only sleep refills the Rest bar.
+
 ### Reality Stability
 
 The gear on the HUD shows how firmly you are anchored. It is Vintage Story's temporal stability, with the Backrooms' own geography.
@@ -130,6 +161,7 @@ The gear on the HUD shows how firmly you are anchored. It is Vintage Story's tem
   - Kind places: the Manila Room, the Level 1 car park, all of Level 4, the Beverly Room, Level !'s Safe Zone, The End's central hall, the Hub, Kitty's House for its first 18 hours, Level 3999 wherever its neon is lit (the lobbies most), and Level 188's guest rooms.
   - Bad places: Level 0's blackout zones and above all its Red Rooms, Level 2, Level 3 (worst in its flooded tunnels), the hotel corridors and above all the boiler halls, Level ! outside the Safe Zone, all of Level Fun (and its Party Fever lowers your cap), The End away from its middle and after two hours there, Kitty's House after 18 hours, Level 3999's failing neon and its Neon Blackout (3999.1), Level 188's corridors, courtyard and roof (most of all near a beckoning window).
 - **Almond Water** restores some stability when you drink it.
+- **Going without** sleep or water drains it too: see Water and Rest above. Exhaustion and an empty water bar drain you wherever you stand.
 - **Reality Shifts:** about once every 30 in-game hours the lights fail for a few hours. Everything beyond a few steps is lost in black, and stability drains everywhere.
 
 ### Things that live here
@@ -185,6 +217,7 @@ The Backrooms are not empty, but what lives in them is there to be heard and gli
   - **Seen areas, no waypoints:** the map still fills in as you explore, but nothing is marked for you, not even where you woke up or where you died (vanilla's death waypoint is off too, and so is the mark of your body; you are told which way it lies when you wake). Add your own waypoints. Notes still give a direction and a number of paces, and your journal keeps them; registers, directories and the like tell you the direction and paces in chat instead of marking the map.
   - **None:** no world map and no minimap; the map keys do nothing and waypoints can't be made. Notes, registers and directories tell you the way as above. Chalk is how you find your way back, and crumbled ceiling tiles and lost backpacks give half as much again of it. A player granted vanilla's `allowMap` privilege still sees the map, but the Backrooms treat the world as mapless for them too: nothing is marked, and the tutorial is the no-map one.
   - In both, the First Steps tutorial's note and map steps are worded for the setting, and The End's computers tell you the way out instead of marking it.
+- **Thirst and Fatigue**, under Survival challenges: both on by default, in new worlds and in worlds made before this update (those get both on, with a one-time chat note). Turn one off when you make a world, or later with `/worldconfig backroomsThirst false` or `/worldconfig backroomsFatigue false` (they take effect at once).
 - **Level size**, under World generation when creating a world: *Backrooms level size* (50%, 75%, 100%, the default, 150% or 200%) sets how wide the rings of levels are, so how far you go through each level before the next begins. Only the distance changes: the rooms, halls and buildings of every level are as big as ever, Level 10 still goes on forever, and the city and the other far places lie where they always do. At 50% and 75% no level is ever thinner anywhere than the thinnest stretch of a 100% world; at 150% and 200% in a map smaller than the default million blocks across, the rings are held back a kilometre and a half from the city where they would otherwise run into it, so in those directions they are not as much wider (but never narrower than at 100%). It is fixed when the world is created: changing it later changes nothing, and existing worlds stay at 100%.
 
 ### The topology lies

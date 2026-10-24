@@ -992,7 +992,7 @@ FACTS = [
     "8 planks + 1 nails and strips", "2 metal brackets", "each bottle restores 15%", "salt + powdered sulfur = 2",
     "20 metal bits = 1 ingot", "10 scrap wire = 1 copper ingot", "within 3 blocks of water", "flax twine + linen",
     "one steel tunnel door in 40", "one locked room in 150", "1 in 20", "8 blocks of concrete", "9 ingots for an anvil",
-    "a temporal gear", "Almond Water", "Firesalt",
+    "a temporal gear", "Almond Water", "Firesalt", "4 carpet fibres + 2 wallpaper strips",
     "40 tickets a day", "200 tickets", "costs 6 tickets", "three days", "six seconds at the glass",
 ]
 

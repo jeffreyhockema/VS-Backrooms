@@ -55,6 +55,8 @@ From there the normal Vintage Story path carries on with materials found level b
 
 **Home is Level 0.** Die anywhere and you wake in the Lobby; what you carried waits in your body where you fell, as long as it takes (the map marks it). A temporal gear still moves where you wake, but only within Level 0. Everything a home needs has to be brought back from deeper levels: a door, a chest, fire, seeds, soil. Crops grow under the ceiling lights, watered from a flooded room or a bucket.
 
+**Thirst and sleep.** Water is a bar of its own, and it runs down as food does. Clean pools refill you, puddles can sicken you, and the sea is salt; carry the water home in bottles, or boil the murky ones clean in a firepit. Sleep is a need as well. About an hour awake you can lie down; stay up much longer and the Backrooms come for you. Any bed will do, and a carpet bedroll can be made from carpet and wallpaper. A night's sleep outside a safe place can draw something to your bed.
+
 **Food is scarce.** Most supply boxes and crates were gone through long ago. A box with its lid torn open or a crate already emptied holds no food, and you can spot one from across the room, so you learn where to look: the deeper the level, the less has been picked over, and the rooms behind locked doors and the hearts of dens were never touched. Hunger runs at 125%. Heat makes it worse, and the cold levels want clothes.
 
 **Reality Stability.** Vintage Story's temporal stability, with the Backrooms' own geography. Each area has its own stability. Where it is low the gear turns backwards and yours drains; when yours is low the world distorts. Almond Water restores it. Once in every thirty in-game hours or so the lights fail for a few hours in a Reality Shift, and stability drains everywhere.
@@ -180,6 +182,7 @@ World settings under *Survival challenges* when creating a world:
 
 Under *World generation*:
 
+- **Thirst** and **Fatigue:** on or off, both on by default (worlds made before this update get both on).
 - **Backrooms level size:** 50% to 200% (100% the usual): how wide each ring of levels is, so how far between levels; fixed when the world is made.
 
 ---

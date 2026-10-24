@@ -26,5 +26,9 @@
 	"worldconfig-backroomsLevelSize-75%": "75%",
 	"worldconfig-backroomsLevelSize-100%": "100% (the usual)",
 	"worldconfig-backroomsLevelSize-150%": "150%",
-	"worldconfig-backroomsLevelSize-200%": "200% (twice as far between levels)"
+	"worldconfig-backroomsLevelSize-200%": "200% (twice as far between levels)",
+	"worldattribute-backroomsThirst": "Thirst",
+	"worldattribute-backroomsThirst-desc": "Players need water as well as food. Almond Water is a drink.",
+	"worldattribute-backroomsFatigue": "Fatigue",
+	"worldattribute-backroomsFatigue-desc": "Players need sleep. Going without costs Reality Stability and draws entities."
 }
