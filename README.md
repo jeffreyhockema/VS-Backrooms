@@ -6,7 +6,7 @@ A [Vintage Story](https://www.vintagestory.at/) mod. **Wake up in the Backrooms 
 
 You start in Level 0, an endless, procedurally generated labyrinth of mono-yellow rooms under buzzing fluorescent lights, with a folded note in your pocket and two supply boxes beside you. Walk far enough and it gives way to deeper levels, one after another: the concrete car park of Level 1, the pipe tunnels of Level 2, the Electrical Station, the Abandoned Office, the Terror Hotel, the lightless maze of Level 6, the endless sea of Level 7, the caves of Level 8, the night-time Suburbs and the farmland of Level 10. Further still, reached only by noclipping, lie the Endless City, the Poolrooms, Motion, Level !, Level Fun =), The End, The Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows.
 
-It is a complete survival game built on Vintage Story's own systems. Hunger, temporal stability, knapping, pottery, smelting, farming and animal husbandry all still work; what changes is where everything comes from. You start by cutting a blade from a glass shard, and you end up with a lit home in Level 0, crops under the ceiling lights, copper from the pipes, iron from the caves, and a map of the ways between levels that you drew yourself.
+It is a complete survival game built on Vintage Story's own systems. Hunger, thirst, sleep, temporal stability, knapping, pottery, smelting, farming and animal husbandry all still work; what changes is where everything comes from. You start by cutting a blade from a glass shard, and you end up with a lit home in Level 0, crops under the ceiling lights, copper from the pipes, iron from the caves, and a map of the ways between levels that you drew yourself.
 
 ## Features
 
@@ -23,7 +23,7 @@ It is a complete survival game built on Vintage Story's own systems. Hunger, tem
 
 1. Requires **Vintage Story 1.22** or later.
 2. Download the mod from [its page on the Vintage Story mod database](https://mods.vintagestory.at/show/mod/73380), or build it yourself (see below). Put the zip in your `Mods` folder without unpacking it.
-3. Create a new world and pick the **Backrooms: Survival Story** playstyle. Under *Survival challenges* you can set **Backrooms entities** (Off, Low, Normal, High), **Backrooms scarcity** (Plentiful, Normal, Sparse, Scarce) and **Backrooms map** (Seen areas, Seen areas with no waypoints, None). Under *World generation* there is also **Backrooms level size** (50% to 200%, how wide the rings of levels are).
+3. Create a new world and pick the **Backrooms: Survival Story** playstyle. Under *Survival challenges* you can set **Backrooms entities** (Off, Low, Normal, High), **Backrooms scarcity** (Plentiful, Normal, Sparse, Scarce), **Backrooms map** (Seen areas, Seen areas with no waypoints, None), and **Thirst** and **Fatigue** (both on by default, so you need water and sleep). Under *World generation* there is also **Backrooms level size** (50% to 200%, how wide the rings of levels are).
 
 The mod only affects worlds created with its playstyle. Your other worlds are untouched.
 

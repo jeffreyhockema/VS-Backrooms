@@ -49,7 +49,7 @@ You have woken in Level 0, the Lobby: yellow wallpaper, damp carpet and humming 
 - **You only ever wake up in Level 0.** Die anywhere and you wake in the Lobby, and what you carried waits in your body where you fell, for as long as it takes. A [temporal gear](item-gear-temporal) moves where you wake, but only within Level 0. See [Home and Expeditions](backrooms-home).
 - **Nothing grows in Levels 0 to 5.** Trees, grass and animals exist only on the open-sky levels far out (9, 10, 11 and 94). Your first tools, fire and bags all come from salvage.
 - **The levels nest like rings.** Walk far enough from where you woke and the Lobby gives way to Level 1, then 2, and so on. The walls between them break only below their roof line, and have a doorway through every few hundred blocks. See [Finding the Way](backrooms-finding).
-- **Hunger runs a quarter faster** than usual, and faster still in the hot levels. There is no thirst. See [Food, Heat and Cold](backrooms-food).
+- **Hunger and thirst both run down.** Hunger runs a quarter faster than usual, and water runs out faster in the heat. Sleep runs out too: lie down in a bed when the Rest bar runs low. See [Food and Water](backrooms-food) and [Rest and Sleep](backrooms-rest).
 - **The gear by your health** is your [Reality Stability](gamemechanicinfo-temporalstability). Where it turns backwards, the place is draining you.
 
 **First tools**
@@ -64,7 +64,7 @@ Two [supply boxes](block-backrooms:supplybox) stand beside where you woke. Break
 Your starting inventory has 10 slots, and you can carry up to 4 bags. There are no cattails here for a hand basket; the Lobby's bag is the [carpet bag](item-backrooms:carpetbag) (3 slots): 5 carpet fibres + 1 flax twine, and 3 carpet fibres make the twine. Hold a blade and {rightmouse} the dry carpet for a [carpet fibre](item-backrooms:carpetfibre) per block, two with a shiv or a scraper (the block is left bare). Four bags cost 32 carpet fibres, 16 cuts with a shiv: make them before you go anywhere. Later, a [linen sack](search:linen sack) (5 slots) is flax twine + linen from hotel beds and tents, and a [chest](search:chest) is 8 planks + 1 nails and strips, with planks from Level 1's crates.
 
 **Finding food**
-Food in the Lobby is what is in the sealed boxes, and nothing else. [Almond Water](item-backrooms:almondwater) fills you a little, heals 1 and steadies you (see [Reality Stability](gamemechanicinfo-temporalstability)); [crackers](item-backrooms:crackers) and [canned beans](item-backrooms:cannedbeans) fill you properly. You burn food walking, more running, and hardly at all standing still, so do not wander for the sake of it. The nearest plentiful food is Level 1's sealed crates: the first expedition out is for those. The dark, cold blackout zones of Level 0 keep food fresh (10 °C), so store it there. See [Food, Heat and Cold](backrooms-food).
+Food in the Lobby is what is in the sealed boxes, and nothing else. [Almond Water](item-backrooms:almondwater) quenches your thirst, heals 1 and steadies you, but gives no food (see [Reality Stability](gamemechanicinfo-temporalstability)); [crackers](item-backrooms:crackers) and [canned beans](item-backrooms:cannedbeans) fill you properly. You burn food and water walking, more running, and hardly at all standing still, so do not wander for the sake of it. The nearest plentiful food is Level 1's sealed crates: the first expedition out is for those. The dark, cold blackout zones of Level 0 keep food fresh (10 °C), so store it there. See [Food and Water](backrooms-food).
 
 **Fire / Light**
 A candle in your hand is enough light for the blackout zones; a [torch](block-torch-basic-extinct-up) (2 dry grass + 1 stick, lit at a firepit) is what keeps things away. Tinder is 2 [wallpaper strips](item-backrooms:wallpaperstrip) = 1 [dry grass](item-drygrass): hold a blade and {rightmouse} the yellow wallpaper. Sticks come from supply boxes (about one a box), from [rotten wood](item-backrooms:rottenwood) that falls out of broken ceiling tiles (1 rotten wood = 2 sticks, 2 rotten wood = 1 firewood), and now and then from a broken wall. The Lobby has almost no firewood: expect to light your first fire with rotten wood, or with planks from Level 1 (3 planks + an axe = 1 firewood). Then it is as usual: {shift} + {rightmouse} dry grass onto the floor, add 4 [firewood](item-firewood), and light it with a [fire starter](item-firestarter) (1 dry grass + 2 sticks).
@@ -180,6 +180,9 @@ The cyan gear between your health and hunger bar is your reality stability meter
 **Reality Shifts**
 About once every 30 in-game hours (an hour of play) the lights fail everywhere for 2 to 4 in-game hours. Everything beyond a few steps is lost in black, every place drains you while it lasts (even the safe ones), and what lives in the dark comes out, even into the heart of the Lobby. None comes in your first 30 hours. When the lights go: stop, light a torch or a candle, drink Almond Water if the gear runs low, and wait it out somewhere with a door. It ramps up and down over a few minutes, so you have a moment's warning.
 
+**Going without**
+Go without sleep long enough, or let your water run dry, and the place drains you wherever you stand, more the longer it goes on. [Rest and Sleep](backrooms-rest) and [Food and Water](backrooms-food) say what each costs.
+
 **Things that lower your ceiling**
 Party Fever (Level Fun's bite) caps your stability while it lasts; [Red Water](item-backrooms:redwater) from the Sanguine Reservoir heals every wound but lowers for good how steady you can ever be, a little each drink.
 """)
@@ -201,19 +204,19 @@ Where you fell, your body lies, in your own skin and clothes, with everything yo
 Where you woke is home until you move it; the map marks it as "Where I woke up". To move it, hold a [temporal gear](item-gear-temporal) and {rightmouse} the floor anywhere in Level 0. Anywhere else it will not take hold (and is not used up). Gears are very rare: a sealed supply box holds one about once in a hundred, deep caches a little more often, and the prize counter of Level 3999 sells one for 200 tickets. Good places to call home: the Manila Room (nothing hostile goes in, and it steadies you), beside a way out you know, and beside a flooded room, for water.
 
 **Resting**
-The longer you are out without a rest, the bolder what lives here becomes (see [What Lives Here](backrooms-entities)); after ten in-game hours out, about twenty minutes of play, it is as bad as it gets. A rest is a full minute, without moving on, in any of these: within about 48 blocks of home in Level 0; beside a lit [firepit](block-firepit-lit) or burning Firesalt (within 6 blocks); asleep in a bed; beside a wanderer; or in one of the safe places. A firepit and a chest halfway along a route you use make an outpost, and make it safe to stop.
+The longer you are out without a rest, the bolder what lives here becomes (see [What Lives Here](backrooms-entities)); after ten in-game hours out, about twenty minutes of play, it is as bad as it gets. A rest is a full minute, without moving on, in any of these: within about 48 blocks of home in Level 0; beside a lit [firepit](block-firepit-lit) or burning Firesalt (within 6 blocks); asleep in a bed; beside a wanderer; or in one of the safe places. A firepit and a chest halfway along a route you use make an outpost, and make it safe to stop. (Sitting by a fire is not sleep: see [Rest and Sleep](backrooms-rest).)
 
 **What a home needs, and where it comes from**
 - **Walls where you want them.** Drywall and wallpaper break with any tool (an axe is quickest; bare hands take seven times as long) to join rooms or close off a corner. Concrete and floors take a copper pickaxe. To build, [rubble masonry](block-backrooms:rubblemasonry) is 4 [rubble](item-backrooms:rubble) in a 2 by 2, and rubble comes from breaking concrete and floor slabs with a copper pickaxe (about one rubble from two blocks), never from drywall. Beyond that, the usual vanilla blocks: cobblestone from Level 8's rock, bricks from clay. Only the roof of a level, and the top of the walls between levels, never give.
 - **A door.** Nothing in the Backrooms opens doors, so a door is a wall to them. Planks come from Level 1's crates and pallets and Level 4's furniture.
 - **Storage.** A [chest](search:chest) (8 planks + 1 nails and strips, the nails from 2 metal brackets). Baskets need Level 10's cattails. Before that, most tools and many items can be [stored on the ground](gamemechanicinfo-groundstorage).
 - **Light and fire.** Torches on the walls, a firepit, [Firesalt](block-backrooms:firesalt) from Level 3 for when the lights fail. When a Reality Shift puts the lights out, eyes come to the edge of the dark even here; a door and a light keep them out.
-- **Cold storage.** Level 0's blackout zones are cold and damp (10 °C): food in a chest there keeps more than twice as long as in the Lobby proper. See [Food, Heat and Cold](backrooms-food) and the vanilla [food preservation](gamemechanicinfo-foodpreservation) page.
+- **Cold storage.** Level 0's blackout zones are cold and damp (10 °C): food in a chest there keeps more than twice as long as in the Lobby proper. See [Food and Water](backrooms-food) and the vanilla [food preservation](gamemechanicinfo-foodpreservation) page.
 - **A farm.** Soil comes from potted plants (Levels 4 and 5), the lawns of Levels 9, 10 and 11, or Level 94's turf; seeds from seed packets, Level 10's barns and wanderers; and water from a flooded room, a bucket, or a watering can, within 3 blocks of the farmland. Crops grow under a working ceiling light at a little over half the daylight pace, and hardly at all in the cold of the blackouts; plant under a lit troffer, not a dead one. See [farming](gamemechanicinfo-farming).
-- **A bed.** The head end of a hotel bed (Level 5) comes away as a real bed you can sleep in; a hay bed is 3 hay from Level 10.
+- **A bed.** The head end of a hotel bed (Level 5) comes away as a real bed you can sleep in; a hay bed is 3 hay from Level 10. A bed at home is where you rest properly: nothing visits a sleeper in Level 0. See [Rest and Sleep](backrooms-rest).
 
 **Food that comes back**
-Nothing in Levels 0 to 5 restocks except the Snackrooms' machines, Level 4's fountains and the Almond Water seeps and dispensers listed in [Food, Heat and Cold](backrooms-food). What does come back: fish (Level 7), game and berries (Level 9), crops, livestock and honey (Level 10), the iceboxes and milk vans of Level 94, and a farm of your own. Preserve with salt (Level 8's halite, ground in a quern) or a sealed crock.
+Nothing in Levels 0 to 5 restocks except the Snackrooms' machines, Level 4's fountains and the Almond Water seeps and dispensers listed in [Food and Water](backrooms-food). What does come back: fish (Level 7), game and berries (Level 9), crops, livestock and honey (Level 10), the iceboxes and milk vans of Level 94, and a farm of your own. Preserve with salt (Level 8's halite, ground in a quern) or a sealed crock.
 
 **Planning an expedition**
 - Rest first. Take four bags, a blade, a torch and a candle, Almond Water, food for the way back, a bandage, chalk if you have it, and any note you have not read yet (a note read in a new level tells of that level).
@@ -384,19 +387,41 @@ Fountains, coolers, vending machines, seeps and carts give with {rightmouse}. Mo
 A [Level Key](item-backrooms:hub-key-l5) opens its level's door in the Hub once, and is used up. Nowhere else does it open anything. The carved symbol on its bow is the one over its door. Each is found only in its own level: in sealed boxes and crates broken open there (likeliest at the heart of a den, behind a forced door, and in the level's worst places: Level 0's Red Rooms, Level 3's Sanctums and tunnels, the Sanguine Reservoir, the King's castle), on the remains of runners in Level !, in The End's desks and card catalogues. The M.E.G.'s wanderer in the Hub sells two at a time (30 to 45 rusty gears, only for levels someone has been to), and the Keymaster gives one. Levels 1 and 11 and the Snackrooms need none; Kitty's House has a pink door instead, and Level 188 a window.
 """)
 
-PAGES["food"] = ("Game Mechanic: Food, Heat and Cold", """
-**Food, Heat and Cold**
-*There is no winter here. There is also no harvest.*
+PAGES["food"] = ("Game Mechanic: Food and Water", """
+**Food and Water**
+*Nothing grows here. Everything you eat and drink was left behind by someone else.*
 
 **Hunger**
-You go hungry a quarter faster than in an ordinary world, and above 30 °C faster still: about 6% more for every degree, up to half again as fast. Level 2 (38 °C) and the boiler halls of Levels 3 and 5 (42 °C) are the worst; Level 3 (35 °C) and Level 3999's natatoria (34 °C) are hot too. Level 1 (28 °C) is warm but costs nothing extra. Moving burns food; sprinting burns more; standing still burns almost nothing. There is no thirst: Almond Water is food, not drink.
+You go hungry a quarter faster than in an ordinary world. Moving burns food; sprinting burns more; standing still burns almost nothing. Almond Water is a drink, not food (see Drinks below).
 
-**Cold**
-Nothing here is cold enough to kill you quickly, but the cold levels are cold enough to hurt without clothes: Level 6 (8 °C), Level 8 (9 °C), Level 7 (12 °C, 6 °C under the sea), the Hub's tunnels (6 °C, and 2 °C in the Far Tunnels), Level 188's courtyard (8 °C), Level 3999's Blackout (14 °C) and the open decks of Level Fun (11 °C). Clothes come from Level 5's wardrobes and suitcases, Level 9's dressers and Level 188's rooms; Level 5's furnaces and boilers and Level 1's burn barrels give off warmth. Level 0's blackout zones (10 °C) are the useful cold: food in a chest there keeps more than twice as long as in the Lobby proper, and any fully enclosed room counts as a cellar for the vanilla [preservation](gamemechanicinfo-foodpreservation) rules.
+**Water**
+Water is the bar above your food bar. It runs down about as hunger does: a full one lasts about 25 minutes of walking, or about 100 minutes standing still, and sprinting empties it faster. Heat makes you thirsty. From 30 °C up the water runs down faster, about 6% more for every degree, up to half again as fast. Level 2 (38 °C) and the boiler halls of Levels 3 and 5 (42 °C) are the worst; Level 3 (35 °C) and Level 3999's natatoria (34 °C) are hot too. Level 1 (28 °C) is warm but costs nothing extra.
 
-**What there is to eat**
-Only sealed boxes and crates hold food; most were found torn or prised open long ago. Rooms behind locked doors were never picked over (see the pry bar in [Finding the Way](backrooms-finding)), and neither were the hearts of dens.
-- **[Almond Water](item-backrooms:almondwater):** fills a little, heals 1, restores 15% stability. Supply boxes, supply crates, drums; fountains, coolers and vending machines (Level 4, the city); seeps in the rock beside Level 8's road; the hand pumps on Level 10's farms; vendors' carts (the city); the towns' fountains and the hilltop water towers of Level 94.
+**Drinks**
+Drinks fill the water bar, and most of them feed you a little besides.
+- [Almond Water](item-backrooms:almondwater) fills two-fifths of the bar and gives no food at all. It restores 15% stability, heals 1, and leaves an empty bottle when you have drunk it.
+- Cashew Water and a plain water bottle fill two-fifths of the bar, and give no food. [Cashew Water](item-backrooms:cashewwater) restores 8% stability.
+- [Almond Milk](item-backrooms:almondmilk) fills about a third of the bar, and feeds you too. It restores 10% stability.
+- [Soda](item-backrooms:soda) fills about a fifth of the bar. Juice boxes ([juice box](item-backrooms:l188-juicebox)) and strawberry milk ([strawberry milk](item-backrooms:l974-strawberrymilk)) fill about a quarter.
+- [Red Water](item-backrooms:redwater) fills about an eighth of the bar, and [Memory Juice](item-backrooms:end-memoryjuice) less than a tenth.
+
+**Drinking from the world**
+With empty hands, hold {rightmouse} on water for a second and you drink your fill of a litre. Where you find the water tells you what it is.
+- **Clean water** is the still water of the deep places: the pools of Level 8's caves, the ponds of Level 10, the pools of Level 37, the basin of Level 94's town fountain, and Level 974. It fills the bar as well as a bottle of Almond Water does, and it does you no harm.
+- **Puddles and tainted water** is what most of the levels hold: the sumps and puddles of Levels 1 to 5, the flooded tunnels, the pools of the houses in Levels 9 and 94, the city's water and fountains, the natatorium of Level 3999 and the water of Level 188. It fills the bar only half as well, costs a little stability, and one time in four sickens you. Your stomach turns, and for about twenty minutes you burn both food and water faster.
+- **The sea is salt.** Level 7's sea and the sea of Level Fun are brine. Drinking it makes you thirstier, not less.
+- **Boiling water scalds.** The hot pools of Level 5's sumps are boiling, and they burn you a little when you drink.
+
+**Bottles**
+Drinking a bottled drink leaves an empty bottle, and empty bottles stack 16. Right-click a liquid with one in hand to fill it: clean, murky or salt, according to the water it is in. Boiling water fills a clean bottle.
+Murky water is the one to carry. Put a bottle of it in a lit [firepit](block-firepit-lit) and it boils clean. Salt water never does. That is how water gets from the wet levels into the dry ones.
+
+**Running low**
+Below two-fifths of the water bar you slow down, more the drier you get: a quarter slower at empty. Below a fifth the bar flashes. At empty you waste away. You lose a little health every few seconds, your Reality Stability drains, and the Wretches come for the parched as they do for the starving. Hunger works the same way at empty.
+
+**What there is to eat and drink**
+Only sealed boxes and crates hold food, and most were found torn or prised open long ago. Rooms behind locked doors were never picked over (see the pry bar in [Finding the Way](backrooms-finding)), and neither were the hearts of dens.
+- **[Almond Water](item-backrooms:almondwater):** a drink (see above). Supply boxes, supply crates, drums; fountains, coolers and vending machines (Level 4, the city); seeps in the rock beside Level 8's road; the hand pumps on Level 10's farms; vendors' carts (the city); the towns' fountains and the hilltop water towers of Level 94.
 - **[Crackers](item-backrooms:crackers), [canned beans](item-backrooms:cannedbeans):** supply boxes, crates, cardboard boxes, fridges, pantries.
 - **Fruit and cheese:** fridges (Levels 4, 9, the city). **Flour, salt, fat:** kitchen cupboards and pantries (Level 9, city groceries).
 - **[Chips](item-backrooms:chips), [chocolate](item-backrooms:candybar), [soda](item-backrooms:soda), [Cashew Water](item-backrooms:cashewwater) (8% stability):** the Snackrooms; city stores.
@@ -407,15 +432,61 @@ Only sealed boxes and crates hold food; most were found torn or prised open long
 - **Level Fun:** [birthday cake](item-backrooms:fun-cakeslice-birthday) ({rightmouse} a cake for a slice), [cookies](item-backrooms:fun-cookie) from the plates, Almond Water on some tables, pumpkins in the Halloween rooms, onions from popped balloons. **[Red Velvet =)](item-backrooms:fun-cakeslice-velvet): do not eat.** It fills you well, but costs you stability and the party gets into you (Party Fever). Gifts hold what wanderers left; one in five is a popper, and the bang carries.
 - **The End has no food:** Almond Water from the coolers in the stockrooms, nothing else. [Memory Juice](item-backrooms:end-memoryjuice) restores 20% stability, and for a while everything feels like home. The Junkies want it.
 - **Kitty's House (Level 974):** the fridge and the pantry give one thing per {rightmouse}, six at most, one more every 2 hours: bread, cheese, fruit, [strawberry milk](item-backrooms:l974-strawberrymilk). After a day half of it is sweets ([marshmallows](item-backrooms:l974-marshmallow), [candy](item-backrooms:l974-candy)), after two days all of it. Now and then a [remembered meal](item-backrooms:l974-meal-pancakes) lies on the table, the best food in the house. Every tap fills a bucket, jug or bowl with water.
-- **The Hub has nothing to eat.** Bring food and clothes.
+- **The Hub has nothing to eat.** Bring food, water and clothes.
 - **Level 3999:** [tray meals](item-backrooms:l3999-traymeal-burger) at the food stalls, 6 tickets each (burgers, pizza, noodles, tacos, ice cream, pretzels: filling, and they heal a little). The vending machines take one Almond Water for chips, a candy bar, popcorn, cotton candy, soda, cashew water or Paradise Pop, and never run out. See the tickets in [Salvage](backrooms-salvage).
 - **Level 188:** the lobby's breakfast dispensers ({rightmouse}): [cereal](item-backrooms:l188-cereal) and [juice boxes](item-backrooms:l188-juicebox), three of each, then empty; the minibars in the rooms.
 
-**Food that comes back**
-See [Home and Expeditions](backrooms-home): fish, game, crops, livestock, the refilling dispensers, and a farm of your own. Everything else is finite: a level is a larder that empties.
+**Food and water that come back**
+See [Home and Expeditions](backrooms-home): fish, game, crops, livestock, the refilling dispensers, and a farm of your own. Everything else is finite: a level is a larder that empties. Drink dispensers that hand out water are one-time stock now; only the Level 8 seeps and the Level 10 ponds fill again, slowly.
+
+**Cold**
+Nothing here is cold enough to kill you quickly, but the cold levels are cold enough to hurt without clothes: Level 6 (8 °C), Level 8 (9 °C), Level 7 (12 °C, 6 °C under the sea), the Hub's tunnels (6 °C, and 2 °C in the Far Tunnels), Level 188's courtyard (8 °C), Level 3999's Blackout (14 °C) and the open decks of Level Fun (11 °C). Clothes come from Level 5's wardrobes and suitcases, Level 9's dressers and Level 188's rooms; Level 5's furnaces and boilers and Level 1's burn barrels give off warmth. Level 0's blackout zones (10 °C) are the useful cold: food in a chest there keeps more than twice as long as in the Lobby proper, and any fully enclosed room counts as a cellar for the vanilla [preservation](gamemechanicinfo-foodpreservation) rules.
 
 **World settings**
 When a world is created, *Backrooms scarcity* (under Survival challenges) sets how much food and drink the Backrooms leave you: Plentiful doubles it, Sparse leaves six parts in ten, Scarce about a third. It scales everything you can eat or drink, Almond Water among it, in every box, crate, cupboard and fridge; how much the vending machines, water coolers, fountains and Kitty's fridge and pantry hold, and how soon they refill (on Scarce, what refills does so after three weeks rather than one, and about one in three of Level 4's vending machines and water coolers is empty from the start); and how much livestock grazes in Level 10. In new worlds on Sparse or Scarce, Level 9's gardens and Level 10's crops, vegetable patches and berry bushes bear less too (by the scarcity the world was created with, even if it is changed later). Seeds, notes and tools are not affected. *Backrooms map* sets how much the map helps (see [Finding the Way](backrooms-finding)).
+*Thirst*, also under Survival challenges, turns the water bar on or off. With it off, drinks are food again as they used to be, nothing runs dry, and heat drains your hunger instead of your water.
+""")
+
+PAGES["rest"] = ("Game Mechanic: Rest and Sleep", """
+**Rest and Sleep**
+*You can get about for an hour or two on your feet. The Backrooms count every minute of it.*
+
+**The Rest bar**
+The bar above your health is your rest. It starts full, at 48 minutes of play, and it empties as you stay awake. A game hour here is two minutes, and a day is 48. There are four stages:
+- **Rested** (the first 48 minutes awake): nothing. A bed will not take you yet; the game says you are not tired enough.
+- **Drowsy** (48 to 90 minutes): you can lie down and sleep, and the game tells you so once: "You could sleep now". From about an hour awake your Reality Stability starts to drain, a little at first.
+- **Exhausted** (90 to 120 minutes): you walk a tenth slower, your Reality Stability drains faster the longer you go without sleep, and the things that live here come to find you more often.
+- **Dead on your feet** (from two hours): you walk a fifth slower, the bar flashes, the screen dims and blinks now and then, your Reality Stability drains harder and harder, and the things that live here come in greater numbers. The Wretches come for you as they do for the starving. Nothing here kills you outright, but the Backrooms do: lie down before it comes to that.
+
+**Sleeping**
+Right-click a bed to lie down in it once you are drowsy. The foot of a two-part bed works as well as its head. While you sleep the Rest bar fills, and the clock runs fast, as in any Vintage Story world: when everyone is in bed a night passes in a moment. On a server the clock hurries only when everyone is asleep.
+
+**Beds**
+Any bed will do, and some do better.
+- **Hotel beds** (the rooms of Level 5, the houses of Levels 9, 11 and 94, Kitty's bedroom, the rooms of Level 188) are the best. A night in one takes you from dead on your feet to rested.
+- **Hospital beds** (Level 1's camp rooms, Level !), **cots** (the Safe Zone, the Hub) and **sleeping bags** (Level 4's outposts, the camps) are a step behind. Hospital beds are nearly as good; cots and sleeping bags give you a little less.
+- **Makeshift beds and bedrolls** of the camps (Levels 1, 4, 7 and 8) are the least. A poor bed refills you more slowly: from dead on your feet it takes more than half a game day to make you fully rested.
+
+**The carpet bedroll**
+The one bed you can make yourself is the carpet bedroll, from 4 carpet fibres + 2 wallpaper strips, in a grid two wide and three tall: fibres along the top and the bottom, strips across the middle. It is enough to sleep on, not enough to sleep well. Put it down anywhere, and when you pick it up again it comes back whole.
+
+**What wakes you**
+You wake rested ("You wake rested"), or sooner for one of these, and the game says which:
+- **Pain:** you take damage. "Pain wakes you."
+- **Something close:** a creature that hunts or stalks you comes within six blocks. "Something is in the room."
+- **Thirst or hunger:** the water or food bar falls below a tenth. "Thirst wakes you" or "Hunger wakes you", and you cannot go back to sleep until you have eaten or drunk.
+- **Sneaking:** crouch, and you get up.
+
+**Night visits**
+Sleeping outside a safe place invites a visit. A night's sleep in an ordinary level may draw something to your bed: a hunting creature, placed out of sight a dozen or more blocks away, coming for you. The odds rise with the level's danger: about one night in eight in Level 1, one in four in Level 5, and more than one in three in the deepest levels. Level 0, the safe places and anywhere beside a wanderer never get a visit. A closed door within four blocks of the bed halves the odds, which is what the wanderers' notes mean by "barricade your door". The sleeper wakes as the creature closes in.
+
+**Almond Water for rest**
+[Almond Water](item-backrooms:almondwater) is the drink for it: Blue Almond Water makes you drowsy at once, so you can lie down straight away, and steadies you (a quarter restored). Green Almond Water keeps the tiredness off for about twenty minutes, and the exhaustion lifts while it does. When it wears off, the sleep it held back lands all at once, about sixteen minutes' worth of tiredness. Drink two and it lands twice.
+
+**Sitting by a fire is not sleep**
+Resting by a fire, or beside a wanderer, keeps the things that live here back (see [Home and Expeditions](backrooms-home)), but only sleep refills this bar. Eat and drink before you lie down: a sleeper who is hungry or thirsty is woken at once.
+
+For the things that come, see [What Lives Here](backrooms-entities). For the drain on your stability, see [Reality Stability](gamemechanicinfo-temporalstability).
 """)
 
 PAGES["levels"] = ("The Levels: 0 to 11", """
@@ -478,7 +549,7 @@ PAGES["farlevels"] = ("The Levels: Beyond the Rings", """
 - **The computers** buzz until you turn one on. It shows the name of the place and dies for good, but marks on your map the nearest ways out that open. If a screen says =), you are not staying; now and then one runs TRUEEND.EXE instead, and takes you to Level 3999.
 - **The longer you stay, the less sure of yourself you are:** after two in-game hours inside, stability drains a little more each minute. It is kindest in the middle; outward it drains, and the collapses and fake realities drain badly.
 - **Distortions:** now and then the floor shakes and for a few seconds you are somewhere else. Walk into a wall or a shelf then, and you will be (the snowfield leads nowhere). And the lights go out for a minute or two: carry a light.
-- No food (see [Food, Heat and Cold](backrooms-food)), but furniture, ladders and books for a home. In the Home fake realities live the Junkies, who trade only with someone carrying Memory Juice.
+- No food (see [Food and Water](backrooms-food)), but furniture, ladders and books for a home. In the Home fake realities live the Junkies, who trade only with someone carrying Memory Juice.
 
 **The Hub.** A hidden crossroads of road tunnels under orange lamps, silent and cold (14 °C at the centre, 6 °C in the tunnels, 2 °C far out). Ten numbered tunnels run out from a tower at its centre, and both walls are lined with great concrete doors, a crop circle carved over each. Every door leads to a level, and almost all are locked.
 - **Safe:** nothing hostile follows you in, it restores you, and resting here counts. But there is nothing to eat: bring food and clothes.
@@ -814,7 +885,7 @@ BRIDGES["farming"] = """
 """
 
 BRIDGES["foodpreservation"] = """
-**In the Backrooms:** there are no seasons, so spoilage runs at the pace of the room you are in, all year. Any fully enclosed room counts as a cellar (concrete walls cool it; drywall does not), and Level 0's blackout zones are cold and damp (10 °C), so a chest there keeps food more than twice as long as the Lobby proper. Salt for pickling comes from kitchen cupboards or Level 8's halite ground in a quern; crocks and vessels from clay; wax from Level 10's skeps. See [Food, Heat and Cold](backrooms-food).
+**In the Backrooms:** there are no seasons, so spoilage runs at the pace of the room you are in, all year. Any fully enclosed room counts as a cellar (concrete walls cool it; drywall does not), and Level 0's blackout zones are cold and damp (10 °C), so a chest there keeps food more than twice as long as the Lobby proper. Salt for pickling comes from kitchen cupboards or Level 8's halite ground in a quern; crocks and vessels from clay; wax from Level 10's skeps. See [Food and Water](backrooms-food).
 """
 
 BRIDGES["animalhusbandry"] = """
@@ -854,7 +925,7 @@ BRIDGES["cokeoven"] = """
 """
 
 BRIDGES["weather"] = """
-**In the Backrooms:** there is no weather. It never rains or snows anywhere, there are no seasons, and each level keeps its own temperature all year (see [Food, Heat and Cold](backrooms-food)). The open-sky levels have wind for windmills. The weather here is the Reality Shift: see [Reality Stability](gamemechanicinfo-temporalstability).
+**In the Backrooms:** there is no weather. It never rains or snows anywhere, there are no seasons, and each level keeps its own temperature all year (see [Food and Water](backrooms-food)). The open-sky levels have wind for windmills. The weather here is the Reality Shift: see [Reality Stability](gamemechanicinfo-temporalstability).
 """
 
 BRIDGES["stonelayers"] = """

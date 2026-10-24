@@ -20,6 +20,7 @@ They contain spoilers for every level.
 | [visual-review.md](visual-review.md) | The in-client visual review of every level and what it changed |
 | [graphics-pass/](graphics-pass/README.md) | The 2026-10 graphics pass: the plan, the prompts and the tracker for bringing the mod's own textures and models up to vanilla fidelity (active) |
 | [entity-ai-overhaul/](entity-ai-overhaul/README.md) | The entity AI overhaul for the release after 0.514.0: perception (sight, hearing, belief) for every entity, the encounter state machine v2, lore reconciliation against the current Wikidot pages, harvest materials, batches and prompts |
+| [needs/](needs/README.md) | Thirst and fatigue: the plan, the user's decisions, worker briefs and tracker |
 | [future-levels.md](future-levels.md) | Level ideas not built yet (Level 73, Infinite IKEA) and whether they fit |
 
 The review image sheets these documents mention (`level-review/`, `entity-review/`, `visual-review/*.jpg`, the Hub renders) are not part of the public repository.
