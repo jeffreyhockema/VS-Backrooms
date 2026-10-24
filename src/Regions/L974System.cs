@@ -52,7 +52,7 @@ public static class L974
     /// <summary>Whether a player holds something cute in their hand.</summary>
     public static bool HoldsCute(IPlayer player) => IsCute(player?.InventoryManager?.ActiveHotbarSlot?.Itemstack);
 
-    private static readonly HashSet<string> FabricParts = new() { "wall", "floor", "ceiling", "slope", "lintel", "casing", "window", "downlight", "fairylights", "nightlight" };
+    private static readonly HashSet<string> FabricParts = new() { "wall", "floor", "ceiling", "slope", "lintel", "casing", "jamb", "window", "downlight", "fairylights", "nightlight" };
 
     /// <summary>
     /// Whether a block in Kitty's House is part of the house itself (never broken): its walls, floors, ceilings,
@@ -913,7 +913,7 @@ public class L974System : ModSystem
         IBlockAccessor blocks = sapi.World.BlockAccessor;
         var pos = new BlockPos(0, 0, 0);
         string from = on ? "-off" : "-on", to = on ? "-on" : "-off";
-        for (int x = x0; x < x0 + WorldLayout.L974HouseW; x++)
+        for (int x = x0; x < x0 + layout.L974Width; x++)
             for (int z = z0; z < z0 + WorldLayout.L974HouseDeep; z++)
                 for (int y = floor + 4; y <= floor + 5; y++)
                 {

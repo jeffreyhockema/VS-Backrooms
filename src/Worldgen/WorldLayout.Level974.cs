@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Backrooms.Worldgen;
 
@@ -31,6 +32,12 @@ public sealed partial class WorldLayout
 
     /// <summary>The house's depth from layout version 9 on: the bedroom is four rows longer and the master bedroom three, so its east side runs further south.</summary>
     public const int L974HouseDeep = 24;
+
+    /// <summary>The house's width from layout version 11 on: two blocks more, for the niche the bed stands in, let into the bedroom's east wall.</summary>
+    public const int L974HouseWide = 21;
+
+    /// <summary>How wide a house is in this world (<see cref="L974HouseW"/>; <see cref="L974HouseWide"/> from layout version 11).</summary>
+    public int L974Width => Version >= 11 ? L974HouseWide : L974HouseW;
 
     /// <summary>How deep a house is in this world (<see cref="L974HouseD"/>; <see cref="L974HouseDeep"/> from layout version 9).</summary>
     public int L974Depth => Version >= 9 ? L974HouseDeep : L974HouseD;
@@ -88,7 +95,7 @@ public sealed partial class WorldLayout
     public (int X, int Z) L974At(int mx, int mz, int u, int v)
     {
         var (x0, z0) = L974HouseCorner(mx, mz);
-        return (x0 + (L974Mirrored(mx, mz) ? L974HouseW - 1 - u : u), z0 + v);
+        return (x0 + (L974Mirrored(mx, mz) ? L974Width - 1 - u : u), z0 + v);
     }
 
     /// <summary>
@@ -113,6 +120,10 @@ public sealed partial class WorldLayout
         (15, 4, L974SpotKind.SleepWatch), (16, 19, L974SpotKind.Kneel), (6, 14, L974SpotKind.Table), (4, 12, L974SpotKind.Kitchen),
     };
 
+    /// <summary>The spots from layout version 11: as <see cref="L974PlanSpots9"/>, with the two by the bed two columns on (the bed stands in a niche in the east wall now).</summary>
+    private static readonly (int U, int V, L974SpotKind Kind)[] L974PlanSpots11 = L974PlanSpots9
+        .Select(s => s.U == 15 && s.V is 3 or 4 ? (17, s.V, s.Kind) : s).ToArray();
+
     private static readonly (int U, int V, L974SpotKind Kind)[] L974PlanSpots =
     {
         // Doorways and the archway's ends
@@ -128,7 +139,7 @@ public sealed partial class WorldLayout
     /// <summary>The places in a house Kitty keeps to, as block coordinates.</summary>
     public List<(int X, int Z, L974SpotKind Kind)> L974Spots(int mx, int mz)
     {
-        var spots = Version >= 9 ? L974PlanSpots9 : L974PlanSpots;
+        var spots = Version >= 11 ? L974PlanSpots11 : Version >= 9 ? L974PlanSpots9 : L974PlanSpots;
         var list = new List<(int, int, L974SpotKind)>(spots.Length);
         foreach (var (u, v, kind) in spots)
         {
@@ -153,12 +164,12 @@ public sealed partial class WorldLayout
     private void BuildLevel974(Builder b, int mx, int mz)
     {
         Tile[] house = l974Plans.Get(mx, mz);
-        int depth = L974Depth;
+        int depth = L974Depth, width = L974Width;
         for (int lz = 0; lz < MacroSize; lz++)
             for (int lx = 0; lx < MacroSize; lx++)
             {
                 int u = lx - L974HouseX0, v = lz - L974HouseZ0;
-                b.At(lx, lz) = u >= 0 && v >= 0 && u < L974HouseW && v < depth ? house[v * L974HouseW + u]
+                b.At(lx, lz) = u >= 0 && v >= 0 && u < width && v < depth ? house[v * width + u]
                     : new Tile { Kind = TileKind.Wall, Pattern = WallPattern.L974Wall, Tall = true };
             }
     }
@@ -219,7 +230,32 @@ public sealed partial class WorldLayout
         "           ###WW###",
     };
 
-    private static L974Room L974RoomAt(int u, int v, bool grown) =>
+    /// <summary>
+    /// The plan from layout version 11: <see cref="L974Plan9"/> two columns wider (21), with the bed's alcove let into the
+    /// east wall instead of standing out from it. The bedroom's east wall keeps its place (u 18) but opens in two rows
+    /// (v 3 and 4) into a niche two deep (u 18 and 19), walled on both sides (the stub walls, pushed back two blocks) and
+    /// closed at u 20, so the foot of the bed lines up with the wall's face and the room is two blocks clearer.
+    /// </summary>
+    private static readonly string[] L974Plan11 = MakePlan11();
+
+    private static string[] MakePlan11()
+    {
+        var rows = L974Plan9.Select(r => r.PadRight(L974HouseWide)).ToArray();
+        for (int v = 2; v <= 5; v++)
+        {
+            char[] r = rows[v].ToCharArray();
+            for (int u = 16; u <= 17; u++) r[u] = '.';
+            bool niche = v is 3 or 4;
+            r[18] = niche ? '.' : '#';
+            r[19] = niche ? '.' : '#';
+            r[20] = '#';
+            rows[v] = new string(r);
+        }
+        return rows;
+    }
+
+    private static L974Room L974RoomAt(int u, int v, bool grown, bool niche = false) =>
+        niche && u is 18 or 19 && v is 3 or 4 ? L974Room.Bedroom :
         grown ? L974RoomAt9(u, v) :
         u >= 1 && u <= 7 && v >= 1 && v <= 7 ? L974Room.Living
         : u >= 1 && u <= 7 && v >= 9 && v <= 15 ? L974Room.Kitchen
@@ -246,10 +282,10 @@ public sealed partial class WorldLayout
     /// </summary>
     private Tile[] PlanKittyHouse(int mx, int mz)
     {
-        const int W = L974HouseW;
-        bool grown = Version >= 9;
+        int W = L974Width;
+        bool grown = Version >= 9, niche = Version >= 11;
         int D = L974Depth;
-        string[] plan = grown ? L974Plan9 : L974Plan;
+        string[] plan = niche ? L974Plan11 : grown ? L974Plan9 : L974Plan;
         var tiles = new Tile[W * D];
         bool mirror = L974Mirrored(mx, mz);
         var rng = new Rng(Hashing.Hash(seed, mx, mz, SaltL974House + 1));
@@ -263,7 +299,7 @@ public sealed partial class WorldLayout
             {
                 char c = plan[v][u];
                 ref Tile t = ref At(u, v);
-                L974Room room = L974RoomAt(u, v, grown);
+                L974Room room = L974RoomAt(u, v, grown, niche);
                 switch (c)
                 {
                     case '.':
@@ -281,7 +317,8 @@ public sealed partial class WorldLayout
                         // A doorway's passage runs across the wall it is in
                         // (T: a tall opening with no lintel, four blocks high, for Kitty)
                         bool wallRunsWE = plan[v][u - 1] != '.' && plan[v][u + 1] != '.';
-                        t = new Tile { Kind = TileKind.Doorway, Floor = FloorKind.L974Floor, Pier = wallRunsWE ? ArchPier.North : ArchPier.East, Stack = (byte)(c == 'T' ? 2 : c == 'A' ? 1 : 0) };
+                        t = new Tile { Kind = TileKind.Doorway, Floor = FloorKind.L974Floor, Pier = wallRunsWE ? ArchPier.North : ArchPier.East, Stack = (byte)(c == 'T' ? 2 : c == 'A' || c == 'D' && niche ? 1 : 0) };
+                        // (Layout version 11 on, a doorway has no casing standing in it: its jambs are the walls either side, see below)
                         break;
                     }
                     case 'W':
@@ -330,11 +367,13 @@ public sealed partial class WorldLayout
         void Light(int u, int v) => At(u, v).Ceiling = CeilingKind.LightOn;
 
         // The bedroom: the bed in its alcove (head to the east wall), the desk with the old computer, the open closet
+        // (Layout version 11 on, the alcove is a niche in the east wall: the bed, its table and the slope stand two columns further on)
+        int bo = niche ? 2 : 0;
         int bedding = rng.Range(0, 2);
-        Put(17, 3, Props.L974Bed, ArchPier.West, 0 | (bedding << 1));
-        Put(16, 3, Props.L974Bed, ArchPier.West, 1 | (bedding << 1));
-        Put(17, 4, Props.L974Nightstand, ArchPier.West);
-        Put(16, 4, Props.L974PlushHeap, ArchPier.West, rng.Range(0, 1));
+        Put(17 + bo, 3, Props.L974Bed, ArchPier.West, 0 | (bedding << 1));
+        Put(16 + bo, 3, Props.L974Bed, ArchPier.West, 1 | (bedding << 1));
+        Put(17 + bo, 4, Props.L974Nightstand, ArchPier.West);
+        Put(16 + bo, 4, Props.L974PlushHeap, ArchPier.West, rng.Range(0, 1));
         Put(12, 1, Props.L974Desk, ArchPier.East, 0);
         Put(12, 2, Props.L974Desk, ArchPier.East, 1);
         Put(13, 2, Props.L974Chair, ArchPier.West, 0);
@@ -357,7 +396,7 @@ public sealed partial class WorldLayout
         Hang(12, 2, L974Hung.ShelfFigures, ArchPier.East);
         for (int u = 12; u <= 17; u++) At(u, 1).Depth = (byte)((L974HighFairy << 2) | (int)F(ArchPier.South));
         // The alcove's ceiling slopes down to the east wall over the bed
-        foreach (var (u, h) in new[] { (16, 3), (17, 2) })
+        foreach (var (u, h) in new[] { (16 + bo, 3), (17 + bo, 2) })
             foreach (int v in new[] { 3, 4 })
             {
                 At(u, v).Height = (byte)h;
@@ -486,6 +525,25 @@ public sealed partial class WorldLayout
                 if (first) window++;
                 t.Detail = (byte)paintings[Math.Min(window - 1, 3)];
             }
+
+        // Layout version 11 on: a doorway's casing is on the walls either side of it (the jambs), so nothing stands in the opening
+        if (niche)
+            for (int v = 0; v < D; v++)
+                for (int u = 0; u < W; u++)
+                {
+                    if (plan[v][u] != 'D') continue;
+                    bool wallRunsWE = plan[v][u - 1] != '.' && plan[v][u + 1] != '.';
+                    // (the opening is on the side facing the doorway; Pier is as the plan has it, so mirrored houses turn it with F)
+                    foreach (var (du, dv, toward) in wallRunsWE
+                        ? new[] { (-1, 0, ArchPier.East), (1, 0, ArchPier.West) }
+                        : new[] { (0, -1, ArchPier.South), (0, 1, ArchPier.North) })
+                    {
+                        ref Tile j = ref At(u + du, v + dv);
+                        if (j.Kind != TileKind.Wall || j.Pattern != WallPattern.L974Paint) continue;
+                        j.Pattern = WallPattern.L974Jamb;
+                        j.Pier = F(toward);
+                    }
+                }
         return tiles;
     }
 
