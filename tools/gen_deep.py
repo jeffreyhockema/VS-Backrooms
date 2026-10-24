@@ -709,11 +709,7 @@ def level7():
          material="Metal", sounds=METAL, extra={"drops": drops(("metalbracket", 0.8, 0.5), ("scrapwire", 0.5, 0.5))})
     prop("jawskeleton", "Skeleton", BK.jawskeleton(), box=(0.1, 0, 0, 0.9, 0.25, 1), collide=False, material="Stone", sounds=STONE,
          extra={"drops": drops(("game:bone", 3, 1))})
-    rib = []
-    for i, z in enumerate((2, 6, 10, 14)):
-        rib += [bx(f"RibL{i}", (-2, 0, z), (0, 28, z + 1.5), "bone", rot=(0, 0, -12), origin=(-1, 0, z)),
-                bx(f"RibR{i}", (16, 0, z), (18, 28, z + 1.5), "bone", rot=(0, 0, 12), origin=(17, 0, z))]
-    prop("ribcage", "Enormous Ribs", rib + [bx("Spine", (4, 28, 0), (12, 31, 16), "bone")], box=(0, 0, 0, 1, 0.25, 1), collide=False,
+    prop("ribcage", "Enormous Ribs", BK.ribcage(), box=(0, 0, 0, 1, 0.25, 1), collide=False,
          material="Stone", sounds=STONE)
     prop("backpack", "Lost Backpack", [
         bx("Bag", (4, 0, 5), (12, 9, 11), "canvas"), bx("Flap", (4, 7, 4.5), (12, 10, 11), "canvas"),

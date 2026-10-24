@@ -170,3 +170,40 @@ def jawskeleton():
     els += rod("FemurR", 11.2, 0.55, 14.6, 5.0, 1.1, yaw=-30, v0=8)
     els += rod("ShinR", 13.6, 0.5, 14.2, 3.6, 0.9, yaw=48, v0=11)
     return els
+
+
+def ribcage():
+    """The giant ribcage, standing one block wide and 28 units tall as the old tent of slabs did: a spine of vertebrae
+    along the top (z 1 to 15, y 28 to 31) and six arched two-piece ribs a side, each leaving the spine, curving out and
+    coming down to the floor, a little uneven in height, reach and spacing; two of the tips are broken short."""
+    import math
+    rng = random.Random(77)
+    els = []
+    zs = [2.0, 4.6, 7.2, 9.6, 12.0, 14.2]
+    for i in range(9):
+        z = 1.7 + i * 1.65
+        els += [bx(f"Vert{i}", (5.6, 28.0, z - 0.7), (10.4, 30.6, z + 0.7), "bone"),
+                bx(f"Disc{i}", (5.9, 28.3, z + 0.7), (10.1, 30.3, z + 0.95), "bp-joint"),
+                bx(f"Spine{i}", (7.5, 30.6, z - 0.4), (8.5, 31.6, z + 0.4), "bp-joint")]
+    for i, z in enumerate(zs):
+        prof = math.sin(math.pi * (i + 0.8) / (len(zs) + 0.6))      # the middle ribs reach furthest and are the tallest
+        for side in (-1, 1):
+            tag = "L" if side < 0 else "R"
+            reach = 5.6 + 3.6 * prof + rng.uniform(-0.5, 0.5)
+            low = 1.0 + rng.uniform(0, 1.2)
+            top = 26.4
+            x0, y0 = 8 + side * 2.4, top - 0.5                     # where it leaves the spine
+            x1, y1 = 8 + side * (reach - 0.6), top - 5.0 - 3 * prof  # the shoulder of the arch
+            x2, y2 = 8 + side * reach, low                          # the tip
+            if (i + (side > 0)) % 5 == 3:                           # a broken one
+                x2, y2 = x1 + side * 0.4, y1 - 8 - rng.uniform(0, 3)
+            t = 1.3 + 0.4 * prof
+            for k, (a, b, th) in enumerate((((x0, y0), (x1, y1), t), ((x1, y1), (x2, y2), t * 0.85))):
+                dx, dy = abs(b[0] - a[0]), b[1] - a[1]
+                ang = math.degrees(math.atan2(dy, dx))
+                length = math.hypot(dx, dy)
+                tilt = -ang if side < 0 else ang
+                # a rod along x rotated about z: +x end up for a positive angle
+                els += rod(f"Rib{tag}{i}_{k}", (a[0] + b[0]) / 2, (a[1] + b[1]) / 2, z + 0.15 * k, length, th,
+                           tilt=tilt, knob=1.3, v0=(i * 2 + k) % 12)
+    return els
