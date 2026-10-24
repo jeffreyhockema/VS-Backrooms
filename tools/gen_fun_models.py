@@ -748,17 +748,24 @@ def lureballoon():
     m = Model("fun-lureballoon", atlas_width=32, seed=110)
     cy = 24.5
     bal = balloon(m, "Balloon", (0, cy, 0), (0, cy, 0))
+    # The string is one thread of eight short links, each hung from the bottom of the one above (its pivot is that
+    # joint, so the chain cannot come apart whatever the sway does). Each rests bent a couple of degrees the same way,
+    # so the thread bows in one gentle curve, not a zigzag; each reaches 0.2 past its joint into the next, and is a
+    # hair thinner than the one above so no two sides lie in one plane. The links share the sway, each a little later.
     top, parent = cy - 4.6, bal
-    for i, ln in enumerate((5.0, 5.0, 4.5)):
-        parent = m.part(f"String{i}", (-0.12, top - ln, -0.12), (0.25, ln, 0.25), pivot=(0, top, 0), parent=parent,
-                        rest=((4, 0, -3), (-6, 0, 5), (5, 0, -4))[i], paint=pg_string)
-        top -= ln
-    strings = ["String0", "String1", "String2"]
+    n_links, link = 8, 1.8
+    for i in range(n_links):
+        th = 0.28 - 0.01 * i
+        parent = m.part(f"String{i}", (-th / 2, top - link - 0.2, -th / 2), (th, link + 0.2, th), pivot=(0, top, 0), parent=parent,
+                        rest=(2.2, 0, -1.6), paint=pg_string)
+        top -= link
+    strings = [f"String{i}" for i in range(n_links)]
 
     def sway(p, lean=0.0, amp=5.0):
         d = {"Balloon": pose((s(p, 3, 0.2), s(p, 14), lean * 0.4), (0, s(p, 0.6, 0.1), 0))}
+        a = amp / 2.5  # eight links share what three did
         for i, n in enumerate(strings):
-            d[n] = pose((s(p, amp, 0.15 * (i + 1)), 0, (lean if i == 0 else lean * 0.3) + s(p, amp * 0.8, 0.25 + 0.15 * i)))
+            d[n] = pose((s(p, a, 0.06 * (i + 1)), 0, (lean * 0.4 if i == 0 else lean * 0.08) + s(p, a * 0.8, 0.1 + 0.05 * i)))
         return d
     m.animation("idle", 60, cycle(60, 12, lambda p: sway(p)))
     # Drift: moving off, the balloon tips into its way and the string trails behind it
