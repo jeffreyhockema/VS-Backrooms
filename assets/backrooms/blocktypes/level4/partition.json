@@ -1,7 +1,6 @@
 // Blue-grey fabric cubicle partition, about 1.5 m tall
 {
 	"code": "partition",
-	"class": "BackroomsImpassable",
 	"variantgroups": [
 		{
 			"code": "axis",

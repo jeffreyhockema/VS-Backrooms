@@ -58,4 +58,4 @@ pure-math check of docs/design/needs/README.md passes) and `needs-rates` (`ratec
 
 ## Path cases (`--only path`)
 
-`path-cubicle-partition`: `/backrooms pathtest duller` across a Level 4 back partition (seed 12345) must plan a way round it (10+ steps for 4 blocks), not over it (3 steps, as the game's step test planned before `BlockImpassable`).
+`path-cubicle-partition`: `/backrooms pathtest duller` across a Level 4 back partition (seed 12345) must plan a way round it (10+ steps for 4 blocks), not over it (3 steps, as the game's step test planned before `TallBlockPathing`).

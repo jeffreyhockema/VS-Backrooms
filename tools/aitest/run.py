@@ -1299,9 +1299,9 @@ def _pathtest(c, args, tries=12):
 
 
 def t_path_cubicle_partition(c):
-    """Level 4's cubicles (seed 12345, around 514666,511988): a Duller from one side of a back partition to the other must be sent
+    """Level 4's cubicles (seed 12345, around 514670,511988): a Duller from one side of a back partition to the other must be sent
     round it (13+ steps for 4 blocks), not over it (3 steps: the game's step test let a 1.5 high partition through)."""
-    line = _pathtest(c, "duller 514666 511990 514666 511986")
+    line = _pathtest(c, "duller 514670 511990 514670 511986")
     if line is None:
         return False, "no pathtest report"
     steps = re.search(r"(\d+) steps", line)
