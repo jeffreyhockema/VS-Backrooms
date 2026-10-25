@@ -16,4 +16,4 @@ The user's calls of 2026-10-25, so no worker reopens them. See [plan.md](plan.md
 | 10 | Early leather | **Rat hides and salvaged "pleather"** from cars and hotel upholstery: thin and fragile, its own worse armour, never a substitute for leather in recipes, so tanning stays the real road | the user |
 | 11 | Trade | **Wanderers sell ward parts (gears) for rusty gears**, never a finished anchor or armour | the user |
 | 12 | Wake spot | **A random place in the previous level** | the user: lore-true noclipping |
-| 13 | Level 2's tier (planner) | **Tier 0**, so scrap copper is reachable without a ward; **Level 94 tier 2**, so iron's fire clay is a bronze-tier climax | avoids two circles in the ladder; open to the user |
+| 13 | Level 2's tier (planner) | **Tier 0**, so scrap copper is reachable without a ward; **Level 94 tier 2**, so iron's fire clay is a bronze-tier climax | avoids two circles in the ladder; **confirmed by the user** (Level 2 tier 0; no Level 1 clay source: raids into Level 3 are the point; build it now, folded into 0.515.0) |
