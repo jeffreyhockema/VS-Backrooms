@@ -7,7 +7,11 @@
 		"habitat-land"
 	],
 	"weight": 70,
-	"hitboxSize": {
+	"collisionBoxSize": {
+		"x": 0.9,
+		"y": 1.3
+	},
+	"selectionBoxSize": {
 		"x": 1.1,
 		"y": 1.3
 	},
@@ -253,7 +257,9 @@
 						"investigateSeconds": 8,
 						"searchSeconds": 14,
 						"retaliateSeconds": 60,
-						"lookAnimation": "sniff"
+						"lookAnimation": "sniff",
+						"squeezeWidth": 2.0,
+						"squeezeFactor": 0.6
 					},
 					{
 						"code": "idle",

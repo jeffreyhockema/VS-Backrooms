@@ -137,6 +137,60 @@ public static class Senses
         return int.MinValue;
     }
 
+    /// <summary>
+    /// The free width across a walk at a place: how far the collision boxes of the blocks stand apart on either side of
+    /// (x, z), at two heights up a body (0.3 and 0.9 above y, the feet), along the line at right angles to the heading
+    /// (the yaw, as an entity's walk vector has it: sin yaw, cos yaw), the tighter of the two. A side with nothing within
+    /// <paramref name="reach"/> counts as reach. Accurate to about a hundredth of a block; entities do not count.
+    /// </summary>
+    public static double FreeWidth(IBlockAccessor ba, double x, double y, double z, double yaw, double reach = 2.4)
+    {
+        double px = Math.Cos(yaw), pz = -Math.Sin(yaw);
+        var pos = new BlockPos(0);
+        double width = double.MaxValue;
+        foreach (double h in SqueezeHeights)
+            width = Math.Min(width, FreeReach(ba, pos, x, y + h, z, px, pz, reach) + FreeReach(ba, pos, x, y + h, z, -px, -pz, reach));
+        return width;
+    }
+
+    private static readonly double[] SqueezeHeights = { 0.3, 0.9 };
+
+    private static double FreeReach(IBlockAccessor ba, BlockPos pos, double x, double y, double z, double dx, double dz, double reach)
+    {
+        const double Step = 0.25;
+        if (SolidAt(ba, pos, x, y, z)) return 0;
+        for (double d = Step; d < reach + Step; d += Step)
+        {
+            double at = Math.Min(d, reach);
+            if (!SolidAt(ba, pos, x + dx * at, y, z + dz * at))
+            {
+                if (at >= reach) return reach;
+                continue;
+            }
+            double lo = at - Step, hi = at;
+            for (int i = 0; i < 4; i++)
+            {
+                double mid = (lo + hi) / 2;
+                if (SolidAt(ba, pos, x + dx * mid, y, z + dz * mid)) hi = mid; else lo = mid;
+            }
+            return (lo + hi) / 2;
+        }
+        return reach;
+    }
+
+    /// <summary>Whether a point lies inside a block's collision box.</summary>
+    private static bool SolidAt(IBlockAccessor ba, BlockPos pos, double x, double y, double z)
+    {
+        int bx = (int)Math.Floor(x), by = (int)Math.Floor(y), bz = (int)Math.Floor(z);
+        Block block = ba.GetBlock(pos.Set(bx, by, bz));
+        Cuboidf[] boxes = block.CollisionBoxes;
+        if (boxes == null) return false;
+        double lx = x - bx, ly = y - by, lz = z - bz;
+        foreach (Cuboidf box in boxes)
+            if (lx >= box.X1 && lx <= box.X2 && ly >= box.Y1 && ly <= box.Y2 && lz >= box.Z1 && lz <= box.Z2) return true;
+        return false;
+    }
+
     /// <summary>Whether a block can be walked or flown through: nothing to collide with, and no water.</summary>
     public static bool Open(IBlockAccessor ba, BlockPos pos)
     {
