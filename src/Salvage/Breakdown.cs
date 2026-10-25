@@ -156,7 +156,7 @@ public static class Breakdown
             "cagelift", "suburbsign", "suburbsignblade", "citysign");
         Add(Electrical, "conduit", "conduitend", "cables", "floorcable", "floorcableend", "cabledroop", "wiredroop", "transformer", "generator", "switchgear",
             "serverrack", "coilunit", "controldesk", "streetlight", "roadlamp", "roadlamparm", "trafficlight", "porchlamp");
-        Add(Glass, "officeglass", "officewindow", "officewindowalt", "housewindow", "windowglow", "stainedglass", "exithanging", "funlight");
+        Add(Glass, "officeglass", "officewindow", "officewindowalt", "officepane", "housewindow", "windowglow", "stainedglass", "exithanging", "funlight");
         Add(Ground, "dirtroad", "fieldstubble");
         Add(Soft, "ballpit", "ballpitfill");
         Add(Wreck, "car");

@@ -243,6 +243,124 @@ def blinds_tex(state, seed):
     return img
 
 
+
+# ---- (play-test, layout 11) Level 4's windows as whole panes ----
+# A pane is two blocks tall (from the drywall base to the ceiling) and two wide, or one wide at the end of a run. Each
+# is drawn whole, then cut into its blocks: officepane-<kind>-<l|r|s>-<lower|upper>, the left or right half as seen
+# from outside the face, or "s" for a pane one block wide. Same frame, glass and slats as the one-block windows.
+
+PANE_H = 2 * S
+
+
+def pane_frame(img, seed):
+    """The satin-aluminium frame round a whole pane only: head and jambs 2 px, the sill 3 px with its lit top edge; lit
+    along the head and the left jamb, shaded along the right jamb and the sill's face, and the glass in the frame's
+    shadow under the head and beside the left jamb."""
+    w, h = img.size
+    px = img.load()
+    rng = random.Random(seed)
+    frame = (154, 156, 154)
+    for x in range(2, w - 2):  # the frame's shadow on the glass, under the head and inside the left jamb
+        px[x, 2] = M.rgba(M.lift(px[x, 2][:3], -16))
+    for y in range(2, h - 3):
+        px[2, y] = M.rgba(M.lift(px[2, y][:3], -10))
+        px[w - 3, y] = M.rgba(M.lift(px[w - 3, y][:3], -5))
+    for y in range(h):
+        for x in range(w):
+            if y <= 1:
+                d = 8
+            elif y >= h - 3:
+                d = 12 if y == h - 3 else -10
+            elif x <= 1:
+                d = 8
+            elif x >= w - 2:
+                d = -10
+            else:
+                continue
+            px[x, y] = M.rgba(M.lift(frame, rng.uniform(-2, 2) + d))
+    return img
+
+
+def clear_pane(w, seed):
+    """The clear window as one sheet: dark cold glass, nothing to see through it, a faint reflection of the strip
+    lights (one pale bar in a narrow pane, two in a wide one) and soft smudges of old condensation."""
+    img = M.noise_hv((58, 64, 72), 2, seed, (w, PANE_H), 5, (16, 8), hue=1.5)
+    px = img.load()
+    rng = random.Random(seed + 1)
+    for _ in range(3 * w // S + 1):
+        cx, cy, r = rng.randrange(4, w - 4), rng.randrange(4, PANE_H - 5), rng.randint(2, 4)
+        for y in range(cy - r, cy + r + 1):
+            for x in range(cx - r, cx + r + 1):
+                d = math.hypot(x - cx, y - cy)
+                if d <= r and 3 <= x < w - 3 and 3 <= y < PANE_H - 4:
+                    px[x, y] = M.rgba(M.lift(px[x, y], 7 * (1 - d / r)))
+    for x0, lift in ([(7, 5)] if w == S else [(13, 5), (44, 3)]):
+        for y in range(3, PANE_H - 3):
+            for x in (x0, x0 + 1):
+                px[x, y] = M.rgba(M.lift(px[x, y], lift))
+    return pane_frame(img, seed + 2)
+
+
+def blinds_pane(state, w, seed):
+    """Venetian blinds the width of the pane, hung from one headrail: 'down' shut to the sill, 'half' drawn up to half
+    the window's height (its bottom rail level across the pane, dark glass below with a faint grey light), 'tilt' down
+    with the slats opened. Slats 3 px pitch (a lit rounded top, the slat, a dark gap), ladder cords every ~16 px of
+    width, and a pull cord with its tassel at the right."""
+    rng = random.Random(seed_of("pane" + state) + w)
+    base = (196, 192, 182) if state != "tilt" else (184, 182, 176)
+    img = M.noise_hv((46, 52, 58), 3, seed_of("l4paneglass") + w, (w, PANE_H), 3, (16, 8), hue=1.5)
+    px = img.load()
+    x0, x1 = 2, w - 2
+    head = 2  # the headrail: rows 2-4
+    sill = PANE_H - 3
+    rail = {"down": sill - 2, "half": 37, "tilt": sill - 2}[state]  # first row of the bottom rail (two rows)
+    for y in range(head + 3, rail):
+        k = (y - head - 3) % 3
+        for x in range(x0, x1):
+            if state == "tilt":
+                c = (M.lift(base, 8), M.lift(base, -14), (88, 94, 100))[k]
+            else:
+                c = (M.lift(base, 14), M.lift(base, 0), M.lift(base, -28))[k]
+            px[x, y] = M.rgba(M.lift(c, rng.uniform(-2, 2)))
+    cords = (8, 23) if w == S else (11, 32, 52)
+    for x in cords:  # the ladder cords, down the slats to the bottom rail
+        for y in range(head + 3, rail):
+            px[x, y] = M.rgba(M.lift((226, 224, 214), 4 if (y - head - 3) % 3 == 0 else -6))
+    for x in range(x0, x1):
+        px[x, head] = M.rgba(M.lift((210, 206, 196), 10 + rng.uniform(-2, 2)))  # the headrail, lit along its top
+        px[x, head + 1] = M.rgba(M.lift((204, 200, 190), rng.uniform(-2, 2)))
+        px[x, head + 2] = M.rgba(M.lift((204, 200, 190), -30))  # its shadow
+        px[x, rail] = M.rgba((150, 148, 140))  # the bottom rail
+        px[x, rail + 1] = M.rgba((112, 110, 104) if x % 2 else (118, 116, 108))
+    if state == "half":  # the glass under the raised blind, a little lighter where the grey day comes in
+        for y in range(rail + 2, sill):
+            for x in range(x0, x1):
+                px[x, y] = M.rgba(M.lift(px[x, y][:3], 3))
+    cx = w - 6  # the pull cord from the headrail, past the bottom rail, ending in a tassel
+    end = 44
+    for y in range(head + 3, end):
+        px[cx, y] = M.rgba(M.lift((232, 228, 216), -6 if y % 2 else 0))
+    for y in range(end, end + 3):
+        for x in (cx - 1, cx, cx + 1) if y > end else (cx,):
+            px[x, y] = M.rgba(M.lift((236, 232, 220), -12 if x != cx else 0))
+    return pane_frame(img, seed_of("paneframe" + state) + w)
+
+
+def save_pane(img, name):
+    """A whole pane cut into its blocks: the left and right halves of a wide one, upper and lower."""
+    w = img.width
+    halves = [("s", 0)] if w == S else [("l", 0), ("r", S)]
+    for half, x in halves:
+        for part, y in (("upper", 0), ("lower", S)):
+            save(img.crop((x, y, x + S, y + S)), f"officepane-{name}-{half}-{part}")
+
+
+def panes():
+    for w in (S, 2 * S):
+        save_pane(clear_pane(w, seed_of("l4paneclear")), "clear")
+        for state in ("down", "half", "tilt"):
+            save_pane(blinds_pane(state, w, seed_of("l4paneblinds")), state)
+
 def generate():
     ficus()
     reception()
@@ -254,3 +372,4 @@ def generate():
     windows()
     for i, (state, seed) in enumerate((("down", 0), ("half", 1), ("tilt", 2), ("half", 3))):
         save(blinds_tex(state, seed), "officewindow-blinds" + ("" if i == 0 else f"-{i + 1}"))
+    panes()

@@ -447,7 +447,11 @@ public sealed partial class WorldLayout
     /// round a wall's corner (the tile at the corner's tip is sidewalk too) and the generator gives it kerb corners
     /// (hub-curbcorner, hub-curbinner). The big tunnels' three dotted lines of studs are one yellow middle line (FloorKind
     /// HubLine) that follows the bends and stops at junctions; the narrow tunnels have none, and a give-way line
-    /// (HubGiveWay) where they meet another tunnel. Lamps also hang round a bend's curved walls.</item>
+    /// (HubGiveWay) where they meet another tunnel. Lamps also hang round a bend's curved walls.
+    /// Level 4's windows are whole panes: a run of window wall is paired into panes two blocks wide at even world
+    /// coordinates, the full window's height, one state to a pane (<see cref="WindowRoll"/>, rolled at the pair's corner;
+    /// in 1-10 one roll per block), and the generator builds each pane of officepane blocks framed only at its edges, a
+    /// pane one block wide where a run ends against a corner, a column or a doorway.</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 11;

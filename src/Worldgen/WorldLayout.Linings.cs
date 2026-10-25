@@ -198,8 +198,7 @@ public sealed partial class WorldLayout
     private ushort LiningVariant(int level, WallPattern pattern, int gx, int gz)
     {
         if (level != 4 || pattern != WallPattern.OfficeWindow) return 0;
-        double r = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL4Detail));
-        return WindowVariant(r);
+        return WindowVariant(WindowRoll(gx, gz));
     }
 
     /// <summary>

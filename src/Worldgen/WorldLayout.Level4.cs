@@ -101,6 +101,14 @@ public sealed partial class WorldLayout
     /// have blinds (older worlds: 55% blacked out, 27% blinds, 18% clear); the wiki says most are blacked out and any clear one is a trap.</summary>
     private byte WindowVariant(double r) => Version >= 9 ? (byte)(r < 0.4 ? 1 : r < 0.86 ? 2 : 0) : (byte)(r < 0.55 ? 1 : r < 0.82 ? 2 : 0);
 
+    /// <summary>
+    /// The roll for a window's state at a block: from layout 11 one roll for each pane two blocks wide (the generator's
+    /// <c>L4PaneBlock</c> pairs the blocks of a run at even world coordinates), taken at the pair's even corner, so both
+    /// blocks of a pane agree whichever way the wall runs and whichever cell they lie in; before it one roll per block.
+    /// </summary>
+    private double WindowRoll(int gx, int gz) =>
+        Hashing.Unit(Version >= 11 ? Hashing.Hash(seed, gx & ~1, gz & ~1, SaltL4Detail) : Hashing.Hash(seed, gx, gz, SaltL4Detail));
+
     private void BuildLevel4(Builder b, int mx, int mz)
     {
         for (int i = 0; i < b.Tiles.Length; i++) b.Tiles[i].Floor = FloorKind.OfficeCarpet;
@@ -122,7 +130,7 @@ public sealed partial class WorldLayout
                 if (t.Kind == TileKind.Wall && t.Pattern == WallPattern.OfficeWindow)
                 {
                     // Most windows are papered over or shut behind blinds; the clear ones are not to be trusted
-                    t.Variant = WindowVariant(r);
+                    t.Variant = WindowVariant(WindowRoll(mx * MacroSize + lx, mz * MacroSize + lz));
                     continue;
                 }
                 if (t.IsWallLike) continue;
