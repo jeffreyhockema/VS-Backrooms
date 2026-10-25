@@ -122,15 +122,15 @@ public partial class MenaceSystem : ModSystem
     /// <param name="CapBonus">Added to the menacing cap of the approach and threshold bands, and of the heartland when <paramref name="HeartCapBonus"/> is.</param>
     public readonly record struct Difficulty(string Code, double Spawns, double Damage, bool Entities, double MixDanger = 0, int CapBonus = 0, int HeartCapBonus = 0);
 
-    /// <summary>The six settings (dialin.md 3.1). Spawns divides the mean intervals; "normal" is the fourth.</summary>
+    /// <summary>The six settings (dialin.md 3.1; shifted up one step in the progression round, plan.md 3.7: today's low rate is now normal). Spawns divides the mean intervals; "normal" is the fourth.</summary>
     private static readonly Difficulty[] Difficulties =
     {
         new("off", 1, 0, false),
-        new("verylow", 1, 0.5, true),
-        new("low", 2, 0.75, true),
-        new("normal", 3.5, 1, true),
-        new("high", 5.5, 1.3, true, 0.3, 1),
-        new("veryhigh", 8.5, 1.6, true, 0.6, 1, 1),
+        new("verylow", 2, 0.5, true),
+        new("low", 3.5, 0.75, true),
+        new("normal", 5.5, 1, true),
+        new("high", 8.5, 1.3, true, 0.3, 1),
+        new("veryhigh", 13, 1.6, true, 0.6, 1, 1),
     };
 
     private static readonly Difficulty NormalSetting = Difficulties[3];

@@ -124,8 +124,44 @@ public static class Danger
     /// <summary>Movement: a quarter to a third faster at the bottom.</summary>
     public static float Speed(double d) => (float)(1 + 0.3 * d);
 
-    /// <summary>Damage: about double by Level 9.</summary>
-    public static float Damage(double d) => (float)(1 + 1.1 * d);
+    /// <summary>
+    /// Damage (progression round): Levels 0 to 2 as they were (1 + 1.1 d), then a rising line through the points below, so
+    /// that a Smiler (base 6, the median hunter) hits for about 7.6 in Level 3, 8.4 in Level 5, 10.5 in Level 8 and 13 in
+    /// Level 9 (a Hound, base 7.2, a fifth more), against a player's 15 health: two or three blows from Level 3, one or two
+    /// from Level 8. Armour (the vanilla pipeline) does the rest; see /backrooms armourtest.
+    /// </summary>
+    public static float Damage(double d)
+    {
+        if (d <= DamagePoints[0].D) return (float)DamagePoints[0].Mul;
+        for (int i = 1; i < DamagePoints.Length; i++)
+        {
+            if (d > DamagePoints[i].D) continue;
+            (double d0, double m0) = DamagePoints[i - 1];
+            (double d1, double m1) = DamagePoints[i];
+            return (float)(m0 + (m1 - m0) * (d - d0) / (d1 - d0));
+        }
+        // Past the last point: carried on at the last slope
+        (double dl, double ml) = DamagePoints[^1];
+        (double dp, double mp) = DamagePoints[^2];
+        return (float)(ml + (ml - mp) / (dl - dp) * (d - dl));
+    }
+
+    private static readonly (double D, double Mul)[] DamagePoints =
+    {
+        (0, 1), (0.24, 1.264), (0.36, 1.264), (0.52, 1.4), (0.74, 1.75), (0.82, 2.2), (0.95, 2.6),
+    };
+
+    /// <summary>
+    /// The least a hunter runs at (blocks per tick, a sprint being 0.05) from Level 3 down: 1.15 sprints at danger 0.36,
+    /// rising to 1.4 sprints at 0.82 (Level 9) and staying there. 0 above: no floor. See <see cref="NoRunFloor"/>.
+    /// </summary>
+    public static float RunFloor(double d) => d < 0.36 ? 0 : (float)(0.05 * (1.15 + 0.25 * Math.Min(1, (d - 0.36) / 0.46)));
+
+    /// <summary>The ones that keep their own pace whatever the depth: the lore-slow (Wretch, Clump, Duller), the Mangled, Robo-Man (mechanical, run 0.024), the greeters and Level 94's Animations.</summary>
+    public static readonly HashSet<string> NoRunFloor = new()
+    {
+        "wretch", "clump", "duller", "mangled", "roboman", "faceling", "faceling-child", "animation-clay", "animation-wooden", "animation-paper",
+    };
 
     /// <summary>Time between attacks: down to seven tenths.</summary>
     public static float Cooldown(double d) => (float)(1 - 0.3 * d);

@@ -178,6 +178,8 @@ public class AiTaskMenace : AiTaskBase
     private Encounter lastKind = (Encounter)(-1);
     /// <summary>What the level's danger does to this one (see <see cref="Danger"/>), read when it first thinks.</summary>
     private float speedMul = 1, damageMul = 1, cooldownMul = 1, turnMul = 1;
+    /// <summary>The least its full run speed is (blocks per tick) at this level's danger, see <see cref="Danger.RunFloor"/>; 0 for none.</summary>
+    private float runFloor;
     private int tierBonus;
     private double giveUpAt = 40;
     private bool dangerRead;
@@ -370,6 +372,7 @@ public class AiTaskMenace : AiTaskBase
             damageMul = Danger.Damage(d);
             cooldownMul = Danger.Cooldown(d);
             tierBonus = Danger.TierBonus(d);
+            runFloor = Danger.NoRunFloor.Contains(entity.Code.Path) ? 0 : Danger.RunFloor(d);
             turnMul = (float)(1 + 2 * d);
             giveUpAt = 40 + 25 * d;
             patienceMs = (HuntPatienceSeconds + 15 * d) * 1000;
@@ -382,6 +385,10 @@ public class AiTaskMenace : AiTaskBase
             Hold(emergeAnim, emergeMs);
         }
         Log("starts: {0}", menace.Kind);
+        if (director.Logging)
+            Log("{0}", string.Format(System.Globalization.CultureInfo.InvariantCulture, "pace: danger {0:0.00}, run {1:0.0000}, walk {2:0.0000}, hit {3:0.0} tier {4}", Danger.Of(entity),
+                Math.Max(runSpeed * speedMul * lookSpeed, runFloor), walkSpeed * speedMul * lookSpeed,
+                damage * damageMul * (float)director.Setting.Damage * GlobalConstants.CreatureDamageModifier, damageTier + tierBonus));
         if (Perceives) Log("senses: {0}", senses);
         think = 0;
         sinceThink = 0;
@@ -1777,7 +1784,10 @@ public class AiTaskMenace : AiTaskBase
         SetMotion(speed >= runSpeed * 0.75f ? Motion.Run : Motion.Walk);
         // (The traverser keeps the point it is given and steers it; it must not be one this task goes on changing)
         to = to.Clone();
-        speed *= speedMul * lookSpeed;
+        float scaled = speed * speedMul * lookSpeed;
+        // From Level 3 down every hunter outruns a sprint (a stalker's 0.8 x run keeps the same share of it)
+        if (runFloor > 0 && speed >= runSpeed * 0.75f) scaled = Math.Max(scaled, runFloor * speed / runSpeed);
+        speed = scaled;
         if (straight) pathTraverser.WalkTowards(to, speed, within, OnArrived, OnStuck);
         else if (async) pathTraverser.NavigateTo_Async(to, speed, within, OnArrived, OnStuck, OnNoPath, 2500, 1);
         else
