@@ -13,11 +13,23 @@ It is a complete survival game built on Vintage Story's own systems. Hunger, thi
 - **Twenty-two levels**: Levels 0 to 11, the Snackrooms, Level 37, Level 94 and seven far places, each built to follow the Backrooms lore.
 - **More than seventy kinds of threshold** between them: elevators, stairwells, pits, pools, vents, windows, barn walls that aren't quite there. Every one always leads to the same place, so you can build a travel network from what you find.
 - **Scavenger survival**: salvage furniture, lights and the building itself, then follow Vintage Story's normal path of flint, fire, pottery, copper and bronze with materials found level by level.
-- **Level 0 is home**: you only ever wake up there, so everything a base needs has to be brought back.
+- **A climb with wards**: each level holds you only up to its tier. Past it your stability runs out, the level's hunters come, and a minute at zero wakes you in the level above with your things. Copper, bronze and iron anchors, worn at the neck, are the way down; the table below has the tiers.
+- **Home is where you last slept**: you wake in the last bed you slept in, or else in Level 0, so everything a base needs has to be brought back.
 - **Creatures with their own behaviour**, from Smilers and Hounds to the Mangled. They're heard and glimpsed far more than fought, and each one has a counter you can learn.
 - **A map that only shows what you have seen**, and remembers it.
 - **Wanderers' notes and a journal**, a handbook rewritten for the Backrooms, and a First Steps tutorial.
 - **World settings** for creature activity, resource scarcity, the map (down to no map at all) and the size of the levels.
+
+### Levels and wards
+
+| Tier | Ward | Levels it holds |
+| --- | --- | --- |
+| 0, stone | none | 0, 1, 2, 6.1 (the Snackrooms), the Hub, Kitty's House |
+| 1, copper | Copper Anchor | 3, 4, 5 |
+| 2, bronze | Bronze Anchor | 6, 7, 8, 37, 94 |
+| 3, iron | Iron Anchor | 9, 10, 11, The End, 188, Level Fun, Level !, 3999 |
+
+Past a level's tier your stability runs down: about ten minutes to zero one tier beyond, about three two or more beyond. Armour adds half a tier, and Almond Water restores less the further beyond you are. The handbook's *What holds you here* has the recipes.
 
 ## Installing
 

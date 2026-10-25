@@ -267,7 +267,35 @@ and outside the hard gap; its Hounds still always come.
 - **Almond Water** keeps Dullers off; **quiet** keeps Clumps buried; **indoors** is safe from the Mangled.
 - **Armour** matters more from Level 6, where every blow is one tier harder.
 
-## 5. Rewards
+## 5. Progression pressure (2026-10-25, progression round)
+
+The climb's lethality, from `docs/design/progression/plan.md` 3.5 (decisions 5 and 8). Lethality is not a setting: the
+world's *Backrooms entities* setting still multiplies damage and spawns on top, as in 3d. The stability side of the climb
+(the ward tiers, the drain, the blackout) is in the handbook page *What holds you here*, not here.
+
+**Damage targets** (a hunter's blow on an unarmoured player, at the level's danger; 15 HP):
+
+| Level | Danger | Blow (target) | Blows to kill, unarmoured | What answers it |
+| --- | --- | --- | --- | --- |
+| 3 | .36 | about 6 | 2 to 3 | leather halves the blow |
+| 5 | .52 | about 8 | 2 | leather, then bronze |
+| 8 | .74 | 10 to 12 | 2 | a bronze lamellar or chain set, to stand two blows |
+| 9 and deeper | .82 and up | about 14 | 2 | iron plate |
+
+The handbook says "two or three blows at Level 3, one or two by Level 8". At 15 HP a blow of 10 to 12 needs two, so
+"one or two" at Level 8 holds only for a player already hurt, or a second blow in the same breath. Decide which when
+`armourtest` (below) prints the table: either the Level 8 blow rises to 15 or more, or the handbook's line changes.
+
+**Speed floor.** From danger .36 (Level 3) every hunter's run speed is at least 1.15 x a sprint (0.058, so 0.067), rising
+to 1.4 x a sprint (0.081) at Level 9. The exceptions are Wretch, Clump and Duller, which ambush or reach and keep their
+own speeds. Hounds already run 0.062 at base; Deathmoths fly and the Thing swims, so both already outpace the player.
+The curve between the two ends is the code's (`Danger` in `Roster.cs`, the run speeds in `tools/gen_entities.py`).
+
+**Measure.** `armourtest` (piece B, `tools/aitest/run.py`) gives hits-to-kill per level and armour set with a dummy and
+the level's hunter striking; the speed cases check that a Level 3 Smiler closes on a running dummy. The table above is the
+target those numbers are tuned to, and the play-test check-list is `playtest.md` section 11.
+
+## 6. Rewards
 
 - **Bounty** (`Rewards.Bounty`), on whatever a player kills, in rusty gears (the wanderers' coin), expected value:
 
@@ -295,7 +323,7 @@ and outside the hard gap; its Hounds still always come.
     - Level 8 on: rusty gears, tin bronze bits, bandages, iron bits, very rarely a temporal gear.
 - Already there: deeper levels' boxes are less picked over (80 % in Level 1, 60 % to Level 5, 40 % below).
 
-## 6. To tune after play
+## 7. To tune after play
 
 All in one place: `Danger.OfLevel` (the curve) and the multipliers beside it; the base stats in
 `tools/gen_entities.py`; the bounty and cache tables at the top of `Rewards.cs`. The world setting *Backrooms

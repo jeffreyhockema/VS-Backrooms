@@ -153,3 +153,36 @@ gives the numbers to set against what you feel, and `/backrooms feltrate` (below
     Level 9 at the edge, Level 94 in the hills at night), and of `/backrooms ratecheck` for the same four, and say how
     they compare with what you felt. Any count of refused spawns (no floor, in sight, den dweller) goes in too.
     `/backrooms menace` shows the refused body rolls for your level.
+
+## 11. Progression
+
+What the climb (`docs/design/progression/plan.md`, section 7) should feel like: the stone levels free, copper a raid
+you can make without an anchor, bronze and iron a trip you prepare for, and a minute at zero a fair price, not a trap.
+Play a fresh world on the build from the merged round, with a Copper Anchor, Bronze Anchor and Iron Anchor made (or
+`/give` for the test, and say so). Note the time on your watch for each step.
+
+1. Raid Level 3 with no anchor, carrying nothing you mind losing. Walk in from Level 2 and dig for clay for about ten
+   minutes. Say when the stability gear started to turn back and when it reached zero. Expect about ten minutes from
+   full, one tier beyond. Then walk out; a raid is not a stay.
+2. The blackout and the wake-up: stay in Level 3 at zero for a full minute (wear nothing, or stand in the open). Expect
+   the walls to go dark for a moment, a sound, and a wake-up in Level 2 at a random spot with your inventory. Check
+   that no thin spot was left where you were, and that your stability is about half. Say how long the minute felt.
+3. The copper anchor: craft it (2 copper ingots, a temporal gear, a candle) and wear it at the neck. Walk into Level 3
+   and stay for half an hour. The gear should stay put; the Level 3 pockets (the flooded tunnels) still drain you as
+   before. Check the `/backrooms ward` line for tier 1.
+4. A Level 3 Hound in leather and in pleather: meet one with each set (or a Hound and then a Skin-Stealer if the Hound
+   is shy). Leather should halve the blow you feel; pleather should help, but less. Say how many blows each took, and
+   whether you could stand two.
+5. The 9th Road tin dash: from the lit road in Level 8, go off it for a short run into the rock with a copper anchor,
+   and back. The road's lamps should keep you steady on it; off it, the drain should be about the one-tier rate. Say
+   where the tin was and how long it took.
+6. Level 8 in bronze: with a Bronze Anchor on, walk off the road for ten minutes and check that the gear holds. Level 8's
+   hunters (Wretches in packs, Giant Spiders) should still be the hard part, with two blows or fewer to kill you
+   unarmoured and a bronze set standing two.
+7. Level 9 in iron: with an Iron Anchor on, walk the Suburbs' streets for ten minutes. Strider and Hounds should run
+   you down faster than a sprint, and the Wretches, Clumps and Dullers should not chase you that way. Note any hunter that
+   outran you that did not.
+8. Wanderer prices: trade with a wanderer for a temporal gear (rusty gears) and for a candle. Note the price asked, and
+   check that no anchor or armour is on offer.
+
+Add anything else you notice about the climb, and say which settings you played.
