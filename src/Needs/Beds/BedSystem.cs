@@ -91,9 +91,11 @@ public class BedSystem : ModSystem
             .BeginSubCommand("bedtest")
                 .WithDescription("Dev test: bedtest [x y z] reports the bed at a position (or the one you look at, or stand on): which half, head and foot positions, rest quality, the seat "
                     + "(makes the bed's entity if it has none). bedtest scan [rings] finds one of each bed family the worldgen places within that many macro cells of the spawn (default 40) "
-                    + "and reports it in the log once its column loads. bedtest place <headcode> [x y z] puts a bed down (default two blocks over the spawn) and reports it")
+                    + "and reports it in the log once its column loads. bedtest place <headcode> [x y z] puts a bed down (default two blocks over the spawn) and reports it. "
+                    + "bedtest room <headcode> x y z <none|head|sides|all> clears a box there, makes a floor and ceiling, puts a wall right behind the head with an empty room beyond it, "
+                    + "places the bed and blocks beside it (none; both sides of the head; every side block; everything round it), and reports where getting up would put the sleeper, and where vanilla's rule would")
                 // (Words, not numbers: the first one may be a mode. A console line ends in a carriage return the parser keeps as an argument; it is dropped)
-                .WithArgs(parsers.OptionalWord("a"), parsers.OptionalWord("b"), parsers.OptionalWord("c"), parsers.OptionalWord("d"), parsers.OptionalWord("e"))
+                .WithArgs(parsers.OptionalWord("a"), parsers.OptionalWord("b"), parsers.OptionalWord("c"), parsers.OptionalWord("d"), parsers.OptionalWord("e"), parsers.OptionalWord("f"))
                 .HandleWith(args => OnBedTest(api, args))
             .EndSubCommand();
     }
@@ -103,11 +105,34 @@ public class BedSystem : ModSystem
     private static TextCommandResult OnBedTest(ICoreServerAPI api, TextCommandCallingArgs args)
     {
         var words = new List<string>();
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 6; i++)
             if (args[i] is string w && w.Trim() is { Length: > 0 } t) words.Add(t);
 
         // bedtest scan [rings]
         if (words.Count > 0 && words[0] == "scan") return OnScan(api, words.Count > 1 && int.TryParse(words[1], out int rings) ? rings : 40);
+
+        // bedtest room <headcode> x y z <none|head|sides|all>
+        if (words.Count > 0 && words[0] == "room")
+        {
+            if (words.Count < 6 || !int.TryParse(words[2], out int rx) || !int.TryParse(words[3], out int ry) || !int.TryParse(words[4], out int rz))
+                return TextCommandResult.Error("bedtest room <headcode> x y z <none|head|sides|all>");
+            // (The room spans the chunk columns round the head: load them, then build)
+            var at = new BlockPos(rx, ry, rz);
+            var columns = new HashSet<(int, int)>();
+            foreach (int dx in new[] { -5, 5 })
+                foreach (int dz in new[] { -5, 5 })
+                    columns.Add(((rx + dx) / GlobalConstants.ChunkSize, (rz + dz) / GlobalConstants.ChunkSize));
+            int waiting = columns.Count;
+            foreach ((int cx, int cz) in columns)
+                api.WorldManager.LoadChunkColumnPriority(cx, cz, new ChunkLoadOptions
+                {
+                    OnLoaded = () =>
+                    {
+                        if (--waiting == 0) Logged(api, OnRoom(api, words[1], at, words[5]));
+                    },
+                });
+            return TextCommandResult.Success("bedtest room: loading " + columns.Count + " chunk columns, the result is in the log");
+        }
 
         // bedtest place <headcode> [x y z]
         if (words.Count > 0 && words[0] == "place")
@@ -138,6 +163,56 @@ public class BedSystem : ModSystem
     {
         api.Logger.Notification("[backrooms] {0}", result.StatusMessage);
         return result;
+    }
+
+    /// <summary>
+    /// A test room round a bed: a stone floor and ceiling over 11 by 11, air between, a wall one block behind the headboard across
+    /// the whole width (with the same room again beyond it), the bed, and stone "nightstands" as the mode says.
+    /// </summary>
+    private static TextCommandResult OnRoom(ICoreServerAPI api, string headCode, BlockPos head, string mode)
+    {
+        IBlockAccessor blocks = api.World.BlockAccessor;
+        if (!headCode.Contains(':')) headCode = "backrooms:" + headCode;
+        if (api.World.GetBlock(new AssetLocation(headCode)) is not BlockBackroomsBed { IsHead: true } bed) return TextCommandResult.Error(headCode + " is not a bed head");
+        Block stone = api.World.GetBlock(new AssetLocation("game:rock-granite"));
+        if (stone == null) return TextCommandResult.Error("no game:rock-granite");
+        BlockFacing headDir = BedStand.HeadDir(bed), foot = bed.FootDir;
+        var p = new BlockPos(0);
+        for (int dx = -5; dx <= 5; dx++)
+            for (int dz = -5; dz <= 5; dz++)
+                for (int dy = -1; dy <= 3; dy++)
+                {
+                    p.Set(head.X + dx, head.Y + dy, head.Z + dz);
+                    blocks.SetBlock(dy is -1 or 3 ? stone.Id : 0, p);
+                    blocks.RemoveBlockEntity(p);
+                }
+        // (The wall: the plane one block behind the head, across and up)
+        for (int w = -5; w <= 5; w++)
+            for (int dy = 0; dy <= 2; dy++)
+            {
+                BlockPos q = head.AddCopy(headDir).Add(headDir.Axis == EnumAxis.X ? 0 : w, dy, headDir.Axis == EnumAxis.X ? w : 0);
+                blocks.SetBlock(stone.Id, q);
+            }
+        OnPlace(api, headCode, head);
+        BlockPos footPos = foot == null ? null : head.AddCopy(foot);
+        var stoneAt = new List<BlockPos>();
+        if (mode is "head" or "sides" or "all")
+        {
+            BlockFacing across = foot?.GetCW() ?? headDir.GetCW();
+            stoneAt.Add(head.AddCopy(across)); stoneAt.Add(head.AddCopy(across.Opposite));
+        }
+        if (mode is "sides" or "all" && footPos != null)
+        {
+            BlockFacing across = foot.GetCW();
+            stoneAt.Add(footPos.AddCopy(across)); stoneAt.Add(footPos.AddCopy(across.Opposite));
+        }
+        if (mode == "all")
+        {
+            if (footPos != null) stoneAt.Add(footPos.AddCopy(foot));
+            else foreach (BlockFacing f in BlockFacing.HORIZONTALS) stoneAt.Add(head.AddCopy(f));
+        }
+        foreach (BlockPos s in stoneAt) blocks.SetBlock(stone.Id, s);
+        return TextCommandResult.Success($"bedtest room ({mode}): " + Describe(api.World, head));
     }
 
     private static TextCommandResult OnPlace(ICoreServerAPI api, string headCode, BlockPos pos)
@@ -257,7 +332,21 @@ public class BedSystem : ModSystem
         {
             EntityPos seat = entity.SeatPosition;
             sb.Append($"; seat {seat.X:0.##} {seat.Y:0.##} {seat.Z:0.##} yaw {seat.Yaw:0.##}, entity quality {entity.RestQuality:0.##}, mounted by {(entity.MountedBy?.GetName() ?? "nobody")}");
+            Vec3d stand = BedStand.Choose(world, bed, head, BedStand.PlayerBox, new Vec3d(seat.X, seat.Y + 0.1, seat.Z), out string how);
+            sb.Append($"; STAND {stand.AsBlockPos} ({how}, {BlockDist(stand, head, foot)})");
+            BlockFacing vanillaFacing = BlockFacing.FromCode(blocks.GetBlock(head).LastCodePart(0));
+            Vec3d van = BedStand.Vanilla(world, head, vanillaFacing, BedStand.PlayerBox, out string vhow);
+            sb.Append($"; VANILLA would stand {(van == null ? "nowhere" : van.AsBlockPos.ToString())} ({vhow}, {(van == null ? "-" : BlockDist(van, head, foot))})");
         }
         return sb.ToString();
+    }
+
+    /// <summary>How far a spot is from the nearest block of the bed, in blocks, for the report (1 = beside it).</summary>
+    private static string BlockDist(Vec3d spot, BlockPos head, BlockPos foot)
+    {
+        BlockPos s = spot.AsBlockPos;
+        int d = Math.Abs(s.X - head.X) + Math.Abs(s.Z - head.Z) + Math.Abs(s.Y - head.Y);
+        if (foot != null) d = Math.Min(d, Math.Abs(s.X - foot.X) + Math.Abs(s.Z - foot.Z) + Math.Abs(s.Y - foot.Y));
+        return d == 0 ? "on the bed" : $"{d} from the bed";
     }
 }

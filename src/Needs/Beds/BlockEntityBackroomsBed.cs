@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Datastructures;
@@ -42,6 +43,42 @@ public class BlockEntityBackroomsBed : BlockEntityBed, IMountableSeat, IMountabl
     }
 
     public new EntityPos SeatPosition => Position;
+
+    // Vanilla's private bookkeeping, which its DidUnmount sets and ours must set the same way (read once)
+    private static readonly FieldInfo BlockBrokenField = typeof(BlockEntityBed).GetField("blockBroken", BindingFlags.Instance | BindingFlags.NonPublic);
+    private static readonly FieldInfo MountedByEntityIdField = typeof(BlockEntityBed).GetField("mountedByEntityId", BindingFlags.Instance | BindingFlags.NonPublic);
+    private static readonly FieldInfo MountedByPlayerUidField = typeof(BlockEntityBed).GetField("mountedByPlayerUid", BindingFlags.Instance | BindingFlags.NonPublic);
+    private static readonly FieldInfo RestingListenerField = typeof(BlockEntityBed).GetField("restingListener", BindingFlags.Instance | BindingFlags.NonPublic);
+
+    /// <summary>
+    /// Getting up. Vanilla's own would teleport the sleeper by the side code, which for most of the mod's beds points through the
+    /// headboard (into the next room); this does its bookkeeping and stands the sleeper by <see cref="BedStand"/>'s rule instead.
+    /// Never calls the base, which would teleport.
+    /// </summary>
+    public new void DidUnmount(EntityAgent entityAgent)
+    {
+        if (MountedBy?.GetBehavior("tiredness") is EntityBehaviorTiredness tiredness) tiredness.IsSleeping = false;
+        MountedBy = null;
+        if (entityAgent != null && !(BlockBrokenField?.GetValue(this) is true))
+        {
+            Vec3d spot = null;
+            if (Block is BlockBackroomsBed bed)
+            {
+                EntityPos seat = Position;
+                Vec3d onTop = new(seat.X, seat.Y + 0.1, seat.Z);
+                spot = BedStand.Choose(Api.World, bed, bed.HeadPos(Pos), entityAgent.SelectionBox, onTop, out _);
+            }
+            if (spot != null)
+            {
+                spot.Y %= 32768.0;
+                entityAgent.TeleportTo(spot);
+            }
+        }
+        MountedByEntityIdField?.SetValue(this, 0L);
+        MountedByPlayerUidField?.SetValue(this, null);
+        if (RestingListenerField?.GetValue(this) is long listener) UnregisterGameTickListener(listener);
+        RestingListenerField?.SetValue(this, 0L);
+    }
 
     public new void MountableToTreeAttributes(TreeAttribute tree)
     {
