@@ -9,6 +9,7 @@ senses.
 Exits non-zero if any case fails. The full console log goes to <data>/aitest.log.
 """
 import argparse
+import math
 import os
 import re
 import shutil
@@ -1310,6 +1311,108 @@ def t_path_cubicle_partition(c):
 
 PATH_CASES = [("path-cubicle-partition", t_path_cubicle_partition)]
 
+# ---------------------------------------------------------------- progression round, piece B: lethality and speed (plan.md 3.5)
+# `/backrooms armourtest <entity> <level> [set]` re-runs vanilla's armour rules on the real items (a straw dummy cannot wear any) and logs
+# one line per set; the speed floor is read off the entity log's "pace:" line (headless entities never walk).
+ARM_RE = re.compile(r"armourtest (\S+) L(\S+) (\S+): head ([\d.]+) body ([\d.]+) legs ([\d.]+); mean ([\d.]+); blows to kill (\S+) \((\d+) to (\S+)\)")
+ARM_SETS = ("none", "jerkin-leather", "sewn-leather", "lamellar-copper", "lamellar-tinbronze", "chain-copper", "chain-tinbronze",
+            "plate-copper", "plate-tinbronze", "chain-iron", "plate-iron")
+ARM_LEVELS = ("1", "3", "5", "8", "9", "11")
+
+
+def _armour_table(c, code):
+    """{(level, set): dict(mean=, blows=, fewest=, most=)} for one entity, by one armourtest command per level."""
+    table = {}
+    for level in ARM_LEVELS:
+        m = c.srv.mark()
+        c.srv.cmd("/backrooms armourtest %s %s" % (code, level))
+        end = time.time() + 15
+        while time.time() < end and sum(1 for l in c.srv.since(m) if ARM_RE.search(l)) < len(ARM_SETS):
+            time.sleep(0.2)
+        for l in c.srv.since(m):
+            g = ARM_RE.search(l)
+            if g:
+                blows = float(g.group(8)) if g.group(8) != "never" else 99.0
+                table[(g.group(2), g.group(3))] = dict(mean=float(g.group(7)), blows=blows, fewest=int(g.group(9)),
+                                                      most=99 if g.group(10) == "never" else int(g.group(10)),
+                                                      zones=(float(g.group(4)), float(g.group(5)), float(g.group(6))))
+    return table
+
+
+def t_prog_armour(c):
+    ev, ok = [], True
+    for code in ("smiler", "hound"):
+        t = _armour_table(c, code)
+        if len(t) < len(ARM_LEVELS) * len(ARM_SETS):
+            return False, "armourtest %s gave %d of %d lines" % (code, len(t), len(ARM_LEVELS) * len(ARM_SETS))
+        for level in ARM_LEVELS:
+            ev.append("%s L%s: %s" % (code, level, " | ".join("%s %.1f/%s" % (s.replace("lamellar", "lam").replace("-tinbronze", "-sn").replace("-copper", "-cu"),
+                                                                             t[(level, s)]["mean"], "%.1f" % t[(level, s)]["blows"]) for s in ARM_SETS)))
+        none3, none8 = t[("3", "none")], t[("8", "none")]
+        checks = [
+            ("unarmoured 2-3 blows at L3", 2 <= math.ceil(none3["blows"]) <= 3),
+            ("unarmoured 1-2 blows at L8", 1 <= math.ceil(none8["blows"]) <= 2),
+            ("sewn leather at most 0.6 x the unarmoured blow at L3", t[("3", "sewn-leather")]["mean"] <= 0.6 * none3["mean"]),
+            ("copper lamellar stands two blows at L8 (even the worst piece)", t[("8", "lamellar-copper")]["fewest"] >= 3),
+            ("bronze lamellar stands two blows at L8 (even the worst piece)", t[("8", "lamellar-tinbronze")]["fewest"] >= 3),
+            ("iron plate stands two blows at L9 (even the worst piece)", t[("9", "plate-iron")]["fewest"] >= 3),
+            ("more depth never hits softer (unarmoured)", all(t[(a, "none")]["mean"] <= t[(b, "none")]["mean"] + 1e-6 for a, b in zip(ARM_LEVELS, ARM_LEVELS[1:]))),
+            ("better armour never hurts more (L8)", t[("8", "plate-iron")]["mean"] <= t[("8", "lamellar-tinbronze")]["mean"] <= t[("8", "none")]["mean"]),
+        ]
+        for what, good in checks:
+            ok &= good
+            if not good:
+                ev.append("%s: BAD %s" % (code, what))
+    return ok, "; ".join(ev)
+
+
+PACE_RE = re.compile(r"pace: danger ([\d.]+), run ([\d.]+), walk ([\d.]+), hit ([\d.]+) tier (\d+)")
+SPRINT = 0.05
+
+
+def _pace(c, code, level):
+    for _ in range(4):
+        try:
+            e = Enc(c, code, "hunt", 12, level=level)
+        except RuntimeError:
+            c.reset()
+            continue
+        e.wait_for(lambda: any(PACE_RE.search(l) for l in e.lines()), 8)
+        found = [PACE_RE.search(l) for l in e.lines()]
+        e.finish()
+        found = [f for f in found if f]
+        if found:
+            g = found[0]
+            return dict(danger=float(g.group(1)), run=float(g.group(2)), walk=float(g.group(3)), hit=float(g.group(4)), tier=int(g.group(5)))
+    return None
+
+
+def t_prog_speed(c):
+    # (code, level, least run speed or None, most run speed or None): from danger .36 a hunter runs at least 1.15 sprints, 1.4 from Level 9;
+    # the lore-slow (Wretch, Duller) keep their own pace, so a Wretch stays under the floor
+    # (the entity's own danger is the one of the level it was put down in, which a dummy near a border may not share: the floor is computed from it)
+    def floor(d):
+        return SPRINT * (1.15 + 0.25 * min(1.0, (d - 0.36) / 0.46)) if d >= 0.36 else 0.0
+    plan = [("smiler", "3", True), ("skinstealer", "3", True), ("hound", "3", True), ("deathrat", "3", True),
+            ("smiler", "9", True), ("skinstealer", "9", True), ("smiler", "1", False), ("wretch", "3", False)]
+    ev, ok = [], True
+    for code, level, floored in plan:
+        p = _pace(c, code, level)
+        if p is None:
+            ev.append("%s L%s: no pace line" % (code, level))
+            ok = False
+            continue
+        f = floor(p["danger"])
+        # (the pace line prints four decimals)
+        good = p["run"] >= f - 0.00006 if floored else p["run"] < max(f, SPRINT * 1.15) - 0.00006 or f == 0
+        good = good and (not floored or f > 0)
+        ok &= good
+        ev.append("%s L%s danger %.2f run %.4f (%.2f sprints; floor %.4f), hit %.1f%s" % (code, level, p["danger"], p["run"], p["run"] / SPRINT, f, p["hit"], "" if good else " BAD"))
+    return ok, "; ".join(ev)
+
+
+PROG_CASES = [("prog-armour", t_prog_armour), ("prog-speed", t_prog_speed)]
+
 
 
 def smoke(c):
@@ -1358,11 +1461,13 @@ def main():
         only = (only - {"needs"}) | {n for n, _ in NEEDS_CASES}
     if only and "path" in only:
         only = (only - {"path"}) | {n for n, _ in PATH_CASES}
+    if only and "prog" in only:
+        only = (only - {"prog"}) | {n for n, _ in PROG_CASES}
     if only and "iso-hound" in only:
         only = (only - {"iso-hound"}) | {n for n, _ in ISO_HOUND_CASES}
     if only:
         # A mistyped name would otherwise boot the server (up to 15 minutes), run nothing and exit 0
-        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES} | {"p1-no-errors", "dummies-smoke"}
+        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + PROG_CASES} | {"p1-no-errors", "dummies-smoke"}
         if only - known:
             sys.exit("unknown case(s): " + ", ".join(sorted(only - known)))
     started = time.time()
@@ -1376,7 +1481,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + PROG_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()

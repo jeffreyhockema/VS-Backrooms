@@ -248,6 +248,9 @@ public class GuiDialogCheats : GuiDialog
             B("Stealer status", "/backrooms feed status", "Says whether the nearest Skin-Stealer is fed (and for how long) or hungry"),
             B("Strike (6)", "/backrooms strike 6", "Hurts the nearest Backrooms creature within 16 blocks as you would, for 6: a Skin-Stealer stuns at 5 or more, a Duller outside its grab takes nothing"),
             B("Strike (2)", "/backrooms strike 2", "As Strike, for 2: below a Skin-Stealer's stun, but it still bleeds clear"),
+            B("Armour: Hound L3", "/backrooms armourtest hound 3", "What one Hound blow does in Level 3 to a player (15 health) in each vanilla armour set, and how many blows it takes (the game's own armour rules, computed)"),
+            B("Armour: Hound L8", "/backrooms armourtest hound 8", "As above for Level 8: unarmoured, leather, copper, bronze and iron sets"),
+            B("Armour: Smiler L9", "/backrooms armourtest smiler 9", "As above for a Smiler in Level 9"),
         }, 3);
 
         y = Heading(c, "Manage", y + RowGap);

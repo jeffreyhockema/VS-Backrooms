@@ -28,6 +28,7 @@ public partial class MenaceSystem
                 .WithArgs(parsers.OptionalFloat("damage"))
                 .HandleWith(OnStrikeCommand)
             .EndSubCommand();
+        RegisterArmourCommands(api, command);
     }
 
     private TextCommandResult OnFeedCommand(TextCommandCallingArgs args)
