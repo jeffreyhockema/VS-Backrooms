@@ -1505,7 +1505,7 @@ def t_prog_zero_safe(c):
     return hit is None, "no zero line in 70 s" if hit is None else "unexpected: " + hit
 
 
-PROG_CASES = [("prog-ward", t_prog_ward), ("prog-zero", t_prog_zero), ("prog-zero-safe", t_prog_zero_safe)]
+PROG_CASES = PROG_CASES + [("prog-ward", t_prog_ward), ("prog-zero", t_prog_zero), ("prog-zero-safe", t_prog_zero_safe)]
 
 
 
