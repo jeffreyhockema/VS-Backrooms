@@ -59,6 +59,7 @@ public class BackroomsModSystem : ModSystem
 
     /// <summary>The world's generator (server side, in a Backrooms world): Level ! puts its lanes back as they were with it.</summary>
     public WorldGenerator Generator => generator;
+    public WorldLayout Layout => layout;
 
     private ICoreClientAPI capi;
     /// <summary>0 = not known yet, 1 = a Backrooms world, 2 = another world. Resolved on the main thread when the level finalizes, read by the climate callback on any thread.</summary>

@@ -2833,5 +2833,12 @@
 	"block-carpetbedroll-*": "Carpet Bedroll",
 	"blockdesc-carpetbedroll": "Carpet fibres sewn into wallpaper strips, tied with twine and rolled. Enough to sleep on, not enough to sleep well.",
 	"blockhelp-bed": "Sleep",
-	"bedinfo": "Rest: {0}% of a proper bed"
+	"bedinfo": "Rest: {0}% of a proper bed",
+
+	"item-pleather": "Pleather",
+	"itemdesc-pleather": "Vinyl peeled off a seat. Stiff, cracking, and not leather: it sews into thin armour that wears out fast, and nothing that needs real leather will take it.",
+	"item-armor-pleather-head": "Pleather Cap",
+	"item-armor-pleather-body": "Pleather Jerkin",
+	"item-armor-pleather-legs": "Pleather Leggings",
+	"itemdesc-armor-pleather": "Sewn from salvaged vinyl: about two-fifths of a leather set's protection and a quarter of its life. Mend it with more pleather. Real leather is still tanned from hides."
 }

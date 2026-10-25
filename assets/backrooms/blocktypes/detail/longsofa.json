@@ -266,6 +266,14 @@
 					"avg": 0.3,
 					"var": 0.3
 				}
+			},
+			{
+				"type": "item",
+				"code": "pleather",
+				"quantity": {
+					"avg": 2,
+					"var": 0.5
+				}
 			}
 		],
 		"*": []

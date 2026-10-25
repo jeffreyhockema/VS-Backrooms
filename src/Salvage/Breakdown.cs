@@ -87,9 +87,9 @@ public static class Breakdown
     /// <summary>Packed earth, tracks and stubble: a shovel's work, and it stays where it lay.</summary>
     private static readonly Class Ground = new() { Material = EnumBlockMaterial.Soil, Tier = 0, Resistance = 2, Drops = D() };
 
-    /// <summary>A wrecked car: a copper pick and some work, for a good deal of scrap. Its invisible hull goes with it.</summary>
+    /// <summary>A wrecked car: a copper pick and some work, for a good deal of scrap (and its seat vinyl, pleather). Its invisible hull goes with it.</summary>
     private static readonly Class Wreck = new() { Material = EnumBlockMaterial.Metal, Tier = 2, Resistance = 12,
-        Drops = D((Bracket, 0.8f, 0.4f), (Wire, 0.6f, 0.4f), (Shard, 1f, 0.5f), (Copper, 0.4f, 0.4f)) };
+        Drops = D((Bracket, 0.8f, 0.4f), (Wire, 0.6f, 0.4f), (Shard, 1f, 0.5f), (Copper, 0.4f, 0.4f), ("pleather", 1.5f, 0.5f)) };
 
     /// <summary>The invisible hull round a car's model: breaking it breaks the car (<see cref="BlockBehaviorWreck"/>).</summary>
     private static readonly Class WreckHull = new() { Material = EnumBlockMaterial.Metal, Tier = 2, Resistance = 12, Drops = D() };

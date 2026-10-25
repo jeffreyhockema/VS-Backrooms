@@ -267,6 +267,19 @@
 						}
 					},
 					{
+						"code": "game:gear-temporal",
+						"type": "item",
+						"stacksize": 1,
+						"stock": {
+							"avg": 1,
+							"var": 0.25
+						},
+						"price": {
+							"avg": 3,
+							"var": 0.75
+						}
+					},
+					{
 						"code": "game:knife-generic-tinbronze",
 						"type": "item",
 						"stacksize": 1,

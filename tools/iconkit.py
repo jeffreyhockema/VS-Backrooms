@@ -31,7 +31,7 @@ ICONS = {
     "item/seedpacket-carrot", "item/seedpacket-flax", "item/seedpacket-onion", "item/seedpacket-spelt",
     "item/seedpacket-turnip", "item/wanderernote", "item/wanderernote-folded",
     "item/salvage/carpetfibre", "item/salvage/ceramicgrit", "item/salvage/glassshard", "item/salvage/glassshiv",
-    "item/salvage/metalbracket", "item/salvage/potshard", "item/salvage/rottenwood", "item/salvage/rubble",
+    "item/salvage/metalbracket", "item/salvage/pleather", "item/salvage/potshard", "item/salvage/rottenwood", "item/salvage/rubble",
     "item/salvage/scraper", "item/salvage/scrapwire", "item/salvage/wallpaperstrip",
     "item/188/cereal", "item/188/juicebox", "item/188/keycard",
     "item/3999/circuitboard", "item/3999/coinmech", "item/3999/cottoncandy", "item/3999/glowband-cyan",

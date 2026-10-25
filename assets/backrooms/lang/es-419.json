@@ -2691,5 +2691,11 @@
 	"block-built-wallpaper-dotted-upper": "Papel Tapiz Amarillo con Puntos",
 	"block-built-wallpaper-dotted-baseboard": "Papel Tapiz Amarillo con Puntos",
 	"block-built-wallpaper-cream-upper": "Papel Tapiz Pálido",
-	"block-built-wallpaper-cream-baseboard": "Papel Tapiz Pálido"
+	"block-built-wallpaper-cream-baseboard": "Papel Tapiz Pálido",
+	"item-pleather": "Polipiel",
+	"itemdesc-pleather": "Vinilo arrancado de un asiento. Rígido, agrietado y no es cuero: se cose en una armadura delgada que se gasta rápido, y nada que requiera cuero de verdad lo aceptará.",
+	"item-armor-pleather-head": "Gorra de Polipiel",
+	"item-armor-pleather-body": "Jubón de Polipiel",
+	"item-armor-pleather-legs": "Polainas de Polipiel",
+	"itemdesc-armor-pleather": "Cosida con vinilo recuperado: cerca de dos quintos de la protección de un conjunto de cuero y un cuarto de su vida. Se repara con más polipiel. El cuero de verdad se sigue curtiendo de pieles."
 }

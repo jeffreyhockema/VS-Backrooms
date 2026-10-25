@@ -59,6 +59,9 @@ public class Rewards : ModSystem
         new[] { (Gear, 2, 3, 1.2), ("game:metalbit-tinbronze", 2, 4, 1.0), ("game:bandage-clean", 2, 3, 0.8), ("game:metalbit-iron", 1, 3, 0.5), ("game:gear-temporal", 1, 1, 0.06) },
     };
 
+    /// <summary>The share of a Level 1 to 5 cache's extra that is a temporal gear (the deepest caches keep their own 6 % in <see cref="Bonus"/>).</summary>
+    private const double EarlyGearChance = 0.12;
+
     private static ICoreServerAPI sapi;
     private MenaceSystem director;
     private readonly HashSet<int> caches = new();
@@ -131,6 +134,8 @@ public class Rewards : ModSystem
         {
             var pool = Bonus[d < 0.4 ? 0 : d < 0.7 ? 1 : 2];
             var (code, min, max, _) = Pick(pool, rand);
+            // Levels 1 to 5: about one extra in eight is a temporal gear, for the ward at the end of the climb (deeper pools carry their own)
+            if (level is >= 1 and <= 5 && rand.NextDouble() < EarlyGearChance) (code, min, max) = ("game:gear-temporal", 1, 1);
             ItemStack stack = Make(code, min + rand.Next(max - min + 1));
             if (stack != null) sapi.World.SpawnItemEntity(stack, at);
         }

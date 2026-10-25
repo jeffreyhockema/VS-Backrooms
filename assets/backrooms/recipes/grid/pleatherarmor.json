@@ -1,0 +1,50 @@
+[
+	{
+		"ingredientPattern": "PPP,P_P",
+		"ingredients": {
+			"P": {
+				"type": "item",
+				"code": "pleather"
+			}
+		},
+		"width": 3,
+		"height": 2,
+		"name": "pleather head",
+		"output": {
+			"type": "item",
+			"code": "armor-pleather-head"
+		}
+	},
+	{
+		"ingredientPattern": "P_P,PPP,PPP",
+		"ingredients": {
+			"P": {
+				"type": "item",
+				"code": "pleather"
+			}
+		},
+		"width": 3,
+		"height": 3,
+		"name": "pleather body",
+		"output": {
+			"type": "item",
+			"code": "armor-pleather-body"
+		}
+	},
+	{
+		"ingredientPattern": "PPP,P_P,P_P",
+		"ingredients": {
+			"P": {
+				"type": "item",
+				"code": "pleather"
+			}
+		},
+		"width": 3,
+		"height": 3,
+		"name": "pleather legs",
+		"output": {
+			"type": "item",
+			"code": "armor-pleather-legs"
+		}
+	}
+]
