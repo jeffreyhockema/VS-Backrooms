@@ -455,6 +455,10 @@ public sealed partial class WorldGenerator
     private readonly int officeWallId, officeWallBaseId, officeWindowId, officeGlassId, officeCeilingId, confTableId, elevatorLowerId, elevatorUpperId;
     private readonly int officeDoorLowerId, officeDoorUpperId;
     private readonly int[] officeWindowIds = new int[3]; // open, blacked out, blinds
+    /// <summary>(layout 11) The window panes' blocks by kind (<see cref="PaneKinds"/>), part of the pane (<see cref="PaneParts"/>), lower or upper.</summary>
+    private readonly int[,,] officePaneIds = new int[5, 5, 2];
+    private static readonly string[] PaneKinds = { "clear", "blackout", "down", "half", "tilt" }, PaneParts = { "single", "west", "east", "north", "south" };
+    private const ulong SaltL4Blind = 0x4D41;
     private readonly int[] officeLightIds = new int[4]; // on, lit, off, flicker
     private readonly int partitionWeId, partitionNsId;
     private readonly int[] deskIds = new int[4], chairIds = new int[4], filingIds = new int[4], vendingIds = new int[4], coolerIds = new int[4];
@@ -791,6 +795,10 @@ public sealed partial class WorldGenerator
         officeWindowIds[0] = officeWindowId;
         officeWindowIds[1] = Id("officewindowalt-blackout");
         officeWindowIds[2] = Id("officewindowalt-blinds");
+        for (int k = 0; k < PaneKinds.Length; k++)
+            for (int p = 0; p < PaneParts.Length; p++)
+                for (int u = 0; u < 2; u++)
+                    officePaneIds[k, p, u] = Id($"officepane-{PaneKinds[k]}-{PaneParts[p]}-{(u == 0 ? "lower" : "upper")}");
         officeGlassId = BlockId("backrooms:officeglass");
         officeCeilingId = BlockId("backrooms:officeceiling");
         confTableId = BlockId("backrooms:conferencetable");
@@ -1923,7 +1931,7 @@ public sealed partial class WorldGenerator
                 if (decor != 0) return decor;
                 return t.Pattern switch
                 {
-                    WallPattern.OfficeWindow => rel == 1 ? officeWallBaseId : officeWindowIds[t.Variant % 3],
+                    WallPattern.OfficeWindow => rel == 1 ? officeWallBaseId : layout.Version >= 11 ? L4PaneBlock(t, rel, gx, gz) : officeWindowIds[t.Variant % 3],
                     WallPattern.OfficeGlass => officeGlassId,
                     WallPattern.Hotel => HotelWall(rel),
                     _ => rel == 1 ? officeWallBaseId : officeWallId,
@@ -1953,6 +1961,54 @@ public sealed partial class WorldGenerator
             >= 40 => PropBlock(t),
             _ => t.SupplyBox ? BoxOf(t) : 0,
         };
+    }
+
+    /// <summary>
+    /// (layout 11) A block of one of Level 4's windows, which are panes two blocks wide and the window's full height
+    /// (from the drywall base to the ceiling, two blocks): a run of window blocks is paired at even world coordinates
+    /// along it, and a block whose pair is not window (the run ends at a corner, a column or a doorway) is a pane of its
+    /// own, one block wide (a block where two runs meet goes with one of them: <see cref="PaneAxis"/>). The pane is clear, blacked out or behind blinds as the
+    /// layout rolled it once for the pair (<c>WorldLayout.WindowRoll</c>), and a blind is down, half drawn up or tilted
+    /// open by one roll at the same corner. Each part has its own block, framed only on the pane's outer edges.
+    /// </summary>
+    private int L4PaneBlock(in Tile t, int rel, int gx, int gz)
+    {
+        int axis = PaneAxis(gx, gz), part = 0;
+        if (axis == 1 && PaneAxis(gx ^ 1, gz) == 1) part = (gx & 1) == 0 ? 1 : 2;
+        else if (axis == 2 && PaneAxis(gx, gz ^ 1) == 2) part = (gz & 1) == 0 ? 3 : 4;
+        // (the state as the pane's even block has it, so a pane is one thing even if one block's tile was changed)
+        int state = part switch { 1 or 2 => TileAt(gx & ~1, gz).Variant, 3 or 4 => TileAt(gx, gz & ~1).Variant, _ => t.Variant };
+        int kind = (state % 3) switch
+        {
+            0 => 0,
+            1 => 1,
+            _ => 2 + (int)(Hashing.Hash(seed, gx & ~1, gz & ~1, SaltL4Blind) % 3),
+        };
+        return officePaneIds[kind, part, rel >= WorldGeometry.RoomHeight ? 1 : 0];
+    }
+
+    /// <summary>
+    /// The way the window run through a column goes, for pairing it into panes: 1 along x, 2 along z, 0 not a window or
+    /// one standing alone. A block where two runs meet (a corner, or where one runs into another) goes with the run
+    /// whose block it pairs with, along x first, so a corner is the end of a whole pane with the frame's post on its other
+    /// face, and the other run's block beside it is a pane of its own.
+    /// </summary>
+    private int PaneAxis(int gx, int gz)
+    {
+        if (!IsWindow(gx, gz)) return 0;
+        bool x = IsWindow(gx - 1, gz) || IsWindow(gx + 1, gz), z = IsWindow(gx, gz - 1) || IsWindow(gx, gz + 1);
+        if (x != z) return x ? 1 : 2;
+        if (!x) return 0;
+        if (IsWindow(gx ^ 1, gz) && !IsWindow(gx ^ 1, gz - 1) && !IsWindow(gx ^ 1, gz + 1)) return 1;
+        if (IsWindow(gx, gz ^ 1) && !IsWindow(gx - 1, gz ^ 1) && !IsWindow(gx + 1, gz ^ 1)) return 2;
+        return 0;
+    }
+
+    /// <summary>Whether a column is one of Level 4's window walls.</summary>
+    private bool IsWindow(int gx, int gz)
+    {
+        Tile n = TileAt(gx, gz);
+        return n.Kind == TileKind.Wall && n.Pattern == WallPattern.OfficeWindow;
     }
 
     // ---- Level 5: terror hotel ----
