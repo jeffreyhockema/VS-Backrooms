@@ -102,10 +102,9 @@ public class ZeroSystem : ModSystem
         // The level's worst hunter at once, once for each time the bar runs out (only where the level asks more than they hold)
         if (!state.Hunted)
         {
-            state.Hunted = true;
             int levelTier = WardTiers.LevelTierAt(layout, entity.Pos.X, entity.Pos.Z);
             if (WardTiers.Beyond(WardTiers.TierOf(entity), levelTier) > 0)
-                sapi.ModLoader.GetModSystem<MenaceSystem>()?.SendWorstHunter(entity);
+                state.Hunted = sapi.ModLoader.GetModSystem<MenaceSystem>()?.SendWorstHunter(entity) == true;
         }
 
         if (state.Seconds >= ZeroSeconds) Blackout(entity, state);

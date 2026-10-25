@@ -153,9 +153,8 @@ def recipes():
     }], "recipes", "grid", "anchor-copper.json")
     write_json([{
         "ingredientPattern": "BA,BG",
-        "ingredients": {"B": {"type": "item", "code": "game:ingot-{metal}", "name": "metal"},
+        "ingredients": {"B": {"type": "item", "code": "game:ingot-*", "name": "metal", "allowedVariants": ["tinbronze", "bismuthbronze", "blackbronze"]},
                         "A": {"type": "item", "code": "backrooms:anchor-copper"}, "G": gear},
-        "allowedVariants": {"metal": ["tinbronze", "bismuthbronze", "blackbronze"]},
         "width": 2, "height": 2,
         "output": {"type": "item", "code": "backrooms:anchor-bronze"},
     }], "recipes", "grid", "anchor-bronze.json")

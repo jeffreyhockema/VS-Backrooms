@@ -109,7 +109,8 @@ public partial class RealitySystem : ModSystem
 
     private float OnGetStability(float vanillaStability, double x, double y, double z)
     {
-        float stability = layout.StabilityAt(x, y, z, geometry.FloorY) - ShiftDrain * (float)ShiftStrength - DepthDeficit(x, y, z);
+        // (A shift's own drain is floored where it always was; only the depth deficit goes far below)
+        float stability = Math.Max(-0.5f, layout.StabilityAt(x, y, z, geometry.FloorY) - ShiftDrain * (float)ShiftStrength) - DepthDeficit(x, y, z);
         // (Far below zero on purpose: vanilla drains a bar by how far under 1 the area is, see WardTiers)
         return Math.Clamp(stability, -5f, 1.5f);
     }

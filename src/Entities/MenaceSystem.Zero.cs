@@ -36,11 +36,7 @@ public partial class MenaceSystem
                 && (!e.ShiftOnly || a.Shift) && (!e.SubwayOnly || a.Subway) && (!e.LightsOutOnly || a.Worst || a.Shift) && (!e.NeedsDark || a.Dark))
             .OrderBy(e => { int i = Array.IndexOf(WorstFirst, e.Code); return i < 0 ? int.MaxValue : i; })
             .FirstOrDefault();
-        if (entry == null)
-        {
-            sapi.Logger.Notification("[backrooms] zero: Level {0} has no hunter to send", Worldgen.WorldLayout.DisplayNumber(a.Level));
-            return false;
-        }
+        if (entry == null) return false; // (a roster with nothing that hunts, or the dark ones in the light: asked again each second until the bar rises)
         sapi.Logger.Notification("[backrooms] zero: sending {0} for {1} (Level {2})", entry.Code, (target as Vintagestory.API.Common.EntityPlayer)?.Player?.PlayerName ?? target.Code.ToString(), Worldgen.WorldLayout.DisplayNumber(a.Level));
         ZeroHunterTry(target, entry, 0);
         return true;
