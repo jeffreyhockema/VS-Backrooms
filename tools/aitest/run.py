@@ -1286,6 +1286,31 @@ def t_needs_rates(c):
 
 NEEDS_CASES = [("needs-boot", t_needs_boot), ("needs-selftest", t_needs_selftest), ("needs-rates", t_needs_rates)]
 
+def _pathtest(c, args, tries=12):
+    """`/backrooms pathtest <args>`: the report line, retrying while the chunks load."""
+    for _ in range(tries):
+        m = c.srv.mark()
+        c.srv.cmd("/backrooms pathtest " + args)
+        r = c.srv.wait(lambda l: re.search(r"(?:FOUND|NO PATH).*|The chunks are loading", l), m, 15)
+        if r and "chunks are loading" not in r.group(0):
+            return r.group(0)
+        time.sleep(5)
+    return None
+
+
+def t_path_cubicle_partition(c):
+    """Level 4's cubicles (seed 12345, around 514670,511988): a Duller from one side of a back partition to the other must be sent
+    round it (13+ steps for 4 blocks), not over it (3 steps: the game's step test let a 1.5 high partition through)."""
+    line = _pathtest(c, "duller 514670 511990 514670 511986")
+    if line is None:
+        return False, "no pathtest report"
+    steps = re.search(r"(\d+) steps", line)
+    return line.startswith("FOUND") and steps is not None and int(steps.group(1)) >= 10, line[:200]
+
+
+PATH_CASES = [("path-cubicle-partition", t_path_cubicle_partition)]
+
+
 
 def smoke(c):
     """`dummies on` with a Level 1 dummy for 60 s must produce no errors."""
@@ -1331,11 +1356,13 @@ def main():
         only = (only - {"felt"}) | {n for n, _ in FELT_CASES}
     if only and "needs" in only:
         only = (only - {"needs"}) | {n for n, _ in NEEDS_CASES}
+    if only and "path" in only:
+        only = (only - {"path"}) | {n for n, _ in PATH_CASES}
     if only and "iso-hound" in only:
         only = (only - {"iso-hound"}) | {n for n, _ in ISO_HOUND_CASES}
     if only:
         # A mistyped name would otherwise boot the server (up to 15 minutes), run nothing and exit 0
-        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES} | {"p1-no-errors", "dummies-smoke"}
+        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES} | {"p1-no-errors", "dummies-smoke"}
         if only - known:
             sys.exit("unknown case(s): " + ", ".join(sorted(only - known)))
     started = time.time()
@@ -1349,7 +1376,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()

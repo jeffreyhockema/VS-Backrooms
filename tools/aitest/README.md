@@ -55,3 +55,7 @@ In Level 0 (the Lobby, where nothing hunts), the dummy carrying a candle: a crea
 `needs-boot` (no log line about the needs' player patch or behaviours failing), `needs-selftest` (`/backrooms needstest`: every
 pure-math check of docs/design/needs/README.md passes) and `needs-rates` (`ratecheck 1 heartland 400 awake=0` against
 `awake=70`: the director's needs multiplier is about 2.9; at 0 awake hours it is 1, so `iso-rates` is untouched).
+
+## Path cases (`--only path`)
+
+`path-cubicle-partition`: `/backrooms pathtest duller` across a Level 4 back partition (seed 12345) must plan a way round it (10+ steps for 4 blocks), not over it (3 steps, as the game's step test planned before `TallBlockPathing`).
