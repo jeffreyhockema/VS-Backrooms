@@ -380,7 +380,7 @@ def level4():
     write("level4", "officelight", light, "Fluorescent troffers; about half are dead and their switches are missing")
     # (L3 art) elevatordoor is a model now (a freight lift on all four sides): gen_detail.py writes it
     partition = {
-        "code": "partition", "variantgroups": [{"code": "axis", "states": ["we", "ns"]}],
+        "code": "partition", "class": "BackroomsImpassable", "variantgroups": [{"code": "axis", "states": ["we", "ns"]}],
         "creativeinventory": {"general": ["*-we"], "decorative": ["*-we"]},
         "blockmaterial": "Cloth", "drawtype": "json",
         "shapeByType": {"*-we": {"base": "block/partition", "rotateY": 0}, "*-ns": {"base": "block/partition", "rotateY": 90}},
