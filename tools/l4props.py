@@ -185,6 +185,7 @@ def chair_stack():
     els = []
     rng = random.Random(seed_of("l4chairs"))
     n = 5
+    px1 = px2 = 0
     for i in range(n):
         y0 = i * 2.3
         dz = -0.9 * i
@@ -195,6 +196,18 @@ def chair_stack():
         els.append(b(f"SeatLip{i}", (x1, seat_y + 1.0, 4.8 + dz), (x2, seat_y + 1.5, 5.6 + dz), "l4shell", faces=DIRS))
         for k, (lx, lz) in enumerate(((x1 + 0.7, 5.4 + dz), (x2 - 1.5, 5.4 + dz), (x1 + 0.7, 12.2 + dz), (x2 - 1.5, 12.2 + dz))):
             lo = 0.5 if i == 0 else seat_y - 1.4
+            if i > 0 and k < 2:
+                # front legs of an upper chair pass just outside the chair below and end 2.3 per chair above the floor
+                if k == 0:
+                    lx = px1 - 1.0
+                    bx = (lx, max(lx + 0.8, x1 + 0.5))
+                else:
+                    lx = px2 + 0.2
+                    bx = (min(x2 - 0.5, lx), lx + 0.8)
+                lo = y0
+                els.append(b(f"Leg{i}{k}", (lx, lo, lz), (lx + 0.8, seat_y, lz + 0.8), "l4tube", faces=SIDES4))
+                els.append(b(f"LegBr{i}{k}", (bx[0], seat_y - 0.8, lz), (bx[1], seat_y, lz + 0.8), "l4tube", faces=SIDES4))
+                continue
             els.append(b(f"Leg{i}{k}", (lx, lo, lz), (lx + 0.8, seat_y, lz + 0.8), "l4tube", faces=SIDES4))
             if i == 0:
                 els.append(b(f"Foot{i}{k}", (lx - 0.1, 0, lz - 0.1), (lx + 0.9, 0.5, lz + 0.9), "l4foot"))
@@ -205,6 +218,7 @@ def chair_stack():
         for nm, (xa, xb, ya, yb) in (("Lo", (x1 + 0.4, x2 - 0.4, 0, 3.6)), ("Top", (x1 + 0.4, x2 - 0.4, 5.6, 7.4)),
                                      ("PostL", (x1 + 0.4, x1 + 1.8, 3.6, 5.6)), ("PostR", (x2 - 1.8, x2 - 0.4, 3.6, 5.6))):
             els.append(b(f"Back{nm}{i}", (xa, by + ya, bz), (xb, by + yb, bz + 0.9), "l4shell", rot=(8, 0, 0), origin=org))
+        px1, px2 = x1, x2
     return els
 
 
