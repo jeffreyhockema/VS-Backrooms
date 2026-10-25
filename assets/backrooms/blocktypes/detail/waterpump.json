@@ -51,6 +51,7 @@
 			"backrooms:almondwater"
 		],
 		"restock": true,
+		"liquidSource": true,
 		"dispenseSound": "game:sounds/effect/water-pour"
 	}
 }

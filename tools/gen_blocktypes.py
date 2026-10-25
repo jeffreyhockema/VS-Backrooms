@@ -396,7 +396,8 @@ def level4():
     shaped("level4", "vendingmachine", "block/vendingmachine", material="Metal", sounds=METAL, comment="Vending machine that still sells Almond Water: use it",
            box=(0.03, 0, 0.125, 0.97, 1, 0.94), **{"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser", "lightHsv": [10, 2, 6]})
     shaped("level4", "watercooler", "block/watercooler", material="Metal", sounds=METAL, comment="Water cooler full of Almond Water: use it",
-           box=(0.25, 0, 0.25, 0.75, 1, 0.75), **{"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser"})
+           box=(0.25, 0, 0.25, 0.75, 1, 0.75), **{"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
+                  "attributes": {"liquidSource": True}})
     shaped("level4", "conferencetable", "block/conferencetable", oriented=False, comment="Conference table", box=(0, 0, 0, 1, 0.78, 1))
 
 

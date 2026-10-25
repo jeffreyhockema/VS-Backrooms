@@ -41,6 +41,47 @@ public static class Drinks
         if (HydrationOf(collectible) is float amount) NeedsApi.Hydrate(entity, amount);
     }
 
+    /// <summary>How much stability a drink restores, unless its <c>stabilityRestored</c> attribute says otherwise.</summary>
+    private const double StabilityRestored = 0.15;
+
+    /// <summary>The stability a drink restores (attribute <c>stabilityRestored</c>, 0.15 if absent).</summary>
+    public static double StabilityOf(CollectibleObject collectible) =>
+        collectible?.Attributes?["stabilityRestored"].AsDouble(StabilityRestored) ?? StabilityRestored;
+
+    /// <summary>
+    /// Server: everything drinking <paramref name="drink"/> does to <paramref name="byEntity"/>, whether they drank the item from their
+    /// hand (ItemAlmondWater, which leaves its bottle) or straight from a water cooler or fountain (no bottle):
+    /// stability, the Duller ward, sleep aid and caffeine, and with thirst on hydration, gut rot, and the empty bottle.
+    /// </summary>
+    public static void ApplyDrink(ItemStack drink, EntityAgent byEntity, bool leavesBottle)
+    {
+        CollectibleObject drinkItem = drink?.Collectible;
+        if (drinkItem == null) return;
+        AddStability(byEntity, StabilityOf(drinkItem));
+        // ...and keeps the Dullers off for a while
+        if (drinkItem.Attributes?["wardsDullers"].AsBool(true) != false) Backrooms.Entities.AlmondWater.Drank(byEntity);
+
+        // Thirst: the drink hydrates (nothing happens with thirst off), may help or hinder sleep, and leaves its bottle
+        // (Sleep aid and caffeine are fatigue's: they work with thirst off)
+        if (NeedsApi.FatigueOn(byEntity.World))
+        {
+            if (drinkItem.Attributes?["sleepAid"].AsBool(false) == true) NeedsApi.MakeDrowsy(byEntity);
+            if (drinkItem.Attributes?["caffeineHours"].Exists == true) NeedsApi.Caffeinate(byEntity, drinkItem.Attributes["caffeineHours"].AsDouble());
+        }
+        if (!NeedsApi.ThirstOn(byEntity.World)) return;
+        Hydrate(drinkItem, byEntity);
+        double taint = drinkItem.Attributes?["taintChance"].AsDouble(0) ?? 0;
+        if (taint > 0 && byEntity.World.Rand.NextDouble() < taint)
+        {
+            NeedsApi.MakeSick(byEntity, WaterClass.SickHours); // (MakeSick tells the player)
+        }
+        if (leavesBottle && drinkItem.Attributes?["leavesBottle"].AsString() is string bottle)
+        {
+            Item empty = byEntity.World.GetItem(new AssetLocation(bottle));
+            if (empty != null) Give(byEntity, new ItemStack(empty));
+        }
+    }
+
     /// <summary>Server: a stack goes to the drinker's inventory, or falls at their feet.</summary>
     public static void Give(EntityAgent entity, ItemStack stack)
     {
@@ -60,7 +101,8 @@ public class ItemEmptyBottle : Item
 {
     public override void OnHeldInteractStart(ItemSlot slot, EntityAgent byEntity, BlockSelection blockSel, EntitySelection entitySel, bool firstEvent, ref EnumHandHandling handling)
     {
-        if (blockSel != null && firstEvent)
+        // (A water cooler or fountain answers its own click: drink, or fill this bottle. Water behind it is not what was clicked)
+        if (blockSel != null && firstEvent && byEntity.World.BlockAccessor.GetBlock(blockSel.Position).Attributes?["liquidSource"].AsBool(false) != true)
         {
             IWorldAccessor world = byEntity.World;
             Block fluid = world.BlockAccessor.GetBlock(blockSel.Position, BlockLayersAccess.Fluid);

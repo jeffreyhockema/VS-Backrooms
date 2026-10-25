@@ -318,7 +318,7 @@ def blocks():
         "selectionboxByType": {"*-leg": {"x1": 0.37, "y1": 0, "z1": 0.37, "x2": 0.63, "y2": 1, "z2": 0.63},
                                "*-tap": {"x1": 0.35, "y1": 0, "z1": 0.1, "x2": 0.65, "y2": 0.9, "z2": 0.65}},
         "classByType": {"*-tap": "BackroomsDispenser"}, "entityClassByType": {"*-tap": "BackroomsDispenser"},
-        "attributesByType": {"*-tap": {"dispenses": ["backrooms:almondwater"], "restock": True}},
+        "attributesByType": {"*-tap": {"dispenses": ["backrooms:almondwater"], "restock": True, "liquidSource": True}},
         "resistance": 4, "drops": [], "sounds": METAL,
     }, "Level 94: a white water tower on a hilltop, full of Almond Water")
     for part, eng in (("leg", "Water Tower Leg"), ("tank", "Water Tower Tank"), ("roof", "Water Tower Roof"), ("tap", "Water Tower Tap")):
@@ -335,7 +335,7 @@ def blocks():
         "sideopaque": {"all": False}, "lightAbsorption": 0,
         "collisionboxByType": {"*-rim": {"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 0.45, "z2": 1}},
         "classByType": {"*-spout": "BackroomsDispenser"}, "entityClassByType": {"*-spout": "BackroomsDispenser"},
-        "attributesByType": {"*-spout": {"dispenses": ["backrooms:almondwater"], "restock": True}},
+        "attributesByType": {"*-spout": {"dispenses": ["backrooms:almondwater"], "restock": True, "liquidSource": True}},
         "resistance": 4, "drops": [], "sounds": STONE,
         "particlePropertiesByType": {"*-spout": [{
             "hsvaColor": [{"avg": 32, "var": 4}, {"avg": 40, "var": 15}, {"avg": 225, "var": 20}, {"avg": 200, "var": 30}],

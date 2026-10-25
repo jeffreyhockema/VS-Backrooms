@@ -646,7 +646,7 @@ def level8():
         del EXT["rock"]
     common = {
         "class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
-        "attributes": {"dispenses": ["backrooms:almondwater"], "restock": True},
+        "attributes": {"dispenses": ["backrooms:almondwater"], "restock": True, "liquidSource": True},
         "blockmaterial": "Stone", "drawtype": "json", "shape": {"base": path},
         "lightAbsorption": 99, "resistance": 6, "drops": [], "sounds": STONE,
         "particleProperties": [{

@@ -1388,7 +1388,7 @@ def refinements():
     prop("waterpump", "Hand Pump", DP.hand_pump(),
          box=(0.3, 0, 0.3, 0.7, 1.06, 0.7), oriented=False, material="Metal", sounds=METAL,
          extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
-                "attributes": {"dispenses": ["backrooms:almondwater"], "restock": True, "dispenseSound": "game:sounds/effect/water-pour"}})
+                "attributes": {"dispenses": ["backrooms:almondwater"], "restock": True, "liquidSource": True, "dispenseSound": "game:sounds/effect/water-pour"}})
     prop("tractor", "Old Tractor", [
         bx("Body", (8, 10, 6), (24, 22, 30), "tractorgreen"), bx("Hood", (10, 12, 0), (22, 20, 8), "tractorgreen"),
         bx("Grille", (10.5, 12.5, -0.2), (21.5, 19.5, 0), "grate", faces=("north",), full=True),
