@@ -810,11 +810,11 @@ def _rate(c, level, band, hours=50, extra=""):
 
 
 def t_iso_rates(c):
-    # (level, band, key, lo, hi): measured at the normal setting (dialin.md 3.1; 50 h of ticks), +-35 %: L1 heartland 5.2, L1 threshold 45,
-    # L4 approach 12, L0 heartland 4.6, L9 threshold 200, L6 heartland 2.1, L1 heartland sounds 18
-    checks = [("1", "heartland", "bodies", 3.4, 7.0), ("1", "threshold", "bodies", 29, 61), ("4", "approach", "bodies", 8, 18),
-              ("0", "heartland", "bodies", 3, 6.2), ("9", "threshold", "bodies", 130, 270), ("6", "heartland", "bodies", 1.4, 2.9),
-              ("1", "heartland", "sounds", 12, 25)]
+    # (level, band, key, lo, hi): measured at the normal setting (dialin.md 3.1; 50 h of ticks), +-35 %: L1 heartland 8.5, L1 threshold 73,
+    # L4 approach 20, L0 heartland 7.4, L9 threshold 330, L6 heartland 4.0, L1 heartland sounds 27 (re-measured for the progression round's new normal, Spawns 5.5, 2026-10-25)
+    checks = [("1", "heartland", "bodies", 5.5, 11.5), ("1", "threshold", "bodies", 48, 99), ("4", "approach", "bodies", 13, 27),
+              ("0", "heartland", "bodies", 4.8, 10), ("9", "threshold", "bodies", 214, 444), ("6", "heartland", "bodies", 2.6, 5.4),
+              ("1", "heartland", "sounds", 18, 37)]
     ev, ok, cache = [], True, {}
     for level, band, key, lo, hi in checks:
         r = cache.get((level, band)) or cache.setdefault((level, band), _rate(c, level, band))
@@ -823,14 +823,14 @@ def t_iso_rates(c):
             good = good and r["stalk"] == 0 and r["hunt"] == 0   # glimpses only
         ok &= good
         ev.append("L%s %s %s %.1f (%s..%s)%s" % (level, band, key, r[key], lo, hi, "" if good else " BAD"))
-    # the hard gap: Level 1 heartland bodies are never closer than 25%% of the 11 minute mean
+    # the hard gap: Level 1 heartland bodies are never closer than 25%% of the 6.4 minute mean
     r = cache[("1", "heartland")]
     try:
-        gap_ok = float(r["mingap"]) >= 2.6
+        gap_ok = float(r["mingap"]) >= 1.6
     except ValueError:
         gap_ok = False
     ok &= gap_ok
-    ev.append("L1 heartland min body gap %s min (>= 2.6)%s" % (r["mingap"], "" if gap_ok else " BAD"))
+    ev.append("L1 heartland min body gap %s min (>= 1.6)%s" % (r["mingap"], "" if gap_ok else " BAD"))
     return ok, "; ".join(ev)
 
 

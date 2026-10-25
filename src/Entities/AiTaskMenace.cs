@@ -385,8 +385,10 @@ public class AiTaskMenace : AiTaskBase
             Hold(emergeAnim, emergeMs);
         }
         Log("starts: {0}", menace.Kind);
-        Log("pace: danger {0:0.00}, run {1:0.0000}, walk {2:0.0000}, hit {3:0.0} tier {4}", Danger.Of(entity), Math.Max(runSpeed * speedMul * lookSpeed, runFloor),
-            walkSpeed * speedMul * lookSpeed, damage * damageMul * (float)director.Setting.Damage * GlobalConstants.CreatureDamageModifier, damageTier + tierBonus);
+        if (director.Logging)
+            Log("{0}", string.Format(System.Globalization.CultureInfo.InvariantCulture, "pace: danger {0:0.00}, run {1:0.0000}, walk {2:0.0000}, hit {3:0.0} tier {4}", Danger.Of(entity),
+                Math.Max(runSpeed * speedMul * lookSpeed, runFloor), walkSpeed * speedMul * lookSpeed,
+                damage * damageMul * (float)director.Setting.Damage * GlobalConstants.CreatureDamageModifier, damageTier + tierBonus));
         if (Perceives) Log("senses: {0}", senses);
         think = 0;
         sinceThink = 0;

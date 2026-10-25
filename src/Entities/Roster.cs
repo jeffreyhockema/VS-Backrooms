@@ -157,10 +157,10 @@ public static class Danger
     /// </summary>
     public static float RunFloor(double d) => d < 0.36 ? 0 : (float)(0.05 * (1.15 + 0.25 * Math.Min(1, (d - 0.36) / 0.46)));
 
-    /// <summary>The ones that keep their own pace whatever the depth: the lore-slow (Wretch, Clump, Duller), the Mangled, the greeters and Level 94's Animations.</summary>
+    /// <summary>The ones that keep their own pace whatever the depth: the lore-slow (Wretch, Clump, Duller), the Mangled, Robo-Man (mechanical, run 0.024), the greeters and Level 94's Animations.</summary>
     public static readonly HashSet<string> NoRunFloor = new()
     {
-        "wretch", "clump", "duller", "mangled", "faceling", "faceling-child", "animation-clay", "animation-wooden", "animation-paper",
+        "wretch", "clump", "duller", "mangled", "roboman", "faceling", "faceling-child", "animation-clay", "animation-wooden", "animation-paper",
     };
 
     /// <summary>Time between attacks: down to seven tenths.</summary>
