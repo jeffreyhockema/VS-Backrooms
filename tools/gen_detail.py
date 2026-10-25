@@ -445,8 +445,8 @@ def l3_lift(part):
     round an inset panel, a hazard stripe across the foot, the call plate on the right jamb and, in the upper block,
     a lit floor indicator in the header."""
     top = 16 if part == "lower" else 13.0
-    front = [bx("JambL", (0, 0, -0.9), (2.5, 16, 0), "l3liftframe", faces=("north", "east", "west", "up", "down")),
-             bx("JambR", (13.5, 0, -0.9), (16, 16, 0), "l3liftframe", faces=("north", "east", "west", "up", "down"))]
+    front = [bx("JambL", (0.1, 0, -0.9), (2.5, 16, 0), "l3liftframe", faces=("north", "east", "west", "up", "down")),
+             bx("JambR", (13.5, 0, -0.9), (15.9, 16, 0), "l3liftframe", faces=("north", "east", "west", "up", "down"))]
     if part == "upper":
         front += [bx("Header", (2.5, 13.0, -0.9), (13.5, 16, 0), "l3liftframe", faces=("north", "up", "down")),
                   bx("IndBezel", (3.0, 13.4, -1.15), (13.0, 15.6, -0.9), "l3liftframe", faces=("north", "east", "west", "up", "down")),
