@@ -1,0 +1,237 @@
+{
+	"money": {
+		"avg": 25,
+		"var": 6
+	},
+	"selling": {
+		"maxItems": 9,
+		"list": [
+			{
+				"code": "backrooms:almondwater",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 3,
+					"var": 0.75
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:crackers",
+				"type": "item",
+				"stacksize": 2,
+				"stock": {
+					"avg": 3,
+					"var": 0.75
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:cannedbeans",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "game:candle",
+				"type": "item",
+				"stacksize": 2,
+				"stock": {
+					"avg": 3,
+					"var": 0.75
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:firesalt",
+				"type": "block",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 3,
+					"var": 0.75
+				}
+			},
+			{
+				"code": "game:bandage-clean",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "game:flaxtwine",
+				"type": "item",
+				"stacksize": 4,
+				"stock": {
+					"avg": 3,
+					"var": 0.75
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "game:seeds-flax",
+				"type": "item",
+				"stacksize": 4,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "game:seeds-cabbage",
+				"type": "item",
+				"stacksize": 4,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "game:linensack",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 1,
+					"var": 0.25
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			}
+		]
+	},
+	"buying": {
+		"maxItems": 7,
+		"list": [
+			{
+				"code": "backrooms:metalbracket",
+				"type": "item",
+				"stacksize": 4,
+				"stock": {
+					"avg": 6,
+					"var": 1.5
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:scrapwire",
+				"type": "item",
+				"stacksize": 5,
+				"stock": {
+					"avg": 6,
+					"var": 1.5
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:glassshard",
+				"type": "item",
+				"stacksize": 8,
+				"stock": {
+					"avg": 4,
+					"var": 1.0
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "game:hide-raw-medium",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 3,
+					"var": 0.75
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "game:hide-raw-large",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 3,
+					"var": 0.75
+				}
+			},
+			{
+				"code": "game:cloth-plain",
+				"type": "item",
+				"stacksize": 4,
+				"stock": {
+					"avg": 4,
+					"var": 1.0
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "game:metalbit-copper",
+				"type": "item",
+				"stacksize": 6,
+				"stock": {
+					"avg": 6,
+					"var": 1.5
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			}
+		]
+	}
+}

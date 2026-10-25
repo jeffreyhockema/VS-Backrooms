@@ -75,7 +75,6 @@ public class EndSystem : ModSystem
     /// </summary>
     private List<(int X, int Y, int Z)> turnarounds = new();
 
-    private ICoreAPI api;
     private long tickId;
 
     public override void Start(ICoreAPI api)
@@ -84,20 +83,12 @@ public class EndSystem : ModSystem
         api.RegisterBlockClass("BackroomsFragileShelf", typeof(BlockFragileShelf));
         api.RegisterItemClass("BackroomsCatalogueCard", typeof(ItemCatalogueCard));
         api.RegisterItemClass("BackroomsMemoryJuice", typeof(ItemMemoryJuice));
-        this.api = api;
-        api.Event.OnEntityLoaded += AttachJunkie;
-        api.Event.OnEntitySpawn += AttachJunkie;
+        // (The Junkies, who trade only with someone carrying Memory Juice, are wanderers: their rule is in the wanderers'
+        // dialogue, config/dialogue/wanderer.json, by the site WandererSystem gives them)
     }
-
-    private void AttachJunkie(Entity entity) => Junkies.Attach(api, entity);
 
     public override void Dispose()
     {
-        if (api != null)
-        {
-            api.Event.OnEntityLoaded -= AttachJunkie;
-            api.Event.OnEntitySpawn -= AttachJunkie;
-        }
         if (sapi != null)
         {
             if (tickId != 0) sapi.Event.UnregisterGameTickListener(tickId);
@@ -602,58 +593,5 @@ public class ItemMemoryJuice : Item
         byEntity.WatchedAttributes.SetDouble("temporalStability", Math.Min(1, stability + 0.2));
         byEntity.WatchedAttributes.SetDouble("backrooms:memoryUntil", byEntity.World.Calendar.TotalHours + 0.25);
         Backrooms.Needs.Water.Drinks.Hydrate(this, byEntity);
-    }
-}
-
-/// <summary>
-/// The Junkies of The End (Wikidot's Level 601): the wanderers who keep to its Home fake realities. They trade only with
-/// someone who carries Memory Juice; anyone else gets a word and nothing more.
-/// </summary>
-public static class Junkies
-{
-    public const string JuiceCode = "end-memoryjuice";
-
-    /// <summary>Gives a wanderer standing in The End the Junkies' rule (on both sides, so the trade dialog never opens without juice).</summary>
-    public static void Attach(ICoreAPI api, Entity entity)
-    {
-        if (entity?.Code?.Domain != "backrooms" || !entity.Code.Path.StartsWith("wanderer")) return;
-        if (api.World is not IWorldAccessor world || world.Config == null) return;
-        WorldLayout layout;
-        try { layout = BackroomsWorld.CreateLayout(world); }
-        catch { return; }
-        if (layout == null) return;
-        int x = (int)Math.Floor(entity.Pos.X), z = (int)Math.Floor(entity.Pos.Z);
-        if (layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)) != WorldLayout.TheEnd) return;
-        if (entity.GetBehavior<EntityBehaviorJunkie>() != null) return;
-        entity.SidedProperties?.Behaviors.Insert(0, new EntityBehaviorJunkie(entity));
-    }
-
-    public static bool CarriesJuice(IPlayer player)
-    {
-        if (player?.InventoryManager == null) return false;
-        foreach (IInventory inv in player.InventoryManager.Inventories.Values)
-        {
-            if (inv == null || inv.ClassName == "creative") continue;
-            foreach (ItemSlot slot in inv)
-                if (slot?.Itemstack?.Collectible?.Code is { } code && code.Domain == "backrooms" && code.Path == JuiceCode) return true;
-        }
-        return false;
-    }
-}
-
-/// <summary>A Junkie's rule: no juice, no trade.</summary>
-public class EntityBehaviorJunkie : EntityBehavior
-{
-    public EntityBehaviorJunkie(Entity entity) : base(entity) { }
-
-    public override string PropertyName() => "backrooms-junkie";
-
-    public override void OnInteract(EntityAgent byEntity, ItemSlot itemslot, Vec3d hitPosition, EnumInteractMode mode, ref EnumHandling handled)
-    {
-        if (mode != EnumInteractMode.Interact || byEntity is not EntityPlayer ep) return;
-        bool juice = Junkies.CarriesJuice(ep.Player);
-        if (entity.World.Side == EnumAppSide.Server && ep.Player is IServerPlayer sp)
-            sp.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(sp, juice ? "backrooms:endjunkie-greet" : "backrooms:endjunkie-nojuice"), EnumChatType.Notification);
-        if (!juice) handled = EnumHandling.PreventSubsequent;
     }
 }

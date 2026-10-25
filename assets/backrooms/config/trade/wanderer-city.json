@@ -1,0 +1,237 @@
+{
+	"money": {
+		"avg": 25,
+		"var": 6
+	},
+	"selling": {
+		"maxItems": 8,
+		"list": [
+			{
+				"code": "backrooms:candybar",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 3,
+					"var": 0.75
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:chips",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 3,
+					"var": 0.75
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:soda",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 3,
+					"var": 0.75
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:almondwaterblue",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "backrooms:almondwatergreen",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "backrooms:firesalt",
+				"type": "block",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 4,
+					"var": 1.0
+				}
+			},
+			{
+				"code": "game:knife-generic-tinbronze",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 1,
+					"var": 0.25
+				},
+				"price": {
+					"avg": 6,
+					"var": 1.5
+				}
+			},
+			{
+				"code": "game:lantern-small-up",
+				"type": "block",
+				"stacksize": 1,
+				"stock": {
+					"avg": 1,
+					"var": 0.25
+				},
+				"price": {
+					"avg": 6,
+					"var": 1.5
+				}
+			},
+			{
+				"code": "game:armor-body-sewn-linen",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 1,
+					"var": 0.25
+				},
+				"price": {
+					"avg": 5,
+					"var": 1.25
+				}
+			},
+			{
+				"code": "backrooms:chalk",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			}
+		]
+	},
+	"buying": {
+		"maxItems": 6,
+		"list": [
+			{
+				"code": "game:metalbit-silver",
+				"type": "item",
+				"stacksize": 3,
+				"stock": {
+					"avg": 4,
+					"var": 1.0
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "game:metalbit-brass",
+				"type": "item",
+				"stacksize": 4,
+				"stock": {
+					"avg": 4,
+					"var": 1.0
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:l3999-ticket",
+				"type": "item",
+				"stacksize": 5,
+				"stock": {
+					"avg": 4,
+					"var": 1.0
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:almondmilk",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "backrooms:epsomsalt",
+				"type": "item",
+				"stacksize": 2,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "backrooms:mothquill",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "game:hide-raw-large",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 3,
+					"var": 0.75
+				}
+			}
+		]
+	}
+}
