@@ -1,0 +1,25 @@
+[
+	{
+		"ingredientPattern": "IA,IG",
+		"ingredients": {
+			"I": {
+				"type": "item",
+				"code": "game:ingot-iron"
+			},
+			"A": {
+				"type": "item",
+				"code": "backrooms:anchor-bronze"
+			},
+			"G": {
+				"type": "item",
+				"code": "game:gear-temporal"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "item",
+			"code": "backrooms:anchor-iron"
+		}
+	}
+]

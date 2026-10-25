@@ -1415,6 +1415,100 @@ PROG_CASES = [("prog-armour", t_prog_armour), ("prog-speed", t_prog_speed)]
 
 
 
+# ---------------------------------------------------------------- progression pressure, piece A (reality): ward tiers, the zero blackout
+WARD_RE = re.compile(r"Ward: \S+ #(\d+) tier ([\d.]+) \(anchor (\d+), armour (\d+)(?:, test ward)?\); Level (\S+) asks tier (\d+); (\d+) beyond; deficit (-?[\d.]+); "
+                     r"area stability (-?[\d.]+) before it, (-?[\d.]+) with it; a full bar lasts (?:(\d+) s|for ever)")
+
+
+def _ward(c, arg=""):
+    m = c.srv.mark()
+    c.srv.cmd("/backrooms ward " + arg)
+    r = c.srv.wait(lambda l: WARD_RE.search(l) or ("No straw dummy" in l and l), m, 10)
+    if not hasattr(r, "group"):
+        return None
+    g = r.groups()
+    return {"tier": float(g[1]), "level": g[4], "asks": int(g[5]), "beyond": int(g[6]), "deficit": float(g[7]),
+            "before": float(g[8]), "area": float(g[9]), "lasts": int(g[10]) if g[10] else None}
+
+
+def t_prog_ward(c):
+    """/backrooms ward on a dummy: Level 3 unwarded is one tier beyond (deficit about 1.13, a bar lasts about 10 minutes); with ward 1 no
+    deficit; Level 8 unwarded is three beyond... two or more (deficit about 4.34, about 3 minutes); the test ward 2 in Level 8 is none."""
+    out = []
+    c.reset()
+    c.place(level="3")
+    w = _ward(c, "clear")
+    if not w:
+        return False, "no ward report"
+    ok = w["level"] == "3" and w["tier"] == 0 and w["asks"] == 1 and w["beyond"] == 1 and abs(w["deficit"] - 1.13) < 0.02
+    out.append("L3 tier 0: asks %d beyond %d deficit %.2f area %.2f lasts %s s" % (w["asks"], w["beyond"], w["deficit"], w["area"], w["lasts"]))
+    w = _ward(c, "1")
+    ok &= w is not None and w["tier"] == 1 and w["beyond"] == 0 and w["deficit"] == 0
+    out.append("L3 ward 1: beyond %s deficit %s" % (w and w["beyond"], w and w["deficit"]))
+    w = _ward(c, "0.5")
+    ok &= w is not None and w["beyond"] == 1
+    out.append("L3 ward 0.5: beyond %s" % (w and w["beyond"]))
+    c.reset()
+    c.place(level="8")
+    w = _ward(c, "clear")
+    ok &= w is not None and w["level"] == "8" and w["asks"] == 2 and w["beyond"] == 2 and abs(w["deficit"] - 4.34) < 0.02 and w["lasts"] is not None and 120 <= w["lasts"] <= 260
+    out.append("L8 tier 0: beyond %s deficit %s lasts %s s" % (w and w["beyond"], w and w["deficit"], w and w["lasts"]))
+    w = _ward(c, "1")
+    ok &= w is not None and w["beyond"] == 1 and w["lasts"] is not None and 400 <= w["lasts"] <= 1100
+    out.append("L8 ward 1: beyond %s lasts %s s" % (w and w["beyond"], w and w["lasts"]))
+    w = _ward(c, "2")
+    ok &= w is not None and w["beyond"] == 0 and w["deficit"] == 0
+    out.append("L8 ward 2: beyond %s" % (w and w["beyond"]))
+    c.reset()
+    c.place(level="0")
+    w = _ward(c, "clear")
+    ok &= w is not None and w["asks"] == 0 and w["deficit"] == 0
+    out.append("L0: asks %s deficit %s" % (w and w["asks"], w and w["deficit"]))
+    return ok, "; ".join(out)
+
+
+ZERO_RE = re.compile(r"zero: dummy #(\d+) lost their grip in Level (\S+) and came to in Level (\S+)")
+
+
+def t_prog_zero(c):
+    """A dummy at stability 0 in Level 3 (unwarded) is sent the level's worst hunter at once and, after 60 s at zero, is moved to a random
+    spot in Level 2 with its stability at 0.5 (checked by /backrooms ward's level). A dummy at zero in Level 0 is left alone."""
+    c.reset()
+    c.place(level="3")
+    m = c.srv.mark()
+    c.srv.cmd("/backrooms ward clear")
+    c.srv.cmd("/backrooms dummy stability 0")
+    sent = c.srv.wait(lambda l: re.search(r"zero: (sending \S+ for \S+|Level \S+ has no hunter)", l), m, 15)
+    moved = c.srv.wait(lambda l: ZERO_RE.search(l), m, 110)
+    time.sleep(2)
+    for _ in range(10):
+        w = _ward(c, "clear")
+        if w and w["level"] == "2":
+            break
+        time.sleep(2)
+    c.srv.cmd("/backrooms dummy stability 0.5")
+    ok = bool(sent) and bool(moved) and moved.group(2) == "3" and moved.group(3) == "2" and w is not None and w["level"] == "2"
+    ev = "hunter: %s; moved: %s; ward level after: %s" % (sent.group(0) if sent else None, moved.group(0) if moved else None, w and w["level"])
+    c.reset()
+    return ok, ev
+
+
+def t_prog_zero_safe(c):
+    """Zero in Level 0 (a safe place): nothing is sent and nobody is moved in 70 s."""
+    c.reset()
+    c.place(level="0")
+    m = c.srv.mark()
+    c.srv.cmd("/backrooms dummy stability 0")
+    hit = c.srv.wait(lambda l: re.search(r"zero: ", l) and "[backrooms]" in l, m, 70)
+    c.srv.cmd("/backrooms dummy stability 1")
+    c.reset()
+    return hit is None, "no zero line in 70 s" if hit is None else "unexpected: " + hit
+
+
+PROG_CASES = [("prog-ward", t_prog_ward), ("prog-zero", t_prog_zero), ("prog-zero-safe", t_prog_zero_safe)]
+
+
+
 def smoke(c):
     """`dummies on` with a Level 1 dummy for 60 s must produce no errors."""
     c.reset()

@@ -125,7 +125,11 @@ public class BlockBackroomsBed : Block
         }
         BlockEntityBackroomsBed bed = EnsureEntity(world, head);
         if (bed == null || bed.MountedBy != null) return false;
-        return byPlayer.Entity.TryMount(bed);
+        Vec3d beside = byPlayer.Entity.Pos.XYZ;
+        if (!byPlayer.Entity.TryMount(bed)) return false;
+        // Progression 3.8: the last bed slept in is where they wake after a death (else their Level 0 home)
+        (byPlayer as IServerPlayer)?.SetSpawnPosition(new PlayerSpawnPos((int)Math.Floor(beside.X), (int)Math.Floor(beside.Y), (int)Math.Floor(beside.Z)));
+        return true;
     }
 
     private void Refuse(IWorldAccessor world, IPlayer player, string code, string langKey)

@@ -502,9 +502,8 @@ def open_crate():
 # ======================= The anchor =======================
 
 def anchor():
-    # Shown when a temporal gear is used outside Level 0, and when a spawn point outside it is cleared
-    LANG["anchor-refused"] = "Nothing here will hold you. Only the Lobby still remembers where you came from."
-    LANG["anchor-lost"] = "You will wake in the Lobby again: nowhere else in the Backrooms remembers you."
+    # (The messages for a gear refused outside Level 0 and a spawn point cleared are gone: any bed or gear sets the spawn, progression 3.8)
+    pass
 
 
 # ======================= Finding the way =======================

@@ -57,7 +57,8 @@ public static class Drinks
     {
         CollectibleObject drinkItem = drink?.Collectible;
         if (drinkItem == null) return;
-        AddStability(byEntity, StabilityOf(drinkItem));
+        // (Less the further beyond the drinker's ward tier they stand, and never past that tier's ceiling: Reality.WardTiers.Drink)
+        Backrooms.Reality.WardTiers.Drink(byEntity, StabilityOf(drinkItem));
         // ...and keeps the Dullers off for a while
         if (drinkItem.Attributes?["wardsDullers"].AsBool(true) != false) Backrooms.Entities.AlmondWater.Drank(byEntity);
 
