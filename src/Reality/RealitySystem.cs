@@ -121,13 +121,10 @@ public class RealitySystem : ModSystem
 /// </summary>
 public class ItemAlmondWater : Item
 {
-    /// <summary>How much stability a drink restores, unless its <c>stabilityRestored</c> attribute says otherwise.</summary>
-    private const double StabilityRestored = 0.15;
-
     /// <summary>The nutrition this drink has while thirst is on (a copy of its own with <c>satietyWhenThirst</c>), made once.</summary>
     private FoodNutritionProperties thirstProps;
 
-    private double Stability => Attributes?["stabilityRestored"].AsDouble(StabilityRestored) ?? StabilityRestored;
+    private double Stability => Backrooms.Needs.Water.Drinks.StabilityOf(this);
 
     /// <summary>With thirst on a drink is no meal: its satiety is <c>satietyWhenThirst</c> (an item without the attribute keeps its own).</summary>
     public override FoodNutritionProperties GetNutritionProperties(IWorldAccessor world, ItemStack itemstack, Entity forEntity)
@@ -177,28 +174,7 @@ public class ItemAlmondWater : Item
         base.tryEatStop(secondsUsed, slot, byEntity);
         if (byEntity.World.Side != EnumAppSide.Server || slot.StackSize >= before) return;
 
-        Backrooms.Needs.Water.Drinks.AddStability(byEntity, Stability);
-        // ...and keeps the Dullers off for a while
-        if (Attributes?["wardsDullers"].AsBool(true) != false) Backrooms.Entities.AlmondWater.Drank(byEntity);
-
-        // Thirst: the drink hydrates (nothing happens with thirst off), may help or hinder sleep, and leaves its bottle
-        // (Sleep aid and caffeine are fatigue's: they work with thirst off)
-        if (Backrooms.Needs.Needs.FatigueOn(byEntity.World))
-        {
-            if (Attributes?["sleepAid"].AsBool(false) == true) Backrooms.Needs.Needs.MakeDrowsy(byEntity);
-            if (Attributes?["caffeineHours"].Exists == true) Backrooms.Needs.Needs.Caffeinate(byEntity, Attributes["caffeineHours"].AsDouble());
-        }
-        if (!Backrooms.Needs.Needs.ThirstOn(byEntity.World)) return;
-        Backrooms.Needs.Water.Drinks.Hydrate(this, byEntity);
-        double taint = Attributes?["taintChance"].AsDouble(0) ?? 0;
-        if (taint > 0 && byEntity.World.Rand.NextDouble() < taint)
-        {
-            Backrooms.Needs.Needs.MakeSick(byEntity, Backrooms.Needs.Water.WaterClass.SickHours); // (MakeSick tells the player)
-        }
-        if (Attributes?["leavesBottle"].AsString() is string bottle)
-        {
-            Item empty = byEntity.World.GetItem(new AssetLocation(bottle));
-            if (empty != null) Backrooms.Needs.Water.Drinks.Give(byEntity, new ItemStack(empty));
-        }
+        // (The effects are shared with drinking straight from a water cooler or a fountain: Drinks.ApplyDrink)
+        Backrooms.Needs.Water.Drinks.ApplyDrink(new ItemStack(this), byEntity, leavesBottle: true);
     }
 }

@@ -1601,7 +1601,8 @@ def level4():
 
     decors = [
         # (Level 4 art) the fountain at a real height (rim 0.89 m, bubbler 0.975 m) and the clock as geometry
-        Decor("fountain", "Drinking Fountain", {1: L4.fountain()}, cls=("BackroomsDispenser", "BackroomsDispenser")),
+        Decor("fountain", "Drinking Fountain", {1: L4.fountain()}, cls=("BackroomsDispenser", "BackroomsDispenser"),
+              attributes={"liquidSource": True}),
         Decor("clock", "Wall Clock", {3: L4.wall_clock()}),
         # (B7) the board in an aluminium frame (geometry), on a tray with a marker
         Decor("whiteboard", "Whiteboard", {2: plate("Board", (0, 1, -0.8), (16, 14, 0), "whiteboard", "steel") +

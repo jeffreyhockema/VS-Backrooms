@@ -366,5 +366,10 @@
 	},
 	"entityClassByType": {
 		"*-fountain-*": "BackroomsDispenser"
+	},
+	"attributesByType": {
+		"*-fountain-*": {
+			"liquidSource": true
+		}
 	}
 }

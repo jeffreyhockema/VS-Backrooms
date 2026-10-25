@@ -415,6 +415,7 @@ Crouch, and with empty hands hold {rightmouse} on the water for a second and you
 
 **Bottles**
 Drinking a bottled drink leaves an [empty bottle](item-backrooms:emptybottle), and empty bottles stack 16. Right-click a liquid with one in hand to fill it: [clean](item-backrooms:bottledwater-clean), [murky](item-backrooms:bottledwater-murky) or [salt](item-backrooms:bottledwater-salt), according to the water it is in. Boiling water fills a clean bottle.
+Water coolers, drinking fountains, pumps, taps and seeps pour: hold {rightmouse} with empty hands to drink straight from one, or right-click with an empty bottle to fill it. Each costs one of its few portions. Vending machines and fridges hand out sealed bottles.
 Murky water is the one to carry. Put a bottle of it in a lit [firepit](block-firepit-lit) and it boils clean. Salt water never does. That is how water gets from the wet levels into the dry ones.
 
 **Running low**
