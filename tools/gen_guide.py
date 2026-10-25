@@ -740,7 +740,7 @@ Pale, hairless, on all fours, in packs of two or three. You hear them first. Som
 - They will not come within 8 blocks of a lit [firepit](search:firepit) or burning [Firesalt](block-backrooms:firesalt). A fire makes a camp safe.
 - They hunt by sight and hearing, and have no nose. Stay out of sight: break the line of sight, stop, and go dark and quiet. It searches where it lost you, then gives up.
 - Stare one down: look straight at a Hound that is following you for a few seconds, and it lowers its head, growls and backs off. Then back away at a walk, facing it. Running, or turning your back, brings it on at once, and a Hound always outruns you. Its nerve does not last long: use the seconds.
-- A shut door stops a Hound: it has no hands, and it cannot come through.
+- A shut door stops a Hound: it has no hands, and it cannot come through. It fits a gap one block wide, but squeezing through anything narrower than two blocks (a service tunnel, a cluttered aisle) slows it to about three fifths of its pace.
 - A carried light no longer slows them; it only lets them see you from farther off. A spear, a club and armour see them off; hurt, they run. Each drops meat and a medium hide for leather.
 
 **Facelings** (Levels 1, 3, 4, 5, 9, the city, the Snackrooms; their children in 5, 9, the city and the Snackrooms)

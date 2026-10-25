@@ -864,7 +864,9 @@ def hound():
                     # A Hound sent by a Flickering hunts until the lights return (AiTaskMenace.Relentless)
                     huntsUntilSet=True,
                     glimpseTurnsToStalk=True, growlBeforeCharge=True, growlMs=900, barks=True, huntBarkSeconds=2, huntBarkLevels=[3],
-                    investigateSeconds=8, searchSeconds=14, retaliateSeconds=60, lookAnimation="sniff"),
+                    investigateSeconds=8, searchSeconds=14, retaliateSeconds=60, lookAnimation="sniff",
+                    # It fits a one-block gap but has to squeeze: through anything under 2 blocks wide it goes at 60 % (AiTaskMenace.Squeeze)
+                    squeezeWidth=2.0, squeezeFactor=0.6),
         idle("sniff", 1.2, 5000, 5000, 8000, 25000),
         idle("scratch", 1.15, 2500, 2500, 30000, 90000),
         WANDER,
@@ -875,8 +877,10 @@ def hound():
         "class": "EntityAgent",
         "tags": ["backrooms-entity", "predator", "habitat-land"],
         "weight": 70,
-        # The model is 23 px (1.45 blocks) at the shoulder and 33 long; the head hangs at about 1.1
-        "hitboxSize": {"x": 1.1, "y": 1.3},
+        # The model is 23 px (1.45 blocks) at the shoulder and 33 long; the head hangs at about 1.1. The body is 0.9 wide, so it
+        # fits a gap one block wide (1.1 never did: Level 2's service tunnels, Level 4's cubicles); what the player can hit stays 1.1 (hitboxSize would set both, so the two are given apart)
+        "collisionBoxSize": {"x": 0.9, "y": 1.3},
+        "selectionBoxSize": {"x": 1.1, "y": 1.3},
         "deadHitboxSize": {"x": 1.0, "y": 0.6},
         "eyeHeight": 1.1,
         "attributes": {"killedByInfoText": "backrooms:deadcreature-hound"},

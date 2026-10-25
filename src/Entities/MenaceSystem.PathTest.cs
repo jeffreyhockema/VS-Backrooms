@@ -32,6 +32,50 @@ public partial class MenaceSystem
                 .WithDescription("Dev test: pathtest between n pairs of random floor points in the size x size square from x z (the corner), seeded, and the tally of paths found; the first failures are listed. Args: entity x z size n [depth]")
                 .WithArgs(parsers.Word("entity"), parsers.Int("x"), parsers.Int("z"), parsers.Int("size"), parsers.Int("n"), parsers.OptionalInt("depth", 2500))
                 .HandleWith(args => RunPathTests(args, true))
+            .EndSubCommand()
+            .BeginSubCommand("squeeze")
+                .WithDescription("Dev test: the free width a Hound's squeeze rule measures at x y z (y is the floor, where the feet stand), across a walk along each axis and the speed factor that gives (AiTaskMenace.Squeeze: under 2 blocks, 60 %). Args: x y z [radius]. With a radius it surveys the square instead: for every open floor tile the tighter of the two ways, tallied by width, with a first example of each. The first try may only load the chunks")
+                .WithArgs(parsers.Int("x"), parsers.Int("y"), parsers.Int("z"), parsers.OptionalInt("radius", 0))
+                .HandleWith(args =>
+                {
+                    int x = (int)args[0], y = (int)args[1], z = (int)args[2], radius = (int)args[3];
+                    if (sapi.World.BlockAccessor.GetChunkAtBlockPos(x, y, z) == null)
+                    {
+                        sapi.WorldManager.LoadChunkColumn(x / 32, z / 32, true);
+                        return TextCommandResult.Error("The chunk is loading; try again in a moment");
+                    }
+                    var text = new System.Text.StringBuilder();
+                    if (radius > 0)
+                    {
+                        // The tighter of the two ways across a tile that can be stood in (open at the feet and the head), by width
+                        var tally = new SortedDictionary<double, (int Count, string First)>();
+                        IBlockAccessor ba = sapi.World.BlockAccessor;
+                        for (int dz = -radius; dz <= radius; dz++)
+                            for (int dx = -radius; dx <= radius; dx++)
+                            {
+                                if (!Senses.Open(ba, new BlockPos(x + dx, y, z + dz)) || !Senses.Open(ba, new BlockPos(x + dx, y + 1, z + dz))) continue;
+                                double w = Math.Min(Senses.FreeWidth(ba, x + dx + 0.5, y, z + dz + 0.5, 0), Senses.FreeWidth(ba, x + dx + 0.5, y, z + dz + 0.5, Math.PI / 2));
+                                double key = Math.Round(w * 2) / 2;
+                                tally.TryGetValue(key, out var seen);
+                                tally[key] = (seen.Count + 1, seen.First ?? (x + dx) + " " + y + " " + (z + dz));
+                            }
+                        foreach (var (key, (count, first)) in tally)
+                            text.Append(string.Format(CultureInfo.InvariantCulture, "tighter way about {0:0.0} wide: {1} tiles, e.g. {2}\n", key, count, first));
+                        string survey = text.ToString().TrimEnd();
+                        sapi.Logger.Notification("[backrooms] squeeze survey at " + x + " " + y + " " + z + ": " + survey);
+                        return TextCommandResult.Success(survey);
+                    }
+                    // (Yaw 0 walks along +z, yaw pi/2 along +x)
+                    foreach (var (name, yaw) in new[] { ("walking along z (across x)", 0.0), ("walking along x (across z)", Math.PI / 2) })
+                    {
+                        double w = Senses.FreeWidth(sapi.World.BlockAccessor, x + 0.5, y, z + 0.5, yaw);
+                        bool narrow = w < AiTaskMenace.SqueezeWidth - 0.05;
+                        text.Append(string.Format(CultureInfo.InvariantCulture, "{0}: free width {1:0.00}, speed x{2:0.00}{3}\n", name, w, narrow ? AiTaskMenace.SqueezeFactor : 1f, narrow ? " (squeezed)" : ""));
+                    }
+                    string result = text.ToString().TrimEnd();
+                    sapi.Logger.Notification("[backrooms] squeeze at " + x + " " + y + " " + z + ": " + result);
+                    return TextCommandResult.Success(result);
+                })
             .EndSubCommand();
     }
 

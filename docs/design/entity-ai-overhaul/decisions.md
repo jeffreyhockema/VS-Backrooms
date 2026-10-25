@@ -60,3 +60,9 @@ dangerous level (the Flickering), nothing seen in Level 94. Eighteen answers, al
 | 32 | The bands | **Approach from 50 % of the ring's width, threshold from 80 %** (were 60 / 85) | more of each level in the livelier bands; the band only changes rates and rosters |
 | 33 | Acceptance test | **A felt-rate harness mode**: actual spawns and refused spots per level and band over a simulated hour, run before the zip; plus a log counter for silent spawn failures | the rate check counts rolls, not spawns |
 | 34 | Creative mode | **A cheat-menu toggle** so creative also receives stalkers and hunters (off by default) | the user tours levels in creative |
+
+## Taken (2026-10-25, play-test: Hounds in narrow places)
+
+| # | Question | Decision | Why |
+|---|---|---|---|
+| 35 | Hounds in narrow places | **Hounds fit 1-wide gaps everywhere (collision box 0.9 wide, was 1.1; the box the player hits stays 1.1) and squeeze through anything under 2 wide at ~60 % speed** (AiTaskMenace.Squeeze: free width across the heading at body height, measured every 0.2 s; `/backrooms squeeze` reports it) | the user's call: Hounds could not pass 1-wide service tunnels in Level 2 (about 60 % of them) or the aisles clutter narrows, but obstacles should still slow them. Pathgrid, Hound, before/after: Level 2 maze 57-61 % to 70-74 % found, Level 4 cubicles 87-91 % to 100 %, Level 5 hotel 12-13 % to 20-24 % |
