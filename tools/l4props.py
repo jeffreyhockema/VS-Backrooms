@@ -314,6 +314,32 @@ def blackout_window():
     return els
 
 
+
+def blackout_pane(part, upper):
+    """(play-test, layout 11) A block of a blacked-out window two blocks tall: one painted sheet the height of the
+    window (and two blocks wide unless `part` is "single"), framed only round the pane. `part` "end" is the pane's west
+    block, its jamb on the west and the sheet running on east into the other half (turned for the other ends);
+    "single" is a pane one block wide, jambs both sides. The lower block has the sill rail, the upper the head rail;
+    the jamb posts and the sheet run through the join between them with no faces there. Tape holds the sheet along its
+    top and bottom edges only, the strips running on across the pane. Recessed 2 units, as the one-block window."""
+    fr = "l4winframe"
+    single = part == "single"
+    x1 = 14 if single else 16  # where the sheet ends east
+    open_east = () if single else ("east",)
+    sides = tuple(f for f in SIDES4 if f not in open_east)
+    y0, y1 = (0, 14.5) if upper else (1.5, 16)
+    els = [b("RailT", (0, 14.5, 0), (16, 16, 16), fr, faces=sides + ("down",)) if upper else
+           b("RailB", (0, 0, 0), (16, 1.5, 16), fr, faces=sides + ("up",))]
+    posts = [(0, 0), (0, 14)] + ([(14, 0), (14, 14)] if single else [])
+    for i, (x, z) in enumerate(posts):
+        els.append(b(f"Post{i}", (x, y0, z), (x + 2, y1, z + 2), fr, faces=SIDES4))
+    els.append(b("Pane", (2, y0, 2), (x1, y1, 14), "l4blackpane", faces=sides))
+    ty = (12.6, 13.9) if upper else (2.1, 3.4)
+    tx1 = 13.2 if single else 16
+    els += [b("TapeN", (2.8, ty[0], 1.75), (tx1, ty[1], 2.0), "l4tape", faces=("north", "up", "down", "west") + (("east",) if single else ())),
+            b("TapeS", (2.8, ty[0], 14.0), (tx1, ty[1], 14.25), "l4tape", faces=("south", "up", "down", "west") + (("east",) if single else ()))]
+    return els
+
 def glass_partition():
     """The conference-room glass: one pane, but inset 0.05 from the block's top and bottom planes (it lay exactly on the
     carpet's top and the ceiling tile's underside, and the two shimmered against each other), with no top or bottom

@@ -1595,6 +1595,49 @@ def level4():
     }, "Windows papered over or shut behind blinds. Most of Level 4's windows are")
     name("officewindowalt-blackout", "Blacked-Out Window")
     name("officewindowalt-blinds", "Window with Blinds")
+    # (play-test, layout 11) Level 4's windows as whole panes: two blocks tall (the drywall base to the ceiling) and two
+    # wide, or one wide at the end of a run; the generator picks each block's part (WorldGenerator.L4PaneBlock). Kinds:
+    # clear, blacked out, and blinds down, half drawn up or tilted open, one state to a pane. Parts: a pane one block
+    # wide, or the west, east, north or south block of a wide one (the pane runs on from it the other way); lower or
+    # upper. The clear and blinds parts are cubes as before (lights), each side face showing its half of the pane as
+    # seen from outside that face, the aluminium of the frame on the faces along the run; the blacked-out parts are the
+    # sheet as a model, turned to the part. The old codes stay for the windows of worlds made before layout 11.
+    kinds, parts = ["clear", "blackout", "down", "half", "tilt"], ["single", "west", "east", "north", "south"]
+    view = {"single": {"north": "s", "east": "s", "south": "s", "west": "s"}, "west": {"north": "r", "south": "l"},
+            "east": {"north": "l", "south": "r"}, "north": {"east": "r", "west": "l"}, "south": {"east": "l", "west": "r"}}
+    turn = {"single": ("single", 0), "west": ("end", 0), "east": ("end", 180), "north": ("end", 270), "south": ("end", 90)}
+    sheets = {(p, h): shape(f"officepane-blackout-{p}-{h}", L4.blackout_pane(p, h == "upper"))
+              for p in ("single", "end") for h in ("lower", "upper")}
+    textures, shapes = {}, {}
+    for part in parts:
+        for h in ("lower", "upper"):
+            model, rot = turn[part]
+            shapes[f"*-blackout-{part}-{h}"] = dict({"base": sheets[model, h]}, **({"rotateY": rot} if rot else {}))
+            for kind in kinds:
+                if kind == "blackout":
+                    continue
+                faces = {f: {"base": "block/detail/l4winframe"} for f in ("north", "east", "south", "west", "up", "down")}
+                for f, half in view[part].items():
+                    faces[f] = {"base": f"block/detail/officepane-{kind}-{half}-{h}"}
+                textures[f"*-{kind}-{part}-{h}"] = faces
+    block("officepane", {
+        "variantgroups": [{"code": "kind", "states": kinds}, {"code": "part", "states": parts},
+                          {"code": "height", "states": ["lower", "upper"]}],
+        "creativeinventory": {"general": ["*-single-lower", "*-single-upper"], "construction": ["*"]},
+        "blockmaterial": "Glass", "drawtypeByType": {"*-blackout-*": "json", "*": "cube"},
+        "shapeByType": shapes, "texturesByType": textures,
+        "sideopaqueByType": {"*-blackout-*": {"all": False}},
+        "lightAbsorptionByType": {"*-blackout-*": 99, "*": 0},
+        "lightHsvByType": {"*-clear-*": [36, 1, 7], "*-blackout-*": [0, 0, 0], "*": [36, 1, 4]},
+        "resistanceByType": {"*-clear-*": 2, "*": 4},
+        # The rain on the clear panes only, at the clear window's count: as many blocks of clear glass as before
+        "soundsByType": {"*-clear-*": dict(GLASS, ambient="backrooms:ambient/rain", ambientBlockCount=12), "*": GLASS},
+        "drops": [],
+    }, "Level 4's windows as whole panes two blocks tall and up to two wide, one block to each part (layout version 11)")
+    name("officepane-clear-*", "Window")
+    name("officepane-blackout-*", "Blacked-Out Window")
+    for kind in ("down", "half", "tilt"):
+        name(f"officepane-{kind}-*", "Window with Blinds")
     cube_block("officecarpetalt", {"papers": "Office Carpet", "stain": "Stained Office Carpet"}, ["papers", "stain"],
                {"papers": "officecarpet-papers", "stain": "officecarpet-stain"}, material="Cloth", sounds=CLOTH)
     cube_block("drywallbase", "Office Wall", ["plain"], {"plain": "drywall-base"}, comment="Office drywall with a dark vinyl skirting")
