@@ -2840,5 +2840,5 @@
 	"item-armor-pleather-head": "Pleather Cap",
 	"item-armor-pleather-body": "Pleather Jerkin",
 	"item-armor-pleather-legs": "Pleather Leggings",
-	"itemdesc-armor-pleather": "Sewn from salvaged vinyl: about two-fifths of a leather set's protection and a quarter of its life. Mend it with more pleather. Real leather is still tanned from hides."
+	"itemdesc-armor-pleather-*": "Sewn from salvaged vinyl: about two-fifths of a leather set's protection and a quarter of its life. Mend it with more pleather. Real leather is still tanned from hides."
 }

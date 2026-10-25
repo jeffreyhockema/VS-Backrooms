@@ -200,7 +200,7 @@ def pleather_armour():
         "heldTpIdleAnimation": "holdunderarm",
         "variantgroups": [{"code": "bodypart", "states": ["head", "body", "legs"]}],
         "shape": {"base": "game:entity/humanoid/seraph/armor/leather/{bodypart}"},
-        "textures": {"seraph": {"base": "block/transparent"},
+        "textures": {"seraph": {"base": "game:block/transparent"},
                      "material": {"base": "entity/humanoid/serapharmor/pleather"}},
         "storageFlags": 128,
         "behaviors": [{"name": "Wearable"}],
@@ -267,7 +267,7 @@ def pleather_armour():
         LANG["item-armor-pleather-" + part] = en
     write_json(crafts, "recipes", "grid", "pleatherarmor.json")
     write_json(repairs, "recipes", "grid", "pleatherarmorrepair.json")
-    LANG["itemdesc-armor-pleather"] = ("Sewn from salvaged vinyl: about two-fifths of a leather set's protection and a quarter of its life. "
+    LANG["itemdesc-armor-pleather-*"] = ("Sewn from salvaged vinyl: about two-fifths of a leather set's protection and a quarter of its life. "
                                        "Mend it with more pleather. Real leather is still tanned from hides.")
 
 

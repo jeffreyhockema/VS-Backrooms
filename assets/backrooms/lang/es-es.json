@@ -2697,5 +2697,5 @@
 	"item-armor-pleather-head": "Gorra de Polipiel",
 	"item-armor-pleather-body": "Jubón de Polipiel",
 	"item-armor-pleather-legs": "Polainas de Polipiel",
-	"itemdesc-armor-pleather": "Cosida con vinilo recuperado: cerca de dos quintos de la protección de un conjunto de cuero y un cuarto de su vida. Se repara con más polipiel. El cuero de verdad se sigue curtiendo de pieles."
+	"itemdesc-armor-pleather-*": "Cosida con vinilo recuperado: cerca de dos quintos de la protección de un conjunto de cuero y un cuarto de su vida. Se repara con más polipiel. El cuero de verdad se sigue curtiendo de pieles."
 }
