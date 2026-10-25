@@ -121,10 +121,6 @@
 	"item-scraper": "Raspador Improvisado",
 	"item-carpetfibre": "Fibras de Alfombra",
 	"item-wallpaperstrip": "Tira de Papel Tapiz",
-	"item-anchor-copper": "Ancla de cobre",
-	"item-anchor-bronze": "Ancla de bronce",
-	"item-anchor-iron": "Ancla de hierro",
-	"item-pleather": "Polipiel",
 	"item-metalbracket": "Soporte Metálico",
 	"item-scrapwire": "Alambre de Desecho",
 	"item-rottenwood": "Madera Podrida",
@@ -2694,15 +2690,12 @@
 	"block-built-wallpaper-dotted-baseboard": "Papel Tapiz Amarillo con Puntos",
 	"block-built-wallpaper-cream-upper": "Papel Tapiz Pálido",
 	"block-built-wallpaper-cream-baseboard": "Papel Tapiz Pálido",
-<<<<<<< HEAD
 	"item-pleather": "Polipiel",
 	"itemdesc-pleather": "Vinilo arrancado de un asiento. Rígido, agrietado y no es cuero: se cose en una armadura delgada que se gasta rápido, y nada que requiera cuero de verdad lo aceptará.",
 	"item-armor-pleather-head": "Gorra de Polipiel",
 	"item-armor-pleather-body": "Jubón de Polipiel",
 	"item-armor-pleather-legs": "Polainas de Polipiel",
-	"itemdesc-armor-pleather-*": "Cosida con vinilo recuperado: cerca de dos quintos de la protección de un conjunto de cuero y un cuarto de su vida. Se repara con más polipiel. El cuero de verdad se sigue curtiendo de pieles."
-=======
-
+	"itemdesc-armor-pleather-*": "Cosida con vinilo recuperado: cerca de dos quintos de la protección de un conjunto de cuero y un cuarto de su vida. Se repara con más polipiel. El cuero de verdad se sigue curtiendo de pieles.",
 	"zero-blackout": "Pierdes el control del lugar. Cuando vuelves en ti, las paredes son del color equivocado.",
 	"item-anchor-copper": "Ancla de cobre",
 	"itemdesc-anchor-copper": "Un aro de cobre con un pequeño engranaje temporal, que se lleva al cuello. Guarda un hilo de vuelta hacia ti: la estabilidad aguanta en los Niveles 3, 4 y 5.",
@@ -2710,5 +2703,4 @@
 	"itemdesc-anchor-bronze": "Un aro de bronce con un engranaje temporal, que se lleva al cuello. El hilo es más grueso: la estabilidad aguanta hasta los Niveles 6, 7, 8, 37 y 94.",
 	"item-anchor-iron": "Ancla de hierro",
 	"itemdesc-anchor-iron": "Un aro de hierro con un engranaje temporal, que se lleva al cuello. El hilo aguanta todo lo que hay más allá: del Nivel 9 en adelante."
->>>>>>> prog/reality
 }
