@@ -42,6 +42,11 @@ public class HudNeeds : HudElement
     public override bool TryClose() => false;
     public override bool ShouldReceiveKeyboardEvents() => false;
 
+    // Like vanilla's HudStatbar: the frame lies over the hotbar, and a dialog otherwise marks every click inside its bounds as
+    // handled, which would swallow the hotbar's and the inventory's clicks. Nothing here is clickable.
+    public override void OnMouseDown(MouseEvent args) { }
+    public override void OnMouseUp(MouseEvent args) { }
+
     public override void OnOwnPlayerDataReceived()
     {
         Compose();

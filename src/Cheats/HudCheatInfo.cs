@@ -13,6 +13,10 @@ namespace Backrooms.Cheats;
 /// </summary>
 public class HudCheatInfo : HudElement
 {
+    // A read-only overlay: never swallow clicks that fall inside its frame (see HudNeeds)
+    public override void OnMouseDown(MouseEvent args) { }
+    public override void OnMouseUp(MouseEvent args) { }
+
     private const int Width = 460, Height = 168;
 
     private readonly WorldLayout layout;
