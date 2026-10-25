@@ -16,7 +16,7 @@ namespace Backrooms.Reality;
 /// stability, the damage at zero); this replaces where stability is high or low with the Backrooms' own geography,
 /// and drains it everywhere during a Reality Shift.
 /// </summary>
-public class RealitySystem : ModSystem
+public partial class RealitySystem : ModSystem
 {
     /// <summary>How much a full Reality Shift lowers stability everywhere.</summary>
     private const float ShiftDrain = 1.3f;
@@ -44,6 +44,7 @@ public class RealitySystem : ModSystem
         sapi.Event.ServerRunPhase(EnumServerRunPhase.ModsAndConfigReady, () =>
         {
             if (sapi.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
+            RegisterWardCommand(sapi); // (the "backrooms" command exists by now)
             Hook(sapi);
             sapi.Event.PlayerNowPlaying += player => player.Entity?.WatchedAttributes.SetDouble(RealityShift.ForcedUntilAttribute, forcedUntilHours);
         });
@@ -108,8 +109,40 @@ public class RealitySystem : ModSystem
 
     private float OnGetStability(float vanillaStability, double x, double y, double z)
     {
-        float stability = layout.StabilityAt(x, y, z, geometry.FloorY) - ShiftDrain * (float)ShiftStrength;
-        return Math.Clamp(stability, -0.5f, 1.5f);
+        float stability = layout.StabilityAt(x, y, z, geometry.FloorY) - ShiftDrain * (float)ShiftStrength - DepthDeficit(x, y, z);
+        // (Far below zero on purpose: vanilla drains a bar by how far under 1 the area is, see WardTiers)
+        return Math.Clamp(stability, -5f, 1.5f);
+    }
+
+    /// <summary>
+    /// What a level beyond the ward tier of whoever stands at this spot takes off its stability (<see cref="WardTiers.Deficit"/>).
+    /// The stability query carries only a position, so the wanderer is the player standing exactly there (the game's own queries
+    /// for a player's stability pass its position); any other query, for a spot or a mob, has no deficit.
+    /// </summary>
+    private float DepthDeficit(double x, double y, double z)
+    {
+        int levelTier = WardTiers.LevelTierAt(layout, x, z);
+        if (levelTier == 0) return 0;
+        try
+        {
+            Entity who = PlayerAt(x, y, z);
+            return who == null ? 0 : WardTiers.Deficit(WardTiers.Beyond(WardTiers.TierOf(who), levelTier));
+        }
+        catch (Exception)
+        {
+            return 0; // (asked from another thread while a player joins or leaves)
+        }
+    }
+
+    /// <summary>The player whose feet are exactly at a spot, if any (on a client, only its own player).</summary>
+    private Entity PlayerAt(double x, double y, double z)
+    {
+        static bool At(Entity e, double x, double y, double z) =>
+            e != null && Math.Abs(e.Pos.X - x) < 1e-6 && Math.Abs(e.Pos.Y - y) < 1e-6 && Math.Abs(e.Pos.Z - z) < 1e-6;
+        if (api is ICoreClientAPI capi) return At(capi.World.Player?.Entity, x, y, z) ? capi.World.Player.Entity : null;
+        foreach (IPlayer player in api.World.AllOnlinePlayers)
+            if (At(player.Entity, x, y, z)) return player.Entity;
+        return null;
     }
 }
 

@@ -1,0 +1,33 @@
+[
+	{
+		"ingredientPattern": "BA,BG",
+		"ingredients": {
+			"B": {
+				"type": "item",
+				"code": "game:ingot-{metal}",
+				"name": "metal"
+			},
+			"A": {
+				"type": "item",
+				"code": "backrooms:anchor-copper"
+			},
+			"G": {
+				"type": "item",
+				"code": "game:gear-temporal"
+			}
+		},
+		"allowedVariants": {
+			"metal": [
+				"tinbronze",
+				"bismuthbronze",
+				"blackbronze"
+			]
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "item",
+			"code": "backrooms:anchor-bronze"
+		}
+	}
+]

@@ -820,8 +820,6 @@
 	"block-crate-open": "Emptied Crate",
 	"blockdesc-crate-open": "Prised open and emptied. The boards are still good.",
 
-	"anchor-refused": "Nothing here will hold you. Only the Lobby still remembers where you came from.",
-	"anchor-lost": "You will wake in the Lobby again: nowhere else in the Backrooms remembers you.",
 	"corpse-name": "Body of {0}",
 	"corpse-bones-name": "Bones of {0}",
 	"corpse-title": "{0}'s belongings",
@@ -2833,5 +2831,13 @@
 	"block-carpetbedroll-*": "Carpet Bedroll",
 	"blockdesc-carpetbedroll": "Carpet fibres sewn into wallpaper strips, tied with twine and rolled. Enough to sleep on, not enough to sleep well.",
 	"blockhelp-bed": "Sleep",
-	"bedinfo": "Rest: {0}% of a proper bed"
+	"bedinfo": "Rest: {0}% of a proper bed",
+
+	"zero-blackout": "You lose your grip on the place. When you come to, the walls are the wrong colour.",
+	"item-anchor-copper": "Copper Anchor",
+	"itemdesc-anchor-copper": "A copper ring with a little temporal gear, worn at the neck. It keeps a thread back to you: stability holds in Levels 3, 4 and 5.",
+	"item-anchor-bronze": "Bronze Anchor",
+	"itemdesc-anchor-bronze": "A bronze ring with a temporal gear, worn at the neck. The thread is thicker: stability holds as deep as Levels 6, 7, 8, 37 and 94.",
+	"item-anchor-iron": "Iron Anchor",
+	"itemdesc-anchor-iron": "An iron ring with a temporal gear, worn at the neck. The thread is strong enough for everything beyond: Levels 9 and deeper."
 }

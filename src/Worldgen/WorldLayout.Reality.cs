@@ -89,6 +89,26 @@ public sealed partial class WorldLayout
         }
     }
 
+    /// <summary>
+    /// The ward tier a level asks of a wanderer (docs/design/progression/plan.md section 2): 0 none (Levels 0 to 2, the Hub,
+    /// Level 974, and the Snackrooms, see <see cref="WardTierAt"/>), 1 a copper anchor (3, 4, 5), 2 a bronze one (6, 7, 8, 37, 94),
+    /// 3 an iron one (9, 10, 11, the End, 188, Fun, !, 3999). Ids this table does not know (the prototypes) ask nothing.
+    /// </summary>
+    public static int WardTier(int level) => level switch
+    {
+        3 or 4 or 5 => 1,
+        6 or 7 or 8 or Poolrooms or Motion => 2,
+        9 or 10 or 11 or TheEnd or Level188 or FunLevel or RunLevel or Level3999 => 3,
+        _ => 0,
+    };
+
+    /// <summary>The ward tier at a macro cell: its level's, but 0 in the Snackrooms (the jackpot room of Level 6 asks nothing).</summary>
+    public int WardTierAt(int mx, int mz)
+    {
+        int level = LevelAt(mx, mz);
+        return level == 6 && IsSnackrooms(mx, mz) ? 0 : WardTier(level);
+    }
+
     /// <summary>Distance from spawn, in macro cells, of the middle of a level's ring along a direction.</summary>
     private double LevelMidRadius(int level, double angle)
     {

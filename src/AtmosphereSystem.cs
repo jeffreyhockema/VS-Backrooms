@@ -374,7 +374,9 @@ public partial class AtmosphereSystem : ModSystem
         // Reality Shift: the lights fail, with the odd flash as they fight back. A Level 1 Flickering does the same to
         // the player's own stretch of the Habitable Zone for a minute or two (the server sets when it ends)
         double flickerUntil = entity.WatchedAttributes.GetDouble(Entities.MenaceSystem.FlickerKey, -1);
-        float flickerTarget = level is 1 or 2 && capi.World.Calendar.TotalHours < flickerUntil ? 0.85f : 0f;
+        // (The zero blackout, Reality.ZeroSystem, darkens the same way in whatever level the player has lost their grip in)
+        double blackoutUntil = entity.WatchedAttributes.GetDouble(Reality.ZeroSystem.BlackoutKey, -1);
+        float flickerTarget = (level is 1 or 2 && capi.World.Calendar.TotalHours < flickerUntil) || capi.World.Calendar.TotalHours < blackoutUntil ? 0.85f : 0f;
         flicker += (flickerTarget - flicker) * Math.Min(1f, dt * (flickerTarget > flicker ? 6f : 1.5f));
         if (flicker < 0.01f) flicker = 0f;
         float shift = Math.Max((float)(reality?.ShiftStrength ?? 0), flicker);
