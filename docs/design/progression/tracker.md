@@ -171,12 +171,11 @@ Test: build OK; aitest --only prog,needs,iso: 10/10 passed (prog-ward, prog-zero
 - Docs: GUIDE.md, DEVELOPING.md, CHANGELOG.md, entity-difficulty.md (3d table shifted, 5 and 7 wording), playtest.md section 10, dialin.md 3.1, plan.md 3.1 / 3.4 / 3.6 / 3.7, decisions 14 to 17, and the 5/8/7 pleather cost here.
 - Results: `python tools/gen_guide.py` ran clean, `python tools/gen_notes.py --check` printed "links ok" and exited 0.
 
-<<<<<<< HEAD
 ### Revision: piece A (no drain)
 
 Branch `prog2/undrain`. Removed: `Wards.cs` (WardTiers), `WorldLayout.WardTier`/`WardTierAt`, the depth deficit, `DepthDeficit` and `PlayerAt` in `RealitySystem` (clamp back to -0.5..1.5, Reality Shift drain untouched), `RealitySystem.Ward.cs` and the `/backrooms ward` command and its cheat button, `tools/gen_wards.py`, the anchor item, its three recipes and six textures, the anchor and `guide-holds-*` lang keys (en, es-419, es-es), `"holds"` in `GuideSystem.Added`, and the harness case `prog-ward` with its helper. `Drinks.ApplyDrink` restores plain, clamped to 1. `ZeroSystem` now owns `SafePlace` and `WakeLevel`; the hunter is sent once per zero episode wherever the band is not Safe (SendWorstHunter refuses the Safe band), the 60 s blackout is unchanged. Left for piece C: `tools/gen_guide.py` and the handbook prose still mention tiers, anchors and `backrooms-holds` links.
 Tests: build 0 errors; `--only prog,iso,needs` 9/9 (prog-armour, prog-speed, prog-zero, prog-zero-safe, iso, needs); boot log: 0 missing blocks/items. Blind review (sonnet): code clean; found a trailing comma left in both Spanish lang files, fixed.
-=======
+
 ### Revision: piece C (text)
 
 Branch `prog2/docs`, worktree `../VS Backrooms-prog2-docs` (from `progression2`). Text for the revision (revision.md 2.C).
@@ -195,4 +194,3 @@ Branch `prog2/docs`, worktree `../VS Backrooms-prog2-docs` (from `progression2`)
 
 Open for piece A's merge: `tools/gen_wards.py` (still names the anchors; piece A deletes it); `guide-holds-*` lang keys. Open for the play-test: the Level 2 placard reads THINGS HERE OUTRUN YOU (Class 3) while the Level 2 creatures are not from the outrun group; the brief's line for Class 3 was kept as written, so the wording may need a second look.
 
->>>>>>> prog2/docs
