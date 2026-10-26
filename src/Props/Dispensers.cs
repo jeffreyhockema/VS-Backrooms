@@ -200,8 +200,11 @@ public class BlockEntityDispenser : BlockEntity
     /// be found empty.
     /// </summary>
     private int RollStock() => Restocks && !ScarceDrinks
-        ? ScarcitySystem.Portions(Api.World, Api.World.Rand.Next(4, 9), min: 1)
-        : ScarcitySystem.Portions(Api.World, Api.World.Rand.Next(1, 4), min: Restocks ? 1 : 0);
+        ? ScarcitySystem.Portions(Api.World, Api.World.Rand.Next(4, 9) * ClassScale, min: 1)
+        : ScarcitySystem.Portions(Api.World, Api.World.Rand.Next(1, 4) * ClassScale, min: Restocks ? 1 : 0);
+
+    /// <summary>Less in the levels of a higher survival class (<see cref="ScarcitySystem.ClassScale(int)"/>), one-time stock and refill alike.</summary>
+    private double ClassScale => ScarcitySystem.ClassScale(Api.World, Pos.X, Pos.Z);
 
     public override void Initialize(ICoreAPI api)
     {

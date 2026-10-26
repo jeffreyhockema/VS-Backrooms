@@ -452,9 +452,18 @@ public sealed partial class WorldLayout
     /// coordinates, the full window's height, one state to a pane (<see cref="WindowRoll"/>, rolled at the pair's corner;
     /// in 1-10 one roll per block), and the generator builds each pane of officepane blocks framed only at its edges, a
     /// pane one block wide where a run ends against a corner, a column or a doorway.</item>
+    /// <item><b>12</b>: ways to a later level are about a quarter as common (the progression revision, docs/design/progression/revision.md
+    /// section 2.B). Level 0's pit rooms 2.5 % of the big rooms (10 %), Level 1's EXIT doors to Level ! and doors to The End a quarter
+    /// of what they were and its stair cores to Level Fun one in 80 (1 in 20), Level 6's stairwells down and tripwires a quarter,
+    /// Level 7's stone circles, tiled seabeds and cave mouths a quarter, Level 9's field gates one field lot in four and its
+    /// pool dives 1.5 % (6 %), Level 10's barn walls 11 % (45 %). (The runtime half, in ThresholdNetwork: Level 2's steel doors to
+    /// Levels 3 and 4, the elevators of Levels 3 and 4 to a later level, Level 5's staff stairs and POOL doors, Level 1's stairs
+    /// down to Level 2 and up to Level 4, Level 4's hungry vending machines, a quarter as many.) A gate between levels into a
+    /// higher survival class gets an M.E.G. placard on the wall beside its doorway (<see cref="Props.MegPlacard"/>), and so do
+    /// Level 6's stairwells down and Level 2's steel doors that open onto Level 3. Boundary gates are untouched.</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 11;
+    public const int CurrentVersion = 12;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;
@@ -991,6 +1000,8 @@ public sealed partial class WorldLayout
             // (From layout version 9, the way through a gate worn the way the next level begins)
             WearThresholds(b, mx, mz, west, north, east, south);
         }
+        // (From layout version 12 a placard beside the ways that lead to a more dangerous level: steel doors, elevators, stairwells)
+        if (Version >= 12 && b.Level is 2 or 4 or 5 or 6) PlaceShortcutPlacards(b, mx, mz);
         // (After the doorways are cleared and the pockets sealed, so the camp stays as it is laid out)
         if (b.Level == 4 && Version >= 5) PitchL4Camp(b, mx, mz);
         MarkPickedOver(b, mx, mz);
@@ -1112,7 +1123,7 @@ public sealed partial class WorldLayout
 
     /// <summary>Props on a floor tile that don't stop anyone walking on: low clutter, plants, wires, an open gate.</summary>
     internal static bool IsWalkThroughProp(ushort variant) => variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable
-        or Props.Bedroll or Props.SleepingBag or Props.ImprovBed or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts
+        or Props.Bedroll or Props.SleepingBag or Props.ImprovBed or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts or Props.MegPlacard
         // The far places kept as 14-20 say which of their own props are walked through
         || variant >= Props.RunFirst && (RunWalkThrough(variant) || FunWalkThrough(variant) || EndWalkThrough(variant)
             || HubWalkThrough(variant) || L974WalkThrough(variant) || L3999WalkThrough(variant) || L188WalkThrough(variant));

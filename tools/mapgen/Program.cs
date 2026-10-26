@@ -59,6 +59,7 @@ if (args.Length > 2 && args[2] == "citymap") { CityMap.Run(layout, n, args.Lengt
 if (args.Length > 2 && args[2] == "noclip") { NoclipFind.Run(layout, smx, smz); return; }
 // elevsides [level ...]: what stands beside every elevator along its wall round a level's arrivals (ElevSides.cs; DUMP=1 for a plan)
 if (args.Length > 2 && args[2] == "elevsides") { ElevSides.Run(layout, args, n); return; }
+if (args.Length > 2 && args[2] == "shortcuts") { Shortcuts.Run(layout, seed, smx, smz); return; }
 if (args.Length > 2 && args[2] == "links") { Links.Run(layout, seed, smx, smz); return; }
 if (args.Length > 2 && args[2] == "wayback") { WayBacks.Run(layout, seed, args.Length > 3 ? int.Parse(args[3]) : 100); return; }
 if (args.Length > 3 && args[2] == "validatelevel") { int lv = int.Parse(args[3]); for (ulong k = 1; k <= (args.Length > 4 ? ulong.Parse(args[4]) : 2UL); k++) { var a = layout.FindArrival(lv, k * 99991UL); if (a == null) { Console.WriteLine("no arrival"); continue; }

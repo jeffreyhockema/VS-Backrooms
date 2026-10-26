@@ -1278,6 +1278,11 @@ public static class Props
     public const byte MachineParts = 227;
     /// <summary>Level 1: a traffic sign on a post, pointing nowhere useful. Stack picks the kind.</summary>
     public const byte TrafficSign = 228;
+    /// <summary>
+    /// Layout version 12: an M.E.G. placard on the floor tile beside a wall, flush against it, facing <see cref="Tile.Pier"/>
+    /// (away from the wall), walked through. <see cref="Tile.Stack"/> picks the plate (<see cref="WorldLayout.PlacardKind"/>).
+    /// </summary>
+    public const byte MegPlacard = 229;
     // Level 37
     /// <summary>A stainless pool ladder against the edge of a pool, climbing toward <see cref="Tile.Pier"/>.</summary>
     public const byte PoolLadder = 231;

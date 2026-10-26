@@ -461,7 +461,7 @@ public sealed partial class WorldLayout
             PlanBarnTile(ref t, bu, bv, r, big: true);
             // In some barns, a stretch of the east wall between the stalls isn't quite there. Lean on it and you noclip
             // through, into the Endless City
-            if (bu == 21 && bv == 14 && Hashing.Unit(Hashing.Hash(seed, i, j, SaltL10Kind + 5)) < 0.45) t.Under = Unders.Noclip;
+            if (bu == 21 && bv == 14 && Hashing.Unit(Hashing.Hash(seed, i, j, SaltL10Kind + 5)) < (Version >= 12 ? 0.1125 : 0.45)) t.Under = Unders.Noclip;
             return;
         }
         // A tool shed (walls at u 6-12, v 7-12 of its frame)

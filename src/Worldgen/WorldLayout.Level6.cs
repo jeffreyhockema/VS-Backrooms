@@ -157,7 +157,7 @@ public sealed partial class WorldLayout
         double depth = RingFraction(x0 + size, z0 + size, 6);
         bool east = Hashing.Unit(h << 24) < 0.5;
         bool stairs = Version >= 9
-            ? Hashing.Unit(h << 16) < L6DescentChance(depth) && L6StairwellFits(bx, bz, size, east)
+            ? Hashing.Unit(h << 16) < L6DescentChance(depth) * (Version >= 12 ? 0.25 : 1) && L6StairwellFits(bx, bz, size, east)
             : Hashing.Unit(h << 16) < 0.2 + 0.6 * depth && LevelAt(MacroOf(x0 + size), MacroOf(z0 + size)) == 6;
         return (true, size, stairs, east);
     }
@@ -578,7 +578,7 @@ public sealed partial class WorldLayout
                         else if (left < 0.22) { tile.Variant = Version >= 11 ? Props.ImprovBed : Props.Bedroll; tile.Pier = toOpen; if (Version >= 11) tile.Stack = 1; }
                     }
                     // A wire strung low across a straight, narrow passage
-                    else if (ways == 2 && (e && w || s && n) && r > 0.985)
+                    else if (ways == 2 && (e && w || s && n) && r > (Version >= 12 ? 1 - 0.015 * 0.25 : 0.985))
                     {
                         tile.Variant = Props.Tripwire;
                         tile.Pier = e && w ? ArchPier.East : ArchPier.North;

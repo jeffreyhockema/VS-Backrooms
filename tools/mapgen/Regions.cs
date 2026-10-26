@@ -239,7 +239,7 @@ static class Regions
 static class RegionAccess
 {
     public static bool WalkThrough(ushort variant) => variant is Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll or Props.SleepingBag or Props.Crop
-        or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts or Props.TwilightGate or Props.EpsomCrust or Props.LostThing;
+        or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts or Props.MegPlacard or Props.TwilightGate or Props.EpsomCrust or Props.LostThing;
 }
 
 static class HeightPeek

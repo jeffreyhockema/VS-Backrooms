@@ -206,6 +206,15 @@ public sealed partial class WorldLayout
         const int c = MacroSize / 2;
         // (Half the dens: the rest still have their caches, and a folded note may be in a box)
         if (DenAt(mx, mz) != DenKind.None && Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltNoteSpot + 1)) < 0.5) Near(c, c, "folded", 6);
+        // The story note of the first gate into a higher survival class (layout version 12; the note's key is note-gate-class in
+        // tools/gen_notes.py: it is the next folded note of the rare track, and a world without that story just gets a folded note)
+        if (Version >= 12 && level is 1 or 2 && FirstClassGate() is { } classGate)
+        {
+            int ox = MacroOf(classGate.X), oz = MacroOf(classGate.Z);
+            if ((mx, mz) == (ox, oz) && level == classGate.From || (mx, mz) == (ox - 1, oz) && LevelAt(mx, mz) == classGate.From && LevelAt(ox, oz) != classGate.From
+                || (mx, mz) == (ox, oz - 1) && LevelAt(mx, mz) == classGate.From && LevelAt(ox, oz) != classGate.From)
+                Near(classGate.X - mx * MacroSize, classGate.Z - mz * MacroSize, "folded", 8);
+        }
         switch (level)
         {
             case 0:
@@ -244,6 +253,31 @@ public sealed partial class WorldLayout
             }
         }
         return spots;
+    }
+
+    private (int X, int Z, int From)? firstClassGate;
+    private bool firstClassGateKnown;
+
+    /// <summary>
+    /// The gate out of Level 1 or Level 2 into a level of a higher survival class (one that has a placard) nearest the spawn,
+    /// as its doorway and the level it leads out of; null if there is none within reach. The same for everyone in a world.
+    /// </summary>
+    public (int X, int Z, int From)? FirstClassGate()
+    {
+        if (firstClassGateKnown) return firstClassGate;
+        long best = long.MaxValue;
+        int sx = spawnMacroX * MacroSize, sz = spawnMacroZ * MacroSize;
+        (int, int, int)? found = null;
+        foreach (int from in new[] { 1, 2 })
+            foreach (var (x, z, to) in GatesNear(sx, sz, from, 6000))
+            {
+                if (PlacardKind(from, to) == null) continue;
+                long d = (long)(x - sx) * (x - sx) + (long)(z - sz) * (z - sz);
+                if (d < best) { best = d; found = (x, z, from); }
+            }
+        firstClassGate = found;
+        firstClassGateKnown = true;
+        return firstClassGate;
     }
 
     private static bool FreeFloor(in Tile t) =>

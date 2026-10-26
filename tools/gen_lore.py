@@ -673,8 +673,50 @@ def lang():
         LANG[f"block-wallpaper-red-{part}"] = "Red Wallpaper"
 
 
+# The M.E.G. placards at the gates into a higher survival class (layout version 12): kind "<class>-<level>", the level
+# beyond the gate, its class, and the plate's second line. Worldgen picks the kind (Props.MegPlacard, Tile.Stack): keep
+# the order in step with WorldLayout.PlacardKind.
+PLACARDS = (("3-2", 2, 3, "HOSTILE. LIGHT AND A WEAPON"), ("4-3", 3, 4, "THINGS HERE OUTRUN YOU. ARMOUR OR DON'T"),
+            ("4-7", 7, 4, "THINGS HERE OUTRUN YOU. ARMOUR OR DON'T"), ("5-9", 9, 5, "NO UNARMOURED TRAVEL"))
+PLACARD_BAND = {3: (0xC8A030), 4: (0xD0701C), 5: (0xB42A22)}
+
+
+def megplacard():
+    """A steel plate screwed to a wall beside a gate: a header band in the class's colour, "M.E.G. - LEVEL n - CLASS c"
+    and the second line under it. 128 x 96, mapped whole onto a plate 16 by 12 sixteenths."""
+    from PIL import ImageFont
+    for kind, level, cls, line2 in PLACARDS:
+        img = Image.new("RGBA", (128, 96), rgb(0x2A3030))
+        d = ImageDraw.Draw(img)
+        d.rectangle([0, 0, 127, 95], outline=rgb(0x8C9490))
+        d.rectangle([3, 3, 124, 92], outline=rgb(0x585F5C))
+        d.rectangle([6, 6, 121, 30], fill=rgb(PLACARD_BAND[cls]))
+        text(img, "M.E.G. - LEVEL %d - CLASS %d" % (level, cls), (8, 8, 120, 28), 0x14100C, 9)
+        words = line2.split(". ")
+        if len(words) == 2:
+            lines = [words[0] + ".", words[1]]
+        else:
+            lines = [line2]
+        y = 40
+        for ln in lines:
+            text(img, ln, (6, y, 122, y + 22), 0xE8E4D4, 8)
+            y += 24
+        for sx, sy in ((10, 86), (117, 86)):
+            d.ellipse([sx - 2, sy - 2, sx + 2, sy + 2], fill=rgb(0x7A807C))
+        M.grime(img, 0.12, seed_of("megplacard" + kind), cover=0.4)
+        save(img, "megplacard-" + kind)
+
+    def plate(kind):
+        return [bx("Plate", (0, 4, 15), (16, 16, 16), "megplacard-" + kind, faces=("north",), full=True),
+                bx("Back", (0, 4, 15), (16, 16, 16), "metal", faces=("south", "east", "west", "up", "down"))]
+    prop("megplacard", "M.E.G. Placard", {k: plate(k) for k, _, _, _ in PLACARDS}, box=(0, 0.25, 0.94, 1, 1, 1),
+         material="Metal", sounds=METAL, collide=False, extra={"drops": []},
+         comment="A steel plate the M.E.G. screwed to the wall beside a way into a more dangerous level")
+
+
 def generate():
     textures()
+    megplacard()
     tram_textures()
     trolley_textures()
     level1()

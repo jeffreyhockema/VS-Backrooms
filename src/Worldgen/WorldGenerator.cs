@@ -198,6 +198,7 @@ public sealed partial class WorldGenerator
         (Props.Trolley, "trolley", true, null, false),
         (Props.MachineParts, "machineparts", true, null, false),
         (Props.TrafficSign, "trafficsign", true, new[] { "oneway", "noentry", "exit" }, false),
+        (Props.MegPlacard, "megplacard", true, new[] { "3-2", "4-3", "4-7", "5-9" }, false),
         // Level 37
         (Props.PoolLadder, "poolladder", true, null, false),
         (Props.EpsomCrust, "epsomcrust", false, null, false),

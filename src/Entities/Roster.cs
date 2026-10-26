@@ -520,17 +520,7 @@ public static class Roster
     /// The lore's Survival Difficulty class of a level (0 to 5), from the Wikidot pages (dialin.md section 2): how many kinds of
     /// menacing thing may be about at once (<see cref="MaxKinds"/>).
     /// </summary>
-    public static int LoreClass(int level) => level switch
-    {
-        0 or 1 or 4 or 6 or 10 => 1,
-        5 or 11 => 2,
-        2 or Backrooms.Worldgen.WorldLayout.Motion or Backrooms.Worldgen.WorldLayout.Level188 => 3,
-        3 or 7 or 8 => 4,
-        9 or Backrooms.Worldgen.WorldLayout.FunLevel => 5,
-        Backrooms.Worldgen.WorldLayout.Poolrooms or Backrooms.Worldgen.WorldLayout.TheEnd => 0,
-        Backrooms.Worldgen.WorldLayout.Level3999 or Backrooms.Worldgen.WorldLayout.Hub or Backrooms.Worldgen.WorldLayout.Level974 or Backrooms.Worldgen.WorldLayout.RunLevel => 1,
-        _ => 1,
-    };
+    public static int LoreClass(int level) => Backrooms.Worldgen.WorldLayout.SurvivalClass(level);
 
     /// <summary>How many different kinds of menacing entity may be about a player at once: one in Classes 0 to 2, two in Classes 3 to 5.</summary>
     public static int MaxKinds(int level) => LoreClass(level) >= 3 ? 2 : 1;
