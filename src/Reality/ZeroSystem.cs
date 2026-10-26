@@ -109,6 +109,7 @@ public class ZeroSystem : ModSystem
     private void Blackout(Entity entity, State state)
     {
         state.Dark = true;
+        PlayTelemetry.Telemetry.Blackout(entity, state.Seconds);
         if (entity is EntityPlayer)
         {
             // The same darkening a Flickering gives (the client sees the key whatever level it is in), with its power-down sound

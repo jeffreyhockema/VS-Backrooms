@@ -14,6 +14,7 @@ Create a new world and pick the **Backrooms: Survival Story** playstyle. It only
 - **Waypoints made for you:** every gate you walk through, and every elevator, stairwell, door or pit you take (with the way back, where there is one), is marked on your map the first time. Reading a wanderer's note marks the place it tells of.
 - **Less map, or none:** the *Backrooms map* world setting can take the waypoints made for you away, or the whole map (see the world settings below).
 - **Notes and the journal (J):** wanderers' notes say what earlier wanderers learned, in order, and every note read is kept in your journal (see *Notes and the journal* below).
+- **Marking a moment (F8):** the mod keeps a private log of your play on your own computer (nothing is sent anywhere; switch it off with `/backrooms telemetry off`). F8, or `.mark some words`, drops a marker in it with where you are and what was happening, for when something felt wrong or unfair; the developer's report script turns the log into numbers.
 - **Dark areas** are easier to explore with a candle.
 - **Arriving in a level** shows its name, with a word of advice for the dangerous ones.
 - **Surveyor's chalk** (sometimes found in crumbled ceiling tiles, or crafted from a vanilla chalk stone) marks walls with an arrow, a cross or a circle. Choose the mark with the tool mode key (F), and click a mark again to change it. Chalk marks show bright white on the map.

@@ -46,7 +46,7 @@ public class EntityBehaviorMenace : EntityBehavior
         AlmondWater.Invalidate();
     }
 
-    private bool immortal, unmoved;
+    private bool immortal, unmoved, contacted;
     private int glimpseSeconds, stalkSeconds, huntSeconds, investigateSeconds, searchSeconds, maxEncounterSeconds;
     /// <summary>Bleeds clear (a Skin-Stealer: a pale burst of particles when struck), cannot be hurt by players but in its window (a Duller), and the looks (texture indices) that never bite (Level 2's bald rats).</summary>
     private bool bleedsClear, hardToCatch;
@@ -165,6 +165,7 @@ public class EntityBehaviorMenace : EntityBehavior
         set
         {
             if (value == Kind) return;
+            if (entity.World.Side == EnumAppSide.Server) PlayTelemetry.Telemetry.Kind(entity, Target, Kind.ToString(), value.ToString());
             entity.Attributes.SetInt(KindKey, (int)value);
             entity.Attributes.SetLong(SinceKey, entity.World.ElapsedMilliseconds);
             if (value != Encounter.Ambient && !entity.Attributes.HasAttribute(EncounterSinceKey))
@@ -253,6 +254,14 @@ public class EntityBehaviorMenace : EntityBehavior
             if (entity.Attributes.GetBool(ShiftKey) && (entity.Api.ModLoader.GetModSystem<Reality.RealitySystem>()?.ShiftStrength ?? 0) <= 0) Kind = Encounter.Leave;
             // An encounter has a budget, however many times it changes kind
             if (maxEncounterSeconds > 0 && EncounterMs > maxEncounterSeconds * 1000L) Kind = Encounter.Leave;
+        }
+
+        // The play telemetry: the first time it has a line to its target
+        if (!contacted && target is { Alive: true } && Kind is Encounter.Glimpse or Encounter.Stalk or Encounter.Hunt or Encounter.Investigate or Encounter.Search
+            && PlayTelemetry.Telemetry.On && Senses.Sees(entity, target, 40, 80))
+        {
+            contacted = true;
+            PlayTelemetry.Telemetry.Contact(entity, target, Kind.ToString());
         }
 
         long now = entity.World.ElapsedMilliseconds;

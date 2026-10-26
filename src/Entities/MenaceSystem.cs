@@ -1157,8 +1157,12 @@ public partial class MenaceSystem : ModSystem
     private static bool Scavengers(RosterEntry entry, Assessment a, Encounter kind, bool setPiece) =>
         entry.Code == Roster.DeathRat && a.Band == MenaceBand.Heartland && !entry.Frenzy && kind != Encounter.Ambient && !setPiece;
 
+    /// <summary>Whether the spawns being made now are a set piece (for the play telemetry).</summary>
+    private bool telemetrySetPiece;
+
     private void SpawnPack(Entity target, RosterEntry entry, Encounter kind, EntityProperties type, Vec3d spot, Assessment a, double untilHours, bool setPiece)
     {
+        telemetrySetPiece = setPiece;
         int packMax = entry.PackMax + (entry.PackMax > 1 && Danger.OfLevel(a.Level) >= 0.5 ? 1 : 0);
         // In the heart of a level, rats are scavengers (README 6.1): a pack that goes about its own business, to food on the
         // floor, and runs from you (AiTaskScavenge). At the edge and in dens they are put down hunting, as before. Not
@@ -1194,6 +1198,7 @@ public partial class MenaceSystem : ModSystem
                 bool anyClear = new[] { 0.05, 0.5, 0.95 }.Any(f => Senses.ClearLine(sapi.World, eyesNow, member.Pos.XYZ.Add(0, f * h, 0), throughGlass: true));
                 sapi.Logger.Notification("[backrooms] placed {0} ({1}) {2:0} blocks off: {3}", member.Code.Path, kind, member.Pos.DistanceTo(target.Pos.XYZ), anyClear ? "CLEAR LINE to the eyes" : "no line to the eyes");
             }
+        telemetrySetPiece = false;
         if (Logging) sapi.Logger.Notification("[backrooms] {0} x{1} ({2}) for {3}, {4:0} blocks off, band {5}", entry.Code, count, kind, (target as EntityPlayer)?.Player?.PlayerName ?? target.Code.ToString(), spot.DistanceTo(target.Pos.XYZ), a.Band);
     }
 
@@ -1232,6 +1237,7 @@ public partial class MenaceSystem : ModSystem
         double danger = dangerOverride ?? Danger.OfLevel(layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(at.X)), WorldLayout.MacroOf((int)Math.Floor(at.Z))));
         entity.Attributes.SetDouble(Danger.Key, danger);
         sapi.World.SpawnEntity(entity);
+        PlayTelemetry.Telemetry.Spawn(entity, target, EntityBehaviorMenace.KindOf(entity).ToString(), AssessmentOf(target).Band.ToString(), telemetrySetPiece);
         if (entity.GetBehavior<Vintagestory.GameContent.EntityBehaviorHealth>() is { } health)
         {
             // Deeper down, harder to put down; an old Hound half as hard again
