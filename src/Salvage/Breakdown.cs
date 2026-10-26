@@ -285,7 +285,8 @@ public static class Breakdown
             if (!salvage && !HasOwnLoot(api, block)) continue;
             if (!salvage) keep.Add(block.Code.Path);
             // Whatever of ours it gives can be carried off and set down again
-            foreach (BlockDropItemStack drop in block.Drops)
+            // (On the client a block type with no drops field has a null Drops array)
+            foreach (BlockDropItemStack drop in block.Drops ?? System.Array.Empty<BlockDropItemStack>())
                 if (drop?.Code != null && drop.Type == EnumItemClass.Block && api.World.GetBlock(drop.Code) is Block given && IsOurs(given))
                     carried.Add(TypeOf(given));
             JsonObject tiers = block.Attributes?["l3999prizes"];
