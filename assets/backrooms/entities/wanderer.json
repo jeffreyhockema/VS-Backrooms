@@ -58,7 +58,7 @@
 			},
 			{
 				"code": "conversable",
-				"dialogue": "game:config/dialogue/trader"
+				"dialogue": "backrooms:config/dialogue/wanderer"
 			}
 		],
 		"animations": [
@@ -98,12 +98,25 @@
 				"maxItems": 9,
 				"list": [
 					{
-						"code": "backrooms:almondwater",
+						"code": "game:gear-temporal",
 						"type": "item",
-						"stacksize": 2,
+						"stacksize": 1,
 						"stock": {
+							"avg": 1,
+							"var": 0.25
+						},
+						"price": {
 							"avg": 6,
 							"var": 1.5
+						}
+					},
+					{
+						"code": "backrooms:almondwater",
+						"type": "item",
+						"stacksize": 1,
+						"stock": {
+							"avg": 3,
+							"var": 0.75
 						},
 						"price": {
 							"avg": 1,
@@ -111,20 +124,20 @@
 						}
 					},
 					{
-						"code": "backrooms:almondwaterblue",
+						"code": "backrooms:crackers",
 						"type": "item",
-						"stacksize": 1,
+						"stacksize": 2,
 						"stock": {
-							"avg": 2,
-							"var": 0.5
+							"avg": 3,
+							"var": 0.75
 						},
 						"price": {
-							"avg": 2,
-							"var": 0.5
+							"avg": 1,
+							"var": 0.25
 						}
 					},
 					{
-						"code": "backrooms:almondwatergreen",
+						"code": "backrooms:cannedbeans",
 						"type": "item",
 						"stacksize": 1,
 						"stock": {
@@ -139,49 +152,23 @@
 					{
 						"code": "game:candle",
 						"type": "item",
-						"stacksize": 3,
-						"stock": {
-							"avg": 4,
-							"var": 1.0
-						},
-						"price": {
-							"avg": 1,
-							"var": 0.25
-						}
-					},
-					{
-						"code": "backrooms:crackers",
-						"type": "item",
-						"stacksize": 3,
-						"stock": {
-							"avg": 4,
-							"var": 1.0
-						},
-						"price": {
-							"avg": 1,
-							"var": 0.25
-						}
-					},
-					{
-						"code": "backrooms:cannedbeans",
-						"type": "item",
 						"stacksize": 2,
 						"stock": {
 							"avg": 3,
 							"var": 0.75
 						},
 						"price": {
-							"avg": 2,
-							"var": 0.5
+							"avg": 1,
+							"var": 0.25
 						}
 					},
 					{
 						"code": "backrooms:firesalt",
 						"type": "block",
-						"stacksize": 2,
+						"stacksize": 1,
 						"stock": {
-							"avg": 3,
-							"var": 0.75
+							"avg": 2,
+							"var": 0.5
 						},
 						"price": {
 							"avg": 3,
@@ -191,36 +178,10 @@
 					{
 						"code": "game:bandage-clean",
 						"type": "item",
-						"stacksize": 2,
-						"stock": {
-							"avg": 3,
-							"var": 0.75
-						},
-						"price": {
-							"avg": 2,
-							"var": 0.5
-						}
-					},
-					{
-						"code": "game:poultice-linen-horsetail",
-						"type": "item",
 						"stacksize": 1,
 						"stock": {
 							"avg": 2,
 							"var": 0.5
-						},
-						"price": {
-							"avg": 3,
-							"var": 0.75
-						}
-					},
-					{
-						"code": "game:linensack",
-						"type": "item",
-						"stacksize": 1,
-						"stock": {
-							"avg": 3,
-							"var": 0.75
 						},
 						"price": {
 							"avg": 2,
@@ -232,8 +193,8 @@
 						"type": "item",
 						"stacksize": 4,
 						"stock": {
-							"avg": 4,
-							"var": 1.0
+							"avg": 3,
+							"var": 0.75
 						},
 						"price": {
 							"avg": 1,
@@ -245,8 +206,8 @@
 						"type": "item",
 						"stacksize": 4,
 						"stock": {
-							"avg": 3,
-							"var": 0.75
+							"avg": 2,
+							"var": 0.5
 						},
 						"price": {
 							"avg": 2,
@@ -267,7 +228,7 @@
 						}
 					},
 					{
-						"code": "game:gear-temporal",
+						"code": "game:linensack",
 						"type": "item",
 						"stacksize": 1,
 						"stock": {
@@ -275,60 +236,8 @@
 							"var": 0.25
 						},
 						"price": {
-							"avg": 6,
-							"var": 1.5
-						}
-					},
-					{
-						"code": "game:knife-generic-tinbronze",
-						"type": "item",
-						"stacksize": 1,
-						"stock": {
-							"avg": 1,
-							"var": 0.25
-						},
-						"price": {
-							"avg": 6,
-							"var": 1.5
-						}
-					},
-					{
-						"code": "game:spear-generic-tinbronze",
-						"type": "item",
-						"stacksize": 1,
-						"stock": {
-							"avg": 1,
-							"var": 0.25
-						},
-						"price": {
-							"avg": 8,
-							"var": 2.0
-						}
-					},
-					{
-						"code": "game:lantern-small-up",
-						"type": "block",
-						"stacksize": 1,
-						"stock": {
-							"avg": 1,
-							"var": 0.25
-						},
-						"price": {
-							"avg": 6,
-							"var": 1.5
-						}
-					},
-					{
-						"code": "game:armor-body-sewn-linen",
-						"type": "item",
-						"stacksize": 1,
-						"stock": {
-							"avg": 1,
-							"var": 0.25
-						},
-						"price": {
-							"avg": 6,
-							"var": 1.5
+							"avg": 2,
+							"var": 0.5
 						}
 					}
 				]
@@ -421,45 +330,6 @@
 						"stock": {
 							"avg": 6,
 							"var": 1.5
-						},
-						"price": {
-							"avg": 1,
-							"var": 0.25
-						}
-					},
-					{
-						"code": "game:metalbit-silver",
-						"type": "item",
-						"stacksize": 3,
-						"stock": {
-							"avg": 4,
-							"var": 1.0
-						},
-						"price": {
-							"avg": 2,
-							"var": 0.5
-						}
-					},
-					{
-						"code": "game:metalbit-brass",
-						"type": "item",
-						"stacksize": 4,
-						"stock": {
-							"avg": 4,
-							"var": 1.0
-						},
-						"price": {
-							"avg": 1,
-							"var": 0.25
-						}
-					},
-					{
-						"code": "game:paper-parchment",
-						"type": "item",
-						"stacksize": 8,
-						"stock": {
-							"avg": 4,
-							"var": 1.0
 						},
 						"price": {
 							"avg": 1,
@@ -1297,6 +1167,63 @@
 					}
 				]
 			}
+		},
+		"backroomsSiteNames": {
+			"camp": [
+				"Pell",
+				"Barrel",
+				"Old Lamp",
+				"Stray",
+				"Fuse",
+				"Crate",
+				"Mender",
+				"Quiet"
+			],
+			"outpost": [
+				"Compass",
+				"Quartermaster",
+				"Survey",
+				"Gauge",
+				"Ledger"
+			],
+			"road": [
+				"Lumen",
+				"Gravel",
+				"Marker",
+				"Caravan",
+				"Long Walk"
+			],
+			"city": [
+				"Prospero",
+				"Margin",
+				"Bargain",
+				"Courier",
+				"Ledger"
+			],
+			"end": [
+				"Wick",
+				"Sunday",
+				"Porch Light",
+				"Daydream"
+			],
+			"hub": [
+				"Doorman",
+				"Keyholder",
+				"Register",
+				"Lintel"
+			],
+			"amber": [
+				"Amber",
+				"Primer",
+				"Signpost",
+				"Chalk"
+			],
+			"3999": [
+				"Token",
+				"Seven",
+				"Lobby",
+				"Neon"
+			]
 		}
 	},
 	"server": {
@@ -1414,7 +1341,7 @@
 			},
 			{
 				"code": "conversable",
-				"dialogue": "game:config/dialogue/trader"
+				"dialogue": "backrooms:config/dialogue/wanderer"
 			},
 			{
 				"code": "entitystatetags"

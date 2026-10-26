@@ -1,0 +1,159 @@
+{
+	"money": {
+		"avg": 25,
+		"var": 6
+	},
+	"selling": {
+		"maxItems": 5,
+		"list": [
+			{
+				"code": "backrooms:end-cataloguecard",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 3,
+					"var": 0.75
+				}
+			},
+			{
+				"code": "game:paper-parchment",
+				"type": "item",
+				"stacksize": 4,
+				"stock": {
+					"avg": 4,
+					"var": 1.0
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "game:candle",
+				"type": "item",
+				"stacksize": 2,
+				"stock": {
+					"avg": 3,
+					"var": 0.75
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:l974-plush-bear",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 1,
+					"var": 0.25
+				},
+				"price": {
+					"avg": 4,
+					"var": 1.0
+				}
+			},
+			{
+				"code": "backrooms:almondwatergreen",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 1,
+					"var": 0.25
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "backrooms:chalk",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 1,
+					"var": 0.25
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			}
+		]
+	},
+	"buying": {
+		"maxItems": 5,
+		"list": [
+			{
+				"code": "backrooms:end-memoryjuice",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 4,
+					"var": 1.0
+				},
+				"price": {
+					"avg": 6,
+					"var": 1.5
+				}
+			},
+			{
+				"code": "backrooms:crackers",
+				"type": "item",
+				"stacksize": 2,
+				"stock": {
+					"avg": 3,
+					"var": 0.75
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:cannedbeans",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "backrooms:almondwater",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 3,
+					"var": 0.75
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:candybar",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			}
+		]
+	}
+}

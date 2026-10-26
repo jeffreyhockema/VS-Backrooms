@@ -323,6 +323,41 @@ public class AiTaskMenace : AiTaskBase
         stunAnim = Anim(taskConfig["stunAnimation"].AsString("hurt"));
         catchWindowSeconds = taskConfig["catchWindowSeconds"].AsFloat(0);
         lookSpeeds = taskConfig["lookSpeeds"].AsArray(Array.Empty<float>());
+        squeezeWidth = taskConfig["squeezeWidth"].AsFloat(SqueezeWidth);
+        squeezeFactor = taskConfig["squeezeFactor"].AsFloat(1);
+    }
+
+    /// <summary>The Hound's squeeze (see <see cref="Squeeze"/>): the width under which it slows, and what it slows to.</summary>
+    public const float SqueezeWidth = 2f, SqueezeFactor = 0.6f;
+    private readonly float squeezeWidth, squeezeFactor;
+    /// <summary>The speed the last walk was started at (before any squeeze), and the seconds to the next measure.</summary>
+    private float goSpeed, squeezeIn;
+    private bool squeezed;
+    private static readonly System.Reflection.FieldInfo MovingSpeed =
+        typeof(PathTraverserBase).GetField("movingSpeed", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
+    /// <summary>
+    /// Slows a walker through a narrow gap. The traverser takes its speed as a number per walk and the entity's
+    /// walkspeed stat does not touch AI walking, so every fifth of a second, while it walks a path, the free width across
+    /// its heading is measured (<see cref="Senses.FreeWidth"/>) and the traverser's own speed set to the walk's
+    /// speed times <c>squeezeFactor</c> if it is under <c>squeezeWidth</c>, back to the walk's speed if not (a path found
+    /// meanwhile starts at the plain speed and is corrected within the fifth). Only entities whose config has a
+    /// <c>squeezeFactor</c> do it.
+    /// </summary>
+    private void Squeeze(float dt)
+    {
+        if (squeezeFactor >= 1 || MovingSpeed == null || goSpeed <= 0) return;
+        if (!pathTraverser.Active)
+        {
+            squeezed = false;
+            return;
+        }
+        squeezeIn -= dt;
+        if (squeezeIn > 0) return;
+        squeezeIn = 0.2f;
+        EntityPos at = entity.Pos;
+        squeezed = Senses.FreeWidth(entity.World.BlockAccessor, at.X, at.Y, at.Z, at.Yaw) < squeezeWidth - 0.05;
+        MovingSpeed.SetValue(pathTraverser, squeezed ? goSpeed * squeezeFactor : goSpeed);
     }
 
     /// <summary>An animation code, or null for none (an empty string in the config).</summary>
@@ -429,6 +464,7 @@ public class AiTaskMenace : AiTaskBase
             if (entity.World.ElapsedMilliseconds < holdUntilMs) return true;
         }
 
+        Squeeze(dt);
         think -= dt;
         sinceThink += dt;
         if (motion == Motion.Still && target != null && kind != Encounter.Leave) TurnTowards(FacePoint(), dt);
@@ -1788,6 +1824,7 @@ public class AiTaskMenace : AiTaskBase
         // From Level 3 down every hunter outruns a sprint (a stalker's 0.8 x run keeps the same share of it)
         if (runFloor > 0 && runSpeed > 0 && speed >= runSpeed * 0.75f) scaled = Math.Max(scaled, runFloor * speed / runSpeed);
         speed = scaled;
+        goSpeed = speed;
         if (straight) pathTraverser.WalkTowards(to, speed, within, OnArrived, OnStuck);
         else if (async) pathTraverser.NavigateTo_Async(to, speed, within, OnArrived, OnStuck, OnNoPath, 2500, 1);
         else

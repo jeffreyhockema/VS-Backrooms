@@ -864,7 +864,9 @@ def hound():
                     # A Hound sent by a Flickering hunts until the lights return (AiTaskMenace.Relentless)
                     huntsUntilSet=True,
                     glimpseTurnsToStalk=True, growlBeforeCharge=True, growlMs=900, barks=True, huntBarkSeconds=2, huntBarkLevels=[3],
-                    investigateSeconds=8, searchSeconds=14, retaliateSeconds=60, lookAnimation="sniff"),
+                    investigateSeconds=8, searchSeconds=14, retaliateSeconds=60, lookAnimation="sniff",
+                    # It fits a one-block gap but has to squeeze: through anything under 2 blocks wide it goes at 60 % (AiTaskMenace.Squeeze)
+                    squeezeWidth=2.0, squeezeFactor=0.6),
         idle("sniff", 1.2, 5000, 5000, 8000, 25000),
         idle("scratch", 1.15, 2500, 2500, 30000, 90000),
         WANDER,
@@ -875,8 +877,10 @@ def hound():
         "class": "EntityAgent",
         "tags": ["backrooms-entity", "predator", "habitat-land"],
         "weight": 70,
-        # The model is 23 px (1.45 blocks) at the shoulder and 33 long; the head hangs at about 1.1
-        "hitboxSize": {"x": 1.1, "y": 1.3},
+        # The model is 23 px (1.45 blocks) at the shoulder and 33 long; the head hangs at about 1.1. The body is 0.9 wide, so it
+        # fits a gap one block wide (1.1 never did: Level 2's service tunnels, Level 4's cubicles); what the player can hit stays 1.1 (hitboxSize would set both, so the two are given apart)
+        "collisionBoxSize": {"x": 0.9, "y": 1.3},
+        "selectionBoxSize": {"x": 1.1, "y": 1.3},
         "deadHitboxSize": {"x": 1.0, "y": 0.6},
         "eyeHeight": 1.1,
         "attributes": {"killedByInfoText": "backrooms:deadcreature-hound"},
@@ -1439,46 +1443,139 @@ def trade(code, price, stock=2, stack=1, kind="item"):
     return {"code": code, "type": kind, "stacksize": stack, "stock": {"avg": stock, "var": stock * 0.25}, "price": {"avg": price, "var": price * 0.25}}
 
 
-WANDERER_SELLS = [
-    trade("backrooms:almondwater", 1, 6, 2),
-    trade("backrooms:almondwaterblue", 2, 2, 1),
-    trade("backrooms:almondwatergreen", 2, 2, 1),
-    trade("game:candle", 1, 4, 3),
-    trade("backrooms:crackers", 1, 4, 3),
-    trade("backrooms:cannedbeans", 2, 3, 2),
-    trade("backrooms:firesalt", 3, 3, 2, "block"),
-    trade("game:bandage-clean", 2, 3, 2),
-    trade("game:poultice-linen-horsetail", 3, 2),
-    trade("game:linensack", 2, 3),
-    trade("game:flaxtwine", 1, 4, 4),
-    trade("game:seeds-flax", 2, 3, 4),
-    trade("game:seeds-cabbage", 2, 2, 4),
-    trade("game:gear-temporal", 6, 1),  # about eight mid-level Hound bounties; a ward part, never a finished anchor
-    trade("game:knife-generic-tinbronze", 6, 1),
-    trade("game:spear-generic-tinbronze", 8, 1),
-    trade("game:lantern-small-up", 6, 1, 1, "block"),
-    trade("game:armor-body-sewn-linen", 6, 1),
-]
-WANDERER_BUYS = [
-    trade("backrooms:metalbracket", 1, 6, 4),
-    trade("backrooms:scrapwire", 1, 6, 5),
-    trade("backrooms:glassshard", 1, 4, 8),
-    trade("game:hide-raw-medium", 2, 3),
-    trade("game:hide-raw-large", 3, 2),
-    trade("game:cloth-plain", 1, 4, 4),
-    trade("game:metalbit-copper", 1, 6, 6),
-    trade("game:metalbit-silver", 2, 4, 3),
-    trade("game:metalbit-brass", 1, 4, 4),
-    trade("game:paper-parchment", 1, 4, 8),
-]
+# Each site's wanderer deals in what its place has and buys what it lacks (docs/design/traders/README.md, from the lore
+# in docs/design/traders/lore.md). Prices in rusty gears, 1 to 8; stocks kept small (Almond Water above all: water is
+# meant to stay scarce). Every list is written to config/trade/wanderer-<site>.json, which WandererSystem gives the
+# wanderer of that site; "camp" doubles as the entity type's own list, for a wanderer with no site yet.
+#   (code, price, stock, stacksize[, "block"])
+WANDERER_SITES = {
+    # (game:gear-temporal at 6 rusty gears, about eight mid-level Hound bounties, at the people's sites: a ward part, never a finished anchor)
+    # Level 1: a crate-pickers' camp round a burning barrel, unaligned. Crate goods, the basics, seeds; salvage and hides.
+    # (The Level 1 notes say: salvage and hides for Almond Water, Firesalt, candles, bandages and seeds.)
+    "camp": {
+        "sells": [("game:gear-temporal", 6, 1, 1), ("backrooms:almondwater", 1, 3, 1), ("backrooms:crackers", 1, 3, 2), ("backrooms:cannedbeans", 2, 2, 1),
+                  ("game:candle", 1, 3, 2), ("backrooms:firesalt", 3, 2, 1, "block"), ("game:bandage-clean", 2, 2, 1),
+                  ("game:flaxtwine", 1, 3, 4), ("game:seeds-flax", 2, 2, 4), ("game:seeds-cabbage", 2, 2, 4), ("game:linensack", 2, 1, 1)],
+        "buys": [("backrooms:metalbracket", 1, 6, 4), ("backrooms:scrapwire", 1, 6, 5), ("backrooms:glassshard", 1, 4, 8),
+                 ("game:hide-raw-medium", 2, 3, 1), ("game:hide-raw-large", 3, 2, 1), ("game:cloth-plain", 1, 4, 4),
+                 ("game:metalbit-copper", 1, 6, 6)],
+        "sellMax": 9, "buyMax": 7,
+    },
+    # Level 4: an M.E.G. supply outpost, where Almond Water is most plentiful: water (cheapest here), bottles to carry it
+    # down to Level 5, medicine, light, seeds. Buys specimens for the M.E.G.'s files, salvage, paper, the hotel's silver.
+    "outpost": {
+        "sells": [("game:gear-temporal", 6, 1, 1), ("backrooms:almondwater", 1, 4, 1), ("backrooms:almondwaterblue", 2, 2, 1), ("backrooms:almondwatergreen", 2, 2, 1),
+                  ("backrooms:emptybottle", 1, 3, 1), ("game:bandage-clean", 2, 3, 1), ("game:poultice-linen-horsetail", 3, 2, 1),
+                  ("game:candle", 1, 3, 2), ("backrooms:firesalt", 3, 2, 1, "block"), ("game:seeds-flax", 2, 2, 4), ("game:seeds-cabbage", 2, 2, 4)],
+        "buys": [("backrooms:mothquill", 2, 2, 1), ("backrooms:mothjelly", 3, 1, 1), ("backrooms:clumpsinew", 2, 2, 1),
+                 ("backrooms:metalbracket", 1, 6, 4), ("backrooms:scrapwire", 1, 6, 5), ("backrooms:glassshard", 1, 4, 8),
+                 ("game:paper-parchment", 1, 4, 8), ("game:metalbit-silver", 2, 4, 3)],
+        "sellMax": 9, "buyMax": 7,
+    },
+    # Level 8, the 9th Road: an M.E.G. camp on the road, stocked by the B.N.T.G.'s caravans. Caving gear, light, food,
+    # weapons for the dark; water dearer. Buys what keeps people warm and what maps are drawn on, and spider silk.
+    "road": {
+        "sells": [("game:gear-temporal", 6, 1, 1), ("backrooms:cannedbeans", 2, 3, 1), ("backrooms:crackers", 1, 3, 2), ("backrooms:almondwater", 2, 2, 1),
+                  ("game:rope", 2, 2, 1), ("game:torch-basic-extinct-up", 1, 4, 2, "block"), ("game:lantern-small-up", 6, 1, 1, "block"),
+                  ("game:pickaxe-tinbronze", 8, 1, 1), ("game:knife-generic-tinbronze", 6, 1, 1), ("game:spear-generic-tinbronze", 8, 1, 1),
+                  ("game:armor-body-sewn-linen", 6, 1, 1), ("game:bandage-clean", 2, 2, 1)],
+        "buys": [("game:hide-raw-medium", 2, 3, 1), ("game:hide-raw-large", 3, 2, 1), ("game:cloth-plain", 1, 4, 4),
+                 ("backrooms:spidersilk", 2, 3, 1), ("game:paper-parchment", 1, 4, 8), ("backrooms:metalbracket", 1, 4, 4)],
+        "sellMax": 8, "buyMax": 6,
+    },
+    # Level 11: a B.N.T.G. street vendor. The city has food and Almond Water for the taking, so it sells what the city
+    # lacks: B.N.T.G. candy, the coloured waters, Firesalt, bronze, lanterns, chalk. Buys rare things from far levels.
+    "city": {
+        "sells": [("game:gear-temporal", 6, 1, 1), ("backrooms:candybar", 1, 3, 1), ("backrooms:chips", 1, 3, 1), ("backrooms:soda", 1, 3, 1),
+                  ("backrooms:almondwaterblue", 2, 2, 1), ("backrooms:almondwatergreen", 2, 2, 1), ("backrooms:firesalt", 4, 2, 1, "block"),
+                  ("game:knife-generic-tinbronze", 6, 1, 1), ("game:lantern-small-up", 6, 1, 1, "block"),
+                  ("game:armor-body-sewn-linen", 5, 1, 1), ("backrooms:chalk", 2, 2, 1)],
+        "buys": [("game:metalbit-silver", 2, 4, 3), ("game:metalbit-brass", 1, 4, 4), ("backrooms:l3999-ticket", 1, 4, 5),
+                 ("backrooms:almondmilk", 2, 2, 1), ("backrooms:epsomsalt", 2, 2, 2), ("backrooms:mothquill", 2, 2, 1),
+                 ("game:hide-raw-large", 3, 2, 1)],
+        "sellMax": 8, "buyMax": 6,
+    },
+    # The End: a Junkie, at home in the library (trades only with someone carrying Memory Juice: the dialogue). Sells
+    # what the library holds and what was brought from home; buys juice above all, and food, which The End has none of.
+    "end": {
+        "sells": [("backrooms:end-cataloguecard", 3, 2, 1), ("game:paper-parchment", 1, 4, 4), ("game:candle", 1, 3, 2),
+                  ("backrooms:l974-plush-bear", 4, 1, 1), ("backrooms:almondwatergreen", 2, 1, 1), ("backrooms:chalk", 2, 1, 1)],
+        "buys": [("backrooms:end-memoryjuice", 6, 4, 1), ("backrooms:crackers", 1, 3, 2), ("backrooms:cannedbeans", 2, 2, 1),
+                 ("backrooms:almondwater", 1, 3, 1), ("backrooms:candybar", 1, 2, 1)],
+        "sellMax": 5, "buyMax": 5,
+    },
+    # The Hub, the M.E.G.'s doorstep carpet by the city door (whose two Level Keys a week HubTower puts among the wares,
+    # in free slots). Field supplies for a cold, foodless place; buys salvage, paper and The End's catalogue cards.
+    "hub": {
+        "sells": [("game:gear-temporal", 6, 1, 1), ("backrooms:almondwater", 2, 2, 1), ("game:bandage-clean", 2, 2, 1), ("backrooms:chalk", 2, 2, 1),
+                  ("game:candle", 1, 3, 2), ("backrooms:crackers", 1, 3, 2), ("game:torch-basic-extinct-up", 1, 3, 2, "block"),
+                  ("game:armor-body-sewn-linen", 6, 1, 1), ("backrooms:firesalt", 3, 2, 1, "block")],
+        "buys": [("backrooms:metalbracket", 1, 6, 4), ("backrooms:scrapwire", 1, 6, 5), ("backrooms:glassshard", 1, 4, 8),
+                 ("game:paper-parchment", 1, 4, 8), ("game:hide-raw-medium", 2, 2, 1), ("backrooms:end-cataloguecard", 2, 2, 1)],
+        "sellMax": 7, "buyMax": 6,
+    },
+    # The Hub, Camp Amber by the Level 1 door: teachers with limited supplies, cheap, for the newly arrived. Buys the
+    # Lobby's scraps, which is all a new wanderer has.
+    "amber": {
+        "sells": [("backrooms:almondwater", 1, 2, 1), ("backrooms:crackers", 1, 3, 2), ("game:candle", 1, 3, 2),
+                  ("game:bandage-clean", 2, 2, 1), ("game:flaxtwine", 1, 3, 4), ("backrooms:emptybottle", 1, 2, 1),
+                  ("game:seeds-flax", 2, 2, 4)],
+        "buys": [("backrooms:metalbracket", 1, 6, 4), ("backrooms:scrapwire", 1, 6, 5), ("backrooms:glassshard", 1, 4, 8),
+                 ("backrooms:carpetfibre", 1, 4, 8), ("backrooms:wallpaperstrip", 1, 4, 8), ("game:cloth-plain", 1, 3, 4)],
+        "sellMax": 6, "buyMax": 5,
+    },
+    # Level 3999: campers of the Megacolony, warm and fed. Sell the mall's food, water and prizes; buy tickets (for the
+    # counters), Firesalt and hides for the dark fringe, cloth and brackets the mall doesn't give.
+    "3999": {
+        "sells": [("backrooms:almondwater", 1, 3, 1), ("backrooms:l3999-traymeal-burger", 2, 2, 1), ("backrooms:l3999-traymeal-noodles", 2, 2, 1),
+                  ("backrooms:l3999-popcorn", 1, 3, 1), ("backrooms:l3999-cottoncandy", 1, 3, 1), ("backrooms:l3999-soda-cherry", 1, 2, 1),
+                  ("backrooms:l3999-glowband-cyan", 2, 1, 1), ("game:seeds-cabbage", 2, 2, 4), ("game:lantern-small-up", 7, 1, 1, "block")],
+        "buys": [("backrooms:l3999-ticket", 1, 6, 5), ("backrooms:firesalt", 3, 2, 1, "block"), ("game:hide-raw-medium", 2, 2, 1),
+                 ("game:cloth-plain", 1, 3, 4), ("backrooms:metalbracket", 1, 4, 4)],
+        "sellMax": 7, "buyMax": 4,
+    },
+}
+
+
+def trade_props(site):
+    """A site's trade list, as vanilla's tradeProps."""
+    spec = WANDERER_SITES[site]
+
+    def items(rows):
+        return [trade(r[0], r[1], r[2], r[3], r[4] if len(r) > 4 else "item") for r in rows]
+    return {
+        "money": {"avg": 25, "var": 6},
+        "selling": {"maxItems": spec["sellMax"], "list": items(spec["sells"])},
+        "buying": {"maxItems": spec["buyMax"], "list": items(spec["buys"])},
+    }
+
 
 WANDERER_NAMES = ["Wanderer", "Courier", "Old Lamp", "Doorman", "Static", "Exit", "Mender", "Ledger", "Gauge", "Stray", "Waypoint",
                   "Bulb", "Chalk", "Almond", "Fuse", "Lintel", "Cartographer", "Long Walk", "Seven", "Quiet"]
 
+# What a new wanderer is called at each site (one is picked when it is put down; the names of wanderers already met
+# are kept): camp survivors by what they carry, M.E.G. operatives by callsign, B.N.T.G. traders by trade name.
+WANDERER_SITE_NAMES = {
+    "camp": ["Pell", "Barrel", "Old Lamp", "Stray", "Fuse", "Crate", "Mender", "Quiet"],
+    "outpost": ["Compass", "Quartermaster", "Survey", "Gauge", "Ledger"],
+    "road": ["Lumen", "Gravel", "Marker", "Caravan", "Long Walk"],
+    "city": ["Prospero", "Margin", "Bargain", "Courier", "Ledger"],
+    "end": ["Wick", "Sunday", "Porch Light", "Daydream"],
+    "hub": ["Doorman", "Keyholder", "Register", "Lintel"],
+    "amber": ["Amber", "Primer", "Signpost", "Chalk"],
+    "3999": ["Token", "Seven", "Lobby", "Neon"],
+}
+
+
+def wanderer_trade_files():
+    for site in WANDERER_SITES:
+        write_json(trade_props(site), "config", "trade", "wanderer-" + site + ".json")
+
 
 def wanderer():
     """A wanderer who trades: the vanilla trader, dressed from the survival-goods trader's wardrobe, with a trade list
-    of the Backrooms' own and the M.E.G.'s supplies. Rusty gears are the money, as everywhere in Vintage Story."""
+    and a name for each site (WandererSites, WandererSystem) and a dialogue of its own (tools/gen_dialogue.py). Rusty
+    gears are the money, as everywhere in Vintage Story."""
     import json5
     base = json5.load(open(vanilla("survival/entities/humanoid/trader-male.json"), encoding="utf-8"))
     entity = dict(base)
@@ -1486,11 +1583,8 @@ def wanderer():
     entity["variantgroups"] = [{"code": "gender", "states": ["male"]}]
     attrs = dict(base["attributes"])
     attrs.pop("tradePropsFile", None)
-    attrs["tradeProps"] = {
-        "money": {"avg": 25, "var": 6},
-        "selling": {"maxItems": 9, "list": WANDERER_SELLS},
-        "buying": {"maxItems": 7, "list": WANDERER_BUYS},
-    }
+    attrs["tradeProps"] = trade_props("camp")
+    attrs["backroomsSiteNames"] = WANDERER_SITE_NAMES
     outfits = base["attributes"]["partialRandomOutfitsByType"]
     attrs["partialRandomOutfitsByType"] = {"*": outfits["trader-male-*-temperate"]}
     entity["attributes"] = attrs
@@ -1526,7 +1620,7 @@ def wanderer():
     attrs["outfitConfigFileName"] = game(attrs["outfitConfigFileName"])
     for b in client["behaviors"] + behaviors:
         if b["code"] == "conversable":
-            b["dialogue"] = "game:config/dialogue/trader"
+            b["dialogue"] = "backrooms:config/dialogue/wanderer"
     entity["sounds"] = {k: game(v) if isinstance(v, str) else v for k, v in (base.get("sounds") or {}).items()}
     return entity
 
@@ -1803,6 +1897,7 @@ def main():
     for entity in (hound(), smiler(), faceling(), faceling(child=True), skinstealer(), duller(), deathrat(), deathmoth(), wanderer(), clump(), mangled(), thething(), bacteria(), wretch(),
                    animation_clay(), animation_wooden(), animation_paper(), roboman(), giantspider()):
         write_json(sync_harvestable(entity), "entities", entity["code"] + ".json")
+    wanderer_trade_files()
     firesalt()
     mothhiveheart()
     clumpremnant()
