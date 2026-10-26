@@ -2703,11 +2703,5 @@
 	"crossing-class5": "Nivel {0}. Todo lo que hay aquí es más rápido que tú y golpea más fuerte, y nada deja marchar a un extraño. Los M.E.G. prohíben viajar sin armadura.",
 	"crossing-armour-none": "No llevas nada que desvíe un golpe.",
 	"crossing-armour-light": "El cuero y la polipiel desviarán un poco, no mucho.",
-	"crossing-armour-metal": "El metal que llevas desviará parte. No cuentes con todo.",
-	"item-anchor-copper": "Ancla de cobre",
-	"itemdesc-anchor-copper": "Un aro de cobre con un pequeño engranaje temporal, que se lleva al cuello. Guarda un hilo de vuelta hacia ti: la estabilidad aguanta en los Niveles 3, 4 y 5.",
-	"item-anchor-bronze": "Ancla de bronce",
-	"itemdesc-anchor-bronze": "Un aro de bronce con un engranaje temporal, que se lleva al cuello. El hilo es más grueso: la estabilidad aguanta hasta los Niveles 6, 7, 8, 37 y 94.",
-	"item-anchor-iron": "Ancla de hierro",
-	"itemdesc-anchor-iron": "Un aro de hierro con un engranaje temporal, que se lleva al cuello. El hilo aguanta todo lo que hay más allá: del Nivel 9 en adelante."
+	"crossing-armour-metal": "El metal que llevas desviará parte. No cuentes con todo."
 }
