@@ -388,6 +388,9 @@ public class GuiDialogCheats : GuiDialog
             B("Dummy: unsteady", "/backrooms dummy stability 0.3", "Sets the nearest straw dummy's Reality Stability to 0.3"),
             B("Dummy: noise", "/backrooms dummy noise 0.5", "The nearest straw dummy makes a noise, at loudness 0.5, which the creatures can hear"),
             B("Remove dummies", "/backrooms dummy remove", "Removes every straw dummy put down for tests"),
+            B("Walker: Level 1, 10 min", "/backrooms walker start 1 leather 7 10", "A simulated player: a straw dummy walking from an arrival to the nearest gate and through it, again and again, for 10 minutes (health 15, hunger, leather armour); the director treats it as a player"),
+            B("Walker: status", "/backrooms walker status", "Where the walker is, its health and hunger, and the encounters it has seen, fled and died of"),
+            B("Walker: stop", "/backrooms walker stop", "Stops the walker and removes its dummy"),
         }, 4);
 
         y = Heading(c, "Feature tests", y + RowGap);

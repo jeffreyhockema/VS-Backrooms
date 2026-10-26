@@ -104,8 +104,9 @@ def analyse(events):
 
     # Spawns
     spawns = collections.Counter()
+    only_dummies = bool(events) and not any(e["p"] != "-" and "#" not in e["p"] for e in events)   # a simulated-player session (tools/aitest/walk.py)
     for e in events:
-        if e["ev"] == "spawn" and "#" not in e["p"]:
+        if e["ev"] == "spawn" and ("#" not in e["p"] or only_dummies):
             spawns[(e["kind"], e["band"], e["code"])] += 1
     r["spawns"] = spawns
 

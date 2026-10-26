@@ -286,6 +286,7 @@ public partial class MenaceSystem : ModSystem
         RegisterHiveCommands(api, command);
         RegisterStealerCommands(api, command);
         RegisterPathTestCommands(api, command);
+        RegisterWalkerCommands(api, command);
     }
 
     private long tickListener;

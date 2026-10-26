@@ -1451,6 +1451,92 @@ PROG_CASES = PROG_CASES + [("prog-zero", t_prog_zero), ("prog-zero-safe", t_prog
 
 
 
+# ---------------------------------------------------------------- simulated players (tools/aitest/walk.py, src/Entities/MenaceSystem.Walker.cs)
+WALKER_STATUS_RE = re.compile(r"status: Level (\S+), phase (\w+), at (-?\d+) (-?\d+) (-?\d+), band (\w+), hp ([\d.]+)/15, hunger (\d+)%.*?encounters seen (\d+) fled (\d+) hid (\d+) died (\d+); blocks walked (\d+), caches (\d+), laps (\d+), gates (\d+), stuck (\d+)")
+
+
+def _walker_status(c):
+    """`walker status` as a dict, or None."""
+    m = c.srv.mark()
+    c.srv.cmd("/backrooms walker status")
+    r = c.srv.wait(lambda l: WALKER_STATUS_RE.search(l), m, 15)
+    if not r:
+        return None
+    g = r.groups()
+    return dict(level=g[0], phase=g[1], x=int(g[2]), y=int(g[3]), z=int(g[4]), band=g[5], hp=float(g[6]), hunger=int(g[7]), seen=int(g[8]), fled=int(g[9]),
+                hid=int(g[10]), died=int(g[11]), blocks=int(g[12]), caches=int(g[13]), laps=int(g[14]), gates=int(g[15]), stuck=int(g[16]))
+
+
+def _walker_start(c, level, armour, minutes):
+    c.reset()
+    c.srv.cmd("/backrooms dummies off")
+    time.sleep(1)
+    m = c.srv.mark()
+    c.srv.cmd("/backrooms telemetry on")
+    time.sleep(1)
+    c.srv.cmd("/backrooms walker start %s %s 7 %d" % (level, armour, minutes))
+    return m, c.srv.wait(lambda l: "walker placed" in l and l, m, 240)
+
+
+def _walker_stop(c):
+    c.srv.cmd("/backrooms walker stop")
+    time.sleep(3)
+    c.srv.cmd("/backrooms dummies off")
+    time.sleep(1)
+
+
+def t_walker_smoke(c):
+    """A walker in Level 1 for 5 minutes: placed, walks (a few hundred blocks), no errors."""
+    m, placed = _walker_start(c, "1", "leather", 5)
+    if not placed:
+        _walker_stop(c)
+        return False, "the walker was never placed"
+    try:
+        c.srv.wait(lambda l: re.search(r"walker final \(time\)", l), m, 6 * 60 + 60)
+    finally:
+        st = None
+        if not any("walker final" in l for l in c.srv.since(m)):
+            st = _walker_status(c)
+            _walker_stop(c)
+    final = [WALKER_STATUS_RE.search(l) for l in c.srv.since(m) if "walker final" in l]
+    final = [f for f in final if f]
+    blocks = int(final[-1].group(13)) if final else (st["blocks"] if st else 0)
+    bad = [l for l in c.srv.since(m) if ERR_RE.search(l)]
+    ok = blocks >= 150 and not bad
+    return ok, "5 min in Level 1: walked %d blocks (wanted 150 or more), %d error lines%s" % (blocks, len(bad), "".join(chr(10) + "  " + b[:200] for b in bad[:3]))
+
+
+def t_walker_struck(c):
+    """A hunting Hound put on the walker lands blows on it (the strike path reaches a straw dummy), through the armour."""
+    c.srv.cmd("/backrooms entitylog on")
+    time.sleep(1)
+    m, placed = _walker_start(c, "3", "none", 4)
+    if not placed:
+        _walker_stop(c)
+        return False, "the walker was never placed"
+    try:
+        # (Hold it still for the test: it is in its first seconds, still planning; the hound is put down beside it)
+        got = None
+        for attempt in range(4):
+            st = _walker_status(c)
+            if not st:
+                continue
+            m2 = c.srv.mark()
+            c.srv.cmd("/backrooms encounter hound hunt %d %d 6" % (st["x"], st["z"]))
+            got = c.srv.wait(lambda l: re.search(r"walker takes ([\d.]+) from (\w+) \(raw ([\d.]+)\)", l), m2, 45)
+            if got:
+                break
+        st = _walker_status(c)
+    finally:
+        _walker_stop(c)
+    if not got:
+        return False, "no blow landed on the walker in 4 tries"
+    return True, "walker took %s from %s (raw %s); hp now %s" % (got.group(1), got.group(2), got.group(3), st["hp"] if st else "?")
+
+
+WALK_CASES = [("walker-smoke", t_walker_smoke), ("walker-struck", t_walker_struck)]
+
+
 def smoke(c):
     """`dummies on` with a Level 1 dummy for 60 s must produce no errors."""
     c.reset()
@@ -1505,11 +1591,13 @@ def main():
         only = (only - {"path"}) | {n for n, _ in PATH_CASES}
     if only and "prog" in only:
         only = (only - {"prog"}) | {n for n, _ in PROG_CASES}
+    if only and "walk" in only:
+        only = (only - {"walk"}) | {n for n, _ in WALK_CASES}
     if only and "iso-hound" in only:
         only = (only - {"iso-hound"}) | {n for n, _ in ISO_HOUND_CASES}
     if only:
         # A mistyped name would otherwise boot the server (up to 15 minutes), run nothing and exit 0
-        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + PROG_CASES} | {"p1-no-errors", "dummies-smoke"}
+        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + PROG_CASES + WALK_CASES} | {"p1-no-errors", "dummies-smoke"}
         if only - known:
             sys.exit("unknown case(s): " + ", ".join(sorted(only - known)))
     started = time.time()
@@ -1523,7 +1611,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + PROG_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + PROG_CASES + WALK_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()
@@ -1547,7 +1635,7 @@ def main():
             results.append(("dummies-smoke", ok))
             print("%s dummies-smoke: %s" % ("PASS" if ok else "FAIL", ev), flush=True)
         if a.rerun_failed and not died:
-            fns = dict(CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + PROG_CASES)
+            fns = dict(CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + PROG_CASES + WALK_CASES)
             fns["dummies-smoke"] = smoke
             for i, (name, ok0) in enumerate(list(results)):
                 if ok0 is not False or not fns.get(name):
