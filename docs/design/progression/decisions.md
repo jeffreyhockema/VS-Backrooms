@@ -21,3 +21,15 @@ The user's calls of 2026-10-25, so no worker reopens them. See [plan.md](plan.md
 | 15 | Blackout cause | **A minute at zero stability blacks you out from any cause**, in every level but Level 0, the Hub, Kitty's House and the Snackrooms | the user |
 | 16 | Drain variance | **"About ten minutes" stays about**: lamp-lit calm places (Level 4, the city, the Poolrooms) hold a few minutes longer, dark pockets a little less; two tiers beyond is about three minutes everywhere | the user |
 | 17 | Gear price | **A wanderer sells a temporal gear for 6 rusty gears** (about eight mid-level Hound bounties) | the user |
+
+## Taken (2026-10-25, evening: the revision, see revision.md)
+
+| # | Question | Decision | Why |
+|---|---|---|---|
+| 18 | The depth drain | **Removed, with the ward tiers, the anchors, the Almond Water ceiling and the "What holds you here" page.** Lethality, armour, ore only in Level 8, needs and scarcity are the gate | the user's play-test: "the gear spins like crazy with no explanation; the mechanic feels wrong" |
+| 19 | The blackout at zero | **Stays, from any cause**; the hunter at zero too; neither tied to a tier | the user |
+| 20 | Ways down | **Earlier-to-later shortcuts about a quarter as common**; later-to-earlier ways and boundary gates unchanged; no new one-way ways; layout version 12, new chunks only | "doors and exits are too plentiful", but "I don't want more one-way shortcuts" |
+| 21 | Scarcity | **Almond Water and food thin out in Class 3 to 5 levels**, on top of the world setting | the user: "lethality and scarcity" |
+| 22 | Lethality | **Curve unchanged**; play-test first | the user |
+| 23 | Telegraphing | **All four voices**: M.E.G. placards at gates into a higher class, a story note at the first, wanderer dialogue, a chat line on crossing | the user |
+| 24 | Findability | **Chalk arrows and notes unchanged** | the user: keep the gates findable |
