@@ -2,10 +2,12 @@ description: Rolls a supply box's drops as if it stood where the player does, in
 steps:
   - bot: closeguis
   - cmd: /backrooms goto 1
+  - bot: wait 3000
   - bot: ready 48
   - cmd: /backrooms rig classdrops supplybox
   - expect_chat: class scale
   - cmd: /backrooms goto 3
+  - bot: wait 3000
   - bot: ready 48
   - cmd: /backrooms rig classdrops supplybox
   - expect_chat: class scale

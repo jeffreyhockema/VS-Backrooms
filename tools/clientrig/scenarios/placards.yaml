@@ -4,17 +4,21 @@ steps:
   - bot: hud off
   - server: /time set 12:00
   - cmd: /backrooms goto 1
+  - bot: wait 3000
   - bot: ready 48
   - note: "The nearest gate may lead to any Level 1 neighbour; a Level 2 gate (class 3) carries a placard 3-2. The step below says where it leads."
   - cmd: /backrooms nearest gate
   - expect_chat: Level
+  - bot: wait 3000
   - bot: ready 48
   - bot: wait 1500
   - face: megplacard
   - bot: wait 700
   - shot: placard-near
   - expect_shot: placard-near
-  - cmd: /backrooms rig walk 6
+  - note: "Crossing by walking is not scripted (the camera faces the plate, not the opening): goto 2 stands in for it, untested whether a goto counts as a crossing for the chat line."
+  - cmd: /backrooms goto 2
+  - bot: wait 3000
   - bot: ready 48
   - shot: past-gate
   - note: "The crossing line is said only when the far side is a higher class (Class 3+) and once per level per session."

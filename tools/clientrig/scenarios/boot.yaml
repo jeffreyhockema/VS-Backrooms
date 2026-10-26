@@ -3,6 +3,7 @@ steps:
   - expect_no_startup_issues: ""
   - bot: closeguis
   - bot: hud off
+  - bot: wait 3000
   - bot: ready 48
   - bot: cmd /backrooms heal
   - bot: look 0 0

@@ -125,7 +125,7 @@ public class RigCommands : ModSystem
         double heading = (Math.Atan2(ox, -oz) * 180 / Math.PI + 360) % 360;
         double pitch = Math.Atan2(oy, Math.Sqrt(ox * ox + oz * oz)) * 180 / Math.PI;
         return TextCommandResult.Success(string.Format(CultureInfo.InvariantCulture, "rig-face {0} at {1} {2} {3} dist {4:0.0} look {5:0} {6:0}",
-            blocks.GetBlock(best).Code.Path, best.X, best.Y, best.Z, Math.Sqrt(bestD), heading, -pitch));
+            blocks.GetBlock(best).Code.Path, best.X, best.Y, best.Z, Math.Sqrt(bestD), heading, pitch));
     }
 
     TextCommandResult Walk(IServerPlayer player, string arg)

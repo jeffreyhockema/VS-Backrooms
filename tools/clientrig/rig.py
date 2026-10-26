@@ -78,7 +78,8 @@ user32.GetWindowTextLengthW.argtypes = [wintypes.HWND]
 user32.GetShellWindow.restype = wintypes.HWND
 user32.GetWindowRect.argtypes = [wintypes.HWND, ctypes.POINTER(wintypes.RECT)]
 ENUMPROC = ctypes.WINFUNCTYPE(wintypes.BOOL, wintypes.HWND, wintypes.LPARAM)
-SWP_NOZORDER, SWP_NOACTIVATE, SW_SHOWNOACTIVATE = 0x4, 0x10, 4
+SWP_NOSIZE, SWP_NOZORDER, SWP_NOACTIVATE, SW_SHOWNOACTIVATE = 0x1, 0x4, 0x10, 4
+user32.GetForegroundWindow.restype = wintypes.HWND
 
 
 def windows_of(pid):
@@ -99,7 +100,7 @@ def windows_of(pid):
     return found
 
 
-def move_offscreen(pid, timeout=20):
+def move_offscreen(pid, timeout=20, restore_to=None):
     """HARD RULE: call this only once the world is in (the level has finalized, ready.txt exists), always with SWP_NOACTIVATE, and
     follow it with the focus handed to the shell. A move during the loading screen crashed a client (vanilla shader error,
     2026-10-25), and a window left on-screen takes the user's keyboard. Never minimize the window.
@@ -112,14 +113,21 @@ def move_offscreen(pid, timeout=20):
             hwnd = max(wins, key=lambda w: len(w[1]))[0]
             if user32.IsIconic(hwnd):
                 user32.ShowWindow(hwnd, SW_SHOWNOACTIVATE)
-            user32.SetWindowPos(hwnd, 0, -4000, 200, 1600, 900, SWP_NOZORDER | SWP_NOACTIVATE)
-            user32.SetForegroundWindow(user32.GetShellWindow())
+            # left of the whole virtual screen (a monitor to the left of the primary would show x = -4000)
+            vx, vw = user32.GetSystemMetrics(76), user32.GetSystemMetrics(78)
+            x = min(-4000, vx - 2000)
+            user32.SetWindowPos(hwnd, 0, x, 200, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE)
+            target = restore_to if restore_to else user32.GetShellWindow()
+            user32.SetForegroundWindow(target)
+            if user32.GetForegroundWindow() == hwnd:
+                user32.SetForegroundWindow(user32.GetShellWindow())
             time.sleep(0.5)
             r = wintypes.RECT()
             user32.GetWindowRect(hwnd, ctypes.byref(r))
             iconic = bool(user32.IsIconic(hwnd))
-            log(f"window moved off-screen: left {r.left}, iconic {iconic}")
-            return (r.left < -1000) and not iconic
+            has_focus = user32.GetForegroundWindow() == hwnd
+            log(f"window moved off-screen: left {r.left}, iconic {iconic}, still foreground {has_focus}")
+            return (r.right < vx) and not iconic and not has_focus
         time.sleep(0.5)
     return False
 
@@ -249,14 +257,14 @@ class Run:
         return read(os.path.join(self.cdata, "Logs", "client-main.log"))
 
     def server_log(self):
-        return read(os.path.join(self.sdata, "Logs", "server-main.log")) + "\n" + self.srv.text()
+        return read(os.path.join(self.sdata, "Logs", "server-main.log")) + "\n" + (self.srv.text() if self.srv else "")
 
     # -- start up
     def start(self):
         a = self.a
         shutil.rmtree(self.root, ignore_errors=True)
         for d in (self.botdir, self.sdata):
-            os.makedirs(d)
+            os.makedirs(d, exist_ok=True)
         prepare_client_data(self.cdata)
         smods = prepare_mods(a.mods, self.root)
         log("starting the server")
@@ -264,6 +272,7 @@ class Run:
         if not self.srv.ready.wait(600):
             raise RuntimeError("the server did not come up in 10 minutes; see " + os.path.join(self.sdata, "console.txt"))
         log("server ready")
+        self.fore = user32.GetForegroundWindow()  # (the user's terminal: focus goes back to it)
         env = dict(os.environ, SHOTBOT_DIR=self.botdir)
         args = [CLIENT, "--dataPath", self.cdata, "--addModPath", a.mods, "-c", f"localhost:{a.port}"]
         log("starting the client (its window takes focus once; it is moved off-screen when the world has loaded)")
@@ -282,8 +291,8 @@ class Run:
             raise RuntimeError("the client did not reach the world in 5 minutes")
         log("the client is in the world")
         time.sleep(6)
-        if not move_offscreen(self.client.pid):
-            self.notes.append("WARNING: the window could not be confirmed off-screen and not minimized")
+        if not move_offscreen(self.client.pid, restore_to=getattr(self, "fore", None)):
+            self.notes.append("WARNING: the window could not be confirmed off-screen, not minimized and without focus")
         self.find_player()
         if self.player:
             self.srv.cmd("/op " + self.player)
@@ -328,6 +337,7 @@ class Run:
 
     def do(self, kind, text, timeout):
         if self.client.poll() is not None:
+            self.crash = self.crash or self.crash_info() or f"the client exited (code {self.client.returncode}) before step: {kind} {text}"
             return False, "the client is not running"
         if kind == "bot":
             if text.startswith("cmd"):
@@ -336,8 +346,9 @@ class Run:
         if kind == "cmd":
             self.mark_chat()
             ok = self.bot("cmd " + text, 30)
-            self.bot("waitchat " + str((timeout or 15) * 1000), 40 + (timeout or 15))
-            return ok, "reply: " + " | ".join(self.chat_since().strip().splitlines()[:3])[:300]
+            got = self.bot("waitchat " + str((timeout or 15) * 1000), 40 + (timeout or 15)) and bool(self.chat_since().strip())
+            ok = ok and got
+            return ok, ("reply: " if got else "NO REPLY ") + " | ".join(self.chat_since().strip().splitlines()[:3])[:300]
         if kind == "server":
             self.srv.cmd(text)
             time.sleep(1.0)
@@ -355,9 +366,14 @@ class Run:
             needle = text.lower()
             end = time.time() + (timeout or 15)
             while time.time() < end:
-                for line in self.chat_since().splitlines():
+                since = self.chat_since()
+                for line in since.splitlines():
                     if needle in line.lower():
-                        self.chat_off = len(self.chat_text())
+                        raw = self.chat_text()
+                        k = raw.find(line.strip()[:20], self.chat_off)
+                        k = raw.find(chr(10), k) if k >= 0 else -1
+                        if k >= 0:
+                            self.chat_off = k + 1
                         return True, line.strip()[:200]
                 if self.client.poll() is not None:
                     return False, "the client exited"
@@ -513,7 +529,11 @@ def write_report(run, meta, name, out, boot_error):
                 batch.save_shot(src, os.path.join(out, s["text"]), "png")
                 if s["text"] not in shots:
                     shots.append(s["text"])
-    sheet = batch.make_sheet(out, shots, os.path.join(out, "sheet.jpg")) if shots else None
+    try:
+        sheet = batch.make_sheet(out, shots, os.path.join(out, "sheet.jpg")) if shots else None
+    except Exception as e:  # noqa: BLE001
+        sheet = None
+        run.notes.append("no contact sheet: %r" % e)
     chat = os.path.join(run.botdir, "chat.txt")
     if os.path.exists(chat):
         shutil.copyfile(chat, os.path.join(out, "chat.txt"))
@@ -601,7 +621,8 @@ def main():
         except Exception as e:  # noqa: BLE001
             log("report failed: %r" % e)
             failed = [1]
-        run.finish(a.keep_open)
+        finally:
+            run.finish(a.keep_open)
     log(f"report: {os.path.join(out, 'report.md')}")
     sys.exit(1 if (failed or boot_error or run.crash) else 0)
 

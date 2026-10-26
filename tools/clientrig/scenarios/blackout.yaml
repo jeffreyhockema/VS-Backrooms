@@ -2,6 +2,7 @@ description: Stability 0 in Level 3 for a minute; the blackout line, then a wake
 steps:
   - bot: closeguis
   - cmd: /backrooms goto 3
+  - bot: wait 3000
   - bot: ready 48
   - cmd: /backrooms director off
   - cmd: /backrooms where

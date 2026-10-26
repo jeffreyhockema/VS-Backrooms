@@ -8,6 +8,7 @@ steps:
   - note: "Fallback if equipping fails: /backrooms armourtest hound 3 jerkin-leather reports the blows to kill by the game's rules."
   - cmd: /backrooms armourtest hound 3 jerkin-leather
   - cmd: /backrooms goto 3
+  - bot: wait 3000
   - bot: ready 48
   - cmd: /backrooms director off
   - cmd: /backrooms creativehunts on

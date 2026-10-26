@@ -24,3 +24,9 @@ real run: whether `nearest gate` from Level 1 lands in front of a gate to Level 
 the crossing line text ("in here") after `rig walk 6`; the damage-log chat wording (`expect_chat: damage` is a guess); `rig equip jerkin-leather`
 (a slot may refuse; the scenario falls back to `armourtest` output); `rig sleep` (needs rest low; refuses otherwise); the blackout wake level (Level 2).
 `expect_telemetry` skips with a note until the telemetry branch is merged.
+
+Blind review (sonnet) fixed: off-screen target left of the whole virtual screen, `SWP_NOSIZE`, focus back to the launching window and checked,
+cleanup in `finally`, report written when the server never started, crash recorded when the client dies after the world loads, `cmd` steps fail
+on no reply, `expect_chat` consumes only up to the matched line, `rig face` pitch sign, a wait after every `goto` before `ready`, a pause
+before `rig sleep`. Not done: forcing windowed mode (the rig copies the user's fullscreen setting), a per-run data dir and port check, `rig walk`
+refusing solid blocks. All after the one real run; none re-run (no more on-screen testing for now).
