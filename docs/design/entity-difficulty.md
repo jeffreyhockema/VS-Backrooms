@@ -172,7 +172,7 @@ hunt; sounds are their own roll, and a capped or failed spawn is silence, with n
 
 Both intervals are multiplied by the level's **solitude** (bigger is lonelier), by the menace factor (1.5 - menace,
 clamped to 0.5 to 1.5: a calm player in the heartland waits longer, a noisy one at the edge less), and divided by the
-setting's spawn multiplier (off and low 0.6: longer; high 1.5: shorter).
+setting's spawn multiplier (off and low 0.6: longer; high 1.5: shorter) (0.514 values; see 3d).
 
 | Level | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 37 | 94 | Fun | End | 3999 | 188 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -211,11 +211,13 @@ new normal.
 | Setting | Spawns | Damage | Entities | Mix | Cap bonus |
 | --- | --- | --- | --- | --- | --- |
 | Off | 1 | 0 | sounds only | | |
-| Very low | 1 | 0.5 | yes | | |
-| Low | 2 | 0.75 | yes | | |
-| Normal | 3.5 | 1 | yes | | |
-| High | 5.5 | 1.3 | yes | +0.3 danger on the body mix | +1 approach and threshold |
-| Very high | 8.5 | 1.6 | yes | +0.6 danger on the body mix | +1 every band |
+| Very low | 2 | 0.5 | yes | | |
+| Low | 3.5 | 0.75 | yes | | |
+| Normal | 5.5 | 1 | yes | | |
+| High | 8.5 | 1.3 | yes | +0.3 danger on the body mix | +1 approach and threshold |
+| Very high | 13 | 1.6 | yes | +0.6 danger on the body mix | +1 every band |
+
+The progression round shifted the names up one step (decision 8 of `docs/design/progression/decisions.md`): the table above is the current one, and the dial-in's own numbers (1 / 2 / 3.5 / 5.5 / 8.5) now belong to the step below. Every setting is one step busier than in the previous build (a Normal world gets about 1.6 times the old spawns). Set-pieces (night visits, hive waves, the Mangled's fog, the Beast) scale by the square root of the multiplier, so Normal is about 2.3 times their original values, not 5.5 times.
 
 **Bands.** Approach now starts at a depth of 0.5 (was 0.6) and threshold at 0.8 (was 0.85). **Hard gap:** 25 % of the
 mean (was 40 %); the mean stays as stated.
@@ -228,18 +230,18 @@ Level Fun 0.4 (was 0.7), Level 94 at night 0.6 (was 1.0), Level 10 with no hosti
 
 | Level 1 | Body | Sound |
 | --- | --- | --- |
-| Heartland | 25 x 1.3 x 1.3 / 3.5 = **12 min** | 7.5 x 1.3 x 1.3 / 3.5 = 3.6 min |
-| Approach | 12 x 1.3 x 1.0 / 3.5 = **4.5 min** | 1.9 min |
-| Threshold | 6 x 1.3 x 0.65 / 3.5 = **1.4 min** | 0.8 min |
+| Heartland | 25 x 1.3 x 1.2 / 5.5 = **7.1 min** | 7.5 x 1.3 x 1.2 / 5.5 = 2.1 min |
+| Approach | 12 x 1.3 x 0.9 / 5.5 = **2.55 min** | 1.1 min |
+| Threshold | 6 x 1.3 x 0.6 / 5.5 = **0.85 min** | 0.5 min |
 
-The target was a creature every 10 to 12 minutes in Level 1's heart, and the edge every 4 to 5 minutes: the approach
-band is that edge; the threshold is the last fifth and the gates.
+The dial-in's target was a creature every 10 to 12 minutes in Level 1's heart (now about 7 on Normal after the shift), and
+the edge every 4 to 5 minutes (now about 2.5): the approach band is that edge; the threshold is the last fifth and the gates.
 
-Other places, Normal, bodies: Level 3 heartland 25 x 0.45 x 1.3 / 3.5 = 4.2 min; Level 4 approach (its heartland is
+Other places, Normal, bodies (dial-in values, divide by 5.5 / 3.5 = 1.57 for the current ones): Level 3 heartland 25 x 0.45 x 1.3 / 3.5 = 4.2 min; Level 4 approach (its heartland is
 Safe) 12 x 1.5 x 1.0 / 3.5 = 5.1 min; Level 6 anywhere 25 x 3.0 x 1.3 / 3.5 = 28 min; Level 9 edge about 0.3 min;
 Level 94 night hills 12 x 0.6 / 3.5 = 2.1 min, and its towns (threshold) about 1 min. `BodyMinutes` and `SoundMinutes`
-are unchanged. Very low spawns once where Normal spawns 3.5 times, so it is about 3.5 times rarer on every band; Low
-about 1.75 times rarer; High about 1.6 times busier; Very high about 2.4 times busier.
+are unchanged. Currently Very low spawns once where Normal spawns 2.75 times, so it is about 2.75 times rarer on every band (about 20 minutes in Level 1's heart); Low
+about 1.6 times rarer (11); High about 1.5 times busier (4.5); Very high about 2.4 times busier (3).
 
 **One kind at a time, by class.** Strict in Class 0 to 2 levels (0, 1, 4, 5, 6, 10, 11, 37, The End, the Hub, 974); two
 kinds may be about together in Classes 3 to 5 (2, 3, 7, 8, 9, 94, Fun). Levels 3999 and 188 follow their own rows in
@@ -270,7 +272,7 @@ and outside the hard gap; its Hounds still always come.
 ## 5. Progression pressure (2026-10-25, progression round)
 
 The climb's lethality, from `docs/design/progression/plan.md` 3.5 (decisions 5 and 8). Lethality is not a setting: the
-world's *Backrooms entities* setting still multiplies damage and spawns on top, as in 3d. The stability side of the climb
+world's *Backrooms entities* setting still multiplies damage and spawns on top, with the values in 3d (the progression round's shifted ones). The stability side of the climb
 (the ward tiers, the drain, the blackout) is in the handbook page *What holds you here*, not here.
 
 **Damage targets** (a hunter's blow on an unarmoured player, at the level's danger; 15 HP):
@@ -327,5 +329,5 @@ target those numbers are tuned to, and the play-test check-list is `playtest.md`
 
 All in one place: `Danger.OfLevel` (the curve) and the multipliers beside it; the base stats in
 `tools/gen_entities.py`; the bounty and cache tables at the top of `Rewards.cs`. The world setting *Backrooms
-entities* (Off, Low, Normal, High) still multiplies damage (0, 0.5, 1, 1.3) and spawns (0.6, 0.6, 1, 1.5) on top of all
+entities* (Off, Very low, Low, Normal, High, Very high) still multiplies damage (0, 0.5, 0.75, 1, 1.3, 1.6) and spawns (1, 2, 3.5, 5.5, 8.5, 13; the 0.514 values were 0.6, 0.6, 1, 1.5, see 3d) on top of all
 this; Off also keeps the entities themselves away, leaving only their sounds.

@@ -17,3 +17,7 @@ The user's calls of 2026-10-25, so no worker reopens them. See [plan.md](plan.md
 | 11 | Trade | **Wanderers sell ward parts (gears) for rusty gears**, never a finished anchor or armour | the user |
 | 12 | Wake spot | **A random place in the previous level** | the user: lore-true noclipping |
 | 13 | Level 2's tier (planner) | **Tier 0**, so scrap copper is reachable without a ward; **Level 94 tier 2**, so iron's fire clay is a bronze-tier climax | avoids two circles in the ladder; **confirmed by the user** (Level 2 tier 0; no Level 1 clay source: raids into Level 3 are the point; build it now, folded into 0.515.0) |
+| 14 | Set-piece scaling | **Set-pieces scale by the square root of the setting's multiplier** (night visits to a sleeping player, hive waves, the Mangled's fog, the Beast): Normal is about 2.3 times the original values, not 5.5 times | the user, after the first play-test of the shifted names |
+| 15 | Blackout cause | **A minute at zero stability blacks you out from any cause**, in every level but Level 0, the Hub, Kitty's House and the Snackrooms | the user |
+| 16 | Drain variance | **"About ten minutes" stays about**: lamp-lit calm places (Level 4, the city, the Poolrooms) hold a few minutes longer, dark pockets a little less; two tiers beyond is about three minutes everywhere | the user |
+| 17 | Gear price | **A wanderer sells a temporal gear for 6 rusty gears** (about eight mid-level Hound bounties) | the user |

@@ -115,14 +115,14 @@ gives the numbers to set against what you feel.
 
 ## 10. Round 5: dial-in
 
-What round 5 (`dialin.md`, decisions 19 to 34) should feel like: on Normal, a creature about every ten to twelve minutes
-in Level 1's heart, Level 3 busy, Level 10 empty, and a Level 94 night with something in it. Play a fresh world on the
+What round 5 (`dialin.md`, decisions 19 to 34) should feel like: on Normal, a creature about every seven minutes
+in Level 1's heart (section 11 supersedes where they differ), Level 3 busy, Level 10 empty, and a Level 94 night with something in it. Play a fresh world on the
 build from the merged round, on Normal unless a step says otherwise. The rates are in minutes; `/backrooms ratecheck`
 gives the numbers to set against what you feel, and `/backrooms feltrate` (below) the spawns that actually land.
 
-1. Level 1's heart, Normal: walk it for half an hour. Expect a creature about every 10 to 12 minutes and a sound every
+1. Level 1's heart, Normal: walk it for half an hour. Expect a creature about every 7 minutes and a sound every
    few. A quarter of an hour with nothing is normal; two creatures in a quarter of an hour is too many. Note when.
-2. Level 1's edge: a creature every 4 to 5 minutes or so. More than two in a minute is too many.
+2. Level 1's edge: a creature every 2.5 minutes or so. More than two in a minute is too many.
 3. The Flickering: when a section's lights fail, Hounds come and hunt until the lights return. It never starts while
    something else is about you. If one begins a few seconds after a sighting, that is a bug: note the time and what came
    before it.
@@ -141,7 +141,7 @@ gives the numbers to set against what you feel, and `/backrooms feltrate` (below
 11. Two kinds at once: never in Levels 0, 1, 4, 5, 6, 10 and 11 (outside the set-pieces); allowed in Levels 2, 3, 7, 8,
     9, 94 and Fun. The entity log (`entitylog on`) shows which kind came first.
 12. Settings: in new worlds, compare Very low, Normal and Very high for half an hour each in Level 1's heart. Very low
-    should feel about three and a half times rarer than Normal; Very high about two and a half times busier, with more
+    should feel about 2.75 times rarer than Normal; Very high about 2.4 times busier, with more
     hunters and harder hits.
     Off leaves only sounds. Say which setting you played.
 13. Creative: `/backrooms creativehunts` toggles whether a creative player is hunted (the Creatures tab button "Creative is

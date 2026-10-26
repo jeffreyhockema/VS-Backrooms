@@ -48,8 +48,9 @@ hours** (decision 8): home and farm in Level 0, copper by hour 3 or 4, bronze an
 
 - `Roster.WardTier(level)` (or `WorldLayout`): the table above. Noclip-only places take the tier of the table; the
   Hub, Level 974 and the Snackrooms stay stability-safe as today.
-- The player's ward tier = the best anchor worn (3.2); armour of a tier adds half a tier when the whole set is worn
-  (so leather + copper anchor = 1.5: tier-2 levels drain at the one-tier rate, tier-3 at the two-tier rate).
+- The player's ward tier = the best anchor worn (3.2); armour of a tier adds half a tier when the whole set is worn,
+  and the half tier is fractional: leather + copper anchor = 1.5, so a bronze level (0.5 beyond) lasts roughly twice as long
+  as with the anchor alone (about 20 minutes, not 10), and an iron level (1.5 beyond) drains at the one-and-a-half-tier rate.
 - `RealitySystem.OnGetStability` keeps `StabilityAt` for the pockets and adds the **depth deficit**: 0 at or below the
   tier, and for each tier beyond a deficit that makes vanilla's drain take about 10 minutes (one beyond) or 3 minutes
   (two or more) from full to zero. Calibrate against vanilla's own rate headless (a dummy cannot: use an `EntityPlayer`
@@ -79,7 +80,7 @@ not the ladder (decision 6).
 
 - At zero stability in a level beyond the tier the director treats the player as "unsteady" (today's rolls already
   favour hunts at low stability): send the level's worst hunter at once (`MenaceSystem.SpawnHunter`, set-piece rules).
-- After **60 s at zero** (any cause, in any level but 0 and the safe places): blackout (the client's `flickerUntil`
+- After **60 s at zero** (any cause, in any level but 0, the Hub, Kitty's House and the Snackrooms: the user's decision, see decisions 15): blackout (the client's `flickerUntil`
   darkening for 3 s, a sound), then the player is moved to a **random walkable spot in the previous level** (`level - 1`
   for rings; for a noclip place, the level its way in came from; from Level 1, a random spot in Level 0), inventory
   intact, stability set to 0.5, no thin spot and no way back placed (decision 3). Vanilla's temporal-storm damage at
@@ -105,13 +106,13 @@ not the ladder (decision 6).
   Level 8 (the ring test per chunk column; Level 8's own "wrong strata" ore stays). Already-generated chunks keep what
   they have. Halite, quartz, lime, coal under other levels go with it (the levels' own sources remain: Level 3 coal,
   Level 8 halite and quartz, Level 94 fire clay).
-- **Pleather** (decision 10): new item `backrooms:pleather` salvaged from Level 1 car seats, Level 4 office chairs and
+- **Pleather** (decision 10): new item `backrooms:pleather` (cap, jerkin, leggings cost 5 / 8 / 7) salvaged from Level 1 car seats, Level 4 office chairs and
   Level 5 hotel chairs and sofas (`tools/salvage.py`), 1 to 2 a piece. Its own armour set (`pleather jerkin/leggings/
   boots`): about 40 % of leather's protection and a quarter of its durability, repairable only with pleather. It is
   **not** leather: no vanilla recipe accepts it (bags, straps, backpacks keep needing leather), so tanning rat hides
   and Level 9's hides stays the real road. Handbook says so plainly.
 - Early leather: Death Rats drop a small hide (vanilla `hide-raw-small`) at a modest rate in Levels 1 and 2.
-- **Wanderers** sell a temporal gear and a candle for rusty gears (prices in the wanderer trade table), never anchors
+- **Wanderers** sell a temporal gear for 6 rusty gears (about eight mid-level Hound bounties) and a candle (prices in the wanderer trade table), never anchors
   or armour.
 - Cache and crate tables: thin copper tools out of Level 1 toolboxes (a hammer or chisel now and then, never a
   pickaxe); temporal gears a little commoner in Levels 1 to 5 caches.
@@ -120,7 +121,7 @@ not the ladder (decision 6).
 
 Lethality is not a setting (decision 8). The entity setting's names shift up one step: `Spawns` off 1, verylow 2, low
 3.5, normal 5.5, high 8.5, veryhigh 13; the mix and cap bonuses stay on high and veryhigh. Lang descriptions updated
-(en, es-419, es-es). Worlds keep their code string, so a "normal" world gets the new normal (decision 9).
+(en, es-419, es-es). Worlds keep their code string, so a "normal" world gets the new normal (decision 9). Set-pieces (night visits, hive waves, the Mangled's fog, the Beast) scale by the square root of the setting's multiplier, so Normal is about 2.3 times their original values, not 5.5 times (decision 14).
 
 ### 3.8 Respawn (piece A)
 
