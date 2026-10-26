@@ -1,5 +1,7 @@
 # Progression pressure: a Vintage Story climb through the levels
 
+> **Status (2026-10-25): partly superseded.** The depth drain, the ward tiers, the anchors and the Almond Water ceiling described here were removed after the play-test. The lethality curve and the scarcity stayed. The gate that replaced them (level classes, M.E.G. placards, a chat line on crossing, scarcity by class, rarer shortcuts, the blackout at zero) is in [revision.md](revision.md). The sections below are the history of the first round.
+
 Written 2026-10-25 from the user's note after the dial-in play-test ("the balance is pretty good, but nothing pressures
 you to stay in lower levels and build tech and a base; you can just run and run and be done") and twenty answers the
 same day ([decisions.md](decisions.md)). Folds into **0.515.0**. Branch `progression`, worktree `../VS Backrooms-prog`.

@@ -309,6 +309,14 @@ minutes without stopping.""", mark="hubdoor"),
 Smilers like Level 2, and so do the rats, hairless in the heat. Near the edges the lights sometimes fail and something
 screams close by, and a pack of rats goes past at a run after it. Stand aside till the lights come back. Pell didn't.
 — Dez""", w="dez"),
+    E("gate-class", "Down in flint", """
+I went down into Level 2 in flint and pleather, the way the wanderers said. A flint knife, a spear on a stick, the seat
+cover off a car for a jerkin. Two hundred steps along the mains something came after me, faster than I could run, and
+it did not stop to see whether I had a light. I got the spear up. It came through the pleather at the shoulder as if the
+seat cover were a bedsheet. I walked the rest of the way out with one hand on the wall.
+
+Come back with metal on you.
+— Pell""", w="anon"),
 ]))
 
 TRACKS.append(Track("l3", "common", "Level 3: the Electrical Station", 3, entries=[

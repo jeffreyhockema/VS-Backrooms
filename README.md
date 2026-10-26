@@ -13,7 +13,7 @@ It is a complete survival game built on Vintage Story's own systems. Hunger, thi
 - **Twenty-two levels**: Levels 0 to 11, the Snackrooms, Level 37, Level 94 and seven far places, each built to follow the Backrooms lore.
 - **More than seventy kinds of threshold** between them: elevators, stairwells, pits, pools, vents, windows, barn walls that aren't quite there. Every one always leads to the same place, so you can build a travel network from what you find.
 - **Scavenger survival**: salvage furniture, lights and the building itself, then follow Vintage Story's normal path of flint, fire, pottery, copper and bronze with materials found level by level.
-- **A climb with wards**: each level holds you only up to its tier. Past it your stability runs out, the level's hunters come, and a minute at zero wakes you in the level before it with your things. Copper, bronze and iron anchors, worn at the neck, are the way down; the table below has the tiers.
+- **A climb by class**: each level has a class, from 1 to 5, and a placard by every gate into a higher one says what lies past it. From Level 3 on, what lives there outruns a sprint, so armour, fire and what you carry decide the climb.
 - **Home is where you last slept**: you wake in the last bed you slept in, or else in Level 0, so everything a base needs has to be brought back.
 - **Creatures with their own behaviour**, from Smilers and Hounds to the Mangled. They're heard and glimpsed far more than fought, and each one has a counter you can learn.
 - **Thirst and sleep**: a water bar and a Rest bar, beds of every kind, bottles and boiling, Blue and Green Almond Water. Death leaves a body where you fell, holding what you carried, for as long as it takes.
@@ -22,16 +22,17 @@ It is a complete survival game built on Vintage Story's own systems. Hunger, thi
 - **Wanderers' notes and a journal**, a handbook rewritten for the Backrooms, and a First Steps tutorial.
 - **World settings** for creature activity, resource scarcity, the map (down to no map at all) and the size of the levels.
 
-### Levels and wards
+### Levels and classes
 
-| Tier | Ward | Levels it holds |
-| --- | --- | --- |
-| 0, stone | none | 0, 1, 2, 6.1 (the Snackrooms), the Hub, Kitty's House |
-| 1, copper | Copper Anchor | 3, 4, 5 |
-| 2, bronze | Bronze Anchor | 6, 7, 8, 37, 94 |
-| 3, iron | Iron Anchor | 9, 10, 11, The End, 188, Level Fun, Level !, 3999 |
+| Class | Levels |
+| --- | --- |
+| 1 | 0, 1, 4, 10 |
+| 2 | 5, 11 |
+| 3 | 2, 94 |
+| 4 | 3, 7, 8 |
+| 5 | 9 |
 
-Past a level's tier your stability runs down: about ten minutes to zero one tier beyond, about three two or more beyond. Armour adds half a tier, and Almond Water restores less the further beyond you are. The handbook's *What holds you here* has the recipes.
+Level 6 is not classed yet. Food and Almond Water thin out from Class 3 down, a minute at zero stability blacks you out from any cause, and ways down to a higher level are rarer than they were. The handbook's *Reality Stability* and *What Lives Here* have the rest.
 
 ## Installing
 

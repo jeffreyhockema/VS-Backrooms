@@ -332,6 +332,11 @@
      "key": "l2-6",
      "gate": [],
      "mark": null
+    },
+    {
+     "key": "gate-class",
+     "gate": [],
+     "mark": null
     }
    ]
   },
