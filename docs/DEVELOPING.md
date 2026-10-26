@@ -272,3 +272,29 @@ Not generated, so edit these by hand: `blocktypes/archheaderstucco.json`, `block
 Known churn when re-running: `gen_detail.py` rewrites `blocktypes/detail/exitlintel.json` and `exitlintelpair.json` with a different key order but the same content. Restore them from git.
 
 The playstyle's name and description must live in `assets/game/lang/worldconfig-en.json`, because the world-creation screen reads them before mod assets load.
+
+## Client rig
+
+`tools/clientrig/rig.py` runs the real game client against a dedicated test server and drives it from a scenario file, with nobody at the keyboard. It is the layer that sees what the headless harness cannot: the client's boot log, HUD and chat lines, what a placard looks like, armour really worn.
+
+    VINTAGE_STORY='G:\Games\Vintagestory' bash tools/locked.sh mod rig
+    python tools/clientrig/rig.py --mods "$TEMP/backrooms-build/build-rig/Mods" --scenario tools/clientrig/scenarios/boot.yaml [--seed 424242] [--port 42797] [--out review/clientrig/<date>] [--keep-open]
+
+What it does: copies your `clientsettings.json` into its own data dir (`%LOCALAPPDATA%/backrooms-clientrig`, never your saves; sound levels set to 0, view distance 128), puts the shotbot beside the mod (building `tools/shotbot` if need be), starts the server on a fresh world with a stdin pipe, starts the client with `-c localhost:<port>` (a multiplayer client, so losing focus never pauses it), waits until the client is in the world, moves the window off-screen (`SetWindowPos` to x = -4000, no activate) and hands focus to the shell, `/op`s the player (named from the server's join line), runs the steps, and stops the client and server by process id. Output goes to `review/clientrig/<date>/<scenario>/`: `report.md` (steps with timings, the client's "Captured N issues during startup" with the lines after it, server and client error lines, a contact sheet, the chat log), the screenshots, and copies of both logs. The exit code is non-zero when a step fails, the client crashes or the run cannot start.
+
+The off-screen rule: the window steals focus once, at launch. Never minimize it (a minimized window renders nothing and the screenshot comes back empty), and never move it before the world has loaded: a move during the loading screen crashed a client with a shader error. The rig moves it only after the bot's `ready.txt` exists (the level finalized). If a crash log appears or the client exits, the report says CRASH; the game's crash reporter window may then be open on the desktop and has to be closed by hand. Other tools that open console windows should not be started while a batch runs (cosmetic only).
+
+A scenario is a YAML (or JSON) list of one-key steps, run in order; every step passes or fails and the run goes on:
+
+- `bot: <shotbot line>`: any command of `tools/shotbot/ShotBot.cs` (`cmd /backrooms ...`, `tp`, `look`, `ready`, `wait`, `mark`, `slot`...).
+- `cmd: /backrooms menace`: a chat line from the client, then waits for the reply (default 15 s; `timeout=N` at the end of the text).
+- `server: <console line>`: a line on the server console.
+- `face: megplacard`: `/backrooms rig face` finds the nearest block whose code contains the text and the camera turns to it.
+- `expect_chat: <text> [timeout=N]`: a chat line since the last step contains the text (tags stripped, case ignored).
+- `expect_log: <text>`, `expect_no_log: <text>`: the server or client log has (has not) a line with the text.
+- `expect_no_startup_issues:`: no "Captured N issues during startup" in the client log.
+- `shot: <name>`, `expect_shot: <name>`: a screenshot (the game's own hotkey), file present and over 20 KB.
+- `expect_telemetry: <ev>`: a JSON Lines event in the server data dir; skipped, with a note, when the build has no telemetry.
+- `sleep: <ms>`, `note: <text>`.
+
+Server helpers for scenarios are in `src/Cheats/RigCommands.cs`: `/backrooms rig equip <set>` (wears `game:armor-head/body/legs-<set>`), `rig sleep` (puts a hotel bed beside you if none is near and lies down; needs `/backrooms stat rest 0.1` first), `rig face <text>`, `rig walk <blocks>` (moves you along your facing), `rig classdrops <block>` (the scarcity roll at your own position). Scenarios live in `tools/clientrig/scenarios/`: boot, placards, armour, respawn, blackout, scarcity.

@@ -1,0 +1,25 @@
+description: Sleep in a Level 5 hotel bed, die, and wake at the bed.
+steps:
+  - bot: closeguis
+  - cmd: /backrooms goto 5
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms director off
+  - cmd: /backrooms stat rest 0.1
+  - sleep: 2500
+  - cmd: /backrooms rig sleep
+  - expect_chat: rig-sleep ok
+  - bot: wait 1500
+  - shot: in-bed
+  - cmd: /backrooms where
+  - bot: mark bed
+  - cmd: /backrooms goto 1
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms die
+  - bot: wait 6000
+  - bot: closeguis
+  - cmd: /backrooms where
+  - expect_chat: Level 5
+  - shot: woke
+  - expect_shot: woke

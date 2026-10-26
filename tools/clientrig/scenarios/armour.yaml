@@ -1,0 +1,21 @@
+description: Leather armour worn (the rig equips it), a Hound hunt at Level 3, damage lines in the chat's damage log, and the armour clause of the crossing line.
+steps:
+  - bot: closeguis
+  - bot: hud off
+  - cmd: /backrooms heal
+  - cmd: /backrooms rig equip jerkin-leather
+  - expect_chat: rig-equip
+  - note: "Fallback if equipping fails: /backrooms armourtest hound 3 jerkin-leather reports the blows to kill by the game's rules."
+  - cmd: /backrooms armourtest hound 3 jerkin-leather
+  - cmd: /backrooms goto 3
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms director off
+  - cmd: /backrooms creativehunts on
+  - cmd: /backrooms encounter hound hunt
+  - shot: hound-arrives
+  - bot: wait 8000
+  - shot: hound-hunt
+  - expect_chat: damage
+  - expect_shot: hound-hunt
+  - cmd: /backrooms clear 128
