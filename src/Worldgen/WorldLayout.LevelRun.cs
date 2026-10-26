@@ -194,7 +194,7 @@ public sealed partial class WorldLayout
     private void MarkRunEntrance(Builder b, int mx, int mz)
     {
         ulong h = Hashing.Hash(seed, mx, mz, SaltRunEntranceL1);
-        if (!RunEntrances || Hashing.Unit(h) >= 1.0 / 300) return;
+        if (!RunEntrances || Hashing.Unit(h) >= (Version >= 12 ? 1.0 / 1200 : 1.0 / 300)) return;
         int start = (int)(Hashing.Mix(h) % 26);
         for (int k = 0; k < 52; k++)
         {

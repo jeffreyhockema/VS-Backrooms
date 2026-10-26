@@ -70,15 +70,54 @@ public sealed partial class ThresholdNetwork
     /// <summary>Chance that a hotel door which looks locked opens after all, and that a Level 4 vending machine is a hungry one.</summary>
     private const double OpenDoorChance = 0.06, HungryMachineChance = 0.06, OpenTunnelDoorChance = 0.3;
 
+    /// <summary>The hungry vending machines of layout version 12 on (a quarter of 6 %).</summary>
+    private const double HungryMachineChanceV12 = HungryMachineChance * 0.25;
+
     /// <summary>Whether one of Level 2's steel tunnel doors (a door of one tile, at its own position) opens; the rest stay locked.
     /// (For the layout, which puts the Hub's doors only on the locked ones.)</summary>
     public static bool TunnelDoorOpens(ulong seed, int x, int z) => Hashing.Unit(Hashing.Hash(seed, x, z, SaltDoor + 2)) < OpenTunnelDoorChance;
+
+    // ---- Layout version 12: ways to a later level are a quarter as common (docs/design/progression/revision.md section 2.B) ----
+
+    /// <summary>The share of the old chance a way to a later level keeps from layout version 12.</summary>
+    public const double LaterShare = 0.25;
+
+    /// <summary>
+    /// Where one of Level 2's steel doors (a door of one tile, at its own position) goes when it opens, or -1 if it stays
+    /// locked: Level 3, Level 4 or back in Level 1. From layout version 12 the doors to Levels 3 and 4 open a quarter as
+    /// often (the share to Level 1 is kept, the rest stay locked).
+    /// </summary>
+    public static int TunnelDoorTarget(ulong seed, int x, int z, int version)
+    {
+        ulong key = Hashing.Hash(seed, x, z, SaltDoor + 2);
+        if (Hashing.Unit(key) >= OpenTunnelDoorChance) return -1;
+        double where = Hashing.Unit(Hashing.Mix(key));
+        int target = where < 0.4 ? 3 : where < 0.75 ? 4 : 1;
+        if (version >= 12 && target != 1 && Hashing.Unit(Hashing.Mix(Hashing.Mix(key))) >= LaterShare) return -1;
+        return target;
+    }
+
+    /// <summary>
+    /// Where an elevator of Levels 3 and 4 (or the default for the others) goes, by its roll. From layout version 12 the ones
+    /// that go to a later level (Level 3's to 4 and 5, Level 4's to 5) are a quarter as many: the rest stay in their own level.
+    /// </summary>
+    public static double ElevatorRoll(ulong seed, int carX, int carZ) => Hashing.Unit(Hashing.Hash(seed, carX, carZ, SaltElevator));
+
+    public static int ElevatorTarget(int level, double r, int version)
+    {
+        int target = ElevatorTarget(level, r);
+        if (version < 12) return target;
+        bool later = level is 3 or 4 && target > level;
+        return later && Hashing.Unit(Hashing.Mix((ulong)(r * 4294967296.0))) >= LaterShare ? level : target;
+    }
 
     public const double StandHeight = 1.05, EntryRoomHeight = 6.05;
 
     // What makes up each kind of threshold (and so what an arrival can stand beside to come back by)
     public static readonly Func<Tile, bool> Elevator = t => t.Kind == TileKind.Door && t.Pattern == WallPattern.Elevator;
     public static readonly Func<Tile, bool> Stairs = t => t.Stair > 0 && t.Under == 0 && !WorldLayout.IsEntryStair(t);
+    /// <summary>The hotel's staff stairs: stairs of Level 5 that are not the front hall's grand staircase.</summary>
+    public static readonly Func<Tile, bool> StaffStairs = t => Stairs(t) && t.Level == 5 && !t.Grand;
     /// <summary>
     /// Level 6's stairs down to Level 7, and (from layout version 9) the stairs that come down into an entry room of Level 7:
     /// each is the way back of the other.
@@ -131,6 +170,10 @@ public sealed partial class ThresholdNetwork
     /// </summary>
     private const int L1OfficeFrom = 6, L1Bottom = 0;
     private const double L1OfficeChance = 0.15, L1PipesChance = 0.25, L4LobbyChance = 0.2;
+
+    /// <summary>Layout version 12 on: the stairs down to Level 2 and up to Level 4 a quarter as common as they were.</summary>
+    private double L1Office => layout.Version >= 12 ? L1OfficeChance * 0.25 : L1OfficeChance;
+    private double L1Pipes => layout.Version >= 12 ? L1PipesChance * 0.25 : L1PipesChance;
     public static readonly Func<Tile, bool> Door = t => t.Kind == TileKind.Door && t.Pattern is not (WallPattern.Elevator or WallPattern.GarageDoor);
     public static readonly Func<Tile, bool> KitchenDoor = t => t.Kind == TileKind.Door && t.Level == 6 && t.Zone == 1 && t.Variant == 3;
     /// <summary>The cyan doors marked POOL: the Poolrooms' own, the hotel's few, and the city's baths'.</summary>
@@ -254,9 +297,17 @@ public sealed partial class ThresholdNetwork
             }
             case 5 when tile.Stair >= 1 && rel >= 1.4:
             {
-                // The hotel's staff stairs come out somewhere in the dark
+                // The hotel's staff stairs come out somewhere in the dark. From layout version 12 only one in four does:
+                // the rest climb into the ceiling and come out of another flight of staff stairs, on this level
                 var stairs = Whole(Stairs);
-                return BothWays(stairs, KeyOf(stairs, SaltDeep + 5), 6);
+                ulong staffKey = KeyOf(stairs, SaltDeep + 5);
+                if (layout.Version >= 12 && !TryGet(stairs, out _) && Hashing.Unit(Hashing.Mix(staffKey)) >= LaterShare)
+                {
+                    Passage loop = BothWays(stairs, staffKey, 5, StaffStairs);
+                    loop.Upstairs = true;
+                    return loop;
+                }
+                return BothWays(stairs, staffKey, 6);
             }
             case 6 when layout.Version >= 9 && tile.Under == Unders.Descent3 && rel < WorldLayout.L6DescentTripRel:
             {
@@ -417,7 +468,7 @@ public sealed partial class ThresholdNetwork
     private Passage NowhereTrip((int X, int Z) stairs)
     {
         ulong key = KeyOf(stairs, SaltStairs + 1);
-        bool office = Hashing.Unit(key) >= 0.85;
+        bool office = Hashing.Unit(key) >= (layout.Version >= 12 ? 1 - 0.15 * 0.25 : 0.85);
         Passage up = office || layout.Version < 4 ? BothWays(stairs, key, office ? 4 : 1, Stairs) : ToStairwell(stairs, key, 1, L1FlightDown, L1FlightDownFirst);
         up.Upstairs = true;
         return up;
@@ -454,7 +505,7 @@ public sealed partial class ThresholdNetwork
     {
         ulong key = KeyOf(flight, level == 1 ? SaltStairs + 1 : SaltStairs);
         int floor = WorldLayout.L1FloorOf(layout.TileAt(flight.X, flight.Z));
-        Passage up = level == 4 || floor >= L1OfficeFrom && Hashing.Unit(key) >= 1 - L1OfficeChance
+        Passage up = level == 4 || floor >= L1OfficeFrom && Hashing.Unit(key) >= 1 - L1Office
             ? ToStairwell(flight, key, 4, L4FlightDown, L4FlightDownFirst)
             : ToStairwell(flight, key, 1, L1FlightDown, L1First(down: true, floor < 0 ? -1 : Math.Min(floor + 1, WorldLayout.L1Floors - 1)));
         up.Upstairs = true;
@@ -473,7 +524,7 @@ public sealed partial class ThresholdNetwork
         if (level == 4)
             return Hashing.Unit(key) < 1 - L4LobbyChance ? ToStairwell(flight, key, 4, L4FlightUp, L4FlightUpFirst) : BothWays(flight, key, 0);
         int floor = WorldLayout.L1FloorOf(layout.TileAt(flight.X, flight.Z));
-        if (floor == L1Bottom && Hashing.Unit(KeyOf(flight, SaltStairs + 3)) < L1PipesChance) return BothWays(flight, key, 2);
+        if (floor == L1Bottom && Hashing.Unit(KeyOf(flight, SaltStairs + 3)) < L1Pipes) return BothWays(flight, key, 2);
         return ToStairwell(flight, key, 1, L1FlightUp, L1First(down: false, floor < 0 ? -1 : Math.Max(floor - 1, L1Bottom)));
     }
 
@@ -553,7 +604,7 @@ public sealed partial class ThresholdNetwork
                 ulong key = KeyOf(car, SaltElevator);
                 // In the city it depends on the building: an office tower's go to the Abandoned Office, a hotel's to
                 // the Terror Hotel, and an apartment block's are out of order
-                int target = level == 11 ? layout.CityElevatorTarget(car.X, car.Z) : ElevatorTarget(level, Hashing.Unit(key));
+                int target = level == 11 ? layout.CityElevatorTarget(car.X, car.Z) : ElevatorTarget(level, Hashing.Unit(key), layout.Version);
                 if (target < 0 && !TryGet(car, out _))
                 {
                     refusal = "outoforder";
@@ -595,6 +646,12 @@ public sealed partial class ThresholdNetwork
                 // doors; and from the Poolrooms out into a corridor of the hotel, beside a locked guest door
                 var door = layout.FeatureOrigin(x, z, PoolDoor);
                 ulong key = KeyOf(door, SaltDoor + 37);
+                // (From layout version 12 a hotel's POOL door opens one time in four; the rest are locked)
+                if (layout.Version >= 12 && level == 5 && !TryGet(door, out _) && Hashing.Unit(Hashing.Mix(key)) >= LaterShare)
+                {
+                    refusal = "locked";
+                    return null;
+                }
                 return WithSound(level == WorldLayout.Poolrooms ? BothWays(door, key, 5, PlainDoor) : BothWays(door, key, WorldLayout.Poolrooms, PoolDoor),
                     "game:sounds/block/door");
             }
@@ -626,13 +683,19 @@ public sealed partial class ThresholdNetwork
                 // Station, the Abandoned Office, or now and then back in Level 1
                 var door = layout.FeatureOrigin(x, z, Door);
                 ulong key = KeyOf(door, SaltDoor + 2);
-                if (!TryGet(door, out _) && Hashing.Unit(key) >= OpenTunnelDoorChance)
+                int to = TunnelDoorTarget(seed, door.X, door.Z, layout.Version);
+                if (!TryGet(door, out _) && to < 0)
                 {
                     refusal = "locked";
                     return null;
                 }
-                double where = Hashing.Unit(Hashing.Mix(key));
-                return WithSound(BothWays(door, key, where < 0.4 ? 3 : where < 0.75 ? 4 : 1), "game:sounds/block/metaldoor");
+                if (to < 0)
+                {
+                    // (Something has come back through it: it goes where it always went)
+                    double was = Hashing.Unit(Hashing.Mix(key));
+                    to = was < 0.4 ? 3 : was < 0.75 ? 4 : 1;
+                }
+                return WithSound(BothWays(door, key, to), "game:sounds/block/metaldoor");
             }
             case "locked":
             {
@@ -682,7 +745,7 @@ public sealed partial class ThresholdNetwork
     {
         if (layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)) != 4) return null;
         ulong key = KeyOf((x, z), SaltVending);
-        if (Hashing.Unit(key) >= HungryMachineChance) return null;
+        if (Hashing.Unit(key) >= (layout.Version >= 12 ? HungryMachineChanceV12 : HungryMachineChance)) return null;
         return new Passage { Source = (x, z), Key = Hashing.Mix(key), Find = InSnackrooms(), Message = "backrooms:vending-snackrooms", Sound = "game:sounds/block/vesselopen" };
     }
 

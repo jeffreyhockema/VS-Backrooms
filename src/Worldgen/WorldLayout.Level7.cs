@@ -216,9 +216,11 @@ public sealed partial class WorldLayout
             else AddEntryRoom(b, cx, cz);
             return;
         }
-        if (feature < 0.06 && centreDepth >= TwilightDepth && centreDepth < MidnightDepth) AddStoneCircle(b, cx, cz);
-        else if (feature < 0.16 && centreDepth >= MidnightDepth && centreDepth < AbyssDepth) AddUnderwaterCave(b, cx, cz);
-        else if (feature is >= 0.06 and < 0.1 && centreDepth >= TwilightDepth && centreDepth < MidnightDepth) AddTiledSeabed(b, cx, cz);
+        // (From layout version 12 a quarter as many of each: they are ways to a later level)
+        bool later = Version >= 12;
+        if (feature < (later ? 0.015 : 0.06) && centreDepth >= TwilightDepth && centreDepth < MidnightDepth) AddStoneCircle(b, cx, cz);
+        else if (feature < (later ? 0.04 : 0.16) && centreDepth >= MidnightDepth && centreDepth < AbyssDepth) AddUnderwaterCave(b, cx, cz);
+        else if ((later ? feature is >= 0.06 and < 0.07 : feature is >= 0.06 and < 0.1) && centreDepth >= TwilightDepth && centreDepth < MidnightDepth) AddTiledSeabed(b, cx, cz);
         // From layout version 9, now and then a room on the seabed with air under its roof, off the middle of the cell
         if (Version >= 9) AddSunkenRoom(b, mx, mz);
     }

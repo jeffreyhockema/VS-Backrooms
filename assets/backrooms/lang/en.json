@@ -2841,6 +2841,19 @@
 	"itemdesc-armor-pleather-*": "Sewn from salvaged vinyl: about two-fifths of a leather set's protection and a quarter of its life. Mend it with more pleather. Real leather is still tanned from hides.",
 
 	"zero-blackout": "You lose your grip on the place. When you come to, the walls are the wrong colour.",
+
+	"crossing-class3": "Level {0}. It is hostile in here, and dark in places. Bring a light and a weapon.",
+	"crossing-class4": "Level {0}. Everything in here is faster than you and hits harder.",
+	"crossing-class5": "Level {0}. Everything in here is faster than you and hits harder, and nothing lets a stranger walk away. The M.E.G. forbid unarmoured travel.",
+	"crossing-armour-none": "You are wearing nothing that would turn a blow.",
+	"crossing-armour-light": "Leather and pleather will turn a little of it, not much.",
+	"crossing-armour-metal": "The metal on you will turn some of it. Do not count on all.",
+	"item-anchor-copper": "Copper Anchor",
+	"itemdesc-anchor-copper": "A copper ring with a little temporal gear, worn at the neck. It keeps a thread back to you: stability holds in Levels 3, 4 and 5.",
+	"item-anchor-bronze": "Bronze Anchor",
+	"itemdesc-anchor-bronze": "A bronze ring with a temporal gear, worn at the neck. The thread is thicker: stability holds as deep as Levels 6, 7, 8, 37 and 94.",
+	"item-anchor-iron": "Iron Anchor",
+	"itemdesc-anchor-iron": "An iron ring with a temporal gear, worn at the neck. The thread is strong enough for everything beyond: Levels 9 and deeper.",
 	"dialogue-wanderer-greet-camp": "Easy. You're among people. Come and sit by the barrel.",
 	"dialogue-wanderer-greet-outpost": "Congratulations, wanderer! You've found an M.E.G. outpost. Water, bandages and a friendly face!",
 	"dialogue-wanderer-greet-road": "Off the dark and into the light. Good. Stay on the Road and you live.",
@@ -2964,5 +2977,6 @@
 	"dialogue-wanderer-keepgoing-end": "Going where? Sit. Stay a while.",
 
 	"note-gate-class": "I went down into Level 2 in flint and pleather, the way the wanderers said. A flint knife, a spear on a stick, the seat cover off a car for a jerkin. Two hundred steps along the mains something came after me, faster than I could run, and it did not stop to see whether I had a light. I got the spear up. It came through the pleather at the shoulder as if the seat cover were a bedsheet. I walked the rest of the way out with one hand on the wall.<br><br>Come back with metal on you.<br>— Pell",
-	"notetitle-gate-class": "Down in flint"
+	"notetitle-gate-class": "Down in flint",
+	"block-megplacard-*": "M.E.G. Placard"
 }

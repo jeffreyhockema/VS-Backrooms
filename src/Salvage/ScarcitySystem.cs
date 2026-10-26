@@ -5,6 +5,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
+using Backrooms.Regions;
 
 namespace Backrooms.Salvage;
 
@@ -35,6 +36,21 @@ public class ScarcitySystem : ModSystem
     public static float FoodScale(IWorldAccessor world) => FoodScale(world?.Config);
 
     /// <summary>
+    /// How much of its food and drink a level leaves lying about, by the lore's survival class (progression revision, decision 21):
+    /// x1 in Classes 0 to 2, x0.7 in Class 3, x0.5 in Class 4, x0.35 in Class 5. Multiplied with <see cref="FoodScale(ITreeAttribute)"/>
+    /// into what a broken supply box, crate or cache gives and what a dispenser holds when its stock is rolled (and restocked).
+    /// Level 94 (Class 3), the Hub and Level 974 are exempt: their abundance is deliberate; the Snackrooms (inside Level 6) are Class 1.
+    /// </summary>
+    public static float ClassScale(int level)
+    {
+        if (level < 0 || level is Worldgen.WorldLayout.Motion or Worldgen.WorldLayout.Hub or Worldgen.WorldLayout.Level974) return 1f;
+        return Worldgen.WorldLayout.SurvivalClass(level) switch { 3 => 0.7f, 4 => 0.5f, 5 => 0.35f, _ => 1f };
+    }
+
+    /// <summary><see cref="ClassScale(int)"/> of the level at a block position (1 outside a Backrooms world).</summary>
+    public static float ClassScale(IWorldAccessor world, int x, int z) => ClassScale(ProtectionSystem.LevelAt(world, x, z));
+
+    /// <summary>
     /// <paramref name="count"/> scaled by the world's food multiplier, rounded at random so the average is right (on
     /// Scarce, a dispenser that held 2 holds 1 now and then and nothing the rest of the time); at least
     /// <paramref name="min"/>.
@@ -54,8 +70,55 @@ public class ScarcitySystem : ModSystem
 
     public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Server;
 
+    private static TextCommandResult OnClassDropsCommand(ICoreServerAPI api, TextCommandCallingArgs args)
+    {
+        Block block = api.World.GetBlock(new AssetLocation("backrooms", (string)args[0]));
+        if (block == null) return TextCommandResult.Error("No such block: backrooms:" + args[0]);
+        int x = (int)args[1], z = (int)args[2], rolls = Math.Clamp((int)args[3], 1, 100000);
+        var pos = new BlockPos(x, 1, z);
+        var totals = new SortedDictionary<string, long>();
+        for (int i = 0; i < rolls; i++)
+            foreach (ItemStack stack in block.GetDrops(api.World, pos, null) ?? Array.Empty<ItemStack>())
+                totals[stack.Collectible.Code.ToShortString()] = totals.GetValueOrDefault(stack.Collectible.Code.ToShortString()) + stack.StackSize;
+        int level = ProtectionSystem.LevelAt(api.World, x, z);
+        return TextCommandResult.Success($"{block.Code.Path} at {x},{z}: level {level}, class scale {ClassScale(level)}, food setting {FoodScale(api.World)}; average per roll over {rolls}: "
+            + string.Join(", ", totals.Select(t => $"{t.Key} {t.Value / (double)rolls:0.000}")));
+    }
+
     public override void StartServerSide(ICoreServerAPI api)
     {
+        // The per-class thinning: every block of ours that gives food or drink thins what it gives by the level it stands in
+        api.Event.ServerRunPhase(EnumServerRunPhase.RunGame, () =>
+        {
+            if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
+            int blocks = 0;
+            foreach (Block block in api.World.Blocks)
+            {
+                if (block?.Code?.Domain != "backrooms" || block.Drops == null) continue;
+                var isFood = new bool[block.Drops.Length];
+                bool any = false;
+                for (int i = 0; i < isFood.Length; i++)
+                {
+                    BlockDropItemStack drop = block.Drops[i];
+                    if (drop?.Code == null) continue;
+                    CollectibleObject thing = drop.ResolvedItemstack?.Collectible
+                        ?? (drop.Type == EnumItemClass.Item ? api.World.GetItem(drop.Code) : api.World.GetBlock(drop.Code));
+                    if (IsFood(thing)) { isFood[i] = true; any = true; }
+                }
+                if (!any) continue;
+                BehaviorInjection.Add(block, new BlockBehaviorClassScale(block, isFood));
+                blocks++;
+            }
+            api.Logger.Notification("[backrooms] Scarcity by class: {0} block types thin their food and drink by the level's survival class", blocks);
+        });
+        // (Once the world is up: the /backrooms command is made by then, whatever order the systems start in)
+        api.Event.ServerRunPhase(EnumServerRunPhase.GameReady, () => api.ChatCommands.Get("backrooms")?
+            .BeginSubCommand("classdrops")
+                .WithDescription("Rolls a block's drops many times as if it stood at x, z (the level's survival class thins the food and drink) and lists the average of each. Args: block (e.g. supplybox), x, z, [rolls]")
+                .RequiresPrivilege(Privilege.controlserver)
+                .WithArgs(api.ChatCommands.Parsers.Word("block"), api.ChatCommands.Parsers.Int("x"), api.ChatCommands.Parsers.Int("z"), api.ChatCommands.Parsers.OptionalInt("rolls", 2000))
+                .HandleWith(args => OnClassDropsCommand(api, args))
+            .EndSubCommand());
         api.Event.ServerRunPhase(EnumServerRunPhase.RunGame, () =>
         {
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
@@ -85,5 +148,38 @@ public class ScarcitySystem : ModSystem
             api.Logger.Notification("[backrooms] Scarcity {0}: food in {1} drops of {2} blocks scaled by {3} ({4} kinds: {5})",
                 code, changed, blocks, food, kinds.Count, string.Join(", ", kinds));
         });
+    }
+}
+
+/// <summary>
+/// Thins the food and drink a block gives when broken by the survival class of the level it stands in
+/// (<see cref="ScarcitySystem.ClassScale(int)"/>); everything else it gives is as it was. Added to every block of ours with
+/// food among its drops when the world starts. In Classes 0 to 2 (and the exempt levels) it does nothing.
+/// </summary>
+public class BlockBehaviorClassScale : BlockBehavior
+{
+    private readonly bool[] isFood;
+
+    public BlockBehaviorClassScale(Block block, bool[] isFood) : base(block)
+    {
+        this.isFood = isFood;
+    }
+
+    public override ItemStack[] GetDrops(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, ref float dropQuantityMultiplier, ref EnumHandling handling)
+    {
+        float scale = ScarcitySystem.ClassScale(world, pos.X, pos.Z);
+        BlockDropItemStack[] drops = block.Drops;
+        if (scale >= 1f || drops == null) return null;
+        // (As Block.GetDrops rolls them, with the food entries' multiplier thinned; the other behaviours' drops are added by the caller)
+        var rolled = new List<ItemStack>();
+        for (int i = 0; i < drops.Length; i++)
+        {
+            ItemStack stack = drops[i].ToRandomItemstackForPlayer(byPlayer, world, dropQuantityMultiplier * (i < isFood.Length && isFood[i] ? scale : 1f));
+            if (stack == null) continue;
+            rolled.Add(stack);
+            if (drops[i].LastDrop) break;
+        }
+        handling = EnumHandling.PreventDefault;
+        return rolled.ToArray();
     }
 }

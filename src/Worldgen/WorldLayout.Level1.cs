@@ -1511,8 +1511,8 @@ public sealed partial class WorldLayout
         ulong plan = Hashing.Mix(h + 1);
         bool v4 = Version >= 4;
         DoorCheck flightOk = v4 ? FlightOk : null;
-        if (!whole) PlanRooms(tiles, plan, DoorOk, Inside, v4, flightOk, PublicStairWidth, improv: Version >= 11);
-        else if (kind < 0.5) PlanRooms(tiles, plan, DoorOk, null, v4, flightOk, PublicStairWidth, improv: Version >= 11);
+        if (!whole) PlanRooms(tiles, plan, DoorOk, Inside, v4, flightOk, PublicStairWidth, improv: Version >= 11, endDoors: Version >= 12 ? 0.01 : 0.04);
+        else if (kind < 0.5) PlanRooms(tiles, plan, DoorOk, null, v4, flightOk, PublicStairWidth, improv: Version >= 11, endDoors: Version >= 12 ? 0.01 : 0.04);
         // (From version 4 half the littered halls are stockrooms instead)
         else if (kind < 0.64)
         {
@@ -1532,7 +1532,7 @@ public sealed partial class WorldLayout
                 for (int u = 1; u < HallBlock - 1; u++)
                     SetWall(ref At(u, v), WallPattern.WhiteBlock, BaseStyle.Plain);
         }
-        else PlanRooms(tiles, plan, DoorOk, null, v4, flightOk, PublicStairWidth, improv: Version >= 11);
+        else PlanRooms(tiles, plan, DoorOk, null, v4, flightOk, PublicStairWidth, improv: Version >= 11, endDoors: Version >= 12 ? 0.01 : 0.04);
         if (Version >= 6) EnlargeHallCamp(At, h);
         if (v4) Unfence(tiles);
         return tiles;
@@ -1646,7 +1646,7 @@ public sealed partial class WorldLayout
     private delegate bool DoorCheck(int u, int v);
 
     /// <summary>Splits the inside of a block into two to four rooms, each against the perimeter, each with a door.</summary>
-    private static void PlanRooms(Tile[] tiles, ulong h, DoorCheck doorOk, DoorCheck inside, bool v4, DoorCheck flightOk = null, int stairWidth = 1, bool improv = false)
+    private static void PlanRooms(Tile[] tiles, ulong h, DoorCheck doorOk, DoorCheck inside, bool v4, DoorCheck flightOk = null, int stairWidth = 1, bool improv = false, double endDoors = 0.04)
     {
         var rng = new Rng(h);
         var leaves = new List<(int U0, int V0, int U1, int V1)>();
@@ -1712,7 +1712,7 @@ public sealed partial class WorldLayout
                 doorTile.Kind = TileKind.Door;
                 // The End's way in (end-plan.md): one locked door in 25 has a glowing EXIT sign over it, and opens
                 // onto The End (its own salt, so nothing else moves)
-                if (EndEntrances && doorTile.Under == 0 && Hashing.Unit(Hashing.Hash(h, door.U, door.V, 0x1610)) < 0.04)
+                if (EndEntrances && doorTile.Under == 0 && Hashing.Unit(Hashing.Hash(h, door.U, door.V, 0x1610)) < endDoors)
                 {
                     doorTile.Under = Unders.EndExitL1;
                     doorTile.Pier = door.Out;

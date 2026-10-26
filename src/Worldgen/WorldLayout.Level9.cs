@@ -438,7 +438,7 @@ public sealed partial class WorldLayout
                 // bottom (Level 37). One house in a hundred and fifty is a doll's house, too clean and too cream, and
                 // its front door opens onto Level 94
                 ulong odd = Hashing.Hash(seed, lotX, lotZ, SaltL9Lot + 37);
-                if (Hashing.Unit(odd) < 0.06)
+                if (Hashing.Unit(odd) < (Version >= 12 ? 0.015 : 0.06))
                     for (int i = 0; i < tiles.Length; i++)
                         if (tiles[i].Floor == FloorKind.PoolDeep) tiles[i].Under = Unders.FullPool;
                 if (Hashing.Unit(Hashing.Mix(odd)) < 1 / 150.0)
@@ -469,7 +469,9 @@ public sealed partial class WorldLayout
                             if (rng.Chance(0.55)) At(u, v).Variant = Props.TallGrass;
                             else if (rng.Chance(0.04)) { At(u, v).Variant = Props.Flowers; At(u, v).Stack = (byte)rng.Range(0, 7); }
                         }
-                foreach (int u in new[] { 9, 10 })
+                // (From layout version 12 one field lot in four has its gate: the rest are fenced across the back)
+                bool hasGate = Version < 12 || Hashing.Unit(Hashing.Hash(seed, lotX, lotZ, SaltL9Lot + 50)) < 0.25;
+                foreach (int u in hasGate ? new[] { 9, 10 } : System.Array.Empty<int>())
                 {
                     ref Tile gate = ref At(u, d - 1);
                     gate.Kind = TileKind.Floor;
@@ -478,8 +480,11 @@ public sealed partial class WorldLayout
                     gate.Floor = FloorKind.DirtRoad;
                 }
                 // The fence posts beside the gate stop at it
-                At(8, d - 1).Stack &= unchecked((byte)~2);
-                At(11, d - 1).Stack &= unchecked((byte)~8);
+                if (hasGate)
+                {
+                    At(8, d - 1).Stack &= unchecked((byte)~2);
+                    At(11, d - 1).Stack &= unchecked((byte)~8);
+                }
                 break;
             }
             default:

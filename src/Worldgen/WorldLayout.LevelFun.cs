@@ -1692,7 +1692,7 @@ public sealed partial class WorldLayout
     /// steps. It is asked by the flight's position: up to layout version 3 its lowest-numbered step tile (the
     /// threshold's origin), from version 4 the top step's.
     /// </summary>
-    public bool IsFunStairCore(int originX, int originZ) => !NoFunEntrances && Hashing.Unit(Hashing.Hash(seed, originX, originZ, SaltFunL1)) < 1 / 20.0;
+    public bool IsFunStairCore(int originX, int originZ) => !NoFunEntrances && Hashing.Unit(Hashing.Hash(seed, originX, originZ, SaltFunL1)) < (Version >= 12 ? 1 / 80.0 : 1 / 20.0);
 
     /// <summary>Level 5: whether a locked guest room's door is the FUN doors (one in 150, never a POOL door).</summary>
     private bool IsFunHotelDoor(int roomX, int roomZ) => !NoFunEntrances && Hashing.Unit(Hashing.Hash(seed, roomX, roomZ, SaltFunL5)) < 1 / 150.0;

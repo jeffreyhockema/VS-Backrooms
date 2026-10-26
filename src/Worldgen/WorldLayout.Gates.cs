@@ -145,10 +145,75 @@ public sealed partial class WorldLayout
     private void OpenGates(Builder b, int mx, int mz, Edge west, Edge north, Edge east, Edge south)
     {
         int level = b.Level;
-        if (IsGated(level, LevelAt(mx - 1, mz))) OpenGate(b, west, (0, 1), (1, 0), (1, 0));
-        if (IsGated(level, LevelAt(mx, mz - 1))) OpenGate(b, north, (1, 0), (0, 1), (0, 1));
-        if (IsGated(level, LevelAt(mx + 1, mz))) OpenGate(b, east, (0, 1), (MacroSize - 1, 0), (-1, 0));
-        if (IsGated(level, LevelAt(mx, mz + 1))) OpenGate(b, south, (1, 0), (0, MacroSize - 1), (0, -1));
+        // (From layout version 12 a gate into a level of a higher survival class has an M.E.G. placard beside it)
+        void Plate(Edge edge, int other, (int X, int Z) along, (int X, int Z) first, (int X, int Z) inward)
+        {
+            if (Version >= 12 && PlacardKind(level, other) is { } kind) PlaceGatePlacard(b, edge, along, first, inward, kind);
+        }
+        int w = LevelAt(mx - 1, mz), n = LevelAt(mx, mz - 1), e = LevelAt(mx + 1, mz), s = LevelAt(mx, mz + 1);
+        if (IsGated(level, w)) { OpenGate(b, west, (0, 1), (1, 0), (1, 0)); Plate(west, w, (0, 1), (1, 0), (1, 0)); }
+        if (IsGated(level, n)) { OpenGate(b, north, (1, 0), (0, 1), (0, 1)); Plate(north, n, (1, 0), (0, 1), (0, 1)); }
+        if (IsGated(level, e)) { OpenGate(b, east, (0, 1), (MacroSize - 1, 0), (-1, 0)); Plate(east, e, (0, 1), (MacroSize - 1, 0), (-1, 0)); }
+        if (IsGated(level, s)) { OpenGate(b, south, (1, 0), (0, MacroSize - 1), (0, -1)); Plate(south, s, (1, 0), (0, MacroSize - 1), (0, -1)); }
+    }
+
+    /// <summary>
+    /// The lore's Survival Difficulty class of a level (0 to 5), from the Wikidot pages: how many kinds of menacing thing may
+    /// be about at once, how thin the supplies are (<c>ScarcitySystem.ClassScale</c>), and which gates get a placard.
+    /// </summary>
+    public static int SurvivalClass(int level) => level switch
+    {
+        0 or 1 or 4 or 6 or 10 => 1,
+        5 or 11 => 2,
+        2 or Motion or Level188 => 3,
+        3 or 7 or 8 => 4,
+        9 or FunLevel => 5,
+        Poolrooms or TheEnd => 0,
+        Level3999 or Hub or Level974 or RunLevel => 1,
+        _ => 1,
+    };
+
+    /// <summary>
+    /// Which M.E.G. placard (the kind of <see cref="Props.MegPlacard"/>, in step with tools/gen_lore.py's PLACARDS: Level 2 = 0, 3 = 1,
+    /// 7 = 2, 9 = 3) a way from <paramref name="from"/> into <paramref name="to"/> gets, or null if the far level's class is no
+    /// higher or no plate is made for it.
+    /// </summary>
+    public static byte? PlacardKind(int from, int to)
+    {
+        if (SurvivalClass(to) <= SurvivalClass(from)) return null;
+        return to switch { 2 => (byte)0, 3 => (byte)1, 7 => (byte)2, 9 => (byte)3, _ => null };
+    }
+
+    /// <summary>
+    /// A placard on the near-side wall two or three tiles along from a gate's doorways, flush against the wall and facing the
+    /// approach (the tile inside the wall must be plain floor and the wall behind it a wall). Not a doorway's own run.
+    /// </summary>
+    private static void PlaceGatePlacard(Builder b, Edge edge, (int X, int Z) along, (int X, int Z) first, (int X, int Z) inward, byte kind)
+    {
+        int mid = MainDoorway(edge);
+        if (mid < 0) return;
+        int lo = mid, hi = mid;
+        while (lo - 1 >= 1 && edge.Tiles[lo - 1] == EdgeTile.Doorway) lo--;
+        while (hi + 1 < MacroSize && edge.Tiles[hi + 1] == EdgeTile.Doorway) hi++;
+        ArchPier faces = inward.X > 0 ? ArchPier.East : inward.X < 0 ? ArchPier.West : inward.Z > 0 ? ArchPier.South : ArchPier.North;
+        foreach (int index in new[] { lo - 2, hi + 2, lo - 3, hi + 3 })
+        {
+            if (index < 1 || index >= MacroSize || edge.Tiles[index] != EdgeTile.Wall) continue;
+            // (A level's own wall in front of the gate's, from layout version 9, is a tile or two thick: the plate stands on the
+            // first floor behind it)
+            for (int depth = 0; depth < 3; depth++)
+            {
+                int x = first.X + along.X * index + inward.X * depth, z = first.Z + along.Z * index + inward.Z * depth;
+                if (x < 0 || z < 0 || x >= MacroSize || z >= MacroSize) break;
+                ref Tile t = ref b.At(x, z);
+                if (t.Kind == TileKind.Wall) continue;
+                if (t.Kind != TileKind.Floor || t.Variant != 0 || t.Stack != 0 || t.SupplyBox || t.Stair != 0 || t.Under != 0 || t.Tall) break;
+                t.Variant = Props.MegPlacard;
+                t.Stack = kind;
+                t.Pier = faces;
+                return;
+            }
+        }
     }
 
     /// <param name="along">Step along the wall.</param>
@@ -183,6 +248,98 @@ public sealed partial class WorldLayout
             }
             t.Sealed = false;
         }
+    }
+
+    private static readonly (int Dx, int Dz)[] FourSteps = { (0, -1), (1, 0), (0, 1), (-1, 0) };
+
+    private static ArchPier Toward(int dx, int dz) => dx > 0 ? ArchPier.East : dx < 0 ? ArchPier.West : dz > 0 ? ArchPier.South : ArchPier.North;
+
+    private static bool FreeForPlacard(in Tile t) =>
+        t.Kind == TileKind.Floor && t.Variant == 0 && t.Stack == 0 && !t.SupplyBox && t.Stair == 0 && t.Under == 0 && !t.Tall;
+
+    /// <summary>
+    /// Layout version 12: a placard on the wall beside each way that leads to a level of a higher survival class and has a wall at
+    /// hand, facing the approach: Level 2's steel doors that open onto Level 3, the elevators of Levels 4 and 5 that go to Level 3
+    /// (their targets are settled by the same rolls the threshold network makes, ThresholdNetwork.TunnelDoorTarget and
+    /// ElevatorTarget), and Level 6's stairwells down to Level 7. (Pits, tripwires, the seabed and the like have no wall: no plate.)
+    /// </summary>
+    private void PlaceShortcutPlacards(Builder b, int mx, int mz)
+    {
+        int level = b.Level;
+        int ox = mx * MacroSize, oz = mz * MacroSize;
+        bool In(int x, int z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize;
+        // The plate goes on a free floor tile along the wall from the way, at the same distance out: (x, z) is the way, (dx, dz)
+        // the step out to the approach
+        void BesideWay(int x, int z, int dx, int dz, byte kind)
+        {
+            (int px, int pz) = (-dz, dx);
+            foreach (int off in new[] { 1, -1, 2, -2 })
+            {
+                int wx = x + px * off, wz = z + pz * off, fx = wx + dx, fz = wz + dz;
+                if (!In(wx, wz) || !In(fx, fz) || b.At(wx, wz).Kind != TileKind.Wall || !FreeForPlacard(b.At(fx, fz))) continue;
+                ref Tile t = ref b.At(fx, fz);
+                t.Variant = Props.MegPlacard;
+                t.Stack = kind;
+                t.Pier = Toward(dx, dz);
+                return;
+            }
+        }
+        for (int z = 0; z < MacroSize; z++)
+            for (int x = 0; x < MacroSize; x++)
+            {
+                Tile t = b.At(x, z);
+                if (level == 6)
+                {
+                    // The stairwell's first step (the lane with the lower coordinate): the plate on the nearest wall of its chamber
+                    if (t.Under != Unders.Descent1 || t.Stair != 1) continue;
+                    (int lx, int lz) = t.Pier == ArchPier.East ? (x, z - 1) : (x - 1, z);
+                    if (In(lx, lz) && b.At(lx, lz).Under == Unders.Descent1) continue;
+                    PlaceBesideNearestWall(b, x, z, PlacardKind(6, 7) ?? 2);
+                    continue;
+                }
+                bool elevator = t.Kind == TileKind.Door && t.Pattern == WallPattern.Elevator;
+                bool steel = level == 2 && t.Kind == TileKind.Door && t.Pattern is not (WallPattern.Elevator or WallPattern.GarageDoor);
+                if (!elevator && !steel) continue;
+                if (steel && Thresholds.ThresholdNetwork.TunnelDoorTarget(seed, ox + x, oz + z, Version) != 3) continue;
+                if (elevator)
+                {
+                    if (level is not (4 or 5)) continue;
+                    // (The car's origin: the least tile of its leaves by x, then z)
+                    if (In(x - 1, z) && b.At(x - 1, z) is { Kind: TileKind.Door, Pattern: WallPattern.Elevator }) continue;
+                    if (In(x, z - 1) && b.At(x, z - 1) is { Kind: TileKind.Door, Pattern: WallPattern.Elevator }) continue;
+                    double roll = Thresholds.ThresholdNetwork.ElevatorRoll(seed, ox + x, oz + z);
+                    if (Thresholds.ThresholdNetwork.ElevatorTarget(level, roll, Version) != 3) continue;
+                }
+                foreach ((int dx, int dz) in FourSteps)
+                {
+                    int fx = x + dx, fz = z + dz;
+                    if (!In(fx, fz) || b.At(fx, fz).Kind != TileKind.Floor) continue;
+                    BesideWay(x, z, dx, dz, PlacardKind(level, 3) ?? 1);
+                    break;
+                }
+            }
+    }
+
+    /// <summary>A placard on the free floor nearest a spot that has a plain wall beside it, facing away from the wall (Level 6's chambers).</summary>
+    private static void PlaceBesideNearestWall(Builder b, int sx, int sz, byte kind)
+    {
+        for (int r = 1; r <= 6; r++)
+            for (int dz = -r; dz <= r; dz++)
+                for (int dx = -r; dx <= r; dx++)
+                {
+                    if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r) continue;
+                    int x = sx + dx, z = sz + dz;
+                    if (x < 1 || z < 1 || x >= MacroSize - 1 || z >= MacroSize - 1 || !FreeForPlacard(b.At(x, z))) continue;
+                    foreach ((int wx, int wz) in FourSteps)
+                    {
+                        if (b.At(x + wx, z + wz).Kind != TileKind.Wall) continue;
+                        ref Tile t = ref b.At(x, z);
+                        t.Variant = Props.MegPlacard;
+                        t.Stack = kind;
+                        t.Pier = Toward(-wx, -wz);
+                        return;
+                    }
+                }
     }
 
     private const ulong SaltGateChalk = 0x6A7F;

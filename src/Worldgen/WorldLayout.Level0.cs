@@ -246,6 +246,8 @@ public sealed partial class WorldLayout
         public ZoneKind Zone;
         public Region Region;
         public bool Pillars, Spawn, PitsAllowed;
+        /// <summary>The share of big rooms in a lit Lobby that are pit rooms (a tenth; from layout version 12 a fortieth).</summary>
+        public double PitChance = 0.1;
         /// <summary>Layout version 4 on: one wallpaper, and the pale walls trimmed like it (see <see cref="CurrentVersion"/>).</summary>
         public bool OnePaper;
         /// <summary>Layout versions 1-9 only: an arched area is a labyrinth whose every wall is a row of arches (from 10 it is the Lobby's plan with some walls turned to arches: see ArchWalls).</summary>
@@ -289,6 +291,7 @@ public sealed partial class WorldLayout
             LegacyArches = info.Zone == ZoneKind.Arches && Version < 10,
         };
         int cmx = MacroOf(x0 + p.W / 2), cmz = MacroOf(z0 + p.H / 2);
+        if (Version >= 12) p.PitChance = 0.025;
         p.PitsAllowed = p.Zone == ZoneKind.Lobby && (Math.Abs(cmx - spawnMacroX) >= 3 || Math.Abs(cmz - spawnMacroZ) >= 3);
         p.Tiles = new Tile[p.W * p.H];
         p.Mood = new LightMood[p.W * p.H];
@@ -614,7 +617,7 @@ public sealed partial class WorldLayout
         if (w * h >= 140 && Math.Min(w, h) >= 10 && rng.Chance(big))
         {
             // Pits are lethal, so they only appear in lit areas where they can be seen
-            pieces.Add((p.PitsAllowed && rng.Chance(0.1) ? L0Piece.Pits : L0Piece.Big, x0, z0, x1, z1));
+            pieces.Add((p.PitsAllowed && rng.Chance(p.PitChance) ? L0Piece.Pits : L0Piece.Big, x0, z0, x1, z1));
             return;
         }
         if (p.Zone is ZoneKind.Lobby or ZoneKind.OpenOffice && Math.Max(w, h) >= 14 && Math.Min(w, h) is >= 9 and <= 15 && rng.Chance(0.2))
