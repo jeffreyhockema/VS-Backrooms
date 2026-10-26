@@ -4,7 +4,7 @@ A [Vintage Story](https://www.vintagestory.at/) mod. **Wake up in the Backrooms 
 
 ![Level 0, where you wake](docs/screenshots/01-level0-where-you-wake.png)
 
-You start in Level 0, an endless, procedurally generated labyrinth of mono-yellow rooms under buzzing fluorescent lights, with a folded note in your pocket and two supply boxes beside you. Walk far enough and it gives way to deeper levels, one after another: the concrete car park of Level 1, the pipe tunnels of Level 2, the Electrical Station, the Abandoned Office, the Terror Hotel, the lightless maze of Level 6, the endless sea of Level 7, the caves of Level 8, the night-time Suburbs and the farmland of Level 10. Further still, reached only by noclipping, lie the Endless City, the Poolrooms, Motion, Level !, Level Fun =), The End, The Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows.
+You start in Level 0, an endless, procedurally generated labyrinth of mono-yellow rooms under buzzing fluorescent lights, with a folded note in your pocket and two supply boxes beside you. Walk far enough and it gives way to deeper levels, one after another: the concrete car park of Level 1, the pipe tunnels of Level 2, the Electrical Station, the Abandoned Office, the Terror Hotel, the lightless maze of Level 6, the endless sea of Level 7, the caves of Level 8, the night-time Suburbs and the farmland of Level 10. Further still, reached by the ways between levels and no wall, lie the Endless City, the Poolrooms, Motion, Level !, Level Fun =), The End, The Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows.
 
 It is a complete survival game built on Vintage Story's own systems. Hunger, thirst, sleep, temporal stability, knapping, pottery, smelting, farming and animal husbandry all still work; what changes is where everything comes from. You start by cutting a blade from a glass shard, and you end up with a lit home in Level 0, crops under the ceiling lights, copper from the pipes, iron from the caves, and a map of the ways between levels that you drew yourself.
 
@@ -13,9 +13,11 @@ It is a complete survival game built on Vintage Story's own systems. Hunger, thi
 - **Twenty-two levels**: Levels 0 to 11, the Snackrooms, Level 37, Level 94 and seven far places, each built to follow the Backrooms lore.
 - **More than seventy kinds of threshold** between them: elevators, stairwells, pits, pools, vents, windows, barn walls that aren't quite there. Every one always leads to the same place, so you can build a travel network from what you find.
 - **Scavenger survival**: salvage furniture, lights and the building itself, then follow Vintage Story's normal path of flint, fire, pottery, copper and bronze with materials found level by level.
-- **A climb with wards**: each level holds you only up to its tier. Past it your stability runs out, the level's hunters come, and a minute at zero wakes you in the level above with your things. Copper, bronze and iron anchors, worn at the neck, are the way down; the table below has the tiers.
+- **A climb with wards**: each level holds you only up to its tier. Past it your stability runs out, the level's hunters come, and a minute at zero wakes you in the level before it with your things. Copper, bronze and iron anchors, worn at the neck, are the way down; the table below has the tiers.
 - **Home is where you last slept**: you wake in the last bed you slept in, or else in Level 0, so everything a base needs has to be brought back.
 - **Creatures with their own behaviour**, from Smilers and Hounds to the Mangled. They're heard and glimpsed far more than fought, and each one has a counter you can learn.
+- **Thirst and sleep**: a water bar and a Rest bar, beds of every kind, bottles and boiling, Blue and Green Almond Water. Death leaves a body where you fell, holding what you carried, for as long as it takes.
+- **People with sites**: wanderers keep to the crate-pickers' camp, the Level 4 outpost, the 9th Road, the city, The End, the Hub and Level 3999, each selling what its place has, for rusty gears.
 - **A map that only shows what you have seen**, and remembers it.
 - **Wanderers' notes and a journal**, a handbook rewritten for the Backrooms, and a First Steps tutorial.
 - **World settings** for creature activity, resource scarcity, the map (down to no map at all) and the size of the levels.
@@ -35,7 +37,7 @@ Past a level's tier your stability runs down: about ten minutes to zero one tier
 
 1. Requires **Vintage Story 1.22** or later.
 2. Download the mod from [its page on the Vintage Story mod database](https://mods.vintagestory.at/show/mod/73380), or build it yourself (see below). Put the zip in your `Mods` folder without unpacking it.
-3. Create a new world and pick the **Backrooms: Survival Story** playstyle. Under *Survival challenges* you can set **Backrooms entities** (Off, Low, Normal, High), **Backrooms scarcity** (Plentiful, Normal, Sparse, Scarce), **Backrooms map** (Seen areas, Seen areas with no waypoints, None), and **Thirst** and **Fatigue** (both on by default, so you need water and sleep). Under *World generation* there is also **Backrooms level size** (50% to 200%, how wide the rings of levels are).
+3. Create a new world and pick the **Backrooms: Survival Story** playstyle. Under *Survival challenges* you can set **Backrooms entities** (Off, Very low, Low, Normal, High, Very high), **Backrooms scarcity** (Plentiful, Normal, Sparse, Scarce), **Backrooms map** (Seen areas, Seen areas with no waypoints, None), and **Thirst** and **Fatigue** (both on by default, so you need water and sleep). Under *World generation* there is also **Backrooms level size** (50% to 200%, how wide the rings of levels are).
 
 The mod only affects worlds created with its playstyle. Your other worlds are untouched.
 
