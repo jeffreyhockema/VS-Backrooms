@@ -178,13 +178,13 @@ public class BeastSystem : ModSystem
             }
 
             if (a.Level != 5 || a.Band == MenaceBand.Safe) continue;
-            // Rare, rolled once a second: deep in the boiler halls about once in twenty minutes at the edge of the hotel
-            // (1/1200), once in an hour further in; out in the guest wings and lobbies a quarter as often. Fear draws him:
+            // Rare, rolled once a second: at set-piece scale 1 (Normal is 2.35 times as often), deep in the boiler halls about once
+            // in twenty minutes at the edge of the hotel (1/1200), once in an hour further in; out in the guest wings and lobbies a quarter as often. Fear draws him:
             // up to three times as likely with your stability gone.
             bool boiler = director.Layout.IsHotelBoilerHall((int)Math.Floor(entity.Pos.X), (int)Math.Floor(entity.Pos.Z));
             double chance = a.Band switch { MenaceBand.Heartland => 1 / 4000.0, MenaceBand.Approach => 1 / 2000.0, _ => 1 / 1200.0 };
             if (!boiler) chance /= 4;
-            chance *= (1 + 2 * (1 - Math.Clamp(Senses.Stability(entity), 0, 1))) * director.Setting.Spawns;
+            chance *= (1 + 2 * (1 - Math.Clamp(Senses.Stability(entity), 0, 1))) * director.Setting.SetPieceScale;
             if (rand.NextDouble() < chance)
             {
                 events[entity.EntityId] = new Event { Target = entity, GlimpseAt = 20 + rand.NextDouble() * 15 };

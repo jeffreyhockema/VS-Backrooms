@@ -121,7 +121,12 @@ public class ZeroSystem : ModSystem
         }
         sapi.Logger.Notification("[backrooms] zero: {0} has been at zero stability for {1:0} s in Level {2}: the lights go",
             NameOf(entity), state.Seconds, WorldLayout.DisplayNumber(LevelOf(entity)));
-        sapi.World.RegisterCallback(_ => WakeElsewhere(entity, state), (int)(BlackoutSeconds * 1000));
+        sapi.World.RegisterCallback(_ =>
+        {
+            // (A player who left or died in the meantime is not moved)
+            if (entity is EntityPlayer { Player: IServerPlayer p } && (p.ConnectionState != EnumClientState.Playing || !entity.Alive)) { state.Dark = false; state.Seconds = 0; return; }
+            WakeElsewhere(entity, state);
+        }, (int)(BlackoutSeconds * 1000));
     }
 
     private int LevelOf(Entity entity) => layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(entity.Pos.X)), WorldLayout.MacroOf((int)Math.Floor(entity.Pos.Z)));

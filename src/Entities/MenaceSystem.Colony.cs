@@ -56,7 +56,7 @@ public partial class MenaceSystem
         if (nestReinforcedMs.TryGetValue(key, out long last) && now >= last && now - last < NestReinforceEveryMs) return 0;
         Assessment a = AssessmentOf(who);
         if (a.Band == MenaceBand.Safe) return 0;
-        int want = Math.Min(NestSpiders - about, Math.Max(1, (int)Math.Round((1 + rand.Next(2)) * Setting.Spawns))), added = 0;
+        int want = Math.Min(NestSpiders - about, Math.Max(1, (int)Math.Round((1 + rand.Next(2)) * Setting.SetPieceScale))), added = 0;
         for (int attempt = 0; attempt < 24 && added < want; attempt++)
         {
             double angle = rand.NextDouble() * Math.PI * 2, d = 4 + rand.NextDouble() * 12;

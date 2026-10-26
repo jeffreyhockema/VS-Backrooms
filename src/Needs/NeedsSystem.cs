@@ -150,7 +150,7 @@ public class NeedsSystem : ModSystem
         MenaceSystem.Assessment a = menace.AssessmentOf(player.Entity);
         if (a.Band == MenaceBand.Safe) return;
         bool door = ClosedDoorNear(bed, DoorRadius);
-        double chance = NeedsMath.VisitChance(Danger.OfLevel(a.Level), menace.Setting.Spawns, door);
+        double chance = NeedsMath.VisitChance(Danger.OfLevel(a.Level), menace.Setting.SetPieceScale, door);
         double roll = rand.NextDouble();
         if (menace.Logging) sapi.Logger.Notification("[backrooms] night visit roll for {0}: {1:0.000} against {2:0.000} (level {3}, door {4})", player.PlayerName, roll, chance, a.Level, door ? "shut" : "none");
         if (roll < chance) menace.NightVisit(player);

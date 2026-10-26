@@ -1786,7 +1786,7 @@ public class AiTaskMenace : AiTaskBase
         to = to.Clone();
         float scaled = speed * speedMul * lookSpeed;
         // From Level 3 down every hunter outruns a sprint (a stalker's 0.8 x run keeps the same share of it)
-        if (runFloor > 0 && speed >= runSpeed * 0.75f) scaled = Math.Max(scaled, runFloor * speed / runSpeed);
+        if (runFloor > 0 && runSpeed > 0 && speed >= runSpeed * 0.75f) scaled = Math.Max(scaled, runFloor * speed / runSpeed);
         speed = scaled;
         if (straight) pathTraverser.WalkTowards(to, speed, within, OnArrived, OnStuck);
         else if (async) pathTraverser.NavigateTo_Async(to, speed, within, OnArrived, OnStuck, OnNoPath, 2500, 1);

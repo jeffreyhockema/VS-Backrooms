@@ -1127,7 +1127,7 @@ def deathrat():
         "attributes": {"killedByInfoText": "backrooms:deadcreature-deathrat"},
         # (Which look, the director decides: hairless in Level 2's heat)
         "client": common_client("backrooms:entity/deathrat", {"base": "backrooms:entity/deathrat", "alternates": [{"base": "backrooms:entity/deathrat-hairless"}]}, animations),
-        "server": server(5, tasks, [drop("game:bushmeat-raw", 1.5, 0.5), drop("game:hide-raw-small", 0.33, 0.33), drop("game:bone", 0.5, 0.5)],
+        "server": server(5, tasks, [drop("game:bushmeat-raw", 1.5, 0.5), drop("game:hide-raw-small", 0.5, 0.5), drop("game:bone", 0.5, 0.5)],
                          # (Level 2's hairless look, texture 1, never bites)
                          menace={"maxEncounterSeconds": 300, "harmlessLooks": [1]}, decay="game:carcass-small"),
         "sounds": {"hurt": "game:creature/hare-hurt", "death": "game:creature/hare-hurt"},
@@ -1453,7 +1453,7 @@ WANDERER_SELLS = [
     trade("game:flaxtwine", 1, 4, 4),
     trade("game:seeds-flax", 2, 3, 4),
     trade("game:seeds-cabbage", 2, 2, 4),
-    trade("game:gear-temporal", 3, 1),  # about two or three Hound bounties; a ward part, never a finished anchor
+    trade("game:gear-temporal", 6, 1),  # about eight mid-level Hound bounties; a ward part, never a finished anchor
     trade("game:knife-generic-tinbronze", 6, 1),
     trade("game:spear-generic-tinbronze", 8, 1),
     trade("game:lantern-small-up", 6, 1, 1, "block"),

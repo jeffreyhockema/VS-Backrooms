@@ -823,7 +823,7 @@ def t_iso_rates(c):
             good = good and r["stalk"] == 0 and r["hunt"] == 0   # glimpses only
         ok &= good
         ev.append("L%s %s %s %.1f (%s..%s)%s" % (level, band, key, r[key], lo, hi, "" if good else " BAD"))
-    # the hard gap: Level 1 heartland bodies are never closer than 25%% of the 6.4 minute mean
+    # the hard gap: Level 1 heartland bodies are never closer than 25%% of the about 7.1 minute mean
     r = cache[("1", "heartland")]
     try:
         gap_ok = float(r["mingap"]) >= 1.6
@@ -1416,7 +1416,7 @@ PROG_CASES = [("prog-armour", t_prog_armour), ("prog-speed", t_prog_speed)]
 
 
 # ---------------------------------------------------------------- progression pressure, piece A (reality): ward tiers, the zero blackout
-WARD_RE = re.compile(r"Ward: \S+ #(\d+) tier ([\d.]+) \(anchor (\d+), armour (\d+)(?:, test ward)?\); Level (\S+) asks tier (\d+); (\d+) beyond; deficit (-?[\d.]+); "
+WARD_RE = re.compile(r"Ward: \S+ #(\d+) tier ([\d.]+) \(anchor (\d+), armour (\d+)(?:, test ward)?\); Level (\S+) asks tier (\d+); ([\d.]+) beyond; deficit (-?[\d.]+); "
                      r"area stability (-?[\d.]+) before it, (-?[\d.]+) with it; a full bar lasts (?:(\d+) s|for ever)")
 
 
@@ -1427,7 +1427,7 @@ def _ward(c, arg=""):
     if not hasattr(r, "group"):
         return None
     g = r.groups()
-    return {"tier": float(g[1]), "level": g[4], "asks": int(g[5]), "beyond": int(g[6]), "deficit": float(g[7]),
+    return {"tier": float(g[1]), "level": g[4], "asks": int(g[5]), "beyond": float(g[6]), "deficit": float(g[7]),
             "before": float(g[8]), "area": float(g[9]), "lasts": int(g[10]) if g[10] else None}
 
 
@@ -1441,13 +1441,15 @@ def t_prog_ward(c):
     if not w:
         return False, "no ward report"
     ok = w["level"] == "3" and w["tier"] == 0 and w["asks"] == 1 and w["beyond"] == 1 and abs(w["deficit"] - 1.13) < 0.02
+    lasts0 = w["lasts"]
     out.append("L3 tier 0: asks %d beyond %d deficit %.2f area %.2f lasts %s s" % (w["asks"], w["beyond"], w["deficit"], w["area"], w["lasts"]))
     w = _ward(c, "1")
     ok &= w is not None and w["tier"] == 1 and w["beyond"] == 0 and w["deficit"] == 0
     out.append("L3 ward 1: beyond %s deficit %s" % (w and w["beyond"], w and w["deficit"]))
     w = _ward(c, "0.5")
-    ok &= w is not None and w["beyond"] == 1
-    out.append("L3 ward 0.5: beyond %s" % (w and w["beyond"]))
+    # half a tier beyond: deficit 0.564, so the bar lasts 826.7 / (1 - area) with area = baseline - 0.564, about twice the unwarded time
+    ok &= w is not None and w["beyond"] == 0.5 and abs(w["deficit"] - 0.564) < 0.02 and w["lasts"] is not None and lasts0 is not None and 1.5 * lasts0 < w["lasts"] < 2.6 * lasts0
+    out.append("L3 ward 0.5: beyond %s deficit %s lasts %s s (unwarded %s s)" % (w and w["beyond"], w and w["deficit"], w and w["lasts"], lasts0))
     c.reset()
     c.place(level="8")
     w = _ward(c, "clear")

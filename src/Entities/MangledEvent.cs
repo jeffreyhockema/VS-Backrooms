@@ -150,13 +150,13 @@ public class MangledEvent : ModSystem
             if (hours < nextAllowedHours.GetValueOrDefault(entity.EntityId)) continue;
             MenaceSystem.Assessment a = director.AssessmentOf(entity);
             if (a.Level != 9 || a.Band == MenaceBand.Safe) continue;
-            // Rare: rolled once a second, so about once in forty minutes at the edge of the Suburbs (1/2400), once in
-            // an hour and a half further in, once in four hours in the heart; far likelier (x8) when a Reality Shift
-            // has the lights out
+            // Rare: rolled once a second, so at set-piece scale 1 about once in forty minutes at the edge of the Suburbs (1/2400),
+            // once in an hour and a half further in, once in four hours in the heart (Normal, scale 2.35, makes it 2.35 times as
+            // often); far likelier (x8) when a Reality Shift has the lights out
             double chance = a.Band switch { MenaceBand.Heartland => 0.00007, MenaceBand.Approach => 0.0002, _ => 0.0004 };
             if (a.Shift) chance *= 8;
-            // As thinned as everything else by the spawn setting, and only one event at a time, whoever it is for
-            chance *= director.Setting.Spawns;
+            // Scaled by the spawn setting (its square root), and only one event at a time, whoever it is for
+            chance *= director.Setting.SetPieceScale;
             if (rand.NextDouble() < chance && !events.Values.Any(ev => ev.Phase != Phase.Ending || ev.Mangled?.Alive == true))
             {
                 events[entity.EntityId] = new Event();

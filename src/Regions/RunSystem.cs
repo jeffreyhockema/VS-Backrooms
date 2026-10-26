@@ -357,7 +357,7 @@ public class RunSystem : ModSystem
             player.Entity.TeleportToDouble(ax + 0.5, geometry.FloorFor(WorldLayout.RunLevel) + layout.ArrivalHeight(ax, az), az + 0.5);
             return null;
         }
-        int difficulty = menace?.Setting.Code switch { "low" => 0, "high" => 2, _ => 1 };
+        int difficulty = menace?.Setting.Code switch { "verylow" or "low" => 0, "high" or "veryhigh" => 2, _ => 1 };
         int chained = plan.ProgressAt(plan.ChainedDoor.X, plan.ChainedDoor.Z) ?? -8;
         var run = new Run
         {

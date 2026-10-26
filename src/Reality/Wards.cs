@@ -41,20 +41,23 @@ public static class WardTiers
     /// empties a full bar in <see cref="OneBeyondSeconds"/> (one tier beyond) or <see cref="TwoBeyondSeconds"/> (two or more).
     /// A worse place drains faster, a kinder one slower. Nothing at or below the tier.
     /// </summary>
-    public static float Deficit(int beyond)
+    public static float Deficit(double beyond)
     {
         if (beyond <= 0) return 0;
-        return (float)(ReferenceBaseline - AreaForSeconds(beyond == 1 ? OneBeyondSeconds : TwoBeyondSeconds));
+        float one = (float)(ReferenceBaseline - AreaForSeconds(OneBeyondSeconds)), two = (float)(ReferenceBaseline - AreaForSeconds(TwoBeyondSeconds));
+        if (beyond >= 2) return two;
+        return beyond <= 1 ? one * (float)beyond : one + (two - one) * (float)(beyond - 1); // linear between the whole tiers
     }
 
-    /// <summary>How many whole tiers a level is beyond a tier of ward (half a tier beyond counts as one).</summary>
-    public static int Beyond(double tier, int levelTier) => (int)Math.Ceiling(Math.Max(0, levelTier - tier) - 1e-9);
+    /// <summary>How far a level is beyond a tier of ward, in tiers (0, 0.5, 1, 1.5, 2, ...): half a tier of armour counts for half.</summary>
+    public static double Beyond(double tier, int levelTier) => Math.Max(0, levelTier - tier);
 
-    /// <summary>The highest stability Almond Water can bring someone to: full at or below their tier, 0.6 one beyond, 0.3 two or more.</summary>
-    public static double RestoreCeiling(int beyond) => beyond <= 0 ? 1.0 : beyond == 1 ? 0.6 : 0.3;
+    /// <summary>The highest stability Almond Water can bring someone to: full at or below their tier, 0.6 one beyond, 0.3 two or more (linear between).</summary>
+    public static double RestoreCeiling(double beyond) =>
+        beyond <= 0 ? 1.0 : beyond <= 1 ? 1.0 - 0.4 * beyond : beyond <= 2 ? 0.6 - 0.3 * (beyond - 1) : 0.3;
 
     /// <summary>How much of a drink's stability it gives: all at or below the tier, less the further beyond, never under a fifth.</summary>
-    public static double RestoreFactor(int beyond) => Math.Max(0.2, 1 - 0.4 * Math.Max(0, beyond));
+    public static double RestoreFactor(double beyond) => Math.Max(0.2, 1 - 0.4 * Math.Max(0, beyond));
 
     // ================= What someone wears =================
 
@@ -156,11 +159,11 @@ public static class WardTiers
     /// </summary>
     public static void Drink(Entity entity, double amount)
     {
-        int beyond = 0;
+        double beyond = 0;
         if (BackroomsWorld.IsBackroomsClimate(entity.World.Config))
         {
-            WorldLayout layout = BackroomsWorld.CreateLayout(entity.World);
-            beyond = Beyond(TierOf(entity), LevelTierAt(layout, entity.Pos.X, entity.Pos.Z));
+            WorldLayout layout = entity.Api?.ModLoader.GetModSystem<BackroomsModSystem>()?.Layout;
+            if (layout != null) beyond = Beyond(TierOf(entity), LevelTierAt(layout, entity.Pos.X, entity.Pos.Z));
         }
         double stability = entity.WatchedAttributes.GetDouble("temporalStability", 1);
         double restored = stability + amount * (amount > 0 ? RestoreFactor(beyond) : 1);

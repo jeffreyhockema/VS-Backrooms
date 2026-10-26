@@ -120,9 +120,13 @@ public partial class MenaceSystem : ModSystem
     /// <summary>How the world's "backroomsMenace" setting scales things.</summary>
     /// <param name="MixDanger">Added to the level's danger in the glimpse/stalk/hunt mix (more of the bodies stalk and hunt).</param>
     /// <param name="CapBonus">Added to the menacing cap of the approach and threshold bands, and of the heartland when <paramref name="HeartCapBonus"/> is.</param>
-    public readonly record struct Difficulty(string Code, double Spawns, double Damage, bool Entities, double MixDanger = 0, int CapBonus = 0, int HeartCapBonus = 0);
+    public readonly record struct Difficulty(string Code, double Spawns, double Damage, bool Entities, double MixDanger = 0, int CapBonus = 0, int HeartCapBonus = 0)
+    {
+        /// <summary>How much the set pieces (night visits, hive waves, nest refills, the rare events) scale with the setting: the square root of <see cref="Spawns"/>, so they thicken more slowly than the ordinary spawns (1 at off, 2.35 at Normal).</summary>
+        public double SetPieceScale => Math.Sqrt(Spawns);
+    }
 
-    /// <summary>The six settings (dialin.md 3.1; shifted up one step in the progression round, plan.md 3.7: today's low rate is now normal). Spawns divides the mean intervals; "normal" is the fourth.</summary>
+    /// <summary>The six settings (dialin.md 3.1; shifted up one step in the progression round, plan.md 3.7: the dial-in's high rate, 5.5, is the new normal, and the dial-in's normal, 3.5, is now low). Spawns divides the mean intervals; "normal" is the fourth.</summary>
     private static readonly Difficulty[] Difficulties =
     {
         new("off", 1, 0, false),
@@ -466,13 +470,12 @@ public partial class MenaceSystem : ModSystem
         return Math.Max(0, now - target.Attributes.GetDouble(RestedKey, now));
     }
 
-    /// <summary>Whether a player is at home: in Level 0, near the place they wake up.</summary>
+    /// <summary>Whether a player is at home: near their spawn point (the last bed they slept in or a temporal gear), in whatever level that is.</summary>
     private bool AtHome(Entity target)
     {
         if (target is not EntityPlayer { Player: IServerPlayer player }) return false;
         FuzzyEntityPos home = player.GetSpawnPosition(false);
         if (home == null) return false;
-        if (layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(target.Pos.X)), WorldLayout.MacroOf((int)Math.Floor(target.Pos.Z))) != 0) return false;
         double dx = home.X - target.Pos.X, dz = home.Z - target.Pos.Z;
         return dx * dx + dz * dz <= HomeRadius * HomeRadius;
     }

@@ -162,8 +162,8 @@ public partial class MenaceSystem
             packUncapped = true;
             try
             {
-                // (The wave's size follows the world's spawn setting, at least one)
-                int wave = Math.Max(1, (int)Math.Round(Setting.Spawns));
+                // (The wave's size follows the world's spawn setting (its square root), at least one)
+                int wave = Math.Max(1, (int)Math.Round(Setting.SetPieceScale));
                 for (int i = 0; i < wave && about + i < WaveFemalesMax; i++)
                     if (TrySpawn(cause, AssessmentOf(cause), entry, Encounter.Hunt))
                         foreach (Entity moth in lastPack.ToList()) AiTaskMoth.Rally(moth, cause);

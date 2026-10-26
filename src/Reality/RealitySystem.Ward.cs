@@ -46,13 +46,13 @@ public partial class RealitySystem
         (int anchor, int armour) = WardTiers.Worn(who);
         int mx = WorldLayout.MacroOf((int)Math.Floor(who.Pos.X)), mz = WorldLayout.MacroOf((int)Math.Floor(who.Pos.Z));
         int level = layout.LevelAt(mx, mz), levelTier = layout.WardTierAt(mx, mz);
-        int beyond = WardTiers.Beyond(tier, levelTier);
+        double beyond = WardTiers.Beyond(tier, levelTier);
         float deficit = WardTiers.Deficit(beyond);
         float baseline = layout.StabilityAt(who.Pos.X, who.Pos.Y, who.Pos.Z, geometry.FloorY) - 1.3f * (float)ShiftStrength;
         double area = baseline - deficit;
         string lasts = area < 1 ? (800 * (1 + 1.0 / 30) / (1 - area)).ToString("0", CultureInfo.InvariantCulture) + " s" : "for ever";
         return TextCommandResult.Success(string.Format(CultureInfo.InvariantCulture,
-            "Ward: {0} #{1} tier {2:0.0} (anchor {3}, armour {4}{5}); Level {6} asks tier {7}; {8} beyond; deficit {9:0.00}; area stability {10:0.00} before it, {11:0.00} with it; a full bar lasts {12}",
+            "Ward: {0} #{1} tier {2:0.0} (anchor {3}, armour {4}{5}); Level {6} asks tier {7}; {8:0.0} beyond; deficit {9:0.00}; area stability {10:0.00} before it, {11:0.00} with it; a full bar lasts {12}",
             who is EntityPlayer ep ? ep.Player?.PlayerName : "dummy", who.EntityId, tier, anchor, armour,
             who.WatchedAttributes.HasAttribute(WardTiers.TestKey) ? ", test ward" : "", WorldLayout.DisplayNumber(level), levelTier, beyond, deficit, baseline, area, lasts));
     }

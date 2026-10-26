@@ -146,3 +146,20 @@ Branch `prog/reality` (off `progression`). Files: `src/Reality/Wards.cs` (tiers,
 **Could not check**: the actual drain clock (a dummy has no vanilla behaviour; verified by code path and the formula above, the harness checks the area value and the reported time); the worn anchor reading (inventory slots) and the player-matching of the stability hook by position (needs a client); the anchor's look on the model (UVs of the vanilla amulet sample only the corner of the texture, so it will read as a plain metal amulet); bed spawn on a real death; the client blackout darkening and sound; the crafting recipes in game (loaded without log errors only).
 
 **Lessons**: command registration for a later system must wait for `ModsAndConfigReady` (`Get("backrooms")` is null in `StartServerSide` of an earlier mod system and the `?.` hides it). The stability hook only gets a position, so a player is found by exact position. The blind reviewer caught the bronze recipe syntax (wildcard code and `allowedVariants` belong in the ingredient). Left to piece D: `docs/DEVELOPING.md` and the survival-loop and 3999 plans still mention `AnchorSystem`; handbook text for tiers, anchors, the blackout and respawn.
+
+Fix (Piece A): the armour half-tier was a no-op because Beyond() rounded up. Beyond is now fractional (0, 0.5, 1, ...); Deficit and the Almond Water ceiling interpolate linearly between the whole tiers (0.5 beyond = deficit 0.564). `/backrooms ward` prints beyond with one decimal; prog-ward checks ward 0.5 in Level 3 (beyond 0.5, bar 813 s against 523 s unwarded).
+
+### Fix round (code)
+
+1. Fractional beyond (above), harness updated.
+2. AiTaskMenace run-speed floor guarded with `runSpeed > 0`.
+3. WardTiers.Drink uses the cached layout (BackroomsModSystem.Layout), not CreateLayout per drink.
+4. MenaceSystem.AtHome no longer needs Level 0 (home is the spawn point wherever it is).
+5. ZeroSystem blackout callback skips the move if the player left or died.
+6. Level ! difficulty: verylow/low -> 0, high/veryhigh -> 2.
+7. Set pieces scale by `Difficulty.SetPieceScale` (sqrt of Spawns): night visits, hive waves, nest refills, Mangled and Beast event chances; comments say scale 1 and Normal 2.35. Ordinary spawn rolls unchanged. Needs self-test unaffected (it passes scale 1).
+8. Death Rat raw small hide drop back to mean 0.5 (var 0.5); only deathrat.json regenerated.
+9. Wanderer gear-temporal price 6 rusty gears (comment: about eight mid-level Hound bounties); only wanderer.json regenerated.
+10. Comments: Difficulties note in MenaceSystem, iso-rates "about 7.1 minute mean".
+
+Test: build OK; aitest --only prog,needs,iso: 10/10 passed (prog-ward, prog-zero, prog-zero-safe, prog-armour, prog-speed, needs-selftest 49/49, iso-rates, iso-one-kind), 0 backrooms errors in the log.
