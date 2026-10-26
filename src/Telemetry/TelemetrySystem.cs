@@ -226,7 +226,7 @@ public class TelemetrySystem : ModSystem
         lastFlush = DateTime.UtcNow;
         IWorldAccessor w = sapi.World;
         Record("session", null, "state", "start", "world", WorldName(), "seed", sapi.WorldManager.Seed,
-            "mod", Mod.Info.Version, "layout", BackroomsWorld.LayoutVersion(w),
+            "mod", Mod.Info.Version, "layout", w.Config.GetInt("backroomsLayoutVersion", 1),
             "backroomsMenace", w.Config.GetString("backroomsMenace", "normal"),
             "backroomsScarcity", w.Config.GetString(Salvage.ScarcitySystem.ConfigKey, "normal"),
             "backroomsThirst", w.Config.GetString(Backrooms.Needs.Needs.ThirstSetting, "on"),
@@ -284,7 +284,7 @@ public class TelemetrySystem : ModSystem
         {
             if (writer == null) return;
             // (Marks, deaths and the session itself are never dropped)
-            if (ev is not ("mark" or "death" or "session" or "respawn"))
+            if (ev is not ("mark" or "death" or "session" or "respawn" or "level" or "stab" or "need" or "damage"))
             {
                 long second = now.Ticks / TimeSpan.TicksPerSecond;
                 rates.TryGetValue(name, out var rate);
@@ -337,6 +337,8 @@ public class TelemetrySystem : ModSystem
     {
         if (!Enabled || menace?.Layout == null) return;
         bool full = (++tickNo & 1) == 0;
+        while (trades.TryDequeue(out var trade))
+            Record("trade", sapi.World.AllOnlinePlayers.FirstOrDefault(p => p.PlayerName == trade.Who)?.Entity, "item", trade.What, "price", trade.Price);
         foreach (IServerPlayer player in sapi.World.AllOnlinePlayers.OfType<IServerPlayer>())
         {
             if (!Live(player)) continue;
@@ -466,6 +468,7 @@ public class TelemetrySystem : ModSystem
     {
         PState s = StateOf(player);
         s.Level = int.MinValue;
+        if (player.Entity != null) hooked.Remove(player.Entity.EntityId); // (a new entity object may have a new health behaviour)
         Record("join", player.Entity, "gm", player.WorldData.CurrentGameMode);
     }
 
@@ -474,7 +477,11 @@ public class TelemetrySystem : ModSystem
         Record("leave", player.Entity);
         states.Remove(player.PlayerUID);
         if (player.Entity != null) hooked.Remove(player.Entity.EntityId);
-        lock (gate) rings.Remove(NameOf(player.Entity));
+        lock (gate)
+        {
+            rings.Remove(NameOf(player.Entity));
+            rates.Remove(NameOf(player.Entity));
+        }
     }
 
     private void OnDeath(IServerPlayer player, DamageSource source)
@@ -496,8 +503,9 @@ public class TelemetrySystem : ModSystem
     /// <summary>Gives the player's health a listener (once per entity) that logs the damage it takes, after the armour has had its say.</summary>
     private void HookDamage(IServerPlayer player, EntityPlayer entity)
     {
-        if (!hooked.Add(entity.EntityId)) return;
+        if (hooked.Contains(entity.EntityId)) return;
         if (entity.GetBehavior<EntityBehaviorHealth>() is not { } health) return;
+        hooked.Add(entity.EntityId);
         health.onDamaged += (damage, source) =>
         {
             if (damage > 0 && source != null && source.Type != EnumDamageType.Heal && Enabled)
@@ -541,17 +549,18 @@ public class TelemetrySystem : ModSystem
     private void OnLogEntry(EnumLogType type, string message, object[] args)
     {
         if (type != EnumLogType.Audit || !Enabled || message == null) return;
+        // (Any thread: only parse here, and let the tick log it)
         try
         {
             string line = args is { Length: > 0 } ? string.Format(CultureInfo.InvariantCulture, message, args) : message;
             Match m = TradeLine.Match(line);
-            if (!m.Success) return;
-            IPlayer who = sapi.World.AllOnlinePlayers.FirstOrDefault(p => p.PlayerName == m.Groups["who"].Value);
-            int n = int.Parse(m.Groups["n"].Value, CultureInfo.InvariantCulture);
-            Record("trade", who?.Entity, "item", m.Groups["what"].Value, "price", m.Groups["verb"].Value == "payed" ? n : -n);
+            if (!m.Success || !int.TryParse(m.Groups["n"].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out int n)) return;
+            trades.Enqueue((m.Groups["who"].Value, m.Groups["what"].Value, m.Groups["verb"].Value == "payed" ? n : -n));
         }
-        catch (FormatException) { }
+        catch (Exception) { }
     }
+
+    private readonly System.Collections.Concurrent.ConcurrentQueue<(string Who, string What, int Price)> trades = new();
 
     // ------------------------------------------------------------ The marker
 

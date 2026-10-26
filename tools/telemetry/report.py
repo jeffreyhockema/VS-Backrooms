@@ -76,15 +76,15 @@ def analyse(events):
     for e in events:
         p, ev = e["p"], e["ev"]
         t = e["_t"]
-        if ev in ("leave", "death") and p in state:
-            _, lvl, band, surv = state.pop(p)
+        if ev in ("leave", "death", "respawn") and p in state:
+            state.pop(p)
             continue
         if ev not in ("level", "band", "pos", "join"):
             continue
         if p in state:
             t0, lvl, band, surv = state[p]
             dtm = (t - t0).total_seconds()
-            if 0 < dtm <= GAP and surv:
+            if 0 < dtm <= GAP and surv and lvl is not None:
                 seconds[(lvl, band)] += dtm
                 level_seconds[lvl] += dtm
         lvl, band, surv = (state[p][1], state[p][2], state[p][3]) if p in state else (None, None, True)
@@ -105,7 +105,7 @@ def analyse(events):
     # Spawns
     spawns = collections.Counter()
     for e in events:
-        if e["ev"] == "spawn":
+        if e["ev"] == "spawn" and "#" not in e["p"]:
             spawns[(e["kind"], e["band"], e["code"])] += 1
     r["spawns"] = spawns
 

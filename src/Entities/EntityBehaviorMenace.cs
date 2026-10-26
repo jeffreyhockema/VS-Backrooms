@@ -165,7 +165,7 @@ public class EntityBehaviorMenace : EntityBehavior
         set
         {
             if (value == Kind) return;
-            if (entity.World.Side == EnumAppSide.Server) PlayTelemetry.Telemetry.Kind(entity, Target, Kind.ToString(), value.ToString());
+            if (entity.World.Side == EnumAppSide.Server && PlayTelemetry.Telemetry.On) PlayTelemetry.Telemetry.Kind(entity, Target, Kind.ToString(), value.ToString());
             entity.Attributes.SetInt(KindKey, (int)value);
             entity.Attributes.SetLong(SinceKey, entity.World.ElapsedMilliseconds);
             if (value != Encounter.Ambient && !entity.Attributes.HasAttribute(EncounterSinceKey))

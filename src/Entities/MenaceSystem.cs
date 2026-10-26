@@ -1237,7 +1237,7 @@ public partial class MenaceSystem : ModSystem
         double danger = dangerOverride ?? Danger.OfLevel(layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(at.X)), WorldLayout.MacroOf((int)Math.Floor(at.Z))));
         entity.Attributes.SetDouble(Danger.Key, danger);
         sapi.World.SpawnEntity(entity);
-        PlayTelemetry.Telemetry.Spawn(entity, target, EntityBehaviorMenace.KindOf(entity).ToString(), AssessmentOf(target).Band.ToString(), telemetrySetPiece);
+        if (PlayTelemetry.Telemetry.On) PlayTelemetry.Telemetry.Spawn(entity, target, EntityBehaviorMenace.KindOf(entity).ToString(), AssessmentOf(target).Band.ToString(), telemetrySetPiece);
         if (entity.GetBehavior<Vintagestory.GameContent.EntityBehaviorHealth>() is { } health)
         {
             // Deeper down, harder to put down; an old Hound half as hard again
