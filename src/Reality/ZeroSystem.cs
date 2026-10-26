@@ -201,6 +201,6 @@ public class ZeroSystem : ModSystem
         sapi.Logger.Notification("[backrooms] zero: {0} lost their grip in Level {1} and came to in Level {2}",
             NameOf(entity), WorldLayout.DisplayNumber(from), WorldLayout.DisplayNumber(to));
         if (entity is EntityPlayer { Player: IServerPlayer woken })
-            woken.SendMessage(Vintagestory.API.Config.GlobalConstants.GeneralChatGroup, Say.T(woken, "zero-blackout"), EnumChatType.Notification);
+            woken.SendMessage(Vintagestory.API.Config.GlobalConstants.GeneralChatGroup, Say.T(woken, "backrooms:zero-blackout"), EnumChatType.Notification);
     }
 }
