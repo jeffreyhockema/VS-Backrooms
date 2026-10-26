@@ -56,6 +56,8 @@ barn-edge Hounds and Clumps ("No Hostile Entities"); Level 94 gets danger 0.4 (C
 
 ### 3.1 Six settings (piece A)
 
+*Note: the progression round shifted the names up one step (Spawns 1 / 2 / 3.5 / 5.5 / 8.5 / 13; see `entity-difficulty.md` 3d). The numbers below are the dial-in's own.*
+
 `worldconfig.json` values `["off", "verylow", "low", "normal", "high", "veryhigh"]`, names Off, Very low, Low, Normal,
 High, Very high; `worldconfig-en.json` and both Spanish files get `worldconfig-backroomsMenace-Verylow` / `-Veryhigh`
 and new descriptions; `GuiDialogCheats.Settings` lists the six. `MenaceSystem.Difficulties`:

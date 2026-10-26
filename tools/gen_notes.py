@@ -144,8 +144,7 @@ Hounds off while it burns. A fire, a chest and some Firesalt halfway along a rou
 — Field Team 9 (five of us)""", gate=visited(2, 3, 4, 5), w="meg"),
     E("m14", "Under the floor", """
 Cast a copper pickaxe and a hammer, and keep nine ingots for an anvil. Then break through any floor: eight blocks of
-concrete, and beneath it the ground of the world we came from. Rock, caves, ore, the better ores deeper. Prospect it as
-you would at home. Level 8 is that ground laid open, ore lying on the cave floors.
+concrete, and beneath it the ground of the world we came from. Rock and caves. Level 8 is that ground laid open, ore lying on the cave floors.
 — A.L., survey""", gate=visited(2, 3, 4, 5), w="al"),
     E("m15", "A quiet floor", """
 Level 4's the calmest place I know before the city. Grey carpet, fridges with fruit and cheese, Almond Water in the

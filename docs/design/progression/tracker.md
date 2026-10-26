@@ -7,12 +7,12 @@ Reports from the pieces of [plan.md](plan.md), newest last.
 Branch `prog/resources`. What changed:
 
 - **Ore only in Level 8.** `UndergroundSystem.Borrow` wraps the borrowed `GenDeposits` column handler: for a chunk column whose middle lies in a macro cell that is not Level 8 it returns without generating deposits (ore, coal, minerals). Rock, caves and Level 8's own strata and ore (`WorldGenerator.Deep`) are untouched; soil deposits were already left out. Generated chunks keep what they have. `BackroomsModSystem.Layout` is a new public getter. `/backrooms ground` now also prints the level of the column (and works for a probe from the console).
-- **Pleather.** `backrooms:pleather` (dark vinyl icon, `gen_breakdown.py`, like `rubble`), 1 to 2 from Level 1 wrecked cars (`Breakdown.Wreck`, C#), Level 4 office chairs (and tipped), Level 5 hotel chairs, wing chairs, sofas and long sofas (`salvage.py`). Armour `backrooms:armor-pleather-head/body/legs` reuses vanilla's leather shapes with a black recolour of vanilla's leather skin; recipes 5/7/6 pleather (no twine), repair recipes in vanilla's `armorrepair` pattern with pleather only. No vanilla recipe wildcard matches `pleather` (grepped `survival/recipes`).
+- **Pleather.** `backrooms:pleather` (dark vinyl icon, `gen_breakdown.py`, like `rubble`), 1 to 2 from Level 1 wrecked cars (`Breakdown.Wreck`, C#), Level 4 office chairs (and tipped), Level 5 hotel chairs, wing chairs, sofas and long sofas (`salvage.py`). Armour `backrooms:armor-pleather-head/body/legs` reuses vanilla's leather shapes with a black recolour of vanilla's leather skin; recipes 5/8/7 pleather (no twine), repair recipes in vanilla's `armorrepair` pattern with pleather only. No vanilla recipe wildcard matches `pleather` (grepped `survival/recipes`).
 - **Rat hides.** Death Rat's `game:hide-raw-small` drop was already 0.5 (every level); now 0.33 mean.
 - **Wanderer** sells `game:gear-temporal` for 3 rusty gears (stock 1). Candles were already sold (1 rusty gear each).
 - **Caches.** Levels 1 to 5: 12 % of a cache's "extra" is a temporal gear (`Rewards.EarlyGearChance`; the Level 1-6 pools had none before, Level 7+ keeps its 6 %). Toolboxes already held only a copper hammer (0.06), chisel (0.04), saw (0.04) and knife (0.08), never a pickaxe: left as they are.
 
-Numbers, pleather against leather (vanilla "sewn" set, per piece): relative protection 0.24 against 0.60, flat reduction 0.24 against 0.60 (40 %), tier 1 both, durability 175 against 700 (a quarter). Cost: 5/7/6 pleather against 7/22/11 leather (+ twine).
+Numbers, pleather against leather (vanilla "sewn" set, per piece): relative protection 0.24 against 0.60, flat reduction 0.24 against 0.60 (40 %), tier 1 both, durability 175 against 700 (a quarter). Cost: 5/8/7 pleather against 7/22/11 leather (+ twine).
 
 Trade price: a Hound's bounty is 0.25 + danger rusty gears (0.4 at Level 1, 0.6 at Level 3, 0.8 at Level 5, doubled for an old one), so 3 gears is about four to five mid-level Hound kills.
 
@@ -163,3 +163,10 @@ Fix (Piece A): the armour half-tier was a no-op because Beyond() rounded up. Bey
 10. Comments: Difficulties note in MenaceSystem, iso-rates "about 7.1 minute mean".
 
 Test: build OK; aitest --only prog,needs,iso: 10/10 passed (prog-ward, prog-zero, prog-zero-safe, prog-armour, prog-speed, needs-selftest 49/49, iso-rates, iso-one-kind), 0 backrooms errors in the log.
+
+### Fix round (text)
+
+- `tools/gen_guide.py` (and the regenerated `en.json`): the entities page's setting bullet has the new numbers (about 7 minutes on Normal, 20 / 11 / 4.5 / 3 for the others, one step busier than before, set-pieces by the square root); the home tagline, Kitty's House text and the rest-at-home lines no longer say Level 0 only; Skin-Stealers outrun a sprint from Level 3; the armour bullet has the hit counts and wear; the half-tier rule is fractional; "What holds you here" gains the variance and any-cause blackout sentences; temporal gear sources rewritten in the salvage, home and tier pages.
+- Lang: `note-m14` no longer claims ore under every floor (also `tools/gen_notes.py`, its source); the Spanish respawn lines (home tagline, tutorial/threshold bullet, Kitty's text, the body paragraph) say you wake where you last slept; both files keep their BOM and comment lines and parse.
+- Docs: GUIDE.md, DEVELOPING.md, CHANGELOG.md, entity-difficulty.md (3d table shifted, 5 and 7 wording), playtest.md section 10, dialin.md 3.1, plan.md 3.1 / 3.4 / 3.6 / 3.7, decisions 14 to 17, and the 5/8/7 pleather cost here.
+- Results: `python tools/gen_guide.py` ran clean, `python tools/gen_notes.py --check` printed "links ok" and exited 0.
