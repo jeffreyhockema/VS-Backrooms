@@ -757,7 +757,7 @@ def t_p7_bacteria_chased(c):
         if e is None:
             return False, "no Level 0 spot"
         d = list(e.dummy)
-        for _ in range(12):
+        for _ in range(9):
             p = _bacteria_pos(c, e)
             if p is None:
                 time.sleep(0.5)
@@ -1507,31 +1507,36 @@ def t_walker_smoke(c):
 
 
 def t_walker_struck(c):
-    """A hunting Hound put on the walker lands blows on it (the strike path reaches a straw dummy), through the armour."""
+    """A blow through the entities' strike path (Strike.Hit) lands on the walker: bare, it takes it whole; in iron it takes less."""
     c.srv.cmd("/backrooms entitylog on")
     time.sleep(1)
-    m, placed = _walker_start(c, "3", "none", 4)
-    if not placed:
-        _walker_stop(c)
-        return False, "the walker was never placed"
-    try:
-        # (Hold it still for the test: it is in its first seconds, still planning; the hound is put down beside it)
-        got = None
-        for attempt in range(4):
-            st = _walker_status(c)
-            if not st:
-                continue
-            m2 = c.srv.mark()
-            c.srv.cmd("/backrooms encounter hound hunt %d %d 6" % (st["x"], st["z"]))
-            got = c.srv.wait(lambda l: re.search(r"walker takes ([\d.]+) from (\w+) \(raw ([\d.]+)\)", l), m2, 45)
-            if got:
-                break
-        st = _walker_status(c)
-    finally:
-        _walker_stop(c)
-    if not got:
-        return False, "no blow landed on the walker in 4 tries"
-    return True, "walker took %s from %s (raw %s); hp now %s" % (got.group(1), got.group(2), got.group(3), st["hp"] if st else "?")
+    out = []
+    ok = True
+    for armour, scale in (("none", 1.0), ("iron", 1.0)):
+        m, placed = _walker_start(c, "3", armour, 3)
+        if not placed:
+            _walker_stop(c)
+            return False, "the walker was never placed"
+        try:
+            takes = []
+            for _ in range(9):
+                m2 = c.srv.mark()
+                c.srv.cmd("/backrooms walker hit 1.5 2")
+                r = c.srv.wait(lambda l: re.search(r"walker takes ([\d.]+) from (\w+) \(raw ([\d.]+)\)", l), m2, 10)
+                if r:
+                    takes.append((float(r.group(1)), float(r.group(3))))
+                time.sleep(0.3)
+        finally:
+            _walker_stop(c)
+        taken, raw = sum(t for t, _ in takes), sum(r for _, r in takes)
+        out.append("%s: %d blows, %.1f of %.1f" % (armour, len(takes), taken, raw))
+        if len(takes) < 8:
+            ok = False
+        elif armour == "none" and abs(taken - raw) > 0.1:
+            ok = False
+        elif armour == "iron" and taken > raw * 0.8:
+            ok = False
+    return ok, "; ".join(out)
 
 
 WALK_CASES = [("walker-smoke", t_walker_smoke), ("walker-struck", t_walker_struck)]

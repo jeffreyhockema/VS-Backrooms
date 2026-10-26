@@ -111,6 +111,17 @@ public partial class MenaceSystem
                     .WithDescription("Stops the walker and removes its dummy")
                     .HandleWith(_ => walker == null ? TextCommandResult.Success("No walker") : TextCommandResult.Success(FinishWalker("stopped")))
                 .EndSubCommand()
+                .BeginSubCommand("hit")
+                    .WithDescription("Dev test: a blow of the given damage and tier (default 6, 2) on the walker through the entities' own strike path (Strike.Hit), armour and all")
+                    .WithArgs(parsers.OptionalDouble("damage"), parsers.OptionalInt("tier"))
+                    .HandleWith(args =>
+                    {
+                        if (walker?.Dummy is not { Alive: true } d) return TextCommandResult.Error("No walker");
+                        float damage = args.Parsers[0].IsMissing ? 6 : (float)(double)args[0];
+                        Strike.Hit(d, d, damage, EnumDamageType.SlashingAttack, args.Parsers[1].IsMissing ? 2 : (int)args[1], 0);
+                        return TextCommandResult.Success(WalkerStatus(walker));
+                    })
+                .EndSubCommand()
                 .BeginSubCommand("status")
                     .WithDescription("Where the walker is and how it has fared")
                     .HandleWith(_ => TextCommandResult.Success(walker == null ? "No walker" : WalkerStatus(walker)))
@@ -355,6 +366,8 @@ public partial class MenaceSystem
         Assess(d, watch);
         w.LastX = d.Pos.X;
         w.LastZ = d.Pos.Z;
+        w.LastLevel = int.MinValue;
+        w.NextPosMs = 0;
         w.Legs.Clear();
         w.LegAt = w.Replans = w.Fails = 0;
         w.Margin = 2;
@@ -367,6 +380,7 @@ public partial class MenaceSystem
         else if (w.Lap == 0) Telemetry.Log("walker", d, "state", "start", "level", WorldLayout.DisplayNumber(w.Level), "armour", w.ArmourName, "set", w.ArmourSet, "light", w.Light, "minutes", (w.EndMs - w.StartMs) / 60000.0);
         else Telemetry.Log("walker", d, "state", "arrive", "lap", w.Lap, "level", WorldLayout.DisplayNumber(watch.Now.Level), "x", d.Pos.X, "z", d.Pos.Z);
         w.Respawn = false;
+        w.Hp = 15;
         WLog("placed #{0} at {1:0} {2:0} {3:0} (Level {4}, lap {5})", d.EntityId, d.Pos.X, d.Pos.Y, d.Pos.Z, WorldLayout.DisplayNumber(watch.Now.Level), w.Lap);
     }
 
@@ -516,12 +530,14 @@ public partial class MenaceSystem
         if (w.Arrived)
         {
             w.Arrived = false;
+            if (watches.TryGetValue(d.EntityId, out Watch here)) Assess(d, here);
             Assessment a = AssessmentOf(d);
             if (w.GateInfo.StartsWith("gate", StringComparison.Ordinal) && a.Level != w.Level) w.Gates++;
             WLog("leg {0} done at {1:0} {2:0} {3:0}, Level {4}", w.LegAt + 1, d.Pos.X, d.Pos.Y, d.Pos.Z, WorldLayout.DisplayNumber(a.Level));
             Telemetry.Log("walker", d, "state", "leg", "leg", w.LegAt, "level", WorldLayout.DisplayNumber(a.Level), "info", w.GateInfo);
             w.LegAt++;
             w.Phase = WalkPhase.Plan;
+            w.PlanSince = now;
             w.Replans = 0;
             return;
         }
@@ -690,6 +706,7 @@ public partial class MenaceSystem
         health.onDamaged += (damage, source) =>
         {
             if (walker != w || damage <= 0 || source == null || source.Type == EnumDamageType.Heal) return damage;
+            if (w.Phase == WalkPhase.Place) return 0; // (between lives: nothing lands)
             Entity by = source.GetCauseEntity();
             float taken = damage;
             // The blow lands on the head, body or legs, and only that piece protects (flat, then relative), as armourtest says
@@ -707,7 +724,7 @@ public partial class MenaceSystem
 
     private void WalkerHurt(Walker w, float taken, string cause, EnumDamageType type, long now, float raw = -1)
     {
-        if (taken <= 0) return;
+        if (taken < 0) return;
         w.Hp -= taken;
         w.LastHurtMs = now;
         w.LastCause = cause;

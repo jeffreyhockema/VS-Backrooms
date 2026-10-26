@@ -46,8 +46,7 @@ def start_walker(srv, level, armour, light, minutes, wait=300):
     srv.cmd("/backrooms telemetry on")
     time.sleep(1)
     srv.cmd("/backrooms walker start %s %s %d %d" % (level, armour, light, minutes))
-    got = srv.wait(lambda l: ("walker placed" in l and l) or ("walker" in l and "could not" in l and l)
-                   or ("[Server Chat]" in l and "Error" in l and "walker" in l.lower() and l), mark, wait)
+    got = srv.wait(lambda l: "walker placed" in l and l, mark, wait)
     return mark, got
 
 
@@ -78,7 +77,7 @@ def write_report(path, level, args, jsonl, status, errors, wall_minutes):
     mine = [e for e in events if e["p"] in me]
     out = []
     out.append("# Walk report: Level %s, armour %s, light %d\n\n" % (level, args.armour, args.light))
-    out.append("- %d real minutes asked, %.1f minutes of server time in the telemetry (%s), mod %s, layout %s\n" % (
+    out.append("- %d real minutes asked, %.1f minutes of wall time including server start-up; telemetry file (%s), mod %s, layout %s\n" % (
         args.minutes, wall_minutes, os.path.basename(jsonl), r["info"].get("mod", "?"), r["info"].get("layout", "?")))
     out.append("- Menace %s, scarcity %s, thirst %s, fatigue %s (the world's settings; a walker has no thirst or fatigue of its own)\n" % (
         r["info"].get("backroomsMenace", "?"), r["info"].get("backroomsScarcity", "?"), r["info"].get("backroomsThirst", "?"), r["info"].get("backroomsFatigue", "?")))

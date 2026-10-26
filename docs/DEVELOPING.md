@@ -318,3 +318,22 @@ A scenario is a YAML (or JSON) list of one-key steps, run in order; every step p
 - `sleep: <ms>`, `note: <text>`.
 
 Server helpers for scenarios are in `src/Cheats/RigCommands.cs`: `/backrooms rig equip <set>` (wears `game:armor-head/body/legs-<set>`), `rig sleep` (puts a hotel bed beside you if none is near and lies down; needs `/backrooms stat rest 0.1` first), `rig face <text>`, `rig walk <blocks>` (moves you along your facing), `rig classdrops <block>` (the scarcity roll at your own position). Scenarios live in `tools/clientrig/scenarios/`: boot, placards, armour, respawn, blackout, scarcity.
+
+## Simulated players
+
+A **walker** is a straw dummy that walks a level like a player would, headless, so a two-hour session per level runs without a client. `src/Entities/MenaceSystem.Walker.cs` (a partial of `MenaceSystem`):
+
+    /backrooms walker start <level> [none|leather|bronze|iron|<set>] [light 0-18, default 7] [minutes, default 120]
+    /backrooms walker status
+    /backrooms walker stop
+
+What it does: puts a dummy at an arrival spot of the level (`FindArrival`), turns `dummies` on (the director directs it as a player) and plans an A* route with the game's pathfinder (30000 nodes): the nearest gate out of the level and 8 blocks through it, or, in a level with no gate, a loop of four waypoints 150 to 300 blocks apart. It walks it at 0.025 (3.5 blocks a second), runs at 0.05 (7) while a Hunt or Search entity is within 12 blocks, hides (sneak, light off) for 20 s when it sees a stalker within 20 (60 s between hides), and opens the loot blocks (supply boxes, crates, ...) within 6 blocks, which refills its hunger clock. At the end of a route it starts again from a new arrival spot (a lap). Its health is its own 15 points: blows arrive through the dummy's health behaviour, are cut by the armour tier's real items exactly as `/backrooms armourtest` models it (head 20 %, body 50 %, legs 30 %, only blunt, slashing and piercing), and at 0 it dies (`death`), then restarts at an arrival spot (`respawn`). Hunger runs down in 40 minutes; starving costs 0.1 health a second; a fed walker heals 0.1 a second after 8 s unhurt. Leather is `sewn-leather`, bronze `chain-tinbronze`, iron `chain-iron`.
+
+Why it moves the dummy itself: the game ticks entity physics only for entities a connected client is near (`PhysicsManager`: `IsTracked == 0` is skipped), so on a headless server neither the path traverser nor any hunter walks. The walker sets the dummy's position along the A* waypoints; the hunters it meets are as headless as ever (they think and strike when a target is in reach, but do not walk), so **encounter rates are the director's, while chases are not simulated**. Its chunk columns are loaded with `keepLoaded` for each leg and released at the next lap.
+
+Telemetry: under `strawdummy#<id>` with the player events' fields (`level`, `band`, `pos`, `damage` with `raw`, `death`, `respawn`, `loot`, `eat`) plus `walker` events (`start`, `leg`, `lap`, `arrive`, `flee`, `hide`, `end`); the log has `[backrooms] walker ...` lines every minute and a `walker final` line.
+
+    VINTAGE_STORY='G:\Games\Vintagestory' bash tools/locked.sh mod walk
+    python tools/aitest/walk.py --mods "$TEMP/backrooms-build/build-walk/Mods" --level 1 [--armour leather] [--light 7] [--minutes 120] [--out review/walk] [--port 42813]
+
+`walk.py` starts a server, runs the walker for the minutes, and writes `<out>/walk-<level>.md` (and the jsonl): minutes by level and band, felt bodies per hour by band, time to first encounter, damage by source before and after armour, deaths, blocks walked, caches opened, the walker's final status line, then the full `tools/telemetry/report.py` report. The harness group `walk` (`run.py --only walk`) has `walker-smoke` (5 minutes in Level 1: placed, 150 blocks or more, no errors) and `walker-struck` (a Hound put on the walker lands blows on it). A walker cannot reproduce a human's choices (see docs/design/testing/tracker.md, "Simulated players").
