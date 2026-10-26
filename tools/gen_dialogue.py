@@ -169,8 +169,8 @@ def build():
 
     trader("creatures", [line("creatures", "Most of what's out there is heard before it's seen. Listen, and don't run: running carries.")], "creaturessite")
     per_site("creaturessite", {
-        "camp": "Here: Hounds and rats in the dark sections, Wretches out toward the edge. When a section's lights go, Hounds come with the dark.",
-        "outpost": "Level 4's quiet! Now and then a Duller in the walls: drink your Almond Water, face it, keep off the walls.",
+        "camp": "Here: Hounds and rats in the dark sections, Wretches out toward the edge. When a section's lights go, Hounds come with the dark. Past Level 2 it changes: from Level 3 on, what hunts you outruns a sprint. Go in wearing sewn leather or better, not pleather.",
+        "outpost": "Level 4's quiet! Now and then a Duller in the walls: drink your Almond Water, face it, keep off the walls. Level 3 is the one to dread: sewn leather halves a blow there, pleather hardly stops one, and copper or bronze lamellar is what you want at Level 8.",
         "road": "Off the Road: Wretches in the dark, and spiders that wait. If one rears up, run that moment, out of the webs.",
         "city": "On the streets nothing starts anything. Don't hurt a Faceling, or they all turn. The subway's another matter.",
         "end": "Nothing much. Smiles in the dark where the floor's fallen in. The quiet is what gets you. Stay too long and you come apart.",
