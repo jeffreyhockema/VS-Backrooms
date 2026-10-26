@@ -1,6 +1,6 @@
 # Backrooms: Survival Story
 
-<!-- The text of the mod database page (https://mods.vintagestory.at/backrooms). moddb-description.html is the same text with the page's styling and images; keep both in sync. To publish, open the page editor's source view (the <> button) and replace everything with moddb-description.html; every style there is inline, and it has no HTML comments because the editor shows them as text. -->
+<!-- Version 0.610.0 follows 0.514.0; 0.515.0 was never published, so the what's-new section covers both. The text of the mod database page (https://mods.vintagestory.at/backrooms). moddb-description.html is the same text with the page's styling and images; keep both in sync. To publish, open the page editor's source view (the <> button) and replace everything with moddb-description.html; every style there is inline, and it has no HTML comments because the editor shows them as text. -->
 
 **Wake up in the Backrooms with nothing.** No tools, no food, no daylight. A folded note in your pocket, two supply boxes beside you, and an endless expanse of mono-yellow rooms under buzzing fluorescent lights. The carpet is damp. The hum never stops. Somewhere down the hall a light is failing.
 
@@ -16,17 +16,17 @@ At a glance: 22 levels, 70+ ways between levels, 25+ things that live here, 1 pl
 
 ---
 
-## What's new in 0.515.0
+## What's new in 0.610.0
 
-- **They see, hear and remember.** Nothing finds you by magic any more. A creature sees you by the light you stand in or carry, within its field of view, and hears running, doors, breaking and fighting. It goes where it last saw or heard you, searches there, and gives up. Get out of sight, go dark and quiet, and you can lose it.
-- **A creature is an event.** The Backrooms are far emptier: in the heart of Levels 0 and 1 something turns up about once in twenty minutes or less, only one kind at a time, and nothing that comes for you appears in plain sight. The sounds are far rarer. Level 0 holds only its dark figures, with Smilers only in the Red Rooms and when the lights fail, and Level 6 only a grin, far off.
-- **Every creature reworked.** Hounds outrun a sprint and charge when you run or turn your back: stare one down and walk away facing it, or shut a door on it. Smilers come to the edge of your light and wait there. Skin-Stealers and Dullers are harder to kill, and a fed Skin-Stealer goes about in clothes, docile. Rats scavenge before they bite. Facelings shove whoever breaks things near them, and Level 3's are hostile. Strike one that fights back and it holds a grudge.
-- **New in the Suburbs, the dens and the caves.** The Watcher, a giant eye, floats over Level 9's streets, and its beam kills; the six-legged eye is now the Strider of the Neighborhood Watch, and other creatures flee it. Deathmoth hives have hearts that bring the females in waves, a dead Clump leaves a remnant that grows a new one unless you burn it, and a loud noise near a spider nest wakes the whole nest.
-- **What they leave.** Deathmoth quills put venom on a spear or arrows, spider silk makes twine, Clump sinew strings a bow and makes rope, and moth jelly draws moths and rats away from you.
+- **Rare, and terrifying.** A creature is an event. In the heart of Level 1 something turns up about every seven minutes on Normal, more toward the edges and deeper down, and nothing that comes for you appears in plain sight. Levels 3, 8 and 9 are busy; Level 4 is calm; Level 10 has nothing hostile at all. Each is reworked, sees, hears and remembers, and has a counter you can learn: stare a Hound down and walk away facing it, or shut a door on it. The Watcher, a giant eye, floats over Level 9's streets, and its beam kills.
+- **The climb.** Each level holds you only up to its ward tier. Stone levels (0 to 2, the Snackrooms, the Hub, Kitty's House) need nothing; the copper levels (3 to 5) want a Copper Anchor, the bronze ones (6, 7, 8, 37, 94) a Bronze Anchor, the iron ones (9 and beyond) an Iron Anchor. Past your tier your stability runs down; at zero the worst hunters come, and a minute later you wake in the level above. Almond Water steadies you, and armour counts for half a tier.
+- **Armour matters, and ore is only in Level 8.** Unarmoured, a catch at Level 3 takes two or three blows. Leather, bronze, iron and the new pleather (car seats and hotel chairs) answer that. The ground under the other levels carries no ore, so copper comes from salvage and tin from the 9th Road.
+- **Thirst and fatigue.** A water bar and a Rest bar. Drink from pools, bottles and fountains; murky water boils clean in a firepit. Sleep in any bed, or craft a carpet bedroll. Blue Almond Water hydrates and makes you drowsy; Green holds the tiredness off for twenty minutes, then it all lands at once.
+- **You wake in your last bed.** Die and you wake in the last bed you slept in, anywhere. What you carried waits in a body where you fell, with its own skull marker on your map; after three days it is bones.
+- **The people.** Wanderers who trade keep to sites with an identity from the lore (crate-pickers in Level 1, M.E.G. outposts, the 9th Road, the city, The End's Junkies, the Hub, Level 3999), each selling what its place has, and have a dialogue of their own with useful talk. Rusty gears are the coin.
+- **Six entity settings.** Off, Very low, Low, Normal, High and Very high.
 
-**Also new.** Building with the Backrooms: 57 recipes for the Backrooms' own walls, floors, roofs and ceilings, asphalt from tar in the barrel, and furniture that comes away whole under a saw (a hammer for the metal pieces); what you build comes back whole when you take it down. Salvage stacks to 64, and better tools get a little more out of pipes, dead lights and wallpaper. Sand lies on the floor of Level 7's sea, and in a few of Level 10's ponds, for mortar. In worlds made from now on, Level 8's 9th Road is lonelier and broken by rockfalls you go round through the caves, Level 0's arched areas have walls of round archways, and Level 3's manholes drop into flooded tunnels that run under the whole level. A Flickering gives you a few seconds' warning before the Hounds, and the first time you get out of Level !, a present waits by the door.
-
-0.514.0, the graphics pass, rebuilt every texture and model the mod adds. The changelog has the details of both.
+**Also new.** Level 94's houses have real windows, doors that open and chimneys, Level 4's windows are whole panes, the Hub is a network of long road tunnels, and you can climb through Level 188's windows. 57 recipes build with the Backrooms' own blocks. The changelog has the details, and 0.514.0's graphics pass.
 
 ---
 
@@ -34,32 +34,39 @@ At a glance: 22 levels, 70+ ways between levels, 25+ things that live here, 1 pl
 
 - **Twenty-two levels**, all fully built: Levels 0 to 11, the Snackrooms, Level 37, Level 94, Level !, Level Fun, The End, the Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows.
 - **More than seventy different ways between them**, from elevators and stairwells to pools, windows and barn walls. Every one leads to a fixed place, saved with the world.
-- **A roster of creatures** that see, hear and remember, each with a counter you can learn.
+- **A roster of creatures**, rare and terrifying, that see, hear and remember, each with a counter you can learn.
 - **Survival progression** from improvised salvage tools through Vintage Story's normal path of flint, fire, pottery, copper and bronze.
 - **Scavenging, mining, farming, livestock and base building** with no overworld, in the Backrooms' own blocks if you like.
 - **A map that shows only what you have seen** and remembers it, with every transition you have used marked; or a map that marks nothing; or no map at all.
 - **Wanderers' notes, an expedition journal**, and a handbook rewritten for the Backrooms.
 - **A fifteen-step tutorial** for the first hour.
-- **World settings** for creature activity, resource scarcity, the map and the size of the levels.
+- **The climb**, with ward tiers and anchors, **thirst and fatigue**, beds, and a body where you fall.
+- **World settings** for creature activity (six steps), resource scarcity, the map, the size of the levels, thirst and fatigue.
 - **Multiplayer:** server and clients compare builds on joining and warn in chat if they differ.
 
 ---
 
 ## Surviving
 
-**You are a scavenger.** Most of what you own is salvage. Supply boxes, crates, furniture, dead light fixtures and ceiling tiles break for scraps. Walls and carpet can be cut for wallpaper strips and carpet fibres. A glass shard is your first blade. With it, the strips and fibres it cuts, and a metal bracket from a dead light, you make a glass shiv, an improvised scraper, twine, a carpet bag and tinder, all from Level 0 alone. The shiv and the scraper cut cleanly, two strips or fibres at a time, as a copper knife or better does; a flint or bone knife tears off one. Salvage stacks to 64.
+**You are a scavenger.** Most of what you own is salvage. Supply boxes, crates, furniture, dead light fixtures and ceiling tiles break for scraps. Walls and carpet can be cut for wallpaper strips and carpet fibres. A glass shard is your first blade. With it, the strips and fibres it cuts, and a metal bracket from a dead light, you make a glass shiv, an improvised scraper, twine, a carpet bag and tinder, all from Level 0 alone. The shiv and the scraper cut cleanly, two strips or fibres at a time, as a copper knife or better does; a flint or bone knife tears off one.
 
 From there the normal Vintage Story path carries on with materials found level by level: flint in the car park and crates of Level 1, copper and lead in the pipe tunnels, clay in the flooded tunnels under the Electrical Station (or, slowly, from the pottery shards of Level 4's potted plants), coal beside the generators and boilers, real ore veins in the caves, sand on the floor of Level 7's sea for mortar, fire clay under Level 94's hills for a bloomery, crops and livestock in the farmland.
 
 **What you can break, and what you cannot.** Drywall, plaster and wallpaper give way to any tool, and give almost nothing. Concrete, brick, tile and every floor slab need a copper pickaxe, like rock, and break into rubble; four rubble make a block of masonry to build with. Pipes, railings and machinery take a pickaxe too and give metal brackets, scrap wire and now and then a copper or lead bit, and the wire melts down in a crucible; a bronze or iron pickaxe gets a little more out of them, and a dead light worked loose with a knife gives more glass than one smashed. Some things never break: each level's roof, the wall between two levels above a certain height, and every door, elevator and vent. Under every floor lie eight blocks of concrete, and under that the ordinary ground Vintage Story lays down in any world, with its strata, caves and ore.
 
-**Home is Level 0.** Die anywhere and you wake in the Lobby; what you carried waits in your body where you fell, as long as it takes (the map marks it). A temporal gear still moves where you wake, but only within Level 0. Everything a home needs has to be brought back from deeper levels: a door, a chest, fire, seeds, soil. Crops grow under the ceiling lights, watered from a flooded room or a bucket.
+**Home is Level 0, or your bed.** Die and you wake in the last bed you slept in (in Level 0 only if you have slept in none); what you carried waits in a body where you fell, and the map marks it. A temporal gear moves where you wake, but only within the level. Everything a home needs has to be brought back from deeper levels: a door, a chest, fire, seeds, soil. Crops grow under the ceiling lights, watered from a flooded room or a bucket.
 
-**Thirst and sleep.** Water is a bar of its own, and it runs down as food does. Clean pools refill you, puddles can sicken you, and the sea is salt; carry the water home in bottles, or boil the murky ones clean in a firepit. Sleep is a need as well. About an hour awake you can lie down; stay up much longer and the Backrooms come for you. Any bed will do, and a carpet bedroll can be made from carpet and wallpaper. A night's sleep outside a safe place can draw something to your bed.
+**Thirst and sleep.** Water is a bar of its own, and it runs down as food does. Clean pools refill you, puddles can sicken you, and the sea is salt; carry the water home in bottles, or boil the murky ones clean in a firepit. Sleep is a need as well. About an hour awake you can lie down; stay up much longer and the Backrooms come for you. Any bed will do, and a carpet bedroll can be made from carpet and wallpaper. A night's sleep outside a safe place can draw something to your bed. Blue Almond Water hydrates and makes you drowsy; Green holds the tiredness off for twenty minutes, and then it all lands at once.
 
 **Food is scarce.** Most supply boxes and crates were gone through long ago. A box with its lid torn open or a crate already emptied holds no food, and you can spot one from across the room, so you learn where to look: the deeper the level, the less has been picked over, and the rooms behind locked doors and the hearts of dens were never touched. Hunger runs at 125%. Heat makes it worse, and the cold levels want clothes.
 
 **Reality Stability.** Vintage Story's temporal stability, with the Backrooms' own geography. Each area has its own stability. Where it is low the gear turns backwards and yours drains; when yours is low the world distorts. Almond Water restores it. Once in every thirty in-game hours or so the lights fail for a few hours in a Reality Shift, and stability drains everywhere.
+
+**The climb.** Each level holds you only up to its ward tier. Stone levels (0 to 2, the Snackrooms, the Hub, Kitty's House) need nothing; copper levels (3 to 5) want a Copper Anchor, bronze ones (6, 7, 8, 37, 94) a Bronze Anchor, iron ones (9 to 11 and the far places) an Iron Anchor. Anchors are worn at the neck and never wear out; each is made from the one below with a temporal gear, which you find, buy for rusty gears or take from a prize counter. Past your tier your stability runs down (about ten minutes one tier beyond, three two beyond); at zero the level's worst hunters come, and a minute at zero wakes you in the level above with everything you carried. Armour counts as half a tier, and matters: unarmoured, a catch at Level 3 takes two or three blows. Leather, bronze, iron and pleather (from car seats and hotel chairs) answer that. Ore is only in Level 8: copper otherwise comes from salvage and tin from the 9th Road.
+
+**The people.** Wanderers who trade keep to a site with an identity from the lore: crate-pickers round a barrel in Level 1, an M.E.G. outpost in Level 4, a camp on the 9th Road, a street vendor in the city, the Junkies of The End (who trade only with someone carrying Memory Juice), the Hub, and the campers of Level 3999. Each sells what its place has, talks usefully (what lives there, water, safe sleep, the ways out), and takes rusty gears.
+
+**Death leaves a body.** What you carried is put in a corpse that never despawns, in your own skin and clothes, with its own skull marker on your map. Right-click searches it, sneak and right-click takes everything; after three days it is bones.
 
 **Building with the Backrooms.** What you break comes back only as scraps, but a base can still look like the Backrooms: drywall, yellow, manila and cream wallpaper, Level 0's carpet and the office and hotel carpets, ceiling tiles, hotel panelling, concrete, Level 3's brick, tile and cinder block, house floorboards and bathroom tiles are all crafted from plaster, mortar, rubble, strips, fibres, planks and bricks, and come back whole when you take them down. Desks, tables, chairs, sofas, wardrobes, shelves and cubicle partitions come away whole under a saw.
 
@@ -100,27 +107,27 @@ Elevators, stairwells, hotel doors, steel tunnel doors, vents, barn walls that a
 - **Level 1, the Habitable Zone.** A car park that never ends: columns, bay letters, abandoned cars, puddles, dead security cameras, stair cores under lit EXIT signs. Maintenance halls of tight corridors, workshops, pump rooms and wanderers' camps.
 - **Level 2, Pipe Dreams.** Hot, dark utility tunnels with real 3D pipework overhead and along the walls, hissing joints, steel doors that are mostly locked, and a maze of service tunnels with far too many dead ends.
 - **Level 3, the Electrical Station.** Brick and glazed-tile halls crowded with transformers, switchgear, generators and cable trays. Numbered electrical rooms, boiler rooms, flooded tunnels running under the level from its manholes, and the hushed Sanctums.
-- **Level 4, the Abandoned Office.** One quiet office floor: grey carpet with the marks of desks long gone, cubicle farms stripped to partitions, break rooms, server rooms, elevator lobbies, and windows blacked out or behind blinds; the few clear ones show only cold, dark glass.
+- **Level 4, the Abandoned Office.** One quiet office floor: grey carpet with the marks of desks long gone, cubicle farms stripped to partitions, break rooms, server rooms, elevator lobbies, and tall panes of window, blacked out, behind blinds or clear; the clear ones show only cold, dark glass. Calm.
 - **Level 5, the Terror Hotel.** A 1930s grand hotel, oddly well kept. Double-loaded corridors of numbered rooms, grand lobbies under chandeliers, dining halls laid for a dinner nobody comes to, the Beverly Room, and boiler halls behind STAFF ONLY doors.
 - **Level 6, Lights Out.** Darkness that light barely reaches, and nothing found living in it. Trunk corridors, blind mazes, chalk arrows left by earlier explorers, and, rare and deep in, a stairwell down with the sound of waves at its foot.
 - **Level 6.1, the Snackrooms.** Rare sealed food courts hidden inside Level 6: bright, safe, and stocked. Getting in is unreliable, and so is getting out, unless you know the right diner in the city.
 - **Level 7, Thalassophobia.** An endless sea under a concrete ceiling far overhead, deeper and darker the further out you swim. Entry rooms hanging from the ceiling, islands with old camps, a sandy floor, sunken rooms with air still trapped under their roofs, and something that circles divers.
 - **Level 8, Cave Systems.** Real Vintage Story geology: strata, ore veins, flooded pockets, stalactites, and strata that are wrong. The lamplit 9th Road wanders through it, broken now and then by a rockfall that only the dark caves get you round, with a camp few and far between; off the road, giant spiders keep their cobwebbed nests.
 - **Level 9, the Suburbs.** A neighbourhood at midnight that never gets light. Houses to search room by room, with doors that open and stairs you can climb, fenced backyards, cars at the kerb, foxes and raccoons in the long grass, and the Neighborhood Watch: Striders walking the streets and Watchers floating over them.
-- **Level 10, Bumper Crop.** Farmland under an overcast sky: vast fields of spelt, rye and flax, farmsteads with barns and silos, chickens, pigs, sheep and goats round the farmyards and meadows, ponds in the hollows. One of the safest places there is. The soil is thin, though.
+- **Level 10, Bumper Crop.** Farmland under an overcast sky: vast fields of spelt, rye and flax, farmsteads with barns and silos, chickens, pigs, sheep and goats round the farmyards and meadows, ponds in the hollows. Nothing hostile lives here. The soil is thin, though.
 - **Level 11, the Endless City.** Not a ring: fifty kilometres out, behind a wall of black glass that nobody walks through. You noclip in through a barn wall in Level 10. Downtown towers, apartment blocks over stores, rowhouse streets, a subway under every avenue, parks, churches, a museum, and the best-connected set of ways out in the Backrooms.
 
 **Beyond the rings**
 
 - **Level 37, Sublimity (the Poolrooms).** White mosaic tile and lukewarm water in rotundas, natatoriums, serpentine halls and tunnels of arches, lit by glare from slits you can never see behind. The water heals. Far out lies the Sanguine Reservoir.
-- **Level 94, Motion.** A stop-motion picture that never stops being made: striped green hills with one cream house on each, winding roads, water towers of Almond Water, a glass mountain with a castle on top. Safe by day. Be indoors by dusk.
+- **Level 94, Motion.** A stop-motion picture that never stops being made: striped green hills with one cream house on each, with real windows, doors that open and chimneys, winding roads, water towers of Almond Water, a glass mountain with a castle on top. Safe by day. Be indoors by dusk.
 - **Level !, Run For Your Life!** One hospital hallway lit by red EXIT signs, an alarm, and a horde behind you. Sprinting is the only answer, and the first time you get out, a present waits by the door.
 - **Level Fun =).** An endless party on a ship that cannot be this big. Cake, balloons, bunting, and guests who are not people.
 - **The End.** A library that looks like the way out, and is the cruellest trap in the Backrooms.
-- **The Hub.** A crossroads of road tunnels lined with carved doors to almost every level. Three open for anyone; the rest want a Level Key, and the pink one wants something cute. Cold, silent and safe.
+- **The Hub.** A network of long road tunnels with round bends, lined with carved doors to almost every level. Three open for anyone; the rest want a Level Key, and the pink one wants something cute. Cold, silent and safe.
 - **Level 974, Kitty's House.** A small pink house with no outside, where something three metres tall takes you if you carry something cute.
 - **Level 3999, the Neon Paradise.** An endless arcade-mall of tickets and prizes, safe at its heart and dark at its fringe.
-- **Level 188, the Courtyard of Windows.** A hotel courtyard walled in by 160 windows. Some of them show other places. Some of them beckon.
+- **Level 188, the Courtyard of Windows.** A hotel courtyard walled in by 160 windows. Some of them show other places, and you can climb through. Some of them beckon.
 
 ---
 
@@ -132,7 +139,7 @@ What lives in the Backrooms is there to be heard and glimpsed far more than foug
 
 How bold they come depends on where you are and what you do: the dark, low stability, noise, and how long you have gone without rest all bring them closer. Dens scattered through the dangerous levels are as bad as any edge, and chalk crosses on the walls warn you off. The heart of Level 0 holds only sounds; further out walks a dark figure, and Smilers come only in the Red Rooms and when the lights fail. A minute by a fire, beside a wanderer, asleep in a bed, in a safe place or at home counts as rest.
 
-Every creature has a counter you earn as you go; the handbook page *What Lives Here* has the details. Out towards the edge of Level 1 there are also Flickerings, when the lights fail, Hounds are heard far off, and then they come and hunt you until the lights return; and the Screaming of the rats. Wanderers who trade keep camps along the way, and nothing hostile closes in beside them. Firesalt, found in coal heaps or made from salt and sulfur, burns for half a day and, like a lit firepit, keeps Hounds, Skin-Stealers, rats, moths, Giant Spiders, Partygoers and the wooden and paper Animations eight blocks off; its light holds Smilers too.
+Every creature has a counter you earn as you go; the handbook page *What Lives Here* has the details. Out towards the edge of Level 1 there are also Flickerings, when the lights fail, Hounds are heard far off, and then they come and hunt you until the lights return; and the Screaming of the rats. Wanderers who trade keep to their sites, and nothing hostile closes in beside them. Firesalt, found in coal heaps or made from salt and sulfur, burns for half a day and, like a lit firepit, keeps Hounds, Skin-Stealers, rats, moths, Giant Spiders, Partygoers and the wooden and paper Animations eight blocks off; its light holds Smilers too.
 
 **The roster: who does what, and what keeps it back**
 
@@ -176,7 +183,7 @@ Every creature has a counter you earn as you go; the handbook page *What Lives H
 
 World settings under *Survival challenges* when creating a world:
 
-- **Backrooms entities:** Off (sounds only), Low (rarer, half damage), Normal, High (more often, harder hits).
+- **Backrooms entities:** Off (sounds only), Very low (the rarest), Low, Normal, High and Very high (more hunters, more at once, harder hits).
 - **Backrooms scarcity:** Plentiful (twice the food), Normal, Sparse (about 60%), Scarce (about a third).
 - **Backrooms map:** Seen areas; Seen areas, no waypoints; None (no map or minimap at all).
 
@@ -190,7 +197,7 @@ Under *World generation*:
 ## Notes
 
 - Built for Vintage Story 1.22 (.NET 10).
-- Version 0.515.0 is a full, playable survival game, and still in active development: expect balance changes and refinements between versions.
+- Version 0.610.0 is a full, playable survival game, and still in active development: expect balance changes and refinements between versions.
 - In English and Spanish; the Spanish translation is by NeoB.
 - The levels are generated as you walk; the first chunks of a new region take a moment.
 - Lore follows the Backrooms Wikidot wiki first, the Fandom and Miraheze wikis second, with the original photo posted in 2019 and Kane Pixels' films for Level 0's look and feel.
