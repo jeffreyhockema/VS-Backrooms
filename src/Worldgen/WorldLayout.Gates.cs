@@ -323,7 +323,7 @@ public sealed partial class WorldLayout
     /// <summary>A placard on the free floor nearest a spot that has a plain wall beside it, facing away from the wall (Level 6's chambers).</summary>
     private static void PlaceBesideNearestWall(Builder b, int sx, int sz, byte kind)
     {
-        for (int r = 1; r <= 9; r++)
+        for (int r = 1; r <= 6; r++)
             for (int dz = -r; dz <= r; dz++)
                 for (int dx = -r; dx <= r; dx++)
                 {

@@ -170,3 +170,45 @@ Test: build OK; aitest --only prog,needs,iso: 10/10 passed (prog-ward, prog-zero
 - Lang: `note-m14` no longer claims ore under every floor (also `tools/gen_notes.py`, its source); the Spanish respawn lines (home tagline, tutorial/threshold bullet, Kitty's text, the body paragraph) say you wake where you last slept; both files keep their BOM and comment lines and parse.
 - Docs: GUIDE.md, DEVELOPING.md, CHANGELOG.md, entity-difficulty.md (3d table shifted, 5 and 7 wording), playtest.md section 10, dialin.md 3.1, plan.md 3.1 / 3.4 / 3.6 / 3.7, decisions 14 to 17, and the 5/8/7 pleather cost here.
 - Results: `python tools/gen_guide.py` ran clean, `python tools/gen_notes.py --check` printed "links ok" and exited 0.
+
+### Revision: piece B (world)
+
+Branch `prog2/world`. Layout version 12 (`WorldLayout.CurrentVersion`); every change is `Version >= 12` (worldgen) or `layout.Version >= 12` (the runtime half in `ThresholdNetwork`).
+
+**Layout hashes** (`mapgen 1 6 layouthash`, `LAYOUT_VERSION=n`): versions 1, 9, 10 and 11 files byte-identical before and after (far places hash v1 `fc427d581f53ea30`, v9 and v10 `29d61d9ae6a6664e`, v11 `8808cf5b8452ad21`). Version 12 differs in Levels 1, 4, 6, 7 and 9 (and Level 1/4 of the far-place lines), as expected.
+
+**Shortcut counts** (new mapgen mode `shortcuts`: the cells round the first 12 arrivals of each level, radius 4, same cells in both versions; layout-made features as clusters of tiles; steel doors and elevators by the network's own rolls). Version 11 -> 12, seed 12345 / seed 777:
+
+| Threshold | v11 | v12 |
+|---|---|---|
+| L0 pit rooms | 118 / 184 | 0 / 20 |
+| L1 doors to The End | 9 / 9 | 0 / 6 |
+| L1 EXIT doors to Level ! | 1 / 1 | 0 / 1 |
+| L1 stair cores to Fun | 12 / 11 | 4 / 1 |
+| L2 steel doors open to L3 | 44 / 73 | 15 / 15 |
+| L2 steel doors open to L4 | 34 / 60 | 6 / 23 |
+| L2 steel doors open to L1 (kept) | 30 / 38 | 30 / 38 |
+| L3 elevators to L4 / L5 | 80+48 / 90+48 | 16+10 / 19+12 |
+| L4 elevators to L5 (L3 kept) | 88 / 72 (24 / 38) | 22 / 18 (24 / 38) |
+| L6 stairwells down | 6 / 2 | 0 / 0 |
+| L6 tripwires | 203 / 206 | 42 / 44 |
+| L7 stone circles / cave mouths / tiled seabeds | 12 / 57 / 13, 3 / 103 / 5 | 3 / 11 / 2, 0 / 26 / 2 |
+| L9 field gates | 2 / 2 | 0 / 0 |
+| L9 pool dives | 7 / 7 | 0 / 3 |
+| L10 barn walls | 0 / 0 in the window | (barns are rare; 45 % -> 11.25 % by the roll) |
+
+The small windows leave some rows at 0. Rule-only (constants in `ThresholdNetwork`, version 12 keeps a quarter): Level 1 stairs down to Level 2 25 % -> 6.25 %, up to Level 4 (flights and stairs to nowhere) 15 % -> 3.75 %, Level 4 hungry vending 6 % -> 1.5 %, Level 5 staff stairs to Level 6 (the rest loop to another staff stair on Level 5) and hotel POOL doors (the rest locked) a quarter. Elevators of Levels 3 and 4 that went later now stay in their own level. The `links` mode runs clean for both versions (v12 sample: `links_v12`).
+
+"Keep at least one way down per 10x10-cell block": not coded as a rule; the ring-boundary gates (one per stretch per 10x10 block, untouched, 234 of 236 with placards within 4000 blocks of spawn on seed 12345) are the way down in every block, as the plan's parenthesis says.
+
+**Scarcity by class**: `ScarcitySystem.ClassScale(level)`: x1 for classes 0-2, 0.7 class 3, 0.5 class 4, 0.35 class 5; exempt Level 94, the Hub, 974 (the Snackrooms are in Level 6, class 1). `Roster.LoreClass` now calls `WorldLayout.SurvivalClass` (one table, usable by worldgen). Applied: `BlockBehaviorClassScale`, added at RunGame to the 138 block types of ours with food among their drops (drops rolled as `Block.GetDrops` does, food entries' multiplier x scale, the rest as before; also Level Fun's supply shelves, which roll their own drops); dispensers' one-time stock and refill (`BlockEntityDispenser.RollStock`, min 1 kept for refilling ones). Checked headless with the new `/backrooms classdrops <block> <x> <z> [rolls]`: a supply box at Level 2 (class 3): Almond Water 0.575 per roll (0.8 x 0.7), canned beans 0.21 (0.3 x 0.7), crackers 0.355 (0.5 x 0.7), non-food (carpet fibre 1.17, glass shards 0.49, brackets 0.14) unchanged; the other levels' results are in the harness section below.
+
+**Placards**: prop `Props.MegPlacard` (229), block `backrooms:megplacard-<class>-<level>-<side>` (kinds `3-2`, `4-3`, `4-7`, `5-9`: a plate prints its level, so the kind carries it; generated in `tools/gen_lore.py` `megplacard()`, 128 x 96 textures, text "M.E.G. - LEVEL n - CLASS c" (the font has no em dash) and the coordinator's second lines), walk-through, flush to the wall, facing the approach. Boundary gates (`OpenGates`/`PlaceGatePlacard`, behind the level's own lining wall where it is two thick), Level 2 steel doors that open onto Level 3, Level 4 and 5 elevators that go to Level 3, Level 6 stairwells down (nearest wall in the chamber). Pits, tripwires, seabed, circles and caves: no wall, no plate. English names plus both es files.
+
+**Note spot**: `WorldLayout.FirstClassGate()` (the plated gate out of Level 1 or 2 nearest the spawn) puts a loose folded note beside it in `NoteSpots` (`Version >= 12`). The loose-note kinds are door/way/cache/refuge/folded, so the spot is a folded note; piece C's `note-gate-class` story entry should be the next rare-track entry gated to it. Missing key: nothing breaks.
+
+**Chat line on crossing**: `src/Entities/CrossingSystem.cs`, once per level per player per session, into a higher class of 3 or more (not Level 94); lang `crossing-class3/4/5` and `crossing-armour-none/light/metal` in en and both es files (class 3 "hostile, dark, light and a weapon", classes 4 and 5 "faster than you and hits harder", class 5 adds the M.E.G. ban). Armour clause by the worn pieces' material (metal keywords vs leather/pleather/linen), not by vanilla tier.
+
+**Checks**: harness `--only iso,p7,felt` on port 42793: 7/7 pass, 0 backrooms error lines (build before the last placard additions; rerun below). Build 0 errors. Reviewer (sonnet, blind): ten findings; fixed: Spanish `block-megplacard-*`, armour clause by material, Level 94 exempt from the chat line, thread-safe `FirstClassGate`, plate search radius 6, Level Fun's shelf thinned. Not changed: Level 4 / Level 11 End doorframes (the plan names only Level 1's), Level 3 has no locked doors to quarter.
+
+**Could not check**: the plates and the chat line in a client (model look, text legibility, facing of the plate on every wall side; the chat line needs a player: logic only), the armour clause with real worn items, a copy of an existing world (version-1 to 11 worlds are untouched by construction and by the hashes), the Level 6 stairwell plate position by eye.

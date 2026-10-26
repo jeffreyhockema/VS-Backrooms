@@ -264,7 +264,17 @@ public sealed partial class WorldLayout
     /// </summary>
     public (int X, int Z, int From)? FirstClassGate()
     {
-        if (firstClassGateKnown) return firstClassGate;
+        lock (firstClassGateLock)
+        {
+            if (!firstClassGateKnown) { firstClassGate = FindFirstClassGate(); firstClassGateKnown = true; }
+            return firstClassGate;
+        }
+    }
+
+    private readonly object firstClassGateLock = new();
+
+    private (int X, int Z, int From)? FindFirstClassGate()
+    {
         long best = long.MaxValue;
         int sx = spawnMacroX * MacroSize, sz = spawnMacroZ * MacroSize;
         (int, int, int)? found = null;
@@ -275,9 +285,7 @@ public sealed partial class WorldLayout
                 long d = (long)(x - sx) * (x - sx) + (long)(z - sz) * (z - sz);
                 if (d < best) { best = d; found = (x, z, from); }
             }
-        firstClassGate = found;
-        firstClassGateKnown = true;
-        return firstClassGate;
+        return found;
     }
 
     private static bool FreeFloor(in Tile t) =>

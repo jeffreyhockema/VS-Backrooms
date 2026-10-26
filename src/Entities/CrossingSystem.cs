@@ -25,8 +25,8 @@ public class CrossingSystem : ModSystem
     private readonly Dictionary<string, int> lastLevel = new();
     private readonly Dictionary<string, HashSet<int>> told = new();
 
-    /// <summary>The best piece of armour a player wears counts as metal from this protection tier (the leathers and pleather are tier 1).</summary>
-    private const int MetalTier = 2;
+    /// <summary>What a piece of armour is made of, by its code, for "metal" (vanilla's tiers do not follow the material: linen is tier 2, copper lamellar tier 1).</summary>
+    private static readonly string[] Metals = { "copper", "bronze", "iron", "steel", "silver", "gold", "brass", "lead", "chain", "plate", "lamellar", "scale", "brigandine" };
 
     public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Server;
 
@@ -69,7 +69,8 @@ public class CrossingSystem : ModSystem
     public static bool Speaks(int from, int to)
     {
         int now = WorldLayout.SurvivalClass(to);
-        return now >= 3 && now > WorldLayout.SurvivalClass(from);
+        // (Level 94 is deliberately abundant and gentle by day: no line for it, as with the scarcity)
+        return now >= 3 && now > WorldLayout.SurvivalClass(from) && to != WorldLayout.Motion;
     }
 
     /// <summary>True the first time this player is told about this level.</summary>
@@ -90,14 +91,17 @@ public class CrossingSystem : ModSystem
     /// <summary>What the player wears, by its best piece: <c>none</c>, <c>light</c> (leather, pleather) or <c>metal</c>.</summary>
     public static string ArmourTier(IServerPlayer player)
     {
-        int best = -1;
+        bool any = false, metal = false;
         if (player.InventoryManager.GetOwnInventory(GlobalConstants.characterInvClassName) is { } worn)
             foreach (ItemSlot slot in worn)
             {
                 if (slot?.Itemstack?.Collectible is not { } thing) continue;
                 ProtectionModifiers p = thing.GetCollectibleInterface<IWearableStatsSupplier>()?.GetProtectionModifiers(slot);
-                if (p != null && (p.FlatDamageReduction > 0 || p.RelativeProtection > 0)) best = Math.Max(best, p.ProtectionTier);
+                if (p == null || p.FlatDamageReduction <= 0 && p.RelativeProtection <= 0) continue;
+                any = true;
+                string path = thing.Code.Path;
+                if (Metals.Any(m => path.Contains(m))) metal = true;
             }
-        return best < 0 ? "none" : best >= MetalTier ? "metal" : "light";
+        return !any ? "none" : metal ? "metal" : "light";
     }
 }

@@ -697,6 +697,7 @@
 	"block-l6deco-deadswitch-*": "Apagador",
 	"block-concretecam-camera-*": "Cámara de Seguridad",
 	"block-whitecam-camera-*": "Cámara de Seguridad",
+	"block-megplacard-*": "Placa de los M.E.G.",
 	"block-trafficsign-*": "Señal de Tráfico",
 	"block-tunneldoor-*": "Puerta de Acero",
 	"block-trolley-*": "Carrito de Plataforma",
