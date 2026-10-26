@@ -1550,7 +1550,7 @@ def main():
             fns = dict(CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + PROG_CASES)
             fns["dummies-smoke"] = smoke
             for i, (name, ok0) in enumerate(list(results)):
-                if ok0 is not False or name not in fns:
+                if ok0 is not False or not fns.get(name):
                     continue
                 for attempt in range(1, a.rerun_failed + 1):
                     t0 = time.time()

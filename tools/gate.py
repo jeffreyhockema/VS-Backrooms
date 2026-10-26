@@ -74,7 +74,7 @@ def run(cmd, cwd=REPO, timeout=1800, env=None, **kw):
     e["PYTHONIOENCODING"] = "utf-8"
     if env:
         e.update(env)
-    p = subprocess.Popen(cmd, cwd=cwd, env=e, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, **kw)
+    p = subprocess.Popen(cmd, cwd=cwd, env=e, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, **kw)
     try:
         out, _ = p.communicate(timeout=timeout)
     except subprocess.TimeoutExpired:
@@ -126,7 +126,8 @@ class Srv:
         self.p = subprocess.Popen([exe, "--dataPath", data, "--addModPath", MODS.replace("\\", "/"), "--withconfig", cfg],
                                   stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=0)
         self.pid = self.p.pid
-        threading.Thread(target=self._read, daemon=True).start()
+        self.reader = threading.Thread(target=self._read, daemon=True)
+        self.reader.start()
 
     def _read(self):
         for raw in iter(self.p.stdout.readline, b""):
@@ -183,6 +184,7 @@ class Srv:
             self.p.wait(30)
         except Exception:  # noqa: BLE001
             pass
+        self.reader.join(15)
 
     def logs(self):
         """Everything the server wrote: its console plus the log files in the data folder."""
@@ -296,7 +298,7 @@ def stage_lang(st, ctx):
 
 def stage_build(st, ctx):
     code, out = run([bash(), "tools/locked.sh", "mod", TAG], timeout=1800)
-    errs = [l for l in out.splitlines() if re.search(r"\berror\b", l) and "0 Error" not in l]
+    errs = [l for l in out.splitlines() if re.search(r"\berror [A-Za-z]+\d+:", l)]
     for l in out.strip().splitlines()[-6:]:
         st.note(l[:220])
     dll = os.path.join(MODS, "backroomsss", "Backrooms.dll")
@@ -304,8 +306,7 @@ def stage_build(st, ctx):
         ctx["build_ok"] = False
         return FAIL, "build failed (exit %d)%s" % (code, ": " + errs[0].strip()[:160] if errs else "")
     ctx["build_ok"] = True
-    warn = re.search(r"(\d+) Warning", out)
-    return PASS, "Debug build, 0 errors, %s warning(s)" % (warn.group(1) if warn else "?")
+    return PASS, "Debug build, 0 errors"
 
 
 def _need_build(ctx):
@@ -354,7 +355,7 @@ def stage_oldworld(st, ctx):
     if any(n in save.lower() for n in NEVER_TOUCH):
         return FAIL, "refusing to use a live save: " + save
     if not os.path.exists(save):
-        return SKIP, "old-world save not found: " + save
+        return SKIP, "OLD-WORLD SAVE NOT FOUND, stage not run (set oldWorldSave in tools/gate.config.json): " + save
     data = _datadir(ctx, "oldworld")
     os.makedirs(os.path.join(data, "Saves"), exist_ok=True)
     shutil.copyfile(save, os.path.join(data, "Saves", "default.vcdbs"))
@@ -367,7 +368,7 @@ def stage_oldworld(st, ctx):
         time.sleep(10)
         mark = len(srv.snapshot())
         srv.cmd("/backrooms ratecheck 1 heartland 20")
-        rate = srv.wait_line(lambda l: re.search(r"per hour|bodies|/h", l, re.I) and not l.startswith(">>>"), mark, 60)
+        rate = srv.wait_line(lambda l: re.search(r"ratecheck Level .*bodies", l), mark, 60)
         time.sleep(2)
     finally:
         srv.stop()
@@ -445,6 +446,9 @@ HIGHER_BETTER = (" found", "walkable")
 
 def compare_metrics(kind, cur, base, problems, notes):
     """FAIL-worthy: a bad count above its baseline (or a found count below). Improvements are noted."""
+    for k in base:
+        if k not in cur and k != "walkable":
+            problems.append("%s %s: missing from the output (baseline %s)" % (kind, k, base[k]))
     for k, v in cur.items():
         if k not in base:
             continue
@@ -513,6 +517,9 @@ def stage_mapgen(st, ctx):
                 problems.append("validatelevel %d exit %d" % (lv, c))
                 continue
             m = parse_validate(o, lv)
+            if m["walkable"] <= 0:
+                problems.append("validatelevel %d: no walkable tiles parsed (output format changed?)" % lv)
+                continue
             for k, v in m.items():
                 tot[k] = tot.get(k, 0) + v
             key = "L%d" % lv
@@ -536,6 +543,8 @@ def stage_mapgen(st, ctx):
                 recorded.append("validate spawn")
             else:
                 compare_metrics("validate (spawn window)", m, bv[key], problems, notes)
+                if ctx["update"]:
+                    bv[key] = {k: v for k, v in m.items() if k != "walkable"}
 
         # deep
         c, o = deep_f.result()
@@ -548,6 +557,8 @@ def stage_mapgen(st, ctx):
             recorded.append("deep")
         else:
             compare_metrics("deep", m, bd, problems, notes)
+            if ctx["update"]:
+                new_base["deep"] = m
         st.note("deep (24 cells): %d figures" % len(m))
 
         # links
@@ -564,8 +575,8 @@ def stage_mapgen(st, ctx):
                     lbad.append(l.strip()[:160])
             if re.match(r"(ways back|damaged data):", l) and not l.rstrip().endswith("ok"):
                 lbad.append(l.strip()[:160])
-        if not re.search(r"save/load: read", o):
-            lbad.append("no save/load line")
+        if not re.search(r"save/load: read", o) or not re.search(r"\d+ of \d+ links", o) or not re.search(r"^ways back:", o, re.M):
+            lbad.append("expected lines missing (output format changed?)")
         if lbad:
             problems.append("links: " + lbad[0])
         st.note("links: " + ("clean" if not lbad else "; ".join(lbad[:3])))
@@ -593,7 +604,7 @@ def stage_mapgen(st, ctx):
         st.note("recorded as new baselines in tools/gate.hashes.json: " + ", ".join(recorded))
     for p in problems:
         st.note("PROBLEM " + p)
-    if new_base != base:
+    if new_base != base and not problems:
         with open(BASELINES, "w", encoding="utf-8", newline="\n") as f:
             json.dump(new_base, f, indent=2, sort_keys=True)
             f.write("\n")
@@ -617,8 +628,8 @@ def stage_harness(st, ctx):
     else:
         args += ["--groups", "all", "--rerun-failed", "1"]
     env = dict(os.environ, VINTAGE_STORY=vs_dir(), PYTHONIOENCODING="utf-8")
-    p = subprocess.Popen(args, cwd=REPO, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    lines = []
+    p = subprocess.Popen(args, cwd=REPO, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    lines, timed_out = [], False
     ctx["child"] = p
     try:
         def pump():
@@ -633,7 +644,7 @@ def stage_harness(st, ctx):
             p.wait(timeout=ctx["harness_timeout"])
         except subprocess.TimeoutExpired:
             kill_tree(p.pid)
-            return FAIL, "harness timed out after %d min" % (ctx["harness_timeout"] // 60)
+            timed_out = True
         t.join(10)
     finally:
         ctx["child"] = None
@@ -643,10 +654,12 @@ def stage_harness(st, ctx):
     log = os.path.join(REPO, "review", "gate", ctx["stamp"] + "-harness.txt")
     with open(log, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
+    if timed_out:
+        return FAIL, "harness timed out after %d min (output in %s)" % (ctx["harness_timeout"] // 60, log)
     # The summary block at the end: "  PASS name" / "  FAIL name" / "  SKIPPED name"
     summary = {}
     for l in lines:
-        r = re.match(r"^  (PASS|FAIL|SKIPPED)\s+(\S+)$", l)
+        r = re.match(r"^  (PASS|FAIL|SKIPPED)\s+(\S.*?)\s*$", l)
         if r:
             summary[r.group(2)] = r.group(1)
     reran = [l.split(" ", 1)[1] for l in lines if l.startswith("RERUN-PASSED ")]
@@ -682,8 +695,9 @@ def stage_zip(st, ctx):
     rel = os.path.join(REPO, "bin", "Release")
     if os.path.isdir(rel):
         shutil.rmtree(rel, ignore_errors=True)
-    for z in glob.glob(os.path.join(REPO, "bin", "backroomsss_*.zip")):
-        os.remove(z)
+    old = os.path.join(REPO, "bin", "backroomsss_%s.zip" % csproj_version())
+    if os.path.exists(old):
+        os.remove(old)
     code, out = run([bash(), "tools/locked.sh", "release", TAG], timeout=1800)
     for l in out.strip().splitlines()[-4:]:
         st.note(l[:220])
@@ -761,7 +775,7 @@ def main():
     if not (0 < a.port_base < 65530 - 3):
         sys.exit("bad --port-base")
 
-    stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M")
+    stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     os.makedirs(WORK, exist_ok=True)
     ctx = {"stamp": stamp, "work": tempfile.mkdtemp(prefix=stamp + "-", dir=WORK), "port": a.port_base, "baselines": load_json(BASELINES, {}),
            "update": a.update_baselines, "smoke_only": a.fast, "harness_timeout": a.harness_timeout}
