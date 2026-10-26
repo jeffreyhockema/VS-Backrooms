@@ -75,7 +75,7 @@ levels:
   - level: "0"
     id: 0
     name: "The Lobby"
-    note: "the Bacteria only; Smilers only in the Red Rooms and a Reality Shift's dark (entity decision 10)"
+    note: "the Bacteria only (nothing below Approach); Smilers only in the Red Rooms and a Reality Shift's dark (entity decision 10)"
     lore_class: 1
     solitude: 1.5
     danger: 0.0
@@ -110,10 +110,10 @@ levels:
     class_scale: 1
     bands:
       heartland:
-        bodies: {target: 8.6, tol_pct: 25, basis: decision}   # M: 8.5/h (glimpse 8.0, stalk 0.4, hunt 0.1); decision 19 and the shift: a creature about every 7 minutes in Level 1's heart on Normal
-        sounds: {target: 28.2, tol_pct: 25, basis: decision}   # M: 28.6/h; dial-in 3.1 shifted: 7.5 x 1.3 x 1.2 / 5.5 = 2.1 min
+        bodies: {target: 8.6, tol_pct: 25, basis: decision}   # M: 8.5/h (glimpse 8.0, stalk 0.4, hunt 0.1); decision 19 and the shift (3d): a creature about every 7 minutes in Level 1's heart on Normal
+        sounds: {target: 28.2, tol_pct: 25, basis: decision}   # M: 28.6/h; entity-difficulty 3d: 7.5 x 1.3 x 1.2 / 5.5 = 2.1 min
       approach:
-        bodies: {target: 23.5, tol_pct: 25, basis: decision}   # M: 23.5/h (glimpse 10.3, stalk 10.3, hunt 2.9); dial-in 3.1 shifted to Normal 5.5: 2.55 min at the edge
+        bodies: {target: 23.5, tol_pct: 25, basis: decision}   # M: 23.5/h (glimpse 10.3, stalk 10.3, hunt 2.9); entity-difficulty 3d: 2.55 min at the edge
         sounds: {target: 57.7, tol_pct: 25, basis: measurement}   # M: 57.7/h
         felt: {target: 18.3, tol_pct: 45, basis: measurement}   # M: three dummies, 11.8 / 20.7 / 22.5/h
       threshold:
@@ -166,7 +166,7 @@ levels:
     class_scale: 0.5
     bands:
       heartland:
-        bodies: {target: 22.6, tol_pct: 25, basis: decision}   # M: 24.8/h (glimpse 20.9, stalk 3.2, hunt 0.6); dial-in 3.1 shifted: 4.2 min x 3.5/5.5
+        bodies: {target: 24.8, tol_pct: 25, basis: measurement}   # M: 24.8/h (glimpse 20.9, stalk 3.2, hunt 0.6)
         sounds: {target: 81.9, tol_pct: 25, basis: measurement}   # M: 81.9/h
       approach:
         bodies: {target: 69.4, tol_pct: 25, basis: measurement}   # M: 69.4/h (glimpse 27.3, stalk 30.7, hunt 11.4)
@@ -194,7 +194,7 @@ levels:
     class_scale: 1
     bands:
       approach:
-        bodies: {target: 18.5, tol_pct: 25, basis: decision}   # M: 20.3/h (glimpse 7.7, stalk 9.1, hunt 3.5); dial-in 3.1 shifted: 5.1 min x 3.5/5.5
+        bodies: {target: 20.3, tol_pct: 25, basis: measurement}   # M: 20.3/h (glimpse 7.7, stalk 9.1, hunt 3.5)
         sounds: {target: 48.8, tol_pct: 25, basis: measurement}   # M: 48.8/h
       threshold:
         bodies: {target: 61.7, tol_pct: 25, basis: measurement}   # M: 61.7/h (glimpse 14.4, stalk 21.1, hunt 26.2)
@@ -237,7 +237,7 @@ levels:
   - level: "6"
     id: 6
     name: "Lights Out"
-    note: "eyes only: Smiler glimpses that never approach (entity decision 5)"
+    note: "eyes only: Smiler glimpses that never approach (entity decision 5), so no armour rows; heartland rolls cannot put anything down (nothing below Approach)"
     lore_class: 1
     solitude: 3.0
     danger: 0.6
@@ -245,7 +245,7 @@ levels:
     class_scale: 1
     bands:
       heartland:
-        bodies: {target: 3.4, tol_pct: 37, basis: decision}   # M: 3.6/h (glimpse 2.8, stalk 0.7, hunt 0.1); dial-in 3.1 shifted: 28 min x 3.5/5.5
+        bodies: {target: 3.6, tol_pct: 36, basis: measurement}   # M: 3.6/h (glimpse 2.8, stalk 0.7, hunt 0.1)
         sounds: {target: 12.4, tol_pct: 25, basis: measurement}   # M: 12.4/h
       approach:
         bodies: {target: 10.2, tol_pct: 25, basis: measurement}   # M: 10.2/h (glimpse 3.5, stalk 4.7, hunt 2.0)
@@ -253,14 +253,7 @@ levels:
       threshold:
         bodies: {target: 30.8, tol_pct: 25, basis: measurement}   # M: 30.8/h (glimpse 6.8, stalk 10.6, hunt 13.3)
         sounds: {target: 52.8, tol_pct: 25, basis: measurement}   # M: 52.8/h
-    armour:                # basis: measurement; the level's commonest hunter by roster weight
-      hunter: smiler
-      hit_unarmoured: 9.2
-      sets:
-        none: {hit: 9.16, blows: 1.6}
-        sewn-leather: {hit: 4.74, blows: 3.2}
-        lamellar-tinbronze: {hit: 4.37, blows: 3.4}
-        plate-iron: {hit: 1.49, blows: 10.1}
+    armour: {}              # no hunter that hits; danger is read off a Smiler's armourtest line
   - level: "7"
     id: 7
     name: "Thalassophobia"
@@ -332,7 +325,7 @@ levels:
         sounds: {target: 262.0, tol_pct: 25, basis: measurement}   # M: 262.0/h
         felt: {target: 89.7, tol_pct: 55, basis: measurement}   # M: three dummies, 94.0 / 80.1 / 94.9/h
       threshold:
-        bodies: {target: 315.8, tol_pct: 25, basis: decision}   # M: 332.1/h (glimpse 67.7, stalk 111.8, hunt 152.6); dial-in 3.1 shifted: 0.3 min x 3.5/5.5
+        bodies: {target: 332.1, tol_pct: 25, basis: measurement}   # M: 332.1/h (glimpse 67.7, stalk 111.8, hunt 152.6)
         sounds: {target: 569.3, tol_pct: 25, basis: measurement}   # M: 569.3/h
     armour:                # basis: measurement; the level's commonest hunter by roster weight
       hunter: hound
@@ -383,7 +376,7 @@ levels:
   - level: "37"
     id: 12
     name: "Poolrooms"
-    note: "devoid of life; only Smiler glimpses in the dark"
+    note: "devoid of life; only Smiler glimpses and stalks in the dark: no hunter, no armour rows"
     lore_class: 0
     solitude: 4.0
     danger: 0.5
@@ -399,29 +392,19 @@ levels:
       threshold:
         bodies: {target: 23.0, tol_pct: 25, basis: measurement}   # M: 23.0/h (glimpse 5.4, stalk 7.8, hunt 9.8)
         sounds: {target: 39.2, tol_pct: 25, basis: measurement}   # M: 39.2/h
-    armour:                # basis: measurement; the level's commonest hunter by roster weight
-      hunter: smiler
-      hit_unarmoured: 8.3
-      sets:
-        none: {hit: 8.30, blows: 1.8}
-        sewn-leather: {hit: 3.93, blows: 3.8}
-        lamellar-tinbronze: {hit: 3.11, blows: 4.8}
-        plate-iron: {hit: 0.85, blows: 17.6}
+    armour: {}              # no hunter that hits; danger is read off a Smiler's armourtest line
   - level: "94"
     id: 13
     name: "Motion"
-    note: "rats by day, the Animations by night (decisions 25 and 27)"
+    note: "rats by day, the Animations by night (decisions 25 and 27); the level has no heartland band, so no heartland row"
     lore_class: 3
     solitude: 0.6
     danger: 0.4
     max_kinds: 2
     class_scale: 1
     bands:
-      heartland:
-        bodies: {target: 18.4, tol_pct: 25, basis: measurement}   # M: 18.4/h (glimpse 15.1, stalk 2.7, hunt 0.5)
-        sounds: {target: 61.2, tol_pct: 25, basis: measurement}   # M: 61.2/h
       approach:
-        bodies: {target: 45.8, tol_pct: 25, basis: decision}   # M: 51.7/h (glimpse 19.4, stalk 23.7, hunt 8.6); dial-in 3.1 shifted: 2.1 min x 3.5/5.5
+        bodies: {target: 51.7, tol_pct: 25, basis: measurement}   # M: 51.7/h (glimpse 19.4, stalk 23.7, hunt 8.6)
         sounds: {target: 124.5, tol_pct: 25, basis: measurement}   # M: 124.5/h
       threshold:
         bodies: {target: 166.3, tol_pct: 25, basis: measurement}   # M: 166.3/h (glimpse 39.1, stalk 57.8, hunt 69.4)
@@ -457,7 +440,7 @@ levels:
   - level: "end"
     id: 16
     name: "The End"
-    note: "devoid of life; a grin in the dark"
+    note: "devoid of life; a grin in the dark (glimpses only): no armour rows"
     lore_class: 0
     solitude: 4.0
     danger: 0.4
@@ -473,14 +456,7 @@ levels:
       threshold:
         bodies: {target: 22.9, tol_pct: 25, basis: measurement}   # M: 22.9/h (glimpse 5.6, stalk 7.9, hunt 9.4)
         sounds: {target: 39.3, tol_pct: 25, basis: measurement}   # M: 39.3/h
-    armour:                # basis: measurement; the level's commonest hunter by roster weight
-      hunter: smiler
-      hit_unarmoured: 7.8
-      sets:
-        none: {hit: 7.79, blows: 1.9}
-        sewn-leather: {hit: 3.68, blows: 4.1}
-        lamellar-tinbronze: {hit: 2.92, blows: 5.1}
-        plate-iron: {hit: 0.79, blows: 19.0}
+    armour: {}              # no hunter that hits; danger is read off a Smiler's armourtest line
   - level: "hub"
     id: 17
     name: "The Hub"
@@ -506,19 +482,13 @@ levels:
   - level: "3999"
     id: 19
     name: "Level 3999"
-    note: "only its Neon Blackout has anything in it"
+    note: "only its Neon Blackout (the Threshold band) has anything in it: no heartland or approach rows"
     lore_class: 1
     solitude: 0.8
     danger: 0.8
     max_kinds: 1
     class_scale: 1
     bands:
-      heartland:
-        bodies: {target: 14.3, tol_pct: 25, basis: measurement}   # M: 14.3/h (glimpse 10.1, stalk 3.4, hunt 0.8)
-        sounds: {target: 46.5, tol_pct: 25, basis: measurement}   # M: 46.5/h
-      approach:
-        bodies: {target: 38.6, tol_pct: 25, basis: measurement}   # M: 38.6/h (glimpse 13.0, stalk 16.7, hunt 9.0)
-        sounds: {target: 95.4, tol_pct: 25, basis: measurement}   # M: 95.4/h
       threshold:
         bodies: {target: 121.6, tol_pct: 25, basis: measurement}   # M: 121.6/h (glimpse 24.7, stalk 40.9, hunt 56.0)
         sounds: {target: 190.8, tol_pct: 25, basis: measurement}   # M: 190.8/h
@@ -550,13 +520,13 @@ levels:
         bodies: {target: 95.4, tol_pct: 25, basis: measurement}   # M: 95.4/h (glimpse 22.5, stalk 32.9, hunt 40.0)
         sounds: {target: 162.1, tol_pct: 25, basis: measurement}   # M: 162.1/h
     armour:                # basis: measurement; the level's commonest hunter by roster weight
-      hunter: smiler
-      hit_unarmoured: 8.0
+      hunter: skinstealer
+      hit_unarmoured: 14.2
       sets:
-        none: {hit: 8.04, blows: 1.9}
-        sewn-leather: {hit: 3.80, blows: 3.9}
-        lamellar-tinbronze: {hit: 3.01, blows: 5.0}
-        plate-iron: {hit: 0.82, blows: 18.2}
+        none: {hit: 14.21, blows: 1.1}
+        sewn-leather: {hit: 6.24, blows: 2.4}
+        lamellar-tinbronze: {hit: 3.80, blows: 3.9}
+        plate-iron: {hit: 1.23, blows: 12.2}
   - level: "!"
     id: 14
     name: "Level !"

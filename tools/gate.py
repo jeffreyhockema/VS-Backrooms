@@ -722,7 +722,7 @@ def _anchor_check(a, rows):
     """(ok, spec text, measured text) for one lethality anchor, from the entity's armourtest rows at that level."""
     r, none = rows.get(a["set"]), rows.get("none")
     if r is None or none is None:
-        return None, a["why"], "no armourtest line"
+        return False, a["why"], "no armourtest line"
     if "blows_ceil" in a:
         lo, hi = a["blows_ceil"]
         b = math.ceil(float(r["blows"]) - 1e-9) if r["blows"] != "never" else 999
@@ -792,6 +792,7 @@ def stage_scorecard(st, ctx):
         time.sleep(10)
 
         # ---- rolls: bodies and sounds per band, the kinds allowed
+        setting_checked = False
         for lv in levels:
             lid, key = lv["id"], lv["level"]
             kinds_seen = None
@@ -800,6 +801,9 @@ def stage_scorecard(st, ctx):
                 if r is None:
                     card.add("rolls", "L%s %s" % (key, band), "a ratecheck reply", "none", False)
                     continue
+                if not setting_checked:
+                    setting_checked = True
+                    card.add("settings", "the scorecard server's setting", spec.get("setting", "normal"), r["setting"], r["setting"] == spec.get("setting", "normal"))
                 for what in ("bodies", "sounds"):
                     want = row[what]
                     ok = abs(r[what] - want["target"]) <= want["target"] * want["tol_pct"] / 100.0
@@ -814,6 +818,9 @@ def stage_scorecard(st, ctx):
                     card.add("rolls", "L%s %s %s/h [%s]" % (key, band, what, want["basis"]), "%.1f +-%d%%" % (want["target"], want["tol_pct"]), "%.1f%s" % (got, note), ok)
                 if kinds_seen is None:
                     kinds_seen = r["kinds_allowed"]
+            if kinds_seen is None:
+                r0 = _ratecheck(srv, lid, "approach", 1)
+                kinds_seen = r0["kinds_allowed"] if r0 else None
             if kinds_seen is not None:
                 card.add("class", "L%s kinds allowed at once [decision]" % key, str(lv["max_kinds"]), str(kinds_seen), kinds_seen == lv["max_kinds"])
 
@@ -848,6 +855,7 @@ def stage_scorecard(st, ctx):
 
         # ---- felt rates and the class scale, with a dummy in the level (only where placement is reliable)
         reliable = {"1", "2", "3", "5", "8", "9"}
+        placed_any = False
         for lv in levels:
             key = lv["level"]
             felt = ((lv.get("bands") or {}).get("approach") or {}).get("felt")
@@ -870,6 +878,7 @@ def stage_scorecard(st, ctx):
                 if spot is None:
                     break
                 spots.append(spot)
+                placed_any = True
                 if felt:
                     f = _felt(srv, "approach")
                     if f is not None:
@@ -886,7 +895,7 @@ def stage_scorecard(st, ctx):
                 lines = _ask(srv, "/backrooms classdrops supplybox %d %d 20" % (x, z), lambda l: SCALE_RE.search(l) or "No such block" in l, 30, 0.2)
                 g = next((SCALE_RE.search(l) for l in lines or [] if SCALE_RE.search(l)), None)
                 if g:
-                    card.add("scarcity", "L%s class scale [decision]" % key, "%g" % lv["class_scale"], g.group(2), abs(float(g.group(2)) - lv["class_scale"]) < 1e-6)
+                    card.add("scarcity", "L%s class scale [decision]" % key, "%g" % lv["class_scale"], g.group(2), abs(float(g.group(2).replace(",", ".")) - lv["class_scale"]) < 1e-6)
                 else:
                     card.add("scarcity", "L%s class scale" % key, "%g" % lv["class_scale"], "no reply", None)
             elif lv.get("class_scale") is not None:
@@ -897,6 +906,8 @@ def stage_scorecard(st, ctx):
                 card.add("scarcity", "L%s class scale" % key, "%g" % lv["class_scale"], "", None)
         srv.cmd("/backrooms dummy remove")
         time.sleep(1)
+        if not placed_any:
+            card.add("felt", "dummy placement (any reliable level)", "at least one dummy placed", "none placed", False)
     finally:
         srv.stop()
     for p in scan_log(srv.logs())[0]:

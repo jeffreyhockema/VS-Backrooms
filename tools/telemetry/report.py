@@ -271,8 +271,13 @@ def _band_word(b):
 
 
 def _levels_of(events):
+    """(see below) Survival play only: spawns and blows while a player is in another game mode are skipped by the caller."""
+    return _levels_of2(events)
+
+
+def _levels_of2(events):
     """Yields (event, level, band) with the level and band the event's player was in (from level/band/pos/join events), or (event, None, None)."""
-    where = {}
+    where, nonsurv = {}, set()
     for e in events:
         p, ev = e["p"], e["ev"]
         if ev == "level":
@@ -283,7 +288,14 @@ def _levels_of(events):
             where[p] = (str(e["level"]).lower(), _band_word(e["band"]))
         elif ev in ("leave", "death"):
             where.pop(p, None)
+        if ev in ("pos", "join") and "gm" in e:
+            if e["gm"] != "Survival":
+                nonsurv.add(p)
+            else:
+                nonsurv.discard(p)
         lv, band = where.get(p, (None, None))
+        if p in nonsurv:
+            lv, band = None, None
         yield e, lv, band
 
 
@@ -308,7 +320,7 @@ def compare(spec_path, sessions):
     but never over. The spec is for Normal; each session's own setting (the session event) scales the wanted rate by its
     spawns multiplier over Normal's. Blows taken: damage events from an entity, per level and armour worn (none, light,
     metal), the mean damage against the spec's unarmoured / sewn leather / bronze lamellar hit for the level's commonest
-    hunter (a loose check: the real mix of hunters is wider, so +-50 %), scaled by the setting's damage multiplier.
+    hunter (a coarse check only: the real mix of hunters is wider, and the armour tier is the best piece worn, not a full set, so +-50 %), scaled by the setting's damage multiplier. Known biases: the thirst and fatigue multiplier on the director is not applied, the felt lower bound ignores the one-kind rule, caps and hard gap, and the ceiling is the rolls at typical menace.
     Counting noise (two sigma) is allowed before a row reads low or high.
     """
     try:
@@ -353,7 +365,7 @@ def compare(spec_path, sessions):
                 continue
             if e["ev"] == "spawn" and e.get("kind") in ("Glimpse", "Stalk", "Hunt") and not e.get("setpiece") and "#" not in e["p"]:
                 count[(lv, _band_word(e.get("band", band)))] += 1
-            elif e["ev"] == "damage" and str(e.get("src", "")).islower() and e.get("amount", 0) > 0:
+            elif e["ev"] == "damage" and str(e.get("src", "")).islower() and e.get("src") != "player" and e.get("amount", 0) > 0:
                 tier = e.get("armour", "none")
                 arm = (by_level.get(lv) or {}).get("armour") or {}
                 sets = arm.get("sets") or {}
