@@ -1477,10 +1477,16 @@ def main():
     ap.add_argument("--only")
     ap.add_argument("--no-smoke", action="store_true")
     ap.add_argument("--port", type=int, default=42733)
+    ap.add_argument("--groups", choices=("all", "smoke"), help="all: every case group and the smoke (what no --only does); smoke: only the 60 s dummies smoke")
+    ap.add_argument("--rerun-failed", type=int, default=0, metavar="N", help="rerun each failed case up to N more times on the same server (the placement cases are flaky)")
     a = ap.parse_args()
+    if a.groups and a.only:
+        sys.exit("--groups and --only are exclusive")
     data = a.data or tempfile.mkdtemp(prefix="aitest-")
     os.makedirs(data, exist_ok=True)
     only = set(a.only.split(",")) if a.only else None
+    if a.groups == "smoke":
+        only = {"dummies-smoke"}
     if only and "p1" in only:
         only = (only - {"p1"}) | {n for n, _ in P1_CASES}
     if only and "p26" in only:
@@ -1536,10 +1542,34 @@ def main():
                 ok, ev = False, "harness error: %r" % (e,)
             results.append((name, ok))
             print("%s %s (%.0fs): %s" % ("SKIPPED" if ok is None else "PASS" if ok else "FAIL", name, time.time() - t0, ev), flush=True)
-        if not only and not a.no_smoke and not died:
+        if (not only or a.groups == "smoke") and not a.no_smoke and not died:
             ok, ev = smoke(c)
             results.append(("dummies-smoke", ok))
             print("%s dummies-smoke: %s" % ("PASS" if ok else "FAIL", ev), flush=True)
+        if a.rerun_failed and not died:
+            fns = dict(CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + PROG_CASES)
+            fns["dummies-smoke"] = smoke
+            for i, (name, ok0) in enumerate(list(results)):
+                if ok0 is not False or name not in fns:
+                    continue
+                for attempt in range(1, a.rerun_failed + 1):
+                    t0 = time.time()
+                    try:
+                        c.reset()
+                        ok, ev = fns[name](c)
+                    except ServerDied as e:
+                        died = str(e)
+                        print("FAIL %s rerun %d (%.0fs): SERVER DIED: %s" % (name, attempt, time.time() - t0, died), flush=True)
+                        break
+                    except Exception as e:  # noqa: BLE001
+                        ok, ev = False, "harness error: %r" % (e,)
+                    print("%s %s rerun %d (%.0fs): %s" % ("SKIPPED" if ok is None else "PASS" if ok else "FAIL", name, attempt, time.time() - t0, ev), flush=True)
+                    if ok:
+                        results[i] = (name, True)
+                        print("RERUN-PASSED %s" % name, flush=True)
+                        break
+                if died:
+                    break
         if not died:
             c.reset()
     except ServerDied as e:

@@ -3,6 +3,7 @@
 #
 #   tools/locked.sh mod <tag>            build the mod to $SCRATCH/build-<tag>/Mods/backroomsss/
 #   tools/locked.sh mapgen <tag>         build the layout harness to $SCRATCH/mapgen-<tag>/ (run $SCRATCH/mapgen-<tag>/mapgen.exe)
+#   tools/locked.sh release <tag>        Release build (writes bin/Release and the zip in bin/; the gate's zip stage)
 #   tools/locked.sh run <command...>     run any command (e.g. python tools/gen_fun.py) under the asset lock
 #
 # Builds share obj/, so they take one lock; asset generators (which rewrite lang/en.json and other shared
@@ -34,8 +35,11 @@ case "$mode" in
     mapgen)
         tag="${1:?tag}"; take build
         cd "$REPO" && "$DOTNET" build tools/mapgen -c Release -nologo -clp:NoSummary -o "$SCRATCH/mapgen-$tag" ;;
+    release)
+        take build
+        cd "$REPO" && "$DOTNET" build Backrooms.csproj -c Release -nologo -clp:NoSummary ;;
     run)
         take assets
         cd "$REPO" && "$@" ;;
-    *) echo "usage: tools/locked.sh mod|mapgen <tag> | run <command...>" >&2; exit 2 ;;
+    *) echo "usage: tools/locked.sh mod|mapgen|release <tag> | run <command...>" >&2; exit 2 ;;
 esac
