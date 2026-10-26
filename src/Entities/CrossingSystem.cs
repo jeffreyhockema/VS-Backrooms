@@ -84,6 +84,7 @@ public class CrossingSystem : ModSystem
     {
         int cls = WorldLayout.SurvivalClass(level);
         string number = WorldLayout.DisplayNumber(level);
+        PlayTelemetry.Telemetry.Cross(player.Entity, level);
         string line = Say.T(player, "backrooms:crossing-class" + cls, number) + " " + Say.T(player, "backrooms:crossing-armour-" + ArmourTier(player));
         player.SendMessage(GlobalConstants.GeneralChatGroup, line, EnumChatType.Notification);
     }

@@ -305,6 +305,7 @@ public partial class NoteSystem : ModSystem
                 Hours = request.Hours, Kind = kind,
             };
             log.Add(read, res.Pick);
+            PlayTelemetry.Telemetry.Note(player.Entity, res.Entry.Key);
             dirty = true;
             request.ReadId = read.Id;
             SendLog(player);
