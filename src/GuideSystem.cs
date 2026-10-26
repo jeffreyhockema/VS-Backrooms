@@ -34,7 +34,7 @@ public class GuideSystem : ModSystem
     /// <summary>Pages of our own, in the order they follow the Progression Guide.</summary>
     private static readonly string[] Added =
     {
-        "home", "finding", "salvage", "food", "rest", "holds", "levels", "farlevels", "thresholds", "entities",
+        "home", "finding", "salvage", "food", "rest", "levels", "farlevels", "thresholds", "entities",
     };
 
     /// <summary>Vanilla pages kept, with a Backrooms preface: page code to the preface's lang key suffix.</summary>

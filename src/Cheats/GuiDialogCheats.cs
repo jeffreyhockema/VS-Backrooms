@@ -181,7 +181,6 @@ public class GuiDialogCheats : GuiDialog
             B("Drowsy", "/backrooms stat rest 0.58", "Rest to 58% (25 awake hours): drowsy, you can sleep now"),
             B("Dead tired", "/backrooms stat rest 0", "Rest to 0 (60 awake hours): dead on your feet, the screen dims and blinks"),
             B("Needs", "/backrooms needs", "Says your hydration, awake hours and band, caffeine, sickness, bed and the director's multiplier"),
-            B("Ward tier", "/backrooms ward", "Says your ward tier (anchor worn, armour set), what tier this level asks, how many tiers beyond you it is, and how long a full stability bar lasts here"),
         }, 4);
 
         y = Heading(c, "Time out (raises menace until you rest)", y + RowGap);

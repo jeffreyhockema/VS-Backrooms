@@ -13,9 +13,9 @@ namespace Backrooms.Reality;
 /// <summary>
 /// What happens when a wanderer's Reality Stability reaches zero (docs/design/progression/plan.md 3.4, decisions 3 and 12).
 ///
-/// At zero in a level beyond their ward tier, the level's worst hunter comes at once (<see cref="MenaceSystem.SendWorstHunter"/>).
+/// At zero, where the Backrooms are not at rest (not the Safe band, and not Level 0, the Hub, Level 974 or the Snackrooms), the level's worst hunter comes at once (<see cref="MenaceSystem.SendWorstHunter"/>).
 /// After <see cref="ZeroSeconds"/> at zero, from any cause and in any level but 0, the Hub, Level 974 and the Snackrooms, the lights
-/// go for a few seconds and the wanderer wakes at a random place in the previous level (<see cref="WardTiers.WakeLevel"/>): their
+/// go for a few seconds and the wanderer wakes at a random place in the previous level (<see cref="WakeLevel"/>): their
 /// belongings with them, their stability half full, and no thin spot and no way back where they wake.
 ///
 /// Players and the straw dummies of the headless tests (which stand in for them) are treated alike.
@@ -91,7 +91,7 @@ public class ZeroSystem : ModSystem
         if (!states.TryGetValue(entity.EntityId, out State state)) states[entity.EntityId] = state = new State();
         if (state.Dark) return; // (the lights are out; the move is on its way)
         double stability = Senses.Stability(entity);
-        if (stability > Zero || WardTiers.SafePlace(layout, entity.Pos.X, entity.Pos.Z))
+        if (stability > Zero || SafePlace(layout, entity.Pos.X, entity.Pos.Z))
         {
             state.Seconds = 0;
             if (stability > 0.1) state.Hunted = false;
@@ -99,13 +99,9 @@ public class ZeroSystem : ModSystem
         }
         state.Seconds += seconds;
 
-        // The level's worst hunter at once, once for each time the bar runs out (only where the level asks more than they hold)
+        // The level's worst hunter at once, once for each time the bar runs out (SendWorstHunter sends nothing in the Safe band)
         if (!state.Hunted)
-        {
-            int levelTier = WardTiers.LevelTierAt(layout, entity.Pos.X, entity.Pos.Z);
-            if (WardTiers.Beyond(WardTiers.TierOf(entity), levelTier) > 0)
-                state.Hunted = sapi.ModLoader.GetModSystem<MenaceSystem>()?.SendWorstHunter(entity) == true;
-        }
+            state.Hunted = sapi.ModLoader.GetModSystem<MenaceSystem>()?.SendWorstHunter(entity) == true;
 
         if (state.Seconds >= ZeroSeconds) Blackout(entity, state);
     }
@@ -129,6 +125,35 @@ public class ZeroSystem : ModSystem
         }, (int)(BlackoutSeconds * 1000));
     }
 
+    /// <summary>Whether the Backrooms leave someone be here: Level 0, the Hub, Level 974 and the Snackrooms never black out anyone.</summary>
+    private static bool SafePlace(WorldLayout layout, double x, double z)
+    {
+        int mx = WorldLayout.MacroOf((int)Math.Floor(x)), mz = WorldLayout.MacroOf((int)Math.Floor(z));
+        int level = layout.LevelAt(mx, mz);
+        return level is 0 or WorldLayout.Hub or WorldLayout.Level974 || level == 6 && layout.IsSnackrooms(mx, mz);
+    }
+
+    /// <summary>
+    /// Where someone who blacks out wakes: the level before the one they lost their grip in. Rings: one up (Level 1: Level 0).
+    /// The places no ring reaches are woken in the level their way in came from (docs/design/new-levels/LINKS.md): the city from
+    /// 10, the Poolrooms from the hotel (5), Motion from 9, Level ! from the Poolrooms, Fun from 1, the End from 4, 3999
+    /// from the Poolrooms, 188 from 1.
+    /// </summary>
+    public static int WakeLevel(int level) => level switch
+    {
+        11 => 10,
+        WorldLayout.Poolrooms => 5,
+        WorldLayout.Motion => 9,
+        WorldLayout.RunLevel => WorldLayout.Poolrooms,
+        WorldLayout.FunLevel => 1,
+        WorldLayout.TheEnd => 4,
+        WorldLayout.Level3999 => WorldLayout.Poolrooms,
+        WorldLayout.Level188 => 1,
+        <= 0 => 0,
+        > 11 => 0,
+        _ => level - 1,
+    };
+
     private int LevelOf(Entity entity) => layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(entity.Pos.X)), WorldLayout.MacroOf((int)Math.Floor(entity.Pos.Z)));
 
     private static string NameOf(Entity entity) => (entity as EntityPlayer)?.Player?.PlayerName ?? "dummy #" + entity.EntityId;
@@ -141,7 +166,7 @@ public class ZeroSystem : ModSystem
         entity.WatchedAttributes.RemoveAttribute(BlackoutKey);
         entity.WatchedAttributes.MarkPathDirty(BlackoutKey);
         if (!entity.Alive) return;
-        int from = LevelOf(entity), to = WardTiers.WakeLevel(from);
+        int from = LevelOf(entity), to = WakeLevel(from);
         ulong key = (ulong)sapi.World.Rand.NextInt64();
         bool moved;
         if (entity is EntityPlayer { Player: IServerPlayer player })
