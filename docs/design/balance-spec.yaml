@@ -296,7 +296,7 @@ levels:
       approach:
         bodies: {target: 61.2, tol_pct: 25, basis: measurement}   # M: 61.2/h (glimpse 21.1, stalk 26.6, hunt 13.5)
         sounds: {target: 143.7, tol_pct: 25, basis: measurement}   # M: 143.7/h
-        felt: {target: 37.6, tol_pct: 55, basis: measurement}   # M: three dummies, 48.1 / 40.2 / 24.6/h
+        felt: {target: 24.2, tol_pct: 80, basis: measurement}   # M: seven dummies over two nights, 48.1 / 40.2 / 24.6 and 19.0 / 10.4 / 15.1 / 4.5/h: Level 8's caves refuse most spots, so the felt rate swings 10x with the dummy's spot; informational until a better placement rule
       threshold:
         bodies: {target: 193.0, tol_pct: 25, basis: measurement}   # M: 193.0/h (glimpse 40.4, stalk 65.2, hunt 87.5)
         sounds: {target: 310.0, tol_pct: 25, basis: measurement}   # M: 310.0/h
