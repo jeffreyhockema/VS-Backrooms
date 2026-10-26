@@ -154,35 +154,40 @@ gives the numbers to set against what you feel, and `/backrooms feltrate` (below
     they compare with what you felt. Any count of refused spawns (no floor, in sight, den dweller) goes in too.
     `/backrooms menace` shows the refused body rolls for your level.
 
-## 11. Progression
+## 11. Progression (rewritten 2026-10-25 for the revision)
 
-What the climb (`docs/design/progression/plan.md`, section 7) should feel like: the stone levels free, copper a raid
-you can make without an anchor, bronze and iron a trip you prepare for, and a minute at zero a fair price, not a trap.
-Play a fresh world on the build from the merged round, with a Copper Anchor, Bronze Anchor and Iron Anchor made (or
-`/give` for the test, and say so). Note the time on your watch for each step.
+The climb is now the level classes, the M.E.G. placards, the chat line, scarcity by class, rarer shortcuts and the blackout at
+zero (`docs/design/progression/revision.md`, decisions 18 to 24). There is no anchor, no tier and no `/backrooms ward`; if you
+see any of them, say so. Play a fresh world on the merged build. Note the time on your watch for each step, and say which
+settings you played.
 
-1. Raid Level 3 with no anchor, carrying nothing you mind losing. Walk in from Level 2 and dig for clay for about ten
-   minutes. Say when the stability gear started to turn back and when it reached zero. Expect about ten minutes from
-   full, one tier beyond. Then walk out; a raid is not a stay.
-2. The blackout and the wake-up: stay in Level 3 at zero for a full minute (wear nothing, or stand in the open). Expect
-   the walls to go dark for a moment, a sound, and a wake-up in Level 2 at a random spot with your inventory. Check
-   that no thin spot was left where you were, and that your stability is about half. Say how long the minute felt.
-3. The copper anchor: craft it (2 copper ingots, a temporal gear, a candle) and wear it at the neck. Walk into Level 3
-   and stay for half an hour. The gear should stay put; the Level 3 pockets (the flooded tunnels) still drain you as
-   before. Check the `/backrooms ward` line for tier 1.
-4. A Level 3 Hound in leather and in pleather: meet one with each set (or a Hound and then a Skin-Stealer if the Hound
-   is shy). Leather should halve the blow you feel; pleather should help, but less. Say how many blows each took, and
-   whether you could stand two.
-5. The 9th Road tin dash: from the lit road in Level 8, go off it for a short run into the rock with a copper anchor,
-   and back. The road's lamps should keep you steady on it; off it, the drain should be about the one-tier rate. Say
-   where the tin was and how long it took.
-6. Level 8 in bronze: with a Bronze Anchor on, walk off the road for ten minutes and check that the gear holds. Level 8's
-   hunters (Wretches in packs, Giant Spiders) should still be the hard part, with two blows or fewer to kill you
-   unarmoured and a bronze set standing two.
-7. Level 9 in iron: with an Iron Anchor on, walk the Suburbs' streets for ten minutes. Strider and Hounds should run
-   you down faster than a sprint, and the Wretches, Clumps and Dullers should not chase you that way. Note any hunter that
-   outran you that did not.
-8. Wanderer prices: trade with a wanderer for a temporal gear (rusty gears) and for a candle. Note the price asked, and
-   check that no anchor or armour is on offer.
+1. Placards: walk the gate from Level 1 into Level 2, then from Level 2 into Level 3, and read the M.E.G. plate beside each
+   opening ("M.E.G. — LEVEL n — CLASS c" and a second line: Class 3 THINGS HERE OUTRUN YOU, Class 4 ARMOUR OR DON'T). Say
+   whether each plate is on the near-side wall, beside the opening and facing the approach, and whether it matches the class.
+   A gate that is a steel door or a pit should have no plate where there is no wall.
+2. The chat line: cross into Level 2 and then into Level 3 for the first time in a world. Expect one line in chat each time the
+   class goes up, with the armour clause for what you wear. Cross the same gate back and forth: it should not say it again
+   in that level within the session. Say what it said.
+3. The story note: in Level 2, read the wanderers' notes until you reach "Down in flint" (signed Pell, the note about
+   coming back with metal on you). Say where it was found and whether it was the first note into a higher class.
+4. Level 3 in pleather and in leather: meet a Hound (or a Smiler if the Hound is shy) with each set on. Leather should halve
+   the blow you feel; pleather should help, but less. Count the blows each took to kill you, and say whether you could
+   stand two. Then sprint from a Level 3 hunter: say whether it outran you.
+5. Scarcity by class: count the food and Almond Water in one Level 1 crate row (Class 1), one Level 3 cache (Class 4) and one
+   Level 9 house cupboard (Class 5). Expect Level 3 to hold about half of what Level 1 does and Level 9 about a third, on
+   the same world setting; Level 94, the Snackrooms and the Hub should not thin. Say the numbers and the setting used.
+6. Shortcuts: walk the Level 1 stairwells for about twenty flights. Expect about one flight in sixteen down to Level 2 and about
+   one in twenty-five up to Level 4, and fewer than before. Walk back up the same ways: the later-to-earlier ways should still
+   take you home.
+7. Blackout in a pocket: stand in a dark pocket in Level 3 (a flooded tunnel will do) with no light and no way to recover,
+   and hold still for a full minute at zero. Expect the walls to go dark, a sound, and a wake-up a level back (Level 2) at a
+   random spot with your inventory, stability about half, and no thin spot left behind. Then take a Reality Shift at zero in
+   Level 1 and check the same. Say how long the minute felt.
+8. Respawn: sleep in a bed on Level 1, walk down to Level 3 and die there. Expect to wake in that bed, with your things in
+   the body where you fell.
+9. Wanderers: ask "What lives around here?" at the Level 1 camp and the Level 4 outpost. Expect a line on the classes and
+   armour (sewn leather at Level 3, a bronze or copper set before Level 8). Ask the 9th Road the same and note its answer.
+10. Prices: buy a temporal gear from a wanderer for 6 rusty gears, and note whether any anchor or armour is on offer
+    (none should be).
 
-Add anything else you notice about the climb, and say which settings you played.
+Add anything else you notice about the climb.

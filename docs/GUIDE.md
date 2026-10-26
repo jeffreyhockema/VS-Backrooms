@@ -7,7 +7,7 @@ Everything the mod adds, level by level. It is full of spoilers: if you would ra
 Create a new world and pick the **Backrooms: Survival Story** playstyle. It only affects worlds created with that playstyle. Normal worlds are untouched. A world keeps the layout it was made with; this guide describes the newest.
 
 - **Map (M / F6):** the map only shows what you have actually seen. It reveals the area around you along your line of sight, so walls block it. Explored areas are remembered between sessions, so you can find your way back.
-- **Handbook (H):** in a Backrooms world the Guides tab is rewritten for the Backrooms, in the voice of the vanilla guides. The Starter Guide, the Progression Guide and Reality Stability replace their vanilla pages; ten pages are added after the Progression Guide (What holds you here; Home and Expeditions; Finding the Way; Salvage; Food and Water; Rest and Sleep; The Levels: 0 to 11; The Levels: Beyond the Rings; Ways Between Levels; What Lives Here); and every other vanilla guide (knapping, farming, smelting, steelmaking…) keeps its text but opens with an "In the Backrooms" preface saying what is different here. Other worlds keep the vanilla handbook.
+- **Handbook (H):** in a Backrooms world the Guides tab is rewritten for the Backrooms, in the voice of the vanilla guides. The Starter Guide, the Progression Guide and Reality Stability replace their vanilla pages; nine pages are added after the Progression Guide (Home and Expeditions; Finding the Way; Salvage; Food and Water; Rest and Sleep; The Levels: 0 to 11; The Levels: Beyond the Rings; Ways Between Levels; What Lives Here); and every other vanilla guide (knapping, farming, smelting, steelmaking…) keeps its text but opens with an "In the Backrooms" preface saying what is different here. Other worlds keep the vanilla handbook.
 - **Tutorial:** the Tutorials tab holds *Backrooms: First Steps*, a 15-step quick start on the game's own tutorial system (read the pocket note, open the boxes, glass, cutting, shiv, bags, scraper, tinder, torch, map, handbook) that replaces the vanilla First Steps in Backrooms worlds and starts by itself the first time you join one (`.tutorial hud` hides it; your progress is kept on your own computer).
 - **Starting waypoint:** "Where I woke up" marks your starting point.
 - **Your own waypoints:** right-click the map to add one.
@@ -99,34 +99,19 @@ With tinder, sticks and firewood, the vanilla fire starter, firepit and torches 
 
 Breaking things down feeds Vintage Story's own progression, so the usual path from knapped flint to bronze still works. What changes is where each material comes from.
 
-The levels also hold you by tier, so the path is a climb with anchors on the way (see [What holds you here](#what-holds-you-here)):
+The levels are classed from 1 to 5, and the way down is a climb through the classes (see [Classes and placards](#classes-and-placards)):
 
-- **Stone (tier 0):** Levels 0, 1 and 2, the Snackrooms, the Hub and Kitty's House need no anchor. Level 2 has the first copper: machine cabinets, and cable spools and wrecked cars in Level 1.
-- **Copper (tier 1):** Levels 3, 4 and 5 need a Copper Anchor. Clay and coal are in Level 3, which you can raid without one; Level 4's potted plants and Level 5's coal and beds are the copper tier's, with the anchor worn.
-- **Bronze (tier 2):** Levels 6, 7, 8, 37 and 94 need a Bronze Anchor. Tin is in Level 8, a dash off the 9th Road that its lamps make possible at copper tier; the fire clay of Level 94 and the sand of Level 7's sea are bronze tier.
-- **Iron (tier 3):** Levels 9, 10 and 11, The End, Level 188, Level Fun, Level ! and Level 3999 need an Iron Anchor, and iron itself is a bronze-tier road that ends at the fire clay of Level 94.
+- **Class 1:** Levels 0, 1, 4 and 10. Level 1's cable spools and wrecked cars give copper, and Level 4 is the calm place to rest, with fountains of Almond Water.
+- **Class 2:** Levels 5 and 11. Level 5's coal and beds, and the stores of the city.
+- **Class 3:** Levels 2 and 94. Level 2 has the first copper: machine cabinets, and the mains of the pipe tunnels. Level 94's fire clay is the iron road's. Food and Almond Water thin out from here down.
+- **Class 4:** Levels 3, 7 and 8. Clay and coal are in Level 3, a raid for anyone in sewn leather at least. Level 8's ore and tin are a dash off the 9th Road, whose lamps keep your stability up.
+- **Class 5:** Level 9. Houses to strip, but a Hound kills in one blow there.
+- Level 6 is not classed yet.
 
-- **Level 0 (the Lobby):** wanderers' supply boxes hold sticks and dry grass, but flint only about one time in twenty: the Lobby's blades are the glass shiv and the scraper, and fire starts with tinder cut from the wallpaper. Make a fire starter, torches and a firepit. Furniture breaks into planks, sticks and nails, so a chest or a barrel is possible before you own a saw.
-- **Level 1:** where flint is found: the crumbling concrete leaves loose stones and flint about, and crates and shelves hold sticks, tinder, flint, charcoal and brackets. Knap a flint knife and axe. Toolboxes (here, in Level 2's tunnels and Level 9's garages) sometimes hold a copper hammer, chisel, saw or knife.
-- **Levels 2 and 3:** cable drums, pipe stacks, fans and machine cabinets give copper and lead bits. Scrap wire smelts to copper. The flooded tunnel under Level 3 is floored with clay for pottery, moulds and a crucible. The generator rooms have coal heaped beside them, enough to smelt with.
-- **Level 4:** office furniture gives lumber and paper. Fridges hold fruit and cheese. Storerooms sometimes hide a supply box. The dead potted plants give soil and pottery shards: pounded to grit with a stone and worked into soil, about four plants make one blue clay, a slow way to clay for whoever is not ready for Level 3's tunnel.
-- **Level 5:** coal piles in the boiler halls. The beds come away as real beds you can sleep in. Wardrobes and suitcases hold clothes. Dining tables, curio cabinets and service trolleys give silver; luggage carts, ashtray stands and chandeliers give brass (candelabras stand in Level 3's Sanctums and the city).
-- **Level 7:** driftwood is firewood, and the sea has fish.
-- **Level 8:** real ore veins (copper, tin, zinc, bismuth, iron, gold, lead, sulfur, coal…; no silver) run through the strata (Level 8 is the only level with ore in it), with loose ores and stones on the cave floors and clay in places. Limestone and chalk grind to lime, and halite grinds to salt.
-- **Level 9:** houses to strip, wardrobes and dressers of clothes, berry bushes gone wild in the gardens, and wildlife: hares, foxes and raccoons.
-- **Level 10:** crops ready to harvest, livestock in the paddocks, cattails at the ponds and clay in their beds, bee skeps for honey and wax, and an old quern in the barns.
-- **Level 37:** Epsom salt for poultices; somewhere to heal.
-- **Level 94:** the ground can be dug: its turf gives poor soil, the modelling clay under it gives red clay (with a layer of blue clay a little way down), enough for all the pottery you want, and three to seven blocks under the turf run seams of **fire clay** (five deep, over about half the hills): the Backrooms' only fire clay, and so the only road to fire bricks, the bloomery, iron and steel. The bricks are laid in mortar, which needs sand: dive for it on the floor of Level 7's sea (a little lies in some of Level 10's ponds). Iceboxes, Almond Milk and fountains of Almond Water feed you while you are there.
-- **Level !:** a test of food, armour weight and nerve rather than a place to gather: sprinting is the only answer (armour slows you, and the horde with you). Energy Bars give a second wind; caught, you lose everything you carried.
-- **Level Fun:** the richest larder, guarded: cakes, cookies, pumpkins, gifts of wanderers' gear, linen from tablecloths. Poultices and bandages answer the Partygoers' bite; fire keeps them off.
-- **The End:** no food, but the furniture of a home (vanilla chairs, tables, ladders, shelves), paper and books, some of them written in.
-- **The Hub:** cold (6 °C in the Crossroads, 2 °C out where its lamps die, milder in the Tower; so clothes) and foodless, but safe, and Level Keys turn it into a way back to levels you have earned.
-- **Level 974:** a real bed, water from the taps, a fridge and pantry that refill, and Kitty's dresser of clothes.
-- **Level 3999:** a daily income of tickets (once per machine per day, 40 a day) for prizes up to a temporal gear; tray meals; vending machines that turn Almond Water into food; salvage that feeds the crucible (circuit boards to copper, coin mechanisms to brass) and the furnace (plastic), and neon lamps to craft.
-- **Level 188:** clothes, cloth and linen from the rooms; a little breakfast; mostly a junction, read from its windows.
-
-Some limits:
-
+- Level 0 (the Lobby): wanderers' supply boxes hold sticks and dry grass, but flint only about one time in twenty: the Lobby's blades are the glass shiv and the scraper, and fire starts with tinder cut from the wallpaper. Make a fire starter, torches and a firepit. Furniture breaks into planks, sticks and nails, so a chest or a barrel is possible before you own a saw.
+- Level 1: where flint is found: the crumbling concrete leaves loose stones and flint about, and crates and shelves hold sticks, tinder, flint, charcoal and brackets. Knap a flint knife and axe. Toolboxes (here, in Level 2's tunnels and Level 9's garages) sometimes hold a copper hammer, chisel, saw or knife.
+- Levels 2 and 3: cable drums, pipe stacks, fans and machine cabinets give copper and lead bits. Scrap wire smelts to copper. The flooded tunnel under Level 3 is floored with clay for pottery, moulds and a crucible. The generator rooms have coal heaped beside them, enough to smelt with.
+- Level 4: office furniture gives lumber and paper. Fridges hold fruit and cheese. Storerooms sometimes hide a supply box. The dead potted plants give soil and pottery shards: pounded to grit with a stone and worked into soil, about four plants make one blue clay, a slow way to clay for whoever is not ready for Level 3's tunnel.
 - The Level 10 crops grow in old, exhausted farmland, so seeds planted back in it will not grow. Hoe fresh soil instead.
 - Temporal gears are rare: early caches in Levels 1 to 5 give one in about 2 to 4 breaks in a hundred, deep caches under 1; wanderers at five of their sites sell one for 6 rusty gears.
 
@@ -164,25 +149,24 @@ Sitting by a fire or beside a wanderer keeps the things back (see [Home and expe
 
 ### Reality Stability
 
-The gear on the HUD shows how firmly you are anchored. It is Vintage Story's temporal stability, with the Backrooms' own geography.
+The gear on the HUD shows how firmly this place has hold of you. It is Vintage Story's temporal stability, with the Backrooms' own geography.
 
 - **Each area has its own stability.** Where it is low the gear turns backwards and your stability drains. When yours is low the world distorts, and at zero you take damage. Below about a third the air of whatever level you are in thickens, goes a dull brown-grey and dims, more the lower you fall, and clears as you recover.
   - Kind places: the Manila Room, the Level 1 car park, all of Level 4, the Beverly Room, Level !'s Safe Zone, The End's central hall, the Hub, Kitty's House for its first 18 hours, Level 3999 wherever its neon is lit (the lobbies most), and Level 188's guest rooms.
   - Bad places: Level 0's blackout zones and above all its Red Rooms, Level 2, Level 3 (worst in its flooded tunnels), the hotel corridors and above all the boiler halls, Level ! outside the Safe Zone, all of Level Fun (and its Party Fever lowers your cap), The End away from its middle and after two hours there, Kitty's House after 18 hours, Level 3999's failing neon and its Neon Blackout (3999.1), Level 188's corridors, courtyard and roof (most of all near a beckoning window).
-- **Almond Water** restores some stability when you drink it, less the further beyond your ward's tier you are (see [What holds you here](#what-holds-you-here)).
+- **Almond Water** restores some stability when you drink it (Blue and Green too; see Water above).
 - **Going without** sleep or water drains it too: see Water and Rest above. Exhaustion and an empty water bar drain you wherever you stand.
-- **Reality Shifts:** about once every 30 in-game hours the lights fail for a few hours. Everything beyond a few steps is lost in black, and stability drains everywhere.
+- **Reality Shifts:** about once every 30 in-game hours the lights fail for a few hours. Everything beyond a few steps is lost in black, and stability drains everywhere. A minute at zero in one is a blackout (see Classes and placards).
 
-### What holds you here
+### Classes and placards
 
-Every level has a **ward tier**, from 0 (stone) to 3 (iron), and your tier is the best anchor you wear at your neck. At or below your tier a level is as it always was. Past it, the level drains your Reality Stability until it runs out. The handbook page of the same name covers it too.
+Each level has a class, from 1 to 5, that says how hard it is. The M.E.G. put a placard on the near-side wall of every gate into a higher class, beside the opening: the level it leads to, its class, and a warning line. Class 3 reads THINGS HERE OUTRUN YOU, Class 4 ARMOUR OR DON'T, and Class 5 NO UNARMOURED TRAVEL. The first time you cross into a higher class, the game tells you so in chat.
 
-- **Tiers.** Stone (0): Levels 0, 1 and 2, the Snackrooms (6.1), the Hub and Kitty's House. Copper (1): Levels 3, 4 and 5. Bronze (2): Levels 6, 7, 8, 37 and 94. Iron (3): Levels 9, 10, 11, The End, Level 188, Level Fun, Level ! and Level 3999.
-- **Anchors** are worn in the neck slot and never wear out. A Copper Anchor is 2 copper ingots, a temporal gear and a candle. A Bronze Anchor is a Copper Anchor, 2 bronze ingots and a temporal gear. An Iron Anchor is a Bronze Anchor, 2 iron ingots and a temporal gear. Temporal gears are found and bought, never made: deep caches, the prize counter of Level 3999 (200 tickets), and wanderers, who sell one for rusty gears. Neither anchors nor armour are for sale.
-- **Armour** adds half a tier when a whole set is worn: a Copper Anchor and a full set of leather count as a tier and a half, so bronze levels drain at the one-tier rate and iron levels at the two-tier rate.
-- **Beyond your tier**, one tier past it your stability runs to zero in about ten minutes, two or more past it in about three. At zero the level's hunters come, and a minute at zero ends in a blackout: you wake in the level before, at a random place, with everything you carried, stability at half, and no thin spot left behind. You can always slip in for a quick grab at the edge; you cannot stay, cross or mine beyond your tier.
-- **Almond Water is first aid.** Past your tier a bottle restores less: about three fifths of its usual amount one tier beyond, never lifting you above 60%; a fifth two tiers beyond, never above 30%. Blue and Green follow the same rule.
-- **`/backrooms ward`** prints your tier and the level's.
+- **The classes.** Class 1: Levels 0, 1, 4 and 10. Class 2: Levels 5 and 11. Class 3: Levels 2 and 94. Class 4: Levels 3, 7 and 8. Class 5: Level 9. Level 6 is not classed yet.
+- **What the classes ask.** From Level 3 on, what lives there outruns a sprint and kills an unarmoured person in two blows (one or two by Level 8; a Hound in one at Level 9). Sewn leather halves a Level 3 blow. Copper or bronze lamellar stands three blows at Level 8, and iron plate many at Level 9. Pleather is thin and wears out fast, and does little. See [What Lives Here](#what-lives-here).
+- **Food and water.** From Class 3 down, caches, crates, supply boxes and the dispensers hold less food and Almond Water: seven tenths of their usual share in Class 3, half in Class 4 and a third in Class 5, on top of the world setting. Level 94, the Snackrooms, the Hub and Kitty's House keep theirs.
+- **Shortcuts.** Ways down to a higher level are about a quarter as common in new worlds, from stairwells, elevators, steel doors and the like. Ways back up are unchanged.
+- **The blackout.** At zero stability you black out after about a minute, from any cause: a dark pocket, a Reality Shift, or hunger and thirst. You wake a level back, with what you carried, and your stability at half.
 
 ### Things that live here
 
@@ -368,8 +352,6 @@ Each level looks like itself right up to the wall it shares with the next: the w
 
 ## Level 0: the Lobby
 
-**Ward tier:** stone (0). No anchor needed.
-
 The rules come from the original 2002 photos behind the 2019 creepypasta, the Backrooms Fandom and Wikidot wikis, and Kane Pixels' depiction.
 
 - **Walls and floor:**
@@ -399,8 +381,6 @@ The rules come from the original 2002 photos behind the 2019 creepypasta, the Ba
 
 ## Level 1: the Habitable Zone
 
-**Ward tier:** stone (0). No anchor needed.
-
 An endless cross between an underground car park and an abandoned warehouse.
 
 - **Halls:** grey concrete laid out like a real multi-storey car park.
@@ -424,7 +404,7 @@ An endless cross between an underground car park and an abandoned warehouse.
 
 ## Level 2: Pipe Dreams
 
-**Ward tier:** stone (0). No anchor needed. The first copper is here.
+The first copper is here.
 
 Dark concrete utility tunnels on a lattice. Three-wide main tunnels every 64 blocks run on for miles (now and then a length of main between two crossings is stepped 4–8 blocks aside, so it jogs at each end); between them, 1–2-wide service tunnels every 16 blocks form a maze grown in from the mains, with only a few ways in and many dead ends. Some crossings of two mains widen into a pump gallery. Each stretch of tunnel is one lighting circuit: all lit, all dead or all failing.
 
@@ -439,8 +419,6 @@ Dark concrete utility tunnels on a lattice. Three-wide main tunnels every 64 blo
 - **Atmosphere:** a dark, murky haze. Hot, 38 °C.
 
 ## Level 3: the Electrical Station
-
-**Ward tier:** copper (1). A Copper Anchor holds you; without one, a raid of about ten minutes.
 
 A hot (35 °C), cramped maze of derelict brick and two-tone glazed-tile maintenance halls fitted with electrical machinery.
 
@@ -462,8 +440,6 @@ A hot (35 °C), cramped maze of derelict brick and two-tone glazed-tile maintena
 
 ## Level 4: the Abandoned Office
 
-**Ward tier:** copper (1). A Copper Anchor holds you.
-
 One endless, quiet, cool (15 °C) office floor, almost completely devoid of furniture.
 
 - **Feel:** grey carpet with darker marks where desks once stood, scattered papers and coffee stains, drywall with a dark skirting.
@@ -478,8 +454,6 @@ One endless, quiet, cool (15 °C) office floor, almost completely devoid of furn
   - A few vending machines give nothing. They take whoever presses their buttons to the Snackrooms, every time, and always to the same food court.
 
 ## Level 5: the Terror Hotel
-
-**Ward tier:** copper (1). A Copper Anchor holds you.
 
 A 1930s grand hotel that never ends (20 °C), oddly clean and well kept.
 
@@ -502,8 +476,6 @@ A 1930s grand hotel that never ends (20 °C), oddly clean and well kept.
 
 ## Level 6: Lights Out
 
-**Ward tier:** bronze (2). A Bronze Anchor holds you.
-
 Long grey concrete corridors (8 °C) in darkness that light barely reaches: a candle shows the floor at your feet, a torch a few steps, a lantern a stretch of corridor. Now and then the dark lifts for a heartbeat. Things scuttle, breathe and whisper out of sight. Stability is low and drifts.
 
 - **Layout:** trunk corridors on a 64-block lattice, two wide; every fourth is a main trunk, three wide and never broken. Between the mains the minor trunks are a maze with one way in, so most wrong turns end blind a hundred blocks on. Narrow side passages, wet underfoot, wind a little way into the rock off every trunk and stop. Some crossings open into a chamber, deeper in often with stairs down.
@@ -517,8 +489,6 @@ Long grey concrete corridors (8 °C) in darkness that light barely reaches: a ca
 
 ## Level 6.1: the Snackrooms
 
-**Ward tier:** stone (0). No anchor needed.
-
 A rare, sealed food court inside Level 6 (21 °C), bright and safe, with almost the highest stability anywhere (only the Manila Room's is higher).
 
 - Restaurants with counters, registers, stoves and fryers; convenience stores with shelves and glass-fronted drinks fridges; seating areas with café tables, ficus trees and vending machines; a mall map.
@@ -527,8 +497,6 @@ A rare, sealed food court inside Level 6 (21 °C), bright and safe, with almost 
 - Getting in is unreliable, and so is getting out: every exit leads somewhere different, and only the kitchen door you came in by from a city diner leads reliably back.
 
 ## Level 7: Thalassophobia
-
-**Ward tier:** bronze (2). A Bronze Anchor holds you.
 
 An endless sea under a concrete ceiling (12 °C, 6 °C below the surface). It gets deeper and darker the further out you go: shallows near the walls, then the twilight zone, the midnight zone and the abyss, with trenches and the odd rocky island.
 
@@ -545,7 +513,7 @@ An endless sea under a concrete ceiling (12 °C, 6 °C below the surface). It ge
 
 ## Level 8: Cave Systems
 
-**Ward tier:** bronze (2). A Bronze Anchor holds you. Before you have one, the 9th Road is the way in, and its lamps keep your stability up.
+The 9th Road is the way in, and its lamps keep your stability up.
 
 Real Vintage Story geology (9 °C): strata of real rock with ores, flooded pockets, stalactites, tar pools (a bucket takes tar from them; they scald anyone standing in them), and strata that are wrong, such as office carpet layers and vertical coal seams. Wretches roam the dark, and Giant Spiders lie in wait in it.
 
@@ -560,8 +528,6 @@ Real Vintage Story geology (9 °C): strata of real rock with ores, flooded pocke
 
 ## Level 9: the Suburbs
 
-**Ward tier:** iron (3). An Iron Anchor holds you.
-
 An endless neighbourhood at midnight (14 °C) under an open sky that never gets light, a thin black cloud drifting over the stars.
 
 - **The streets:** two-lane roads with a dashed centre line, zebra crossings and stop signs at the junctions, manhole covers, puddles and drifts of dead leaves, fire hydrants, street lamps (mostly dead), wheelie bins at the kerb and cars parked along it. A green street-name sign on a corner of every junction (the same sixteen names over and over), and at one junction in six a DOWNTOWN sign with an arrow toward the city.
@@ -575,8 +541,6 @@ An endless neighbourhood at midnight (14 °C) under an open sky that never gets 
 
 ## Level 10: Bumper Crop
 
-**Ward tier:** iron (3). An Iron Anchor holds you.
-
 Endless farmland under a leaden overcast that hides the sun (18 °C), and one of the safest places in the Backrooms. Now and then, for a few minutes, a spell of thick fog comes over the fields and lifts again (the lore's light rain is left out: Vintage Story's rain falls by region, not by level, and wets whatever is under it).
 
 - **The fields are vast**, some two hundred blocks across and irregular: spelt, rye and flax with furrows and tractor tramlines running to the horizon, a scarecrow keeping watch and, further out, a lone grey tool shed, a galvanised water trough with a hand pump, or a field gate fallen flat in a trampled patch; stubble fields with hay bales left in rows; meadows of long grass and wildflowers. Hedgerows with the odd oak, or strips of rough grass, divide one field from the next.
@@ -587,8 +551,6 @@ Endless farmland under a leaden overcast that hides the sun (18 °C), and one of
 - **Some barns are thin too:** in some, a stretch of the east wall between the stalls isn't quite there. Its boards look slightly out of true, and dust hangs in front of it. Walk into it and you noclip into Level 11.
 
 ## Level 11: the Endless City
-
-**Ward tier:** iron (3). An Iron Anchor holds you.
 
 A Western metropolis that goes on forever (17 °C), with its own day and night under a thin haze, and the safest, best-connected place in the Backrooms. It is not a ring: it lies some fifty kilometres out past the fields, behind a wall of black glass that no one has been beyond, and from the rings the only way in is to noclip (the Hub and Level Fun have doors of their own into it). Its streets lie 48 blocks below the other levels' floor, so its towers can rise almost to the top of the world.
 
@@ -627,8 +589,6 @@ A Western metropolis that goes on forever (17 °C), with its own day and night u
 
 ## Level 37: Sublimity, the Poolrooms
 
-**Ward tier:** bronze (2). A Bronze Anchor holds you.
-
 An expansive complex of rooms and corridors of white ceramic tile, flooded with lukewarm water (29 °C). It is not a ring: it lies far out to the west, and from the rings you get there through water or a door marked POOL (the Hub's tiled tunnel ends lead there too). It follows the lore of the Wikidot page by egglord, with Fandom and Miraheze as second opinions.
 
 - **The tile** is a mosaic of small white squares (about 12 cm) in thin pale grout, glazed, on every surface; the edge of a deck where it drops into deep water is laid with coping. Rooms are rounded at their corners, as in the renders that defined the place.
@@ -653,7 +613,7 @@ One block in twenty, far out in the Poolrooms: the slits stop, the water stands 
 
 ## Level 94: Motion
 
-**Ward tier:** bronze (2). A Bronze Anchor holds you, and the fire clay is here.
+The fire clay is here.
 
 A stop-motion picture of the 1930s to 50s that never stops being made: round green hills mown in stripes, each with one cream house on top; winding roads in the valleys with a STOP sign at the junctions and a NO OUTLET sign at roads that go on forever; white picket fences, white water towers full of Almond Water, old cars parked in the middle of nowhere. It lies far out to the north, and everyone who comes falls into it out of the sky and lands softly. Its edge is the painted backdrop of the set.
 
@@ -673,8 +633,6 @@ Seven more regions lie beyond every ring, like the city, the Poolrooms and Motio
 
 ### Level !: Run For Your Life!
 
-**Ward tier:** iron (3). An Iron Anchor holds you.
-
 One long hospital hallway, lit only by red EXIT signs, with an alarm blaring.
 
 - **A lane for each runner:** 17 copies of the hall side by side, each about 480 blocks of running (about 70 seconds at the game's sprint of 6.8 blocks a second), with doglegs, two false exits (a door with a turn beside it, under a darker EXIT sign whose X has burnt out, dark underneath, opening on a closet), in one lane in five the Safe Zone, and in one in three a hole into Level 8. The true exit is at a dead end with no turn either side, under a bright sign, with a faint light coming from under it (a false exit has the same gap, dark); each lane's leads to Level 1 (9 lanes), Level 4 (5) or The End (3).
@@ -686,8 +644,6 @@ One long hospital hallway, lit only by red EXIT signs, with an alarm blaring.
 
 ### Level Fun =)
 
-**Ward tier:** iron (3). An Iron Anchor holds you.
-
 Endless party rooms on a ship that cannot be this big (22 °C).
 
 - **Layout:** 96-block plans of promenades and halls, elevator lobbies where they cross (people arrive only there; dressed for the party too: balloons, streamers, string lights over the doors, confetti, a TIME 4 FUN =) poster, the ship's directory and a potted palm, one pair of doors OUT OF ORDER =)), and in between party suites, themed rooms (movie night, Halloween, tea party), ball pits, bounce halls, arcades, kitchens, gift rooms, crew corridors, open decks over a black sea, waiting rooms. One block in eight has a cloned hallway. Everything is furnished in 3D: tables, cakes, plates, gifts, balloons, streamers, HAPPY BIRTHDAY bunting.
@@ -696,8 +652,6 @@ Endless party rooms on a ship that cannot be this big (22 °C).
 
 ### The End
 
-**Ward tier:** iron (3). An Iron Anchor holds you.
-
 A library that goes on forever under THE END IS NEAR, the cruellest trap: it looks like the way out (19 °C).
 
 - **Layout:** 64-block departments on a wandering runway round a central hall: stacks, open floor, service desks, reading rooms, two-storey atriums, stockrooms with EXIT doors, collapses, long aisles, and six fake realities (the Lobby, an office, a hotel corridor, a house, a snowfield, Home) that the shelving blends into. Along about one department border in three, a stacks or open-floor department has the store's painted wall (yellow band, ghost marks, posters), broken by openings every 8 to 12 blocks; the central hall's EXIT doors stand at the back of little vestibules.
@@ -705,8 +659,6 @@ A library that goes on forever under THE END IS NEAR, the cruellest trap: it loo
 - **Finds:** vanilla chairs, tables, ladders and shelves, paper, books (some written in), catalogue cards that mark the way out. The Junkies, wanderers in the Home fake realities, trade only with someone carrying Memory Juice.
 
 ### The Hub
-
-**Ward tier:** stone (0). No anchor needed.
 
 A hidden crossroads of road tunnels under amber lamps, silent, cold (6 °C) and safe.
 
@@ -718,8 +670,6 @@ A hidden crossroads of road tunnels under amber lamps, silent, cold (6 °C) and 
 
 ### Level 974: Kitty's House
 
-**Ward tier:** stone (0). No anchor needed.
-
 A small pink house with no outside, one for each player, where Kitty takes whoever carries something cute.
 
 - **Getting in:** Kitty's detour on any threshold crossing (1 in 20 with something cute on you, 1 in 6 if held; 48 in-game hours apart), or the Hub's pink door. Cute: plush toys (Level 9's toy boxes, now and then suitcases and lost backpacks), vanilla flowers and seashells, Kitty's dresser clothes.
@@ -727,8 +677,6 @@ A small pink house with no outside, one for each player, where Kitty takes whoev
 - **Kitty:** appears where you are not looking, glides out of your way, watches you sleep, never harms. Breaking its things or striking it puts the lights out and empties the kitchen for a day. Give it the cute thing you brought and you wake in a safe place fixed per house (Level 4's heart, Level 37 or Level 6.1), watched over for three minutes.
 
 ### Level 3999: The Neon Paradise
-
-**Ward tier:** iron (3). An Iron Anchor holds you wherever the neon is lit.
 
 An endless arcade-mall under neon, safe at its heart and dark at its fringe: an ordinary level with resources of its own (24 °C).
 
@@ -740,8 +688,6 @@ An endless arcade-mall under neon, safe at its heart and dark at its fringe: an 
 - **Light:** neon tubes (light 16 under the ceiling and galleries, and every six blocks across the lobbies' and food courts' ceilings), pillars (15, every ten blocks in lobbies and among the food courts' tables), wall tubes (13), base strips (12), signs (11–14): floors average about 10 in lobbies and food courts.
 
 ### Level 188: The Courtyard of Windows
-
-**Ward tier:** iron (3). An Iron Anchor holds you.
 
 One shared building: a dark courtyard of mossy lawns and a round wooden deck, walled in by a five-storey hotel with 160 courtyard windows, under a black sky.
 

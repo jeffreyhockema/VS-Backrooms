@@ -273,7 +273,8 @@ and outside the hard gap; its Hounds still always come.
 
 The climb's lethality, from `docs/design/progression/plan.md` 3.5 (decisions 5 and 8). Lethality is not a setting: the
 world's *Backrooms entities* setting still multiplies damage and spawns on top, with the values in 3d (the progression round's shifted ones). The stability side of the climb
-(the ward tiers, the drain, the blackout) is in the handbook page *What holds you here*, not here.
+(the blackout at zero stability, `ZeroSystem`) is in the handbook's *Reality Stability*, not here. The depth drain, the ward
+tiers and the anchors were removed after the play-test (`docs/design/progression/revision.md`); the curve below stayed.
 
 **Damage targets** (a hunter's blow on an unarmoured player, at the level's danger; 15 HP):
 
@@ -284,7 +285,8 @@ world's *Backrooms entities* setting still multiplies damage and spawns on top, 
 | 8 | .74 | 10 to 12 | 2 | a bronze lamellar or chain set, to stand two blows |
 | 9 and deeper | .82 and up | about 14 | 2 | iron plate |
 
-The handbook says "two or three blows at Level 3, one or two by Level 8". At 15 HP a blow of 10 to 12 needs two, so
+The handbook says "about two blows at Level 3, one or two by Level 8, and a Hound kills in one at Level 9" (the 2026-10-25 text pass; a Hound
+is the fastest, hardest case, so the table's two-blow figure at Level 9 is the average hunter). At 15 HP a blow of 10 to 12 needs two, so
 "one or two" at Level 8 holds only for a player already hurt, or a second blow in the same breath. Decide which when
 `armourtest` (below) prints the table: either the Level 8 blow rises to 15 or more, or the handbook's line changes.
 

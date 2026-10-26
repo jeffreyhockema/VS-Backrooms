@@ -70,3 +70,16 @@ Known and left alone: the Spanish files lack several guide-* keys.
 | README.md | - **A map that only shows what you have seen** | - **Thirst and sleep**: a water bar and a Rest bar, beds of every kind, bottles and boiling, Blue and Green Almond Water. Death leaves a body where you fell, holding what you carried, for as long as it takes. - **People with sites**: wanderers keep to the crate-pickers' camp, the Level 4 outpost, the 9th Road, the city, The End, the Hub and Level 3999, each selling what its place has, for rusty gears. - **A map that only shows what you have seen** | CHANGELOG.md Unreleased |
 | GUIDE.md | / Dark places: Level 0's blackouts and Red Rooms, Levels 1–3, 6, 8, 9, Level 37's Reservoir / | / Dark places: Level 0's Red Rooms and Reality Shifts only, Levels 1–3, 6 (seen, never close), 8, 9, 94 by night, Level 37's Reservoir, The End's collapses, 188, 3999.1 / | src/Entities/Roster.cs |
 | GUIDE.md | / Levels 0 (edge), 1–5, 8–10; passive in the city / | / Level 1's dark sections, Levels 2 and 8 (edges), 3, 4 (rare), 5, 9, 94 by night, 3999.1; passive in the city / | src/Entities/Roster.cs:253-380 (no Hounds in Level 0 or 10) |
+
+## Addendum (2026-10-25, progression revision, piece C)
+
+The handbook changed again after this audit (`docs/design/progression/revision.md`, decisions 18 to 24):
+
+- *What holds you here* is removed. The Progression Guide's ladder is the level classes, with the placards and the chat line
+  described on the entities page (*Classes and placards* bullet) and the food page (*Supplies by level*).
+- The levels' tier tags are removed; the Reality Stability page's Almond Water and blackout lines no longer mention a tier, and
+  the blackout is from any cause.
+- The salvage page's temporal gear line is unchanged: gears still sell for 6 rusty gears and turn up in caches.
+- The Level 2 story note *Down in flint* (key `gate-class`) and the camp and outpost dialogue lines on the classes are new.
+- The audit items above that cite the holds page or the tiers no longer apply. The `guide-holds-*` lang keys are removed by
+  the revision's piece A.

@@ -170,3 +170,22 @@ Test: build OK; aitest --only prog,needs,iso: 10/10 passed (prog-ward, prog-zero
 - Lang: `note-m14` no longer claims ore under every floor (also `tools/gen_notes.py`, its source); the Spanish respawn lines (home tagline, tutorial/threshold bullet, Kitty's text, the body paragraph) say you wake where you last slept; both files keep their BOM and comment lines and parse.
 - Docs: GUIDE.md, DEVELOPING.md, CHANGELOG.md, entity-difficulty.md (3d table shifted, 5 and 7 wording), playtest.md section 10, dialin.md 3.1, plan.md 3.1 / 3.4 / 3.6 / 3.7, decisions 14 to 17, and the 5/8/7 pleather cost here.
 - Results: `python tools/gen_guide.py` ran clean, `python tools/gen_notes.py --check` printed "links ok" and exited 0.
+
+### Revision: piece C (text)
+
+Branch `prog2/docs`, worktree `../VS Backrooms-prog2-docs` (from `progression2`). Text for the revision (revision.md 2.C).
+
+- `tools/gen_guide.py`: `PAGES["holds"]` removed; the tier and anchor sentences gone from the starter, progression (now *The ladder of classes*), Reality Stability, the levels' tags, the far places' tags and the Lobby and first-climb text. Entities page: *Classes and placards* bullet. Food page: *Supplies by level*. Level 1 stairs shares in *Ways Between Levels* now one flight in sixteen down and in twenty-five up. Regenerated `en.json`; `python tools/gen_guide.py --check`: links ok. The `guide-holds-*` keys still sit in `en.json` until piece A's merge removes them (gen_guide does not delete keys it no longer writes).
+- `tools/gen_notes.py`: new note `gate-class` (*Down in flint*, Pell, Level 2 track, last entry; text under 560 characters); `config/notes.json`, the catalogue and lang regenerated; `gen_notes --check`: passed.
+- `tools/gen_dialogue.py`: the camp and outpost answers to *What lives around here?* gain a line on the classes and armour; regenerated; `--check`: 42 components, 121 lang keys, ok.
+- `docs/GUIDE.md`, `README.md`: climb bullets replaced by the class list; *Classes and placards* section replaces *What holds you here*; the level tier lines removed; the README *Levels and wards* table is now *Levels and classes*.
+- `CHANGELOG.md` 0.610.0: *The climb* bullet is the new gate (placards, classes, chat line, armour, scarcity by class, shortcuts a quarter as common in chunks not yet generated, blackout, respawn at bed), with the stability drain noted as tried and dropped after play-testing.
+- `docs/moddb-description.md` and `.html`: the What's new climb bullet, the climb card, the feature bullet and the food card reworded; no anchors or tiers; no HTML comments.
+- `docs/design/entity-difficulty.md` section 5: the stability side points to the blackout at zero; the handbook's blow wording updated (a Hound kills in one at Level 9).
+- `docs/design/entity-ai-overhaul/playtest.md` section 11: rewritten for placards, the chat line, the story note, Level 3 pleather vs leather, scarcity, shortcuts, the blackout in a pocket, respawn, wanderer lines and prices.
+- `docs/design/progression/plan.md`: status note at the top pointing to revision.md.
+- `docs/DEVELOPING.md`: `WardTiers` removed from the `src/Reality/` line; `ZeroSystem` only.
+- `docs/design/handbook-audit-0.610.md`: addendum for the revision.
+
+Open for piece A's merge: `tools/gen_wards.py` (still names the anchors; piece A deletes it); `guide-holds-*` lang keys. Open for the play-test: the Level 2 placard reads THINGS HERE OUTRUN YOU (Class 3) while the Level 2 creatures are not from the outrun group; the brief's line for Class 3 was kept as written, so the wording may need a second look.
+
