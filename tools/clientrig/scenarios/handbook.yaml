@@ -1,0 +1,13 @@
+description: The handbook page "What lives in the Backrooms" opens and renders (the page is read by eye from the screenshot).
+steps:
+  - bot: closeguis
+  - bot: wait 3000
+  - bot: handbook
+  - bot: handbook backrooms-entities
+  - bot: wait 2000
+  - shot: handbook-entities
+  - expect_shot: handbook-entities
+  - bot: handbook backrooms-levels
+  - bot: wait 2000
+  - shot: handbook-levels
+  - expect_no_log: "Exception:"

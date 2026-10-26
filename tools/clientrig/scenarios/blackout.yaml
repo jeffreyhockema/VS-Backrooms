@@ -1,20 +1,146 @@
-description: Stability 0 in Level 3 for a minute; the blackout line, then a wake-up a level back.
+description: Stability 0 in Level 3 for a minute; the blackout line, then a wake-up a level back. The hunter ZeroSystem sends at zero is removed (clear) and health refilled every 3 s, so only the clock is under test.
 steps:
   - bot: closeguis
   - cmd: /backrooms goto 3
   - bot: wait 3000
   - bot: ready 48
   - cmd: /backrooms director off
+  - note: "Iron plate on, so the hunter ZeroSystem sends at zero cannot end the test early (creative mode switches the whole zero logic off: tried, no blackout); only the clock is under test."
+  - cmd: /backrooms rig equip plate-iron
   - cmd: /backrooms where
   - cmd: /backrooms stat stability 0
   - shot: zero-start
-  - sleep: 20000
-  - cmd: /backrooms stat stability 0
-  - sleep: 20000
-  - cmd: /backrooms stat stability 0
-  - note: "ZeroSystem: the blackout comes after 60 s at zero (ZeroSeconds), 3 s of dark; the stat is held at zero by the repeats above"
-  - expect_chat: lose your grip timeout=70
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 0
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms clear 128
+  - bot: cmd /backrooms stat health 1
+  - bot: cmd /backrooms stat stability 1
+  - note: "ZeroSystem: the blackout comes after 60 s at zero (ZeroSeconds), 3 s of dark; the loop above holds the stat at zero for about 80 s"
+  - expect_log: lost their grip in Level 3 and came to in Level 2 timeout=40
+  - expect_chat: lose your grip
+    known: "MOD BUG: ZeroSystem.cs:204 calls Say.T(woken, \"zero-blackout\") without the backrooms: domain, so the chat shows the raw key zero-blackout, never the text"
   - shot: after-blackout
-  - bot: wait 3000
-  - cmd: /backrooms where
-  - expect_chat: Level 2

@@ -23,6 +23,8 @@ namespace ShotBot;
 ///   vd blocks               view distance
 ///   hud off|on
 ///   closeguis               closes every open dialog (confirms the character creation dialog)
+///   handbook [page]         opens the handbook, and a page of it (e.g. backrooms-entities)
+///   respawn                 presses the Respawn button of the death dialog
 ///   pause off|on
 ///   focus                   brings the game window to the front
 ///   slot n                  selects hotbar slot n (0-9), e.g. to hold a lit torch
@@ -329,6 +331,35 @@ public class ShotBotSystem : ModSystem, IRenderer
                 SetPause(p[1] == "on");
                 Wait(300);
                 break;
+            case "respawn":
+            {
+                // Presses the Respawn button of the death dialog (the player stays dead until someone does)
+                foreach (var g in capi.Gui.OpenedGuis.ToArray())
+                {
+                    if (g.GetType().Name != "GuiDialogDead") continue;
+                    var m = g.GetType().GetMethod("OnRespawn", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                    Log("respawn: " + (m == null ? "no OnRespawn" : "pressed"));
+                    m?.Invoke(g, null);
+                }
+                Wait(500);
+                break;
+            }
+            case "handbook":
+            {
+                // handbook            opens the handbook
+                // handbook <code>     opens a page of it (e.g. backrooms-entities; the handbook has to have been opened once)
+                var hb = capi.ModLoader.Systems.FirstOrDefault(m => m.GetType().Name == "ModSystemSurvivalHandbook");
+                var dlg = hb?.GetType().GetField("dialog", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)?.GetValue(hb) as GuiDialog;
+                if (dlg == null) { Log("handbook: dialog not found"); break; }
+                if (!dlg.IsOpened()) { dlg.TryOpen(); Wait(2500); }
+                if (p.Length > 1)
+                {
+                    var open = dlg.GetType().GetMethod("OpenDetailPageFor", BindingFlags.Instance | BindingFlags.Public);
+                    Log("handbook page " + p[1] + ": " + (open == null ? "no OpenDetailPageFor" : open.Invoke(dlg, new object[] { p[1] })));
+                    Wait(1500);
+                }
+                break;
+            }
             case "focus":
             {
                 IntPtr h = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;

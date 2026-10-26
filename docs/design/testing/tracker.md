@@ -325,3 +325,34 @@ Notes: felt rates vary 2x with the dummy spot (Level 9: 39 to 94 an hour), hence
 | shortcuts | placards on L5 floors (plate 1) | 96 +-15% (min 2) | 96 | ok |
 | shortcuts | placards on L6 floors (plate 2) | 8 +-15% (min 2) | 8 | ok |
 | shortcuts | placards on L7 floors (plate 2) | 5 +-15% (min 2) | 5 | ok |
+
+### Client rig: first full run
+
+Build: the `testing` branch plus this branch's `/backrooms rig` helpers (`%TEMP%/backrooms-build/build-rigrun`), main's client fix included. Seed 424242, port 42797, player eXception386 (opped by the driver). Client window off-screen (x = -4000), never minimized, focus handed back. Reports, screenshots, logs, telemetry and chat per scenario are in `review/clientrig/2026-10-26/<scenario>/`.
+
+| Scenario | Result | What the screenshots and chat show |
+|---|---|---|
+| boot | PASS (14/14). 0 captured startup issues (the FindOwnDrops crash is fixed) | `boot-world`: Level 0, yellow chevron wallpaper with dark skirting, beige carpet, ceiling tiles with fluorescent panels; `/backrooms menace` and `where` answer |
+| placards | PASS (16/16) | `placard-near`: a legible steel plate "M.E.G. - LEVEL 2 - CLASS 3 / HOSTILE. / LIGHT AND A WEAPON" screwed to the near-side wall right beside the black steel door of the Level 1 gate to Level 2, facing the viewer from 3 blocks; `past-gate`: Level 2's pipe tunnel. Crossing line (by `/backrooms goto 2`): "Level 2. It is hostile in here, and dark in places. Bring a light and a weapon. You are wearing nothing that would turn a blow." |
+| armour | PASS (21/21) | jerkin-leather worn (2 pieces: body, legs); Hound hunt at Level 3: three hits of "Lost 6.13 hp by a Hound (Creature)" then "got killed by a Hound". `armourtest` predicts body 6.1 / legs 6.1 / head 9.1 (bare) and 2.2 blows to kill: matches. The damage lines are in the Damage log tab. `hound-hunt`: the death view, red vignette |
+| respawn | PASS (26/26) | slept in a Level 5 hotel bed (`rig sleep`, rest 0.1), sent to Level 1, died, pressed Respawn (new shotbot `respawn`): woke in Level 5 two blocks from the bed (513672.5,507407.5 vs bed 513674,507407), chat "Your belongings lie with your body, where you fell...". `woke`: the hotel corridor with the bed in the foreground |
+| blackout | PASS with 1 known finding (142/142 + 1) | stability 0 held in Level 3: the hunter is sent at once, the lights go after 61 s, and the player comes to in Level 2 3 s later (server log). `after-blackout`: Level 2 pipe tunnel, lit. FINDING below: the chat line is the raw key |
+| scarcity | PASS (12/12) | supply box rolled 400 times where the player stands: Level 1 (class scale 1): almond water 0.815, canned beans 0.328, crackers 0.498; Level 3 (class scale 0.5): 0.403, 0.140, 0.278 (about half). No screenshot (data only) |
+| telemetry | PASS (56/56) | session, join, level, pos, spawn, kind, damage, death, respawn, mark all recorded; `tools/telemetry/report.py` run on the file by the driver (`telemetry-report.md`) |
+| handbook | PASS (11/11) | `handbook-entities`: the Survival Handbook open on "What lives in the Backrooms" (How danger works...); `handbook-levels` the levels page |
+
+## Findings (mod, not changed)
+
+1. **`zero-blackout` chat line is the raw key.** `src/Reality/ZeroSystem.cs:204` calls `Say.T(woken, "zero-blackout")`; the lang key is `backrooms:zero-blackout`, so without the domain `Lang.GetL` returns the key and the chat shows `zero-blackout`, never "You lose your grip on the place...". Evidence: `blackout/chat.txt` lines "zero-blackout" (twice), no "grip" line; server log shows the blackout and wake itself work (61 s, Level 3 to Level 2). Fix: `Say.T(woken, "backrooms:zero-blackout")`. Level of the crossing line uses the right prefix.
+2. Log label: after waking in Level 2 the next hunter line says "sending backrooms:hound for eXception386 (Level 3)" (the label is stale for a few seconds; harmless).
+3. Telemetry `respawn` event records `level "3"` (where the player died) with the spawn coordinates of Level 0; the level field of that event is stale.
+4. Hound hunts started with an explicit distance (`encounter hound hunt 0 0 8`) go to Search within 50 ms and never close in (setpiece false); the default distance hunts hit within seconds. Hunts at default distance sometimes turn to Search without a blow (1 of 4 runs). Not a bug by itself.
+5. Handbook text: "The setting.Backrooms entities (a world setting..." is missing a space after the bold "The setting." (entities page, "The setting" bullet).
+6. `/backrooms stat rest 0.1` then `rig sleep` works after a 2.5 s pause (the vanilla tiredness copy runs on a tick).
+
+## Needs a human
+
+- F8 itself (the bot cannot press a key; `/backrooms mark` is the same path).
+- Whether the placards, the Level 2 and Level 3 pipes and tunnels, the hotel corridor and the hound feel right to play (the rig checks they exist, read and arrive, not feel).
+- Walking through a gate on foot: the scenario uses `goto 2`, whose crossing line fired; walking is untested because the camera faces the plate, not the opening.
+- Real sound, controller or mouse play, anything needing two players.

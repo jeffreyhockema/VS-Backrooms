@@ -1,0 +1,58 @@
+description: The play telemetry of a short session - join, level change, a minute of walking, a mark, an encounter and a hit, death, respawn - then the events are checked and tools/telemetry/report.py is run on the file by the driver.
+steps:
+  - bot: closeguis
+  - cmd: /backrooms heal
+  - cmd: /backrooms goto 3
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms director off
+  - bot: look 0 0
+  - bot: look 0 0
+  - cmd: /backrooms rig walk 8
+  - sleep: 9000
+  - bot: look 90 0
+  - cmd: /backrooms rig walk 8
+  - sleep: 9000
+  - bot: look 180 0
+  - cmd: /backrooms rig walk 8
+  - sleep: 9000
+  - bot: look 270 0
+  - cmd: /backrooms rig walk 8
+  - sleep: 9000
+  - bot: look 0 0
+  - cmd: /backrooms rig walk 8
+  - sleep: 9000
+  - bot: look 90 0
+  - cmd: /backrooms rig walk 8
+  - sleep: 9000
+  - cmd: /backrooms mark rig-test
+  - sleep: 2000
+  - cmd: /backrooms creativehunts on
+  - cmd: /backrooms encounter hound hunt
+  - sleep: 6000
+  - cmd: /backrooms rig hurt 3
+  - expect_chat: rig-hurt
+  - note: "Real Hound blows are covered by armour.yaml; the hunt may turn to Search before it lands one, so the hit here is rig hurt."
+  - bot: cmd /backrooms stat health 1
+  - shot: telemetry-hunt
+  - sleep: 20000
+  - cmd: /backrooms clear 128
+  - cmd: /backrooms heal
+  - cmd: /backrooms die
+  - bot: wait 4000
+  - bot: respawn
+  - bot: wait 5000
+  - bot: closeguis
+  - cmd: /backrooms where
+  - sleep: 3000
+  - expect_telemetry: session
+  - expect_telemetry: join
+  - expect_telemetry: level
+  - expect_telemetry: pos
+  - expect_telemetry: spawn
+  - expect_telemetry: kind
+  - expect_telemetry: damage
+  - expect_telemetry: death
+  - expect_telemetry: respawn
+  - expect_telemetry: mark
+  - note: "F8 itself cannot be pressed by the bot; the mark here is /backrooms mark, which is what F8 and the .mark client command send."

@@ -17,7 +17,10 @@ steps:
   - bot: wait 3000
   - bot: ready 48
   - cmd: /backrooms die
-  - bot: wait 6000
+  - bot: wait 4000
+  - shot: dead
+  - bot: respawn
+  - bot: wait 5000
   - bot: closeguis
   - cmd: /backrooms where
   - expect_chat: Level 5

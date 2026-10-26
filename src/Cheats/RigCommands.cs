@@ -26,7 +26,7 @@ public class RigCommands : ModSystem
         var parsers = api.ChatCommands.Parsers;
         api.ChatCommands.Get("backrooms")?
             .BeginSubCommand("rig")
-                .WithDescription("Client test rig helpers: equip <set> (wear game:armor-head/body/legs-<set>, e.g. sewn-leather), sleep (put a hotel bed beside you if there is none and lie down in it), face <text> (reports the heading and pitch to the nearest block whose code contains text, within 16 blocks), walk <blocks> (moves you that far along the way you face), classdrops <block> (the drops of a block such as supplybox rolled 400 times as if it stood where you do)")
+                .WithDescription("Client test rig helpers: equip <set> (wear game:armor-head/body/legs-<set>, e.g. sewn-leather), sleep (put a hotel bed beside you if there is none and lie down in it), face <text> (reports the heading and pitch to the nearest block whose code contains text, within 16 blocks), walk <blocks> (moves you that far along the way you face, one block at a time, over a floor and through free air), hurt <amount> (a blow from nothing in particular), classdrops <block> (the drops of a block such as supplybox rolled 400 times as if it stood where you do)")
                 .RequiresPlayer()
                 .WithArgs(parsers.Word("what"), parsers.OptionalWord("arg"))
                 .HandleWith(Handle)
@@ -43,13 +43,19 @@ public class RigCommands : ModSystem
             case "sleep": return Sleep(player);
             case "face": return Face(player, arg);
             case "walk": return Walk(player, arg);
+            case "hurt":
+            {
+                float amount = float.TryParse(arg, NumberStyles.Float, CultureInfo.InvariantCulture, out float a) ? a : 2f;
+                player.Entity.ReceiveDamage(new DamageSource { Source = EnumDamageSource.Void, Type = EnumDamageType.BluntAttack }, amount);
+                return TextCommandResult.Success("rig-hurt " + amount.ToString(CultureInfo.InvariantCulture));
+            }
             case "classdrops":
             {
                 var at = player.Entity.Pos.AsBlockPos;
                 var r = Backrooms.Salvage.ScarcitySystem.ClassDrops(sapi, arg ?? "supplybox", at.X, at.Z, 400);
                 return r.Status == EnumCommandStatus.Success ? TextCommandResult.Success("rig-classdrops " + r.StatusMessage) : r;
             }
-            default: return TextCommandResult.Error("rig-error: equip, sleep, face, walk or classdrops");
+            default: return TextCommandResult.Error("rig-error: equip, sleep, face, walk, hurt or classdrops");
         }
     }
 
@@ -121,6 +127,15 @@ public class RigCommands : ModSystem
                     if (d < bestD) { bestD = d; best = p; }
                 }
         if (best == null) return TextCommandResult.Error($"rig-face none {text}");
+        // A wall plate (a code ending in the side it faces): stand three blocks in front of it, at its own height, so the shot shows it
+        string path = blocks.GetBlock(best).Code.Path;
+        BlockFacing side = BlockFacing.FromCode(path.Substring(path.LastIndexOf('-') + 1));
+        if (side != null && side.IsHorizontal)
+        {
+            double sx = best.X + 0.5 + side.Normali.X * 3.0, sz = best.Z + 0.5 + side.Normali.Z * 3.0, sy = best.Y - 0.6;
+            player.Entity.TeleportToDouble(sx, Math.Max(sy, player.Entity.Pos.Y - 1), sz);
+            eye = new Vec3d(sx, Math.Max(sy, player.Entity.Pos.Y - 1) + player.Entity.LocalEyePos.Y, sz);
+        }
         double ox = best.X + 0.5 - eye.X, oy = best.Y + 0.5 - eye.Y, oz = best.Z + 0.5 - eye.Z;
         double heading = (Math.Atan2(ox, -oz) * 180 / Math.PI + 360) % 360;
         double pitch = Math.Atan2(oy, Math.Sqrt(ox * ox + oz * oz)) * 180 / Math.PI;
@@ -132,10 +147,22 @@ public class RigCommands : ModSystem
     {
         if (!double.TryParse(arg, NumberStyles.Float, CultureInfo.InvariantCulture, out double dist)) return TextCommandResult.Error("rig-error: walk <blocks>");
         var e = player.Entity;
+        var blocks = sapi.World.BlockAccessor;
         double yaw = e.Pos.Yaw;
         // (Compass heading h is yaw pi - h; the way ahead is (sin yaw, cos yaw): north -z, east +x)
-        double x = e.Pos.X + Math.Sin(yaw) * dist, z = e.Pos.Z + Math.Cos(yaw) * dist;
-        e.TeleportToDouble(x, e.Pos.Y, z);
-        return TextCommandResult.Success(string.Format(CultureInfo.InvariantCulture, "rig-walk to {0:0.0} {1:0.0}", x, z));
+        double dx = Math.Sin(yaw), dz = Math.Cos(yaw), x = e.Pos.X, z = e.Pos.Z;
+        int y = (int)Math.Floor(e.Pos.Y + 0.01), steps = 0;
+        // One block at a time, through free air over a floor only: stop at a wall, a drop, water or fire
+        for (int i = 1; i <= (int)dist; i++)
+        {
+            double nx = e.Pos.X + dx * i, nz = e.Pos.Z + dz * i;
+            var feet = new BlockPos((int)Math.Floor(nx), y, (int)Math.Floor(nz));
+            Block b0 = blocks.GetBlock(feet), b1 = blocks.GetBlock(feet.UpCopy()), floor = blocks.GetBlock(feet.DownCopy());
+            bool free(Block b) => b.Id == 0 || (b.CollisionBoxes == null || b.CollisionBoxes.Length == 0) && !b.IsLiquid() && !(b.Code?.Path.Contains("fire") ?? false) && !(b.Code?.Path.Contains("lava") ?? false);
+            if (!free(b0) || !free(b1) || floor.CollisionBoxes == null || floor.CollisionBoxes.Length == 0 || floor.IsLiquid()) break;
+            x = nx; z = nz; steps = i;
+        }
+        if (steps > 0) e.TeleportToDouble(x, e.Pos.Y, z);
+        return TextCommandResult.Success(string.Format(CultureInfo.InvariantCulture, "rig-walk {0} of {1} blocks to {2:0.0} {3:0.0}", steps, (int)dist, x, z));
     }
 }

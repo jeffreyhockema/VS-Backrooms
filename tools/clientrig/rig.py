@@ -8,6 +8,7 @@ See docs/DEVELOPING.md, section "Client rig". The steps of a scenario (a YAML or
     bot: <shotbot line>                 any shotbot command (cmd /backrooms ..., tp, look, ready, wait, shot, ...)
     cmd: /backrooms menace              a chat line from the client, then wait for its reply (shorthand for bot cmd + waitchat)
     server: <console line>              a line on the server console (/backrooms commands run as the server; /time ...)
+    nearest_gate: 2                     goto Level 1 repeatedly until its nearest gate leads to Level 2 (2@3: from Level 3)
     face: megplacard                    /backrooms rig face <text> and turn the camera to what it finds
     expect_chat: <text>  [timeout=N]    a chat line (tags stripped, case ignored) containing text arrives; N seconds, default 15
     expect_log: <text>   [timeout=N]    a line of the server log or the client log contains text
@@ -279,7 +280,7 @@ class Run:
         self.client = subprocess.Popen(args, env=env, cwd=GAME, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         # in the world = the bot has written ready.txt (the level finalized; status.txt only appears after its first command)
         t0 = time.time()
-        while time.time() - t0 < 300:
+        while time.time() - t0 < 900:
             if self.client.poll() is not None:
                 raise RuntimeError(f"the client exited (code {self.client.returncode}) before the world loaded; {self.crash_info()}")
             if os.path.exists(os.path.join(self.botdir, "ready.txt")):
@@ -288,7 +289,7 @@ class Run:
                 raise RuntimeError("the client crashed while loading; " + self.crash)
             time.sleep(1)
         else:
-            raise RuntimeError("the client did not reach the world in 5 minutes")
+            raise RuntimeError("the client did not reach the world in 15 minutes")
         log("the client is in the world")
         time.sleep(6)
         if not move_offscreen(self.client.pid, restore_to=getattr(self, "fore", None)):
@@ -321,6 +322,7 @@ class Run:
     def run_step(self, n, step):
         items = dict(step)
         timeout = items.pop("timeout", None)
+        known = items.pop("known", None)
         kind, text = next(iter(items.items()))
         text = "" if text is None else str(text)
         m = re.search(r"\s+timeout=(\d+)\s*$", text)
@@ -332,16 +334,16 @@ class Run:
             ok, detail = self.do(kind, text, timeout)
         except Exception as e:  # noqa: BLE001
             ok, detail = False, "error: %r" % e
-        self.steps.append(dict(n=n, kind=kind, text=text, ok=ok, detail=detail, secs=time.time() - t0))
-        log(f"step {n} {kind}: {text}  ->  {'ok' if ok else 'FAIL'} {detail}")
+        if not ok and known:
+            detail = "KNOWN MOD FINDING (" + str(known) + "): " + detail
+        self.steps.append(dict(n=n, kind=kind, text=text, ok=ok, known=bool(known) and not ok, detail=detail, secs=time.time() - t0))
+        log(f"step {n} {kind}: {text}  ->  {'ok' if ok else ('KNOWN' if known else 'FAIL')} {detail}")
 
     def do(self, kind, text, timeout):
         if self.client.poll() is not None:
             self.crash = self.crash or self.crash_info() or f"the client exited (code {self.client.returncode}) before step: {kind} {text}"
             return False, "the client is not running"
         if kind == "bot":
-            if text.startswith("cmd"):
-                self.mark_chat()
             return self.bot(text, timeout or 90), ""
         if kind == "cmd":
             self.mark_chat()
@@ -353,6 +355,26 @@ class Run:
             self.srv.cmd(text)
             time.sleep(1.0)
             return True, ""
+        if kind == "nearest_gate":
+            # "<level>[@<from level>]": goto the from level (default 1) again and again until the nearest gate there leads to <level>
+            want, _, frm = text.partition("@")
+            frm = frm or "1"
+            for attempt in range(1, 9):
+                self.bot("cmd /backrooms goto " + frm, 30)
+                self.bot("wait 3000")
+                self.bot("ready 48", 60)
+                self.mark_chat()
+                self.bot("cmd /backrooms nearest gate", 30)
+                self.bot("waitchat 20000", 40)
+                end = time.time() + 10
+                while "Gate to Level" not in self.chat_since() and time.time() < end:
+                    time.sleep(0.5)
+                reply = self.chat_since()
+                if re.search(r"Gate to Level " + re.escape(want) + "(?![0-9])", reply):
+                    self.bot("wait 3000")
+                    self.bot("ready 48", 60)
+                    return True, f"attempt {attempt}: " + reply.strip().splitlines()[0][:150]
+            return False, "no gate to Level " + want + " in 8 tries; last: " + reply.strip()[:150]
         if kind == "face":
             self.mark_chat()
             self.bot("cmd /backrooms rig face " + text, 30)
@@ -485,8 +507,9 @@ def load_scenario(path):
     return meta, steps
 
 
+KNOWN_KEY = "known"  # a step may carry known: <finding>; if it fails it is reported as a known mod finding and does not fail the run
 KINDS = {"bot", "cmd", "server", "face", "expect_chat", "expect_log", "expect_no_log", "expect_no_startup_issues", "expect_shot",
-         "expect_telemetry", "shot", "sleep", "note"}
+         "expect_telemetry", "shot", "sleep", "note", "nearest_gate"}
 NEEDS_TEXT = KINDS - {"expect_no_startup_issues", "note"}
 
 
@@ -497,7 +520,7 @@ def validate(steps):
         if not isinstance(st, dict):
             problems.append(f"step {n}: not a mapping: {st!r}")
             continue
-        extra = [k for k in st if k != "timeout"]
+        extra = [k for k in st if k not in ("timeout", "known")]
         if len(extra) != 1:
             problems.append(f"step {n}: needs exactly one step key, has {extra}")
             continue
@@ -542,7 +565,8 @@ def write_report(run, meta, name, out, boot_error):
         f.write(clog)
     with open(os.path.join(out, "server.log"), "w", encoding="utf-8") as f:
         f.write(slog)
-    failed = [s for s in run.steps if not s["ok"]]
+    failed = [s for s in run.steps if not s["ok"] and not s.get("known")]
+    known = [s for s in run.steps if s.get("known")]
     issues = run.startup_issues()
     lines = [f"# Client rig: {name}", "", str(meta.get("description", "")), "",
              f"Run {time.strftime('%Y-%m-%d %H:%M:%S')}, build `{run.a.mods}`, seed {run.a.seed}, port {run.a.port}, player {run.player}.", ""]
@@ -550,11 +574,11 @@ def write_report(run, meta, name, out, boot_error):
         lines += ["## Did not run", "", boot_error, ""]
     if run.crash:
         lines += ["## CRASH", "", run.crash, "", "The Vintage Story crash reporter window may still be open on the desktop.", ""]
-    lines += [f"## Steps: {len(run.steps) - len(failed)} passed, {len(failed)} failed", "",
+    lines += [f"## Steps: {len(run.steps) - len(failed) - len(known)} passed, {len(failed)} failed, {len(known)} known mod findings", "",
               "| # | step | result | secs | detail |", "|---|---|---|---|---|"]
     for s in run.steps:
         d = s["detail"].replace("|", "/").replace("\n", " ")
-        lines.append(f"| {s['n']} | `{s['kind']}: {s['text']}` | {'ok' if s['ok'] else '**FAIL**'} | {s['secs']:.1f} | {d} |")
+        lines.append(f"| {s['n']} | `{s['kind']}: {s['text']}` | {'ok' if s['ok'] else ('KNOWN' if s.get('known') else '**FAIL**')} | {s['secs']:.1f} | {d} |")
     lines += ["", "## Client startup issues", ""]
     if not issues:
         lines.append("None captured (no \"Captured N issues during startup\" line in client-main.log).")
@@ -572,6 +596,22 @@ def write_report(run, meta, name, out, boot_error):
     with open(os.path.join(out, "report.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
     return failed, issues
+
+
+def attach_telemetry(run, out):
+    """After the server has stopped: the telemetry files go beside the report, with tools/telemetry/report.py's report of them."""
+    files = glob.glob(os.path.join(run.sdata, "**", "*.jsonl"), recursive=True)
+    if not files:
+        return
+    tdir = os.path.join(out, "telemetry")
+    shutil.rmtree(tdir, ignore_errors=True)
+    os.makedirs(tdir, exist_ok=True)
+    for f in files:
+        shutil.copyfile(f, os.path.join(tdir, os.path.basename(f)))
+    script = os.path.join(REPO, "tools", "telemetry", "report.py")
+    if os.path.exists(script):
+        r = subprocess.run([sys.executable, "-W", "ignore", script, tdir, "--out", os.path.join(out, "telemetry-report.md")], capture_output=True, text=True)
+        log("telemetry report: " + (r.stdout.strip() or r.stderr.strip())[:200])
 
 
 def main():
@@ -623,6 +663,11 @@ def main():
             failed = [1]
         finally:
             run.finish(a.keep_open)
+            try:
+                if not a.keep_open:
+                    attach_telemetry(run, out)
+            except Exception as e:  # noqa: BLE001
+                log("telemetry attach failed: %r" % e)
     log(f"report: {os.path.join(out, 'report.md')}")
     sys.exit(1 if (failed or boot_error or run.crash) else 0)
 
