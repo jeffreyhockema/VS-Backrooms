@@ -3,7 +3,7 @@
 
     python tools/gate.py [--only a,b] [--skip a,b] [--zip] [--fast] [--port-base 42801] [--update-baselines]
 
-Stages (in this order): generators, lang, build, boot, mapgen, oldworld, harness, zip (zip only with --zip).
+Stages (in this order): generators, lang, build, boot, mapgen, scorecard, oldworld, harness, zip (zip only with --zip).
 Each is timed and ends pass, FAIL or skipped with a one-line reason. The report goes to review/gate/<yyyyMMdd-HHmm>.md
 (and review/gate/latest.md) and is printed. The exit code is non-zero if any stage FAILs. See docs/DEVELOPING.md "The gate".
 
@@ -15,6 +15,7 @@ import concurrent.futures as cf
 import datetime
 import glob
 import json
+import math
 import os
 import random
 import re
@@ -27,7 +28,7 @@ import time
 import zipfile
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STAGES = ["generators", "lang", "build", "boot", "mapgen", "oldworld", "harness", "zip"]
+STAGES = ["generators", "lang", "build", "boot", "mapgen", "scorecard", "oldworld", "harness", "zip"]
 FAST = ["generators", "lang", "build", "boot", "harness"]
 TAG = "gate"
 HASH_VERSIONS = [1, 9, 10, 11]          # past layout versions, always checked; the current one is added
@@ -46,6 +47,7 @@ PASS, FAIL, SKIP = "pass", "FAIL", "skipped"
 class Stage:
     def __init__(self, name):
         self.name, self.status, self.reason, self.secs, self.detail = name, SKIP, "", 0.0, []
+        self.raw = []          # lines written into the report as they are (a table)
 
     def note(self, line):
         self.detail.append(line)
@@ -587,6 +589,7 @@ def stage_mapgen(st, ctx):
         if c != 0 or not m:
             problems.append("shortcuts did not run (exit %d)" % c)
         else:
+            ctx["shortcuts"] = m
             bs = new_base.setdefault("shortcuts", {})
             key = "v%d" % cur_v
             if key not in bs:
@@ -613,6 +616,320 @@ def stage_mapgen(st, ctx):
         return FAIL, "%d problem(s): %s" % (len(problems), problems[0][:170])
     extra = "; recorded %d new baseline(s)" % len(recorded) if recorded else ""
     return PASS, "hashes of v%s match, validate/deep within baseline, links clean%s" % (",".join(map(str, versions)), extra)
+
+
+# ---- scorecard (docs/design/balance-spec.yaml)
+
+SPEC = os.path.join(REPO, "docs", "design", "balance-spec.yaml")
+RATE_RE = re.compile(r"ratecheck Level (\d+) (\w+) \(menace [\d.]+, setting (\w+), [\d.]+ h, \d+ kinds of menacing thing about \(of (\d+) allowed\)\): "
+                     r"bodies ([\d.]+)/h \(glimpse ([\d.]+), stalk ([\d.]+), hunt ([\d.]+)\), sounds ([\d.]+)/h")
+ARM_HEAD_RE = re.compile(r"armourtest (\S+) Level (\S+): danger ([\d.]+), hit ([\d.]+) at tier (\d+)")
+ARM_LINE_RE = re.compile(r"armourtest (\S+) L(\S+) (\S+): head ([\d.]+) body ([\d.]+) legs ([\d.]+); mean ([\d.]+); blows to kill (\S+) \((\d+) to (\S+)\)")
+DUMMY_RE = re.compile(r"Dummy #(\d+) at (-?\d+) (-?\d+) (-?\d+), Level (\S+), light (-?\d+)")
+FELT_RE = re.compile(r"felt bodies ([\d.]+)/h")
+SCALE_RE = re.compile(r"level (-?\d+), class scale ([\d.]+)")
+DIFF_RE = re.compile(r'new\("(\w+)",\s*([\d.]+),\s*([\d.]+),\s*(?:true|false)(?:,\s*([\d.]+))?(?:,\s*(\d+))?(?:,\s*(\d+))?\)')
+FELT_TRIES = 60
+
+
+class Card:
+    """The scorecard's rows: group, what, spec, measured, verdict (True ok, False FAIL, None not measured)."""
+
+    def __init__(self):
+        self.rows = []
+
+    def add(self, group, what, spec, measured, ok):
+        self.rows.append((group, what, spec, measured, ok))
+
+    def within(self, group, what, target, got, tol_pct, abs_floor=0.0, fmt="%.1f"):
+        ok = abs(got - target) <= max(abs(target) * tol_pct / 100.0, abs_floor)
+        self.add(group, what, (fmt + " +-%d%%") % (target, tol_pct) if tol_pct else fmt % target, fmt % got, ok)
+        return ok
+
+    def table(self):
+        mark = {True: "ok", False: "FAIL", None: "not measured"}
+        out = ["| Group | Row | Spec | Measured | |", "|---|---|---|---|---|"]
+        for g, w, s, m, ok in self.rows:
+            out.append("| %s | %s | %s | %s | %s |" % (g, w, s, m, mark[ok]))
+        return out
+
+
+def _ask(srv, command, done, timeout=60, settle=0.6):
+    """Sends a command; returns the lines that came after it once `done(line)` matched one (None if it never did)."""
+    mark = len(srv.snapshot())
+    srv.cmd(command)
+    if srv.wait_line(done, mark, timeout) is None:
+        return None
+    time.sleep(settle)
+    return srv.snapshot()[mark:]
+
+
+def _ratecheck(srv, lid, band, hours):
+    lines = _ask(srv, "/backrooms ratecheck %s %s %s" % (lid, band, hours), lambda l: RATE_RE.search(l) or "No rolls" in l or "Give a level" in l)
+    for l in lines or []:
+        g = RATE_RE.search(l)
+        if g:
+            return {"bodies": float(g.group(5)), "sounds": float(g.group(9)), "kinds_allowed": int(g.group(4)), "setting": g.group(3)}
+    return None
+
+
+def _armour(srv, entity, level):
+    """({danger, hit, tier}, {set: {mean, blows, fewest}}) from one armourtest command, or (None, {})."""
+    lines = _ask(srv, "/backrooms armourtest %s %s" % (entity, level), lambda l: re.search(r" plate-iron: head", l), 30)
+    head, rows = None, {}
+    for l in lines or []:
+        g = ARM_HEAD_RE.search(l)
+        if g and head is None:
+            head = {"danger": float(g.group(3)), "hit": float(g.group(4)), "tier": int(g.group(5))}
+        g = ARM_LINE_RE.search(l)
+        if g and g.group(3) not in rows:
+            rows[g.group(3)] = {"mean": float(g.group(7)), "blows": g.group(8), "fewest": int(g.group(9))}
+    return head, rows
+
+
+def _place_dummy(srv, level, attempts=8):
+    """A straw dummy at one of the level's arrival spots (the chunk may need a few tries to load). (x, z) or None."""
+    key = int(time.time() * 1000) % 100000
+    for k in range(attempts):
+        if k == 4:
+            key = int(time.time() * 1000) % 100000
+        lines = _ask(srv, "/backrooms dummy place %s %d" % (level, key), lambda l: DUMMY_RE.search(l) or "not loaded" in l.lower() or "Found nowhere" in l, 25, 0.2)
+        for l in lines or []:
+            g = DUMMY_RE.search(l)
+            if g:
+                return int(g.group(2)), int(g.group(4))
+        time.sleep(10)
+    return None
+
+
+def _felt(srv, band):
+    lines = _ask(srv, "/backrooms feltrate here %s %d" % (band, FELT_TRIES), lambda l: FELT_RE.search(l), 120, 0.2)
+    for l in lines or []:
+        g = FELT_RE.search(l)
+        if g:
+            return float(g.group(1))
+    return None
+
+
+def _blows_ok(spec_blows, got_blows, tol_pct):
+    if str(spec_blows) == "never" or got_blows == "never":
+        return str(spec_blows) == got_blows
+    s, g = float(spec_blows), float(got_blows)
+    return abs(g - s) <= max(abs(s) * tol_pct / 100.0, 0.15)
+
+
+def _anchor_check(a, rows):
+    """(ok, spec text, measured text) for one lethality anchor, from the entity's armourtest rows at that level."""
+    r, none = rows.get(a["set"]), rows.get("none")
+    if r is None or none is None:
+        return None, a["why"], "no armourtest line"
+    if "blows_ceil" in a:
+        lo, hi = a["blows_ceil"]
+        b = math.ceil(float(r["blows"]) - 1e-9) if r["blows"] != "never" else 999
+        return lo <= b <= hi, "%d to %d blows" % (lo, hi), "%.1f blows (%d)" % (float(r["blows"]), b)
+    if "hit_ratio_max" in a:
+        ratio = r["mean"] / none["mean"] if none["mean"] else 9
+        return ratio <= a["hit_ratio_max"], "<= %.2f x the unarmoured blow" % a["hit_ratio_max"], "%.2f x" % ratio
+    if "fewest_min" in a:
+        return r["fewest"] >= a["fewest_min"], ">= %d blows even on the worst piece" % a["fewest_min"], "%d" % r["fewest"]
+    return None, a["why"], "unknown anchor kind"
+
+
+def _shortcut_counts(st, ctx):
+    """The mapgen stage's shortcut counts, or (when only the scorecard runs) the same mapgen mode run here."""
+    if ctx.get("shortcuts"):
+        return ctx["shortcuts"], "this run's mapgen stage"
+    code, out = run([bash(), "tools/locked.sh", "mapgen", TAG], timeout=1800)
+    if code != 0 or not os.path.exists(MAPGEN):
+        return None, "the mapgen harness did not build"
+    c, o = mg(["12345", "24", "shortcuts"])
+    m = parse_shortcuts(o)
+    return (m or None), "mapgen 12345 24 shortcuts, run by the scorecard"
+
+
+def stage_scorecard(st, ctx):
+    why = _need_build(ctx)
+    if why:
+        return SKIP, why
+    try:
+        import yaml
+    except ImportError:
+        return FAIL, "PyYAML is not installed (pip install pyyaml)"
+    try:
+        with open(SPEC, encoding="utf-8") as f:
+            spec = yaml.safe_load(f)
+    except (OSError, ValueError) as e:
+        return FAIL, "cannot read %s: %s" % (SPEC, e)
+    card = Card()
+    levels = spec["levels"]
+    glob_ = spec["global"]
+    problems = []
+
+    # settings table, by the source (the Difficulties array)
+    try:
+        src = open(os.path.join(REPO, "src", "Entities", "MenaceSystem.cs"), encoding="utf-8").read()
+        code_tab = {m.group(1): m.groups()[1:] for m in DIFF_RE.finditer(src)}
+        for name, want in glob_["settings"].items():
+            got = code_tab.get(name)
+            if got is None:
+                card.add("settings", name, "present", "missing in MenaceSystem.Difficulties", False)
+                continue
+            vals = [float(got[0]), float(got[1]), float(got[2] or 0), float(got[3] or 0), float(got[4] or 0)]
+            wants = [want["spawns"], want["damage"], want["mix_danger"], want["cap_bonus_outer"], want["cap_bonus_heart"]]
+            card.add("settings", name, "spawns %g damage %g mix %g caps %g/%g" % tuple(wants), "spawns %g damage %g mix %g caps %g/%g" % tuple(vals),
+                     all(abs(a - b) < 1e-9 for a, b in zip(vals, wants)))
+        extra = sorted(set(code_tab) - set(glob_["settings"]))
+        if extra:
+            card.add("settings", "other codes", "none", ", ".join(extra), False)
+    except OSError as e:
+        card.add("settings", "table", "readable", str(e), False)
+
+    srv = Srv(_datadir(ctx, "scorecard"), ctx["port"] + 10, "12345")
+    try:
+        if not srv.wait_ready(900):
+            st.detail += ["  " + l[:200] for l in srv.snapshot()[-15:]]
+            return FAIL, "server never became ready"
+        time.sleep(10)
+
+        # ---- rolls: bodies and sounds per band, the kinds allowed
+        for lv in levels:
+            lid, key = lv["id"], lv["level"]
+            kinds_seen = None
+            for band, row in (lv.get("bands") or {}).items():
+                r = _ratecheck(srv, lid, band, 20)
+                if r is None:
+                    card.add("rolls", "L%s %s" % (key, band), "a ratecheck reply", "none", False)
+                    continue
+                for what in ("bodies", "sounds"):
+                    want = row[what]
+                    ok = abs(r[what] - want["target"]) <= want["target"] * want["tol_pct"] / 100.0
+                    got = r[what]
+                    note = ""
+                    if not ok:   # the 20 hour sample is noisy: decide on 100 hours
+                        r2 = _ratecheck(srv, lid, band, 100)
+                        if r2:
+                            got = r2[what]
+                            ok = abs(got - want["target"]) <= want["target"] * want["tol_pct"] / 100.0
+                            note = " (100 h)"
+                    card.add("rolls", "L%s %s %s/h [%s]" % (key, band, what, want["basis"]), "%.1f +-%d%%" % (want["target"], want["tol_pct"]), "%.1f%s" % (got, note), ok)
+                if kinds_seen is None:
+                    kinds_seen = r["kinds_allowed"]
+            if kinds_seen is not None:
+                card.add("class", "L%s kinds allowed at once [decision]" % key, str(lv["max_kinds"]), str(kinds_seen), kinds_seen == lv["max_kinds"])
+
+        # ---- armour and danger
+        armour_rows = {}
+        for lv in levels:
+            key = lv["level"]
+            arm = lv.get("armour") or {}
+            entity = arm.get("hunter") or "smiler"
+            head, rows = _armour(srv, entity, key)
+            armour_rows[(entity, key)] = rows
+            if head is None:
+                card.add("armour", "L%s %s" % (key, entity), "an armourtest reply", "none", False)
+                continue
+            card.within("danger", "L%s danger" % key, lv["danger"], head["danger"], 0, 0.006, "%.2f")
+            if not arm:
+                continue
+            for s, want in arm["sets"].items():
+                got = rows.get(s)
+                if got is None:
+                    card.add("armour", "L%s %s vs %s" % (key, entity, s), "a line", "missing", False)
+                    continue
+                okh = abs(got["mean"] - want["hit"]) <= max(want["hit"] * 0.05, 0.06)
+                okb = _blows_ok(want["blows"], got["blows"], 5)
+                card.add("armour", "L%s %s vs %s: hit / blows [measurement]" % (key, entity, s), "%.2f / %s" % (want["hit"], want["blows"]), "%.2f / %s" % (got["mean"], got["blows"]), okh and okb)
+        for a in glob_.get("lethality_anchors", []):
+            rows = armour_rows.get((a["entity"], a["level"]))
+            if rows is None:
+                _, rows = _armour(srv, a["entity"], a["level"])
+            ok, spec_t, got_t = _anchor_check(a, rows)
+            card.add("anchor", "%s L%s %s [decision]" % (a["entity"], a["level"], a["set"]), spec_t, got_t, ok)
+
+        # ---- felt rates and the class scale, with a dummy in the level (only where placement is reliable)
+        reliable = {"1", "2", "3", "5", "8", "9"}
+        for lv in levels:
+            key = lv["level"]
+            felt = ((lv.get("bands") or {}).get("approach") or {}).get("felt")
+            if key not in reliable:
+                if felt:
+                    card.add("felt", "L%s approach felt/h" % key, "%.1f +-%d%%" % (felt["target"], felt["tol_pct"]), "(dummy placement not reliable here)", None)
+                if lv.get("class_scale") is not None:
+                    card.add("scarcity", "L%s class scale" % key, "%g" % lv["class_scale"], "(no dummy placed here)", None)
+                continue
+            samples, spots = [], []
+            srv.cmd("/backrooms dummy remove")
+            time.sleep(1)
+            for trial in range(4 if felt else 1):
+                if trial >= 2 and felt and len(samples) >= 2 and abs(sum(samples) / len(samples) - felt["target"]) <= felt["target"] * felt["tol_pct"] / 100.0:
+                    break    # the first two are inside: no more needed
+                if trial:
+                    srv.cmd("/backrooms dummy remove")
+                    time.sleep(1)
+                spot = _place_dummy(srv, key)
+                if spot is None:
+                    break
+                spots.append(spot)
+                if felt:
+                    f = _felt(srv, "approach")
+                    if f is not None:
+                        samples.append(f)
+            if felt:
+                if samples:
+                    mean = sum(samples) / len(samples)
+                    card.add("felt", "L%s approach felt/h [%s]" % (key, felt["basis"]), "%.1f +-%d%%" % (felt["target"], felt["tol_pct"]),
+                             "%.1f (mean of %s)" % (mean, ", ".join("%.1f" % s for s in samples)), abs(mean - felt["target"]) <= felt["target"] * felt["tol_pct"] / 100.0)
+                else:
+                    card.add("felt", "L%s approach felt/h" % key, "%.1f +-%d%%" % (felt["target"], felt["tol_pct"]), "no dummy could be placed", None)
+            if spots and lv.get("class_scale") is not None:
+                x, z = spots[0]
+                lines = _ask(srv, "/backrooms classdrops supplybox %d %d 20" % (x, z), lambda l: SCALE_RE.search(l) or "No such block" in l, 30, 0.2)
+                g = next((SCALE_RE.search(l) for l in lines or [] if SCALE_RE.search(l)), None)
+                if g:
+                    card.add("scarcity", "L%s class scale [decision]" % key, "%g" % lv["class_scale"], g.group(2), abs(float(g.group(2)) - lv["class_scale"]) < 1e-6)
+                else:
+                    card.add("scarcity", "L%s class scale" % key, "%g" % lv["class_scale"], "no reply", None)
+            elif lv.get("class_scale") is not None:
+                card.add("scarcity", "L%s class scale" % key, "%g" % lv["class_scale"], "no dummy could be placed", None)
+        for lv in levels:
+            key = lv["level"]
+            if key not in reliable and lv.get("class_scale") is not None and not any(r[0] == "scarcity" and r[1].startswith("L%s " % key) for r in card.rows):
+                card.add("scarcity", "L%s class scale" % key, "%g" % lv["class_scale"], "", None)
+        srv.cmd("/backrooms dummy remove")
+        time.sleep(1)
+    finally:
+        srv.stop()
+    for p in scan_log(srv.logs())[0]:
+        if p.startswith("error"):
+            problems.append(p)
+
+    # ---- shortcuts
+    counts, how = _shortcut_counts(st, ctx)
+    sc = spec["shortcuts"]["counts"]
+    if not counts:
+        card.add("shortcuts", "counts", "mapgen shortcuts output", how, False)
+    else:
+        tol, floor = glob_.get("shortcut_tol_pct", 15), glob_.get("shortcut_abs_tol", 2)
+        for k, want in sc.items():
+            got = counts.get(k)
+            if got is None:
+                card.add("shortcuts", k, str(want), "missing", False)
+            else:
+                card.add("shortcuts", k, "%d +-%d%% (min %d)" % (want, tol, floor), str(got), abs(got - want) <= max(want * tol / 100.0, floor))
+
+    bad = [r for r in card.rows if r[4] is False]
+    na = [r for r in card.rows if r[4] is None]
+    ctx["scorecard"] = card
+    st.raw = card.table()
+    st.note("%d rows: %d ok, %d outside the spec, %d not measured. Spec %s (status: %s). Shortcut counts from %s." % (
+        len(card.rows), len(card.rows) - len(bad) - len(na), len(bad), len(na), os.path.relpath(SPEC, REPO), spec.get("status"), how))
+    for r in bad:
+        st.note("FAIL %s / %s: spec %s, measured %s" % (r[0], r[1], r[2], r[3]))
+    for p in problems:
+        st.note("PROBLEM " + p)
+    if bad or problems:
+        return FAIL, "%d row(s) outside the spec%s: %s" % (len(bad), " and %d error line(s)" % len(problems) if problems else "", (bad[0][0] + " / " + bad[0][1]) if bad else problems[0][:100])
+    return PASS, "%d rows within the spec (%d not measured)" % (len(card.rows) - len(na), len(na))
 
 
 # ---- harness
@@ -724,7 +1041,7 @@ def stage_zip(st, ctx):
 
 
 FUNCS = {"generators": stage_generators, "lang": stage_lang, "build": stage_build, "boot": stage_boot, "mapgen": stage_mapgen,
-         "oldworld": stage_oldworld, "harness": stage_harness, "zip": stage_zip}
+         "scorecard": stage_scorecard, "oldworld": stage_oldworld, "harness": stage_harness, "zip": stage_zip}
 
 
 # ------------------------------------------------------------------ report
@@ -746,6 +1063,8 @@ def report(stages, total, stamp, args):
     for s in stages:
         if s.detail:
             body += "\n## %s\n\n" % s.name + "\n".join("- " + d.replace("\n", "\n  ") for d in s.detail) + "\n"
+        if s.raw:
+            body += "\n" + "\n".join(s.raw) + "\n"
     return head + body
 
 
@@ -755,7 +1074,7 @@ def main():
     ap.add_argument("--skip", help="comma list of stages to skip")
     ap.add_argument("--zip", action="store_true", help="also build the Release zip")
     ap.add_argument("--fast", action="store_true", help="generators, lang, build, boot and the harness smoke only")
-    ap.add_argument("--port-base", type=int, default=42801, help="first of three ports (boot, harness, old world uses base+2)")
+    ap.add_argument("--port-base", type=int, default=42801, help="first port (boot uses base, the harness base+1, the old world base+2, the scorecard base+10)")
     ap.add_argument("--update-baselines", action="store_true", help="record the current version's hash and counts as the new baselines")
     ap.add_argument("--harness-timeout", type=int, default=7200, help="seconds")
     a = ap.parse_args()

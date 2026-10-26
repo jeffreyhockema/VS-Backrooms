@@ -13,6 +13,7 @@ import collections
 import datetime as dt
 import glob
 import json
+import math
 import os
 import sys
 
@@ -265,33 +266,144 @@ def render_session(path, events):
     return "".join(out)
 
 
+def _band_word(b):
+    return str(b).lower()
+
+
+def _levels_of(events):
+    """Yields (event, level, band) with the level and band the event's player was in (from level/band/pos/join events), or (event, None, None)."""
+    where = {}
+    for e in events:
+        p, ev = e["p"], e["ev"]
+        if ev == "level":
+            where[p] = (str(e["to"]).lower(), _band_word(e["band"]))
+        elif ev == "band":
+            where[p] = (str(e["level"]).lower(), _band_word(e["to"]))
+        elif ev == "pos":
+            where[p] = (str(e["level"]).lower(), _band_word(e["band"]))
+        elif ev in ("leave", "death"):
+            where.pop(p, None)
+        lv, band = where.get(p, (None, None))
+        yield e, lv, band
+
+
+def _verdict(n, hours, lo, hi):
+    """low / ok / high for n events in `hours` against a wanted rate range, allowing two sigma of counting noise."""
+    if hours < 0.2:
+        return "too little time"
+    spread = 2 * math.sqrt(n + 1)
+    if (n + spread) / hours < lo:
+        return "low"
+    if max(0.0, n - spread) / hours > hi:
+        return "high"
+    return "ok"
+
+
 def compare(spec_path, sessions):
-    """TODO: --compare <balance-spec.yaml>.
+    """--compare <balance-spec.yaml>: per level in the sessions, felt bodies an hour and the blows taken against the spec.
 
-    Interface (the spec file does not exist yet): the YAML maps a measure to the range the design wants, e.g.
-
-        felt_spawns_per_hour:        # per (level, band, kind): [low, high]
-          "0":
-            Heartland:
-              Stalk: [0.5, 2.0]
-        time_to_first_encounter_s:   # per level: [low, high]
-          "1": [60, 240]
-        damage_per_hour:             # per level: [low, high]
-        supplies_per_hour:           # eat + drink: [low, high]
-        loot_per_1000_blocks:        # per level: [low, high]
-
-    The merged measures for all the sessions given (the same ones the report prints, computed by analyse()) are
-    to be checked against these ranges and printed as a table: measure, level/band, observed, wanted, verdict
-    (low / ok / high). Return the markdown for that table.
+    Felt bodies: the director's ordinary spawns (glimpse, stalk, hunt; set-pieces and ambient ones left out) per hour of
+    survival play in the level and band, against the spec's `felt` for the band where it has one (target +- tol_pct), else
+    against the rolls (`bodies`) as a ceiling: a roll that finds no spot is silence, so the felt rate may sit well under it
+    but never over. The spec is for Normal; each session's own setting (the session event) scales the wanted rate by its
+    spawns multiplier over Normal's. Blows taken: damage events from an entity, per level and armour worn (none, light,
+    metal), the mean damage against the spec's unarmoured / sewn leather / bronze lamellar hit for the level's commonest
+    hunter (a loose check: the real mix of hunters is wider, so +-50 %), scaled by the setting's damage multiplier.
+    Counting noise (two sigma) is allowed before a row reads low or high.
     """
-    return "## Balance comparison\n\n_Not implemented yet: %s is a TODO (see compare() in tools/telemetry/report.py)._\n" % spec_path
+    try:
+        import yaml
+    except ImportError:
+        return "## Balance comparison\n\n_PyYAML is not installed (pip install pyyaml)._\n"
+    with open(spec_path, encoding="utf-8") as fh:
+        spec = yaml.safe_load(fh)
+    settings = spec["global"]["settings"]
+    normal = settings["normal"]
+    by_level = {str(l["level"]).lower(): l for l in spec["levels"]}
+    hours = collections.defaultdict(float)        # (level, band) -> hours of survival play
+    wanted = collections.defaultdict(lambda: [0.0, 0.0])   # (level, band) -> [lo, hi] in bodies (rate x hours x setting ratio)
+    count = collections.Counter()                 # (level, band) -> felt bodies
+    blow = collections.defaultdict(lambda: [0, 0.0, 0.0])   # (level, armour) -> [blows, damage, wanted damage summed]
+    sess = 0
+    for path, events in sessions:
+        if not events:
+            continue
+        sess += 1
+        r = analyse(events)
+        info = r["info"]
+        code = str(info.get("backroomsMenace", "normal")).lower()
+        setting = settings.get(code, normal)
+        ratio = setting["spawns"] / float(normal["spawns"])
+        dmg_ratio = setting["damage"] / float(normal["damage"]) if normal["damage"] else 1.0
+        for (lvl, band), s in r["seconds"].items():
+            key = (str(lvl).lower(), _band_word(band))
+            h = s / 3600.0
+            hours[key] += h
+            row = (by_level.get(key[0], {}).get("bands") or {}).get(key[1])
+            if not row:
+                continue
+            felt = row.get("felt")
+            if felt:
+                wanted[key][0] += felt["target"] * (1 - felt["tol_pct"] / 100.0) * ratio * h
+                wanted[key][1] += felt["target"] * (1 + felt["tol_pct"] / 100.0) * ratio * h
+            else:
+                wanted[key][1] += row["bodies"]["target"] * (1 + row["bodies"]["tol_pct"] / 100.0) * ratio * h
+        for e, lv, band in _levels_of(events):
+            if lv is None:
+                continue
+            if e["ev"] == "spawn" and e.get("kind") in ("Glimpse", "Stalk", "Hunt") and not e.get("setpiece") and "#" not in e["p"]:
+                count[(lv, _band_word(e.get("band", band)))] += 1
+            elif e["ev"] == "damage" and str(e.get("src", "")).islower() and e.get("amount", 0) > 0:
+                tier = e.get("armour", "none")
+                arm = (by_level.get(lv) or {}).get("armour") or {}
+                sets = arm.get("sets") or {}
+                want = {"none": sets.get("none"), "light": sets.get("sewn-leather"), "metal": sets.get("lamellar-tinbronze")}.get(tier)
+                b = blow[(lv, tier)]
+                b[0] += 1
+                b[1] += e["amount"]
+                b[2] += (want["hit"] * dmg_ratio) if want else 0.0
+    out = ["## Balance comparison\n\n",
+           "Against `%s` (status: %s; spec for %s, each session's own setting scales the wanted rates). %d session(s).\n\n" % (
+               os.path.basename(spec_path), spec.get("status", "?"), spec.get("setting", "normal"), sess)]
+
+    out.append("### Felt bodies an hour\n\n")
+    rows = []
+    for key in sorted(set(hours) | set(count), key=lambda k: (str(k[0]).zfill(5), BANDS.index(k[1].capitalize()) if k[1].capitalize() in BANDS else 9)):
+        lv, band = key
+        h, n = hours.get(key, 0.0), count.get(key, 0)
+        spec_row = (by_level.get(lv, {}).get("bands") or {}).get(band)
+        if lv not in by_level:
+            rows.append(["Level " + lv, band, f1(h), n, f1(n / h) if h > 0.01 else "-", "(level not in the spec)", "-"])
+            continue
+        if not spec_row:
+            rows.append(["Level " + lv, band, f1(h), n, f1(n / h) if h > 0.01 else "-", "no band row in the spec", "-" if not n else "check"])
+            continue
+        lo, hi = wanted[key]
+        lo_r, hi_r = (lo / h, hi / h) if h > 0 else (0, 0)
+        kind = "felt" if spec_row.get("felt") else "ceiling (rolls)"
+        rows.append(["Level " + lv, band, f1(h), n, f1(n / h) if h > 0.01 else "-", "%s to %s (%s)" % (f1(lo_r), f1(hi_r), kind), _verdict(n, h, lo_r, hi_r)])
+    out.append(table(["Level", "Band", "Hours", "Bodies", "Observed/h", "Wanted/h", "Verdict"], rows) + "\n")
+
+    out.append("### Blows taken\n\n")
+    rows = []
+    for (lv, tier), (n, total, wsum) in sorted(blow.items(), key=lambda kv: (str(kv[0][0]).zfill(5), kv[0][1])):
+        mean = total / n
+        if wsum <= 0:
+            rows.append(["Level " + lv, tier, n, f1(mean), "(none in the spec)", "-"])
+            continue
+        want = wsum / n
+        v = "ok" if 0.5 * want <= mean <= 1.5 * want else ("soft" if mean < want else "hard")
+        rows.append(["Level " + lv, tier, n, f1(mean), f1(want), v])
+    out.append(table(["Level", "Armour worn", "Blows", "Mean damage", "Spec hit", "Verdict"], rows) + "\n")
+    out.append("_Verdicts: low / high = outside the wanted range by more than two sigma of counting noise; soft / hard = the mean blow is more than half under / over the spec's hit for the level's commonest hunter._\n")
+    return "".join(out)
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("path", help="a .jsonl file, or a folder of them")
     ap.add_argument("--out", help="write the markdown here instead of printing it")
-    ap.add_argument("--compare", metavar="SPEC.yaml", help="check the measures against a balance spec (TODO; the spec does not exist yet)")
+    ap.add_argument("--compare", metavar="SPEC.yaml", help="grade the sessions against a balance spec (docs/design/balance-spec.yaml): felt bodies an hour and blows taken per level")
     args = ap.parse_args()
     sessions = load(args.path)
     if not sessions:
