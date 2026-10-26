@@ -70,11 +70,15 @@ public class ScarcitySystem : ModSystem
 
     public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Server;
 
-    private static TextCommandResult OnClassDropsCommand(ICoreServerAPI api, TextCommandCallingArgs args)
+    private static TextCommandResult OnClassDropsCommand(ICoreServerAPI api, TextCommandCallingArgs args) =>
+        ClassDrops(api, (string)args[0], (int)args[1], (int)args[2], (int)args[3]);
+
+    /// <summary>The command's work, also used by the client rig (/backrooms rig classdrops) at the player's own position.</summary>
+    internal static TextCommandResult ClassDrops(ICoreServerAPI api, string blockCode, int x, int z, int rollCount)
     {
-        Block block = api.World.GetBlock(new AssetLocation("backrooms", (string)args[0]));
-        if (block == null) return TextCommandResult.Error("No such block: backrooms:" + args[0]);
-        int x = (int)args[1], z = (int)args[2], rolls = Math.Clamp((int)args[3], 1, 100000);
+        Block block = api.World.GetBlock(new AssetLocation("backrooms", blockCode));
+        if (block == null) return TextCommandResult.Error("No such block: backrooms:" + blockCode);
+        int rolls = Math.Clamp(rollCount, 1, 100000);
         var pos = new BlockPos(x, 1, z);
         var totals = new SortedDictionary<string, long>();
         for (int i = 0; i < rolls; i++)

@@ -67,6 +67,6 @@ encounters and logging through the telemetry; a headless two-hour session per le
 |---|---|---|
 | Gate | testing/gate | building |
 | Telemetry | testing/telemetry | building |
-| Client rig | testing/clientrig | building (trial done by hand 2026-10-25) |
+| Client rig | testing-clientrig | built; boot.yaml run, the other scenarios untested (tracker.md) |
 | Balance spec | | after the above |
 | Simulated players | | after the above |

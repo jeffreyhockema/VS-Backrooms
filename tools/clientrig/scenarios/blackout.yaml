@@ -1,0 +1,19 @@
+description: Stability 0 in Level 3 for a minute; the blackout line, then a wake-up a level back.
+steps:
+  - bot: closeguis
+  - cmd: /backrooms goto 3
+  - bot: ready 48
+  - cmd: /backrooms director off
+  - cmd: /backrooms where
+  - cmd: /backrooms stat stability 0
+  - shot: zero-start
+  - sleep: 20000
+  - cmd: /backrooms stat stability 0
+  - sleep: 20000
+  - cmd: /backrooms stat stability 0
+  - note: "ZeroSystem: the blackout comes after 60 s at zero (ZeroSeconds), 3 s of dark; the stat is held at zero by the repeats above"
+  - expect_chat: lose your grip timeout=70
+  - shot: after-blackout
+  - bot: wait 3000
+  - cmd: /backrooms where
+  - expect_chat: Level 2

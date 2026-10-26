@@ -1,0 +1,21 @@
+description: Level 1's nearest boundary gate, its M.E.G. placard seen from the approach, and the class crossing line on going through.
+steps:
+  - bot: closeguis
+  - bot: hud off
+  - server: /time set 12:00
+  - cmd: /backrooms goto 1
+  - bot: ready 48
+  - note: "The nearest gate may lead to any Level 1 neighbour; a Level 2 gate (class 3) carries a placard 3-2. The step below says where it leads."
+  - cmd: /backrooms nearest gate
+  - expect_chat: Level
+  - bot: ready 48
+  - bot: wait 1500
+  - face: megplacard
+  - bot: wait 700
+  - shot: placard-near
+  - expect_shot: placard-near
+  - cmd: /backrooms rig walk 6
+  - bot: ready 48
+  - shot: past-gate
+  - note: "The crossing line is said only when the far side is a higher class (Class 3+) and once per level per session."
+  - expect_chat: in here
