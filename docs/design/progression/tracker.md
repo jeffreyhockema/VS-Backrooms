@@ -235,3 +235,10 @@ The small windows leave some rows at 0. Rule-only (constants in `ThresholdNetwor
 **Checks**: harness `--only iso,p7,felt` on port 42793: 7/7 pass, 0 backrooms error lines (build before the last placard additions; rerun below). Build 0 errors. Reviewer (sonnet, blind): ten findings; fixed: Spanish `block-megplacard-*`, armour clause by material, Level 94 exempt from the chat line, thread-safe `FirstClassGate`, plate search radius 6, Level Fun's shelf thinned. Not changed: Level 4 / Level 11 End doorframes (the plan names only Level 1's), Level 3 has no locked doors to quarter.
 
 **Could not check**: the plates and the chat line in a client (model look, text legibility, facing of the plate on every wall side; the chat line needs a player: logic only), the armour clause with real worn items, a copy of an existing world (version-1 to 11 worlds are untouched by construction and by the hashes), the Level 6 stairwell plate position by eye.
+
+### Revision: integration (overseer, 2026-10-25 evening)
+
+- Merged into `progression2`: A (prog2/undrain), C (prog2/docs), B (prog2/world); lang files joined by union (the anchor keys B's branch still carried were removed again), tracker reports concatenated, handbook regenerated ("links ok", gen_notes --check ok). Fast-forwarded to `main`.
+- Gates on the final build: harness `--only iso,iso-hound,p7,felt,needs,prog,path` 18/19 + `iso-hound-nerve` 1/1 on rerun (placement flake), 0 error lines; a copy of the user's play-test world loads with 0 missing blocks/items and 0 errors; `bin/backroomsss_0.610.0.zip` rebuilt (placards in, no anchors) and copied to the main checkout.
+- What 0.610.0 now gates with: lethality and speed from Level 3, armour, ore only in Level 8, scarcity by class, needs; placards, a story note, wanderer lines and a chat line tell the player; earlier-to-later shortcuts a quarter as common in new chunks (layout v12).
+- Not client-checked: the placard plates (look, text, facing on every wall side), the chat line and its armour clause with real worn items, the note spot at the first class gate, scarcity in play, the blackout in a pocket.
