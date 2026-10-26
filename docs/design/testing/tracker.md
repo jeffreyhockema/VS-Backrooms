@@ -63,3 +63,26 @@ refusing solid blocks. All after the one real run; none re-run (no more on-scree
 **`--fast`**: PASS in 4m26s (build 2m00 under lock contention, boot 0m36, harness smoke 1m48; about 2m40 with a build already made).
 
 Flaky case seen: `prog-speed` (a pace measurement, not a placement case). Reviewer (sonnet, blind): 15 findings; fixed: zip stage deletes only the current version's zip, baselines written only by a problem-free run and `--update-baselines` covers deep/spawn, parsers fail when expected lines are missing, ratecheck reply matched exactly, reader thread joined before reading logs, stdin closed on children, build error regex, harness log kept on timeout, second-resolution stamps, rerun skips cases without a function. Not changed: a missing old-world save skips (loudly) rather than fails; the boot log scan is 10 s after ready; no stale-build check for `--only` runs on an old build.
+
+### Simulated players
+
+Branch `testing-walkers`. `/backrooms walker start|stop|status|hit` (src/Entities/MenaceSystem.Walker.cs), `tools/aitest/walk.py`, harness group `walk` (`walker-smoke` 5 min in Level 1: 898 blocks, 0 errors; `walker-struck`: a blow through `Strike.Hit` lands on the walker, bare it takes 12.0 of 12.0, in iron 0.8 of 12.0). Gameplay-code hooks: one registration line in MenaceSystem.cs, three buttons in GuiDialogCheats.cs; nothing else. The strike path needed no hook (`target.ReceiveDamage` has no player check; `Strike.IsCreative` is false for a dummy); the walker listens on the dummy's `EntityBehaviorHealth.onDamaged`.
+
+**Finding that shaped it:** the server's `PhysicsManager` skips entities with `IsTracked == 0` (no connected client in tracking range), so headless nothing walks, neither a path traverser nor a hunter. The walker therefore sets its own position along the A* waypoints (3.5 blocks/s walking, 7 running); the hunters it meets think and strike but do not chase.
+
+First reports (30 real minutes each, leather armour, light 7, seed 12345, menace normal; reports in `review/walk/walk-<level>.md`, git-ignored):
+
+| | Level 1 | Level 3 | Level 9 |
+|---|---|---|---|
+| Time in bands (min) H / A / T | 10 / 11 / 9 | 8 / 9 / 10 (+1 safe) | 21 / 6 / 2 |
+| Felt bodies per hour (Glimpse+Stalk+Hunt) Heartland / Approach / Threshold | 0 / 10.7 / 101.9 | 14.8 / 51.7 / 208.5 | 0 / 116.1 / 669.0 |
+| Felt bodies total | 17 | 44 | 35 |
+| Time to first encounter (from start; after arriving, median of those) | 233 s; 51 s | 22 s; 29 s | 94 s; 94 s |
+| Damage taken / deaths | 0 / 0 | 0 / 0 | 0 / 0 |
+| Blocks walked | 5166 | 3747 | 3563 |
+| Caches opened (per 1000 blocks) | 182 (35.2) | 23 (6.1) | 79 (22.2) |
+| Ran / hid / laps / gates | 2 / 2 / 17 / 10 | 7 / 4 / 39 / 7 | 7 / 2 / 4 / 0 |
+
+Reading them: zero damage everywhere is the headless limit above, not a balance result. The felt-body rates are the director's own per-band rates for a moving target; the Level 9 Threshold rate (669/h, mostly Deathmoths) and Level 3 Threshold (208/h) are the numbers worth looking at against the balance spec. The Level 1 walker crossed ten gates (to Levels 0 and 2); caches include the supply boxes at each arrival spot.
+
+Known limits: a lap in Level 9 stalled 5 minutes in Plan waiting for chunk columns (then "gave up (chunks)"): fresh-level generation speed; the walker loads and keeps loaded the columns of its legs (up to ~400 for a long gate route) and releases them at the next lap; `SpawnDummy`'s own 5x5 columns are not released on a replacement dummy; stopping the server mid-walk leaves the dummy in the save. A walker has no thirst, fatigue, stability, noise-making, door opening, light management beyond one number, trading, or reading; it cannot be out-thought or out-run (no chases), never gets lost, takes the shortest path, and does not use the handbook, notes or shortcuts. Reviewer (sonnet, blind): 22 findings; fixed: blows landing during a respawn, the plan timeout counted from the lap start, stale level/pos state after a respawn, gate count read from a stale assessment, absorbed blows not logged, a transient error line counted as placed, a wrong report header.
