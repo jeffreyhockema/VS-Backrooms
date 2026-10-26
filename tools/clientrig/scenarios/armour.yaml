@@ -16,6 +16,8 @@ steps:
   - shot: hound-arrives
   - bot: wait 8000
   - shot: hound-hunt
-  - expect_chat: damage
+  - expect_chat: hp by a Hound
+  - note: "Damage lines read like: Lost 6.13 hp by a Hound (Creature). armourtest says one blow in jerkin-leather at Level 3 is head 9.1 / body 6.1 / legs 6.1 against 15 health."
+  - expect_chat: got killed by a Hound
   - expect_shot: hound-hunt
   - cmd: /backrooms clear 128
