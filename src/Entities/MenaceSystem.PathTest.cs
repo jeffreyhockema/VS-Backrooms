@@ -38,6 +38,37 @@ public partial class MenaceSystem
                 .WithArgs(parsers.Word("entity"), parsers.Int("x"), parsers.Int("z"), parsers.OptionalInt("radius", 40))
                 .HandleWith(RunPartyPaths)
             .EndSubCommand()
+            .BeginSubCommand("blocksnear")
+                .WithDescription("Dev test: the blocks standing on the floor round x z (radius, default 3) with their collision height and whether the pathfinder counts them tall (impassable), one line per cell. Args: x z [radius]")
+                .WithArgs(parsers.Int("x"), parsers.Int("z"), parsers.OptionalInt("radius", 3))
+                .HandleWith(args =>
+                {
+                    int x = (int)args[0], z = (int)args[1], r = (int)args[2];
+                    var text = new System.Text.StringBuilder();
+                    IBlockAccessor ba = sapi.World.BlockAccessor;
+                    for (int dz = -r; dz <= r; dz++)
+                        for (int dx = -r; dx <= r; dx++)
+                        {
+                            int fy = PathFloor(x + dx, z + dz);
+                            if (fy == int.MinValue) { text.Append(string.Format("{0},{1}: no floor\n", x + dx, z + dz)); continue; }
+                            var parts = new List<string>();
+                            for (int h = 0; h < 2; h++)
+                            {
+                                Block b = ba.GetBlock(new BlockPos(x + dx, fy + h, z + dz));
+                                if (b.Id == 0) continue;
+                                float top = 0;
+                                foreach (Cuboidf c in b.CollisionBoxes ?? System.Array.Empty<Cuboidf>()) top = Math.Max(top, c.Y2);
+                                parts.Add(string.Format(CultureInfo.InvariantCulture, "y+{0} {1} top {2:0.##}{3}", h, b.Code, top, TallBlockPathing.IsTall(b) ? " TALL" : ""));
+                            }
+                            text.Append(string.Format("{0},{1} (floor y {2}): {3}\n", x + dx, z + dz, fy, parts.Count == 0 ? "clear" : string.Join("; ", parts)));
+                        }
+                    foreach (Entity e in sapi.World.GetEntitiesAround(new Vec3d(x + 0.5, PathFloor(x, z) + 1, z + 0.5), r + 12, 6, _ => true))
+                        text.Append(string.Format(CultureInfo.InvariantCulture, "entity {0} at {1:0.0},{2:0.0},{3:0.0}\n", e.Code, e.Pos.X, e.Pos.Y, e.Pos.Z));
+                    string result = text.ToString().TrimEnd();
+                    sapi.Logger.Notification("[backrooms] blocksnear: " + result);
+                    return TextCommandResult.Success(result);
+                })
+            .EndSubCommand()
             .BeginSubCommand("squeeze")
                 .WithDescription("Dev test: the free width a Hound's squeeze rule measures at x y z (y is the floor, where the feet stand), across a walk along each axis and the speed factor that gives (AiTaskMenace.Squeeze: under 2 blocks, 60 %). Args: x y z [radius]. With a radius it surveys the square instead: for every open floor tile the tighter of the two ways, tallied by width, with a first example of each. The first try may only load the chunks")
                 .WithArgs(parsers.Int("x"), parsers.Int("y"), parsers.Int("z"), parsers.OptionalInt("radius", 0))
