@@ -38,7 +38,7 @@
       "dataType": "dropdown",
       "category": "survivalchallenges",
       "values": ["off", "verylow", "low", "normal", "high", "veryhigh"],
-      "names": ["Off", "Very low", "Low", "Normal", "High", "Very high"],
+      "names": ["Off", "Verylow", "Low", "Normal", "High", "Veryhigh"],
       "default": "normal"
     },
     {
