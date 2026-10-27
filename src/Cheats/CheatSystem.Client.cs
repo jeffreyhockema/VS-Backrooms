@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
@@ -59,7 +60,7 @@ public partial class CheatSystem
     {
         capi = api;
         dialog = new GuiDialogCheats(api, this);
-        api.Input.RegisterHotKey(HotkeyCode, "Backrooms: cheat menu", GlKeys.F7, HotkeyType.GUIOrOtherControls);
+        api.Input.RegisterHotKey(HotkeyCode, Lang.Get("backrooms:hotkey-cheats"), GlKeys.F7, HotkeyType.GUIOrOtherControls);
         api.Input.SetHotKeyHandler(HotkeyCode, _ => ToggleDialog());
         api.ChatCommands.Create("cheats")
             .WithDescription("Opens the Backrooms cheat menu")

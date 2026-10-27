@@ -291,11 +291,19 @@ def stage_lang(st, ctx):
         st.note("%s: %d keys%s" % (rel, len(d), extra))
     if not files:
         bad.append("no lang files found")
+    # every name a player can read exists (tools/langcheck.py): blocks, items, entities, settings, code strings, handbook
+    r = subprocess.run([sys.executable, os.path.join(REPO, "tools", "langcheck.py")], capture_output=True, text=True, encoding="utf-8", errors="replace")
+    if r.returncode != 0:
+        for l in r.stdout.splitlines():
+            if l.startswith("["):
+                bad.append("langcheck " + l)
+        if not any(b.startswith("langcheck") for b in bad):
+            bad.append("langcheck failed: " + (r.stderr or r.stdout).strip()[-300:])
     if bad:
         for b in bad:
             st.note("PROBLEM " + b)
         return FAIL, "%d problem(s): %s" % (len(bad), bad[0])
-    return PASS, "%d lang files parse, no duplicate keys, six settings in the worldconfig lang" % len(files)
+    return PASS, "%d lang files parse, no duplicate keys, six settings in the worldconfig lang, every player-facing name present (langcheck)" % len(files)
 
 
 def stage_build(st, ctx):
