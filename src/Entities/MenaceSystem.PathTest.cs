@@ -108,7 +108,9 @@ public partial class MenaceSystem
         if (type.Server?.BehaviorsAsJsonObj?.FirstOrDefault(b => b["code"].AsString() == "controlledphysics") is { } cp) step = cp["stepHeight"].AsFloat(0.6f);
         var report = new System.Text.StringBuilder();
         report.Append(string.Format(CultureInfo.InvariantCulture, "{0}: box {1:0.##}x{2:0.##}x{3:0.##}, step {4:0.####}\n", code, box.XSize, box.YSize, box.ZSize, step));
-        int rooms = 0, doors = 0, tried = 0, found = 0;
+        int rooms = 0, doors = 0, tried = 0, found = 0, guests = 0, guestsOut = 0;
+        // (A guest can leave when any doorway of its room is reachable: the pairs are the detail, the guests the verdict)
+        var outOf = new Dictionary<(int, int), bool>();
         var (dxs, dzs) = (new[] { 1, -1, 0, 0 }, new[] { 0, 0, 1, -1 });
         foreach (FunRoom room in layout.FunRoomsNear(x, z, radius))
         {
@@ -132,17 +134,18 @@ public partial class MenaceSystem
                             int tx = doorX + dxs[d] * k, tz = doorZ + dzs[d] * k;
                             int ty = PathFloor(tx, tz);
                             if (ty == int.MinValue) continue;
-                            List<PathNode> path = psys.astar.FindPath(new BlockPos(sx, sy, sz), new BlockPos(tx, ty, tz), 8, step, box, 2500, 1, EnumAICreatureType.LandCreature);
+                            List<PathNode> path = psys.astar.FindPath(new BlockPos(sx, sy, sz), new BlockPos(tx, ty, tz), 8, step, box, 10000, 1, EnumAICreatureType.LandCreature);
                             if (path != null) { verdict = "FOUND " + path.Count + " steps to " + tx + "," + tz; break; }
                             verdict = "NO PATH to " + tx + "," + tz;
                         }
                     }
-                    if (verdict != null) { tried++; if (verdict[0] == 'F') found++; }
+                    if (verdict != null) { tried++; if (verdict[0] == 'F') found++; outOf[(sx, sz)] = outOf.TryGetValue((sx, sz), out bool was) && was || verdict[0] == 'F'; }
                     if (verdict != null) report.Append(string.Format(CultureInfo.InvariantCulture, "  room {0:x} spot {1},{2} -> door {3},{4}: {5}" + "\n", room.Key, sx, sz, doorX, doorZ, verdict));
                 }
             }
         }
-        report.Append(string.Format(CultureInfo.InvariantCulture, "partypath: {0} rooms, {1} doors, {2} guest-door pairs, {3} found", rooms, doors, tried, found));
+        guests = outOf.Count; guestsOut = outOf.Values.Count(v => v);
+        report.Append(string.Format(CultureInfo.InvariantCulture, "partypath: {0} rooms, {1} doors, {2} guest-door pairs, {3} found; guests {4}, out {5}", rooms, doors, tried, found, guests, guestsOut));
         string text = report.ToString().TrimEnd();
         sapi.Logger.Notification("[backrooms] " + text);
         return TextCommandResult.Success(text);
