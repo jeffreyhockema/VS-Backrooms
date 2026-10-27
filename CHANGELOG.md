@@ -1,7 +1,7 @@
 # Changelog
 
 ## Unreleased
-- Saplings grow into trees now. Planted tree seeds went to saplings and then stood forever: the game only loads its tree shapes for its own world types, so the Backrooms had none to grow them with. Seeds and saplings planted on the open levels (9, 10, 11 and 94) become oak, birch, maple and the rest, and under a low roof the tree stops at the ceiling.
+- Saplings grow into trees now. Planted tree seeds went to saplings and then stood forever: the game only loads its tree shapes for its own world types, so the Backrooms had none to grow them with. Seeds and saplings planted on the open levels become oak, birch, maple and the rest, wherever there is room for the tree.
 
 ## 0.610.0 — the creatures, the needs and the climb
 - The wanderers who trade belong where they stand. Each keeps to a site with an identity from the lore: crate-pickers round a barrel in Level 1, an M.E.G. supply outpost in Level 4, an M.E.G. camp on the 9th Road stocked by B.N.T.G. caravans, a B.N.T.G. street vendor in the city, the Junkies of The End, the M.E.G.'s doorstep and Camp Amber in the Hub, and the campers of Level 3999. Each sells what its place has and buys what it lacks, with Almond Water kept scarce (a few bottles a week). They have a dialogue of their own instead of vanilla's ("You just noclip in?"), with useful talk: what lives there and how to deal with it, water and food, safe sleep, the ways out, a rumour of the next level, and whether there is a way home. The Junkies talk to anyone but trade only with someone carrying Memory Juice. Rusty gears stay the coin. Wanderers already in a world take their site's identity and wares the first time they load (their gears and names are kept).

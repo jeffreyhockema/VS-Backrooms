@@ -65,18 +65,6 @@ public class RigCommands : ModSystem
                     }
             return n;
         }
-        int logs0 = Count("log-"), leaves0 = Count("leaves");
-        blocks.SetBlock(sapling.Id, pos);
-        var be = blocks.GetBlockEntity(pos);
-        if (be == null || be.GetType().Name != "BlockEntitySapling") return TextCommandResult.Error("rig-error: no sapling block entity came of it (" + be?.GetType().Name + ")");
-        var type = be.GetType();
-        const BindingFlags any = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-        var stage = type.GetField("stage", any);
-        var due = type.GetField("totalHoursTillGrowth", any);
-        var check = type.GetMethod("CheckGrow", any);
-        if (stage == null || due == null || check == null) return TextCommandResult.Error("rig-error: BlockEntitySapling changed shape");
-        stage.SetValue(be, Enum.ToObject(stage.FieldType, 1)); // Sapling: the seed stage only waits one sprout time
-        string temp = blocks.GetClimateAt(pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, sapi.World.Calendar.TotalDays)?.Temperature.ToString("0.#", CultureInfo.InvariantCulture) ?? "?";
         // What the sapling's own check looks at before it grows anything (BlockEntitySapling.CheckGrow): the ground 32 blocks
         // out each way has to be loaded. A player has loaded it; here ask for it and let the caller try again
         string why = "";
@@ -89,6 +77,18 @@ public class RigCommands : ModSystem
             sapi.WorldManager.LoadChunkColumnPriority(far.X / cs, far.Z / cs, new ChunkLoadOptions { KeepLoaded = true });
         }
         if (why != "") return TextCommandResult.Error("rig-error: loading the chunks round the sapling, try again:" + why);
+        int logs0 = Count("log-"), leaves0 = Count("leaves");
+        blocks.SetBlock(sapling.Id, pos);
+        var be = blocks.GetBlockEntity(pos);
+        if (be == null || be.GetType().Name != "BlockEntitySapling") return TextCommandResult.Error("rig-error: no sapling block entity came of it (" + be?.GetType().Name + ")");
+        var type = be.GetType();
+        const BindingFlags any = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        var stage = type.GetField("stage", any);
+        var due = type.GetField("totalHoursTillGrowth", any);
+        var check = type.GetMethod("CheckGrow", any);
+        if (stage == null || due == null || check == null) return TextCommandResult.Error("rig-error: BlockEntitySapling changed shape");
+        stage.SetValue(be, Enum.ToObject(stage.FieldType, 1)); // Sapling: the seed stage only waits one sprout time
+        string temp = blocks.GetClimateAt(pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, sapi.World.Calendar.TotalDays)?.Temperature.ToString("0.#", CultureInfo.InvariantCulture) ?? "?";
         string treeGen = sapling.Attributes?["treeGen"].AsString();
         if (treeGen == null) why += " no-treeGen-attribute";
         else if (!sapi.World.TreeGenerators.ContainsKey(new AssetLocation(treeGen))) why += " generator-" + treeGen + "-not-registered";

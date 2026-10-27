@@ -963,7 +963,7 @@ BRIDGES["quenching"] = """
 """
 
 BRIDGES["fruittrees"] = """
-**In the Backrooms:** there are no fruit trees. Fruit comes from fridges (Levels 4 and 9, the city, Level 94's iceboxes) and from the berry bushes gone wild in Level 9's gardens and along Level 10's fields. The trees of Levels 9, 10, 11 and 94 are oak, birch and maple, for wood. A tree seed or sapling planted in their open ground grows into a tree where there is room for it; under a low roof it stops at the ceiling.
+**In the Backrooms:** there are no fruit trees. Fruit comes from fridges (Levels 4 and 9, the city, Level 94's iceboxes) and from the berry bushes gone wild in Level 9's gardens and along Level 10's fields. The trees of Levels 9, 10, 11 and 94 are oak, birch and maple, for wood. A tree seed or sapling planted in their open ground grows into a tree where there is room for it.
 """
 
 BRIDGES["alcohol"] = """

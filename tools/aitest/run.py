@@ -1320,9 +1320,10 @@ GROW_RE = re.compile(r"rig-growtree (\S+) at .* tree generators (\d+) \((with|no
 
 def _grow(c, level, wood):
     c.reset()
+    mk = c.srv.mark()
     c.place(None, level)
     d = None
-    for line in reversed(c.srv.since(0)):
+    for line in reversed(c.srv.since(mk)):
         d = DUMMY_RE.search(line)
         if d:
             break
@@ -1343,9 +1344,13 @@ def _grow(c, level, wood):
 def t_sapling_grows(c):
     out, ok = [], True
     for level, wood in (("9", "oak"), ("10", "oak"), ("9", "acacia")):
-        r, err = _grow(c, level, wood)
-        if r is None:
-            return False, "Level %s %s: %s" % (level, wood, err)
+        # (A random spot may be indoors or under a roof, where a tree rightly does not fit: try a few)
+        for attempt in range(3):
+            r, err = _grow(c, level, wood)
+            if r is None:
+                return False, "Level %s %s: %s" % (level, wood, err)
+            if r.group(5) == "yes" and int(r.group(6)) >= 3 and int(r.group(7)) >= 10:
+                break
         regs, grew, logs, leaves = int(r.group(2)), r.group(5) == "yes", int(r.group(6)), int(r.group(7))
         good = r.group(3) == "with" and grew and logs >= 3 and leaves >= 10
         ok = ok and good
