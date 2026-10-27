@@ -189,7 +189,7 @@ public partial class MenaceSystem : ModSystem
             Setting = Difficulties.FirstOrDefault(d => d.Code == code, NormalSetting);
             if (Setting.Code != code) api.Logger.Notification("[backrooms] unknown backroomsMenace '{0}': using normal", code);
             Roster.ApplySetting(Setting.MixDanger, Setting.CapBonus, Setting.HeartCapBonus);
-            foreach (string entity in Roster.AllCodes.Append("backrooms:wanderer-male"))
+            foreach (string entity in Roster.AllCodes.Append("backrooms:wanderer-male").Append("backrooms:partygoer").Append("backrooms:partygoer-intern"))
             {
                 EntityProperties type = api.World.GetEntityType(new AssetLocation(entity));
                 if (type == null) api.Logger.Warning("[backrooms] entity type {0} is missing", entity);

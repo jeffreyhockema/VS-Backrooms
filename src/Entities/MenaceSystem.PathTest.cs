@@ -33,6 +33,11 @@ public partial class MenaceSystem
                 .WithArgs(parsers.Word("entity"), parsers.Int("x"), parsers.Int("z"), parsers.Int("size"), parsers.Int("n"), parsers.OptionalInt("depth", 2500))
                 .HandleWith(args => RunPathTests(args, true))
             .EndSubCommand()
+            .BeginSubCommand("partypath")
+                .WithDescription("Dev test: for every Level Fun party room with guests within radius of x z, runs the pathfinder as an entity type would from each guest's stand to the corridor outside each of the room's doorways (tried 3 to 6 blocks out of the door) and tallies the paths found. Args: entity x z [radius]. The first try may only load the chunks")
+                .WithArgs(parsers.Word("entity"), parsers.Int("x"), parsers.Int("z"), parsers.OptionalInt("radius", 40))
+                .HandleWith(RunPartyPaths)
+            .EndSubCommand()
             .BeginSubCommand("squeeze")
                 .WithDescription("Dev test: the free width a Hound's squeeze rule measures at x y z (y is the floor, where the feet stand), across a walk along each axis and the speed factor that gives (AiTaskMenace.Squeeze: under 2 blocks, 60 %). Args: x y z [radius]. With a radius it surveys the square instead: for every open floor tile the tighter of the two ways, tallied by width, with a first example of each. The first try may only load the chunks")
                 .WithArgs(parsers.Int("x"), parsers.Int("y"), parsers.Int("z"), parsers.OptionalInt("radius", 0))
@@ -77,6 +82,70 @@ public partial class MenaceSystem
                     return TextCommandResult.Success(result);
                 })
             .EndSubCommand();
+    }
+
+    private TextCommandResult RunPartyPaths(TextCommandCallingArgs args)
+    {
+        if (layout == null) return TextCommandResult.Error("Not a Backrooms world");
+        string code = (string)args[0];
+        if (!code.Contains(':')) code = "backrooms:" + code;
+        if (!types.TryGetValue(code, out EntityProperties type)) return TextCommandResult.Error("No such entity: " + code);
+        PathfindSystem psys = sapi.ModLoader.GetModSystem<PathfindSystem>();
+        if (psys?.astar == null) return TextCommandResult.Error("No pathfinder");
+        int x = (int)args[1], z = (int)args[2], radius = (int)args[3];
+        int probeY = geometry.FloorFor(layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z))) + 1;
+        bool ready = true;
+        for (int cz = (z - radius) / 32 - 1; cz <= (z + radius) / 32 + 1; cz++)
+            for (int cx = (x - radius) / 32 - 1; cx <= (x + radius) / 32 + 1; cx++)
+            {
+                sapi.WorldManager.LoadChunkColumn(cx, cz, true);
+                if (sapi.World.BlockAccessor.GetChunkAtBlockPos(cx * 32 + 1, probeY, cz * 32 + 1) == null) ready = false;
+            }
+        if (!ready) return TextCommandResult.Error("The chunks are loading; try again in a moment");
+
+        Cuboidf box = type.SpawnCollisionBox;
+        float step = 0.6f;
+        if (type.Server?.BehaviorsAsJsonObj?.FirstOrDefault(b => b["code"].AsString() == "controlledphysics") is { } cp) step = cp["stepHeight"].AsFloat(0.6f);
+        var report = new System.Text.StringBuilder();
+        report.Append(string.Format(CultureInfo.InvariantCulture, "{0}: box {1:0.##}x{2:0.##}x{3:0.##}, step {4:0.####}\n", code, box.XSize, box.YSize, box.ZSize, step));
+        int rooms = 0, doors = 0, tried = 0, found = 0;
+        var (dxs, dzs) = (new[] { 1, -1, 0, 0 }, new[] { 0, 0, 1, -1 });
+        foreach (FunRoom room in layout.FunRoomsNear(x, z, radius))
+        {
+            if (room.Guests == 0 || room.Spots.Count == 0) continue;
+            rooms++;
+            foreach (var (doorX, doorZ) in room.Doors)
+            {
+                doors++;
+                foreach (var (sx, sz) in room.Spots)
+                {
+                    int sy = PathFloor(sx, sz);
+                    if (sy == int.MinValue) continue;
+                    string verdict = null;
+                    // (Out of the room's bounds on any side: a doorway on a corner could lead out either way)
+                    for (int d = 0; d < 4 && (verdict == null || verdict[0] == 'N'); d++)
+                    {
+                        int ox = doorX + dxs[d], oz = doorZ + dzs[d];
+                        if (ox >= room.X0 && ox <= room.X1 && oz >= room.Z0 && oz <= room.Z1) continue;
+                        for (int k = 3; k <= 6; k++)
+                        {
+                            int tx = doorX + dxs[d] * k, tz = doorZ + dzs[d] * k;
+                            int ty = PathFloor(tx, tz);
+                            if (ty == int.MinValue) continue;
+                            List<PathNode> path = psys.astar.FindPath(new BlockPos(sx, sy, sz), new BlockPos(tx, ty, tz), 8, step, box, 2500, 1, EnumAICreatureType.LandCreature);
+                            if (path != null) { verdict = "FOUND " + path.Count + " steps to " + tx + "," + tz; break; }
+                            verdict = "NO PATH to " + tx + "," + tz;
+                        }
+                    }
+                    if (verdict != null) { tried++; if (verdict[0] == 'F') found++; }
+                    if (verdict != null) report.Append(string.Format(CultureInfo.InvariantCulture, "  room {0:x} spot {1},{2} -> door {3},{4}: {5}" + "\n", room.Key, sx, sz, doorX, doorZ, verdict));
+                }
+            }
+        }
+        report.Append(string.Format(CultureInfo.InvariantCulture, "partypath: {0} rooms, {1} doors, {2} guest-door pairs, {3} found", rooms, doors, tried, found));
+        string text = report.ToString().TrimEnd();
+        sapi.Logger.Notification("[backrooms] " + text);
+        return TextCommandResult.Success(text);
     }
 
     private int PathFloor(int x, int z)
