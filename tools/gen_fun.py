@@ -2647,8 +2647,9 @@ def entities():
         return {
             "code": code, "class": "EntityAgent", "tags": ["backrooms-entity", "humanoid", "habitat-land", "partygoer"],
             "weight": 90,
-            # The model stands 36 px (2.25 blocks); the hitbox is kept just under the doorways' height
-            "hitboxSize": {"x": 0.8, "y": 2.2}, "deadHitboxSize": {"x": 0.8, "y": 0.6}, "eyeHeight": 2.0,
+            # The model stands 36 px (2.25 blocks); the hitbox is kept under the doorways' clear height (2 blocks: the pathfinder
+            # plans nobody through a gap lower than the box, so a 2.2 box kept every guest in its party room)
+            "hitboxSize": {"x": 0.8, "y": 1.95}, "deadHitboxSize": {"x": 0.8, "y": 0.6}, "eyeHeight": 1.8,
             "attributes": {"killedByInfoText": "backrooms:deadcreature-partygoer", "fireDamageClosed": 0.25, "fireDamageOpen": 3.0,
                            "headDamageOpen": 2.0},
             "drops": [E.drop("fun-partyhat-stripes", 0.2), E.drop("fun-partyhat-dots", 0.2), E.drop("game:gear-rusty", 0.5, 0.5)] + extra_drops,

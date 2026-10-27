@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+- Level Fun's Partygoers can leave their party rooms now. They stood 2.2 blocks tall and the rooms' doorways are 2 clear, so the game's pathfinder found no way out for them at all and they could only stand at the head table; they are 1.95 tall now (the model is unchanged).
+
 ## 0.610.0 — the creatures, the needs and the climb
 - The wanderers who trade belong where they stand. Each keeps to a site with an identity from the lore: crate-pickers round a barrel in Level 1, an M.E.G. supply outpost in Level 4, an M.E.G. camp on the 9th Road stocked by B.N.T.G. caravans, a B.N.T.G. street vendor in the city, the Junkies of The End, the M.E.G.'s doorstep and Camp Amber in the Hub, and the campers of Level 3999. Each sells what its place has and buys what it lacks, with Almond Water kept scarce (a few bottles a week). They have a dialogue of their own instead of vanilla's ("You just noclip in?"), with useful talk: what lives there and how to deal with it, water and food, safe sleep, the ways out, a rumour of the next level, and whether there is a way home. The Junkies talk to anyone but trade only with someone carrying Memory Juice. Rusty gears stay the coin. Wanderers already in a world take their site's identity and wares the first time they load (their gears and names are kept).
 - Hounds fit through gaps one block wide now (their body was 1.1 wide, so they could not get along Level 2's one-wide service tunnels or past clutter in Level 4's cubicles and the hotel's halls): body 0.9 wide, same look, same size to hit. They still slow down for obstacles: through anything under two blocks wide a Hound goes at about 60 % of its speed.

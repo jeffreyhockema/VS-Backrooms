@@ -1309,7 +1309,40 @@ def t_path_cubicle_partition(c):
     return line.startswith("FOUND") and steps is not None and int(steps.group(1)) >= 10, line[:200]
 
 
-PATH_CASES = [("path-cubicle-partition", t_path_cubicle_partition)]
+def t_path_party_door(c):
+    """Level Fun: a Partygoer standing at its party (a guest's stand round the head table) must have a path out through the room's
+    doorway to the corridor (the doorway is 2 blocks high: a 2.2 high hitbox was planned nowhere). `/backrooms partypath` tries every
+    guest stand against every doorway of the party rooms near a straw dummy put down in Level Fun."""
+    last = "no party room with guests found"
+    for key in range(1, 9):
+        try:
+            c.place(key, "fun")
+        except RuntimeError:
+            continue
+        dummy = None
+        for l in reversed(c.srv.since(0)):
+            dummy = DUMMY_RE.search(l)
+            if dummy:
+                break
+        if not dummy:
+            continue
+        x, z = int(dummy.group(2)), int(dummy.group(4))
+        for _ in range(8):
+            m = c.srv.mark()
+            c.srv.cmd("/backrooms partypath partygoer %d %d 48" % (x, z))
+            r = c.srv.wait(lambda l: re.search(r"partypath: (\d+) rooms, (\d+) doors, (\d+) guest-door pairs, (\d+) found|The chunks are loading|Error", l), m, 30)
+            if r and r.group(1) is not None:
+                rooms, doors, tried, found = (int(r.group(i)) for i in range(1, 5))
+                lines = [l.strip() for l in c.srv.since(m) if "room " in l and "spot " in l]
+                last = "dummy key %d at %d,%d: %d rooms, %d doors, %d pairs, %d found; %s" % (key, x, z, rooms, doors, tried, found, " | ".join(l[-90:] for l in lines[:3]))
+                if tried >= 2:
+                    return found == tried, last
+                break
+            time.sleep(4)
+    return False, last
+
+
+PATH_CASES = [("path-cubicle-partition", t_path_cubicle_partition), ("path-party-door", t_path_party_door)]
 
 # ---------------------------------------------------------------- progression round, piece B: lethality and speed (plan.md 3.5)
 # `/backrooms armourtest <entity> <level> [set]` re-runs vanilla's armour rules on the real items (a straw dummy cannot wear any) and logs
