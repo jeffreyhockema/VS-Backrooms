@@ -271,11 +271,17 @@ public partial class AtmosphereSystem : ModSystem
         fog.CloudBrightness = WeightedFloat.New(0.75f, 0f);
         capi.Ambient.CurrentModifiers[ModifierKey] = fog;
 
+        // Vanilla's "Cave Mix" (drones, bells, bass from music/deepunderground) plays wherever no sunlight reaches the
+        // player, which is every enclosed level here: it is not the Backrooms' sound. Off in these worlds; vanilla's
+        // surface tracks still reach the open-sky levels. (A static: put back when the world closes.)
+        CaveMusicTrack.ShouldPlayCaveMusic = false;
+
         tickListener = capi.Event.RegisterGameTickListener(OnTick, 50);
     }
 
     public override void Dispose()
     {
+        CaveMusicTrack.ShouldPlayCaveMusic = true;
         if (capi != null)
         {
             if (tickListener != 0) capi.Event.UnregisterGameTickListener(tickListener);
