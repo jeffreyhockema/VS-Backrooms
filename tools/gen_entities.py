@@ -877,9 +877,11 @@ def hound():
         "class": "EntityAgent",
         "tags": ["backrooms-entity", "predator", "habitat-land"],
         "weight": 70,
-        # The model is 23 px (1.45 blocks) at the shoulder and 33 long; the head hangs at about 1.1. The body is 0.9 wide, so it
-        # fits a gap one block wide (1.1 never did: Level 2's service tunnels, Level 4's cubicles); what the player can hit stays 1.1 (hitboxSize would set both, so the two are given apart)
-        "collisionBoxSize": {"x": 0.9, "y": 1.3},
+        # The model is 23 px (1.45 blocks) at the shoulder and 33 long; the head hangs at about 1.1. The body is 0.58 wide, so it
+        # always fits a gap one block wide (1.1 never did: Level 2's service tunnels, Level 4's cubicles; 0.9 only half the time,
+        # since the pathfinder sets the box down at a random 0.3 to 0.7 across each cell and only a box under 0.6 fits wherever it lands);
+        # what the player can hit stays 1.1 (hitboxSize would set both, so the two are given apart)
+        "collisionBoxSize": {"x": 0.58, "y": 1.3},
         "selectionBoxSize": {"x": 1.1, "y": 1.3},
         "deadHitboxSize": {"x": 1.0, "y": 0.6},
         "eyeHeight": 1.1,
