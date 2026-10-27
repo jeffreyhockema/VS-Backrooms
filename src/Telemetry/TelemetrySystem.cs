@@ -126,7 +126,7 @@ public class TelemetrySystem : ModSystem
     public override void StartClientSide(ICoreClientAPI api)
     {
         capi = api;
-        api.Input.RegisterHotKey(HotkeyCode, "Backrooms: mark this moment", GlKeys.F8, HotkeyType.GUIOrOtherControls);
+        api.Input.RegisterHotKey(HotkeyCode, Lang.Get("backrooms:hotkey-mark"), GlKeys.F8, HotkeyType.GUIOrOtherControls);
         api.Input.SetHotKeyHandler(HotkeyCode, _ => SendMark(""));
         api.ChatCommands.Create("mark")
             .WithDescription("Marks this moment in the play telemetry, with a note: .mark the hound came from behind")

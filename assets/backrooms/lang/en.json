@@ -822,6 +822,8 @@
 
 	"corpse-name": "Body of {0}",
 	"corpse-bones-name": "Bones of {0}",
+	"item-creature-corpse": "Body",
+	"item-creature-corpse-bones": "Bones",
 	"corpse-title": "{0}'s belongings",
 	"corpse-waypoint": "My body ({0}, day {1})",
 	"corpse-waits": "Your belongings lie with your body, where you fell. It will wait for you as long as it takes, and it is marked on your map.",
@@ -2350,6 +2352,8 @@
 	"journal-markagain": "Mark again",
 	"journal-pocket": "(on the back, in pencil)",
 	"journal-hotkey": "Wanderer's journal",
+	"hotkey-cheats": "Backrooms: cheat menu",
+	"hotkey-mark": "Backrooms: mark this moment",
 	"note-dialog-title": "A note",
 	"note-dialog-journal": "Journal (J)",
 	"note-dialog-close": "Close",
