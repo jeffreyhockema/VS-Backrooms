@@ -1311,6 +1311,50 @@ def t_path_cubicle_partition(c):
 
 PATH_CASES = [("path-cubicle-partition", t_path_cubicle_partition)]
 
+# ---------------------------------------------------------------- world: planted saplings grow into trees. Vanilla loads the tree
+# generators (worldgen/treegen) only for its own world types, so in a Backrooms world every sapling came due and stopped for good
+# (BlockEntitySapling gives up when the registry lacks its treeGen). `/backrooms growtree x y z wood` plants one, makes it due and
+# runs its growth check; it answers with one "rig-growtree" line.
+GROW_RE = re.compile(r"rig-growtree (\S+) at .* tree generators (\d+) \((with|no) englishoak\), temperature (-?[\d.]+), grew (yes|no), logs (-?\d+), leaves (-?\d+), blocked by:(.*)")
+
+
+def _grow(c, level, wood):
+    c.reset()
+    c.place(None, level)
+    d = None
+    for line in reversed(c.srv.since(0)):
+        d = DUMMY_RE.search(line)
+        if d:
+            break
+    if not d:
+        return None, "no dummy position"
+    for _ in range(12):
+        m = c.srv.mark()
+        c.srv.cmd("/backrooms growtree %s %s %s %s" % (d.group(2), d.group(3), d.group(4), wood))
+        r = c.srv.wait(lambda l: GROW_RE.search(l) or ("rig-error" in l and l), m, 20)
+        if hasattr(r, "group"):
+            return r, ""
+        if r and "try again" not in r:
+            return None, r.strip()[:200]
+        time.sleep(6)
+    return None, "the chunks round the sapling never loaded"
+
+
+def t_sapling_grows(c):
+    out, ok = [], True
+    for level, wood in (("9", "oak"), ("10", "oak"), ("9", "acacia")):
+        r, err = _grow(c, level, wood)
+        if r is None:
+            return False, "Level %s %s: %s" % (level, wood, err)
+        regs, grew, logs, leaves = int(r.group(2)), r.group(5) == "yes", int(r.group(6)), int(r.group(7))
+        good = r.group(3) == "with" and grew and logs >= 3 and leaves >= 10
+        ok = ok and good
+        out.append("L%s %s: %d generators, grew %s, %d logs, %d leaves%s" % (level, wood, regs, r.group(5), logs, leaves, "" if good else " <- " + r.group(8).strip()))
+    return ok, "; ".join(out)
+
+
+WORLD_CASES = [("sapling-grows", t_sapling_grows)]
+
 # ---------------------------------------------------------------- progression round, piece B: lethality and speed (plan.md 3.5)
 # `/backrooms armourtest <entity> <level> [set]` re-runs vanilla's armour rules on the real items (a straw dummy cannot wear any) and logs
 # one line per set; the speed floor is read off the entity log's "pace:" line (headless entities never walk).
@@ -1596,13 +1640,15 @@ def main():
         only = (only - {"path"}) | {n for n, _ in PATH_CASES}
     if only and "prog" in only:
         only = (only - {"prog"}) | {n for n, _ in PROG_CASES}
+    if only and "world" in only:
+        only = (only - {"world"}) | {n for n, _ in WORLD_CASES}
     if only and "walk" in only:
         only = (only - {"walk"}) | {n for n, _ in WALK_CASES}
     if only and "iso-hound" in only:
         only = (only - {"iso-hound"}) | {n for n, _ in ISO_HOUND_CASES}
     if only:
         # A mistyped name would otherwise boot the server (up to 15 minutes), run nothing and exit 0
-        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + PROG_CASES + WALK_CASES} | {"p1-no-errors", "dummies-smoke"}
+        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES} | {"p1-no-errors", "dummies-smoke"}
         if only - known:
             sys.exit("unknown case(s): " + ", ".join(sorted(only - known)))
     started = time.time()
@@ -1616,7 +1662,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + PROG_CASES + WALK_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()
@@ -1640,7 +1686,7 @@ def main():
             results.append(("dummies-smoke", ok))
             print("%s dummies-smoke: %s" % ("PASS" if ok else "FAIL", ev), flush=True)
         if a.rerun_failed and not died:
-            fns = dict(CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + PROG_CASES + WALK_CASES)
+            fns = dict(CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES)
             fns["dummies-smoke"] = smoke
             for i, (name, ok0) in enumerate(list(results)):
                 if ok0 is not False or not fns.get(name):
