@@ -1,5 +1,7 @@
 using System;
 using System.Globalization;
+using System.Linq;
+using System.Reflection;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
@@ -30,7 +32,76 @@ public class RigCommands : ModSystem
                 .RequiresPlayer()
                 .WithArgs(parsers.Word("what"), parsers.OptionalWord("arg"))
                 .HandleWith(Handle)
+            .EndSubCommand()
+            .BeginSubCommand("growtree")
+                .WithDescription("Dev: plants game:sapling-<wood>-free at x y z (the air block above the ground), makes it due and runs the sapling's own growth check until it turns into a tree; reports the tree generators the world has, the ground under it and the logs and leaves that came of it (from the console too)")
+                .WithArgs(parsers.Int("x"), parsers.Int("y"), parsers.Int("z"), parsers.OptionalWord("wood"))
+                .HandleWith(GrowTree)
             .EndSubCommand();
+    }
+
+    TextCommandResult GrowTree(TextCommandCallingArgs args)
+    {
+        var pos = new BlockPos((int)args[0], (int)args[1], (int)args[2]);
+        string wood = (args[3] as string)?.Trim();
+        if (string.IsNullOrEmpty(wood)) wood = "oak";
+        IBlockAccessor blocks = sapi.World.BlockAccessor;
+        if (blocks.GetChunkAtBlockPos(pos) == null) return TextCommandResult.Error("rig-error: that column is not loaded");
+        Block sapling = sapi.World.GetBlock(new AssetLocation("game:sapling-" + wood + "-free"));
+        if (sapling == null) return TextCommandResult.Error("rig-error: no block sapling-" + wood + "-free");
+        string under = blocks.GetBlock(pos.DownCopy()).Code?.ToString() ?? "?";
+        int generators = sapi.World.TreeGenerators.Count;
+        // A box round the sapling: what stood there before, so only the tree is counted
+        int Count(string what)
+        {
+            int n = 0;
+            var p = new BlockPos(0, 0, 0);
+            for (int dx = -12; dx <= 12; dx++)
+                for (int dz = -12; dz <= 12; dz++)
+                    for (int dy = 0; dy <= 40; dy++)
+                    {
+                        p.Set(pos.X + dx, pos.Y + dy, pos.Z + dz);
+                        if (p.Y < sapi.WorldManager.MapSizeY && (blocks.GetBlock(p).Code?.Path.Contains(what) ?? false)) n++;
+                    }
+            return n;
+        }
+        // What the sapling's own check looks at before it grows anything (BlockEntitySapling.CheckGrow): the ground 32 blocks
+        // out each way has to be loaded. A player has loaded it; here ask for it and let the caller try again
+        string why = "";
+        int cs = sapi.WorldManager.ChunkSize;
+        foreach (BlockFacing f in BlockFacing.HORIZONTALS)
+        {
+            var far = new BlockPos(pos.X + f.Normali.X * 32, pos.Y, pos.Z + f.Normali.Z * 32);
+            if (!blocks.IsValidPos(far) || blocks.GetChunkAtBlockPos(far) != null) continue;
+            why += " chunk-32-" + f.Code + "-not-loaded";
+            sapi.WorldManager.LoadChunkColumnPriority(far.X / cs, far.Z / cs, new ChunkLoadOptions { KeepLoaded = true });
+        }
+        if (why != "") return TextCommandResult.Error("rig-error: loading the chunks round the sapling, try again:" + why);
+        int logs0 = Count("log-"), leaves0 = Count("leaves");
+        blocks.SetBlock(sapling.Id, pos);
+        var be = blocks.GetBlockEntity(pos);
+        if (be == null || be.GetType().Name != "BlockEntitySapling") return TextCommandResult.Error("rig-error: no sapling block entity came of it (" + be?.GetType().Name + ")");
+        var type = be.GetType();
+        const BindingFlags any = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        var stage = type.GetField("stage", any);
+        var due = type.GetField("totalHoursTillGrowth", any);
+        var check = type.GetMethod("CheckGrow", any);
+        if (stage == null || due == null || check == null) return TextCommandResult.Error("rig-error: BlockEntitySapling changed shape");
+        stage.SetValue(be, Enum.ToObject(stage.FieldType, 1)); // Sapling: the seed stage only waits one sprout time
+        string temp = blocks.GetClimateAt(pos, EnumGetClimateMode.ForSuppliedDate_TemperatureOnly, sapi.World.Calendar.TotalDays)?.Temperature.ToString("0.#", CultureInfo.InvariantCulture) ?? "?";
+        string treeGen = sapling.Attributes?["treeGen"].AsString();
+        if (treeGen == null) why += " no-treeGen-attribute";
+        else if (!sapi.World.TreeGenerators.ContainsKey(new AssetLocation(treeGen))) why += " generator-" + treeGen + "-not-registered";
+        bool grew = false;
+        for (int i = 0; i < 3 && !grew; i++)
+        {
+            due.SetValue(be, 0.0);
+            check.Invoke(be, new object[] { 0f });
+            grew = blocks.GetBlock(pos).Id != sapling.Id;
+        }
+        return TextCommandResult.Success(string.Format(CultureInfo.InvariantCulture,
+            "rig-growtree {0} at {1} {2} {3} on {4}: tree generators {5}, temperature {6}, grew {7}, logs {8}, leaves {9}, blocked by:{10}",
+            sapling.Code.Path, pos.X, pos.Y, pos.Z, under, generators + (sapi.World.TreeGenerators.ContainsKey(new AssetLocation("englishoak")) ? " (with englishoak)" : " (no englishoak)"), temp, grew ? "yes" : "no", Count("log-") - logs0, Count("leaves") - leaves0, why == "" ? " nothing found" : why));
     }
 
     TextCommandResult Handle(TextCommandCallingArgs args)
