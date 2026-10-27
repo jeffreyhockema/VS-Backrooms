@@ -1327,18 +1327,26 @@ def t_path_party_door(c):
         if not dummy:
             continue
         x, z = int(dummy.group(2)), int(dummy.group(4))
-        for _ in range(8):
+        # (The game's A* sets the entity box down at a random 0.3 to 0.7 across each cell for every search, so one run proves little:
+        # three searches per guest, and every guest must get out each time)
+        worst, rounds, last_line = None, 0, None
+        for _ in range(12):
             m = c.srv.mark()
             c.srv.cmd("/backrooms partypath partygoer %d %d 48" % (x, z))
-            r = c.srv.wait(lambda l: re.search(r"partypath: (\d+) rooms, (\d+) doors, (\d+) guest-door pairs, (\d+) found|The chunks are loading|Error", l), m, 30)
-            if r and r.group(1) is not None:
-                rooms, doors, tried, found = (int(r.group(i)) for i in range(1, 5))
-                lines = [l.strip() for l in c.srv.since(m) if "room " in l and "spot " in l]
-                last = "dummy key %d at %d,%d: %d rooms, %d doors, %d pairs, %d found; %s" % (key, x, z, rooms, doors, tried, found, " | ".join(l[-90:] for l in lines[:3]))
-                if tried >= 2:
-                    return found == tried, last
+            r = c.srv.wait(lambda l: re.search(r"partypath: (\d+) rooms, (\d+) doors, (\d+) guest-door pairs, (\d+) found; guests (\d+), out (\d+)|The chunks are loading|Error", l), m, 30)
+            if not r or r.group(1) is None:
+                time.sleep(4)
+                continue
+            rooms, doors, tried, found, guests, out = (int(r.group(i)) for i in range(1, 7))
+            if guests < 2:
                 break
-            time.sleep(4)
+            rounds += 1
+            lines = [l.strip() for l in c.srv.since(m) if "room " in l and "spot " in l and "NO PATH" in l]
+            if worst is None or out < worst[0]:
+                worst = (out, guests, rooms, doors, lines[:3])
+            last = "dummy key %d at %d,%d: %d rooms, %d doors, %d of %d guests out (worst of %d rounds)%s" % (key, x, z, worst[2], worst[3], worst[0], worst[1], rounds, "".join("\n  " + l[-120:] for l in worst[4]))
+            if rounds >= 3:
+                return worst[0] == worst[1], last
     return False, last
 
 

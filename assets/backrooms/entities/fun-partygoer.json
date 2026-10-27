@@ -9,7 +9,7 @@
 	],
 	"weight": 90,
 	"hitboxSize": {
-		"x": 0.8,
+		"x": 0.58,
 		"y": 1.95
 	},
 	"deadHitboxSize": {
