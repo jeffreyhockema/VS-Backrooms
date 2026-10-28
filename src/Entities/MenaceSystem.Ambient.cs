@@ -79,6 +79,13 @@ public partial class MenaceSystem
             : crowd ? AmbientMinutesCrowd : a.Level is 1 or 4 or 5 ? AmbientMinutesLived : AmbientMinutes;
         long wait = (long)(minutes * 60_000 * (AmbientJitterLow + (AmbientJitterHigh - AmbientJitterLow) * rand.NextDouble()));
         ambientNextMs[target.EntityId] = now + wait;
+        // (Whoever is about the same place waits for the same time: two people together are not met by wanderers twice as often)
+        foreach (Vintagestory.API.Common.IPlayer online in sapi.World.AllOnlinePlayers)
+            if (online.Entity is { Alive: true } near && near != target && near.Pos.Dimension == target.Pos.Dimension && near.Pos.DistanceTo(target.Pos) <= AmbientRadius)
+                ambientNextMs[near.EntityId] = Math.Max(ambientNextMs.GetValueOrDefault(near.EntityId), now + wait);
+        foreach (Entity dummy in dummies)
+            if (dummy != target && dummy.Alive && dummy.Pos.DistanceTo(target.Pos) <= AmbientRadius)
+                ambientNextMs[dummy.EntityId] = Math.Max(ambientNextMs.GetValueOrDefault(dummy.EntityId), now + wait);
         if (Logging) sapi.Logger.Notification("[backrooms] ambient {0} put down by the wanderers' roll; the next in {1:0} s", entry.Code, wait / 1000.0);
     }
 

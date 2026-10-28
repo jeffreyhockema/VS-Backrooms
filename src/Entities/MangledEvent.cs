@@ -156,7 +156,7 @@ public class MangledEvent : ModSystem
             double chance = a.Band switch { MenaceBand.Heartland => 0.00007, MenaceBand.Approach => 0.0002, _ => 0.0004 };
             if (a.Shift) chance *= 8;
             // Scaled by the spawn setting (its square root), and only one event at a time, whoever it is for
-            chance *= director.Setting.SetPieceScale;
+            chance *= director.Setting.SetPieceScale * director.PartyShare(entity);
             if (rand.NextDouble() < chance && !events.Values.Any(ev => ev.Phase != Phase.Ending || ev.Mangled?.Alive == true))
             {
                 events[entity.EntityId] = new Event();

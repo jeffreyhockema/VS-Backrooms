@@ -184,7 +184,7 @@ public class BeastSystem : ModSystem
             bool boiler = director.Layout.IsHotelBoilerHall((int)Math.Floor(entity.Pos.X), (int)Math.Floor(entity.Pos.Z));
             double chance = a.Band switch { MenaceBand.Heartland => 1 / 4000.0, MenaceBand.Approach => 1 / 2000.0, _ => 1 / 1200.0 };
             if (!boiler) chance /= 4;
-            chance *= (1 + 2 * (1 - Math.Clamp(Senses.Stability(entity), 0, 1))) * director.Setting.SetPieceScale;
+            chance *= (1 + 2 * (1 - Math.Clamp(Senses.Stability(entity), 0, 1))) * director.Setting.SetPieceScale * director.PartyShare(entity);
             if (rand.NextDouble() < chance)
             {
                 events[entity.EntityId] = new Event { Target = entity, GlimpseAt = 20 + rand.NextDouble() * 15 };

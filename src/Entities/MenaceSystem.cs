@@ -231,6 +231,11 @@ public partial class MenaceSystem : ModSystem
                 .WithArgs(api.ChatCommands.Parsers.Word("level"), api.ChatCommands.Parsers.OptionalWord("band"), api.ChatCommands.Parsers.OptionalWord("hours"), api.ChatCommands.Parsers.OptionalWord("menacing"), api.ChatCommands.Parsers.OptionalWord("awake"))
                 .HandleWith(OnRateCheckCommand)
             .EndSubCommand()
+            .BeginSubCommand("partycheck")
+                .WithDescription("Simulates the rolls for hours of players standing in a line <spacing> blocks apart in one level and band, with the party rule (new) or as it was before 0.610.2 (old: places of 24 blocks, one roll each, no bonus), and prints the bodies and sounds an hour in all and for each player (the rolls only, as ratecheck): /backrooms partycheck <level> <band> <players> <spacing> [hours] [old|new]")
+                .WithArgs(api.ChatCommands.Parsers.Word("level"), api.ChatCommands.Parsers.Word("band"), api.ChatCommands.Parsers.Int("players"), api.ChatCommands.Parsers.Int("spacing"), api.ChatCommands.Parsers.OptionalWord("hours"), api.ChatCommands.Parsers.OptionalWord("mode"))
+                .HandleWith(OnPartyCheckCommand)
+            .EndSubCommand()
             .BeginSubCommand("encounter")
                 .WithDescription("Puts down an entity (any Backrooms entity code: smiler, hound, faceling, deathmoth-male, deathrat, wretch, ...) for an encounter (ambient, glimpse, stalk, hunt; default hunt), optionally at a distance. From the console, give x and z: it targets a straw dummy put down there.")
                 .WithArgs(api.ChatCommands.Parsers.Word("entity"), api.ChatCommands.Parsers.OptionalWord("kind"), api.ChatCommands.Parsers.OptionalInt("x"), api.ChatCommands.Parsers.OptionalInt("z"), api.ChatCommands.Parsers.OptionalInt("distance"))
@@ -609,49 +614,36 @@ public partial class MenaceSystem : ModSystem
         if (DirectsDummies) ReportDummies();
     }
 
-    /// <summary>Players (and dummies) in the same level this close share one spawn roll (README section 5: spawn attempts are per place).</summary>
-    private const double PlaceRadius = 24, PlaceHeight = 12;
+    /// <summary>Players (and dummies) in the same level this close share one spawn roll, a party's (README section 5; MenaceSystem.Party.cs).</summary>
+    private const double PlaceRadius = PartyRadius, PlaceHeight = PartyHeight;
 
     /// <summary>
-    /// Directs everyone, rolling for a spawn once per place: those within <see cref="PlaceRadius"/> blocks of each other
+    /// Directs everyone, rolling for a spawn once per party: those within <see cref="PlaceRadius"/> blocks of each other
     /// in the same level (greedily, each joining the first group that has a member that near) share one roll, made for
-    /// the member in the most danger (the highest menace). Wanderers, the Flickering and the Screaming stay per person.
+    /// the member in the most danger (the highest menace), at PartyFactor times the rate; the Flickering and the Screaming are rolled with it and the arrival is for a member drawn at random. Wanderers stay per person.
     /// Someone alone in their place is directed exactly as before.
     /// </summary>
     private void DirectByPlace(List<(Entity Entity, Watch Watch, bool Creative)> directed)
     {
-        var groups = new List<List<int>>();
-        for (int i = 0; i < directed.Count; i++)
+        List<List<int>> groups = PartyGroups(directed.Count, (i, j) =>
         {
-            Entity e = directed[i].Entity;
-            List<int> home = null;
-            foreach (List<int> group in groups)
-            {
-                foreach (int j in group)
-                {
-                    Entity o = directed[j].Entity;
-                    double dx = e.Pos.X - o.Pos.X, dz = e.Pos.Z - o.Pos.Z;
-                    Assessment ai = directed[i].Watch.Now, aj = directed[j].Watch.Now;
-                    if (ai.Level != aj.Level || ai.Snackrooms != aj.Snackrooms || ai.Castle != aj.Castle || Math.Abs(e.Pos.Y - o.Pos.Y) > PlaceHeight
-                        || dx * dx + dz * dz > PlaceRadius * PlaceRadius) continue;
-                    home = group;
-                    break;
-                }
-                if (home != null) break;
-            }
-            if (home == null) groups.Add(home = new List<int>());
-            home.Add(i);
-        }
+            Entity e = directed[i].Entity, o = directed[j].Entity;
+            Assessment ai = directed[i].Watch.Now, aj = directed[j].Watch.Now;
+            return ai.Level == aj.Level && ai.Snackrooms == aj.Snackrooms && ai.Castle == aj.Castle
+                && Math.Abs(e.Pos.Y - o.Pos.Y) <= PlaceHeight && Within(e.Pos.X - o.Pos.X, e.Pos.Z - o.Pos.Z);
+        });
         foreach (List<int> group in groups)
         {
             // Only someone who can be hunted rolls (not a creative player, the King's trial, or the Safe band); a real
             // player's place is not rolled for the dummies in it
             bool anyPlayer = group.Any(i => directed[i].Entity is EntityPlayer);
             int rolls = -1;
+            var mates = new List<(Entity Entity, Watch Watch)>();
             foreach (int i in group)
             {
                 (Entity entity, Watch watch, bool creative) = directed[i];
                 if (creative && !CreativeHunted || watch.Now.Trial || watch.Now.Band == MenaceBand.Safe || anyPlayer && entity is not EntityPlayer) continue;
+                mates.Add((entity, watch));
                 if (rolls < 0 || watch.Now.Value > directed[rolls].Watch.Now.Value) rolls = i;
             }
             // The place shares its body and sound clocks: the roller sees the latest of the group's, and all are stamped with the result
@@ -661,13 +653,17 @@ public partial class MenaceSystem : ModSystem
                     directed[rolls].Watch.LastBodyMs = Math.Max(directed[rolls].Watch.LastBodyMs, directed[i].Watch.LastBodyMs);
                     directed[rolls].Watch.LastSoundMs = Math.Max(directed[rolls].Watch.LastSoundMs, directed[i].Watch.LastSoundMs);
                 }
-            foreach (int i in group) Direct(directed[i].Entity, directed[i].Watch, directed[i].Creative, i == rolls);
+            foreach (int i in group) Direct(directed[i].Entity, directed[i].Watch, directed[i].Creative, i == rolls, mates);
             if (rolls >= 0)
+            {
+                // (The arrival may have been for another member than the roller: the latest of the group's clocks is the group's)
+                long body = group.Max(i => directed[i].Watch.LastBodyMs), sound = group.Max(i => directed[i].Watch.LastSoundMs);
                 foreach (int i in group)
                 {
-                    directed[i].Watch.LastBodyMs = Math.Max(directed[i].Watch.LastBodyMs, directed[rolls].Watch.LastBodyMs);
-                    directed[i].Watch.LastSoundMs = Math.Max(directed[i].Watch.LastSoundMs, directed[rolls].Watch.LastSoundMs);
+                    directed[i].Watch.LastBodyMs = body;
+                    directed[i].Watch.LastSoundMs = sound;
                 }
+            }
         }
     }
 
@@ -722,7 +718,7 @@ public partial class MenaceSystem : ModSystem
     /// <paramref name="rolls"/>: whether this one makes the place's spawn roll (see <see cref="DirectByPlace"/>); the
     /// wanderers, the Flickering and the Screaming are rolled for everyone.
     /// </summary>
-    private void Direct(Entity target, Watch watch, bool creative, bool rolls = true)
+    private void Direct(Entity target, Watch watch, bool creative, bool rolls = true, List<(Entity Entity, Watch Watch)> mates = null)
     {
         creative &= !CreativeHunted; // (/backrooms creativehunts: a creative player is directed like anyone else)
         Assessment a = watch.Now;
@@ -733,21 +729,31 @@ public partial class MenaceSystem : ModSystem
         if (Setting.Entities) SpawnAmbient(target, a, roster);
         if (a.Band == MenaceBand.Safe) return;
 
+        // A party (the people within PartyRadius of each other in a level) is rolled for once, for the member in most danger, at
+        // PartyFactor times the rate (see MenaceSystem.Party.cs); who the arrival is for is drawn from the party. Alone, nothing changes.
+        int party = rolls && mates != null ? Math.Max(1, mates.Count) : 1;
+        double factor = PartyFactor(party);
+        Entity actor = target;
+        Watch actorWatch = watch;
+        if (party > 1) (actor, actorWatch) = mates[rand.Next(party)];
+        Assessment aa = actorWatch.Now;
+        RosterEntry[] actorRoster = aa.Snackrooms ? Roster.Snackrooms : aa.Castle ? Roster.Castle : Roster.For(aa.Level);
+
         // Level 1's Flickering: out towards the edge, now and then the lights of a section fail, and the Hounds come
         double hours = sapi.World.Calendar.TotalHours;
-        if (a.Level == 1 && a.Band >= MenaceBand.Approach && Setting.Entities && !creative && !a.Flickering && hours >= watch.NextFlickerHours
-            && rand.NextDouble() < 0.004 + 0.01 * a.Value && types.ContainsKey(Roster.Hound) && BodyAllowed(target, watch, a))
+        if (rolls && aa.Level == 1 && aa.Band >= MenaceBand.Approach && Setting.Entities && !creative && !aa.Flickering && hours >= actorWatch.NextFlickerHours
+            && rand.NextDouble() < (0.004 + 0.01 * aa.Value) * factor && types.ContainsKey(Roster.Hound) && BodyAllowed(actor, actorWatch, aa))
         {
             // (A set piece, but not on top of another encounter: it waits for the hard gap and the one-kind rule; once started the Hounds always come, capped as a pack is)
-            StartFlicker(target, watch, roster);
+            StartFlicker(actor, actorWatch, actorRoster);
             return;
         }
 
         // The Screaming: somewhere near, the rats are after something, and the lights fail while they are
-        if (a.Level == 2 && a.Band >= MenaceBand.Approach && Setting.Entities && !creative && !a.Flickering && hours >= watch.NextScreamHours
-            && rand.NextDouble() < 0.0015 + 0.004 * a.Value && BodyAllowed(target, watch, a))
+        if (rolls && aa.Level == 2 && aa.Band >= MenaceBand.Approach && Setting.Entities && !creative && !aa.Flickering && hours >= actorWatch.NextScreamHours
+            && rand.NextDouble() < (0.0015 + 0.004 * aa.Value) * factor && BodyAllowed(actor, actorWatch, aa))
         {
-            StartScreaming(target, watch);
+            StartScreaming(actor, actorWatch);
             return;
         }
 
@@ -755,26 +761,26 @@ public partial class MenaceSystem : ModSystem
         // Bodies and sounds are rolled apart, as rates with hard gaps (EncounterRoll); no fallback sounds: a failed spawn is silence
         long nowMs = sapi.World.ElapsedMilliseconds;
         // (Thirst and fatigue scale the odds for this player: Needs.DirectorMult, 1 when rested and watered)
-        RollKind roll = EncounterRoll.Roll(a.Band, a.Level, a.Value, Setting.Spawns * Backrooms.Needs.Needs.DirectorMult(target), nowMs - watch.LastBodyMs, nowMs - watch.LastSoundMs, a.Den != DenKind.None, CountMenacingKinds(target), a.Worst, rand);
+        RollKind roll = EncounterRoll.Roll(a.Band, a.Level, a.Value, Setting.Spawns * Backrooms.Needs.Needs.DirectorMult(target) * factor, nowMs - watch.LastBodyMs, nowMs - watch.LastSoundMs, a.Den != DenKind.None, CountMenacingKinds(target), a.Worst, rand);
         if (roll == RollKind.Nothing) return;
         if (roll == RollKind.Sound)
         {
             watch.LastSoundMs = nowMs;
-            PlayDistantSound(target, a.Level);
+            PlayDistantSound(actor, aa.Level);
             return;
         }
         Encounter kind = EncounterRoll.ToEncounter(roll);
         // Creative players only ever glimpse things; with the entities off there are no bodies
         if (!Setting.Entities || creative && kind != Encounter.Glimpse) return;
         Encounters flag = kind switch { Encounter.Glimpse => Encounters.Glimpse, Encounter.Stalk => Encounters.Stalk, _ => Encounters.Hunt };
-        RosterEntry[] options = roster.Where(e => (e.Kinds & flag) != 0 && e.MinBand <= a.Band && (!e.SubwayOnly || a.Subway) && (!e.ShiftOnly || a.Shift)
-            && (!e.LightsOutOnly || a.Worst || a.Shift) && types.ContainsKey(e.Code)).ToArray();
+        RosterEntry[] options = actorRoster.Where(e => (e.Kinds & flag) != 0 && e.MinBand <= aa.Band && (!e.SubwayOnly || aa.Subway) && (!e.ShiftOnly || aa.Shift)
+            && (!e.LightsOutOnly || aa.Worst || aa.Shift) && types.ContainsKey(e.Code)).ToArray();
         // Someone starving, parched or dead on their feet draws the Wretches, three times over: they know what is coming for them
-        if (Wretched(target)) options = options.Select(e => e.Code == Roster.Wretch ? e with { Weight = e.Weight * 3 } : e).ToArray();
+        if (Wretched(actor)) options = options.Select(e => e.Code == Roster.Wretch ? e with { Weight = e.Weight * 3 } : e).ToArray();
         // In a den, mostly what lives there comes
-        if (Roster.DenEntry(a.Den) is { } dweller && (dweller.Kinds & flag) != 0 && types.ContainsKey(dweller.Code) && rand.NextDouble() < DwellerChance && DwellerFits(roster, dweller, a)) options = new[] { dweller };
+        if (Roster.DenEntry(aa.Den) is { } dweller && (dweller.Kinds & flag) != 0 && types.ContainsKey(dweller.Code) && rand.NextDouble() < DwellerChance && DwellerFits(actorRoster, dweller, aa)) options = new[] { dweller };
         RosterEntry entry = Pick(options);
-        if (entry != null && TrySpawn(target, a, entry, kind)) watch.LastBodyMs = nowMs;
+        if (entry != null && TrySpawn(actor, aa, entry, kind)) watch.LastBodyMs = nowMs;
     }
 
     /// <summary>Whether a den's dweller may come here: a Smiler the level's roster keeps to the lights-out places (Level 0) still is.</summary>

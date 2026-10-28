@@ -229,8 +229,11 @@ Rules that change:
 - **An encounter has a budget.** `EncounterMs` counts from the first non-Ambient kind and is never reset by a kind
   change; `maxEncounterSeconds` (default 300, per entity) sends the entity to Leave. This closes "a stalker set off by
   running again and again never expires".
-- **Spawn attempts are per place.** `Direct` rolls once per occupied place (players within 24 blocks of each other
-  share a roll, the most endangered one's menace), so two players together are not hunted by twice as much.
+- **Spawn attempts are per party.** `Direct` rolls once per party (players within 48 blocks of each other in a level
+  share a roll, the most endangered one's menace) at 1 + 0.25 per extra member times one player's rate
+  (`MenaceSystem.Party.cs`), and each arrival is for a member drawn at random; so two players together are not hunted by
+  twice as much (0.610.2; it was a 24-block place at one player's rate each). The Flickering, the Screaming, the Beast and
+  the Mangled follow the same rule; `/backrooms partycheck` simulates it.
 - **Packs are clipped to the current band's cap**, not the Threshold cap.
 - **Hunt requires belief.** A hunt that has lost its target goes to Search, not straight to Leave; `patienceMs` (no
   blood) still returns it to Stalk with calm. Give-up distance stays.
