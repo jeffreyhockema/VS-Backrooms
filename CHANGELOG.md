@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+- Hotbar tooltips work again in a Backrooms world: hovering an item in the hotbar shows its name and description, and H opens its handbook page. The thirst and rest bars' frame lies over the hotbar and was taking the mouse's hover before the hotbar saw it; it no longer takes any mouse input (the bars still show their value on hover).
+
 ## 0.610.1 — through the gaps
 - Partygoers and Hounds now reliably fit through gaps one block wide. The game's pathfinder sets a creature's body down at a random spot across each block it plans through, so a body 0.8 or 0.9 wide fitted a one-wide doorway or tunnel only about half the time, and a Partygoer could still be stuck in its party room and a Hound balked at Level 2's service tunnels. Both bodies are 0.58 wide now; their models and what you can hit are unchanged.
 

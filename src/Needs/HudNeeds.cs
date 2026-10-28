@@ -42,10 +42,11 @@ public class HudNeeds : HudElement
     public override bool TryClose() => false;
     public override bool ShouldReceiveKeyboardEvents() => false;
 
-    // Like vanilla's HudStatbar: the frame lies over the hotbar, and a dialog otherwise marks every click inside its bounds as
-    // handled, which would swallow the hotbar's and the inventory's clicks. Nothing here is clickable.
-    public override void OnMouseDown(MouseEvent args) { }
-    public override void OnMouseUp(MouseEvent args) { }
+    // The frame lies over the hotbar, and a dialog marks every mouse event inside its bounds as handled: clicks, and also
+    // moves, which hid the hotbar's item tooltips and with them the handbook key (H) for hotbar items. Vanilla's HudStatbar
+    // gets away with only muting clicks because it shares the hotbar's input order (1.0) and sorts after it; ours ran first
+    // at the default 0.5. Nothing here takes input: the bars draw their hover value by polling the mouse position.
+    public override bool ShouldReceiveMouseEvents() => false;
 
     public override void OnOwnPlayerDataReceived()
     {
