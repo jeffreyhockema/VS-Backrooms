@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.610.2 — side by side
 - Multiplayer: two or more players together are no longer hunted twice as often. The director used to roll for new arrivals once for each group of players within 24 blocks of each other, so two players only a room or two apart (25 to 64 blocks) each got their own full rate, and the Flickering, the Screaming, the Beast and the Mangled were rolled for every player on their own. Players within 48 blocks of each other (in the same level) now share one budget of arrivals, rolled at 25% more per extra player (two together feel 1.25 times what one does, not 2), and each arrival is aimed at one of them at random; players far apart keep their own. The wanderers' timers are shared the same way. Playing alone is unchanged.
 - Hotbar tooltips work again in a Backrooms world: hovering an item in the hotbar shows its name and description, and H opens its handbook page. The thirst and rest bars' frame lies over the hotbar and was taking the mouse's hover before the hotbar saw it; it no longer takes any mouse input (the bars still show their value on hover).
 
