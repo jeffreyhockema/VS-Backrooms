@@ -1328,6 +1328,62 @@
    ]
   },
   {
+   "id": "l15",
+   "cls": "common",
+   "level": 27,
+   "chapter": "l15",
+   "entries": [
+    {
+     "key": "l15-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l15-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l15-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l15-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l15-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l15-6",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l15-7",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "rare-l15",
+   "cls": "rare",
+   "level": 27,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l15-1",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
    "id": "rare-any",
    "cls": "rare",
    "level": -1,

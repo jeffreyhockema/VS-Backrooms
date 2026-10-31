@@ -881,6 +881,41 @@ Shapes at the very edge of your sight in the corridors and the courtyard, gone w
 """)
 
 
+# ---------------- Level 15, "Futuristic Halls" (experimental, id 27; detail pass 2026-10-30): its own page ----------------
+PAGES["level15"] = ("Level 15: the Futuristic Halls", """
+**Level 15: the Futuristic Halls**
+*White halls, a hum that never stops, and nobody left alive to say what it was all for.*
+
+**The look of it, and the air**
+A labyrinth of clean white halls: panelled concrete, ribs and pilasters of white steel every few paces, ceramic floors, a strip of LED panels overhead and lights set into the floor along the foot of the walls. Main halls run straight through it both ways, a hundred and twenty-eight paces apart; between them every block of the level is cut again and again by side corridors and bare grey service passages, with rooms in between. The air is clean and cool. Nothing has rotted and nothing grows.
+
+**The hum and the dark**
+The machinery hums everywhere, louder in the machine rooms, and somewhere far off beeps now and then. In patches of the level, about one square in six and a few dozen paces across, the power is out: every light dead, the machines stopped, and instead of the hum a slow ticking like a heartbeat, which slows the longer you stay. The air there goes stale. It is four degrees colder, and it wears on your [Reality Stability](gamemechanicinfo-temporalstability) as long as you are in it.
+
+**Machine rooms and gates**
+Most of the tall rooms are machine rooms, behind security gates whose shutters are rolled up and whose hand scanners are dead, with a wall of thick glass onto the corridor. The machines go from cabinet size to monoliths five blocks high. Nearly all are dead; a few still run, lit and humming; some are burnt out. Break a dead machine's casing for [scrap wire](item-backrooms:scrapwire) and a little copper; the burnt ones give almost nothing. Somewhere a press still feeds steel rods onto a conveyor, for nobody. Other rooms are laboratories, stores, dormitories, kitchens, control rooms full of consoles (most dead; some lit, and all of them say no), lecture halls, and bare white rooms with something wrong in them.
+
+**What the dead left**
+No one lives here, and nothing native that anyone has proven. The dead do: in lab coats, months gone, some with a makeshift spear beside them. Break one for bones and threads, and the spear if there is one (a [glass spear](item-backrooms:glassspear)); sometimes a note. Their camps are in the dormitories and the bare rooms: a tent or a sleeping bag, a bag, a supply box, nearly always gone through. One room has an incinerator in it and is full of bones, mostly Hounds'.
+
+**Water and food**
+This level is devoid of them. Almond Water is all but absent. About half the supply boxes were opened before you came. Steel lockers in the stores and dormitories that are still shut may hold a little; open ones were gone through. Carry water in.
+
+**What walks in the dark**
+Where the power is out, and only there, a [Robo-Man](search:robo-man) walks now and then: slow, metal, and it will come for you. Where the lights are on you are safe.
+
+**The way in, and the star door**
+The wanderers say the way in is a small steel door in a white wall at the edge of Level 10's fields, and that the door is gone a day or two later. Nobody has written of a way out. Far from the middle, in one empty machine room, a doorframe stands on its own with a night sky in it and a small blue star. Nobody who went through it has written back, and it does not let you through.
+
+**Advice**
+- Stay in the light. Go round the dark squares rather than through them.
+- Mark your way: the halls repeat, and the codes on the doors (H for a lab, e for a store) are somebody else's system, not a map.
+- Never rest where the power is out. The dormitories' cots will do, where the lights work.
+
+*(An experimental level: no way in or out is built yet. It is reached with /backrooms goto 15.)*
+""")
+# ---------------- (end of Level 15's page) ----------------
+
 # ====================================================================================================================
 # Prefaces for the vanilla guides: one short paragraph at the top of each, saying how it goes in the Backrooms.
 # The vanilla text follows unchanged. Keyed by the suffix GuideSystem.Bridged maps each page code to.
