@@ -158,8 +158,11 @@ public sealed partial class WorldLayout
     /// <summary>A place near the middle of the region to look for somewhere to arrive, picked by hash.</summary>
     private (int Mx, int Mz) L15ArrivalCell(ulong h) => RoundArrivalCell(h, L15CentreX, L15CentreZ, L15Radius);
 
-    /// <summary>Arriving: in a lit hall or corridor, never in a room or in the dark.</summary>
-    private static bool IsL15ArrivalSpot(Tile t) => IsArrivalSpot(t) && !L15IsDark(t) && L15ZoneOf(t) is L15Zone.Hall or L15Zone.Corridor;
+    /// <summary>
+    /// Arriving: in a lit main hall, away from its walls (never on the floor lights along their foot), never in a room, a
+    /// side corridor or the dark; facing along the hall (<c>ThresholdSystem.L15Arriving</c>).
+    /// </summary>
+    private static bool IsL15ArrivalSpot(Tile t) => IsArrivalSpot(t) && !L15IsDark(t) && L15ZoneOf(t) == L15Zone.Hall && t.Depth != L15FloorStrip;
 
     /// <summary>How high above the level's floor to put someone down on an arrival tile (see <see cref="ArrivalHeight"/>).</summary>
     private static double L15ArrivalHeight(in Tile t, double stand) => stand;

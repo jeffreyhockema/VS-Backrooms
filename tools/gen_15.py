@@ -246,12 +246,13 @@ def wall_textures():
     save(beam(15021, etched=True), "wall-etched")
     # A room's own walls: pale grey cast concrete (formwork joints, the tie holes in rows), its foot grimed; white wall tiles
     # over a row of grey ones
-    cast = M.concrete(seed=15022, base=CAST, grain=3, mottle=6, aggregate=0.02, pores=0.01, patches=2)
+    cast = M.concrete(seed=15022, base=CAST, grain=2, mottle=5, aggregate=0.0, pores=0.0015, patches=1)
     M.emboss_lines(cast, xs=(0,), ys=(0,), strength=0.14)
     for x, y in ((8, 8), (24, 8), (8, 24), (24, 24)):
-        rect(cast, x - 1, y - 1, x, y, M.lift(CAST, -46))
-        M.touch(cast, x - 1, y + 1, 0.15)
-        M.touch(cast, x, y + 1, 0.15)
+        # A form tie's hole: a small round recess, its lower lip catching the light
+        for dx, dy, f in ((0, 0, -0.42), (1, 0, -0.42), (0, 1, -0.42), (1, 1, -0.42), (-1, 0, -0.18), (2, 0, -0.18), (0, -1, -0.22),
+                          (1, -1, -0.22), (-1, 1, -0.12), (2, 1, -0.12), (0, 2, 0.14), (1, 2, 0.14)):
+            M.touch(cast, x - 1 + dx, y - 1 + dy, f)
     save(cast, "wall-cast")
     cb = cast.copy()
     M.grime(cb, 0.2, seed=15023, bias="bottom", color=(96, 94, 88))
