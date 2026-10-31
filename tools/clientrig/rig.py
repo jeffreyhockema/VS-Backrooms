@@ -221,6 +221,7 @@ class Run:
         self.sdata = os.path.join(self.root, "server")
         self.cdata = os.path.join(self.root, "client")
         self.steps = []
+        self.showcase_shots = []  # (the showcase step's shots, copied out with the others)
         self.notes = []
         self.marks = 0
         self.chat_off = 0
@@ -383,6 +384,7 @@ class Run:
                     p = os.path.join(self.botdir, shot + ".png")
                     if os.path.exists(p) and os.path.getsize(p) > 20 * 1024:
                         good += 1
+                        self.showcase_shots.append(shot)
                 log(f"  showcase {shot}: {'ok' if os.path.exists(os.path.join(self.botdir, shot + '.png')) else 'no file'}")
             return good == len(spots), f"{good}/{len(spots)} shots"
         if kind == "server":
@@ -579,13 +581,13 @@ def validate(steps):
 def write_report(run, meta, name, out, boot_error):
     os.makedirs(out, exist_ok=True)
     shots = []
-    for s in run.steps:
-        if s["kind"] in ("shot", "expect_shot"):
-            src = os.path.join(run.botdir, s["text"] + ".png")
-            if os.path.exists(src):
-                batch.save_shot(src, os.path.join(out, s["text"]), "png")
-                if s["text"] not in shots:
-                    shots.append(s["text"])
+    names = [s["text"] for s in run.steps if s["kind"] in ("shot", "expect_shot")] + run.showcase_shots
+    for text in names:
+        src = os.path.join(run.botdir, text + ".png")
+        if os.path.exists(src):
+            batch.save_shot(src, os.path.join(out, text), "png")
+            if text not in shots:
+                shots.append(text)
     try:
         sheet = batch.make_sheet(out, shots, os.path.join(out, "sheet.jpg")) if shots else None
     except Exception as e:  # noqa: BLE001
