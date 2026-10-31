@@ -23,6 +23,8 @@ public sealed partial class WorldGenerator
     private int l73Earth, l73Rock, l73Ash, l73Mud, l73Silver, l73Basalt, l73Sand, l73Gravel, l73Ashlar, l73Carpet, l73Damask, l73TileFloor,
         l73Boards, l73Ember, l73Slate, l73Bath, l73WindowBoards, l73Note, l73Burnt, l73Crust, l73Bone;
     private readonly int[] l73Grass = new int[4];
+    /// <summary>The keep's lined walls: [0 panelling (floor height), 1 damask above], by the face lined (north, east, south, west, 4 all round).</summary>
+    private readonly int[,] l73Lined = new int[2, 5];
     private readonly int[] l73Sconce = new int[4], l73Banner = new int[4], l73Door = new int[6], l73AtticDoor = new int[4];
     private readonly int[,] l73Curtain = new int[3, 4], l73Table = new int[2, 4], l73Painting = new int[WorldLayout.L73Paintings, 4];
 
@@ -40,6 +42,12 @@ public sealed partial class WorldGenerator
         l73Burnt = Id("l73-burnt");
         l73Crust = Id("l73-crust");
         l73Bone = Id("l73-bone");
+        string[] lined = { "north", "east", "south", "west", "all" };
+        for (int f = 0; f < 5; f++)
+        {
+            l73Lined[0, f] = Id("l73-wainscot-" + lined[f]);
+            l73Lined[1, f] = Id("l73-damask-" + lined[f]);
+        }
         l73Grass[1] = Id("l73-deadgrass-short");
         l73Grass[2] = Id("l73-deadgrass-mid");
         l73Grass[3] = Id("l73-deadgrass-tall");
@@ -233,12 +241,21 @@ public sealed partial class WorldGenerator
             if (s == 0 && WorldLayout.L73MainDoor(ku, kv)) return h <= 3 ? l73Door[ku - 17 + 2 * (h - 1)] : l73Silver;
             // Windows, boarded up (the curtains hang inside)
             if (h is 2 or 3 && WorldLayout.L73Window(ku, kv, s)) return l73WindowBoards;
-            return l73Silver;
+            // Silver ashlar outside; inside, panelling to the chair rail and red damask over it ("lavishly decorated")
+            int lined = kv == 0 && ku is > 0 and < WorldLayout.L73KeepW - 1 ? 2 : kv == WorldLayout.L73KeepD - 1 && ku is > 0 and < WorldLayout.L73KeepW - 1 ? 0
+                : ku == 0 && kv is > 0 and < WorldLayout.L73KeepD - 1 ? 1 : ku == WorldLayout.L73KeepW - 1 && kv is > 0 and < WorldLayout.L73KeepD - 1 ? 3 : -1;
+            return lined < 0 ? l73Silver : l73Lined[h == 1 ? 0 : 1, lined];
         }
         if (s == 0 && WorldLayout.L73HearthAt(ku, kv) is int hearth and > 0)
             return hearth == 1 || h == 4 ? l73Silver : h == 1 ? l73Ember : 0; // the jambs, the breast over the fire, the embers
 
-        if (WorldLayout.L73RoomAt(ku, kv, s) == Room.Wall) return WorldLayout.L73Doorway(ku, kv, s) && h <= 2 ? 0 : l73Silver;
+        if (WorldLayout.L73RoomAt(ku, kv, s) == Room.Wall)
+        {
+            if (WorldLayout.L73Doorway(ku, kv, s) && h <= 2) return 0;
+            // (the chimney rising through the upper storeys stays stone; the partitions are panelled and papered both sides)
+            bool chimney = s > 0 && kv == 1 && ku is >= 16 and <= 19;
+            return chimney ? l73Silver : l73Lined[h == 1 ? 0 : 1, 4];
+        }
         int st = WorldLayout.L73StairStep(ku, kv, s);
         if (st > 0) return h < st ? l73Silver : h == st ? hotelStairIds[0, Facing(WorldLayout.L73StairRise(s))] : 0;
         if (WorldLayout.L73CurtainAt(ku, kv, s) is ArchPier curtain) return l73Curtain[h == 4 ? 0 : h == 1 ? 2 : 1, Facing(curtain)];

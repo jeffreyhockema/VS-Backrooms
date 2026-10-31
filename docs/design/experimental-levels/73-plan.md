@@ -255,3 +255,42 @@ dummies land with 0 error lines, `blocksweep` 8718 blocks 0 threw, the director 
 and Dullers within seconds of a dummy outside the walls, Coran is put down by the gate and hears them (`entitylog`);
 `GATE_TAG=l73 gate.py --fast --port-base 43100` PASS. Untested headless (no movement without a player, no clicks):
 Coran's run and strike, the door, the table, the baths.
+
+### Round 2 (2026-10-31): looked at in the client, fixed
+
+Round 1's shots (the lead's review): huge blurry white cloud boxes over the whole sky, the ground a flat featureless
+dark-red plate, the castle a small grey silhouette.
+
+**What changed**
+- *Sky.* Vanilla's clouds are off in the level (`clouds: 0` on the island's, the sea's and the keep's air and the
+  level's base line; the dark spell now carries them through rather than dropping back to vanilla's). The lore's black
+  cloud stays what it was: the dark spell takes the moon away and thickens the murk. The moon moved to bearing 10, 18
+  degrees up (was 200 / 24), so that from the gate's side, where most runs end, it hangs just over the castle.
+- *Ground.* Hills on a 34-block lattice (was 44), 2.5-6.5 high (was 2-4.5), rougher ground (1.8, was 1.2); **tors** of
+  black rock (a jagged core and a lower spur, 3-8 above the ground, on a 26-block lattice, half of the points, none near
+  the castle's hill or along the path's line; `FloorKind.L73Tor`, black rock right down; never an arrival); the fields
+  in **blackened stretches** (`l73-burnt`, charred earth flecked with ash: the lore's "blackened fields") and patches of a
+  **crust of dried blood** (`l73-crust`) also fringing the gullies; **dead grass** (`l73-deadgrass`, short/mid/tall,
+  black-red withered blades, fixed colours, no climate tint) in broad patches on the red earth, a burnt stubble on the
+  blackened stretches; more bones (piles 1 in 170 tiles, jaw skeletons 1 in 1100), fewer of the upright ribcages.
+- *The Great Hound's bones* (`L73HoundBones`, `l73-bone`): a skeleton 39 long, lying on its belly on the fields
+  south-east of the castle beside the path: skull, neck, an arched spine over seven pairs of ribs reaching to the ground
+  (two broken), pelvis, legs stretched out, tail. Its footprint is sealed (no arrivals, no props); it sinks into the
+  ground where the ground rises.
+- *The castle's outline:* steep slate roofs tapering to spires on the four corner towers, slate caps and spires on the
+  gate towers, slate caps and needle spires on the keep's four turrets (their tops one under the band, as the attic's
+  ridge), so it reads as gothic, not as a box, from the fields.
+- *The keep up close:* buttresses against its walls between the windows (slate-capped), a pointed slate canopy over the
+  door, string courses of smooth stone at every floor; inside, every room's walls are **mahogany panelling** to the chair
+  rail and **red damask** above (`l73-wainscot`, `l73-damask`: the outer wall's blocks lined on the room's side only,
+  silver outside; partitions lined both sides; the chimney stays stone), where round 1 showed bare grey brick ("well
+  maintained and lavishly decorated"); two round tables with chairs in the main hall, which was bare.
+- *Arrivals* face the castle's gate (`L73ArrivalYaw`, one line in `ThresholdSystem.cs` beside the Hub's).
+- *Showcase spots* (`WorldLayout.Level73.Showcase.cs`, 14): the run with the moon over the castle, the path's foot, Coran
+  on the hill, the gatehouse, the keep's front, the main hall, the dining hall, a guest room, a bathroom, the master
+  bedroom, the roof terrace and attic, the Great Hound, the fields, the north shore under the moon.
+  `/backrooms l73coran x z [heading]` puts Coran down standing still for 30 s (for the Coran spot).
+
+**My inventions (round 2):** the tors, the blackened stretches and crust patches as surfaces, the dead grass (the lore
+says only "blackened fields"), the Great Hound's skeleton on the fields (the lore names it slain by Coran, nothing of
+its remains), the spires, the moon's bearing, the arrival facing.

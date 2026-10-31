@@ -212,6 +212,44 @@ def bone(seed):
     return img
 
 
+def wainscot(seed):
+    """The keep's rooms below the chair rail: a raised mahogany panel in a frame of rails and stiles, a moulded rail on top."""
+    img = M.wood_planks(seed=seed, base=(84, 36, 24), planks=1, direction="v", grain=4, contrast=1.0, per_plank=4, gap=(40, 18, 12))
+    M.bevel(img, (0, 0, 31, 31), width=1, strength=0.18)
+    M.inset(img, (4, 9, 27, 28), width=1, strength=0.25)
+    M.bevel(img, (6, 11, 25, 26), width=1, strength=0.18)
+    px = img.load()
+    for x in range(S):  # the chair rail: a lit moulding over a shadowed bead
+        for y, k in ((0, 0.28), (1, 0.18), (2, 0.05), (3, -0.12), (4, 0.06), (5, -0.22)):
+            M.touch(img, x, y, k)
+    return img
+
+
+def damask(seed):
+    """Red damask wallpaper above the panelling: a deep crimson ground, a repeating medallion and leaf in a darker,
+    glossier red with a thread of dull gold, tiling on all sides (one block repeats up the wall)."""
+    img = M.noise_hv((104, 20, 26), amp=3, seed=seed, mottle=6, hue=2)
+    px = img.load()
+    def motif(cx, cy):
+        for y in range(-7, 8):
+            for x in range(-5, 6):
+                # a pointed oval (an ogee medallion) with a spine and a pair of leaves
+                q = (x / 5.0) ** 2 + (y / 7.5) ** 2
+                ring = 0.62 < q < 1.0
+                spine = x == 0 and abs(y) < 6
+                leaf = abs(abs(x) - 2) <= 1 and abs(y - (abs(x) - 2)) <= 1 and q < 0.6
+                X, Y = (cx + x) % S, (cy + y) % S
+                if ring or leaf:
+                    r, g, b, a = px[X, Y]
+                    px[X, Y] = M.rgba(M.mix((r, g, b), (66, 8, 14), 0.75))
+                if spine or (ring and (x + y) % 3 == 0):
+                    r, g, b, a = px[X, Y]
+                    px[X, Y] = M.rgba(M.mix((r, g, b), (150, 112, 52), 0.55))
+    motif(8, 8)
+    motif(24, 24)
+    return img
+
+
 def silverwall(seed):
     img = M.brick(seed=seed, base=(172, 176, 182), mortar=(112, 114, 120), course=8, length=16, offset=0.5, mortar_w=1,
                   jitter=9, hue=2, pits=0.04, chamfer=True, grain=4, mottle=7)
@@ -342,6 +380,28 @@ def deadgrass_block():
     })
 
 
+LINED_FACES = ["north", "east", "south", "west"]
+
+
+def lined_block(code, inner, comment):
+    """A block of the keep's outer wall lined on one side (the room's, named by the variant: -south shows the lining on its
+    south face) with the given lining, silver ashlar elsewhere; -all is lined all round (a partition between rooms)."""
+    tex = {f"*-{f}": {"all": {"base": "block/73/silverwall"}, f: {"base": inner}} for f in LINED_FACES}
+    tex["*-all"] = {"all": {"base": inner}}
+    return (comment, {
+        "code": code,
+        "variantgroups": [{"code": "lined", "states": LINED_FACES + ["all"]}],
+        "creativeinventory": {"general": ["*-all"], "backrooms": ["*-all"]},
+        "blockmaterial": "Stone",
+        "drawtype": "cube",
+        "texturesByType": tex,
+        "resistance": 1000,
+        "attributes": {"l73Fixed": True},
+        "drops": [],
+        "sounds": {"walk": "game:walk/stone*", "place": "game:block/rock-hit-pickaxe", "break": "game:block/rock-hit-pickaxe", "hit": "game:block/planks"},
+    })
+
+
 def face(tex, uv, glow=0):
     f = {"texture": tex, "uv": uv}
     if glow:
@@ -404,6 +464,8 @@ LANG = [
     ("block-l73-crust", "Blood Crust"),
     ("block-l73-deadgrass-*", "Dead Grass"),
     ("block-l73-bone", "Great Hound's Bone"),
+    ("block-l73-wainscot-*", "Mahogany Panelling"),
+    ("block-l73-damask-*", "Damask-Papered Wall"),
 ] + castle.LANG + lore.LANG
 
 
@@ -449,6 +511,8 @@ def main():
         save(deadgrass(7400 + k, k), f"block/73/deadgrass-{k}")
     save(bone(7410), "block/73/bone")
     save(bone(7411), "block/73/bone-2")
+    save(wainscot(7420), "block/73/wainscot")
+    save(damask(7421), "block/73/damask")
 
     bt = os.path.join(ASSETS, "blocktypes", "73")
     blocks = [
@@ -472,6 +536,8 @@ def main():
         cube_block("l73-bone", "// Level 73: the Great Hound's bones, bleached and weathered (it never breaks)",
                    ["block/73/bone", "block/73/bone-2"], "Stone", "game:walk/stone*", "game:block/rock-hit-pickaxe", 6,
                    {"attributes": {"l73Fixed": True}}),
+        lined_block("l73-wainscot", "block/73/wainscot", "// Level 73: the keep's walls at floor height, mahogany panelling on the room's side"),
+        lined_block("l73-damask", "block/73/damask", "// Level 73: the keep's walls above the panelling, red damask wallpaper on the room's side"),
     ]
     for comment, b in blocks:
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
@@ -482,7 +548,7 @@ def main():
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
     n_shapes = castle.shapes(write_json, os.path.join(ASSETS, "shapes", "block", "73"))
     write_lang()
-    print(f"gen_73: {20 + n_tex} textures, {10 + len(castle.blocktypes())} blocktypes, {1 + n_shapes} shapes, lang")
+    print(f"gen_73: {22 + n_tex} textures, {12 + len(castle.blocktypes())} blocktypes, {1 + n_shapes} shapes, lang")
 
 
 if __name__ == "__main__":

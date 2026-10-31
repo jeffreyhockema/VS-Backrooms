@@ -1,0 +1,76 @@
+// Level 73: the keep's walls at floor height, mahogany panelling on the room's side
+{
+	"code": "l73-wainscot",
+	"variantgroups": [
+		{
+			"code": "lined",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west",
+				"all"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-all"
+		],
+		"backrooms": [
+			"*-all"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-north": {
+			"all": {
+				"base": "block/73/silverwall"
+			},
+			"north": {
+				"base": "block/73/wainscot"
+			}
+		},
+		"*-east": {
+			"all": {
+				"base": "block/73/silverwall"
+			},
+			"east": {
+				"base": "block/73/wainscot"
+			}
+		},
+		"*-south": {
+			"all": {
+				"base": "block/73/silverwall"
+			},
+			"south": {
+				"base": "block/73/wainscot"
+			}
+		},
+		"*-west": {
+			"all": {
+				"base": "block/73/silverwall"
+			},
+			"west": {
+				"base": "block/73/wainscot"
+			}
+		},
+		"*-all": {
+			"all": {
+				"base": "block/73/wainscot"
+			}
+		}
+	},
+	"resistance": 1000,
+	"attributes": {
+		"l73Fixed": true
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/planks"
+	}
+}

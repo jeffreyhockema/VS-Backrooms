@@ -1,0 +1,76 @@
+// Level 73: the keep's walls above the panelling, red damask wallpaper on the room's side
+{
+	"code": "l73-damask",
+	"variantgroups": [
+		{
+			"code": "lined",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west",
+				"all"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-all"
+		],
+		"backrooms": [
+			"*-all"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-north": {
+			"all": {
+				"base": "block/73/silverwall"
+			},
+			"north": {
+				"base": "block/73/damask"
+			}
+		},
+		"*-east": {
+			"all": {
+				"base": "block/73/silverwall"
+			},
+			"east": {
+				"base": "block/73/damask"
+			}
+		},
+		"*-south": {
+			"all": {
+				"base": "block/73/silverwall"
+			},
+			"south": {
+				"base": "block/73/damask"
+			}
+		},
+		"*-west": {
+			"all": {
+				"base": "block/73/silverwall"
+			},
+			"west": {
+				"base": "block/73/damask"
+			}
+		},
+		"*-all": {
+			"all": {
+				"base": "block/73/damask"
+			}
+		}
+	},
+	"resistance": 1000,
+	"attributes": {
+		"l73Fixed": true
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/planks"
+	}
+}
