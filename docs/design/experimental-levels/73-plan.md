@@ -291,6 +291,29 @@ dark-red plate, the castle a small grey silhouette.
   bedroom, the roof terrace and attic, the Great Hound, the fields, the north shore under the moon.
   `/backrooms l73coran x z [heading]` puts Coran down standing still for 30 s (for the Coran spot).
 
+- *Moonlight:* the island's scene brightness 0.30 to 0.36, the sea's 0.28 to 0.33, so the fields read by the moon alone.
+- *Shared files (one line or one block each):* `ThresholdSystem.cs` (the arrival facing), `AtmosphereSystem.cs` (the
+  level's base line: clouds off, scene), `Tiles.cs` (three floor kinds 268-270 in the level's block), `mapgen.csproj` and
+  `tools/clientrig/rig.py` (exp/36's fix, cherry-picked: mapgen compiles `Showcase.cs`, the rig keeps the showcase shots).
+
+**What the shots showed** (four client runs, no torch: `%TEMP%/backrooms-shots/73-r2a`, `-r2b`, `-r2c`, `-r2-final`).
+Run a: the clouds gone, a black sky with the moon over the castle; grass too pale and wheat-like, the blood crust like
+cobbles; the tower tops flat chimneys. Run b (first with showcase spots): the castle and its rooms read, the dining
+hall the best shot; the keep's front a flat box with slits, the rooms bare grey brick, the main hall empty, the Great
+Hound like standing stones from too close, Coran small. Run c: buttresses, canopy and string courses make the keep read
+gothic; the panelling and damask make the rooms the lore's "lavish"; the damask's motif too coarse. Final: a finer
+damask, a little more moonlight, the Hound from off its head (skull and arched ribs read). Still weak: the fields far
+from the castle are very dark and fairly even (by the lore's light rule); the bathroom is only its two barrels; the
+pale stone path is brighter than anything else outdoors; the attic is a plain slate-roofed box.
+
 **My inventions (round 2):** the tors, the blackened stretches and crust patches as surfaces, the dead grass (the lore
 says only "blackened fields"), the Great Hound's skeleton on the fields (the lore names it slain by Coran, nothing of
-its remains), the spires, the moon's bearing, the arrival facing.
+its remains), the spires, buttresses and canopy, the panelling and damask (the lore: "lavishly decorated"), the moon's
+bearing, the arrival facing.
+
+**Checks (round 2):** `expclash` clean; mod and mapgen build with 0 errors; `layouthash` v1 and v12: every line for
+0-20 and the layout hash identical to main's; `regions` 60/60 in Level 73 (0 wrong, 0 in pockets); `73stats` OK (peak
+17 on a tor, arrivals 52-121 from the gate, the Hound's 615 tiles sealed, 12 beds, 4 barrels, 24 places, 40 windows);
+headless dummies in the level with 0 error lines, Coran put down and moved by `/backrooms l73coran`;
+`GATE_TAG=l73g gate.py --fast --port-base 43100` PASS (a separate build tag so the gate did not rebuild under a
+queued screenshot run).
