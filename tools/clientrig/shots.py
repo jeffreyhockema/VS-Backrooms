@@ -54,7 +54,7 @@ def main():
     steps = ['  - expect_no_startup_issues: ""', "  - bot: closeguis", "  - server: /gamemode eXception386 creative",
              "  - bot: wait 1500", "  - bot: hud off"]
     if a.torch:
-        steps += ["  - server: /giveblock torch-basic-lit-up 1 eXception386", "  - bot: wait 1000", "  - bot: slot 0"]
+        steps += ["  - server: /giveblock torch-basic-lit-up 1 eXception386", "  - bot: wait 1000", "  - bot: slot 1"]  # (slot 0 holds the starting note)
     steps.append(f"  - showcase: {a.level}")
     for r in range(a.arrivals):
         h = (r * 113) % 360
