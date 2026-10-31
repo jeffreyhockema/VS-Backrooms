@@ -525,6 +525,7 @@ def words():
         "block-l31-cladding-lacq*": "Black Lacquer Panel",
         "block-l31-cladding-dj*": "DJ Sign",
         "block-l31-cladding-exit-*": "EXIT Sign",
+        "block-l31-cladding-crt-*": "Small TV",
         "blockhelp-l31-dispenser": "Get a card",
         # The staff (Regions.L31System)
         "l31-server-serve-1": "The Faceling behind the counter slides a tray across to you without a word.",

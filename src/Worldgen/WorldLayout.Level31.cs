@@ -92,8 +92,9 @@ public sealed partial class WorldLayout
         /// chrome-framed mirrors (<c>l31-cladding</c>; which, per side of each stretch of hall, by hash).</summary>
         public const byte Mural = 147, Mirrors = 148;
         /// <summary>A lit sign on the wall a tile stands against (toward its Pier; round a rink, away from the wall beside it):
-        /// Stack 1-3 a column of the DJ station's neon sign (from the viewer's left; the rest of the wall clad in the mural),
-        /// 4 a cinema's EXIT sign over its door.</summary>
+        /// round a rink, a column of the DJ station's neon sign (Detail's sub-kind 1-3, from the viewer's left; the rest of
+        /// the wall clad in the mural); in a cinema, its EXIT sign over the door, or with the rail bit a small TV on a side
+        /// wall (rel 4). (Never Stack: a tile with a Stack and no prop counts as blocked.)</summary>
         public const byte Sign = 149;
     }
 
@@ -730,12 +731,22 @@ public sealed partial class WorldLayout
                         }
                     foreach (int v in new[] { 7, 9, 11 })
                         for (int u = edge + 1; u < across - edge - 1; u++) Put(u, v, L31Props.CinemaBench, toFar);
+                    // Small TVs along both side walls, above the steps (Wikidot: "TV screens"), the room's only other light
+                    foreach (int v in new[] { 2, 5, 8, 13 })
+                        foreach (var (u, look) in new[] { (edge, toHighU), (across - edge - 1, toLowU) })
+                        {
+                            var (tp, tq) = At(u, v);
+                            ref Tile tv = ref plan.At(tp, tq);
+                            if (tv.Kind != TileKind.Floor) continue;
+                            tv.Overhead = L31Overhead.Sign;
+                            tv.Detail |= L31RailBit;
+                            tv.Pier = plan.Dir(look);
+                        }
                     // The red EXIT sign over the way out
                     {
                         var (ep, eq) = At(Math.Clamp(doorU - 1, edge, across - edge - 1), len - 1);
                         ref Tile exit = ref plan.At(ep, eq);
                         exit.Overhead = L31Overhead.Sign;
-                        exit.Stack = 4;
                         exit.Pier = plan.Dir(toFar);
                     }
                     break;
@@ -993,7 +1004,7 @@ public sealed partial class WorldLayout
         {
             ref Tile t = ref plan.At(p, south);
             t.Overhead = L31Overhead.Sign;
-            t.Stack = (byte)(1 + pc + 1 - p);
+            t.Detail = (byte)(t.Detail & L31HueMask | (1 + pc + 1 - p) << L31SubShift);
         }
     }
 

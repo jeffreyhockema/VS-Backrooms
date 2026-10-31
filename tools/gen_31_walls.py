@@ -10,6 +10,7 @@ It writes only its own files:
         lacq, lacqtop black lacquer panels between the mirrors (lacqtop with the chrome trim along its top)
         dj<c><r>      the DJ station's neon sign on the wall behind it, 3 wide and 2 high (lit, pink)
         exit          a cinema's red EXIT sign over its door (lit, dim red)
+        crt           a small wall-hung TV in a cinema, showing the same sunset as the big one (lit, dim)
     shapes/block/31/l31-cladding.json and textures/block/31/clad-*.png
 
 Run from the repo root:  bash tools/locked.sh run python tools/gen_31_walls.py
@@ -213,10 +214,23 @@ def signs():
     d.rectangle([3, 10, 28, 21], fill=(60, 10, 12, 255))
     text(ex, 16 - textw("EXIT", 1) // 2, 13, "EXIT", (255, 60, 50), 1, 1)
     save(ex, "clad-exit")
+    tv = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(tv)
+    d.rounded_rectangle([3, 6, 28, 25], 2, fill=(48, 46, 50, 255))
+    d.rectangle([13, 25, 18, 27], fill=(40, 38, 42, 255))  # the bracket
+    for y in range(8, 23):  # a sunset over hills, with scanlines
+        t = (y - 8) / 14
+        c = (int(70 + 170 * t), int(50 + 60 * t), int(140 - 60 * t))
+        if y % 2:
+            c = tuple(int(v * 0.8) for v in c)
+        d.line([(5, y), (26, y)], fill=c + (255,))
+    d.ellipse([12, 13, 19, 20], fill=(255, 220, 140, 255))
+    d.polygon([(5, 22), (11, 16), (17, 21), (22, 17), (26, 22)], fill=(40, 24, 60, 255))
+    save(tv, "clad-crt")
 
 
 def blocktype():
-    kinds = [f"m{c}{r}" for c in range(COLS) for r in range(ROWS)] + [f"f{r}{c}" for r in "tmb" for c in "lr"] + ["lacq", "lacqtop"]         + [f"dj{c}{r}" for c in range(3) for r in range(2)] + ["exit"]
+    kinds = [f"m{c}{r}" for c in range(COLS) for r in range(ROWS)] + [f"f{r}{c}" for r in "tmb" for c in "lr"] + ["lacq", "lacqtop"]         + [f"dj{c}{r}" for c in range(3) for r in range(2)] + ["exit", "crt"]
     # One shape (the panel at the south edge of its block, its picture facing north), the picture by type
     # (the mural's paint glows a little, as UV paint under the halls' neon does)
     refs = {glow: shape("l31-cladding" + ("-glow" if glow == 48 else "-lit" if glow else ""), [box("Panel", (0, 0, 15.5), (16, 16, 16), {"front": "art", "all": "edge"},
@@ -226,14 +240,15 @@ def blocktype():
     for k in kinds:
         for side in SIDES:
             key = f"l31-cladding-{k}-{side}"
-            ref = refs[48 if k.startswith("m") else 255 if k.startswith(("dj", "exit")) else 0]
+            ref = refs[48 if k.startswith("m") else 255 if k.startswith(("dj", "exit", "crt")) else 0]
             shapes[key] = {"base": ref, "rotateY": ROT[side]} if ROT[side] else {"base": ref}
             sel = {"x1": 0, "y1": 0, "z1": 0.96875, "x2": 1, "y2": 1, "z2": 1}
             if ROT[side]:
                 sel["rotateY"] = ROT[side]
             sels[key] = sel
         textures[f"*-{k}-*"] = {"art": {"base": "backrooms:block/31/clad-" + k}, "edge": {"base": "backrooms:block/31/clad-edge"}}
-    light = {f"l31-cladding-{k}-*": ([51, 6, 9] if k.startswith("dj") else [0, 7, 5]) for k in kinds if k.startswith(("dj", "exit"))}
+    light = {f"l31-cladding-{k}-*": ([51, 6, 9] if k.startswith("dj") else [0, 7, 5] if k == "exit" else [36, 3, 7])
+             for k in kinds if k.startswith(("dj", "exit", "crt"))}
     data = {"code": "l31-cladding", "lightHsvByType": light, "variantgroups": [{"code": "kind", "states": kinds}, {"code": "side", "states": SIDES}],
             "shapeByType": shapes, "texturesByType": textures,
             "creativeinventory": {"general": ["*"], "backrooms": ["*"]},

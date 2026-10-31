@@ -32,7 +32,7 @@ public sealed partial class WorldGenerator
     /// <summary>The halls' cladding (tools/gen_31_walls.py): the mural's 6 x 4 blocks by [column * 4 + row, side], the mirror's
     /// 2 x 3 by [row * 2 + column, side], the lacquer (plain, with its top trim).</summary>
     private readonly int[,] l31Mural = new int[24, 4], l31CladMirror = new int[6, 4], l31Lacquer = new int[2, 4], l31DjSign = new int[6, 4];
-    private readonly int[] l31Exit = new int[4];
+    private readonly int[] l31Exit = new int[4], l31Crt = new int[4];
     private readonly HashSet<string> l31Missing = new();
 
     /// <summary>A block of this mod's, or <paramref name="fallback"/> if it is not there (logged once).</summary>
@@ -162,6 +162,7 @@ public sealed partial class WorldGenerator
             for (int c = 0; c < 3; c++)
                 for (int r = 0; r < 2; r++) l31DjSign[c * 2 + r, f] = L31Block($"l31-cladding-dj{c}{r}-{side}");
             l31Exit[f] = L31Block($"l31-cladding-exit-{side}");
+            l31Crt[f] = L31Block($"l31-cladding-crt-{side}");
         }
     }
 
@@ -200,7 +201,12 @@ public sealed partial class WorldGenerator
         if (rel == 0) return L31Floor(t, gx, gz);
         if (rel == air + 1) return L31Ceiling(t);
         if (rel > air) return concreteId;
-        if (rel >= 2 && t.Overhead is L31.L31Overhead.Mural or L31.L31Overhead.Mirrors or L31.L31Overhead.Sign) return L31Cladding(t, gx, gz, rel, air);
+        if (rel >= 2 && t.Overhead is L31.L31Overhead.Mural or L31.L31Overhead.Mirrors or L31.L31Overhead.Sign)
+        {
+            // (a sign alone on a wall leaves the rest of its column to the room: a cinema's steps, say)
+            int clad = L31Cladding(t, gx, gz, rel, air);
+            if (clad != 0 || t.Overhead != L31.L31Overhead.Sign || t.Zone != (byte)Zone.Cinema) return clad;
+        }
         if (rel == air)
         {
             switch (t.Overhead)
@@ -246,7 +252,8 @@ public sealed partial class WorldGenerator
     /// </summary>
     private int L31Cladding(in Tile t, int gx, int gz, int rel, int air)
     {
-        if (t.Overhead == L31.L31Overhead.Sign && t.Stack == 4) return rel == 4 ? l31Exit[Facing(t.Pier)] : 0;
+        if (t.Overhead == L31.L31Overhead.Sign && t.Zone == (byte)Zone.Cinema)
+            return rel != 4 ? 0 : (t.Detail & L31.L31RailBit) != 0 ? l31Crt[Facing(t.Pier)] : l31Exit[Facing(t.Pier)];
         ArchPier facing = t.Pier;
         // (round a rink or in a lobby the tile's Pier may be its prop's: the wall is found beside it, and the cladding faces away from it)
         if (t.Zone != (byte)Zone.Hall)
@@ -261,7 +268,8 @@ public sealed partial class WorldGenerator
         var (bx, bz) = facing switch { ArchPier.North => (gx, gz + 1), ArchPier.South => (gx, gz - 1), ArchPier.East => (gx - 1, gz), _ => (gx + 1, gz) };
         if (rel <= 3 && layout.TileAt(bx, bz).Kind == TileKind.Doorway) return 0;
         int f = Facing(facing);
-        if (t.Overhead == L31.L31Overhead.Sign && rel >= air - 1) return l31DjSign[(t.Stack - 1) * 2 + (air - rel), f];
+        if (t.Overhead == L31.L31Overhead.Sign && rel >= air - 1)
+            return l31DjSign[System.Math.Clamp(((t.Detail & L31.L31SubMask) >> L31.L31SubShift) - 1, 0, 2) * 2 + (air - rel), f];
         int along = facing switch { ArchPier.North => -gx, ArchPier.South => gx, ArchPier.East => -gz, _ => gz };
         if (t.Overhead != L31.L31Overhead.Mirrors && rel <= 5)
             return l31Mural[Hashing.Mod(along, 6) * 4 + (5 - rel), f];

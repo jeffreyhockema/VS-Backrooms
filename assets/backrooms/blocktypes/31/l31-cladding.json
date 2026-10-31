@@ -36,6 +36,11 @@
 			0,
 			7,
 			5
+		],
+		"l31-cladding-crt-*": [
+			36,
+			3,
+			7
 		]
 	},
 	"variantgroups": [
@@ -80,7 +85,8 @@
 				"dj11",
 				"dj20",
 				"dj21",
-				"exit"
+				"exit",
+				"crt"
 			]
 		},
 		{
@@ -678,6 +684,21 @@
 		"l31-cladding-exit-west": {
 			"base": "backrooms:block/31/l31-cladding-lit",
 			"rotateY": 90
+		},
+		"l31-cladding-crt-north": {
+			"base": "backrooms:block/31/l31-cladding-lit"
+		},
+		"l31-cladding-crt-east": {
+			"base": "backrooms:block/31/l31-cladding-lit",
+			"rotateY": 270
+		},
+		"l31-cladding-crt-south": {
+			"base": "backrooms:block/31/l31-cladding-lit",
+			"rotateY": 180
+		},
+		"l31-cladding-crt-west": {
+			"base": "backrooms:block/31/l31-cladding-lit",
+			"rotateY": 90
 		}
 	},
 	"texturesByType": {
@@ -988,6 +1009,14 @@
 		"*-exit-*": {
 			"art": {
 				"base": "backrooms:block/31/clad-exit"
+			},
+			"edge": {
+				"base": "backrooms:block/31/clad-edge"
+			}
+		},
+		"*-crt-*": {
+			"art": {
+				"base": "backrooms:block/31/clad-crt"
 			},
 			"edge": {
 				"base": "backrooms:block/31/clad-edge"
@@ -2384,6 +2413,41 @@
 			"y2": 1,
 			"z2": 1,
 			"rotateY": 90
+		},
+		"l31-cladding-crt-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.96875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-cladding-crt-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.96875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-cladding-crt-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.96875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-cladding-crt-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.96875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
 		}
 	},
 	"collisionboxByType": {
@@ -3744,6 +3808,41 @@
 			"rotateY": 180
 		},
 		"l31-cladding-exit-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.96875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-cladding-crt-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.96875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-cladding-crt-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.96875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-cladding-crt-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.96875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-cladding-crt-west": {
 			"x1": 0,
 			"y1": 0,
 			"z1": 0.96875,
