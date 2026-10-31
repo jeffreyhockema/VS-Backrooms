@@ -4,7 +4,7 @@ using Backrooms.Worldgen;
 /// The noclip regions past the rings, Levels 37 and 94 and the five kept as 14-18 (each of those has its own modes too,
 /// see LevelModes.cs):
 ///   regions                       where they lie, arrivals (found, wrong level, trapped), time per cell
-///   regionmap &lt;37|94|!|fun|end|hub|974|3999|188|73|basement|52|31|120&gt; [dx dz]   writes region.bin round the region's middle (offset in cells)
+///   regionmap &lt;37|94|!|fun|end|hub|974|3999|188|73|basement|52|31|120|36|15|23&gt; [dx dz]   writes region.bin round the region's middle (offset in cells)
 ///                                 for render_region.py (Variant is clamped to a byte there)
 ///   poolstats [blocks]            Level 37: dry, shallow, deep and lit shares, rooms by kind, thresholds
 ///   motionstats [cells]           Level 94: what stands on the hills, roads, towns, thresholds, steepest step
@@ -52,7 +52,8 @@ static class Regions
     static readonly int[] Checked = { WorldLayout.Poolrooms, WorldLayout.Motion, WorldLayout.RunLevel, WorldLayout.FunLevel, WorldLayout.TheEnd,
         WorldLayout.Hub, WorldLayout.Level974, WorldLayout.Level3999, WorldLayout.Level188,
         WorldLayout.Level73, WorldLayout.Basement, WorldLayout.Level52,
-        WorldLayout.Level31, WorldLayout.Level120 };
+        WorldLayout.Level31, WorldLayout.Level120,
+        WorldLayout.Level36, WorldLayout.Level15, WorldLayout.Level23 };
 
     public static void Run(WorldLayout l, int smx, int smz)
     {

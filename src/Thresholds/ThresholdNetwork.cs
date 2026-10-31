@@ -250,7 +250,8 @@ public sealed partial class ThresholdNetwork
         Passage region = RunWalked(x, z, tile, rel) ?? FunWalked(x, z, tile, rel) ?? EndWalked(x, z, tile, rel)
             ?? HubWalked(x, z, tile, rel) ?? L974Walked(x, z, tile, rel) ?? L3999Walked(x, z, tile, rel) ?? L188Walked(x, z, tile, rel)
             ?? L73Walked(x, z, tile, rel) ?? BasementWalked(x, z, tile, rel) ?? L52Walked(x, z, tile, rel)
-            ?? L31Walked(x, z, tile, rel) ?? L120Walked(x, z, tile, rel);
+            ?? L31Walked(x, z, tile, rel) ?? L120Walked(x, z, tile, rel)
+            ?? L36Walked(x, z, tile, rel) ?? L15Walked(x, z, tile, rel) ?? L23Walked(x, z, tile, rel);
         if (region != null) return region;
         switch (level)
         {
@@ -591,7 +592,8 @@ public sealed partial class ThresholdNetwork
             ?? HubUsed(x, z, level, kind, ref refusal) ?? L974Used(x, z, level, kind, ref refusal)
             ?? L3999Used(x, z, level, kind, ref refusal) ?? L188Used(x, z, level, kind, ref refusal)
             ?? L73Used(x, z, level, kind, ref refusal) ?? BasementUsed(x, z, level, kind, ref refusal) ?? L52Used(x, z, level, kind, ref refusal)
-            ?? L31Used(x, z, level, kind, ref refusal) ?? L120Used(x, z, level, kind, ref refusal);
+            ?? L31Used(x, z, level, kind, ref refusal) ?? L120Used(x, z, level, kind, ref refusal)
+            ?? L36Used(x, z, level, kind, ref refusal) ?? L15Used(x, z, level, kind, ref refusal) ?? L23Used(x, z, level, kind, ref refusal);
         if (region != null || refusal != null) return region;
 
         switch (kind)

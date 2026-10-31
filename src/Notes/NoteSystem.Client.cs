@@ -108,7 +108,7 @@ public partial class NoteSystem
     public static string LevelName(int key)
     {
         if (key == NoteCatalog.SnackroomsKey) return Lang.Get("backrooms:levelname-6.1");
-        if (key >= WorldLayout.RunLevel && key <= WorldLayout.Level120) return Lang.Get("backrooms:levelname-" + key);
+        if (key >= WorldLayout.RunLevel && key <= WorldLayout.Level23) return Lang.Get("backrooms:levelname-" + key);
         return Lang.Get("backrooms:levelname", WorldLayout.DisplayNumber(key));
     }
 

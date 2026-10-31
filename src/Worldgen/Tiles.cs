@@ -260,6 +260,15 @@ public enum WallPattern : ushort
     L31Wall = 240,
     /// <summary>Level 120 (242). Placeholder.</summary>
     L120Wall = 242,
+
+    // ===== Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28): one block of 32 each, past 255 =====
+
+    /// <summary>Level 36 (block 416-447). Placeholder.</summary>
+    L36Wall = 416,
+    /// <summary>Level 15 (block 448-479). Placeholder.</summary>
+    L15Wall = 448,
+    /// <summary>Level 23 (block 480-511). Placeholder.</summary>
+    L23Wall = 480,
 }
 
 /// <summary>Trim on the bottom block of a wall.</summary>
@@ -516,6 +525,15 @@ public enum FloorKind : ushort
     L31Floor = 249,
     /// <summary>Level 120 (251). Placeholder.</summary>
     L120Floor = 251,
+
+    // ===== Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28): one block of 32 each, past 255 =====
+
+    /// <summary>Level 36 (block 416-447). Placeholder.</summary>
+    L36Floor = 416,
+    /// <summary>Level 15 (block 448-479). Placeholder.</summary>
+    L15Floor = 448,
+    /// <summary>Level 23 (block 480-511). Placeholder.</summary>
+    L23Floor = 480,
 }
 
 /// <remarks>A ushort since 0.700.0-pre.1 (experimental-levels): values past 255 are the experimental levels' blocks.</remarks>
@@ -590,6 +608,15 @@ public enum CeilingKind : ushort
     L31Ceiling = 96,
     /// <summary>Level 120 (block 112-119). Placeholder.</summary>
     L120Ceiling = 112,
+
+    // ===== Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28): one block of 32 each, past 255 =====
+
+    /// <summary>Level 36 (block 416-447). Placeholder.</summary>
+    L36Ceiling = 416,
+    /// <summary>Level 15 (block 448-479). Placeholder.</summary>
+    L15Ceiling = 448,
+    /// <summary>Level 23 (block 480-511): placeholder (the level is under the open sky).</summary>
+    L23Ceiling = 480,
 }
 
 /// <summary>
@@ -772,6 +799,10 @@ public static class Pipes
     // The experimental Levels 31 and 120 (24, 26)
     public const byte L31First = 120, L31Last = 129;
     public const byte L120First = 140, L120Last = 149;
+    // Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28)
+    public const ushort L36First = 416, L36Last = 447;
+    public const ushort L15First = 448, L15Last = 479;
+    public const ushort L23First = 480, L23Last = 511;
 
     /// <summary>One past the highest value (Tile.Pipe is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
     public const int Limit = 512;
@@ -837,6 +868,10 @@ public static class Overheads
     // The experimental Levels 31 and 120 (24, 26)
     public const byte L31First = 140, L31Last = 149;
     public const byte L120First = 160, L120Last = 169;
+    // Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28)
+    public const ushort L36First = 416, L36Last = 447;
+    public const ushort L15First = 448, L15Last = 479;
+    public const ushort L23First = 480, L23Last = 511;
 
     /// <summary>One past the highest value (Tile.Overhead is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
     public const int Limit = 512;
@@ -978,6 +1013,10 @@ public static class Unders
     // The experimental Levels 31 and 120 (24, 26)
     public const byte L31First = 150, L31Last = 159;
     public const byte L120First = 170, L120Last = 179;
+    // Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28)
+    public const ushort L36First = 416, L36Last = 447;
+    public const ushort L15First = 448, L15Last = 479;
+    public const ushort L23First = 480, L23Last = 511;
 
     /// <summary>One past the highest value (Tile.Under is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
     public const int Limit = 512;
@@ -1611,9 +1650,13 @@ public static class Props
     // The experimental Levels 31 and 120 (24, 26)
     public const ushort L31First = 720, L31Last = 759;
     public const ushort L120First = 800, L120Last = 839;
+    // Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28)
+    public const ushort L36First = 1200, L36Last = 1299;
+    public const ushort L15First = 1300, L15Last = 1399;
+    public const ushort L23First = 1400, L23Last = 1499;
 
     /// <summary>One past the highest prop any level may use: the size of the generator's prop tables (raise it with a new block).</summary>
-    public const int Limit = 880;
+    public const int Limit = 1500;
 
     public const byte WallPlain = 0;
     /// <summary>Level 2 wall with horizontal pipes on it.</summary>

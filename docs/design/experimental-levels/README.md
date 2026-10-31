@@ -138,3 +138,40 @@ z -79, 271 of the End's z -648); 55 at x -852..-774, z 298..375 (217 clear of th
 x -944..-865, z -944..-866 (98 clear of the End's x -767, 100 of its z -766; 513 of Level 73's x -352). In the
 `SPAWN=1000` world (2000 cells across) 120 and 183 stay 54-56 cells inside the map's edge. No region's bounds overlap
 another's.
+
+## Scaffolding, batch 3 (done 2026-10-30)
+
+Levels 55 and 183 were dropped (on neither main lore wiki as built; their plans are in `dropped/`), and their ids reused.
+Three new levels are registered everywhere ids 21-26 are, the same way as batch 2 (the commits `0d688ae` and `7ef8571`
+are the pattern): `LevelCount` is now `RingWidths.Length + 19`; `DisplayNumber`/`FromDisplayNumber` ("36", "15", "23");
+`ComputeLevel` (after 120); `IsOpenSky` (23 true, the others false); `GetEdge`; the rim's `WallPattern`; `TemperatureAt`;
+`LevelTemperatures` (25: 21, 27: 20, 28: 16); `BuildMacro`; `IsWalkThroughProp`; `StabilityAt`, `FindArrival`,
+`ArrivalHeight`; `IsSanctuary` (false), `PickedOverShare` (0.3); `WorldGeometry` (drop 0; band depth `ShaftDepth` for 36
+and 15, 12 for 23, as Level 73's, so its sky reaches 27 above the floor); the generator's `Init`, `Band` and
+`ColumnBlock`; `Danger.OfLevel` (0), `Roster` (empty), `MenaceSystem` (Safe); `Protection.RoofFrom` (23: `int.MaxValue`,
+open sky); the map's grouped case; every `>= RunLevel && <= ...` name check now ends at `Level23` (28, the last id);
+threshold dispatch; `AtmosphereSystem.Levels` (a neutral haze each) and its air and sound dispatch; the cheats dialog
+("Level 36", "Level 15", "Level 23"); `BackroomsModSystem.LevelList`; the harness (`LevelModes`, `regions`, `links`,
+`regionmap` and `shotgrid` names); `tools/expclash.py`'s names; lang `level-`, `levelhint-`, `levelname-25`, `-27`, `-28`
+(en.json only). `WorldLayout.Dens` has no per-level lines any more (main folded them into its default), so none were added.
+
+| Level | Id | Constant | Shown as | Tag (files, block codes) | Method infix | Region |
+|---|---|---|---|---|---|---|
+| Level 36 "Airport" | 25 | `WorldLayout.Level36` | `36` | 36 (`l36-`) | `L36` | Level 55's old slot: west-south-west, `R * 1.1` out, 22.5 degrees south of west; big indoor level |
+| Level 15 "Futuristic Halls" | 27 | `WorldLayout.Level15` | `15` | 15 (`l15-`) | `L15` | Level 183's old slot: far north-west beyond the End, `spawn + (-F, -F)`; big indoor level |
+| Level 23 "Petrified Garden" | 28 | `WorldLayout.Level23` | `23` | 23 (`l23-`) | `L23` | the free far south-west slot beyond Level 974, `spawn + (-F, +F)`; open sky (stone trees) |
+
+Placeholders: 36 and 15 are batch 1's (one open floor, rim walls, concrete, a fluorescent light every eight blocks); 23
+is a concrete floor under the open sky with a 12-high concrete rim wall (`WorldGenerator.L23.cs`, `L23RimTop`). Each
+level's files are named as batch 2's: `WorldLayout.Level36.cs`, `WorldGenerator.L36.cs`, `AtmosphereSystem.L36.cs`,
+`ThresholdNetwork.L36.cs`, `ThresholdSystem.L36.cs`, `tools/mapgen/L36Stats.cs` (and the same for `15`, `23`). Salts:
+`SaltL36Shape` 0x2501 / `SaltL36Threshold` 0x25C0, `SaltL15Shape` 0x2701 / 0x27C0, `SaltL23Shape` 0x2801 / 0x28C0.
+
+**Harness results.** `layouthash` (seed 12345, 16000; layout versions 1 and 12) before and after: every line for levels
+0-20 and the `layout hash` line identical. `regions`: 60/60 arrivals for each of the three, none in the wrong level or
+in small pockets, at full size and `SPAWN=1000`. `overview` (bounds from spawn, in cells), full size: 36 at x
+-4392..-3744, z 1368..2016 (as 55 was); 15 at x -4848..-4200, z -4848..-4200 (as 183 was); 23 at x -4856..-4208, z
+4200..4848 (272 cells clear of 974's x -3936, 264 of its z 3936; 2184 of 36's z 2016). `SPAWN=1000`: 36 x -852..-774,
+z 298..375; 15 x -944..-865, z -944..-866; 23 x -946..-864, z 864..943 (98 clear of 974's x -766 and 97 of its z 767,
+54 inside the map's edge). No region's bounds overlap another's. Headless (port 43010): `/backrooms dummy place <level> 5`
+put a dummy in each of 73, the Basement, 52, 31, 120, 36, 15 and 23, 0 error lines.

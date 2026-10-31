@@ -126,11 +126,14 @@ public partial class AtmosphereSystem : ModSystem
         // Level 31: a thin indigo haze, tinted by the coloured tubes (its cinema and its empty rooms darker, its snack bar
         // warmer: AtmosphereSystem.L31.cs)
         new(0.008f, 0.10f, 0.07f, 0.19f, 0f),
-        // (25: free, Level 55 was dropped)
+        // Level 36 (placeholder: a faint neutral haze)
         new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
         // Level 120: near-black, cold blue-green air between the racks (its hot aisles, vaults and great halls: AtmosphereSystem.L120.cs)
         new(0.014f, 0.035f, 0.075f, 0.08f, 0f),
-        // (27: free, Level 183 was dropped)
+        // Batch 3 (placeholders: a faint neutral haze)
+        // Level 15
+        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // Level 23
         new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
     };
 
@@ -380,6 +383,9 @@ public partial class AtmosphereSystem : ModSystem
             case WorldLayout.Level52: L52Air(dt, pos, ref target, ref titleKey); break;
             case WorldLayout.Level31: L31Air(dt, pos, ref target, ref titleKey); break;
             case WorldLayout.Level120: L120Air(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level36: L36Air(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level15: L15Air(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level23: L23Air(dt, pos, ref target, ref titleKey); break;
             case 10: L10Air(ref target); break;
         }
         AnnounceLevel(titleKey);
@@ -575,6 +581,9 @@ public partial class AtmosphereSystem : ModSystem
         L52Sounds(dt, pos, level == WorldLayout.Level52);
         L31Sounds(dt, pos, level == WorldLayout.Level31);
         L120Sounds(dt, pos, level == WorldLayout.Level120);
+        L36Sounds(dt, pos, level == WorldLayout.Level36);
+        L15Sounds(dt, pos, level == WorldLayout.Level15);
+        L23Sounds(dt, pos, level == WorldLayout.Level23);
         HotelSounds(dt, pos, level == 5);
 
         // The Poolrooms' room tone

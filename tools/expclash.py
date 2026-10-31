@@ -3,7 +3,7 @@
     python tools/expclash.py
 
 Reads src/Worldgen/Tiles.cs. Reports (1) an enum value held by both an experimental name (L73, Basement, L52, L31,
-L120) and another name, (2) a First/Last range of one side overlapping a range or constant of the other, (3) a
+L120, L36, L15, L23) and another name, (2) a First/Last range of one side overlapping a range or constant of the other, (3) a
 constant at or above its table's Limit. Main's values are released and never move: renumber the experimental side.
 Prints nothing but "clean" when there is nothing to fix; exits 1 otherwise.
 """
@@ -11,7 +11,7 @@ import os
 import re
 import sys
 
-EXP = re.compile(r"L73|Basement|L52|L31|L120")
+EXP = re.compile(r"L73|Basement|L52|L31|L120|L36|L15|L23")
 src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src", "Worldgen", "Tiles.cs")
 t = re.sub(r"//[^\n]*", "", open(src, encoding="utf-8").read())
 found = []

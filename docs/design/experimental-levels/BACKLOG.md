@@ -12,6 +12,9 @@ rest wait here. Tick a level off (move it to "Built") when its commit lands.
 | Level 52 "School Halls" | 23 | 1 |
 | Level 31 "Roller Rink" | 24 | 2 |
 | Level 120 "Server Room" (Wikidot "Broken Servos") | 26 | 2 |
+| Level 36 "Airport" (scaffolded; detail pass to come) | 25 | 3 |
+| Level 15 "Futuristic Halls" (scaffolded; detail pass to come) | 27 | 3 |
+| Level 23 "Petrified Garden" (scaffolded; detail pass to come) | 28 | 3 |
 
 ## Dropped
 
@@ -35,7 +38,6 @@ None has been played in a client yet; each plan's Status section lists what to c
 
 | Level | Notes |
 |---|---|
-| Level 23 "The Petrified Garden" | stone trees; vanilla petrified wood / rock could do most of it |
 | Level 28 "Stormstone Keep" | a second castle; wait until Level 73's Silver Castle has been judged |
 | Level 68 "Theater, The Eater" | |
 | Level 70 "Deposit" | |

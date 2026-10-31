@@ -70,6 +70,9 @@ public readonly struct WorldGeometry
     /// <summary>The same for the experimental Levels 31 and 120 (24, 26).</summary>
     public const int L31Drop = 0, L120Drop = 0;
 
+    /// <summary>The same for the experimental Levels 36, 15 and 23 (25, 27, 28).</summary>
+    public const int L36Drop = 0, L15Drop = 0, L23Drop = 0;
+
     /// <summary>
     /// How far below its own floor the band each of the five is generated and lit over begins (<see cref="ShaftDepth"/> is
     /// the usual). The band is always as tall as the usual one, so a shallower start reaches higher (see
@@ -89,6 +92,12 @@ public readonly struct WorldGeometry
 
     /// <summary>The same for the experimental Levels 31 and 120 (24, 26): the usual band for now.</summary>
     public const int L31BandDepth = ShaftDepth, L120BandDepth = ShaftDepth;
+
+    /// <summary>
+    /// The same for the experimental Levels 36, 15 and 23 (25, 27, 28): the usual band for the two indoor ones; Level 23 is
+    /// under the open sky, so its band starts 12 below its floor (as Level 73's) and reaches 27 above it.
+    /// </summary>
+    public const int L36BandDepth = ShaftDepth, L15BandDepth = ShaftDepth, L23BandDepth = 12;
 
     /// <summary>The street level of Level 11.</summary>
     public int CityFloorY => FloorY - CityDrop;
@@ -114,6 +123,9 @@ public readonly struct WorldGeometry
         WorldLayout.Level52 => FloorY - L52Drop,
         WorldLayout.Level31 => FloorY - L31Drop,
         WorldLayout.Level120 => FloorY - L120Drop,
+        WorldLayout.Level36 => FloorY - L36Drop,
+        WorldLayout.Level15 => FloorY - L15Drop,
+        WorldLayout.Level23 => FloorY - L23Drop,
         _ => FloorY,
     };
 
@@ -143,6 +155,9 @@ public readonly struct WorldGeometry
         WorldLayout.Level52 => FloorFor(WorldLayout.Level52) - L52BandDepth,
         WorldLayout.Level31 => FloorFor(WorldLayout.Level31) - L31BandDepth,
         WorldLayout.Level120 => FloorFor(WorldLayout.Level120) - L120BandDepth,
+        WorldLayout.Level36 => FloorFor(WorldLayout.Level36) - L36BandDepth,
+        WorldLayout.Level15 => FloorFor(WorldLayout.Level15) - L15BandDepth,
+        WorldLayout.Level23 => FloorFor(WorldLayout.Level23) - L23BandDepth,
         _ => BandBottom,
     };
 
