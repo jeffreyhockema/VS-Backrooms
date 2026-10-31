@@ -51,7 +51,7 @@ public sealed partial class WorldLayout
     private const int L23Pitch = 15;
 
     /// <summary>The caverns' lattice (blocks).</summary>
-    private const int L23CavePitch = 64;
+    private const int L23CavePitch = 72;
 
     /// <summary>The Heart of Water: the clearing's radius, the Green Giants' ring, the pool's radius and its surface.</summary>
     public const int L23CoreRadius = 54, L23GiantRing = 46, L23PoolRadius = 26, L23PoolSurface = -7;
@@ -567,9 +567,9 @@ public sealed partial class WorldLayout
         c.H = h;
         if (Hashing.Unit(h) > 0.7) return c;
         ulong h2 = Hashing.Mix(h), h3 = Hashing.Mix(h2), h4 = Hashing.Mix(h3);
-        c.X = (int)Math.Round((i + 0.5) * L23CavePitch + (Hashing.Unit(h2) - 0.5) * 24);
-        c.Z = (int)Math.Round((j + 0.5) * L23CavePitch + (Hashing.Unit(h3) - 0.5) * 24);
-        c.R = 13 + (int)(10 * Hashing.Unit(h4));
+        c.X = (int)Math.Round((i + 0.5) * L23CavePitch + (Hashing.Unit(h2) - 0.5) * 28);
+        c.Z = (int)Math.Round((j + 0.5) * L23CavePitch + (Hashing.Unit(h3) - 0.5) * 28);
+        c.R = 18 + (int)(14 * Hashing.Unit(h4));
         double dc = L23FromMid(c.X, c.Z);
         if (dc < L23CoreRadius + c.R + 20 || dc > L23Reach - c.R - 16) return c;
         foreach (L23Cavern s in L23Specials)

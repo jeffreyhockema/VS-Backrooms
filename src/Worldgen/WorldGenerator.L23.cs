@@ -375,7 +375,7 @@ public sealed partial class WorldGenerator
         if (gap >= 4 && b[under] == 0)
         {
             double h = L23Unit(gx, gz, 10);
-            double sorries = cave.Kind == CaveKind.Seedling ? 0.012 : 0.016;
+            double sorries = cave.Kind == CaveKind.Seedling ? 0.012 : 0.024;
             if (h < sorries) b[under] = l23Sorry[cave.Colour == 0 || L23Unit(gx, gz, 11) < 0.15 ? 0 : cave.Colour];
             else if (h < sorries + 0.03) L23Hang(b, ceiling - 1, 1 + (int)(L23Hash(gx, gz, 12) % 3), floor, root: false);
             else if (h < sorries + 0.06) L23Hang(b, ceiling - 1, 1 + (int)(L23Hash(gx, gz, 12) % 2), floor, root: true);
@@ -389,10 +389,10 @@ public sealed partial class WorldGenerator
         double r = L23Unit(gx, gz, 13);
         double patch = Math.Max(0, Noise2(gx / 9.0, gz / 9.0, SaltL23Mat + 9));
         ulong k = L23Hash(gx, gz, 14);
-        if (r < 0.03 * patch + 0.004) b[on] = l23Glowcap[L23Unit(gx, gz, 15) < 0.2 ? 1 + (int)(k % 3) : cave.Colour];
-        else if (r < 0.05 + 0.02 * patch) b[on] = l23Mushrooms[k % (ulong)l23Mushrooms.Length];
-        else if (r < 0.055 + 0.02 * patch) b[on] = l23Toadstools[k % (ulong)l23Toadstools.Length];
-        else if (r < 0.09 + 0.04 * patch) b[on] = l23Ferns[k % (ulong)l23Ferns.Length];
+        if (r < 0.05 * patch + 0.01) b[on] = l23Glowcap[L23Unit(gx, gz, 15) < 0.2 ? 1 + (int)(k % 3) : cave.Colour];
+        else if (r < 0.06 + 0.02 * patch) b[on] = l23Mushrooms[k % (ulong)l23Mushrooms.Length];
+        else if (r < 0.065 + 0.02 * patch) b[on] = l23Toadstools[k % (ulong)l23Toadstools.Length];
+        else if (r < 0.10 + 0.04 * patch) b[on] = l23Ferns[k % (ulong)l23Ferns.Length];
     }
 
     /// <summary>The glow rooms' little trees: a trunk of petrified wood on a lattice point of their own, a crown of leaves over it and round it.</summary>
