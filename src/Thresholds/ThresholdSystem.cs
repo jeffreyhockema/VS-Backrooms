@@ -325,6 +325,15 @@ public partial class ThresholdSystem : ModSystem
         }
     }
 
+    /// <summary>Whether someone standing at feet height y on the tile at x, z would go through a threshold they walk into (dev: <c>/backrooms stairscan</c>).</summary>
+    public bool WalkTrips(int x, int z, double y)
+    {
+        if (network == null || layout == null) return false;
+        int level = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z));
+        if (level is 2 or 3 or 8) return false;
+        return network.Walked(x, z, layout.TileAt(x, z), y - geometry.FloorFor(level)) != null;
+    }
+
     /// <summary>A hole in the floor that a person falls down (a dry one: those into water need no softening).</summary>
     private static bool IsDrop(in Tile tile) => tile.Kind == TileKind.Pit || tile.Under is Unders.L188Hatch or Unders.PitBottom;
 
