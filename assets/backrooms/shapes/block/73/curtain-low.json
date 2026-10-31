@@ -1,0 +1,355 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"velvet": "backrooms:block/73/velvet",
+		"gold": "backrooms:block/73/gold"
+	},
+	"elements": [
+		{
+			"name": "Fold0",
+			"from": [
+				0,
+				1,
+				11.8
+			],
+			"to": [
+				4,
+				16,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#velvet",
+					"uv": [
+						12,
+						0,
+						16,
+						15
+					]
+				},
+				"south": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						4,
+						15
+					]
+				},
+				"east": {
+					"texture": "#velvet",
+					"uv": [
+						0.8,
+						0,
+						4.2,
+						15
+					]
+				},
+				"west": {
+					"texture": "#velvet",
+					"uv": [
+						11.8,
+						0,
+						15.2,
+						15
+					]
+				},
+				"up": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						11.8,
+						4,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0.8,
+						4,
+						4.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Fold1",
+			"from": [
+				4,
+				1,
+				13.4
+			],
+			"to": [
+				8,
+				16,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#velvet",
+					"uv": [
+						8,
+						0,
+						12,
+						15
+					]
+				},
+				"south": {
+					"texture": "#velvet",
+					"uv": [
+						4,
+						0,
+						8,
+						15
+					]
+				},
+				"east": {
+					"texture": "#velvet",
+					"uv": [
+						0.8,
+						0,
+						2.6,
+						15
+					]
+				},
+				"west": {
+					"texture": "#velvet",
+					"uv": [
+						13.4,
+						0,
+						15.2,
+						15
+					]
+				},
+				"up": {
+					"texture": "#velvet",
+					"uv": [
+						4,
+						13.4,
+						8,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#velvet",
+					"uv": [
+						4,
+						0.8,
+						8,
+						2.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Fold2",
+			"from": [
+				8,
+				1,
+				11.8
+			],
+			"to": [
+				12,
+				16,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#velvet",
+					"uv": [
+						4,
+						0,
+						8,
+						15
+					]
+				},
+				"south": {
+					"texture": "#velvet",
+					"uv": [
+						8,
+						0,
+						12,
+						15
+					]
+				},
+				"east": {
+					"texture": "#velvet",
+					"uv": [
+						0.8,
+						0,
+						4.2,
+						15
+					]
+				},
+				"west": {
+					"texture": "#velvet",
+					"uv": [
+						11.8,
+						0,
+						15.2,
+						15
+					]
+				},
+				"up": {
+					"texture": "#velvet",
+					"uv": [
+						8,
+						11.8,
+						12,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#velvet",
+					"uv": [
+						8,
+						0.8,
+						12,
+						4.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Fold3",
+			"from": [
+				12,
+				1,
+				13.4
+			],
+			"to": [
+				16,
+				16,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						4,
+						15
+					]
+				},
+				"south": {
+					"texture": "#velvet",
+					"uv": [
+						12,
+						0,
+						16,
+						15
+					]
+				},
+				"east": {
+					"texture": "#velvet",
+					"uv": [
+						0.8,
+						0,
+						2.6,
+						15
+					]
+				},
+				"west": {
+					"texture": "#velvet",
+					"uv": [
+						13.4,
+						0,
+						15.2,
+						15
+					]
+				},
+				"up": {
+					"texture": "#velvet",
+					"uv": [
+						12,
+						13.4,
+						16,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#velvet",
+					"uv": [
+						12,
+						0.8,
+						16,
+						2.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Hem",
+			"from": [
+				0,
+				1,
+				11.6
+			],
+			"to": [
+				16,
+				1.8,
+				15.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						14.2,
+						16,
+						15
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						14.2,
+						16,
+						15
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0.7,
+						14.2,
+						4.4,
+						15
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						11.6,
+						14.2,
+						15.3,
+						15
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						11.6,
+						16,
+						15.3
+					]
+				},
+				"down": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0.7,
+						16,
+						4.4
+					]
+				}
+			}
+		}
+	]
+}

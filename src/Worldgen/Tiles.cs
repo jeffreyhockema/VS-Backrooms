@@ -509,10 +509,10 @@ public enum FloorKind : ushort
 
     /// <summary>
     /// Level 73 (block 256-287): the island's crimson earth (<see cref="L73Floor"/>), black rock, ash sand on the beach, blood mud in
-    /// the gullies, the seabed's sand and gravel; the castle's courtyard, its path, the keep's carpet and boards.
+    /// the gullies, the seabed's sand and gravel; the castle's courtyard, its path, the keep's carpet and boards, the bathrooms' tiles and the guest rooms' damask carpet.
     /// </summary>
     L73Floor = 256, L73Rock = 257, L73Ash = 258, L73Mud = 259, L73Seabed = 260, L73Gravel = 261, L73Court = 262, L73Path = 263,
-    L73Carpet = 264, L73Boards = 265,
+    L73Carpet = 264, L73Boards = 265, L73Tile = 266, L73Damask = 267,
     /// <summary>The Basement (block 288-319, and 228-231 kept from before): the Cellar's bare concrete (dry, damp), the Flood's slimy bed under the water, the Dry Patch's floor.</summary>
     BasementFloor = 228, BasementDamp = 229, BasementBed = 230, BasementPatch = 231,
     /// <summary>Level 52 (block 320-351, and 244-248 kept from before): the halls' vinyl tile, the classrooms' plainer tile, the gym's floor and its court lines.</summary>

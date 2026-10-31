@@ -1,0 +1,162 @@
+// Level 73: the grand mahogany table; a place set at it (the diner to the north for -north) refills by itself (Regions.L73System)
+{
+	"code": "l73-table",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"set",
+				"bare"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-set-north"
+		],
+		"backrooms": [
+			"*-set-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"shapeByType": {
+		"*-set-north": {
+			"base": "block/73/table-set",
+			"rotateY": 0
+		},
+		"*-set-east": {
+			"base": "block/73/table-set",
+			"rotateY": 270
+		},
+		"*-set-south": {
+			"base": "block/73/table-set",
+			"rotateY": 180
+		},
+		"*-set-west": {
+			"base": "block/73/table-set",
+			"rotateY": 90
+		},
+		"*-bare-north": {
+			"base": "block/73/table-bare",
+			"rotateY": 0
+		},
+		"*-bare-east": {
+			"base": "block/73/table-bare",
+			"rotateY": 270
+		},
+		"*-bare-south": {
+			"base": "block/73/table-bare",
+			"rotateY": 180
+		},
+		"*-bare-west": {
+			"base": "block/73/table-bare",
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"class": "BackroomsL73Table",
+	"entityClass": "BackroomsL73Table",
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

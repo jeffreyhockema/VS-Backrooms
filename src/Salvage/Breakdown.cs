@@ -317,6 +317,7 @@ public static class Breakdown
         if (first == "run") return IsRunProp(block.Code.Path) ? BreakKind.None : BreakKind.Fixed;
         if (SalvageSystem.IsSalvage(block) || OwnRules.Contains(first)) return BreakKind.None;
         if (FixedCodes.Contains(first) || block is Props.BlockDispenser) return BreakKind.Fixed;
+        if (block.Attributes?["l73Fixed"].AsBool(false) == true) return BreakKind.Fixed; // (experimental) Level 73's castle: "impenetrable and invincible"
         // A way somewhere: any threshold, and the Hub's carved doors (whose threshold behaviour HubSystem swaps for its
         // own before this runs, so they would otherwise break down like the wall round them)
         if (block.BlockBehaviors != null)

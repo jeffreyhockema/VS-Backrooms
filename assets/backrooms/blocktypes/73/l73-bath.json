@@ -1,0 +1,53 @@
+// Level 73: a large barrel of warm water in a bathroom, never empty (Regions.L73System)
+{
+	"code": "l73-bath",
+	"class": "BackroomsL73Bath",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/73/bath"
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"collisionbox": {
+		"x1": 0.0625,
+		"y1": 0,
+		"z1": 0.0625,
+		"x2": 0.9375,
+		"y2": 0.875,
+		"z2": 0.9375
+	},
+	"selectionbox": {
+		"x1": 0.0625,
+		"y1": 0,
+		"z1": 0.0625,
+		"x2": 0.9375,
+		"y2": 0.875,
+		"z2": 0.9375
+	},
+	"attributes": {
+		"liquidSource": false,
+		"l73Fixed": true
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"resistance": 1000
+}

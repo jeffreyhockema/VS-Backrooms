@@ -1,0 +1,67 @@
+// Level 73: the attic's doors, chained and padlocked: CORAN has declared the attic off-limits
+{
+	"code": "l73-atticdoor",
+	"class": "BackroomsL73Door",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lb",
+				"rb",
+				"lt",
+				"rt"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lb"
+		],
+		"backrooms": [
+			"*-lb"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lb": {
+			"base": "block/73/atticdoor-lb"
+		},
+		"*-rb": {
+			"base": "block/73/atticdoor-rb"
+		},
+		"*-lt": {
+			"base": "block/73/atticdoor-lt"
+		},
+		"*-rt": {
+			"base": "block/73/atticdoor-rt"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 1,
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0.375,
+		"x2": 1,
+		"y2": 1,
+		"z2": 0.625
+	},
+	"attributes": {
+		"l73Door": "attic",
+		"l73Fixed": true
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"resistance": 1000
+}

@@ -41,7 +41,7 @@ static partial class LevelModes
                             land++;
                             heights[t.Height]++;
                             peak = Math.Max(peak, t.Height);
-                            if (t.Sealed) sealedLand++;
+                            if (t.Sealed && t.Variant == 0) sealedLand++; // (a tile with bones on it is sealed itself)
                             break;
                         case WorldLayout.L73Sea: sea++; deepest = Math.Max(deepest, t.Depth); break;
                         case WorldLayout.L73Court: court++; break;
@@ -75,13 +75,46 @@ static partial class LevelModes
         if (notLevel > 0) Bad($"{notLevel} castle tiles off the plateau");
         for (int v = WorldLayout.L73CastleD; v < WorldLayout.L73CastleD + 8; v++)
         {
-            Tile t = layout.TileAt(layout.L73CastleX0 + 23, layout.L73CastleZ0 + v);
+            Tile t = layout.TileAt(layout.L73CastleX0 + 27, layout.L73CastleZ0 + v);
             if (t.Height < WorldLayout.L73Plateau - 1 && v < WorldLayout.L73CastleD + 4) Bad($"ground falls away outside the gate ({t.Height} at v {v})");
         }
-        if (WorldLayout.L73CastleAt(23, WorldLayout.L73CastleD - 1) != Part.Gate) Bad("no gate");
-        if (WorldLayout.L73KeepAt(13, WorldLayout.L73KeepD - 1) != Part.Door) Bad("no keep door");
+        if (WorldLayout.L73CastleAt(27, WorldLayout.L73CastleD - 1) != Part.Gate) Bad("no gate");
+        if (!WorldLayout.L73MainDoor(17, WorldLayout.L73KeepD - 1) || !WorldLayout.L73MainDoor(18, WorldLayout.L73KeepD - 1)) Bad("no keep door");
         for (int v = WorldLayout.L73KeepV0 + WorldLayout.L73KeepD; v < WorldLayout.L73CastleD - 2; v++)
-            if (WorldLayout.L73CastleAt(23, v) != Part.Path) Bad($"the path is broken at v {v}");
+            if (WorldLayout.L73CastleAt(27, v) != Part.Path) Bad($"the path is broken at v {v}");
+
+        // The keep: every storey's flight lands where the next begins, every room has a way in, every window a room
+        // behind it, every furnishing stands in a room, the lore's counts (six guest rooms of two beds, two bathrooms)
+        int guestBeds = 0, baths = 0, windows = 0, settings = 0, misplaced = 0;
+        for (int s = 0; s <= 2; s++)
+            for (int kv = 0; kv < WorldLayout.L73KeepD; kv++)
+                for (int ku = 0; ku < WorldLayout.L73KeepW; ku++)
+                {
+                    if (WorldLayout.L73Window(ku, kv, s)) windows++;
+                    foreach (WorldLayout.L73Layer layer in new[] { WorldLayout.L73Layer.Floor, WorldLayout.L73Layer.Wall, WorldLayout.L73Layer.Ceiling })
+                    {
+                        var thing = WorldLayout.L73FurnishingAt(ku, kv, s, layer).Thing;
+                        if (thing == WorldLayout.L73Thing.None) continue;
+                        if (WorldLayout.L73RoomAt(ku, kv, s) == WorldLayout.L73Room.Wall || WorldLayout.L73StairStep(ku, kv, s) > 0
+                            || layer == WorldLayout.L73Layer.Floor && (WorldLayout.L73Doorway(ku - 1, kv, s) || WorldLayout.L73Doorway(ku + 1, kv, s)
+                                || WorldLayout.L73Doorway(ku, kv - 1, s) || WorldLayout.L73Doorway(ku, kv + 1, s)))
+                        {
+                            misplaced++;
+                            Console.WriteLine($"  misplaced {thing} at {ku},{kv} storey {s} ({layer})");
+                        }
+                        if (thing == WorldLayout.L73Thing.BedHead && WorldLayout.L73RoomAt(ku, kv, s) == WorldLayout.L73Room.Guest) guestBeds++;
+                        if (thing == WorldLayout.L73Thing.Bath) baths++;
+                        if (thing == WorldLayout.L73Thing.Table) settings++;
+                    }
+                }
+        Console.WriteLine($"keep: {guestBeds} guest beds, {baths} bath barrels, {settings} places at the table, {windows} windows, {misplaced} misplaced");
+        if (guestBeds != 12) Bad("not six guest rooms of two beds");
+        if (misplaced > 0) Bad("furnishings in walls, on stairs or in doorways");
+        for (int s = 0; s <= 1; s++)
+        {
+            int top = s == 1 ? 11 : 24, beyond = s == 1 ? 10 : 25;
+            if (WorldLayout.L73StairStep(top, 12, s) != 5 || WorldLayout.L73RoomAt(beyond, 12, s + 1) == WorldLayout.L73Room.Wall) Bad($"storey {s}'s flight lands nowhere");
+        }
 
         // Arrivals
         int found = 0, dry = 0, near = 0;

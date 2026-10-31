@@ -1,0 +1,30 @@
+// Level 73: the planks the castle's windows are boarded up with (never broken: "do not look outside")
+{
+	"code": "l73-boards",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/73/oak"
+		}
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

@@ -1,4 +1,7 @@
+using Atp = Backrooms.Worldgen.WorldLayout.L73AtticPart;
+using Layer = Backrooms.Worldgen.WorldLayout.L73Layer;
 using Part = Backrooms.Worldgen.WorldLayout.L73Part;
+using Room = Backrooms.Worldgen.WorldLayout.L73Room;
 using Thing = Backrooms.Worldgen.WorldLayout.L73Thing;
 
 namespace Backrooms.Worldgen;
@@ -6,15 +9,21 @@ namespace Backrooms.Worldgen;
 /// <summary>
 /// Blocks for Level 73, "The Redlands" (experimental, kept as level 21), laid out in WorldLayout.Level73.cs, from its own floor
 /// (<see cref="WorldGeometry.FloorFor"/>), which is the sea's surface. The island is crimson earth over basalt, black rock on
-/// its outcrops and hilltops, ash sand on the beach and blood-red mud in the gullies; the seabed is basalt sand and gravel
-/// under still water. The Silver Castle is pale silver ashlar: curtain walls seven high with battlements, towers ten, the
-/// keep two storeys under a flat roof with turrets; inside, carpet and boards, the Level 5 hotel's furniture, iron sconces
-/// and a hearth of embers. The rim of the region is a cliff of basalt. This file is the level's own.
+/// its outcrops and hilltops, ash sand on the beach and blood-red mud in the gullies, old bones strewn over it; the seabed is
+/// basalt sand and gravel under still water. The Silver Castle is pale silver ashlar: curtain walls seven high with
+/// battlements, towers ten, banners of a silver heart with ram's horns on black hung inside and out; the keep three storeys
+/// under a flat roof with turrets and a chimney stack, and on the roof the attic under slate with its balcony. Inside,
+/// carpet, damask, tiles and boards, the Level 5 hotel's furniture, iron sconces, a hearth of embers, the mahogany table
+/// with a place set at every seat, the bathrooms' barrels of warm water, paintings of the Frontrooms, and red velvet
+/// curtains over boarded windows. The keep's door is a pair of studded leaves that open only to banging
+/// (Regions.L73System). The rim of the region is a cliff of basalt. This file is the level's own.
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private int l73Earth, l73Rock, l73Ash, l73Mud, l73Silver, l73Basalt, l73Sand, l73Gravel, l73Ashlar, l73Carpet, l73Boards, l73Ember;
-    private readonly int[] l73Sconce = new int[4];
+    private int l73Earth, l73Rock, l73Ash, l73Mud, l73Silver, l73Basalt, l73Sand, l73Gravel, l73Ashlar, l73Carpet, l73Damask, l73TileFloor,
+        l73Boards, l73Ember, l73Slate, l73Bath, l73WindowBoards, l73Note;
+    private readonly int[] l73Sconce = new int[4], l73Banner = new int[4], l73Door = new int[6], l73AtticDoor = new int[4];
+    private readonly int[,] l73Curtain = new int[3, 4], l73Table = new int[2, 4], l73Painting = new int[WorldLayout.L73Paintings, 4];
 
     /// <summary>How high the cliff round the sea rises above it.</summary>
     private const int L73RimTop = 16;
@@ -28,11 +37,29 @@ public sealed partial class WorldGenerator
         l73Ash = Id("l73-ash-sand");
         l73Mud = Id("l73-bloodmud");
         l73Silver = Id("l73-silverwall");
-        for (int f = 0; f < 4; f++) l73Sconce[f] = Id("l73-sconce-" + Sides[f]);
+        l73Slate = Id("l73-slate");
+        l73Bath = Id("l73-bath");
+        l73WindowBoards = Id("l73-boards");
+        l73Note = Id("loosenote-refuge");
+        string[] curtainParts = { "top", "mid", "low" }, doorParts = { "lb", "rb", "lm", "rm", "lt", "rt" };
+        for (int f = 0; f < 4; f++)
+        {
+            l73Sconce[f] = Id("l73-sconce-" + Sides[f]);
+            l73Banner[f] = Id("l73-banner-" + Sides[f]);
+            for (int p = 0; p < 3; p++) l73Curtain[p, f] = Id($"l73-curtain-{curtainParts[p]}-{Sides[f]}");
+            l73Table[0, f] = Id("l73-table-set-" + Sides[f]);
+            l73Table[1, f] = Id("l73-table-bare-" + Sides[f]);
+            for (int k = 0; k < WorldLayout.L73Paintings; k++) l73Painting[k, f] = Id($"l73-painting-{k + 1}-{Sides[f]}");
+        }
+        for (int p = 0; p < 6; p++) l73Door[p] = Id("l73-door-shut-" + doorParts[p]);
+        string[] atticParts = { "lb", "rb", "lt", "rt" };
+        for (int p = 0; p < 4; p++) l73AtticDoor[p] = Id("l73-atticdoor-" + atticParts[p]);
         l73Sand = GameId("game:sand-basalt", "game:sand-granite");
         l73Gravel = GameId("game:gravel-basalt", "game:gravel-granite");
         l73Ashlar = Id("hub-ashlar-worn");
         l73Carpet = BlockId("backrooms:hotelcarpet-maroon");
+        l73Damask = BlockId("backrooms:hotelcarpet-damask");
+        l73TileFloor = Id("l188-tile-bath");
         l73Boards = BlockId("game:planks-aged-ud");
         l73Ember = GameId("game:ember");
         floorIds[(int)FloorKind.L73Floor] = l73Earth;
@@ -45,6 +72,8 @@ public sealed partial class WorldGenerator
         floorIds[(int)FloorKind.L73Path] = l73Ashlar;
         floorIds[(int)FloorKind.L73Carpet] = l73Carpet;
         floorIds[(int)FloorKind.L73Boards] = l73Boards;
+        floorIds[(int)FloorKind.L73Tile] = l73TileFloor;
+        floorIds[(int)FloorKind.L73Damask] = l73Damask;
     }
 
     /// <summary>One block of a column of the level, <paramref name="rel"/> above the sea's surface.</summary>
@@ -60,6 +89,12 @@ public sealed partial class WorldGenerator
         if (rel > g)
         {
             if (rel <= 0) fluid = waterId;
+            if (rel == g + 1 && t.Variant != 0) return PropBlock(t);
+            if (rel == g + 1 && t.Detail == 1) return l73Note;
+            // The banners on the castle's outer walls hang over the ground just outside them
+            if (g == WorldLayout.L73Plateau && WorldLayout.L73BannerAt(gx - layout.L73CastleX0, gz - layout.L73CastleZ0) is { } banner
+                && rel == WorldLayout.L73Plateau + banner.Top)
+                return l73Banner[Facing(banner.Facing)];
             return 0;
         }
         if (rel < System.Math.Min(g - 4, -8)) return concreteId; // (the ground below, as vanilla laid it)
@@ -83,24 +118,17 @@ public sealed partial class WorldGenerator
         Part part = WorldLayout.L73CastleAt(u, v);
         int c = rel - WorldLayout.L73Plateau;
         if (c < 0) return rel < -8 ? concreteId : l73Basalt;
-        if (c == 0)
-            return part switch
-            {
-                Part.Court => l73Rock,
-                Part.Path or Part.Gate or Part.Door => l73Ashlar,
-                Part.Hall or Part.Stair => l73Carpet,
-                Part.Dining => l73Boards,
-                _ => l73Silver,
-            };
         const int w = WorldLayout.L73CastleW, d = WorldLayout.L73CastleD;
         bool Merlon(int a, int b) => ((a + b) & 1) == 0;
         switch (part)
         {
             case Part.Court:
             case Part.Path:
-                return 0;
+                if (c == 0) return part == Part.Court ? l73Rock : l73Ashlar;
+                return WorldLayout.L73BannerAt(u, v) is { } banner && c == banner.Top ? l73Banner[Facing(banner.Facing)] : 0;
             case Part.Gate:
                 // The gateway, four wide and four high, under the wall-walk
+                if (c == 0) return l73Ashlar;
                 if (c <= 4) return 0;
                 if (c <= 7) return l73Silver;
                 return c == 8 && v == d - 1 && Merlon(u, v) ? l73Silver : 0;
@@ -115,93 +143,149 @@ public sealed partial class WorldGenerator
             }
             case Part.GateTower:
                 if (c <= 10) return l73Silver;
-                return c == 11 && (u is 18 or 21 or 26 or 29 || v is d - 5 or d - 1) && Merlon(u, v) ? l73Silver : 0;
+                return c == 11 && (u is 22 or 25 or 30 or 33 || v is d - 5 or d - 1) && Merlon(u, v) ? l73Silver : 0;
         }
-        return L73KeepBlock(u - WorldLayout.L73KeepU0, v - WorldLayout.L73KeepV0, c, part);
+        return L73KeepBlock(u - WorldLayout.L73KeepU0, v - WorldLayout.L73KeepV0, c);
     }
 
-    /// <summary>The keep, keep-local, <paramref name="c"/> above its floor.</summary>
-    private int L73KeepBlock(int ku, int kv, int c, Part part)
+    /// <summary>The keep, keep-local, <paramref name="c"/> above its floor: three storeys, the slabs between, the roof above.</summary>
+    private int L73KeepBlock(int ku, int kv, int c)
     {
-        const int kw = WorldLayout.L73KeepW, kd = WorldLayout.L73KeepD;
+        if (c > WorldLayout.L73Terrace) return L73KeepTop(ku, kv, c);
         bool ring = WorldLayout.L73KeepRing(ku, kv);
-        bool turret = (ku < 3 || ku >= kw - 3) && (kv < 3 || kv >= kd - 3);
-        bool merlon = ((ku + kv) & 1) == 0;
-        // The roof: a parapet round it, a turret on each corner
-        if (c > WorldLayout.L73RoofSlab)
+        const int storey = WorldLayout.L73Storey;
+        if (c == 0)
         {
-            if (turret)
+            if (WorldLayout.L73MainDoor(ku, kv)) return l73Ashlar;
+            if (ring || WorldLayout.L73HearthAt(ku, kv) > 0) return l73Silver;
+            return WorldLayout.L73RoomAt(ku, kv, 0) switch
             {
-                if (c <= 14) return l73Silver;
-                bool edge = ku is 0 or 2 or kw - 3 or kw - 1 || kv is 0 or 2 or kd - 3 or kd - 1;
-                return c == 15 && edge && merlon ? l73Silver : 0;
-            }
-            return c == 12 && ring && merlon ? l73Silver : 0;
+                Room.Wall => l73Silver,
+                Room.Hall => l73Carpet,
+                Room.Bath => l73TileFloor,
+                Room.Guest => l73Damask,
+                _ => l73Boards,
+            };
         }
-        if (c == WorldLayout.L73RoofSlab) return l73Silver;
-        bool upper = c > WorldLayout.L73UpperSlab;
+        if (c % storey == 0)
+        {
+            // A slab: the ceiling of the storey below, the floor of the one above (open over the flight below it)
+            int below = c / storey - 1, above = below + 1;
+            if (ring) return l73Silver;
+            int step = WorldLayout.L73StairStep(ku, kv, below);
+            if (step == 5) return hotelStairIds[0, Facing(WorldLayout.L73StairRise(below))];
+            if (step > 0) return 0;
+            if (above <= 2)
+                return WorldLayout.L73RoomAt(ku, kv, above) switch { Room.Wall => l73Silver, Room.Bath => l73TileFloor, _ => l73Boards };
+            // The roof terrace: the attic's boards in it, stone paving round it
+            return WorldLayout.L73AtticAt(ku, kv) switch
+            {
+                Atp.Inside or Atp.LockedDoor or Atp.BalconyDoor => l73Boards,
+                Atp.Wall or Atp.StairWall => l73Silver,
+                _ => l73Ashlar,
+            };
+        }
+
+        int s = c / storey, h = c - s * storey; // h 1 to 4 over the storey's floor
         if (ring)
         {
-            if (part == Part.Door && c <= 3) return 0;
-            // Windows, boarded up from outside
-            if (WorldLayout.L73Window(ku, kv, upper) && (upper ? c is 8 or 9 : c is 2 or 3)) return l73Boards;
+            if (s == 0 && WorldLayout.L73MainDoor(ku, kv)) return h <= 3 ? l73Door[ku - 17 + 2 * (h - 1)] : l73Silver;
+            // Windows, boarded up (the curtains hang inside)
+            if (h is 2 or 3 && WorldLayout.L73Window(ku, kv, s)) return l73WindowBoards;
             return l73Silver;
         }
+        if (s == 0 && WorldLayout.L73HearthAt(ku, kv) is int hearth and > 0)
+            return hearth == 1 || h == 4 ? l73Silver : h == 1 ? l73Ember : 0; // the jambs, the breast over the fire, the embers
 
-        // The stair up along the main hall's north wall, through a hole in the floor above
-        if (part == Part.Stair && c <= WorldLayout.L73UpperSlab)
-        {
-            int step = WorldLayout.L73StairStep(ku, kv);
-            return c < step ? l73Silver : c == step ? hotelStairIds[0, Facing(ArchPier.East)] : 0;
-        }
-        if (c == WorldLayout.L73UpperSlab) return l73Boards;
-
-        if (!upper)
-        {
-            switch (part)
-            {
-                case Part.Partition:
-                case Part.Jamb:
-                    return l73Silver;
-                case Part.Hearth:
-                    // Embers on the hearthstone, the chimney breast over them
-                    return c == 1 ? l73Ember : c <= 3 ? 0 : l73Silver;
-            }
-            return L73Furnishing(ku, kv, false, c, 1, 3, 5);
-        }
-
-        int cu = c - WorldLayout.L73UpperSlab; // 1 just above the upper floor
-        switch (WorldLayout.L73UpperAt(ku, kv))
-        {
-            case Part.Hole: return 0;
-            case Part.Partition: return l73Silver;
-            case Part.UpDoor: return cu <= 2 ? 0 : l73Silver;
-        }
-        return L73Furnishing(ku, kv, true, cu, 1, 3, 4);
+        if (WorldLayout.L73RoomAt(ku, kv, s) == Room.Wall) return WorldLayout.L73Doorway(ku, kv, s) && h <= 2 ? 0 : l73Silver;
+        int st = WorldLayout.L73StairStep(ku, kv, s);
+        if (st > 0) return h < st ? l73Silver : h == st ? hotelStairIds[0, Facing(WorldLayout.L73StairRise(s))] : 0;
+        if (WorldLayout.L73CurtainAt(ku, kv, s) is ArchPier curtain) return l73Curtain[h == 4 ? 0 : h == 1 ? 2 : 1, Facing(curtain)];
+        return L73Furnishing(ku, kv, s, h, 3);
     }
 
     /// <summary>
-    /// What stands at a keep-local position at <paramref name="c"/> above its storey's floor: furniture on the floor
-    /// (<paramref name="floorAt"/>), sconces on the walls (<paramref name="sconceAt"/>), chandeliers under the ceiling
-    /// (<paramref name="ceilingAt"/>); air elsewhere.
+    /// Over the roof terrace: the parapet, the corner turrets, the chimney stack, the attic (its walls three high, its
+    /// locked door and its balcony door, what is kept in it) under a stepped slate roof, and the balcony's rail.
     /// </summary>
-    private int L73Furnishing(int ku, int kv, bool upper, int c, int floorAt, int sconceAt, int ceilingAt)
+    private int L73KeepTop(int ku, int kv, int c)
     {
-        var (thing, facing) = WorldLayout.L73FurnishingAt(ku, kv, upper);
-        if (thing == Thing.None) return 0;
-        if (thing == Thing.Sconce) return c == sconceAt ? l73Sconce[Facing(facing)] : 0;
-        if (thing == Thing.Chandelier) return c == ceilingAt ? chandelierId : 0;
-        if (c != floorAt) return 0;
+        const int kw = WorldLayout.L73KeepW, kd = WorldLayout.L73KeepD;
+        bool merlon = ((ku + kv) & 1) == 0;
+        if ((ku < 3 || ku >= kw - 3) && (kv < 3 || kv >= kd - 3))
+        {
+            if (c <= 19) return l73Silver;
+            bool edge = ku is 0 or 2 or kw - 3 or kw - 1 || kv is 0 or 2 or kd - 3 or kd - 1;
+            return c == 20 && edge && merlon ? l73Silver : 0;
+        }
+        if (ku is >= 16 and <= 19 && kv <= 1) return c <= 18 ? l73Silver : 0; // the chimney stack
+        if (WorldLayout.L73KeepRing(ku, kv)) return c == 16 && merlon ? l73Silver : 0;
+        // The attic's roof, stepping up from its eaves to the ridge (with an overhang at the gable ends)
+        if (ku is >= 8 and <= 27 && kv is >= 4 and <= 15 && c >= 19)
+        {
+            int r = System.Math.Min(4, System.Math.Min(kv - 4, 15 - kv));
+            int low = r == 0 ? 19 : 18 + r, high = 19 + r;
+            if (c >= low && c <= high) return l73Slate;
+            return c < low && ku is 9 or 26 ? l73Silver : 0;
+        }
+        int h = c - WorldLayout.L73Terrace;
+        switch (WorldLayout.L73AtticAt(ku, kv))
+        {
+            case Atp.Wall:
+            case Atp.StairWall:
+                return l73Silver;
+            case Atp.LockedDoor:
+                return h <= 2 ? l73AtticDoor[ku - 23 + 2 * (h - 1)] : l73Silver;
+            case Atp.BalconyDoor:
+                return h <= 2 ? l73AtticDoor[ku - 17 + 2 * (h - 1)] : l73Silver;
+            case Atp.Rail:
+                return h == 1 ? l73Silver : 0;
+            case Atp.Inside:
+                return L73Furnishing(ku, kv, 3, h, 3);
+        }
+        return 0;
+    }
+
+    /// <summary>
+    /// What stands at a keep-local position on a storey at <paramref name="h"/> above its floor: furniture on the floor (1),
+    /// sconces and paintings on the walls at <paramref name="wallAt"/> (banners hang from the row above, down over it),
+    /// chandeliers under the ceiling (4); air elsewhere.
+    /// </summary>
+    private int L73Furnishing(int ku, int kv, int storey, int h, int wallAt)
+    {
+        if (h == 1 && WorldLayout.L73FurnishingAt(ku, kv, storey, Layer.Floor) is { Thing: not Thing.None } floor) return L73FloorThing(floor.Thing, floor.Facing);
+        var wall = WorldLayout.L73FurnishingAt(ku, kv, storey, Layer.Wall);
+        if (wall.Thing == Thing.Banner && h == wallAt + 1) return l73Banner[Facing(wall.Facing)];
+        if (wall.Thing is not (Thing.None or Thing.Banner) && h == wallAt)
+            return wall.Thing == Thing.Sconce ? l73Sconce[Facing(wall.Facing)] : l73Painting[wall.Kind, Facing(wall.Facing)];
+        if (h == 4 && WorldLayout.L73FurnishingAt(ku, kv, storey, Layer.Ceiling).Thing == Thing.Chandelier) return chandelierId;
+        return 0;
+    }
+
+    private int L73FloorThing(Thing thing, ArchPier facing)
+    {
+        int Prop(ushort variant, byte stack = 0) => PropBlock(new Tile { Variant = variant, Pier = facing, Stack = stack });
         return thing switch
         {
-            Thing.Bookshelf => PropBlock(new Tile { Variant = Props.HotelBookshelf, Pier = facing }),
-            Thing.Clock => PropBlock(new Tile { Variant = Props.GrandfatherClock, Pier = facing }),
-            Thing.Candelabra => PropBlock(new Tile { Variant = Props.Candelabra, Pier = facing }),
-            Thing.Table => PropBlock(new Tile { Variant = Props.DiningTable, Pier = facing }),
-            Thing.Chair => PropBlock(new Tile { Variant = Props.HotelChair, Pier = facing }),
-            Thing.Toilet => PropBlock(new Tile { Variant = Props.Toilet, Pier = facing }),
-            Thing.TubHead => PropBlock(new Tile { Variant = Props.Bathtub, Pier = facing, Stack = 0 }),
-            Thing.TubFoot => PropBlock(new Tile { Variant = Props.Bathtub, Pier = facing, Stack = 1 }),
+            Thing.Bookshelf => Prop(Props.HotelBookshelf),
+            Thing.Clock => Prop(Props.GrandfatherClock),
+            Thing.Candelabra => Prop(Props.Candelabra),
+            Thing.Chair => Prop(Props.HotelChair),
+            Thing.Toilet => Prop(Props.Toilet),
+            Thing.Dresser => Prop(Props.Dresser),
+            Thing.Desk => Prop(Props.WritingDesk),
+            Thing.RoundTable => Prop(Props.DiningTable),
+            Thing.SofaLeft => Prop(Props.LongSofa, 0),
+            Thing.SofaRight => Prop(Props.LongSofa, 1),
+            Thing.Crate => Prop(Props.WreckCrate),
+            Thing.Bones => Prop(Props.BonePile),
+            Thing.Ribcage => Prop(Props.Ribcage),
+            Thing.Skull => Prop(Props.JawSkeleton),
+            Thing.Pack => Prop(Props.Backpack),
+            Thing.Box => boxId,
+            Thing.Note => l73Note,
+            Thing.Table => l73Table[0, Facing(facing)],
+            Thing.Bath => l73Bath,
             // Beds are modelled head to the north; the facing points from the head toward the foot
             Thing.BedHead => bedHeadIds[Facing(Opposite(facing))],
             Thing.BedFoot => bedFootIds[Facing(Opposite(facing))],
