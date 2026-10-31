@@ -120,8 +120,8 @@ public partial class AtmosphereSystem : ModSystem
         new(0.0035f, 0.10f, 0.03f, 0.035f, -0.12f, scene: 0.30f),
         // The Basement: close, cold blue-green dark (the Cellar's; the Flood's is thicker: AtmosphereSystem.Basement.cs)
         new(0.045f, 0.051f, 0.086f, 0.078f, 0f),
-        // Level 52: a light grey-beige haze down the long halls (its dark classrooms and its gym: AtmosphereSystem.L52.cs)
-        new(0.0065f, 0.72f, 0.70f, 0.64f, 0f),
+        // Level 52: a thin, clear blue haze over the hills, a few white clouds, no day or night (its sky, its buildings: AtmosphereSystem.L52.cs)
+        new(0.0022f, 0.62f, 0.76f, 0.93f, 0f, clouds: 0.2f, cloudBrightness: 1.0f),
         // Batch 2 (placeholders: a faint neutral haze)
         // Level 31: a thin indigo haze, tinted by the coloured tubes (its cinema and its empty rooms darker, its snack bar
         // warmer: AtmosphereSystem.L31.cs)
@@ -309,6 +309,7 @@ public partial class AtmosphereSystem : ModSystem
             l974Lullaby, l974Fridge, runAlarm, runAlarmFar, runHorde, runHeart, runSafe,
             l73Wind, l73Surf, l73Fire,
             basementTone, basementWash, basementDoorSound,
+            l52Room, l52Wind,
         }.Concat(sirenVoice?.Loaded() ?? []).Concat(funVoiceA?.Loaded() ?? []).Concat(funVoiceB?.Loaded() ?? []).Concat(hotelVoice?.Loaded() ?? []))
         {
             sound?.Stop();

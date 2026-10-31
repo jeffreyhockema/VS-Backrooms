@@ -1,0 +1,657 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"fountain-basin": "backrooms:block/52/fountain-basin",
+		"fountain-chrome": "backrooms:block/52/fountain-chrome",
+		"fountain-dark": "backrooms:block/52/fountain-dark",
+		"fountain-steel": "backrooms:block/52/fountain-steel"
+	},
+	"elements": [
+		{
+			"name": "BackPlate",
+			"from": [
+				3.5,
+				8.5,
+				15.4
+			],
+			"to": [
+				12.5,
+				14.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						9.0,
+						6.0
+					]
+				},
+				"up": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						9.0,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						9.0,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						6.0
+					]
+				},
+				"west": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						6.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Housing",
+			"from": [
+				4.5,
+				5,
+				9.5
+			],
+			"to": [
+				11.5,
+				8.5,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						7.0,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						5.9,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						7.0,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						5.9,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						7.0,
+						5.9
+					]
+				},
+				"down": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						7.0,
+						5.9
+					]
+				}
+			}
+		},
+		{
+			"name": "BasinFloor",
+			"from": [
+				4,
+				8.5,
+				6.5
+			],
+			"to": [
+				12,
+				9.2,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						8,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						8.9,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						8.9,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						8,
+						8.9
+					]
+				}
+			}
+		},
+		{
+			"name": "BasinFront",
+			"from": [
+				4,
+				9.2,
+				6.5
+			],
+			"to": [
+				12,
+				10.8,
+				7.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						8,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						1.6
+					]
+				},
+				"south": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						8,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						8,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						8,
+						0.7
+					]
+				}
+			}
+		},
+		{
+			"name": "BasinL",
+			"from": [
+				4,
+				9.2,
+				7.2
+			],
+			"to": [
+				4.7,
+				10.8,
+				15.4
+			],
+			"faces": {
+				"up": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						8.2
+					]
+				},
+				"east": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						8.2,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						8.2,
+						1.6
+					]
+				}
+			}
+		},
+		{
+			"name": "BasinR",
+			"from": [
+				11.3,
+				9.2,
+				7.2
+			],
+			"to": [
+				12,
+				10.8,
+				15.4
+			],
+			"faces": {
+				"up": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						8.2
+					]
+				},
+				"east": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						8.2,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#fountain-steel",
+					"uv": [
+						0,
+						0,
+						8.2,
+						1.6
+					]
+				}
+			}
+		},
+		{
+			"name": "BasinIn",
+			"from": [
+				4.7,
+				9.2,
+				7.2
+			],
+			"to": [
+				11.3,
+				9.3,
+				15.4
+			],
+			"faces": {
+				"up": {
+					"texture": "#fountain-basin",
+					"uv": [
+						0,
+						0,
+						6.6,
+						8.2
+					]
+				}
+			}
+		},
+		{
+			"name": "BasinInFront",
+			"from": [
+				4.7,
+				9.3,
+				7.2
+			],
+			"to": [
+				11.3,
+				10.8,
+				7.25
+			],
+			"faces": {
+				"south": {
+					"texture": "#fountain-basin",
+					"uv": [
+						0,
+						0,
+						6.6,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Drain",
+			"from": [
+				7.2,
+				9.3,
+				10.5
+			],
+			"to": [
+				8.8,
+				9.4,
+				12.1
+			],
+			"faces": {
+				"up": {
+					"texture": "#fountain-dark",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.6
+					]
+				}
+			}
+		},
+		{
+			"name": "SpoutStem",
+			"from": [
+				7.4,
+				9.3,
+				13.4
+			],
+			"to": [
+				8.6,
+				11.9,
+				14.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						2.6
+					]
+				},
+				"east": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						2.6
+					]
+				},
+				"south": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						2.6
+					]
+				},
+				"west": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						2.6
+					]
+				},
+				"up": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "SpoutArm",
+			"from": [
+				7.4,
+				11.0,
+				10.8
+			],
+			"to": [
+				8.6,
+				11.9,
+				13.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						2.6
+					]
+				},
+				"down": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						2.6
+					]
+				},
+				"east": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						2.6,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						2.6,
+						0.9
+					]
+				}
+			}
+		},
+		{
+			"name": "SpoutTip",
+			"from": [
+				7.7,
+				10.6,
+				10.8
+			],
+			"to": [
+				8.3,
+				11.0,
+				11.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountain-dark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#fountain-dark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#fountain-dark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#fountain-dark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Button",
+			"from": [
+				9.9,
+				11.3,
+				14.8
+			],
+			"to": [
+				11.5,
+				12.9,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#fountain-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.6
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,112 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chainlink-mesh": "backrooms:block/52/chainlink-mesh",
+		"chainlink-rail": "backrooms:block/52/chainlink-rail"
+	},
+	"elements": [
+		{
+			"name": "Mesh",
+			"from": [
+				7.8,
+				0,
+				0
+			],
+			"to": [
+				8.2,
+				14.4,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#chainlink-mesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#chainlink-mesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail",
+			"from": [
+				7.2,
+				14.4,
+				0
+			],
+			"to": [
+				8.8,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#chainlink-rail",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#chainlink-rail",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#chainlink-rail",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#chainlink-rail",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#chainlink-rail",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#chainlink-rail",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

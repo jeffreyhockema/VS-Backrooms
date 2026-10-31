@@ -1,0 +1,74 @@
+// Level 52: artificial grass over rubber crumb (plain; worn: paler flattened patches)
+{
+	"code": "l52-turf",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"worn"
+			]
+		}
+	],
+	"texturesByType": {
+		"l52-turf-plain": {
+			"north": {
+				"base": "block/52/turf-side"
+			},
+			"east": {
+				"base": "block/52/turf-side"
+			},
+			"south": {
+				"base": "block/52/turf-side"
+			},
+			"west": {
+				"base": "block/52/turf-side"
+			},
+			"up": {
+				"base": "block/52/turf-plain"
+			},
+			"down": {
+				"base": "block/52/slab-concrete"
+			}
+		},
+		"l52-turf-worn": {
+			"north": {
+				"base": "block/52/turf-side"
+			},
+			"east": {
+				"base": "block/52/turf-side"
+			},
+			"south": {
+				"base": "block/52/turf-side"
+			},
+			"west": {
+				"base": "block/52/turf-side"
+			},
+			"up": {
+				"base": "block/52/turf-worn"
+			},
+			"down": {
+				"base": "block/52/slab-concrete"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/grass",
+		"place": "game:block/plant",
+		"break": "game:block/plant",
+		"hit": "game:block/plant"
+	}
+}

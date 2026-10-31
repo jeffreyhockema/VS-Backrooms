@@ -1,0 +1,232 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"window-frame": "backrooms:block/52/window-frame",
+		"window-glass": "backrooms:block/52/window-glass"
+	},
+	"elements": [
+		{
+			"name": "JambN",
+			"from": [
+				6.8,
+				0,
+				0
+			],
+			"to": [
+				9.2,
+				16,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2.4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2.4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2.4,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2.4,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "JambS",
+			"from": [
+				6.8,
+				0,
+				14.5
+			],
+			"to": [
+				9.2,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2.4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2.4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2.4,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2.4,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				6.8,
+				13.5,
+				1.5
+			],
+			"to": [
+				9.2,
+				16,
+				14.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2.4,
+						13.0
+					]
+				},
+				"down": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2.4,
+						13.0
+					]
+				},
+				"east": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				7.5,
+				0,
+				1.5
+			],
+			"to": [
+				8.5,
+				13.5,
+				14.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

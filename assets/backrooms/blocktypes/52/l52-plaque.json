@@ -1,0 +1,194 @@
+// Level 52: half of a four-digit door-number plate (10 x 4 units, charcoal with off-white digits) hung on the wall behind the block; lo is the plate's left half as seen from in front (digits a b), hi the right half; side is the way it faces
+{
+	"code": "l52-plaque",
+	"variantgroups": [
+		{
+			"code": "half",
+			"states": [
+				"lo",
+				"hi"
+			]
+		},
+		{
+			"code": "a",
+			"states": [
+				"0",
+				"1",
+				"2",
+				"3",
+				"4",
+				"5",
+				"6",
+				"7",
+				"8",
+				"9"
+			]
+		},
+		{
+			"code": "b",
+			"states": [
+				"0",
+				"1",
+				"2",
+				"3",
+				"4",
+				"5",
+				"6",
+				"7",
+				"8",
+				"9"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-lo-*-north": {
+			"base": "backrooms:block/52/l52-plaque-lo",
+			"rotateY": 0
+		},
+		"*-lo-*-east": {
+			"base": "backrooms:block/52/l52-plaque-lo",
+			"rotateY": 270
+		},
+		"*-lo-*-south": {
+			"base": "backrooms:block/52/l52-plaque-lo",
+			"rotateY": 180
+		},
+		"*-lo-*-west": {
+			"base": "backrooms:block/52/l52-plaque-lo",
+			"rotateY": 90
+		},
+		"*-hi-*-north": {
+			"base": "backrooms:block/52/l52-plaque-hi",
+			"rotateY": 0
+		},
+		"*-hi-*-east": {
+			"base": "backrooms:block/52/l52-plaque-hi",
+			"rotateY": 270
+		},
+		"*-hi-*-south": {
+			"base": "backrooms:block/52/l52-plaque-hi",
+			"rotateY": 180
+		},
+		"*-hi-*-west": {
+			"base": "backrooms:block/52/l52-plaque-hi",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-lo-0-0-north",
+			"*-hi-0-0-north"
+		],
+		"backrooms": [
+			"*-lo-0-0-north",
+			"*-hi-0-0-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.5,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"*-lo-*-north": {
+			"x1": 0.0,
+			"y1": 0.5625,
+			"z1": 0.95625,
+			"x2": 0.3125,
+			"y2": 0.8125,
+			"z2": 1
+		},
+		"*-lo-*-east": {
+			"x1": 0.0,
+			"y1": 0.5625,
+			"z1": 0.95625,
+			"x2": 0.3125,
+			"y2": 0.8125,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-lo-*-south": {
+			"x1": 0.0,
+			"y1": 0.5625,
+			"z1": 0.95625,
+			"x2": 0.3125,
+			"y2": 0.8125,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-lo-*-west": {
+			"x1": 0.0,
+			"y1": 0.5625,
+			"z1": 0.95625,
+			"x2": 0.3125,
+			"y2": 0.8125,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-hi-*-north": {
+			"x1": 0.6875,
+			"y1": 0.5625,
+			"z1": 0.95625,
+			"x2": 1.0,
+			"y2": 0.8125,
+			"z2": 1
+		},
+		"*-hi-*-east": {
+			"x1": 0.6875,
+			"y1": 0.5625,
+			"z1": 0.95625,
+			"x2": 1.0,
+			"y2": 0.8125,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-hi-*-south": {
+			"x1": 0.6875,
+			"y1": 0.5625,
+			"z1": 0.95625,
+			"x2": 1.0,
+			"y2": 0.8125,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-hi-*-west": {
+			"x1": 0.6875,
+			"y1": 0.5625,
+			"z1": 0.95625,
+			"x2": 1.0,
+			"y2": 0.8125,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"textures": {
+		"d1": {
+			"base": "block/52/digit-{a}"
+		},
+		"d2": {
+			"base": "block/52/digit-{b}"
+		}
+	},
+	"collisionbox": null
+}

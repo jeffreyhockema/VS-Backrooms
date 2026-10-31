@@ -39,6 +39,8 @@ public class EntityBehaviorFaceling : EntityBehavior
 
     /// <summary>The texture alternate of Level 3's Evolved Facelings (the last of the adult looks; gen_entities.py appends it), and how many ordinary ones there are.</summary>
     public const int EvolvedLook = 14, AdultLooks = 14;
+    /// <summary>The teacher's clothes (Level 52's Facelings wear them).</summary>
+    public const int TeacherLook = 13;
 
     public const double ShameAmount = 0.3, ShameMinutes = 10;
     private const long TantrumMs = 15_000, FollowMs = 60_000;

@@ -1,0 +1,98 @@
+// Level 52: a chain-link fence panel two blocks high, galvanised diamond mesh cut out of the block's middle plane (axis ns: x = 8; we: z = 8); upper carries the top rail tube
+{
+	"code": "l52-chainlink",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"ns",
+				"we"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-chainlink-lower-ns": {
+			"base": "backrooms:block/52/l52-chainlink-lower"
+		},
+		"l52-chainlink-lower-we": {
+			"base": "backrooms:block/52/l52-chainlink-lower",
+			"rotateY": 90
+		},
+		"l52-chainlink-upper-ns": {
+			"base": "backrooms:block/52/l52-chainlink-upper"
+		},
+		"l52-chainlink-upper-we": {
+			"base": "backrooms:block/52/l52-chainlink-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-ns": {
+			"x1": 0.4375,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.5625,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-we": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4375,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.5625
+		}
+	},
+	"selectionboxByType": {
+		"*-ns": {
+			"x1": 0.4375,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.5625,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-we": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4375,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.5625
+		}
+	},
+	"drops": [],
+	"renderpass": "OpaqueNoCull"
+}

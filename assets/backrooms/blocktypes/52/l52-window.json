@@ -1,0 +1,98 @@
+// Level 52: a window two blocks high, a thin glass pane in a white aluminium frame (axis ns: the pane lies in x = 8; we: in z = 8); lower has the sill, upper the head
+{
+	"code": "l52-window",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"ns",
+				"we"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-window-lower-ns": {
+			"base": "backrooms:block/52/l52-window-lower"
+		},
+		"l52-window-lower-we": {
+			"base": "backrooms:block/52/l52-window-lower",
+			"rotateY": 90
+		},
+		"l52-window-upper-ns": {
+			"base": "backrooms:block/52/l52-window-upper"
+		},
+		"l52-window-upper-we": {
+			"base": "backrooms:block/52/l52-window-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"collisionboxByType": {
+		"*-ns": {
+			"x1": 0.375,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.625,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-we": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.375,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.625
+		}
+	},
+	"selectionboxByType": {
+		"*-ns": {
+			"x1": 0.375,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.625,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-we": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.375,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.625
+		}
+	},
+	"drops": [],
+	"renderpass": "Transparent"
+}

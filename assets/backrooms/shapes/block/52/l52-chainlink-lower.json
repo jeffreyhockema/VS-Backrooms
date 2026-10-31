@@ -1,0 +1,42 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chainlink-mesh": "backrooms:block/52/chainlink-mesh"
+	},
+	"elements": [
+		{
+			"name": "Mesh",
+			"from": [
+				7.8,
+				0,
+				0
+			],
+			"to": [
+				8.2,
+				16,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#chainlink-mesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#chainlink-mesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

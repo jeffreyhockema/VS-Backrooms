@@ -902,6 +902,45 @@ court. I said I'm not ready. I just want to feel at home again. If you're readin
 — J."""),
 ]))
 
+# ============================== Level 52, the Greenfield Campus (experimental, id 23) ==============================
+# (One self-contained block: the level's id, its track. Experimental levels are reached only by the cheats menu for now.)
+
+L52 = 23
+LEVEL_IDS.add(L52)
+
+TRACKS.append(Track("l52", "common", "Level 52: the Greenfield Campus", L52, entries=[
+    E("l52-1", "Four digits", """
+Every door here has a plaque, four digits, nothing else. I've walked enough of them to read it: the first two count the
+rooms along that building, the third is the floor, the last is the building. No subject on any door. No campus name
+anywhere, on anything. Somebody went to a lot of trouble to say nothing at all."""),
+    E("l52-2", "Lights off", """
+Ruth, the corridors here are lit and humming, every one of them, all the time. The classrooms never are. I tried every
+switch I found and nothing comes on, not the lights, not the old televisions. The windows light them well enough.
+There's a sky outside, love. Blue, all the time. I sat in the grass for an hour.
+— Tom""", w="tom"),
+    E("l52-3", "The fence", """
+Finding: each campus is fenced on its own, a concrete barrier with chain-link on it, too high to climb. No gate. There
+is a wide gap in the middle of every side, and a narrow one where a section was set down out of line. A gravel road runs
+from each gap on to the next campus. Nothing on the roads, nothing in the grass. Out on the empty plains a fence runs
+straight for a hundred paces and fences nothing.
+— A.L., survey""", w="al"),
+    E("l52-4", "False alarms", """
+Barry campus, the blue one they called the Asylum. Traders kept it once: you can tell by the warehouse, shelving and
+pallets and the medical cabinets, and now and then a case nobody opened. The alarms still go off, for nothing, every few
+minutes. Don't run. The fountains on the corridor walls still give water, and the canteen's machines still give
+Almond Water. Nothing in the food stands, though.
+— Dez""", w="dez"),
+    E("l52-5", "Fresh paint", """
+They tell you it's a paradise. Look behind the fresh paint in the corridors at Barry and you'll find the holes. The
+Partygoers came through here twice, three thousand people, then seven hundred more when the M.E.G. tried to take it
+back. They say it's over. Maybe. Turner campus has beds in its classrooms now, two floors of them, and most are made."""),
+    E("l52-6", "Top floor", """
+M.E.G. NOTICE, MARSHALL DAVID CAMPUS. Newcomers land in or near this building. The top floor was our outpost; the offices
+are abandoned and the files are gone. Take nothing you cannot carry down. The stairs are in the corners of the quad.
+Reported ways out: a door that opens on somewhere else, most often Level 53. Unconfirmed: noclipping in this building.
+— Field Team 9""", w="meg"),
+]))
+
 # ============================== Rare: folded notes ==============================
 
 RARE_CHAPTER = "rare"

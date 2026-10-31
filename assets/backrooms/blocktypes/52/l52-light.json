@@ -1,0 +1,1187 @@
+// Level 52: a slab with a fluorescent troffer in its ceiling face (on: lit and emits; lit: lit, emits nothing; off: dead; flicker: fails now and then). Conventions as fluorescentlight
+{
+	"code": "l52-light",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"hall",
+				"room",
+				"carpetblue",
+				"carpetred",
+				"carpetgreen",
+				"carpetgrey",
+				"lino",
+				"concrete",
+				"wood"
+			]
+		},
+		{
+			"code": "state",
+			"states": [
+				"on",
+				"lit",
+				"off",
+				"flicker"
+			]
+		}
+	],
+	"texturesByType": {
+		"l52-light-hall-on": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/tile-hall"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-hall-lit": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/tile-hall"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-hall-off": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/tile-hall"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-off"
+			}
+		},
+		"l52-light-hall-flicker": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/tile-hall"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-room-on": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/tile-room"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-room-lit": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/tile-room"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-room-off": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/tile-room"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-off"
+			}
+		},
+		"l52-light-room-flicker": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/tile-room"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-carpetblue-on": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetblue"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-carpetblue-lit": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetblue"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-carpetblue-off": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetblue"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-off"
+			}
+		},
+		"l52-light-carpetblue-flicker": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetblue"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-carpetred-on": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetred"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-carpetred-lit": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetred"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-carpetred-off": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetred"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-off"
+			}
+		},
+		"l52-light-carpetred-flicker": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetred"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-carpetgreen-on": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetgreen"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-carpetgreen-lit": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetgreen"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-carpetgreen-off": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetgreen"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-off"
+			}
+		},
+		"l52-light-carpetgreen-flicker": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetgreen"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-carpetgrey-on": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetgrey"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-carpetgrey-lit": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetgrey"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-carpetgrey-off": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetgrey"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-off"
+			}
+		},
+		"l52-light-carpetgrey-flicker": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetgrey"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-lino-on": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-lino"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-lino-lit": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-lino"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-lino-off": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-lino"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-off"
+			}
+		},
+		"l52-light-lino-flicker": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-lino"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-concrete-on": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-concrete"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-concrete-lit": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-concrete"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-concrete-off": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-concrete"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-off"
+			}
+		},
+		"l52-light-concrete-flicker": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-concrete"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-wood-on": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/gymfloor-plain"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-wood-lit": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/gymfloor-plain"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-wood-off": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/gymfloor-plain"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-off"
+			}
+		},
+		"l52-light-wood-flicker": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/gymfloor-plain"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"lightAbsorption": 0,
+	"resistance": 0.8,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"lightHsvByType": {
+		"*-on": [
+			10,
+			2,
+			21
+		]
+	},
+	"vertexFlagsByType": {
+		"*-on": {
+			"glowLevel": 160
+		},
+		"*-lit": {
+			"glowLevel": 160
+		},
+		"*-flicker": {
+			"glowLevel": 160
+		}
+	},
+	"entityClassByType": {
+		"*-flicker": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"l52-light-hall-flicker": {
+			"offBlock": "backrooms:l52-light-hall-off"
+		},
+		"l52-light-room-flicker": {
+			"offBlock": "backrooms:l52-light-room-off"
+		},
+		"l52-light-carpetblue-flicker": {
+			"offBlock": "backrooms:l52-light-carpetblue-off"
+		},
+		"l52-light-carpetred-flicker": {
+			"offBlock": "backrooms:l52-light-carpetred-off"
+		},
+		"l52-light-carpetgreen-flicker": {
+			"offBlock": "backrooms:l52-light-carpetgreen-off"
+		},
+		"l52-light-carpetgrey-flicker": {
+			"offBlock": "backrooms:l52-light-carpetgrey-off"
+		},
+		"l52-light-lino-flicker": {
+			"offBlock": "backrooms:l52-light-lino-off"
+		},
+		"l52-light-concrete-flicker": {
+			"offBlock": "backrooms:l52-light-concrete-off"
+		},
+		"l52-light-wood-flicker": {
+			"offBlock": "backrooms:l52-light-wood-off"
+		}
+	},
+	"dropsByType": {
+		"l52-light-hall-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.12,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
+		"l52-light-room-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.12,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
+		"l52-light-carpetblue-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.12,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
+		"l52-light-carpetred-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.12,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
+		"l52-light-carpetgreen-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.12,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
+		"l52-light-carpetgrey-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.12,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
+		"l52-light-lino-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.12,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
+		"l52-light-concrete-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.12,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
+		"l52-light-wood-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.12,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
+		"l52-light-hall-flicker": [
+			{
+				"type": "block",
+				"code": "l52-light-hall-off"
+			}
+		],
+		"l52-light-room-flicker": [
+			{
+				"type": "block",
+				"code": "l52-light-room-off"
+			}
+		],
+		"l52-light-carpetblue-flicker": [
+			{
+				"type": "block",
+				"code": "l52-light-carpetblue-off"
+			}
+		],
+		"l52-light-carpetred-flicker": [
+			{
+				"type": "block",
+				"code": "l52-light-carpetred-off"
+			}
+		],
+		"l52-light-carpetgreen-flicker": [
+			{
+				"type": "block",
+				"code": "l52-light-carpetgreen-off"
+			}
+		],
+		"l52-light-carpetgrey-flicker": [
+			{
+				"type": "block",
+				"code": "l52-light-carpetgrey-off"
+			}
+		],
+		"l52-light-lino-flicker": [
+			{
+				"type": "block",
+				"code": "l52-light-lino-off"
+			}
+		],
+		"l52-light-concrete-flicker": [
+			{
+				"type": "block",
+				"code": "l52-light-concrete-off"
+			}
+		],
+		"l52-light-wood-flicker": [
+			{
+				"type": "block",
+				"code": "l52-light-wood-off"
+			}
+		],
+		"l52-light-hall-lit": [
+			{
+				"type": "block",
+				"code": "l52-light-hall-on"
+			}
+		],
+		"l52-light-room-lit": [
+			{
+				"type": "block",
+				"code": "l52-light-room-on"
+			}
+		],
+		"l52-light-carpetblue-lit": [
+			{
+				"type": "block",
+				"code": "l52-light-carpetblue-on"
+			}
+		],
+		"l52-light-carpetred-lit": [
+			{
+				"type": "block",
+				"code": "l52-light-carpetred-on"
+			}
+		],
+		"l52-light-carpetgreen-lit": [
+			{
+				"type": "block",
+				"code": "l52-light-carpetgreen-on"
+			}
+		],
+		"l52-light-carpetgrey-lit": [
+			{
+				"type": "block",
+				"code": "l52-light-carpetgrey-on"
+			}
+		],
+		"l52-light-lino-lit": [
+			{
+				"type": "block",
+				"code": "l52-light-lino-on"
+			}
+		],
+		"l52-light-concrete-lit": [
+			{
+				"type": "block",
+				"code": "l52-light-concrete-on"
+			}
+		],
+		"l52-light-wood-lit": [
+			{
+				"type": "block",
+				"code": "l52-light-wood-on"
+			}
+		]
+	},
+	"soundsByType": {
+		"*-on": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass",
+			"ambient": "backrooms:ambient/hum",
+			"ambientBlockCount": 140
+		},
+		"*-lit": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass",
+			"ambient": "backrooms:ambient/hum",
+			"ambientBlockCount": 140
+		},
+		"*": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass"
+		}
+	}
+}

@@ -521,6 +521,9 @@ public enum FloorKind : ushort
     BasementCarpet = 288, BasementCarpetWorn = 289,
     /// <summary>Level 52 (block 320-351, and 244-248 kept from before): the halls' vinyl tile, the classrooms' plainer tile, the gym's floor and its court lines.</summary>
     L52Floor = 244, L52Room = 245, L52Gym = 246, L52GymLineNS = 247, L52GymLineWE = 248,
+    /// <summary>Level 52's rooms' carpets (blue, maroon, green, grey), lab linoleum, sealed concrete (stairs, warehouse); outdoors: grass, artificial turf (plain, worn), paving, the roads' gravel and sand, the sports court (plain, a line north-south, west-east).</summary>
+    L52CarpetBlue = 320, L52CarpetRed = 321, L52CarpetGreen = 322, L52CarpetGrey = 323, L52Lino = 324, L52Concrete = 325,
+    L52Grass = 326, L52Turf = 327, L52TurfWorn = 328, L52Paving = 329, L52Gravel = 330, L52Sand = 331, L52Court = 332, L52CourtLineNS = 333, L52CourtLineWE = 334,
     /// <summary>Level 31 (block 352-383, and 249 kept from before). Placeholder.</summary>
     L31Floor = 249,
     /// <summary>Level 120 (block 384-415, and 251 kept from before). Placeholder.</summary>
@@ -870,6 +873,8 @@ public static class Overheads
     /// <summary>The Basement, detail pass: a loop of dead wire hanging from the ceiling; the frayed end of a rope hanging high in the crack; the torn floor of the room above round the crack's top, and the walls of that room.</summary>
     public const ushort BasementWire = 288, BasementRope = 289, BasementCrackRim = 290, BasementCrackWall = 291;
     public const ushort L52First = 320, L52Last = 351;
+    /// <summary>Level 52: the two halves of a door's number plaque on the corridor wall (Pier the way it faces; the room it numbers is the campus plan's).</summary>
+    public const ushort L52PlaqueLo = 320, L52PlaqueHi = 321;
     public const ushort L31First = 352, L31Last = 383;
     public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
@@ -1018,6 +1023,8 @@ public static class Unders
     public const ushort L73First = 256, L73Last = 287;
     public const ushort BasementFirst = 288, BasementLast = 319;
     public const ushort L52First = 320, L52Last = 351;
+    /// <summary>Level 52: an outside wall with a window bay in every storey; a wall with a bank of lockers on its Pier face.</summary>
+    public const ushort L52Window = 320, L52Locker = 321;
     public const ushort L31First = 352, L31Last = 383;
     public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
@@ -1663,6 +1670,8 @@ public static class Props
     public const ushort L52First = 1100, L52Last = 1199;
     /// <summary>Level 52: a student desk with its chair (Pier the way the student faces), a piece of chalkboard on the wall behind it (Pier its face; Stack 0 left end, 1 middle, 2 right end; walked through).</summary>
     public const ushort L52Desk = 1100, L52Chalkboard = 1101;
+    /// <summary>Level 52: a drinking fountain on the wall behind it (Pier its face).</summary>
+    public const ushort L52Fountain = 1102;
     public const ushort L36First = 1200, L36Last = 1299;
     public const ushort L15First = 1300, L15Last = 1399;
     /// <summary>
