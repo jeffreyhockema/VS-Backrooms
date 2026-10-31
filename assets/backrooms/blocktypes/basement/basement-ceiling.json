@@ -9,7 +9,8 @@
 				"stained",
 				"joists",
 				"faint",
-				"joistsfaint"
+				"joistsfaint",
+				"shaft"
 			]
 		}
 	],
@@ -73,6 +74,16 @@
 					}
 				]
 			}
+		},
+		"*-shaft": {
+			"all": {
+				"base": "block/basement/ceiling-plain",
+				"alternates": [
+					{
+						"base": "block/basement/ceiling-plain-2"
+					}
+				]
+			}
 		}
 	},
 	"resistance": 8,
@@ -94,6 +105,11 @@
 			8,
 			2,
 			6
+		],
+		"*-shaft": [
+			9,
+			3,
+			10
 		]
 	}
 }

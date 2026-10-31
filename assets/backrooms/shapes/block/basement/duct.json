@@ -1,0 +1,336 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"duct": "backrooms:block/basement/duct"
+	},
+	"elements": [
+		{
+			"name": "Duct",
+			"from": [
+				0,
+				6.5,
+				2.5
+			],
+			"to": [
+				16,
+				14.5,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						16,
+						8.0
+					]
+				},
+				"south": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						16,
+						8.0
+					]
+				},
+				"up": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						16,
+						11.0
+					]
+				},
+				"down": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						16,
+						11.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Flange",
+			"from": [
+				0,
+				6.2,
+				2.2
+			],
+			"to": [
+				1,
+				14.8,
+				13.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						8.6
+					]
+				},
+				"east": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						11.6,
+						8.6
+					]
+				},
+				"south": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						8.6
+					]
+				},
+				"west": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						11.6,
+						8.6
+					]
+				},
+				"up": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						11.6
+					]
+				},
+				"down": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						11.6
+					]
+				}
+			}
+		},
+		{
+			"name": "StrapN",
+			"from": [
+				9,
+				6,
+				2
+			],
+			"to": [
+				10,
+				16,
+				2.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"east": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"south": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"up": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StrapS",
+			"from": [
+				9,
+				6,
+				13.6
+			],
+			"to": [
+				10,
+				16,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"east": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"south": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"up": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StrapB",
+			"from": [
+				9,
+				6,
+				2
+			],
+			"to": [
+				10,
+				6.4,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						12,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						12,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"down": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				}
+			}
+		}
+	]
+}

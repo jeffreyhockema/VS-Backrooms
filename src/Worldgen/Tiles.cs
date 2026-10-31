@@ -810,6 +810,8 @@ public static class Pipes
     public const ushort L23First = 480, L23Last = 511;
     /// <summary>The Basement's Flood: a run of pipes along the top of a passage (west-east, north-south), and the same leaking.</summary>
     public const ushort BasementPipeWE = 288, BasementPipeNS = 289, BasementLeakWE = 290, BasementLeakNS = 291;
+    /// <summary>The Basement's Cellar: a heating duct of sheet metal under the ceiling (west-east, north-south).</summary>
+    public const ushort BasementDuctWE = 292, BasementDuctNS = 293;
     /// <summary>Level 120's ducts, kept from before the widening (90-139 are main's to append to).</summary>
     public const byte L120LegacyFirst = 140, L120LegacyLast = 149;
 

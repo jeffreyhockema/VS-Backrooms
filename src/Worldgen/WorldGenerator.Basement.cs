@@ -17,10 +17,11 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private int basementFloorDryId, basementFloorDampId, basementFloorPatchId, basementCeilingId, basementCeilingStainedId, basementJoistsId, basementFaintId, basementJoistsFaintId;
+    private int basementFloorDryId, basementFloorDampId, basementFloorPatchId, basementCeilingId, basementCeilingStainedId, basementJoistsId, basementFaintId, basementJoistsFaintId, basementShaftId;
     private int basementWallId, basementWallStainedId, basementWallTideId, basementSlimeWallId, basementSlimeBedId;
     private int basementLampOnId, basementLampOffId, basementLampFlickerId, basementLampDimId, basementLampBrightId, basementPumpId;
     private int basementCarpetOliveId, basementCarpetBrownId, basementPanelId, basementPanelStainedId, basementBrickId;
+    private int basementDuctWeId, basementDuctNsId;
     private int basementWireId, basementRopeHangId, basementRopeEndId, basementLobbyCarpetId, basementLobbyWallId, basementLobbyCeilingId, basementLobbyLightId;
     private readonly int[] basementStepIds = new int[4], basementBrickStepIds = new int[4], basementLadderIds = new int[4];
     /// <summary>[state (closed, open, jammed), hinge (w, e), part (lower, upper), facing].</summary>
@@ -40,6 +41,7 @@ public sealed partial class WorldGenerator
         basementJoistsId = Id("basement-ceiling-joists");
         basementFaintId = Id("basement-ceiling-faint");
         basementJoistsFaintId = Id("basement-ceiling-joistsfaint");
+        basementShaftId = Id("basement-ceiling-shaft");
         basementWallId = Id("basement-wall-plain");
         basementWallStainedId = Id("basement-wall-stained");
         basementWallTideId = Id("basement-wall-tide");
@@ -57,6 +59,8 @@ public sealed partial class WorldGenerator
         basementPanelStainedId = Id("basement-panel-stained");
         basementBrickId = Id("basement-brick-plain");
         basementWireId = Id("wiredroop");
+        basementDuctWeId = Id("basement-duct-we");
+        basementDuctNsId = Id("basement-duct-ns");
         basementRopeHangId = Id("basement-rope-hang");
         basementRopeEndId = Id("basement-rope-end");
         basementLobbyCarpetId = Id("carpet-soaked");
@@ -128,7 +132,7 @@ public sealed partial class WorldGenerator
         }
         if (rel == ceiling - 1)
         {
-            // What hangs in the top block of air: a bulb, the Flood's pipes, a dead wire
+            // What hangs in the top block of air: a bulb, pipes or a duct, a dead wire
             int lamp = t.Ceiling switch
             {
                 CeilingKind.BasementBulbOn => basementLampOnId,
@@ -146,6 +150,8 @@ public sealed partial class WorldGenerator
                 Pipes.BasementPipeNS => pipeRunZId,
                 Pipes.BasementLeakWE => pipeLeakXId,
                 Pipes.BasementLeakNS => pipeLeakZId,
+                Pipes.BasementDuctWE => basementDuctWeId,
+                Pipes.BasementDuctNS => basementDuctNsId,
                 _ => 0,
             };
         }
@@ -221,6 +227,8 @@ public sealed partial class WorldGenerator
             if (rel == top) return basementLobbyCeilingId;
             if (rel > top - 4) return 0;
             if (rel == top - 4) return basementLobbyCarpetId;
+            // (The broken slab lining the crack, lit by the room above: the light comes down it to the floor)
+            if (rel > WorldGeometry.RoomHeight + 1) return basementShaftId;
         }
         if (t.Overhead == Overheads.BasementCrackWall && rel > top - 4 && rel < top) return basementLobbyWallId;
         return concreteId;

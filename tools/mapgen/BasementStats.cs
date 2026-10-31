@@ -33,8 +33,8 @@ static partial class LevelModes
         // steps are walked through or on: the stairwell's tiles are taken as floor, the loop is the server's)
         static bool Walk(in Tile t) => t.Kind == TileKind.Water
             || t.Kind == TileKind.Doorway && !WorldLayout.BasementDoorJammed(t)
-            || t.Kind == TileKind.Floor && t.Stack == 0 && !t.SupplyBox && (t.Variant == 0 || t.Variant is Props.BasementDebris or Props.BasementBody
-                or Props.BasementJunk or Props.FloorCable || t.Variant == Props.BasementEscher && t.Stair > 0);
+            || t.Kind == TileKind.Floor && !t.SupplyBox && (t.Variant == 0 && t.Stack == 0 || t.Variant is Props.BasementDebris or Props.BasementBody
+                or Props.BasementJunk or Props.FloorCable or Props.MachineParts || t.Variant == Props.BasementEscher && t.Stair > 0);
         // The height of the surface stood on: dry floor 0, an upper step 0 (its top), a lower step -1, the bed -2
         static int Surface(in Tile t) => t.Kind == TileKind.Water ? t.Height - 2 : 0;
 
