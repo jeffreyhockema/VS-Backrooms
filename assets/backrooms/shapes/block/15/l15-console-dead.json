@@ -1,0 +1,291 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"console-dead": "backrooms:block/15/console-dead",
+		"epoxy": "backrooms:block/15/epoxy",
+		"steelgrey": "backrooms:block/15/steelgrey",
+		"white": "backrooms:block/15/white"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				1,
+				0,
+				3
+			],
+			"to": [
+				15,
+				9,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						14,
+						9
+					]
+				},
+				"east": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						12,
+						9
+					]
+				},
+				"south": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						14,
+						9
+					]
+				},
+				"west": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						12,
+						9
+					]
+				},
+				"up": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				},
+				"down": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Keys",
+			"from": [
+				1.5,
+				9,
+				3.5
+			],
+			"to": [
+				14.5,
+				10,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						5.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						5.5,
+						1
+					]
+				},
+				"up": {
+					"texture": "#epoxy",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5.5
+					]
+				},
+				"down": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				9,
+				9
+			],
+			"rotationX": -22.5
+		},
+		{
+			"name": "Housing",
+			"from": [
+				2,
+				9,
+				10
+			],
+			"to": [
+				14,
+				16,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						12,
+						7
+					]
+				},
+				"east": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						4,
+						7
+					]
+				},
+				"south": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						12,
+						7
+					]
+				},
+				"west": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						4,
+						7
+					]
+				},
+				"up": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				},
+				"down": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Screen",
+			"from": [
+				3,
+				10,
+				9.6
+			],
+			"to": [
+				13,
+				15,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#console-dead",
+					"uv": [
+						0,
+						0,
+						10,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Plinth",
+			"from": [
+				1.5,
+				0,
+				2.5
+			],
+			"to": [
+				14.5,
+				1,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				},
+				"west": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				}
+			}
+		}
+	]
+}

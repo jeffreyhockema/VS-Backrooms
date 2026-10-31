@@ -1,0 +1,269 @@
+// Level 15: machine casing, stacked into machines from cabinets to monoliths: panel, vent, screen and lamp bank (dead or lit; the lit ones hum), hatch, warning band, burnt, burnt vent, an incinerator's mouth, a press
+{
+	"code": "l15-machine",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"panel",
+				"vent",
+				"screen",
+				"screenlit",
+				"lights",
+				"lightslit",
+				"hatch",
+				"warning",
+				"furnace",
+				"press",
+				"burnt",
+				"burntvent"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-panel": {
+			"all": {
+				"base": "block/15/machine-panel"
+			},
+			"up": {
+				"base": "block/15/machine-top"
+			},
+			"down": {
+				"base": "block/15/machine-top"
+			}
+		},
+		"*-vent": {
+			"all": {
+				"base": "block/15/machine-vent"
+			},
+			"up": {
+				"base": "block/15/machine-top"
+			},
+			"down": {
+				"base": "block/15/machine-top"
+			}
+		},
+		"*-screen": {
+			"all": {
+				"base": "block/15/machine-screen"
+			},
+			"up": {
+				"base": "block/15/machine-top"
+			},
+			"down": {
+				"base": "block/15/machine-top"
+			}
+		},
+		"*-screenlit": {
+			"all": {
+				"base": "block/15/machine-screenlit"
+			},
+			"up": {
+				"base": "block/15/machine-top"
+			},
+			"down": {
+				"base": "block/15/machine-top"
+			}
+		},
+		"*-lights": {
+			"all": {
+				"base": "block/15/machine-lights"
+			},
+			"up": {
+				"base": "block/15/machine-top"
+			},
+			"down": {
+				"base": "block/15/machine-top"
+			}
+		},
+		"*-lightslit": {
+			"all": {
+				"base": "block/15/machine-lightslit"
+			},
+			"up": {
+				"base": "block/15/machine-top"
+			},
+			"down": {
+				"base": "block/15/machine-top"
+			}
+		},
+		"*-hatch": {
+			"all": {
+				"base": "block/15/machine-hatch"
+			},
+			"up": {
+				"base": "block/15/machine-top"
+			},
+			"down": {
+				"base": "block/15/machine-top"
+			}
+		},
+		"*-warning": {
+			"all": {
+				"base": "block/15/machine-warning"
+			},
+			"up": {
+				"base": "block/15/machine-top"
+			},
+			"down": {
+				"base": "block/15/machine-top"
+			}
+		},
+		"*-furnace": {
+			"all": {
+				"base": "block/15/machine-furnace"
+			},
+			"up": {
+				"base": "block/15/machine-top"
+			},
+			"down": {
+				"base": "block/15/machine-top"
+			}
+		},
+		"*-press": {
+			"all": {
+				"base": "block/15/machine-press"
+			},
+			"up": {
+				"base": "block/15/machine-top"
+			},
+			"down": {
+				"base": "block/15/machine-top"
+			}
+		},
+		"*-burnt": {
+			"all": {
+				"base": "block/15/machine-burnt"
+			},
+			"up": {
+				"base": "block/15/machine-burnttop"
+			},
+			"down": {
+				"base": "block/15/machine-burnttop"
+			}
+		},
+		"*-burntvent": {
+			"all": {
+				"base": "block/15/machine-burntvent"
+			},
+			"up": {
+				"base": "block/15/machine-burnttop"
+			},
+			"down": {
+				"base": "block/15/machine-burnttop"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"lightHsvByType": {
+		"*-screenlit": [
+			23,
+			4,
+			4
+		],
+		"*-lightslit": [
+			14,
+			3,
+			4
+		]
+	},
+	"vertexFlagsByType": {
+		"*-screenlit": {
+			"glowLevel": 120
+		},
+		"*-lightslit": {
+			"glowLevel": 120
+		}
+	},
+	"soundsByType": {
+		"*-lightslit": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/anvil1",
+			"break": "game:block/heavymetal-hit",
+			"hit": "game:block/heavymetal-hit",
+			"ambient": "backrooms:ambient/15/machine",
+			"ambientBlockCount": 8
+		},
+		"*-press": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/anvil1",
+			"break": "game:block/heavymetal-hit",
+			"hit": "game:block/heavymetal-hit",
+			"ambient": "backrooms:ambient/15/machine",
+			"ambientBlockCount": 4
+		},
+		"*": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/anvil1",
+			"break": "game:block/heavymetal-hit",
+			"hit": "game:block/heavymetal-hit"
+		}
+	},
+	"dropsByType": {
+		"*-burnt": [
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.4,
+					"var": 0.4
+				}
+			}
+		],
+		"*-burntvent": [
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.4,
+					"var": 0.4
+				}
+			}
+		],
+		"*-furnace": [],
+		"*": [
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.8,
+					"var": 0.6
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:metalbit-copper",
+				"quantity": {
+					"avg": 0.4,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.12,
+					"var": 0
+				}
+			}
+		]
+	}
+}

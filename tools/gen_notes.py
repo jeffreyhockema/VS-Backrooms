@@ -1039,6 +1039,57 @@ All four walk back. Out without a window: the fire doors upstairs, or the hatch,
 — Field Team 9""", w="meg"),
 ]))
 
+# ---------------- Level 15, "Futuristic Halls" (experimental, id 27; detail pass 2026-10-30): its own block ----------------
+# Both wikis' Level 15 (docs/design/experimental-levels/15-plan.md): the white wall at the edge of Level 10's field and its
+# door that goes, the hum and the ticking in the dark, the codes on the vents, the dead in lab coats, the machine rooms,
+# the Robo-Men in the dark (ours), the star door. No living base: isolation and what the dead left.
+L15 = 27
+LEVEL_IDS.add(L15)
+TRACKS.append(Track("l15", "common", "Level 15: the Futuristic Halls", L15, entries=[
+    E("l15-1", "The white wall", """
+Where Level 10's field ends there is a white wall too high to see the top of, and a small steel door in it. I went in
+and marked it on my chart. Two days later I went back for it and there was no door, only white wall from this side too.
+Write it down: the ways into this place close behind you.
+— A.L., survey""", w="al"),
+    E("l15-2", "The hum", """
+Ruth, it hums. Day and night, everywhere, like the whole place is one machine and we're inside it. Where the lights
+are dead it stops humming and starts ticking, slow, like a heart. It gets slower the longer you stay. I didn't stay to
+hear it stop. Neither should you.
+— Tom""", w="tom"),
+    E("l15-3", "Letters on the vents", """
+Letters and numbers on the walls by the vents, in marker, and on the doors in black paint. H15. e03. eco3x10c. Someone
+had a system: H is a lab, e is a store, I think. I followed the e's for two days and found lockers already open and a
+box somebody had torn before me. Nothing here grows and nothing comes back. Carry water in.
+— Dez""", w="dez"),
+    E("l15-4", "Lab coats", """
+M.E.G. FIELD NOTICE. Bodies in lab coats throughout Level 15, months dead. Makeshift spears of pipe and glass beside
+some of them. Several have gunshot wounds; no firearm has been recovered anywhere in the level. Do not assume you are
+alone. Do not assume you are not.
+— Field Team 9""", w="meg"),
+    E("l15-5", "The machine rooms", """
+The gates to the machine rooms are rolled up and the hand scanners are dead, so walk in. Most of the machines are
+shells. A few still run, lit and humming, and one somewhere makes steel rods all day for nobody. Break the dead ones
+for wire and a little copper. The burnt ones give you next to nothing."""),
+    E("l15-6", "The dark squares", """
+Love, the power's out in patches a few hundred paces across. Black as anything in there, and the air goes thick: you'll
+feel it in your head before long. Something walks in the dark, metal and slow, like a man built out of a stove. I heard
+it before I saw it. Go round.
+— Nell""", w="nell"),
+    E("l15-7", "Two hours out", """
+Two hours out from where I camped, past the dark squares: an empty machine room, and in the middle of it a doorframe
+with no door and no wall, and in it a night sky and one small blue star. Cold came off it. I didn't go through and I
+didn't stay. Nobody I've met has come back from that side.
+— Dez""", w="dez"),
+]))
+TRACKS.append(Track("rare-l15", "rare", "Folded notes", L15, chapter=RARE_CHAPTER, entries=[
+    E("r-l15-1", "The halls, fair copy", """
+Fair copy, Level 15. Main halls every hundred and twenty-eight paces both ways, lit, a steel rib every eight. Between
+them the wings: corridors cut across and across, rooms in between, a door each onto a corridor. Service passages grey
+and low and loud with air. One square in six without power. Bodies, camps, no one living in forty days. Ways out: none.
+— A.L.""", w="al"),
+]))
+# ---------------- (end of Level 15's block) ----------------
+
 TRACKS.append(Track("rare-any", "rare", "Folded notes", None, chapter=RARE_CHAPTER, entries=[
     E("ra01", "Hub entrances, verified", """
 M.E.G. BRIEFING, RESTRICTED. Hub entrances, verified. Level 1: in the outer half of the maintenance halls, a grey door

@@ -1,0 +1,38 @@
+// Level 15: a security gate's shutter, rolled up into the lintel over a machine room's door
+{
+	"code": "l15-gate",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"shutter"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-shutter": {
+			"all": {
+				"base": "block/15/gate"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 10,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

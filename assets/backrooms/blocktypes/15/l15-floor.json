@@ -1,0 +1,129 @@
+// Level 15: ceramic tiles (worn), a dark non-slip coating, carpet, steel grating, the floor lights along the halls' walls (strip: glowing to look at, giving no light; stripdead), dried blood, scorch, a gate's tread plate, dust
+{
+	"code": "l15-floor",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"ceramic",
+				"worn",
+				"coating",
+				"carpet",
+				"grating",
+				"strip",
+				"stripdead",
+				"blood",
+				"scorch",
+				"track",
+				"dust"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-ceramic": {
+			"all": {
+				"base": "block/15/floor-ceramic"
+			}
+		},
+		"*-worn": {
+			"all": {
+				"base": "block/15/floor-worn"
+			}
+		},
+		"*-coating": {
+			"all": {
+				"base": "block/15/floor-coating"
+			}
+		},
+		"*-carpet": {
+			"all": {
+				"base": "block/15/floor-carpet"
+			}
+		},
+		"*-grating": {
+			"all": {
+				"base": "block/15/floor-grating"
+			}
+		},
+		"*-strip": {
+			"all": {
+				"base": "block/15/floor-strip"
+			}
+		},
+		"*-stripdead": {
+			"all": {
+				"base": "block/15/floor-stripdead"
+			}
+		},
+		"*-blood": {
+			"all": {
+				"base": "block/15/floor-blood"
+			}
+		},
+		"*-scorch": {
+			"all": {
+				"base": "block/15/floor-scorch"
+			}
+		},
+		"*-track": {
+			"all": {
+				"base": "block/15/floor-track"
+			}
+		},
+		"*-dust": {
+			"all": {
+				"base": "block/15/floor-dust"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"vertexFlagsByType": {
+		"*-strip": {
+			"glowLevel": 200
+		}
+	},
+	"soundsByType": {
+		"*-carpet": {
+			"walk": "game:walk/cloth*",
+			"place": "game:block/cloth",
+			"break": "game:block/cloth",
+			"hit": "game:block/cloth"
+		},
+		"*-grating": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/anvil1",
+			"break": "game:block/heavymetal-hit",
+			"hit": "game:block/heavymetal-hit"
+		},
+		"*-track": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/anvil1",
+			"break": "game:block/heavymetal-hit",
+			"hit": "game:block/heavymetal-hit"
+		},
+		"*": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/loosestone*",
+			"break": "game:block/rock-break-pickaxe",
+			"hit": "game:block/rock-hit-pickaxe"
+		}
+	}
+}

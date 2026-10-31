@@ -131,8 +131,8 @@ public partial class AtmosphereSystem : ModSystem
         // Level 120: pitch dark, a black with a little cold blue-green in it, the scene dimmed (its hot aisles, White Voids and hallways: AtmosphereSystem.L120.cs)
         new(0.018f, 0.018f, 0.032f, 0.036f, 0f, scene: 0.8f),
         // Batch 3 (placeholders: a faint neutral haze)
-        // Level 15
-        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // Level 15: the halls' clean, faintly cool white air (the dark, the service passages, a crematorium, the star door: AtmosphereSystem.L15.cs)
+        new(0.003f, 0.82f, 0.86f, 0.90f, 0f),
         // Level 23
         new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
     };

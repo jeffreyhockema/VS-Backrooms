@@ -1,0 +1,333 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"dark": "backrooms:block/15/dark",
+		"epoxy": "backrooms:block/15/epoxy",
+		"instrument": "backrooms:block/15/instrument",
+		"lockerdoor": "backrooms:block/15/lockerdoor",
+		"machine-lights": "backrooms:block/15/machine-lights",
+		"steelgrey": "backrooms:block/15/steelgrey",
+		"white": "backrooms:block/15/white"
+	},
+	"elements": [
+		{
+			"name": "Carcase",
+			"from": [
+				0.5,
+				0,
+				1.5
+			],
+			"to": [
+				15.5,
+				13,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#lockerdoor",
+					"uv": [
+						0,
+						0,
+						15.0,
+						13
+					]
+				},
+				"east": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						14.0,
+						13
+					]
+				},
+				"south": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						15.0,
+						13
+					]
+				},
+				"west": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						14.0,
+						13
+					]
+				},
+				"up": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						15.0,
+						14.0
+					]
+				},
+				"down": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						15.0,
+						14.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				0,
+				13,
+				1
+			],
+			"to": [
+				16,
+				14.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#epoxy",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#epoxy",
+					"uv": [
+						0,
+						0,
+						15,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#epoxy",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#epoxy",
+					"uv": [
+						0,
+						0,
+						15,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#epoxy",
+					"uv": [
+						0,
+						0,
+						16,
+						15
+					]
+				},
+				"down": {
+					"texture": "#epoxy",
+					"uv": [
+						0,
+						0,
+						16,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				0.5,
+				0,
+				1
+			],
+			"to": [
+				15.5,
+				1.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#dark",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#dark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#dark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Instrument",
+			"from": [
+				3,
+				14.5,
+				5
+			],
+			"to": [
+				11,
+				20,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#machine-lights",
+					"uv": [
+						0,
+						0,
+						8,
+						5.5
+					]
+				},
+				"east": {
+					"texture": "#instrument",
+					"uv": [
+						0,
+						0,
+						8,
+						5.5
+					]
+				},
+				"south": {
+					"texture": "#instrument",
+					"uv": [
+						0,
+						0,
+						8,
+						5.5
+					]
+				},
+				"west": {
+					"texture": "#instrument",
+					"uv": [
+						0,
+						0,
+						8,
+						5.5
+					]
+				},
+				"up": {
+					"texture": "#instrument",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"down": {
+					"texture": "#instrument",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Arm",
+			"from": [
+				11,
+				14.5,
+				7
+			],
+			"to": [
+				13,
+				19,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						2,
+						4.5
+					]
+				},
+				"east": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						2,
+						4.5
+					]
+				},
+				"south": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						2,
+						4.5
+					]
+				},
+				"west": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						2,
+						4.5
+					]
+				},
+				"up": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#steelgrey",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		}
+	]
+}

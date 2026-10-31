@@ -1,25 +1,233 @@
+using System.Collections.Generic;
+using L = Backrooms.Worldgen.WorldLayout;
+
 namespace Backrooms.Worldgen;
 
 /// <summary>
-/// Blocks for Level 15, "Futuristic Halls" (experimental, kept as level 27), laid out in WorldLayout.Level15.cs, from its own floor
-/// (<see cref="WorldGeometry.FloorFor"/>). Scaffolding only: plain concrete floor, walls and ceiling, a fluorescent light
-/// every eight blocks. This file is the level's own.
+/// Blocks for Level 15, "Futuristic Halls" (experimental, kept as level 27), laid out in WorldLayout.Level15.cs, from its own
+/// floor (<see cref="WorldGeometry.FloorFor"/>). White panelled walls (<c>l15-wall</c>) with steel pilasters, a skirting row
+/// and, in the service passages, bare grey concrete; ceramic floors (<c>l15-floor</c>: worn, coated, carpeted, steel grating,
+/// the halls' glowing foot strips, dried blood, scorch, a gate's track, dust); LED ceiling panels (<c>l15-ceiling</c>: giving
+/// light, only looking lit, failing, dead; the service passages' concrete, an air handler's grille); steel ribs
+/// (<c>l15-rib</c>) under the ceilings and now and then one set in at an angle (<c>l15-oddbeam</c>). On the walls
+/// (<c>l15-walldeco</c>, one face dressed): hand scanners, room codes, displays (dead, the radar, the ESCAPE panel, views of
+/// elsewhere), vent grilles, a wooden door, blood; thick glass (<c>l15-glass</c>) into the machine rooms, a security gate's
+/// rolled-up shutter (<c>l15-gate</c>) over their doors. Machines are stacks of casing blocks (<c>l15-machine</c>: panels,
+/// vents, screens and lamp banks dead or lit, hatches, burnt, an incinerator's mouth, a press); props: consoles, lab benches,
+/// lockers, the dead, steel rods, the lecture stage, the star door. Everything above the rooms is solid to the top of the band.
+///
+/// Every block of the level's own is looked up softly (<see cref="L15Block"/>): until its asset exists, what is missing is
+/// drawn as the nearest existing block or left out, logged once.
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    /// <summary>The level's block ids (called from the constructor): none of its own yet.</summary>
+    private static readonly string[] L15WallKinds = { "panel", "panelb", "base", "grey", "greybase", "scorched", "beam", "etched" };
+    private static readonly string[] L15FloorKinds = { "ceramic", "worn", "coating", "carpet", "grating", "strip", "blood", "scorch", "track", "dust", "stripdead" };
+    private static readonly string[] L15MachineKinds = { "panel", "vent", "screen", "screenlit", "lights", "lightslit", "hatch", "warning", "burnt", "burntvent", "furnace", "press" };
+    private const int L15MPanel = 0, L15MVent = 1, L15MScreen = 2, L15MScreenLit = 3, L15MLights = 4, L15MLightsLit = 5, L15MHatch = 6, L15MWarning = 7,
+        L15MBurnt = 8, L15MBurntVent = 9, L15MFurnace = 10, L15MPress = 11;
+    /// <summary>The wall decorations, by name (<c>l15-walldeco-{kind}-{side}</c>): their index in <see cref="l15Deco"/>.</summary>
+    private static readonly string[] L15DecoKinds = BuildL15DecoKinds();
+    private const int L15DScanner = 0, L15DDisplay = 1, L15DRadar = 2, L15DEscape = 3, L15DVent = 4, L15DVentCode = 5, L15DDoorLower = 6, L15DDoorUpper = 7,
+        L15DBlood = 8, L15DView = 9, L15DCode = 9 + L.L15Views;
+
+    private static string[] BuildL15DecoKinds()
+    {
+        var kinds = new List<string> { "scanner", "display", "radar", "escape", "vent", "ventcode", "wooddoorlower", "wooddoorupper", "blood" };
+        for (int i = 0; i < L.L15Views; i++) kinds.Add("view" + i);
+        for (int i = 0; i < L.L15Codes; i++) kinds.Add("code" + i);
+        return kinds.ToArray();
+    }
+
+    private readonly int[] l15Wall = new int[8], l15Floor = new int[11], l15Machine = new int[12], l15Glass = new int[2], l15Rib = new int[2], l15OddBeam = new int[2];
+    private readonly int[] l15Ceiling = new int[7];
+    private int l15Gate, l15Stage;
+    private readonly int[,] l15Deco = new int[9 + L.L15Views + L.L15Codes, 4];
+    private readonly int[,] l15Console = new int[3, 4], l15Bench = new int[4, 4], l15Corpse = new int[6, 4], l15StarDoor = new int[2, 4];
+    private readonly int[,,] l15Locker = new int[2, 2, 4];
+    private readonly int[] l15Rods = new int[4];
+    private readonly HashSet<string> l15Missing = new();
+
+    /// <summary>A block of the level's, or <paramref name="fallback"/> if its asset is not there (logged once).</summary>
+    private int L15Block(string code, int fallback = 0)
+    {
+        if (modBlocks.TryGetValue(code, out int id)) return id;
+        if (l15Missing.Add(code) && l15Missing.Count <= 20) api.Logger.Warning("[backrooms] Level 15: missing block backrooms:{0}", code);
+        return fallback;
+    }
+
+    /// <summary>The level's block ids (called from the constructor).</summary>
     private void InitL15()
     {
+        int plainWall = BlockId("backrooms:concretewall-plain"), plainFloor = BlockId("backrooms:concretefloor-plain");
+        for (int i = 0; i < l15Wall.Length; i++) l15Wall[i] = L15Block("l15-wall-" + L15WallKinds[i], plainWall);
+        for (int i = 0; i < l15Floor.Length; i++) l15Floor[i] = L15Block("l15-floor-" + L15FloorKinds[i], plainFloor);
+        string[] ceilings = { "panel", "on", "lit", "flicker", "off", "service", "vent" };
+        int[] fallbacks = { concreteCeilingId, lightOnId, lightLitId, lightFlickerId, lightOffId, concreteCeilingId, concreteCeilingId };
+        for (int i = 0; i < ceilings.Length; i++) l15Ceiling[i] = L15Block("l15-ceiling-" + ceilings[i], fallbacks[i]);
+        for (int i = 0; i < l15Machine.Length; i++) l15Machine[i] = L15Block("l15-machine-" + L15MachineKinds[i], plainWall);
+        l15Glass[0] = L15Block("l15-glass-clear");
+        l15Glass[1] = L15Block("l15-glass-cracked", l15Glass[0]);
+        l15Rib[0] = L15Block("l15-rib-we");
+        l15Rib[1] = L15Block("l15-rib-ns");
+        l15OddBeam[0] = L15Block("l15-oddbeam-we");
+        l15OddBeam[1] = L15Block("l15-oddbeam-ns");
+        l15Gate = L15Block("l15-gate-shutter", l15Wall[6]);
+        l15Stage = L15Block("l15-stage");
+        string[] consoles = { "dead", "denied", "radar" }, benches = { "plain", "sink", "equipment", "glassware" };
+        string[] poses = { "sitting-plain", "head-plain", "feet-plain", "sitting-spear", "head-spear", "feet-plain" };
+        for (int f = 0; f < 4; f++)
+        {
+            for (int k = 0; k < L15DecoKinds.Length; k++) l15Deco[k, f] = L15Block($"l15-walldeco-{L15DecoKinds[k]}-{Sides[f]}", l15Wall[0]);
+            for (int s = 0; s < 3; s++) l15Console[s, f] = L15Block($"l15-console-{consoles[s]}-{Sides[f]}");
+            for (int s = 0; s < 4; s++) l15Bench[s, f] = L15Block($"l15-labbench-{benches[s]}-{Sides[f]}");
+            for (int s = 0; s < 6; s++) l15Corpse[s, f] = L15Block($"l15-corpse-{poses[s]}-{Sides[f]}");
+            for (int p = 0; p < 2; p++)
+            {
+                string part = p == 0 ? "lower" : "upper";
+                l15Locker[p, 0, f] = L15Block($"l15-locker-{part}-closed-{Sides[f]}");
+                l15Locker[p, 1, f] = L15Block($"l15-locker-{part}-ajar-{Sides[f]}", l15Locker[p, 0, f]);
+                l15StarDoor[p, f] = L15Block($"l15-stardoor-{part}-{Sides[f]}");
+            }
+            l15Rods[f] = L15Block("l15-rods-" + Sides[f]);
+        }
     }
 
     /// <summary>One block of a column of the level, <paramref name="rel"/> above its floor.</summary>
     private int Level15Block(in Tile t, int gx, int gz, int rel, out int fluid)
     {
         fluid = 0;
-        const int ceiling = WorldGeometry.RoomHeight + 1;
-        if (rel <= 0 || rel > ceiling) return concreteId;
-        if (t.Kind != TileKind.Floor) return rel < ceiling ? concreteWallId : concreteId;
-        if (rel < ceiling) return 0;
-        return (gx & 7) == 4 && (gz & 7) == 4 ? lightOnId : concreteCeilingId;
+        const int top = 8; // the tallest room's ceiling; walls are dressed up to it everywhere
+        if (rel < 0 || rel > top) return concreteId;
+        switch (t.Kind)
+        {
+            case TileKind.Floor: break;
+            case TileKind.Doorway:
+                if (rel == 0) return l15Floor[t.Depth == L.L15FloorTrack ? L.L15FloorTrack : L.L15FloorCeramic];
+                if (rel <= 3) return 0;
+                if (rel == 4 && t.Detail == L.L15DoorGate) return l15Gate;
+                return L15WallBase(t, gx, gz, rel);
+            default: return L15Wall(t, gx, gz, rel);
+        }
+
+        int air = t.Height is >= 3 and <= 7 ? t.Height : 4;
+        bool dark = L.L15IsDark(t);
+        if (rel == 0)
+        {
+            int finish = t.Depth < 10 ? t.Depth : 0;
+            return l15Floor[finish == L.L15FloorStrip && dark ? 10 : finish];
+        }
+        if (rel == air + 1) return L15CeilingBlock(t, dark);
+        if (rel > air) return concreteId;
+
+        // Ribs, odd beams and ducts in the top block of air
+        if (rel == air)
+        {
+            if (t.Overhead is Overheads.L15RibWE or Overheads.L15RibNS && t.Variant != Props.L15Machine)
+                return l15Rib[t.Overhead == Overheads.L15RibWE ? 0 : 1];
+            if (t.Overhead == Overheads.L15OddBeam) return l15OddBeam[(gx + gz) & 1];
+            if (t.Pipe == Pipes.L15DuctWE) return pipeRunXId;
+            if (t.Pipe == Pipes.L15DuctNS) return pipeRunZId;
+        }
+
+        int facing = Facing(t.Pier);
+        switch (t.Variant)
+        {
+            case 0:
+                if (t.SupplyBox) return rel == 1 ? BoxOf(t) : 0;
+                return t.Stack > 0 && rel <= t.Stack ? CrateOf(t) : 0;
+            case Props.L15Machine: return L15MachineBlock(t, gx, gz, rel);
+            case Props.L15Pillar: return rel <= t.Stack ? l15Wall[rel == 2 ? 7 : 6] : 0;
+            case Props.L15Locker: return rel <= 2 ? l15Locker[rel - 1, t.Detail == 1 ? 1 : 0, facing] : 0;
+            case Props.L15StarDoor: return rel <= 2 ? l15StarDoor[rel - 1, facing] : 0;
+            case Props.Shelf: return rel <= 2 ? shelfIds[Facing(Opposite(t.Pier))] : 0;
+        }
+        if (rel != 1) return 0;
+        return t.Variant switch
+        {
+            Props.L15Console => l15Console[t.Detail <= 2 ? t.Detail : 0, facing],
+            Props.L15LabBench => l15Bench[t.Detail & 3, facing],
+            Props.L15Corpse => l15Corpse[(t.Stack <= 2 ? t.Stack : 0) + (t.Detail == 1 ? 3 : 0), facing],
+            Props.L15Rods => l15Rods[facing],
+            Props.L15Stage => l15Stage,
+            Props.OfficeChair => chairIds[facing],
+            Props.FilingCabinet => filingIds[facing],
+            >= 40 and < Props.Limit => PropBlock(t),
+            _ => 0,
+        };
+    }
+
+    /// <summary>A ceiling block: a panel, a light (dead wherever the power is out), the service passages' concrete and caged lamps, a grille.</summary>
+    private int L15CeilingBlock(in Tile t, bool dark)
+    {
+        bool service = L.L15ZoneOf(t) == L.L15Zone.Service;
+        switch (t.Ceiling)
+        {
+            case CeilingKind.L15LightOn: return dark ? l15Ceiling[4] : service ? lampDimId : l15Ceiling[1];
+            case CeilingKind.L15LightLit: return dark ? l15Ceiling[4] : l15Ceiling[2];
+            case CeilingKind.L15LightFlicker: return service ? lightOffId : l15Ceiling[3];
+            case CeilingKind.L15LightDead: return service ? lightOffId : l15Ceiling[4];
+            case CeilingKind.L15ServiceCeiling: return l15Ceiling[5];
+            case CeilingKind.L15CeilingVent: return l15Ceiling[6];
+            default: return service ? l15Ceiling[5] : l15Ceiling[0];
+        }
+    }
+
+    /// <summary>A wall's plain block at a height: the skirting row at the foot, white panels above (now and then the other panel), or grey or scorched.</summary>
+    private int L15WallBase(in Tile t, int gx, int gz, int rel)
+    {
+        switch (t.Depth)
+        {
+            case L.L15WallGrey: return l15Wall[rel <= 1 ? 4 : 3];
+            case L.L15WallScorched: return rel <= 3 ? l15Wall[5] : l15Wall[0];
+        }
+        if (rel <= 1) return l15Wall[2];
+        return Hashing.Unit(Hashing.Hash(seed, gx, gz * 16 + rel, 0x2720)) < 0.18 ? l15Wall[1] : l15Wall[0];
+    }
+
+    /// <summary>A wall tile: its plain blocks, with what is on its face at its own height (see <see cref="WorldLayout.L15WallPlain"/>).</summary>
+    private int L15Wall(in Tile t, int gx, int gz, int rel)
+    {
+        if (rel == 0) return t.Depth == L.L15WallGrey ? l15Wall[3] : l15Wall[0];
+        int f = Facing(t.Pier);
+        switch (t.Detail)
+        {
+            case L.L15WallPilaster: return l15Wall[6];
+            case L.L15WallEtched: return l15Wall[rel == 2 ? 7 : 6];
+            case L.L15WallGlass or L.L15WallGlassCracked when rel is 2 or 3:
+                return l15Glass[0] == 0 ? L15WallBase(t, gx, gz, rel) : l15Glass[t.Detail == L.L15WallGlassCracked && rel == 2 ? 1 : 0];
+            case L.L15WallScanner when rel == 2: return l15Deco[L15DScanner, f];
+            case L.L15WallCode when rel == 3: return l15Deco[L15DCode + t.Stack % L.L15Codes, f];
+            case L.L15WallDisplay when rel == 2: return l15Deco[L15DDisplay, f];
+            case L.L15WallRadar when rel == 2: return l15Deco[L15DRadar, f];
+            case L.L15WallEscape when rel == 2: return l15Deco[L15DEscape, f];
+            case L.L15WallView when rel == 2: return l15Deco[L15DView + t.Stack % L.L15Views, f];
+            case L.L15WallVent when rel == 1: return l15Deco[L15DVent, f];
+            case L.L15WallVentCode when rel == 1: return l15Deco[L15DVentCode, f];
+            case L.L15WallWoodDoor when rel is 1 or 2: return l15Deco[rel == 1 ? L15DDoorLower : L15DDoorUpper, f];
+            case L.L15WallBlood when rel == 1: return l15Deco[L15DBlood, f];
+        }
+        return L15WallBase(t, gx, gz, rel);
+    }
+
+    /// <summary>
+    /// A block of a machine (<see cref="Props.L15Machine"/>, <see cref="Tile.Stack"/> blocks high): its casing picked by
+    /// hash for each block, by its state: hatches at the foot, then panels, vents, screens and lamp banks (lit while it
+    /// runs); a wrecked one burnt, its top block gone now and then; an incinerator's mouth; a press.
+    /// </summary>
+    private int L15MachineBlock(in Tile t, int gx, int gz, int rel)
+    {
+        int h = t.Stack is >= 1 and <= 6 ? t.Stack : 1;
+        if (rel > h) return 0;
+        double r = Hashing.Unit(Hashing.Hash(seed, gx, gz * 16 + rel, 0x2721));
+        int kind = t.Detail switch
+        {
+            L.L15MachineRunning => rel == 1 ? (r < 0.5 ? L15MHatch : L15MPanel) : r < 0.3 ? L15MLightsLit : r < 0.5 ? L15MScreenLit : r < 0.8 ? L15MVent : L15MPanel,
+            L.L15MachineWrecked => rel == h && h > 1 && r < 0.35 ? -1 : r < 0.55 ? L15MBurnt : r < 0.85 ? L15MBurntVent : L15MPanel,
+            L.L15MachineIncinerator => rel == 1 ? L15MFurnace : rel == 2 ? L15MWarning : L15MVent,
+            L.L15MachinePress => rel == 1 ? L15MPress : rel == 2 ? L15MLightsLit : L15MPanel,
+            _ => rel == 1 ? (r < 0.5 ? L15MHatch : L15MPanel) : rel == h && r < 0.15 ? L15MWarning : r < 0.3 ? L15MLights : r < 0.5 ? L15MScreen : r < 0.8 ? L15MVent : L15MPanel,
+        };
+        return kind < 0 ? 0 : l15Machine[kind];
     }
 }

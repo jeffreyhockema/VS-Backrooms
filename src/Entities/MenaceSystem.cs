@@ -536,7 +536,8 @@ public partial class MenaceSystem : ModSystem
             case WorldLayout.Level31: a.Band = MenaceBand.Safe; return;
             case WorldLayout.Level120: a.Band = MenaceBand.Safe; return;
             case WorldLayout.Level36: a.Band = MenaceBand.Safe; return;
-            case WorldLayout.Level15: a.Band = MenaceBand.Safe; return;
+            // Level 15: safe where the lights are on; where the power is out a Robo-Man may be walking
+            case WorldLayout.Level15: a.Band = layout.L15DarkAt(gx, gz) ? MenaceBand.Approach : MenaceBand.Safe; return;
             case WorldLayout.Level23: a.Band = MenaceBand.Safe; return;
         }
         if (a.Snackrooms || layout.IsSanctuary(gx, gz, level))

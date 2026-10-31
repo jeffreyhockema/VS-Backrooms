@@ -242,6 +242,11 @@ public sealed partial class WorldLayout
             case Hub or Level3999 when WandererSite(mx, mz) is { } camp:
                 Near(camp.X - mx * MacroSize, camp.Z - mz * MacroSize, "way", 4);
                 break;
+            // Level 15: by an abandoned camp
+            case Level15:
+                foreach (var (cx, cz) in L15PlanOf(Hashing.FloorDiv(mx * MacroSize, L15Period), Hashing.FloorDiv(mz * MacroSize, L15Period)).CampSpots)
+                    if (MacroOf(cx) == mx && MacroOf(cz) == mz) Near(cx - mx * MacroSize, cz - mz * MacroSize, "cache", 3);
+                break;
             case RunLevel:
             {
                 int lane = RunLaneAt(mx * MacroSize + c, mz * MacroSize + c);

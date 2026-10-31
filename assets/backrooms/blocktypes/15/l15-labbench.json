@@ -1,0 +1,161 @@
+// Level 15: a lab bench, a black top on white cupboards, its front to the side: plain, a sink, an instrument, glassware
+{
+	"code": "l15-labbench",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"sink",
+				"equipment",
+				"glassware"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l15-labbench-plain-north": {
+			"base": "backrooms:block/15/l15-labbench-plain",
+			"rotateY": 0
+		},
+		"l15-labbench-plain-east": {
+			"base": "backrooms:block/15/l15-labbench-plain",
+			"rotateY": 270
+		},
+		"l15-labbench-plain-south": {
+			"base": "backrooms:block/15/l15-labbench-plain",
+			"rotateY": 180
+		},
+		"l15-labbench-plain-west": {
+			"base": "backrooms:block/15/l15-labbench-plain",
+			"rotateY": 90
+		},
+		"l15-labbench-sink-north": {
+			"base": "backrooms:block/15/l15-labbench-sink",
+			"rotateY": 0
+		},
+		"l15-labbench-sink-east": {
+			"base": "backrooms:block/15/l15-labbench-sink",
+			"rotateY": 270
+		},
+		"l15-labbench-sink-south": {
+			"base": "backrooms:block/15/l15-labbench-sink",
+			"rotateY": 180
+		},
+		"l15-labbench-sink-west": {
+			"base": "backrooms:block/15/l15-labbench-sink",
+			"rotateY": 90
+		},
+		"l15-labbench-equipment-north": {
+			"base": "backrooms:block/15/l15-labbench-equipment",
+			"rotateY": 0
+		},
+		"l15-labbench-equipment-east": {
+			"base": "backrooms:block/15/l15-labbench-equipment",
+			"rotateY": 270
+		},
+		"l15-labbench-equipment-south": {
+			"base": "backrooms:block/15/l15-labbench-equipment",
+			"rotateY": 180
+		},
+		"l15-labbench-equipment-west": {
+			"base": "backrooms:block/15/l15-labbench-equipment",
+			"rotateY": 90
+		},
+		"l15-labbench-glassware-north": {
+			"base": "backrooms:block/15/l15-labbench-glassware",
+			"rotateY": 0
+		},
+		"l15-labbench-glassware-east": {
+			"base": "backrooms:block/15/l15-labbench-glassware",
+			"rotateY": 270
+		},
+		"l15-labbench-glassware-south": {
+			"base": "backrooms:block/15/l15-labbench-glassware",
+			"rotateY": 180
+		},
+		"l15-labbench-glassware-west": {
+			"base": "backrooms:block/15/l15-labbench-glassware",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l15-labbench-glassware-north"
+		],
+		"backrooms": [
+			"l15-labbench-glassware-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [],
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0.06,
+		"x2": 1,
+		"y2": 0.91,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0.06,
+		"x2": 1,
+		"y2": 0.91,
+		"z2": 1
+	},
+	"dropsByType": {
+		"*-glassware-*": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 2,
+					"var": 1
+				}
+			}
+		],
+		"*": [
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0.3
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0.3
+				}
+			}
+		]
+	}
+}

@@ -122,7 +122,7 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level31 => 0,
         Backrooms.Worldgen.WorldLayout.Level120 => 0.3, // Survival Difficulty 2: its Misglitches and the voids' Smilers (Regions/L120System.cs; the director puts nothing down)
         Backrooms.Worldgen.WorldLayout.Level36 => 0,
-        Backrooms.Worldgen.WorldLayout.Level15 => 0,
+        Backrooms.Worldgen.WorldLayout.Level15 => 0.3, // Level 15: Class 1 (Fandom); only its few Robo-Men in the dark
         Backrooms.Worldgen.WorldLayout.Level23 => 0,
         // Level 94 (Class 3): its Animations hit and chase like Level 4's creatures; the King's trial keeps its own balance
         Backrooms.Worldgen.WorldLayout.Motion => 0.4,
@@ -411,7 +411,8 @@ public static class Roster
         [Backrooms.Worldgen.WorldLayout.Level31] = new[] { E(Faceling, Safe, Amb, 1.0) with { Rarity = 0.5 }, E(FacelingChild, Safe, Amb, 0.3) with { Rarity = 0.5 } }, // Level 31: docile Facelings only (Wikidot); no Hounds
         [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level36] = Array.Empty<RosterEntry>(),
-        [Backrooms.Worldgen.WorldLayout.Level15] = Array.Empty<RosterEntry>(),
+        // Level 15: no native life (both wikis); a Robo-Man now and then, walking where the power is out (MenaceSystem gives the dark the Approach band)
+        [Backrooms.Worldgen.WorldLayout.Level15] = new[] { E(RoboMan, Approach, Encounters.Glimpse | Encounters.Stalk | Encounters.Hunt, 1.0) with { NeedsDark = true } },
         [Backrooms.Worldgen.WorldLayout.Level23] = Array.Empty<RosterEntry>(),
         // The city: crowds of Facelings, Hounds that ignore you, rats in the alleys, a Duller in the subway
         [11] = new[]
@@ -544,6 +545,7 @@ public static class Roster
         Backrooms.Worldgen.WorldLayout.Level3999 => 0.8,
         Backrooms.Worldgen.WorldLayout.Level188 => 1.0,
         Backrooms.Worldgen.WorldLayout.Basement => 1.3, // the Basement: "devoid of all entities" of its own; what is there fell in
+        Backrooms.Worldgen.WorldLayout.Level15 => 3.0, // Level 15: "lacks any sort of life whatsoever" (Fandom); isolation is its danger
         _ => 1.0,
     };
 
@@ -662,7 +664,8 @@ public static class Roster
         [Backrooms.Worldgen.WorldLayout.Level31] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Level36] = Array.Empty<DistantSound>(),
-        [Backrooms.Worldgen.WorldLayout.Level15] = Array.Empty<DistantSound>(),
+        // Level 15: machinery turning over somewhere, a beep far down the halls
+        [Backrooms.Worldgen.WorldLayout.Level15] = new[] { Machinery, S("backrooms:sounds/ambient/15/beep2", 0.8f, 1.0f, 0.35f) },
         [Backrooms.Worldgen.WorldLayout.Level23] = Array.Empty<DistantSound>(),
     };
 

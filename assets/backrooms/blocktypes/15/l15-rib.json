@@ -1,0 +1,85 @@
+// Level 15: a white steel I-beam across the top of a hall, along x (we) or z (ns)
+{
+	"code": "l15-rib",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"we",
+				"ns"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-we": {
+			"base": "backrooms:block/15/l15-rib"
+		},
+		"*-ns": {
+			"base": "backrooms:block/15/l15-rib",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l15-rib-we"
+		],
+		"backrooms": [
+			"l15-rib-we"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 8,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"*-we": {
+			"x1": 0,
+			"y1": 0.56,
+			"z1": 0.25,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.75
+		},
+		"*-ns": {
+			"x1": 0,
+			"y1": 0.56,
+			"z1": 0.25,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.75,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-we": {
+			"x1": 0,
+			"y1": 0.56,
+			"z1": 0.25,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.75
+		},
+		"*-ns": {
+			"x1": 0,
+			"y1": 0.56,
+			"z1": 0.25,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.75,
+			"rotateY": 90
+		}
+	}
+}

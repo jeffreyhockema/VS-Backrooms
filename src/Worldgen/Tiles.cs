@@ -614,6 +614,8 @@ public enum CeilingKind : ushort
     L36Ceiling = 416,
     /// <summary>Level 15 (block 448-479). Placeholder.</summary>
     L15Ceiling = 448,
+    /// <summary>Level 15: an LED panel giving light, one that only looks lit, one failing, a dead one; bare service concrete; an air-handler grille.</summary>
+    L15LightOn = 449, L15LightLit = 450, L15LightFlicker = 451, L15LightDead = 452, L15ServiceCeiling = 453, L15CeilingVent = 454,
     /// <summary>Level 23 (block 480-511): placeholder (the level is under the open sky).</summary>
     L23Ceiling = 480,
 }
@@ -797,6 +799,8 @@ public static class Pipes
     public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
     public const ushort L15First = 448, L15Last = 479;
+    /// <summary>Level 15's service corridors: an air duct along the top of the passage (west-east, north-south).</summary>
+    public const ushort L15DuctWE = 448, L15DuctNS = 449;
     public const ushort L23First = 480, L23Last = 511;
     /// <summary>The Basement's Flood: a run of pipes along the top of a passage (west-east, north-south), and the same leaking.</summary>
     public const ushort BasementPipeWE = 288, BasementPipeNS = 289, BasementLeakWE = 290, BasementLeakNS = 291;
@@ -870,6 +874,8 @@ public static class Overheads
     public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
     public const ushort L15First = 448, L15Last = 479;
+    /// <summary>Level 15: a steel rib across the top of a hall (along the way it spans: west-east, north-south); a beam set in at a wrong angle.</summary>
+    public const ushort L15RibWE = 448, L15RibNS = 449, L15OddBeam = 450;
     public const ushort L23First = 480, L23Last = 511;
     /// <summary>Level 31's tubes and disco ball and Level 120's cable trays, kept from before the widening (110-139 are main's to append to).</summary>
     public const byte L31LegacyFirst = 140, L31LegacyLast = 149;
@@ -1659,6 +1665,12 @@ public static class Props
     public const ushort L52Desk = 1100, L52Chalkboard = 1101;
     public const ushort L36First = 1200, L36Last = 1299;
     public const ushort L15First = 1300, L15Last = 1399;
+    /// <summary>
+    /// Level 15 (see WorldLayout.Level15.cs): a machine's casing (Stack its height, Detail its state), a console, a lab bench, a
+    /// locker, a body (Stack its pose), a heap of steel rods, the lecture stage, the star door, a pillar stub out of the floor.
+    /// </summary>
+    public const ushort L15Machine = 1300, L15Console = 1301, L15LabBench = 1302, L15Locker = 1303, L15Corpse = 1304, L15Rods = 1305,
+        L15Stage = 1306, L15StarDoor = 1307, L15Pillar = 1308;
     public const ushort L23First = 1400, L23Last = 1499;
 
     /// <summary>One past the highest prop any level may use: the size of the generator's prop tables (raise it with a new block).</summary>

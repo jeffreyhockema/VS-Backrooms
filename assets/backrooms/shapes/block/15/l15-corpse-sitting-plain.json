@@ -1,0 +1,715 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bone": "backrooms:block/15/bone",
+		"labcoat": "backrooms:block/15/labcoat",
+		"shoe": "backrooms:block/15/shoe",
+		"skin": "backrooms:block/15/skin",
+		"trousers": "backrooms:block/15/trousers"
+	},
+	"elements": [
+		{
+			"name": "Trunk",
+			"from": [
+				4,
+				2,
+				10
+			],
+			"to": [
+				12,
+				11,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						8,
+						9
+					]
+				},
+				"east": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						4,
+						9
+					]
+				},
+				"south": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						8,
+						9
+					]
+				},
+				"west": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						4,
+						9
+					]
+				},
+				"up": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						8,
+						4
+					]
+				},
+				"down": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						8,
+						4
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				2,
+				14
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Head",
+			"from": [
+				5.5,
+				11,
+				9.5
+			],
+			"to": [
+				10.5,
+				15,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#skin",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4
+					]
+				},
+				"east": {
+					"texture": "#skin",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4
+					]
+				},
+				"south": {
+					"texture": "#skin",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4
+					]
+				},
+				"west": {
+					"texture": "#skin",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4
+					]
+				},
+				"up": {
+					"texture": "#skin",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4.0
+					]
+				},
+				"down": {
+					"texture": "#skin",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				11,
+				12
+			],
+			"rotationX": -20
+		},
+		{
+			"name": "CoatSkirt",
+			"from": [
+				3.5,
+				0,
+				6
+			],
+			"to": [
+				12.5,
+				3,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						9.0,
+						3
+					]
+				},
+				"east": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						8,
+						3
+					]
+				},
+				"south": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						9.0,
+						3
+					]
+				},
+				"west": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						8,
+						3
+					]
+				},
+				"up": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						9.0,
+						8
+					]
+				},
+				"down": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						9.0,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "LegL",
+			"from": [
+				4.5,
+				0,
+				0.5
+			],
+			"to": [
+				7.5,
+				2.5,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						6.5,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						6.5,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.0,
+						6.5
+					]
+				},
+				"down": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.0,
+						6.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LegR",
+			"from": [
+				8.5,
+				0,
+				1.5
+			],
+			"to": [
+				11.5,
+				2.5,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						5.5,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						5.5,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.5
+					]
+				},
+				"down": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.5
+					]
+				}
+			}
+		},
+		{
+			"name": "ShoeL",
+			"from": [
+				4.25,
+				0,
+				-0.5
+			],
+			"to": [
+				7.75,
+				3,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						3.5,
+						3
+					]
+				},
+				"east": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"south": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						3.5,
+						3
+					]
+				},
+				"west": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"up": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						3.5,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						3.5,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "ShoeR",
+			"from": [
+				8.25,
+				0,
+				0.5
+			],
+			"to": [
+				11.75,
+				3,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						3.5,
+						3
+					]
+				},
+				"east": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"south": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						3.5,
+						3
+					]
+				},
+				"west": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3
+					]
+				},
+				"up": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						3.5,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						3.5,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmL",
+			"from": [
+				2.5,
+				1,
+				7
+			],
+			"to": [
+				4.5,
+				8,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						2.0,
+						7
+					]
+				},
+				"east": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						4,
+						7
+					]
+				},
+				"south": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						2.0,
+						7
+					]
+				},
+				"west": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						4,
+						7
+					]
+				},
+				"up": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						2.0,
+						4
+					]
+				},
+				"down": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						2.0,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmR",
+			"from": [
+				11.5,
+				0,
+				4
+			],
+			"to": [
+				13.5,
+				2,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2
+					]
+				},
+				"east": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						7,
+						2
+					]
+				},
+				"south": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2
+					]
+				},
+				"west": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						7,
+						2
+					]
+				},
+				"up": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						2.0,
+						7
+					]
+				},
+				"down": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						2.0,
+						7
+					]
+				}
+			}
+		},
+		{
+			"name": "HandR",
+			"from": [
+				11.5,
+				0,
+				2.5
+			],
+			"to": [
+				13.5,
+				1.5,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

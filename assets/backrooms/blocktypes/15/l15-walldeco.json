@@ -1,0 +1,1001 @@
+// Level 15: a white wall block with one face dressed (toward its side): a dead hand scanner, a dead display, the radar, the ESCAPE panel, views of elsewhere (lit), vent grilles, a wooden door that opens on nothing, dried blood, the room codes
+{
+	"code": "l15-walldeco",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"scanner",
+				"display",
+				"radar",
+				"escape",
+				"vent",
+				"ventcode",
+				"wooddoorlower",
+				"wooddoorupper",
+				"blood",
+				"view0",
+				"view1",
+				"view2",
+				"code0",
+				"code1",
+				"code2",
+				"code3",
+				"code4",
+				"code5",
+				"code6",
+				"code7",
+				"code8",
+				"code9",
+				"code10",
+				"code11",
+				"code12",
+				"code13",
+				"code14",
+				"code15"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-scanner-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-scanner"
+			}
+		},
+		"*-scanner-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-scanner"
+			}
+		},
+		"*-scanner-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-scanner"
+			}
+		},
+		"*-scanner-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-scanner"
+			}
+		},
+		"*-display-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-display"
+			}
+		},
+		"*-display-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-display"
+			}
+		},
+		"*-display-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-display"
+			}
+		},
+		"*-display-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-display"
+			}
+		},
+		"*-radar-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-radar"
+			}
+		},
+		"*-radar-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-radar"
+			}
+		},
+		"*-radar-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-radar"
+			}
+		},
+		"*-radar-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-radar"
+			}
+		},
+		"*-escape-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-escape"
+			}
+		},
+		"*-escape-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-escape"
+			}
+		},
+		"*-escape-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-escape"
+			}
+		},
+		"*-escape-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-escape"
+			}
+		},
+		"*-vent-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-vent0"
+			}
+		},
+		"*-vent-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-vent0"
+			}
+		},
+		"*-vent-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-vent0"
+			}
+		},
+		"*-vent-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-vent0"
+			}
+		},
+		"*-ventcode-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-vent1"
+			}
+		},
+		"*-ventcode-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-vent1"
+			}
+		},
+		"*-ventcode-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-vent1"
+			}
+		},
+		"*-ventcode-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-vent1"
+			}
+		},
+		"*-wooddoorlower-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-wooddoorlower"
+			}
+		},
+		"*-wooddoorlower-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-wooddoorlower"
+			}
+		},
+		"*-wooddoorlower-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-wooddoorlower"
+			}
+		},
+		"*-wooddoorlower-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-wooddoorlower"
+			}
+		},
+		"*-wooddoorupper-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-wooddoorupper"
+			}
+		},
+		"*-wooddoorupper-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-wooddoorupper"
+			}
+		},
+		"*-wooddoorupper-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-wooddoorupper"
+			}
+		},
+		"*-wooddoorupper-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-wooddoorupper"
+			}
+		},
+		"*-blood-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-blood"
+			}
+		},
+		"*-blood-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-blood"
+			}
+		},
+		"*-blood-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-blood"
+			}
+		},
+		"*-blood-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-blood"
+			}
+		},
+		"*-view0-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-view0"
+			}
+		},
+		"*-view0-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-view0"
+			}
+		},
+		"*-view0-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-view0"
+			}
+		},
+		"*-view0-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-view0"
+			}
+		},
+		"*-view1-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-view1"
+			}
+		},
+		"*-view1-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-view1"
+			}
+		},
+		"*-view1-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-view1"
+			}
+		},
+		"*-view1-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-view1"
+			}
+		},
+		"*-view2-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-view2"
+			}
+		},
+		"*-view2-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-view2"
+			}
+		},
+		"*-view2-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-view2"
+			}
+		},
+		"*-view2-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-view2"
+			}
+		},
+		"*-code0-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code0"
+			}
+		},
+		"*-code0-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code0"
+			}
+		},
+		"*-code0-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code0"
+			}
+		},
+		"*-code0-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code0"
+			}
+		},
+		"*-code1-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code1"
+			}
+		},
+		"*-code1-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code1"
+			}
+		},
+		"*-code1-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code1"
+			}
+		},
+		"*-code1-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code1"
+			}
+		},
+		"*-code2-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code2"
+			}
+		},
+		"*-code2-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code2"
+			}
+		},
+		"*-code2-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code2"
+			}
+		},
+		"*-code2-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code2"
+			}
+		},
+		"*-code3-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code3"
+			}
+		},
+		"*-code3-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code3"
+			}
+		},
+		"*-code3-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code3"
+			}
+		},
+		"*-code3-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code3"
+			}
+		},
+		"*-code4-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code4"
+			}
+		},
+		"*-code4-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code4"
+			}
+		},
+		"*-code4-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code4"
+			}
+		},
+		"*-code4-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code4"
+			}
+		},
+		"*-code5-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code5"
+			}
+		},
+		"*-code5-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code5"
+			}
+		},
+		"*-code5-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code5"
+			}
+		},
+		"*-code5-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code5"
+			}
+		},
+		"*-code6-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code6"
+			}
+		},
+		"*-code6-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code6"
+			}
+		},
+		"*-code6-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code6"
+			}
+		},
+		"*-code6-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code6"
+			}
+		},
+		"*-code7-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code7"
+			}
+		},
+		"*-code7-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code7"
+			}
+		},
+		"*-code7-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code7"
+			}
+		},
+		"*-code7-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code7"
+			}
+		},
+		"*-code8-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code8"
+			}
+		},
+		"*-code8-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code8"
+			}
+		},
+		"*-code8-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code8"
+			}
+		},
+		"*-code8-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code8"
+			}
+		},
+		"*-code9-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code9"
+			}
+		},
+		"*-code9-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code9"
+			}
+		},
+		"*-code9-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code9"
+			}
+		},
+		"*-code9-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code9"
+			}
+		},
+		"*-code10-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code10"
+			}
+		},
+		"*-code10-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code10"
+			}
+		},
+		"*-code10-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code10"
+			}
+		},
+		"*-code10-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code10"
+			}
+		},
+		"*-code11-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code11"
+			}
+		},
+		"*-code11-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code11"
+			}
+		},
+		"*-code11-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code11"
+			}
+		},
+		"*-code11-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code11"
+			}
+		},
+		"*-code12-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code12"
+			}
+		},
+		"*-code12-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code12"
+			}
+		},
+		"*-code12-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code12"
+			}
+		},
+		"*-code12-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code12"
+			}
+		},
+		"*-code13-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code13"
+			}
+		},
+		"*-code13-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code13"
+			}
+		},
+		"*-code13-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code13"
+			}
+		},
+		"*-code13-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code13"
+			}
+		},
+		"*-code14-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code14"
+			}
+		},
+		"*-code14-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code14"
+			}
+		},
+		"*-code14-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code14"
+			}
+		},
+		"*-code14-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code14"
+			}
+		},
+		"*-code15-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code15"
+			}
+		},
+		"*-code15-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code15"
+			}
+		},
+		"*-code15-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code15"
+			}
+		},
+		"*-code15-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code15"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"lightHsvByType": {
+		"*-radar-*": [
+			24,
+			4,
+			4
+		],
+		"*-view0-*": [
+			10,
+			3,
+			4
+		],
+		"*-view1-*": [
+			36,
+			2,
+			3
+		],
+		"*-view2-*": [
+			9,
+			4,
+			4
+		]
+	},
+	"vertexFlagsByType": {
+		"*-radar-*": {
+			"glowLevel": 60
+		},
+		"*-view0-*": {
+			"glowLevel": 60
+		},
+		"*-view1-*": {
+			"glowLevel": 50
+		},
+		"*-view2-*": {
+			"glowLevel": 60
+		}
+	}
+}
