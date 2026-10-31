@@ -1112,7 +1112,7 @@ public sealed partial class WorldLayout
                 for (int dv = -2; dv <= 2 && clear; dv++)
                     for (int du = -2; du <= 2 && clear; du++)
                         if (c.At(u + du, v + dv).Zone != (byte)L52Zone.Lawn) clear = false;
-                if (clear && r > 0.993) t.Variant = Props.Tree;
+                if (clear && r > 0.996) t.Variant = Props.Tree;
             }
         // The ground storey's rooms, furnished (the generator asks the same for every storey above)
         foreach (L52Room room in c.Rooms)

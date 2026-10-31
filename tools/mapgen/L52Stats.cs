@@ -121,6 +121,7 @@ static partial class LevelModes
             if (t.Level != WorldLayout.Level52 || t.Zone is not ((byte)Zone.Corridor or (byte)Zone.Lobby or (byte)Zone.Path or (byte)Zone.Lawn)) wrong++;
         }
         Console.WriteLine($"arrivals: {arrivals}/60, {wrong} off the campuses");
+        if (layout.FindArrival(WorldLayout.Level52, 5) is { } five) Console.WriteLine($"arrival for key 5 (/backrooms dummy place 52 5): {five.X},{five.Z}");
         if (arrivals < 60 || wrong > 0) Bad("arrivals");
         Console.WriteLine(bad == 0 ? "52stats: OK" : $"52stats: {bad} problem(s)");
         return true;
