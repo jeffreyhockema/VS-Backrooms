@@ -235,7 +235,43 @@ public sealed partial class WorldLayout
             double d = Math.Sqrt(dx * dx + dz * dz);
             f *= L52Smooth(Math.Clamp((d - 8) / 40.0, 0, 1));
         }
+        // (The roads run level, cut through the hills, the banks easing up either side)
+        if (f >= 0.5) f *= L52Smooth(Math.Clamp((L52RoadDistance(x, z) - 2) / 12.0, 0, 1));
         return Math.Clamp((int)Math.Round(f), 0, 7);
+    }
+
+    /// <summary>How far a block position is from the middle line of the nearest road (blocks; large where none is near).</summary>
+    private double L52RoadDistance(int x, int z)
+    {
+        int ci = Hashing.FloorDiv(x, L52Period), cj = Hashing.FloorDiv(z, L52Period);
+        L52Head here = L52HeadOf(ci, cj);
+        double best = 1e9;
+        void Pair(L52Head a, L52Head b, bool east)
+        {
+            if (!a.Exists || !b.Exists) return;
+            static double Seg(int x, int z, double x0, double z0, double x1, double z1)
+            {
+                double dx = Math.Max(0, Math.Max(Math.Min(x0, x1) - x, x - Math.Max(x0, x1)));
+                double dz = Math.Max(0, Math.Max(Math.Min(z0, z1) - z, z - Math.Max(z0, z1)));
+                return Math.Sqrt(dx * dx + dz * dz);
+            }
+            // (The three stretches of L52OnRoad, by their middle lines)
+            if (east)
+            {
+                double za = a.Z0 + a.Gap[1] - 0.5, zb = b.Z0 + b.Gap[3] - 0.5, xm = (a.X1 + b.X0) / 2 - 0.5;
+                best = Math.Min(best, Math.Min(Seg(x, z, a.X1, za, xm, za), Math.Min(Seg(x, z, xm, za, xm, zb), Seg(x, z, xm, zb, b.X0, zb))));
+            }
+            else
+            {
+                double xa = a.X0 + a.Gap[2] - 0.5, xb = b.X0 + b.Gap[0] - 0.5, zm = (a.Z1 + b.Z0) / 2 - 0.5;
+                best = Math.Min(best, Math.Min(Seg(x, z, xa, a.Z1, xa, zm), Math.Min(Seg(x, z, xa, zm, xb, zm), Seg(x, z, xb, zm, xb, b.Z0))));
+            }
+        }
+        Pair(here, L52HeadOf(ci + 1, cj), true);
+        Pair(L52HeadOf(ci - 1, cj), here, true);
+        Pair(here, L52HeadOf(ci, cj + 1), false);
+        Pair(L52HeadOf(ci, cj - 1), here, false);
+        return best;
     }
 
     private L52Head MakeL52Head(int ci, int cj)

@@ -44,7 +44,7 @@ public class BackroomsModSystem : ModSystem
     /// spring green rather than the default map's dry olive, varying a little from cell to cell.
     /// </summary>
     private const float L52TintTemperature = 30f;
-    private const int L52TintRainfall = 206, L52TintRainfallSpread = 14;
+    private const int L52TintRainfall = 194, L52TintRainfallSpread = 14;
 
     /// <summary>The levels <c>/backrooms goto</c> (and the other commands that take a level) accept, for their descriptions and errors.</summary>
     public const string LevelList = "0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, 73, basement, 52, 31, 120, 36, 15 or 23";

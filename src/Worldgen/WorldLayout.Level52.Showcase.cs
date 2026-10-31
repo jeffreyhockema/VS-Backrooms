@@ -28,12 +28,16 @@ public partial class WorldLayout
             if (c == null || !c.InGrid(u, v)) return;
             spots.Add(new Showcase.Spot(name, c.Head.X0 + u + 0.5, floor + rel + 1, c.Head.Z0 + v + 0.5, Math.Round(heading), pitch));
         }
-        // A free tile (floor, nothing on it) at or near (u, v), searched outward ring by ring
+        // A free tile (floor, nothing on it, no tree's crown round it) at or near (u, v), searched outward ring by ring
         bool Free(L52Campus c, int u, int v, Func<Tile, bool> ok)
         {
             if (!c.InGrid(u, v)) return false;
             Tile t = c.At(u, v);
-            return t.Kind == TileKind.Floor && t.Variant == 0 && !t.SupplyBox && t.Stair == 0 && ok(t);
+            if (t.Kind != TileKind.Floor || t.Variant != 0 || t.SupplyBox || t.Stair != 0 || !ok(t)) return false;
+            for (int dv = -3; dv <= 3; dv++)
+                for (int du = -3; du <= 3; du++)
+                    if (c.InGrid(u + du, v + dv) && c.At(u + du, v + dv).Variant == Props.Tree) return false;
+            return true;
         }
         (int U, int V)? Near(L52Campus c, int u, int v, Func<Tile, bool> ok, int reach = 6)
         {
@@ -66,17 +70,17 @@ public partial class WorldLayout
             }
         }
 
-        // 3. The campus across its lawns: from the corner furthest from the quad, toward it
+        // 3. The campus across its lawns: just inside the gap in the fence on the side away from the quad, toward the quad
+        bool quadEast = quad.U0 > md.W / 2;
         {
-            bool quadEast = quad.U0 > md.W / 2;
-            int u = quadEast ? 12 : md.W - 13, v = quadNorth ? md.D - 13 : 12;
-            if (Near(md, u, v, Outdoors) is { } p)
+            int u = head.Gap[quadNorth ? 2 : 0], v = quadNorth ? md.D - 8 : 7;
+            if (Near(md, u, v, Outdoors, 8) is { } p)
                 Add(md, "campus", p.U, p.V, 0, Heading((quad.U0 + quad.U1) / 2 - p.U, (quad.V0 + quad.V1) / 2 - p.V), 8);
         }
 
         // 4. The courtyard: from one corner across to the other
         int cu0 = quad.U0 + 21, cv0 = quad.V0 + 21, cu1 = quad.U1 - 21, cv1 = quad.V1 - 21;
-        if (Near(md, cu0 + 4, cv0 + 3, Outdoors) is { } cy)
+        if (Near(md, cu0 + 1, cv0 + 1, Outdoors, 10) is { } cy)
             Add(md, "courtyard", cy.U, cy.V, 0, Heading(cu1 - cy.U, cv1 - cy.V), 6);
 
         // 5. A locker corridor on the ground floor: the quad's west ring, looking along it
@@ -143,7 +147,11 @@ public partial class WorldLayout
         }
 
         // 11. The view from the quad's roof, over the campus and out across the hills
-        Add(md, "roof", quad.U0 + 10, quadNorth ? quad.V1 - 10 : quad.V0 + 10, quad.Storeys * L52Storey + 1, quadNorth ? 150 : 30, -10);
+        // (at the quad's corner nearest the rest of the campus, looking out over it from just inside the parapet)
+        {
+            int u = quadEast ? quad.U0 + 2 : quad.U1 - 2, v = quadNorth ? quad.V1 - 2 : quad.V0 + 2;
+            Add(md, "roof", u, v, quad.Storeys * L52Storey + 1, Heading(quadEast ? -1 : 1, quadNorth ? 1 : -1), -14);
+        }
 
         // 11b. A pedestrian bridge, from the lawn beside it (Marshall David's, or the nearest campus's that has one)
         bool bridge = false;

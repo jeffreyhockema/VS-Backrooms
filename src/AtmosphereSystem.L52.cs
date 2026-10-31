@@ -28,7 +28,7 @@ public partial class AtmosphereSystem
     private static readonly Atmosphere L52Indoors = new(0.0035f, 0.80f, 0.78f, 0.72f, 0f);
     private static readonly Atmosphere L52Classroom = new(0.0055f, 0.62f, 0.60f, 0.56f, 0f, scene: 0.92f);
     /// <summary>The sky blue the sky sphere is drawn in (the outside sky never shows).</summary>
-    private static readonly float[] L52SkyBlue = { 0.50f, 0.70f, 0.94f };
+    private static readonly float[] L52SkyBlue = { 0.40f, 0.62f, 0.94f };
 
     /// <summary>Title keys (level-23xx in the lang file).</summary>
     private const int L52MarshallKey = 2301, L52BarryKey = 2302, L52TurnerKey = 2303, L52GymKey = 2304, L52CanteenKey = 2305, L52CourtyardKey = 2306;
@@ -136,7 +136,7 @@ public partial class AtmosphereSystem
         float[] sphere = uniforms.FogSpheres;
         sphere[0] = sphere[1] = sphere[2] = 0;
         sphere[3] = SkySphereRadius;
-        sphere[4] = SkySphereDensity * 1.3f * l52Sky;
+        sphere[4] = SkySphereDensity * 1.8f * l52Sky;
         sphere[5] = L52SkyBlue[0];
         sphere[6] = L52SkyBlue[1];
         sphere[7] = L52SkyBlue[2];
