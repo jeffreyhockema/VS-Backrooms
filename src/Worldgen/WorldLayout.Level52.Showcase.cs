@@ -50,7 +50,7 @@ public partial class WorldLayout
         static bool Outdoors(Tile t) => t.Depth == 0;
 
         // 1. The way in: outside the fence's wide gap on the side the quad is nearest, looking in
-        bool quadNorth = quad.V0 < md.D / 2;
+        bool quadNorth = quad.V0 + quad.V1 < md.D, quadEast = quad.U0 + quad.U1 > md.W;
         {
             int side = quadNorth ? 0 : 2;
             int gx = head.X0 + head.Gap[side], gz = quadNorth ? head.Z0 - 14 : head.Z1 + 14;
@@ -70,18 +70,36 @@ public partial class WorldLayout
             }
         }
 
-        // 3. The campus across its lawns: just inside the gap in the fence on the side away from the quad, toward the quad
-        bool quadEast = quad.U0 > md.W / 2;
+        // 3. The campus across its lawns: from the open ground furthest from every building, toward the quad
         {
-            int u = head.Gap[quadNorth ? 2 : 0], v = quadNorth ? md.D - 8 : 7;
-            if (Near(md, u, v, Outdoors, 8) is { } p)
-                Add(md, "campus", p.U, p.V, 0, Heading((quad.U0 + quad.U1) / 2 - p.U, (quad.V0 + quad.V1) / 2 - p.V), 8);
+            // (Distance from the nearest building, by a breadth-first walk out from every building tile)
+            var dist = new int[md.W * md.D];
+            Array.Fill(dist, -1);
+            var queue = new Queue<int>();
+            for (int i = 0; i < dist.Length; i++)
+                if (md.Grid[i].Depth > 0) { dist[i] = 0; queue.Enqueue(i); }
+            while (queue.Count > 0)
+            {
+                int i = queue.Dequeue(), u = i % md.W, v = i / md.W;
+                foreach (var (du, dv) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+                {
+                    int nu = u + du, nv = v + dv;
+                    if (!md.InGrid(nu, nv) || dist[nu + nv * md.W] >= 0) continue;
+                    dist[nu + nv * md.W] = dist[i] + 1;
+                    queue.Enqueue(nu + nv * md.W);
+                }
+            }
+            int best = -1, bu = 0, bv = 0;
+            for (int v = 8; v < md.D - 8; v++)
+                for (int u = 8; u < md.W - 8; u++)
+                    if (dist[u + v * md.W] > best && Free(md, u, v, Outdoors)) { best = dist[u + v * md.W]; bu = u; bv = v; }
+            if (best > 0) Add(md, "campus", bu, bv, 0, Heading((quad.U0 + quad.U1) / 2 - bu, (quad.V0 + quad.V1) / 2 - bv), 10);
         }
 
-        // 4. The courtyard: from one corner across to the other
+        // 4. The courtyard: from the path round it, halfway along one side, across it
         int cu0 = quad.U0 + 21, cv0 = quad.V0 + 21, cu1 = quad.U1 - 21, cv1 = quad.V1 - 21;
-        if (Near(md, cu0 + 1, cv0 + 1, Outdoors, 10) is { } cy)
-            Add(md, "courtyard", cy.U, cy.V, 0, Heading(cu1 - cy.U, cv1 - cy.V), 6);
+        if (Near(md, (cu0 + cu1) / 2 + 5, cv0, Outdoors, 6) is { } cy)
+            Add(md, "courtyard", cy.U, cy.V, 0, Heading((cu0 + cu1) / 2 - cy.U, (cv0 + cv1) / 2 + 6 - cy.V), 2);
 
         // 5. A locker corridor on the ground floor: the quad's west ring, looking along it
         if (Near(md, quad.U0 + 10, quad.V0 + 26, t => t.Zone == (byte)L52Zone.Corridor, 2) is { } cor)
@@ -171,6 +189,16 @@ public partial class WorldLayout
                     {
                         int su = runs == ArchPier.East ? bu : bu + sgn * 11, sv = runs == ArchPier.East ? bv + sgn * 11 : bv;
                         if (Near(c, su, sv, t => Outdoors(t) && t.Overhead == 0, 2) is not { } p) continue;
+                        // (Nothing in the way: no tree within three blocks of the line of sight)
+                        bool clear = true;
+                        for (int k = 1; k < 12 && clear; k++)
+                        {
+                            int lu = p.U + (bu - p.U) * k / 12, lv = p.V + (bv - p.V) * k / 12;
+                            for (int dv = -3; dv <= 3 && clear; dv++)
+                                for (int du = -3; du <= 3 && clear; du++)
+                                    if (c.InGrid(lu + du, lv + dv) && c.At(lu + du, lv + dv).Variant == Props.Tree) clear = false;
+                        }
+                        if (!clear) continue;
                         Add(c, "bridge", p.U, p.V, 0, Heading(bu - p.U, bv - p.V), 18);
                         bridge = true;
                         break;
