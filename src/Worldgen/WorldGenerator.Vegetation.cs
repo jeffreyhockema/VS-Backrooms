@@ -232,7 +232,7 @@ public sealed partial class WorldGenerator
 
     /// <summary>
     /// A pine's resin logs, low on the trunk where a hand reaches (heights 1 to 3): none on one pine in seven, two on
-    /// a third of them, else one. Vanilla's own rate (1 % a log) would leave a few trees with none, and a sapling's
+    /// three in seven, else one. Vanilla's own rate (1 % a log) would leave a few trees with none, and a sapling's
     /// pine never gets any, so these are the world's only (renewable) resin.
     /// </summary>
     private uint PineResin(int tx, int tz)
