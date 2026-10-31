@@ -81,9 +81,17 @@ def main():
                 result.append(re.sub(r"^.*?\[backrooms\] stairscan ", "", l))
             print("\n".join(result[-len(lines):] if lines else []), flush=True)
             print("(%s took %.0f s)" % (cmd, time.time() - t0), flush=True)
+    except BaseException:
+        # (What the server said last, for a crash)
+        for name in ("server-main.log", "server-event.log"):
+            f = os.path.join(data, "Logs", name)
+            if os.path.exists(f):
+                print("--- tail of %s" % name)
+                print("".join(open(f, encoding="utf-8", errors="replace").readlines()[-40:]))
+        raise
     finally:
         srv.stop()
-        if not a.data:
+        if not a.data and not os.environ.get('STAIRSCAN_KEEP'):
             shutil.rmtree(data, ignore_errors=True)
     if a.out:
         with open(a.out, "w", encoding="utf-8") as f:

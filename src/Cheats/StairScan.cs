@@ -142,7 +142,7 @@ public partial class CheatSystem
         var report = new StringBuilder();
         var perKind = new SortedDictionary<string, (int Flights, int Fail, int Partial)>();
         var failLines = new List<string>();
-        int deadEnds = 0, flightsTotal = 0, failTotal = 0, partialTotal = 0, lanesTotal = 0;
+        int trips = 0, deadEnds = 0, flightsTotal = 0, failTotal = 0, partialTotal = 0, lanesTotal = 0;
         var tmp = new BlockPos(0);
         foreach (var (sx, sz) in sites)
         {
@@ -194,8 +194,9 @@ public partial class CheatSystem
                 foreach (var lane in flight.Lanes)
                 {
                     lanesTotal++;
-                    string fail = WalkLane(ba, lane, flight.Dx, flight.Dz, levelName, out string detail, out bool dead);
+                    string fail = WalkLane(ba, lane, flight.Dx, flight.Dz, levelName, level, out string detail, out bool dead, out bool trip);
                     if (dead) deadEnds++;
+                    if (trip) trips++;
                     if (fail == null) continue;
                     failedLanes++;
                     if (firstFail == null) { firstFail = detail; firstPos = lane[0]; }
@@ -217,8 +218,8 @@ public partial class CheatSystem
         foreach (string line in failLines) report.Append(line).Append('\n');
         foreach (var (kind, (n, fail, partial)) in perKind)
             report.Append(string.Format("{0} kind {1}: {2} flights, {3} fail, {4} partial\n", levelName, kind, n, fail, partial));
-        report.Append(string.Format("{0} stairscan: {1} sites, radius {2}, {3} flights checked ({4} lanes), {5} failing, {6} partly failing, {7} lanes end against a wall at the top",
-            levelName, sites.Length, radius, flightsTotal, lanesTotal, failTotal, partialTotal, deadEnds));
+        report.Append(string.Format("{0} stairscan: {1} sites, radius {2}, {3} flights checked ({4} lanes), {5} failing, {6} partly failing, {7} lanes end against a wall at the top, {8} lanes take a threshold before the top",
+            levelName, sites.Length, radius, flightsTotal, lanesTotal, failTotal, partialTotal, deadEnds, trips));
         string text = report.ToString().TrimEnd();
         foreach (string line in text.Split('\n')) sapi.Logger.Notification("[backrooms] stairscan " + line);
         // (A reply to a player has to fit in chat)
@@ -235,10 +236,12 @@ public partial class CheatSystem
     /// Walks the player's box up a lane of steps along its centre from a block before the first to the far edge of the
     /// last, then two stops on the landing. Null when it gets through; otherwise a short text of where and why.
     /// </summary>
-    private string WalkLane(IBlockAccessor ba, List<BlockPos> lane, int dx, int dz, string levelName, out string detail, out bool deadEnd)
+    private string WalkLane(IBlockAccessor ba, List<BlockPos> lane, int dx, int dz, string levelName, int level, out string detail, out bool deadEnd, out bool tripped)
     {
         detail = null;
         deadEnd = false;
+        tripped = false;
+        var thresholds = sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>();
         BlockPos first = lane[0];
         double cx0 = first.X + 0.5, cz0 = first.Z + 0.5;
         double feet = first.Y;
@@ -294,6 +297,12 @@ public partial class CheatSystem
                 if (lowest <= rest + 0.05 && t > n - 1.5) { deadEnd = true; break; }
                 detail = Detail(t, n, rest, first, headroom, blocker, false);
                 return "blocked";
+            }
+            // Where the climb takes someone somewhere else (a stairwell's trip, a staff stair), it ends: nothing above matters
+            if (thresholds != null && !landing && thresholds.WalkTrips((int)Math.Floor(cx0 + dx * t), (int)Math.Floor(cz0 + dz * t), rest))
+            {
+                tripped = true;
+                break;
             }
             feet = rest;
         }
