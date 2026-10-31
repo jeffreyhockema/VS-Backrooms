@@ -1,4 +1,9 @@
-# Changelog
+﻿# Changelog
+
+## Unreleased
+- Multiplayer: when the lights go out in Level 1 (or the rats' Screaming darkens Level 2), they go out for everyone in the party, not only the player the Hounds were sent for. A friend a room away used to see the lights still burning while the same Hounds came for both of you. The Hounds still come once for the party, and the next lights-out waits as long for each of you.
+- The hotel wall panel's recipe no longer clashes with vanilla's wooden fence: it was the same planks and sticks in the same pattern, so the grid could give a panel when you wanted a fence. It is now two planks and a stick in each row (PPS over PPS), the same cost as before.
+- The Progression Guide says how to build a pit kiln without digging: it needs no hole, only solid blocks that do not burn under it and on its four sides, so set one in a corner and close it in with two blocks of soil from the dead potted plants.
 
 ## 0.610.2 — side by side
 - Multiplayer: two or more players together are no longer hunted twice as often. The director used to roll for new arrivals once for each group of players within 24 blocks of each other, so two players only a room or two apart (25 to 64 blocks) each got their own full rate, and the Flickering, the Screaming, the Beast and the Mangled were rolled for every player on their own. Players within 48 blocks of each other (in the same level) now share one budget of arrivals, rolled at 25% more per extra player (two together feel 1.25 times what one does, not 2), and each arrival is aimed at one of them at random; players far apart keep their own. The wanderers' timers are shared the same way. Playing alone is unchanged.

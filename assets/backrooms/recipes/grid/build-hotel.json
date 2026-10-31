@@ -1,6 +1,6 @@
 [
 	{
-		"ingredientPattern": "PSP,PSP",
+		"ingredientPattern": "PPS,PPS",
 		"ingredients": {
 			"P": {
 				"type": "item",

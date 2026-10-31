@@ -69,6 +69,28 @@ public partial class MenaceSystem
         return PartyFactor(n) / n;
     }
 
+    /// <summary>
+    /// For the /backrooms flicker and scream commands, which start a set piece outside the director's rounds: the people a
+    /// round would put in a party with <paramref name="who"/> (the living survival players, and the straw dummies, of the same
+    /// level within <see cref="PartyRadius"/> of them; only near <paramref name="who"/> itself, not chained through others).
+    /// </summary>
+    private List<(Entity Entity, Watch Watch)> PartyAbout(Entity who)
+    {
+        var mates = new List<(Entity Entity, Watch Watch)>();
+        int level = AssessmentOf(who).Level;
+        var near = new List<Entity>(dummies);
+        foreach (Vintagestory.API.Common.IPlayer online in sapi.World.AllOnlinePlayers)
+            if (online.WorldData.CurrentGameMode is not (Vintagestory.API.Common.EnumGameMode.Spectator or Vintagestory.API.Common.EnumGameMode.Creative)) near.Add(online.Entity);
+        foreach (Entity other in near)
+        {
+            if (other == null || other == who || !other.Alive || other.Pos.Dimension != who.Pos.Dimension) continue;
+            if (Math.Abs(other.Pos.Y - who.Pos.Y) > PartyHeight || !Within(other.Pos.X - who.Pos.X, other.Pos.Z - who.Pos.Z)) continue;
+            if (!watches.TryGetValue(other.EntityId, out Watch watch)) continue;
+            if (watch.Now.Level == level) mates.Add((other, watch));
+        }
+        return mates;
+    }
+
     /// <summary>The party rule as it was before parties: places of 24 blocks rolled once each, at one person's rate.</summary>
     private const double OldPlaceRadius = 24;
 

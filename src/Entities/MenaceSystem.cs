@@ -251,7 +251,7 @@ public partial class MenaceSystem : ModSystem
                     if (entity == null) return TextCommandResult.Error("Needs a player, or a straw dummy put down first");
                     if (!watches.TryGetValue(entity.EntityId, out Watch watch)) watches[entity.EntityId] = watch = new Watch();
                     Assess(entity, watch);
-                    StartFlicker(entity, watch, Roster.For(1));
+                    StartFlicker(entity, watch, Roster.For(1), PartyAbout(entity));
                     return TextCommandResult.Success(watch.Now.Level == 1 ? "The lights fail" : "Hounds are coming (the lights only fail in Level 1)");
                 })
             .EndSubCommand()
@@ -264,7 +264,7 @@ public partial class MenaceSystem : ModSystem
                     Entity entity = args.Caller.Entity;
                     if (!watches.TryGetValue(entity.EntityId, out Watch watch)) watches[entity.EntityId] = watch = new Watch();
                     Assess(entity, watch);
-                    StartScreaming(entity, watch);
+                    StartScreaming(entity, watch, PartyAbout(entity));
                     return TextCommandResult.Success(watch.Now.Level is 1 or 2 ? "Something is screaming" : "The rats are coming (the Screaming is Level 2's; the lights only fail in Levels 1 and 2 here)");
                 })
             .EndSubCommand()
@@ -745,7 +745,7 @@ public partial class MenaceSystem : ModSystem
             && rand.NextDouble() < (0.004 + 0.01 * aa.Value) * factor && types.ContainsKey(Roster.Hound) && BodyAllowed(actor, actorWatch, aa))
         {
             // (A set piece, but not on top of another encounter: it waits for the hard gap and the one-kind rule; once started the Hounds always come, capped as a pack is)
-            StartFlicker(actor, actorWatch, actorRoster);
+            StartFlicker(actor, actorWatch, actorRoster, mates);
             return;
         }
 
@@ -753,7 +753,7 @@ public partial class MenaceSystem : ModSystem
         if (rolls && aa.Level == 2 && aa.Band >= MenaceBand.Approach && Setting.Entities && !creative && !aa.Flickering && hours >= actorWatch.NextScreamHours
             && rand.NextDouble() < (0.0015 + 0.004 * aa.Value) * factor && BodyAllowed(actor, actorWatch, aa))
         {
-            StartScreaming(actor, actorWatch);
+            StartScreaming(actor, actorWatch, mates);
             return;
         }
 
@@ -808,7 +808,7 @@ public partial class MenaceSystem : ModSystem
     }
 
     /// <summary>Puts a player's section of Level 1 into a Flickering; after a dark, dreadful wait a pack of Hounds comes to hunt them until it ends.</summary>
-    private void StartFlicker(Entity target, Watch watch, RosterEntry[] roster)
+    private void StartFlicker(Entity target, Watch watch, RosterEntry[] roster, List<(Entity Entity, Watch Watch)> mates = null)
     {
         double hours = sapi.World.Calendar.TotalHours;
         watch.FlickerUntilHours = hours + FlickerHours;
@@ -816,10 +816,31 @@ public partial class MenaceSystem : ModSystem
         watch.LastBodyMs = sapi.World.ElapsedMilliseconds;
         target.WatchedAttributes.SetDouble(FlickerKey, watch.FlickerUntilHours);
         watch.Now.Flickering = watch.Now.Dark = true;
+        ShareDark(target, watch, mates);
         if (Logging) sapi.Logger.Notification("[backrooms] a Flickering for {0}", (target as EntityPlayer)?.Player?.PlayerName ?? target.Code.ToString());
         RosterEntry hounds = roster.FirstOrDefault(e => e.Code == Roster.Hound);
         if (hounds == null) return;
         BringDarkHunters(target, watch, hounds, FlickerDelayMinMs, FlickerDelayMaxMs, Roster.HoundCues);
+    }
+
+    /// <summary>
+    /// The lights fail for the whole party (<see cref="DirectByPlace"/>), not only the member the Flickering or the Screaming
+    /// was drawn for: each other member gets the same dark (on their screen too) and the same waits before the next. Before,
+    /// a friend a room away saw the lights burning while the Hounds came for both of them. The hunters are still put down once.
+    /// </summary>
+    private void ShareDark(Entity target, Watch watch, List<(Entity Entity, Watch Watch)> mates)
+    {
+        if (mates == null) return;
+        foreach ((Entity mate, Watch mateWatch) in mates)
+        {
+            if (mate == target || !mate.Alive) continue;
+            mateWatch.FlickerUntilHours = Math.Max(mateWatch.FlickerUntilHours, watch.FlickerUntilHours);
+            mateWatch.NextFlickerHours = Math.Max(mateWatch.NextFlickerHours, watch.NextFlickerHours);
+            mateWatch.NextScreamHours = Math.Max(mateWatch.NextScreamHours, watch.NextScreamHours);
+            mate.WatchedAttributes.SetDouble(FlickerKey, mateWatch.FlickerUntilHours);
+            mateWatch.Now.Flickering = mateWatch.Now.Dark = true;
+            if (Logging) sapi.Logger.Notification("[backrooms] the lights fail for {0} too", (mate as EntityPlayer)?.Player?.PlayerName ?? mate.Code + " #" + mate.EntityId);
+        }
     }
 
     /// <summary>How long (ms) the lights are out before the Hounds are put down, at least and at most.</summary>
@@ -917,7 +938,7 @@ public partial class MenaceSystem : ModSystem
     /// ends): the lights fail round the player for a few minutes; the screaming is heard close by, twice; and a pack of
     /// rats goes across the way ahead at a run, after whatever it is.
     /// </summary>
-    private void StartScreaming(Entity target, Watch watch)
+    private void StartScreaming(Entity target, Watch watch, List<(Entity Entity, Watch Watch)> mates = null)
     {
         double hours = sapi.World.Calendar.TotalHours;
         watch.NextScreamHours = hours + ScreamCooldownHours;
@@ -925,6 +946,7 @@ public partial class MenaceSystem : ModSystem
         watch.FlickerUntilHours = Math.Max(watch.FlickerUntilHours, hours + ScreamHours);
         target.WatchedAttributes.SetDouble(FlickerKey, watch.FlickerUntilHours);
         watch.Now.Flickering = watch.Now.Dark = true;
+        ShareDark(target, watch, mates);
         if (Logging) sapi.Logger.Notification("[backrooms] the Screaming for {0}", (target as EntityPlayer)?.Player?.PlayerName ?? target.Code.ToString());
         double angle = rand.NextDouble() * Math.PI * 2;
         for (int i = 0; i < 2; i++)
