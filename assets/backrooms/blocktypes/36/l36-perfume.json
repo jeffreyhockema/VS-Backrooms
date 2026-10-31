@@ -1,0 +1,131 @@
+// Level 36's duty-free: a perfume display counter, glass-topped white, rows of tinted bottles (pink, amber, blue, green) and testers on top. The perfume is tinted water: worthless
+{
+	"code": "l36-perfume",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-perfume-north": {
+			"base": "backrooms:block/36/l36-perfume"
+		},
+		"l36-perfume-east": {
+			"base": "backrooms:block/36/l36-perfume",
+			"rotateY": 270
+		},
+		"l36-perfume-south": {
+			"base": "backrooms:block/36/l36-perfume",
+			"rotateY": 180
+		},
+		"l36-perfume-west": {
+			"base": "backrooms:block/36/l36-perfume",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"collisionboxByType": {
+		"l36-perfume-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 0.97,
+			"y2": 0.94,
+			"z2": 0.88
+		},
+		"l36-perfume-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 0.97,
+			"y2": 0.94,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"l36-perfume-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 0.97,
+			"y2": 0.94,
+			"z2": 0.88,
+			"rotateY": 180
+		},
+		"l36-perfume-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 0.97,
+			"y2": 0.94,
+			"z2": 0.88,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l36-perfume-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 0.97,
+			"y2": 0.94,
+			"z2": 0.88
+		},
+		"l36-perfume-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 0.97,
+			"y2": 0.94,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"l36-perfume-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 0.97,
+			"y2": 0.94,
+			"z2": 0.88,
+			"rotateY": 180
+		},
+		"l36-perfume-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 0.97,
+			"y2": 0.94,
+			"z2": 0.88,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

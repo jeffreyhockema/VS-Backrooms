@@ -97,7 +97,7 @@ public readonly struct WorldGeometry
     /// The same for the experimental Levels 36, 15 and 23 (25, 27, 28): the usual band for the two indoor ones; Level 23 is
     /// under the open sky, so its band starts 12 below its floor (as Level 73's) and reaches 27 above it.
     /// </summary>
-    public const int L36BandDepth = ShaftDepth, L15BandDepth = ShaftDepth, L23BandDepth = 12;
+    public const int L36BandDepth = 14, L15BandDepth = ShaftDepth, L23BandDepth = 12;
 
     /// <summary>The street level of Level 11.</summary>
     public int CityFloorY => FloorY - CityDrop;

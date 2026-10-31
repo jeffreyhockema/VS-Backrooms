@@ -1,0 +1,2819 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/36/props/black",
+		"bottle-amber": "backrooms:block/36/props/bottle-amber",
+		"bottle-blue": "backrooms:block/36/props/bottle-blue",
+		"bottle-green": "backrooms:block/36/props/bottle-green",
+		"bottle-pink": "backrooms:block/36/props/bottle-pink",
+		"glass": "backrooms:block/36/props/glass",
+		"gold": "backrooms:block/36/props/gold",
+		"steelv": "backrooms:block/36/props/steelv",
+		"tester": "backrooms:block/36/props/tester",
+		"white": "backrooms:block/36/props/white",
+		"white-side": "backrooms:block/36/props/white-side"
+	},
+	"elements": [
+		{
+			"name": "Toe",
+			"from": [
+				1,
+				0,
+				1.75
+			],
+			"to": [
+				15,
+				0.75,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						14,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						11.75,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						11.75,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						14,
+						11.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Base",
+			"from": [
+				0.5,
+				0.75,
+				1
+			],
+			"to": [
+				15.5,
+				9,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						15.0,
+						8.25
+					]
+				},
+				"east": {
+					"texture": "#white-side",
+					"uv": [
+						0,
+						0,
+						13,
+						8.25
+					]
+				},
+				"south": {
+					"texture": "#white-side",
+					"uv": [
+						0,
+						0,
+						15.0,
+						8.25
+					]
+				},
+				"west": {
+					"texture": "#white-side",
+					"uv": [
+						0,
+						0,
+						13,
+						8.25
+					]
+				},
+				"up": {
+					"texture": "#white-side",
+					"uv": [
+						0,
+						0,
+						15.0,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Gold",
+			"from": [
+				0.5,
+				8.25,
+				0.75
+			],
+			"to": [
+				15.5,
+				8.75,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Floor",
+			"from": [
+				1,
+				9,
+				1.5
+			],
+			"to": [
+				15,
+				9.25,
+				13.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						14,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "GlassN",
+			"from": [
+				1,
+				9,
+				1.25
+			],
+			"to": [
+				15,
+				14,
+				1.45
+			],
+			"faces": {
+				"north": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						14,
+						5
+					]
+				},
+				"south": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						14,
+						5
+					]
+				}
+			},
+			"renderPass": 3
+		},
+		{
+			"name": "GlassW",
+			"from": [
+				1,
+				9,
+				1.5
+			],
+			"to": [
+				1.2,
+				14,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						12.0,
+						5
+					]
+				},
+				"west": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						12.0,
+						5
+					]
+				}
+			},
+			"renderPass": 3
+		},
+		{
+			"name": "GlassE",
+			"from": [
+				14.8,
+				9,
+				1.5
+			],
+			"to": [
+				15,
+				14,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						12.0,
+						5
+					]
+				},
+				"west": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						12.0,
+						5
+					]
+				}
+			},
+			"renderPass": 3
+		},
+		{
+			"name": "GlassTop",
+			"from": [
+				1,
+				14,
+				1.25
+			],
+			"to": [
+				15,
+				14.25,
+				13.75
+			],
+			"faces": {
+				"up": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						14,
+						12.5
+					]
+				},
+				"down": {
+					"texture": "#glass",
+					"uv": [
+						0,
+						0,
+						14,
+						12.5
+					]
+				}
+			},
+			"renderPass": 3
+		},
+		{
+			"name": "PostNW",
+			"from": [
+				0.75,
+				9,
+				1.0
+			],
+			"to": [
+				1.25,
+				14.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"east": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"south": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"west": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"up": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PostNE",
+			"from": [
+				14.75,
+				9,
+				1.0
+			],
+			"to": [
+				15.25,
+				14.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"east": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"south": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"west": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"up": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PostSW",
+			"from": [
+				0.75,
+				9,
+				13.25
+			],
+			"to": [
+				1.25,
+				14.5,
+				13.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"east": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"south": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"west": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"up": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PostSE",
+			"from": [
+				14.75,
+				9,
+				13.25
+			],
+			"to": [
+				15.25,
+				14.5,
+				13.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"east": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"south": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"west": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"up": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				1,
+				9,
+				13.4
+			],
+			"to": [
+				15,
+				14,
+				13.65
+			],
+			"faces": {
+				"north": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						14,
+						5
+					]
+				},
+				"south": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						14,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Bottle0",
+			"from": [
+				2.3,
+				9.25,
+				4.3
+			],
+			"to": [
+				3.7,
+				12.45,
+				5.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.2
+					]
+				},
+				"east": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.2
+					]
+				},
+				"south": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.2
+					]
+				},
+				"west": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.2
+					]
+				},
+				"up": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck0",
+			"from": [
+				2.75,
+				12.45,
+				4.75
+			],
+			"to": [
+				3.25,
+				12.85,
+				5.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap0",
+			"from": [
+				2.6,
+				12.85,
+				4.6
+			],
+			"to": [
+				3.4,
+				13.45,
+				5.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Bottle1",
+			"from": [
+				4.7,
+				9.25,
+				4.1
+			],
+			"to": [
+				6.5,
+				11.65,
+				5.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.8,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.8,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.8,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.8,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck1",
+			"from": [
+				5.35,
+				11.65,
+				4.75
+			],
+			"to": [
+				5.85,
+				12.05,
+				5.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap1",
+			"from": [
+				5.2,
+				12.05,
+				4.6
+			],
+			"to": [
+				6.0,
+				12.65,
+				5.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Bottle2",
+			"from": [
+				7.6,
+				9.25,
+				4.4
+			],
+			"to": [
+				8.8,
+				12.85,
+				5.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.6
+					]
+				},
+				"east": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.6
+					]
+				},
+				"south": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.6
+					]
+				},
+				"west": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.6
+					]
+				},
+				"up": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck2",
+			"from": [
+				7.95,
+				12.85,
+				4.75
+			],
+			"to": [
+				8.45,
+				13.25,
+				5.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap2",
+			"from": [
+				7.8,
+				13.25,
+				4.6
+			],
+			"to": [
+				8.6,
+				13.85,
+				5.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Bottle3",
+			"from": [
+				9.8,
+				9.25,
+				4.0
+			],
+			"to": [
+				11.8,
+				11.25,
+				6.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck3",
+			"from": [
+				10.55,
+				11.25,
+				4.75
+			],
+			"to": [
+				11.05,
+				11.65,
+				5.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap3",
+			"from": [
+				10.4,
+				11.65,
+				4.6
+			],
+			"to": [
+				11.2,
+				12.25,
+				5.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Bottle4",
+			"from": [
+				12.65,
+				9.25,
+				4.25
+			],
+			"to": [
+				14.15,
+				12.05,
+				5.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.8
+					]
+				},
+				"east": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.8
+					]
+				},
+				"south": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.8
+					]
+				},
+				"west": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.8
+					]
+				},
+				"up": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck4",
+			"from": [
+				13.15,
+				12.05,
+				4.75
+			],
+			"to": [
+				13.65,
+				12.45,
+				5.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap4",
+			"from": [
+				13.0,
+				12.45,
+				4.6
+			],
+			"to": [
+				13.8,
+				13.05,
+				5.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Bottle5",
+			"from": [
+				2.4,
+				9.25,
+				8.9
+			],
+			"to": [
+				3.6,
+				12.85,
+				10.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.6
+					]
+				},
+				"east": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.6
+					]
+				},
+				"south": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.6
+					]
+				},
+				"west": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.6
+					]
+				},
+				"up": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck5",
+			"from": [
+				2.75,
+				12.85,
+				9.25
+			],
+			"to": [
+				3.25,
+				13.25,
+				9.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap5",
+			"from": [
+				2.6,
+				13.25,
+				9.1
+			],
+			"to": [
+				3.4,
+				13.85,
+				9.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Bottle6",
+			"from": [
+				4.6,
+				9.25,
+				8.5
+			],
+			"to": [
+				6.6,
+				11.25,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck6",
+			"from": [
+				5.35,
+				11.25,
+				9.25
+			],
+			"to": [
+				5.85,
+				11.65,
+				9.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap6",
+			"from": [
+				5.2,
+				11.65,
+				9.1
+			],
+			"to": [
+				6.0,
+				12.25,
+				9.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Bottle7",
+			"from": [
+				7.45,
+				9.25,
+				8.75
+			],
+			"to": [
+				8.95,
+				12.05,
+				10.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.8
+					]
+				},
+				"east": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.8
+					]
+				},
+				"south": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.8
+					]
+				},
+				"west": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.8
+					]
+				},
+				"up": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck7",
+			"from": [
+				7.95,
+				12.05,
+				9.25
+			],
+			"to": [
+				8.45,
+				12.45,
+				9.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#bottle-green",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap7",
+			"from": [
+				7.8,
+				12.45,
+				9.1
+			],
+			"to": [
+				8.6,
+				13.05,
+				9.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Bottle8",
+			"from": [
+				10.1,
+				9.25,
+				8.8
+			],
+			"to": [
+				11.5,
+				12.45,
+				10.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.2
+					]
+				},
+				"east": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.2
+					]
+				},
+				"south": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.2
+					]
+				},
+				"west": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.2
+					]
+				},
+				"up": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck8",
+			"from": [
+				10.55,
+				12.45,
+				9.25
+			],
+			"to": [
+				11.05,
+				12.85,
+				9.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap8",
+			"from": [
+				10.4,
+				12.85,
+				9.1
+			],
+			"to": [
+				11.2,
+				13.45,
+				9.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Bottle9",
+			"from": [
+				12.5,
+				9.25,
+				8.6
+			],
+			"to": [
+				14.3,
+				11.65,
+				10.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.8,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.8,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.8,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.8,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck9",
+			"from": [
+				13.15,
+				11.65,
+				9.25
+			],
+			"to": [
+				13.65,
+				12.05,
+				9.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap9",
+			"from": [
+				13.0,
+				12.05,
+				9.1
+			],
+			"to": [
+				13.8,
+				12.65,
+				9.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "TestTray",
+			"from": [
+				8.5,
+				14.25,
+				8.5
+			],
+			"to": [
+				14.5,
+				14.5,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						4.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						4.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						6.0,
+						4.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Tester0",
+			"from": [
+				9.25,
+				14.5,
+				10
+			],
+			"to": [
+				10.5,
+				16.75,
+				11.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.25,
+						2.25
+					]
+				},
+				"east": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.25,
+						2.25
+					]
+				},
+				"south": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.25,
+						2.25
+					]
+				},
+				"west": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.25,
+						2.25
+					]
+				},
+				"up": {
+					"texture": "#bottle-pink",
+					"uv": [
+						0,
+						0,
+						1.25,
+						1.25
+					]
+				}
+			}
+		},
+		{
+			"name": "TCap0",
+			"from": [
+				9.5,
+				16.75,
+				10.25
+			],
+			"to": [
+				10.25,
+				17.25,
+				11.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Tester1",
+			"from": [
+				11.25,
+				14.5,
+				10
+			],
+			"to": [
+				12.5,
+				16.75,
+				11.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						1.25,
+						2.25
+					]
+				},
+				"east": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						1.25,
+						2.25
+					]
+				},
+				"south": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						1.25,
+						2.25
+					]
+				},
+				"west": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						1.25,
+						2.25
+					]
+				},
+				"up": {
+					"texture": "#bottle-blue",
+					"uv": [
+						0,
+						0,
+						1.25,
+						1.25
+					]
+				}
+			}
+		},
+		{
+			"name": "TCap1",
+			"from": [
+				11.5,
+				16.75,
+				10.25
+			],
+			"to": [
+				12.25,
+				17.25,
+				11.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Tester2",
+			"from": [
+				13.0,
+				14.5,
+				10
+			],
+			"to": [
+				14.25,
+				16.75,
+				11.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.25,
+						2.25
+					]
+				},
+				"east": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.25,
+						2.25
+					]
+				},
+				"south": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.25,
+						2.25
+					]
+				},
+				"west": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.25,
+						2.25
+					]
+				},
+				"up": {
+					"texture": "#bottle-amber",
+					"uv": [
+						0,
+						0,
+						1.25,
+						1.25
+					]
+				}
+			}
+		},
+		{
+			"name": "TCap2",
+			"from": [
+				13.25,
+				16.75,
+				10.25
+			],
+			"to": [
+				14.0,
+				17.25,
+				11.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Card",
+			"from": [
+				9,
+				14.5,
+				9.0
+			],
+			"to": [
+				12,
+				16,
+				9.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#tester",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						3,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						3,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				10.5,
+				14.5,
+				9.1
+			],
+			"rotationX": -15
+		}
+	]
+}

@@ -135,6 +135,7 @@ public class WandererSystem : ModSystem
             case 11: return "city";
             case WorldLayout.TheEnd: return "end";
             case WorldLayout.Level3999: return "3999";
+            case WorldLayout.Level36: return "36";
             case WorldLayout.Hub:
                 return layout.HubMegSite() is { } meg && (meg.X - gx) * (meg.X - gx) + (meg.Z - gz) * (meg.Z - gz) < 24 * 24 ? "hub" : "amber";
             default: return "camp";

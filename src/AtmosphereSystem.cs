@@ -126,8 +126,8 @@ public partial class AtmosphereSystem : ModSystem
         // Level 31: a thin indigo haze, tinted by the coloured tubes (its cinema and its empty rooms darker, its snack bar
         // warmer: AtmosphereSystem.L31.cs)
         new(0.008f, 0.10f, 0.07f, 0.19f, 0f),
-        // Level 36 (placeholder: a faint neutral haze)
-        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // Level 36: thin, cool, clean terminal air, so a concourse fades into pale grey far off (its zones: AtmosphereSystem.L36.cs)
+        new(0.0045f, 0.80f, 0.82f, 0.84f, 0f),
         // Level 120: pitch dark, a black with a little cold blue-green in it, the scene dimmed (its hot aisles, White Voids and hallways: AtmosphereSystem.L120.cs)
         new(0.018f, 0.018f, 0.032f, 0.036f, 0f, scene: 0.8f),
         // Batch 3 (placeholders: a faint neutral haze)

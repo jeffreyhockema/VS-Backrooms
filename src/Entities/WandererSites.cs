@@ -25,7 +25,7 @@ public static class WandererSites
     public const string Variable = "backroomsSite";
 
     /// <summary>Every site, each with its trade list and its lines in the dialogue.</summary>
-    public static readonly string[] Sites = { "camp", "outpost", "road", "city", "end", "hub", "amber", "3999" };
+    public static readonly string[] Sites = { "camp", "outpost", "road", "city", "end", "hub", "amber", "3999", "36" };
 
     private static readonly MethodInfo Refresh = typeof(EntityTradingHumanoid).GetMethod("RefreshBuyingSellingInventory", BindingFlags.Instance | BindingFlags.NonPublic);
 

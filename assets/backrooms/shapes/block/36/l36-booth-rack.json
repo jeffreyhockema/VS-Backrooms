@@ -1,0 +1,1684 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/36/props/black",
+		"btalogo": "backrooms:block/36/props/btalogo",
+		"btawhite": "backrooms:block/36/props/btawhite",
+		"leaflet-0": "backrooms:block/36/props/leaflet-0",
+		"leaflet-1": "backrooms:block/36/props/leaflet-1",
+		"leaflet-2": "backrooms:block/36/props/leaflet-2",
+		"leaflet-3": "backrooms:block/36/props/leaflet-3",
+		"leaflet-4": "backrooms:block/36/props/leaflet-4",
+		"leaflet-5": "backrooms:block/36/props/leaflet-5",
+		"purple": "backrooms:block/36/props/purple",
+		"purple-side": "backrooms:block/36/props/purple-side"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				1.5,
+				0,
+				8
+			],
+			"to": [
+				14.5,
+				1.5,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				2.5,
+				1.5,
+				11
+			],
+			"to": [
+				13.5,
+				26,
+				12.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#purple",
+					"uv": [
+						0,
+						0,
+						11.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#purple-side",
+					"uv": [
+						0,
+						0,
+						1.25,
+						16
+					]
+				},
+				"south": {
+					"texture": "#purple-side",
+					"uv": [
+						0,
+						0,
+						11.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#purple-side",
+					"uv": [
+						0,
+						0,
+						1.25,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PostW",
+			"from": [
+				1.5,
+				1.5,
+				9.5
+			],
+			"to": [
+				2.5,
+				27,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "PostE",
+			"from": [
+				13.5,
+				1.5,
+				9.5
+			],
+			"to": [
+				14.5,
+				27,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Header",
+			"from": [
+				1.5,
+				27,
+				9.5
+			],
+			"to": [
+				14.5,
+				31,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#purple",
+					"uv": [
+						0,
+						0,
+						13.0,
+						4
+					]
+				},
+				"east": {
+					"texture": "#purple-side",
+					"uv": [
+						0,
+						0,
+						3.0,
+						4
+					]
+				},
+				"south": {
+					"texture": "#purple-side",
+					"uv": [
+						0,
+						0,
+						13.0,
+						4
+					]
+				},
+				"west": {
+					"texture": "#purple-side",
+					"uv": [
+						0,
+						0,
+						3.0,
+						4
+					]
+				},
+				"up": {
+					"texture": "#purple-side",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#purple-side",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "HeadLogo",
+			"from": [
+				6.25,
+				27.25,
+				9.25
+			],
+			"to": [
+				9.75,
+				30.75,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#btalogo",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "HeadTrim",
+			"from": [
+				1.5,
+				31,
+				9.25
+			],
+			"to": [
+				14.5,
+				31.5,
+				12.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip0",
+			"from": [
+				2.5,
+				3,
+				8.75
+			],
+			"to": [
+				13.5,
+				4.25,
+				9.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.25
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf0",
+			"from": [
+				2.5,
+				2.5,
+				8.75
+			],
+			"to": [
+				13.5,
+				3,
+				11
+			],
+			"faces": {
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						2.25
+					]
+				},
+				"down": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						2.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaflet00",
+			"from": [
+				3.0,
+				3,
+				9.75
+			],
+			"to": [
+				6.0,
+				7.0,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-0",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				3,
+				9.9
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Leaflet01",
+			"from": [
+				6.75,
+				3,
+				9.75
+			],
+			"to": [
+				9.25,
+				7.0,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-2",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				3,
+				9.9
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Leaflet02",
+			"from": [
+				10.0,
+				3,
+				9.75
+			],
+			"to": [
+				13.0,
+				7.0,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-4",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				3,
+				9.9
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Lip1",
+			"from": [
+				2.5,
+				7.75,
+				8.75
+			],
+			"to": [
+				13.5,
+				9.0,
+				9.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.25
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf1",
+			"from": [
+				2.5,
+				7.25,
+				8.75
+			],
+			"to": [
+				13.5,
+				7.75,
+				11
+			],
+			"faces": {
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						2.25
+					]
+				},
+				"down": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						2.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaflet10",
+			"from": [
+				3.0,
+				7.75,
+				9.75
+			],
+			"to": [
+				6.0,
+				11.75,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-3",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				7.75,
+				9.9
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Leaflet11",
+			"from": [
+				6.75,
+				7.75,
+				9.75
+			],
+			"to": [
+				9.25,
+				11.75,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-5",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.75,
+				9.9
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Leaflet12",
+			"from": [
+				10.0,
+				7.75,
+				9.75
+			],
+			"to": [
+				13.0,
+				11.75,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-1",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				7.75,
+				9.9
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Lip2",
+			"from": [
+				2.5,
+				12.5,
+				8.75
+			],
+			"to": [
+				13.5,
+				13.75,
+				9.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.25
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf2",
+			"from": [
+				2.5,
+				12.0,
+				8.75
+			],
+			"to": [
+				13.5,
+				12.5,
+				11
+			],
+			"faces": {
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						2.25
+					]
+				},
+				"down": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						2.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaflet20",
+			"from": [
+				3.0,
+				12.5,
+				9.75
+			],
+			"to": [
+				6.0,
+				16.5,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-0",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				12.5,
+				9.9
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Leaflet21",
+			"from": [
+				6.75,
+				12.5,
+				9.75
+			],
+			"to": [
+				9.25,
+				16.5,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-2",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				12.5,
+				9.9
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Leaflet22",
+			"from": [
+				10.0,
+				12.5,
+				9.75
+			],
+			"to": [
+				13.0,
+				16.5,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-4",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				12.5,
+				9.9
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Lip3",
+			"from": [
+				2.5,
+				17.25,
+				8.75
+			],
+			"to": [
+				13.5,
+				18.5,
+				9.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.25
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf3",
+			"from": [
+				2.5,
+				16.75,
+				8.75
+			],
+			"to": [
+				13.5,
+				17.25,
+				11
+			],
+			"faces": {
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						2.25
+					]
+				},
+				"down": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						2.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaflet30",
+			"from": [
+				3.0,
+				17.25,
+				9.75
+			],
+			"to": [
+				6.0,
+				21.25,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-3",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				17.25,
+				9.9
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Leaflet31",
+			"from": [
+				6.75,
+				17.25,
+				9.75
+			],
+			"to": [
+				9.25,
+				21.25,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-5",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				17.25,
+				9.9
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Lip4",
+			"from": [
+				2.5,
+				22,
+				8.75
+			],
+			"to": [
+				13.5,
+				23.25,
+				9.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.25
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf4",
+			"from": [
+				2.5,
+				21.5,
+				8.75
+			],
+			"to": [
+				13.5,
+				22,
+				11
+			],
+			"faces": {
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						2.25
+					]
+				},
+				"down": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						2.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaflet40",
+			"from": [
+				3.0,
+				22,
+				9.75
+			],
+			"to": [
+				6.0,
+				26.0,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-0",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				22,
+				9.9
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Leaflet41",
+			"from": [
+				6.75,
+				22,
+				9.75
+			],
+			"to": [
+				9.25,
+				26.0,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-2",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				22,
+				9.9
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Leaflet42",
+			"from": [
+				10.0,
+				22,
+				9.75
+			],
+			"to": [
+				13.0,
+				26.0,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaflet-4",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				22,
+				9.9
+			],
+			"rotationX": -10
+		}
+	]
+}

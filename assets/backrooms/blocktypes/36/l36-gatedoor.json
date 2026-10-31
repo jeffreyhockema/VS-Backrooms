@@ -1,0 +1,103 @@
+// Level 36's holdrooms: the jet-bridge door set in the outer wall, a full wall cube (composite cladding on five faces, a heavy steel door in a stainless frame on <side>: lower with a push bar and kick plate, upper with a wired-glass window, a GATE plate and a dark red status lamp). Structure; BackroomsL36GateDoor boards flights
+{
+	"code": "l36-gatedoor",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-gatedoor-lower-north": {
+			"base": "backrooms:block/36/l36-gatedoor-lower"
+		},
+		"l36-gatedoor-lower-east": {
+			"base": "backrooms:block/36/l36-gatedoor-lower",
+			"rotateY": 270
+		},
+		"l36-gatedoor-lower-south": {
+			"base": "backrooms:block/36/l36-gatedoor-lower",
+			"rotateY": 180
+		},
+		"l36-gatedoor-lower-west": {
+			"base": "backrooms:block/36/l36-gatedoor-lower",
+			"rotateY": 90
+		},
+		"l36-gatedoor-upper-north": {
+			"base": "backrooms:block/36/l36-gatedoor-upper"
+		},
+		"l36-gatedoor-upper-east": {
+			"base": "backrooms:block/36/l36-gatedoor-upper",
+			"rotateY": 270
+		},
+		"l36-gatedoor-upper-south": {
+			"base": "backrooms:block/36/l36-gatedoor-upper",
+			"rotateY": 180
+		},
+		"l36-gatedoor-upper-west": {
+			"base": "backrooms:block/36/l36-gatedoor-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"drops": [],
+	"behaviors": [
+		{
+			"name": "BackroomsL36GateDoor"
+		}
+	],
+	"attributes": {
+		"l36structure": true
+	}
+}

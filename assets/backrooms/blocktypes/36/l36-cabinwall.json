@@ -1,0 +1,145 @@
+// Level 36: the plane cabin of a 'flight' (Sublevel 36.1): off-white moulded plastic, the <side> face a side panel (plain), an oval porthole onto cloud tops (window, glowing a little) or an overhead bin door (bin)
+{
+	"code": "l36-cabinwall",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"plain",
+				"window",
+				"bin"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"drawtypeByType": {
+		"*-window-*": "json",
+		"*": "cube"
+	},
+	"shapeByType": {
+		"*-window-north": {
+			"base": "backrooms:block/36/l36-cabinwall-window"
+		},
+		"*-window-east": {
+			"base": "backrooms:block/36/l36-cabinwall-window",
+			"rotateY": 270
+		},
+		"*-window-south": {
+			"base": "backrooms:block/36/l36-cabinwall-window",
+			"rotateY": 180
+		},
+		"*-window-west": {
+			"base": "backrooms:block/36/l36-cabinwall-window",
+			"rotateY": 90
+		}
+	},
+	"texturesByType": {
+		"*-plain-north": {
+			"all": {
+				"base": "backrooms:block/36/l36-cabin-plastic"
+			},
+			"north": {
+				"base": "backrooms:block/36/l36-cabinwall-plain"
+			}
+		},
+		"*-plain-east": {
+			"all": {
+				"base": "backrooms:block/36/l36-cabin-plastic"
+			},
+			"east": {
+				"base": "backrooms:block/36/l36-cabinwall-plain"
+			}
+		},
+		"*-plain-south": {
+			"all": {
+				"base": "backrooms:block/36/l36-cabin-plastic"
+			},
+			"south": {
+				"base": "backrooms:block/36/l36-cabinwall-plain"
+			}
+		},
+		"*-plain-west": {
+			"all": {
+				"base": "backrooms:block/36/l36-cabin-plastic"
+			},
+			"west": {
+				"base": "backrooms:block/36/l36-cabinwall-plain"
+			}
+		},
+		"*-bin-north": {
+			"all": {
+				"base": "backrooms:block/36/l36-cabin-plastic"
+			},
+			"north": {
+				"base": "backrooms:block/36/l36-cabinwall-bin"
+			}
+		},
+		"*-bin-east": {
+			"all": {
+				"base": "backrooms:block/36/l36-cabin-plastic"
+			},
+			"east": {
+				"base": "backrooms:block/36/l36-cabinwall-bin"
+			}
+		},
+		"*-bin-south": {
+			"all": {
+				"base": "backrooms:block/36/l36-cabin-plastic"
+			},
+			"south": {
+				"base": "backrooms:block/36/l36-cabinwall-bin"
+			}
+		},
+		"*-bin-west": {
+			"all": {
+				"base": "backrooms:block/36/l36-cabin-plastic"
+			},
+			"west": {
+				"base": "backrooms:block/36/l36-cabinwall-bin"
+			}
+		},
+		"*-window-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-cabinwall-window"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-cabin-plastic"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l36structure": true
+	},
+	"drops": []
+}

@@ -1,0 +1,235 @@
+// Level 36: a queue barrier, a chrome post at the block's centre with (unless none) its navy belt out to the middle of the edge named, so two blocks' belts meet in a line; collision 1.0 high on the post and the belt
+{
+	"code": "l36-stanchion",
+	"variantgroups": [
+		{
+			"code": "belt",
+			"states": [
+				"none",
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-stanchion-none": {
+			"base": "backrooms:block/36/l36-stanchion-none"
+		},
+		"l36-stanchion-north": {
+			"base": "backrooms:block/36/l36-stanchion"
+		},
+		"l36-stanchion-east": {
+			"base": "backrooms:block/36/l36-stanchion",
+			"rotateY": 270
+		},
+		"l36-stanchion-south": {
+			"base": "backrooms:block/36/l36-stanchion",
+			"rotateY": 180
+		},
+		"l36-stanchion-west": {
+			"base": "backrooms:block/36/l36-stanchion",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxesByType": {
+		"l36-stanchion-none": [
+			{
+				"x1": 0.32,
+				"y1": 0,
+				"z1": 0.32,
+				"x2": 0.68,
+				"y2": 1.0,
+				"z2": 0.68
+			}
+		],
+		"l36-stanchion-north": [
+			{
+				"x1": 0.32,
+				"y1": 0,
+				"z1": 0.32,
+				"x2": 0.68,
+				"y2": 1.0,
+				"z2": 0.68
+			},
+			{
+				"x1": 0.45,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.55,
+				"y2": 1.0,
+				"z2": 0.43
+			}
+		],
+		"l36-stanchion-east": [
+			{
+				"x1": 0.32,
+				"y1": 0,
+				"z1": 0.32,
+				"x2": 0.68,
+				"y2": 1.0,
+				"z2": 0.68
+			},
+			{
+				"x1": 0.45,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.55,
+				"y2": 1.0,
+				"z2": 0.43,
+				"rotateY": 270
+			}
+		],
+		"l36-stanchion-south": [
+			{
+				"x1": 0.32,
+				"y1": 0,
+				"z1": 0.32,
+				"x2": 0.68,
+				"y2": 1.0,
+				"z2": 0.68
+			},
+			{
+				"x1": 0.45,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.55,
+				"y2": 1.0,
+				"z2": 0.43,
+				"rotateY": 180
+			}
+		],
+		"l36-stanchion-west": [
+			{
+				"x1": 0.32,
+				"y1": 0,
+				"z1": 0.32,
+				"x2": 0.68,
+				"y2": 1.0,
+				"z2": 0.68
+			},
+			{
+				"x1": 0.45,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.55,
+				"y2": 1.0,
+				"z2": 0.43,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxesByType": {
+		"l36-stanchion-none": [
+			{
+				"x1": 0.29,
+				"y1": 0,
+				"z1": 0.29,
+				"x2": 0.71,
+				"y2": 0.95,
+				"z2": 0.71
+			}
+		],
+		"l36-stanchion-north": [
+			{
+				"x1": 0.29,
+				"y1": 0,
+				"z1": 0.29,
+				"x2": 0.71,
+				"y2": 0.95,
+				"z2": 0.71
+			},
+			{
+				"x1": 0.45,
+				"y1": 0.78,
+				"z1": 0,
+				"x2": 0.55,
+				"y2": 0.9,
+				"z2": 0.43
+			}
+		],
+		"l36-stanchion-east": [
+			{
+				"x1": 0.29,
+				"y1": 0,
+				"z1": 0.29,
+				"x2": 0.71,
+				"y2": 0.95,
+				"z2": 0.71
+			},
+			{
+				"x1": 0.45,
+				"y1": 0.78,
+				"z1": 0,
+				"x2": 0.55,
+				"y2": 0.9,
+				"z2": 0.43,
+				"rotateY": 270
+			}
+		],
+		"l36-stanchion-south": [
+			{
+				"x1": 0.29,
+				"y1": 0,
+				"z1": 0.29,
+				"x2": 0.71,
+				"y2": 0.95,
+				"z2": 0.71
+			},
+			{
+				"x1": 0.45,
+				"y1": 0.78,
+				"z1": 0,
+				"x2": 0.55,
+				"y2": 0.9,
+				"z2": 0.43,
+				"rotateY": 180
+			}
+		],
+		"l36-stanchion-west": [
+			{
+				"x1": 0.29,
+				"y1": 0,
+				"z1": 0.29,
+				"x2": 0.71,
+				"y2": 0.95,
+				"z2": 0.71
+			},
+			{
+				"x1": 0.45,
+				"y1": 0.78,
+				"z1": 0,
+				"x2": 0.55,
+				"y2": 0.9,
+				"z2": 0.43,
+				"rotateY": 90
+			}
+		]
+	},
+	"drops": []
+}

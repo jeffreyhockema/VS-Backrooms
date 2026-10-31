@@ -121,7 +121,7 @@ public static class Danger
         // Batch 2 (ids 24-27): nothing in them yet
         Backrooms.Worldgen.WorldLayout.Level31 => 0,
         Backrooms.Worldgen.WorldLayout.Level120 => 0.3, // Survival Difficulty 2: its Misglitches and the voids' Smilers (Regions/L120System.cs; the director puts nothing down)
-        Backrooms.Worldgen.WorldLayout.Level36 => 0,
+        Backrooms.Worldgen.WorldLayout.Level36 => 0.35, // (only its blackouts have anything in them: Class 1)
         Backrooms.Worldgen.WorldLayout.Level15 => 0.3, // Level 15: Class 1 (Fandom); only its few Robo-Men in the dark
         Backrooms.Worldgen.WorldLayout.Level23 => 0,
         // Level 94 (Class 3): its Animations hit and chase like Level 4's creatures; the King's trial keeps its own balance
@@ -414,7 +414,13 @@ public static class Roster
         [Backrooms.Worldgen.WorldLayout.Level52] = new[] { E(Faceling, Safe, Amb, 0.4) with { Rarity = 0.15 } },
         [Backrooms.Worldgen.WorldLayout.Level31] = new[] { E(Faceling, Safe, Amb, 1.0) with { Rarity = 0.5 }, E(FacelingChild, Safe, Amb, 0.3) with { Rarity = 0.5 } }, // Level 31: docile Facelings only (Wikidot); no Hounds
         [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<RosterEntry>(),
-        [Backrooms.Worldgen.WorldLayout.Level36] = Array.Empty<RosterEntry>(),
+        // Level 36: nothing in the lit terminal (Wikidot's 0/5); in its blackouts and vents, rarely, Fandom's Smilers, Hounds and Deathmoths
+        [Backrooms.Worldgen.WorldLayout.Level36] = new[]
+        {
+            E(Smiler, Edge, Menacing, 1.0) with { NeedsDark = true },
+            E(Hound, Edge, Encounters.Stalk | Encounters.Hunt, 0.5, 1, 2),
+            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.25, 1, 2),
+        },
         // Level 15: no native life (both wikis); a Robo-Man now and then, walking where the power is out (MenaceSystem gives the dark the Approach band)
         [Backrooms.Worldgen.WorldLayout.Level15] = new[] { E(RoboMan, Approach, Encounters.Glimpse | Encounters.Stalk | Encounters.Hunt, 1.0) with { NeedsDark = true } },
         [Backrooms.Worldgen.WorldLayout.Level23] = Array.Empty<RosterEntry>(),

@@ -1,0 +1,79 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"beltside": "backrooms:block/36/l36-belt-side",
+		"tread": "backrooms:block/36/l36-belt-tread"
+	},
+	"elements": [
+		{
+			"name": "Tread",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#beltside",
+					"uv": [
+						0,
+						0,
+						16,
+						15
+					]
+				},
+				"east": {
+					"texture": "#beltside",
+					"uv": [
+						0,
+						0,
+						16,
+						15
+					]
+				},
+				"south": {
+					"texture": "#beltside",
+					"uv": [
+						0,
+						0,
+						16,
+						15
+					]
+				},
+				"west": {
+					"texture": "#beltside",
+					"uv": [
+						0,
+						0,
+						16,
+						15
+					]
+				},
+				"up": {
+					"texture": "#tread",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#beltside",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

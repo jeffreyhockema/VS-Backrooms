@@ -1,0 +1,180 @@
+// Level 36: a flight information display two blocks wide (half l, r: left to right as seen facing it), 12 px tall, its back flush with the block face opposite <side> so two hang back to back; departures boards a..d, the gate desk's screen, and Gate C32's; no collision
+{
+	"code": "l36-fids",
+	"variantgroups": [
+		{
+			"code": "text",
+			"states": [
+				"a",
+				"b",
+				"c",
+				"d",
+				"gate",
+				"c32"
+			]
+		},
+		{
+			"code": "half",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "backrooms:block/36/l36-fids"
+		},
+		"*-east": {
+			"base": "backrooms:block/36/l36-fids",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "backrooms:block/36/l36-fids",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "backrooms:block/36/l36-fids",
+			"rotateY": 90
+		}
+	},
+	"texturesByType": {
+		"l36-fids-a-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-a-l"
+			}
+		},
+		"l36-fids-a-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-a-r"
+			}
+		},
+		"l36-fids-b-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-b-l"
+			}
+		},
+		"l36-fids-b-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-b-r"
+			}
+		},
+		"l36-fids-c-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-c-l"
+			}
+		},
+		"l36-fids-c-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-c-r"
+			}
+		},
+		"l36-fids-d-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-d-l"
+			}
+		},
+		"l36-fids-d-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-d-r"
+			}
+		},
+		"l36-fids-gate-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-gate-l"
+			}
+		},
+		"l36-fids-gate-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-gate-r"
+			}
+		},
+		"l36-fids-c32-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-c32-l"
+			}
+		},
+		"l36-fids-c32-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-c32-r"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightHsv": [
+		6,
+		3,
+		6
+	],
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0.125,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0.125,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0.125,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0.125,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

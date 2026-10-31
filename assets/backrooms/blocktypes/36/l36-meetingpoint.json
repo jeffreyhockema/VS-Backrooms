@@ -1,0 +1,142 @@
+// Level 36: the Meeting Place marker, a three-block column of brushed stainless (base with a plinth, mid with a thin lit seam, top a lit cube sign on four faces: four white arrows converging on a dot, on red; light 10 from the top)
+{
+	"code": "l36-meetingpoint",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"base",
+				"mid",
+				"top"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-meetingpoint-base": {
+			"base": "backrooms:block/36/l36-meetingpoint-base"
+		},
+		"l36-meetingpoint-mid": {
+			"base": "backrooms:block/36/l36-meetingpoint-mid"
+		},
+		"l36-meetingpoint-top": {
+			"base": "backrooms:block/36/l36-meetingpoint-top"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxesByType": {
+		"l36-meetingpoint-base": [
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.94,
+				"y2": 0.125,
+				"z2": 0.94
+			},
+			{
+				"x1": 0.125,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 0.875,
+				"y2": 1,
+				"z2": 0.875
+			}
+		],
+		"l36-meetingpoint-mid": [
+			{
+				"x1": 0.125,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 0.875,
+				"y2": 1,
+				"z2": 0.875
+			}
+		],
+		"l36-meetingpoint-top": [
+			{
+				"x1": 0.05,
+				"y1": 0,
+				"z1": 0.05,
+				"x2": 0.95,
+				"y2": 1,
+				"z2": 0.95
+			}
+		]
+	},
+	"selectionboxesByType": {
+		"l36-meetingpoint-base": [
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.94,
+				"y2": 0.125,
+				"z2": 0.94
+			},
+			{
+				"x1": 0.125,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 0.875,
+				"y2": 1,
+				"z2": 0.875
+			}
+		],
+		"l36-meetingpoint-mid": [
+			{
+				"x1": 0.125,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 0.875,
+				"y2": 1,
+				"z2": 0.875
+			}
+		],
+		"l36-meetingpoint-top": [
+			{
+				"x1": 0.05,
+				"y1": 0,
+				"z1": 0.05,
+				"x2": 0.95,
+				"y2": 1,
+				"z2": 0.95
+			}
+		]
+	},
+	"drops": [],
+	"lightHsvByType": {
+		"l36-meetingpoint-top": [
+			0,
+			5,
+			10
+		],
+		"l36-meetingpoint-mid": [
+			40,
+			1,
+			3
+		]
+	}
+}

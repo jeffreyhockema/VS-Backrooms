@@ -1,0 +1,317 @@
+// Level 36: a backlit shop fascia three blocks wide over a duty-free shop (part l, m, r: left to right as seen facing it), on a panel wall cube; invented brands
+{
+	"code": "l36-shopsign",
+	"variantgroups": [
+		{
+			"code": "shop",
+			"states": [
+				"perfume",
+				"fashion",
+				"books",
+				"snacks",
+				"tech",
+				"bags",
+				"cafe",
+				"pharma"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"l",
+				"m",
+				"r"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "backrooms:block/36/l36-shopsign"
+		},
+		"*-east": {
+			"base": "backrooms:block/36/l36-shopsign",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "backrooms:block/36/l36-shopsign",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "backrooms:block/36/l36-shopsign",
+			"rotateY": 90
+		}
+	},
+	"texturesByType": {
+		"l36-shopsign-perfume-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-perfume-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-perfume-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-perfume-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-perfume-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-perfume-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-fashion-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-fashion-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-fashion-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-fashion-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-fashion-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-fashion-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-books-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-books-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-books-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-books-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-books-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-books-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-snacks-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-snacks-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-snacks-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-snacks-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-snacks-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-snacks-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-tech-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-tech-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-tech-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-tech-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-tech-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-tech-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-bags-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-bags-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-bags-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-bags-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-bags-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-bags-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-cafe-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-cafe-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-cafe-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-cafe-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-cafe-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-cafe-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-pharma-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-pharma-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-pharma-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-pharma-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-pharma-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-pharma-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightHsvByType": {
+		"l36-shopsign-perfume-*": [
+			8,
+			3,
+			5
+		],
+		"l36-shopsign-fashion-*": [
+			0,
+			1,
+			5
+		],
+		"l36-shopsign-books-*": [
+			22,
+			3,
+			5
+		],
+		"l36-shopsign-snacks-*": [
+			5,
+			4,
+			5
+		],
+		"l36-shopsign-tech-*": [
+			34,
+			3,
+			5
+		],
+		"l36-shopsign-bags-*": [
+			6,
+			3,
+			5
+		],
+		"l36-shopsign-cafe-*": [
+			5,
+			3,
+			5
+		],
+		"l36-shopsign-pharma-*": [
+			21,
+			3,
+			5
+		]
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l36structure": true
+	},
+	"drops": []
+}

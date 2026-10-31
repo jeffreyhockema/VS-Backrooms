@@ -180,6 +180,8 @@ public sealed partial class WorldLayout
         if (LevelAt(mx, mz) == Hub) return HubWandererSite(mx, mz);
         // Level 3999: a camp in one lobby in four, the Megacolony (WorldLayout.Level3999.cs)
         if (LevelAt(mx, mz) == Level3999) return L3999WandererSite(mx, mz);
+        // Level 36: the Travel Planner, behind a Travel Agency booth or desk (WorldLayout.Level36.cs)
+        if (LevelAt(mx, mz) == Level36) return L36WandererSite(mx, mz);
         int level = LevelAt(mx, mz);
         if (!HasWandererSite(mx, mz, level)) return null;
         int cx = mx * MacroSize + MacroSize / 2, cz = mz * MacroSize + MacroSize / 2;

@@ -1,0 +1,219 @@
+// Level 36's security: the X-ray baggage machine (body: a grey cabinet tunnel 1.5 blocks tall, bags pass along the <side> axis, lead-strip curtains, the operator's panel and monitor on its east side as modelled facing north) and the roller bed before and after it (belt: waist high on legs, a grey tray on it)
+{
+	"code": "l36-xray",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"body",
+				"belt"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-xray-body-north": {
+			"base": "backrooms:block/36/l36-xray-body"
+		},
+		"l36-xray-body-east": {
+			"base": "backrooms:block/36/l36-xray-body",
+			"rotateY": 270
+		},
+		"l36-xray-body-south": {
+			"base": "backrooms:block/36/l36-xray-body",
+			"rotateY": 180
+		},
+		"l36-xray-body-west": {
+			"base": "backrooms:block/36/l36-xray-body",
+			"rotateY": 90
+		},
+		"l36-xray-belt-north": {
+			"base": "backrooms:block/36/l36-xray-belt"
+		},
+		"l36-xray-belt-east": {
+			"base": "backrooms:block/36/l36-xray-belt",
+			"rotateY": 270
+		},
+		"l36-xray-belt-south": {
+			"base": "backrooms:block/36/l36-xray-belt",
+			"rotateY": 180
+		},
+		"l36-xray-belt-west": {
+			"base": "backrooms:block/36/l36-xray-belt",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"l36-xray-body-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 1
+		},
+		"l36-xray-body-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-xray-body-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 1
+		},
+		"l36-xray-body-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l36-xray-belt-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.91,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"l36-xray-belt-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.91,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-xray-belt-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.91,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"l36-xray-belt-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.91,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l36-xray-body-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 1
+		},
+		"l36-xray-body-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-xray-body-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 1
+		},
+		"l36-xray-body-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l36-xray-belt-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.91,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"l36-xray-belt-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.91,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-xray-belt-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.91,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"l36-xray-belt-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.91,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

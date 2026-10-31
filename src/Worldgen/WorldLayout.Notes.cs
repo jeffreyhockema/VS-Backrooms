@@ -252,6 +252,8 @@ public sealed partial class WorldLayout
                 && Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL52Room + 9)) < 0.12:
                 Near(c, c, "cache", 12);
                 break;
+            // Level 36: by the Travel Agency's booths and desks, in the Lost and Found offices, at Gate C32 (WorldLayout.Level36.cs)
+            case Level36: L36NoteSpots(mx, mz, Near); break;
             case RunLevel:
             {
                 int lane = RunLaneAt(mx * MacroSize + c, mz * MacroSize + c);

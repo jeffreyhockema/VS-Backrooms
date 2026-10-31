@@ -1,0 +1,176 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"seamlight": "backrooms:block/36/props/seamlight",
+		"steelv": "backrooms:block/36/props/steelv"
+	},
+	"elements": [
+		{
+			"name": "ColumnLow",
+			"from": [
+				2,
+				0,
+				2
+			],
+			"to": [
+				14,
+				7.75,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						7.75
+					]
+				},
+				"east": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						7.75
+					]
+				},
+				"south": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						7.75
+					]
+				},
+				"west": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						7.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Seam",
+			"from": [
+				2.25,
+				7.75,
+				2.25
+			],
+			"to": [
+				13.75,
+				8.25,
+				13.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#seamlight",
+					"uv": [
+						0,
+						0,
+						11.5,
+						0.5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#seamlight",
+					"uv": [
+						0,
+						0,
+						11.5,
+						0.5
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#seamlight",
+					"uv": [
+						0,
+						0,
+						11.5,
+						0.5
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#seamlight",
+					"uv": [
+						0,
+						0,
+						11.5,
+						0.5
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "ColumnHigh",
+			"from": [
+				2,
+				8.25,
+				2
+			],
+			"to": [
+				14,
+				16,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						7.75
+					]
+				},
+				"east": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						7.75
+					]
+				},
+				"south": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						7.75
+					]
+				},
+				"west": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						7.75
+					]
+				},
+				"up": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				}
+			}
+		}
+	]
+}

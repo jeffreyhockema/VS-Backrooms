@@ -1572,6 +1572,19 @@ WANDERER_SITE_NAMES = {
 }
 
 
+# ---- Level 36 "Airport" (experimental, id 25; detail pass 2026-10-30): the Backrooms Travel Agency's Travel Planner, at
+# its booths in check-in and its desk in every Meeting Place (WorldLayout.Level36.cs). Travel goods for the road; buys
+# what the terminal's junk breaks down to (the lore: wanderers buy junk).
+WANDERER_SITES["36"] = {
+    "sells": [("backrooms:almondwater", 1, 3, 1), ("backrooms:crackers", 1, 3, 2), ("backrooms:candybar", 1, 2, 1), ("backrooms:soda", 1, 2, 1),
+              ("game:bandage-clean", 2, 2, 1), ("game:linensack", 2, 1, 1), ("game:candle", 1, 2, 2), ("backrooms:chalk", 2, 1, 1)],
+    "buys": [("backrooms:l3999-circuitboard", 2, 2, 1), ("backrooms:l3999-coinmech", 1, 3, 2), ("game:cloth-plain", 1, 4, 4),
+             ("backrooms:glassshard", 1, 4, 8), ("backrooms:scrapwire", 1, 6, 5), ("game:paper-parchment", 1, 4, 8)],
+    "sellMax": 7, "buyMax": 5,
+}
+WANDERER_SITE_NAMES["36"] = ["Planner Ines", "Planner Okoro", "Planner Wren", "Planner Halvard"]
+
+
 def wanderer_trade_files():
     for site in WANDERER_SITES:
         write_json(trade_props(site), "config", "trade", "wanderer-" + site + ".json")

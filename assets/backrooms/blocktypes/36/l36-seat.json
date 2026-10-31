@@ -1,0 +1,567 @@
+// Level 36's gates: a gate seat, one a block, on a floor beam shared along the row (navy or charcoal upholstery, chrome frame, armrests both sides); coat: a jacket left draped over a navy seat; bag: an abandoned backpack on one; side = the way a sitter faces
+{
+	"code": "l36-seat",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"blue",
+				"grey",
+				"coat",
+				"bag"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-seat-blue-north": {
+			"base": "backrooms:block/36/l36-seat-blue"
+		},
+		"l36-seat-blue-east": {
+			"base": "backrooms:block/36/l36-seat-blue",
+			"rotateY": 270
+		},
+		"l36-seat-blue-south": {
+			"base": "backrooms:block/36/l36-seat-blue",
+			"rotateY": 180
+		},
+		"l36-seat-blue-west": {
+			"base": "backrooms:block/36/l36-seat-blue",
+			"rotateY": 90
+		},
+		"l36-seat-grey-north": {
+			"base": "backrooms:block/36/l36-seat-grey"
+		},
+		"l36-seat-grey-east": {
+			"base": "backrooms:block/36/l36-seat-grey",
+			"rotateY": 270
+		},
+		"l36-seat-grey-south": {
+			"base": "backrooms:block/36/l36-seat-grey",
+			"rotateY": 180
+		},
+		"l36-seat-grey-west": {
+			"base": "backrooms:block/36/l36-seat-grey",
+			"rotateY": 90
+		},
+		"l36-seat-coat-north": {
+			"base": "backrooms:block/36/l36-seat-coat"
+		},
+		"l36-seat-coat-east": {
+			"base": "backrooms:block/36/l36-seat-coat",
+			"rotateY": 270
+		},
+		"l36-seat-coat-south": {
+			"base": "backrooms:block/36/l36-seat-coat",
+			"rotateY": 180
+		},
+		"l36-seat-coat-west": {
+			"base": "backrooms:block/36/l36-seat-coat",
+			"rotateY": 90
+		},
+		"l36-seat-bag-north": {
+			"base": "backrooms:block/36/l36-seat-bag"
+		},
+		"l36-seat-bag-east": {
+			"base": "backrooms:block/36/l36-seat-bag",
+			"rotateY": 270
+		},
+		"l36-seat-bag-south": {
+			"base": "backrooms:block/36/l36-seat-bag",
+			"rotateY": 180
+		},
+		"l36-seat-bag-west": {
+			"base": "backrooms:block/36/l36-seat-bag",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxesByType": {
+		"l36-seat-blue-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9
+			}
+		],
+		"l36-seat-blue-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9,
+				"rotateY": 270
+			}
+		],
+		"l36-seat-blue-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9,
+				"rotateY": 180
+			}
+		],
+		"l36-seat-blue-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9,
+				"rotateY": 90
+			}
+		],
+		"l36-seat-grey-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9
+			}
+		],
+		"l36-seat-grey-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9,
+				"rotateY": 270
+			}
+		],
+		"l36-seat-grey-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9,
+				"rotateY": 180
+			}
+		],
+		"l36-seat-grey-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9,
+				"rotateY": 90
+			}
+		],
+		"l36-seat-coat-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9
+			}
+		],
+		"l36-seat-coat-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9,
+				"rotateY": 270
+			}
+		],
+		"l36-seat-coat-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9,
+				"rotateY": 180
+			}
+		],
+		"l36-seat-coat-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9,
+				"rotateY": 90
+			}
+		],
+		"l36-seat-bag-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9
+			}
+		],
+		"l36-seat-bag-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9,
+				"rotateY": 270
+			}
+		],
+		"l36-seat-bag-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9,
+				"rotateY": 180
+			}
+		],
+		"l36-seat-bag-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 0.56,
+				"z2": 0.78,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.7,
+				"x2": 1,
+				"y2": 1.22,
+				"z2": 0.9,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxByType": {
+		"l36-seat-blue-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9
+		},
+		"l36-seat-blue-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"l36-seat-blue-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"l36-seat-blue-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9,
+			"rotateY": 90
+		},
+		"l36-seat-grey-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9
+		},
+		"l36-seat-grey-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"l36-seat-grey-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"l36-seat-grey-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9,
+			"rotateY": 90
+		},
+		"l36-seat-coat-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9
+		},
+		"l36-seat-coat-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"l36-seat-coat-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"l36-seat-coat-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9,
+			"rotateY": 90
+		},
+		"l36-seat-bag-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9
+		},
+		"l36-seat-bag-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"l36-seat-bag-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"l36-seat-bag-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.22,
+			"z2": 0.9,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}
