@@ -396,7 +396,8 @@ public static class Roster
         // The experimental levels (ids 21-23): empty
         [Backrooms.Worldgen.WorldLayout.Level73] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Basement] = Array.Empty<RosterEntry>(),
-        [Backrooms.Worldgen.WorldLayout.Level52] = Array.Empty<RosterEntry>(),
+        // Level 52, the Greenfield Campus: no entities today, as the lore has it; now and then a Faceling in a teacher's clothes, harmless
+        [Backrooms.Worldgen.WorldLayout.Level52] = new[] { E(Faceling, Safe, Amb, 0.4) with { Rarity = 0.15 } },
         [Backrooms.Worldgen.WorldLayout.Level31] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level36] = Array.Empty<RosterEntry>(),

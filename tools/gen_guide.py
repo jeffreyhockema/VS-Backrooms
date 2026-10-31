@@ -594,6 +594,41 @@ PAGES["farlevels"] = ("The Levels: Beyond the Rings", """
 - Clothes, cloth, beds and a little food (see [Salvage](backrooms-salvage)). A fire exit on each upper floor leads out, each somewhere different, and the iron ring in the deck opens onto a long fall into the water of Level 37.
 """)
 
+# ---- Level 52, the Greenfield Campus (experimental, id 23): its own page (one self-contained block) ----
+PAGES["level52"] = ("Level 52: The Greenfield Campus", """
+**Level 52: The Greenfield Campus**
+*Green hills, a blue sky, and schools with nobody in them.*
+
+**What it is**
+A safe place, and an easy one to map: school campuses standing apart on rolling green hills, under a sky that is blue at every hour. There is no day and no night here; the sun hangs in the same place, a little dimmer while it is night on Terra. Each campus is fenced on its own, and gravel roads run between them. Nothing lives here now. You may meet a Faceling dressed as a teacher, walking a corridor; it means you no harm (see [What Lives Here](backrooms-entities)).
+
+**The campuses**
+A campus is a quad of teaching wings round a courtyard of artificial grass (or a basketball court), with a canteen, a gym, a block of lodgings or another teaching block standing apart. The buildings have two to eight floors; the stairs are in the inner corners of the quad and at one end of the other blocks. The fence is a concrete barrier with chain-link on it, too high to climb: there is no gate, but every side has a wide gap in the middle, and a narrower one where a section of fence was set down out of line.
+
+**Reading the doors**
+Every door has a plaque of four digits beside it, and nothing else: no subject, no campus name. The first two count the rooms along that building, the third is the floor, the last the building. Room 07 on the third floor of building 2 is 0732.
+
+**Lights on, lights off**
+The corridors are always lit, their lockers lining both walls; in a classroom the lights and the old televisions never come on. The windows light the rooms well enough.
+
+**Weather**
+The temperature drifts between 10 °C and 32 °C over the hours, never the same for long; indoors it stays near 21 °C. A soft wind blows over the hills, harder when the weather turns quickly.
+
+**The named campuses**
+- **Marshall David Campus**: white concrete, five floors, lockers down every corridor. Everyone who comes here lands on it or on a campus near it. The M.E.G. kept its offices on the top floor; they are long abandoned.
+- **J. Barry Campus**, the Asylum: blue and white paint and a warehouse of shelving, pallets and medical cabinets. Its alarms go off for nothing.
+- **J. Turner Campus**: two floors round a basketball court, about a mile from Marshall David. Many of its classrooms are lodgings now, beds where the desks were.
+
+**What to scavenge**
+Little. The offices, labs and libraries were stripped long ago. Desks and filing cabinets hold the odd wanderer's note; store rooms and the warehouse hold a few supply boxes; vending machines, water coolers and the drinking fountains on the corridor walls still give Almond Water and water. The canteens' food stands are empty. There is no food growing here, and no game.
+
+**History**
+The Sanguine Festivus reached Level 52 more than once: the First Crash in 1959, the Great Crash of 1997 that began at J. Barry, and Operation Blindside in 2002. The holes and stains have been painted over, and the outposts that stood here are abandoned.
+
+**Ways in and out**
+Wanderers say a door on almost any level may open onto one of these campuses, now and then; an emergency exit or a lift in Levels 1 to 4; or walking into a high school in the city. Out: a door that opens onto somewhere else, most often Level 53; some say noclipping through a wall of Marshall David leads further. (For now the only way here is the cheats menu or /backrooms goto 52.)
+""")
+
 PAGES["thresholds"] = ("Ways Between Levels", """
 **Ways Between Levels**
 *The rings are only how the place is built. The doors are the real map.*

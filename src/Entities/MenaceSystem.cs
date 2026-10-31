@@ -1313,7 +1313,9 @@ public partial class MenaceSystem : ModSystem
                 // one is only ever given by index, never left to the client's chance)
                 int here = layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(at.X)), WorldLayout.MacroOf((int)Math.Floor(at.Z)));
                 bool evolved = here == 3;
-                entity.WatchedAttributes.SetInt("textureIndex", evolved ? EntityBehaviorFaceling.EvolvedLook : rand.Next(EntityBehaviorFaceling.AdultLooks));
+                // (Level 52's are dressed as teachers, now and then as office staff)
+                entity.WatchedAttributes.SetInt("textureIndex", evolved ? EntityBehaviorFaceling.EvolvedLook
+                    : here == WorldLayout.Level52 ? (rand.NextDouble() < 0.75 ? EntityBehaviorFaceling.TeacherLook : 9) : rand.Next(EntityBehaviorFaceling.AdultLooks));
                 if (evolved) entity.Attributes.SetBool(EvolvedKey, true);
                 if (Logging) sapi.Logger.Notification("[backrooms] faceling look {0} (level {1}{2})", entity.WatchedAttributes.GetInt("textureIndex"), here, evolved ? ", Evolved" : "");
                 return false;

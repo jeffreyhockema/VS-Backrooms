@@ -35,6 +35,8 @@ public class GuideSystem : ModSystem
     private static readonly string[] Added =
     {
         "home", "finding", "salvage", "food", "rest", "levels", "farlevels", "thresholds", "entities",
+        // (Level 52, experimental: its own page)
+        "level52",
     };
 
     /// <summary>Vanilla pages kept, with a Backrooms preface: page code to the preface's lang key suffix.</summary>

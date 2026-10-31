@@ -242,6 +242,11 @@ public sealed partial class WorldLayout
             case Hub or Level3999 when WandererSite(mx, mz) is { } camp:
                 Near(camp.X - mx * MacroSize, camp.Z - mz * MacroSize, "way", 4);
                 break;
+            // Level 52: now and then on a campus, about the middle of the cell (its own salt)
+            case Level52 when L52CampusAt(mx * MacroSize + c, mz * MacroSize + c, out _) != null
+                && Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL52Room + 9)) < 0.12:
+                Near(c, c, "cache", 12);
+                break;
             case RunLevel:
             {
                 int lane = RunLaneAt(mx * MacroSize + c, mz * MacroSize + c);
