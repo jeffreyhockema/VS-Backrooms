@@ -296,3 +296,17 @@ spot looks from a free floor tile along its longest clear line, or back at its s
 
 **Inventions (round 2):** the room kinds beyond the brief's (workshop, laundry, pantry), the duct and mains, the lit
 shaft, the Dry Patch's pillars and the sleeper's camp.
+
+**What the shots showed** (`%TEMP%/backrooms-shots/basement-r2-*`, three look-fix cycles, with a torch and without):
+- Round 1's look holds: cold green fog, cinder block, panelling, joists, doors. Without a torch the Cellar is dim but
+  readable (the faint ceiling, bulbs in about half the rooms); with one, warm and clear.
+- First cycle: the crack was a black square in the ceiling (the Lobby's light, twenty blocks up, never reaches the
+  floor): fixed with the lit shaft, which now shows from across the room and puts a pool of light where you land. The
+  panelling read orange under a torch: darkened. The Dry Patch was a bare 14x14 box: pillars and a camp. The look inside
+  a stairwell (one block of view) was useless: it now looks down the stairs from the landing.
+- The rooms now have things along their walls, pipes and the duct overhead, workshops, laundries, store aisles; the
+  Flood (stairs into the water, passages from a Dry Patch's door), the elevator and the dead all read.
+
+**Still weak:** big finished rooms are still emptier in the middle than a real cellar; the brick inside a stairwell is
+bright and plain under a torch; the duct is the only new model (a furnace, water heater, a bar cellar's kegs and the
+brief's rising tide are still left out); the Bacteria put down by `encounter ... glimpse` did not land in the frame.
