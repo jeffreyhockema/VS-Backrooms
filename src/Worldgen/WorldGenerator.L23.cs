@@ -237,7 +237,7 @@ public sealed partial class WorldGenerator
                 // Its floor: trodden earth, a root across it now and then (a step)
                 if (tf <= ground && caveFloor == int.MinValue) b[tf - L23Low] = L23Unit(gx, gz, 5) < 0.12 ? l23Root : l23Earth;
                 // The M.E.G. light the ways down to Base Seedling: a lantern by the wall now and then (my invention)
-                if (tunnelTo == CaveKind.Seedling && off > 0.7 && tf < ground && caveFloor == int.MinValue && L23Unit(gx, gz, 20) < 0.07 && b[tf - L23Low] != 0)
+                if (tunnelTo == CaveKind.Seedling && off > 0.7 && tf < ground && caveFloor == int.MinValue && L23Unit(gx, gz, 20) < 0.16 && b[tf - L23Low] != 0)
                     b[tf + 1 - L23Low] = l23Lantern;
                 if (caveFloor == int.MinValue || tf < caveFloor) caveFloor = tf;
             }

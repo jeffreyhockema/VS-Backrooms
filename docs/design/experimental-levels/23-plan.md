@@ -185,10 +185,13 @@ green, every trunk the same wavy bark, and none of the set pieces in view. What 
 - *Arrivals* face the most open way of the eight round them (up to 32 blocks of forest floor), not the trunk beside them
   (`ThresholdSystem.L23.cs`).
 
-**What the shots showed** (`%TEMP%/backrooms-shots/23-r2b-torch`, `23-r2c-notorch`, final `23-r2d-notorch`): the forest reads as a forest
-(trunks one behind another, different barks, roots and arches, ferns), dim green but legible; the glow rooms are the
-best of it (coloured light, Sorries, glowcaps, little trees, pillars); the ruins read from their plazas, the plaque and
-Latin legible at the Sphere; Base Seedling with its hollow tree, tents, lanterns, stores and the quartermaster standing
-there. Still weak: in a client with a short view distance the edge of the loaded world shows the pale glare of the sky
-sphere through gaps (seen across the Heart of Water's clearing, whose thin air shows furthest); the little trees'
-crowns are cubes; the Hound brought into the amber glow room was put down out of view.
+**What the shots showed** (`%TEMP%/backrooms-shots/`: `23-r2a-torch` first, `23-r2b-torch` and `23-r2c-notorch` after
+the air, `23-r2d-notorch` after the ruins' glowcaps, final `23-r2e-torch-final`): the forest reads as a forest (trunks one
+behind another in different barks and shapes, roots, arches, ferns, the shafts' glare), dim green but legible without a
+torch, as the lore wants; the glow rooms are the best of it (each colour's light, Sorries, glowcaps, little trees,
+pillars); the four ruins read from their plazas with or without a torch, the plaque and the Latin legible at the
+Sphere; Base Seedling shows its hollow tree, tents, lanterns, stores, spring and the quartermaster standing at the
+tree's door. Still weak: with the rig's short view distance the edge of the loaded world shows the pale glare of the sky
+sphere through gaps (seen across the Heart of Water's clearing, whose air is the thinnest); the little trees' crowns are
+plain cubes; the Hound brought into the amber glow room was put down out of view; the light shaft's motes barely show in
+a still frame.
