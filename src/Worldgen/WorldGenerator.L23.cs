@@ -25,7 +25,7 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private const ulong SaltL23Deco = 0x2840, SaltL23Mat = 0x2841, SaltL23Tree = 0x2842, SaltL23Pot = 0x2843;
+    private const ulong SaltL23Deco = 0x2840, SaltL23Mat = 0x2841, SaltL23Pot = 0x2843;
 
     /// <summary>The lowest height of a column that is worked out (the band's bottom), and how many heights there are up to the top of the world.</summary>
     private const int L23Low = -20, L23Height = WorldLayout.L23Top - L23Low + 1;
@@ -192,12 +192,12 @@ public sealed partial class WorldGenerator
             if (layout.L23SentryAt(gx, gz, rel, out ArchPier facing) && b[rel - L23Low] != 0) b[rel - L23Low] = l23Sentry[Facing(facing)];
 
         // ---- The lid ----
-        int lidBottom = layout.L23LidBottom(gx, gz);
+        int lidBottom = layout.L23LidBottom(gx, gz), denseFrom = layout.L23DenseFrom(gx, gz);
         if (!hole)
             for (int rel = lidBottom; rel <= WorldLayout.L23Top; rel++)
             {
                 int i = rel - L23Low;
-                if (b[i] == 0) b[i] = rel >= WorldLayout.L23LidDense ? l23LeavesDense : l23Leaves;
+                if (b[i] == 0) b[i] = rel >= denseFrom ? l23LeavesDense : l23Leaves;
             }
         // Lichen hanging from the lid, now and then; long roots from the vault over the pool
         if (!hole && b[lidBottom - 1 - L23Low] == 0)
@@ -398,15 +398,12 @@ public sealed partial class WorldGenerator
     /// <summary>The glow rooms' little trees: a trunk of petrified wood on a lattice point of their own, a crown of leaves over it and round it.</summary>
     private bool L23LittleTree(int[] b, int gx, int gz, int floor, int ceiling)
     {
-        const int pitch = 7;
-        int ti = Hashing.FloorDiv(gx, pitch), tj = Hashing.FloorDiv(gz, pitch);
+        int ti = Hashing.FloorDiv(gx, WorldLayout.L23TreePitch), tj = Hashing.FloorDiv(gz, WorldLayout.L23TreePitch);
         bool any = false;
         for (int dj = -1; dj <= 1; dj++)
             for (int di = -1; di <= 1; di++)
             {
-                ulong h = Hashing.Hash(seed, ti + di, tj + dj, SaltL23Tree);
-                if (Hashing.Unit(h) > 0.45) continue;
-                int tx = (ti + di) * pitch + 1 + (int)(Hashing.Mix(h) % (pitch - 2)), tz = (tj + dj) * pitch + 1 + (int)(Hashing.Mix(h + 1) % (pitch - 2));
+                if (!layout.L23LittleTreeAt(ti + di, tj + dj, out int tx, out int tz, out ulong h)) continue;
                 int ax = Math.Abs(gx - tx), az = Math.Abs(gz - tz);
                 if (ax > 1 || az > 1) continue;
                 // (Its own floor, from its own column, so its crown sits level)

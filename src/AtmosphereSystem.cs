@@ -135,7 +135,7 @@ public partial class AtmosphereSystem : ModSystem
         new(0.003f, 0.82f, 0.86f, 0.90f, 0f),
         // Level 23: a dim green murk under the lid of leaves, a mist on the forest floor (its glow rooms, tunnels, camp, ruins and
         // the Heart of Water: AtmosphereSystem.L23.cs)
-        new(0.014f, 0.10f, 0.15f, 0.08f, -0.2f, scene: 0.75f),
+        new(0.0065f, 0.17f, 0.23f, 0.14f, -0.16f, scene: 0.95f),
     };
 
     /// <summary>

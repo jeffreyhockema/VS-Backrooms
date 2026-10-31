@@ -38,8 +38,11 @@ public sealed partial class WorldLayout
     /// <summary>The top of the world above the level's floor (the floor is <see cref="WorldGeometry.L23Drop"/> below the shared one, which is 39 below the world's top block).</summary>
     public const int L23Top = 38 + WorldGeometry.L23Drop;
 
-    /// <summary>The dense lid of leaves: from here to the top of the world (its leaves take two of the sun's light each: under eight of them the forest floor has about six).</summary>
+    /// <summary>The dense lid of leaves at its thickest: from here to the top of the world (its leaves take two of the sun's light each: under eight of them the forest floor has about six).</summary>
     public const int L23LidDense = 41;
+
+    /// <summary>The dense lid at its thinnest (under five of its leaves the forest floor has about twelve).</summary>
+    public const int L23LidThin = 44;
 
     /// <summary>How far down the lid's loose underside hangs at most.</summary>
     public const int L23LidLow = 33;
@@ -186,20 +189,31 @@ public sealed partial class WorldLayout
         return L23PoolSurface - 1 - (int)Math.Round(6 * (1 - q * q));
     }
 
+    /// <summary>The lattice the holes in the lid lie on (blocks).</summary>
+    private const int L23HolePitch = 48;
+
+    /// <summary>The hole in the lid at a point of its lattice, if there is one: its middle and radius.</summary>
+    public bool L23HoleAt(int i, int j, out double cx, out double cz, out double r)
+    {
+        ulong h = Hashing.Hash(seed, i, j, SaltL23Hole);
+        cx = cz = r = 0;
+        if (Hashing.Unit(h) > 0.45) return false;
+        ulong h2 = Hashing.Mix(h), h3 = Hashing.Mix(h2);
+        cx = (i + 0.2 + 0.6 * Hashing.Unit(h2)) * L23HolePitch;
+        cz = (j + 0.2 + 0.6 * Hashing.Unit(h3)) * L23HolePitch;
+        r = 2.2 + 2.3 * Hashing.Unit(Hashing.Mix(h3));
+        return true;
+    }
+
     /// <summary>Whether the sun comes through the lid over a block position: a scatter of holes, and a wide one over the pool.</summary>
     public bool L23Hole(int gx, int gz)
     {
         if (L23FromMid(gx, gz) < 7) return true;
-        const int pitch = 48;
-        int hi = Hashing.FloorDiv(gx, pitch), hj = Hashing.FloorDiv(gz, pitch);
+        int hi = Hashing.FloorDiv(gx, L23HolePitch), hj = Hashing.FloorDiv(gz, L23HolePitch);
         for (int dj = -1; dj <= 1; dj++)
             for (int di = -1; di <= 1; di++)
             {
-                ulong h = Hashing.Hash(seed, hi + di, hj + dj, SaltL23Hole);
-                if (Hashing.Unit(h) > 0.45) continue;
-                ulong h2 = Hashing.Mix(h), h3 = Hashing.Mix(h2);
-                double cx = (hi + di + 0.2 + 0.6 * Hashing.Unit(h2)) * pitch, cz = (hj + dj + 0.2 + 0.6 * Hashing.Unit(h3)) * pitch;
-                double r = 2.2 + 2.3 * Hashing.Unit(Hashing.Mix(h3));
+                if (!L23HoleAt(hi + di, hj + dj, out double cx, out double cz, out double r)) continue;
                 double dx = gx + 0.5 - cx, dz = gz + 0.5 - cz;
                 if (dx * dx + dz * dz < r * r) return true;
             }
@@ -212,7 +226,19 @@ public sealed partial class WorldLayout
         double dc = L23FromMid(gx, gz);
         double lump = 7 * Fbm(gx / 20.0, gz / 20.0, SaltL23Lid) + 2.5;
         if (dc < L23CoreRadius + 20) lump *= Math.Clamp((dc - L23CoreRadius) / 20.0, 0, 1);
-        return Math.Clamp(L23LidDense - (int)Math.Round(Math.Max(0, lump)), L23LidLow, L23LidDense);
+        int dense = L23DenseFrom(gx, gz);
+        return Math.Clamp(dense - (int)Math.Round(Math.Max(0, lump)), L23LidLow, dense);
+    }
+
+    /// <summary>
+    /// Where the lid's dense leaves begin over a block position (<see cref="L23LidDense"/> to <see cref="L23LidThin"/>): in
+    /// broad patches it is thinner and the forest floor under it is a little less dark (about 8 to 12 of the sun's light),
+    /// so the forest has pools of dimness and of deeper dark besides the shafts under its holes.
+    /// </summary>
+    public int L23DenseFrom(int gx, int gz)
+    {
+        double n = Fbm(gx / 36.0, gz / 36.0, SaltL23Lid + 1);
+        return Math.Clamp(L23LidDense + 2 + (int)Math.Round(2.6 * n), L23LidDense, L23LidThin);
     }
 
     // ================= The trunks =================
@@ -225,6 +251,12 @@ public sealed partial class WorldLayout
         public byte Kind;
         public int Base, Top, Lobes;
         public double Phase, Lean, LeanPhase;
+        /// <summary>
+        /// Its silhouette: how oval it is across (and which way), how much it narrows from its foot to the lid, how it swells
+        /// and pinches as it climbs, and where it forks into two stems (0: it does not) and along which line they part.
+        /// </summary>
+        public double Ecc, EccPhase, Taper, Swell, SwellPhase, ForkPhase;
+        public int ForkAt;
         /// <summary>The sentry's face: the column, and the way it looks out.</summary>
         public int SentryX, SentryZ;
         public ArchPier SentryFacing;
@@ -257,6 +289,17 @@ public sealed partial class WorldLayout
         t.Lean = 0.6 + 1.0 * Hashing.Unit(h9 >> 8);
         t.LeanPhase = Hashing.Unit(Hashing.Mix(h9)) * Math.PI * 2;
         t.Pillar = Hashing.Unit(Hashing.Mix(h9 + 1)) < 0.55;
+        // Silhouettes (round 2: the trunks were all round columns of one width all the way up): some young and thin, most
+        // oval and narrowing toward the lid, some swelling and pinching, a quarter of the thick ones forked into two stems
+        ulong s1 = Hashing.Mix(h9 + 3), s2 = Hashing.Mix(s1), s3 = Hashing.Mix(s2), s4 = Hashing.Mix(s3), s5 = Hashing.Mix(s4);
+        if (t.R < 6 && Hashing.Unit(s1) < 0.14) t.R = 1.2 + 0.6 * Hashing.Unit(s1 >> 20);
+        t.Ecc = 0.22 * Hashing.Unit(s2);
+        t.EccPhase = Hashing.Unit(s2 >> 20) * Math.PI;
+        t.Taper = 0.1 + 0.3 * Hashing.Unit(s3);
+        t.Swell = Hashing.Unit(s3 >> 20) < 0.35 ? 0.1 + 0.08 * Hashing.Unit(s3 >> 40) : 0;
+        t.SwellPhase = Hashing.Unit(s4) * Math.PI * 2;
+        if (!t.Snag && t.R >= 3 && Hashing.Unit(s4 >> 20) < 0.25) t.ForkAt = t.Base + 13 + (int)(9 * Hashing.Unit(s5));
+        t.ForkPhase = Hashing.Unit(s5 >> 20) * Math.PI;
         t.Exists = true;
         // A buried sentry in about one of the thicker trunks in nine: a face in the bark, between two buttresses, at head height
         if (t.R >= 3 && Hashing.Unit(Hashing.Mix(h9 + 2)) < 0.11)
@@ -310,14 +353,27 @@ public sealed partial class WorldLayout
     {
         var (lx, lz) = L23Lean(t, rel);
         double dx = px - (t.X + lx), dz = pz - (t.Z + lz);
-        double d = Math.Sqrt(dx * dx + dz * dz);
         double h = rel - t.Base;
-        double r = t.R;
+        double up = Math.Max(0, h);
+        // Narrowing toward the lid, swelling and pinching on the way (never under a block and a half)
+        double r = t.R * (1 - t.Taper * Math.Min(1, up / 40)) * (1 + t.Swell * Math.Sin(up / 6.5 + t.SwellPhase));
+        r = Math.Max(Math.Min(t.R, 1.5), r);
+        // Forked: above the fork two stems, parting along their line and thinner
+        if (t.ForkAt > 0 && rel > t.ForkAt)
+        {
+            double f = Math.Min(1, (rel - t.ForkAt) / 6.0);
+            double off = Math.Min(r * 0.75 * f + Math.Max(0, rel - t.ForkAt - 6) * 0.18, r * 1.5);
+            double rs = r * (1 - 0.38 * f), cx = Math.Cos(t.ForkPhase) * off, cz = Math.Sin(t.ForkPhase) * off;
+            double d1 = Math.Sqrt((dx - cx) * (dx - cx) + (dz - cz) * (dz - cz)), d2 = Math.Sqrt((dx + cx) * (dx + cx) + (dz + cz) * (dz + cz));
+            depth = rs - Math.Min(d1, d2);
+            return depth > 0;
+        }
+        double a = Math.Atan2(dz, dx);
+        double d = Math.Sqrt(dx * dx + dz * dz) / (1 + t.Ecc * Math.Cos(2 * (a - t.EccPhase)));
         if (h < 9)
         {
-            double fin = Math.Pow(Math.Max(0, Math.Cos(t.Lobes * Math.Atan2(dz, dx) + t.Phase)), 3);
-            double up = Math.Max(0, h);
-            r += (t.Giant ? 4.5 : 2.6) * fin * Math.Exp(-up / 3.2) + 0.8 * Math.Exp(-up / 2.0);
+            double fin = Math.Pow(Math.Max(0, Math.Cos(t.Lobes * a + t.Phase)), 3);
+            r += (t.Giant ? 4.5 : 2.6 * Math.Min(1, t.R / 3)) * fin * Math.Exp(-up / 3.2) + 0.8 * Math.Exp(-up / 2.0);
         }
         depth = r - d;
         return d < r;
@@ -378,7 +434,7 @@ public sealed partial class WorldLayout
         void Trunk(in L23Trunk t)
         {
             double dx = px - t.X, dz = pz - t.Z;
-            double reach = t.R + (t.Giant ? 6.5 : 4.5) + t.Lean;
+            double reach = t.R * (1 + t.Ecc + t.Swell) + (t.Giant ? 6.5 : 4.5) + t.Lean + (t.ForkAt > 0 ? t.R * 0.9 : 0);
             if (dx * dx + dz * dz > reach * reach) return;
             int hi = Math.Min(top, t.Snag ? t.Top + (int)(Hashing.Hash(seed, gx, gz, SaltL23Snag) & 3) - 1 : top);
             for (int rel = lowest; rel <= hi; rel++)
@@ -560,7 +616,7 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>The ordinary glow room at a lattice point of the caverns' lattice (Exists false where there is none).</summary>
-    private L23Cavern L23GlowAt(int i, int j)
+    public L23Cavern L23GlowAt(int i, int j)
     {
         var c = new L23Cavern();
         ulong h = Hashing.Hash(seed, i, j, SaltL23Cave);
@@ -580,6 +636,21 @@ public sealed partial class WorldLayout
         c.Exists = true;
         L23Dig(ref c);
         return c;
+    }
+
+    /// <summary>The lattice of the glow rooms' little petrified trees (blocks), and its salt (the generator's, 0x2842).</summary>
+    public const int L23TreePitch = 7;
+    private const ulong SaltL23LittleTree = 0x2842;
+
+    /// <summary>The little tree on a point of its lattice, if there is one (it only grows where a glow room is): its column and hash.</summary>
+    public bool L23LittleTreeAt(int i, int j, out int x, out int z, out ulong h)
+    {
+        h = Hashing.Hash(seed, i, j, SaltL23LittleTree);
+        x = z = 0;
+        if (Hashing.Unit(h) > 0.45) return false;
+        x = i * L23TreePitch + 1 + (int)(Hashing.Mix(h) % (L23TreePitch - 2));
+        z = j * L23TreePitch + 1 + (int)(Hashing.Mix(h + 1) % (L23TreePitch - 2));
+        return true;
     }
 
     private static double L23Apart(in L23Cavern c, int x, int z, int r) => Math.Sqrt((double)(c.X - x) * (c.X - x) + (double)(c.Z - z) * (c.Z - z)) - c.R - r;
