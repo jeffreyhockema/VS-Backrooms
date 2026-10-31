@@ -1,0 +1,32 @@
+// Level 73: a crust of dried blood on the earth, cracked into plates
+{
+	"code": "l73-crust",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/73/crust",
+			"alternates": [
+				{
+					"base": "block/73/crust-2"
+				}
+			]
+		}
+	},
+	"resistance": 2.5,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/gravel*",
+		"place": "game:block/dirt*",
+		"break": "game:block/dirt*",
+		"hit": "game:block/dirt*"
+	}
+}

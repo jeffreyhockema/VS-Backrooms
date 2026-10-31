@@ -255,3 +255,65 @@ dummies land with 0 error lines, `blocksweep` 8718 blocks 0 threw, the director 
 and Dullers within seconds of a dummy outside the walls, Coran is put down by the gate and hears them (`entitylog`);
 `GATE_TAG=l73 gate.py --fast --port-base 43100` PASS. Untested headless (no movement without a player, no clicks):
 Coran's run and strike, the door, the table, the baths.
+
+### Round 2 (2026-10-31): looked at in the client, fixed
+
+Round 1's shots (the lead's review): huge blurry white cloud boxes over the whole sky, the ground a flat featureless
+dark-red plate, the castle a small grey silhouette.
+
+**What changed**
+- *Sky.* Vanilla's clouds are off in the level (`clouds: 0` on the island's, the sea's and the keep's air and the
+  level's base line; the dark spell now carries them through rather than dropping back to vanilla's). The lore's black
+  cloud stays what it was: the dark spell takes the moon away and thickens the murk. The moon moved to bearing 10, 18
+  degrees up (was 200 / 24), so that from the gate's side, where most runs end, it hangs just over the castle.
+- *Ground.* Hills on a 34-block lattice (was 44), 2.5-6.5 high (was 2-4.5), rougher ground (1.8, was 1.2); **tors** of
+  black rock (a jagged core and a lower spur, 3-8 above the ground, on a 26-block lattice, half of the points, none near
+  the castle's hill or along the path's line; `FloorKind.L73Tor`, black rock right down; never an arrival); the fields
+  in **blackened stretches** (`l73-burnt`, charred earth flecked with ash: the lore's "blackened fields") and patches of a
+  **crust of dried blood** (`l73-crust`) also fringing the gullies; **dead grass** (`l73-deadgrass`, short/mid/tall,
+  black-red withered blades, fixed colours, no climate tint) in broad patches on the red earth, a burnt stubble on the
+  blackened stretches; more bones (piles 1 in 170 tiles, jaw skeletons 1 in 1100), fewer of the upright ribcages.
+- *The Great Hound's bones* (`L73HoundBones`, `l73-bone`): a skeleton 39 long, lying on its belly on the fields
+  south-east of the castle beside the path: skull, neck, an arched spine over seven pairs of ribs reaching to the ground
+  (two broken), pelvis, legs stretched out, tail. Its footprint is sealed (no arrivals, no props); it sinks into the
+  ground where the ground rises.
+- *The castle's outline:* steep slate roofs tapering to spires on the four corner towers, slate caps and spires on the
+  gate towers, slate caps and needle spires on the keep's four turrets (their tops one under the band, as the attic's
+  ridge), so it reads as gothic, not as a box, from the fields.
+- *The keep up close:* buttresses against its walls between the windows (slate-capped), a pointed slate canopy over the
+  door, string courses of smooth stone at every floor; inside, every room's walls are **mahogany panelling** to the chair
+  rail and **red damask** above (`l73-wainscot`, `l73-damask`: the outer wall's blocks lined on the room's side only,
+  silver outside; partitions lined both sides; the chimney stays stone), where round 1 showed bare grey brick ("well
+  maintained and lavishly decorated"); two round tables with chairs in the main hall, which was bare.
+- *Arrivals* face the castle's gate (`L73ArrivalYaw`, one line in `ThresholdSystem.cs` beside the Hub's).
+- *Showcase spots* (`WorldLayout.Level73.Showcase.cs`, 14): the run with the moon over the castle, the path's foot, Coran
+  on the hill, the gatehouse, the keep's front, the main hall, the dining hall, a guest room, a bathroom, the master
+  bedroom, the roof terrace and attic, the Great Hound, the fields, the north shore under the moon.
+  `/backrooms l73coran x z [heading]` puts Coran down standing still for 30 s (for the Coran spot).
+
+- *Moonlight:* the island's scene brightness 0.30 to 0.36, the sea's 0.28 to 0.33, so the fields read by the moon alone.
+- *Shared files (one line or one block each):* `ThresholdSystem.cs` (the arrival facing), `AtmosphereSystem.cs` (the
+  level's base line: clouds off, scene), `Tiles.cs` (three floor kinds 268-270 in the level's block), `mapgen.csproj` and
+  `tools/clientrig/rig.py` (exp/36's fix, cherry-picked: mapgen compiles `Showcase.cs`, the rig keeps the showcase shots).
+
+**What the shots showed** (four client runs, no torch: `%TEMP%/backrooms-shots/73-r2a`, `-r2b`, `-r2c`, `-r2-final`).
+Run a: the clouds gone, a black sky with the moon over the castle; grass too pale and wheat-like, the blood crust like
+cobbles; the tower tops flat chimneys. Run b (first with showcase spots): the castle and its rooms read, the dining
+hall the best shot; the keep's front a flat box with slits, the rooms bare grey brick, the main hall empty, the Great
+Hound like standing stones from too close, Coran small. Run c: buttresses, canopy and string courses make the keep read
+gothic; the panelling and damask make the rooms the lore's "lavish"; the damask's motif too coarse. Final: a finer
+damask, a little more moonlight, the Hound from off its head (skull and arched ribs read). Still weak: the fields far
+from the castle are very dark and fairly even (by the lore's light rule); the bathroom is only its two barrels; the
+pale stone path is brighter than anything else outdoors; the attic is a plain slate-roofed box.
+
+**My inventions (round 2):** the tors, the blackened stretches and crust patches as surfaces, the dead grass (the lore
+says only "blackened fields"), the Great Hound's skeleton on the fields (the lore names it slain by Coran, nothing of
+its remains), the spires, buttresses and canopy, the panelling and damask (the lore: "lavishly decorated"), the moon's
+bearing, the arrival facing.
+
+**Checks (round 2):** `expclash` clean; mod and mapgen build with 0 errors; `layouthash` v1 and v12: every line for
+0-20 and the layout hash identical to main's; `regions` 60/60 in Level 73 (0 wrong, 0 in pockets); `73stats` OK (peak
+17 on a tor, arrivals 52-121 from the gate, the Hound's 615 tiles sealed, 12 beds, 4 barrels, 24 places, 40 windows);
+headless dummies in the level with 0 error lines, Coran put down and moved by `/backrooms l73coran`;
+`GATE_TAG=l73g gate.py --fast --port-base 43100` PASS (a separate build tag so the gate did not rebuild under a
+queued screenshot run).

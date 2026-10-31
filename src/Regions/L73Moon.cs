@@ -16,7 +16,7 @@ namespace Backrooms.Regions;
 public class L73Moon : ModSystem, IRenderer
 {
     /// <summary>Where the moon hangs: its bearing (degrees clockwise from north) and height above the horizon, and its size (degrees across).</summary>
-    private const double Bearing = 200, Elevation = 24, Across = 5;
+    private const double Bearing = 10, Elevation = 18, Across = 5;
 
     /// <summary>How far off it is drawn, as a share of the view distance.</summary>
     private const float DrawnAt = 0.6f;

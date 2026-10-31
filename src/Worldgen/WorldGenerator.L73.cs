@@ -21,7 +21,10 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldGenerator
 {
     private int l73Earth, l73Rock, l73Ash, l73Mud, l73Silver, l73Basalt, l73Sand, l73Gravel, l73Ashlar, l73Carpet, l73Damask, l73TileFloor,
-        l73Boards, l73Ember, l73Slate, l73Bath, l73WindowBoards, l73Note;
+        l73Boards, l73Ember, l73Slate, l73Bath, l73WindowBoards, l73Note, l73Burnt, l73Crust, l73Bone;
+    private readonly int[] l73Grass = new int[4];
+    /// <summary>The keep's lined walls: [0 panelling (floor height), 1 damask above], by the face lined (north, east, south, west, 4 all round).</summary>
+    private readonly int[,] l73Lined = new int[2, 5];
     private readonly int[] l73Sconce = new int[4], l73Banner = new int[4], l73Door = new int[6], l73AtticDoor = new int[4];
     private readonly int[,] l73Curtain = new int[3, 4], l73Table = new int[2, 4], l73Painting = new int[WorldLayout.L73Paintings, 4];
 
@@ -36,6 +39,18 @@ public sealed partial class WorldGenerator
         l73Rock = Id("l73-blackrock");
         l73Ash = Id("l73-ash-sand");
         l73Mud = Id("l73-bloodmud");
+        l73Burnt = Id("l73-burnt");
+        l73Crust = Id("l73-crust");
+        l73Bone = Id("l73-bone");
+        string[] lined = { "north", "east", "south", "west", "all" };
+        for (int f = 0; f < 5; f++)
+        {
+            l73Lined[0, f] = Id("l73-wainscot-" + lined[f]);
+            l73Lined[1, f] = Id("l73-damask-" + lined[f]);
+        }
+        l73Grass[1] = Id("l73-deadgrass-short");
+        l73Grass[2] = Id("l73-deadgrass-mid");
+        l73Grass[3] = Id("l73-deadgrass-tall");
         l73Silver = Id("l73-silverwall");
         l73Slate = Id("l73-slate");
         l73Bath = Id("l73-bath");
@@ -66,6 +81,9 @@ public sealed partial class WorldGenerator
         floorIds[(int)FloorKind.L73Rock] = l73Rock;
         floorIds[(int)FloorKind.L73Ash] = l73Ash;
         floorIds[(int)FloorKind.L73Mud] = l73Mud;
+        floorIds[(int)FloorKind.L73Tor] = l73Rock;
+        floorIds[(int)FloorKind.L73Burnt] = l73Burnt;
+        floorIds[(int)FloorKind.L73Crust] = l73Crust;
         floorIds[(int)FloorKind.L73Seabed] = l73Sand;
         floorIds[(int)FloorKind.L73Gravel] = l73Gravel;
         floorIds[(int)FloorKind.L73Court] = l73Rock;
@@ -86,11 +104,15 @@ public sealed partial class WorldGenerator
 
         // The island and the sea
         int g = t.Depth > 0 ? -t.Depth : t.Height;
+        // The Great Hound's bones (sunk into the ground where it rises)
+        if (t.Sealed && t.Zone == WorldLayout.L73Land && rel > 0 && layout.L73HoundBoneAt(gx, gz, rel)) return l73Bone;
         if (rel > g)
         {
             if (rel <= 0) fluid = waterId;
             if (rel == g + 1 && t.Variant != 0) return PropBlock(t);
             if (rel == g + 1 && t.Detail == 1) return l73Note;
+            // Dead grass on the fields
+            if (rel == g + 1 && g > 0 && !t.Sealed && layout.L73GrassAt(gx, gz, t.Floor) is int grass and > 0) return l73Grass[grass];
             // The banners on the castle's outer walls hang over the ground just outside them
             if (g == WorldLayout.L73Plateau && WorldLayout.L73BannerAt(gx - layout.L73CastleX0, gz - layout.L73CastleZ0) is { } banner
                 && rel == WorldLayout.L73Plateau + banner.Top)
@@ -99,6 +121,8 @@ public sealed partial class WorldGenerator
         }
         if (rel < System.Math.Min(g - 4, -8)) return concreteId; // (the ground below, as vanilla laid it)
         if (rel == g) return floorIds[(int)t.Floor] is int top and not 0 ? top : l73Earth;
+        // A tor is black rock right down into the ground
+        if (t.Floor == FloorKind.L73Tor && rel > g - 10) return l73Rock;
         if (rel >= g - 2)
             return t.Floor switch
             {
@@ -125,6 +149,12 @@ public sealed partial class WorldGenerator
             case Part.Court:
             case Part.Path:
                 if (c == 0) return part == Part.Court ? l73Rock : l73Ashlar;
+                // Buttresses against the keep's walls, between its windows, capped in slate
+                if (L73Buttress(u, v) && c <= 12) return c <= 11 ? l73Silver : l73Slate;
+                // A little slate canopy over the keep's door, pointed
+                if (v == WorldLayout.L73KeepV0 + WorldLayout.L73KeepD && u - WorldLayout.L73KeepU0 is >= 16 and <= 19
+                    && (c == 4 || c == 5 && u - WorldLayout.L73KeepU0 is 17 or 18))
+                    return l73Slate;
                 return WorldLayout.L73BannerAt(u, v) is { } banner && c == banner.Top ? l73Banner[Facing(banner.Facing)] : 0;
             case Part.Gate:
                 // The gateway, four wide and four high, under the wall-walk
@@ -139,13 +169,32 @@ public sealed partial class WorldGenerator
             {
                 if (c <= 10) return l73Silver;
                 int tu = u < 6 ? u : w - 1 - u, tv = v < 6 ? v : d - 1 - v;
-                return c == 11 && (tu is 0 or 5 || tv is 0 or 5) && Merlon(u, v) ? l73Silver : 0;
+                // A steep pointed slate roof from the eaves, tapering to a spire (the castle's gothic outline from afar)
+                if (c == 11) return l73Slate;
+                if (c <= 13 && tu is >= 1 and <= 4 && tv is >= 1 and <= 4) return l73Slate;
+                return c <= 17 && tu is 2 or 3 && tv is 2 or 3 ? l73Slate : 0;
             }
             case Part.GateTower:
                 if (c <= 10) return l73Silver;
-                return c == 11 && (u is 22 or 25 or 30 or 33 || v is d - 5 or d - 1) && Merlon(u, v) ? l73Silver : 0;
+                if (c == 11 && (u is 22 or 25 or 30 or 33 || v is d - 5 or d - 1)) return Merlon(u, v) ? l73Silver : 0;
+                // A slate cap and a spire on each gate tower
+                if (c == 11) return l73Slate;
+                return c <= 15 && u is 23 or 24 or 31 or 32 && v == d - 3 ? l73Slate : 0;
         }
         return L73KeepBlock(u - WorldLayout.L73KeepU0, v - WorldLayout.L73KeepV0, c);
+    }
+
+    /// <summary>
+    /// Whether a castle-local courtyard position holds a buttress against the keep's outer wall: on the long faces at keep
+    /// columns 4, 8, 15, 20, 27 and 31 (15 and 20 flank the door's path), on the ends at rows 4, 8, 15 and 19, so never
+    /// in front of a window (every fourth, from 2) or a banner.
+    /// </summary>
+    private static bool L73Buttress(int u, int v)
+    {
+        int ku = u - WorldLayout.L73KeepU0, kv = v - WorldLayout.L73KeepV0;
+        bool longFace = (kv == -1 || kv == WorldLayout.L73KeepD) && ku is 4 or 8 or 15 or 20 or 27 or 31;
+        bool endFace = (ku == -1 || ku == WorldLayout.L73KeepW) && kv is 4 or 8 or 15 or 19;
+        return longFace || endFace;
     }
 
     /// <summary>The keep, keep-local, <paramref name="c"/> above its floor: three storeys, the slabs between, the roof above.</summary>
@@ -171,7 +220,7 @@ public sealed partial class WorldGenerator
         {
             // A slab: the ceiling of the storey below, the floor of the one above (open over the flight below it)
             int below = c / storey - 1, above = below + 1;
-            if (ring) return l73Silver;
+            if (ring) return l73Ashlar; // (a string course of smooth stone round the outside at every floor)
             int step = WorldLayout.L73StairStep(ku, kv, below);
             if (step == 5) return hotelStairIds[0, Facing(WorldLayout.L73StairRise(below))];
             if (step > 0) return 0;
@@ -192,12 +241,21 @@ public sealed partial class WorldGenerator
             if (s == 0 && WorldLayout.L73MainDoor(ku, kv)) return h <= 3 ? l73Door[ku - 17 + 2 * (h - 1)] : l73Silver;
             // Windows, boarded up (the curtains hang inside)
             if (h is 2 or 3 && WorldLayout.L73Window(ku, kv, s)) return l73WindowBoards;
-            return l73Silver;
+            // Silver ashlar outside; inside, panelling to the chair rail and red damask over it ("lavishly decorated")
+            int lined = kv == 0 && ku is > 0 and < WorldLayout.L73KeepW - 1 ? 2 : kv == WorldLayout.L73KeepD - 1 && ku is > 0 and < WorldLayout.L73KeepW - 1 ? 0
+                : ku == 0 && kv is > 0 and < WorldLayout.L73KeepD - 1 ? 1 : ku == WorldLayout.L73KeepW - 1 && kv is > 0 and < WorldLayout.L73KeepD - 1 ? 3 : -1;
+            return lined < 0 ? l73Silver : l73Lined[h == 1 ? 0 : 1, lined];
         }
         if (s == 0 && WorldLayout.L73HearthAt(ku, kv) is int hearth and > 0)
             return hearth == 1 || h == 4 ? l73Silver : h == 1 ? l73Ember : 0; // the jambs, the breast over the fire, the embers
 
-        if (WorldLayout.L73RoomAt(ku, kv, s) == Room.Wall) return WorldLayout.L73Doorway(ku, kv, s) && h <= 2 ? 0 : l73Silver;
+        if (WorldLayout.L73RoomAt(ku, kv, s) == Room.Wall)
+        {
+            if (WorldLayout.L73Doorway(ku, kv, s) && h <= 2) return 0;
+            // (the chimney rising through the upper storeys stays stone; the partitions are panelled and papered both sides)
+            bool chimney = s > 0 && kv == 1 && ku is >= 16 and <= 19;
+            return chimney ? l73Silver : l73Lined[h == 1 ? 0 : 1, 4];
+        }
         int st = WorldLayout.L73StairStep(ku, kv, s);
         if (st > 0) return h < st ? l73Silver : h == st ? hotelStairIds[0, Facing(WorldLayout.L73StairRise(s))] : 0;
         if (WorldLayout.L73CurtainAt(ku, kv, s) is ArchPier curtain) return l73Curtain[h == 4 ? 0 : h == 1 ? 2 : 1, Facing(curtain)];
@@ -215,8 +273,9 @@ public sealed partial class WorldGenerator
         if ((ku < 3 || ku >= kw - 3) && (kv < 3 || kv >= kd - 3))
         {
             if (c <= 19) return l73Silver;
-            bool edge = ku is 0 or 2 or kw - 3 or kw - 1 || kv is 0 or 2 or kd - 3 or kd - 1;
-            return c == 20 && edge && merlon ? l73Silver : 0;
+            // A slate cap and a needle spire on each turret, its top one under the band's (as the attic's ridge)
+            if (c == 20) return l73Slate;
+            return c <= WorldLayout.L73AtticTop && ku is 1 or kw - 2 && kv is 1 or kd - 2 ? l73Slate : 0;
         }
         if (ku is >= 16 and <= 19 && kv <= 1) return c <= 18 ? l73Silver : 0; // the chimney stack
         if (WorldLayout.L73KeepRing(ku, kv)) return c == 16 && merlon ? l73Silver : 0;

@@ -1,0 +1,85 @@
+// Level 73: withered black-red grass on the fields (rel 1 over the ground); no collision, fixed colours (no climate tint)
+{
+	"code": "l73-deadgrass",
+	"variantgroups": [
+		{
+			"code": "height",
+			"states": [
+				"short",
+				"mid",
+				"tall"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Plant",
+	"drawtype": "cross",
+	"shape": {
+		"base": "game:block/basic/cross"
+	},
+	"texturesByType": {
+		"*-short": {
+			"north": {
+				"base": "block/73/deadgrass-1"
+			},
+			"south": {
+				"base": "block/73/deadgrass-1"
+			}
+		},
+		"*-mid": {
+			"north": {
+				"base": "block/73/deadgrass-2"
+			},
+			"south": {
+				"base": "block/73/deadgrass-2"
+			}
+		},
+		"*-tall": {
+			"north": {
+				"base": "block/73/deadgrass-3"
+			},
+			"south": {
+				"base": "block/73/deadgrass-3"
+			}
+		}
+	},
+	"renderpass": "OpaqueNoCull",
+	"randomDrawOffset": true,
+	"randomizeRotations": true,
+	"vertexFlags": {
+		"windMode": "NormalWind",
+		"windData": 2
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.2,
+	"replaceable": 5000,
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.15,
+		"y1": 0,
+		"z1": 0.15,
+		"x2": 0.85,
+		"y2": 0.5,
+		"z2": 0.85
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/grass*",
+		"place": "game:block/plant",
+		"break": "game:block/plant",
+		"hit": "game:block/plant"
+	}
+}

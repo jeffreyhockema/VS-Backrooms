@@ -130,6 +130,127 @@ def bloodmud(seed):
     return img
 
 
+def burnt(seed):
+    """The blackened fields: charred near-black earth, ashy grey flecks, a few dark crimson clods showing through."""
+    img = M.noise_hv((36, 24, 23), amp=4, seed=seed, mottle=10, hue=2)
+    clods(img, seed + 1, 18, 0.12)
+    flecks(img, seed + 2, 34, (96, 90, 88), 0.55)
+    flecks(img, seed + 3, 16, (98, 30, 26), 0.7)
+    blood_crack(img, seed + 4, colour=(84, 18, 16), length=(5, 10))
+    return img
+
+
+def crust(seed):
+    """A crust of dried blood over the earth: a dull crimson glaze, crazed by thin dark cracks into small irregular flakes,
+    the earth showing through where it has flaked away."""
+    img = redearth(seed + 9)
+    px = img.load()
+    pts = M.points(S, 26, seed, jitter=1.0)
+    f1, f2, idx = M.worley(S, pts)
+    cover = M.fbm(S, seed + 5, (16, 8))
+    rng = random.Random(seed + 1)
+    shades = [rng.uniform(-12, 8) for _ in pts]
+    for y in range(S):
+        for x in range(S):
+            if cover[y][x] < -0.25:
+                continue  # flaked away: the earth under it
+            r, g, b, a = px[x, y]
+            d = shades[idx[y][x]]
+            glaze = (96 + d, 22 + d * 0.3, 20 + d * 0.3)
+            c = M.mix((r, g, b), glaze, 0.75)
+            edge = f2[y][x] - f1[y][x]
+            if edge < 0.7:
+                c = M.mix(c, (28, 10, 10), 0.75)
+            px[x, y] = M.rgba(c)
+    flecks(img, seed + 3, 10, (138, 46, 38), 0.45)
+    return img
+
+
+def deadgrass(seed, height):
+    """Withered grass, 32 px, transparent: thin blades from the bottom, black-red at the root to a dry, ashy rust at the tip."""
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    px = img.load()
+    rng = random.Random(seed)
+    n = {1: 9, 2: 12, 3: 14}[height]
+    top = {1: 0.42, 2: 0.7, 3: 0.97}[height]
+    for _ in range(n):
+        x = rng.uniform(2, S - 3)
+        h = S * top * rng.uniform(0.55, 1.0)
+        lean = rng.uniform(-0.35, 0.35)
+        tip = rng.choice([(112, 50, 38), (96, 66, 54), (86, 36, 30), (118, 78, 60)])
+        bent = rng.random() < 0.3
+        steps = int(h)
+        for i in range(steps):
+            t = i / max(1, steps - 1)
+            X = int(round(x + lean * i + (0.08 * i * i / S * (1 if lean > 0 else -1) if bent else 0)))
+            Y = S - 1 - i
+            if not (0 <= X < S and 0 <= Y < S):
+                break
+            c = M.mix((24, 10, 10), tip, t ** 1.0)
+            px[X, Y] = M.rgba(c)
+            if i < steps * 0.4 and 0 <= X + 1 < S:  # thicker at the root
+                px[X + 1, Y] = M.rgba(M.mix(c, (18, 8, 8), 0.4))
+    return img
+
+
+def bone(seed):
+    """Old bone, bleached and weathered: ivory with long fibres along it, pores, and dark grime in its hollows."""
+    img = M.noise_hv((164, 154, 132), amp=5, seed=seed, mottle=8, hue=2)
+    px = img.load()
+    fib = M.fbm(S, seed + 1, (16, 4))
+    rng = random.Random(seed + 2)
+    for y in range(S):
+        for x in range(S):
+            r, g, b, a = px[x, y]
+            # (fibres run along x: the noise is sampled stretched)
+            f = fib[(y * 3) % S][(x // 4) % S] * 18
+            px[x, y] = M.rgba((r + f, g + f, b + f * 0.8))
+    flecks(img, seed + 3, 30, (112, 100, 82), 0.6)
+    M.grime(img, 0.22, seed=seed + 4, color=(84, 66, 52), cover=0.45)
+    for _ in range(3):
+        blood_crack(img, rng.randrange(10000), colour=(96, 70, 58), length=(4, 9))
+    return img
+
+
+def wainscot(seed):
+    """The keep's rooms below the chair rail: a raised mahogany panel in a frame of rails and stiles, a moulded rail on top."""
+    img = M.wood_planks(seed=seed, base=(84, 36, 24), planks=1, direction="v", grain=4, contrast=1.0, per_plank=4, gap=(40, 18, 12))
+    M.bevel(img, (0, 0, 31, 31), width=1, strength=0.18)
+    M.inset(img, (4, 9, 27, 28), width=1, strength=0.25)
+    M.bevel(img, (6, 11, 25, 26), width=1, strength=0.18)
+    px = img.load()
+    for x in range(S):  # the chair rail: a lit moulding over a shadowed bead
+        for y, k in ((0, 0.28), (1, 0.18), (2, 0.05), (3, -0.12), (4, 0.06), (5, -0.22)):
+            M.touch(img, x, y, k)
+    return img
+
+
+def damask(seed):
+    """Red damask wallpaper above the panelling: a deep crimson ground and a small repeating fleuron (a lozenge with a
+    stem and two leaves) in a darker, glossier red, a dot of dull gold at its heart; tiles on all sides (one block repeats
+    up the wall)."""
+    img = M.noise_hv((98, 18, 24), amp=3, seed=seed, mottle=6, hue=2)
+    px = img.load()
+    def mark(X, Y, colour, k):
+        X, Y = X % S, Y % S
+        r, g, b, a = px[X, Y]
+        px[X, Y] = M.rgba(M.mix((r, g, b), colour, k))
+    def fleuron(cx, cy):
+        for y in range(-4, 5):
+            for x in range(-3, 4):
+                if abs(x) / 3.0 + abs(y) / 4.0 <= 1.0 and abs(x) / 3.0 + abs(y) / 4.0 > 0.55:
+                    mark(cx + x, cy + y, (64, 8, 14), 0.7)  # the lozenge's outline
+        for y in range(-2, 3):
+            mark(cx, cy + y, (64, 8, 14), 0.5)
+        for d in (-1, 1):
+            mark(cx + 2 * d, cy + 4, (64, 8, 14), 0.6)
+            mark(cx + 3 * d, cy + 5, (64, 8, 14), 0.5)
+        mark(cx, cy, (156, 116, 56), 0.6)
+    for cx, cy in ((8, 4), (24, 4), (0, 20), (16, 20)):
+        fleuron(cx, cy)
+    return img
+
+
 def silverwall(seed):
     img = M.brick(seed=seed, base=(172, 176, 182), mortar=(112, 114, 120), course=8, length=16, offset=0.5, mortar_w=1,
                   jitter=9, hue=2, pits=0.04, chamfer=True, grain=4, mottle=7)
@@ -233,6 +354,55 @@ def sconce_block():
     })
 
 
+def deadgrass_block():
+    heights = ["short", "mid", "tall"]
+    return ("// Level 73: withered black-red grass on the fields (rel 1 over the ground); no collision, fixed colours (no climate tint)", {
+        "code": "l73-deadgrass",
+        "variantgroups": [{"code": "height", "states": heights}],
+        "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
+        "blockmaterial": "Plant",
+        "drawtype": "cross",
+        "shape": {"base": "game:block/basic/cross"},
+        "texturesByType": {f"*-{h}": {"north": {"base": f"block/73/deadgrass-{k + 1}"}, "south": {"base": f"block/73/deadgrass-{k + 1}"}}
+                           for k, h in enumerate(heights)},
+        "renderpass": "OpaqueNoCull",
+        "randomDrawOffset": True,
+        "randomizeRotations": True,
+        "vertexFlags": {"windMode": "NormalWind", "windData": 2},
+        "sidesolid": {"all": False},
+        "sideopaque": {"all": False},
+        "lightAbsorption": 0,
+        "resistance": 0.2,
+        "replaceable": 5000,
+        "collisionbox": None,
+        "selectionbox": {"x1": 0.15, "y1": 0, "z1": 0.15, "x2": 0.85, "y2": 0.5, "z2": 0.85},
+        "drops": [],
+        "sounds": {"walk": "game:walk/grass*", "place": "game:block/plant", "break": "game:block/plant", "hit": "game:block/plant"},
+    })
+
+
+LINED_FACES = ["north", "east", "south", "west"]
+
+
+def lined_block(code, inner, comment):
+    """A block of the keep's outer wall lined on one side (the room's, named by the variant: -south shows the lining on its
+    south face) with the given lining, silver ashlar elsewhere; -all is lined all round (a partition between rooms)."""
+    tex = {f"*-{f}": {"all": {"base": "block/73/silverwall"}, f: {"base": inner}} for f in LINED_FACES}
+    tex["*-all"] = {"all": {"base": inner}}
+    return (comment, {
+        "code": code,
+        "variantgroups": [{"code": "lined", "states": LINED_FACES + ["all"]}],
+        "creativeinventory": {"general": ["*-all"], "backrooms": ["*-all"]},
+        "blockmaterial": "Stone",
+        "drawtype": "cube",
+        "texturesByType": tex,
+        "resistance": 1000,
+        "attributes": {"l73Fixed": True},
+        "drops": [],
+        "sounds": {"walk": "game:walk/stone*", "place": "game:block/rock-hit-pickaxe", "break": "game:block/rock-hit-pickaxe", "hit": "game:block/planks"},
+    })
+
+
 def face(tex, uv, glow=0):
     f = {"texture": tex, "uv": uv}
     if glow:
@@ -291,6 +461,12 @@ LANG = [
     ("block-l73-bloodmud", "Blood Mud"),
     ("block-l73-silverwall", "Silver Ashlar"),
     ("block-l73-sconce-*", "Iron Sconce"),
+    ("block-l73-burnt", "Blackened Earth"),
+    ("block-l73-crust", "Blood Crust"),
+    ("block-l73-deadgrass-*", "Dead Grass"),
+    ("block-l73-bone", "Great Hound's Bone"),
+    ("block-l73-wainscot-*", "Mahogany Panelling"),
+    ("block-l73-damask-*", "Damask-Papered Wall"),
 ] + castle.LANG + lore.LANG
 
 
@@ -328,6 +504,16 @@ def main():
     save(sconce_iron(7360), "block/73/sconce-iron")
     save(sconce_glow(7361), "block/73/sconce-glow")
     save(moon(), "environment/l73-moon")
+    save(burnt(7380), "block/73/burnt")
+    save(burnt(7381), "block/73/burnt-2")
+    save(crust(7390), "block/73/crust")
+    save(crust(7391), "block/73/crust-2")
+    for k in (1, 2, 3):
+        save(deadgrass(7400 + k, k), f"block/73/deadgrass-{k}")
+    save(bone(7410), "block/73/bone")
+    save(bone(7411), "block/73/bone-2")
+    save(wainscot(7420), "block/73/wainscot")
+    save(damask(7421), "block/73/damask")
 
     bt = os.path.join(ASSETS, "blocktypes", "73")
     blocks = [
@@ -343,6 +529,16 @@ def main():
                    ["block/73/silverwall", "block/73/silverwall-2"], "Stone", "game:walk/stone*", "game:block/rock-hit-pickaxe", 8,
                    {"attributes": {"l73Fixed": True}}),
         sconce_block(),
+        cube_block("l73-burnt", "// Level 73: the blackened fields, charred near-black earth flecked with ash",
+                   ["block/73/burnt", "block/73/burnt-2"], "Soil", "game:walk/gravel*", "game:block/dirt*", 2.5),
+        cube_block("l73-crust", "// Level 73: a crust of dried blood on the earth, cracked into plates",
+                   ["block/73/crust", "block/73/crust-2"], "Soil", "game:walk/gravel*", "game:block/dirt*", 2.5),
+        deadgrass_block(),
+        cube_block("l73-bone", "// Level 73: the Great Hound's bones, bleached and weathered (it never breaks)",
+                   ["block/73/bone", "block/73/bone-2"], "Stone", "game:walk/stone*", "game:block/rock-hit-pickaxe", 6,
+                   {"attributes": {"l73Fixed": True}}),
+        lined_block("l73-wainscot", "block/73/wainscot", "// Level 73: the keep's walls at floor height, mahogany panelling on the room's side"),
+        lined_block("l73-damask", "block/73/damask", "// Level 73: the keep's walls above the panelling, red damask wallpaper on the room's side"),
     ]
     for comment, b in blocks:
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
@@ -353,7 +549,7 @@ def main():
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
     n_shapes = castle.shapes(write_json, os.path.join(ASSETS, "shapes", "block", "73"))
     write_lang()
-    print(f"gen_73: {11 + n_tex} textures, {6 + len(castle.blocktypes())} blocktypes, {1 + n_shapes} shapes, lang")
+    print(f"gen_73: {22 + n_tex} textures, {12 + len(castle.blocktypes())} blocktypes, {1 + n_shapes} shapes, lang")
 
 
 if __name__ == "__main__":

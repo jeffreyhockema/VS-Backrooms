@@ -87,10 +87,51 @@ public class L73System : ModSystem
             menace = api.ModLoader.GetModSystem<MenaceSystem>();
             Server = this;
             tickListener = api.Event.RegisterGameTickListener(OnTick, 1000);
+            api.ChatCommands.Get("backrooms")?
+                .BeginSubCommand("l73coran")
+                    .WithDescription("Level 73 (review shots): puts Coran down at x z facing a compass heading (default 180, south), standing still for 30 s")
+                    .WithArgs(api.ChatCommands.Parsers.Double("x"), api.ChatCommands.Parsers.Double("z"), api.ChatCommands.Parsers.OptionalDouble("heading"))
+                    .RequiresPrivilege(Privilege.controlserver)
+                    .HandleWith(OnCoranCommand)
+                .EndSubCommand();
             api.Logger.Notification("[backrooms] Level 73: the castle's gate at {0},{1}, its door at {2},{3}, the plateau at y {4}", layout.L73Gate.X, layout.L73Gate.Z,
                 layout.L73Door.X, layout.L73Door.Z, geometry.FloorFor(WorldLayout.Level73) + WorldLayout.L73Plateau);
         });
     }
+
+    /// <summary>
+    /// <c>/backrooms l73coran x z [heading]</c> (review screenshots): Coran is put down at x, z on the ground (put about first if
+    /// he is not), facing the given compass heading (0 north, 90 east; default south), and stands there listening for half a
+    /// minute before he goes back to his round.
+    /// </summary>
+    private TextCommandResult OnCoranCommand(TextCommandCallingArgs args)
+    {
+        if (layout == null) return TextCommandResult.Error("This is not a Backrooms world");
+        double x = (double)args[0], z = (double)args[1];
+        double heading = args.Parsers[2].IsMissing ? 180 : (double)args[2];
+        int gx = (int)Math.Floor(x), gz = (int)Math.Floor(z);
+        if (!InLevel(x, z)) return TextCommandResult.Error("That is not in Level 73");
+        Entity coran = Coran;
+        if (coran == null)
+        {
+            lastPlayerMs = sapi.World.ElapsedMilliseconds;
+            KeepCoran(true, lastPlayerMs);
+            coran = Coran;
+        }
+        if (coran == null) return TextCommandResult.Error("Coran could not be put down (is the gate's ground loaded?)");
+        double y = GroundAt(gx, gz) ?? geometry.FloorFor(WorldLayout.Level73) + layout.TileAt(gx, gz).Height + 1;
+        // A player looks along (sin yaw, cos yaw): heading h (clockwise from north) is yaw 180 - h
+        float yaw = (float)((180 - heading) * Math.PI / 180);
+        coran.TeleportToDouble(x, y, z);
+        coran.Pos.Yaw = coran.ServerPos.Yaw = yaw;
+        CoranHoldUntilMs = sapi.World.ElapsedMilliseconds + 30_000;
+        CoranHoldYaw = yaw;
+        return TextCommandResult.Success($"Coran stands at {x:0.#},{y:0},{z:0.#}");
+    }
+
+    /// <summary>Until when Coran stands still where /backrooms l73coran put him, and the way he faces.</summary>
+    public long CoranHoldUntilMs { get; private set; } = -1;
+    public float CoranHoldYaw { get; private set; }
 
     public override void Dispose()
     {
@@ -549,6 +590,20 @@ public class AiTaskL73Coran : AiTaskBase
         long now = entity.World.ElapsedMilliseconds;
         Sounds(now);
         // Mid-swing: the blow lands, then he looks for the next
+        // Put down for a picture (/backrooms l73coran): standing still, listening, facing the way he was set
+        if (now < l73.CoranHoldUntilMs)
+        {
+            if (moving != null || pathTraverser.Active)
+            {
+                pathTraverser.Stop();
+                Move(null);
+                goal = null;
+                prey = null;
+            }
+            entity.Pos.Yaw = l73.CoranHoldYaw;
+            entity.ServerPos.Yaw = l73.CoranHoldYaw;
+            return true;
+        }
         if (strikeAtMs >= 0)
         {
             if (now >= strikeAtMs)
