@@ -1,0 +1,101 @@
+// Level 73: the Silver Castle's banner, a silver heart with ram's horns on black, hung from this block down over the one below
+{
+	"code": "l73-banner",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.0625,
+			"y1": 0,
+			"z1": 0.8125,
+			"x2": 0.9375,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.0625,
+			"y1": 0,
+			"z1": 0.8125,
+			"x2": 0.9375,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.0625,
+			"y1": 0,
+			"z1": 0.8125,
+			"x2": 0.9375,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.0625,
+			"y1": 0,
+			"z1": 0.8125,
+			"x2": 0.9375,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"shapeByType": {
+		"*-north": {
+			"base": "block/73/banner",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/73/banner",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/73/banner",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/73/banner",
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"renderpass": "OpaqueNoCull",
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

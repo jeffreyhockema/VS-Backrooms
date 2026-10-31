@@ -1,0 +1,286 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"velvet": "backrooms:block/73/velvet",
+		"gold": "backrooms:block/73/gold"
+	},
+	"elements": [
+		{
+			"name": "Fold0",
+			"from": [
+				0,
+				0,
+				12.4
+			],
+			"to": [
+				4,
+				16,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#velvet",
+					"uv": [
+						12,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#velvet",
+					"uv": [
+						0.8,
+						0,
+						3.6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#velvet",
+					"uv": [
+						12.4,
+						0,
+						15.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						12.4,
+						4,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0.8,
+						4,
+						3.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Fold1",
+			"from": [
+				4,
+				0,
+				13.4
+			],
+			"to": [
+				8,
+				16,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#velvet",
+					"uv": [
+						8,
+						0,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#velvet",
+					"uv": [
+						4,
+						0,
+						8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#velvet",
+					"uv": [
+						0.8,
+						0,
+						2.6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#velvet",
+					"uv": [
+						13.4,
+						0,
+						15.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#velvet",
+					"uv": [
+						4,
+						13.4,
+						8,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#velvet",
+					"uv": [
+						4,
+						0.8,
+						8,
+						2.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Fold2",
+			"from": [
+				8,
+				0,
+				12.4
+			],
+			"to": [
+				12,
+				16,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#velvet",
+					"uv": [
+						4,
+						0,
+						8,
+						16
+					]
+				},
+				"south": {
+					"texture": "#velvet",
+					"uv": [
+						8,
+						0,
+						12,
+						16
+					]
+				},
+				"east": {
+					"texture": "#velvet",
+					"uv": [
+						0.8,
+						0,
+						3.6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#velvet",
+					"uv": [
+						12.4,
+						0,
+						15.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#velvet",
+					"uv": [
+						8,
+						12.4,
+						12,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#velvet",
+					"uv": [
+						8,
+						0.8,
+						12,
+						3.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Fold3",
+			"from": [
+				12,
+				0,
+				13.4
+			],
+			"to": [
+				16,
+				16,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#velvet",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#velvet",
+					"uv": [
+						12,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#velvet",
+					"uv": [
+						0.8,
+						0,
+						2.6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#velvet",
+					"uv": [
+						13.4,
+						0,
+						15.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#velvet",
+					"uv": [
+						12,
+						13.4,
+						16,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#velvet",
+					"uv": [
+						12,
+						0.8,
+						16,
+						2.6
+					]
+				}
+			}
+		}
+	]
+}

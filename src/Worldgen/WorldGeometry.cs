@@ -88,7 +88,7 @@ public readonly struct WorldGeometry
     public const int L3999BandDepth = 4, L188BandDepth = 6;
 
     /// <summary>The same for the experimental Levels 73, the Basement and 52 (21-23): the usual band for now.</summary>
-    public const int L73BandDepth = 12, BasementBandDepth = 14, L52BandDepth = ShaftDepth - 1; // the Basement: band top at rel 25, over the caps of its cracks (rel 20) and Escherian stairwells (rel -9 to 24); 52: the gym ceiling (rel 9) must sit below the band top (a lit top layer leaks sunlight)
+    public const int L73BandDepth = 6, BasementBandDepth = 14, L52BandDepth = ShaftDepth - 1; // 52: the gym ceiling (rel 9) must sit below the band top (a lit top layer leaks sunlight) (the Basement: 14, band top at rel 25, over the caps of its cracks)
 
     /// <summary>The same for the experimental Levels 31 and 120 (24, 26): the usual band for now.</summary>
     public const int L31BandDepth = ShaftDepth, L120BandDepth = ShaftDepth;

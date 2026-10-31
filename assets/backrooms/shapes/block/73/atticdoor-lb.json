@@ -1,0 +1,80 @@
+{
+	"textureWidth": 32,
+	"textureHeight": 32,
+	"textures": {
+		"out": "backrooms:block/73/atticdoor-out",
+		"in": "backrooms:block/73/atticdoor-in",
+		"edge": "backrooms:block/73/oak"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				6
+			],
+			"to": [
+				16,
+				16,
+				10
+			],
+			"faces": {
+				"south": {
+					"texture": "#out",
+					"uv": [
+						0,
+						16,
+						16,
+						32
+					]
+				},
+				"north": {
+					"texture": "#in",
+					"uv": [
+						16,
+						16,
+						32,
+						32
+					]
+				},
+				"east": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"down": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				}
+			}
+		}
+	]
+}

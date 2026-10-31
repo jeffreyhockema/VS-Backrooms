@@ -1,0 +1,414 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"staves": "backrooms:block/73/staves",
+		"iron": "backrooms:block/73/sconce-iron",
+		"water": "backrooms:block/73/warmwater",
+		"end": "backrooms:block/73/mahogany-end"
+	},
+	"elements": [
+		{
+			"name": "WallN",
+			"from": [
+				1,
+				0,
+				1
+			],
+			"to": [
+				15,
+				14,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#staves",
+					"uv": [
+						1,
+						2,
+						15,
+						16
+					]
+				},
+				"south": {
+					"texture": "#staves",
+					"uv": [
+						1,
+						2,
+						15,
+						16
+					]
+				},
+				"east": {
+					"texture": "#staves",
+					"uv": [
+						14,
+						2,
+						15,
+						16
+					]
+				},
+				"west": {
+					"texture": "#staves",
+					"uv": [
+						1,
+						2,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#end",
+					"uv": [
+						1,
+						1,
+						15,
+						2
+					]
+				},
+				"down": {
+					"texture": "#end",
+					"uv": [
+						1,
+						14,
+						15,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "WallS",
+			"from": [
+				1,
+				0,
+				14
+			],
+			"to": [
+				15,
+				14,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#staves",
+					"uv": [
+						1,
+						2,
+						15,
+						16
+					]
+				},
+				"south": {
+					"texture": "#staves",
+					"uv": [
+						1,
+						2,
+						15,
+						16
+					]
+				},
+				"east": {
+					"texture": "#staves",
+					"uv": [
+						1,
+						2,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#staves",
+					"uv": [
+						14,
+						2,
+						15,
+						16
+					]
+				},
+				"up": {
+					"texture": "#end",
+					"uv": [
+						1,
+						14,
+						15,
+						15
+					]
+				},
+				"down": {
+					"texture": "#end",
+					"uv": [
+						1,
+						1,
+						15,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "WallW",
+			"from": [
+				1,
+				0,
+				2
+			],
+			"to": [
+				2,
+				14,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#staves",
+					"uv": [
+						14,
+						2,
+						15,
+						16
+					]
+				},
+				"south": {
+					"texture": "#staves",
+					"uv": [
+						1,
+						2,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#staves",
+					"uv": [
+						2,
+						2,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#staves",
+					"uv": [
+						2,
+						2,
+						14,
+						16
+					]
+				},
+				"up": {
+					"texture": "#end",
+					"uv": [
+						1,
+						2,
+						2,
+						14
+					]
+				},
+				"down": {
+					"texture": "#end",
+					"uv": [
+						1,
+						2,
+						2,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "WallE",
+			"from": [
+				14,
+				0,
+				2
+			],
+			"to": [
+				15,
+				14,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#staves",
+					"uv": [
+						1,
+						2,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#staves",
+					"uv": [
+						14,
+						2,
+						15,
+						16
+					]
+				},
+				"east": {
+					"texture": "#staves",
+					"uv": [
+						2,
+						2,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#staves",
+					"uv": [
+						2,
+						2,
+						14,
+						16
+					]
+				},
+				"up": {
+					"texture": "#end",
+					"uv": [
+						14,
+						2,
+						15,
+						14
+					]
+				},
+				"down": {
+					"texture": "#end",
+					"uv": [
+						14,
+						2,
+						15,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "BandLow",
+			"from": [
+				0.7,
+				2,
+				0.7
+			],
+			"to": [
+				15.3,
+				3,
+				15.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#iron",
+					"uv": [
+						0.7,
+						13,
+						15.3,
+						14
+					]
+				},
+				"south": {
+					"texture": "#iron",
+					"uv": [
+						0.7,
+						13,
+						15.3,
+						14
+					]
+				},
+				"east": {
+					"texture": "#iron",
+					"uv": [
+						0.7,
+						13,
+						15.3,
+						14
+					]
+				},
+				"west": {
+					"texture": "#iron",
+					"uv": [
+						0.7,
+						13,
+						15.3,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "BandHigh",
+			"from": [
+				0.7,
+				11,
+				0.7
+			],
+			"to": [
+				15.3,
+				12,
+				15.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#iron",
+					"uv": [
+						0.7,
+						4,
+						15.3,
+						5
+					]
+				},
+				"south": {
+					"texture": "#iron",
+					"uv": [
+						0.7,
+						4,
+						15.3,
+						5
+					]
+				},
+				"east": {
+					"texture": "#iron",
+					"uv": [
+						0.7,
+						4,
+						15.3,
+						5
+					]
+				},
+				"west": {
+					"texture": "#iron",
+					"uv": [
+						0.7,
+						4,
+						15.3,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Water",
+			"from": [
+				2,
+				12.4,
+				2
+			],
+			"to": [
+				14,
+				12.8,
+				14
+			],
+			"faces": {
+				"up": {
+					"texture": "#water",
+					"uv": [
+						2,
+						2,
+						14,
+						14
+					]
+				}
+			}
+		}
+	]
+}

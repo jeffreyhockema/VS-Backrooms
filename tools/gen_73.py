@@ -1,8 +1,10 @@
 """Level 73, "The Redlands" (experimental): its six blocks, their textures, the sconce's model, the moon's picture, and
 its lang keys. Run under the asset lock: bash tools/locked.sh run python tools/gen_73.py
 
-Writes assets/backrooms/blocktypes/73/l73-*.json, textures/block/73/*.png, shapes/block/73/sconce.json,
-textures/environment/l73-moon.png, and the level's keys in lang/en.json (between the Level 73 lines, in place).
+Writes assets/backrooms/blocktypes/73/l73-*.json, textures/block/73/*.png, shapes/block/73/*.json,
+textures/environment/l73-moon.png, and the level's keys in lang/en.json (between the Level 73 lines, in place): the
+castle's furnishings come from gen_73_castle.py, the messages, Coran's lines and the handbook page from gen_73_lore.py.
+Coran himself is tools/gen_73_coran.py; the level's notes are in gen_notes.py.
 
 The island is crimson earth flecked with black and split by thin blood-red cracks; black basalt with a maroon sheen and
 pale mineral veins on its outcrops; grey-pink ash sand on the beach; glossy red-brown mud in the gullies. The Silver
@@ -16,6 +18,8 @@ import re
 
 from PIL import Image, ImageDraw, ImageFilter
 
+import gen_73_castle as castle
+import gen_73_lore as lore
 import matlib as M
 import texlib
 
@@ -287,7 +291,7 @@ LANG = [
     ("block-l73-bloodmud", "Blood Mud"),
     ("block-l73-silverwall", "Silver Ashlar"),
     ("block-l73-sconce-*", "Iron Sconce"),
-]
+] + castle.LANG + lore.LANG
 
 
 def write_lang():
@@ -336,14 +340,20 @@ def main():
         cube_block("l73-bloodmud", "// Level 73: glossy red-brown mud in the gullies",
                    ["block/73/bloodmud"], "Soil", "game:walk/sludge*", "game:block/dirt*", 1.5),
         cube_block("l73-silverwall", "// Level 73: the Silver Castle's masonry, bright silver-grey ashlar",
-                   ["block/73/silverwall", "block/73/silverwall-2"], "Stone", "game:walk/stone*", "game:block/rock-hit-pickaxe", 8),
+                   ["block/73/silverwall", "block/73/silverwall-2"], "Stone", "game:walk/stone*", "game:block/rock-hit-pickaxe", 8,
+                   {"attributes": {"l73Fixed": True}}),
         sconce_block(),
     ]
     for comment, b in blocks:
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
     write_json(os.path.join(ASSETS, "shapes", "block", "73", "sconce.json"), None, sconce_shape())
+    # The castle's furnishings (gen_73_castle.py)
+    n_tex = castle.textures(save)
+    for comment, b in castle.blocktypes():
+        write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
+    n_shapes = castle.shapes(write_json, os.path.join(ASSETS, "shapes", "block", "73"))
     write_lang()
-    print("gen_73: 11 textures, 6 blocktypes, 1 shape, lang")
+    print(f"gen_73: {11 + n_tex} textures, {6 + len(castle.blocktypes())} blocktypes, {1 + n_shapes} shapes, lang")
 
 
 if __name__ == "__main__":

@@ -1635,6 +1635,57 @@
      "mark": null
     }
    ]
+  },
+  {
+   "id": "l73",
+   "cls": "common",
+   "level": 21,
+   "chapter": "l73",
+   "entries": [
+    {
+     "key": "l73-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l73-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l73-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l73-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l73-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l73-6",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "rare-l73",
+   "cls": "rare",
+   "level": 21,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l73-1",
+     "gate": [],
+     "mark": null
+    }
+   ]
   }
  ]
 }

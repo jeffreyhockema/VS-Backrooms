@@ -57,7 +57,7 @@ public partial class AtmosphereSystem
     {
         int bx = (int)Math.Floor(pos.X), bz = (int)Math.Floor(pos.Z);
         double rel = pos.Y - geometry.FloorFor(WorldLayout.Level73);
-        bool keep = layout.InL73Keep(bx, bz) && rel > WorldLayout.L73Plateau && rel < WorldLayout.L73Plateau + WorldLayout.L73RoofSlab;
+        bool keep = layout.InL73Keep(bx, bz) && rel > WorldLayout.L73Plateau && rel < WorldLayout.L73Plateau + WorldLayout.L73Terrace;
         bool sea = !keep && layout.L73Shore(bx, bz, out _) > 8;
         return (keep, sea);
     }
@@ -116,8 +116,9 @@ public partial class AtmosphereSystem
             if (l73NextStep <= 0)
             {
                 l73NextStep = 40 + (float)rand.NextDouble() * 50;
-                if (pos.Y < floor + WorldLayout.L73UpperSlab)
-                    capi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/ambient/end/echostep"), pos.X + rand.Next(-6, 7), floor + WorldLayout.L73UpperSlab + 1,
+                int over = ((int)(pos.Y - floor) / WorldLayout.L73Storey + 1) * WorldLayout.L73Storey;
+                if (over < WorldLayout.L73Terrace)
+                    capi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/ambient/end/echostep"), pos.X + rand.Next(-6, 7), floor + over + 1,
                         pos.Z + rand.Next(-6, 7), null, randomizePitch: true, range: 24, volume: 0.2f);
             }
             return;

@@ -1163,6 +1163,50 @@ TRACKS.append(Track("scraps", "scrap", "Scraps", entries=[
 ]))
 
 
+# ============================== Level 73, the Redlands (experimental, exp/73) ==============================
+# Self-contained: the level's id, its common track and one folded note. Nothing above changes for it. (Notes lie in the
+# castle and by the packs dropped on the fields; WorldLayout.Level73 puts them down as loose notes.)
+
+L73 = 21
+LEVEL_IDS.add(L73)
+
+TRACKS.append(Track("l73", "common", "Level 73: the Redlands", L73, entries=[
+    E("l73-1", "Don't look around", """
+I did not look around. I think that is why I am writing this. The castle is on the hill, and there is stone under your
+feet if you find the path: follow it up. Don't stop, not for anything you hear. At the door, bang with both fists until
+it opens. It will open."""),
+    E("l73-2", "Wet ground", """
+The ground here is wet and it isn't water. I struck a match to see what I'd stepped in and half the island turned
+round. Don't light anything out there, not a match, not a torch. Not ever.
+— Dez""", w="dez"),
+    E("l73-3", "The moon", """
+Ruth, the moon went out for what felt like an hour. Something breathed against my sleeve the whole time and never
+touched me. When the moon came back there was a man on the hill with chains for arms, and the something was in pieces
+round him. He said "inside, child", and I went. They gave me soup.
+— Tom""", w="tom"),
+    E("l73-4", "Survey, Level 73", """
+One island; sea all round, nothing on the horizon. One building: the Silver Castle, three floors and an attic, a guest
+room at each end of every floor with two beds. The table sets itself about every four hours, a place for each of us.
+The barrels in the bathrooms are always warm. He cannot see. He has never once raised a hand to one of us. No exits.
+— A.L., survey""", w="al"),
+    E("l73-5", "Thirty-seven", """
+Thirty-seven, they say, whenever anyone asks how many of us there are. There is nobody here but us. I have counted the
+beds: twelve in the guest rooms. They never say thirty-eight, even when someone new comes in at the door."""),
+    E("l73-6", "The fuel", """
+Hound is the fuel, love. Don't ask about the stew. Eat it anyway; there's always enough. And keep off the last stair at
+the top: the attic is his, and the chain on that door is there for us, not for him.
+— Nell""", w="nell"),
+]))
+
+TRACKS.append(Track("rare-l73", "rare", "Folded notes", L73, chapter=RARE_CHAPTER, entries=[
+    E("r-l73-1", "Do not come", """
+M.E.G. NOTICE, RESTRICTED. Do not mount expeditions to Level 73. It is entered by lingering near the Gloom in Level 9.1,
+and reportedly from Levels 14 and 6. No exit is known. Its keeper has asked us, through the last team to reach the
+castle, to call off the search: "They won't be able to get out. They'll just be trapped with the rest of us."
+— Field Team 9""", w="meg"),
+]))
+
+
 # ============================== Facts the notes rely on ==============================
 # Each must appear (case-insensitively) in the handbook text (gen_guide.py), README.md or docs/GUIDE.md, so that a change there makes
 # this check fail until the notes are looked at again.

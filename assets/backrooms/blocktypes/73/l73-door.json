@@ -1,0 +1,121 @@
+// Level 73: the keep's door, two studded oak leaves three high; it opens to banging from outside (Regions.L73System)
+{
+	"code": "l73-door",
+	"class": "BackroomsL73Door",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"shut",
+				"open"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lb",
+				"rb",
+				"lm",
+				"rm",
+				"lt",
+				"rt"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-shut-lb"
+		],
+		"backrooms": [
+			"*-shut-lb"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-shut-lb": {
+			"base": "block/73/door-shut-lb"
+		},
+		"*-shut-rb": {
+			"base": "block/73/door-shut-rb"
+		},
+		"*-shut-lm": {
+			"base": "block/73/door-shut-lm"
+		},
+		"*-shut-rm": {
+			"base": "block/73/door-shut-rm"
+		},
+		"*-shut-lt": {
+			"base": "block/73/door-shut-lt"
+		},
+		"*-shut-rt": {
+			"base": "block/73/door-shut-rt"
+		},
+		"*-open-lb": {
+			"base": "block/73/door-open-lb"
+		},
+		"*-open-rb": {
+			"base": "block/73/door-open-rb"
+		},
+		"*-open-lm": {
+			"base": "block/73/door-open-lm"
+		},
+		"*-open-rm": {
+			"base": "block/73/door-open-rm"
+		},
+		"*-open-lt": {
+			"base": "block/73/door-open-lt"
+		},
+		"*-open-rt": {
+			"base": "block/73/door-open-rt"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 1,
+	"collisionboxByType": {
+		"*-open-*": null
+	},
+	"selectionboxByType": {
+		"*-open-l*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": -0.625,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0.375
+		},
+		"*-open-r*": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": -0.625,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.375
+		},
+		"*-shut-*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.375,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.625
+		}
+	},
+	"attributes": {
+		"l73Door": "keep",
+		"l73Fixed": true
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"resistance": 1000
+}

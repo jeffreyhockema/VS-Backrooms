@@ -1,0 +1,140 @@
+// Level 73: red velvet curtains in front of a boarded window (the window behind it, south for -north); top has the pelmet
+{
+	"code": "l73-curtain",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"top",
+				"mid",
+				"low"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-mid-north"
+		],
+		"backrooms": [
+			"*-mid-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.6875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.6875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.6875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.6875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"shapeByType": {
+		"*-top-north": {
+			"base": "block/73/curtain-top",
+			"rotateY": 0
+		},
+		"*-top-east": {
+			"base": "block/73/curtain-top",
+			"rotateY": 270
+		},
+		"*-top-south": {
+			"base": "block/73/curtain-top",
+			"rotateY": 180
+		},
+		"*-top-west": {
+			"base": "block/73/curtain-top",
+			"rotateY": 90
+		},
+		"*-mid-north": {
+			"base": "block/73/curtain-mid",
+			"rotateY": 0
+		},
+		"*-mid-east": {
+			"base": "block/73/curtain-mid",
+			"rotateY": 270
+		},
+		"*-mid-south": {
+			"base": "block/73/curtain-mid",
+			"rotateY": 180
+		},
+		"*-mid-west": {
+			"base": "block/73/curtain-mid",
+			"rotateY": 90
+		},
+		"*-low-north": {
+			"base": "block/73/curtain-low",
+			"rotateY": 0
+		},
+		"*-low-east": {
+			"base": "block/73/curtain-low",
+			"rotateY": 270
+		},
+		"*-low-south": {
+			"base": "block/73/curtain-low",
+			"rotateY": 180
+		},
+		"*-low-west": {
+			"base": "block/73/curtain-low",
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

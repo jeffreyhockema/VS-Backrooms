@@ -171,6 +171,7 @@ public sealed partial class WorldLayout
         Poolrooms or TheEnd => 0,
         Level3999 or Hub or Level974 or RunLevel => 1,
         Basement => 2, // Fandom's 2/2/2 (the experimental Basement)
+        Level73 => 5, // (experimental) the Redlands, Wikidot's Survival Difficulty 5
         _ => 1,
     };
 
