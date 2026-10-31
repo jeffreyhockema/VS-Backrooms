@@ -63,7 +63,7 @@ to -3 (roof), ruins -18 to about -3, the lid from 33-41 to 48.
   caverns), from near the edge at the floor up to the forest floor 26 blocks out, 3-5 wide, 4 high, lined with roots,
   turned until their mouth is clear of trunks; they cut through any trunk in their way (an archway).
 - *The ruins* (four caverns 228 blocks from the middle, 90 degrees apart, radius 34, floor -18, roof up to -3; plaza of
-  mossy pale limestone within 17): the **Lighthouse** as a stepped pyramid nine high with an ember fire on top and a
+  mossy pale limestone within 17): the **Lighthouse** as a stepped pyramid nine high with a lamp on top (an ember until round 2) and a
   passage into a chamber at its heart; the **Great Pyramid** as a hollow sphere 13 across, door south, the **bronze
   plaque** beside it (its description is the lore's translation); the **Colosseum** square (two arcaded walls, two tiers,
   a corridor between, a sanded arena, a stretch fallen in); the **Parthenon** on a triangle (stepped platform, colonnade
@@ -150,3 +150,48 @@ hunt` against a dummy puts them down; dumps of a glow room (37 Sorries, 33 glowc
 (7 Green Giants, the pool) show everything as planned. `GATE_TAG=l23 gate.py --fast --port-base 43170`: pass.
 Not tested: anything on a client (the air, the sky sphere, the sounds, the models' looks), the sentry phrase (needs a
 player's chat), the quartermaster's appearance (needs a player near Seedling).
+
+### Round 2 (2026-10-31): looking at it in the client
+
+The lead's first look (`round1-23`) was murky to the point of unreadable: a thick dark-green fog, everything near-black
+green, every trunk the same wavy bark, and none of the set pieces in view. What changed:
+
+- *Showcase spots* (`WorldLayout.Level23.Showcase.cs`, all from the layout): the Heart of Water with a Green Giant, a long
+  view through the forest, a light shaft (the nearest good hole with an open way to it), a buried sentry's face, a glow
+  room of each colour (a Hound put down in the amber one), Base Seedling from inside one of its tunnels (so the
+  quartermaster is put down out of sight) and then the camp, the four ruins from the south of their plazas, and the
+  tangle at the edge. The layout gained `L23HoleAt` and `L23LittleTreeAt` (the generator's lattices, unchanged) for them.
+- *Air*: the forest's fog thinned (0.014 to 0.0065) and paled to the grey-green of the light through the lid, scene 0.75
+  to 0.95; the ground fog nearly gone (it thickens with depth below its surface, so it closed in the basin and the
+  caverns entirely: none there now). Glow rooms: their colour kept but darkened and thinned (0.016 to 0.007), so the
+  Sorries and glowcaps light the room rather than a coloured murk; ruins, tunnels, Seedling and the Heart thinner too.
+- *The lid*: its dense leaves start at 41 to 44 by a broad noise (`L23DenseFrom`) instead of 41 everywhere, so the forest
+  floor has pools of about 8 to 12 of the sun's light and deeper dark between, besides the shafts under the holes.
+- *Light shafts*: motes of dust and pollen drift down through the sunlight under the nearest holes (client particles,
+  faintly self-lit), so a shaft reads through the green air as a pale column (my invention, from the brief's "nice"
+  falling spores). In the glow rooms, a few motes of the Sorries' light drift about in the room's colour.
+- *Bark*: each kind its own grain (`tools/gen_23.py`): grey deep straight furrows (a fir's), redwood long fibres and
+  narrow furrows, pale oak blocky plates with wandering cracks, cypress thin strips twisting up the trunk; the Green
+  Giants keep the wavy mossy grain. Each bark's alternate has a ragged patch of lichen or moss, so trunks are patched.
+- *Silhouettes* (`L23TrunkAt`, `L23InTrunk`): 14% of trees thin (2-3 wide), the rest oval (up to 22%), narrowing toward
+  the lid by 10-40%, a third swelling and pinching as they climb, a quarter of the thick ones forked into two stems at
+  13-22 up. (The level's layout moves; Levels 0-20 do not.)
+- *Ruins*: nearly black before; now more Sorries over them (4.5% of the roof against 2.4%), the glow room's own floor
+  (glowcaps, mushrooms, ferns) round the plazas, glowcaps of the room's colour coming up through the moss on the paving
+  (the lore's "overgrown with moss and fungi"; without a torch the plazas were black), and a lantern on the Lighthouse's
+  top where an ember gave no light (my invention: a lamp still burning).
+- *Base Seedling's tunnels*: the M.E.G. keep a lantern by the wall now and then on the ways down to the camp (my
+  invention; the tunnels were pitch black without a torch).
+- *Arrivals* face the most open way of the eight round them (up to 32 blocks of forest floor), not the trunk beside them
+  (`ThresholdSystem.L23.cs`).
+
+**What the shots showed** (`%TEMP%/backrooms-shots/`: `23-r2a-torch` first, `23-r2b-torch` and `23-r2c-notorch` after
+the air, `23-r2d-notorch` after the ruins' glowcaps, final `23-r2e-torch-final`): the forest reads as a forest (trunks one
+behind another in different barks and shapes, roots, arches, ferns, the shafts' glare), dim green but legible without a
+torch, as the lore wants; the glow rooms are the best of it (each colour's light, Sorries, glowcaps, little trees,
+pillars); the four ruins read from their plazas with or without a torch, the plaque and the Latin legible at the
+Sphere; Base Seedling shows its hollow tree, tents, lanterns, stores, spring and the quartermaster standing at the
+tree's door. Still weak: with the rig's short view distance the edge of the loaded world shows the pale glare of the sky
+sphere through gaps (seen across the Heart of Water's clearing, whose air is the thinnest); the little trees' crowns are
+plain cubes; the Hound brought into the amber glow room was put down out of view; the light shaft's motes barely show in
+a still frame.

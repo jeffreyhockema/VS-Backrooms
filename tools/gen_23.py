@@ -74,16 +74,17 @@ BARKS = {
 }
 
 
-def bark(base, seed, mossy=0.0):
+def bark(base, seed, mossy=0.0, wave=3.0):
     """Petrified bark: wandering vertical furrows (eight px apart, so they meet across the edges), plates broken across,
-    the furrows dark, the ridges lit; mineral glints; on the Green Giants, moss in the furrows."""
-    dist = M.fbm(S, seed, (16, 8, 4))
+    the furrows dark, the ridges lit; mineral glints; on the Green Giants, moss in the furrows. A small wave keeps the
+    furrows nearly straight (the grey bark, deep-furrowed like an old fir's); the Green Giants' wander."""
+    dist = M.fbm(S, seed, (32, 16, 8) if wave < 2 else (16, 8, 4))
     plates = M.value_noise(S, (32, 4), seed + 1)
     img = M.noise_hv(base, 4, seed + 2, mottle=7, hue=2)
     px = img.load()
     for y in range(S):
         for x in range(S):
-            r = math.cos(2 * math.pi * (x + 3.0 * dist[y][x]) / 8)
+            r = math.cos(2 * math.pi * (x + wave * dist[y][x]) / 8)
             d = 14 * r + 6 * plates[y][x]
             c = M.lift(px[x, y], d)
             if r < -0.72:
@@ -99,6 +100,118 @@ def bark(base, seed, mossy=0.0):
             M.touch(img, x0 + k, y0, -0.22)
             M.touch(img, x0 + k, y0 - 1, 0.12)
     flecks(img, seed + 4, 14, (206, 210, 200), 0.45)
+    return img
+
+
+def redwood(base, seed):
+    """Petrified redwood: long soft fibres in flat ridges, narrow deep furrows running nearly straight (a few px of
+    wander), the ridges shredding into strings; no plates."""
+    img = M.noise_hv(base, 4, seed, mottle=6, hue=2)
+    px = img.load()
+    rng = random.Random(seed + 1)
+    wander = M.fbm(S, seed + 2, (32, 16))
+    fibre = [rng.uniform(-12, 12) for _ in range(S)]  # each px column a fibre of its own
+    furrows = sorted(rng.sample(range(S), 5))
+    for y in range(S):
+        for x in range(S):
+            xs = (x + int(round(1.5 * wander[y][x]))) % S
+            d = fibre[xs] * 0.7
+            near = min(min(abs(xs - f), S - abs(xs - f)) for f in furrows)
+            if near == 0:
+                d -= 34
+            elif near == 1:
+                d -= 12
+            px[x, y] = M.rgba(M.lift(px[x, y], d))
+    for k in range(10):  # loose strings over the ridges
+        x, y0, n = rng.randrange(S), rng.randrange(S), rng.randint(4, 10)
+        for j in range(n):
+            M.touch(img, x + (j // 5), y0 + j, 0.14)
+    flecks(img, seed + 4, 10, (210, 196, 180), 0.35)
+    return img
+
+
+def oak(base, seed):
+    """Petrified pale oak: blocky plates, straight vertical cracks four to seven px apart crossed by short breaks at
+    staggered heights; each plate shaded on its own; pale lichen in spots."""
+    img = M.noise_hv(base, 4, seed, mottle=6, hue=2)
+    px = img.load()
+    rng = random.Random(seed + 1)
+    cols, x = [], 0
+    while x < S:
+        w = min(rng.randint(4, 7), S - x)
+        if S - x - w < 4:
+            w = S - x
+        cols.append((x, w))
+        x += w
+    wob = M.fbm(S, seed + 5, (16, 8))
+    plate = {}
+    for (x0, w) in cols:
+        y, cuts = rng.randrange(10), []
+        while len(cuts) < 4:
+            cuts.append(y % S)
+            y += rng.randint(8, 15)
+            if y >= S + cuts[0]:
+                break
+        cuts = sorted(set(cuts))
+        for yy in range(S):
+            # which plate this px is in (the cuts wrap round the tile)
+            k = sum(1 for c in cuts if c <= yy) % len(cuts)
+            shade = plate.setdefault((x0, k), rng.uniform(-9, 9))
+            edge = x0 + int(round(1.2 * wob[yy][x0]))  # the crack wanders a px either way
+            for xx in range(x0 - 1, x0 + w + 1):
+                X = xx % S
+                if not (x0 <= xx < x0 + w):
+                    continue
+                d = shade + 5 * wob[yy][X]
+                if X == edge % S:
+                    d -= 28
+                elif X == (edge + 1) % S:
+                    d += 7
+                if yy in cuts and (xx - x0) < w - 1:
+                    d -= 16
+                px[X, yy] = M.rgba(M.lift(px[X, yy], d))
+    flecks(img, seed + 3, 22, (176, 186, 160), 0.55)  # lichen
+    flecks(img, seed + 4, 8, (224, 226, 218), 0.4)
+    return img
+
+
+def cypress(base, seed):
+    """Petrified cypress: thin shaggy strips twisting up round the trunk (a quarter turn of the furrows over the tile, so
+    it still meets itself), fibrous, with dark gaps between the strips."""
+    img = M.noise_hv(base, 4, seed, mottle=5, hue=2)
+    px = img.load()
+    dist = M.fbm(S, seed + 1, (16, 8))
+    rng = random.Random(seed + 2)
+    fibre = [rng.uniform(-8, 8) for _ in range(S)]
+    for y in range(S):
+        for x in range(S):
+            t = x + 0.25 * y + 1.2 * dist[y][x]
+            r = math.cos(2 * math.pi * t / 4)
+            d = 12 * r + fibre[int(t * 2) % S]
+            if r < -0.6:
+                d -= 18
+            px[x, y] = M.rgba(M.lift(px[x, y], d))
+    flecks(img, seed + 3, 8, (170, 164, 150), 0.4)
+    return img
+
+
+def lichened(img, seed, colour=(150, 162, 128), n=2):
+    """The alternate of a bark: a ragged patch or two of lichen (or moss) grown over it, thinning out at its edge into
+    specks, so a trunk is patched irregularly."""
+    rng = random.Random(seed)
+    px = img.load()
+    noise = M.fbm(S, seed + 1, (8, 4, 2))
+    for _ in range(n):
+        cx, cy, rad = rng.randrange(S), rng.randrange(S), rng.uniform(5, 9)
+        for y in range(S):
+            for x in range(S):
+                dx = min(abs(x - cx), S - abs(x - cx))
+                dy = min(abs(y - cy), S - abs(y - cy)) * 0.8
+                e = math.hypot(dx, dy) / rad + 0.9 * noise[y][x]
+                if e < 0.75:
+                    px[x, y] = M.rgba(M.mix(px[x, y], M.lift(colour, 16 * noise[y][x]), 0.6))
+                elif e < 1.05 and rng.random() < 0.35:
+                    px[x, y] = M.rgba(M.mix(px[x, y], colour, 0.45))
     return img
 
 
@@ -729,10 +842,14 @@ def write_lang():
 
 
 def main():
+    # Each bark its own grain (round 2: they were one wavy pattern in four tints); the alternate is the same bark with a
+    # blotch of lichen or moss over it, so a trunk is patched rather than striped the same all the way up
+    makers = {"grey": lambda b, s: bark(b, s, wave=1.3), "red": redwood, "pale": oak, "dark": cypress, "green": lambda b, s: bark(b, s, 0.55)}
+    patches = {"grey": (146, 154, 128), "red": (134, 136, 108), "pale": (166, 172, 146), "dark": (92, 104, 72), "green": (96, 132, 54)}
     for kind, base in BARKS.items():
-        mossy = 0.55 if kind == "green" else 0
-        save(bark(base, 2300 + len(kind) * 7, mossy), f"block/23/bark-{kind}")
-        save(bark(base, 2301 + len(kind) * 7, mossy), f"block/23/bark-{kind}-2")
+        seed = 2300 + len(kind) * 7
+        save(makers[kind](base, seed), f"block/23/bark-{kind}")
+        save(lichened(makers[kind](base, seed + 1), seed + 2, patches[kind]), f"block/23/bark-{kind}-2")
         save(heartwood(base, 2310 + len(kind)), f"block/23/heartwood-{kind}")
     save(root(2320), "block/23/root")
     save(root(2321), "block/23/root-2")

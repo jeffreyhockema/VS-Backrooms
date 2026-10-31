@@ -3,6 +3,7 @@ using Backrooms.Worldgen;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.MathTools;
 
 namespace Backrooms;
 
@@ -20,17 +21,21 @@ namespace Backrooms;
 /// </summary>
 public partial class AtmosphereSystem
 {
-    private static readonly Atmosphere L23Forest = new(0.014f, 0.10f, 0.15f, 0.08f, -0.2f, scene: 0.75f);
-    private static readonly Atmosphere L23CoreAir = new(0.007f, 0.22f, 0.30f, 0.22f, -0.25f, scene: 0.9f);
-    private static readonly Atmosphere L23TunnelAir = new(0.022f, 0.07f, 0.06f, 0.04f, 0f, scene: 0.8f);
-    private static readonly Atmosphere L23SeedlingAir = new(0.010f, 0.20f, 0.15f, 0.08f, 0f, scene: 0.9f);
-    private static readonly Atmosphere L23RuinAir = new(0.013f, 0.10f, 0.12f, 0.10f, -0.15f, scene: 0.8f);
+    // (Dim but readable: the fog thin enough that the trunks stand one behind another for thirty-odd blocks before they
+    // fade, its colour the grey-green of the light that gets through the lid, not black)
+    // (A ground fog thickens with depth under the fog's surface: only a trace of it on the forest floor, and none down in
+    // the basin or the caverns, where it closed everything in)
+    private static readonly Atmosphere L23Forest = new(0.0065f, 0.17f, 0.23f, 0.14f, -0.07f, scene: 0.95f);
+    private static readonly Atmosphere L23CoreAir = new(0.0045f, 0.26f, 0.33f, 0.24f, 0f, scene: 1f);
+    private static readonly Atmosphere L23TunnelAir = new(0.013f, 0.10f, 0.08f, 0.05f, 0f, scene: 0.9f);
+    private static readonly Atmosphere L23SeedlingAir = new(0.006f, 0.24f, 0.18f, 0.10f, 0f, scene: 1f);
+    private static readonly Atmosphere L23RuinAir = new(0.0065f, 0.12f, 0.14f, 0.12f, 0f, scene: 1f);
     /// <summary>The glow rooms' air by their colour: teal, violet, amber.</summary>
     private static readonly Atmosphere[] L23GlowAir =
     {
-        new(0.016f, 0.05f, 0.16f, 0.15f, -0.2f, scene: 0.85f),
-        new(0.016f, 0.12f, 0.06f, 0.17f, -0.2f, scene: 0.85f),
-        new(0.016f, 0.17f, 0.11f, 0.04f, -0.2f, scene: 0.85f),
+        new(0.007f, 0.04f, 0.12f, 0.12f, 0f, scene: 1f),
+        new(0.007f, 0.09f, 0.05f, 0.13f, 0f, scene: 1f),
+        new(0.007f, 0.13f, 0.09f, 0.04f, 0f, scene: 1f),
     };
 
     /// <summary>The title keys of the level's named places (level-2801... in the lang file).</summary>
@@ -41,7 +46,7 @@ public partial class AtmosphereSystem
 
     private ILoadedSound l23Rustle, l23Water;
     private float l23NextCreak = 8, l23NextGroan = 30, l23NextScream = 160, l23NextDrip = 2, l23NextSorry = 4, l23NextMurmur = 10;
-    private float l23Sky;
+    private float l23Sky, l23NextMote;
     private bool l23SphereSet;
 
     private byte L23Where(EntityPos pos, out byte colour) =>
@@ -87,6 +92,8 @@ public partial class AtmosphereSystem
         byte zone = L23Where(pos, out _);
         bool under = zone is WorldLayout.L23Glow or WorldLayout.L23TunnelZone or WorldLayout.L23Seedling or WorldLayout.L23Ruin;
 
+        if (!under) L23Shafts(dt, pos);
+        else if (zone == WorldLayout.L23Glow) L23Sparks(dt, pos);
         // The lid rustling far overhead, muffled below ground
         L23Loop(ref l23Rustle, "game:sounds/weather/wind-leafy", under ? 0.02f : 0.12f);
         // The Heart of Water: the pool, running water heard from its banks
@@ -144,6 +151,71 @@ public partial class AtmosphereSystem
         {
             l23NextScream = 150 + (float)rand.NextDouble() * 180;
             L23PlayNear(pos, "backrooms:sounds/ambient/23/sentryscream", 28, 40, 0, 4, under ? 0.06f : 0.12f, 64);
+        }
+    }
+
+    /// <summary>
+    /// The shafts of light under the holes in the lid, made visible: motes of dust and pollen drifting down through the
+    /// sunlight of the nearest holes round the player (within 56 blocks), faintly self-lit so the shaft reads through the
+    /// green air as a pale column from the forest floor up into the hole: the forest's landmarks.
+    /// </summary>
+    private void L23Shafts(float dt, EntityPos pos)
+    {
+        l23NextMote -= dt;
+        if (l23NextMote > 0) return;
+        l23NextMote = 0.12f;
+        int floor = geometry.FloorFor(WorldLayout.Level23);
+        int hi = (int)Math.Floor(pos.X / 48), hj = (int)Math.Floor(pos.Z / 48);
+        for (int dj = -1; dj <= 1; dj++)
+            for (int di = -1; di <= 1; di++)
+            {
+                if (!layout.L23HoleAt(hi + di, hj + dj, out double cx, out double cz, out double r)) continue;
+                L23Mote(pos, cx, cz, r * 0.8, floor, 3);
+            }
+        L23Mote(pos, layout.L23MidX + 0.5, layout.L23MidZ + 0.5, 6, floor, 6);
+    }
+
+    /// <summary>The glow rooms' air: a few motes of the Sorries' light drifting about the player, in the room's colour.</summary>
+    private void L23Sparks(float dt, EntityPos pos)
+    {
+        l23NextMote -= dt;
+        if (l23NextMote > 0) return;
+        l23NextMote = 0.25f;
+        L23Where(pos, out byte colour);
+        (int R, int G, int B) c = colour switch { 1 => (120, 255, 230), 2 => (210, 140, 255), _ => (255, 200, 110) };
+        for (int k = 0; k < 2; k++)
+        {
+            double a = rand.NextDouble() * Math.PI * 2, d = 2 + rand.NextDouble() * 12;
+            double x = pos.X + Math.Cos(a) * d, z = pos.Z + Math.Sin(a) * d, y = pos.Y + rand.NextDouble() * 6 - 1;
+            var spark = new SimpleParticleProperties(1, 1, ColorUtil.ToRgba(200, c.R, c.G, c.B), new Vec3d(x, y, z), new Vec3d(x + 0.01, y + 0.01, z + 0.01),
+                new Vec3f(-0.05f, -0.03f, -0.05f), new Vec3f(0.05f, 0.05f, 0.05f), 6f, 0f, 0.08f, 0.16f, EnumParticleModel.Quad)
+            {
+                VertexFlags = 220,
+                ShouldDieInLiquid = true,
+                WindAffected = false,
+            };
+            capi.World.SpawnParticles(spark);
+        }
+    }
+
+    private void L23Mote(EntityPos pos, double cx, double cz, double r, int floor, int count)
+    {
+        double dx = cx - pos.X, dz = cz - pos.Z;
+        if (dx * dx + dz * dz > 56 * 56) return;
+        int ground = Math.Max(WorldLayout.L23PoolSurface, layout.L23Ground((int)Math.Floor(cx), (int)Math.Floor(cz)));
+        for (int k = 0; k < count; k++)
+        {
+            double a = rand.NextDouble() * Math.PI * 2, d = r * Math.Sqrt(rand.NextDouble());
+            double x = cx + Math.Cos(a) * d, z = cz + Math.Sin(a) * d, y = floor + ground + 1 + rand.NextDouble() * (WorldLayout.L23LidLow - ground);
+            int c = ColorUtil.ToRgba(150 + rand.Next(60), 255, 246, 200);
+            var mote = new SimpleParticleProperties(1, 1, c, new Vec3d(x, y, z), new Vec3d(x + 0.01, y + 0.01, z + 0.01),
+                new Vec3f(-0.04f, -0.12f, -0.04f), new Vec3f(0.04f, -0.03f, 0.04f), 9f, 0f, 0.1f, 0.22f, EnumParticleModel.Quad)
+            {
+                VertexFlags = 90,
+                ShouldDieInLiquid = true,
+                WindAffected = false,
+            };
+            capi.World.SpawnParticles(mote);
         }
     }
 
