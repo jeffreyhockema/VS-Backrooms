@@ -37,7 +37,7 @@ public sealed partial class WorldLayout
 {
     /// <summary>Hash salts 0x2700-0x27BF are this level's (0x27C0-0x27FF its thresholds').</summary>
     private const ulong SaltL15Shape = 0x2701, SaltL15Wing = 0x2710, SaltL15Light = 0x2711, SaltL15Dark = 0x2712, SaltL15Star = 0x2713,
-        SaltL15Hall = 0x2714;
+        SaltL15Hall = 0x2714, SaltL15HallStyle = 0x2715;
 
     /// <summary>The lattice: a main hall every 128 blocks each way, five wide; a wing's inside is 121 square, its plan 123 with its walls.</summary>
     public const int L15Period = 128, L15HallWidth = 5, L15WingSize = 121, L15Grid = 123;
@@ -70,19 +70,24 @@ public sealed partial class WorldLayout
     public const byte L15FloorCeramic = 0, L15FloorWorn = 1, L15FloorCoating = 2, L15FloorCarpet = 3, L15FloorGrating = 4, L15FloorStrip = 5,
         L15FloorBlood = 6, L15FloorScorch = 7, L15FloorTrack = 8, L15FloorDust = 9;
 
-    /// <summary>A wall tile's material (<see cref="Tile.Depth"/>): white panels, bare grey concrete (the service passages), scorched.</summary>
-    public const byte L15WallWhite = 0, L15WallGrey = 1, L15WallScorched = 2;
+    /// <summary>
+    /// A wall tile's material (<see cref="Tile.Depth"/>): white panels, bare grey concrete (the service passages), scorched;
+    /// a room's own walls: pale grey cast concrete (machine rooms, stores, the crematorium: both wikis' "white or grey
+    /// concrete"), white wall tiles (kitchens, some labs).
+    /// </summary>
+    public const byte L15WallWhite = 0, L15WallGrey = 1, L15WallScorched = 2, L15WallCast = 3, L15WallTile = 4;
 
     /// <summary>
     /// What is on a wall tile's face (<see cref="Tile.Detail"/>, the face toward <see cref="Tile.Pier"/>): nothing; a steel
     /// pilaster (the whole tile); thick glass (rel 2-3), cracked; a dead hand scanner beside a gate; a room's code in black
     /// (which one in <see cref="Tile.Stack"/>); a dead wall display; the radar; the ESCAPE panel; a view of somewhere else
     /// (<see cref="Tile.Stack"/>); a vent grille at the foot of the wall, one with a code scrawled beside it; symbols etched in
-    /// a steel pilaster; a wooden door set in the wall that opens on nothing; a smear of dried blood.
+    /// a steel pilaster; a wooden door set in the wall that opens on nothing; a smear of dried blood; a doorway's steel jamb
+    /// with its strip of light (the whole tile, to door height).
     /// </summary>
     public const byte L15WallPlain = 0, L15WallPilaster = 1, L15WallGlass = 2, L15WallGlassCracked = 3, L15WallScanner = 4, L15WallCode = 5,
         L15WallDisplay = 6, L15WallRadar = 7, L15WallEscape = 8, L15WallView = 9, L15WallVent = 10, L15WallVentCode = 11, L15WallEtched = 12,
-        L15WallWoodDoor = 13, L15WallBlood = 14;
+        L15WallWoodDoor = 13, L15WallBlood = 14, L15WallJamb = 15;
 
     /// <summary>How many room codes there are to paint (<see cref="L15WallCode"/>): two per letter, H (labs), e (stores), M, D, K, C, L, S.</summary>
     public const int L15Codes = 16;
@@ -241,16 +246,29 @@ public sealed partial class WorldLayout
         t.Depth = Hashing.Unit(h) < 0.08 ? L15FloorWorn : L15FloorCeramic;
         if (alongZ && alongX)
         {
-            // A crossing: one big panel in the middle of it
-            if (u == 3 && v == 3) t.Ceiling = L15Lamp(gx, gz, true, dark);
+            // A crossing: a square of nine panels over it, the middle one giving light
+            if (u is >= 2 and <= 4 && v is >= 2 and <= 4) t.Ceiling = L15Lamp(gx, gz, u == 3 && v == 3, dark);
             return;
         }
         int across = alongZ ? u : v, along = alongZ ? gz : gx;
         t.Pier = alongZ ? ArchPier.North : ArchPier.East; // the way the hall runs
         if (across is 1 or L15HallWidth) t.Depth = L15FloorStrip; // the glowing strips along the foot of both walls
-        // The strip of panels down the middle, every sixth giving light; a steel rib across the top every eight blocks, and
-        // now and then a beam set in at an angle nobody would build
-        if (across == 3) t.Ceiling = L15Lamp(gx, gz, Hashing.Mod(along, 6) == 0, dark);
+        // The lights down the middle, each stretch between two crossings its own way: one strip of panels (every sixth
+        // giving light), two strips (between the ribs), or a square of panels in the middle of each bay; a steel rib across
+        // the top every eight blocks, and now and then a beam set in at an angle nobody would build
+        int bay = Hashing.Mod(along, 8);
+        switch (L15HallStyle(gx, gz, alongZ))
+        {
+            case 0:
+                if (across == 3) t.Ceiling = L15Lamp(gx, gz, Hashing.Mod(along, 6) == 0, dark);
+                break;
+            case 1:
+                if (across is 2 or 4 && bay != 0) t.Ceiling = L15Lamp(gx, gz, across == 2 ? bay == 2 : bay == 6, dark);
+                break;
+            default:
+                if (across is >= 2 and <= 4 && bay is >= 3 and <= 5) t.Ceiling = L15Lamp(gx, gz, across == 3 && bay == 4, dark);
+                break;
+        }
         if (Hashing.Mod(along, 8) == 0) t.Overhead = alongZ ? Overheads.L15RibWE : Overheads.L15RibNS;
         double p = Hashing.Unit(Hashing.Mix(h));
         if (t.Overhead == 0 && across is 1 or L15HallWidth && p > 0.9985) t.Overhead = Overheads.L15OddBeam;
@@ -267,6 +285,14 @@ public sealed partial class WorldLayout
             else if (p < 0.0013) t.Variant = Props.Backpack;
             else if (p < 0.0017) t.Variant = Props.BonePile;
         }
+    }
+
+    /// <summary>How a stretch of main hall between two crossings is lit (0 one strip, 1 two strips, 2 squares in the bays).</summary>
+    public int L15HallStyle(int gx, int gz, bool alongZ)
+    {
+        int line = alongZ ? Hashing.FloorDiv(gx, L15Period) : Hashing.FloorDiv(gz, L15Period);
+        int stretch = alongZ ? Hashing.FloorDiv(gz, L15Period) : Hashing.FloorDiv(gx, L15Period);
+        return (int)(Hashing.Hash(seed, line, stretch, SaltL15HallStyle + (alongZ ? 0UL : 1UL)) % 3);
     }
 
     /// <summary>Whether the wall beside a main hall tile has a doorway in it (or in the tile either side along it).</summary>
@@ -398,6 +424,8 @@ public sealed partial class WorldLayout
         /// </summary>
         private void Cut(bool alongZ, int s, int cw, bool service, int from, int to)
         {
+            // A corridor's floor, the whole length of it: ceramic tiles, or now and then the dark non-slip coating
+            coat = !service && rng.Chance(0.28);
             for (int k = from; k <= to; k++)
                 for (int i = 0; i < cw; i++)
                 {
@@ -431,6 +459,9 @@ public sealed partial class WorldLayout
                 }
         }
 
+        /// <summary>Whether the corridor being cut has the non-slip coating (<see cref="Cut"/>).</summary>
+        private bool coat;
+
         private void CorridorTile(ref Tile t, int x, int z, bool alongZ, bool service, int i, int along, bool dark)
         {
             t.Kind = TileKind.Floor;
@@ -452,7 +483,7 @@ public sealed partial class WorldLayout
                 else if (Hashing.Mod(along, 12) == 9) t.Ceiling = CeilingKind.L15CeilingVent;
                 return;
             }
-            t.Depth = Hashing.Unit(h) < 0.1 ? L15FloorWorn : L15FloorCeramic;
+            t.Depth = coat ? L15FloorCoating : Hashing.Unit(h) < 0.1 ? L15FloorWorn : L15FloorCeramic;
             t.Ceiling = i == 1 && Hashing.Mod(along, 6) == 3 ? layout.L15Lamp(x, z, true, dark) : CeilingKind.L15Ceiling;
             if (i != 1 && Hashing.Mod(along, 16) == 11) t.Ceiling = CeilingKind.L15CeilingVent;
             if (Hashing.Mod(along, 8) == 0) t.Overhead = alongZ ? Overheads.L15RibWE : Overheads.L15RibNS;
@@ -536,6 +567,7 @@ public sealed partial class WorldLayout
                 if (Door(leaf, r, second, doorWidth, kind, zone)) doors.Add(second);
             }
             if (doors.Count == 0) return; // (a room too small for any door: left a bare white room nobody gets into)
+            RoomWalls(r, kind);
 
             switch (kind)
             {
@@ -564,6 +596,31 @@ public sealed partial class WorldLayout
             };
             if (rng.Chance(dead)) Corpse(r);
             InnerWalls(r, kind, dark);
+        }
+
+        /// <summary>
+        /// A room's own walls (not the wing's wall onto a main hall): the machine rooms, stores and the crematorium in pale
+        /// grey cast concrete, kitchens and some labs in white wall tiles, the rest white panels. Its doors' jambs, codes,
+        /// scanners and glass stay as they are.
+        /// </summary>
+        private void RoomWalls(RoomBox r, L15Zone kind)
+        {
+            byte mat = kind switch
+            {
+                L15Zone.Machine or L15Zone.Wreck or L15Zone.Storage or L15Zone.Crematorium => L15WallCast,
+                L15Zone.Kitchen => L15WallTile,
+                L15Zone.Lab => rng.Chance(0.5) ? L15WallTile : L15WallWhite,
+                L15Zone.Blank => rng.Chance(0.25) ? L15WallCast : L15WallWhite,
+                _ => L15WallWhite,
+            };
+            if (mat == L15WallWhite) return;
+            for (int b = r.Z0 - 1; b <= r.Z1 + 1; b++)
+                for (int a = r.X0 - 1; a <= r.X1 + 1; a++)
+                {
+                    if (r.Inside(a, b) || a is -1 or N || b is -1 or N || !L15Plan.In(a, b)) continue;
+                    ref Tile t = ref At(a, b);
+                    if (t.Kind == TileKind.Wall && t.Depth == L15WallWhite) t.Depth = mat;
+                }
         }
 
         private L15Zone PickKind(int w, int d)
@@ -634,11 +691,21 @@ public sealed partial class WorldLayout
                 }
             }
             if (reach < 0) return false;
-            // The outermost wall tiles either side of the door, on the corridor side
+            // The outermost wall tiles either side of the door, on the corridor side: a steel jamb with its strip of light
+            // either side, the room's code (and at a gate the hand scanner) on the wall beyond
             int line = edge + (alongX ? dz : dx) * reach;
             (int A, int B) Beside(int k) => alongX ? (k, line) : (line, k);
-            var (ca, cb) = Beside(at - 1);
-            var (sa, sb) = Beside(at + width);
+            foreach (int k in new[] { at - 1, at + width })
+            {
+                var (ja, jb) = Beside(k);
+                if (!L15Plan.In(ja, jb)) continue;
+                ref Tile j = ref At(ja, jb);
+                if (j.Kind != TileKind.Wall) continue;
+                j.Detail = L15WallJamb;
+                j.Pier = outward;
+            }
+            var (ca, cb) = Beside(at - 2);
+            var (sa, sb) = Beside(at + width + 1);
             if (rng.Chance(0.5)) (ca, cb, sa, sb) = (sa, sb, ca, cb);
             Decorate(ca, cb, L15WallCode, outward, CodeOf(kind));
             if (gate) Decorate(sa, sb, L15WallScanner, outward, 0);

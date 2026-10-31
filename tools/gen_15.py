@@ -65,6 +65,9 @@ STEEL = (206, 211, 216)      # the white steel of the beams
 GREY = (132, 132, 128)       # bare service concrete
 INK = (14, 14, 16)           # vantablack-ish paint
 CASE = (196, 200, 202)       # machine casing
+CAST = (176, 177, 172)       # pale grey cast concrete (a room's own walls)
+GRAPHITE = (52, 56, 62)      # the halls' dark trims
+WAYLINE = (118, 196, 212)    # the pale line along the halls' band
 
 
 def write_json(path, data, comment=None):
@@ -241,6 +244,40 @@ def wall_textures():
     save(sc, "wall-scorched")
     save(beam(15020), "wall-beam")
     save(beam(15021, etched=True), "wall-etched")
+    # A room's own walls: pale grey cast concrete (formwork joints, the tie holes in rows), its foot grimed; white wall tiles
+    # over a row of grey ones
+    cast = M.concrete(seed=15022, base=CAST, grain=3, mottle=6, aggregate=0.02, pores=0.01, patches=2)
+    M.emboss_lines(cast, xs=(0,), ys=(0,), strength=0.14)
+    for x, y in ((8, 8), (24, 8), (8, 24), (24, 24)):
+        rect(cast, x - 1, y - 1, x, y, M.lift(CAST, -46))
+        M.touch(cast, x - 1, y + 1, 0.15)
+        M.touch(cast, x, y + 1, 0.15)
+    save(cast, "wall-cast")
+    cb = cast.copy()
+    M.grime(cb, 0.2, seed=15023, bias="bottom", color=(96, 94, 88))
+    save(cb, "wall-castbase")
+    save(M.tile(seed=15024, base=(232, 236, 236), grout=(186, 192, 194), pitch=8, grout_w=1, jitter=2, uneven=1), "wall-tile")
+    tb = M.tile(seed=15025, base=(120, 126, 132), grout=(84, 88, 92), pitch=8, grout_w=1, jitter=2, uneven=1)
+    M.grime(tb, 0.08, seed=15026, bias="bottom", color=(60, 62, 64))
+    save(tb, "wall-tilebase")
+    # A doorway's steel jamb and lintel, a strip of light down (or across) the middle (dead where the power is out)
+    for name, lit in (("jamb", True), ("jambdead", False), ("lintel", True), ("linteldead", False)):
+        vertical = name.startswith("jamb")
+        img = M.brushed_metal(seed=15027, base=STEEL, direction="v" if vertical else "h", streak=6, sheen=8)
+        lens = (236, 246, 255) if lit else (112, 118, 124)
+        px = img.load()
+        for k in range(S):
+            for w in range(12, 20):
+                x, y = (w, k) if vertical else (k, w)
+                c = lens if 13 <= w <= 18 else (70, 76, 84)
+                if lit and w in (13, 18):
+                    c = (196, 220, 236)
+                px[x, y] = tuple(c) + (255,)
+        if vertical:
+            M.emboss_lines(img, xs=(3, 28), strength=0.2)
+        else:
+            M.emboss_lines(img, ys=(3, 28), strength=0.2)
+        save(img, "wall-" + name)
 
 
 # ======================================================================== Wall decorations (one face of a wall block)
@@ -350,6 +387,57 @@ def deco_textures():
     M.drips(img, n=5, seed=15050, color=(70, 18, 14), length=(10, 28), strength=0.75, start=2, width=2)
     M.stain(img, seed=15051, radius=7, color=(76, 20, 16), strength=0.55, at=(14, 10))
     save(img, "deco-blood")
+    # The halls' dress (one face of the wings' walls along a main hall): a dark band at waist height with a pale line
+    # along it; a dark cornice under the ceiling with a strip of light; a tall wall light (lower, upper; lit, giving light, dead)
+    img = deco_base()
+    steel = M.brushed_metal(seed=15052, base=GRAPHITE, direction="h", streak=4, sheen=5)
+    px, sp = img.load(), steel.load()
+    for y in range(9, 23):
+        for x in range(S):
+            px[x, y] = sp[x, y]
+    rect(img, 0, 15, S - 1, 16, WAYLINE)
+    M.emboss_lines(img, ys=(9,), raised=True, strength=0.25)
+    M.emboss_lines(img, ys=(22,), strength=0.2)
+    save(img, "deco-band")
+    img = deco_base()
+    steel = M.brushed_metal(seed=15053, base=GRAPHITE, direction="h", streak=4, sheen=5)
+    px, sp = img.load(), steel.load()
+    for y in range(0, 18):
+        for x in range(S):
+            px[x, y] = sp[x, y]
+    rect(img, 0, 18, S - 1, 19, (236, 244, 252))
+    rect(img, 0, 20, S - 1, 20, (150, 160, 170))
+    M.emboss_lines(img, ys=(21,), strength=0.2)
+    save(img, "deco-cornice")
+    for name, lit in (("lamplower", True), ("lampupper", True), ("lamplowerdead", False), ("lampupperdead", False)):
+        img = deco_base()
+        lower = name.startswith("lamplower")
+        y0, y1 = (0, 27) if lower else (4, 31)
+        rect(img, 9, y0, 22, y1, (176, 182, 188))
+        rect(img, 11, y0 if lower else y0 + 2, 20, y1 - 2 if lower else y1, (240, 246, 252) if lit else (120, 126, 130))
+        if lit:
+            for y in range(y0, y1 + 1):
+                for x in range(11, 21):
+                    if (x + y) % 5 == 0:
+                        blend(img, x, y, (214, 226, 236), 0.6)
+        M.bevel(img, (9, y0, 23, y1 + 1), strength=0.18)
+        save(img, "deco-" + name)
+    # The halls' signs, by each crossing: a dark plate, "HALL" and a letter and number in white stencil
+    for n, code in enumerate(HALLS):
+        img = deco_base()
+        rect(img, 3, 3, 28, 28, GRAPHITE)
+        M.bevel(img, (3, 3, 29, 29), strength=0.22)
+        text(img, 5, 5, "HALL", (214, 220, 226), FONT)
+        x = 6
+        for ch in code:
+            g = FONT[ch]
+            for gy, row in enumerate(g):
+                for gx, bit in enumerate(row):
+                    if bit == "1":
+                        rect(img, x + gx * 2, 14 + gy * 2, x + gx * 2 + 1, 14 + gy * 2 + 1, (240, 244, 248))
+            x += 11
+        rect(img, 5, 12, 26, 12, WAYLINE)
+        save(img, f"deco-sign{n}")
     # The room codes: tall black stencil letters (Fandom: black numbers on the walls; H labs, e stores)
     for n, code in enumerate(CODES):
         img = deco_base()
@@ -358,6 +446,7 @@ def deco_textures():
         save(img, f"deco-code{n}")
 
 
+HALLS = ["A3", "C7", "D1", "E5", "K2", "L8", "M4", "N6"]
 CODES = ["H15", "H04", "e03", "e10", "M12", "M27", "D21", "D06", "K09", "K02", "C07", "C11", "L02", "L14", "S30", "S08"]
 
 
@@ -873,32 +962,44 @@ def sided(base):
 
 
 def blocktypes():
-    cube_block("l15-wall", {"panel": "wall-panel", "panelb": "wall-panelb", "base": "wall-base", "grey": "wall-grey",
-                            "greybase": "wall-greybase", "scorched": "wall-scorched", "beam": "wall-beam", "etched": "wall-etched"},
+    walls = {k: "wall-" + k for k in ("panel", "panelb", "base", "grey", "greybase", "scorched", "beam", "etched", "cast", "castbase",
+                                       "tile", "tilebase", "jamb", "jambdead", "lintel", "linteldead")}
+    cube_block("l15-wall", walls,
                "Level 15: white panelled concrete (panel; panelb, a service plate; base, the skirting's kick plate), the service passages' bare "
-               "grey concrete, scorched panels, and the white steel of the pilasters (beam; etched with arabesque symbols)")
+               "grey concrete, scorched panels, the white steel of the pilasters (beam; etched with arabesque symbols), a room's own walls (cast: "
+               "pale grey cast concrete; tile: white wall tiles; each with its foot), a doorway's steel jamb and lintel with a strip of light "
+               "(dead where the power is out)",
+               extra={"vertexFlagsByType": {"*-jamb": {"glowLevel": 90}, "*-lintel": {"glowLevel": 90}}})
 
     # The decorations: a white wall block with one face dressed
     deco = {"scanner": "deco-scanner", "display": "deco-display", "radar": "deco-radar", "escape": "deco-escape",
             "vent": "deco-vent0", "ventcode": "deco-vent1", "wooddoorlower": "deco-wooddoorlower", "wooddoorupper": "deco-wooddoorupper",
-            "blood": "deco-blood"}
+            "blood": "deco-blood", "band": "deco-band", "cornice": "deco-cornice", "lamplower": "deco-lamplower", "lampupper": "deco-lampupper",
+            "lampon": "deco-lampupper", "lamplowerdead": "deco-lamplowerdead", "lampupperdead": "deco-lampupperdead"}
     for n in range(3):
         deco[f"view{n}"] = f"deco-view{n}"
     for n in range(len(CODES)):
         deco[f"code{n}"] = f"deco-code{n}"
+    for n in range(len(HALLS)):
+        deco[f"sign{n}"] = f"deco-sign{n}"
     tbt, light = {}, {}
     for k, t in deco.items():
         for s in SIDES:
             tbt[f"*-{k}-{s}"] = {"all": tex("wall-panel"), s: tex(t)}
     data = {"code": "l15-walldeco", "variantgroups": [{"code": "kind", "states": list(deco)}, {"code": "side", "states": SIDES}],
             "texturesByType": tbt, "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
-            "blockmaterial": "Stone", "drawtype": "cube", "lightAbsorption": 99, "resistance": 6, "drops": [], "sounds": STONE,
-            "lightHsvByType": {"*-radar-*": [24, 4, 4], "*-view0-*": [10, 3, 4], "*-view1-*": [36, 2, 3], "*-view2-*": [9, 4, 4]},
+            "blockmaterial": "Stone", "drawtype": "cube", "resistance": 6, "drops": [], "sounds": STONE,
+            # The hall's wall lights: one in two gives light (lampon), the rest only look lit
+            "lightAbsorptionByType": {"*-lampon-*": 0, "*": 99},
+            "lightHsvByType": {"*-radar-*": [24, 4, 4], "*-view0-*": [10, 3, 4], "*-view1-*": [36, 2, 3], "*-view2-*": [9, 4, 4],
+                               "*-lampon-*": [34, 1, 12]},
             "vertexFlagsByType": {"*-radar-*": {"glowLevel": 60}, "*-view0-*": {"glowLevel": 60}, "*-view1-*": {"glowLevel": 50},
-                                  "*-view2-*": {"glowLevel": 60}}}
+                                  "*-view2-*": {"glowLevel": 60}, "*-lamplower-*": {"glowLevel": 160}, "*-lampupper-*": {"glowLevel": 160},
+                                  "*-lampon-*": {"glowLevel": 160}}}
     write_json(os.path.join(BLOCKS, "l15-walldeco.json"), data,
                "Level 15: a white wall block with one face dressed (toward its side): a dead hand scanner, a dead display, the radar, the "
-               "ESCAPE panel, views of elsewhere (lit), vent grilles, a wooden door that opens on nothing, dried blood, the room codes")
+               "ESCAPE panel, views of elsewhere (lit), vent grilles, a wooden door that opens on nothing, dried blood, the room codes; the "
+               "halls' dress: the band with its line, the cornice, the wall lights (lower, upper; lampon gives light; dead), the hall signs")
 
     glass = {"code": "l15-glass", "variantgroups": [{"code": "kind", "states": ["clear", "cracked"]}],
              "texturesByType": {"*-clear": {"all": tex("glass-clear")}, "*-cracked": {"all": tex("glass-cracked")}},

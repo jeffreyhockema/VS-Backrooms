@@ -21,7 +21,9 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private static readonly string[] L15WallKinds = { "panel", "panelb", "base", "grey", "greybase", "scorched", "beam", "etched" };
+    private static readonly string[] L15WallKinds =
+        { "panel", "panelb", "base", "grey", "greybase", "scorched", "beam", "etched", "cast", "castbase", "tile", "tilebase", "jamb", "jambdead", "lintel", "linteldead" };
+    private const int L15WCast = 8, L15WCastBase = 9, L15WTile = 10, L15WTileBase = 11, L15WJamb = 12, L15WJambDead = 13, L15WLintel = 14, L15WLintelDead = 15;
     private static readonly string[] L15FloorKinds = { "ceramic", "worn", "coating", "carpet", "grating", "strip", "blood", "scorch", "track", "dust", "stripdead" };
     private static readonly string[] L15MachineKinds = { "panel", "vent", "screen", "screenlit", "lights", "lightslit", "hatch", "warning", "burnt", "burntvent", "furnace", "press" };
     private const int L15MPanel = 0, L15MVent = 1, L15MScreen = 2, L15MScreenLit = 3, L15MLights = 4, L15MLightsLit = 5, L15MHatch = 6, L15MWarning = 7,
@@ -29,20 +31,25 @@ public sealed partial class WorldGenerator
     /// <summary>The wall decorations, by name (<c>l15-walldeco-{kind}-{side}</c>): their index in <see cref="l15Deco"/>.</summary>
     private static readonly string[] L15DecoKinds = BuildL15DecoKinds();
     private const int L15DScanner = 0, L15DDisplay = 1, L15DRadar = 2, L15DEscape = 3, L15DVent = 4, L15DVentCode = 5, L15DDoorLower = 6, L15DDoorUpper = 7,
-        L15DBlood = 8, L15DView = 9, L15DCode = 9 + L.L15Views;
+        L15DBlood = 8, L15DBand = 9, L15DCornice = 10, L15DLampLower = 11, L15DLampUpper = 12, L15DLampOn = 13, L15DLampLowerDead = 14,
+        L15DLampUpperDead = 15, L15DView = 16, L15DCode = 16 + L.L15Views, L15DSign = 16 + L.L15Views + L.L15Codes;
+    /// <summary>How many hall signs there are (<c>l15-walldeco-sign{n}</c>).</summary>
+    private const int L15Signs = 8;
 
     private static string[] BuildL15DecoKinds()
     {
-        var kinds = new List<string> { "scanner", "display", "radar", "escape", "vent", "ventcode", "wooddoorlower", "wooddoorupper", "blood" };
+        var kinds = new List<string> { "scanner", "display", "radar", "escape", "vent", "ventcode", "wooddoorlower", "wooddoorupper", "blood",
+            "band", "cornice", "lamplower", "lampupper", "lampon", "lamplowerdead", "lampupperdead" };
         for (int i = 0; i < L.L15Views; i++) kinds.Add("view" + i);
         for (int i = 0; i < L.L15Codes; i++) kinds.Add("code" + i);
+        for (int i = 0; i < L15Signs; i++) kinds.Add("sign" + i);
         return kinds.ToArray();
     }
 
-    private readonly int[] l15Wall = new int[8], l15Floor = new int[11], l15Machine = new int[12], l15Glass = new int[2], l15Rib = new int[2], l15OddBeam = new int[2];
+    private readonly int[] l15Wall = new int[16], l15Floor = new int[11], l15Machine = new int[12], l15Glass = new int[2], l15Rib = new int[2], l15OddBeam = new int[2];
     private readonly int[] l15Ceiling = new int[7];
     private int l15Gate, l15Stage;
-    private readonly int[,] l15Deco = new int[9 + L.L15Views + L.L15Codes, 4];
+    private readonly int[,] l15Deco = new int[L15DecoKinds.Length, 4];
     private readonly int[,] l15Console = new int[3, 4], l15Bench = new int[4, 4], l15Corpse = new int[6, 4], l15StarDoor = new int[2, 4];
     private readonly int[,,] l15Locker = new int[2, 2, 4];
     private readonly int[] l15Rods = new int[4];
@@ -105,7 +112,7 @@ public sealed partial class WorldGenerator
             case TileKind.Doorway:
                 if (rel == 0) return l15Floor[t.Depth == L.L15FloorTrack ? L.L15FloorTrack : L.L15FloorCeramic];
                 if (rel <= 3) return 0;
-                if (rel == 4 && t.Detail == L.L15DoorGate) return l15Gate;
+                if (rel == 4) return t.Detail == L.L15DoorGate ? l15Gate : l15Wall[L.L15IsDark(t) ? L15WLintelDead : L15WLintel];
                 return L15WallBase(t, gx, gz, rel);
             default: return L15Wall(t, gx, gz, rel);
         }
@@ -180,6 +187,8 @@ public sealed partial class WorldGenerator
         {
             case L.L15WallGrey: return l15Wall[rel <= 1 ? 4 : 3];
             case L.L15WallScorched: return rel <= 3 ? l15Wall[5] : l15Wall[0];
+            case L.L15WallCast: return l15Wall[rel <= 1 ? L15WCastBase : L15WCast];
+            case L.L15WallTile: return l15Wall[rel <= 1 ? L15WTileBase : L15WTile];
         }
         if (rel <= 1) return l15Wall[2];
         return Hashing.Unit(Hashing.Hash(seed, gx, gz * 16 + rel, 0x2720)) < 0.18 ? l15Wall[1] : l15Wall[0];
@@ -190,6 +199,9 @@ public sealed partial class WorldGenerator
     {
         if (rel == 0) return t.Depth == L.L15WallGrey ? l15Wall[3] : l15Wall[0];
         int f = Facing(t.Pier);
+        if (t.Detail == L.L15WallJamb) return rel <= 3 ? l15Wall[L.L15IsDark(t) ? L15WJambDead : L15WJamb] : L15WallBase(t, gx, gz, rel);
+        if (t.Detail is not (L.L15WallPilaster or L.L15WallEtched) && L15HallFace(gx, gz) is { } hall && L15HallDress(t, gx, gz, rel, hall) is int dressed and > 0)
+            return dressed;
         switch (t.Detail)
         {
             case L.L15WallPilaster: return l15Wall[6];
@@ -208,6 +220,48 @@ public sealed partial class WorldGenerator
             case L.L15WallBlood when rel == 1: return l15Deco[L15DBlood, f];
         }
         return L15WallBase(t, gx, gz, rel);
+    }
+
+    /// <summary>
+    /// Which way a wall of a wing faces the main hall beside it, and where along the hall it is; null for any other wall
+    /// (a wing's corner, a room's wall, the region's rim).
+    /// </summary>
+    private static (ArchPier Face, int Along, int Line)? L15HallFace(int gx, int gz)
+    {
+        int u = Hashing.Mod(gx, L.L15Period), v = Hashing.Mod(gz, L.L15Period);
+        bool uEdge = u is 0 or L.L15HallWidth + 1, vEdge = v is 0 or L.L15HallWidth + 1;
+        if (uEdge == vEdge || u is >= 1 and <= L.L15HallWidth || v is >= 1 and <= L.L15HallWidth) return null;
+        return uEdge
+            ? (u == 0 ? ArchPier.East : ArchPier.West, gz, Hashing.FloorDiv(gx + 3, L.L15Period))
+            : (v == 0 ? ArchPier.South : ArchPier.North, gx, Hashing.FloorDiv(gz + 3, L.L15Period));
+    }
+
+    /// <summary>
+    /// The dress of a wing's wall along a main hall (0 where it has none at that height): a dark band with a pale line at
+    /// waist height (the way through), a dark cornice with a strip of light under the ceiling, a tall wall light in the
+    /// middle of each bay (every other one giving light, by turns along the two walls; dead where the power is out), and
+    /// near each crossing a sign with the hall's letter and number. What the wing put on the wall wins where they meet.
+    /// </summary>
+    private int L15HallDress(in Tile t, int gx, int gz, int rel, (ArchPier Face, int Along, int Line) hall)
+    {
+        int f = Facing(hall.Face);
+        bool dark = L.L15IsDark(t);
+        int bay = Hashing.Mod(hall.Along, 8), stretch = Hashing.Mod(hall.Along, L.L15Period);
+        bool decoAt2 = t.Detail is L.L15WallScanner or L.L15WallDisplay or L.L15WallRadar or L.L15WallEscape or L.L15WallView or L.L15WallWoodDoor;
+        switch (rel)
+        {
+            case 2: return decoAt2 ? 0 : l15Deco[L15DBand, f];
+            case 3 when t.Detail != L.L15WallCode && stretch is 11 or 123:
+                // The hall's sign: its letter from the line it runs along, its number from the stretch it is in
+                return l15Deco[L15DSign + (int)(Hashing.Hash(seed, hall.Line, Hashing.FloorDiv(hall.Along, L.L15Period), 0x2722) % L15Signs), f];
+            case 3 when bay == 4 && t.Detail is not (L.L15WallCode or L.L15WallWoodDoor): return l15Deco[dark ? L15DLampLowerDead : L15DLampLower, f];
+            case 4 when bay == 4 && t.Detail != L.L15WallWoodDoor:
+                if (dark) return l15Deco[L15DLampUpperDead, f];
+                bool turn = hall.Face is ArchPier.East or ArchPier.South;
+                return l15Deco[Hashing.Mod(hall.Along, 16) == (turn ? 4 : 12) ? L15DLampOn : L15DLampUpper, f];
+            case L.L15HallHeight: return l15Deco[L15DCornice, f];
+        }
+        return 0;
     }
 
     /// <summary>

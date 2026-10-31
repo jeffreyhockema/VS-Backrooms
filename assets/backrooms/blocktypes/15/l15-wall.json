@@ -1,4 +1,4 @@
-// Level 15: white panelled concrete (panel; panelb, a service plate; base, the skirting's kick plate), the service passages' bare grey concrete, scorched panels, and the white steel of the pilasters (beam; etched with arabesque symbols)
+// Level 15: white panelled concrete (panel; panelb, a service plate; base, the skirting's kick plate), the service passages' bare grey concrete, scorched panels, the white steel of the pilasters (beam; etched with arabesque symbols), a room's own walls (cast: pale grey cast concrete; tile: white wall tiles; each with its foot), a doorway's steel jamb and lintel with a strip of light (dead where the power is out)
 {
 	"code": "l15-wall",
 	"variantgroups": [
@@ -12,7 +12,15 @@
 				"greybase",
 				"scorched",
 				"beam",
-				"etched"
+				"etched",
+				"cast",
+				"castbase",
+				"tile",
+				"tilebase",
+				"jamb",
+				"jambdead",
+				"lintel",
+				"linteldead"
 			]
 		}
 	],
@@ -56,6 +64,46 @@
 			"all": {
 				"base": "block/15/wall-etched"
 			}
+		},
+		"*-cast": {
+			"all": {
+				"base": "block/15/wall-cast"
+			}
+		},
+		"*-castbase": {
+			"all": {
+				"base": "block/15/wall-castbase"
+			}
+		},
+		"*-tile": {
+			"all": {
+				"base": "block/15/wall-tile"
+			}
+		},
+		"*-tilebase": {
+			"all": {
+				"base": "block/15/wall-tilebase"
+			}
+		},
+		"*-jamb": {
+			"all": {
+				"base": "block/15/wall-jamb"
+			}
+		},
+		"*-jambdead": {
+			"all": {
+				"base": "block/15/wall-jambdead"
+			}
+		},
+		"*-lintel": {
+			"all": {
+				"base": "block/15/wall-lintel"
+			}
+		},
+		"*-linteldead": {
+			"all": {
+				"base": "block/15/wall-linteldead"
+			}
 		}
 	},
 	"creativeinventory": {
@@ -76,5 +124,13 @@
 		"place": "game:block/loosestone*",
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"vertexFlagsByType": {
+		"*-jamb": {
+			"glowLevel": 90
+		},
+		"*-lintel": {
+			"glowLevel": 90
+		}
 	}
 }

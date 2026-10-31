@@ -15,6 +15,16 @@ static partial class LevelModes
     static bool L15Modes(WorldLayout layout, string mode, string[] args)
     {
         if (mode == "15dump") return L15Dump(layout, args);
+        if (mode == "15showcase")
+        {
+            // The showcase spots (as /backrooms showcase 15 lists them), with what is under each
+            foreach (var s in layout.L15ShowcaseSpots(new WorldGeometry(256)))
+            {
+                Tile t = layout.TileAt((int)Math.Floor(s.X), (int)Math.Floor(s.Z));
+                Console.WriteLine($"spot {s.Name} {s.X} {s.Y} {s.Z} h{s.Heading:0} p{s.Pitch:0} | {s.Setup}  [{WorldLayout.L15ZoneOf(t)}{(WorldLayout.L15IsDark(t) ? " dark" : "")} {t.Kind} v{t.Variant}]");
+            }
+            return true;
+        }
         if (mode != "15stats") return false;
         int n = args.Length > 3 && int.TryParse(args[3], out int wn) ? wn : 2;
         bool rim = args.Contains("rim"), map = args.Contains("map");

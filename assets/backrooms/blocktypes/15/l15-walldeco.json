@@ -1,4 +1,4 @@
-// Level 15: a white wall block with one face dressed (toward its side): a dead hand scanner, a dead display, the radar, the ESCAPE panel, views of elsewhere (lit), vent grilles, a wooden door that opens on nothing, dried blood, the room codes
+// Level 15: a white wall block with one face dressed (toward its side): a dead hand scanner, a dead display, the radar, the ESCAPE panel, views of elsewhere (lit), vent grilles, a wooden door that opens on nothing, dried blood, the room codes; the halls' dress: the band with its line, the cornice, the wall lights (lower, upper; lampon gives light; dead), the hall signs
 {
 	"code": "l15-walldeco",
 	"variantgroups": [
@@ -14,6 +14,13 @@
 				"wooddoorlower",
 				"wooddoorupper",
 				"blood",
+				"band",
+				"cornice",
+				"lamplower",
+				"lampupper",
+				"lampon",
+				"lamplowerdead",
+				"lampupperdead",
 				"view0",
 				"view1",
 				"view2",
@@ -32,7 +39,15 @@
 				"code12",
 				"code13",
 				"code14",
-				"code15"
+				"code15",
+				"sign0",
+				"sign1",
+				"sign2",
+				"sign3",
+				"sign4",
+				"sign5",
+				"sign6",
+				"sign7"
 			]
 		},
 		{
@@ -332,6 +347,230 @@
 			},
 			"west": {
 				"base": "block/15/deco-blood"
+			}
+		},
+		"*-band-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-band"
+			}
+		},
+		"*-band-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-band"
+			}
+		},
+		"*-band-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-band"
+			}
+		},
+		"*-band-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-band"
+			}
+		},
+		"*-cornice-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-cornice"
+			}
+		},
+		"*-cornice-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-cornice"
+			}
+		},
+		"*-cornice-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-cornice"
+			}
+		},
+		"*-cornice-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-cornice"
+			}
+		},
+		"*-lamplower-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-lamplower"
+			}
+		},
+		"*-lamplower-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-lamplower"
+			}
+		},
+		"*-lamplower-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-lamplower"
+			}
+		},
+		"*-lamplower-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-lamplower"
+			}
+		},
+		"*-lampupper-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-lampupper"
+			}
+		},
+		"*-lampupper-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-lampupper"
+			}
+		},
+		"*-lampupper-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-lampupper"
+			}
+		},
+		"*-lampupper-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-lampupper"
+			}
+		},
+		"*-lampon-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-lampupper"
+			}
+		},
+		"*-lampon-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-lampupper"
+			}
+		},
+		"*-lampon-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-lampupper"
+			}
+		},
+		"*-lampon-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-lampupper"
+			}
+		},
+		"*-lamplowerdead-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-lamplowerdead"
+			}
+		},
+		"*-lamplowerdead-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-lamplowerdead"
+			}
+		},
+		"*-lamplowerdead-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-lamplowerdead"
+			}
+		},
+		"*-lamplowerdead-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-lamplowerdead"
+			}
+		},
+		"*-lampupperdead-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-lampupperdead"
+			}
+		},
+		"*-lampupperdead-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-lampupperdead"
+			}
+		},
+		"*-lampupperdead-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-lampupperdead"
+			}
+		},
+		"*-lampupperdead-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-lampupperdead"
 			}
 		},
 		"*-view0-north": {
@@ -941,6 +1180,262 @@
 			"west": {
 				"base": "block/15/deco-code15"
 			}
+		},
+		"*-sign0-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-sign0"
+			}
+		},
+		"*-sign0-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-sign0"
+			}
+		},
+		"*-sign0-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-sign0"
+			}
+		},
+		"*-sign0-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-sign0"
+			}
+		},
+		"*-sign1-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-sign1"
+			}
+		},
+		"*-sign1-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-sign1"
+			}
+		},
+		"*-sign1-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-sign1"
+			}
+		},
+		"*-sign1-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-sign1"
+			}
+		},
+		"*-sign2-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-sign2"
+			}
+		},
+		"*-sign2-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-sign2"
+			}
+		},
+		"*-sign2-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-sign2"
+			}
+		},
+		"*-sign2-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-sign2"
+			}
+		},
+		"*-sign3-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-sign3"
+			}
+		},
+		"*-sign3-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-sign3"
+			}
+		},
+		"*-sign3-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-sign3"
+			}
+		},
+		"*-sign3-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-sign3"
+			}
+		},
+		"*-sign4-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-sign4"
+			}
+		},
+		"*-sign4-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-sign4"
+			}
+		},
+		"*-sign4-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-sign4"
+			}
+		},
+		"*-sign4-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-sign4"
+			}
+		},
+		"*-sign5-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-sign5"
+			}
+		},
+		"*-sign5-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-sign5"
+			}
+		},
+		"*-sign5-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-sign5"
+			}
+		},
+		"*-sign5-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-sign5"
+			}
+		},
+		"*-sign6-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-sign6"
+			}
+		},
+		"*-sign6-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-sign6"
+			}
+		},
+		"*-sign6-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-sign6"
+			}
+		},
+		"*-sign6-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-sign6"
+			}
+		},
+		"*-sign7-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-sign7"
+			}
+		},
+		"*-sign7-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-sign7"
+			}
+		},
+		"*-sign7-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-sign7"
+			}
+		},
+		"*-sign7-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-sign7"
+			}
 		}
 	},
 	"creativeinventory": {
@@ -953,7 +1448,6 @@
 	},
 	"blockmaterial": "Stone",
 	"drawtype": "cube",
-	"lightAbsorption": 99,
 	"resistance": 6,
 	"drops": [],
 	"sounds": {
@@ -961,6 +1455,10 @@
 		"place": "game:block/loosestone*",
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"lightAbsorptionByType": {
+		"*-lampon-*": 0,
+		"*": 99
 	},
 	"lightHsvByType": {
 		"*-radar-*": [
@@ -982,6 +1480,11 @@
 			9,
 			4,
 			4
+		],
+		"*-lampon-*": [
+			34,
+			1,
+			12
 		]
 	},
 	"vertexFlagsByType": {
@@ -996,6 +1499,15 @@
 		},
 		"*-view2-*": {
 			"glowLevel": 60
+		},
+		"*-lamplower-*": {
+			"glowLevel": 160
+		},
+		"*-lampupper-*": {
+			"glowLevel": 160
+		},
+		"*-lampon-*": {
+			"glowLevel": 160
 		}
 	}
 }
