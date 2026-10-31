@@ -160,6 +160,15 @@ scarce; seven notes and a folded one; the handbook page; the title, hint and sub
 for the dead), `GuideSystem.cs` (`"level15"` in `Added`), `tools/gen_notes.py` and `tools/gen_guide.py` (one block each),
 `lang/en.json` (one block after `levelname-27`; `config/notes.json` and `docs/design/notes-catalogue.md` regenerated).
 
+**Checks** (2026-10-31). `expclash` clean; mod and mapgen build, 0 errors; `layouthash` at layout versions 1 and 12:
+every line for levels 0-20 and the `layout hash` line identical to main's; `regions` 60/60 arrivals, none wrong or in a
+pocket (full size and `SPAWN=1000`); `15stats 4`: 81 wings, 0 rooms cut off, 0.35% of walkable tiles unreached (one-tile
+corners behind props), 60/60 arrivals lit; `15stats 3 rim`: the same at the rim, one star door. Headless (port 43162):
+a dummy placed in the level (light 13), `blocksweep` 0 threw, 0 error lines; `ratecheck 27 approach 50` 10.5 bodies an
+hour (Level 6's dark measures 10.2), heartland 3.5 (the director never places in Safe); `encounter roboman hunt` at a
+dark doorway placed it; `feltrate 27 approach`: stalk 100%, hunt 98%, glimpse 0% (no long sight lines in the dark).
+`GATE_TAG=l15 python tools/gate.py --fast --port-base 43160`: PASS.
+
 **What to check in game** (screenshots): a main hall (the LED strip, the floor lights, the ribs and pilasters: does it
 read clean, white and "futuristic", not hospital-plain?); a corridor and a service passage; a machine room from its gate
 (the shutter, the scanner, the code, the glass, the monoliths, a running machine's lit faces); a control room's wall of
