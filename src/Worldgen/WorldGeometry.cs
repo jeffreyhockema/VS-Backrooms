@@ -71,7 +71,7 @@ public readonly struct WorldGeometry
     public const int L31Drop = 0, L120Drop = 0;
 
     /// <summary>The same for the experimental Levels 36, 15 and 23 (25, 27, 28).</summary>
-    public const int L36Drop = 0, L15Drop = 0, L23Drop = 0;
+    public const int L36Drop = 0, L15Drop = 0, L23Drop = 10; // 23: ten down, so the lid of its forest reaches 48 over the forest floor
 
     /// <summary>
     /// How far below its own floor the band each of the five is generated and lit over begins (<see cref="ShaftDepth"/> is
@@ -94,10 +94,11 @@ public readonly struct WorldGeometry
     public const int L31BandDepth = ShaftDepth, L120BandDepth = ShaftDepth;
 
     /// <summary>
-    /// The same for the experimental Levels 36, 15 and 23 (25, 27, 28): the usual band for the two indoor ones; Level 23 is
-    /// under the open sky, so its band starts 12 below its floor (as Level 73's) and reaches 27 above it.
+    /// The same for the experimental Levels 36, 15 and 23 (25, 27, 28): the usual band for the two indoor ones; Level 23's
+    /// starts 20 below its floor, for its caverns and their lights (the band is lit up to 20 over the forest floor; its
+    /// columns are built on up to the top of the world, see WorldGenerator.Band).
     /// </summary>
-    public const int L36BandDepth = ShaftDepth, L15BandDepth = ShaftDepth, L23BandDepth = 12;
+    public const int L36BandDepth = ShaftDepth, L15BandDepth = ShaftDepth, L23BandDepth = 20;
 
     /// <summary>The street level of Level 11.</summary>
     public int CityFloorY => FloorY - CityDrop;

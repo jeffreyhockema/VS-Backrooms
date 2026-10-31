@@ -266,9 +266,18 @@ public class BackroomsMapLayer : MapLayer
             case WorldLayout.Level120:
             case WorldLayout.Level36:
             case WorldLayout.Level15:
-            case WorldLayout.Level23:
                 floorY = geometry.FloorFor(level);
                 return y > floorY && y < floorY + WorldGeometry.MaxRoomHeight + 1;
+            case WorldLayout.Level23:
+                // The forest floor, each column on its own ground; in the glow rooms and tunnels under it, whatever floor the player stands on
+                floorY = geometry.FloorFor(level);
+                if (y < floorY - 2)
+                {
+                    floorY = (int)Math.Floor(y) - 1;
+                    return true;
+                }
+                groundFollows = true;
+                return y < geometry.TopY;
             case 7:
                 // (From layout version 9 the entry rooms hang higher, their floors five over the water, under a high ceiling)
                 return y > geometry.FloorY - 70 && y < geometry.FloorY + (layout.Version >= 9 ? WorldLayout.EntryFloor + 4 : WorldGeometry.MaxRoomHeight + 1);

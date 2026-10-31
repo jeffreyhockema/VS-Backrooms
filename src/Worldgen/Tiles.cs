@@ -526,8 +526,11 @@ public enum FloorKind : ushort
     L36Floor = 416,
     /// <summary>Level 15 (block 448-479). Placeholder.</summary>
     L15Floor = 448,
-    /// <summary>Level 23 (block 480-511). Placeholder.</summary>
-    L23Floor = 480,
+    /// <summary>
+    /// Level 23 (block 480-511): the forest floor's humus (<see cref="L23Floor"/>), moss (the glow rooms, the Heart of Water's
+    /// banks), trodden earth (the tunnels), bark (a trunk, the tangle), the pool's bed.
+    /// </summary>
+    L23Floor = 480, L23Moss = 481, L23Earth = 482, L23Bark = 483, L23Water = 484,
 }
 
 /// <remarks>A ushort since 0.700.0-pre.1 (experimental-levels): values past 255 are the experimental levels' blocks.</remarks>

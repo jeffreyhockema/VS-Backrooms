@@ -408,6 +408,7 @@ public class BackroomsModSystem : ModSystem
             11 => Math.Min(g.TopY, floor + 90),
             WorldLayout.Poolrooms => floor + 16,
             WorldLayout.Motion => Math.Min(g.TopY, floor + 66),
+            WorldLayout.Level23 => g.TopY - 1, // (its forest's lid, up to the top of the world)
             _ when region => g.BandTopFor(dumpLevel),
             _ => g.BandTop,
         };
