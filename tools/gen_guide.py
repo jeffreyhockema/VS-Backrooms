@@ -134,6 +134,9 @@ Level 8's limestone and chalk grind to lime in a quern, and its halite to salt; 
 **Wood**
 Driftwood on Level 7's sea is firewood. Levels 9, 10, 11 and 94 have real oak, birch and maple to fell, with sticks lying under them; oak is what tanning wants. Level 7's jetties stand on oak logs.
 
+**Resin**
+Axles, gears and windmill rotors, the churn, the fruit press, lamellar armour and glue all want [resin](item-resin). Level 10 grows a few pines among its oaks, and their trunks bleed it: {rightmouse} a resin-streaked log low on the trunk for one, and it oozes again in about a week. Fell the tree and its resin goes with it, and a pine grown from a seed bleeds none, here as anywhere, so leave Level 10's standing. Its pines came with 0.610.4: in a world begun before that, Level 10 has none, even where you have not been yet. The crate-pickers of the Level 1 camp and the M.E.G. camp on the 9th Road sell resin too, two to a stack.
+
 **Farming**
 You can farm in Level 0: see [Home and Expeditions](backrooms-home). Seed packets turn up on the tool shelves of Level 9's garages and sheds, and now and then in a supply box; seed sacks are in Level 9's sheds and Level 10's barns; wanderers sell flax and cabbage seeds. Level 10's fields stand ripe: spelt, rye, flax and vegetables. The old fields are exhausted, so replant in fresh soil: hoe a lawn in Level 9, 10 or 11, or Level 94's turf. It never rains, so [farm](gamemechanicinfo-farming) within 3 blocks of water, or carry a watering can. Level 10 also has livestock in its paddocks ([husbandry](gamemechanicinfo-animalhusbandry)), bee skeps by the farmhouses, berry bushes, and cattails at the ponds for hand baskets. Do not dig below the soil in Level 10.
 
@@ -536,7 +539,7 @@ The distances on this page are for the usual *Backrooms level size*. That world 
 
 **Level 9, the Suburbs.** Endless night. Houses to search (in some, the bedrooms are upstairs; in new worlds the front and back doors open and shut with {rightmouse}, and a locked one gives only to a pry bar): kitchens, pantries, garages with tools and seeds, dressers of clothes, toy boxes. Real trees, tall grass, flowers, berry bushes gone wild, and wildlife by night: hares, foxes and raccoons. The streets drain you. Hounds, rats, Smilers, Wretches and Skin-Stealers, Deathmoths near the edges, the Striders of the Neighborhood Watch walking the streets (they see a light from far off) with the Watcher's floating eye above them, and once in a long while the Mangled. The Suburbs are a busy level, far more so than Levels 0, 1 and 4: something turns up on most walks through the streets.
 
-**Level 10, Bumper Crop.** Farmland under a grey sky, now and then lost in fog for a few minutes, safe and stable. Crops standing ripe, livestock in the paddocks, ponds with cattails, reeds and clay (and a little sand on the bed of a few), bee skeps, barns with a quern and seed sacks, and iron hand pumps in the farmyards that still give a little Almond Water ({rightmouse}; it comes back after a week). The old fields are exhausted: replant in fresh soil. A metre under the soil is a mass of worms: do not dig down. Nothing hostile lives here: the worms underfoot are its only danger.
+**Level 10, Bumper Crop.** Farmland under a grey sky, now and then lost in fog for a few minutes, safe and stable. Crops standing ripe, livestock in the paddocks, ponds with cattails, reeds and clay (and a little sand on the bed of a few), bee skeps, a few pines whose trunks bleed resin, barns with a quern and seed sacks, and iron hand pumps in the farmyards that still give a little Almond Water ({rightmouse}; it comes back after a week). The old fields are exhausted: replant in fresh soil. A metre under the soil is a mass of worms: do not dig down. Nothing hostile lives here: the worms underfoot are its only danger.
 
 **Level 11, the Endless City.** Not a ring: far out past the fields, reached through a barn wall. Safe on the streets (bar a rat or two in the alleys), and they restore you; the subway drains, and Dullers and Wretches live in it. Stores full of food, tools and clothes, diners, a subway, Almond Water everywhere, wanderers, and ways to almost every level: see [Ways Between Levels](backrooms-thresholds). On the streets nothing attacks unless you start it.
 """)
@@ -935,7 +938,7 @@ BRIDGES["armor"] = """
 """
 
 BRIDGES["mechanicalpower"] = """
-**In the Backrooms:** windmills turn only under an open sky, so only on Levels 9, 10, 11 and 94. There is no flowing water anywhere for a water wheel. Level 10's barns have a quern already, and Level 8's hard rock makes another. The helve hammer, pulverizer and grinding wheel work as usual once you have a windmill up on the open-sky levels.
+**In the Backrooms:** windmills turn only under an open sky, so only on Levels 9, 10, 11 and 94. There is no flowing water anywhere for a water wheel. Level 10's barns have a quern already, and Level 8's hard rock makes another. The helve hammer, pulverizer and grinding wheel work as usual once you have a windmill up on the open-sky levels. Axles, gears and sails want resin: Level 10's pines bleed it, and the wanderers of the Level 1 camp and the 9th Road sell it (see the [Progression Guide](craftinginfo-progressionguide)).
 """
 
 BRIDGES["steelmaking"] = """
@@ -963,7 +966,7 @@ BRIDGES["quenching"] = """
 """
 
 BRIDGES["fruittrees"] = """
-**In the Backrooms:** there are no fruit trees. Fruit comes from fridges (Levels 4 and 9, the city, Level 94's iceboxes) and from the berry bushes gone wild in Level 9's gardens and along Level 10's fields. The trees of Levels 9, 10, 11 and 94 are oak, birch and maple, for wood. A tree seed or sapling planted in their open ground grows into a tree where there is room for it.
+**In the Backrooms:** there are no fruit trees. Fruit comes from fridges (Levels 4 and 9, the city, Level 94's iceboxes) and from the berry bushes gone wild in Level 9's gardens and along Level 10's fields. The trees of Levels 9, 10, 11 and 94 are oak, birch and maple, for wood, and in Level 10 a few pines, for resin. A tree seed or sapling planted in their open ground grows into a tree where there is room for it, but a pine grown from a seed bleeds no resin.
 """
 
 BRIDGES["alcohol"] = """
