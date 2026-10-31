@@ -52,7 +52,7 @@ static partial class LevelModes
                 if (t.Level != WorldLayout.Level15) continue;
                 levelTiles++;
                 zones[(int)WorldLayout.L15ZoneOf(t) & 15]++;
-                if (WorldLayout.L15IsDark(t)) darkTiles++;
+                if (WorldLayout.L15IsDark(t) && darkTiles++ == 0) Console.WriteLine($"  first dark tile: block {x},{z} ({WorldLayout.L15ZoneOf(t)})");
                 if (t.Kind == TileKind.Floor && t.Ceiling == CeilingKind.L15LightOn && !WorldLayout.L15IsDark(t)) lights++;
                 if (!Walk(t)) continue;
                 walkable++;
