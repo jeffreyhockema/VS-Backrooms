@@ -253,3 +253,46 @@ the Flood's follower; the cage lift's look; the brown fog near the dead.
   light's strength, the length of the blackout on arrival.
 - Bodies: the drowned are laid on the Flood's bed under the water (whether they float, how they look); Gary's name.
 - The smell's timing, and the brown fog near the dead.
+
+### Round 2 (2026-10-31): looked at in the client
+
+The lead's review of round 1: it reads right (brick, joists, wooden doors, panelling, dim), but the rooms were big, bare
+and samey, and the crack, the stairwells, the Flood and the dead never came up in the random arrivals.
+
+**Showcase spots** (`WorldLayout.LevelBasement.Showcase.cs`): walking the cells out from the region's middle, the first
+of each: the crack (from the room, and from under it looking up), a finished room, a utility room, a store room, a door in
+panelling, the longest look through the rooms, an Escherian stairwell (its door, and down its stairs from the landing),
+a room of the dead and a lone body (each with `/basementbodies` first), the stairs down into the Flood, the Flood from a
+Dry Patch's doorway (once more with `/backrooms encounter bacteria glimpse`), the Dry Patch and its dead elevator. Every
+spot looks from a free floor tile along its longest clear line, or back at its subject.
+
+**What changed**
+- **Smaller rooms, six kinds.** The BSP now splits down to rooms four across (stop chances by area 30/70/130/240), but
+  keeps a 9x9-15x15 room whole for a cell's crack or stairwell. Rooms are *finished* (carpet, a sitting room round a
+  coffee table, a house's cast-offs: TV, radio cabinet, dresser, bookshelf, desk, coat stand, icebox, phone, toy box,
+  radiator, washer), *utility* (boiler, pressure tanks, gauge frames, old pumps, drums, cabinets, coal), *workshop*
+  (workbench, tool shelf and rack, toolbox, nail barrel, plywood, pipe stock, cable spool, a pallet or folding table in the
+  middle), *laundry* (washer and dryer pairs, a utility sink, basket, rack), *store* (boxes, furniture piles, suitcases,
+  chairs, crates, aisles of metal shelving down the middle) and *pantry* (shelves of jars, an icebox, sacks). Small rooms
+  are laundries, pantries and store rooms. Things stand round the walls tile by tile (a third to a half of the wall
+  tiles), never in front of a door or on a landing; a last pass walks the cell from its gaps and clears anything (or
+  unsticks any swollen door) that closes a pocket off.
+- **Overhead:** a heating duct of galvanised sheet metal (new `basement-duct`, we/ns, `Pipes.BasementDuctWE/NS` 292-293)
+  straight across every Cellar cell and on through the walls, a water main along another line in two cells of three
+  (Level 2's pipes, a leak now and then), pipes along a wall of most workrooms. Joists bare over 60% of workrooms and 35%
+  of finished rooms (real basements are that way round).
+- **Floors:** damp comes up through the slab in noise patches (most in a laundry), and the olive carpet is worn brown in
+  patches, instead of whole rooms of one.
+- **Light:** a bulb in a little over half the rooms, two in a long one; the crack's shaft is lined with a broken slab
+  (`basement-ceiling-shaft`, light 10) that carries the Lobby's yellow light down to the floor under it, so the place
+  you arrive is lit and the crack reads from across the room.
+- **The Dry Patch:** four squat pillars on its node lines, and in about half of them a bedroll with a pack or a dead
+  flashlight by it ("where he rests").
+- **The dead:** rooms of the dead in 18% of Cellar cells (was 14%), a lone body in 28% (was 20%).
+- Panelling darker and greyer (it read as fresh orange pine under a torch).
+- Shared, one line each: `tools/mapgen/mapgen.csproj` compiles `src/Cheats/Showcase.cs` (mapgen did not build on the
+  merged branch without it); `tools/clientrig/rig.py` copies the showcase step's shots into the run's folder (they were
+  left in the rig's scratch folder and overwritten by the next run). `BasementStats` walks props as the layout does.
+
+**Inventions (round 2):** the room kinds beyond the brief's (workshop, laundry, pantry), the duct and mains, the lit
+shaft, the Dry Patch's pillars and the sleeper's camp.

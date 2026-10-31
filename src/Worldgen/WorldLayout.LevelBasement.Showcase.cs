@@ -140,11 +140,11 @@ public partial class WorldLayout
                 int bestD = 0, bdx = 0, bdz = 0;
                 foreach (var (dx, dz) in ShowcaseDirs)
                 {
-                    int d = ShowcaseRun(tiles, x, z, dx, dz, 8);
+                    int d = ShowcaseRun(tiles, x, z, dx, dz, 5);
                     while (d > 3 && !ShowcaseStand(tiles, x + dx * d, z + dz * d)) d--;
                     if (d > bestD && ShowcaseStand(tiles, x + dx * d, z + dz * d)) { bestD = d; bdx = dx; bdz = dz; }
                 }
-                if (bestD >= 4) add("crack-room", mx, mz, x + bdx * bestD, z + bdz * bestD, ShowcaseHeading(-bdx, -bdz), 12, null);
+                if (bestD >= 4) add("crack-room", mx, mz, x + bdx * bestD, z + bdz * bestD, ShowcaseHeading(-bdx, -bdz), 30, null);
                 // (Standing in the opening beside the heap, looking up it)
                 foreach (var (dx, dz) in ShowcaseDirs)
                 {
@@ -160,7 +160,7 @@ public partial class WorldLayout
         {
             int doorX = towerX + 2, doorZ = towerZ;
             if (ShowcaseFacing(tiles, doorX, doorZ, 0, -1, 6, 3) is (var sx, var sz, var h)) add("stairwell-door", mx, mz, sx, sz, h, 16, null);
-            add("stairwell-stairs", mx, mz, towerX + 2, towerZ + 1, 270, -55, null);
+            add("stairwell-stairs", mx, mz, towerX + 2, towerZ + 1, 270, -35, null);
         }
 
         // A room of the dead, its bodies laid down first; or someone who sat down in a corner and stayed
@@ -246,8 +246,8 @@ public partial class WorldLayout
                 add("flood-passage", mx, mz, x - dx, z - dz, ShowcaseHeading(dx, dz), -12, null);
                 add("flood-figure", mx, mz, x - dx, z - dz, ShowcaseHeading(dx, dz), -6, "/backrooms encounter bacteria glimpse");
             }
-        // The Dry Patch from a corner, across to the far one
-        add("dry-patch", mx, mz, lo + 2, lo + 2, 135, -10, null);
+        // The Dry Patch from the middle of a side, between two of its pillars, across to the far one
+        add("dry-patch", mx, mz, (lo + hi) / 2 - 1, lo + 1, 180, -8, null);
         // Its elevator, dead, from across the room
         for (int z = lo; z <= hi; z++)
             for (int x = lo; x <= hi; x++)

@@ -911,12 +911,12 @@ public sealed partial class WorldLayout
                 ref Tile t = ref b.At(splitX ? x0 + s : x0 + k, splitX ? z0 + k : z0 + s);
                 SetWall(ref t, pattern, BaseStyle.Plain);
                 if (k != gap && k != gap2) continue;
-                // A door: shut, or standing open; the second one in a wall now and then swollen shut in its frame
+                // A door: shut, or standing open (two in five); the second one in a wall now and then swollen shut in its frame
                 t.Kind = TileKind.Doorway;
                 t.Variant = Props.BasementDoor;
                 t.Floor = FloorKind.BasementFloor;
                 double state = doors.NextDouble();
-                int st = k == gap2 && state < 0.3 ? 2 : state < 0.7 ? 0 : 1;
+                int st = k == gap2 && state < 0.3 ? 2 : state < 0.6 ? 0 : 1;
                 t.Stack = (byte)(st | (doors.Chance(0.5) ? 4 : 0));
                 bool flip = doors.Chance(0.5);
                 t.Pier = splitX ? (flip ? ArchPier.East : ArchPier.West) : (flip ? ArchPier.South : ArchPier.North);
