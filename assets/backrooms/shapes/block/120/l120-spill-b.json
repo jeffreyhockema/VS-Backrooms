@@ -1,0 +1,475 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"rack-front": "backrooms:block/120/rack-front",
+		"rack-post": "backrooms:block/120/rack-post",
+		"rack-side": "backrooms:block/120/rack-side",
+		"tray-cable": "backrooms:block/120/tray-cable",
+		"wire-blue": "backrooms:block/120/wire-blue",
+		"wire-grey": "backrooms:block/120/wire-grey"
+	},
+	"elements": [
+		{
+			"name": "Cable0",
+			"from": [
+				3.0731,
+				0,
+				1.8342
+			],
+			"to": [
+				11.6669,
+				0.5,
+				2.3342
+			],
+			"faces": {
+				"up": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						8.5938,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						8.5938,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						8.5938,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.37,
+				0.25,
+				2.0842
+			]
+		},
+		{
+			"name": "Cable1",
+			"from": [
+				5.9289,
+				0,
+				2.4533
+			],
+			"to": [
+				14.4132,
+				0.5,
+				2.9533
+			],
+			"faces": {
+				"up": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						8.4842,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						8.4842,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						8.4842,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				10.171,
+				0.25,
+				2.7033
+			],
+			"rotationY": 40
+		},
+		{
+			"name": "Cable2",
+			"from": [
+				2.4757,
+				0,
+				2.6346
+			],
+			"to": [
+				12.9863,
+				0.5,
+				3.1346
+			],
+			"faces": {
+				"up": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						10.5106,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						10.5106,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						10.5106,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.731,
+				0.25,
+				2.8846
+			],
+			"rotationY": 22
+		},
+		{
+			"name": "Cable3",
+			"from": [
+				8.3542,
+				0,
+				9.1462
+			],
+			"to": [
+				15.0038,
+				0.5,
+				9.6462
+			],
+			"faces": {
+				"up": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						6.6496,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						6.6496,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						6.6496,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.679,
+				0.25,
+				9.3962
+			],
+			"rotationY": 22
+		},
+		{
+			"name": "Caddy0",
+			"from": [
+				10.9727,
+				0,
+				10.9537
+			],
+			"to": [
+				13.4727,
+				1,
+				14.9537
+			],
+			"faces": {
+				"up": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						2.5,
+						4.0
+					]
+				},
+				"north": {
+					"texture": "#rack-post",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rack-post",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1
+					]
+				},
+				"east": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						4.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						4.0,
+						1
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.2227,
+				0.5,
+				12.9537
+			],
+			"rotationY": 60
+		},
+		{
+			"name": "Caddy1",
+			"from": [
+				6.1914,
+				0,
+				3.714
+			],
+			"to": [
+				8.6914,
+				1,
+				7.714
+			],
+			"faces": {
+				"up": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						2.5,
+						4.0
+					]
+				},
+				"north": {
+					"texture": "#rack-post",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rack-post",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1
+					]
+				},
+				"east": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						4.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						4.0,
+						1
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.4414,
+				0.5,
+				5.714
+			],
+			"rotationY": -30
+		},
+		{
+			"name": "Caddy2",
+			"from": [
+				2.1686,
+				0,
+				11.9166
+			],
+			"to": [
+				4.6686,
+				1,
+				15.9166
+			],
+			"faces": {
+				"up": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						2.5,
+						4.0
+					]
+				},
+				"north": {
+					"texture": "#rack-post",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rack-post",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1
+					]
+				},
+				"east": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						4.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						4.0,
+						1
+					]
+				}
+			},
+			"rotationOrigin": [
+				3.4186,
+				0.5,
+				13.9166
+			],
+			"rotationY": -30
+		}
+	]
+}

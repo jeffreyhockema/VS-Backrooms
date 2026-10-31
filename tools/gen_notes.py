@@ -820,6 +820,51 @@ the basement of a bar on the night of January 6th. Five bodies have been recover
 yet to resurface. Patches of the cellar still suffer from large pools of water."""),
 ]))
 
+# ---------------------------------------------------------------------------------------------------------------------
+# Level 120, "Broken Servos" (experimental level, id 26; Wikidot's Level 120). Its own common track and one folded
+# note, self-contained: nothing above or below depends on it.
+L120 = 26
+LEVEL_IDS.add(L120)
+
+TRACKS.append(Track("l120", "common", "Level 120: Broken Servos", L120, entries=[
+    E("l120-1", "Do not die here", """
+M.E.G. FIELD NOTICE. Whoever dies in this level gets up again. A black shape where they fell, pixels coming off it like
+dust, red where the wound was. It stands by its own things and crackles like a dead channel: in the dark, that static
+is all the warning you get. It reaches further than you think. It lasts about a day, then it comes apart.
+— Field Team 9 (four of us)""", w="meg"),
+    E("l120-2", "One screen", """
+Every computer in here is gutted or smashed. Every one but one in a cluster, maybe, and that one glows green: BOOT,
+and a cursor. I pressed a key. The drive spun up and then everything was white, and the doors were black. Same screen
+takes you to the same place every time. I've checked.
+— Dez""", w="dez"),
+    E("l120-3", "Walk one way", """
+Finding: the white rooms are eleven paces square, black doors between them, a light in the ceiling that has no lamp.
+Pick a direction and keep it. At the edge of the cluster there is a window, always already broken, black beyond. Step
+through and you are standing at the terminal you booted. It has never failed.
+— A.L., survey""", w="al"),
+    E("l120-4", "The hallway", """
+Ruth, the screen took me to a hallway, two wide and black as the inside of a coat. It folds back on itself, on and on.
+I fell twice running. Walk it. Feel along the wall. There's a broken window at each end and it brings you back to the
+screen. I counted nine hundred steps. I counted them to you.
+— Tom""", w="tom"),
+    E("l120-5", "Smilers in the white", """
+Smilers stand about in the white rooms, love, staring at nothing, grinning at the light. They don't turn. I held my
+breath and walked right past one, close enough to touch it. Don't touch it. Leave them to their light.
+— Nell""", w="nell"),
+    E("l120-6", "Torches", """
+Dark as it is, think before you light a torch here. The things that stand where people died come for light, and for
+running. Racks still blinking give enough to see a wall by. One crossing in four in the passages has a working tube.
+The racks are worth breaking: copper wire, brackets, now and then a circuit board."""),
+]))
+
+TRACKS.append(Track("rare-l120", "rare", "Folded notes", L120, chapter="rare", entries=[
+    E("r-l120-1", "Ways in and out, unconfirmed", """
+M.E.G. BRIEFING, RESTRICTED. Reported ways into 120: the smashed screen of an arcade machine in Level 25; a door marked
+SERVER ROOM in the offices of 4.3. Reported ways out: doors in the server rooms and the black hallways, back to 4.3;
+noclipping the server room walls lands you in Level 70. Also reported: a drop of blood here raises smaller ones, worse
+than the rest. Team 9 has confirmed none of it.""", w="meg"),
+]))
+
 # ============================== Rare: folded notes ==============================
 
 RARE_CHAPTER = "rare"

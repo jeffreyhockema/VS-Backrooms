@@ -1,0 +1,187 @@
+// Level 120: a rack ripped apart: toppled onto its back, or torn open (two high, lower and upper) with its units hanging out. Salvage: copper wire, brackets, circuit boards
+{
+	"code": "l120-wreck",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"toppled",
+				"tornlower",
+				"tornupper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l120-wreck-toppled-north": {
+			"base": "backrooms:block/120/l120-wreck-toppled",
+			"rotateY": 0
+		},
+		"l120-wreck-toppled-east": {
+			"base": "backrooms:block/120/l120-wreck-toppled",
+			"rotateY": 270
+		},
+		"l120-wreck-toppled-south": {
+			"base": "backrooms:block/120/l120-wreck-toppled",
+			"rotateY": 180
+		},
+		"l120-wreck-toppled-west": {
+			"base": "backrooms:block/120/l120-wreck-toppled",
+			"rotateY": 90
+		},
+		"l120-wreck-tornlower-north": {
+			"base": "backrooms:block/120/l120-wreck-tornlower",
+			"rotateY": 0
+		},
+		"l120-wreck-tornlower-east": {
+			"base": "backrooms:block/120/l120-wreck-tornlower",
+			"rotateY": 270
+		},
+		"l120-wreck-tornlower-south": {
+			"base": "backrooms:block/120/l120-wreck-tornlower",
+			"rotateY": 180
+		},
+		"l120-wreck-tornlower-west": {
+			"base": "backrooms:block/120/l120-wreck-tornlower",
+			"rotateY": 90
+		},
+		"l120-wreck-tornupper-north": {
+			"base": "backrooms:block/120/l120-wreck-tornupper",
+			"rotateY": 0
+		},
+		"l120-wreck-tornupper-east": {
+			"base": "backrooms:block/120/l120-wreck-tornupper",
+			"rotateY": 270
+		},
+		"l120-wreck-tornupper-south": {
+			"base": "backrooms:block/120/l120-wreck-tornupper",
+			"rotateY": 180
+		},
+		"l120-wreck-tornupper-west": {
+			"base": "backrooms:block/120/l120-wreck-tornupper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l120-wreck-toppled-north"
+		],
+		"backrooms": [
+			"l120-wreck-toppled-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-toppled-*": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.97,
+			"y2": 0.56,
+			"z2": 0.97
+		},
+		"*": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.97,
+			"y2": 1,
+			"z2": 0.97
+		}
+	},
+	"selectionboxByType": {
+		"*-toppled-*": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.97,
+			"y2": 0.56,
+			"z2": 0.97
+		},
+		"*": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.97,
+			"y2": 1,
+			"z2": 0.97
+		}
+	},
+	"dropsByType": {
+		"*-toppled-*": [
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.7,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "l3999-circuitboard",
+				"quantity": {
+					"avg": 0.15,
+					"var": 0
+				}
+			}
+		],
+		"*": [
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "l3999-circuitboard",
+				"quantity": {
+					"avg": 0.25,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0.3
+				}
+			}
+		]
+	}
+}

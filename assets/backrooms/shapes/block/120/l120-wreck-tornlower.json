@@ -1,0 +1,343 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"rack-back": "backrooms:block/120/rack-back",
+		"rack-front": "backrooms:block/120/rack-front",
+		"rack-gutted": "backrooms:block/120/rack-gutted",
+		"rack-post": "backrooms:block/120/rack-post",
+		"rack-side": "backrooms:block/120/rack-side",
+		"rack-top": "backrooms:block/120/rack-top",
+		"wire-blue": "backrooms:block/120/wire-blue",
+		"wire-grey": "backrooms:block/120/wire-grey"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0.5,
+				0,
+				2
+			],
+			"to": [
+				15.5,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rack-gutted",
+					"uv": [
+						0,
+						0,
+						15.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						13.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#rack-back",
+					"uv": [
+						0,
+						0,
+						15.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						13.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#rack-top",
+					"uv": [
+						0,
+						0,
+						15.0,
+						13.5
+					]
+				},
+				"down": {
+					"texture": "#rack-top",
+					"uv": [
+						0,
+						0,
+						15.0,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PostL",
+			"from": [
+				0.5,
+				0,
+				0.5
+			],
+			"to": [
+				1.5,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#rack-post",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#rack-post",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#rack-post",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Unit0",
+			"from": [
+				3,
+				5.0793,
+				-2
+			],
+			"to": [
+				13,
+				6.8793,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						10,
+						1.8
+					]
+				},
+				"east": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						4,
+						1.8
+					]
+				},
+				"west": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						4,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#rack-top",
+					"uv": [
+						0,
+						0,
+						10,
+						4
+					]
+				},
+				"down": {
+					"texture": "#rack-top",
+					"uv": [
+						0,
+						0,
+						10,
+						4
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				5.9793,
+				0.0
+			],
+			"rotationZ": -12
+		},
+		{
+			"name": "Unit1",
+			"from": [
+				3,
+				8.5911,
+				-2
+			],
+			"to": [
+				13,
+				10.3911,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						10,
+						1.8
+					]
+				},
+				"east": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						4,
+						1.8
+					]
+				},
+				"west": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						4,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#rack-top",
+					"uv": [
+						0,
+						0,
+						10,
+						4
+					]
+				},
+				"down": {
+					"texture": "#rack-top",
+					"uv": [
+						0,
+						0,
+						10,
+						4
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				9.4911,
+				0.0
+			],
+			"rotationZ": -12
+		},
+		{
+			"name": "WireA",
+			"from": [
+				4.4652,
+				1,
+				1.4
+			],
+			"to": [
+				4.9652,
+				16,
+				1.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15
+					]
+				},
+				"east": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15
+					]
+				},
+				"west": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "WireB",
+			"from": [
+				10.5734,
+				1,
+				1.4
+			],
+			"to": [
+				11.0734,
+				16,
+				1.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15
+					]
+				},
+				"east": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15
+					]
+				},
+				"west": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15
+					]
+				}
+			}
+		}
+	]
+}

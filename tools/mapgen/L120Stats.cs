@@ -1,4 +1,5 @@
 using Backrooms.Worldgen;
+using Kind = Backrooms.Worldgen.WorldLayout.L120HallKind;
 using Zone = Backrooms.Worldgen.WorldLayout.L120Zone;
 
 /// <summary>Level 120's harness modes (experimental; this file is the level's own).</summary>
@@ -6,10 +7,12 @@ static partial class LevelModes
 {
     /// <summary>
     /// 120stats [halls] [rim]: over a square of (2 x halls + 1) halls each way round the region's centre (or, with "rim",
-    /// round a point on its east rim): the share of each kind of hall, the racks (standing, lit, wrecked) and terminals,
-    /// the tiles of each zone, and whether every hall, and every walkable tile, can be walked to from the service corridors
-    /// (after the shared SealPockets and ClearDoorways passes, as BuildMacro runs them). Arrivals: 60, all in a corridor or
-    /// a cold aisle.
+    /// round a point on its east rim): the share of each kind of hall; for the clusters, the rooms (15-23 each), racks
+    /// (standing, lit, wrecked), terminals, whole terminals (and where each boots into), supply boxes, and whether every
+    /// cluster and every walkable tile of one can be walked to from the passages (after the shared SealPockets and
+    /// ClearDoorways passes, as BuildMacro runs them); for the pockets (White Voids, Pitch-Black Hallways), that nothing of
+    /// them is reached from the passages, that every open tile of one is reached from its arrival, and that it has windows.
+    /// Arrivals: 60, all in a passage or a server room.
     /// </summary>
     static bool L120Modes(WorldLayout layout, string mode, string[] args)
     {
@@ -24,7 +27,7 @@ static partial class LevelModes
         if (rim) cx += (layout.L120Radius - 2) * WorldLayout.MacroSize;
         int hcx = Hashing.FloorDiv(cx, P), hcz = Hashing.FloorDiv(cz, P);
         Console.WriteLine($"region centre cells {layout.L120CentreX},{layout.L120CentreZ}, radius {layout.L120Radius}; window {2 * n + 1}x{2 * n + 1} halls round hall {hcx},{hcz}{(rim ? " (east rim)" : "")}");
-        int x0 = (hcx - n) * P, x1 = (hcx + n + 1) * P + 5; // and the corridor past the last hall
+        int x0 = (hcx - n) * P, x1 = (hcx + n + 1) * P + 5; // and the passage past the last hall
         int z0 = (hcz - n) * P, z1 = (hcz + n + 1) * P + 5;
 
         var cells = new Dictionary<(int, int), Tile[]>();
@@ -36,12 +39,29 @@ static partial class LevelModes
         }
         bool Mine(int x, int z) => T(x, z).Level == WorldLayout.Level120;
         bool Walk(Tile t) => t.Level == WorldLayout.Level120 && (t.Kind is TileKind.Doorway
-            || t.Kind == TileKind.Floor && !(t.Stack > 0 && t.Variant == 0) && WorldLayout.IsWalkThroughProp(t.Variant));
+            || t.Kind == TileKind.Floor && !(t.Stack > 0 && t.Variant == 0) && !t.SupplyBox && WorldLayout.IsWalkThroughProp(t.Variant));
+        HashSet<(int, int)> Flood(IEnumerable<(int, int)> from)
+        {
+            var reached = new HashSet<(int, int)>();
+            var queue = new Queue<(int, int)>();
+            foreach (var s in from) if (reached.Add(s)) queue.Enqueue(s);
+            while (queue.Count > 0)
+            {
+                var (x, z) = queue.Dequeue();
+                foreach (var (dx, dz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+                {
+                    int nx = x + dx, nz = z + dz;
+                    if (nx < x0 || nz < z0 || nx > x1 || nz > z1 || reached.Contains((nx, nz)) || !Walk(T(nx, nz))) continue;
+                    reached.Add((nx, nz));
+                    queue.Enqueue((nx, nz));
+                }
+            }
+            return reached;
+        }
 
-        // Walk from every corridor tile
-        var reached = new HashSet<(int, int)>();
-        var queue = new Queue<(int, int)>();
-        int walkable = 0, sealedTiles = 0, racksSeen = 0, litSeen = 0, terminalsSeen = 0;
+        // Walk from every passage tile
+        var starts = new List<(int, int)>();
+        int walkable = 0, sealedTiles = 0;
         var zones = new int[16];
         for (int z = z0; z <= z1; z++)
             for (int x = x0; x <= x1; x++)
@@ -49,32 +69,18 @@ static partial class LevelModes
                 Tile t = T(x, z);
                 if (t.Level != WorldLayout.Level120) continue;
                 zones[Math.Min((int)t.Zone, 15)]++;
-                if (t.Variant == WorldLayout.L120Rack)
-                {
-                    racksSeen++;
-                    if (t.Detail is >= WorldLayout.L120RackLedA and <= WorldLayout.L120RackBoth) litSeen++;
-                }
-                if (t.Variant == WorldLayout.L120Terminal) terminalsSeen++;
                 if (!Walk(t)) continue;
                 walkable++;
                 if (t.Sealed) sealedTiles++;
-                if (t.Zone == (byte)Zone.Corridor && t.Kind == TileKind.Floor && reached.Add((x, z))) queue.Enqueue((x, z));
+                if (t.Zone == (byte)Zone.Corridor && t.Kind == TileKind.Floor) starts.Add((x, z));
             }
-        while (queue.Count > 0)
-        {
-            var (x, z) = queue.Dequeue();
-            foreach (var (dx, dz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
-            {
-                int nx = x + dx, nz = z + dz;
-                if (nx < x0 || nz < z0 || nx > x1 || nz > z1 || reached.Contains((nx, nz)) || !Walk(T(nx, nz))) continue;
-                reached.Add((nx, nz));
-                queue.Enqueue((nx, nz));
-            }
-        }
+        var fromPassages = Flood(starts);
 
-        // Halls: kinds, racks, and whether each was reached from the corridors
         var kinds = new SortedDictionary<string, int>();
-        int halls = 0, clipped = 0, cutOff = 0, racks = 0, lit = 0, wrecked = 0, terminals = 0, worstHall = 0;
+        int halls = 0, clipped = 0, cutOff = 0, worstHall = 0, minRooms = 99, maxRooms = 0, rooms = 0, racks = 0, lit = 0, wrecked = 0, terminals = 0, boots = 0, boxes = 0;
+        int pockets = 0, pocketLeaks = 0, pocketHoles = 0, noWindow = 0, bootsNowhere = 0;
+        var bootInto = new SortedDictionary<string, int>();
+        int pocketTiles = 0;
         for (int hz = hcz - n; hz <= hcz + n; hz++)
             for (int hx = hcx - n; hx <= hcx + n; hx++)
             {
@@ -84,36 +90,71 @@ static partial class LevelModes
                 if (!whole) { clipped++; continue; }
                 halls++;
                 string k = plan.Kind.ToString();
-                if (!kinds.ContainsKey(k)) Console.WriteLine($"  first {k} hall: {hx},{hz}, its middle at block {hx * P + 51},{hz * P + 51}");
+                if (!kinds.ContainsKey(k)) Console.WriteLine($"  first {k} hall: {hx},{hz}, its middle at block {hx * P + 51},{hz * P + 51}{(plan.Kind != Kind.Cluster ? $", arrival {plan.Arrival.X},{plan.Arrival.Z}" : "")}");
                 kinds[k] = kinds.GetValueOrDefault(k) + 1;
-                racks += plan.Racks;
-                lit += plan.Lit;
-                wrecked += plan.Wrecked;
-                terminals += plan.Terminals;
                 int inside = 0, got = 0;
+                var open = new List<(int, int)>();
                 for (int z = bz0 + 1; z < bz1; z++)
                     for (int x = bx0 + 1; x < bx1; x++)
                     {
                         if (!Walk(T(x, z))) continue;
                         inside++;
-                        if (reached.Contains((x, z))) got++;
+                        open.Add((x, z));
+                        if (fromPassages.Contains((x, z))) got++;
                     }
-                worstHall = Math.Max(worstHall, inside - got);
-                if (got == 0)
+                if (plan.Kind == Kind.Cluster)
                 {
-                    cutOff++;
-                    if (cutOff <= 5) Console.WriteLine($"  cut off: {plan.Kind} hall {hx},{hz}");
+                    rooms += plan.Rooms;
+                    minRooms = Math.Min(minRooms, plan.Rooms);
+                    maxRooms = Math.Max(maxRooms, plan.Rooms);
+                    racks += plan.Racks;
+                    lit += plan.Lit;
+                    wrecked += plan.Wrecked;
+                    terminals += plan.Terminals;
+                    boxes += plan.Boxes;
+                    foreach (var b in plan.Boots)
+                    {
+                        boots++;
+                        var (bhx, bhz) = WorldLayout.L120HallOf(b.X, b.Z);
+                        var pv = layout.L120NearestPocket(bhx, bhz, Kind.Void);
+                        var ph = layout.L120NearestPocket(bhx, bhz, Kind.Hallway);
+                        if (pv == null && ph == null) bootsNowhere++;
+                        else bootInto[pv != null && ph != null ? "either" : pv != null ? "void only" : "hallway only"] = bootInto.GetValueOrDefault(pv != null && ph != null ? "either" : pv != null ? "void only" : "hallway only") + 1;
+                        Tile front = T(b.FrontX, b.FrontZ);
+                        if (!Walk(front) || !fromPassages.Contains((b.FrontX, b.FrontZ))) Bad($"whole terminal at {b.X},{b.Z}: the tile in front of it cannot be walked to");
+                    }
+                    worstHall = Math.Max(worstHall, inside - got);
+                    if (got == 0)
+                    {
+                        cutOff++;
+                        if (cutOff <= 5) Console.WriteLine($"  cut off: cluster {hx},{hz}");
+                    }
+                    continue;
                 }
+                // A pocket: nothing of it reached from the passages; all of it from its arrival; windows
+                pockets++;
+                pocketTiles += inside;
+                if (got > 0) { pocketLeaks++; Bad($"{k} {hx},{hz}: {got} of its tiles reached from the passages"); }
+                var fromArrival = Flood(new[] { plan.Arrival });
+                int holes = open.Count(o => !fromArrival.Contains(o));
+                if (!Walk(T(plan.Arrival.X, plan.Arrival.Z))) Bad($"{k} {hx},{hz}: its arrival {plan.Arrival.X},{plan.Arrival.Z} is not open floor");
+                if (holes > 0) { pocketHoles++; Bad($"{k} {hx},{hz}: {holes} open tiles not reached from its arrival"); }
+                int windows = open.Count(o => T(o.Item1, o.Item2).Variant == WorldLayout.L120Window);
+                if (windows == 0) { noWindow++; Bad($"{k} {hx},{hz}: no window"); }
             }
         Console.WriteLine($"halls wholly inside: {halls} (clipped by the rim: {clipped}): " + string.Join(", ", kinds.Select(p => $"{p.Key} {p.Value} ({100.0 * p.Value / Math.Max(1, halls):0}%)")));
-        Console.WriteLine($"  in those halls: racks standing {racks} ({racks / Math.Max(1, halls)} a hall), lit {lit} ({100.0 * lit / Math.Max(1, racks):0}%), wrecked places {wrecked}, terminals {terminals}");
-        Console.WriteLine($"  in the window: racks {racksSeen}, lit {litSeen}, terminals {terminalsSeen}");
+        int clusters = kinds.GetValueOrDefault("Cluster");
+        Console.WriteLine($"  clusters: rooms {rooms} ({(double)rooms / Math.Max(1, clusters):0.0} each, {minRooms}-{maxRooms}); racks standing {racks} ({racks / Math.Max(1, clusters)} a cluster), lit {lit} ({100.0 * lit / Math.Max(1, racks):0.0}%), wrecked places {wrecked}, terminals {terminals}, supply boxes {boxes} ({(double)boxes / Math.Max(1, clusters):0.0} a cluster)");
+        Console.WriteLine($"  whole terminals {boots} ({100.0 * boots / Math.Max(1, clusters):0}% of clusters); pockets near them: " + string.Join(", ", bootInto.Select(p => $"{p.Key} {p.Value}")) + $", none {bootsNowhere}");
+        Console.WriteLine($"  pockets {pockets}: {pocketTiles} open tiles; reached from the passages {pocketLeaks}, with tiles their arrival does not reach {pocketHoles}, without a window {noWindow}");
         Console.WriteLine("zones (tiles): " + string.Join(", ", Enum.GetValues<Zone>().Select(zn => $"{zn} {zones[(int)zn]}")));
-        int unreached = walkable - reached.Count;
-        Console.WriteLine($"walkable tiles {walkable}, reached from the corridors {reached.Count}, unreached {unreached} ({100.0 * unreached / Math.Max(1, walkable):0.00}%), sealed {sealedTiles}; most unreached in one hall {worstHall}");
-        Console.WriteLine($"halls not reached from the corridors: {cutOff}");
-        if (cutOff > 0) Bad("halls not reached from the corridors");
-        if (unreached > walkable / 100) Bad("more than 1% of walkable tiles unreached");
+        int reachable = walkable - pocketTiles;
+        int unreached = reachable - fromPassages.Count;
+        Console.WriteLine($"walkable tiles outside the pockets {reachable}, reached from the passages {fromPassages.Count}, unreached {unreached} ({100.0 * unreached / Math.Max(1, reachable):0.00}%), sealed {sealedTiles}; most unreached in one cluster {worstHall}");
+        Console.WriteLine($"clusters not reached from the passages: {cutOff}");
+        if (cutOff > 0) Bad("clusters not reached from the passages");
+        if (unreached > reachable / 100) Bad("more than 1% of walkable tiles unreached");
+        if (bootsNowhere > 0) Bad("whole terminals with no pocket near");
 
         // Arrivals
         int arrivals = 0, wrong = 0;
@@ -122,9 +163,9 @@ static partial class LevelModes
             if (layout.FindArrival(WorldLayout.Level120, key * 7919UL) is not { } a) continue;
             arrivals++;
             Tile t = layout.TileAt(a.X, a.Z);
-            if (t.Level != WorldLayout.Level120 || t.Zone is not ((byte)Zone.Corridor or (byte)Zone.Cold)) wrong++;
+            if (t.Level != WorldLayout.Level120 || t.Zone is not ((byte)Zone.Corridor or (byte)Zone.Room)) wrong++;
         }
-        Console.WriteLine($"arrivals: {arrivals}/60, {wrong} outside a corridor or a cold aisle");
+        Console.WriteLine($"arrivals: {arrivals}/60, {wrong} outside a passage or a server room");
         if (arrivals < 60 || wrong > 0) Bad("arrivals");
         Console.WriteLine(bad == 0 ? "120stats: OK" : $"120stats: {bad} problem(s)");
         return true;

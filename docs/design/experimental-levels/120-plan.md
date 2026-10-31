@@ -1,4 +1,4 @@
-# Level 120 "Server Room": prototype plan
+# Level 120 "Broken Servos": plan (prototype, then the detail pass)
 
 Internal id **26**, `WorldLayout.Level120`, tag `120`, blocks `l120-`, method infix `L120`, region far north-east
 (`spawn + (+F, -F)`, see BACKLOG batch 2). Prototype only: disconnected, cheats menu / `/backrooms goto 120`, no
@@ -141,3 +141,102 @@ glow; tray rods meeting the ceiling; terminal and office-chair facings (screen t
 the wall of screens); the machine cabinets' facing in corridors; fog colour and the hum's loudness by zone; the hot
 aisle's hunger cost; the stained-wallpaper texture (its streaks can read as a ring).
 
+
+## Detail pass (2026-10-30)
+
+The prototype's bright rack-hall lattice is brought back to the lore (Wikidot "Broken Servos" only; Fandom's
+"Chokepoint" is not used). Title now "Level 120: Broken Servos". The sections above describe the prototype; where
+they differ, this section wins.
+
+### Built
+- **Clusters of 15-23 server rooms** (`L120LayCluster`): every 90-square hall between the passages is cut by a
+  split of its square into 15-23 rooms (no room narrower than 9; 19 on average), joined by one- or two-wide doorways
+  (a spanning tree of the rooms' shared walls, then about a third of the other pairs as loops), with one or two
+  three-wide doors onto each passage. Room kinds: server rooms 50% (banks of racks back to back, two-wide aisles,
+  45% of banks wrecked: racks gutted, toppled, torn open, pulled out as machine parts or scrap, cables spilled over
+  the aisles), rack aisle rooms 12% of the big ones (the prototype's cold and hot aisles, in miniature), terminal
+  rooms 14% (rows of dead or smashed CRTs and chairs), wrecked stores 12%, cable rooms 12%. A flood from the doors
+  walls off or fills anything a rack bank shuts in, so every open tile is reachable (`120stats`: 0 unreached).
+- **Look**: the lore's dirty white floor (off-white vinyl tiles, two to a block, scuffed and stained; raised-floor
+  vents and lifted panels among the racks), dirty yellow paper on rotting boards (soot-black paper in the hallways),
+  office ceiling tiles (plain, water-stained, fallen through) with every fitting dead or smashed (a new smashed-fitting
+  block). New props: a rack toppled on its back, a rack torn open (two high, units hanging out, door half off), spilled
+  cables and drive caddies (walked over), a smashed CRT, the whole terminal (green BOOT prompt, light 5).
+- **Pitch dark**: lit racks 4% of standing racks (was 22%) and light 3-4 (was 4-6); room and passage fittings are
+  off (45%), smashed (45%), failing (3%) or dim (2%), never working; one passage crossing in four keeps a working
+  tube (was one in two). Base fog near black, scene dimmed to 0.8.
+- **The boot mechanic** (built as the brief proposes, a pocket generated from the terminal's hash, not wings behind
+  doors): about 1 hall in 17 is a **White Void** and 1 in 17 a **Pitch-Black Hallway**, only where the hall and the
+  cells round it are all Level 120; pocket halls have no doors, so they are reached only by booting. A cluster has a
+  whole terminal 85% of the time (in a terminal room if it has one). Right-click: boot sound and a chat line, two
+  seconds later you are carried (ThresholdSystem's fade and load, `L120Carry`; nothing written to the threshold
+  network) to the nearest pocket hall of the kind the terminal's hash picks (void 60%, hallway 40%; the other kind
+  if none within 8 halls). Where you stood is remembered on the player (`backrooms:l120Back`); walking into any
+  broken window of a pocket brings you back there (else to the nearest whole terminal, else anywhere in the level).
+  - White Void: 6-12 rooms 11 square and 4 high, grown on a 7x7 grid, pure white with a glowing ceiling panel
+    (light 14) every third block, black doors standing open between neighbours (a tree and some loops), a broken
+    window in the middle of every outside wall ("travel in one direction"), black solid round it. White fog, a clean
+    high tone. Stability 0.97.
+  - Pitch-Black Hallway: 2 wide, 86-long lanes folded back and forth (6-14 lanes, 500-1200 blocks), unlit, 14 C,
+    cables underfoot, a broken window closing each end; you arrive halfway along the middle lane. Black fog, near
+    silence. Stability 0.94.
+- **Tripping** (L120System): running in a hallway, a 17% chance per 8 blocks (walking 2%), and running over spilled
+  cables in the dark anywhere in the level 25% a crossing: 1 damage, slowed for 1.4 s, a stumble sound, the noise of
+  a fall for the director.
+- **The Misglitch** (the key new creature): `l120-misglitch`, model by `tools/gen_120_misglitch.py` (a gaunt black
+  humanoid about 2 blocks tall, a five-segment tentacle right arm ending in a point, twelve glowing pixel cubes
+  floating round it and four on its surface; two looks: red wound marks, or all black), animations idle, lurk,
+  glitch, walk, run, attack, hurt, die; sounds by `tools/gen_120_sounds.py` (three static bursts, a corrupted shriek,
+  a slice, hurt, death, a glitch blip). `L120System` puts one down wherever a player dies in Level 120 (all black for
+  an internal death: hunger, poison, suffocation, drowning), at most six within 24 blocks. `AiTaskMisglitch`
+  (`src/Regions/L120Misglitch.cs`): stands slumped by the place, crackling static every 4-10 s (the warning in the
+  dark); wakes for anyone within 6 blocks (3.5 sneaking), running within 18, or carrying light 7+ in its line of
+  sight within 16; chases at 0.043 (x Danger.Speed: just under a sprint), and every 4.5 s may skip 2.2 blocks straight
+  at its prey; slices with a 2.4-block reach (5 x Danger.Damage, tier 2, slashing); leashed 32 blocks to its place,
+  gives up after 25 s without blood or by a fire; lasts 24 in-game hours (watched attribute), then comes apart.
+  Health 20 (+42% at the level's danger 0.3). No drops (the victim's body holds the loot). Never the director's.
+- **Smilers in the voids**: 1-3 per void (by its hash) while anyone is in it, put down by L120System out of sight,
+  10-40 blocks away, as Ambient wanderers (the menace task never runs for them: they stand lost in the light; struck,
+  they withdraw as every Smiler). The director puts nothing down in Level 120 (band stays Safe, roster empty);
+  `Danger.OfLevel` is 0.3 (Survival Difficulty 2).
+- **Sound bed**: one loop by where you are (server hum by zone, the void tone, the hallway's near silence) and, among
+  the server rooms, one-shots somewhere off in the dark every 7-29 s (two hard drives seeking, a relay, a fan spinning
+  up, far static), all client-side in `AtmosphereSystem.L120.cs`.
+- **Loot**: racks, wrecks, terminals, trays, spilled cables and smashed fittings drop scrap wire, metal brackets,
+  glass and (racks, wrecks, terminals) now and then a circuit board (Level 3999's, which wanderers buy); a supply box
+  in about one room in five (wrecked stores 45%), 2.6 a cluster; picked over 30%.
+- **Notes**: a Level 120 track of six (M.E.G.'s death-rule notice, Dez's one screen, A.L.'s windows, Tom's hallway,
+  Nell's Smilers, an unsigned one on light and salvage) and one folded note (the lore's ways in and out and the
+  Sub-Misglitches, as unconfirmed reports). **Handbook**: its own page, "Level 120: Broken Servos" (`guide-l120`,
+  after What Lives Here; one line in `GuideSystem.Added`). Titles: The Hot Aisle, The Terminal Room, A White Void,
+  A Pitch-Black Hallway.
+- **Temperatures** (not lore; kept from the prototype): hot aisle 38, wrecked store 26, passage 25, terminal room 23,
+  server room 22, void 21, hallway 14 C.
+- **Testing**: `/backrooms l120 misglitch [x z]`, `void`, `hallway`, `boot [x z]`, `back` (from the console they use
+  the latest straw dummy); `120stats` checks clusters, pockets (unreachable from the passages, wholly reachable from
+  their arrival, windowed) and the whole terminals.
+
+### Choices against the brief
+- The passages (4 wide, every 96 blocks) are kept from the prototype: the lore has no connective tissue between
+  clusters, and they guarantee every cluster is reached. They are dark now, and dressed as the rooms are.
+- The prototype's hall kinds (control room, cold vault, great hall, dead store) are gone; the aisle layout survives as
+  one room kind among five. No "Server Room" door to Level 4 (DECISIONS: no thresholds in or out).
+- Sub-Misglitches: not built (DECISIONS); the handbook and the folded note name them.
+- The brief's boot-disk key, blinking LEDs, floor pits and corrupted wall screens (nice): not built.
+- Smilers are "dazzled" by being put down as Ambient wanderers rather than by a new state in the shared menace AI.
+
+### My inventions (not lore)
+- The Misglitch's senses (drawn by light and running), its glitch-skip, its leash, its 24-hour life and six-cap.
+- The trip numbers, and that spilled cables trip runners outside the hallways.
+- Void 60% / hallway 40%, the nearest-pocket rule, arriving mid-hallway with a window at both ends.
+- The windows' remembered return spot (the lore: "the computer block that brought you").
+- The stability drain in the pockets, the temperatures, every sound, the salvage table, the room kinds.
+
+### To check in-game (the lead's screenshots)
+- A server room in the dark with a torch: the banks, wrecks, spills, the dirty white floor; whether 4% lit racks read
+  as pitch black or too black. A terminal room with the one green BOOT screen.
+- `/backrooms l120 void` and `/backrooms l120 hallway` (or boot a terminal; `/backrooms l120 boot` names the nearest):
+  the white rooms, glow, black doors, the broken windows (frame and shards; black beyond), Smilers standing about;
+  the hallway's soot walls and black fog.
+- `/backrooms l120 misglitch`: the model in the dark (pixel glow, red marks), its static, the slice, the skip.
+- The fog colours (base, void white, hallway black), the loops' loudness, the one-shots' frequency.

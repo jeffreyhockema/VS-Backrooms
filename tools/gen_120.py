@@ -45,7 +45,7 @@ WOOD = {"walk": "game:walk/wood*", "place": "game:block/planks", "break": "game:
 METAL = {"walk": "game:walk/stone*", "place": "game:block/anvil1", "break": "game:block/heavymetal-hit", "hit": "game:block/heavymetal-hit"}
 
 PAPER = (186, 168, 104)
-PANEL = (190, 192, 188)
+WHITE = (212, 208, 196)
 STEEL = (40, 43, 48)
 UNIT = (52, 55, 61)
 
@@ -145,47 +145,73 @@ def wall_textures():
             if 0 <= x < S:
                 px[x, y] = shade(PAPER, 1.08) + (255,)
     save(grain(rot, 12005, 4, 8), "wall-rot")
+    # Soot: the Pitch-Black Hallways' walls, the paper gone near black, its print just there
+    soot = canvas((40, 36, 28))
+    px = soot.load()
+    for y in range(S):
+        for x in range(S):
+            k = 1.0
+            if x % 8 in (0, 1):
+                k *= 0.9
+            if (x % 8 == 4) and (y % 8 in (2, 6)) or (x % 8 in (3, 5)) and (y % 8 == 4):
+                k *= 1.12
+            px[x, y] = shade(px[x, y][:3], k) + (255,)
+    save(grain(soot, 12006, 3, 10), "wall-soot")
 
 
 def floor_textures():
-    def panels(colour, seed):
+    """The lore's "dirty, white floor": off-white vinyl tiles, two to a block, scuffed and grimed; among the racks the
+    raised floor's perforated vent panels and now and then a panel lifted out, the cables under it."""
+    def tiles(colour, seed, grime):
         img = canvas(colour)
         px = img.load()
+        rng = random.Random(seed)
+        tone = {(i, j): rng.uniform(0.95, 1.04) for i in range(2) for j in range(2)}
         for y in range(S):
             for x in range(S):
-                c = px[x, y][:3]
+                c = shade(colour, tone[(x // 16, y // 16)])
                 if x % 16 == 0 or y % 16 == 0:
-                    c = shade(colour, 0.55)
-                elif x % 16 == 1 or y % 16 == 1:
-                    c = shade(colour, 1.08)
+                    c = shade(colour, 0.62)  # the grimy seams
                 elif x % 16 == 15 or y % 16 == 15:
-                    c = shade(colour, 0.85)
+                    c = shade(colour, 0.86)
                 px[x, y] = c + (255,)
-        return grain(img, seed, 3, 5)
+        # Scuffs and dark smears, heaviest along the seams
+        for _ in range(grime):
+            x, y, n = rng.randint(0, 31), rng.randint(0, 31), rng.randint(2, 7)
+            k = rng.uniform(0.7, 0.88)
+            for i in range(n):
+                xx, yy = (x + i) % S, (y + (i // 3)) % S
+                r, g, b, a = px[xx, yy]
+                px[xx, yy] = (clamp(r * k), clamp(g * k * 0.99), clamp(b * k * 0.95), 255)
+        return grain(img, seed + 1, 3, 9)
 
-    save(panels(PANEL, 12010), "floor-clean")
-    dirty = panels(shade(PANEL, 0.86), 12011)
+    save(tiles(WHITE, 12010, 18), "floor-clean")
+    dirty = tiles(shade(WHITE, 0.9), 12011, 46)
     px = dirty.load()
     rng = random.Random(12012)
-    for _ in range(26):
-        x, y, n = rng.randint(0, 31), rng.randint(0, 31), rng.randint(2, 6)
-        for k in range(n):
-            xx, yy = (x + k) % S, (y + (k // 2)) % S
-            px[xx, yy] = shade(px[xx, yy][:3], 0.72) + (255,)
-    save(grain(dirty, 12013, 3, 10), "floor-dirty")
-    vent = panels(shade(PANEL, 0.95), 12014)
+    # A brown water stain spreading over two tiles
+    cx, cy = rng.randint(6, 26), rng.randint(6, 26)
+    for y in range(S):
+        for x in range(S):
+            d = math.hypot((x - cx + 16) % 32 - 16, (y - cy + 16) % 32 - 16)
+            if d < 9:
+                r, g, b, a = px[x, y]
+                k = 0.86 + 0.14 * d / 9
+                px[x, y] = (clamp(r * k), clamp(g * k * 0.95), clamp(b * k * 0.82), 255)
+    save(grain(dirty, 12013, 3, 12), "floor-dirty")
+    vent = tiles(shade(WHITE, 0.93), 12014, 14)
     px = vent.load()
     for y in range(S):
         for x in range(S):
             if 3 <= x % 16 <= 13 and 3 <= y % 16 <= 13 and x % 2 == 1 and y % 2 == 1:
-                px[x, y] = (34, 36, 38, 255)
+                px[x, y] = (30, 31, 33, 255)
     save(vent, "floor-vent")
-    hole = panels(shade(PANEL, 0.88), 12015)
+    hole = tiles(shade(WHITE, 0.88), 12015, 26)
     px = hole.load()
     rng = random.Random(12016)
     for y in range(1, 16):
         for x in range(1, 16):
-            px[x, y] = (14, 15, 17, 255)
+            px[x, y] = (12, 13, 14, 255)
     for colour in ((40, 60, 120), (150, 150, 150), (180, 140, 40), (30, 30, 30), (130, 40, 40)):
         y0 = rng.randint(3, 12)
         for x in range(1, 16):
@@ -195,6 +221,69 @@ def floor_textures():
                 if y + 1 < 16:
                     px[x, y + 1] = shade(colour, 0.6) + (255,)
     save(hole, "floor-hole")
+
+
+def ceiling_textures():
+    """Office ceiling tiles (the lore's "regular office ceiling tiles"): fissured off-white, a grey T-bar grid; one
+    water-stained; one fallen through, black above; and a fitting smashed in its housing, glass stubs in the sockets."""
+    tile = canvas((198, 194, 182))
+    px = tile.load()
+    rng = random.Random(12050)
+    for y in range(S):
+        for x in range(S):
+            if x % 16 == 0 or y % 16 == 0:
+                px[x, y] = (128, 128, 124, 255)
+            elif rng.random() < 0.08:
+                px[x, y] = shade((198, 194, 182), 0.82) + (255,)
+    grain(tile, 12051, 3, 6)
+    save(tile, "ceiling-tile")
+    stained = tile.copy()
+    px = stained.load()
+    for y in range(S):
+        for x in range(S):
+            d = math.hypot(x - 20, y - 12)
+            if d < 10:
+                r, g, b, a = px[x, y]
+                ring = 0.7 if 8.2 < d < 9.4 else 0.86
+                px[x, y] = (clamp(r * ring), clamp(g * ring * 0.93), clamp(b * ring * 0.75), 255)
+    save(stained, "ceiling-stained")
+    broken = tile.copy()
+    px = broken.load()
+    for y in range(1, 16):
+        edge = 3 + int(2.5 * math.sin(y * 0.9))
+        for x in range(1 + edge, 16):
+            px[x, y] = (8, 8, 9, 255)
+    save(broken, "ceiling-broken")
+    smashed = canvas((150, 150, 146))
+    px = smashed.load()
+    for y in range(S):
+        for x in range(S):
+            if 3 <= x <= 28 and 2 <= y <= 29:
+                px[x, y] = (34, 34, 36, 255)  # the empty housing
+    for x0 in (8, 22):
+        for y in range(2, 30):
+            px[x0, y] = px[x0 + 1, y] = (70, 70, 72, 255)  # the reflectors' ridges
+        for y in list(range(2, 5 + rng.randint(0, 3))) + list(range(26 - rng.randint(0, 3), 30)):
+            px[x0 - 1, y] = px[x0, y] = (214, 220, 214, 255)  # stubs of tube left in the sockets
+    for _ in range(26):
+        x, y = rng.randint(4, 27), rng.randint(3, 28)
+        px[x, y] = (196, 204, 200, 255)  # shards
+    save(grain(smashed, 12052, 3), "ceiling-smashed")
+
+
+def void_textures():
+    """The White Voids: white with no feature at all, the faintest grain so it is not a flat colour; black for the solid
+    round them; a black door."""
+    for name, base, amount in (("void-white", (246, 246, 244), 1.5), ("void-floor", (238, 238, 236), 2)):
+        save(grain(canvas(base), 12060 + len(name), amount), name)
+    save(canvas((4, 4, 5)), "void-black")
+    door = canvas((14, 14, 16))
+    px = door.load()
+    for y in range(S):
+        for x in range(S):
+            if x in (1, 30) or y in (1, 30):
+                px[x, y] = (24, 24, 27, 255)
+    save(grain(door, 12063, 1.5), "void-door")
 
 
 def rack_textures():
@@ -317,6 +406,54 @@ def prop_textures():
             r, g, b, a = px[x, y]
             px[x, y] = (clamp(r * 0.8), clamp(g * 0.8), clamp(b * 0.8), 255)
     save(lit, "screen-lit")
+    # Still whole: a green prompt on black, BOOT and a cursor (the one screen in a cluster that still glows)
+    boot = canvas((4, 12, 6))
+    px = boot.load()
+    glyphs = {"B": ["110", "101", "110", "101", "110"], "O": ["111", "101", "101", "101", "111"], "T": ["111", "010", "010", "010", "010"],
+              "_": ["000", "000", "000", "000", "111"]}
+    x0 = 1
+    for ch in "BOOT_":
+        for gy, row in enumerate(glyphs[ch]):
+            for gx, bit in enumerate(row):
+                if bit == "1":
+                    for dy in range(2):
+                        for dx in range(2):
+                            px[x0 + gx * 2 + dx, 12 + gy * 2 + dy] = (110, 255, 140, 255)
+        x0 += 6
+    for row in (4, 7):
+        for x in range(4, 4 + rng.randint(10, 22)):
+            if rng.random() < 0.7:
+                px[x, row] = (50, 140, 70, 255)
+    for y in range(0, S, 2):
+        for x in range(S):
+            r, g, b, a = px[x, y]
+            px[x, y] = (clamp(r * 0.75), clamp(g * 0.75), clamp(b * 0.75), 255)
+    save(boot, "screen-boot")
+    # Smashed: the glass caved in, black behind, cracks running out from the hole
+    smashed = canvas((30, 36, 34))
+    px = smashed.load()
+    cx, cy = 14, 15
+    for y in range(S):
+        for x in range(S):
+            d = math.hypot(x - cx, y - cy)
+            if d < 5 + 1.5 * math.sin(math.atan2(y - cy, x - cx) * 5):
+                px[x, y] = (5, 5, 6, 255)
+    for a in range(9):
+        ang = a * 0.7 + rng.uniform(-0.2, 0.2)
+        for r in range(5, 22):
+            x, y = int(cx + math.cos(ang) * r), int(cy + math.sin(ang) * r)
+            if 0 <= x < S and 0 <= y < S:
+                px[x, y] = (150, 160, 156, 255)
+    save(smashed, "screen-smashed")
+    # The broken window's frame (dirty white paint) and its glass
+    save(grain(canvas((214, 210, 200)), 12038, 4, 6), "window-frame")
+    glass = canvas((170, 196, 200))
+    px = glass.load()
+    for y in range(S):
+        for x in range(S):
+            if (x + y) % 11 == 0:
+                px[x, y] = (226, 238, 240, 255)
+    save(glass, "window-glass")
     keys = canvas((196, 190, 172))
     for y in range(2, 30, 6):
         for x in range(2, 30, 5):
@@ -383,8 +520,9 @@ def tray_shape(rods_only):
     return shape("l120-tray-rods" if rods_only else "l120-tray", els)
 
 
-def terminal_shape(lit):
-    """A CRT terminal on a desk, its screen and keyboard to the north."""
+def terminal_shape(state):
+    """A CRT terminal on a desk, its screen and keyboard to the north: dead, smashed, or whole and glowing (boot)."""
+    screen = {"dead": "screen-dead", "smashed": "screen-smashed", "boot": "screen-boot"}[state]
     els = [
         box("Top", (0.5, 10.5, 0.5), (15.5, 11.5, 15.5), {"top": "desk-top", "side": "desk-frame", "bottom": "desk-frame"}),
         box("SideL", (1, 0, 1.5), (2, 10.5, 14.5), "desk-frame", faces=("north", "east", "south", "west")),
@@ -392,10 +530,97 @@ def terminal_shape(lit):
         box("Modesty", (2, 3, 13.5), (14, 10.5, 14.5), "desk-frame", faces=("north", "south")),
         box("Case", (3, 11.5, 3.5), (13, 16, 13), "crt-case", faces=("east", "south", "west", "up")),
         box("Bezel", (3, 11.5, 3), (13, 16, 3.5), "crt-case", faces=("north", "east", "west", "up")),
-        box("Screen", (4, 12.5, 2.6), (12, 15.5, 3), "screen-lit" if lit else "screen-dead", faces=("north",), glow=200 if lit else 0),
+        box("Screen", (4, 12.5, 2.6), (12, 15.5, 3), screen, faces=("north",), glow=220 if state == "boot" else 0),
         box("Keyboard", (4, 11.5, 0.8), (12, 12, 2.6), "keyboard", faces=("up", "north", "east", "west")),
     ]
-    return shape("l120-terminal-lit" if lit else "l120-terminal-dead", els)
+    if state == "smashed":
+        # The case knocked askew, glass on the desk
+        els[4] = box("Case", (3, 11.5, 3.5), (13, 16, 13), "crt-case", faces=("east", "south", "west", "up"), rot=(0, 12, 0))
+        els += [box("Shard0", (5, 11.5, 1), (6, 11.75, 2), "window-glass", faces=("up",)),
+                box("Shard1", (9, 11.5, 0.6), (10.5, 11.75, 1.4), "window-glass", faces=("up",))]
+    return shape("l120-terminal-" + state, els)
+
+
+def toppled_shape():
+    """A rack toppled onto its back: a cabinet lying nine high, its front of units staring at the ceiling, two units
+    slid out onto the floor beside it."""
+    els = [
+        box("Body", (0.5, 0, 1), (15.5, 8.5, 15.5), {"top": "rack-gutted", "side": "rack-side", "front": "rack-top", "back": "rack-top", "bottom": "rack-top"}),
+        box("Lip", (0.5, 8.5, 1), (15.5, 9, 2), "rack-post", faces=("north", "east", "west", "up")),
+        box("Unit0", (2, 0, -0.0), (9, 1.5, 1), "rack-front", faces=("north", "east", "west", "up"), rot=(0, 18, 0)),
+        box("WireA", (6, 8.5, 4), (6.5, 9, 14), "wire-blue", faces=("up", "east", "west")),
+        box("WireB", (10, 8.5, 2), (10.5, 9, 11), "wire-grey", faces=("up", "east", "west")),
+    ]
+    return shape("l120-wreck-toppled", els)
+
+
+def torn_shape(part):
+    """A rack torn open, two high: the front ripped away, units hanging half out of their bays, wires down its face."""
+    els = [
+        box("Body", (0.5, 0, 2), (15.5, 16, 15.5), {"front": "rack-gutted", "back": "rack-back", "side": "rack-side", "top": "rack-top", "bottom": "rack-top"}),
+        box("PostL", (0.5, 0, 0.5), (1.5, 16, 2), "rack-post", faces=("north", "east", "west")),
+    ]
+    rng = random.Random("torn-" + part)
+    for i in range(2 if part == "lower" else 1):
+        y = rng.uniform(3, 12)
+        els.append(box(f"Unit{i}", (3, y, -2), (13, y + 1.8, 2), {"front": "rack-front", "side": "rack-side", "top": "rack-top", "bottom": "rack-top", "back": "rack-top"},
+                       faces=("north", "east", "west", "up", "down"), rot=(0, 0, rng.choice((-12, 8)))))
+    for name, tex_, x in (("WireA", "wire-blue", rng.uniform(3, 6)), ("WireB", "wire-grey", rng.uniform(9, 12))):
+        els.append(box(name, (x, 0 if part == "upper" else 1, 1.4), (x + 0.5, 16, 1.9), tex_, faces=("north", "east", "west")))
+    if part == "upper":
+        els.append(box("DoorHalf", (14.5, 2, -6), (15.5, 15, 0.5), "rack-side", faces=("north", "east", "south", "west", "up"), rot=(0, -35, 0), origin=(15, 8, 0.5)))
+    return shape("l120-wreck-torn" + part, els)
+
+
+def spill_shape(variant):
+    """Cables and drive caddies pulled out over the floor, a pixel or two high: walked over (and tripped on)."""
+    rng = random.Random("spill-" + variant)
+    els = []
+    for i in range(5 if variant == "a" else 4):
+        x, z = rng.uniform(1, 13), rng.uniform(1, 13)
+        ln = rng.uniform(6, 12)
+        tex_ = rng.choice(("wire-blue", "wire-grey", "tray-cable"))
+        els.append(box(f"Cable{i}", (x, 0, z), (min(16, x + ln), 0.5, z + 0.5), tex_, faces=("up", "north", "south", "east", "west"),
+                       rot=(0, rng.choice((-40, -22, 0, 22, 40)), 0)))
+    for i in range(2 if variant == "a" else 3):
+        x, z = rng.uniform(2, 12), rng.uniform(2, 12)
+        els.append(box(f"Caddy{i}", (x, 0, z), (x + 2.5, 1, z + 4), {"top": "rack-front", "side": "rack-side", "front": "rack-post", "back": "rack-post", "bottom": "rack-top"},
+                       faces=("up", "north", "south", "east", "west"), rot=(0, rng.choice((-30, 15, 60)), 0)))
+    return shape("l120-spill-" + variant, els)
+
+
+def voiddoor_shape(part):
+    """A White Void's black door standing open, flat against the side of its doorway (the passage along x)."""
+    return shape("l120-voiddoor-" + part, [
+        box("Leaf", (0, 0, 0.5), (16, 16 if part == "lower" else 15, 2), "void-door", faces=("north", "south", "east", "west", "up")),
+        box("Frame", (0, 0, 0), (16, 16, 0.5), "void-black", faces=("south", "east", "west")),
+    ])
+
+
+def window_shape(part):
+    """A broken window in a wall, the room to the north: a dirty white frame round a hole, jagged glass left round its edges."""
+    rng = random.Random("window-" + part)
+    els = [
+        box("PostL", (0, 0, 6), (2, 16, 10), "window-frame"),
+        box("PostR", (14, 0, 6), (16, 16, 10), "window-frame"),
+    ]
+    if part == "lower":
+        els.append(box("Sill", (2, 0, 5), (14, 1.5, 11), "window-frame"))
+    else:
+        els.append(box("Head", (2, 13.5, 6), (14, 16, 10), "window-frame"))
+    # Shards of glass still in the frame, along its sides and bottom (lower) or top (upper)
+    for i in range(7):
+        side = rng.choice(("l", "r", "e"))
+        size = rng.uniform(1.2, 3.2)
+        if side == "l":
+            x0, y0 = 2, rng.uniform(1, 14)
+        elif side == "r":
+            x0, y0 = 14 - size, rng.uniform(1, 14)
+        else:
+            x0, y0 = rng.uniform(2, 13), 1.5 if part == "lower" else 13.5 - size
+        els.append(box(f"Shard{i}", (x0, y0, 7.8), (x0 + size, y0 + size, 8.2), "window-glass", faces=("north", "south"),
+                       rot=(0, 0, rng.choice((-35, -15, 20, 45)))))
+    return shape("l120-window-" + part, els)
 
 
 # ======================================================================== Block types
@@ -411,11 +636,14 @@ def tex(name):
     return {"base": "block/120/" + name}
 
 
-def cube_block(code, kinds, comment, material="Stone", sounds=STONE):
+def cube_block(code, kinds, comment, material="Stone", sounds=STONE, extra=None):
     data = {"code": code, "variantgroups": [{"code": "kind", "states": list(kinds)}],
             "texturesByType": {f"*-{k}": {"all": tex(v)} for k, v in kinds.items()},
             "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
             "blockmaterial": material, "drawtype": "cube", "lightAbsorption": 99, "resistance": 6, "drops": [], "sounds": sounds}
+    data.update(extra or {})
+    if "dropsByType" in data:
+        data.pop("drops")
     write_json(os.path.join(BLOCKS, code + ".json"), data, comment)
 
 
@@ -426,55 +654,125 @@ def json_block(code, groups, shapes, comment, collision, sounds=METAL, extra=Non
             "lightAbsorption": 0, "resistance": 3, "sounds": sounds, "drops": []}
     data.update(collision)
     data.update(extra or {})
+    if "dropsByType" in data:
+        data.pop("drops")
     write_json(os.path.join(BLOCKS, code + ".json"), data, comment)
 
 
+def drops(*items):
+    """Salvage: (item code, average, variation), the item in this mod's domain unless it names one."""
+    return [{"type": "item", "code": c, "quantity": {"avg": avg, "var": var}} for c, avg, var in items]
+
+
+SIDED = [{"code": "side", "states": SIDES}]
+FULL = (0.03, 0, 0.03, 0.97, 1, 0.97)
+
+
+def sided_shapes(code, base_by_state):
+    """shapeByType for a block whose last variant group is its side: each state's base shape turned to face that side."""
+    out = {}
+    for state, base in base_by_state.items():
+        for s in SIDES:
+            out[f"{code}-{state}-{s}"] = {"base": base, "rotateY": ROTATE[s]}
+    return out
+
+
 def blocktypes():
-    cube_block("l120-wall", {"base": "wall-base", "stained": "wall-stained", "rot": "wall-rot"},
-               "Level 120: dirty yellow wallpaper over rotting boards (base; stained with brown streaks; rot: the paper torn off)",
-               material="Wood", sounds=WOOD)
+    cube_block("l120-wall", {"base": "wall-base", "stained": "wall-stained", "rot": "wall-rot", "soot": "wall-soot"},
+               "Level 120: dirty yellow wallpaper over rotting boards (base; stained with brown streaks; rot: the paper torn off; soot: the "
+               "Pitch-Black Hallways' near-black paper)", material="Wood", sounds=WOOD)
     cube_block("l120-floor", {k: "floor-" + k for k in ("clean", "dirty", "vent", "hole")},
-               "Level 120: raised-floor panels, four to a block (clean; dirty; vent: perforated; hole: one panel lifted, the cables under it)",
-               sounds=METAL)
+               "Level 120: the dirty white floor, two tiles to a block (clean; dirty; vent: a perforated raised-floor panel; hole: a panel "
+               "lifted, the cables under it)", sounds=METAL)
+    cube_block("l120-ceiling", {"tile": "ceiling-tile", "stained": "ceiling-stained", "broken": "ceiling-broken", "smashed": "ceiling-smashed"},
+               "Level 120: office ceiling tiles (plain; water-stained; one fallen through) and a smashed fitting in its housing", sounds=STONE,
+               extra={"dropsByType": {"*-smashed": drops(("glassshard", 0.6, 0.4), ("metalbracket", 0.3, 0.3)), "*": drops(("metalbracket", 0.15, 0))}})
+
+    # The White Voids: plain white surfaces, a glowing panel every third block of the ceiling, the black round them
+    data = {"code": "l120-void", "variantgroups": [{"code": "kind", "states": ["floor", "wall", "ceiling", "panel", "black"]}],
+            "texturesByType": {"*-floor": {"all": tex("void-floor")}, "*-black": {"all": tex("void-black")}, "*": {"all": tex("void-white")}},
+            "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
+            "blockmaterial": "Stone", "drawtype": "cube", "lightAbsorption": 99, "resistance": 8, "drops": [], "sounds": STONE,
+            "lightHsvByType": {"*-panel": [0, 0, 14]}}
+    write_json(os.path.join(BLOCKS, "l120-void.json"), data,
+               "Level 120: the White Voids, white with nothing on it (floor, wall, ceiling; panel: the ceiling's glow, light 14) and the black round them")
 
     # The rack
-    shapes, light = {}, {}
+    shapes = {}
     for part in ("lower", "upper"):
         for state in RACK_STATES:
             base = rack_shape(part, state)
             for s in SIDES:
                 shapes[f"l120-rack-{part}-{state}-{s}"] = {"base": base, "rotateY": ROTATE[s]}
-    light = {"*-upper-leda-*": [21, 6, 5], "*-upper-ledb-*": [7, 6, 4], "*-upper-both-*": [30, 5, 6]}
-    full = (0.03, 0, 0.03, 0.97, 1, 0.97)
-    json_block("l120-rack", [{"code": "part", "states": ["lower", "upper"]}, {"code": "state", "states": RACK_STATES},
-                             {"code": "side", "states": SIDES}], shapes,
+    # (Darker than the prototype: a lit rack is a small pool of light in a dark room, not a lamp)
+    light = {"*-upper-leda-*": [21, 6, 3], "*-upper-ledb-*": [7, 6, 3], "*-upper-both-*": [30, 5, 4]}
+    json_block("l120-rack", [{"code": "part", "states": ["lower", "upper"]}, {"code": "state", "states": RACK_STATES}] + SIDED, shapes,
                "Level 120: a server rack, two blocks high (lower, upper), its front to the side; dark, its LEDs on (bank A green, bank B amber, "
-               "both green and blue: the upper block gives a little light), or gutted",
-               {"collisionbox": cuboid(full), "selectionbox": cuboid(full)},
-               extra={"lightHsvByType": light}, inventory="l120-rack-lower-leda-north")
+               "both green and blue: the upper block gives a little light), or gutted. Salvage: copper wire, brackets, now and then a circuit board",
+               {"collisionbox": cuboid(FULL), "selectionbox": cuboid(FULL)},
+               extra={"lightHsvByType": light, "dropsByType": {
+                   "*-lower-gutted-*": drops(("scrapwire", 0.4, 0.4), ("metalbracket", 0.5, 0.4)),
+                   "*-upper-gutted-*": drops(("scrapwire", 0.3, 0.3)),
+                   "*-lower-*": drops(("scrapwire", 0.6, 0.5), ("metalbracket", 0.5, 0.4), ("l3999-circuitboard", 0.2, 0)),
+                   "*-upper-*": drops(("scrapwire", 0.4, 0.4), ("l3999-circuitboard", 0.15, 0)),
+               }}, inventory="l120-rack-lower-leda-north")
+
+    # The wrecks
+    shapes = sided_shapes("l120-wreck", {"toppled": toppled_shape(), "tornlower": torn_shape("lower"), "tornupper": torn_shape("upper")})
+    low = (0.03, 0, 0.03, 0.97, 0.56, 0.97)
+    json_block("l120-wreck", [{"code": "state", "states": ["toppled", "tornlower", "tornupper"]}] + SIDED, shapes,
+               "Level 120: a rack ripped apart: toppled onto its back, or torn open (two high, lower and upper) with its units hanging out. "
+               "Salvage: copper wire, brackets, circuit boards",
+               {"collisionboxByType": {"*-toppled-*": cuboid(low), "*": cuboid(FULL)}, "selectionboxByType": {"*-toppled-*": cuboid(low), "*": cuboid(FULL)}},
+               extra={"dropsByType": {"*-toppled-*": drops(("scrapwire", 0.7, 0.5), ("metalbracket", 0.6, 0.4), ("l3999-circuitboard", 0.15, 0)),
+                                      "*": drops(("scrapwire", 0.5, 0.4), ("l3999-circuitboard", 0.25, 0), ("metalbracket", 0.3, 0.3))}},
+               inventory="l120-wreck-toppled-north")
+
+    # Cables over the floor: walked over
+    json_block("l120-spill", [{"code": "kind", "states": ["a", "b"]}], {"*-a": {"base": spill_shape("a")}, "*-b": {"base": spill_shape("b")}},
+               "Level 120: cables and drive caddies pulled out over the floor (walked over, and easy to trip on in the dark). Salvage: copper wire",
+               {"collisionbox": None, "selectionbox": cuboid((0, 0, 0, 1, 0.08, 1))},
+               extra={"drops": drops(("scrapwire", 0.4, 0.3))}, inventory="l120-spill-a")
 
     # The tray
-    tray, rods = tray_shape(False), tray_shape(True)
-    shapes = {"*-we": {"base": tray}, "*-ns": {"base": tray, "rotateY": 90},
-              "*-rodwe": {"base": rods}, "*-rodns": {"base": rods, "rotateY": 90}}
+    tray = tray_shape(False)
     tb = (0, 0.7, 0.28, 1, 1, 0.72)
-    rb = (0.1, 0, 0.28, 0.9, 1, 0.72)
-    json_block("l120-tray", [{"code": "kind", "states": ["we", "ns", "rodwe", "rodns"]}], shapes,
-               "Level 120: an overhead cable tray, a mesh channel full of black cable hung on rods, along x (we) or z (ns); or the rods alone",
-               {"collisionboxByType": {"*-we": cuboid(tb), "*-ns": cuboid(tb, 90), "*-rodwe": cuboid(rb), "*-rodns": cuboid(rb, 90)},
-                "selectionboxByType": {"*-we": cuboid(tb), "*-ns": cuboid(tb, 90), "*-rodwe": cuboid(rb), "*-rodns": cuboid(rb, 90)}},
-               inventory="l120-tray-we")
+    json_block("l120-tray", [{"code": "kind", "states": ["we", "ns"]}], {"*-we": {"base": tray}, "*-ns": {"base": tray, "rotateY": 90}},
+               "Level 120: an overhead cable tray, a mesh channel full of black cable hung on rods, along x (we) or z (ns)",
+               {"collisionboxByType": {"*-we": cuboid(tb), "*-ns": cuboid(tb, 90)},
+                "selectionboxByType": {"*-we": cuboid(tb), "*-ns": cuboid(tb, 90)}},
+               extra={"drops": drops(("scrapwire", 0.5, 0.4))}, inventory="l120-tray-we")
 
-    # The terminal
+    # The terminal: booting a whole one is the way into the pockets (L120System)
+    shapes = sided_shapes("l120-terminal", {s: terminal_shape(s) for s in ("dead", "smashed", "boot")})
+    json_block("l120-terminal", [{"code": "state", "states": ["dead", "smashed", "boot"]}] + SIDED, shapes,
+               "Level 120: a CRT terminal on a grey desk, its screen to the side: dead, smashed, or whole (a green BOOT prompt, a little light; "
+               "right-click to boot it). Salvage: glass, wire, a circuit board",
+               {"collisionbox": cuboid(FULL), "selectionbox": cuboid(FULL)},
+               extra={"lightHsvByType": {"*-boot-*": [22, 6, 5]},
+                      "behaviorsByType": {"*-boot-*": [{"name": "BackroomsL120Boot"}]},
+                      "resistanceByType": {"*-boot-*": 40, "*": 3},
+                      "dropsByType": {"*-boot-*": [], "*": drops(("glassshard", 0.6, 0.4), ("scrapwire", 0.3, 0.3), ("l3999-circuitboard", 0.25, 0))}},
+               inventory="l120-terminal-boot-north")
+
+    # A White Void's black door, standing open
     shapes = {}
-    for state, lit in (("dead", False), ("lit", True)):
-        base = terminal_shape(lit)
-        for s in SIDES:
-            shapes[f"l120-terminal-{state}-{s}"] = {"base": base, "rotateY": ROTATE[s]}
-    json_block("l120-terminal", [{"code": "state", "states": ["dead", "lit"]}, {"code": "side", "states": SIDES}], shapes,
-               "Level 120: a CRT terminal on a grey desk, its screen to the side: dead, or lit (cyan text; a little light)",
-               {"collisionbox": cuboid(full), "selectionbox": cuboid(full)},
-               extra={"lightHsvByType": {"*-lit-*": [33, 5, 6]}}, inventory="l120-terminal-lit-north")
+    for part in ("lower", "upper"):
+        base = voiddoor_shape(part)
+        shapes[f"l120-voiddoor-{part}-we"] = {"base": base}
+        shapes[f"l120-voiddoor-{part}-ns"] = {"base": base, "rotateY": 90}
+    leaf = (0, 0, 0, 1, 1, 0.125)
+    json_block("l120-voiddoor", [{"code": "part", "states": ["lower", "upper"]}, {"code": "way", "states": ["we", "ns"]}], shapes,
+               "Level 120: a White Void's black door, standing open against the side of its doorway (two high; the way through along x or z)",
+               {"collisionboxByType": {"*-we": cuboid(leaf), "*-ns": cuboid(leaf, 90)}, "selectionboxByType": {"*-we": cuboid(leaf), "*-ns": cuboid(leaf, 90)}},
+               extra={"resistance": 40}, inventory="l120-voiddoor-lower-we")
+
+    # The broken window: walk into it (L120System)
+    shapes = sided_shapes("l120-window", {"lower": window_shape("lower"), "upper": window_shape("upper")})
+    json_block("l120-window", [{"code": "part", "states": ["lower", "upper"]}] + SIDED, shapes,
+               "Level 120: a broken window at the edge of a pocket, black beyond it (two high): walk into it to go back to the terminal that brought you",
+               {"collisionbox": None, "selectionbox": cuboid((0, 0, 0.3, 1, 1, 0.7))},
+               extra={"resistance": 40}, inventory="l120-window-lower-north")
 
 
 # ======================================================================== Sound
@@ -504,12 +802,75 @@ def serverhum():
         print("wrote", os.path.relpath(path, ROOT))
 
 
+# ======================================================================== The Misglitch
+
+def misglitch_entity():
+    """The Misglitch's entity type (its model and sounds: gen_120_misglitch.py, gen_120_sounds.py). Put down where a
+    player dies in the level, by L120System; driven by AiTaskMisglitch (src/Regions/L120Misglitch.cs)."""
+    anims = [("idle", "AddAverage", {"triggeredBy": {"defaultAnim": True}, "easeOutSpeed": 4}),
+             ("lurk", "Average", {}), ("glitch", "AddAverage", {"weight": 4}), ("walk", "Average", {}), ("run", "Average", {}),
+             ("attack", "Average", {"weight": 10}), ("hurt", "AddAverage", {"weight": 10}),
+             ("die", "Average", {"weight": 10, "triggeredBy": {"onControls": ["dead"]}})]
+    animations = []
+    for code, blend, more in anims:
+        a = {"code": code, "animation": code, "animationSpeed": 1.0, "blendMode": blend}
+        a.update(more)
+        animations.append(a)
+    data = {
+        "code": "l120-misglitch",
+        "class": "EntityAgent",
+        "tags": ["backrooms-entity", "humanoid", "habitat-land"],
+        "weight": 60,
+        "canClimb": True,
+        "hitboxSize": {"x": 0.6, "y": 1.9},
+        "deadHitboxSize": {"x": 0.6, "y": 0.5},
+        "eyeHeight": 1.7,
+        "attributes": {"killedByInfoText": "backrooms:deadcreature-l120-misglitch"},
+        "client": {
+            "renderer": "Shape",
+            "shape": {"base": "backrooms:entity/120/l120-misglitch"},
+            "texture": {"base": "backrooms:entity/120/l120-misglitch", "alternates": [{"base": "backrooms:entity/120/l120-misglitch-black"}]},
+            "size": 1.0,
+            "behaviors": [{"code": "repulseagents", "movable": True}, {"code": "controlledphysics", "stepHeight": 1.1251},
+                          {"code": "floatupwhenstuck", "onlyWhenDead": True}, {"code": "interpolateposition"}],
+            "animations": animations,
+        },
+        "server": {
+            "behaviors": [
+                {"code": "repulseagents", "movable": True},
+                {"code": "controlledphysics", "stepHeight": 1.1251},
+                {"code": "health", "currenthealth": 20, "maxhealth": 20},
+                {"code": "deaddecay", "hoursToDecay": 0.05},
+                {"code": "floatupwhenstuck", "onlyWhenDead": True},
+                {"code": "taskai", "aiCreatureType": "LandCreature", "aitasks": [{
+                    "code": "backrooms-l120-misglitch", "priority": 1.6, "priorityForCancel": 1.6, "mincooldown": 0, "maxcooldown": 0,
+                    "walkSpeed": 0.016, "runSpeed": 0.043,
+                    "touch": 6, "sneakTouch": 3.5, "hearing": 18, "lightSight": 16, "leash": 32,
+                    "attackRange": 2.4, "damage": 5, "damageTier": 2, "knockback": 0.35,
+                    "attackDurationMs": 1000, "damageAtMs": 430, "attackCooldownMs": 1700,
+                    "skipEveryMs": 4500, "skipDistance": 2.2, "patienceMs": 25000, "lifeHours": 24,
+                    "staticSounds": ["backrooms:entity/120/misglitch-static1", "backrooms:entity/120/misglitch-static2", "backrooms:entity/120/misglitch-static3"],
+                    "huntSound": "backrooms:entity/120/misglitch-hunt", "sliceSound": "backrooms:entity/120/misglitch-slice",
+                    "skipSound": "backrooms:entity/120/misglitch-step"}]},
+                {"code": "entitystatetags"},
+            ],
+        },
+        "sounds": {"hurt": "backrooms:entity/120/misglitch-hurt", "death": "backrooms:entity/120/misglitch-death"},
+    }
+    path = os.path.join(ASSETS, "entities", "l120-misglitch.json")
+    write_json(path, data, "Level 120's Misglitch: what someone who died here became (L120System puts one down where any player dies in the level). "
+               "Texture 0 red marks, 1 all black (an internal death)")
+
+
 def main():
     wall_textures()
     floor_textures()
+    ceiling_textures()
+    void_textures()
     rack_textures()
     prop_textures()
     blocktypes()
+    misglitch_entity()
     serverhum()
     print("Level 120: textures in", os.path.relpath(TEX, ROOT), "; shapes in", os.path.relpath(SHAPES, ROOT), "; blocktypes in", os.path.relpath(BLOCKS, ROOT))
 

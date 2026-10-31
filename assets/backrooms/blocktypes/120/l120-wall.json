@@ -1,4 +1,4 @@
-// Level 120: dirty yellow wallpaper over rotting boards (base; stained with brown streaks; rot: the paper torn off)
+// Level 120: dirty yellow wallpaper over rotting boards (base; stained with brown streaks; rot: the paper torn off; soot: the Pitch-Black Hallways' near-black paper)
 {
 	"code": "l120-wall",
 	"variantgroups": [
@@ -7,7 +7,8 @@
 			"states": [
 				"base",
 				"stained",
-				"rot"
+				"rot",
+				"soot"
 			]
 		}
 	],
@@ -25,6 +26,11 @@
 		"*-rot": {
 			"all": {
 				"base": "block/120/wall-rot"
+			}
+		},
+		"*-soot": {
+			"all": {
+				"base": "block/120/wall-soot"
 			}
 		}
 	},

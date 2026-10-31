@@ -1,0 +1,490 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"window-frame": "backrooms:block/120/window-frame",
+		"window-glass": "backrooms:block/120/window-glass"
+	},
+	"elements": [
+		{
+			"name": "PostL",
+			"from": [
+				0,
+				0,
+				6
+			],
+			"to": [
+				2,
+				16,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2,
+						4
+					]
+				},
+				"down": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "PostR",
+			"from": [
+				14,
+				0,
+				6
+			],
+			"to": [
+				16,
+				16,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2,
+						4
+					]
+				},
+				"down": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						2,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				2,
+				13.5,
+				6
+			],
+			"to": [
+				14,
+				16,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						12,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						4,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						12,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						4,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				},
+				"down": {
+					"texture": "#window-frame",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Shard0",
+			"from": [
+				9.5548,
+				11.001,
+				7.8
+			],
+			"to": [
+				12.0538,
+				13.5,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						2.499,
+						2.499
+					]
+				},
+				"south": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						2.499,
+						2.499
+					]
+				}
+			},
+			"rotationOrigin": [
+				10.8043,
+				12.2505,
+				8.0
+			],
+			"rotationZ": -35
+		},
+		{
+			"name": "Shard1",
+			"from": [
+				5.1517,
+				11.6602,
+				7.8
+			],
+			"to": [
+				6.9915,
+				13.5,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						1.8398,
+						1.8398
+					]
+				},
+				"south": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						1.8398,
+						1.8398
+					]
+				}
+			},
+			"rotationOrigin": [
+				6.0716,
+				12.5801,
+				8.0
+			],
+			"rotationZ": -35
+		},
+		{
+			"name": "Shard2",
+			"from": [
+				11.6456,
+				10.423,
+				7.8
+			],
+			"to": [
+				14.7226,
+				13.5,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						3.077,
+						3.077
+					]
+				},
+				"south": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						3.077,
+						3.077
+					]
+				}
+			},
+			"rotationOrigin": [
+				13.1841,
+				11.9615,
+				8.0
+			],
+			"rotationZ": 20
+		},
+		{
+			"name": "Shard3",
+			"from": [
+				11.5113,
+				8.4152,
+				7.8
+			],
+			"to": [
+				14.0,
+				10.9039,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						2.4887,
+						2.4887
+					]
+				},
+				"south": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						2.4887,
+						2.4887
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.7556,
+				9.6595,
+				8.0
+			],
+			"rotationZ": 45
+		},
+		{
+			"name": "Shard4",
+			"from": [
+				12.0983,
+				11.9973,
+				7.8
+			],
+			"to": [
+				13.6009,
+				13.5,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						1.5027,
+						1.5027
+					]
+				},
+				"south": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						1.5027,
+						1.5027
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.8496,
+				12.7487,
+				8.0
+			],
+			"rotationZ": 45
+		},
+		{
+			"name": "Shard5",
+			"from": [
+				12.7707,
+				11.4798,
+				7.8
+			],
+			"to": [
+				14.7909,
+				13.5,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						2.0202,
+						2.0202
+					]
+				},
+				"south": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						2.0202,
+						2.0202
+					]
+				}
+			},
+			"rotationOrigin": [
+				13.7808,
+				12.4899,
+				8.0
+			],
+			"rotationZ": -35
+		},
+		{
+			"name": "Shard6",
+			"from": [
+				2,
+				4.1639,
+				7.8
+			],
+			"to": [
+				3.5329,
+				5.6968,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						1.5329,
+						1.5329
+					]
+				},
+				"south": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						1.5329,
+						1.5329
+					]
+				}
+			},
+			"rotationOrigin": [
+				2.7665,
+				4.9303,
+				8.0
+			],
+			"rotationZ": -35
+		}
+	]
+}
