@@ -19,6 +19,7 @@ See docs/DEVELOPING.md, section "Client rig". The steps of a scenario (a YAML or
     shot: <name>                        screenshot (a bot shot, with a pause for the frame to settle)
     sleep: <ms>                         wait
     note: <text>                        a line in the report
+    showcase: <level> [prefix]          the level's showcase spots (/backrooms showcase): for each, its setup commands, tp, look, shot <prefix>-<nn>-<name>
 Any step may instead be a mapping: {expect_chat: "text", timeout: 70}. Each step passes or fails; the run continues.
 """
 import argparse
@@ -351,6 +352,39 @@ class Run:
             got = self.bot("waitchat " + str((timeout or 15) * 1000), 40 + (timeout or 15)) and bool(self.chat_since().strip())
             ok = ok and got
             return ok, ("reply: " if got else "NO REPLY ") + " | ".join(self.chat_since().strip().splitlines()[:3])[:300]
+        if kind == "showcase":
+            # "<level> [prefix]": ask for the level's spots, then shoot each (setup commands, tp, look, shot)
+            parts = text.split()
+            level, prefix = parts[0], (parts[1] if len(parts) > 1 else parts[0])
+            self.mark_chat()
+            self.bot("cmd /backrooms showcase " + level, 30)
+            self.bot("waitchat 15000", 40)
+            time.sleep(1.5)
+            spots = [l.strip() for l in self.chat_since().splitlines() if l.strip().startswith("spot ")]
+            if not spots:
+                return False, "no showcase spots: " + self.chat_since().strip()[:200]
+            good = 0
+            for line in spots:
+                head, _, setup = line.partition("|")
+                f = head.split()
+                i, name, x, y, z, h, pitch = f[1], f[2], f[3], f[4], f[5], f[6], f[7]
+                self.bot(f"tp {x} {y} {z}", 40)
+                self.bot("ready 48", 70)
+                for c in [c.strip() for c in setup.split(";") if c.strip()]:
+                    self.bot("cmd " + c, 30)
+                    self.bot("wait 1500", 10)
+                self.bot("wait 2000", 10)
+                self.bot("closeguis", 10)
+                self.bot(f"look {h} {pitch}", 10)
+                self.bot("wait 700", 10)
+                shot = f"{prefix}-{int(i):02d}-{name}"
+                if self.bot("shot " + shot, 60):
+                    time.sleep(0.5)
+                    p = os.path.join(self.botdir, shot + ".png")
+                    if os.path.exists(p) and os.path.getsize(p) > 20 * 1024:
+                        good += 1
+                log(f"  showcase {shot}: {'ok' if os.path.exists(os.path.join(self.botdir, shot + '.png')) else 'no file'}")
+            return good == len(spots), f"{good}/{len(spots)} shots"
         if kind == "server":
             self.srv.cmd(text)
             time.sleep(1.0)
@@ -508,7 +542,7 @@ def load_scenario(path):
 
 
 KNOWN_KEY = "known"  # a step may carry known: <finding>; if it fails it is reported as a known mod finding and does not fail the run
-KINDS = {"bot", "cmd", "server", "face", "expect_chat", "expect_log", "expect_no_log", "expect_no_startup_issues", "expect_shot",
+KINDS = {"bot", "cmd", "server", "showcase", "face", "expect_chat", "expect_log", "expect_no_log", "expect_no_startup_issues", "expect_shot",
          "expect_telemetry", "shot", "sleep", "note", "nearest_gate"}
 NEEDS_TEXT = KINDS - {"expect_no_startup_issues", "note"}
 

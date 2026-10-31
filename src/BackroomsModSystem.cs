@@ -116,6 +116,11 @@ public class BackroomsModSystem : ModSystem
                 .WithArgs(api.ChatCommands.Parsers.OptionalDouble("hours"))
                 .HandleWith(OnShiftCommand)
             .EndSubCommand()
+            .BeginSubCommand("showcase")
+                .WithDescription("Experimental levels: lists the level's showcase spots for review screenshots, one line each: spot <i> <name> <x> <y> <z> <heading> <pitch> | <setup commands>")
+                .WithArgs(api.ChatCommands.Parsers.Word("level"))
+                .HandleWith(OnShowcaseCommand)
+            .EndSubCommand()
             .BeginSubCommand("where")
                 .WithDescription("Names the level you are in (and the Level 0 zone) and its stability")
                 .RequiresPlayer()
@@ -440,6 +445,21 @@ public class BackroomsModSystem : ModSystem
             w.Write(light);
         }
         return TextCommandResult.Success($"Dumped {size}x{height}x{size} blocks ({palette.Count} kinds) to {path}");
+    }
+
+    private TextCommandResult OnShowcaseCommand(TextCommandCallingArgs args)
+    {
+        if (!isBackroomsWorld) return TextCommandResult.Error("This is not a Backrooms world");
+        int level = WorldLayout.FromDisplayName(((string)args[0]).Trim());
+        if (level < 0) return TextCommandResult.Error($"There is no Level {args[0]} here ({LevelList})");
+        var text = new System.Text.StringBuilder();
+        int i = 0;
+        foreach (Cheats.Showcase.Spot s in Cheats.Showcase.For(level, layout, generator.Geometry))
+            text.Append(string.Format(System.Globalization.CultureInfo.InvariantCulture, "spot {0} {1} {2:0.##} {3:0.##} {4:0.##} {5:0.#} {6:0.#} | {7}\n",
+                i++, s.Name, s.X, s.Y, s.Z, s.Heading, s.Pitch, s.Setup ?? ""));
+        if (i == 0) return TextCommandResult.Success($"Level {WorldLayout.DisplayNumber(level)} has no showcase spots");
+        sapi.Logger.Notification("[backrooms] showcase {0}:\n{1}", WorldLayout.DisplayNumber(level), text);
+        return TextCommandResult.Success(text.ToString().TrimEnd());
     }
 
     private TextCommandResult OnWhereCommand(TextCommandCallingArgs args)
