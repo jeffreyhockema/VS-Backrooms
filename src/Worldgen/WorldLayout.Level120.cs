@@ -53,10 +53,10 @@ public sealed partial class WorldLayout
     public const byte L120PanelClean = 0, L120PanelDirty = 1, L120PanelVent = 2, L120PanelHole = 3;
 
     /// <summary>A cable tray under the ceiling (<see cref="Tile.Overhead"/>): along x or z at rel 3 (in a great hall hung from the ceiling on rods), or at rel 6 (a great hall's upper level, over its cold aisles).</summary>
-    public const byte L120TrayX = Overheads.L120First, L120TrayZ = Overheads.L120First + 1, L120HighTrayX = Overheads.L120First + 2, L120HighTrayZ = Overheads.L120First + 3;
+    public const byte L120TrayX = Overheads.L120LegacyFirst, L120TrayZ = Overheads.L120LegacyFirst + 1, L120HighTrayX = Overheads.L120LegacyFirst + 2, L120HighTrayZ = Overheads.L120LegacyFirst + 3;
 
     /// <summary>A duct along the top of a corridor (<see cref="Tile.Pipe"/>): along x, along z, where two meet.</summary>
-    public const byte L120DuctX = Pipes.L120First, L120DuctZ = Pipes.L120First + 1, L120DuctHub = Pipes.L120First + 2;
+    public const byte L120DuctX = Pipes.L120LegacyFirst, L120DuctZ = Pipes.L120LegacyFirst + 1, L120DuctHub = Pipes.L120LegacyFirst + 2;
 
     /// <summary>A dim fitting that still gives a little warm light (the level's own ceiling kind).</summary>
     public const CeilingKind L120Dim = (CeilingKind)113;

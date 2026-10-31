@@ -374,7 +374,7 @@ public sealed partial class WorldLayout
             if (alongX) Rect(ax, az - 1, bx, az + 1);
             else Rect(ax - 1, az, ax + 1, bz);
             // Pipes along the north (or west) side of the passage, between the nodes; now and then a leaking one
-            byte pipe = alongX ? (rng.Chance(0.15) ? Pipes.BasementLeakWE : Pipes.BasementPipeWE) : (rng.Chance(0.15) ? Pipes.BasementLeakNS : Pipes.BasementPipeNS);
+            ushort pipe = alongX ? (rng.Chance(0.15) ? Pipes.BasementLeakWE : Pipes.BasementPipeWE) : (rng.Chance(0.15) ? Pipes.BasementLeakNS : Pipes.BasementPipeNS);
             if (rng.Chance(0.7))
                 for (int k = 2; k <= BasementPitch - 2; k++)
                     b.At(alongX ? ax + k : ax - 1, alongX ? az - 1 : az + k).Pipe = pipe;

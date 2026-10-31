@@ -43,7 +43,7 @@ public sealed partial class WorldGenerator
         foreach (var (family, decor, rel, state) in DetailBlocks.Decorations)
         {
             if (family != "storefrontdeco" || rel != 3) continue;
-            byte d = DecorFor(family, decor);
+            ushort d = DecorFor(family, decor);
             if (d == 0) continue;
             for (int f = 0; f < 4; f++)
             {

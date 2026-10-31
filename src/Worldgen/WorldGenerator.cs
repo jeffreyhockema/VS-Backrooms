@@ -266,11 +266,11 @@ public sealed partial class WorldGenerator
         ["l3plaqueglazed"] = WallPattern.GlazedTile, ["l3plaquebrick"] = WallPattern.RedBrick, ["l3plaquecinder"] = WallPattern.Cinder,
     };
 
-    private static readonly Dictionary<string, byte> DecorCodes = BuildDecorCodes();
+    private static readonly Dictionary<string, ushort> DecorCodes = BuildDecorCodes();
 
-    private static Dictionary<string, byte> BuildDecorCodes()
+    private static Dictionary<string, ushort> BuildDecorCodes()
     {
-        var codes = new Dictionary<string, byte>
+        var codes = new Dictionary<string, ushort>
         {
             ["powerbox"] = Decor.PowerBox, ["breaker"] = Decor.Breaker, ["outlet"] = Decor.Outlet, ["extinguisher"] = Decor.Extinguisher,
             ["alarm"] = Decor.Alarm, ["hosecab"] = Decor.HoseCabinet, ["levelsign"] = Decor.LevelSign, ["stairsign"] = Decor.StairSign,
@@ -310,14 +310,14 @@ public sealed partial class WorldGenerator
     }
 
     /// <summary>Decorations whose code is shared by several families but means something different in each.</summary>
-    private static byte DecorFor(string family, string code) => (family, code) switch
+    private static ushort DecorFor(string family, string code) => (family, code) switch
     {
         ("officedeco", "extinguisher") => Decor.ExtCabinet,
         ("officedeco", "alarm") => Decor.FireAlarm,
         ("officedeco", "stairsign") => Decor.OfficeStairSign,
         ("hoteldeco", "clock") => Decor.HotelClock,
         ("plasterdeco", "gauges") => Decor.PlasterGauges,
-        _ => DecorCodes.TryGetValue(code, out byte d) ? d : (byte)0,
+        _ => DecorCodes.TryGetValue(code, out ushort d) ? d : (ushort)0,
     };
 
     private readonly ICoreServerAPI api;
@@ -616,7 +616,7 @@ public sealed partial class WorldGenerator
         if (layout.Version >= 10) UseVanillaProps();
         foreach (var (family, decor, rel, state) in DetailBlocks.Decorations)
         {
-            byte d = DecorFor(family, decor);
+            ushort d = DecorFor(family, decor);
             if (d == 0 || !DecorFamilies.TryGetValue(family, out WallPattern pattern)) continue;
             for (int f = 0; f < 4; f++) decorIds[(int)pattern, d, rel, f] = Id($"{family}-{state}-{Sides[f]}");
         }

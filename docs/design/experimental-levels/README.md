@@ -1,37 +1,119 @@
 # Experimental levels (branch `experimental-levels`)
 
-Three prototype levels, built cheaply to try out ideas. They are **disconnected**: no thresholds in or out, no
-entities, no notes, no handbook text. The only way in is the cheats menu (F7) or `/backrooms goto 73|basement|52`.
-If an idea works, it gets a proper pass (lore polish, entrances, dangers) later; if not, its commit is dropped.
+Eight prototype levels, built cheaply to try out ideas. They are **disconnected**: no thresholds in or out, no
+entities, no notes, no handbook text. The only way in is the cheats menu (F7) or
+`/backrooms goto 73|basement|52|31|120|36|15|23`. If an idea works, it gets a proper pass (lore polish, entrances,
+dangers) later; if not, its commits are dropped.
 
 This branch is not meant to merge into `main` for a long time. Each level is its own commit after the shared
-scaffolding commit, so one can be cherry-picked or reverted on its own.
+scaffolding commit, so one can be cherry-picked or reverted on its own. Levels 55 and 183 were built in batch 2 and
+dropped on 2026-10-30 (their plans are in `dropped/`); their ids 25 and 27 now hold Levels 36 and 15.
 
 | Level | Internal id | Constant | Shown as | Tag (files, block codes) | Method infix | Region |
 |---|---|---|---|---|---|---|
-| Level 73 "The Redlands" | 21 | `WorldLayout.Level73` | `73` | 73 (blocks `l73-`) | `L73` | north-north-west, mirror of Level 188: centre `R * 1.1` out, 22.5 degrees west of north |
-| The Basement (unnumbered) | 22 | `WorldLayout.Basement` | `Basement` | basement (blocks `basement-`) | `Basement` | south-south-west: centre `R * 1.1` out, 22.5 degrees west of south |
-| Level 52 "School Halls" | 23 | `WorldLayout.Level52` | `52` | 52 (blocks `l52-`) | `L52` | south-south-east: centre `R * 1.1` out, 22.5 degrees east of south |
+| Level 73 "The Redlands" | 21 | `WorldLayout.Level73` | `73` | 73 (`l73-`) | `L73` | north-north-west, mirror of Level 188: `R * 1.1` out, 22.5 degrees west of north; open sky |
+| The Basement (unnumbered) | 22 | `WorldLayout.Basement` | `Basement` | basement (`basement-`) | `Basement` | south-south-west: `R * 1.1` out, 22.5 degrees west of south |
+| Level 52 "School Halls" | 23 | `WorldLayout.Level52` | `52` | 52 (`l52-`) | `L52` | south-south-east: `R * 1.1` out, 22.5 degrees east of south |
+| Level 31 "Roller Rink" | 24 | `WorldLayout.Level31` | `31` | 31 (`l31-`) | `L31` | west-north-west: `R * 1.1` out, 22.5 degrees north of west |
+| Level 36 "Airport" | 25 | `WorldLayout.Level36` | `36` | 36 (`l36-`) | `L36` | west-south-west: `R * 1.1` out, 22.5 degrees south of west (Level 55's old slot); big indoor level |
+| Level 120 "Server Room" | 26 | `WorldLayout.Level120` | `120` | 120 (`l120-`) | `L120` | far north-east beyond Level Fun: `spawn + (+F, -F)`, `F = round(R * 1.6 / sqrt 2)` |
+| Level 15 "Futuristic Halls" | 27 | `WorldLayout.Level15` | `15` | 15 (`l15-`) | `L15` | far north-west beyond the End: `spawn + (-F, -F)` (Level 183's old slot); big indoor level |
+| Level 23 "Petrified Garden" | 28 | `WorldLayout.Level23` | `23` | 23 (`l23-`) | `L23` | far south-west beyond Level 974: `spawn + (-F, +F)`; open sky (`IsOpenSky`), a landscape of stone trees |
 
-All three are round noclip regions (like 37/94/188), radius `max(40, spawnMacroX / 50)` unless the level's plan says
+All are round noclip regions (like 37/94/188), radius `max(40, spawnMacroX / 50)` unless the level's plan says
 otherwise. `R = RegionReach` (see `docs/design/new-levels/CONTRACT.md`, which this branch follows: same hooks, same
-file naming, same rules for shared files).
+file naming, same rules for shared files). Level 23 = 28 is the last id: every `>= RunLevel && <= ...` name check ends
+at `WorldLayout.Level23`.
 
-## Reserved values (append-only, after Level 188's)
+## Reserved values (2026-10-30; supersedes every older table in this folder)
 
-| Range | 73 | Basement | 52 |
-|---|---|---|---|
-| `WallPattern` | 192-207 | 208-223 | 224-239 |
-| `FloorKind` | 212-227 | 228-243 | 244-255 |
-| `CeilingKind` | 72-79 | 80-87 | 88-95 |
-| `Props` (ushort) | 580-619 | 620-659 | 660-699 (`Props.Limit` = 700) |
-| `Decor` | none: the byte is full (Limit 256). Build wall detail as wall-block variants or props instead. |
-| `Unders` | 120-129 | 130-139 | 140-149 |
-| `Overheads` | 110-119 | 120-129 | 130-139 |
-| `Pipes` | 90-99 | 100-109 | 110-119 |
-| Title keys | 2101-2199 | 2201-2299 | 2301-2399 |
-| Layout salts | 0x2100-0x21BF | 0x2200-0x22BF | 0x2300-0x23BF |
-| Headless ports | 42481 | 42482 | 42483 |
+`WallPattern`, `FloorKind`, `CeilingKind` and `Tile.Under` / `Overhead` / `Pipe` are ushorts since commit `d43628e`
+(0.700.0-pre.1), and `Decor` values may pass 255. **Each level owns one block of 32 past 255 in every one of those
+tables** (block `k` = `256 + 32k` to `287 + 32k`, `k` in the order of the columns), Props one block of 100. Values a
+level kept from before the widening are listed as "kept": they are the level's too, but put new values in the block.
+`Tiles.cs` has each level's `<N>First/<N>Last` (Unders, Overheads, Pipes, Props, Decor) and placeholder enum members.
+Every `Limit` is one past the last block (Unders, Overheads, Pipes, Decor 512; Props 1500); the generator's tables are
+sized by them (`floorIds` by the largest `FloorKind`; `decorIds` makes a pattern's row only when a decoration is
+registered on it).
+
+| Range | 73 | Basement | 52 | 31 | 120 | 36 | 15 | 23 |
+|---|---|---|---|---|---|---|---|---|
+| `WallPattern` | 256-287 | 288-319 | 320-351 (kept 224) | 352-383 (kept 240) | 384-415 (kept 242) | 416-447 | 448-479 | 480-511 |
+| `FloorKind` | 256-287 | 288-319 (kept 228-231) | 320-351 (kept 244-248) | 352-383 (kept 249) | 384-415 (kept 251) | 416-447 | 448-479 | 480-511 |
+| `CeilingKind` | 256-287 | 288-319 | 320-351 (kept 88) | 352-383 (kept 96) | 384-415 (kept 112) | 416-447 | 448-479 | 480-511 |
+| `Unders` | 256-287 | 288-319 | 320-351 | 352-383 | 384-415 | 416-447 | 448-479 | 480-511 |
+| `Overheads` | 256-287 | 288-319 | 320-351 | 352-383 (kept 140-149: `L31Legacy`) | 384-415 (kept 160-169: `L120Legacy`) | 416-447 | 448-479 | 480-511 |
+| `Pipes` | 256-287 | 288-319 | 320-351 | 352-383 | 384-415 (kept 140-149: `L120Legacy`) | 416-447 | 448-479 | 480-511 |
+| `Decor` (wall decorations) | 256-287 | 288-319 | 320-351 | 352-383 | 384-415 | 416-447 | 448-479 | 480-511 |
+| `Props` (`Tile.Variant`) | 900-999 | 1000-1099 | 1100-1199 | 700-799 | 800-899 | 1200-1299 | 1300-1399 | 1400-1499 |
+| Title keys (`level-<key>`) | 2101-2199 | 2201-2299 | 2301-2399 | 2401-2499 | 2601-2699 | 2501-2599 | 2701-2799 | 2801-2899 |
+| Layout salts | 0x2100-0x21BF | 0x2200-0x22BF | 0x2300-0x23BF | 0x2400-0x24BF | 0x2600-0x26BF | 0x2500-0x25BF | 0x2700-0x27BF | 0x2800-0x28BF |
+| Threshold salts | 0x21C0-0x21FF | 0x22C0-0x22FF | 0x23C0-0x23FF | 0x24C0-0x24FF | 0x26C0-0x26FF | 0x25C0-0x25FF | 0x27C0-0x27FF | 0x28C0-0x28FF |
+| Headless ports | 43100-43109 | 43110-43119 | 43120-43129 | 43130-43139 | 43140-43149 | 43150-43159 | 43160-43169 | 43170-43179 |
+| Lang keys, block codes | `l73-` | `basement-` | `l52-` | `l31-` | `l120-` | `l36-` | `l15-` | `l23-` |
+
+Title keys and salts go by the internal id (`<id>01`..., `0x<id>00`...), which is why 36 (id 25) and 15 (id 27) have the
+dropped levels' numbers; the old 55 and 183 keys are gone from the lang file. A gate run for one level uses
+`--port-base` at the start of its range with `--fast` (base and base+1; a full run also takes base+2 and base+10,
+the next level's).
+
+**Main's room.** Main's values are released and never move; it appends after its last values: `WallPattern` 193-223 (Stucco
+is 192), `FloorKind` 204-227 (Level 188's block ends at 211), `CeilingKind` 72-87, `Unders` 120-139, `Overheads`
+110-139, `Pipes` 90-139, `Props` 600-699, `Decor` (none left below 256: main would
+widen into 512+). The kept experimental values above sit just past that room; if main ever needs them, the
+experimental side moves.
+
+**Moved on 2026-10-30** (they sat in main's room; nothing else moved, and blocks are looked up by name, so no block
+changed): `WallPattern` L73Wall/L73Rim 196/197 to 256/257, the Basement's 208-212 to 288-292; `FloorKind` Level 73's
+212-221 to 256-265; `CeilingKind` L73Ceiling 72 to 256, the Basement's 80-86 to 288-294; `Pipes` the Basement's 100-103
+to 288-291; `Props` the Basement's 640-644 to 1000-1004, Level 52's 680-681 to 1100-1101. Level 31's props (700-713) and
+Level 120's (800-802) kept their values (their blocks start there). Every First/Last range without members moved to its
+block.
+
+`python tools/expclash.py` checks all of it: an experimental value shared with main's or with another experimental
+level's, a range overlapping another, a value at or past its `Limit`, and any experimental member, constant or range
+outside its level's block and kept values (its `RESERVED`/`KEPT` tables mirror this one: change both together).
+
+## Rules for the detail agents
+
+Each of the eight levels gets one agent working in parallel with the others; keep out of each other's way.
+
+1. **Your ranges only.** Values from your level's column above, nothing else. Name every member and constant with your
+   prefix (`L36Gate`, `Props.L36Bench`, `Unders.L36Belt`): `expclash.py` decides whose a value is by that prefix.
+   Explicit values, never implicit ones. Never renumber anything that is not yours.
+2. **Your own files.** Level code goes in your partial files: `src/Worldgen/WorldLayout.Level36.cs`,
+   `src/Worldgen/WorldGenerator.L36.cs`, `src/AtmosphereSystem.L36.cs`, `src/Thresholds/ThresholdNetwork.L36.cs` /
+   `ThresholdSystem.L36.cs` (no thresholds on this branch: leave them stubs), `tools/mapgen/L36Stats.cs` (your
+   harness modes), `tools/gen_36.py` (and helpers `tools/gen_36_*.py`) for assets, written under
+   `assets/backrooms/{blocktypes,shapes/block,textures/block,sounds/ambient}/36/`, and your plan
+   `docs/design/experimental-levels/36-plan.md`. (The Basement's tag is `basement`, its infix `Basement`.)
+3. **Shared files: single lines in your level's arm.** In `Tiles.cs` add members inside your level's block (after its
+   placeholder, or next to its `First/Last` line); elsewhere (`WorldGeometry.cs` drop and band depth,
+   `AtmosphereSystem.Levels` haze, `LevelTemperatures`, `Roster`, `Danger`, `MenaceSystem`, `Protection.RoofFrom`,
+   `IsOpenSky`, the map's case, `WorldGenerator`'s `PropTable` rows and decor families) change only the line or arm
+   of your level, with a small `Edit`, re-reading the file right before. Never reformat, reorder or regenerate a
+   shared file, and never move another level's line.
+4. **Lang:** your keys in **one contiguous block** in `assets/backrooms/lang/en.json`, right after your level's
+   `level-<id>` / `levelhint-<id>` / `levelname-<id>` lines (replace those placeholders): title keys from your range,
+   block names `block-l36-...`, item names `item-l36-...`. en.json only; the Spanish files fall back.
+5. **Levels 0-20 must not change.** Before and after: `LAYOUT_VERSION=1` and `LAYOUT_VERSION=12`
+   `mapgen-<tag>/mapgen.exe 12345 16000 layouthash` (see 6 for the build): every line for
+   levels 0-20 and the `layout hash` line identical (only your level's line and the `far places hash` may move).
+   No entrances in other levels.
+6. **Builds in a shared tree.** Several agents may share one worktree, and builds share `obj/`: build only through
+   `bash tools/locked.sh mod <tag>` and `bash tools/locked.sh mapgen <tag>` with your level's tag (`l36`, `basement`
+   ...; output in `$TEMP/backrooms-build/build-<tag>/Mods` and `mapgen-<tag>/mapgen.exe`), never a plain
+   `dotnet build`/`dotnet run`; run your asset generator as `bash tools/locked.sh run python tools/gen_36.py`; point
+   headless servers at your own build (`--addModPath $TEMP/backrooms-build/build-<tag>/Mods`) and your own scratch
+   data path. Run the gate with `GATE_TAG=<tag>` set so it builds into its own folder. A build broken by another level's
+   half-done edit is theirs: wait for it, or report it; never fix another level's files.
+7. **Before you hand back:** `python tools/expclash.py` prints `clean`; the mod and `tools/mapgen` build with 0 errors;
+   `regions` finds 60/60 arrivals in your level; a headless dummy (`/backrooms dummy place 36 5`, repeated once if the
+   first only loads chunks) lands with 0 error lines, on a port from your range; `python tools/gate.py --fast
+   --port-base <your first port>` passes. Commit only your own paths (`git add <paths>`, never `-A`), small commits,
+   on `experimental-levels`; never push, never switch branches in a shared checkout.
+8. **Region and size** are yours to change in your layout file (centre, radius, drop, band depth), as long as
+   `mapgen 12345 6200 overview 8` and `SPAWN=1000 ... 1300 overview 1` show no overlap with any other region.
 
 ## Budget rules for this branch
 
@@ -41,7 +123,12 @@ file naming, same rules for shared files).
   assets only for what defines the level's look.
 - Existing levels 0-20 must stay byte-identical (`layouthash`): no entrances in other levels.
 
-## Scaffolding (done 2026-10-17)
+## History
+
+The sections below record each scaffolding pass as it was done. **Their value tables are superseded by "Reserved
+values" above** (several values have moved since), and Levels 55 and 183 have been dropped.
+
+### Scaffolding (done 2026-10-17)
 
 Ids 21-23 are registered everywhere Level 188 (20) is: constants (`LevelCount` now `RingWidths.Length + 14`),
 `DisplayNumber`/`FromDisplayNumber`/`FromDisplayName` ("basement", "the basement"), `ComputeLevel` (after 188),
@@ -82,7 +169,7 @@ x -816, 1120 of the End's x -3136); the Basement at x -2000..-1352, z 3744..4384
 Motion's -79), the Basement x -377..-297 (271 clear of 974's -648), 52 x 297..378 (270 clear of the Hub's 648).
 `SPAWN=4000`: likewise clear. No region's bounds overlap another's.
 
-## Scaffolding, batch 2 (done 2026-10-17)
+### Scaffolding, batch 2 (done 2026-10-17)
 
 Ids 24-27 (Level 31 "Roller Rink", Level 55 "Land of Ice", Level 120 "Server Room", Level 183 "Clean Sewers"; see
 BACKLOG.md for the table and the reserved values) are registered everywhere ids 21-23 are, in the same way:
@@ -139,7 +226,7 @@ x -944..-865, z -944..-866 (98 clear of the End's x -767, 100 of its z -766; 513
 `SPAWN=1000` world (2000 cells across) 120 and 183 stay 54-56 cells inside the map's edge. No region's bounds overlap
 another's.
 
-## Scaffolding, batch 3 (done 2026-10-30)
+### Scaffolding, batch 3 (done 2026-10-30)
 
 Levels 55 and 183 were dropped (on neither main lore wiki as built; their plans are in `dropped/`), and their ids reused.
 Three new levels are registered everywhere ids 21-26 are, the same way as batch 2 (the commits `0d688ae` and `7ef8571`

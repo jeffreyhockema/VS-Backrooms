@@ -245,23 +245,20 @@ public enum WallPattern : ushort
     /// </summary>
     Stucco = 192,
 
-    // ===== The experimental Levels 73, the Basement and 52 (21-23): one block of values each =====
+    // ===== The experimental levels (ids 21-28): one block of 32 values each, past 255 (see
+    // docs/design/experimental-levels/README.md). 193-223 are main's to append to; 224-255 hold only the three
+    // experimental values kept from before the widening (L52Wall, L31Wall, L120Wall). =====
 
-    /// <summary>Level 73 (block 196-207; 192-195 are main's: Stucco is 192): the Silver Castle's walls (curtain, towers, keep), and the cliff round the sea at the region's rim.</summary>
-    L73Wall = 196, L73Rim = 197,
-    /// <summary>The Basement (block 208-223): its rim (damp cinder block), the Cellar's cinder walls, the Flood's walls (slimed under the water, a tide line just over it), a Cellar room's squat pillar, a stained cinder wall.</summary>
-    BasementWall = 208, BasementCinder = 209, BasementFloodWall = 210, BasementPillar = 211, BasementStained = 212,
-    /// <summary>Level 52 (block 224-239). Placeholder.</summary>
+    /// <summary>Level 73 (block 256-287): the Silver Castle's walls (curtain, towers, keep), and the cliff round the sea at the region's rim.</summary>
+    L73Wall = 256, L73Rim = 257,
+    /// <summary>The Basement (block 288-319): its rim (damp cinder block), the Cellar's cinder walls, the Flood's walls (slimed under the water, a tide line just over it), a Cellar room's squat pillar, a stained cinder wall.</summary>
+    BasementWall = 288, BasementCinder = 289, BasementFloodWall = 290, BasementPillar = 291, BasementStained = 292,
+    /// <summary>Level 52 (block 320-351, and 224 kept from before). Placeholder.</summary>
     L52Wall = 224,
-
-    // ===== The experimental Levels 31 and 120 (24, 26): one value each (sub-kinds in the level's own Zone, Detail, Variant) =====
-
-    /// <summary>Level 31 (240). Placeholder.</summary>
+    /// <summary>Level 31 (block 352-383, and 240 kept from before). Placeholder.</summary>
     L31Wall = 240,
-    /// <summary>Level 120 (242). Placeholder.</summary>
+    /// <summary>Level 120 (block 384-415, and 242 kept from before). Placeholder.</summary>
     L120Wall = 242,
-
-    // ===== Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28): one block of 32 each, past 255 =====
 
     /// <summary>Level 36 (block 416-447). Placeholder.</summary>
     L36Wall = 416,
@@ -506,27 +503,24 @@ public enum FloorKind : ushort
     /// <summary>Level 188: courtyard pavers, the mossy lawns, the wooden deck; corridor carpet, guest-room carpet, the lobby, the stair hall.</summary>
     L188Paver = 197, L188Turf = 198, L188Deck = 199, L188Corridor = 200, L188Room = 201, L188Lobby = 202, L188Stair = 203,
 
-    // ===== The experimental Levels 73, the Basement and 52 (21-23): one block of values each =====
+    // ===== The experimental levels (ids 21-28): one block of 32 values each, past 255 (see
+    // docs/design/experimental-levels/README.md). 204-227 are main's to append to (Level 188's block runs to 211);
+    // 228-255 hold only the experimental values kept from before the widening. =====
 
     /// <summary>
-    /// Level 73 (block 212-227): the island's crimson earth (<see cref="L73Floor"/>), black rock, ash sand on the beach, blood mud in
+    /// Level 73 (block 256-287): the island's crimson earth (<see cref="L73Floor"/>), black rock, ash sand on the beach, blood mud in
     /// the gullies, the seabed's sand and gravel; the castle's courtyard, its path, the keep's carpet and boards.
     /// </summary>
-    L73Floor = 212, L73Rock = 213, L73Ash = 214, L73Mud = 215, L73Seabed = 216, L73Gravel = 217, L73Court = 218, L73Path = 219,
-    L73Carpet = 220, L73Boards = 221,
-    /// <summary>The Basement (block 228-243): the Cellar's bare concrete (dry, damp), the Flood's slimy bed under the water, the Dry Patch's floor.</summary>
+    L73Floor = 256, L73Rock = 257, L73Ash = 258, L73Mud = 259, L73Seabed = 260, L73Gravel = 261, L73Court = 262, L73Path = 263,
+    L73Carpet = 264, L73Boards = 265,
+    /// <summary>The Basement (block 288-319, and 228-231 kept from before): the Cellar's bare concrete (dry, damp), the Flood's slimy bed under the water, the Dry Patch's floor.</summary>
     BasementFloor = 228, BasementDamp = 229, BasementBed = 230, BasementPatch = 231,
-    /// <summary>Level 52 (block 244-255): the halls' vinyl tile, the classrooms' plainer tile, the gym's floor and its court lines.</summary>
+    /// <summary>Level 52 (block 320-351, and 244-248 kept from before): the halls' vinyl tile, the classrooms' plainer tile, the gym's floor and its court lines.</summary>
     L52Floor = 244, L52Room = 245, L52Gym = 246, L52GymLineNS = 247, L52GymLineWE = 248,
-
-    // ===== The experimental Levels 31 and 120 (24, 26): one value each (sub-kinds in the level's own Zone, Detail, Variant) =====
-
-    /// <summary>Level 31 (249). Placeholder.</summary>
+    /// <summary>Level 31 (block 352-383, and 249 kept from before). Placeholder.</summary>
     L31Floor = 249,
-    /// <summary>Level 120 (251). Placeholder.</summary>
+    /// <summary>Level 120 (block 384-415, and 251 kept from before). Placeholder.</summary>
     L120Floor = 251,
-
-    // ===== Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28): one block of 32 each, past 255 =====
 
     /// <summary>Level 36 (block 416-447). Placeholder.</summary>
     L36Floor = 416,
@@ -593,23 +587,20 @@ public enum CeilingKind : ushort
     /// <summary>Level 188 (block 64-71). Placeholder.</summary>
     L188Ceiling = 64,
 
-    // ===== The experimental Levels 73, the Basement and 52 (21-23): one block of values each =====
+    // ===== The experimental levels (ids 21-28): one block of 32 values each, past 255 (see
+    // docs/design/experimental-levels/README.md). 72-87 are main's to append to; 88-127 hold only the three experimental
+    // values kept from before the widening. =====
 
-    /// <summary>Level 73 (block 72-79). Placeholder.</summary>
-    L73Ceiling = 72,
-    /// <summary>The Basement (block 80-87): low concrete (plain, drip-stained), and under it a caged bulb: lit, dead, flickering, the Flood's dim one, the Dry Patch's bright one.</summary>
-    BasementCeiling = 80, BasementStained = 81, BasementBulbOn = 82, BasementBulbOff = 83, BasementBulbFlicker = 84, BasementBulbDim = 85, BasementBulbBright = 86,
-    /// <summary>Level 52 (block 88-95). Placeholder.</summary>
+    /// <summary>Level 73 (block 256-287). Placeholder.</summary>
+    L73Ceiling = 256,
+    /// <summary>The Basement (block 288-319): low concrete (plain, drip-stained), and under it a caged bulb: lit, dead, flickering, the Flood's dim one, the Dry Patch's bright one.</summary>
+    BasementCeiling = 288, BasementStained = 289, BasementBulbOn = 290, BasementBulbOff = 291, BasementBulbFlicker = 292, BasementBulbDim = 293, BasementBulbBright = 294,
+    /// <summary>Level 52 (block 320-351, and 88 kept from before). Placeholder.</summary>
     L52Ceiling = 88,
-
-    // ===== The experimental Levels 31 and 120 (24, 26): one block of values each =====
-
-    /// <summary>Level 31 (block 96-103). Placeholder.</summary>
+    /// <summary>Level 31 (block 352-383, and 96 kept from before). Placeholder.</summary>
     L31Ceiling = 96,
-    /// <summary>Level 120 (block 112-119). Placeholder.</summary>
+    /// <summary>Level 120 (block 384-415, and 112 kept from before). Placeholder.</summary>
     L120Ceiling = 112,
-
-    // ===== Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28): one block of 32 each, past 255 =====
 
     /// <summary>Level 36 (block 416-447). Placeholder.</summary>
     L36Ceiling = 416,
@@ -790,19 +781,19 @@ public static class Pipes
     /// </summary>
     public const byte L3999UpperCabinet = 70, L3999UpperBench = 74, L3999UpperPlanter = 78;
     public const byte L188First = 80, L188Last = 89;
-    // The experimental Levels 73, the Basement and 52 (21-23)
-    public const byte L73First = 90, L73Last = 99;
-    public const byte BasementFirst = 100, BasementLast = 109;
-    /// <summary>The Basement's Flood: a run of pipes along the top of a passage (west-east, north-south), and the same leaking.</summary>
-    public const byte BasementPipeWE = 100, BasementPipeNS = 101, BasementLeakWE = 102, BasementLeakNS = 103;
-    public const byte L52First = 110, L52Last = 119;
-    // The experimental Levels 31 and 120 (24, 26)
-    public const byte L31First = 120, L31Last = 129;
-    public const byte L120First = 140, L120Last = 149;
-    // Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28)
+    // The experimental levels (ids 21-28): one block of 32 each, past 255 (see docs/design/experimental-levels/README.md)
+    public const ushort L73First = 256, L73Last = 287;
+    public const ushort BasementFirst = 288, BasementLast = 319;
+    public const ushort L52First = 320, L52Last = 351;
+    public const ushort L31First = 352, L31Last = 383;
+    public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
     public const ushort L15First = 448, L15Last = 479;
     public const ushort L23First = 480, L23Last = 511;
+    /// <summary>The Basement's Flood: a run of pipes along the top of a passage (west-east, north-south), and the same leaking.</summary>
+    public const ushort BasementPipeWE = 288, BasementPipeNS = 289, BasementLeakWE = 290, BasementLeakNS = 291;
+    /// <summary>Level 120's ducts, kept from before the widening (90-139 are main's to append to).</summary>
+    public const byte L120LegacyFirst = 140, L120LegacyLast = 149;
 
     /// <summary>One past the highest value (Tile.Pipe is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
     public const int Limit = 512;
@@ -861,17 +852,18 @@ public static class Overheads
     /// </summary>
     public const byte L3999TubeWE = 90, L3999TubeNS = 91, L3999DeadWE = 92, L3999DeadNS = 93, L3999Sign3999 = 94, L3999Sign = 95;
     public const byte L188First = 100, L188Last = 109;
-    // The experimental Levels 73, the Basement and 52 (21-23)
-    public const byte L73First = 110, L73Last = 119;
-    public const byte BasementFirst = 120, BasementLast = 129;
-    public const byte L52First = 130, L52Last = 139;
-    // The experimental Levels 31 and 120 (24, 26)
-    public const byte L31First = 140, L31Last = 149;
-    public const byte L120First = 160, L120Last = 169;
-    // Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28)
+    // The experimental levels (ids 21-28): one block of 32 each, past 255 (see docs/design/experimental-levels/README.md)
+    public const ushort L73First = 256, L73Last = 287;
+    public const ushort BasementFirst = 288, BasementLast = 319;
+    public const ushort L52First = 320, L52Last = 351;
+    public const ushort L31First = 352, L31Last = 383;
+    public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
     public const ushort L15First = 448, L15Last = 479;
     public const ushort L23First = 480, L23Last = 511;
+    /// <summary>Level 31's tubes and disco ball and Level 120's cable trays, kept from before the widening (110-139 are main's to append to).</summary>
+    public const byte L31LegacyFirst = 140, L31LegacyLast = 149;
+    public const byte L120LegacyFirst = 160, L120LegacyLast = 169;
 
     /// <summary>One past the highest value (Tile.Overhead is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
     public const int Limit = 512;
@@ -1006,14 +998,12 @@ public static class Unders
     /// it faces; bit 6 set on its left half); the hatch in the courtyard deck; a fire door (Detail = its storey).
     /// </summary>
     public const byte L188LinkWindow = 110, L188Entrance = 111, L188Hatch = 112, L188FireDoor = 113;
-    // The experimental Levels 73, the Basement and 52 (21-23)
-    public const byte L73First = 120, L73Last = 129;
-    public const byte BasementFirst = 130, BasementLast = 139;
-    public const byte L52First = 140, L52Last = 149;
-    // The experimental Levels 31 and 120 (24, 26)
-    public const byte L31First = 150, L31Last = 159;
-    public const byte L120First = 170, L120Last = 179;
-    // Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28)
+    // The experimental levels (ids 21-28): one block of 32 each, past 255 (see docs/design/experimental-levels/README.md)
+    public const ushort L73First = 256, L73Last = 287;
+    public const ushort BasementFirst = 288, BasementLast = 319;
+    public const ushort L52First = 320, L52Last = 351;
+    public const ushort L31First = 352, L31Last = 383;
+    public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
     public const ushort L15First = 448, L15Last = 479;
     public const ushort L23First = 480, L23Last = 511;
@@ -1638,19 +1628,17 @@ public static class Props
     /// </summary>
     public const ushort SeaChest = 590;
 
-    // The experimental Levels 73, the Basement and 52 (21-23), from 600 (main's props run to 599)
-    public const ushort L73First = 600, L73Last = 639;
-    public const ushort BasementFirst = 640, BasementLast = 679;
+    // The experimental levels (ids 21-28): one block of 100 each from 700 (600-699 are main's to append to; see
+    // docs/design/experimental-levels/README.md). 31 and 120 come first so their props kept their values.
+    public const ushort L31First = 700, L31Last = 799;
+    public const ushort L120First = 800, L120Last = 899;
+    public const ushort L73First = 900, L73Last = 999;
+    public const ushort BasementFirst = 1000, BasementLast = 1099;
     /// <summary>The Basement: a boiler, an oil drum, a metal shelf, a hand pump (the Dry Patch's), a machine cabinet (Pier their facing).</summary>
-    public const ushort BasementBoiler = 640, BasementDrum = 641, BasementShelf = 642, BasementPump = 643, BasementCabinet = 644;
-    public const ushort L52First = 680, L52Last = 719;
+    public const ushort BasementBoiler = 1000, BasementDrum = 1001, BasementShelf = 1002, BasementPump = 1003, BasementCabinet = 1004;
+    public const ushort L52First = 1100, L52Last = 1199;
     /// <summary>Level 52: a student desk with its chair (Pier the way the student faces), a piece of chalkboard on the wall behind it (Pier its face; Stack 0 left end, 1 middle, 2 right end; walked through).</summary>
-    public const ushort L52Desk = 680, L52Chalkboard = 681;
-
-    // The experimental Levels 31 and 120 (24, 26)
-    public const ushort L31First = 720, L31Last = 759;
-    public const ushort L120First = 800, L120Last = 839;
-    // Batch 3, the experimental Levels 36, 15 and 23 (25, 27, 28)
+    public const ushort L52Desk = 1100, L52Chalkboard = 1101;
     public const ushort L36First = 1200, L36Last = 1299;
     public const ushort L15First = 1300, L15Last = 1399;
     public const ushort L23First = 1400, L23Last = 1499;
@@ -1833,8 +1821,19 @@ public static class Decor
     /// <summary>Level 3999 draws its own walls; its walls' Variant is its own (a painted window's column), not a decoration.</summary>
     public const byte L188First = 248, L188Last = 255;
 
-    /// <summary>One past the highest decoration: wall decorations stay within a byte.</summary>
-    public const int Limit = 256;
+    // The experimental levels (ids 21-28): one block of 32 each, past 255 (see docs/design/experimental-levels/README.md).
+    // Decoration codes are looked up by name across every family: give yours names no other family uses.
+    public const ushort L73First = 256, L73Last = 287;
+    public const ushort BasementFirst = 288, BasementLast = 319;
+    public const ushort L52First = 320, L52Last = 351;
+    public const ushort L31First = 352, L31Last = 383;
+    public const ushort L120First = 384, L120Last = 415;
+    public const ushort L36First = 416, L36Last = 447;
+    public const ushort L15First = 448, L15Last = 479;
+    public const ushort L23First = 480, L23Last = 511;
+
+    /// <summary>One past the highest decoration (the generator's decoration tables are this long; <see cref="Tile.Variant"/> is a ushort).</summary>
+    public const int Limit = 512;
 }
 
 /// <summary>The large-scale character of an area. Zones are irregular blobs a few hundred blocks across.</summary>
