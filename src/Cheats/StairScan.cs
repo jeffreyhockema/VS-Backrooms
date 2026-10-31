@@ -80,6 +80,8 @@ public partial class CheatSystem
 
     private (int X, int Z)[] StairScanSites(int level, int sites, int radius)
     {
+        // The Hub's stairs are the Tower's spiral, round its middle
+        if (level == WorldLayout.Hub) return new[] { (layout.HubOriginX, layout.HubOriginZ) };
         var picked = new List<(int X, int Z)>();
         for (int i = 0; i < sites; i++)
         {
