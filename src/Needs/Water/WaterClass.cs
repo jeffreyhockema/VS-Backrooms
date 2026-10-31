@@ -65,6 +65,9 @@ public static class WaterClass
                 return WaterKind.Salt;
             case WorldLayout.Basement:
                 return WaterKind.Foul;
+            // Level 23: the Garden's water all comes from the Heart of Water's reservoir
+            case WorldLayout.Level23:
+                return WaterKind.Clean;
             case WorldLayout.Motion:
                 return NearFountain(world, pos) ? WaterKind.Clean : WaterKind.Tainted;
             default:

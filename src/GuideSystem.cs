@@ -42,6 +42,7 @@ public class GuideSystem : ModSystem
         "level15", // Level 15 (experimental)
         "level73", // Level 73, "The Redlands" (experimental)
         "level52", // Level 52, the Greenfield Campus (experimental)
+        "level23", // (experimental: Level 23, the Petrified Garden)
     };
 
     /// <summary>Vanilla pages kept, with a Backrooms preface: page code to the preface's lang key suffix.</summary>

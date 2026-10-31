@@ -1,0 +1,41 @@
+// Level 23: the forest floor's humus
+{
+	"code": "l23-humus",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/23/humus",
+			"alternates": [
+				{
+					"base": "block/23/humus-2"
+				}
+			]
+		}
+	},
+	"resistance": 1.6,
+	"drops": [
+		{
+			"type": "block",
+			"code": "game:soil-low-none",
+			"quantity": {
+				"avg": 1,
+				"var": 0.0
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/grass*",
+		"place": "game:block/dirt*",
+		"break": "game:block/dirt*",
+		"hit": "game:block/dirt*"
+	}
+}

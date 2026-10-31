@@ -1,0 +1,88 @@
+// Level 23: Gardener's Sorries, glowing strands hanging from the cavern roofs (they whisper: AtmosphereSystem.L23.cs)
+{
+	"code": "l23-sorry",
+	"variantgroups": [
+		{
+			"code": "colour",
+			"states": [
+				"teal",
+				"violet",
+				"amber",
+				"green"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-teal": {
+			"base": "block/23/sorry-teal"
+		},
+		"*-violet": {
+			"base": "block/23/sorry-violet"
+		},
+		"*-amber": {
+			"base": "block/23/sorry-amber"
+		},
+		"*-green": {
+			"base": "block/23/sorry-green"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Plant",
+	"drawtype": "json",
+	"renderpass": "OpaqueNoCull",
+	"faceCullMode": "NeverCull",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"lightHsvByType": {
+		"*-teal": [
+			32,
+			6,
+			11
+		],
+		"*-violet": [
+			48,
+			6,
+			11
+		],
+		"*-amber": [
+			7,
+			6,
+			11
+		],
+		"*-green": [
+			20,
+			6,
+			11
+		]
+	},
+	"resistance": 0.5,
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.15,
+		"y1": 0.2,
+		"z1": 0.15,
+		"x2": 0.85,
+		"y2": 1,
+		"z2": 0.85
+	},
+	"replaceable": 100,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/grass*",
+		"place": "game:block/plant",
+		"break": "game:effect/squish*",
+		"hit": "game:effect/squish*"
+	}
+}

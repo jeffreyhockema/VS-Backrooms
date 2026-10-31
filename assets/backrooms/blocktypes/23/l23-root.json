@@ -1,0 +1,41 @@
+// Level 23: petrified root wood (the roots, the arches between the trees)
+{
+	"code": "l23-root",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/23/root",
+			"alternates": [
+				{
+					"base": "block/23/root-2"
+				}
+			]
+		}
+	},
+	"resistance": 6,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 1,
+				"var": 1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

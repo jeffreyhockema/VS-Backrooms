@@ -70,7 +70,7 @@ public sealed partial class WorldLayout
             Level120 => false,
             Level36 => false,
             Level15 => false,
-            Level23 => false,
+            Level23 => TileAt(gx, gz).Zone == L23Seedling, // Base Seedling: the M.E.G. keep it clear
             _ => false,
         };
     }
@@ -182,6 +182,8 @@ public sealed partial class WorldLayout
         if (LevelAt(mx, mz) == Level3999) return L3999WandererSite(mx, mz);
         // Level 36: the Travel Planner, behind a Travel Agency booth or desk (WorldLayout.Level36.cs)
         if (LevelAt(mx, mz) == Level36) return L36WandererSite(mx, mz);
+        // Level 23: the M.E.G.'s quartermaster at Base Seedling (WorldLayout.Level23.cs)
+        if (LevelAt(mx, mz) == Level23) return L23WandererSite(mx, mz);
         int level = LevelAt(mx, mz);
         if (!HasWandererSite(mx, mz, level)) return null;
         int cx = mx * MacroSize + MacroSize / 2, cz = mz * MacroSize + MacroSize / 2;

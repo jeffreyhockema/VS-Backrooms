@@ -1073,6 +1073,8 @@ public sealed partial class WorldGenerator
         // Those levels are generated over their own band, and sealed just above it
         bool region = level >= WorldLayout.RunLevel && level <= WorldLayout.Level23;
         if (region) top = g.BandTopFor(level);
+        // (Level 23: its forest goes on up to the top of the world, the lid of leaves over it; only the band is lit)
+        if (level == WorldLayout.Level23) top = g.TopY - 1;
         return (bottom, top, region ? top + 1 : g.CapY);
     }
 

@@ -1,0 +1,44 @@
+// Level 23: leaf litter over the humus
+{
+	"code": "l23-litter",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/23/litter"
+		}
+	},
+	"resistance": 1.4,
+	"drops": [
+		{
+			"type": "block",
+			"code": "game:soil-low-none",
+			"quantity": {
+				"avg": 1,
+				"var": 0.0
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:drygrass",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/grass*",
+		"place": "game:block/dirt*",
+		"break": "game:block/dirt*",
+		"hit": "game:block/dirt*"
+	}
+}

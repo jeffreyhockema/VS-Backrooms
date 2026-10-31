@@ -1012,6 +1012,40 @@ The wanderers say the way in is a small steel door in a white wall at the edge o
 *(An experimental level: no way in or out is built yet. It is reached with /backrooms goto 15.)*
 """)
 # ---------------- (end of Level 15's page) ----------------
+# ---------- Level 23, the Petrified Garden (experimental level 28): its own page (GuideSystem.Added "level23"); tools/gen_23.py
+# writes its keys into the level's block of en.json ----------
+PAGES["level23"] = ("Level 23: The Petrified Garden", """
+**Level 23, the Petrified Garden**
+*An experimental level: no way in or out yet but the cheats menu. A forest of stone trees on a world that is one tree.*
+
+**What it is**
+Those who have been there say Level 23 is not a forest on a world but a world that is a forest: a tangle of trees the size of a planet, grown into one another, petrified, and somehow still alive. What you walk in is a patch of its crust. Overhead a lid of leaves lets almost no light through. A star that never moves shines through a few holes in it; there is no day and no night. Underfoot are humus, moss and leaf litter between trunks four to fourteen blocks thick (grey, redwood red, pale oak, dark cypress, all of it stone), buttress roots swelling at their feet and arching from one tree to the next, high enough in the middle to walk under. At the edge the trees fuse into a tangle nobody has got through. It is mild (17 °C) and it drains you, slowly.
+
+**The glow rooms**
+Under the forest floor are caverns, reached by root tunnels that slope down from the surface: underground forests of little petrified trees, glowing fungi, ferns and moss, damp and cool (12 °C), with puddles in the hollows. They are lit by the **Gardener's Sorries**, glowing strands hanging from the roof, teal, violet, amber or green; stand still and you can hear them, every one, whispering "sorry". Most of what lives in the Garden lives down there. Carry a light for the tunnels.
+
+**The ruins**
+Four of the deepest caverns hold ruins, and none of them is the right shape: a Lighthouse of Alexandria built as a stepped pyramid with its fire still burning on top, a Great Pyramid built as a sphere, a square Colosseum, a triangular Parthenon. They are mossed over, their stones falling out, Latin cut into their walls in a hurry (look at an inscribed stone to read it). Their pottery lies everywhere: break an amphora and there may be a scrap of cloth in it. The sphere has a bronze plaque beside its door. The ruins drain you faster than the rest of the Garden, and what hunts there is worse.
+
+**The buried sentries**
+Here and there a face looks out of the bark at head height, eyes shut. They are quiet. **Never say "it's only a matter of time" near one**: they scream like rusty chainsaws cutting wood, loud enough to burst your eardrums.
+
+**The Heart of Water**
+In the middle the trees open into a clearing ringed by the **Green Giants**, trunks of green bark wider than a house that hold up the lid. Leave them alone. The ground falls away to a pool, the reservoir that feeds the whole level, under the one wide hole in the lid. The Garden's water is clean, all of it: the pool, the puddles in the caverns, the spring at Base Seedling.
+
+**Base Seedling**
+In one glow room the M.E.G. keep a camp: three tents round a hollow tree with green bark, lanterns, a spring, a few stores, and their quartermaster, who trades. Nothing hostile comes in, and resting there counts. They are short of food themselves. They say the hollow tree is the only way out that works every time.
+
+**What lives here**
+Death Rats and male Deathmoths among the trunks; Hounds, Smilers and Clumps in the glow rooms and tunnels; female Deathmoths about the ruins (see [What Lives Here](backrooms-entities)). The wanderers also tell of Volpes, Curabitur Birds, the rare Wrangler and the Garden's own animal-like natives in the glow rooms; none has been met here yet.
+
+**Ways in and out (as the wanderers tell it)**
+In: huge hollow trees with green bark in Levels 37 and 47, a hollow tree in Level 135 that comes out at Base Seedling, a hollow log in Level 121. Out: down into the reservoir at the Heart of Water, which noclips you into the ocean of Level 7 or 121, or the hollow tree at Base Seedling, back to Level 135. None of them is open yet.
+
+**What to bring**
+Light, and food. The forest floor and the glow rooms have mushrooms, but not all of them are safe (leave the red ones with white spots and the brown puffballs), and little else grows. Wood comes from the bark, slowly: it is stone, and gives up only a little firewood. And keep quiet.
+""")
+
 
 # ====================================================================================================================
 # Prefaces for the vanilla guides: one short paragraph at the top of each, saying how it goes in the Backrooms.

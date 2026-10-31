@@ -1,0 +1,38 @@
+// Level 23: a Green Giant's bark, green and mossy; its cut ends grey rings
+{
+	"code": "l23-bark-green",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/23/bark-green",
+			"alternates": [
+				{
+					"base": "block/23/bark-green-2"
+				}
+			]
+		},
+		"up": {
+			"base": "block/23/heartwood-green"
+		},
+		"down": {
+			"base": "block/23/heartwood-green"
+		}
+	},
+	"resistance": 12,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

@@ -1,0 +1,41 @@
+// Level 23: the tangle of fused roots round the forest and under it
+{
+	"code": "l23-tangle",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/23/tangle",
+			"alternates": [
+				{
+					"base": "block/23/tangle-2"
+				}
+			]
+		}
+	},
+	"resistance": 10,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

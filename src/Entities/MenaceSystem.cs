@@ -539,7 +539,16 @@ public partial class MenaceSystem : ModSystem
             case WorldLayout.Level36: a.Band = layout.L36DarkAt(gx, gz) ? MenaceBand.Threshold : MenaceBand.Safe; return;
             // Level 15: safe where the lights are on; where the power is out a Robo-Man may be walking
             case WorldLayout.Level15: a.Band = layout.L15DarkAt(gx, gz) ? MenaceBand.Approach : MenaceBand.Safe; return;
-            case WorldLayout.Level23: a.Band = MenaceBand.Safe; return;
+            // Level 23: the forest the heart, the glow rooms and their tunnels the approach, the ruins the edge; Base Seedling safe
+            case WorldLayout.Level23:
+                a.Band = layout.L23ZoneAt(gx + 0.5, y, gz + 0.5, geometry.FloorFor(level), out _) switch
+                {
+                    WorldLayout.L23Seedling => MenaceBand.Safe,
+                    WorldLayout.L23Ruin => MenaceBand.Threshold,
+                    WorldLayout.L23Glow or WorldLayout.L23TunnelZone => MenaceBand.Approach,
+                    _ => MenaceBand.Heartland,
+                };
+                return;
         }
         if (a.Snackrooms || layout.IsSanctuary(gx, gz, level))
         {

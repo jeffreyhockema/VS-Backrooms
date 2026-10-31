@@ -941,6 +941,41 @@ Reported ways out: a door that opens on somewhere else, most often Level 53. Unc
 — Field Team 9""", w="meg"),
 ]))
 
+# ---------- Level 23, the Petrified Garden (experimental level 28; its own block: tools/gen_23.py writes these keys into
+# the level's block of en.json, this script keeps them up to date in place) ----------
+L23 = 28
+LEVEL_IDS |= {L23}
+
+TRACKS.append(Track("l23", "common", "Level 23: the Petrified Garden", L23, entries=[
+    E("l23-1", "Under the leaves", """
+No day here and no night. There's a star up there that never moves, somewhere over the leaves, and under them it might as
+well not be. Where the light gets through a hole in the canopy the ground's softer and there's grass. Walk from one of
+those to the next and you'll always see what's coming."""),
+    E("l23-2", "Sorry", """
+Ruth, the caves under the trees glow. Little lights hanging from the roof, every colour, and every one of them whispers
+sorry. Sorry, sorry, sorry. I told them it was all right. I said it out loud. They didn't stop.
+— Tom""", w="tom"),
+    E("l23-3", "Don't say it", """
+Faces in the bark, head high, eyes shut. They're asleep or they're dead or they're waiting. Whatever you do, don't say
+"it's only a matter of time" near one. Some clown did, for a laugh. The whole tree screamed like a chainsaw going through
+it and he can't hear on that side any more.
+— Dez""", w="dez"),
+    E("l23-4", "Four ruins", """
+Survey, Level 23. Four ruins in the deep caverns, each a wonder of the world built the wrong shape: the Lighthouse a
+stepped pyramid, the Pyramid a sphere, the Colosseum square, the Parthenon a triangle. Latin on the walls, cut in a hurry.
+The plaque on the sphere asks the Great Gardener's forgiveness. Nothing in them looks newer than a thousand years.
+— A.L., survey""", w="al"),
+    E("l23-5", "Base Seedling", """
+M.E.G. FIELD NOTICE. Base Seedling is in a glow room off the roots: take the tunnels down until the light goes warm. We
+trade. Water we have; food we do not, so bring your own. Our way home is the hollow tree in the middle of camp. Do not
+touch the Green Giants.
+— Field Team 9""", w="meg"),
+    E("l23-6", "The Heart", """
+There's a pool in the middle, love, where the big green trees stand round it, and the light comes straight down on the
+water. Cleanest I've had since the fields. They say if you swim down far enough it takes you to the sea. I only drank.
+— Nell""", w="nell"),
+]))
+
 # ============================== Rare: folded notes ==============================
 
 RARE_CHAPTER = "rare"
