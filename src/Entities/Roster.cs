@@ -121,7 +121,7 @@ public static class Danger
         // Batch 2 (ids 24-27): nothing in them yet
         Backrooms.Worldgen.WorldLayout.Level31 => 0,
         Backrooms.Worldgen.WorldLayout.Level120 => 0,
-        Backrooms.Worldgen.WorldLayout.Level36 => 0,
+        Backrooms.Worldgen.WorldLayout.Level36 => 0.35, // (only its blackouts have anything in them: Class 1)
         Backrooms.Worldgen.WorldLayout.Level15 => 0,
         Backrooms.Worldgen.WorldLayout.Level23 => 0,
         // Level 94 (Class 3): its Animations hit and chase like Level 4's creatures; the King's trial keeps its own balance
@@ -399,7 +399,13 @@ public static class Roster
         [Backrooms.Worldgen.WorldLayout.Level52] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level31] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<RosterEntry>(),
-        [Backrooms.Worldgen.WorldLayout.Level36] = Array.Empty<RosterEntry>(),
+        // Level 36: nothing in the lit terminal (Wikidot's 0/5); in its blackouts and vents, rarely, Fandom's Smilers, Hounds and Deathmoths
+        [Backrooms.Worldgen.WorldLayout.Level36] = new[]
+        {
+            E(Smiler, Edge, Menacing, 1.0) with { NeedsDark = true },
+            E(Hound, Edge, Encounters.Stalk | Encounters.Hunt, 0.5, 1, 2),
+            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.25, 1, 2),
+        },
         [Backrooms.Worldgen.WorldLayout.Level15] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level23] = Array.Empty<RosterEntry>(),
         // The city: crowds of Facelings, Hounds that ignore you, rats in the alleys, a Duller in the subway
