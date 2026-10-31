@@ -52,8 +52,11 @@ public partial class CheatSystem
             StairKind? kind = null;
             string path = block.Code?.Path ?? "";
             if ((path.Contains("stair") || path.Contains("escalator")) && !path.Contains("sign") && !path.Contains("door")
-                && !path.Contains("window") && !path.Contains("rail") && block.CollisionBoxes is { Length: > 0 } boxes)
+                && !path.Contains("window") && block.CollisionBoxes is { Length: > 0 } allBoxes)
             {
+                // (A balustrade standing taller than the block is not the step: house stairs carry one on their open side)
+                Cuboidf[] boxes = allBoxes.Where(b => b.Y2 <= 1.001f).ToArray();
+                if (boxes.Length == 0) boxes = allBoxes;
                 float top = boxes.Max(b => b.Y2), low = boxes.Min(b => b.Y2);
                 if (top - low > 0.2f)
                 {
