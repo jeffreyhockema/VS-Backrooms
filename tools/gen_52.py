@@ -436,6 +436,17 @@ def new_blocktypes():
     cube_block("l52-locker", [group("palette", PALETTES), group("part", ["lower", "upper"]), group("side", SIDES)], lockers,
                "Level 52: a bank of three steel lockers on the side face of a wall block (lower: latches, louvres, the kick base; upper: vents and "
                "number plates); its other faces are the palette's wall paint", material="Metal", sounds=METAL, resistance=4)
+    # The prototype's palette-less lockers, kept by their old codes for Level 31, which borrows them (the beige palette's)
+    for part in ("lower", "upper"):
+        back = "wall-beige-base" if part == "lower" else "wall-beige-dado"
+        legacy = {}
+        for side in SIDES:
+            f = faces(sides=back, up="wall-beige-upper", down="wall-beige-upper")
+            f[side] = tex(f"locker-beige-{part}")
+            legacy[f"l52-locker-{part}-{side}"] = f
+        cube_block(f"l52-locker-{part}", [group("side", SIDES)], legacy,
+                   "Level 52: the prototype's lockers under their old codes (Level 31 uses them): the beige palette's", material="Metal", sounds=METAL,
+                   resistance=4)
     # Exterior
     fac = ["white", "beige", "brick", "grey", "blue"]
     cube_block("l52-facade", [group("palette", fac)], {f"l52-facade-{k}": faces(all_=f"facade-{k}") for k in fac},
@@ -632,6 +643,8 @@ def expected_codes():
         for p in PALETTES:
             for part in ("lower", "upper"):
                 codes.add(f"l52-locker-{p}-{part}-{s}")
+        for part in ("lower", "upper"):
+            codes.add(f"l52-locker-{part}-{s}")
         for h in ("lo", "hi"):
             for a in digits:
                 for b in digits:

@@ -1,0 +1,116 @@
+// Level 52: the prototype's lockers under their old codes (Level 31 uses them): the beige palette's
+{
+	"code": "l52-locker-lower",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"texturesByType": {
+		"l52-locker-lower-north": {
+			"north": {
+				"base": "block/52/locker-beige-lower"
+			},
+			"east": {
+				"base": "block/52/wall-beige-base"
+			},
+			"south": {
+				"base": "block/52/wall-beige-base"
+			},
+			"west": {
+				"base": "block/52/wall-beige-base"
+			},
+			"up": {
+				"base": "block/52/wall-beige-upper"
+			},
+			"down": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-locker-lower-east": {
+			"north": {
+				"base": "block/52/wall-beige-base"
+			},
+			"east": {
+				"base": "block/52/locker-beige-lower"
+			},
+			"south": {
+				"base": "block/52/wall-beige-base"
+			},
+			"west": {
+				"base": "block/52/wall-beige-base"
+			},
+			"up": {
+				"base": "block/52/wall-beige-upper"
+			},
+			"down": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-locker-lower-south": {
+			"north": {
+				"base": "block/52/wall-beige-base"
+			},
+			"east": {
+				"base": "block/52/wall-beige-base"
+			},
+			"south": {
+				"base": "block/52/locker-beige-lower"
+			},
+			"west": {
+				"base": "block/52/wall-beige-base"
+			},
+			"up": {
+				"base": "block/52/wall-beige-upper"
+			},
+			"down": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-locker-lower-west": {
+			"north": {
+				"base": "block/52/wall-beige-base"
+			},
+			"east": {
+				"base": "block/52/wall-beige-base"
+			},
+			"south": {
+				"base": "block/52/wall-beige-base"
+			},
+			"west": {
+				"base": "block/52/locker-beige-lower"
+			},
+			"up": {
+				"base": "block/52/wall-beige-upper"
+			},
+			"down": {
+				"base": "block/52/wall-beige-upper"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}
