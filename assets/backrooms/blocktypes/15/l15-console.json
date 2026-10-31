@@ -1,0 +1,151 @@
+// Level 15: a white console, its screen to the side: dead, ACCESS DENIED (lit red), the radar (lit green)
+{
+	"code": "l15-console",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"dead",
+				"denied",
+				"radar"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l15-console-dead-north": {
+			"base": "backrooms:block/15/l15-console-dead",
+			"rotateY": 0
+		},
+		"l15-console-dead-east": {
+			"base": "backrooms:block/15/l15-console-dead",
+			"rotateY": 270
+		},
+		"l15-console-dead-south": {
+			"base": "backrooms:block/15/l15-console-dead",
+			"rotateY": 180
+		},
+		"l15-console-dead-west": {
+			"base": "backrooms:block/15/l15-console-dead",
+			"rotateY": 90
+		},
+		"l15-console-denied-north": {
+			"base": "backrooms:block/15/l15-console-denied",
+			"rotateY": 0
+		},
+		"l15-console-denied-east": {
+			"base": "backrooms:block/15/l15-console-denied",
+			"rotateY": 270
+		},
+		"l15-console-denied-south": {
+			"base": "backrooms:block/15/l15-console-denied",
+			"rotateY": 180
+		},
+		"l15-console-denied-west": {
+			"base": "backrooms:block/15/l15-console-denied",
+			"rotateY": 90
+		},
+		"l15-console-radar-north": {
+			"base": "backrooms:block/15/l15-console-radar",
+			"rotateY": 0
+		},
+		"l15-console-radar-east": {
+			"base": "backrooms:block/15/l15-console-radar",
+			"rotateY": 270
+		},
+		"l15-console-radar-south": {
+			"base": "backrooms:block/15/l15-console-radar",
+			"rotateY": 180
+		},
+		"l15-console-radar-west": {
+			"base": "backrooms:block/15/l15-console-radar",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l15-console-radar-north"
+		],
+		"backrooms": [
+			"l15-console-radar-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:metalbit-copper",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	],
+	"collisionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	},
+	"selectionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	},
+	"lightHsvByType": {
+		"*-denied-*": [
+			0,
+			5,
+			4
+		],
+		"*-radar-*": [
+			23,
+			5,
+			4
+		]
+	}
+}

@@ -72,7 +72,7 @@ public sealed partial class WorldGenerator
         l15Rib[1] = L15Block("l15-rib-ns");
         l15OddBeam[0] = L15Block("l15-oddbeam-we");
         l15OddBeam[1] = L15Block("l15-oddbeam-ns");
-        l15Gate = L15Block("l15-gate", l15Wall[6]);
+        l15Gate = L15Block("l15-gate-shutter", l15Wall[6]);
         l15Stage = L15Block("l15-stage");
         string[] consoles = { "dead", "denied", "radar" }, benches = { "plain", "sink", "equipment", "glassware" };
         string[] poses = { "sitting-plain", "head-plain", "feet-plain", "sitting-spear", "head-spear", "feet-plain" };

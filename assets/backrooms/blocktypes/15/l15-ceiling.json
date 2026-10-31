@@ -1,0 +1,158 @@
+// Level 15: a white ceiling panel; an LED panel (on gives light; lit only looks it; flicker fails now and then; off); the service passages' concrete; an air handler's grille
+{
+	"code": "l15-ceiling",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"panel",
+				"on",
+				"lit",
+				"flicker",
+				"off",
+				"service",
+				"vent"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-panel": {
+			"all": {
+				"base": "block/15/ceiling-panel"
+			}
+		},
+		"*-on": {
+			"all": {
+				"base": "block/15/ceiling-panel"
+			},
+			"down": {
+				"base": "block/15/ceiling-led"
+			}
+		},
+		"*-lit": {
+			"all": {
+				"base": "block/15/ceiling-panel"
+			},
+			"down": {
+				"base": "block/15/ceiling-led"
+			}
+		},
+		"*-flicker": {
+			"all": {
+				"base": "block/15/ceiling-panel"
+			},
+			"down": {
+				"base": "block/15/ceiling-led"
+			}
+		},
+		"*-off": {
+			"all": {
+				"base": "block/15/ceiling-panel"
+			},
+			"down": {
+				"base": "block/15/ceiling-off"
+			}
+		},
+		"*-service": {
+			"all": {
+				"base": "block/15/ceiling-service"
+			}
+		},
+		"*-vent": {
+			"all": {
+				"base": "block/15/ceiling-panel"
+			},
+			"down": {
+				"base": "block/15/ceiling-vent"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"resistance": 2,
+	"lightHsvByType": {
+		"*-on": [
+			34,
+			1,
+			18
+		]
+	},
+	"lightAbsorptionByType": {
+		"*-on": 0,
+		"*-lit": 0,
+		"*-flicker": 0,
+		"*": 99
+	},
+	"vertexFlagsByType": {
+		"*-on": {
+			"glowLevel": 200
+		},
+		"*-lit": {
+			"glowLevel": 200
+		},
+		"*-flicker": {
+			"glowLevel": 200
+		}
+	},
+	"entityClassByType": {
+		"*-flicker": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"*-flicker": {
+			"offBlock": "backrooms:l15-ceiling-off"
+		}
+	},
+	"dropsByType": {
+		"*-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
+		"*": []
+	},
+	"soundsByType": {
+		"*-on": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass",
+			"ambient": "backrooms:ambient/hum",
+			"ambientBlockCount": 140
+		},
+		"*-lit": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass",
+			"ambient": "backrooms:ambient/hum",
+			"ambientBlockCount": 140
+		},
+		"*": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/loosestone*",
+			"break": "game:block/rock-break-pickaxe",
+			"hit": "game:block/rock-hit-pickaxe"
+		}
+	}
+}

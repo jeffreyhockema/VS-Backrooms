@@ -1,0 +1,223 @@
+// Level 15: a pair of steel lockers, two blocks high, their doors to the side: shut (something may be left inside the lower half) or ajar (gone through)
+{
+	"code": "l15-locker",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "state",
+			"states": [
+				"closed",
+				"ajar"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l15-locker-lower-closed-north": {
+			"base": "backrooms:block/15/l15-locker-lower-closed",
+			"rotateY": 0
+		},
+		"l15-locker-lower-closed-east": {
+			"base": "backrooms:block/15/l15-locker-lower-closed",
+			"rotateY": 270
+		},
+		"l15-locker-lower-closed-south": {
+			"base": "backrooms:block/15/l15-locker-lower-closed",
+			"rotateY": 180
+		},
+		"l15-locker-lower-closed-west": {
+			"base": "backrooms:block/15/l15-locker-lower-closed",
+			"rotateY": 90
+		},
+		"l15-locker-lower-ajar-north": {
+			"base": "backrooms:block/15/l15-locker-lower-ajar",
+			"rotateY": 0
+		},
+		"l15-locker-lower-ajar-east": {
+			"base": "backrooms:block/15/l15-locker-lower-ajar",
+			"rotateY": 270
+		},
+		"l15-locker-lower-ajar-south": {
+			"base": "backrooms:block/15/l15-locker-lower-ajar",
+			"rotateY": 180
+		},
+		"l15-locker-lower-ajar-west": {
+			"base": "backrooms:block/15/l15-locker-lower-ajar",
+			"rotateY": 90
+		},
+		"l15-locker-upper-closed-north": {
+			"base": "backrooms:block/15/l15-locker-upper-closed",
+			"rotateY": 0
+		},
+		"l15-locker-upper-closed-east": {
+			"base": "backrooms:block/15/l15-locker-upper-closed",
+			"rotateY": 270
+		},
+		"l15-locker-upper-closed-south": {
+			"base": "backrooms:block/15/l15-locker-upper-closed",
+			"rotateY": 180
+		},
+		"l15-locker-upper-closed-west": {
+			"base": "backrooms:block/15/l15-locker-upper-closed",
+			"rotateY": 90
+		},
+		"l15-locker-upper-ajar-north": {
+			"base": "backrooms:block/15/l15-locker-upper-ajar",
+			"rotateY": 0
+		},
+		"l15-locker-upper-ajar-east": {
+			"base": "backrooms:block/15/l15-locker-upper-ajar",
+			"rotateY": 270
+		},
+		"l15-locker-upper-ajar-south": {
+			"base": "backrooms:block/15/l15-locker-upper-ajar",
+			"rotateY": 180
+		},
+		"l15-locker-upper-ajar-west": {
+			"base": "backrooms:block/15/l15-locker-upper-ajar",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l15-locker-lower-closed-north"
+		],
+		"backrooms": [
+			"l15-locker-lower-closed-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [],
+	"collisionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.1,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	},
+	"selectionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.1,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	},
+	"dropsByType": {
+		"*-lower-closed-*": [
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:metalnailsandstrips-iron",
+				"quantity": {
+					"avg": 0.4,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.4,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:flaxtwine",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0.3
+				}
+			},
+			{
+				"type": "item",
+				"code": "almondwater",
+				"quantity": {
+					"avg": 0.1,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "crackers",
+				"quantity": {
+					"avg": 0.15,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:candle",
+				"quantity": {
+					"avg": 0.06,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "wanderernote-cache",
+				"quantity": {
+					"avg": 0.03,
+					"var": 0
+				}
+			}
+		],
+		"*-lower-ajar-*": [
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "game:metalnailsandstrips-iron",
+				"quantity": {
+					"avg": 0.2,
+					"var": 0.2
+				}
+			}
+		],
+		"*": []
+	}
+}

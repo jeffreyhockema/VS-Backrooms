@@ -1,0 +1,328 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"starglow": "backrooms:block/15/starglow",
+		"starsky": "backrooms:block/15/starsky",
+		"steel": "backrooms:block/15/steel"
+	},
+	"elements": [
+		{
+			"name": "PostL",
+			"from": [
+				0.5,
+				0,
+				6.5
+			],
+			"to": [
+				2.5,
+				16,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "PostR",
+			"from": [
+				13.5,
+				0,
+				6.5
+			],
+			"to": [
+				15.5,
+				16,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Sky",
+			"from": [
+				2.5,
+				0,
+				7.75
+			],
+			"to": [
+				13.5,
+				12,
+				8.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#starsky",
+					"uv": [
+						0,
+						0,
+						11.0,
+						12
+					],
+					"glow": 120
+				},
+				"south": {
+					"texture": "#starsky",
+					"uv": [
+						0,
+						0,
+						11.0,
+						12
+					],
+					"glow": 120
+				}
+			}
+		},
+		{
+			"name": "Lintel",
+			"from": [
+				0.5,
+				12,
+				6.5
+			],
+			"to": [
+				15.5,
+				15,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						15.0,
+						3
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						15.0,
+						3
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						15.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						15.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Star",
+			"from": [
+				7.5,
+				2.5,
+				7.25
+			],
+			"to": [
+				8.5,
+				3.5,
+				8.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#starglow",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#starglow",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#starglow",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#starglow",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#starglow",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#starglow",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,57 @@
+// Level 15: the thick glass of the machine rooms' walls, clear or cracked (never broken through)
+{
+	"code": "l15-glass",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"clear",
+				"cracked"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-clear": {
+			"all": {
+				"base": "block/15/glass-clear"
+			}
+		},
+		"*-cracked": {
+			"all": {
+				"base": "block/15/glass-cracked"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"renderpass": "Transparent",
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 1,
+	"resistance": 4,
+	"drops": [
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

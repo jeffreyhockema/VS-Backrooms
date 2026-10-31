@@ -1,0 +1,356 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"labcoat": "backrooms:block/15/labcoat",
+		"shoe": "backrooms:block/15/shoe",
+		"trousers": "backrooms:block/15/trousers"
+	},
+	"elements": [
+		{
+			"name": "CoatSkirt",
+			"from": [
+				3.5,
+				0,
+				9
+			],
+			"to": [
+				12.5,
+				3,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						9.0,
+						3
+					]
+				},
+				"east": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						7,
+						3
+					]
+				},
+				"south": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						9.0,
+						3
+					]
+				},
+				"west": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						7,
+						3
+					]
+				},
+				"up": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						9.0,
+						7
+					]
+				},
+				"down": {
+					"texture": "#labcoat",
+					"uv": [
+						0,
+						0,
+						9.0,
+						7
+					]
+				}
+			}
+		},
+		{
+			"name": "LegL",
+			"from": [
+				4,
+				0,
+				2
+			],
+			"to": [
+				7.5,
+				2.5,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.5,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						11,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						11,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.5,
+						11
+					]
+				},
+				"down": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.5,
+						11
+					]
+				}
+			}
+		},
+		{
+			"name": "LegR",
+			"from": [
+				8.5,
+				0,
+				1
+			],
+			"to": [
+				12,
+				2.5,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.5,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						11,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						11,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.5,
+						11
+					]
+				},
+				"down": {
+					"texture": "#trousers",
+					"uv": [
+						0,
+						0,
+						3.5,
+						11
+					]
+				}
+			}
+		},
+		{
+			"name": "ShoeL",
+			"from": [
+				3.75,
+				0,
+				0
+			],
+			"to": [
+				7.75,
+				3.5,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						4.0,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						2,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						4.0,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						2,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2
+					]
+				},
+				"down": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "ShoeR",
+			"from": [
+				8.25,
+				0,
+				-0.5
+			],
+			"to": [
+				12.25,
+				3.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						4.0,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						4.0,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#shoe",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.0
+					]
+				}
+			}
+		}
+	]
+}

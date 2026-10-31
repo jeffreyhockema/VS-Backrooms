@@ -1,0 +1,63 @@
+// Level 15: a steel beam set in at an angle nobody would build (we, ns)
+{
+	"code": "l15-oddbeam",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"we",
+				"ns"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-we": {
+			"base": "backrooms:block/15/l15-oddbeam"
+		},
+		"*-ns": {
+			"base": "backrooms:block/15/l15-oddbeam",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l15-oddbeam-we"
+		],
+		"backrooms": [
+			"l15-oddbeam-we"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 8,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [],
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0.4,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0.4,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	}
+}
