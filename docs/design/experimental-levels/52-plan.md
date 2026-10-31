@@ -257,3 +257,54 @@ bell) live on inside the new buildings. Everything above this section (1-5 and t
 - Classrooms: lit enough by their windows (rooms are 7 deep; the corridor side gets little daylight).
 - The stairwells (scissor flights, headroom, the landings' doors) on buildings of three storeys and more.
 - The hills: one-block steps between grass levels; tree crowns; the tall-grass patches; the rim's ridge.
+
+### Round 2 (2026-10-31): looked at in the client, fixed
+
+Shots: `%TEMP%/backrooms-shots/52-r2a` (arrivals only: the showcase shots were lost to a rig bug), `52-r2b` (first full
+tour), `52-r2c`, `52-r2d` (after the fixes below), final `52-r2-final` (`sheet.jpg`). Showcase: `WorldLayout.Level52.Showcase.cs`, 14 spots worked out from
+the plans: the way in at Marshall David's fence, the quad's entrance, the campus across its lawns, the courtyard, a locker
+corridor, the M.E.G.'s top floor, a classroom (first floor up), a stairwell, the canteen, the view from the quad's roof, a
+pedestrian bridge, the hills on the road east, J. Turner's basketball court, J. Barry's warehouse.
+
+What the lead's review and the first shots showed, and what changed:
+- **Dry olive grass and leaves** (vanilla's mild climate tint): the level now has its own plant tint
+  (`BackroomsModSystem.LevelTintMap`, as Motion and Level 10 have): hot on paper, so the seasonal yellowing drops out, and
+  wet, a natural deep green varying a little cell by cell. The courtyards' artificial turf (its own texture) stays the
+  brighter green, so it reads as artificial beside the real grass.
+- **Uniform grey slabs**: every building now has its own look (`L52AddBuilding`): the campus's façade mostly, now and then
+  another of the lore's colours (white concrete, beige render, pale brown brick, grey precast; J. Barry blue and white by
+  turns; Marshall David and J. Turner all white, as the lore has it); a precast trim colour (off-white, grey or sandstone)
+  for a cornice under the parapet and, by building, string courses at every floor line or the first only; window rhythm
+  by building (pairs, a ribbon, singles); a dark stone base course on three in four. New blocks `l52-band-{light,grey,stone}`,
+  `l52-plinth`, `l52-canopy` (gen_52.py / gen_52_tex.py).
+- **Entrances that read as entrances**: a precast surround either side of every outside door and a lintel over it, and a
+  flat cantilevered canopy (charcoal fascia, pale soffit with downlights) over the paving in front at the first floor line.
+  No signs with a campus name: the lore says there is none anywhere ("no subject and no campus name").
+- **Pedestrian bridges** (the lore's, a "nice" item of round 1): from the quad to a teaching block or lodgings 8-24 blocks
+  off it, face to face, a glazed walkway three wide at the first floor up (`L52LayBridges`; 44 in the 68 campuses of
+  `52stats 4`). Nothing is furnished within two blocks of a bridge's opening on its floor.
+- **Arrivals facing a wall**: players put down in the level now face the cardinal way with the longest clear run
+  (`ThresholdSystem.L52ArrivalYaw`, one line in the shared arrival code, as the Hub's).
+- **Roads stepping over the hills** (seen in the hills shot): the hills are graded down within 14 blocks of a road's
+  middle line (`L52RoadDistance`), so the gravel roads run level with banks either side.
+- **The sky**: bluer (the sky sphere's blue deeper and denser); the horizon keeps a pale haze.
+- Shared fixes: mapgen compiles `src/Cheats/Showcase.cs`; the rig copies the showcase step's shots out (both the same
+  change as exp/36's a404577b, so the merges are clean).
+
+What held up in the first tour: the locker corridors, the classrooms (board, desks, the 2000s television, daylight
+through the windows with the lights off), the stairwells, the canteen's rows of tables and empty food stands, J. Barry's
+warehouse, J. Turner's court, the fence and its gaps, the hills with their flowers.
+
+Inventions added this round (not in the lore): the trim, base course and canopies; the bridges' glazing and placement
+(the lore has bridges but not their look); the arrival facing.
+
+Still weak after round 2: the roof shot (the parapet and an air-conditioning unit; the campus below hardly shows over the
+parapet); the courtyards' trees stand on a visible grid; Marshall David reads light grey rather than white in shade; the
+M.E.G.'s top floor is plain offices (no outpost signage: the lore names none for it); vanilla's falling-leaf particles
+drift across the sky near trees; the rig's random arrivals still face a wall now and then (the rig turns the camera
+itself; players get `L52ArrivalYaw`).
+
+Checks (round 2): expclash clean; mod and mapgen 0 errors; layouthash v1 and v12: levels 0-20 and the layout hash identical
+to main's; `regions` 60/60 for 52; `52stats 4` OK (0 doorless rooms, 60 unreached ground tiles of ~2 million, 44 bridges);
+headless dummy (`/backrooms dummy place 52 5`, port 43125) lands at 565922,217,642274 with 0 error lines;
+`GATE_TAG=52 python tools/gate.py --fast --port-base 43120` passes.

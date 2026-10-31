@@ -167,8 +167,8 @@ public partial class WorldLayout
         // 11. The view from the quad's roof, over the campus and out across the hills
         // (at the quad's corner nearest the rest of the campus, looking out over it from just inside the parapet)
         {
-            int u = quadEast ? quad.U0 + 2 : quad.U1 - 2, v = quadNorth ? quad.V1 - 2 : quad.V0 + 2;
-            Add(md, "roof", u, v, quad.Storeys * L52Storey + 1, Heading(quadEast ? -1 : 1, quadNorth ? 1 : -1), -14);
+            int u = quadEast ? quad.U0 + 6 : quad.U1 - 6, v = quadNorth ? quad.V1 - 6 : quad.V0 + 6;
+            Add(md, "roof", u, v, quad.Storeys * L52Storey + 1, Heading(quadEast ? -1 : 1, quadNorth ? 1 : -1), -7);
         }
 
         // 11b. A pedestrian bridge, from the lawn beside it (Marshall David's, or the nearest campus's that has one)
