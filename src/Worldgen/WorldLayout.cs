@@ -463,7 +463,9 @@ public sealed partial class WorldLayout
     /// Level 6's stairwells down and Level 2's steel doors that open onto Level 3. Boundary gates are untouched.</item>
     /// <item><b>13</b>: Level 10 grows some pines (about a quarter of its trees, taken from the birches and maples; the oaks keep their
     /// share), taller and narrower than the others with a conical crown, one or two resin logs low on most trunks (the world's only
-    /// renewable resin; WorldGenerator.Vegetation.cs).</item>
+    /// renewable resin; WorldGenerator.Vegetation.cs). It also gives stairs the headroom to climb them: Level 1's stairs to nowhere
+    /// have the slab open over their second step and the concrete over the third cut a block higher, and Level 5's grand staircases
+    /// open the ceiling from the second step, not the third (blocks only; the tiles, and so <c>layouthash</c>, are as in 12).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 13;

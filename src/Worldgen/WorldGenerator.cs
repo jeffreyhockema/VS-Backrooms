@@ -1296,8 +1296,14 @@ public sealed partial class WorldGenerator
     private int NowhereBlock(in Tile t, int rel)
     {
         int top = Geometry.BandTop - Geometry.FloorY - 1;
-        // The third step: its head is up to the slab, which is open over it
-        if (t.Zone == WorldLayout.FlightZoneNowhere) return t.Stair == 3 && rel == WorldGeometry.Level1RoomHeight + 1 ? 0 : -1;
+        // The third step: its head is up to the slab, which is open over it. From layout 13 the slab is open over the second
+        // step too and the concrete over the third is cut a block higher, so a player's head clears both on the way to the doorway
+        if (t.Zone == WorldLayout.FlightZoneNowhere)
+        {
+            const int slab = WorldGeometry.Level1RoomHeight + 1;
+            if (layout.Version >= 13) return t.Stair == 2 && rel == slab || t.Stair == 3 && rel is slab or slab + 1 ? 0 : -1;
+            return t.Stair == 3 && rel == slab ? 0 : -1;
+        }
         // 4, 5 and 6 for the doorway and the two rises, straight on or along the wall; 7 for the landing
         int step = t.Zone is WorldLayout.NowhereWall ? 4 : t.Zone is WorldLayout.NowhereRise or WorldLayout.NowhereTurn1 ? 5 : t.Zone is WorldLayout.NowhereTop or WorldLayout.NowhereTurn2 ? 6 : 7;
         if (rel > top || rel < step - 1 && t.Zone != WorldLayout.NowhereLanding) return -1;
@@ -2018,8 +2024,9 @@ public sealed partial class WorldGenerator
     {
         int room = t.Grand ? WorldGeometry.MaxRoomHeight : WorldGeometry.RoomHeight;
         bool boiler = t.Floor == FloorKind.Dusty;
-        // A front hall's grand staircase (layout 5) climbs through an opening in the ceiling into the dark over it
-        bool grandStair = t.Grand && t.Stair >= WorldLayout.GrandStairTripStep;
+        // A front hall's grand staircase (layout 5) climbs through an opening in the ceiling into the dark over it; from layout 13
+        // the opening starts over the second step, so a player's head clears the ceiling on the way up to the third
+        bool grandStair = t.Grand && t.Stair >= (layout.Version >= 13 ? 2 : WorldLayout.GrandStairTripStep);
         if (rel > room + 1) return grandStair && rel == room + 2 ? 0 : concreteId;
         if (rel == 0) return boiler ? dustyFloorId : floorIds[(int)t.Floor];
         // The staff stairs, climbing into the ceiling; the grand staircases, marble with a runner up the middle
