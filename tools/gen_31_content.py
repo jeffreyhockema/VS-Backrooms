@@ -520,6 +520,9 @@ def words():
         "block-l31-tv-*": "Big TV",
         "block-l31-cctv-*": "CCTV Camera",
         "block-l31-monitors-*": "CCTV Monitors",
+        "block-l31-cladding-m*": "Rink Mural",
+        "block-l31-cladding-f*": "Wall Mirror",
+        "block-l31-cladding-lacq*": "Black Lacquer Panel",
         "blockhelp-l31-dispenser": "Get a card",
         # The staff (Regions.L31System)
         "l31-server-serve-1": "The Faceling behind the counter slides a tray across to you without a word.",

@@ -35,7 +35,8 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldLayout
 {
     /// <summary>Hash salts 0x2400-0x24BF are this level's (0x24C0-0x24FF its thresholds').</summary>
-    private const ulong SaltL31Shape = 0x2401, SaltL31Complex = 0x2410, SaltL31Room = 0x2411, SaltL31Light = 0x2412, SaltL31Hall = 0x2413;
+    private const ulong SaltL31Shape = 0x2401, SaltL31Complex = 0x2410, SaltL31Room = 0x2411, SaltL31Light = 0x2412, SaltL31Hall = 0x2413,
+        SaltL31Clad = 0x2416;
 
     /// <summary>The lattice: a neon hall every 128 blocks each way; a complex's inside is 121 square, its plan 123 with its walls.</summary>
     public const int L31Period = 128, L31Size = 121, L31Grid = 123;
@@ -87,6 +88,9 @@ public sealed partial class WorldLayout
         public const byte NeonNS = 140, NeonWE = 141, DeadNS = 142, DeadWE = 143, DiscoBall = 144;
         /// <summary>The star-shaped light at the rink's centre (Wikidot), and a CCTV camera under the ceiling of an employees' lounge (Pier the way it looks).</summary>
         public const byte Star = 145, Cctv = 146;
+        /// <summary>A hall tile by a wall, its wall clad (rel 2 up, toward its Pier) in the hall mural, or in black lacquer with
+        /// chrome-framed mirrors (<c>l31-cladding</c>; which, per side of each stretch of hall, by hash).</summary>
+        public const byte Mural = 147, Mirrors = 148;
     }
 
     /// <summary>The level's props (<see cref="Props.L31First"/>-<see cref="Props.L31Last"/>), all at rel 1 but the cinema screen.</summary>
@@ -197,8 +201,9 @@ public sealed partial class WorldLayout
     /// <summary>A place near the middle of the region to look for somewhere to arrive, picked by hash.</summary>
     private (int Mx, int Mz) L31ArrivalCell(ulong h) => RoundArrivalCell(h, L31CentreX, L31CentreZ, L31Radius);
 
-    /// <summary>Arriving: out in a neon hall or in a lobby, never in a room or out on the rink.</summary>
-    private static bool IsL31ArrivalSpot(Tile t) => IsArrivalSpot(t) && t.Zone is (byte)L31Zone.Hall or (byte)L31Zone.Crossing or (byte)L31Zone.Lobby;
+    /// <summary>Arriving: out in a neon hall, in a lobby or on the carpet round a rink, never in a room or out on the boards.</summary>
+    private static bool IsL31ArrivalSpot(Tile t) =>
+        IsArrivalSpot(t) && t.Zone is (byte)L31Zone.Hall or (byte)L31Zone.Crossing or (byte)L31Zone.Lobby or (byte)L31Zone.Skirt;
 
     /// <summary>How high above the level's floor to put someone down on an arrival tile (see <see cref="ArrivalHeight"/>).</summary>
     private static double L31ArrivalHeight(in Tile t, double stand) => stand;
@@ -275,6 +280,10 @@ public sealed partial class WorldLayout
         if (L31PlanTile(bx, bz).Kind != TileKind.Wall) return;
         ArchPier facing = hallX ? (u == 1 ? ArchPier.East : ArchPier.West) : (v == 1 ? ArchPier.South : ArchPier.North);
         t.Pier = facing;
+        // The wall above the neon strip: each side of each stretch is clad in the mural (three in five) or in black lacquer
+        // with chrome-framed mirrors ("many chambers of shiny surfaces": Wikidot)
+        ulong clad = Hashing.Hash(seed, Hashing.FloorDiv(gx, L31Period), Hashing.FloorDiv(gz, L31Period), SaltL31Clad + (ulong)facing);
+        t.Overhead = Hashing.Unit(clad) < 0.6 ? L31Overhead.Mural : L31Overhead.Mirrors;
         double p = Hashing.Unit(Hashing.Mix(h));
         if (p < 0.006) t.Variant = p < 0.004 ? Props.Bench : L31Props.Bin;
         else t.Detail |= L31RailBit;
@@ -883,25 +892,18 @@ public sealed partial class WorldLayout
         for (int p = r0 + 6; p <= r1 - 6; p += 4)
             if (Math.Abs(p - pc) > 7 && ClearOfDoors(p, south - inward)) L31Put(plan, p, south, Props.Bench, toRink);
 
-        // Mirror panels round the rink's walls, facing in
-        for (int p = r0; p <= r1; p += 6)
-        {
-            L31Mirror(plan, p, s0 - 1, ArchPier.South);
-            L31Mirror(plan, p, s1 + 1, ArchPier.North);
-        }
-        for (int q = s0 + 2; q <= s1; q += 6)
-        {
-            L31Mirror(plan, r0 - 1, q, ArchPier.East);
-            L31Mirror(plan, r1 + 1, q, ArchPier.West);
-        }
-    }
-
-    private static void L31Mirror(L31Plan plan, int p, int q, ArchPier face)
-    {
-        ref Tile t = ref plan.At(p, q);
-        if (t.Kind != TileKind.Wall || (t.Detail & L31HueMask) != L31Sign.None) return;
-        t.Detail |= L31MirrorBit;
-        t.Pier = plan.Dir(face);
+        // The walls round the skirt, above the benches: each side clad, by hash, in the mural or in black lacquer with
+        // chrome-framed mirrors, as the halls are (the generator finds the wall beside the tile; doors are left bare)
+        ulong clad = Hashing.Hash(seed, plan.Wx, plan.Wz, SaltL31Clad + 8);
+        for (int q = s0; q <= s1; q++)
+            for (int p = r0; p <= r1; p++)
+            {
+                int side = q == s0 ? 0 : q == s1 ? 1 : p == r0 ? 2 : p == r1 ? 3 : -1;
+                if (side < 0) continue;
+                var (wp, wq) = side switch { 0 => (p, q - 1), 1 => (p, q + 1), 2 => (p - 1, q), _ => (p + 1, q) };
+                if (plan.At(wp, wq).Kind != TileKind.Wall) continue;
+                plan.At(p, q).Overhead = (clad >> side & 1) == 0 ? L31Overhead.Mural : L31Overhead.Mirrors;
+            }
     }
 
     /// <summary>An emptiness: one dim bare room the size of the complex, pillars in a grid, a door in the middle of each side.</summary>
@@ -976,20 +978,6 @@ public sealed partial class WorldLayout
                 if (sub is L31Wall.Chart or L31Wall.Locker) continue;
                 t.Detail = (byte)(t.Detail & (L31MirrorBit | L31HueMask) | Material(rank) << L31SubShift);
             }
-        // The outside walls facing the halls: a mirror panel every eight blocks
-        for (int i = 3; i < L31Size; i += 8)
-        {
-            OuterMirror(ref plan.AtAB(i, -1), ArchPier.North);
-            OuterMirror(ref plan.AtAB(i, L31Size), ArchPier.South);
-            OuterMirror(ref plan.AtAB(-1, i), ArchPier.West);
-            OuterMirror(ref plan.AtAB(L31Size, i), ArchPier.East);
-        }
-        static void OuterMirror(ref Tile t, ArchPier face)
-        {
-            if (t.Kind != TileKind.Wall || (t.Detail & L31HueMask) != L31Sign.None) return;
-            t.Detail |= L31MirrorBit;
-            t.Pier = face;
-        }
     }
 
     /// <summary>Which of the level's props (<see cref="Props.L31First"/>-<see cref="Props.L31Last"/>) people walk through: the rink's gates, and where the staff stand.</summary>
