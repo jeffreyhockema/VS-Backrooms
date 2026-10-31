@@ -126,13 +126,12 @@ public partial class AtmosphereSystem : ModSystem
         // Level 31: a thin indigo haze, tinted by the coloured tubes (its cinema and its empty rooms darker, its snack bar
         // warmer: AtmosphereSystem.L31.cs)
         new(0.008f, 0.10f, 0.07f, 0.19f, 0f),
-        // Level 55: a thin pale blue-white haze under a polar day held bright at every hour (the sky hidden, the hut, the
-        // cave and the whiteouts: AtmosphereSystem.L55.cs)
-        new(0.0025f, 0.847f, 0.902f, 0.949f, 0f, scene: 0.90f),
+        // (25: free, Level 55 was dropped)
+        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
         // Level 120: near-black, cold blue-green air between the racks (its hot aisles, vaults and great halls: AtmosphereSystem.L120.cs)
         new(0.014f, 0.035f, 0.075f, 0.08f, 0f),
-        // Level 183: a thin, pale, clean blue-grey haze down the long mains (the side tunnels and chambers: AtmosphereSystem.L183.cs)
-        new(0.025f, 0.788f, 0.839f, 0.839f, 0f),
+        // (27: free, Level 183 was dropped)
+        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
     };
 
     /// <summary>
@@ -307,7 +306,6 @@ public partial class AtmosphereSystem : ModSystem
             l974Lullaby, l974Fridge, runAlarm, runAlarmFar, runHorde, runHeart, runSafe,
             l73Wind, l73Surf, l73Fire,
             basementTone, basementWash,
-            l183Flow, l183Wash,
         }.Concat(sirenVoice?.Loaded() ?? []).Concat(funVoiceA?.Loaded() ?? []).Concat(funVoiceB?.Loaded() ?? []).Concat(hotelVoice?.Loaded() ?? []))
         {
             sound?.Stop();
@@ -381,9 +379,7 @@ public partial class AtmosphereSystem : ModSystem
             case WorldLayout.Basement: BasementAir(dt, pos, ref target, ref titleKey); break;
             case WorldLayout.Level52: L52Air(dt, pos, ref target, ref titleKey); break;
             case WorldLayout.Level31: L31Air(dt, pos, ref target, ref titleKey); break;
-            case WorldLayout.Level55: L55Air(dt, pos, ref target, ref titleKey); break;
             case WorldLayout.Level120: L120Air(dt, pos, ref target, ref titleKey); break;
-            case WorldLayout.Level183: L183Air(dt, pos, ref target, ref titleKey); break;
             case 10: L10Air(ref target); break;
         }
         AnnounceLevel(titleKey);
@@ -578,9 +574,7 @@ public partial class AtmosphereSystem : ModSystem
         BasementSounds(dt, pos, level == WorldLayout.Basement);
         L52Sounds(dt, pos, level == WorldLayout.Level52);
         L31Sounds(dt, pos, level == WorldLayout.Level31);
-        L55Sounds(dt, pos, level == WorldLayout.Level55);
         L120Sounds(dt, pos, level == WorldLayout.Level120);
-        L183Sounds(dt, pos, level == WorldLayout.Level183);
         HotelSounds(dt, pos, level == 5);
 
         // The Poolrooms' room tone

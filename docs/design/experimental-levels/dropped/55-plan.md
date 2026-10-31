@@ -1,3 +1,5 @@
+> **Dropped 2026-10-30:** on neither main lore wiki as built; the user dropped it. Its code, assets and generator were removed (id 25 reused); this plan is kept for the record.
+
 # Level 55 "Land of Ice": prototype plan
 
 Internal id 25, `WorldLayout.Level55`, infix `L55`, blocks `l55-`, region per BACKLOG (WSW, `R * 1.1` out, 22.5 deg south

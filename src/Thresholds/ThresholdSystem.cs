@@ -322,7 +322,7 @@ public partial class ThresholdSystem : ModSystem
             if (!(RunMayPass(player, passage) && FunMayPass(player, passage) && EndMayPass(player, passage) && HubMayPass(player, passage)
                 && L974MayPass(player, passage) && L3999MayPass(player, passage) && L188MayPass(player, passage)
                 && L73MayPass(player, passage) && BasementMayPass(player, passage) && L52MayPass(player, passage)
-                && L31MayPass(player, passage) && L55MayPass(player, passage) && L120MayPass(player, passage) && L183MayPass(player, passage))) continue;
+                && L31MayPass(player, passage) && L120MayPass(player, passage))) continue;
             Go(player, passage, network.Take(passage, passage.TwoWay ? network.HomeFor(passage) : null), dropping ? "fall" : "walk");
         }
     }
@@ -398,8 +398,7 @@ public partial class ThresholdSystem : ModSystem
         ?? HubRedirect(player, passage, destination) ?? L974Redirect(player, passage, destination)
         ?? L3999Redirect(player, passage, destination) ?? L188Redirect(player, passage, destination)
         ?? L73Redirect(player, passage, destination) ?? BasementRedirect(player, passage, destination) ?? L52Redirect(player, passage, destination)
-        ?? L31Redirect(player, passage, destination) ?? L55Redirect(player, passage, destination) ?? L120Redirect(player, passage, destination)
-        ?? L183Redirect(player, passage, destination)
+        ?? L31Redirect(player, passage, destination) ?? L120Redirect(player, passage, destination)
         ?? destination;
 
     /// <summary>
@@ -489,9 +488,7 @@ public partial class ThresholdSystem : ModSystem
             case WorldLayout.Basement: BasementArriving(player, link, ref drop); break;
             case WorldLayout.Level52: L52Arriving(player, link, ref drop); break;
             case WorldLayout.Level31: L31Arriving(player, link, ref drop); break;
-            case WorldLayout.Level55: L55Arriving(player, link, ref drop); break;
             case WorldLayout.Level120: L120Arriving(player, link, ref drop); break;
-            case WorldLayout.Level183: L183Arriving(player, link, ref drop); break;
         }
         // Put down on a flight of stairs (near the top of the way back, after climbing another), they face down it,
         // and it takes them nowhere until they have stepped off it

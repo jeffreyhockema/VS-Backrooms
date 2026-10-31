@@ -120,9 +120,7 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level52 => 0,
         // Batch 2 (ids 24-27): nothing in them yet
         Backrooms.Worldgen.WorldLayout.Level31 => 0,
-        Backrooms.Worldgen.WorldLayout.Level55 => 0,
         Backrooms.Worldgen.WorldLayout.Level120 => 0,
-        Backrooms.Worldgen.WorldLayout.Level183 => 0,
         // Level 94 (Class 3): its Animations hit and chase like Level 4's creatures; the King's trial keeps its own balance
         Backrooms.Worldgen.WorldLayout.Motion => 0.4,
         _ => 0,
@@ -397,9 +395,7 @@ public static class Roster
         [Backrooms.Worldgen.WorldLayout.Basement] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level52] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level31] = Array.Empty<RosterEntry>(),
-        [Backrooms.Worldgen.WorldLayout.Level55] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<RosterEntry>(),
-        [Backrooms.Worldgen.WorldLayout.Level183] = Array.Empty<RosterEntry>(),
         // The city: crowds of Facelings, Hounds that ignore you, rats in the alleys, a Duller in the subway
         [11] = new[]
         {
@@ -645,9 +641,7 @@ public static class Roster
         [Backrooms.Worldgen.WorldLayout.Basement] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Level52] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Level31] = Array.Empty<DistantSound>(),
-        [Backrooms.Worldgen.WorldLayout.Level55] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<DistantSound>(),
-        [Backrooms.Worldgen.WorldLayout.Level183] = Array.Empty<DistantSound>(),
     };
 
     /// <summary>The far-off cries of a dark's hunters: only Hound sounds for the Hounds, only rat sounds for the rats.</summary>

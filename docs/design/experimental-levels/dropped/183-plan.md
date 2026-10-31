@@ -1,3 +1,5 @@
+> **Dropped 2026-10-30:** on neither main lore wiki as built; the user dropped it. Its code, assets and generator were removed (id 27 reused); this plan is kept for the record.
+
 # Level 183 "Clean Sewers": prototype plan
 
 Internal id **27**, `WorldLayout.Level183`, infix `L183`, blocks `l183-`, tag `183`, region far north-west beyond The End

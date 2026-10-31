@@ -67,7 +67,7 @@ public sealed partial class WorldLayout
     /// Number of levels: Level 0 to the outermost ring, Level 11 (the city beyond it), and the other places no ring
     /// reaches, Level 37 (kept as <see cref="Poolrooms"/>), Level 94 (<see cref="Motion"/>), the five kept as 14-18,
     /// Level 3999 (19) and Level 188 (20), and the experimental Level 73 (21),
-    /// the Basement (22), Level 52 (23), Level 31 (24), Level 55 (25), Level 120 (26) and Level 183 (27).
+    /// the Basement (22), Level 52 (23), Level 31 (24) and Level 120 (26); 25 and 27 are free (Levels 55 and 183 were dropped).
     /// </summary>
     public static int LevelCount => RingWidths.Length + 18;
 
@@ -110,14 +110,8 @@ public sealed partial class WorldLayout
     /// <summary>Level 31, "Roller Rink" (experimental): kept as level 24, shown as 31.</summary>
     public const int Level31 = 24;
 
-    /// <summary>Level 55, "Land of Ice" (experimental): kept as level 25, shown as 55.</summary>
-    public const int Level55 = 25;
-
     /// <summary>Level 120, "Server Room" (experimental): kept as level 26, shown as 120.</summary>
     public const int Level120 = 26;
-
-    /// <summary>Level 183, "Clean Sewers" (experimental): kept as level 27, shown as 183.</summary>
-    public const int Level183 = 27;
 
     /// <summary>The number (or name) a level goes by: its own for the rings and the city, 37 and 94 and the rest for those kept past them.</summary>
     public static string DisplayNumber(int level) => level switch
@@ -135,9 +129,7 @@ public sealed partial class WorldLayout
         Basement => "Basement",
         Level52 => "52",
         Level31 => "31",
-        Level55 => "55",
         Level120 => "120",
-        Level183 => "183",
         _ => level.ToString(),
     };
 
@@ -152,9 +144,7 @@ public sealed partial class WorldLayout
         73 => Level73,
         52 => Level52,
         31 => Level31,
-        55 => Level55,
         120 => Level120,
-        183 => Level183,
         _ => number >= 0 && number <= 11 ? number : -1,
     };
 
@@ -631,12 +621,9 @@ public sealed partial class WorldLayout
         if (InL73(mx, mz)) return Level73;
         if (InBasement(mx, mz)) return Basement;
         if (InL52(mx, mz)) return Level52;
-        // Batch 2: 31 to the west-north-west, 55 to the west-south-west, 120 far out to the north-east beyond Level Fun,
-        // 183 far out to the north-west beyond the End (see their files)
+        // Batch 2: 31 to the west-north-west, 120 far out to the north-east beyond Level Fun (see their files)
         if (InL31(mx, mz)) return Level31;
-        if (InL55(mx, mz)) return Level55;
         if (InL120(mx, mz)) return Level120;
-        if (InL183(mx, mz)) return Level183;
         return RingWidths.Length;
     }
 
@@ -751,7 +738,6 @@ public sealed partial class WorldLayout
     {
         9 or 10 or 11 or Motion => true,
         Level73 => true, // an island under its own night sky
-        Level55 => true, // a glacier under its own polar day
         // (The far places kept as 14-20, like every other level, have a ceiling or a sealed sky)
         _ => false,
     };
@@ -830,9 +816,7 @@ public sealed partial class WorldLayout
             Basement => BasementEdge(mx, mz, west),
             Level52 => L52Edge(mx, mz, west),
             Level31 => L31Edge(mx, mz, west),
-            Level55 => L55Edge(mx, mz, west),
             Level120 => L120Edge(mx, mz, west),
-            Level183 => L183Edge(mx, mz, west),
             _ => new Edge { Pattern = WallPattern.Rock }, // the suburbs and the fields run straight on
         };
     }
@@ -867,9 +851,7 @@ public sealed partial class WorldLayout
             Basement => WallPattern.BasementWall,
             Level52 => WallPattern.L52Wall,
             Level31 => WallPattern.L31Wall,
-            Level55 => WallPattern.L55Wall,
             Level120 => WallPattern.L120Wall,
-            Level183 => WallPattern.L183Wall,
             _ => WallPattern.Rock, // the caves; and the cliffs the open levels meet the rest at
         };
     }
@@ -981,15 +963,13 @@ public sealed partial class WorldLayout
             case Basement: return BasementTemperature(x, y, z, floorY);
             case Level52: return L52Temperature(x, y, z, floorY);
             case Level31: return L31Temperature(x, y, z, floorY);
-            case Level55: return L55Temperature(x, y, z, floorY);
             case Level120: return L120Temperature(x, y, z, floorY);
-            case Level183: return L183Temperature(x, y, z, floorY);
         }
         return LevelTemperatures[Math.Min(level, LevelTemperatures.Length - 1)];
     }
 
-    /// <summary>Each level's usual temperature, by the number it is kept as (14-27: Level !, Fun, the End, the Hub, 974, 3999, 188, 73, the Basement, 52, 31, 55, 120, 183).</summary>
-    private static readonly float[] LevelTemperatures = { 22f, 28f, 38f, 35f, 15f, 20f, 8f, 12f, 9f, 14f, 18f, 17f, 29f, 21f, 20f, 22f, 19f, 20f, 21f, 24f, 21f, 30f, 14f, 18f, 16f, -8f, 26f, 12f };
+    /// <summary>Each level's usual temperature, by the number it is kept as (14-27: Level !, Fun, the End, the Hub, 974, 3999, 188, 73, the Basement, 52, 31, 25 free, 120, 27 free).</summary>
+    private static readonly float[] LevelTemperatures = { 22f, 28f, 38f, 35f, 15f, 20f, 8f, 12f, 9f, 14f, 18f, 17f, 29f, 21f, 20f, 22f, 19f, 20f, 21f, 24f, 21f, 30f, 14f, 18f, 16f, 20f, 26f, 20f };
 
     /// <summary>Indices along an edge that can be walked through.</summary>
     private static List<int> Passages(Edge edge)
@@ -1057,9 +1037,7 @@ public sealed partial class WorldLayout
             case Basement: BuildLevelBasement(b, mx, mz); break;
             case Level52: BuildLevel52(b, mx, mz); break;
             case Level31: BuildLevel31(b, mx, mz); break;
-            case Level55: BuildLevel55(b, mx, mz); break;
             case Level120: BuildLevel120(b, mx, mz); break;
-            case Level183: BuildLevel183(b, mx, mz); break;
             default: BuildLevel10(b, mx, mz); break;
         }
 
@@ -1205,7 +1183,7 @@ public sealed partial class WorldLayout
         || variant >= Props.RunFirst && (RunWalkThrough(variant) || FunWalkThrough(variant) || EndWalkThrough(variant)
             || HubWalkThrough(variant) || L974WalkThrough(variant) || L3999WalkThrough(variant) || L188WalkThrough(variant)
             || L73WalkThrough(variant) || BasementWalkThrough(variant) || L52WalkThrough(variant)
-            || L31WalkThrough(variant) || L55WalkThrough(variant) || L120WalkThrough(variant) || L183WalkThrough(variant));
+            || L31WalkThrough(variant) || L120WalkThrough(variant));
 
     /// <summary>Whether a person can stand on and walk across a tile.</summary>
     private static bool IsWalkable(in Tile t)

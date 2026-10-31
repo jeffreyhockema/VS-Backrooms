@@ -254,16 +254,12 @@ public enum WallPattern : ushort
     /// <summary>Level 52 (block 224-239). Placeholder.</summary>
     L52Wall = 224,
 
-    // ===== The experimental Levels 31, 55, 120 and 183 (24-27): one value each (sub-kinds in the level's own Zone, Detail, Variant) =====
+    // ===== The experimental Levels 31 and 120 (24, 26): one value each (sub-kinds in the level's own Zone, Detail, Variant) =====
 
     /// <summary>Level 31 (240). Placeholder.</summary>
     L31Wall = 240,
-    /// <summary>Level 55 (241). Placeholder.</summary>
-    L55Wall = 241,
     /// <summary>Level 120 (242). Placeholder.</summary>
     L120Wall = 242,
-    /// <summary>Level 183 (243): glazed sewer brick (Tile.Detail: plain, stained, a hall's pillar).</summary>
-    L183Wall = 243,
 }
 
 /// <summary>Trim on the bottom block of a wall.</summary>
@@ -514,16 +510,12 @@ public enum FloorKind : ushort
     /// <summary>Level 52 (block 244-255): the halls' vinyl tile, the classrooms' plainer tile, the gym's floor and its court lines.</summary>
     L52Floor = 244, L52Room = 245, L52Gym = 246, L52GymLineNS = 247, L52GymLineWE = 248,
 
-    // ===== The experimental Levels 31, 55, 120 and 183 (24-27): one value each (sub-kinds in the level's own Zone, Detail, Variant) =====
+    // ===== The experimental Levels 31 and 120 (24, 26): one value each (sub-kinds in the level's own Zone, Detail, Variant) =====
 
     /// <summary>Level 31 (249). Placeholder.</summary>
     L31Floor = 249,
-    /// <summary>Level 55 (250). Placeholder.</summary>
-    L55Floor = 250,
     /// <summary>Level 120 (251). Placeholder.</summary>
     L120Floor = 251,
-    /// <summary>Level 183 (252): the sewers' floors (Tile.Detail the WorldLayout.L183Part: walkway, curb, channel bed, grate, gutter).</summary>
-    L183Floor = 252,
 }
 
 /// <remarks>A ushort since 0.700.0-pre.1 (experimental-levels): values past 255 are the experimental levels' blocks.</remarks>
@@ -592,16 +584,12 @@ public enum CeilingKind : ushort
     /// <summary>Level 52 (block 88-95). Placeholder.</summary>
     L52Ceiling = 88,
 
-    // ===== The experimental Levels 31, 55, 120 and 183 (24-27): one block of values each =====
+    // ===== The experimental Levels 31 and 120 (24, 26): one block of values each =====
 
     /// <summary>Level 31 (block 96-103). Placeholder.</summary>
     L31Ceiling = 96,
-    /// <summary>Level 55 (block 104-111). Placeholder.</summary>
-    L55Ceiling = 104,
     /// <summary>Level 120 (block 112-119). Placeholder.</summary>
     L120Ceiling = 112,
-    /// <summary>Level 183 (block 120-127): the sewers' brick vault, and on a walkway tile a caged wall lamp (Pier its wall): lit, flickering, a chamber's or hall's bright one.</summary>
-    L183Ceiling = 120, L183LampOn = 121, L183LampFlicker = 122, L183LampBright = 123,
 }
 
 /// <summary>
@@ -781,13 +769,9 @@ public static class Pipes
     /// <summary>The Basement's Flood: a run of pipes along the top of a passage (west-east, north-south), and the same leaking.</summary>
     public const byte BasementPipeWE = 100, BasementPipeNS = 101, BasementLeakWE = 102, BasementLeakNS = 103;
     public const byte L52First = 110, L52Last = 119;
-    // The experimental Levels 31, 55, 120 and 183 (24-27)
+    // The experimental Levels 31 and 120 (24, 26)
     public const byte L31First = 120, L31Last = 129;
-    public const byte L55First = 130, L55Last = 139;
     public const byte L120First = 140, L120Last = 149;
-    public const byte L183First = 150, L183Last = 159;
-    /// <summary>Level 183: a run of pipes along the top of a main's wall or down a dry gallery (west-east, north-south), and the same leaking.</summary>
-    public const byte L183PipeWE = 150, L183PipeNS = 151, L183LeakWE = 152, L183LeakNS = 153;
 
     /// <summary>One past the highest value (Tile.Pipe is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
     public const int Limit = 512;
@@ -850,11 +834,9 @@ public static class Overheads
     public const byte L73First = 110, L73Last = 119;
     public const byte BasementFirst = 120, BasementLast = 129;
     public const byte L52First = 130, L52Last = 139;
-    // The experimental Levels 31, 55, 120 and 183 (24-27)
+    // The experimental Levels 31 and 120 (24, 26)
     public const byte L31First = 140, L31Last = 149;
-    public const byte L55First = 150, L55Last = 159;
     public const byte L120First = 160, L120Last = 169;
-    public const byte L183First = 170, L183Last = 179;
 
     /// <summary>One past the highest value (Tile.Overhead is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
     public const int Limit = 512;
@@ -993,11 +975,9 @@ public static class Unders
     public const byte L73First = 120, L73Last = 129;
     public const byte BasementFirst = 130, BasementLast = 139;
     public const byte L52First = 140, L52Last = 149;
-    // The experimental Levels 31, 55, 120 and 183 (24-27)
+    // The experimental Levels 31 and 120 (24, 26)
     public const byte L31First = 150, L31Last = 159;
-    public const byte L55First = 160, L55Last = 169;
     public const byte L120First = 170, L120Last = 179;
-    public const byte L183First = 180, L183Last = 189;
 
     /// <summary>One past the highest value (Tile.Under is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
     public const int Limit = 512;
@@ -1628,11 +1608,9 @@ public static class Props
     /// <summary>Level 52: a student desk with its chair (Pier the way the student faces), a piece of chalkboard on the wall behind it (Pier its face; Stack 0 left end, 1 middle, 2 right end; walked through).</summary>
     public const ushort L52Desk = 680, L52Chalkboard = 681;
 
-    // The experimental Levels 31, 55, 120 and 183 (24-27)
+    // The experimental Levels 31 and 120 (24, 26)
     public const ushort L31First = 720, L31Last = 759;
-    public const ushort L55First = 760, L55Last = 799;
     public const ushort L120First = 800, L120Last = 839;
-    public const ushort L183First = 840, L183Last = 879;
 
     /// <summary>One past the highest prop any level may use: the size of the generator's prop tables (raise it with a new block).</summary>
     public const int Limit = 880;

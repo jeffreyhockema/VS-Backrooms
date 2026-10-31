@@ -80,9 +80,7 @@ public sealed partial class WorldLayout
             case Basement: return BasementStability(x, y, z, floorY, drift);
             case Level52: return L52Stability(x, y, z, floorY, drift);
             case Level31: return L31Stability(x, y, z, floorY, drift);
-            case Level55: return L55Stability(x, y, z, floorY, drift);
             case Level120: return L120Stability(x, y, z, floorY, drift);
-            case Level183: return L183Stability(x, y, z, floorY, drift);
             case 5:
                 return HotelZoneAt(mx, mz) switch
                 {
@@ -282,20 +280,10 @@ public sealed partial class WorldLayout
             (cx, cz) = L31ArrivalCell(h);
             spot ??= IsL31ArrivalSpot;
         }
-        else if (level == Level55)
-        {
-            (cx, cz) = L55ArrivalCell(h);
-            spot ??= IsL55ArrivalSpot;
-        }
         else if (level == Level120)
         {
             (cx, cz) = L120ArrivalCell(h);
             spot ??= IsL120ArrivalSpot;
-        }
-        else if (level == Level183)
-        {
-            (cx, cz) = L183ArrivalCell(h);
-            spot ??= IsL183ArrivalSpot;
         }
         int reach = cellFilter != null ? 16 : 6;
         if (near != null) (cx, cz, reach) = (near.Value.Mx, near.Value.Mz, Math.Min(reach, 5));
@@ -503,9 +491,7 @@ public sealed partial class WorldLayout
             Basement => BasementArrivalHeight(t, stand),
             Level52 => L52ArrivalHeight(t, stand),
             Level31 => L31ArrivalHeight(t, stand),
-            Level55 => L55ArrivalHeight(t, stand),
             Level120 => L120ArrivalHeight(t, stand),
-            Level183 => L183ArrivalHeight(t, stand),
             _ => stand,
         };
     }

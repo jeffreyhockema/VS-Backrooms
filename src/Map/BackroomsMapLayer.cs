@@ -263,9 +263,7 @@ public class BackroomsMapLayer : MapLayer
             case WorldLayout.Basement:
             case WorldLayout.Level52:
             case WorldLayout.Level31:
-            case WorldLayout.Level55:
             case WorldLayout.Level120:
-            case WorldLayout.Level183:
                 floorY = geometry.FloorFor(level);
                 return y > floorY && y < floorY + WorldGeometry.MaxRoomHeight + 1;
             case 7:

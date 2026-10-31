@@ -11,9 +11,14 @@ rest wait here. Tick a level off (move it to "Built") when its commit lands.
 | The Basement (unnumbered) | 22 | 1 |
 | Level 52 "School Halls" | 23 | 1 |
 | Level 31 "Roller Rink" | 24 | 2 |
-| Level 55 "Land of Ice" (on neither wiki; built from the name) | 25 | 2 |
 | Level 120 "Server Room" (Wikidot "Broken Servos") | 26 | 2 |
-| Level 183 "Clean Sewers" (on neither wiki; built from the name) | 27 | 2 |
+
+## Dropped
+
+| Level | Id | Why |
+|---|---|---|
+| Level 55 "Land of Ice" | 25 (freed) | on neither main lore wiki as built; the user dropped it (2026-10-30). Plan kept in `dropped/55-plan.md`. |
+| Level 183 "Clean Sewers" | 27 (freed) | the same. Plan kept in `dropped/183-plan.md`. |
 
 None has been played in a client yet; each plan's Status section lists what to check in-game.
 

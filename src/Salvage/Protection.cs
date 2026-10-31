@@ -221,9 +221,7 @@ public sealed class Protection
         WorldLayout.Basement => WorldGeometry.RoomHeight + 1,
         WorldLayout.Level52 => WorldGeometry.RoomHeight + 1,
         WorldLayout.Level31 => WorldGeometry.RoomHeight + 1,
-        WorldLayout.Level55 => WorldGeometry.RoomHeight + 1,
         WorldLayout.Level120 => WorldGeometry.RoomHeight + 1,
-        WorldLayout.Level183 => WorldGeometry.RoomHeight + 1,
         _ when WorldLayout.IsOpenSky(level) => int.MaxValue,
         _ => WorldGeometry.RoomHeight + 1,
     };
