@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Backrooms.Worldgen;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 
@@ -18,6 +20,9 @@ namespace Backrooms.Entities;
 /// may hold something extra besides, better the deeper you are (metal, medicine, rusty gears, very rarely a
 /// temporal gear). In Level 7, deeper means down the sea too: a cache on the bottom of the midnight zone pays as one
 /// in the city does.</item>
+/// <item>Schematics from other mods (BetterRuins' blueprints, say), which the ruins that would hold them never generate
+/// here: the game's ruin loot list is read at startup, and a cache from Level 4 down may hold one, the rarer kinds only
+/// from Level 7. With no such mod nothing changes.</item>
 /// </list>
 /// </summary>
 public class Rewards : ModSystem
@@ -62,7 +67,18 @@ public class Rewards : ModSystem
     /// <summary>The share of a Level 1 to 5 cache's extra that is a temporal gear (the deepest caches keep their own 6 % in <see cref="Bonus"/>).</summary>
     private const double EarlyGearChance = 0.12;
 
+    /// <summary>The ruin loot list that other mods add their schematics to (vanilla's stack randomizer, its gear variant).</summary>
+    private const string RuinLoot = "game:stackrandomizer-gear";
+    /// <summary>The danger from which a cache may hold a common schematic (Level 4 down), and the rarer ones (Level 7 down).</summary>
+    private const double SchematicDanger = 0.4, DeepSchematicDanger = 0.66;
+    /// <summary>The chance a cache broken at least that deep holds a schematic, on top of its other extras: below the deep line, and from it.</summary>
+    private const double SchematicChance = 0.04, DeepSchematicChance = 0.06;
+
+    /// <summary>A schematic another mod puts in the ruin loot: its code, how common (the ruin list's chance) and whether it is one of the rarer half.</summary>
+    private record Schematic(string Code, double Weight, bool Deep);
+
     private static ICoreServerAPI sapi;
+    private readonly List<Schematic> schematics = new();
     private MenaceSystem director;
     private readonly HashSet<int> caches = new();
     /// <summary>The shared floor's height: Level 7's water surface, for how deep a cache on its seabed lay.</summary>
@@ -85,8 +101,49 @@ public class Rewards : ModSystem
                 if (block?.Code?.Domain == "backrooms" && block.Drops != null && Array.Exists(block.Drops, IsLoot)) caches.Add(block.BlockId);
             }
             api.Logger.Notification("[backrooms] {0} kinds of cache pay more in deeper levels", caches.Count);
+            FindSchematics();
             api.Event.DidBreakBlock += OnBrokeBlock;
         });
+        api.ChatCommands.Get("backrooms")?
+            .BeginSubCommand("schematics")
+                .WithDescription("Dev test: lists the schematics from other mods that deep caches may hold, with their weights and whether they are among the rarer ones (Level 7 down only)")
+                .HandleWith(_ => TextCommandResult.Success(schematics.Count == 0
+                    ? "No schematics from other mods are loaded."
+                    : string.Join("\n", schematics.Select(s => $"{s.Code}  weight {s.Weight:0.##}{(s.Deep ? "  deep" : "")}"))))
+            .EndSubCommand();
+    }
+
+    /// <summary>
+    /// Takes the schematics other mods add to the ruin loot list: a code from neither the game nor this mod, with
+    /// "schematic" or "blueprint" in its name, that is a real item or block. The ones rarer than the median are "deep".
+    /// </summary>
+    private void FindSchematics()
+    {
+        schematics.Clear();
+        JsonObject[] stacks = sapi.World.GetItem(new AssetLocation(RuinLoot))?.Attributes?["stacks"]?.AsArray();
+        var found = new List<(string Code, double Weight)>();
+        if (stacks != null)
+        {
+            foreach (JsonObject entry in stacks)
+            {
+                string code = entry["code"]?.AsString();
+                if (code == null) continue;
+                var loc = new AssetLocation(code);
+                if (loc.Domain is "game" or "backrooms") continue;
+                if (loc.Path.IndexOf("schematic", StringComparison.OrdinalIgnoreCase) < 0 && loc.Path.IndexOf("blueprint", StringComparison.OrdinalIgnoreCase) < 0) continue;
+                if (Make(loc.ToString(), 1) == null) continue;
+                found.Add((loc.ToString(), entry["chance"].AsDouble(1)));
+            }
+        }
+        if (found.Count > 0)
+        {
+            var sorted = found.Select(f => f.Weight).OrderBy(w => w).ToList();
+            double median = sorted.Count % 2 == 1 ? sorted[sorted.Count / 2] : (sorted[sorted.Count / 2 - 1] + sorted[sorted.Count / 2]) / 2;
+            foreach (var (code, weight) in found) schematics.Add(new Schematic(code, weight, weight < median));
+        }
+        sapi.Logger.Notification("[backrooms] {0}", schematics.Count == 0
+            ? "no schematics from other mods to turn up in deep caches"
+            : $"{schematics.Count} schematics from other mods can turn up in deep caches: {string.Join(", ", schematics.Select(s => s.Code))}");
     }
 
     public override void Dispose()
@@ -138,6 +195,19 @@ public class Rewards : ModSystem
             if (level is >= 1 and <= 5 && rand.NextDouble() < EarlyGearChance) (code, min, max) = ("game:gear-temporal", 1, 1);
             ItemStack stack = Make(code, min + rand.Next(max - min + 1));
             if (stack != null) sapi.World.SpawnItemEntity(stack, at);
+        }
+        // And, deep enough, a schematic another mod would have put in a ruin (the rarer kinds only in the deepest levels)
+        if (schematics.Count > 0 && d >= SchematicDanger && rand.NextDouble() < (d >= DeepSchematicDanger ? DeepSchematicChance : SchematicChance))
+        {
+            var allowed = schematics.Where(s => !s.Deep || d >= DeepSchematicDanger).ToList();
+            double r = rand.NextDouble() * allowed.Sum(s => s.Weight);
+            Schematic pick = allowed[^1];
+            foreach (Schematic s in allowed)
+            {
+                r -= s.Weight;
+                if (r <= 0) { pick = s; break; }
+            }
+            if (Make(pick.Code, 1) is { } schematic) sapi.World.SpawnItemEntity(schematic, at);
         }
     }
 
