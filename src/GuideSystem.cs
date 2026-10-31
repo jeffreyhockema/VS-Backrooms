@@ -35,6 +35,7 @@ public class GuideSystem : ModSystem
     private static readonly string[] Added =
     {
         "home", "finding", "salvage", "food", "rest", "levels", "farlevels", "thresholds", "entities",
+        "level23", // (experimental: Level 23, the Petrified Garden)
     };
 
     /// <summary>Vanilla pages kept, with a Backrooms preface: page code to the preface's lang key suffix.</summary>
