@@ -461,9 +461,12 @@ public sealed partial class WorldLayout
     /// down to Level 2 and up to Level 4, Level 4's hungry vending machines, a quarter as many.) A gate between levels into a
     /// higher survival class gets an M.E.G. placard on the wall beside its doorway (<see cref="Props.MegPlacard"/>), and so do
     /// Level 6's stairwells down and Level 2's steel doors that open onto Level 3. Boundary gates are untouched.</item>
+    /// <item><b>13</b>: Level 10 grows some pines (about a quarter of its trees, taken from the birches and maples; the oaks keep their
+    /// share), taller and narrower than the others with a conical crown, one or two resin logs low on most trunks (the world's only
+    /// renewable resin; WorldGenerator.Vegetation.cs).</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 12;
+    public const int CurrentVersion = 13;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;
