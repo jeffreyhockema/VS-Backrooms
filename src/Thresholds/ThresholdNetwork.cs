@@ -186,7 +186,7 @@ public sealed partial class ThresholdNetwork
     /// is plain, so its <see cref="WorldLayout.FeatureOrigin"/> is the same by this test as by <see cref="Door"/>, which
     /// is how using the door looks for its way back.)
     /// </summary>
-    private static readonly Func<Tile, bool> PlainDoor = t => Door(t) && t.Under == 0 && (byte)t.Pattern < 64 && t.Pattern != WallPattern.PoolDoor;
+    private static readonly Func<Tile, bool> PlainDoor = t => Door(t) && t.Under == 0 && (int)t.Pattern < 64 && t.Pattern != WallPattern.PoolDoor;
 
     private readonly WorldLayout layout;
     private readonly WorldGeometry geometry;

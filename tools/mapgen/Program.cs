@@ -133,7 +133,7 @@ using var w = new BinaryWriter(File.Create("tiles.bin"));
 w.Write(size);
 for (int mz = 0; mz < n; mz++) for (int mx = 0; mx < n; mx++) {
   var tiles = layout.BuildMacro(m0x + mx, m0z + mz);
-  foreach (var t in tiles) { w.Write((byte)t.Kind); w.Write((byte)t.Floor); w.Write((byte)t.Ceiling); w.Write((byte)((t.SupplyBox ? 1 : 0) | (t.Stack > 0 ? 2 : 0) | (t.Pipe > 0 ? 4 : 0) | (t.ExitSign ? 8 : 0) | (t.Worn ? 16 : 0) | (t.Under > 0 ? 32 : 0) | (t.Grand ? 64 : 0))); w.Write(t.Level); w.Write((byte)t.Pattern); w.Write((byte)Math.Min((int)t.Variant, 255)); }
+  foreach (var t in tiles) { w.Write((byte)t.Kind); w.Write(Bin.B((int)t.Floor)); w.Write(Bin.B((int)t.Ceiling)); w.Write((byte)((t.SupplyBox ? 1 : 0) | (t.Stack > 0 ? 2 : 0) | (t.Pipe > 0 ? 4 : 0) | (t.ExitSign ? 8 : 0) | (t.Worn ? 16 : 0) | (t.Under > 0 ? 32 : 0) | (t.Grand ? 64 : 0))); w.Write(t.Level); w.Write(Bin.B((int)t.Pattern)); w.Write((byte)Math.Min((int)t.Variant, 255)); }
 }
 var (sx, sz) = layout.FindSpawn();
 w.Write(sx - m0x * 32); w.Write(sz - m0z * 32);

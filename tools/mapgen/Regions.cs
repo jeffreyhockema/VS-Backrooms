@@ -122,8 +122,8 @@ static class Regions
             for (int x = 0; x < size; x++)
             {
                 Tile t = At(m0x * 32 + x, m0z * 32 + z);
-                w.Write((byte)t.Kind); w.Write((byte)t.Floor); w.Write((byte)t.Pattern); w.Write((byte)Math.Min((int)t.Variant, 255)); w.Write(t.Depth);
-                w.Write(t.Height); w.Write(t.Zone); w.Write(t.Under); w.Write(t.Roof); w.Write((byte)t.Pier); w.Write(t.Stair); w.Write(t.Level);
+                w.Write((byte)t.Kind); w.Write(Bin.B((int)t.Floor)); w.Write(Bin.B((int)t.Pattern)); w.Write((byte)Math.Min((int)t.Variant, 255)); w.Write(t.Depth);
+                w.Write(t.Height); w.Write(t.Zone); w.Write(Bin.B(t.Under)); w.Write(t.Roof); w.Write((byte)t.Pier); w.Write(t.Stair); w.Write(t.Level);
             }
         Console.WriteLine($"region map of level {WorldLayout.DisplayNumber(level)}: {size}x{size} from blocks {m0x * 32},{m0z * 32}");
     }

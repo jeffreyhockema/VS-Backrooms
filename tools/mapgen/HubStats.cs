@@ -68,7 +68,7 @@ static partial class LevelModes
                     vaulted++;
                     foreach (byte c in cells) pieces[c]++;
                 }
-                f.Write(new[] { (byte)t.Kind, (byte)t.Floor, t.Height, t.Overhead, t.Detail, t.Depth, (byte)t.Pier, (byte)t.Pattern, t.Under, (byte)(v ? 1 : 0) });
+                f.Write(new[] { (byte)t.Kind, Bin.B((int)t.Floor), t.Height, Bin.B(t.Overhead), t.Detail, t.Depth, (byte)t.Pier, Bin.B((int)t.Pattern), Bin.B(t.Under), (byte)(v ? 1 : 0) });
                 f.Write(cells);
                 foreach (ArchPier d in dirs) f.Write((byte)d);
                 f.Write(t.Zone);

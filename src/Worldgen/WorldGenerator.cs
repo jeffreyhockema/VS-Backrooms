@@ -334,8 +334,8 @@ public sealed partial class WorldGenerator
     /// <summary>Chalk marks by symbol (left, right, cross, circle) and by the side of the wall they are on (north, east, south, west).</summary>
     private readonly int[,] chalkIds = new int[4, 4];
     // (Sized for every value of the enums and of Props, the reserved blocks of the far places (ids 14-20) included)
-    private readonly int[] floorIds = new int[256];
-    private readonly int[] overheadIds = new int[256];
+    private readonly int[] floorIds = new int[FloorCount];
+    private readonly int[] overheadIds = new int[Overheads.Limit];
     /// <summary>Most kinds a prop may come in (the second index of <see cref="propIds"/>).</summary>
     private const int MaxPropKinds = 8;
     private readonly int[,,] propIds = new int[Props.Limit, MaxPropKinds, 4];
@@ -343,16 +343,43 @@ public sealed partial class WorldGenerator
     private readonly byte[] propKinds = new byte[Props.Limit];
     private readonly bool[] propHeadFirst = new bool[Props.Limit];
     /// <summary>Wall decorations: [wall pattern, decoration, height above the floor, facing].</summary>
-    private readonly int[,,,] decorIds = new int[PatternCount, Decor.Limit, 6, 4];
+    private readonly DecorTable decorIds = new(PatternCount);
     /// <summary>The hotel's gilt mirror on a plain cream wall block, one per facing (layout version 9 on; before it the mirror hung on the red framed panel).</summary>
     private readonly int[] hotelMirrorPlainIds = new int[4];
     private static readonly int PatternCount = MaxPattern() + 1;
+
+    private static readonly int FloorCount = MaxFloor() + 1;
 
     private static int MaxPattern()
     {
         int max = 0;
         foreach (WallPattern p in Enum.GetValues(typeof(WallPattern))) max = Math.Max(max, (int)p);
         return max;
+    }
+
+    private static int MaxFloor()
+    {
+        int max = 0;
+        foreach (FloorKind f in Enum.GetValues(typeof(FloorKind))) max = Math.Max(max, (int)f);
+        return max;
+    }
+
+    /// <summary>
+    /// Wall decorations by [wall pattern, decoration, height above the floor, facing], 0 for none. A pattern's row is
+    /// made only when a decoration is registered on it, so the table stays small now that <see cref="WallPattern"/> is a
+    /// ushort (the experimental levels' patterns run past 255 and carry no decorations).
+    /// </summary>
+    private sealed class DecorTable
+    {
+        private readonly int[][,,] rows;
+
+        public DecorTable(int patterns) => rows = new int[patterns][,,];
+
+        public int this[int pattern, int decor, int rel, int facing]
+        {
+            get => rows[pattern] is { } row ? row[decor, rel, facing] : 0;
+            set => (rows[pattern] ??= new int[Decor.Limit, 6, 4])[decor, rel, facing] = value;
+        }
     }
     private readonly int[,] exitLintelIds = new int[3, 2]; // concrete, white block, drywall x axis (we, ns)
     /// <summary>The block entity class of every block by id (null for none), so placing a block never looks it up.</summary>
@@ -1560,7 +1587,7 @@ public sealed partial class WorldGenerator
     private static int WallPipeRun(int gx, int gz) => Hashing.Mod(gx + gz, 4) switch { 0 => TunnelPipesJoint, 2 => TunnelPipesBracket, _ => TunnelPipes };
 
     /// <summary>Which way an overhead run goes (Levels 2 and 3): 1 along X, 2 along Z, 3 a hub, 0 none.</summary>
-    private static int RunAxis(byte pipe) => pipe switch
+    private static int RunAxis(ushort pipe) => pipe switch
     {
         Pipes.RunX or Pipes.LeakX or Pipes.CableX or Pipes.CableDroopX or Pipes.DripX => 1,
         Pipes.RunZ or Pipes.LeakZ or Pipes.CableZ or Pipes.CableDroopZ or Pipes.DripZ => 2,

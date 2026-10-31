@@ -22,7 +22,8 @@ public enum TileKind : byte
     Bars,
 }
 
-public enum WallPattern : byte
+/// <remarks>A ushort since 0.700.0-pre.1 (experimental-levels): values past 255 are the experimental levels' blocks.</remarks>
+public enum WallPattern : ushort
 {
     Chevron,
     Dotted,
@@ -268,7 +269,8 @@ public enum WallPattern : byte
 /// <summary>Trim on the bottom block of a wall.</summary>
 public enum BaseStyle : byte { Plain, Baseboard, Rail }
 
-public enum FloorKind : byte
+/// <remarks>A ushort since 0.700.0-pre.1 (experimental-levels): values past 255 are the experimental levels' blocks.</remarks>
+public enum FloorKind : ushort
 {
     Carpet,
     Stained,
@@ -524,7 +526,8 @@ public enum FloorKind : byte
     L183Floor = 252,
 }
 
-public enum CeilingKind : byte
+/// <remarks>A ushort since 0.700.0-pre.1 (experimental-levels): values past 255 are the experimental levels' blocks.</remarks>
+public enum CeilingKind : ushort
 {
     Tile,
     /// <summary>Working light that also emits block light.</summary>
@@ -663,8 +666,8 @@ public struct Tile
     /// of its kinds or parts it is (a car's colour, a bed's head or foot, a door's leaf); its meaning is the prop's.
     /// </summary>
     public byte Stack;
-    /// <summary>Overhead pipework, one of <see cref="Pipes"/>.</summary>
-    public byte Pipe;
+    /// <summary>Overhead pipework, one of <see cref="Pipes"/> (a ushort: values past 255 are the experimental levels').</summary>
+    public ushort Pipe;
     /// <summary>
     /// Material or prop sub-variant: see <see cref="WallPattern"/> for walls and <see cref="Props"/> for floors. Wider
     /// than a byte so the far places (ids 14-20) have room for their props (<see cref="Props.Limit"/>); wall decorations
@@ -694,9 +697,9 @@ public struct Tile
     /// down into one (from layout version 9 <see cref="Zone"/> tells their parts apart: <see cref="WorldLayout.L3ShaftLeft"/>,
     /// <see cref="WorldLayout.L3TunnelLanding"/>...); the rest are <see cref="Unders"/>.
     /// </summary>
-    public byte Under;
-    /// <summary>What hangs under the ceiling or replaces a ceiling tile: one of <see cref="Overheads"/>.</summary>
-    public byte Overhead;
+    public ushort Under;
+    /// <summary>What hangs under the ceiling or replaces a ceiling tile: one of <see cref="Overheads"/> (a ushort, as <see cref="Under"/> and <see cref="Pipe"/>).</summary>
+    public ushort Overhead;
     /// <summary>Level 7 and 10 water: how far below the floor the bottom lies.</summary>
     public byte Depth;
     /// <summary>Open-sky levels: the pitched roof over a house or an outbuilding (see <see cref="RoofBits"/>), or 0.</summary>
@@ -785,6 +788,9 @@ public static class Pipes
     public const byte L183First = 150, L183Last = 159;
     /// <summary>Level 183: a run of pipes along the top of a main's wall or down a dry gallery (west-east, north-south), and the same leaking.</summary>
     public const byte L183PipeWE = 150, L183PipeNS = 151, L183LeakWE = 152, L183LeakNS = 153;
+
+    /// <summary>One past the highest value (Tile.Pipe is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
+    public const int Limit = 512;
 }
 
 /// <summary>Values of <see cref="Tile.Overhead"/>.</summary>
@@ -849,6 +855,9 @@ public static class Overheads
     public const byte L55First = 150, L55Last = 159;
     public const byte L120First = 160, L120Last = 169;
     public const byte L183First = 170, L183Last = 179;
+
+    /// <summary>One past the highest value (Tile.Overhead is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
+    public const int Limit = 512;
 }
 
 /// <summary>Values of <see cref="Tile.Under"/> beyond Level 3's flooded tunnels: thresholds below the floor.</summary>
@@ -989,6 +998,9 @@ public static class Unders
     public const byte L55First = 160, L55Last = 169;
     public const byte L120First = 170, L120Last = 179;
     public const byte L183First = 180, L183Last = 189;
+
+    /// <summary>One past the highest value (Tile.Under is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
+    public const int Limit = 512;
 }
 
 /// <summary>Level 37: what a tile wall carries, in <see cref="Tile.Variant"/>, facing <see cref="Tile.Pier"/>.</summary>

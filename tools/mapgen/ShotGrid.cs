@@ -67,13 +67,13 @@ static class ShotGrid
                         Tile t = tiles[i];
                         int lx = mx * WorldLayout.MacroSize + i % WorldLayout.MacroSize, lz = mz * WorldLayout.MacroSize + i / WorldLayout.MacroSize;
                         int o = 16 + (lz * size + lx) * 18;
-                        buf[o] = (byte)t.Kind; buf[o + 1] = (byte)t.Floor; buf[o + 2] = (byte)t.Ceiling;
+                        buf[o] = (byte)t.Kind; buf[o + 1] = Bin.B((int)t.Floor); buf[o + 2] = Bin.B((int)t.Ceiling);
                         buf[o + 3] = (byte)((t.SupplyBox ? 1 : 0) | (t.Stack > 0 ? 2 : 0) | (t.Pipe > 0 ? 4 : 0) | (t.ExitSign ? 8 : 0)
                             | (t.Worn ? 16 : 0) | (t.Under > 0 ? 32 : 0) | (t.Grand ? 64 : 0) | (t.Sealed ? 128 : 0));
-                        buf[o + 4] = t.Level; buf[o + 5] = (byte)t.Pattern;
+                        buf[o + 4] = t.Level; buf[o + 5] = Bin.B((int)t.Pattern);
                         BitConverter.TryWriteBytes(buf.AsSpan(o + 6), t.Variant);
-                        buf[o + 8] = t.Zone; buf[o + 9] = t.Height; buf[o + 10] = t.Overhead; buf[o + 11] = t.Roof;
-                        buf[o + 12] = t.Depth; buf[o + 13] = t.Stair; buf[o + 14] = (byte)t.Pier; buf[o + 15] = t.Pipe;
+                        buf[o + 8] = t.Zone; buf[o + 9] = t.Height; buf[o + 10] = Bin.B(t.Overhead); buf[o + 11] = t.Roof;
+                        buf[o + 12] = t.Depth; buf[o + 13] = t.Stair; buf[o + 14] = (byte)t.Pier; buf[o + 15] = Bin.B(t.Pipe);
                         double feet = Feet(layout, x0 + lx, z0 + lz, t);
                         BitConverter.TryWriteBytes(buf.AsSpan(o + 16), (ushort)Math.Clamp(Math.Round(feet * 100), 0, 65535));
                     }

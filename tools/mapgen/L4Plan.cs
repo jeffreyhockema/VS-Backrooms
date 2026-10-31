@@ -29,7 +29,7 @@ static class L4Plan
             w.Write(size);
             foreach (var t in tiles)
             {
-                w.Write((byte)t.Kind); w.Write((byte)t.Ceiling); w.Write(t.Overhead); w.Write((byte)Math.Min((int)t.Variant, 255));
+                w.Write((byte)t.Kind); w.Write(Bin.B((int)t.Ceiling)); w.Write(Bin.B(t.Overhead)); w.Write((byte)Math.Min((int)t.Variant, 255));
                 w.Write((byte)((t.Worn ? 1 : 0) | (t.Stair != 0 ? 2 : 0) | (t.Sealed ? 4 : 0))); w.Write(t.Level); w.Write((byte)t.Pier);
             }
         }
