@@ -21,7 +21,7 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldGenerator
 {
     private static readonly string[] L120RackStates = { "off", "leda", "ledb", "both", "gutted" };
-    private readonly int[] l120Wall = new int[4], l120Floor = new int[4], l120Tray = new int[2], l120Ceil = new int[3], l120Spill = new int[2];
+    private readonly int[] l120Wall = new int[6], l120Floor = new int[4], l120Tray = new int[2], l120Ceil = new int[3], l120Spill = new int[2];
     private readonly int[,,] l120Rack = new int[2, 5, 4];
     private readonly int[,] l120Terminal = new int[3, 4], l120Window = new int[2, 4], l120VoidDoor = new int[2, 2];
     private readonly int[] l120Toppled = new int[4];
@@ -40,9 +40,11 @@ public sealed partial class WorldGenerator
     /// <summary>The level's block ids (called from the constructor).</summary>
     private void InitL120()
     {
-        string[] walls = { "base", "stained", "rot", "soot" };
+        string[] walls = { "base", "stained", "rot", "soot", "rot2", "rot3" };
         int wallpaper = BlockId("backrooms:concretewall-plain");
-        for (int i = 0; i < 4; i++) l120Wall[i] = L120Block("l120-wall-" + walls[i], wallpaper);
+        for (int i = 0; i < 6; i++) l120Wall[i] = L120Block("l120-wall-" + walls[i], i >= 4 ? 0 : wallpaper);
+        if (l120Wall[4] == 0) l120Wall[4] = l120Wall[2];
+        if (l120Wall[5] == 0) l120Wall[5] = l120Wall[2];
         string[] panels = { "clean", "dirty", "vent", "hole" };
         int concrete = BlockId("backrooms:concretefloor-plain");
         for (int i = 0; i < 4; i++) l120Floor[i] = L120Block("l120-floor-" + panels[i], concrete);
@@ -83,7 +85,7 @@ public sealed partial class WorldGenerator
         }
     }
 
-    /// <summary>The material of a wall of the level: white in a void, soot black in a hallway, otherwise yellow paper (mostly yellowed, here and there stained, now and then torn off down to the rotting boards).</summary>
+    /// <summary>The material of a wall of the level: white in a void, soot black in a hallway, otherwise yellow paper (mostly yellowed, here and there stained, now and then torn off down to the rotting boards, in one of three tears).</summary>
     private int L120WallBlock(in Tile t, int gx, int gz, int rel)
     {
         switch (t.Zone)
@@ -92,7 +94,7 @@ public sealed partial class WorldGenerator
             case (byte)Zone.Hallway or (byte)Zone.HallWall: return l120Wall[3];
         }
         double r = Hashing.Unit(Hashing.Hash(seed, gx, gz * 8 + rel, 0x2620));
-        return l120Wall[r < 0.66 ? 0 : r < 0.88 ? 1 : 2];
+        return l120Wall[r < 0.72 ? 0 : r < 0.91 ? 1 : r < 0.94 ? 2 : r < 0.97 ? 4 : 5];
     }
 
     /// <summary>One block of a column of the level, <paramref name="rel"/> above its floor.</summary>

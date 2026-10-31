@@ -81,7 +81,7 @@ public class L120System : ModSystem
 
         api.ChatCommands.Get("backrooms")?
             .BeginSubCommand("l120")
-                .WithDescription("Level 120 (testing): 'misglitch [x z]' puts a Misglitch down where you stand (or at x z, from the console); 'void' or 'hallway' takes you into the nearest pocket of that kind; 'boot' shows the nearest whole terminal; 'back' takes you back through a window")
+                .WithDescription("Level 120 (testing): 'misglitch [x z]' puts a Misglitch down where you stand (or at x z, from the console); 'void' or 'hallway' takes you into the nearest pocket of that kind; 'boot' shows the nearest whole terminal; 'back' takes you back through a window; 'smiler [x z]' puts a Smiler down lost in the light")
                 .WithArgs(api.ChatCommands.Parsers.Word("what"), api.ChatCommands.Parsers.OptionalInt("x"), api.ChatCommands.Parsers.OptionalInt("z"))
                 .RequiresPrivilege(Privilege.controlserver)
                 .HandleWith(OnCommand)
@@ -385,6 +385,8 @@ public class L120System : ModSystem
                 else return TextCommandResult.Error("From the console, give x and z, or put a straw dummy down first");
                 if (!InLevel(at.X, at.Z)) return TextCommandResult.Error("Not in Level 120");
                 Entity e = PutDownMisglitch(at, rand.Next(2), args.Caller.Player?.PlayerName ?? "the console", alwaysActive: caller == null);
+                // (Put down away from you: it stands turned to you)
+                if (e != null && hasXz && caller != null) e.Pos.Yaw = (float)Math.Atan2(caller.Pos.X - at.X, caller.Pos.Z - at.Z);
                 return e == null ? TextCommandResult.Error("No Misglitch (its type is missing, or six are already about)") : TextCommandResult.Success($"A Misglitch stands at {at.X:0}, {at.Y:0}, {at.Z:0} (#{e.EntityId})");
             }
             case "void":
@@ -421,11 +423,27 @@ public class L120System : ModSystem
                 string into = PocketOf(b.X, b.Z) is { } a ? $"; it boots into the pocket arriving at {a.X}, {a.Z} ({layout.TileAt(a.X, a.Z).Zone})" : "; it boots into nothing";
                 return TextCommandResult.Success($"The nearest whole terminal: stand at {b.X}, {b.Z}{into}");
             }
+            case "smiler":
+            {
+                // A Smiler lost in a White Void's light, at x z (or six blocks in front of you), turned your way
+                if (caller == null) return TextCommandResult.Error("Needs a player");
+                EntityProperties type = sapi.World.GetEntityType(new AssetLocation(Roster.Smiler));
+                if (type == null) return TextCommandResult.Error("No Smiler type");
+                double sx = hasXz ? (int)args[1] + 0.5 : caller.Pos.X + Math.Sin(caller.Pos.Yaw) * 6, sz = hasXz ? (int)args[2] + 0.5 : caller.Pos.Z + Math.Cos(caller.Pos.Yaw) * 6;
+                if (!InLevel(sx, sz)) return TextCommandResult.Error("Not in Level 120");
+                Entity smiler = sapi.World.ClassRegistry.CreateEntity(type);
+                smiler.Pos.SetPos(sx, geometry.FloorFor(WorldLayout.Level120) + 1, sz);
+                smiler.Pos.Yaw = (float)Math.Atan2(caller.Pos.X - sx, caller.Pos.Z - sz);
+                EntityBehaviorMenace.Prepare(smiler, caller, Encounter.Ambient, passive: true, sapi.World.ElapsedMilliseconds);
+                smiler.Attributes.SetDouble(Danger.Key, Danger.OfLevel(WorldLayout.Level120));
+                sapi.World.SpawnEntity(smiler);
+                return TextCommandResult.Success($"A Smiler stands at {sx:0}, {sz:0} (#{smiler.EntityId})");
+            }
             case "back":
                 if (args.Caller.Player is not IServerPlayer who || who.Entity == null) return TextCommandResult.Error("Needs a player");
                 GoBack(who);
                 return TextCommandResult.Success("Back through a window");
         }
-        return TextCommandResult.Error("misglitch [x z], void, hallway, boot [x z] or back");
+        return TextCommandResult.Error("misglitch [x z], void, hallway, boot [x z], smiler [x z] or back");
     }
 }

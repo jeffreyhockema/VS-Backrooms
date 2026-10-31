@@ -112,20 +112,22 @@ def wall_textures():
             px[x, y] = shade(px[x, y][:3], k) + (255,)
     grain(base, 12001, 4, 14)
     save(base, "wall-base")
-    # Stained: brown streaks running down the whole height (so they carry on from block to block)
+    # Stained: water run down the paper in soft brown streaks, straight down the whole height so they carry on from block
+    # to block (no shape of their own to repeat), heavier and lighter by turns
     stained = base.copy()
     px = stained.load()
     rng = random.Random(12002)
-    for _ in range(4):
-        x0, w, depth = rng.randint(0, 31), rng.randint(2, 6), rng.uniform(0.62, 0.82)
-        for y in range(S):
-            wob = int(round(1.2 * math.sin(2 * math.pi * y / S + x0)))
-            for dx in range(w):
-                x = (x0 + dx + wob) % S
-                edge = 1 - abs(dx - (w - 1) / 2) / (w / 2 + 0.5)
-                r, g, b, a = px[x, y]
-                k = 1 - (1 - depth) * edge
-                px[x, y] = (clamp(r * k * 0.97), clamp(g * k * 0.9), clamp(b * k * 0.8), 255)
+    streaks = [(rng.uniform(0, S), rng.uniform(1.2, 3.2), rng.uniform(0.18, 0.34), rng.uniform(0, 2 * math.pi)) for _ in range(5)]
+    for y in range(S):
+        for x in range(S):
+            d = 0.0
+            for cx, w, depth, ph in streaks:
+                dx = min(abs(x - cx), S - abs(x - cx))
+                d += depth * math.exp(-(dx / w) ** 2) * (0.7 + 0.3 * math.sin(2 * math.pi * y / S + ph))
+            d = min(d, 0.45)
+            r, g, b, a = px[x, y]
+            k = 1 - d
+            px[x, y] = (clamp(r * k * 0.98), clamp(g * k * 0.93), clamp(b * k * 0.82), 255)
     save(grain(stained, 12003, 3), "wall-stained")
     # Rot: the boards behind, black-brown and soft, the paper hanging in a ragged edge
     rot = base.copy()
@@ -145,6 +147,26 @@ def wall_textures():
             if 0 <= x < S:
                 px[x, y] = shade(PAPER, 1.08) + (255,)
     save(grain(rot, 12005, 4, 8), "wall-rot")
+    # Two more tears of other shapes, so the same hole is not stamped on wall after wall: a blob of paper gone low
+    # down on one side, and the paper peeled away from the top, the boards showing above a ragged hem
+    for name, seed, inside in (
+            ("wall-rot2", 12007, lambda x, y, n: math.hypot((x - 21) / 10.5, (y - 21) / 9.0) + n * 0.22 < 1),
+            ("wall-rot3", 12008, lambda x, y, n: y < 11 + 3.5 * math.sin(x * 0.45 + 1.3) + 2.5 * math.sin(x * 1.3) + n * 2.2)):
+        img = base.copy()
+        px = img.load()
+        rng = random.Random(seed)
+        noise = [[rng.uniform(-1, 1) for _ in range(S)] for _ in range(S)]
+        mask = [[inside(x, y, (noise[y][x] + noise[y][(x + 1) % S] + noise[(y + 1) % S][x]) / 3) for x in range(S)] for y in range(S)]
+        for y in range(S):
+            for x in range(S):
+                if mask[y][x]:
+                    c = (58, 42, 30) if (x // 8) % 2 else (70, 50, 34)
+                    if x % 8 == 0:
+                        c = (30, 22, 16)
+                    px[x, y] = shade(c, 0.85 + 0.12 * math.sin(y * 0.7 + x * 0.3)) + (255,)
+                elif any(0 <= x + dx < S and 0 <= y + dy < S and mask[y + dy][x + dx] for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+                    px[x, y] = shade(PAPER, 1.08) + (255,)  # the paper's torn edge, curling up pale
+        save(grain(img, seed + 10, 4, 8), name)
     # Soot: the Pitch-Black Hallways' walls, the paper gone near black, its print just there
     soot = canvas((40, 36, 28))
     px = soot.load()
@@ -391,8 +413,8 @@ def prop_textures():
     px = dead.load()
     for y in range(S):
         for x in range(S):
-            d = math.hypot((x - 15.5) / 16, (y - 15.5) / 16)
-            px[x, y] = shade((34, 42, 38), 1.15 - 0.35 * d) + (255,)
+            d = math.hypot((x - 15.5) / 16, (y - 5.5) / 6)
+            px[x, y] = shade((34, 42, 38), 1.15 - 0.3 * d) + (255,)
     save(grain(dead, 12034, 2), "screen-dead")
     lit = canvas((6, 22, 30))
     px = lit.load()
@@ -406,24 +428,22 @@ def prop_textures():
             r, g, b, a = px[x, y]
             px[x, y] = (clamp(r * 0.8), clamp(g * 0.8), clamp(b * 0.8), 255)
     save(lit, "screen-lit")
-    # Still whole: a green prompt on black, BOOT and a cursor (the one screen in a cluster that still glows)
+    # Still whole: a green prompt on black, BOOT and a cursor (the one screen in a cluster that still glows). The screen
+    # shows the texture's top twelve rows, the whole width
     boot = canvas((4, 12, 6))
     px = boot.load()
     glyphs = {"B": ["110", "101", "110", "101", "110"], "O": ["111", "101", "101", "101", "111"], "T": ["111", "010", "010", "010", "010"],
               "_": ["000", "000", "000", "000", "111"]}
-    x0 = 1
-    for ch in "BOOT_":
+    x0 = 0
+    for ch in "BOOT":
         for gy, row in enumerate(glyphs[ch]):
             for gx, bit in enumerate(row):
                 if bit == "1":
                     for dy in range(2):
                         for dx in range(2):
-                            px[x0 + gx * 2 + dx, 12 + gy * 2 + dy] = (110, 255, 140, 255)
-        x0 += 6
-    for row in (4, 7):
-        for x in range(4, 4 + rng.randint(10, 22)):
-            if rng.random() < 0.7:
-                px[x, row] = (50, 140, 70, 255)
+                            px[x0 + gx * 2 + dx, 1 + gy * 2 + dy] = (110, 255, 140, 255)
+        x0 += 7
+    rect(boot, 29, 9, 31, 10, (110, 255, 140))  # the cursor
     for y in range(0, S, 2):
         for x in range(S):
             r, g, b, a = px[x, y]
@@ -432,7 +452,7 @@ def prop_textures():
     # Smashed: the glass caved in, black behind, cracks running out from the hole
     smashed = canvas((30, 36, 34))
     px = smashed.load()
-    cx, cy = 14, 15
+    cx, cy = 14, 6
     for y in range(S):
         for x in range(S):
             d = math.hypot(x - cx, y - cy)
@@ -530,7 +550,7 @@ def terminal_shape(state):
         box("Modesty", (2, 3, 13.5), (14, 10.5, 14.5), "desk-frame", faces=("north", "south")),
         box("Case", (3, 11.5, 3.5), (13, 16, 13), "crt-case", faces=("east", "south", "west", "up")),
         box("Bezel", (3, 11.5, 3), (13, 16, 3.5), "crt-case", faces=("north", "east", "west", "up")),
-        box("Screen", (4, 12.5, 2.6), (12, 15.5, 3), screen, faces=("north",), glow=220 if state == "boot" else 0),
+        box("Screen", (4, 12.5, 2.6), (12, 15.5, 3), screen, faces=("north",), glow=220 if state == "boot" else 0, uv=(0, 0, 16, 6)),
         box("Keyboard", (4, 11.5, 0.8), (12, 12, 2.6), "keyboard", faces=("up", "north", "east", "west")),
     ]
     if state == "smashed":
@@ -678,7 +698,8 @@ def sided_shapes(code, base_by_state):
 
 
 def blocktypes():
-    cube_block("l120-wall", {"base": "wall-base", "stained": "wall-stained", "rot": "wall-rot", "soot": "wall-soot"},
+    cube_block("l120-wall", {"base": "wall-base", "stained": "wall-stained", "rot": "wall-rot", "soot": "wall-soot",
+                             "rot2": "wall-rot2", "rot3": "wall-rot3"},
                "Level 120: dirty yellow wallpaper over rotting boards (base; stained with brown streaks; rot: the paper torn off; soot: the "
                "Pitch-Black Hallways' near-black paper)", material="Wood", sounds=WOOD)
     cube_block("l120-floor", {k: "floor-" + k for k in ("clean", "dirty", "vent", "hole")},
@@ -692,8 +713,10 @@ def blocktypes():
     data = {"code": "l120-void", "variantgroups": [{"code": "kind", "states": ["floor", "wall", "ceiling", "panel", "black"]}],
             "texturesByType": {"*-floor": {"all": tex("void-floor")}, "*-black": {"all": tex("void-black")}, "*": {"all": tex("void-white")}},
             "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
-            "blockmaterial": "Stone", "drawtype": "cube", "lightAbsorption": 99, "resistance": 8, "drops": [], "sounds": STONE,
-            "lightHsvByType": {"*-panel": [0, 0, 14]}}
+            "blockmaterial": "Stone", "drawtype": "cube", "resistance": 8, "drops": [], "sounds": STONE,
+            # (The panel lets its own light out: the mod's lighting takes a source's absorption off its first step)
+            "lightAbsorptionByType": {"*-panel": 0, "*": 99},
+            "lightHsvByType": {"*-panel": [0, 0, 14]}, "vertexFlagsByType": {"*-panel": {"glowLevel": 255}}}
     write_json(os.path.join(BLOCKS, "l120-void.json"), data,
                "Level 120: the White Voids, white with nothing on it (floor, wall, ceiling; panel: the ceiling's glow, light 14) and the black round them")
 

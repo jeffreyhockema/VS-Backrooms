@@ -8,7 +8,9 @@
 				"base",
 				"stained",
 				"rot",
-				"soot"
+				"soot",
+				"rot2",
+				"rot3"
 			]
 		}
 	],
@@ -31,6 +33,16 @@
 		"*-soot": {
 			"all": {
 				"base": "block/120/wall-soot"
+			}
+		},
+		"*-rot2": {
+			"all": {
+				"base": "block/120/wall-rot2"
+			}
+		},
+		"*-rot3": {
+			"all": {
+				"base": "block/120/wall-rot3"
 			}
 		}
 	},

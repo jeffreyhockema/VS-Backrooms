@@ -240,3 +240,50 @@ they differ, this section wins.
   the hallway's soot walls and black fog.
 - `/backrooms l120 misglitch`: the model in the dark (pixel glow, red marks), its static, the slice, the skip.
 - The fog colours (base, void white, hallway black), the loops' loudness, the one-shots' frequency.
+
+### Round 2 (2026-10-31): looked at in the client, by torchlight
+
+Shot with `tools/clientrig/shots.py 120 --torch` (a lit torch in hand, creative, HUD off). Without a light the level is
+black, as the lore says (round 1); with a torch it reads as the lore's place: dirty white floor (cream under the torch's
+warm light), yellow paper with its faint stripe and print, office tiles with water rings and holes, racks in banks.
+
+**Showcase spots** (`WorldLayout.Level120.Showcase.cs`, all found from the plans of the cluster halls round the region's
+centre, nearest ring first, seed independent): `server-aisle` (down an aisle between two banks), `wrecked-bank`,
+`lit-rack`, `cold-aisle` (a rack aisle room under its tray), `terminal-room`, `boot-screen` (the nearest whole terminal),
+`spilled-cables`, `passage-tube` (to a crossing that keeps its tube), `passage-dark`, `void-doors`, `void-window`,
+`void-smiler`, `hallway-lane`, `hallway-window`, `misglitch`. A spot is scored over a cone of tiles ahead and never faces
+a wall within two blocks. New test command `/backrooms l120 smiler [x z]` (a Smiler lost in the light, turned to you);
+`/backrooms l120 misglitch x z` from a player now turns it to face them.
+
+**What the shots showed, and what changed:**
+- **The White Voids were not lit at all** (brown walls by torchlight only): the panel block had absorption 99, and the
+  mod's own lighting (WorldLighting) takes a source's absorption off its first step, so the light never left the panel.
+  Fixed: the panel absorbs nothing and glows (`vertexFlags` glow 255).
+- **One torn-paper stamp repeated on every wall** (the same hourglass of boards, block after block): now three tears
+  (the old one, a blob low on one side, the paper peeled from the top in a ragged hem) and fewer of them (9% of wall
+  blocks, was 12%); the water streaks are redone as soft vertical runs that carry on from block to block (the old ones
+  made a ring).
+- **The BOOT screen showed only a slice of its texture** (the screen face mapped the top-left corner): the screen now
+  maps the texture's whole width, and the dead, smashed and BOOT textures are drawn for it ("BOOT" and a cursor, the
+  crack centred).
+- **Arrivals faced walls**: anyone put down in the level (goto, the cheats menu, a boot into a pocket, a window back)
+  is turned to face the longest open run of floor round them (up to 24 blocks), once they are down
+  (`ThresholdSystem.L120.cs`). The rig's random-arrival shots still look at fixed headings, so some of those still show
+  a wall.
+- Read well and left alone: the rack banks and wrecks, the cold aisles and trays, the terminal rooms, the spills, the
+  passages with their ducts, the hallway's soot walls, the broken windows (frame, shards, black beyond), the
+  Misglitch (black body, the pixel cubes glowing) and the Smiler in the void.
+
+Shared files touched: `tools/mapgen/mapgen.csproj` (compiles `src/Cheats/Showcase.cs`, which the levels' showcase files
+need; mapgen did not build after the showcase stubs) and `tools/clientrig/rig.py` (the showcase step's shots are copied
+to the run's folder; they were left in the rig's scratch folder and overwritten by the next run).
+
+**Final shots** (`%TEMP%/backrooms-shots/120-r2d/`, `sheet.jpg`): the void is now pure white under its glowing panels,
+the black door standing open, two Smilers in the light; the BOOT screen reads "BOOT_" across the CRT; the walls show the
+three tears here and there rather than one hole on every block. Checks: expclash clean, mod and mapgen 0 errors,
+layouthash for 0-20 and the layout hash identical to main's, `regions` 60/60 for Level 120, a headless dummy in the level
+(misglitch, void, blocksweep 10906 blocks, 0 threw) with 0 error lines, gate `--fast` PASS.
+
+Still weak: the passages are long bare yellow runs (a cabinet, a bin, a duct; true to "connective tissue" but the
+plainest part of the level); the rig's random arrivals look at fixed headings, so some still show a wall close up (in
+play the arrival now turns you to the open floor).

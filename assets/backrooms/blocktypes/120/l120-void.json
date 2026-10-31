@@ -40,7 +40,6 @@
 	},
 	"blockmaterial": "Stone",
 	"drawtype": "cube",
-	"lightAbsorption": 99,
 	"resistance": 8,
 	"drops": [],
 	"sounds": {
@@ -49,11 +48,20 @@
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
 	},
+	"lightAbsorptionByType": {
+		"*-panel": 0,
+		"*": 99
+	},
 	"lightHsvByType": {
 		"*-panel": [
 			0,
 			0,
 			14
 		]
+	},
+	"vertexFlagsByType": {
+		"*-panel": {
+			"glowLevel": 255
+		}
 	}
 }
