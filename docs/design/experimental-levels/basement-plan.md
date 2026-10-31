@@ -155,3 +155,101 @@ rather than wading neck-deep, and climbs out by the steps; whether the flicker b
 well; the stair blocks sitting in water (fluid layer) and the tide line's height against the water surface; the
 boiler's 2-high model under the 3-block ceiling; fog density (0.045 / 0.07 may be too thick with lights this sparse);
 the wail's loudness.
+
+## Detail pass (2026-10-30)
+
+Lore: both wikis combined as `lore/basement-brief.md` proposes (Fandom's endless basement as the level; Wikidot's flood,
+dry patch, drowned body and distant elevator as its lower part). The user's decisions (`lore/DECISIONS.md`): survival
+class **2** (Fandom's 2/2/2), the elevator a prop only, Escherian loops only in a few dry rooms, Windows omitted (named in
+the handbook), no new creature. Values used (the Basement's column of README.md's table): `WallPattern` 293-295,
+`FloorKind` 288-289, `CeilingKind` 295-296, `Overheads` 288-291, `Props` 1005-1010, salts 0x2208-0x220B.
+
+**Built**
+- **The Cellar as the Fandom basement.** Rooms by kind: *finished* (about 45%: dusty carpet, olive shag or worn brown,
+  `basement-carpet`; bare joists overhead, `basement-ceiling-joists`; a house's cast-offs from other levels' props: coffee
+  table, TV, toy box, washer or dryer, radiator, icebox, rotary phone, boxes, stacked chairs), *utility* (bare or damp
+  concrete, boilers, drums, shelves, cabinets, crates mostly gone through) and *store* rooms (boxes, furniture piles,
+  suitcases). Split walls are cinder block, old knotty pine panelling (`basement-panel`, a third) or stained block.
+- **Wooden doors** (`basement-door`, closed / open / jammed x hinge x half x side; behaviour `BackroomsBasementDoor` in
+  `src/Regions/BasementSystem.cs`, hyphen-safe through `BlockCodes.WithVariant`): every BSP wall has one (a long wall now
+  and then two); about 30% stand open; the second door of a two-door wall is swollen shut one time in three (a pry bar in
+  hand forces it, for good). Every room stays reachable without the jammed ones (harness: 100% in one piece).
+- **Sounds behind doors** (client, `AtmosphereSystem.Basement.cs`): every half minute or so in the Cellar, behind a shut
+  door 3-12 blocks off, on its far side: a baby crying (new `sounds/ambient/basement/cry.ogg`, synthesised, muffled as if
+  through a door), footsteps pacing (`entity/footsteps`), a knock. It stops the moment the door opens or the player comes
+  right up to it.
+- **The crack** (about 40% of Cellar cells, in the biggest room of 7 x 7 or more): its middle 3 x 3 open up to rel 20,
+  where the Lobby's ceiling tiles and a lit fluorescent panel show; round the hole at rel 16 the Lobby's soaked carpet, its
+  chevron wallpaper beyond; the frayed end of a rope hanging at rel 12-16 (`basement-rope`), rubble under it
+  (`basement-debris`: boards with a scrap of yellow carpet, or chunks of the slab), and in about half of them a vanilla
+  ladder two blocks high against a wall, far too short. **Arrivals are under the crack** (`IsBasementArrivalSpot`): you
+  come in as the lore says, by falling.
+- **Escherian stairwells** (about 18% of Cellar cells, in a room of 9 x 9 or more): a brick tower five by five
+  (`basement-brick`, `basement-bricksteps`) with a door in its north wall; inside, brick steps climb round a brick core, a
+  block a step, eight to a turn, from rel -8 to 23. Stepping onto the landing a turn up or down puts the player back on
+  the landing by the door (`BasementSystem.OnLoopTick`, an 8-block teleport; the tower repeats every turn, with a jammed
+  door on the door's line a turn above and below, so it looks the same). Dim bulbs under every turn's fifth step.
+  `WorldGeometry.BasementBandDepth` is 14 (band top rel 25) to make room for the cracks and towers.
+- **The dead** (Fandom's "large amount of human corpses", the Wikidot account's drowned body): about one Cellar cell in
+  seven has a room of the dead (bone piles, ribcages and jaws against its walls, reused props, and 2-4 bodies); one in
+  five a lone body in a room, a backpack or a dead flashlight by it; in the Flood about a third of the dead ends hold a
+  drowned body, and about one in sixteen of those is Gary Moors (the man the Wikidot clipping says never resurfaced).
+  Bodies are the existing `corpse` / `corpse-bones` entities, laid down by `BasementSystem` the first time a player comes
+  within a cell of them (cells done kept in the save, key `backrooms-basement-bodies`), owner `backrooms-basement-dead`,
+  named "someone who came before", "a drowned man", "Gary Moors"; they hold a few scraps (rot, carpet fibre, a candle, a
+  rusty gear or two, now and then a note) and crumble when emptied, as every corpse does.
+- **The smell** (Fandom: it "can suffocate one if it is inhaled for long enough"): with two or more of the dead within
+  four blocks, exposure builds a second a second (eases two a second): a chat warning at 15 s, another at 45 s, then 0.5
+  suffocation damage every 5 s. The fog near them turns a sick brown (client).
+- **Water not safe to drink** (Fandom: drinking it dehydrates): `WaterClass` gives the Basement its own `WaterKind.Foul`:
+  -150 hydration, the tainted stability cost, sickness one time in two (`drink-foul`). A bottle filled there is murky.
+- **Light:** dark (a bulb in about every other room), but about one ceiling block in seven (a fixed lattice, looking like
+  every other) gives off a faint light (`basement-ceiling-faint`, V 6, absorption 0 so it reaches the room): "a light
+  which has no determined source". Arriving, it is pitch black for 2.4 s, then the lights come on with a relay's clunk
+  and the hum swelling (new `lightson.ogg`): the Wikidot account's first moments.
+- **The Dry Patch** brought to the lore: no pump, no boiler, a plain bulb instead of the bright one; a crate or two, a
+  shelf, a drum, sometimes someone who stayed. **The elevator in the distance:** in about half of them a dead cage lift
+  (`basement-lift`: Level 5's cage lift shapes in the Basement's cinder block, no threshold) in the middle of a wall.
+- **Out of place:** coils of rope (break: `game:rope`), empty bottles (`emptybottle`), jars gone bad (`game:rot`), now
+  and then an old crowbar (a `prybar`: the narrator's) as `basement-junk`, 0-2 a Cellar cell; wires hanging from the
+  ceiling (`wiredroop`, a room in three); a wet floor sign or a traffic cone in a dry room (one in ten); floor cables.
+- **Loot** (class 2, "Lack of Needed Resources"): a stash of one or two supply boxes in about one Cellar cell in five,
+  `PickedOverShare` 0.75 (most torn open); crates mostly opened; no food of the level's own.
+- **Director** (`Roster`, `MenaceSystem`, `Danger`): danger 0.3, solitude 1.3; the Cellar is the Heartland band, the
+  Flood the Approach. Cellar: Smilers in the dark, now and then a Skin-Stealer, Facelings (Fandom: they fall in as people
+  do). Flood: the Bacteria's dark figure, seen far off and following ("something standing in the distance"), and Wretches
+  that stalk and hunt through the water. Distant sounds: footsteps, a knock, a scratch, the groan, drips. `SurvivalClass` 2.
+- **Notes:** a track of six (`lbasement`, its own block in gen_notes.py): the hole and the ladder, Tom on the water, A.L.
+  on doors that are not a system, the M.E.G. on the stairwells and the dead, the flood account, the newspaper cutting
+  (Cincinnati, six drowned, Gary Moors). **Handbook:** its own page `guide-basement` (gen_guide.py, its own block; listed
+  in `GuideSystem.Added`). Lines: `levelhint-22` rewritten, `levelhint-2202` and `levelhint-2203` added.
+- **Harness:** `basementstats` also counts doors (and jammed), cracks, stairwells, bodies by kind, things dropped, boxes,
+  elevator leaves, carpet share and panelled walls, and walks doors (not jammed ones), rubble, bodies and the stairwells'
+  tiles. Dev command `basementbodies x z` (console-safe) lays down the bodies of the nine cells round x z.
+
+**Choices against the brief**
+- Class 2 (the user's decision), not the brief's 3: sparser director, scarce loot.
+- The drowned body that chased the Wikidot poster: the existing `corpse` entity cannot move, so the bodies lie still and
+  the chase is the director's Wretch in the Flood (Stalk/Hunt). The handbook says "something follows people through the
+  water" without naming it.
+- No Windows (decision); the handbook says they are told of and none has been found.
+- Left out for time (brief "nice"): the rising tide, the bar cellar room, the long Recovered Document note (its "don't
+  jump into random holes" is in the first note).
+- The lights switching on abruptly is a client fog effect on arrival (block light does not change).
+
+**My inventions** (in neither wiki): the Lobby's ceiling and light showing at the top of the crack, the dangling cut rope
+and the too-short ladder; the jammed doors and forcing them with a pry bar; the turn-repeating jammed doors in the
+stairwell; Tom's, A.L.'s and the M.E.G.'s notes in their usual voices; the bodies' names and what is on them; Wretches as
+the Flood's follower; the cage lift's look; the brown fog near the dead.
+
+**Check in a client**
+- The door model (frame, leaf, knobs) shut and open, both hinges and four sides; that an open door does not block the
+  doorway; the jammed message and forcing with a pry bar.
+- The sounds behind doors: loudness, that the far-side placement reads as "behind the door", that they stop on opening.
+- The crack: how far the Lobby's light carries down (it is dark at the bottom), the rope, the ladder, the rubble model.
+- The stairwell: walking the spiral (at the corners the high half of a step leads on), the teleport at the landing a
+  turn up or down (seamless but for how deep the fog lets you see), the fake doors.
+- Carpet, panelling and joist textures (the panelling may read too orange against the cold fog), the faint ceiling
+  light's strength, the length of the blackout on arrival.
+- Bodies: the drowned are laid on the Flood's bed under the water (whether they float, how they look); Gary's name.
+- The smell's timing, and the brown fog near the dead.

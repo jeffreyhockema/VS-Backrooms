@@ -594,6 +594,35 @@ PAGES["farlevels"] = ("The Levels: Beyond the Rings", """
 - Clothes, cloth, beds and a little food (see [Salvage](backrooms-salvage)). A fire exit on each upper floor leads out, each somewhere different, and the iron ring in the deck opens onto a long fall into the water of Level 37.
 """)
 
+# ---------- The Basement (experimental level, id 22; detail pass 2026-10-30): its own page ----------
+# After both wikis (docs/design/experimental-levels/lore/basement-brief.md). Listed in src/GuideSystem.cs's Added pages.
+PAGES["basement"] = ("The Basement", """
+**The Basement**
+*Under most of the levels, they say: the bottom of the Backrooms.*
+
+Note: an experimental level. Nothing leads here yet; it is reached from the cheats menu, and what is written here may change.
+
+**Getting here**
+Two accounts describe it, and both came in the same way: through the floor. Tear up a level's carpet, break what is under it, and you fall a long way, into the dark. It stays dark for a moment, and then the lights come on, all at once. The crack you came through is still overhead, twenty blocks up, the yellow light of the Lobby at the top of it and a frayed end of rope hanging out of reach. **Class 2.**
+
+**The Cellar**
+A basement, like a house's, only far larger than any house: rooms of cinder block, concrete or old pine panelling, dusty carpet over the floors of the finished ones, bare joists overhead, and wooden doors between them ({rightmouse} to open or shut one). Now and then a door is swollen shut in its frame: a [pry bar](item-backrooms:prybar) in hand forces it. Cold (8 °C) and dark, a bare bulb in about every other room, yet nowhere is quite black: a faint light comes from no source anyone has found.
+- **Behind a shut door** you may hear a baby crying, someone walking up and down, a knock. Open the door and it stops, and the room is empty.
+- **Brick stairwells** stand in some rooms. Climb a turn of the stairs, or go down one, and you are back on the landing by the door you came in.
+- **The dead** lie about, heaped in a few rooms. Stay among them and the smell builds until it chokes you; get away and it passes. They have little left on them.
+- Little else: most boxes were gone through long ago. A coil of [rope](item-rope), an [empty bottle](item-backrooms:emptybottle), a jar gone bad, now and then an old crowbar (a [pry bar](item-backrooms:prybar)) lie where somebody dropped them, and break loose with a blow.
+
+**The Flood**
+Further in, the rooms are under water: tight passages with two blocks of black water in them (5 °C, 4 °C in it), the walls slimed to the waterline, the stairs up to the Cellar at the ends of some. The water smells almost of [Almond Water](item-backrooms:almondwater). **It is not safe to drink:** it leaves you thirstier than before, costs a little stability, and one time in two it makes you sick. Drowned bodies lie in the dead ends.
+- **The Dry Patch:** here and there a room a little above the rest, two steps up out of the water (9 °C). Dry, but nothing to rest on. In some, an old cage elevator stands in a wall. It does not work.
+
+**What lives here**
+Nothing of its own: what comes here falls in, as people do. Facelings now and then, a Skin-Stealer, Smilers in the dark rooms. Out in the Flood, something stands far off at the end of a passage, watching, and something follows people through the water. The Fandom page tells of rare windows on the walls and the Windows behind them; none has been found here yet. See [What Lives Here](backrooms-entities).
+
+**Leaving**
+The only way out anyone describes is the way in: back up the crack, which takes a ladder or a long rope and more luck than most have. One man wrote of an elevator in the distance; he never reached it, and nobody has since. Neither way is built here yet.
+""")
+
 PAGES["thresholds"] = ("Ways Between Levels", """
 **Ways Between Levels**
 *The rings are only how the place is built. The doors are the real map.*

@@ -1066,6 +1066,44 @@
    ]
   },
   {
+   "id": "lbasement",
+   "cls": "common",
+   "level": 22,
+   "chapter": "lbasement",
+   "entries": [
+    {
+     "key": "lbasement-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "lbasement-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "lbasement-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "lbasement-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "lbasement-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "lbasement-6",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
    "id": "rare-l0",
    "cls": "rare",
    "level": 0,
