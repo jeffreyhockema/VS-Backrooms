@@ -1,0 +1,45 @@
+// Level 23: the lid of leaves (each takes two of the sun's light: nine leave six)
+{
+	"code": "l23-leaves-dense",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Leaves",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/23/leavesdense-0",
+			"alternates": [
+				{
+					"base": "block/23/leavesdense-1"
+				},
+				{
+					"base": "block/23/leavesdense-2"
+				}
+			]
+		}
+	},
+	"resistance": 0.8,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 0.1,
+				"var": 0.1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/grass*",
+		"place": "game:block/plant",
+		"break": "game:block/plant",
+		"hit": "game:block/plant"
+	},
+	"lightAbsorption": 2
+}

@@ -1,0 +1,55 @@
+// Level 23: a stone of the Architects' ruins with Latin cut into it
+{
+	"code": "l23-latin",
+	"variantgroups": [
+		{
+			"code": "text",
+			"states": [
+				"a",
+				"b",
+				"c",
+				"d"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-a": {
+			"all": {
+				"base": "block/23/latin-a"
+			}
+		},
+		"*-b": {
+			"all": {
+				"base": "block/23/latin-b"
+			}
+		},
+		"*-c": {
+			"all": {
+				"base": "block/23/latin-c"
+			}
+		},
+		"*-d": {
+			"all": {
+				"base": "block/23/latin-d"
+			}
+		}
+	},
+	"resistance": 8,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

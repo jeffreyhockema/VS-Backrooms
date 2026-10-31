@@ -1,0 +1,91 @@
+// Level 23: a buried sentry, a face in the bark (the face on the -side); says nothing until someone says it
+{
+	"code": "l23-sentry",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-north": {
+			"all": {
+				"base": "block/23/bark-grey"
+			},
+			"up": {
+				"base": "block/23/heartwood-grey"
+			},
+			"down": {
+				"base": "block/23/heartwood-grey"
+			},
+			"north": {
+				"base": "block/23/sentry"
+			}
+		},
+		"*-east": {
+			"all": {
+				"base": "block/23/bark-grey"
+			},
+			"up": {
+				"base": "block/23/heartwood-grey"
+			},
+			"down": {
+				"base": "block/23/heartwood-grey"
+			},
+			"east": {
+				"base": "block/23/sentry"
+			}
+		},
+		"*-south": {
+			"all": {
+				"base": "block/23/bark-grey"
+			},
+			"up": {
+				"base": "block/23/heartwood-grey"
+			},
+			"down": {
+				"base": "block/23/heartwood-grey"
+			},
+			"south": {
+				"base": "block/23/sentry"
+			}
+		},
+		"*-west": {
+			"all": {
+				"base": "block/23/bark-grey"
+			},
+			"up": {
+				"base": "block/23/heartwood-grey"
+			},
+			"down": {
+				"base": "block/23/heartwood-grey"
+			},
+			"west": {
+				"base": "block/23/sentry"
+			}
+		}
+	},
+	"resistance": 9,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

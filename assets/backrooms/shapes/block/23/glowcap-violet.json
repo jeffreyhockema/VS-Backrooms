@@ -1,0 +1,586 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cap": "backrooms:block/23/glowcap-violet",
+		"stem": "backrooms:block/23/glowstem"
+	},
+	"elements": [
+		{
+			"name": "Stem1",
+			"from": [
+				4,
+				0,
+				5
+			],
+			"to": [
+				5,
+				4,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#stem",
+					"uv": [
+						4,
+						12,
+						5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stem",
+					"uv": [
+						4,
+						12,
+						5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stem",
+					"uv": [
+						5,
+						12,
+						6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stem",
+					"uv": [
+						5,
+						12,
+						6,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stem",
+					"uv": [
+						4,
+						5,
+						5,
+						6
+					]
+				},
+				"down": {
+					"texture": "#stem",
+					"uv": [
+						4,
+						5,
+						5,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap1",
+			"from": [
+				2.5,
+				4,
+				3.5
+			],
+			"to": [
+				6.5,
+				5.2,
+				7.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#cap",
+					"uv": [
+						2.5,
+						10.8,
+						6.5,
+						12
+					],
+					"glow": 200
+				},
+				"south": {
+					"texture": "#cap",
+					"uv": [
+						2.5,
+						10.8,
+						6.5,
+						12
+					],
+					"glow": 200
+				},
+				"east": {
+					"texture": "#cap",
+					"uv": [
+						3.5,
+						10.8,
+						7.5,
+						12
+					],
+					"glow": 200
+				},
+				"west": {
+					"texture": "#cap",
+					"uv": [
+						3.5,
+						10.8,
+						7.5,
+						12
+					],
+					"glow": 200
+				},
+				"up": {
+					"texture": "#cap",
+					"uv": [
+						2.5,
+						3.5,
+						6.5,
+						7.5
+					],
+					"glow": 200
+				},
+				"down": {
+					"texture": "#cap",
+					"uv": [
+						2.5,
+						3.5,
+						6.5,
+						7.5
+					],
+					"glow": 200
+				}
+			}
+		},
+		{
+			"name": "Stem2",
+			"from": [
+				10,
+				0,
+				9
+			],
+			"to": [
+				11,
+				6,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#stem",
+					"uv": [
+						10,
+						10,
+						11,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stem",
+					"uv": [
+						10,
+						10,
+						11,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stem",
+					"uv": [
+						9,
+						10,
+						10,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stem",
+					"uv": [
+						9,
+						10,
+						10,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stem",
+					"uv": [
+						10,
+						9,
+						11,
+						10
+					]
+				},
+				"down": {
+					"texture": "#stem",
+					"uv": [
+						10,
+						9,
+						11,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap2",
+			"from": [
+				8,
+				6,
+				7
+			],
+			"to": [
+				13,
+				7.4,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#cap",
+					"uv": [
+						8,
+						8.6,
+						13,
+						10
+					],
+					"glow": 220
+				},
+				"south": {
+					"texture": "#cap",
+					"uv": [
+						8,
+						8.6,
+						13,
+						10
+					],
+					"glow": 220
+				},
+				"east": {
+					"texture": "#cap",
+					"uv": [
+						7,
+						8.6,
+						12,
+						10
+					],
+					"glow": 220
+				},
+				"west": {
+					"texture": "#cap",
+					"uv": [
+						7,
+						8.6,
+						12,
+						10
+					],
+					"glow": 220
+				},
+				"up": {
+					"texture": "#cap",
+					"uv": [
+						8,
+						7,
+						13,
+						12
+					],
+					"glow": 220
+				},
+				"down": {
+					"texture": "#cap",
+					"uv": [
+						8,
+						7,
+						13,
+						12
+					],
+					"glow": 220
+				}
+			}
+		},
+		{
+			"name": "Stem3",
+			"from": [
+				7,
+				0,
+				12
+			],
+			"to": [
+				7.8,
+				2.5,
+				12.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#stem",
+					"uv": [
+						7,
+						13.5,
+						7.8,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stem",
+					"uv": [
+						7,
+						13.5,
+						7.8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stem",
+					"uv": [
+						12,
+						13.5,
+						12.8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stem",
+					"uv": [
+						12,
+						13.5,
+						12.8,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stem",
+					"uv": [
+						7,
+						12,
+						7.8,
+						12.8
+					]
+				},
+				"down": {
+					"texture": "#stem",
+					"uv": [
+						7,
+						12,
+						7.8,
+						12.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap3",
+			"from": [
+				5.9,
+				2.5,
+				11
+			],
+			"to": [
+				8.9,
+				3.4,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#cap",
+					"uv": [
+						5.9,
+						12.6,
+						8.9,
+						13.5
+					],
+					"glow": 180
+				},
+				"south": {
+					"texture": "#cap",
+					"uv": [
+						5.9,
+						12.6,
+						8.9,
+						13.5
+					],
+					"glow": 180
+				},
+				"east": {
+					"texture": "#cap",
+					"uv": [
+						11,
+						12.6,
+						14,
+						13.5
+					],
+					"glow": 180
+				},
+				"west": {
+					"texture": "#cap",
+					"uv": [
+						11,
+						12.6,
+						14,
+						13.5
+					],
+					"glow": 180
+				},
+				"up": {
+					"texture": "#cap",
+					"uv": [
+						5.9,
+						11,
+						8.9,
+						14
+					],
+					"glow": 180
+				},
+				"down": {
+					"texture": "#cap",
+					"uv": [
+						5.9,
+						11,
+						8.9,
+						14
+					],
+					"glow": 180
+				}
+			}
+		},
+		{
+			"name": "Stem4",
+			"from": [
+				12,
+				0,
+				3
+			],
+			"to": [
+				12.7,
+				3,
+				3.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#stem",
+					"uv": [
+						12,
+						13,
+						12.7,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stem",
+					"uv": [
+						12,
+						13,
+						12.7,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stem",
+					"uv": [
+						3,
+						13,
+						3.7,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stem",
+					"uv": [
+						3,
+						13,
+						3.7,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stem",
+					"uv": [
+						12,
+						3,
+						12.7,
+						3.7
+					]
+				},
+				"down": {
+					"texture": "#stem",
+					"uv": [
+						12,
+						3,
+						12.7,
+						3.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap4",
+			"from": [
+				11,
+				3,
+				2
+			],
+			"to": [
+				13.7,
+				3.8,
+				4.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#cap",
+					"uv": [
+						11,
+						12.2,
+						13.7,
+						13
+					],
+					"glow": 180
+				},
+				"south": {
+					"texture": "#cap",
+					"uv": [
+						11,
+						12.2,
+						13.7,
+						13
+					],
+					"glow": 180
+				},
+				"east": {
+					"texture": "#cap",
+					"uv": [
+						2,
+						12.2,
+						4.7,
+						13
+					],
+					"glow": 180
+				},
+				"west": {
+					"texture": "#cap",
+					"uv": [
+						2,
+						12.2,
+						4.7,
+						13
+					],
+					"glow": 180
+				},
+				"up": {
+					"texture": "#cap",
+					"uv": [
+						11,
+						2,
+						13.7,
+						4.7
+					],
+					"glow": 180
+				},
+				"down": {
+					"texture": "#cap",
+					"uv": [
+						11,
+						2,
+						13.7,
+						4.7
+					],
+					"glow": 180
+				}
+			}
+		}
+	]
+}

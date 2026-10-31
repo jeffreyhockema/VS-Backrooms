@@ -1,0 +1,47 @@
+// Level 23: petrified redwood bark; its cut ends grey rings
+{
+	"code": "l23-bark-red",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/23/bark-red",
+			"alternates": [
+				{
+					"base": "block/23/bark-red-2"
+				}
+			]
+		},
+		"up": {
+			"base": "block/23/heartwood-red"
+		},
+		"down": {
+			"base": "block/23/heartwood-red"
+		}
+	},
+	"resistance": 7,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

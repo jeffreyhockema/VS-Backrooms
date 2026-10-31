@@ -1,0 +1,492 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"clay": "backrooms:block/23/terracotta"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				5,
+				0,
+				5
+			],
+			"to": [
+				10,
+				1.5,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						14.5,
+						10,
+						16
+					]
+				},
+				"south": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						14.5,
+						10,
+						16
+					]
+				},
+				"east": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						14.5,
+						10,
+						16
+					]
+				},
+				"west": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						14.5,
+						10,
+						16
+					]
+				},
+				"up": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						5,
+						10,
+						10
+					]
+				},
+				"down": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						5,
+						10,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "WallN",
+			"from": [
+				5,
+				1.5,
+				5
+			],
+			"to": [
+				10,
+				3.5,
+				5.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						12.5,
+						10,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						12.5,
+						10,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						12.5,
+						5.6,
+						14.5
+					]
+				},
+				"west": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						12.5,
+						5.6,
+						14.5
+					]
+				},
+				"up": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						5,
+						10,
+						5.6
+					]
+				},
+				"down": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						5,
+						10,
+						5.6
+					]
+				}
+			}
+		},
+		{
+			"name": "WallW",
+			"from": [
+				5,
+				1.5,
+				5.6
+			],
+			"to": [
+				5.6,
+				2.6,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						13.4,
+						5.6,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						13.4,
+						5.6,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#clay",
+					"uv": [
+						5.6,
+						13.4,
+						9,
+						14.5
+					]
+				},
+				"west": {
+					"texture": "#clay",
+					"uv": [
+						5.6,
+						13.4,
+						9,
+						14.5
+					]
+				},
+				"up": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						5.6,
+						5.6,
+						9
+					]
+				},
+				"down": {
+					"texture": "#clay",
+					"uv": [
+						5,
+						5.6,
+						5.6,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "Shard1",
+			"from": [
+				11,
+				0,
+				3
+			],
+			"to": [
+				13.5,
+				0.4,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#clay",
+					"uv": [
+						11,
+						15.6,
+						13.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#clay",
+					"uv": [
+						11,
+						15.6,
+						13.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#clay",
+					"uv": [
+						3,
+						15.6,
+						5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#clay",
+					"uv": [
+						3,
+						15.6,
+						5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#clay",
+					"uv": [
+						11,
+						3,
+						13.5,
+						5
+					]
+				},
+				"down": {
+					"texture": "#clay",
+					"uv": [
+						11,
+						3,
+						13.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shard2",
+			"from": [
+				2,
+				0,
+				10
+			],
+			"to": [
+				4.5,
+				0.4,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#clay",
+					"uv": [
+						2,
+						15.6,
+						4.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#clay",
+					"uv": [
+						2,
+						15.6,
+						4.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#clay",
+					"uv": [
+						10,
+						15.6,
+						11.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#clay",
+					"uv": [
+						10,
+						15.6,
+						11.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#clay",
+					"uv": [
+						2,
+						10,
+						4.5,
+						11.5
+					]
+				},
+				"down": {
+					"texture": "#clay",
+					"uv": [
+						2,
+						10,
+						4.5,
+						11.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shard3",
+			"from": [
+				9,
+				0,
+				11.5
+			],
+			"to": [
+				11,
+				0.4,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#clay",
+					"uv": [
+						9,
+						15.6,
+						11,
+						16
+					]
+				},
+				"south": {
+					"texture": "#clay",
+					"uv": [
+						9,
+						15.6,
+						11,
+						16
+					]
+				},
+				"east": {
+					"texture": "#clay",
+					"uv": [
+						11.5,
+						15.6,
+						13.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#clay",
+					"uv": [
+						11.5,
+						15.6,
+						13.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#clay",
+					"uv": [
+						9,
+						11.5,
+						11,
+						13.5
+					]
+				},
+				"down": {
+					"texture": "#clay",
+					"uv": [
+						9,
+						11.5,
+						11,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shard4",
+			"from": [
+				3,
+				0,
+				3
+			],
+			"to": [
+				4.2,
+				0.4,
+				4.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#clay",
+					"uv": [
+						3,
+						15.6,
+						4.2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#clay",
+					"uv": [
+						3,
+						15.6,
+						4.2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#clay",
+					"uv": [
+						3,
+						15.6,
+						4.8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#clay",
+					"uv": [
+						3,
+						15.6,
+						4.8,
+						16
+					]
+				},
+				"up": {
+					"texture": "#clay",
+					"uv": [
+						3,
+						3,
+						4.2,
+						4.8
+					]
+				},
+				"down": {
+					"texture": "#clay",
+					"uv": [
+						3,
+						3,
+						4.2,
+						4.8
+					]
+				}
+			}
+		}
+	]
+}
