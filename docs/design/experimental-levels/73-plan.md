@@ -178,3 +178,80 @@ client (headless only): check the moon's place, size and glow, that the sky real
 island reads at scene 0.30, and the sconce model's orientation. The map layer (`BackroomsMapLayer`, the grouped case
 of floor to floor+5) is not taught the island's heights. Sunlight floods the keep's ground storey through its door
 (as it would). Vanilla basalt and ember bypass the salvage Breakdown.
+
+## Detail pass (2026-10-30)
+
+World + content, still unlinked (cheats menu / `/backrooms goto 73` only). Lore source: Wikidot only
+(`lore/73-brief.md`, `lore/DECISIONS.md`).
+
+**Built**
+- *The island.* Unchanged in shape; the sea now falls to 6 deep (was 10) so the level's band could start 6 below the
+  floor (`L73BandDepth` 12 to 6) and reach rel 33 for the keep's three storeys and attic. Summit flat within 40 blocks
+  (blend to 62) for the bigger castle. Arrivals now 60-120 blocks from the gate (was 85-165: "a short run so a fast
+  player can make the door"; `73stats`: 62-181 before, see the numbers below). Old bones on the fields (a bone pile in
+  about 260 land tiles, a ribcage in 900, a backpack in 3000) and a loose note in about 2850 ("gear and dark bones").
+- *The Silver Castle* (castle-local plan in `WorldLayout.Level73.cs`): curtain 56 x 48 (was 48 x 40), corner towers,
+  gatehouse, path; the keep 36 x 24 with **three storeys of five blocks** (`L73RoomAt`): six **guest rooms** (two per
+  floor, one at each end, **two beds each**, nightstands, wardrobe, dresser, chair), the **main hall** (banners, clock,
+  sofas, candelabras), the **dining hall** with the hearth and the **table of plenty** (12 x 2, 24 places), a **gallery**
+  of paintings, two **bathrooms** (G and 1st floor: two warm barrels each, toilet, cabinet), a **sitting room** round the
+  chimney breast, a **library**, the **master bedroom** (Coran's: a bed of two, desk, wardrobes, bookshelves) and a
+  **store-room** off it (three supply boxes, crates, Hound bones). Three flights of stairs, each landing where the next
+  begins. Flat roof terrace with parapet, turrets and the chimney stack; on it the **attic** (walls 3 high, stepped slate
+  roof, crates, bones, a great skull, a pack) **chained shut**, with its **balcony** over the front door. Every outer
+  window (40) is **boarded** (`l73-boards`) with **red velvet curtains** inside (pelmet, gold fringe); **banners**
+  (silver heart with ram's horns on black, two blocks long) inside and on the walls outside and round the courtyard;
+  **paintings of the Frontrooms** (six scenes). The castle's masonry, boards, slate, doors, table, barrels, curtains,
+  banners and paintings never break (attribute `l73Fixed`, one line in `Salvage/Breakdown.cs`).
+- *The door* (`Regions/L73System.cs`, `BlockL73Door`): two studded oak leaves three high with the emblem; four blows in
+  3.5 s from outside open it ("bang on the door as loud as possible"), one touch from inside; it shuts itself after 6 s
+  (not on anyone in the doorway). The attic's doors only say it is off-limits.
+- *The table and the baths*: a place set (stew, bread, a glass of water) feeds 600 satiety and 700 hydration and is set
+  again 4 game hours later (`BlockEntityL73Table`); a barrel washes and warms (body temperature to normal) or fills an
+  empty bottle with clean water.
+- *The light rule*: a light of 8+ in hand outside the walls raises a 0.7 noise every 4 s (MenaceSystem's noise bus: the
+  hordes come to it), and a warning the first time.
+- *The hordes* (director, single lines in shared files): band Threshold everywhere outside the walls, Safe within
+  (`L73System.BandAt`); danger 0.9; solitude 0.15 (busiest of all); Survival Class 5 (two kinds at once); roster from the
+  page: Hounds 3-5, Smilers 1-2 (dark), Death Rats 3-5, female Deathmoths 3-5, male Deathmoths, Skin-Stealers, Dullers,
+  Clumps (ambush); distant sounds of howls, wings, drag, hurt.
+- *CORAN* (`tools/gen_73_coran.py`: rig model 38 px tall, horned head, black shell, glowing chest heart, eyes on a cord,
+  gold chain arms of five links ending in spiked gauntlets; animations idle, walk, run, attack, sweep, listen, bow,
+  hurt; synthesised sounds: steps, chains, strikes, voice, roar, hurt). `EntityCoran` never takes damage and is not saved
+  with the world; `L73System` keeps one about outside the gate while anyone (or a test dummy) is in the level and
+  removes him a minute after. `AiTaskL73Coran`: hears every hostile within 40 blocks of him that is outside the walls
+  and within 140 of the castle, runs it down and kills it (a gauntlet strike, a sweep of both when there are several);
+  otherwise walks a round 36-75 blocks from the castle and stops to listen; bows and greets a wanderer within 5 blocks
+  (every 4 minutes); right-click: one of eight lines.
+- *Content*: six common notes and one folded note (`gen_notes.py` Level 73 block), loose notes in the castle (4) and on
+  the fields; a handbook page "Level 73: The Redlands" (`gen_73_lore.py`, registered in `GuideSystem.Added`); title and
+  hint lines kept. Loot: the store-room's supply boxes (the castle's food is the table).
+- *Assets*: `tools/gen_73_castle.py` (15 block types in all now, 30 shapes, 30 more textures), `gen_73_lore.py`
+  (messages, Coran's lines, handbook page).
+
+**Choices against the brief**
+- Children of Coran (37 peaceful NPCs): not built (DECISIONS: one key creature per level); the notes and the handbook
+  speak of them. Windows, Camo Crawlers and the sea's creatures: omitted, named in the handbook.
+- The knock is right-click (four within 3.5 s); a left-click on a door does nothing.
+- Food at the table is eaten at the table (not handed out as items), so the castle cannot be farmed for stock.
+- No Great Hound skeleton on the plateau (small props would not read as giant); a great skull lies in the attic instead.
+
+**My inventions** (not in the lore): the room plan beyond what the page names (gallery, sitting room, library,
+store-room, which floor holds which bathroom); the four-knock rule; the 4-hour refill; the light rule's noise; the
+balcony's place over the door; Coran's patrol ring, hearing range and greeting lines; the bones and dropped packs on the
+fields; the note texts (from the brief's suggestions) and the M.E.G. folded note (after the page's audio log).
+
+**To check in-game (screenshots)**: the door leaves' orientation and the open leaves' swing; curtains' folds and
+pelmet against the window boards; banners hanging two blocks (inside, the court, the outer walls); paintings' frames;
+the table's place setting and the cleared one; the bath barrels; the attic's stepped slate roof, the chimney and the
+balcony from the courtyard; Coran's model and animations (walk, run, strike, bow), his size against the gate; the
+island's bones; that light from the castle does not spill out (all windows boarded).
+
+**Checks (2026-10-31)**: `expclash` clean; mod and mapgen build with 0 errors; `layouthash` at layout versions 1 and 12:
+every line for levels 0-20 and the `layout hash` identical to main's (only 21-28 and `far places hash` differ);
+`regions` 60/60 arrivals in Level 73, none in the wrong level or in pockets; `73stats` OK (12 guest beds, 4 barrels,
+24 places, 40 windows, nothing misplaced; arrivals 62-181 before the change to 60-120); headless (ports 43100/43101):
+dummies land with 0 error lines, `blocksweep` 8718 blocks 0 threw, the director sends Hound packs (3-5), Deathmoths
+and Dullers within seconds of a dummy outside the walls, Coran is put down by the gate and hears them (`entitylog`);
+`GATE_TAG=l73 gate.py --fast --port-base 43100` PASS. Untested headless (no movement without a player, no clicks):
+Coran's run and strike, the door, the table, the baths.
