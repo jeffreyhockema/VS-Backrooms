@@ -9,7 +9,7 @@ using Zone = Backrooms.Worldgen.WorldLayout.L36Zone;
 /// <c>36stats [superblocks]</c> lays out the landside and a square of superblocks east of it round the centre line and
 /// reports each zone's share, the superblocks' kinds, the gates (and C32s), the Travel Planner's spots, and how much of the
 /// walkable floor can be walked to from a carousel (the cabins and bridges are sealed on purpose: reached by boarding);
-/// <c>36map [width height]</c> (blocks, from the baggage wall, centred on the centre line) writes l36map.bin (int width,
+/// <c>36map [width height [dx dz]]</c> (blocks, from the baggage wall, centred on the centre line, moved by dx, dz) writes l36map.bin (int width,
 /// int height, then per tile: zone, kind, material bits, prop/overhead flags) for render_36.py.
 /// </summary>
 static partial class LevelModes
@@ -17,7 +17,12 @@ static partial class LevelModes
     static bool L36Modes(WorldLayout layout, string mode, string[] args)
     {
         if (mode == "36stats") { L36Stats(layout, args.Length > 3 ? int.Parse(args[3]) : 3); return true; }
-        if (mode == "36map") { L36Map(layout, args.Length > 3 ? int.Parse(args[3]) : 1100, args.Length > 4 ? int.Parse(args[4]) : 1100); return true; }
+        if (mode == "36map")
+        {
+            L36Map(layout, args.Length > 3 ? int.Parse(args[3]) : 1100, args.Length > 4 ? int.Parse(args[4]) : 1100,
+                args.Length > 5 ? int.Parse(args[5]) : 0, args.Length > 6 ? int.Parse(args[6]) : 0);
+            return true;
+        }
         return false;
     }
 
@@ -25,9 +30,9 @@ static partial class LevelModes
 
     static string L36UseKind(Tile t) => null;
 
-    static void L36Map(WorldLayout layout, int w, int h)
+    static void L36Map(WorldLayout layout, int w, int h, int dx, int dz)
     {
-        int x0 = layout.L36WallX - 8, z0 = layout.L36LineZ - h / 2;
+        int x0 = layout.L36WallX - 8 + dx, z0 = layout.L36LineZ - h / 2 + dz;
         using var f = new BinaryWriter(File.Create("l36map.bin"));
         f.Write(w);
         f.Write(h);
