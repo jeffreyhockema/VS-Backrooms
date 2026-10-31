@@ -384,7 +384,7 @@ public sealed partial class WorldLayout
                 for (int side = 0; side < 2; side++)
                 {
                     double r = rng.NextDouble();
-                    L31Zone z = r < 0.30 ? L31Zone.Bath : r < 0.50 ? L31Zone.Hvac : r < 0.68 ? L31Zone.Store : r < 0.76 ? L31Zone.CarpetRoom : L31Zone.Lounge;
+                    L31Zone z = r < 0.30 ? L31Zone.Bath : r < 0.52 ? L31Zone.Hvac : r < 0.74 ? L31Zone.Store : r < 0.84 ? L31Zone.CarpetRoom : L31Zone.Lounge;
                     if (k == 1 && side == 1 && bath == 0) z = L31Zone.Bath;
                     if (z == L31Zone.Bath) bath++;
                     if (side == 0) L31LayRoom(plan, 0, q0, 11, q1, z, ArchPier.East);
@@ -396,7 +396,7 @@ public sealed partial class WorldLayout
             {
                 double r = rng.NextDouble();
                 // (a cinema only where the back rooms lie north of the rink: "walking northward ... one will stumble upon the Cinema")
-                L31Zone z = r < 0.25 ? (plan.Mirror ? L31Zone.Cinema : L31Zone.Lounge) : r < 0.33 ? L31Zone.Arcade : r < 0.48 ? L31Zone.Bath
+                L31Zone z = r < 0.25 ? (plan.Mirror ? L31Zone.Cinema : L31Zone.Store) : r < 0.33 ? L31Zone.Arcade : r < 0.48 ? L31Zone.Bath
                     : r < 0.63 ? L31Zone.Hvac : r < 0.73 ? L31Zone.Snack : r < 0.85 ? L31Zone.Store : L31Zone.Lounge;
                 L31LayRoom(plan, p0, 101, p1, last, z, ArchPier.North);
             }
@@ -635,11 +635,11 @@ public sealed partial class WorldLayout
                             bool end = k is 1 or 6;
                             var (x, z) = plan.World(p, qa);
                             ulong c = Hashing.Hash(seed, x, z, SaltL31Room + 1);
-                            bool retro = !end && Hashing.Unit(c >> 7) < 0.14;
+                            bool retro = !end && Hashing.Unit(Hashing.Mix(c)) < 0.14;
                             ushort front = end ? ((c & 1) == 0 ? L31Props.Pinball : L31Props.Claw)
                                 : retro ? L31Props.RetroCabinet : Hashing.Unit(c) < 0.1 ? L31Props.DeadCabinet : L31Props.Cabinet;
                             L31Put(plan, p, qa, front, ArchPier.North, (byte)(retro ? c % 3 : c % 6));
-                            bool retro2 = !end && Hashing.Unit(c >> 13) < 0.14;
+                            bool retro2 = !end && Hashing.Unit(Hashing.Mix(c ^ 0x3131)) < 0.14;
                             L31Put(plan, p, qa + 1, end ? L31Props.Pinball : retro2 ? L31Props.RetroCabinet : L31Props.Cabinet, ArchPier.South,
                                 (byte)(retro2 ? c / 5 % 3 : c / 7 % 6));
                         }
