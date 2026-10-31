@@ -251,16 +251,19 @@ def blocks():
     }, "The Basement: the Cellar's bare concrete floor (dry, damp) and the Dry Patch's")
     # (faint, joistsfaint: the same, giving off a faint light nobody can find the source of: Fandom's "every part of the
     # level is illuminated by a light which has no determined source")
-    cube_block("basement-ceiling", ["plain", "stained", "joists", "faint", "joistsfaint"], {
+    cube_block("basement-ceiling", ["plain", "stained", "joists", "faint", "joistsfaint", "shaft"], {
         "plain": alts("ceiling-plain", ["ceiling-plain-2"]),
         "stained": alts("ceiling-stained", ["ceiling-plain"]),
         "joists": alts("joists", ["joists-2"]),
         "faint": alts("ceiling-plain", ["ceiling-plain-2"]),
         "joistsfaint": alts("joists", ["joists-2"]),
+        "shaft": alts("ceiling-plain", ["ceiling-plain-2"]),
     }, "The Basement: the low concrete ceiling (plain, drip-stained), bare joists under old floorboards (joists); faint, a ceiling with the light that has no source",
         # (Light leaving a block loses that block's absorption, so a ceiling that gives light must let it through: the
         # concrete over it stops it there, src/Worldgen/WorldLighting.cs)
-        {"lightHsvByType": {"*-faint": [8, 2, 6], "*-joistsfaint": [8, 2, 6]}, "lightAbsorption": 0})
+        # (shaft, round 2: the broken slab lining a crack someone fell through, lit from the room above: it carries the
+        # Lobby's yellow light down the twenty blocks to the floor, where it would otherwise never reach)
+        {"lightHsvByType": {"*-faint": [8, 2, 6], "*-joistsfaint": [8, 2, 6], "*-shaft": [9, 3, 10]}, "lightAbsorption": 0})
     cube_block("basement-slime", ["wall", "bed"], {
         "wall": alts("slime-wall", ["slime-wall-2"]),
         "bed": alts("slime-bed", ["slime-bed-2"], rotate=True),
@@ -391,9 +394,10 @@ def carpet_tex(seed, base, tone2, wear):
 
 def panel_tex(seed, stained=False):
     # Knotty pine panelling gone dark, the varnish dulled by dust; damp wicking up from below
-    img = M.wood_planks(seed=seed, base=(124, 86, 50), planks=4, direction="v", grain=4, contrast=1.1, knots=1, flecks=0.8,
-                        per_plank=9, gap=(40, 28, 18))
-    M.grime(img, 0.16, seed=seed + 1, color=(84, 78, 66), cells=(8, 4), cover=0.5)
+    # (Round 2: darker and greyer than at first, which read as fresh orange pine under a torch)
+    img = M.wood_planks(seed=seed, base=(100, 74, 50), planks=4, direction="v", grain=4, contrast=1.0, knots=1, flecks=0.8,
+                        per_plank=8, gap=(36, 26, 18))
+    M.grime(img, 0.26, seed=seed + 1, color=(78, 74, 64), cells=(8, 4), cover=0.6)
     if stained:
         M.tideline(img, 22, seed=seed + 2, color=(56, 44, 30), amount=0.45, wave=1.4, below=0.85)
         M.drips(img, n=2, seed=seed + 3, color=(62, 50, 34), length=(8, 20), strength=0.35, width=2)
@@ -452,6 +456,13 @@ def detail_textures():
     jar = M.noise_hv((88, 78, 52), 5, seed=257, mottle=10)
     M.grime(jar, 0.4, seed=258, color=(46, 52, 30), cells=(8, 4, 2), cover=0.6)
     save(jar, "jar")
+    # Round 2: a heating duct of galvanised sheet metal, dulled grey with dust, a rust bloom at its seams
+    for k, seed in enumerate((261, 262)):
+        duct = M.galvanised(seed=seed, base=(104, 108, 106), spangle=10, white_rust=0.08)
+        M.grime(duct, 0.4, seed=seed + 10, color=(72, 70, 62), cells=(8, 4, 2), cover=0.7)
+        M.emboss_lines(duct, xs=(0, 15, 16, 31), strength=0.18)
+        M.rust(duct, 0.12, seed=seed + 20, color=RUST, dark=RUSTDARK, cells=(4, 2))
+        save(duct, "duct" if k == 0 else "duct-2")
 
 
 # ---- shapes ----
@@ -601,6 +612,16 @@ def rope_model(part):
             kbox("Fray3", (7.75, 1, 8.5), (8.25, 6, 9), "rope", rot=(22.5, 0, 0))]
 
 
+def duct_model():
+    """A rectangular heating duct along the top of the block (west to east), hung from the joists on a strap, a seam
+    flange at the joint."""
+    return [kbox("Duct", (0, 6.5, 2.5), (16, 14.5, 13.5), "duct", faces=("north", "south", "up", "down")),
+            kbox("Flange", (0, 6.2, 2.2), (1, 14.8, 13.8), "duct"),
+            kbox("StrapN", (9, 6, 2), (10, 16, 2.4), "duct"),
+            kbox("StrapS", (9, 6, 13.6), (10, 16, 14), "duct"),
+            kbox("StrapB", (9, 6, 2), (10, 6.4, 14), "duct")]
+
+
 def detail_blocks():
     cube_block("basement-carpet", ["olive", "brown"], {
         "olive": alts("carpet-olive", ["carpet-olive-2"], rotate=True),
@@ -675,6 +696,24 @@ def detail_blocks():
         "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 0.5, "drops": [],
         "sounds": {"place": "game:block/cloth", "break": "game:block/cloth", "hit": "game:block/cloth"},
     }, "The Basement: the frayed end of a rope hanging high in the crack, cut or worn through")
+
+    # Round 2: the heating duct under the ceiling
+    write_shape("duct", duct_model(), {"duct": "backrooms:block/basement/duct"})
+    write_json(os.path.join(BLOCKS, "basement-duct.json"), {
+        "code": "basement-duct",
+        "variantgroups": [{"code": "axis", "states": ["we", "ns"]}],
+        "creativeinventory": {"general": ["*-we"], "decorative": ["*-we"]},
+        "blockmaterial": "Metal", "drawtype": "json",
+        "shapeByType": {"*-we": {"base": "block/basement/duct"}, "*-ns": {"base": "block/basement/duct", "rotateY": 90}},
+        "texturesByType": {"*": {"duct": {"base": "block/basement/duct", "alternates": [{"base": "block/basement/duct-2"}]}}},
+        "collisionboxByType": {"*-we": {"x1": 0, "y1": 0.375, "z1": 0.125, "x2": 1, "y2": 1, "z2": 0.875},
+                               "*-ns": {"x1": 0.125, "y1": 0.375, "z1": 0, "x2": 0.875, "y2": 1, "z2": 1}},
+        "selectionboxByType": {"*-we": {"x1": 0, "y1": 0.375, "z1": 0.125, "x2": 1, "y2": 1, "z2": 0.875},
+                               "*-ns": {"x1": 0.125, "y1": 0.375, "z1": 0, "x2": 0.875, "y2": 1, "z2": 1}},
+        "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 2,
+        "drops": [{"type": "item", "code": "metalbracket", "quantity": {"avg": 0.5, "var": 0.5}}],
+        "sounds": {"place": "game:block/anvil1", "break": "game:block/heavymetal-hit", "hit": "game:block/heavymetal-hit"},
+    }, "The Basement: a heating duct of galvanised sheet metal under the ceiling, grey with dust")
 
     # The elevator in the distance: Level 5's cage lift set in the Basement's cinder block, dead (no way through)
     lift_shape = {}
