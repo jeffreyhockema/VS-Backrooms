@@ -1,0 +1,241 @@
+// Level 31's Coach (Wikidot): a friendly, talking Faceling in a striped coach's shirt with a name tag, behind the Skate Rental counter. Cannot be hurt, is never kept with the world; Regions.L31System puts him down and speaks for him
+{
+	"class": "BackroomsL31Staff",
+	"tags": [
+		"backrooms-entity",
+		"humanoid"
+	],
+	"weight": 70,
+	"hitboxSize": {
+		"x": 0.6,
+		"y": 1.85
+	},
+	"eyeHeight": 1.7,
+	"code": "l31-coach",
+	"attributes": {
+		"invulnerable": true,
+		"l31staff": "coach"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/faceling"
+		},
+		"texture": {
+			"base": "backrooms:entity/31/coach"
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": false
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.01
+			},
+			{
+				"code": "interpolateposition"
+			},
+			{
+				"code": "nametag",
+				"showtagonlywhentargeted": true
+			},
+			{
+				"code": "conversable",
+				"dialogue": "backrooms:config/dialogue/l31-coach",
+				"approachPlayer": false
+			}
+		],
+		"animations": [
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.5,
+				"blendMode": "AddAverage",
+				"weight": 10
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			},
+			{
+				"code": "idle",
+				"animation": "idle1",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				}
+			},
+			{
+				"code": "walk",
+				"animation": "walk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "run",
+				"animation": "sprint",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "attack",
+				"animation": "hit",
+				"animationSpeed": 1.2,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "sit",
+				"animation": "sitflooridle",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "lookaround",
+				"animation": "lookaround",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "headscratch",
+				"animation": "headscratch",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "wave",
+				"animation": "wave",
+				"animationSpeed": 0.8,
+				"blendMode": "Average"
+			},
+			{
+				"code": "nod",
+				"animation": "nod",
+				"animationSpeed": 0.9,
+				"blendMode": "Average"
+			},
+			{
+				"code": "shrug",
+				"animation": "shrug",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "stretch",
+				"animation": "stretch",
+				"animationSpeed": 0.9,
+				"blendMode": "Average"
+			},
+			{
+				"code": "yawn",
+				"animation": "yawn",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "facewipe",
+				"animation": "facepalm",
+				"animationSpeed": 0.7,
+				"blendMode": "Average"
+			},
+			{
+				"code": "point",
+				"animation": "point",
+				"animationSpeed": 0.8,
+				"blendMode": "Average"
+			},
+			{
+				"code": "tantrum",
+				"animation": "rage",
+				"animationSpeed": 1.3,
+				"blendMode": "Average"
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": false
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.01
+			},
+			{
+				"code": "nametag",
+				"showtagonlywhentargeted": true,
+				"selectFromRandomName": [
+					"Coach"
+				]
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "lookatentity",
+						"priority": 1.5,
+						"maxTurnAngleDeg": 140,
+						"entityCodes": [
+							"player"
+						],
+						"minduration": 2000,
+						"maxduration": 6000,
+						"mincooldown": 1000,
+						"maxcooldown": 3000
+					},
+					{
+						"code": "idle",
+						"priority": 1.3,
+						"priorityForCancel": 1.35,
+						"animation": "nod",
+						"minduration": 3000,
+						"maxduration": 4000,
+						"mincooldown": 15000,
+						"maxcooldown": 45000
+					},
+					{
+						"code": "idle",
+						"priority": 1.25,
+						"priorityForCancel": 1.35,
+						"animation": "wave",
+						"minduration": 3000,
+						"maxduration": 3500,
+						"mincooldown": 40000,
+						"maxcooldown": 120000
+					},
+					{
+						"code": "idle",
+						"priority": 1.2,
+						"priorityForCancel": 1.35,
+						"animation": "lookaround",
+						"minduration": 3000,
+						"maxduration": 5000,
+						"mincooldown": 8000,
+						"maxcooldown": 25000
+					}
+				]
+			},
+			{
+				"code": "conversable",
+				"dialogue": "backrooms:config/dialogue/l31-coach",
+				"approachPlayer": false
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	}
+}

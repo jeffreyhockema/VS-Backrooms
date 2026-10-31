@@ -1,0 +1,259 @@
+{
+	"components": [
+		{
+			"code": "start",
+			"owner": "trader",
+			"type": "condition",
+			"variable": "player.l31coachmet",
+			"isNotValue": "true",
+			"thenJumpTo": "firstmeet",
+			"elseJumpTo": "welcomeback"
+		},
+		{
+			"code": "firstmeet",
+			"owner": "trader",
+			"type": "talk",
+			"setVariables": {
+				"player.l31coachmet": "true"
+			},
+			"jumpTo": "offer",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-first"
+				}
+			]
+		},
+		{
+			"code": "welcomeback",
+			"owner": "trader",
+			"type": "talk",
+			"jumpTo": "main",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-back-1"
+				},
+				{
+					"value": "backrooms:l31-coach-back-2"
+				},
+				{
+					"value": "backrooms:l31-coach-back-3"
+				}
+			]
+		},
+		{
+			"code": "offer",
+			"owner": "trader",
+			"type": "talk",
+			"jumpTo": "offer-answer",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-offer"
+				}
+			]
+		},
+		{
+			"code": "offer-answer",
+			"owner": "player",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-p-yes",
+					"jumpTo": "lesson"
+				},
+				{
+					"value": "backrooms:l31-coach-p-no",
+					"jumpTo": "sigh"
+				}
+			]
+		},
+		{
+			"code": "sigh",
+			"owner": "trader",
+			"type": "talk",
+			"jumpTo": "main",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-sigh"
+				}
+			]
+		},
+		{
+			"code": "main",
+			"owner": "player",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-p-lesson",
+					"jumpTo": "lesson",
+					"conditions": [
+						{
+							"variable": "player.l31skates",
+							"isNotValue": "true"
+						}
+					]
+				},
+				{
+					"value": "backrooms:l31-coach-p-technique",
+					"jumpTo": "technique",
+					"conditions": [
+						{
+							"variable": "player.l31skates",
+							"isValue": "true"
+						}
+					]
+				},
+				{
+					"value": "backrooms:l31-coach-p-live",
+					"jumpTo": "live"
+				},
+				{
+					"value": "backrooms:l31-coach-p-shadows",
+					"jumpTo": "shadows"
+				},
+				{
+					"value": "backrooms:l31-coach-p-out",
+					"jumpTo": "out"
+				},
+				{
+					"value": "backrooms:l31-coach-p-why",
+					"jumpTo": "why",
+					"conditions": [
+						{
+							"variable": "player.l31coachmet",
+							"isValue": "true"
+						}
+					]
+				},
+				{
+					"value": "backrooms:l31-coach-p-bye",
+					"jumpTo": "bye"
+				}
+			]
+		},
+		{
+			"code": "lesson",
+			"owner": "trader",
+			"type": "talk",
+			"jumpTo": "lesson2",
+			"trigger": "giveitemstack",
+			"triggerdata": {
+				"type": "item",
+				"code": "backrooms:l31-skates",
+				"stacksize": 1
+			},
+			"setVariables": {
+				"player.l31skates": "true"
+			},
+			"text": [
+				{
+					"value": "backrooms:l31-coach-lesson"
+				}
+			]
+		},
+		{
+			"code": "lesson2",
+			"owner": "trader",
+			"type": "talk",
+			"jumpTo": "lesson3",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-lesson2"
+				}
+			]
+		},
+		{
+			"code": "lesson3",
+			"owner": "trader",
+			"type": "talk",
+			"jumpTo": "main",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-lesson3"
+				}
+			]
+		},
+		{
+			"code": "technique",
+			"owner": "trader",
+			"type": "talk",
+			"jumpTo": "main",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-tech-1"
+				},
+				{
+					"value": "backrooms:l31-coach-tech-2"
+				},
+				{
+					"value": "backrooms:l31-coach-tech-3"
+				}
+			]
+		},
+		{
+			"code": "live",
+			"owner": "trader",
+			"type": "talk",
+			"jumpTo": "main",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-live"
+				}
+			]
+		},
+		{
+			"code": "shadows",
+			"owner": "trader",
+			"type": "talk",
+			"jumpTo": "main",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-shadows"
+				}
+			]
+		},
+		{
+			"code": "out",
+			"owner": "trader",
+			"type": "talk",
+			"jumpTo": "out2",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-out"
+				}
+			]
+		},
+		{
+			"code": "out2",
+			"owner": "trader",
+			"type": "talk",
+			"jumpTo": "main",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-out2"
+				}
+			]
+		},
+		{
+			"code": "why",
+			"owner": "trader",
+			"type": "talk",
+			"jumpTo": "main",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-why"
+				}
+			]
+		},
+		{
+			"code": "bye",
+			"owner": "trader",
+			"type": "talk",
+			"trigger": "closedialogue",
+			"text": [
+				{
+					"value": "backrooms:l31-coach-bye"
+				}
+			]
+		}
+	]
+}

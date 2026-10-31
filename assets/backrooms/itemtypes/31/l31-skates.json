@@ -1,0 +1,74 @@
+// Level 31's roller skates, from the Coach's lesson (Fandom: anomalous, hard to fall in): worn on the feet, quick on smooth floors in the level
+{
+	"code": "l31-skates",
+	"maxstacksize": 1,
+	"storageFlags": 128,
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"clothing": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"behaviors": [
+		{
+			"name": "Wearable"
+		}
+	],
+	"shape": {
+		"base": "backrooms:item/31/skates"
+	},
+	"attributes": {
+		"clothescategory": "foot",
+		"wearableAttachment": true,
+		"l31skates": true
+	},
+	"guiTransform": {
+		"translation": {
+			"x": 3,
+			"y": 6,
+			"z": 0
+		},
+		"rotation": {
+			"x": -20,
+			"y": 40,
+			"z": 0
+		},
+		"origin": {
+			"x": 2,
+			"y": 2,
+			"z": 1.5
+		},
+		"scale": 3.2
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.8,
+			"y": -0.3,
+			"z": -0.6
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"scale": 0.8
+	},
+	"groundTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0.15,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 3
+	}
+}

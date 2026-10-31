@@ -1,0 +1,128 @@
+// Level 31's food court: what the Faceling behind the counter serves, free (Wikidot): pizza, pepperoni pizza, wings, a foot-long hot dog
+{
+	"code": "l31-food",
+	"variantgroups": [
+		{
+			"code": "dish",
+			"states": [
+				"pizza",
+				"pepperoni",
+				"wings",
+				"hotdog"
+			]
+		}
+	],
+	"maxstacksize": 8,
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"materialDensity": 600,
+	"textureByType": {
+		"l31-food-pizza": {
+			"base": "item/31/pizza"
+		},
+		"l31-food-pepperoni": {
+			"base": "item/31/pepperoni"
+		},
+		"l31-food-wings": {
+			"base": "item/31/wings"
+		},
+		"l31-food-hotdog": {
+			"base": "item/31/hotdog"
+		}
+	},
+	"nutritionPropsByType": {
+		"l31-food-pizza": {
+			"satiety": 300,
+			"foodcategory": "Grain",
+			"health": 1
+		},
+		"l31-food-pepperoni": {
+			"satiety": 320,
+			"foodcategory": "Protein",
+			"health": 1
+		},
+		"l31-food-wings": {
+			"satiety": 340,
+			"foodcategory": "Protein",
+			"health": 1
+		},
+		"l31-food-hotdog": {
+			"satiety": 380,
+			"foodcategory": "Protein",
+			"health": 1
+		}
+	},
+	"transitionablePropsByType": {
+		"*": [
+			{
+				"type": "Perish",
+				"freshHours": {
+					"avg": 48
+				},
+				"transitionHours": {
+					"avg": 24
+				},
+				"transitionedStack": {
+					"type": "item",
+					"code": "game:rot"
+				},
+				"transitionRatio": 1
+			}
+		]
+	},
+	"attributes": {
+		"handbook": {
+			"groupBy": [
+				"l31-food-*"
+			]
+		}
+	},
+	"guiTransform": {
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.5,
+			"z": 0.5
+		},
+		"scale": 1
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.75,
+			"y": -0.4,
+			"z": -0.55
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.6
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 90,
+			"y": 0,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2
+	}
+}
