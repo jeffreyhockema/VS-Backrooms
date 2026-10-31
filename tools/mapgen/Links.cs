@@ -4,12 +4,19 @@ using Backrooms.Worldgen;
 /// Exercises the whole threshold network outside the game: every kind of threshold found in a sample of each level
 /// is gone through, gone through again (and from another of its tiles), and for two-way ones, come back through.
 static class Links {
-  class Stat { public int OnSteps, OffSteps, OnLanding, OffLanding, FloorOk, FloorBad, Tested, Claimed, Nowhere, Paired, ThinSpot, OneWayFallback, NoHome, RepeatBad, OtherTileBad, BackBad, ApiBackOk, ApiBackBad; public bool TwoWay; public SortedDictionary<int,int> To = new(); }
+  class Stat { public int OnSteps, OffSteps, OnLanding, OffLanding, FloorOk, FloorBad, Tested, Claimed, Nowhere, Paired, ThinSpot, OneWayFallback, NoHome, RepeatBad, OtherTileBad, BackBad, ApiBackOk, ApiBackBad, Built; public bool TwoWay; public SortedDictionary<int,int> To = new(); }
 
   public static void Run(WorldLayout layout, long seed, int smx, int smz) {
     var geometry = new WorldGeometry(256);
     var net = new ThresholdNetwork(layout, geometry, seed);
     var stats = new SortedDictionary<string, Stat>();
+    // Doors and elevators built as ways back where a thin spot would have been: by level and style, and a few drawn
+    var builtBy = new SortedDictionary<string, int>(); var drawnBuilt = new Dictionary<string, int>(); var drawnThin = new Dictionary<int, int>();
+    void Draw(int ax, int az, WayBack? way) {
+      for (int dz = -5; dz <= 5; dz++) { var line = new System.Text.StringBuilder(); for (int dx = -8; dx <= 8; dx++) { int qx = ax + dx, qz = az + dz; Tile q = layout.TileAt(qx, qz);
+        bool door = way is { } w && System.Array.Exists(w.Tiles, t => t.X == qx && t.Z == qz);
+        line.Append(qx == ax && qz == az ? '@' : door ? (way.Value.Wide ? 'E' : 'O') : q.Level != layout.TileAt(ax, az).Level ? '~' : q.Stair > 0 ? (char)('0' + q.Stair) : q.Kind switch { TileKind.Wall => '#', TileKind.Doorway => 'D', TileKind.Door => 'X', TileKind.Bars => '|', TileKind.Floor => q.Sealed ? 's' : q.Variant != 0 || q.Stack != 0 || q.SupplyBox ? 'p' : '.', _ => '?' }); }
+        Console.WriteLine(line); } }
     var taken = new Dictionary<(string, int, int), (Link Link, Link? Home)>();   // by label + source
     var cells = new List<(int, int)>(); var seenCells = new HashSet<(int, int)>();
     void AddCells(int cx, int cz, int r) { for (int dz = -r; dz <= r; dz++) for (int dx = -r; dx <= r; dx++) if (seenCells.Add((cx + dx, cz + dz))) cells.Add((cx + dx, cz + dz)); }
@@ -34,6 +41,14 @@ static class Links {
         WorldLayout.Level3999, WorldLayout.Level188, WorldLayout.Level73, WorldLayout.Basement, WorldLayout.Level52,
         WorldLayout.Level31, WorldLayout.Level55, WorldLayout.Level120, WorldLayout.Level183 })
       for (ulong k = 1; k <= 4; k++) if (layout.FindArrival(level, k * 104729UL + 7) is { } a) AddCells(WorldLayout.MacroOf(a.X), WorldLayout.MacroOf(a.Z), 2);
+    // From layout version 9 Level 6's stairwells down are rare: a few of them, and a few of Level 7's entry rooms, which
+    // are their way back (after everything else again)
+    for (ulong k = 1; k <= 6; k++) {
+      if (layout.FindDescentLanding(k * 104729UL + 11) is { } d) AddCells(WorldLayout.MacroOf(d.X), WorldLayout.MacroOf(d.Z), 0);
+      if (layout.Version >= 9 && layout.FindEntryRoomArrival(k * 104729UL + 11) is { } e) AddCells(WorldLayout.MacroOf(e.X), WorldLayout.MacroOf(e.Z), 0);
+    }
+    // A stairs to nowhere that goes on in the dark (layout version 10, seed 12345), for the trip from its landing
+    if (layout.Version >= 10) AddCells(512947 / 32, 512231 / 32, 0);
     Console.WriteLine($"sampling {cells.Count} cells");
 
     var sw = System.Diagnostics.Stopwatch.StartNew();
@@ -43,11 +58,13 @@ static class Links {
       for (int i = 0; i < tiles.Length; i++) {
         Tile t = tiles[i]; int x = mx * 32 + i % 32, z = mz * 32 + i / 32;
         // Thresholds you walk, fall or swim into
-        // (Up into the shaft over a Level 1 stair core last, so every other threshold is found as it was)
-        foreach (double rel in new[] { 3.0, 1.2, -300.0, 6.0 }) {
+        // (Up into the shaft over a Level 1 stair core last, so every other threshold is found as it was; then up an entry
+        // room's stairs into Level 7's pier, from layout version 9, which only trips that high)
+        foreach (double rel in new[] { 3.0, 1.2, -300.0, 6.0, 10.0 }) {
           Passage p = net.Walked(x, z, t, rel);
           if (p == null) continue;
-          string label = $"L{t.Level,-2} " + (t.Kind == TileKind.Pit ? (t.Level == 0 ? "pit" : t.Under == Unders.Collapse ? "fallen-in street" : "open manhole") : t.Stair > 0 && t.Under == 0 ? (!WorldLayout.IsShaftFlight(t) ? "stairs" : t.Zone == WorldLayout.FlightZoneDown ? "flight down"
+          if (rel == 10.0 && !WorldLayout.IsEntryStair(t) && t.Zone != WorldLayout.NowhereLanding) continue;
+          string label = $"L{t.Level,-2} " + (t.Zone == WorldLayout.NowhereLanding ? "stairs, dark landing" : t.Kind == TileKind.Pit ? (t.Level == 0 ? "pit" : t.Under == Unders.Collapse ? "fallen-in street" : "open manhole") : WorldLayout.IsEntryStair(t) ? "entry room stairs" : t.Stair > 0 && t.Under == 0 ? (!WorldLayout.IsShaftFlight(t) ? "stairs" : t.Zone == WorldLayout.FlightZoneDown ? "flight down"
               : t.Zone == WorldLayout.FlightZoneFun ? "flight up to Fun" : "flight up")
             : t.Variant == Props.Tripwire ? "tripwire" : t.Variant == Props.FieldGate ? "field gate" : t.Under switch { Unders.Circle => "stone circle", Unders.Cave => "sea cave",
               Unders.Descent2 or Unders.Descent3 => "stairs down", Unders.LakeBottom => "lake bottom", Unders.Noclip => "barn wall", Unders.GarageRamp => "garage ramp",
@@ -120,8 +137,28 @@ static class Links {
       // And back
       // (Up a Level 1 stair core's flight and out on stairs of the old kind, the way back comes out at the top of the
       // flight down beside it, not at the foot of the one gone up)
+      if (link.Marker && p.WayBack != WayBackKind.None && drawnThin.GetValueOrDefault(to) < 2) { drawnThin[to] = drawnThin.GetValueOrDefault(to) + 1;
+        Console.WriteLine($"--- {label.Trim()} from {p.Source}: no wall for a {p.WayBack} near the arrival {ax},{az} in L{to}, a thin spot (@ arrival; # wall, . floor, s sealed, p prop, X door, D doorway, ~ another level)");
+        Draw(ax, az, null); }
       if (link.Marker) { if (net.TryGet((ax, az), out Link back) && back == home) s.ThinSpot++; else s.BackBad++;
         Passage spot = net.Used(ax, az, "thinspot", out _); if (spot != null && net.Take(spot, null) == home) s.ApiBackOk++; else s.ApiBackBad++; }
+      else if (net.WayBackOf(p.Source) is { } way) {
+        // A door or an elevator built as the way back: every leaf of it is written down as the way home, and using it
+        // (as the block standing there would: its own kind) leads home; the arrival is the floor in front of it
+        s.Built++;
+        string key = $"L{to,-2} {way.Style}"; builtBy[key] = builtBy.GetValueOrDefault(key) + 1;
+        string useKind = way.Style switch { WayBackStyle.OfficeDoor or WayBackStyle.MetalDoor => "locked", WayBackStyle.TunnelDoor => "tunneldoor", WayBackStyle.HotelDoor => "door",
+          WayBackStyle.PoolDoor => "pooldoor", _ => "elevator" };
+        var (fdx, fdz) = way.Facing switch { ArchPier.North => (0, -1), ArchPier.South => (0, 1), ArchPier.East => (1, 0), _ => (-1, 0) };
+        bool inFront = false; foreach (var (tx, tz) in way.Tiles) { if (tx + fdx == ax && tz + fdz == az) inFront = true;
+          if (!net.TryGet((tx, tz), out Link viaDoor) || viaDoor != home) s.BackBad++;
+          Passage ret = net.Used(tx, tz, useKind, out _); if (ret != null && net.Take(ret, null) == home) s.ApiBackOk++; else s.ApiBackBad++; }
+        if (!inFront) s.BackBad++;
+        if (drawnBuilt.GetValueOrDefault(key) < 2) { drawnBuilt[key] = drawnBuilt.GetValueOrDefault(key) + 1;
+          Console.WriteLine($"--- {label.Trim()} from {p.Source}: {way.Style} built at {way.X},{way.Z} facing {way.Facing}, arrival {ax},{az} (@ arrival, O door, E elevator leaf; # wall, . floor, s sealed, p prop, X door, D doorway, ~ another level)");
+          Console.WriteLine($"    (in the game: /backrooms wayback {kind} {x} {z})");
+          Draw(ax, az, way); }
+      }
       else if (p.ReturnFeature != null && layout.FeatureBeside(ax, az, p.ReturnFeature) is { } f && net.TryGet(f, out Link viaFeature) && viaFeature == home) {
         s.Paired++;
         // Through a Level 1 stair core's flight (from layout version 4), or out of one: out on the landing of the flight
@@ -157,8 +194,9 @@ static class Links {
           }
         }
         if (p.ReturnFeature == ThresholdNetwork.Stairs) {
-          // Climb the stairs it arrived beside: any step high enough must lead home
+          // Climb the stairs it arrived beside: any step high enough must lead home (from layout version 10 the way on to the landing of a stairs to nowhere's)
           bool ok = false; for (int dz = -8; dz <= 8 && !ok; dz++) for (int dx = -8; dx <= 8 && !ok; dx++) { Tile st = layout.TileAt(f.X + dx, f.Z + dz);
+            if (st.Zone == WorldLayout.NowhereLanding && net.NowhereFlight(f.X + dx, f.Z + dz, st) == f) { Passage land = net.Walked(f.X + dx, f.Z + dz, st, 10.0); if (land != null) ok = net.Take(land, null) == home; continue; }
             if (!ThresholdNetwork.Stairs(st) || layout.FeatureOrigin(f.X + dx, f.Z + dz, ThresholdNetwork.Stairs) != f) continue;
             Passage up = net.Walked(f.X + dx, f.Z + dz, st, 3.0); if (up != null) ok = net.Take(up, null) == home; }
           if (ok) s.ApiBackOk++; else s.ApiBackBad++;
@@ -183,18 +221,35 @@ static class Links {
     foreach (var (label, s) in stats) if (s.OnSteps + s.OffSteps > 0) Console.WriteLine($"{label.Trim()}: {s.OnSteps} arrived on the steps of the way back (home on the steps too), {s.OffSteps} did not");
     foreach (var (label, s) in stats) if (s.OnLanding + s.OffLanding > 0) Console.WriteLine($"{label.Trim()}: {s.OnLanding} arrived where they should (a stairwell's landing, facing away, or near the top of old stairs) with home where it should be, {s.OffLanding} did not; floors {s.FloorOk} right, {s.FloorBad} wrong; thin spot (no stairwell found) {s.ThinSpot}");
     Console.WriteLine($"{taken.Count} thresholds gone through in {sw.ElapsedMilliseconds} ms; {net.Count} links written down\n");
-    Console.WriteLine($"{"threshold",-34} {"n",4} {"way",-4} {"paired",6} {"claimd",6} {"thin",5} {"1-way",5} {"nohome",6} {"nowhere",7} {"repeat!",7} {"tile!",5} {"back!",5} {"apiback",8}  leads to");
+    Console.WriteLine($"{"threshold",-34} {"n",4} {"way",-4} {"paired",6} {"claimd",6} {"thin",5} {"built",5} {"1-way",5} {"nohome",6} {"nowhere",7} {"repeat!",7} {"tile!",5} {"back!",5} {"apiback",8}  leads to");
     foreach (var (label, s) in stats) {
       string to = string.Join(" ", s.To.Select(p => $"{(p.Key == 61 ? "6.1" : p.Key == -1 ? "(back)" : "L" + p.Key)}x{p.Value}"));
-      Console.WriteLine($"{label,-34} {s.Tested,4} {(s.To.Count == 0 ? "" : s.TwoWay ? "2" : "1"),-4} {s.Paired,6} {s.Claimed,6} {s.ThinSpot,5} {s.OneWayFallback,5} {s.NoHome,6} {s.Nowhere,7} {s.RepeatBad,7} {s.OtherTileBad,5} {s.BackBad,5} {s.ApiBackOk + "/" + (s.ApiBackOk + s.ApiBackBad),8}  {to}");
+      Console.WriteLine($"{label,-34} {s.Tested,4} {(s.To.Count == 0 ? "" : s.TwoWay ? "2" : "1"),-4} {s.Paired,6} {s.Claimed,6} {s.ThinSpot,5} {s.Built,5} {s.OneWayFallback,5} {s.NoHome,6} {s.Nowhere,7} {s.RepeatBad,7} {s.OtherTileBad,5} {s.BackBad,5} {s.ApiBackOk + "/" + (s.ApiBackOk + s.ApiBackBad),8}  {to}");
     }
 
-    // Saved and loaded again, the network is the same
-    byte[] saved = net.Save();
+    Console.WriteLine($"\nways back built (doors and elevators where a thin spot would have been), by level and style: {string.Join(", ", builtBy.Select(b => $"{b.Key.Trim()} x{b.Value}"))}");
+    // Saved and loaded again, the network is the same (the ways back too, kept apart from the links)
+    byte[] saved = net.Save(), savedWays = net.SaveWayBacks();
     var copy = new ThresholdNetwork(layout, geometry, seed);
-    bool whole = copy.Load(saved);
-    int same = 0; foreach (var ((_, sx, sz), v) in taken) if (copy.TryGet((sx, sz), out Link l) && net.TryGet((sx, sz), out Link o) && l == o) same++;
-    Console.WriteLine($"\nsave/load: {(whole ? "read" : "NOT READ")}, {copy.Count} of {net.Count} links, {same}/{taken.Count} sources the same");
+    bool whole = copy.Load(saved), wholeWays = copy.LoadWayBacks(savedWays);
+    int same = 0, sameWays = 0, ways = 0; foreach (var ((_, sx, sz), v) in taken) { if (copy.TryGet((sx, sz), out Link l) && net.TryGet((sx, sz), out Link o) && l == o) same++;
+      if (net.WayBackOf((sx, sz)) is { } w) { ways++; if (copy.WayBackOf((sx, sz)) == w) sameWays++; } }
+    Console.WriteLine($"\nsave/load: {(whole ? "read" : "NOT READ")}, {copy.Count} of {net.Count} links, {same}/{taken.Count} sources the same; ways back {(wholeWays ? "read" : "NOT READ")}, {copy.WayBackCount} of {net.WayBackCount}, {sameWays}/{ways} the same");
+    // An older save (links only, no ways back saved): every link reads as before and no way back is made up; ways back
+    // saved without their links (as a damaged or mismatched save would have them) are left out
+    var older = new ThresholdNetwork(layout, geometry, seed);
+    bool olderRead = older.Load(saved) && older.LoadWayBacks(null);
+    var orphan = new ThresholdNetwork(layout, geometry, seed);
+    bool orphanRead = orphan.Load(System.Array.Empty<byte>()) && orphan.LoadWayBacks(savedWays);
+    var cutWays = new ThresholdNetwork(layout, geometry, seed); cutWays.Load(saved);
+    bool cutWaysRead = net.WayBackCount == 0 || cutWays.LoadWayBacks(savedWays[..(savedWays.Length - 10)]);
+    byte[] newerWays = (byte[])savedWays.Clone(); newerWays[0] = 99;
+    var futureWays = new ThresholdNetwork(layout, geometry, seed); futureWays.Load(saved);
+    bool futureWaysRead = futureWays.LoadWayBacks(newerWays);
+    bool waysOk = olderRead && older.Count == net.Count && older.WayBackCount == 0 && orphanRead && orphan.WayBackCount == 0
+      && !cutWaysRead && cutWays.WayBackCount == Math.Max(0, net.WayBackCount - 1) && !futureWaysRead && futureWays.WayBackCount == 0;
+    Console.WriteLine($"ways back: older save (no ways back) read {olderRead} with {older.Count} links and {older.WayBackCount} ways back; ways back without links kept {orphan.WayBackCount}; "
+      + $"cut-off end kept {cutWays.WayBackCount}, newer version kept {futureWays.WayBackCount}: {(waysOk ? "ok" : "WRONG")}");
     // Damaged and foreign data: a cut-off end keeps every whole link before it, a newer version keeps nothing, and
     // neither is taken for a clean read
     var cut = new ThresholdNetwork(layout, geometry, seed);

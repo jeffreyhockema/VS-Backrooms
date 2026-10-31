@@ -1,0 +1,100 @@
+// Level 974: the wall beside a doorway, its casing on the wall (the suffix is the side the opening is on)
+{
+	"code": "l974-jamb",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"base",
+				"plain"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l974-jamb-base-north": {
+			"base": "backrooms:block/974/l974-jamb-base"
+		},
+		"l974-jamb-base-east": {
+			"base": "backrooms:block/974/l974-jamb-base",
+			"rotateY": 270
+		},
+		"l974-jamb-base-south": {
+			"base": "backrooms:block/974/l974-jamb-base",
+			"rotateY": 180
+		},
+		"l974-jamb-base-west": {
+			"base": "backrooms:block/974/l974-jamb-base",
+			"rotateY": 90
+		},
+		"l974-jamb-plain-north": {
+			"base": "backrooms:block/974/l974-jamb-plain"
+		},
+		"l974-jamb-plain-east": {
+			"base": "backrooms:block/974/l974-jamb-plain",
+			"rotateY": 270
+		},
+		"l974-jamb-plain-south": {
+			"base": "backrooms:block/974/l974-jamb-plain",
+			"rotateY": 180
+		},
+		"l974-jamb-plain-west": {
+			"base": "backrooms:block/974/l974-jamb-plain",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l974-jamb-base-north"
+		],
+		"backrooms": [
+			"l974-jamb-base-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"drops": [],
+	"texturesByType": {
+		"*": {
+			"paint-1": {
+				"base": "block/974/paint-1",
+				"alternates": [
+					{
+						"base": "block/974/paint-2"
+					},
+					{
+						"base": "block/974/paint-3"
+					},
+					{
+						"base": "block/974/paint-4"
+					}
+				]
+			}
+		}
+	},
+	"attributes": {
+		"l974structure": true
+	}
+}

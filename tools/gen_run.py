@@ -208,11 +208,17 @@ def glyphs(img, rows_list, x, y, color, gap=1):
 def exit_face(state):
     """The face of a lit EXIT sign: red letters on near-black, a chevron either side. Drawn in rows 9-22 (the face's
     UV band), letters 7 px high."""
-    bg = {"lit": 0x1C0605, "dim": 0x160504, "bright": 0x260807, "off": 0x120707, "dead": 0x0C0B0A}[state]
-    fg = {"lit": 0xFF2A1E, "dim": 0xB01810, "bright": 0xFF5A48, "off": 0x4A1612, "dead": 0x2E1A16}[state]
+    bg = {"lit": 0x1C0605, "dim": 0x120403, "bright": 0x260807, "off": 0x120707, "dead": 0x0C0B0A}[state]
+    fg = {"lit": 0xFF2A1E, "dim": 0x961410, "bright": 0xFF5A48, "off": 0x4A1612, "dead": 0x2E1A16}[state]
     img = noise(bg, 2, "exitface" + state)
     x = glyphs(img, [CHEVRON_L], 2, 12, rgb(fg))
-    x = glyphs(img, [GLYPHS[c] for c in "EXIT"], x, 12, rgb(fg))
+    if state == "dim":
+        # (0.514.0) Over a false exit: "a little darker", and its X has burnt out, E IT, so it can be learnt
+        dead = rgb({"dim": 0x3A100C}[state])
+        for c in "EXIT":
+            x = glyphs(img, [GLYPHS[c]], x, 12, dead if c == "X" else rgb(fg)) + 0
+    else:
+        x = glyphs(img, [GLYPHS[c] for c in "EXIT"], x, 12, rgb(fg))
     glyphs(img, [CHEVRON_R], x, 12, rgb(fg))
     px = img.load()
     if state in ("lit", "bright"):
@@ -438,6 +444,24 @@ def textures():
     save(lower, "exitdoor-lower")
     save(upper, "exitdoor-upper")
     save(door_leaf(0x8E1814, "exitdoorback", 3), "exitdoor-back")
+    # (0.514.0) The light under the real exit: pale warm daylight, brightest in the middle of the gap
+    img = Image.new("RGBA", (S, 8))
+    px = img.load()
+    for y in range(8):
+        for x in range(S):
+            edge = min(x, S - 1 - x) / 6
+            f = min(1.0, 0.72 + 0.28 * edge) * (1 - 0.06 * abs(y - 3.5) / 3.5)
+            px[x, y] = (clamp(236 * f), clamp(220 * f), clamp(188 * f), 255)
+    save(img, "exitdaylight")
+    # (0.514.0) The same gap under a fake exit: only the dark of the closet behind it, a little lighter at the middle
+    img = Image.new("RGBA", (S, 8))
+    px = img.load()
+    for y in range(8):
+        for x in range(S):
+            edge = min(x, S - 1 - x) / 6
+            f = min(1.0, 0.8 + 0.2 * edge)
+            px[x, y] = (clamp(30 * f), clamp(24 * f), clamp(22 * f), 255)
+    save(img, "exitgap")
     # The inside of the door you came in by: pale, with a huge red "!" painted across it, running
     big = Image.new("RGBA", (S, 2 * S))
     big.paste(door_leaf(0xD8D6CE, "markedhi", 2), (0, 0))
@@ -544,14 +568,6 @@ def textures():
     T.blotch(img, (12, 10), 12, (120, 168, 164), 0.3, seed_of("chairhi"))
     save(img, "chairplastic")
     save(noise(0x3A3E42, 3, "beamsteel"), "beamsteel")
-    # Crash cart: red drawers with yellow labels; its side; the defibrillator
-    img = noise(0xB82820, 3, "cartfront")
-    d = ImageDraw.Draw(img)
-    for y in (6, 11, 16, 21, 26):
-        d.line([1, y, S - 2, y], fill=rgb(0x7A1612))
-        d.rectangle([3, y + 1, 8, y + 2], fill=rgb(0xF0C838))
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8C1C16))
-    save(img, "cartfront")
     save(noise(0xB82820, 3, "cartside"), "cartside")
     img = noise(0x3A3A3A, 3, "defib")
     d = ImageDraw.Draw(img)
@@ -762,6 +778,7 @@ def walls():
     name("run-wall-base", "Hospital Wall")
     name("run-wall-rail-*", "Hospital Wall with Crash Rail")
     name("run-wall-railcorner-*", "Hospital Wall with Crash Rail")
+    name("run-wall-railshort-*", "Hospital Wall with Crash Rail")
     name("run-wall-void", "Dark Wall")
 
     # Emergency beacons: a red dome on a bracket high on the wall, with a wire guard. They flash (glow only) while
@@ -1052,13 +1069,35 @@ def exit_doors():
                 bx("CaseR", (12.5, 12.5, -2 + dz), (14.5, 15.5, 1 + dz), "steelframe"),
                 bx("Bar", (3.5, 13, -1.8 + dz), (12.5, 15, -0.3 + dz), "panicbar")]
 
+    def pull(dz=0):
+        # (0.515.0) The push side of a fire door, seen from behind where the door stands in a wall with open floor on the
+        # far side: a vertical pull handle on two stand-offs and a kick plate, in the door's own steel; no EXIT on it
+        return [bx("StandoffA", (11.6, 3.5, 3 + dz), (12.6, 4.5, 4.4 + dz), "steelframe", faces=("south", "up", "down", "east", "west")),
+                bx("StandoffB", (11.6, 10.5, 3 + dz), (12.6, 11.5, 4.4 + dz), "steelframe", faces=("south", "up", "down", "east", "west")),
+                bx("Handle", (11.7, 3, 4.4 + dz), (12.5, 12, 5.4 + dz), "panicbar"),
+                bx("BackKick", (1, 0.5, 3), (15, 3.5, 3.5), "panicbar", faces=("south", "up", "east", "west"))]
+
+    def closer():
+        # The door closer on the push side, high on the leaf: a box and a jointed arm along the head, and a fire door plate
+        return [bx("Closer", (9.5, 11.5, 3), (14.5, 13.5, 4.6), "steelframe", faces=("south", "up", "down", "east", "west")),
+                bx("Arm", (3.5, 12.1, 3), (9.5, 12.9, 3.7), "panicbar", faces=("south", "up", "down", "west")),
+                bx("Plate", (2, 5, 3), (6, 7, 3.3), "panicbar", faces=("south", "up", "down", "east", "west"))]
+
+    def placard(z, face, y=6):
+        # (0.516.0) A stairwell placard (NO RE-ENTRY) at eye height; `z` is the plane it is stuck to, `face` the side it reads from
+        z0, z1 = (z, z + 0.6) if face == "north" else (z, z + 0.5)
+        return [bx("Placard", (1, y, z0), (15, y + 7.5, z1), "returnplacard", faces=(face,)),
+                bx("PlacardEdge", (1, y, z0), (15, y + 7.5, z1), "steelframe", faces=tuple(f for f in ("north", "south", "east", "west", "up", "down") if f != face))]
+
     def build(st, part):
         if st == "arrival":
             # Flush on the surface of a wall, in the air block in front of it, its back against the wall
             els = frame("steelframe", upper=part == "upper", z0=12, z1=16)
-            els += leaf("markeddoor-" + part, "exitdoor-back", 13, 15)
+            els += leaf("returndoor-" + part, "exitdoor-back", 13, 15)
             if part == "lower":
                 els += panic(13)
+            else:
+                els += placard(12.4, "north")
             return els
         els = frame("steelframe", upper=part == "upper")
         if st == "fake-open":
@@ -1066,20 +1105,68 @@ def exit_doors():
             els += [bx("Leaf", (0.2, 0, 3), (2.2, 16, 19), "exitdoor-back"),
                     bx("Hinge", (-0.3, 4, 1), (0.6, 7, 3), "steelframe")]
             return els
-        front = "markeddoor-" + part if st == "marked" else "exitdoor-" + part
+        front = "markeddoor-" + part if st == "marked" else ("returndoor-" if st == "returned" else "exitdoor-") + part
+        if st in ("true", "fake") and part == "lower":
+            # (0.514.0) Both exits' leaves stop short of the floor, so the doors match. Under the real exit a faint
+            # daylight shows in the gap (the lore's way out leads somewhere lit and safe) and the block gives off a soft
+            # light (lightHsvByType); under a fake exit the gap is only the dark of the closet behind it
+            lit = st == "true"
+            gap = "exitdaylight" if lit else "exitgap"
+            els += [bx("Leaf", (0, 1.25, 1), (16, 16, 3), front, faces=("north",), uv=[0, 0, 16, 14.75]),
+                    bx("LeafBack", (0, 1.25, 1), (16, 16, 3), "exitdoor-back", faces=("south", "east", "west", "up", "down")),
+                    bx("Gap", (0.4, 0, 2.2), (15.6, 1.25, 2.4), gap, glow=110 if lit else 0, faces=("north",), uv=[0, 0, 16, 2]),
+                    bx("Sill", (0, 0, 0.6), (16, 0.15, 2.2), gap, glow=60 if lit else 0, faces=("up",), uv=[0, 0, 16, 2])]
+            els += panic() + [bx("Kick", (1, 1.75, 0.5), (15, 4.5, 1), "panicbar", faces=("north", "up", "down", "east", "west"))]
+            if st in ("true", "fake"):
+                els += pull()[:3]
+            return els
         els += leaf(front, "exitdoor-back")
         if part == "lower":
             els += panic() + [bx("Kick", (1, 0.5, 0.5), (15, 3.5, 1), "panicbar", faces=("north", "up", "east", "west"))]
+            if st in ("entry", "returned"):
+                els += pull()
+        elif st in ("entry", "true", "fake"):
+            els += closer()
+        elif st == "returned":
+            # The placard on the face only: on the push side it would run into the closer, and entry's back has none
+            els += closer() + placard(1 - 0.6, "north")
         return els
-    states = ["true", "fake", "fake-open", "marked", "entry", "arrival"]
-    kinds = {"true": "runexit", "fake": "runfake", "marked": "runmarked", "entry": "runentry", "arrival": "runentry"}
+    states = ["true", "fake", "fake-open", "marked", "entry", "arrival", "returned"]
+    kinds = {"true": "runexit", "fake": "runfake", "marked": "runmarked", "entry": "runentry", "arrival": "runentry", "returned": "runentry"}
     sel = {f"*-arrival-*-{sd}": K.cuboid((0, 0, 0.75, 1, 1, 1), sd) for sd in SIDES}
     door_type("run-exitdoor", "Exit Door", states, build, kinds,
               "Red fire doors with panic bars, facing <side>. true: the real exit (runexit). fake: a fake exit (runfake); "
               "fake-open: it swung inward onto an empty closet. marked: the door you came in by, a huge red '!' on its inside "
               "(runmarked). entry: the way in, set into a wall in Levels 1 and 37 (runentry). arrival: the door left where an "
-              "escaped runner comes out, flush on a wall in the air block in front of it, '!' on its face (runentry)",
-              passable=("fake-open",), selection=sel)
+              "escaped runner comes out, flush on a wall in the air block in front of it, a NO RE-ENTRY placard on its face (runentry). returned: that door set into a wall like entry, replacing an ordinary door in Levels 1, 4 and The End once a runner has escaped; red, no EXIT, a NO RE-ENTRY placard on its face (runentry). The "
+              "true and fake doors' lower halves stop short of the floor; the true one shows a faint daylight in the gap and gives off a soft light, the fake one only dark",
+              passable=("fake-open",), selection=sel,
+              light={"lightHsvByType": {"*-true-lower-*": [8, 2, 8]}, "lightAbsorptionByType": {"*-true-lower-*": 0, "*": 99}})
+
+
+def prize():
+    """(0.516.0) The present left by the door where an escaped runner comes back: a box in plain brown paper, tied with
+    twine, a hand-written tag on the string. Break it to open it: 25 rusty gears and 2 temporal gears."""
+    a, b, h = 3, 13, 7
+    els = [bx("Box", (a, 0, a), (b, h, b), "prizekraft"),
+           bx("Fold", (a - 0.2, h - 0.01, 6.5), (b + 0.2, h + 0.3, 9.5), "prizekraft", faces=("up", "north", "south")),
+           bx("TwineX", (7.2, -0.01, a - 0.2), (8.4, h + 0.35, b + 0.2), "prizetwine", faces=("north", "south", "up")),
+           bx("TwineZ", (a - 0.2, -0.01, 7.2), (b + 0.2, h + 0.35, 8.4), "prizetwine", faces=("east", "west", "up")),
+           bx("Knot", (7, h + 0.3, 7), (8.6, h + 1.3, 8.6), "prizetwine"),
+           bx("LoopA", (4.8, h + 0.3, 7.4), (7.4, h + 2, 8.2), "prizetwine", rot=(0, 25, 0), origin=(7.8, h, 7.8)),
+           bx("LoopB", (8.2, h + 0.3, 7.4), (10.8, h + 2, 8.2), "prizetwine", rot=(0, -25, 0), origin=(7.8, h, 7.8)),
+           bx("TagString", (8.2, 4.6, b + 0.2), (8.8, 5.6, b + 0.5), "prizetwine"),
+           bx("Tag", (8.3, 0.9, b + 0.25), (12.3, 5.1, b + 0.5), "prizetag", faces=("north", "south"), uv=[0, 0, 4, 6], rot=(0, 0, -7), origin=(8.5, 5, b + 0.3))]
+    # Both big faces show the same 4 x 6 patch of the picture: the tag is a card with writing on one side
+    for e in els:
+        if e["name"] == "Tag":
+            for f in e["faces"].values():
+                f["uv"] = [0, 0, 4, 6]
+    prop("run-prize", "Present", els, box=(a / 16 - 0.02, 0, a / 16 - 0.02, b / 16 + 0.02, (h + 1) / 16, b / 16 + 0.02), oriented=False,
+         material="Wood", sounds=CLOTH, collide=False,
+         comment="Level !: the present left by the door of an escaped runner. Break it to open it: 25 rusty gears, 2 temporal gears",
+         extra={"resistance": 0.8, "drops": drops(("game:gear-rusty", 25, 0), ("game:gear-temporal", 2, 0)),
+                "selectionbox": K.cuboid((a / 16 - 0.02, 0, a / 16 - 0.02, b / 16 + 0.02, (h + 2) / 16, b / 16 + 0.02))})
 
 
 def chained_door():
@@ -1338,32 +1425,7 @@ def props():
     data["selectionboxByType"] = coll
     write_json(data_path, data, head[3:])
 
-    # What trips a runner in the dark: a toy car, two boxes, an extension cord
-    car = [bx("Body", (5, 0.8, 6), (11, 2.6, 10), "toyred"), bx("Cab", (6, 2.6, 6.8), (9.5, 3.8, 9.2), "toyyellow"),
-           bx("Bumper", (4.6, 0.8, 6.5), (5, 1.8, 9.5), "toyyellow")]
-    for n, (x, z) in enumerate(((6, 5.6), (10, 5.6), (6, 10.4), (10, 10.4))):
-        car.append(bx(f"Wheel{n}", (x - 0.8, 0, z - 0.6), (x + 0.8, 1.6, z + 0.6), "rubber"))
-    car = [dict(e, rotationY=25, rotationOrigin=[8, 0, 8]) for e in car]
-    prop("run-toycar", "Toy Car", car, box=(0.25, 0, 0.3, 0.75, 0.25, 0.7), collide=False, material="Wood", sounds=WOOD,
-         comment="A child's toy car on the floor, hard to see in the dark (trips a sprinter)", extra={"drops": []})
-    bxs = [bx("Big", (2, 0, 4), (7, 4, 9), "runbox", faces=("north", "east", "south", "west", "down")),
-           bx("BigTop", (2, 0, 4), (7, 4, 9), "runboxtop", faces=("up",), uv=[0, 0, 16, 16]),
-           bx("Small", (9, 0, 8), (13, 3, 12), "runbox", faces=("north", "east", "south", "west", "down"), rot=(0, 30, 0)),
-           bx("SmallTop", (9, 0, 8), (13, 3, 12), "runboxtop", faces=("up",), uv=[0, 0, 16, 16], rot=(0, 30, 0))]
-    prop("run-boxes", "Boxes", bxs, box=(0.1, 0, 0.2, 0.85, 0.25, 0.8), collide=False, material="Wood", sounds=CLOTH,
-         comment="Two small cardboard boxes dropped in the hall (trip a sprinter)",
-         extra={"drops": drops(("game:paper-parchment", 0.5, 0.5))})
-    cord = []
-    for k in range(4):
-        x = 7.5 + (1 if k % 2 else -0.5)
-        cord.append(bx(f"Cord{k}", (x, 0, k * 4), (x + 1, 0.8, k * 4 + 4.2), "cord"))
-        if k:
-            cord.append(bx(f"Bend{k}", (7, 0, k * 4 - 0.5), (9.5, 0.8, k * 4 + 0.5), "cord"))
-    cord += [bx("Plug", (6.5, 0, 13.5), (8.5, 2, 16), "plug"), bx("Prong1", (6.9, 0.5, 16), (7.3, 1.5, 17), "chrome"),
-             bx("Prong2", (7.7, 0.5, 16), (8.1, 1.5, 17), "chrome")]
-    prop("run-cord", "Extension Cord", cord, box=(0.4, 0, 0, 0.6, 0.1, 1), collide=False, material="Cloth", sounds=CLOTH,
-         comment="An orange extension cord stretched across the hall, along the model's Z (north-south when facing north)",
-         extra={"drops": drops(("scrapwire", 1, 0.5))})
+    # (What trips a runner in the dark, the toys, boxes, cord and fallen ceiling, is trip_props(), after gauntlet(): it uses its rubble)
     sheets = [bx("Sheet", (1, 0, 1), (15, 0.6, 15), "sheet"), bx("Fold1", (2, 0.6, 2.5), (13, 1.5, 5), "sheet"),
               bx("Fold2", (3, 0.6, 6.5), (15, 1.9, 9.5), "sheet"), bx("Fold3", (1.5, 0.6, 10.5), (10, 1.3, 14), "sheet"),
               bx("Fold4", (5, 1.5, 7.2), (12, 2.4, 8.8), "sheet")]
@@ -1478,20 +1540,101 @@ def props():
                 bx(f"Brace{n}", (1.8, 0.4, z - 0.3), (14.2, 1, z + 0.3), "chrome")]
     prop("run-safecot", "Cot", {"head": clip(cot, "z", 0, 16, 0), "foot": clip(cot, "z", 16, 32, -16)},
          box=(0, 0, 0, 1, 0.5, 1), material="Cloth", sounds=CLOTH,
-         comment="A cot in a Safe Zone side room, two blocks (head, foot; head to the north). Decor, not a bed",
-         extra={"drops": drops(("game:cloth-plain", 1, 0.5), ("metalbracket", 1, 0.5))})
+         comment="A cot in a Safe Zone side room, two blocks (head, foot; head to the north). A bed (needs: BackroomsBed)",
+         extra={"drops": drops(("game:cloth-plain", 1, 0.5), ("metalbracket", 1, 0.5)),
+                "class": "BackroomsBed", "entityClassByType": {"*-head-*": "BackroomsBed"},
+                "attributes": {"restQuality": 0.75, "bedFoot": "opposite"}})
 
-    # Fallen ceiling: shards of tile and a bent T-bar
-    debris = [bx("Shard1", (2, 0, 2), (8, 0.6, 7), "ceiltile", rot=(0, 20, 6), origin=(5, 0, 4.5)),
-              bx("Shard2", (9, 0, 3), (13, 0.6, 7), "ceiltile", rot=(0, -35, 0)),
-              bx("Shard3", (4, 0, 9), (9, 0.6, 13), "ceiltile", rot=(8, 50, 0), origin=(6.5, 0, 11)),
-              bx("Shard4", (11, 0, 10), (14, 0.6, 13), "ceiltile", rot=(0, 10, 0)),
-              bx("Chip1", (7.5, 0, 7.5), (9, 0.5, 9), "ceiltile"), bx("Chip2", (3, 0, 13.5), (4.2, 0.4, 14.7), "ceiltile"),
-              bx("TbarA", (1, 0, 8), (9, 0.8, 8.6), "tbar", rot=(0, 30, 0), origin=(9, 0, 8.3)),
-              bx("TbarB", (9, 0, 8), (15, 0.8, 8.6), "tbar", rot=(0, -20, 10), origin=(9, 0, 8.3)),
-              bx("Dust", (3, 0, 3), (13, 0.1, 13), "ceiltile", faces=("up",))]
-    prop("run-debris", "Fallen Ceiling", debris, box=(0.06, 0, 0.06, 0.94, 0.1, 0.94), collide=False, material="Stone", sounds=STONE,
-         comment="Broken ceiling tiles and a bent T-bar on the floor (trips a sprinter)", extra={"drops": []})
+
+# ======================= What trips a sprinter =======================
+
+def trip_props():
+    """
+    What trips a runner who sprints over it on the ground (RunSystem.Trip): toys spilled from a tipped crate, cardboard
+    boxes, a tangle of extension cord, fallen ceiling. Walked through, not round, but (0.514.0, the user's play-test:
+    "they only looked like a pile of papers") drawn as the heaps they are, up to half a block high and filling the tile,
+    so they read as something in the way: jump them, or walk. They were flat (a toy car 4 voxels high, two small boxes,
+    a cord a voxel thick, shards of ceiling tile 0.6 voxels thick) and in the red murk looked like litter. The codes,
+    kinds and footprints are as before.
+    """
+    save(noise(0x2A5CB8, 3, "toyblue"), "toyblue")
+
+    # Toys: a tipped toy crate, the car, building blocks and a ball spilled out of it
+    car = [bx("Body", (2.5, 1.2, 3), (11.5, 4.4, 8.5), "toyred"), bx("Cab", (4, 4.4, 3.8), (9, 6.6, 7.7), "toyyellow"),
+           bx("Window", (3.9, 5, 4.4), (4, 6.2, 7.1), "plug", faces=("west",)),
+           bx("Bumper", (1.8, 1.2, 3.6), (2.5, 2.8, 7.9), "toyyellow"), bx("BumperB", (11.5, 1.2, 3.6), (12.2, 2.8, 7.9), "toyyellow")]
+    for n, (x, z) in enumerate(((4.2, 2.6), (9.8, 2.6), (4.2, 8.9), (9.8, 8.9))):
+        car.append(bx(f"Wheel{n}", (x - 1.3, 0, z - 0.5), (x + 1.3, 2.6, z + 0.5), "rubber"))
+    car = [dict(e, rotationY=22, rotationOrigin=[7, 0, 6]) for e in car]
+    crate = [bx("CrateBack", (9, 0, 15), (15.5, 6, 15.8), "plank"), bx("CrateBase", (9, 0, 10), (15.5, 0.8, 15), "plank"),
+             bx("CrateL", (9, 0.8, 10), (9.8, 6, 15), "plank"), bx("CrateR", (14.7, 0.8, 10), (15.5, 6, 15), "plank"),
+             bx("CrateLid", (9, 6, 10), (15.5, 6.8, 15.8), "plank")]
+    blocks = [bx("Block1", (3, 0, 11), (5.4, 2.4, 13.4), "toyblue", rot=(0, 20, 0)),
+              bx("Block2", (5.6, 0, 12.6), (8, 2.4, 15), "toyyellow", rot=(0, -35, 0)),
+              bx("Block3", (3.4, 2.4, 11.4), (5.4, 4.4, 13.4), "toyred", rot=(0, 10, 0), origin=(4.2, 2.4, 12.2)),
+              bx("Block4", (12, 0.8, 11), (14, 2.8, 13), "toyblue"), bx("Block5", (10.2, 0.8, 12.4), (11.8, 2.4, 14), "toyred"),
+              bx("Block6", (12.6, 0, 6.5), (14.6, 2, 8.5), "toyyellow", rot=(0, 40, 0))]
+    ball = octagon("Ball", "x", (1.9, 2.0, 7.0), 1.9, 1.5, "toyblue") + [bx("BallBand", (0.3, 1.6, 6.2), (3.5, 2.4, 7.8), "toyyellow")]
+    prop("run-toycar", "Toys", car + crate + blocks + ball, box=(0.06, 0, 0.06, 0.94, 0.42, 0.94), collide=False,
+         material="Wood", sounds=WOOD, comment="A toy crate tipped over in the hall, the car, the blocks and a ball strewn "
+         "round it (walked through; trips a sprinter: jump it)", extra={"drops": []})
+
+    # Boxes: one on its side with its flaps open, another on top of it, a third flattened and kicked aside
+    flaps = ("north", "east", "south", "west", "down")
+    bxs = [bx("Big", (1.5, 0, 2), (9.5, 7, 9), "runbox", faces=flaps),
+           bx("BigTop", (1.5, 0, 2), (9.5, 7, 9), "runboxtop", faces=("up",), uv=[0, 0, 16, 16]),
+           bx("FlapA", (1.5, 6.6, 1.2), (9.5, 7, 4.4), "runbox", rot=(-58, 0, 0), origin=(5.5, 6.8, 2)),
+           bx("FlapB", (9.6, 3.6, 2), (10, 7, 9), "runbox", rot=(0, 0, -40), origin=(9.8, 7, 5.5)),
+           bx("Top", (3, 7, 3.5), (8.5, 11, 8), "runbox", faces=flaps, rot=(0, -18, 8), origin=(5.75, 7, 5.75)),
+           bx("TopTop", (3, 7, 3.5), (8.5, 11, 8), "runboxtop", faces=("up",), uv=[0, 0, 16, 16], rot=(0, -18, 8), origin=(5.75, 7, 5.75)),
+           bx("Second", (9, 0, 9), (14.6, 5.5, 14.6), "runbox", faces=flaps, rot=(0, 24, 0)),
+           bx("SecondTop", (9, 0, 9), (14.6, 5.5, 14.6), "runboxtop", faces=("up",), uv=[0, 0, 16, 16], rot=(0, 24, 0)),
+           bx("Flat", (1, 0, 10.5), (8, 1, 15.5), "runbox", faces=("north", "east", "south", "west", "up"), rot=(0, 9, 0)),
+           bx("Spill", (11, 0, 3), (14.6, 2.2, 6.5), "runbox", rot=(0, -30, 0))]
+    prop("run-boxes", "Boxes", bxs, box=(0.06, 0, 0.1, 0.94, 0.7, 0.94), collide=False, material="Wood", sounds=CLOTH,
+         comment="Cardboard boxes dumped in the hall, one on its side with its flaps open, one on top, one flattened "
+                 "(walked through; trips a sprinter: jump it)", extra={"drops": drops(("game:paper-parchment", 0.5, 0.5))})
+
+    # Cord: an orange extension cord in loops standing off the floor, a black cable with it, a power strip. It runs
+    # along the model's Z, the whole tile, so a row of them crosses the hall; the ends meet the next tile's at x 7.5-8.5
+    cord = [bx("RunA", (7.5, 0, 0), (8.5, 0.9, 2.6), "cord"), bx("RunB", (7.5, 0, 7.2), (8.5, 0.9, 9.4), "cord"),
+            bx("RunC", (7.5, 0, 13.6), (8.5, 0.9, 16), "cord")]
+    for n, (z0, z1, high, lean) in enumerate(((2.6, 7.2, 4.6, 18), (9.4, 13.6, 3.6, -24))):
+        # A loop stood up off the floor, leaning a little: the thing a foot catches in
+        o = (8, 0, (z0 + z1) / 2)
+        cord += [bx(f"Loop{n}A", (7.5, 0, z0), (8.5, high, z0 + 1), "cord", rot=(0, 0, lean), origin=o),
+                 bx(f"Loop{n}B", (7.5, high - 1, z0 + 1), (8.5, high, z1 - 1), "cord", rot=(0, 0, lean), origin=o),
+                 bx(f"Loop{n}C", (7.5, 0, z1 - 1), (8.5, high, z1), "cord", rot=(0, 0, lean), origin=o)]
+    cord += [bx("Black1", (3.5, 0, 1), (4.3, 0.8, 6), "cable", rot=(0, 25, 0), origin=(5, 0, 6)),
+             bx("Black2", (4.6, 0, 6), (5.4, 2.6, 6.8), "cable", rot=(0, 25, 0), origin=(5, 0, 6)),
+             bx("Black3", (4.6, 1.8, 6.8), (5.4, 2.6, 11), "cable", rot=(0, 25, 0), origin=(5, 0, 6)),
+             bx("Black4", (4.6, 0, 11), (5.4, 2.6, 11.8), "cable", rot=(0, 25, 0), origin=(5, 0, 6)),
+             bx("Coil1", (10.5, 0, 2), (14.5, 1, 6), "cord"), bx("Coil2", (11, 1, 2.5), (14, 2, 5.5), "cord"),
+             bx("CoilHole", (11.6, 2, 3.1), (13.4, 2.05, 4.9), "plug", faces=("up",)),
+             bx("Strip", (10, 0, 9.5), (13.5, 1.6, 15), "plug", rot=(0, -12, 0), origin=(11.75, 0, 12.25)),
+             bx("StripLed", (11.2, 1.6, 10.2), (12.2, 1.75, 11.2), "toyred", glow=120, faces=("up",), rot=(0, -12, 0), origin=(11.75, 0, 12.25)),
+             bx("Plug", (8.6, 0, 12), (10, 1.8, 13.8), "plug", rot=(0, -12, 0), origin=(11.75, 0, 12.25))]
+    prop("run-cord", "Tangled Cords", cord, box=(0.06, 0, 0, 0.94, 0.3, 1), collide=False, material="Cloth", sounds=CLOTH,
+         comment="An orange extension cord stretched across the hall in loops off the floor, a black cable and a power "
+                 "strip with it, along the model's Z (north-south when facing north). Walked through; trips a sprinter: "
+                 "jump it", extra={"drops": drops(("scrapwire", 1, 0.5))})
+
+    # Fallen ceiling: a heap of broken deck and tile under the hole, tiles on it tipped up, a bent T-bar sticking out
+    debris = [bx("Heap", (2.5, 0, 3), (13, 2.6, 13), "rubble"),
+              bx("HeapTop", (4.5, 2.6, 5), (11, 4.4, 11), "rubbledark"),
+              bx("Lump1", (0.8, 0, 10), (4.6, 2.2, 14.2), "rubble", rot=(0, 25, 0)),
+              bx("Lump2", (11, 0, 1.2), (14.8, 1.8, 5), "rubbledark", rot=(0, -20, 0)),
+              bx("Lump3", (12.4, 0, 11), (15, 1.4, 14.6), "rubble"),
+              bx("Tile1", (1, 0, 1.5), (8.5, 0.8, 9), "ceiltile", rot=(0, 15, 24), origin=(1, 0, 5)),
+              bx("Tile2", (8, 2.2, 7), (15, 3, 14), "ceiltile", rot=(-20, -10, 0), origin=(11.5, 2.6, 7)),
+              bx("Tile3", (3, 3.6, 8), (8.5, 4.4, 13.5), "ceiltile", rot=(16, 30, -10), origin=(5.75, 4, 10.75)),
+              bx("TbarA", (7.6, 2, 3), (8.4, 2.8, 11), "tbar", rot=(-32, 20, 0), origin=(8, 2.4, 11)),
+              bx("TbarB", (1.5, 0, 13.6), (13.5, 0.8, 14.4), "tbar", rot=(0, -12, 12), origin=(1.5, 0, 14)),
+              bx("WireA", (9.5, 3, 4.5), (10.1, 3.6, 13), "wire", rot=(14, 40, 0), origin=(9.8, 3.3, 8.75)),
+              bx("Dust", (0.5, 0, 0.5), (15.5, 0.15, 15.5), "rubbledark", faces=("up",))]
+    prop("run-debris", "Fallen Ceiling", debris, box=(0.06, 0, 0.06, 0.94, 0.4, 0.94), collide=False, material="Stone", sounds=STONE,
+         comment="A heap of fallen ceiling: broken deck, tiles tipped up on it, a bent T-bar (walked through; trips a "
+                 "sprinter: jump it)", extra={"drops": []})
 
 
 # ======================= Layout version 6: what blocks the hall =======================
@@ -2171,7 +2314,7 @@ def startroom():
 def lang():
     LANG.update({
         "level-14": "Level !: Run For Your Life!",
-        "levelhint-14": "Out through the door under the lit EXIT sign, and run. Don't stop. A door with a turn beside it is not the way out.",
+        "levelhint-14": "Out through the door under the lit EXIT sign, and run. Don't stop. A door with a turn beside it is not the way out; the real one has light under it.",
         "levelname-14": "Level !",
         "level-1401": "The Safe Zone",
         "levelhint-1401": "Please take a break before you continue running.",
@@ -2181,13 +2324,16 @@ def lang():
         "run-locked": "Locked.",
         "run-marked": "It won't budge. The way out is the door under the lit EXIT sign!",
         "run-chained": "Something on the other side wants in. Not this way: the door under the lit EXIT sign!",
-        "run-fake": "An empty room. This isn't the way out.",
+        "run-fake": "An empty room, dark behind the door. This isn't the way out.",
+        "run-trip": "You trip! Jump the junk on the floor at a sprint, or walk over it.",
+        "blockdesc-run-prize": "Brown paper and twine, and a tag in a careful hand: For getting out.",
+        "run-prize-left": "By the door, a present wrapped in brown paper, and a tag in a careful hand: For getting out.",
         "run-escaped": "No turn either side. This was the real exit. The Backrooms will never send you there again.",
         "run-ranout": "You have run this hall before. The door lets you out somewhere else.",
         "run-rumble": "The walls shudder. You can't stay here much longer.",
         "run-fell": "The cracked floor gives way. You fall a long way, into rock and rubble.",
         "run-caught": "{0} was caught by the horde",
-        "note-run": "Don't take the door if the hall turns beside it. The real one is at a dead end. Don't stop. They're still there.",
+        "note-run": "Don't take the door if the hall turns beside it, or if its sign is dark. The real one is at a dead end, with light under it. Don't stop. They're still there.",
         "item-run-energybar": "Energy Bar",
         "itemdesc-run-energybar": "Dense, sweet, and gone in three bites. Keeps you running a little longer.",
     })
@@ -2908,6 +3054,60 @@ def b14_startroom():
     save(img, "dispensergel")
 
 
+def b14_return():
+    """(0.516.0) The door of an escaped runner, and the present left beside it. The door is the red fire door without its
+    EXIT stencil, and a stairwell placard (NO RE-ENTRY) is a box of its own; the present is brown kraft and twine."""
+    for part in ("lower", "upper"):
+        img = door_paint((160, 40, 36), "returndoor", part, chips=7, under=(138, 132, 124))
+        save(T.match_rgb(img, OLD_MEAN["exitdoor"], key="b14runreturndoor") if part == "lower" else img, f"returndoor-{part}")
+    # The placard: a 14 x 7.5 block-pixel plate (28 x 15 texels in the top-left of the picture), red capitals on white
+    img = M.noise_hv((232, 229, 220), 2, seed_of("returnplacard"), mottle=2)
+    M.grime(img, 0.05, seed_of("returnplacardg"), cells=(8, 4), cover=0.35)
+    d = ImageDraw.Draw(img)
+    ink = (176, 32, 30)
+    d.rectangle([0, 0, 27, 14], outline=ink + (255,))
+    ptext(img, "NO RE-", 2, 2, ink, RUN_F3, 1)
+    ptext(img, "ENTRY", 2, 8, ink, RUN_F3, 1)
+    for x, y in ((1, 1), (26, 1), (1, 13), (26, 13)):
+        img.putpixel((x, y), (150, 150, 146, 255))
+    save(img, "returnplacard")
+    # Kraft paper: fibres, a crease or two
+    img = M.noise_hv((176, 134, 90), 3, seed_of("prizekraft"), mottle=4)
+    rng = random.Random(seed_of("prizefibre"))
+    px = img.load()
+    for _ in range(70):
+        x, y = rng.randrange(S), rng.randrange(S)
+        f = rng.uniform(0.9, 1.1)
+        for k in range(rng.randint(2, 5)):
+            px[(x + k) % S, y] = M.rgba(tuple(clamp(v * f) for v in px[(x + k) % S, y][:3]))
+    for y in (11, 22):
+        for x in range(S):
+            M.touch(img, x, y, -0.07)
+            M.touch(img, x, y + 1, 0.05)
+    save(img, "prizekraft")
+    img = M.noise_hv((196, 170, 118), 3, seed_of("prizetwine"), mottle=2)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            if (x + y) % 4 < 2:
+                M.touch(img, x, y, -0.12)
+    save(img, "prizetwine")
+    # The tag: manila card, a line of small hand, a stain
+    img = M.noise_hv((222, 208, 170), 2, seed_of("prizetag"), mottle=3)
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 0, 7, 11], outline=(150, 130, 92, 255))
+    d.ellipse([3, 1, 4, 2], fill=(70, 56, 40, 255))
+    rng = random.Random(seed_of("prizehand"))
+    for y in (5, 7, 9):
+        x = 1
+        while x < 6:
+            n = rng.randint(1, 2)
+            for k in range(n):
+                d.point([x + k, y - (1 if rng.random() < 0.3 else 0)], fill=(74, 66, 84, 255))
+            x += n + 1
+    save(img, "prizetag")
+
+
 def b14_textures():
     b14_walls()
     b14_floor()
@@ -2927,12 +3127,15 @@ def generate():
     textures()
     walls()
     signs()
+    b14_return()  # before the doors: a shape finds its textures among those already saved
     side_doors()
     exit_doors()
+    prize()
     chained_door()
     hall_door()
     props()
     gauntlet()
+    trip_props()
     startroom()
     b14_textures()
     items()

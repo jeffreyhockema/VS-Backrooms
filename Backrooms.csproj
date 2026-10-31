@@ -9,6 +9,8 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <GenerateDependencyFile>false</GenerateDependencyFile>
     <OutputPath>bin\$(Configuration)\Mods\backroomsss\</OutputPath>
+    <!-- A Release build is zipped for players: no pdb in it -->
+    <DebugType Condition="'$(Configuration)' == 'Release'">none</DebugType>
     <!-- Where Vintage Story is installed: the VINTAGE_STORY environment variable, else the default install folder.
          To use another folder without editing this file, set VintageStory in Backrooms.csproj.user (git-ignored). -->
     <VintageStory Condition="'$(VINTAGE_STORY)' != ''">$(VINTAGE_STORY)</VintageStory>
@@ -55,7 +57,7 @@
   </Target>
 
   <PropertyGroup>
-    <Version>0.515.0-pre.1</Version>
+    <Version>0.700.0-pre.1</Version>
   </PropertyGroup>
 
 </Project>

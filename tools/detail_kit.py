@@ -46,6 +46,7 @@ EXT = {
     "brick": "backrooms:block/level3/l3wall-brick",
     "cinder": "backrooms:block/level3/l3wall-cinder",
     "hotelpanel": "backrooms:block/level5/hotelwall-panel",
+    "hotelplain": "backrooms:block/level5/hotelwall-plain",  # (Level 5 art) plain cream plaster, for the mirror's wall
     "wainscot": "backrooms:block/level5/hotelwall-wainscot",
     "frieze": "backrooms:block/level5/hotelwall-frieze",
     "plaster": "backrooms:block/level5/plaster",
@@ -78,6 +79,7 @@ EXT = {
     "lamedge": "backrooms:block/level4/laminate-edge",
     "lamfleck": "backrooms:block/level4/laminate-fleck",
     "alu": "backrooms:block/level4/partitionrail-top",
+    "officeglass": "backrooms:block/level4/officeglass",
     "cable": "backrooms:block/level3/cable",
     "insulator": "backrooms:block/level3/insulator",
     "transformer": "backrooms:block/level3/transformer",
@@ -357,6 +359,12 @@ def prop(code, english, parts, box=None, oriented=True, material="Wood", sounds=
         data["lightHsv"] = light
     if extra:
         data.update(extra)
+        if oriented:
+            # A box given outright is given for the side the prop faces north; it turns with the model
+            for key in ("selectionbox", "collisionbox"):
+                if isinstance(data.get(key), dict) and "rotateY" not in data[key]:
+                    b = data.pop(key)
+                    data[key + "ByType"] = {f"*-{s}": dict(b, **({"rotateY": ROTATE[s]} if ROTATE[s] else {})) for s in SIDES}
     block(code, data, comment or english)
     name(code + "-*" if groups else code, english)
 
@@ -367,9 +375,11 @@ class Decor:
     """A decoration on one face of a wall block. `rels` maps the block height above the floor (1 = bottom) to its
     boxes; a decoration spanning several heights becomes one part per height."""
 
-    def __init__(self, code, english, rels, light=None, ambient=None, particles=None, cls=None):
+    def __init__(self, code, english, rels, light=None, ambient=None, particles=None, cls=None, wall=None, attributes=None):
         self.code, self.english, self.rels = code, english, rels
+        self.wall = wall  # a wall texture key of this decoration's own, in place of the family's (deep props' signs, Level 5's mirror)
         self.light, self.ambient, self.particles, self.cls = light, ambient, particles, cls
+        self.attributes = attributes  # block attributes of this decoration (the drinking fountain's liquidSource)
 
     def parts(self):
         if len(self.rels) == 1:
@@ -383,11 +393,11 @@ def wall_family(family, english, walls, decors, material="Stone", sounds=STONE, 
     used there (falling back to the highest one given). `textures` (B7) goes into the block type as it is: named
     texture keys of the decorations' shapes given other versions (`alternates`)."""
     states, by_type = [], {}
-    light_by, absorb_by, sounds_by, particles_by, class_by, entity_by = {}, {}, {}, {}, {}, {}
+    light_by, absorb_by, sounds_by, particles_by, class_by, entity_by, attrs_by = {}, {}, {}, {}, {}, {}, {}
     manifest = {}
     for d in decors:
         for state, rel, els in d.parts():
-            wall = walls[max([k for k in walls if k <= rel], default=min(walls))]
+            wall = d.wall or walls[max([k for k in walls if k <= rel], default=min(walls))]
             path = shape(f"{family}-{state}", [cube(wall)] + els)
             states.append(state)
             for s in SIDES:
@@ -404,6 +414,8 @@ def wall_family(family, english, walls, decors, material="Stone", sounds=STONE, 
             if d.cls:
                 class_by[f"*-{state}-*"] = d.cls[0]
                 entity_by[f"*-{state}-*"] = d.cls[1]
+            if d.attributes:
+                attrs_by[f"*-{state}-*"] = d.attributes
             LANG[f"block-{family}-{state}-*"] = d.english
     data = {
         "variantgroups": [{"code": "decor", "states": states}, {"code": "side", "states": SIDES}],
@@ -424,5 +436,7 @@ def wall_family(family, english, walls, decors, material="Stone", sounds=STONE, 
     if class_by:
         data["classByType"] = class_by
         data["entityClassByType"] = entity_by
+    if attrs_by:
+        data["attributesByType"] = attrs_by
     block(family, data, comment or f"{english} with decorations on one face")
     MANIFEST[family] = manifest

@@ -33,6 +33,8 @@
 			"*-we"
 		]
 	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
 	"shapeByType": {
 		"*-concrete-lo-we": {
 			"base": "block/detail/exitlintelpair-concrete-r",
@@ -83,8 +85,6 @@
 			"rotateY": 90
 		}
 	},
-	"blockmaterial": "Stone",
-	"drawtype": "json",
 	"lightHsv": [
 		0,
 		6,

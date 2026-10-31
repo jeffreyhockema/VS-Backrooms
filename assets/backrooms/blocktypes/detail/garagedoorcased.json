@@ -1,0 +1,149 @@
+// A Suburbs house's garage door (layout version 9): sectional, set back in its opening and cased in trim; shut for good
+{
+	"code": "garagedoorcased",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lowerw",
+				"lowerm",
+				"lowere",
+				"upperw",
+				"upperm",
+				"uppere"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lowerm-north"
+		],
+		"construction": [
+			"*-lowerm-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lowerw-north": {
+			"base": "block/detail/suburbs/garage-lowerw",
+			"rotateY": 0
+		},
+		"*-lowerw-east": {
+			"base": "block/detail/suburbs/garage-lowerw",
+			"rotateY": 270
+		},
+		"*-lowerw-south": {
+			"base": "block/detail/suburbs/garage-lowerw",
+			"rotateY": 180
+		},
+		"*-lowerw-west": {
+			"base": "block/detail/suburbs/garage-lowerw",
+			"rotateY": 90
+		},
+		"*-lowerm-north": {
+			"base": "block/detail/suburbs/garage-lowerm",
+			"rotateY": 0
+		},
+		"*-lowerm-east": {
+			"base": "block/detail/suburbs/garage-lowerm",
+			"rotateY": 270
+		},
+		"*-lowerm-south": {
+			"base": "block/detail/suburbs/garage-lowerm",
+			"rotateY": 180
+		},
+		"*-lowerm-west": {
+			"base": "block/detail/suburbs/garage-lowerm",
+			"rotateY": 90
+		},
+		"*-lowere-north": {
+			"base": "block/detail/suburbs/garage-lowere",
+			"rotateY": 0
+		},
+		"*-lowere-east": {
+			"base": "block/detail/suburbs/garage-lowere",
+			"rotateY": 270
+		},
+		"*-lowere-south": {
+			"base": "block/detail/suburbs/garage-lowere",
+			"rotateY": 180
+		},
+		"*-lowere-west": {
+			"base": "block/detail/suburbs/garage-lowere",
+			"rotateY": 90
+		},
+		"*-upperw-north": {
+			"base": "block/detail/suburbs/garage-upperw",
+			"rotateY": 0
+		},
+		"*-upperw-east": {
+			"base": "block/detail/suburbs/garage-upperw",
+			"rotateY": 270
+		},
+		"*-upperw-south": {
+			"base": "block/detail/suburbs/garage-upperw",
+			"rotateY": 180
+		},
+		"*-upperw-west": {
+			"base": "block/detail/suburbs/garage-upperw",
+			"rotateY": 90
+		},
+		"*-upperm-north": {
+			"base": "block/detail/suburbs/garage-upperm",
+			"rotateY": 0
+		},
+		"*-upperm-east": {
+			"base": "block/detail/suburbs/garage-upperm",
+			"rotateY": 270
+		},
+		"*-upperm-south": {
+			"base": "block/detail/suburbs/garage-upperm",
+			"rotateY": 180
+		},
+		"*-upperm-west": {
+			"base": "block/detail/suburbs/garage-upperm",
+			"rotateY": 90
+		},
+		"*-uppere-north": {
+			"base": "block/detail/suburbs/garage-uppere",
+			"rotateY": 0
+		},
+		"*-uppere-east": {
+			"base": "block/detail/suburbs/garage-uppere",
+			"rotateY": 270
+		},
+		"*-uppere-south": {
+			"base": "block/detail/suburbs/garage-uppere",
+			"rotateY": 180
+		},
+		"*-uppere-west": {
+			"base": "block/detail/suburbs/garage-uppere",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

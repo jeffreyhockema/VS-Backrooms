@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Vintagestory.API.Common;
 
 namespace Backrooms.Worldgen;
@@ -21,6 +22,10 @@ public sealed partial class WorldGenerator
     // Level 7
     private int oceanCeilingId, oceanGlowId, islandRockId, seabedId, tarId, roomFloorId;
     private const ulong SaltCeilingGlow = 0x7C20;
+    // Level 7 from layout version 9: the high ceiling (plain and glowing), the sunken rooms' windows, and vanilla's rope
+    // ladder by the side it hangs against (as Sides)
+    private int seaCeilingId, seaCeilingGlowId, glassId;
+    private readonly int[] ropeLadderIds = new int[4];
 
     // Level 8: the road lamp with its arm out over the road (layout version 5), by the side it reaches toward
     private readonly int[] roadLampArmIds = new int[4];
@@ -41,6 +46,8 @@ public sealed partial class WorldGenerator
     /// <summary>Mineral blocks by stratum and mineral, 0 where vanilla has none.</summary>
     private int[,] mineralIds;
     private int gravelId, clayId, carpetSeamId, wallpaperSeamId;
+    /// <summary>Vanilla sand by rock (all of them in the mortar recipe's list), for Level 7's sea floor and Level 10's ponds (layout version 10).</summary>
+    private int[] sandIds = Array.Empty<int>();
 
     // Levels 9 and 10
     private int asphaltId, asphaltLeavesId, asphaltWetId, sidewalkId, lawnId, bareSoilId, logId, leavesId, wormId, lakeBedId;
@@ -58,6 +65,19 @@ public sealed partial class WorldGenerator
     private int porchDeckId, porchStepId, porchPostId;
     /// <summary>A porch post's foot in the railing, with the rails coming in to it, by the railing's mask (as <see cref="fenceIds"/>).</summary>
     private readonly int[] porchPostRailIds = new int[16];
+    // The Suburbs from layout version 9 (WorldLayout.PlanExteriorV9): how high its columns go (over its floor), the tall
+    // windows by glass (dark, lit), part (SuburbWindowParts) and side; the doors that open by state (closed, open,
+    // locked), hinge end (as modelled facing north: west, east), half and side; the cased garage door by part and side;
+    // the chimney's cap by the side its other half is on (or none); the stairs' balustraded steps by step (foot, flight),
+    // balustrade end and the way they climb
+    private const int SuburbTop = 24;
+    private static readonly string[] SuburbWindowParts =
+        { "sashlower", "sashupper", "shutterlower", "shutterupper", "picwlower", "picmlower", "picelower", "picwupper", "picmupper", "piceupper" };
+    private readonly int[,,] suburbWindowIds = new int[2, 10, 4];
+    private readonly int[,,,] suburbDoorIds = new int[3, 2, 2, 4];
+    private readonly int[,] casedGarageIds = new int[6, 4];
+    private readonly int[] chimneyCapIds = new int[5];
+    private readonly int[,,] stairRailIds = new int[2, 2, 4];
     private readonly int[] roofIds = new int[3];
     private readonly int[] barnWallIds = new int[2];
     private readonly int[] fenceIds = new int[16];
@@ -87,8 +107,22 @@ public sealed partial class WorldGenerator
 
     private void InitDeep()
     {
-        caveColumns = new CaveColumns((gx, gz) => new CaveColumn(seed, gx, gz, Geometry.FloorY, Geometry.BandBottom - 41, Geometry.BandTop + 1, Noise2,
-            SaltCave, SaltCaveTube, SaltStrata, SaltOre, SaltPool, veins: layout.Version >= 5));
+        caveColumns = new CaveColumns((gx, gz) =>
+        {
+            var column = new CaveColumn(seed, gx, gz, Geometry.FloorY, Geometry.BandBottom - 41, Geometry.BandTop + 1, Noise2,
+                SaltCave, SaltCaveTube, SaltStrata, SaltOre, SaltPool, veins: layout.Version >= 5);
+            // From layout version 9, the rich deposits the 9th Road goes round
+            if (layout.L8DepositAt(gx, gz) is int deposit and > 0)
+            {
+                column.DepositKind = deposit >> 8;
+                column.DepositStrength = (deposit & 255) / 255.0;
+            }
+            // From layout version 10, the cave passage round a break in the road
+            if (layout.Version >= 10) column.CrawlDepth = layout.L8CrawlAt(gx, gz);
+            // From layout version 9, the spider nests whose webs are strung through the caves
+            if (layout.Version >= 9) column.Nest = layout.L8NestNear(gx, gz);
+            return column;
+        });
         l6WallId = Id("l6block-wall");
         l6FloorId = Id("l6block-floor");
         l6CeilingId = Id("l6block-ceiling");
@@ -119,6 +153,10 @@ public sealed partial class WorldGenerator
         roomFloorId = seabedId; // the entry room's carpet, soaked with the water pooling on it
         floorIds[(int)FloorKind.Seabed] = seabedId;
         floorIds[(int)FloorKind.Tar] = tarId;
+        seaCeilingId = Id("seaceiling-plain");
+        seaCeilingGlowId = Id("seaceiling-glow");
+        glassId = GameId("game:glass-plain", "game:glass-quartz");
+        for (int f = 0; f < 4; f++) ropeLadderIds[f] = GameId($"game:ladder-rope-{Sides[f]}", $"game:ladder-wood-{Sides[f]}");
 
         // Level 8: rock types in order of the strata (deliberately not geological order), with their ores. Limestone,
         // chalk and halite are there for the quern: lime for mortar and leather, salt for curing meat
@@ -141,6 +179,7 @@ public sealed partial class WorldGenerator
         floorIds[(int)FloorKind.Gravel] = gravelId;
         for (int f = 0; f < 4; f++) roadLampArmIds[f] = Id($"roadlamparm-{Sides[f]}");
         clayId = GameId("game:rawclay-blue-none", "game:rawclay-red-none");
+        sandIds = new[] { "limestone", "sandstone", "chalk", "granite" }.Select(r => OptionalId($"game:sand-{r}")).Where(i => i != 0).ToArray();
         carpetSeamId = BlockId("backrooms:carpet-normal");
         wallpaperSeamId = BlockId("backrooms:wallpaper-chevron-upper");
         InitCaves(); // the living detail of Levels 7 and 8 (WorldGenerator.Caves.cs)
@@ -202,6 +241,20 @@ public sealed partial class WorldGenerator
         houseDoorUpperId = Id("housedoor-upper");
         garageLowerId = Id("garagedoor-lower");
         garageUpperId = Id("garagedoor-upper");
+        string[] glasses = { "dark", "lit" }, doorStates = { "closed", "open", "locked" }, ends = { "w", "e" }, halves2 = { "lower", "upper" };
+        string[] garageParts = { "lowerw", "lowerm", "lowere", "upperw", "upperm", "uppere" }, capJoins = { "none", "north", "east", "south", "west" };
+        for (int f = 0; f < 4; f++)
+        {
+            for (int gl = 0; gl < 2; gl++)
+                for (int p = 0; p < SuburbWindowParts.Length; p++) suburbWindowIds[gl, p, f] = Id($"suburbwindow-{glasses[gl]}-{SuburbWindowParts[p]}-{sides[f]}");
+            for (int st = 0; st < 3; st++)
+                for (int e = 0; e < 2; e++)
+                    for (int hf = 0; hf < 2; hf++) suburbDoorIds[st, e, hf, f] = Id($"suburbdoor-{doorStates[st]}-{ends[e]}-{halves2[hf]}-{sides[f]}");
+            for (int p = 0; p < garageParts.Length; p++) casedGarageIds[p, f] = Id($"garagedoorcased-{garageParts[p]}-{sides[f]}");
+            for (int foot = 0; foot < 2; foot++)
+                for (int e = 0; e < 2; e++) stairRailIds[foot, e, f] = Id($"housestairsrail-{(foot == 1 ? "foot" : "flight")}-{ends[e]}-{sides[f]}");
+        }
+        for (int c = 0; c < capJoins.Length; c++) chimneyCapIds[c] = Id($"chimneycap-{capJoins[c]}");
         barnWallIds[0] = Id("barnwall-red");
         barnWallIds[1] = Id("barnwall-grey");
         logId = GameId("game:log-grown-oak-ud", "game:log-placed-oak-ud");
@@ -311,12 +364,32 @@ public sealed partial class WorldGenerator
     /// <summary>The stairs going down toward the waves: step k of 3 is a stair block k-1 below the floor.</summary>
     private int DescentBlock(in Tile t, int rel)
     {
+        if (layout.Version >= 9) return StairwellBlock(t, rel);
         int step = t.Under - Unders.Descent1; // 0, 1, 2
         int stairRel = -step;
         if (rel == stairRel) return stairIds[Facing(Opposite(t.Pier))];
         if (rel > stairRel) return 0;
         if (step == 2 && rel == stairRel - 1) return waveEchoId; // the faint sound of waves, from somewhere below
         return concreteId;
+    }
+
+    /// <summary>
+    /// From layout version 9, the stairwell down toward the waves (<see cref="WorldLayout.L6DescentSteps"/>), at or below
+    /// the floor: step n's tread is a stair block n - 1 down, solid under it. The first four steps are open to the chamber
+    /// over them; the rest are cut on into the rock with three blocks of headroom over each tread, stepping down with
+    /// the stairs, and the floor over them stays (as the floor of whatever passage crosses there). The landing's floor
+    /// is a block lower than the last step, three blocks high, with the faint sound of waves under its far end.
+    /// </summary>
+    private int StairwellBlock(in Tile t, int rel)
+    {
+        bool landing = t.Under != Unders.Descent1;
+        int step = landing ? WorldLayout.L6DescentSteps + 1 : t.Stair;
+        int tread = 1 - step;
+        if (rel == tread) return landing ? l6FloorId : stairIds[Facing(Opposite(t.Pier))];
+        // (Under the far end of the landing, the waves)
+        if (rel < tread) return rel == tread - 1 && t.Detail == WorldLayout.L6WaveEcho ? waveEchoId : concreteId;
+        if (step <= 4 && !t.IsWallLike) return 0; // open to the chamber
+        return rel <= tread + 3 && rel < 0 ? 0 : concreteId;
     }
 
     // ---- Level 6.1: the Snackrooms ----
@@ -348,7 +421,7 @@ public sealed partial class WorldGenerator
                 };
         }
         // In a vending machine room, another machine lying across the top of this one (layout version 5)
-        if (rel == 2 && t.Detail == WorldLayout.SnackPiledOn && t.Variant is Props.SnackVending or Props.VendingPile)
+        if (rel == 2 && t.Detail == WorldLayout.SnackPiledOn && t.Variant is Props.SnackVending or Props.VendingPile or Props.BrokenVending)
             return propIds[Props.VendingPile, 2, Facing(t.Pier)];
         return rel == 1 ? AnyProp(t, rel) : 0;
     }
@@ -358,6 +431,8 @@ public sealed partial class WorldGenerator
     private int Level7Block(in Tile t, int gx, int gz, int rel, out int fluid)
     {
         fluid = 0;
+        // From layout version 9: the high ceiling, the entry rooms' piers hung from it, and the sunken rooms
+        if (layout.Version >= 9 && HighSeaBlock(t, gx, gz, rel, out fluid) is int high and >= 0) return high;
         // Above the water: the ceiling, and the entry rooms set into it
         if (rel >= 5)
         {
@@ -440,8 +515,171 @@ public sealed partial class WorldGenerator
             if (rel <= bed + 4 && SeabedGrowth(t, gx, gz, rel, bed) is int growth and >= 0) return growth;
             return rel == bed + 1 && t.Variant != 0 && t.Variant != Props.Kelp ? AnyProp(t, 1) : rel == bed + 1 && t.SupplyBox ? BoxOf(t) : 0;
         }
-        if (rel == bed) return t.Under == Unders.TiledSeabed ? poolSunlitId : t.Floor == FloorKind.Tar ? tarId : seabedId;
+        if (rel == bed) return t.Under == Unders.TiledSeabed ? poolSunlitId : t.Floor == FloorKind.Tar ? tarId : SeaFloor(t, gx, gz);
         return concreteId;
+    }
+
+    /// <summary>
+    /// The floor of the open sea. From layout version 10 it is sand (the Backrooms' only, so the mortar, and with it the
+    /// refractory brick, is within reach of a dive), a kind to a patch, with outcrops of the islands' rock and a fringe of
+    /// gravel round them; before that, soaked carpet.
+    /// </summary>
+    private int SeaFloor(in Tile t, int gx, int gz)
+    {
+        if (layout.Version < 10 || sandIds.Length == 0) return seabedId;
+        double outcrop = Noise2(gx / 9.0, gz / 9.0, SaltShallows + 5);
+        if (outcrop > 0.5) return islandRockId;
+        if (outcrop > 0.38 && gravelId != 0) return gravelId;
+        double kind = Noise2(gx / 40.0, gz / 40.0, SaltShallows + 6) * 0.5 + 0.5;
+        return sandIds[Math.Min((int)(kind * sandIds.Length), sandIds.Length - 1)];
+    }
+
+    /// <summary>
+    /// Level 7 from layout version 9 (<see cref="WorldLayout.SeaCeiling"/>), where it differs from the sea of 1-8; -1 to
+    /// leave a block to the rules of 1-8 (the water and the seabed, the islands and ledges up to head height). Over the
+    /// water there is open air up to the ceiling, which lets the world's light through (seaceiling: the lore's dim light
+    /// from nowhere, held the same at every hour by AtmosphereSystem, and dimming in the water with depth); the walls
+    /// and the islands' pillars go on up to it. The entry rooms hang from it in their piers (<see cref="WorldLayout.AddEntryRoomV9"/>),
+    /// and the sunken rooms lie on the seabed (<see cref="SunkenRoomBlock"/>).
+    /// </summary>
+    private int HighSeaBlock(in Tile t, int gx, int gz, int rel, out int fluid)
+    {
+        fluid = 0;
+        const int ceiling = WorldLayout.SeaCeiling, floor = WorldLayout.EntryFloor;
+        byte zone = t.Zone;
+        if (rel <= 0)
+        {
+            // Under the water: the sunken rooms and the lines down to them; the entry room's ladder dips into the sea
+            if (zone >= WorldLayout.L7ZoneBellWall) return SunkenRoomBlock(t, rel, out fluid);
+            if (zone == WorldLayout.L7ZoneLadder && rel >= -1)
+            {
+                fluid = waterId;
+                return ropeLadderIds[Facing(t.Pier)];
+            }
+            return -1;
+        }
+        if (rel > ceiling) return 0;
+        if (zone == WorldLayout.L7ZoneLine) return rel == 1 ? propIds[Props.Buoy, 0, 0] : rel == ceiling ? SeaCeilingBlock(gx, gz) : 0;
+        if (zone == WorldLayout.L7ZoneLadder) return rel <= floor ? ropeLadderIds[Facing(t.Pier)] : rel == ceiling ? SeaCeilingBlock(gx, gz) : 0;
+        if (zone != 0 && zone < WorldLayout.L7ZoneBellWall && rel < floor) return 0; // (under the pier, air down to the water)
+        switch (zone)
+        {
+            case WorldLayout.L7ZonePier:
+                return concreteId;
+            case WorldLayout.L7ZoneRoom:
+                if (rel == floor) return roomFloorId; // the carpet, soaked, under a puddle's worth of water
+                if (rel == floor + 1)
+                    return t.Stack switch
+                    {
+                        1 => propIds[Props.HotelBookshelf, 0, Facing(t.Pier)],
+                        2 => propIds[Props.CoffeeTable, 0, 0],
+                        3 => propIds[Props.HotelChair, 0, Facing(t.Pier)],
+                        _ => 0,
+                    };
+                if (rel <= floor + 3) return 0;
+                if (rel == floor + 4) return t.Ceiling == CeilingKind.LightOn ? lightOnId : concreteId;
+                return concreteId;
+            case WorldLayout.L7ZoneStairs:
+            {
+                // Step n is a stair block n over the room's floor, solid under it; three blocks of air over each tread (the
+                // first stays under the room's ceiling in 9), up through it into the dark of the shaft. In 9 the first step's
+                // air stopped at floor + 3, a block under the room's ceiling, so a climber stepping from its back (7.0) onto
+                // the second step's front (7.5) bumped their head on the ceiling (9.35 against 9.0); from 10 it has three too
+                int tread = floor + t.Stair;
+                if (rel < tread) return concreteId;
+                if (rel == tread) return stairIds[Facing(t.Pier)];
+                return rel <= (t.Stair == 1 && layout.Version < 10 ? floor + 3 : tread + 3) ? 0 : concreteId;
+            }
+            case WorldLayout.L7ZoneDoorway:
+                // A doorway a block wide and two high onto the sea, its sill five blocks over the water
+                return rel == floor + 1 || rel == floor + 2 ? 0 : concreteId;
+        }
+        // The walls between the levels and the islands' pillars go on up to the ceiling
+        if (t.Detail == WorldLayout.L7Pillar && t.IsWallLike) return rel < ceiling ? islandRockId : SeaCeilingBlock(gx, gz);
+        if (t.IsWallLike) return rel < floor ? -1 : concreteId;
+        if (rel >= 3 && UnderLowerWall(gx, gz)) return concreteId;
+        if (rel == ceiling) return SeaCeilingBlock(gx, gz);
+        // (Islands and ledges keep their own up to head height; over that, and over the water, the open air)
+        return rel < floor ? -1 : 0;
+    }
+
+    /// <summary>The high ceiling over the sea (layout version 9), glowing in patches as the low one did.</summary>
+    private int SeaCeilingBlock(int gx, int gz) => CeilingGlows(gx, gz) ? seaCeilingGlowId : seaCeilingId;
+
+    /// <summary>
+    /// Whether a column on a Level 7 cell's east or south edge stands beside the next level's wall, where this cell does
+    /// not line it (a gate's passage, or a tile the lining had to leave open): that wall is only as high as the next
+    /// level's roof, so here Level 7's own goes on up from head height to the ceiling.
+    /// </summary>
+    private bool UnderLowerWall(int gx, int gz)
+    {
+        int lx = Hashing.Mod(gx, WorldLayout.MacroSize), lz = Hashing.Mod(gz, WorldLayout.MacroSize);
+        const int last = WorldLayout.MacroSize - 1;
+        if (lx != last && lz != last) return false;
+        int mx = WorldLayout.MacroOf(gx), mz = WorldLayout.MacroOf(gz);
+        return lx == last && layout.LevelAt(mx + 1, mz) != 7 || lz == last && layout.LevelAt(mx, mz + 1) != 7
+            || lx == last && lz == last && layout.LevelAt(mx + 1, mz + 1) != 7;
+    }
+
+    /// <summary>
+    /// A sunken room (layout version 9, <see cref="WorldLayout.AddSunkenRoom"/>), at or under the water's surface. Its
+    /// base is the seabed's depth at its middle (<see cref="Tile.Height"/>), and over the base: the footing (1-2), the floor
+    /// (3), the air (4-6), the roof (7), the fluorescent light in its middle still on. The tunnel's mouth and the tunnel
+    /// under the floor are water in the footing; the hatch is water up to the floor, the air over it. The windows are a
+    /// block of glass in the middle of each side but the tunnel's. Over the roof, the sea; the line is a rope ladder from
+    /// the buoy at the surface down to the seabed beside the tunnel's mouth.
+    /// </summary>
+    private int SunkenRoomBlock(in Tile t, int rel, out int fluid)
+    {
+        fluid = 0;
+        int baseRel = -t.Height;
+        if (t.Zone == WorldLayout.L7ZoneLine)
+        {
+            if (rel <= Math.Max(baseRel, -t.Depth)) return -1; // the seabed as ever
+            fluid = waterId;
+            return ropeLadderIds[Facing(t.Pier)];
+        }
+        if (rel > baseRel + 7)
+        {
+            fluid = waterId;
+            return 0;
+        }
+        // Its concrete is the sea ceiling's, not the plain concrete that deep under the floor gives way to the ground's rock
+        int wall = oceanCeilingId;
+        // (A footing under it where the seabed falls away; under that, and under the seabed, the ground as ever)
+        if (rel <= baseRel) return rel > -t.Depth ? wall : -1;
+        int up = rel - baseRel;
+        int roof = t.Ceiling == CeilingKind.LightOn ? lightOnId : wall;
+        switch (t.Zone)
+        {
+            case WorldLayout.L7ZoneBellWall:
+                return wall;
+            case WorldLayout.L7ZoneBellWindow:
+                return up == 5 ? glassId : wall;
+            case WorldLayout.L7ZoneBellMouth:
+                if (up > 2) return wall;
+                fluid = waterId;
+                return 0;
+            case WorldLayout.L7ZoneBellHatch:
+                if (up <= 3)
+                {
+                    fluid = waterId;
+                    return 0;
+                }
+                return up == 7 ? roof : 0;
+            case WorldLayout.L7ZoneBellTunnel:
+                if (up <= 2)
+                {
+                    fluid = waterId;
+                    return 0;
+                }
+                return up == 3 ? roomFloorId : up == 7 ? roof : 0;
+            default:
+                if (up <= 2) return wall;
+                if (up == 3) return roomFloorId;
+                if (up == 4) return t.Variant != 0 ? AnyProp(t, 1) : t.SupplyBox ? BoxOf(t) : 0;
+                return up == 7 ? roof : 0;
+        }
     }
 
     /// <summary>
@@ -458,6 +696,17 @@ public sealed partial class WorldGenerator
     private int Level8Block(in Tile t, int gx, int gz, int y, int rel, out int fluid)
     {
         fluid = 0;
+        // From layout version 10, the rubble where the 9th Road ends at a break: the fallen rock heaped across the road
+        if (t.Zone > WorldLayout.L8ZoneRubble && t.Zone <= WorldLayout.L8ZoneRubble + 4 && layout.Version >= 10 && rel is >= 0 and <= 5)
+        {
+            int heap = t.Zone - WorldLayout.L8ZoneRubble;
+            if (rel == 0) return IsCave(gx, y - 1, gz) ? RockAt(gx, y, gz) : gravelId;
+            if (rel <= heap) return RockAt(gx, y, gz);
+            // (loose boulders on the heap's top, and the road's air over it up to the arch)
+            if (rel == heap + 1 && heap < 4 && Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltRubble + 7)) < 0.35
+                && boulderIds.TryGetValue(StrataName(gx, y - 1, gz), out int boulder)) return boulder;
+            if (rel <= 4) return 0;
+        }
         // The 9th Road and its settlements, and the road running on through the walls into other levels
         bool open = !t.IsWallLike || t.Kind == TileKind.Doorway;
         // Four blocks of air; from layout version 5, Height: an arch over the road, a dome over a settlement
@@ -480,8 +729,22 @@ public sealed partial class WorldGenerator
 
         if (IsCave(gx, y, gz))
         {
+            // The passage round a break in the road is bare: nothing hangs from its roof or stands on its floor
+            if (layout.Version >= 10 && caveColumns.Get(gx, gz).InCrawl(rel)) return 0;
             // Flooded deep pockets, speleothems hanging from ceilings and rising from floors
-            if (rel < -18 && IsPool(gx, gz) && PoolHeldIn(gx, y, gz))
+            if (layout.Version >= 11)
+            {
+                // From layout version 11 every pool is a true basin: all the open cave at its depth in a pool column is
+                // water, and the open cave beside that water, which would let it stand in a wall over the lower floor
+                // or pour out, is a rim of rock instead
+                if (rel < -18)
+                {
+                    if (IsPoolCell(gx, gz)) { fluid = waterId; return 0; }
+                    foreach ((int dx, int dz) in Neighbours4)
+                        if (IsCave(gx + dx, y, gz + dz) && IsPoolCell(gx + dx, gz + dz)) return RockAt(gx, y, gz);
+                }
+            }
+            else if (rel < -18 && IsPool(gx, gz) && PoolHeldIn(gx, y, gz))
             {
                 fluid = waterId;
                 return 0;
@@ -489,12 +752,14 @@ public sealed partial class WorldGenerator
             // Tapering speleothems, glowworms, lichen, bracket fungi and cave-ins (WorldGenerator.Caves.cs); never
             // over the road, whose air the cave noise knows nothing of
             if (!open && CaveFeature(gx, y, gz, rel) is int feature and >= 0) return feature;
+            // From layout version 9, a spider nest's webs where nothing else grows (WorldGenerator.Nests.cs)
+            if (!open && layout.Version >= 9 && NestWeb(gx, y, gz) is int web and >= 0) return web;
             double spikeRoll = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltSpike + (ulong)(y & 255)));
             // (nothing over the road either, where it would lie on the road's air)
             return !open && spikeRoll > 0.97 ? CaveLitter(gx, y, gz, rel, (spikeRoll - 0.97) / 0.03) : 0;
         }
         // A pool of scalding tar on some cave floors
-        if (caveColumns.Get(gx, gz).Tar && IsCave(gx, y + 1, gz)) return tarId;
+        if (caveColumns.Get(gx, gz).Tar && caveColumns.Get(gx, gz).CrawlDepth == 0 && IsCave(gx, y + 1, gz)) return tarId;
         return RockAt(gx, y, gz);
     }
 
@@ -528,7 +793,17 @@ public sealed partial class WorldGenerator
         return 0;
     }
 
-    private bool IsPool(int gx, int gz) => caveColumns.Get(gx, gz).Pool;
+    /// <summary>Layout version 11: a column that floods (a pool column with no break-in-the-road passage beside it, which the water would pour into).</summary>
+    private bool IsPoolCell(int gx, int gz)
+    {
+        if (!IsPool(gx, gz)) return false;
+        foreach ((int dx, int dz) in Neighbours4)
+            if (caveColumns.Get(gx + dx, gz + dz).CrawlDepth != 0) return false;
+        return true;
+    }
+
+    // (no flooded pocket over the passage round a break in the road, which would pour in)
+    private bool IsPool(int gx, int gz) => caveColumns.Get(gx, gz).Pool && caveColumns.Get(gx, gz).CrawlDepth == 0;
 
     /// <summary>
     /// Whether water here would stay put: every open cave beside it is flooded too (and so, a step further, is
@@ -553,15 +828,10 @@ public sealed partial class WorldGenerator
     /// <summary>Caves: big chambers where two noises agree, and long winding tubes along a third's zero.</summary>
     private bool IsCave(int gx, int y, int gz) => caveColumns.Get(gx, gz).IsCave(y);
 
-    private string StrataName(int gx, int y, int gz)
-    {
-        int layer = Hashing.FloorDiv(y + caveColumns.Get(gx, gz).StrataShift, 7);
-        int region = Hashing.FloorDiv(gx, 160) * 7 + Hashing.FloorDiv(gz, 160) * 3; // the order shifts from place to place
-        return strata[Hashing.Mod(layer + region, strata.Length)];
-    }
+    /// <summary>The name of the stratum at a point: the same one <see cref="StratumAt"/> picks, so loose stones match their rock.</summary>
+    private string StrataName(int gx, int y, int gz) => strata[StratumAt(caveColumns.Get(gx, gz), gx, y, gz, out _, out _)];
 
-    /// <summary>The rock (or ore, or something that should never be found in rock) at a point of Level 8.</summary>
-    /// <summary>Which of the strata a block of Level 8's rock is in.</summary>
+    /// <summary>Which of the strata a block of Level 8's rock is in (the order shifts from place to place).</summary>
     private int StratumAt(CaveColumn column, int gx, int y, int gz, out int layer, out int region)
     {
         layer = Hashing.FloorDiv(y + column.StrataShift, 7);
@@ -575,6 +845,7 @@ public sealed partial class WorldGenerator
         return id != 0 ? id : almondSeepId;
     }
 
+    /// <summary>The rock (or ore, or something that should never be found in rock) at a point of Level 8.</summary>
     private int RockAt(int gx, int y, int gz)
     {
         CaveColumn column = caveColumns.Get(gx, gz);
@@ -589,6 +860,10 @@ public sealed partial class WorldGenerator
             int coal = mineralIds[index, MineralCoal];
             if (coal != 0) return coal;
         }
+
+        // From layout version 9, a rich deposit the road goes round: one ore, thick in the rock
+        int rich = column.DepositGrade(y);
+        if (rich >= 0 && DepositOre(index, column.DepositKind, rich) is int deposit and not 0) return deposit;
 
         // Ore bodies, or from layout version 5 veins and pockets (see CaveColumn.OreGrade)
         int grade = column.OreGrade(y);
@@ -616,6 +891,19 @@ public sealed partial class WorldGenerator
         return strataIds[index];
     }
 
+    /// <summary>The ores of Level 8's rich deposits (layout version 9), by the deposit's kind: copper, tin, iron, zinc, bismuth or coal.</summary>
+    private static readonly int[] DepositOres = { OreNativeCopper, OreMalachite, OreCassiterite, OreLimonite, OreHematite, OreSphalerite, OreBismuthinite, -1 };
+
+    /// <summary>A rich deposit's ore block in a stratum (a poorer grade where the rock has none so rich), or 0.</summary>
+    private int DepositOre(int stratum, int kind, int grade)
+    {
+        int ore = DepositOres[Math.Clamp(kind, 0, DepositOres.Length - 1)];
+        if (ore < 0) return mineralIds[stratum, MineralCoal];
+        for (int g = grade; g >= 0; g--)
+            if (gradedOreIds[stratum, ore, g] is int id and not 0) return id;
+        return 0;
+    }
+
     // ---- Level 9: the suburbs under the night sky ----
 
     /// <param name="roofMaterial">The shingles (0 grey, 1 brown, 2 red), where the house says; otherwise one per Suburbs lot.</param>
@@ -634,6 +922,8 @@ public sealed partial class WorldGenerator
         int barnWall = barn ? barnWallIds[t.Pattern == WallPattern.BarnRed ? 0 : 1] : 0;
         var (lotX, lotZ) = layout.LotKeyAt(gx, gz);
         int material = barn ? 3 : roofMaterial >= 0 ? roofMaterial : (int)(Hashing.Hash(seed, lotX, lotZ, 0x9D09) % 3); // one colour of shingles per house
+        // From layout version 9: chimneys, tall windows, doors that open, the cased garage door
+        if ((t.Level == 9 && layout.Version >= 9 || t.Level == WorldLayout.Motion && layout.Version >= 11) && SuburbV9Block(t, gx, gz, rel, material) is int v9 and >= 0) return v9;
         switch (t.Kind)
         {
             case TileKind.Wall:
@@ -744,6 +1034,101 @@ public sealed partial class WorldGenerator
     }
 
     /// <summary>
+    /// What a Suburbs house from layout version 9 has that the older ones don't (see WorldLayout.PlanExteriorV9), where
+    /// the tile is not drawn as ever (-1 where it is): a brick chimney stack and its cap; a tall window's lower or upper
+    /// half (rel 2-3); a front or back door that opens, closed, open or locked, its gable siding over it where the gable
+    /// faces the street; a garage door cased in trim.
+    /// </summary>
+    private int SuburbV9Block(in Tile t, int gx, int gz, int rel, int material)
+    {
+        bool siding = t.Pattern >= WallPattern.SidingWhite && t.Pattern <= WallPattern.Brick;
+        if (WorldLayout.IsChimney(t))
+        {
+            // From the ground outside a gable end, or from the roof up through the ridge; a cap on top
+            int from = RoofBits.IsSloped(t.Roof) ? RoofBits.Height(t.Roof) : 1;
+            if (rel >= from) return rel < t.Depth ? chimneyId : rel == t.Depth ? chimneyCapIds[ChimneyJoin(gx, gz)] : 0;
+        }
+        switch (t.Kind)
+        {
+            case TileKind.Wall when siding && t.Variant is 1 or 2 && t.Stack >= WorldLayout.WinSash && rel is 2 or 3:
+                return TallWindow(t.Variant == 2, t.Stack, rel == 3, t.Pier, gx, gz, upstairs: false);
+            case TileKind.Door when siding && t.Under == Unders.DollHouse:
+            {
+                // A doll's house's door, onto Level 94 (its gable, if it faces the street, closed over it)
+                int roof = RoofAt(t, rel, material, Siding(t), gx, gz, 1 + (t.Pattern - WallPattern.SidingWhite));
+                if (roof >= 0) return roof;
+                return rel > 4 ? 0 : rel == 1 ? dollDoorLowerId : rel == 2 ? dollDoorUpperId : Siding(t);
+            }
+            case TileKind.Door or TileKind.Doorway when siding && (t.Stack & WorldLayout.DoorMark) != 0:
+            {
+                // (where the gable faces the street, the siding goes on up over the door)
+                int roof = RoofAt(t, rel, material, Siding(t), gx, gz, 1 + (t.Pattern - WallPattern.SidingWhite));
+                if (roof >= 0) return roof;
+                if (rel > 4) return 0;
+                if (rel > 2) return Siding(t);
+                int state = (t.Stack & WorldLayout.DoorLocked) != 0 ? 2 : (t.Stack & WorldLayout.DoorOpen) != 0 ? 1 : 0;
+                int f = Facing(t.Pier);
+                return suburbDoorIds[state, ModelEnd(f, (t.Stack & WorldLayout.DoorHingeEast) != 0), rel - 1, f];
+            }
+            case TileKind.Door when t.Pattern == WallPattern.GarageDoor && t.Stack >= WorldLayout.GarageTrim:
+            {
+                int sd = Math.Min(t.Stack & 15, sidingIds.GetLength(0) - 1), f = Facing(t.Pier);
+                int roof = RoofAt(t, rel, material, sidingIds[sd, f], gx, gz, 1 + sd);
+                if (roof >= 0) return roof;
+                if (rel > 4) return 0;
+                if (rel > 2) return sidingIds[sd, f];
+                ArchPier pier = t.Pier;
+                int part = AlongWall(gx, gz, pier, n => n.Kind == TileKind.Door && n.Pattern == WallPattern.GarageDoor);
+                return casedGarageIds[(rel - 1) * 3 + part, f];
+            }
+        }
+        return -1;
+    }
+
+    /// <summary>
+    /// Which end of a model (as modelled facing north: 0 its west end, 1 its east) a feature at one side of it lies at, for
+    /// a block facing <paramref name="f"/> (as <see cref="Facing"/> counts) with the feature on the world's east side or
+    /// its west. A model turned to face east has its west end to the north, and so on round.
+    /// </summary>
+    private static int ModelEnd(int f, bool east) => (east ? 1 : 3) == ((f + 3) & 3) ? 0 : 1;
+
+    /// <summary>
+    /// Where a tile lies in a row of its kind along a wall facing <paramref name="pier"/>: 0 at the row's end that is the
+    /// model's west end (as modelled facing north), 2 at its east end, 1 between (or alone).
+    /// </summary>
+    private int AlongWall(int gx, int gz, ArchPier pier, System.Func<Tile, bool> same)
+    {
+        int f = Facing(pier), w = (f + 3) & 3, e = (f + 1) & 3;
+        Tile tw = TileAt(gx + PipeFaces[w].Dx, gz + PipeFaces[w].Dz), te = TileAt(gx + PipeFaces[e].Dx, gz + PipeFaces[e].Dz);
+        bool hasW = tw.Pier == pier && same(tw), hasE = te.Pier == pier && same(te);
+        return !hasW && hasE ? 0 : hasW && !hasE ? 2 : 1;
+    }
+
+    /// <summary>A Suburbs window's shape (WorldLayout.WinSash ...) on a tile: downstairs from its Stack, upstairs from its Detail.</summary>
+    private static int WindowShape(in Tile n, bool upstairs) =>
+        upstairs ? n.Detail & 0x1F : n.Kind == TileKind.Wall && n.Variant is 1 or 2 ? n.Stack : 0;
+
+    /// <summary>A tall window's block: its glass, which of its parts this is, and its side.</summary>
+    private int TallWindow(bool lit, int shape, bool upper, ArchPier pier, int gx, int gz, bool upstairs)
+    {
+        int part = shape switch
+        {
+            WorldLayout.WinShutter => upper ? 3 : 2,
+            WorldLayout.WinPicture => (upper ? 7 : 4) + AlongWall(gx, gz, pier, n => WindowShape(n, upstairs) == WorldLayout.WinPicture),
+            _ => upper ? 1 : 0,
+        };
+        return suburbWindowIds[lit ? 1 : 0, part, Facing(pier)];
+    }
+
+    /// <summary>A chimney cap's join: 0 alone, else 1 + the side (as <see cref="Facing"/> counts) its stack's other half is on.</summary>
+    private int ChimneyJoin(int gx, int gz)
+    {
+        for (int f = 0; f < 4; f++)
+            if (WorldLayout.IsChimney(TileAt(gx + PipeFaces[f].Dx, gz + PipeFaces[f].Dz))) return 1 + f;
+        return 0;
+    }
+
+    /// <summary>
     /// What a Suburbs house from layout version 5 has that the older ones don't (see <see cref="WorldLayout.StoreyFloor"/>,
     /// kept in the tile's Height): the porch's deck, steps and posts and the lamp by the door; a two-storey house's
     /// stairs, the floor between its storeys, its rooms upstairs, and its roof a storey up. -1 where the tile is drawn
@@ -764,7 +1149,15 @@ public sealed partial class WorldGenerator
             return -1;
         }
         // The stairs: solid under each step, open over it up through the floor above, the top step in that floor
-        if (t.Stair > 0 && rel <= t.Stair) return rel < t.Stair ? interiorIds[WallPattern.InteriorBeige] : houseStairIds[Facing(t.Pier)];
+        // (from layout version 9, the steps under the opening have a balustrade on their open side)
+        if (t.Stair > 0 && rel <= t.Stair)
+        {
+            if (rel < t.Stair) return interiorIds[WallPattern.InteriorBeige];
+            int f = Facing(t.Pier);
+            return (t.Detail & WorldLayout.StairRail) != 0 && layout.Version >= 9
+                ? stairRailIds[(t.Detail & WorldLayout.StairRailFoot) != 0 ? 1 : 0, ModelEnd(f, (t.Detail & WorldLayout.StairRailEast) != 0), f]
+                : houseStairIds[f];
+        }
         if (rel < 4) return t.Stair > 0 ? 0 : -1;
         if (storey is WorldLayout.StoreyOuter or WorldLayout.StoreyOuterBlank)
         {
@@ -772,6 +1165,17 @@ public sealed partial class WorldGenerator
             if (rel == 4) return -1;
             Tile upper = t;
             upper.Height = 0;
+            if (layout.Version >= 9)
+            {
+                // Layout version 9: the windows upstairs are their own (in Detail), tall like the ones below
+                int shape = t.Detail & 0x1F;
+                if (shape >= WorldLayout.WinSash && rel is 6 or 7) return TallWindow((t.Detail & WorldLayout.WinLit) != 0, shape, rel == 7, t.Pier, gx, gz, upstairs: true);
+                upper.Kind = TileKind.Wall;
+                upper.Variant = 0;
+                upper.Under = 0;
+                if (upper.Stack is not (1 or 2)) upper.Stack = 0; // (a corner keeps its second face)
+                return Level9Block(upper, gx, gz, rel - 4, roofMaterial);
+            }
             if (t.Kind is TileKind.Door or TileKind.Doorway)
             {
                 upper.Kind = TileKind.Wall;
@@ -832,6 +1236,10 @@ public sealed partial class WorldGenerator
             if (rel > 0) return 0;
             if (rel > -t.Depth) { fluid = waterId; return 0; }
             // The pond bed: mud, with banks of clay in places; the worms keep clear of the water
+            // (From layout version 10 a few ponds have a patch of sand on the bed, the little a player can scrape up
+            // before the dive to Level 7's sea floor)
+            if (rel == -t.Depth && layout.Version >= 10 && sandIds.Length > 0 && Noise2(gx / 14.0, gz / 14.0, SaltPool + 11) > 0.62
+                && Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltPool + 12)) < 0.5) return sandIds[0];
             if (rel == -t.Depth && clayId != 0 && Noise2(gx / 5.0, gz / 5.0, SaltPool + 7) > 0.15) return clayId;
             return rel >= -6 ? lakeBedId : concreteId;
         }

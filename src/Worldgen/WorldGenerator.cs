@@ -11,7 +11,7 @@ namespace Backrooms.Worldgen;
 /// Writes the Backrooms into freshly generated chunk columns (the Terrain pass), one cell of the layout to a chunk
 /// column. Most levels share one floor height (<see cref="WorldGeometry.FloorFor"/> has the exceptions). Vertically,
 /// for the indoor levels: the ground (vanilla's, see <see cref="UndergroundSystem"/>, or plain concrete), the
-/// foundations, the floor, the walkable space of the level (3 blocks on Levels 0 and 2, 4 on Level 1), its ceiling,
+/// foundations, the floor, the walkable space of the level (3 blocks, 4 on Level 1), its ceiling,
 /// then concrete (with a dusty crawlspace above the Level 0 tiles) up to a mantle cap.
 ///
 /// Threads: the game runs each world generation pass on one thread at a time (a pass per worldgen thread), so
@@ -22,10 +22,10 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private static readonly string[] PatternCodes = { "chevron", "dotted", "cream", "manila", "red" };
+    private static readonly string[] PatternCodes = { "chevron", "dotted", "cream", "manila", "red", "stucco" };
 
-    /// <summary>Level 0's papered walls: the index of a pattern's blocks, or -1 for any other wall.</summary>
-    private static int Paper(WallPattern pattern) => pattern <= WallPattern.Manila ? (int)pattern : pattern == WallPattern.RedRoom ? 4 : -1;
+    /// <summary>Level 0's papered walls (and, from layout version 10, the arched areas' stucco): the index of a pattern's blocks, or -1 for any other wall.</summary>
+    private static int Paper(WallPattern pattern) => pattern <= WallPattern.Manila ? (int)pattern : pattern == WallPattern.RedRoom ? 4 : pattern == WallPattern.Stucco ? 5 : -1;
     private static readonly string[] PierCodes = { "west", "east", "north", "south" };
     private static readonly string[] Sides = { "north", "east", "south", "west" };
     private static readonly string[] Letters = { "a", "b", "c", "d", "e", "f" };
@@ -48,6 +48,8 @@ public sealed partial class WorldGenerator
         (Props.Bedroll, "bedroll", true, null, false),
         (Props.CampTent, "camptent", true, new[] { "nw", "ne", "sw", "se" }, false),
         (Props.SleepingBag, "sleepingbag", true, new[] { "head", "foot" }, true),
+        (Props.ImprovBed, "improvbed", true, new[] { "cardboard", "blankets", "mattress" }, false),
+        (Props.LeanTo, "leanto", true, new[] { "tarp", "door" }, false),
         (Props.LongSofa, "longsofa", true, new[] { "l", "r" }, false),
         (Props.Lantern, "camplantern", false, null, false),
         (Props.HospitalBed, "hospitalbed", true, new[] { "head", "foot" }, true),
@@ -109,6 +111,7 @@ public sealed partial class WorldGenerator
         (Props.DiningTable, "diningtable", false, null, false),
         (Props.GrandPiano, "grandpiano", true, null, false),
         (Props.CoalPile, "coalpile", false, null, false),
+        (Props.CoalBin, "coalbin", false, null, false),
         (Props.Tripwire, "tripwire", true, null, false),
         (Props.CafeTable, "cafetable", false, null, false),
         (Props.CafeChair, "cafechair", true, null, false),
@@ -119,6 +122,7 @@ public sealed partial class WorldGenerator
         (Props.SnackVending, "snackvending", true, null, false),
         (Props.DrinkFridge, "drinkfridge", true, null, false),
         (Props.VendingPile, "vendingpile", true, new[] { "standing", "toppled", "ontop" }, false),
+        (Props.BrokenVending, "brokenvending", true, null, false),
         (Props.BonePile, "bonepile", false, null, false),
         (Props.MothHive, "mothhive", false, null, false),
         (Props.ScrapMetal, "scrapmetal", false, null, false),
@@ -126,6 +130,7 @@ public sealed partial class WorldGenerator
         (Props.Ribcage, "ribcage", true, null, false),
         (Props.Backpack, "backpack", true, null, false),
         (Props.WreckCrate, "wreckcrate", false, null, false),
+        (Props.SeaChest, "seachest", true, new[] { "twilight", "midnight" }, false),
         (Props.MegMarker, "megmarker", true, null, false),
         (Props.RoadLamp, "roadlamp", false, null, false),
         (Props.GlowcapRed, "glowcapred", true, new[] { "floor", "wall" }, false),
@@ -193,6 +198,7 @@ public sealed partial class WorldGenerator
         (Props.Trolley, "trolley", true, null, false),
         (Props.MachineParts, "machineparts", true, null, false),
         (Props.TrafficSign, "trafficsign", true, new[] { "oneway", "noentry", "exit" }, false),
+        (Props.MegPlacard, "megplacard", true, new[] { "3-2", "4-3", "4-7", "5-9" }, false),
         // Level 37
         (Props.PoolLadder, "poolladder", true, null, false),
         (Props.EpsomCrust, "epsomcrust", false, null, false),
@@ -273,6 +279,7 @@ public sealed partial class WorldGenerator
             ["junctionbox"] = Decor.JunctionBox, ["sparkoutlet"] = Decor.SparkOutlet, ["bulkhead"] = Decor.Bulkhead,
             ["alarmbell"] = Decor.AlarmBell, ["wallcables"] = Decor.WallCables, ["risers"] = Decor.Risers, ["purpified"] = Decor.Purpified,
             ["fountain"] = Decor.Fountain, ["clock"] = Decor.Clock, ["whiteboard"] = Decor.Whiteboard, ["corkboard"] = Decor.Corkboard,
+            ["whiteboardl"] = Decor.WhiteboardLeft, ["whiteboardr"] = Decor.WhiteboardRight,
             ["evacmap"] = Decor.EvacMap, ["switch"] = Decor.LightSwitch, ["frameghost"] = Decor.FrameGhost, ["phone"] = Decor.Phone,
             ["callbutton"] = Decor.CallButton, ["mirror"] = Decor.Mirror, ["speaker"] = Decor.Speaker, ["housephone"] = Decor.HousePhone,
             ["firehose"] = Decor.FireHose, ["keyrack"] = Decor.KeyRack, ["callplate"] = Decor.CallPlate, ["landscape"] = Decor.Landscape,
@@ -337,6 +344,8 @@ public sealed partial class WorldGenerator
     private readonly bool[] propHeadFirst = new bool[Props.Limit];
     /// <summary>Wall decorations: [wall pattern, decoration, height above the floor, facing].</summary>
     private readonly int[,,,] decorIds = new int[PatternCount, Decor.Limit, 6, 4];
+    /// <summary>The hotel's gilt mirror on a plain cream wall block, one per facing (layout version 9 on; before it the mirror hung on the red framed panel).</summary>
+    private readonly int[] hotelMirrorPlainIds = new int[4];
     private static readonly int PatternCount = MaxPattern() + 1;
 
     private static int MaxPattern()
@@ -348,11 +357,16 @@ public sealed partial class WorldGenerator
     private readonly int[,] exitLintelIds = new int[3, 2]; // concrete, white block, drywall x axis (we, ns)
     /// <summary>The block entity class of every block by id (null for none), so placing a block never looks it up.</summary>
     private readonly string[] entityClassById;
+    /// <summary>Whether each block id is of stone (what <see cref="GroundFill"/> looks for), read once from the blocks.</summary>
+    private readonly bool[] isStoneById;
 
     // Level 0
     private readonly int ceilingTileId, lightOnId, lightLitId, lightOffId, lampDimId, lightFlickerId;
-    private readonly int[,] wallIds = new int[5, 5];
+    private readonly int[,] wallIds = new int[6, 5];
     private readonly int[] archIds = new int[4];
+    /// <summary>The stucco arches' headers and the stucco's joins with the yellow paper (layout version 10 on).</summary>
+    private readonly int[] archStuccoIds = new int[4];
+    private readonly int[,] stuccoJoinIds = new int[16, 2];
     /// <summary>Level 0 walls where an arched area meets a papered one: by which faces are pale (bit 0 north .. 3 west), upper or baseboard.</summary>
     private readonly int[,] paperJoinIds = new int[16, 2];
 
@@ -363,6 +377,8 @@ public sealed partial class WorldGenerator
     private readonly int[,] hangingLightIds = new int[3, 2]; // state (on, off, flicker) x axis (we, ns)
     private readonly int[,] fireDoorIds = new int[2, 4]; // leaf (left, right) x facing
     private readonly int bulbOnId, conduitXId, conduitZId, dripXId, dripZId;
+    private readonly int[,] conduitEndIds = new int[4, 2]; // side (east, north, west, south) x kind (cap, box), see ConduitBlock
+    private readonly int[,] conduitStubIds = new int[2, 4]; // axis (we, ns) x ends (cc, cb, bc, bb)
     private readonly int[] shelfIds = new int[4];
     private readonly int[] stairIds = new int[4];
     private readonly int wheelStopId, carColliderId;
@@ -376,6 +392,13 @@ public sealed partial class WorldGenerator
     private readonly int pipeRunXId, pipeRunZId, pipeHubId, pipeLeakXId, pipeLeakZId, tarRunXId, tarRunZId, tarHubId;
     private readonly int[,] tunnelLightIds = new int[4, 4]; // state (white, warm, off, flicker) x pipes alongside (we, ns, hub, none)
     private readonly int[] cabinetIds = new int[4];
+    /// <summary>
+    /// (Layout version 9) Level 2's machine cabinets with their feed pipe straight up, and the pipe above them into the
+    /// overhead bundle, by facing; and the tunnel walls with fittings that lead somewhere (tunnelfitting: a wall cabinet's
+    /// conduits up into the ceiling, a gate valve in the wall pipes, a valve at a riser's foot).
+    /// </summary>
+    private readonly int[] cabinetFeedIds = new int[4], feedPipeIds = new int[4];
+    private readonly int tunnelMachineryTopId, tunnelPipesValveId, tunnelRiserValveId;
     /// <summary>Level 2's tunnel walls, by <see cref="TunnelWallTypes"/>.</summary>
     private readonly int[] tunnelWallIds = new int[TunnelWallTypes.Length];
     private static readonly string[] TunnelWallTypes = { "plain", "machinery", "brick", "warning", "pipes", "riser", "riserjoint", "valve", "machinerybase", "pipesjoint", "pipesbracket" };
@@ -388,6 +411,9 @@ public sealed partial class WorldGenerator
 
     // Level 3
     private readonly int dustyFloorId, plasterCeilingId, transformerId, windowGlowId, manholeId, rungsId, sanctumStoneId;
+    /// <summary>A Level 3 manhole's ladder from layout version 9: [top left, top right, left, right][side it is on]; and the half step out of the water.</summary>
+    private readonly int[,] manholeLadderIds = new int[4, 4];
+    private readonly int tunnelStepId;
     private readonly Dictionary<WallPattern, int> l3WallIds = new();
     private readonly Dictionary<(WallPattern, ushort), int> l3FixtureIds = new();
     /// <summary>A Sanctum's vaulted ceiling: a plain vault cell, and one with a boss.</summary>
@@ -399,6 +425,23 @@ public sealed partial class WorldGenerator
     /// 1-3 Level 3's glazed tile, brick, cinder) and <see cref="WallPipeCorner"/>'s key; 0 where there is no such block.
     /// </summary>
     private readonly int[,] wallPipeCornerIds = new int[4, 1 << 12];
+    /// <summary>
+    /// (Layout version 9) Level 3's fittings that lead somewhere (l3fitting), by wall (glazed tile, brick, cinder): the
+    /// wall pipes with their pressure gauges in them, and the junction box a panel's conduit runs up into (with a cable
+    /// run coming into it from neither side, its east, its west or both, as the box faces north).
+    /// </summary>
+    private readonly int[] l3GaugePipeIds = new int[3];
+    private readonly int[,] l3PanelBoxIds = new int[3, 4];
+    /// <summary>
+    /// (Layout version 9) Level 3's cable runs ending in a gland in the wall, by wall, by end (the decoration's east end,
+    /// its west end, both) and facing.
+    /// </summary>
+    private readonly int[,,] l3CableEndIds = new int[3, 3, 4];
+    /// <summary>
+    /// (Layout version 9) The ends of a crossing of cables on Level 3's floor (floorcableend): a cable box, and its cables
+    /// laid for a wall to the east or south; a rise into the fitting on the wall, and the same mirrored; by facing.
+    /// </summary>
+    private readonly int[,] floorCableEndIds = new int[4, 4];
     private readonly int cableXId, cableZId, cableHubId, cableDroopXId, cableDroopZId, cableGapXId, cableGapZId;
     private readonly int[,] cableLightIds = new int[3, 5]; // state (warm, off, flicker) x axis (we, ns, no tray, on tar pipes we, ns)
     /// <summary>Overhead runs ending with open space beyond them, by the side they end on (north, east, south, west): Level 2's
@@ -413,6 +456,10 @@ public sealed partial class WorldGenerator
     private readonly int officeWallId, officeWallBaseId, officeWindowId, officeGlassId, officeCeilingId, confTableId, elevatorLowerId, elevatorUpperId;
     private readonly int officeDoorLowerId, officeDoorUpperId;
     private readonly int[] officeWindowIds = new int[3]; // open, blacked out, blinds
+    /// <summary>(layout 11) The window panes' blocks by kind (<see cref="PaneKinds"/>), part of the pane (<see cref="PaneParts"/>), lower or upper.</summary>
+    private readonly int[,,] officePaneIds = new int[5, 5, 2];
+    private static readonly string[] PaneKinds = { "clear", "blackout", "down", "half", "tilt" }, PaneParts = { "single", "west", "east", "north", "south" };
+    private const ulong SaltL4Blind = 0x4D41;
     private readonly int[] officeLightIds = new int[4]; // on, lit, off, flicker
     private readonly int partitionWeId, partitionNsId;
     private readonly int[] deskIds = new int[4], chairIds = new int[4], filingIds = new int[4], vendingIds = new int[4], coolerIds = new int[4];
@@ -432,6 +479,10 @@ public sealed partial class WorldGenerator
     private readonly int[] domeIds = new int[3]; // on, off, flicker
     private readonly int[] bedHeadIds = new int[4], bedFootIds = new int[4], nightstandIds = new int[4], wardrobeIds = new int[4];
     private readonly int[] wingChairIds = new int[4], sofaIds = new int[4], boilerIds = new int[4], furnaceIds = new int[4];
+    /// <summary>(Layout version 9) Level 5's boiler plant: the header by kind (run, flue, both), end (mid, west, east) and side (north, south); the risers by part (furnace2, steam2, both3, flue3) and facing; the bay walls' top block by side.</summary>
+    private readonly int[,,] plantHeaderIds = new int[3, 3, 2];
+    private readonly int[,] plantRiserIds = new int[4, 4];
+    private readonly int[] plantThruIds = new int[2];
 
     /// <summary>
     /// Block entities to spawn for blocks placed by the terrain pass (flickering lights, dispensers), by column, until
@@ -456,11 +507,13 @@ public sealed partial class WorldGenerator
 
         IList<Block> blocks = api.World.Blocks;
         entityClassById = new string[blocks.Count];
+        isStoneById = new bool[blocks.Count];
         for (int i = 0; i < blocks.Count; i++)
         {
             Block block = blocks[i];
             if (block?.Code != null && block.Code.Domain == "backrooms") modBlocks[block.Code.Path] = block.BlockId;
             entityClassById[i] = block?.EntityClass;
+            isStoneById[i] = block != null && block.BlockMaterial == EnumBlockMaterial.Stone;
         }
 
         mantleId = BlockId("game:mantle");
@@ -533,12 +586,14 @@ public sealed partial class WorldGenerator
                 for (int f = 0; f < 4; f++) propIds[prop, k, f] = Id(oriented ? $"{code}{kind}-{Sides[f]}" : $"{code}{kind}");
             }
         }
+        if (layout.Version >= 10) UseVanillaProps();
         foreach (var (family, decor, rel, state) in DetailBlocks.Decorations)
         {
             byte d = DecorFor(family, decor);
             if (d == 0 || !DecorFamilies.TryGetValue(family, out WallPattern pattern)) continue;
             for (int f = 0; f < 4; f++) decorIds[(int)pattern, d, rel, f] = Id($"{family}-{state}-{Sides[f]}");
         }
+        for (int f = 0; f < 4; f++) hotelMirrorPlainIds[f] = Id($"hoteldeco-mirrorplain-{Sides[f]}");
         string[] exitMaterials = { "concrete", "whiteblock", "drywall" };
         for (int m = 0; m < 3; m++)
         {
@@ -566,6 +621,13 @@ public sealed partial class WorldGenerator
             for (int part = 0; part < PartCodes.Length; part++)
                 wallIds[p, part] = BlockId($"backrooms:wallpaper-{PatternCodes[p]}-{PartCodes[part]}");
         for (int i = 0; i < PierCodes.Length; i++) archIds[i] = BlockId($"backrooms:archheader-{PierCodes[i]}");
+        for (int i = 0; i < PierCodes.Length; i++) archStuccoIds[i] = BlockId($"backrooms:archheaderstucco-{PierCodes[i]}");
+        for (int mask = 0; mask < 16; mask++)
+            for (int part = 0; part < 2; part++)
+            {
+                string faces = string.Join("-", Array.ConvertAll(new[] { 0, 1, 2, 3 }, f => (mask >> f & 1) != 0 ? "stucco" : "chevron"));
+                stuccoJoinIds[mask, part] = BlockId($"backrooms:stuccojoin-{faces}-{(part == 0 ? "upper" : "baseboard")}");
+            }
         for (int mask = 0; mask < 16; mask++)
             for (int part = 0; part < 2; part++)
             {
@@ -598,6 +660,11 @@ public sealed partial class WorldGenerator
         bulbOnId = BlockId("backrooms:hangingbulb-on");
         conduitXId = BlockId("backrooms:conduit-we");
         conduitZId = BlockId("backrooms:conduit-ns");
+        string[] conduitSides = { "east", "north", "west", "south" }, conduitKinds = { "cap", "box" }, conduitStubEnds = { "cc", "cb", "bc", "bb" };
+        for (int s = 0; s < 4; s++)
+            for (int k = 0; k < 2; k++) conduitEndIds[s, k] = Id($"conduitend-end-{conduitSides[s]}-{conduitKinds[k]}");
+        for (int a = 0; a < 2; a++)
+            for (int e = 0; e < 4; e++) conduitStubIds[a, e] = Id($"conduitend-stub-{(a == 0 ? "we" : "ns")}-{conduitStubEnds[e]}");
         dripXId = Id("drippipe-we");
         dripZId = Id("drippipe-ns");
         wheelStopId = BlockId("backrooms:wheelstop");
@@ -619,7 +686,12 @@ public sealed partial class WorldGenerator
             shelfIds[i] = BlockId($"backrooms:metalshelf-{Sides[i]}");
             stairIds[i] = BlockId($"backrooms:concretestairs-{Sides[i]}");
             cabinetIds[i] = BlockId($"backrooms:machinecabinet-{Sides[i]}");
+            cabinetFeedIds[i] = Id($"machinecabinetfeed-{Sides[i]}");
+            feedPipeIds[i] = Id($"feedpipe-{Sides[i]}");
         }
+        tunnelMachineryTopId = Id("tunnelfitting-machinerytop");
+        tunnelPipesValveId = Id("tunnelfitting-pipesvalve");
+        tunnelRiserValveId = Id("tunnelfitting-riservalve");
         InitStairwells();
 
         tunnelFloorId = BlockId("backrooms:concretefloor-dark");
@@ -646,6 +718,11 @@ public sealed partial class WorldGenerator
         windowGlowId = BlockId("backrooms:windowglow");
         manholeId = BlockId("backrooms:manhole");
         rungsId = BlockId("backrooms:rungs");
+        string[] ladderParts = { "topleft", "topright", "left", "right" }, ladderSides = { "north", "east", "south", "west" };
+        for (int part = 0; part < 4; part++)
+            for (int side = 0; side < 4; side++)
+                manholeLadderIds[part, side] = BlockId($"backrooms:manholeladder-{ladderParts[part]}-{ladderSides[side]}");
+        tunnelStepId = BlockId("backrooms:tunnelstep");
         sanctumStoneId = Id("sanctumstone-plain");
         sanctumCeilingIds[0] = Id("sanctumceiling-vault");
         sanctumCeilingIds[1] = Id("sanctumceiling-boss");
@@ -657,7 +734,18 @@ public sealed partial class WorldGenerator
             l3FixtureIds[(pattern, Props.WallFan)] = BlockId($"backrooms:l3wallfixture-{code}-fan");
             l3PipeRunIds[(pattern, TunnelPipesJoint)] = BlockId($"backrooms:l3wallfixture-{code}-pipesjoint");
             l3PipeRunIds[(pattern, TunnelPipesBracket)] = BlockId($"backrooms:l3wallfixture-{code}-pipesbracket");
+            // (Layout version 9)
+            int m = L3WallIndex(pattern);
+            l3GaugePipeIds[m] = Id($"l3fitting-{code}-pipesgauge");
+            string[] boxes = { "panelbox", "panelboxe", "panelboxw", "panelboxew" };
+            for (int k = 0; k < 4; k++) l3PanelBoxIds[m, k] = Id($"l3fitting-{code}-{boxes[k]}");
+            string[] cableEnds = { "e", "w", "ew" };
+            for (int e = 0; e < 3; e++)
+                for (int f = 0; f < 4; f++) l3CableEndIds[m, e, f] = Id($"l3deco{code}-wallcablesend{cableEnds[e]}-{Sides[f]}");
         }
+        string[] floorCableEnds = { "box", "boxm", "riser", "riserm" };
+        for (int k = 0; k < 4; k++)
+            for (int f = 0; f < 4; f++) floorCableEndIds[k, f] = Id($"floorcableend-{floorCableEnds[k]}-{Sides[f]}");
         InitWallPipeCorners();
         l3WallIds[WallPattern.Stone] = sanctumStoneId;
         InitCity();
@@ -717,6 +805,10 @@ public sealed partial class WorldGenerator
         officeWindowIds[0] = officeWindowId;
         officeWindowIds[1] = Id("officewindowalt-blackout");
         officeWindowIds[2] = Id("officewindowalt-blinds");
+        for (int k = 0; k < PaneKinds.Length; k++)
+            for (int p = 0; p < PaneParts.Length; p++)
+                for (int u = 0; u < 2; u++)
+                    officePaneIds[k, p, u] = Id($"officepane-{PaneKinds[k]}-{PaneParts[p]}-{(u == 0 ? "lower" : "upper")}");
         officeGlassId = BlockId("backrooms:officeglass");
         officeCeilingId = BlockId("backrooms:officeceiling");
         confTableId = BlockId("backrooms:conferencetable");
@@ -773,6 +865,14 @@ public sealed partial class WorldGenerator
             boilerIds[i] = BlockId($"backrooms:boiler-{Sides[i]}");
             furnaceIds[i] = BlockId($"backrooms:furnace-{Sides[i]}");
         }
+        string[] plantKinds = { "run", "flue", "both" }, plantEnds = { "mid", "west", "east" }, plantParts = { "furnace2", "steam2", "both3", "flue3" };
+        for (int k = 0; k < 3; k++)
+            for (int e = 0; e < 3; e++)
+                for (int sd = 0; sd < 2; sd++) plantHeaderIds[k, e, sd] = BlockId($"backrooms:plantheader-{plantKinds[k]}-{plantEnds[e]}-{(sd == 0 ? "north" : "south")}");
+        for (int k = 0; k < 4; k++)
+            for (int f = 0; f < 4; f++) plantRiserIds[k, f] = BlockId($"backrooms:plantriser-{plantParts[k]}-{Sides[f]}");
+        plantThruIds[0] = BlockId("backrooms:plantthru-north");
+        plantThruIds[1] = BlockId("backrooms:plantthru-south");
 
         lighting = new WorldLighting(api, this, chunkSize);
     }
@@ -828,14 +928,18 @@ public sealed partial class WorldGenerator
             for (int y = 1; y < g.BandBottom; y++) FillLayer(chunks, y, concreteId);
         }
         FillLayer(chunks, 0, mantleId);
-        if (!openSky) FillLayer(chunks, cap, mantleId);
+        bool highSea = HighSea(level);
+        if (!openSky && !highSea) FillLayer(chunks, cap, mantleId);
 
         IMapChunk mapChunk = chunks[0].MapChunk;
-        var entities = new List<(BlockPos, string)>();
+        List<(BlockPos, string)> entities = null; // (made when the first block needing an entity turns up)
         int yMax = 0;
         // What the lighting pass needs of this cell, gathered as the blocks go down rather than computed twice
         int lightBottom = lighting.BandBottomFor(request.ChunkX, request.ChunkZ);
-        var cellLight = new WorldLighting.CellLight(chunkSize, lighting.Height);
+        // (A cell a neighbour's lighting has already worked out comes with its blocks: place those, they are the same ones)
+        WorldLighting.CellLight known = lighting.Computed(request.ChunkX, request.ChunkZ, lightBottom);
+        WorldLighting.CellLight cellLight = known ?? new WorldLighting.CellLight(chunkSize, lighting.Height);
+        int lightHeight = lighting.Height;
 
         for (int lz = 0; lz < chunkSize; lz++)
         {
@@ -855,29 +959,47 @@ public sealed partial class WorldGenerator
                 }
                 for (int y = bottom; y <= bandTop; y++)
                 {
-                    int block = ColumnBlock(t, gx, gz, y, out int fluid);
+                    int block, fluid;
+                    int yy = y - lightBottom;
+                    if (known != null && (uint)yy < (uint)lightHeight)
+                    {
+                        int at = lighting.CellIndex(lx, yy, lz);
+                        block = known.Blocks[at];
+                        fluid = known.Fluids != null ? known.Fluids[at] : 0;
+                    }
+                    else block = ColumnBlock(t, gx, gz, y, out fluid);
                     if (ground && block == concreteId && fluid == 0 && y < groundBelow)
                     {
                         // Under the foundations: the ground as vanilla laid it, filled up with its own rock
                         if (y > land) Petrify(chunks, lx, y, lz, fill);
                         block = GetBlock(chunks, lx, y, lz);
-                        lighting.Note(cellLight, lx, y, lz, lightBottom, block, 0);
+                        if (known == null) lighting.Note(cellLight, lx, y, lz, lightBottom, block, 0);
                         if (block != 0) top = y;
                         continue;
                     }
-                    lighting.Note(cellLight, lx, y, lz, lightBottom, block, fluid);
+                    if (known == null) lighting.Note(cellLight, lx, y, lz, lightBottom, block, fluid);
                     if (block != 0 || y < g.BandBottom || ground) SetBlock(chunks, lx, y, lz, block);
                     if (fluid != 0 || ground) SetFluid(chunks, lx, y, lz, fluid);
                     if (block != 0 || fluid != 0) top = y;
                     string entityClass = EntityClassOf(block);
-                    if (entityClass != null) entities.Add((new BlockPos(gx, y, gz), entityClass));
+                    if (entityClass != null) (entities ??= new List<(BlockPos, string)>()).Add((new BlockPos(gx, y, gz), entityClass));
                 }
-                if (t.Kind == TileKind.Pit && t.Level == 0) LineShaft(chunks, tiles, lx, lz);
 
-                int rainHeight = openSky ? top : cap;
+                int rainHeight = openSky ? top : highSea ? bandTop : cap;
                 mapChunk.RainHeightMap[column] = (ushort)rainHeight;
                 mapChunk.WorldGenTerrainHeightMap[column] = (ushort)(openSky ? Math.Max(g.FloorFor(level), top) : g.FloorY);
                 yMax = Math.Max(yMax, rainHeight);
+            }
+        }
+
+        // The shafts are lined once every column is down: lining a pit's neighbours as the loop went would be overwritten
+        // when the loop reached the east and south ones
+        for (int lz = 0; lz < chunkSize; lz++)
+        {
+            for (int lx = 0; lx < chunkSize; lx++)
+            {
+                Tile t = tiles[WorldLayout.TileIndex(lx, lz)];
+                if (t.Kind == TileKind.Pit && t.Level == 0) LineShaft(chunks, tiles, lx, lz);
             }
         }
 
@@ -886,7 +1008,7 @@ public sealed partial class WorldGenerator
         lighting.Light(chunks, request.ChunkX, request.ChunkZ);
         // (Dropping the notes loses nothing: SpawnBlockEntities finds them again from the blocks)
         if (pendingEntities.Count >= PendingLimit) pendingEntities.Clear();
-        pendingEntities[ChunkKey(request.ChunkX, request.ChunkZ)] = entities.Count > 0 ? entities : NoEntities;
+        pendingEntities[ChunkKey(request.ChunkX, request.ChunkZ)] = entities ?? NoEntities;
     }
 
     /// <summary>
@@ -914,11 +1036,23 @@ public sealed partial class WorldGenerator
             _ => g.BandBottom,
         };
         int top = level is 11 or WorldLayout.Motion ? g.TopY : g.BandTop;
+        // From layout version 9 the Suburbs go on up to the roofs of their two-storey houses, their chimneys and the tops
+        // of their trees (in 1-8 nothing above the usual band was built: a two-storey house stopped at its eaves, flat)
+        if (level == 9 && layout.Version >= 9) top = Math.Min(g.TopY - 1, g.FloorY + SuburbTop);
+        // (Level 7 from layout version 9: up to its high ceiling, with no mantle over it: see HighSea)
+        if (HighSea(level)) top = g.FloorY + WorldLayout.SeaCeiling;
         // Those levels are generated over their own band, and sealed just above it
         bool region = level >= WorldLayout.RunLevel && level <= WorldLayout.Level183;
         if (region) top = g.BandTopFor(level);
         return (bottom, top, region ? top + 1 : g.CapY);
     }
+
+    /// <summary>
+    /// Level 7 from layout version 9: its ceiling (<see cref="WorldLayout.SeaCeiling"/>) is near the top of the world, and
+    /// no mantle is laid over it, so the world's light comes in through it (seaceiling absorbs none) as the lore's dim
+    /// light from nowhere (AtmosphereSystem holds it the same at every hour); no rain falls under it.
+    /// </summary>
+    private bool HighSea(int level) => level == 7 && layout.Version >= 9;
 
     /// <summary>The block entity class a block needs, or null.</summary>
     private string EntityClassOf(int blockId) => (uint)blockId < (uint)entityClassById.Length ? entityClassById[blockId] : null;
@@ -933,7 +1067,7 @@ public sealed partial class WorldGenerator
     {
         if (pendingEntities.TryRemove(ChunkKey(request.ChunkX, request.ChunkZ), out var entities))
         {
-            foreach ((BlockPos pos, string entityClass) in entities) blockAccessor.SpawnBlockEntity(entityClass, pos);
+            foreach ((BlockPos pos, string entityClass) in entities) SpawnEntity(blockAccessor, entityClass, pos);
             return;
         }
         IServerChunk[] chunks = request.Chunks;
@@ -950,10 +1084,17 @@ public sealed partial class WorldGenerator
                     string entityClass = EntityClassOf(GetBlock(chunks, lx, y, lz));
                     if (entityClass == null) continue;
                     at.Set(x0 + lx, y, z0 + lz);
-                    if (blockAccessor.GetBlockEntity(at) == null) blockAccessor.SpawnBlockEntity(entityClass, at.Copy());
+                    if (blockAccessor.GetBlockEntity(at) == null) SpawnEntity(blockAccessor, entityClass, at.Copy());
                 }
             }
         }
+    }
+
+    /// <summary>Spawns a block entity; a vanilla lantern the generator put down (a camp's) is iron, not the copper it defaults to.</summary>
+    private static void SpawnEntity(IBlockAccessor blockAccessor, string entityClass, BlockPos pos)
+    {
+        blockAccessor.SpawnBlockEntity(entityClass, pos);
+        if (entityClass == "Lantern" && blockAccessor.GetBlockEntity(pos) is Vintagestory.GameContent.BELantern lantern) lantern.material = "iron";
     }
 
     private static long ChunkKey(int chunkX, int chunkZ) => ((long)chunkX << 32) | (uint)chunkZ;
@@ -1050,7 +1191,12 @@ public sealed partial class WorldGenerator
             // Level 3's flooded utility tunnel: 3 high, knee-deep freezing water, reached down a manhole shaft, its
             // floor deep in the clay silt the water has carried in
             if (rel == -5) return clayId != 0 ? clayId : concreteId;
+            // Layout version 9's manholes: the ladder from the dry landing at its foot up to the lip, the landing round
+            // it (shaft, a block either side and the row behind), and a half step out of the water onto it
+            if (t.Under == 2 && t.Zone != 0) return rel == -4 ? concreteId : ManholeLadder(t, false);
+            if (t.Under == 1 && t.Zone == WorldLayout.L3TunnelLanding) return rel is -4 or -1 ? concreteId : 0;
             if (rel == -4) fluid = waterId;
+            if (rel == -4 && t.Under == 1 && t.Zone == WorldLayout.L3TunnelStep && tunnelStepId != 0) return tunnelStepId;
             if (rel == -1) return t.Under == 2 ? rungsId : concreteId;
             return t.Under == 2 ? rungsId : 0;
         }
@@ -1063,12 +1209,24 @@ public sealed partial class WorldGenerator
         return concreteId;
     }
 
+    /// <summary>
+    /// A piece of a layout version 9 manhole's ladder: the top (at the floor, its rails standing on above it, the open
+    /// lid against the far side) or a length below, the left or right half as seen facing it, on the tile's Pier side.
+    /// </summary>
+    private int ManholeLadder(in Tile t, bool top) =>
+        manholeLadderIds[(top ? 0 : 2) + (t.Zone == WorldLayout.L3ShaftLeft ? 0 : 1), Facing(t.Pier)];
+
     // ---- Shared detail ----
 
     /// <summary>The decoration block for a wall tile at this height, or 0 if it has none there.</summary>
     private int Decorated(in Tile t, int rel)
     {
         if (t.Variant < Decor.First || t.Variant >= Decor.Limit || rel < 0 || rel > 5) return 0;
+        // Level 1's power box conduit runs on up to a junction box under the ceiling (layout version 9 on; before it
+        // stopped at the plain wall block above the riser)
+        if (rel == 4 && t.Variant == Decor.PowerBox && (t.Level != 1 || layout.Version < 9)) return 0;
+        // The hotel's mirror hangs on a plain cream wall block, not on the red framed panel (layout version 9 on)
+        if (rel == 2 && t.Variant == Decor.Mirror && t.Pattern == WallPattern.Hotel && layout.Version >= 9) return hotelMirrorPlainIds[Facing(t.Pier)];
         return decorIds[(int)t.Pattern, t.Variant, rel, Facing(t.Pier)];
     }
 
@@ -1113,15 +1271,18 @@ public sealed partial class WorldGenerator
             case TileKind.Wall:
                 if (pattern < 0) return concreteId;
                 // Where the pale walls meet the paper, each face takes the finish of the side it faces
-                if (WorldLayout.L0FlipBits(t) is int flip and not 0 && t.Pattern is WallPattern.Chevron or WallPattern.Cream)
-                    return paperJoinIds[t.Pattern == WallPattern.Cream ? ~flip & 15 : flip, bottom ? 1 : 0];
+                if (WorldLayout.L0FlipBits(t) is int flip and not 0 && t.Pattern is WallPattern.Chevron or WallPattern.Cream or WallPattern.Stucco)
+                    // (Layout version 10: the pale side of a join is stucco, on the yellow wall's pale faces as on the stucco's own)
+                    return t.Pattern == WallPattern.Stucco ? stuccoJoinIds[~flip & 15, bottom ? 1 : 0]
+                        : t.Pattern == WallPattern.Chevron && layout.Version >= 10 ? stuccoJoinIds[flip, bottom ? 1 : 0]
+                        : paperJoinIds[t.Pattern == WallPattern.Cream ? ~flip & 15 : flip, bottom ? 1 : 0];
                 return wallIds[pattern, bottom ? (t.Outlet ? PartOutlet : BasePart(t.Base)) : PartUpper];
             case TileKind.Doorway:
                 return top ? (pattern < 0 ? concreteId : wallIds[pattern, PartUpper]) : 0;
             case TileKind.ArchWindow:
-                return bottom ? wallIds[Math.Max(pattern, 0), BasePart(t.Base)] : top ? archIds[(int)t.Pier] : 0;
+                return bottom ? wallIds[Math.Max(pattern, 0), BasePart(t.Base)] : top ? (t.Pattern == WallPattern.Stucco ? archStuccoIds : archIds)[(int)t.Pier] : 0;
             case TileKind.ArchDoor:
-                return top ? archIds[(int)t.Pier] : 0;
+                return top ? (t.Pattern == WallPattern.Stucco ? archStuccoIds : archIds)[(int)t.Pier] : 0;
             default:
                 // (Level Fun's poster and its red smiley hang at eye height, over the carpet)
                 if (t.Variant is Props.FunPosterTrap or Props.FunSmiley) return rel == 2 ? PropBlock(t) : 0;
@@ -1144,9 +1305,29 @@ public sealed partial class WorldGenerator
 
     // ---- Level 1: concrete car park and maintenance halls ----
 
+    /// <summary>
+    /// From layout version 10, the dark way on from a stairs to nowhere (see <see cref="WorldLayout.AddStairsToNowhereV4"/>): a
+    /// fourth step in the doorway cut in the wall (air over it to rel 6), the fifth and sixth over the ceiling of the stall
+    /// beyond (that stall's slab block is the fifth step's, the sixth stands on it) and a dead-end landing at the sixth's
+    /// height, the air over each two blocks, up to the shaft's top under the roof. -1: as the tile always is.
+    /// </summary>
+    private int NowhereBlock(in Tile t, int rel)
+    {
+        int top = Geometry.BandTop - Geometry.FloorY - 1;
+        // The third step: its head is up to the slab, which is open over it
+        if (t.Zone == WorldLayout.FlightZoneNowhere) return t.Stair == 3 && rel == WorldGeometry.Level1RoomHeight + 1 ? 0 : -1;
+        // 4, 5 and 6 for the doorway and the two rises, straight on or along the wall; 7 for the landing
+        int step = t.Zone is WorldLayout.NowhereWall ? 4 : t.Zone is WorldLayout.NowhereRise or WorldLayout.NowhereTurn1 ? 5 : t.Zone is WorldLayout.NowhereTop or WorldLayout.NowhereTurn2 ? 6 : 7;
+        if (rel > top || rel < step - 1 && t.Zone != WorldLayout.NowhereLanding) return -1;
+        if (t.Zone == WorldLayout.NowhereLanding) return rel == 6 ? concreteId : rel > 6 ? 0 : -1;
+        if (rel == step) return stairIds[Facing(t.Pier)];
+        return rel > step ? 0 : -1;
+    }
+
     private int Level1Block(in Tile t, int rel, int gx, int gz)
     {
         const int room = WorldGeometry.Level1RoomHeight;
+        if (t.Zone >= WorldLayout.FlightZoneNowhere && t.Zone <= WorldLayout.NowhereTurn2 && layout.Version >= 10 && NowhereBlock(t, rel) is int dark and >= 0) return dark;
         if (rel > room + 1) return concreteId;
         if (rel == 0) return floorIds[(int)t.Floor];
         if (rel == room + 1) return t.IsWallLike ? concreteId : concreteCeilingId;
@@ -1218,8 +1399,7 @@ public sealed partial class WorldGenerator
                 Pipes.Hub => pipeHubId,
                 Pipes.DripX => dripXId,
                 Pipes.DripZ => dripZId,
-                Pipes.ConduitX => conduitXId,
-                Pipes.ConduitZ => conduitZId,
+                Pipes.ConduitX or Pipes.ConduitZ => ConduitBlock(t, gx, gz),
                 _ => 0,
             };
         }
@@ -1264,14 +1444,15 @@ public sealed partial class WorldGenerator
         switch (t.Kind)
         {
             case TileKind.Wall:
+                if (layout.Version >= 9 && t.Pattern == WallPattern.Tunnel && TunnelFitting(t, rel, gx, gz) is int fitting and >= 0) return fitting;
                 return TunnelWall(t.Pattern == WallPattern.Tunnel ? t.Variant : Props.WallPlain, rel, gx, gz);
             case TileKind.Doorway:
                 return rel <= 2 ? 0 : tunnelWallIds[TunnelPlain];
             case TileKind.Door:
                 if (rel > 2) return tunnelWallIds[TunnelPlain];
                 // The steel doors come "in various shades of white, grey and cream": the paint goes by the door's place
-                int paint = (int)(Hashing.Hash(seed, gx, gz, 0x2B0D) % 4);
-                int painted = paint < 3 ? tunnelDoorPaintIds[paint, rel - 1] : 0;
+                int paint = TunnelPaint.PaintOf(seed, gx, gz);
+                int painted = paint >= 0 ? tunnelDoorPaintIds[paint, rel - 1] : 0;
                 return painted != 0 ? painted : rel == 1 ? tunnelDoorLowerId : tunnelDoorUpperId;
         }
 
@@ -1301,9 +1482,14 @@ public sealed partial class WorldGenerator
             };
         }
 
+        // (Layout version 9) A machine cabinet's feed pipe goes on up the wall behind it into the overhead bundle (in
+        // 1-8, and wherever the blocks are missing, the cabinet's own pipe turns back into the wall above it)
+        bool feed = t.Variant == Props.Cabinet && layout.Version >= 9 && cabinetFeedIds[0] != 0 && feedPipeIds[0] != 0;
+        if (feed && rel == 2) return feedPipeIds[Facing(Opposite(t.Pier))];
         if (rel == 1)
         {
             if (t.Variant == Props.Drum) return drumId;
+            if (feed) return cabinetFeedIds[Facing(Opposite(t.Pier))];
             if (t.Variant == Props.Cabinet) return cabinetIds[Facing(Opposite(t.Pier))];
             if (t.Variant == Props.Shelf) return shelfIds[Facing(Opposite(t.Pier))];
             if (t.Variant == Props.Desk) return deskIds[Facing(t.Pier)];
@@ -1330,6 +1516,30 @@ public sealed partial class WorldGenerator
             }
         }
         return TunnelWallBlock(variant, rel, gx, gz);
+    }
+
+    /// <summary>
+    /// (Layout version 9) A tunnel wall's fitting that leads somewhere, or -1 to draw the wall as in 1-8: over a wall
+    /// cabinet its conduits run on up into the ceiling; a valve wall has its valve in the wall pipes (at a corner of the
+    /// pipes, just the corner) and bare wall below them, where 1-8 put a wheel on the bare wall; a riser marked for one
+    /// (Tile.Stack 1, see WorldLayout.PlaceL2Valve) has a valve at its foot. Where a block is missing, the 1-8 wall.
+    /// </summary>
+    private int TunnelFitting(in Tile t, int rel, int gx, int gz)
+    {
+        switch (t.Variant)
+        {
+            case Props.WallMachinery when rel == 3 && tunnelMachineryTopId != 0:
+                return tunnelMachineryTopId;
+            case Props.WallValve when tunnelPipesValveId != 0:
+                if (rel == 1) return tunnelWallIds[TunnelPlain];
+                if (rel != 2) return -1;
+                int corner = WallPipeCorner(0, gx, gz);
+                return corner != 0 ? corner : tunnelPipesValveId;
+            case Props.WallRiser when rel == 1 && t.Stack == 1 && tunnelRiserValveId != 0:
+                // (Where the pipes turn a corner the riser makes way for them: no riser, no valve)
+                return WallPipeCorner(0, gx, gz) == 0 ? tunnelRiserValveId : -1;
+        }
+        return -1;
     }
 
     private int TunnelWallBlock(ushort variant, int rel, int gx, int gz) => tunnelWallIds[variant switch
@@ -1457,7 +1667,8 @@ public sealed partial class WorldGenerator
     private bool CarriesWallPipes(in Tile n) => n.Kind == TileKind.Wall && n.Level switch
     {
         2 => n.Pattern == WallPattern.Tunnel && n.Variant is Props.WallPipes or Props.WallRiser or Props.WallValve,
-        3 => n.Variant == Props.WallPipes && n.Pattern != WallPattern.Stone,
+        // (From layout version 9 a pressure gauge sits in the pipes: WorldLayout.PlanL3WallRuns)
+        3 => (n.Variant == Props.WallPipes || n.Variant == Decor.Gauges && layout.Version >= 9) && n.Pattern != WallPattern.Stone,
         _ => false,
     };
 
@@ -1495,6 +1706,29 @@ public sealed partial class WorldGenerator
         return corners == 0 ? 0 : wallPipeCornerIds[wall, key | corners];
     }
 
+    /// <summary>
+    /// Level 1's ceiling conduit in a column. From layout version 9 a run is finished off where it ends
+    /// (<see cref="WorldLayout.ConduitEnds"/>): a capped end, or a junction box where it meets a wall or a beam, one block
+    /// of the run on its own having one at each end; before that the bare tubes were left as they stood.
+    /// </summary>
+    private int ConduitBlock(in Tile t, int gx, int gz)
+    {
+        bool x = t.Pipe == Pipes.ConduitX;
+        if (layout.Version < 9) return x ? conduitXId : conduitZId;
+        (int low, int high) = WorldLayout.ConduitEnds(TileAt, gx, gz, out _);
+        if (low == 0 && high == 0) return x ? conduitXId : conduitZId;
+        // (the low end of a run along X is its west end, of one along Z its north end; the stub blocks name their ends
+        // west then east, which an "ns" block turns to south then north)
+        if (low != 0 && high != 0)
+        {
+            int west = (x ? low : high) - 1, east = (x ? high : low) - 1;
+            return conduitStubIds[x ? 0 : 1, west * 2 + east];
+        }
+        bool isLow = low != 0;
+        int side = x ? (isLow ? 2 : 0) : (isLow ? 1 : 3);
+        return conduitEndIds[side, (isLow ? low : high) - 1];
+    }
+
     /// <summary>The four columns beside a column, in the order every neighbour check here looks at them (east, west, south, north).</summary>
     private static readonly (int Dx, int Dz)[] Neighbours4 = { (1, 0), (-1, 0), (0, 1), (0, -1) };
 
@@ -1523,7 +1757,7 @@ public sealed partial class WorldGenerator
         int room = t.Grand ? WorldGeometry.MaxRoomHeight : t.Low ? WorldGeometry.RoomHeight - 1 : WorldGeometry.RoomHeight;
         if (rel > room + 1) return concreteId;
         if (t.Low && rel == room && !t.IsWallLike && t.Kind != TileKind.Bars) return 0; // nothing hangs where there is barely room to pass
-        if (rel == 0) return t.Under == 2 ? manholeId : t.Floor == FloorKind.Dusty ? dustyFloorId : floorIds[(int)t.Floor];
+        if (rel == 0) return t.Under == 2 ? (t.Zone != 0 ? ManholeLadder(t, true) : manholeId) : t.Floor == FloorKind.Dusty ? dustyFloorId : floorIds[(int)t.Floor];
         if (rel == room + 1)
         {
             if (t.IsWallLike) return concreteId;
@@ -1537,12 +1771,14 @@ public sealed partial class WorldGenerator
         switch (t.Kind)
         {
             case TileKind.Wall:
+                WallPattern fixturePattern = l3WallIds.ContainsKey(t.Pattern) ? t.Pattern : WallPattern.GlazedTile;
+                if (layout.Version >= 9 && t.Pattern != WallPattern.Stone && L3Fitting(t, rel, gx, gz, fixturePattern) is int fitting and not 0)
+                    return fitting;
                 int decor = Decorated(t, rel);
                 if (decor != 0) return decor;
-                WallPattern fixturePattern = l3WallIds.ContainsKey(t.Pattern) ? t.Pattern : WallPattern.GlazedTile;
                 // Where Level 3's wall pipes turn a corner or end
                 if (rel == 2 && t.Variant == Props.WallPipes && t.Pattern != WallPattern.Stone
-                    && WallPipeCorner(fixturePattern switch { WallPattern.RedBrick => 2, WallPattern.Cinder => 3, _ => 1 }, gx, gz) is int corner and not 0)
+                    && WallPipeCorner(L3WallIndex(fixturePattern) + 1, gx, gz) is int corner and not 0)
                     return corner;
                 if (rel == 2 && t.Variant == Props.WallPipes && WallPipeRun(gx, gz) != TunnelPipes
                     && l3PipeRunIds.TryGetValue((fixturePattern, WallPipeRun(gx, gz)), out int run) && run != 0) return run;
@@ -1592,6 +1828,14 @@ public sealed partial class WorldGenerator
         }
         if (rel == 1)
         {
+            // (Layout version 9) The ends of a crossing of cables on the floor (WorldLayout.PlanL3FloorCables): a box against
+            // the wall, or the rise into the fitting on it (Stack 1, 2). Their cables are mirrored for a wall to the east or
+            // south, so that they line up with the lengths between, which are not symmetric.
+            if (t.Variant == Props.FloorCable && t.Stack is 1 or 2 && layout.Version >= 9)
+            {
+                int end = floorCableEndIds[(t.Stack - 1) * 2 + (t.Pier is ArchPier.East or ArchPier.South ? 1 : 0), Facing(t.Pier)];
+                if (end != 0) return end;
+            }
             if (t.Variant == Props.Transformer) return transformerId;
             if (t.Variant == Props.Drum) return drumId;
             if (t.Variant == Props.Boiler) return boilerIds[Facing(t.Pier)];
@@ -1604,6 +1848,74 @@ public sealed partial class WorldGenerator
         if (t.Variant == Props.Shelf && rel == 2) return shelfIds[Facing(Opposite(t.Pier))];
         if (t.Variant == 0 && rel <= t.Stack) return CrateOf(t);
         return 0;
+    }
+
+    /// <summary>Level 3's walls in the order their blocks are kept: glazed tile, brick, cinder (and the wallpipecorner wall less one).</summary>
+    private static int L3WallIndex(WallPattern pattern) => pattern switch { WallPattern.RedBrick => 1, WallPattern.Cinder => 2, _ => 0 };
+
+    /// <summary>
+    /// (Layout version 9) A Level 3 wall's fitting where its runs lead somewhere (WorldLayout.PlanL3WallRuns), or 0 to draw
+    /// the wall as in 1-8: a pressure gauge sits in the wall pipes (in 1-8 on a length of pipe of its own, which lined up
+    /// with nothing; where the pipes turn a corner there, just the corner); a panel's conduit runs on up the wall into a
+    /// junction box (in 1-8 it stopped at the wall above), which takes the cables of a run beside it; and a cable run
+    /// ends in a gland in the wall, at either end or both, unless it runs on into a panel's junction box there.
+    /// </summary>
+    private int L3Fitting(in Tile t, int rel, int gx, int gz, WallPattern pattern)
+    {
+        int m = L3WallIndex(pattern);
+        switch (t.Variant)
+        {
+            case Decor.Gauges when rel == 2:
+                int corner = WallPipeCorner(m + 1, gx, gz);
+                return corner != 0 ? corner : l3GaugePipeIds[m];
+            case Props.WallPanel when rel == 3:
+            {
+                // A cable run beside it comes into the box's side: a run on its face f to the east of it (a quarter
+                // clockwise from f, the way the box's own east lies on that face) comes into its east side
+                bool east = false, west = false;
+                foreach (ArchPier dir in new[] { ArchPier.North, ArchPier.East, ArchPier.South, ArchPier.West })
+                {
+                    Tile n = Beside(gx, gz, dir);
+                    if (n.Kind != TileKind.Wall || n.Level != 3 || n.Variant != Decor.WallCables) continue;
+                    if (dir == Clockwise(n.Pier)) east = true;
+                    else if (dir == Opposite(Clockwise(n.Pier))) west = true;
+                }
+                return l3PanelBoxIds[m, (east ? 1 : 0) + (west ? 2 : 0)];
+            }
+            case Decor.WallCables when rel == 3:
+            {
+                // The decoration faces t.Pier, so its own east end lies a quarter clockwise from it
+                ArchPier east = Clockwise(t.Pier);
+                bool e = CablesRunOn(t, gx, gz, east), w = CablesRunOn(t, gx, gz, Opposite(east));
+                return e && w ? 0 : l3CableEndIds[m, !e && !w ? 2 : !e ? 0 : 1, Facing(t.Pier)];
+            }
+        }
+        return 0;
+    }
+
+    /// <summary>A direction a quarter clockwise from another, seen from above.</summary>
+    private static ArchPier Clockwise(ArchPier dir) => dir switch
+    {
+        ArchPier.North => ArchPier.East,
+        ArchPier.East => ArchPier.South,
+        ArchPier.South => ArchPier.West,
+        _ => ArchPier.North,
+    };
+
+    /// <summary>The tile beside a column one way.</summary>
+    private Tile Beside(int gx, int gz, ArchPier dir) => dir switch
+    {
+        ArchPier.North => TileAt(gx, gz - 1),
+        ArchPier.South => TileAt(gx, gz + 1),
+        ArchPier.East => TileAt(gx + 1, gz),
+        _ => TileAt(gx - 1, gz),
+    };
+
+    /// <summary>Whether a Level 3 cable run goes on past a wall block one way: into more of the run, or a panel's junction box.</summary>
+    private bool CablesRunOn(in Tile t, int gx, int gz, ArchPier dir)
+    {
+        Tile n = Beside(gx, gz, dir);
+        return n.Kind == TileKind.Wall && n.Level == 3 && (n.Variant == Decor.WallCables && n.Pier == t.Pier || n.Variant == Props.WallPanel);
     }
 
     private int BarsBlock(in Tile t) => t.Pier is ArchPier.North or ArchPier.South ? barsNsId : barsWeId;
@@ -1638,7 +1950,7 @@ public sealed partial class WorldGenerator
                 if (decor != 0) return decor;
                 return t.Pattern switch
                 {
-                    WallPattern.OfficeWindow => rel == 1 ? officeWallBaseId : officeWindowIds[t.Variant % 3],
+                    WallPattern.OfficeWindow => rel == 1 ? officeWallBaseId : layout.Version >= 11 ? L4PaneBlock(t, rel, gx, gz) : officeWindowIds[t.Variant % 3],
                     WallPattern.OfficeGlass => officeGlassId,
                     WallPattern.Hotel => HotelWall(rel),
                     _ => rel == 1 ? officeWallBaseId : officeWallId,
@@ -1668,6 +1980,54 @@ public sealed partial class WorldGenerator
             >= 40 => PropBlock(t),
             _ => t.SupplyBox ? BoxOf(t) : 0,
         };
+    }
+
+    /// <summary>
+    /// (layout 11) A block of one of Level 4's windows, which are panes two blocks wide and the window's full height
+    /// (from the drywall base to the ceiling, two blocks): a run of window blocks is paired at even world coordinates
+    /// along it, and a block whose pair is not window (the run ends at a corner, a column or a doorway) is a pane of its
+    /// own, one block wide (a block where two runs meet goes with one of them: <see cref="PaneAxis"/>). The pane is clear, blacked out or behind blinds as the
+    /// layout rolled it once for the pair (<c>WorldLayout.WindowRoll</c>), and a blind is down, half drawn up or tilted
+    /// open by one roll at the same corner. Each part has its own block, framed only on the pane's outer edges.
+    /// </summary>
+    private int L4PaneBlock(in Tile t, int rel, int gx, int gz)
+    {
+        int axis = PaneAxis(gx, gz), part = 0;
+        if (axis == 1 && PaneAxis(gx ^ 1, gz) == 1) part = (gx & 1) == 0 ? 1 : 2;
+        else if (axis == 2 && PaneAxis(gx, gz ^ 1) == 2) part = (gz & 1) == 0 ? 3 : 4;
+        // (the state as the pane's even block has it, so a pane is one thing even if one block's tile was changed)
+        int state = part switch { 1 or 2 => TileAt(gx & ~1, gz).Variant, 3 or 4 => TileAt(gx, gz & ~1).Variant, _ => t.Variant };
+        int kind = (state % 3) switch
+        {
+            0 => 0,
+            1 => 1,
+            _ => 2 + (int)(Hashing.Hash(seed, gx & ~1, gz & ~1, SaltL4Blind) % 3),
+        };
+        return officePaneIds[kind, part, rel >= WorldGeometry.RoomHeight ? 1 : 0];
+    }
+
+    /// <summary>
+    /// The way the window run through a column goes, for pairing it into panes: 1 along x, 2 along z, 0 not a window or
+    /// one standing alone. A block where two runs meet (a corner, or where one runs into another) goes with the run
+    /// whose block it pairs with, along x first, so a corner is the end of a whole pane with the frame's post on its other
+    /// face, and the other run's block beside it is a pane of its own.
+    /// </summary>
+    private int PaneAxis(int gx, int gz)
+    {
+        if (!IsWindow(gx, gz)) return 0;
+        bool x = IsWindow(gx - 1, gz) || IsWindow(gx + 1, gz), z = IsWindow(gx, gz - 1) || IsWindow(gx, gz + 1);
+        if (x != z) return x ? 1 : 2;
+        if (!x) return 0;
+        if (IsWindow(gx ^ 1, gz) && !IsWindow(gx ^ 1, gz - 1) && !IsWindow(gx ^ 1, gz + 1)) return 1;
+        if (IsWindow(gx, gz ^ 1) && !IsWindow(gx - 1, gz ^ 1) && !IsWindow(gx + 1, gz ^ 1)) return 2;
+        return 0;
+    }
+
+    /// <summary>Whether a column is one of Level 4's window walls.</summary>
+    private bool IsWindow(int gx, int gz)
+    {
+        Tile n = TileAt(gx, gz);
+        return n.Kind == TileKind.Wall && n.Pattern == WallPattern.OfficeWindow;
     }
 
     // ---- Level 5: terror hotel ----
@@ -1710,6 +2070,8 @@ public sealed partial class WorldGenerator
         switch (t.Kind)
         {
             case TileKind.Wall:
+                // (Layout version 9) A boiler bay's wall carries the plant's header through it, over the bay's back row
+                if (rel == room && t.Pipe == Pipes.PlantThru && layout.Version >= 9) return plantThruIds[PlantSide(gz)];
                 int decor = Decorated(t, rel);
                 if (decor != 0) return decor;
                 if (t.Pattern == WallPattern.Marble) return marbleId;
@@ -1746,6 +2108,7 @@ public sealed partial class WorldGenerator
             if (t.Overhead == Overheads.CeilingFan) return ceilingFanId;
             if (boiler && t.Ceiling == CeilingKind.LightWarm) return bulbOnId;
             if (boiler && t.Ceiling == CeilingKind.LightOff) return bulbOffId;
+            if (t.Pipe is >= Pipes.PlantRun and <= Pipes.PlantBoth && layout.Version >= 9) return PlantHeader(t, gx, gz);
             return t.Pipe switch
             {
                 Pipes.RunX => pipeRunXId,
@@ -1755,6 +2118,10 @@ public sealed partial class WorldGenerator
                 _ => 0,
             };
         }
+        // (Layout version 9) A boiler's flue and steam pipe, and a furnace's flue, rise through the two blocks over them
+        // to the header
+        if (rel is 2 or 3 && layout.Version >= 9 && t.Variant is Props.Boiler or Props.Furnace)
+            return plantRiserIds[t.Variant == Props.Boiler ? (rel == 2 ? 1 : 2) : (rel == 2 ? 0 : 3), Facing(t.Pier)];
         if (rel != 1) return 0;
         int facing = Facing(t.Pier);
         return t.Variant switch
@@ -1775,10 +2142,28 @@ public sealed partial class WorldGenerator
         };
     }
 
+    /// <summary>Which side of its cell a boiler hall's row lies on: 0 the north bays (steam main on the north), 1 the south.</summary>
+    private static int PlantSide(int gz) => Hashing.Mod(gz, WorldLayout.MacroSize) < WorldLayout.MacroSize / 2 ? 0 : 1;
+
+    /// <summary>
+    /// (Layout version 9) The header over a boiler bay's back row: a flue duct and steam main, ending against the wall
+    /// where the row of bays does (nothing of the plant to its west or east), with the risers coming up into it.
+    /// </summary>
+    private int PlantHeader(in Tile t, int gx, int gz)
+    {
+        bool Joined(int x) => layout.TileAt(x, gz).Pipe is >= Pipes.PlantRun and <= Pipes.PlantThru;
+        int end = !Joined(gx - 1) ? 1 : !Joined(gx + 1) ? 2 : 0;
+        return plantHeaderIds[t.Pipe - Pipes.PlantRun, end, PlantSide(gz)];
+    }
+
     /// <summary>Hotel walls: mahogany wainscot, then a red panel in a gilt frame, then a cream frieze.</summary>
     private int HotelWall(int rel) => rel == 1 ? wainscotId : rel == 2 ? panelId : friezeId;
 
-    /// <summary>Shafts are lined with the same carpet as the room, all the way down.</summary>
+    /// <summary>
+    /// Shafts are lined with the same carpet as the room, all the way down. Only the walls inside this chunk are lined:
+    /// a shaft at a chunk's border is bare concrete on its far side, because the next chunk's column builder cannot see
+    /// the pit.
+    /// </summary>
     private void LineShaft(IServerChunk[] chunks, Tile[] tiles, int lx, int lz)
     {
         int bottom = Geometry.FloorY - WorldGeometry.ShaftDepth;
@@ -1830,7 +2215,7 @@ public sealed partial class WorldGenerator
         for (int y = land; y > Math.Max(0, land - 48); y--)
         {
             int id = GetBlock(chunks, lx, y, lz);
-            if (id != 0 && api.World.Blocks[id].BlockMaterial == EnumBlockMaterial.Stone) return id;
+            if (id != 0 && (uint)id < (uint)isStoneById.Length && isStoneById[id]) return id;
         }
         return groundFallbackId;
     }
@@ -1857,6 +2242,26 @@ public sealed partial class WorldGenerator
             return 0;
         }
         return block.BlockId;
+    }
+
+    /// <summary>
+    /// From layout version 10, props that added nothing over a vanilla block are vanilla's own: the camping lantern is
+    /// a small vanilla lantern (held in the offhand, picked up with a right-click), the round bale a hay block lying on
+    /// its side and the feed trough a small vanilla trough. The old blocks stay for worlds made before, and break into
+    /// the vanilla thing (their drops). A missing block leaves the old prop in place.
+    /// </summary>
+    private void UseVanillaProps()
+    {
+        int lantern = BlockId("game:lantern-small-up");
+        int hayAlongX = BlockId("game:hay-normal-we"), hayAlongZ = BlockId("game:hay-normal-ns");
+        int troughAlongX = BlockId("game:trough-genericwood-small-ns"), troughAlongZ = BlockId("game:trough-genericwood-small-we");
+        for (int f = 0; f < 4; f++)
+        {
+            bool alongX = f is 0 or 2; // modelled lengthways across the block when facing north or south
+            if (lantern != 0) propIds[Props.Lantern, 0, f] = lantern;
+            if (hayAlongX != 0 && hayAlongZ != 0) propIds[Props.HayRoll, 0, f] = alongX ? hayAlongX : hayAlongZ;
+            if (troughAlongX != 0 && troughAlongZ != 0) propIds[Props.FeedTrough, 0, f] = alongX ? troughAlongX : troughAlongZ;
+        }
     }
 
     /// <summary>A block of this mod by code path.</summary>

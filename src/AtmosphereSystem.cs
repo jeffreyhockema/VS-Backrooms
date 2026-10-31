@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Backrooms.Reality;
 using Backrooms.Worldgen;
 using Vintagestory.API.Client;
@@ -95,7 +96,7 @@ public partial class AtmosphereSystem : ModSystem
         // Level 94: a bright, saturated day (and night) of its own, clear to the painted backdrop: a film set has no haze,
         // and the castle on its mountain shows on the horizon (MotionLandmark.cs draws it past the view distance)
         new(0.0016f, 0.62f, 0.78f, 0.95f, 0f, sceneWeight: 0f, dayNight: true),
-        // The five kept as 14-18, each level's own line (placeholders: a faint neutral haze). Parts of a level with air of
+        // The seven far places kept as 14-20, each level's own line. Parts of a level with air of
         // their own are swapped in by its AtmosphereSystem.<level>.cs
         // Level !: a close red murk, the EXIT signs repeating into it (it pulses with the alarm: AtmosphereSystem.Run.cs)
         new(0.022f, 0.30f, 0.04f, 0.04f, 0f),
@@ -134,6 +135,14 @@ public partial class AtmosphereSystem : ModSystem
         new(0.025f, 0.788f, 0.839f, 0.839f, 0f),
     };
 
+    /// <summary>
+    /// Level 7 from layout version 9, under its high ceiling: the lore's "dim natural light" from nowhere, the same at every
+    /// hour (the light comes in through the ceiling and the world is held at half its brightness), and a thin grey-blue sea
+    /// haze over the water that takes the far distance, the mist lying on the surface. The sky sphere (L10Sky) takes the
+    /// band of sky that would otherwise show between the sea and the ceiling past the view distance.
+    /// </summary>
+    private static readonly Atmosphere HighSea = new(0.011f, 0.19f, 0.23f, 0.27f, -0.25f, scene: 0.5f, fogMin: 0.06f);
+
     /// <summary>Level 37.1, the Sanguine Reservoir: close, dark and red.</summary>
     private static readonly Atmosphere Reservoir = new(0.03f, 0.18f, 0.02f, 0.03f, 0f);
 
@@ -145,10 +154,20 @@ public partial class AtmosphereSystem : ModSystem
     private const int ReservoirKey = 371, CastleKey = 941;
 
     /// <summary>How far off the Reservoir's chanting is heard, and a siren pole's tune.</summary>
-    private const int ChantHeard = 160, TuneHeard = 72;
+    private const int ChantHeard = 160;
 
-    private ILoadedSound poolTone, sirenTune;
-    private string sirenPlaying;
+    /// <summary>
+    /// Level 94's siren-pole tune: how far off it is heard, and how loud. It used to be heard 72 blocks off at 0.9, which
+    /// in a town was a blast from every street; now a radio heard through a house wall (40 blocks, a third of the volume).
+    /// </summary>
+    private const int TuneHeard = 40;
+    private const float SirenVolume = 0.3f;
+
+    private ILoadedSound poolTone;
+    private MusicVoice sirenVoice;
+    private int musicLevel;
+    private (int X, int Z)? sirenAt;
+    private double sirenDistance;
     private float nextChant = 6, nextPoolSound = 8;
 
     /// <summary>Level 7's water just under the surface, a blue that darkens to black as the player dives.</summary>
@@ -192,6 +211,8 @@ public partial class AtmosphereSystem : ModSystem
     // brown-grey of its own brightness and down to StrainDark of it, and the ambient light (and the fog with it) falls
     // by StrainDim. Lamps are block light, which the ambient doesn't touch, so a lit room stays lit.
     private const float StrainStart = 0.3f;
+    // Exhaustion (dead on your feet): up to this share of the light is taken off, and this much of the colour
+    private const float WearyDim = 0.25f, WearyGrey = 0.35f;
     private const float StrainDensityGain = 1.6f, StrainDensityAdd = 0.008f, StrainDensityCap = 0.05f;
     private const float StrainGrey = 0.75f, StrainDark = 0.6f, StrainDim = 0.3f;
     /// <summary>The brown-grey low stability turns the fog to, as a tint on its brightness (it keeps its brightness).</summary>
@@ -232,6 +253,8 @@ public partial class AtmosphereSystem : ModSystem
     private bool shiftWasActive, shiftSeen;
     // How far the player's low stability shows in the air (0 not at all, 1 at zero stability), eased
     private float strain;
+    // How far dead-on-your-feet exhaustion shows (0 not at all, 1 at the 84 h cap), eased; and the dark blink it brings
+    private float weary, wearyBlink, nextWearyBlink = 40;
 
     // Which level the player was last in, and when each level's name was last shown
     private int lastLevelKey = -1;
@@ -243,6 +266,7 @@ public partial class AtmosphereSystem : ModSystem
     {
         capi = api;
         api.Event.LevelFinalize += OnLevelFinalize;
+        HotelMusicInit();
     }
 
     private void OnLevelFinalize()
@@ -279,12 +303,12 @@ public partial class AtmosphereSystem : ModSystem
         // Every loop the levels may have running, so none is left playing after the world closes
         foreach (ILoadedSound sound in new[]
         {
-            poolTone, sirenTune, endTone, endWind, funBed, hubDrone, hubWind, l188Loop, l188Pipe, l188Party, l3999Music, l3999Hum, l3999Zone,
+            poolTone, endTone, endWind, funBed, hubDrone, hubWind, l188Loop, l188Pipe, l188Party, l3999Music, l3999Hum, l3999Zone,
             l974Lullaby, l974Fridge, runAlarm, runAlarmFar, runHorde, runHeart, runSafe,
             l73Wind, l73Surf, l73Fire,
             basementTone, basementWash,
             l183Flow, l183Wash,
-        })
+        }.Concat(sirenVoice?.Loaded() ?? []).Concat(funVoiceA?.Loaded() ?? []).Concat(funVoiceB?.Loaded() ?? []).Concat(hotelVoice?.Loaded() ?? []))
         {
             sound?.Stop();
             sound?.Dispose();
@@ -319,6 +343,10 @@ public partial class AtmosphereSystem : ModSystem
         }
     }
 
+    /// <summary>Whether the player was in a Red Room last tick, and the seconds left of the quick change of air after crossing its wall.</summary>
+    private bool wasRed;
+    private float redSwitch;
+
     private void OnTick(float dt)
     {
         EntityPlayer entity = capi.World.Player?.Entity;
@@ -336,9 +364,10 @@ public partial class AtmosphereSystem : ModSystem
         int bx = (int)Math.Floor(pos.X), bz = (int)Math.Floor(pos.Z);
         bool castle = level == WorldLayout.Motion && layout.InCastle(bx, bz) && pos.Y > geometry.FloorFor(level) + WorldLayout.MountainHeight - 1;
         bool blinding = castle && layout.TileAt(bx, bz).Zone == 4;
-        Atmosphere target = snack ? Snackrooms : red ? RedRooms : reservoir ? Reservoir : blinding ? Blinding : castle ? Castle : Levels[level];
+        Atmosphere target = snack ? Snackrooms : red ? RedRooms : reservoir ? Reservoir : blinding ? Blinding : castle ? Castle
+            : level == 7 && layout.Version >= 9 ? HighSea : Levels[level];
         int titleKey = snack ? 61 : red ? RedRoomsKey : reservoir ? ReservoirKey : castle ? CastleKey : level;
-        // The five kept as 14-18 tune their own air, and name their own parts, in their own files
+        // The seven far places kept as 14-20 tune their own air, and name their own parts, in their own files
         switch (level)
         {
             case WorldLayout.RunLevel: RunAir(dt, pos, ref target, ref titleKey); break;
@@ -374,7 +403,9 @@ public partial class AtmosphereSystem : ModSystem
         // Reality Shift: the lights fail, with the odd flash as they fight back. A Level 1 Flickering does the same to
         // the player's own stretch of the Habitable Zone for a minute or two (the server sets when it ends)
         double flickerUntil = entity.WatchedAttributes.GetDouble(Entities.MenaceSystem.FlickerKey, -1);
-        float flickerTarget = level is 1 or 2 && capi.World.Calendar.TotalHours < flickerUntil ? 0.85f : 0f;
+        // (The zero blackout, Reality.ZeroSystem, darkens the same way in whatever level the player has lost their grip in)
+        double blackoutUntil = entity.WatchedAttributes.GetDouble(Reality.ZeroSystem.BlackoutKey, -1);
+        float flickerTarget = (level is 1 or 2 && capi.World.Calendar.TotalHours < flickerUntil) || capi.World.Calendar.TotalHours < blackoutUntil ? 0.85f : 0f;
         flicker += (flickerTarget - flicker) * Math.Min(1f, dt * (flickerTarget > flicker ? 6f : 1.5f));
         if (flicker < 0.01f) flicker = 0f;
         float shift = Math.Max((float)(reality?.ShiftStrength ?? 0), flicker);
@@ -387,7 +418,20 @@ public partial class AtmosphereSystem : ModSystem
         shiftWasActive = shift > 0;
         if (shift > 0 && rand.NextDouble() < dt * (shift < 1 ? 2.5 : 0.25)) flash = 1f;
         flash = Math.Max(0f, flash - dt * 6f);
-        float black = Math.Max(blink, shift * (1f - 0.8f * flash));
+        // Exhaustion (Needs): from 60 awake hours, and not while caffeinated, the air dims and greys and the view blinks
+        // dark for 0.3 s every 30 to 60 s. Nothing at all with fatigue off (DeadOnFeet is false then).
+        bool wearyNow = !spectator && Needs.Needs.DeadOnFeet(entity) && !Needs.Needs.Caffeinated(entity);
+        float wearyTarget = wearyNow ? GameMath.Lerp(0.6f, 1f, GameMath.Clamp((Needs.Needs.AwakeHours(entity) - Needs.Needs.DeadHours) / (Needs.Needs.CapHours - Needs.Needs.DeadHours), 0f, 1f)) : 0f;
+        weary += (wearyTarget - weary) * Math.Min(1f, dt * 1.5f);
+        if (wearyTarget == 0 && weary < 0.005f) weary = 0f;
+        if (wearyNow)
+        {
+            nextWearyBlink -= dt;
+            if (nextWearyBlink <= 0) { wearyBlink = 0.3f; nextWearyBlink = 30f + (float)rand.NextDouble() * 30f; }
+        }
+        else nextWearyBlink = 30f + (float)rand.NextDouble() * 30f;
+        wearyBlink = Math.Max(0f, wearyBlink - dt);
+        float black = Math.Max(Math.Max(blink, wearyBlink > 0 ? 1f : 0f), shift * (1f - 0.8f * flash));
 
         // The player's own stability: below 0.3 the air shows it, more the lower it falls, coming and going over about
         // a second so it never jumps. It is laid over whatever air the player is in now, so it goes with them through
@@ -445,7 +489,11 @@ public partial class AtmosphereSystem : ModSystem
 
         // Ease towards the level's own atmosphere over a couple of seconds (faster in and out of the dark);
         // darkness is applied on top at once
-        float k = snapNext ? 1f : Math.Min(1f, dt * (dark || baseFogMin > 0.2f ? 3f : 0.6f));
+        // Stepping into or out of a Red Room (its wall is the threshold) turns the air over in well under a second, so
+        // the red is whole as soon as you are inside the wallpaper rather than creeping in over the first few blocks
+        if (red != wasRed) { wasRed = red; redSwitch = 1.5f; }
+        redSwitch = Math.Max(0f, redSwitch - dt);
+        float k = snapNext ? 1f : Math.Min(1f, dt * (redSwitch > 0 ? 5f : dark || baseFogMin > 0.2f ? 3f : 0.6f));
         snapNext = false;
         baseDensity += (density - baseDensity) * k;
         baseFogMin += (fogMin - baseFogMin) * k;
@@ -465,7 +513,12 @@ public partial class AtmosphereSystem : ModSystem
         fog.FogDensity.Weight = ownWeight;
         float[] fogColor = fog.FogColor.Value;
         Strained(baseColor, strainColor);
-        for (int i = 0; i < 3; i++) fogColor[i] = GameMath.Lerp(GameMath.Lerp(baseColor[i], strainColor[i], strain), 0.01f, black);
+        for (int i = 0; i < 3; i++)
+        {
+            float c = GameMath.Lerp(baseColor[i], strainColor[i], strain);
+            c = GameMath.Lerp(c, 0.30f * baseColor[0] + 0.59f * baseColor[1] + 0.11f * baseColor[2], WearyGrey * weary);
+            fogColor[i] = GameMath.Lerp(c, 0.01f, black);
+        }
         fog.FogColor.Weight = ownWeight;
         fog.FogMin.Value = Math.Max(m, Math.Max(BlackoutFogMin * shift * (1f - 0.8f * flash), BlinkFogMin * blink));
         fog.FogMin.Weight = ownWeight;
@@ -474,7 +527,7 @@ public partial class AtmosphereSystem : ModSystem
         // own (baseScene at sceneWeight) dimmed is sceneWeight (1 - dim) baseScene + (1 - sceneWeight)(1 - dim) before,
         // which is the same thing at the w and v below. Where the level keeps the outside day and night (weight 0
         // there), that dims the night by the same share as the day rather than lighting it up.
-        float dim = StrainDim * strain, sceneW = 1f - (1f - sceneWeight) * (1f - dim);
+        float dim = 1f - (1f - StrainDim * strain) * (1f - WearyDim * weary), sceneW = 1f - (1f - sceneWeight) * (1f - dim);
         fog.SceneBrightness.Value = sceneW > 0.001f ? sceneWeight * (1f - dim) * baseScene / sceneW : baseScene;
         fog.SceneBrightness.Weight = sceneW;
         fog.FogBrightness.Weight = fogBrightWeight;
@@ -484,7 +537,8 @@ public partial class AtmosphereSystem : ModSystem
         fog.CloudDensity.Weight = cloudWeight;
         fog.CloudBrightness.Value = baseCloudBright;
         fog.CloudBrightness.Weight = cloudWeight;
-        L10Sky(k, level == 10);
+        // (Level 7 too: its ceiling ends at the view distance, and the sky past it would show as a bright band on the horizon)
+        L10Sky(k, level is 10 or 7);
 
         fog.FlatFogDensity.Value += (groundFog - fog.FlatFogDensity.Value) * Math.Max(k, Math.Min(1f, dt * 2f));
         // Flat fog height is relative to sea level, which the server sets to the floor; compute it absolutely anyway
@@ -510,9 +564,11 @@ public partial class AtmosphereSystem : ModSystem
     /// </summary>
     private void LevelSounds(float dt, EntityPos pos, int level, bool reservoir, bool castle)
     {
-        // The five kept as 14-18 start and stop their own (every tick, so they can stop when the player leaves)
+        musicLevel = level;
+        // The seven far places kept as 14-20 start and stop their own (every tick, so they can stop when the player leaves)
         RunSounds(dt, pos, level == WorldLayout.RunLevel);
         FunSounds(dt, pos, level == WorldLayout.FunLevel);
+        FunMusic(pos, level == WorldLayout.FunLevel);
         EndSounds(dt, pos, level == WorldLayout.TheEnd);
         HubSounds(dt, pos, level == WorldLayout.Hub);
         L974Sounds(dt, pos, level == WorldLayout.Level974);
@@ -525,6 +581,7 @@ public partial class AtmosphereSystem : ModSystem
         L55Sounds(dt, pos, level == WorldLayout.Level55);
         L120Sounds(dt, pos, level == WorldLayout.Level120);
         L183Sounds(dt, pos, level == WorldLayout.Level183);
+        HotelSounds(dt, pos, level == 5);
 
         // The Poolrooms' room tone
         bool pool = level == WorldLayout.Poolrooms;
@@ -571,7 +628,7 @@ public partial class AtmosphereSystem : ModSystem
             }
         }
 
-        // Motion's siren poles, by day
+        // Motion's siren poles, by day: one voice, heard as a radio through a house wall (see TuneHeard)
         string tune = null;
         (int X, int Z)? pole = null;
         if (level == WorldLayout.Motion && !castle && !Regions.MotionSystem.IsNight(capi.World.Calendar))
@@ -579,25 +636,15 @@ public partial class AtmosphereSystem : ModSystem
             pole = layout.NearestSirenPole((int)Math.Floor(pos.X), (int)Math.Floor(pos.Z), TuneHeard);
             if (pole != null) tune = Regions.MotionSystem.IsDusk(capi.World.Calendar) ? "sirentune-dusk" : "sirentune";
         }
-        if (tune != sirenPlaying || tune != null && sirenTune != null && sirenTune.Params.Position is { } at0
-            && (Math.Abs(at0.X - (pole.Value.X + 0.5)) > 1 || Math.Abs(at0.Z - (pole.Value.Z + 0.5)) > 1))
+        sirenVoice ??= new MusicVoice(capi);
+        if (tune == null) sirenVoice.Set(null, null, 0, 0, fadeOut: 0.6f); // at dusk it cuts out
+        else
         {
-            sirenTune?.Stop();
-            sirenTune?.Dispose();
-            sirenTune = null;
-            sirenPlaying = tune;
-            if (tune != null)
-            {
-                int ground = geometry.FloorFor(level) + layout.TileAt(pole.Value.X, pole.Value.Z).Height;
-                sirenTune = capi.World.LoadSound(new SoundParams
-                {
-                    Location = new AssetLocation("backrooms:sounds/ambient/" + tune), ShouldLoop = true, DisposeOnFinish = false,
-                    Position = new Vec3f(pole.Value.X + 0.5f, ground + 3.5f, pole.Value.Z + 0.5f), Range = TuneHeard, Volume = 0.9f,
-                    SoundType = EnumSoundType.Ambient,
-                });
-                sirenTune?.Start();
-            }
+            int ground = geometry.FloorFor(level) + layout.TileAt(pole.Value.X, pole.Value.Z).Height;
+            sirenVoice.Set("ambient/" + tune, new Vec3f(pole.Value.X + 0.5f, ground + 3.5f, pole.Value.Z + 0.5f), TuneHeard, SirenVolume);
         }
+        sirenAt = pole;
+        sirenDistance = pole == null ? -1 : Math.Sqrt((pole.Value.X + 0.5 - pos.X) * (pole.Value.X + 0.5 - pos.X) + (pole.Value.Z + 0.5 - pos.Z) * (pole.Value.Z + 0.5 - pos.Z));
     }
 
     /// <summary>Names the level the player has just walked or fallen into, with a word of advice for the worst.</summary>

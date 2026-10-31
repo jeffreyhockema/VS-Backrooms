@@ -151,6 +151,82 @@
 					]
 				}
 			}
+		},
+		{
+			"name": "IndicatorBack",
+			"from": [
+				2,
+				3,
+				16
+			],
+			"to": [
+				14,
+				13,
+				17
+			],
+			"faces": {
+				"south": {
+					"texture": "#liftheader-r",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 60
+				}
+			}
+		},
+		{
+			"name": "IndicatorSidesBack",
+			"from": [
+				2,
+				3,
+				16
+			],
+			"to": [
+				14,
+				13,
+				17
+			],
+			"faces": {
+				"east": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"west": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						1,
+						10
+					]
+				},
+				"up": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"down": {
+					"texture": "#liftframe",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				}
+			}
 		}
 	]
 }

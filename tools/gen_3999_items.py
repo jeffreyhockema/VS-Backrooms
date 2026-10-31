@@ -81,7 +81,8 @@ def items():
         "variantgroups": [{"code": "flavour", "states": list(flavours)}], "maxstacksize": 8, "creativeinventory": INV, "materialDensity": 600,
         "textureByType": {f"l3999-soda-{f}": {"base": f"item/3999/soda-{f}"} for f in flavours},
         "nutritionPropsByType": {f"l3999-soda-{f}": {"satiety": 100, "foodcategory": "Fruit" if f == "cherry" else "NoNutrition"} for f in flavours},
-        "attributes": {"handbook": {"groupBy": ["l3999-soda-*"]}},
+        "class": "BackroomsAlmondWater",
+        "attributes": {"handbook": {"groupBy": ["l3999-soda-*"]}, "stabilityRestored": 0, "wardsDullers": False, "hydration": 300},
     }, **SPRITE)), "Paradise Pop: a can of neon soda from the vending machines (cherry, lime, grape)")
     for f, n in flavours.items():
         LANG[f"item-l3999-soda-{f}"] = f"Paradise Pop ({n})"
@@ -89,13 +90,13 @@ def items():
 
     # Arcade salvage
     sprite_item("l3999-neontubing", "Neon Tubing", "Glass tubing salvaged from dead neon, still holding a little gas. With a circuit board and "
-                "some plastic it makes a neon lamp again; the glow bracelet you add decides its colour.", "neontubing", stack=32)
+                "some plastic it makes a neon lamp again; the glow bracelet you add decides its colour.", "neontubing", stack=64)
     sprite_item("l3999-circuitboard", "Circuit Board", "From the guts of an arcade machine. Its traces are copper: melt boards down in a "
-                "crucible (ten to an ingot).", "circuitboard", stack=32, ground="Messy12",
+                "crucible (ten to an ingot).", "circuitboard", stack=64, ground="Messy12",
                 extra=dict(CRUCIBLE, combustibleProps={"meltingPoint": 1084, "meltingDuration": 30, "smeltedRatio": 10,
                                                        "smeltedStack": {"type": "item", "code": "game:ingot-copper"}}))
     sprite_item("l3999-coinmech", "Coin Mechanism", "The coin door's works, solid brass. Melt it down in a crucible: five make a brass ingot. "
-                "Nobody in the Backrooms has coins anyway.", "coinmech", stack=16, ground="Messy12",
+                "Nobody in the Backrooms has coins anyway.", "coinmech", stack=64, ground="Messy12",
                 extra=dict(CRUCIBLE, combustibleProps={"meltingPoint": 920, "meltingDuration": 30, "smeltedRatio": 5,
                                                        "smeltedStack": {"type": "item", "code": "game:ingot-brass"}}))
     sprite_item("l3999-plastic", "Plastic Scrap", "Bright moulded plastic from cabinets, bins and light diffusers. It burns hot and foul.",

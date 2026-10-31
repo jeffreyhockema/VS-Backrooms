@@ -113,6 +113,12 @@ public class ItemRedWater : Item
 {
     private const double CapLoss = 0.05, CapFloor = 0.5;
 
+    public override void GetHeldItemInfo(ItemSlot inSlot, System.Text.StringBuilder dsc, IWorldAccessor world, bool withDebugInfo)
+    {
+        base.GetHeldItemInfo(inSlot, dsc, world, withDebugInfo);
+        Backrooms.Needs.Water.Drinks.AppendHydrationInfo(this, world, dsc);
+    }
+
     protected override void tryEatStop(float secondsUsed, ItemSlot slot, EntityAgent byEntity)
     {
         int before = slot.StackSize;
@@ -120,9 +126,10 @@ public class ItemRedWater : Item
         if (byEntity.World.Side != EnumAppSide.Server || slot.StackSize >= before) return;
 
         if (byEntity.GetBehavior<EntityBehaviorHealth>() is { } health) health.Health = health.MaxHealth;
+        Backrooms.Needs.Water.Drinks.Hydrate(this, byEntity);
         double cap = Math.Max(CapFloor, byEntity.WatchedAttributes.GetDouble(PoolSystem.CapKey, 1) - CapLoss);
         byEntity.WatchedAttributes.SetDouble(PoolSystem.CapKey, cap);
         if (byEntity is EntityPlayer { Player: IServerPlayer player })
-            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:redwater-drunk", (int)Math.Round(cap * 100)), EnumChatType.Notification);
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:redwater-drunk", (int)Math.Round(cap * 100)), EnumChatType.Notification);
     }
 }

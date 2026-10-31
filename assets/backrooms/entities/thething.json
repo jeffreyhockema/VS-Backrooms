@@ -89,7 +89,13 @@
 						"orbitRadius": 18,
 						"damage": 8,
 						"patienceSeconds": 40,
-						"groanSound": "backrooms:entity/groan"
+						"groanSound": "backrooms:entity/groan",
+						"senses": {
+							"special": "water",
+							"hearing": 40
+						},
+						"lampRange": 12,
+						"lampBreakSeconds": 20
 					}
 				]
 			},

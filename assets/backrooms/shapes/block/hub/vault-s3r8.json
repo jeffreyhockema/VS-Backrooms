@@ -1,0 +1,438 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"ceiling": "backrooms:block/hub/ceiling"
+	},
+	"elements": [
+		{
+			"name": "Step0",
+			"from": [
+				0,
+				0,
+				6
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"down": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						10
+					]
+				},
+				"east": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				},
+				"west": {
+					"texture": "#ceiling",
+					"uv": [
+						6,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						6,
+						16,
+						16
+					]
+				},
+				"north": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Step1",
+			"from": [
+				0,
+				1,
+				5
+			],
+			"to": [
+				16,
+				16,
+				6
+			],
+			"faces": {
+				"down": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						10,
+						16,
+						11
+					]
+				},
+				"east": {
+					"texture": "#ceiling",
+					"uv": [
+						10,
+						0,
+						11,
+						15
+					]
+				},
+				"west": {
+					"texture": "#ceiling",
+					"uv": [
+						5,
+						0,
+						6,
+						15
+					]
+				},
+				"up": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						5,
+						16,
+						6
+					]
+				},
+				"north": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Step2",
+			"from": [
+				0,
+				2,
+				4
+			],
+			"to": [
+				16,
+				16,
+				5
+			],
+			"faces": {
+				"down": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						11,
+						16,
+						12
+					]
+				},
+				"east": {
+					"texture": "#ceiling",
+					"uv": [
+						11,
+						0,
+						12,
+						14
+					]
+				},
+				"west": {
+					"texture": "#ceiling",
+					"uv": [
+						4,
+						0,
+						5,
+						14
+					]
+				},
+				"up": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						4,
+						16,
+						5
+					]
+				},
+				"north": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Step3",
+			"from": [
+				0,
+				3,
+				3
+			],
+			"to": [
+				16,
+				16,
+				4
+			],
+			"faces": {
+				"down": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						12,
+						16,
+						13
+					]
+				},
+				"east": {
+					"texture": "#ceiling",
+					"uv": [
+						12,
+						0,
+						13,
+						13
+					]
+				},
+				"west": {
+					"texture": "#ceiling",
+					"uv": [
+						3,
+						0,
+						4,
+						13
+					]
+				},
+				"up": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						3,
+						16,
+						4
+					]
+				},
+				"north": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Step4",
+			"from": [
+				0,
+				4,
+				2
+			],
+			"to": [
+				16,
+				16,
+				3
+			],
+			"faces": {
+				"down": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						13,
+						16,
+						14
+					]
+				},
+				"east": {
+					"texture": "#ceiling",
+					"uv": [
+						13,
+						0,
+						14,
+						12
+					]
+				},
+				"west": {
+					"texture": "#ceiling",
+					"uv": [
+						2,
+						0,
+						3,
+						12
+					]
+				},
+				"up": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						2,
+						16,
+						3
+					]
+				},
+				"north": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Step5",
+			"from": [
+				0,
+				6,
+				1
+			],
+			"to": [
+				16,
+				16,
+				2
+			],
+			"faces": {
+				"down": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						14,
+						16,
+						15
+					]
+				},
+				"east": {
+					"texture": "#ceiling",
+					"uv": [
+						14,
+						0,
+						15,
+						10
+					]
+				},
+				"west": {
+					"texture": "#ceiling",
+					"uv": [
+						1,
+						0,
+						2,
+						10
+					]
+				},
+				"up": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						1,
+						16,
+						2
+					]
+				},
+				"north": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Step6",
+			"from": [
+				0,
+				7,
+				0
+			],
+			"to": [
+				16,
+				16,
+				1
+			],
+			"faces": {
+				"down": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						15,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#ceiling",
+					"uv": [
+						15,
+						0,
+						16,
+						9
+					]
+				},
+				"west": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						1,
+						9
+					]
+				},
+				"up": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"north": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				}
+			}
+		}
+	]
+}

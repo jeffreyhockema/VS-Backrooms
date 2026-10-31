@@ -1,0 +1,386 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bedrollpillow": "backrooms:block/detail/bedrollpillow",
+		"blanketplaid": "backrooms:block/detail/blanketplaid",
+		"curtainvelvet": "backrooms:block/detail/curtainvelvet"
+	},
+	"elements": [
+		{
+			"name": "Curtain",
+			"from": [
+				1.5,
+				0,
+				1.5
+			],
+			"to": [
+				14.5,
+				1.8,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#curtainvelvet",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.8
+					]
+				},
+				"east": {
+					"texture": "#curtainvelvet",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.8
+					]
+				},
+				"south": {
+					"texture": "#curtainvelvet",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.8
+					]
+				},
+				"west": {
+					"texture": "#curtainvelvet",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#curtainvelvet",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13.0
+					]
+				},
+				"down": {
+					"texture": "#curtainvelvet",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 10
+		},
+		{
+			"name": "Blanket",
+			"from": [
+				2.5,
+				1.8,
+				3
+			],
+			"to": [
+				13,
+				3.2,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						10.5,
+						1.4000000000000001
+					]
+				},
+				"east": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						10,
+						1.4000000000000001
+					]
+				},
+				"south": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						10.5,
+						1.4000000000000001
+					]
+				},
+				"west": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						10,
+						1.4000000000000001
+					]
+				},
+				"up": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						10.5,
+						10
+					]
+				},
+				"down": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						10.5,
+						10
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": -9
+		},
+		{
+			"name": "Heap",
+			"from": [
+				4.5,
+				3.2,
+				5
+			],
+			"to": [
+				11.5,
+				4.4,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#curtainvelvet",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.2000000000000002
+					]
+				},
+				"east": {
+					"texture": "#curtainvelvet",
+					"uv": [
+						0,
+						0,
+						6,
+						1.2000000000000002
+					]
+				},
+				"south": {
+					"texture": "#curtainvelvet",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.2000000000000002
+					]
+				},
+				"west": {
+					"texture": "#curtainvelvet",
+					"uv": [
+						0,
+						0,
+						6,
+						1.2000000000000002
+					]
+				},
+				"up": {
+					"texture": "#curtainvelvet",
+					"uv": [
+						0,
+						0,
+						7.0,
+						6
+					]
+				},
+				"down": {
+					"texture": "#curtainvelvet",
+					"uv": [
+						0,
+						0,
+						7.0,
+						6
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 20
+		},
+		{
+			"name": "Fold",
+			"from": [
+				2.5,
+				3.2,
+				10.5
+			],
+			"to": [
+				12.5,
+				3.9,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.6999999999999997
+					]
+				},
+				"east": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6999999999999997
+					]
+				},
+				"south": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.6999999999999997
+					]
+				},
+				"west": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6999999999999997
+					]
+				},
+				"up": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						10.0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#blanketplaid",
+					"uv": [
+						0,
+						0,
+						10.0,
+						3.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": -9
+		},
+		{
+			"name": "Cushion",
+			"from": [
+				3,
+				3.2,
+				1.5
+			],
+			"to": [
+				9.5,
+				5.4,
+				6.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bedrollpillow",
+					"uv": [
+						0,
+						0,
+						6.5,
+						2.2
+					]
+				},
+				"east": {
+					"texture": "#bedrollpillow",
+					"uv": [
+						0,
+						0,
+						5.0,
+						2.2
+					]
+				},
+				"south": {
+					"texture": "#bedrollpillow",
+					"uv": [
+						0,
+						0,
+						6.5,
+						2.2
+					]
+				},
+				"west": {
+					"texture": "#bedrollpillow",
+					"uv": [
+						0,
+						0,
+						5.0,
+						2.2
+					]
+				},
+				"up": {
+					"texture": "#bedrollpillow",
+					"uv": [
+						0,
+						0,
+						6.5,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#bedrollpillow",
+					"uv": [
+						0,
+						0,
+						6.5,
+						5.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				6,
+				0,
+				4
+			],
+			"rotationY": 14
+		}
+	]
+}

@@ -1,0 +1,575 @@
+// A Suburbs house's stairs with a balustrade on the open side (layout version 9): the variant the way they climb, end the side the balustrade is on as modelled climbing north
+{
+	"code": "housestairsrail",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"foot",
+				"flight"
+			]
+		},
+		{
+			"code": "end",
+			"states": [
+				"w",
+				"e"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-foot-w-north",
+			"*-flight-w-north"
+		],
+		"construction": [
+			"*-foot-w-north",
+			"*-flight-w-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-foot-w-north": {
+			"base": "block/detail/suburbs/stairsrail-foot-w",
+			"rotateY": 0
+		},
+		"*-foot-w-east": {
+			"base": "block/detail/suburbs/stairsrail-foot-w",
+			"rotateY": 270
+		},
+		"*-foot-w-south": {
+			"base": "block/detail/suburbs/stairsrail-foot-w",
+			"rotateY": 180
+		},
+		"*-foot-w-west": {
+			"base": "block/detail/suburbs/stairsrail-foot-w",
+			"rotateY": 90
+		},
+		"*-foot-e-north": {
+			"base": "block/detail/suburbs/stairsrail-foot-e",
+			"rotateY": 0
+		},
+		"*-foot-e-east": {
+			"base": "block/detail/suburbs/stairsrail-foot-e",
+			"rotateY": 270
+		},
+		"*-foot-e-south": {
+			"base": "block/detail/suburbs/stairsrail-foot-e",
+			"rotateY": 180
+		},
+		"*-foot-e-west": {
+			"base": "block/detail/suburbs/stairsrail-foot-e",
+			"rotateY": 90
+		},
+		"*-flight-w-north": {
+			"base": "block/detail/suburbs/stairsrail-flight-w",
+			"rotateY": 0
+		},
+		"*-flight-w-east": {
+			"base": "block/detail/suburbs/stairsrail-flight-w",
+			"rotateY": 270
+		},
+		"*-flight-w-south": {
+			"base": "block/detail/suburbs/stairsrail-flight-w",
+			"rotateY": 180
+		},
+		"*-flight-w-west": {
+			"base": "block/detail/suburbs/stairsrail-flight-w",
+			"rotateY": 90
+		},
+		"*-flight-e-north": {
+			"base": "block/detail/suburbs/stairsrail-flight-e",
+			"rotateY": 0
+		},
+		"*-flight-e-east": {
+			"base": "block/detail/suburbs/stairsrail-flight-e",
+			"rotateY": 270
+		},
+		"*-flight-e-south": {
+			"base": "block/detail/suburbs/stairsrail-flight-e",
+			"rotateY": 180
+		},
+		"*-flight-e-west": {
+			"base": "block/detail/suburbs/stairsrail-flight-e",
+			"rotateY": 90
+		}
+	},
+	"collisionSelectionBoxesByType": {
+		"*-foot-w-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.125,
+				"y2": 1.5,
+				"z2": 1
+			}
+		],
+		"*-foot-w-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.125,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-foot-w-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.125,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-foot-w-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.125,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-foot-e-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1
+			}
+		],
+		"*-foot-e-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-foot-e-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-foot-e-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-flight-w-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.125,
+				"y2": 1.5,
+				"z2": 1
+			}
+		],
+		"*-flight-w-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.125,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-flight-w-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.125,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-flight-w-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.125,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-flight-e-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1
+			}
+		],
+		"*-flight-e-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-flight-e-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-flight-e-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 0.5,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0.5,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.5,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.5,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

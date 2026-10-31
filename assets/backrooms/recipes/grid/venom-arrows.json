@@ -1,0 +1,27 @@
+{
+	"ingredientPattern": "AQ",
+	"ingredients": {
+		"A": {
+			"type": "item",
+			"code": "game:arrow-*",
+			"name": "arrow",
+			"quantity": 8
+		},
+		"Q": {
+			"type": "item",
+			"code": "backrooms:mothquill"
+		}
+	},
+	"width": 2,
+	"height": 1,
+	"shapeless": true,
+	"name": "envenomed arrows",
+	"output": {
+		"type": "item",
+		"code": "game:arrow-{arrow}",
+		"quantity": 8,
+		"attributes": {
+			"backrooms:venom": 1
+		}
+	}
+}

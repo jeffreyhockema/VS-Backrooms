@@ -1,0 +1,41 @@
+{
+	code: "conduitend",
+	// The ends of Level 1's ceiling conduit (layout version 9 on, see WorldLayout.ConduitEnds): "end-<side>-<kind>" finishes a
+	// run on that side, "stub-<axis>-<ends>" a length on its own, with an end at each side (the letters are the west end then
+	// the east end of a "we" block, the south end then the north end of an "ns" one). cap: open space or a light beyond, with
+	// a collar on each tube and a plate over both; box: it meets a wall or a beam, and goes into a junction box mounted on it.
+	variantgroups: [{ code: "form", states: [
+		"end-east-cap", "end-north-cap", "end-west-cap", "end-south-cap",
+		"end-east-box", "end-north-box", "end-west-box", "end-south-box",
+		"stub-we-cc", "stub-we-cb", "stub-we-bc", "stub-we-bb",
+		"stub-ns-cc", "stub-ns-cb", "stub-ns-bc", "stub-ns-bb"
+	] }],
+	creativeinventory: { "general": ["*-end-east-cap", "*-end-east-box"], "decorative": ["*-end-east-cap", "*-end-east-box"] },
+	blockmaterial: "Metal",
+	drawtype: "json",
+	shapeByType: {
+		"*-end-east-cap": { base: "block/conduit-end-cap", rotateY: 0 },
+		"*-end-east-box": { base: "block/conduit-end-box", rotateY: 0 },
+		"*-end-north-cap": { base: "block/conduit-end-cap", rotateY: 90 },
+		"*-end-north-box": { base: "block/conduit-end-box", rotateY: 90 },
+		"*-end-west-cap": { base: "block/conduit-end-cap", rotateY: 180 },
+		"*-end-west-box": { base: "block/conduit-end-box", rotateY: 180 },
+		"*-end-south-cap": { base: "block/conduit-end-cap", rotateY: 270 },
+		"*-end-south-box": { base: "block/conduit-end-box", rotateY: 270 },
+		"*-stub-we-cc": { base: "block/conduit-stub-cc", rotateY: 0 },
+		"*-stub-we-cb": { base: "block/conduit-stub-cb", rotateY: 0 },
+		"*-stub-we-bc": { base: "block/conduit-stub-bc", rotateY: 0 },
+		"*-stub-we-bb": { base: "block/conduit-stub-bb", rotateY: 0 },
+		"*-stub-ns-cc": { base: "block/conduit-stub-cc", rotateY: 90 },
+		"*-stub-ns-cb": { base: "block/conduit-stub-cb", rotateY: 90 },
+		"*-stub-ns-bc": { base: "block/conduit-stub-bc", rotateY: 90 },
+		"*-stub-ns-bb": { base: "block/conduit-stub-bb", rotateY: 90 }
+	},
+	sidesolid: { all: false },
+	sideopaque: { all: false },
+	collisionbox: { x1: 0, y1: 0.75, z1: 0, x2: 1, y2: 1, z2: 1 },
+	selectionbox: { x1: 0, y1: 0.75, z1: 0, x2: 1, y2: 1, z2: 1 },
+	lightAbsorption: 0,
+	resistance: 1,
+	sounds: { place: "game:block/anvil1", break: "game:block/heavymetal-hit", hit: "game:block/heavymetal-hit" }
+}

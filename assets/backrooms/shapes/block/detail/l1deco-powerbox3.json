@@ -2,7 +2,7 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"metal": "backrooms:block/props/metal",
+		"l1steel": "backrooms:block/detail/l1steel",
 		"whiteblock": "backrooms:block/detail/whiteblock"
 	},
 	"elements": [
@@ -76,20 +76,20 @@
 			}
 		},
 		{
-			"name": "Conduit",
+			"name": "ConA",
 			"from": [
 				6.25,
 				0,
-				-1.75
+				-1.85
 			],
 			"to": [
 				7.75,
 				16,
-				-0.25
+				-0.65
 			],
 			"faces": {
 				"north": {
-					"texture": "#metal",
+					"texture": "#l1steel",
 					"uv": [
 						0,
 						0,
@@ -98,16 +98,16 @@
 					]
 				},
 				"east": {
-					"texture": "#metal",
+					"texture": "#l1steel",
 					"uv": [
 						0,
 						0,
-						1.5,
+						1.2,
 						16
 					]
 				},
 				"south": {
-					"texture": "#metal",
+					"texture": "#l1steel",
 					"uv": [
 						0,
 						0,
@@ -116,7 +116,40 @@
 					]
 				},
 				"west": {
-					"texture": "#metal",
+					"texture": "#l1steel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "ConB",
+			"from": [
+				6.4,
+				0,
+				-2.0
+			],
+			"to": [
+				7.6,
+				16,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#l1steel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#l1steel",
 					"uv": [
 						0,
 						0,
@@ -124,22 +157,133 @@
 						16
 					]
 				},
-				"up": {
-					"texture": "#metal",
+				"south": {
+					"texture": "#l1steel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#l1steel",
 					"uv": [
 						0,
 						0,
 						1.5,
-						1.5
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "ClampRing",
+			"from": [
+				6.0,
+				7.2,
+				-2.15
+			],
+			"to": [
+				8.0,
+				7.9,
+				-0.35
+			],
+			"faces": {
+				"north": {
+					"texture": "#l1steel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#l1steel",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.7
+					]
+				},
+				"south": {
+					"texture": "#l1steel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#l1steel",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.7
+					]
+				}
+			}
+		},
+		{
+			"name": "ClampSaddle",
+			"from": [
+				6.5,
+				7.2,
+				-0.4
+			],
+			"to": [
+				7.5,
+				7.9,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#l1steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#l1steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#l1steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#l1steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
 					]
 				},
 				"down": {
-					"texture": "#metal",
+					"texture": "#l1steel",
 					"uv": [
 						0,
 						0,
-						1.5,
-						1.5
+						1.0,
+						0.5
 					]
 				}
 			}

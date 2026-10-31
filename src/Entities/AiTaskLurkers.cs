@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Backrooms.Worldgen;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
@@ -26,11 +27,21 @@ public static class Strike
             KnockbackStrength = knockback,
         }, scaled);
         director?.NoteCloseCall(target);
+        // A fight is heard (venom burning on is not)
+        if (type != EnumDamageType.Poison) director?.RaiseNoise(target.Pos.XYZ, MenaceSystem.FightLoudness, "bite", target);
         Log(attacker, "hit {0} for {1:0.0}", target.Code, scaled);
     }
 
+    /// <summary>
+    /// Whether a target is a player in creative or spectator mode, whom nothing hunts. A player whose <c>Player</c> is not
+    /// attached yet (still joining, or just gone) counts as one too: its game mode is unknown, so it is not a target for that tick.
+    /// </summary>
     public static bool IsCreative(Entity target) =>
-        target is EntityPlayer player && player.Player?.WorldData.CurrentGameMode is EnumGameMode.Creative or EnumGameMode.Spectator;
+        target is EntityPlayer player && (player.Player == null || player.Player.WorldData.CurrentGameMode is EnumGameMode.Spectator || player.Player.WorldData.CurrentGameMode is EnumGameMode.Creative && !MenaceSystem.CreativeHunted);
+
+    /// <summary>Whether an entity is a player in spectator mode (the filter of scatter and draw checks, where creative players still count).</summary>
+    public static bool IsSpectator(Entity target) =>
+        target is EntityPlayer player && player.Player?.WorldData.CurrentGameMode == EnumGameMode.Spectator;
 
     public static void Log(Entity entity, string format, params object[] args)
     {
@@ -42,25 +53,29 @@ public static class Strike
 /// <summary>
 /// A Clump: a bundle of limbs that buries itself where it waits, a single arm left out of the floor like something
 /// dropped there, a finger twitching now and then. Whoever comes within a few blocks wakes it: the floor gives up the
-/// whole knot of limbs, and anyone within reach is grabbed and dragged at, after which it feeds a moment. It hunts by
-/// sound: a player who runs or makes a racket within earshot brings it crawling after them, and when they go quiet
-/// it buries itself again where it stopped. After a couple of grabs, or once hurt, it crawls off to be gone.
+/// whole knot of limbs, and anyone within reach is grabbed and dragged at, after which it feeds a moment and, fed,
+/// buries itself again and stays dormant for a while. It hunts by sound, on the shared perception model (no eyes:
+/// hearing and touch): a racket within earshot brings it crawling, and so does running, which is a quiet noise
+/// but heard from further off the more people run ("retreat at the sound of multiple people running"); when it goes
+/// quiet it buries itself again where it stopped. After a couple of grabs, or once hurt, it crawls off to be gone.
 /// </summary>
 public class AiTaskClump : AiTaskBase
 {
     private enum State { Buried, Awake, Crawling, Leaving }
 
-    private readonly float reach, damage, crawlSpeed, hearing;
-    private readonly int cooldownMs, grabsBeforeLeaving;
+    private readonly float reach, damage, crawlSpeed, wakeRange;
+    private readonly int cooldownMs, grabsBeforeLeaving, buryAfterFeedMs, fedDormantSeconds;
     private readonly AssetLocation grabSound, stirSound;
+    private readonly SenseProfile senses;
 
     private EntityBehaviorMenace menace;
     private MenaceSystem director;
     private State state;
     private float think, quietFor;
-    private long lastGrabMs, lastPathMs;
+    private long lastGrabMs, lastPathMs, buryAtMs, dormantUntilMs;
     private int grabs;
     private bool started, crawling;
+    private Vec3d lastHeard;
 
     public AiTaskClump(EntityAgent entity, JsonObject taskConfig, JsonObject aiConfig) : base(entity, taskConfig, aiConfig)
     {
@@ -69,7 +84,10 @@ public class AiTaskClump : AiTaskBase
         cooldownMs = taskConfig["cooldownMs"].AsInt(3500);
         grabsBeforeLeaving = taskConfig["grabsBeforeLeaving"].AsInt(2);
         crawlSpeed = taskConfig["crawlSpeed"].AsFloat(0.02f);
-        hearing = taskConfig["hearing"].AsFloat(14);
+        wakeRange = taskConfig["wakeRange"].AsFloat(4);
+        buryAfterFeedMs = taskConfig["buryAfterFeedMs"].AsInt(10000);
+        fedDormantSeconds = taskConfig["fedDormantSeconds"].AsInt(60);
+        senses = SenseProfile.Parse(taskConfig["senses"]) ?? new SenseProfile { NoSight = true };
         grabSound = Sound(taskConfig["grabSound"].AsString(null));
         stirSound = Sound(taskConfig["stirSound"].AsString(null));
     }
@@ -110,14 +128,19 @@ public class AiTaskClump : AiTaskBase
         double distance = entity.Pos.DistanceTo(target.Pos);
         double gap = distance - (entity.SelectionBox.XSize + target.SelectionBox.XSize) / 2;
         double dy = Math.Abs(target.Pos.Y - entity.Pos.Y);
-        bool loud = director != null && director.AssessmentOf(target).Noise > 0.35 || target is EntityAgent agent && Senses.Running(agent);
+        long now = entity.World.ElapsedMilliseconds;
+        NoiseEvent? heard = Hear(target, now);
+        bool loud = heard != null;
+        if (heard is { } noise) lastHeard = noise.Pos;
         quietFor = loud ? 0 : quietFor + 0.2f;
 
         switch (state)
         {
             case State.Buried:
-                if (gap < 4 && dy < 2) Wake(State.Awake);
-                else if (loud && distance < hearing && !Strike.IsCreative(target)) Wake(State.Crawling);
+                // (Fed, it lies dormant: neither a footstep nor a shout wakes it for a while)
+                if (now < dormantUntilMs) return true;
+                if (gap < wakeRange && dy < 2) Wake(State.Awake);
+                else if (loud && !Strike.IsCreative(target)) Wake(State.Crawling);
                 return true;
 
             case State.Crawling:
@@ -135,14 +158,23 @@ public class AiTaskClump : AiTaskBase
                 {
                     lastPathMs = entity.World.ElapsedMilliseconds;
                     Crawl(true);
-                    pathTraverser.NavigateTo_Async(target.Pos.XYZ.Clone(), crawlSpeed * Danger.Speed(Danger.Of(entity)), reach * 0.8f, () => Crawl(false), () => Crawl(false), () => Crawl(false), 1500, 1);
+                    pathTraverser.NavigateTo_Async((lastHeard ?? target.Pos.XYZ).Clone(), crawlSpeed * Danger.Speed(Danger.Of(entity)), reach * 0.8f, () => Crawl(false), () => Crawl(false), () => Crawl(false), 1500, 1);
                 }
                 return true;
 
             case State.Awake:
-                if (gap <= reach && dy < 1.5 && entity.World.ElapsedMilliseconds - lastGrabMs > cooldownMs && !Strike.IsCreative(target))
+                // Fed, it buries itself again
+                if (buryAtMs > 0 && now >= buryAtMs)
                 {
-                    lastGrabMs = entity.World.ElapsedMilliseconds;
+                    buryAtMs = 0;
+                    dormantUntilMs = now + fedDormantSeconds * 1000L;
+                    Bury();
+                    return true;
+                }
+                if (gap <= reach && dy < 1.5 && now - lastGrabMs > cooldownMs && !Strike.IsCreative(target))
+                {
+                    lastGrabMs = now;
+                    buryAtMs = now + buryAfterFeedMs;
                     entity.Pos.Yaw = (float)Math.Atan2(target.Pos.X - entity.Pos.X, target.Pos.Z - entity.Pos.Z);
                     entity.AnimManager.StartAnimation("grab");
                     if (grabSound != null) entity.World.PlaySoundAt(grabSound, entity.Pos.X, entity.Pos.Y + 0.5, entity.Pos.Z, null, true, 20);
@@ -157,11 +189,41 @@ public class AiTaskClump : AiTaskBase
                         return true;
                     }
                 }
-                else if (gap > reach + 0.5 && loud && distance < hearing) state = State.Crawling;
+                else if (gap > reach + 0.5 && loud) state = State.Crawling;
                 else if (gap > 5 && quietFor > 8) Bury();
                 return true;
         }
         return true;
+    }
+
+    private readonly List<(double Distance, NoiseEvent Noise)> runners = new();
+    private readonly HashSet<long> counted = new();
+
+    /// <summary>
+    /// What it hears: the loudest noise within its hearing (the noise bus), else its target's running as it happens,
+    /// else several people running, each further runner letting the lot be heard from further off (the second
+    /// nearest from twice a lone runner's distance, the third from three times). Null if nothing.
+    /// </summary>
+    private NoiseEvent? Hear(Entity target, long now)
+    {
+        NoiseBus bus = director?.Noises;
+        if (bus == null) return null;
+        if (Perception.HeardAnything(entity, senses, bus, now) is { } any) return any;
+        if (target != null && Perception.Heard(entity, target, senses, bus, now) is { } own) return own;
+        // (Nothing to count unless somebody is running: the usual case, which must not allocate)
+        IReadOnlyList<NoiseEvent> recent = bus.Recent(now);
+        bool anyRun = false;
+        for (int i = 0; i < recent.Count && !anyRun; i++) anyRun = recent[i].Source == "run";
+        if (!anyRun) return null;
+        Vec3d ears = Senses.Eyes(entity);
+        runners.Clear();
+        counted.Clear();
+        foreach (NoiseEvent e in recent)
+            if (e.Source == "run" && counted.Add(e.Who)) runners.Add((e.Pos.DistanceTo(ears), e));
+        runners.Sort((a, b) => a.Distance.CompareTo(b.Distance));
+        for (int i = 1; i < runners.Count; i++)
+            if (runners[i].Distance <= senses.Hearing * MenaceSystem.RunLoudness * (i + 1)) return runners[0].Noise;
+        return null;
     }
 
     private void Wake(State next)
@@ -215,6 +277,7 @@ public class AiTaskClump : AiTaskBase
         base.OnEntityHurt(source, damage);
         // Struck, it goes
         menace ??= entity.GetBehavior<EntityBehaviorMenace>();
+        buryAtMs = 0;
         if (menace != null && source.GetCauseEntity() is EntityAgent) menace.Kind = Encounter.Leave;
     }
 
@@ -230,11 +293,12 @@ public class AiTaskClump : AiTaskBase
 /// The Thing on Level 7: something vast in the deep water. It circles a diver far out at the edge of what they can
 /// see, groaning now and then. A diver who stays below the twilight zone for too long with their mind coming apart
 /// (Reality Stability under a half) is struck once, hard, from the dark, and the Thing goes back down. It cannot be
-/// fought; surfacing ends it.
+/// fought; surfacing ends it. A diver breathing in the air under a sunken room's roof (layout version 9) is left alone
+/// while they stay there.
 /// </summary>
 public class AiTaskTheThing : AiTaskBase
 {
-    private readonly float speed, rushSpeed, orbitRadius, damage, patienceSeconds;
+    private readonly float speed, rushSpeed, orbitRadius, damage, patienceSeconds, lampRange, lampBreakSeconds;
     private readonly AssetLocation groanSound;
 
     private EntityBehaviorMenace menace;
@@ -242,6 +306,7 @@ public class AiTaskTheThing : AiTaskBase
     private float think, phase, deepFor, nextGroan = 8;
     private bool rushing;
     private Vec3d goal;
+    private long brokenOffUntilMs;
 
     public AiTaskTheThing(EntityAgent entity, JsonObject taskConfig, JsonObject aiConfig) : base(entity, taskConfig, aiConfig)
     {
@@ -251,6 +316,8 @@ public class AiTaskTheThing : AiTaskBase
         orbitRadius = taskConfig["orbitRadius"].AsFloat(18);
         damage = taskConfig["damage"].AsFloat(8);
         patienceSeconds = taskConfig["patienceSeconds"].AsFloat(40);
+        lampRange = taskConfig["lampRange"].AsFloat(12);
+        lampBreakSeconds = taskConfig["lampBreakSeconds"].AsFloat(20);
         string sound = taskConfig["groanSound"].AsString(null);
         groanSound = sound == null ? null : AssetLocation.Create(sound, "backrooms").WithPathPrefixOnce("sounds/");
     }
@@ -295,10 +362,25 @@ public class AiTaskTheThing : AiTaskBase
             return;
         }
 
-        bool deep = target.Pos.Y < floorY - 20;
+        // A diver who has come up into the air trapped under a sunken room's roof is out of the water: it circles, and
+        // waits for them to come back out
+        bool breathing = target is EntityAgent agent && !agent.IsEyesSubmerged();
+        bool deep = !breathing && target.Pos.Y < floorY - 20;
         deepFor = deep ? deepFor + 0.25f : 0;
         double distance = entity.Pos.DistanceTo(target.Pos);
 
+        long now = entity.World.ElapsedMilliseconds;
+        if (rushing && LampHeld() is { } lamp)
+        {
+            // "A lit torch or lantern held under water" shows it what it is rushing: it turns away, and circles again
+            Strike.Log(entity, "breaks off its rush: {0} holds a light under water", lamp.Code);
+            rushing = false;
+            entity.AnimManager.StopAnimation("rush");
+            brokenOffUntilMs = now + (long)(lampBreakSeconds * 1000);
+            double away = Math.Atan2(entity.Pos.Z - lamp.Pos.Z, entity.Pos.X - lamp.Pos.X);
+            goal = entity.Pos.XYZ.Add(Math.Cos(away) * orbitRadius, -4, Math.Sin(away) * orbitRadius);
+            return;
+        }
         if (rushing)
         {
             goal = target.Pos.XYZ.Add(0, 0.5, 0);
@@ -325,7 +407,7 @@ public class AiTaskTheThing : AiTaskBase
         }
 
         // In the abyss it may come at anyone; above that, only at a diver who stayed down too long, coming apart
-        bool strike = menace.Kind == Encounter.Hunt && target.Pos.Y < floorY - 55 || deepFor > patienceSeconds && Senses.Stability(target) < 0.5;
+        bool strike = !breathing && now >= brokenOffUntilMs && (menace.Kind == Encounter.Hunt && target.Pos.Y < floorY - 55 || deepFor > patienceSeconds && Senses.Stability(target) < 0.5);
         if (strike && !Strike.IsCreative(target))
         {
             rushing = true;
@@ -334,6 +416,21 @@ public class AiTaskTheThing : AiTaskBase
             Strike.Log(entity, "rushes {0} from {1:0} blocks", target.Code, distance);
             if (groanSound != null) entity.World.PlaySoundAt(groanSound, entity.Pos.X, entity.Pos.Y, entity.Pos.Z, null, 0.45f, 64, 1f);
         }
+    }
+
+    /// <summary>
+    /// Whoever within <c>lampRange</c> blocks holds a lit lantern or oil lamp under water (a torch goes out there), or
+    /// null. A straw dummy in a test counts with a light of 15 or more, whatever it stands in.
+    /// </summary>
+    private Entity LampHeld()
+    {
+        foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, lampRange, lampRange, e => e.Alive && (e is EntityPlayer || Senses.IsTestTarget(e))))
+        {
+            if (entity.Pos.DistanceTo(e.Pos) > lampRange) continue;
+            if (Senses.IsTestTarget(e)) { if (Senses.HeldLight(e) >= 15) return e; continue; }
+            if (e is EntityAgent agent && agent.IsEyesSubmerged() && Senses.HeldLamp(agent)) return e;
+        }
+        return null;
     }
 
     private void Steer()

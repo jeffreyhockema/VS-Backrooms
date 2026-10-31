@@ -61,13 +61,6 @@ public sealed partial class WorldLayout
         return r * (1 + 0.08 * Fbm(mx / 40.0, mz / 40.0, SaltPoolShape)) < PoolRadius;
     }
 
-    /// <summary>Whether a square of the world (block coordinates) might reach into the Poolrooms.</summary>
-    public bool MayReachPoolrooms(int x0, int z0, int size)
-    {
-        double cx = (x0 + size / 2.0) / MacroSize - PoolCentreX, cz = (z0 + size / 2.0) / MacroSize - PoolCentreZ;
-        return Math.Sqrt(cx * cx + cz * cz) < PoolRadius * 1.2 + size / (double)MacroSize;
-    }
-
     /// <summary>A place near the middle of the Poolrooms to look for somewhere to arrive, picked by hash.</summary>
     private (int Mx, int Mz) PoolArrivalCell(ulong h)
     {
@@ -246,7 +239,7 @@ public sealed partial class WorldLayout
 
     private PlanCache<Tile[]> poolPlans;
 
-    private Tile[] PoolPlan(int bi, int bj) => (poolPlans ??= new PlanCache<Tile[]>(32, PlanPoolBlock)).Get(bi, bj);
+    private Tile[] PoolPlan(int bi, int bj) => poolPlans.Get(bi, bj);
 
     private enum PoolSpace { Rotunda, Natatorium, PillarHall, ArchTunnel, StairPit, SlitHall, DryCorridor, PoolRoom, Basin, FloodedHall, Solid, Serpentine }
 
@@ -341,12 +334,14 @@ public sealed partial class WorldLayout
     /// The rooms of a plan block (their kinds and boxes, in block coordinates), planned again just as far as
     /// <see cref="PlanPoolBlock"/> plans them, so they are the same rooms. Only arrivals ask (from layout version 5).
     /// </summary>
-    private PoolRoom[] PoolRooms(int bi, int bj) => (poolRoomPlans ??= new PlanCache<PoolRoom[]>(16, (i, j) =>
+    private PoolRoom[] PoolRooms(int bi, int bj) => poolRoomPlans.Get(bi, bj);
+
+    private PoolRoom[] PlanPoolRooms(int i, int j)
     {
         var p = NewPoolPlanner(i, j);
         PlanGalleries(p, PoolOriginX + i * PoolBlock, PoolOriginZ + j * PoolBlock);
         return PlanPoolSquares(p).ToArray();
-    })).Get(bi, bj);
+    }
 
     /// <summary>
     /// Which tiles of a cell (by index) lie in one of the rooms that show the level off: a domed rotunda, a pillar
@@ -438,7 +433,7 @@ public sealed partial class WorldLayout
                 byte o = (byte)(rooms.Count + 1);
                 switch (kind)
                 {
-                    case PoolSpace.Rotunda: CarveRotunda(p, room, o); break;
+                    case PoolSpace.Rotunda: CarveRotunda(p, room, o, Version >= 11); break;
                     case PoolSpace.Natatorium: CarveNatatorium(p, room, o); break;
                     case PoolSpace.PillarHall: CarvePillarHall(p, room, o); break;
                     case PoolSpace.ArchTunnel: CarveArchTunnel(p, room, o); break;
@@ -601,7 +596,7 @@ public sealed partial class WorldLayout
             if (cWall < 0 || cWall >= across) continue;
             int wu = alongZ ? r.U0 + cWall : r.U0 + a, wv = alongZ ? r.V0 + a : r.V0 + cWall;
             ArchPier toward = alongZ ? (outerHigh ? ArchPier.West : ArchPier.East) : (outerHigh ? ArchPier.North : ArchPier.South);
-            var (du, dv) = Step(toward);
+            var (du, dv) = FacingStep(toward);
             if (p.IsFloor(wu + du, wv + dv) && !p.IsFloor(wu, wv)) p.Slit(wu, wv, toward, height - 2);
         }
     }
@@ -649,7 +644,7 @@ public sealed partial class WorldLayout
     /// A domed rotunda round a circular pool, with a dry rim and a pool ladder, ringed by arched openings that glow
     /// white with light from somewhere beyond.
     /// </summary>
-    private static void CarveRotunda(PoolPlanner p, PoolRoom r, byte o)
+    private static void CarveRotunda(PoolPlanner p, PoolRoom r, byte o, bool tallArches)
     {
         int cu = (r.U0 + r.U1) / 2, cv = (r.V0 + r.V1) / 2, radius = (r.U1 - r.U0) / 2 - 1;
         int pool = p.Rng.Range(3, 5);
@@ -671,7 +666,7 @@ public sealed partial class WorldLayout
             int u = cu + (int)Math.Round(Math.Cos(a) * (radius + 1)), v = cv + (int)Math.Round(Math.Sin(a) * (radius + 1));
             ArchPier toward = Math.Abs(Math.Cos(a)) > Math.Abs(Math.Sin(a)) ? (Math.Cos(a) > 0 ? ArchPier.West : ArchPier.East)
                 : (Math.Sin(a) > 0 ? ArchPier.North : ArchPier.South);
-            p.Slit(u, v, toward, 4, PoolWalls.Arch);
+            p.Slit(u, v, toward, 4, tallArches ? PoolWalls.ArchTall : PoolWalls.Arch);
         }
         // A pool ladder on the near side of the pool
         PlaceLadder(p, cu, cv + radius - 2, ArchPier.South);
@@ -681,7 +676,7 @@ public sealed partial class WorldLayout
     /// <summary>A pool ladder in the water at the pool's edge, climbing toward the rim at <paramref name="toward"/>.</summary>
     private static void PlaceLadder(PoolPlanner p, int u, int v, ArchPier toward)
     {
-        var (du, dv) = Step(toward);
+        var (du, dv) = FacingStep(toward);
         if (!p.IsFloor(u, v) || !p.IsFloor(u + du, v + dv)) return;
         ref Tile t = ref p.At(u, v);
         if (t.Depth < 2 || p.At(u + du, v + dv).Depth != 0) return;
@@ -723,7 +718,7 @@ public sealed partial class WorldLayout
             if (t >= rampEnd || a % 3 != 1) continue;
             int u = alongZ ? (leftWall ? r.U0 - 1 : r.U1 + 1) : r.U0 + a, v = alongZ ? r.V0 + a : (leftWall ? r.V0 - 1 : r.V1 + 1);
             ArchPier toward = alongZ ? (leftWall ? ArchPier.East : ArchPier.West) : (leftWall ? ArchPier.South : ArchPier.North);
-            var (su, sv) = Step(toward);
+            var (su, sv) = FacingStep(toward);
             if (!p.IsFloor(u + su, v + sv)) continue; // a rounded corner
             p.Slit(u, v, toward, height - 2);
             SunlitStripe(p, u, v, toward, width - 1);
@@ -742,7 +737,7 @@ public sealed partial class WorldLayout
     /// <summary>Light falling through a slit lies in a long bright stripe across the floor in front of it.</summary>
     private static void SunlitStripe(PoolPlanner p, int u, int v, ArchPier toward, int length)
     {
-        var (du, dv) = Step(toward);
+        var (du, dv) = FacingStep(toward);
         for (int k = 1; k <= length; k++)
         {
             int x = u + du * k, z = v + dv * k;
@@ -790,7 +785,7 @@ public sealed partial class WorldLayout
                 _ => (r.U1 + 1, r.V0 + k),
             };
             ArchPier toward = Opposite(wall);
-            var (du, dv) = Step(toward);
+            var (du, dv) = FacingStep(toward);
             if (!p.IsFloor(u + du, v + dv)) continue; // a rounded corner
             p.Slit(u, v, toward, top);
             SunlitStripe(p, u, v, toward, 6);
@@ -1032,7 +1027,7 @@ public sealed partial class WorldLayout
 
     private static bool CarveCorridor(PoolPlanner p, PoolRoom r, ArchPier side, int cu, int cv, byte owner, int depth)
     {
-        var (du, dv) = Step(side);
+        var (du, dv) = FacingStep(side);
         // Start just outside the room's box, in the middle of that side
         int u = side switch { ArchPier.West => r.U0 - 1, ArchPier.East => r.U1 + 1, _ => cu };
         int v = side switch { ArchPier.North => r.V0 - 1, ArchPier.South => r.V1 + 1, _ => cv };
@@ -1072,7 +1067,7 @@ public sealed partial class WorldLayout
             if (!p.IsFloor(u, v) || p.At(u, v).Depth < 4) continue;
             int deep = p.At(u, v).Depth;
             ArchPier side = alongZ ? (high ? ArchPier.South : ArchPier.North) : (high ? ArchPier.East : ArchPier.West);
-            var (du, dv) = Step(side);
+            var (du, dv) = FacingStep(side);
             int x = u + du, z = v + dv;
             var path = new List<(int, int)>();
             while (PoolPlanner.In(x, z) && !p.IsFloor(x, z)) { path.Add((x, z)); x += du; z += dv; }
@@ -1116,7 +1111,7 @@ public sealed partial class WorldLayout
                 toward = side;
             }
             if (floors != 1) continue;
-            var (fu, fv) = Step(toward);
+            var (fu, fv) = FacingStep(toward);
             Tile front = p.At(u + fu, v + fv);
             if (front.Depth > 1 || front.Under != 0 || front.Variant != 0) continue;
             // Its neighbours along the wall must be wall too, so the door stands in a wall and not at a corner
@@ -1166,8 +1161,8 @@ public sealed partial class WorldLayout
             for (int u = 0; u < PoolBlock; u++)
             {
                 Tile t = p.At(u, v);
-                if (t.Kind != TileKind.Wall || t.Variant is not (PoolWalls.Slit or PoolWalls.Arch)) continue;
-                var (du, dv) = Step(t.Pier);
+                if (t.Kind != TileKind.Wall || t.Variant is not (PoolWalls.Slit or PoolWalls.Arch or PoolWalls.ArchTall)) continue;
+                var (du, dv) = FacingStep(t.Pier);
                 if (!p.IsFloor(u + du, v + dv)) continue;
                 int i = (v + dv) * PoolBlock + u + du;
                 if (dist[i] == 0) continue;
@@ -1205,7 +1200,7 @@ public sealed partial class WorldLayout
             t.Zone = 1;
             if (t.Kind == TileKind.Wall)
             {
-                if (t.Variant is PoolWalls.Slit or PoolWalls.Arch) { t.Variant = 0; t.Height = 0; }
+                if (t.Variant is PoolWalls.Slit or PoolWalls.Arch or PoolWalls.ArchTall) { t.Variant = 0; t.Height = 0; }
                 continue;
             }
             if (t.Kind != TileKind.Floor) continue;

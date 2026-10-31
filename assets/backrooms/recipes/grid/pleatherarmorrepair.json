@@ -1,0 +1,74 @@
+[
+	{
+		"ingredientPattern": "A,L",
+		"recipeGroup": 2,
+		"ingredients": {
+			"A": {
+				"type": "item",
+				"code": "armor-pleather-head"
+			},
+			"L": {
+				"type": "item",
+				"code": "pleather"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"copyAttributesFrom": "A",
+		"averageDurability": false,
+		"name": "pleather head repair",
+		"output": {
+			"type": "item",
+			"code": "armor-pleather-head"
+		}
+	},
+	{
+		"ingredientPattern": "A,L",
+		"recipeGroup": 2,
+		"ingredients": {
+			"A": {
+				"type": "item",
+				"code": "armor-pleather-body"
+			},
+			"L": {
+				"type": "item",
+				"code": "pleather"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"copyAttributesFrom": "A",
+		"averageDurability": false,
+		"name": "pleather body repair",
+		"output": {
+			"type": "item",
+			"code": "armor-pleather-body"
+		}
+	},
+	{
+		"ingredientPattern": "A,L",
+		"recipeGroup": 2,
+		"ingredients": {
+			"A": {
+				"type": "item",
+				"code": "armor-pleather-legs"
+			},
+			"L": {
+				"type": "item",
+				"code": "pleather"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"copyAttributesFrom": "A",
+		"averageDurability": false,
+		"name": "pleather legs repair",
+		"output": {
+			"type": "item",
+			"code": "armor-pleather-legs"
+		}
+	}
+]

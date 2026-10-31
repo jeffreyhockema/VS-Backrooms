@@ -1,0 +1,194 @@
+// A manhole's ladder (layout version 9): the top half at the floor with its lip, rails and lid, or a length below
+{
+	"code": "manholeladder",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"topleft",
+				"topright",
+				"left",
+				"right"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-topleft-north",
+			"*-topright-north"
+		],
+		"decorative": [
+			"*-topleft-north",
+			"*-topright-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-topleft-north": {
+			"base": "block/manholeladder-topleft",
+			"rotateY": 0
+		},
+		"*-topleft-east": {
+			"base": "block/manholeladder-topleft",
+			"rotateY": 270
+		},
+		"*-topleft-south": {
+			"base": "block/manholeladder-topleft",
+			"rotateY": 180
+		},
+		"*-topleft-west": {
+			"base": "block/manholeladder-topleft",
+			"rotateY": 90
+		},
+		"*-topright-north": {
+			"base": "block/manholeladder-topright",
+			"rotateY": 0
+		},
+		"*-topright-east": {
+			"base": "block/manholeladder-topright",
+			"rotateY": 270
+		},
+		"*-topright-south": {
+			"base": "block/manholeladder-topright",
+			"rotateY": 180
+		},
+		"*-topright-west": {
+			"base": "block/manholeladder-topright",
+			"rotateY": 90
+		},
+		"*-left-north": {
+			"base": "block/manholeladder-left",
+			"rotateY": 0
+		},
+		"*-left-east": {
+			"base": "block/manholeladder-left",
+			"rotateY": 270
+		},
+		"*-left-south": {
+			"base": "block/manholeladder-left",
+			"rotateY": 180
+		},
+		"*-left-west": {
+			"base": "block/manholeladder-left",
+			"rotateY": 90
+		},
+		"*-right-north": {
+			"base": "block/manholeladder-right",
+			"rotateY": 0
+		},
+		"*-right-east": {
+			"base": "block/manholeladder-right",
+			"rotateY": 270
+		},
+		"*-right-south": {
+			"base": "block/manholeladder-right",
+			"rotateY": 180
+		},
+		"*-right-west": {
+			"base": "block/manholeladder-right",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"climbable": true,
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.1875,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.1875,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.1875,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.1875,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.1875,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.1875,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.1875,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.1875,
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 0,
+	"resistance": 8,
+	"requiredMiningTier": 3,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

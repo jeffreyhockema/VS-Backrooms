@@ -1,0 +1,106 @@
+using System;
+
+namespace Backrooms.Worldgen;
+
+/// <summary>
+/// Level 8's spider nests, from layout version 9. The lore gives the level "a bit of a spider problem": whole stretches
+/// of cave taken over by colonies of them, some bred to "extreme gigantism", aggressively territorial, highly venomous,
+/// and coming to loud noise (Wikidot's Level 8, its Tip #7 "Creepy Crawlies", and the old Fandom page's nests of
+/// "massive king and queen spiders"). A nest is a den (<see cref="DenKind.Nest"/>): a bubble <see cref="DenRadius"/>
+/// blocks across its middle, as dangerous as the level's edge, whose dweller is the Giant Spider. It lies in the caves,
+/// never on the 9th Road: its heart is at least <see cref="NestClearOfRoad"/> blocks from the road and outside the rich
+/// deposits (whose hearts are solid). Unlike the other dens it lays nothing out on the tiles (it has no cache, bones or
+/// chalk crosses: the tiles round it are rock); the generator strings its webs through the caves round its heart
+/// (<see cref="L8NestNear"/>, WorldGenerator.Nests.cs).
+/// </summary>
+public sealed partial class WorldLayout
+{
+    private const ulong SaltNest = 0x5E57;
+
+    /// <summary>How far from the 9th Road (in blocks, at its heart) a nest must be.</summary>
+    private const int NestClearOfRoad = 22;
+
+    /// <summary>
+    /// From layout version 9, whether a cell of Level 8 that the den roll left empty is a spider nest: one cell in
+    /// fourteen in the level's inner part, one in seven further out, where its heart is in the caves well off the road.
+    /// </summary>
+    private DenKind L8NestAt(int mx, int mz, double depth)
+    {
+        if (Version < 9) return DenKind.None;
+        double chance = depth < 0.6 ? 0.07 : 0.14;
+        if (Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltNest)) >= chance) return DenKind.None;
+        int cx = mx * MacroSize + MacroSize / 2, cz = mz * MacroSize + MacroSize / 2;
+        L8Plan plan = L8PlanAt(cx, cz);
+        int i = L8Index(cx, cz);
+        if (plan.Dist[i] < NestClearOfRoad || plan.Deposit[i] != 0 || plan.Flags[i] != 0) return DenKind.None;
+        // (from layout version 10 never on the passage round a break in the road, though its webs may reach one: its heart a dozen blocks off at least)
+        if (Version >= 10 && L8SpineDistance(cx, cz, 14) < 14) return DenKind.None;
+        return DenKind.Nest;
+    }
+
+    /// <summary>
+    /// How deep into a spider nest a column of Level 8 lies, from 1 at its heart to 0 at its rim and beyond (0 in every
+    /// world before layout version 9, and outside Level 8).
+    /// </summary>
+    public double L8NestNear(int gx, int gz)
+    {
+        if (Version < 9 || LevelAt(MacroOf(gx), MacroOf(gz)) != 8) return 0;
+        // (DenNear's scan, over cells' dens remembered: a den is a pure function of its cell, and DenAt works out the level's
+        // depth before it rolls, so asking it nine times for every column of a chunk was most of what Level 8 cost to build)
+        int mx0 = MacroOf(gx), mz0 = MacroOf(gz);
+        for (int mz = mz0 - 1; mz <= mz0 + 1; mz++)
+            for (int mx = mx0 - 1; mx <= mx0 + 1; mx++)
+            {
+                DenKind kind = l8Dens.Get(mx, mz);
+                if (kind == DenKind.None) continue;
+                int cx = mx * MacroSize + MacroSize / 2, cz = mz * MacroSize + MacroSize / 2;
+                if ((cx - gx) * (cx - gx) + (cz - gz) * (cz - gz) > DenRadius * DenRadius) continue;
+                if (kind != DenKind.Nest) return 0;
+                double d = Math.Sqrt((cx - gx) * (cx - gx) + (cz - gz) * (cz - gz));
+                return Math.Clamp(1 - d / DenRadius, 0, 1);
+            }
+        return 0;
+    }
+
+    private LatticeMemo<DenKind> l8Dens;
+
+    /// <summary>
+    /// The heart of the nearest spider nest within <paramref name="range"/> blocks of a position (at most 24, which
+    /// the neighbouring cells cover), or null. A query only: nothing in the world is changed by asking.
+    /// </summary>
+    public (int X, int Z)? NestHeartNear(int gx, int gz, double range)
+    {
+        if (Version < 9 || LevelAt(MacroOf(gx), MacroOf(gz)) != 8) return null;
+        range = Math.Min(range, 24); // (the nine cells round the position are all that is looked at)
+        int mx0 = MacroOf(gx), mz0 = MacroOf(gz);
+        (int X, int Z)? best = null;
+        double bestSq = range * range;
+        for (int mz = mz0 - 1; mz <= mz0 + 1; mz++)
+            for (int mx = mx0 - 1; mx <= mx0 + 1; mx++)
+            {
+                if (DenAt(mx, mz) != DenKind.Nest) continue;
+                int cx = mx * MacroSize + MacroSize / 2, cz = mz * MacroSize + MacroSize / 2;
+                double sq = (double)(cx - gx) * (cx - gx) + (double)(cz - gz) * (cz - gz);
+                if (sq <= bestSq) (best, bestSq) = ((cx, cz), sq);
+            }
+        return best;
+    }
+
+    /// <summary>The heart of the spider nest nearest a position within <paramref name="cells"/> cells of it (for a test to go to), or null.</summary>
+    public (int X, int Z)? NearestNest(int gx, int gz, int cells)
+    {
+        if (Version < 9) return null;
+        int mx0 = MacroOf(gx), mz0 = MacroOf(gz);
+        (int X, int Z)? best = null;
+        double bestSq = double.MaxValue;
+        for (int mz = mz0 - cells; mz <= mz0 + cells; mz++)
+            for (int mx = mx0 - cells; mx <= mx0 + cells; mx++)
+            {
+                if (DenAt(mx, mz) != DenKind.Nest) continue;
+                int cx = mx * MacroSize + MacroSize / 2, cz = mz * MacroSize + MacroSize / 2;
+                double sq = (double)(cx - gx) * (cx - gx) + (double)(cz - gz) * (cz - gz);
+                if (sq < bestSq) (best, bestSq) = ((cx, cz), sq);
+            }
+        return best;
+    }
+}

@@ -48,5 +48,20 @@
 		8,
 		5,
 		11
+	],
+	"drops": [
+		{
+			"type": "block",
+			"code": "game:lantern-small-up",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			},
+			"attributes": {
+				"material": "iron",
+				"lining": "plain",
+				"glass": "quartz"
+			}
+		}
 	]
 }

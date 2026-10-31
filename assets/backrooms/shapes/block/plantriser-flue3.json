@@ -1,0 +1,810 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "flue": "backrooms:block/level5/boiler-flue",
+  "band": "backrooms:block/level5/boiler-band",
+  "steam": "backrooms:block/level2/wallpipe-rust",
+  "lag": "backrooms:block/level2/wallpipe-lagging",
+  "flange": "backrooms:block/level2/wallpipe-flange",
+  "metal": "backrooms:block/props/metal",
+  "plaster": "backrooms:block/level5/plaster",
+  "wood": "backrooms:block/level5/mahogany",
+  "coal": "backrooms:block/detail/coal",
+  "dark": "backrooms:block/props/metal-dark"
+ },
+ "elements": [
+  {
+   "name": "Flue0",
+   "from": [
+    6.1,
+    0.0,
+    8.213
+   ],
+   "to": [
+    9.9,
+    16.0,
+    9.787
+   ],
+   "faces": {
+    "north": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      3.8,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      1.574,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      3.8,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      1.574,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Flue1",
+   "from": [
+    7.213,
+    0.0,
+    7.1
+   ],
+   "to": [
+    8.787,
+    16.0,
+    10.9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      1.574,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      3.8,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      1.574,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      3.8,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Flue2",
+   "from": [
+    6.1,
+    0.0,
+    8.213
+   ],
+   "to": [
+    9.9,
+    16.0,
+    9.787
+   ],
+   "faces": {
+    "north": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      3.8,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      1.574,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      3.8,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      1.574,
+      16
+     ]
+    }
+   },
+   "rotationOrigin": [
+    8.0,
+    0,
+    9.0
+   ],
+   "rotationY": 45
+  },
+  {
+   "name": "Flue3",
+   "from": [
+    7.213,
+    0.0,
+    7.1
+   ],
+   "to": [
+    8.787,
+    16.0,
+    10.9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      1.574,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      3.8,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      1.574,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#flue",
+     "uv": [
+      0,
+      0,
+      3.8,
+      16
+     ]
+    }
+   },
+   "rotationOrigin": [
+    8.0,
+    0,
+    9.0
+   ],
+   "rotationY": 45
+  },
+  {
+   "name": "FlueHead0",
+   "from": [
+    5.5,
+    15.2,
+    7.9645
+   ],
+   "to": [
+    10.5,
+    16.0,
+    10.0355
+   ],
+   "faces": {
+    "north": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "east": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "south": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "west": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "up": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      2.0711
+     ]
+    },
+    "down": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      2.0711
+     ]
+    }
+   }
+  },
+  {
+   "name": "FlueHead1",
+   "from": [
+    6.9645,
+    15.21,
+    6.5
+   ],
+   "to": [
+    9.0355,
+    16.01,
+    11.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "east": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "south": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "west": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "up": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      5.0
+     ]
+    },
+    "down": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      5.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "FlueHead2",
+   "from": [
+    5.5,
+    15.22,
+    7.9645
+   ],
+   "to": [
+    10.5,
+    16.02,
+    10.0355
+   ],
+   "faces": {
+    "north": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "east": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "south": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "west": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "up": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      2.0711
+     ]
+    },
+    "down": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      2.0711
+     ]
+    }
+   },
+   "rotationOrigin": [
+    8.0,
+    15.2,
+    9.0
+   ],
+   "rotationY": 45
+  },
+  {
+   "name": "FlueHead3",
+   "from": [
+    6.9645,
+    15.23,
+    6.5
+   ],
+   "to": [
+    9.0355,
+    16.03,
+    11.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "east": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "south": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "west": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "up": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      5.0
+     ]
+    },
+    "down": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      5.0
+     ]
+    }
+   },
+   "rotationOrigin": [
+    8.0,
+    15.2,
+    9.0
+   ],
+   "rotationY": 45
+  },
+  {
+   "name": "FlueFoot0",
+   "from": [
+    5.5,
+    0.0,
+    7.9645
+   ],
+   "to": [
+    10.5,
+    0.8,
+    10.0355
+   ],
+   "faces": {
+    "north": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "east": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "south": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "west": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "up": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      2.0711
+     ]
+    },
+    "down": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      2.0711
+     ]
+    }
+   }
+  },
+  {
+   "name": "FlueFoot1",
+   "from": [
+    6.9645,
+    0.01,
+    6.5
+   ],
+   "to": [
+    9.0355,
+    0.81,
+    11.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "east": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "south": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "west": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "up": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      5.0
+     ]
+    },
+    "down": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      5.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "FlueFoot2",
+   "from": [
+    5.5,
+    0.02,
+    7.9645
+   ],
+   "to": [
+    10.5,
+    0.82,
+    10.0355
+   ],
+   "faces": {
+    "north": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "east": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "south": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "west": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "up": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      2.0711
+     ]
+    },
+    "down": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      2.0711
+     ]
+    }
+   },
+   "rotationOrigin": [
+    8.0,
+    0,
+    9.0
+   ],
+   "rotationY": 45
+  },
+  {
+   "name": "FlueFoot3",
+   "from": [
+    6.9645,
+    0.03,
+    6.5
+   ],
+   "to": [
+    9.0355,
+    0.83,
+    11.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "east": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "south": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      0.8
+     ]
+    },
+    "west": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      5.0,
+      0.8
+     ]
+    },
+    "up": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      5.0
+     ]
+    },
+    "down": {
+     "texture": "#band",
+     "uv": [
+      0,
+      0,
+      2.0711,
+      5.0
+     ]
+    }
+   },
+   "rotationOrigin": [
+    8.0,
+    0,
+    9.0
+   ],
+   "rotationY": 45
+  }
+ ]
+}

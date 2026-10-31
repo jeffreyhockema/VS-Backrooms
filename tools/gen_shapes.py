@@ -244,8 +244,9 @@ def wall_pipe_turning(name, yc, zc, r, tex, left, right):
         lo, hi = cuts[i], cuts[i + 1]
         mid = 0.0 if lo < 0 < hi else (abs(lo) + abs(hi)) / 2
         d = r * math.sqrt(1 - mid * mid)
-        x1 = round(d - a, 3) if left == "w" else 0.0
-        x2 = round(16 + a + d, 3) if right == "w" else round(16 - a - d, 3) if right == "j" else 16.0
+        x1 = round(d - a, 3) if left == "w" else round(16 - elbow_x(r) - ELBOW_CHAMFER * d, 3) if left == "c" else 0.0
+        x2 = (round(16 + a + d, 3) if right == "w" else round(16 - a - d, 3) if right == "j"
+              else round(elbow_x(r) + ELBOW_CHAMFER * d, 3) if right == "c" else 16.0)
         # The block's own part, and what reaches past its edges round an outer corner
         for part, p, q in (("L", x1, 0.0), ("", max(x1, 0.0), min(x2, 16.0)), ("R", 16.0, x2)):
             if q - p < 0.01:
@@ -253,8 +254,10 @@ def wall_pipe_turning(name, yc, zc, r, tex, left, right):
             fs = ["north"] + (["up"] if hi > 0 else []) + (["down"] if lo < 0 else [])
             # Only the end of a turn shows; "o" runs on into the next block's pipe (as the straight blocks) and a
             # blind flange covers "c" (an end face there would fight with the flange's face in the same plane)
-            if q == x2 and right == "w":
+            if q == x2 and right in ("w", "c"):
                 fs.append("east")
+            if p == x1 and left == "c":
+                fs.append("west")
             b = box(f"{name}{part}{i}", (p, yc + lo * r, zc - d), (q, yc + hi * r, zc + d), tex, faces=tuple(fs))
             u1, u2 = (p + 16, q + 16) if part == "L" else (p - 16, q - 16) if part == "R" else (p, q)
             b["faces"]["north"]["uv"] = [u1, v(hi), u2, v(lo)]
@@ -264,22 +267,83 @@ def wall_pipe_turning(name, yc, zc, r, tex, left, right):
                 b["faces"]["down"]["uv"] = [u1, 14.8, u2, 16] if lo <= -1 else [u1, v(lo) - 0.3, u2, v(lo)]
             if "east" in b["faces"]:
                 # Round an outer corner the end is the front of the turn: shaded like the next face's pipe
-                b["faces"]["east"]["uv"] = [0, v(hi), round(2 * d, 3), v(lo)]
+                b["faces"]["east"]["uv"] = [0, v(hi), round(2 * d, 3), v(lo)] if right == "w" else [7, 7, 9, 9]
+            if "west" in b["faces"]:
+                b["faces"]["west"]["uv"] = [7, 7, 9, 9]
             out.append(b)
     return out
+
+
+ELBOW_CHAMFER = 0.7  # the elbow's outer corner is cut: the pipe's round end steps in over this fraction of its radius
+ELBOW_PLATE = 1.1    # the escutcheon plate stands this far out round the pipe
+
+
+def elbow_x(r):
+    """Where the elbow into the wall sits along a pipe of radius r that ends at a block's right edge: its escutcheon
+    plate (radius r + ELBOW_PLATE) stops 0.05 short of the edge (four-sided hardware, as the straight blocks' flanges)."""
+    return round(15.95 - (r + ELBOW_PLATE), 3)
 
 
 def wall_pipe_cap(name, end):
-    """A blind flange on the end of both wall pipes, flush with the block's edge ("left" end x 0, "right" x 16). The
-    steel pipe's flange is wider than the pipe stands off the wall, so its back is cut flat a hair in front of the
-    wall (else its face at the block's edge shows a sliver in the wall's own face where that shows, beside a door)."""
+    """(Level 2 art) Where a wall pipe's run ends, it turns 90 degrees into the wall instead of ending in a blind
+    flange: the pipe runs on to the elbow's centre, its outer corner cut (`wall_pipe_turning` shortens it), a short
+    stepped knuckle carries on to the wall, and a round escutcheon plate with four bolt heads covers where it goes in.
+    The plate's back is cut flat a hair in front of the wall (else its face lies in the wall's own plane where that
+    shows, beside a door). "right" ends the run at x 16, "left" is that mirrored."""
     out = []
-    for nm, (yc, zc, r), grow, tex, t in (("CapA", WALL_PIPE_RUST, 0.7, "flange", 0.8), ("CapB", WALL_PIPE_LAG, 0.35, "metal", 0.6)):
-        x1, x2 = (0.0, t) if end == "left" else (16 - t, 16.0)
-        for b in round_pipe(f"{name}{nm}", yc, zc, r + grow, tex, x1, x2, shaded=False, faces=("east", "west")):
-            b["to"][2] = min(b["to"][2], -0.02)
+    cuts = (-1.0, -0.86, -0.6, -0.28, 0.28, 0.6, 0.86, 1.0)
+
+    def v(f):
+        return round(16 * (0.5 - math.asin(max(-1.0, min(1.0, f))) / math.pi), 3)
+    for nm, (yc, zc, r), tex in (("A", WALL_PIPE_RUST, "wallrust"), ("B", WALL_PIPE_LAG, "walllag")):
+        xe, pr = elbow_x(r), r + ELBOW_PLATE
+        for i in range(len(cuts) - 1):
+            lo, hi = cuts[i], cuts[i + 1]
+            mid = 0.0 if lo < 0 < hi else (abs(lo) + abs(hi)) / 2
+            d = r * math.sqrt(1 - mid * mid)
+            # the knuckle: the step the pipe's end gives up to its cut corner, running on to the plate
+            p, q = round(xe + ELBOW_CHAMFER * d, 3), round(xe + d, 3)
+            fs = ["north", "east"] + (["up"] if hi > 0 else []) + (["down"] if lo < 0 else [])
+            b = box(f"{name}K{nm}{i}", (p, yc + lo * r, zc - ELBOW_CHAMFER * d), (q, yc + hi * r, -0.3), tex, faces=tuple(fs))
+            b["faces"]["north"]["uv"] = [p, v(hi), q, v(lo)]
+            if "up" in b["faces"]:
+                b["faces"]["up"]["uv"] = [p, 0, q, 1.2] if hi >= 1 else [p, v(hi), q, v(hi) + 0.3]
+            if "down" in b["faces"]:
+                b["faces"]["down"]["uv"] = [p, 14.8, q, 16] if lo <= -1 else [p, v(lo) - 0.3, q, v(lo)]
+            b["faces"]["east"]["uv"] = [7, 7, 9, 9]
             out.append(b)
+        # a union ring behind the bend marks it as a fitting
+        out += round_pipe(f"{name}Ring{nm}", yc, zc, r + 0.35, "flange", round(xe - r - 0.5, 3), round(xe - r + 0.4, 3),
+                          shaded=False, faces=("east", "west"))
+        # the plate, a stepped disc on the wall, and its bolts
+        for i in range(len(cuts) - 1):
+            lo, hi = cuts[i], cuts[i + 1]
+            mid = 0.0 if lo < 0 < hi else (abs(lo) + abs(hi)) / 2
+            d = pr * math.sqrt(1 - mid * mid)
+            fs = ["north", "east", "west"] + (["up"] if hi > 0 else []) + (["down"] if lo < 0 else [])
+            out.append(box(f"{name}Plate{nm}{i}", (xe - d, yc + lo * pr, -1.0), (xe + d, yc + hi * pr, -0.02), "flange", faces=tuple(fs)))
+        for k, (sx, sy) in enumerate(((1, 1), (-1, 1), (1, -1), (-1, -1))):
+            bx_, by_ = xe + sx * pr * 0.68, yc + sy * pr * 0.68
+            out.append(box(f"{name}Bolt{nm}{k}", (bx_ - 0.3, by_ - 0.3, -1.35), (bx_ + 0.3, by_ + 0.3, -1.0), "metal",
+                           faces=("north", "east", "west", "up", "down")))
+    if end == "left":
+        out = [mirror_x(b) for b in out]
     return out
+
+
+def mirror_x(b):
+    """A box mirrored across the block's middle (x to 16 - x), its east and west faces swapped and its U turned."""
+    b = json.loads(json.dumps(b))
+    (x1, y1, z1), (x2, y2, z2) = b["from"], b["to"]
+    b["from"], b["to"] = [round(16 - x2, 3), y1, z1], [round(16 - x1, 3), y2, z2]
+    faces = {}
+    for f, v in b["faces"].items():
+        if f in ("north", "south", "up", "down"):
+            u1, v1, u2, v2 = v["uv"]
+            v["uv"] = [round(16 - u2, 3), v1, round(16 - u1, 3), v2]
+        faces[{"east": "west", "west": "east"}.get(f, f)] = v
+    b["faces"] = faces
+    return b
 
 
 def wall_pipe_configs():
@@ -453,7 +517,8 @@ def cab_frame(name, x1, y1, x2, y2, z1, z2, border, grid=(1, 1), mid=None):
 def machinery_head():
     """The wall cabinet's upper block, its front to the north (z < 0 is out of the wall, in the tunnel): a framed
     instrument panel with two dial gauges in chrome bezels, a red and an amber lamp and an equipment plate, under a
-    cap; a conduit in a gland and a rusty pipe run on up into the ceiling."""
+    cap; a conduit in a gland and a rusty pipe run up out of it (from layout version 9 the block above carries them on
+    into the ceiling, machinery_top)."""
     els = [K.box("Body", (1.5, 0, -2.0), (14.5, 11.5, 0), CAB, faces=("north", "east", "west"))]
     frame = cab_frame("Bezel", 1.5, 0, 14.5, 11.5, -2.5, -2.0, 1.0)[0]
     frame[0]["faces"].pop("down")  # on the door's top rail, at the block seam
@@ -484,10 +549,54 @@ def machinery_door():
     return els
 
 
-def machine_cabinet():
+# The free-standing cabinet's feed pipe (Levels 2 and 3), in the cabinet's frame (front north, its back and the wall
+# behind it at z 16): 2.5 square, its back 3.25 off the wall. That clears the wall pipes behind it at body height
+# (they stand 4 off the wall at most: it passes in front of them) and lies inside the near pipe of the overhead bundle
+# above the cabinet, whichever wall it stands against (the rusty pipe 3-6 off the wall, or the lagged one 1-6), without
+# a face in the plane of either.
+FEED_X = (11.25, 13.75)
+FEED_Z = (10.25, 12.75)
+
+
+def cabinet_feed(top):
+    """The feed pipe's gland on the cabinet's cap (y 15) and the pipe out of it, up to `top`."""
+    (x1, x2), (z1, z2) = FEED_X, FEED_Z
+    return [K.box("Gland", (x1 - 0.75, 15.0, z1 - 0.75), (x2 + 0.75, 15.5, z2 + 0.75), "metal", faces=("north", "east", "west", "south", "up")),
+            K.box("GlandNut", (x1 - 0.4, 15.5, z1 - 0.4), (x2 + 0.4, 16.25, z2 + 0.4), "metal", faces=("north", "east", "west", "south", "up")),
+            K.box("Pipe", (x1, 15.5, z1), (x2, top, z2), "rust", faces=("north", "east", "west", "south"))]
+
+
+def cabinet_feed_elbow():
+    """(L2 placement) Where nothing carries the feed on (Level 3, and Level 2 worlds made before layout version 9): the
+    pipe rises out of its gland to waist height of the block above, between the wall pipes there (the lagged one tops
+    out at y 6.25 of that block, the rusty one starts at 10.5), and turns back into the wall through a wall plate."""
+    (x1, x2), (z1, z2) = FEED_X, FEED_Z
+    y1, y2 = 23.25, 25.75  # the horizontal run, 7.25-9.75 up the block above
+    return cabinet_feed(y2) + [
+        # The elbow: a fitting a little fatter than the pipe round the turn, then the run back into the wall
+        K.box("Elbow", (x1 - 0.3, y1 - 0.3, z1 - 0.3), (x2 + 0.3, y2 + 0.3, z2 + 0.3), "rust", faces=("north", "east", "west", "up", "down")),
+        K.box("Run", (x1, y1, z2 + 0.3), (x2, y2, 16), "rust", faces=("east", "west", "up", "down")),
+        K.box("WallPlate", (x1 - 0.9, y1 - 0.9, 15.5), (x2 + 0.9, y2 + 0.9, 16), "metal", faces=("north", "east", "west", "up", "down")),
+    ]
+
+
+def feed_pipe():
+    """(L2 placement) The feed pipe carried on above a machine cabinet (cabinet frame, block above the cabinet): up
+    from the cabinet's gland, held to the wall by a clamp and a strut between the wall pipes, into the overhead
+    bundle's near pipe, whose middle is 12.5 up the block above this one."""
+    (x1, x2), (z1, z2) = FEED_X, FEED_Z
+    return [K.box("Pipe", (x1, 0, z1), (x2, 28.5, z2), "rust", faces=("north", "east", "west", "south")),
+            K.box("Clamp", (x1 - 0.5, 7.5, z1 - 0.5), (x2 + 0.5, 9.0, z2 + 0.5), "metal"),
+            K.box("Strut", (12.0, 7.75, z2 + 0.5), (13.0, 8.75, 16), "metal", faces=("east", "west", "up", "down")),
+            K.box("Foot", (11.25, 7.0, 15.5), (13.75, 9.5, 16), "metal", faces=("north", "east", "west", "up", "down"))]
+
+
+def machine_cabinet(feed="elbow"):
     """The free-standing machine cabinet (Levels 2 and 3), front to the north: carcass and cap, a framed front with an
-    instrument panel (two gauges, two lamps) over a louvred door with a bar handle, on a toe-recessed plinth; a pipe
-    stub out of the top at the back."""
+    instrument panel (two gauges, two lamps) over a louvred door with a bar handle, on a toe-recessed plinth; the feed
+    pipe out of a gland on the top at the back. With feed "elbow" the pipe turns back into the wall above the cabinet
+    (cabinet_feed_elbow); with "up" (L2 placement, machinecabinetfeed) it rises out of the block into the feed pipe
+    above (feedpipe). The old open stub led nowhere."""
     els = [K.box("Toe", (2.0, 0, 5.25), (14.0, 1.0, 15.5), "cabdark", faces=("north", "east", "west", "south")),
            K.box("Body", (1.0, 1.0, 4.5), (15.0, 14.25, 16), CAB, faces=("north", "east", "west", "south", "down")),
            K.box("Cap", (0.75, 14.25, 4.0), (15.25, 15.0, 16), {"all": "cabpaint", "top": "cabtop"})]
@@ -497,7 +606,7 @@ def machine_cabinet():
     els += cab_lamp("LampR", 8.0, 11.9, 4.5, "cablampred") + cab_lamp("LampA", 8.0, 9.6, 4.5, "cablampamber")
     els += louvre("Vent", 2.75, 2.5, 9.75, 6.625, 4.5, 3)
     els += K.handle("Handle", 12.0, 4.5, 4.5, length=3.0, axis="y", standoff=0.75, thick=0.75, tex="cabbezel")
-    els.append(K.box("Pipe", (11, 15.0, 11), (14, 16, 14), "rust", faces=("north", "east", "west", "south", "up")))
+    els += cabinet_feed_elbow() if feed == "elbow" else cabinet_feed(16)
     return els
 
 
@@ -555,7 +664,74 @@ def level2():
     save("tunnelwall-machinerybase", mwall, [CUBE("wall")] + sides_turned(machinery_door()))
 
     # Machine cabinet, front panel facing north, back against the wall to the south
-    save("machinecabinet", dict(CABINET_TEX, metal="backrooms:block/props/metal", rust=PIPE_TEX["rust"]), machine_cabinet())
+    cab = dict(CABINET_TEX, metal="backrooms:block/props/metal", rust=PIPE_TEX["rust"])
+    save("machinecabinet", cab, machine_cabinet())
+    # (L2 placement, layout version 9) Level 2's cabinets feed the overhead bundle: the cabinet with its pipe straight
+    # up, and the pipe carried on above it (blocktypes machinecabinetfeed and feedpipe, from gen_blocktypes.py)
+    save("machinecabinet-feed", cab, machine_cabinet("up"))
+    save("feedpipe", {"metal": "backrooms:block/props/metal", "rust": PIPE_TEX["rust"]}, feed_pipe())
+    tunnel_fittings(wall)
+
+
+# ---------------- (L2 placement) Level 2's fittings that lead somewhere, from layout version 9 ----------------
+# Blocktype tunnelfitting (gen_blocktypes.py): wall blocks like tunnelwall's, with their fittings on all four faces.
+
+def machinery_top():
+    """Above the wall cabinet's instrument head: its two conduits (bright steel, and the copper-coloured one) carried on
+    up the wall from the head's gland into the ceiling, each held by a saddle clip and ending in a ceiling plate where
+    it goes through. They pass behind the overhead bundle's near pipe where one runs along the wall (as the risers do)."""
+    els = [K.box("Conduit", (4.0, 0, -1.5), (5.5, 16, 0), "metal", faces=("north", "east", "west")),
+           K.box("Conduit2", (10.0, 0, -1.2), (11.0, 16, 0), "rust", faces=("north", "east", "west")),
+           K.box("Clip", (3.5, 6.0, -1.85), (6.0, 7.0, 0), "metal", faces=("north", "east", "west", "up", "down")),
+           K.box("Clip2", (9.5, 6.5, -1.55), (11.5, 7.5, 0), "metal", faces=("north", "east", "west", "up", "down")),
+           K.box("Plate", (3.25, 15.4, -2.25), (6.25, 16, 0), "metal", faces=("north", "east", "west", "down")),
+           K.box("Plate2", (9.25, 15.4, -1.95), (11.75, 16, 0), "metal", faces=("north", "east", "west", "down"))]
+    return els
+
+
+def valve_wheel(name, cx, cy, z):
+    """The red hand wheel, as the old tunnelwall-valve's: a square rim 7 across with two spokes, its back face at z
+    (the wheel 1 deep in front of it)."""
+    return [box(f"{name}RimTop", (cx - 3, cy + 2.5, z - 1), (cx + 3, cy + 3.5, z), "valve"),
+            box(f"{name}RimBottom", (cx - 3, cy - 3.5, z - 1), (cx + 3, cy - 2.5, z), "valve"),
+            box(f"{name}RimLeft", (cx - 3.5, cy - 3, z - 1), (cx - 2.5, cy + 3, z), "valve"),
+            box(f"{name}RimRight", (cx + 2.5, cy - 3, z - 1), (cx + 3.5, cy + 3, z), "valve"),
+            box(f"{name}Spoke", (cx - 0.5, cy - 3, z - 0.8), (cx + 0.5, cy + 3, z - 0.2), "valve"),
+            box(f"{name}SpokeH", (cx - 3, cy - 0.5, z - 0.8), (cx + 3, cy + 0.5, z - 0.2), "valve")]
+
+
+def pipe_valve():
+    """A gate valve in the steel wall pipe (WALL_PIPE_RUST): bolted flanges either side of a fat body, a bonnet out of
+    its front and the hand wheel on the spindle, facing the tunnel at about head height."""
+    yc, zc, r = WALL_PIPE_RUST
+    out = []
+    for i, (x1, x2) in enumerate(((4.75, 5.5), (10.5, 11.25))):
+        out += round_pipe(f"VFlange{i}", yc, zc, r + 0.75, "flange", x1, x2, shaded=False, faces=("east", "west"))
+    out += round_pipe("VBody", yc, zc, r + 0.5, "flange", 5.5, 10.5, shaded=False)
+    front = zc - r - 0.5  # the body's front
+    wheel = front - 1.25  # the wheel's back
+    out += [box("Bonnet", (6.75, yc - 1.25, front - 0.75), (9.25, yc + 1.25, front + 0.5), "flange", faces=("north", "east", "west", "up", "down")),
+            # (on into the spokes, so its end never shows between them and the bonnet)
+            box("Spindle", (7.5, yc - 0.5, wheel - 0.5), (8.5, yc + 0.5, front - 0.75), "metal", faces=("north", "east", "west", "up", "down"))]
+    return out + valve_wheel("Wheel", 8, yc, wheel)
+
+
+def riser_valve():
+    """The riser (as tunnelwall-riser's) with a valve in it at its foot: flanges, a body, a bonnet and the hand wheel,
+    a little below knee height."""
+    out = [box("Riser", (6, 0, -4.05), (10, 16, 0), "rust", faces=("north", "east", "west")),
+           box("FlangeLow", (5.25, 3.75, -4.8), (10.75, 4.5, 0), "flange", faces=("north", "east", "west", "up", "down")),
+           box("FlangeHigh", (5.25, 10.5, -4.8), (10.75, 11.25, 0), "flange", faces=("north", "east", "west", "up", "down")),
+           box("Body", (5.5, 4.5, -4.6), (10.5, 10.5, 0), "flange", faces=("north", "east", "west")),
+           box("Bonnet", (6.75, 6.25, -5.35), (9.25, 8.75, -4.6), "flange", faces=("north", "east", "west", "up", "down")),
+           box("Spindle", (7.5, 7.0, -6.1), (8.5, 8.0, -5.35), "metal", faces=("north", "east", "west", "up", "down"))]
+    return out + valve_wheel("Wheel", 8, 7.5, -5.6)
+
+
+def tunnel_fittings(wall):
+    save("tunnelfitting-machinerytop", wall, [CUBE("wall")] + sides_turned(machinery_top()))
+    save("tunnelfitting-pipesvalve", wall, [CUBE("wall")] + all_sides(WALL_PIPES + pipe_valve()))
+    save("tunnelfitting-riservalve", wall, [CUBE("wall")] + all_sides(riser_valve()))
 
 
 # ---------------- Level 1 fixtures and props ----------------
@@ -600,6 +776,50 @@ def level1():
         box("Conduit2", (0, 14.5, 6), (16, 15.5, 7), "conduit", faces=("north", "south", "down", "east", "west")),
         box("Clip", (7.5, 14, 3.5), (8.5, 16, 7.5), "metal"),
     ])
+
+    # Where a run of the conduit ends (WorldLayout.ConduitEnds, from layout version 9) it is finished off, so the tubes
+    # are never open: "cap" where there is open space or a light beyond (a collar on each tube and a plate over both),
+    # "box" where it meets a wall or a beam (the tubes go into a junction box, with a lid and screws, mounted on it).
+    # Modelled for the east end; the blocks turn them (conduitend-<side>-<kind>) and the "stub" blocks have an end at
+    # each side of a length on its own (conduit-stub-<west><east>, c = cap, b = box)
+    ctex = {"conduit": "backrooms:block/props/conduit", "metal": "backrooms:block/props/metal",
+            "dark": "backrooms:block/props/metal-dark"}
+    all6 = ("north", "south", "down", "east", "west")
+
+    def conduit_end(kind, west):
+        """The fitting at one end of a run: the east end, or the west one (the same turned about the block's middle)."""
+        if kind == "cap":
+            els = [box("Collar1", (13.2, 14.1, 3.5), (14.8, 15.9, 5.5), "metal", faces=all6 + ("up",)),
+                   box("Collar2", (13.2, 14.1, 5.5), (14.8, 15.9, 7.5), "metal", faces=all6 + ("up",)),
+                   box("EndPlate", (15.2, 13.8, 3.2), (16, 15.9, 7.8), "metal")]
+        else:
+            els = [box("JBox", (12.2, 12.6, 2.6), (16, 16, 8.4), "metal", faces=("north", "south", "down", "west")),
+                   box("Lid", (12.8, 12.1, 3.2), (15.4, 12.6, 7.8), "dark", faces=("north", "south", "down", "west", "east")),
+                   box("Screw1", (13.1, 11.7, 3.4), (13.7, 12.1, 4.0), "metal"), box("Screw2", (14.5, 11.7, 3.4), (15.1, 12.1, 4.0), "metal"),
+                   box("Screw3", (13.1, 11.7, 7.0), (13.7, 12.1, 7.6), "metal"), box("Screw4", (14.5, 11.7, 7.0), (15.1, 12.1, 7.6), "metal"),
+                   box("Nipple1", (11.0, 14.2, 3.6), (12.2, 15.8, 5.4), "metal", faces=("north", "south", "down", "up", "west")),
+                   box("Nipple2", (11.0, 14.2, 5.6), (12.2, 15.8, 7.4), "metal", faces=("north", "south", "down", "up", "west"))]
+        if west:
+            for i, e in enumerate(els):
+                x1, x2 = e["from"][0], e["to"][0]
+                e["from"][0], e["to"][0] = 16 - x2, 16 - x1
+                f = e["faces"]
+                e["faces"] = {k: v for k, v in {"east": f.get("west"), "west": f.get("east"), "north": f.get("north"), "south": f.get("south"),
+                                                "up": f.get("up"), "down": f.get("down")}.items() if v is not None}
+                e["name"] += "W"
+        return els
+
+    def conduit_tubes(x0, x1):
+        # (their ends are closed by the fitting, or by the next block's tube)
+        return [box("Conduit1", (x0, 14.5, 4), (x1, 15.5, 5), "conduit", faces=("north", "south", "down")),
+                box("Conduit2", (x0, 14.5, 6), (x1, 15.5, 7), "conduit", faces=("north", "south", "down"))]
+
+    for kind in ("cap", "box"):
+        run = conduit_tubes(0, 15.2 if kind == "cap" else 12.5) + [box("Clip", (4.5, 14, 3.5), (5.5, 16, 7.5), "metal")]  # (the tubes run into the fitting)
+        save(f"conduit-end-{kind}", ctex, run + conduit_end(kind, False))
+    for w, e in (("c", "c"), ("c", "b"), ("b", "c"), ("b", "b")):
+        els = conduit_tubes(0.8 if w == "c" else 3.5, 15.2 if e == "c" else 12.5)
+        save(f"conduit-stub-{w}{e}", ctex, els + conduit_end("cap" if w == "c" else "box", True) + conduit_end("cap" if e == "c" else "box", False))
 
     # Metal shelving with boxes, open side facing north
     shelf = [
@@ -691,25 +911,232 @@ def parking():
                     box(f"QuarterR{i}", (4, y1, 39), (28, y2, zr), "glass", faces=("east", "west"))]
         return els
 
+    # ---- The inside, seen through the glass ----
+    # The cabin's floor is a long way under the beltline (the body's top at 11), so there is room for seats you could
+    # sit in: a front pair facing forward, a bench behind, the dashboard under the windscreen with an instrument
+    # hood over the driver's dials, a steering wheel on its column, door cards with armrests and pulls, a gear lever
+    # on the tunnel between the seats, a headliner and a mirror. The driver is on the west side of a north-facing car
+    # (left-hand drive, as in an American car park). The wrecks have the same parts, torn and dirty: a split cushion with the foam out, a missing
+    # headrest, a folded seat back, a pulled-out radio, a bent wheel, a door card hanging off, the headliner sagging,
+    # glass and litter on the floor. Every part is in the 1/16-block units of the rest of the car
+    FLOOR = 5.5
+    SEAT_X = {"pass": (6.6, 14.8), "drive": (17.2, 25.4)}
+
+    def part(name, frm, to, tex, faces=DIRS, spin=None, uv=None):
+        """A box, turned by spin = (origin, rotationX, rotationZ) where it is, with its faces' UV fixed by uv."""
+        b = box("In" + name, frm, to, tex, faces=faces)
+        if spin:
+            b["rotationOrigin"] = list(spin[0])
+            if spin[1]:
+                b["rotationX"] = spin[1]
+            if spin[2]:
+                b["rotationZ"] = spin[2]
+        if uv:
+            for f in b["faces"].values():
+                f["uv"] = list(uv)
+        return b
+
+    def front_seat(tag, who, torn):
+        x1, x2 = SEAT_X[who]
+        cx = (x1 + x2) / 2
+        back = ((cx, 8.2, 35.8), 8, 0)
+        els = [
+            part(f"Seat{tag}Rail", (x1 + 1.2, FLOOR, 30.4), (x2 - 1.2, 6.8, 34.6), "trim"),
+            part(f"Seat{tag}Cushion", (x1, 6.8, 29.6), (x2, 8.2, 35.4), "seat"),
+            part(f"Seat{tag}BolsterL", (x1, 8.2, 30.2), (x1 + 1.2, 8.9, 35.4), "seat"),
+            part(f"Seat{tag}BolsterR", (x2 - 1.2, 8.2, 30.2), (x2, 8.9, 35.4), "seat"),
+            part(f"Seat{tag}Back", (x1, 8.2, 35.0), (x2, 15.0, 36.7), "seat", spin=back),
+            part(f"Seat{tag}WingL", (x1, 9.4, 34.4), (x1 + 1.2, 14.2, 35.0), "seat", spin=back),
+            part(f"Seat{tag}WingR", (x2 - 1.2, 9.4, 34.4), (x2, 14.2, 35.0), "seat", spin=back),
+        ]
+        posts = [(cx - 1.9, 15.0, 35.5), (cx + 1.4, 15.0, 35.5)]
+        if torn and who == "pass":
+            # The headrest is gone: two bare posts, one bent
+            els.append(part(f"Seat{tag}PostL", posts[0], (posts[0][0] + 0.5, 16.8, posts[0][2] + 0.6), "metal", spin=back))
+            els.append(part(f"Seat{tag}PostR", posts[1], (posts[1][0] + 0.5, 16.2, posts[1][2] + 0.6), "metal", spin=((posts[1][0], 15.0, 35.5), 8 + 30, 0)))
+        else:
+            els += [part(f"Seat{tag}PostL", posts[0], (posts[0][0] + 0.5, 16.2, posts[0][2] + 0.6), "metal", spin=back),
+                    part(f"Seat{tag}PostR", posts[1], (posts[1][0] + 0.5, 16.2, posts[1][2] + 0.6), "metal", spin=back)]
+            head = part(f"Seat{tag}Head", (x1 + 2.2, 16.0, 35.1), (x2 - 2.2, 18.2, 36.7), "seat", spin=back)
+            if torn:  # slumped to one side
+                head = part(f"Seat{tag}Head", (x1 + 2.2, 15.6, 35.1), (x2 - 2.2, 17.8, 36.7), "seat", spin=((cx, 15.6, 35.9), 8, 22))
+            els.append(head)
+        if torn and who == "pass":
+            els.append(part(f"Seat{tag}Foam", (x1 + 2.0, 8.2, 31.0), (x1 + 5.6, 8.7, 34.0), "foam", faces=("up", "north", "east", "west", "south")))
+        if torn and who == "drive":
+            els.append(part(f"Seat{tag}Split", (cx - 2.8, 9.6, 34.5), (cx - 1.4, 13.6, 35.0), "foam", spin=back))
+            els.append(part(f"Seat{tag}Foam", (cx + 0.6, 8.2, 31.4), (cx + 3.4, 8.7, 33.4), "foam"))
+        return els
+
+    def rear_bench(torn):
+        els = [part("BenchRail", (6.5, FLOOR, 39.4), (26.5, 6.8, 42.0), "trim"),
+               part("BenchCushion", (5.0, 6.8, 38.8), (27.0 if not torn else 18.0, 8.3, 42.8), "seat"),
+               part("BenchBack", (5.0, 8.3, 42.3), (27.0 if not torn else 18.0, 12.8, 43.4), "seat")]
+        if torn:
+            # The right-hand part of the back has folded forward onto where its cushion was
+            els.append(part("BenchBackFolded", (18.0, 8.3, 42.3), (27.0, 12.8, 43.4), "seat", spin=((22.5, 8.3, 42.8), -62, 0)))
+            els.append(part("BenchFoam", (8.0, 8.3, 39.6), (11.4, 8.8, 41.8), "foam"))
+        return els
+
+    def wheel(torn):
+        cx, cy, z0, a, length, t = 21.3, 8.7, 27.4, 2.55, 2.7, 0.8
+        els = []
+        for i in range(8):
+            if torn and i == 5:
+                continue  # a piece of the rim snapped off
+            th = math.radians(i * 45)
+            mx, my = cx + a * math.cos(th), cy + a * math.sin(th)
+            if i % 2 == 0:  # the straight sides: top, bottom, left, right
+                half = (t / 2, length / 2) if i in (0, 4) else (length / 2, t / 2)
+                els.append(part(f"WheelRim{i}", (mx - half[0], my - half[1], z0), (mx + half[0], my + half[1], z0 + t), "trim"))
+            else:
+                els.append(part(f"WheelRim{i}", (mx - length / 2, my - t / 2, z0), (mx + length / 2, my + t / 2, z0 + t), "trim",
+                                spin=((mx, my, z0 + t / 2), 0, -45 if i in (1, 5) else 45)))
+        els += [part("WheelSpokeH", (cx - a, cy - 0.4, z0 + 0.1), (cx + a, cy + 0.4, z0 + 0.7), "trim"),
+                part("WheelSpokeV", (cx - 0.4, cy - a, z0 + 0.1), (cx + 0.4, cy, z0 + 0.7), "trim"),
+                part("WheelHub", (cx - 1.1, cy - 1.1, z0 - 0.1), (cx + 1.1, cy + 1.1, z0 + 1.0), "trim"),
+                part("WheelCap", (cx - 0.6, cy - 0.6, z0 + 1.0), (cx + 0.6, cy + 0.6, z0 + 1.4), "metal"),
+                part("WheelColumn", (cx - 0.7, 8.0, 24.6), (cx + 0.7, 9.4, z0), "trim", faces=("north", "east", "west", "up", "down"))]
+        return els
+
+    def doorcards(torn):
+        els = []
+        for east in (False, True):
+            def X(a, b):
+                return (32 - b, 32 - a) if east else (a, b)
+            tag = "E" if east else "W"
+            inner = "west" if east else "east"
+            c0, c1 = X(4.0, 5.2)
+            card_faces = (inner, "up", "north", "south")
+            if torn and not east:
+                # The lower half of this card has come away and hangs from the armrest by a strip of vinyl
+                els.append(part(f"Card{tag}Upper", (c0, 8.2, 21.0), (c1, 10.9, 44.2), "doorcard", faces=card_faces))
+                els.append(part(f"Card{tag}Flap", (c0 + 1.0, 5.8, 25.0), (c1 + 1.0, 8.2, 36.0), "doorcard", faces=("east", "west", "north", "south", "down"),
+                                spin=((c0 + 1.0, 8.2, 30.5), 0, 28)))
+                els.append(part(f"Card{tag}Bare", (c0, 5.8, 21.0), (c0 + 0.5, 8.2, 44.2), "tyre", faces=(inner,)))
+            else:
+                els.append(part(f"Card{tag}", (c0, 5.8, 21.0), (c1, 10.9, 44.2), "doorcard", faces=card_faces))
+            a0, a1 = X(5.2, 6.6)
+            els.append(part(f"Armrest{tag}", (a0, 9.4, 27.0), (a1, 10.4, 37.0), "trim"))
+            p0, p1 = X(5.2, 6.0)
+            els.append(part(f"Pull{tag}", (p0, 8.0, 36.5), (p1, 8.6, 40.0), "metal"))
+            s0, s1 = X(5.2, 5.7)
+            els.append(part(f"Speaker{tag}", (s0, 6.4, 24.0), (s1, 8.0, 28.0), "tyre", faces=(inner, "up", "down", "north", "south")))
+        return els
+
+    def dashboard(torn):
+        els = [
+            part("DashPad", (4.0, 9.0, 20.3), (28.0, 11.0, 26.0), "trim", faces=("up", "south", "down")),
+            part("DashKnee", (4.0, 6.8, 20.3), (28.0, 9.0, 24.6), "trim", faces=("south", "down")),
+            # The binnacle over the driver's dials, with its hood
+            part("DashHump", (16.6, 9.0, 22.6), (25.6, 12.4, 26.4), "trim", faces=("north", "east", "west")),
+            # (the dials' plate: just the top-left 16 x 6 px of its texture, which is where they are painted)
+            part("DashDials", (16.6, 9.0, 26.4), (25.6, 12.4, 26.9), "dials", faces=("south",), uv=(0, 0, 8, 3)),
+            part("DashDialsSides", (16.6, 9.0, 26.4), (25.6, 12.4, 26.9), "trim", faces=("east", "west", "down")),
+            part("DashHood", (16.2, 12.4, 22.6), (26.0, 13.1, 27.2), "trim"),
+            part("Glovebox", (6.6, 7.2, 24.6), (13.2, 8.8, 25.1), "doorcard", faces=("south", "east", "west", "up", "down")),
+            part("GloveHandle", (9.4, 8.3, 25.1), (10.4, 8.7, 25.4), "metal"),
+            part("Tunnel", (15.0, FLOOR, 23.0), (17.0, 6.9, 41.0), "trim", faces=("up", "north", "south", "east", "west")),
+            part("Console", (15.0, 6.9, 30.5), (17.0, 8.3, 36.5), "trim", faces=("up", "north", "south", "east", "west")),
+            part("GearLever", (15.75, 6.9, 26.4), (16.25, 9.7, 26.9), "metal", spin=((16.0, 6.9, 26.6), -10, 0)),
+            part("GearKnob", (15.55, 9.6, 26.2), (16.45, 10.6, 27.1), "trim"),
+            part("PedalA", (17.6, FLOOR, 22.4), (19.0, 6.4, 24.0), "tyre"),
+            part("PedalB", (19.8, FLOOR, 22.4), (21.2, 6.4, 24.0), "tyre"),
+            part("PedalC", (22.4, FLOOR, 22.4), (23.6, 6.2, 23.8), "tyre"),
+        ]
+        if torn:
+            # The radio has been pulled out of its slot, leaving the hole
+            els.append(part("RadioHole", (13.0, 9.2, 26.0), (16.2, 10.8, 26.3), "tyre", faces=("south",)))
+        else:
+            els.append(part("Radio", (13.0, 9.2, 26.0), (16.2, 10.8, 26.3), "radio", faces=("south",), uv=(0, 0, 6, 3)))
+        # The mirror hanging from the roof
+        if not torn:
+            els += [part("MirrorStem", (15.7, 17.6, 25.7), (16.3, 18.5, 26.2), "metal"),
+                    part("Mirror", (14.0, 15.8, 25.8), (18.0, 17.6, 26.4), "trim"),
+                    part("MirrorGlass", (14.4, 16.0, 26.4), (17.6, 17.4, 26.6), "glass", faces=("south",))]
+        return els
+
+    def roofliner(torn):
+        els = [part("Visor", (6.0, 17.6, 25.8), (13.4, 18.5, 27.4), "trim"),
+               part("VisorDrive", (18.6, 17.6, 25.8), (26.0, 18.5, 27.4), "trim"),
+               part("DomeLamp", (15.0, 18.0, 31.0), (17.4, 18.5, 33.4), "lamp")]
+        if torn:
+            # The headliner has come unglued and sags from the back
+            els.append(part("LinerSag", (5.5, 17.9, 26.8), (26.5, 18.5, 37.8), "liner", faces=("up", "down", "north", "east", "west"),
+                            spin=((16.0, 18.5, 37.8), -9, 0)))
+        return els
+
+    def litter():
+        # Glass crumbs on the seats and floor, a rusted can, a mound of mud and leaves, paper
+        return [part("GlassA", (6.9, 8.2, 31.2), (8.3, 8.7, 32.6), "glass"),
+                part("GlassB", (20.0, FLOOR, 29.0), (21.8, 6.0, 30.4), "glass"),
+                part("GlassC", (24.0, FLOOR, 24.6), (25.6, 6.0, 25.5), "glass"),
+                part("GlassD", (10.0, FLOOR, 36.0), (11.2, 6.0, 37.0), "glass"),
+                part("Can", (22.0, FLOOR, 24.8), (23.6, 7.0, 26.4), "rim"),
+                part("Mud", (6.0, FLOOR, 35.0), (10.4, 6.6, 38.4), "carpet"),
+                part("Paper", (12.0, FLOOR, 25.5), (14.6, 6.0, 27.8), "liner")]
+
+    def mirrored(els):
+        """The inside swapped east for west (x -> 32 - x): the parts are drawn right-hand drive, the cars are left-hand."""
+        swap = {"east": "west", "west": "east"}
+        for e in els:
+            e["from"][0], e["to"][0] = 32 - e["to"][0], 32 - e["from"][0]
+            if "rotationOrigin" in e:
+                e["rotationOrigin"][0] = 32 - e["rotationOrigin"][0]
+            if e.get("rotationZ"):
+                e["rotationZ"] = -e["rotationZ"]
+            e["faces"] = {swap.get(k, k): v for k, v in e["faces"].items()}
+        return els
+
+    def interior(torn):
+        els = [
+            part("Carpet", (4.0, 5.0, 20.0), (28.0, FLOOR, 45.0), "carpet", faces=("up",)),
+            part("Shelf", (4.0, 10.0, 43.4), (28.0, 10.6, 45.0), "trim", faces=("up", "down", "north")),
+        ]
+        els += dashboard(torn) + wheel(torn) + front_seat("P", "pass", torn) + front_seat("D", "drive", torn)
+        els += rear_bench(torn) + doorcards(torn) + roofliner(torn)
+        if torn:
+            els += litter()
+        return mirrored(els)
+
+    def shell():
+        """The car without its inside: the body is open above the floor between the dashboard and the rear shelf."""
+        front = box("Body", (4, 3, 1), (28, 11, 20), "body")
+        front["faces"]["south"]["texture"] = "#trim"
+        rear = box("BodyRear", (4, 3, 45), (28, 11, 63), "body")
+        rear["faces"]["north"]["texture"] = "#trim"
+        els = [front, rear,
+               box("BodyFloor", (4, 3, 20), (28, FLOOR, 45), "body", faces=("down",)),
+               *side(1, 4, 1),
+               *side(28, 31, 31),
+               *glasshouse(),
+               box("BumperFront", (1, 3, 0), (31, 6.5, 1), "metal"),
+               box("BumperRear", (1, 3, 63), (31, 6.5, 64), "metal"),
+               box("Grille", (10, 6.5, 0.7), (22, 9.5, 1), "tyre"),
+               box("LampLeft", (3, 7, 0.6), (8, 9.5, 1), "lamp", glow=60),
+               box("LampRight", (24, 7, 0.6), (29, 9.5, 1), "lamp", glow=60),
+               box("TailLeft", (3, 7.5, 63), (8, 9.5, 63.4), "tail"),
+               box("TailRight", (24, 7.5, 63), (29, 9.5, 63.4), "tail")]
+        for e in els:
+            if e["name"] == "Roof":
+                e["faces"]["down"]["texture"] = "#liner"  # (the headliner, from inside)
+        return els
+
+    def interior_textures(worn):
+        """The texture keys the inside uses: clean, or the wrecks' (worn, stained, split)."""
+        t = "backrooms:block/level1/car-"
+        if not worn:
+            return {"seat": t + "cloth", "trim": t + "trim", "carpet": t + "carpet", "liner": t + "liner", "doorcard": t + "doorcard",
+                    "dials": t + "dials", "radio": t + "radio", "foam": t + "foam"}
+        return {"seat": t + "seat", "trim": t + "trimworn", "carpet": t + "carpetworn", "liner": t + "linerworn",
+                "doorcard": t + "doorcardworn", "dials": t + "dials", "radio": t + "radio", "foam": t + "foam"}
+
     for colour in ("red", "blue", "white", "black"):
         textures = {"body": f"backrooms:block/level1/car-{colour}", "glass": "backrooms:block/level1/car-glass",
                     "tyre": "backrooms:block/props/metal-dark", "metal": "backrooms:block/props/metal",
-                    "lamp": "backrooms:block/props/tube-white", "tail": "backrooms:block/props/valve"}
-        clean = [
-            # The body under the beltline (bonnet and boot lid on top), its sides added round the wheel arches
-            box("Body", (4, 3, 1), (28, 11, 63), "body"),
-            *side(1, 4, 1),
-            *side(28, 31, 31),
-            *glasshouse(),
-            box("BumperFront", (1, 3, 0), (31, 6.5, 1), "metal"),
-            box("BumperRear", (1, 3, 63), (31, 6.5, 64), "metal"),
-            box("Grille", (10, 6.5, 0.7), (22, 9.5, 1), "tyre"),
-            box("LampLeft", (3, 7, 0.6), (8, 9.5, 1), "lamp", glow=60),
-            box("LampRight", (24, 7, 0.6), (29, 9.5, 1), "lamp", glow=60),
-            box("TailLeft", (3, 7.5, 63), (8, 9.5, 63.4), "tail"),
-            box("TailRight", (24, 7.5, 63), (29, 9.5, 63.4), "tail"),
-        ]
-        save(f"car-{colour}", textures, clean)
+                    "lamp": "backrooms:block/props/tube-white", "tail": "backrooms:block/props/valve",
+                    **interior_textures(False)}
+        save(f"car-{colour}", textures, shell() + interior(False))
 
     # Level 1's abandoned cars are wrecks of the same car: sat down on flat tyres, the side glass gone (the seats show
     # through), the windscreen crazed round a hole and the rear window out, a headlamp smashed, the bonnet sprung, a
@@ -718,7 +1145,7 @@ def parking():
 
     def wrecked():
         els = []
-        for e in json.loads(json.dumps(clean)):
+        for e in json.loads(json.dumps(shell() + interior(True))):
             n = e["name"]
             if n.startswith(("Cabin", "Quarter", "Wheel", "Hub", "RearWindow")):
                 continue
@@ -744,21 +1171,19 @@ def parking():
                     hx = (1.3, 1.6) if out_ < 0 else (30.4, 30.7)
                     els.append(box(f"Rim{tag}", (hx[0], 2, c - 1.5), (hx[1], 5, c + 1.5), "rim"))
         floor = 11 - sag
-        els += [box("SeatFL", (6, floor, 26.5), (14, floor + 2, 31), "seat"), box("SeatFLBack", (6, floor, 31), (14, floor + 7, 32.5), "seat"),
-                box("SeatFR", (18, floor, 26.5), (26, floor + 2, 31), "seat"), box("SeatFRBack", (18, floor, 31), (26, floor + 7, 32.5), "seat"),
-                box("Bench", (5, floor, 37), (27, floor + 2, 40.5), "seat"), box("BenchBack", (5, floor, 40.5), (27, floor + 6, 42), "seat"),
-                box("Wheelhub", (19.5, floor + 3, 23.5), (22.5, floor + 6, 24.5), "tyre"),
-                dict(box("Bonnet", (5, floor, 1.5), (27, floor + 0.7, 15), "body"), rotationOrigin=[16, floor, 15], rotationX=-7)]
+        els.append(dict(box("Bonnet", (5, floor, 1.5), (27, floor + 0.7, 15), "body"), rotationOrigin=[16, floor, 15], rotationX=-7))
         return els
 
     for state, base in (("redwreck", "red"), ("bluewreck", "blue"), ("whitewreck", "white"), ("burnt", "black")):
         textures = {"body": f"backrooms:block/level1/car-{state}", "glass": "backrooms:block/level1/car-glass",
-                    "glassbroken": "backrooms:block/level1/car-glass-broken", "seat": "backrooms:block/level1/car-seat"
-                    if state != "burnt" else "backrooms:block/level1/car-burnt", "rim": PIPE_TEX["rust"],
+                    "glassbroken": "backrooms:block/level1/car-glass-broken", "rim": PIPE_TEX["rust"],
                     "tyre": "backrooms:block/props/metal-dark", "metal": "backrooms:block/props/metal",
-                    "lamp": "backrooms:block/props/tube-white", "tail": "backrooms:block/props/valve"}
+                    "lamp": "backrooms:block/props/tube-white", "tail": "backrooms:block/props/valve",
+                    **interior_textures(True)}
         if state == "burnt":
-            textures.update(metal=PIPE_TEX["rust"], lamp="backrooms:block/props/metal-dark", tail="backrooms:block/props/metal-dark")
+            ash = "backrooms:block/level1/car-burnt"
+            textures.update(metal=PIPE_TEX["rust"], lamp="backrooms:block/props/metal-dark", tail="backrooms:block/props/metal-dark",
+                            seat=ash, trim=ash, carpet=ash, liner=ash, doorcard=ash)
         save(f"car-{state}", textures, wrecked())
 
 
@@ -801,6 +1226,64 @@ def breaker_panel():
     els.append(K.box("Gland", (6.75, 13.5, -2.25), (9.25, 14.25, 0), "metal", faces=("north", "east", "west", "up")))
     els.append(K.box("Conduit", (7.25, 14.25, -1.75), (8.75, 16, -0.25), "metal", faces=("north", "east", "west")))
     return els
+
+
+# ---------------- (L3 placement) Level 3's fittings that lead somewhere, from layout version 9 ----------------
+# Blocktype l3fitting (gen_blocktypes.py): Level 3 wall blocks like l3wallfixture's, their fittings on all four faces.
+
+def pipe_gauges():
+    """Two pressure gauges in the wall pipes (WALL_PIPE_RUST, WALL_PIPE_LAG), on the north face: one standing on a stem
+    out of the top of the lagged pipe, through a steel band round the lagging, the other hanging on a stem from a clamp
+    on the steel pipe, both in the gap between the pipes with their dials to the room. In 1-8 the gauges were a
+    decoration with a length of pipe of their own, at another height from the wall pipes beside them."""
+    ly, lz, lr = WALL_PIPE_LAG
+    ry, rz, rr = WALL_PIPE_RUST
+    f = ("north", "east", "west", "up", "down")
+    out = round_pipe("GABand", ly, lz, lr + 0.3, "flange", 4.1, 5.9, shaded=False, faces=("east", "west"))
+    out.append(K.box("GAStem", (4.6, ly + lr - 0.25, lz - 0.4), (5.4, 6.7, lz + 0.4), "flange", faces=f))
+    out += K.gauge("GaugeA", 5.0, 8.4, lz + 0.65, r=1.8, angle=-50, face="cabdial", body="cabbezel", needle="cabneedle",
+                   depth=1.3, stem=False)
+    out += round_pipe("GBClamp", ry, rz, rr + 0.3, "flange", 10.4, 11.6, shaded=False, faces=("east", "west"))
+    out.append(K.box("GBStem", (10.6, 9.8, rz - 0.4), (11.4, ry - rr + 0.25, rz + 0.4), "flange", faces=f))
+    out += K.gauge("GaugeB", 11.0, 8.15, rz + 0.65, r=1.7, angle=30, face="cabdial", body="cabbezel", needle="cabneedle",
+                   depth=1.3, stem=False)
+    return out
+
+
+CABLE_HEIGHTS = ((4.75, 0.8), (7.0, 1.0), (9.5, 0.65))  # gen_detail.wall_cables: each cable's centre height and radius
+
+
+def panel_box(east=False, west=False):
+    """Over a breaker panel (breaker_panel): its conduit carried on up the wall from the panel's gland, in a saddle
+    clip, into a cast junction box with a lid screwed on at the corners. With `east` or `west` a cable run along the wall
+    comes into the box's side there (gen_detail.wall_cables: three cables, each in a gland reaching to the block's edge,
+    where the run's own cables end). In 1-8 the conduit stopped at the wall block above the panel."""
+    f = ("north", "east", "west", "up", "down")
+    out = [K.box("Conduit", (7.25, 0, -1.75), (8.75, 3.0, -0.25), "metal", faces=("north", "east", "west")),
+           K.box("Clip", (6.75, 1.0, -2.0), (9.25, 1.75, 0), "metal", faces=f),
+           K.box("Coupling", (6.9, 3.0, -2.0), (9.1, 3.5, 0), "metal", faces=f),
+           K.box("Box", (2.75, 3.5, -2.75), (13.25, 12.0, 0), "l3paint", faces=f),
+           K.box("Lid", (2.5, 3.25, -3.25), (13.5, 12.25, -2.75), "l3paint", faces=f)]
+    for i, (x, y) in enumerate(((3.1, 3.6), (12.3, 3.6), (3.1, 11.3), (12.3, 11.3))):
+        out.append(K.box(f"Screw{i}", (x, y, -3.5), (x + 0.6, y + 0.6, -3.25), "metal", faces=f))
+    out += cab_plate("Label", 5.0, 9.25, 11.0, 10.75, -3.25, "cablabel")
+    for side, on in (("E", east), ("W", west)):
+        if not on:
+            continue
+        for i, (yc, r) in enumerate(CABLE_HEIGHTS):
+            zc = -r - 0.05
+            x1, x2 = (13.25, 15.95) if side == "E" else (0.05, 2.75)
+            out.append(K.box(f"Gland{side}{i}", (x1, yc - r - 0.2, zc - r - 0.2), (x2, yc + r + 0.2, 0), "metal", faces=f))
+    return out
+
+
+def l3_fittings(tex):
+    """The l3fitting shapes for one Level 3 wall (tex: the wall's texture dict)."""
+    material = tex["wall"].rsplit("-", 1)[1]
+    gtex = dict(tex, **CABINET_TEX)
+    save(f"l3fitting-{material}-pipesgauge", gtex, [CUBE("wall")] + sides_turned(WALL_PIPES + pipe_gauges()))
+    for name, east, west in (("panelbox", False, False), ("panelboxe", True, False), ("panelboxw", False, True), ("panelboxew", True, True)):
+        save(f"l3fitting-{material}-{name}", gtex, [CUBE("wall")] + sides_turned(panel_box(east, west)))
 
 
 def wall_fan():
@@ -929,6 +1412,8 @@ def level3():
         ftex = dict(tex, **L3_TEX, cablabel=CABINET_TEX["cablabel"], cabneedle=CABINET_TEX["cabneedle"])
         save(f"l3wall-{material}-panel", ftex, [CUBE("wall")] + sides_turned(breaker_panel()))
         save(f"l3wall-{material}-fan", ftex, [CUBE("wall")] + sides_turned(wall_fan()))
+        # (L3 placement, layout version 9) gauges in the wall pipes, and the junction box over a panel
+        l3_fittings(ftex)
 
     # Bars standing in a west-east plane across the middle of the block: round steel (two crossed boxes each), every
     # face showing the whole width of the bar texture's shading so the specular stripe runs down each; the rails take
@@ -957,7 +1442,77 @@ def level3():
     save("rungs", {"metal": PIPE_TEX["rust"]}, [
         box(f"Rung{i}", (4, y, 2), (12, y + 1, 3), "metal") for i, y in enumerate((2, 6, 10, 14))
     ] + [box("RailL", (3, 0, 0.5), (4, 16, 3), "metal"), box("RailR", (12, 0, 0.5), (13, 16, 3), "metal")])
+    manhole_ladder()
 
+
+
+# ---------------- Level 3: the manholes of layout version 9 ----------------
+
+MANHOLE_TEX = {"ladder": "backrooms:block/level3/manholeladder", "iron": "backrooms:block/level3/manhole",
+               "lip": "backrooms:block/level3/hazardlip", "lid": "backrooms:block/level3/hatchlid",
+               "concrete": "backrooms:block/concrete"}
+
+
+def manhole_ladder():
+    """Layout version 9's manhole (WorldLayout.AddManholeTunnel): an opening two blocks long with a ladder two wide
+    down one side of it, from the dry landing at the foot to the lip, in two halves (left and right as seen facing
+    the ladder; the blocktype turns them to the side they are on). Modelled on the north face: the ladder stands off
+    the wall at z 0-3.5 (its collision box is the vanilla ladder's, 3 px deep), the opening runs on to z 16. The
+    rails are at the two outer ends only and the rungs run on across the join, so the pair reads as one ladder.
+
+    The top half (at the floor) carries the lip: a hazard-striped steel frame half a pixel proud of the floor round
+    the opening, drawn only (the opening is the whole two blocks, nothing to stand on but the ladder's own top);
+    the rails standing on above the floor and hooking over the opening, as a manhole's grab rails do; and the open
+    lid, a chequer-plate leaf standing up on its hinges along the far edge. None of these has a collision box, so
+    nothing narrows the way in."""
+    def half(left, top):
+        def X(a, b):  # a span across the half, measured from its outer end (mirrored for the right half)
+            return (a, b) if left else (16 - b, 16 - a)
+
+        def bx(name, x, y, z, tex, faces=DIRS):
+            (x1, x2) = X(*x)
+            return box(name, (x1, y[0], z[0]), (x2, y[1], z[1]), tex, faces=faces)
+
+        outer = ("west",) if left else ("east",)
+        inner = ("east",) if left else ("west",)
+        els = [bx("Rail", (1, 2.5), (0, 16), (1, 3.5), "ladder"),
+               bx("BracketLow", (1.25, 2.25), (3, 4), (0, 1), "iron", faces=("east", "west", "up", "down")),
+               bx("BracketHigh", (1.25, 2.25), (11, 12), (0, 1), "iron", faces=("east", "west", "up", "down")),
+               # The stay in the middle of the span, against the wall (half of it in each half)
+               bx("Stay", (15, 16), (5.5, 6.5), (0, 1.75), "iron", faces=outer + ("south", "up", "down"))]
+        for i, y in enumerate((1.5, 5.5, 9.5, 13.5)):
+            els.append(bx(f"Rung{i}", (2.5, 16), (y, y + 1), (1.75, 3.25), "ladder", faces=("north", "south", "up", "down")))
+        if not top:
+            return els
+        # The lip round the opening: along the far edge, the outer end and the ladder's own edge
+        els += [bx("LipFar", (0, 16), (15, 16.5), (14.5, 16), "lip", faces=("up", "north")),
+                bx("LipEnd", (0, 1.5), (15, 16.5), (1, 14.5), "lip", faces=("up",) + inner),
+                bx("LipNear", (0, 16), (15, 16.5), (0, 1), "lip", faces=("up", "south"))]
+        # The rails stand on above the floor and hook over the opening
+        els += [bx("RailTop", (1, 2.5), (16, 27), (1, 3.5), "ladder"),
+                bx("RailHook", (1, 2.5), (25.5, 27), (3.5, 8), "ladder", faces=("east", "west", "up", "down", "south")),
+                bx("RailHookDrop", (1, 2.5), (21, 25.5), (6.5, 8), "ladder", faces=("east", "west", "down", "north", "south"))]
+        # The open lid, standing up along the far edge on two hinges, a pull handle on the face toward the opening
+        lid = bx("Lid", (1, 16), (16.5, 29.5), (13, 14), "lid", faces=("north", "south", "up") + outer)
+        lid["rotationOrigin"], lid["rotationX"] = [8, 16.5, 13.5], -5
+        els += [lid,
+                bx("HingeA", (4, 6.5), (15.5, 17.5), (13, 15), "iron"),
+                bx("HingeB", (11, 13.5), (15.5, 17.5), (13, 15), "iron"),
+                bx("Handle", (12, 16), (24, 25), (11.8, 12.8), "iron", faces=("north", "up", "down") + outer)]
+        return els
+
+    for top in (True, False):
+        for left in (True, False):
+            name = ("top" if top else "") + ("left" if left else "right")
+            save(f"manholeladder-{name}", MANHOLE_TEX, half(left, top))
+    # The half step up out of the flooded tunnel onto the landing, its edges painted
+    save("tunnelstep", MANHOLE_TEX, [
+        box("Step", (0, 0, 0), (16, 8, 16), "concrete"),
+        box("NoseN", (0, 8, 0), (16, 8.2, 1.5), "lip", faces=("up", "north")),
+        box("NoseS", (0, 8, 14.5), (16, 8.2, 16), "lip", faces=("up", "south")),
+        box("NoseW", (0, 8, 1.5), (1.5, 8.2, 14.5), "lip", faces=("up", "west")),
+        box("NoseE", (14.5, 8, 1.5), (16, 8.2, 14.5), "lip", faces=("up", "east")),
+    ])
 
 # ---------------- Level 4: the office furniture (graphics pass B7, hardware and furniture from tools/modelkit.py) ----------------
 
@@ -1569,25 +2124,13 @@ def level5():
     for part in ("lower", "upper"):
         save(f"hoteldoor-{part}", dict(t, **HOTEL_DOOR_TEX), hotel_door(part))
 
-    oriented("bed-head", t, [
-        box("Frame", (1, 2, 0), (15, 6, 16), "wood"),
-        box("Mattress", (1.5, 6, 0.5), (14.5, 9, 16), "linen"),
-        box("Pillow", (3, 9, 1.5), (13, 10.5, 5), "linen"),
-        box("Headboard", (0.5, 0, -0.5), (15.5, 16, 1), "wood"),
-        box("Blanket", (1.3, 6.5, 6), (14.7, 9.3, 16), "blanket"),
-    ])
-    oriented("bed-foot", t, [
-        box("Frame", (1, 2, 0), (15, 6, 15), "wood"),
-        box("Mattress", (1.5, 6, 0), (14.5, 9, 14.5), "linen"),
-        box("Blanket", (1.3, 6.5, 0), (14.7, 9.3, 14.7), "blanket"),
-        box("Footboard", (0.5, 0, 14.5), (15.5, 11, 16), "wood"),
-    ])
-    oriented("nightstand", t, [
-        box("Body", (2, 0, 4), (14, 10, 14), "wood"),
-        box("LampBase", (6.5, 10, 7.5), (9.5, 11, 10.5), "brass"),
-        box("LampStem", (7.5, 11, 8.5), (8.5, 15, 9.5), "brass"),
-        box("Shade", (5, 14, 6.5), (11, 19, 12.5), "lampshade", glow=90),
-    ])
+    import l5props as L5  # (Level 5 art)
+    l5 = dict(t, **{k: f"backrooms:block/detail/{k}" for k in (
+        "l5sheet", "l5pillow", "l5coverlet", "l5mattress", "l5skirt")})
+    l5["mahogany"] = t["wood"]
+    oriented("bed-head", l5, L5.bed_head())
+    oriented("bed-foot", l5, L5.bed_foot())
+    oriented("nightstand", l5, L5.nightstand())
     oriented("wardrobe", t, wardrobe_b10())  # (B10)
     oriented("wingchair", t, wing_chair_b10())  # (B10)
     oriented("sofa", t, [
@@ -1607,21 +2150,13 @@ def level5():
         box("Bottle", (13.5, 12.5, 13.5), (15, 17, 15), "bottle"), box("Neck", (13.9, 17, 13.9), (14.6, 19, 14.6), "bottle"),
         box("Glass1", (0.8, 12.5, 0.8), (2, 14.5, 2), "crystal"), box("Glass2", (14, 12.5, 0.8), (15.2, 14.5, 2), "crystal"),
         box("Glass3", (0.8, 12.5, 14), (2, 14.5, 15.2), "crystal"), box("Ashtray", (7, 12.5, 14.2), (9, 13, 15.6), "crystal")])
-    save("turntable", t, [
-        box("Base", (2, 0, 2), (14, 10, 14), "wood"),
-        box("Platter", (3.5, 10, 3.5), (12.5, 10.6, 12.5), "record"),
-        box("Arm", (11, 10.5, 4), (12, 11.5, 11), "brass"),
-        box("Horn", (10, 10.5, 10), (15, 17, 15), "brass"),
-    ])
+    save("turntable", dict(l5, **{k: f"backrooms:block/detail/{k}" for k in (
+        "l5record", "l5vinylside", "l5platter", "l5ttcloth", "l5curioback")}), L5.turntable())  # (Level 5 art)
     if D4_BOILER:
         oriented("boiler", dict(t, **BOILER_TEX, **BOILER_D4_TEX), boiler_d4())
     else:
         oriented("boiler", dict(t, **BOILER_TEX), boiler())
-    oriented("furnace", t, [
-        box("Body", (1, 0, 2), (15, 14, 15), "iron"),
-        box("Door", (4, 2, 1.6), (12, 9, 2), "fire", glow=200, faces=("north",)),
-        box("Hood", (0, 14, 1), (16, 16, 16), "iron"),
-    ])
+    oriented("furnace", dict(t, **BOILER_TEX, **BOILER_D4_TEX, l5castiron="backrooms:block/detail/l5castiron"), L5.furnace())  # (Level 5 art)
 
 
 if __name__ == "__main__":

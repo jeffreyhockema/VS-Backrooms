@@ -246,8 +246,12 @@ public sealed partial class WorldLayout
         public ZoneKind Zone;
         public Region Region;
         public bool Pillars, Spawn, PitsAllowed;
+        /// <summary>The share of big rooms in a lit Lobby that are pit rooms (a tenth; from layout version 12 a fortieth).</summary>
+        public double PitChance = 0.1;
         /// <summary>Layout version 4 on: one wallpaper, and the pale walls trimmed like it (see <see cref="CurrentVersion"/>).</summary>
         public bool OnePaper;
+        /// <summary>Layout versions 1-9 only: an arched area is a labyrinth whose every wall is a row of arches (from 10 it is the Lobby's plan with some walls turned to arches: see ArchWalls).</summary>
+        public bool LegacyArches;
         public WallPattern Primary;
         public Tile[] Tiles;
         public LightMood[] Mood;
@@ -261,9 +265,9 @@ public sealed partial class WorldLayout
         public bool Inner(int u, int v) => u >= 1 && v >= 1 && u < W && v < H;
     }
 
-    private PlanCache<L0Plan> l0Plans;
+    private readonly PlanCache<L0Plan> l0Plans;
 
-    private L0Plan L0PlanAt(int i, int j) => (l0Plans ??= new PlanCache<L0Plan>(256, PlanL0)).Get(i, j);
+    private L0Plan L0PlanAt(int i, int j) => l0Plans.Get(i, j);
 
     /// <summary>The planned tile at a block position (before any cell lays the Manila Room or a Red Room over it).</summary>
     private Tile L0TileAt(int gx, int gz)
@@ -281,11 +285,13 @@ public sealed partial class WorldLayout
         {
             X0 = x0, Z0 = z0, W = L0Col(i + 1, j) - x0, H = L0Row(j + 1) - z0,
             Zone = info.Zone, Region = info.Region, Pillars = info.Pillars, Spawn = info.Spawn,
-            Primary = info.Zone == ZoneKind.Arches ? WallPattern.Cream : info.Region.PrimaryPattern,
+            Primary = info.Zone == ZoneKind.Arches ? (Version >= 10 ? WallPattern.Stucco : WallPattern.Cream) : info.Region.PrimaryPattern,
             Rng = new Rng(Hashing.Hash(seed, i, j, SaltL0Block)),
             OnePaper = Version >= 4,
+            LegacyArches = info.Zone == ZoneKind.Arches && Version < 10,
         };
         int cmx = MacroOf(x0 + p.W / 2), cmz = MacroOf(z0 + p.H / 2);
+        if (Version >= 12) p.PitChance = 0.025;
         p.PitsAllowed = p.Zone == ZoneKind.Lobby && (Math.Abs(cmx - spawnMacroX) >= 3 || Math.Abs(cmz - spawnMacroZ) >= 3);
         p.Tiles = new Tile[p.W * p.H];
         p.Mood = new LightMood[p.W * p.H];
@@ -349,24 +355,26 @@ public sealed partial class WorldLayout
     /// </summary>
     private void PaperJoins(L0Plan p, int i, int j, bool westMerged)
     {
-        WallPattern Paper(ZoneKind zone) => zone == ZoneKind.Arches ? WallPattern.Cream : WallPattern.Chevron;
+        // (The pale finish: the paper in layout versions 1-9, stucco from 10)
+        WallPattern pale = Version >= 10 ? WallPattern.Stucco : WallPattern.Cream;
+        WallPattern Paper(ZoneKind zone) => zone == ZoneKind.Arches ? pale : WallPattern.Chevron;
         WallPattern own = Paper(p.Zone);
         // The papers beyond the west wall and beyond each stretch of the north wall
         WallPattern west = Paper(L0Info(i - 1, j).Zone);
         WallPattern North(int u) => Paper(L0Info(L0ColOf(p.X0 + u, j - 1), j - 1).Zone);
 
         // The gaps first: any opening with an arched area on either side of it is an arch
-        if (!westMerged && (own == WallPattern.Cream || west == WallPattern.Cream))
-            foreach (int s in L0Gaps(i, j, 0)) ArchGap(p, 0, s - p.Z0, false);
+        if (!westMerged && (own == pale || west == pale))
+            foreach (int s in L0Gaps(i, j, 0)) ArchGap(p, 0, s - p.Z0, false, pale);
         foreach (int s in L0Gaps(i, j, 1))
-            if (own == WallPattern.Cream || North(s - p.X0) == WallPattern.Cream) ArchGap(p, s - p.X0, 0, true);
+            if (own == pale || North(s - p.X0) == pale) ArchGap(p, s - p.X0, 0, true, pale);
 
         for (int v = 0; v < p.H; v++)
             for (int u = 0; u < p.W; u++)
             {
                 if (u > 0 && v > 0) break;
                 ref Tile t = ref p.At(u, v);
-                if (t.Kind != TileKind.Wall || t.Pattern is not (WallPattern.Chevron or WallPattern.Cream)) continue;
+                if (t.Kind != TileKind.Wall || t.Pattern is not (WallPattern.Chevron or WallPattern.Cream or WallPattern.Stucco)) continue;
                 // North, east, south, west: what each face looks out on
                 WallPattern n = v == 0 ? North(u) : Facing(u, v - 1), s = Facing(u, v + 1);
                 WallPattern w = u == 0 ? west : Facing(u - 1, v), e = Facing(u + 1, v);
@@ -375,19 +383,25 @@ public sealed partial class WorldLayout
             }
 
         // A face looking into an arch is pale; one looking along the wall, or into this district, has its paper
-        WallPattern Facing(int u, int v) => p.In(u, v) && p.At(u, v).Kind == TileKind.ArchDoor ? WallPattern.Cream : own;
+        WallPattern Facing(int u, int v) => p.In(u, v) && p.At(u, v).Kind == TileKind.ArchDoor ? pale : own;
     }
 
     /// <summary>Turns the two tiles of a gap in a district's west wall (along z) or north wall (along x) into an arch.</summary>
-    private static void ArchGap(L0Plan p, int u, int v, bool alongX)
+    private void ArchGap(L0Plan p, int u, int v, bool alongX, WallPattern pale)
     {
         if (p.At(u, v).Kind != TileKind.Floor || p.At(alongX ? u + 1 : u, alongX ? v : v + 1).Kind != TileKind.Floor) return;
+        // (Layout version 10) Two gaps side by side would make four arch tiles with no pier between the pairs: the second is closed
+        if (Version >= 10 && p.In(alongX ? u - 1 : u, alongX ? v : v - 1) && p.At(alongX ? u - 1 : u, alongX ? v : v - 1).Kind is TileKind.ArchDoor or TileKind.Floor)
+        {
+            for (int k = 0; k < 2; k++) SetWall(ref p.At(alongX ? u + k : u, alongX ? v : v + k), p.Primary, L0Base(p, p.Primary));
+            return;
+        }
         for (int k = 0; k < 2; k++)
         {
             ref Tile t = ref p.At(alongX ? u + k : u, alongX ? v : v + k);
             t.Kind = TileKind.ArchDoor;
-            t.Pattern = WallPattern.Cream;
-            t.Base = L0Base(p, WallPattern.Cream);
+            t.Pattern = pale;
+            t.Base = L0Base(p, pale);
             t.Pier = alongX ? (k == 0 ? ArchPier.West : ArchPier.East) : (k == 0 ? ArchPier.North : ArchPier.South);
         }
     }
@@ -406,7 +420,7 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>The trim under a Level 0 wall: from layout version 4 the pale walls have the same baseboard as the paper.</summary>
-    private static BaseStyle L0Base(L0Plan p, WallPattern pattern) => p.OnePaper && pattern == WallPattern.Cream ? BaseStyle.Baseboard : BaseFor(pattern);
+    private static BaseStyle L0Base(L0Plan p, WallPattern pattern) => p.OnePaper && pattern is WallPattern.Cream or WallPattern.Stucco ? BaseStyle.Baseboard : BaseFor(pattern);
 
     /// <summary>Clears the two tiles just inside a gap.</summary>
     private static void ClearGap(L0Plan p, (int U, int V, int DU, int DV) o)
@@ -450,7 +464,7 @@ public sealed partial class WorldLayout
         var deadEnds = new List<(int U, int V, int DU, int DV)>();
         var worm = new short[W * H];
         var step = new int[W * H];
-        double wormChance = p.Zone switch { ZoneKind.OpenOffice => 0.4, ZoneKind.Arches => 0.5, _ => 0.75 };
+        double wormChance = p.Zone switch { ZoneKind.OpenOffice => 0.4, ZoneKind.Arches when p.LegacyArches => 0.5, _ => 0.75 };
         short id = 0;
         foreach (var o in openings)
             if (p.Rng.Chance(wormChance)) Worm(p, o, ++id, worm, step, piece, force, deadEnds);
@@ -484,7 +498,7 @@ public sealed partial class WorldLayout
 
         foreach (var o in openings) ClearGap(p, o);
         foreach ((int u, int v) in force) p.At(u, v).Kind = TileKind.Floor;
-        if (p.Zone == ZoneKind.Arches) MendArches(p);
+        if (p.LegacyArches) MendArches(p);
 
         // Scraps too small or too thin to be rooms are filled in
         int[] comp = LabComponents(p, out int count, out int[] size);
@@ -518,6 +532,8 @@ public sealed partial class WorldLayout
             if (piece[n] == 1) inPiece[comp[n]] = true;
         }
         LabConnect(p, comp, count, hasHall, inPiece, noDoor);
+        // (Layout version 10) The arched areas are these same rooms and halls, with some of their walls made walls of archways
+        if (p.Zone == ZoneKind.Arches && !p.LegacyArches) ArchWalls(p, comp, count, openings);
 
         // Rooms each get their own light, the odd one dark; blackout rooms flood
         var roomRng = new Rng(Hashing.Hash(seed, p.X0, p.Z0, SaltL0Block + 1));
@@ -601,7 +617,7 @@ public sealed partial class WorldLayout
         if (w * h >= 140 && Math.Min(w, h) >= 10 && rng.Chance(big))
         {
             // Pits are lethal, so they only appear in lit areas where they can be seen
-            pieces.Add((p.PitsAllowed && rng.Chance(0.1) ? L0Piece.Pits : L0Piece.Big, x0, z0, x1, z1));
+            pieces.Add((p.PitsAllowed && rng.Chance(p.PitChance) ? L0Piece.Pits : L0Piece.Big, x0, z0, x1, z1));
             return;
         }
         if (p.Zone is ZoneKind.Lobby or ZoneKind.OpenOffice && Math.Max(w, h) >= 14 && Math.Min(w, h) is >= 9 and <= 15 && rng.Chance(0.2))
@@ -612,7 +628,7 @@ public sealed partial class WorldLayout
     private static void LabWall(L0Plan p, int x, int z, bool alongZ, int len)
     {
         ref Rng rng = ref p.Rng;
-        if (p.Zone == ZoneKind.Arches)
+        if (p.LegacyArches)
         {
             var open = new bool[len];
             int gaps = len >= 16 && rng.Chance(0.5) ? 2 : 1;
@@ -863,7 +879,7 @@ public sealed partial class WorldLayout
                 parent[Find(a)] = Find(b);
                 Door(k);
             }
-            else if (rng.Chance(hall ? 0.5 : big ? 0.6 : p.Zone == ZoneKind.Arches ? 0.4 : 0.25)) Door(k);
+            else if (rng.Chance(hall ? 0.5 : big ? 0.6 : p.LegacyArches ? 0.4 : 0.25)) Door(k);
             // A long wall onto a hallway or a big room gets a second way through, well along from the first
             if (spots[k].Count >= 16 && (hall || big) && rng.Chance(0.4)) Door(k);
         }
@@ -1135,10 +1151,11 @@ public sealed partial class WorldLayout
         WallPattern pattern = RegionAt(mx, mz).PrimaryPattern;
         var edge = new Edge { Pattern = pattern, Base = BaseFor(pattern), Planned = true };
         bool[] walled = WalledNeighbours(0, mx, mz);
+        var wide = walled == null ? default : LiningWidens(0, mx, mz);
         for (int i = 1; i < MacroSize; i++)
         {
             Tile t = west ? L0TileAt(mx * MacroSize, mz * MacroSize + i) : L0TileAt(mx * MacroSize + i, mz * MacroSize);
-            bool edgeHall = west ? EdgeHall(walled, 0, i) : EdgeHall(walled, i, 0);
+            bool edgeHall = west ? EdgeHall(walled, 0, i, wide) : EdgeHall(walled, i, 0, wide);
             edge.Tiles[i] = IsWalkable(t) || edgeHall ? EdgeTile.Open : EdgeTile.Wall;
         }
         return edge;
@@ -1185,7 +1202,7 @@ public sealed partial class WorldLayout
             {
                 ref Tile t = ref b.Tiles[i];
                 b.Mood[i] = LightMood.Red;
-                if (t.IsWallLike && t.Pattern <= WallPattern.Manila) { t.Pattern = WallPattern.RedRoom; t.Base = BaseStyle.Baseboard; }
+                if (t.IsWallLike && (t.Pattern <= WallPattern.Manila || t.Pattern == WallPattern.Stucco)) { t.Pattern = WallPattern.RedRoom; t.Base = BaseStyle.Baseboard; }
                 if (t.Kind == TileKind.Pit) t.Kind = TileKind.Floor;
                 if (t.Kind == TileKind.Floor) { t.Floor = FloorKind.Stained; t.Chalk = 0; }
             }
@@ -1205,7 +1222,9 @@ public sealed partial class WorldLayout
             PlaceSpawnBox(b);
             PlaceSpawnBox(b);
         }
-        if (TouchesLevel(mx, mz, 1)) WearAway(b, mx, mz);
+        // (Up to layout version 8 the Lobby wore away toward Level 1; from 9 it is the Lobby to its walls, and only the
+        // way through a gate is worn: see WorldLayout.Linings.cs)
+        if (Version < 9 && TouchesLevel(mx, mz, 1)) WearAway(b, mx, mz);
     }
 
     /// <summary>
@@ -1235,6 +1254,7 @@ public sealed partial class WorldLayout
             ref Tile t = ref b.At(x, z);
             if (IsWalkable(t)) return;
             if (t.Tall) return; // never through the wall of another level
+            BreakArchPair(b.At, MacroSize, x, z);
             t.Kind = TileKind.Floor;
             t.Variant = 0;
             t.Outlet = false;
@@ -1244,7 +1264,7 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// Next to Level 1 the Lobby starts to give way: carpet worn through to concrete and ceiling tiles missing,
-    /// so walking out of Level 0 feels gradual.
+    /// so walking out of Level 0 feels gradual (layout versions 1-8; from 9 a level keeps its own look to its walls).
     /// </summary>
     private void WearAway(Builder b, int mx, int mz)
     {
@@ -1271,6 +1291,7 @@ public sealed partial class WorldLayout
             {
                 ref Tile around = ref b.At(x, z);
                 if (IsWalkable(around)) continue;
+                BreakArchPair(b.At, MacroSize, x, z);
                 around.Kind = TileKind.Floor;
                 around.Variant = 0;
                 around.Outlet = false;
@@ -1328,7 +1349,7 @@ public sealed partial class WorldLayout
                 byte hall = u == null ? HallNone : u.Hall[(gz - u.Z0) * u.W + gx - u.X0];
                 bool fixture, emitter;
                 if (hall == HallSide) continue;
-                if (hall != HallNone)
+                else if (hall != HallNone)
                 {
                     int along = hall == HallAlongX ? gx : gz;
                     fixture = Hashing.Mod(along, 4) == 0;
@@ -1398,13 +1419,15 @@ public sealed partial class WorldLayout
         }
     }
 
-    private static void PlaceBoxNearWall(Builder b)
+    private void PlaceBoxNearWall(Builder b)
     {
         for (int attempt = 0; attempt < 40; attempt++)
         {
             int x = b.Rng.Range(1, MacroSize - 2), z = b.Rng.Range(1, MacroSize - 2);
             ref Tile tile = ref b.At(x, z);
             if (tile.Kind != TileKind.Floor) continue;
+            // (Layout version 10: never beside an arch, where a box would stand in the way through)
+            if (Version >= 10 && NextToArch(b, x, z)) continue;
             if (b.At(x + 1, z).Kind == TileKind.Wall || b.At(x - 1, z).Kind == TileKind.Wall
                 || b.At(x, z + 1).Kind == TileKind.Wall || b.At(x, z - 1).Kind == TileKind.Wall)
             {

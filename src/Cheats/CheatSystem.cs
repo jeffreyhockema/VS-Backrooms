@@ -9,13 +9,15 @@ using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 using Backrooms.Entities;
+using Backrooms.Regions;
 using Backrooms.Worldgen;
 
 namespace Backrooms.Cheats;
 
 /// <summary>
 /// Testing cheats. The server side adds more <c>/backrooms</c> subcommands (heal, kit, allitems, clear, home, back,
-/// find, nearest, director, stat, exposure, noise, die, light, fogspell, harvesttest, blocksweep); the client side (CheatSystem.Client.cs) is a
+/// find, nearest, director, stat, exposure, noise, die, light, fogspell, harvesttest, blocksweep, transitiontest,
+/// transitionbench; the registrations in <c>StartServerSide</c> are the full list); the client side (CheatSystem.Client.cs) is a
 /// menu (F7, or <c>.cheats</c>) whose buttons send those and the other debug commands, so every action still goes
 /// through the server's privilege check, plus a few view cheats that only touch the client.
 /// </summary>
@@ -59,7 +61,8 @@ public partial class CheatSystem : ModSystem
         // purpified thing in a Level 3 wall, from two blocks in front of it, looking at it)
         ("tram", "Level 2 dead tram", 384, 1024),
         ("purpified", "Level 3 purpified", 384, 1024),
-        // (Down a Level 3 manhole: in the flooded tunnel at the foot of the rungs, looking at them, to test the ladder)
+        // (Down a Level 3 manhole: at the foot of the rungs, looking at them, to test the ladder; in the flooded tunnel in
+        // worlds of layout versions 1-8, on the dry landing from 9)
         ("manhole", "Level 3 manhole ladder", 384, 1024),
         // (Layout version 5: a Level 10 field's shed, trough or fallen gate, from four blocks south of it; a Level 11
         // billboard, from the street in front of its building; an advertising pillar, from three blocks south-east of
@@ -81,6 +84,8 @@ public partial class CheatSystem : ModSystem
         ("shelter", "Level 7 shelter", 768, 2048),
         ("vendingroom", "Level 6.1 vending room", 96, 256),
         ("glowcaps", "Level 8 glowcaps", 384, 1024),
+        // (Layout version 9: inside a room on Level 7's seabed with air under its roof, beside the hatch)
+        ("sunkenroom", "Level 7 sunken room", 768, 4096),
         // (Layout version 5's Suburbs: a two-storey house, from the street in front of it looking at its porch and
         // windows; the foot of its stairs, looking up them; a street-name sign and a DOWNTOWN sign, from across the corner)
         ("l9house", "Level 9 two-storey house", 384, 1024),
@@ -104,7 +109,7 @@ public partial class CheatSystem : ModSystem
     /// <summary>The targets that are part of play; the rest are camera spots for the screenshots, and the manhole test.</summary>
     public static readonly string[] GameplayTargets = { "gate", "threshold", "cache", "refuge", "den", "redroom" };
 
-    public static readonly string[] Stats = { "health", "food", "stability" };
+    public static readonly string[] Stats = { "health", "food", "stability", "thirst", "rest" };
 
     /// <summary>What <c>/backrooms kit</c> gives, by kind (testing when none is given).</summary>
     public static readonly (string Code, string Name, (string Code, int Quantity)[] Things)[] Kits =
@@ -167,7 +172,7 @@ public partial class CheatSystem : ModSystem
                 .HandleWith(OnFogSpellCommand)
             .EndSubCommand()
             .BeginSubCommand("heal")
-                .WithDescription("Restores your health, food, body temperature and stability, and resets your time out (menace exposure)")
+                .WithDescription("Restores your health, food, water, body temperature and stability, rests you (no awake hours, no caffeine crash, no gut rot), and resets your time out (menace exposure)")
                 .RequiresPlayer()
                 .HandleWith(OnHealCommand)
             .EndSubCommand()
@@ -199,6 +204,11 @@ public partial class CheatSystem : ModSystem
                 .WithArgs(parsers.OptionalInt("radius", 64))
                 .HandleWith(OnClearCommand)
             .EndSubCommand()
+            .BeginSubCommand("runescape")
+                .WithDescription("Dev test: comes out of Level !'s true exit into Level 1 (default), 4 or end, as the escape does (the red door replaces a door, the present by it): add reset to forget that you ever had the present. From the console it only does the world's part, and logs")
+                .WithArgs(parsers.OptionalWord("level"), parsers.OptionalWord("reset"))
+                .HandleWith(OnRunEscapeCommand)
+            .EndSubCommand()
             .BeginSubCommand("home")
                 .WithDescription("Teleports you to where you wake up")
                 .RequiresPlayer()
@@ -222,7 +232,7 @@ public partial class CheatSystem : ModSystem
                 .HandleWith(OnDirectorCommand)
             .EndSubCommand()
             .BeginSubCommand("stat")
-                .WithDescription("Sets your health or food (as a fraction of the most, 0-1) or your stability (0-1)")
+                .WithDescription("Sets your health, food or thirst (hydration, as a fraction of the most, 0-1), your stability (0-1) or your rest (1 rested, 0 dead on your feet: awake hours = (1 - value) x 60)")
                 .RequiresPlayer()
                 .WithArgs(parsers.WordRange("stat", Stats), parsers.Double("value"))
                 .HandleWith(OnStatCommand)
@@ -254,6 +264,27 @@ public partial class CheatSystem : ModSystem
                 .WithArgs(sapi.ChatCommands.Parsers.OptionalWord("ignored"))
                 .HandleWith(OnBlockSweepCommand)
             .EndSubCommand()
+            .BeginSubCommand("transitiontest")
+                .WithDescription("Plays the screen effect of passing through a threshold on your screen alone, without taking you anywhere: a style (door, walk, fall, elevator or plain, default walk) and how long to hold it in seconds (default 2)")
+                .RequiresPlayer()
+                .WithArgs(parsers.OptionalWordRange("style", "door", "walk", "fall", "elevator", "plain"), parsers.OptionalDouble("seconds", 2))
+                .HandleWith(args =>
+                {
+                    string style = args[0] as string ?? "walk";
+                    double seconds = Math.Clamp((double)args[1], 0.2, 15);
+                    sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>()?.TransitionTest((IServerPlayer)args.Caller.Player, style, (int)(seconds * 1000));
+                    return TextCommandResult.Success($"Transition ({style}) for {seconds:0.0} s");
+                })
+            .EndSubCommand()
+            .BeginSubCommand("transitionbench")
+                .WithDescription("Times how long the server takes to load (and if need be generate) the chunk column around x z, which is what a threshold waits for before it moves anyone; the answer is in the log")
+                .WithArgs(parsers.Int("x"), parsers.Int("z"))
+                .HandleWith(args =>
+                {
+                    sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>()?.BenchLoad((int)args[0], (int)args[1], _ => { });
+                    return TextCommandResult.Success("Loading; see the log");
+                })
+            .EndSubCommand()
             .BeginSubCommand("die")
                 .WithDescription("Kills you, to test dying and waking up again")
                 .RequiresPlayer()
@@ -262,6 +293,12 @@ public partial class CheatSystem : ModSystem
                     args.Caller.Entity.Die(EnumDespawnReason.Death, new DamageSource { Source = EnumDamageSource.Suicide, Type = EnumDamageType.Injury });
                     return TextCommandResult.Success();
                 })
+            .EndSubCommand()
+            .BeginSubCommand("corpse")
+                .WithDescription("Dev test of the corpse a death leaves: list (the default), make (a corpse of yours with test stacks at your feet, or at the spawn from the console), simdeath (items dropped for a made-up death, to be caught), age [id] (turns the newest or that body to bones), clear (removes them all)")
+                // (A console line ends in a carriage return the parser keeps as an argument; it is trimmed)
+                .WithArgs(parsers.OptionalWord("action"), parsers.OptionalWord("id"))
+                .HandleWith(args => TextCommandResult.Success(sapi.ModLoader.GetModSystem<Corpse.CorpseSystem>()?.Debug(args.Caller, args[0] as string, args[1] as string) ?? "Not a Backrooms world"))
             .EndSubCommand();
     }
 
@@ -273,7 +310,17 @@ public partial class CheatSystem : ModSystem
         if (entity.GetBehavior<EntityBehaviorBodyTemperature>() is { } temperature) temperature.CurBodyTemperature = temperature.NormalBodyTemperature;
         entity.WatchedAttributes.SetDouble("temporalStability", 1);
         entity.Attributes.SetDouble(MenaceSystem.RestedKey, sapi.World.Calendar.TotalHours);
-        return TextCommandResult.Success("Healed, fed, warmed, stable and rested");
+        // The needs: full of water, no awake hours, no caffeine (nor its crash), no gut rot
+        Needs.Needs.SetHydration(entity, Needs.Needs.MaxHydration);
+        Needs.Needs.SetAwakeHours(entity, 0);
+        if (entity.WatchedAttributes.GetTreeAttribute(Needs.Needs.FatigueTree) is { } fatigue)
+        {
+            fatigue.SetDouble("caffeineUntil", 0);
+            fatigue.SetFloat("crashHours", 0);
+            entity.WatchedAttributes.MarkPathDirty(Needs.Needs.FatigueTree);
+        }
+        entity.WatchedAttributes.SetDouble(Needs.Needs.SickKey, 0);
+        return TextCommandResult.Success("Healed, fed, watered, warmed, stable and rested");
     }
 
     private TextCommandResult OnKitCommand(TextCommandCallingArgs args)
@@ -416,9 +463,19 @@ public partial class CheatSystem : ModSystem
     {
         int radius = Math.Clamp((int)args[0], 1, 512);
         Entity[] creatures = sapi.World.GetEntitiesAround(args.Caller.Entity.Pos.XYZ, radius, radius,
-            e => e is not EntityPlayer && e.Alive && e.Code?.Domain == "backrooms");
+            e => e is not EntityPlayer and not Corpse.EntityCorpse && e.Alive && e.Code?.Domain == "backrooms");
         foreach (Entity creature in creatures) creature.Die(EnumDespawnReason.Removed);
         return TextCommandResult.Success($"Removed {creatures.Length} creatures within {radius} blocks");
+    }
+
+    private TextCommandResult OnRunEscapeCommand(TextCommandCallingArgs args)
+    {
+        var run = sapi.ModLoader.GetModSystem<RunSystem>();
+        if (layout == null || run == null) return TextCommandResult.Error("This is not a Backrooms world");
+        string word = args.Parsers[0].IsMissing ? "1" : (string)args[0];
+        int level = word == "end" ? WorldLayout.TheEnd : word == "4" ? 4 : 1;
+        bool reset = !args.Parsers[1].IsMissing && (string)args[1] == "reset" || word == "reset";
+        return TextCommandResult.Success(run.DebugEscape(args.Caller.Player as IServerPlayer, level, reset));
     }
 
     private TextCommandResult OnHomeCommand(TextCommandCallingArgs args)
@@ -440,7 +497,7 @@ public partial class CheatSystem : ModSystem
         {
             string number = (string)args[1];
             level = WorldLayout.FromDisplayName(number);
-            if (level < 0) return TextCommandResult.Error($"There is no Level {number} here (0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, 73, basement, 52, 31, 55, 120 or 183)");
+            if (level < 0) return TextCommandResult.Error($"There is no Level {number} here ({BackroomsModSystem.LevelList})");
         }
 
         // The arrival search starts from a point picked by key, so a few keys find a few different places
@@ -494,6 +551,7 @@ public partial class CheatSystem : ModSystem
         if (layout == null) return TextCommandResult.Error("This is not a Backrooms world");
         var target = Targets.First(t => t.Code == (string)args[0]);
         int radius = (int)args[1] < 0 ? target.Radius : Math.Clamp((int)args[1], 16, target.MaxRadius);
+        tileScanStopped = false;
         Entity entity = args.Caller.Entity;
         int gx = (int)Math.Floor(entity.Pos.X), gz = (int)Math.Floor(entity.Pos.Z);
         int level = layout.LevelAt(WorldLayout.MacroOf(gx), WorldLayout.MacroOf(gz));
@@ -590,11 +648,15 @@ public partial class CheatSystem : ModSystem
             {
                 if (level != 3) return TextCommandResult.Error("Manholes are in Level 3");
                 if (layout.NearestManhole(gx, gz, radius) is not { } m) { found = null; break; }
-                // Down in the shaft itself, on the tunnel's clay floor (rel -5) in its knee-deep water, the rungs on the
-                // shaft's north side in front of you (WorldGenerator.BelowFloor): walk forward to climb
+                // Down in the shaft itself (WorldGenerator.BelowFloor), the rungs in front of you: walk forward to climb.
+                // Layout versions 1-8: on the tunnel's clay floor (rel -5) in its knee-deep water, the rungs on the
+                // shaft's north side; from 9, on the dry landing (rel -4) at the foot of the ladder, on the tile's Pier side
                 int md = (int)Math.Sqrt((double)(m.X - gx) * (m.X - gx) + (double)(m.Z - gz) * (m.Z - gz));
-                Teleport((IServerPlayer)args.Caller.Player, m.X + 0.5, geometry.FloorFor(level) - 4 + 0.05, m.Z + 0.5);
-                return TextCommandResult.Success($"{target.Name} (heading 0 looks at the rungs), {md} blocks from where you were ({FromSpawn(m.X, m.Z)})");
+                Tile shaft = layout.TileAt(m.X, m.Z);
+                bool ladder = shaft.Zone != 0;
+                Teleport((IServerPlayer)args.Caller.Player, m.X + 0.5, geometry.FloorFor(level) - (ladder ? 3 : 4) + 0.05, m.Z + 0.5);
+                int heading = ladder ? PierHeading(shaft.Pier, false) : 0;
+                return TextCommandResult.Success($"{target.Name} (heading {heading} looks at the {(ladder ? "ladder" : "rungs")}), {md} blocks from where you were ({FromSpawn(m.X, m.Z)})");
             }
             case "fieldthing":
                 if (level != 10) return TextCommandResult.Error("That is in Level 10");
@@ -710,6 +772,19 @@ public partial class CheatSystem : ModSystem
                 found = (layout.L188BuildX0 + WorldLayout.L188PipeBx, layout.L188BuildZ0 + WorldLayout.L188PipeBz + 5);
                 detail = " (heading 0 looks at it; its head is under the parapet, 21 blocks up)";
                 break;
+            case "sunkenroom":
+            {
+                if (level != 7) return TextCommandResult.Error("Sunken rooms are in Level 7 (worlds from layout version 9)");
+                if (NearestTile(gx, gz, radius, level, t => t.Zone == WorldLayout.L7ZoneBellHatch, out _) is not { } hatch)
+                    return TextCommandResult.Error($"No sunken room within {radius} blocks");
+                // On the floor in the middle of the room, a tile in from the hatch, in the air under its roof
+                Tile ht = layout.TileAt(hatch.X, hatch.Z);
+                (int stepX, int stepZ) = ht.Pier switch { ArchPier.North => (0, -1), ArchPier.East => (1, 0), ArchPier.South => (0, 1), _ => (-1, 0) };
+                int rx = hatch.X - stepX, rz = hatch.Z - stepZ;
+                int far = (int)Math.Sqrt((double)(rx - gx) * (rx - gx) + (double)(rz - gz) * (rz - gz));
+                Teleport((IServerPlayer)args.Caller.Player, rx + 0.5, geometry.FloorFor(7) - ht.Height + 4.05, rz + 0.5);
+                return TextCommandResult.Success($"{target.Name}, {ht.Height} deep, {far} blocks from where you were ({FromSpawn(rx, rz)})");
+            }
             case "seapillar":
             case "shelter":
             case "vendingroom":
@@ -734,7 +809,10 @@ public partial class CheatSystem : ModSystem
                 found = NearestCell(gx, gz, radius, layout.IsRedRoom);
                 break;
         }
-        if (found is not { } f) return TextCommandResult.Error($"No {target.Name.ToLowerInvariant()} within {radius} blocks in Level {WorldLayout.DisplayNumber(level)}");
+        if (found is not { } f)
+            return TextCommandResult.Error(tileScanStopped
+                ? $"No {target.Name.ToLowerInvariant()} found in the first {Math.Min(radius, TileScanMaxRadius)} blocks searched in Level {WorldLayout.DisplayNumber(level)} (the search stopped after {TileScanSeconds} s)"
+                : $"No {target.Name.ToLowerInvariant()} within {radius} blocks in Level {WorldLayout.DisplayNumber(level)}");
         if (StandNear(f.X, f.Z, level) is not { } stand) return TextCommandResult.Error($"Found a {target.Name.ToLowerInvariant()} at {FromSpawn(f.X, f.Z)}, but nowhere to stand near it");
 
         int distance = (int)Math.Sqrt((double)(f.X - gx) * (f.X - gx) + (double)(f.Z - gz) * (f.Z - gz));
@@ -799,10 +877,21 @@ public partial class CheatSystem : ModSystem
     private (int X, int Z)? NearestTile(int gx, int gz, int radius, int level, System.Func<Tile, bool> match, out Tile tile) =>
         NearestTileAt(gx, gz, radius, level, (t, x, z) => match(t), out tile);
 
-    /// <summary>As <see cref="NearestTile"/>, the match also given the tile's position.</summary>
+    /// <summary>The furthest a tile scan reaches, whatever radius was asked for, and the longest it runs: it builds every tile of every cell on the main thread.</summary>
+    private const int TileScanMaxRadius = 1024, TileScanSeconds = 2;
+
+    /// <summary>Set when the last tile scan gave up on the time limit (so a miss is reported as "stopped", not "none there").</summary>
+    private bool tileScanStopped;
+
+    /// <summary>
+    /// As <see cref="NearestTile"/>, the match also given the tile's position. Reaches at most <see cref="TileScanMaxRadius"/>
+    /// blocks and stops after <see cref="TileScanSeconds"/> seconds, so a miss cannot stall the server for minutes.
+    /// </summary>
     private (int X, int Z)? NearestTileAt(int gx, int gz, int radius, int level, System.Func<Tile, int, int, bool> match, out Tile tile)
     {
         tile = default;
+        radius = Math.Min(radius, TileScanMaxRadius);
+        long deadline = Environment.TickCount64 + TileScanSeconds * 1000;
         int mx0 = WorldLayout.MacroOf(gx), mz0 = WorldLayout.MacroOf(gz), rings = radius / WorldLayout.MacroSize + 1;
         (int X, int Z)? best = null;
         long bestDistance = long.MaxValue;
@@ -811,6 +900,7 @@ public partial class CheatSystem : ModSystem
                 for (int dx = -r; dx <= r; dx++)
                 {
                     if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r || layout.LevelAt(mx0 + dx, mz0 + dz) != level) continue;
+                    if (Environment.TickCount64 > deadline) { tileScanStopped = true; return best; }
                     for (int i = 0; i < WorldLayout.MacroSize * WorldLayout.MacroSize; i++)
                     {
                         int x = (mx0 + dx) * WorldLayout.MacroSize + i % WorldLayout.MacroSize, z = (mz0 + dz) * WorldLayout.MacroSize + i / WorldLayout.MacroSize;
@@ -977,6 +1067,12 @@ public partial class CheatSystem : ModSystem
                 if (entity.GetBehavior<EntityBehaviorHunger>() is not { } hunger) return TextCommandResult.Error("You have no hunger");
                 hunger.Saturation = value * hunger.MaxSaturation;
                 return TextCommandResult.Success($"Satiety {hunger.Saturation:0} / {hunger.MaxSaturation:0}");
+            case "thirst":
+                Needs.Needs.SetHydration(entity, value * Needs.Needs.MaxHydration);
+                return TextCommandResult.Success($"Hydration {Needs.Needs.Hydration(entity):0} / {Needs.Needs.MaxHydration:0} ({Needs.NeedsMath.ThirstBand(value)}{(Needs.Needs.ThirstOn(sapi.World) ? "" : "; thirst is off in this world")})");
+            case "rest":
+                Needs.Needs.SetAwakeHours(entity, (1 - value) * Needs.Needs.DeadHours);
+                return TextCommandResult.Success($"Awake {Needs.Needs.AwakeHours(entity):0.#} h ({Needs.NeedsMath.Band(Needs.Needs.AwakeHours(entity))}{(Needs.Needs.FatigueOn(sapi.World) ? "" : "; fatigue is off in this world")})");
             default:
                 entity.WatchedAttributes.SetDouble("temporalStability", value);
                 return TextCommandResult.Success($"Stability {value:0.00}");
@@ -990,11 +1086,6 @@ public partial class CheatSystem : ModSystem
         return TextCommandResult.Success($"Out for {hours:0.#} hours (resting by a fire, a ward or at home resets it)");
     }
 
-    /// <summary>
-    /// Dev test for the empty-harvest report: spawns the creature three blocks ahead, kills it a second later in the
-    /// player's name, and a second after that harvests it the way the knife does on the server (stopping when the
-    /// client's copy would), then reports the harvest attributes and the body's inventory in chat.
-    /// </summary>
     /// <summary>
     /// Dev test: puts one of every Backrooms block down in turn and asks it what the block-info HUD asks a looked-at
     /// block (its placed name, its pick stack and its drops). A block that throws is reported: the Level Fun supply shelf
@@ -1035,6 +1126,11 @@ public partial class CheatSystem : ModSystem
         return failed.Count == 0 ? TextCommandResult.Success(summary) : TextCommandResult.Error(summary);
     }
 
+    /// <summary>
+    /// Dev test for the empty-harvest report: spawns the creature three blocks ahead, kills it a second later in the
+    /// player's name, and a second after that harvests it the way the knife does on the server (stopping when the
+    /// client's copy would), then reports the harvest attributes and the body's inventory in chat.
+    /// </summary>
     private TextCommandResult OnHarvestTestCommand(TextCommandCallingArgs args)
     {
         IServerPlayer player = (IServerPlayer)args.Caller.Player;

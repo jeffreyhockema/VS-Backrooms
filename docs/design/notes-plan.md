@@ -207,7 +207,7 @@ perhaps 100–200 cells: 4–8 notes. That is right for one-shot map marks and t
 - **Text lives in lang**, generated from one table in a new `tools/gen_notes.py`, which also writes the track
   definitions (`assets/backrooms/config/notes.json`) the code reads. Edit a note there and existing journals show
   the new wording (chapters store keys, not text).
-- **Placement:** notes stay scarce information loot, but supply roughly doubles in Level 0 and Level 1, and a few
+- **Placement:** notes stay scarce information loot, but supply roughly doubles in Level 0 (it did in Level 1 too until the 0.513.3 tuning: boxes and camp props there now give half, about one ordinary note per 10 cells with every container broken, the plan's "one per 10-15 deeper"; `mapgen notesupply` measures it), and a few
   are placed where a story says one would be (den hearts, the Manila Room, camps, the 9th Road camps, island camps).
   New players get one note in their pocket: Page 1, marking the nearest sealed box.
 

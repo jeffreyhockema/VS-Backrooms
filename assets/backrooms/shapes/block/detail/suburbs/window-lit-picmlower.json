@@ -1,0 +1,418 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"plaster-interior": "backrooms:block/detail/plaster-interior",
+		"suburbglass-lit-p": "backrooms:block/detail/suburbglass-lit-p",
+		"windowtrim": "backrooms:block/detail/windowtrim"
+	},
+	"elements": [
+		{
+			"name": "LiningSill",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				2,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.3333,
+						0,
+						10.6667,
+						16
+					]
+				},
+				"south": {
+					"texture": "#plaster-interior",
+					"uv": [
+						5.3333,
+						0.0,
+						10.6667,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Sill",
+			"from": [
+				0,
+				0,
+				-2.25
+			],
+			"to": [
+				16,
+				2,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.44,
+						0.0,
+						10.56,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.44,
+						0,
+						10.56,
+						2.25
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.44,
+						0,
+						10.56,
+						2.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Stool",
+			"from": [
+				0,
+				1.25,
+				16
+			],
+			"to": [
+				16,
+				2,
+				17.25
+			],
+			"faces": {
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.3878,
+						0.0,
+						10.6122,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.3878,
+						0,
+						10.6122,
+						1.25
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.3878,
+						0,
+						10.6122,
+						1.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion0",
+			"from": [
+				0,
+				2,
+				-0.75
+			],
+			"to": [
+				1,
+				16,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						8.0,
+						1.0,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						8.0,
+						9.75,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						1.0,
+						8.0,
+						2.0,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion1",
+			"from": [
+				15,
+				2,
+				-0.75
+			],
+			"to": [
+				16,
+				16,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						1.0,
+						8.0,
+						2.0,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						8.0,
+						9.75,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						8.0,
+						1.0,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "FixedStileW",
+			"from": [
+				1,
+				2,
+				4
+			],
+			"to": [
+				2.25,
+				16,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						8.0,
+						1.25,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						8.0,
+						1.5,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						8.0,
+						1.25,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						8.0,
+						1.5,
+						16.0
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0,
+						1.25,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FixedStileE",
+			"from": [
+				13.75,
+				2,
+				4
+			],
+			"to": [
+				15,
+				16,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						8.0,
+						1.25,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						8.0,
+						1.5,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						8.0,
+						1.25,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						8.0,
+						1.5,
+						16.0
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0,
+						1.25,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FixedRailB",
+			"from": [
+				2.25,
+				2,
+				4
+			],
+			"to": [
+				13.75,
+				3.5,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0.0,
+						11.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0.0,
+						11.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0,
+						11.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0,
+						11.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FixedPane",
+			"from": [
+				2.25,
+				3.5,
+				4.625
+			],
+			"to": [
+				13.75,
+				16,
+				4.875
+			],
+			"faces": {
+				"north": {
+					"texture": "#suburbglass-lit-p",
+					"uv": [
+						0.0,
+						8.0792,
+						16.0,
+						16.0
+					],
+					"glow": 200
+				},
+				"south": {
+					"texture": "#suburbglass-lit-p",
+					"uv": [
+						0.0,
+						8.0792,
+						16.0,
+						16.0
+					],
+					"glow": 200
+				}
+			}
+		}
+	]
+}

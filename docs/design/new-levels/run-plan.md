@@ -7,6 +7,31 @@ out of a chained door behind you, and the only way out is the door at the far en
 The user asked for a hallway far shorter than the lore's: **one to two minutes of sprinting**. This plan sets it at
 **about 520 blocks of running, roughly a minute and a half at a sprint** (section 3.2 has the arithmetic).
 
+## Fairness pass (2026-10-18, 0.514.0), from the user's play-test
+
+"Too difficult to make it to the other side", "is there a way to tell false exit from real?", a rest area where "the
+entities just kept coming and killed me", and floor clutter that slowed you while looking like "a pile of papers".
+
+- **The chase, every world:** the front's share of a sprint is 0.78 / 0.82 (was 0.90 / 0.94; Low 0.73 / 0.77, High
+  0.84 / 0.88), 0.12 lower at the burst and back to it over 20 s (three of the horde shown meanwhile). Since the
+  version 6 gauntlet nobody keeps a flat-floor sprint; `mapgen runfair` puts a runner who keeps 0.82-0.90 of one,
+  snags on a barricade about once per 100 blocks and trips 4-9 times at 80 % escapes in the old 615-block hall and 88 %
+  in the new one (0 % before); walkers and stoppers are still caught. Dented-door chasers run at 0.65 (were 0.8, faster
+  than a weaving runner), a vent's Hound at 0.95 for 4 s from 4 behind (1.0 for 6 s from 3). A trip is -0.5 for 0.6 s
+  at most every 3 s (-0.6, 0.8 s, 2 s), and the first one says why.
+- **Shorter, layout version 9:** 15 rows of hall (`RunRows9`), about 485 blocks; trip junk a little rarer in the gaps.
+- **The Safe Zone** is lore (Fandom 2022's Checkpoint, via the BGPD copy: "a room where the entities cannot enter, and
+  you will be able to rest"; the 2025 rewrite's Safe Zone, about 6 % of reports), so it stays and is made safe: its
+  second side room lay further along the course than the zone's far end, so resting by its cot counted as having left
+  and the horde ran you down. Anywhere with `Zone == Safe` now holds the runner inside the zone's span, and chasers
+  that followed you are dropped at its door.
+- **The exits:** the lore's tell (a false exit has a bend beside it, the real one is a dead end with no turn either
+  side; its sign "a little darker") is kept and made visible: the true exit's lower block shows daylight under the
+  leaf and gives off pale light `[8, 2, 14]`, so the dead end is lit white; the false exits' dim sign has its X burnt
+  out. In the handbook, the notes and the level hint.
+- **Trip junk** keeps its codes and footprints with new shapes: a tipped toy crate with the toys strewn round it,
+  dumped boxes, extension cord in loops with a power strip, a heap of fallen ceiling, up to half a block high.
+
 ## Status (2026-10-09): implemented (code phase 2), with the recommended answers to section 9
 
 Checked with the layout harness and a headless server (chunks generated, dumped and rendered). **Not yet played in a

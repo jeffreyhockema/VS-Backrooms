@@ -42,7 +42,7 @@ POOLROOMS, MOTION, RUN, FUN, END, HUB, L974, L3999, L188, SNACKROOMS = 12, 13, 1
 LEVEL_IDS = set(range(0, 12)) | {POOLROOMS, MOTION, RUN, FUN, END, HUB, L974, L3999, L188, SNACKROOMS}
 
 # What an entry may mark besides its paper's own mark (src/Notes/MarkResolver.cs)
-MARKS = {"door", "way", "cache", "refuge", "manila", "den", "manhole", "barnwall", "endexit", "hubdoor", "redroom", "party"}
+MARKS = {"door", "way", "cache", "refuge", "manila", "den", "manhole", "barnwall", "endexit", "hubdoor", "redroom", "party", "sunken"}
 
 # The recurring writers (for the catalogue only; the signatures are part of each text)
 WRITERS = {
@@ -144,8 +144,7 @@ Hounds off while it burns. A fire, a chest and some Firesalt halfway along a rou
 — Field Team 9 (five of us)""", gate=visited(2, 3, 4, 5), w="meg"),
     E("m14", "Under the floor", """
 Cast a copper pickaxe and a hammer, and keep nine ingots for an anvil. Then break through any floor: eight blocks of
-concrete, and beneath it the ground of the world we came from. Rock, caves, ore, the better ores deeper. Prospect it as
-you would at home. Level 8 is that ground laid open, ore lying on the cave floors.
+concrete, and beneath it the ground of the world we came from. Rock and caves. Level 8 is that ground laid open, ore lying on the cave floors.
 — A.L., survey""", gate=visited(2, 3, 4, 5), w="al"),
     E("m15", "A quiet floor", """
 Level 4's the calmest place I know before the city. Grey carpet, fridges with fruit and cheese, Almond Water in the
@@ -167,7 +166,7 @@ first turnip came up yesterday.
 M.E.G. FIELD NOTICE. Level 6 is dark. Not dim: dark. Your brightest light shows a few paces and your map forgets
 everything past arm's reach. Chalk the walls (right-click a wall; F chooses arrow, cross or circle): chalk stays, and
 shows on the map. Keep to the long dry corridors; the wet ones end blind. Follow the sound of waves to the stairs down.
-They only go down.
+They are few, and deep in.
 — Field Team 9 (four of us)""", gate=visited(5, 6), w="meg"),
     E("m19", "The sea", """
 Level 7: water under a ceiling. Driftwood burns; fish bite. Depth costs light and steadiness, and something large
@@ -175,7 +174,7 @@ circles at the edge of sight: if your gear fails down there, surface. A ring of 
 you come up in the Suburbs. A cave mouth in the deep: the caves. Neither returns.
 — A.L., survey""", gate=visited(6, 7), w="al"),
     E("m20", "The 9th Road", """
-M.E.G. FIELD NOTICE. Level 8: stay on the 9th Road. Gravel, lamps, our waypoints, camps at the crossings, Almond Water
+M.E.G. FIELD NOTICE. Level 8: stay on the 9th Road. Gravel, lamps, our waypoints, camps along it, Almond Water
 seeping from the rock beside it. Off it, drifters. All the ore is here: copper, tin, zinc, bismuth, gold, lead, coal and
 three kinds of iron. Halite grinds to salt in a quern. The vents beside the road go to Level 2 and back. Dress warm.
 — Field Team 9 (three of us)""", gate=visited(7, 8), w="meg"),
@@ -310,6 +309,14 @@ minutes without stopping.""", mark="hubdoor"),
 Smilers like Level 2, and so do the rats, hairless in the heat. Near the edges the lights sometimes fail and something
 screams close by, and a pack of rats goes past at a run after it. Stand aside till the lights come back. Pell didn't.
 — Dez""", w="dez"),
+    E("gate-class", "Down in flint", """
+I went down into Level 2 in flint and pleather, the way the wanderers said. A flint knife, a spear on a stick, the seat
+cover off a car for a jerkin. Two hundred steps along the mains something came after me, faster than I could run, and
+it did not stop to see whether I had a light. I got the spear up. It came through the pleather at the shoulder as if the
+seat cover were a bedsheet. I walked the rest of the way out with one hand on the wall.
+
+Come back with metal on you.
+— Pell""", w="anon"),
 ]))
 
 TRACKS.append(Track("l3", "common", "Level 3: the Electrical Station", 3, entries=[
@@ -394,7 +401,7 @@ between are a maze with one way in. The narrow wet passages wind off a little wa
 — A.L., survey""", w="al"),
     E("l6-2", "Waves", """
 M.E.G. FIELD NOTICE. Listen for waves: you hear them within a hundred and sixty paces of stairs down, louder as you close
-in, and chalk arrows on the corridor walls point there. The stairs drop you out of a ceiling into the sea.
+in, and chalk arrows on the corridor walls point there. The stairs come out in a room hung over the sea.
 — Field Team 9 (four of us)""", mark="way", w="meg"),
     E("l6-3", "The wire", """
 A wire strung low across a straight corridor. Trip it and you're in a food court, bright and full. You can't get back to
@@ -441,12 +448,17 @@ it strikes, once, hard. In the abyss it may come at anyone. It cannot be fought.
 — Field Team 9 (three of us)""", w="meg"),
     E("l7-6", "Salvage", """
 Driftwood is firewood. Fish bite. The seabed has wreck crates and lost packs. Mind the tar pools: they're scalding."""),
+    E("l7-7", "Air down there", """
+A buoy out over deep water, a rope ladder hanging from it all the way down: under it a room on the seabed, its light still
+on, air trapped under its roof. Climb down, swim in under it, come up through the hatch and breathe. There's a chest in
+each, and the deeper the room the better what's in it. The deep ones are where the big thing circles.
+— Dez""", mark="sunken", w="dez"),
 ]))
 
 TRACKS.append(Track("l8", "common", "Level 8: Cave Systems", 8, entries=[
     E("l8-1", "The road", """
-M.E.G. FIELD NOTICE. Stay on the 9th Road: gravel, lamps, our waypoints, camps at the crossings. The main roads run
-unbroken; the side roads mostly end in rock. Where the road meets another level it runs on through the wall.
+M.E.G. FIELD NOTICE. Stay on the 9th Road: gravel, lamps, our waypoints, camps along it. It forks and joins
+again, but follow the lamps and it runs on. Where the road meets another level it runs on through the wall.
 — Field Team 9 (three of us)""", mark="door", w="meg"),
     E("l8-2", "Ore", """
 Native copper and malachite. Cassiterite for tin, sphalerite for zinc, bismuth, gold in quartz, galena for lead, coal,
@@ -589,10 +601,10 @@ strong as you think it is: drink your Almond Water first. Win, and he carries yo
 TRACKS.append(Track("run", "common", "Level !", RUN, entries=[
     E("run-1", "Slammed", """
 The door's locked behind you and there's no other way back. When the chained door bursts, run, and don't stop. Toys,
-boxes and cords on the floor will trip you if you sprint over them: go round."""),
+boxes, cords and fallen ceiling on the floor will trip you if you sprint over them: jump them."""),
     E("run-2", "Dead end", """
-Don't take the door if the hall turns beside it. The real one is at a dead end. The EXIT doors at the bends open on an
-empty room. Don't stop. They're still there.""", mark="door"),
+Don't take the door if the hall turns beside it. The real one is at a dead end, light under it. The EXIT doors at the
+bends have a dead letter in the sign and open on an empty room. Don't stop. They're still there.""", mark="door"),
     E("run-3", "Energy bars", """
 Eat the energy bars on the bedside table before the door goes: half a minute quicker. Some halls have a Safe Zone, a room
 they won't come into. They wait outside. After a couple of hours they stop waiting."""),
@@ -870,7 +882,7 @@ TRACKS.append(Track("rare-run", "rare", "Folded notes", RUN, chapter=RARE_CHAPTE
     E("r-run-1", "The third time", """
 What I worked out the third time. Seventeen halls. The real exit is at a dead end with no turn either side. One hall in
 three has a hole near the end, cracked floor before it, down to the caves. One in five has a Safe Zone: they wait outside
-for two hours, then they come in. Real exit marked.""", mark="door"),
+for three hours, then they come in. Real exit marked.""", mark="door"),
 ]))
 TRACKS.append(Track("rare-fun", "rare", "Folded notes", FUN, chapter=RARE_CHAPTER, entries=[
     E("r-fun-1", "How I got out", """
@@ -982,12 +994,12 @@ TRACKS.append(Track("scraps", "scrap", "Scraps", entries=[
 # Each must appear (case-insensitively) in the handbook text (gen_guide.py), README.md or docs/GUIDE.md, so that a change there makes
 # this check fail until the notes are looked at again.
 FACTS = [
-    "5 carpet fibres + 1 flax twine", "2 wallpaper strips", "3 carpet fibres", "glass shard + wallpaper strip + carpet fibre",
+    "5 carpet fibres + 1 flax twine", "2 wallpaper strips", "3 carpet fibres", "glass shard + wallpaper strip + carpet fibre", "glass shard + carpet fibre + stick",
     "metal bracket + wallpaper strip + 2 carpet fibres", "1 dry grass + 2 sticks", "2 dry grass + 1 stick",
     "8 planks + 1 nails and strips", "2 metal brackets", "each bottle restores 15%", "salt + powdered sulfur = 2",
     "20 metal bits = 1 ingot", "10 scrap wire = 1 copper ingot", "within 3 blocks of water", "flax twine + linen",
     "one steel tunnel door in 40", "one locked room in 150", "1 in 20", "8 blocks of concrete", "9 ingots for an anvil",
-    "a temporal gear", "Almond Water", "Firesalt",
+    "a temporal gear", "Almond Water", "Firesalt", "16 carpet fibres + 2 flax twine + 4 wallpaper strips",
     "40 tickets a day", "200 tickets", "costs 6 tickets", "three days", "six seconds at the glass",
 ]
 
@@ -1119,6 +1131,7 @@ def write_lang():
         "waypoint-note-hubdoor": "A way into the Hub (a note)",
         "waypoint-note-redroom": "The Red Rooms (a note)",
         "waypoint-note-party": "A party =) (a note)",
+        "waypoint-note-sunken": "Air under the sea (a note)",
         "waypoint-note-runexit": "The real exit (a note)",
         "waypoint-note-hubopen": "A carved door that opens (a note)",
         "waypoint-note-staffdoor": "STAFF ONLY: one in six opens (a note)",

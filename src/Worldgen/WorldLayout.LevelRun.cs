@@ -18,7 +18,8 @@ namespace Backrooms.Worldgen;
 /// - the next <see cref="RunRows"/> rows: the hallway, 5 wide and 4 high, with two doglegs (at each, straight ahead, a false EXIT door);
 /// - the last row: the last stretch, unbroken walls, and the true exit in the dead end.
 ///
-/// About 610-620 blocks from the hallway door to the exit: a minute and a half at a sprint. The chase itself is
+/// About 610-620 blocks from the hallway door to the exit: a minute and a half at a sprint (from layout version 9, with
+/// <see cref="RunRows9"/> rows of hall, about 480: a minute and ten seconds). The chase itself is
 /// <see cref="RunChase"/> (a pure model) driven by <c>Regions.RunSystem</c>.
 /// </summary>
 public sealed partial class WorldLayout
@@ -88,9 +89,44 @@ public sealed partial class WorldLayout
     /// A lane's plan (worked out once and kept). Room for every lane: the cells round a runner take in all seventeen,
     /// and building them row by row through a smaller cache planned a lane over again for nearly every cell.
     /// </summary>
-    public RunLane RunPlan(int lane) => (runPlans ??= new PlanCache<RunLane>(RunLanes, (i, _) => PlanRunLane(i))).Get(lane, 0);
+    public RunLane RunPlan(int lane) => runPlans.Get(lane, 0);
 
     private PlanCache<RunLane> runPlans;
+
+    /// <summary>
+    /// Makes the plan caches of the levels from 7 up (the outer ring and the far places) when the layout is made, so that
+    /// two worldgen threads arriving together at a level's first plan never each make one and throw the other's work away.
+    /// (The capacities are what each level's plans need; see the field of each.)
+    /// </summary>
+    partial void CreateFarPlanCaches()
+    {
+        // (a lot is overlapped by two to four cells, each of which would plan it again: 32 covers the 3x3 blocks of six lots one cell touches)
+        lotPlans = new PlanCache<Tile[]>(32, LotPlan);
+        l8Dens = new LatticeMemo<DenKind>(1024, DenAt);
+        l8Plans = new PlanCache<L8Plan>(256, PlanL8Cell);
+        l8Trees = new PlanCache<HashSet<(int, int, int)>>(128, PlanL8Tree);
+        blockPlans = new PlanCache<Tile[]>(64, PlanBlock);
+        poolPlans = new PlanCache<Tile[]>(32, PlanPoolBlock);
+        poolRoomPlans = new PlanCache<PoolRoom[]>(16, PlanPoolRooms);
+        hills = new LatticeMemo<Hill>(4096, PlanHillAt);
+        hillFences = new PlanCache<Dictionary<(int, int), (byte Joins, byte Height)>>(256, PlanHillFence);
+        hillPlans = new PlanCache<HillPlan>(256, PlanHill);
+        towns = new LatticeMemo<(int, int, int, int)?>(1024, PlanTownOf);
+        townPlans = new PlanCache<Tile[]>(16, PlanTown);
+        castlePlan = new Lazy<Tile[]>(PlanCastle);
+        runPlans = new PlanCache<RunLane>(RunLanes, (i, _) => PlanRunLane(i));
+        funPlans = new PlanCache<FunBlockPlan>(32, PlanFunBlock);
+        endPlans = new PlanCache<Tile[]>(24, PlanEndDepartment);
+        l974Plans = new PlanCache<Tile[]>(64, PlanKittyHouse);
+        l3999Arcades = new PlanCache<L3999ArcadeSite>(64, PlanL3999Arcade);
+        l3999Units = new PlanCache<IReadOnlyList<L3999Unit>>(1024, (i, j) => L3999PlanOf(i, j).Units);
+        funRooms = new PlanCache<FunRoom[]>(512, (i, j) => FunPlan(i, j).Rooms);
+        funPhases = new LatticeMemo<int>(1024, FunPhaseOf);
+        endRunways = new LatticeMemo<(int Amplitude, double Period, double Phase)>(256, EndRunwayShape);
+        endLongAisles = new LatticeMemo<bool>(1024, (left, seg) => EndKindAt(left, seg) == EndKind.LongLeft);
+        l3999Plans = new PlanCache<L3999Plan>(16, PlanL3999Block);
+        l188Plan = new Lazy<Tile[]>(PlanL188);
+    }
 
     // ================= Cells =================
 
@@ -148,7 +184,7 @@ public sealed partial class WorldLayout
     private const ulong SaltRunEntranceL1 = 0x1410, SaltRunFalseWallL2 = 0x1411;
 
     /// <summary>Whether Level !'s ways in are laid into Levels 1, 2 and 37 (the harness turns them off to show they move nothing else).</summary>
-    public static bool RunEntrances = true;
+    internal static bool RunEntrances = true;
 
     /// <summary>
     /// Level 1's car park, about one cell in 300: a red EXIT door where no door should be, in a solid wall between two
@@ -158,7 +194,7 @@ public sealed partial class WorldLayout
     private void MarkRunEntrance(Builder b, int mx, int mz)
     {
         ulong h = Hashing.Hash(seed, mx, mz, SaltRunEntranceL1);
-        if (!RunEntrances || Hashing.Unit(h) >= 1.0 / 300) return;
+        if (!RunEntrances || Hashing.Unit(h) >= (Version >= 12 ? 1.0 / 1200 : 1.0 / 300)) return;
         int start = (int)(Hashing.Mix(h) % 26);
         for (int k = 0; k < 52; k++)
         {
@@ -169,6 +205,8 @@ public sealed partial class WorldLayout
             Tile front = b.At(fx, fz);
             if (wall.Kind != TileKind.Wall || wall.Under != 0 || wall.Variant > 1 || wall.Pattern != WallPattern.Concrete) continue;
             if (front.Kind != TileKind.Floor || front.Variant != 0 || front.Stack != 0 || front.SupplyBox || front.Under != 0 || front.Stair != 0) continue;
+            // (From layout version 9 a stair core backing onto a fire wall has the wall inside it: no door from its landing)
+            if (Version >= 9 && front.Floor == FloorKind.L1Hall) continue;
             Tile a = westEdge ? b.At(0, i - 1) : b.At(i - 1, 0), c = westEdge ? b.At(0, i + 1) : b.At(i + 1, 0);
             if (a.Kind != TileKind.Wall || c.Kind != TileKind.Wall) continue;
             wall.Under = Unders.RunEntrance;
@@ -177,13 +215,15 @@ public sealed partial class WorldLayout
         }
     }
 
+    /// <summary>The four steps and the way each faces.</summary>
+    private static readonly (int Dx, int Dz, ArchPier Toward)[] RunFalseWallDirs =
+        { (1, 0, ArchPier.East), (-1, 0, ArchPier.West), (0, 1, ArchPier.South), (0, -1, ArchPier.North) };
+
     /// <summary>
     /// Level 2, about one cell in 250: where a tunnel ends blind, the rock just past its end is not there after all. It
     /// looks like smooth new concrete across the tunnel (on that tile: <see cref="Unders.RunFalseWall"/>); walk into it
     /// and you noclip into Level !.
     /// </summary>
-    private static readonly (int Dx, int Dz, ArchPier Toward)[] RunFalseWallDirs =
-        { (1, 0, ArchPier.East), (-1, 0, ArchPier.West), (0, 1, ArchPier.South), (0, -1, ArchPier.North) };
 
     private void MarkRunFalseWall(Builder b, int mx, int mz)
     {
@@ -320,7 +360,20 @@ public sealed partial class WorldLayout
 
     // The lane's fixed geometry (lane-local)
     private const int RunRoomX0 = 13, RunRoomX1 = 19, RunRoomZ0 = 17, RunRoomZ1 = 23, RunHallX = 16, RunHallDoorZ = 24, RunChainZ = 16,
-        RunExitZ = (RunRows + 1) * MacroSize - 20, RunExitStretch = 24;
+        RunExitStretch = 24;
+
+    /// <summary>
+    /// Layout version 9: the hall runs <see cref="RunRows9"/> rows of cells, not <see cref="RunRows"/>, so the run is about
+    /// 480 blocks rather than 615 (the user's play-test: too hard to reach the other side). The region keeps its 21 rows;
+    /// past the exit's row the lane is solid wall.
+    /// </summary>
+    public const int RunRows9 = 15;
+
+    /// <summary>Rows of hallway in this world's lanes.</summary>
+    private int RunHallRows => Version >= 9 ? RunRows9 : RunRows;
+
+    /// <summary>Where this world's lanes end: the true exit's row (lane-local z).</summary>
+    private int RunExitAt => (RunHallRows + 1) * MacroSize - 20;
 
     private RunLane PlanRunLane(int lane)
     {
@@ -332,8 +385,8 @@ public sealed partial class WorldLayout
         PlanRunStartRoom(L, Version >= 5);
 
         // The hallway: south from the hallway door, a dogleg in row -3 and another in row +2, on to the exit
-        int c1 = RunHallX;
-        int j1 = (1 + RunRows / 3) * MacroSize + p.Rng.Range(6, 20), j2 = (1 + 2 * RunRows / 3) * MacroSize + p.Rng.Range(6, 20);
+        int c1 = RunHallX, rows = RunHallRows, exitZ = RunExitAt;
+        int j1 = (1 + rows / 3) * MacroSize + p.Rng.Range(6, 20), j2 = (1 + 2 * rows / 3) * MacroSize + p.Rng.Range(6, 20);
         int d1 = p.Rng.Range(8, 10) * (p.Rng.Chance(0.5) ? 1 : -1);
         int c2 = c1 + d1;
         int c3 = c2 - Math.Sign(d1) * p.Rng.Range(8, 10);
@@ -341,15 +394,15 @@ public sealed partial class WorldLayout
         RunCarve(L, Math.Min(c1, c2) - 2, Math.Max(c1, c2) + 2, j1, j1 + 4);
         RunCarve(L, c2 - 2, c2 + 2, j1, j2 + 4);
         RunCarve(L, Math.Min(c2, c3) - 2, Math.Max(c2, c3) + 2, j2, j2 + 4);
-        RunCarve(L, c3 - 2, c3 + 2, j2, RunExitZ - 1);
-        for (int z = RunExitZ - RunExitStretch; z < RunExitZ; z++)
+        RunCarve(L, c3 - 2, c3 + 2, j2, exitZ - 1);
+        for (int z = exitZ - RunExitStretch; z < exitZ; z++)
             for (int x = c3 - 2; x <= c3 + 2; x++) L.At(x, z).Zone = RunZone.ExitStretch;
 
         // Straight ahead at the first corner of each dogleg, a false exit with an empty closet behind it
         RunFakeExit(L, c1, j1 + 5);
         RunFakeExit(L, c2, j2 + 5);
-        L.ExitDoor = (c3, RunExitZ);
-        ref Tile exit = ref L.At(c3, RunExitZ);
+        L.ExitDoor = (c3, exitZ);
+        ref Tile exit = ref L.At(c3, exitZ);
         exit.Kind = TileKind.Door;
         exit.Pattern = WallPattern.RunTrueExit;
         exit.Pier = ArchPier.North;
@@ -368,7 +421,7 @@ public sealed partial class WorldLayout
         Line(c1, j1 + 2, c2, j1 + 2);
         Line(c2, j1 + 2, c2, j2 + 2);
         Line(c2, j2 + 2, c3, j2 + 2);
-        Line(c3, j2 + 2, c3, RunExitZ);
+        Line(c3, j2 + 2, c3, exitZ);
         L.ExitS = L.Line.Count - 1;
         L.Middle = RunLineIndex(L, c1, j1 + 2);
         L.Last = RunLineIndex(L, c2, j2 + 2);
@@ -380,12 +433,12 @@ public sealed partial class WorldLayout
         for (int z = RunHallDoorZ; z <= RunHallDoorZ + 12; z++) p.Reserved.Add(z);
         foreach (int j in new[] { j1, j2 })
             for (int z = j - 6; z <= j + 10; z++) p.Reserved.Add(z);
-        for (int z = RunExitZ - 6; z < RunExitZ; z++) p.Reserved.Add(z);
+        for (int z = exitZ - 6; z < exitZ; z++) p.Reserved.Add(z);
         if (L.HasSafe)
             for (int z = L.LineAt(L.SafeFrom).Z - 4; z <= L.LineAt(L.SafeTo).Z + 4; z++) p.Reserved.Add(z);
 
         // The straights, each with its centre, for doors and what stands in the way
-        var straights = new List<(int C, int Z0, int Z1)> { (c1, RunHallDoorZ + 1, j1 - 1), (c2, j1 + 5, j2 - 1), (c3, j2 + 5, RunExitZ - 1) };
+        var straights = new List<(int C, int Z0, int Z1)> { (c1, RunHallDoorZ + 1, j1 - 1), (c2, j1 + 5, j2 - 1), (c3, j2 + 5, exitZ - 1) };
         L.Straights.AddRange(straights);
         PlanRunDoors(L, p, straights);
         PlanRunHole(L, p, c3, j2);
@@ -631,7 +684,7 @@ public sealed partial class WorldLayout
         {
             for (int z = z0 + 3; z <= z1 - 3; z++)
             {
-                if (z >= RunExitZ - RunExitStretch) break;
+                if (z >= RunExitAt - RunExitStretch) break;
                 bool west = Hashing.Mod(z, 4) == 0, east = Hashing.Mod(z, 4) == 2;
                 if (!west && !east) continue;
                 int x = west ? c - 3 : c + 3, behind = west ? x - 1 : x + 1;
@@ -684,7 +737,7 @@ public sealed partial class WorldLayout
             {
                 var (c, z0, z1) = straights[third];
                 int z = rng.Range(z0 + 8, z1 - 8);
-                if (z >= RunExitZ - RunExitStretch || p.Reserved.Contains(z) || p.Reserved.Contains(z + 1) || p.Blocked.ContainsKey(z)) continue;
+                if (z >= RunExitAt - RunExitStretch || p.Reserved.Contains(z) || p.Reserved.Contains(z + 1) || p.Blocked.ContainsKey(z)) continue;
                 int side = rng.Chance(0.5) ? -1 : 1;
                 int x = c + 2 * side;
                 ref Tile t = ref L.At(x, z);
@@ -700,10 +753,10 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>One lane in three has a hole in the dark last stretch, cracks in the floor before it.</summary>
-    private static void PlanRunHole(RunLane L, RunPlanner p, int c, int j2)
+    private void PlanRunHole(RunLane L, RunPlanner p, int c, int j2)
     {
         if (!L.HasHole) return;
-        int h = p.Rng.Range(j2 + 40, RunExitZ - RunExitStretch - 12);
+        int h = p.Rng.Range(j2 + 40, RunExitAt - RunExitStretch - 12);
         for (int tries = 0; tries < 10 && (p.Reserved.Contains(h - 5) || p.Reserved.Contains(h + 3)); tries++) h += 7;
         int side = p.Rng.Chance(0.5) ? -1 : 1;
         for (int z = h - 4; z <= h + 1; z++)
@@ -929,7 +982,7 @@ public sealed partial class WorldLayout
         foreach (RunEvent e in L.Events)
             if (e.Kind == RunEventKind.Swing)
             {
-                var (dx, dz) = Step(e.Face);
+                var (dx, dz) = FacingStep(e.Face);
                 leaves.Add((e.X + dx, e.Z + dz));
             }
         int Hurdle(int k, int z) => leaves.Contains((c + k - 2, z)) ? 2 : RunHurdle(L.At(c + k - 2, z));
@@ -1146,7 +1199,8 @@ public sealed partial class WorldLayout
                 for (int n = rng.Range(1, 2); n > 0; n--) Small(z + len, Col(rng.Range(0, 3)), Props.RunDebris);
             int gapRows = third switch { 0 => rng.Range(2, 4), 1 => rng.Range(2, 4), _ => rng.Range(1, 3) };
             // Now and then, in the gap, something small that trips a sprinter (mostly in the dark last third), or sheets
-            if (rng.Chance(third switch { 0 => 0.25, 1 => 0.35, _ => 0.55 }))
+            // (layout version 9: a little less often, now that what trips you is drawn as the heap it is)
+            if (rng.Chance(Version >= 9 ? third switch { 0 => 0.2, 1 => 0.25, _ => 0.4 } : third switch { 0 => 0.25, 1 => 0.35, _ => 0.55 }))
             {
                 int tz = z + len + 1 + rng.Range(0, Math.Max(0, gapRows - 2));
                 double what = rng.NextDouble();
@@ -1166,14 +1220,15 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// The EXIT signs, the only light: one every 10 blocks or so down the centre line, with clusters and dark gaps (more
-    /// of them, and darker, toward the end), always one at each corner and before the exit. The rest of the ceiling:
+    /// of them, and darker, toward the end), always one at each corner and before the exit. (Layout version 9: one every
+    /// 12 +- 2, no clusters, dark gaps only in the last third and at most 26 long.) The rest of the ceiling:
     /// acoustic tile, dead troffers, now and then an air vent.
     /// </summary>
     private void PlanRunSigns(RunLane L)
     {
         var rng = new Rng(Hashing.Hash(seed, L.Index, 5, SaltRunSigns));
         var forced = new HashSet<int> { 2, L.Middle, L.Last, L.ExitS - 2 };
-        int last = -100, next = 4;
+        int last = Version >= 9 ? 0 : -100, next = 4;
         for (int s = 1; s < L.ExitS; s++)
         {
             var (x, z) = L.Line[s];
@@ -1182,8 +1237,9 @@ public sealed partial class WorldLayout
             bool lastThird = L.Third(s) == 2;
             int seg = s / 32;
             double roll = Hashing.Unit(Hashing.Hash(seed, L.Index * 64 + seg, 6, SaltRunSigns));
-            bool dark = roll < (lastThird ? 0.35 : 0.15), cluster = roll > 0.9;
-            bool due = s >= next && !dark || forced.Contains(s) || s - last >= (lastThird ? 40 : 32);
+            // Layout version 9: a steady run of signs (12 +- 2 apart, no clusters), dark gaps only in the last third and none over 26
+            bool dark = Version >= 9 ? lastThird && roll < 0.25 : roll < (lastThird ? 0.35 : 0.15), cluster = Version < 9 && roll > 0.9;
+            bool due = s >= next && !dark || forced.Contains(s) || s - last >= (Version >= 9 ? (lastThird ? 26 : 16) : lastThird ? 40 : 32);
             bool inSafe = t.Zone == RunZone.Safe;
             if (due && !inSafe)
             {
@@ -1193,7 +1249,7 @@ public sealed partial class WorldLayout
                 if (crossways) t.Detail |= RunSignWE;
                 L.Signs.Add(s);
                 last = s;
-                next = s + (cluster ? 4 : 10 + rng.Range(-3, 3));
+                next = s + (cluster ? 4 : Version >= 9 ? 12 + rng.Range(-2, 2) : 10 + rng.Range(-3, 3));
                 continue;
             }
             if (inSafe) continue;
@@ -1201,7 +1257,7 @@ public sealed partial class WorldLayout
             else if (rng.Chance(0.06))
             {
                 t.Ceiling = CeilingKind.RunVent;
-                if (L.Third(s) >= 0 && s > 30) L.Events.Add(new RunEvent(RunEventKind.Vent, x, z, s, ArchPier.North, ArchPier.North));
+                if (s > 30) L.Events.Add(new RunEvent(RunEventKind.Vent, x, z, s, ArchPier.North, ArchPier.North));
             }
         }
         foreach (int s in L.Signs)
@@ -1249,16 +1305,22 @@ public sealed partial class WorldLayout
 
     private static Tile RunStep(RunLane L, int x, int z, ArchPier dir)
     {
-        var (dx, dz) = Step(dir);
+        var (dx, dz) = FacingStep(dir);
         return L.In(x + dx, z + dz) ? L.At(x + dx, z + dz) : default;
     }
 }
 
 /// <summary>
 /// The chase in Level !, as a number (no game in it, so the harness can run it): the horde's front, a position along
-/// the course, against a runner's. The front runs at a share of the runner's sprint (0.90, 0.94 in the last third, by
-/// the Normal setting), keeps pace once it is more than <see cref="Band"/> behind ("they are still near"), waits at the
-/// Safe Zone's door while the runner is inside, and catches anyone it comes within <see cref="CatchGap"/> of.
+/// the course, against a runner's. The front runs at a share of the runner's sprint (0.78, 0.82 in the last third, by
+/// the Normal setting; it gathers speed over its first <see cref="WarmUp"/> seconds), keeps pace once it is more than
+/// <see cref="Band"/> behind ("they are still near"), waits at the Safe Zone's door while the runner is inside, and
+/// catches anyone it comes within <see cref="CatchGap"/> of.
+///
+/// (0.514.0, every world: the shares were 0.90 / 0.94, with no warm-up. That is fair only to a runner who keeps a
+/// flat-floor sprint, and the hall since layout version 6 makes nobody do that: weaving and jumping through it, a good
+/// runner keeps about 0.85-0.9 of a sprint, and was caught. Now a runner at 0.85 who bumps into things now and then
+/// gets out; one who walks or stops is still caught.)
 /// </summary>
 public sealed class RunChase
 {
@@ -1273,7 +1335,13 @@ public sealed class RunChase
     public const double Band = 40, CatchGap = 1.5;
 
     /// <summary>The front's share of a sprint: the first two thirds, the last third (Low, Normal, High).</summary>
-    public static readonly double[] Share = { 0.85, 0.90, 0.93 }, LastShare = { 0.90, 0.94, 0.97 };
+    public static readonly double[] Share = { 0.73, 0.78, 0.84 }, LastShare = { 0.77, 0.82, 0.88 };
+
+    /// <summary>
+    /// The horde gathers speed after it bursts out: from <see cref="WarmUpShare"/> less than its share, up to it over
+    /// this many seconds (the first stretch is where a runner learns the hall).
+    /// </summary>
+    public const double WarmUp = 20, WarmUpShare = 0.12;
 
     /// <summary>Seconds until the chained door bursts (Low, Normal, High); and after the runner crosses into the hall.</summary>
     public static readonly double[] BreakSeconds = { 15, 12, 9 };
@@ -1286,11 +1354,10 @@ public sealed class RunChase
     public double Front;
     public bool Loose;
     public double Elapsed;
+    /// <summary>When the chained door burst (seconds since arrival).</summary>
+    public double LooseAt = -1;
     /// <summary>When the runner first crossed the hallway door (seconds since arrival), or -1.</summary>
     public double LeftRoomAt = -1;
-    /// <summary>How long the runner has been in the Safe Zone this time.</summary>
-    public double SafeFor;
-
     /// <param name="sprint">The runner's sprint, in blocks a second.</param>
     /// <param name="difficulty">0 Low, 1 Normal, 2 High.</param>
     /// <param name="chainedDoor">The chained door's course position (negative).</param>
@@ -1320,17 +1387,18 @@ public sealed class RunChase
         if (!Loose)
         {
             Loose = Elapsed >= BreakSeconds[Difficulty] || LeftRoomAt >= 0 && Elapsed - LeftRoomAt >= BreakAfterLeaving;
+            if (Loose) LooseAt = Elapsed;
             return false;
         }
         if (InSafe(runner))
         {
-            // It waits at the Safe Zone's door; after three hours in there it comes in anyway (the caller counts those)
-            SafeFor += dt;
+            // It waits at the Safe Zone's door; after three hours in there it comes in anyway (RunSystem counts those, in game hours, and sets SafeBreached)
             Front = Math.Min(Front + Sprint * dt, SafeFrom - 2);
             return false;
         }
-        SafeFor = 0;
         double share = Front >= LastThird ? LastShare[Difficulty] : Share[Difficulty];
+        double since = Elapsed - LooseAt;
+        if (since < WarmUp) share -= WarmUpShare * (1 - since / WarmUp);
         double gap = runner - Front;
         if (gap > Band) share = Math.Max(share, 1.0);
         // Once past the Safe Zone it comes on from its door, not from wherever it was waiting

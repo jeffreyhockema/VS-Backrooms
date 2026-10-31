@@ -26,9 +26,7 @@
 		"walk": "game:walk/wood",
 		"place": "game:block/planks",
 		"break": "game:block/planks",
-		"hit": "game:block/planks",
-		"ambient": "backrooms:ambient/jazz",
-		"ambientBlockCount": 1
+		"hit": "game:block/planks"
 	},
 	"collisionbox": {
 		"x1": 0.125,
@@ -46,6 +44,7 @@
 		"y2": 0.65,
 		"z2": 0.875
 	},
+	"sounds_override": null,
 	"drops": [
 		{
 			"type": "item",

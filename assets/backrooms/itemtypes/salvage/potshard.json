@@ -2,7 +2,7 @@
 	code: "potshard",
 	// A piece of the fired pot a dead office plant stood in. Ground to grit (two and a stone), it stiffens soil into a
 	// little clay: a slow way to clay, but one that needs no trip to Level 3's tunnels.
-	maxstacksize: 32,
+	maxstacksize: 64,
 	behaviors: [
 		{ name: "GroundStorable", properties: { layout: 'Quadrants', collisionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.125, z2: 1 } } }
 	],

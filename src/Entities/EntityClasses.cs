@@ -7,6 +7,25 @@ namespace Backrooms.Entities;
 public class EntityDeathmoth : EntityButterfly
 {
     public override bool IsInteractable => true;
+
+    /// <summary>EntityAgent's own tick, called past EntityButterfly's override (a non-virtual call through its function pointer).</summary>
+    private static readonly System.IntPtr AgentTick = typeof(EntityAgent).GetMethod(nameof(EntityAgent.OnGameTick)).MethodHandle.GetFunctionPointer();
+    private System.Action<float> agentTick;
+
+    /// <summary>
+    /// Dead, on the client, it skips the butterfly's tick: that clears the running animations and starts "fly" again
+    /// whenever it is not feeding or resting, which would wipe the die animation and set a dead moth flapping.
+    /// </summary>
+    public override void OnGameTick(float dt)
+    {
+        if (!Alive && Api?.Side == EnumAppSide.Client)
+        {
+            agentTick ??= (System.Action<float>)System.Activator.CreateInstance(typeof(System.Action<float>), this, AgentTick);
+            agentTick(dt);
+            return;
+        }
+        base.OnGameTick(dt);
+    }
 }
 
 /// <summary>
@@ -34,13 +53,25 @@ public class EntityClasses : ModSystem
         api.RegisterEntityBehaviorClass("backrooms-menace", typeof(EntityBehaviorMenace));
         api.RegisterEntity("EntityDeathmoth", typeof(EntityDeathmoth));
         api.RegisterEntity("EntityDeathRat", typeof(EntityDeathRat));
+        api.RegisterEntity("EntityGiantSpider", typeof(EntityGiantSpider));
         api.RegisterEntityBehaviorClass("backrooms-faceling", typeof(EntityBehaviorFaceling));
         AiTaskRegistry.Register<AiTaskCurious>("backrooms-curious");
+        AiTaskRegistry.Register<AiTaskGreet>("backrooms-greet");
+        AiTaskRegistry.Register<AiTaskOutburst>("backrooms-outburst");
+        AiTaskRegistry.Register<AiTaskCompanion>("backrooms-companion");
+        AiTaskRegistry.Register<AiTaskAmble>("backrooms-amble");
         AiTaskRegistry.Register<AiTaskMenace>("backrooms-menace");
+        AiTaskRegistry.Register<AiTaskScavenge>("backrooms-scavenge");
         AiTaskRegistry.Register<AiTaskMoth>("backrooms-moth");
         AiTaskRegistry.Register<AiTaskClump>("backrooms-clump");
         AiTaskRegistry.Register<AiTaskTheThing>("backrooms-thething");
+        AiTaskRegistry.Register<AiTaskSpider>("backrooms-spider");
+        AiTaskRegistry.Register<AiTaskBait>("backrooms-bait");
+        api.RegisterItemClass("BackroomsMothJelly", typeof(ItemMothJelly));
         api.RegisterBlockClass("BackroomsFiresalt", typeof(BlockFiresalt));
         api.RegisterBlockEntityClass("BackroomsFiresalt", typeof(BlockEntityFiresalt));
+        api.RegisterBlockClass("BackroomsMothHiveHeart", typeof(BlockMothHiveHeart));
+        api.RegisterBlockClass("BackroomsClumpRemnant", typeof(BlockClumpRemnant));
+        api.RegisterBlockEntityClass("BackroomsClumpRemnant", typeof(BlockEntityClumpRemnant));
     }
 }

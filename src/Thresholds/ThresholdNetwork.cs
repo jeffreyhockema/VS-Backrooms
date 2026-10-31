@@ -32,6 +32,12 @@ public sealed class Passage
     /// the stairwells' flights put people down on their landings instead (<see cref="ThresholdNetwork.FlightLanding"/>).
     /// </summary>
     public bool Upstairs;
+    /// <summary>
+    /// A door or an elevator (two-way, used rather than walked into): where it would leave a thin spot, the level's own
+    /// door or elevator is built there instead, where one can stand (see ThresholdNetwork.WayBack.cs). Set by
+    /// <see cref="ThresholdNetwork.Used"/> from the kind of block.
+    /// </summary>
+    public WayBackKind WayBack;
 }
 
 /// <summary>
@@ -46,8 +52,10 @@ public sealed class Passage
 /// stairwells, doors, vents, gates and walls that aren't quite there are two-way: the first trip also writes down
 /// the way back. Where the arrival is beside a threshold of the same kind that nothing else leads back from yet (an
 /// elevator arriving beside an elevator, stairs beside stairs, a door beside a locked door), that threshold becomes
-/// the way back, whatever it would have led to otherwise. Where there is none, a thin spot is left at the arrival:
-/// step through it to return. Pits, manholes, fallen-in streets, dives, tripwires, hungry vending machines and
+/// the way back, whatever it would have led to otherwise. Where there is none, a door or an elevator that leads on
+/// has one of the level's own built in a wall beside the arrival, where one can stand naturally, as its way back (an
+/// elevator for an elevator, a door for a door: ThresholdNetwork.WayBack.cs); otherwise a thin spot is left at the
+/// arrival: step through it to return. Pits, manholes, fallen-in streets, dives, tripwires, hungry vending machines and
 /// every way out of the Snackrooms are one-way.
 ///
 /// Vintage Story's own translocators work the same way: a repaired translocator picks its exit once, builds its
@@ -62,15 +70,59 @@ public sealed partial class ThresholdNetwork
     /// <summary>Chance that a hotel door which looks locked opens after all, and that a Level 4 vending machine is a hungry one.</summary>
     private const double OpenDoorChance = 0.06, HungryMachineChance = 0.06, OpenTunnelDoorChance = 0.3;
 
+    /// <summary>The hungry vending machines of layout version 12 on (a quarter of 6 %).</summary>
+    private const double HungryMachineChanceV12 = HungryMachineChance * 0.25;
+
     /// <summary>Whether one of Level 2's steel tunnel doors (a door of one tile, at its own position) opens; the rest stay locked.
     /// (For the layout, which puts the Hub's doors only on the locked ones.)</summary>
     public static bool TunnelDoorOpens(ulong seed, int x, int z) => Hashing.Unit(Hashing.Hash(seed, x, z, SaltDoor + 2)) < OpenTunnelDoorChance;
+
+    // ---- Layout version 12: ways to a later level are a quarter as common (docs/design/progression/revision.md section 2.B) ----
+
+    /// <summary>The share of the old chance a way to a later level keeps from layout version 12.</summary>
+    public const double LaterShare = 0.25;
+
+    /// <summary>
+    /// Where one of Level 2's steel doors (a door of one tile, at its own position) goes when it opens, or -1 if it stays
+    /// locked: Level 3, Level 4 or back in Level 1. From layout version 12 the doors to Levels 3 and 4 open a quarter as
+    /// often (the share to Level 1 is kept, the rest stay locked).
+    /// </summary>
+    public static int TunnelDoorTarget(ulong seed, int x, int z, int version)
+    {
+        ulong key = Hashing.Hash(seed, x, z, SaltDoor + 2);
+        if (Hashing.Unit(key) >= OpenTunnelDoorChance) return -1;
+        double where = Hashing.Unit(Hashing.Mix(key));
+        int target = where < 0.4 ? 3 : where < 0.75 ? 4 : 1;
+        if (version >= 12 && target != 1 && Hashing.Unit(Hashing.Mix(Hashing.Mix(key))) >= LaterShare) return -1;
+        return target;
+    }
+
+    /// <summary>
+    /// Where an elevator of Levels 3 and 4 (or the default for the others) goes, by its roll. From layout version 12 the ones
+    /// that go to a later level (Level 3's to 4 and 5, Level 4's to 5) are a quarter as many: the rest stay in their own level.
+    /// </summary>
+    public static double ElevatorRoll(ulong seed, int carX, int carZ) => Hashing.Unit(Hashing.Hash(seed, carX, carZ, SaltElevator));
+
+    public static int ElevatorTarget(int level, double r, int version)
+    {
+        int target = ElevatorTarget(level, r);
+        if (version < 12) return target;
+        bool later = level is 3 or 4 && target > level;
+        return later && Hashing.Unit(Hashing.Mix((ulong)(r * 4294967296.0))) >= LaterShare ? level : target;
+    }
 
     public const double StandHeight = 1.05, EntryRoomHeight = 6.05;
 
     // What makes up each kind of threshold (and so what an arrival can stand beside to come back by)
     public static readonly Func<Tile, bool> Elevator = t => t.Kind == TileKind.Door && t.Pattern == WallPattern.Elevator;
-    public static readonly Func<Tile, bool> Stairs = t => t.Stair > 0 && t.Under == 0;
+    public static readonly Func<Tile, bool> Stairs = t => t.Stair > 0 && t.Under == 0 && !WorldLayout.IsEntryStair(t);
+    /// <summary>The hotel's staff stairs: stairs of Level 5 that are not the front hall's grand staircase.</summary>
+    public static readonly Func<Tile, bool> StaffStairs = t => Stairs(t) && t.Level == 5 && !t.Grand;
+    /// <summary>
+    /// Level 6's stairs down to Level 7, and (from layout version 9) the stairs that come down into an entry room of Level 7:
+    /// each is the way back of the other.
+    /// </summary>
+    public static readonly Func<Tile, bool> Descent = t => WorldLayout.IsDescent(t), EntryStairs = t => WorldLayout.IsEntryStair(t);
     /// <summary>
     /// The two flights of the stairwells of Levels 1 and 4 from layout version 4 (see
     /// <see cref="WorldLayout.StairwellSteps"/>): up through the ceiling into a shaft, and down through the floor into
@@ -118,6 +170,10 @@ public sealed partial class ThresholdNetwork
     /// </summary>
     private const int L1OfficeFrom = 6, L1Bottom = 0;
     private const double L1OfficeChance = 0.15, L1PipesChance = 0.25, L4LobbyChance = 0.2;
+
+    /// <summary>Layout version 12 on: the stairs down to Level 2 and up to Level 4 a quarter as common as they were.</summary>
+    private double L1Office => layout.Version >= 12 ? L1OfficeChance * 0.25 : L1OfficeChance;
+    private double L1Pipes => layout.Version >= 12 ? L1PipesChance * 0.25 : L1PipesChance;
     public static readonly Func<Tile, bool> Door = t => t.Kind == TileKind.Door && t.Pattern is not (WallPattern.Elevator or WallPattern.GarageDoor);
     public static readonly Func<Tile, bool> KitchenDoor = t => t.Kind == TileKind.Door && t.Level == 6 && t.Zone == 1 && t.Variant == 3;
     /// <summary>The cyan doors marked POOL: the Poolrooms' own, the hotel's few, and the city's baths'.</summary>
@@ -210,18 +266,15 @@ public sealed partial class ThresholdNetwork
             case 1 or 4 when tile.Zone == WorldLayout.FlightZoneDown && rel <= WorldLayout.DownTripRel:
                 // Down a stairwell's flight, through the floor and on down to its last step, in the dark under the far wall
                 return FlightDownTrip(level, Whole(level == 1 ? L1FlightDown : L4FlightDown));
-            case 1 when tile.Stair >= 2 && rel >= 2.4 && !WorldLayout.IsShaftFlight(tile):
-            {
+            case 1 when tile.Zone == WorldLayout.NowhereLanding && rel >= WorldLayout.NowhereTripRel && layout.Version >= 10 && NowhereFlight(x, z, tile) is { } flight:
+                // From layout version 10, the stairs to nowhere go on in the dark through a doorway in the wall and over the
+                // next stall's ceiling to a landing, where the trip is (their steps no longer trip, see below)
+                return NowhereTrip(flight);
+            case 1 when tile.Stair >= 2 && rel >= 2.4 && !WorldLayout.IsShaftFlight(tile) && tile.Zone != WorldLayout.FlightZoneNowhere:
                 // Level 1's other stairs climb into the ceiling (or a wall) and come out of another stairwell, or now and
                 // then up the stairs of the Abandoned Office. Up to layout version 4 that was every stairwell's; since,
                 // only the stairs to nowhere's, and they come out at the top of a stairwell's flight down, on any floor
-                var stairs = Whole(OldStairs);
-                ulong key = KeyOf(stairs, SaltStairs + 1);
-                bool office = Hashing.Unit(key) >= 0.85;
-                Passage up = office || layout.Version < 4 ? BothWays(stairs, key, office ? 4 : 1, Stairs) : ToStairwell(stairs, key, 1, L1FlightDown, L1FlightDownFirst);
-                up.Upstairs = true;
-                return up;
-            }
+                return NowhereTrip(Whole(OldStairs));
             case 4 when tile.Stair >= 1 && rel >= 1.4 && !WorldLayout.IsShaftFlight(tile):
             {
                 // Office stairwells loop back to the same floor... usually
@@ -246,11 +299,43 @@ public sealed partial class ThresholdNetwork
             }
             case 5 when tile.Stair >= 1 && rel >= 1.4:
             {
-                // The hotel's staff stairs come out somewhere in the dark
+                // The hotel's staff stairs come out somewhere in the dark. From layout version 12 only one in four does:
+                // the rest climb into the ceiling and come out of another flight of staff stairs, on this level
                 var stairs = Whole(Stairs);
-                return BothWays(stairs, KeyOf(stairs, SaltDeep + 5), 6);
+                ulong staffKey = KeyOf(stairs, SaltDeep + 5);
+                if (layout.Version >= 12 && !TryGet(stairs, out _) && Hashing.Unit(Hashing.Mix(staffKey)) >= LaterShare)
+                {
+                    Passage loop = BothWays(stairs, staffKey, 5, StaffStairs);
+                    loop.Upstairs = true;
+                    return loop;
+                }
+                return BothWays(stairs, staffKey, 6);
             }
-            case 6 when tile.Under is Unders.Descent2 or Unders.Descent3 && rel < -0.8:
+            case 6 when layout.Version >= 9 && tile.Under == Unders.Descent3 && rel < WorldLayout.L6DescentTripRel:
+            {
+                // From layout version 9: down the stairwell to its landing and on, "directly" into an entry room of Level 7,
+                // at the foot of the stairs that come down into it; back up those stairs is back to this landing
+                var descent = Whole(t => WorldLayout.IsDescent(t));
+                return new Passage
+                {
+                    Source = descent, Key = KeyOf(descent, SaltDeep + 6), TwoWay = true, ReturnFeature = EntryStairs,
+                    Find = key => layout.FindEntryRoomArrival(key) is { } room ? (room.X, room.Z, EntryRoomHeight)
+                        : layout.FindArrival(7, key) is { } sea ? (sea.X, sea.Z, layout.ArrivalHeight(sea.X, sea.Z)) : null,
+                };
+            }
+            case 7 when layout.Version >= 9 && WorldLayout.IsEntryStair(tile) && tile.Stair >= WorldLayout.EntryStairSteps && rel >= WorldLayout.EntryStairTripRel:
+            {
+                // Up an entry room's stairs into the dark of its shaft, and out on the landing of one of Level 6's stairwells
+                // down, as if just come down it; that stairwell is the way back
+                var stairs = Whole(EntryStairs);
+                return new Passage
+                {
+                    Source = stairs, Key = KeyOf(stairs, SaltDeep + 70), TwoWay = true, ReturnFeature = Descent,
+                    Find = key => layout.FindDescentLanding(key) is { } landing ? (landing.X, landing.Z, WorldLayout.L6LandingHeight)
+                        : layout.FindArrival(6, key) is { } dark ? (dark.X, dark.Z, StandHeight) : null,
+                };
+            }
+            case 6 when layout.Version < 9 && tile.Under is Unders.Descent2 or Unders.Descent3 && rel < -0.8:
             {
                 // Down the stairs, toward the waves, and out of a doorway in the ceiling of the sea
                 var descent = Whole(t => t.Under is >= Unders.Descent1 and <= Unders.Descent3);
@@ -379,6 +464,40 @@ public sealed partial class ThresholdNetwork
     }
 
     /// <summary>
+    /// Up Level 1's stairs to nowhere (the steps, or from layout version 10 the landing they go on to): out of another
+    /// stairwell, or now and then up the stairs of the Abandoned Office.
+    /// </summary>
+    private Passage NowhereTrip((int X, int Z) stairs)
+    {
+        ulong key = KeyOf(stairs, SaltStairs + 1);
+        bool office = Hashing.Unit(key) >= (layout.Version >= 12 ? 1 - 0.15 * 0.25 : 0.85);
+        Passage up = office || layout.Version < 4 ? BothWays(stairs, key, office ? 4 : 1, Stairs) : ToStairwell(stairs, key, 1, L1FlightDown, L1FlightDownFirst);
+        up.Upstairs = true;
+        return up;
+    }
+
+    /// <summary>
+    /// The stairs to nowhere (the origin of its steps) whose dark landing a tile is (layout version 10): four tiles back
+    /// along the way it climbs is the third step. Null if it is not.
+    /// </summary>
+    public (int X, int Z)? NowhereFlight(int x, int z, in Tile landing)
+    {
+        if (landing.Level != 1 || landing.Zone != WorldLayout.NowhereLanding) return null;
+        (int dx, int dz) = Climb(landing.Pier);
+        // Straight on: four tiles back along the climb is the third step. Along the wall: three back is the doorway's last
+        // tile, and the third step is one back from that, the way the doorway's step climbs
+        (int X, int Z) step = (x - dx * 4, z - dz * 4);
+        if (layout.TileAt(step.X, step.Z).Zone != WorldLayout.FlightZoneNowhere)
+        {
+            Tile door = layout.TileAt(x - dx * 3, z - dz * 3);
+            if (door.Zone != WorldLayout.NowhereWall) return null;
+            (int cx, int cz) = Climb(door.Pier);
+            step = (x - dx * 3 - cx, z - dz * 3 - cz);
+        }
+        return layout.TileAt(step.X, step.Z).Zone == WorldLayout.FlightZoneNowhere ? layout.FeatureOrigin(step.X, step.Z, t => t.Level == 1 && OldStairs(t)) : null;
+    }
+
+    /// <summary>
     /// Up a flight of one of the stairwells of Levels 1 and 4 (from layout version 4): out at the top of the flight down
     /// in another stairwell, a floor up, as if come up it. In Level 1 that is a stairwell of the next floor up (from P5,
     /// another P5), or now and then, from P4 or P5, one of the Abandoned Office's; in Level 4 another of its own (the
@@ -388,7 +507,7 @@ public sealed partial class ThresholdNetwork
     {
         ulong key = KeyOf(flight, level == 1 ? SaltStairs + 1 : SaltStairs);
         int floor = WorldLayout.L1FloorOf(layout.TileAt(flight.X, flight.Z));
-        Passage up = level == 4 || floor >= L1OfficeFrom && Hashing.Unit(key) >= 1 - L1OfficeChance
+        Passage up = level == 4 || floor >= L1OfficeFrom && Hashing.Unit(key) >= 1 - L1Office
             ? ToStairwell(flight, key, 4, L4FlightDown, L4FlightDownFirst)
             : ToStairwell(flight, key, 1, L1FlightDown, L1First(down: true, floor < 0 ? -1 : Math.Min(floor + 1, WorldLayout.L1Floors - 1)));
         up.Upstairs = true;
@@ -407,7 +526,7 @@ public sealed partial class ThresholdNetwork
         if (level == 4)
             return Hashing.Unit(key) < 1 - L4LobbyChance ? ToStairwell(flight, key, 4, L4FlightUp, L4FlightUpFirst) : BothWays(flight, key, 0);
         int floor = WorldLayout.L1FloorOf(layout.TileAt(flight.X, flight.Z));
-        if (floor == L1Bottom && Hashing.Unit(KeyOf(flight, SaltStairs + 3)) < L1PipesChance) return BothWays(flight, key, 2);
+        if (floor == L1Bottom && Hashing.Unit(KeyOf(flight, SaltStairs + 3)) < L1Pipes) return BothWays(flight, key, 2);
         return ToStairwell(flight, key, 1, L1FlightUp, L1First(down: false, floor < 0 ? -1 : Math.Max(floor - 1, L1Bottom)));
     }
 
@@ -425,7 +544,14 @@ public sealed partial class ThresholdNetwork
             for (int attempt = 0; attempt < StairwellSearches; attempt++, k = Hashing.Mix(k))
             {
                 if (layout.FindArrival(level, k, first) is not { } a) continue;
-                if (layout.FeatureBeside(a.X, a.Z, first) != null) return (a.X, a.Z, layout.ArrivalHeight(a.X, a.Z));
+                if (layout.FeatureBeside(a.X, a.Z, first) != null)
+                {
+                    // (From layout version 9 a public stairwell's flights are two wide, with a landing tile before each lane's
+                    // first step: the one taken is always the landing of the lane that stands for the flight, where whoever
+                    // comes back down it is put too, FlightLanding)
+                    if (layout.Version >= 9 && layout.FeatureBeside(a.X, a.Z, flight) is { } whole && FlightLandingAt(whole) is { } landing) a = landing;
+                    return (a.X, a.Z, layout.ArrivalHeight(a.X, a.Z));
+                }
                 fallback ??= a;
             }
             return fallback is { } f ? (f.X, f.Z, layout.ArrivalHeight(f.X, f.Z)) : null;
@@ -443,6 +569,14 @@ public sealed partial class ThresholdNetwork
     /// "l3999-staff"; ThresholdSystem picks the message by it).
     /// </summary>
     public Passage Used(int x, int z, string kind, out string refusal)
+    {
+        Passage passage = UsedThreshold(x, z, kind, out refusal);
+        // Doors and elevators that lead on can have a door or an elevator built where they come out, as the way back
+        if (passage is { TwoWay: true, Find: not null }) passage.WayBack = WayBackKindOf(kind);
+        return passage;
+    }
+
+    private Passage UsedThreshold(int x, int z, string kind, out string refusal)
     {
         refusal = null;
         (int X, int Z) at = (x, z);
@@ -475,7 +609,7 @@ public sealed partial class ThresholdNetwork
                 ulong key = KeyOf(car, SaltElevator);
                 // In the city it depends on the building: an office tower's go to the Abandoned Office, a hotel's to
                 // the Terror Hotel, and an apartment block's are out of order
-                int target = level == 11 ? layout.CityElevatorTarget(car.X, car.Z) : ElevatorTarget(level, Hashing.Unit(key));
+                int target = level == 11 ? layout.CityElevatorTarget(car.X, car.Z) : ElevatorTarget(level, Hashing.Unit(key), layout.Version);
                 if (target < 0 && !TryGet(car, out _))
                 {
                     refusal = "outoforder";
@@ -517,6 +651,12 @@ public sealed partial class ThresholdNetwork
                 // doors; and from the Poolrooms out into a corridor of the hotel, beside a locked guest door
                 var door = layout.FeatureOrigin(x, z, PoolDoor);
                 ulong key = KeyOf(door, SaltDoor + 37);
+                // (From layout version 12 a hotel's POOL door opens one time in four; the rest are locked)
+                if (layout.Version >= 12 && level == 5 && !TryGet(door, out _) && Hashing.Unit(Hashing.Mix(key)) >= LaterShare)
+                {
+                    refusal = "locked";
+                    return null;
+                }
                 return WithSound(level == WorldLayout.Poolrooms ? BothWays(door, key, 5, PlainDoor) : BothWays(door, key, WorldLayout.Poolrooms, PoolDoor),
                     "game:sounds/block/door");
             }
@@ -548,13 +688,19 @@ public sealed partial class ThresholdNetwork
                 // Station, the Abandoned Office, or now and then back in Level 1
                 var door = layout.FeatureOrigin(x, z, Door);
                 ulong key = KeyOf(door, SaltDoor + 2);
-                if (!TryGet(door, out _) && Hashing.Unit(key) >= OpenTunnelDoorChance)
+                int to = TunnelDoorTarget(seed, door.X, door.Z, layout.Version);
+                if (!TryGet(door, out _) && to < 0)
                 {
                     refusal = "locked";
                     return null;
                 }
-                double where = Hashing.Unit(Hashing.Mix(key));
-                return WithSound(BothWays(door, key, where < 0.4 ? 3 : where < 0.75 ? 4 : 1), "game:sounds/block/metaldoor");
+                if (to < 0)
+                {
+                    // (Something has come back through it: it goes where it always went)
+                    double was = Hashing.Unit(Hashing.Mix(key));
+                    to = was < 0.4 ? 3 : was < 0.75 ? 4 : 1;
+                }
+                return WithSound(BothWays(door, key, to), "game:sounds/block/metaldoor");
             }
             case "locked":
             {
@@ -604,7 +750,7 @@ public sealed partial class ThresholdNetwork
     {
         if (layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)) != 4) return null;
         ulong key = KeyOf((x, z), SaltVending);
-        if (Hashing.Unit(key) >= HungryMachineChance) return null;
+        if (Hashing.Unit(key) >= (layout.Version >= 12 ? HungryMachineChanceV12 : HungryMachineChance)) return null;
         return new Passage { Source = (x, z), Key = Hashing.Mix(key), Find = InSnackrooms(), Message = "backrooms:vending-snackrooms", Sound = "game:sounds/block/vesselopen" };
     }
 
@@ -652,7 +798,46 @@ public sealed partial class ThresholdNetwork
     /// (<see cref="Passage.Upstairs"/>), otherwise on the clear floor beside it.
     /// </summary>
     public Link? HomeFor(Passage passage) =>
-        FlightLanding(passage.Source) ?? (passage.Upstairs && TopOfFlight(passage.Source) is { } top ? top : HomeBeside(passage.Source));
+        FlightLanding(passage.Source) ?? DeepStairsHome(passage.Source)
+        ?? (passage.Upstairs && TopOfFlight(passage.Source) is { } top ? top : HomeBeside(passage.Source));
+
+    /// <summary>
+    /// From layout version 9, where someone coming back down (or up) the stairs between Levels 6 and 7 is put: on the
+    /// first row of the landing of a Level 6 stairwell down, as if just come down it (the far rows take you on), and on
+    /// the floor at the foot of an entry room's stairs, as if just come down them. Null for anything else.
+    /// </summary>
+    public Link? DeepStairsHome((int X, int Z) source)
+    {
+        if (layout.Version < 9) return null;
+        Tile t = layout.TileAt(source.X, source.Z);
+        if (WorldLayout.IsDescent(t) && layout.L6LandingOf(source.X, source.Z) is { } landing)
+            return new Link(landing.X + 0.5, geometry.FloorFor(6) + WorldLayout.L6LandingHeight, landing.Z + 0.5, false);
+        if (!WorldLayout.IsEntryStair(t)) return null;
+        // The stairs climb toward their Pier from the foot, step n n tiles on from it
+        (int dx, int dz) = Climb(t.Pier);
+        int fx = source.X - dx * t.Stair, fz = source.Z - dz * t.Stair;
+        return new Link(fx + 0.5, geometry.FloorFor(7) + EntryRoomHeight, fz + 0.5, false);
+    }
+
+    /// <summary>
+    /// The way to face on being put down at the foot of an entry room's stairs (away from them, into the room, toward the
+    /// doorway onto the sea) or on the landing of a Level 6 stairwell down (back up its steps), from layout version 9, as a
+    /// step along x and z. Null anywhere else.
+    /// </summary>
+    public (int Dx, int Dz)? DeepStairsFacing(int x, int z)
+    {
+        if (layout.Version < 9) return null;
+        Tile t = layout.TileAt(x, z);
+        if (t.Level == 6 && t.Under == Unders.Descent2)
+        {
+            (int dx, int dz) = Climb(t.Pier); // (the way the stairwell goes down)
+            return (-dx, -dz);
+        }
+        if (t.Level != 7 || t.Detail != WorldLayout.L7EntryFoot) return null;
+        foreach ((int dx, int dz) in FlightSteps)
+            if (WorldLayout.IsEntryStair(layout.TileAt(x + dx, z + dz)) && layout.TileAt(x + dx, z + dz).Stair == 1) return (-dx, -dz);
+        return null;
+    }
 
     /// <summary>The way a flight climbs, toward its <see cref="Tile.Pier"/>.</summary>
     private static (int Dx, int Dz) Climb(ArchPier pier) => pier switch
@@ -794,8 +979,17 @@ public sealed partial class ThresholdNetwork
         arrival ??= spare;
         if (arrival is not { } a) return null;
 
-        int level = layout.LevelAt(WorldLayout.MacroOf(a.X), WorldLayout.MacroOf(a.Z));
         bool marker = home != null && back == null && !links.ContainsKey(Id((a.X, a.Z)));
+        // A door or an elevator that would leave a thin spot: the level's own door or elevator in a wall beside the
+        // arrival instead, where one can stand, and the arrival on the floor in front of it
+        WayBack? built = null;
+        if (marker && passage.WayBack != WayBackKind.None && PlanWayBack(passage.WayBack, a.X, a.Z) is { } plan)
+        {
+            built = plan.Way;
+            a = (plan.X, plan.Z, layout.ArrivalHeight(plan.X, plan.Z));
+            marker = false;
+        }
+        int level = layout.LevelAt(WorldLayout.MacroOf(a.X), WorldLayout.MacroOf(a.Z));
         var link = new Link(a.X + 0.5, geometry.FloorFor(level) + a.Height, a.Z + 0.5, marker);
         // Up one flight and out near the top of another that climbs into the ceiling, its way back, rather than at its
         // foot. (Links written down before this was so are read back as they were saved, and keep putting people at the
@@ -805,6 +999,12 @@ public sealed partial class ThresholdNetwork
             link = top;
         links[Id(passage.Source)] = link;
         if (home != null && back != null) links[Id(back.Value)] = home.Value;
+        else if (home != null && built is { } way)
+        {
+            // (Every leaf of it: using either one asks for its own position, see Used)
+            foreach ((int X, int Z) tile in way.Tiles) links[Id(tile)] = home.Value;
+            wayBacks[Id(passage.Source)] = way;
+        }
         else if (marker) links[Id((a.X, a.Z))] = home.Value;
         Dirty = true;
         return link;
@@ -847,6 +1047,7 @@ public sealed partial class ThresholdNetwork
     public bool Load(byte[] data)
     {
         links.Clear();
+        wayBacks.Clear();
         Dirty = false;
         if (data == null || data.Length == 0) return true;
         try

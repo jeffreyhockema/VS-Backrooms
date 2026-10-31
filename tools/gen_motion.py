@@ -187,22 +187,6 @@ def textures():
     text(img, "MILK", (4, 16, S - 4, 25), 0x2A6AB0, 7)
     save(img, "milkvan-side")
 
-    # The 1950s: an icebox, a radio cabinet, a telephone
-    img = grain(flat((238, 232, 214)), 3, "icebox")
-    d = ImageDraw.Draw(img)
-    d.line([0, 15, S, 15], fill=(196, 188, 170, 255))
-    d.rectangle([24, 5, 26, 11], fill=(200, 206, 210, 255))
-    d.rectangle([24, 19, 26, 25], fill=(200, 206, 210, 255))
-    save(img, "icebox-front")
-    img = grain(flat((110, 70, 40)), 4, "radiocab")
-    d = ImageDraw.Draw(img)
-    d.rectangle([4, 4, S - 5, 14], fill=(200, 176, 120, 255))
-    for x in range(6, S - 6, 3):
-        d.line([x, 5, x, 13], fill=(150, 120, 80, 255))
-    d.ellipse([7, 18, 12, 23], fill=(220, 200, 150, 255))
-    d.ellipse([19, 18, 24, 23], fill=(220, 200, 150, 255))
-    save(img, "radio-front")
-
     # The castle's things: coloured balls, an arcade screen, the model town, sketches, the King's stone
     img = Image.new("RGBA", (S, S))
     d = ImageDraw.Draw(img)
@@ -334,7 +318,7 @@ def blocks():
         "selectionboxByType": {"*-leg": {"x1": 0.37, "y1": 0, "z1": 0.37, "x2": 0.63, "y2": 1, "z2": 0.63},
                                "*-tap": {"x1": 0.35, "y1": 0, "z1": 0.1, "x2": 0.65, "y2": 0.9, "z2": 0.65}},
         "classByType": {"*-tap": "BackroomsDispenser"}, "entityClassByType": {"*-tap": "BackroomsDispenser"},
-        "attributesByType": {"*-tap": {"dispenses": ["backrooms:almondwater"], "restock": True}},
+        "attributesByType": {"*-tap": {"dispenses": ["backrooms:almondwater"], "restock": True, "liquidSource": True}},
         "resistance": 4, "drops": [], "sounds": METAL,
     }, "Level 94: a white water tower on a hilltop, full of Almond Water")
     for part, eng in (("leg", "Water Tower Leg"), ("tank", "Water Tower Tank"), ("roof", "Water Tower Roof"), ("tap", "Water Tower Tap")):
@@ -351,7 +335,7 @@ def blocks():
         "sideopaque": {"all": False}, "lightAbsorption": 0,
         "collisionboxByType": {"*-rim": {"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 0.45, "z2": 1}},
         "classByType": {"*-spout": "BackroomsDispenser"}, "entityClassByType": {"*-spout": "BackroomsDispenser"},
-        "attributesByType": {"*-spout": {"dispenses": ["backrooms:almondwater"], "restock": True}},
+        "attributesByType": {"*-spout": {"dispenses": ["backrooms:almondwater"], "restock": True, "liquidSource": True}},
         "resistance": 4, "drops": [], "sounds": STONE,
         "particlePropertiesByType": {"*-spout": [{
             "hsvaColor": [{"avg": 32, "var": 4}, {"avg": 40, "var": 15}, {"avg": 225, "var": 20}, {"avg": 200, "var": 30}],
@@ -565,7 +549,7 @@ def items():
     data = {"code": "almondmilk", "class": "BackroomsAlmondWater", "maxstacksize": 8, "texture": {"base": "item/almondmilk"},
             "creativeinventory": {"general": ["*"], "items": ["*"]},
             "nutritionProps": {"satiety": 300, "foodcategory": "Dairy"}, "materialDensity": 1000,
-            "attributes": {"stabilityRestored": 0.1}}
+            "attributes": {"stabilityRestored": 0.1, "hydration": 500}}
     data.update(TRANSFORMS)
     ground_storable(data)
     write_json(os.path.join(ASSETS, "itemtypes", "motion", "almondmilk.json"), data, "Almond Milk, from the milk vans of Level 94")

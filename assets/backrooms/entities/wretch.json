@@ -136,8 +136,8 @@
 			},
 			{
 				"code": "health",
-				"currenthealth": 16,
-				"maxhealth": 16
+				"currenthealth": 18,
+				"maxhealth": 18
 			},
 			{
 				"code": "deaddecay",
@@ -150,7 +150,8 @@
 			},
 			{
 				"code": "backrooms-menace",
-				"stalkSeconds": 90
+				"stalkSeconds": 90,
+				"maxEncounterSeconds": 300
 			},
 			{
 				"code": "taskai",
@@ -162,12 +163,12 @@
 						"priorityForCancel": 1.6,
 						"mincooldown": 0,
 						"maxcooldown": 0,
-						"walkSpeed": 0.018,
-						"runSpeed": 0.046,
+						"walkSpeed": 0.02,
+						"runSpeed": 0.048,
 						"stalkMin": 8,
 						"stalkMax": 14,
 						"glimpseFleeDistance": 12,
-						"damage": 3.5,
+						"damage": 5.5,
 						"damageTier": 1,
 						"damageType": "PiercingAttack",
 						"knockback": 0.3,
@@ -184,11 +185,31 @@
 						"huntSound": "backrooms:entity/snarl",
 						"voices": [
 							"backrooms:entity/gurgle",
+							"backrooms:entity/plea",
 							"backrooms:entity/cough",
 							"backrooms:effect/whisper",
 							"game:player/hurt*"
 						],
-						"soundRange": 24
+						"soundRange": 24,
+						"senses": {
+							"sightLit": 24,
+							"sightDim": 12,
+							"sightDark": 6,
+							"sightCone": 90,
+							"hearing": 20,
+							"fearSense": 10,
+							"memorySeconds": 8,
+							"trackSeconds": 12,
+							"trackError": 10
+						},
+						"investigateSeconds": 8,
+						"searchSeconds": 10,
+						"retaliateSeconds": 60,
+						"lookSpeeds": [
+							1.0,
+							0.9,
+							1.2
+						]
 					},
 					{
 						"code": "idle",

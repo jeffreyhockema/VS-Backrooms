@@ -169,11 +169,21 @@ public sealed partial class WorldLayout
     /// <summary>How far a runway line's middle lies off its line at a point along it.</summary>
     private int EndRunwayOffset(int axis, int line, int along)
     {
-        ulong h = Hashing.Hash(seed, axis, line, SaltEndRunway);
-        int amplitude = (int)(Hashing.Unit(h) * 4);
-        double period = 30 + 20 * Hashing.Unit(Hashing.Mix(h)), phase = Hashing.Unit(Hashing.Mix(h + 1)) * Math.PI * 2;
+        var (amplitude, period, phase) = endRunways.Get(axis, line);
         return (int)Math.Round(amplitude * Math.Sin(along / period + phase));
     }
+
+    /// <summary>A runway line's wobble (amplitude, period, phase): a function of the line alone, asked for by every tile in its band, so remembered.</summary>
+    private LatticeMemo<(int Amplitude, double Period, double Phase)> endRunways;
+
+    private (int Amplitude, double Period, double Phase) EndRunwayShape(int axis, int line)
+    {
+        ulong h = Hashing.Hash(seed, axis, line, SaltEndRunway);
+        return ((int)(Hashing.Unit(h) * 4), 30 + 20 * Hashing.Unit(Hashing.Mix(h)), Hashing.Unit(Hashing.Mix(h + 1)) * Math.PI * 2);
+    }
+
+    /// <summary>Whether the department at (left, seg) begins a long aisle (remembered: every tile of a runway band across a department asks).</summary>
+    private LatticeMemo<bool> endLongAisles;
 
     /// <summary>
     /// What the racetrack aisle does at a block position: 0 nothing, 1 runway carpet, 2 a jam of furniture across it.
@@ -195,7 +205,7 @@ public sealed partial class WorldLayout
             if (axis == 0 && local is >= EndInner0 and <= EndInner1)
             {
                 int left = line - 1;
-                if (Hashing.Mod(left, 2) == 0 && EndKindAt(left, seg) == EndKind.LongLeft) continue;
+                if (Hashing.Mod(left, 2) == 0 && endLongAisles.Get(left, seg)) continue;
             }
             // A jam: furniture grown together right across the band, two deep
             if (local is 30 or 31 && local >= EndInner0)
@@ -303,7 +313,7 @@ public sealed partial class WorldLayout
     private PlanCache<Tile[]> endPlans;
 
     /// <summary>A department's tiles, 64 by 64, row by row (index z * 64 + x, local to the department).</summary>
-    private Tile[] EndPlan(int di, int dj) => (endPlans ??= new PlanCache<Tile[]>(24, PlanEndDepartment)).Get(di, dj);
+    private Tile[] EndPlan(int di, int dj) => endPlans.Get(di, dj);
 
     /// <summary>Helpers over one department's tiles while it is planned (or two, for a long aisle).</summary>
     private sealed class EndPlanner
@@ -315,7 +325,7 @@ public sealed partial class WorldLayout
         public byte Zone;
         public bool Dark;
         /// <summary>Whether the layout is version 5 or later (partition walls, the EXIT vestibules).</summary>
-        public bool V5;
+        public bool V5, V11;
 
         public EndPlanner(int w, int h)
         {
@@ -411,13 +421,13 @@ public sealed partial class WorldLayout
             {
                 ref Tile t = ref p.At(a, c);
                 if (t.Kind != TileKind.Wall || t.Variant is not (>= Decor.EndPoster and < Decor.EndPoster + 4 or Decor.EndGhost)) continue;
-                var (dx, dz) = Step(t.Pier);
+                var (dx, dz) = FacingStep(t.Pier);
                 if (p.IsFloor(a + dx, c + dz)) continue;
                 ushort decor = t.Variant;
                 t.Variant = 0;
                 foreach (ArchPier side in new[] { ArchPier.North, ArchPier.South, ArchPier.West, ArchPier.East })
                 {
-                    (dx, dz) = Step(side);
+                    (dx, dz) = FacingStep(side);
                     if (p.IsFloor(a + dx, c + dz)) { t.Variant = decor; t.Pier = side; break; }
                 }
             }
@@ -486,7 +496,7 @@ public sealed partial class WorldLayout
 
     private EndPlanner NewEndPlanner(int w, int h, int di, int dj, bool dark)
     {
-        var p = new EndPlanner(w, h) { Rng = new Rng(Hashing.Hash(seed, di, dj, SaltEndPlan)), Di = di, Dj = dj, Dark = dark, V5 = Version >= 5 };
+        var p = new EndPlanner(w, h) { Rng = new Rng(Hashing.Hash(seed, di, dj, SaltEndPlan)), Di = di, Dj = dj, Dark = dark, V5 = Version >= 5, V11 = Version >= 11 };
         for (int c = 0; c < h; c++)
             for (int a = 0; a < w; a++)
                 p.At(a, c) = EndFloorTile(a, c, SaltEndLight, di, dj, dark);
@@ -791,6 +801,27 @@ public sealed partial class WorldLayout
                 p.Prop(a, c, Props.EndTallShelf, rng.Chance(0.08) ? 1 : rng.Chance(0.2) ? 2 : 0, ArchPier.South);
                 if (p.At(a, c).Stack == 2 && rng.Chance(0.4)) p.Prop(a, c + 1, Props.EndLadder, 0, ArchPier.North);
             }
+        if (p.V11)
+        {
+            // The escalator, west along a row of the void and straight onto the deck: its top step is the deck's height
+            // and the one gap in the deck's railing is the tile it steps onto. (It used to climb south along the void's
+            // west side, past a gap three tiles long, and end against a shelf.)
+            const int row = 27;
+            for (int k = 0; k < 6; k++)
+            {
+                p.Clear(v0 + 5 - k, row);
+                ref Tile t = ref p.At(v0 + 5 - k, row);
+                t.Variant = Props.EndEscalator;
+                t.Stair = (byte)Math.Min(Math.Max(k, 1), EndDeckRel);
+                t.Stack = (byte)(k == 0 ? 2 : k == 5 ? 1 : 0); // bottom, top, steps
+                t.Pier = ArchPier.West;
+                t.Overhead = 0;
+            }
+            p.Clear(v0 + 6, row);
+            p.Clear(v0 + 7, row);
+            p.At(v0 - 1, row).Overhead = Overheads.EndDeck;
+            return;
+        }
         // The escalator, up the west side of the void onto the deck
         for (int k = 0; k < 6; k++)
         {

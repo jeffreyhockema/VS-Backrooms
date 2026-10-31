@@ -39,7 +39,7 @@ public class GuiDialogCheats : GuiDialog
     /// <summary>The world settings the World tab can change, with their options (as in worldconfig.json).</summary>
     private static readonly (string Code, string Label, string[] Values)[] Settings =
     {
-        ("backroomsMenace", "Entities", new[] { "off", "low", "normal", "high" }),
+        ("backroomsMenace", "Entities", new[] { "off", "verylow", "low", "normal", "high", "veryhigh" }),
         (ScarcitySystem.ConfigKey, "Scarcity", new[] { "plentiful", "normal", "sparse", "scarce" }),
         (MapSetting.Code, "Map", new[] { "seen", "nowaypoints", "none" }),
     };
@@ -162,6 +162,9 @@ public class GuiDialogCheats : GuiDialog
         {
             B("Heal and rest", "/backrooms heal", "Health, food, body temperature and stability back to full, and your time out reset"),
             B("Die (test waking)", "/backrooms die"),
+            B("Corpses: list", "/backrooms corpse list", "Lists every corpse a death has left: whose, where, how old, what it holds"),
+            B("Corpse: make one", "/backrooms corpse make", "Puts a corpse of yours with some test things at your feet"),
+            B("Corpse: to bones", "/backrooms corpse age", "Turns the newest corpse to bones now"),
             B("Lantern in hand", "/backrooms light lantern", "A lit light in your active hotbar slot (only a light in hand lights Level 6)"),
             B("Torch in hand", "/backrooms light torch"),
         }, 4);
@@ -173,6 +176,11 @@ public class GuiDialogCheats : GuiDialog
             B("Food 5%", "/backrooms stat food 0.05"),
             B("Stability 0", "/backrooms stat stability 0"),
             B("Stability 0.4", "/backrooms stat stability 0.4"),
+            B("Thirst 10%", "/backrooms stat thirst 0.1", "Hydration to 10%: parched, the bar flashes"),
+            B("Rest 10%", "/backrooms stat rest 0.1", "Rest to 10% (about 54 awake hours): exhausted"),
+            B("Drowsy", "/backrooms stat rest 0.58", "Rest to 58% (25 awake hours): drowsy, you can sleep now"),
+            B("Dead tired", "/backrooms stat rest 0", "Rest to 0 (60 awake hours): dead on your feet, the screen dims and blinks"),
+            B("Needs", "/backrooms needs", "Says your hydration, awake hours and band, caffeine, sickness, bed and the director's multiplier"),
         }, 4);
 
         y = Heading(c, "Time out (raises menace until you rest)", y + RowGap);
@@ -205,8 +213,10 @@ public class GuiDialogCheats : GuiDialog
             .AddDropDown(Distances, Distances.Select(d => d == "auto" ? "auto (as the director would)" : d + " blocks").ToArray(),
                 Math.Max(0, Array.IndexOf(Distances, distance)), (code, _) => distance = code, ElementBounds.Fixed(90, y, 220, ButtonHeight), "distance");
         c.AddSmallButton("Spawn", () => Send(SpawnCommand()), ElementBounds.Fixed(330, y, 120, ButtonHeight));
+        c.AddSmallButton("Perceive", () => Send(PerceiveCommand()), ElementBounds.Fixed(460, y, 120, ButtonHeight));
         y += ButtonHeight + Gap;
-        y = Note(c, "Smilers need the dark, the Thing needs deep water; auto picks a fitting spot or fails.", y);
+        y = Note(c, "Smilers need the dark, the Thing needs deep water; auto picks a fitting spot or fails. "
+            + "Perceive puts the creature down that many blocks off (held still, 20 on auto) and reports each second what it sees, hears and believes of you.", y, lines: 3);
 
         y = Heading(c, "Director", y + RowGap);
         y = ButtonGrid(c, y, new[]
@@ -214,6 +224,33 @@ public class GuiDialogCheats : GuiDialog
             B("Pause director", "/backrooms director off", "Nothing new is put down near anyone and no distant sounds play; what is out stays"),
             B("Resume director", "/backrooms director on"),
             B("Make noise", "/backrooms noise", "As loud as you can be: what hunts by sound comes to see"),
+            B("Stop probes", "/backrooms perceive stop", "Ends every perception probe (Perceive), and its reports"),
+            B("Felt rate here", "/backrooms feltrate here", "Tries the director's placement 60 times each for a glimpse, a stalker and a hunter where you stand, and says how many it could put down, why not, and the bodies an hour you would really meet"),
+            B("Creative hunted", "/backrooms creativehunts", "Toggles whether a creative-mode player is hunted like anyone else (off by default); the reply says which"),
+            B("Rate check here", "/backrooms ratecheck here", "Simulates 50 hours of the director's rolls for your level and band, and says how many bodies and sounds an hour that comes to"),
+        }, 4);
+
+        y = Heading(c, "Hives and Clumps", y + RowGap);
+        y = ButtonGrid(c, y, new[]
+        {
+            B("Hive hearts here", "/backrooms hiveheart", "Puts down hive hearts at the nearest Deathmoth hive den (you must be within 40 blocks of it); breaking one raises the alarm and sends waves of females"),
+            B("Break nearest heart", "/backrooms hiveheart break", "Breaks the nearest hive heart within 24 blocks as you would: every female within 16 blocks answers, and waves of 3 to 5 come for a minute"),
+            B("Place remnant", "/backrooms remnant place", "A Clump remnant on the floor before you: burn it with a torch or firestarter, or it grows a Clump"),
+            B("Burn remnants", "/backrooms remnant burn", "Burns every loaded Clump remnant away, as a lit torch or firestarter would (a puff of smoke)"),
+            B("Grow remnants", "/backrooms remnant grow", "Makes every loaded Clump remnant ripe: each grows its Clump at its next check if you are within 48 blocks"),
+        }, 3);
+
+        y = Heading(c, "Skin-Stealers, Dullers, rats", y + RowGap);
+        y = ButtonGrid(c, y, new[]
+        {
+            B("Feed stealer", "/backrooms feed fed", "The nearest Skin-Stealer within 64 blocks is fed: docile, standing about in its disguise, talking now and then"),
+            B("Starve stealer", "/backrooms feed hungry", "The nearest Skin-Stealer within 64 blocks is hungry: in its waxy skin, it stalks"),
+            B("Stealer status", "/backrooms feed status", "Says whether the nearest Skin-Stealer is fed (and for how long) or hungry"),
+            B("Strike (6)", "/backrooms strike 6", "Hurts the nearest Backrooms creature within 16 blocks as you would, for 6: a Skin-Stealer stuns at 5 or more, a Duller outside its grab takes nothing"),
+            B("Strike (2)", "/backrooms strike 2", "As Strike, for 2: below a Skin-Stealer's stun, but it still bleeds clear"),
+            B("Armour: Hound L3", "/backrooms armourtest hound 3", "What one Hound blow does in Level 3 to a player (15 health) in each vanilla armour set, and how many blows it takes (the game's own armour rules, computed)"),
+            B("Armour: Hound L8", "/backrooms armourtest hound 8", "As above for Level 8: unarmoured, leather, copper, bronze and iron sets"),
+            B("Armour: Smiler L9", "/backrooms armourtest smiler 9", "As above for a Smiler in Level 9"),
         }, 3);
 
         y = Heading(c, "Manage", y + RowGap);
@@ -238,9 +275,10 @@ public class GuiDialogCheats : GuiDialog
         y = ButtonGrid(c, y, new[]
         {
             B("L1 Flickering", "/backrooms flicker", "The lights round you go out and Hounds hunt until they come back"),
-            B("Rats' Screaming", "/backrooms scream", "The lights fail in Levels 1 and 2 and a pack of Death Rats runs past"),
+            B("Rats' Screaming", "/backrooms scream", "The lights fail (the Screaming comes by itself only in Level 2) and a pack of Death Rats runs past"),
             B("Mangled's weather", "/backrooms mangled", "Its cold weather comes down on you; in the Suburbs, it then comes"),
             B("L10 fog spell", "/backrooms fogspell", "Moves the calendar on to the thick of the next spell of fog over Level 10's fields"),
+            B("L5 Beast", "/backrooms beast", "The Beast of Level 5 chooses you: the music stops, a drum, then he comes with his offer (anywhere)"),
         }, 4);
 
         y = Heading(c, "Time", y + RowGap);
@@ -274,7 +312,8 @@ public class GuiDialogCheats : GuiDialog
         int version = config?.GetInt(BackroomsWorld.LayoutVersionKey, 1) ?? 1;
         string food = config?.HasAttribute(BackroomsWorld.WorldgenFoodKey) == true ? $"{config.GetFloat(BackroomsWorld.WorldgenFoodKey):0.##}"
             : version < 7 ? "1 (no thinning before layout version 7)" : "not recorded yet";
-        y = Note(c, $"Layout version {version}, worldgen food {food}: fixed when the world was made, never changed here.", y);
+        int levelSize = config?.GetInt(BackroomsWorld.LayoutLevelSizeKey, 100) ?? 100;
+        y = Note(c, $"Layout version {version}, worldgen food {food}, level size {levelSize}%: fixed when the world was made, never changed here.", y);
         return Note(c, "Set sends /worldconfig. It takes effect after a server restart (dispensers and Kitty's fridge follow scarcity at once). "
             + "Worldgen thinning keeps the recorded worldgen food, whatever the scarcity. This menu shows new values once you rejoin.", y, lines: 3);
     }
@@ -334,6 +373,25 @@ public class GuiDialogCheats : GuiDialog
             new Button("Note log", () => Send($"/backrooms note log {capi.World.Player.PlayerName}"), "Every note you have read, in order"),
             B("Forget all notes", "/backrooms note reset", "Empties your journal, so the sequence starts again"),
         }, 3);
+
+        y = Heading(c, "Perception tests", y + RowGap);
+        y = ButtonGrid(c, y, new[]
+        {
+            B("Dummy here", "/backrooms dummy place here", "Puts a straw dummy down in front of you, to stand in for a player (the first try may only load the chunks: try again)"),
+            B("Dummy at a nest", "/backrooms dummy place nest", "Puts a straw dummy down 8 blocks from the heart of a Level 8 spider nest, to test what a noise there does (the first try may only load the chunks: try again)"),
+            B("Dummy: torch", "/backrooms dummy light 14", "The nearest straw dummy carries a torch"),
+            B("Dummy: no light", "/backrooms dummy light 0", "The nearest straw dummy carries no light"),
+            B("Dummy: sneak", "/backrooms dummy sneak", "Toggles whether the nearest straw dummy sneaks"),
+            B("Dummy: run", "/backrooms dummy run", "Toggles whether the nearest straw dummy counts as running"),
+            B("Dummy: face toward", "/backrooms dummy face toward", "The nearest straw dummy looks at the nearest creature (a stare, for the Hound's nerve)"),
+            B("Dummy: face away", "/backrooms dummy face away", "The nearest straw dummy turns its back on the nearest creature (what sets a Hound off)"),
+            B("Dummy: unsteady", "/backrooms dummy stability 0.3", "Sets the nearest straw dummy's Reality Stability to 0.3"),
+            B("Dummy: noise", "/backrooms dummy noise 0.5", "The nearest straw dummy makes a noise, at loudness 0.5, which the creatures can hear"),
+            B("Remove dummies", "/backrooms dummy remove", "Removes every straw dummy put down for tests"),
+            B("Walker: Level 1, 10 min", "/backrooms walker start 1 leather 7 10", "A simulated player: a straw dummy walking from an arrival to the nearest gate and through it, again and again, for 10 minutes (health 15, hunger, leather armour); the director treats it as a player"),
+            B("Walker: status", "/backrooms walker status", "Where the walker is, its health and hunger, and the encounters it has seen, fled and died of"),
+            B("Walker: stop", "/backrooms walker stop", "Stops the walker and removes its dummy"),
+        }, 4);
 
         y = Heading(c, "Feature tests", y + RowGap);
         var crucible = CheatSystem.Kits.First(k => k.Code == "crucible");
@@ -399,6 +457,14 @@ public class GuiDialogCheats : GuiDialog
         string code = creature.Split(':')[1];
         // (The encounter command takes x and z before the distance; a player's own position is used whatever they are)
         return distance == "auto" ? $"/backrooms encounter {code} {encounter}" : $"/backrooms encounter {code} {encounter} 0 0 {distance}";
+    }
+
+    /// <summary>A perception probe of the chosen creature, at the chosen distance (20 on auto).</summary>
+    private string PerceiveCommand()
+    {
+        string code = creature.Split(':')[1];
+        string blocks = distance == "auto" ? "20" : distance;
+        return $"/backrooms perceive {code} {blocks}";
     }
 
     /// <summary>A command about the column you stand in, which takes its x and z (world coordinates, not the HUD's).</summary>

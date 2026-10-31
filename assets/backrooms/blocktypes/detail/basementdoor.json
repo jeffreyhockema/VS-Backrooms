@@ -1,4 +1,4 @@
-// Basement Door
+// A steel door marked BASEMENT; the stair behind it leads down
 {
 	"code": "basementdoor",
 	"variantgroups": [
@@ -19,10 +19,13 @@
 		]
 	},
 	"blockmaterial": "Metal",
-	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/detail/basementdoor-{part}"
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/detail/basementdoor-lower"
+		},
+		"*-upper": {
+			"base": "block/detail/basementdoor-upper"
 		}
 	},
 	"lightAbsorption": 99,

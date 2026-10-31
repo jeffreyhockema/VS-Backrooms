@@ -9,8 +9,9 @@ batch, following [prompts.md](prompts.md). Progress: [tracker.md](tracker.md).
 pass shipped as its own release instead, see `CHANGELOG.md`).
 
 - **Batches that ran:** B0 tooling and baseline, B1 inventory, B2 material kit and model helpers, the level batches B3
-  to B16 (every level and far place), B17 entities and items, and B18 the finish (gallery retake, lineup, docs). Four
-  follow-ups came out of the user's reviews: D1 (B3-B5 decisions: seamless wallpaper and floors, the opened supply
+  to B16 (every level and far place), B17 entities and items, B18 the finish (gallery retake, lineup, docs) and B19
+  the before and after showcase ([showcase.json](showcase.json), `docs/screenshots/progress/`) with the cover and
+  banner, now over gallery image 02. Four follow-ups came out of the user's reviews: D1 (B3-B5 decisions: seamless wallpaper and floors, the opened supply
   box), D2 (B13-B15 decisions), D3 (Level 94's yellow houses, standing siren poles and the municipal water tower,
   behind layout version 8) and D4 (carried items: the shared boiler, Level 7's rock, walls varying up their height,
   974's furniture, siren speakers, troffer sides, traffic lights).

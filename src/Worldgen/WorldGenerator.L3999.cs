@@ -390,8 +390,9 @@ public sealed partial class WorldGenerator
                 return rel == 6 ? l3PaintIds[1] : paint;
             case WallPattern.L3999Window:
             {
-                // The rim's windows at eye level; a food court's on its gallery
-                int bottom = t.Zone == (byte)WorldLayout.L3999Zone.Rim ? 2 : 9;
+                // The rim's windows at eye level; a food court's on its gallery (layout version 9 on, from the gallery's
+                // floor, rel 8-10, under its ceiling at 11)
+                int bottom = t.Zone == (byte)WorldLayout.L3999Zone.Rim ? 2 : layout.Version >= 9 ? 8 : 9;
                 if (rel >= bottom && rel <= bottom + 2) return l3WindowIds[t.Variant & 3, bottom + 2 - rel, facing];
                 return paint;
             }

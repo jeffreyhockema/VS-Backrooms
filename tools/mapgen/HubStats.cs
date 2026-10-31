@@ -8,6 +8,9 @@ using Backrooms.Worldgen;
 /// their tunnels), whether every tunnel can be walked to from the roundabout, and where every carved door leads.</item>
 /// <item><c>hubmap [step]</c>: the region to hubmap.bin (a byte per tile, see <see cref="Code"/>) for render_hub.py.</item>
 /// <item><c>hubentrances [cells]</c>: the Hub's doors in Levels 1 and 2 and Level 37's asphalt corridors in a sample.</item>
+/// <item><c>hubvault x z [r]</c>: the tiles and the rounded roof (layout version 9, <see cref="WorldLayout.HubVault"/>) of the
+/// square of radius r (default 40) round x, z to hubvault.bin, for render_hubvault.py (a slice across a tunnel, the roof
+/// from below, a view down a tunnel).</item>
 /// </list>
 /// </summary>
 static partial class LevelModes
@@ -21,6 +24,7 @@ static partial class LevelModes
             case "hubstats": HubStats(layout); return true;
             case "hubmap": HubMap(layout, args.Length > 3 ? int.Parse(args[3]) : 1); return true;
             case "hubentrances": HubEntrances(layout, args.Length > 3 ? int.Parse(args[3]) : 400); return true;
+            case "hubvault": HubVaultDump(layout, int.Parse(args[3]), int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 40); return true;
             case "hubtile":
             {
                 int x = int.Parse(args[3]), z = int.Parse(args[4]);
@@ -36,8 +40,48 @@ static partial class LevelModes
         return false;
     }
 
+    /// <summary>
+    /// hubvault.bin: "HUBV", then x0, z0, size (ints), then per column (rows of z, x along each) 21 bytes: the tile's Kind,
+    /// Floor, Height, Overhead, Detail, Depth, Pier, Pattern, Under, whether a tunnel holds it (the vault), the five vault cells
+    /// (rel HubVaultFrom to HubVaultTop: 0 air, 1 solid, else a piece index), their facings, and the tile's Zone.
+    /// </summary>
+    static void HubVaultDump(WorldLayout layout, int x, int z, int r)
+    {
+        int size = 2 * r + 1, x0 = x - r, z0 = z - r, n = WorldLayout.HubVaultTop - WorldLayout.HubVaultFrom + 1;
+        var cells = new byte[n];
+        var dirs = new ArchPier[n];
+        using var f = new BinaryWriter(File.Create("hubvault.bin"));
+        f.Write("HUBV"u8.ToArray());
+        f.Write(x0);
+        f.Write(z0);
+        f.Write(size);
+        int vaulted = 0, towerZone = 0;
+        var pieces = new int[WorldLayout.HubVaultPieces.Length];
+        for (int dz = 0; dz < size; dz++)
+            for (int dx = 0; dx < size; dx++)
+            {
+                Tile t = layout.TileAt(x0 + dx, z0 + dz);
+                bool v = t.Kind is TileKind.Floor or TileKind.Pit && layout.HubVault(x0 + dx, z0 + dz, cells, dirs);
+                if (!v) { Array.Clear(cells); Array.Clear(dirs); }
+                else
+                {
+                    vaulted++;
+                    foreach (byte c in cells) pieces[c]++;
+                }
+                f.Write(new[] { (byte)t.Kind, (byte)t.Floor, t.Height, t.Overhead, t.Detail, t.Depth, (byte)t.Pier, (byte)t.Pattern, t.Under, (byte)(v ? 1 : 0) });
+                f.Write(cells);
+                foreach (ArchPier d in dirs) f.Write((byte)d);
+                f.Write(t.Zone);
+                if (v && t.Zone is WorldLayout.HubZoneTower or WorldLayout.HubZoneVoid && t.Height > WorldLayout.HubSideHeight) towerZone++;
+            }
+        Console.WriteLine($"hubvault.bin: {size}x{size} from {x0},{z0}; {vaulted} vaulted columns (the Tower's middle is at {layout.HubOriginX},{layout.HubOriginZ}); {towerZone} of them in the Tower's zone, built as the Tower before layout version 9");
+        for (int p = 0; p < pieces.Length; p++)
+            if (pieces[p] > 0) Console.WriteLine($"  {(p == 0 ? "air" : p == 1 ? "solid" : WorldLayout.HubVaultPieces[p]),-6} {pieces[p]}");
+    }
+
     /// <summary>A tile as a byte: 0 solid, 1 wall face, 2 road, 3 stud, 4 sidewalk, 5 marble, 6 carved door (dead), 7 live door, 8 service door,
-    /// 9 ornate door, 10 hole, 11 false wall, 12 tiled end, 13 tile, 14 lamp, 15 dead lamp, 16 stencil, 17 plaque, 18 fan/signal.</summary>
+    /// 9 ornate door, 10 hole, 11 false wall, 12 tiled end, 13 tile, 14 lamp, 15 dead lamp, 16 stencil, 17 plaque, 18 fan/signal,
+    /// 19 give-way line (layout version 11; the middle line is 3, with the studs).</summary>
     static byte Code(in Tile t, bool face)
     {
         switch (t.Kind)
@@ -66,7 +110,8 @@ static partial class LevelModes
                 if (t.Overhead != 0) return 18;
                 return t.Floor switch
                 {
-                    FloorKind.HubStud => 3,
+                    FloorKind.HubStud or FloorKind.HubLine => 3,
+                    FloorKind.HubGiveWay => 19,
                     FloorKind.HubSidewalk => 4,
                     FloorKind.HubMarble => 5,
                     FloorKind.PoolTile => 13,
@@ -96,7 +141,7 @@ static partial class LevelModes
             }
         Console.WriteLine($"The Hub: {built} cells laid out in {sw.ElapsedMilliseconds} ms ({sw.ElapsedMilliseconds / (double)Math.Max(1, built):0.00} ms a cell, the plan included)");
         // Wall faces: solid next to anything open
-        bool Open(byte c) => c is >= 2 and <= 5 or >= 10 and <= 12 or 18;
+        bool Open(byte c) => c is >= 2 and <= 5 or >= 10 and <= 12 or >= 18;
         for (int z = 1; z < size - 1; z++)
             for (int x = 1; x < size - 1; x++)
             {
@@ -109,15 +154,16 @@ static partial class LevelModes
     static void HubStats(WorldLayout layout)
     {
         var (x0, z0, map) = HubRegion(layout);
+        Console.WriteLine("plan: " + layout.HubPlanSummary());
         int size = (int)Math.Sqrt(map.Length);
         var counts = new int[20];
         foreach (byte b in map) counts[b]++;
         string[] names = { "solid", "wall face", "road", "stud", "sidewalk", "marble", "dead door tile", "level door tile", "service door", "ornate door tile",
-            "hole tile", "false wall tile", "tiled end", "tile", "lamp", "dead lamp", "stencil", "plaque", "overhead" };
+            "hole tile", "false wall tile", "tiled end", "tile", "lamp", "dead lamp", "stencil", "plaque", "overhead", "give-way line" };
         for (int i = 0; i < names.Length; i++) Console.WriteLine($"  {names[i],-16} {counts[i],9}");
 
         // Walk from the roundabout over everything that can be walked
-        bool Walk(byte c) => c is 2 or 3 or 4 or 5 or 11 or 12 or 18;
+        bool Walk(byte c) => c is 2 or 3 or 4 or 5 or 11 or 12 or 18 or 19;
         var seen = new bool[map.Length];
         var queue = new Queue<int>();
         int ox = layout.HubOriginX - x0, oz = layout.HubOriginZ - z0;

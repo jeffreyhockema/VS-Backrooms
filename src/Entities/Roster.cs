@@ -30,6 +30,10 @@ public enum Encounter
     Hunt,
     /// <summary>Leaving: running off to be despawned out of sight.</summary>
     Leave,
+    /// <summary>Heard something: walks to where it came from and stands looking about, then back to following (or to the hunt, if it sees them).</summary>
+    Investigate = 5,
+    /// <summary>Lost the person it was hunting: goes to where it last believed them to be and sweeps the places near it, looking.</summary>
+    Search = 6,
 }
 
 [Flags]
@@ -49,6 +53,9 @@ public sealed record RosterEntry(string Code, MenaceBand MinBand, Encounters Kin
     /// <summary>Only ever put down in the dark (Smilers).</summary>
     public bool NeedsDark { get; init; }
 
+    /// <summary>Only while a Red Room (the worst place) or a Reality Shift's dark is about (Level 0's Smilers).</summary>
+    public bool LightsOutOnly { get; init; }
+
     /// <summary>Only on Level 11 below the streets.</summary>
     public bool SubwayOnly { get; init; }
 
@@ -66,6 +73,9 @@ public sealed record RosterEntry(string Code, MenaceBand MinBand, Encounters Kin
 
     /// <summary>Put down in a frenzy: rats in the Screaming, crossing the way ahead at a run.</summary>
     public bool Frenzy { get; init; }
+
+    /// <summary>Only put down under the open sky (the Neighborhood Watch, too tall for any door).</summary>
+    public bool Outdoors { get; init; }
 }
 
 /// <summary>A distant sound, with how its pitch may vary.</summary>
@@ -113,7 +123,8 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level55 => 0,
         Backrooms.Worldgen.WorldLayout.Level120 => 0,
         Backrooms.Worldgen.WorldLayout.Level183 => 0,
-        // Level 94 keeps its own balance (the King's trial)
+        // Level 94 (Class 3): its Animations hit and chase like Level 4's creatures; the King's trial keeps its own balance
+        Backrooms.Worldgen.WorldLayout.Motion => 0.4,
         _ => 0,
     };
 
@@ -122,8 +133,44 @@ public static class Danger
     /// <summary>Movement: a quarter to a third faster at the bottom.</summary>
     public static float Speed(double d) => (float)(1 + 0.3 * d);
 
-    /// <summary>Damage: about double by Level 9.</summary>
-    public static float Damage(double d) => (float)(1 + 1.1 * d);
+    /// <summary>
+    /// Damage (progression round): Levels 0 to 2 as they were (1 + 1.1 d), then a rising line through the points below, so
+    /// that a Smiler (base 6, the median hunter) hits for about 7.6 in Level 3, 8.4 in Level 5, 10.5 in Level 8 and 13 in
+    /// Level 9 (a Hound, base 7.2, a fifth more), against a player's 15 health: two or three blows from Level 3, one or two
+    /// from Level 8. Armour (the vanilla pipeline) does the rest; see /backrooms armourtest.
+    /// </summary>
+    public static float Damage(double d)
+    {
+        if (d <= DamagePoints[0].D) return (float)DamagePoints[0].Mul;
+        for (int i = 1; i < DamagePoints.Length; i++)
+        {
+            if (d > DamagePoints[i].D) continue;
+            (double d0, double m0) = DamagePoints[i - 1];
+            (double d1, double m1) = DamagePoints[i];
+            return (float)(m0 + (m1 - m0) * (d - d0) / (d1 - d0));
+        }
+        // Past the last point: carried on at the last slope
+        (double dl, double ml) = DamagePoints[^1];
+        (double dp, double mp) = DamagePoints[^2];
+        return (float)(ml + (ml - mp) / (dl - dp) * (d - dl));
+    }
+
+    private static readonly (double D, double Mul)[] DamagePoints =
+    {
+        (0, 1), (0.24, 1.264), (0.36, 1.264), (0.52, 1.4), (0.74, 1.75), (0.82, 2.2), (0.95, 2.6),
+    };
+
+    /// <summary>
+    /// The least a hunter runs at (blocks per tick, a sprint being 0.05) from Level 3 down: 1.15 sprints at danger 0.36,
+    /// rising to 1.4 sprints at 0.82 (Level 9) and staying there. 0 above: no floor. See <see cref="NoRunFloor"/>.
+    /// </summary>
+    public static float RunFloor(double d) => d < 0.36 ? 0 : (float)(0.05 * (1.15 + 0.25 * Math.Min(1, (d - 0.36) / 0.46)));
+
+    /// <summary>The ones that keep their own pace whatever the depth: the lore-slow (Wretch, Clump, Duller), the Mangled, Robo-Man (mechanical, run 0.024), the greeters and Level 94's Animations.</summary>
+    public static readonly HashSet<string> NoRunFloor = new()
+    {
+        "wretch", "clump", "duller", "mangled", "roboman", "faceling", "faceling-child", "animation-clay", "animation-wooden", "animation-paper",
+    };
 
     /// <summary>Time between attacks: down to seven tenths.</summary>
     public static float Cooldown(double d) => (float)(1 - 0.3 * d);
@@ -160,10 +207,17 @@ public static class Roster
     public const string RoboMan = "backrooms:roboman";
     public const string Partygoer = "backrooms:partygoer";
     public const string PartygoerIntern = "backrooms:partygoer-intern";
+    /// <summary>The Beast of Level 5 (Entity 18), as a gentleman and unveiled: never put down by the director, but by his own event (BeastSystem).</summary>
+    public const string Beast = BeastSystem.Gentleman, BeastUnveiled = BeastSystem.Unveiled;
+    /// <summary>A giant eyeball on six long legs, walking the Suburbs' streets (Entity 96).</summary>
+    public const string NeighborhoodWatch = "backrooms:neighborhoodwatch";
+    public const string Watcher = "backrooms:watcher";
+    /// <summary>Level 8's giant spiders: territorial, venomous, drawn by noise, and they cannot swim (AiTaskSpider).</summary>
+    public const string GiantSpider = "backrooms:giantspider";
 
     /// <summary>Every entity the director puts down.</summary>
     public static readonly string[] AllCodes = { Smiler, Hound, Faceling, FacelingChild, DeathmothMale, DeathmothFemale, SkinStealer, Duller, DeathRat, Clump, TheThing, Mangled, Bacteria, Wretch,
-        AnimationClay, AnimationWooden, AnimationPaper, RoboMan, Partygoer, PartygoerIntern };
+        AnimationClay, AnimationWooden, AnimationPaper, RoboMan, Partygoer, PartygoerIntern, Beast, BeastUnveiled, NeighborhoodWatch, GiantSpider, Watcher };
 
     private static RosterEntry E(string code, MenaceBand band, Encounters kinds, double weight, int packMin = 1, int packMax = 1) =>
         new(code, band, kinds, weight, packMin, packMax);
@@ -171,13 +225,18 @@ public static class Roster
     private const MenaceBand Safe = MenaceBand.Safe, Heart = MenaceBand.Heartland, Approach = MenaceBand.Approach, Edge = MenaceBand.Threshold;
     private const Encounters Amb = Encounters.Ambient, Menacing = Encounters.Menacing;
 
+    /// <summary>
+    /// How likely a wanderer picked for the moment is a (fed, docile) Skin-Stealer: they are on the rosters of their levels
+    /// as wanderers too, so the heart of a level can have one standing about (README 6.1: fed ones in the heartland).
+    /// </summary>
+    private const double SkinStealerWanders = 0.15;
+
     private static readonly Dictionary<int, RosterEntry[]> ByLevel = new()
     {
-        // The Lobby: empty, as the lore has it, but for eyes in the blackouts and something waiting at the edge
+        // The Lobby: empty, as the lore has it ("unknown whether or not entities exist"): only the dark figures, and eyes in the Red Rooms and the Reality Shifts' dark (decisions.md item 10)
         [0] = new[]
         {
-            E(Smiler, Approach, Menacing, 1.0) with { NeedsDark = true },
-            E(Hound, Edge, Encounters.Glimpse | Encounters.Stalk, 0.5, 1, 2),
+            E(Smiler, Approach, Menacing, 1.0) with { NeedsDark = true, LightsOutOnly = true },
             // "Wanderers have claimed to have seen dark figures stalking them between the corridors": seen far off, now and
             // then following; it only turns on someone who runs near the way out
             E(Bacteria, Approach, Encounters.Glimpse | Encounters.Stalk, 0.6),
@@ -186,54 +245,68 @@ public static class Roster
         [1] = new[]
         {
             E(Faceling, Heart, Amb, 0.5) with { Rarity = 0.35 },
-            E(DeathRat, Heart, Menacing, 0.6, 2, 4),
-            E(Hound, Approach, Menacing, 1.0, 2, 3),
-            E(Wretch, Approach, Menacing, 0.3),
-            E(Smiler, Approach, Menacing, 0.5) with { NeedsDark = true },
-            E(SkinStealer, Approach, Menacing, 0.4),
-            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.4, 3, 5),
+            E(DeathRat, Heart, Menacing, 0.4, 2, 3),
+            E(Hound, Approach, Menacing, Level1HoundWeight, 1, 2),
+            E(Wretch, Approach, Menacing, 0.2),
+            E(Smiler, Approach, Menacing, 0.4) with { NeedsDark = true },
+            E(SkinStealer, Approach, Menacing | Amb, 0.3) with { Rarity = SkinStealerWanders },
+            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.3, 2, 4),
+            // Level 1's table: Dullers in the walls behind the rooms (the Duller's home, with 3 and 4 and the subway)
+            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.4),
+            // Level 1's table: Clumps "rushing… no eyes"
+            E(Clump, Approach, Encounters.Stalk, 0.2) with { Ambush = true },
         },
         // Pipe Dreams: rats in the pipes and the eyes of the Smilers in every dark stretch
         [2] = new[]
         {
-            E(DeathRat, Heart, Menacing, 1.0, 3, 5),
+            E(DeathRat, Heart, Menacing, 0.6, 2, 4),
             E(Smiler, Heart, Menacing, 1.2) with { NeedsDark = true },
-            E(Hound, Edge, Encounters.Stalk | Encounters.Hunt, 0.6, 2, 3),
+            E(Hound, Edge, Encounters.Stalk | Encounters.Hunt, 0.4, 1, 2),
             // Bundles of limbs, wedged into the tight spots, that grab whoever squeezes past
-            E(Clump, Approach, Encounters.Stalk, 0.5) with { Ambush = true },
+            E(Clump, Approach, Encounters.Stalk, 0.4) with { Ambush = true },
+            // The blackout's aftermath: a Wretch now and then among the wanderers
+            E(Wretch, Approach, Menacing, 0.2),
+            // Deathmoth females, rare (the edge, as on Level 1)
+            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.2, 2, 4),
         },
         [3] = new[]
         {
             E(Faceling, Heart, Amb, 0.4) with { Rarity = 0.35 },
+            // "Every single one of them is hostile": the Evolved look is given to all put down here (ChooseLook)
+            E(Faceling, Approach, Menacing, 0.4),
             E(Smiler, Heart, Menacing, 0.8) with { NeedsDark = true },
             E(Hound, Approach, Menacing, 1.0, 2, 3),
-            E(SkinStealer, Approach, Menacing, 0.5),
+            E(SkinStealer, Approach, Menacing | Amb, 0.5) with { Rarity = SkinStealerWanders },
             E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
             E(Clump, Approach, Encounters.Stalk, 0.3) with { Ambush = true },
-            E(Wretch, Approach, Menacing, 0.4, 1, 2),
+            // Level 3's page: Wretches rarer
+            E(Wretch, Approach, Menacing, 0.2, 1, 2),
         },
         // The Abandoned Office: a calm place where people rest; a Duller in the walls, the odd Hound near the stairs
         [4] = new[]
         {
             E(Faceling, Safe, Amb, 1.5) with { Rarity = 0.3 },
-            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 1.0),
-            E(Hound, Approach, Menacing, 0.3, 1, 2),
+            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.6),
+            E(Hound, Approach, Menacing, 0.2, 1, 1),
         },
         [5] = new[]
         {
             E(Faceling, Heart, Amb, 0.6) with { Rarity = 0.35 },
             E(FacelingChild, Heart, Amb, 0.15) with { Rarity = 0.35 },
-            E(DeathmothMale, Heart, Amb | Encounters.Glimpse, 0.6, 2, 3),
-            E(Hound, Approach, Menacing, 1.0, 2, 3),
-            E(SkinStealer, Approach, Menacing, 0.6),
-            E(DeathmothFemale, Approach, Encounters.Stalk | Encounters.Hunt, 0.6, 3, 5),
-            E(Wretch, Approach, Menacing, 0.3),
+            E(DeathmothMale, Heart, Amb | Encounters.Glimpse, 0.6, 1, 2),
+            // "Normal entities are fairly scarce" (Hound 1.0 to 0.8 to 0.5); the Death Rats listed on the page, in the boiler halls
+            E(Hound, Approach, Menacing, 0.5, 1, 2),
+            E(SkinStealer, Approach, Menacing | Amb, 0.4) with { Rarity = SkinStealerWanders },
+            E(DeathmothFemale, Approach, Encounters.Stalk | Encounters.Hunt, 0.5, 2, 4),
+            E(Wretch, Approach, Menacing, 0.2),
+            E(DeathRat, Heart, Menacing, 0.3, 2, 3),
+            // (The Beast of Level 5 is not put down by the director: he chooses his victims himself, see BeastSystem)
         },
         // Lights Out: the darkness is the entity. Things are heard; almost nothing is ever seen
+        // (Wikidot says no entities have been found on Level 6; eyes that never approach are the one allowance, decisions.md item 5)
         [6] = new[]
         {
-            E(Smiler, Approach, Menacing, 0.3) with { NeedsDark = true },
-            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.8),
+            E(Smiler, Approach, Encounters.Glimpse, 0.2) with { NeedsDark = true },
         },
         // Thalassophobia: something vast below the twilight zone, which is why nothing else lives down there
         [7] = new[]
@@ -242,31 +315,36 @@ public static class Roster
         },
         [8] = new[]
         {
-            E(DeathRat, Heart, Menacing, 0.8, 2, 4),
+            E(DeathRat, Heart, Menacing, 0.5, 2, 3),
             // (Level 8's feral dark: the Wretches, once the drifters of the vanilla spawner)
-            E(Wretch, Heart, Menacing, 1.2, 1, 3),
-            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
-            E(Smiler, Approach, Menacing, 0.6) with { NeedsDark = true },
-            E(Hound, Edge, Menacing, 0.8, 2, 3),
+            E(Wretch, Heart, Menacing, 0.8, 1, 2),
+            E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.3),
+            E(Smiler, Approach, Menacing, 0.4) with { NeedsDark = true },
+            E(Hound, Edge, Menacing, 0.5, 2, 3),
+            // Level 8's "spider problem": a giant one lying in wait in the dark off the road, out of sight, or coming
+            // out of it (and the dweller of the level's nests, below). (Not put down as an ambush, ahead of the player
+            // the way they look: in the caves that is mostly rock)
+            E(GiantSpider, Approach, Encounters.Stalk | Encounters.Hunt, 0.5) with { NeedsDark = true },
         },
         [9] = new[]
         {
             E(Faceling, Heart, Amb, 0.5) with { Rarity = 0.35 },
             E(FacelingChild, Heart, Amb, 0.3) with { Rarity = 0.35 },
-            E(DeathRat, Heart, Menacing, 0.8, 2, 4),
+            E(DeathRat, Heart, Menacing, 0.8, 2, 3),
             E(Hound, Approach, Menacing, 1.0, 2, 3),
             E(Smiler, Approach, Menacing, 0.5) with { NeedsDark = true },
-            E(SkinStealer, Approach, Menacing, 0.5),
-            E(Wretch, Approach, Menacing, 0.4, 1, 2),
-            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.5, 3, 5),
+            E(SkinStealer, Approach, Menacing | Amb, 0.5) with { Rarity = SkinStealerWanders },
+            // "Many Wretches" (Level 9's page)
+            E(Wretch, Approach, Menacing, 0.6, 1, 2),
+            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.5, 2, 4),
+            // The Neighborhood Watch: a giant eyeball on legs walking the streets, finding people by sight (AiTaskWatch)
+            E(NeighborhoodWatch, Approach, Menacing, 0.5) with { Outdoors = true },
+            // The Watcher: its floating form, an eye that levitates over the streets and turns the seen to dust (AiTaskWatcher)
+            E(Watcher, Approach, Menacing, 0.3) with { Outdoors = true },
             // (The Mangled is not put down by the director: it comes with its own fog, see MangledEvent)
         },
-        // The fields are safe; only near the barns where the city lies through the wall do Hounds come
-        [10] = new[]
-        {
-            E(Hound, Edge, Menacing, 1.0, 2, 3),
-            E(Clump, Edge, Encounters.Stalk, 0.6) with { Ambush = true },
-        },
+        // The fields are empty ("No Hostile Entities"): the worms are their hazard; only sounds remain
+        [10] = Array.Empty<RosterEntry>(),
         // The Poolrooms: devoid of life, as far as anyone knows; only in the dark of the Sanguine Reservoir is anything ever seen
         [Backrooms.Worldgen.WorldLayout.Poolrooms] = new[]
         {
@@ -280,6 +358,11 @@ public static class Roster
             E(AnimationClay, Approach, Menacing, 1.0, 1, 2),
             E(AnimationWooden, Approach, Menacing, 1.0, 1, 2),
             E(AnimationPaper, Approach, Encounters.Stalk | Encounters.Hunt, 0.7, 3, 5),
+            // Wikidot's Level 94 lists "Smilers, Skin-Stealers, Hounds and male Deathmoths" at night, besides the Animations
+            E(Smiler, Approach, Menacing, 0.3) with { NeedsDark = true },
+            E(SkinStealer, Approach, Menacing | Amb, 0.3) with { Rarity = SkinStealerWanders },
+            E(Hound, Approach, Menacing, 0.4, 1, 2),
+            E(DeathmothMale, Heart, Amb | Encounters.Glimpse, 0.4, 1, 2),
         },
         // The far places (ids 14-20). Level !: nothing from the director (the chase is its own)
         [Backrooms.Worldgen.WorldLayout.RunLevel] = Array.Empty<RosterEntry>(),
@@ -306,7 +389,7 @@ public static class Roster
         // the dark (Miraheze's list, kept light)
         [Backrooms.Worldgen.WorldLayout.Level188] = new[]
         {
-            E(SkinStealer, Approach, Encounters.Stalk | Encounters.Hunt, 0.5),
+            E(SkinStealer, Approach, Encounters.Stalk | Encounters.Hunt | Amb, 0.5) with { Rarity = SkinStealerWanders },
             E(Smiler, Heart, Encounters.Glimpse | Encounters.Stalk, 0.6) with { NeedsDark = true },
         },
         // The experimental levels (ids 21-23): empty
@@ -322,8 +405,8 @@ public static class Roster
         {
             E(Faceling, Heart, Amb, 1.4) with { Rarity = 0.6 },
             E(FacelingChild, Heart, Amb, 0.4) with { Rarity = 0.6 },
-            E(Hound, Heart, Amb, 0.4, 1, 2),
-            E(DeathRat, Heart, Menacing, 0.6, 2, 4),
+            E(Hound, Heart, Amb, 0.4, 1, 1),
+            E(DeathRat, Heart, Menacing, 0.4, 2, 3),
             E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.5) with { SubwayOnly = true },
             E(Wretch, Approach, Menacing, 0.5, 1, 2) with { SubwayOnly = true },
         },
@@ -343,53 +426,142 @@ public static class Roster
     public static RosterEntry DenEntry(Backrooms.Worldgen.DenKind den) => den switch
     {
         Backrooms.Worldgen.DenKind.Pack => E(Hound, Heart, Menacing, 1, 2, 3),
-        Backrooms.Worldgen.DenKind.Hive => E(DeathmothFemale, Heart, Encounters.Stalk | Encounters.Hunt, 1, 3, 5),
+        Backrooms.Worldgen.DenKind.Hive => E(DeathmothFemale, Heart, Encounters.Stalk | Encounters.Hunt, 1, 2, 4),
         Backrooms.Worldgen.DenKind.Dark => E(Smiler, Heart, Menacing, 1) with { NeedsDark = true },
-        Backrooms.Worldgen.DenKind.Warren => E(DeathRat, Heart, Menacing, 1, 3, 5),
+        Backrooms.Worldgen.DenKind.Warren => E(DeathRat, Heart, Menacing, 1, 2, 4),
         Backrooms.Worldgen.DenKind.Lair => E(SkinStealer, Heart, Menacing, 1),
+        Backrooms.Worldgen.DenKind.Nest => E(GiantSpider, Heart, Encounters.Stalk | Encounters.Hunt, 1) with { NeedsDark = true },
         _ => null,
     };
 
-    /// <summary>How likely each kind of encounter is in a band: sounds, glimpses, stalkers, hunters.</summary>
-    public static (double Sound, double Glimpse, double Stalk, double Hunt) Weights(MenaceBand band) => band switch
+    /// <summary>
+    /// How likely each kind of body is in a band: glimpses, stalkers, hunters (relative weights; the body roll
+    /// renormalises them). Sounds are not here: the director rolls them apart from bodies (EncounterRoll, SoundMinutes).
+    /// </summary>
+    public static (double Glimpse, double Stalk, double Hunt) Weights(MenaceBand band) => band switch
     {
-        MenaceBand.Heartland => (0.65, 0.35, 0, 0),
-        MenaceBand.Approach => (0.45, 0.25, 0.25, 0.05),
-        MenaceBand.Threshold => (0.3, 0.2, 0.25, 0.25),
-        _ => (1, 0, 0, 0),
+        MenaceBand.Heartland => (0.35, 0, 0),
+        MenaceBand.Approach => (0.25, 0.25, 0.05),
+        MenaceBand.Threshold => (0.2, 0.25, 0.25),
+        _ => (0, 0, 0),
     };
 
-    /// <summary>How many menacing entities may be about a player at once in a band, whoever they were put down for (Ambient ones are counted apart).</summary>
+    /// <summary>
+    /// How many menacing entities may be about a player at once in a band, whoever they were put down for (Ambient ones are
+    /// counted apart). Few: the director also puts down only one kind at a time (isolation.md 4.2), so this mostly clips packs.
+    /// </summary>
     public static int Cap(MenaceBand band) => band switch
     {
-        MenaceBand.Heartland => 2,
-        MenaceBand.Approach => 4,
-        MenaceBand.Threshold => 6,
+        MenaceBand.Heartland => 1,
+        MenaceBand.Approach => 2,
+        MenaceBand.Threshold => 3,
         _ => 0,
     };
 
-    /// <summary>The cap, with one more allowed from Level 5 down and another from Level 9.</summary>
+    /// <summary>The cap, with one more allowed where the level's danger is 0.5 or more (Level 5 down, and the Poolrooms) and another at 0.8 (Level 9 down, and Level 3999's Blackout), and the high settings' bonus on top.</summary>
     public static int Cap(MenaceBand band, int level)
     {
         int cap = Cap(band);
         if (cap == 0) return 0;
         double d = Danger.OfLevel(level);
-        return cap + (d >= 0.5 ? 1 : 0) + (d >= 0.8 ? 1 : 0);
+        return cap + (d >= 0.5 ? 1 : 0) + (d >= 0.8 ? 1 : 0) + (band == MenaceBand.Heartland ? heartCapBonus : capBonus);
+    }
+
+    // The world's entities setting (MenaceSystem.Difficulties): set once when the world loads; the rolls stay pure
+    private static double mixDanger;
+    private static int capBonus, heartCapBonus;
+
+    /// <summary>Sets what the world's entities setting adds: danger on the body mix, and cap bonuses (the approach and threshold bands, and the heartland).</summary>
+    public static void ApplySetting(double mix, int outerCap, int heartCap)
+    {
+        mixDanger = mix;
+        capBonus = outerCap;
+        heartCapBonus = heartCap;
     }
 
     /// <summary>
-    /// The encounter weights deeper down: fewer of the encounters are only a sound, and more of them stalk and hunt.
-    /// Even the heart of a deep level is not quiet.
+    /// The body weights deeper down: more of the bodies stalk and hunt, and fewer are only glimpsed. Even the heart of a
+    /// deep level is not quiet.
     /// </summary>
-    public static (double Sound, double Glimpse, double Stalk, double Hunt) Weights(MenaceBand band, int level)
+    public static (double Glimpse, double Stalk, double Hunt) Weights(MenaceBand band, int level)
     {
         var w = Weights(band);
-        double d = Danger.OfLevel(level);
+        double d = Math.Min(1, Danger.OfLevel(level) + mixDanger);
         if (band == MenaceBand.Safe || d <= 0) return w;
         double stalk = band == MenaceBand.Heartland ? 0.15 * d : 0.1 * d;
         double hunt = band switch { MenaceBand.Heartland => 0.03 * d, MenaceBand.Approach => 0.15 * d, _ => 0.25 * d };
-        return (Math.Max(0.1, w.Sound - stalk - hunt), w.Glimpse, w.Stalk + stalk, w.Hunt + hunt);
+        return (w.Glimpse, w.Stalk + stalk, w.Hunt + hunt);
     }
+
+    /// <summary>
+    /// Level 1's Hounds (play-test: too frequent, and now they hit like wolves-to-bears): was 1.0 of a table whose other
+    /// Stalk/Hunt weights sum to about 2.0, then 0.35, now 0.2 (round 2: isolation; about a tenth of the Approach band's bodies).
+    /// Level 1's dens no longer hold Hound packs (<see cref="DenActive"/>) and the Flickering still brings them.
+    /// </summary>
+    public const double Level1HoundWeight = 0.2;
+
+    /// <summary>
+    /// The least time (seconds) between one person's distant sounds, by level: a floor under the sound rolls (EncounterRoll),
+    /// kept for Level 0, where the background sounds were too frequent (play-test). Elsewhere the rolls' own gap is enough.
+    /// </summary>
+    public static double SoundGapSeconds(int level) => level == 0 ? 75 : 0;
+
+    /// <summary>
+    /// How lonely a level is (isolation.md 4.1): the factor on both mean intervals, so bigger is emptier. From the lore's
+    /// Survival Difficulty and what each page says about how many entities there are.
+    /// </summary>
+    public static double Solitude(int level) => level switch
+    {
+        0 => 1.5,
+        1 => 1.3,
+        2 => 0.7,
+        3 => 0.45,
+        4 => 1.5,
+        5 => 1.2,
+        6 => 3.0,
+        7 => 1.0,
+        8 => 0.5,
+        9 => 0.3,
+        10 => 2.0,
+        11 => 1.2,
+        Backrooms.Worldgen.WorldLayout.Poolrooms => 4.0, // Level 37: entirely devoid of life
+        Backrooms.Worldgen.WorldLayout.Motion => 0.6, // Level 94 by night: Class 3
+        Backrooms.Worldgen.WorldLayout.FunLevel => 0.4,
+        Backrooms.Worldgen.WorldLayout.TheEnd => 4.0,
+        Backrooms.Worldgen.WorldLayout.Level3999 => 0.8,
+        Backrooms.Worldgen.WorldLayout.Level188 => 1.0,
+        _ => 1.0,
+    };
+
+    /// <summary>
+    /// The lore's Survival Difficulty class of a level (0 to 5), from the Wikidot pages (dialin.md section 2): how many kinds of
+    /// menacing thing may be about at once (<see cref="MaxKinds"/>).
+    /// </summary>
+    public static int LoreClass(int level) => Backrooms.Worldgen.WorldLayout.SurvivalClass(level);
+
+    /// <summary>How many different kinds of menacing entity may be about a player at once: one in Classes 0 to 2, two in Classes 3 to 5.</summary>
+    public static int MaxKinds(int level) => LoreClass(level) >= 3 ? 2 : 1;
+
+    /// <summary>Whether a den of this kind is lived in: Level 1's Hound packs have moved on (their bones remain; Hounds there come from the dark and the Flickering).</summary>
+    public static bool DenActive(int level, Backrooms.Worldgen.DenKind kind) => kind != Backrooms.Worldgen.DenKind.None && !(level == 1 && kind == Backrooms.Worldgen.DenKind.Pack);
+
+    /// <summary>The mean real minutes between bodies (a glimpse, a stalker, a hunter) at solitude 1, by band; <paramref name="inDen"/> for a player in a den.</summary>
+    public static double BodyMinutes(MenaceBand band, bool inDen) => inDen ? 3 : band switch
+    {
+        MenaceBand.Heartland => 25,
+        MenaceBand.Approach => 12,
+        MenaceBand.Threshold => 6,
+        _ => double.PositiveInfinity,
+    };
+
+    /// <summary>The mean real minutes between distant sounds at solitude 1, by band; <paramref name="inDen"/> for a player in a den.</summary>
+    public static double SoundMinutes(MenaceBand band, bool inDen) => inDen ? 2 : band switch
+    {
+        MenaceBand.Heartland => 7.5,
+        MenaceBand.Approach => 5,
+        MenaceBand.Threshold => 3.5,
+        _ => double.PositiveInfinity,
+    };
 
     private static DistantSound S(string location, float pitchMin = 0.9f, float pitchMax = 1.1f, float volume = 0.7f) =>
         new(location, pitchMin, pitchMax, volume);
@@ -422,6 +594,9 @@ public static class Roster
     private static readonly DistantSound Lapping = S("backrooms:sounds/ambient/poollap", 0.9f, 1.1f, 0.35f);
     private static readonly DistantSound Laughter = S("backrooms:sounds/entity/laughter", 0.9f, 1.15f, 0.55f);
     private static readonly DistantSound AllGlory = S("backrooms:sounds/entity/allglory", 0.95f, 1.05f, 0.45f);
+    private static readonly DistantSound WatchSteps = S("backrooms:sounds/entity/watch-steps", 0.9f, 1.1f, 0.5f);
+    private static readonly DistantSound Chitter = S("backrooms:sounds/entity/chitter", 0.55f, 0.8f, 0.45f);
+    private static readonly DistantSound Skitter = S("backrooms:sounds/entity/skitter", 0.8f, 1.1f, 0.5f);
 
     private static readonly Dictionary<int, DistantSound[]> SoundsByLevel = new()
     {
@@ -433,8 +608,9 @@ public static class Roster
         [5] = new[] { Whisper, Knock, Footsteps, Wings, Cough, HoundGrowl },
         [6] = new[] { Footsteps, Whisper, Scratch, Scuttle },
         [7] = new[] { Groan },
-        [8] = new[] { Rockfall, Drifter, Footsteps, Squeak },
-        [9] = new[] { HoundHowl, Slam, Static, Footsteps, Hurt, Squeak },
+        // ("Chittering and clicking from creatures unseen", and many legs on the rock)
+        [8] = new[] { Rockfall, Drifter, Footsteps, Squeak, Chitter, Skitter },
+        [9] = new[] { HoundHowl, Slam, Static, Footsteps, Hurt, Squeak, WatchSteps },
         [10] = new[] { Worms, Wings, Cowbell },
         [11] = new[] { CarAlarm, Murmur, Footsteps, Squeak },
         [Backrooms.Worldgen.WorldLayout.Poolrooms] = new[] { Drip, Lapping },
@@ -473,6 +649,10 @@ public static class Roster
         [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Level183] = Array.Empty<DistantSound>(),
     };
+
+    /// <summary>The far-off cries of a dark's hunters: only Hound sounds for the Hounds, only rat sounds for the rats.</summary>
+    public static DistantSound[] HoundCues => new[] { HoundHowl, HoundGrowl };
+    public static DistantSound[] RatCues => new[] { Squeak, Scuttle };
 
     public static DistantSound[] SoundsFor(int level) => SoundsByLevel.TryGetValue(level, out DistantSound[] s) ? s : Array.Empty<DistantSound>();
 }

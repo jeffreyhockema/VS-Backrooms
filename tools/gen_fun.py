@@ -1267,14 +1267,6 @@ def prop_textures():
     d.line([0, 0, 0, S - 1], fill=rgb(0x5A4418))
     d.line([S - 1, 0, S - 1, S - 1], fill=rgb(0x5A4418))
     save(img, "elevatorpost")
-    img = flat(0x2A2420)
-    d = ImageDraw.Draw(img)
-    d.pieslice([2, 6, 30, 34], 180, 360, fill=rgb(0xF4ECD8))
-    d.line([16, 20, 8, 10], fill=rgb(0xC81E1E), width=2)
-    for i in range(5):
-        a = math.pi + i * math.pi / 4
-        d.point((16 + 12 * math.cos(a), 20 + 12 * math.sin(a)), fill=(40, 30, 30, 255))
-    save(img, "liftdial")
     img = flat(0xF6F2E4, 64)
     d = ImageDraw.Draw(img)
     d.text((32, 18), "OUT OF", fill=(30, 30, 30, 255), font=_font(13), anchor="mm")
@@ -1513,7 +1505,8 @@ def balloon(nm, cx, cy, cz, colour, k=1.0, neck=True):
     w, h, n = 3.0 * k, 3.5 * k, 2.1 * k
     hb = 2.5 * k  # the crossed boxes are shorter; a taller narrow core rounds the top and the bottom
     els = [bxf(nm + "A", (cx - w, cy - hb + 0.3 * k, cz - n), (cx + w, cy + hb + 0.3 * k, cz + n), t),
-           bxf(nm + "B", (cx - n, cy - hb + 0.3 * k, cz - w), (cx + n, cy + hb + 0.3 * k, cz + w), t),
+           # (B stands a hair shorter than A: equal tops would be coplanar where the two boxes cross, and z-fight)
+           bxf(nm + "B", (cx - n, cy - hb + 0.45 * k, cz - w), (cx + n, cy + hb + 0.15 * k, cz + w), t),
            bxf(nm + "Core", (cx - 2.2 * k, cy - h, cz - 2.2 * k), (cx + 2.2 * k, cy + h, cz + 2.2 * k), t)]
     if neck:
         els.append(bxf(nm + "Neck", (cx - 1.3 * k, cy - h - 1.2 * k, cz - 1.3 * k), (cx + 1.3 * k, cy - h, cz + 1.3 * k), t))
@@ -1573,14 +1566,15 @@ def balloons():
         for i in range(8):
             t = math.radians(90 * i / 7)
             x = -16 + 19 * math.cos(t)
-            y = 3.5 + 46 * math.sin(t)
+            y = 3.5 + 40 * math.sin(t)  # the top balloon's top edge is 47 of the corridor's 48 voxels (three blocks)
             if part == "r":
                 x = 16 - x
             col = cols[i if part == "l" else 7 - i]
             r = 3.5
             zc = 12.2 + (0.8 if i % 2 else -0.4)
+            # (A and B differ in depth too, or their fronts and backs would be coplanar and flicker)
             els += [bxf(f"B{i}A", (x - r, y - r * 0.8, zc - r * 0.7), (x + r, y + r * 0.8, zc + r * 0.7), f"latex-{col}"),
-                    bxf(f"B{i}B", (x - r * 0.7, y - r, zc - r * 0.7), (x + r * 0.7, y + r, zc + r * 0.7), f"latex-{col}")]
+                    bxf(f"B{i}B", (x - r * 0.7, y - r, zc - r * 0.6), (x + r * 0.7, y + r, zc + r * 0.6), f"latex-{col}")]
         prop(f"fun-balloonarch-{part}", "Balloon Arch", els, collide=False, material="Cloth", sounds=POP,
              box=(0, 0, 0.6, 0.5, 1, 1) if part == "l" else (0.5, 0, 0.6, 1, 1, 1),
              comment="Level Fun: half of a balloon arch over a doorway; an arch means guests inside",
@@ -1870,7 +1864,7 @@ def wall_props():
     on = sp + [bx("Led", (9.6, 4.1, 10.25), (10.2, 4.5, 10.4), "bulb-green", glow=200, rot=(-10, 0, 0), origin=(8, 12, 14.5))]
     prop("fun-speaker", "Wall Speaker", {"on": on, "off": sp}, collide=False, material="Metal", sounds=PLASTIC,
          box=(0.3, 0.25, 0.6, 0.7, 0.75, 1), comment="Level Fun: a wall speaker over a party room's door; -on plays Happy Birthday",
-         extra={"soundsByType": {"*-on-*": dict(PLASTIC, ambient="backrooms:ambient/fun/funtune", ambientBlockCount=1), "*": PLASTIC},
+         extra={"soundsByType": {"*-on-*": PLASTIC, "*": PLASTIC},
                 "drops": drops(("scrapwire", 1, 0.5), ("metalbracket", 0.3, 0.3))})
     # String lights along the top of a wall: a sagging wire, four coloured bulbs that glow
     els = [bx("Wire1", (0, 14.0, 15.2), (8.2, 14.25, 15.45), "wire", rot=(0, 0, -12), origin=(0, 15, 15.3)),
@@ -2567,7 +2561,7 @@ def items():
     data = {"code": "fun-lucatears", "maxstacksize": 4, "texture": {"base": "item/fun/lucatears"},
             "creativeinventory": {"general": ["*"], "items": ["*"]},
             "nutritionProps": {"satiety": 20, "foodcategory": "NoNutrition"}, "materialDensity": 1000,
-            "attributes": {"maxhealthExtraPoints": 4, "meleeWeaponsDamage": 0.25, "durationHours": 24, "stabilityRestored": 0.3}}
+            "attributes": {"maxhealthExtraPoints": 4, "meleeWeaponsDamage": 0.25, "durationHours": 24, "stabilityRestored": 0.3, "hydration": 100}}
     if registered("BackroomsLucaTears"):
         data["class"] = "BackroomsLucaTears"
     data.update(TRANSFORMS)
@@ -2642,21 +2636,25 @@ def entities():
     snd = "backrooms:entity/partygoer/"
     # The task the code registers (src/Entities/AiTaskPartygoer.cs); keys and defaults as the plan's "Manifest changes" C4
     task = {"code": "backrooms-partygoer", "priority": 1.6, "priorityForCancel": 1.6, "mincooldown": 0, "maxcooldown": 0,
-            "walkSpeed": 0.016, "runSpeed": 0.031, "sightLit": 12, "sightDim": 7, "sightDark": 4,
+            "walkSpeed": 0.016, "runSpeed": 0.031,
+            # (What the task reads is the nested senses object; flat sight keys on the task itself are ignored)
+            "senses": {"sightLit": 12, "sightDim": 7, "sightDark": 4, "sightCone": 70, "sneakFactor": 0.6, "hearing": 6, "touch": 2},
             "latchDamage": 2.5, "clawDamage": 4.0, "attackRange": 1.6,
-            "gazeSound": snd + "gaze", "latchSound": snd + "latch", "carapaceSound": snd + "carapace", "clawSound": snd + "claw"}
+            "gazeSound": snd + "gaze", "latchSound": snd + "latch", "clawSound": snd + "claw"}
     tasks = [task, E.idle("idle", 1.1, 4000, 12000, 4000, 12000)]
 
     def partygoer(code, shape_, extra_drops):
         return {
             "code": code, "class": "EntityAgent", "tags": ["backrooms-entity", "humanoid", "habitat-land", "partygoer"],
             "weight": 90,
-            # The model stands 36 px (2.25 blocks); the hitbox is kept just under the doorways' height
-            "hitboxSize": {"x": 0.8, "y": 2.2}, "deadHitboxSize": {"x": 0.8, "y": 0.6}, "eyeHeight": 2.0,
+            # The model stands 36 px (2.25 blocks); the hitbox is kept under the doorways' clear height (2 blocks: the pathfinder
+            # plans nobody through a gap lower than the box, so a 2.2 box kept every guest in its party room;
+            # and the A* sets its box down at a random 0.3 to 0.7 across the cell, so only a box under 0.6 wide always fits a 1-wide gap)
+            "hitboxSize": {"x": 0.58, "y": 1.95}, "deadHitboxSize": {"x": 0.8, "y": 0.6}, "eyeHeight": 1.8,
             "attributes": {"killedByInfoText": "backrooms:deadcreature-partygoer", "fireDamageClosed": 0.25, "fireDamageOpen": 3.0,
                            "headDamageOpen": 2.0},
             "drops": [E.drop("fun-partyhat-stripes", 0.2), E.drop("fun-partyhat-dots", 0.2), E.drop("game:gear-rusty", 0.5, 0.5)] + extra_drops,
-            "client": E.common_client(f"backrooms:entity/{shape_}", tex(shape_, ("red", "blue", "green", "white")), pg_anims),
+            "client": E.common_client(f"backrooms:entity/{shape_}", tex(shape_, ("red", "blue", "green", "white")), pg_anims, size=0.86),
             "server": E.server(30, tasks, menace={"huntSeconds": 90}, decay=None),
             "sounds": {"hurt": "game:creature/drifter-hurt", "death": snd + "die",
                        "idle": snd + "step*"},

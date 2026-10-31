@@ -1,0 +1,163 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"paint-1": "backrooms:block/974/paint-1",
+		"trim": "backrooms:block/974/trim"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#paint-1",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#paint-1",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#paint-1",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#paint-1",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#paint-1",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "ArchE",
+			"from": [
+				16,
+				0,
+				0
+			],
+			"to": [
+				17.7,
+				16,
+				2.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						2.5,
+						16
+					]
+				},
+				"north": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						1.6999999999999993,
+						16
+					]
+				},
+				"south": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						1.6999999999999993,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "ArchW",
+			"from": [
+				-1.7,
+				0,
+				0
+			],
+			"to": [
+				0,
+				16,
+				2.5
+			],
+			"faces": {
+				"west": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						2.5,
+						16
+					]
+				},
+				"north": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				},
+				"south": {
+					"texture": "#trim",
+					"uv": [
+						0,
+						0,
+						1.7,
+						16
+					]
+				}
+			}
+		}
+	]
+}

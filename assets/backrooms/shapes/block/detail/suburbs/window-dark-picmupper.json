@@ -1,0 +1,440 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"plaster-interior": "backrooms:block/detail/plaster-interior",
+		"suburbglass-dark-p": "backrooms:block/detail/suburbglass-dark-p",
+		"windowtrim": "backrooms:block/detail/windowtrim"
+	},
+	"elements": [
+		{
+			"name": "LiningHead",
+			"from": [
+				0,
+				14,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.3333,
+						0,
+						10.6667,
+						16
+					]
+				},
+				"south": {
+					"texture": "#plaster-interior",
+					"uv": [
+						5.3333,
+						0.0,
+						10.6667,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CasingHead",
+			"from": [
+				0,
+				14,
+				-1
+			],
+			"to": [
+				16,
+				17,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.44,
+						0.0,
+						10.56,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.44,
+						0,
+						10.56,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "DripCap",
+			"from": [
+				0,
+				17,
+				-1.75
+			],
+			"to": [
+				16,
+				17.75,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.4902,
+						0.0,
+						10.5098,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.4902,
+						0,
+						10.5098,
+						1.75
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.4902,
+						0,
+						10.5098,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "InCasingHead",
+			"from": [
+				0,
+				14,
+				16
+			],
+			"to": [
+				16,
+				15,
+				16.6
+			],
+			"faces": {
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.0909,
+						0.0,
+						10.9091,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						5.0909,
+						0,
+						10.9091,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion0",
+			"from": [
+				0,
+				0,
+				-0.75
+			],
+			"to": [
+				1,
+				14,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0.0,
+						1.0,
+						8.0
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						9.75,
+						8.0
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						1.0,
+						0.0,
+						2.0,
+						8.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion1",
+			"from": [
+				15,
+				0,
+				-0.75
+			],
+			"to": [
+				16,
+				14,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						1.0,
+						0.0,
+						2.0,
+						8.0
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						9.75,
+						8.0
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0.0,
+						1.0,
+						8.0
+					]
+				}
+			}
+		},
+		{
+			"name": "FixedStileW",
+			"from": [
+				1,
+				0,
+				4
+			],
+			"to": [
+				2.25,
+				14,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0.0,
+						1.25,
+						8.0
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						1.5,
+						8.0
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0.0,
+						1.25,
+						8.0
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						1.5,
+						8.0
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0,
+						1.25,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FixedStileE",
+			"from": [
+				13.75,
+				0,
+				4
+			],
+			"to": [
+				15,
+				14,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0.0,
+						1.25,
+						8.0
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						1.5,
+						8.0
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0.0,
+						1.25,
+						8.0
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0.0,
+						1.5,
+						8.0
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0,
+						1.25,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FixedRailT",
+			"from": [
+				2.25,
+				12.75,
+				4
+			],
+			"to": [
+				13.75,
+				14,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0.0,
+						11.5,
+						1.25
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0.0,
+						11.5,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0,
+						11.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						0,
+						11.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FixedPane",
+			"from": [
+				2.25,
+				0,
+				4.625
+			],
+			"to": [
+				13.75,
+				12.75,
+				4.875
+			],
+			"faces": {
+				"north": {
+					"texture": "#suburbglass-dark-p",
+					"uv": [
+						0.0,
+						0.0,
+						16.0,
+						8.0792
+					]
+				},
+				"south": {
+					"texture": "#suburbglass-dark-p",
+					"uv": [
+						0.0,
+						0.0,
+						16.0,
+						8.0792
+					]
+				}
+			}
+		}
+	]
+}

@@ -153,7 +153,7 @@ public sealed partial class WorldLayout
 
     private PlanCache<Tile[]> blockPlans;
 
-    private Tile[] BlockPlan(int bi, int bj) => (blockPlans ??= new PlanCache<Tile[]>(64, PlanBlock)).Get(bi, bj);
+    private Tile[] BlockPlan(int bi, int bj) => blockPlans.Get(bi, bj);
 
     private Tile[] PlanBlock(int bi, int bj)
     {
@@ -500,6 +500,25 @@ public sealed partial class WorldLayout
             for (int k = 0; k < 2; k++) { ref Tile s = ref f.At(u, v + k); s.Kind = TileKind.Doorway; }
         }
 
+        // From layout version 9 most ground floors are planned anew, with draws of their own (WorldLayout.Level11.Rooms.cs).
+        // The old plan is still laid first and taken up again, so the block's later draws, and every lot after this
+        // one, come out as they always have.
+        if (Version >= 9 && FitsOutV9(spec.Kind, f))
+        {
+            Rng own = rng;
+            own = new Rng(Hashing.Mix(own.NextULong() ^ SaltCityFitOut));
+            Tile[] before = SaveLot(f);
+            GroundFloor(f, spec, ref rng);
+            RestoreLot(f, before);
+            FitOutV9(f, spec, ref own);
+            return;
+        }
+        GroundFloor(f, spec, ref rng);
+    }
+
+    /// <summary>A ground floor as it was laid out up to layout version 8 (and still is for the kinds version 9 leaves alone).</summary>
+    private void GroundFloor(Frame f, Spec spec, ref Rng rng)
+    {
         switch (spec.Kind)
         {
             case CityKind.Office: OfficeLobby(f, ref rng); break;
@@ -644,7 +663,7 @@ public sealed partial class WorldLayout
         f.Prop(1, last, Props.Vending, ArchPier.East);
         f.Prop(mid + 3, 1, Props.TrashCan, ArchPier.North);
         // Stairs that climb into the ceiling and stop
-        if (f.W >= 10) Stairs(f, f.W - 3, last - 2);
+        if (f.W >= 10) Stairs(f, f.W - 3, last - 2, PublicStairWidth);
         if (rng.Chance(0.5)) f.Prop(2, last, Props.Cooler, ArchPier.North);
     }
 
@@ -681,8 +700,10 @@ public sealed partial class WorldLayout
         if (rng.Chance(0.5)) WallDecor(f, mid + 2, last + 1, Decor.MissingPoster);
         // The elevator is out of order; the basement door is not locked
         if (f.W >= 9) Elevators(f, last + 1, f.W - 4);
-        Door(f, mid - 2, last + 1);
-        Stairs(f, 1, Math.Max(1, last - 2));
+        // (From layout version 9 the stairs are two wide: the basement door moves along clear of their top)
+        int stairWidth = PublicStairWidth;
+        Door(f, stairWidth > 1 && mid - 2 <= stairWidth ? stairWidth + 1 : mid - 2, last + 1);
+        Stairs(f, 1, Math.Max(1, last - 2), stairWidth);
         f.Prop(f.W - 2, 1, Props.Radiator, ArchPier.West);
         if (rng.Chance(0.4)) f.Prop(mid, 2, Props.Bench, ArchPier.North);
     }
@@ -1051,9 +1072,35 @@ public sealed partial class WorldLayout
         t.Pier = f.P(ArchPier.North);
     }
 
-    /// <summary>Three steps up toward the back, ending at the ceiling: stairs that lead nowhere.</summary>
-    private static void Stairs(Frame f, int u, int v)
+    /// <summary>
+    /// Three steps up toward the back, ending at the ceiling: stairs that lead nowhere. From layout version 9 a lobby's
+    /// are two wide (<paramref name="width"/>, east of <paramref name="u"/>), whatever stood on the second column moved
+    /// out of the way; where that column is not floor, one wide as before.
+    /// </summary>
+    private static void Stairs(Frame f, int u, int v, int width = 1)
     {
+        if (width > 1)
+        {
+            bool clear = true;
+            for (int k = 1; k <= 3 && clear; k++)
+                for (int du = 0; du < width && clear; du++)
+                    clear = f.Inside(u + du, v + k - 1) && f.At(u + du, v + k - 1).Kind == TileKind.Floor
+                            && (du > 0 || f.At(u, v + k - 1).Variant == 0);
+            if (clear)
+            {
+                for (int k = 1; k <= 3; k++)
+                    for (int du = 0; du < width; du++)
+                    {
+                        ref Tile t = ref f.At(u + du, v + k - 1);
+                        t.Variant = 0;
+                        t.Stack = 0;
+                        t.SupplyBox = false;
+                        t.Stair = (byte)k;
+                        t.Pier = f.P(ArchPier.South);
+                    }
+                return;
+            }
+        }
         for (int k = 1; k <= 3; k++)
         {
             if (!f.Inside(u, v + k - 1)) return;
@@ -1376,8 +1423,11 @@ public sealed partial class WorldLayout
             t.Pipe = (byte)ax;
             if (station)
             {
-                // Stairs down to the platforms at both ends of the station, against the buildings on both sides
-                int step = sl is >= 1 and <= 5 ? sl : sl >= StationLength - 6 && sl <= StationLength - 2 ? StationLength - 1 - sl : 0;
+                // Stairs down to the platforms at both ends of the station, against the buildings on both sides (from
+                // layout version 9 six steps, the first level with the sidewalk; in 1-8 five, the first a block down,
+                // so the top of the flight was a block below the street: see CityStationStepRel)
+                int step = Version >= 9 ? (sl <= 5 ? sl + 1 : sl >= StationLength - 6 ? StationLength - sl : 0)
+                    : sl is >= 1 and <= 5 ? sl : sl >= StationLength - 6 && sl <= StationLength - 2 ? StationLength - 1 - sl : 0;
                 bool stairColumn = ax <= 1 || ax >= AveWidth - 2;
                 if (stairColumn && step > 0)
                 {
@@ -1396,6 +1446,10 @@ public sealed partial class WorldLayout
                 }
                 stationStairs = sl <= 8 || sl >= StationLength - 9;
             }
+            // (Layout version 9: nothing on the sidewalk in the two rows before the top of a flight, which in 1-8 a
+            // newsstand or a bin could stand in)
+            else if (Version >= 9 && (ax <= 1 || ax >= AveWidth - 2) && (sl >= StreetPitch * StationEvery - 2 || sl is StationLength or StationLength + 1))
+                stationStairs = true;
         }
 
         bool aveRoad = ave && ax >= 3 && ax <= 13, streetRoad = street && sz >= 3 && sz <= 11;

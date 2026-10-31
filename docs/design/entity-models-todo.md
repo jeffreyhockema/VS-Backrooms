@@ -18,7 +18,12 @@ entity without errors; movement and anything seen on screen still need a client.
 - [ ] **Facelings** look right now (body, clothes, hair, empty glasses lenses, hair ends cut ragged).
 - [ ] **A Faceling's head follows you** (client only). If it turns away from you instead, flip the sign in
       `FacelingHeadController.OnFrame`.
-- [ ] **Right-click a Faceling**: it waves, then turns and points, then nods. Children only wave.
+- [ ] **Right-click a Faceling**: it waves, then turns and points, then nods. Children only wave. (Since 0.514.0 a
+      task of its own, `backrooms-greet` in `AiTaskGreet.cs`: it must not turn or walk mid-greeting; the body should
+      face the gate `/backrooms facelingtest` names, the right arm along that bearing; chat names the direction.)
+- [ ] **Facelings wander the halls** (`backrooms-amble`, `AiTaskAmble.cs`): no walking into walls or standing pressed
+      against one, keeping to the middle of a corridor, turning on the spot before setting off, looking down the hall
+      at the end of a walk. `/backrooms entitylog on` logs each walk it picks.
 - [ ] **Hit a Faceling** in Level 4 or the city: the others near it come at you, even there.
 - [ ] **Stare at a stalking Hound** from under 12 blocks: it should stop, growl and back off, then come on after a
       few seconds.

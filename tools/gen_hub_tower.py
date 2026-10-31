@@ -340,7 +340,10 @@ def outpost():
              " north in the -north variant, so the foot is the block to its south)", groups=[("part", ["head", "foot"])],
              material="Cloth", sounds=CLOTH, box=(0.06, 0, 0, 0.94, 0.45, 1),
              extra={"drops": [{"type": "item", "code": "game:cloth-plain", "quantity": {"avg": 1, "var": 0.5}},
-                              {"type": "item", "code": "metalbracket", "quantity": {"avg": 0.5, "var": 0.5}}]})
+                              {"type": "item", "code": "metalbracket", "quantity": {"avg": 0.5, "var": 0.5}}],
+                    # (Needs: a bed. Head to the north in the -north variant, so the foot lies opposite the side code)
+                    "class": "BackroomsBed", "entityClassByType": {"*-head-*": "BackroomsBed"},
+                    "attributes": {"restQuality": 0.75, "bedFoot": "opposite"}})
 
 
 def generate():

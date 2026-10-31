@@ -56,13 +56,24 @@ public sealed partial class WorldLayout
         NearestTile(gx, gz, level, radius, t => t.Kind == TileKind.Pit || t.Under == Unders.Noclip || t.Under is >= Unders.Descent1 and <= Unders.Descent3
             || t.Kind == TileKind.Door && t.Pattern == WallPattern.Elevator || t.Stair > 0 && t.Under == 0 && t.Level is 1 or 4 or 5, skip: skip);
 
-    /// <summary>The nearest supply box or crate that nobody has opened yet (not counting any right beside you).</summary>
-    public (int X, int Z)? NearestCache(int gx, int gz, int level, int radius, Func<int, int, bool> skip = null) =>
-        NearestTile(gx, gz, level, radius, t => !t.Looted && (t.SupplyBox || IsCrate(t, t.Level)), min: 12, skip: skip);
+    /// <summary>
+    /// The nearest supply box or crate that nobody has opened yet (not counting any right beside you). Never the two boxes
+    /// by the spawn point: the layout cannot know a player opened them, and a note should not send them back to where they woke.
+    /// </summary>
+    public (int X, int Z)? NearestCache(int gx, int gz, int level, int radius, Func<int, int, bool> skip = null)
+    {
+        (int X, int Z)? spawn = level == 0 ? spawnPoint ??= FindSpawn() : null;
+        Func<int, int, bool> skipped = spawn is not { } s ? skip : (x, z) => Math.Abs(x - s.X) <= SpawnBoxReach && Math.Abs(z - s.Z) <= SpawnBoxReach || skip != null && skip(x, z);
+        return NearestTile(gx, gz, level, radius, t => !t.Looted && (t.SupplyBox || IsCrate(t, t.Level)), min: 12, skip: skipped);
+    }
+
+    /// <summary>How far from the spawn point its supply boxes lie (<c>PlaceSpawnBox</c>: two to three blocks), with some to spare.</summary>
+    private const int SpawnBoxReach = 4;
+    private (int X, int Z)? spawnPoint;
 
     /// <summary>
     /// The nearest refuge: the Manila Room, a Sanctum, the Beverly Room, the Snackrooms, a wanderer who trades, the
-    /// 9th Road. Decided cell by cell, so it is cheap to search far.
+    /// 9th Road. Decided cell by cell, so it is cheap to search far (Level 1, 4, 8 and 11 also ask <see cref="WandererSite"/>, which for Level 4 from layout version 5 builds the candidate cell's tiles).
     /// </summary>
     public (int X, int Z)? NearestRefuge(int gx, int gz, int level, int radius, Func<int, int, bool> skip = null)
     {
@@ -89,6 +100,10 @@ public sealed partial class WorldLayout
     /// <summary>The nearest manhole down into Level 3's flooded tunnels (where the clay is).</summary>
     public (int X, int Z)? NearestManhole(int gx, int gz, int radius, Func<int, int, bool> skip = null) =>
         NearestTile(gx, gz, 3, radius, t => t.Under == 2 && t.Kind != TileKind.Wall, skip: skip);
+
+    /// <summary>The buoy over the nearest sunken room in Level 7 (layout version 9), where its line goes down.</summary>
+    public (int X, int Z)? NearestSunkenRoom(int gx, int gz, int radius, Func<int, int, bool> skip = null) =>
+        Version < 9 ? null : NearestTile(gx, gz, 7, radius, t => t.Zone == L7ZoneLine, skip: skip);
 
     /// <summary>The nearest stretch of barn wall in Level 10 that isn't quite there (the way into the city).</summary>
     public (int X, int Z)? NearestBarnWall(int gx, int gz, int radius, Func<int, int, bool> skip = null) =>
@@ -191,6 +206,15 @@ public sealed partial class WorldLayout
         const int c = MacroSize / 2;
         // (Half the dens: the rest still have their caches, and a folded note may be in a box)
         if (DenAt(mx, mz) != DenKind.None && Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltNoteSpot + 1)) < 0.5) Near(c, c, "folded", 6);
+        // The story note of the first gate into a higher survival class (layout version 12; the note's key is note-gate-class in
+        // tools/gen_notes.py: it is the next folded note of the rare track, and a world without that story just gets a folded note)
+        if (Version >= 12 && level is 1 or 2 && FirstClassGate() is { } classGate)
+        {
+            int ox = MacroOf(classGate.X), oz = MacroOf(classGate.Z);
+            if ((mx, mz) == (ox, oz) && level == classGate.From || (mx, mz) == (ox - 1, oz) && LevelAt(mx, mz) == classGate.From && LevelAt(ox, oz) != classGate.From
+                || (mx, mz) == (ox, oz - 1) && LevelAt(mx, mz) == classGate.From && LevelAt(ox, oz) != classGate.From)
+                Near(classGate.X - mx * MacroSize, classGate.Z - mz * MacroSize, "folded", 8);
+        }
         switch (level)
         {
             case 0:
@@ -231,6 +255,39 @@ public sealed partial class WorldLayout
         return spots;
     }
 
+    private (int X, int Z, int From)? firstClassGate;
+    private bool firstClassGateKnown;
+
+    /// <summary>
+    /// The gate out of Level 1 or Level 2 into a level of a higher survival class (one that has a placard) nearest the spawn,
+    /// as its doorway and the level it leads out of; null if there is none within reach. The same for everyone in a world.
+    /// </summary>
+    public (int X, int Z, int From)? FirstClassGate()
+    {
+        lock (firstClassGateLock)
+        {
+            if (!firstClassGateKnown) { firstClassGate = FindFirstClassGate(); firstClassGateKnown = true; }
+            return firstClassGate;
+        }
+    }
+
+    private readonly object firstClassGateLock = new();
+
+    private (int X, int Z, int From)? FindFirstClassGate()
+    {
+        long best = long.MaxValue;
+        int sx = spawnMacroX * MacroSize, sz = spawnMacroZ * MacroSize;
+        (int, int, int)? found = null;
+        foreach (int from in new[] { 1, 2 })
+            foreach (var (x, z, to) in GatesNear(sx, sz, from, 6000))
+            {
+                if (PlacardKind(from, to) == null) continue;
+                long d = (long)(x - sx) * (x - sx) + (long)(z - sz) * (z - sz);
+                if (d < best) { best = d; found = (x, z, from); }
+            }
+        return found;
+    }
+
     private static bool FreeFloor(in Tile t) =>
         t.Kind == TileKind.Floor && t.Variant == 0 && t.Stack == 0 && !t.SupplyBox && t.Stair == 0 && t.Under == 0;
 
@@ -246,7 +303,7 @@ public sealed partial class WorldLayout
                     if (x < 1 || z < 1 || x >= MacroSize - 1 || z >= MacroSize - 1) continue;
                     if (!FreeFloor(tiles[TileIndex(x, z)])) continue;
                     bool doorway = false;
-                    foreach ((int ox, int oz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+                    foreach ((int ox, int oz) in Steps)
                         if (tiles[TileIndex(x + ox, z + oz)].Kind is TileKind.Door or TileKind.Doorway or TileKind.ArchDoor) doorway = true;
                     if (!doorway) return (x, z);
                 }

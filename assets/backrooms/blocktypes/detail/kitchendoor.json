@@ -19,10 +19,13 @@
 		]
 	},
 	"blockmaterial": "Metal",
-	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/detail/kitchendoor-{part}"
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/detail/kitchendoor-lower"
+		},
+		"*-upper": {
+			"base": "block/detail/kitchendoor-upper"
 		}
 	},
 	"lightAbsorption": 99,

@@ -1,0 +1,69 @@
+{
+	"code": "built-barnwall",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"red",
+				"grey"
+			]
+		}
+	],
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-red": {
+			"all": {
+				"base": "block/detail/barnwall-red",
+				"alternates": [
+					{
+						"base": "block/detail/barnwall-red-2"
+					},
+					{
+						"base": "block/detail/barnwall-red-3"
+					}
+				]
+			}
+		},
+		"*-grey": {
+			"all": {
+				"base": "block/detail/barnwall-grey",
+				"alternates": [
+					{
+						"base": "block/detail/barnwall-grey-2"
+					},
+					{
+						"base": "block/detail/barnwall-grey-3"
+					}
+				]
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"randomizeAxes": "xyz",
+	"drops": [
+		{
+			"type": "block",
+			"code": "built-barnwall-{kind}",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"creativeinventory": {
+		"construction": [
+			"*"
+		]
+	},
+	"attributes": {
+		"backroomsBuilt": true
+	}
+}

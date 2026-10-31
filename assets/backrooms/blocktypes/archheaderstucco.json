@@ -1,0 +1,33 @@
+{
+	code: "archheaderstucco",
+	// (Layout version 10 on) half of an arched opening in the arched areas' plain cream plaster; the same model and blocks as
+	// archheader's, with the stucco's own textures (its own code: the old block is untouched).
+	// Half of an arched opening. The model's low, thick end sits on the west side and is rotated to face the pier.
+	variantgroups: [
+		{ code: "pier", states: ["west", "east", "north", "south"] }
+	],
+	creativeinventory: { "general": ["*"], "construction": ["*"] },
+	blockmaterial: "Stone",
+	drawtype: "json",
+	textures: {
+		wall: { base: "block/wallpaper/stucco-plain", alternates: [{ base: "block/wallpaper/stucco-plain-2" }] },
+		soffit: { base: "block/wallpaper/stucco-soffit" }
+	},
+	shapeByType: {
+		"*-west": { base: "block/archheader", rotateY: 0 },
+		"*-east": { base: "block/archheader", rotateY: 180 },
+		"*-north": { base: "block/archheader", rotateY: 270 },
+		"*-south": { base: "block/archheader", rotateY: 90 }
+	},
+	sidesolid: { all: false },
+	sideopaque: { all: false },
+	lightAbsorption: 0,
+	resistance: 2.5,
+	drops: [{ type: "block", code: "wallpaper-stucco-upper" }],
+	sounds: {
+		walk: "game:walk/stone",
+		place: "game:block/planks",
+		break: "game:block/planks",
+		hit: "game:block/planks"
+	}
+}

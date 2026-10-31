@@ -19,10 +19,13 @@
 		]
 	},
 	"blockmaterial": "Metal",
-	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/detail/metaldoor-{part}"
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/detail/metaldoor-lower"
+		},
+		"*-upper": {
+			"base": "block/detail/metaldoor-upper"
 		}
 	},
 	"lightAbsorption": 99,
@@ -33,5 +36,13 @@
 		"place": "game:block/anvil1",
 		"break": "game:block/heavymetal-hit",
 		"hit": "game:block/heavymetal-hit"
-	}
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "locked"
+			}
+		}
+	]
 }

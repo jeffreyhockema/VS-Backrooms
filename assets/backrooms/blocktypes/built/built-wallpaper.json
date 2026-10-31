@@ -1,0 +1,123 @@
+{
+	"code": "built-wallpaper",
+	"variantgroups": [
+		{
+			"code": "pattern",
+			"states": [
+				"chevron",
+				"dotted",
+				"cream",
+				"manila",
+				"stripped",
+				"stucco"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"upper",
+				"baseboard"
+			]
+		}
+	],
+	"behaviors": [
+		{
+			"name": "BackroomsStrippable",
+			"properties": {
+				"result": "built-wallpaper-stripped-{part}",
+				"item": "wallpaperstrip",
+				"variant": "pattern",
+				"allowed": [
+					"chevron",
+					"dotted",
+					"cream",
+					"manila",
+					"red",
+					"stucco"
+				]
+			}
+		}
+	],
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"randomizeAxes": "xyz",
+	"texturesByType": {
+		"*-chevron-*": {
+			"all": {
+				"base": "block/wallpaper/{pattern}-{part}",
+				"alternates": [
+					{
+						"base": "block/wallpaper/{pattern}-{part}-2"
+					},
+					{
+						"base": "block/wallpaper/{pattern}-{part}"
+					},
+					{
+						"base": "block/wallpaper/{pattern}-{part}-2"
+					},
+					{
+						"base": "block/wallpaper/{pattern}-{part}-damp"
+					}
+				]
+			}
+		},
+		"*-stucco-*": {
+			"all": {
+				"base": "block/wallpaper/{pattern}-{part}",
+				"alternates": [
+					{
+						"base": "block/wallpaper/{pattern}-{part}-2"
+					},
+					{
+						"base": "block/wallpaper/{pattern}-{part}"
+					},
+					{
+						"base": "block/wallpaper/{pattern}-{part}-2"
+					},
+					{
+						"base": "block/wallpaper/{pattern}-{part}-damp"
+					}
+				]
+			}
+		},
+		"*": {
+			"all": {
+				"base": "block/wallpaper/{pattern}-{part}",
+				"alternates": [
+					{
+						"base": "block/wallpaper/{pattern}-{part}-2"
+					},
+					{
+						"base": "block/wallpaper/{pattern}-{part}-damp"
+					}
+				]
+			}
+		}
+	},
+	"resistance": 2.5,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"drops": [
+		{
+			"type": "block",
+			"code": "built-wallpaper-{pattern}-{part}",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"creativeinventory": {
+		"construction": [
+			"*"
+		]
+	},
+	"attributes": {
+		"backroomsBuilt": true
+	}
+}

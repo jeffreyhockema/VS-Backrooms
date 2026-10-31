@@ -3,7 +3,8 @@
 	"textureHeight": 16,
 	"textures": {
 		"exitdoor-back": "backrooms:block/run/exitdoor-back",
-		"markeddoor-upper": "backrooms:block/run/markeddoor-upper",
+		"returndoor-upper": "backrooms:block/run/returndoor-upper",
+		"returnplacard": "backrooms:block/run/returnplacard",
 		"steelframe": "backrooms:block/run/steelframe"
 	},
 	"elements": [
@@ -228,7 +229,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#markeddoor-upper",
+					"texture": "#returndoor-upper",
 					"uv": [
 						0,
 						0,
@@ -294,6 +295,90 @@
 						0,
 						16,
 						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Placard",
+			"from": [
+				1,
+				6,
+				12.4
+			],
+			"to": [
+				15,
+				13.5,
+				13.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#returnplacard",
+					"uv": [
+						0,
+						0,
+						14,
+						7.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PlacardEdge",
+			"from": [
+				1,
+				6,
+				12.4
+			],
+			"to": [
+				15,
+				13.5,
+				13.0
+			],
+			"faces": {
+				"south": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						14,
+						7.5
+					]
+				},
+				"east": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						7.5
+					]
+				},
+				"west": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						0.5999999999999996,
+						7.5
+					]
+				},
+				"up": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5999999999999996
+					]
+				},
+				"down": {
+					"texture": "#steelframe",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5999999999999996
 					]
 				}
 			}

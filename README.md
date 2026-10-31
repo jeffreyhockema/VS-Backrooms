@@ -4,26 +4,41 @@ A [Vintage Story](https://www.vintagestory.at/) mod. **Wake up in the Backrooms 
 
 ![Level 0, where you wake](docs/screenshots/01-level0-where-you-wake.png)
 
-You start in Level 0, an endless, procedurally generated labyrinth of mono-yellow rooms under buzzing fluorescent lights, with a folded note in your pocket and two supply boxes beside you. Walk far enough and it gives way to deeper levels, one after another: the concrete car park of Level 1, the pipe tunnels of Level 2, the Electrical Station, the Abandoned Office, the Terror Hotel, the lightless maze of Level 6, the endless sea of Level 7, the caves of Level 8, the night-time Suburbs and the farmland of Level 10. Further still, reached only by noclipping, lie the Endless City, the Poolrooms, Motion, Level !, Level Fun =), The End, The Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows.
+You start in Level 0, an endless, procedurally generated labyrinth of mono-yellow rooms under buzzing fluorescent lights, with a folded note in your pocket and two supply boxes beside you. Walk far enough and it gives way to deeper levels, one after another: the concrete car park of Level 1, the pipe tunnels of Level 2, the Electrical Station, the Abandoned Office, the Terror Hotel, the lightless maze of Level 6, the endless sea of Level 7, the caves of Level 8, the night-time Suburbs and the farmland of Level 10. Further still, reached by the ways between levels and no wall, lie the Endless City, the Poolrooms, Motion, Level !, Level Fun =), The End, The Hub, Kitty's House, the Neon Paradise and the Courtyard of Windows.
 
-It is a complete survival game built on Vintage Story's own systems. Hunger, temporal stability, knapping, pottery, smelting, farming and animal husbandry all still work; what changes is where everything comes from. You start by cutting a blade from a glass shard, and you end up with a lit home in Level 0, crops under the ceiling lights, copper from the pipes, iron from the caves, and a map of the ways between levels that you drew yourself.
+It is a complete survival game built on Vintage Story's own systems. Hunger, thirst, sleep, temporal stability, knapping, pottery, smelting, farming and animal husbandry all still work; what changes is where everything comes from. You start by cutting a blade from a glass shard, and you end up with a lit home in Level 0, crops under the ceiling lights, copper from the pipes, iron from the caves, and a map of the ways between levels that you drew yourself.
 
 ## Features
 
 - **Twenty-two levels**: Levels 0 to 11, the Snackrooms, Level 37, Level 94 and seven far places, each built to follow the Backrooms lore.
 - **More than seventy kinds of threshold** between them: elevators, stairwells, pits, pools, vents, windows, barn walls that aren't quite there. Every one always leads to the same place, so you can build a travel network from what you find.
 - **Scavenger survival**: salvage furniture, lights and the building itself, then follow Vintage Story's normal path of flint, fire, pottery, copper and bronze with materials found level by level.
-- **Level 0 is home**: you only ever wake up there, so everything a base needs has to be brought back.
+- **A climb by class**: each level has a class, from 1 to 5, and a placard by every gate into a higher one says what lies past it. From Level 3 on, what lives there outruns a sprint, so armour, fire and what you carry decide the climb.
+- **Home is where you last slept**: you wake in the last bed you slept in, or else in Level 0, so everything a base needs has to be brought back.
 - **Creatures with their own behaviour**, from Smilers and Hounds to the Mangled. They're heard and glimpsed far more than fought, and each one has a counter you can learn.
+- **Thirst and sleep**: a water bar and a Rest bar, beds of every kind, bottles and boiling, Blue and Green Almond Water. Death leaves a body where you fell, holding what you carried, for as long as it takes.
+- **People with sites**: wanderers keep to the crate-pickers' camp, the Level 4 outpost, the 9th Road, the city, The End, the Hub and Level 3999, each selling what its place has, for rusty gears.
 - **A map that only shows what you have seen**, and remembers it.
 - **Wanderers' notes and a journal**, a handbook rewritten for the Backrooms, and a First Steps tutorial.
-- **World settings** for creature activity, resource scarcity and the map, down to no map at all.
+- **World settings** for creature activity, resource scarcity, the map (down to no map at all) and the size of the levels.
+
+### Levels and classes
+
+| Class | Levels |
+| --- | --- |
+| 1 | 0, 1, 4, 10 |
+| 2 | 5, 11 |
+| 3 | 2, 94 |
+| 4 | 3, 7, 8 |
+| 5 | 9 |
+
+Level 6 is not classed yet. Food and Almond Water thin out from Class 3 down, a minute at zero stability blacks you out from any cause, and ways down to a higher level are rarer than they were. The handbook's *Reality Stability* and *What Lives Here* have the rest.
 
 ## Installing
 
 1. Requires **Vintage Story 1.22** or later.
 2. Download the mod from [its page on the Vintage Story mod database](https://mods.vintagestory.at/show/mod/73380), or build it yourself (see below). Put the zip in your `Mods` folder without unpacking it.
-3. Create a new world and pick the **Backrooms: Survival Story** playstyle. Under *Survival challenges* you can set **Backrooms entities** (Off, Low, Normal, High), **Backrooms scarcity** (Plentiful, Normal, Sparse, Scarce) and **Backrooms map** (Seen areas, Seen areas with no waypoints, None).
+3. Create a new world and pick the **Backrooms: Survival Story** playstyle. Under *Survival challenges* you can set **Backrooms entities** (Off, Very low, Low, Normal, High, Very high), **Backrooms scarcity** (Plentiful, Normal, Sparse, Scarce), **Backrooms map** (Seen areas, Seen areas with no waypoints, None), and **Thirst** and **Fatigue** (both on by default, so you need water and sleep). Under *World generation* there is also **Backrooms level size** (50% to 200%, how wide the rings of levels are).
 
 The mod only affects worlds created with its playstyle. Your other worlds are untouched.
 

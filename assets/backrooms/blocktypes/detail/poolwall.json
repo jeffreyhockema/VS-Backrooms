@@ -1,4 +1,4 @@
-// Level 37: tile walls with a slit of glare, a glowing arch, or a handrail, on one face
+// Level 37: tile walls with a slit of glare, a tiled archway (an opening onto light), or a handrail, on one face
 {
 	"code": "poolwall",
 	"variantgroups": [
@@ -7,6 +7,7 @@
 			"states": [
 				"slit",
 				"arch",
+				"archtop",
 				"rail"
 			]
 		},
@@ -63,6 +64,22 @@
 			"base": "block/detail/poolwall-arch",
 			"rotateY": 90
 		},
+		"*-archtop-north": {
+			"base": "block/detail/poolwall-archtop",
+			"rotateY": 0
+		},
+		"*-archtop-east": {
+			"base": "block/detail/poolwall-archtop",
+			"rotateY": 270
+		},
+		"*-archtop-south": {
+			"base": "block/detail/poolwall-archtop",
+			"rotateY": 180
+		},
+		"*-archtop-west": {
+			"base": "block/detail/poolwall-archtop",
+			"rotateY": 90
+		},
 		"*-rail-north": {
 			"base": "block/detail/poolwall-rail",
 			"rotateY": 0
@@ -98,11 +115,17 @@
 			8,
 			0,
 			17
+		],
+		"*-archtop-*": [
+			8,
+			0,
+			17
 		]
 	},
 	"lightAbsorptionByType": {
 		"*-slit-*": 0,
 		"*-arch-*": 0,
+		"*-archtop-*": 0,
 		"*": 99
 	}
 }

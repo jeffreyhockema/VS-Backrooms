@@ -1,0 +1,53 @@
+{
+	"code": "built-hotelwood",
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/level5/hotelwood",
+			"alternates": [
+				{
+					"base": "block/level5/hotelwood-2"
+				},
+				{
+					"base": "block/level5/hotelwood-3"
+				},
+				{
+					"base": "block/level5/hotelwood"
+				},
+				{
+					"base": "block/level5/hotelwood-4"
+				},
+				{
+					"base": "block/level5/hotelwood-5"
+				}
+			]
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"drops": [
+		{
+			"type": "block",
+			"code": "built-hotelwood",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"creativeinventory": {
+		"construction": [
+			"*"
+		]
+	},
+	"attributes": {
+		"backroomsBuilt": true
+	}
+}

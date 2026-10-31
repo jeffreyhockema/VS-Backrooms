@@ -460,8 +460,8 @@
 		]
 	},
 	"renderpassByType": {
-		"*-pallet-*": "Transparent",
-		"*-ladderwrapped-*": "Transparent"
+		"*-pallet-*": "OpaqueNoCull",
+		"*-ladderwrapped-*": "OpaqueNoCull"
 	},
 	"dropsByType": {
 		"*-pallet-*": [

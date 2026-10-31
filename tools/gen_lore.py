@@ -4,14 +4,16 @@ Called from gen_detail.py, which writes them out along with everything else (pyt
 
 (Level 0's red wallpaper and red lamp are wallpaper and light variants, so their textures are in gen_textures.py.)
 """
+import math
 import random
 
 from PIL import Image, ImageDraw
 
-from detail_kit import GLASS, LANG, METAL, STONE, WOOD, Decor, block, bx, name, prop, shape, turn, wall_family
+from detail_kit import EXT, GLASS, LANG, METAL, STONE, WOOD, Decor, block, bx, name, prop, shape, turn, wall_family
 from detail_textures import S, enamel_plaque, noise, rgb, save, text
 import matlib as M
 import modelkit as K
+import l1props as L1
 from gen_deep import door_block, drops, threshold
 from gen_detail import carton, cube_block, plate, rivets
 import fire_fx
@@ -107,6 +109,29 @@ def tunnel_door_shape(part):
     return shape(f"tunneldoor-{part}", els)
 
 
+def trolley_textures():
+    """(Level 2 art) The flatbed trolley's materials: faded ochre paint on the stake pockets and handle, bare rusty steel
+    for the chassis, two weathered deck boards, and a worn tyre. Each shows rust, grime or runs; the model's faces show
+    a texture from its corner, so nothing is tied to its edges."""
+    def steel(key, base, rust, mean):
+        im = M.painted_metal(seed_of(key), base=base, grain=3, mottle=6, panel=False, chips=5, under=(96, 78, 62))
+        M.rust(im, rust, seed_of(key + "rust"), color=(142, 74, 38), dark=(86, 46, 30))
+        M.grime(im, 0.22, seed_of(key + "grime"), cover=0.55)
+        M.drips(im, 4, seed_of(key + "runs"), color=(110, 62, 36), length=(6, 16), strength=0.35)
+        return T.match_mean(im, mean)
+    save(steel("trolleypaint", (168, 138, 66), 0.16, 104), "trolleypaint")
+    save(steel("trolleyrust", (84, 66, 52), 0.5, 66), "trolleyrust")
+    for k, base, mean in (("", (150, 112, 70), 96), ("2", (128, 94, 60), 84)):
+        im = M.wood_planks(seed_of("trolleyplank" + k), base=base, planks=[S], direction="v", grain=4, contrast=1.1,
+                           flecks=1.2, per_plank=4)
+        M.grime(im, 0.3, seed_of("trolleyplankgrime" + k), color=(48, 40, 30), cover=0.6)
+        M.stain(im, seed_of("trolleyplankstain" + k), radius=7, color=(60, 48, 34), strength=0.3)
+        save(T.match_mean(im, mean), "trolleyplank" + k)
+    im = M.rubber(seed_of("trolleytyre"), base=(52, 50, 50), grain=3, mottle=5)
+    M.grime(im, 0.25, seed_of("trolleytyregrime"), color=(86, 80, 70), cover=0.5)
+    save(im, "trolleytyre")
+
+
 def tram_textures():
     """Level 2's tramway (layout version 5): rusted rail, the B.N.T.G.'s locomotive in faded green with a yellow band
     and its initials, its grimy cab glass and grilles; the candle stubs a den's visitors left.
@@ -165,11 +190,6 @@ def tram_textures():
             d = ((x - 7.5) ** 2 + (y - 7.5) ** 2) ** 0.5 / 7.5
             M.touch(lens, x, y, 0.12 - 0.4 * d * d + (0.3 if (x - 5) ** 2 + (y - 5) ** 2 < 4 else 0))
     save(lens, "tramlens")
-    grille = noise(0x3E5A44, 4, "tramgrille")
-    d = ImageDraw.Draw(grille)
-    for y in range(3, S - 2, 4):
-        d.rectangle([3, y, S - 4, y + 1], fill=rgb(0x14181A))
-    save(grille, "tramgrille")
     # (B5) tallow, yellowed: a soft mottle with faint runs down it and a darker skin where it has been handled
     wax = M.noise_hv((228, 216, 186), 2, seed_of("candlewax"), mottle=5)
     M.drips(wax, 5, seed_of("candleruns"), color=(206, 190, 150), length=(8, 20), strength=0.3)
@@ -185,16 +205,6 @@ def textures():
     M.scratches(steel, 6, seed_of("doorsteelscratch"))
     M.grime(steel, 0.2, seed_of("doorsteelgrime"), cover=0.5)
     save(steel, "doorsteel")
-
-    # A dead security camera's housing, and its lens
-    img = noise(0xD8D6CC, 3, "camerabody")
-    T.blotch(img, (20, 24), 8, (120, 116, 100), 0.35, seed_of("camgrime"))
-    save(img, "camerabody")
-    img = Image.new("RGBA", (S, S), rgb(0x16181A))
-    d = ImageDraw.Draw(img)
-    d.ellipse([5, 5, 26, 26], fill=rgb(0x08090A), outline=rgb(0x3A3E42), width=2)
-    d.ellipse([10, 9, 15, 14], fill=rgb(0x4A5560))
-    save(img, "cameralens")
 
     # Traffic signs
     img = Image.new("RGBA", (S, S), rgb(0x141414))
@@ -228,70 +238,14 @@ def textures():
     # floor; dithered at its edges so the rock shows through), the milky water, the cream crust it lays down at
     # its source, and the pool it gathers in
     save(noise(0x55504A, 9, "seeprock"), "almondseep")
-    rng = random.Random(seed_of("seep"))
-    for name, top, bottom, start in (("seepstain", 2.0, 8.5, 6), ("seepstainlow", 8.5, 11.0, 0)):
-        img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-        px = img.load()
-        for y in range(start, S):
-            hw = top + (bottom - top) * (y - start) / (S - 1 - start)
-            if name == "seepstainlow" and y >= S - 6:
-                hw += (y - (S - 7)) * 0.9  # spreading out where it meets the floor
-            for x in range(S):
-                d = abs(x - 15.5 - 1.2 * ((y // 7) % 2)) / hw
-                if d < 0.6 or (d < 1.15 and rng.random() < 1.15 - d):
-                    v = rng.randint(-5, 5)
-                    px[x, y] = (38 + v, 35 + v, 31 + v, 255)
-        if name == "seepstain":
-            for y in range(3, 7):
-                for x in range(14, 18):
-                    px[x, y] = (18, 16, 14, 255)  # the crack it comes out of
-        for x0 in (14, 17):
-            x = x0
-            for y in range(start + 1, S):
-                x += rng.choice((-1, 0, 0, 0, 1)) if y % 5 == 0 else 0
-                if rng.random() < 0.7:
-                    px[x, y] = (150, 144, 122, 255)  # a milky film
-        save(img, name)
-    img = noise(0xD8D2B8, 6, "seepwater")
-    ImageDraw.Draw(img).line([1, 0, 1, S - 1], fill=rgb(0xF4F0E0))
-    save(img, "seepwater")
-    img = noise(0xC8BC98, 8, "seepcrust")
-    T.blotch(img, (16, 16), 12, (226, 218, 190), 0.5, seed_of("seepcrust"))
-    save(img, "seepcrust")
-    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    px = img.load()
-    for y in range(S):
-        for x in range(S):
-            d = (((x - 15.5) / 15.5) ** 2 + ((y - 15.5) / 15.5) ** 2) ** 0.5 + rng.uniform(-0.12, 0.12)
-            if d < 1:
-                v = rng.randint(-6, 6)
-                px[x, y] = (200 + v, 194 + v, 168 + v, 255) if d < 0.75 else (120 + v, 114 + v, 96 + v, 255)
-    for x, y in ((12, 13), (18, 17), (15, 20)):
-        px[x, y] = (244, 240, 224, 255)  # glints where the drips land
-    save(img, "seeppool")
+    seep_textures()
 
-    # Pieces of a machine: a gear seen from above
-    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    for k in range(8):
-        import math
-        a = k * math.pi / 4
-        cx, cy = 15.5 + 12 * math.cos(a), 15.5 + 12 * math.sin(a)
-        d.rectangle([cx - 3, cy - 3, cx + 3, cy + 3], fill=rgb(0x6E5038))
-    d.ellipse([4, 4, 27, 27], fill=rgb(0x7A5A3E))
-    d.ellipse([11, 11, 20, 20], fill=(0, 0, 0, 0))
-    T.blotch(img, (10, 20), 6, (90, 56, 30), 0.5, seed_of("gear"))
-    save(img, "gearflat")
 
 
 # ======================= Blocks and props =======================
 
 def level1():
-    camera = [bx("Mount", (6.5, 10, -1.5), (9.5, 13, 0), "blackmetal"),
-              bx("Arm", (7.5, 8.5, -4), (8.5, 11, -1.5), "blackmetal"),
-              bx("Body", (6, 5, -10), (10, 8.5, -3), "camerabody", faces=("east", "west", "up", "down", "south")),
-              bx("Lens", (6, 5, -10), (10, 8.5, -3), "cameralens", faces=("north",), full=True),
-              bx("Hood", (5.5, 8.5, -11), (10.5, 9.2, -3), "camerabody")]
+    camera = L1.camera()  # (Level 1 props) modelled in tools/l1props.py
     for family, english, walls in (("concretecam", "Concrete Wall", {1: "concretewall"}), ("whitecam", "Painted Block Wall", {1: "whiteblock"})):
         wall_family(family, english, walls, [Decor("camera", "Security Camera", {3: camera})],
                     comment="A security camera high on the wall. It has not worked in a long time, if it ever did")
@@ -305,6 +259,65 @@ def level1():
          box=(0.42, 0, 0.42, 0.58, 2, 0.58), material="Metal", sounds=METAL,
          extra={"drops": drops(("metalbracket", 1.5, 0.5))},
          comment="A traffic sign in Level 1's car park. They point at walls and dead ends as often as not")
+
+
+def trolley_parts():
+    """(Level 2 art) The flatbed trolley as geometry, front to the north: two steel channels with cross members and the
+    axles under them, five deck boards with gaps (one split and sagging), stake pockets along both sides with one bent
+    stake still in its pocket, a tow ring at the front, rubber tyres on hubs, and a push handle at the back (two
+    uprights in sockets, a lower bar and a grip). Footprint and collision as before; the top of the deck is at 5.5."""
+    els = []
+    # chassis: channels (web and inward lip), cross members, tow ring
+    for nm, x1, x2, lx1, lx2 in (("L", 1.2, 2.4, 2.4, 3.4), ("R", 13.6, 14.8, 12.6, 13.6)):
+        els += [bx(f"Channel{nm}", (x1, 3.0, 0.4), (x2, 4.2, 15.6), "trolleyrust"),
+                bx(f"Lip{nm}", (lx1, 3.0, 0.4), (lx2, 3.5, 15.6), "trolleyrust", faces=("north", "south", "up", "down", "east", "west"))]
+    for i, z in enumerate((1.5, 7.0, 13.0)):
+        els.append(bx(f"Cross{i}", (3.4, 3.4, z), (12.6, 4.2, z + 1.2), "trolleyrust", faces=("north", "south", "down")))
+    els += [bx("TowPlate", (6.5, 3.2, 0.2), (9.5, 4.2, 1.6), "trolleyrust"),
+            bx("TowRingL", (6.7, 3.4, 0.05), (7.5, 4.0, 1.0), "trolleypaint", faces=("north", "east", "up")),
+            bx("TowRingR", (8.5, 3.4, 0.05), (9.3, 4.0, 1.0), "trolleypaint", faces=("north", "west", "up")),
+            bx("TowRingBar", (7.5, 3.4, 0.05), (8.5, 4.0, 0.6), "trolleypaint", faces=("north", "up"))]
+    # deck boards along Z with gaps, uneven wear
+    for i in range(5):
+        x1 = 1.4 + i * 2.7
+        key = "trolleyplank" if i % 2 == 0 else "trolleyplank2"
+        top = (4.2, 5.5)
+        if i == 2:  # split across the middle: the rear half sags
+            els += [bx("PlankSplitF", (x1, 4.2, 0.2), (x1 + 2.4, 5.5, 7.6), key, faces=("north", "east", "west", "up", "south")),
+                    bx("PlankSplitR", (x1, 4.2, 8.5), (x1 + 2.4, 5.3, 15.8), key, faces=("south", "east", "west", "up", "north"),
+                       rot=(-2.5, 0, 0), origin=(x1 + 1.2, 5.0, 15.8))]
+            continue
+        z1 = 0.9 if i == 4 else 0.2  # one board worn short at the front
+        els.append(bx(f"Plank{i}", (x1, top[0], z1), (x1 + 2.4, top[1], 15.8), key, faces=("north", "east", "west", "up", "south")))
+    # stake pockets (sockets with a dark mouth) on both sides, a bent stake in one
+    for nm, x1, x2 in (("L", 0.3, 1.4), ("R", 14.6, 15.7)):
+        for j, z in enumerate((5.6, 9.0)):
+            els += [bx(f"Pocket{nm}{j}", (x1, 3.4, z), (x2, 6.1, z + 1.5), "trolleypaint", faces=("north", "south", "east", "west", "down")),
+                    bx(f"PocketTop{nm}{j}", (x1, 6.1, z), (x2, 6.2, z + 1.5), "trolleypaint", faces=("up",)),
+                    bx(f"PocketMouth{nm}{j}", (x1 + 0.3, 6.12, z + 0.3), (x2 - 0.3, 6.25, z + 1.2), "blackmetal", faces=("up",))]
+    els += [bx("Stake", (0.55, 6.2, 5.9), (1.15, 15.2, 6.5), "trolleypaint", rot=(0, 0, 9), origin=(0.85, 6.2, 6.2)),
+            bx("StakeCap", (0.5, 15.0, 5.85), (1.2, 15.6, 6.55), "trolleyrust", rot=(0, 0, 9), origin=(0.85, 6.2, 6.2))]
+    # axles with their hangers, and four wheels (a square plus the square turned 45 degrees, so it reads round)
+    for z in (3.2, 12.8):
+        els += [bx(f"Axle{z}", (0.6, 1.8, z - 0.4), (15.4, 2.6, z + 0.4), "trolleyrust", faces=("north", "south", "up", "down")),
+                bx(f"Hanger{z}L", (1.6, 2.6, z - 0.7), (2.6, 3.0, z + 0.7), "trolleyrust", faces=("north", "south", "east", "west")),
+                bx(f"Hanger{z}R", (13.4, 2.6, z - 0.7), (14.4, 3.0, z + 0.7), "trolleyrust", faces=("north", "south", "east", "west"))]
+        for nm, x1, x2, side in (("L", 0.4, 1.6, "west"), ("R", 14.4, 15.6, "east")):
+            xm = (x1 + x2) / 2
+            els += [bx(f"Tyre{z}{nm}", (x1, 0, z - 2.2), (x2, 4.4, z + 2.2), "trolleytyre"),
+                    bx(f"Tyre{z}{nm}45", (x1 + 0.05, 0, z - 2.2), (x2 - 0.05, 4.4, z + 2.2), "trolleytyre",
+                       faces=("north", "south", "up", "down", side), rot=(45, 0, 0), origin=(xm, 2.2, z)),
+                    bx(f"Hub{z}{nm}", (x1 - 0.2 if nm == "L" else x2, 1.3, z - 0.9), (x1 if nm == "L" else x2 + 0.2, 3.1, z + 0.9),
+                       "steel", faces=("north", "south", "up", "down", side))]
+    # the push handle at the back: sockets, uprights, a lower bar, a grip
+    for nm, x1 in (("L", 1.8), ("R", 12.8)):
+        els += [bx(f"Socket{nm}", (x1 - 0.3, 5.5, 14.0), (x1 + 1.3, 7.2, 15.7), "trolleypaint", faces=("north", "south", "east", "west", "up")),
+                bx(f"Upright{nm}", (x1, 7.2, 14.4), (x1 + 1.0, 20.2, 15.4), "trolleypaint")]
+    els += [bx("LowerBar", (2.8, 10.5, 14.5), (12.8, 11.3, 15.3), "trolleyrust", faces=("north", "south", "up", "down")),
+            bx("Grip", (3.6, 19.8, 14.0), (12.0, 21.2, 15.8), "trolleytyre"),
+            bx("GripCapL", (1.8, 19.9, 14.3), (3.6, 21.1, 15.5), "trolleypaint"),
+            bx("GripCapR", (12.0, 19.9, 14.3), (13.8, 21.1, 15.5), "trolleypaint")]
+    return els
 
 
 def level2():
@@ -333,12 +346,7 @@ def level2():
         "A steel door off one of Level 2's tunnels, painted white, grey or cream. Most are locked. A few open, onto another level")
     name("tunneldoorpaint-*", "Steel Door")
     tramway()
-    prop("trolley", "Flatbed Trolley", [
-        bx("Deck", (1, 4, 0.5), (15, 5.5, 15.5), "palletwood"), bx("Frame", (0.5, 3, 0), (15.5, 4, 16), "steeldark"),
-        bx("W1", (1, 0, 1.5), (3, 3, 4.5), "rubber"), bx("W2", (13, 0, 1.5), (15, 3, 4.5), "rubber"),
-        bx("W3", (1, 0, 11.5), (3, 3, 14.5), "rubber"), bx("W4", (13, 0, 11.5), (15, 3, 14.5), "rubber"),
-        bx("HandleL", (1.5, 5.5, 14.5), (2.5, 21, 15.5), "steel"), bx("HandleR", (13.5, 5.5, 14.5), (14.5, 21, 15.5), "steel"),
-        bx("Bar", (1.5, 20, 14.5), (14.5, 21, 15.5), "steel")],
+    prop("trolley", "Flatbed Trolley", trolley_parts(),
          box=(0.03, 0, 0, 0.97, 0.38, 1), material="Metal", sounds=METAL,
          extra={"drops": drops(("game:plank-aged", 1.5, 0.5), ("metalbracket", 1.5, 0.5))},
          comment="A flatbed trolley left in a tunnel")
@@ -537,6 +545,76 @@ SEEP_ROCKS = ("granite", "limestone", "andesite", "shale", "basalt", "sandstone"
               "halite")
 
 
+def seep_textures():
+    """(deep props) Almond Water seeping down a rock face. The wet stain is darker, bluer stone with glossy highlights
+    along the runs and a fringe of pale mineral (calcite) at its edges, dithered at the very edge so the rock shows
+    through (the cutout pass has no half-alpha); the water is a milky film with a bright core and a lit edge; the crust
+    is flowstone in layers; the pool is a milky basin of water with ripple rings and a wet rim."""
+    rng = random.Random(seed_of("seep"))
+    wet = (34, 36, 38)
+    for name, top, bottom, start in (("seepstain", 2.4, 9.0, 6), ("seepstainlow", 9.0, 11.5, 0)):
+        img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+        px = img.load()
+        for y in range(start, S):
+            hw = top + (bottom - top) * (y - start) / (S - 1 - start)
+            if name == "seepstainlow" and y >= S - 6:
+                hw += (y - (S - 7)) * 0.9  # spreading out where it meets the floor
+            for x in range(S):
+                d = abs(x - 15.5 - 1.2 * ((y // 7) % 2) - 0.8 * math.sin(y * 0.55)) / hw
+                if d < 0.62 or (d < 1.1 and rng.random() < (1.1 - d) * 1.6):
+                    v = rng.randint(-4, 4) + (3 if (x * 5 + y * 3) % 11 == 0 else 0)
+                    px[x, y] = (wet[0] + v, wet[1] + v, wet[2] + v + 2, 255)
+                    if d > 0.4 and rng.random() < 0.18:
+                        px[x, y] = (24, 26, 28, 255)  # a deeper, wetter pit
+                elif d < 1.5 and rng.random() < 0.13 * (1.5 - d):
+                    c = rng.choice(((178, 166, 132), (156, 144, 112), (198, 188, 156)))
+                    px[x, y] = (c[0], c[1], c[2], 255)  # calcite speckle past the wet edge
+        if name == "seepstain":
+            for y in range(3, 7):
+                for x in range(14, 18):
+                    px[x, y] = (16, 14, 12, 255)  # the crack it comes out of
+            for x in (13, 18):
+                px[x, 4] = (170, 160, 128, 255)
+        for x0 in (14, 17):  # the glossy runs: a bright 1 px line that wanders, broken
+            x = x0
+            for y in range(start + 1, S):
+                x += rng.choice((-1, 0, 0, 0, 1)) if y % 5 == 0 else 0
+                if rng.random() < 0.72:
+                    px[x, y] = (176, 186, 190, 255) if rng.random() < 0.45 else (128, 138, 142, 255)
+        save(img, name)
+    img = noise(0xC4CCD0, 4, "seepwater")
+    d = ImageDraw.Draw(img)
+    d.line([1, 0, 1, S - 1], fill=rgb(0xF6F8FA))
+    d.line([0, 0, 0, S - 1], fill=rgb(0x9AA6AC))
+    d.line([2, 0, 2, S - 1], fill=rgb(0xA8B4BA))
+    for y in range(2, S, 9):
+        d.point((1, y), fill=(255, 255, 255, 255))
+    save(img, "seepwater")
+    img = noise(0xC8BC98, 8, "seepcrust")
+    for y in range(3, S, 5):  # flowstone grows in layers
+        ImageDraw.Draw(img).line([0, y, S - 1, y + 1 if y % 10 == 3 else y], fill=rgb(0xA89C78))
+        ImageDraw.Draw(img).line([0, y + 1, S - 1, y + 1 if y % 10 == 3 else y + 1], fill=rgb(0xE6DEC0))
+    T.blotch(img, (16, 16), 12, (226, 218, 190), 0.4, seed_of("seepcrust"))
+    save(img, "seepcrust")
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            dd = (((x - 15.5) / 15.5) ** 2 + ((y - 15.5) / 15.5) ** 2) ** 0.5 + rng.uniform(-0.1, 0.1)
+            if dd < 1:
+                v = rng.randint(-5, 5)
+                px[x, y] = (178 + v, 190 + v, 192 + v, 255) if dd < 0.8 else (108 + v, 112 + v, 108 + v, 255)
+    for r in (0.28, 0.5, 0.7):  # ripple rings round where the drips land
+        for k in range(48):
+            a = k / 48 * 2 * math.pi
+            x, y = int(15.5 + 15.5 * r * math.cos(a)), int(15.5 + 15.5 * r * math.sin(a))
+            if px[x, y][3]:
+                px[x, y] = (222, 232, 234, 255)
+    for x, y in ((12, 13), (18, 17), (15, 20)):
+        px[x, y] = (250, 252, 252, 255)
+    save(img, "seeppool")
+
+
 def level8():
     # Almond Water seeping out of the rock: a rock cube (the host's own rock) with a crust of deposit where it comes out
     # of a crack, two milky trickles running down this face and the one below over a dark wet stain, and a pool on the
@@ -545,16 +623,30 @@ def level8():
             bx("StainLow", (0, -16, -0.12), (16, 0, -0.1), "seepstainlow", faces=("north",), full=True),
             bx("Crust", (6.2, 12.6, -0.7), (10.2, 14.2, 0), "seepcrust", faces=("north", "east", "west", "up", "down")),
             bx("Crust2", (7, 11.6, -0.4), (9.4, 12.6, 0), "seepcrust", faces=("north", "east", "west", "down")),
-            bx("Pool", (3.5, -15.85, -5), (12.5, -15.7, -0.1), "seeppool", faces=("up",), full=True, glow=20)]
-    for i, (x, y1, y2) in enumerate(((7.4, 6, 11.6), (7.9, -4, 6), (7.5, -15.9, -4), (8.9, 0.5, 11.6), (9.2, -15.9, 0.5))):
+            bx("Drape", (7.3, 9.4, -0.3), (9.1, 11.6, -0.12), "seepcrust", faces=("north", "east", "west", "down")),
+            bx("Drip1", (7.7, 8.7, -0.28), (8.3, 9.4, -0.12), "seepcrust", faces=("north", "east", "west", "down")),
+            bx("Drip2", (8.5, 9.0, -0.26), (8.9, 9.4, -0.12), "seepcrust", faces=("north", "east", "west", "down")),
+            # the basin it gathers in, on the road in front: a low lip of the host rock round a milky pool
+            bx("Pool", (3.5, -15.0, -5.8), (12.5, -14.9, -0.5), "seeppool", faces=("up",), full=True, glow=20),
+            bx("LipF", (3.0, -16, -6.4), (13.0, -14.7, -5.7), "rock", faces=("north", "up", "east", "west")),
+            bx("LipL", (3.0, -16, -5.7), (3.7, -14.7, -0.5), "rock", faces=("up", "west", "east")),
+            bx("LipR", (12.3, -16, -5.7), (13.0, -14.7, -0.5), "rock", faces=("up", "west", "east"))]
+    for i, (x, y1, y2) in enumerate(((7.4, 6, 11.6), (7.9, -4, 6), (7.5, -15.9, -4), (8.9, 0.5, 11.6), (9.2, -15.9, 0.5),
+                                      (6.4, -8, 4), (10.4, -10, 1))):
         side.append(bx(f"Trickle{i}", (x, y1, -0.4), (x + 0.5, y2, -0.12), "seepwater", faces=("north", "east", "west"), glow=30))
     els = [bx("Rock", (0, 0, 0), (16, 16, 16), "rock")]
     for k in range(4):
         els += [turn(e, k) for e in side]
-    path = shape("almondseep", els)
+    # The shape's own default for "rock" is the seep's real texture (almondseeprock swaps it per variant), not a
+    # nonexistent block/detail/rock that only the block's override hides.
+    EXT["rock"] = "backrooms:block/detail/almondseep"
+    try:
+        path = shape("almondseep", els)
+    finally:
+        del EXT["rock"]
     common = {
         "class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
-        "attributes": {"dispenses": ["backrooms:almondwater"], "restock": True},
+        "attributes": {"dispenses": ["backrooms:almondwater"], "restock": True, "liquidSource": True},
         "blockmaterial": "Stone", "drawtype": "json", "shape": {"base": path},
         "lightAbsorption": 99, "resistance": 6, "drops": [], "sounds": STONE,
         "particleProperties": [{
@@ -581,9 +673,52 @@ def lang():
         LANG[f"block-wallpaper-red-{part}"] = "Red Wallpaper"
 
 
+# The M.E.G. placards at the gates into a higher survival class (layout version 12): kind "<class>-<level>", the level
+# beyond the gate, its class, and the plate's second line. Worldgen picks the kind (Props.MegPlacard, Tile.Stack): keep
+# the order in step with WorldLayout.PlacardKind.
+PLACARDS = (("3-2", 2, 3, "HOSTILE. LIGHT AND A WEAPON"), ("4-3", 3, 4, "THINGS HERE OUTRUN YOU. ARMOUR OR DON'T"),
+            ("4-7", 7, 4, "THINGS HERE OUTRUN YOU. ARMOUR OR DON'T"), ("5-9", 9, 5, "NO UNARMOURED TRAVEL"))
+PLACARD_BAND = {3: (0xC8A030), 4: (0xD0701C), 5: (0xB42A22)}
+
+
+def megplacard():
+    """A steel plate screwed to a wall beside a gate: a header band in the class's colour, "M.E.G. - LEVEL n - CLASS c"
+    and the second line under it. 128 x 96, mapped whole onto a plate 16 by 12 sixteenths."""
+    from PIL import ImageFont
+    for kind, level, cls, line2 in PLACARDS:
+        img = Image.new("RGBA", (128, 96), rgb(0x2A3030))
+        d = ImageDraw.Draw(img)
+        d.rectangle([0, 0, 127, 95], outline=rgb(0x8C9490))
+        d.rectangle([3, 3, 124, 92], outline=rgb(0x585F5C))
+        d.rectangle([6, 6, 121, 30], fill=rgb(PLACARD_BAND[cls]))
+        text(img, "M.E.G. - LEVEL %d - CLASS %d" % (level, cls), (8, 8, 120, 28), 0x14100C, 9)
+        words = line2.split(". ")
+        if len(words) == 2:
+            lines = [words[0] + ".", words[1]]
+        else:
+            lines = [line2]
+        y = 40
+        for ln in lines:
+            text(img, ln, (6, y, 122, y + 22), 0xE8E4D4, 8)
+            y += 24
+        for sx, sy in ((10, 86), (117, 86)):
+            d.ellipse([sx - 2, sy - 2, sx + 2, sy + 2], fill=rgb(0x7A807C))
+        M.grime(img, 0.12, seed_of("megplacard" + kind), cover=0.4)
+        save(img, "megplacard-" + kind)
+
+    def plate(kind):
+        return [bx("Plate", (0, 4, 15), (16, 16, 16), "megplacard-" + kind, faces=("north",), full=True),
+                bx("Back", (0, 4, 15), (16, 16, 16), "metal", faces=("south", "east", "west", "up", "down"))]
+    prop("megplacard", "M.E.G. Placard", {k: plate(k) for k, _, _, _ in PLACARDS}, box=(0, 0.25, 0.94, 1, 1, 1),
+         material="Metal", sounds=METAL, collide=False, extra={"drops": []},
+         comment="A steel plate the M.E.G. screwed to the wall beside a way into a more dangerous level")
+
+
 def generate():
     textures()
+    megplacard()
     tram_textures()
+    trolley_textures()
     level1()
     level2()
     level3()

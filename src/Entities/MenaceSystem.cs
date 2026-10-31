@@ -16,20 +16,22 @@ namespace Backrooms.Entities;
 /// The entities' director. Every two seconds it weighs how much danger each player is in (the menace: how deep into
 /// their level they are, how close to the edge into the next or to a threshold, their Reality Stability, whether they
 /// stand in the dark, whether a Reality Shift has put the lights out) and, now and then, does something about it: a
-/// sound down the hall, something seen far off, something that follows, something that hunts. Wanderers that mean no
+/// sound down the hall, something seen far off, something that follows, something that hunts. Spawn rolls are made
+/// once per place (people within 24 blocks of each other share one, for whoever is in most danger), and a pack is
+/// clipped to the cap of the current band. Wanderers that mean no
 /// harm (Facelings, the city's Hounds) are kept around separately.
 ///
 /// Entities are put down out of the player's reach, from the layout (so never inside a wall or a sealed room), and
 /// despawn once they have done their job (see <see cref="EntityBehaviorMenace"/>).
 /// </summary>
-public class MenaceSystem : ModSystem
+public partial class MenaceSystem : ModSystem
 {
-    private const int IntervalMs = 2000;
+    /// <summary>The director's tick; the rates (<see cref="EncounterRoll"/>) are worked out for exactly this, so it is derived from them.</summary>
+    private const int IntervalMs = (int)(EncounterRoll.TickSeconds * 1000);
     /// <summary>Nothing is put down closer than this to anyone.</summary>
     private const int NoSpawnRadius = 12;
     /// <summary>After a close call, the Backrooms let the player breathe for a while.</summary>
     private const int CalmMs = 90_000;
-    private const int AmbientCap = 3;
 
     public sealed class Assessment
     {
@@ -73,10 +75,19 @@ public class MenaceSystem : ModSystem
         public double Noise, RestingFor;
         /// <summary>In-game hours: when the next Screaming may come.</summary>
         public double NextScreamHours;
+        /// <summary>World milliseconds before which this one hears no more distant sounds (see <see cref="Roster.SoundGapSeconds"/>).</summary>
+        public long NextSoundMs;
+        /// <summary>World milliseconds when the last body (a glimpse, stalker or hunter, the Flickering, the Screaming) and the last distant sound were put down for this place (EncounterRoll's hard gaps).</summary>
+        public long LastBodyMs = NeverMs, LastSoundMs = NeverMs;
+        /// <summary>Where this one has been looking lately: (world ms, flat view direction), the last <see cref="RecentViewMs"/> or so.</summary>
+        public readonly List<(long Ms, double X, double Z)> Views = new();
     }
 
+    /// <summary>"Never": far enough back that every hard gap has passed.</summary>
+    private const long NeverMs = long.MinValue / 4;
+
     /// <summary>How long the rats' Screaming keeps the lights failing, and how long before another can come (in-game hours).</summary>
-    private const double ScreamHours = 0.25, ScreamCooldownHours = 14;
+    private const double ScreamHours = 0.5, ScreamCooldownHours = 24;
 
     /// <summary>Player attribute (kept with the player) holding the in-game hour they last rested.</summary>
     public const string RestedKey = "backrooms:restedAt";
@@ -90,22 +101,43 @@ public class MenaceSystem : ModSystem
     /// <summary>How fast noise dies away (per second), and how much breaking something or running makes.</summary>
     private const double NoiseDecay = 0.05, BreakNoise = 0.3, RunNoisePerSecond = 0.08;
 
+    /// <summary>
+    /// How loud things are for whatever listens (the noise bus; 1 carries as far as an entity's full hearing). See
+    /// docs/design/entity-ai-overhaul/README.md, section 4.2.
+    /// </summary>
+    public const double RunLoudness = 0.4, JumpLoudness = 0.3, BreakLoudness = 0.5, FightLoudness = 0.6, DoorLoudness = 0.3,
+        QuietDoorLoudness = 0.05, FireLoudness = 0.4, ImpactLoudness = 0.5, CryLoudness = 0.6;
+
+    /// <summary>The noises of the last two seconds, for entities that listen.</summary>
+    public NoiseBus Noises { get; } = new();
+
     /// <summary>Player attribute (synced to the client, which darkens the world) holding when a Flickering ends.</summary>
     public const string FlickerKey = "backrooms:flickerUntil";
 
     /// <summary>How long a Flickering lasts and how long until another can come, in in-game hours (an hour is two real minutes).</summary>
-    private const double FlickerHours = 0.75, FlickerCooldownHours = 10;
+    private const double FlickerHours = 0.75, FlickerCooldownHours = 20;
 
     /// <summary>How the world's "backroomsMenace" setting scales things.</summary>
-    public readonly record struct Difficulty(string Code, double Spawns, double Damage, bool Entities);
+    /// <param name="MixDanger">Added to the level's danger in the glimpse/stalk/hunt mix (more of the bodies stalk and hunt).</param>
+    /// <param name="CapBonus">Added to the menacing cap of the approach and threshold bands, and of the heartland when <paramref name="HeartCapBonus"/> is.</param>
+    public readonly record struct Difficulty(string Code, double Spawns, double Damage, bool Entities, double MixDanger = 0, int CapBonus = 0, int HeartCapBonus = 0)
+    {
+        /// <summary>How much the set pieces (night visits, hive waves, nest refills, the rare events) scale with the setting: the square root of <see cref="Spawns"/>, so they thicken more slowly than the ordinary spawns (1 at off, 2.35 at Normal).</summary>
+        public double SetPieceScale => Math.Sqrt(Spawns);
+    }
 
+    /// <summary>The six settings (dialin.md 3.1; shifted up one step in the progression round, plan.md 3.7: the dial-in's high rate, 5.5, is the new normal, and the dial-in's normal, 3.5, is now low). Spawns divides the mean intervals; "normal" is the fourth.</summary>
     private static readonly Difficulty[] Difficulties =
     {
-        new("off", 0.6, 0, false),
-        new("low", 0.6, 0.5, true),
-        new("normal", 1, 1, true),
-        new("high", 1.5, 1.3, true),
+        new("off", 1, 0, false),
+        new("verylow", 2, 0.5, true),
+        new("low", 3.5, 0.75, true),
+        new("normal", 5.5, 1, true),
+        new("high", 8.5, 1.3, true, 0.3, 1),
+        new("veryhigh", 13, 1.6, true, 0.6, 1, 1),
     };
+
+    private static readonly Difficulty NormalSetting = Difficulties[3];
 
     private ICoreServerAPI sapi;
     private WorldLayout layout;
@@ -115,7 +147,7 @@ public class MenaceSystem : ModSystem
     private readonly Dictionary<string, EntityProperties> types = new();
     private Random rand;
 
-    public Difficulty Setting { get; private set; } = Difficulties[2];
+    public Difficulty Setting { get; private set; } = NormalSetting;
 
     /// <summary>The world's layout (null outside a Backrooms world), for entities that need to know where they are.</summary>
     public WorldLayout Layout => layout;
@@ -125,6 +157,9 @@ public class MenaceSystem : ModSystem
 
     /// <summary>Stops the director putting anything down or playing distant sounds (/backrooms director, for testing).</summary>
     public bool Paused;
+
+    /// <summary>When any Faceling last shoved someone (the shove's own noise must not set the neighbours off).</summary>
+    public long LastShoveMs = -1_000_000;
 
     /// <summary>
     /// Headless tests (/backrooms dummies): the director also directs the straw dummies put down by /backrooms
@@ -151,18 +186,23 @@ public class MenaceSystem : ModSystem
             reality = api.ModLoader.GetModSystem<RealitySystem>();
             EntityBehaviorMenace.NewSession();
             string code = api.World.Config.GetString("backroomsMenace", "normal");
-            Setting = Difficulties.FirstOrDefault(d => d.Code == code, Difficulties[2]);
-            foreach (string entity in Roster.AllCodes.Append("backrooms:wanderer-male"))
+            Setting = Difficulties.FirstOrDefault(d => d.Code == code, NormalSetting);
+            if (Setting.Code != code) api.Logger.Notification("[backrooms] unknown backroomsMenace '{0}': using normal", code);
+            Roster.ApplySetting(Setting.MixDanger, Setting.CapBonus, Setting.HeartCapBonus);
+            foreach (string entity in Roster.AllCodes.Append("backrooms:wanderer-male").Append("backrooms:partygoer").Append("backrooms:partygoer-intern"))
             {
                 EntityProperties type = api.World.GetEntityType(new AssetLocation(entity));
                 if (type == null) api.Logger.Warning("[backrooms] entity type {0} is missing", entity);
                 else types[entity] = type;
             }
-            api.Event.RegisterGameTickListener(OnTick, e => api.Logger.Error("[backrooms] entity director: {0}", e), IntervalMs, 1000);
+            api.Event.RegisterGameTickListener(_ => SampleViews(), e => api.Logger.Error("[backrooms] view sampling: {0}", e), ViewSampleMs, 1000);
+            tickListener = api.Event.RegisterGameTickListener(OnTick, e => api.Logger.Error("[backrooms] entity director: {0}", e), IntervalMs, 1000);
             // Breaking things open is loud
-            api.Event.DidBreakBlock += (player, _, _) => MakeNoise(player?.Entity, BreakNoise);
+            api.Event.DidBreakBlock += OnBrokeBlock;
+            StartListening(api);
         });
-        api.Event.PlayerDisconnect += player => watches.Remove(player.Entity?.EntityId ?? -1);
+        api.Event.PlayerDisconnect += OnPlayerDisconnect;
+        StartHives(api);
 
         IChatCommand command = api.ChatCommands.Get("backrooms");
         if (command == null) return;
@@ -172,6 +212,30 @@ public class MenaceSystem : ModSystem
                 .RequiresPlayer()
                 .HandleWith(OnMenaceCommand)
             .EndSubCommand()
+            .BeginSubCommand("feltrate")
+                .WithDescription("Dry-runs the director's placement for glimpses, stalkers and hunters at the straw dummy (latest) or you: success per kind, why spots were refused, and the felt bodies an hour (the rate check's, times the success). Args: level (its id, 94 is 13, or here), band (heartland, approach, threshold; default your own), tries (60)")
+                .WithArgs(api.ChatCommands.Parsers.Word("level"), api.ChatCommands.Parsers.OptionalWord("band"), api.ChatCommands.Parsers.OptionalInt("tries"))
+                .HandleWith(OnFeltRateCommand)
+            .EndSubCommand()
+            .BeginSubCommand("creativehunts")
+                .WithDescription("Whether a creative-mode player is hunted like anyone else (on/off; toggles without), for testing")
+                .WithArgs(api.ChatCommands.Parsers.OptionalBool("on"))
+                .HandleWith(args =>
+                {
+                    CreativeHunted = args.Parsers[0].IsMissing ? !CreativeHunted : (bool)args[0];
+                    return TextCommandResult.Success("Creative is hunted " + (CreativeHunted ? "on" : "off"));
+                })
+            .EndSubCommand()
+            .BeginSubCommand("ratecheck")
+                .WithDescription("Simulates the director's rolls for hours (default 50) in a level (its id, 94 is 13) and band (heartland, approach, threshold, den) and prints bodies and sounds per hour (the rolls only: real rates are lower, since a body also waits for fewer kinds of menacing thing about than the level allows (one in Classes 0 to 2, two in 3 to 5) and for a spot to put it; the optional menacing=<n> says how many kinds are about; awake=<hours> applies the thirst-and-fatigue multiplier for that many awake hours); \"ratecheck here\" uses your own level and band (and your own multiplier)")
+                .WithArgs(api.ChatCommands.Parsers.Word("level"), api.ChatCommands.Parsers.OptionalWord("band"), api.ChatCommands.Parsers.OptionalWord("hours"), api.ChatCommands.Parsers.OptionalWord("menacing"), api.ChatCommands.Parsers.OptionalWord("awake"))
+                .HandleWith(OnRateCheckCommand)
+            .EndSubCommand()
+            .BeginSubCommand("partycheck")
+                .WithDescription("Simulates the rolls for hours of players standing in a line <spacing> blocks apart in one level and band, with the party rule (new) or as it was before 0.610.2 (old: places of 24 blocks, one roll each, no bonus), and prints the bodies and sounds an hour in all and for each player (the rolls only, as ratecheck): /backrooms partycheck <level> <band> <players> <spacing> [hours] [old|new]")
+                .WithArgs(api.ChatCommands.Parsers.Word("level"), api.ChatCommands.Parsers.Word("band"), api.ChatCommands.Parsers.Int("players"), api.ChatCommands.Parsers.Int("spacing"), api.ChatCommands.Parsers.OptionalWord("hours"), api.ChatCommands.Parsers.OptionalWord("mode"))
+                .HandleWith(OnPartyCheckCommand)
+            .EndSubCommand()
             .BeginSubCommand("encounter")
                 .WithDescription("Puts down an entity (any Backrooms entity code: smiler, hound, faceling, deathmoth-male, deathrat, wretch, ...) for an encounter (ambient, glimpse, stalk, hunt; default hunt), optionally at a distance. From the console, give x and z: it targets a straw dummy put down there.")
                 .WithArgs(api.ChatCommands.Parsers.Word("entity"), api.ChatCommands.Parsers.OptionalWord("kind"), api.ChatCommands.Parsers.OptionalInt("x"), api.ChatCommands.Parsers.OptionalInt("z"), api.ChatCommands.Parsers.OptionalInt("distance"))
@@ -179,14 +243,15 @@ public class MenaceSystem : ModSystem
             .EndSubCommand()
             .BeginSubCommand("flicker")
                 .WithDescription("Starts a Level 1 Flickering round you: the lights go out and Hounds hunt until they return")
-                .RequiresPlayer()
                 .HandleWith(args =>
                 {
                     if (layout == null) return TextCommandResult.Error("Not a Backrooms world");
-                    Entity entity = args.Caller.Entity;
+                    // (From the console: the latest straw dummy)
+                    Entity entity = args.Caller.Entity ?? LatestDummy(args);
+                    if (entity == null) return TextCommandResult.Error("Needs a player, or a straw dummy put down first");
                     if (!watches.TryGetValue(entity.EntityId, out Watch watch)) watches[entity.EntityId] = watch = new Watch();
                     Assess(entity, watch);
-                    StartFlicker(entity, watch, Roster.For(1));
+                    StartFlicker(entity, watch, Roster.For(1), PartyAbout(entity));
                     return TextCommandResult.Success(watch.Now.Level == 1 ? "The lights fail" : "Hounds are coming (the lights only fail in Level 1)");
                 })
             .EndSubCommand()
@@ -199,8 +264,8 @@ public class MenaceSystem : ModSystem
                     Entity entity = args.Caller.Entity;
                     if (!watches.TryGetValue(entity.EntityId, out Watch watch)) watches[entity.EntityId] = watch = new Watch();
                     Assess(entity, watch);
-                    StartScreaming(entity, watch);
-                    return TextCommandResult.Success(watch.Now.Level is 1 or 2 ? "Something is screaming" : "The rats are coming (the lights only fail in Levels 1 and 2)");
+                    StartScreaming(entity, watch, PartyAbout(entity));
+                    return TextCommandResult.Success(watch.Now.Level is 1 or 2 ? "Something is screaming" : "The rats are coming (the Screaming is Level 2's; the lights only fail in Levels 1 and 2 here)");
                 })
             .EndSubCommand()
             .BeginSubCommand("entitylog")
@@ -216,13 +281,49 @@ public class MenaceSystem : ModSystem
                 .WithDescription("Headless tests: the director also directs the straw dummies put down by /backrooms encounter (on/off), and reports where each stands")
                 .WithArgs(api.ChatCommands.Parsers.OptionalBool("on"))
                 .HandleWith(OnDummiesCommand)
+            .EndSubCommand()
+            .BeginSubCommand("facelingtest")
+                .WithDescription("Has the nearest Faceling greet you as if right-clicked, and says which gate it knows of and which way it will point. From the console, give x and z: the Faceling nearest there greets the straw dummy there")
+                .WithArgs(api.ChatCommands.Parsers.OptionalInt("x"), api.ChatCommands.Parsers.OptionalInt("z"))
+                .HandleWith(OnFacelingTestCommand)
             .EndSubCommand();
+        RegisterProbeCommands(api, command);
+        RegisterHiveCommands(api, command);
+        RegisterStealerCommands(api, command);
+        RegisterPathTestCommands(api, command);
+        RegisterWalkerCommands(api, command);
+    }
+
+    private long tickListener;
+
+    private void OnBrokeBlock(IServerPlayer player, int oldBlockId, BlockSelection sel) =>
+        MakeNoise(player?.Entity, BreakNoise, sel == null ? null : sel.Position.ToVec3d().Add(0.5, 0.5, 0.5), BreakLoudness, "break");
+
+    private void OnPlayerDisconnect(IServerPlayer player)
+    {
+        long id = player.Entity?.EntityId ?? -1;
+        watches.Remove(id);
+        shames.Remove(id);
+        jumping.Remove(id);
+        ambientNextMs.Remove(id);
     }
 
     public override void Dispose()
     {
+        if (sapi != null)
+        {
+            // (The hooks are lambda-free so a world reopened in this process does not leave handlers on a dead server)
+            sapi.Event.DidBreakBlock -= OnBrokeBlock;
+            sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
+            if (tickListener != 0) sapi.Event.UnregisterGameTickListener(tickListener);
+            StopListening(sapi);
+            StopHives(sapi);
+        }
         // (Static, so it would outlast this world into the next one opened in the same process)
         Senses.LightsOut = false;
+        CreativeHunted = false;
+        Perception.Reset();
+        BlockEntityClumpRemnant.Live.Clear();
         base.Dispose();
     }
 
@@ -249,13 +350,57 @@ public class MenaceSystem : ModSystem
 
     /// <summary>
     /// Something the player did was loud (breaking a box open, prying a door, lighting a fire): it carries, and what
-    /// hunts by sound comes to see. Amounts add up to at most 1, and die away over half a minute or so.
+    /// hunts by sound comes to see. Amounts add up to at most 1, and die away over half a minute or so. The noise is
+    /// also put on the noise bus, where it was made (the player's feet unless <paramref name="at"/> says), as loud as
+    /// <paramref name="loudness"/> (by default the amount).
     /// </summary>
-    public void MakeNoise(Entity target, double amount)
+    public void MakeNoise(Entity target, double amount, Vec3d at = null, double? loudness = null, string source = "noise")
     {
         if (target == null || layout == null) return;
         if (!watches.TryGetValue(target.EntityId, out Watch watch)) watches[target.EntityId] = watch = new Watch();
         watch.Noise = Math.Min(1, watch.Noise + amount);
+        RaiseNoise(at ?? target.Pos.XYZ, loudness ?? amount, source, target);
+    }
+
+    /// <summary>
+    /// Puts a noise on the noise bus only (it does not raise anyone's menace): a fight, a cry, a door, a stone landing.
+    /// <paramref name="who"/> is whom it gives away (a player, for a noise they made or a fight they are in).
+    /// </summary>
+    public void RaiseNoise(Vec3d at, double loudness, string source, Entity who)
+    {
+        if (layout == null || at == null) return;
+        Noises.Raise(at, loudness, source, who, sapi.World.ElapsedMilliseconds);
+        NestHeard(at, loudness, who);
+        if (Logging && source != "run") sapi.Logger.Notification("[backrooms] noise {0} {1:0.00} at {2:0},{3:0},{4:0}{5}", source, loudness, at.X, at.Y, at.Z, who == null ? "" : " by " + who.Code.Path + " #" + who.EntityId);
+    }
+
+    /// <summary>Marks a Faceling put down as Evolved (for its health).</summary>
+    private const string EvolvedKey = "backrooms:evolvedFaceling";
+
+    private readonly Dictionary<long, List<(double Amount, long Start, long End)>> shames = new();
+
+    /// <summary>
+    /// Raises a player's menace by <paramref name="amount"/> for <paramref name="minutes"/> real minutes, fading away
+    /// evenly over them (killing something docile: a Faceling). Kept in memory only, per player; they add up.
+    /// </summary>
+    public void Shame(Entity player, double amount, double minutes)
+    {
+        if (player == null || amount <= 0 || minutes <= 0) return;
+        long now = sapi.World.ElapsedMilliseconds;
+        if (!shames.TryGetValue(player.EntityId, out var list)) shames[player.EntityId] = list = new();
+        list.Add((amount, now, now + (long)(minutes * 60_000)));
+        if (Logging) sapi.Logger.Notification("[backrooms] shame {0:0.00} for {1} minutes on {2} (now {3:0.00})", amount, minutes, player.Code.Path, ShameOf(player));
+    }
+
+    /// <summary>What shame is on someone now, from 0 up.</summary>
+    public double ShameOf(Entity target)
+    {
+        if (!shames.TryGetValue(target.EntityId, out var list)) return 0;
+        long now = sapi.World.ElapsedMilliseconds;
+        list.RemoveAll(s => s.End <= now);
+        double sum = 0;
+        foreach (var s in list) sum += s.Amount * (s.End - now) / (double)(s.End - s.Start);
+        return sum;
     }
 
     private void Assess(Entity target, Watch watch)
@@ -279,7 +424,7 @@ public class MenaceSystem : ModSystem
         if (target is EntityPlayer kittyGuest && Regions.L974System.Watched(kittyGuest)) a.Band = MenaceBand.Safe;
         // Nothing hostile closes in on someone keeping company with a wanderer
         a.NearWanderer = false;
-        if (a.Band != MenaceBand.Safe && sapi.World.GetNearestEntity(target.Pos.XYZ, 12, 4, e => e.Alive && e.Code.Path.StartsWith("wanderer")) != null)
+        if (a.Band != MenaceBand.Safe && sapi.World.GetNearestEntity(target.Pos.XYZ, 12, 4, e => e.Alive && e.Code.Path.StartsWith("wanderer", StringComparison.Ordinal)) != null)
         {
             a.Band = MenaceBand.Safe;
             a.NearWanderer = true;
@@ -302,6 +447,7 @@ public class MenaceSystem : ModSystem
         // The longer you are out, the more the Backrooms notice you; and what hears you comes
         value += Math.Min(ExposureMax, ExposurePerHour * a.OutHours);
         value += 0.3 * a.Noise;
+        value += ShameOf(target);
         if (sapi.World.ElapsedMilliseconds < watch.CalmUntilMs) value -= 0.3;
         a.Value = Math.Clamp(value, 0, 1);
     }
@@ -313,8 +459,12 @@ public class MenaceSystem : ModSystem
     /// </summary>
     private double TimeOut(Entity target, Watch watch, Assessment a)
     {
-        double seconds = IntervalMs / 1000.0;
-        if (target is EntityAgent agent && Senses.Running(agent)) watch.Noise = Math.Min(1, watch.Noise + RunNoisePerSecond * seconds);
+        double seconds = EncounterRoll.TickSeconds;
+        if (target is EntityAgent agent && Senses.Running(agent))
+        {
+            watch.Noise = Math.Min(1, watch.Noise + RunNoisePerSecond * seconds);
+            RaiseNoise(target.Pos.XYZ, RunLoudness, "run", target);
+        }
         watch.Noise = Math.Max(0, watch.Noise - NoiseDecay * seconds);
 
         double now = sapi.World.Calendar.TotalHours;
@@ -326,13 +476,12 @@ public class MenaceSystem : ModSystem
         return Math.Max(0, now - target.Attributes.GetDouble(RestedKey, now));
     }
 
-    /// <summary>Whether a player is at home: in Level 0, near the place they wake up.</summary>
+    /// <summary>Whether a player is at home: near their spawn point (the last bed they slept in or a temporal gear), in whatever level that is.</summary>
     private bool AtHome(Entity target)
     {
         if (target is not EntityPlayer { Player: IServerPlayer player }) return false;
         FuzzyEntityPos home = player.GetSpawnPosition(false);
         if (home == null) return false;
-        if (layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(target.Pos.X)), WorldLayout.MacroOf((int)Math.Floor(target.Pos.Z))) != 0) return false;
         double dx = home.X - target.Pos.X, dz = home.Z - target.Pos.Z;
         return dx * dx + dz * dz <= HomeRadius * HomeRadius;
     }
@@ -397,10 +546,10 @@ public class MenaceSystem : ModSystem
         WorldLayout.DarkPlace dark = layout.DarkPlaceAt(gx, gz, level);
         a.Worst = dark == WorldLayout.DarkPlace.Worst;
         MenaceBand band = MenaceBand.Heartland;
-        if (a.Depth >= 0.6 || dark == WorldLayout.DarkPlace.Bad || a.Subway) band = MenaceBand.Approach;
-        if (a.Depth >= 0.85 || a.ToNextLevel <= 40 || dark == WorldLayout.DarkPlace.Worst || layout.NearThreshold(gx, gz)) band = MenaceBand.Threshold;
+        if (a.Depth >= 0.5 || dark == WorldLayout.DarkPlace.Bad || a.Subway) band = MenaceBand.Approach;
+        if (a.Depth >= 0.8 || a.ToNextLevel <= 40 || dark == WorldLayout.DarkPlace.Worst || layout.NearThreshold(gx, gz)) band = MenaceBand.Threshold;
         // In a den, it is as dangerous as the edge of the level, wherever the den is
-        a.Den = layout.DenNear(gx, gz) is { } den ? den.Kind : DenKind.None;
+        a.Den = layout.DenNear(gx, gz) is { } den && Roster.DenActive(level, den.Kind) ? den.Kind : DenKind.None;
         if (a.Den != DenKind.None) band = MenaceBand.Threshold;
         // When the lights fail, even the heart of the Lobby is watched from the dark
         if (level == 0 && band == MenaceBand.Heartland && (reality?.ShiftStrength ?? 0) > 0) band = MenaceBand.Approach;
@@ -416,8 +565,38 @@ public class MenaceSystem : ModSystem
 
     private void OnTick(float dt)
     {
+        long started = System.Diagnostics.Stopwatch.GetTimestamp();
+        try { Tick(); }
+        finally { NoteTickCost(System.Diagnostics.Stopwatch.GetTimestamp() - started); }
+    }
+
+    /// <summary>
+    /// Drops what is kept for entities that are gone (a player who left whose entity was already unloaded at disconnect,
+    /// so <see cref="OnPlayerDisconnect"/> could not name it). Looks only now and then.
+    /// </summary>
+    private void PruneGone()
+    {
+        long now = sapi.World.ElapsedMilliseconds;
+        if (now < nextPruneMs) return;
+        nextPruneMs = now + 60_000;
+        var live = new HashSet<long>();
+        foreach (IPlayer online in sapi.World.AllOnlinePlayers) if (online.Entity != null) live.Add(online.Entity.EntityId);
+        foreach (Entity dummy in dummies) live.Add(dummy.EntityId);
+        foreach (long id in watches.Keys.Where(id => !live.Contains(id)).ToList()) watches.Remove(id);
+        foreach (long id in shames.Keys.Where(id => !live.Contains(id)).ToList()) shames.Remove(id);
+        foreach (long id in jumping.Keys.Where(id => !live.Contains(id)).ToList()) jumping.Remove(id);
+        foreach (long id in ambientNextMs.Keys.Where(id => !live.Contains(id)).ToList()) ambientNextMs.Remove(id);
+    }
+
+    private long nextPruneMs;
+
+    private void Tick()
+    {
         Senses.LightsOut = (reality?.ShiftStrength ?? 0) > 0.5;
+        PruneGone();
         if (Paused) return;
+        // Assess everyone first (players, and the dummies if they are directed), then direct them by place
+        var directed = new List<(Entity Entity, Watch Watch, bool Creative)>();
         foreach (IPlayer online in sapi.World.AllOnlinePlayers)
         {
             if (online is not IServerPlayer player || player.Entity == null || !player.Entity.Alive) continue;
@@ -425,22 +604,84 @@ public class MenaceSystem : ModSystem
             EntityPlayer entity = player.Entity;
             if (!watches.TryGetValue(entity.EntityId, out Watch watch)) watches[entity.EntityId] = watch = new Watch();
             Assess(entity, watch);
-            Direct(entity, watch, player.WorldData.CurrentGameMode == EnumGameMode.Creative);
+            NoteDen(entity, watch.Now);
+            directed.Add((entity, watch, player.WorldData.CurrentGameMode == EnumGameMode.Creative));
         }
-        if (DirectsDummies) DirectDummies();
+        if (DirectsDummies)
+        {
+            dummies.RemoveAll(d => !d.Alive);
+            foreach (Entity dummy in dummies)
+            {
+                if (!watches.TryGetValue(dummy.EntityId, out Watch watch)) watches[dummy.EntityId] = watch = new Watch();
+                Assess(dummy, watch);
+                NoteDen(dummy, watch.Now);
+                directed.Add((dummy, watch, false));
+            }
+        }
+        DirectByPlace(directed);
+        if (DirectsDummies) ReportDummies();
     }
 
-    /// <summary>Directs the straw dummies as players (see <see cref="DirectsDummies"/>), and logs what is about them every half minute.</summary>
-    private void DirectDummies()
+    /// <summary>Players (and dummies) in the same level this close share one spawn roll, a party's (README section 5; MenaceSystem.Party.cs).</summary>
+    private const double PlaceRadius = PartyRadius, PlaceHeight = PartyHeight;
+
+    /// <summary>
+    /// Directs everyone, rolling for a spawn once per party: those within <see cref="PlaceRadius"/> blocks of each other
+    /// in the same level (greedily, each joining the first group that has a member that near) share one roll, made for
+    /// the member in the most danger (the highest menace), at PartyFactor times the rate; the Flickering and the Screaming are rolled with it and the arrival is for a member drawn at random. Wanderers stay per person.
+    /// Someone alone in their place is directed exactly as before.
+    /// </summary>
+    private void DirectByPlace(List<(Entity Entity, Watch Watch, bool Creative)> directed)
     {
-        dummies.RemoveAll(d => !d.Alive);
-        bool report = Logging && ++dummyTicks % 15 == 0;
+        List<List<int>> groups = PartyGroups(directed.Count, (i, j) =>
+        {
+            Entity e = directed[i].Entity, o = directed[j].Entity;
+            Assessment ai = directed[i].Watch.Now, aj = directed[j].Watch.Now;
+            return ai.Level == aj.Level && ai.Snackrooms == aj.Snackrooms && ai.Castle == aj.Castle
+                && Math.Abs(e.Pos.Y - o.Pos.Y) <= PlaceHeight && Within(e.Pos.X - o.Pos.X, e.Pos.Z - o.Pos.Z);
+        });
+        foreach (List<int> group in groups)
+        {
+            // Only someone who can be hunted rolls (not a creative player, the King's trial, or the Safe band); a real
+            // player's place is not rolled for the dummies in it
+            bool anyPlayer = group.Any(i => directed[i].Entity is EntityPlayer);
+            int rolls = -1;
+            var mates = new List<(Entity Entity, Watch Watch)>();
+            foreach (int i in group)
+            {
+                (Entity entity, Watch watch, bool creative) = directed[i];
+                if (creative && !CreativeHunted || watch.Now.Trial || watch.Now.Band == MenaceBand.Safe || anyPlayer && entity is not EntityPlayer) continue;
+                mates.Add((entity, watch));
+                if (rolls < 0 || watch.Now.Value > directed[rolls].Watch.Now.Value) rolls = i;
+            }
+            // The place shares its body and sound clocks: the roller sees the latest of the group's, and all are stamped with the result
+            if (rolls >= 0)
+                foreach (int i in group)
+                {
+                    directed[rolls].Watch.LastBodyMs = Math.Max(directed[rolls].Watch.LastBodyMs, directed[i].Watch.LastBodyMs);
+                    directed[rolls].Watch.LastSoundMs = Math.Max(directed[rolls].Watch.LastSoundMs, directed[i].Watch.LastSoundMs);
+                }
+            foreach (int i in group) Direct(directed[i].Entity, directed[i].Watch, directed[i].Creative, i == rolls, mates);
+            if (rolls >= 0)
+            {
+                // (The arrival may have been for another member than the roller: the latest of the group's clocks is the group's)
+                long body = group.Max(i => directed[i].Watch.LastBodyMs), sound = group.Max(i => directed[i].Watch.LastSoundMs);
+                foreach (int i in group)
+                {
+                    directed[i].Watch.LastBodyMs = body;
+                    directed[i].Watch.LastSoundMs = sound;
+                }
+            }
+        }
+    }
+
+    /// <summary>Logs what is about the straw dummies (see <see cref="DirectsDummies"/>) every half minute.</summary>
+    private void ReportDummies()
+    {
+        if (!Logging || ++dummyTicks % 15 != 0) return;
         foreach (Entity dummy in dummies)
         {
-            if (!watches.TryGetValue(dummy.EntityId, out Watch watch)) watches[dummy.EntityId] = watch = new Watch();
-            Assess(dummy, watch);
-            Direct(dummy, watch, creative: false);
-            if (!report) continue;
+            Watch watch = watches[dummy.EntityId];
             int own = sapi.World.GetEntitiesAround(dummy.Pos.XYZ, 64, 24, e => e.Alive && EntityBehaviorMenace.OwnerOf(e) == dummy.EntityId && EntityBehaviorMenace.KindOf(e) != Encounter.Ambient).Length;
             sapi.Logger.Notification("[backrooms] about {0} #{1}: {2} menacing within 64 blocks ({3} its own), band {4}, menace {5:0.00}, cap {6}",
                 dummy.Code.Path, dummy.EntityId, CountMenacing(dummy), own, watch.Now.Band, watch.Now.Value, Roster.Cap(watch.Now.Band, watch.Now.Level));
@@ -463,64 +704,107 @@ public class MenaceSystem : ModSystem
         return TextCommandResult.Success(text.ToString());
     }
 
-    private void Direct(Entity target, Watch watch, bool creative)
+    private TextCommandResult OnFacelingTestCommand(TextCommandCallingArgs args)
     {
+        if (layout == null) return TextCommandResult.Error("Not a Backrooms world");
+        Entity greeter = args.Caller.Entity;
+        Vec3d at;
+        if (greeter != null) at = greeter.Pos.XYZ;
+        else
+        {
+            if (args.Parsers[0].IsMissing || args.Parsers[1].IsMissing) return TextCommandResult.Error("From the console, give x and z");
+            int x = (int)args[0], z = (int)args[1];
+            at = new Vec3d(x + 0.5, geometry.FloorFor(layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z))) + 1, z + 0.5);
+            greeter = sapi.World.GetNearestEntity(at, 16, 64, e => e.Alive && e.WatchedAttributes.GetBool("backrooms:testTarget"));
+        }
+        Entity faceling = sapi.World.GetNearestEntity(at, 48, 32, e => e.Alive && e.Code.Domain == "backrooms" && e.Code.Path.StartsWith("faceling", StringComparison.Ordinal));
+        if (faceling == null) return TextCommandResult.Error("No Faceling within 48 blocks (put one down with /backrooms encounter faceling ambient)");
+        return TextCommandResult.Success(EntityBehaviorFaceling.TestGreeting(faceling, greeter));
+    }
+
+    /// <summary>
+    /// <paramref name="rolls"/>: whether this one makes the place's spawn roll (see <see cref="DirectByPlace"/>); the
+    /// wanderers, the Flickering and the Screaming are rolled for everyone.
+    /// </summary>
+    private void Direct(Entity target, Watch watch, bool creative, bool rolls = true, List<(Entity Entity, Watch Watch)> mates = null)
+    {
+        creative &= !CreativeHunted; // (/backrooms creativehunts: a creative player is directed like anyone else)
         Assessment a = watch.Now;
         if (a.Trial) return; // the King's trial is his own affair
         RosterEntry[] roster = a.Snackrooms ? Roster.Snackrooms : a.Castle ? Roster.Castle : Roster.For(a.Level);
 
         // Wanderers that mean no harm come and go on their own
-        if (Setting.Entities && rand.NextDouble() < 0.25) SpawnAmbient(target, a, roster);
+        if (Setting.Entities) SpawnAmbient(target, a, roster);
         if (a.Band == MenaceBand.Safe) return;
+
+        // A party (the people within PartyRadius of each other in a level) is rolled for once, for the member in most danger, at
+        // PartyFactor times the rate (see MenaceSystem.Party.cs); who the arrival is for is drawn from the party. Alone, nothing changes.
+        int party = rolls && mates != null ? Math.Max(1, mates.Count) : 1;
+        double factor = PartyFactor(party);
+        Entity actor = target;
+        Watch actorWatch = watch;
+        if (party > 1) (actor, actorWatch) = mates[rand.Next(party)];
+        Assessment aa = actorWatch.Now;
+        RosterEntry[] actorRoster = aa.Snackrooms ? Roster.Snackrooms : aa.Castle ? Roster.Castle : Roster.For(aa.Level);
 
         // Level 1's Flickering: out towards the edge, now and then the lights of a section fail, and the Hounds come
         double hours = sapi.World.Calendar.TotalHours;
-        if (a.Level == 1 && a.Band >= MenaceBand.Approach && Setting.Entities && !creative && !a.Flickering && hours >= watch.NextFlickerHours
-            && rand.NextDouble() < 0.004 + 0.01 * a.Value)
+        if (rolls && aa.Level == 1 && aa.Band >= MenaceBand.Approach && Setting.Entities && !creative && !aa.Flickering && hours >= actorWatch.NextFlickerHours
+            && rand.NextDouble() < (0.004 + 0.01 * aa.Value) * factor && types.ContainsKey(Roster.Hound) && BodyAllowed(actor, actorWatch, aa))
         {
-            StartFlicker(target, watch, roster);
+            // (A set piece, but not on top of another encounter: it waits for the hard gap and the one-kind rule; once started the Hounds always come, capped as a pack is)
+            StartFlicker(actor, actorWatch, actorRoster, mates);
             return;
         }
 
         // The Screaming: somewhere near, the rats are after something, and the lights fail while they are
-        if (a.Level is 1 or 2 && a.Band >= MenaceBand.Approach && Setting.Entities && !creative && !a.Flickering && hours >= watch.NextScreamHours
-            && rand.NextDouble() < 0.0015 + 0.004 * a.Value)
+        if (rolls && aa.Level == 2 && aa.Band >= MenaceBand.Approach && Setting.Entities && !creative && !aa.Flickering && hours >= actorWatch.NextScreamHours
+            && rand.NextDouble() < (0.0015 + 0.004 * aa.Value) * factor && BodyAllowed(actor, actorWatch, aa))
         {
-            StartScreaming(target, watch);
+            StartScreaming(actor, actorWatch, mates);
             return;
         }
 
-        double danger = Danger.OfLevel(a.Level);
-        double chance = (0.02 + 0.12 * a.Value) * (1 + 0.8 * danger) * Setting.Spawns;
-        if (rand.NextDouble() >= chance) return;
-
-        var w = Roster.Weights(a.Band, a.Level);
-        double r = rand.NextDouble() * (w.Sound + w.Glimpse + w.Stalk + w.Hunt);
-        Encounter kind = r < w.Sound ? Encounter.Ambient : r < w.Sound + w.Glimpse ? Encounter.Glimpse : r < w.Sound + w.Glimpse + w.Stalk ? Encounter.Stalk : Encounter.Hunt;
-        // The Lobby is empty, as the lore has it: nothing hunts there but in the Red Rooms
-        if (kind == Encounter.Hunt && a.Level == 0 && !a.Worst) kind = Encounter.Stalk;
-        // (Ambient stands for "only a sound" here.) Creative players only ever hear and glimpse things.
-        if (kind == Encounter.Ambient || !Setting.Entities || creative && kind != Encounter.Glimpse)
+        if (!rolls) return;
+        // Bodies and sounds are rolled apart, as rates with hard gaps (EncounterRoll); no fallback sounds: a failed spawn is silence
+        long nowMs = sapi.World.ElapsedMilliseconds;
+        // (Thirst and fatigue scale the odds for this player: Needs.DirectorMult, 1 when rested and watered)
+        RollKind roll = EncounterRoll.Roll(a.Band, a.Level, a.Value, Setting.Spawns * Backrooms.Needs.Needs.DirectorMult(target) * factor, nowMs - watch.LastBodyMs, nowMs - watch.LastSoundMs, a.Den != DenKind.None, CountMenacingKinds(target), a.Worst, rand);
+        if (roll == RollKind.Nothing) return;
+        if (roll == RollKind.Sound)
         {
-            PlayDistantSound(target, a.Level);
+            watch.LastSoundMs = nowMs;
+            PlayDistantSound(actor, aa.Level);
             return;
         }
-
-        if (CountMenacing(target) >= Roster.Cap(a.Band, a.Level))
-        {
-            PlayDistantSound(target, a.Level);
-            return;
-        }
+        Encounter kind = EncounterRoll.ToEncounter(roll);
+        // Creative players only ever glimpse things; with the entities off there are no bodies
+        if (!Setting.Entities || creative && kind != Encounter.Glimpse) return;
         Encounters flag = kind switch { Encounter.Glimpse => Encounters.Glimpse, Encounter.Stalk => Encounters.Stalk, _ => Encounters.Hunt };
-        RosterEntry[] options = roster.Where(e => (e.Kinds & flag) != 0 && e.MinBand <= a.Band && (!e.SubwayOnly || a.Subway) && (!e.ShiftOnly || a.Shift)
-            && types.ContainsKey(e.Code)).ToArray();
-        // Someone starving draws the Wretches, three times over: they know what is coming for them
-        if (Starving(target)) options = options.Select(e => e.Code == Roster.Wretch ? e with { Weight = e.Weight * 3 } : e).ToArray();
+        RosterEntry[] options = actorRoster.Where(e => (e.Kinds & flag) != 0 && e.MinBand <= aa.Band && (!e.SubwayOnly || aa.Subway) && (!e.ShiftOnly || aa.Shift)
+            && (!e.LightsOutOnly || aa.Worst || aa.Shift) && types.ContainsKey(e.Code)).ToArray();
+        // Someone starving, parched or dead on their feet draws the Wretches, three times over: they know what is coming for them
+        if (Wretched(actor)) options = options.Select(e => e.Code == Roster.Wretch ? e with { Weight = e.Weight * 3 } : e).ToArray();
         // In a den, mostly what lives there comes
-        if (Roster.DenEntry(a.Den) is { } dweller && (dweller.Kinds & flag) != 0 && types.ContainsKey(dweller.Code) && rand.NextDouble() < 0.75) options = new[] { dweller };
+        if (Roster.DenEntry(aa.Den) is { } dweller && (dweller.Kinds & flag) != 0 && types.ContainsKey(dweller.Code) && rand.NextDouble() < DwellerChance && DwellerFits(actorRoster, dweller, aa)) options = new[] { dweller };
         RosterEntry entry = Pick(options);
-        if (entry == null || !TrySpawn(target, a, entry, kind)) PlayDistantSound(target, a.Level);
+        if (entry != null && TrySpawn(actor, aa, entry, kind)) watch.LastBodyMs = nowMs;
     }
+
+    /// <summary>Whether a den's dweller may come here: a Smiler the level's roster keeps to the lights-out places (Level 0) still is.</summary>
+    private static bool DwellerFits(RosterEntry[] roster, RosterEntry dweller, Assessment a) =>
+        a.Worst || a.Shift || !roster.Any(e => e.Code == dweller.Code && e.LightsOutOnly);
+
+    /// <summary>How likely a body put down in a den is what lives there.</summary>
+    private const double DwellerChance = 0.75;
+
+    /// <summary>Whether a set-piece body (the Flickering, the Screaming) may come: the hard gap since the last body has passed and the level's one-kind rule (<see cref="Roster.MaxKinds"/>) allows another kind.</summary>
+    private bool BodyAllowed(Entity target, Watch watch, Assessment a) =>
+        EncounterRoll.BodyMayCome(CountMenacingKinds(target), Roster.MaxKinds(a.Level), sapi.World.ElapsedMilliseconds - watch.LastBodyMs, EncounterRoll.BodyGapMs(a.Band, a.Level, a.Value, Setting.Spawns * Backrooms.Needs.Needs.DirectorMult(target), a.Den != DenKind.None));
+
+    /// <summary>The Wretch's prey (Entity 15, "starved, parched, sleepless"): starving, parched, or dead on their feet (and not held up by caffeine).</summary>
+    private static bool Wretched(Entity target) =>
+        Starving(target) || Backrooms.Needs.Needs.Parched(target) || Backrooms.Needs.Needs.DeadOnFeet(target) && !Backrooms.Needs.Needs.Caffeinated(target);
 
     /// <summary>Whether someone is down to the last quarter of their satiety.</summary>
     private static bool Starving(Entity target)
@@ -531,17 +815,130 @@ public class MenaceSystem : ModSystem
         return max > 0 && hunger.GetFloat("currentsaturation", max) < 0.25f * max;
     }
 
-    /// <summary>Puts a player's section of Level 1 into a Flickering, and sends a pack of Hounds to hunt them until it ends.</summary>
-    private void StartFlicker(Entity target, Watch watch, RosterEntry[] roster)
+    /// <summary>Puts a player's section of Level 1 into a Flickering; after a dark, dreadful wait a pack of Hounds comes to hunt them until it ends.</summary>
+    private void StartFlicker(Entity target, Watch watch, RosterEntry[] roster, List<(Entity Entity, Watch Watch)> mates = null)
     {
         double hours = sapi.World.Calendar.TotalHours;
         watch.FlickerUntilHours = hours + FlickerHours;
         watch.NextFlickerHours = hours + FlickerCooldownHours;
+        watch.LastBodyMs = sapi.World.ElapsedMilliseconds;
         target.WatchedAttributes.SetDouble(FlickerKey, watch.FlickerUntilHours);
         watch.Now.Flickering = watch.Now.Dark = true;
+        ShareDark(target, watch, mates);
         if (Logging) sapi.Logger.Notification("[backrooms] a Flickering for {0}", (target as EntityPlayer)?.Player?.PlayerName ?? target.Code.ToString());
         RosterEntry hounds = roster.FirstOrDefault(e => e.Code == Roster.Hound);
-        if (hounds != null && CountMenacing(target) < Roster.Cap(MenaceBand.Threshold)) TrySpawn(target, watch.Now, hounds, Encounter.Hunt, watch.FlickerUntilHours);
+        if (hounds == null) return;
+        BringDarkHunters(target, watch, hounds, FlickerDelayMinMs, FlickerDelayMaxMs, Roster.HoundCues);
+    }
+
+    /// <summary>
+    /// The lights fail for the whole party (<see cref="DirectByPlace"/>), not only the member the Flickering or the Screaming
+    /// was drawn for: each other member gets the same dark (on their screen too) and the same waits before the next. Before,
+    /// a friend a room away saw the lights burning while the Hounds came for both of them. The hunters are still put down once.
+    /// </summary>
+    private void ShareDark(Entity target, Watch watch, List<(Entity Entity, Watch Watch)> mates)
+    {
+        if (mates == null) return;
+        foreach ((Entity mate, Watch mateWatch) in mates)
+        {
+            if (mate == target || !mate.Alive) continue;
+            mateWatch.FlickerUntilHours = Math.Max(mateWatch.FlickerUntilHours, watch.FlickerUntilHours);
+            mateWatch.NextFlickerHours = Math.Max(mateWatch.NextFlickerHours, watch.NextFlickerHours);
+            mateWatch.NextScreamHours = Math.Max(mateWatch.NextScreamHours, watch.NextScreamHours);
+            mate.WatchedAttributes.SetDouble(FlickerKey, mateWatch.FlickerUntilHours);
+            mateWatch.Now.Flickering = mateWatch.Now.Dark = true;
+            if (Logging) sapi.Logger.Notification("[backrooms] the lights fail for {0} too", (mate as EntityPlayer)?.Player?.PlayerName ?? mate.Code + " #" + mate.EntityId);
+        }
+    }
+
+    /// <summary>How long (ms) the lights are out before the Hounds are put down, at least and at most.</summary>
+    private const int FlickerDelayMinMs = 5000, FlickerDelayMaxMs = 10000;
+
+    /// <summary>When (ms after the lights fail) the first far-off cue is heard, at least and at most: the player hears the Hounds within a few seconds.</summary>
+    private const int FirstCueMinMs = 2000, FirstCueMaxMs = 4000;
+
+    /// <summary>How long (ms) between looks for an unseen place for the dark's hunters (they are looked for until the lights return).</summary>
+    private const int FlickerRetryMs = 3000;
+
+    /// <summary>The dark's hunters are put down at least this far off (and up to this much further), so they have to come; later tries widen the band and drop the recent-view rule.</summary>
+    private const double FlickerMinDistance = 22, FlickerSpread = 16;
+
+    /// <summary>The failed tries after which the recent-view rule is dropped for the dark's hunters.</summary>
+    private const int RecentViewDroppedAfter = 2;
+
+    /// <summary>
+    /// The dark of a Flickering or Screaming: at once only far-off cries of the hunters (three, the first within a few
+    /// seconds), then after a dreadful wait they are put down unseen and hunt until the lights return. Placement is tried
+    /// again every few seconds for the whole dark, with a wider band and without the recent-view rule after two failures.
+    /// </summary>
+    private void BringDarkHunters(Entity target, Watch watch, RosterEntry hunters, int minMs, int maxMs, DistantSound[] cues)
+    {
+        int delay = minMs + rand.Next(maxMs - minMs + 1);
+        int first = Math.Min(FirstCueMinMs + rand.Next(FirstCueMaxMs - FirstCueMinMs + 1), delay - 1000);
+        if (Logging) sapi.Logger.Notification("[backrooms] flicker: the Hounds come in {0:0.0} s (first cry in {1:0.0} s)", delay / 1000.0, first / 1000.0);
+        foreach (double share in new[] { 0, 0.5, 0.85 })
+            sapi.World.RegisterCallback(_ => { if (target.Alive && sapi.World.Calendar.TotalHours < watch.FlickerUntilHours) PlayDistantSound(target, 1, force: true, minDistance: 26, maxDistance: 44, only: cues); }, (int)(first + (delay - first) * share));
+        sapi.World.RegisterCallback(_ => SendDarkHunters(target, watch, hunters, 0), delay);
+    }
+
+    private void SendDarkHunters(Entity target, Watch watch, RosterEntry hunters, int failed)
+    {
+        if (!target.Alive || sapi.World.Calendar.TotalHours >= watch.FlickerUntilHours) return;
+        // (Not gated on what else is about: the pack is clipped to the cap, to one at least)
+        if (TrySpawn(target, watch.Now, hunters, Encounter.Hunt, watch.FlickerUntilHours, setPiece: true, minDistance: FlickerMinDistance, failedTries: failed))
+        {
+            watch.LastBodyMs = sapi.World.ElapsedMilliseconds;
+            return;
+        }
+        if (Logging) sapi.Logger.Notification("[backrooms] flicker: no place for the Hounds yet (try {0}), again in {1} s", failed + 1, FlickerRetryMs / 1000);
+        sapi.World.RegisterCallback(_ => SendDarkHunters(target, watch, hunters, failed + 1), FlickerRetryMs);
+    }
+
+    // ================= Where people have been looking =================
+
+    /// <summary>How often (ms) everyone's view direction is noted, how long (ms) it is kept, and the half-angle (degrees) and range (blocks) round a recent view that nothing is put down in (<c>minDistance</c> placements).</summary>
+    private const int ViewSampleMs = 400;
+    private const long RecentViewMs = 10_000;
+    private const double RecentViewHalfAngle = 60, RecentViewRange = 40;
+
+    private void SampleViews()
+    {
+        long now = sapi.World.ElapsedMilliseconds;
+        foreach (IPlayer online in sapi.World.AllOnlinePlayers)
+            if (online.Entity is { Alive: true } e) NoteView(e, now);
+        foreach (Entity dummy in dummies) if (dummy.Alive) NoteView(dummy, now);
+    }
+
+    private void NoteView(Entity who, long now)
+    {
+        if (!watches.TryGetValue(who.EntityId, out Watch watch)) watches[who.EntityId] = watch = new Watch();
+        Vec3f view = who.Pos.GetViewVector();
+        watch.Views.Add((now, view.X, view.Z));
+        watch.Views.RemoveAll(v => now - v.Ms > RecentViewMs);
+    }
+
+    /// <summary>Whether someone looked towards a spot (within <see cref="RecentViewHalfAngle"/> degrees, <see cref="RecentViewRange"/> blocks) in the last few seconds: in the dark, it would be the same pop-in.</summary>
+    private bool InRecentView(Entity target, Vec3d spot)
+    {
+        long now = sapi.World.ElapsedMilliseconds;
+        double cosLimit = Math.Cos(RecentViewHalfAngle * Math.PI / 180);
+        bool Looked(Entity who)
+        {
+            if (!watches.TryGetValue(who.EntityId, out Watch watch)) return false;
+            double dx = spot.X - who.Pos.X, dz = spot.Z - who.Pos.Z, flat = Math.Sqrt(dx * dx + dz * dz);
+            if (flat > RecentViewRange) return false;
+            if (flat < 0.5) return true;
+            foreach ((long ms, double vx, double vz) in watch.Views)
+            {
+                double len = Math.Sqrt(vx * vx + vz * vz);
+                if (now - ms <= RecentViewMs && len > 0.01 && (dx * vx + dz * vz) / (flat * len) >= cosLimit) return true;
+            }
+            return false;
+        }
+        if (Looked(target)) return true;
+        foreach (IPlayer online in sapi.World.AllOnlinePlayers)
+            if (online.Entity is { Alive: true } other && other != target && other.Pos.Dimension == target.Pos.Dimension && Looked(other)) return true;
+        return false;
     }
 
     /// <summary>
@@ -549,13 +946,15 @@ public class MenaceSystem : ModSystem
     /// ends): the lights fail round the player for a few minutes; the screaming is heard close by, twice; and a pack of
     /// rats goes across the way ahead at a run, after whatever it is.
     /// </summary>
-    private void StartScreaming(Entity target, Watch watch)
+    private void StartScreaming(Entity target, Watch watch, List<(Entity Entity, Watch Watch)> mates = null)
     {
         double hours = sapi.World.Calendar.TotalHours;
         watch.NextScreamHours = hours + ScreamCooldownHours;
+        watch.LastBodyMs = sapi.World.ElapsedMilliseconds;
         watch.FlickerUntilHours = Math.Max(watch.FlickerUntilHours, hours + ScreamHours);
         target.WatchedAttributes.SetDouble(FlickerKey, watch.FlickerUntilHours);
         watch.Now.Flickering = watch.Now.Dark = true;
+        ShareDark(target, watch, mates);
         if (Logging) sapi.Logger.Notification("[backrooms] the Screaming for {0}", (target as EntityPlayer)?.Player?.PlayerName ?? target.Code.ToString());
         double angle = rand.NextDouble() * Math.PI * 2;
         for (int i = 0; i < 2; i++)
@@ -568,8 +967,12 @@ public class MenaceSystem : ModSystem
         var pack = new RosterEntry(Roster.DeathRat, MenaceBand.Heartland, Encounters.Glimpse, 1, 4, 6) { Frenzy = true };
         sapi.World.RegisterCallback(_ =>
         {
-            if (target.Alive) TrySpawn(target, watch.Now, pack, Encounter.Glimpse);
+            if (target.Alive) TrySpawn(target, watch.Now, pack, Encounter.Glimpse, setPiece: true);
         }, 2500);
+        // What the rats are after is you, or what comes for you: the Hounds in Level 1, the rats themselves in Level 2
+        RosterEntry hunters = watch.Now.Level == 1 ? Roster.For(1).FirstOrDefault(e => e.Code == Roster.Hound) : new RosterEntry(Roster.DeathRat, MenaceBand.Heartland, Encounters.Hunt, 1, 2, 3);
+        if (hunters != null && types.ContainsKey(hunters.Code))
+            BringDarkHunters(target, watch, hunters, 6000, 10000, watch.Now.Level == 1 ? Roster.HoundCues : Roster.RatCues);
     }
 
     private RosterEntry Pick(RosterEntry[] options)
@@ -584,39 +987,37 @@ public class MenaceSystem : ModSystem
         return options[^1];
     }
 
-    private void SpawnAmbient(Entity target, Assessment a, RosterEntry[] roster)
-    {
-        RosterEntry[] options = roster.Where(e => (e.Kinds & Encounters.Ambient) != 0 && types.ContainsKey(e.Code)
-            && (a.Band != MenaceBand.Safe || a.NearWanderer || e.MinBand == MenaceBand.Safe) && (!e.SubwayOnly || a.Subway)).ToArray();
-        if (options.Length == 0) return;
-        int count = sapi.World.GetEntitiesAround(target.Pos.XYZ, 48, 16, e => e.Alive && EntityBehaviorMenace.KindOf(e) == Encounter.Ambient).Length;
-        if (count >= AmbientCap) return;
-        RosterEntry entry = Pick(options);
-        if (entry == null || rand.NextDouble() > entry.Rarity) return;
-        // Facelings come by ones and twos (a few more in the city's crowds)
-        if (entry.Code is Roster.Faceling or Roster.FacelingChild)
-        {
-            int facelings = sapi.World.GetEntitiesAround(target.Pos.XYZ, 48, 16, e => e.Alive && e.Code.Path.StartsWith("faceling")).Length;
-            if (facelings >= (a.Level == 11 ? 3 : 2)) return;
-        }
-        TrySpawn(target, a, entry, Encounter.Ambient);
-    }
-
     /// <summary>
     /// How many menacing (not Ambient) entities are about a player already, whoever they were put down for: the cap
-    /// is on the place, so two people together are not hunted by twice as much, and what turns on a second player
+    /// is on the place (and a pack is clipped to the current band's cap), so two people together are not hunted by twice as much, and what turns on a second player
     /// (see <see cref="AiTaskMenace.OnEntityHurt"/>) still counts for the first.
     /// </summary>
     private int CountMenacing(Entity target) =>
-        sapi.World.GetEntitiesAround(target.Pos.XYZ, 64, 24, e => e.Alive && EntityBehaviorMenace.KindOf(e) is Encounter.Glimpse or Encounter.Stalk or Encounter.Hunt or Encounter.Leave).Length;
+        sapi.World.GetEntitiesAround(target.Pos.XYZ, 64, 24, e => e.Alive && EntityBehaviorMenace.KindOf(e) is Encounter.Glimpse or Encounter.Stalk or Encounter.Hunt or Encounter.Leave or Encounter.Investigate or Encounter.Search).Length;
+
+    /// <summary>The menacing entities (as <see cref="CountMenacing"/>) within 64 blocks counted by kind (entity code): the one-kind rule counts these, the caps count bodies.</summary>
+    private int CountMenacingKinds(Entity target) =>
+        sapi.World.GetEntitiesAround(target.Pos.XYZ, 64, 24, e => e.Alive && EntityBehaviorMenace.KindOf(e) is Encounter.Glimpse or Encounter.Stalk or Encounter.Hunt or Encounter.Leave or Encounter.Investigate or Encounter.Search)
+            .Select(e => e.Code.ToString()).Distinct().Count();
+
+    /// <summary>How much longer than the level's sound gap one person's next distant sound may be put off (a fraction of the gap, at random).</summary>
+    private const double SoundGapJitter = 0.5;
 
     /// <summary>Plays one of the level's distant sounds from somewhere off down a corridor.</summary>
-    public void PlayDistantSound(Entity target, int level)
+    public void PlayDistantSound(Entity target, int level, bool force = false, double minDistance = 14, double maxDistance = 36, DistantSound[] only = null)
     {
-        DistantSound[] sounds = Roster.SoundsFor(level);
+        DistantSound[] sounds = only ?? Roster.SoundsFor(level);
         if (sounds.Length == 0) return;
+        // (A minimum gap between one person's distant sounds, longer in Level 0, where they were too frequent)
+        long now = sapi.World.ElapsedMilliseconds;
+        double gap = Roster.SoundGapSeconds(level);
+        if (!force && gap > 0 && watches.TryGetValue(target.EntityId, out Watch heard))
+        {
+            if (now < heard.NextSoundMs) return;
+            heard.NextSoundMs = now + (long)(gap * 1000 * (1 + SoundGapJitter * rand.NextDouble()));
+        }
         DistantSound sound = sounds[rand.Next(sounds.Length)];
-        double angle = rand.NextDouble() * Math.PI * 2, distance = 14 + rand.NextDouble() * 22;
+        double angle = rand.NextDouble() * Math.PI * 2, distance = minDistance + rand.NextDouble() * (maxDistance - minDistance);
         double x = target.Pos.X + Math.Cos(angle) * distance, z = target.Pos.Z + Math.Sin(angle) * distance;
         float pitch = sound.PitchMin + (float)rand.NextDouble() * (sound.PitchMax - sound.PitchMin);
         IPlayer player = (target as EntityPlayer)?.Player;
@@ -627,9 +1028,13 @@ public class MenaceSystem : ModSystem
     // ================= Putting entities down =================
 
     /// <summary>Puts down an entity (and the rest of its pack) for an encounter with a target. Returns whether it did.</summary>
-    public bool TrySpawn(Entity target, Assessment a, RosterEntry entry, Encounter kind, double untilHours = -1)
+    /// <param name="setPiece">The Flickering's hounds, the Screaming's rats, a test: the pack is clipped to the Threshold cap rather than the current band's.</param>
+    public bool TrySpawn(Entity target, Assessment a, RosterEntry entry, Encounter kind, double untilHours = -1, bool setPiece = false, double minDistance = 0, int failedTries = 0, bool dryRun = false, double maxDistance = 0)
     {
+        LastTry = default;
         if (!types.TryGetValue(entry.Code, out EntityProperties type)) return false;
+        // A capped scavenger pack is silence, like any failed spawn: say so before the search for a spot, not after it
+        if (Scavengers(entry, a, kind, setPiece) && RatPacksNear(target) >= MaxRatPacks) { LastTry.RatCap = 1; if (!dryRun && minDistance <= 0 && !setPiece && kind != Encounter.Ambient) NoteFailedBody(a.Level, entry.Code, LastTry, 0, 0); return false; }
         (double min, double max) = kind switch
         {
             Encounter.Glimpse => (22.0, 40.0),
@@ -637,7 +1042,6 @@ public class MenaceSystem : ModSystem
             Encounter.Hunt => (14.0, 24.0),
             _ => (18.0, 40.0),
         };
-        Vec3d eyes = Senses.Eyes(target);
         (double ox, double oz) = layout.Outward((int)target.Pos.X, (int)target.Pos.Z);
         Vec3f view = target.Pos.GetViewVector();
         // At the edge of a level, the danger comes from the way the player is going: between them and the gate they are
@@ -651,37 +1055,125 @@ public class MenaceSystem : ModSystem
         }
         // Things that lie in wait are put ahead of the player, the way they are looking
         if (entry.Ambush) (min, max) = (8.0, 16.0);
-        Vec3d fallback = null;
+        // A set piece's pack is put well away, and not where anyone has just been looking
+        // (Each failed try before this one brings the band nearer at its inner edge and out at its far edge)
+        if (minDistance > 0) (min, max) = (Math.Max(14, minDistance - 3 * Math.Min(failedTries, 3)), minDistance + FlickerSpread + 6 * Math.Min(failedTries, 4));
+        // (A band given outright, a night visit's 12 to 18 blocks: taken as it is)
+        if (minDistance > 0 && maxDistance > minDistance) (min, max) = (minDistance, maxDistance);
+        int refusedSeen = 0, refusedView = 0, refusedSpot = 0;
 
-        for (int attempt = 0; attempt < 18; attempt++)
+        bool widened = false;
+        for (int attempt = 0; attempt < 2 * Looks; attempt++)
         {
+            // Under the open sky a stalker or hunter often has no unseen spot within the usual band (every spot is in a clear line):
+            // after the usual looks all failed, look again 30 to 48 blocks out, where a hill crest or a house may stand between
+            if (attempt == Looks)
+            {
+                if (kind is not (Encounter.Stalk or Encounter.Hunt) || entry.Ambush || entry.Aquatic || minDistance > 0 || setPiece || !UnderOpenSky(target.Pos.X, target.Pos.Y, target.Pos.Z)) break;
+                (min, max) = (OpenMinDistance, OpenMaxDistance);
+                widened = true;
+            }
             double angle = rand.NextDouble() * Math.PI * 2;
             if (ahead is double heading && attempt % 3 != 2) angle = heading + (rand.NextDouble() - 0.5) * 1.6;
             if (entry.Ambush) angle = Math.Atan2(view.Z, view.X) + (rand.NextDouble() - 0.5) * 1.2;
             double distance = min + rand.NextDouble() * (max - min);
             int x = (int)Math.Floor(target.Pos.X + Math.Cos(angle) * distance), z = (int)Math.Floor(target.Pos.Z + Math.Sin(angle) * distance);
             Vec3d spot = entry.Aquatic ? FindWaterSpot(target, a, x, z) : FindSpot(target, a, entry, kind, x, z);
-            if (spot == null) continue;
+            if (spot == null || widened && !UnderOpenSky(spot.X, spot.Y, spot.Z)) { refusedSpot++; continue; }
 
-            // A glimpse is meant to be seen; stalkers and hunters arrive unseen, and so do wanderers. What lies in
-            // wait, and what moves in the deep, can be put down anywhere.
+            // A glimpse is meant to be seen; stalkers, hunters, what lies in wait and wanderers arrive unseen.
+            // Nothing is put down where someone could see any part of it: no spawn is better than a visible one. (What moves
+            // in the deep can be put down anywhere.)
             bool wanted = true;
-            if (!entry.Ambush && !entry.Aquatic)
+            if (!entry.Aquatic)
             {
-                bool seen = Senses.ClearLine(sapi.World, eyes, spot.AddCopy(0, 1.5, 0));
-                wanted = kind == Encounter.Glimpse ? seen : !seen;
+                bool seen = SeenBySomeone(target, spot, type);
+                wanted = kind == Encounter.Glimpse && !entry.Ambush ? seen : !seen;
             }
-            if (!wanted)
+            if (!wanted) { refusedSeen++; continue; }
+            if (minDistance > 0 && failedTries < RecentViewDroppedAfter && InRecentView(target, spot))
             {
-                if (kind != Encounter.Glimpse) fallback ??= spot;
+                refusedView++;
                 continue;
             }
-            SpawnPack(target, entry, kind, type, spot, a, untilHours);
+            LastTry = new SpawnTry { NoFloor = refusedSpot, InSight = refusedSeen, JustSeen = refusedView };
+            if (!dryRun) SpawnPack(target, entry, kind, type, spot, a, untilHours, setPiece);
             return true;
         }
-        if (fallback == null) return false;
-        SpawnPack(target, entry, kind, type, fallback, a, untilHours);
-        return true;
+        LastTry = new SpawnTry { NoFloor = refusedSpot, InSight = refusedSeen, JustSeen = refusedView };
+        if (!dryRun && minDistance <= 0 && !setPiece && kind != Encounter.Ambient) NoteFailedBody(a.Level, entry.Code, LastTry, min, max);
+        if (Logging && minDistance > 0) sapi.Logger.Notification("[backrooms] {0}: no spot after 18 looks ({1} no floor/room, {2} in sight, {3} where they were just looking{4}); band {5:0}-{6:0} blocks", entry.Code, refusedSpot, refusedSeen, refusedView, failedTries >= RecentViewDroppedAfter ? "; recent view ignored" : "", min, max);
+        return false;
+    }
+
+    /// <summary>The looks for a spot a try makes (and as many more at <see cref="OpenMinDistance"/> to <see cref="OpenMaxDistance"/> blocks under the open sky).</summary>
+    private const int Looks = 18;
+    private const double OpenMinDistance = 30, OpenMaxDistance = 48;
+
+    /// <summary>Whether nothing roofs the column above a standing place (no block that stops rain over the head).</summary>
+    private bool UnderOpenSky(double x, double y, double z) =>
+        sapi.World.BlockAccessor.GetRainMapHeightAt((int)Math.Floor(x), (int)Math.Floor(z)) <= (int)Math.Floor(y) + 1;
+
+    /// <summary>The heights (fractions of the hitbox) and sides rays are cast to when asking whether something could be seen.</summary>
+    private static readonly (double Up, double Side)[] SightPoints = { (0.05, 0), (0.5, 0), (0.5, -0.5), (0.5, 0.5), (0.95, 0), (0.95, -0.5), (0.95, 0.5) };
+
+    /// <summary>How far (blocks) someone can see something put down.</summary>
+    private const double SightRange = 64;
+
+    /// <summary>
+    /// The client's view cone (degrees wide, with margin) and how far it counts. Only the sight test's log line uses
+    /// them, to say whether a refused spot was in view; the decision ignores the cone (any clear ray counts as seen).
+    /// </summary>
+    private const double ViewConeDegrees = 110, ViewConeRange = 48;
+
+    /// <summary>
+    /// Whether the player (or dummy) <paramref name="target"/>, or any other player about, could see any part of an entity
+    /// of this type standing at <paramref name="spot"/>: a ray from their eyes to its feet, middle or head (and the sides of
+    /// its body) is not stopped by a solid block (glass does not stop it). A spot in someone's view cone within
+    /// <see cref="ViewConeRange"/> blocks counts as seen unless every ray is blocked; outside the cone it counts as seen all
+    /// the same when a ray is clear, since they only have to turn round.
+    /// </summary>
+    private bool SeenBySomeone(Entity target, Vec3d spot, EntityProperties type)
+    {
+        return SeenBySomeone(target, spot, type.CollisionBoxSize?.Y ?? 1.85f, type.CollisionBoxSize?.X ?? 0.6f);
+    }
+
+    /// <summary>The same for a thing of a known size (the wanderers, put down by their own system).</summary>
+    internal bool SeenBySomeone(Entity target, Vec3d spot, float height, float width)
+    {
+        if (SeenBy(target, spot, height, width)) return true;
+        foreach (IPlayer online in sapi.World.AllOnlinePlayers)
+        {
+            EntityPlayer other = online.Entity;
+            if (other == null || other == target || !other.Alive || other.Pos.Dimension != target.Pos.Dimension) continue;
+            if (online.WorldData.CurrentGameMode == EnumGameMode.Spectator) continue;
+            if (other.Pos.DistanceTo(spot) > SightRange) continue;
+            if (SeenBy(other, spot, height, width)) return true;
+        }
+        return false;
+    }
+
+    private bool SeenBy(Entity viewer, Vec3d spot, float height, float width)
+    {
+        Vec3d eyes = Senses.Eyes(viewer);
+        double dx = spot.X - eyes.X, dz = spot.Z - eyes.Z, flat = Math.Sqrt(dx * dx + dz * dz);
+        if (eyes.DistanceTo(spot) > SightRange) return false;
+        // (The sideways rays run across the line of sight)
+        double sx = flat > 0.01 ? -dz / flat : 1, sz = flat > 0.01 ? dx / flat : 0;
+        bool clear = false;
+        foreach ((double up, double side) in SightPoints)
+        {
+            var to = new Vec3d(spot.X + sx * side * width, spot.Y + up * height, spot.Z + sz * side * width);
+            if (Senses.ClearLine(sapi.World, eyes, to, throughGlass: true)) { clear = true; break; }
+        }
+        if (Logging)
+        {
+            Vec3f view = viewer.Pos.GetViewVector();
+            double cos = flat > 0.01 ? (dx * view.X + dz * view.Z) / flat : 1;
+            bool inCone = flat <= ViewConeRange && cos >= Math.Cos(ViewConeDegrees / 2 * Math.PI / 180);
+            sapi.Logger.Notification("[backrooms] sight test {0:0} blocks off, {1}: {2}", flat, inCone ? "in view cone" : "out of cone", clear ? "REFUSED (clear line)" : "hidden, ok");
+        }
+        return clear;
     }
 
     /// <summary>
@@ -698,25 +1190,52 @@ public class MenaceSystem : ModSystem
         return length < 48 || facing ? Math.Atan2(dz, dx) : null;
     }
 
-    private void SpawnPack(Entity target, RosterEntry entry, Encounter kind, EntityProperties type, Vec3d spot, Assessment a, double untilHours)
+    /// <summary>Whether a body of this kind becomes a pack of scavenging rats: a Death Rat in the heart of a level, apart from the Screaming's frenzy and set pieces.</summary>
+    private static bool Scavengers(RosterEntry entry, Assessment a, Encounter kind, bool setPiece) =>
+        entry.Code == Roster.DeathRat && a.Band == MenaceBand.Heartland && !entry.Frenzy && kind != Encounter.Ambient && !setPiece;
+
+    /// <summary>Whether the spawns being made now are a set piece (for the play telemetry).</summary>
+    private bool telemetrySetPiece;
+
+    private void SpawnPack(Entity target, RosterEntry entry, Encounter kind, EntityProperties type, Vec3d spot, Assessment a, double untilHours, bool setPiece)
     {
+        telemetrySetPiece = setPiece;
         int packMax = entry.PackMax + (entry.PackMax > 1 && Danger.OfLevel(a.Level) >= 0.5 ? 1 : 0);
+        // In the heart of a level, rats are scavengers (README 6.1): a pack that goes about its own business, to food on the
+        // floor, and runs from you (AiTaskScavenge). At the edge and in dens they are put down hunting, as before. Not
+        // too many of them about one person at a time.
+        bool unseen = kind != Encounter.Glimpse && !entry.Aquatic; // (every member of a pack is put down out of sight too)
+        bool scavengers = Scavengers(entry, a, kind, setPiece);
+        if (scavengers) kind = Encounter.Ambient; // (TrySpawn has already refused when too many packs are about)
+        // The Skin-Stealer's day: now and then one put down is fed already, so docile (the heartland, where they only wander, and a fifth further out)
+        double fedChance = entry.Code == Roster.SkinStealer && kind != Encounter.Ambient ? (a.Band == MenaceBand.Heartland ? SkinStealerFedHeartland : SkinStealerFedOut) : 0;
         // A glimpse is one thing seen and gone, except the Screaming's frenzied pack, which crosses ahead all together
-        bool single = kind == Encounter.Ambient || (kind == Encounter.Glimpse && !entry.Frenzy);
+        bool single = !scavengers && (kind == Encounter.Ambient || (kind == Encounter.Glimpse && !entry.Frenzy));
         int count = single ? 1 : entry.PackMin + rand.Next(packMax - entry.PackMin + 1);
-        if (kind != Encounter.Ambient) count = Math.Max(1, Math.Min(count, Roster.Cap(MenaceBand.Threshold, a.Level) - CountMenacing(target)));
-        Spawn(type, spot, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy);
+        if (kind != Encounter.Ambient && !packUncapped) count = Math.Max(1, Math.Min(count, Roster.Cap(setPiece ? MenaceBand.Threshold : a.Band, a.Level) - CountMenacing(target)));
+        lastPack.Clear();
+        if (Spawn(type, spot, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy, fedChance: fedChance) is { } first) lastPack.Add(first);
         for (int i = 1; i < count; i++)
         {
             for (int attempt = 0; attempt < 6; attempt++)
             {
                 int x = (int)Math.Floor(spot.X) + rand.Next(-3, 4), z = (int)Math.Floor(spot.Z) + rand.Next(-3, 4);
                 Vec3d near = entry.Aquatic ? FindWaterSpot(target, a, x, z) : FindSpot(target, a, entry, kind, x, z, (int)Math.Floor(spot.Y));
-                if (near == null) continue;
-                Spawn(type, near, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy);
+                if (near == null || unseen && SeenBySomeone(target, near, type)) continue;
+                if (Spawn(type, near, target, kind, a.Passive, untilHours, entry.ShiftOnly, entry.Frenzy, fedChance: fedChance) is { } another) lastPack.Add(another);
                 break;
             }
         }
+        if (Logging)
+            foreach (Entity member in lastPack)
+            {
+                // (Checked on the entity as it stands, as a second opinion on SeenBySomeone: any ray from the eyes to feet, middle, head)
+                Vec3d eyesNow = Senses.Eyes(target);
+                float h = member.Properties.CollisionBoxSize?.Y ?? 1.85f;
+                bool anyClear = new[] { 0.05, 0.5, 0.95 }.Any(f => Senses.ClearLine(sapi.World, eyesNow, member.Pos.XYZ.Add(0, f * h, 0), throughGlass: true));
+                sapi.Logger.Notification("[backrooms] placed {0} ({1}) {2:0} blocks off: {3}", member.Code.Path, kind, member.Pos.DistanceTo(target.Pos.XYZ), anyClear ? "CLEAR LINE to the eyes" : "no line to the eyes");
+            }
+        telemetrySetPiece = false;
         if (Logging) sapi.Logger.Notification("[backrooms] {0} x{1} ({2}) for {3}, {4:0} blocks off, band {5}", entry.Code, count, kind, (target as EntityPlayer)?.Player?.PlayerName ?? target.Code.ToString(), spot.DistanceTo(target.Pos.XYZ), a.Band);
     }
 
@@ -732,10 +1251,20 @@ public class MenaceSystem : ModSystem
         return Spawn(type, at, target, Encounter.Hunt, passive: false, dangerOverride: ownNumbers ? 0 : null);
     }
 
-    private Entity Spawn(EntityProperties type, Vec3d at, Entity target, Encounter kind, bool passive, double untilHours = -1, bool duringShift = false, bool frenzy = false, double? dangerOverride = null)
+    /// <summary>The chance a Skin-Stealer the director puts down is fed (docile): in the heartland, and further out. The calendar hours a meal lasts.</summary>
+    private const double SkinStealerFedHeartland = 0.5, SkinStealerFedOut = 0.2, SkinStealerFedHours = 24;
+
+    private Entity Spawn(EntityProperties type, Vec3d at, Entity target, Encounter kind, bool passive, double untilHours = -1, bool duringShift = false, bool frenzy = false, double? dangerOverride = null, double fedChance = 0)
     {
         Entity entity = sapi.World.ClassRegistry.CreateEntity(type);
         if (frenzy) entity.Attributes.SetBool(AiTaskMenace.FrenzyKey, true);
+        // A fed Skin-Stealer is docile, whatever it was put down to do: it wanders (and wears the disguise look, see ChooseLook).
+        // One put down as a wanderer (Ambient) is always fed
+        if (type.Code.Path == "skinstealer" && (kind == Encounter.Ambient || rand.NextDouble() < fedChance))
+        {
+            kind = Encounter.Ambient;
+            entity.Attributes.SetDouble(EntityBehaviorMenace.FedKey, sapi.World.Calendar.TotalHours + SkinStealerFedHours);
+        }
         entity.Pos.SetPos(at.X, at.Y + 0.02, at.Z);
         entity.Pos.Yaw = (float)Math.Atan2(target.Pos.X - at.X, target.Pos.Z - at.Z);
         EntityBehaviorMenace.Prepare(entity, target, kind, passive, sapi.World.ElapsedMilliseconds, untilHours, duringShift);
@@ -745,10 +1274,12 @@ public class MenaceSystem : ModSystem
         double danger = dangerOverride ?? Danger.OfLevel(layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(at.X)), WorldLayout.MacroOf((int)Math.Floor(at.Z))));
         entity.Attributes.SetDouble(Danger.Key, danger);
         sapi.World.SpawnEntity(entity);
+        if (PlayTelemetry.Telemetry.On) PlayTelemetry.Telemetry.Spawn(entity, target, EntityBehaviorMenace.KindOf(entity).ToString(), AssessmentOf(target).Band.ToString(), telemetrySetPiece);
         if (entity.GetBehavior<Vintagestory.GameContent.EntityBehaviorHealth>() is { } health)
         {
             // Deeper down, harder to put down; an old Hound half as hard again
-            float extra = Danger.ExtraHealth(danger) + (elder ? 0.5f : 0f);
+            // (Evolved Facelings are weak: 12 against the ordinary 10)
+            float extra = Danger.ExtraHealth(danger) + (elder ? 0.5f : 0f) + (entity.Attributes.GetBool(EvolvedKey) ? 0.2f : 0f);
             if (extra > 0)
             {
                 health.SetMaxHealthModifiers("backrooms-danger", health.BaseMaxHealth * extra);
@@ -776,6 +1307,19 @@ public class MenaceSystem : ModSystem
                 int look = r < 0.12 ? 2 : r < 0.37 ? 1 : 0;
                 entity.WatchedAttributes.SetInt("textureIndex", look);
                 return look == 2;
+            case "faceling":
+                // Level 3's are all Evolved (hostile, half-formed faces); elsewhere any of the ordinary looks (the Evolved
+                // one is only ever given by index, never left to the client's chance)
+                int here = layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(at.X)), WorldLayout.MacroOf((int)Math.Floor(at.Z)));
+                bool evolved = here == 3;
+                entity.WatchedAttributes.SetInt("textureIndex", evolved ? EntityBehaviorFaceling.EvolvedLook : rand.Next(EntityBehaviorFaceling.AdultLooks));
+                if (evolved) entity.Attributes.SetBool(EvolvedKey, true);
+                if (Logging) sapi.Logger.Notification("[backrooms] faceling look {0} (level {1}{2})", entity.WatchedAttributes.GetInt("textureIndex"), here, evolved ? ", Evolved" : "");
+                return false;
+            case "skinstealer":
+                // Fed, it wears clothes over a fresher skin (index 1); hungry, the waxy one
+                entity.WatchedAttributes.SetInt("textureIndex", entity.Attributes.GetDouble(EntityBehaviorMenace.FedKey, 0) > sapi.World.Calendar.TotalHours ? 1 : 0);
+                return false;
             case "wretch":
                 // The further down, the longer they have been down here: still dressed near the top, all but gone deep
                 double d = Danger.OfLevel(layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(at.X)), WorldLayout.MacroOf((int)Math.Floor(at.Z))));
@@ -786,10 +1330,14 @@ public class MenaceSystem : ModSystem
         return false;
     }
 
+    /// <summary>How far (blocks) from Level 10's wall the Neighborhood Watch is never put down.</summary>
+    private const int WatchClearOfLevel10 = 200;
+
     /// <summary>
     /// A place an entity could stand at a column: in the target's level, not in a sanctuary or a sealed room, a solid
     /// floor with room above it near the target's height, and dark if the entity needs the dark.
     /// </summary>
+
     private Vec3d FindSpot(Entity target, Assessment a, RosterEntry entry, Encounter kind, int x, int z, int? nearY = null)
     {
         if (target.Pos.XYZ.HorizontalSquareDistanceTo(x + 0.5, z + 0.5) < NoSpawnRadius * NoSpawnRadius) return null;
@@ -799,6 +1347,8 @@ public class MenaceSystem : ModSystem
         int level = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z));
         if (level != a.Level) return null;
         if (a.Snackrooms != (level == 6 && layout.IsSnackrooms(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)))) return null;
+        // The Watch is not found "in areas that go to Level 10" (Wikidot): never within 200 blocks of the wall into it
+        if (entry.Code == Roster.NeighborhoodWatch && layout.BlocksToNextLevel(x, z, level) < WatchClearOfLevel10) return null;
         bool ambient = kind == Encounter.Ambient;
         if (!ambient && layout.IsSanctuary(x, z, level)) return null;
         // The layout knows where the rooms, walls and sealed places are on every level but the sea and the caves
@@ -811,8 +1361,30 @@ public class MenaceSystem : ModSystem
         var spot = new Vec3d(x + 0.5, y, z + 0.5);
         if (entry.SubwayOnly && y >= geometry.CityFloorY - 1) return null;
         if (entry.NeedsDark && Senses.LightAt(sapi.World, spot.AddCopy(0, 1, 0), target) >= Senses.LitLevel) return null;
+        // (Under the open sky, with room for something three blocks tall)
+        if (entry.Outdoors && (sapi.World.BlockAccessor.GetRainMapHeightAt(x, z) > y || Senses.FindFloor(sapi.World, x, y, z, 3, 0) != y)) return null;
+        // (The Watcher: never two within 48 blocks, never within 200 of Level 10's wall)
+        if (entry.Code == Roster.Watcher && !WatcherSpotOk(spot)) return null;
         if (!ambient && Wards.Warded(sapi.World, spot)) return null;
         return spot;
+    }
+
+    /// <summary>Whether a Watcher may be put down at a spot: no other within 48 blocks, no Level 10 within 200 (the lore's "never near Level 10").</summary>
+    private bool WatcherSpotOk(Vec3d spot)
+    {
+        if (sapi.World.GetNearestEntity(spot, 48, 48, e => e.Alive && e.Code.Path == "watcher") != null) return false;
+        int mx = WorldLayout.MacroOf((int)Math.Floor(spot.X)), mz = WorldLayout.MacroOf((int)Math.Floor(spot.Z));
+        int reach = 200 / WorldLayout.MacroSize + 2;
+        for (int dz = -reach; dz <= reach; dz++)
+            for (int dx = -reach; dx <= reach; dx++)
+            {
+                if (layout.LevelAt(mx + dx, mz + dz) != 10) continue;
+                // (The distance to the nearest point of that cell)
+                double nx = Math.Clamp(spot.X, (mx + dx) * WorldLayout.MacroSize, (mx + dx + 1) * WorldLayout.MacroSize);
+                double nz = Math.Clamp(spot.Z, (mz + dz) * WorldLayout.MacroSize, (mz + dz + 1) * WorldLayout.MacroSize);
+                if ((nx - spot.X) * (nx - spot.X) + (nz - spot.Z) * (nz - spot.Z) < 200.0 * 200.0) return false;
+            }
+        return true;
     }
 
     /// <summary>Somewhere in open, deep water around a column, near the target's depth (for The Thing).</summary>
@@ -860,6 +1432,8 @@ public class MenaceSystem : ModSystem
         {
             text.AppendFormat("\n{0}: {1}, {2:0} blocks", e.Code.Path, e.GetBehavior<EntityBehaviorMenace>().Kind, e.Pos.DistanceTo(entity.Pos.XYZ));
         }
+        text.Append('\n').Append(FailedBodiesLine(a.Level));
+        text.Append('\n').Append(CostLine());
         return TextCommandResult.Success(text.ToString());
     }
 
@@ -897,11 +1471,12 @@ public class MenaceSystem : ModSystem
         {
             NeedsDark = code == Roster.Smiler,
             Aquatic = code == Roster.TheThing,
-            Ambush = code == Roster.Clump,
+            Ambush = code is Roster.Clump, // (the Giant Spider is not put in ambush by the roster either)
+            Outdoors = code is Roster.NeighborhoodWatch or Roster.Watcher,
         };
         // Put it down at the right distance (or the one asked for); failing that, anywhere 14 blocks off
         int distance = args.Parsers[4].IsMissing ? 14 : (int)args[4];
-        if (args.Parsers[4].IsMissing && TrySpawn(target, a, entry, kind)) return TextCommandResult.Success($"{code} ({kind}) put down for {target.Code}");
+        if (args.Parsers[4].IsMissing && TrySpawn(target, a, entry, kind, setPiece: true)) return TextCommandResult.Success($"{code} ({kind}) put down for {target.Code}");
         for (int attempt = 0; attempt < 60; attempt++)
         {
             // (In a maze of narrow tunnels most points at a set distance are rock: try nearer ones too)

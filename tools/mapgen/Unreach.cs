@@ -13,4 +13,4 @@ static class Unreach {
     foreach (var (k, v) in tally.OrderByDescending(p => p.Value)) Console.WriteLine($"{k,-34} {v,6}  e.g. {example[k]}");
   }
 }
-static class WorldLayoutAccess { public static bool Walk(Tile t) => (t.Stack == 0 || t.Variant != 0) && !t.SupplyBox && t.Stair == 0 && t.Variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll or Props.SleepingBag or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts; }
+static class WorldLayoutAccess { public static bool Walk(Tile t) => (t.Stack == 0 || t.Variant != 0) && !t.SupplyBox && t.Stair == 0 && t.Variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable or Props.Bedroll or Props.SleepingBag or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts or Props.MegPlacard; }

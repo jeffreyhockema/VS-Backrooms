@@ -19,28 +19,43 @@
 		]
 	},
 	"blockmaterial": "Glass",
-	"drawtype": "cube",
-	"texturesByType": {
+	"drawtypeByType": {
+		"*-blackout": "json",
+		"*": "cube"
+	},
+	"shapeByType": {
 		"*-blackout": {
-			"all": {
-				"base": "block/detail/officewindow-blackout"
-			}
-		},
+			"base": "block/detail/officewindowalt-blackout"
+		}
+	},
+	"texturesByType": {
 		"*-blinds": {
 			"all": {
-				"base": "block/detail/officewindow-blinds"
+				"base": "block/detail/officewindow-blinds",
+				"alternates": [
+					{
+						"base": "block/detail/officewindow-blinds-2"
+					},
+					{
+						"base": "block/detail/officewindow-blinds-3"
+					},
+					{
+						"base": "block/detail/officewindow-blinds-4"
+					}
+				]
 			}
 		}
 	},
-	"lightAbsorption": 99,
-	"resistance": 4,
-	"sounds": {
-		"walk": "game:walk/stone",
-		"place": "game:block/glass",
-		"break": "game:block/glass",
-		"hit": "game:block/glass"
+	"sideopaqueByType": {
+		"*-blackout": {
+			"all": false
+		}
 	},
-	"drops": [],
+	"randomizeAxes": "xyz",
+	"lightAbsorptionByType": {
+		"*-blinds": 0,
+		"*": 99
+	},
 	"lightHsvByType": {
 		"*-blinds": [
 			36,
@@ -48,8 +63,12 @@
 			4
 		]
 	},
-	"lightAbsorptionByType": {
-		"*-blinds": 0,
-		"*": 99
-	}
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"drops": []
 }

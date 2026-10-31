@@ -1,0 +1,14 @@
+description: Rolls a supply box's drops as if it stood where the player does, in Level 1 and in Level 3 (the survival class thins food and water), and compares.
+steps:
+  - bot: closeguis
+  - cmd: /backrooms goto 1
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms rig classdrops supplybox
+  - expect_chat: class scale
+  - cmd: /backrooms goto 3
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms rig classdrops supplybox
+  - expect_chat: class scale
+  - note: "Compare the two 'average per roll' lines in the chat log below: Level 3 (Class 4) should hold about half the food and Almond Water of Level 1."

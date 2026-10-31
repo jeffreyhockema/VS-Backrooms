@@ -542,17 +542,32 @@ def textures():
     save(noisy(0xFFE6A8, 3, "lampglow"), "lampglow")
     save(noisy(0xFFF6E6, 2, "diffuser"), "diffuser")
     # Shrink wrap: milky, crinkled, catching the light; brown packing tape
-    img = Image.new("RGBA", (S, S), (232, 236, 238, 110))
+    # Drawn as a cut-out (texels fully opaque or fully empty) because the stock block renders in an opaque pass:
+    # coherent film: long vertical sheen streaks, a few diagonal creases, a denser band along the top where it bunches
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
     rng = random.Random(seed_of("wrap"))
     d = ImageDraw.Draw(img)
-    for _ in range(9):
-        x, y = rng.randrange(S), rng.randrange(S)
-        d.line([x, y, x + rng.randint(-6, 6), y + rng.randint(4, 12)], fill=(255, 255, 255, 170))
-    for _ in range(5):
-        x, y = rng.randrange(S), rng.randrange(S)
-        d.line([x, y, x + rng.randint(-5, 5), y + rng.randint(3, 8)], fill=(196, 204, 210, 140))
+    grey, pale, bright = (196, 204, 210, 255), (222, 229, 233, 255), (246, 249, 250, 255)
+    for x in sorted(rng.sample(range(0, S - 1), 4)):
+        w = rng.choice((1, 1, 2))
+        y0 = rng.randint(0, 3)
+        y1 = S - 1 - rng.randint(0, 3)
+        gap = rng.randint(5, S - 6) if rng.random() < 0.5 else None
+        for y in range(y0, y1 + 1):
+            if gap is not None and gap <= y < gap + 2:
+                continue
+            d.line([x, y, x + w - 1, y], fill=pale)
+    for x in (rng.randint(2, S // 2 - 2), rng.randint(S // 2 + 2, S - 3)):
+        d.line([x + 1, 0, x + 1, S - 1], fill=bright)
+    for _ in range(3):
+        x, y = rng.randint(0, S // 2), rng.randint(0, S // 3)
+        d.line([x, y, x + rng.randint(7, 10), y + rng.randint(9, 14)], fill=grey)
+    for y in (0, 1):
+        for x in range(S):
+            if (x + y) % 2 == 0:
+                img.putpixel((x, y), pale)
     save(img, "wrap")
-    img = noisy(0xC9A46A, 4, "tape", alpha=225)
+    img = noisy(0xC9A46A, 4, "tape", alpha=255)
     save(img, "tape")
     save(noisy(0xEDEFEF, 3, "cleartape", alpha=120), "cleartape")
     img = noisy(0xC8A878, 7, "pallet")
@@ -1632,9 +1647,6 @@ def furniture():
             faces_box("Shade", (8.5, 19.5, 9), (14.5, 22, 12), {"north": "greenglass", "south": "greenglass", "east": "greenglass", "west": "greenglass", "up": "greenglass"}),
             faces_box("ShadeGlow", (8.7, 19.45, 9.2), (14.3, 19.5, 11.8), {"down": "lampglow"}, glow_by_face={"down": 255}),
             bx("Chain", (13.6, 17.5, 10.4), (13.8, 19.5, 10.6), "brass")]
-    wrap = [faces_box("Wrap", (1.4, 0, 1.4), (14.6, 17.6, 14.6), {"north": "wrap", "south": "wrap", "east": "wrap", "west": "wrap", "up": "wrap"})]
-    for k, y in enumerate((5, 13)):
-        wrap.append(faces_box(f"Tape{k}", (1.3, y, 1.3), (14.7, y + 1.2, 14.7), {"north": "tape", "south": "tape", "east": "tape", "west": "tape"}))
     armchair = [bx("FootFW", (1, 0, 1.5), (2.5, 3, 3), "maple-dark"), bx("FootFE", (13.5, 0, 1.5), (15, 3, 3), "maple-dark"),
                 bx("FootBW", (1, 0, 13), (2.5, 3, 14.5), "maple-dark"), bx("FootBE", (13.5, 0, 13), (15, 3, 14.5), "maple-dark"),
                 bx("Base", (0.5, 3, 1), (15.5, 8, 15), "mustard"), bx("Cushion", (3, 8, 1.4), (13, 10.2, 12.5), "mustard"),
@@ -1663,7 +1675,7 @@ def furniture():
         "table": table_els(),
         "lamptable": table_els() + lamp,
         "chair": chair_els(),
-        "wrapped": chair_els() + wrap,
+        "wrapped": chair_els(),  # the old "chair in plastic" code: now a plain chair (the square wrap sat wrong on an L-shaped chair)
         "armchair": armchair,
         "carrel": carrel,
         "displaytable": display,
@@ -1673,7 +1685,7 @@ def furniture():
     for kind, els in kinds.items():
         shapes.update(by_side(f"*-{kind}", shp(f"end-furniture-{kind}", els)))
     boxes = {"table": [(0, 0, 0, 1, 0.875, 1)], "lamptable": [(0, 0, 0, 1, 0.875, 1)], "chair": [(0.12, 0, 0.12, 0.88, 0.6, 0.88)],
-             "wrapped": [(0.09, 0, 0.09, 0.91, 1.1, 0.91)], "armchair": [(0.03, 0, 0.06, 0.97, 0.65, 0.94)],
+             "wrapped": [(0.12, 0, 0.12, 0.88, 0.6, 0.88)], "armchair": [(0.03, 0, 0.06, 0.97, 0.65, 0.94)],
              "carrel": [(0, 0, 0.12, 1, 1.5, 1)], "displaytable": [(0, 0, 0.06, 1, 0.55, 0.94)], "magrack": [(0, 0, 0.25, 1, 1.4, 1)]}
     sel = {}
     for kind, b in boxes.items():
@@ -1686,9 +1698,8 @@ def furniture():
         "creativeinventory": inv("*-table-north"), "blockmaterial": "Wood", "drawtype": "json",
         "shapeByType": shapes, **OPEN, "resistance": 1.5, "sounds": WOOD,
         "collisionboxesByType": coll, "selectionboxesByType": sel,
-        "renderpassByType": {"*-wrapped-*": "Transparent"},
         "lightHsvByType": {"*-lamptable-*": [8, 4, 10]},
-        "soundsByType": {"*-armchair-*": CLOTH, "*-wrapped-*": CLOTH, "*": WOOD},
+        "soundsByType": {"*-armchair-*": CLOTH, "*": WOOD},
         "dropsByType": {
             "*-table-*": drops((TABLE, 0.5, 0), (PLANK, 1.5, 0.5)),
             "*-lamptable-*": drops((TABLE, 0.5, 0), (PLANK, 1.5, 0.5), ("game:metalbit-brass", 0.6, 0.4), ("glassshard", 0.5, 0.5)),
@@ -1702,7 +1713,7 @@ def furniture():
     }, "The End: reading-room furniture, facing the side named (a chair's sitter faces it): study table, table with a "
        "banker's lamp, library chair, a chair still in its plastic, armchair, study carrel, display table, magazine rack")
     for kind, eng in (("table", "Study Table"), ("lamptable", "Study Table with Lamp"), ("chair", "Library Chair"),
-                      ("wrapped", "Chair in Plastic"), ("armchair", "Armchair"), ("carrel", "Study Carrel"),
+                      ("wrapped", "Library Chair"), ("armchair", "Armchair"), ("carrel", "Study Carrel"),
                       ("displaytable", "Display Table"), ("magrack", "Magazine Rack")):
         name(f"end-furniture-{kind}-*", eng)
 
@@ -1762,7 +1773,7 @@ def stock():
             boxes += [faces_box(f"Box{layer}{i}", (x, y, z), (x + 7.3, y + 5.9, z + 7.3),
                                 {"north": "cardboard", "south": "cardboard", "east": "cardboard", "west": "cardboard", "up": "cardboardtop"})]
     wrap = [faces_box("Wrap", (0.4, 2, 0.4), (15.6, 20.2, 15.6), {"north": "wrap", "south": "wrap", "east": "wrap", "west": "wrap", "up": "wrap"}),
-            faces_box("Label", (4, 12, 0.6), (12, 18, 0.62), {"north": "stocklabel"}, uv=(0, 0, 16, 16))]
+            faces_box("Label", (4, 12, 0.5), (12, 18, 0.56), {"north": "stocklabel"}, uv=(0, 0, 16, 16))]
     step = [bx("RailL", (3, 0, 7.4), (4.5, 30, 8.9), "pallet"), bx("RailR", (11.5, 0, 7.4), (13, 30, 8.9), "pallet"),
             bx("BackL", (3.2, 0, 9.4), (4.4, 27, 10.4), "pallet"), bx("BackR", (11.6, 0, 9.4), (12.8, 27, 10.4), "pallet"),
             bx("Top", (2.6, 30, 7), (13.4, 31.2, 10.6), "pallet")]
@@ -1803,7 +1814,7 @@ def stock():
         "creativeinventory": inv("*-pallet-north"), "blockmaterial": "Wood", "drawtype": "json",
         "shapeByType": shapes, **OPEN, "resistance": 1.5, "sounds": WOOD,
         "collisionboxesByType": coll, "selectionboxesByType": coll,
-        "renderpassByType": {"*-pallet-*": "Transparent", "*-ladderwrapped-*": "Transparent"},
+        "renderpassByType": {"*-pallet-*": "OpaqueNoCull", "*-ladderwrapped-*": "OpaqueNoCull"},  # the wrap is a cut-out texture, so the stock shows solid through it
         "dropsByType": {
             "*-pallet-*": drops((PLANK, 3, 1), (NAILS, 0.5, 0.5), ("block:supplybox", 1, 0)),
             "*-trolley-*": drops((STICK, 2, 1), ("metalbracket", 1, 0.5), (PLANK, 1, 0.5)),
@@ -1839,11 +1850,15 @@ def balustrades(flat=None):
         if flat is None:
             # measured square to the line: the handrail tops out 16 px over the line (where it meets the landing's
             # rail); the skirt reaches down to the block's low corner, so it closes the space under the steps
-            els += [incline(f"Skirt{side}", x1, x2, -11.4, 2.5, "brushed"), incline(f"Glass{side}", gx1, gx2, 2.5, 9.5, "glass"),
+            # (the skirt stands 0.3 px proud of the block's side: flush with it, its face lay in the same plane as the
+            # wall blocks the escalator stands on and against, and the two flickered)
+            sk1, sk2 = (x1 - 0.3, x2) if side == "W" else (x1, x2 + 0.3)
+            els += [incline(f"Skirt{side}", sk1, sk2, -11.4, 2.5, "brushed"), incline(f"Glass{side}", gx1, gx2, 2.5, 9.5, "glass"),
                     incline(f"Rail{side}", x1 - 0.2, x2 + 0.2, 9.5, 11.3, "rubber")]
         else:
             y0, z1, z2 = flat
-            els += [bx(f"Skirt{side}", (x1, y0 - 3, z1), (x2, y0 + 2.5, z2), "brushed"), bx(f"Glass{side}", (gx1, y0 + 2.5, z1), (gx2, y0 + 14.5, z2), "glass"),
+            sk1, sk2 = (x1 - 0.3, x2) if side == "W" else (x1, x2 + 0.3)
+            els += [bx(f"Skirt{side}", (sk1, y0 - 3, z1), (sk2, y0 + 2.5, z2), "brushed"), bx(f"Glass{side}", (gx1, y0 + 2.5, z1), (gx2, y0 + 14.5, z2), "glass"),
                     bx(f"Rail{side}", (x1 - 0.2, y0 + 14.5, z1), (x2 + 0.2, y0 + 16.3, z2), "rubber")]
     return els
 
@@ -1858,7 +1873,10 @@ def atrium():
     step += balustrades()
     # The head of the flight: the last steps (it climbs like the others), the comb plate on the top step, newels
     top = [json.loads(json.dumps(e)) for e in step]
-    top += [faces_box("Comb", (1.5, 16, 0), (14.5, 16.4, 4), {"up": "comb", "north": "brushed", "south": "brushed"}, uv=(0, 16, 16, 12)),
+    for e in top:
+        if e["name"] == "Step3":
+            e["to"][1] = 15.4  # the comb plate lies on it and ends flush with the block's top, which is the deck's
+    top += [faces_box("Comb", (1.5, 15.4, 0), (14.5, 16, 4), {"up": "comb", "north": "brushed", "south": "brushed"}, uv=(0, 16, 16, 12)),
             bx("NewelW", (-0.2, 16, 0), (1.7, 32.3, 1.6), "rubber"), bx("NewelE", (14.3, 16, 0), (16.2, 32.3, 1.6), "rubber")]
     bottom = [faces_box("Comb", (1.5, 0, 0), (14.5, 0.8, 16), {"up": "comb", "north": "brushed", "south": "brushed"})]
     bottom += balustrades((0, 0, 14)) + [bx("NewelW", (-0.2, 6, 13.8), (1.7, 16.3, 15.6), "rubber"), bx("NewelE", (14.3, 6, 13.8), (16.2, 16.3, 15.6), "rubber"),
@@ -1867,8 +1885,11 @@ def atrium():
     for part, els in (("step", step), ("top", top), ("bottom", bottom)):
         shapes.update(by_side(f"*-{part}", shp(f"end-escalator-{part}", els)))
     coll = {}
-    coll.update(boxes_by_side("*-step", [(0, 0, 0, 1, 0.5, 1), (0, 0.5, 0, 1, 1, 0.5)]))
-    coll.update(boxes_by_side("*-top", [(0, 0, 0, 1, 0.5, 1), (0, 0.5, 0, 1, 1, 0.5)]))
+    # a collision step for every visible one (a quarter block each), so you walk up it without jumping and stand on the
+    # treads, not above them
+    quarters = [(0, 0, 0.75 - 0.25 * k, 1, 0.25 * (k + 1), 1 - 0.25 * k) for k in range(4)]
+    coll.update(boxes_by_side("*-step", quarters))
+    coll.update(boxes_by_side("*-top", quarters))
     coll.update(boxes_by_side("*-bottom", [(0, 0, 0, 1, 0.05, 1)]))
     blk("end-escalator", {
         "variantgroups": [{"code": "part", "states": ["step", "top", "bottom"]}, {"code": "side", "states": SIDES}],
@@ -2337,7 +2358,7 @@ ITEM_TRANSFORMS = {
     "groundTransform": {"rotation": {"x": 90, "y": 0, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": 2},
 }
 BOTTLE_TRANSFORMS = {
-    "guiTransform": {"rotation": {"x": -22.6, "y": -45.3, "z": 0}, "origin": {"x": 0.5, "y": 0.3, "z": 0.5}, "scale": 2.4},
+    "guiTransform": {"rotation": {"x": 157.4, "y": -45.3, "z": 0}, "origin": {"x": 0.5, "y": 0.3, "z": 0.5}, "scale": 2.4},
     "fpHandTransform": {"translation": {"x": 0, "y": 0.1, "z": 0.4}, "rotation": {"x": 0, "y": -30, "z": 0}, "scale": 2},
     "tpHandTransform": {"translation": {"x": -0.85, "y": -0.5, "z": -0.6}, "rotation": {"x": 0, "y": -45, "z": -10}, "scale": 0.8},
     "groundTransform": {"rotation": {"x": 0, "y": -45, "z": 0}, "origin": {"x": 0.5, "y": 0, "z": 0.5}, "scale": 2.8},
@@ -2374,7 +2395,7 @@ def items():
     itm("end-memoryjuice", ground_storable(dict({
         "class": "BackroomsMemoryJuice", "maxstacksize": 8, "shape": {"base": "item/end/memoryjuice"},
         "creativeinventory": {"general": ["*"], "items": ["*"]},
-        "nutritionProps": {"satiety": 20, "foodcategory": "NoNutrition"}, "materialDensity": 1000,
+        "nutritionProps": {"satiety": 20, "foodcategory": "NoNutrition"}, "materialDensity": 1000, "attributes": {"hydration": 100},
     }, **BOTTLE_TRANSFORMS), height=0.625), "Memory Juice: drink it for +0.2 stability and a while of feeling at home. The Junkies' currency")
 
 
@@ -2410,9 +2431,9 @@ def sounds():
     # The CRT's whine: an 11 kHz flyback line, a 60 Hz hum and its harmonics, a faint crackle; a 4 s loop
     t = seconds(4)
     hum = sum(a * np.sin(2 * np.pi * f * t) for f, a in ((60, 1.0), (120, 0.55), (180, 0.35), (240, 0.2), (300, 0.12)))
-    whine = np.sin(2 * np.pi * 11000 * t) * (0.9 + 0.1 * np.sin(2 * np.pi * 2 * t))
+    whine = np.sin(2 * np.pi * 5200 * t) * (0.9 + 0.1 * np.sin(2 * np.pi * 2 * t))  # lowered from 11 kHz and made faint: it was painful up close
     crackle = norm(band(rng.normal(size=len(t)), 2000, 6000))
-    write("crtbuzz", 0.45 * hum + 0.35 * whine + 0.08 * crackle, 0.7, fade=False)
+    write("crtbuzz", 0.5 * hum + 0.03 * whine + 0.05 * crackle, 0.22, fade=False)
 
     # Switching on: the degauss thunk (a low boing pulsed at 60 Hz) and the whine rising into hearing
     t = seconds(1.2)

@@ -70,6 +70,12 @@
 		"y2": 0.6,
 		"z2": 1
 	},
+	"class": "BackroomsBed",
+	"attributes": {
+		"restQuality": 1.0,
+		"bedFoot": "opposite"
+	},
+	"entityClass": "BackroomsBed",
 	"drops": [
 		{
 			"type": "block",

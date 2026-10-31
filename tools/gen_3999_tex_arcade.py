@@ -411,15 +411,6 @@ def panel(name, body, c1, c2):
 
 
 def misc():
-    # The coin door: two slots, lit, ONE CREDIT
-    img = noisy((60, 60, 66), 3, "coindoor")
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, 31, 31], outline=(110, 110, 118, 255))
-    for x in (6, 20):
-        d.rectangle([x, 6, x + 6, 14], fill=(200, 30, 30, 255))
-        d.rectangle([x + 2, 8, x + 4, 12], fill=(20, 10, 10, 255))
-    draw_text(img, "1 CREDIT", 1, 20, (230, 200, 120, 255), F3)
-    save(img, "coindoor")
     save(noisy((210, 30, 30), 6, "joyball"), "joyball")
     save(noisy((20, 20, 22), 3, "stick"), "stick")
     # Rusted cabinet: corroded paint, a dark screen with dead pixels, the marquee peeling

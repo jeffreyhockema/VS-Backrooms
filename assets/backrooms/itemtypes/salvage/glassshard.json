@@ -1,7 +1,7 @@
 {
 	code: "glassshard",
 	// From a dead light fixture. Sharp enough to cut wallpaper and carpet, but it may snap each time.
-	maxstacksize: 32,
+	maxstacksize: 64,
 	texture: { base: "item/salvage/glassshard" },
 	behaviors: [
 		{ name: "GroundStorable", properties: { layout: "Messy12", collisionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.125, z2: 1 } } }

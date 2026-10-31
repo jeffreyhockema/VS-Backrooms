@@ -20,6 +20,8 @@ from detail_kit import (ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE,
 from detail_textures import S, noise, rgb, save, text
 from gen_detail import cube_block, plate
 from detail_kit import T, seed_of
+import l11art as L11
+import l11art_tex
 
 
 def drops(*items):
@@ -92,30 +94,6 @@ def glass_pane(sky_top, sky_bottom, frame, key, mullion=True):
     return img
 
 
-def sash(frame, glass, key, lit=False, blinds=False):
-    """A sash window filling the face: a painted frame, two panes, the meeting rail across the middle."""
-    img = Image.new("RGBA", (S, S), rgb(frame))
-    d = ImageDraw.Draw(img)
-    if lit:
-        inner = texlib.vertical_gradient((255, 226, 150), (230, 170, 90))
-    elif blinds:
-        inner = Image.new("RGBA", (S, S), (222, 214, 196, 255))
-        dd = ImageDraw.Draw(inner)
-        for y in range(0, S, 3):
-            dd.line([0, y, S - 1, y], fill=(176, 168, 150, 255))
-    else:
-        inner = texlib.vertical_gradient(glass[0], glass[1])
-        ImageDraw.Draw(inner).line([4, 26, 26, 4], fill=blend(glass[0], (255, 255, 255), 0.15), width=2)
-    img.paste(inner.crop((4, 4, S - 4, S - 4)), (4, 4))
-    d.rectangle([3, 3, S - 4, S - 4], outline=shade(T.hexrgb(frame), 0.75))
-    d.rectangle([3, 15, S - 4, 17], fill=rgb(frame))
-    if lit:
-        # Curtains drawn back at the sides
-        d.rectangle([4, 4, 7, S - 5], fill=(190, 80, 60, 255))
-        d.rectangle([S - 8, 4, S - 5, S - 5], fill=(190, 80, 60, 255))
-    return img
-
-
 def facade_textures():
     sky_top, sky_bottom = (150, 178, 205), (88, 112, 140)
     # Curtain glass: the sky in tinted glass, aluminium mullions; spandrels of dark glass at each floor
@@ -177,8 +155,8 @@ def facade_textures():
     save(band, "facade-mirror-band")
     save(speckle(Image.new("RGBA", (S, S), (10, 10, 13, 255)), 2, "mirrorpier"), "pier-mirror")
 
-    # Brick, red and dark: sash windows with white or dark frames, a band of stone at each floor
-    for style, base, mortar, frame in (("brick", 0xA2482E, 0xB8AC98, 0xEDEAE2), ("brickdark", 0x5E3A30, 0x8E8678, 0x2E3A34)):
+    # Brick, red and dark: a band of stone at each floor
+    for style, base, mortar in (("brick", 0xA2482E, 0xB8AC98), ("brickdark", 0x5E3A30, 0x8E8678)):
         wall = bricks(base, mortar, style)
         save(wall, f"facade-{style}-wall")
         save(wall, f"pier-{style}")
@@ -187,12 +165,8 @@ def facade_textures():
         d.rectangle([0, 0, S - 1, 5], fill=(196, 188, 170, 255))
         d.line([0, 5, S - 1, 5], fill=(120, 112, 100, 255))
         save(b, f"facade-{style}-band")
-        glass = ((60, 70, 84), (24, 28, 36))
-        save(sash(frame, glass, style + "w"), f"facade-{style}-window")
-        save(sash(frame, glass, style + "l", lit=True), f"facade-{style}-lit")
-        save(sash(frame, glass, style + "b", blinds=True), f"facade-{style}-blinds")
 
-    # Limestone: big ashlar blocks, deep windows between, a moulded cornice at each floor
+    # Limestone: big ashlar blocks, a moulded cornice at each floor
     stone = noise(0xCFC2A2, 5, "limestone")
     d = ImageDraw.Draw(stone)
     for y in (0, 16):
@@ -213,14 +187,8 @@ def facade_textures():
         d.rectangle([x, 8, x + 1, 11], fill=(186, 176, 150, 255))  # dentils
     d.line([0, 12, S - 1, 12], fill=(160, 150, 126, 255))
     save(cornice, "facade-stone-band")
-    glass = ((54, 62, 72), (22, 26, 32))
-    for part, kw in (("window", {}), ("lit", {"lit": True}), ("blinds", {"blinds": True})):
-        win = sash(0x3A3630, glass, "stone" + part, **kw)
-        d = ImageDraw.Draw(win)
-        d.rectangle([0, 0, S - 1, S - 1], outline=(200, 190, 166, 255), width=2)  # the stone reveal
-        save(win, f"facade-stone-{part}")
 
-    # Concrete: board-marked, with tie holes; ribbon windows in thin aluminium frames
+    # Concrete: board-marked, with tie holes
     conc = noise(0x9A9892, 4, "cityconcrete")
     d = ImageDraw.Draw(conc)
     for y in range(0, S, 8):
@@ -232,17 +200,6 @@ def facade_textures():
     band = noise(0xA6A49E, 3, "concband")
     ImageDraw.Draw(band).line([0, S - 3, S - 1, S - 3], fill=(96, 94, 90, 255), width=2)
     save(band, "facade-concrete-band")
-    for part, top, bottom in (("window", (90, 108, 126), (40, 50, 62)), ("lit", (246, 230, 186), (216, 190, 140)), ("blinds", (200, 196, 186), (180, 176, 166))):
-        win = texlib.vertical_gradient(top, bottom)
-        d = ImageDraw.Draw(win)
-        if part == "blinds":
-            for y in range(0, S, 3):
-                d.line([0, y, S - 1, y], fill=(160, 156, 148, 255))
-        d.line([0, 0, 0, S - 1], fill=(150, 152, 156, 255), width=2)
-        d.line([16, 0, 16, S - 1], fill=(150, 152, 156, 255))
-        d.rectangle([0, 0, S - 1, 1], fill=(150, 152, 156, 255))
-        d.rectangle([0, S - 2, S - 1, S - 1], fill=(150, 152, 156, 255))
-        save(win, f"facade-concrete-{part}")
 
     # The storefront fascia: a painted board over the glass, where the sign hangs
     fascia = noise(0x23392E, 3, "fascia")
@@ -310,14 +267,6 @@ def street_textures():
     ballast = noise(0x5A5652, 10, "ballast")
     speckle(ballast, 18, "ballast2")
     save(ballast, "subwayfloor-bed")
-    for side, x in (("raill", 9), ("railr", 20)):
-        img = ballast.copy()
-        d = ImageDraw.Draw(img)
-        for y in range(2, S, 8):
-            d.rectangle([0, y, S - 1, y + 3], fill=(70, 50, 36, 255))  # sleepers
-        d.rectangle([x, 0, x + 2, S - 1], fill=(120, 116, 112, 255))
-        d.line([x + 1, 0, x + 1, S - 1], fill=(176, 172, 166, 255))  # the worn top of the rail
-        save(img, f"subwayfloor-{side}")
     platform = noise(0x8E8A84, 4, "platform")
     speckle(platform, 8, "platform2")
     save(platform, "subwayfloor-platform")
@@ -369,8 +318,8 @@ def door_textures():
             d.rectangle([3, 0, S - 4, 6], fill=(60, 72, 84, 255))  # the transom
             d.ellipse([14, 14, 18, 18], fill=(200, 160, 60, 255))
         save(img, f"rowhousedoor-{part}")
-    # Steel doors: grey, with a stencilled word
-    for code, color, label, sign in (("basementdoor", 0x707470, "BASEMENT", None), ("substationdoor", 0x6A6E68, None, "danger"),
+    # Steel doors: grey, with a stencilled word (the basement door is a model now, l11art: it brings its own)
+    for code, color, label, sign in (("substationdoor", 0x6A6E68, None, "danger"),
                                      ("maintenancedoor", 0x5E6A62, "AUTHORIZED\nPERSONNEL", None)):
         for part in ("lower", "upper"):
             img = noise(color, 3, code + part)
@@ -470,12 +419,6 @@ def sign_textures():
             d.rectangle([x + 1, y + 1, x + 5, y + 2], fill=rgb(0x3A2E1C))
             d.point((x + 5, y + 5), fill=rgb(0x2A2014))
     save(img, "mailboxes")
-    img = Image.new("RGBA", (S, S), rgb(0x141414))
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8A8070))
-    for k, line in enumerate(("DIRECTORY", "1  LOBBY", "2-11 ----", "12 ?????")):
-        text(img, line, (2, 2 + k * 7, S - 2, 9 + k * 7), 0xE8E8E0, 4)
-    save(img, "directory")
     img = Image.new("RGBA", (S, S), rgb(0xF0ECDC))
     d = ImageDraw.Draw(img)
     text(img, "MISSING", (2, 1, S - 2, 9), 0xC01818, 7)
@@ -633,14 +576,6 @@ def prop_textures():
         d.line([5, y, S - 6, y], fill=rgb(0x606060))
     d.rectangle([10, 22, 21, 24], fill=rgb(0x606060))
     save(img, "newsfront")
-    img = Image.new("RGBA", (S, S), rgb(0x1E3A7A))
-    d = ImageDraw.Draw(img)
-    d.rectangle([6, 6, 25, 9], fill=rgb(0x101010))
-    text(img, "MAIL", (2, 14, S - 2, 24), 0xFFFFFF, 7)
-    save(img, "postfront")
-    img = Image.new("RGBA", (S, S), rgb(0x2A2C30))
-    text(img, "TELEPHONE", (0, 8, S, 22), 0xF2F2EA, 5)
-    save(img, "phonesign")
     img = Image.new("RGBA", (S, S), rgb(0xC8CCCE))
     d = ImageDraw.Draw(img)
     d.rectangle([2, 4, S - 3, 26], fill=rgb(0xF4ECD8))
@@ -1375,8 +1310,6 @@ def b12_subway():
         M.touch(bed, x, y + 2, -0.1)
     bed = matched(bed, "subwayfloor-bed")
     save(bed, "subwayfloor-bed")
-    save(bed, "subwayfloor-raill")
-    save(bed, "subwayfloor-railr")
     sleeper = M.wood_planks(seed_of("b12sleeper"), base=(70, 52, 38), planks=1, direction="h", grain=3)
     M.grime(sleeper, 0.2, seed_of("b12sleeperg"), color=(34, 28, 24), cells=(8, 4), cover=0.6)
     save(sleeper, "subwaysleeper")
@@ -1481,14 +1414,6 @@ def b12_props():
         for x in range(10, 22):
             p[x, y] = M.rgba(M.lift((150, 150, 146), 6 if y == 22 else -8 if y == 24 else 0))  # the coin slot plate
     save(img, "newsfront")
-    img = M.painted_metal(seed_of("b12postfront"), base=(30, 58, 122), panel=True, chips=3, grain=2)
-    p = img.load()
-    for y in range(6, 10):
-        for x in range(6, 26):
-            p[x, y] = M.rgba((16, 16, 18) if y < 9 else (60, 80, 140))  # the slot, its lip lit
-    ptext_c(img, "MAIL", 14, (236, 236, 230))
-    ptext_c(img, "US", 23, (236, 236, 230), CITY_F3)
-    save(img, "postfront")
     img = M.painted_metal(seed_of("b12meter"), base=(196, 196, 188), panel=True, chips=2, grain=2)
     p = img.load()
     for y in range(4, 20):
@@ -1499,7 +1424,6 @@ def b12_props():
         p[16 + i, 14 - i] = M.rgba((210, 40, 34))  # the needle at zero
     ptext_c(img, "EXPIRED", 23, (206, 36, 30), CITY_F3)
     save(img, "meterface")
-    save(sign_face("phonesign", (40, 42, 46), (238, 238, 230), ["PHONE"], ys=[12]), "phonesign")
     img = M.painted_metal(seed_of("b12cartfront"), base=(200, 204, 206), panel=True, chips=2, grain=2)
     p = img.load()
     for y in range(4, 27):
@@ -1631,8 +1555,7 @@ def b12_doors():
                                 (0, 1, (200, 160, 70)), (1, 1, (170, 130, 56)), (2, 1, (132, 98, 40))):
                 p[15 + dx, 15 + dy] = M.rgba(c)  # the knocker
         save(img, f"rowhousedoor-{part}")
-    for code, colour, label, danger in (("basementdoor", (112, 116, 112), ["BASEMENT"], False),
-                                        ("substationdoor", (106, 110, 104), None, True),
+    for code, colour, label, danger in (("substationdoor", (106, 110, 104), None, True),
                                         ("maintenancedoor", (94, 106, 98), ["STAFF", "ONLY"], False)):
         for part in ("lower", "upper"):
             img = M.painted_metal(seed_of("b12" + code + part), base=colour, panel=True, chips=5, grain=3)
@@ -1658,6 +1581,7 @@ def b12_doors():
 
 
 def generate_textures():
+    l11art_tex.generate()  # (l11art) the basement door, directory, hydrant, mailboxes, booth, cabinet, piano, pantry shelf
     facade_textures()
     street_textures()
     door_textures()
@@ -1856,7 +1780,7 @@ def facades():
                {"marble": "cityfloor-marble", "plaza": "cityfloor-plaza", "garage": "cityfloor-garage"})
     cube_block("subwayfloor", {"bed": "Ballast", "raill": "Track", "railr": "Track", "platform": "Platform", "edge": "Platform Edge"},
                ["bed", "raill", "railr", "platform", "edge"],
-               {"bed": "subwayfloor-bed", "raill": ("subwayfloor-raill", 0), "railr": ("subwayfloor-railr", 0),
+               {"bed": "subwayfloor-bed", "raill": "subwayfloor-bed", "railr": "subwayfloor-bed",
                 "platform": "subwayfloor-platform", "edge": "subwayfloor-edge"})
     # (B12) The track blocks are models: the ballast cube with two sleepers across it and a rail (foot, web and head)
     # along it, standing on top as the old texture painted them (left rail 4.5-5.5, right 10-11, as before)
@@ -1922,6 +1846,11 @@ def facades():
                                                   ("basementdoor", "Basement Door", "basement", "Metal", METAL),
                                                   ("substationdoor", "Substation Door", "substation", "Metal", METAL),
                                                   ("maintenancedoor", "Maintenance Door", "maintenance", "Metal", METAL)):
+        if code == "basementdoor":  # (l11art) the steel door as geometry, the same codes, parts and threshold
+            import gen_deep
+            gen_deep.door_json(code, english, {"lower": L11.basement_door(False), "upper": L11.basement_door(True)}, kind,
+                               comment="A steel door marked BASEMENT; the stair behind it leads down")
+            continue
         data = {
             "variantgroups": [{"code": "part", "states": ["lower", "upper"]}],
             "creativeinventory": {"general": ["*"], "construction": ["*"]},
@@ -1968,7 +1897,7 @@ def decorations():
     }, "Storefront fascia carrying half of a store's sign: two side by side make one sign centred over a two-wide door")
     wall_family("citydeco", "Plaster Wall", {1: "cityplaster"}, [
         Decor("mailboxes", "Mailboxes", {2: plate("Boxes", (1, 1, -1.5), (15, 15, 0), "mailboxes", "brass")}),
-        Decor("directory", "Directory Board", {2: plate("Board", (2, 2, -0.8), (14, 14, 0), "directory", "wooddark")}),
+        Decor("directory", "Directory Board", {2: L11.directory()}),  # (l11art) frame, felt, title plate and letter rows
         Decor("missingposter", "Missing Poster", {2: [bx("Poster", (3, 2, -0.1), (13, 14, 0), "missingposter", faces=("north",), full=True)]}),
     ] + [Decor(f"gallery{i}", "Painting", {2: plate("Picture", (1, 1, -0.8), (15, 15, 0), f"gallery{i}", "gilt")}) for i in range(8)],
                 material="Stone", sounds=STONE)
@@ -2074,15 +2003,10 @@ def props():
         bx("Face", (5.5, 16, 6), (10.5, 25, 10), "meterface", faces=("north",), full=True)],
          box=(0.34, 0, 0.37, 0.66, 1.56, 0.63), material="Metal", sounds=METAL,
          extra={"drops": drops(("game:metalbit-copper", 1, 1), ("game:metalbit-silver", 0.15, 0), ("metalbracket", 0.5, 0.3))})
-    prop("phonebooth", "Phone Booth", [
-        bx("Base", (1, 0, 1), (15, 2, 15), "steeldark"), bx("Top", (1, 34, 1), (15, 36, 15), "steeldark"),
-        bx("Sign", (1, 30, 0.9), (15, 34, 1), "phonesign", faces=("north",), full=True),
-        bx("GlassL", (1, 2, 1), (1.5, 30, 15), "shelterglass", faces=("east", "west"), full=True),
-        bx("GlassR", (14.5, 2, 1), (15, 30, 15), "shelterglass", faces=("east", "west"), full=True),
-        bx("Back", (1.05, 2, 14.5), (14.95, 30, 15), "steel"),  # (its ends inside the side glass, not in its faces)
-        bx("Phone", (6, 14, 12), (10, 22, 14.5), "blackmetal"), bx("Handset", (5, 16, 11.5), (6, 21, 12.5), "blackmetal")],
+    prop("phonebooth", "Phone Booth", L11.phonebooth(),
          box=(0.06, 0, 0.06, 0.94, 2.25, 0.94), material="Metal", sounds=METAL,
-         extra={"drops": drops(("scrapwire", 1, 0.5), ("glassshard", 1, 0.5), ("metalbracket", 1, 0.5), ("game:metalbit-copper", 0.5, 0.4))})
+         extra={"renderpass": "Transparent",  # (l11art) the panes are glass; the frame and the sign are opaque in the same pass
+                "drops": drops(("scrapwire", 1, 0.5), ("glassshard", 1, 0.5), ("metalbracket", 1, 0.5), ("game:metalbit-copper", 0.5, 0.4))})
     prop("vendorcart", "Vendor's Cart", [
         bx("Body", (0, 6, 3), (16, 18, 13), "cartsteel", faces=("east", "west", "south", "up", "down")),
         bx("Front", (0, 6, 3), (16, 18, 13), "cartfront", faces=("north",), full=True),
@@ -2092,7 +2016,8 @@ def props():
         bx("UmbrellaEdge", (-6, 34, -6), (22, 36, 22), "canopy", faces=("north", "south", "east", "west"))],
          box=(0, 0, 0.18, 1, 1.12, 0.82), material="Metal", sounds=METAL,
          extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
-                "attributes": {"dispenses": ["backrooms:almondwater", "backrooms:almondwater", "backrooms:waterbottle"], "restock": True}},
+                "attributes": {"dispenses": ["backrooms:almondwater", "backrooms:almondwater", "backrooms:waterbottle",
+                                               "backrooms:almondwaterblue", "backrooms:almondwatergreen"], "restock": True}},
          comment="A street vendor's cart, still selling Almond Water. Nobody is minding it")
     rack = [bx("Rail", (0, 24, 7.5), (16, 25, 8.5), "chrome"), bx("PostL", (0.5, 0, 7.5), (1.5, 25, 8.5), "chrome"),
             bx("PostR", (14.5, 0, 7.5), (15.5, 25, 8.5), "chrome"), bx("Feet", (0, 0, 4), (16, 1, 12), "chrome")]
@@ -2182,10 +2107,7 @@ def props():
     prop("adpillar", "Advertising Pillar", {k: column(k) for k in PILLARS}, box=(0.1, 0, 0.1, 0.9, 1.5, 0.9), oriented=False,
          material="Stone", sounds=STONE, extra={"drops": drops(("game:paper-parchment", 2, 1))},
          comment="An advertising pillar on a street corner, pasted all round with posters")
-    prop("postbox", "Mailbox", [
-        bx("Body", (3, 2, 4), (13, 18, 12), "postblue", faces=("east", "west", "south", "down")),
-        bx("Front", (3, 2, 4), (13, 18, 12), "postfront", faces=("north",), full=True),
-        bx("Dome", (3.5, 18, 4.5), (12.5, 21, 11.5), "postblue"), bx("Legs", (4, 0, 5), (12, 2, 11), "metaldark")],
+    prop("postbox", "Mailbox", L11.postbox(),
          box=(0.18, 0, 0.25, 0.82, 1.31, 0.75), material="Metal", sounds=METAL,
          extra={"drops": drops(("game:paper-parchment", 1.5, 1), ("metalbracket", 0.5, 0.3))})
 

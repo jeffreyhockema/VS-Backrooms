@@ -170,7 +170,7 @@
 			{
 				"code": "point",
 				"animation": "point",
-				"animationSpeed": 1.0,
+				"animationSpeed": 0.8,
 				"blendMode": "Average"
 			},
 			{
@@ -252,6 +252,24 @@
 						"fleeDurationMs": 9000
 					},
 					{
+						"code": "backrooms-greet",
+						"priority": 1.5,
+						"priorityForCancel": 1.5,
+						"mincooldown": 0,
+						"maxcooldown": 0
+					},
+					{
+						"code": "backrooms-companion",
+						"priority": 1.45,
+						"priorityForCancel": 1.45,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"walkSpeed": 0.016,
+						"runSpeed": 0.04,
+						"minDistance": 2,
+						"maxDistance": 4
+					},
+					{
 						"code": "backrooms-curious",
 						"priority": 1.3,
 						"priorityForCancel": 1.35,
@@ -294,17 +312,16 @@
 						"maxcooldown": 90000
 					},
 					{
-						"code": "wander",
+						"code": "backrooms-amble",
 						"priority": 1.0,
 						"priorityForCancel": 1.35,
 						"movespeed": 0.014,
-						"animation": "walk",
-						"animationSpeed": 1.0,
-						"maxDistanceToSpawn": 24
-					},
-					{
-						"code": "lookaround",
-						"priority": 0.5
+						"walkAnimation": "walk",
+						"maxDistanceToSpawn": 24,
+						"minWalk": 4,
+						"maxWalk": 14,
+						"mincooldown": 2000,
+						"maxcooldown": 8000
 					}
 				]
 			},

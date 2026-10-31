@@ -214,10 +214,82 @@ def pattern_dotted(seed, alt=0):
     return paper_wall(seed, hexrgb(0xDCD89C), motif_dots(seed + 1, hexrgb(0xB5AE78), 4, 2))
 
 
+# The pale paper is held 6% under its first tone: the arched areas are lit just as the rooms around them (the same
+# block light, measured), but the paper was a fifth brighter than the yellow, and read as lit too bright
+CREAM_DIM = 0.94
+
+
+def cream(h):
+    return tuple(round(c * CREAM_DIM) for c in hexrgb(h))
+
+
 def pattern_cream(seed, alt=0):
     """The pale walls of the arched areas: the same paper, bleached until the pattern is only just there."""
-    return paper_wall(seed, hexrgb(0xE9E1BA), motif_chevron(seed + 1, hexrgb(0xCFC497), hexrgb(0xF1EBCF), wear=0.12),
+    return paper_wall(seed, cream(0xE9E1BA), motif_chevron(seed + 1, cream(0xCFC497), cream(0xF1EBCF), wear=0.12),
                       strip=1.2, mottle=6)
+
+# ---------------- Stucco (layout version 10: the arched areas) ----------------
+#
+# The user asked for "just a plain cream colour and like a stucco material". So the arched areas' walls, piers and
+# soffits are plain plaster: no print, no seam. The mean is the pale paper's brightness (luminance within 2% of the old
+# cream, block light is unchanged: the CREAM_DIM lesson, judge by the measured mean) with less yellow in it than the
+# paper has. What makes it stucco is the finish, kept low in contrast (a few levels, so it reads as plain cream at
+# playing distance and as a hand-floated plaster close to): a soft mottle, a fine float stipple, a few faint trowel
+# arcs, sand grains on about 2% of the pixels. No cracks, no motif. Every version shares one ground (matlib.turn_safe)
+# so blocks turned and mixed at random meet without a step.
+
+STUCCO_MEAN = (220, 211, 176)
+STUCCO_GROUND = 6100
+
+
+def _stucco_ground():
+    return M.noise_hv(STUCCO_MEAN, 0, STUCCO_GROUND, S, 2.0, (16,), hue=0)
+
+
+def pattern_stucco(seed, alt=0, smooth=False):
+    """Hand-floated cream plaster. `smooth` is the soffit's: the same ground, finished with the float only."""
+    img = M.plaster(seed, base=STUCCO_MEAN, grain=1.6, mottle=2.5, roller=0.12, bumps=0)
+    rng = random.Random(M.sub(seed, "float"))
+    if not smooth:
+        for _ in range(5):  # trowel arcs: a faint light edge with a fainter shade beside it, wrapped round the block
+            cx, cy = rng.uniform(0, S), rng.uniform(0, S)
+            r, a0, span = rng.uniform(5, 11), rng.uniform(0, 2 * math.pi), rng.uniform(0.9, 1.7)
+            f = rng.choice((0.010, -0.010))
+            n = int(r * span * 2)
+            for k in range(n):
+                a = a0 + span * k / n
+                x, y = cx + r * math.cos(a), cy + r * math.sin(a)
+                M.touch(img, round(x), round(y), f)
+                M.touch(img, round(x + math.cos(a)), round(y + math.sin(a)), -f * 0.5)
+        for _ in range(int(0.02 * S * S)):  # sand grains, pale and dark
+            M.touch(img, rng.randrange(S), rng.randrange(S), rng.choice((0.03, 0.03, -0.035)))
+    M.turn_safe(img, _stucco_ground(), band=8, keep=0.7)
+    return match_rgb(img, STUCCO_MEAN, "stucco")
+
+
+def stucco_plinth(img, seed=0):
+    """The skirting: a rendered plinth in place of the paper's thin vinyl board. The bottom 3 px a step darker (about
+    10%) with a heavier float, under a lit, rounded top edge; the same height as the yellow's board, so trim lines
+    still run across a join."""
+    rng = random.Random(seed + 177)
+    scuff_band(img, seed + 178, 18, 27, n=1)
+    px = img.load()
+    for x in range(S):
+        px[x, 27] = M.rgba(M.lift(px[x, 27], -4))                       # the shade where the plinth meets the wall
+        px[x, 28] = M.rgba(M.lift(px[x, 28], 7 + rng.uniform(-1, 1)))   # the lit, rounded top edge
+        for y in (29, 30, 31):
+            c = px[x, y]
+            px[x, y] = M.rgba(M.lift((c[0] * 0.9, c[1] * 0.9, c[2] * 0.9), rng.uniform(-3, 3) + (-3 if y == 31 else 0)))
+    return img
+
+
+def stucco_parts(i, a):
+    """Every part of the stucco wall in one version: the engine looks them all up (the chair rail is plain here)."""
+    s = 600 + i + (400 if a else 0)
+    plain = scuff_band(pattern_stucco(s + 10, a), s + 11, 22, 32, n=0, dirt=(150, 140, 110))
+    return {"upper": pattern_stucco(s, a), "plain": plain,
+            "baseboard": stucco_plinth(pattern_stucco(s + 20, a), s + 21), "rail": pattern_stucco(s + 30, a),
+            "outlet": add_outlet(pattern_stucco(s + 40, a), "stucco", s + 41, trim=stucco_plinth)}
 
 
 def pattern_manila(seed, alt=0):
@@ -283,7 +355,7 @@ def pattern_red(seed, alt=0):
 
 
 PATTERNS = {"stripped": pattern_stripped, "chevron": chevron_wall, "dotted": pattern_dotted, "cream": pattern_cream, "manila": pattern_manila,
-            "red": pattern_red}
+            "red": pattern_red, "stucco": pattern_stucco}
 
 VINYL = (80, 68, 52)     # the baseboard: dark brown vinyl cove base
 RAIL_WOOD = (126, 92, 56)
@@ -343,7 +415,7 @@ def add_rail(img, seed=0):
     return img
 
 
-def add_outlet(img, name, seed=0):
+def add_outlet(img, name, seed=0, trim=None):
     """A duplex outlet: an ivory plate standing proud of the wall, its top and left edges lit and its bottom and right
     in shade, a soft shadow on the paper to its lower right, two receptacles (slots dark, each with a lit lip under it)
     and the screw between them. Same trim as the wall it sits on: under the rail on dotted paper, above the baseboard
@@ -352,7 +424,7 @@ def add_outlet(img, name, seed=0):
         add_rail(img, seed)
         top = 24
     else:
-        add_baseboard(img, seed)
+        (trim or add_baseboard)(img, seed)
         top = 19
     x0, x1, y0, y1 = 14, 19, top, top + 7  # 5 x 7 px (about 15 x 21 cm), end exclusive
     plate = (232, 228, 212)
@@ -381,7 +453,7 @@ def _window(x, edge=6):
     return max(0.0, min(1.0, (d - 1) / edge)) ** 1.5
 
 
-def damp(img, seed, part="upper", stain_c=(176, 150, 86), seam_x=16):
+def damp(img, seed, part="upper", stain_c=(176, 150, 86), seam_x=16, seam=True):
     """The same wall, older: a water run down from above and a soft tide-ringed stain (upper blocks), or a rising-damp
     tide mark from the floor (bottom blocks), with one seam lifting. Kept inside the block (they fade before its edges)
     so a damp block beside a plain one reads as the same paper aged, not as a patch; more yellowing than darkening."""
@@ -413,7 +485,7 @@ def damp(img, seed, part="upper", stain_c=(176, 150, 86), seam_x=16):
                     px[x, y] = M.rgba(M.mix(px[x, y], tp[x, y], t))
     # one seam lifting: a dark gap opening from the top of a run, the lifted edge catching the light
     y0, L = rng.randint(3, 10), rng.randint(6, 12)
-    for k in range(L):
+    for k in range(L if seam else 0):
         y = y0 + k
         if part != "upper" and y > 24:
             break
@@ -433,15 +505,19 @@ def wallpapers(only=None):
             parts = {"upper": fn(s, a), "plain": scuff_band(fn(s + 10, a), s + 11, 22, 32),
                      "baseboard": add_baseboard(fn(s + 20, a), s + 21), "rail": add_rail(fn(s + 30, a), s + 31),
                      "outlet": add_outlet(fn(s + 40, a), name, s + 41)}
+            if name == "stucco":
+                parts = stucco_parts(i, a)
             for part, img in parts.items():
                 save(img, f"block/wallpaper/{name}-{part}{v}.png")
                 if not v:
                     stain_c = {"red": (66, 18, 14), "stripped": (170, 154, 116), "cream": (204, 186, 126),
-                               "manila": (166, 136, 84)}.get(name, (176, 150, 86))
-                    save(damp(img, 300 + i * 10 + len(part), part, stain_c, 0 if name == "chevron" else 16),
+                               "manila": (166, 136, 84), "stucco": (204, 192, 152)}.get(name, (176, 150, 86))
+                    save(damp(img, 300 + i * 10 + len(part), part, stain_c, 0 if name == "chevron" else 16, seam=name != "stucco"),
                          f"block/wallpaper/{name}-{part}-damp.png")
     # The arch soffits and risers: painted plaster in the pale paper's colour, without the print
-    save(M.plaster(61, base=(232, 224, 190), grain=3, mottle=6, roller=0.35), "block/wallpaper/cream-soffit.png")
+    save(M.plaster(61, base=cream(0xE8E0BE), grain=3, mottle=6, roller=0.35), "block/wallpaper/cream-soffit.png")
+    if not only or "stucco" in only:  # the stucco arches' soffit: the same plaster, smooth
+        save(pattern_stucco(61, 0, smooth=True), "block/wallpaper/stucco-soffit.png")
 
 
 # ---------------- Floor, ceiling, lights ----------------
@@ -1097,14 +1173,6 @@ def pillar(letter):
     return img
 
 
-def pillar_light():
-    img = pillar(None)
-    d = ImageDraw.Draw(img)
-    d.rectangle([12, 0, 19, S - 1], fill=(70, 72, 72, 255))  # housing
-    d.rectangle([14, 0, 17, S - 1], fill=(240, 248, 252, 255))  # tube
-    return img
-
-
 def concrete_ceiling(alt=0):
     """The car park's slab soffit: formed concrete with the two white conduits that run along every bay, as before
     (graphics pass B4: now shaded as round runs, a lit line along each and a shadow on the slab beside it, clipped
@@ -1264,6 +1332,35 @@ def tunnel_concrete(seed):
     return img
 
 
+def tunnel_plain(alt=0):
+    """(Graphics pass, Level 2) The tunnel wall's plain concrete: the original's tone and quiet grain, without the
+    shaded circle that sat in every block (and the tie holes and streaks that repeated with it). Three versions share
+    one faint low-frequency ground and are turned and mixed at random by the blocktype (`matlib.turn_safe`), so no
+    block edge shows; only version 3 (one block in eight) has a mark, a faint damp run, kept inside the block."""
+    base = hexrgb(0x43484D)
+    ground = M.noise_hv(base, 0, 3500, S, 5, (16, 8), hue=0)
+    img = noise_fill(base, 4, 3510 + alt)
+    px, gp = img.load(), ground.load()
+    for y in range(S):  # the original's grain over the shared ground
+        for x in range(S):
+            px[x, y] = M.rgba(tuple(px[x, y][i] + gp[x, y][i] - base[i] for i in range(3)))
+    M.turn_safe(img, ground, band=8, keep=0.6)
+    rng = random.Random(3520 + alt)
+    for _ in range(18):  # pores and aggregate, as before
+        x, y = rng.randrange(S), rng.randrange(S)
+        px[x, y] = shade(px[x, y], 0.86)
+    plain = img.copy()
+    if alt == 2:
+        sx, phase = rng.randrange(11, 19), rng.random() * 6.283
+        for y in range(S):
+            k = 0.07 + 0.05 * math.sin(y * 6.283 / S + phase)
+            dx = round(1.5 * math.sin(y * 0.35 + phase))
+            for x, w in ((sx + dx, 1.0), (sx + dx + 1, 0.6), (sx + dx - 1, 0.3)):
+                px[x, y] = shade(px[x, y], 1 - k * w)
+    img = inside_block(plain, img)
+    return match_rgb(img, (66, 70, 74), "tunnelwall")
+
+
 def tunnel_brick(seed=360):
     """(B5) The brick panels in Level 2's walls: dark, sooty engineering brick in running bond (`matlib.brick`), each
     brick its own shade and a little hue, lit on top, the 2 px joints recessed and darker than the brick, as the old
@@ -1272,37 +1369,6 @@ def tunnel_brick(seed=360):
                   jitter=9, hue=4, recess=1.0, pits=0.03, grain=4, mottle=6)
     M.grime(img, 0.12, M.sub(seed, "soot"), color=(30, 28, 28), cover=0.45)
     return match_mean(img, 50)
-
-
-def tunnel_wall(variant):
-    img = tunnel_concrete(350 + len(variant))
-    d = ImageDraw.Draw(img)
-    if variant == "pipes":
-        for y, h, col in ((3, 5, (107, 62, 42)), (11, 7, (226, 225, 215)), (22, 4, (90, 70, 56))):
-            d.rectangle([0, y, S - 1, y + h], fill=col + (255,))
-            d.line([0, y, S - 1, y], fill=shade(col, 1.15))
-            d.line([0, y + h, S - 1, y + h], fill=shade(col, 0.6))
-        for x in (8, 24):  # brackets
-            d.rectangle([x, 2, x + 1, 27], fill=(60, 62, 64, 255))
-    elif variant == "machinery":
-        d.rectangle([2, 3, 29, 28], fill=(84, 92, 86, 255), outline=(40, 44, 42, 255))
-        for cx in (9, 21):  # gauges
-            d.ellipse([cx - 4, 7, cx + 4, 15], fill=(220, 214, 196, 255), outline=(30, 30, 30, 255))
-            d.line([cx, 11, cx + 2, 8], fill=(160, 30, 20, 255))
-        d.rectangle([6, 19, 25, 24], fill=(52, 56, 54, 255))  # vent slots
-        for x in range(8, 25, 3):
-            d.line([x, 20, x, 23], fill=(28, 30, 30, 255))
-    elif variant == "brick":
-        img = Image.new("RGBA", (S, S), (42, 36, 34, 255))
-        d = ImageDraw.Draw(img)
-        rng = random.Random(360)
-        for row in range(4):
-            off = 4 if row % 2 else 0
-            for col in range(-1, 3):
-                x0 = col * 16 + off
-                c = rng.choice([(74, 58, 46), (62, 48, 40), (52, 44, 40)])
-                d.rectangle([x0 + 1, row * 8 + 1, x0 + 14, row * 8 + 6], fill=c + (255,))
-    return img
 
 
 def tunnel_ceiling(alt=0):
@@ -1598,16 +1664,9 @@ def wall_pipe_flange():
 
 
 def drum(top):
-    img = noise_fill(hexrgb(0x2E4A6E), 8, 390 + top)
-    d = ImageDraw.Draw(img)
-    if top:
-        d.ellipse([3, 3, 28, 28], outline=(20, 34, 52, 255))
-        d.ellipse([20, 8, 24, 12], fill=(30, 30, 30, 255))
-    else:
-        for y in (8, 22):
-            d.line([0, y, S - 1, y], fill=(20, 34, 52, 255), width=2)
-        blotch(img, (10, 28), 7, (110, 70, 40), 0.6, 13)  # rust
-    return img
+    """The oil drum's wall (top=0) and lid (top=1): painted and rusted steel, drawn in tools/l1props_tex.py."""
+    import l1props_tex
+    return l1props_tex.drum(top)
 
 
 def props_textures():
@@ -1645,6 +1704,18 @@ def props_textures():
         save(img, f"block/level1/concretefloor-line{axis}.png")
 
 
+def cutout_glass(img, keep_alpha=False):
+    """Cars draw in an opaque (alpha-tested) pass so their bodies are solid: the tinted glass is a checkerboard of
+    opaque tinted texels and empty ones, so the seats still show through. Marks drawn with partial alpha (reflections, cracks) turn opaque; keep_alpha leaves texels already empty."""
+    px = img.load()
+    for y in range(img.height):
+        for x in range(img.width):
+            r, g, b, a = px[x, y]
+            if keep_alpha and a == 0:
+                continue
+            px[x, y] = (r, g, b, 255 if (x + y) % 2 == 0 or a != 255 else 0)
+
+
 def parking_textures():
     for axis in ("we", "ns"):
         img = concrete_floor("plain", 1)
@@ -1666,8 +1737,10 @@ def parking_textures():
         blotch(img, (8, 24), 7, (90, 80, 70), 0.35, 22)  # dust and grime
         save(img, f"block/level1/car-{name}.png")
     glass = noise_fill(hexrgb(0x1C2428), 4, 440)
+    glass.putalpha(255)
     d = ImageDraw.Draw(glass)
-    d.line([4, 2, 14, 12], fill=(70, 84, 92, 255), width=2)  # reflection
+    d.line([4, 2, 14, 12], fill=(70, 84, 92, 170), width=2)  # reflection
+    cutout_glass(glass)  # the car is an opaque pass: the glass is a fine mesh of tint, not blended alpha
     save(glass, "block/level1/car-glass.png")
     car_wreck_textures()
 
@@ -1687,16 +1760,18 @@ def car_wreck_textures():
                 blotch(img, (rng.randrange(S), rng.randrange(S)), rng.randint(4, 8), (92, 88, 82), 0.5, 480 + k)
         save(img, f"block/level1/car-{name}.png")
     glass = noise_fill(hexrgb(0x1C2428), 4, 441)
+    glass.putalpha(255)
     d = ImageDraw.Draw(glass)
     cx, cy = 20, 12
     rng = random.Random(442)
     for k in range(9):  # cracks running out from the impact
         a = k * math.tau / 9 + rng.uniform(-0.2, 0.2)
         r = rng.randint(9, 22)
-        d.line([cx, cy, cx + r * math.cos(a), cy + r * math.sin(a)], fill=(150, 160, 164, 255), width=1)
+        d.line([cx, cy, cx + r * math.cos(a), cy + r * math.sin(a)], fill=(150, 160, 164, 220), width=1)
     for r in (3, 6):
-        d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(130, 140, 146, 255))
-    d.ellipse([cx - 2, cy - 2, cx + 2, cy + 2], fill=(6, 6, 8, 255))  # the hole
+        d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(130, 140, 146, 200))
+    d.ellipse([cx - 2, cy - 2, cx + 2, cy + 2], fill=(6, 6, 8, 0))  # the hole (nothing there)
+    cutout_glass(glass, keep_alpha=True)
     save(glass, "block/level1/car-glass-broken.png")
     seat = noise_fill(hexrgb(0x4A3426), 6, 443)
     d = ImageDraw.Draw(seat)
@@ -1704,6 +1779,79 @@ def car_wreck_textures():
         d.line([0, y, S - 1, y], fill=(58, 42, 30, 255))
     d.line([9, 10, 17, 19], fill=(176, 160, 120, 255), width=2)  # the foam showing through a split
     save(seat, "block/level1/car-seat.png")
+    car_interior_textures()
+
+
+def car_interior_textures():
+    """What you see through a car's glass (tools/gen_shapes.py `parking`): twill seat cloth, dashboard and door-card
+    plastic, floor carpet, the headliner, a door card with its stitched panel, the dials and the radio (painted in the
+    top-left corner of their texture: their faces map just that part), and for the wrecks the same worn, stained and
+    split, with the foam showing."""
+    def _lift(c, d):
+        return tuple(int(v) for v in M.lift(c, d))
+
+    def worn(img, seed, dirt, amount=0.35):
+        M.grime(img, amount, seed=seed, color=dirt, cover=0.7)
+        M.scratches(img, 5, seed=seed + 1, length=(3, 9), light=0.18)
+        return img
+
+    save(M.fabric(5300, base=(124, 112, 96), weave="twill", tone2=(116, 104, 90), contrast=7, grain=3, mottle=5),
+         "block/level1/car-cloth.png")
+
+    trim = M.rubber(5301, base=(66, 62, 58), grain=3, mottle=4)
+    M.scratches(trim, 3, seed=5302, length=(3, 7), light=0.1)
+    save(trim, "block/level1/car-trim.png")
+    save(worn(M.rubber(5301, base=(60, 57, 52), grain=3, mottle=5), 5303, (96, 88, 72)), "block/level1/car-trimworn.png")
+
+    save(M.carpet(5304, base=(86, 82, 78), mix2=0.2, tone2=(74, 72, 70), pile=6, grain=3, mottle=5), "block/level1/car-carpet.png")
+    worncarpet = M.carpet(5304, base=(80, 74, 66), mix2=0.3, tone2=(66, 62, 56), pile=6, grain=3, mottle=6)
+    M.stain(worncarpet, 5305, radius=8, color=(58, 50, 38), strength=0.5, at=(10, 12))
+    M.stain(worncarpet, 5306, radius=6, color=(104, 92, 66), strength=0.4, at=(23, 22))
+    save(worn(worncarpet, 5307, (92, 82, 62), 0.4), "block/level1/car-carpetworn.png")
+
+    save(M.fabric(5308, base=(170, 164, 148), weave="plain", contrast=4, grain=3, mottle=4), "block/level1/car-liner.png")
+    liner = M.fabric(5308, base=(150, 142, 120), weave="plain", contrast=4, grain=3, mottle=5)
+    M.stain(liner, 5309, radius=10, color=(112, 92, 56), strength=0.55, at=(14, 12))
+    save(liner, "block/level1/car-linerworn.png")
+
+    def doorcard(seed, base, wear):
+        img = M.rubber(seed, base=base, grain=3, mottle=4)
+        d = ImageDraw.Draw(img)
+        d.rectangle([2, 3, 29, 28], outline=_lift(base, -14) + (255,))   # the moulded panel
+        d.line([3, 17, 28, 17], fill=_lift(base, 12) + (255,))           # the seam where the vinyl insert starts
+        for x in range(4, 29, 3):
+            d.point((x, 18), fill=_lift(base, -16) + (255,))               # its stitching
+        M.bevel(img, box=(2, 3, 30, 29), width=1, strength=0.16)
+        return worn(img, seed + 1, (90, 82, 66), 0.3) if wear else img
+    save(doorcard(5310, (70, 66, 60), False), "block/level1/car-doorcard.png")
+    save(doorcard(5312, (64, 60, 52), True), "block/level1/car-doorcardworn.png")
+
+    # The instrument cluster: two round dials and a row of warning lamps, in the top-left 16 x 6 px (the cluster's face
+    # is 8 x 3 units, which the shape maps to just that part of the texture)
+    dials = M.rubber(5314, base=(36, 36, 36), grain=2, mottle=3)
+    d = ImageDraw.Draw(dials)
+    for cx in (4, 11):
+        d.ellipse([cx - 3, 0, cx + 3, 6], fill=(14, 16, 16, 255), outline=(120, 118, 108, 255))
+        d.line([cx, 3, cx + 1, 1], fill=(206, 196, 150, 255))
+        for a in range(-60, 61, 30):
+            d.point((cx + round(2.3 * math.sin(math.radians(a))), 3 - round(2.3 * math.cos(math.radians(a)))), fill=(190, 184, 160, 255))
+    for x, c in ((14, (190, 60, 40)), (15, (210, 170, 60))):
+        d.point((x, 5), fill=c + (255,))
+    save(dials, "block/level1/car-dials.png")
+
+    # The radio: a dark face with a station window, two knobs and a row of buttons, in the top-left 12 x 6 px
+    radio = M.rubber(5315, base=(40, 40, 42), grain=2, mottle=3)
+    d = ImageDraw.Draw(radio)
+    d.rectangle([2, 0, 9, 2], fill=(52, 70, 60, 255), outline=(96, 98, 92, 255))
+    for x in (0, 11):
+        d.rectangle([x, 0, x + 1, 2], fill=(120, 118, 110, 255))
+    for x in range(1, 11, 2):
+        d.point((x, 4), fill=(130, 126, 116, 255))
+    save(radio, "block/level1/car-radio.png")
+
+    # Foam showing through a split cushion
+    foam = M.noise_hv((170, 142, 78), 8, 5316, (S, S), 10, (16, 8), M.DRIFT)
+    save(foam, "block/level1/car-foam.png")
 
 
 def text_img(img, text, box, color, size):
@@ -1989,8 +2137,43 @@ def l3_fixture_textures():
         save(wall_pipe_tex(kind).transpose(Image.Transpose.TRANSPOSE), f"block/level3/{name}.png")
 
 
+def manhole_ladder_textures():
+    """Layout version 9's manholes (gen_shapes.manhole_ladder): the ladder in worn safety-yellow paint over dark steel,
+    so it reads down a dark shaft; the hazard stripes on the lip round the opening and on the step out of the water
+    (black and yellow at 45 degrees, 8 px to a pair so they tile); the open lid's chequer plate."""
+    ladder = M.painted_metal(seed=5301, base=(196, 158, 44), grain=3, mottle=6, panel=False, chips=10,
+                             under=(70, 64, 58))
+    M.rust(ladder, 0.12, seed=5302, cells=(4, 2))
+    M.grime(ladder, 0.12, seed=5303)
+    save(ladder, "block/level3/manholeladder.png")
+
+    lip = M.noise_hv((40, 38, 34), 3, 5304, S, 4)
+    yellow = M.noise_hv((206, 166, 46), 3, 5305, S, 5)
+    p, q = lip.load(), yellow.load()
+    for y in range(S):
+        for x in range(S):
+            if (x + y) % 8 < 4:
+                p[x, y] = q[x, y]
+    M.grime(lip, 0.2, seed=5306)  # trodden dust
+    M.scratches(lip, 8, seed=5307)
+    save(lip, "block/level3/hazardlip.png")
+
+    lid = M.noise_hv((92, 90, 86), 3, 5308, S, 6)
+    for y in range(0, S, 8):  # diamond tread: raised lenses, alternately turned, lit on top, a shadow under
+        for x in range(0, S, 8):
+            turn = (x // 8 + y // 8) % 2
+            for i in range(-2, 3):
+                cx, cy = (x + 4 + i, y + 4 - i) if turn else (x + 4 + i, y + 4 + i)
+                M.touch(lid, cx % S, cy % S, 0.2)
+                M.touch(lid, cx % S, (cy + 1) % S, -0.16)
+    M.rust(lid, 0.18, seed=5309, edges=True)
+    M.grime(lid, 0.14, seed=5310)
+    save(lid, "block/level3/hatchlid.png")
+
+
 def level3_textures():
     l3_fixture_textures()
+    manhole_ladder_textures()
     for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
         save(l3_glazed(alt), f"block/level3/l3wall-glazed{v}.png")
         save(l3_brick(alt), f"block/level3/l3wall-brick{v}.png")
@@ -2258,37 +2441,32 @@ def filing_paint(top=False):
 
 
 def office_window(alt=0):
-    """The window onto rain and fog that never ends (a light block: a cube, its light unchanged): a dark painted frame
-    with a lit inner edge and a mullion, and between them fogged glass, an even grey-blue with a slow cloudy mottle
-    (no gradient: the windows stack and run on, so a gradient would band), long thin rain runs, each a pale line that
-    wavers down the pane with a darker trail and a bead where it stops, and a few droplets. The old one's 60 short
-    streaks read as static."""
-    img = M.noise_hv((92, 99, 108), 2, 521, S, 7, (16, 8), hue=1.5)
-    rng = random.Random(522 + 31 * alt)  # (round 2) a second version, so the runs are not the same on every pane
+    """(Level 4 art) The clear window, a light block (a cube, its light unchanged): the pane is dark, cold glass with nothing
+    to see through it (the wiki: any window not blacked out is a trap), a faint soft reflection of the room's strip lights
+    and a few smudges of old condensation, no rain: the picture of rain runs read as a static image and is gone. In a
+    satin aluminium frame with a lit inner edge and a mullion. Even, no gradient (the windows stack and run on)."""
+    img = M.noise_hv((58, 64, 72), 2, 521 + alt, S, 5, (16, 8), hue=1.5)
+    rng = random.Random(522 + 31 * alt)
     px = img.load()
-    for _ in range(11):
-        x, y = rng.uniform(3, 28), rng.randrange(S)
-        for k in range(rng.randint(7, 16)):
-            xi, yi = int(x) % S, (y + k) % S
-            px[xi, yi] = M.rgba(M.mix(px[xi, yi], (150, 160, 172), 0.55))
-            M.touch(img, xi + 1, yi, -0.06)
-            x += rng.choice((0, 0, 0, 0.5, -0.5))
-        M.touch(img, int(x), y + k + 1, 0.22)
-    for _ in range(26):
-        x, y = rng.randrange(S), rng.randrange(S)
-        M.touch(img, x, y, 0.16)
-        M.touch(img, x, y + 1, -0.06)
-    frame = (42, 44, 48)
+    for _ in range(3 + alt):  # soft smudges of condensation: a pale blot a few px wide
+        cx, cy, r = rng.randrange(4, 28), rng.randrange(4, 28), rng.randint(2, 4)
+        for y in range(cy - r, cy + r + 1):
+            for x in range(cx - r, cx + r + 1):
+                d = math.hypot(x - cx, y - cy)
+                if d <= r and 3 <= x < S - 3 and 3 <= y < S - 3:
+                    px[x, y] = M.rgba(M.lift(px[x, y], 7 * (1 - d / r)))
+    for y in range(3, S - 3):  # the reflection of a strip light: a faint pale bar, offset by version
+        for x in range(6 + 8 * alt, 8 + 8 * alt):
+            px[x, y] = M.rgba(M.lift(px[x, y], 5))
+    frame = (154, 156, 154)
     for i in range(S):
         for (x, y) in ((i, 0), (i, 1), (0, i), (1, i), (i, S - 1), (i, S - 2), (S - 1, i), (S - 2, i), (16, i)):
-            px[x, y] = M.rgba(M.lift(frame, rng.uniform(-2, 2)))
-    for i in range(2, S - 2):  # the frame's inner edge: lit at the top and left, shade on the glass under the head
-        px[i, 2] = M.rgba(M.lift(px[i, 2], -14))
-        px[2, i] = M.rgba(M.lift(px[2, i], -8))
-        px[i, 1] = M.rgba(M.lift(frame, 14))
-        px[1, i] = M.rgba(M.lift(frame, 10))
-        px[15, i] = M.rgba(M.lift(px[15, i], -6))
-        px[17, i] = M.rgba(M.lift(px[17, i], 6))
+            px[x, y] = M.rgba(M.lift(frame, rng.uniform(-2, 2) + (8 if y <= 1 or x <= 1 else -10 if y >= S - 2 or x >= S - 2 else 0)))
+    for i in range(2, S - 2):  # the frame's inner edge: shade on the glass under the head and beside the left jamb
+        px[i, 2] = M.rgba(M.lift(px[i, 2][:3], -16))
+        px[2, i] = M.rgba(M.lift(px[2, i][:3], -10))
+        px[15, i] = M.rgba(M.lift(px[15, i][:3], -8))
+        px[17, i] = M.rgba(M.lift(px[17, i][:3], 6))
     return img
 
 
@@ -2375,14 +2553,6 @@ def level4_textures():
     body, bottle = cooler_textures()
     save(match_rgb(body, L4_MEAN["cooler"]), "block/level4/cooler.png")
     save(bottle, "block/level4/coolerbottle.png")
-    for part in ("lower", "upper"):
-        img = noise_fill(hexrgb(0x9EA4A8), 4, 534)
-        d = ImageDraw.Draw(img)
-        d.line([15, 0, 15, S - 1], fill=(50, 52, 56, 255), width=2)
-        if part == "upper":
-            d.rectangle([12, 2, 19, 7], fill=(40, 40, 40, 255))
-            d.text((13, 1), "^", fill=(240, 200, 80, 255))
-        save(img, f"block/level4/elevatordoor-{part}.png")
 
 
 # ---------------- Level 5: the Terror Hotel (graphics pass B8) ----------------
@@ -2973,6 +3143,8 @@ def level5_textures():
         save(hotel_panel(alt), f"block/level5/hotelwall-panel{v}.png")
     save(wainscot(0), "block/level5/hotelwall-wainscot.png")
     save(frieze(), "block/level5/hotelwall-frieze.png")
+    # (Level 5 art) the mirror's wall: the panel's own cream plaster with nothing on it (same ground, 64 px)
+    save(M.plaster(5620, size=64, base=PANEL_CREAM, grain=2, mottle=3, roller=0.4, bumps=0.0), "block/level5/hotelwall-plain.png")
 
     # (B8) Carpets on a short pile, three versions each (turned at random); the walnut floor in five versions
     for kind in ("damask", "maroon", "lobby"):
@@ -3057,14 +3229,13 @@ def level_textures():
     save(pillar(None), "block/level1/concretepillar-plain.png")
     for letter in "abcdef":
         save(pillar(letter), f"block/level1/concretepillar-{letter}.png")
-    save(pillar_light(), "block/level1/pillarlight.png")
     save(exit_sign(), "block/level1/exitsign.png")
     save(crate(1), "block/level1/crate-top.png")
     save(crate(0), "block/level1/crate-side.png")
     # The plain wall as it was before B5 (D1: the user's choice), the brick from matlib (B5)
-    save(tunnel_wall("plain"), "block/level2/tunnelwall-plain.png")
+    for alt, v in ((0, ""), (1, "-2"), (2, "-3")):  # three versions, one shared ground, turned at random
+        save(tunnel_plain(alt), f"block/level2/tunnelwall-plain{v}.png")
     save(tunnel_brick(), "block/level2/tunnelwall-brick.png")
-    save(tunnel_wall("machinery"), "block/level2/tunnelwall-machinery.png")
     cabinet_textures()
     for alt, v in ((0, ""), (1, "-2"), (2, "-3")):
         save(tunnel_ceiling(alt), f"block/level2/tunnelceiling{v}.png")

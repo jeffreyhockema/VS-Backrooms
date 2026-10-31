@@ -1,4 +1,4 @@
-// Level 974: a doorway's white casing (ns: the opening passes north-south); walk through it
+// Level 974: a doorway's white casing, as stood IN the doorway before layout version 11 (kept for saved worlds: no collision, nothing to select; new houses use l974-jamb)
 {
 	"code": "l974-casing",
 	"variantgroups": [
@@ -43,27 +43,10 @@
 		"break": "game:block/planks",
 		"hit": "game:block/planks"
 	},
-	"selectionboxByType": {
-		"l974-casing-ns": {
-			"x1": 0,
-			"y1": 0,
-			"z1": 0,
-			"x2": 1,
-			"y2": 1,
-			"z2": 1
-		},
-		"l974-casing-we": {
-			"x1": 0,
-			"y1": 0,
-			"z1": 0,
-			"x2": 1,
-			"y2": 1,
-			"z2": 1,
-			"rotateY": 90
-		}
-	},
 	"collisionbox": null,
 	"drops": [],
+	"selectionbox": null,
+	"selectionboxes": [],
 	"attributes": {
 		"l974structure": true
 	}

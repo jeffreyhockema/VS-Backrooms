@@ -1,0 +1,140 @@
+// A flue and a steam pipe rising from a boiler or furnace to the header over the bay
+{
+	"code": "plantriser",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"furnace2",
+				"steam2",
+				"both3",
+				"flue3"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-both3-north"
+		],
+		"decorative": [
+			"*-both3-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-furnace2-north": {
+			"base": "block/plantriser-furnace2",
+			"rotateY": 0
+		},
+		"*-furnace2-east": {
+			"base": "block/plantriser-furnace2",
+			"rotateY": 270
+		},
+		"*-furnace2-south": {
+			"base": "block/plantriser-furnace2",
+			"rotateY": 180
+		},
+		"*-furnace2-west": {
+			"base": "block/plantriser-furnace2",
+			"rotateY": 90
+		},
+		"*-steam2-north": {
+			"base": "block/plantriser-steam2",
+			"rotateY": 0
+		},
+		"*-steam2-east": {
+			"base": "block/plantriser-steam2",
+			"rotateY": 270
+		},
+		"*-steam2-south": {
+			"base": "block/plantriser-steam2",
+			"rotateY": 180
+		},
+		"*-steam2-west": {
+			"base": "block/plantriser-steam2",
+			"rotateY": 90
+		},
+		"*-both3-north": {
+			"base": "block/plantriser-both3",
+			"rotateY": 0
+		},
+		"*-both3-east": {
+			"base": "block/plantriser-both3",
+			"rotateY": 270
+		},
+		"*-both3-south": {
+			"base": "block/plantriser-both3",
+			"rotateY": 180
+		},
+		"*-both3-west": {
+			"base": "block/plantriser-both3",
+			"rotateY": 90
+		},
+		"*-flue3-north": {
+			"base": "block/plantriser-flue3",
+			"rotateY": 0
+		},
+		"*-flue3-east": {
+			"base": "block/plantriser-flue3",
+			"rotateY": 270
+		},
+		"*-flue3-south": {
+			"base": "block/plantriser-flue3",
+			"rotateY": 180
+		},
+		"*-flue3-west": {
+			"base": "block/plantriser-flue3",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": {
+		"x1": 0.3,
+		"y1": 0,
+		"z1": 0.3,
+		"x2": 0.7,
+		"y2": 1,
+		"z2": 0.7
+	},
+	"selectionbox": {
+		"x1": 0.3,
+		"y1": 0,
+		"z1": 0.3,
+		"x2": 0.7,
+		"y2": 1,
+		"z2": 0.7
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0
+			}
+		}
+	]
+}

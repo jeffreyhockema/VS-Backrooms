@@ -152,6 +152,13 @@ public sealed class MarkResolver
                 icon = "star1";
                 ps = "door";
                 break;
+            case "sunken":
+                // (Level 7 from layout version 9: the buoy over a room on the seabed with air under its roof)
+                at = level == 7 ? layout.NearestSunkenRoom(x, z, 640 * k, skip) : null;
+                title = Lang.Get("backrooms:waypoint-note-sunken");
+                icon = "vessel";
+                ps = "cache";
+                break;
             case "party":
                 at = level == WorldLayout.FunLevel ? layout.NearestParty(x, z, 320, skip) : null;
                 title = Lang.Get("backrooms:waypoint-note-party");
@@ -291,7 +298,7 @@ public sealed class MarkResolver
 
     /// <summary>
     /// The nearest block that leads somewhere (any block with a threshold behaviour) within the radius, in the band of the
-    /// level's floor, among the chunks that are loaded. A few hundred thousand block lookups at most, once per note.
+    /// level's floor, among the chunks that are loaded. Up to about 2.4 million block lookups at a radius of 256 (a folded note's doubled search), once per note.
     /// </summary>
     public (int X, int Z)? NearestThresholdBlock(int x, int z, int level, int radius, System.Func<int, int, bool> skip = null)
     {

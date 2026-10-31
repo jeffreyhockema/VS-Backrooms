@@ -1,0 +1,16 @@
+{
+	"ingredientPattern": "SS,SS",
+	"ingredients": {
+		"S": {
+			"type": "item",
+			"code": "backrooms:clumpsinew"
+		}
+	},
+	"width": 2,
+	"height": 2,
+	"shapeless": true,
+	"output": {
+		"type": "item",
+		"code": "game:rope"
+	}
+}

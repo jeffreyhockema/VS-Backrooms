@@ -1,11 +1,18 @@
-"""Builds the ModDB cover (480x480, required size) and a wide 1920x1080 banner from an in-game screenshot."""
-import os, random, sys
+"""Builds the ModDB cover (480x480, required size) and a wide 1920x1080 banner from an in-game screenshot.
+
+    python tools/shotbot/cover.py [--src 02] [--shift 0] [--out docs/cover] [--moddb docs/moddb/img/banner.jpg]
+
+--src is a gallery number (docs/screenshots/NN-*.png) or a path to any 16:9 screenshot. --shift moves the square
+cover's crop left (negative) or right of the frame's centre, in source pixels at 1920 wide, to hold the subject. Writes
+<out>/cover-1440.png, cover-480.png and banner-1920x1080.png, and the mod page's banner (1280x720 progressive JPEG) to
+--moddb (pass an empty string to skip it).
+"""
+import argparse, glob, os, random, sys
 from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageEnhance
 
-REPO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
-SRC = os.path.join(REPO, "docs", "screenshots", "01-level0-where-you-wake.png")
+REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+SRC = None
 OUT = os.path.join(REPO, "docs", "cover")
-os.makedirs(OUT, exist_ok=True)
 FONT = r"C:\Windows\Fonts\bahnschrift.ttf"
 
 TITLE_COL = (246, 238, 205)      # fluorescent off-white
@@ -118,12 +125,12 @@ def grain(im, amount, seed=7):
     return Image.blend(im, Image.merge("RGB", (noise, noise, noise)), 0.06)
 
 
-def cover():
+def cover(shift):
     src = Image.open(SRC).convert("RGB")
     w, h = src.size
-    # square: keep the box and the hall; a little left of centre to hold the pillars
+    # square from the middle of the frame, moved by --shift (given at 1920 wide) to hold the subject
     side = h
-    left = (w - side) // 2 - 40
+    left = min(max((w - side) // 2 + round(shift * w / 1920), 0), w - side)
     sq = src.crop((left, 0, left + side, side)).resize((1440, 1440), Image.LANCZOS)
     sq = grade(sq)
     sq = top_shade(sq, 0.42, 215)
@@ -137,7 +144,7 @@ def cover():
     print("cover", small.size)
 
 
-def banner():
+def banner(moddb):
     src = Image.open(SRC).convert("RGB").resize((1920, 1080), Image.LANCZOS)
     im = grade(src)
     im = top_shade(im, 0.40, 210)
@@ -146,8 +153,30 @@ def banner():
     im = grain(im, 1.0)
     im.save(os.path.join(OUT, "banner-1920x1080.png"), optimize=True)
     print("banner", im.size)
+    if moddb:
+        web = im.resize((1280, 720), Image.LANCZOS)
+        web.save(moddb, quality=88, progressive=True, optimize=True)
+        print("mod page banner", web.size, os.path.relpath(moddb, REPO))
+
+
+def source(arg):
+    if os.path.exists(arg):
+        return os.path.abspath(arg)
+    found = sorted(glob.glob(os.path.join(REPO, "docs", "screenshots", f"{int(arg):02d}-*.png")))
+    if not found:
+        sys.exit(f"no gallery image {arg}")
+    return found[0]
 
 
 if __name__ == "__main__":
-    cover()
-    banner()
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--src", default="02", help="gallery number or screenshot path (default 02, the Level 0 hallway)")
+    ap.add_argument("--shift", type=int, default=0, help="square crop's offset from centre, px at 1920 wide")
+    ap.add_argument("--out", default=os.path.join(REPO, "docs", "cover"))
+    ap.add_argument("--moddb", default=os.path.join(REPO, "docs", "moddb", "img", "banner.jpg"))
+    a = ap.parse_args()
+    SRC, OUT = source(a.src), os.path.abspath(a.out)
+    os.makedirs(OUT, exist_ok=True)
+    print("source", os.path.relpath(SRC, REPO))
+    cover(a.shift)
+    banner(a.moddb)

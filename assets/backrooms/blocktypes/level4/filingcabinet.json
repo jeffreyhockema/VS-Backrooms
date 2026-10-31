@@ -91,8 +91,16 @@
 			"type": "item",
 			"code": "wanderernote-door",
 			"quantity": {
-				"avg": 0.05,
+				"avg": 0.025,
 				"var": 0
+			}
+		}
+	],
+	"behaviors": [
+		{
+			"name": "BackroomsDismantle",
+			"properties": {
+				"tool": "hammer"
 			}
 		}
 	]

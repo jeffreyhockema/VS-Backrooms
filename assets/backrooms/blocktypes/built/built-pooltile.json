@@ -1,0 +1,108 @@
+{
+	"code": "built-pooltile",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"coping"
+			]
+		}
+	],
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/detail/pooltile",
+				"alternates": [
+					{
+						"base": "block/detail/pooltile-2"
+					},
+					{
+						"base": "block/detail/pooltile-3"
+					}
+				]
+			}
+		},
+		"*-sunlit": {
+			"all": {
+				"base": "block/detail/poolsunlit",
+				"alternates": [
+					{
+						"base": "block/detail/poolsunlit-2"
+					},
+					{
+						"base": "block/detail/poolsunlit-3"
+					}
+				]
+			}
+		},
+		"*-red": {
+			"all": {
+				"base": "block/detail/poolred",
+				"alternates": [
+					{
+						"base": "block/detail/poolred-2"
+					},
+					{
+						"base": "block/detail/poolred-3"
+					}
+				]
+			}
+		},
+		"*-void": {
+			"all": {
+				"base": "block/detail/poolvoid"
+			}
+		},
+		"*-coping": {
+			"all": {
+				"base": "block/detail/poolcoping",
+				"alternates": [
+					{
+						"base": "block/detail/poolcoping-2"
+					}
+				]
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"lightHsvByType": {
+		"*-sunlit": [
+			8,
+			2,
+			5
+		]
+	},
+	"lightAbsorptionByType": {
+		"*-sunlit": 0,
+		"*": 99
+	},
+	"randomizeAxes": "xyz",
+	"drops": [
+		{
+			"type": "block",
+			"code": "built-pooltile-{kind}",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"creativeinventory": {
+		"construction": [
+			"*"
+		]
+	},
+	"attributes": {
+		"backroomsBuilt": true
+	}
+}

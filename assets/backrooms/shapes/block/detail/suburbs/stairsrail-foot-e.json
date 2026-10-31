@@ -1,0 +1,633 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"dresserwood": "backrooms:block/detail/dresserwood",
+		"housefloor-carpet": "backrooms:block/detail/housefloor-carpet",
+		"housefloor-wood": "backrooms:block/detail/housefloor-wood",
+		"windowtrim": "backrooms:block/detail/windowtrim"
+	},
+	"elements": [
+		{
+			"name": "Lower",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						16,
+						0,
+						0,
+						8
+					]
+				},
+				"west": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"south": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						16,
+						0,
+						0,
+						8
+					]
+				},
+				"east": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"up": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						16,
+						0,
+						0,
+						16
+					]
+				},
+				"down": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						16,
+						0,
+						0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Upper",
+			"from": [
+				0,
+				8,
+				0
+			],
+			"to": [
+				16,
+				16,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						16,
+						0,
+						0,
+						8
+					]
+				},
+				"west": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"south": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						16,
+						0,
+						0,
+						8
+					]
+				},
+				"east": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"up": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						16,
+						0,
+						0,
+						8
+					]
+				},
+				"down": {
+					"texture": "#housefloor-wood",
+					"uv": [
+						16,
+						0,
+						0,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "RunLower",
+			"from": [
+				4,
+				8,
+				8
+			],
+			"to": [
+				12,
+				8.3,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						8,
+						0,
+						0,
+						8
+					]
+				},
+				"west": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RunRiser",
+			"from": [
+				4,
+				8.3,
+				8
+			],
+			"to": [
+				12,
+				16,
+				8.3
+			],
+			"faces": {
+				"south": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						8,
+						0,
+						0,
+						7.7
+					]
+				},
+				"west": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7.7
+					]
+				},
+				"east": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7.7
+					]
+				}
+			}
+		},
+		{
+			"name": "RunUpper",
+			"from": [
+				4,
+				16,
+				0
+			],
+			"to": [
+				12,
+				16.3,
+				8
+			],
+			"faces": {
+				"up": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						8,
+						0,
+						0,
+						8
+					]
+				},
+				"west": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						8,
+						0,
+						0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RunFoot",
+			"from": [
+				4,
+				0,
+				16
+			],
+			"to": [
+				12,
+				8.3,
+				16.3
+			],
+			"faces": {
+				"south": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						8,
+						0,
+						0,
+						8.3
+					]
+				},
+				"west": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.3
+					]
+				},
+				"east": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.3
+					]
+				},
+				"up": {
+					"texture": "#housefloor-carpet",
+					"uv": [
+						8,
+						0,
+						0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "SpindleA",
+			"from": [
+				14.5,
+				8,
+				11.5
+			],
+			"to": [
+				15.5,
+				18.75,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						1.0,
+						0,
+						0,
+						10.75
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10.75
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						1.0,
+						0,
+						0,
+						10.75
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10.75
+					]
+				}
+			}
+		},
+		{
+			"name": "SpindleB",
+			"from": [
+				14.5,
+				16,
+				3.5
+			],
+			"to": [
+				15.5,
+				26.75,
+				4.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						1.0,
+						0,
+						0,
+						10.75
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10.75
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						1.0,
+						0,
+						0,
+						10.75
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Handrail",
+			"from": [
+				14.25,
+				22.875,
+				-2.6406
+			],
+			"to": [
+				15.75,
+				24.375,
+				15.3906
+			],
+			"faces": {
+				"north": {
+					"texture": "#dresserwood",
+					"uv": [
+						1.5,
+						0,
+						0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#dresserwood",
+					"uv": [
+						1.5,
+						0,
+						0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#dresserwood",
+					"uv": [
+						1.5,
+						0,
+						0,
+						16
+					]
+				},
+				"down": {
+					"texture": "#dresserwood",
+					"uv": [
+						1.5,
+						0,
+						0,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				15.0,
+				23.625,
+				6.375
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Newel",
+			"from": [
+				13.1,
+				8,
+				12.75
+			],
+			"to": [
+				15.9,
+				19.5,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						2.8,
+						0,
+						0,
+						11.5
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						2.5,
+						11.5
+					]
+				},
+				"south": {
+					"texture": "#windowtrim",
+					"uv": [
+						2.8,
+						0,
+						0,
+						11.5
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						0,
+						2.5,
+						11.5
+					]
+				}
+			}
+		},
+		{
+			"name": "NewelCap",
+			"from": [
+				12.8,
+				19.5,
+				12.5
+			],
+			"to": [
+				15.95,
+				21,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#dresserwood",
+					"uv": [
+						3.15,
+						0,
+						0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#dresserwood",
+					"uv": [
+						3.15,
+						0,
+						0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#dresserwood",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#dresserwood",
+					"uv": [
+						3.15,
+						0,
+						0,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#dresserwood",
+					"uv": [
+						3.15,
+						0,
+						0,
+						3.0
+					]
+				}
+			}
+		}
+	]
+}

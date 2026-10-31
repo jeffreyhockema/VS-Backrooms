@@ -1,7 +1,7 @@
 {
 	code: "scrapwire",
 	// A tangle of copper wire pulled from the ceiling.
-	maxstacksize: 16,
+	maxstacksize: 64,
 	texture: { base: "item/salvage/scrapwire" },
 	behaviors: [
 		{ name: "GroundStorable", properties: { layout: "Messy12", collisionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.125, z2: 1 } } }

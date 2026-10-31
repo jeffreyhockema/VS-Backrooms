@@ -349,12 +349,14 @@ public sealed partial class WorldGenerator
         ulong h = Hashing.Hash(seed, gx, gz, SaltShallows);
         if (depth < WorldLayout.TwilightDepth)
         {
+            // (The cheap test first: it turns away 55 in 100 blocks before the shore scan and the noise)
+            if (Hashing.Unit(h) > 0.45) return -1;
             // The shallows: patches of waterweed by the islands and the ledges, and a few out in the open shallows
             // (the daylight zone is otherwise barren)
             bool shore = depth <= 10 && NearShore(gx, gz);
             if (depth > 5 && !shore) return -1;
             double meadow = Noise2(gx / 7.0, gz / 7.0, SaltShallows + 1) + (shore ? 0.3 : -0.15);
-            if (meadow < 0.15 || Hashing.Unit(h) > 0.45) return -1;
+            if (meadow < 0.15) return -1;
             double pick = Hashing.Unit(h << 12);
             int room = depth - 2; // the tips stay under the surface
             if (pick < 0.45 && seagrassIds.Length > 0)

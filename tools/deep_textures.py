@@ -4,6 +4,7 @@ import random
 
 from PIL import Image, ImageDraw
 
+import bonekit
 import matlib as M
 from detail_kit import T, seed_of
 from detail_textures import S, block_wall, flat, grime, noise, rgb, save, stripes, text
@@ -79,17 +80,8 @@ def level6():
 
 def level61():
     level61_b9()  # (B9) floors, walls, ceiling, skylight, and the fixtures' and machines' materials
+    # (the exit door and the kitchen doors are geometry now: deepprops_tex)
     for part in ("lower", "upper"):
-        img = noise(0x6A4A3A, 12, "rusty" + part)
-        T.blotch(img, (10, 20), 9, (150, 80, 40), 0.6, 72)
-        d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x3A2A20), width=2)
-        if part == "lower":
-            d.rectangle([22, 0, 27, 3], fill=rgb(0x9A9488))
-        else:
-            d.rectangle([8, 10, 23, 14], fill=rgb(0xC8B060))
-            text(img, "EXIT", (8, 9, 24, 15), 0x3A2A10, 5)
-        save(img, f"rustydoor-{part}")
         img = Image.new("RGBA", (S, S), rgb(0x9AB8C0))
         d = ImageDraw.Draw(img)
         d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8A8E92), width=2)
@@ -97,14 +89,6 @@ def level61():
         if part == "lower":
             d.rectangle([2, 0, 29, 2], fill=rgb(0x8A8E92))
         save(img, f"glassdoors-{part}")
-        img = noise(0xC8C8C4, 3, "kitchendoor" + part)
-        d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8A8E92), width=2)
-        if part == "upper":
-            d.ellipse([9, 6, 22, 19], fill=rgb(0x2A3A42), outline=rgb(0x8A8E92), width=2)
-        else:
-            d.rectangle([4, 4, 27, 10], fill=rgb(0xA8ACB0))
-        save(img, f"kitchendoor-{part}")
     img = Image.new("RGBA", (S, S), rgb(0x1A1C1E))
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8A8E92), width=3)
@@ -112,7 +96,6 @@ def level61():
         d.line([4, y, S - 5, y], fill=rgb(0x6A6E72), width=2)
     save(img, "ventgrate")
 
-    flat("navy", 0x1E2E5A, 4)
     flat("chrome", 0xC8CCD0, 3)
     flat("formica", 0xE8DCC8, 3)
     # The snack machine's dark inside behind the glass; its paint, header, glass, packets, spirals and panel are B9's
@@ -138,12 +121,7 @@ def level61():
         d.line(pts, fill=(226, 232, 236, 210))  # cracks spreading from a blow
     d.line([4, S - 1, 12, 18], fill=(214, 230, 240, 150))
     save(img, "vendpileglass")
-    for name, word, color in (("signburger", "BURGERS", 0xFF4060), ("signpizza", "PIZZA", 0x40FF90), ("signtaco", "TACOS", 0xFFC040), ("signdonut", "DONUTS", 0x60C0FF)):
-        img = Image.new("RGBA", (S, S), rgb(0x141018))
-        d = ImageDraw.Draw(img)
-        d.rectangle([0, 0, S - 1, S - 1], outline=rgb(color), width=1)
-        text(img, word, (1, 8, 31, 24), color, 8)
-        save(img, name)
+    # (the food-court signs: deepprops_tex.signs)
     img = Image.new("RGBA", (S, S), rgb(0x1A1A1A))
     d = ImageDraw.Draw(img)
     d.rectangle([0, 0, S - 1, S - 1], outline=rgb(0x8A6A3A), width=2)
@@ -923,6 +901,65 @@ def machine_textures():
     M.grime(img, 0.25, 6375, color=(50, 40, 32), cells=(4, 2), cover=0.5)
     b9_save(img, "vendpilepanel")
     b9_save(M.noise_hv((14, 16, 16), 1, 6376, mottle=2), "vendpilelcd")
+    broken_vending_textures()
+
+
+def _dent(img, cx, cy, r, depth=0.16):
+    """A hollow knocked into sheet metal: lit on its far rim, shaded on the near one, hardly changed at its middle."""
+    p = img.load()
+    w, h = img.size
+    for y in range(int(cy - r - 1), int(cy + r + 2)):
+        for x in range(int(cx - r - 1), int(cx + r + 2)):
+            d = math.hypot(x - cx, y - cy) / r
+            if d > 1.0:
+                continue
+            slope = ((x - cx) + (y - cy)) / (2.0 * r)  # toward the lower right, away from the light
+            M.touch(img, x % w, y % h, depth * slope * math.sin(d * math.pi) * 1.6)
+
+
+def broken_vending_textures():
+    """(snackvend) The broken snack machine at the doorway of a vending room: the snack machine's blue, dented, rusted
+    and scraped, with its sign unlit and faded, its display dead and its glass smashed out at one corner."""
+    img = M.painted_metal(6380, base=(40, 98, 164), grain=2, mottle=5, panel=False, chips=3)
+    M.rust(img, 0.2, 6381, pits=True, edges=True)
+    M.grime(img, 0.28, 6382, color=(56, 46, 36), cells=(8, 4, 2), cover=0.5)
+    for cx, cy, r in ((8, 9, 6), (22, 22, 7), (24, 6, 4), (6, 26, 4)):
+        _dent(img, cx, cy, r)
+    M.scratches(img, 9, 6383, length=(3, 9), light=0.35)
+    b9_save(img, "brokenvbody")
+    # The sign, dark and faded, and a crack through its panel
+    img = machine_header(6384, (34, 80, 132), (122, 124, 118), (84, 60, 56), "SNACKS", faded=True)
+    d = ImageDraw.Draw(img)
+    d.line([(9, 1), (11, 4), (10, 7)], fill=(30, 32, 34, 255))
+    d.line([(21, 2), (19, 5), (22, 8)], fill=(30, 32, 34, 255))
+    M.grime(img, 0.2, 6385, color=(56, 46, 36), cells=(4, 2), cover=0.5)
+    b9_save(img, "brokenvhead")
+    # The display, dead: black glass, a crack, two segments that still show faintly
+    img = M.noise_hv((10, 12, 12), 1, 6386, mottle=2)
+    p = img.load()
+    for x in range(S):
+        y = 12 + (x * 5) // 16 - 3
+        if 0 <= y < S:
+            p[x, y] = M.rgba((46, 52, 52))
+    for x in (6, 7, 8, 9):
+        p[x, 5] = M.rgba((40, 78, 52))
+    p[18, 6] = M.rgba((36, 66, 46))
+    b9_save(img, "brokenvlcd")
+    # The glass, smashed: a star of cracks from the blow and a hole where the top corner was. What is left of the
+    # pane is a clear frame of splinters round the edges (the opaque pass cuts out what is clear)
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for pts in (((9, 22), (16, 17), (24, 13)), ((9, 22), (6, 12), (3, 4)), ((9, 22), (14, 29), (13, 31)),
+                ((9, 22), (2, 24), (0, 25)), ((9, 22), (20, 25), (31, 22)), ((16, 17), (18, 8), (17, 0))):
+        d.line(pts, fill=(226, 232, 236, 215))
+    for poly in (((0, 0), (7, 0), (4, 5), (0, 8)), ((0, 26), (6, 28), (4, 31), (0, 31)), ((24, 31), (31, 28), (31, 31)),
+                 ((27, 14), (31, 12), (31, 20), (28, 18))):
+        d.polygon(poly, fill=(204, 222, 232, 150))  # splinters still in the frame
+    for poly in (((18, 0), (31, 0), (31, 9), (26, 6), (22, 3)),):
+        d.polygon(poly, fill=(0, 0, 0, 0))  # the hole
+    for pt in ((18, 0), (22, 3), (26, 6), (31, 9)):
+        d.point(pt, fill=(236, 240, 244, 255))
+    b9_save(img, "brokenvglass")
 
 
 def level61_b9():
@@ -960,7 +997,7 @@ def level6_b9():
 
 def level7():
     level7_b10()  # (B10) the rock, the ceiling over the sea, tar and wet wood
-    flat("bone", 0xE4D8BC, 6)
+    bonekit.textures()  # (bones) the bone, joint, socket and tooth textures
     flat("scrap", 0x7A4A2A, 14)
     img = noise(0x8A7A50, 5, "canvas")
     d = ImageDraw.Draw(img)
@@ -1275,29 +1312,11 @@ def level9():
     img = noise(0xFFF0C0, 3, "streetlamp")
     save(img, "streetlamp")
     save(noise(0x8A9094, 3, "streetlampoff"), "streetlampoff")
-    save(M.painted_metal(seed=seed_of("mailbox"), base=(44, 60, 92), panel=False, chips=0), "mailbox")
     img = noise(0xA88A5A, 10, "burlap")
     for k in range(0, S, 3):
         ImageDraw.Draw(img).line([0, k, S - 1, k], fill=rgb(0x8A6E44))
     save(img, "burlap")
-    img = Image.new("RGBA", (S, S), rgb(0x6A4A2A))
-    d = ImageDraw.Draw(img)
-    rng = random.Random(121)
-    for row in range(3):
-        for x in range(2, S - 4, 6):
-            c = rng.choice([0xC8B070, 0xA03020, 0x3A6AB0, 0xE8E0C8, 0x6A8A3A])
-            d.rectangle([x, row * 11 + 3, x + 4, row * 11 + 9], fill=rgb(c))
-        d.line([0, row * 11 + 10, S - 1, row * 11 + 10], fill=rgb(0x4A3018))
-    save(img, "pantry")
-    img = Image.new("RGBA", (S, S), rgb(0x5A5E62))
-    d = ImageDraw.Draw(img)
-    d.rectangle([3, 3, 9, 14], fill=rgb(0xB02018))
-    d.rectangle([13, 4, 15, 15], fill=rgb(0x8A6A3A))
-    d.rectangle([12, 3, 18, 6], fill=rgb(0x8A8E92))
-    d.rectangle([20, 3, 29, 9], fill=rgb(0xE0B020))
-    d.ellipse([3, 18, 14, 29], outline=rgb(0x2A6A2A), width=2)
-    d.rectangle([18, 20, 29, 28], fill=rgb(0x8A8E92))
-    save(img, "toolwall")
+    # (the tool shelf and the tool rack are modelled now: deepprops)
     img = noise(0xC89A6A, 4, "cabinetfront")
     d = ImageDraw.Draw(img)
     d.line([16, 0, 16, S - 1], fill=rgb(0x8A6A44))
@@ -1334,14 +1353,87 @@ def level10():
         d.line(pts, fill=rgb(rng.choice([0xC87878, 0xB06060, 0xD89090, 0x7A3A3A])), width=2)
     save(img, "wormmass")
     flat("feed", 0xC8A858, 10)
-    img = noise(0x6A4A2A, 6, "barrelwood")
-    d = ImageDraw.Draw(img)
-    for y in (4, 27):
-        d.rectangle([0, y, S - 1, y + 1], fill=rgb(0x3A3A3E))
-    save(img, "barrelwood")
-    img = noise(0x5A5E62, 10, "nails")
-    specks(img, [0x9A9EA2, 0xB8BCC0, 0x3A3E42], 120, "nails")
-    save(img, "nails")
+    # (the barrel of nails is modelled now: deepprops_tex)
+
+
+# ---------------- The STOP sign (Levels 1, 9 and 94; l94fence) ----------------
+
+STOP_PX = 48          # the plate's texture: 48 px over its 12 units, 4 px a unit
+STOP_CUT = STOP_PX * (1 - 1 / (1 + math.sqrt(2))) / 2   # the octagon's corner cut, px (its sides all equal)
+
+# Its lettering in a pixel face, 8 by 12 with 2 px strokes, so STOP reads crisp from across a road (B9's lesson)
+STOP_FONT = {
+    "S": [".######.", "########", "##....##", "##......", "###.....", ".#####..", "..#####.", ".....###", "......##",
+          "##....##", "########", ".######."],
+    "T": ["########", "########"] + ["...##..."] * 10,
+    "O": [".######.", "########"] + ["##....##"] * 8 + ["########", ".######."],
+    "P": ["#######.", "########", "##....##", "##....##", "##....##", "########", "#######."] + ["##......"] * 5,
+}
+
+
+def stop_inside(x, y, inset=0.0, n=STOP_PX, cut=STOP_CUT):
+    """Whether a point (in px from the top left) is inside the octagon, or inside it by `inset` px."""
+    h = n / 2
+    dx, dy = abs(x - h), abs(y - h)
+    return dx <= h - inset and dy <= h - inset and dx + dy <= 2 * h - cut - inset * math.sqrt(2)
+
+
+def stop_mask(img):
+    """Cuts the plate's corners away: the shape's plate is a square box, and the octagon is its texture's alpha."""
+    p = img.load()
+    for y in range(STOP_PX):
+        for x in range(STOP_PX):
+            if not stop_inside(x + 0.5, y + 0.5):
+                p[x, y] = (0, 0, 0, 0)
+    return img
+
+
+def stopsign_textures():
+    """The STOP sign, redrawn for l94fence: an octagonal plate of red sheeting (the octagon cut out by the texture's
+    alpha, so the plate is thin geometry), a white border just in from its edge and white STOP in a pixel face, at
+    four pixels a unit; its back plain aluminium; its post a galvanised square tube punched with holes."""
+    n = STOP_PX
+    red, white = (178, 30, 34), (238, 235, 226)
+    img = M.noise_hv(red, 2, seed_of("stopsign-red"), (n, n), 4, (16, 8), hue=0.6)
+    sheet = M.noise_hv(white, 2, seed_of("stopsign-white"), (n, n), 3, (16, 8), hue=0.6)
+    p, w = img.load(), sheet.load()
+    letters = [[False] * n for _ in range(n)]
+    x0, y0 = (n - (4 * 8 + 3 * 2)) // 2, (n - 12) // 2
+    for k, ch in enumerate("STOP"):
+        for r, row in enumerate(STOP_FONT[ch]):
+            for c, bit in enumerate(row):
+                if bit == "#":
+                    letters[y0 + r][x0 + k * 10 + c] = True
+    for y in range(n):
+        for x in range(n):
+            # The border, a little in from the edge: antialiased against the red by 4x4 samples
+            hits = sum(1 for sy in range(4) for sx in range(4)
+                       if stop_inside(x + (sx + 0.5) / 4, y + (sy + 0.5) / 4, 1.25)
+                       and not stop_inside(x + (sx + 0.5) / 4, y + (sy + 0.5) / 4, 3.5))
+            t = 1.0 if letters[y][x] else hits / 16
+            c = M.mix(p[x, y], w[x, y], t)
+            # The sheeting catches the sky: a little lighter toward the top, and its very edge darker
+            c = M.lift(c, 5 - 10 * y / n)
+            if not stop_inside(x + 0.5, y + 0.5, 1.0):
+                c = M.lift(c, -14)
+            p[x, y] = M.rgba(c)
+    save(stop_mask(img), "stopsign")
+
+    back = M.brushed_metal(seed_of("stopsign-back"), (n, n), base=(166, 168, 170), grain=3, streak=6, sheen=6)
+    q = back.load()
+    for y in range(n):
+        for x in range(n):
+            if not stop_inside(x + 0.5, y + 0.5, 1.0):
+                q[x, y] = M.rgba(M.lift(q[x, y], -18))   # the rolled edge
+    save(stop_mask(back), "stopsignback")
+
+    post = M.galvanised(seed_of("stopsign-post"), 32, base=(168, 172, 174), spangle=8, grain=2)
+    pp = post.load()
+    for y in range(1, 32, 4):     # a hole punched every two units up the face, shaded under its top edge
+        pp[1, y] = M.rgba(M.lift(pp[1, y], -70))
+        pp[1, y + 1] = M.rgba(M.lift(pp[1, y + 1], -44))
+        pp[1, y + 2] = M.rgba(M.lift(pp[1, y + 2], 10))
+    save(post, "stopsignpost")
 
 
 # ---------------- Refinements: Levels 5 to 10 in more detail ----------------
@@ -1401,11 +1493,7 @@ def refinements():
         d.ellipse([8, 8, 23, 23], fill=rgb(0xFFF4D0 if on else 0xD8D4CA), outline=rgb(0xB0A890))
         save(img, f"houseceiling-{name}")
     # Exterior things
-    img = Image.new("RGBA", (S, S), rgb(0xE8E6E0))
-    d = ImageDraw.Draw(img)
-    d.polygon([(10, 2), (22, 2), (30, 10), (30, 22), (22, 30), (10, 30), (2, 22), (2, 10)], fill=rgb(0xB01818), outline=rgb(0xF0F0F0))
-    text(img, "STOP", (4, 10, 28, 22), 0xF4F4F4, 9)
-    save(img, "stopsign")
+    stopsign_textures()
     flat("binplastic", 0x2A4A2E, 4)
     img = noise(0xF0F0EC, 2, "backboard")
     ImageDraw.Draw(img).rectangle([10, 14, 21, 25], outline=rgb(0xD04A18), width=2)
@@ -1433,11 +1521,6 @@ def refinements():
     d.line([18, 9, 27, 8], fill=rgb(0x789296))
     d.ellipse([22, 22, 26, 25], fill=rgb(0x606E46))
     save(img, "troughwater")
-    img = noise(0xB8BCC0, 3, "icemachine")
-    d = ImageDraw.Draw(img)
-    d.rectangle([4, 14, 27, 28], fill=rgb(0x6A7076))
-    text(img, "ICE", (6, 2, 26, 12), 0x2A5A9A, 9)
-    save(img, "icemachine")
     img = Image.new("RGBA", (S, S), rgb(0x5A3A20))
     d = ImageDraw.Draw(img)
     d.rectangle([3, 3, 28, 28], fill=rgb(0xC8C0A8))

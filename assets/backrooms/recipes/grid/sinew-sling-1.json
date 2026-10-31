@@ -1,0 +1,21 @@
+{
+	"ingredientPattern": "T,L",
+	"ingredients": {
+		"T": {
+			"type": "item",
+			"code": "backrooms:clumpsinew"
+		},
+		"L": {
+			"type": "item",
+			"code": "game:leather-normal-plain"
+		}
+	},
+	"requiresTrait": "improviser",
+	"width": 1,
+	"height": 2,
+	"name": "sling (sinew)",
+	"output": {
+		"type": "item",
+		"code": "game:sling"
+	}
+}

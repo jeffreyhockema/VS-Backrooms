@@ -1,0 +1,1313 @@
+{
+	"components": [
+		{
+			"code": "start",
+			"owner": "trader",
+			"type": "condition",
+			"variable": "entity.hasmet",
+			"isNotValue": "true",
+			"thenJumpTo": "greet",
+			"elseJumpTo": "welcomeback"
+		},
+		{
+			"code": "greet",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-greet-camp",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "camp"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-greet-outpost",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "outpost"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-greet-road",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "road"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-greet-city",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "city"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-greet-end-juice",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						},
+						{
+							"variable": "player.inventory",
+							"isValue": "{type: 'item', code: 'backrooms:end-memoryjuice', stacksize: 1}"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-greet-end",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						},
+						{
+							"variable": "player.inventory",
+							"isNotValue": "{type: 'item', code: 'backrooms:end-memoryjuice', stacksize: 1}"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-greet-hub",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "hub"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-greet-amber",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "amber"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-greet-3999",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "3999"
+						}
+					]
+				}
+			],
+			"jumpTo": "testnew",
+			"setVariables": {
+				"entity.hasmet": "true"
+			}
+		},
+		{
+			"code": "testnew",
+			"owner": "trader",
+			"type": "condition",
+			"variable": "player.backroomsmet",
+			"isNotValue": "true",
+			"thenJumpTo": "noclip",
+			"elseJumpTo": "main"
+		},
+		{
+			"code": "noclip",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-noclip",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-noclip-end",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						}
+					]
+				}
+			],
+			"jumpTo": "noclipreply"
+		},
+		{
+			"code": "noclipreply",
+			"owner": "player",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-p-noclip",
+					"jumpTo": "noclipwhat"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-wall",
+					"jumpTo": "wall"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-real",
+					"jumpTo": "real"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-person",
+					"jumpTo": "person"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-trade",
+					"jumpTo": "opentrade",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-trade",
+					"jumpTo": "opentrade",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						},
+						{
+							"variable": "player.inventory",
+							"isValue": "{type: 'item', code: 'backrooms:end-memoryjuice', stacksize: 1}"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-trade",
+					"jumpTo": "nojuice",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						},
+						{
+							"variable": "player.inventory",
+							"isNotValue": "{type: 'item', code: 'backrooms:end-memoryjuice', stacksize: 1}"
+						}
+					]
+				}
+			],
+			"setVariables": {
+				"player.backroomsmet": "true"
+			}
+		},
+		{
+			"code": "noclipwhat",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-noclipwhat"
+				}
+			],
+			"jumpTo": "main"
+		},
+		{
+			"code": "wall",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-wall"
+				}
+			],
+			"jumpTo": "main"
+		},
+		{
+			"code": "real",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-real"
+				}
+			],
+			"jumpTo": "main"
+		},
+		{
+			"code": "person",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-person"
+				}
+			],
+			"jumpTo": "main"
+		},
+		{
+			"code": "welcomeback",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-welcomeback-1",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-welcomeback-2",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-welcomeback-end-juice",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						},
+						{
+							"variable": "player.inventory",
+							"isValue": "{type: 'item', code: 'backrooms:end-memoryjuice', stacksize: 1}"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-welcomeback-end",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						},
+						{
+							"variable": "player.inventory",
+							"isNotValue": "{type: 'item', code: 'backrooms:end-memoryjuice', stacksize: 1}"
+						}
+					]
+				}
+			],
+			"jumpTo": "main"
+		},
+		{
+			"code": "main",
+			"owner": "player",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-p-trade",
+					"jumpTo": "opentrade",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-trade",
+					"jumpTo": "opentrade",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						},
+						{
+							"variable": "player.inventory",
+							"isValue": "{type: 'item', code: 'backrooms:end-memoryjuice', stacksize: 1}"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-trade",
+					"jumpTo": "nojuice",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						},
+						{
+							"variable": "player.inventory",
+							"isNotValue": "{type: 'item', code: 'backrooms:end-memoryjuice', stacksize: 1}"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-name",
+					"jumpTo": "name"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-gears",
+					"jumpTo": "gears"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-creatures",
+					"jumpTo": "creatures"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-water",
+					"jumpTo": "water"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-sleep",
+					"jumpTo": "sleep"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-exits",
+					"jumpTo": "exits"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-rumours",
+					"jumpTo": "rumours"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-home",
+					"jumpTo": "home"
+				}
+			]
+		},
+		{
+			"code": "opentrade",
+			"owner": "trader",
+			"trigger": "opentrade"
+		},
+		{
+			"code": "nojuice",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-nojuice"
+				}
+			],
+			"jumpTo": "main"
+		},
+		{
+			"code": "name",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-name-camp",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "camp"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-name-outpost",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "outpost"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-name-road",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "road"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-name-city",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "city"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-name-end",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-name-hub",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "hub"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-name-amber",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "amber"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-name-3999",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "3999"
+						}
+					]
+				}
+			],
+			"jumpTo": "main",
+			"trigger": "revealname"
+		},
+		{
+			"code": "gears",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-gears",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "city"
+						},
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-gears-city",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "city"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-gears-end",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						}
+					]
+				}
+			],
+			"jumpTo": "gearsreply"
+		},
+		{
+			"code": "gearsreply",
+			"owner": "player",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-p-gearswater",
+					"jumpTo": "gearswater"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-gearsmore",
+					"jumpTo": "gearsmore"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-isee",
+					"jumpTo": "main"
+				}
+			]
+		},
+		{
+			"code": "gearswater",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-gearswater"
+				}
+			],
+			"jumpTo": "gearsreply"
+		},
+		{
+			"code": "gearsmore",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-gearsmore"
+				}
+			],
+			"jumpTo": "gearsreply"
+		},
+		{
+			"code": "creatures",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-creatures"
+				}
+			],
+			"jumpTo": "creaturessite"
+		},
+		{
+			"code": "creaturessite",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-creaturessite-camp",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "camp"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-creaturessite-outpost",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "outpost"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-creaturessite-road",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "road"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-creaturessite-city",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "city"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-creaturessite-end",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-creaturessite-hub",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "hub"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-creaturessite-amber",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "amber"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-creaturessite-3999",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "3999"
+						}
+					]
+				}
+			],
+			"jumpTo": "creaturesreply"
+		},
+		{
+			"code": "creaturesreply",
+			"owner": "player",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-p-smiler",
+					"jumpTo": "smiler"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-hound",
+					"jumpTo": "hound"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-skinstealer",
+					"jumpTo": "skinstealer"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-faceling",
+					"jumpTo": "faceling"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-thanks",
+					"jumpTo": "main"
+				}
+			]
+		},
+		{
+			"code": "smiler",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-smiler"
+				}
+			],
+			"jumpTo": "creaturesreply"
+		},
+		{
+			"code": "hound",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-hound"
+				}
+			],
+			"jumpTo": "creaturesreply"
+		},
+		{
+			"code": "skinstealer",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-skinstealer"
+				}
+			],
+			"jumpTo": "creaturesreply"
+		},
+		{
+			"code": "faceling",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-faceling"
+				}
+			],
+			"jumpTo": "creaturesreply"
+		},
+		{
+			"code": "water",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-water"
+				}
+			],
+			"jumpTo": "watersite"
+		},
+		{
+			"code": "watersite",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-watersite-camp",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "camp"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-watersite-outpost",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "outpost"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-watersite-road",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "road"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-watersite-city",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "city"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-watersite-end",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-watersite-hub",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "hub"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-watersite-amber",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "amber"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-watersite-3999",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "3999"
+						}
+					]
+				}
+			],
+			"jumpTo": "waterreply"
+		},
+		{
+			"code": "waterreply",
+			"owner": "player",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-p-boil",
+					"jumpTo": "boil"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-colours",
+					"jumpTo": "colours"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-thanks",
+					"jumpTo": "main"
+				}
+			]
+		},
+		{
+			"code": "boil",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-boil"
+				}
+			],
+			"jumpTo": "waterreply"
+		},
+		{
+			"code": "colours",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-colours"
+				}
+			],
+			"jumpTo": "waterreply"
+		},
+		{
+			"code": "sleep",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-sleep"
+				}
+			],
+			"jumpTo": "sleepsite"
+		},
+		{
+			"code": "sleepsite",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-sleepsite-camp",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "camp"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-sleepsite-outpost",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "outpost"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-sleepsite-road",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "road"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-sleepsite-city",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "city"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-sleepsite-end",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-sleepsite-hub",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "hub"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-sleepsite-amber",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "amber"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-sleepsite-3999",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "3999"
+						}
+					]
+				}
+			],
+			"jumpTo": "sleepreply"
+		},
+		{
+			"code": "sleepreply",
+			"owner": "player",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-p-bedroll",
+					"jumpTo": "bedroll"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-thanks",
+					"jumpTo": "main"
+				}
+			]
+		},
+		{
+			"code": "bedroll",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-bedroll"
+				}
+			],
+			"jumpTo": "sleepreply"
+		},
+		{
+			"code": "exits",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-exits",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "city"
+						},
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "end"
+						},
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "hub"
+						},
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "amber"
+						},
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "3999"
+						}
+					]
+				}
+			],
+			"jumpTo": "exitssite"
+		},
+		{
+			"code": "exitssite",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-exitssite-camp",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "camp"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-exitssite-outpost",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "outpost"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-exitssite-road",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "road"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-exitssite-city",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "city"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-exitssite-end",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-exitssite-hub",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "hub"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-exitssite-amber",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "amber"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-exitssite-3999",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "3999"
+						}
+					]
+				}
+			],
+			"jumpTo": "exitsreply"
+		},
+		{
+			"code": "exitsreply",
+			"owner": "player",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-p-notes",
+					"jumpTo": "notes"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-thanks",
+					"jumpTo": "main"
+				}
+			]
+		},
+		{
+			"code": "notes",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-notes"
+				}
+			],
+			"jumpTo": "exitsreply"
+		},
+		{
+			"code": "rumours",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-rumours-camp",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "camp"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-rumours-outpost",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "outpost"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-rumours-road",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "road"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-rumours-city",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "city"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-rumours-end",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-rumours-hub",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "hub"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-rumours-amber",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "amber"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-rumours-3999",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "3999"
+						}
+					]
+				}
+			],
+			"jumpTo": "main"
+		},
+		{
+			"code": "home",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-home-camp",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "camp"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-home-outpost",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "outpost"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-home-road",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "road"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-home-city",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "city"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-home-end",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-home-hub",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "hub"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-home-amber",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "amber"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-home-3999",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "3999"
+						}
+					]
+				}
+			],
+			"jumpTo": "homereply"
+		},
+		{
+			"code": "homereply",
+			"owner": "player",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-p-keepgoing",
+					"jumpTo": "keepgoing"
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-p-isee",
+					"jumpTo": "main"
+				}
+			]
+		},
+		{
+			"code": "keepgoing",
+			"owner": "trader",
+			"type": "talk",
+			"text": [
+				{
+					"value": "backrooms:dialogue-wanderer-keepgoing",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isNotValue": "end"
+						}
+					]
+				},
+				{
+					"value": "backrooms:dialogue-wanderer-keepgoing-end",
+					"conditions": [
+						{
+							"variable": "entity.backroomsSite",
+							"isValue": "end"
+						}
+					]
+				}
+			],
+			"jumpTo": "main"
+		}
+	]
+}

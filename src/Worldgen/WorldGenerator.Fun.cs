@@ -74,7 +74,7 @@ public sealed partial class WorldGenerator
     private int funPromwallId, funHullId, funSteelId, funVoidId, funPitFillId, funRoofId, funPumpkinId, funSoffitId;
     private readonly List<string> funMissing = new();
 
-    /// <summary>A block of this mod by code path, or a stand-in while the level's assets are still being made (listed once in the log).</summary>
+    /// <summary>A block of this mod by code path, or a stand-in where the loaded assets lack it (listed once in the log).</summary>
     private int FunId(string path, int fallback)
     {
         if (modBlocks.TryGetValue(path, out int id)) return id;
@@ -173,7 +173,7 @@ public sealed partial class WorldGenerator
         funPumpkinId = pumpkin?.BlockId ?? 0;
 
         if (funMissing.Count > 0)
-            api.Logger.Warning("[backrooms] Level Fun: {0} blocks are not made yet (stand-ins used), e.g. {1}", funMissing.Count,
+            api.Logger.Warning("[backrooms] Level Fun: {0} blocks are missing (stand-ins used), e.g. {1}", funMissing.Count,
                 string.Join(", ", funMissing.GetRange(0, System.Math.Min(6, funMissing.Count))));
     }
 

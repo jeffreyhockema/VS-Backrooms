@@ -7,7 +7,13 @@ int smx = int.TryParse(Environment.GetEnvironmentVariable("SPAWN"), out int spaw
 int layoutVersion = int.TryParse(Environment.GetEnvironmentVariable("LAYOUT_VERSION"), out int lvSet) ? lvSet : WorldLayout.CurrentVersion;
 // FOOD_SCALE=<x> lays out a world with that Backrooms scarcity (0.6 Sparse, 0.33 Scarce; default 1, Normal)
 double foodScale = double.TryParse(Environment.GetEnvironmentVariable("FOOD_SCALE"), System.Globalization.CultureInfo.InvariantCulture, out double fs) ? fs : 1;
-var layout = new WorldLayout(seed, smx, smz, layoutVersion, foodScale);
+// RING_SCALE=<x> lays out a world made with that Level size (0.5 for 50% ... 2 for 200%; default 1, the usual size)
+double ringScale = double.TryParse(Environment.GetEnvironmentVariable("RING_SCALE"), System.Globalization.CultureInfo.InvariantCulture, out double rs) ? rs : 1;
+// BACKROOMS_NO_FUN_ENTRANCES=1 / BACKROOMS_NO_188_ENTRANCES=1 leave out the entrances into Level Fun / Level 188, to check that nothing
+// but the entrances changed the other levels (the library never reads the environment: these are harness-only statics)
+WorldLayout.NoFunEntrances = Environment.GetEnvironmentVariable("BACKROOMS_NO_FUN_ENTRANCES") == "1";
+WorldLayout.L188Entrances = Environment.GetEnvironmentVariable("BACKROOMS_NO_188_ENTRANCES") != "1";
+var layout = new WorldLayout(seed, smx, smz, layoutVersion, foodScale, ringScale);
 int m0x = smx - n / 2, m0z = smz - n / 2, size = n * 32;
 if (args.Length > 4 && args[2] == "at") { m0x = int.Parse(args[3]) - n / 2; m0z = int.Parse(args[4]) - n / 2; }
 // AT=<mx>,<mz> centres any mode's area on that cell (AT=L<level> on that level's first arrival, AT=S on a food court)
@@ -31,9 +37,10 @@ if (args.Length > 3 && args[2] == "region") {
 
 // L0HALL=1: also write hall.bin (Level 0 hallway tiles, one byte per tile) for hallview.py
 if (Environment.GetEnvironmentVariable("L0HALL") == "1") { var hb = new byte[size * size]; for (int z = 0; z < size; z++) for (int x = 0; x < size; x++) hb[z * size + x] = layout.LevelAt(WorldLayout.MacroOf(m0x * 32 + x), WorldLayout.MacroOf(m0z * 32 + z)) == 0 ? layout.Level0HallAt(m0x * 32 + x, m0z * 32 + z) : (byte)0; File.WriteAllBytes("hall.bin", hb); }
+if (args.Length > 2 && args[2] == "notesupply") { NoteSupply.Run(layout); return; }
 if (args.Length > 2 && args[2] == "notes") { NotesSim.Run(args, layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "timing") { Timing.Run(layout, m0x, m0z, n); return; }
-if (args.Length > 3 && args[2] == "plan") { Debugger.Plan(layout, m0x * 32 + int.Parse(args[3]), m0z * 32 + int.Parse(args[4])); return; }
+if (args.Length > 4 && args[2] == "plan") { Debugger.Plan(layout, m0x * 32 + int.Parse(args[3]), m0z * 32 + int.Parse(args[4])); return; }
 if (args.Length > 2 && args[2] == "probe") { Probe.Run(layout, m0x, m0z, args); return; }
 if (args.Length > 2 && args[2] == "doors") { DoorCheck.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "stats") { Stats.Run(layout, m0x, m0z, n); return; }
@@ -41,6 +48,7 @@ if (args.Length > 2 && args[2] == "edgedoors") { EdgeDoors.Run(layout, m0x, m0z,
 if (args.Length > 2 && args[2] == "edgecross") { EdgeCross.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "stats2") { Stats2.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "boxes") { Boxes.Run(layout, m0x, m0z, n); return; }
+if (args.Length > 2 && args[2] == "plantmap") { PlantMap.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "boiler") { Boiler.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "cubes") { Cubes.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 3 && args[2] == "stairs") { StairCheck.RunLevel(layout, int.Parse(args[3]), n, args.Length > 4 ? int.Parse(args[4]) : 4); return; }
@@ -49,10 +57,21 @@ if (args.Length > 2 && args[2] == "posts") { Posts.Run(layout, m0x, m0z, n); ret
 if (args.Length > 2 && args[2] == "overview") { Overview.Run(layout, smx, smz, int.Parse(args[1]), "overview.bin", args.Length > 3 ? int.Parse(args[3]) : 1); return; }
 if (args.Length > 2 && args[2] == "citymap") { CityMap.Run(layout, n, args.Length > 3 ? int.Parse(args[3]) : 0, args.Length > 4 ? int.Parse(args[4]) : 0); return; }
 if (args.Length > 2 && args[2] == "noclip") { NoclipFind.Run(layout, smx, smz); return; }
+// elevsides [level ...]: what stands beside every elevator along its wall round a level's arrivals (ElevSides.cs; DUMP=1 for a plan)
+if (args.Length > 2 && args[2] == "elevsides") { ElevSides.Run(layout, args, n); return; }
+if (args.Length > 2 && args[2] == "shortcuts") { Shortcuts.Run(layout, seed, smx, smz); return; }
 if (args.Length > 2 && args[2] == "links") { Links.Run(layout, seed, smx, smz); return; }
+if (args.Length > 2 && args[2] == "wayback") { WayBacks.Run(layout, seed, args.Length > 3 ? int.Parse(args[3]) : 100); return; }
 if (args.Length > 3 && args[2] == "validatelevel") { int lv = int.Parse(args[3]); for (ulong k = 1; k <= (args.Length > 4 ? ulong.Parse(args[4]) : 2UL); k++) { var a = layout.FindArrival(lv, k * 99991UL); if (a == null) { Console.WriteLine("no arrival"); continue; }
   int cx = WorldLayout.MacroOf(a.Value.X) - n / 2, cz = WorldLayout.MacroOf(a.Value.Z) - n / 2; Console.WriteLine($"--- level {lv} around {a.Value}"); Validator.Run(layout, cx, cz, n, a.Value.X - cx * 32, a.Value.Z - cz * 32); } return; }
+// l3runs: Level 3's wall pipes, cable runs, floor cables, gauges and switchgear as the player sees them; l3dump x z r for render_l3runs.py
+if (args.Length > 2 && args[2] == "l3runs") { L3Runs.Run(layout, m0x, m0z, n); return; }
+if (args.Length > 4 && args[2] == "l3dump") { L3Runs.Dump(layout, int.Parse(args[3]), int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 24); return; }
+if (args.Length > 2 && args[2] == "conduitmap") { ConduitMap.Run(layout, args.Length > 3 ? int.Parse(args[3]) : 30); return; }
+if (args.Length > 2 && args[2] == "l4plan") { L4Plan.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 4 && args[2] == "peek") { Peek.Run(layout, int.Parse(args[3]), int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 8); return; }
+// dark LEVEL [half-size] [mx mz]: connected dark stretches of Level 0 or 1 (DarkAreas.cs)
+if (args.Length > 3 && args[2] == "dark") { DarkAreas.Run(layout, smx, smz, args); return; }
 if (args.Length > 2 && args[2] == "l6density") { Density.Run(layout, smx, smz); return; }
 if (args.Length > 6 && args[2] == "path") { PathCheck.Run(layout, n, int.Parse(args[3]), int.Parse(args[4]), int.Parse(args[5]), int.Parse(args[6])); return; }
 if (args.Length > 4 && args[2] == "l0") { for (int i = 3; i + 1 < args.Length; i += 2) Console.WriteLine(layout.DescribeLevel0(int.Parse(args[i]), int.Parse(args[i + 1]))); return; }
@@ -64,16 +83,29 @@ if (args.Length > 2 && args[2] == "bands") { Bands.Run(layout, smx, smz, args); 
 if (args.Length > 2 && args[2] == "loot") { Loot.Run(layout, smx, smz, n, args.Length > 3 ? int.Parse(args[3]) : 3); return; }
 if (args.Length > 2 && args[2] == "chalk") { ChalkStats.Run(layout, smx, smz, n); return; }
 if (args.Length > 2 && args[2] == "dens") { DenStats.Run(layout, smx, smz, n); return; }
+if (args.Length > 2 && args[2] == "campcount") { CampCount.Run(layout, smx, args); return; }
 if (args.Length > 2 && args[2] == "parts") { PartsStats.Run(layout, m0x + n / 2, m0z + n / 2, n / 2); return; }
 if (args.Length > 2 && args[2] == "gates") { Gates.Run(layout, smx, smz, n); return; }
 if (args.Length > 2 && args[2] == "lorespots") { LoreSpots.Run(layout, smx, smz); return; }
 if (args.Length > 2 && args[2] == "l9houses") { L9Houses.Run(layout, n); return; }
+if (args.Length > 2 && args[2] == "l9stairs") { L9Stairs.Run(layout, n); return; }
+if (args.Length > 2 && args[2] == "l9fences") { L9Stairs.Fences(layout, n); return; }
+if (args.Length > 2 && args[2] == "l9elev") { L9Elevations.Run(layout, n); return; }
 if (args.Length > 2 && args[2] == "archspots") { ArchSpots.Run(layout, smx, smz, args.Length > 3 ? int.Parse(args[3]) : 30); return; }
+if (args.Length > 2 && args[2] == "archlist") { ArchCheck.List(layout, smx, smz, args.Length > 3 ? int.Parse(args[3]) : 8); return; }
+if (args.Length > 2 && args[2] == "archloot") { ArchCheck.Loot(layout, smx, smz, args.Length > 3 ? int.Parse(args[3]) : 30); return; }
+if (args.Length > 2 && args[2] == "archcheck") { ArchCheck.Run(layout, smx, smz, args.Length > 3 ? int.Parse(args[3]) : 30); return; }
 if (args.Length > 2 && args[2] == "unreach") { Unreach.Run(layout, n); return; }
 if (args.Length > 2 && args[2] == "city") { City.Run(layout, smx, smz, n); return; }
+if (args.Length > 2 && args[2] == "l11stairs") { L11Checks.Stairs(layout, args.Length > 3 ? int.Parse(args[3]) : 2); return; }
+if (args.Length > 2 && args[2] == "l11church") { L11Checks.Church(layout, args.Length > 3 ? int.Parse(args[3]) : 8); return; }
+if (args.Length > 2 && args[2] == "l11rooms") { L11Rooms.Run(layout, args.Length > 3 ? int.Parse(args[3]) : 3, args.Length > 4 ? int.Parse(args[4]) : 3); return; }
 if (args.Length > 4 && args[2] == "hpeek") { HeightPeek.Run(layout, int.Parse(args[3]), int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 8); return; }
 if (args.Length > 2 && args[2] == "findres") { FindReservoir.Run(layout); return; }
 if (args.Length > 2 && args[2] == "layouthash") { LayoutHash.Run(args); return; }
+// manholes [maps]: Level 3's manholes round the level's arrival, <cells> across: the way in, the ladder, its foot (Manholes.cs)
+if (args.Length > 2 && args[2] == "manholes") { Manholes.Run(layout, seed, n, args.Length > 3 && args[3] == "maps"); return; }
+if (args.Length > 2 && args[2] == "tunnels") { Tunnels.Run(layout, n); return; }
 // shotgrid and feet: camera planning for the graphics pass's spot lists (ShotGrid.cs)
 if (args.Length > 2 && ShotGrid.Run(layout, args)) return;
 // Each of the levels kept as 14-27 has its own modes (runstats, funstats, endstats, hubstats, 974stats, 3999stats, 188stats; 73, basement, 52, 31, 55, 120 and 183: none yet), in its own file
@@ -82,13 +114,20 @@ if (args.Length > 2 && args[2] == "regions") { Regions.Run(layout, smx, smz); re
 if (args.Length > 3 && args[2] == "regionmap") { Regions.Map(layout, WorldLayout.FromDisplayName(args[3]), n, args.Length > 4 ? int.Parse(args[4]) : 0, args.Length > 5 ? int.Parse(args[5]) : 0); return; }
 if (args.Length > 2 && args[2] == "poolstats") { Regions.PoolStats(layout, args.Length > 3 ? int.Parse(args[3]) : 4); return; }
 if (args.Length > 2 && args[2] == "motionstats") { Regions.MotionStats(layout, n); return; }
+if (args.Length > 2 && args[2] == "l94houses") { L94Houses.Run(layout, n); return; }
+if (args.Length > 2 && args[2] == "l94fences") { L94Fences.Run(layout, args); return; }
+if (args.Length > 2 && args[2] == "l8roads") { L8Roads.Run(layout, smx, smz, n, args, m0x + n / 2, m0z + n / 2, !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("AT"))); return; }
 if (args.Length > 2 && args[2] == "deep") { Deep.Run(layout, m0x, m0z, n); return; }
+if (args.Length > 2 && args[2] == "l7") { L7Stats.Run(layout, args, seed, smx, smz); return; }
 if (args.Length > 2 && args[2] == "features") { Features.Run(layout, m0x, m0z, n); return; }
 if (args.Length > 2 && args[2] == "validate") { var (vx, vz) = layout.FindSpawn(); Validator.Run(layout, m0x, m0z, n, vx - m0x * 32, vz - m0z * 32); return; }
 if (args.Length > 2 && args[2] == "spots") { Spots.Run(layout); return; }
 if (args.Length > 2 && args[2] == "probe2") { Probe2.Run(layout, smx, smz); return; }
+if (args.Length > 2 && args[2] == "l10stock") { L10Stock.Run(layout, smx, smz); return; }
 if (args.Length > 4 && args[2] == "farm") { FindFarm.Run(layout, int.Parse(args[3]), int.Parse(args[4]), 20); return; }
-if (args.Length > 2 && args[2] != "region" && args[2] != "at") { Finder.Run(layout); return; }
+// find: the spawn-site search (Find.cs). Any other name that reached here is a typo or a mode whose argument count was short: say so instead of starting a long search
+if (args.Length > 2 && args[2] == "find") { Finder.Run(layout); return; }
+if (args.Length > 2 && args[2] != "region" && args[2] != "at") { Console.Error.WriteLine("unknown mode, or too few arguments for it: " + args[2]); return; }
 var sw = System.Diagnostics.Stopwatch.StartNew();
 using var w = new BinaryWriter(File.Create("tiles.bin"));
 w.Write(size);

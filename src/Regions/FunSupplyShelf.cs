@@ -28,7 +28,8 @@ public class BlockFunSupplyShelf : BlockGenericTypedContainer
         var drops = new List<ItemStack>();
         if (Drops != null)
             foreach (BlockDropItemStack drop in Drops)
-                if (drop.GetNextItemStack(dropQuantityMultiplier) is { } stack) drops.Add(stack);
+                // (Class 5: its food and drink thinned like every other block's, Salvage.ScarcitySystem.ClassScale)
+                if (drop.GetNextItemStack(dropQuantityMultiplier * (Salvage.ScarcitySystem.IsFood(drop.ResolvedItemstack?.Collectible) ? Salvage.ScarcitySystem.ClassScale(world, pos.X, pos.Z) : 1f)) is { } stack) drops.Add(stack);
         return drops.ToArray();
     }
 }

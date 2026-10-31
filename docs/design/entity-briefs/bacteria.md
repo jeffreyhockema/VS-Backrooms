@@ -54,3 +54,13 @@ Animations: idle, lurk, walk, run, attack, hurt, die, emerge (+ howl).
   damageAtMs ~440; hands 1.6 blocks ahead at chest height), hurt 15, die 60 (Hold, sinks into the stain), emerge 75
   (emergeMs 2500; arm poses solved numerically so the hands stay planted while it hauls itself out), howl 45.
 - Recommend: hitbox 0.7 x 2.8, eyeHeight 2.55, attackRange ~2.0.
+
+## Wire rework (0.514.0)
+- Reference: the Kane Pixels wiki stills "Bacteria Standing" and "Bacteria Canvas" (The Lifeform page): a squat dark
+  head like a bowler hat with a ring round it, a straight bar across the shoulders whose ends curl down, crutch-straight
+  arms to the floor, a trunk and legs of single kinked black cable that zigzag at every bend, the feet frayed.
+- The bones keep the first model's pivots and rest turns (every animation plays unchanged) but draw nothing; on them
+  hang kinked main wires, thinner wires twisted round them, coils wound on the limbs, the hooked shoulder bar, loops off
+  the chest and left thigh, a brim coil round the head, frayed roots; cut ends show dull copper (`ba_wire_paint`).
+- 249 elements (223 drawn, 26 bones that draw nothing), 1131 faces, texture still 128x256. Idle gains four twitches
+  (a hand, a forearm, a knee, a head shiver).

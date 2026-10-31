@@ -7,9 +7,13 @@ using Backrooms.Worldgen;
 /// stability at sample points, and the level of a sparse grid of cells (cells of the regions added after Level 94
 /// count as the fields, Level 10, which is what they were). Run before and after a change and compare the lines.
 /// After the overall hash it prints the same per-level hash for the regions kept as 14 and up (each world), which
-/// are not part of the overall hash: compare the lines of the levels that existed before a change.
-/// It hashes layout version 1 (every world made before versions) unless LAYOUT_VERSION is set; a fix kept behind a
-/// newer version must leave the version 1 lines alone. FOOD_SCALE (default 1) hashes a world with that Backrooms scarcity.
+/// are not part of the overall hash (it is the baseline that existing comparisons rely on), and then one
+/// "far places hash" line that folds all of those lines together: compare that one token after touching a far place.
+/// Level 20 (188) is rarely met by the rays, so when they find no cell of it the far hash also takes the tiles round
+/// its first arrival (the per-level lines are left as they were).
+/// Unlike the other modes (which default to the current layout version) it hashes layout version 1 (every world made
+/// before versions) unless LAYOUT_VERSION is set; a fix kept behind a newer version must leave the version 1 lines alone. FOOD_SCALE (default 1) hashes a world with that Backrooms scarcity,
+/// RING_SCALE (default 1) one made with that Level size.
 /// </summary>
 static class LayoutHash
 {
@@ -36,12 +40,14 @@ static class LayoutHash
         // otherwise: run with LAYOUT_VERSION=1 and with the current version to cover both kinds of world
         int version = int.TryParse(Environment.GetEnvironmentVariable("LAYOUT_VERSION"), out int v) ? v : 1;
         double food = double.TryParse(Environment.GetEnvironmentVariable("FOOD_SCALE"), System.Globalization.CultureInfo.InvariantCulture, out double f) ? f : 1;
-        Console.WriteLine(food == 1 ? $"layout version {version}" : $"layout version {version}, food {food}");
+        double rings = double.TryParse(Environment.GetEnvironmentVariable("RING_SCALE"), System.Globalization.CultureInfo.InvariantCulture, out double rs) ? rs : 1;
+        Console.WriteLine((food == 1 ? $"layout version {version}" : $"layout version {version}, food {food}") + (rings == 1 ? "" : $", ring scale {rings}"));
         var all = new H();
         var extra = new List<string>();
+        var far = new H();
         foreach (var (seed, smx) in worlds)
         {
-            var l = new WorldLayout(seed, smx, smx, version, food);
+            var l = new WorldLayout(seed, smx, smx, version, food, rings);
             // Sample cells: along 120 rays from spawn, the first few cells of each level met
             var samples = new Dictionary<int, List<(int, int)>>();
             for (int lv = 0; lv < WorldLayout.LevelCount; lv++) samples[lv] = new();
@@ -82,7 +88,20 @@ static class LayoutHash
                     if (a == null) { h.Add(-1); continue; }
                     h.Add(a.Value.X); h.Add(a.Value.Z); h.Add(l.ArrivalHeight(a.Value.X, a.Value.Z));
                 }
-                if (lv >= 14) { extra.Add($"  level {lv,2}: {samples[lv].Count,2} cells  {h.V:x16}"); continue; }
+                if (lv >= 14)
+                {
+                    extra.Add($"  level {lv,2}: {samples[lv].Count,2} cells  {h.V:x16}");
+                    far.Add((long)h.V);
+                    // The rays reach Level 20 nowhere: hash the tiles round its arrival so a change to it still moves the far hash
+                    if (lv == 20 && samples[lv].Count == 0 && l.FindArrival(lv, 7919UL + 13) is { } arr)
+                    {
+                        int ax = WorldLayout.MacroOf(arr.X), az = WorldLayout.MacroOf(arr.Z);
+                        for (int dz = -1; dz <= 1; dz++)
+                            for (int dx = -1; dx <= 1; dx++)
+                                foreach (var t in l.BuildMacro(ax + dx, az + dz)) AddTile(far, t);
+                    }
+                    continue;
+                }
                 Console.WriteLine($"  level {lv,2}: {samples[lv].Count,2} cells  {h.V:x16}");
                 all.Add((long)h.V);
             }
@@ -92,5 +111,6 @@ static class LayoutHash
         }
         Console.WriteLine($"layout hash {all.V:x16}");
         foreach (string line in extra) Console.WriteLine(line);
+        Console.WriteLine($"far places hash {far.V:x16}");
     }
 }

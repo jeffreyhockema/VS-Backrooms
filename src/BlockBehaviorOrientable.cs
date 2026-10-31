@@ -15,6 +15,7 @@ public class BlockBehaviorOrientable : BlockBehaviorHorizontalOrientable
     public BlockBehaviorOrientable(Block block) : base(block)
     {
         if (block.Variant.ContainsKey("facing")) variantCode = "facing";
+        else if (block.Variant.ContainsKey("side")) variantCode = "side";
     }
 
     private Block Facing(IWorldAccessor world, string facing) => world.BlockAccessor.GetBlock(BlockCodes.WithVariant(block, variantCode, facing)) ?? block;

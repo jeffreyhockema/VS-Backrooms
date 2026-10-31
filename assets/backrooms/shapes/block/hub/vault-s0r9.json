@@ -1,0 +1,198 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"ceiling": "backrooms:block/hub/ceiling"
+	},
+	"elements": [
+		{
+			"name": "Step0",
+			"from": [
+				0,
+				7,
+				15
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"down": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						1,
+						9
+					]
+				},
+				"west": {
+					"texture": "#ceiling",
+					"uv": [
+						15,
+						0,
+						16,
+						9
+					]
+				},
+				"up": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						15,
+						16,
+						16
+					]
+				},
+				"north": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"south": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "Step1",
+			"from": [
+				0,
+				8,
+				1
+			],
+			"to": [
+				16,
+				16,
+				15
+			],
+			"faces": {
+				"down": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						1,
+						16,
+						15
+					]
+				},
+				"east": {
+					"texture": "#ceiling",
+					"uv": [
+						1,
+						0,
+						15,
+						8
+					]
+				},
+				"west": {
+					"texture": "#ceiling",
+					"uv": [
+						1,
+						0,
+						15,
+						8
+					]
+				},
+				"up": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						1,
+						16,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Step2",
+			"from": [
+				0,
+				7,
+				0
+			],
+			"to": [
+				16,
+				16,
+				1
+			],
+			"faces": {
+				"down": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						15,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#ceiling",
+					"uv": [
+						15,
+						0,
+						16,
+						9
+					]
+				},
+				"west": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						1,
+						9
+					]
+				},
+				"up": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"north": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"south": {
+					"texture": "#ceiling",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				}
+			}
+		}
+	]
+}

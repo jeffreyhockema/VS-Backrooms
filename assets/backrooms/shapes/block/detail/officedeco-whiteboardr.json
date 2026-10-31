@@ -1,0 +1,533 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"alu": "backrooms:block/level4/partitionrail-top",
+		"drywall": "backrooms:block/level4/officewall",
+		"markerblack": "backrooms:block/detail/markerblack",
+		"steel": "backrooms:block/detail/steel",
+		"wberaser": "backrooms:block/detail/wberaser",
+		"whiteboard2-r": "backrooms:block/detail/whiteboard2-r"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#drywall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Board",
+			"from": [
+				0.25,
+				1,
+				-0.8
+			],
+			"to": [
+				16,
+				15,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#whiteboard2-r",
+					"uv": [
+						0,
+						0,
+						15.75,
+						14
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						15.75,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameT",
+			"from": [
+				0.25,
+				14.5,
+				-1.3
+			],
+			"to": [
+				16,
+				15,
+				-0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15.75,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15.75,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15.75,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameB",
+			"from": [
+				0.25,
+				1,
+				-1.3
+			],
+			"to": [
+				16,
+				1.5,
+				-0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15.75,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15.75,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameEnd",
+			"from": [
+				0.25,
+				1.5,
+				-1.3
+			],
+			"to": [
+				0.75,
+				14.5,
+				-0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13.0
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13.0
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Tray",
+			"from": [
+				1,
+				0.25,
+				-2.25
+			],
+			"to": [
+				16,
+				1,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						2.25
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						2.25
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						2.25,
+						0.75
+					]
+				}
+			}
+		},
+		{
+			"name": "TrayLip",
+			"from": [
+				1,
+				1,
+				-2.25
+			],
+			"to": [
+				16,
+				1.5,
+				-1.95
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						15,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "MarkerBlack",
+			"from": [
+				3,
+				1,
+				-1.8
+			],
+			"to": [
+				6.25,
+				1.6,
+				-1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#markerblack",
+					"uv": [
+						0,
+						0,
+						3.25,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#markerblack",
+					"uv": [
+						0,
+						0,
+						3.25,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#markerblack",
+					"uv": [
+						0,
+						0,
+						3.25,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#markerblack",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#markerblack",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "EraserFelt",
+			"from": [
+				9,
+				1,
+				-1.9
+			],
+			"to": [
+				13,
+				1.5,
+				-1.05
+			],
+			"faces": {
+				"north": {
+					"texture": "#markerblack",
+					"uv": [
+						0,
+						0,
+						4,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#markerblack",
+					"uv": [
+						0,
+						0,
+						4,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#markerblack",
+					"uv": [
+						0,
+						0,
+						0.85,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#markerblack",
+					"uv": [
+						0,
+						0,
+						0.85,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Eraser",
+			"from": [
+				9,
+				1.5,
+				-1.9
+			],
+			"to": [
+				13,
+				2.5,
+				-1.05
+			],
+			"faces": {
+				"north": {
+					"texture": "#wberaser",
+					"uv": [
+						0,
+						0,
+						4,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#wberaser",
+					"uv": [
+						0,
+						0,
+						4,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#wberaser",
+					"uv": [
+						0,
+						0,
+						4,
+						0.85
+					]
+				},
+				"east": {
+					"texture": "#wberaser",
+					"uv": [
+						0,
+						0,
+						0.85,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#wberaser",
+					"uv": [
+						0,
+						0,
+						0.85,
+						1.0
+					]
+				}
+			}
+		}
+	]
+}

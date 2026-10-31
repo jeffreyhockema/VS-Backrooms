@@ -7,7 +7,11 @@
 		"habitat-land"
 	],
 	"weight": 70,
-	"hitboxSize": {
+	"collisionBoxSize": {
+		"x": 0.58,
+		"y": 1.3
+	},
+	"selectionBoxSize": {
 		"x": 1.1,
 		"y": 1.3
 	},
@@ -144,8 +148,8 @@
 			},
 			{
 				"code": "health",
-				"currenthealth": 14,
-				"maxhealth": 14
+				"currenthealth": 26,
+				"maxhealth": 26
 			},
 			{
 				"code": "deaddecay",
@@ -175,11 +179,20 @@
 							"avg": 1,
 							"var": 0
 						}
+					},
+					{
+						"type": "item",
+						"code": "game:bone",
+						"quantity": {
+							"avg": 1,
+							"var": 0
+						}
 					}
 				]
 			},
 			{
-				"code": "backrooms-menace"
+				"code": "backrooms-menace",
+				"maxEncounterSeconds": 300
 			},
 			{
 				"code": "taskai",
@@ -191,30 +204,62 @@
 						"priorityForCancel": 1.6,
 						"mincooldown": 0,
 						"maxcooldown": 0,
-						"walkSpeed": 0.02,
-						"runSpeed": 0.046,
+						"walkSpeed": 0.022,
+						"runSpeed": 0.062,
 						"stalkMin": 9,
 						"stalkMax": 15,
 						"glimpseFleeDistance": 16,
-						"damage": 3.5,
+						"damage": 7.2,
 						"damageTier": 2,
 						"damageType": "SlashingAttack",
 						"knockback": 0.35,
 						"attackRange": 1.0,
 						"attackDurationMs": 1000,
 						"damageAtMs": 600,
-						"attackCooldownMs": 1200,
+						"attackCooldownMs": 1100,
 						"walkAnimation": "walk",
 						"runAnimation": "run",
 						"attackAnimation": "attack",
 						"fearsFire": true,
-						"slowedByLight": true,
 						"retreatBelow": 0.35,
 						"staredDown": true,
 						"stalkSound": "game:creature/wolf/growl*",
 						"huntSound": "game:creature/wolf/howl*",
 						"attackSound": "game:creature/wolf/attack*",
-						"soundRange": 40
+						"soundRange": 40,
+						"senses": {
+							"sightLit": 40,
+							"sightDim": 18,
+							"sightDark": 8,
+							"sightCone": 70,
+							"carriedLight": 1.5,
+							"hearing": 32,
+							"fearSense": 12,
+							"memorySeconds": 10,
+							"trackSeconds": 12,
+							"trackError": 10
+						},
+						"chargesWhenBacked": true,
+						"backTurnedRange": 16,
+						"backTurnedSeconds": 2,
+						"backTurnedCone": 70,
+						"chargeCloseRange": 5,
+						"leavesAfterSearch": true,
+						"huntsUntilSet": true,
+						"glimpseTurnsToStalk": true,
+						"growlBeforeCharge": true,
+						"growlMs": 900,
+						"barks": true,
+						"huntBarkSeconds": 2,
+						"huntBarkLevels": [
+							3
+						],
+						"investigateSeconds": 8,
+						"searchSeconds": 14,
+						"retaliateSeconds": 60,
+						"lookAnimation": "sniff",
+						"squeezeWidth": 2.0,
+						"squeezeFactor": 0.6
 					},
 					{
 						"code": "idle",

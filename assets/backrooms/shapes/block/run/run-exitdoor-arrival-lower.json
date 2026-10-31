@@ -3,8 +3,8 @@
 	"textureHeight": 16,
 	"textures": {
 		"exitdoor-back": "backrooms:block/run/exitdoor-back",
-		"markeddoor-lower": "backrooms:block/run/markeddoor-lower",
 		"panicbar": "backrooms:block/run/panicbar",
+		"returndoor-lower": "backrooms:block/run/returndoor-lower",
 		"steelframe": "backrooms:block/run/steelframe"
 	},
 	"elements": [
@@ -160,7 +160,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#markeddoor-lower",
+					"texture": "#returndoor-lower",
 					"uv": [
 						0,
 						0,

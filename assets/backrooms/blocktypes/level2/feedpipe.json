@@ -1,0 +1,133 @@
+// The feed pipe from a machine cabinet up into the overhead pipes
+{
+	"code": "feedpipe",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-north": {
+			"base": "block/feedpipe",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/feedpipe",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/feedpipe",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/feedpipe",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.6875,
+			"y1": 0,
+			"z1": 0.625,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.6875,
+			"y1": 0,
+			"z1": 0.625,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.6875,
+			"y1": 0,
+			"z1": 0.625,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.6875,
+			"y1": 0,
+			"z1": 0.625,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.6875,
+			"y1": 0,
+			"z1": 0.625,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.6875,
+			"y1": 0,
+			"z1": 0.625,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.6875,
+			"y1": 0,
+			"z1": 0.625,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.6875,
+			"y1": 0,
+			"z1": 0.625,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

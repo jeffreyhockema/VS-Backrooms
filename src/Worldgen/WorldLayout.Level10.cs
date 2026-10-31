@@ -128,6 +128,28 @@ public sealed partial class WorldLayout
         return Math.Abs(gx - sx) < hx && Math.Abs(gz - sz) < hz;
     }
 
+    /// <summary>
+    /// Whether a column is in the yard of one of Level 10's farmsteads (the packed earth round the barn, the house and the
+    /// silo), where the livestock of a farm with no paddock stand about. Not part of the layout: only where creatures are put.
+    /// </summary>
+    public bool IsFarmyard(int gx, int gz)
+    {
+        if (LevelAt(MacroOf(gx), MacroOf(gz)) != 10) return false;
+        var f = FieldAt(gx, gz);
+        if (FieldKind(f.I, f.J) != FarmField.Farmstead) return false;
+        var (sx, sz) = FieldSite(f.I, f.J);
+        int du = gx - sx, dv = gz - sz;
+        return du >= -24 && du <= 22 && dv >= -22 && dv <= 16;
+    }
+
+    /// <summary>Whether a column lies in a fallow meadow of Level 10 (clear of the hedges), where the odd stray beast grazes.</summary>
+    public bool IsMeadow(int gx, int gz)
+    {
+        if (LevelAt(MacroOf(gx), MacroOf(gz)) != 10) return false;
+        var f = FieldAt(gx, gz);
+        return f.EdgeGap >= 4 && FieldKind(f.I, f.J) == FarmField.Meadow;
+    }
+
     // ---- Something to look at out in the crops (layout version 5) ----
 
     /// <summary>
@@ -439,7 +461,7 @@ public sealed partial class WorldLayout
             PlanBarnTile(ref t, bu, bv, r, big: true);
             // In some barns, a stretch of the east wall between the stalls isn't quite there. Lean on it and you noclip
             // through, into the Endless City
-            if (bu == 21 && bv == 14 && Hashing.Unit(Hashing.Hash(seed, i, j, SaltL10Kind + 5)) < 0.45) t.Under = Unders.Noclip;
+            if (bu == 21 && bv == 14 && Hashing.Unit(Hashing.Hash(seed, i, j, SaltL10Kind + 5)) < (Version >= 12 ? 0.1125 : 0.45)) t.Under = Unders.Noclip;
             return;
         }
         // A tool shed (walls at u 6-12, v 7-12 of its frame)

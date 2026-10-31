@@ -1,0 +1,709 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"garagegap": "backrooms:block/detail/garagegap",
+		"garagepaint": "backrooms:block/detail/garagepaint",
+		"plaster-interior": "backrooms:block/detail/plaster-interior",
+		"rubber": "backrooms:block/detail/rubber",
+		"windowtrim": "backrooms:block/detail/windowtrim"
+	},
+	"elements": [
+		{
+			"name": "LiningW",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				1.5,
+				16,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						7.6066,
+						16,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#plaster-interior",
+					"uv": [
+						0.0,
+						7.6066,
+						1.5,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CasingW",
+			"from": [
+				-2.5,
+				0,
+				-1
+			],
+			"to": [
+				1.5,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						7.6066,
+						4.0,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						7.6066,
+						1,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						7.6066,
+						1,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "StopW",
+			"from": [
+				1.5,
+				0,
+				1.25
+			],
+			"to": [
+				2.25,
+				16,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#windowtrim",
+					"uv": [
+						0.0,
+						7.6066,
+						0.75,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#windowtrim",
+					"uv": [
+						0,
+						7.6066,
+						1.25,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Weatherstrip",
+			"from": [
+				1.5,
+				0,
+				2.25
+			],
+			"to": [
+				16,
+				0.6,
+				3.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#rubber",
+					"uv": [
+						10.8444,
+						0.0,
+						16.0,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#rubber",
+					"uv": [
+						0.0,
+						0,
+						5.1556,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0.0,
+						0.0,
+						5.1556,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Backer",
+			"from": [
+				1.5,
+				0.6,
+				3.5
+			],
+			"to": [
+				16,
+				16,
+				3.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagegap",
+					"uv": [
+						10.8444,
+						7.7592,
+						16.0,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#garagegap",
+					"uv": [
+						0.0,
+						7.7592,
+						5.1556,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Section0",
+			"from": [
+				1.5,
+				0.75,
+				2.5
+			],
+			"to": [
+				16,
+				7.85,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						10.8444,
+						0.0,
+						16.0,
+						7.1
+					]
+				},
+				"south": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0.0,
+						5.1556,
+						7.1
+					]
+				},
+				"west": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						7.1
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						5.1556,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						5.1556,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel0x0",
+			"from": [
+				2.4,
+				1.95,
+				2.0
+			],
+			"to": [
+				7.0125,
+				6.65,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0.0,
+						4.6125,
+						4.7
+					]
+				},
+				"east": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.7
+					]
+				},
+				"west": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.7
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						4.6125,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						4.6125,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel0x1",
+			"from": [
+				7.9125,
+				1.95,
+				2.0
+			],
+			"to": [
+				12.525,
+				6.65,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0.0,
+						4.6125,
+						4.7
+					]
+				},
+				"east": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.7
+					]
+				},
+				"west": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.7
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						4.6125,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						4.6125,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel0x2",
+			"from": [
+				13.425,
+				1.95,
+				2.0
+			],
+			"to": [
+				16,
+				6.65,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						2.0375,
+						0.0,
+						4.6125,
+						4.7
+					]
+				},
+				"west": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.7
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						2.575,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						2.575,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Section1",
+			"from": [
+				1.5,
+				8.15,
+				2.5
+			],
+			"to": [
+				16,
+				15.35,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						10.8444,
+						0.0,
+						16.0,
+						7.2
+					]
+				},
+				"south": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0.0,
+						5.1556,
+						7.2
+					]
+				},
+				"west": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						7.2
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						5.1556,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						5.1556,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel1x0",
+			"from": [
+				2.4,
+				9.35,
+				2.0
+			],
+			"to": [
+				7.0125,
+				14.15,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0.0,
+						4.6125,
+						4.8
+					]
+				},
+				"east": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.8
+					]
+				},
+				"west": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.8
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						4.6125,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						4.6125,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel1x1",
+			"from": [
+				7.9125,
+				9.35,
+				2.0
+			],
+			"to": [
+				12.525,
+				14.15,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0.0,
+						4.6125,
+						4.8
+					]
+				},
+				"east": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.8
+					]
+				},
+				"west": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.8
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						4.6125,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						4.6125,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel1x2",
+			"from": [
+				13.425,
+				9.35,
+				2.0
+			],
+			"to": [
+				16,
+				14.15,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						2.0375,
+						0.0,
+						4.6125,
+						4.8
+					]
+				},
+				"west": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						0.0,
+						0.5,
+						4.8
+					]
+				},
+				"up": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						2.575,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						2.575,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Section2",
+			"from": [
+				1.5,
+				15.65,
+				2.5
+			],
+			"to": [
+				16,
+				16,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#garagepaint",
+					"uv": [
+						10.8444,
+						6.85,
+						16.0,
+						7.2
+					]
+				},
+				"south": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						6.85,
+						5.1556,
+						7.2
+					]
+				},
+				"west": {
+					"texture": "#garagepaint",
+					"uv": [
+						0,
+						6.85,
+						1.0,
+						7.2
+					]
+				},
+				"down": {
+					"texture": "#garagepaint",
+					"uv": [
+						0.0,
+						0,
+						5.1556,
+						1.0
+					]
+				}
+			}
+		}
+	]
+}

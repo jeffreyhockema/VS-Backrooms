@@ -52,6 +52,23 @@ public sealed partial class WorldLayout
     /// <summary>Ceiling heights: a hall, an atrium, a service corridor; the galleries' slab; a doorway's opening.</summary>
     public const int L3999HallHeight = 7, L3999AtriumHeight = 18, L3999CorridorHeight = 4, L3999SlabRel = 7, L3999DoorHeight = 4;
 
+    /// <summary>
+    /// Layout version 9 on, the ceilings of the units that were atria (the lobbies, food courts, game halls and natatoria,
+    /// the rooms of tall neon pillars): 10 over a lobby or a natatorium; 11 over a food court or a game hall, whose gallery
+    /// ring (its slab at rel 7, the escalator's seven steps up to it) needs a storey of three blocks over it. The walls
+    /// still run to 18, the concourses and junctions keep their 18, and above a unit's ceiling the ground is solid.
+    /// </summary>
+    public const int L3999LowAtriumHeight = 10, L3999LowGalleryHeight = 11;
+
+    /// <summary>A unit's ceiling over its floor.</summary>
+    private int L3999UnitHeight(L3999Kind kind) => kind switch
+    {
+        L3999Kind.Game or L3999Kind.Lanes or L3999Kind.Shuttered => L3999HallHeight,
+        _ when Version < 9 => L3999AtriumHeight,
+        L3999Kind.FoodCourt or L3999Kind.GameHall => L3999LowGalleryHeight,
+        _ => L3999LowAtriumHeight,
+    };
+
     /// <summary>What part of the level a tile is in (<see cref="Tile.Zone"/>).</summary>
     public enum L3999Zone : byte { Concourse, Junction, Service, Game, GameHall, FoodCourt, Lobby, Lanes, Shuttered, MiniArcade, Natatorium, Rim }
 
@@ -163,10 +180,17 @@ public sealed partial class WorldLayout
 
     private PlanCache<L3999Plan> l3999Plans;
 
-    private L3999Plan L3999PlanOf(int bi, int bj) => (l3999Plans ??= new PlanCache<L3999Plan>(16, PlanL3999Block)).Get(bi, bj);
+    private L3999Plan L3999PlanOf(int bi, int bj) => l3999Plans.Get(bi, bj);
+
+    /// <summary>
+    /// The units of each plan block, kept apart from the tiles: a plan's 16k tiles are only kept for the last few blocks
+    /// (<see cref="l3999Plans"/>), but a search for the nearest unit looks at dozens of blocks, and a block's few units are
+    /// all it needs, so evicting a plan must not lose them.
+    /// </summary>
+    private PlanCache<IReadOnlyList<L3999Unit>> l3999Units;
 
     /// <summary>The units of a plan block (rectangles in block-local coordinates).</summary>
-    public IReadOnlyList<L3999Unit> L3999UnitsOf(int bi, int bj) => L3999PlanOf(bi, bj).Units;
+    public IReadOnlyList<L3999Unit> L3999UnitsOf(int bi, int bj) => l3999Units.Get(bi, bj);
 
     /// <summary>The planned tile at a block position (before the cell's own passes, and with no rim).</summary>
     private Tile L3999PlannedTile(int gx, int gz)
@@ -226,7 +250,7 @@ public sealed partial class WorldLayout
         var t = new Tile { Kind = TileKind.Wall, Pattern = WallPattern.L3999Wall, Height = L3999AtriumHeight, Zone = (byte)L3999Zone.Rim, Detail = 1 };
         foreach (ArchPier d in L3999RimSides)
         {
-            var (dx, dz) = Step(d);
+            var (dx, dz) = FacingStep(d);
             int nx = gx + dx, nz = gz + dz, nmx = MacroOf(nx), nmz = MacroOf(nz);
             if (!open[(nmz - mz + 1) * 3 + nmx - mx + 1]) continue;
             Tile n = L3999PlannedTile(nx, nz);
@@ -556,7 +580,6 @@ public sealed partial class WorldLayout
             L3999Kind.Shuttered => L3999Zone.Shuttered,
             _ => L3999Zone.Natatorium,
         };
-        bool hall = kind is L3999Kind.Game or L3999Kind.Lanes or L3999Kind.Shuttered;
         FloorKind floor = kind switch
         {
             L3999Kind.Game or L3999Kind.GameHall => FloorKind.L3999Floor,
@@ -571,7 +594,7 @@ public sealed partial class WorldLayout
             for (int u = 0; u < f.W; u++)
                 L3999F(p, f, u, w) = new Tile
                 {
-                    Kind = TileKind.Floor, Floor = floor, Height = (byte)(hall ? L3999HallHeight : L3999AtriumHeight), Zone = (byte)zone,
+                    Kind = TileKind.Floor, Floor = floor, Height = (byte)L3999UnitHeight(kind), Zone = (byte)zone,
                     Detail = colour, Ceiling = kind == L3999Kind.Shuttered && (u % 8 == 4 && w % 8 == 4) ? CeilingKind.L3999Fluoro : CeilingKind.L3999Ceiling,
                     Pattern = WallPattern.L3999Wall,
                 };
@@ -1212,10 +1235,15 @@ public sealed partial class WorldLayout
 
     // ================= The Neon Blackout =================
 
-    /// <summary>Whether a Blackout block lies within <paramref name="reach"/> blocks of a block.</summary>
+    /// <summary>
+    /// Whether a Blackout block lies within <paramref name="reach"/> blocks of a block (a square of blocks). The early-out's
+    /// bound is a radial one, so it is approximate on purpose for the square's corners (it can say no where a Blackout lies
+    /// on a diagonal, which leaves a few fewer rusted cabinets in that band); do not change it without a layout version
+    /// (a candidate for 11: a factor of the square root of two).
+    /// </summary>
     private bool L3999DarkNear(int bi, int bj, int reach)
     {
-        if (L3999BlockFraction(bi, bj) + reach * (double)L3999Block / MacroSize / L3999Radius < 0.65) return false;
+        if (L3999BlockFraction(bi, bj) + reach * (Version >= 11 ? Math.Sqrt(2) : 1) * (double)L3999Block / MacroSize / L3999Radius < 0.65) return false;
         for (int dj = -reach; dj <= reach; dj++)
             for (int di = -reach; di <= reach; di++)
                 if (L3999BlackoutBlock(bi + di, bj + dj)) return true;
@@ -1307,29 +1335,47 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// The nearest units of a kind (or with a mini arcade) round a position, within <paramref name="radius"/> blocks,
-    /// nearest first, never in the Blackout: their middles. Block by block.
+    /// nearest first, never in the Blackout: their middles. Block by block, in rings of blocks round the position, stopping
+    /// once the next ring cannot hold anything nearer than the <paramref name="max"/>th found (a unit's middle lies in its
+    /// block, so a block in ring r is at least r - 1 blocks away). Units at the same distance come in the order of a
+    /// row-by-row scan of the blocks, whatever order the rings found them in.
     /// </summary>
     public List<(int X, int Z)> L3999UnitsNear(int gx, int gz, Func<L3999Unit, bool> want, int radius, int max = 1)
     {
-        var found = new List<(int X, int Z, long D)>();
+        var found = new List<(int X, int Z, long D, long Order)>();
         var (bi0, bj0) = L3999BlockOf(gx, gz);
         int reach = radius / L3999Block + 1;
-        for (int bj = bj0 - reach; bj <= bj0 + reach; bj++)
-            for (int bi = bi0 - reach; bi <= bi0 + reach; bi++)
+        long radiusSq = (long)radius * radius;
+        for (int ring = 0; ring <= reach; ring++)
+        {
+            if (found.Count >= max && ring >= 2)
             {
-                if (L3999BlackoutBlock(bi, bj)) continue;
-                var (cx, cz) = L3999BlockCentre(bi, bj);
-                if (LevelAt(MacroOf(cx), MacroOf(cz)) != Level3999) continue;
-                foreach (L3999Unit unit in L3999UnitsOf(bi, bj))
-                {
-                    if (!want(unit)) continue;
-                    var (x, z) = L3999UnitCentre(bi, bj, unit);
-                    if (LevelAt(MacroOf(x), MacroOf(z)) != Level3999 || L3999IsRimCell(MacroOf(x), MacroOf(z))) continue;
-                    long d = (long)(x - gx) * (x - gx) + (long)(z - gz) * (z - gz);
-                    if (d <= (long)radius * radius) found.Add((x, z, d));
-                }
+                // (the max-th smallest distance so far; nothing in this ring or beyond can beat it when it is nearer than the ring)
+                var ds = new List<long>(found.Count);
+                foreach (var f in found) ds.Add(f.D);
+                ds.Sort();
+                long nearest = (long)(ring - 1) * L3999Block;
+                if (nearest * nearest > ds[max - 1]) break;
             }
-        found.Sort((p, q) => p.D.CompareTo(q.D));
+            for (int bj = bj0 - ring; bj <= bj0 + ring; bj++)
+                for (int bi = bi0 - ring; bi <= bi0 + ring; bi++)
+                {
+                    if (Math.Max(Math.Abs(bi - bi0), Math.Abs(bj - bj0)) != ring || L3999BlackoutBlock(bi, bj)) continue;
+                    var (cx, cz) = L3999BlockCentre(bi, bj);
+                    if (LevelAt(MacroOf(cx), MacroOf(cz)) != Level3999) continue;
+                    int index = 0;
+                    foreach (L3999Unit unit in L3999UnitsOf(bi, bj))
+                    {
+                        index++;
+                        if (!want(unit)) continue;
+                        var (x, z) = L3999UnitCentre(bi, bj, unit);
+                        if (LevelAt(MacroOf(x), MacroOf(z)) != Level3999 || L3999IsRimCell(MacroOf(x), MacroOf(z))) continue;
+                        long d = (long)(x - gx) * (x - gx) + (long)(z - gz) * (z - gz);
+                        if (d <= radiusSq) found.Add((x, z, d, ((long)(bj - bj0 + reach) * (2 * reach + 1) + bi - bi0 + reach) * 4096 + index));
+                    }
+                }
+        }
+        found.Sort((p, q) => p.D != q.D ? p.D.CompareTo(q.D) : p.Order.CompareTo(q.Order));
         var result = new List<(int X, int Z)>();
         foreach (var f in found)
         {
@@ -1370,7 +1416,7 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// Somewhere in the nearest block of the Neon Blackout to a position, for a key (falling through a rusted cabinet).
-    /// Null if there is none within 40 blocks.
+    /// Null if there is none within 40 plan blocks (5,120 blocks).
     /// </summary>
     public (int X, int Z)? L3999BlackoutArrival(int gx, int gz, ulong key)
     {

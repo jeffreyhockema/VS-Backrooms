@@ -248,6 +248,29 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
   night. `ShotBot.cs` now puts the daylight under the cheat's key (`backrooms-cheat-clearair`).
 - (B18) `/time set 12:00` in a spot's `pre` jumps a day each time (the clock stands at 12:00): the gallery world was in
   Year 8 by the end. Harmless for shots, but do not read the calendar in a review world.
+- (L1 props) A decoration block's "rel" is its height above the floor, and Level 1's halls are four blocks tall, so a power
+  box's conduit riser at rel 3 stopped at a plain wall block at rel 4. A new height of an existing decoration is a new
+  state (`powerbox4`) in `gen_detail`'s `Decor` list (`DetailBlocks.g.cs` follows), placed by `WorldGenerator.Decorated`
+  only when `layout.Version >= 9` and `t.Level == 1`; every other level's rel 4 stays 0.
+- (L1 props) Printed lettering on a model part is drawn in the top-left of a 32x32 texture, 2 px per unit of the part,
+  in a 3x5 pixel face (`l1props_tex.FONT`), and the part keeps the default UV from its own size: no scaled type, no
+  stretch. A north face's top-left pixel is the viewer's top-left. Glass on a wall decoration is a cut-out texture
+  (glints, dust, a lit rim) so the blocktype needs no transparent render pass.
+- (L1 props) A tool run from the repo root: the checkout is CRLF on disk (autocrlf) and the generators write LF, so every
+  regenerated file shows as modified. Compare with `git show HEAD:path` after normalising line endings and check the rest
+  out (`restore.py` in the L1 props batch's scratch notes did this: 1154 files restored, the real changes stood).
+- (shots514) `batch.py --data <new dir>` copies the user's `clientsettings.json` as it is, so the client shot in the user's window
+  (2197x1318, not 16:9) and the gallery PNGs came out stretched when scaled to 1920x1080. Set `gameWindowMode` 1 and
+  `screenWidth`/`screenHeight` 3856/2176 in a new data dir before shooting, and check a shot's size before installing it.
+- (shots514) The Snackrooms' lights can be off for a whole shot (one scout frame of a vending room came out at a third of
+  the brightness of the same frame in the next run); retake a dark Snackrooms frame before judging it.
+- (shots514c) Level 974 by its own lights (light 19 from 3ef62b0) reads as bright as the shotbot's daylight (mean luma within
+  2 of each other in every bedroom and Kitty's room frame), so the house is shot without daylight now. One frame of Kitty's
+  room came out at a third of the brightness right after a daylight spot in the bedroom; the same spot shot again (and after
+  30 s) was bright: retake a dark 974 frame before judging it.
+- (shots514c) Level !'s gallery spot (29) is red and dark by its own light, as before (luma 18, the earlier frame 18); the
+  changelog pair shoots that hall with a held lantern. `batch.py` reported a shot MISSING when the client still held the
+  screenshot file ("shot move failed"): shoot that spot again.
 
 ## Batches
 
@@ -275,6 +298,7 @@ Things later batches inherit. Add a line when you learn one; do not remove lines
 | D3 Level 94 follow-up (yellow houses, siren poles, water towers) | gfx/D3 | merged | 2 | siren pole speakers C+ (B13's model, not in scope); castle glass at the mountain's foot (B13, unchanged); layout version 8 | | passed 2026-10-17 00:15 (Fable): tower matches the lore photo in game; houses yellow; poles stand |
 | D4 follow-ups (carried items) | gfx/D4 | merged | 2 | L7 rock B-, 974 furniture B- (subtle), traffic lights B- (dead lens) | passed 2026-10-17 03:25 (Fable): boiler and bay pipes verified; walls no longer stack one version |
 | B17 entities and items | gfx/B17 | merged | 2 | Smiler, Bacteria, Mangled, Kitty C+ (black by lore); Deathmoths C+; Clump skin B-; Faceling faces blank (lore); ticket lettering | passed 2026-10-17 01:55 (Fable): lineup verified, silhouettes and colours kept, headless load clean |
+| B19 showcase, change-note stats, banner and cover | gfx/B19 | merged | 1 | lineup, 3999 and Level 11 pairs skipped as subtle at a glance | passed 2026-10-17 (Fable): overview checked, stats verified from git |
 | B18 finish | gfx/B18 | merged | 1 | banner.jpg and docs/cover not regenerated (01 changed); user may swap any gallery image back from review/b18/gallery-old | passed 2026-10-17 05:55 (Fable): gallery compare checked, docs and mod page at 0.514.0; zip rebuilt |
 
 Status values: not started, in progress, review, sent back, merged.
@@ -2532,3 +2556,38 @@ puts the title over 01, and the new 01 has no supply box in front; worth a look 
 
 **Carried:** no visible bug found while shooting. Black frames in the scouts were dark places by design (unlit Level 0
 side halls, Level 2's tram tunnel beyond the lights, a dark Snackrooms cell, a closed diner) or spots of mine inside a hill.
+
+### Level 1 props (post-B19)
+
+Worker report (Opus, 2026-10-17). Twelve Level 1 props rebuilt as geometry, plus the power box conduit's termination.
+Generators: `tools/l1props.py` (shapes, from `modelkit`), `tools/l1props_tex.py` (every texture, new keys `l1*`, `cam*`
+and `oildrum-*`), wired into `gen_detail.level1` / `doors`, `detail_textures.level1`, `gen_lore.level1` (camera) and
+`gen_textures.drum`. No block, item or entity code changed; one block state added beside the old ones
+(`l1deco-powerbox4`, `concretedeco-powerbox4`).
+
+- **Workbench:** a bevelled top of worn planks, four turned legs on feet, aprons, plywood shelf on rails with a small
+  toolbox, a pegboard (holes) in a timber frame with a hammer, screwdriver, spanner and a coil of cord as geometry, a
+  vise with jaw, screw and bar, a hammer on the top.
+- **Toolbox:** bevelled body and lid, pressed ribs, steel latches and hasps over the lip, hinges, a handle on two posts.
+- **Steel door (`metaldoor`, now `drawtype: json`, same code and groups):** leaf plus hardware on all four sides, as the
+  tunnel doors: a raised frame, push bar, kick plate, two hinges, lock; the upper has a bead round wired glass and a
+  NO ENTRY plate. The painted bar, plate and glass are gone from the leaf's texture.
+- **Caution sign:** two panels with feet, skirt, hinge and grip; CAUTION / WET FLOOR and a figure in pixel type.
+- **Power box:** enclosure with a bevelled door, hinges, quarter-turn latch, warning decal, gland, clamped conduit, a
+  disconnect box joined by a nipple. **Conduit:** rel 3 clamps it, and the new rel 4 block carries it to a junction box
+  bolted to the ceiling (cover with four screws) with a capped stub along the slab. Layout version 9 on.
+- **Breaker panel:** after Level 3's: rim, twelve bakelite breakers (two tripped), bus cover, label, decal, red main
+  switch, conduit up into a conduit body under the block's top.
+- **Drum:** eight facet plates with the old blue enamel, rust and runs, two hoops, rolled chimes, a pressed lid, a bung and
+  a vent plug, a paper label (the shape is generated now, `l1props.write_drum`; Level 2 shares it).
+- **Fire hose cabinet:** red tub, reel (back flange, coil, hub), hose run to a brass nozzle on a bracket, handwheel valve,
+  framed door with HOSE nameplate, cut-out glass, hinges and latch. **Standpipe:** round red riser in its own skin,
+  flanges, clamps on standoffs, a gate valve with handwheel and a brass outlet with nut, cap and chain; rel 4 ends in a
+  ceiling flange. **Fire alarm:** pull station (FIRE / PULL) with a bell above. **Extinguisher:** octagonal body, shoulder,
+  straps and backplate, label, brass valve with a gauge, handle, lever, pin, hose to a clipped nozzle, ISO sign.
+- **Security camera:** wall plate with bolts, arm, swivel, bevelled housing, sun hood with lips, round lens (bezel and black
+  glass), cable boot.
+
+Checks: `check_zfight` 26 shapes, 0 candidates; build 0 warnings. Evidence in `review/l1props/` (before, after,
+texsheets). Not shot in the client (the game was open).
+

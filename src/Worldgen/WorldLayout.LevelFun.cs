@@ -106,6 +106,14 @@ public sealed partial class WorldLayout
     /// <summary>The air over the floors: corridors, party rooms, the play rooms, the bounce halls, an open deck.</summary>
     private const int FunCorridorHeight = 3, FunRoomHeight = 4, FunPlayHeight = 5, FunBounceHeight = 8, FunDeckHeight = 14;
 
+    /// <summary>
+    /// How far an elevator lobby's floor reaches west and east of its crossing: 4 (nine wide) before layout version 9; from
+    /// 9, 5 (eleven wide), so the two-wide elevator doors on its north and south walls stand between wall on both sides
+    /// rather than right beside the promenade's opening. North to south it stays nine deep (4 either way), so the walls
+    /// behind the doors still back onto solid ship, not a promenade's jog.
+    /// </summary>
+    private int FunLobbyHalfX => Version >= 9 ? 5 : 4;
+
     /// <summary>How far below the deck the sea's bottom lies, and its surface.</summary>
     public const int FunSeaDepth = 10, FunSeaSurface = -6;
 
@@ -211,9 +219,18 @@ public sealed partial class WorldLayout
 
     private PlanCache<FunBlockPlan> funPlans;
 
-    public FunBlockPlan FunPlan(int bi, int bj) => (funPlans ??= new PlanCache<FunBlockPlan>(32, PlanFunBlock)).Get(bi, bj);
+    public FunBlockPlan FunPlan(int bi, int bj) => funPlans.Get(bi, bj);
 
-    /// <summary>The level's rooms with their middles within <paramref name="radius"/> blocks of a position.</summary>
+    /// <summary>
+    /// The rooms of each plan block, kept apart from the tiles (a block's 9k tiles are only kept for the last few blocks, but a
+    /// search for the rooms near a position looks at dozens, and the rooms are all it wants of each).
+    /// </summary>
+    private PlanCache<FunRoom[]> funRooms;
+
+    /// <summary>
+    /// The level's rooms with their middles within <paramref name="radius"/> blocks of a position, block by block (a room lies
+    /// inside its plan block, so a block further than the radius from the position is not even planned).
+    /// </summary>
     public IEnumerable<FunRoom> FunRoomsNear(int x, int z, int radius)
     {
         var (bi, bj) = FunBlockOf(x, z);
@@ -222,8 +239,10 @@ public sealed partial class WorldLayout
             for (int di = -reach; di <= reach; di++)
             {
                 int ox = FunOriginX + (bi + di) * FunBlock, oz = FunOriginZ + (bj + dj) * FunBlock;
+                int gapX = Math.Max(Math.Max(ox - x, x - (ox + FunBlock - 1)), 0), gapZ = Math.Max(Math.Max(oz - z, z - (oz + FunBlock - 1)), 0);
+                if ((long)gapX * gapX + (long)gapZ * gapZ > (long)radius * radius) continue;
                 if (LevelAt(MacroOf(ox + FunBlock / 2), MacroOf(oz + FunBlock / 2)) != FunLevel) continue;
-                foreach (FunRoom room in FunPlan(bi + di, bj + dj).Rooms)
+                foreach (FunRoom room in funRooms.Get(bi + di, bj + dj))
                 {
                     int cx = (room.X0 + room.X1) / 2 - x, cz = (room.Z0 + room.Z1) / 2 - z;
                     if (cx * cx + cz * cz <= radius * radius) yield return room;
@@ -255,13 +274,17 @@ public sealed partial class WorldLayout
         if (toCross <= (promenade ? 7 : 4)) return 0;
         if (!promenade && axis == 1 && Hashing.Mod(line, 3) == 1
             && IsFunCloneBlock(Hashing.FloorDiv(line, 3), Hashing.FloorDiv(along, FunBlock))) return 0;
-        ulong h = Hashing.Hash(seed, axis * 7919 + line, 0, SaltFunLine);
-        int phase = (int)(h % 12);
+        int phase = funPhases.Get(axis, line);
         int segment = Hashing.FloorDiv(along + phase, 12);
         int sign = (segment & 1) == 0 ? 1 : -1;
         int amplitude = promenade ? 3 : 2; // never overlapping the straight band where lines cross, so no look runs on past a jog
         return sign * amplitude;
     }
+
+    /// <summary>Where along a line its jogs start (a function of the line alone, asked for by every tile beside it, so remembered).</summary>
+    private LatticeMemo<int> funPhases;
+
+    private int FunPhaseOf(int axis, int line) => (int)(Hashing.Hash(seed, axis * 7919 + line, 0, SaltFunLine) % 12);
 
     /// <summary>Whether a tile at <paramref name="off"/> across a line lies in its corridor at a point along it (the jogs are joined up).</summary>
     private bool InFunBand(int axis, int line, int off, int along)
@@ -282,7 +305,9 @@ public sealed partial class WorldLayout
         int ux = gx - FunOriginX, uz = gz - FunOriginZ;
         int lineX = (int)Math.Round(ux / 32.0), lineZ = (int)Math.Round(uz / 32.0);
         int offX = ux - lineX * 32, offZ = uz - lineZ * 32;
-        if (Hashing.Mod(lineX, 3) == 0 && Hashing.Mod(lineZ, 3) == 0 && Math.Abs(offX) <= 4 && Math.Abs(offZ) <= 4)
+        // (Layout version 9 on: a lobby is eleven wide west to east, not nine, so its elevator doors have wall either side
+        // of them, not the promenade's opening right beside them)
+        if (Hashing.Mod(lineX, 3) == 0 && Hashing.Mod(lineZ, 3) == 0 && Math.Abs(offX) <= FunLobbyHalfX && Math.Abs(offZ) <= 4)
             return (FunZone.Lobby, Math.Abs(offX) == 2 && Math.Abs(offZ) == 2, lineX + lineZ);
         bool ns = InFunBand(1, lineX, offX, uz), we = InFunBand(0, lineZ, offZ, ux);
         if (!ns && !we) return (FunZone.None, false, 0);
@@ -461,7 +486,7 @@ public sealed partial class WorldLayout
     /// </summary>
     private static bool OpenFunDoor(FunPlanner p, FunRoom room, FunFrame f, ArchPier side, int width)
     {
-        var (du, dv) = Step(side);
+        var (du, dv) = FacingStep(side);
         bool alongU = du == 0; // the side runs along u
         int lo = alongU ? f.U0 : f.V0, hi = (alongU ? f.U1 : f.V1) - (width - 1), mid = (lo + hi) / 2;
         for (int k = 0; k <= hi - lo; k++)
@@ -857,7 +882,7 @@ public sealed partial class WorldLayout
             // Walk out through the doorway to the corridor
             foreach (ArchPier side in AllSides)
             {
-                var (du, dv) = Step(side);
+                var (du, dv) = FacingStep(side);
                 if (!FunPlanner.In(u + du, v + dv) || p.At(u + du, v + dv).Kind != TileKind.Doorway) continue;
                 int x = u + du, z = v + dv;
                 while (FunPlanner.In(x, z) && p.At(x, z).Kind == TileKind.Doorway) { x += du; z += dv; }
@@ -1188,7 +1213,7 @@ public sealed partial class WorldLayout
             var row = new List<(int U, int V, ArchPier Into)>(FunWallRow(f, side));
             int start = row.Count / 2 - width / 2;
             if (start < 1 || start + width > row.Count - 1) continue;
-            var (du, dv) = Step(side);
+            var (du, dv) = FacingStep(side);
             bool ok = true;
             for (int k = 0; k < width && ok; k++)
             {
@@ -1273,7 +1298,7 @@ public sealed partial class WorldLayout
                 ArchPier? wallSide = null;
                 foreach (ArchPier side in AllSides)
                 {
-                    var (du, dv) = Step(side);
+                    var (du, dv) = FacingStep(side);
                     if (FunPlanner.In(u + du, v + dv) && p.At(u + du, v + dv).Kind == TileKind.Wall) { wallSide = side; break; }
                 }
                 double r = rng.NextDouble();
@@ -1358,7 +1383,7 @@ public sealed partial class WorldLayout
                 bool corridor = false;
                 foreach (ArchPier side in AllSides)
                 {
-                    var (du, dv) = Step(side);
+                    var (du, dv) = FacingStep(side);
                     int x = u + du, z = v + dv;
                     if (FunPlanner.In(x, z))
                     {
@@ -1391,7 +1416,7 @@ public sealed partial class WorldLayout
             foreach (ArchPier side in AllSides)
             {
                 var row = new List<(int U, int V, ArchPier Into)>(FunWallRow(f, side));
-                var (du, dv) = Step(side);
+                var (du, dv) = FacingStep(side);
                 // Left as seen from the room: on the north wall the lower u, on the south the higher; east, the lower v; west, the higher
                 bool reversed = side is ArchPier.South or ArchPier.West;
                 for (int i = 2; i + 1 < row.Count - 1; i += 7)
@@ -1428,35 +1453,50 @@ public sealed partial class WorldLayout
                 int offX = ux - lineX * 32, offZ = uz - lineZ * 32;
                 ref Tile t = ref p.At(u, v);
                 ulong look = Hashing.Hash(seed, lineX, lineZ, SaltFunLobby);
-                // Elevators on the north wall (west of the way in) and the south wall (east of it)
-                if (t.Kind == TileKind.Wall && offZ == -5 && offX is -3 or -2)
+                // Elevators on the north wall (west of the way in) and the south wall (east of it); from layout version 9
+                // one further out in the wider lobby, so a block of wall stands either side of each pair
+                int shift = FunLobbyHalfX - 4;
+                if (t.Kind == TileKind.Wall && offZ == -5 && (offX == -3 - shift || offX == -2 - shift))
                 {
                     t.Pattern = WallPattern.FunElevator;
                     t.Pier = ArchPier.South;
-                    t.Variant = (ushort)(offX == -3 ? party && (look & 1) == 0 ? 2 : 0 : 1);
+                    t.Variant = (ushort)(offX == -3 - shift ? party && (look & 1) == 0 ? 2 : 0 : 1);
                 }
-                else if (t.Kind == TileKind.Wall && offZ == 5 && offX is 2 or 3)
+                else if (t.Kind == TileKind.Wall && offZ == 5 && (offX == 2 + shift || offX == 3 + shift))
                 {
                     t.Pattern = WallPattern.FunElevator;
                     t.Pier = ArchPier.North;
-                    t.Variant = (ushort)(offX == 3 ? party && (look & 1) == 1 ? 2 : 0 : 1);
+                    t.Variant = (ushort)(offX == 3 + shift ? party && (look & 1) == 1 ? 2 : 0 : 1);
                 }
                 else if (t.Kind == TileKind.Floor && offZ == -4 && offX == 3) FunItem(p, u, v, FunWallItems.DeckSign, ArchPier.South);
-                else if (party && t.Kind == TileKind.Floor && t.Zone == (byte)FunZone.Lobby) DressFunLobbyTile(p, u, v, offX, offZ, look);
+                else if (party && t.Kind == TileKind.Floor && t.Zone == (byte)FunZone.Lobby) DressFunLobbyTile(p, u, v, offX, offZ, look, shift);
             }
     }
 
     /// <summary>
-    /// A lobby's party (layout version 5), by the tile's place in it (offsets from the crossing, -4 to 4): string lights
+    /// A lobby's party (layout version 5), by the tile's place in it (offsets from the crossing, -4 to 4; from layout version 9, -5 to 5 west to east): string lights
     /// along the top of the wall over each pair of elevator doors and confetti trodden into the carpet in front of them,
     /// balloons bunched on the floor beside them, a TIME 4 FUN =) poster by the deck sign, the ship's directory board and
     /// a potted palm (the plan's, never placed before), a cluster of balloons against the ceiling in the middle with
     /// crepe streamers running out from it to the four ways out. The doors' approach and the four openings stay clear
     /// (confetti and the balloons are walked through; the palm stands in a corner).
     /// </summary>
-    private static void DressFunLobbyTile(FunPlanner p, int u, int v, int offX, int offZ, ulong look)
+    private static void DressFunLobbyTile(FunPlanner p, int u, int v, int offX, int offZ, ulong look, int shift)
     {
         ref Tile t = ref p.At(u, v);
+        // (Layout version 9 on, the lobby is a block wider west and east: what stood against its west wall and before the
+        // elevator doors moves out with them, the balloons by the south doors to the new corner; the poster keeps its place
+        // by the deck sign, and where things stood before is bare carpet)
+        if (shift != 0)
+            (offX, offZ) = (offX, offZ) switch
+            {
+                (-5, _) => (-4, offZ),
+                (-4 or -3, -4) => (offX + 1, -4),
+                (3 or 4, 4) => (offX - 1, 4),
+                (5, 4) => (4, 4),
+                (-2, -4) or (2, 4) or (-4, 2) or (-4, 4) => (offX, 99),
+                _ => (offX, offZ),
+            };
         // The balloons' set and the streamers' colours, as a party room's palette holds them
         byte palette = (byte)((int)((look >> 8) % 3) | (int)((look >> 16) % 3) << 6);
         switch (offX, offZ)
@@ -1572,13 +1612,19 @@ public sealed partial class WorldLayout
 
     // ================= Ways in from other levels =================
 
-    /// <summary>For checking that nothing but the entrances changed the other levels (environment BACKROOMS_NO_FUN_ENTRANCES=1).</summary>
-    private static readonly bool NoFunEntrances = Environment.GetEnvironmentVariable("BACKROOMS_NO_FUN_ENTRANCES") == "1";
+    /// <summary>
+    /// For checking that nothing but the entrances changed the other levels: the layout harness sets it (from the environment
+    /// variable BACKROOMS_NO_FUN_ENTRANCES=1) to lay out no way into Level Fun. The library never reads the environment, so a
+    /// server cannot lay out a different world by accident.
+    /// </summary>
+    internal static bool NoFunEntrances;
 
     /// <summary>
-    /// Level 0: a cell dressed for a party nobody came to (about one Lobby cell in six hundred, never near spawn nor
-    /// in the inner two fifths of the Lobby): balloons on the carpet, confetti, a red "=)", and on a wall the TIME 4 FUN
-    /// =) poster. Touch the poster and you are in Level Fun.
+    /// Level 0: a cell dressed for a party nobody came to (about one Lobby cell in six hundred, never near spawn):
+    /// balloons on the carpet, confetti, a red "=)", and on a wall the TIME 4 FUN =) poster. Touch the poster and you are
+    /// in Level Fun. (It was meant to keep to the outer three fifths of the Lobby, but Level 0 has no ring fraction, so
+    /// the test of one that stood here was always true and is gone. From layout version 11 the cell must lie beyond the inner two
+    /// fifths, by <see cref="LevelDepth"/>.)
     /// </summary>
     public bool IsFunPartyCell(int mx, int mz)
     {
@@ -1586,7 +1632,8 @@ public sealed partial class WorldLayout
         if (Math.Abs(mx - spawnMacroX) < 8 && Math.Abs(mz - spawnMacroZ) < 8) return false;
         if (Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltFunL0)) >= 1 / 600.0) return false;
         if (LevelAt(mx, mz) != 0 || RegionAt(mx, mz).Zone != ZoneKind.Lobby || IsRedRoom(mx, mz) || IsManilaMacro(mx, mz)) return false;
-        return RingFraction(mx * MacroSize + MacroSize / 2, mz * MacroSize + MacroSize / 2, 0) > 0.4;
+        if (Version >= 11 && LevelDepth(mx * MacroSize, mz * MacroSize, 0) <= 0.4) return false;
+        return true;
     }
 
     /// <summary>Dresses a Level 0 party cell (see <see cref="IsFunPartyCell"/>): props only, nothing walled.</summary>
@@ -1604,7 +1651,7 @@ public sealed partial class WorldLayout
                     if (t.Kind != TileKind.Floor || t.Variant != 0 || t.SupplyBox || t.Stack != 0 || t.Sealed) continue;
                     foreach (ArchPier side in AllSides)
                     {
-                        var (dx, dz) = Step(side);
+                        var (dx, dz) = FacingStep(side);
                         if (b.At(lx + dx, lz + dz).Kind != TileKind.Wall) continue;
                         t.Variant = Props.FunPosterTrap;
                         t.Pier = Opposite(side);
@@ -1625,7 +1672,7 @@ public sealed partial class WorldLayout
                 {
                     foreach (ArchPier side in AllSides)
                     {
-                        var (dx, dz) = Step(side);
+                        var (dx, dz) = FacingStep(side);
                         if (b.At(lx + dx, lz + dz).Kind != TileKind.Wall) continue;
                         t.Variant = Props.FunSmiley;
                         t.Pier = Opposite(side);
@@ -1645,7 +1692,7 @@ public sealed partial class WorldLayout
     /// steps. It is asked by the flight's position: up to layout version 3 its lowest-numbered step tile (the
     /// threshold's origin), from version 4 the top step's.
     /// </summary>
-    public bool IsFunStairCore(int originX, int originZ) => !NoFunEntrances && Hashing.Unit(Hashing.Hash(seed, originX, originZ, SaltFunL1)) < 1 / 20.0;
+    public bool IsFunStairCore(int originX, int originZ) => !NoFunEntrances && Hashing.Unit(Hashing.Hash(seed, originX, originZ, SaltFunL1)) < (Version >= 12 ? 1 / 80.0 : 1 / 20.0);
 
     /// <summary>Level 5: whether a locked guest room's door is the FUN doors (one in 150, never a POOL door).</summary>
     private bool IsFunHotelDoor(int roomX, int roomZ) => !NoFunEntrances && Hashing.Unit(Hashing.Hash(seed, roomX, roomZ, SaltFunL5)) < 1 / 150.0;

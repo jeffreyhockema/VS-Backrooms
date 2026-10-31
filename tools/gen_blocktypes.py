@@ -1,7 +1,8 @@
 """Generates block type definitions for Levels 3-5, which have many similar blocks.
 
 Run from the repo root:  python tools/gen_blocktypes.py
-Blocks for Levels 0-2 are hand-written in assets/backrooms/blocktypes.
+Blocks for Levels 0-2 are hand-written in assets/backrooms/blocktypes, but for Level 2's fittings of layout version 9
+(level2()).
 """
 import json
 import os
@@ -125,7 +126,14 @@ def shaped(folder, code, shape, material="Wood", sounds=WOOD, oriented=True, box
     })
     if box:
         x1, y1, z1, x2, y2, z2 = box
-        block["collisionbox"] = block["selectionbox"] = {"x1": x1, "y1": y1, "z1": z1, "x2": x2, "y2": y2, "z2": z2}
+        cuboid = {"x1": x1, "y1": y1, "z1": z1, "x2": x2, "y2": y2, "z2": z2}
+        square = abs(x1 - z1) + abs(x2 - z2) + abs(x1 + x2 - 1) < 1e-9  # a centred square looks the same turned
+        if oriented and not square:
+            # The box turns with the model: a desk facing east is long north to south, and so is the box round it
+            by_side = {f"*-{s}": dict(cuboid, rotateY=ROTATE[s]) if ROTATE[s] else dict(cuboid) for s in SIDES}
+            block["collisionboxByType"] = block["selectionboxByType"] = by_side
+        else:
+            block["collisionbox"] = block["selectionbox"] = cuboid
     block.update(extra)
     write(folder, code, block, comment)
 
@@ -183,6 +191,21 @@ def level3():
         "resistance": 8, "requiredMiningTier": 3, "lightAbsorption": 99, "sounds": STONE,
     }
     write("level3", "l3wallfixture", fixture, "Level 3 walls carrying 3D pipes (with a flanged joint, or a bracket), electrical panels or industrial fans")
+    # (L3 placement) Level 3's fittings that lead somewhere, placed from layout version 9 (the shapes are
+    # tools/gen_shapes.py's l3_fittings): the wall pipes with pressure gauges in them, and the junction box over a panel
+    # that its conduit runs up into, with a cable run coming into its side (e, w) or both, or none
+    fittings = ["pipesgauge", "panelbox", "panelboxe", "panelboxw", "panelboxew"]
+    write("level3", "l3fitting", {
+        "code": "l3fitting",
+        "variantgroups": [{"code": "material", "states": ["glazed", "brick", "cinder"]}, {"code": "fitting", "states": fittings}],
+        "creativeinventory": {"general": ["*-pipesgauge", "*-panelbox"], "construction": ["*-pipesgauge", "*-panelbox"]},
+        "blockmaterial": "Stone",
+        "drawtype": "json",
+        "shapeByType": {"*": {"base": "block/l3fitting-{material}-{fitting}"}},
+        "textures": {"wall": {"base": "block/level3/l3wall-{material}"}},
+        "resistance": 8, "requiredMiningTier": 3, "lightAbsorption": 99, "sounds": STONE,
+    }, "Level 3 walls with fittings that lead somewhere: pressure gauges in the wall pipes, and the junction box a panel's "
+       "conduit runs up into")
     # The wall pipes of Levels 2 and 3 turning corners and ending: the state names the faces open to the tunnel and
     # what the pipes do at each corner (see tools/gen_shapes.py, wall_pipe_configs)
     from gen_shapes import wall_pipe_corner_states
@@ -283,6 +306,29 @@ def level3():
     rungs = {"x1": 0.1875, "y1": 0, "z1": 0, "x2": 0.8125, "y2": 1, "z2": 0.1875}
     shaped("level3", "rungs", "block/rungs", material="Metal", sounds=METAL, oriented=False,
            comment="Ladder rungs down the manhole shaft", climbable=True, collisionbox=rungs, selectionbox=rungs)
+    # Layout version 9's manholes (WorldLayout.AddManholeTunnel, gen_shapes.manhole_ladder): an opening two blocks long
+    # with a ladder two wide down the side the corridor goes on past it, in halves (left and right as seen facing it),
+    # the top half at the floor. The collision box is the vanilla ladder's, 3 px deep against the wall, from the
+    # landing to the lip, so the opening is the whole two blocks bar the ladder, a player stepping in anywhere is
+    # within the game's reach of the rungs (0.5 blocks) and stops, and climbing out goes straight off the top of the
+    # ladder onto the floor behind it. The lip, rails above the floor and the open lid are drawn only.
+    parts = ["topleft", "topright", "left", "right"]
+    ladder_box = {"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 1, "z2": 0.1875}
+    write("level3", "manholeladder", {
+        "code": "manholeladder",
+        "variantgroups": [{"code": "part", "states": parts}, {"code": "side", "states": SIDES}],
+        "creativeinventory": {"general": ["*-topleft-north", "*-topright-north"], "decorative": ["*-topleft-north", "*-topright-north"]},
+        "blockmaterial": "Metal", "drawtype": "json",
+        "shapeByType": {f"*-{p}-{s}": {"base": f"block/manholeladder-{p}", "rotateY": ROTATE[s]} for p in parts for s in SIDES},
+        "sidesolid": {"all": False}, "sideopaque": {"all": False},
+        "climbable": True,
+        "collisionboxByType": {f"*-{s}": dict(ladder_box, rotateY=ROTATE[s]) for s in SIDES},
+        "selectionboxByType": {f"*-{s}": dict(ladder_box, rotateY=ROTATE[s]) for s in SIDES},
+        "lightAbsorption": 0, "resistance": 8, "requiredMiningTier": 3, "sounds": METAL,
+    }, "A manhole's ladder (layout version 9): the top half at the floor with its lip, rails and lid, or a length below")
+    shaped("level3", "tunnelstep", "block/tunnelstep", material="Stone", sounds=STONE, oriented=False,
+           comment="The half step out of a flooded tunnel onto the dry landing at the foot of a manhole's ladder",
+           box=(0, 0, 0, 1, 0.5, 1), resistance=8, requiredMiningTier=3)
 
 
 def level4():
@@ -299,8 +345,10 @@ def level4():
                                                                          {"base": "block/level4/officewindow-2"}]))
     glass = {
         "code": "officeglass", "creativeinventory": {"general": ["*"], "construction": ["*"]},
-        "blockmaterial": "Glass", "drawtype": "cube", "renderpass": "Transparent",
-        "textures": {"all": {"base": "block/level4/officeglass"}},
+        # (Level 4 art) a model from detail/officeglass.json (gen_detail): the pane inset 0.05 from the floor and ceiling planes
+        # it used to lie on (the shimmer against the carpet and the ceiling tiles)
+        "blockmaterial": "Glass", "drawtype": "json", "renderpass": "Transparent",
+        "shape": {"base": "block/detail/officeglass"},
         "sidesolid": {"all": False}, "sideopaque": {"all": False}, "faceCullMode": "NeverCull",
         "lightAbsorption": 0, "resistance": 1, "sounds": GLASS,
     }
@@ -330,9 +378,7 @@ def level4():
         "lightAbsorption": 0, "resistance": 0.8, "sounds": GLASS,
     }
     write("level4", "officelight", light, "Fluorescent troffers; about half are dead and their switches are missing")
-    cube("level4", "elevatordoor", "block/level4/elevatordoor-{type}", material="Metal", sounds=METAL, states=["lower", "upper"],
-         comment="Elevator doors. Use them: each elevator leads to one fixed place, usually another elevator on another level",
-         drops=[], behaviors=threshold("elevator"))
+    # (L3 art) elevatordoor is a model now (a freight lift on all four sides): gen_detail.py writes it
     partition = {
         "code": "partition", "variantgroups": [{"code": "axis", "states": ["we", "ns"]}],
         "creativeinventory": {"general": ["*-we"], "decorative": ["*-we"]},
@@ -350,7 +396,8 @@ def level4():
     shaped("level4", "vendingmachine", "block/vendingmachine", material="Metal", sounds=METAL, comment="Vending machine that still sells Almond Water: use it",
            box=(0.03, 0, 0.125, 0.97, 1, 0.94), **{"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser", "lightHsv": [10, 2, 6]})
     shaped("level4", "watercooler", "block/watercooler", material="Metal", sounds=METAL, comment="Water cooler full of Almond Water: use it",
-           box=(0.25, 0, 0.25, 0.75, 1, 0.75), **{"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser"})
+           box=(0.25, 0, 0.25, 0.75, 1, 0.75), **{"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
+                  "attributes": {"liquidSource": True}})
     shaped("level4", "conferencetable", "block/conferencetable", oriented=False, comment="Conference table", box=(0, 0, 0, 1, 0.78, 1))
 
 
@@ -444,8 +491,11 @@ def level5():
     shaped("level5", "chandelier", "block/chandelier", material="Metal", sounds=GLASS, oriented=False,
            comment="Great chandelier in the grand rooms", box=(0.25, 0, 0.25, 0.75, 1, 0.75), lightHsv=[6, 4, 18],
            particleProperties=_chandelier_flames())
-    shaped("level5", "bed-head", "block/bed-head", material="Cloth", sounds=CLOTH, comment="Guest bed, head end", box=(0, 0, 0, 1, 0.6, 1))
-    shaped("level5", "bed-foot", "block/bed-foot", material="Cloth", sounds=CLOTH, comment="Guest bed, foot end", box=(0, 0, 0, 1, 0.6, 1))
+    # A real bed (needs: the mod's BackroomsBed; modelled head to the north, so the foot lies opposite the side code)
+    bed = {"class": "BackroomsBed", "attributes": {"restQuality": 1.0, "bedFoot": "opposite"}}
+    shaped("level5", "bed-head", "block/bed-head", material="Cloth", sounds=CLOTH, comment="Guest bed, head end", box=(0, 0, 0, 1, 0.6, 1),
+           **dict(bed, entityClass="BackroomsBed"))
+    shaped("level5", "bed-foot", "block/bed-foot", material="Cloth", sounds=CLOTH, comment="Guest bed, foot end", box=(0, 0, 0, 1, 0.6, 1), **bed)
     shaped("level5", "nightstand", "block/nightstand", comment="Nightstand with a lamp", box=(0.125, 0, 0.25, 0.875, 0.65, 0.875), lightHsv=[6, 5, 9])
     shaped("level5", "wardrobe", "block/wardrobe", comment="Mahogany wardrobe", box=(0.06, 0, 0.3, 0.94, 1, 1))
     shaped("level5", "wingchair", "block/wingchair", material="Cloth", sounds=CLOTH, comment="Wingback armchair", box=(0.1, 0, 0.1, 0.9, 0.6, 0.95))
@@ -461,11 +511,68 @@ def level5():
            particlePropertiesByType=fire_fx.by_side(_furnace_fx), behaviors=[fire_fx.heat(8)])
 
 
+def level2():
+    """(L2 placement) Level 2's fittings that lead somewhere, placed from layout version 9 (the shapes are
+    tools/gen_shapes.py's tunnel_fittings, machine_cabinet("up") and feed_pipe). The rest of Level 2's blocks are
+    hand-written."""
+    # Wall blocks like tunnelwall's, the fittings on every face that looks into the tunnel
+    fittings = ["machinerytop", "pipesvalve", "riservalve"]
+    write("level2", "tunnelfitting", {
+        "code": "tunnelfitting",
+        "variantgroups": [{"code": "type", "states": fittings}],
+        "creativeinventory": {"general": ["*"], "construction": ["*"]},
+        "blockmaterial": "Stone",
+        "drawtype": "json",
+        "shapeByType": {f"*-{t}": {"base": f"block/tunnelfitting-{t}"} for t in fittings},
+        "textures": {"wall": {"base": "block/level2/tunnelwall-plain"}},
+        "resistance": 8, "requiredMiningTier": 3, "lightAbsorption": 99, "sounds": STONE,
+    }, "Level 2 tunnel walls with fittings that lead somewhere: a wall cabinet's conduits carried up into the ceiling, "
+       "a gate valve in the wall pipes, a valve at the foot of a riser")
+    # The machine cabinet (as the hand-written machinecabinet) with its feed pipe straight up out of its top, into the
+    # pipe above it
+    write("level2", "machinecabinetfeed", {
+        "code": "machinecabinetfeed",
+        "variantgroups": [{"code": "side", "states": SIDES}],
+        "creativeinventory": {"general": ["*-north"], "decorative": ["*-north"]},
+        "blockmaterial": "Metal",
+        "drawtype": "json",
+        "shapeByType": {f"*-{s}": {"base": "block/machinecabinet-feed", "rotateY": ROTATE[s]} for s in SIDES},
+        "sidesolid": {"all": False},
+        "sideopaque": {"all": False},
+        "lightAbsorption": 0,
+        "resistance": 3,
+        # Wiring and windings: copper for the crucible (as machinecabinet)
+        "drops": [
+            {"type": "item", "code": "game:flaxtwine", "quantity": {"avg": 0.3, "var": 0.3}},
+            {"type": "item", "code": "scrapwire", "quantity": {"avg": 1.5, "var": 1}},
+            {"type": "item", "code": "game:metalbit-copper", "quantity": {"avg": 1.5, "var": 1}},
+        ],
+        "sounds": {"place": "game:block/anvil1", "break": "game:block/heavymetal-hit", "hit": "game:block/heavymetal-hit"},
+    }, "A machine cabinet whose feed pipe rises out of its top into the pipe above it (feedpipe)")
+    # The feed pipe above a machine cabinet, up into the overhead bundle (its model reaches into the block above)
+    pipe_box = {"x1": 0.6875, "y1": 0, "z1": 0.625, "x2": 0.875, "y2": 1, "z2": 1}
+    write("level2", "feedpipe", {
+        "code": "feedpipe",
+        "variantgroups": [{"code": "side", "states": SIDES}],
+        "creativeinventory": {"general": ["*-north"], "decorative": ["*-north"]},
+        "blockmaterial": "Metal",
+        "drawtype": "json",
+        "shapeByType": {f"*-{s}": {"base": "block/feedpipe", "rotateY": ROTATE[s]} for s in SIDES},
+        "sidesolid": {"all": False},
+        "sideopaque": {"all": False},
+        "lightAbsorption": 0,
+        "resistance": 3,
+        "collisionboxByType": {f"*-{s}": dict(pipe_box, rotateY=ROTATE[s]) for s in SIDES},
+        "selectionboxByType": {f"*-{s}": dict(pipe_box, rotateY=ROTATE[s]) for s in SIDES},
+        "sounds": METAL,
+    }, "The feed pipe from a machine cabinet up into the overhead pipes")
+
+
 def fix_ambients():
     """Adds ambient sounds to blocks that need them (done after writing, to keep the helpers simple)."""
     for folder, code, ambient, count in (("level3", "transformer", "backrooms:ambient/transformer", 4),
-                                         ("level4", "officewindow", "backrooms:ambient/rain", 12),
-                                         ("level5", "turntable", "backrooms:ambient/jazz", 1)):
+                                         ("level4", "officewindow", "backrooms:ambient/rain", 12)):
+        # (Level 5's turntable and speakers carry no ambient sound: AtmosphereSystem.L5.cs plays one tune at a time)
         path = os.path.join(OUT, folder, code + ".json")
         with open(path, encoding="utf-8") as f:
             lines = f.read()
@@ -478,6 +585,7 @@ def fix_ambients():
 
 
 if __name__ == "__main__":
+    level2()
     level3()
     level4()
     level5()

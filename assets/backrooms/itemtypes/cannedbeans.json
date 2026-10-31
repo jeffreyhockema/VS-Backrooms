@@ -9,7 +9,7 @@
 	nutritionProps: { satiety: 450, foodcategory: "Protein" },
 	materialDensity: 1100,
 	guiTransform: {
-		rotation: { x: -22.6, y: -45.3, z: 0 },
+		rotation: { x: 157.4, y: -45.3, z: 0 },
 		origin: { x: 0.5, y: 0.3, z: 0.5 },
 		scale: 2.2
 	},

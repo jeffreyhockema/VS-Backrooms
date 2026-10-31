@@ -1,4 +1,4 @@
-// Two small cardboard boxes dropped in the hall (trip a sprinter)
+// Cardboard boxes dumped in the hall, one on its side with its flaps open, one on top, one flattened (walked through; trips a sprinter: jump it)
 {
 	"code": "run-boxes",
 	"variantgroups": [
@@ -56,38 +56,38 @@
 	},
 	"selectionboxByType": {
 		"*-north": {
-			"x1": 0.1,
+			"x1": 0.06,
 			"y1": 0,
-			"z1": 0.2,
-			"x2": 0.85,
-			"y2": 0.25,
-			"z2": 0.8
+			"z1": 0.1,
+			"x2": 0.94,
+			"y2": 0.7,
+			"z2": 0.94
 		},
 		"*-east": {
-			"x1": 0.1,
+			"x1": 0.06,
 			"y1": 0,
-			"z1": 0.2,
-			"x2": 0.85,
-			"y2": 0.25,
-			"z2": 0.8,
+			"z1": 0.1,
+			"x2": 0.94,
+			"y2": 0.7,
+			"z2": 0.94,
 			"rotateY": 270
 		},
 		"*-south": {
-			"x1": 0.1,
+			"x1": 0.06,
 			"y1": 0,
-			"z1": 0.2,
-			"x2": 0.85,
-			"y2": 0.25,
-			"z2": 0.8,
+			"z1": 0.1,
+			"x2": 0.94,
+			"y2": 0.7,
+			"z2": 0.94,
 			"rotateY": 180
 		},
 		"*-west": {
-			"x1": 0.1,
+			"x1": 0.06,
 			"y1": 0,
-			"z1": 0.2,
-			"x2": 0.85,
-			"y2": 0.25,
-			"z2": 0.8,
+			"z1": 0.1,
+			"x2": 0.94,
+			"y2": 0.7,
+			"z2": 0.94,
 			"rotateY": 90
 		}
 	},

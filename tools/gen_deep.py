@@ -5,6 +5,11 @@ import math
 import os
 
 import deep_textures
+import bonekit as BK
+import deepprops as DP
+import l11art as L11
+import deepprops_tex
+import l5props as L5
 import modelkit as MK
 from detail_kit import (ASSETS, CLOTH, GLASS, LANG, METAL, ROTATE, SIDES, STONE, WOOD, Decor, block, bx, cuboid, cyl, ground_storable,
                         name, prop, shape, wall_family, write_json)
@@ -19,6 +24,23 @@ def threshold(kind):
 def drops(*items):
     """Drops for salvage: (code, average, variance); codes without a domain are ours."""
     return [{"type": "item", "code": c, "quantity": {"avg": a, "var": v}} for c, a, v in items]
+
+
+def door_json(code, english, geometry, kind, material="Metal", sounds=METAL, comment=None):
+    """(deep props) A door of the Snackrooms as geometry: `geometry` is {"lower": elements, "upper": elements}. The block
+    has no facing, so the parts are built for all four sides (deepprops). Codes, parts and footprint are the old cube's."""
+    paths = {part: shape(f"{code}-{part}", els) for part, els in geometry.items()}
+    data = {
+        "variantgroups": [{"code": "part", "states": ["lower", "upper"]}],
+        "creativeinventory": {"general": ["*"], "construction": ["*"]},
+        "blockmaterial": material, "drawtype": "json",
+        "shapeByType": {f"*-{part}": {"base": path} for part, path in paths.items()},
+        "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": sounds,
+    }
+    if kind:
+        data["behaviors"] = threshold(kind)
+    block(code, data, comment or english)
+    name(f"{code}-*", english)
 
 
 def door_block(code, english, tex, kind, material="Metal", sounds=METAL, comment=None):
@@ -179,16 +201,19 @@ def level61():
                {"grid": "snackceiling-grid", "skylight": "snackceiling-skylight"},
                lightHsvByType={"*-skylight": [7, 2, 15]}, lightAbsorptionByType={"*-skylight": 0, "*": 99},
                comment="Skylights show only darkness above, yet light the food court like day")
-    door_block("rustydoor", "Rusty Steel Door", "rustydoor", "rustydoor", comment="A rusty steel door marked EXIT. It leads back into Level 6, somewhere")
+    door_json("rustydoor", "Rusty Steel Door", {"lower": DP.exit_door(False), "upper": DP.exit_door(True)}, "rustydoor",
+              comment="A rusty steel door marked EXIT. It leads back into Level 6, somewhere")
     door_block("glassdoors", "Sliding Glass Doors", "glassdoors", "glassdoor", material="Glass", sounds=GLASS, comment="Sliding glass doors onto somewhere else entirely")
-    door_block("kitchendoor", "Kitchen Door", "kitchendoor", "kitchendoor", comment="A swinging kitchen door. It opens into another restaurant")
+    door_json("kitchendoor", "Kitchen Door", {"lower": DP.kitchen_door(False), "upper": DP.kitchen_door(True)}, "kitchendoor",
+              comment="A swinging kitchen door. It opens into another restaurant")
     block("ventgrate", {"creativeinventory": {"general": ["*"]}, "blockmaterial": "Metal", "drawtype": "cube",
                         "textures": {"all": {"base": "block/detail/ventgrate"}}, "behaviors": threshold("vent"),
                         "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": METAL}, "A vent big enough to crawl into")
     name("ventgrate", "Vent")
 
     wall_family("snackdeco", "Mall Wall", {1: "snackwall-mall"}, [
-        Decor(code, english, {3: plate("Sign", (1, 3, -0.8), (15, 13, 0), code, "navy", glow=230)}, light=[0, 4, 8])
+        # (deep props) the sign is a case on the wall, and the wall under it is the restaurants' wood panelling
+        Decor(code, english, {3: DP.sign(code)}, light=[0, 4, 8], wall="snackwall-panel")
         for code, english in (("signburger", "Neon Sign"), ("signpizza", "Neon Sign"), ("signtaco", "Neon Sign"), ("signdonut", "Neon Sign"))
     ] + [
         Decor("menuboard", "Menu Board", {3: plate("Board", (1, 2, -0.6), (15, 14, 0), "menuboard", "wooddark", glow=60)}),
@@ -249,6 +274,46 @@ def level61():
          box=(0.06, 0, 0.06, 0.94, 1.8, 0.94), material="Metal", sounds=METAL, light=[8, 2, 7],
          extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
                 "attributes": {"dispenses": ["backrooms:chips", "backrooms:candybar", "backrooms:crackers", "backrooms:soda"], "restock": True}})
+    # (snackvend) The broken snack machine that stands in the doorway of a vending room: the same cabinet, dented and
+    # rusted, its sign dark and its display dead, the glass smashed out at the top corner and the pane hanging ajar,
+    # most of the packets gone from their coils, a few fallen to the bottom, the delivery flap bent down. Nothing in it
+    # glows. It breaks with a little effort (salvage.py gives it what such a machine held).
+    broken_rows = []
+    for r, y in enumerate((8, 12.3, 16.6, 20.9)):
+        broken_rows.append(bx(f"Shelf{r}", (5, y, 3), (13.5, y + 0.5, 8), "snackchrome", faces=("north", "up")))
+        for c in range(3):
+            x = 5.3 + c * 2.75
+            band = (r + c) % 4 * 4
+            broken_rows.append(bx(f"Coil{r}{c}", (x - 0.05, y + 0.5, 3.6), (x + 2.45, y + 3.3, 3.75), "vendspiral", faces=("north",),
+                                  uv=[0, 0, 2.5, 2.8]))
+            if (r, c) in ((0, 0), (1, 0), (1, 2), (2, 1), (2, 2)):  # the packets that are left
+                broken_rows.append(bx(f"Packets{r}{c}", (x, y + 0.5, 4), (x + 2.4, y + 3.3, 7.8), "snackvendrows",
+                                      faces=("north", "up"), uv=[band, 0, band + 2.4, 2.8]))
+    fallen = [bx("Fallen0", (5.6, 7, 4.2), (8.2, 8.1, 7), "snackvendrows", faces=("north", "up", "east", "west"), uv=[0, 0, 2.4, 2.8], rot=(0, 0, 8)),
+              bx("Fallen1", (8.6, 7, 3.6), (11.2, 8.1, 6.6), "snackvendrows", faces=("north", "up", "east", "west"), uv=[8, 0, 10.4, 2.8], rot=(0, 18, -6)),
+              bx("Fallen2", (10.6, 7, 5), (13.2, 8.1, 7.6), "snackvendrows", faces=("north", "up", "east", "west"), uv=[12, 0, 14.4, 2.8], rot=(0, -12, 4)),
+              bx("Fallen3", (7.2, 8.1, 4.6), (9.8, 9.2, 7.2), "snackvendrows", faces=("north", "up", "east", "west"), uv=[4, 0, 6.4, 2.8], rot=(0, 25, 3))]
+    broken_panel = [bx("Lcd", (1.75, 22, 0.75), (4.25, 23.5, 1), "brokenvlcd", faces=FRONT, uv=[0, 0, 7, 3.5]),
+                    bx("Coin", (2, 19, 0.6), (4, 21.25, 1), "coinplate", faces=FRONT, full=True),
+                    bx("Bill", (1.75, 12, 0.7), (4.25, 13.25, 1), "snackchrome", faces=FRONT),
+                    bx("BillSlot", (2.25, 12.5, 0.65), (3.75, 12.75, 0.7), "metaldark", faces=("north",)),
+                    bx("Return", (2.25, 8.5, 0.5), (3.75, 10.5, 1), "snackchrome", faces=FRONT),
+                    bx("ReturnCup", (2.5, 8.75, 0.45), (3.5, 9.75, 0.5), "metaldark", faces=("north",))]
+    broken_panel += vend_keypad("Keys", 1.75, 14.75, 1)
+    prop("brokenvending", "Broken Vending Machine", [
+        bx("Body", (1, 0, 8), (15, 29, 15), "brokenvbody", faces=("east", "west", "up", "south")),
+        bx("Inside", (5, 7, 8), (13.5, 25, 8.5), "snackvendinside", faces=("north",)),
+        bx("Header", (1, 25, 1.4), (15, 29, 8), "brokenvbody", faces=("east", "west", "up", "down")),
+        bx("HeaderFace", (1, 25, 1.4), (15, 29, 8), "brokenvhead", faces=("north",), uv=[0, 0, 16, 4.5]),
+        bx("Stile", (13.5, 7, 1.4), (15, 25, 8), "brokenvbody", faces=("north", "east", "west")),
+        bx("Panel", (1, 7, 1), (5, 25, 8), "brokenvbody", faces=("east", "west", "up", "down")),
+        bx("PanelFace", (1, 7, 1), (5, 25, 8), "snackvendpanel", faces=("north",), uv=[6, 0, 10, 16]),
+        bx("Base", (1, 0, 1.4), (15, 7, 8), "brokenvbody", faces=("north", "east", "west", "up")),
+        bx("Flap", (5.5, 2, 1.1), (13.5, 5.5, 1.4), "metaldark", faces=("north", "up", "east", "west"), rot=(35, 0, 0), origin=(9.5, 2, 1.25)),
+        bx("Glass", (5, 7, 2.2), (13.5, 25, 2.3), "brokenvglass", faces=("north",), full=True, rot=(0, 14, 0), origin=(13.5, 16, 2.25))]
+        + broken_rows + fallen + broken_panel,
+         box=(0.06, 0, 0.06, 0.94, 1.8, 0.94), material="Metal", sounds=METAL,
+         extra={"resistance": 4})
     # The drinks fridge: a white cabinet with a lit header and a kick-plate grille; a glass door in a dark frame with a
     # bar handle; behind it, lit cold white, four wire shelves of cans and bottles, five to a shelf. B9: the kick grille
     # is a louvre, the bottles have necks and caps
@@ -281,7 +346,8 @@ def level61():
         bx("Glass", (2, 4, 1.5), (14, 25, 1.6), "fridgeglass", faces=("north",), full=True)] + drinks,
          box=(0.06, 0, 0.06, 0.94, 1.88, 0.94), material="Metal", sounds=METAL, light=[30, 1, 6],
          extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
-                "attributes": {"dispenses": ["backrooms:soda", "backrooms:waterbottle", "backrooms:almondwater", "backrooms:cashewwater"], "restock": True}})
+                "attributes": {"dispenses": ["backrooms:soda", "backrooms:waterbottle", "backrooms:almondwater", "backrooms:cashewwater",
+                                               "backrooms:almondwaterblue", "backrooms:almondwatergreen"], "restock": True}})
 
     # The heap of a vending machine room ("unenterable due to the sheer amount of vending machines piled on top of each
     # other"): dead machines standing, toppled onto their backs, and lying across the tops of the standing ones
@@ -290,10 +356,13 @@ def level61():
 
     food("chips", "Bag of Chips", 160, "Grain", "Salty, crisp, and from nowhere.")
     food("candybar", "Chocolate Bar", 200, "Dairy", "Sweet enough to make you forget where you are, almost.")
-    food("soda", "Can of Soda", 90, "NoNutrition", "Fizzy and far too sweet. Nobody knows who stocks the fridges.", stack=8)
+    food("soda", "Can of Soda", 90, "NoNutrition", "Fizzy and far too sweet. Nobody knows who stocks the fridges.", stack=8,
+         extra={"class": "BackroomsAlmondWater", "attributes": {"stabilityRestored": 0, "wardsDullers": False, "hydration": 300}})
     food("cashewwater", "Cashew Water", 140, "NoNutrition", "Like Almond Water, but nuttier. It steadies you a little, though not as much.",
-         health=1, stack=8, extra={"class": "BackroomsAlmondWater", "attributes": {"stabilityRestored": 0.08}})
-    food("waterbottle", "Bottle of Water", 100, "NoNutrition", "Plain water. Down here, that's rare.", health=1, stack=8)
+         health=1, stack=8, extra={"class": "BackroomsAlmondWater", "attributes": {"stabilityRestored": 0.08, "hydration": 600, "satietyWhenThirst": 0, "leavesBottle": "backrooms:emptybottle"}})
+    food("waterbottle", "Bottle of Water", 100, "NoNutrition", "Plain water. Down here, that's rare.", health=1, stack=8,
+         extra={"class": "BackroomsAlmondWater", "attributes": {"stabilityRestored": 0, "wardsDullers": False, "hydration": 600, "satietyWhenThirst": 0,
+                                                              "leavesBottle": "backrooms:emptybottle"}})
 
 
 def dead_machine(pose):
@@ -611,6 +680,14 @@ def level7():
     cube_block("oceanceiling", {"plain": "Concrete Ceiling", "glow": "Concrete Ceiling"}, ["plain", "glow"],
                {"plain": "oceanceiling", "glow": "oceanceiling"}, lightHsvByType={"*-glow": [34, 1, 8]},
                lightAbsorptionByType={"*-glow": 0, "*": 99}, comment="The ceiling over the sea. The dim light seems to come from nowhere")
+    # Layout version 9: the high ceiling over the sea, 36 blocks up, with nothing over it. It lets the world's light
+    # through (absorbs none), which is the lore's "dim natural light" from nowhere (AtmosphereSystem holds it the same at
+    # every hour and dims it); its glowing patches glow by themselves (glowLevel), too far up for their light to reach
+    # anything. It never breaks (src/Salvage/Breakdown.cs): over it is the top of the world.
+    cube_block("seaceiling", {"plain": "High Concrete Ceiling", "glow": "High Concrete Ceiling"}, ["plain", "glow"],
+               {"plain": "oceanceiling", "glow": "oceanceiling"}, lightHsvByType={"*-glow": [34, 1, 8]}, lightAbsorption=0,
+               vertexFlagsByType={"*-glow": {"glowLevel": 72}},
+               comment="The high ceiling over the sea (layout version 9): it lets through a dim light from nowhere")
     cube_block("islandrock", "Strange Rock", ["plain"], {"plain": "islandrock"}, comment="The unknown rock of Level 7's islands",
                randomizeAxes="xyz",  # (D4) a stack's or pillar's blocks pick their versions by height too
                drops=[{"type": "item", "code": "game:stone-basalt", "quantity": {"avg": 3, "var": 1}}], resistance=6)
@@ -628,27 +705,15 @@ def level7():
           "Scalding, steadily bubbling tar")
     name("tar", "Tar")
 
-    prop("bonepile", "Bones", [bx(f"Bone{i}", (x, 0, z), (x + w, 1.5, z + d), "bone") for i, (x, z, w, d) in
-                               enumerate(((2, 3, 9, 1.5), (5, 8, 1.5, 7), (9, 6, 6, 1.5), (3, 11, 7, 1.2), (11, 10, 1.4, 5)))] +
-         [bx("Skull", (10, 0, 2), (14, 4, 6), "bone")], box=(0.1, 0, 0.1, 0.9, 0.25, 0.9), oriented=False, collide=False,
+    prop("bonepile", "Bones", BK.bonepile(), box=(0.1, 0, 0.1, 0.9, 0.25, 0.9), oriented=False, collide=False,
          material="Stone", sounds=STONE, extra={"drops": drops(("game:bone", 2, 1))})
     prop("scrapmetal", "Rusted Scrap", [
         bx("Plate1", (1, 0, 2), (12, 1, 10), "scrap", rot=(0, 20, 8)), bx("Plate2", (5, 0, 7), (15, 2, 14), "scrap", rot=(6, -15, 0)),
         bx("Rod", (2, 0.5, 12), (14, 1.5, 13), "rust")], box=(0.06, 0, 0.06, 0.94, 0.2, 0.94), oriented=False, collide=False,
          material="Metal", sounds=METAL, extra={"drops": drops(("metalbracket", 0.8, 0.5), ("scrapwire", 0.5, 0.5))})
-    prop("jawskeleton", "Skeleton", [
-        bx("Spine", (7.5, 0.5, 2), (8.5, 1.5, 14), "bone"),
-        bx("Ribs1", (4, 0, 5), (12, 2.5, 6), "bone"), bx("Ribs2", (4, 0, 7), (12, 2.5, 8), "bone"), bx("Ribs3", (4.5, 0, 9), (11.5, 2.2, 10), "bone"),
-        bx("Skull", (5.5, 0, -2), (10.5, 4, 2), "bone"), bx("Jaw", (4.5, 0, -6), (11.5, 1.5, -1), "bone"),
-        bx("Teeth", (5, 1.5, -6), (11, 2.3, -4), "bone"),
-        bx("ArmL", (2, 0, 4), (3, 1, 12), "bone"), bx("ArmR", (13, 0, 4), (14, 1, 12), "bone"),
-        bx("LegL", (6, 0, 14), (7, 1, 24), "bone"), bx("LegR", (9, 0, 14), (10, 1, 24), "bone")],
-         box=(0.1, 0, 0, 0.9, 0.25, 1), collide=False, material="Stone", sounds=STONE, extra={"drops": drops(("game:bone", 3, 1))})
-    rib = []
-    for i, z in enumerate((2, 6, 10, 14)):
-        rib += [bx(f"RibL{i}", (-2, 0, z), (0, 28, z + 1.5), "bone", rot=(0, 0, -12), origin=(-1, 0, z)),
-                bx(f"RibR{i}", (16, 0, z), (18, 28, z + 1.5), "bone", rot=(0, 0, 12), origin=(17, 0, z))]
-    prop("ribcage", "Enormous Ribs", rib + [bx("Spine", (4, 28, 0), (12, 31, 16), "bone")], box=(0, 0, 0, 1, 0.25, 1), collide=False,
+    prop("jawskeleton", "Skeleton", BK.jawskeleton(), box=(0.1, 0, 0, 0.9, 0.25, 1), collide=False, material="Stone", sounds=STONE,
+         extra={"drops": drops(("game:bone", 3, 1))})
+    prop("ribcage", "Enormous Ribs", BK.ribcage(), box=(0, 0, 0, 1, 0.25, 1), collide=False,
          material="Stone", sounds=STONE)
     prop("backpack", "Lost Backpack", [
         bx("Bag", (4, 0, 5), (12, 9, 11), "canvas"), bx("Flap", (4, 7, 4.5), (12, 10, 11), "canvas"),
@@ -661,6 +726,58 @@ def level7():
          box=(0.06, 0, 0.06, 0.94, 0.82, 0.94), oriented=False, sounds=WOOD,
          extra={"drops": drops(("game:plank-aged", 2, 1), ("game:rope", 0.6, 0.4), ("game:metalnailsandstrips-iron", 0.5, 0.4),
                                 ("game:boat-raft-aged", 0.06, 0), ("game:fishingpole-simple-wood", 0.08, 0), ("cannedbeans", 0.5, 0.5))})
+    # Layout version 9: the chest in a sunken room on the seabed (WorldLayout.AddSunkenRoom), its loot better the deeper
+    # it lies. The twilight zone's is a sailor's sea chest of what the drowned carried; the midnight zone's a riveted
+    # strongbox of the kind expeditions sealed their best in (metal, the good tools, temporal gears)
+    prop("seachest", "Sea Chest", {"twilight": sea_chest(), "midnight": strongbox()},
+         box=(0.05, 0, 0.12, 0.95, 0.75, 0.88), material="Wood", sounds=WOOD,
+         comment="A chest in a sunken room on Level 7's seabed: the deeper, the better what is in it",
+         extra={"dropsByType": {
+             "*-twilight-*": drops(("almondwater", 1, 0.8), ("cannedbeans", 0.8, 0.5), ("crackers", 0.6, 0.5), ("game:rope", 1, 0.6),
+                                   ("game:bandage-clean", 0.6, 0.4), ("chalk", 0.6, 0.3), ("game:candle", 0.8, 0.6), ("game:flint", 0.5, 0.5),
+                                   ("scrapwire", 1, 0.8), ("game:metalbit-copper", 2, 1.5), ("game:knife-generic-copper", 0.15, 0),
+                                   ("game:pickaxe-copper", 0.08, 0), ("game:gear-rusty", 0.25, 0), ("game:gear-temporal", 0.03, 0),
+                                   ("wanderernote-cache", 0.06, 0), ("wanderernote-way", 0.06, 0), ("seedpacket-carrot", 0.04, 0)),
+             "*-midnight-*": drops(("almondwater", 1.5, 1), ("cannedbeans", 1, 0.6), ("game:rope", 1.2, 0.6), ("game:bandage-clean", 1, 0.5),
+                                   ("chalk", 0.6, 0.3), ("game:ingot-copper", 0.7, 0.4), ("game:ingot-tinbronze", 0.35, 0.25),
+                                   ("game:metalbit-silver", 1.5, 1), ("game:metalbit-gold", 0.8, 0.8), ("game:pickaxe-tinbronze", 0.12, 0),
+                                   ("game:prospectingpick-copper", 0.1, 0), ("game:knife-generic-tinbronze", 0.15, 0),
+                                   ("game:gear-rusty", 0.6, 0.4), ("game:gear-temporal", 0.15, 0),
+                                   ("wanderernote-refuge", 0.08, 0), ("wanderernote-door", 0.08, 0))}})
+    LANG.pop("block-seachest-*", None)
+    name("seachest-twilight-*", "Sea Chest")
+    name("seachest-midnight-*", "Sunken Strongbox")
+
+
+def sea_chest():
+    """A sailor's sea chest, swollen with water: wet boards and a domed lid, two rusted iron straps over it, a brass
+    hasp on the front (north), rope beckets at the ends."""
+    w, b, r = "wetwood", "l7wreckboards", "rust"
+    els = [bx("Body", (1.5, 0, 3), (14.5, 8, 13), b),
+           bx("Lid", (1.25, 8, 2.75), (14.75, 10.5, 13.25), w),
+           bx("LidTop", (1.75, 10.5, 3.75), (14.25, 11.5, 12.25), w, faces=("up", "north", "south", "east", "west")),
+           bx("Hasp", (7, 6, 2.5), (9, 9.5, 3), "brass", faces=("north", "east", "west", "up", "down")),
+           bx("BecketW", (0.5, 5, 7), (1.5, 6, 9), "canvas"), bx("BecketE", (14.5, 5, 7), (15.5, 6, 9), "canvas")]
+    for i, x in enumerate((3.5, 11.5)):
+        els += [bx(f"StrapF{i}", (x, 0, 2.5), (x + 1, 10.5, 3), r, faces=("north", "east", "west")),
+                bx(f"StrapB{i}", (x, 0, 13), (x + 1, 10.5, 13.5), r, faces=("south", "east", "west")),
+                bx(f"StrapT{i}", (x, 11.5, 3.25), (x + 1, 11.75, 12.75), r, faces=("up", "north", "south", "east", "west"))]
+    return els
+
+
+def strongbox():
+    """A riveted steel strongbox, dark with the deep: a body and a flat lid with a rusted seam band between them, corner
+    straps, a carrying handle on top, a brass combination dial on the front (north)."""
+    m, r = "metaldark", "rust"
+    els = [bx("Body", (2, 0, 3.5), (14, 7, 12.5), m),
+           bx("Seam", (1.75, 7, 3.25), (14.25, 7.75, 12.75), r),
+           bx("Lid", (2, 7.75, 3.5), (14, 10, 12.5), m),
+           bx("HandleL", (6, 10, 7.5), (6.75, 11.25, 8.5), "metal"), bx("HandleR", (9.25, 10, 7.5), (10, 11.25, 8.5), "metal"),
+           bx("Grip", (6, 11.25, 7.5), (10, 12, 8.5), "metal"),
+           bx("Dial", (7, 3, 3), (9, 5, 3.5), "brass", faces=("north", "east", "west", "up", "down"))]
+    for i, (x, z) in enumerate(((1.5, 3), (13.5, 3), (1.5, 12), (13.5, 12))):
+        els.append(bx(f"Corner{i}", (x, 0, z), (x + 1, 10.25, z + 1), r))
+    return els
 
 
 def wreck_crate():
@@ -834,6 +951,43 @@ def glowcap_wall(caps):
     return out
 
 
+def stop_sign():
+    """The STOP sign (l94fence; the street's sign in Levels 1, 9 and 94): an octagonal plate as thin geometry, 12 units
+    across and 0.3 thick, its octagon cut by the textures' alpha (deep_textures.stopsign_textures) and its edges
+    closed by strips along the flats (the textures' edge pixels, so only the flats show) and four turned strips along
+    the cut corners; a plain aluminium back; a galvanised square post behind it; two bolts through the plate into the
+    post, their nuts on the back of the post."""
+    x0, x1, y0, y1, z0, z1 = 2, 14, 24, 36, 7.0, 7.3
+    cut = 12 * (1 - 1 / (1 + math.sqrt(2))) / 2
+    side = 12 - 2 * cut
+    back = "stopsignback"
+    e = 0.3  # the edge faces take the textures' outermost row or column of pixels (0.9 px of 48)
+
+    def face(tex, uv):
+        return {"texture": "#" + tex, "uv": [round(v, 4) for v in uv]}
+
+    plate = {"name": "Plate", "from": [x0, y0, z0], "to": [x1, y1, z1], "faces": {
+        "north": face("stopsign", (0, 0, 16, 16)), "south": face(back, (0, 0, 16, 16)),
+        "up": face(back, (0, 0, 16, e)), "down": face(back, (0, 16 - e, 16, 16)),
+        "east": face(back, (16 - e, 0, 16, 16)), "west": face(back, (0, 0, e, 16))}}
+    els = [bx("Post", (7.375, 0, z1), (8.625, 33.5, z1 + 1.25), "stopsignpost", uv=(0, 0, 1.25, 16)), plate]
+    cx, cy, t = 8, 30, 0.12
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            mx, my = cx + sx * (6 - cut / 2), cy + sy * (6 - cut / 2)
+            lo, hi = (my - t, my) if sy > 0 else (my, my + t)
+            strip = bx(f"Edge{'N' if sy > 0 else 'S'}{'E' if sx > 0 else 'W'}", (mx - side / 2, lo, z0), (mx + side / 2, hi, z1),
+                       back, faces=("up" if sy > 0 else "down",), uv=(4, 8, 12, 8.3),
+                       rot=(0, 0, -45 * sx * sy), origin=(mx, my, (z0 + z1) / 2))
+            els.append(strip)
+    for y in (y0 + 1.2, y1 - 1.2):  # the bolt heads on the face, the nuts on the back of the post
+        els.append(bx(f"Bolt{int(y)}", (7.65, y - 0.35, z0 - 0.25), (8.35, y + 0.35, z0), "stopsignpost",
+                      faces=("north", "east", "west", "up", "down")))
+        els.append(bx(f"Nut{int(y)}", (7.6, y - 0.4, z1 + 1.25), (8.4, y + 0.4, z1 + 1.5), "stopsignpost",
+                      faces=("south", "east", "west", "up", "down")))
+    return els
+
+
 # ======================= Level 9 =======================
 
 def level9():
@@ -991,13 +1145,9 @@ def level9():
         bx("Base", (0, 0, 3), (16, 14, 16), "cabinetfront", faces=("north",), full=True),
         bx("Sides", (0, 0, 3), (16, 14, 16), "dresserwood", faces=("east", "west", "south")),
         bx("Top", (0, 14, 2), (16, 15, 16), "formica")], box=(0, 0, 0.12, 1, 0.94, 1), extra={"drops": kitchen})
-    prop("pantryshelf", "Pantry Shelf", [
-        bx("Stock", (1, 0, 8), (15, 28, 15), "pantry", faces=("north",), full=True),
-        bx("Frame", (0.5, 0, 7.5), (15.5, 28, 16), "wood", faces=("east", "west", "up", "south"))], box=(0.03, 0, 0.47, 0.97, 1.75, 1),
+    prop("pantryshelf", "Pantry Shelf", L11.pantryshelf(), box=(0.03, 0, 0.47, 0.97, 1.75, 1),
          extra={"drops": drops(("cannedbeans", 1.2, 0.8), ("game:flour-spelt", 0.6, 0.5), ("game:salt", 0.6, 0.5), ("game:honeycomb", 0.15, 0))})
-    prop("toolshelf", "Tool Shelf", [
-        bx("Tools", (1, 0, 9), (15, 28, 15), "toolwall", faces=("north",), full=True),
-        bx("Frame", (0.5, 0, 8.5), (15.5, 28, 16), "metal", faces=("east", "west", "up", "south"))], box=(0.03, 0, 0.53, 0.97, 1.75, 1),
+    prop("toolshelf", "Tool Shelf", DP.tool_shelf(), box=(0.03, 0, 0.53, 0.97, 1.75, 1),
          material="Metal", sounds=METAL,
          extra={"drops": drops(("game:hammer-copper", 0.15, 0), ("game:saw-copper", 0.1, 0), ("game:shovel-copper", 0.12, 0),
                                 ("game:metalnailsandstrips-iron", 0.8, 0.6), ("game:rope", 0.5, 0.4), ("scrapwire", 0.6, 0.5))})
@@ -1044,14 +1194,7 @@ def level9():
          box=(0.4, 0, 0.4, 0.6, 2, 0.6), material="Metal", sounds=METAL,
          extra={"lightHsvByType": {"*-on-*": [6, 3, 15]}, "entityClassByType": {"*-flicker-*": "BackroomsFlicker"},
                 "attributesByType": {f"*-flicker-{s}": {"offBlock": f"backrooms:streetlight-off-{s}"} for s in SIDES}})
-    prop("mailbox", "Mailbox", [
-        bx("Post", (7.25, 0, 7.25), (8.75, 12, 8.75), "wood"), bx("Board", (6, 11.5, 5), (10, 12, 12), "wood"),
-        bx("Box", (5, 12, 4), (11, 16, 13), "mailbox"), bx("Top", (5.5, 16, 4), (10.5, 17, 13), "mailbox"),
-        bx("Crown", (6.5, 17, 4), (9.5, 17.5, 13), "mailbox"),
-        bx("Door", (5.25, 12.25, 3.6), (10.75, 16.5, 4), "mailbox", faces=("north", "east", "west", "up")),
-        bx("Latch", (7.5, 15.5, 3.3), (8.5, 16.2, 3.6), "metal"),
-        bx("Pivot", (11, 14.5, 9), (11.5, 15.5, 10), "metal"), bx("Flag", (11.5, 14, 9.25), (12, 19, 9.75), "redmetal"),
-        bx("FlagTip", (11.5, 17.5, 9.75), (12, 19, 11.5), "redmetal")], box=(0.3, 0, 0.25, 0.7, 1.1, 0.8), material="Metal", sounds=METAL,
+    prop("mailbox", "Mailbox", L11.mailbox(), box=(0.3, 0, 0.25, 0.7, 1.1, 0.8), material="Metal", sounds=METAL,
          extra={"drops": drops(("metalbracket", 0.6, 0.4), ("game:paper-parchment", 0.4, 0.4))})
     prop("seedsacks", "Seed Sacks", [
         bx("Sack1", (1, 0, 2), (8, 9, 8), "burlap"), bx("Sack2", (8.5, 0, 3), (15, 8, 9), "burlap"), bx("Sack3", (3, 0, 9), (10, 7, 15), "burlap"),
@@ -1096,20 +1239,13 @@ def level10():
                        "sounds": {"walk": "game:walk/sludge*", "place": "game:effect/squish*", "break": "game:effect/squish*", "hit": "game:effect/squish*"}},
           "The mass of worms writhing a metre under Level 10. Digging into it is a mistake")
     name("wormmass", "Writhing Worms")
-    prop("feedtrough", "Feed Trough", [
-        bx("Body", (0, 0, 4), (16, 7, 12), "wood", faces=("north", "east", "south", "west", "down")),
-        bx("Feed", (1, 5, 5), (15, 6, 11), "feed", faces=("up",)), bx("Legs", (1, 0, 5), (15, 2, 11), "wooddark")],
-         box=(0, 0, 0.25, 1, 0.44, 0.75), sounds=WOOD, extra={"drops": drops(("game:plank-aged", 1.5, 0.5), ("game:drygrass", 1, 1))})
-    prop("toolrack", "Tool Rack", [
-        bx("Board", (0, 4, 14), (16, 26, 16), "toolwall", faces=("north",), full=True),
-        bx("BoardSides", (0, 4, 14), (16, 26, 16), "wood", faces=("east", "west", "up", "down", "south")),
-        bx("Handle1", (3, 2, 12), (4, 26, 13), "wood"), bx("Head1", (1, 2, 11), (6, 4, 13), "metaldark"),
-        bx("Handle2", (11, 6, 12), (12, 28, 13), "wood"), bx("Head2", (9, 24, 11.5), (16, 26, 13), "metaldark")],
+    prop("feedtrough", "Feed Trough", DP.feed_trough(),
+         box=(0, 0, 0.25, 1, 0.44, 0.75), sounds=WOOD, extra={"drops": [{"type": "block", "code": "game:trough-genericwood-small-ns", "quantity": {"avg": 1, "var": 0}}]
+                            + drops(("game:drygrass", 1, 1))})  # (from layout version 10 a vanilla trough stands here)
+    prop("toolrack", "Tool Rack", DP.tool_rack(),
          box=(0, 0, 0.7, 1, 1.75, 1), extra={"drops": drops(("game:hoe-copper", 0.3, 0), ("game:scythe-copper", 0.2, 0), ("game:shovel-copper", 0.2, 0),
                                                               ("game:rope", 0.5, 0.4))})
-    prop("nailbarrel", "Barrel of Nails", [
-        bx("Barrel", (2, 0, 2), (14, 14, 14), "barrelwood", faces=("north", "east", "south", "west", "down")),
-        bx("Nails", (2.5, 12, 2.5), (13.5, 13, 13.5), "nails", faces=("up",))], box=(0.12, 0, 0.12, 0.88, 0.88, 0.88), oriented=False,
+    prop("nailbarrel", "Barrel of Nails", DP.nail_barrel(), box=(0.12, 0, 0.12, 0.88, 0.88, 0.88), oriented=False,
          extra={"drops": drops(("game:metalnailsandstrips-iron", 2, 1), ("game:plank-aged", 1, 1))})
 
 
@@ -1170,14 +1306,8 @@ def refinements():
         ], material="Wood", sounds=WOOD)
 
     # Level 9: the street and the yards
-    prop("firehydrant", "Fire Hydrant", [
-        bx("Body", (5, 0, 5), (11, 11, 11), "redmetal"), bx("Cap", (6, 11, 6), (10, 13, 10), "redmetal"),
-        bx("NozzleL", (3, 6, 7), (5, 8.5, 9), "metaldark"), bx("NozzleR", (11, 6, 7), (13, 8.5, 9), "metaldark"),
-        bx("Front", (7, 5, 3.5), (9, 8, 5), "metaldark")], box=(0.3, 0, 0.3, 0.7, 0.81, 0.7), material="Metal", sounds=METAL)
-    prop("stopsign", "Stop Sign", [
-        bx("Pole", (7.5, 0, 7.5), (8.5, 26, 8.5), "metal"),
-        bx("Sign", (2, 24, 7), (14, 36, 7.6), "stopsign", faces=("north",), full=True),
-        bx("Back", (2, 24, 7.6), (14, 36, 8), "metal", faces=("south", "east", "west", "up", "down"))],
+    prop("firehydrant", "Fire Hydrant", L11.hydrant(), box=(0.3, 0, 0.3, 0.7, 0.81, 0.7), material="Metal", sounds=METAL)
+    prop("stopsign", "Stop Sign", stop_sign(),
          box=(0.42, 0, 0.42, 0.58, 2, 0.58), material="Metal", sounds=METAL)
     prop("wheeliebin", "Wheelie Bin", [
         bx("Body", (3, 1, 3), (13, 15, 13), "binplastic"), bx("Lid", (2.5, 15, 2.5), (13.5, 16, 14), "binplastic"),
@@ -1254,10 +1384,11 @@ def refinements():
         bx("Wheel", (0.5, 0, 12), (1.5, 6, 16), "redmetal"), bx("Handle", (7.5, 8, 14), (8.5, 14, 16), "wood")],
          box=(0.06, 0, 0, 0.94, 0.5, 1), material="Metal", sounds=METAL,
          extra={"drops": drops(("metalbracket", 1.5, 0.5), ("game:metalnailsandstrips-iron", 0.8, 0.5))})
-    prop("waterpump", "Hand Pump", [
-        bx("Base", (5, 0, 5), (11, 3, 11), "stone"), bx("Body", (6.5, 3, 6.5), (9.5, 16, 9.5), "blackmetal"),
-        bx("Spout", (7.5, 11, 3), (8.5, 12.5, 6.5), "blackmetal"), bx("Handle", (7.5, 16, 8), (8.5, 17, 15), "blackmetal", rot=(-20, 0, 0), origin=(8, 16, 8))],
-         box=(0.3, 0, 0.3, 0.7, 1.06, 0.7), oriented=False, material="Metal", sounds=METAL)
+    # (deep props) the pump works: it gives Almond Water like a seep, a few portions that come back (BackroomsDispenser)
+    prop("waterpump", "Hand Pump", DP.hand_pump(),
+         box=(0.3, 0, 0.3, 0.7, 1.06, 0.7), oriented=False, material="Metal", sounds=METAL,
+         extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
+                "attributes": {"dispenses": ["backrooms:almondwater"], "restock": True, "liquidSource": True, "dispenseSound": "game:sounds/effect/water-pour"}})
     prop("tractor", "Old Tractor", [
         bx("Body", (8, 10, 6), (24, 22, 30), "tractorgreen"), bx("Hood", (10, 12, 0), (22, 20, 8), "tractorgreen"),
         bx("Grille", (10.5, 12.5, -0.2), (21.5, 19.5, 0), "grate", faces=("north",), full=True),
@@ -1297,14 +1428,10 @@ def refinements():
          comment="A field gate off its hinges, lying flat in a trampled patch of the crops, its hanging post still standing")
 
     # Level 5: the corridors
-    prop("icemachine", "Ice Machine", [
-        bx("Body", (1, 0, 3), (15, 26, 15), "steel", faces=("east", "west", "up", "south")),
-        bx("Front", (1, 0, 3), (15, 26, 15), "icemachine", faces=("north",), full=True)],
+    prop("icemachine", "Ice Machine", L5.ice_machine(),  # (Level 5 art)
          box=(0.06, 0, 0.18, 0.94, 1.62, 0.94), material="Metal", sounds=METAL,
          extra={"drops": drops(("metalbracket", 1, 0.5), ("scrapwire", 1, 0.5))})
-    prop("roomservicetray", "Room Service Tray", [
-        bx("Tray", (3, 0, 4), (13, 0.6, 12), "silver"), bx("Plate", (5, 0.6, 5.5), (10, 1, 10.5), "china"),
-        bx("Cloche", (5.5, 1, 6), (9.5, 4, 10), "silver"), bx("Glass", (11, 0.6, 5), (12, 3, 6), "lanternglass")],
+    prop("roomservicetray", "Room Service Tray", L5.room_service_tray(),  # (Level 5 art)
          box=(0.18, 0, 0.25, 0.82, 0.25, 0.75), collide=False, material="Metal", sounds=METAL,
          extra={"drops": drops(("crackers", 0.5, 0.4), ("glassshard", 0.3, 0.3))})
     prop("laundrycart", "Laundry Cart", [
@@ -1606,6 +1733,7 @@ def roofslope_shapes():
 
 def generate():
     deep_textures.generate()
+    deepprops_tex.generate()  # (deep props) the signs, doors, shelf, rack, barrel, trough and pump
     refinements()
     roofs()
     level6()
@@ -1613,4 +1741,6 @@ def generate():
     level7()
     level8()
     level9()
+    import gen_suburbs  # (Level 9's houses from layout version 9)
+    gen_suburbs.generate()
     level10()

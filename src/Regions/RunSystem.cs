@@ -47,7 +47,14 @@ public class RunSystem : ModSystem
     public enum Phase { None, Waiting, Alarm, Safe }
 
     private const string CaughtStat = "backroomsRunCaught", TripStat = "backroomsRunTrip", WindStat = "backroomsSecondWind";
-    private const float SecondWind = 0.12f, TripSlow = -0.6f, Pinned = -0.9f;
+    // (0.514.0: a trip was -0.6 for 0.8 s, at most every 2 s)
+    private const float SecondWind = 0.12f, TripSlow = -0.5f, TripSeconds = 0.6f, TripEvery = 3f, Pinned = -0.9f;
+    /// <summary>
+    /// The share of a sprint of what bursts out of a dented door, and of a vent's Hound once its burst of speed is spent:
+    /// slower than the horde, so it falls back into it ("much slower", the canon says). (0.514.0: 0.8, faster than the
+    /// horde's 0.78 now; a Hound dropped from a vent ran at 1.0 for 6 s, 3 blocks behind.)
+    /// </summary>
+    private const double ChaserShare = 0.65, VentShare = 0.95, VentSeconds = 4, VentBehind = 4;
     private const int TickMs = 100;
     private const double PresentAt = 48, DespawnAt = 60;
 
@@ -59,7 +66,7 @@ public class RunSystem : ModSystem
     private readonly Random rand = new();
     private readonly Dictionary<string, Run> runs = new();
     private readonly Dictionary<int, (string Uid, long Until)> claims = new();
-    private readonly Dictionary<string, (Link To, long At)> escapes = new();
+    private readonly Dictionary<string, (Link To, long At, RunReturnSpot? Spot)> escapes = new();
     private readonly Dictionary<string, int> blockIds = new();
     private int falseWallId, falseWallUpperId;
     private long tickListener;
@@ -95,6 +102,7 @@ public class RunSystem : ModSystem
         public double NextPin;
         public bool[] Restored;
         public double TripUntil, TripCooldown;
+        public bool Tripped;
         public bool Active = true;
         /// <summary>Held by the horde at the last tick (so a death then is theirs).</summary>
         public bool Caught;
@@ -145,7 +153,12 @@ public class RunSystem : ModSystem
     }
 
     // (Fired before the player's data is saved, so the run's stats and phase are cleared in the save too)
-    private void OnPlayerDisconnect(IServerPlayer player) => EndRun(player.PlayerUID, "left");
+    // (An escape still waiting for its door is dropped too: it would otherwise place the door at the old wall on the next login)
+    private void OnPlayerDisconnect(IServerPlayer player)
+    {
+        escapes.Remove(player.PlayerUID);
+        EndRun(player.PlayerUID, "left");
+    }
 
     private int BlockId(string code)
     {
@@ -194,12 +207,70 @@ public class RunSystem : ModSystem
         return lane;
     }
 
-    /// <summary>Someone has gone out through a true exit, and is about to arrive at <paramref name="to"/>.</summary>
-    public void NoteEscape(IServerPlayer player, Link to)
+    /// <summary>The prize for getting out, given once to each player ever (a wrapped present by the door they come out of).</summary>
+    public const string PrizeKey = "backrooms:runPrize";
+
+    /// <summary>
+    /// Someone has gone out through a true exit, and is about to arrive at <paramref name="to"/>. Returns where to put them
+    /// instead: in front of an ordinary door nearby, which becomes the red one (or in front of a plain wall, which gets it).
+    /// </summary>
+    public Link NoteEscape(IServerPlayer player, Link to)
     {
-        escapes[player.PlayerUID] = (to, sapi.World.ElapsedMilliseconds);
+        RunReturnSpot? spot = null;
+        if (layout != null)
+        {
+            int x = (int)Math.Floor(to.X), z = (int)Math.Floor(to.Z);
+            int level = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z));
+            spot = layout.FindRunReturn(level, x, z);
+            if (spot is { } s)
+                to = new Link(s.StandX + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(s.StandX, s.StandZ), s.StandZ + 0.5, false);
+        }
+        escapes[player.PlayerUID] = (to, sapi.World.ElapsedMilliseconds, spot);
         player.Entity.WatchedAttributes.SetBool(RanOutKey, true);
         EndRun(player.PlayerUID, "escaped");
+        return to;
+    }
+
+    private readonly TreeAttribute testAttrs = new();
+
+    /// <summary>
+    /// Test cheat: leave Level ! as through the true exit, into a level (1, 4 or 21 for the End); optionally forget the
+    /// prize. From the console (no player) it does the same to the world alone, with a stand-in for the player's flags.
+    /// </summary>
+    public string DebugEscape(IServerPlayer player, int level, bool resetPrize)
+    {
+        if (layout == null) return "not a Backrooms world";
+        if (resetPrize) (player?.Entity.WatchedAttributes ?? testAttrs).RemoveAttribute(PrizeKey);
+        ulong key = (ulong)sapi.World.Rand.NextInt64();
+        var arrival = level == WorldLayout.TheEnd ? layout.FindArrival(level, key, WorldLayout.IsEndExitDoor) : layout.FindArrival(level, key, t => t.Kind == TileKind.Wall);
+        if (arrival is not { } a) return "no arrival found";
+        var first = new Link(a.X + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(a.X, a.Z), a.Z + 0.5, false);
+        if (player != null)
+        {
+            var to = NoteEscape(player, first);
+            player.Entity.TeleportToDouble(to.X, to.Y, to.Z);
+            return $"out at {Math.Floor(to.X)}, {Math.Floor(to.Z)}";
+        }
+        // (No one to move: find the spot, load round it, and do what the arrival does)
+        RunReturnSpot? spot = layout.FindRunReturn(level, a.X, a.Z);
+        if (spot is not { } s) return $"arrival {a.X}, {a.Z}: no door or wall to set it in";
+        int cx = s.DoorX >> 5, cz = s.DoorZ >> 5, left = 9;
+        for (int ix = cx - 1; ix <= cx + 1; ix++)
+            for (int iz = cz - 1; iz <= cz + 1; iz++)
+                sapi.WorldManager.LoadChunkColumnFast(ix, iz, new ChunkLoadOptions
+                {
+                    OnLoaded = () =>
+                    {
+                        if (--left > 0) return;
+                        var at = new BlockPos(s.DoorX, geometry.FloorFor(level) + 1, s.DoorZ);
+                        string before = sapi.World.BlockAccessor.GetBlock(at).Code?.ToString();
+                        LeaveExitDoor(null, new Link(s.StandX + 0.5, 0, s.StandZ + 0.5, false), s);
+                        sapi.Logger.Notification("[backrooms] runescape level {0}: arrival {1},{2}, stand {3},{4}, door tile {5},{6} face {7} replaces door {8}; block there {9} -> {10}; above {11}",
+                            level, a.X, a.Z, s.StandX, s.StandZ, s.DoorX, s.DoorZ, s.Face, s.ReplacesDoor, before,
+                            sapi.World.BlockAccessor.GetBlock(at).Code, sapi.World.BlockAccessor.GetBlock(at.UpCopy()).Code);
+                    },
+                });
+        return $"door tile {s.DoorX}, {s.DoorZ} ({(s.ReplacesDoor ? "replaces a door" : "set in a wall")}); loading";
     }
 
     // ================= The tick =================
@@ -227,10 +298,15 @@ public class RunSystem : ModSystem
             }
 
             // Out through a true exit: leave the door they came out of where they came out
-            if (escapes.TryGetValue(player.PlayerUID, out var esc) && level != WorldLayout.RunLevel && now - esc.At > 1200)
+            if (escapes.TryGetValue(player.PlayerUID, out var esc))
             {
-                escapes.Remove(player.PlayerUID);
-                LeaveExitDoor(esc.To);
+                // (An entry from before a restart has a clock ahead of ours: it is stale, not pending)
+                if (now < esc.At || now - esc.At > 60_000) escapes.Remove(player.PlayerUID);
+                else if (level != WorldLayout.RunLevel && now - esc.At > 1200)
+                {
+                    escapes.Remove(player.PlayerUID);
+                    LeaveExitDoor(player, esc.To, esc.Spot);
+                }
             }
 
             runs.TryGetValue(player.PlayerUID, out Run run);
@@ -281,7 +357,7 @@ public class RunSystem : ModSystem
             player.Entity.TeleportToDouble(ax + 0.5, geometry.FloorFor(WorldLayout.RunLevel) + layout.ArrivalHeight(ax, az), az + 0.5);
             return null;
         }
-        int difficulty = menace?.Setting.Code switch { "low" => 0, "high" => 2, _ => 1 };
+        int difficulty = menace?.Setting.Code switch { "verylow" or "low" => 0, "high" or "veryhigh" => 2, _ => 1 };
         int chained = plan.ProgressAt(plan.ChainedDoor.X, plan.ChainedDoor.Z) ?? -8;
         var run = new Run
         {
@@ -356,6 +432,10 @@ public class RunSystem : ModSystem
             foreach (var f in plan.FakeExits)
                 if (Math.Abs(lx - f.X) <= 1 && lz > f.Z && lz <= f.Z + 3) at = plan.ProgressAt(f.FrontX, f.FrontZ);
         if (at != null) run.P = at.Value;
+        // Anywhere in the Safe Zone counts as in it: its side rooms lie off the course, and the far one's back is further
+        // along it than the zone's far end (so resting by its cot let the horde in)
+        if (plan.HasSafe && plan.In(lx, lz) && plan.At(lx, lz).Zone == WorldLayout.RunZone.Safe)
+            run.P = Math.Clamp(run.P, plan.SafeFrom, plan.SafeTo);
 
         // Keep the stretch ahead as it was meant to be (only active runs get here: see OnTick)
         RestoreAhead(run);
@@ -409,7 +489,8 @@ public class RunSystem : ModSystem
         run.Caught = caught;
         if (caught && entity.Alive)
         {
-            entity.Stats.Set("walkspeed", CaughtStat, Pinned, false);
+            // (Stats.Set and Remove rebuild and resync the whole stats tree even when nothing changes, so only on a change)
+            if (!entity.Stats["walkspeed"].ValuesByKey.ContainsKey(CaughtStat)) entity.Stats.Set("walkspeed", CaughtStat, Pinned, false);
             run.NextPin -= dt;
             if (run.NextPin <= 0)
             {
@@ -423,7 +504,7 @@ public class RunSystem : ModSystem
                 }, damage);
             }
         }
-        else entity.Stats.Remove("walkspeed", CaughtStat);
+        else if (entity.Stats["walkspeed"].ValuesByKey.ContainsKey(CaughtStat)) entity.Stats.Remove("walkspeed", CaughtStat);
     }
 
     private void SetPhase(EntityPlayer entity, Phase phase, double gap, Vec3d front)
@@ -456,12 +537,13 @@ public class RunSystem : ModSystem
             run.Horde.Clear();
             return;
         }
-        int want = chase.Front >= run.Plan.Last ? 3 : 5;
+        // Fewer while it gathers speed after the burst, and fewer, "but more aggressive", in the last third
+        int want = chase.Front >= run.Plan.Last || chase.Elapsed - chase.LooseAt < RunChase.WarmUp ? 3 : 5;
         run.NextHordeSpawn -= dt;
         if (show && run.Horde.Count < want && run.NextHordeSpawn <= 0 && menace != null)
         {
             run.NextHordeSpawn = run.Horde.Count == 0 ? 0 : 0.6;
-            // Hounds always lead; the rest by the lane's hash
+            // Hounds always lead; the rest by the lane and a die roll
             string code = run.Horde.Count == 0 ? Roster.Hound : HordeKinds[(run.Lane * 7 + run.Horde.Count * 3 + rand.Next(3)) % HordeKinds.Length];
             double offset = run.Horde.Count == 0 ? 0.5 : 1 + rand.NextDouble() * 5;
             double lateral = (rand.NextDouble() * 2 - 1) * 1.6;
@@ -521,8 +603,9 @@ public class RunSystem : ModSystem
         Tile here = run.Plan.At(lx, lz);
         int hurdle = WorldLayout.RunHurdle(here);
         for (int d = 1; d <= 4 && hurdle == 2 && here.Kind == TileKind.Floor; d++)
-            foreach (int dx in new[] { -d, d })
+            for (int s = 0; s < 2; s++)
             {
+                int dx = s == 0 ? -d : d;
                 if (!run.Plan.In(lx + dx, lz)) continue;
                 Tile side = run.Plan.At(lx + dx, lz);
                 if (side.Zone != here.Zone || WorldLayout.RunHurdle(side) == 2) continue;
@@ -577,11 +660,18 @@ public class RunSystem : ModSystem
     private void UpdateChasers(IServerPlayer player, Run run, float dt)
     {
         long now = sapi.World.ElapsedMilliseconds;
+        // Nothing comes into the Safe Zone: what was behind the runner falls back into the horde at its door
+        if (run.Chase.InSafe(run.P))
+        {
+            foreach (Chaser c in run.Chasers) Despawn(c.Entity);
+            run.Chasers.Clear();
+            return;
+        }
         foreach (Chaser c in run.Chasers)
         {
             if (!c.Entity.Alive) continue;
             // A vent's Hound keeps up for a few seconds, then falls back into the horde
-            double speed = now < c.Until ? c.Speed : 0.8 * run.Chase.Sprint;
+            double speed = now < c.Until ? c.Speed : ChaserShare * run.Chase.Sprint;
             c.S = Math.Min(c.S + speed * dt, run.P - 0.9);
             Move(run, c.Entity, c.S, c.Lateral, c.Entity.Code.Path.StartsWith("deathmoth") ? 2.2 : 0);
             if (run.P - c.S <= 1.2 && player.Entity.Alive)
@@ -647,8 +737,8 @@ public class RunSystem : ModSystem
                         if (p > e.S + 6) break;
                         SetDoor(run, (e.X, e.Z), "run-sidedoor-open", e.Face);
                         Play("run/doorbreak", Centre(run, (e.X, e.Z)), 32, 0.8f);
-                        if (rand.NextDouble() < 0.6) Chase(player, run, Roster.SkinStealer, e.S - 2, 0.8, 0, 12);
-                        else for (int r = 0; r < 3; r++) Chase(player, run, Roster.DeathRat, e.S - 2 - r * 0.5, 0.8, (r - 1) * 1.2, 12);
+                        if (rand.NextDouble() < 0.6) Chase(player, run, Roster.SkinStealer, e.S - 2, ChaserShare, 0, 12);
+                        else for (int r = 0; r < 3; r++) Chase(player, run, Roster.DeathRat, e.S - 2 - r * 0.5, ChaserShare, (r - 1) * 1.2, 12);
                     }
                     else if (p >= e.S - 22 && rand.NextDouble() < dt / 0.9)
                         Play("run/bang" + rand.Next(1, 4), Centre(run, (e.X, e.Z)), 24, 0.7f);
@@ -657,7 +747,7 @@ public class RunSystem : ModSystem
                     run.Fired.Add(i);
                     SetPart(run, (e.X, e.Z), 5, "run-ceiling-vent-burst");
                     Play("run/ventburst", Centre(run, (e.X, e.Z), 3), 24, 1f);
-                    Chase(player, run, Roster.Hound, p - 3, 1.0, 0, 6);
+                    Chase(player, run, Roster.Hound, p - VentBehind, VentShare, 0, VentSeconds);
                     break;
                 case WorldLayout.RunEventKind.Sign when i == run.SignEvent:
                     SignBurst(player, run, e, dt);
@@ -737,10 +827,16 @@ public class RunSystem : ModSystem
         var (lx, lz) = layout.RunLocal(run.Lane, (int)Math.Floor(entity.Pos.X), (int)Math.Floor(entity.Pos.Z));
         if (!run.Plan.In(lx, lz)) return;
         if (run.Plan.At(lx, lz).Variant is not (Worldgen.Props.RunToyCar or Worldgen.Props.RunBoxes or Worldgen.Props.RunCord or Worldgen.Props.RunDebris)) return;
-        run.TripCooldown = 2;
-        run.TripUntil = 0.8;
+        run.TripCooldown = TripEvery;
+        run.TripUntil = TripSeconds;
         entity.Stats.Set("walkspeed", TripStat, TripSlow, false);
         Play("run/trip", entity.Pos.XYZ, 12, 1f);
+        // The first time, say what happened, so the next heap is jumped
+        if (!run.Tripped)
+        {
+            run.Tripped = true;
+            player.SendIngameError("backrooms-run", Lang.Get("backrooms:run-trip"));
+        }
     }
 
     // ================= The doors of the start room, and the rest =================
@@ -868,30 +964,90 @@ public class RunSystem : ModSystem
     }
 
     /// <summary>
-    /// Out of the true exit: the door they came out of stands in the wall beside them, a red door now, a way into
-    /// Level ! for anyone who has not been there ("the exit door has been converted into an entrance door").
+    /// Out of the true exit: the ordinary door they stand in front of is now a red one, a way into Level ! for anyone who
+    /// has not been there ("the exit door has been converted into an entrance door"), set in the doorway facing them.
+    /// With no door near, it is set into the wall in front of them. And, the first time ever, a present by it.
     /// </summary>
-    private void LeaveExitDoor(Link to)
+    private void LeaveExitDoor(IServerPlayer player,  Link to, RunReturnSpot? spot)
     {
+        var blocks = sapi.World.BlockAccessor;
         int x = (int)Math.Floor(to.X), z = (int)Math.Floor(to.Z);
         int level = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z));
         int floor = geometry.FloorFor(level);
-        // (Standing in the air in front of the wall, flush against it, as the arrival door is made)
-        foreach (ArchPier dir in new[] { ArchPier.North, ArchPier.East, ArchPier.South, ArchPier.West })
+        // (Nothing found by the layout: no door, rather than one beside another; the present all the same)
+        if (spot is not { } s)
         {
-            var (dx, dz) = Step(dir);
-            if (layout.TileAt(x + dx, z + dz).Kind != TileKind.Wall) continue;
-            // It faces away from the wall, toward where they stand
-            ArchPier face = dir switch { ArchPier.North => ArchPier.South, ArchPier.South => ArchPier.North, ArchPier.East => ArchPier.West, _ => ArchPier.East };
-            var lower = new BlockPos(x, (int)Math.Floor(to.Y + 0.01), z);
-            if (sapi.World.BlockAccessor.GetChunkAtBlockPos(lower) == null) return;
-            if (sapi.World.BlockAccessor.GetBlock(lower).BlockId != 0 || sapi.World.BlockAccessor.GetBlock(lower.UpCopy()).BlockId != 0) return;
-            int lo = BlockId($"run-exitdoor-arrival-lower-{Side(face)}"), up = BlockId($"run-exitdoor-arrival-upper-{Side(face)}");
-            if (lo == 0 || up == 0) return;
-            sapi.World.BlockAccessor.SetBlock(lo, lower);
-            sapi.World.BlockAccessor.SetBlock(up, lower.UpCopy());
+            GivePrize(player, floor, new RunReturnSpot(x, z, x, z, ArchPier.North, false));
             return;
         }
+        var lower = new BlockPos(s.DoorX, floor + 1, s.DoorZ);
+        // (In the wall plane, where the old door was or the wall is; if the layout's door is not there, or the block there
+        // is a way somewhere, leave things be)
+        if (blocks.GetChunkAtBlockPos(lower) != null && Replaceable(blocks.GetBlock(lower), blocks.GetBlock(lower.UpCopy()), s.ReplacesDoor))
+        {
+            string side = Side(s.Face);
+            int lo = BlockId($"run-exitdoor-returned-lower-{side}"), up = BlockId($"run-exitdoor-returned-upper-{side}");
+            if (lo == 0 || up == 0) { lo = BlockId($"run-exitdoor-entry-lower-{side}"); up = BlockId($"run-exitdoor-entry-upper-{side}"); }
+            if (lo != 0 && up != 0)
+            {
+                blocks.SetBlock(lo, lower);
+                blocks.SetBlock(up, lower.UpCopy());
+            }
+        }
+
+        GivePrize(player, floor, s);
+    }
+
+    /// <summary>
+    /// Whether the red door may take this block's place: a locked door (one that leads nowhere) where the layout has a
+    /// door, plain wall where it has none. Never a door that leads somewhere, nor a way back built into a wall.
+    /// </summary>
+    private static bool Replaceable(Block lower, Block upper, bool door)
+    {
+        if (lower == null || lower.BlockId == 0 || upper == null || upper.BlockId == 0) return false;
+        string below = lower.GetBehavior<BlockBehaviorThreshold>()?.Kind, above = upper.GetBehavior<BlockBehaviorThreshold>()?.Kind;
+        return door ? below == "locked" && above is null or "locked" : below == null && above == null;
+    }
+
+    /// <summary>A wrapped present on the floor outside the door, beside where they stand: once per player, ever.</summary>
+    private void GivePrize(IServerPlayer player, int floor, RunReturnSpot s)
+    {
+        var attrs = player?.Entity.WatchedAttributes ?? testAttrs;
+        if (attrs.GetBool(PrizeKey)) return;
+        var blocks = sapi.World.BlockAccessor;
+        var (fx, fz) = Step(s.Face);
+        var (sx, sz) = Step(s.Face switch { ArchPier.North => ArchPier.East, ArchPier.East => ArchPier.South, ArchPier.South => ArchPier.West, _ => ArchPier.North });
+        BlockPos pick = null;
+        // (Beside where they stand, either hand; then a step further out)
+        foreach (var (ox, oz) in new[] { (sx, sz), (-sx, -sz), (sx + fx, sz + fz), (-sx + fx, -sz + fz) })
+        {
+            var at = new BlockPos(s.StandX + ox, floor + 1, s.StandZ + oz);
+            if (blocks.GetChunkAtBlockPos(at) == null) continue;
+            if (blocks.GetBlock(at).BlockId != 0 || blocks.GetBlock(at.UpCopy()).BlockId != 0 || blocks.GetBlock(at.DownCopy()).BlockId == 0) continue;
+            pick = at;
+            break;
+        }
+        attrs.SetBool(PrizeKey, true);
+        int present = BlockId("run-prize");
+        if (pick != null && present != 0) blocks.SetBlock(present, pick);
+        else
+        {
+            // (No present block yet, or no room: what is inside, on the floor)
+            Vec3d at = pick != null ? pick.ToVec3d().Add(0.5, 0.1, 0.5) : player?.Entity.Pos.XYZ ?? new Vec3d(s.StandX + 0.5, floor + 1.1, s.StandZ + 0.5);
+            Drop("game:gear-rusty", 25, at);
+            Drop("game:gear-temporal", 2, at);
+        }
+        if (player != null) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:run-prize-left"), EnumChatType.Notification);
+        sapi.Logger.Notification("[backrooms] prize given at {0} ({1})", pick, present != 0 ? "present block" : "loose items");
+    }
+
+    private void Drop(string code, int count, Vec3d at)
+    {
+        var loc = new AssetLocation(code);
+        CollectibleObject what = sapi.World.GetItem(loc);
+        what ??= sapi.World.GetBlock(loc);
+        if (what == null) return;
+        sapi.World.SpawnItemEntity(new ItemStack(what, count), at);
     }
 
     private void Play(string sound, Vec3d at, int range, float volume) =>
@@ -930,24 +1086,42 @@ public class ItemEnergyBar : Item
 /// <summary>
 /// An emergency beacon on a wall of Level !: dark, until the alarm goes; then it flashes red once a second (a quarter of
 /// a second on). Glow only: real light changing several times a second would be far too costly, as with failing lights.
+/// A slow listener watches for the alarm; the 50 ms one that times the flashes runs only while it sounds.
 /// </summary>
 public class BlockEntityRunBeacon : BlockEntity
 {
     private bool lit;
     private MeshData offMesh;
+    private long flashListener;
 
     public override void Initialize(ICoreAPI api)
     {
         base.Initialize(api);
-        if (api is ICoreClientAPI capi) RegisterGameTickListener(_ => Pulse(capi), 50);
+        if (api is ICoreClientAPI capi) RegisterGameTickListener(_ => Watch(capi), 250);
+    }
+
+    private bool Alarmed(ICoreClientAPI capi)
+    {
+        var player = capi.World.Player?.Entity;
+        return player != null && player.WatchedAttributes.GetInt(RunSystem.PhaseKey) == (int)RunSystem.Phase.Alarm
+            && player.Pos.SquareDistanceTo(Pos.X + 0.5, Pos.Y, Pos.Z + 0.5) < 32 * 32;
+    }
+
+    private void Watch(ICoreClientAPI capi)
+    {
+        bool alarm = Alarmed(capi);
+        if (alarm && flashListener == 0) flashListener = RegisterGameTickListener(_ => Pulse(capi), 50);
+        else if (!alarm && flashListener != 0)
+        {
+            UnregisterGameTickListener(flashListener);
+            flashListener = 0;
+            Pulse(capi);
+        }
     }
 
     private void Pulse(ICoreClientAPI capi)
     {
-        var player = capi.World.Player?.Entity;
-        bool alarm = player != null && player.WatchedAttributes.GetInt(RunSystem.PhaseKey) == (int)RunSystem.Phase.Alarm
-            && player.Pos.SquareDistanceTo(Pos.X + 0.5, Pos.Y, Pos.Z + 0.5) < 32 * 32;
-        bool on = alarm && capi.World.ElapsedMilliseconds % 1000 < 250;
+        bool on = Alarmed(capi) && capi.World.ElapsedMilliseconds % 1000 < 250;
         if (on == lit) return;
         lit = on;
         MarkDirty(redrawOnClient: true);

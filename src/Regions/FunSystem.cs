@@ -64,7 +64,7 @@ public class FunSystem : ModSystem
     private long tickId;
 
     private readonly Dictionary<long, (double Amount, long DueMs)> pending = new();
-    private readonly Dictionary<long, long> latchedUntilMs = new(), lastVoiceMs = new(), struckMs = new(), noiseMs = new();
+    private readonly Dictionary<long, long> latchedUntilMs = new(), lastVoiceMs = new(), struckMs = new();
     private readonly Dictionary<long, (float Health, bool Treating)> lastHealth = new();
     private readonly Dictionary<long, double> lastHours = new(), lastDrank = new();
     /// <summary>Players wearing the disguise in the level now (told so when they put it on).</summary>
@@ -99,12 +99,28 @@ public class FunSystem : ModSystem
             Load();
             tickId = api.Event.RegisterGameTickListener(OnTick, 500);
             api.Event.PlayerDeath += OnPlayerDeath;
+            api.Event.PlayerDisconnect += OnPlayerDisconnect;
             api.Event.GameWorldSave += Save;
             api.Event.CanUseBlock += StockShelf;
             // A Partygoer's body (its fireproof hide and the carapace that opens) is attached here, whoever put it down
             api.Event.OnEntitySpawn += GiveBody;
             api.Event.OnEntityLoaded += GiveBody;
         });
+    }
+
+    /// <summary>A player who leaves takes the per-entity state with them (it is keyed by entity id and would otherwise stay for the session).</summary>
+    private void OnPlayerDisconnect(IServerPlayer player)
+    {
+        if (player.Entity == null) return;
+        long id = player.Entity.EntityId;
+        pending.Remove(id);
+        latchedUntilMs.Remove(id);
+        lastVoiceMs.Remove(id);
+        struckMs.Remove(id);
+        lastHealth.Remove(id);
+        lastHours.Remove(id);
+        lastDrank.Remove(id);
+        disguised.Remove(id);
     }
 
     private static void GiveBody(Entity entity)
@@ -119,6 +135,7 @@ public class FunSystem : ModSystem
         if (sapi == null || layout == null) return;
         if (tickId != 0) sapi.Event.UnregisterGameTickListener(tickId);
         sapi.Event.PlayerDeath -= OnPlayerDeath;
+        sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
         sapi.Event.GameWorldSave -= Save;
         sapi.Event.CanUseBlock -= StockShelf;
         sapi.Event.OnEntitySpawn -= GiveBody;
@@ -480,7 +497,6 @@ public class FunSystem : ModSystem
     /// <summary>A loud noise (a popper, a balloon popping): every Partygoer within <paramref name="range"/> blocks comes to see.</summary>
     public static void Noise(IWorldAccessor world, Vec3d at, Entity who, double range)
     {
-        if (server != null && who != null) server.noiseMs[who.EntityId] = world.ElapsedMilliseconds;
         AiTaskPartygoer.Hear(world, at, who, range);
         if (who != null) world.Api.ModLoader.GetModSystem<MenaceSystem>()?.MakeNoise(who, 0.5);
     }
@@ -589,7 +605,8 @@ public class BlockCarnivorousBalloon : Block
         entity.Attributes.SetLong(StungKey, now);
         entity.ReceiveDamage(new DamageSource { Source = EnumDamageSource.Block, SourceBlock = this, SourcePos = pos.ToVec3d(), Type = EnumDamageType.Poison }, 3);
         player.Stats.Set("walkspeed", StungStat, -0.8f, false);
-        world.RegisterCallback(_ => player.Stats.Remove("walkspeed", StungStat), 3000);
+        // (Only the latest sting's callback lifts the slow-down: an earlier one would cut a later sting's short)
+        world.RegisterCallback(_ => { if (entity.Attributes.GetLong(StungKey, 0) == now) player.Stats.Remove("walkspeed", StungStat); }, 3000);
         world.PlaySoundAt(new AssetLocation("backrooms:sounds/ambient/fun/cballoon-sting"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 16, 1f);
     }
 

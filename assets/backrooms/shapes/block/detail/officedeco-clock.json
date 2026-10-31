@@ -2,9 +2,10 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"clockface": "backrooms:block/detail/clockface",
 		"drywall": "backrooms:block/level4/officewall",
-		"metaldark": "backrooms:block/props/metal-dark"
+		"l4clockcase": "backrooms:block/detail/l4clockcase",
+		"l4clockface": "backrooms:block/detail/l4clockface",
+		"l4clockglass": "backrooms:block/detail/l4clockglass"
 	},
 	"elements": [
 		{
@@ -77,76 +78,427 @@
 			}
 		},
 		{
-			"name": "Rim",
+			"name": "CaseRail0",
 			"from": [
-				4,
-				2,
-				-1.5
+				3.5,
+				3.5,
+				-1.9
 			],
 			"to": [
-				12,
-				10,
+				12.5,
+				4.5,
 				0
 			],
 			"faces": {
-				"east": {
-					"texture": "#metaldark",
+				"north": {
+					"texture": "#l4clockcase",
 					"uv": [
 						0,
 						0,
-						1.5,
-						8
+						9.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						1.9,
+						1.0
 					]
 				},
 				"west": {
-					"texture": "#metaldark",
+					"texture": "#l4clockcase",
 					"uv": [
 						0,
 						0,
-						1.5,
-						8
+						1.9,
+						1.0
 					]
 				},
 				"up": {
-					"texture": "#metaldark",
+					"texture": "#l4clockcase",
 					"uv": [
 						0,
 						0,
-						8,
-						1.5
+						9.0,
+						1.9
 					]
 				},
 				"down": {
-					"texture": "#metaldark",
+					"texture": "#l4clockcase",
 					"uv": [
 						0,
 						0,
-						8,
-						1.5
+						9.0,
+						1.9
 					]
 				}
 			}
 		},
 		{
-			"name": "Face",
+			"name": "CaseRail1",
 			"from": [
-				4,
-				2,
-				-1.5
+				3.5,
+				11.5,
+				-1.9
 			],
 			"to": [
-				12,
-				10,
-				-1.4
+				12.5,
+				12.5,
+				0
 			],
 			"faces": {
 				"north": {
-					"texture": "#clockface",
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						9.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						1.9,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						1.9,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						9.0,
+						1.9
+					]
+				},
+				"down": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						9.0,
+						1.9
+					]
+				}
+			}
+		},
+		{
+			"name": "CaseStile0_0",
+			"from": [
+				3.5,
+				4.5,
+				-1.9
+			],
+			"to": [
+				4.5,
+				11.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						1.0,
+						7.0
+					]
+				},
+				"east": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						1.9,
+						7.0
+					]
+				},
+				"west": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						1.9,
+						7.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CaseStile0_1",
+			"from": [
+				11.5,
+				4.5,
+				-1.9
+			],
+			"to": [
+				12.5,
+				11.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						1.0,
+						7.0
+					]
+				},
+				"east": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						1.9,
+						7.0
+					]
+				},
+				"west": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						1.9,
+						7.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Dial",
+			"from": [
+				4.5,
+				4.5,
+				-1.35
+			],
+			"to": [
+				11.5,
+				11.5,
+				-1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#l4clockface",
 					"uv": [
 						0,
 						0,
 						16,
 						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				4.5,
+				4.5,
+				-1.7
+			],
+			"to": [
+				11.5,
+				11.5,
+				-1.65
+			],
+			"faces": {
+				"north": {
+					"texture": "#l4clockglass",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "HourHand",
+			"from": [
+				7.7,
+				7.5,
+				-1.56
+			],
+			"to": [
+				8.3,
+				10.0,
+				-1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				-1.5
+			],
+			"rotationZ": 97
+		},
+		{
+			"name": "MinuteHand",
+			"from": [
+				7.8,
+				7.4,
+				-1.62
+			],
+			"to": [
+				8.2,
+				11.1,
+				-1.56
+			],
+			"faces": {
+				"north": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.7
+					]
+				},
+				"east": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.7
+					]
+				},
+				"west": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.7
+					]
+				},
+				"up": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				-1.56
+			],
+			"rotationZ": 84
+		},
+		{
+			"name": "Cap",
+			"from": [
+				7.55,
+				7.55,
+				-1.66
+			],
+			"to": [
+				8.45,
+				8.45,
+				-1.62
+			],
+			"faces": {
+				"north": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#l4clockcase",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.5
 					]
 				}
 			}

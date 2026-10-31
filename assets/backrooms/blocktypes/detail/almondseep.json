@@ -7,7 +7,8 @@
 		"dispenses": [
 			"backrooms:almondwater"
 		],
-		"restock": true
+		"restock": true,
+		"liquidSource": true
 	},
 	"blockmaterial": "Stone",
 	"drawtype": "json",

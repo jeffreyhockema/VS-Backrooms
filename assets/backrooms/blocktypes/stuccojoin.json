@@ -1,0 +1,112 @@
+{
+	"code": "stuccojoin",
+	"variantgroups": [
+		{
+			"code": "north",
+			"states": [
+				"chevron",
+				"stucco"
+			]
+		},
+		{
+			"code": "east",
+			"states": [
+				"chevron",
+				"stucco"
+			]
+		},
+		{
+			"code": "south",
+			"states": [
+				"chevron",
+				"stucco"
+			]
+		},
+		{
+			"code": "west",
+			"states": [
+				"chevron",
+				"stucco"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"upper",
+				"baseboard"
+			]
+		}
+	],
+	"behaviors": [
+		{
+			"name": "BackroomsStrippable",
+			"properties": {
+				"result": "wallpaper-stripped-{part}",
+				"item": "wallpaperstrip"
+			}
+		}
+	],
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"randomizeAxes": "xyz",
+	"textures": {
+		"north": {
+			"base": "block/wallpaper/{north}-{part}",
+			"alternates": [
+				{
+					"base": "block/wallpaper/{north}-{part}-2"
+				},
+				{
+					"base": "block/wallpaper/{north}-{part}-damp"
+				}
+			]
+		},
+		"east": {
+			"base": "block/wallpaper/{east}-{part}",
+			"alternates": [
+				{
+					"base": "block/wallpaper/{east}-{part}-2"
+				},
+				{
+					"base": "block/wallpaper/{east}-{part}-damp"
+				}
+			]
+		},
+		"south": {
+			"base": "block/wallpaper/{south}-{part}",
+			"alternates": [
+				{
+					"base": "block/wallpaper/{south}-{part}-2"
+				},
+				{
+					"base": "block/wallpaper/{south}-{part}-damp"
+				}
+			]
+		},
+		"west": {
+			"base": "block/wallpaper/{west}-{part}",
+			"alternates": [
+				{
+					"base": "block/wallpaper/{west}-{part}-2"
+				},
+				{
+					"base": "block/wallpaper/{west}-{part}-damp"
+				}
+			]
+		},
+		"up": {
+			"base": "block/wallpaper/{north}-upper"
+		},
+		"down": {
+			"base": "block/wallpaper/{north}-upper"
+		}
+	},
+	"resistance": 2.5,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

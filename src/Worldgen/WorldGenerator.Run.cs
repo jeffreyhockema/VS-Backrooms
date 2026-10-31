@@ -9,8 +9,8 @@ namespace Backrooms.Worldgen;
 /// A lane's hall is 5 wide with four blocks of air: floor at rel 0, the hanging EXIT signs in the top block of air
 /// (rel 4), the ceiling at rel 5, solid above. Walls carry the wooden crash rail at rel 1, doors at rel 1-2, a beacon or a
 /// wall-mounted EXIT sign at rel 3. Codes are the plan's (docs/design/new-levels/run-plan.md, "Manifest changes (phase 2)").
-/// Until the level's assets exist, every missing block falls back to something of the mod's own that looks the part,
-/// so the level is never full of holes.
+/// A missing block falls back to something of the mod's own that looks the part, so a half-installed mod never leaves
+/// the level full of holes.
 /// </summary>
 public sealed partial class WorldGenerator
 {
@@ -154,7 +154,7 @@ public sealed partial class WorldGenerator
         Door(WallPattern.RunChainedDoor, "run-chaineddoor-intact");
         Door(WallPattern.RunHallDoor, "run-halldoor-closed");
         if (runMissing.Count > 0)
-            api.Logger.Warning("[backrooms] Level ! is missing {0} of its blocks (first: {1}); stand-ins are used until its assets are built",
+            api.Logger.Warning("[backrooms] Level ! is missing {0} of its blocks (first: {1}); stand-ins are used",
                 runMissing.Count, runMissing[0]);
     }
 

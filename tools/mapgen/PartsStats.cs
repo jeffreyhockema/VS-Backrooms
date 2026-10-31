@@ -30,6 +30,8 @@ static class PartsStats
                         if (t.Variant == Props.Tent) Count(level, "tent (old)", gx, gz);
                         if (t.Variant == Props.Bedroll) Count(level, "bedroll (old)", gx, gz);
                         if (t.Variant == Props.Sofa) Count(level, "sofa (old)", gx, gz);
+                        if (t.Variant == Props.MegMarker) Count(level, "M.E.G. marker", gx, gz);
+                        if (t.Variant == Props.RoadLamp) Count(level, "road lamp", gx, gz);
                         var (w, d) = WorldLayout.PartsOf(t.Variant);
                         if (w * d == 1) continue;
                         if (t.Stack == 0) Count(level, t.Variant == Props.CampTent ? "camp tent" : t.Variant == Props.LongSofa ? "long sofa" : "sleeping bag", gx, gz);

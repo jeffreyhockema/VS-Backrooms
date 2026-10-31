@@ -1,0 +1,55 @@
+// Level 3 walls with fittings that lead somewhere: pressure gauges in the wall pipes, and the junction box a panel's conduit runs up into
+{
+	"code": "l3fitting",
+	"variantgroups": [
+		{
+			"code": "material",
+			"states": [
+				"glazed",
+				"brick",
+				"cinder"
+			]
+		},
+		{
+			"code": "fitting",
+			"states": [
+				"pipesgauge",
+				"panelbox",
+				"panelboxe",
+				"panelboxw",
+				"panelboxew"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-pipesgauge",
+			"*-panelbox"
+		],
+		"construction": [
+			"*-pipesgauge",
+			"*-panelbox"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*": {
+			"base": "block/l3fitting-{material}-{fitting}"
+		}
+	},
+	"textures": {
+		"wall": {
+			"base": "block/level3/l3wall-{material}"
+		}
+	},
+	"resistance": 8,
+	"requiredMiningTier": 3,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

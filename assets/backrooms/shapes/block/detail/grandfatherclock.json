@@ -3,13 +3,16 @@
 	"textureHeight": 16,
 	"textures": {
 		"brass": "backrooms:block/level5/brass",
-		"clockface-old": "backrooms:block/detail/clockface-old",
-		"clockpendulum": "backrooms:block/detail/clockpendulum",
+		"l5clockface": "backrooms:block/detail/l5clockface",
+		"l5clockglass": "backrooms:block/detail/l5clockglass",
+		"l5clockinner": "backrooms:block/detail/l5clockinner",
+		"l5glass": "backrooms:block/detail/l5glass",
+		"l5hand": "backrooms:block/detail/l5hand",
 		"mahogany": "backrooms:block/level5/mahogany"
 	},
 	"elements": [
 		{
-			"name": "Base",
+			"name": "PlinthFoot",
 			"from": [
 				3,
 				0,
@@ -17,7 +20,7 @@
 			],
 			"to": [
 				13,
-				10,
+				1.5,
 				14
 			],
 			"faces": {
@@ -27,7 +30,7 @@
 						0,
 						0,
 						10,
-						10
+						1.5
 					]
 				},
 				"east": {
@@ -36,7 +39,7 @@
 						0,
 						0,
 						8,
-						10
+						1.5
 					]
 				},
 				"south": {
@@ -45,7 +48,7 @@
 						0,
 						0,
 						10,
-						10
+						1.5
 					]
 				},
 				"west": {
@@ -54,7 +57,7 @@
 						0,
 						0,
 						8,
-						10
+						1.5
 					]
 				},
 				"up": {
@@ -73,6 +76,333 @@
 						0,
 						10,
 						8
+					]
+				}
+			}
+		},
+		{
+			"name": "PlinthBody",
+			"from": [
+				3.5,
+				1.5,
+				6.25
+			],
+			"to": [
+				12.5,
+				5.0,
+				13.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						9.0,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.5,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						9.0,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.5,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						9.0,
+						7.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						9.0,
+						7.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PlinthCap",
+			"from": [
+				3,
+				5.0,
+				6
+			],
+			"to": [
+				13,
+				6.5,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Base",
+			"from": [
+				3.25,
+				6.5,
+				6.25
+			],
+			"to": [
+				12.75,
+				10.5,
+				13.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						9.5,
+						4.0
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.5,
+						4.0
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						9.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.5,
+						4.0
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						9.5,
+						7.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						9.5,
+						7.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BaseField",
+			"from": [
+				4.5,
+				7.25,
+				5.75
+			],
+			"to": [
+				11.5,
+				10.0,
+				6.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2.75
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BaseBead",
+			"from": [
+				4.0,
+				6.75,
+				5.95
+			],
+			"to": [
+				12.0,
+				7.25,
+				6.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
 					]
 				}
 			}
@@ -81,8 +411,8 @@
 			"name": "Trunk",
 			"from": [
 				4,
-				10,
-				6.5
+				10.5,
+				7.6
 			],
 			"to": [
 				12,
@@ -90,22 +420,22 @@
 				13.5
 			],
 			"faces": {
-				"north": {
-					"texture": "#mahogany",
-					"uv": [
-						0,
-						0,
-						8,
-						14
-					]
-				},
 				"east": {
 					"texture": "#mahogany",
 					"uv": [
 						0,
 						0,
-						7.0,
-						14
+						5.9,
+						13.5
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						5.9,
+						13.5
 					]
 				},
 				"south": {
@@ -114,16 +444,7 @@
 						0,
 						0,
 						8,
-						14
-					]
-				},
-				"west": {
-					"texture": "#mahogany",
-					"uv": [
-						0,
-						0,
-						7.0,
-						14
+						13.5
 					]
 				},
 				"up": {
@@ -132,7 +453,7 @@
 						0,
 						0,
 						8,
-						7.0
+						5.9
 					]
 				},
 				"down": {
@@ -141,31 +462,979 @@
 						0,
 						0,
 						8,
-						7.0
+						5.9
 					]
 				}
 			}
 		},
 		{
-			"name": "Window",
+			"name": "ColL",
 			"from": [
-				5,
-				12,
-				6.3
+				4.0,
+				10.5,
+				6.1
 			],
 			"to": [
-				11,
-				22,
-				6.5
+				4.6,
+				24,
+				7.6
 			],
 			"faces": {
 				"north": {
-					"texture": "#clockpendulum",
+					"texture": "#mahogany",
 					"uv": [
 						0,
 						0,
-						16,
+						0.6,
+						13.5
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.5,
+						13.5
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.5,
+						13.5
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "ColR",
+			"from": [
+				11.4,
+				10.5,
+				6.1
+			],
+			"to": [
+				12.0,
+				24,
+				7.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.6,
+						13.5
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.5,
+						13.5
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.5,
+						13.5
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "DoorTop",
+			"from": [
+				4.6,
+				23.0,
+				6.1
+			],
+			"to": [
+				11.4,
+				24.0,
+				7.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "DoorBottom",
+			"from": [
+				4.6,
+				10.5,
+				6.1
+			],
+			"to": [
+				11.4,
+				11.0,
+				7.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "TrunkDoorRail0",
+			"from": [
+				4.6,
+				11.0,
+				6.0
+			],
+			"to": [
+				11.4,
+				12.1,
+				7.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.6
+					]
+				}
+			}
+		},
+		{
+			"name": "TrunkDoorRail1",
+			"from": [
+				4.6,
+				21.9,
+				6.0
+			],
+			"to": [
+				11.4,
+				23.0,
+				7.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.6
+					]
+				}
+			}
+		},
+		{
+			"name": "TrunkDoorStile0_0",
+			"from": [
+				4.6,
+				12.1,
+				6.0
+			],
+			"to": [
+				5.7,
+				21.9,
+				7.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.1,
+						9.8
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.6,
+						9.8
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.1,
+						9.8
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.6,
+						9.8
+					]
+				}
+			}
+		},
+		{
+			"name": "TrunkDoorStile0_1",
+			"from": [
+				10.3,
+				12.1,
+				6.0
+			],
+			"to": [
+				11.4,
+				21.9,
+				7.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.1,
+						9.8
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.6,
+						9.8
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.1,
+						9.8
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						1.6,
+						9.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Inner",
+			"from": [
+				5.7,
+				12.1,
+				9.0
+			],
+			"to": [
+				10.3,
+				21.9,
+				9.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#l5clockinner",
+					"uv": [
+						0,
+						0,
+						4.6,
+						9.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Rod",
+			"from": [
+				7.75,
+				14.5,
+				7.4
+			],
+			"to": [
+				8.25,
+				21.0,
+				7.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.5
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.5
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BobA",
+			"from": [
+				6.9,
+				12.7,
+				7.2
+			],
+			"to": [
+				9.1,
+				14.9,
+				8.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2.2,
+						2.2
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2.2
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2.2
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "BobB",
+			"from": [
+				6.9,
+				12.7,
+				7.0
+			],
+			"to": [
+				9.1,
+				14.9,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2.2,
+						2.2
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2.2
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2.2
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				13.8,
+				7.4
+			],
+			"rotationZ": 45
+		},
+		{
+			"name": "WeightL",
+			"from": [
+				6.0,
+				16.0,
+				7.2
+			],
+			"to": [
+				7.4,
+				19.5,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "ChainL",
+			"from": [
+				6.45,
+				19.5,
+				7.8
+			],
+			"to": [
+				6.95,
+				21.9,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "WeightR",
+			"from": [
+				8.6,
+				13.5,
+				7.6
+			],
+			"to": [
+				10.0,
+				17.0,
+				9.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.4,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "TrunkGlass",
+			"from": [
+				5.7,
+				12.1,
+				6.2
+			],
+			"to": [
+				10.3,
+				21.9,
+				6.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#l5glass",
+					"uv": [
+						0,
+						0,
+						4.6,
 						16
+					]
+				}
+			}
+		},
+		{
+			"name": "HoodBase",
+			"from": [
+				2.75,
+				24,
+				5.75
+			],
+			"to": [
+				13.25,
+				24.75,
+				14.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10.5,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10.5,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10.5,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10.5,
+						8.5
 					]
 				}
 			}
@@ -174,8 +1443,8 @@
 			"name": "Hood",
 			"from": [
 				3,
-				24,
-				6
+				24.75,
+				6.25
 			],
 			"to": [
 				13,
@@ -189,7 +1458,7 @@
 						0,
 						0,
 						10,
-						8
+						7.25
 					]
 				},
 				"east": {
@@ -197,8 +1466,8 @@
 					"uv": [
 						0,
 						0,
-						8,
-						8
+						7.75,
+						7.25
 					]
 				},
 				"south": {
@@ -207,7 +1476,7 @@
 						0,
 						0,
 						10,
-						8
+						7.25
 					]
 				},
 				"west": {
@@ -215,8 +1484,8 @@
 					"uv": [
 						0,
 						0,
-						8,
-						8
+						7.75,
+						7.25
 					]
 				},
 				"up": {
@@ -225,7 +1494,7 @@
 						0,
 						0,
 						10,
-						8
+						7.75
 					]
 				},
 				"down": {
@@ -234,26 +1503,491 @@
 						0,
 						0,
 						10,
-						8
+						7.75
 					]
 				}
 			}
 		},
 		{
-			"name": "Face",
+			"name": "PilasterL",
 			"from": [
-				4.5,
-				25,
-				5.8
+				3.0,
+				25.0,
+				5.9
 			],
 			"to": [
-				11.5,
-				31,
-				6
+				3.9,
+				31.5,
+				6.25
 			],
 			"faces": {
 				"north": {
-					"texture": "#clockface-old",
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.9,
+						6.5
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.5
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.5
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PilasterR",
+			"from": [
+				12.1,
+				25.0,
+				5.9
+			],
+			"to": [
+				13.0,
+				31.5,
+				6.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.9,
+						6.5
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.5
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.5
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cornice",
+			"from": [
+				2.75,
+				32,
+				5.75
+			],
+			"to": [
+				13.25,
+				32.75,
+				14.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10.5,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10.5,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10.5,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						10.5,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CorniceCap",
+			"from": [
+				3.25,
+				32.75,
+				6.25
+			],
+			"to": [
+				12.75,
+				33.25,
+				13.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						9.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						9.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						7.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						9.5,
+						7.5
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						9.5,
+						7.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Pediment",
+			"from": [
+				5.5,
+				33.25,
+				7.5
+			],
+			"to": [
+				10.5,
+				34.0,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#mahogany",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Plinth",
+			"from": [
+				7.0,
+				34.0,
+				8.5
+			],
+			"to": [
+				9.0,
+				34.6,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Finial",
+			"from": [
+				7.5,
+				34.6,
+				9.0
+			],
+			"to": [
+				8.5,
+				36.0,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.4
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "DialFace",
+			"from": [
+				4.6,
+				25.0,
+				6.15
+			],
+			"to": [
+				11.4,
+				31.8,
+				6.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#l5clockface",
 					"uv": [
 						0,
 						0,
@@ -264,16 +1998,16 @@
 			}
 		},
 		{
-			"name": "Finial",
+			"name": "DialBezel0",
 			"from": [
-				7.5,
-				32,
-				9.5
+				6.3424,
+				31.3,
+				5.25
 			],
 			"to": [
-				8.5,
-				34,
-				10.5
+				9.6576,
+				31.8,
+				6.25
 			],
 			"faces": {
 				"north": {
@@ -281,8 +2015,8 @@
 					"uv": [
 						0,
 						0,
-						1.0,
-						2
+						3.3152,
+						0.5
 					]
 				},
 				"east": {
@@ -291,16 +2025,7 @@
 						0,
 						0,
 						1.0,
-						2
-					]
-				},
-				"south": {
-					"texture": "#brass",
-					"uv": [
-						0,
-						0,
-						1.0,
-						2
+						0.5
 					]
 				},
 				"west": {
@@ -309,7 +2034,7 @@
 						0,
 						0,
 						1.0,
-						2
+						0.5
 					]
 				},
 				"up": {
@@ -317,7 +2042,7 @@
 					"uv": [
 						0,
 						0,
-						1.0,
+						3.3152,
 						1.0
 					]
 				},
@@ -326,8 +2051,650 @@
 					"uv": [
 						0,
 						0,
+						3.3152,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "DialBezel1",
+			"from": [
+				6.3424,
+				25.0,
+				5.25
+			],
+			"to": [
+				9.6576,
+				25.5,
+				6.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "DialBezel2",
+			"from": [
+				4.6,
+				26.7424,
+				5.25
+			],
+			"to": [
+				5.1,
+				30.0576,
+				6.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.3152
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3152
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3152
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "DialBezel3",
+			"from": [
+				10.9,
+				26.7424,
+				5.25
+			],
+			"to": [
+				11.4,
+				30.0576,
+				6.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.3152
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3152
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						3.3152
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "DialBezelD0",
+			"from": [
+				8.5698,
+				30.3774,
+				5.35
+			],
+			"to": [
+				11.885,
+				30.8774,
+				6.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.85,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.85,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						0.85
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						0.85
+					]
+				}
+			},
+			"rotationOrigin": [
+				10.2274,
+				30.6274,
+				6.25
+			],
+			"rotationZ": -45
+		},
+		{
+			"name": "DialBezelD1",
+			"from": [
+				4.115,
+				30.3774,
+				5.35
+			],
+			"to": [
+				7.4302,
+				30.8774,
+				6.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.85,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.85,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						0.85
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						0.85
+					]
+				}
+			},
+			"rotationOrigin": [
+				5.7726,
+				30.6274,
+				6.25
+			],
+			"rotationZ": 45
+		},
+		{
+			"name": "DialBezelD2",
+			"from": [
+				8.5698,
+				25.9226,
+				5.35
+			],
+			"to": [
+				11.885,
+				26.4226,
+				6.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.85,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.85,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						0.85
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						0.85
+					]
+				}
+			},
+			"rotationOrigin": [
+				10.2274,
+				26.1726,
+				6.25
+			],
+			"rotationZ": 45
+		},
+		{
+			"name": "DialBezelD3",
+			"from": [
+				4.115,
+				25.9226,
+				5.35
+			],
+			"to": [
+				7.4302,
+				26.4226,
+				6.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.85,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.85,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						0.85
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						3.3152,
+						0.85
+					]
+				}
+			},
+			"rotationOrigin": [
+				5.7726,
+				26.1726,
+				6.25
+			],
+			"rotationZ": -45
+		},
+		{
+			"name": "DialGlass",
+			"from": [
+				5.1,
+				25.5,
+				5.45
+			],
+			"to": [
+				10.9,
+				31.3,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#l5clockglass",
+					"uv": [
+						0,
+						0,
+						5.8,
+						5.8
+					]
+				}
+			}
+		},
+		{
+			"name": "HourHand",
+			"from": [
+				7.75,
+				27.9,
+				5.65
+			],
+			"to": [
+				8.25,
+				30.3,
+				5.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				28.4,
+				6.25
+			],
+			"rotationZ": -305.0
+		},
+		{
+			"name": "MinuteHand",
+			"from": [
+				7.75,
+				27.9,
+				5.8
+			],
+			"to": [
+				8.25,
+				31.1,
+				5.95
+			],
+			"faces": {
+				"north": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.2
+					]
+				},
+				"east": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.2
+					]
+				},
+				"west": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.2
+					]
+				},
+				"up": {
+					"texture": "#l5hand",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				28.4,
+				6.25
+			],
+			"rotationZ": -60.0
+		},
+		{
+			"name": "HandHub",
+			"from": [
+				7.5,
+				27.9,
+				5.5
+			],
+			"to": [
+				8.5,
+				28.9,
+				5.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
 						1.0,
 						1.0
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
 					]
 				}
 			}

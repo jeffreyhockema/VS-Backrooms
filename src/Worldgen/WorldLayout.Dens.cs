@@ -16,6 +16,8 @@ public enum DenKind : byte
     Warren,
     /// <summary>A Skin-Stealer's lair: someone's bedroll, and the remains of whoever it was.</summary>
     Lair,
+    /// <summary>From layout version 9, in Level 8's caves: a Giant Spider's nest, webs strung through the rock (WorldLayout.Level8.Nests.cs).</summary>
+    Nest,
 }
 
 /// <summary>
@@ -54,21 +56,7 @@ public sealed partial class WorldLayout
             5 => HotelZoneAt(mx, mz) == HotelZone.Beverly ? null : DensL5,
             8 => DensWarrenDark,
             9 => DensL9,
-            // The five kept as 14-18 (each level's own line): none yet
-            RunLevel => null,
-            FunLevel => null,
-            TheEnd => null,
-            Hub => null,
-            Level974 => null,
-            Level3999 => null,
-            Level188 => null,
-            Level73 => null,
-            Basement => null,
-            Level52 => null,
-            Level31 => null,
-            Level55 => null,
-            Level120 => null,
-            Level183 => null,
+            // (The far places kept as 14-20, and the experimental 21-27, have no dens yet)
             _ => null,
         };
         if (kinds == null) return DenKind.None;
@@ -79,7 +67,8 @@ public sealed partial class WorldLayout
         // Commoner further out, where the level gives way to the next; and Level 0's blackouts are where the eyes are
         double depth = LevelDepth(mx * MacroSize + MacroSize / 2, mz * MacroSize + MacroSize / 2, level);
         double chance = level == 0 ? 0.25 : depth < 0.6 ? 0.04 : 0.08;
-        if (Hashing.Unit(h) >= chance) return DenKind.None;
+        // (From layout version 9, a Level 8 cell with no den may be a spider nest)
+        if (Hashing.Unit(h) >= chance) return level == 8 ? L8NestAt(mx, mz, depth) : DenKind.None;
         return kinds[(int)(Hashing.Mix(h) % (ulong)kinds.Length)];
     }
 
@@ -102,7 +91,8 @@ public sealed partial class WorldLayout
     private void PlaceDen(Builder b, int mx, int mz)
     {
         DenKind kind = DenAt(mx, mz);
-        if (kind == DenKind.None) return;
+        // (A spider nest lies in Level 8's rock caves, and lays nothing out on its tiles: the generator draws its webs)
+        if (kind is DenKind.None or DenKind.Nest) return;
         var rng = new Rng(Hashing.Hash(seed, mx, mz, SaltDen + 1));
         const int c = MacroSize / 2;
         bool Open(int x, int z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize && IsWalkable(b.At(x, z));
@@ -119,6 +109,8 @@ public sealed partial class WorldLayout
                 for (int dx = -r; dx <= r && boxes > 0; dx++)
                 {
                     if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r || !Free(c + dx, c + dz) || !SafeToBlock(Open, c + dx, c + dz)) continue;
+                    // (Layout version 10: never beside an arch of Level 0's arched areas, as the stash's boxes are not)
+                    if (Version >= 10 && b.Level == 0 && NextToArch(b, c + dx, c + dz)) continue;
                     ref Tile t = ref b.At(c + dx, c + dz);
                     t.SupplyBox = true;
                     t.Looted = false;
@@ -140,6 +132,8 @@ public sealed partial class WorldLayout
                 _ => Props.BonePile,
             };
             t.Pier = (ArchPier)rng.Range(0, 3);
+            // (From layout version 11 the bedding in a lair is an old heap of blankets, not a bedroll)
+            if (Version >= 11 && t.Variant == Props.Bedroll) { t.Variant = Props.ImprovBed; t.Stack = 1; }
             litter--;
         }
 

@@ -1,0 +1,58 @@
+{
+	"code": "built-houseroof",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"grey",
+				"brown",
+				"red"
+			]
+		}
+	],
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-grey": {
+			"all": {
+				"base": "block/detail/houseroof-grey"
+			}
+		},
+		"*-brown": {
+			"all": {
+				"base": "block/detail/houseroof-brown"
+			}
+		},
+		"*-red": {
+			"all": {
+				"base": "block/detail/houseroof-red"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"drops": [
+		{
+			"type": "block",
+			"code": "built-houseroof-{kind}",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"creativeinventory": {
+		"construction": [
+			"*"
+		]
+	},
+	"attributes": {
+		"backroomsBuilt": true
+	}
+}

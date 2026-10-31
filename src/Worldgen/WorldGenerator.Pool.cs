@@ -8,7 +8,7 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldGenerator
 {
     private int poolTileId, poolSunlitId, poolRedId, poolVoidId, poolDoorLowerId, poolDoorUpperId;
-    private readonly int[] poolSlitIds = new int[4], poolArchIds = new int[4], poolRailIds = new int[4];
+    private readonly int[] poolSlitIds = new int[4], poolArchIds = new int[4], poolArchTopIds = new int[4], poolRailIds = new int[4];
 
     private void InitPool()
     {
@@ -22,6 +22,7 @@ public sealed partial class WorldGenerator
         {
             poolSlitIds[f] = Id($"poolwall-slit-{Sides[f]}");
             poolArchIds[f] = Id($"poolwall-arch-{Sides[f]}");
+            poolArchTopIds[f] = Id($"poolwall-archtop-{Sides[f]}");
             poolRailIds[f] = Id($"poolwall-rail-{Sides[f]}");
         }
         floorIds[(int)FloorKind.PoolTile] = poolTileId;
@@ -51,6 +52,8 @@ public sealed partial class WorldGenerator
             {
                 PoolWalls.Slit when rel >= 2 && rel <= t.Height => poolSlitIds[facing],
                 PoolWalls.Arch when rel >= 1 && rel <= 3 => poolArchIds[facing],
+                PoolWalls.ArchTall when rel is 1 or 2 => poolArchIds[facing],
+                PoolWalls.ArchTall when rel == 3 => poolArchTopIds[facing],
                 PoolWalls.Rail when rel == 1 => poolRailIds[facing],
                 _ => tile,
             };

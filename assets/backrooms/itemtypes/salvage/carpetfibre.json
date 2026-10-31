@@ -1,7 +1,7 @@
 {
 	code: "carpetfibre",
 	// Cut from the carpet with a blade. Twists into cordage.
-	maxstacksize: 32,
+	maxstacksize: 64,
 	texture: { base: "item/salvage/carpetfibre" },
 	behaviors: [
 		{ name: "GroundStorable", properties: { layout: "Messy12", collisionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.125, z2: 1 } } }

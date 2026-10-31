@@ -15,9 +15,22 @@ public static class Senses
     /// <summary>Light at or above this keeps Smilers back: a torch, a lantern, a fire, a working lamp. A candle is not enough.</summary>
     public const int LitLevel = 8;
 
+    /// <summary>Marks the straw dummies console tests put down in place of a player (see /backrooms encounter, dummy, perceive).</summary>
+    public const string TestTargetKey = "backrooms:testTarget";
+
+    /// <summary>What a test dummy pretends: the light it carries (0 to 20), and whether it sneaks or runs (/backrooms dummy).</summary>
+    public const string TestLightKey = "backrooms:testLight", TestSneakKey = "backrooms:testSneak", TestRunKey = "backrooms:testRun";
+
+    /// <summary>Where a test dummy pretends to look: "toward" whatever asks (a stare), "away" (its back turned), or unset (the way it was put down).</summary>
+    public const string TestFaceKey = "backrooms:testFace";
+
+    /// <summary>Whether an entity is a console test's straw dummy standing in for a player.</summary>
+    public static bool IsTestTarget(Entity entity) => entity?.WatchedAttributes.GetBool(TestTargetKey) == true;
+
     /// <summary>How bright the light a player carries is (0 to about 20; a candle is 7, a torch 14, a lantern 18).</summary>
     public static int HeldLight(Entity entity)
     {
+        if (IsTestTarget(entity)) return entity.WatchedAttributes.GetInt(TestLightKey);
         if (entity is not EntityAgent agent) return 0;
         // (Players also glow for a while after respawning; only what is in the hands counts here)
         return Math.Max(LightOf(entity.World, RightHand(agent)), LightOf(entity.World, LeftHand(agent)));
@@ -80,6 +93,15 @@ public static class Senses
         return HeldLight(player) < LitLevel && WorldLight(player.World, eyes) < LitLevel;
     }
 
+    /// <summary>Whether someone holds a lit lantern or oil lamp (a torch is not counted: it goes out in water).</summary>
+    public static bool HeldLamp(EntityAgent agent) => IsLamp(agent.World, RightHand(agent)) || IsLamp(agent.World, LeftHand(agent));
+
+    private static bool IsLamp(IWorldAccessor world, ItemSlot slot)
+    {
+        string path = slot?.Itemstack?.Collectible?.Code?.Path;
+        return path != null && (path.StartsWith("lantern", StringComparison.Ordinal) || path.StartsWith("oillamp", StringComparison.Ordinal)) && LightOf(world, slot) > 0;
+    }
+
     /// <summary>
     /// How much the light a player carries draws Deathmoths: an open flame most, a candle a little, a closed lantern
     /// not at all.
@@ -91,7 +113,7 @@ public static class Senses
     {
         string path = slot?.Itemstack?.Collectible?.Code?.Path;
         if (path == null || LightOf(world, slot) == 0) return 0;
-        return path.StartsWith("torch") ? 1.0 : path.StartsWith("oillamp") ? 0.5 : path.StartsWith("candle") ? 0.3 : path.StartsWith("lantern") ? 0 : 0.6;
+        return path.StartsWith("torch", StringComparison.Ordinal) ? 1.0 : path.StartsWith("oillamp", StringComparison.Ordinal) ? 0.5 : path.StartsWith("candle", StringComparison.Ordinal) ? 0.3 : path.StartsWith("lantern", StringComparison.Ordinal) ? 0 : 0.6;
     }
 
     /// <summary>The floor height (the y an entity stands at) of a column near a height, or int.MinValue.</summary>
@@ -115,6 +137,60 @@ public static class Senses
         return int.MinValue;
     }
 
+    /// <summary>
+    /// The free width across a walk at a place: how far the collision boxes of the blocks stand apart on either side of
+    /// (x, z), at two heights up a body (0.3 and 0.9 above y, the feet), along the line at right angles to the heading
+    /// (the yaw, as an entity's walk vector has it: sin yaw, cos yaw), the tighter of the two. A side with nothing within
+    /// <paramref name="reach"/> counts as reach. Accurate to about a hundredth of a block; entities do not count.
+    /// </summary>
+    public static double FreeWidth(IBlockAccessor ba, double x, double y, double z, double yaw, double reach = 2.4)
+    {
+        double px = Math.Cos(yaw), pz = -Math.Sin(yaw);
+        var pos = new BlockPos(0);
+        double width = double.MaxValue;
+        foreach (double h in SqueezeHeights)
+            width = Math.Min(width, FreeReach(ba, pos, x, y + h, z, px, pz, reach) + FreeReach(ba, pos, x, y + h, z, -px, -pz, reach));
+        return width;
+    }
+
+    private static readonly double[] SqueezeHeights = { 0.3, 0.9 };
+
+    private static double FreeReach(IBlockAccessor ba, BlockPos pos, double x, double y, double z, double dx, double dz, double reach)
+    {
+        const double Step = 0.25;
+        if (SolidAt(ba, pos, x, y, z)) return 0;
+        for (double d = Step; d < reach + Step; d += Step)
+        {
+            double at = Math.Min(d, reach);
+            if (!SolidAt(ba, pos, x + dx * at, y, z + dz * at))
+            {
+                if (at >= reach) return reach;
+                continue;
+            }
+            double lo = at - Step, hi = at;
+            for (int i = 0; i < 4; i++)
+            {
+                double mid = (lo + hi) / 2;
+                if (SolidAt(ba, pos, x + dx * mid, y, z + dz * mid)) hi = mid; else lo = mid;
+            }
+            return (lo + hi) / 2;
+        }
+        return reach;
+    }
+
+    /// <summary>Whether a point lies inside a block's collision box.</summary>
+    private static bool SolidAt(IBlockAccessor ba, BlockPos pos, double x, double y, double z)
+    {
+        int bx = (int)Math.Floor(x), by = (int)Math.Floor(y), bz = (int)Math.Floor(z);
+        Block block = ba.GetBlock(pos.Set(bx, by, bz));
+        Cuboidf[] boxes = block.CollisionBoxes;
+        if (boxes == null) return false;
+        double lx = x - bx, ly = y - by, lz = z - bz;
+        foreach (Cuboidf box in boxes)
+            if (lx >= box.X1 && lx <= box.X2 && ly >= box.Y1 && ly <= box.Y2 && lz >= box.Z1 && lz <= box.Z2) return true;
+        return false;
+    }
+
     /// <summary>Whether a block can be walked or flown through: nothing to collide with, and no water.</summary>
     public static bool Open(IBlockAccessor ba, BlockPos pos)
     {
@@ -124,7 +200,15 @@ public static class Senses
     }
 
     /// <summary>Whether a player is running (sprinting while moving).</summary>
-    public static bool Running(EntityAgent player) => player.ServerControls.Sprint && player.ServerControls.TriesToMove;
+    public static bool Running(EntityAgent player) =>
+        player.ServerControls.Sprint && player.ServerControls.TriesToMove || IsTestTarget(player) && player.WatchedAttributes.GetBool(TestRunKey);
+
+    /// <summary>Whether anyone is running (only agents can).</summary>
+    public static bool Running(Entity who) => who is EntityAgent agent && Running(agent);
+
+    /// <summary>Whether someone is sneaking (crouched, creeping).</summary>
+    public static bool Sneaking(Entity who) =>
+        who is EntityAgent agent && agent.ServerControls.Sneak || IsTestTarget(who) && who.WatchedAttributes.GetBool(TestSneakKey);
 
     /// <summary>A player's Reality Stability (1 is steady, 0 is coming apart).</summary>
     public static double Stability(Entity player) => player.WatchedAttributes.GetDouble("temporalStability", 1);
@@ -134,12 +218,14 @@ public static class Senses
 
     public static Vec3d Eyes(Entity entity) => entity.Pos.XYZ.Add(0, entity.LocalEyePos.Y, 0);
 
-    /// <summary>Whether nothing solid lies on the straight line between two points.</summary>
-    public static bool ClearLine(IWorldAccessor world, Vec3d from, Vec3d to)
+    /// <summary>Whether nothing solid lies on the straight line between two points (with <paramref name="throughGlass"/>, nothing but glass).</summary>
+    public static bool ClearLine(IWorldAccessor world, Vec3d from, Vec3d to, bool throughGlass = false)
     {
         BlockSelection blockSel = null;
         EntitySelection entitySel = null;
-        world.RayTraceForSelection(from, to, ref blockSel, ref entitySel, (pos, block) => block.CollisionBoxes != null && block.CollisionBoxes.Length > 0 && block.Replaceable < 6000, e => false);
+        world.RayTraceForSelection(from, to, ref blockSel, ref entitySel,
+            (pos, block) => block.CollisionBoxes != null && block.CollisionBoxes.Length > 0 && block.Replaceable < 6000
+                            && !(throughGlass && block.BlockMaterial == EnumBlockMaterial.Glass), e => false);
         return blockSel == null;
     }
 
@@ -159,6 +245,7 @@ public static class Senses
     /// <summary>The angle, in degrees, between where a player looks and the direction to a point.</summary>
     public static double AngleTo(Entity player, Vec3d point)
     {
+        if (IsTestTarget(player) && player.WatchedAttributes.GetString(TestFaceKey) is { Length: > 0 } face) return face == "away" ? 180 : 0;
         Vec3f view = player.Pos.GetViewVector();
         Vec3d eyes = Eyes(player);
         double dx = point.X - eyes.X, dy = point.Y - eyes.Y, dz = point.Z - eyes.Z;
@@ -180,13 +267,21 @@ public static class Wards
 
     private static readonly Dictionary<(int, int, int), (long At, Vec3d[] Wards)> Cache = new();
 
+    /// <summary>Which block ids are wards, filled as blocks are met (the ward set is fixed for a session, and a scan reads thousands of blocks).</summary>
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<int, bool> WardIds = new();
+
     /// <summary>Whether a block is a ward.</summary>
     public static bool IsWard(Block block)
     {
-        if (block?.Code == null) return false;
-        string path = block.Code.Path;
-        if (block.Code.Domain == "game") return path == "firepit-lit";
-        return block.Code.Domain == "backrooms" && (path.StartsWith("firesalt") || path.StartsWith("angelstatue"));
+        if (block?.Code == null || block.Id == 0) return false;
+        return WardIds.GetOrAdd(block.Id, _ => IsWardCode(block.Code));
+    }
+
+    private static bool IsWardCode(AssetLocation code)
+    {
+        string path = code.Path;
+        if (code.Domain == "game") return path == "firepit-lit";
+        return code.Domain == "backrooms" && (path.StartsWith("firesalt", StringComparison.Ordinal) || path.StartsWith("angelstatue", StringComparison.Ordinal));
     }
 
     /// <summary>The nearest ward within reach of a position, or null.</summary>
@@ -212,7 +307,7 @@ public static class Wards
         lock (Cache)
         {
             // (A time in the future is one left from an earlier server in this process)
-            if (Cache.TryGetValue((cx, cy, cz), out var hit) && now - hit.At < 2500 && hit.At <= now) return hit.Wards;
+            if (Cache.TryGetValue((cx, cy, cz), out var hit) && now - hit.At < 4000 && hit.At <= now) return hit.Wards;
             if (Cache.Count > 4096) Cache.Clear();
         }
 
@@ -221,7 +316,7 @@ public static class Wards
         IBlockAccessor ba = world.BlockAccessor;
         var at = new BlockPos(0);
         List<Vec3d> found = null;
-        for (int y = y0 - 5; y <= y0 + 4; y++)
+        for (int y = y0 - 6; y <= y0 + 6; y++)
         {
             for (int z = z0 - r; z <= z0 + r; z++)
             {
@@ -248,4 +343,11 @@ public static class Wards
 
     /// <summary>Forgets what is cached around a position (a fire was lit or put out there).</summary>
     public static void Invalidate() { lock (Cache) Cache.Clear(); }
+
+    /// <summary>A new server session: block ids may differ from the last world's, so forget which are wards as well.</summary>
+    public static void Reset()
+    {
+        WardIds.Clear();
+        Invalidate();
+    }
 }

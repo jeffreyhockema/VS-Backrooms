@@ -1,0 +1,82 @@
+{
+	"code": "built-hotelwall",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"wainscot",
+				"panel",
+				"frieze"
+			]
+		}
+	],
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-wainscot": {
+			"all": {
+				"base": "block/level5/hotelwall-wainscot"
+			}
+		},
+		"*-panel": {
+			"all": {
+				"base": "block/level5/hotelwall-panel",
+				"alternates": [
+					{
+						"base": "block/level5/hotelwall-panel-2"
+					},
+					{
+						"base": "block/level5/hotelwall-panel-3"
+					},
+					{
+						"base": "block/level5/hotelwall-panel"
+					},
+					{
+						"base": "block/level5/hotelwall-panel-2"
+					},
+					{
+						"base": "block/level5/hotelwall-panel-3"
+					},
+					{
+						"base": "block/level5/hotelwall-panel"
+					},
+					{
+						"base": "block/level5/hotelwall-panel-4"
+					}
+				]
+			}
+		},
+		"*-frieze": {
+			"all": {
+				"base": "block/level5/hotelwall-frieze"
+			}
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"randomizeAxes": "xyz",
+	"drops": [
+		{
+			"type": "block",
+			"code": "built-hotelwall-{type}",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"creativeinventory": {
+		"construction": [
+			"*"
+		]
+	},
+	"attributes": {
+		"backroomsBuilt": true
+	}
+}

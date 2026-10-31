@@ -23,12 +23,15 @@ namespace ShotBot;
 ///   vd blocks               view distance
 ///   hud off|on
 ///   closeguis               closes every open dialog (confirms the character creation dialog)
+///   handbook [page]         opens the handbook, and a page of it (e.g. backrooms-entities)
+///   respawn                 presses the Respawn button of the death dialog
 ///   pause off|on
 ///   focus                   brings the game window to the front
 ///   slot n                  selects hotbar slot n (0-9), e.g. to hold a lit torch
 ///   daylight [off]          a clear day over the level's own air (Level 9's night, Level 10's overcast), this client only
 ///   wait ms
 ///   waitchat [ms]           wait until a chat line has arrived since the last cmd (its reply), at most ms (default 30000), then 0.5 s
+///   movewait                waits until something (a goto, a threshold) has moved the player more than 50 blocks, at most 60 s
 ///   mark name               append "name x y z heading pitch" (where the player stands now) to marks.txt and chat.txt
 ///   shot name               screenshot, moved to SHOTBOT_DIR/name.png
 ///   mega name               2x screenshot
@@ -328,6 +331,35 @@ public class ShotBotSystem : ModSystem, IRenderer
                 SetPause(p[1] == "on");
                 Wait(300);
                 break;
+            case "respawn":
+            {
+                // Presses the Respawn button of the death dialog (the player stays dead until someone does)
+                foreach (var g in capi.Gui.OpenedGuis.ToArray())
+                {
+                    if (g.GetType().Name != "GuiDialogDead") continue;
+                    var m = g.GetType().GetMethod("OnRespawn", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                    Log("respawn: " + (m == null ? "no OnRespawn" : "pressed"));
+                    m?.Invoke(g, null);
+                }
+                Wait(500);
+                break;
+            }
+            case "handbook":
+            {
+                // handbook            opens the handbook
+                // handbook <code>     opens a page of it (e.g. backrooms-entities; the handbook has to have been opened once)
+                var hb = capi.ModLoader.Systems.FirstOrDefault(m => m.GetType().Name == "ModSystemSurvivalHandbook");
+                var dlg = hb?.GetType().GetField("dialog", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)?.GetValue(hb) as GuiDialog;
+                if (dlg == null) { Log("handbook: dialog not found"); break; }
+                if (!dlg.IsOpened()) { dlg.TryOpen(); Wait(2500); }
+                if (p.Length > 1)
+                {
+                    var open = dlg.GetType().GetMethod("OpenDetailPageFor", BindingFlags.Instance | BindingFlags.Public);
+                    Log("handbook page " + p[1] + ": " + (open == null ? "no OpenDetailPageFor" : open.Invoke(dlg, new object[] { p[1] })));
+                    Wait(1500);
+                }
+                break;
+            }
             case "focus":
             {
                 IntPtr h = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;

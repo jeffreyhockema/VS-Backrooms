@@ -1,0 +1,934 @@
+// Level 4's windows as whole panes two blocks tall and up to two wide, one block to each part (layout version 11)
+{
+	"code": "officepane",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"clear",
+				"blackout",
+				"down",
+				"half",
+				"tilt"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"single",
+				"west",
+				"east",
+				"north",
+				"south"
+			]
+		},
+		{
+			"code": "height",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-single-lower",
+			"*-single-upper"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtypeByType": {
+		"*-blackout-*": "json",
+		"*": "cube"
+	},
+	"shapeByType": {
+		"*-blackout-single-lower": {
+			"base": "block/detail/officepane-blackout-single-lower"
+		},
+		"*-blackout-single-upper": {
+			"base": "block/detail/officepane-blackout-single-upper"
+		},
+		"*-blackout-west-lower": {
+			"base": "block/detail/officepane-blackout-end-lower"
+		},
+		"*-blackout-west-upper": {
+			"base": "block/detail/officepane-blackout-end-upper"
+		},
+		"*-blackout-east-lower": {
+			"base": "block/detail/officepane-blackout-end-lower",
+			"rotateY": 180
+		},
+		"*-blackout-east-upper": {
+			"base": "block/detail/officepane-blackout-end-upper",
+			"rotateY": 180
+		},
+		"*-blackout-north-lower": {
+			"base": "block/detail/officepane-blackout-end-lower",
+			"rotateY": 270
+		},
+		"*-blackout-north-upper": {
+			"base": "block/detail/officepane-blackout-end-upper",
+			"rotateY": 270
+		},
+		"*-blackout-south-lower": {
+			"base": "block/detail/officepane-blackout-end-lower",
+			"rotateY": 90
+		},
+		"*-blackout-south-upper": {
+			"base": "block/detail/officepane-blackout-end-upper",
+			"rotateY": 90
+		}
+	},
+	"texturesByType": {
+		"*-clear-single-lower": {
+			"north": {
+				"base": "block/detail/officepane-clear-s-lower"
+			},
+			"east": {
+				"base": "block/detail/officepane-clear-s-lower"
+			},
+			"south": {
+				"base": "block/detail/officepane-clear-s-lower"
+			},
+			"west": {
+				"base": "block/detail/officepane-clear-s-lower"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-down-single-lower": {
+			"north": {
+				"base": "block/detail/officepane-down-s-lower"
+			},
+			"east": {
+				"base": "block/detail/officepane-down-s-lower"
+			},
+			"south": {
+				"base": "block/detail/officepane-down-s-lower"
+			},
+			"west": {
+				"base": "block/detail/officepane-down-s-lower"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-half-single-lower": {
+			"north": {
+				"base": "block/detail/officepane-half-s-lower"
+			},
+			"east": {
+				"base": "block/detail/officepane-half-s-lower"
+			},
+			"south": {
+				"base": "block/detail/officepane-half-s-lower"
+			},
+			"west": {
+				"base": "block/detail/officepane-half-s-lower"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-tilt-single-lower": {
+			"north": {
+				"base": "block/detail/officepane-tilt-s-lower"
+			},
+			"east": {
+				"base": "block/detail/officepane-tilt-s-lower"
+			},
+			"south": {
+				"base": "block/detail/officepane-tilt-s-lower"
+			},
+			"west": {
+				"base": "block/detail/officepane-tilt-s-lower"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-clear-single-upper": {
+			"north": {
+				"base": "block/detail/officepane-clear-s-upper"
+			},
+			"east": {
+				"base": "block/detail/officepane-clear-s-upper"
+			},
+			"south": {
+				"base": "block/detail/officepane-clear-s-upper"
+			},
+			"west": {
+				"base": "block/detail/officepane-clear-s-upper"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-down-single-upper": {
+			"north": {
+				"base": "block/detail/officepane-down-s-upper"
+			},
+			"east": {
+				"base": "block/detail/officepane-down-s-upper"
+			},
+			"south": {
+				"base": "block/detail/officepane-down-s-upper"
+			},
+			"west": {
+				"base": "block/detail/officepane-down-s-upper"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-half-single-upper": {
+			"north": {
+				"base": "block/detail/officepane-half-s-upper"
+			},
+			"east": {
+				"base": "block/detail/officepane-half-s-upper"
+			},
+			"south": {
+				"base": "block/detail/officepane-half-s-upper"
+			},
+			"west": {
+				"base": "block/detail/officepane-half-s-upper"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-tilt-single-upper": {
+			"north": {
+				"base": "block/detail/officepane-tilt-s-upper"
+			},
+			"east": {
+				"base": "block/detail/officepane-tilt-s-upper"
+			},
+			"south": {
+				"base": "block/detail/officepane-tilt-s-upper"
+			},
+			"west": {
+				"base": "block/detail/officepane-tilt-s-upper"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-clear-west-lower": {
+			"north": {
+				"base": "block/detail/officepane-clear-r-lower"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-clear-l-lower"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-down-west-lower": {
+			"north": {
+				"base": "block/detail/officepane-down-r-lower"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-down-l-lower"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-half-west-lower": {
+			"north": {
+				"base": "block/detail/officepane-half-r-lower"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-half-l-lower"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-tilt-west-lower": {
+			"north": {
+				"base": "block/detail/officepane-tilt-r-lower"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-tilt-l-lower"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-clear-west-upper": {
+			"north": {
+				"base": "block/detail/officepane-clear-r-upper"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-clear-l-upper"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-down-west-upper": {
+			"north": {
+				"base": "block/detail/officepane-down-r-upper"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-down-l-upper"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-half-west-upper": {
+			"north": {
+				"base": "block/detail/officepane-half-r-upper"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-half-l-upper"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-tilt-west-upper": {
+			"north": {
+				"base": "block/detail/officepane-tilt-r-upper"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-tilt-l-upper"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-clear-east-lower": {
+			"north": {
+				"base": "block/detail/officepane-clear-l-lower"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-clear-r-lower"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-down-east-lower": {
+			"north": {
+				"base": "block/detail/officepane-down-l-lower"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-down-r-lower"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-half-east-lower": {
+			"north": {
+				"base": "block/detail/officepane-half-l-lower"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-half-r-lower"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-tilt-east-lower": {
+			"north": {
+				"base": "block/detail/officepane-tilt-l-lower"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-tilt-r-lower"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-clear-east-upper": {
+			"north": {
+				"base": "block/detail/officepane-clear-l-upper"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-clear-r-upper"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-down-east-upper": {
+			"north": {
+				"base": "block/detail/officepane-down-l-upper"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-down-r-upper"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-half-east-upper": {
+			"north": {
+				"base": "block/detail/officepane-half-l-upper"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-half-r-upper"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-tilt-east-upper": {
+			"north": {
+				"base": "block/detail/officepane-tilt-l-upper"
+			},
+			"east": {
+				"base": "block/detail/l4winframe"
+			},
+			"south": {
+				"base": "block/detail/officepane-tilt-r-upper"
+			},
+			"west": {
+				"base": "block/detail/l4winframe"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-clear-north-lower": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-clear-r-lower"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-clear-l-lower"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-down-north-lower": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-down-r-lower"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-down-l-lower"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-half-north-lower": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-half-r-lower"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-half-l-lower"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-tilt-north-lower": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-tilt-r-lower"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-tilt-l-lower"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-clear-north-upper": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-clear-r-upper"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-clear-l-upper"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-down-north-upper": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-down-r-upper"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-down-l-upper"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-half-north-upper": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-half-r-upper"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-half-l-upper"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-tilt-north-upper": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-tilt-r-upper"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-tilt-l-upper"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-clear-south-lower": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-clear-l-lower"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-clear-r-lower"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-down-south-lower": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-down-l-lower"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-down-r-lower"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-half-south-lower": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-half-l-lower"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-half-r-lower"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-tilt-south-lower": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-tilt-l-lower"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-tilt-r-lower"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-clear-south-upper": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-clear-l-upper"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-clear-r-upper"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-down-south-upper": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-down-l-upper"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-down-r-upper"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-half-south-upper": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-half-l-upper"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-half-r-upper"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		},
+		"*-tilt-south-upper": {
+			"north": {
+				"base": "block/detail/l4winframe"
+			},
+			"east": {
+				"base": "block/detail/officepane-tilt-l-upper"
+			},
+			"south": {
+				"base": "block/detail/l4winframe"
+			},
+			"west": {
+				"base": "block/detail/officepane-tilt-r-upper"
+			},
+			"up": {
+				"base": "block/detail/l4winframe"
+			},
+			"down": {
+				"base": "block/detail/l4winframe"
+			}
+		}
+	},
+	"sideopaqueByType": {
+		"*-blackout-*": {
+			"all": false
+		}
+	},
+	"lightAbsorptionByType": {
+		"*-blackout-*": 99,
+		"*": 0
+	},
+	"lightHsvByType": {
+		"*-clear-*": [
+			36,
+			1,
+			7
+		],
+		"*-blackout-*": [
+			0,
+			0,
+			0
+		],
+		"*": [
+			36,
+			1,
+			4
+		]
+	},
+	"resistanceByType": {
+		"*-clear-*": 2,
+		"*": 4
+	},
+	"soundsByType": {
+		"*-clear-*": {
+			"walk": "game:walk/stone",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass",
+			"ambient": "backrooms:ambient/rain",
+			"ambientBlockCount": 12
+		},
+		"*": {
+			"walk": "game:walk/stone",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass"
+		}
+	},
+	"drops": []
+}

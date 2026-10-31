@@ -34,7 +34,7 @@ public class GuideSystem : ModSystem
     /// <summary>Pages of our own, in the order they follow the Progression Guide.</summary>
     private static readonly string[] Added =
     {
-        "home", "finding", "salvage", "food", "levels", "farlevels", "thresholds", "entities",
+        "home", "finding", "salvage", "food", "rest", "levels", "farlevels", "thresholds", "entities",
     };
 
     /// <summary>Vanilla pages kept, with a Backrooms preface: page code to the preface's lang key suffix.</summary>
@@ -153,9 +153,10 @@ public class GuideSystem : ModSystem
         capi.Event.RegisterCallback(_ =>
         {
             if (capi.World?.Player == null) return;
-            capi.StoreModConfig(new TutorialFlag { Started = true }, TutorialFlagFile);
+            // (The once-only flag is spent only when the tutorial really starts: not in creative, not over another tutorial)
             if (tutorials.CurrentTutorial != null) return;
             if (capi.World.Player.WorldData.CurrentGameMode == EnumGameMode.Creative) return;
+            capi.StoreModConfig(new TutorialFlag { Started = true }, TutorialFlagFile);
             tutorials.StartTutorial(BackroomsTutorial.Code);
             capi.ShowChatMessage(Lang.Get("backrooms:tutorial-backrooms-started"));
         }, 2500);

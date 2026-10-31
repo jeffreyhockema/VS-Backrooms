@@ -115,7 +115,8 @@
 			"dispenses": [
 				"backrooms:almondwater"
 			],
-			"restock": true
+			"restock": true,
+			"liquidSource": true
 		}
 	},
 	"resistance": 4,

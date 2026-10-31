@@ -1,4 +1,4 @@
-// An orange extension cord stretched across the hall, along the model's Z (north-south when facing north)
+// An orange extension cord stretched across the hall in loops off the floor, a black cable and a power strip with it, along the model's Z (north-south when facing north). Walked through; trips a sprinter: jump it
 {
 	"code": "run-cord",
 	"variantgroups": [
@@ -56,37 +56,37 @@
 	},
 	"selectionboxByType": {
 		"*-north": {
-			"x1": 0.4,
+			"x1": 0.06,
 			"y1": 0,
 			"z1": 0,
-			"x2": 0.6,
-			"y2": 0.1,
+			"x2": 0.94,
+			"y2": 0.3,
 			"z2": 1
 		},
 		"*-east": {
-			"x1": 0.4,
+			"x1": 0.06,
 			"y1": 0,
 			"z1": 0,
-			"x2": 0.6,
-			"y2": 0.1,
+			"x2": 0.94,
+			"y2": 0.3,
 			"z2": 1,
 			"rotateY": 270
 		},
 		"*-south": {
-			"x1": 0.4,
+			"x1": 0.06,
 			"y1": 0,
 			"z1": 0,
-			"x2": 0.6,
-			"y2": 0.1,
+			"x2": 0.94,
+			"y2": 0.3,
 			"z2": 1,
 			"rotateY": 180
 		},
 		"*-west": {
-			"x1": 0.4,
+			"x1": 0.06,
 			"y1": 0,
 			"z1": 0,
-			"x2": 0.6,
-			"y2": 0.1,
+			"x2": 0.94,
+			"y2": 0.3,
 			"z2": 1,
 			"rotateY": 90
 		}

@@ -1,0 +1,395 @@
+// A Suburbs house's tall window (layout version 9): a sash window, the same with shutters, or a part of a picture window three wide
+{
+	"code": "suburbwindow",
+	"variantgroups": [
+		{
+			"code": "glass",
+			"states": [
+				"dark",
+				"lit"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"sashlower",
+				"sashupper",
+				"shutterlower",
+				"shutterupper",
+				"picwlower",
+				"picmlower",
+				"picelower",
+				"picwupper",
+				"picmupper",
+				"piceupper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-dark-sashlower-north",
+			"*-dark-shutterlower-north",
+			"*-dark-picmlower-north"
+		],
+		"construction": [
+			"*-dark-sashlower-north",
+			"*-dark-shutterlower-north",
+			"*-dark-picmlower-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-dark-sashlower-north": {
+			"base": "block/detail/suburbs/window-dark-sashlower",
+			"rotateY": 0
+		},
+		"*-dark-sashlower-east": {
+			"base": "block/detail/suburbs/window-dark-sashlower",
+			"rotateY": 270
+		},
+		"*-dark-sashlower-south": {
+			"base": "block/detail/suburbs/window-dark-sashlower",
+			"rotateY": 180
+		},
+		"*-dark-sashlower-west": {
+			"base": "block/detail/suburbs/window-dark-sashlower",
+			"rotateY": 90
+		},
+		"*-dark-sashupper-north": {
+			"base": "block/detail/suburbs/window-dark-sashupper",
+			"rotateY": 0
+		},
+		"*-dark-sashupper-east": {
+			"base": "block/detail/suburbs/window-dark-sashupper",
+			"rotateY": 270
+		},
+		"*-dark-sashupper-south": {
+			"base": "block/detail/suburbs/window-dark-sashupper",
+			"rotateY": 180
+		},
+		"*-dark-sashupper-west": {
+			"base": "block/detail/suburbs/window-dark-sashupper",
+			"rotateY": 90
+		},
+		"*-dark-shutterlower-north": {
+			"base": "block/detail/suburbs/window-dark-shutterlower",
+			"rotateY": 0
+		},
+		"*-dark-shutterlower-east": {
+			"base": "block/detail/suburbs/window-dark-shutterlower",
+			"rotateY": 270
+		},
+		"*-dark-shutterlower-south": {
+			"base": "block/detail/suburbs/window-dark-shutterlower",
+			"rotateY": 180
+		},
+		"*-dark-shutterlower-west": {
+			"base": "block/detail/suburbs/window-dark-shutterlower",
+			"rotateY": 90
+		},
+		"*-dark-shutterupper-north": {
+			"base": "block/detail/suburbs/window-dark-shutterupper",
+			"rotateY": 0
+		},
+		"*-dark-shutterupper-east": {
+			"base": "block/detail/suburbs/window-dark-shutterupper",
+			"rotateY": 270
+		},
+		"*-dark-shutterupper-south": {
+			"base": "block/detail/suburbs/window-dark-shutterupper",
+			"rotateY": 180
+		},
+		"*-dark-shutterupper-west": {
+			"base": "block/detail/suburbs/window-dark-shutterupper",
+			"rotateY": 90
+		},
+		"*-dark-picwlower-north": {
+			"base": "block/detail/suburbs/window-dark-picwlower",
+			"rotateY": 0
+		},
+		"*-dark-picwlower-east": {
+			"base": "block/detail/suburbs/window-dark-picwlower",
+			"rotateY": 270
+		},
+		"*-dark-picwlower-south": {
+			"base": "block/detail/suburbs/window-dark-picwlower",
+			"rotateY": 180
+		},
+		"*-dark-picwlower-west": {
+			"base": "block/detail/suburbs/window-dark-picwlower",
+			"rotateY": 90
+		},
+		"*-dark-picmlower-north": {
+			"base": "block/detail/suburbs/window-dark-picmlower",
+			"rotateY": 0
+		},
+		"*-dark-picmlower-east": {
+			"base": "block/detail/suburbs/window-dark-picmlower",
+			"rotateY": 270
+		},
+		"*-dark-picmlower-south": {
+			"base": "block/detail/suburbs/window-dark-picmlower",
+			"rotateY": 180
+		},
+		"*-dark-picmlower-west": {
+			"base": "block/detail/suburbs/window-dark-picmlower",
+			"rotateY": 90
+		},
+		"*-dark-picelower-north": {
+			"base": "block/detail/suburbs/window-dark-picelower",
+			"rotateY": 0
+		},
+		"*-dark-picelower-east": {
+			"base": "block/detail/suburbs/window-dark-picelower",
+			"rotateY": 270
+		},
+		"*-dark-picelower-south": {
+			"base": "block/detail/suburbs/window-dark-picelower",
+			"rotateY": 180
+		},
+		"*-dark-picelower-west": {
+			"base": "block/detail/suburbs/window-dark-picelower",
+			"rotateY": 90
+		},
+		"*-dark-picwupper-north": {
+			"base": "block/detail/suburbs/window-dark-picwupper",
+			"rotateY": 0
+		},
+		"*-dark-picwupper-east": {
+			"base": "block/detail/suburbs/window-dark-picwupper",
+			"rotateY": 270
+		},
+		"*-dark-picwupper-south": {
+			"base": "block/detail/suburbs/window-dark-picwupper",
+			"rotateY": 180
+		},
+		"*-dark-picwupper-west": {
+			"base": "block/detail/suburbs/window-dark-picwupper",
+			"rotateY": 90
+		},
+		"*-dark-picmupper-north": {
+			"base": "block/detail/suburbs/window-dark-picmupper",
+			"rotateY": 0
+		},
+		"*-dark-picmupper-east": {
+			"base": "block/detail/suburbs/window-dark-picmupper",
+			"rotateY": 270
+		},
+		"*-dark-picmupper-south": {
+			"base": "block/detail/suburbs/window-dark-picmupper",
+			"rotateY": 180
+		},
+		"*-dark-picmupper-west": {
+			"base": "block/detail/suburbs/window-dark-picmupper",
+			"rotateY": 90
+		},
+		"*-dark-piceupper-north": {
+			"base": "block/detail/suburbs/window-dark-piceupper",
+			"rotateY": 0
+		},
+		"*-dark-piceupper-east": {
+			"base": "block/detail/suburbs/window-dark-piceupper",
+			"rotateY": 270
+		},
+		"*-dark-piceupper-south": {
+			"base": "block/detail/suburbs/window-dark-piceupper",
+			"rotateY": 180
+		},
+		"*-dark-piceupper-west": {
+			"base": "block/detail/suburbs/window-dark-piceupper",
+			"rotateY": 90
+		},
+		"*-lit-sashlower-north": {
+			"base": "block/detail/suburbs/window-lit-sashlower",
+			"rotateY": 0
+		},
+		"*-lit-sashlower-east": {
+			"base": "block/detail/suburbs/window-lit-sashlower",
+			"rotateY": 270
+		},
+		"*-lit-sashlower-south": {
+			"base": "block/detail/suburbs/window-lit-sashlower",
+			"rotateY": 180
+		},
+		"*-lit-sashlower-west": {
+			"base": "block/detail/suburbs/window-lit-sashlower",
+			"rotateY": 90
+		},
+		"*-lit-sashupper-north": {
+			"base": "block/detail/suburbs/window-lit-sashupper",
+			"rotateY": 0
+		},
+		"*-lit-sashupper-east": {
+			"base": "block/detail/suburbs/window-lit-sashupper",
+			"rotateY": 270
+		},
+		"*-lit-sashupper-south": {
+			"base": "block/detail/suburbs/window-lit-sashupper",
+			"rotateY": 180
+		},
+		"*-lit-sashupper-west": {
+			"base": "block/detail/suburbs/window-lit-sashupper",
+			"rotateY": 90
+		},
+		"*-lit-shutterlower-north": {
+			"base": "block/detail/suburbs/window-lit-shutterlower",
+			"rotateY": 0
+		},
+		"*-lit-shutterlower-east": {
+			"base": "block/detail/suburbs/window-lit-shutterlower",
+			"rotateY": 270
+		},
+		"*-lit-shutterlower-south": {
+			"base": "block/detail/suburbs/window-lit-shutterlower",
+			"rotateY": 180
+		},
+		"*-lit-shutterlower-west": {
+			"base": "block/detail/suburbs/window-lit-shutterlower",
+			"rotateY": 90
+		},
+		"*-lit-shutterupper-north": {
+			"base": "block/detail/suburbs/window-lit-shutterupper",
+			"rotateY": 0
+		},
+		"*-lit-shutterupper-east": {
+			"base": "block/detail/suburbs/window-lit-shutterupper",
+			"rotateY": 270
+		},
+		"*-lit-shutterupper-south": {
+			"base": "block/detail/suburbs/window-lit-shutterupper",
+			"rotateY": 180
+		},
+		"*-lit-shutterupper-west": {
+			"base": "block/detail/suburbs/window-lit-shutterupper",
+			"rotateY": 90
+		},
+		"*-lit-picwlower-north": {
+			"base": "block/detail/suburbs/window-lit-picwlower",
+			"rotateY": 0
+		},
+		"*-lit-picwlower-east": {
+			"base": "block/detail/suburbs/window-lit-picwlower",
+			"rotateY": 270
+		},
+		"*-lit-picwlower-south": {
+			"base": "block/detail/suburbs/window-lit-picwlower",
+			"rotateY": 180
+		},
+		"*-lit-picwlower-west": {
+			"base": "block/detail/suburbs/window-lit-picwlower",
+			"rotateY": 90
+		},
+		"*-lit-picmlower-north": {
+			"base": "block/detail/suburbs/window-lit-picmlower",
+			"rotateY": 0
+		},
+		"*-lit-picmlower-east": {
+			"base": "block/detail/suburbs/window-lit-picmlower",
+			"rotateY": 270
+		},
+		"*-lit-picmlower-south": {
+			"base": "block/detail/suburbs/window-lit-picmlower",
+			"rotateY": 180
+		},
+		"*-lit-picmlower-west": {
+			"base": "block/detail/suburbs/window-lit-picmlower",
+			"rotateY": 90
+		},
+		"*-lit-picelower-north": {
+			"base": "block/detail/suburbs/window-lit-picelower",
+			"rotateY": 0
+		},
+		"*-lit-picelower-east": {
+			"base": "block/detail/suburbs/window-lit-picelower",
+			"rotateY": 270
+		},
+		"*-lit-picelower-south": {
+			"base": "block/detail/suburbs/window-lit-picelower",
+			"rotateY": 180
+		},
+		"*-lit-picelower-west": {
+			"base": "block/detail/suburbs/window-lit-picelower",
+			"rotateY": 90
+		},
+		"*-lit-picwupper-north": {
+			"base": "block/detail/suburbs/window-lit-picwupper",
+			"rotateY": 0
+		},
+		"*-lit-picwupper-east": {
+			"base": "block/detail/suburbs/window-lit-picwupper",
+			"rotateY": 270
+		},
+		"*-lit-picwupper-south": {
+			"base": "block/detail/suburbs/window-lit-picwupper",
+			"rotateY": 180
+		},
+		"*-lit-picwupper-west": {
+			"base": "block/detail/suburbs/window-lit-picwupper",
+			"rotateY": 90
+		},
+		"*-lit-picmupper-north": {
+			"base": "block/detail/suburbs/window-lit-picmupper",
+			"rotateY": 0
+		},
+		"*-lit-picmupper-east": {
+			"base": "block/detail/suburbs/window-lit-picmupper",
+			"rotateY": 270
+		},
+		"*-lit-picmupper-south": {
+			"base": "block/detail/suburbs/window-lit-picmupper",
+			"rotateY": 180
+		},
+		"*-lit-picmupper-west": {
+			"base": "block/detail/suburbs/window-lit-picmupper",
+			"rotateY": 90
+		},
+		"*-lit-piceupper-north": {
+			"base": "block/detail/suburbs/window-lit-piceupper",
+			"rotateY": 0
+		},
+		"*-lit-piceupper-east": {
+			"base": "block/detail/suburbs/window-lit-piceupper",
+			"rotateY": 270
+		},
+		"*-lit-piceupper-south": {
+			"base": "block/detail/suburbs/window-lit-piceupper",
+			"rotateY": 180
+		},
+		"*-lit-piceupper-west": {
+			"base": "block/detail/suburbs/window-lit-piceupper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 4,
+	"drops": [],
+	"lightHsvByType": {
+		"*-lit-*": [
+			6,
+			4,
+			9
+		]
+	},
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

@@ -1,7 +1,7 @@
 {
 	code: "metalbracket",
 	// A steel bracket from a ceiling grid or light fixture.
-	maxstacksize: 16,
+	maxstacksize: 64,
 	texture: { base: "item/salvage/metalbracket" },
 	behaviors: [
 		{ name: "GroundStorable", properties: { layout: "Messy12", collisionBox: { x1: 0, y1: 0, z1: 0, x2: 1, y2: 0.125, z2: 1 } } }

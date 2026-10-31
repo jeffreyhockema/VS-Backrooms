@@ -1,0 +1,85 @@
+[
+	{
+		"ingredientPattern": "PP,PS",
+		"ingredients": {
+			"P": {
+				"type": "item",
+				"code": "game:plank-*"
+			},
+			"S": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 2,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "built-barnwall-grey",
+			"quantity": 4
+		}
+	},
+	{
+		"ingredientPattern": "A,B",
+		"ingredients": {
+			"A": {
+				"type": "block",
+				"code": "built-barnwall-grey",
+				"quantity": 4
+			},
+			"B": {
+				"type": "item",
+				"code": "game:clay-red"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"output": {
+			"type": "block",
+			"code": "built-barnwall-red",
+			"quantity": 4
+		}
+	},
+	{
+		"ingredientPattern": "PPP,SSS",
+		"ingredients": {
+			"P": {
+				"type": "item",
+				"code": "game:plank-*"
+			},
+			"S": {
+				"type": "item",
+				"code": "game:stick"
+			}
+		},
+		"width": 3,
+		"height": 2,
+		"output": {
+			"type": "block",
+			"code": "built-porchdeck-deck",
+			"quantity": 4
+		}
+	},
+	{
+		"ingredientPattern": "A,B",
+		"ingredients": {
+			"A": {
+				"type": "block",
+				"code": "built-porchdeck-deck"
+			},
+			"B": {
+				"type": "item",
+				"code": "game:plank-*"
+			}
+		},
+		"width": 1,
+		"height": 2,
+		"shapeless": true,
+		"output": {
+			"type": "block",
+			"code": "built-porchdeck-step",
+			"quantity": 2
+		}
+	}
+]

@@ -66,7 +66,11 @@ public class MotionLandmark : ModSystem, IRenderer
         mesh = capi.Render.UploadMesh(data);
         texture = capi.Render.GetOrLoadTexture(new AssetLocation("backrooms", "textures/environment/motioncastle-far.png"));
         capi.Event.RegisterRenderer(this, EnumRenderStage.Opaque, "backrooms-castle-far");
+        registered = true;
     }
+
+    // (Set once the renderer is registered: in a world that is not the Backrooms, it never is)
+    private bool registered;
 
     public void OnRenderFrame(float deltaTime, EnumRenderStage stage)
     {
@@ -108,7 +112,8 @@ public class MotionLandmark : ModSystem, IRenderer
     {
         if (capi != null)
         {
-            capi.Event.UnregisterRenderer(this, EnumRenderStage.Opaque);
+            capi.Event.LevelFinalize -= OnLevelFinalize;
+            if (registered) capi.Event.UnregisterRenderer(this, EnumRenderStage.Opaque);
             mesh?.Dispose();
         }
         base.Dispose();

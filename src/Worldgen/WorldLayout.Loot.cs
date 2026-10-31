@@ -22,7 +22,7 @@ public sealed partial class WorldLayout
         0 => ZoneAt(mx, mz) == ZoneKind.Blackout ? (Version >= 3 ? 0.35 : 0.4) : (Version >= 3 ? 0.55 : 0.65),
         1 => 0.8, // the Habitable Zone has the most crates, and the most people going through them
         <= 5 => 0.6,
-        // The five kept as 14-18 (each level's own line)
+        // The far places kept as 14-20 (each level's own line)
         RunLevel => 0.4,
         FunLevel => 0.4,
         TheEnd => 0, // "these objects appear untouched"
@@ -81,6 +81,17 @@ public sealed partial class WorldLayout
         return anyFloor;
     }
 
+    /// <summary>Whether a tile is beside an arch or an arched window; from layout version 10 boxes never stand there.</summary>
+    private static bool NextToArch(Builder b, int x, int z)
+    {
+        foreach ((int dx, int dz) in Steps)
+        {
+            int nx = x + dx, nz = z + dz;
+            if (nx >= 0 && nz >= 0 && nx < MacroSize && nz < MacroSize && b.At(nx, nz).Kind is TileKind.ArchDoor or TileKind.ArchWindow) return true;
+        }
+        return false;
+    }
+
     /// <summary>
     /// Level 0: what wanderers left, they left together. About one cell in six has a stash of two or three boxes in
     /// the corner of a room (one in nine before layout version 3); the blackout zones, where few go, have more. (Dens
@@ -104,6 +115,8 @@ public sealed partial class WorldLayout
             // An inside corner: wall on two sides at right angles
             int wx = Solid(x - 1, z) ? -1 : Solid(x + 1, z) ? 1 : 0, wz = Solid(x, z - 1) ? -1 : Solid(x, z + 1) ? 1 : 0;
             if (wx == 0 || wz == 0 || !SafeToBlock(Open, x, z)) continue;
+            // (Layout version 10: never against an arch, where a box would stand in the way through)
+            if (Version >= 10 && b.Level == 0 && NextToArch(b, x, z)) continue;
             corner.SupplyBox = true;
             // One or two more along whichever wall runs on
             int more = rng.Range(1, 2);
@@ -114,7 +127,7 @@ public sealed partial class WorldLayout
                 if (!Open(bx, bz) || b.At(bx, bz).Kind != TileKind.Floor || b.At(bx, bz).Variant != 0) continue;
                 // Against the wall, and not cutting anything off
                 bool againstWall = dx != 0 ? Solid(bx, z + wz) : Solid(x + wx, bz);
-                if (!againstWall || !SafeToBlock(Open, bx, bz)) continue;
+                if (!againstWall || !SafeToBlock(Open, bx, bz) || Version >= 10 && b.Level == 0 && NextToArch(b, bx, bz)) continue;
                 b.At(bx, bz).SupplyBox = true;
                 more--;
             }

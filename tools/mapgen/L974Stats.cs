@@ -94,12 +94,25 @@ static partial class LevelModes
                 drawn++;
                 Console.WriteLine($"  house {mx},{mz}{(layout.L974Mirrored(mx, mz) ? " (mirrored)" : "")}:");
                 var (x0, z0) = WorldLayout.L974HouseCorner(mx, mz);
-                for (int z = z0; z < z0 + WorldLayout.L974HouseD; z++)
+                for (int z = z0; z < z0 + layout.L974Depth; z++)
                 {
                     var sb = new System.Text.StringBuilder("    ");
-                    for (int x = x0; x < x0 + WorldLayout.L974HouseW; x++) sb.Append(Glyph(T(x, z)));
+                    for (int x = x0; x < x0 + layout.L974Width; x++) sb.Append(Glyph(T(x, z)));
                     Console.WriteLine(sb);
                 }
+                // Each room's size (floor tiles, and its bounding box in plan tiles)
+                var sizes = new SortedDictionary<byte, (int N, int U0, int U1, int V0, int V1)>();
+                for (int z = z0; z < z0 + layout.L974Depth; z++)
+                    for (int x = x0; x < x0 + layout.L974Width; x++)
+                    {
+                        Tile t = T(x, z);
+                        if (t.Kind != TileKind.Floor) continue;
+                        int u = layout.L974Mirrored(mx, mz) ? layout.L974Width - 1 - (x - x0) : x - x0, v = z - z0;
+                        (int N, int U0, int U1, int V0, int V1) r = sizes.TryGetValue(t.Zone, out var e) ? e : (0, 99, -1, 99, -1);
+                        sizes[t.Zone] = (r.N + 1, Math.Min(r.U0, u), Math.Max(r.U1, u), Math.Min(r.V0, v), Math.Max(r.V1, v));
+                    }
+                foreach (var (zone, r) in sizes)
+                    Console.WriteLine($"    {(WorldLayout.L974Room)zone}: {r.N} floor tiles, {r.U1 - r.U0 + 1} by {r.V1 - r.V0 + 1} (u{r.U0}-{r.U1}, v{r.V0}-{r.V1})");
             }
 
             // Kitty's wake-up from this house: somewhere safe, and the same place every time
@@ -121,10 +134,11 @@ static partial class LevelModes
 
     static char Glyph(Tile t)
     {
-        if (t.Kind == TileKind.Doorway) return t.Stack == 1 ? 'A' : 'D';
+        if (t.Kind == TileKind.Doorway) return t.Stack == 2 ? 'T' : t.Stack == 1 ? 'A' : 'D';
         if (t.Kind == TileKind.Wall) return t.Pattern switch
         {
             WallPattern.L974Window => 'W',
+            WallPattern.L974Jamb => 'j',
             WallPattern.L974BathTile => '%',
             WallPattern.L974Backsplash => '=',
             WallPattern.L974Wall => ' ',

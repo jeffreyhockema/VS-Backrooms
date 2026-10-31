@@ -1,0 +1,2692 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"dp-exitframe": "backrooms:block/detail/dp-exitframe",
+		"dp-exitkick": "backrooms:block/detail/dp-exitkick",
+		"dp-exitleaf-lower": "backrooms:block/detail/dp-exitleaf-lower",
+		"dp-iron": "backrooms:block/detail/dp-iron",
+		"dp-steel": "backrooms:block/detail/dp-steel"
+	},
+	"elements": [
+		{
+			"name": "Post0",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				1.5,
+				16,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Post1",
+			"from": [
+				14.5,
+				0,
+				0
+			],
+			"to": [
+				16.0,
+				16,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Post2",
+			"from": [
+				0,
+				0,
+				14.5
+			],
+			"to": [
+				1.5,
+				16,
+				16.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Post3",
+			"from": [
+				14.5,
+				0,
+				14.5
+			],
+			"to": [
+				16.0,
+				16,
+				16.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#dp-exitframe",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Core",
+			"from": [
+				1.5,
+				0,
+				1.5
+			],
+			"to": [
+				14.5,
+				16,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-exitleaf-lower",
+					"uv": [
+						0,
+						0,
+						13.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#dp-exitleaf-lower",
+					"uv": [
+						0,
+						0,
+						13.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#dp-exitleaf-lower",
+					"uv": [
+						0,
+						0,
+						13.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#dp-exitleaf-lower",
+					"uv": [
+						0,
+						0,
+						13.0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				2.5,
+				0.5,
+				1.2
+			],
+			"to": [
+				13.5,
+				4.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						11.0,
+						4.0
+					]
+				},
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew0",
+			"from": [
+				3.0,
+				1.0,
+				1.05
+			],
+			"to": [
+				3.5,
+				1.5,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew1",
+			"from": [
+				12.5,
+				1.0,
+				1.05
+			],
+			"to": [
+				13.0,
+				1.5,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew2",
+			"from": [
+				3.0,
+				3.5,
+				1.05
+			],
+			"to": [
+				3.5,
+				4.0,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew3",
+			"from": [
+				12.5,
+				3.5,
+				1.05
+			],
+			"to": [
+				13.0,
+				4.0,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BarHousingL",
+			"from": [
+				2.5,
+				8.25,
+				0.4
+			],
+			"to": [
+				4.0,
+				10.75,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "BarHousingR",
+			"from": [
+				12.0,
+				8.25,
+				0.4
+			],
+			"to": [
+				13.5,
+				10.75,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "BarBar",
+			"from": [
+				4.0,
+				8.75,
+				0.65
+			],
+			"to": [
+				12.0,
+				10.0,
+				1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge0",
+			"from": [
+				1.5,
+				3,
+				1.15
+			],
+			"to": [
+				3.1,
+				5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2
+					]
+				},
+				"east": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge1",
+			"from": [
+				1.5,
+				8,
+				1.15
+			],
+			"to": [
+				3.1,
+				10,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2
+					]
+				},
+				"east": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge2",
+			"from": [
+				1.5,
+				13,
+				1.15
+			],
+			"to": [
+				3.1,
+				15,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2
+					]
+				},
+				"east": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				14.5,
+				0.5,
+				2.5
+			],
+			"to": [
+				14.8,
+				4.5,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						11.0,
+						4.0
+					]
+				},
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew0",
+			"from": [
+				14.8,
+				1.0,
+				3.0
+			],
+			"to": [
+				14.95,
+				1.5,
+				3.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew1",
+			"from": [
+				14.8,
+				1.0,
+				12.5
+			],
+			"to": [
+				14.95,
+				1.5,
+				13.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew2",
+			"from": [
+				14.8,
+				3.5,
+				3.0
+			],
+			"to": [
+				14.95,
+				4.0,
+				3.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew3",
+			"from": [
+				14.8,
+				3.5,
+				12.5
+			],
+			"to": [
+				14.95,
+				4.0,
+				13.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BarHousingL",
+			"from": [
+				14.5,
+				8.25,
+				2.5
+			],
+			"to": [
+				15.6,
+				10.75,
+				4.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"north": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "BarHousingR",
+			"from": [
+				14.5,
+				8.25,
+				12.0
+			],
+			"to": [
+				15.6,
+				10.75,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"north": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "BarBar",
+			"from": [
+				15.0,
+				8.75,
+				4.0
+			],
+			"to": [
+				15.35,
+				10.0,
+				12.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge0",
+			"from": [
+				14.5,
+				3,
+				1.5
+			],
+			"to": [
+				14.85,
+				5,
+				3.1
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2
+					]
+				},
+				"south": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge1",
+			"from": [
+				14.5,
+				8,
+				1.5
+			],
+			"to": [
+				14.85,
+				10,
+				3.1
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2
+					]
+				},
+				"south": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge2",
+			"from": [
+				14.5,
+				13,
+				1.5
+			],
+			"to": [
+				14.85,
+				15,
+				3.1
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2
+					]
+				},
+				"south": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				2.5,
+				0.5,
+				14.5
+			],
+			"to": [
+				13.5,
+				4.5,
+				14.8
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						11.0,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew0",
+			"from": [
+				12.5,
+				1.0,
+				14.8
+			],
+			"to": [
+				13.0,
+				1.5,
+				14.95
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew1",
+			"from": [
+				3.0,
+				1.0,
+				14.8
+			],
+			"to": [
+				3.5,
+				1.5,
+				14.95
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew2",
+			"from": [
+				12.5,
+				3.5,
+				14.8
+			],
+			"to": [
+				13.0,
+				4.0,
+				14.95
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew3",
+			"from": [
+				3.0,
+				3.5,
+				14.8
+			],
+			"to": [
+				3.5,
+				4.0,
+				14.95
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BarHousingL",
+			"from": [
+				12.0,
+				8.25,
+				14.5
+			],
+			"to": [
+				13.5,
+				10.75,
+				15.6
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "BarHousingR",
+			"from": [
+				2.5,
+				8.25,
+				14.5
+			],
+			"to": [
+				4.0,
+				10.75,
+				15.6
+			],
+			"faces": {
+				"east": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "BarBar",
+			"from": [
+				4.0,
+				8.75,
+				15.0
+			],
+			"to": [
+				12.0,
+				10.0,
+				15.35
+			],
+			"faces": {
+				"south": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge0",
+			"from": [
+				12.9,
+				3,
+				14.5
+			],
+			"to": [
+				14.5,
+				5,
+				14.85
+			],
+			"faces": {
+				"south": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2
+					]
+				},
+				"west": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge1",
+			"from": [
+				12.9,
+				8,
+				14.5
+			],
+			"to": [
+				14.5,
+				10,
+				14.85
+			],
+			"faces": {
+				"south": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2
+					]
+				},
+				"west": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge2",
+			"from": [
+				12.9,
+				13,
+				14.5
+			],
+			"to": [
+				14.5,
+				15,
+				14.85
+			],
+			"faces": {
+				"south": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2
+					]
+				},
+				"west": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				1.1999999999999993,
+				0.5,
+				2.5
+			],
+			"to": [
+				1.5,
+				4.5,
+				13.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						11.0,
+						4.0
+					]
+				},
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.0
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew0",
+			"from": [
+				1.0500000000000007,
+				1.0,
+				12.5
+			],
+			"to": [
+				1.1999999999999993,
+				1.5,
+				13.0
+			],
+			"faces": {
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew1",
+			"from": [
+				1.0500000000000007,
+				1.0,
+				3.0
+			],
+			"to": [
+				1.1999999999999993,
+				1.5,
+				3.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew2",
+			"from": [
+				1.0500000000000007,
+				3.5,
+				12.5
+			],
+			"to": [
+				1.1999999999999993,
+				4.0,
+				13.0
+			],
+			"faces": {
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KickScrew3",
+			"from": [
+				1.0500000000000007,
+				3.5,
+				3.0
+			],
+			"to": [
+				1.1999999999999993,
+				4.0,
+				3.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-exitkick",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BarHousingL",
+			"from": [
+				0.40000000000000036,
+				8.25,
+				12.0
+			],
+			"to": [
+				1.5,
+				10.75,
+				13.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"north": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "BarHousingR",
+			"from": [
+				0.40000000000000036,
+				8.25,
+				2.5
+			],
+			"to": [
+				1.5,
+				10.75,
+				4.0
+			],
+			"faces": {
+				"south": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"north": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "BarBar",
+			"from": [
+				0.6500000000000004,
+				8.75,
+				4.0
+			],
+			"to": [
+				1.0,
+				10.0,
+				12.0
+			],
+			"faces": {
+				"west": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-steel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge0",
+			"from": [
+				1.1500000000000004,
+				3,
+				12.9
+			],
+			"to": [
+				1.5,
+				5,
+				14.5
+			],
+			"faces": {
+				"west": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2
+					]
+				},
+				"north": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge1",
+			"from": [
+				1.1500000000000004,
+				8,
+				12.9
+			],
+			"to": [
+				1.5,
+				10,
+				14.5
+			],
+			"faces": {
+				"west": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2
+					]
+				},
+				"north": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge2",
+			"from": [
+				1.1500000000000004,
+				13,
+				12.9
+			],
+			"to": [
+				1.5,
+				15,
+				14.5
+			],
+			"faces": {
+				"west": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2
+					]
+				},
+				"north": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dp-iron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

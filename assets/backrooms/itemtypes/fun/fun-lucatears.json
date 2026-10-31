@@ -23,6 +23,7 @@
 		"meleeWeaponsDamage": 0.25,
 		"durationHours": 24,
 		"stabilityRestored": 0.3,
+		"hydration": 100,
 		"groundStorageTransform": {
 			"origin": {
 				"x": 0.5,
@@ -32,6 +33,7 @@
 			"scale": 1.3
 		}
 	},
+	"class": "BackroomsLucaTears",
 	"guiTransform": {
 		"rotation": {
 			"x": 0,

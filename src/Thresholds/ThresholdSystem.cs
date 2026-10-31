@@ -27,7 +27,9 @@ namespace Backrooms.Thresholds;
 /// Level 6.1, the Snackrooms. Its rusty doors lead back into Level 6, its glass doors to the offices or the hotel,
 /// its vents to the Electrical Station, and its kitchen doors into another food court.</item>
 /// <item>Level 6's stairs down, found by the sound of waves, come out in an entry room in the ceiling of Level 7,
-/// and you fall through into the sea.</item>
+/// and you fall through into the sea. From layout version 9 they are a stairwell walked down to its landing, and come
+/// out at the foot of the stairs that come down into an entry room hung from the high ceiling, a doorway across it onto
+/// the sea and a rope ladder down; back up those stairs is back to that landing.</item>
 /// <item>In Level 7, swim down into the circle of stones to reach Level 9, or into a cave mouth in the midnight
 /// zone to reach the 9th Road in Level 8. Level 8's vents lead up into Level 2.</item>
 /// <item>A gate at the end of a field behind the houses of Level 9 opens onto Level 10, and diving to the bottom
@@ -84,19 +86,18 @@ public partial class ThresholdSystem : ModSystem
     // anywhere until they have (or they would climb straight back the way they came)
     private readonly HashSet<string> offStairsFirst = new();
 
-    // Per-player cache of the cell they are standing in, so the tick does not rebuild it every time
-    private readonly Dictionary<string, (int Mx, int Mz, Tile[] Tiles)> cellCache = new();
     // Where each player was at the last tick, to notice them walking through a gate into another level
     private readonly Dictionary<string, (int Level, double X, double Z)> lastSpot = new();
 
     public override void Start(ICoreAPI api)
     {
         api.RegisterBlockBehaviorClass("BackroomsThreshold", typeof(BlockBehaviorThreshold));
-        api.Network.RegisterChannel(Channel).RegisterMessageType<FacePacket>();
+        api.Network.RegisterChannel(Channel).RegisterMessageType<FacePacket>().RegisterMessageType<TransitionPacket>();
     }
 
     public override void StartClientSide(ICoreClientAPI api)
     {
+        StartTransitionClient(api);
         api.Network.GetChannel(Channel).SetMessageHandler<FacePacket>(packet =>
         {
             // The camera decides which way the player looks; the entity follows it
@@ -110,6 +111,7 @@ public partial class ThresholdSystem : ModSystem
     public override void StartServerSide(ICoreServerAPI api)
     {
         sapi = api;
+        api.Event.ServerRunPhase(EnumServerRunPhase.RunGame, () => RegisterWayBackCommand(api));
         api.Event.ServerRunPhase(EnumServerRunPhase.ModsAndConfigReady, () =>
         {
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
@@ -126,17 +128,20 @@ public partial class ThresholdSystem : ModSystem
                 api.Logger.Error("[backrooms] The saved threshold links could not all be read (kept as {0}-unreadable); {1} were, the rest will find their places again",
                     SaveKey, network.Count);
             }
+            LoadWayBacks(api);
             thinSpotId = api.World.GetBlock(new AssetLocation("backrooms:thinspot"))?.BlockId ?? 0;
             api.Event.GameWorldSave += () =>
             {
-                if (network.Dirty) api.WorldManager.SaveGame.StoreData(SaveKey, network.Save());
+                if (!network.Dirty) return;
+                // (The ways back built at arrivals go beside the links, under a key of their own: the links' layout is unchanged)
+                api.WorldManager.SaveGame.StoreData(WayBackSaveKey, network.SaveWayBacks());
+                api.WorldManager.SaveGame.StoreData(SaveKey, network.Save());
             };
             api.Event.RegisterGameTickListener(OnTick, 200);
             api.Event.PlayerNowPlaying += SoftenFalls;
             api.Event.PlayerDisconnect += player =>
             {
                 busyUntilMs.Remove(player.PlayerUID);
-                cellCache.Remove(player.PlayerUID);
                 preloadedPit.Remove(player.PlayerUID);
                 inThinSpot.Remove(player.PlayerUID);
                 offStairsFirst.Remove(player.PlayerUID);
@@ -197,7 +202,7 @@ public partial class ThresholdSystem : ModSystem
         if (passage.Sound != null) Play(pos, passage.Sound);
         if (kind != "elevator")
         {
-            Go(player, passage, destination);
+            Go(player, passage, destination, kind is "thinspot" or "vent" or "endvent" ? "plain" : "door");
             return;
         }
 
@@ -209,6 +214,7 @@ public partial class ThresholdSystem : ModSystem
         foreach (IServerPlayer rider in riders)
         {
             busyUntilMs[rider.PlayerUID] = sapi.World.ElapsedMilliseconds + ElevatorRideMs + CooldownMs;
+            SendTransition(rider, TransitionPhase.Begin, "elevator");
             boarded[rider.PlayerUID] = rider.Entity.Pos.XYZ;
         }
         sapi.Event.RegisterCallback(_ =>
@@ -219,12 +225,13 @@ public partial class ThresholdSystem : ModSystem
                 if (!CanTravel(rider) || rider.Entity.Pos.SquareDistanceTo(boarded[rider.PlayerUID]) > 2.5 * 2.5)
                 {
                     busyUntilMs.Remove(rider.PlayerUID);
+                    SendTransition(rider, TransitionPhase.End, "elevator");
                     continue;
                 }
                 Link to = Redirect(rider, passage, arrival);
                 bool redirected = !to.Equals(arrival);
                 Remember(rider, boarded[rider.PlayerUID], arrival, passage.TwoWay, arrived: !redirected);
-                Arrive(rider, redirected ? to with { Marker = false } : to);
+                Arrive(rider, redirected ? to with { Marker = false } : to, "elevator", redirected ? null : passage.Source);
             }
             sapi.World.PlaySoundAt(new AssetLocation("game:sounds/block/metaldoor"), arrival.X, arrival.Y, arrival.Z, null, randomizePitch: true, range: 16);
         }, ElevatorRideMs);
@@ -253,7 +260,7 @@ public partial class ThresholdSystem : ModSystem
         Link? destination = network.Take(passage, null);
         if (destination == null) return true;
         Play(pos, passage.Sound);
-        Go(player, passage, destination);
+        Go(player, passage, destination, "door");
         return true;
     }
 
@@ -283,10 +290,11 @@ public partial class ThresholdSystem : ModSystem
 
             int mx = WorldLayout.MacroOf(x), mz = WorldLayout.MacroOf(z);
             int level = layout.LevelAt(mx, mz);
-            if (!busy) NoticeGate(player, level, pos);
+            NoticeGate(player, level, pos, busy);
             if (level is 2 or 3 or 8) continue;
 
-            Tile tile = CellOf(player, mx, mz)[WorldLayout.TileIndex(x - mx * WorldLayout.MacroSize, z - mz * WorldLayout.MacroSize)];
+            // (The layout's own cell cache serves this: it is the same cell, built once for everyone)
+            Tile tile = layout.TileAt(x, z);
             double rel = pos.Y - geometry.FloorFor(level);
 
             // Dropping into a hole in the floor: whatever comes of it, the fall will not kill (see FallGraceKey). And a
@@ -315,7 +323,7 @@ public partial class ThresholdSystem : ModSystem
                 && L974MayPass(player, passage) && L3999MayPass(player, passage) && L188MayPass(player, passage)
                 && L73MayPass(player, passage) && BasementMayPass(player, passage) && L52MayPass(player, passage)
                 && L31MayPass(player, passage) && L55MayPass(player, passage) && L120MayPass(player, passage) && L183MayPass(player, passage))) continue;
-            Go(player, passage, network.Take(passage, passage.TwoWay ? network.HomeFor(passage) : null));
+            Go(player, passage, network.Take(passage, passage.TwoWay ? network.HomeFor(passage) : null), dropping ? "fall" : "walk");
         }
     }
 
@@ -365,17 +373,9 @@ public partial class ThresholdSystem : ModSystem
 
     private bool ThinSpotAt(int x, int y, int z) => sapi.World.BlockAccessor.GetBlock(probe.Set(x, y, z)).BlockId == thinSpotId;
 
-    private Tile[] CellOf(IServerPlayer player, int mx, int mz)
-    {
-        if (cellCache.TryGetValue(player.PlayerUID, out var cached) && cached.Mx == mx && cached.Mz == mz) return cached.Tiles;
-        Tile[] tiles = layout.BuildMacro(mx, mz);
-        cellCache[player.PlayerUID] = (mx, mz, tiles);
-        return tiles;
-    }
-
     // ================= Shared =================
 
-    private bool Go(IServerPlayer player, Passage passage, Link? destination)
+    private bool Go(IServerPlayer player, Passage passage, Link? destination, string style = null)
     {
         // The map remembers where the threshold really leads (and the way back from there only if they arrive there);
         // someone redirected elsewhere is put down plainly, with no thin spot
@@ -384,7 +384,7 @@ public partial class ThresholdSystem : ModSystem
         bool redirected = !Nullable.Equals(real, destination);
         if (real is { } to) Remember(player, player.Entity.Pos.XYZ, to, passage.TwoWay, arrived: !redirected);
         if (redirected && destination is { } other) destination = other with { Marker = false };
-        if (!Arrive(player, destination)) return false;
+        if (!Arrive(player, destination, style, redirected ? null : passage.Source)) return false;
         if (passage.Message != null) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(passage.Message), EnumChatType.Notification);
         return true;
     }
@@ -404,29 +404,37 @@ public partial class ThresholdSystem : ModSystem
 
     /// <summary>
     /// Marks on the player's map the way they just took (where they left from, and where it goes), and if they can come
-    /// back the same way, the way back where they arrive. Each is marked once.
+    /// back the same way, the way back where they arrive. Each is marked once. A way is the colour of the level it leads
+    /// to; one that stays inside its level is a grey ladder.
     /// </summary>
     private void Remember(IServerPlayer player, Vec3d from, Link to, bool twoWay, bool arrived = true)
     {
         string there = MapMarks.LevelName(layout, to.X, to.Z), here = MapMarks.LevelName(layout, from.X, from.Z);
-        MapMarks.Add(sapi, player, from, Lang.Get(twoWay ? "backrooms:waypoint-way" : "backrooms:waypoint-oneway", there), "spiral", MapMarks.WayColor, 6, tell: false);
-        if (twoWay && arrived) MapMarks.Add(sapi, player, new Vec3d(to.X, to.Y, to.Z), Lang.Get("backrooms:waypoint-back", here), "spiral", MapMarks.WayColor, 6, tell: false);
+        bool inside = there == here;
+        string icon = inside ? MapMarks.InLevelIcon : "spiral";
+        int toColor = inside ? MapMarks.InLevelColor : MapMarks.WayColorTo(layout, to.X, to.Z);
+        int backColor = inside ? MapMarks.InLevelColor : MapMarks.WayColorTo(layout, from.X, from.Z);
+        MapMarks.Add(sapi, player, from, Lang.Get(twoWay ? "backrooms:waypoint-way" : "backrooms:waypoint-oneway", there), icon, toColor, 6, tell: false);
+        if (twoWay && arrived) MapMarks.Add(sapi, player, new Vec3d(to.X, to.Y, to.Z), Lang.Get("backrooms:waypoint-back", here), icon, backColor, 6, tell: false);
     }
 
     /// <summary>
     /// Walking (not being taken) from one level into the next means going through a gate in the wall between them:
     /// it is marked on the map the first time.
     /// </summary>
-    private void NoticeGate(IServerPlayer player, int level, EntityPos pos)
+    private void NoticeGate(IServerPlayer player, int level, EntityPos pos, bool busy)
     {
+        // The last spot is kept up to date even while busy (just after an arrival), so a gate walked through in that
+        // window is not compared against a stale position later; only the marking waits
         bool known = lastSpot.TryGetValue(player.PlayerUID, out var last);
         lastSpot[player.PlayerUID] = (level, pos.X, pos.Z);
-        if (!known || last.Level == level) return;
+        if (busy || !known || last.Level == level) return;
         double dx = pos.X - last.X, dz = pos.Z - last.Z;
         if (dx * dx + dz * dz > 6 * 6) return; // taken, not walked
         if (WorldLayout.IsOpenSky(level) && WorldLayout.IsOpenSky(last.Level)) return; // no wall there to have a gate in
         string a = MapMarks.LevelName(layout, last.X, last.Z), b = MapMarks.LevelName(layout, pos.X, pos.Z);
-        MapMarks.Add(sapi, player, pos.XYZ, Lang.Get("backrooms:waypoint-gate", a, b), "x", MapMarks.WayColor, 16, tell: false);
+        // (Marked just inside the level walked into, so it is the colour of the level it leads back to)
+        MapMarks.Add(sapi, player, pos.XYZ, Lang.Get("backrooms:waypoint-gate", a, b), "x", MapMarks.WayColorTo(last.Level), 16, tell: false);
     }
 
     /// <summary>
@@ -443,7 +451,11 @@ public partial class ThresholdSystem : ModSystem
         return Arrive(player, new Link(a.X + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(a.X, a.Z), a.Z + 0.5, false));
     }
 
-    private bool Arrive(IServerPlayer player, Link? destination)
+    /// <summary>
+    /// Puts a player down at a destination. <paramref name="source"/> is the threshold they came through, when they arrive
+    /// where it leads (not redirected): a door or an elevator built there as its way back is seen to once they are.
+    /// </summary>
+    private bool Arrive(IServerPlayer player, Link? destination, string style = null, (int X, int Z)? source = null)
     {
         if (destination is not { } link)
         {
@@ -490,14 +502,26 @@ public partial class ThresholdSystem : ModSystem
         else offStairsFirst.Remove(player.PlayerUID);
         // Put down on the landing of a stairwell's flight (Levels 1 and 4; at the foot of a flight up, at the top of a flight
         // down: that is never a step, so no step-off is needed), they face away from it, as if just come off it
-        (int Dx, int Dz)? away = onStairs || arrivalLevel is not (1 or 4) ? null : network.AwayFromFlight(ax, az);
+        // (Between Levels 6 and 7, from layout version 9: at the foot of an entry room's stairs, facing into the room; on a
+        // stairwell's landing, facing back up it)
+        (int Dx, int Dz)? away = onStairs ? null : arrivalLevel is 1 or 4 ? network.AwayFromFlight(ax, az)
+            : arrivalLevel is 6 or 7 ? network.DeepStairsFacing(ax, az) : null;
         // Put down on the Hub's narrow sidewalk, they look along the road rather than at the wall beside them
         float? look = onStairs || arrivalLevel != WorldLayout.Hub ? null : HubArrivalYaw(ax, az);
+        // Put down in front of a door or an elevator built as the way back, they face away from it, as if just come out
+        WayBack? wayBack = source is { } from ? network.WayBackOf(from) : null;
+        if (!onStairs && away == null && wayBack is { } built) away = WayBackFacing(built);
         // The place is loaded (and if need be generated) before the player is moved; a thin spot, the way back
         // from a place with no threshold of its own, is left there once it is
+        SendTransition(player, TransitionPhase.Begin, style);
+        long startedMs = sapi.World.ElapsedMilliseconds;
         player.Entity.TeleportToDouble(link.X, link.Y + drop, link.Z, () =>
         {
+            SendTransition(player, TransitionPhase.End, style);
+            sapi.Logger.Debug("[backrooms] {0} put down at {1:0}, {2:0}, {3:0} after {4} ms ({5})", player.PlayerName, link.X, link.Y, link.Z,
+                sapi.World.ElapsedMilliseconds - startedMs, style ?? "plain");
             if (link.Marker) LeaveThinSpot(link);
+            if (wayBack != null) BuildWayBack(player, source.Value);
             if (onStairs) Face(player, DownFlight(onto.Pier));
             else if (away is { } d) Face(player, (float)Math.Atan2(d.Dx, d.Dz));
             else if (look is { } yaw) Face(player, yaw);

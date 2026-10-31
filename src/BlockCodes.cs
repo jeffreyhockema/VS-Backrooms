@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Vintagestory.API.Common;
 
@@ -17,7 +18,7 @@ public static class BlockCodes
         var suffix = new StringBuilder();
         foreach (var kv in variant) suffix.Append('-').Append(kv.Value);
         string path = block.Code.Path;
-        string basePath = path.EndsWith(suffix.ToString()) ? path[..^suffix.Length] : path;
+        string basePath = path.EndsWith(suffix.ToString(), StringComparison.Ordinal) ? path[..^suffix.Length] : path;
         var sb = new StringBuilder(basePath);
         foreach (var kv in variant) sb.Append('-').Append(kv.Key == key ? value : kv.Value);
         return new AssetLocation(block.Code.Domain, sb.ToString());

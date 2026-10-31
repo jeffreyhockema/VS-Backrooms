@@ -1,0 +1,174 @@
+// Bottled water by the class of the water it came from: clean, murky (boil it in a firepit to make it clean) and salt (never)
+{
+	"code": "bottledwater",
+	"class": "BackroomsAlmondWater",
+	"maxstacksize": 8,
+	"shape": {
+		"base": "item/almondwater"
+	},
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"clean",
+				"murky",
+				"salt"
+			]
+		}
+	],
+	"textures": {
+		"tex": {
+			"base": "item/bottledwater-{kind}"
+		}
+	},
+	"nutritionPropsByType": {
+		"*-clean": {
+			"satiety": 100,
+			"foodcategory": "NoNutrition"
+		},
+		"*-murky": {
+			"satiety": 50,
+			"foodcategory": "NoNutrition"
+		},
+		"*-salt": {
+			"satiety": 0,
+			"foodcategory": "NoNutrition"
+		}
+	},
+	"materialDensity": 1000,
+	"attributesByType": {
+		"*-clean": {
+			"leavesBottle": "backrooms:emptybottle",
+			"satietyWhenThirst": 0,
+			"wardsDullers": false,
+			"handbook": {
+				"groupBy": [
+					"bottledwater-*"
+				]
+			},
+			"hydration": 600,
+			"stabilityRestored": 0
+		},
+		"*-murky": {
+			"leavesBottle": "backrooms:emptybottle",
+			"satietyWhenThirst": 0,
+			"wardsDullers": false,
+			"handbook": {
+				"groupBy": [
+					"bottledwater-*"
+				]
+			},
+			"hydration": 300,
+			"stabilityRestored": -0.05,
+			"taintChance": 0.25
+		},
+		"*-salt": {
+			"leavesBottle": "backrooms:emptybottle",
+			"satietyWhenThirst": 0,
+			"wardsDullers": false,
+			"handbook": {
+				"groupBy": [
+					"bottledwater-*"
+				]
+			},
+			"hydration": -300,
+			"stabilityRestored": 0
+		}
+	},
+	"combustiblePropsByType": {
+		"*-murky": {
+			"meltingPoint": 100,
+			"meltingDuration": 10,
+			"smeltedRatio": 1,
+			"smeltedStack": {
+				"type": "item",
+				"code": "backrooms:bottledwater-clean"
+			},
+			"requiresContainer": false
+		}
+	},
+	"guiTransform": {
+		"rotation": {
+			"x": 157.4,
+			"y": -45.3,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.34,
+			"z": 0.5
+		},
+		"scale": 2.2
+	},
+	"fpHandTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0.1,
+			"z": 0.4
+		},
+		"rotation": {
+			"x": 0,
+			"y": -30,
+			"z": 0
+		},
+		"scale": 1.8
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.85,
+			"y": -0.5,
+			"z": -0.6
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.7
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2.5
+	},
+	"behaviors": [
+		{
+			"name": "GroundStorable",
+			"properties": {
+				"layout": "Quadrants",
+				"collisionBox": {
+					"x1": 0,
+					"y1": 0,
+					"z1": 0,
+					"x2": 1,
+					"y2": 0.125,
+					"z2": 1
+				},
+				"selectionBox": {
+					"x1": 0,
+					"y1": 0,
+					"z1": 0,
+					"x2": 1,
+					"y2": 0.6875,
+					"z2": 1
+				}
+			}
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		]
+	}
+}

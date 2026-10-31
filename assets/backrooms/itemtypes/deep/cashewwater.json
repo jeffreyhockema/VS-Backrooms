@@ -61,6 +61,9 @@
 	"class": "BackroomsAlmondWater",
 	"attributes": {
 		"stabilityRestored": 0.08,
+		"hydration": 600,
+		"satietyWhenThirst": 0,
+		"leavesBottle": "backrooms:emptybottle",
 		"groundStorageTransform": {
 			"origin": {
 				"x": 0.5,

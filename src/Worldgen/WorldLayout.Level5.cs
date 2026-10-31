@@ -104,8 +104,8 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>
-    /// Position along the row of rooms between two cross corridors, 0 to 28. Rooms are measured from the cross
-    /// corridor, so it never cuts one in two.
+    /// Position along the row of rooms between two cross corridors, 0 to 32 (the rooms use 0-28; 29-32 are the
+    /// corridor and its walls). Rooms are measured from the cross corridor, so it never cuts one in two.
     /// </summary>
     private static int RoomU(int gx) => Hashing.Mod(gx - 19, CrossPeriod);
 
@@ -234,7 +234,7 @@ public sealed partial class WorldLayout
                         bool wood = Hashing.Unit(h << 20) < 0.3;
                         if (wood) tile.Floor = FloorKind.HotelWood;
                         if (locked) tile.Sealed = true;
-                        else if (staffStairs) PlanStaffStairs(ref tile, u % RoomPitch, row, rowA);
+                        else if (staffStairs) PlanStaffStairs(ref tile, u % RoomPitch, row, rowA, PublicStairWidth);
                         else FurnishGuestRoom(ref tile, u % RoomPitch, row, rowA, h, wood);
                         // A cramped bathroom in the corner by the door, behind a partition (locked rooms too)
                         if (!staffStairs && Hashing.Unit(h << 52) < 0.7)
@@ -255,12 +255,14 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// A bare service stair along the back wall, climbing into the ceiling. Whoever climbs it comes out somewhere
-    /// in the dark of Level 6.
+    /// in the dark of Level 6. From layout version 9 it is two wide (<paramref name="width"/>), the row in front of the
+    /// back wall too.
     /// </summary>
-    private static void PlanStaffStairs(ref Tile tile, int x, int row, bool rowA)
+    private static void PlanStaffStairs(ref Tile tile, int x, int row, bool rowA, int width = 1)
     {
         tile.Floor = FloorKind.Dusty;
-        if (row != (rowA ? 1 : 15) || x < 1 || x > 3) return;
+        int back = rowA ? 1 : 15, fromBack = rowA ? row - back : back - row;
+        if (fromBack < 0 || fromBack >= width || x < 1 || x > 3) return;
         tile.Stair = (byte)x;
         tile.Pier = ArchPier.East;
     }
@@ -471,12 +473,16 @@ public sealed partial class WorldLayout
     /// </summary>
     private bool IsFrontHall(int mx, int mz)
     {
+        // (In layouts <= 10 a cell of the region that is not Level 5 can still win here: HotelZoneAt is noise and does not look at
+        // the level, so at the hotel's rim a lobby may get no front hall. From 11 only Level 5 cells compete)
+        bool onlyHotel = Version >= 11;
         if (HotelZoneAt(mx, mz) != HotelZone.Lobby) return false;
         int rx = Hashing.FloorDiv(mx, FrontHallRegion) * FrontHallRegion, rz = Hashing.FloorDiv(mz, FrontHallRegion) * FrontHallRegion;
         ulong own = Hashing.Hash(seed, mx, mz, SaltL5FrontHall);
         for (int z = rz; z < rz + FrontHallRegion; z++)
             for (int x = rx; x < rx + FrontHallRegion; x++)
-                if ((x != mx || z != mz) && Hashing.Hash(seed, x, z, SaltL5FrontHall) < own && HotelZoneAt(x, z) == HotelZone.Lobby) return false;
+                if ((x != mx || z != mz) && Hashing.Hash(seed, x, z, SaltL5FrontHall) < own && HotelZoneAt(x, z) == HotelZone.Lobby
+                    && (!onlyHotel || LevelAt(x, z) == 5)) return false;
         return true;
     }
 
@@ -871,7 +877,67 @@ public sealed partial class WorldLayout
         else foreach (int i in Passages(north)) ToAisle(i, 1);
         if (Boiler(mx, mz + 1)) { ToAisle(15, MacroSize - 1); ToAisle(16, MacroSize - 1); }
         else foreach (int i in Passages(GetEdge(mx, mz + 1, west: false))) ToAisle(i, MacroSize - 1);
+        if (Version >= 9) PlaceBoilerPlant(b, mx, mz);
         FitBoilerBays(b, mx, mz, aisle0, aisle1);
+        if (Version >= 9) MarkBoilerHeader(b);
+    }
+
+    /// <summary>
+    /// (Layout version 9) Each bay is a plant room instead of a stack of boilers three deep: along the back wall, one
+    /// boiler and one furnace to a bay, both facing the aisle; a coal bin in front of the furnace, the damper lever
+    /// beside it (FitBoilerBays). Over the row runs one header the length of the hall: a flue duct, with a steam main
+    /// beside it on the wall side, passing through the bay walls. The boiler's flue and steam pipe rise to it, the
+    /// furnace's flue rises to it, and where the hall ends the header ends against the wall (the generator, which
+    /// draws the risers over every boiler and furnace and the header over every tile marked <see cref="Pipes.PlantRun"/>
+    /// to <see cref="Pipes.PlantBoth"/>). Version 8 and older keep the old stacks.
+    /// </summary>
+    private void PlaceBoilerPlant(Builder b, int mx, int mz)
+    {
+        for (int side = 0; side < 2; side++)
+        {
+            bool north = side == 0;
+            int back = north ? 2 : MacroSize - 2, step = north ? 1 : -1;
+            ArchPier toAisle = north ? ArchPier.South : ArchPier.North;
+            // The old stacks three deep make way
+            for (int k = 0; k < 3; k++)
+                for (int lx = 1; lx < MacroSize - 1; lx++)
+                {
+                    ref Tile old = ref b.At(lx, back + step * k);
+                    if (old.Kind == TileKind.Floor && old.Variant is Props.Boiler or Props.Furnace or Props.CoalPile) old.Variant = 0;
+                }
+            for (int lx = 1; lx < MacroSize - 1; lx++)
+            {
+                int gx = mx * MacroSize + lx, inBay = Hashing.Mod(gx, 6);
+                ref Tile tile = ref b.At(lx, back);
+                if (tile.Kind == TileKind.Floor && tile.Sealed && tile.Variant == 0 && !tile.SupplyBox)
+                {
+                    if (inBay == 2) { tile.Variant = Props.Boiler; tile.Pier = toAisle; }
+                    else if (inBay == 4)
+                    {
+                        tile.Variant = Props.Furnace;
+                        tile.Pier = toAisle;
+                        ref Tile bin = ref b.At(lx, back + step);
+                        if (bin.Kind == TileKind.Floor && bin.Sealed && bin.Variant == 0 && !bin.SupplyBox) bin.Variant = Props.CoalBin;
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// (Layout version 9) The header over each bay's back row, once FitBoilerBays has put its sumps in (it runs over a
+    /// sump too): from the hall's west wall to its east, the steam main on the wall side, through the bay walls.
+    /// </summary>
+    private void MarkBoilerHeader(Builder b)
+    {
+        foreach (int back in new[] { 2, MacroSize - 2 })
+            for (int lx = 1; lx < MacroSize; lx++)
+            {
+                ref Tile tile = ref b.At(lx, back);
+                if (tile.Kind is TileKind.Floor or TileKind.Water)
+                    tile.Pipe = tile.Variant == Props.Boiler ? Pipes.PlantBoth : tile.Variant == Props.Furnace ? Pipes.PlantFlue : Pipes.PlantRun;
+                else if (tile.Kind == TileKind.Wall && tile.Pattern == WallPattern.Plaster) tile.Pipe = Pipes.PlantThru;
+            }
     }
 
     /// <summary>

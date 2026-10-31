@@ -19,10 +19,13 @@
 		]
 	},
 	"blockmaterial": "Metal",
-	"drawtype": "cube",
-	"textures": {
-		"all": {
-			"base": "block/detail/rustydoor-{part}"
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/detail/rustydoor-lower"
+		},
+		"*-upper": {
+			"base": "block/detail/rustydoor-upper"
 		}
 	},
 	"lightAbsorption": 99,

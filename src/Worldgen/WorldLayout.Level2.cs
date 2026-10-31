@@ -51,15 +51,14 @@ public sealed partial class WorldLayout
         return k;
     }
 
-    private PlanCache<HashSet<(int, int, int)>> l2Trees;
+    private readonly PlanCache<HashSet<(int, int, int)>> l2Trees;
 
     /// <summary>Whether a stretch of tunnel is there (see <see cref="PlanLatticeTree"/> for how stretches are named).</summary>
     private bool L2Stretch(int axis, int line, int index)
     {
         if (L2Main(line)) return true;
         int mcx = Hashing.FloorDiv(axis == 0 ? line : index, L2MainEvery), mcz = Hashing.FloorDiv(axis == 0 ? index : line, L2MainEvery);
-        return (l2Trees ??= new PlanCache<HashSet<(int, int, int)>>(256, (x, z) => PlanLatticeTree(x, z, L2MainEvery, SaltL2Tree, 0.5, 0.25, 0.2)))
-            .Get(mcx, mcz).Contains((axis, line, index));
+        return l2Trees.Get(mcx, mcz).Contains((axis, line, index));
     }
 
     /// <summary>
@@ -119,15 +118,40 @@ public sealed partial class WorldLayout
     private enum L2Part : byte { Rock, AlongX, AlongZ, Crossing, Gallery }
 
     /// <summary>
+    /// What a run of block coordinates along one axis has in common, worked out once for a whole cell (a tile of the plan
+    /// otherwise costs some forty hashes, nearly all of them the same for every tile of its column or row): from
+    /// <see cref="G0"/>, each coordinate's unit, where that unit's tunnel starts, and the tunnel's width.
+    /// </summary>
+    private sealed class L2Strip
+    {
+        public int G0;
+        public int[] Unit, Line, Width;
+    }
+
+    private L2Strip L2StripOf(int axis, int g0, int count)
+    {
+        var strip = new L2Strip { G0 = g0, Unit = new int[count], Line = new int[count], Width = new int[count] };
+        for (int i = 0; i < count; i++)
+        {
+            int k = L2UnitOf(axis, g0 + i);
+            strip.Unit[i] = k;
+            strip.Line[i] = L2Line(axis, k);
+            strip.Width[i] = L2Width(axis, k);
+        }
+        return strip;
+    }
+
+    /// <summary>
     /// The tunnel plan at a block position: what it is, the stretch of tunnel it belongs to (as a hash, for the lights
     /// and leaks that go with the stretch), and where across the tunnel it lies (0 at the low side) of how wide.
     /// </summary>
-    private (L2Part Part, ulong Stretch, int Across, int Width) L2At(int gx, int gz)
+    private (L2Part Part, ulong Stretch, int Across, int Width) L2At(int gx, int gz, L2Strip sx, L2Strip sz, Dictionary<(int, int), (int, int)> jogs)
     {
-        int kx = L2UnitOf(0, gx), kz = L2UnitOf(1, gz);
-        int wx = L2Width(0, kx), wz = L2Width(1, kz);
+        int kx = sx.Unit[gx - sx.G0], kz = sz.Unit[gz - sz.G0];
+        int wx = sx.Width[gx - sx.G0], wz = sz.Width[gz - sz.G0];
+        if (!jogs.TryGetValue((kx, kz), out (int X, int Z) jog)) jogs[(kx, kz)] = jog = (L2Jog(0, kx, kz), L2Jog(1, kz, kx));
         // (A jogged main lies further into its unit: the blocks before it, ax or az below 0, are the unit's)
-        int ax = gx - L2Line(0, kx) - L2Jog(0, kx, kz), az = gz - L2Line(1, kz) - L2Jog(1, kz, kx);
+        int ax = gx - sx.Line[gx - sx.G0] - jog.X, az = gz - sz.Line[gz - sz.G0] - jog.Z;
         bool inX = ax >= 0 && ax < wx, inZ = az >= 0 && az < wz; // in the band of the north-south tunnel kx, of the west-east tunnel kz
         if (L2InGallery(gx, gz)) return (L2Part.Gallery, Hashing.Hash(seed, kx, kz, SaltL2Gallery), 0, 0);
         if (inX && inZ)
@@ -167,10 +191,13 @@ public sealed partial class WorldLayout
     {
         var edge = new Edge { Pattern = WallPattern.Tunnel, Planned = true };
         bool[] walled = WalledNeighbours(2, mx, mz);
+        var wide = walled == null ? default : LiningWidens(2, mx, mz);
+        L2Strip stripX = L2StripOf(0, mx * MacroSize, MacroSize), stripZ = L2StripOf(1, mz * MacroSize, MacroSize);
+        var jogs = new Dictionary<(int, int), (int, int)>();
         for (int i = 1; i < MacroSize; i++)
         {
             int gx = west ? mx * MacroSize : mx * MacroSize + i, gz = west ? mz * MacroSize + i : mz * MacroSize;
-            bool open = L2At(gx, gz).Part != L2Part.Rock || (west ? EdgeHall(walled, 0, i) : EdgeHall(walled, i, 0));
+            bool open = L2At(gx, gz, stripX, stripZ, jogs).Part != L2Part.Rock || (west ? EdgeHall(walled, 0, i, wide) : EdgeHall(walled, i, 0, wide));
             edge.Tiles[i] = open ? EdgeTile.Open : EdgeTile.Wall;
         }
         return edge;
@@ -181,6 +208,8 @@ public sealed partial class WorldLayout
         var open = new bool[MacroSize * MacroSize];
         var machineRoom = new bool[MacroSize * MacroSize];
         var storeroom = new bool[MacroSize * MacroSize];
+        L2Strip stripX = L2StripOf(0, mx * MacroSize, MacroSize), stripZ = L2StripOf(1, mz * MacroSize, MacroSize);
+        var jogs = new Dictionary<(int, int), (int, int)>();
 
         // Lay the tunnels down from the plan, with their pipes and their lights
         for (int lz = 0; lz < MacroSize; lz++)
@@ -190,7 +219,7 @@ public sealed partial class WorldLayout
                 tile.Floor = FloorKind.Concrete;
                 if (lx == 0 && !west.Planned || lz == 0 && !north.Planned || tile.Tall) continue; // a wall between levels
                 int gx = mx * MacroSize + lx, gz = mz * MacroSize + lz, index = TileIndex(lx, lz);
-                var at = L2At(gx, gz);
+                var at = L2At(gx, gz, stripX, stripZ, jogs);
                 if (at.Part == L2Part.Rock)
                 {
                     if (tile.Kind == TileKind.Floor || lx == 0 || lz == 0) SetWall(ref tile, WallPattern.Tunnel, BaseStyle.Plain);
@@ -373,6 +402,7 @@ public sealed partial class WorldLayout
                         double stretch = Hashing.Unit(Hashing.Hash(seed, Hashing.FloorDiv(gx, 10), Hashing.FloorDiv(gz, 10), SaltL2Wall + 2));
                         if (stretch < 0.7) tile.Variant = r < 0.08 ? Props.WallValve : r < 0.16 ? Props.WallRiser : Props.WallPipes;
                         else tile.Variant = r < 0.35 ? Props.WallMachinery : r < 0.6 ? Props.WallBrick : r < 0.7 ? Props.WallWarning : Props.WallPlain;
+                        if (Version >= 9) PlaceL2Valve(b, ref tile, lx, lz, gx, gz);
                     }
                     continue;
                 }
@@ -384,9 +414,9 @@ public sealed partial class WorldLayout
                     // has switched on in years
                     if (!TryWallSide(IsWall, lx, lz, out ArchPier side)) continue;
                     if (r < 0.42) { tile.Variant = Props.Shelf; tile.Pier = side; }
-                    else if (r < 0.54) { tile.Variant = Props.Desk; tile.Pier = OppositeSide(side); }
+                    else if (r < 0.54) { tile.Variant = Props.Desk; tile.Pier = Opposite(side); }
                     else if (r < 0.66) tile.Variant = Props.CardboardBoxes;
-                    else if (r < 0.74) { tile.Variant = Props.Toolbox; tile.Pier = OppositeSide(side); }
+                    else if (r < 0.74) { tile.Variant = Props.Toolbox; tile.Pier = Opposite(side); }
                     else if (r < 0.8) tile.Stack = 1; // a wooden crate
                     continue;
                 }
@@ -468,21 +498,51 @@ public sealed partial class WorldLayout
                     bool place = machineRoom[index] ? fit < 0.5 : neighbours >= 3 && fit < 0.02;
                     if (!place || !SafeToBlock((x, z) => x >= 0 && z >= 0 && x < MacroSize && z < MacroSize && IsWalkable(b.At(x, z)), lx, lz)) continue;
                     double kind = machineRoom[index] ? fit / 0.5 : 0;
-                    tile.Pier = OppositeSide(back);
+                    tile.Pier = Opposite(back);
                     tile.Variant = kind < 0.55 ? Props.GaugeFrame : kind < 0.8 ? Props.PressureTank : Props.RustMachine;
                     tile.Stack = (byte)((h >> 24) % (tile.Variant == Props.GaugeFrame ? 4ul : 2ul));
                 }
             }
         }
+        if (Version >= 9) ClearBehindCabinets(b);
     }
 
-    private static ArchPier OppositeSide(ArchPier side) => side switch
+    /// <summary>
+    /// From layout version 9: valves stand where a valve makes sense. A valve wall's valve is in the wall pipes
+    /// themselves (the generator draws a gate valve in the steel pipe, not a wheel on the bare wall below them, as in
+    /// 1-8), never two side by side; and about one riser in three has a valve at its foot (<see cref="Tile.Stack"/> 1
+    /// on a <see cref="Props.WallRiser"/> wall).
+    /// </summary>
+    private void PlaceL2Valve(Builder b, ref Tile tile, int lx, int lz, int gx, int gz)
     {
-        ArchPier.North => ArchPier.South,
-        ArchPier.South => ArchPier.North,
-        ArchPier.East => ArchPier.West,
-        _ => ArchPier.East,
-    };
+        static bool Valve(in Tile n) => n.Kind == TileKind.Wall && n.Pattern == WallPattern.Tunnel && n.Variant == Props.WallValve;
+        if (tile.Variant == Props.WallValve && (lx > 0 && Valve(b.At(lx - 1, lz)) || lz > 0 && Valve(b.At(lx, lz - 1))))
+            tile.Variant = Props.WallPipes;
+        if (tile.Variant == Props.WallRiser && Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL2Wall + 3)) < 0.34) tile.Stack = 1;
+    }
+
+    /// <summary>
+    /// From layout version 9: a pump gallery's machine cabinet feeds the overhead pipes by a pipe up the wall behind it
+    /// (WorldGenerator draws it), so that wall carries nothing for it to run into: a wall cabinet there is plain wall, a
+    /// valve there plain pipes, and a riser there has no valve at its foot (the cabinet hides it).
+    /// </summary>
+    private static void ClearBehindCabinets(Builder b)
+    {
+        for (int lz = 0; lz < MacroSize; lz++)
+            for (int lx = 0; lx < MacroSize; lx++)
+            {
+                ref Tile t = ref b.At(lx, lz);
+                if (t.Kind != TileKind.Floor || t.Variant != Props.Cabinet) continue;
+                int x = lx + (t.Pier == ArchPier.East ? 1 : t.Pier == ArchPier.West ? -1 : 0);
+                int z = lz + (t.Pier == ArchPier.South ? 1 : t.Pier == ArchPier.North ? -1 : 0);
+                if (x < 0 || z < 0 || x >= MacroSize || z >= MacroSize) continue;
+                ref Tile wall = ref b.At(x, z);
+                if (wall.Kind != TileKind.Wall || wall.Pattern != WallPattern.Tunnel) continue;
+                if (wall.Variant == Props.WallMachinery) wall.Variant = Props.WallPlain;
+                else if (wall.Variant == Props.WallValve) wall.Variant = Props.WallPipes;
+                else if (wall.Variant == Props.WallRiser) wall.Stack = 0;
+            }
+    }
 
     /// <summary>Finds a wall next to a tile, so props can stand against it.</summary>
     private static bool TryWallSide(Func<int, int, bool> isWall, int x, int z, out ArchPier side)

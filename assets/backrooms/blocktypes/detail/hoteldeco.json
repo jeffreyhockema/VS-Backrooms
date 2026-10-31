@@ -6,6 +6,7 @@
 			"code": "decor",
 			"states": [
 				"mirror",
+				"mirrorplain",
 				"speaker",
 				"housephone",
 				"firehose",
@@ -50,6 +51,22 @@
 		},
 		"*-mirror-west": {
 			"base": "block/detail/hoteldeco-mirror",
+			"rotateY": 90
+		},
+		"*-mirrorplain-north": {
+			"base": "block/detail/hoteldeco-mirrorplain",
+			"rotateY": 0
+		},
+		"*-mirrorplain-east": {
+			"base": "block/detail/hoteldeco-mirrorplain",
+			"rotateY": 270
+		},
+		"*-mirrorplain-south": {
+			"base": "block/detail/hoteldeco-mirrorplain",
+			"rotateY": 180
+		},
+		"*-mirrorplain-west": {
+			"base": "block/detail/hoteldeco-mirrorplain",
 			"rotateY": 90
 		},
 		"*-speaker-north": {
@@ -167,20 +184,10 @@
 	},
 	"lightAbsorption": 99,
 	"resistance": 4,
-	"soundsByType": {
-		"*-speaker-*": {
-			"walk": "game:walk/wood",
-			"place": "game:block/planks",
-			"break": "game:block/planks",
-			"hit": "game:block/planks",
-			"ambient": "backrooms:ambient/jazz",
-			"ambientBlockCount": 3
-		},
-		"*": {
-			"walk": "game:walk/wood",
-			"place": "game:block/planks",
-			"break": "game:block/planks",
-			"hit": "game:block/planks"
-		}
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
 	}
 }

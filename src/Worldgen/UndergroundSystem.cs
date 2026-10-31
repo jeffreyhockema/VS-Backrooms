@@ -7,6 +7,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Vintagestory.ServerMods;
+using Backrooms;
 
 namespace Backrooms.Worldgen;
 
@@ -30,7 +31,14 @@ public class UndergroundSystem : ModSystem
     private ICoreServerAPI sapi;
 
     /// <summary>Whether vanilla's generators lay the ground in this world, for the Backrooms to be built on top of.</summary>
-    public static bool Active { get; private set; }
+    public static bool Active => active;
+
+    // Volatile: written on the main thread, read by the worldgen threads
+    private static volatile bool active;
+
+    /// <summary>The game's process-wide sea level before this world changed it, to give back on <see cref="Dispose"/>.</summary>
+    private static int previousSeaLevel, previousClimateSeaLevel;
+    private static bool seaLevelChanged;
 
     public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Server;
 
@@ -54,20 +62,23 @@ public class UndergroundSystem : ModSystem
         int x = (int)args[0], z = (int)args[1];
         var geometry = new WorldGeometry(sapi.WorldManager.MapSizeY);
         IBlockAccessor blocks = sapi.World.BlockAccessor;
+        int cs = sapi.WorldManager.ChunkSize;
+        int cx = Hashing.FloorDiv(x, cs), cz = Hashing.FloorDiv(z, cs);
+        int level = sapi.ModLoader.GetModSystem<BackroomsModSystem>()?.Layout?.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)) ?? -1;
         if (blocks.GetChunkAtBlockPos(x, geometry.FloorY, z) == null)
         {
-            sapi.WorldManager.LoadChunkColumnPriority(x / 32, z / 32, new ChunkLoadOptions { KeepLoaded = true });
-            return TextCommandResult.Success("That column is not loaded yet. Loading it; run the command again in a moment.");
+            sapi.WorldManager.LoadChunkColumnPriority(cx, cz, new ChunkLoadOptions { KeepLoaded = true });
+            return TextCommandResult.Success($"That column (Level {level}) is not loaded yet. Loading it; run the command again in a moment.");
         }
-        int x0 = x / 32 * 32, z0 = z / 32 * 32, top = geometry.FloorY - WorldGenerator.FoundationDepth - 1;
-        var text = new System.Text.StringBuilder($"Ground under chunk {x0},{z0} (y 1-{top}), by bands of 40 down from the foundations:");
+        int x0 = cx * cs, z0 = cz * cs, top = geometry.FloorY - WorldGenerator.FoundationDepth - 1;
+        var text = new System.Text.StringBuilder($"Ground under chunk {x0},{z0} (Level {level}; y 1-{top}), by bands of 40 down from the foundations:");
         var pos = new BlockPos(0, 0, 0);
         for (int bandTop = top; bandTop >= 1; bandTop -= 40)
         {
             var counts = new Dictionary<string, int>();
             for (int y = bandTop; y > Math.Max(0, bandTop - 40); y--)
-                for (int dz = 0; dz < 32; dz++)
-                    for (int dx = 0; dx < 32; dx++)
+                for (int dz = 0; dz < cs; dz++)
+                    for (int dx = 0; dx < cs; dx++)
                     {
                         pos.Set(x0 + dx, y, z0 + dz);
                         Block block = blocks.GetBlock(pos);
@@ -95,6 +106,9 @@ public class UndergroundSystem : ModSystem
 
         // Vanilla lays the land out round its sea level; put that at the Backrooms' floor, so the natural ground (and its
         // ore, which lies at depths below the surface) comes up to just under the foundations
+        previousSeaLevel = TerraGenConfig.seaLevel;
+        previousClimateSeaLevel = Climate.Sealevel;
+        seaLevelChanged = true;
         TerraGenConfig.seaLevel = geometry.FloorY;
         Climate.Sealevel = geometry.FloorY;
 
@@ -123,24 +137,42 @@ public class UndergroundSystem : ModSystem
         }
 
         int soil = DropSoilDeposits();
-        Active = borrowed > 0;
+        active = borrowed > 0;
         sapi.Logger.Notification("[backrooms] The ground under the levels is vanilla's: {0} generator handlers borrowed, {1} soil deposits left out", borrowed, soil);
     }
 
     /// <summary>Copies the borrowed systems' handlers from one list to the front of another, keeping their order.</summary>
-    private static int Borrow(IList from, IList to)
+    private int Borrow(IList from, IList to)
     {
         var picked = from.Cast<Delegate>().Where(d => d.Target != null && Borrowed.Contains(d.Target.GetType().Name) && !to.Contains(d)).ToList();
-        for (int i = 0; i < picked.Count; i++) to.Insert(i, picked[i]);
+        for (int i = 0; i < picked.Count; i++) to.Insert(i, picked[i] is ChunkColumnGenerationDelegate column && picked[i].Target is GenDeposits ? OreInLevel8Only(column) : picked[i]);
         return picked.Count;
     }
 
-    private static int Borrow<T>(List<T> from, List<T> to) where T : Delegate => Borrow((IList)from, (IList)to);
+    /// <summary>Progression: vanilla's deposits (ore, coal, minerals) are generated only under Level 8; Level 8's own strata and ore are the mod's.</summary>
+    private ChunkColumnGenerationDelegate OreInLevel8Only(ChunkColumnGenerationDelegate deposits) => request =>
+    {
+        WorldLayout layout = sapi.ModLoader.GetModSystem<BackroomsModSystem>()?.Layout;
+        if (layout != null)
+        {
+            int half = WorldLayout.MacroSize / 2;
+            // (The chunk column's middle: a macro cell is 32 blocks, a chunk is 32 too)
+            if (layout.LevelAt(WorldLayout.MacroOf(request.ChunkX * 32 + half), WorldLayout.MacroOf(request.ChunkZ * 32 + half)) != 8) return;
+        }
+        deposits(request);
+    };
+
+    private int Borrow<T>(List<T> from, List<T> to) where T : Delegate => Borrow((IList)from, (IList)to);
 
     public override void Dispose()
     {
-        // (Static, so a world loaded next in the same process starts without it)
-        Active = false;
+        // (Static, so a world loaded next in the same process starts without it: neither the borrowed ground nor the sea
+        // level, which vanilla only sets again for its own "standard" world type)
+        active = false;
+        if (!seaLevelChanged) return;
+        TerraGenConfig.seaLevel = previousSeaLevel;
+        Climate.Sealevel = previousClimateSeaLevel;
+        seaLevelChanged = false;
     }
 
     /// <summary>Leaves the soil deposits (clay, peat, gravel, soil) out of vanilla's deposit generator.</summary>

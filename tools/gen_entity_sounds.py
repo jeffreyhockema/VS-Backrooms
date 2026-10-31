@@ -356,9 +356,198 @@ def snarl():
     write("snarl", reverb(out, decay=0.3), 0.75)
 
 
+def plea():
+    """A Wretch's last words: a dry, cracked "pleeease" that falls into a groan, a word shaped by a throat with
+    nothing left to push it (README 6.1: played while it follows someone)."""
+    rng = np.random.default_rng(317)
+    t = seconds(2.2)
+    # The pitch: a hopeful lift on the first syllable, then sagging away, shaking
+    f0 = 118 + 38 * np.clip(t / 0.5, 0, 1) - 70 * np.clip((t - 0.9) / 1.1, 0, 1) + 7 * np.sin(2 * np.pi * 5.5 * t) + 6 * rng.normal(size=len(t)).cumsum() / np.sqrt(len(t))
+    ee = vowel(t, f0, ((300, 80, 1.0), (2300, 260, 0.45), (3100, 300, 0.15)), breath=0.55, rng=rng)
+    ah = vowel(t, f0, ((650, 130, 1.0), (1100, 150, 0.6), (2500, 300, 0.15)), breath=0.7, rng=rng)
+    # "p-l": a puff of air and a lateral glide, then the vowel opens from ee towards ah as the word trails off
+    open_ = np.clip((t - 0.55) / 0.9, 0, 1)
+    voice = ee / max(1e-9, np.max(np.abs(ee))) * (1 - open_) + ah / max(1e-9, np.max(np.abs(ah))) * open_
+    env = np.clip((t - 0.12) / 0.2, 0, 1) * np.clip((2.1 - t) / 0.9, 0, 1) * (0.75 + 0.25 * np.sin(2 * np.pi * 5.5 * t))
+    out = voice * env
+    # The "z" in the middle of the word: a buzzy hiss, and the lips' "p" before it
+    z = band(rng.normal(size=len(t)), 4000, 9000) * np.exp(-((t - 0.78) / 0.12) ** 2) * 0.35
+    p = band(rng.normal(size=len(t)), 300, 3000) * np.exp(-((t - 0.1) / 0.015) ** 2) * 0.8
+    out = out + z + p
+    # Where the breath gives out: a wet rattle
+    rattle = band(rng.normal(size=len(t)), 200, 1200) * np.clip((t - 1.5) / 0.3, 0, 1) * np.clip((2.15 - t) / 0.3, 0, 1) * (0.4 + 0.6 * np.abs(np.sin(2 * np.pi * 11 * t))) * 0.35
+    write("plea", reverb(band(out + rattle, 70, 6500), decay=0.25), 0.6)
+
+
+def stealer_breath(variant):
+    """The Skin-Stealer stalking: a slow, wet breath drawn and let go through a mouth that is not its own, too deep for
+    the size of the chest, with a small click of the jaw (played every so often while it follows someone)."""
+    rng = np.random.default_rng(330 + variant)
+    t = seconds(2.6 + 0.3 * variant)
+    n = t[-1]
+    # In (long, rising, a thin rasp) then out (lower, fuller, a wet rattle)
+    inh = np.clip(t / 0.9, 0, 1) ** 1.5 * np.clip((1.3 - t) / 0.3, 0, 1)
+    exh = np.clip((t - 1.35) / 0.3, 0, 1) * np.clip((n - 0.05 - t) / (n - 1.65), 0, 1) ** 1.3
+    air = band(rng.normal(size=len(t)), 300, 2200)
+    rasp = band(rng.normal(size=len(t)), 2200, 5500)
+    f0 = 62 + 8 * np.sin(2 * np.pi * 0.6 * t) + 5 * rng.normal(size=len(t)).cumsum() / np.sqrt(len(t))
+    moan = vowel(t, f0, ((330, 90, 1.0), (700, 140, 0.5), (1900, 250, 0.12)), breath=0.3, rng=rng)
+    moan = moan / max(1e-9, np.max(np.abs(moan)))
+    wet = 0.4 + 0.6 * np.abs(np.sin(2 * np.pi * (7 + 2 * np.sin(2 * np.pi * 0.5 * t)) * t)) ** 2
+    out = air * inh * 0.8 + rasp * inh * 0.25 + (air * 0.9 + moan * 0.7) * exh * wet
+    # The jaw: a tacky wet click before the breath goes out
+    place(out, band(rng.normal(size=int(0.02 * RATE)), 1200, 6000) * np.exp(-seconds(0.02) * 220) * 1.5, 1.28)
+    write("stealer-breath%d" % variant, reverb(band(out, 50, 5500), decay=0.3), 0.55)
+
+
+def stealer_cry(variant):
+    """The Skin-Stealer turning to the hunt: a person's "hello" (or a sob) dragged slow and low, as a recording played
+    at the wrong speed, then the pitch climbing out of the voice's range into a strangled shriek that cracks."""
+    rng = np.random.default_rng(340 + variant)
+    t = seconds(1.9)
+    n = t[-1]
+    base = 125 if variant == 1 else 105
+    # Slow word: a falling-then-lifting "hel-lo" contour, then the climb
+    word = base * (1 + 0.25 * np.sin(np.pi * np.clip(t / 0.9, 0, 1)) - 0.12 * np.clip((t - 0.45) / 0.3, 0, 1))
+    climb = np.clip((t - 0.95) / 0.7, 0, 1) ** 1.6
+    f0 = word * (1 - climb) + (word + 420 * climb) * climb + 12 * np.sin(2 * np.pi * 7 * t) * climb
+    f0 = np.maximum(f0, 60)
+    eh = vowel(t, f0, ((560, 100, 1.0), (1700, 180, 0.5), (2600, 250, 0.2)), breath=0.3, rng=rng)
+    oh = vowel(t, f0, ((420, 90, 1.0), (800, 120, 0.6), (2500, 250, 0.12)), breath=0.3, rng=rng)
+    ee = vowel(t, f0, ((330, 80, 1.0), (2200, 250, 0.7), (3100, 300, 0.3)), breath=0.5, rng=rng)
+    mix = np.clip((t - 0.5) / 0.35, 0, 1)  # eh -> oh over the word
+    shriek_mix = np.clip((t - 1.0) / 0.5, 0, 1)
+    voice = (eh / max(1e-9, np.max(np.abs(eh)))) * (1 - mix) + (oh / max(1e-9, np.max(np.abs(oh)))) * mix * (1 - shriek_mix)
+    voice += (ee / max(1e-9, np.max(np.abs(ee)))) * shriek_mix
+    # Strangled: a ragged tremor and clipped, with the voice cracking in and out near the top
+    crack = np.where(np.repeat(rng.uniform(0, 1, len(t) // 900 + 1) > 0.25 * shriek_mix.max(), 900)[: len(t)], 1.0, 0.25)
+    crack = np.where(t > 1.2, crack, 1.0)
+    voice = np.tanh(1.8 * voice) * crack * (0.8 + 0.2 * np.sin(2 * np.pi * 23 * t))
+    h = band(rng.normal(size=len(t)), 300, 2500) * np.exp(-((t - 0.05) / 0.06) ** 2) * 0.5  # the "h"
+    sob = band(rng.normal(size=len(t)), 150, 900) * (0.3 + 0.7 * np.abs(np.sin(2 * np.pi * 5 * t))) * np.exp(-t * 1.5) * 0.15
+    env = np.clip(t / 0.04, 0, 1) * np.clip((n - 0.03 - t) / 0.25, 0, 1) * (0.45 + 0.55 * np.clip(t / 0.5, 0, 1) ** 0.5) * (1 + 0.5 * shriek_mix)
+    write("stealer-cry%d" % variant, reverb(band(voice * env + h + sob, 70, 7000), decay=0.35), 0.75)
+
+
+def stealer_attack(variant):
+    """The Skin-Stealer's blow: a heavy, chesty grunt, and over it the sound of a wet tearing and a slap of flesh."""
+    rng = np.random.default_rng(350 + variant)
+    t = seconds(0.9)
+    f0 = 82 - 28 * np.clip(t / 0.4, 0, 1) + 6 * variant
+    grunt = vowel(t, f0, ((520, 130, 1.0), (1000, 160, 0.6), (2400, 300, 0.2)), breath=0.7, rng=rng)
+    grunt = grunt / max(1e-9, np.max(np.abs(grunt))) * np.exp(-((t - 0.16) / 0.13) ** 2)
+    # Tearing: noise chopped into ragged wet strips
+    strips = np.repeat(rng.uniform(0.2, 1, len(t) // 600 + 1), 600)[: len(t)]
+    tear = band(rng.normal(size=len(t)), 500, 5000) * strips * np.clip((t - 0.12) / 0.05, 0, 1) * np.exp(-(t - 0.12) * 4.5) * 0.5
+    # The slap: a short low smack with a wet snap on top
+    slap_at = 0.2
+    sl = seconds(0.25)
+    slap = (np.sin(2 * np.pi * 95 * sl * (1 - 0.4 * sl / 0.25)) * np.exp(-sl * 30) + band(rng.normal(size=len(sl)), 800, 6000) * np.exp(-sl * 70) * 0.9)
+    out = grunt * 0.9 + tear
+    place(out, slap * 1.4, slap_at)
+    write("stealer-attack%d" % variant, reverb(band(out, 50, 6500), decay=0.25), 0.8)
+
+
+def stealer():
+    for variant in (1, 2):
+        stealer_breath(variant)
+        stealer_cry(variant)
+        stealer_attack(variant)
+
+
+def _click(rng, length=0.012, lo=1800, hi=7000):
+    """One dry click of chitin on chitin."""
+    t = seconds(length)
+    return band(rng.normal(size=len(t)), lo, hi) * np.exp(-t * 600)
+
+
+def chitter():
+    """A Giant Spider unseen in the dark: its mouthparts clicking in quick runs, with a dry rattle under them."""
+    rng = np.random.default_rng(401)
+    out = np.zeros(int(1.6 * RATE))
+    at = 0.05
+    for burst in range(3):
+        n = int(rng.integers(5, 10))
+        for _ in range(n):
+            place(out, _click(rng) * rng.uniform(0.5, 1.0), at)
+            at += rng.uniform(0.025, 0.05)
+        at += rng.uniform(0.12, 0.25)
+    t = seconds(len(out) / RATE)
+    rattle = band(rng.normal(size=len(t)), 900, 3200) * 0.08 * (0.5 + 0.5 * np.sin(2 * np.pi * 38 * t)) * np.clip(np.sin(np.pi * t / t[-1]), 0, 1)
+    write("chitter", reverb(out + rattle, decay=0.4), 0.6)
+
+
+def spiderhiss():
+    """A Giant Spider rearing: a harsh hiss forced out with a rasp of stridulation through it, and a clack at its end."""
+    rng = np.random.default_rng(402)
+    t = seconds(1.1)
+    env = np.clip(t / 0.08, 0, 1) * np.clip((1.05 - t) / 0.4, 0, 1)
+    hiss = band(rng.normal(size=len(t)), 2200, 9000) * env
+    rasp = band(rng.normal(size=len(t)), 500, 2500) * (0.4 + 0.6 * np.abs(np.sin(2 * np.pi * 55 * t))) * env * 0.7
+    out = hiss + rasp
+    place(out, _click(rng, 0.02, 800, 5000) * 3, 0.98)
+    write("spiderhiss", reverb(out, decay=0.3), 0.75)
+
+
+def spiderbite():
+    """The bite: a wet crunch as the fangs go in, and the click of them closing."""
+    rng = np.random.default_rng(403)
+    out = np.zeros(int(0.5 * RATE))
+    place(out, _click(rng, 0.02, 600, 6000) * 2.5, 0.0)
+    t = seconds(0.25)
+    place(out, band(rng.normal(size=len(t)), 200, 1800) * np.exp(-t * 18) * 0.9, 0.02)
+    place(out, _click(rng, 0.015) * 1.5, 0.2)
+    write("spiderbite", out, 0.8)
+
+
+def skitter():
+    """Many legs on rock somewhere off in the caves: a run of light, quick taps that comes and goes."""
+    rng = np.random.default_rng(404)
+    out = np.zeros(int(2.2 * RATE))
+    at = 0.05
+    while at < 1.9:
+        k = np.sin(np.pi * at / 2.0)
+        place(out, _click(rng, 0.008, 1200, 5000) * rng.uniform(0.3, 1.0) * k, at)
+        place(out, thud(0.03, rng.uniform(150, 260), rng, 0.2) * 0.25 * k, at)
+        at += rng.uniform(0.018, 0.06)
+    write("skitter", reverb(out, decay=0.5), 0.55)
+
+
+def spiderhurt():
+    """Struck: a shrill rasping squeal, short, and a burst of clicks."""
+    rng = np.random.default_rng(405)
+    t = seconds(0.6)
+    f = 1400 + 600 * np.sin(np.pi * t / 0.6)
+    tone = np.sin(2 * np.pi * np.cumsum(f) / RATE) * (0.5 + 0.5 * np.abs(np.sin(2 * np.pi * 70 * t)))
+    out = (0.5 * tone + band(rng.normal(size=len(t)), 2000, 8000) * 0.6) * np.clip(t / 0.02, 0, 1) * np.clip((0.6 - t) / 0.3, 0, 1)
+    for i in range(6):
+        place(out, _click(rng) * 0.8, 0.3 + i * 0.03)
+    write("spiderhurt", reverb(out, decay=0.3), 0.7)
+
+
+def spiderdeath():
+    """Dying: a long falling hiss and rasp, legs scraping, a last few slow clicks."""
+    rng = np.random.default_rng(406)
+    t = seconds(2.0)
+    env = np.clip(t / 0.05, 0, 1) * np.exp(-t * 1.6)
+    rasp = band(rng.normal(size=len(t)), 400, 3000) * (0.4 + 0.6 * np.abs(np.sin(2 * np.pi * (60 - 25 * t) * t))) * env
+    hiss = band(rng.normal(size=len(t)), 2500, 8000) * env * 0.6
+    out = rasp + hiss
+    for at in (1.1, 1.4, 1.75):
+        place(out, _click(rng, 0.015) * 0.6, at)
+    write("spiderdeath", reverb(out, decay=0.45), 0.7)
+
+
+SPIDER = (chitter, spiderhiss, spiderbite, skitter, spiderhurt, spiderdeath)
+
+
 def main():
+    for spider in SPIDER:
+        spider()
     howl()
+    stealer()
     gurgle()
+    plea()
     snarl()
     ratscream()
     rumble()
@@ -383,4 +572,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if sys.argv[1:] == ["plea"]:
+        plea()
+    elif sys.argv[1:] == ["spider"]:
+        for spider in SPIDER:
+            spider()
+    else:
+        main()

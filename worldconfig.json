@@ -25,7 +25,10 @@
         "playerHungerSpeed": "1.25",
         "backroomsMenace": "normal",
         "backroomsScarcity": "normal",
-        "backroomsMap": "seen"
+        "backroomsMap": "seen",
+        "backroomsLevelSize": "100",
+        "backroomsThirst": "true",
+        "backroomsFatigue": "true"
       }
     }
   ],
@@ -34,8 +37,8 @@
       "code": "backroomsMenace",
       "dataType": "dropdown",
       "category": "survivalchallenges",
-      "values": ["off", "low", "normal", "high"],
-      "names": ["Off", "Low", "Normal", "High"],
+      "values": ["off", "verylow", "low", "normal", "high", "veryhigh"],
+      "names": ["Off", "Verylow", "Low", "Normal", "High", "Veryhigh"],
       "default": "normal"
     },
     {
@@ -53,6 +56,26 @@
       "values": ["seen", "nowaypoints", "none"],
       "names": ["Seen", "NoWaypoints", "None"],
       "default": "seen"
+    },
+    {
+      "code": "backroomsThirst",
+      "dataType": "bool",
+      "category": "survivalchallenges",
+      "default": "true"
+    },
+    {
+      "code": "backroomsFatigue",
+      "dataType": "bool",
+      "category": "survivalchallenges",
+      "default": "true"
+    },
+    {
+      "code": "backroomsLevelSize",
+      "dataType": "dropdown",
+      "category": "worldgen",
+      "values": ["50", "75", "100", "150", "200"],
+      "names": ["50%", "75%", "100%", "150%", "200%"],
+      "default": "100"
     }
   ]
 }

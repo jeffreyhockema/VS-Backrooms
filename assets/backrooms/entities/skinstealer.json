@@ -26,7 +26,12 @@
 			"base": "backrooms:entity/skinstealer"
 		},
 		"texture": {
-			"base": "backrooms:entity/skinstealer"
+			"base": "backrooms:entity/skinstealer",
+			"alternates": [
+				{
+					"base": "backrooms:entity/skinstealer-fed"
+				}
+			]
 		},
 		"size": 0.92,
 		"behaviors": [
@@ -119,8 +124,8 @@
 			},
 			{
 				"code": "health",
-				"currenthealth": 34,
-				"maxhealth": 34
+				"currenthealth": 55,
+				"maxhealth": 55
 			},
 			{
 				"code": "deaddecay",
@@ -147,7 +152,14 @@
 			},
 			{
 				"code": "backrooms-menace",
-				"stalkSeconds": 180
+				"stalkSeconds": 180,
+				"maxEncounterSeconds": 300,
+				"bleedsClear": true,
+				"fedVoices": [
+					"backrooms:entity/hello",
+					"backrooms:entity/hello",
+					"backrooms:entity/cough"
+				]
 			},
 			{
 				"code": "taskai",
@@ -160,11 +172,11 @@
 						"mincooldown": 0,
 						"maxcooldown": 0,
 						"walkSpeed": 0.016,
-						"runSpeed": 0.034,
+						"runSpeed": 0.036,
 						"stalkMin": 10,
 						"stalkMax": 16,
 						"glimpseFleeDistance": 12,
-						"damage": 7,
+						"damage": 10.6,
 						"damageTier": 2,
 						"damageType": "BluntAttack",
 						"knockback": 0.5,
@@ -183,7 +195,36 @@
 							"backrooms:effect/whisper",
 							"backrooms:entity/hello"
 						],
-						"soundRange": 28
+						"voicesWhenSeen": 0.35,
+						"stalkSound": "backrooms:entity/stealer-breath*",
+						"huntSound": "backrooms:entity/stealer-cry*",
+						"attackSound": "backrooms:entity/stealer-attack*",
+						"soundRange": 32,
+						"senses": {
+							"sightLit": 30,
+							"sightDim": 14,
+							"sightDark": 8,
+							"sightCone": 80,
+							"hearing": 24,
+							"memorySeconds": 12,
+							"trackSeconds": 15,
+							"trackError": 10
+						},
+						"investigateSeconds": 8,
+						"searchSeconds": 10,
+						"retaliateSeconds": 60,
+						"feedsOnKill": true,
+						"fedHours": 24,
+						"stunDamage": 5,
+						"stunSeconds": 1.2,
+						"stunCooldownSeconds": 8,
+						"stunAnimation": "hurt",
+						"fedGuardRange": 5,
+						"fedGuardRelease": 12,
+						"fedGuardSeconds": 6,
+						"glimpseTurnsToStalk": true,
+						"escalateThreshold": 8,
+						"escalateApproach": 20
 					},
 					{
 						"code": "idle",
@@ -196,17 +237,16 @@
 						"maxcooldown": 90000
 					},
 					{
-						"code": "wander",
+						"code": "backrooms-amble",
 						"priority": 1.0,
 						"priorityForCancel": 1.35,
-						"movespeed": 0.006,
-						"animation": "walk",
-						"animationSpeed": 1.0,
-						"maxDistanceToSpawn": 24
-					},
-					{
-						"code": "lookaround",
-						"priority": 0.5
+						"movespeed": 0.007,
+						"walkAnimation": "walk",
+						"maxDistanceToSpawn": 24,
+						"minWalk": 4,
+						"maxWalk": 12,
+						"mincooldown": 6000,
+						"maxcooldown": 22000
 					}
 				]
 			},

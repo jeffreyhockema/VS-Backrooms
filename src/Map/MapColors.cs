@@ -75,7 +75,7 @@ public static class MapColors
         if (Is("gravel") || Is("dirtroad") || Is("muddygravel")) return Road;
         if (Is("asphalt")) return Asphalt;
         if (Is("sidewalk") || Is("cityfloor-plaza") || Is("subwayfloor-platform")) return Pavement;
-        if (Is("seabed") || Is("islandrock")) return Sand;
+        if (Is("seabed") || Is("islandrock") || Is("sand-")) return Sand;
         if (Is("housefloor")) return HouseFloor;
         if (Is("rock-") || Is("ore-")) return CaveFloor;
         if (Is("tar")) return Tar;

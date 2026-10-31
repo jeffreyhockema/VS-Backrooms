@@ -68,7 +68,7 @@ public sealed partial class WorldLayout
             case Motion:
                 // The hills are kind enough by day; the castle is not ("bring some Almond Water")
                 return InCastle((int)Math.Floor(x), (int)Math.Floor(z)) ? 0.7f + 0.1f * drift : 1.05f + 0.05f * drift;
-            // The five kept as 14-18 work theirs out in their own files
+            // The far places kept as 14-20 work theirs out in their own files
             case RunLevel: return RunStability(x, y, z, floorY, drift);
             case FunLevel: return FunStability(x, y, z, floorY, drift);
             case TheEnd: return EndStability(x, y, z, floorY, drift);
@@ -177,7 +177,8 @@ public sealed partial class WorldLayout
         // Just inside the shore, where the sea is still shallow
         double angle = Hashing.Unit(h) * Math.PI * 2, radius = InnerEdge(7, angle) + 0.08 * (OuterEdge(7, angle) - InnerEdge(7, angle));
         var start = (spawnMacroX + (int)Math.Round(Math.Cos(angle) * radius), spawnMacroZ + (int)Math.Round(Math.Sin(angle) * radius));
-        bool EntryRoom(Tile t) => t.Zone == 1 && t.Stack == 0;
+        // (From layout version 9, at the foot of the stairs down from Level 6)
+        bool EntryRoom(Tile t) => Version >= 9 ? t.Zone == L7ZoneRoom && t.Detail == L7EntryFoot : t.Zone == 1 && t.Stack == 0;
         return FindArrival(7, key, null, (mx, mz) => true, EntryRoom, checkEscape: false, near: start)
             ?? FindArrival(7, key, null, (mx, mz) => true, EntryRoom, checkEscape: false);
     }
@@ -204,6 +205,8 @@ public sealed partial class WorldLayout
         double radius = LevelMidRadius(level, angle);
         int cx = spawnMacroX + (int)Math.Round(Math.Cos(angle) * radius);
         int cz = spawnMacroZ + (int)Math.Round(Math.Sin(angle) * radius);
+        // From layout version 9 Level 8's roads lie hundreds of blocks apart: start from one of them in that direction
+        if (level == 8 && Version >= 9) (cx, cz) = L8ArrivalCell(angle, h);
         if (level == 11)
         {
             // The city is not a ring: somewhere towards its middle, out on a sidewalk
@@ -222,7 +225,7 @@ public sealed partial class WorldLayout
             (cx, cz) = MotionArrivalCell(h);
             spot ??= IsMotionArrivalSpot;
         }
-        // Nor are the five kept as 14-18: each picks its own cell and its own kind of spot
+        // Nor are the far places kept as 14-20: each picks its own cell and its own kind of spot
         else if (level == RunLevel)
         {
             (cx, cz) = RunArrivalCell(h);

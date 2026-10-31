@@ -13,6 +13,11 @@ using static Backrooms.Worldgen.WorldLayout;
 ///                            glitch walls and Level 37's magenta tiles, and goes through every threshold of the level
 ///                            and back
 ///   3999map bi bj n out.ppm  a picture of n x n plan blocks from block (bi, bj), one pixel a block
+///   3999section [kind] [blocks]  the heights in the units that were atria (lobbies, food courts, game halls, natatoria)
+///                            over the plan blocks round the centre: their ceilings, the headroom over a gallery and an
+///                            escalator's top step, the gallery windows, neon signs, pillars and ceiling tubes under the
+///                            ceiling; then a section west to east through the first unit of the kind (all four if none
+///                            is given), cut along the row with most pillars, drawn the way the generator stacks it
 /// </summary>
 static partial class LevelModes
 {
@@ -24,6 +29,7 @@ static partial class LevelModes
             case "3999hash": L3999HashMode(args); return true;
             case "3999ways": L3999WaysMode(layout, long.Parse(args[0])); return true;
             case "3999map": L3999MapMode(layout, int.Parse(args[3]), int.Parse(args[4]), int.Parse(args[5]), args[6]); return true;
+            case "3999section": L3999SectionMode(layout, args.Length > 3 ? args[3] : null, args.Length > 4 ? int.Parse(args[4]) : 3); return true;
         }
         return false;
     }
@@ -348,5 +354,162 @@ static partial class LevelModes
         for (int z = 0; z < size; z++)
             for (int x = 0; x < size; x++) w.Write(Rgb(L3999Tile(layout, x0 + x, z0 + z)));
         Console.WriteLine($"wrote {path}: blocks {bi0},{bj0} +{n}, {size}x{size}, world {x0},{z0}");
+    }
+
+    /// <summary>3999section: see the summary. The section's characters are listed under it.</summary>
+    static void L3999SectionMode(WorldLayout layout, string only, int reach)
+    {
+        var kinds = new[] { L3999Kind.Lobby, L3999Kind.FoodCourt, L3999Kind.GameHall, L3999Kind.Natatorium };
+        var heights = kinds.ToDictionary(k => k, _ => new SortedSet<int>());
+        var units = kinds.ToDictionary(k => k, _ => 0);
+        var minGallery = kinds.ToDictionary(k => k, _ => int.MaxValue);
+        var minEscalator = kinds.ToDictionary(k => k, _ => int.MaxValue);
+        int windows = 0, windowsOk = 0, signs = 0, signsOk = 0, pillars = 0, pillarsOk = 0, tubes = 0, tubesOk = 0;
+        var first = new Dictionary<L3999Kind, (int Bi, int Bj, L3999Unit U)>();
+        int bottom = layout.Version >= 9 ? 8 : 9;
+        // The blocks round the centre, and (natatoria lie only past 30% of the radius) the first block out along the
+        // east-west line that holds one
+        var blocks = new List<(int Bi, int Bj)>();
+        for (int bj = -reach; bj <= reach; bj++)
+            for (int bi = -reach; bi <= reach; bi++) blocks.Add((bi, bj));
+        for (int bi = reach + 1; bi < 200; bi++)
+            if (layout.L3999UnitsOf(bi, 0).Any(u => u.Kind == L3999Kind.Natatorium)) { blocks.Add((bi, 0)); break; }
+        foreach (var (bi, bj) in blocks)
+                foreach (var u in layout.L3999UnitsOf(bi, bj))
+                {
+                    if (!kinds.Contains(u.Kind)) continue;
+                    units[u.Kind]++;
+                    first.TryAdd(u.Kind, (bi, bj, u));
+                    int bx = layout.L3999OriginX + bi * L3999Block, bz = layout.L3999OriginZ + bj * L3999Block;
+                    for (int c = u.C0; c <= u.C1; c++)
+                        for (int a = u.A0; a <= u.A1; a++)
+                        {
+                            Tile t = L3999Tile(layout, bx + a, bz + c);
+                            if (t.Kind == TileKind.Wall && t.Pattern == WallPattern.L3999Window)
+                            {
+                                // The ceiling over the gallery in front of the window, inside
+                                int h = 0;
+                                foreach (var (dx, dz) in new[] { (1, 0), (-1, 0), (0, 1), (0, -1) })
+                                {
+                                    Tile n = L3999Tile(layout, bx + a + dx, bz + c + dz);
+                                    if (n.Kind == TileKind.Floor && (L3999Zone)n.Zone == L3999Zone.FoodCourt && L3999HasSlab(n)) h = n.Height;
+                                }
+                                windows++;
+                                if (h > 0 && bottom >= L3999SlabRel + 1 && bottom + 2 <= h - 1) windowsOk++;
+                                continue;
+                            }
+                            if (t.Kind is not (TileKind.Floor or TileKind.Water)) continue;
+                            int height = t.Height == 0 ? L3999HallHeight : t.Height;
+                            heights[u.Kind].Add(height);
+                            if (t.Kind != TileKind.Floor) continue;
+                            if (L3999HasSlab(t)) minGallery[u.Kind] = Math.Min(minGallery[u.Kind], height - (L3999SlabRel + 1));
+                            if (t.Variant == Props.L3999Escalator && t.Stair == 7) minEscalator[u.Kind] = Math.Min(minEscalator[u.Kind], height - (t.Stair + 1));
+                            if (t.Overhead == Overheads.L3999Sign) { signs++; if (5 < height - 1 && (!L3999HasSlab(t) || 5 < L3999SlabRel - 1)) signsOk++; }
+                            // (a pillar runs from the floor to rel height - 2, under the ceiling tubes' rel; at least three high)
+                            if (t.Variant == Props.L3999Pillar) { pillars++; if (height - 2 >= 3) pillarsOk++; }
+                            if (t.Overhead is >= Overheads.L3999TubeWE and <= Overheads.L3999DeadNS)
+                            {
+                                tubes++;
+                                // (under the ceiling, over the head of someone standing on the gallery or the floor below it)
+                                if (height - 1 >= (L3999HasSlab(t) ? L3999SlabRel + 3 : 3)) tubesOk++;
+                            }
+                        }
+                }
+        Console.WriteLine($"layout version {layout.Version}; units that were atria in the {(2 * reach + 1) * (2 * reach + 1)} plan blocks round the centre and the first block east with a natatorium:");
+        foreach (var k in kinds)
+            Console.WriteLine($"  {k,-10} {units[k],3} units, ceiling at rel {string.Join("/", heights[k])}; headroom over a gallery "
+                + $"{(minGallery[k] == int.MaxValue ? "-" : minGallery[k].ToString())}, over an escalator's top step {(minEscalator[k] == int.MaxValue ? "-" : minEscalator[k].ToString())}");
+        Console.WriteLine($"  gallery windows (rel {bottom}-{bottom + 2}) under the ceiling: {windowsOk}/{windows}; neon signs (rel 5) under it: {signsOk}/{signs}; "
+            + $"pillars at least 3 high: {pillarsOk}/{pillars}; ceiling tubes over head height: {tubesOk}/{tubes}");
+
+        foreach (var k in kinds)
+        {
+            if (only != null && !k.ToString().Equals(only, StringComparison.OrdinalIgnoreCase)) continue;
+            if (!first.TryGetValue(k, out var f)) continue;
+            int bx = layout.L3999OriginX + f.Bi * L3999Block, bz = layout.L3999OriginZ + f.Bj * L3999Block;
+            // The row through the unit with the most pillars on it
+            int bestZ = (f.U.C0 + f.U.C1) / 2, best = -1;
+            for (int c = f.U.C0 + 1; c < f.U.C1; c++)
+            {
+                int n = 0;
+                for (int a = f.U.A0; a <= f.U.A1; a++) if (L3999Tile(layout, bx + a, bz + c).Variant == Props.L3999Pillar) n++;
+                if (n > best) { best = n; bestZ = c; }
+            }
+            int z = bz + bestZ, x0 = bx + f.U.A0 - 4, x1 = bx + f.U.A1 + 4;
+            Console.WriteLine();
+            Console.WriteLine($"{k} in block {f.Bi},{f.Bj}: section west to east along z {z}, x {x0}-{x1} ({best} pillars on it); rel down the left");
+            for (int rel = 19; rel >= -1; rel--)
+            {
+                var sb = new System.Text.StringBuilder($"{rel,4} ");
+                for (int x = x0; x <= x1; x++) sb.Append(L3999SectionChar(L3999Tile(layout, x, z), rel, bottom));
+                Console.WriteLine(sb);
+            }
+        }
+        Console.WriteLine();
+        Console.WriteLine("  # wall   g shopfront glass   W window   D door   : solid   - ceiling   = floor   _ gallery slab   b balustrade");
+        Console.WriteLine("  c/h/p cabinet, bench, planter on a gallery   | neon pillar   n neon tube   ! neon up a wall   i neon base strip");
+        Console.WriteLine("  S neon sign   m menu board   e escalator step   o other prop   ~ water");
+    }
+
+    /// <summary>What the generator stacks at a height on a tile of the level (WorldGenerator.Level3999Block, in outline).</summary>
+    static char L3999SectionChar(Tile t, int rel, int windowBottom)
+    {
+        if (t.Level != Level3999) return '?';
+        switch (t.Kind)
+        {
+            case TileKind.Wall:
+            case TileKind.Door:
+            case TileKind.Doorway:
+                if (rel < 0 || rel > L3999AtriumHeight) return ':';
+                if (rel == 0) return '=';
+                if (t.Kind == TileKind.Doorway && rel <= t.Height) return ' ';
+                if (t.Kind == TileKind.Door && rel <= (t.Pattern == WallPattern.L3999Revolving ? 3 : 2)) return 'D';
+                if (t.Pattern == WallPattern.L3999Window)
+                {
+                    int bottom = t.Zone == (byte)L3999Zone.Rim ? 2 : windowBottom;
+                    if (rel >= bottom && rel <= bottom + 2) return 'W';
+                }
+                if (t.Pattern == WallPattern.L3999Shopfront && rel <= 5) return 'g';
+                return '#';
+            case TileKind.Water:
+            {
+                if (rel < -t.Depth) return ':';
+                if (rel == -t.Depth) return '=';
+                if (rel <= 0) return '~';
+                int top = t.Height == 0 ? L3999AtriumHeight : t.Height;
+                return rel > top ? ':' : rel == top ? '-' : ' ';
+            }
+        }
+        int height = t.Height == 0 ? L3999HallHeight : t.Height;
+        if (rel < 0) return ':';
+        if (t.Variant == Props.L3999Escalator)
+            return rel > height ? ':' : rel == height ? '-' : rel == 0 ? '=' : rel < t.Stair ? '#' : rel == t.Stair ? 'e' : ' ';
+        if (rel == 0) return '=';
+        if (rel > height) return ':';
+        if (rel == height) return '-';
+        bool slab = L3999HasSlab(t) && height > L3999SlabRel + 1;
+        if (slab && rel == L3999SlabRel) return '_';
+        if (slab && rel == L3999SlabRel + 1)
+        {
+            if (L3999Rail(t) != null) return 'b';
+            if (t.Pipe >= Pipes.L3999UpperCabinet && t.Pipe < Pipes.L3999UpperCabinet + 4) return 'c';
+            if (t.Pipe >= Pipes.L3999UpperBench && t.Pipe < Pipes.L3999UpperBench + 4) return 'h';
+            if (t.Pipe == Pipes.L3999UpperPlanter) return 'p';
+        }
+        if (slab && rel == L3999SlabRel - 1 && (t.Roof & L3999TubeBit) != 0) return 'n';
+        if (rel == height - 1 && t.Overhead is >= Overheads.L3999TubeWE and <= Overheads.L3999DeadNS) return 'n';
+        if (t.Overhead == Overheads.L3999Sign3999 && rel == 14) return 'S';
+        if (t.Overhead == Overheads.L3999Sign && rel == 5 && t.Depth is > 0 and < 8) return 'S';
+        if ((t.Roof & L3999ArchBit) != 0 && rel >= 1 && rel < height && !(slab && rel == L3999SlabRel)) return '!';
+        if ((t.Roof & L3999BaseBit) != 0 && rel == 1 && t.Variant == 0) return 'i';
+        if (slab && rel >= L3999SlabRel && rel <= L3999SlabRel + 1) return ' ';
+        return t.Variant switch
+        {
+            0 => ' ',
+            Props.L3999Pillar => rel < height - 1 && !(L3999HasSlab(t) && rel == L3999SlabRel) ? '|' : ' ',
+            Props.L3999MenuBoard => rel == 3 ? 'm' : rel == 5 ? 'S' : ' ',
+            Props.L3999TicketPile => rel <= 2 ? 'o' : ' ',
+            _ => rel == 1 ? 'o' : ' ',
+        };
     }
 }

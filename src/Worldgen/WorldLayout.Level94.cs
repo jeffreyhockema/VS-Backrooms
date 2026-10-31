@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Backrooms.Worldgen;
 
@@ -24,7 +25,8 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldLayout
 {
     private const ulong SaltMotionShape = 0x9401, SaltHill = 0x9402, SaltRoadKept = 0x9403, SaltTown = 0x9404, SaltMotionTop = 0x9405,
-        SaltMotionSign = 0x9406, SaltStripe = 0x9407, SaltCastle = 0x9408, SaltFence = 0x9409;
+        SaltMotionSign = 0x9406, SaltStripe = 0x9407, SaltCastle = 0x9408, SaltFence = 0x9409,
+        SaltYard = 0x940A, SaltTownYard = 0x940B;
 
     /// <summary>How far apart the hills are, on a jittered lattice.</summary>
     public const int HillPitch = 56;
@@ -167,7 +169,7 @@ public sealed partial class WorldLayout
     /// each of those looks at nine towns and eight more hills, so working them out afresh made Motion the slowest level
     /// to build by far.
     /// </summary>
-    private Hill HillAt(int hi, int hj) => (hills ??= new LatticeMemo<Hill>(4096, PlanHillAt)).Get(hi, hj);
+    private Hill HillAt(int hi, int hj) => hills.Get(hi, hj);
 
     private LatticeMemo<Hill> hills;
 
@@ -231,6 +233,16 @@ public sealed partial class WorldLayout
     /// </summary>
     private (double Off, bool Kept, double Next) RoadNear(int ux, int uz)
     {
+        var e = RoadEdge(ux, uz);
+        return (e.Off, e.Kept, e.Next);
+    }
+
+    /// <summary>
+    /// <see cref="RoadNear"/>, with the lattice points of the two hills whose border the nearest road line is (A the
+    /// nearer, whose ground the position is on; B across the road).
+    /// </summary>
+    private (double Off, bool Kept, double Next, int AI, int AJ, int BI, int BJ) RoadEdge(int ux, int uz)
+    {
         int hi = Hashing.FloorDiv(ux, HillPitch), hj = Hashing.FloorDiv(uz, HillPitch);
         (double D, int I, int J, int X, int Z) a = (double.MaxValue, 0, 0, 0, 0), b = a, c = a;
         for (int dj = -2; dj <= 2; dj++)
@@ -253,7 +265,7 @@ public sealed partial class WorldLayout
         // An edge is kept or dropped as a whole: hash its two hills in order
         (int, int, int, int) key = a.I < b.I || a.I == b.I && a.J < b.J ? (a.I, a.J, b.I, b.J) : (b.I, b.J, a.I, a.J);
         bool kept = Hashing.Unit(Hashing.Hash(seed, key.Item1 * 7919 + key.Item3, key.Item2 * 7919 + key.Item4, SaltRoadKept)) < 0.68;
-        return (Bisector(a, b), kept, Bisector(a, c));
+        return (Bisector(a, b), kept, Bisector(a, c), a.I, a.J, b.I, b.J);
     }
 
     private Tile HillTile(int gx, int gz, int ux, int uz)
@@ -279,8 +291,9 @@ public sealed partial class WorldLayout
                     return t;
                 }
             }
-            // White picket fences along some stretches of road, broken now and then
-            if (off < 4.5 && FenceAlong(ux, uz) && Hashing.Mod(ux + uz, 23) > 2)
+            // White picket fences along some stretches of road, broken now and then (from layout version 9 they stand
+            // back from the road round a hill's own ground instead: PlanHillFence)
+            if (Version < 9 && off < 4.5 && FenceAlong(ux, uz) && Hashing.Mod(ux + uz, 23) > 2)
             {
                 t.Kind = TileKind.Bars;
                 t.Pattern = WallPattern.Fence;
@@ -297,12 +310,27 @@ public sealed partial class WorldLayout
             {
                 ground = plan.Ground(ux, uz, ground, kept ? off : 99);
                 t.Height = (byte)ground;
+                // (Layout version 9) the picket fence round the hill's ground, back from the road
+                if (Version >= 9 && HillFenceOf(Hashing.FloorDiv(owner.X, HillPitch), Hashing.FloorDiv(owner.Z, HillPitch)) is { } fence
+                    && fence.TryGetValue((ux, uz), out var post))
+                {
+                    t.Kind = TileKind.Bars;
+                    t.Pattern = WallPattern.Fence;
+                    t.Stack = post.Joins;
+                    // (Layout version 10: the fence's own footing, levelled along its length)
+                    if (Version >= 10) t.Height = post.Height;
+                    return t;
+                }
                 int lu = ux - plan.X0, lv = uz - plan.Z0;
                 if (lu >= 0 && lv >= 0 && lu < HillLot && lv < HillLot)
                 {
                     Tile lot = plan.Tiles[lv * HillLot + lu];
                     lot.Height = (byte)ground;
                     if (lot.Floor is FloorKind.Lawn or FloorKind.Grass) lot.Floor = t.Floor;
+                    // (Layout version 10: the yard's fence joins only across level ground, and is a post either side of a step)
+                    if (Version >= 10 && lot.Kind == TileKind.Bars && lot.Pattern == WallPattern.Fence)
+                        foreach (var (bit, dx, dz) in new[] { (1, 0, -1), (2, 1, 0), (4, 0, 1), (8, -1, 0) })
+                            if ((lot.Stack & bit) != 0 && LotGround(plan, ux + dx, uz + dz) != ground) lot.Stack &= (byte)~bit;
                     // The path to the door climbs the yard in steps
                     if (lot.Floor == FloorKind.MotionPath && lot.Kind == TileKind.Floor)
                     {
@@ -356,6 +384,261 @@ public sealed partial class WorldLayout
         return (byte)((F(ux, uz - 1) ? 1 : 0) | (F(ux + 1, uz) ? 2 : 0) | (F(ux, uz + 1) ? 4 : 0) | (F(ux - 1, uz) ? 8 : 0));
     }
 
+    // ================= Fences (layout version 9) =================
+
+    /// <summary>How far from the middle of a road its fences stand: the road is 2.5 either side, its kerb one more,
+    /// then two blocks of grass verge (the fence is the first block past that).</summary>
+    private const double FenceSetback = 5.5;
+
+    private PlanCache<Dictionary<(int, int), (byte Joins, byte Height)>> hillFences;
+
+    /// <summary>The picket fence round a hill's ground (positions, the neighbours each joins, N1 E2 S4 W8, and from layout
+    /// version 10 the height of the ground it stands on), or null.</summary>
+    private Dictionary<(int, int), (byte Joins, byte Height)> HillFenceOf(int hi, int hj) => hillFences.Get(hi, hj);
+
+    /// <summary>The lattice point whose hill a position belongs to, as <see cref="HillGround"/> picks its owner.</summary>
+    private (int I, int J) HillOwnerAt(int ux, int uz)
+    {
+        int hi = Hashing.FloorDiv(ux, HillPitch), hj = Hashing.FloorDiv(uz, HillPitch);
+        (int, int) best = (hi, hj);
+        double bestD = double.MaxValue;
+        for (int dj = -1; dj <= 1; dj++)
+            for (int di = -1; di <= 1; di++)
+            {
+                Hill hill = HillAt(hi + di, hj + dj);
+                double dx = ux - hill.X, dz = uz - hill.Z, r = Math.Sqrt(dx * dx + dz * dz);
+                if (r < bestD) { bestD = r; best = (hi + di, hj + dj); }
+            }
+        return best;
+    }
+
+    /// <summary>
+    /// From layout version 9: a white picket fence round some hills' ground, as in the pictures: set back from the road
+    /// behind a grass verge (<see cref="FenceSetback"/>), following the hill's border with each road it meets (the
+    /// line halfway between it and the next hill), turning where two roads meet and joined at its corners, and ending
+    /// where the border has no road (a hill's border with the next where the road was dropped stays open). It is open
+    /// where the path from the house comes down (three blocks wide) and halfway along each road, where the line between
+    /// the two hills crosses it, so there is a way in from every road; lengths left shorter than four are taken out. In
+    /// 1-8 fences ran along the kerb through some squares of the lattice, broken every 23 blocks on a diagonal.
+    /// </summary>
+    private Dictionary<(int, int), (byte Joins, byte Height)> PlanHillFence(int hi, int hj)
+    {
+        Hill hill = HillAt(hi, hj);
+        if (hill.Radius == 0) return null;
+        double chance = hill.Top switch
+        {
+            HillTop.House => 0.5,
+            HillTop.Kitchen or HillTop.Bedroom or HillTop.Parlour => 0.3,
+            HillTop.WaterTower or HillTop.Tree or HillTop.Car => 0.2,
+            _ => 0,
+        };
+        if (Hashing.Unit(Hashing.Hash(seed, hi, hj, SaltYard)) >= chance) return null;
+        HillPlan plan = HillPlanOf(hi, hj);
+        if (plan == null) return null;
+
+        const int R = 46;
+        int n = 2 * R + 3, x0 = hill.X - R - 1, z0 = hill.Z - R - 1;
+        var road = new bool[n * n];   // in a road's band: within the setback of a road that is there
+        var mine = new bool[n * n];   // this hill's ground, the nearest road line one that is there
+        var across = new (int I, int J)[n * n];
+        for (int z = 0; z < n; z++)
+            for (int x = 0; x < n; x++)
+            {
+                var e = RoadEdge(x0 + x, z0 + z);
+                road[z * n + x] = e.Kept && e.Off < FenceSetback;
+                mine[z * n + x] = e.Kept && e.Off >= FenceSetback && e.AI == hi && e.AJ == hj;
+                across[z * n + x] = (e.BI, e.BJ);
+            }
+
+        var fence = new HashSet<(int, int)>();
+        int doorX = plan.DoorX;
+        for (int z = 1; z < n - 1; z++)
+            for (int x = 1; x < n - 1; x++)
+            {
+                if (!mine[z * n + x]) continue;
+                // The first block past the verge: touching the road's band, corners included, so a fence along a
+                // slanting road is a staircase of joined lengths and never posts touching only at their corners
+                bool edge = false;
+                for (int dz = -1; dz <= 1 && !edge; dz++)
+                    for (int dx = -1; dx <= 1; dx++)
+                        if (road[(z + dz) * n + x + dx]) { edge = true; break; }
+                if (!edge) continue;
+                int ux = x0 + x, uz = z0 + z;
+                if (HillOwnerAt(ux, uz) != (hi, hj) || NearTown(ux, uz, 8)) continue;
+                // Never in the lot on top (a small hill's border can come near it)
+                if (ux >= plan.X0 - 1 && ux <= plan.X0 + HillLot && uz >= plan.Z0 - 1 && uz <= plan.Z0 + HillLot) continue;
+                // The gate where the path from the front door comes down
+                if (doorX != int.MinValue && Math.Abs(ux - doorX) <= 1 && (plan.FacesSouth ? uz > hill.Z : uz < hill.Z)) continue;
+                // ...and an opening halfway along each road, on the line between the two hills
+                Hill other = HillAt(across[z * n + x].I, across[z * n + x].J);
+                double ax = other.X - hill.X, az = other.Z - hill.Z, len = Math.Sqrt(ax * ax + az * az);
+                if (len > 0 && Math.Abs(ax * (uz - hill.Z) - az * (ux - hill.X)) / len < 1.6) continue;
+                fence.Add((ux, uz));
+            }
+
+        // Where a staircase changes its slope it can come out two blocks thick: take out the block of each such square
+        // that joins only the other three
+        bool thinned;
+        do
+        {
+            thinned = false;
+            // (in a fixed order: a HashSet's order of tuples changes from one run to the next)
+            foreach (var (px, pz) in fence.OrderBy(p => p.Item2).ThenBy(p => p.Item1))
+            {
+                if (!fence.Contains((px + 1, pz)) || !fence.Contains((px, pz + 1)) || !fence.Contains((px + 1, pz + 1))) continue;
+                foreach (var (cx, cz, ox, oz) in new[] { (px, pz, -1, -1), (px + 1, pz, 1, -1), (px, pz + 1, -1, 1), (px + 1, pz + 1, 1, 1) })
+                    if (!fence.Contains((cx + ox, cz)) && !fence.Contains((cx, cz + oz)))
+                    {
+                        fence.Remove((cx, cz));
+                        thinned = true;
+                        break;
+                    }
+                if (thinned) break;
+            }
+        } while (thinned);
+
+        // Lengths of fewer than four blocks (left between two openings, or cut off by a lot) are taken out
+        var seen = new HashSet<(int, int)>();
+        var drop = new List<(int, int)>();
+        var stack = new Stack<(int, int)>();
+        var piece = new List<(int, int)>();
+        foreach (var start in fence)
+        {
+            if (!seen.Add(start)) continue;
+            piece.Clear();
+            stack.Push(start);
+            while (stack.Count > 0)
+            {
+                var (px, pz) = stack.Pop();
+                piece.Add((px, pz));
+                foreach (var q in new[] { (px, pz - 1), (px + 1, pz), (px, pz + 1), (px - 1, pz) })
+                    if (fence.Contains(q) && seen.Add(q)) stack.Push(q);
+            }
+            if (piece.Count < 4) drop.AddRange(piece);
+        }
+        foreach (var p in drop) fence.Remove(p);
+        if (fence.Count == 0) return null;
+
+        var heights = Version >= 10 ? LevelFence(fence, plan) : null;
+        var joins = new Dictionary<(int, int), (byte, byte)>(fence.Count);
+        foreach (var (px, pz) in fence)
+        {
+            // (Layout version 10: pickets only join across level ground; where the ground steps both sides are posts)
+            bool J(int qx, int qz) => fence.Contains((qx, qz)) && (heights == null || heights[(qx, qz)] == heights[(px, pz)]);
+            joins[(px, pz)] = ((byte)((J(px, pz - 1) ? 1 : 0) | (J(px + 1, pz) ? 2 : 0) | (J(px, pz + 1) ? 4 : 0) | (J(px - 1, pz) ? 8 : 0)),
+                heights == null ? (byte)0 : (byte)heights[(px, pz)]);
+        }
+        return joins;
+    }
+
+    /// <summary>The ground of a hilltop's lot or the hill round it at a position, as <see cref="HillTile"/> lays it.</summary>
+    private int LotGround(HillPlan plan, int ux, int uz)
+    {
+        var (off, kept, _) = RoadNear(ux, uz);
+        return plan.Ground(ux, uz, HillGround(ux, uz, out _), kept ? off : 99);
+    }
+
+    /// <summary>
+    /// From layout version 10: the ground each block of a hill's fence stands on. The hill's own ground steps a block at a
+    /// time (a fence along a slope ran up and down, its panels hanging off the next block or buried in it), so each
+    /// block takes the median of the ground within five blocks along the fence, never more than a block from its own,
+    /// which makes the fence run level and step only where the slope really climbs. Neighbours still more than a block
+    /// apart go back to their own ground.
+    /// </summary>
+    private Dictionary<(int, int), int> LevelFence(HashSet<(int, int)> fence, HillPlan plan)
+    {
+        var own = new Dictionary<(int, int), int>(fence.Count);
+        foreach (var (px, pz) in fence)
+        {
+            own[(px, pz)] = LotGround(plan, px, pz);
+        }
+        var level = new Dictionary<(int, int), int>(fence.Count);
+        var near = new List<int>();
+        var dist = new Dictionary<(int, int), int>();
+        var queue = new Queue<(int, int)>();
+        foreach (var p in fence.OrderBy(q => q.Item2).ThenBy(q => q.Item1))
+        {
+            near.Clear();
+            dist.Clear();
+            dist[p] = 0;
+            queue.Enqueue(p);
+            while (queue.Count > 0)
+            {
+                var q = queue.Dequeue();
+                near.Add(own[q]);
+                if (dist[q] == 5) continue;
+                foreach (var r in new[] { (q.Item1, q.Item2 - 1), (q.Item1 + 1, q.Item2), (q.Item1, q.Item2 + 1), (q.Item1 - 1, q.Item2) })
+                    if (fence.Contains(r) && dist.TryAdd(r, dist[q] + 1)) queue.Enqueue(r);
+            }
+            near.Sort();
+            level[p] = Math.Clamp(near[near.Count / 2], own[p] - 1, own[p] + 1);
+        }
+        // Where two neighbours still stand more than a block apart, both go back to their own ground (which differs by
+        // less, or the hill itself has a wall there and the fence is posts either side of it)
+        bool again;
+        do
+        {
+            again = false;
+            foreach (var p in fence.OrderBy(q => q.Item2).ThenBy(q => q.Item1))
+                foreach (var r in new[] { (p.Item1 + 1, p.Item2), (p.Item1, p.Item2 + 1) })
+                    if (fence.Contains(r) && Math.Abs(level[p] - level[r]) > 1 && (level[p] != own[p] || level[r] != own[r]))
+                    {
+                        level[p] = own[p];
+                        level[r] = own[r];
+                        again = true;
+                    }
+        } while (again);
+        return level;
+    }
+
+    /// <summary>
+    /// From layout version 9: takes out the picket fence that <see cref="PlanFrontYard"/> laid across a lot one block in
+    /// from its front, a row going nowhere with its ends loose (it is laid again whole by <see cref="FenceFrontYard"/>).
+    /// Says whether there was one.
+    /// </summary>
+    private static bool LiftFrontFence(Tile[] lot, int w)
+    {
+        bool any = false;
+        for (int u = 0; u < w; u++)
+        {
+            ref Tile t = ref lot[w + u];
+            if (t.Kind != TileKind.Bars || t.Pattern != WallPattern.Fence) continue;
+            t.Kind = TileKind.Floor;
+            t.Pattern = 0;
+            t.Stack = 0;
+            any = true;
+        }
+        return any;
+    }
+
+    /// <summary>
+    /// From layout version 9: a picket fence round a Level 94 house's front yard, in the plan's coordinates (front at
+    /// v = 0): across the front one block in from the lot's edge, then back along both sides a block out from the
+    /// house to its front corners, joined at its corners. It leaves a gate where the path to the door goes through, and
+    /// stands on nothing else that is laid there (a porch, a wall); a flower bed or shrub where it runs is taken up.
+    /// </summary>
+    private static void FenceFrontYard(Tile[] lot, int w, House house)
+    {
+        int ul = Math.Max(1, house.U0 - 1), ur = Math.Min(w - 2, house.U1 + 1);
+        var at = new HashSet<(int, int)>();
+        void Add(int u, int v)
+        {
+            Tile t = lot[v * w + u];
+            if (t.Kind != TileKind.Floor || t.Floor is FloorKind.Sidewalk or FloorKind.MotionPath or FloorKind.Driveway or FloorKind.Porch) return;
+            at.Add((u, v));
+        }
+        for (int u = ul; u <= ur; u++) Add(u, 1);
+        for (int v = 2; v <= house.V0; v++) { Add(ul, v); Add(ur, v); }
+        foreach (var (u, v) in at)
+        {
+            ref Tile t = ref lot[v * w + u];
+            t.Kind = TileKind.Bars;
+            t.Pattern = WallPattern.Fence;
+            t.Variant = 0;
+            t.Stack = (byte)((at.Contains((u, v - 1)) ? 1 : 0) | (at.Contains((u + 1, v)) ? 2 : 0) | (at.Contains((u, v + 1)) ? 4 : 0) | (at.Contains((u - 1, v)) ? 8 : 0));
+        }
+    }
+
     // ================= Hilltops =================
 
     /// <summary>A hill's top as planned: its lot (in the hill's own corner of the world), how high the lot stands, and the path down.</summary>
@@ -379,11 +662,13 @@ public sealed partial class WorldLayout
             return Math.Max(natural, Math.Min(Floor - Math.Max(0, away), (int)Math.Floor(road - 3)));
         }
         public readonly Dictionary<(int, int), (byte Height, bool Stair, ArchPier Up)> Path = new();
+        /// <summary>The column of the front door and the path down from it (int.MinValue with no door).</summary>
+        public int DoorX = int.MinValue;
     }
 
     private PlanCache<HillPlan> hillPlans;
 
-    private HillPlan HillPlanOf(int hi, int hj) => (hillPlans ??= new PlanCache<HillPlan>(256, PlanHill)).Get(hi, hj);
+    private HillPlan HillPlanOf(int hi, int hj) => hillPlans.Get(hi, hj);
 
     private HillPlan PlanHill(int hi, int hj)
     {
@@ -404,10 +689,19 @@ public sealed partial class WorldLayout
         {
             case HillTop.House:
             {
-                House house = PlanHouse(lot, HillLot, ref rng, farmhouse: true);
+                House house = PlanHouse(lot, HillLot, ref rng, farmhouse: true,
+                    v9: Version >= 11 ? Hashing.Hash(seed, hi, hj, SaltMotionTop + 0x10) | 1 : 0, motion: true);
                 PlanFrontYard(lot, HillLot, house, ref rng);
+                // (Layout version 9: the front yard's fence goes round it, its corners joined; in 1-8 a loose row)
+                bool fenced = Version >= 9 && LiftFrontFence(lot, HillLot);
+                if (fenced) FenceFrontYard(lot, HillLot, house);
                 doorU = house.DoorU;
                 (coreU0, coreU1, coreV0, coreV1) = (house.U0, house.U1, house.V0 - 2, house.V1);
+                // (Layout version 10: the whole fenced yard stands level, the hill falling away outside the fence, so the
+                // fence along its sides is not a staircase down the lot)
+                // (Layout version 11: and the chimney outside a gable end stands on level ground too, so its cap is at the height planned)
+                if (Version >= 11) coreU0 = Math.Max(1, house.U0 - 1);
+                if (Version >= 10 && fenced) (coreU0, coreU1, coreV0) = (Math.Max(1, house.U0 - 1), Math.Min(HillLot - 2, house.U1 + 1), 1);
                 double kind = rng.NextDouble();
                 for (int i = 0; i < lot.Length; i++)
                 {
@@ -589,6 +883,7 @@ public sealed partial class WorldLayout
         // The path from the front door down the hill to the road, a staircase where the hill falls away
         if (doorU >= 0)
         {
+            plan.DoorX = plan.X0 + doorU;
             int px = plan.X0 + doorU, step = hill.FacesSouth ? 1 : -1;
             int pz = hill.FacesSouth ? plan.Z0 + HillLot : plan.Z0 - 1;
             int edgeV = hill.FacesSouth ? HillLot - 1 : 0;
@@ -634,7 +929,7 @@ public sealed partial class WorldLayout
     // ================= Towns =================
 
     /// <summary>Where the town of a district stands (the corner of its square), if it has one (remembered, as the hills are).</summary>
-    private (int Ti, int Tj, int X0, int Z0)? TownOf(int ti, int tj) => (towns ??= new LatticeMemo<(int, int, int, int)?>(1024, PlanTownOf)).Get(ti, tj);
+    private (int Ti, int Tj, int X0, int Z0)? TownOf(int ti, int tj) => towns.Get(ti, tj);
 
     private LatticeMemo<(int, int, int, int)?> towns;
 
@@ -678,7 +973,7 @@ public sealed partial class WorldLayout
 
     private PlanCache<Tile[]> townPlans;
 
-    private Tile[] TownPlan(int ti, int tj) => (townPlans ??= new PlanCache<Tile[]>(16, PlanTown)).Get(ti, tj);
+    private Tile[] TownPlan(int ti, int tj) => townPlans.Get(ti, tj);
 
     /// <summary>
     /// A town: roads in a square of three by three, eight small houses round a paved plaza with the fountain of Almond
@@ -751,8 +1046,12 @@ public sealed partial class WorldLayout
                 var lot = new Tile[HillLot * HillLot];
                 for (int i = 0; i < lot.Length; i++) lot[i] = new Tile { Kind = TileKind.Floor, Floor = FloorKind.Lawn };
                 var lotRng = new Rng(Hashing.Hash(seed, ti * 3 + col, tj * 3 + row, SaltTown + 2));
-                House house = PlanHouse(lot, HillLot, ref lotRng, farmhouse: true);
+                House house = PlanHouse(lot, HillLot, ref lotRng, farmhouse: true,
+                    v9: Version >= 11 ? Hashing.Hash(seed, ti * 3 + col, tj * 3 + row, SaltTown + 0x10) | 1 : 0, motion: true);
                 PlanFrontYard(lot, HillLot, house, ref lotRng);
+                // (Layout version 9: the front yard's fence goes round it, and more town houses have one)
+                if (Version >= 9 && (LiftFrontFence(lot, HillLot) | Hashing.Unit(Hashing.Hash(seed, ti * 3 + col, tj * 3 + row, SaltTownYard)) < 0.4))
+                    FenceFrontYard(lot, HillLot, house);
                 bool facesSouth = row == 0; // the north row faces the road to its south
                 byte shingles = (byte)(lotRng.Chance(0.7) ? 3 : 2);
                 for (int v = 0; v < HillLot; v++)
@@ -822,9 +1121,9 @@ public sealed partial class WorldLayout
         return new Tile { Kind = TileKind.Floor, Floor = FloorKind.TurfLight, Zone = 2, Height = (byte)Math.Max(0, height) };
     }
 
-    private Tile[] castlePlan;
+    private Lazy<Tile[]> castlePlan;
 
-    private Tile[] CastlePlan() => castlePlan ??= PlanCastle();
+    private Tile[] CastlePlan() => castlePlan.Value;
 
     /// <summary>The castle's square, in its own coordinates (0 to <see cref="CastleSize"/>; the gate is in the south wall).</summary>
     private static bool CastleTower(int u, int v) => (u < 7 || u >= CastleSize - 7) && (v < 7 || v >= CastleSize - 7);
@@ -842,6 +1141,7 @@ public sealed partial class WorldLayout
         ref Tile At(int u, int v) => ref tiles[v * n + u];
         void Wall(int u, int v, WallPattern pattern) => At(u, v) = new Tile { Kind = TileKind.Wall, Pattern = pattern, Zone = 3 };
         void Floor(int u, int v, FloorKind floor, byte zone = 3) => At(u, v) = new Tile { Kind = TileKind.Floor, Floor = floor, Zone = zone, Ceiling = CeilingKind.Tile };
+        // (seeded by the salt alone, not the world's seed: the castle is a fixed set, the same in every world, slides facing the same ways)
         var rng = new Rng(SaltCastle);
 
         // Fill: the funhouse's own walls

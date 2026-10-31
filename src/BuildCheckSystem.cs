@@ -63,7 +63,11 @@ public class BuildCheckSystem : ModSystem
         };
     }
 
-    /// <summary>This side's fingerprint: the mod's version, its compiled code, and the names of its assets.</summary>
+    /// <summary>
+    /// This side's build: the version (shown in the warning), and a fingerprint of its compiled code (the module id) and
+    /// the names of its client-visible assets. The client's asset list also holds any resource pack's assets in the
+    /// backrooms domain, so a pack that adds or renames one makes that client's fingerprint differ and triggers the warning.
+    /// </summary>
     private BuildInfo Own(ICoreAPI api)
     {
         if (own != null) return own;

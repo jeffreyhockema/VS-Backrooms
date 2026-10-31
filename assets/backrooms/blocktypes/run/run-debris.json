@@ -1,4 +1,4 @@
-// Broken ceiling tiles and a bent T-bar on the floor (trips a sprinter)
+// A heap of fallen ceiling: broken deck, tiles tipped up on it, a bent T-bar (walked through; trips a sprinter: jump it)
 {
 	"code": "run-debris",
 	"variantgroups": [
@@ -60,7 +60,7 @@
 			"y1": 0,
 			"z1": 0.06,
 			"x2": 0.94,
-			"y2": 0.1,
+			"y2": 0.4,
 			"z2": 0.94
 		},
 		"*-east": {
@@ -68,7 +68,7 @@
 			"y1": 0,
 			"z1": 0.06,
 			"x2": 0.94,
-			"y2": 0.1,
+			"y2": 0.4,
 			"z2": 0.94,
 			"rotateY": 270
 		},
@@ -77,7 +77,7 @@
 			"y1": 0,
 			"z1": 0.06,
 			"x2": 0.94,
-			"y2": 0.1,
+			"y2": 0.4,
 			"z2": 0.94,
 			"rotateY": 180
 		},
@@ -86,7 +86,7 @@
 			"y1": 0,
 			"z1": 0.06,
 			"x2": 0.94,
-			"y2": 0.1,
+			"y2": 0.4,
 			"z2": 0.94,
 			"rotateY": 90
 		}

@@ -1,4 +1,4 @@
-// A child's toy car on the floor, hard to see in the dark (trips a sprinter)
+// A toy crate tipped over in the hall, the car, the blocks and a ball strewn round it (walked through; trips a sprinter: jump it)
 {
 	"code": "run-toycar",
 	"variantgroups": [
@@ -56,38 +56,38 @@
 	},
 	"selectionboxByType": {
 		"*-north": {
-			"x1": 0.25,
+			"x1": 0.06,
 			"y1": 0,
-			"z1": 0.3,
-			"x2": 0.75,
-			"y2": 0.25,
-			"z2": 0.7
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.42,
+			"z2": 0.94
 		},
 		"*-east": {
-			"x1": 0.25,
+			"x1": 0.06,
 			"y1": 0,
-			"z1": 0.3,
-			"x2": 0.75,
-			"y2": 0.25,
-			"z2": 0.7,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.42,
+			"z2": 0.94,
 			"rotateY": 270
 		},
 		"*-south": {
-			"x1": 0.25,
+			"x1": 0.06,
 			"y1": 0,
-			"z1": 0.3,
-			"x2": 0.75,
-			"y2": 0.25,
-			"z2": 0.7,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.42,
+			"z2": 0.94,
 			"rotateY": 180
 		},
 		"*-west": {
-			"x1": 0.25,
+			"x1": 0.06,
 			"y1": 0,
-			"z1": 0.3,
-			"x2": 0.75,
-			"y2": 0.25,
-			"z2": 0.7,
+			"z1": 0.06,
+			"x2": 0.94,
+			"y2": 0.42,
+			"z2": 0.94,
 			"rotateY": 90
 		}
 	},

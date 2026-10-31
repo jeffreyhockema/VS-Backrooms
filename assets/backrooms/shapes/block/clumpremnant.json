@@ -1,0 +1,198 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"flesh": "backrooms:block/clumpremnant"
+	},
+	"elements": [
+		{
+			"name": "Patch",
+			"from": [
+				2,
+				0,
+				2
+			],
+			"to": [
+				14,
+				1,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Lump",
+			"from": [
+				5,
+				1,
+				5
+			],
+			"to": [
+				11,
+				2,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Knuckle",
+			"from": [
+				8,
+				1,
+				9
+			],
+			"to": [
+				10,
+				3,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#flesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

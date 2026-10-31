@@ -71,5 +71,8 @@
 		"z2": 0.75
 	},
 	"class": "BackroomsDispenser",
-	"entityClass": "BackroomsDispenser"
+	"entityClass": "BackroomsDispenser",
+	"attributes": {
+		"liquidSource": true
+	}
 }

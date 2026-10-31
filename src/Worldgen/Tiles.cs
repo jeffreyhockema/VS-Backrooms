@@ -207,6 +207,8 @@ public enum WallPattern : byte
     L974BathTile = 147,
     /// <summary>Level 974: a window that is a painting (Stack 0 left, 1 right as seen from the room; Pier the way it faces; Detail the painting).</summary>
     L974Window = 148,
+    /// <summary>Level 974 (layout version 11 on): the wall beside a doorway, with the door's casing on it (Pier the side the opening is on).</summary>
+    L974Jamb = 149,
 
     // ===== Levels 3999 and 188 (19, 20): one block of values each, as for 14-18 =====
 
@@ -236,10 +238,16 @@ public enum WallPattern : byte
     L188Facade = 177, L188Nothing = 178, L188Partition = 179, L188CorridorWall = 180, L188OuterWall = 181, L188StairWall = 182,
     L188FrontDoor = 183, L188SealedDoor = 184, L188LockedDoor = 185,
 
+    /// <summary>
+    /// Level 0 (layout version 10 on): the arched areas' plain cream plaster, on every wall, pier and header of them
+    /// (the pale paper, <see cref="Cream"/>, in layout versions 1-9). Appended last: no value before it moves.
+    /// </summary>
+    Stucco = 192,
+
     // ===== The experimental Levels 73, the Basement and 52 (21-23): one block of values each =====
 
-    /// <summary>Level 73 (block 192-207): the Silver Castle's walls (curtain, towers, keep), and the cliff round the sea at the region's rim.</summary>
-    L73Wall = 192, L73Rim = 193,
+    /// <summary>Level 73 (block 196-207; 192-195 are main's: Stucco is 192): the Silver Castle's walls (curtain, towers, keep), and the cliff round the sea at the region's rim.</summary>
+    L73Wall = 196, L73Rim = 197,
     /// <summary>The Basement (block 208-223): its rim (damp cinder block), the Cellar's cinder walls, the Flood's walls (slimed under the water, a tide line just over it), a Cellar room's squat pillar, a stained cinder wall.</summary>
     BasementWall = 208, BasementCinder = 209, BasementFloodWall = 210, BasementPillar = 211, BasementStained = 212,
     /// <summary>Level 52 (block 224-239). Placeholder.</summary>
@@ -432,6 +440,7 @@ public enum FloorKind : byte
     /// The End (block 132-147): grey-green library carpet (dusty, worn, stained, under snow), the navy patterned
     /// runway, the stockrooms' concrete and its safety line.
     /// </summary>
+    /// <summary>The first of the End's range (the same value as <see cref="EndCarpet"/>, which is the one used).</summary>
     EndFloor = 132,
     EndCarpet = 132,
     EndCarpetDusty = 133,
@@ -453,6 +462,14 @@ public enum FloorKind : byte
     /// <summary>The Hub: the Tower's polished marble, plain and inlaid.</summary>
     HubMarble = 154,
     HubMarbleInlay = 155,
+    /// <summary>
+    /// The Hub (layout version 11): the yellow line down the middle of a big tunnel's two lanes (its way in
+    /// <see cref="Tile.Pier"/>: east for a line running east-west, north for north-south; the generator joins it to the
+    /// line tiles beside it, round the bends too), and a narrow tunnel's broken white give-way line where it meets
+    /// another tunnel (Pier: the way the traffic runs, east or north).
+    /// </summary>
+    HubLine = 156,
+    HubGiveWay = 157,
     /// <summary>Level 974 (block 164-179): blush carpet, the kitchen's pink-and-white checker, the bathrooms' white hexagons.</summary>
     L974Floor = 164,
     L974Checker = 165,
@@ -674,7 +691,8 @@ public struct Tile
     public bool Sealed;
     /// <summary>
     /// What is below the floor, or a threshold to somewhere else: Level 3's 1 = flooded utility tunnel, 2 = manhole shaft
-    /// down into one; the rest are <see cref="Unders"/>.
+    /// down into one (from layout version 9 <see cref="Zone"/> tells their parts apart: <see cref="WorldLayout.L3ShaftLeft"/>,
+    /// <see cref="WorldLayout.L3TunnelLanding"/>...); the rest are <see cref="Unders"/>.
     /// </summary>
     public byte Under;
     /// <summary>What hangs under the ceiling or replaces a ceiling tile: one of <see cref="Overheads"/>.</summary>
@@ -685,7 +703,8 @@ public struct Tile
     public byte Roof;
     /// <summary>
     /// What part of its level this tile is in; meaning depends on the level (e.g. Level 6: 1 = the Snackrooms; Levels 1
-    /// and 4: which of a stairwell's flights a step is in, <see cref="WorldLayout.FlightZoneUp"/>).
+    /// and 4: which of a stairwell's flights a step is in, <see cref="WorldLayout.FlightZoneUp"/>; Level 7: the parts of
+    /// an entry room and, from layout version 9, of a sunken room, <see cref="WorldLayout.L7ZoneRoom"/>).
     /// </summary>
     public byte Zone;
     /// <summary>Level 11: flags on a building tile (see <see cref="CityDetail"/>).</summary>
@@ -728,6 +747,14 @@ public static class Pipes
     /// <summary>Level 3: cable bundles with loops and loose ends hanging down.</summary>
     public const byte CableDroopX = 13;
     public const byte CableDroopZ = 14;
+    /// <summary>
+    /// Level 5's boiler plant, from layout version 9: what runs overhead (the top block of a boiler bay) along the back
+    /// wall over the row of boilers and furnaces. The header is a flue duct with a steam main beside it, along X
+    /// (the steam main on the wall side, by the row in the cell). PlantRun is the plain header,
+    /// PlantFlue a furnace's flue rising into it from below, PlantBoth a boiler's flue and steam pipe rising into it;
+    /// PlantThru, on a wall tile, is where the header passes through a bay wall.
+    /// </summary>
+    public const byte PlantRun = 15, PlantFlue = 16, PlantBoth = 17, PlantThru = 18;
 
     // ===== The far places (ids 14-20): one block of values each (see docs/design/new-levels/CONTRACT.md) =====
     public const byte RunFirst = 20, RunLast = 29;
@@ -831,7 +858,11 @@ public static class Unders
     public const byte Circle = 3;
     /// <summary>Level 7: an underwater cave mouth in the midnight zone, leading to Level 8.</summary>
     public const byte Cave = 4;
-    /// <summary>Level 6: stairs going down toward the sound of waves (step 1, 2, 3), to Level 7.</summary>
+    /// <summary>
+    /// Level 6: stairs going down toward the sound of waves (step 1, 2, 3), to Level 7. From layout version 9 a stairwell:
+    /// Descent1 on its steps (<see cref="Tile.Stair"/> their number), Descent2 on the first row of its landing and
+    /// Descent3 on the two beyond, which lead to Level 7 (see <see cref="WorldLayout.L6DescentSteps"/>).
+    /// </summary>
     public const byte Descent1 = 5;
     public const byte Descent2 = 6;
     public const byte Descent3 = 7;
@@ -969,6 +1000,8 @@ public static class PoolWalls
     public const byte Rail = 2;
     /// <summary>A glowing arched opening in a rotunda's wall, onto light.</summary>
     public const byte Arch = 3;
+    /// <summary>Layout version 11 on: a tall tiled archway, two plain blocks under a round-headed one (not three stacked arches).</summary>
+    public const byte ArchTall = 4;
 }
 
 /// <summary>
@@ -1023,10 +1056,17 @@ public static class CityDetail
 }
 
 /// <summary>Values of <see cref="Tile.Variant"/> on floor tiles and Level 2 walls.</summary>
+/// <remarks>
+/// The floor-prop values (1-6 and on) overlap the values the same field takes on walls (<see cref="WallPipes"/> and
+/// the like): that works only because every reader checks <see cref="Tile.Kind"/> first.
+/// </remarks>
 public static class Props
 {
     public const byte Drum = 1;
-    /// <summary>Level 2 machine cabinet, facing away from <see cref="Tile.Pier"/>.</summary>
+    /// <summary>
+    /// Level 2 machine cabinet, facing away from <see cref="Tile.Pier"/> (from layout version 9 with its feed pipe up
+    /// the wall behind it into the overhead pipes).
+    /// </summary>
     public const byte Cabinet = 2;
     /// <summary>Level 1 metal shelving with boxes, facing away from <see cref="Tile.Pier"/>.</summary>
     public const byte Shelf = 3;
@@ -1102,6 +1142,7 @@ public static class Props
     public const byte Conveyor = 66;
     public const byte Candelabra = 67;
     public const byte AngelStatue = 68;
+    /// <summary>Cables on the floor (Pier North along X, East along Z); from layout version 9, Stack 1 a cable box and 2 a rise up the wall at the end of a crossing, Pier toward that wall.</summary>
     public const byte FloorCable = 69;
     public const byte PipeStack = 70;
     /// <summary>
@@ -1163,6 +1204,8 @@ public static class Props
     public const byte DiningTable = 114;
     public const byte GrandPiano = 115;
     public const byte CoalPile = 116;
+    /// <summary>From layout version 9, a wooden coal bin standing in front of a Level 5 furnace.</summary>
+    public const byte CoalBin = 119;
     /// <summary>
     /// From layout version 6, the velvet sofa as long as a real one, two tiles across, facing <see cref="Tile.Pier"/> (Stack 0 the
     /// left part, 1 the right, as you sit on it; see <see cref="WorldLayout.PartTile"/>). <see cref="Sofa"/> stays for older worlds.
@@ -1187,6 +1230,8 @@ public static class Props
     /// machine puts another lying across its top.
     /// </summary>
     public const byte VendingPile = 129;
+    /// <summary>Layout version 9: the broken snack machine in the doorway of a vending room (a blocker you can break).</summary>
+    public const byte BrokenVending = 136;
     // Level 7
     public const byte BonePile = 130;
     public const byte ScrapMetal = 131;
@@ -1328,6 +1373,11 @@ public static class Props
     public const byte MachineParts = 227;
     /// <summary>Level 1: a traffic sign on a post, pointing nowhere useful. Stack picks the kind.</summary>
     public const byte TrafficSign = 228;
+    /// <summary>
+    /// Layout version 12: an M.E.G. placard on the floor tile beside a wall, flush against it, facing <see cref="Tile.Pier"/>
+    /// (away from the wall), walked through. <see cref="Tile.Stack"/> picks the plate (<see cref="WorldLayout.PlacardKind"/>).
+    /// </summary>
+    public const byte MegPlacard = 229;
     // Level 37
     /// <summary>A stainless pool ladder against the edge of a pool, climbing toward <see cref="Tile.Pier"/>.</summary>
     public const byte PoolLadder = 231;
@@ -1540,32 +1590,55 @@ public static class Props
     /// <summary>Level 188's courtyard: a bench (Pier its facing), a bollard lamp, a tuft of moss (walked through), the drain under the downpipe (walked through).</summary>
     public const ushort L188Bench = 540, L188Bollard = 541, L188MossTuft = 542, L188Drain = 543;
 
-    // The experimental Levels 73, the Basement and 52 (21-23)
-    public const ushort L73First = 580, L73Last = 619;
-    public const ushort BasementFirst = 620, BasementLast = 659;
+    // ===== Improvised camps, from layout version 11 (585-589): what the lost make a camp of, in place of store-bought gear =====
+    /// <summary>
+    /// A bed made of what was lying about, walked over: Stack 0 flattened cardboard boxes with a coat for a blanket, 1 a heap
+    /// of old curtains and blankets with a cushion, 2 a mattress dragged off a bed. Pier is the way it lies.
+    /// </summary>
+    public const ushort ImprovBed = 585;
+    /// <summary>A lean-to: Stack 0 a blue tarp stretched over two stacked chairs, 1 a door propped over two filing cabinets. Faces Pier (its open side).</summary>
+    public const ushort LeanTo = 586;
+    public const ushort ImprovFirst = 585, ImprovLast = 589;
+
+    // ===== Level 7 from layout version 9 (590-599) =====
+    /// <summary>
+    /// A chest in a sunken room on Level 7's seabed (WorldLayout.AddSunkenRoom), facing Pier: Stack 0 a sea chest (the
+    /// twilight zone's), 1 a riveted strongbox (the midnight zone's, with better in it).
+    /// </summary>
+    public const ushort SeaChest = 590;
+
+    // The experimental Levels 73, the Basement and 52 (21-23), from 600 (main's props run to 599)
+    public const ushort L73First = 600, L73Last = 639;
+    public const ushort BasementFirst = 640, BasementLast = 679;
     /// <summary>The Basement: a boiler, an oil drum, a metal shelf, a hand pump (the Dry Patch's), a machine cabinet (Pier their facing).</summary>
-    public const ushort BasementBoiler = 620, BasementDrum = 621, BasementShelf = 622, BasementPump = 623, BasementCabinet = 624;
-    public const ushort L52First = 660, L52Last = 699;
+    public const ushort BasementBoiler = 640, BasementDrum = 641, BasementShelf = 642, BasementPump = 643, BasementCabinet = 644;
+    public const ushort L52First = 680, L52Last = 719;
     /// <summary>Level 52: a student desk with its chair (Pier the way the student faces), a piece of chalkboard on the wall behind it (Pier its face; Stack 0 left end, 1 middle, 2 right end; walked through).</summary>
-    public const ushort L52Desk = 660, L52Chalkboard = 661;
+    public const ushort L52Desk = 680, L52Chalkboard = 681;
 
     // The experimental Levels 31, 55, 120 and 183 (24-27)
-    public const ushort L31First = 700, L31Last = 739;
-    public const ushort L55First = 740, L55Last = 779;
-    public const ushort L120First = 780, L120Last = 819;
-    public const ushort L183First = 820, L183Last = 859;
+    public const ushort L31First = 720, L31Last = 759;
+    public const ushort L55First = 760, L55Last = 799;
+    public const ushort L120First = 800, L120Last = 839;
+    public const ushort L183First = 840, L183Last = 879;
 
     /// <summary>One past the highest prop any level may use: the size of the generator's prop tables (raise it with a new block).</summary>
-    public const int Limit = 860;
+    public const int Limit = 880;
 
     public const byte WallPlain = 0;
     /// <summary>Level 2 wall with horizontal pipes on it.</summary>
     public const byte WallPipes = 1;
     public const byte WallMachinery = 2;
     public const byte WallBrick = 3;
-    /// <summary>Level 2 wall with a vertical riser pipe from floor to ceiling.</summary>
+    /// <summary>
+    /// Level 2 wall with a vertical riser pipe from floor to ceiling; from layout version 9, <see cref="Tile.Stack"/> 1
+    /// puts a valve at its foot.
+    /// </summary>
     public const byte WallRiser = 4;
-    /// <summary>Level 2 wall with pipes and a valve wheel.</summary>
+    /// <summary>
+    /// Level 2 wall with pipes and a valve wheel (in 1-8 on the bare wall below the pipes; from layout version 9 a gate
+    /// valve in the steel pipe).
+    /// </summary>
     public const byte WallValve = 5;
     public const byte WallWarning = 6;
     /// <summary>Level 3 wall with an electrical panel.</summary>
@@ -1638,6 +1711,12 @@ public static class Decor
     public const byte OfficeStairSign = 91;
     /// <summary>Three framed motivational posters, 92-94.</summary>
     public const byte Poster = 92;
+    /// <summary>
+    /// From layout version 9: a whiteboard two blocks wide, in halves on two wall tiles side by side facing the same way
+    /// (the left half as you face it on the tile with the larger coordinate when it faces north or east, the smaller
+    /// when south or west). In 1-8 every whiteboard was one block wide (<see cref="Whiteboard"/>).
+    /// </summary>
+    public const byte WhiteboardLeft = 97, WhiteboardRight = 98;
     // Level 5: hotel panelling
     public const byte Mirror = 100;
     public const byte Speaker = 101;

@@ -10,12 +10,10 @@
 		]
 	},
 	"blockmaterial": "Glass",
-	"drawtype": "cube",
+	"drawtype": "json",
 	"renderpass": "Transparent",
-	"textures": {
-		"all": {
-			"base": "block/level4/officeglass"
-		}
+	"shape": {
+		"base": "block/detail/officeglass"
 	},
 	"sidesolid": {
 		"all": false

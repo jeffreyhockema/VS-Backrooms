@@ -129,8 +129,8 @@
 			},
 			{
 				"code": "health",
-				"currenthealth": 20,
-				"maxhealth": 20
+				"currenthealth": 30,
+				"maxhealth": 30
 			},
 			{
 				"code": "deaddecay",
@@ -143,7 +143,8 @@
 			},
 			{
 				"code": "backrooms-menace",
-				"stalkSeconds": 120
+				"stalkSeconds": 120,
+				"maxEncounterSeconds": 300
 			},
 			{
 				"code": "taskai",
@@ -156,11 +157,11 @@
 						"mincooldown": 0,
 						"maxcooldown": 0,
 						"walkSpeed": 0.022,
-						"runSpeed": 0.046,
+						"runSpeed": 0.05,
 						"stalkMin": 12,
 						"stalkMax": 20,
 						"glimpseFleeDistance": 18,
-						"damage": 6,
+						"damage": 8,
 						"damageTier": 2,
 						"damageType": "SlashingAttack",
 						"knockback": 0.6,
@@ -171,12 +172,28 @@
 						"attackAnimation": "attack",
 						"prefersHidden": true,
 						"huntsInLobby": true,
+						"turnsWhenCornered": true,
+						"turnsWhenChased": true,
 						"emergeAnimation": "emerge",
 						"emergeMs": 2500,
 						"huntAnimation": "howl",
 						"huntAnimationMs": 1500,
 						"huntSound": "backrooms:entity/howl",
-						"soundRange": 48
+						"soundRange": 48,
+						"senses": {
+							"sightLit": 32,
+							"sightDim": 16,
+							"sightDark": 10,
+							"sightCone": 70,
+							"hearing": 28,
+							"memorySeconds": 6,
+							"trackSeconds": 15,
+							"trackError": 10
+						},
+						"investigateSeconds": 6,
+						"searchSeconds": 8,
+						"retaliateSeconds": 60,
+						"leavesAfterSearch": true
 					},
 					{
 						"code": "idle",

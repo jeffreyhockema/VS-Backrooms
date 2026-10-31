@@ -849,6 +849,101 @@ def oriented(code, english, shapes, comment, groups=(), material="Stone", sounds
 B15_LAMP = True  # (B15) the tunnel lamp's bracket, bolts and crown as geometry (False: B0's lamp)
 
 
+def kerb_profile(d):
+    """The sidewalk's height (px) at `d` px in from the road's edge: the straight kerb's rounded lip (hub-curb), then the
+    slab's top; None on the road side. Returns (height, top texture)."""
+    if d < 0:
+        return None
+    if d < 0.5:
+        return 6.2, "kerb"
+    if d < 1:
+        return 7.0, "kerb"
+    if d < 1.6:
+        return 7.6, "kerb"
+    return 8.0, "kerb" if d < 2 else "sidewalk"
+
+
+def profile_boxes(name_, dist, cull, cell=0.5):
+    """A sidewalk piece from a distance field: `dist(x, z)` (px, model coordinates, north = z 0) is how far a point lies
+    in from the road's edge. The 16 x 16 top is cut into `cell`-sized squares, each given the kerb profile's height, and
+    squares of one height merged into boxes. Side faces are kept where they look down onto something lower; `cull` names
+    the block's sides (north, east, south, west) that always meet more sidewalk, where nothing shows."""
+    n = int(16 / cell)
+    grid = [[kerb_profile(dist((i + 0.5) * cell, (j + 0.5) * cell)) for i in range(n)] for j in range(n)]
+    used = [[False] * n for _ in range(n)]
+    els = []
+    for j in range(n):
+        for i in range(n):
+            if used[j][i] or grid[j][i] is None:
+                continue
+            v = grid[j][i]
+            i2 = i
+            while i2 + 1 < n and not used[j][i2 + 1] and grid[j][i2 + 1] == v:
+                i2 += 1
+            j2 = j
+            while j2 + 1 < n and all(not used[j2 + 1][k] and grid[j2 + 1][k] == v for k in range(i, i2 + 1)):
+                j2 += 1
+            for jj in range(j, j2 + 1):
+                for k in range(i, i2 + 1):
+                    used[jj][k] = True
+            h, top = v
+
+            def shows(cells, side):
+                # Outside the block: shown unless that side always meets sidewalk; inside: shown over anything lower
+                for (a, b) in cells:
+                    if not (0 <= a < n and 0 <= b < n):
+                        if side not in cull:
+                            return True
+                        continue
+                    if grid[b][a] is None or grid[b][a][0] < h:
+                        return True
+                return False
+            faces = ["up"]
+            if shows([(k, j - 1) for k in range(i, i2 + 1)], "north"):
+                faces.append("north")
+            if shows([(k, j2 + 1) for k in range(i, i2 + 1)], "south"):
+                faces.append("south")
+            if shows([(i - 1, jj) for jj in range(j, j2 + 1)], "west"):
+                faces.append("west")
+            if shows([(i2 + 1, jj) for jj in range(j, j2 + 1)], "east"):
+                faces.append("east")
+            box = bx(f"{name_}{len(els)}", (i * cell, 0, j * cell), ((i2 + 1) * cell, h, (j2 + 1) * cell), "kerb", faces=faces)
+            box["faces"]["up"]["texture"] = "#" + top
+            els.append(box)
+    return els
+
+
+def kerb_corners():
+    """(Layout version 11) the sidewalk's corner pieces, so its kerb runs on unbroken round every corner of the walls:
+    - hub-curbcorner: where the sidewalk turns round a wall's corner into a side tunnel (or ends): a quarter round of
+      sidewalk, its kerb sweeping round the road side. Modelled with the kerb on the north and east, the rounded corner
+      to the north-east (-east: east and south, -south: south and west, -west: west and north). The round is the
+      quarter circle of a block's radius round the opposite corner, so it meets the straight kerbs either side square on.
+    - hub-curbinner: where the sidewalk turns in a wall's inside corner: the slab, the two kerbs that meet at its
+      north-east corner joined by a rounded corner post (same turns as above)."""
+    outer = profile_boxes("Round", lambda x, z: 16 - math.hypot(x, 16 - z), cull=("south", "west"), cell=1)
+    oriented("hub-curbcorner", "Kerb", {None: shape("curbcorner", outer)},
+             "The sidewalk turning round a corner: a quarter round of slab, the kerb sweeping round its north-east (road) side",
+             box=(0, 0, 0, 1, 0.5, 1), material="Stone", sounds=STONE, creative="construction",
+             extra={"sidesolid": {"all": False, "down": True}, "sideopaque": {"all": False, "down": True}, "resistance": 4})
+    # (The round leaves the road's corner open: step up only onto the slab, in three steps under the round)
+    steps = [(0, 9, 3.6), (9, 13, 7.6), (13, 16, 12.5)]
+    data_path = os.path.join(ASSETS, "blocktypes", "hub", "hub-curbcorner.json")
+    with open(data_path, encoding="utf-8") as f:
+        comment, _, body = f.read().partition("\n")
+    data = json.loads(body)
+    data.pop("selectionboxByType", None)
+    data.pop("collisionboxByType", None)
+    data["collisionSelectionBoxesByType"] = {
+        f"*-{s}": [cuboid((x1 / 16, 0, z1 / 16, x2 / 16, 0.5, 1), s) for (x1, x2, z1) in steps] for s in SIDES}
+    write_json(data_path, data, comment[3:])
+    inner = profile_boxes("Slab", lambda x, z: math.hypot(16 - x, z), cull=("north", "east", "south", "west"))
+    oriented("hub-curbinner", "Sidewalk", {None: shape("curbinner", inner)},
+             "The sidewalk in a wall's inside corner: the slab, its two kerbs meeting in a rounded post at its north-east corner",
+             box=(0, 0, 0, 1, 0.5, 1), material="Stone", sounds=STONE, creative="construction",
+             extra={"sidesolid": {"all": False, "down": True}, "sideopaque": {"all": False, "down": True}, "resistance": 4})
+
+
 def tunnel_blocks():
     cube_family("hub-wall", "Concrete Wall Panel", ["plain", "left", "bottom", "corner"], lambda k: "wall-" + k,
                 "The Hub's tunnel walls: great cast concrete panels, 2 blocks wide and 3 high. 'left' carries the seam on its"
@@ -917,6 +1012,7 @@ def tunnel_blocks():
              "The sidewalk's edge: a half slab with a rounded kerb lip on its north (road) side",
              box=(0, 0, 0, 1, 0.5, 1), material="Stone", sounds=STONE, creative="construction",
              extra={"sidesolid": {"all": False, "down": True}, "sideopaque": {"all": False, "down": True}, "resistance": 4})
+    kerb_corners()
 
     # The hole's rim: asphalt broken away toward the hole (to the north), black where it drops
     lip = [bx("Body", (0, 0, 2.5), (16, 16, 16), "asphalt-plain", faces=("up", "south", "east", "west", "down")),

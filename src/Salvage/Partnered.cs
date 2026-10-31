@@ -58,6 +58,8 @@ public class BlockBehaviorPartnered : BlockBehavior
             Block part = world.BlockAccessor.GetBlock(at);
             if (part.Code == null || part.Code.Domain != block.Code.Domain || part.FirstCodePart() != block.FirstCodePart()
                 || part.Variant["part"] != parts[n] || part.Variant["side"] != side) continue;
+            // A prop that straddles a claim's edge does not lose the half inside it to someone who may not build there
+            if (byPlayer != null && !world.Claims.TryAccess(byPlayer, at, EnumBlockAccessFlags.BuildOrBreak)) continue;
             if (drops)
                 foreach (ItemStack stack in part.GetDrops(world, at, byPlayer, dropQuantityMultiplier) ?? Array.Empty<ItemStack>())
                     world.SpawnItemEntity(stack, at.ToVec3d().Add(0.5, 0.5, 0.5));

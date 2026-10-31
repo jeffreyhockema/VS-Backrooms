@@ -19,12 +19,12 @@ public class SalvageSystem : ModSystem
     /// <summary>First part of the code of every block that can be broken and carried off.</summary>
     private static readonly HashSet<string> Salvageable = new()
     {
-        "supplybox", "crate", "metalshelf", "oildrum", "machinecabinet",
+        "supplybox", "crate", "metalshelf", "oildrum", "machinecabinet", "machinecabinetfeed",
         "ceilingtile", "officeceiling",
         "desk", "officechair", "filingcabinet", "partition", "conferencetable",
         "bed", "nightstand", "wardrobe", "wingchair", "sofa", "longsofa", "pottedpalm", "mahjongtable", "turntable",
         // Loose things left lying about: crates and boxes, tools, camp gear, furniture
-        "cardboardboxes", "workbench", "toolbox", "plywood", "tent", "bedroll", "camptent", "sleepingbag", "camplantern", "hospitalbed",
+        "cardboardboxes", "workbench", "toolbox", "plywood", "tent", "bedroll", "camptent", "sleepingbag", "improvbed", "leanto", "camplantern", "hospitalbed",
         "foldingtable", "foldingchair", "medcabinet", "trafficcone", "wetfloorsign", "pallet", "trashcan", "burnbarrel",
         "cablespool", "floorfan", "pipestack", "candelabra",
         "ficus", "chairstack", "copier", "officebookshelf", "roundtable", "receptiondesk", "wastebasket", "coatstand",
@@ -32,8 +32,8 @@ public class SalvageSystem : ModSystem
         "consoletable", "hotelbookshelf", "curiocabinet", "luggagecart", "servicetrolley", "writingdesk", "hotelchair",
         "floorlamp", "suitcase", "coffeetable", "ashtraystand", "diningtable", "coalpile",
         // Levels 6 to 10: what can be raided, salvaged, dug or wiped away
-        "chalkmark", "cafetable", "cafechair", "snackshelf", "stove", "fryer", "vendingpile", "glowcapred", "glowcapmixed",
-        "bonepile", "scrapmetal", "jawskeleton", "backpack", "wreckcrate", "islandrock",
+        "chalkmark", "cafetable", "cafechair", "snackshelf", "stove", "fryer", "vendingpile", "brokenvending", "glowcapred", "glowcapmixed",
+        "bonepile", "scrapmetal", "jawskeleton", "backpack", "wreckcrate", "islandrock", "seachest",
         "tv", "toilet", "dresser", "mailbox", "seedsacks", "toolshelf", "pantryshelf", "kitchencabinet",
         "feedtrough", "toolrack", "nailbarrel", "wormmass", "farmland",
         "driftwood", "buoy", "flashlight", "grill", "hayroll", "icemachine", "laundry", "laundrycart", "plough",
@@ -61,6 +61,7 @@ public class SalvageSystem : ModSystem
     {
         api.RegisterBlockBehaviorClass("BackroomsStrippable", typeof(BlockBehaviorStrippable));
         api.RegisterBlockBehaviorClass("BackroomsPartnered", typeof(BlockBehaviorPartnered));
+        api.RegisterBlockBehaviorClass("BackroomsDismantle", typeof(BlockBehaviorDismantle));
     }
 
     /// <summary>Whether a block of ours is salvage: taken whole, wherever it is, with what it holds.</summary>
@@ -70,6 +71,10 @@ public class SalvageSystem : ModSystem
         string first = block.FirstCodePart();
         return Salvageable.Contains(first) || Lights.Contains(first);
     }
+
+    /// <summary>Whether a block of ours is a light fixture, lit or dead.</summary>
+    public static bool IsLight(Block block) =>
+        block?.Code?.Domain == "backrooms" && Lights.Contains(block.FirstCodePart());
 
     /// <summary>A light fixture of ours that is still lit (or flickering).</summary>
     public static bool IsLiveLight(Block block) =>
@@ -87,7 +92,7 @@ public class SalvageSystem : ModSystem
 /// </code>
 /// Knives work, as does any item with the attribute <c>crudeCutter</c> (a glass shard), which may snap in use.
 /// The glass shiv and the improvised scraper were made for this: they peel the paper and lift the pile cleanly, and
-/// give two of the stripped item a cut where any other knife (a flint one too) tears off one.
+/// give two of the stripped item a cut, as does a vanilla knife of copper or better; a flint or bone knife tears off one.
 /// </summary>
 public class BlockBehaviorStrippable : BlockBehavior
 {
@@ -153,7 +158,9 @@ public class BlockBehaviorStrippable : BlockBehavior
         world.BlockAccessor.ExchangeBlock(bare.BlockId, pos);
         world.PlaySoundAt(new AssetLocation("game:sounds/effect/clothrip"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, randomizePitch: true, range: 12);
 
-        var stack = new ItemStack(stripped, CleanCutters.Contains(slot.Itemstack.Collectible.Code.ToString()) ? CleanCutYield : 1);
+        // (A knife of copper or better holds an edge as well as a shiv of glass; flint and bone tear)
+        CollectibleObject blade = slot.Itemstack.Collectible;
+        var stack = new ItemStack(stripped, CleanCutters.Contains(blade.Code.ToString()) || BlockBehaviorToolDrops.IsMetalKnife(blade) ? CleanCutYield : 1);
         // (What does not fit, all of it or the rest, falls at the player's feet)
         byPlayer.InventoryManager.TryGiveItemstack(stack, slotNotifyEffect: true);
         if (stack.StackSize > 0)

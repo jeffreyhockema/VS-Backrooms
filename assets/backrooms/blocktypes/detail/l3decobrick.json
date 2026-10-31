@@ -27,7 +27,10 @@
 				"roomsign4",
 				"roomsign5",
 				"roomsign6",
-				"roomsign7"
+				"roomsign7",
+				"wallcablesende",
+				"wallcablesendw",
+				"wallcablesendew"
 			]
 		},
 		{
@@ -417,6 +420,54 @@
 		},
 		"*-roomsign7-west": {
 			"base": "block/detail/l3decobrick-roomsign7",
+			"rotateY": 90
+		},
+		"*-wallcablesende-north": {
+			"base": "block/detail/l3decobrick-wallcablesende",
+			"rotateY": 0
+		},
+		"*-wallcablesende-east": {
+			"base": "block/detail/l3decobrick-wallcablesende",
+			"rotateY": 270
+		},
+		"*-wallcablesende-south": {
+			"base": "block/detail/l3decobrick-wallcablesende",
+			"rotateY": 180
+		},
+		"*-wallcablesende-west": {
+			"base": "block/detail/l3decobrick-wallcablesende",
+			"rotateY": 90
+		},
+		"*-wallcablesendw-north": {
+			"base": "block/detail/l3decobrick-wallcablesendw",
+			"rotateY": 0
+		},
+		"*-wallcablesendw-east": {
+			"base": "block/detail/l3decobrick-wallcablesendw",
+			"rotateY": 270
+		},
+		"*-wallcablesendw-south": {
+			"base": "block/detail/l3decobrick-wallcablesendw",
+			"rotateY": 180
+		},
+		"*-wallcablesendw-west": {
+			"base": "block/detail/l3decobrick-wallcablesendw",
+			"rotateY": 90
+		},
+		"*-wallcablesendew-north": {
+			"base": "block/detail/l3decobrick-wallcablesendew",
+			"rotateY": 0
+		},
+		"*-wallcablesendew-east": {
+			"base": "block/detail/l3decobrick-wallcablesendew",
+			"rotateY": 270
+		},
+		"*-wallcablesendew-south": {
+			"base": "block/detail/l3decobrick-wallcablesendew",
+			"rotateY": 180
+		},
+		"*-wallcablesendew-west": {
+			"base": "block/detail/l3decobrick-wallcablesendew",
 			"rotateY": 90
 		}
 	},

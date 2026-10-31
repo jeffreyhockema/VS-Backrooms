@@ -1,0 +1,16 @@
+description: The client starts clean, the world renders, and /backrooms answers.
+steps:
+  - expect_no_startup_issues: ""
+  - bot: closeguis
+  - bot: hud off
+  - bot: wait 3000
+  - bot: ready 48
+  - bot: cmd /backrooms heal
+  - bot: look 0 0
+  - shot: boot-world
+  - expect_shot: boot-world
+  - cmd: /backrooms menace
+  - expect_chat: Level danger
+  - cmd: /backrooms where
+  - expect_chat: stability
+  - expect_no_log: Unhandled exception

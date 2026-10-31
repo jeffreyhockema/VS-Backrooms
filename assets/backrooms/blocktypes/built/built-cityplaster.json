@@ -1,0 +1,46 @@
+{
+	"code": "built-cityplaster",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain"
+			]
+		}
+	],
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/detail/cityplaster"
+			}
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/loosestone",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"drops": [
+		{
+			"type": "block",
+			"code": "built-cityplaster-{kind}",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"creativeinventory": {
+		"construction": [
+			"*"
+		]
+	},
+	"attributes": {
+		"backroomsBuilt": true
+	}
+}

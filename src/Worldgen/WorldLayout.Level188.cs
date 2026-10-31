@@ -36,8 +36,12 @@ public sealed partial class WorldLayout
     /// <summary>Salts of the windows into 188 in other levels (each its own, so nothing else there shifts).</summary>
     private const ulong SaltL188EntranceL0 = 0x2010, SaltL188EntranceL1 = 0x2011;
 
-    /// <summary>Whether Level 188's windows in other levels are laid out (always, but for the harness's check that nothing else moved).</summary>
-    internal static bool L188Entrances = Environment.GetEnvironmentVariable("BACKROOMS_NO_188_ENTRANCES") != "1";
+    /// <summary>
+    /// Whether Level 188's windows in other levels are laid out (always, but for the harness's check that nothing else moved:
+    /// the layout harness turns it off when the environment variable BACKROOMS_NO_188_ENTRANCES=1; the library never reads
+    /// the environment).
+    /// </summary>
+    internal static bool L188Entrances = true;
 
     /// <summary>The building's size (X by Z), its storeys, the roof slab, and the black sky over it all.</summary>
     public const int L188W = 88, L188D = 58, L188Storeys = 5, L188RoofRel = 20, L188SkyRel = 33;
@@ -360,10 +364,10 @@ public sealed partial class WorldLayout
 
     // ================= The ground storey's tiles =================
 
-    private Tile[] l188Plan;
+    private Lazy<Tile[]> l188Plan;
 
-    /// <summary>The ground storey's tiles for the whole building, worked out once.</summary>
-    private Tile[] L188Plan => l188Plan ??= PlanL188();
+    /// <summary>The ground storey's tiles for the whole building, worked out once (by one thread: a Lazy publishes it safely).</summary>
+    private Tile[] L188Plan => l188Plan.Value;
 
     /// <summary>The tile of the level at a block position (solid nothing outside the building).</summary>
     private Tile L188PlanTile(int gx, int gz)
@@ -639,7 +643,7 @@ public sealed partial class WorldLayout
     };
 
     /// <summary>A direction as a step (x east, z south).</summary>
-    public static (int X, int Z) L188Step(ArchPier p) => Step(p);
+    public static (int X, int Z) L188Step(ArchPier p) => FacingStep(p);
 
     /// <summary>The confetti window once worked out (null until then), boxed so one write publishes it whole to every thread.</summary>
     private System.Runtime.CompilerServices.StrongBox<((int X, int Z) Left, (int X, int Z) Right, ArchPier Facing)?> l188FunWindow;

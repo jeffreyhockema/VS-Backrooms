@@ -1,0 +1,204 @@
+// An improvised lean-to (layout version 11): a tarp over two chairs, or a door over two filing cabinets
+{
+	"code": "leanto",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"tarp",
+				"door"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-tarp-north": {
+			"base": "block/detail/leanto-tarp",
+			"rotateY": 0
+		},
+		"*-tarp-east": {
+			"base": "block/detail/leanto-tarp",
+			"rotateY": 270
+		},
+		"*-tarp-south": {
+			"base": "block/detail/leanto-tarp",
+			"rotateY": 180
+		},
+		"*-tarp-west": {
+			"base": "block/detail/leanto-tarp",
+			"rotateY": 90
+		},
+		"*-door-north": {
+			"base": "block/detail/leanto-door",
+			"rotateY": 0
+		},
+		"*-door-east": {
+			"base": "block/detail/leanto-door",
+			"rotateY": 270
+		},
+		"*-door-south": {
+			"base": "block/detail/leanto-door",
+			"rotateY": 180
+		},
+		"*-door-west": {
+			"base": "block/detail/leanto-door",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-tarp-north"
+		],
+		"decorative": [
+			"*-tarp-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.97,
+			"y2": 0.85,
+			"z2": 0.97
+		},
+		"*-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.97,
+			"y2": 0.85,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.97,
+			"y2": 0.85,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.97,
+			"y2": 0.85,
+			"z2": 0.97,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.97,
+			"y2": 0.85,
+			"z2": 0.97
+		},
+		"*-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.97,
+			"y2": 0.85,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.97,
+			"y2": 0.85,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 0.97,
+			"y2": 0.85,
+			"z2": 0.97,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 1,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:rope",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		},
+		{
+			"type": "item",
+			"code": "wanderernote-cache",
+			"quantity": {
+				"avg": 0.125,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "wanderernote-door",
+			"quantity": {
+				"avg": 0.06,
+				"var": 0
+			}
+		}
+	]
+}

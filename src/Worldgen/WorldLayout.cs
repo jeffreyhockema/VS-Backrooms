@@ -25,6 +25,9 @@ public sealed partial class WorldLayout
     private const ulong SaltEdgeWest = 0xED6E;
     private const ulong SaltEdgeNorth = 0xED6F;
     private const ulong SaltMacro = 0x3AC0;
+    // The four salts below are deliberately adjacent (Fbm takes the next two as well, so the warp's later octaves share
+    // lattice values with the detail's earlier ones): never touch them, that would change every layout version. Leave
+    // gaps of at least 4 wherever Fbm is used for a new salt.
     private const ulong SaltLevelWarp = 0x1E71;
     private const ulong SaltLevelDetail = 0x1E72;
     private const ulong SaltRingShape = 0x1E73;
@@ -36,9 +39,23 @@ public sealed partial class WorldLayout
     /// journey of several kilometres. No ring is a circle: each is stretched by its own <see cref="RingShape"/>, so in
     /// one direction a level may end after a few hundred blocks and in another go on for several times that.
     /// (Smaller than they once were: with the walls between levels unbroken but for a few gates, it is finding the way
-    /// through rather than the distance that takes time.)
+    /// through rather than the distance that takes time.) A world made with another Level size has them all scaled by
+    /// its <see cref="RingScale"/> (see <see cref="RingWidth"/>).
     /// </summary>
     private static readonly double[] RingWidths = { 24, 18, 14, 16, 20, 20, 16, 22, 18, 24 };
+
+    /// <summary>The narrowest and widest <see cref="RingScale"/> a world can be made with (the Level size setting's 50% and 200%).</summary>
+    public const double MinRingScale = 0.5, MaxRingScale = 2;
+
+    /// <summary>
+    /// The narrowest a ring may be, in cells, in any direction, in a world whose <see cref="RingScale"/> narrows the
+    /// rings (Level 0's is its radius). Level 0 keeps at least 10 cells, so the six cells round spawn kept clear of dens
+    /// and red rooms are always Level 0 whatever the warp of its edge; every other ring 4, about the narrowest any ring
+    /// gets at the usual size (Level 2, 14 cells at <see cref="RingShape"/>'s floor of 0.3, is 4.2): narrower, and the
+    /// warp of the edges (some three cells either way) would cut it into pieces and let the levels either side meet.
+    /// A world of the usual size never comes into it (see <see cref="RingWidth"/>), and no ring of one is this narrow.
+    /// </summary>
+    private static readonly double[] MinRingWidths = { 10, 4, 4, 4, 4, 4, 4, 4, 4, 4 };
 
     /// <summary>How strongly the rings are stretched: each ring's width varies by about e^±Stretch with direction.</summary>
     private const double Stretch = 1.45;
@@ -247,9 +264,242 @@ public sealed partial class WorldLayout
     /// three in ten hill houses and a third of the town houses were white). Its towns' siren poles stand: they are
     /// placed after the house lots (in 1-7 the lots were laid over them, so none stood; NearestSirenPole gave the same
     /// four corners either way, the lots' front corners across the road from the plaza's).</item>
+    /// <item>9 (0.514.0): levels no longer bleed into each other at their edges, only at the doorway between them;
+    /// public stairs are two wide; Level 1's signs stand where they make sense and its parking bays are never cut off by
+    /// a wall; Level 1's and Level 2's conduits and feed pipes end somewhere and Level 2's valves sit on pipes. In detail:
+    /// Level 1's power boxes: the conduit that leaves the top no longer stops at a plain wall block under the
+    /// ceiling; a riser block (<c>powerbox4</c>) above it carries it up and ends it in a junction box on the slab
+    /// (drawn by the generator when Version >= 9; in older worlds the run still ends at the block above).
+    /// Level 2's fittings lead somewhere: a
+    /// valve wall's valve is a gate valve in the wall pipes (tunnelfitting-pipesvalve; in 1-8 a wheel on the bare wall
+    /// under them) and never beside another, about one riser in three has a valve at its foot (Tile.Stack 1 on a
+    /// WallRiser, tunnelfitting-riservalve), a wall cabinet's conduits run on up into the ceiling
+    /// (tunnelfitting-machinerytop), and a pump gallery's machine cabinet feeds the overhead bundle by a pipe up the wall
+    /// behind it (machinecabinetfeed, feedpipe), whose wall carries no wall cabinet, valve or riser valve to clash with it
+    /// (PlaceL2Valve, ClearBehindCabinets; the generator's TunnelFitting).
+    /// Level 3's runs are laid whole (WorldLayout.Level3Runs.cs; in 1-8 each wall block took its own fitting, the pipes and
+    /// cables by the eight-block square it stood in, so they came in short pieces ending in mid-air): the wall pipes go
+    /// round a whole block of solid wall and the room in it, inside and out, or none of it (PlanL3WallRuns: runs sharing
+    /// a block, and a room's walls meeting in its corners, go together; none of fewer than four faces), turning its
+    /// corners and bending into the wall at their ends; the walls beside a switchgear cabinet carry no run, panel or fan
+    /// (a run along them came out of its front; the wall behind it may, the pipes going into its sides); the pressure
+    /// gauges sit in the pipes on a straight length between two of the run's blocks (l3fitting-*-pipesgauge; in 1-8 a
+    /// decoration with a pipe of its own); a cable run takes a whole stretch of wall three blocks or more long, now and
+    /// then from a panel, and ends in a gland in the wall (l3deco*-wallcablesend*) or in the panel's junction box; a
+    /// panel's conduit runs on up into a junction box (l3fitting-*-panelbox*; in 1-8 it stopped at the wall block above,
+    /// and the generator draws the box over every panel of a version 9 world); and the cables on the floor cross a
+    /// corridor whole from a panel or junction box to the wall opposite, ending in a cable box or rising into the
+    /// fitting there (PlanL3FloorCables: FloorCable with Tile.Stack 1 or 2 at the ends, floorcableend; in 1-8 a block of
+    /// cable here and there). Bulkheads are a little commoner on the walls left (L3WallFixture).
+    /// Level 5's boiler bays are plant rooms (PlaceBoilerPlant, MarkBoilerHeader; in 1-8 three boilers stood in a stack):
+    /// along the back wall a boiler and a furnace to a bay facing the aisle, a coal bin in front of the furnace, and over
+    /// the row a header the length of the hall (a flue duct with a steam main beside it, through the bay walls, ending
+    /// against the wall; Pipes.PlantRun to PlantThru) that the boilers' and furnaces' flues and steam pipes rise to
+    /// (plantriser, plantheader, plantthru, coalbin; the generator's PlantHeader).
+    /// Level edges: each level keeps its own look to the wall between it and the next (WorldLayout.Linings.cs). The cell on
+    /// the west or north side of a wall its neighbour owns lines it with its own wall a tile in (LineLevelWalls; in 1-8 that
+    /// side saw the next level's face), so the way through a gate is two deep, the next level's doorway at its far end;
+    /// Levels 0, 2 and 6 move their hallway along the wall in a tile with it (LiningWidens, EdgeHall), Level 7 its ledge,
+    /// and the fields line the rims of the enclosed places past the rings with their rock. The blends go: Level 0 no longer
+    /// wears to concrete and loses ceiling tiles beside Level 1 (WearAway), Level 1 grows no pipes beside Level 2
+    /// (AddCeilingPipes), Level 3's runs beside Level 2 are cables like the rest, Level 4 no longer turns hotel red beside
+    /// Level 5 (WarmTowardsHotel), and the Snackrooms' own edges stay Level 6's wall outside the mall's. Only the way through
+    /// a gate keeps a touch of the next level: its doorway or gap and the tile before it are worn to concrete in Level 0
+    /// toward Level 1 and are hotel carpet in Level 4 toward Level 5 (WearThresholds).
+    /// Public stairs are two blocks wide (PublicStairWidth; in 1-8 one): Level 1's stair cores (seven rows deep, a north
+    /// core's north wall the district's fire wall and its doors a row out into the aisle, a south core's north wall at the
+    /// back of the stalls behind it; StairCore.Top, Rows) and its halls' stairwells, Level 4's office stairwells (whose
+    /// landing takes in the room's south wall and leaves the corridor beyond a block wide; one in the last row of rooms of
+    /// its cell walls the first row of the office block south of it, WallBelowL4Stairwell, or keeps one-wide flights where
+    /// that is no office block), Level 5's staff stairs and Level 11's lobby stairs (an apartment lobby's basement door moves
+    /// along clear of them). Each flight is still one threshold (FeatureOrigin), and a trip out of one comes out on the
+    /// landing of the lane that stands for it (ThresholdNetwork.ToStairwell). House stairs (Levels 9, 94) stay one wide.
+    /// Level 6's stairs down to Level 7 are a stairwell two wide, eight steps down through the rock from the last four rows
+    /// of a chamber (running east or south, away from the trunks) to a landing of three rows eight blocks below, three
+    /// blocks of headroom the whole way (CutL6Stairwell; in 1-8 three steps in the middle of the chamber, a block wide), and
+    /// far rarer: one chamber in a hundred near Level 5 to one in five at the far edge, where it fits clear of food courts
+    /// and other levels (L6DescentChance, L6StairwellFits; in 1-8 0.2 + 0.6 times the depth). The threshold is the far two
+    /// rows of the landing, and it is two-way: it comes out at the foot of the stairs that come down into a Level 7 entry
+    /// room, and up those stairs is back to the landing's first row (ThresholdNetwork.DeepStairsHome). The chalk arrows
+    /// point to stairs up to 400 blocks off (220 in 1-8). Level 7's ceiling is the lore's high one, SeaCeiling (36) over
+    /// the water, with no mantle over it: it lets the world's light through as an even dim light (seaceiling), its walls
+    /// and pillars go on up to it, and where a cell's edge meets a lower wall it does not line, its own goes up from head
+    /// height (the generator's UnderLowerWall; in 1-8 the ceiling is 5 over the water). An entry room hangs from it in a
+    /// pier of concrete nine tiles by seven, its floor 5 over the water: the stairs from Level 6 come down into it, a
+    /// doorway across the room opens onto the sea, and a rope ladder hangs from it into the water (AddEntryRoomV9; in 1-8
+    /// a room five by five set into the low ceiling with a hole in its floor). Now and then a cell holds a sunken room in
+    /// the twilight or midnight zone, off its middle, with air under its roof, a buoy and a rope ladder down to it, a lit
+    /// light and windows, a hatch entered from below, and a sea chest (twilight) or strongbox (midnight) in it
+    /// (AddSunkenRoom, Props.SeaChest). In Level 1's car park nothing stands in the roadway: a puddle's wet floor sign or
+    /// cone stands beside it off the aisles and the stalls' mouths (CautionBesidePuddle; in 4-8 on the puddle, wherever it
+    /// was, now and then a traffic sign too), and the traffic signs stand where they mean something (PlaceCarParkSigns): an
+    /// EXIT sign just past each stair core's doors pointing at them, STOP signs on the driver's right where an aisle meets a
+    /// cross aisle (on the two-block end stall, then kept clear, or the last divider), and the narrow aisle along each
+    /// district's south wall is one way westward (no centre line, both lanes' arrows west) with ONE WAY and NO ENTRY signs at
+    /// its junctions. The columns' bay letters go by column line, A to E from the district's north wall (in 4-8 A-F along
+    /// each line). A stall a cell's edge wall cuts short (where the car park meets another level or the halls mid-district)
+    /// is not painted and nothing is left in it (StallWholeAt), and Level !'s red door is never put in a stair core.
+    /// Level 3's manholes (AddManholeTunnel; in 1-8 AddFloodedTunnel, one block whose rungs stopped a block under the floor
+    /// with their foot in the water) open two blocks long against a corridor wall, the corridor's other row left clear
+    /// behind a ladder two wide (manholeladder) that runs from a dry landing up to the lip; the landing (shaft, a block
+    /// either side, the row behind) keeps the water out of reach of the rungs, with a half step (tunnelstep) down into the
+    /// flooded tunnel beyond. Tile.Zone tells the parts (L3ShaftLeft/Right with the ladder on the Pier side,
+    /// L3TunnelLanding, L3TunnelStep); a cell that has no such stretch of corridor has no tunnel.
+    /// Level 4's sprinkler heads are laid out on a grid, not rolled tile by tile (L4SprinklerHeads; in 1-8 one ceiling
+    /// tile in about thirteen, often two side by side, some against a light): on the open floors and concourses branch
+    /// lines east to west every 4 blocks midway between the troffer rows, a head every 3 blocks in line with the troffers'
+    /// columns (moved a block along the line off a light or a column, never next to another head); in the office blocks'
+    /// corridors a head over each crossing and one midway, every 4 blocks; one in each room, by its middle. None has a
+    /// light or a wall just south of it (the head hangs in its block's south half). Diffusers, stains and missing tiles
+    /// keep their rolls, but not on a head's tile. The open floors' columns stand 12 blocks apart east to west and 18
+    /// north to south (L4ColumnV9; in 1-8 every 8 each way), where a side partition meets the back partition of the
+    /// cubicle rows, off the cell's edge rows and never beside a doorway; the break nook picks one of them, in 15% of
+    /// open cells (in 1-8 it was tried in 30% and found a column about two times in five). Whiteboards are two blocks wide
+    /// (Decor.WhiteboardLeft and WhiteboardRight, officedeco-whiteboardl/r), on two free wall tiles side by side facing
+    /// the same room, or not at all; a pair that loses a half to anything laid out later is taken down whole
+    /// (MendL4Whiteboards).
+    /// Level 9's houses: the Suburbs are built up to 24 blocks over their floor (WorldGenerator.Band; in 1-8 nothing
+    /// over rel 9 was, so a two-storey house stopped flat at its eaves) and two lots that meet share one fence on the
+    /// line between them (PlaceSharedFences; in 1-8 each built its own, two side by side). Each house's outside is laid
+    /// over its plan with draws of its own (PlanExteriorV9): some gables face the street, some garages stand under a
+    /// lower roof of their own, a brick chimney stack stands outside a gable end or rises through the ridge (Tile.Depth,
+    /// IsChimney; the chimney in the side wall goes), the windows are two blocks tall and set in each room's stretch of
+    /// wall (WinSash, WinShutter, WinPicture; upstairs in Tile.Detail), the front and back doors are doors that open
+    /// (DoorMark on the doorway; a locked house's front door is one too, locked), the garage door is cased in trim
+    /// (GarageTrim), and the stairs are open overhead over every step (in 1-8 the floor above came down over the first,
+    /// and nobody could climb past it) with a balustrade on the hall side (StairRail).
+    /// Level 8's 9th Road is no longer a lattice (in 1-8 a road every 48 blocks, a main road every 192): two long roads
+    /// wander round the level a few hundred blocks apart, three and seven tenths of the way across (run together where it
+    /// narrows), bending round rich mineral deposits that lie in the rock on the inside of their bigger bends, now and
+    /// then splitting round one and meeting again; at the start of each stretch of about 520 blocks a way runs off the
+    /// roads through the level's wall into Level 9 one time in two, into Level 7 a little less often, and across between
+    /// the roads one time in three (in 1-8 every road that reached the wall ran through it); settlements sit where such
+    /// a way meets a road, at a bend's apex, beside a split's deposit, on the road or at the end of a short spur
+    /// (WorldLayout.Level8.Network.cs: L8Centres, L8Segment, PlanL8Cell). Lamps and M.E.G. markers keep their spacing
+    /// along every road, arrivals start from a road (L8ArrivalCell), Level 8's wanderers look 40 blocks for the road (in
+    /// 1-8, 12), and the deposits' heart is solid rock thick with one ore (CaveColumn.DepositGrade, drawn by the
+    /// generator when the layout reports a deposit, L8DepositAt).
+    /// Level 8 has spider nests (WorldLayout.Level8.Nests.cs): a cell the den roll leaves empty is a nest one time in
+    /// fourteen in the level's inner part and one in seven further out (DenKind.Nest, after the dens' own roll, so every
+    /// other den stays as it was), where its heart is in the caves at least 22 blocks from the road and off the deposits.
+    /// It is a den for the director (the Giant Spider dwells there) but lays nothing out on the tiles; the generator
+    /// strings cobwebs through the caves within 18 blocks of its heart, thickest at the heart, under the ceilings and on
+    /// the walls, with now and then a dry carcass on the floor (CaveColumn.Nest, WorldGenerator.Nests.cs).
+    /// Level 974's master bedroom (Kitty's room, with the cat bed) is 6 by 7 rather than 6 by 4 and the furnished
+    /// bedroom (the bed in its alcove, the desk, the open closet) is 6 by 10 rather than 6 by 6: the house is seven rows
+    /// deeper (<see cref="L974HouseDeep"/>; the bathrooms and the master bedroom lie four rows further south, and the hall
+    /// runs down to them), the bedroom has a second window (east) and a second light, with the closet at its far end, the
+    /// master bedroom's doorway from the hall is two wide and four high (plan character T, a
+    /// Doorway with Stack 2: no lintel, no casing), the cat bed stands mid-wall, and the room has a south window and three lights.
+    /// Kitty's spots move with it (L974PlanSpots9). A house keeps the plan of the layout it was made in.
+    /// The Hub's tunnels are vaulted, as in the lore's road-tunnel photos (in 1-8 a box under a flat roof, rel 8 over a
+    /// main tunnel and rel 6 over a side one): straight walls up to rel 6, then a main tunnel's roof curves over in quarter
+    /// rounds of radius 4 to a flat crown five blocks wide at rel 10, a side tunnel's in a half round of radius 3.5 to rel
+    /// 9.5, cut from curved pieces (hub-vault-{piece}-{side}, the table in WorldLayout.HubVault.g.cs from
+    /// tools/gen_hub_vault.py; WorldLayout.HubVault gives a column's roof, where tunnels meet the union of their vaults). The
+    /// jet fans and the lane-signal gantry hang under the crown (the gantry's four signals side by side over the middle,
+    /// in 1-8 over -4, -1, 1 and 4), the lamps hang a block higher, at the top of the straight wall (rel 5; in 1-8 rel 4),
+    /// the road has a white edge line along each kerb (hub-asphalt-edge) and the sidewalk a rounded kerb along a straight
+    /// wall (hub-curb), and the roundabout's inner corners, which lie in the Tower's zone, are built as the tunnel they are
+    /// (in 1-8 as the Tower, its gallery floors and stair across the road). The machine in the doorway of a Level 6.1
+    /// vending room is a broken one (Props.BrokenVending, brokenvending; in 1-8 the working snack machine, which cannot
+    /// be broken), which breaks up for the snacks it held and lets you into the heap behind it.
+    /// (in 1-8 as the Tower, its gallery floors and stair across the road).
+    /// Level !'s hall is shorter: 15 rows of hallway (RunRows9; in 1-8 19), so the run is about 485 blocks (in 1-8 about
+    /// 615), the doglegs, the Safe Zone and the hole placed by the same rules over it; past the exit's row the lane is
+    /// solid wall (RunExitAt). Junk that trips a sprinter is put in the gaps of the gauntlet a little less often (in a
+    /// gap 0.2, 0.25 and 0.4 of the time by third; in 6-8 0.25, 0.35 and 0.55). Its hanging EXIT signs run steadily
+    /// down the centre line, 12 +- 2 apart (in 1-8 10 +- 3 with clusters 4 apart), with dark gaps only in the last third
+    /// and none over 26 blocks (in 1-8 up to 32 and 40); the signs over the exits are unchanged.
+    /// (in 1-8 as the Tower, its gallery floors and stair across the road).
+    /// Level 3999's rooms of tall neon pillars, the units that were atria 18 high, have lower ceilings
+    /// (<see cref="L3999LowAtriumHeight"/>): 10 over a lobby or a natatorium, 11 over a food court or a game hall, whose
+    /// gallery ring at rel 7 keeps a storey of three over it; their pillars, tubes, wall neon and pool tops come down with
+    /// the ceiling, a food court's gallery windows sit at rel 8-10 (in 1-8, 9-11), and the ground above is solid up to the
+    /// walls' 18. The concourses and junctions keep their 18. Level Fun's elevator lobbies are eleven wide west to east
+    /// rather than nine (<see cref="FunLobbyHalfX"/>), and each pair of brass elevator doors stands a block further out
+    /// (north wall offsets -4 and -3, south 3 and 4; in 1-8 -3 and -2, 2 and 3), so wall stands either side of every pair
+    /// instead of the promenade's opening right beside it; the lobby's party dressing moves out with the walls.
+    /// (in 1-8 as the Tower, its gallery floors and stair across the road).
+    /// Level 94's picket fences stand back from the road and go round a hill's ground (PlanHillFence; in 1-8 they ran
+    /// along the kerb through some squares of the hill lattice, broken every 23 blocks on a diagonal and never joined
+    /// across a slanting road): about half the houses' hills (fewer of the lone rooms, trees, cars and water towers) have
+    /// one, behind a grass verge two blocks wide (FenceSetback), along the hill's border with each road it meets, a
+    /// joined staircase along a slanting road, turning and joined where two roads meet and ending where the border has
+    /// no road; it is open three blocks wide where the path from the front door comes down and halfway along each road
+    /// (on the line between the two hills), and no length is shorter than four. A front yard's fence (Level 94's hills
+    /// and towns; in 1-8 a loose row a block in from the front of the lot) goes round the yard, across the front and
+    /// back along both sides to the house's front corners, with a gate at the path (FenceFrontYard), and a town house
+    /// has one more often (LiftFrontFence, SaltTownYard).
+    /// (in 1-8 as the Tower, its gallery floors and stair across the road).
+    /// Level 11's subway stairs have six steps, the first in the sidewalk itself with its tread level with the street
+    /// (CityStationStepRel; in 1-8 five, the top one a block under the sidewalk, so you had to jump out), nothing stands
+    /// on the sidewalk in the two rows before the top of a flight, and no Almond Water machine at the foot of one
+    /// (CityPlatformProp). Most of its ground floors are planned anew with draws of their own, after the old plan has
+    /// been laid and taken up again, so every lot comes out where it was (WorldLayout.Level11.Rooms.cs): an office
+    /// tower's lobby opens onto an open-plan office (and a conference room in a wide one), a hotel's onto a dining
+    /// room, an apartment block's onto a corridor of flats, a few furnished (in a narrow block one flat), and a store's
+    /// onto a stockroom; furniture stands as people would set it (seats at their tables, desks facing the way in,
+    /// nothing against the plate glass or in front of a doorway, door or elevator), each room's lights are spread
+    /// evenly over it, and an apartment block has a home's plaster ceiling and domed lights (the generator's
+    /// CityCeiling). A church is laid out on the middle of its door, and its stained glass, every third block out from
+    /// that middle and over the door, is marked in Tile.Stack (CityStainedGlass; in 1-8 every third block of the world,
+    /// so it fell unevenly about the door).</item>
+    /// <item><b>10</b>: Level 3's tunnels go somewhere. In 1-9 a manhole's tunnel ran under its own stretch of corridor and
+    /// stopped there, a few blocks. Now every Level 3 cell has a flooded tunnel running its whole width under a corridor row
+    /// (the same row in every cell, so the tunnel runs on from cell to cell under the level), and a manhole's tunnel joins it
+    /// (<see cref="AddL3TunnelNetwork"/>). Level 94's fences stand on even ground: a house's fenced front yard is a level plot
+    /// (the lot's falling ground starts outside the fence, not along its sides), the fences round a hill take the median ground
+    /// along their length (LevelFence), and pickets join only across level ground, a post either side of a one-block step.
+    /// Level 8's 9th Road is lonelier: about a third as many settlements, fewer braids and
+    /// ways off the road, and the road is broken now and then by a rockfall (a wall of rubble at either end of a gap of 90-180
+    /// blocks of rock) with a cave passage to find in the dark: a mouth in the road's wall before the rubble, a winding unlit way
+    /// off from the road and down to 20-35 blocks under it, and back up past the break (WorldLayout.Level8.Network.cs, <see cref="L8CrawlAt"/>).
+    /// Level 0's arched areas keep the Lobby's plan (rooms, halls, doorways) in plain cream stucco (<see cref="WallPattern.Stucco"/>, its
+    /// own blocks), with some walls between two spaces made walls of archways over half walls (WorldLayout.Level0.Arches.cs, ArchWalls;
+    /// one room in a few gets a second, and now and then a bay is a full-height arch door); two gaps side by side in a district's
+    /// wall leave one arch (ArchGap) and the stash's supply boxes never stand beside an arch (NextToArch). A Level 1 stairs to nowhere goes on in the dark: a doorway cut in the wall, two more steps (over the next stall's ceiling where that is plain floor in the cell, else along the wall's own row) and a dead-end landing, where the trip now comes (AddStairsToNowhereV4, NowhereBlock, FlightZoneNowhere).</item>
+    /// <item><b>11</b>: camping gear is rare outside Level 8 and what is left is improvised. Level 1's encampments and camp rooms are
+    /// three in ten of what they were, Level 4's wanderers sleep on a bed of boxes, blankets or a mattress and have a lean-to now and then,
+    /// Level 7's island camps are half as many, and lairs, Level 6's dead ends and the sunken camps hold the same beds (<see cref="Props.ImprovBed"/>,
+    /// <see cref="Props.LeanTo"/>, in place of tents and sleeping bags and bedrolls; Level 8 keeps its tents). Level 8's M.E.G. markers
+    /// along the 9th Road stand every seventy-two blocks, not every twenty-four. Five small corrections that would have moved saved worlds. A tent, bedroll or sofa searching the open air
+    /// for room takes a 4 by 4 window of starting places at random (the hash was cast to int before its modulo, so half the
+    /// time the window was wrong: <see cref="Enlarge"/>). Level 0's party cells keep out of the inner two fifths of the Lobby, by
+    /// <see cref="LevelDepth"/> (the test meant for it was always true). Every stretch of the hotel's lobby gets a front hall:
+    /// only Level 5 cells compete for it (<see cref="IsFrontHall"/>). Level 3999's dark-near early-out counts the corner of its
+    /// square reach as farther out than the side, so a rusted cabinet is no longer missed in the band round a blackout. A glitch
+    /// wall in Level 3999 is taken only where the alley tile in front of it is plain floor (<see cref="PlaceL3999GlitchWall"/>). A Level 37 rotunda's arched openings are tall tiled archways, two plain blocks under a round-headed one, instead of three stacked arches (<see cref="PoolWalls.ArchTall"/>). Level 974's doorways have nothing in them: the casing is on the walls either side (<see cref="WallPattern.L974Jamb"/>), and the bed's alcove is a niche let into the bedroom's east wall (the house is <see cref="L974HouseWide"/> wide, <see cref="L974Plan11"/>; the stub walls pushed back two blocks). Level 8's cave pools are true basins: the open cave beside pool water at its depth is a rim of rock, so no wall of water stands over a lower floor.
+    /// Level 94's houses get the Suburbs' outsides of layout version 9 (PlanExteriorV9, with their faux second storey in mind):
+    /// tall windows in each room's stretch of wall (upstairs over them, a sash over a door), real front and back doors that
+    /// open, a brick chimney stack outside a gable end on level ground or rising through the ridge, a gable that faces the
+    /// street on some houses (in 1-10 a one-block window, a doorway with no door and a chimney flush in the side wall). The End's atrium escalator climbs west along a row of the void and steps straight onto the one railing-free tile of the deck (in 1-10 it climbed south beside the deck past a three-tile gap and ended against a shelf).
+    /// The Hub is laid out as a road tunnel network (WorldLayout.LevelHub.cs, its "Layout version 11" part): the tunnels'
+    /// wandering lines have no jog across shorter than four widths (HubStraighten), so they run in long straights; where
+    /// two stretches of a tunnel meet at a right angle it curves round a bend of even width (HubBend; in 1-10 two flat
+    /// end walls met square); the roundabout is a circle; a ring road's stretch alongside a numbered tunnel is moved onto
+    /// its line (HubAlignAlongside), side tunnels are never planned alongside another (HubParallelClash), their lattice
+    /// nodes are 20 blocks off or not at all, and their stubs past a crossing are cut back (HubTrimStubs). The sidewalk goes
+    /// round a wall's corner (the tile at the corner's tip is sidewalk too) and the generator gives it kerb corners
+    /// (hub-curbcorner, hub-curbinner). The big tunnels' three dotted lines of studs are one yellow middle line (FloorKind
+    /// HubLine) that follows the bends and stops at junctions; the narrow tunnels have none, and a give-way line
+    /// (HubGiveWay) where they meet another tunnel. Lamps also hang round a bend's curved walls.
+    /// Level 4's windows are whole panes: a run of window wall is paired into panes two blocks wide at even world
+    /// coordinates, the full window's height, one state to a pane (<see cref="WindowRoll"/>, rolled at the pair's corner;
+    /// in 1-10 one roll per block), and the generator builds each pane of officepane blocks framed only at its edges, a
+    /// pane one block wide where a run ends against a corner, a column or a doorway.</item>
+    /// <item><b>12</b>: ways to a later level are about a quarter as common (the progression revision, docs/design/progression/revision.md
+    /// section 2.B). Level 0's pit rooms 2.5 % of the big rooms (10 %), Level 1's EXIT doors to Level ! and doors to The End a quarter
+    /// of what they were and its stair cores to Level Fun one in 80 (1 in 20), Level 6's stairwells down and tripwires a quarter,
+    /// Level 7's stone circles, tiled seabeds and cave mouths a quarter, Level 9's field gates one field lot in four and its
+    /// pool dives 1.5 % (6 %), Level 10's barn walls 11 % (45 %). (The runtime half, in ThresholdNetwork: Level 2's steel doors to
+    /// Levels 3 and 4, the elevators of Levels 3 and 4 to a later level, Level 5's staff stairs and POOL doors, Level 1's stairs
+    /// down to Level 2 and up to Level 4, Level 4's hungry vending machines, a quarter as many.) A gate between levels into a
+    /// higher survival class gets an M.E.G. placard on the wall beside its doorway (<see cref="Props.MegPlacard"/>), and so do
+    /// Level 6's stairwells down and Level 2's steel doors that open onto Level 3. Boundary gates are untouched.</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 8;
+    public const int CurrentVersion = 12;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;
@@ -261,9 +511,25 @@ public sealed partial class WorldLayout
     /// </summary>
     public readonly double FoodScale;
 
+    /// <summary>
+    /// How wide this world's rings are against the usual (<see cref="RingWidths"/>): its Level size setting, fixed when
+    /// the world is made (the game side passes the one recorded then, BackroomsWorld.RingScale; 1 for every world made
+    /// before the setting). It scales how far each level runs before the next begins, and nothing else: the levels'
+    /// rooms, halls and lattices, and the places past the rings (the city, the Poolrooms, Motion and the rest), are
+    /// laid out where and as they are at 1. Between <see cref="MinRingScale"/> and <see cref="MaxRingScale"/>; below 1
+    /// no ring narrows past <see cref="MinRingWidths"/>, and above it the rings stop short of the city (RingSqueeze).
+    /// </summary>
+    public readonly double RingScale;
+
     private readonly ulong seed;
     private readonly int spawnMacroX;
     private readonly int spawnMacroZ;
+
+    // Each ring's average width in this world: RingWidths times RingScale (RingWidths itself at 1)
+    private readonly double[] ringWidths = new double[RingWidths.Length];
+
+    // How far out (cells) the rings of a world with wider rings may reach in any direction (see RingSqueeze)
+    private readonly double ringReach;
 
     // Each ring's shape: the amplitude and phase of its waves round the circle
     private readonly double[,] shapeAmplitude = new double[RingWidths.Length, ShapeHarmonics + 1];
@@ -273,17 +539,30 @@ public sealed partial class WorldLayout
     // wide does not keep one entry for every cell it ever looked at
     private readonly LatticeMemo<byte> levelCache;
 
-    public WorldLayout(long seed, int spawnMacroX, int spawnMacroZ, int version = CurrentVersion, double foodScale = 1)
+    /// <summary>Hook for the partials of the far places to create their plan caches in the constructor.</summary>
+    partial void CreateFarPlanCaches();
+
+    public WorldLayout(long seed, int spawnMacroX, int spawnMacroZ, int version = CurrentVersion, double foodScale = 1, double ringScale = 1)
     {
         Version = Math.Clamp(version, 1, CurrentVersion);
         FoodScale = foodScale > 0 ? foodScale : 1;
+        RingScale = ringScale > 0 ? Math.Clamp(ringScale, MinRingScale, MaxRingScale) : 1;
+        for (int ring = 0; ring < RingWidths.Length; ring++) ringWidths[ring] = RingWidths[ring] * RingScale;
         this.seed = (ulong)seed;
         this.spawnMacroX = spawnMacroX;
         this.spawnMacroZ = spawnMacroZ;
         levelCache = new LatticeMemo<byte>(1 << 16, (mx, mz) => (byte)ComputeLevel(mx, mz));
         snackCache = new LatticeMemo<bool>(1 << 12, ComputeSnackrooms);
         gateCache = new LatticeMemo<HashSet<long>>(1 << 10, PlanGates);
-        featureCells = new PlanCache<Tile[]>(48, BuildMacro);
+        featureCells = new PlanCache<Tile[]>(64, BuildMacro);
+        l0Plans = new PlanCache<L0Plan>(256, PlanL0);
+        l1HallBlocks = new PlanCache<Tile[]>(256, PlanHallBlock);
+        l2Trees = new PlanCache<HashSet<(int, int, int)>>(256, (x, z) => PlanLatticeTree(x, z, L2MainEvery, SaltL2Tree, 0.5, 0.25, 0.2));
+        l6Trees = new PlanCache<HashSet<(int, int, int)>>(64, PlanL6Tree);
+        l6Units = new PlanCache<L6Unit>(64, PlanL6Unit);
+        // The far places' caches are made by their own partials (created here, never lazily: two threads arriving
+        // together at a level's first plan would each make one and throw away the other's work)
+        CreateFarPlanCaches();
 
         for (int ring = 0; ring < RingWidths.Length; ring++)
         {
@@ -299,6 +578,11 @@ public sealed partial class WorldLayout
             }
             for (int h = 1; h <= ShapeHarmonics; h++) shapeAmplitude[ring, h] /= total;
         }
+        // Wider rings stop short of the nearest of the places past them, the city's rim, so they never reach it. The
+        // edges are measured in RingDistance, whose warps (8% of the distance and 3.9 cells at most) could carry a cell
+        // that far past them, and the city's rim (its own 8% warp) as far in from CityRadius, so what is left between
+        // them is at least RingClearance however the warps fall
+        ringReach = 0.92 * RegionReach - CityRadius - 4 - RingClearance;
 
         // The Level 0 district the spawn point lies in (asked about for every district planned or zoned)
         int sgx = spawnMacroX * MacroSize + MacroSize / 2, sgz = spawnMacroZ * MacroSize + MacroSize / 2;
@@ -321,10 +605,10 @@ public sealed partial class WorldLayout
     {
         double dx = mx - spawnMacroX, dz = mz - spawnMacroZ;
         if (dx * dx + dz * dz < 9) return 0;
-        double d = RingDistance(mx, mz), angle = Math.Atan2(dz, dx), edge = 0;
+        double d = RingDistance(mx, mz), angle = Math.Atan2(dz, dx), edge = 0, squeeze = RingSqueeze(angle);
         for (int ring = 0; ring < RingWidths.Length; ring++)
         {
-            edge += RingWidths[ring] * RingShape(ring, angle);
+            edge += RingWidth(ring, angle, squeeze);
             if (d < edge) return ring;
         }
         // Far out in the fields lie the places no ring reaches: the city to the east, the Poolrooms to the west, and
@@ -378,11 +662,44 @@ public sealed partial class WorldLayout
         return Math.Max(ring == 0 ? 0.6 : 0.3, Math.Exp(Stretch * wave));
     }
 
+    /// <summary>
+    /// How much of the fields a world's wider rings leave at the least between the outermost ring and the city's rim
+    /// where they are squeezed (cells): a kilometre and a half.
+    /// </summary>
+    private const double RingClearance = 48;
+
+    /// <summary>
+    /// How wide a ring is (in cells) in a direction from spawn: its average width in this world, stretched by
+    /// <see cref="RingShape"/>, times the direction's <see cref="RingSqueeze"/>, and never under
+    /// <see cref="MinRingWidths"/>. A world of the usual size (<see cref="RingScale"/> 1) skips both, so its rings come
+    /// out as they always have, to the last bit.
+    /// </summary>
+    private double RingWidth(int ring, double angle, double squeeze)
+    {
+        double width = ringWidths[ring] * RingShape(ring, angle);
+        return RingScale == 1 ? width : Math.Max(width * squeeze, MinRingWidths[ring]);
+    }
+
+    /// <summary>
+    /// In a world with wider rings (<see cref="RingScale"/> over 1), what all of a direction's rings are scaled by so the
+    /// outermost ends at <see cref="ringReach"/> at the furthest, a little short of the city's rim (in a smaller world,
+    /// or in a direction the rings stretch far, they would otherwise run into it), but never narrower than at the usual
+    /// size (in some world sizes the usual rings already reach the city's rim, and they still do); 1 where they end
+    /// short of it anyway, and in every other world.
+    /// </summary>
+    private double RingSqueeze(double angle)
+    {
+        if (RingScale <= 1) return 1;
+        double total = 0;
+        for (int ring = 0; ring < RingWidths.Length; ring++) total += ringWidths[ring] * RingShape(ring, angle);
+        return total > ringReach ? Math.Max(ringReach / total, 1 / RingScale) : 1;
+    }
+
     /// <summary>Distance from spawn, along a direction, at which a level ends.</summary>
     private double OuterEdge(int level, double angle)
     {
-        double edge = 0;
-        for (int ring = 0; ring <= Math.Min(level, RingWidths.Length - 1); ring++) edge += RingWidths[ring] * RingShape(ring, angle);
+        double edge = 0, squeeze = RingSqueeze(angle);
+        for (int ring = 0; ring <= Math.Min(level, RingWidths.Length - 1); ring++) edge += RingWidth(ring, angle, squeeze);
         return edge;
     }
 
@@ -395,11 +712,11 @@ public sealed partial class WorldLayout
     /// </summary>
     private (double Inner, double Outer) RingEdges(int level, double angle)
     {
-        double inner = 0, edge = 0;
+        double inner = 0, edge = 0, squeeze = RingSqueeze(angle);
         for (int ring = 0; ring <= level; ring++)
         {
             if (ring == level) inner = edge;
-            edge += RingWidths[ring] * RingShape(ring, angle);
+            edge += RingWidth(ring, angle, squeeze);
         }
         return (inner, edge);
     }
@@ -416,7 +733,10 @@ public sealed partial class WorldLayout
             + 0.9 * Fbm(mx / 2.5, mz / 2.5, SaltLevelDetail);
     }
 
-    /// <summary>How far through its ring a block lies, from 0 at the inner edge to 1 at the outer.</summary>
+    /// <summary>
+    /// How far through its ring a block lies, from 0 at the inner edge to 1 at the outer. Always 0.5 for Level 0 (its ring
+    /// has no inner edge: <see cref="LevelDepth"/> measures that one out from spawn) and for the levels past the rings.
+    /// </summary>
     private double RingFraction(int gx, int gz, int level)
     {
         if (level <= 0 || level >= RingWidths.Length) return 0.5;
@@ -430,21 +750,9 @@ public sealed partial class WorldLayout
     public static bool IsOpenSky(int level) => level switch
     {
         9 or 10 or 11 or Motion => true,
-        // The five kept as 14-18 (each level's own line)
-        RunLevel => false,
-        FunLevel => false,
-        TheEnd => false,
-        Hub => false,
-        Level974 => false,
-        Level3999 => false,
-        Level188 => false,
         Level73 => true, // an island under its own night sky
-        Basement => false,
-        Level52 => false,
-        Level31 => false,
         Level55 => true, // a glacier under its own polar day
-        Level120 => false,
-        Level183 => false,
+        // (The far places kept as 14-20, like every other level, have a ceiling or a sealed sky)
         _ => false,
     };
 
@@ -529,15 +837,17 @@ public sealed partial class WorldLayout
         };
     }
 
-    /// <summary>A solid wall between two levels, pierced by a few doorways.</summary>
-    private Edge LevelBoundaryEdge(ref Rng rng, int mx, int mz, int level, int otherLevel, bool halls, bool west)
+    /// <summary>
+    /// The face a level gives the wall it owns between it and another level (<paramref name="halls"/>: the cell is one
+    /// of Level 1's maintenance halls).
+    /// </summary>
+    private WallPattern BoundaryPattern(int level, int otherLevel, int mx, int mz, bool halls)
     {
-        // The suburbs give way to the fields with no wall at all
-        if (IsOpenSky(level) && IsOpenSky(otherLevel)) return new Edge { Pattern = WallPattern.Rock };
-        WallPattern pattern = level == 0 ? RegionAt(mx, mz).PrimaryPattern : WallPattern.Chevron;
-        pattern = level switch
+        // Where an open level meets an enclosed one, the wall is a rock cliff with cave mouths in it
+        if (IsOpenSky(level) || IsOpenSky(otherLevel)) return WallPattern.Rock;
+        return level switch
         {
-            0 => pattern,
+            0 => RegionAt(mx, mz).PrimaryPattern,
             1 => halls ? WallPattern.WhiteBlock : WallPattern.Concrete,
             2 => WallPattern.Tunnel,
             3 => Level3Material(mx, mz),
@@ -562,8 +872,14 @@ public sealed partial class WorldLayout
             Level183 => WallPattern.L183Wall,
             _ => WallPattern.Rock, // the caves; and the cliffs the open levels meet the rest at
         };
-        // Where an open level meets an enclosed one, the wall is a rock cliff with cave mouths in it
-        if (IsOpenSky(level) || IsOpenSky(otherLevel)) pattern = WallPattern.Rock;
+    }
+
+    /// <summary>A solid wall between two levels, pierced by a few doorways.</summary>
+    private Edge LevelBoundaryEdge(ref Rng rng, int mx, int mz, int level, int otherLevel, bool halls, bool west)
+    {
+        // The suburbs give way to the fields with no wall at all
+        if (IsOpenSky(level) && IsOpenSky(otherLevel)) return new Edge { Pattern = WallPattern.Rock };
+        WallPattern pattern = BoundaryPattern(level, otherLevel, mx, mz, halls);
         var edge = new Edge { Pattern = pattern, Base = BaseFor(pattern), Tall = true, ExitSigns = level == 1 };
         for (int i = 1; i < MacroSize; i++) edge.Tiles[i] = EdgeTile.Wall;
 
@@ -653,7 +969,7 @@ public sealed partial class WorldLayout
         if (level == Poolrooms) return y <= floorY - WorldGeometry.PoolDrop ? 31f : IsReservoir(mx, mz) ? 24f : 29f; // lukewarm, everywhere
         switch (level)
         {
-            // The five kept as 14-18 work theirs out in their own files
+            // The far places kept as 14-20 work theirs out in their own files
             case RunLevel: return RunTemperature(x, y, z, floorY);
             case FunLevel: return FunTemperature(x, y, z, floorY);
             case TheEnd: return EndTemperature(x, y, z, floorY);
@@ -720,7 +1036,7 @@ public sealed partial class WorldLayout
             case 0: BuildLevel0(b, mx, mz, west, north); break;
             case 1: BuildLevel1(b, mx, mz); break;
             case 2: BuildLevel2(b, mx, mz, west, north); break;
-            case 3: BuildLevel3(b, mx, mz, west, north); break;
+            case 3: BuildLevel3(b, mx, mz, west, north); if (Version >= 10) AddL3TunnelNetwork(b); break;
             case 4: BuildLevel4(b, mx, mz); break;
             case 5: BuildLevel5(b, mx, mz, west, north); break;
             case 6: BuildLevel6(b, mx, mz, west, north); break;
@@ -748,15 +1064,21 @@ public sealed partial class WorldLayout
         }
 
         for (int i = 0; i < b.Tiles.Length; i++) b.Tiles[i].Level = (byte)b.Level;
-        OrientDoorways(b);
         Edge east = GetEdge(mx + 1, mz, west: true), south = GetEdge(mx, mz + 1, west: false);
+        // (From layout version 9, this level's own wall in front of the next level's: WorldLayout.Linings.cs)
+        LineLevelWalls(b, mx, mz, west, north, east, south);
+        OrientDoorways(b);
         // The Snackrooms are sealed on purpose, and their whole shop fronts are doorways
         if (!(b.Level == 6 && IsSnackrooms(mx, mz)))
         {
             ClearDoorways(b, east, south);
             SealPockets(b, east, south);
             OpenGates(b, mx, mz, west, north, east, south);
+            // (From layout version 9, the way through a gate worn the way the next level begins)
+            WearThresholds(b, mx, mz, west, north, east, south);
         }
+        // (From layout version 12 a placard beside the ways that lead to a more dangerous level: steel doors, elevators, stairwells)
+        if (Version >= 12 && b.Level is 2 or 4 or 5 or 6) PlaceShortcutPlacards(b, mx, mz);
         // (After the doorways are cleared and the pockets sealed, so the camp stays as it is laid out)
         if (b.Level == 4 && Version >= 5) PitchL4Camp(b, mx, mz);
         MarkPickedOver(b, mx, mz);
@@ -764,6 +1086,8 @@ public sealed partial class WorldLayout
         MarkWayToGates(b, mx, mz);
         // (Last: the tents and sleeping bags as big as the real things, and nothing left of one in part)
         if (Version >= 6) LayOutParts(b, mx, mz);
+        // (Version 9: and nothing left of a Level 4 whiteboard in part)
+        if (Version >= 9 && b.Level == 4) MendL4Whiteboards(b);
         // (In version 7 a scarce world's fields and gardens bear less)
         if (Version >= 7 && FoodScale < 1 && b.Level is 9 or 10) ThinFood(b, mx, mz);
         return b.Tiles;
@@ -838,7 +1162,7 @@ public sealed partial class WorldLayout
             t.Variant = 0;
             t.Stack = 0;
         }
-        // A car parked across a doorway is taken away whole, unless part of it stands in the next cell
+        // A car parked across a doorway is taken away whole, unless it touches the cell's edge (it may go on into the next cell)
         void TowCar(int x, int z)
         {
             var car = new List<(int X, int Z)> { (x, z) };
@@ -876,8 +1200,8 @@ public sealed partial class WorldLayout
 
     /// <summary>Props on a floor tile that don't stop anyone walking on: low clutter, plants, wires, an open gate.</summary>
     internal static bool IsWalkThroughProp(ushort variant) => variant is 0 or Props.WheelStop or Props.SpeedBump or Props.FloorCable
-        or Props.Bedroll or Props.SleepingBag or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts
-        // The five kept as 14-18 say which of their own props are walked through
+        or Props.Bedroll or Props.SleepingBag or Props.ImprovBed or Props.Crop or Props.TallGrass or Props.Reeds or Props.Tripwire or Props.FieldGate or Props.MachineParts or Props.MegPlacard
+        // The far places kept as 14-20 say which of their own props are walked through
         || variant >= Props.RunFirst && (RunWalkThrough(variant) || FunWalkThrough(variant) || EndWalkThrough(variant)
             || HubWalkThrough(variant) || L974WalkThrough(variant) || L3999WalkThrough(variant) || L188WalkThrough(variant)
             || L73WalkThrough(variant) || BasementWalkThrough(variant) || L52WalkThrough(variant)

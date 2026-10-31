@@ -37,13 +37,21 @@ static class StairCheck {
   static void Scan(int m0x, int m0z, int n, Dictionary<string,int> c, Dictionary<string,string> ex) {
     void Note(string k, int x, int z) { c[k] = c.GetValueOrDefault(k)+1; if (!ex.ContainsKey(k)) ex[k] = $"{x},{z} (cell-local {x & 31},{z & 31})"; }
     for (int z = m0z*32+1; z < (m0z+n)*32-1; z++) for (int x = m0x*32+1; x < (m0x+n)*32-1; x++) {
-      var t = At(x,z); if (t.Stair == 0 || t.Level > 5) continue;
+      var t = At(x,z); if (t.Zone == WorldLayout.NowhereTurn1 && t.Level == 1) Note("L1 stairs to nowhere: turned along the wall (counted once per tile of the run)", x, z); else if (t.Zone == WorldLayout.NowhereRise && t.Level == 1) Note("L1 stairs to nowhere: straight on (counted once per tile)", x, z);
+      if (t.Stair == 0 || t.Level > 5) continue;
       if (t.Variant != 0 || t.Stack != 0 || t.SupplyBox) Note($"L{t.Level} prop/box on a stair tile", x, z);
       if (WorldLayout.IsShaftFlight(t)) { Shaft(t, x, z, Note); continue; }
       if (t.Stair == 1) { // bottom step: tile behind it (opposite the climb) should be standable floor
         var (bx,bz) = t.Pier switch { ArchPier.East => (x-1,z), ArchPier.West => (x+1,z), ArchPier.North => (x,z+1), _ => (x,z-1) };
         var b = At(bx,bz); bool ok = b.Kind == TileKind.Floor && b.Variant == 0 && b.Stair == 0 && !b.SupplyBox;
-        Note($"L{t.Level} flights", x, z); if (!ok) Note($"L{t.Level} bottom step approach blocked", x, z);
+        Note($"L{t.Level} flights", x, z); if (t.Zone == WorldLayout.FlightZoneNowhere) Note($"L1 stairs to nowhere with the dark way on, climbing {t.Pier}", x, z); else if (t.Level == 1) {
+          Note("L1 stairs to nowhere into a blank wall", x, z);
+          var (cx, cz) = Climb(t.Pier);
+          // (step 1 is two tiles back from step 3; the wall is just past step 3, the way beyond it three tiles more)
+          for (int k = 4; k <= 6; k++) { int qx = x + cx * k, qz = z + cz * k; Tile q = At(qx, qz); int lx = qx & 31, lz = qz & 31;
+            string why = lx < 1 || lz < 1 || lx > 30 || lz > 30 ? "cell edge" : q.Kind != TileKind.Floor ? "not floor: " + q.Kind : q.Floor == FloorKind.L1Hall ? "hall" : q.Stair != 0 ? "stairs" : q.Under != 0 ? "under" : q.Zone != 0 ? "zone" : q.Sealed ? "sealed" : null;
+            if (why != null) { Note("  blank because beyond: " + why, x, z); break; } }
+        } if (!ok) Note($"L{t.Level} bottom step approach blocked", x, z);
       }
     }
   }

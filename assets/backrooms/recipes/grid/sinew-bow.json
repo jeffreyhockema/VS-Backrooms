@@ -1,0 +1,20 @@
+{
+	"ingredientPattern": "_ST,S_T,_ST",
+	"ingredients": {
+		"S": {
+			"type": "item",
+			"code": "game:stick"
+		},
+		"T": {
+			"type": "item",
+			"code": "backrooms:clumpsinew"
+		}
+	},
+	"width": 3,
+	"height": 3,
+	"name": "simple bow (sinew)",
+	"output": {
+		"type": "item",
+		"code": "game:bow-simple"
+	}
+}

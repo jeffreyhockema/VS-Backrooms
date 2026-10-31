@@ -23,6 +23,8 @@ public partial class AtmosphereSystem
     private ILoadedSound l188Loop, l188Pipe, l188Party;
     private bool l188LoopCourt;
     private float l188NextKnock = 25, l188NextConfetti;
+    private const int NotLooked = -2;
+    private int l188FunWindow = NotLooked;
 
     /// <summary>Where the player is in the building: the courtyard (or out over it), the roof, or inside.</summary>
     private (bool Court, bool Roof) L188Where(EntityPos pos)
@@ -75,8 +77,13 @@ public partial class AtmosphereSystem
             layout.L188BuildX0 + WorldLayout.L188PipeBx + 0.5, floor + 1.5, layout.L188BuildZ0 + WorldLayout.L188PipeBz + 0.5, 16, 0.45f);
 
         // The party behind the confetti window, and its confetti drifting down the glass on the courtyard side
-        int funWindow = -1;
-        for (int wi = 0; wi < WorldLayout.L188Windows && funWindow < 0; wi++) if (layout.L188LinkLevel(wi) == WorldLayout.FunLevel) funWindow = wi;
+        // (Which window leads to the party never changes in a world: found on the first call)
+        if (l188FunWindow == NotLooked)
+        {
+            l188FunWindow = -1;
+            for (int wi = 0; wi < WorldLayout.L188Windows && l188FunWindow < 0; wi++) if (layout.L188LinkLevel(wi) == WorldLayout.FunLevel) l188FunWindow = wi;
+        }
+        int funWindow = l188FunWindow;
         if (funWindow >= 0)
         {
             var (l, r, facing) = WorldLayout.L188WindowTiles(funWindow);

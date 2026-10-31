@@ -87,9 +87,9 @@ public static class Breakdown
     /// <summary>Packed earth, tracks and stubble: a shovel's work, and it stays where it lay.</summary>
     private static readonly Class Ground = new() { Material = EnumBlockMaterial.Soil, Tier = 0, Resistance = 2, Drops = D() };
 
-    /// <summary>A wrecked car: a copper pick and some work, for a good deal of scrap. Its invisible hull goes with it.</summary>
+    /// <summary>A wrecked car: a copper pick and some work, for a good deal of scrap (and its seat vinyl, pleather). Its invisible hull goes with it.</summary>
     private static readonly Class Wreck = new() { Material = EnumBlockMaterial.Metal, Tier = 2, Resistance = 12,
-        Drops = D((Bracket, 0.8f, 0.4f), (Wire, 0.6f, 0.4f), (Shard, 1f, 0.5f), (Copper, 0.4f, 0.4f)) };
+        Drops = D((Bracket, 0.8f, 0.4f), (Wire, 0.6f, 0.4f), (Shard, 1f, 0.5f), (Copper, 0.4f, 0.4f), ("pleather", 1.5f, 0.5f)) };
 
     /// <summary>The invisible hull round a car's model: breaking it breaks the car (<see cref="BlockBehaviorWreck"/>).</summary>
     private static readonly Class WreckHull = new() { Material = EnumBlockMaterial.Metal, Tier = 2, Resistance = 12, Drops = D() };
@@ -116,14 +116,16 @@ public static class Breakdown
     /// </summary>
     private static readonly HashSet<string> FixedCodes = new()
     {
-        "firedoor", "metaldoor", "officedoor", "noclipwall", "tripwire", "manhole", "cinemascreen", "twilightgate",
+        "firedoor", "metaldoor", "officedoor", "noclipwall", "tripwire", "manhole", "manholeladder", "cinemascreen", "twilightgate",
         "glassmountain", "kingstatue", "megmarker", "backdrop", "diorama",
+        // Level 7's high ceiling (layout version 9): over it is the top of the world
+        "seaceiling",
         // Invisible sound emitters
         "cityhum", "subwayrumble", "waveecho",
     };
 
     /// <summary>Ours, but with a class of its own that decides what breaking it does: left exactly as they are.</summary>
-    private static readonly HashSet<string> OwnRules = new() { "firesalt", "redsprout", "tar", "trialchair", "picketfence" };
+    private static readonly HashSet<string> OwnRules = new() { "firesalt", "mothhiveheart", "clumpremnant", "redsprout", "tar", "trialchair", "picketfence" };
 
     static Breakdown()
     {
@@ -131,14 +133,15 @@ public static class Breakdown
             "pillarbase", "pillardeco", "pillarlight", "l1deco", "wheelstop", "speedbump", "exitlintel", "exitlintelpair", "exitsign",
             "tunnelwall", "tunnelceiling", "l6block", "l6deco", "whiteblock", "whitecam", "oceanceiling",
             "subwaywall", "subwaydeco", "citypier", "cityfacade", "cityroof", "citydeco", "chimney", "snackceiling",
-            "asphalt", "sidewalk", "motionground", "fountainrim", "roomsign", "l3wallfixture", "wallpipecorner");
+            "asphalt", "sidewalk", "motionground", "fountainrim", "roomsign", "l3wallfixture", "wallpipecorner", "tunnelfitting", "tunnelstep",
+            "l3fitting");
         Add(Floor, "concretefloor", "l1hallfloor", "dustyfloor", "l3floor", "subwayfloor", "cityfloor", "parkfloor", "snackfloor",
             "funfloor", "hotelfloor");
         Add(CarpetFloor, "carpet", "officecarpet", "officecarpetalt", "hotelcarpet");
         Add(Masonry, "l3wall", "l3decobrick", "l3decocinder", "l3decoglazed", "l3decostone", "l3plaquebrick", "l3plaquecinder",
             "l3plaqueglazed", "poolwall", "pooltile", "pool", "marblecolumn", "hotelstairs", "sanctumstone", "sanctumceiling", "castleblock", "angelstatue",
             "stonehand", "stonestapler", "ribcage", "bathtub", "snackwall", "snackdeco");
-        Add(Papered, "wallpaper", "paperjoin", "archheader");
+        Add(Papered, "wallpaper", "paperjoin", "archheader", "stuccojoin", "archheaderstucco");
         Add(Drywall, "drywallbase", "officewall", "officedeco", "plasterwall", "plasterdeco", "plasterceiling", "cityplaster",
             "houseinterior", "housedeco", "nooutletsign");
         Add(Timber, "hotelwall", "hotelwood", "hotelfixture", "hotelceiling", "hoteldeco", "housewall", "housecorner", "housefloor",
@@ -146,13 +149,14 @@ public static class Breakdown
             "doghouse", "watertank", "sirenpole", "powerpole", "fieldgate", "patiochair", "ceilingfan",
             "housestorey", "housestairs", "porchdeck", "porchpost");
         Add(Joinery, "kitchencounter", "hotelreception", "thronetable", "grandfatherclock", "grandpiano");
-        Add(Metal, "pipes", "rungs", "ironbars", "radiator", "drippipe", "acunit", "antenna", "silo", "watertower", "firehydrant",
-            "stopsign", "streetsign", "trafficsign", "busshelter", "clearancebar", "basketballhoop", "swingset", "slide",
+        // (trafficsign is not here: it is carried off whole, as a salvage item - see SalvageSystem.Salvageable)
+        Add(Metal, "pipes", "feedpipe", "rungs", "ironbars", "radiator", "drippipe", "acunit", "antenna", "silo", "watertower", "firehydrant",
+            "stopsign", "streetsign", "busshelter", "clearancebar", "basketballhoop", "swingset", "slide",
             "snackcounter", "boiler", "furnace", "chandelier", "poolladder", "waterpump", "sprinkler", "paystation", "conveyor",
             "cagelift", "suburbsign", "suburbsignblade", "citysign");
-        Add(Electrical, "conduit", "cables", "floorcable", "cabledroop", "wiredroop", "transformer", "generator", "switchgear",
+        Add(Electrical, "conduit", "conduitend", "cables", "floorcable", "floorcableend", "cabledroop", "wiredroop", "transformer", "generator", "switchgear",
             "serverrack", "coilunit", "controldesk", "streetlight", "roadlamp", "roadlamparm", "trafficlight", "porchlamp");
-        Add(Glass, "officeglass", "officewindow", "officewindowalt", "housewindow", "windowglow", "stainedglass", "exithanging", "funlight");
+        Add(Glass, "officeglass", "officewindow", "officewindowalt", "officepane", "housewindow", "windowglow", "stainedglass", "exithanging", "funlight");
         Add(Ground, "dirtroad", "fieldstubble");
         Add(Soft, "ballpit", "ballpitfill");
         Add(Wreck, "car");
@@ -221,6 +225,13 @@ public static class Breakdown
         return path.Length > suffix.Length && path.EndsWith(suffix, System.StringComparison.Ordinal) ? path[..^suffix.Length] : path;
     }
 
+    /// <summary>
+    /// Whether a block is one a player makes in the crafting grid: a <c>built-*</c> twin of a block the world generator
+    /// uses (<c>backroomsBuilt</c> in its attributes). It gives itself back, breaks by its own block type, and no rule of
+    /// ours (<see cref="Apply"/>, <see cref="FindOwnDrops"/>, <see cref="Protection"/>) touches it.
+    /// </summary>
+    public static bool IsBuilt(Block block) => block?.Attributes?["backroomsBuilt"].AsBool() == true;
+
     private static bool IsOurs(Block block) => block?.Code != null && block.Code.Domain == "backrooms" && block.BlockId != 0;
 
     /// <summary>Whether a block's own drops (as its block type gives them) are anything but the block itself.</summary>
@@ -235,6 +246,15 @@ public static class Breakdown
             Block dropped = api.World.GetBlock(drop.Code);
             if (dropped == null || !IsOurs(dropped) || TypeOf(dropped) != type) return true;
         }
+        return false;
+    }
+
+    /// <summary>Whether a block gives a block when broken (a flickering panel gives a dead one), where scaling the drops would hand out more of them.</summary>
+    private static bool GivesBlock(Block block)
+    {
+        if (block.Drops == null) return false;
+        foreach (BlockDropItemStack drop in block.Drops)
+            if (drop?.Type == EnumItemClass.Block) return true;
         return false;
     }
 
@@ -265,7 +285,8 @@ public static class Breakdown
             if (!salvage && !HasOwnLoot(api, block)) continue;
             if (!salvage) keep.Add(block.Code.Path);
             // Whatever of ours it gives can be carried off and set down again
-            foreach (BlockDropItemStack drop in block.Drops)
+            // (On the client a block type with no drops field has a null Drops array)
+            foreach (BlockDropItemStack drop in block.Drops ?? System.Array.Empty<BlockDropItemStack>())
                 if (drop?.Code != null && drop.Type == EnumItemClass.Block && api.World.GetBlock(drop.Code) is Block given && IsOurs(given))
                     carried.Add(TypeOf(given));
             JsonObject tiers = block.Attributes?["l3999prizes"];
@@ -289,6 +310,8 @@ public static class Breakdown
     public static BreakKind KindOf(Block block)
     {
         if (block?.Code == null || block.Code.Domain != "backrooms" || block.BlockId == 0) return BreakKind.None;
+        // What the player made (the built-* twins of tools/gen_building.py): theirs, and it comes back whole
+        if (IsBuilt(block)) return BreakKind.None;
         string first = block.FirstCodePart();
         // Level !: every code starts "run"; its props keep their own drops (loot), the hallway itself never breaks
         if (first == "run") return IsRunProp(block.Code.Path) ? BreakKind.None : BreakKind.Fixed;
@@ -329,6 +352,10 @@ public static class Breakdown
             BreakKind kind = KindOf(block);
             if (kind == BreakKind.None && IsOurs(block) && keep.Contains(block.Code.Path)) kept.Add(TypeOf(block));
             if (kind == BreakKind.Structure && HasOwnLoot(api, block)) replaced.Add(TypeOf(block));
+            // A light fixture that shatters gives more of its glass to a careful hand (one that gives itself back is left alone)
+            if (SalvageSystem.IsLight(block) && !GivesBlock(block))
+                block.BlockBehaviors = new List<BlockBehavior>(block.BlockBehaviors ?? System.Array.Empty<BlockBehavior>())
+                    { new BlockBehaviorToolDrops(block, BlockBehaviorToolDrops.Mode.Careful) }.ToArray();
             switch (kind)
             {
                 case BreakKind.Fixed:
@@ -345,6 +372,8 @@ public static class Breakdown
                     var behaviors = new List<BlockBehavior>(block.BlockBehaviors ?? System.Array.Empty<BlockBehavior>());
                     if (cls.HandFactor < 1f) behaviors.Add(new BlockBehaviorBareHands(block, cls.HandFactor));
                     if (cls == Wreck || cls == WreckHull) behaviors.Add(new BlockBehaviorWreck(block));
+                    // Pipes and wired machinery give more to a better pick (see BlockBehaviorToolDrops)
+                    if (cls == Electrical || block.FirstCodePart() == "pipes") behaviors.Add(new BlockBehaviorToolDrops(block, BlockBehaviorToolDrops.Mode.Pick));
                     block.BlockBehaviors = behaviors.ToArray();
                     structure++;
                     break;
@@ -405,6 +434,8 @@ public class BlockBehaviorWreck : BlockBehavior
                 Block part = blocks.GetBlock(next);
                 if (part.Code?.Domain != "backrooms" || part.FirstCodePart() is not ("car" or "carcollider")) continue;
                 seen.Add(next);
+                // A car that straddles a claim's edge does not lose the part inside it to someone who may not build there
+                if (byPlayer != null && !world.Claims.TryAccess(byPlayer, next, EnumBlockAccessFlags.BuildOrBreak)) continue;
                 queue.Enqueue(next);
                 // The car block holds the scrap; the hull gives nothing
                 if (drops && part.FirstCodePart() == "car" && part.Drops != null)

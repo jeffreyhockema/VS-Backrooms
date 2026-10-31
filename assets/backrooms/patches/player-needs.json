@@ -1,0 +1,28 @@
+// Thirst and fatigue (docs/design/needs/README.md): two behaviours on the player, appended after vanilla's (never inserted
+// among them). Both are inert outside Backrooms worlds and with their world setting off (backroomsThirst, backroomsFatigue).
+[
+	{
+		"op": "add",
+		"path": "/server/behaviors/-",
+		"value": { "code": "backrooms-thirst" },
+		"file": "game:entities/humanoid/player.json"
+	},
+	{
+		"op": "add",
+		"path": "/server/behaviors/-",
+		"value": { "code": "backrooms-fatigue" },
+		"file": "game:entities/humanoid/player.json"
+	},
+	{
+		"op": "add",
+		"path": "/client/behaviors/-",
+		"value": { "code": "backrooms-thirst" },
+		"file": "game:entities/humanoid/player.json"
+	},
+	{
+		"op": "add",
+		"path": "/client/behaviors/-",
+		"value": { "code": "backrooms-fatigue" },
+		"file": "game:entities/humanoid/player.json"
+	}
+]

@@ -168,5 +168,13 @@
 				"var": 0.5
 			}
 		}
-	]
+	],
+	"class": "BackroomsBed",
+	"entityClassByType": {
+		"*-head-*": "BackroomsBed"
+	},
+	"attributes": {
+		"restQuality": 0.75,
+		"bedFoot": "opposite"
+	}
 }

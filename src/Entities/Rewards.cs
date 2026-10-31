@@ -16,7 +16,8 @@ namespace Backrooms.Entities;
 /// when it was a wanderer. Nothing for Facelings.</item>
 /// <item>Fuller caches: a box, crate, cupboard or fridge broken open in a deep level may give its contents twice, and
 /// may hold something extra besides, better the deeper you are (metal, medicine, rusty gears, very rarely a
-/// temporal gear).</item>
+/// temporal gear). In Level 7, deeper means down the sea too: a cache on the bottom of the midnight zone pays as one
+/// in the city does.</item>
 /// </list>
 /// </summary>
 public class Rewards : ModSystem
@@ -34,6 +35,8 @@ public class Rewards : ModSystem
         ["deathmoth-female"] = (0.05, 0.2),
         ["wretch"] = (0.3, 0.8),
         ["bacteria"] = (1.0, 2.0),
+        ["neighborhoodwatch"] = (1.0, 2.5),
+        ["giantspider"] = (1.0, 2.5),
         ["partygoer"] = (1.0, 2.5),
         ["partygoer-intern"] = (1.0, 2.5),
     };
@@ -51,14 +54,19 @@ public class Rewards : ModSystem
         // Levels 1 to 3
         new[] { ("game:bandage-clean", 1, 1, 1.0), ("game:candle", 1, 2, 1.0), ("backrooms:crackers", 1, 2, 1.0), ("game:flaxtwine", 1, 3, 0.8), (Gear, 1, 1, 0.6) },
         // Levels 4 to 6
-        new[] { (Gear, 1, 2, 1.2), ("game:metalbit-copper", 2, 4, 1.0), ("game:poultice-linen-horsetail", 1, 1, 0.8), ("backrooms:almondwater", 1, 2, 1.0), ("backrooms:firesalt", 1, 2, 0.6) },
+        new[] { (Gear, 1, 2, 1.2), ("game:metalbit-copper", 2, 4, 1.0), ("game:poultice-linen-horsetail", 1, 1, 0.8), ("backrooms:almondwater", 1, 2, 1.0), ("backrooms:almondwaterblue", 1, 1, 0.3), ("backrooms:almondwatergreen", 1, 1, 0.3), ("backrooms:firesalt", 1, 2, 0.6) },
         // Level 7 down
         new[] { (Gear, 2, 3, 1.2), ("game:metalbit-tinbronze", 2, 4, 1.0), ("game:bandage-clean", 2, 3, 0.8), ("game:metalbit-iron", 1, 3, 0.5), ("game:gear-temporal", 1, 1, 0.06) },
     };
 
+    /// <summary>The share of a Level 1 to 5 cache's extra that is a temporal gear (the deepest caches keep their own 6 % in <see cref="Bonus"/>).</summary>
+    private const double EarlyGearChance = 0.12;
+
     private static ICoreServerAPI sapi;
     private MenaceSystem director;
     private readonly HashSet<int> caches = new();
+    /// <summary>The shared floor's height: Level 7's water surface, for how deep a cache on its seabed lay.</summary>
+    private int floorY = int.MinValue;
 
     public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Server;
 
@@ -71,6 +79,7 @@ public class Rewards : ModSystem
         {
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
             director = api.ModLoader.GetModSystem<MenaceSystem>();
+            floorY = BackroomsWorld.CreateGeometry(api.World).FloorY;
             foreach (Block block in api.World.Blocks)
             {
                 if (block?.Code?.Domain == "backrooms" && block.Drops != null && Array.Exists(block.Drops, IsLoot)) caches.Add(block.BlockId);
@@ -80,6 +89,14 @@ public class Rewards : ModSystem
         });
     }
 
+    public override void Dispose()
+    {
+        // (The static would otherwise keep a dead world's server for Bounty to use in the next one opened in this process)
+        if (sapi != null) sapi.Event.DidBreakBlock -= OnBrokeBlock;
+        sapi = null;
+        base.Dispose();
+    }
+
     /// <summary>Whether a drop is something worth finding (food, medicine, metal, gears), as opposed to the material the thing was made of.</summary>
     private static bool IsLoot(BlockDropItemStack drop)
     {
@@ -87,18 +104,21 @@ public class Rewards : ModSystem
         if (code == null) return false;
         string p = code.Path;
         if (code.Domain == "backrooms")
-            return p is "almondwater" or "crackers" or "cannedbeans" or "chips" or "candybar" or "soda" or "waterbottle" or "cashewwater" or "firesalt" or "seedpacket";
-        return p.StartsWith("gear-") || p.StartsWith("metalbit-") || p.StartsWith("bandage") || p.StartsWith("poultice") || p.StartsWith("fruit-")
-            || p.StartsWith("cheese-") || p.StartsWith("candle") || p.StartsWith("seeds-");
+            return p is "almondwater" or "almondwaterblue" or "almondwatergreen" or "emptybottle" or "crackers" or "cannedbeans" or "chips" or "candybar" or "soda" or "waterbottle" or "cashewwater" or "firesalt" or "seedpacket"
+                || p.StartsWith("bottledwater", StringComparison.Ordinal);
+        return p.StartsWith("gear-", StringComparison.Ordinal) || p.StartsWith("metalbit-", StringComparison.Ordinal) || p.StartsWith("bandage", StringComparison.Ordinal) || p.StartsWith("poultice", StringComparison.Ordinal) || p.StartsWith("fruit-", StringComparison.Ordinal)
+            || p.StartsWith("cheese-", StringComparison.Ordinal) || p.StartsWith("candle", StringComparison.Ordinal) || p.StartsWith("seeds-", StringComparison.Ordinal);
     }
 
     private void OnBrokeBlock(IServerPlayer byPlayer, int oldblockId, BlockSelection blockSel)
     {
-        if (byPlayer?.WorldData.CurrentGameMode != EnumGameMode.Survival || !caches.Contains(oldblockId) || director?.Layout == null) return;
+        if (byPlayer?.WorldData.CurrentGameMode != EnumGameMode.Survival || !caches.Contains(oldblockId) || director?.Layout == null || blockSel?.Position == null) return;
         BlockPos pos = blockSel.Position;
         int level = director.Layout.LevelAt(WorldLayout.MacroOf(pos.X), WorldLayout.MacroOf(pos.Z));
         double d = Danger.OfLevel(level);
         if (d <= 0) return;
+        // Level 7's caches pay more the deeper they lie: on the bottom of the midnight zone, as much as the city's
+        if (level == 7 && pos.Y < floorY) d = Math.Min(1, d + 0.3 * Math.Clamp((floorY - pos.Y) / (double)WorldLayout.AbyssDepth, 0, 1));
         Random rand = sapi.World.Rand;
         Vec3d at = pos.ToVec3d().Add(0.5, 0.5, 0.5);
         Block block = sapi.World.GetBlock(oldblockId);
@@ -114,6 +134,8 @@ public class Rewards : ModSystem
         {
             var pool = Bonus[d < 0.4 ? 0 : d < 0.7 ? 1 : 2];
             var (code, min, max, _) = Pick(pool, rand);
+            // Levels 1 to 5: about one extra in eight is a temporal gear, for the ward at the end of the climb (deeper pools carry their own)
+            if (level is >= 1 and <= 5 && rand.NextDouble() < EarlyGearChance) (code, min, max) = ("game:gear-temporal", 1, 1);
             ItemStack stack = Make(code, min + rand.Next(max - min + 1));
             if (stack != null) sapi.World.SpawnItemEntity(stack, at);
         }

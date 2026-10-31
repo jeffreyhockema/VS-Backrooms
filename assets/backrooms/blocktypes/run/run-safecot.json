@@ -1,4 +1,4 @@
-// A cot in a Safe Zone side room, two blocks (head, foot; head to the north). Decor, not a bed
+// A cot in a Safe Zone side room, two blocks (head, foot; head to the north). A bed (needs: BackroomsBed)
 {
 	"code": "run-safecot",
 	"variantgroups": [
@@ -168,5 +168,13 @@
 				"var": 0.5
 			}
 		}
-	]
+	],
+	"class": "BackroomsBed",
+	"entityClassByType": {
+		"*-head-*": "BackroomsBed"
+	},
+	"attributes": {
+		"restQuality": 0.75,
+		"bedFoot": "opposite"
+	}
 }
