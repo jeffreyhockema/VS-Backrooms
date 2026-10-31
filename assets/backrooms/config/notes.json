@@ -1396,6 +1396,62 @@
    ]
   },
   {
+   "id": "l36",
+   "cls": "common",
+   "level": 25,
+   "chapter": "l36",
+   "entries": [
+    {
+     "key": "l36-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l36-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l36-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l36-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l36-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l36-6",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l36-7",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "rare-l36",
+   "cls": "rare",
+   "level": 25,
+   "chapter": "rare",
+   "entries": [
+    {
+     "key": "r-l36-1",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
    "id": "scraps",
    "cls": "scrap",
    "level": -1,

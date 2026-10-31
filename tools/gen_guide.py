@@ -1004,6 +1004,45 @@ BRIDGES["fishing"] = """
 
 
 # ====================================================================================================================
+# Level 36 "Airport" (experimental, id 25; detail pass 2026-10-30): its own page, shown after The Levels: Beyond the Rings
+# (src/Regions/L36System.cs adds it to the handbook, so GuideSystem's list is left alone). The rules it states are
+# L36System's and WorldLayout.Level36.cs's.
+# ====================================================================================================================
+
+PAGES["level36"] = ("Level 36: the Airport", """
+**Level 36, the Timeless Airport**
+*An endless terminal, empty and spotless, where every flight lands back where it left.*
+
+**Arriving**
+You are brought in like luggage, on a baggage carousel in the claim hall. Behind it is the one wall anyone has found the end of; the hall runs north and south along it as far as you care to walk, a carousel every 32 blocks. The bags on the belts belong to nobody now: [suitcases](block-backrooms:suitcase) give clothes and odds and ends, and the Lost and Found offices along the wall hold more, with a supply box or two.
+
+**The terminal**
+East of the claim hall: check-in, rows of desks under flight screens with queue barriers before them, then the old security checkpoint, its scanners dead. Past it the concourses: wide halls every 256 blocks each way, with moving walkways down the north-south ones (some stopped), seats, vending machines and Almond Water fountains along their sides. Between them lie the terminal's wings (a letter A to Z over each one's mouth, its gates numbered within 1 to 60), duty-free streets, food courts, first-class lounges, the Meeting Place, and doors into the back of house: dim service corridors that end nowhere, and vents with fans in them.
+
+**Reading the screens**
+A flight screen gives a flight number, a level, a gate and a count in no unit at all. {rightmouse} a screen for the flights of the gates nearest it.
+
+**Flights**
+When a gate's count falls under 1000 it is boarding: {rightmouse} the jet-bridge door in the gate's window wall and you are aboard the plane parked behind it. The same door lets you off again until it leaves. Stay aboard when the count reaches nothing and you fly for about a minute, land, and come off on a baggage carousel in the claim hall. Every flight lands here. The flight at gate C32 of a C wing has been delayed for longer than anyone has counted.
+
+**Time**
+The clocks have no hands, or have stopped. Nobody sleeps in the airport: lie down and you are up again at once. Nobody tires either: your Rest stays where it was when you arrived, for as long as you stay. Hunger and thirst go on as anywhere, so eat.
+
+**Food and water**
+The vending machines and fountains are free and safe. What was left on the food courts' tables has been there far too long.
+
+**Signs and blackouts**
+Further in, the signs contradict each other, and the EXIT signs lead nowhere. A lit sign with nothing on it means trouble ahead. Deeper in, whole stretches of concourse and whole wings are blacked out, and half the back of house is dark; only there, and rarely, does something wait: a Smiler, a Hound or two, a Deathmoth. Nothing hunts where the lights are on. Some stretches of concourse run cold (10 °C) and some warm (28 °C).
+
+**The Absolute Limit**
+Far out, every way but back toward the carousels, the walls and floors dissolve into static. Reality thins there: your stability drains while you stand in it.
+
+**People**
+The Backrooms Travel Agency keeps a booth in check-in (booth 0 on the line through the middle of the hall, others every 1024 blocks along it) and a desk at every Meeting Place. Its Travel Planner talks, gives advice, and trades: travel goods for the junk of the terminal. The Gate C32 Support Group's things are at their gate; they are never in. The other ways the lore gives in and out (signs with an airplane on them, a train from the Metro, a restroom sink, a hotel's glass doors) are not open in this world: the cheats menu is the only way here.
+""")
+
+
+# ====================================================================================================================
 # The tutorial: Backrooms: First Steps (src/Tutorial/BackroomsTutorial.cs). One entry per step, in order.
 # {0}.. are filled by the game: for a key step the keys named, for a collect or craft step the number still to get.
 # <itemstack type="item">code</itemstack> shows the item, as the vanilla tutorial does.

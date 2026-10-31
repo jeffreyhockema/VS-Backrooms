@@ -242,6 +242,8 @@ public sealed partial class WorldLayout
             case Hub or Level3999 when WandererSite(mx, mz) is { } camp:
                 Near(camp.X - mx * MacroSize, camp.Z - mz * MacroSize, "way", 4);
                 break;
+            // Level 36: by the Travel Agency's booths and desks, in the Lost and Found offices, at Gate C32 (WorldLayout.Level36.cs)
+            case Level36: L36NoteSpots(mx, mz, Near); break;
             case RunLevel:
             {
                 int lane = RunLaneAt(mx * MacroSize + c, mz * MacroSize + c);

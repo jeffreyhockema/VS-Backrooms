@@ -974,6 +974,59 @@ where it led before. None of them leads out. I am going to the Manila Room to si
 — A.L.""", mark="manila", w="al"),
 ]))
 
+# ============================== Level 36 "Airport" (experimental, id 25; detail pass 2026-10-30) ==============================
+# Its own track and one folded note; the spots are WorldLayout.L36NoteSpots (the Travel Agency's booths and desks, the Lost and
+# Found offices, Gate C32). What they say of the level's rules is src/Regions/L36System.cs and its handbook page.
+L36 = 25
+LEVEL_IDS.add(L36)
+
+TRACKS.append(Track("l36", "common", "Level 36: the Airport", L36, entries=[
+    E("l36-1", "Brought in by the belt", """
+You come in on a baggage carousel, like luggage. Everyone does. Behind it is the only wall anybody has found the end of,
+carousels coming out of it all along, north and south as far as you care to walk. The bags on the belts are nobody's
+now. Ten rounds and they go to Lost and Found; the offices along the wall are full of them.
+— Dez""", w="dez"),
+    E("l36-2", "The numbers", """
+The screens over check-in and at every gate give no times. A flight, a level, a gate, and a number counting down that is
+not seconds or anything else. Under a thousand the gate is boarding. At nothing the plane goes. I stood at a G gate
+from a hundred thousand down to nothing. My watch stopped the moment I came in. Right-click a screen for the gates near it.
+— A.L., survey""", w="al"),
+    E("l36-3", "Flights", """
+M.E.G. FIELD NOTICE. Boarding is real. Use the jet-bridge door by the window while its gate is boarding and you are in the
+cabin of the plane parked behind it. You can step off by the same door until it goes. Stay aboard when the count runs
+out and you fly for a minute, land, and come off on a baggage carousel in the claim hall. Every flight we have taken
+landed here. The screens say Level 6, Level 37, Level 974. The screens are wrong.
+— Field Team 9""", w="meg"),
+    E("l36-4", "Gate C32", """
+Ruth, a woman at C32 gave me soup. There are about a hundred and fifty of them, bedrolls between the seats, waiting on
+flight 1784XBA8JLP to Level 186. The number on their screen has nine digits. She says she'll see the valley. When I went
+back the holdroom was empty, their bedding still laid out. I didn't have the heart to do the sums.
+— Tom""", w="tom"),
+    E("l36-5", "Signs", """
+Never follow an EXIT sign here. I followed one for a day and it hung over a doorway into check-in, same as the last.
+Further in the signs argue with each other. A lit sign with nothing on it means no good: the lights die past it. Go back
+to the last sign that made sense. Things stand in the dark out there, and only there.
+— Dez""", w="dez"),
+    E("l36-6", "No sleep", """
+Ruth, you can't sleep here. I lay down on a bench and shut my eyes for what felt like hours and opened them in the same
+second. I'm not tired, though. Nobody is. You still have to eat and drink: the machines and the fountains in the halls
+are free. Don't touch what's left on the food court tables.
+— Tom""", w="tom"),
+    E("l36-7", "The edge", """
+The floor is so clean it hurts, love. Far out, every way but back toward the carousels, the walls go to static, like a
+television nobody switched off, and you feel yourself thinning while you stand in it. They call it the Absolute Limit.
+Don't go and look.
+— Nell""", w="nell"),
+]))
+
+TRACKS.append(Track("rare-l36", "rare", "Folded notes", L36, chapter=RARE_CHAPTER, entries=[
+    E("r-l36-1", "Ways in, as told", """
+Ways into 36, as they were told to me, none of them walked: a sign with an airplane on it in the city or in the Suburbs; a
+door in one of the city's apartment blocks; luggage that falls; a train from somewhere called the Metro. Ways out, the
+same: the gates, a sink in a restroom to the Poolrooms, the glass doors of a hotel. I have only ever found the carousel.
+— A.L.""", w="al"),
+]))
+
 # ============================== Scraps (flavour, when the common tracks run dry) ==============================
 
 TRACKS.append(Track("scraps", "scrap", "Scraps", entries=[

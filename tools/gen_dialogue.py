@@ -34,6 +34,21 @@ JUICE = "{type: 'item', code: 'backrooms:end-memoryjuice', stacksize: 1}"
 # Variables the game or the code provide, not the dialogue
 PROVIDED = {SITE_VAR, "player.inventory"}
 
+# ---- Level 36 "Airport" (experimental, id 25; detail pass 2026-10-30): the Backrooms Travel Agency's Travel Planner (site
+# "36", WorldLayout.Level36.cs), polite and helpful, a little too sure every flight goes somewhere. Its line for each of
+# per_site's topics; per_site falls back to these for the site. True to the level's rules (src/Regions/L36System.cs).
+SITES.append("36")
+L36_LINES = {
+    "greet": "Welcome to Level 36, traveller! The Backrooms Travel Agency is at your service. Every level is only one flight away.",
+    "name": "{{npcname}}, Travel Planner, Backrooms Travel Agency. Flights, gates and good advice, all free of charge.",
+    "creaturessite": "In the lit terminal? Nothing at all. Deeper in, where the lights have gone, a Smiler now and then, a Hound, a moth. Turn back at an empty sign.",
+    "watersite": "The machines and fountains in the concourses are free and perfectly safe. The food court's tables are not: some of that has been there a very long time.",
+    "sleepsite": "Not here, I'm afraid. Nobody sleeps in the airport, and nobody tires. Do remember to eat.",
+    "exitssite": "Watch the screens. When your gate's number drops under a thousand it's boarding: use the jet-bridge door by the window. Stay aboard until it reaches nothing.",
+    "rumours": "Gate C32 has a support group waiting on a flight to Level 186. Their count has nine digits. Very patient people. Lovely soup.",
+    "home": "Every flight we've booked so far has landed in baggage claim. The Agency is looking into it. Have you tried one of our lounges?",
+}
+
 
 def site(s):
     return {"variable": SITE_VAR, "isValue": s}
@@ -80,7 +95,7 @@ def per_site(key, texts, jump, **extra):
     """A trader's line for each site (texts: site -> text, or for "end" a (with juice, without) pair)."""
     lines = []
     for s in SITES:
-        t = texts[s]
+        t = texts[s] if s in texts else L36_LINES[key]
         if isinstance(t, tuple):
             lines.append(line(key + "-" + s + "-juice", t[0], site(s), HAS_JUICE))
             lines.append(line(key + "-" + s, t[1], site(s), NO_JUICE))
@@ -222,7 +237,7 @@ def build():
 
     # (The gates are the rings' own: the city, The End, the Hub and Level 3999 have none)
     trader("exits", [line("exits", "Every level ends in a wall, and the wall has gates. Chalk arrows point the way.",
-                          not_site("city"), not_site("end"), not_site("hub"), not_site("amber"), not_site("3999"))], "exitssite")
+                          not_site("city"), not_site("end"), not_site("hub"), not_site("amber"), not_site("3999"), not_site("36"))], "exitssite")
     per_site("exitssite", {
         "camp": "The stair cores climb to other floors, now and then to Level 4. Stay away from a red EXIT door in a solid wall.",
         "outpost": "The stairwells here loop, mostly. Some flights down come out in the Lobby. Never step through a doorframe standing on its own!",
