@@ -1,6 +1,6 @@
 ﻿# Changelog
 
-## Unreleased
+## 0.610.3 — the colour of the way
 - Map waypoints for the ways between levels are coloured by where they lead: every way to Level 2 is one colour, every way to Level 3 another, and so on for each level (a gate is the colour of the level on its far side, a Hub door the colour of its level). A way that only takes you to another part of the same level (stairs in Level 1, say) is a grey ladder, so it no longer crowds out the ways that matter. Waypoints you already have keep their pale violet.
 - Wanderers buy a few more of the things that had little use: the Level 1 camp takes rotten wood for its barrel, the city's vendor, the Hub's doorstep and Level 3999's campers take Level 3999's circuit boards, the campers its coin mechanisms too, and The End's Junkie buys cat and bunny plush toys, from home. Prices are low, one or two rusty gears.
 - Multiplayer: when the lights go out in Level 1 (or the rats' Screaming darkens Level 2), they go out for everyone in the party, not only the player the Hounds were sent for. A friend a room away used to see the lights still burning while the same Hounds came for both of you. The Hounds still come once for the party, and the next lights-out waits as long for each of you.
