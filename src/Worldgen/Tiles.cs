@@ -253,6 +253,8 @@ public enum WallPattern : ushort
     L73Wall = 256, L73Rim = 257,
     /// <summary>The Basement (block 288-319): its rim (damp cinder block), the Cellar's cinder walls, the Flood's walls (slimed under the water, a tide line just over it), a Cellar room's squat pillar, a stained cinder wall.</summary>
     BasementWall = 288, BasementCinder = 289, BasementFloodWall = 290, BasementPillar = 291, BasementStained = 292,
+    /// <summary>The Basement, detail pass: old wood panelling, an Escherian stairwell's brick, a dead elevator's doors set in a wall (Stack its leaf, Pier its face).</summary>
+    BasementPanel = 293, BasementBrick = 294, BasementLift = 295,
     /// <summary>Level 52 (block 320-351, and 224 kept from before). Placeholder.</summary>
     L52Wall = 224,
     /// <summary>Level 31 (block 352-383, and 240 kept from before). Placeholder.</summary>
@@ -515,6 +517,8 @@ public enum FloorKind : ushort
     L73Carpet = 264, L73Boards = 265,
     /// <summary>The Basement (block 288-319, and 228-231 kept from before): the Cellar's bare concrete (dry, damp), the Flood's slimy bed under the water, the Dry Patch's floor.</summary>
     BasementFloor = 228, BasementDamp = 229, BasementBed = 230, BasementPatch = 231,
+    /// <summary>The Basement, detail pass: dusty carpet over the concrete (olive shag, worn brown).</summary>
+    BasementCarpet = 288, BasementCarpetWorn = 289,
     /// <summary>Level 52 (block 320-351, and 244-248 kept from before): the halls' vinyl tile, the classrooms' plainer tile, the gym's floor and its court lines.</summary>
     L52Floor = 244, L52Room = 245, L52Gym = 246, L52GymLineNS = 247, L52GymLineWE = 248,
     /// <summary>Level 31 (block 352-383, and 249 kept from before). Placeholder.</summary>
@@ -595,6 +599,8 @@ public enum CeilingKind : ushort
     L73Ceiling = 256,
     /// <summary>The Basement (block 288-319): low concrete (plain, drip-stained), and under it a caged bulb: lit, dead, flickering, the Flood's dim one, the Dry Patch's bright one.</summary>
     BasementCeiling = 288, BasementStained = 289, BasementBulbOn = 290, BasementBulbOff = 291, BasementBulbFlicker = 292, BasementBulbDim = 293, BasementBulbBright = 294,
+    /// <summary>The Basement, detail pass: bare joists under old floorboards (a finished room's), and no ceiling at all (the crack someone fell through).</summary>
+    BasementJoists = 295, BasementOpen = 296,
     /// <summary>Level 52 (block 320-351, and 88 kept from before). Placeholder.</summary>
     L52Ceiling = 88,
     /// <summary>Level 31 (block 352-383, and 96 kept from before). Placeholder.</summary>
@@ -855,6 +861,8 @@ public static class Overheads
     // The experimental levels (ids 21-28): one block of 32 each, past 255 (see docs/design/experimental-levels/README.md)
     public const ushort L73First = 256, L73Last = 287;
     public const ushort BasementFirst = 288, BasementLast = 319;
+    /// <summary>The Basement, detail pass: a loop of dead wire hanging from the ceiling; the frayed end of a rope hanging high in the crack; the torn floor of the room above round the crack's top, and the walls of that room.</summary>
+    public const ushort BasementWire = 288, BasementRope = 289, BasementCrackRim = 290, BasementCrackWall = 291;
     public const ushort L52First = 320, L52Last = 351;
     public const ushort L31First = 352, L31Last = 383;
     public const ushort L120First = 384, L120Last = 415;
@@ -1636,6 +1644,14 @@ public static class Props
     public const ushort BasementFirst = 1000, BasementLast = 1099;
     /// <summary>The Basement: a boiler, an oil drum, a metal shelf, a hand pump (the Dry Patch's), a machine cabinet (Pier their facing).</summary>
     public const ushort BasementBoiler = 1000, BasementDrum = 1001, BasementShelf = 1002, BasementPump = 1003, BasementCabinet = 1004;
+    /// <summary>
+    /// The Basement, detail pass: a wooden door in a doorway (Stack: bits 0-1 shut, open or swollen shut, bit 2 hinged on
+    /// the east; Pier the side it faces); a step of an Escherian stairwell (Stack its place round the core, 0 the landing by
+    /// the door); the rubble under the crack in the ceiling (Stack 0 boards, 1 chunks); where a body lies (Stack 0 bones,
+    /// 1 a drowned body, 2 the drowned man the papers named); something someone dropped (Stack: rope, crowbar, bottle, jar);
+    /// a short ladder against a wall (Pier its face). Rubble and bodies are walked through.
+    /// </summary>
+    public const ushort BasementDoor = 1005, BasementEscher = 1006, BasementDebris = 1007, BasementBody = 1008, BasementJunk = 1009, BasementLadder = 1010;
     public const ushort L52First = 1100, L52Last = 1199;
     /// <summary>Level 52: a student desk with its chair (Pier the way the student faces), a piece of chalkboard on the wall behind it (Pier its face; Stack 0 left end, 1 middle, 2 right end; walked through).</summary>
     public const ushort L52Desk = 1100, L52Chalkboard = 1101;
