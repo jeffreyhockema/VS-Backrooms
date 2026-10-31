@@ -1,0 +1,112 @@
+// The Basement: dusty carpet laid over the concrete (olive shag, worn brown)
+{
+	"code": "basement-carpet",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"olive",
+				"brown"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-olive": {
+			"all": {
+				"base": "block/basement/carpet-olive",
+				"alternates": [
+					{
+						"base": "block/basement/carpet-olive",
+						"rotation": 90
+					},
+					{
+						"base": "block/basement/carpet-olive",
+						"rotation": 180
+					},
+					{
+						"base": "block/basement/carpet-olive",
+						"rotation": 270
+					},
+					{
+						"base": "block/basement/carpet-olive-2"
+					},
+					{
+						"base": "block/basement/carpet-olive-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/basement/carpet-olive-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/basement/carpet-olive-2",
+						"rotation": 270
+					}
+				]
+			}
+		},
+		"*-brown": {
+			"all": {
+				"base": "block/basement/carpet-brown",
+				"alternates": [
+					{
+						"base": "block/basement/carpet-brown",
+						"rotation": 90
+					},
+					{
+						"base": "block/basement/carpet-brown",
+						"rotation": 180
+					},
+					{
+						"base": "block/basement/carpet-brown",
+						"rotation": 270
+					},
+					{
+						"base": "block/basement/carpet-brown-2"
+					},
+					{
+						"base": "block/basement/carpet-brown-2",
+						"rotation": 90
+					},
+					{
+						"base": "block/basement/carpet-brown-2",
+						"rotation": 180
+					},
+					{
+						"base": "block/basement/carpet-brown-2",
+						"rotation": 270
+					}
+				]
+			}
+		}
+	},
+	"resistance": 2,
+	"requiredMiningTier": 0,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "carpetfibre",
+			"quantity": {
+				"avg": 1.5,
+				"var": 1
+			}
+		}
+	]
+}

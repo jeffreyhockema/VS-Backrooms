@@ -780,6 +780,46 @@ Poolrooms. No way back up.
 — Dez""", w="dez"),
 ]))
 
+# ---------- The Basement (experimental level, id 22; detail pass 2026-10-30): its own track, read there ----------
+# After both wikis (docs/design/experimental-levels/lore/basement-brief.md): the Fandom page's endless basement (dusty
+# carpet, wooden doors with noises behind them, brick stairwells that come back to the same floor, the dead and their
+# smell, water that is not safe to drink, no way back up the hole without a ladder, and its Recovered Document) and the
+# Wikidot account's flood (the dry patch, the drowned body that followed him, the elevator in the distance, the cutting
+# about the flooded bar in Cincinnati and Gary Moors, who never resurfaced).
+BASEMENT = 22
+LEVEL_IDS.add(BASEMENT)
+
+TRACKS.append(Track("lbasement", "common", "The Basement", BASEMENT, entries=[
+    E("lbasement-1", "Bring a ladder", """
+I broke through the floor of the Lobby with a crowbar, to see what was under the carpet. It was a long way down. The
+hole's still up there, with the yellow light in it. I can see it from every room I come back to. I can't reach it. If
+you're thinking of jumping into a hole in the floor anywhere: bring a rope, or better, a ladder. I didn't."""),
+    E("lbasement-2", "Almonds", """
+Ruth, the water down here smells almost like Almond Water. It isn't. I drank it the first day and I've been thirstier
+every day since, and sick with it. The boxes were gone through long before me. If you ever find this, don't come down.
+There's no water and nothing to eat, and the smell of the dead gets into everything.
+— Tom""", w="tom"),
+    E("lbasement-3", "Behind the doors", """
+Survey, the cellar rooms. I counted the doors on one floor twice and got two different numbers. Behind some of them a
+baby is crying, or someone walks up and down. Open the door and it stops, and the room is empty. Every time. I have
+stopped opening them, and I have stopped counting. This is the first place I've been where the doors are not a system.
+— A.L., survey""", w="al"),
+    E("lbasement-4", "The stairwells", """
+M.E.G. FIELD NOTICE. Brick stairwells stand in some of the dry rooms, a door in each. Climb one turn of the stairs and
+you are back on the landing by the door you came in. Going down is the same. We tried both for an hour. Don't waste
+your light on them. Rooms full of the dead: don't stay. The smell will choke you.
+— Field Team 9""", w="meg"),
+    E("lbasement-5", "The flood", """
+Further in, it's all flooded, the water up to my neck and colder than anything. There's a dry patch somewhere in the
+middle, a little above the rest. I lay there and something stood at the far end of the corridor the whole time. A body
+in the water, bloated, a week in a lake by the look of it. It came after me. I saw an elevator in the distance. I never
+reached it."""),
+    E("lbasement-6", "A cutting", """
+A newspaper cutting, soft with damp. CINCINNATI. FLOODED BAR CELLAR CLAIMS SIX. Six workers drowned when water filled
+the basement of a bar on the night of January 6th. Five bodies have been recovered. The sixth victim, Gary Moors, has
+yet to resurface. Patches of the cellar still suffer from large pools of water."""),
+]))
+
 # ============================== Rare: folded notes ==============================
 
 RARE_CHAPTER = "rare"

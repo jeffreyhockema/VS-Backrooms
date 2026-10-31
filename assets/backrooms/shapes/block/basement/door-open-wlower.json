@@ -1,0 +1,1178 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"doorframe": "backrooms:block/basement/doorframe",
+		"doorwood": "backrooms:block/basement/doorwood"
+	},
+	"elements": [
+		{
+			"name": "LiningW",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				1.25,
+				16,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorframe",
+					"uv": [
+						0,
+						7.6066,
+						16,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#doorframe",
+					"uv": [
+						0.0,
+						7.6066,
+						1.25,
+						16.0
+					]
+				},
+				"north": {
+					"texture": "#doorframe",
+					"uv": [
+						0.0,
+						7.6066,
+						1.25,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "LiningE",
+			"from": [
+				14.75,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"west": {
+					"texture": "#doorframe",
+					"uv": [
+						0,
+						7.6066,
+						16,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#doorframe",
+					"uv": [
+						0.0,
+						7.6066,
+						1.25,
+						16.0
+					]
+				},
+				"north": {
+					"texture": "#doorframe",
+					"uv": [
+						0.0,
+						7.6066,
+						1.25,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CasingW",
+			"from": [
+				-1.25,
+				0,
+				-0.75
+			],
+			"to": [
+				1.25,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorframe",
+					"uv": [
+						0.0,
+						7.873,
+						2.5,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#doorframe",
+					"uv": [
+						0,
+						7.873,
+						0.75,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#doorframe",
+					"uv": [
+						0,
+						7.873,
+						0.75,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CasingE",
+			"from": [
+				14.75,
+				0,
+				-0.75
+			],
+			"to": [
+				17.25,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#doorframe",
+					"uv": [
+						0.0,
+						7.873,
+						2.5,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#doorframe",
+					"uv": [
+						0,
+						7.873,
+						0.75,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#doorframe",
+					"uv": [
+						0,
+						7.873,
+						0.75,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "InCasingW",
+			"from": [
+				-1.25,
+				0,
+				16
+			],
+			"to": [
+				1.25,
+				16,
+				16.75
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorframe",
+					"uv": [
+						0.0,
+						7.873,
+						2.5,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#doorframe",
+					"uv": [
+						0,
+						7.873,
+						0.75,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#doorframe",
+					"uv": [
+						0,
+						7.873,
+						0.75,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "InCasingE",
+			"from": [
+				14.75,
+				0,
+				16
+			],
+			"to": [
+				17.25,
+				16,
+				16.75
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorframe",
+					"uv": [
+						0.0,
+						7.873,
+						2.5,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#doorframe",
+					"uv": [
+						0,
+						7.873,
+						0.75,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#doorframe",
+					"uv": [
+						0,
+						7.873,
+						0.75,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafRail0",
+			"from": [
+				1.85,
+				0.4,
+				3.75
+			],
+			"to": [
+				3.6,
+				2.4,
+				17.05
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						13.3,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						1.75,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						13.3,
+						2.0
+					]
+				},
+				"north": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						1.75,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0,
+						13.3,
+						1.75
+					]
+				},
+				"down": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0,
+						13.3,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafRail2",
+			"from": [
+				1.85,
+				14.4,
+				3.75
+			],
+			"to": [
+				3.6,
+				16,
+				17.05
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.4,
+						13.3,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.4,
+						1.75,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.4,
+						13.3,
+						2.0
+					]
+				},
+				"north": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.4,
+						1.75,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0,
+						13.3,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafStile0_0",
+			"from": [
+				1.85,
+				2.4,
+				3.75
+			],
+			"to": [
+				3.6,
+				14.4,
+				5.75
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						2.0,
+						12.0
+					]
+				},
+				"south": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						1.75,
+						12.0
+					]
+				},
+				"west": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						2.0,
+						12.0
+					]
+				},
+				"north": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						1.75,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafStile0_1",
+			"from": [
+				1.85,
+				2.4,
+				15.05
+			],
+			"to": [
+				3.6,
+				14.4,
+				17.05
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						2.0,
+						12.0
+					]
+				},
+				"south": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						1.75,
+						12.0
+					]
+				},
+				"west": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						2.0,
+						12.0
+					]
+				},
+				"north": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						1.75,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafStile0_2",
+			"from": [
+				1.85,
+				2.4,
+				9.4
+			],
+			"to": [
+				3.6,
+				14.4,
+				11.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						2.0,
+						12.0
+					]
+				},
+				"south": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						1.75,
+						12.0
+					]
+				},
+				"west": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						2.0,
+						12.0
+					]
+				},
+				"north": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						1.75,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafPanel0",
+			"from": [
+				2.35,
+				2.4,
+				5.75
+			],
+			"to": [
+				3.1,
+				14.4,
+				9.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						3.65,
+						12.0
+					]
+				},
+				"west": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						3.65,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafField0",
+			"from": [
+				3.1,
+				3.3125,
+				6.6625
+			],
+			"to": [
+				3.6,
+				13.4875,
+				8.4875
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						1.825,
+						10.175
+					]
+				},
+				"south": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						0.5,
+						10.175
+					]
+				},
+				"north": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						0.5,
+						10.175
+					]
+				},
+				"up": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0,
+						1.825,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0,
+						1.825,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafFieldB0",
+			"from": [
+				1.85,
+				3.3125,
+				6.6625
+			],
+			"to": [
+				2.35,
+				13.4875,
+				8.4875
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						0.5,
+						10.175
+					]
+				},
+				"west": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						1.825,
+						10.175
+					]
+				},
+				"north": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						0.5,
+						10.175
+					]
+				},
+				"up": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0,
+						1.825,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0,
+						1.825,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafPanel1",
+			"from": [
+				2.35,
+				2.4,
+				11.4
+			],
+			"to": [
+				3.1,
+				14.4,
+				15.05
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						3.65,
+						12.0
+					]
+				},
+				"west": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						3.65,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafField1",
+			"from": [
+				3.1,
+				3.3125,
+				12.3125
+			],
+			"to": [
+				3.6,
+				13.4875,
+				14.1375
+			],
+			"faces": {
+				"east": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						1.825,
+						10.175
+					]
+				},
+				"south": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						0.5,
+						10.175
+					]
+				},
+				"north": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						0.5,
+						10.175
+					]
+				},
+				"up": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0,
+						1.825,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0,
+						1.825,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafFieldB1",
+			"from": [
+				1.85,
+				3.3125,
+				12.3125
+			],
+			"to": [
+				2.35,
+				13.4875,
+				14.1375
+			],
+			"faces": {
+				"south": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						0.5,
+						10.175
+					]
+				},
+				"west": {
+					"texture": "#doorwood",
+					"uv": [
+						0,
+						0.0,
+						1.825,
+						10.175
+					]
+				},
+				"north": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0.0,
+						0.5,
+						10.175
+					]
+				},
+				"up": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0,
+						1.825,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#doorwood",
+					"uv": [
+						0.0,
+						0,
+						1.825,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RoseO",
+			"from": [
+				3.6,
+				14.5,
+				14.4
+			],
+			"to": [
+				4.1,
+				16.0,
+				15.9
+			],
+			"faces": {
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0.0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.5,
+						1.5
+					]
+				},
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0.0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0,
+						1.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KnobO",
+			"from": [
+				4.1,
+				14.75,
+				14.65
+			],
+			"to": [
+				5.6,
+				15.75,
+				15.65
+			],
+			"faces": {
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0.0,
+						1.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						1.0
+					]
+				},
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0.0,
+						1.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0,
+						1.0,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RoseI",
+			"from": [
+				1.35,
+				14.5,
+				14.4
+			],
+			"to": [
+				1.85,
+				16.0,
+				15.9
+			],
+			"faces": {
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0.0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.5,
+						1.5
+					]
+				},
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0.0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0,
+						1.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "KnobI",
+			"from": [
+				-0.15,
+				14.75,
+				14.65
+			],
+			"to": [
+				1.35,
+				15.75,
+				15.65
+			],
+			"faces": {
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0.0,
+						1.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						1.0
+					]
+				},
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0.0,
+						1.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0,
+						1.0,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge0",
+			"from": [
+				1.6,
+				3.0,
+				3.75
+			],
+			"to": [
+				1.85,
+				5.5,
+				4.75
+			],
+			"faces": {
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0.0,
+						0.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0.0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

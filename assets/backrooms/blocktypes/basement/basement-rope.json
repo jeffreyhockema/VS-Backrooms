@@ -1,0 +1,54 @@
+// The Basement: the frayed end of a rope hanging high in the crack, cut or worn through
+{
+	"code": "basement-rope",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"hang",
+				"end"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-end"
+		],
+		"decorative": [
+			"*-end"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-hang": {
+			"base": "block/basement/rope-hang"
+		},
+		"*-end": {
+			"base": "block/basement/rope-end"
+		}
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.4,
+		"y1": 0,
+		"z1": 0.4,
+		"x2": 0.6,
+		"y2": 1,
+		"z2": 0.6
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.5,
+	"drops": [],
+	"sounds": {
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	}
+}

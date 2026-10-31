@@ -29,7 +29,12 @@ static partial class LevelModes
                 for (int i = 0; i < 1024; i++) tiles[(mz * 32 + i / 32) * size + mx * 32 + i % 32] = cell[i];
             }
         bool Ours(int i) => tiles[i].Level == WorldLayout.Basement;
-        static bool Walk(in Tile t) => t.Kind == TileKind.Water || t.Kind == TileKind.Floor && t.Variant == 0 && t.Stack == 0 && !t.SupplyBox;
+        // (A door counts unless it is swollen shut; the rubble, the dead, what lies on the floor and an Escherian stairwell's
+        // steps are walked through or on: the stairwell's tiles are taken as floor, the loop is the server's)
+        static bool Walk(in Tile t) => t.Kind == TileKind.Water
+            || t.Kind == TileKind.Doorway && !WorldLayout.BasementDoorJammed(t)
+            || t.Kind == TileKind.Floor && t.Stack == 0 && !t.SupplyBox && (t.Variant == 0 || t.Variant is Props.BasementDebris or Props.BasementBody
+                or Props.BasementJunk or Props.FloorCable || t.Variant == Props.BasementEscher && t.Stair > 0);
         // The height of the surface stood on: dry floor 0, an upper step 0 (its top), a lower step -1, the bed -2
         static int Surface(in Tile t) => t.Kind == TileKind.Water ? t.Height - 2 : 0;
 
@@ -70,6 +75,7 @@ static partial class LevelModes
         }
         var tileZone = new int[4];
         int steps = 0, lampsOn = 0, lampsFlicker = 0, lampsOff = 0, lampsDim = 0, lampsBright = 0, props = 0, sealedTiles = 0;
+        int doors = 0, jammed = 0, cracks = 0, towers = 0, bones = 0, drowned = 0, named = 0, junk = 0, boxes = 0, lifts = 0, carpet = 0, panels = 0;
         for (int i = 0; i < tiles.Length; i++)
         {
             if (!Ours(i)) continue;
@@ -78,6 +84,15 @@ static partial class LevelModes
             if (t.Sealed && Walk(t)) sealedTiles++;
             if (t.Kind == TileKind.Water && t.Height == 2) steps++;
             if (t.Stack > 0 || t.Variant != 0) props++;
+            if (t.Variant == Props.BasementDoor) { doors++; if (WorldLayout.BasementDoorJammed(t)) jammed++; }
+            if (t.Detail == WorldLayout.BasementCrackMiddle) cracks++;
+            if (t.Variant == Props.BasementEscher && t.Stair == 1) towers++;
+            if (t.Variant == Props.BasementBody) { if (t.Stack == 0) bones++; else if (t.Stack == 1) drowned++; else named++; }
+            if (t.Variant == Props.BasementJunk) junk++;
+            if (t.SupplyBox) boxes++;
+            if (t.Kind == TileKind.Wall && t.Pattern == WallPattern.BasementLift) lifts++;
+            if (t.Kind == TileKind.Floor && t.Floor is FloorKind.BasementCarpet or FloorKind.BasementCarpetWorn) carpet++;
+            if (t.Kind == TileKind.Wall && t.Pattern == WallPattern.BasementPanel) panels++;
             switch (t.Ceiling)
             {
                 case CeilingKind.BasementBulbOn: lampsOn++; break;
@@ -108,6 +123,9 @@ static partial class LevelModes
         Console.WriteLine($"  stairs into the water: {stairs} (Cellar-to-wet sides), {steps} upper step tiles; props {props}; sealed walkable tiles {sealedTiles}");
         Console.WriteLine($"  lamps: on {lampsOn}, flicker {lampsFlicker} (Cellar); off {lampsOff}; dim {lampsDim} (Flood); bright {lampsBright} (Dry Patch)"
             + $"; Cellar floor per lit bulb {(double)tileZone[1] / Math.Max(1, lampsOn + lampsFlicker):0}, Flood tiles per lamp {(double)tileZone[2] / Math.Max(1, lampsDim):0}");
+
+        Console.WriteLine($"  doors {doors} ({jammed} swollen shut); cracks {cracks}; Escherian stairwells {towers}; bodies: bones {bones}, drowned {drowned}, named {named}; "
+            + $"things dropped {junk}; boxes {boxes}; elevator leaves {lifts}; carpet {100.0 * carpet / Math.Max(1, tileZone[1]):0}% of the Cellar's walkable tiles; panelled wall tiles {panels}");
 
         // Reachability: pieces joined by steps of one level at most
         var piece = new int[tiles.Length];

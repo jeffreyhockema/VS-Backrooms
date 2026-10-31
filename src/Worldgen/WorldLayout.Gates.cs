@@ -170,6 +170,7 @@ public sealed partial class WorldLayout
         9 or FunLevel => 5,
         Poolrooms or TheEnd => 0,
         Level3999 or Hub or Level974 or RunLevel => 1,
+        Basement => 2, // Fandom's 2/2/2 (the experimental Basement)
         _ => 1,
     };
 

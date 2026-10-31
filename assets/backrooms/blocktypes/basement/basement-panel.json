@@ -1,0 +1,64 @@
+// The Basement: old knotty pine panelling over the block walls (plain; stained by the damp)
+{
+	"code": "basement-panel",
+	"variantgroups": [
+		{
+			"code": "type",
+			"states": [
+				"plain",
+				"stained"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "block/basement/panel",
+				"alternates": [
+					{
+						"base": "block/basement/panel-2"
+					}
+				]
+			}
+		},
+		"*-stained": {
+			"all": {
+				"base": "block/basement/panel-stained",
+				"alternates": [
+					{
+						"base": "block/basement/panel"
+					}
+				]
+			}
+		}
+	},
+	"resistance": 3,
+	"requiredMiningTier": 0,
+	"lightAbsorption": 99,
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 1,
+				"var": 1
+			}
+		}
+	]
+}

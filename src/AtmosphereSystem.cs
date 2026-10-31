@@ -308,7 +308,7 @@ public partial class AtmosphereSystem : ModSystem
             poolTone, endTone, endWind, funBed, hubDrone, hubWind, l188Loop, l188Pipe, l188Party, l3999Music, l3999Hum, l3999Zone,
             l974Lullaby, l974Fridge, runAlarm, runAlarmFar, runHorde, runHeart, runSafe,
             l73Wind, l73Surf, l73Fire,
-            basementTone, basementWash,
+            basementTone, basementWash, basementDoorSound,
         }.Concat(sirenVoice?.Loaded() ?? []).Concat(funVoiceA?.Loaded() ?? []).Concat(funVoiceB?.Loaded() ?? []).Concat(hotelVoice?.Loaded() ?? []))
         {
             sound?.Stop();

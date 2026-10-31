@@ -15,6 +15,8 @@ public enum WaterKind
     Salt,
     /// <summary>Boiling water: 2 damage and nothing else.</summary>
     Scalding,
+    /// <summary>The experimental Basement's flood (Fandom: like Almond Water, but "not safe to drink"; it dehydrates): -150, a stability hit, sickness one time in two.</summary>
+    Foul,
 }
 
 /// <summary>Which class a block of water belongs to, by the block and by the level it lies in.</summary>
@@ -25,6 +27,10 @@ public static class WaterClass
 
     /// <summary>The stability a mouthful of tainted water costs, and the odds (in a quarter) that it brings gut rot for ten game hours.</summary>
     public const double TaintedStability = -0.05, SickChance = 0.25, SickHours = 10;
+
+    /// <summary>The Basement's flood water (the experimental level): what a litre of it takes from the bar, and its odds of sickness.</summary>
+    public const float FoulHydration = -150f;
+    public const double FoulSickChance = 0.5;
 
     /// <summary>How near a town fountain's rim or spout (blocks, sideways and up or down) water must lie to count as its basin.</summary>
     private const int FountainReach = 3;
@@ -57,6 +63,8 @@ public static class WaterClass
                 return WaterKind.Clean;
             case 7: case WorldLayout.FunLevel:
                 return WaterKind.Salt;
+            case WorldLayout.Basement:
+                return WaterKind.Foul;
             case WorldLayout.Motion:
                 return NearFountain(world, pos) ? WaterKind.Clean : WaterKind.Tainted;
             default:

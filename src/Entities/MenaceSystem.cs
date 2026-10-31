@@ -530,7 +530,8 @@ public partial class MenaceSystem : ModSystem
             case WorldLayout.Level188: a.Band = Regions.L188System.BandAt(layout, geometry, gx, y, gz); return;
             // The experimental levels (ids 21-23): safe for now
             case WorldLayout.Level73: a.Band = MenaceBand.Safe; return;
-            case WorldLayout.Basement: a.Band = MenaceBand.Safe; return;
+            // The Basement: its rooms the heart, the Flood the approach (where the figure stands and the drowned thing follows)
+            case WorldLayout.Basement: a.Band = layout.BasementZoneAt(gx, gz) == WorldLayout.BasementZone.Flood ? MenaceBand.Approach : MenaceBand.Heartland; return;
             case WorldLayout.Level52: a.Band = MenaceBand.Safe; return;
             case WorldLayout.Level31: a.Band = MenaceBand.Safe; return;
             case WorldLayout.Level120: a.Band = MenaceBand.Safe; return;

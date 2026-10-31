@@ -1,0 +1,108 @@
+// The Basement: what came down with whoever broke through the floor above (boards and carpet, or chunks of the slab)
+{
+	"code": "basement-debris",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"boards",
+				"chunks"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-boards-north": {
+			"base": "block/basement/debris-boards",
+			"rotateY": 0
+		},
+		"*-boards-east": {
+			"base": "block/basement/debris-boards",
+			"rotateY": 270
+		},
+		"*-boards-south": {
+			"base": "block/basement/debris-boards",
+			"rotateY": 180
+		},
+		"*-boards-west": {
+			"base": "block/basement/debris-boards",
+			"rotateY": 90
+		},
+		"*-chunks-north": {
+			"base": "block/basement/debris-chunks",
+			"rotateY": 0
+		},
+		"*-chunks-east": {
+			"base": "block/basement/debris-chunks",
+			"rotateY": 270
+		},
+		"*-chunks-south": {
+			"base": "block/basement/debris-chunks",
+			"rotateY": 180
+		},
+		"*-chunks-west": {
+			"base": "block/basement/debris-chunks",
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.05,
+		"y1": 0,
+		"z1": 0.05,
+		"x2": 0.95,
+		"y2": 0.2,
+		"z2": 0.95
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1,
+	"replaceable": 400,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 1,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "carpetfibre",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

@@ -1,0 +1,152 @@
+// The Basement: an old cage elevator, dead: the gate will not move and nothing answers the button
+{
+	"code": "basement-lift",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper",
+				"dial"
+			]
+		},
+		{
+			"code": "half",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lower-l-north"
+		],
+		"decorative": [
+			"*-lower-l-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower-l-north": {
+			"base": "block/detail/cagelift-plaster-lower-l",
+			"rotateY": 0
+		},
+		"*-lower-l-east": {
+			"base": "block/detail/cagelift-plaster-lower-l",
+			"rotateY": 270
+		},
+		"*-lower-l-south": {
+			"base": "block/detail/cagelift-plaster-lower-l",
+			"rotateY": 180
+		},
+		"*-lower-l-west": {
+			"base": "block/detail/cagelift-plaster-lower-l",
+			"rotateY": 90
+		},
+		"*-lower-r-north": {
+			"base": "block/detail/cagelift-plaster-lower-r",
+			"rotateY": 0
+		},
+		"*-lower-r-east": {
+			"base": "block/detail/cagelift-plaster-lower-r",
+			"rotateY": 270
+		},
+		"*-lower-r-south": {
+			"base": "block/detail/cagelift-plaster-lower-r",
+			"rotateY": 180
+		},
+		"*-lower-r-west": {
+			"base": "block/detail/cagelift-plaster-lower-r",
+			"rotateY": 90
+		},
+		"*-upper-l-north": {
+			"base": "block/detail/cagelift-plaster-upper-l",
+			"rotateY": 0
+		},
+		"*-upper-l-east": {
+			"base": "block/detail/cagelift-plaster-upper-l",
+			"rotateY": 270
+		},
+		"*-upper-l-south": {
+			"base": "block/detail/cagelift-plaster-upper-l",
+			"rotateY": 180
+		},
+		"*-upper-l-west": {
+			"base": "block/detail/cagelift-plaster-upper-l",
+			"rotateY": 90
+		},
+		"*-upper-r-north": {
+			"base": "block/detail/cagelift-plaster-upper-r",
+			"rotateY": 0
+		},
+		"*-upper-r-east": {
+			"base": "block/detail/cagelift-plaster-upper-r",
+			"rotateY": 270
+		},
+		"*-upper-r-south": {
+			"base": "block/detail/cagelift-plaster-upper-r",
+			"rotateY": 180
+		},
+		"*-upper-r-west": {
+			"base": "block/detail/cagelift-plaster-upper-r",
+			"rotateY": 90
+		},
+		"*-dial-l-north": {
+			"base": "block/detail/cagelift-plaster-dial-l",
+			"rotateY": 0
+		},
+		"*-dial-l-east": {
+			"base": "block/detail/cagelift-plaster-dial-l",
+			"rotateY": 270
+		},
+		"*-dial-l-south": {
+			"base": "block/detail/cagelift-plaster-dial-l",
+			"rotateY": 180
+		},
+		"*-dial-l-west": {
+			"base": "block/detail/cagelift-plaster-dial-l",
+			"rotateY": 90
+		},
+		"*-dial-r-north": {
+			"base": "block/detail/cagelift-plaster-dial-r",
+			"rotateY": 0
+		},
+		"*-dial-r-east": {
+			"base": "block/detail/cagelift-plaster-dial-r",
+			"rotateY": 270
+		},
+		"*-dial-r-south": {
+			"base": "block/detail/cagelift-plaster-dial-r",
+			"rotateY": 180
+		},
+		"*-dial-r-west": {
+			"base": "block/detail/cagelift-plaster-dial-r",
+			"rotateY": 90
+		}
+	},
+	"textures": {
+		"plaster": {
+			"base": "block/basement/wall-plain"
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}
