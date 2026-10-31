@@ -130,6 +130,86 @@ def bloodmud(seed):
     return img
 
 
+def burnt(seed):
+    """The blackened fields: charred near-black earth, ashy grey flecks, a few dark crimson clods showing through."""
+    img = M.noise_hv((36, 24, 23), amp=4, seed=seed, mottle=10, hue=2)
+    clods(img, seed + 1, 18, 0.12)
+    flecks(img, seed + 2, 34, (96, 90, 88), 0.55)
+    flecks(img, seed + 3, 16, (98, 30, 26), 0.7)
+    blood_crack(img, seed + 4, colour=(84, 18, 16), length=(5, 10))
+    return img
+
+
+def crust(seed):
+    """A crust of dried blood on the earth, cracked into plates: dull crimson, each plate a shade of its own, black cracks."""
+    pts = M.points(S, 14, seed, jitter=1.0)
+    f1, f2, idx = M.worley(S, pts)
+    rng = random.Random(seed + 1)
+    shades = [rng.uniform(-22, 10) for _ in pts]
+    base = M.noise_hv((100, 27, 24), amp=5, seed=seed + 2, mottle=9, hue=3)
+    px = base.load()
+    for y in range(S):
+        for x in range(S):
+            r, g, b, a = px[x, y]
+            d = shades[idx[y][x]]
+            edge = f2[y][x] - f1[y][x]
+            if edge < 0.8:
+                px[x, y] = M.rgba((30, 11, 11))
+            elif edge < 1.6:
+                px[x, y] = M.rgba(M.mix((r + d, g + d * 0.3, b + d * 0.3), (56, 14, 13), 0.35))
+            else:
+                # The plate's top catches a little light; its curled edge on the far side is darker
+                px[x, y] = M.rgba((r + d, g + d * 0.3, b + d * 0.3))
+    flecks(base, seed + 3, 14, (150, 54, 44), 0.5)
+    return base
+
+
+def deadgrass(seed, height):
+    """Withered grass, 32 px, transparent: thin blades from the bottom, black-red at the root to a dry, ashy rust at the tip."""
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    px = img.load()
+    rng = random.Random(seed)
+    n = {1: 9, 2: 12, 3: 14}[height]
+    top = {1: 0.42, 2: 0.7, 3: 0.97}[height]
+    for _ in range(n):
+        x = rng.uniform(2, S - 3)
+        h = S * top * rng.uniform(0.55, 1.0)
+        lean = rng.uniform(-0.35, 0.35)
+        tip = rng.choice([(122, 70, 52), (110, 92, 78), (96, 48, 38), (134, 104, 82)])
+        bent = rng.random() < 0.3
+        steps = int(h)
+        for i in range(steps):
+            t = i / max(1, steps - 1)
+            X = int(round(x + lean * i + (0.08 * i * i / S * (1 if lean > 0 else -1) if bent else 0)))
+            Y = S - 1 - i
+            if not (0 <= X < S and 0 <= Y < S):
+                break
+            c = M.mix((30, 14, 13), tip, t ** 0.8)
+            px[X, Y] = M.rgba(c)
+            if i < steps * 0.4 and 0 <= X + 1 < S:  # thicker at the root
+                px[X + 1, Y] = M.rgba(M.mix(c, (18, 8, 8), 0.4))
+    return img
+
+
+def bone(seed):
+    """Old bone, bleached and weathered: ivory with long fibres along it, pores, and dark grime in its hollows."""
+    img = M.noise_hv((188, 178, 152), amp=5, seed=seed, mottle=8, hue=2)
+    px = img.load()
+    fib = M.fbm(S, seed + 1, (16, 4))
+    rng = random.Random(seed + 2)
+    for y in range(S):
+        for x in range(S):
+            r, g, b, a = px[x, y]
+            # (fibres run along x: the noise is sampled stretched)
+            f = fib[(y * 3) % S][(x // 4) % S] * 18
+            px[x, y] = M.rgba((r + f, g + f, b + f * 0.8))
+    flecks(img, seed + 3, 30, (112, 100, 82), 0.6)
+    M.grime(img, 0.22, seed=seed + 4, color=(84, 66, 52), cover=0.45)
+    for _ in range(3):
+        blood_crack(img, rng.randrange(10000), colour=(96, 70, 58), length=(4, 9))
+    return img
+
+
 def silverwall(seed):
     img = M.brick(seed=seed, base=(172, 176, 182), mortar=(112, 114, 120), course=8, length=16, offset=0.5, mortar_w=1,
                   jitter=9, hue=2, pits=0.04, chamfer=True, grain=4, mottle=7)
@@ -233,6 +313,33 @@ def sconce_block():
     })
 
 
+def deadgrass_block():
+    heights = ["short", "mid", "tall"]
+    return ("// Level 73: withered black-red grass on the fields (rel 1 over the ground); no collision, fixed colours (no climate tint)", {
+        "code": "l73-deadgrass",
+        "variantgroups": [{"code": "height", "states": heights}],
+        "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
+        "blockmaterial": "Plant",
+        "drawtype": "cross",
+        "shape": {"base": "game:block/basic/cross"},
+        "texturesByType": {f"*-{h}": {"north": {"base": f"block/73/deadgrass-{k + 1}"}, "south": {"base": f"block/73/deadgrass-{k + 1}"}}
+                           for k, h in enumerate(heights)},
+        "renderpass": "OpaqueNoCull",
+        "randomDrawOffset": True,
+        "randomizeRotations": True,
+        "vertexFlags": {"windMode": "NormalWind", "windData": 2},
+        "sidesolid": {"all": False},
+        "sideopaque": {"all": False},
+        "lightAbsorption": 0,
+        "resistance": 0.2,
+        "replaceable": 5000,
+        "collisionbox": None,
+        "selectionbox": {"x1": 0.15, "y1": 0, "z1": 0.15, "x2": 0.85, "y2": 0.5, "z2": 0.85},
+        "drops": [],
+        "sounds": {"walk": "game:walk/grass*", "place": "game:block/plant", "break": "game:block/plant", "hit": "game:block/plant"},
+    })
+
+
 def face(tex, uv, glow=0):
     f = {"texture": tex, "uv": uv}
     if glow:
@@ -291,6 +398,10 @@ LANG = [
     ("block-l73-bloodmud", "Blood Mud"),
     ("block-l73-silverwall", "Silver Ashlar"),
     ("block-l73-sconce-*", "Iron Sconce"),
+    ("block-l73-burnt", "Blackened Earth"),
+    ("block-l73-crust", "Blood Crust"),
+    ("block-l73-deadgrass-*", "Dead Grass"),
+    ("block-l73-bone", "Great Hound's Bone"),
 ] + castle.LANG + lore.LANG
 
 
@@ -328,6 +439,14 @@ def main():
     save(sconce_iron(7360), "block/73/sconce-iron")
     save(sconce_glow(7361), "block/73/sconce-glow")
     save(moon(), "environment/l73-moon")
+    save(burnt(7380), "block/73/burnt")
+    save(burnt(7381), "block/73/burnt-2")
+    save(crust(7390), "block/73/crust")
+    save(crust(7391), "block/73/crust-2")
+    for k in (1, 2, 3):
+        save(deadgrass(7400 + k, k), f"block/73/deadgrass-{k}")
+    save(bone(7410), "block/73/bone")
+    save(bone(7411), "block/73/bone-2")
 
     bt = os.path.join(ASSETS, "blocktypes", "73")
     blocks = [
@@ -343,6 +462,14 @@ def main():
                    ["block/73/silverwall", "block/73/silverwall-2"], "Stone", "game:walk/stone*", "game:block/rock-hit-pickaxe", 8,
                    {"attributes": {"l73Fixed": True}}),
         sconce_block(),
+        cube_block("l73-burnt", "// Level 73: the blackened fields, charred near-black earth flecked with ash",
+                   ["block/73/burnt", "block/73/burnt-2"], "Soil", "game:walk/gravel*", "game:block/dirt*", 2.5),
+        cube_block("l73-crust", "// Level 73: a crust of dried blood on the earth, cracked into plates",
+                   ["block/73/crust", "block/73/crust-2"], "Soil", "game:walk/gravel*", "game:block/dirt*", 2.5),
+        deadgrass_block(),
+        cube_block("l73-bone", "// Level 73: the Great Hound's bones, bleached and weathered (it never breaks)",
+                   ["block/73/bone", "block/73/bone-2"], "Stone", "game:walk/stone*", "game:block/rock-hit-pickaxe", 6,
+                   {"attributes": {"l73Fixed": True}}),
     ]
     for comment, b in blocks:
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
@@ -353,7 +480,7 @@ def main():
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
     n_shapes = castle.shapes(write_json, os.path.join(ASSETS, "shapes", "block", "73"))
     write_lang()
-    print(f"gen_73: {11 + n_tex} textures, {6 + len(castle.blocktypes())} blocktypes, {1 + n_shapes} shapes, lang")
+    print(f"gen_73: {20 + n_tex} textures, {10 + len(castle.blocktypes())} blocktypes, {1 + n_shapes} shapes, lang")
 
 
 if __name__ == "__main__":

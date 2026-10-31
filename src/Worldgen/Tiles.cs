@@ -515,6 +515,8 @@ public enum FloorKind : ushort
     /// </summary>
     L73Floor = 256, L73Rock = 257, L73Ash = 258, L73Mud = 259, L73Seabed = 260, L73Gravel = 261, L73Court = 262, L73Path = 263,
     L73Carpet = 264, L73Boards = 265, L73Tile = 266, L73Damask = 267,
+    /// <summary>Level 73, round 2: a tor of black rock standing out of the fields, the blackened fields, a crust of dried blood.</summary>
+    L73Tor = 268, L73Burnt = 269, L73Crust = 270,
     /// <summary>The Basement (block 288-319, and 228-231 kept from before): the Cellar's bare concrete (dry, damp), the Flood's slimy bed under the water, the Dry Patch's floor.</summary>
     BasementFloor = 228, BasementDamp = 229, BasementBed = 230, BasementPatch = 231,
     /// <summary>The Basement, detail pass: dusty carpet over the concrete (olive shag, worn brown).</summary>

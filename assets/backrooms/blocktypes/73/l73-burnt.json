@@ -1,0 +1,32 @@
+// Level 73: the blackened fields, charred near-black earth flecked with ash
+{
+	"code": "l73-burnt",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/73/burnt",
+			"alternates": [
+				{
+					"base": "block/73/burnt-2"
+				}
+			]
+		}
+	},
+	"resistance": 2.5,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/gravel*",
+		"place": "game:block/dirt*",
+		"break": "game:block/dirt*",
+		"hit": "game:block/dirt*"
+	}
+}

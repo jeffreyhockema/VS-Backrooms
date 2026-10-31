@@ -35,13 +35,17 @@ public sealed partial class WorldLayout
 {
     /// <summary>Hash salts 0x2100-0x21BF are this level's (0x21C0-0x21FF its thresholds').</summary>
     private const ulong SaltL73Shape = 0x2101, SaltL73Centre = 0x2102, SaltL73Coast = 0x2103, SaltL73Hill = 0x2104, SaltL73Rough = 0x2105,
-        SaltL73Gully = 0x2106, SaltL73Outcrop = 0x2107, SaltL73Bed = 0x2108, SaltL73Bones = 0x2109;
+        SaltL73Gully = 0x2106, SaltL73Outcrop = 0x2107, SaltL73Bed = 0x2108, SaltL73Bones = 0x2109, SaltL73Tor = 0x210A,
+        SaltL73Burnt = 0x210B, SaltL73Crust = 0x210E, SaltL73Jag = 0x2111;
 
     /// <summary>The zones (<see cref="Tile.Zone"/>).</summary>
     public const byte L73Land = 1, L73Sea = 2, L73Court = 3, L73Keep = 4, L73Walls = 5, L73RimZone = 9;
 
     /// <summary>The summit plateau's ground above the sea (the castle's floor), and the highest any other ground goes.</summary>
     public const int L73Plateau = 9, L73Peak = 12;
+
+    /// <summary>The highest a tor of black rock stands above the sea (a little under the curtain wall's top).</summary>
+    public const int L73TorPeak = 17;
 
     /// <summary>The island's average radius in blocks (its coast wanders a fifth either way).</summary>
     public const int L73IslandRadius = 230;
@@ -116,7 +120,7 @@ public sealed partial class WorldLayout
 
     /// <summary>Arriving: on the island's dry ground, above the beach, never in a gully or the castle.</summary>
     private static bool IsL73ArrivalSpot(Tile t) =>
-        IsArrivalSpot(t) && t.Zone == L73Land && t.Height >= 2 && t.Floor != FloorKind.L73Mud;
+        IsArrivalSpot(t) && t.Zone == L73Land && t.Height >= 2 && t.Floor is not (FloorKind.L73Mud or FloorKind.L73Tor);
 
     /// <summary>How high above the level's floor (the sea) to put someone down: on the ground.</summary>
     private static double L73ArrivalHeight(in Tile t, double stand) => t.Height + stand;
@@ -136,20 +140,56 @@ public sealed partial class WorldLayout
     /// <summary>The hills: low domes on a jittered lattice, the highest of those round a position (none near the castle).</summary>
     private double L73Hills(double ux, double uz)
     {
-        const int pitch = 44;
+        const int pitch = 34;
         int hi = (int)Math.Floor(ux / pitch), hj = (int)Math.Floor(uz / pitch);
         double best = 0;
         for (int dj = -1; dj <= 1; dj++)
             for (int di = -1; di <= 1; di++)
             {
                 ulong h = Hashing.Hash(seed, hi + di, hj + dj, SaltL73Hill);
-                if (Hashing.Unit(h) < 0.25) continue; // a gap in the hills
+                if (Hashing.Unit(h) < 0.2) continue; // a gap in the hills
                 ulong h2 = Hashing.Mix(h), h3 = Hashing.Mix(h2), h4 = Hashing.Mix(h3);
                 double cx = (hi + di + 0.2 + 0.6 * Hashing.Unit(h2)) * pitch, cz = (hj + dj + 0.2 + 0.6 * Hashing.Unit(h3)) * pitch;
                 if (cx * cx + cz * cz < 90 * 90) continue;
-                double radius = 12 + 10 * Hashing.Unit(h4), height = 2 + 2.5 * Hashing.Unit(Hashing.Mix(h4));
+                double radius = 10 + 12 * Hashing.Unit(h4), height = 2.5 + 4 * Hashing.Unit(Hashing.Mix(h4));
                 double dx = ux - cx, dz = uz - cz, q = (dx * dx + dz * dz) / (radius * radius);
                 if (q < 1) best = Math.Max(best, height * (1 - q));
+            }
+        return best;
+    }
+
+    /// <summary>
+    /// The tors: crags of black rock standing up out of the fields on a jittered lattice, a jagged core with a spur or two
+    /// beside it, how high one stands above the ground at a position (0 where there is none). None near the castle's hill or
+    /// along the stone path's line down from the gate, and none on the beach (the coast factor is applied by the caller).
+    /// </summary>
+    private double L73Tor(double ux, double uz, int gx, int gz)
+    {
+        const int pitch = 26;
+        int ti = (int)Math.Floor(ux / pitch), tj = (int)Math.Floor(uz / pitch);
+        double best = 0;
+        for (int dj = -1; dj <= 1; dj++)
+            for (int di = -1; di <= 1; di++)
+            {
+                ulong h = Hashing.Hash(seed, ti + di, tj + dj, SaltL73Tor);
+                if (Hashing.Unit(h) < 0.5) continue;
+                ulong h2 = Hashing.Mix(h), h3 = Hashing.Mix(h2), h4 = Hashing.Mix(h3), h5 = Hashing.Mix(h4);
+                double cx = (ti + di + 0.15 + 0.7 * Hashing.Unit(h2)) * pitch, cz = (tj + dj + 0.15 + 0.7 * Hashing.Unit(h3)) * pitch;
+                if (cx * cx + cz * cz < 78 * 78) continue;
+                // (the path's line: the gate is at the castle's south, the path running on south from it)
+                if (Math.Abs(cx) < 12 && cz > 0) continue;
+                double radius = 1.6 + 2.2 * Hashing.Unit(h4), height = 3 + 5 * Hashing.Unit(h5);
+                // The core, and a lower spur off to one side
+                double a = Hashing.Unit(Hashing.Mix(h5)) * Math.PI * 2;
+                for (int part = 0; part < 2; part++)
+                {
+                    double px = cx + (part == 0 ? 0 : Math.Cos(a) * radius * 1.4), pz = cz + (part == 0 ? 0 : Math.Sin(a) * radius * 1.4);
+                    double pr = part == 0 ? radius : radius * 0.6, ph = part == 0 ? height : height * 0.55;
+                    double dx = ux - px, dz = uz - pz, q = (dx * dx + dz * dz) / (pr * pr);
+                    if (q >= 1) continue;
+                    double jag = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL73Jag)) * 1.6 - 0.6;
+                    best = Math.Max(best, ph * Math.Sqrt(1 - q) + jag);
+                }
             }
         return best;
     }
@@ -170,7 +210,7 @@ public sealed partial class WorldLayout
         {
             double t = 1 - d / ri;
             double dome = 8.5 * Math.Pow(Math.Max(0, t), 0.7);
-            double rough = 1.2 * Fbm(ux / 22.0, uz / 22.0, SaltL73Rough);
+            double rough = 1.8 * Fbm(ux / 22.0, uz / 22.0, SaltL73Rough);
             double coast = L73Smooth(Math.Clamp(-beyond / 40.0, 0, 1));
             f = 1 + (dome + L73Hills(ux, uz) + rough) * coast;
             // The summit, levelled for the castle
@@ -194,12 +234,143 @@ public sealed partial class WorldLayout
         else f = 0.6 - 6.6 * L73Smooth(Math.Clamp(beyond / 90.0, 0, 1));
         int g = Math.Clamp((int)Math.Round(f), -6, L73Peak);
 
+        // A tor of black rock standing up out of the ground (inland, off the gullies)
+        if (beyond < -30 && !gully && g >= 2 && L73Tor(ux, uz, gx, gz) is var tor and >= 1)
+        {
+            floor = FloorKind.L73Tor;
+            return Math.Min(L73TorPeak, g + (int)Math.Round(tor));
+        }
         if (g < 0) floor = Noise(gx / 14.0, gz / 14.0, SaltL73Bed) > 0.2 ? FloorKind.L73Gravel : FloorKind.L73Seabed;
         else if (g <= 1) floor = FloorKind.L73Ash;
         else if (gully) floor = FloorKind.L73Mud;
         else if (g >= 11 || Noise(gx / 9.0, gz / 9.0, SaltL73Outcrop) > 0.55) floor = FloorKind.L73Rock;
+        // The fields: crimson earth in broad blackened stretches ("blackened fields"), and here and there a crust of
+        // dried blood, cracked into plates; a fringe of the crust round the gullies
+        else if (Fbm(ux / 46.0, uz / 46.0, SaltL73Burnt) > 0.12) floor = Noise(gx / 7.0, gz / 7.0, SaltL73Crust) > 0.62 ? FloorKind.L73Crust : FloorKind.L73Burnt;
+        else if (Noise(gx / 11.0, gz / 11.0, SaltL73Crust) > 0.56 || (d >= 62 && f > 3.5 && Math.Abs(Noise(ux / 55.0, uz / 55.0, SaltL73Gully)) < 0.1))
+            floor = FloorKind.L73Crust;
         else floor = FloorKind.L73Floor;
         return g;
+    }
+
+    /// <summary>
+    /// The dead grass on the fields at a land position (0 none, 1 short, 2 knee high, 3 tall): the red earth grows it in
+    /// broad patches, thick in places; the blackened stretches only a burnt stubble, here and there; the crust of blood,
+    /// rock, mud and beach nothing.
+    /// </summary>
+    public int L73GrassAt(int gx, int gz, FloorKind floor)
+    {
+        if (floor is not (FloorKind.L73Floor or FloorKind.L73Burnt)) return 0;
+        double r = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL73Bones + 0x10));
+        if (floor == FloorKind.L73Burnt) return r < 0.07 ? 1 : 0;
+        double patch = Fbm(gx / 19.0, gz / 19.0, SaltL73Burnt + 3);
+        double p = Math.Clamp(0.08 + (patch + 0.1) * 1.1, 0.04, 0.75);
+        if (r >= p) return 0;
+        double tall = Hashing.Unit(Hashing.Mix(Hashing.Hash(seed, gx, gz, SaltL73Bones + 0x10)));
+        return patch > 0.25 && tall < 0.45 ? 3 : tall < 0.5 ? 2 : 1;
+    }
+
+    // ================= The Great Hound =================
+
+    /// <summary>The Great Hound's skeleton's length (east to west, skull at the west), half its width, and its height.</summary>
+    public const int L73HoundLength = 39, L73HoundHalf = 6, L73HoundHeight = 8;
+
+    /// <summary>
+    /// The bones of the Great Hound, which Coran killed (the lore names it; that its bones lie on the fields south-east of
+    /// the castle is this mod's), skeleton-local: x along the spine from the tip of the snout (east), z across (-6 to 6),
+    /// h above the ground it lies on (1 up). It lies on its belly: the skull, the neck, the spine arched over a cage of ribs
+    /// that reach down to the ground either side (two broken), the pelvis, the legs stretched out flat, the tail.
+    /// </summary>
+    private static readonly HashSet<(int X, int Z, int H)> L73HoundBones = PlanL73Hound();
+
+    private static HashSet<(int, int, int)> PlanL73Hound()
+    {
+        var b = new HashSet<(int, int, int)>();
+        // The skull: a long snout with the jaw a little open, the cranium hollow behind its eye sockets
+        for (int x = 0; x <= 6; x++)
+            for (int z = -2; z <= 2; z++)
+                for (int h = 1; h <= 4; h++)
+                {
+                    bool snout = x <= 2 && Math.Abs(z) <= 1 && h <= 3 && !(h == 2 && x <= 1); // (the gape between the jaws)
+                    bool cranium = x >= 3 && !(Math.Abs(z) <= 1 && h is 2 or 3 && x is 4 or 5) // hollow
+                        && !(x == 3 && h == 3 && Math.Abs(z) == 2) // the eye sockets
+                        && !(h == 4 && Math.Abs(z) == 2);
+                    if (snout || cranium) b.Add((x, z, h));
+                }
+        // The neck, rising to the spine
+        for (int x = 7; x <= 9; x++) b.Add((x, 0, 3 + (x - 7) / 2 + 1));
+        // The spine, arched over the ribs, a spur standing up from every other vertebra
+        int Spine(int x) => x is >= 14 and <= 24 ? 7 : x is >= 11 and <= 27 ? 6 : 5;
+        for (int x = 10; x <= 28; x++)
+        {
+            b.Add((x, 0, Spine(x)));
+            if (x % 2 == 0 && x <= 26) b.Add((x, 0, Spine(x) + 1));
+        }
+        // The ribs, in pairs, curving out and down to the ground; one broken off on the north side, one on the south
+        for (int x = 12; x <= 24; x += 2)
+            foreach (int side in new[] { -1, 1 })
+            {
+                if (x == 18 && side < 0 || x == 22 && side > 0) continue;
+                int top = Spine(x);
+                for (int k = 0; k <= 24; k++)
+                {
+                    double a = k / 24.0 * Math.PI / 2;
+                    int z = (int)Math.Round(5.5 * Math.Sin(a)), h = (int)Math.Round(1 + (top - 1) * Math.Cos(a));
+                    if (z == 0) continue;
+                    b.Add((x, side * z, h));
+                }
+            }
+        // The pelvis
+        for (int x = 27; x <= 29; x++)
+            for (int z = -2; z <= 2; z++)
+                if (Math.Abs(z) == 2 || x == 28) b.Add((x, z, 4));
+        // The legs, stretched out flat: the forelegs forward of the ribs, the hind legs from the pelvis back
+        for (int x = 7; x <= 12; x++) { b.Add((x, -4 - (12 - x) / 3, 1)); b.Add((x, 4 + (12 - x) / 3, 1)); }
+        for (int x = 28; x <= 34; x++) { b.Add((x, -3 - (x - 28) / 3, 1)); b.Add((x, 3 + (x - 28) / 3, 1)); }
+        b.Add((6, -6, 1)); b.Add((6, 6, 1)); b.Add((35, -5, 1)); b.Add((35, 5, 1)); // (paws)
+        // The tail, falling to the ground
+        for (int x = 30; x < L73HoundLength; x++) b.Add((x, (x - 30) / 4, Math.Max(1, 4 - (x - 30) / 2)));
+        return b;
+    }
+
+    /// <summary>
+    /// Where the Great Hound lies (its snout's tip, block coordinates) and the ground it lies on above the sea: on the fields
+    /// south-east of the castle, a little off the path, in sight of anyone coming up it; its ground the lowest of a few
+    /// samples under it, so no bone floats (where the ground rises, it has sunk in).
+    /// </summary>
+    public (int X, int Z, int Ground) L73Hound
+    {
+        get
+        {
+            // (Worked out once; a reference is swapped in whole, so any thread reads all of it or none)
+            if (l73Hound is { } known) return (known.Item1, known.Item2, known.Item3);
+            int x0 = L73IslandX + 20, z0 = L73IslandZ + 64;
+            int ground = int.MaxValue;
+            foreach (var (dx, dz) in new[] { (0, 0), (8, 0), (19, -5), (19, 5), (19, 0), (30, 0), (38, 0), (10, -5), (10, 5), (30, -4), (30, 4) })
+            {
+                int g = L73Ground(x0 + dx, z0 + dz, out FloorKind f);
+                if (f != FloorKind.L73Mud) ground = Math.Min(ground, g);
+            }
+            if (ground == int.MaxValue) ground = L73Ground(x0, z0, out _);
+            l73Hound = Tuple.Create(x0, z0, ground);
+            return (x0, z0, ground);
+        }
+    }
+    private volatile Tuple<int, int, int> l73Hound;
+
+    /// <summary>Whether a block column lies under the Great Hound (its footprint, one round).</summary>
+    public bool InL73Hound(int gx, int gz)
+    {
+        var (x0, z0, _) = L73Hound;
+        int x = gx - x0, z = gz - z0;
+        return x >= -1 && x <= L73HoundLength && Math.Abs(z) <= L73HoundHalf + 1;
+    }
+
+    /// <summary>Whether there is a bone of the Great Hound at a block position (rel above the sea).</summary>
+    public bool L73HoundBoneAt(int gx, int gz, int rel)
+    {
+        var (x0, z0, ground) = L73Hound;
+        return L73HoundBones.Contains((gx - x0, gz - z0, rel - ground));
     }
 
     // ================= The castle =================
@@ -594,12 +765,19 @@ public sealed partial class WorldLayout
             t.Floor = FloorKind.L73Path;
             return t;
         }
+        // Under the Great Hound's bones: nobody is put down there, nothing else lies there
+        if (InL73Hound(gx, gz))
+        {
+            t.Sealed = true;
+            return t;
+        }
         // Old bones on the fields, now and then a ribcage, and seldom a pack someone dropped running for the castle
-        if (g >= 2 && floor != FloorKind.L73Mud && L73BannerAt(u, v) == null)
+        if (g >= 2 && floor is not (FloorKind.L73Mud or FloorKind.L73Tor) && L73BannerAt(u, v) == null)
         {
             ulong h = Hashing.Hash(seed, gx, gz, SaltL73Bones);
             double r = Hashing.Unit(h);
-            ushort prop = r < 1 / 260.0 ? Props.BonePile : r < 1 / 260.0 + 1 / 900.0 ? Props.Ribcage : r < 1 / 260.0 + 1 / 900.0 + 1 / 3000.0 ? Props.Backpack : (ushort)0;
+            ushort prop = r < 1 / 170.0 ? Props.BonePile : r < 1 / 170.0 + 1 / 650.0 ? Props.Ribcage : r < 1 / 170.0 + 1 / 650.0 + 1 / 1100.0 ? Props.JawSkeleton
+                : r < 1 / 170.0 + 1 / 650.0 + 1 / 1100.0 + 1 / 3000.0 ? Props.Backpack : (ushort)0;
             if (prop != 0)
             {
                 t.Variant = prop;

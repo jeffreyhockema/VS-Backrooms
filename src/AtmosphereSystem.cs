@@ -117,7 +117,7 @@ public partial class AtmosphereSystem : ModSystem
         // The experimental levels (placeholders: a faint neutral haze; parts with air of their own in AtmosphereSystem.<level>.cs)
         // Level 73: a thin crimson-black murk under a dim night that never changes (the sky hidden, the moon and the
         // keep: AtmosphereSystem.L73.cs)
-        new(0.0035f, 0.10f, 0.03f, 0.035f, -0.12f, scene: 0.30f),
+        new(0.0035f, 0.10f, 0.03f, 0.035f, -0.12f, scene: 0.30f, clouds: 0f, cloudBrightness: 0f),
         // The Basement: close, cold blue-green dark (the Cellar's; the Flood's is thicker: AtmosphereSystem.Basement.cs)
         new(0.045f, 0.051f, 0.086f, 0.078f, 0f),
         // Level 52: a thin, clear blue haze over the hills, a few white clouds, no day or night (its sky, its buildings: AtmosphereSystem.L52.cs)

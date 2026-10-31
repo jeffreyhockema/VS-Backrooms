@@ -15,6 +15,25 @@ static partial class LevelModes
     static bool L73Modes(WorldLayout layout, string mode, string[] args)
     {
         if (mode == "73map") { L73Map(layout); return true; }
+        if (mode == "73grid")
+        {
+            // Every column 300 blocks round the island's middle: height (negative under the sea), floor kind, zone, prop (for a picture)
+            int cx = layout.L73IslandX, cz = layout.L73IslandZ;
+            using var w = new System.IO.StreamWriter(args.Length > 0 ? args[^1] : "l73grid.txt");
+            for (int z = cz - 300; z < cz + 300; z++)
+            {
+                var line = new System.Text.StringBuilder();
+                for (int x = cx - 300; x < cx + 300; x++)
+                {
+                    Tile t = layout.TileAt(x, z);
+                    int h = t.Depth > 0 ? -t.Depth : t.Height;
+                    int bone = layout.InL73Hound(x, z) && Enumerable.Range(1, 9).Any(r => layout.L73HoundBoneAt(x, z, h + r)) ? 1 : 0;
+                    line.Append(h).Append(',').Append((int)t.Floor).Append(',').Append(t.Zone).Append(',').Append(t.Variant != 0 ? 1 : bone * 2).Append(' ');
+                }
+                w.WriteLine(line.ToString());
+            }
+            return true;
+        }
         if (mode != "73stats") return false;
         int bad = 0;
         void Bad(string what) { bad++; Console.WriteLine("  BAD: " + what); }
@@ -26,7 +45,7 @@ static partial class LevelModes
         // The region's tiles, by zone
         long land = 0, sea = 0, court = 0, keep = 0, walls = 0, rim = 0, other = 0, sealedLand = 0;
         int cells = 0, peak = 0, deepest = 0;
-        var heights = new int[WorldLayout.L73Peak + 1];
+        var heights = new int[WorldLayout.L73TorPeak + 1];
         var sw = Stopwatch.StartNew();
         for (int mz = mz0 - 22; mz <= mz0 + 22; mz++)
             for (int mx = mx0 - 22; mx <= mx0 + 22; mx++)
@@ -59,6 +78,14 @@ static partial class LevelModes
         Console.WriteLine($"tiles: land {land / all:P1}, sea {sea / all:P1}, castle {castle / all:P2} ({court} courtyard, {keep} keep, {walls} walls), rim {rim / all:P1}, other {other}");
         Console.WriteLine($"land heights: peak {peak}, deepest sea {deepest}; " + string.Join(" ", Enumerable.Range(0, heights.Length).Select(h => $"{h}:{heights[h] * 100.0 / Math.Max(1, land):0.#}%")));
         if (other > 0) Bad($"{other} tiles of no zone");
+        // (The Great Hound's footprint is sealed on purpose)
+        var (hx, hz, hg) = layout.L73Hound;
+        long houndSealed = 0;
+        for (int z = hz - WorldLayout.L73HoundHalf - 1; z <= hz + WorldLayout.L73HoundHalf + 1; z++)
+            for (int x = hx - 1; x <= hx + WorldLayout.L73HoundLength; x++)
+                if (layout.TileAt(x, z) is { Zone: WorldLayout.L73Land, Sealed: true, Variant: 0 }) houndSealed++;
+        Console.WriteLine($"the Great Hound at {hx},{hz}, on ground {hg}: {houndSealed} tiles sealed under it");
+        sealedLand -= houndSealed;
         if (sealedLand > 0) Bad($"{sealedLand} land tiles sealed");
         if (castle != WorldLayout.L73CastleW * WorldLayout.L73CastleD) Bad($"castle has {castle} tiles, not {WorldLayout.L73CastleW * WorldLayout.L73CastleD}");
         if (land < sea / 4) Bad("hardly any land");

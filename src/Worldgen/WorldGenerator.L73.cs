@@ -21,7 +21,8 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldGenerator
 {
     private int l73Earth, l73Rock, l73Ash, l73Mud, l73Silver, l73Basalt, l73Sand, l73Gravel, l73Ashlar, l73Carpet, l73Damask, l73TileFloor,
-        l73Boards, l73Ember, l73Slate, l73Bath, l73WindowBoards, l73Note;
+        l73Boards, l73Ember, l73Slate, l73Bath, l73WindowBoards, l73Note, l73Burnt, l73Crust, l73Bone;
+    private readonly int[] l73Grass = new int[4];
     private readonly int[] l73Sconce = new int[4], l73Banner = new int[4], l73Door = new int[6], l73AtticDoor = new int[4];
     private readonly int[,] l73Curtain = new int[3, 4], l73Table = new int[2, 4], l73Painting = new int[WorldLayout.L73Paintings, 4];
 
@@ -36,6 +37,12 @@ public sealed partial class WorldGenerator
         l73Rock = Id("l73-blackrock");
         l73Ash = Id("l73-ash-sand");
         l73Mud = Id("l73-bloodmud");
+        l73Burnt = Id("l73-burnt");
+        l73Crust = Id("l73-crust");
+        l73Bone = Id("l73-bone");
+        l73Grass[1] = Id("l73-deadgrass-short");
+        l73Grass[2] = Id("l73-deadgrass-mid");
+        l73Grass[3] = Id("l73-deadgrass-tall");
         l73Silver = Id("l73-silverwall");
         l73Slate = Id("l73-slate");
         l73Bath = Id("l73-bath");
@@ -66,6 +73,9 @@ public sealed partial class WorldGenerator
         floorIds[(int)FloorKind.L73Rock] = l73Rock;
         floorIds[(int)FloorKind.L73Ash] = l73Ash;
         floorIds[(int)FloorKind.L73Mud] = l73Mud;
+        floorIds[(int)FloorKind.L73Tor] = l73Rock;
+        floorIds[(int)FloorKind.L73Burnt] = l73Burnt;
+        floorIds[(int)FloorKind.L73Crust] = l73Crust;
         floorIds[(int)FloorKind.L73Seabed] = l73Sand;
         floorIds[(int)FloorKind.L73Gravel] = l73Gravel;
         floorIds[(int)FloorKind.L73Court] = l73Rock;
@@ -86,11 +96,15 @@ public sealed partial class WorldGenerator
 
         // The island and the sea
         int g = t.Depth > 0 ? -t.Depth : t.Height;
+        // The Great Hound's bones (sunk into the ground where it rises)
+        if (t.Sealed && t.Zone == WorldLayout.L73Land && rel > 0 && layout.L73HoundBoneAt(gx, gz, rel)) return l73Bone;
         if (rel > g)
         {
             if (rel <= 0) fluid = waterId;
             if (rel == g + 1 && t.Variant != 0) return PropBlock(t);
             if (rel == g + 1 && t.Detail == 1) return l73Note;
+            // Dead grass on the fields
+            if (rel == g + 1 && g > 0 && !t.Sealed && layout.L73GrassAt(gx, gz, t.Floor) is int grass and > 0) return l73Grass[grass];
             // The banners on the castle's outer walls hang over the ground just outside them
             if (g == WorldLayout.L73Plateau && WorldLayout.L73BannerAt(gx - layout.L73CastleX0, gz - layout.L73CastleZ0) is { } banner
                 && rel == WorldLayout.L73Plateau + banner.Top)
@@ -99,6 +113,8 @@ public sealed partial class WorldGenerator
         }
         if (rel < System.Math.Min(g - 4, -8)) return concreteId; // (the ground below, as vanilla laid it)
         if (rel == g) return floorIds[(int)t.Floor] is int top and not 0 ? top : l73Earth;
+        // A tor is black rock right down into the ground
+        if (t.Floor == FloorKind.L73Tor && rel > g - 10) return l73Rock;
         if (rel >= g - 2)
             return t.Floor switch
             {
@@ -139,11 +155,17 @@ public sealed partial class WorldGenerator
             {
                 if (c <= 10) return l73Silver;
                 int tu = u < 6 ? u : w - 1 - u, tv = v < 6 ? v : d - 1 - v;
-                return c == 11 && (tu is 0 or 5 || tv is 0 or 5) && Merlon(u, v) ? l73Silver : 0;
+                if (c == 11 && (tu is 0 or 5 || tv is 0 or 5)) return Merlon(u, v) ? l73Silver : 0;
+                // A pointed slate roof inside the battlements, rising to a spire (the castle's gothic outline from afar)
+                if (c <= 12 && tu is >= 1 and <= 4 && tv is >= 1 and <= 4) return l73Slate;
+                return c <= 17 && tu is 2 or 3 && tv is 2 or 3 ? l73Slate : 0;
             }
             case Part.GateTower:
                 if (c <= 10) return l73Silver;
-                return c == 11 && (u is 22 or 25 or 30 or 33 || v is d - 5 or d - 1) && Merlon(u, v) ? l73Silver : 0;
+                if (c == 11 && (u is 22 or 25 or 30 or 33 || v is d - 5 or d - 1)) return Merlon(u, v) ? l73Silver : 0;
+                // A slate cap and a spire on each gate tower
+                if (c == 11) return l73Slate;
+                return c <= 15 && u is 23 or 24 or 31 or 32 && v == d - 3 ? l73Slate : 0;
         }
         return L73KeepBlock(u - WorldLayout.L73KeepU0, v - WorldLayout.L73KeepV0, c);
     }
@@ -215,8 +237,9 @@ public sealed partial class WorldGenerator
         if ((ku < 3 || ku >= kw - 3) && (kv < 3 || kv >= kd - 3))
         {
             if (c <= 19) return l73Silver;
-            bool edge = ku is 0 or 2 or kw - 3 or kw - 1 || kv is 0 or 2 or kd - 3 or kd - 1;
-            return c == 20 && edge && merlon ? l73Silver : 0;
+            // A slate cap and a needle spire on each turret, its top one under the band's (as the attic's ridge)
+            if (c == 20) return l73Slate;
+            return c <= WorldLayout.L73AtticTop && ku is 1 or kw - 2 && kv is 1 or kd - 2 ? l73Slate : 0;
         }
         if (ku is >= 16 and <= 19 && kv <= 1) return c <= 18 ? l73Silver : 0; // the chimney stack
         if (WorldLayout.L73KeepRing(ku, kv)) return c == 16 && merlon ? l73Silver : 0;
