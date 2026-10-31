@@ -251,11 +251,16 @@ public class L120System : ModSystem
 
     private void OnSlowTick(float dt)
     {
+        var who = new List<Entity>();
         foreach (IPlayer online in sapi.World.AllOnlinePlayers)
+            if (online is IServerPlayer player && player.Entity is { Alive: true } entity && player.ConnectionState == EnumClientState.Playing
+                && player.WorldData.CurrentGameMode != EnumGameMode.Spectator) who.Add(entity);
+        // (Headless tests: a straw dummy stands in for a player)
+        foreach (Entity e in sapi.World.LoadedEntities.Values)
+            if (e.Alive && Senses.IsTestTarget(e)) who.Add(e);
+        foreach (Entity entity in who)
         {
-            if (online is not IServerPlayer player || player.Entity is not { Alive: true } entity || player.ConnectionState != EnumClientState.Playing) continue;
             if (!InLevel(entity.Pos.X, entity.Pos.Z) || layout.TileAt((int)Math.Floor(entity.Pos.X), (int)Math.Floor(entity.Pos.Z)).Zone != (byte)Zone.Void) continue;
-            if (player.WorldData.CurrentGameMode == EnumGameMode.Spectator) continue;
             var (hx, hz) = WorldLayout.L120HallOf((int)Math.Floor(entity.Pos.X), (int)Math.Floor(entity.Pos.Z));
             int want = 1 + (int)(Hashing.Hash((ulong)sapi.World.Seed, hx, hz, SaltBoot + 1) % 3);
             int have = sapi.World.GetEntitiesAround(entity.Pos.XYZ, 48, 8, e => e.Alive && e.Code?.Path == "smiler").Length;
@@ -306,7 +311,7 @@ public class L120System : ModSystem
     }
 
     /// <summary>A Misglitch standing up at a place (look 0 red-marked, 1 all black); null if there are already six about or the type is missing.</summary>
-    public Entity PutDownMisglitch(Vec3d at, int look, string of)
+    public Entity PutDownMisglitch(Vec3d at, int look, string of, bool alwaysActive = false)
     {
         EntityProperties type = sapi.World.GetEntityType(new AssetLocation(MisglitchCode));
         if (type == null) return null;
@@ -323,6 +328,8 @@ public class L120System : ModSystem
         e.WatchedAttributes.SetDouble(AiTaskMisglitch.UntilKey, sapi.World.Calendar.TotalHours + 24);
         double danger = Danger.OfLevel(WorldLayout.Level120);
         e.Attributes.SetDouble(Danger.Key, danger);
+        // (Headless tests: with no player about nothing would think)
+        if (alwaysActive) e.AlwaysActive = true;
         sapi.World.SpawnEntity(e);
         if (e.GetBehavior<EntityBehaviorHealth>() is { } health && Danger.ExtraHealth(danger) > 0)
         {
@@ -334,6 +341,15 @@ public class L120System : ModSystem
     }
 
     // ================= Testing =================
+
+    /// <summary>The newest straw dummy in the world (headless tests), or null.</summary>
+    private Entity LatestDummy()
+    {
+        Entity latest = null;
+        foreach (Entity e in sapi.World.LoadedEntities.Values)
+            if (e.Alive && Senses.IsTestTarget(e) && (latest == null || e.EntityId > latest.EntityId)) latest = e;
+        return latest;
+    }
 
     private TextCommandResult OnCommand(TextCommandCallingArgs args)
     {
@@ -352,15 +368,38 @@ public class L120System : ModSystem
                     at = new Vec3d(x + 0.5, geometry.FloorFor(WorldLayout.Level120) + 1, z + 0.5);
                 }
                 else if (caller != null) at = caller.Pos.XYZ;
-                else return TextCommandResult.Error("From the console, give x and z");
+                else if (LatestDummy() is { } dummy)
+                {
+                    // (Headless: six blocks along from the latest straw dummy, where the floor is open)
+                    at = dummy.Pos.XYZ.AddCopy(6, 0, 0);
+                    foreach (var (dx, dz) in new[] { (6, 0), (-6, 0), (0, 6), (0, -6), (4, 4), (-4, -4), (3, 0), (-3, 0) })
+                    {
+                        var p = new BlockPos((int)Math.Floor(dummy.Pos.X) + dx, (int)Math.Floor(dummy.Pos.Y + 0.05), (int)Math.Floor(dummy.Pos.Z) + dz);
+                        if (Senses.Open(sapi.World.BlockAccessor, p) && Senses.Open(sapi.World.BlockAccessor, p.UpCopy()) && !Senses.Open(sapi.World.BlockAccessor, p.DownCopy()))
+                        {
+                            at = new Vec3d(p.X + 0.5, p.Y, p.Z + 0.5);
+                            break;
+                        }
+                    }
+                }
+                else return TextCommandResult.Error("From the console, give x and z, or put a straw dummy down first");
                 if (!InLevel(at.X, at.Z)) return TextCommandResult.Error("Not in Level 120");
-                Entity e = PutDownMisglitch(at, rand.Next(2), args.Caller.Player?.PlayerName ?? "the console");
+                Entity e = PutDownMisglitch(at, rand.Next(2), args.Caller.Player?.PlayerName ?? "the console", alwaysActive: caller == null);
                 return e == null ? TextCommandResult.Error("No Misglitch (its type is missing, or six are already about)") : TextCommandResult.Success($"A Misglitch stands at {at.X:0}, {at.Y:0}, {at.Z:0} (#{e.EntityId})");
             }
             case "void":
             case "hallway":
             {
-                if (args.Caller.Player is not IServerPlayer player || caller == null) return TextCommandResult.Error("Needs a player");
+                if (caller == null && LatestDummy() is { } d)
+                {
+                    // (Headless: the latest straw dummy is moved into the pocket instead)
+                    var (dhx, dhz) = WorldLayout.L120HallOf((int)d.Pos.X, (int)d.Pos.Z);
+                    if (layout.L120NearestPocket(dhx, dhz, what == "void" ? Kind.Void : Kind.Hallway, 12) is not { } dp) return TextCommandResult.Error("No such pocket within twelve halls");
+                    var (dax, daz) = layout.L120PocketArrival(dp.Hx, dp.Hz);
+                    d.TeleportToDouble(dax + 0.5, geometry.FloorFor(WorldLayout.Level120) + 1, daz + 0.5);
+                    return TextCommandResult.Success($"The straw dummy is in the {what} of hall {dp.Hx},{dp.Hz} at {dax}, {daz}");
+                }
+                if (args.Caller.Player is not IServerPlayer player || caller == null) return TextCommandResult.Error("Needs a player, or a straw dummy put down first");
                 var (hx, hz) = WorldLayout.L120HallOf((int)caller.Pos.X, (int)caller.Pos.Z);
                 var pocket = layout.L120NearestPocket(hx, hz, what == "void" ? Kind.Void : Kind.Hallway, 12);
                 if (pocket is not { } p) return TextCommandResult.Error("No such pocket within twelve halls");
@@ -375,8 +414,9 @@ public class L120System : ModSystem
             }
             case "boot":
             {
-                int x = hasXz ? (int)args[1] : (int)(caller?.Pos.X ?? 0), z = hasXz ? (int)args[2] : (int)(caller?.Pos.Z ?? 0);
-                if (!hasXz && caller == null) return TextCommandResult.Error("From the console, give x and z");
+                Entity from = caller ?? LatestDummy();
+                if (!hasXz && from == null) return TextCommandResult.Error("From the console, give x and z, or put a straw dummy down first");
+                int x = hasXz ? (int)args[1] : (int)from.Pos.X, z = hasXz ? (int)args[2] : (int)from.Pos.Z;
                 if (NearestBoot(x, z) is not { } b) return TextCommandResult.Error("No whole terminal near");
                 string into = PocketOf(b.X, b.Z) is { } a ? $"; it boots into the pocket arriving at {a.X}, {a.Z} ({layout.TileAt(a.X, a.Z).Zone})" : "; it boots into nothing";
                 return TextCommandResult.Success($"The nearest whole terminal: stand at {b.X}, {b.Z}{into}");
