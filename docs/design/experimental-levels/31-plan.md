@@ -179,3 +179,85 @@ counters and cafe chairs, toilets and sinks; whether the lobby lockers face into
 should face into the rink and out to the halls); the disco ball's shape (`drawtypeByType` json, glow) and whether its light
 reads; the tube textures (cube panels, not strips); the rink's darkness in the middle; the music's volume and loop seam;
 the dasher barrier as full cubes (one block high: players jump it or use the gaps).
+
+## Detail pass (2026-10-30)
+
+Lore: both wikis, reconciled as `lore/31-brief.md` proposes, with the user's decisions (`lore/DECISIONS.md`): Safe
+(class 1 / difficulty 0), the Coach (Wikidot) as the one new person, Fandom's Employees Lounge, cold HVAC rooms, glowing
+carpet and "Paranoia" as atmosphere only, no Hounds, Level 3999's galaxy carpet replaced by the level's own.
+
+**Built.**
+- **Orientation fixed to the lore.** Complexes are never transposed any more (only mirrored north-south), so the arcade
+  is always east of the rink, the DJ station always on the rink's south side, and a cinema only in a back band that lies
+  north of its rink. The front band's arcade is rarer (45%, was 65%: "the arcade being rarer to enter").
+- **Halls and floors:** the level's own dark rink carpet (`l31-carpet-rink`: black with 1990s confetti) in the halls and
+  lobbies instead of 3999's galaxy carpet; the crossings in shiny just-cleaned concrete (`l31-floor-polished`); rough
+  black carpet round the rink (`l31-carpet-black`, Wikidot); vinyl tile in Skate Rental; quarry tile in the kitchens;
+  grey carpet and exposed brick in the lounges.
+- **The rink:** the disco ball gave way to Wikidot's star-shaped light at the centre (`l31-star`, three blocks across);
+  a short wooden gate with flaps (`l31-gate`, walk-through) in each gap of the barrier; the DJ station on the south skirt
+  (two turntables and a mixer facing the boards, PA speakers, the DJ Faceling behind); benches along both skirts, clear
+  of the doors.
+- **The food court** (Wikidot): kitchen along the far wall on quarry tile (stoves, fryers, a sink, a fridge), its
+  EMPLOYEES ONLY door and a lit menu board on the wall behind, the counter with the soda fountain (`l31-fountain`, a
+  refilling Almond Water dispenser), the server's spot behind it, the condiment stand by the queue, square tables with
+  four orange plastic chairs each, orange and green park benches along both side walls, bins either side of the way out
+  under the taped "Please throw away trash and uneaten food here!" sign. Warm light.
+- **Skate Rental:** cubby shelves of skates along the far wall, the counter with the Coach's spot behind it, benches,
+  the size chart and adverts for brands that do not exist on the blue walls.
+- **The arcade:** the green-card dispenser at each door (`l31-dispenser`, gives a green card to anyone without one), a
+  handmade OUT OF ORDER sign either side of the corridor door in half of them, 1980s box cabinets (three invented games)
+  among the rows (14%), a white door marked 70 on the east wall in one in three (painted, closed).
+- **The cinema:** one big 3x2 TV on the far wall (`l31-tv`, lit), three rows of continuous metal benches each a step
+  higher (1, 2, 3 blocks), steps down again behind them to the door.
+- **The Employees Lounge** (Fandom; every Lounge room): brick, grey carpet, lockers along one wall, kitchenette, a table
+  and two chairs, the CCTV desk and two cameras under the ceiling, a custodian's corner (shelf, wet floor sign, boxes),
+  a supply box in 40%; silent (no music, room tone, a camera's servo now and then); titled "Employees Lounge".
+- **HVAC:** dead radiators along a wall, a pipe run along the far wall, puddles, one in three flooded (a layer of water
+  over its middle); 8 C.
+- **Loot:** supply boxes in store rooms (0-2), lounges and HVAC rooms; picked over 30% (the level's existing share). The
+  food court's free food and the fountain are the level's own supply; notes come from the boxes as everywhere.
+- **People** (`src/Regions/L31System.cs`, `tools/gen_31_content.py`): **the Coach** (`l31-coach`: the Faceling model
+  with a new striped shirt and name tag; vanilla dialogue `config/dialogue/l31-coach.json`: first meeting and his name
+  for you (`{{playername}}`, remembered per player), the free lesson which gives **rink skates**, techniques, how to live
+  here, the shadows, the way out (the lore's exits, "not there today"), why he tells people to go; he sighs if you
+  decline); **staff Facelings** (`l31-staff`: the food court's server in red with a blank name tag, and the DJ): put
+  down at their marked spots while anyone is within 40 blocks, never saved, cannot be hurt. The server feeds a player
+  for free every 1.5 in-game hours (pizza, pepperoni, wings or a foot-long hot dog, 60% with an Almond Water); anything
+  left on a food court's floor for 9 s is swept up and its dropper refused for a day. After 36 in-game hours in the
+  level (and every 12 after) the Coach finds the player by name and says it is time to go. The director puts down
+  ambient Facelings (Safe band, one within 100 blocks), nothing hostile.
+- **Rink skates** (`l31-skates`, foot clothing with its own shape): +30% walk speed in this level on boards, tile and
+  concrete, nothing on carpet. The Fandom penalty (stolen skates send you to Level 0) is in the notes and handbook only.
+- **Paranoia:** about once a minute per player in the level, a still black figure (`l31-shadow`) at a dark spot (light
+  5 or less in the cinema, empties, glow rooms, HVAC, store rooms or the corridor) 13-23 blocks off; gone at 9 blocks or
+  after 25 s. No AI.
+- **Sound:** skates on boards and laughter "from above" (one-shots 9 blocks overhead every 25-60 s on the rink, halls,
+  lobbies and food court; the laughter reuses the mod's existing laughter); a CCTV servo and chirp in the lounge.
+- **Notes:** six (`gen_notes.py`, track `l31`, level 24): the diarist J. (Wikidot's Jonathan), Dez, the M.E.G.
+- **Handbook:** its own page "Level 31: The Roller Rink" (`gen_guide.py` `PAGES["level31"]`, registered in
+  `GuideSystem.Added`). Titles 2401-2406 (2403 is now The Food Court, 2406 Employees Lounge). The level's lang lines are
+  one block after `levelname-24`; `tools/gen_31_lang.py` moves the lines gen_notes/gen_guide append back into it.
+- **Assets:** `tools/gen_31_props.py` (20 new blocks: carpets, floors, brick, signs, chair, table, park bench,
+  condiments, fountain, DJ desk, speaker, gate, star, card dispenser, retro cabinet, skate shelf, cinema bench, TV, CCTV,
+  monitors), `tools/gen_31_content.py` (people, dialogue, items, sounds, the lang block).
+
+**Choices against the brief.** Every food court has its server and every rental its Coach (the level loops, so "the"
+Coach is met in every rental, as Wikidot's Coach is found "almost everywhere"); the Coach's "lead me out" names the
+lore's exits but leads nowhere (no thresholds on this branch); the green card is a keepsake (the reused Level 3999
+cabinets and prize counters keep their ticket rules); the lounge is every Lounge room, off the service corridor, not
+literally behind the kitchen (the kitchen's EMPLOYEES ONLY door is painted shut); the skates give no "no slipping"
+(nothing in the mod slips). Left out: non-Euclidean halls (teleports), Venosha camps, the revolving door, glow-carpet
+"mirror" rooms, exposed wiring, the fire alarm.
+
+**Own inventions** (not in the lore): the three invented 1980s cabinet games and the advert brands; the Coach's exact
+lines (built from Wikidot's account); the food cooldown and the day's refusal; the skates' +30% and the carpet rule; the
+36-hour "time to go"; the cinema's step-down behind the rows; the CCTV servo sound.
+
+**Check in-game (screenshots):** the star's shape and light over the rink centre; the gates' flaps and axis; the DJ
+desk facing the boards and the DJ standing behind; the food court's chairs facing their tables, benches facing into
+the room, the fountain on the counter line, the menu board and staff door on the far wall, the taped sign over the
+bins; the rental's shelves, counter and the Coach facing the customers; the TV's columns left to right and its light;
+the cinema benches facing the TV on their steps; the retro cabinets (two blocks tall); the sign faces (not mirrored);
+the CCTV cameras' tilt; the Coach's and staff textures; the skates on a player's feet (attached to LowerFootL/R, toe
+toward -x); the flooded HVAC water staying put.

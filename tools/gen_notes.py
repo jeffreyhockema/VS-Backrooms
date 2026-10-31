@@ -780,6 +780,43 @@ Poolrooms. No way back up.
 — Dez""", w="dez"),
 ]))
 
+# ---- Level 31, "Roller Rink" (experimental, id 24; docs/design/experimental-levels/31-plan.md). Its own block: the
+# level's id and its track. Wikidot's lonely diarist (J.) and Fandom's details, in the notes' voices.
+L31 = 24
+LEVEL_IDS.add(L31)
+TRACKS.append(Track("l31", "common", "Level 31: the Roller Rink", L31, entries=[
+    E("l31-1", "The wooden door", """
+A wooden door in a brick wall, Level 3, and music behind it. Pop music, the kind from home. I pushed it open and I was
+in the roller rink from my old town: the lights, the wood, the smell. I'm so tired. I'm going to find somewhere the
+lights aren't so bright and the arcade isn't so loud, and sleep.
+— J."""),
+    E("l31-2", "Free hot dog", """
+The food court gives you food for nothing. Ask the faceless one behind the counter: pizza, wings, a foot-long. The soda
+fountain pours Almond Water. Don't leave a crumb lying about: it cleans up after you, slowly, looking at you, and won't
+serve you again for a day.
+— Dez""", w="dez"),
+    E("l31-3", "High score", """
+There's a machine at the arcade door: press the blue button, get a green card. The games don't care if you have one.
+Found an old box cabinet, girders and barrels, the kind I played as a kid. Beat my old high score twice. It didn't
+feel like anything the second time.
+— J."""),
+    E("l31-4", "The Coach", """
+A faceless man in a striped shirt behind the skate rental counter. Says his name's Coach. He knew mine by the second
+time and still does. He gave me skates, quick on the boards and the concrete and useless on carpet, and taught me to
+spin. He says don't stay too long. I don't know why he says it so often.
+— J."""),
+    E("l31-5", "Shadows", """
+M.E.G. FIELD NOTICE. Level 31: Class 1, safe. No Hounds confirmed. Black figures reported standing still in the dark
+rooms, the cinema and the cold HVAC rooms; all vanish on approach and none has ever moved. Treat as paranoia. The
+staff Facelings are docile and cannot be harmed. Do not take the rental skates out of the level.
+— Field Team 9""", w="meg"),
+    E("l31-6", "Nothing feels good anymore", """
+Arcade, skating, food court, cinema, repeat. Nothing feels good anymore. Coach found me in the cinema again and said
+it's time to go, there's a white door with a 70 on it behind the arcades, a door marked Employees Only in the food
+court. I said I'm not ready. I just want to feel at home again. If you're reading this, listen to the Coach.
+— J."""),
+]))
+
 # ============================== Rare: folded notes ==============================
 
 RARE_CHAPTER = "rare"
