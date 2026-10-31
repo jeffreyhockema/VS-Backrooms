@@ -1457,11 +1457,11 @@ WANDERER_SITES = {
     "camp": {
         "sells": [("game:gear-temporal", 6, 1, 1), ("backrooms:almondwater", 1, 3, 1), ("backrooms:crackers", 1, 3, 2), ("backrooms:cannedbeans", 2, 2, 1),
                   ("game:candle", 1, 3, 2), ("backrooms:firesalt", 3, 2, 1, "block"), ("game:bandage-clean", 2, 2, 1),
-                  ("game:flaxtwine", 1, 3, 4), ("game:seeds-flax", 2, 2, 4), ("game:seeds-cabbage", 2, 2, 4), ("game:linensack", 2, 1, 1)],
+                  ("game:flaxtwine", 1, 3, 4), ("game:seeds-flax", 2, 2, 4), ("game:seeds-cabbage", 2, 2, 4), ("game:linensack", 2, 1, 1), ("game:resin", 2, 3, 2)],
         "buys": [("backrooms:metalbracket", 1, 6, 4), ("backrooms:scrapwire", 1, 6, 5), ("backrooms:glassshard", 1, 4, 8),
                  ("game:hide-raw-medium", 2, 3, 1), ("game:hide-raw-large", 3, 2, 1), ("game:cloth-plain", 1, 4, 4),
                  ("game:metalbit-copper", 1, 6, 6), ("backrooms:rottenwood", 1, 3, 8)],
-        "sellMax": 9, "buyMax": 8,
+        "sellMax": 10, "buyMax": 8,
     },
     # Level 4: an M.E.G. supply outpost, where Almond Water is most plentiful: water (cheapest here), bottles to carry it
     # down to Level 5, medicine, light, seeds. Buys specimens for the M.E.G.'s files, salvage, paper, the hotel's silver.
@@ -1480,10 +1480,10 @@ WANDERER_SITES = {
         "sells": [("game:gear-temporal", 6, 1, 1), ("backrooms:cannedbeans", 2, 3, 1), ("backrooms:crackers", 1, 3, 2), ("backrooms:almondwater", 2, 2, 1),
                   ("game:rope", 2, 2, 1), ("game:torch-basic-extinct-up", 1, 4, 2, "block"), ("game:lantern-small-up", 6, 1, 1, "block"),
                   ("game:pickaxe-tinbronze", 8, 1, 1), ("game:knife-generic-tinbronze", 6, 1, 1), ("game:spear-generic-tinbronze", 8, 1, 1),
-                  ("game:armor-body-sewn-linen", 6, 1, 1), ("game:bandage-clean", 2, 2, 1)],
+                  ("game:armor-body-sewn-linen", 6, 1, 1), ("game:bandage-clean", 2, 2, 1), ("game:resin", 2, 3, 2)],
         "buys": [("game:hide-raw-medium", 2, 3, 1), ("game:hide-raw-large", 3, 2, 1), ("game:cloth-plain", 1, 4, 4),
                  ("backrooms:spidersilk", 2, 3, 1), ("game:paper-parchment", 1, 4, 8), ("backrooms:metalbracket", 1, 4, 4)],
-        "sellMax": 8, "buyMax": 6,
+        "sellMax": 9, "buyMax": 6,
     },
     # Level 11: a B.N.T.G. street vendor. The city has food and Almond Water for the taking, so it sells what the city
     # lacks: B.N.T.G. candy, the coloured waters, Firesalt, bronze, lanterns, chalk. Buys rare things from far levels.
