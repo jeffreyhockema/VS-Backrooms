@@ -1,0 +1,463 @@
+// Level 36's security: a walk-through metal detector arch, two blocks tall (lower, upper): grey side panels on the block's left and right edges (walk through along the <side> axis), an indicator light strip, the top beam in the upper block (opening 1.6 blocks); collision only on the panels and the beam
+{
+	"code": "l36-scanner",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-scanner-lower-north": {
+			"base": "backrooms:block/36/l36-scanner-lower"
+		},
+		"l36-scanner-lower-east": {
+			"base": "backrooms:block/36/l36-scanner-lower",
+			"rotateY": 270
+		},
+		"l36-scanner-lower-south": {
+			"base": "backrooms:block/36/l36-scanner-lower",
+			"rotateY": 180
+		},
+		"l36-scanner-lower-west": {
+			"base": "backrooms:block/36/l36-scanner-lower",
+			"rotateY": 90
+		},
+		"l36-scanner-upper-north": {
+			"base": "backrooms:block/36/l36-scanner-upper"
+		},
+		"l36-scanner-upper-east": {
+			"base": "backrooms:block/36/l36-scanner-upper",
+			"rotateY": 270
+		},
+		"l36-scanner-upper-south": {
+			"base": "backrooms:block/36/l36-scanner-upper",
+			"rotateY": 180
+		},
+		"l36-scanner-upper-west": {
+			"base": "backrooms:block/36/l36-scanner-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxesByType": {
+		"l36-scanner-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 1.0,
+				"z2": 0.84
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 1.0,
+				"z2": 0.84
+			}
+		],
+		"l36-scanner-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 1.0,
+				"z2": 0.84,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 1.0,
+				"z2": 0.84,
+				"rotateY": 270
+			}
+		],
+		"l36-scanner-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 1.0,
+				"z2": 0.84,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 1.0,
+				"z2": 0.84,
+				"rotateY": 180
+			}
+		],
+		"l36-scanner-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 1.0,
+				"z2": 0.84,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 1.0,
+				"z2": 0.84,
+				"rotateY": 90
+			}
+		],
+		"l36-scanner-upper-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 0.6,
+				"z2": 0.84
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.6,
+				"z2": 0.84
+			},
+			{
+				"x1": 0,
+				"y1": 0.6,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.9,
+				"z2": 0.84
+			}
+		],
+		"l36-scanner-upper-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 0.6,
+				"z2": 0.84,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.6,
+				"z2": 0.84,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0.6,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.9,
+				"z2": 0.84,
+				"rotateY": 270
+			}
+		],
+		"l36-scanner-upper-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 0.6,
+				"z2": 0.84,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.6,
+				"z2": 0.84,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0.6,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.9,
+				"z2": 0.84
+			}
+		],
+		"l36-scanner-upper-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 0.6,
+				"z2": 0.84,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.6,
+				"z2": 0.84,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0.6,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.9,
+				"z2": 0.84,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxesByType": {
+		"l36-scanner-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 1.0,
+				"z2": 0.84
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 1.0,
+				"z2": 0.84
+			}
+		],
+		"l36-scanner-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 1.0,
+				"z2": 0.84,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 1.0,
+				"z2": 0.84,
+				"rotateY": 270
+			}
+		],
+		"l36-scanner-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 1.0,
+				"z2": 0.84,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 1.0,
+				"z2": 0.84,
+				"rotateY": 180
+			}
+		],
+		"l36-scanner-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 1.0,
+				"z2": 0.84,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 1.0,
+				"z2": 0.84,
+				"rotateY": 90
+			}
+		],
+		"l36-scanner-upper-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 0.6,
+				"z2": 0.84
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.6,
+				"z2": 0.84
+			},
+			{
+				"x1": 0,
+				"y1": 0.6,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.9,
+				"z2": 0.84
+			}
+		],
+		"l36-scanner-upper-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 0.6,
+				"z2": 0.84,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.6,
+				"z2": 0.84,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0.6,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.9,
+				"z2": 0.84,
+				"rotateY": 270
+			}
+		],
+		"l36-scanner-upper-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 0.6,
+				"z2": 0.84,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.6,
+				"z2": 0.84,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0.6,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.9,
+				"z2": 0.84
+			}
+		],
+		"l36-scanner-upper-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 0.125,
+				"y2": 0.6,
+				"z2": 0.84,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.875,
+				"y1": 0,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.6,
+				"z2": 0.84,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0.6,
+				"z1": 0.16,
+				"x2": 1,
+				"y2": 0.9,
+				"z2": 0.84,
+				"rotateY": 90
+			}
+		]
+	},
+	"drops": []
+}

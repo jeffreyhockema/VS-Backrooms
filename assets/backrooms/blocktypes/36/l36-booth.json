@@ -1,0 +1,447 @@
+// Level 36's check-in hall: the Backrooms Travel Agency booth, booth 0 (desk: a purple counter, white trim, the BTA logo, brochure stands; rack: a tall brochure rack; signl/signm/signr: a three-block backlit fascia sign, BACKROOMS TRAVEL AGENCY, read left to right facing <side>, hung from the top of its block, no collision, faint purple light)
+{
+	"code": "l36-booth",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"desk",
+				"rack",
+				"signl",
+				"signm",
+				"signr"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-booth-desk-north": {
+			"base": "backrooms:block/36/l36-booth-desk"
+		},
+		"l36-booth-desk-east": {
+			"base": "backrooms:block/36/l36-booth-desk",
+			"rotateY": 270
+		},
+		"l36-booth-desk-south": {
+			"base": "backrooms:block/36/l36-booth-desk",
+			"rotateY": 180
+		},
+		"l36-booth-desk-west": {
+			"base": "backrooms:block/36/l36-booth-desk",
+			"rotateY": 90
+		},
+		"l36-booth-rack-north": {
+			"base": "backrooms:block/36/l36-booth-rack"
+		},
+		"l36-booth-rack-east": {
+			"base": "backrooms:block/36/l36-booth-rack",
+			"rotateY": 270
+		},
+		"l36-booth-rack-south": {
+			"base": "backrooms:block/36/l36-booth-rack",
+			"rotateY": 180
+		},
+		"l36-booth-rack-west": {
+			"base": "backrooms:block/36/l36-booth-rack",
+			"rotateY": 90
+		},
+		"l36-booth-signl-north": {
+			"base": "backrooms:block/36/l36-booth-signl"
+		},
+		"l36-booth-signl-east": {
+			"base": "backrooms:block/36/l36-booth-signl",
+			"rotateY": 270
+		},
+		"l36-booth-signl-south": {
+			"base": "backrooms:block/36/l36-booth-signl",
+			"rotateY": 180
+		},
+		"l36-booth-signl-west": {
+			"base": "backrooms:block/36/l36-booth-signl",
+			"rotateY": 90
+		},
+		"l36-booth-signm-north": {
+			"base": "backrooms:block/36/l36-booth-signm"
+		},
+		"l36-booth-signm-east": {
+			"base": "backrooms:block/36/l36-booth-signm",
+			"rotateY": 270
+		},
+		"l36-booth-signm-south": {
+			"base": "backrooms:block/36/l36-booth-signm",
+			"rotateY": 180
+		},
+		"l36-booth-signm-west": {
+			"base": "backrooms:block/36/l36-booth-signm",
+			"rotateY": 90
+		},
+		"l36-booth-signr-north": {
+			"base": "backrooms:block/36/l36-booth-signr"
+		},
+		"l36-booth-signr-east": {
+			"base": "backrooms:block/36/l36-booth-signr",
+			"rotateY": 270
+		},
+		"l36-booth-signr-south": {
+			"base": "backrooms:block/36/l36-booth-signr",
+			"rotateY": 180
+		},
+		"l36-booth-signr-west": {
+			"base": "backrooms:block/36/l36-booth-signr",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"l36-booth-desk-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.02,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.7
+		},
+		"l36-booth-desk-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.02,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l36-booth-desk-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.02,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l36-booth-desk-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.02,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.7,
+			"rotateY": 90
+		},
+		"l36-booth-rack-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.5,
+			"x2": 0.91,
+			"y2": 1.95,
+			"z2": 0.82
+		},
+		"l36-booth-rack-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.5,
+			"x2": 0.91,
+			"y2": 1.95,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"l36-booth-rack-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.5,
+			"x2": 0.91,
+			"y2": 1.95,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"l36-booth-rack-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.5,
+			"x2": 0.91,
+			"y2": 1.95,
+			"z2": 0.82,
+			"rotateY": 90
+		},
+		"l36-booth-signl-north": null,
+		"l36-booth-signl-east": null,
+		"l36-booth-signl-south": null,
+		"l36-booth-signl-west": null,
+		"l36-booth-signm-north": null,
+		"l36-booth-signm-east": null,
+		"l36-booth-signm-south": null,
+		"l36-booth-signm-west": null,
+		"l36-booth-signr-north": null,
+		"l36-booth-signr-east": null,
+		"l36-booth-signr-south": null,
+		"l36-booth-signr-west": null
+	},
+	"selectionboxByType": {
+		"l36-booth-desk-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.02,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.7
+		},
+		"l36-booth-desk-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.02,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l36-booth-desk-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.02,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l36-booth-desk-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.02,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.7,
+			"rotateY": 90
+		},
+		"l36-booth-rack-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.5,
+			"x2": 0.91,
+			"y2": 1.95,
+			"z2": 0.82
+		},
+		"l36-booth-rack-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.5,
+			"x2": 0.91,
+			"y2": 1.95,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"l36-booth-rack-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.5,
+			"x2": 0.91,
+			"y2": 1.95,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"l36-booth-rack-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.5,
+			"x2": 0.91,
+			"y2": 1.95,
+			"z2": 0.82,
+			"rotateY": 90
+		},
+		"l36-booth-signl-north": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.42,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.58
+		},
+		"l36-booth-signl-east": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.42,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.58,
+			"rotateY": 270
+		},
+		"l36-booth-signl-south": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.42,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.58
+		},
+		"l36-booth-signl-west": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.42,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.58,
+			"rotateY": 90
+		},
+		"l36-booth-signm-north": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.42,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.58
+		},
+		"l36-booth-signm-east": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.42,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.58,
+			"rotateY": 270
+		},
+		"l36-booth-signm-south": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.42,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.58
+		},
+		"l36-booth-signm-west": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.42,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.58,
+			"rotateY": 90
+		},
+		"l36-booth-signr-north": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.42,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.58
+		},
+		"l36-booth-signr-east": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.42,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.58,
+			"rotateY": 270
+		},
+		"l36-booth-signr-south": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.42,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.58
+		},
+		"l36-booth-signr-west": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.42,
+			"x2": 1,
+			"y2": 1.0,
+			"z2": 0.58,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"lightHsvByType": {
+		"l36-booth-signl-north": [
+			48,
+			5,
+			6
+		],
+		"l36-booth-signl-east": [
+			48,
+			5,
+			6
+		],
+		"l36-booth-signl-south": [
+			48,
+			5,
+			6
+		],
+		"l36-booth-signl-west": [
+			48,
+			5,
+			6
+		],
+		"l36-booth-signm-north": [
+			48,
+			5,
+			6
+		],
+		"l36-booth-signm-east": [
+			48,
+			5,
+			6
+		],
+		"l36-booth-signm-south": [
+			48,
+			5,
+			6
+		],
+		"l36-booth-signm-west": [
+			48,
+			5,
+			6
+		],
+		"l36-booth-signr-north": [
+			48,
+			5,
+			6
+		],
+		"l36-booth-signr-east": [
+			48,
+			5,
+			6
+		],
+		"l36-booth-signr-south": [
+			48,
+			5,
+			6
+		],
+		"l36-booth-signr-west": [
+			48,
+			5,
+			6
+		]
+	}
+}

@@ -1,0 +1,105 @@
+// Level 36: a baggage carousel's tread, overlapping slat plates between steel edges, a floor block topped at 15 px (dir: the way it carries, n = toward -z); run carries whoever stands on it and clanks, still does not
+{
+	"code": "l36-belt",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"run",
+				"still"
+			]
+		},
+		{
+			"code": "dir",
+			"states": [
+				"n",
+				"e",
+				"s",
+				"w"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-n": {
+			"base": "backrooms:block/36/l36-belt"
+		},
+		"*-e": {
+			"base": "backrooms:block/36/l36-belt",
+			"rotateY": 270
+		},
+		"*-s": {
+			"base": "backrooms:block/36/l36-belt",
+			"rotateY": 180
+		},
+		"*-w": {
+			"base": "backrooms:block/36/l36-belt",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l36-belt-run-n",
+			"l36-belt-still-n"
+		],
+		"backrooms": [
+			"l36-belt-run-n",
+			"l36-belt-still-n"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false,
+		"down": true
+	},
+	"sideopaque": {
+		"all": false,
+		"down": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 2,
+	"soundsByType": {
+		"*-run-*": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/anvil1",
+			"break": "game:block/heavymetal-hit",
+			"hit": "game:block/heavymetal-hit",
+			"ambient": "backrooms:ambient/36/belt",
+			"ambientBlockCount": 48
+		},
+		"*": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/anvil1",
+			"break": "game:block/heavymetal-hit",
+			"hit": "game:block/heavymetal-hit"
+		}
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.9375,
+		"z2": 1
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.9375,
+		"z2": 1
+	},
+	"attributesByType": {
+		"*-run-*": {
+			"l36structure": true,
+			"l3999walkway": {
+				"speed": 0.9
+			}
+		},
+		"*": {
+			"l36structure": true
+		}
+	},
+	"drops": []
+}

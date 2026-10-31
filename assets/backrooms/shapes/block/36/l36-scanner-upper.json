@@ -1,0 +1,539 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/36/props/black",
+		"scangrey": "backrooms:block/36/props/scangrey",
+		"scangrey-side": "backrooms:block/36/props/scangrey-side",
+		"scanlight": "backrooms:block/36/props/scanlight"
+	},
+	"elements": [
+		{
+			"name": "PanelW",
+			"from": [
+				0,
+				0,
+				3
+			],
+			"to": [
+				2,
+				9.6,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						2,
+						9.6
+					]
+				},
+				"east": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						10,
+						9.6
+					]
+				},
+				"south": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						2,
+						9.6
+					]
+				},
+				"west": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						10,
+						9.6
+					]
+				}
+			}
+		},
+		{
+			"name": "EdgeNW",
+			"from": [
+				0.25,
+				0,
+				2.5
+			],
+			"to": [
+				1.75,
+				9.6,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						1.5,
+						9.6
+					]
+				},
+				"east": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.6
+					]
+				},
+				"west": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.6
+					]
+				}
+			}
+		},
+		{
+			"name": "EdgeSW",
+			"from": [
+				0.25,
+				0,
+				13
+			],
+			"to": [
+				1.75,
+				9.6,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.6
+					]
+				},
+				"south": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						1.5,
+						9.6
+					]
+				},
+				"west": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.6
+					]
+				}
+			}
+		},
+		{
+			"name": "PanelE",
+			"from": [
+				14,
+				0,
+				3
+			],
+			"to": [
+				16,
+				9.6,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						2,
+						9.6
+					]
+				},
+				"east": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						10,
+						9.6
+					]
+				},
+				"south": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						2,
+						9.6
+					]
+				},
+				"west": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						10,
+						9.6
+					]
+				}
+			}
+		},
+		{
+			"name": "EdgeNE",
+			"from": [
+				14.25,
+				0,
+				2.5
+			],
+			"to": [
+				15.75,
+				9.6,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						1.5,
+						9.6
+					]
+				},
+				"east": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.6
+					]
+				},
+				"west": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.6
+					]
+				}
+			}
+		},
+		{
+			"name": "EdgeSE",
+			"from": [
+				14.25,
+				0,
+				13
+			],
+			"to": [
+				15.75,
+				9.6,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.6
+					]
+				},
+				"south": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						1.5,
+						9.6
+					]
+				},
+				"west": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lights",
+			"from": [
+				0.5,
+				0.5,
+				2.25
+			],
+			"to": [
+				1.5,
+				8.5,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#scanlight",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 220
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.0
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Beam",
+			"from": [
+				0,
+				9.6,
+				2.5
+			],
+			"to": [
+				16,
+				14,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4
+					]
+				},
+				"east": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						11.0,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4
+					]
+				},
+				"west": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						11.0,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						16,
+						11.0
+					]
+				},
+				"down": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						16,
+						11.0
+					]
+				}
+			}
+		},
+		{
+			"name": "BeamCap",
+			"from": [
+				0.25,
+				14,
+				2.75
+			],
+			"to": [
+				15.75,
+				14.5,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						15.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						10.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						15.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						10.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						15.5,
+						10.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Window",
+			"from": [
+				5.5,
+				10.6,
+				2.25
+			],
+			"to": [
+				10.5,
+				13,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						5.0,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Led",
+			"from": [
+				9.25,
+				11.25,
+				2.15
+			],
+			"to": [
+				10,
+				12,
+				2.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#scanlight",
+					"uv": [
+						1,
+						13,
+						2.5,
+						13.75
+					],
+					"glow": 200
+				}
+			}
+		}
+	]
+}

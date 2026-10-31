@@ -1,0 +1,296 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"btasign-l": "backrooms:block/36/props/btasign-l",
+		"btasign-r": "backrooms:block/36/props/btasign-r",
+		"btawhite": "backrooms:block/36/props/btawhite",
+		"chrome": "backrooms:block/36/props/chrome"
+	},
+	"elements": [
+		{
+			"name": "Sign",
+			"from": [
+				0,
+				4,
+				6.75
+			],
+			"to": [
+				16,
+				14,
+				9.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#btasign-l",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 200
+				},
+				"south": {
+					"texture": "#btasign-r",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 200
+				},
+				"up": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#btawhite",
+					"uv": [
+						0,
+						0,
+						2.5,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Rod0",
+			"from": [
+				3.25,
+				14,
+				7.75
+			],
+			"to": [
+				3.75,
+				15.75,
+				8.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.75
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.75
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.75
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Rose0",
+			"from": [
+				2.75,
+				15.75,
+				7.25
+			],
+			"to": [
+				4.25,
+				16,
+				8.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rod1",
+			"from": [
+				12.25,
+				14,
+				7.75
+			],
+			"to": [
+				12.75,
+				15.75,
+				8.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.75
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.75
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.75
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Rose1",
+			"from": [
+				11.75,
+				15.75,
+				7.25
+			],
+			"to": [
+				13.25,
+				16,
+				8.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,88 @@
+// Level 36: a square fluorescent diffuser panel flush in the steel ceiling (on: gives light; lit: looks on, gives none; flicker: a failing one; off: dead)
+{
+	"code": "l36-light",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"on",
+				"lit",
+				"flicker",
+				"off"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-off": {
+			"all": {
+				"base": "backrooms:block/36/l36-light-side"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-light-off"
+			}
+		},
+		"*": {
+			"all": {
+				"base": "backrooms:block/36/l36-light-side"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-light-on"
+			}
+		}
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"lightHsvByType": {
+		"*-on": [
+			8,
+			1,
+			17
+		]
+	},
+	"vertexFlagsByType": {
+		"*-on": {
+			"glowLevel": 160
+		},
+		"*-lit": {
+			"glowLevel": 160
+		},
+		"*-flicker": {
+			"glowLevel": 160
+		}
+	},
+	"entityClassByType": {
+		"*-flicker": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"*-flicker": {
+			"offBlock": "backrooms:l36-light-off"
+		}
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.8,
+	"soundsByType": {
+		"*-on": {
+			"walk": "game:walk/stone",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass",
+			"ambient": "backrooms:ambient/hum",
+			"ambientBlockCount": 140
+		},
+		"*": {
+			"walk": "game:walk/stone",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"drops": []
+}

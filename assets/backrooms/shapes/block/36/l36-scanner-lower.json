@@ -1,0 +1,446 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/36/props/black",
+		"darksteel": "backrooms:block/36/props/darksteel",
+		"scangrey": "backrooms:block/36/props/scangrey",
+		"scangrey-side": "backrooms:block/36/props/scangrey-side",
+		"scanlight": "backrooms:block/36/props/scanlight"
+	},
+	"elements": [
+		{
+			"name": "PanelW",
+			"from": [
+				0,
+				0,
+				3
+			],
+			"to": [
+				2,
+				16,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				},
+				"south": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "EdgeNW",
+			"from": [
+				0.25,
+				0,
+				2.5
+			],
+			"to": [
+				1.75,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "EdgeSW",
+			"from": [
+				0.25,
+				0,
+				13
+			],
+			"to": [
+				1.75,
+				16,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FootW",
+			"from": [
+				0.1,
+				0,
+				2
+			],
+			"to": [
+				2.75,
+				0.75,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.65,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						12,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.65,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						12,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.65,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "PanelE",
+			"from": [
+				14,
+				0,
+				3
+			],
+			"to": [
+				16,
+				16,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				},
+				"south": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#scangrey",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "EdgeNE",
+			"from": [
+				14.25,
+				0,
+				2.5
+			],
+			"to": [
+				15.75,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "EdgeSE",
+			"from": [
+				14.25,
+				0,
+				13
+			],
+			"to": [
+				15.75,
+				16,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#scangrey-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FootE",
+			"from": [
+				13.25,
+				0,
+				2
+			],
+			"to": [
+				15.9,
+				0.75,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.65,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						12,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.65,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						12,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2.65,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Lights",
+			"from": [
+				0.5,
+				7.5,
+				2.25
+			],
+			"to": [
+				1.5,
+				15.5,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#scanlight",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 220
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.0
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.0
+					]
+				}
+			}
+		}
+	]
+}

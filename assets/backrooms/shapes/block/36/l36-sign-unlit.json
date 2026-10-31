@@ -1,0 +1,201 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"case": "backrooms:block/36/l36-sign-case",
+		"rod": "backrooms:block/36/l36-sign-rod",
+		"signback": "backrooms:block/36/l36-gatesign-a",
+		"signfront": "backrooms:block/36/l36-gatesign-a"
+	},
+	"elements": [
+		{
+			"name": "Box",
+			"from": [
+				0,
+				4,
+				6
+			],
+			"to": [
+				16,
+				14,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#signfront",
+					"uv": [
+						0,
+						0,
+						16,
+						10
+					]
+				},
+				"east": {
+					"texture": "#case",
+					"uv": [
+						0,
+						0,
+						4,
+						10
+					]
+				},
+				"south": {
+					"texture": "#signback",
+					"uv": [
+						0,
+						0,
+						16,
+						10
+					]
+				},
+				"west": {
+					"texture": "#case",
+					"uv": [
+						0,
+						0,
+						4,
+						10
+					]
+				},
+				"up": {
+					"texture": "#case",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"down": {
+					"texture": "#case",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "RodL",
+			"from": [
+				3,
+				14,
+				7.5
+			],
+			"to": [
+				4,
+				16,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"east": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"south": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"west": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"up": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "RodR",
+			"from": [
+				12,
+				14,
+				7.5
+			],
+			"to": [
+				13,
+				16,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"east": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"south": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"west": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"up": {
+					"texture": "#rod",
+					"uv": [
+						0,
+						0,
+						1,
+						1.0
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,70 @@
+// Level 36's food courts: a round pedestal cafe table, white top on grey and chrome, with what was left on it (tray: a burger half eaten and a crumpled napkin; cups: two paper cups, their paper straws bent and soggy; plate: something gone mouldy; clean: bare)
+{
+	"code": "l36-mealtable",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"tray",
+				"cups",
+				"plate",
+				"clean"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-mealtable-tray": {
+			"base": "backrooms:block/36/l36-mealtable-tray"
+		},
+		"l36-mealtable-cups": {
+			"base": "backrooms:block/36/l36-mealtable-cups"
+		},
+		"l36-mealtable-plate": {
+			"base": "backrooms:block/36/l36-mealtable-plate"
+		},
+		"l36-mealtable-clean": {
+			"base": "backrooms:block/36/l36-mealtable-clean"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": {
+		"x1": 0.12,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.88,
+		"y2": 0.75,
+		"z2": 0.88
+	},
+	"selectionbox": {
+		"x1": 0.12,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.88,
+		"y2": 0.75,
+		"z2": 0.88
+	},
+	"drops": []
+}

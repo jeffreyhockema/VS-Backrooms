@@ -1,0 +1,182 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"darksteel": "backrooms:block/36/props/darksteel",
+		"steel": "backrooms:block/36/props/steel",
+		"steelv": "backrooms:block/36/props/steelv"
+	},
+	"elements": [
+		{
+			"name": "Plinth",
+			"from": [
+				1,
+				0,
+				1
+			],
+			"to": [
+				15,
+				1.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PlinthTop",
+			"from": [
+				1.25,
+				1.5,
+				1.25
+			],
+			"to": [
+				14.75,
+				2,
+				14.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.5,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Column",
+			"from": [
+				2,
+				2,
+				2
+			],
+			"to": [
+				14,
+				16,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				},
+				"east": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				},
+				"south": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				},
+				"west": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						14
+					]
+				},
+				"up": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				}
+			}
+		}
+	]
+}

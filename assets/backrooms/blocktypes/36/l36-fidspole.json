@@ -1,0 +1,41 @@
+// Level 36: a thin stainless pole through the block, to hang screens and signs from the ceiling or stand a screen on the floor; no collision
+{
+	"code": "l36-fidspole",
+	"shape": {
+		"base": "backrooms:block/36/l36-fidspole"
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.375,
+		"y1": 0,
+		"z1": 0.375,
+		"x2": 0.625,
+		"y2": 1,
+		"z2": 0.625
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"drops": []
+}
