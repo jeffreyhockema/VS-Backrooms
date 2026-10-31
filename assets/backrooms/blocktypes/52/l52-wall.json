@@ -1,9 +1,18 @@
-// Level 52: the school's two-tone painted wall (base: mint with a dark skirting; dado: mint, the rail at its top; upper: off-white)
+// Level 52: interior painted wall (palette beige/white/blue/grey; base: lower paint with a dark skirting; dado: lower paint with a rail line near the top; upper: upper paint)
 {
 	"code": "l52-wall",
 	"variantgroups": [
 		{
-			"code": "kind",
+			"code": "palette",
+			"states": [
+				"beige",
+				"white",
+				"blue",
+				"grey"
+			]
+		},
+		{
+			"code": "part",
 			"states": [
 				"base",
 				"dado",
@@ -12,19 +21,64 @@
 		}
 	],
 	"texturesByType": {
-		"*-base": {
+		"l52-wall-beige-base": {
 			"all": {
-				"base": "block/52/wall-base"
+				"base": "block/52/wall-beige-base"
 			}
 		},
-		"*-dado": {
+		"l52-wall-beige-dado": {
 			"all": {
-				"base": "block/52/wall-dado"
+				"base": "block/52/wall-beige-dado"
 			}
 		},
-		"*-upper": {
+		"l52-wall-beige-upper": {
 			"all": {
-				"base": "block/52/wall-upper"
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-wall-white-base": {
+			"all": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-wall-white-dado": {
+			"all": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-wall-white-upper": {
+			"all": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-wall-blue-base": {
+			"all": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-wall-blue-dado": {
+			"all": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-wall-blue-upper": {
+			"all": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-wall-grey-base": {
+			"all": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-wall-grey-dado": {
+			"all": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-wall-grey-upper": {
+			"all": {
+				"base": "block/52/wall-grey-upper"
 			}
 		}
 	},

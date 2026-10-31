@@ -1,0 +1,221 @@
+// Level 52: a storey's floor finish on top (hall/room vinyl, four carpets, lino, sealed concrete, maple) and the storey below's suspended mineral-fibre ceiling underneath
+{
+	"code": "l52-slab",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"hall",
+				"room",
+				"carpetblue",
+				"carpetred",
+				"carpetgreen",
+				"carpetgrey",
+				"lino",
+				"concrete",
+				"wood"
+			]
+		}
+	],
+	"texturesByType": {
+		"l52-slab-hall": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/tile-hall"
+			},
+			"down": {
+				"base": "block/52/ceiling-tile"
+			}
+		},
+		"l52-slab-room": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/tile-room"
+			},
+			"down": {
+				"base": "block/52/ceiling-tile"
+			}
+		},
+		"l52-slab-carpetblue": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetblue"
+			},
+			"down": {
+				"base": "block/52/ceiling-tile"
+			}
+		},
+		"l52-slab-carpetred": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetred"
+			},
+			"down": {
+				"base": "block/52/ceiling-tile"
+			}
+		},
+		"l52-slab-carpetgreen": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetgreen"
+			},
+			"down": {
+				"base": "block/52/ceiling-tile"
+			}
+		},
+		"l52-slab-carpetgrey": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-carpetgrey"
+			},
+			"down": {
+				"base": "block/52/ceiling-tile"
+			}
+		},
+		"l52-slab-lino": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-lino"
+			},
+			"down": {
+				"base": "block/52/ceiling-tile"
+			}
+		},
+		"l52-slab-concrete": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-concrete"
+			},
+			"down": {
+				"base": "block/52/ceiling-tile"
+			}
+		},
+		"l52-slab-wood": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/gymfloor-plain"
+			},
+			"down": {
+				"base": "block/52/ceiling-tile"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}
