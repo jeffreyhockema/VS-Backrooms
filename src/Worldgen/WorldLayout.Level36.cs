@@ -57,7 +57,9 @@ public sealed partial class WorldLayout
             TileFloor = 8, BeltRun = 9, BeltStill = 10, Travelator = 11, TravelatorStill = 12;
         // Walls
         public const byte Panel = 0, Plaster = 1, WallTile = 2, Service = 3, Purple = 4, Stainless = 6, Window = 7, GateDoor = 8,
-            Flap = 9, Clock = 10, ShopSign = 11, Shutter = 12, CabinWall = 13, Auto = 15;
+            Flap = 9, Clock = 10, ShopSign = 11, Shutter = 12, CabinWall = 13, Auto = 15,
+            // (round 2) a shop's glass front
+            Glass = 5;
     }
 
     public const byte L36MatMask = 15, L36DarkBit = 16, L36StaticBit = 32, L36LimitBit = 64;
@@ -180,6 +182,13 @@ public sealed partial class WorldLayout
                 t = L36Raw(gx, gz);
                 if (t.Kind == TileKind.Wall) L36Dress(ref t, gx, gz);
                 if (rim == 0) continue;
+                // (round 2) The very edge, where a hall would run on into the next level: a wall of static, floor to band
+                if (rim == 1 && L36AtEdge(mx, mz, lx, lz))
+                {
+                    t = L36Solid(L36Mat.Panel);
+                    t.Zone = 0;
+                    continue;
+                }
                 t.Detail |= L36LimitBit;
                 double share = rim == 1 ? 0.85 : rim == 2 ? 0.4 : 0.12;
                 if (t.Kind != TileKind.Floor) share = Math.Min(1, share * 1.3);
@@ -187,6 +196,15 @@ public sealed partial class WorldLayout
                 if (t.Kind == TileKind.Floor && rim <= 2 && t.Ceiling is CeilingKind.LightOn or CeilingKind.LightLit)
                     t.Ceiling = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL36Light + 1)) < 0.5 ? CeilingKind.LightFlicker : CeilingKind.LightOff;
             }
+    }
+
+    /// <summary>Whether a tile of a cell lies on the cell's side (or corner) that touches a cell of another level.</summary>
+    private bool L36AtEdge(int mx, int mz, int lx, int lz)
+    {
+        int dx = lx == 0 ? -1 : lx == MacroSize - 1 ? 1 : 0, dz = lz == 0 ? -1 : lz == MacroSize - 1 ? 1 : 0;
+        if (dx == 0 && dz == 0) return false;
+        return dx != 0 && LevelAt(mx + dx, mz) != Level36 || dz != 0 && LevelAt(mx, mz + dz) != Level36
+            || dx != 0 && dz != 0 && LevelAt(mx + dx, mz + dz) != Level36;
     }
 
     private static Tile L36Air(L36Zone zone, int height, byte mat) => new Tile
@@ -294,9 +312,11 @@ public sealed partial class WorldLayout
 
     private Tile L36Baggage(int gx, int gz, int u, int k, int module, double r)
     {
+        // (round 2) A column between every two modules, out in the hall
+        if (u is 19 or 20 && k is 0 or 31) return L36Solid();
         Tile t = L36Air(L36Zone.Baggage, 7, L36Mat.Marble);
         if (u == 1 || u == L36BaggageEnd || k is 0 or 31) t.Detail = L36Mat.MarbleGrey;
-        L36HallLights(ref t, gx, gz, u is 6 or 19, k);
+        L36HallLights(ref t, gx, gz, u is 4 or 10 or 16 or 22, k);
         if (!L36IsCarousel(module))
         {
             // A Lost and Found office: shelves of luggage against the wall, a counter, bags heaped about
@@ -341,11 +361,11 @@ public sealed partial class WorldLayout
         return t;
     }
 
-    /// <summary>Ceiling lights in rows, every four blocks along, alternate ones giving light; a few dead or failing.</summary>
+    /// <summary>Ceiling lights in rows six apart, every four blocks along, each giving light (round 2: the halls lit evenly); a few dead or failing.</summary>
     private void L36HallLights(ref Tile t, int gx, int gz, bool row, int along)
     {
         if (!row || Hashing.Mod(along, 4) != 2) return;
-        t.Ceiling = L36Light(gx, gz, Hashing.Mod(along, 8) == 2, 0.05, 0.04);
+        t.Ceiling = L36Light(gx, gz, true, 0.04, 0.03);
     }
 
     private CeilingKind L36Light(int gx, int gz, bool emits, double dead, double flicker)
@@ -356,6 +376,8 @@ public sealed partial class WorldLayout
 
     private Tile L36CheckIn(int gx, int gz, int u, int k, int module, double r)
     {
+        // (round 2) Columns down the middle of the hall, between the islands
+        if (u is 34 or 35 && k is 0 or 31) return L36Solid();
         Tile t = L36Air(L36Zone.CheckIn, 9, L36Mat.Marble);
         if (u == 26 || u == L36CheckInEnd) t.Detail = L36Mat.MarbleGrey;
         L36HallLights(ref t, gx, gz, u is 28 or 34 or 40, k);
@@ -367,6 +389,8 @@ public sealed partial class WorldLayout
                 if (u == 39 && k is >= 11 and <= 20) return L36Solid(L36Mat.Purple);
                 t.Zone = (byte)L36Zone.Booth;
                 t.Detail = L36Mat.MarbleDark;
+                // (round 2) Under its own purple canopy, five high, the fascia hung from it over the desk
+                t.Height = 5;
                 if (u == 33 && k is >= 12 and <= 19) { t.Variant = Props.L36Booth; t.Pier = ArchPier.West; }
                 if (u == 33 && k is >= 14 and <= 16) { t.Overhead = Overheads.L36BoothSign; t.Roof = L36Part(ArchPier.West, k - 14, 3); t.Pier = ArchPier.West; }
                 if (u == 37 && k is 10 or 21) { t.Variant = Props.L36Booth; t.Stack = 1; t.Pier = ArchPier.West; }
@@ -406,7 +430,7 @@ public sealed partial class WorldLayout
     private Tile L36Security(int gx, int gz, int u, int m, double r)
     {
         Tile t = L36Air(L36Zone.Security, 5, L36Mat.MarbleGrey);
-        if (u is 49 or 55 && Hashing.Mod(m, 4) == 2) t.Ceiling = L36Light(gx, gz, m % 8 == 2, 0.15, 0.12);
+        if (u is 47 or 53 && Hashing.Mod(m, 4) == 2) t.Ceiling = L36Light(gx, gz, true, 0.15, 0.12);
         if (m is 6 or 7 or 8 && u is >= 49 and <= 55) t.Detail = L36Mat.CarpetGrey;
         // The queue: two lines of stanchions, the way through at alternate ends
         if (u == 46 && m is not (0 or 1)) { t.Variant = Props.L36Stanchion; t.Stack = (byte)(m == 15 ? 0 : 3); return t; }
@@ -440,7 +464,7 @@ public sealed partial class WorldLayout
         {
             // A junction: dark marble inlay, a cluster of screens over the middle, lit
             Tile j = L36Air(L36Zone.Junction, 9, a is >= 4 and <= 11 && bb is >= 4 and <= 11 ? (a + bb) % 2 == 0 ? L36Mat.MarbleDark : L36Mat.Marble : L36Mat.MarbleGrey);
-            if (a is 3 or 12 && bb is 3 or 12) j.Ceiling = CeilingKind.LightOn;
+            if (a % 4 == 2 && bb % 4 == 2) j.Ceiling = CeilingKind.LightOn;
             if (a is 7 or 8 && bb is 7 or 8)
             {
                 j.Overhead = Overheads.L36Fids;
@@ -456,9 +480,9 @@ public sealed partial class WorldLayout
         bool dark = L36DarkStretch(sx, seg);
         Tile t = L36Air(L36Zone.Concourse, 9, c is 0 or 15 ? L36Mat.MarbleGrey : L36Mat.Marble);
         if (dark) t.Detail |= L36DarkBit;
-        // Lights in two rows, every four; a dark stretch's dead, those near its ends failing
-        if (c is 3 or 12 && Hashing.Mod(s, 4) == 2)
-            t.Ceiling = dark ? (s < 28 || s > 228) ? CeilingKind.LightFlicker : CeilingKind.LightOff : L36Light(gx, gz, Hashing.Mod(s, 8) == 2, 0.03, 0.03);
+        // Lights in three rows, every four; a dark stretch's dead, those near its ends failing
+        if (c is 2 or 8 or 13 && Hashing.Mod(s, 4) == 2)
+            t.Ceiling = dark ? (s < 28 || s > 228) ? CeilingKind.LightFlicker : CeilingKind.LightOff : L36Light(gx, gz, true, 0.03, 0.03);
         // The way along: travelators on the north-south halls (one each way, in two runs), a carpet runner otherwise
         if (ns && c is 5 or 6 or 9 or 10 && s is (>= 24 and <= 123) or (>= 132 and <= 231))
         {
@@ -608,7 +632,7 @@ public sealed partial class WorldLayout
                 ref Tile t = ref plan.At(p, q);
                 if (t.Kind != TileKind.Floor || t.Ceiling != CeilingKind.L36Ceiling) continue;
                 var (x, z) = plan.World(p, q);
-                t.Ceiling = L36Light(x, z, ((p - p0) / step + (q - q0) / step) % 2 == 0, dead, flicker);
+                t.Ceiling = L36Light(x, z, step >= 6 || ((p - p0) / step + (q - q0) / step) % 2 == 0, dead, flicker);
             }
     }
 
@@ -641,7 +665,7 @@ public sealed partial class WorldLayout
             foreach (int q in new[] { 116, 123 })
             {
                 var (x, z) = plan.World(p, q);
-                plan.At(p, q).Ceiling = L36Light(x, z, p % 8 == 2, 0.04, 0.04);
+                plan.At(p, q).Ceiling = L36Light(x, z, true, 0.04, 0.04);
             }
         // The wing's letter over its mouth, and the way to its gates
         L36Hang(plan, 3, 119, Overheads.L36GateSign, ArchPier.West, (byte)(plan.Letter - 'A'));
@@ -811,7 +835,7 @@ public sealed partial class WorldLayout
         {
             ref Tile f = ref plan.At(p, Q(107));
             bool door = p >= p0 + 6 && p <= p0 + 14;
-            f = door && !closed ? L36Air(L36Zone.Shop, 5, L36Mat.Marble) : L36Solid(door ? L36Mat.Shutter : L36Mat.Auto);
+            f = door && !closed ? L36Air(L36Zone.Shop, 5, L36Mat.Marble) : L36Solid(door ? L36Mat.Shutter : p >= p0 + 1 && p <= p1 - 1 ? L36Mat.Glass : L36Mat.Auto);
             f.Pier = front;
             if (door && p >= p0 + 9 && p <= p0 + 11)
             {
@@ -932,6 +956,14 @@ public sealed partial class WorldLayout
         L36Screens(plan, 119, 119, ArchPier.North, (byte)rng.Range(0, 3));
         L36Screens(plan, 119, 120, ArchPier.South, (byte)rng.Range(0, 3));
         if (rng.Chance(0.5)) L36Supply(plan, 64, 66 + rng.Range(0, 3));
+        // (round 2) Columns holding up the hall, clear of the tables
+        foreach (int cq in new[] { 87, 119, 151 })
+            foreach (int cp in new[] { 87, 119, 151 })
+            {
+                if (cp == 119 && cq == 119) continue;
+                for (int dq = 0; dq < 2; dq++)
+                    for (int dp = 0; dp < 2; dp++) plan.At(cp + dp, cq + dq) = L36Solid();
+            }
     }
 
     /// <summary>As <see cref="L36Upward"/>, for a run along Q.</summary>
@@ -1009,9 +1041,18 @@ public sealed partial class WorldLayout
                 byte mat = d is > 19 and < 21 or > 31 and < 33 ? L36Mat.MarbleDark : d is > 7 and < 9 ? L36Mat.MarbleGrey : L36Mat.Marble;
                 ref Tile t = ref plan.At(p, q);
                 t = L36Air(L36Zone.Meeting, 14, mat);
-                if ((d is > 25.5 and < 26.5 || d is > 37.5 and < 38.5) && (p + q) % 5 == 0) t.Ceiling = CeilingKind.LightOn;
-                else if (d is > 13.5 and < 14.5 && (p + q) % 4 == 0) t.Ceiling = CeilingKind.LightLit;
+                // A grid of lights over the whole atrium (it is 14 high), rings of panels between
+                if (p % 4 == 2 && q % 4 == 2) t.Ceiling = CeilingKind.LightOn;
+                else if ((d is > 13.5 and < 14.5 || d is > 25.5 and < 26.5 || d is > 37.5 and < 38.5) && (p + q) % 3 == 0) t.Ceiling = CeilingKind.LightLit;
             }
+        // (round 2) A ring of eight columns round the atrium, between the planters and the outer lights
+        for (int i = 0; i < 8; i++)
+        {
+            double ang = i * Math.PI / 4 + Math.PI / 8;
+            int cp = (int)Math.Round(119.5 + Math.Cos(ang) * 31 - 0.5), cq = (int)Math.Round(119.5 + Math.Sin(ang) * 31 - 0.5);
+            for (int dq = 0; dq < 2; dq++)
+                for (int dp = 0; dp < 2; dp++) plan.At(cp + dp, cq + dq) = L36Solid();
+        }
         // The meeting point in the middle: four columns, three blocks tall, the symbol lit on top
         for (int q = 119; q <= 120; q++)
             for (int p = 119; p <= 120; p++) plan.At(p, q).Variant = Props.L36MeetingPoint;
@@ -1025,15 +1066,23 @@ public sealed partial class WorldLayout
             int pp = (int)Math.Round(119.5 + Math.Cos(ang + 0.2) * 23), qq = (int)Math.Round(119.5 + Math.Sin(ang + 0.2) * 23);
             L36Put(plan, pp, qq, i % 2 == 0 ? Props.L36Planter : Props.Ficus, ArchPier.North);
         }
-        // The Travel Agency's desk to the south of it, the Planner behind
+        // The Travel Agency's booth to the south of it (round 2: a purple kiosk, its canopy five high, open to the north): the
+        // desk, the Planner behind it, the fascia hung over the desk, the screens over the Planner
+        L36Fill(plan, 115, 131, 125, 137, L36Zone.Booth, 5, L36Mat.MarbleDark);
+        for (int p = 114; p <= 126; p++) plan.At(p, 138) = L36Solid(L36Mat.Purple);
+        for (int q = 131; q <= 137; q++)
+        {
+            plan.At(114, q) = L36Solid(L36Mat.Purple);
+            plan.At(126, q) = L36Solid(L36Mat.Purple);
+        }
+        L36Lights(plan, 115, 131, 125, 137, 4);
+        L36Screens(plan, 119, 137, ArchPier.North, 3);
         for (int p = 118; p <= 122; p++) L36Put(plan, p, 133, Props.L36Booth, ArchPier.North, 0);
         L36Put(plan, 117, 135, Props.L36Booth, ArchPier.North, 1);
         L36Put(plan, 123, 135, Props.L36Booth, ArchPier.North, 1);
         for (int p = 119; p <= 121; p++) L36Hang(plan, p, 133, Overheads.L36BoothSign, ArchPier.North, 0, L36Part(ArchPier.North, p - 119, 3));
         foreach (var (p, q, f) in new[] { (3, 119, ArchPier.West), (L36Size - 4, 120, ArchPier.East), (119, 3, ArchPier.North), (120, L36Size - 4, ArchPier.South) })
             L36Hang(plan, p, q, Overheads.L36Sign, f, L36SMeeting);
-        L36Screens(plan, 119, 100, ArchPier.North, 0);
-        L36Screens(plan, 119, 101, ArchPier.South, 1);
     }
 
     // ---- Out of bounds: a service maze with vents ----

@@ -17,6 +17,7 @@ static partial class LevelModes
     static bool L36Modes(WorldLayout layout, string mode, string[] args)
     {
         if (mode == "36stats") { L36Stats(layout, args.Length > 3 ? int.Parse(args[3]) : 3); return true; }
+        if (mode == "36shots") { L36Shots(layout); return true; }
         if (mode == "36map")
         {
             L36Map(layout, args.Length > 3 ? int.Parse(args[3]) : 1100, args.Length > 4 ? int.Parse(args[4]) : 1100,
@@ -24,6 +25,24 @@ static partial class LevelModes
             return true;
         }
         return false;
+    }
+
+    /// <summary>36shots: the showcase spots, each with the tile at its feet and how far the view runs clear along its heading.</summary>
+    static void L36Shots(WorldLayout layout)
+    {
+        foreach (var s in Backrooms.Cheats.Showcase.For(WorldLayout.Level36, layout, new WorldGeometry(256)))
+        {
+            int x = (int)Math.Floor(s.X), z = (int)Math.Floor(s.Z);
+            Tile t = layout.TileAt(x, z);
+            double hx = Math.Sin(s.Heading * Math.PI / 180), hz = -Math.Cos(s.Heading * Math.PI / 180);
+            int clear = 0;
+            for (; clear < 200; clear++)
+            {
+                Tile n = layout.TileAt((int)Math.Floor(s.X + hx * (clear + 1)), (int)Math.Floor(s.Z + hz * (clear + 1)));
+                if (n.Kind != TileKind.Floor) break;
+            }
+            Console.WriteLine($"{s.Name,-15} {s.X,9:0.0} {s.Z,9:0.0} h{s.Heading,5:0} p{s.Pitch,4:0}  {t.Kind} {(Zone)t.Zone} air {t.Height} prop {t.Variant}{(t.SupplyBox ? " box" : "")}{(WorldLayout.L36IsDark(t) ? " dark" : "")}  clear {clear}  level {layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z))}");
+        }
     }
 
     static string L36LinkLabel(Tile t) => null;

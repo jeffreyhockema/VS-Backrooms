@@ -12,6 +12,9 @@ public partial class ThresholdSystem
     /// <summary>Someone is about to be put down in the level at <paramref name="link"/>.</summary>
     private void L36Arriving(IServerPlayer player, Link link, ref double drop)
     {
+        // Put down on a carousel (round 2): facing east, out over the claim hall, rather than wherever they last looked
+        // (the baggage wall at their back)
+        Face(player, Vintagestory.API.MathTools.GameMath.PIHALF);
     }
 
     /// <summary>Just before any arrival anywhere: somewhere else to send them, or null.</summary>

@@ -151,3 +151,40 @@ on a carousel at 374246,564154 (light 9), 0 error lines, 0 missing blocks; `bloc
 "Planner Ines", site 36, 7 wares for sale and 5 wanted. `GATE_TAG=l36 python tools/gate.py --fast --port-base 43150`:
 PASS (generators, lang, build, boot, harness smoke). Not tested headless (needs a player): boarding, the flight and the
 landing, the flight screens' list, the sleep refusal, the handbook page, the Planner put down at its booth.
+
+### Round 2 (2026-10-31): looked at in the client, fixed
+
+**Showcase spots** (`WorldLayout.Level36.Showcase.cs`, 21 spots, all from the layout): a carousel (it waits there, out of
+sight of booth 0, so the Travel Planner is put down before the booth's shot), the claim hall, a blackout stretch with a
+Smiler put down (`/backrooms encounter smiler glimpse`), check-in, the Travel Agency's booth 0 with its Planner, security,
+a Lost and Found office, a concourse's long view and its travelators; the nearest lit pier (its corridor, a holdroom from
+the back, the runway window and jet-bridge door, the gate's sign from the corridor, the cabin from the back of the aisle),
+duty free, the food court, the lounge, the Meeting Place (from behind its kiosk first, waiting for its Planner, then from
+the north), a service maze, the Absolute Limit at the end of the centre line's concourse. `mapgen 36shots` prints them
+with the tile at each one's feet and how far the view runs clear.
+
+**What changed after looking** (shots `%TEMP%/backrooms-shots/36-r2b`, final `36-r2c`):
+- Light (the review's dark wedges): the halls' lights were 17 bright and only every other panel gave light, rows 13 apart
+  in the claim hall. Now every panel in a row gives light, rows six apart (claim hall four rows, check-in three, the
+  concourses three, a grid in each junction and over the whole Meeting Place, six apart in the food court, duty free and
+  the corridors), and rooms seven high and more take a new `l36-light-high` (20; `on` 18 for the low rooms). Security two
+  rows, still dimmer. The halls are now lit evenly; a first try at 26 washed them out white.
+- Columns (my invention, for scale and landmarks): 2 x 2 between the claim hall's modules and down check-in's middle,
+  eight in the food court, a ring of eight round the Meeting Place's atrium.
+- The Travel Agency: its fascia hung nine high was out of sight. Booth 0 now stands under its own purple canopy five
+  high (the fascia hangs from it over the desk); the Meeting Place's desk is a purple kiosk (canopy, back and side walls,
+  open to the meeting point; the flight screens over the Planner) instead of a desk in the open with its sign and the
+  atrium's screens fourteen high where nobody could see them.
+- Duty free: the shop fronts either side of the door are glass (Level 3999's storefront glass), so the stock shows.
+- The gate screen's board named gate C14 at every gate (against the sign over each holdroom): it now names the flight
+  and where it goes, gate "--".
+- The rim: where a concourse ran into the next region its end was open (the other level's sky and a tree showed). The
+  tiles on the region's very edge are now a wall of static, floor to band.
+- Arrivals face east, out over the claim hall (`L36Arriving`), not wherever the player last looked.
+
+**Checked in the shots**: carousel number (not mirrored), belt and flaps; check-in screens' halves read FLIGHT TO GATE
+COUNT left to right; the gate sign reads letter then number from the corridor ("T 5"); holdroom seats face the window,
+the podium and the gate screen at the window; cabin seats face the nose, portholes on the cabin's sides; security lane
+(X-ray, arch, podium) faces right; travelators run, comb plates at the ends; the Absolute Limit's static; the blackout
+is black but for its failing ends and the lit junction beyond. Not seen: the Smiler in the blackout (put down out of
+frame), the boarding and the flight (need a player to wait for a count).

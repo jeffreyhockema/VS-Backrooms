@@ -327,20 +327,21 @@ def blocktypes(sh):
          sounds=METAL)
 
     # The ceiling lights, as l31-tube does its states
-    states = ["on", "lit", "flicker", "off"]
+    states = ["on", "lit", "flicker", "off", "high"]
     side = tex("l36-light-side")
     block("l36-light", "Level 36: a square fluorescent diffuser panel flush in the steel ceiling (on: gives light; lit: looks "
-          "on, gives none; flicker: a failing one; off: dead)",
+          "on, gives none; flicker: a failing one; off: dead; high: as on, brighter, for the halls seven blocks high and more)",
           {"variantgroups": [{"code": "state", "states": states}],
            "texturesByType": {"*-off": {"all": side, "down": tex("l36-light-off")}, "*": {"all": side, "down": tex("l36-light-on")}},
            "blockmaterial": "Glass", "drawtype": "cube",
-           "lightHsvByType": {"*-on": [8, 1, 17]},
-           "vertexFlagsByType": {f"*-{st}": {"glowLevel": 160} for st in ("on", "lit", "flicker")},
+           # (round 2: brighter, and the tall halls' own brighter panel, so their light falls evenly, without dark wedges)
+           "lightHsvByType": {"*-on": [8, 1, 18], "*-high": [8, 1, 20]},
+           "vertexFlagsByType": {f"*-{st}": {"glowLevel": 160} for st in ("on", "lit", "flicker", "high")},
            "entityClassByType": {"*-flicker": "BackroomsFlicker"},
            "attributesByType": {"*-flicker": {"offBlock": "backrooms:l36-light-off"}},
            # Must be 0: a light source subtracts its own absorption before spreading
            "lightAbsorption": 0, "resistance": 0.8,
-           "soundsByType": {"*-on": dict(GLASS, ambient="backrooms:ambient/hum", ambientBlockCount=140), "*": GLASS}})
+           "soundsByType": {**{f"*-{st}": dict(GLASS, ambient="backrooms:ambient/hum", ambientBlockCount=140) for st in ("on", "high")}, "*": GLASS}})
 
     # Hanging box signs
     sign_sel = (0, 0.25, 0.375, 1, 1, 0.625)

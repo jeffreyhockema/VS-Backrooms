@@ -1,4 +1,4 @@
-// Level 36: a square fluorescent diffuser panel flush in the steel ceiling (on: gives light; lit: looks on, gives none; flicker: a failing one; off: dead)
+// Level 36: a square fluorescent diffuser panel flush in the steel ceiling (on: gives light; lit: looks on, gives none; flicker: a failing one; off: dead; high: as on, brighter, for the halls seven blocks high and more)
 {
 	"code": "l36-light",
 	"variantgroups": [
@@ -8,7 +8,8 @@
 				"on",
 				"lit",
 				"flicker",
-				"off"
+				"off",
+				"high"
 			]
 		}
 	],
@@ -36,7 +37,12 @@
 		"*-on": [
 			8,
 			1,
-			17
+			18
+		],
+		"*-high": [
+			8,
+			1,
+			20
 		]
 	},
 	"vertexFlagsByType": {
@@ -47,6 +53,9 @@
 			"glowLevel": 160
 		},
 		"*-flicker": {
+			"glowLevel": 160
+		},
+		"*-high": {
 			"glowLevel": 160
 		}
 	},
@@ -62,6 +71,14 @@
 	"resistance": 0.8,
 	"soundsByType": {
 		"*-on": {
+			"walk": "game:walk/stone",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass",
+			"ambient": "backrooms:ambient/hum",
+			"ambientBlockCount": 140
+		},
+		"*-high": {
 			"walk": "game:walk/stone",
 			"place": "game:block/glass",
 			"break": "game:block/glass",

@@ -23,7 +23,7 @@ public sealed partial class WorldGenerator
     private static readonly string[] L36Dirs = { "n", "e", "s", "w" };
 
     private int l36Concrete, l36TileFloor, l36Kick, l36Panel, l36Plaster, l36WallTile, l36Service, l36Purple, l36Stainless, l36Island,
-        l36Trays, l36Bin, l36Planter, l36CeilSteel, l36CeilTile, l36CeilDark, l36CeilCabin;
+        l36Trays, l36Bin, l36Planter, l36LightHigh, l36Glass, l36CeilSteel, l36CeilTile, l36CeilDark, l36CeilCabin;
     private readonly int[] l36Marble = new int[3], l36Carpet = new int[4], l36Static = new int[4], l36Light = new int[4],
         l36BeltRun = new int[4], l36BeltStill = new int[4], l36Walk = new int[4], l36WalkEnd = new int[4], l36Flap = new int[4],
         l36Door = new int[8], l36GateDesk = new int[4], l36Stanchion = new int[5], l36Scanner = new int[8], l36Xray = new int[8],
@@ -65,6 +65,8 @@ public sealed partial class WorldGenerator
         string[] states = { "on", "lit", "flicker", "off" };
         int[] lights = { lightOnId, lightLitId, lightFlickerId, lightOffId };
         for (int i = 0; i < 4; i++) l36Light[i] = L36Block("l36-light-" + states[i], lights[i]);
+        l36LightHigh = L36Block("l36-light-high", l36Light[0]);
+        l36Glass = L36Block("l3999-glass-clear", l36Plaster);
         l36Island = L36Block("l36-carousel-island");
         l36Trays = L36Block("l36-trays");
         l36Bin = L36Block("l3999-trashbin");
@@ -137,7 +139,8 @@ public sealed partial class WorldGenerator
             // Over a low opening between taller rooms: the wall it is cut in (a shop's fascia over its way in)
             if (rel > 15) return concreteId;
             if (t.Zone == (byte)Zone.Shop && t.Roof > 0 && rel == air + 2) return l36ShopSign[t.Depth % 8, (t.Roof - 1) % 3, Facing(t.Pier)];
-            return t.Zone is (byte)Zone.Service or (byte)Zone.Vent ? l36Service : t.Zone is (byte)Zone.Shop or (byte)Zone.Lounge ? l36Plaster : l36Panel;
+            return t.Zone is (byte)Zone.Service or (byte)Zone.Vent ? l36Service : t.Zone is (byte)Zone.Shop or (byte)Zone.Lounge ? l36Plaster
+                : t.Zone == (byte)Zone.Booth ? l36Purple : l36Panel;
         }
         if (t.SupplyBox) return rel == 1 ? BoxOf(t) : 0;
         if (rel == air && t.Overhead != 0)
@@ -181,7 +184,8 @@ public sealed partial class WorldGenerator
     {
         switch (t.Ceiling)
         {
-            case CeilingKind.LightOn: return l36Light[0];
+            // (the halls seven high and more take the brighter panel, so their floors are lit evenly)
+            case CeilingKind.LightOn: return t.Height >= 7 ? l36LightHigh : l36Light[0];
             case CeilingKind.LightLit: return l36Light[1];
             case CeilingKind.LightFlicker: return l36Light[2];
             case CeilingKind.LightOff: return l36Light[3];
@@ -207,6 +211,7 @@ public sealed partial class WorldGenerator
             Mat.WallTile => l36WallTile,
             Mat.Service => l36Service,
             Mat.Purple => l36Purple,
+            Mat.Glass => rel <= 5 ? l36Glass : l36Plaster,
             Mat.Stainless => l36Stainless,
             Mat.Window => window,
             Mat.GateDoor => rel == 1 ? l36Door[f] : rel == 2 ? l36Door[4 + f] : window,

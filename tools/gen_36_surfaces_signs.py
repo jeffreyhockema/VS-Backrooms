@@ -500,10 +500,12 @@ def fids_gate():
     a[5:17, 4:W - 4] = (14, 64, 34)
     s = "NOW BOARDING"
     _led_text(a, s, (W - _led_width(s)) // 2, 7, STATUS["NOW BOARDING"])
-    _led_text(a, "GATE", 12, 22, WHITE)
-    _led_text(a, "C14", 10, 32, (255, 214, 60), scale=4)
+    # (round 2: every gate shows this board, so it names the flight and where it goes, not a gate code that would
+    # contradict the sign over the holdroom; the gate line is left blank, as the lore's screens show only the flight)
+    _led_text(a, "TO", 12, 22, WHITE)
+    _led_text(a, "LV6", 10, 32, (255, 214, 60), scale=4)
     x0 = 104
-    for i, (label, value, col) in enumerate((("FLIGHT", "4471QK", AMBER), ("TO", "LV6", AMBER),
+    for i, (label, value, col) in enumerate((("FLIGHT", "4471QK", AMBER), ("GATE", "--", AMBER),
                                              ("COUNT", "0987", WHITE))):
         y = 24 + i * 14
         _led_text(a, label, x0, y, (150, 156, 166))
