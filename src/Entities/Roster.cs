@@ -408,7 +408,7 @@ public static class Roster
             E(Wretch, Approach, Encounters.Stalk | Encounters.Hunt, 0.4),
         },
         [Backrooms.Worldgen.WorldLayout.Level52] = Array.Empty<RosterEntry>(),
-        [Backrooms.Worldgen.WorldLayout.Level31] = Array.Empty<RosterEntry>(),
+        [Backrooms.Worldgen.WorldLayout.Level31] = new[] { E(Faceling, Safe, Amb, 1.0) with { Rarity = 0.5 }, E(FacelingChild, Safe, Amb, 0.3) with { Rarity = 0.5 } }, // Level 31: docile Facelings only (Wikidot); no Hounds
         [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level36] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level15] = Array.Empty<RosterEntry>(),

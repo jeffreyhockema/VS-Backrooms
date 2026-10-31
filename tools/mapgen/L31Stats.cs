@@ -110,8 +110,8 @@ static partial class LevelModes
                         for (int x = rx0; x <= rx1; x++)
                         {
                             Tile t = T(x, z);
-                            if (t.Variant == WorldLayout.L31Props.Cabinet) cabinets++;
-                            if (t.Overhead == WorldLayout.L31Overhead.DiscoBall) balls++;
+                            if (t.Variant is WorldLayout.L31Props.Cabinet or WorldLayout.L31Props.RetroCabinet) cabinets++;
+                            if (t.Overhead == WorldLayout.L31Overhead.Star) balls++;
                             if (reached.Contains((x, z))) any = true;
                         }
                     if (!any)
@@ -122,7 +122,7 @@ static partial class LevelModes
                 }
             }
         Console.WriteLine($"rooms wholly inside: {rooms} (clipped by the rim: {clipped}): " + string.Join(", ", roomKinds.Select(p => $"{p.Key} {p.Value}")));
-        Console.WriteLine($"  arcade cabinets {cabinets}, disco balls {balls}; rooms not reached from the halls: {cutOff}");
+        Console.WriteLine($"  arcade cabinets {cabinets}, star lights {balls}; rooms not reached from the halls: {cutOff}");
         if (cutOff > 0) Bad("rooms not reached from the halls");
         if (unreached > walkable / 100) Bad("more than 1% of walkable tiles unreached");
 

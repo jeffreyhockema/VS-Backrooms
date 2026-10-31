@@ -1,0 +1,223 @@
+// Level 31: a metal park-style bench with slatted seat and back, full block wide so a row joins; the sitter faces the side
+{
+	"code": "l31-bench",
+	"variantgroups": [
+		{
+			"code": "colour",
+			"states": [
+				"orange",
+				"green"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-bench-orange-north": {
+			"base": "backrooms:block/31/l31-bench-orange"
+		},
+		"l31-bench-orange-east": {
+			"base": "backrooms:block/31/l31-bench-orange",
+			"rotateY": 270
+		},
+		"l31-bench-orange-south": {
+			"base": "backrooms:block/31/l31-bench-orange",
+			"rotateY": 180
+		},
+		"l31-bench-orange-west": {
+			"base": "backrooms:block/31/l31-bench-orange",
+			"rotateY": 90
+		},
+		"l31-bench-green-north": {
+			"base": "backrooms:block/31/l31-bench-green"
+		},
+		"l31-bench-green-east": {
+			"base": "backrooms:block/31/l31-bench-green",
+			"rotateY": 270
+		},
+		"l31-bench-green-south": {
+			"base": "backrooms:block/31/l31-bench-green",
+			"rotateY": 180
+		},
+		"l31-bench-green-west": {
+			"base": "backrooms:block/31/l31-bench-green",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l31-bench-orange-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.85
+		},
+		"l31-bench-orange-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"l31-bench-orange-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"l31-bench-orange-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.85,
+			"rotateY": 90
+		},
+		"l31-bench-green-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.85
+		},
+		"l31-bench-green-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"l31-bench-green-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"l31-bench-green-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"l31-bench-orange-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.85
+		},
+		"l31-bench-orange-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"l31-bench-orange-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"l31-bench-orange-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.85,
+			"rotateY": 90
+		},
+		"l31-bench-green-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.85
+		},
+		"l31-bench-green-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"l31-bench-green-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"l31-bench-green-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	}
+}

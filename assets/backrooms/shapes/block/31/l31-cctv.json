@@ -1,0 +1,450 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cctv-body": "backrooms:block/31/cctv-body",
+		"cctv-led": "backrooms:block/31/cctv-led",
+		"cctv-lens": "backrooms:block/31/cctv-lens",
+		"mat-dark": "backrooms:block/31/mat-dark"
+	},
+	"elements": [
+		{
+			"name": "Plate",
+			"from": [
+				6,
+				15.4,
+				6.2
+			],
+			"to": [
+				10,
+				16,
+				10.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						4,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						4,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						4,
+						4.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Stem",
+			"from": [
+				7.6,
+				14.4,
+				7.6
+			],
+			"to": [
+				8.4,
+				15.4,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Arm",
+			"from": [
+				7.6,
+				14.4,
+				3.2
+			],
+			"to": [
+				8.4,
+				15.0,
+				7.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						4.4,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						4.4,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4.4
+					]
+				},
+				"down": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Body",
+			"from": [
+				6.4,
+				11.9,
+				2.6
+			],
+			"to": [
+				9.6,
+				14.4,
+				9.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cctv-body",
+					"uv": [
+						0,
+						0,
+						3.2,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#cctv-body",
+					"uv": [
+						0,
+						0,
+						6.4,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#cctv-body",
+					"uv": [
+						0,
+						0,
+						3.2,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#cctv-body",
+					"uv": [
+						0,
+						0,
+						6.4,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#cctv-body",
+					"uv": [
+						0,
+						0,
+						3.2,
+						6.4
+					]
+				},
+				"down": {
+					"texture": "#cctv-body",
+					"uv": [
+						0,
+						0,
+						3.2,
+						6.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				13.2,
+				5.8
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Visor",
+			"from": [
+				6.1,
+				14.4,
+				2.2
+			],
+			"to": [
+				9.9,
+				14.8,
+				7.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#cctv-body",
+					"uv": [
+						0,
+						0,
+						3.8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#cctv-body",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#cctv-body",
+					"uv": [
+						0,
+						0,
+						3.8,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#cctv-body",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#cctv-body",
+					"uv": [
+						0,
+						0,
+						3.8,
+						5.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				13.2,
+				5.8
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Lens",
+			"from": [
+				6.9,
+				12.2,
+				1.8
+			],
+			"to": [
+				9.1,
+				14.0,
+				2.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cctv-lens",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.8
+					]
+				},
+				"south": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						2.2,
+						1.8
+					]
+				},
+				"west": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				13.2,
+				5.8
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Led",
+			"from": [
+				8.8,
+				14.0,
+				2.3
+			],
+			"to": [
+				9.4,
+				14.4,
+				2.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#cctv-led",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#cctv-led",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#cctv-led",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					],
+					"glow": 255
+				}
+			},
+			"rotationOrigin": [
+				8,
+				13.2,
+				5.8
+			],
+			"rotationX": -10
+		}
+	]
+}

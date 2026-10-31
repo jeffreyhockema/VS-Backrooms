@@ -1065,6 +1065,38 @@ BRIDGES["fishing"] = """
 **In the Backrooms:** the fish are in Level 7's sea, and they are the sea's own kinds. Fishing poles turn up in the waterlogged crates on its bottom and in lost backpacks, or are made as usual. Worms for bait come from a worm grunter in the soil of Levels 9 or 10 (or Level 94's turf); meat and small fish work as bait too.
 """
 
+# ---- Level 31, "Roller Rink" (experimental, id 24): its page (registered in src/GuideSystem.cs's Added list)
+PAGES["level31"] = ("Level 31: The Roller Rink", """
+**Level 31: The Roller Rink**
+*Safe, warm and familiar. That is the danger: do not stay.*
+
+A 1990s roller rink that goes on for ever: a rink every hundred and twenty-eight blocks, each inside its own building of rooms, joined by neon-lit halls on dark rink carpet. Muffled pop plays from the ceiling speakers, the coloured tubes are a different hue in every room, and now and then you hear skates and laughter from somewhere overhead, though there is nothing above. **Nothing here will hurt you** (Class 1, no Hounds), and the gear turns forward a little. It is cool (12 °C), and the HVAC rooms are colder.
+
+**The Rink**
+Maple boards inside a low barrier, a short wooden gate with flaps in each gap, rough black carpet round the outside, mirrors on the walls and a star-shaped light over the middle. The DJ station is always on the south side; the Faceling at the decks chooses the songs and will not talk. Some rinks are small and low.
+
+**The Food Court**
+Square tables, orange plastic chairs, orange and green benches by the walls. Ask the Faceling behind the counter ({rightmouse}) and it serves you for free: a slice of [pizza](item-backrooms:l31-food-pizza), [wings](item-backrooms:l31-food-wings) or a [foot-long hot dog](item-backrooms:l31-food-hotdog), often with an Almond Water, once every hour and a half. The soda fountain pours Almond Water whenever you like. **Put nothing down on its floor:** whatever lies there is swept up, and whoever left it gets nothing for a day. It is the safest place in the level to camp.
+
+**Skate Rental and the Coach**
+Past the blue walls, behind the counter, stands **the Coach**: a faceless man in a striped coach's shirt with a name tag, and the only one here who talks ({rightmouse}). He remembers your name. He offers a free lesson, and with it [rink skates](item-backrooms:l31-skates): worn on your feet, they make you quicker on the boards, tiles and concrete of this level (never on carpet). Ask him how to get by, or the way out. Stay a day and a half and he will come and find you to say it is time to go.
+
+**The Arcade**
+To the east of the rink, and rarer to find. Press the blue button on the machine by the door for a [green card](item-backrooms:l31-greencard). The cabinets and the prize counter work as Level 3999's do (see [Salvage](backrooms-salvage)); a few old box cabinets from the 1980s stand among them. Some arcade doors carry a handmade OUT OF ORDER sign.
+
+**The Cinema**
+North of the rink, small and dark: one big TV and three rows of continuous metal benches, each a step higher than the last. The quietest place to sleep.
+
+**The back rooms**
+A service corridor runs round every rink. Off it: bathrooms; store rooms (supply boxes); the cold HVAC rooms (8 °C), wet underfoot, with dead radiators, and some of them flooded; and the **Employees Lounge**: exposed brick, grey carpet, lockers, a kitchenette and a CCTV desk, silent but for the cameras turning.
+
+**Shadows**
+In the dark rooms you may see a black figure standing still at the edge of the light. It is gone when you come close, and it has never been seen to move. Paranoia, the M.E.G. say.
+
+**Ways in and out**
+Wanderers tell of a wooden door with pop music behind it (in Levels 2, 3 and 6, among others) and stairs up from Level 30; out, a white door marked 70 behind the arcades, an EMPLOYEES ONLY door in the food court, an arcade that goes on until it is Level 25, and the Revolving Door. None of them is here yet: this level is reached only through the cheats menu. Taking the rental skates out of the level is said to drop you in the Lobby, barefoot.
+""")
+
 
 # ====================================================================================================================
 # The tutorial: Backrooms: First Steps (src/Tutorial/BackroomsTutorial.cs). One entry per step, in order.

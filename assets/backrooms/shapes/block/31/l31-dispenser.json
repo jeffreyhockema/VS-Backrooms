@@ -1,0 +1,282 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"disp-body": "backrooms:block/31/disp-body",
+		"disp-btn": "backrooms:block/31/disp-btn",
+		"disp-front": "backrooms:block/31/disp-front",
+		"mat-dark": "backrooms:block/31/mat-dark",
+		"mat-steel": "backrooms:block/31/mat-steel"
+	},
+	"elements": [
+		{
+			"name": "Foot",
+			"from": [
+				5.5,
+				0,
+				6
+			],
+			"to": [
+				10.5,
+				0.8,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						4,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						4,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4
+					]
+				},
+				"down": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Post",
+			"from": [
+				7,
+				0.8,
+				7
+			],
+			"to": [
+				9,
+				4,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						2,
+						3.2
+					]
+				},
+				"east": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						2,
+						3.2
+					]
+				},
+				"south": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						2,
+						3.2
+					]
+				},
+				"west": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						2,
+						3.2
+					]
+				},
+				"up": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Box",
+			"from": [
+				2,
+				4,
+				5
+			],
+			"to": [
+				14,
+				16,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#disp-front",
+					"uv": [
+						0.0,
+						0.0,
+						12.0,
+						12.0
+					],
+					"glow": 50
+				},
+				"east": {
+					"texture": "#disp-body",
+					"uv": [
+						0,
+						0,
+						6,
+						12
+					]
+				},
+				"south": {
+					"texture": "#disp-body",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				},
+				"west": {
+					"texture": "#disp-body",
+					"uv": [
+						0,
+						0,
+						6,
+						12
+					]
+				},
+				"up": {
+					"texture": "#disp-body",
+					"uv": [
+						0,
+						0,
+						12,
+						6
+					]
+				},
+				"down": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						12,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Btn",
+			"from": [
+				6.5,
+				5.75,
+				4.4
+			],
+			"to": [
+				9.5,
+				8.75,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#disp-btn",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 90
+				},
+				"east": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3.0
+					]
+				},
+				"south": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3.0
+					]
+				},
+				"up": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				}
+			}
+		}
+	]
+}

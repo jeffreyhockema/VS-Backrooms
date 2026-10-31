@@ -1,0 +1,278 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cinema-top": "backrooms:block/31/cinema-top",
+		"mat-dark": "backrooms:block/31/mat-dark",
+		"mat-gunmetal": "backrooms:block/31/mat-gunmetal"
+	},
+	"elements": [
+		{
+			"name": "Seat",
+			"from": [
+				0,
+				6,
+				3
+			],
+			"to": [
+				16,
+				7,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"south": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"up": {
+					"texture": "#cinema-top",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"down": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0,
+				7,
+				11
+			],
+			"to": [
+				16,
+				11,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"south": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"west": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						1,
+						4
+					]
+				},
+				"up": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"down": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Ped",
+			"from": [
+				5,
+				0.6,
+				5
+			],
+			"to": [
+				11,
+				6,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						6,
+						5.4
+					]
+				},
+				"east": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						5,
+						5.4
+					]
+				},
+				"south": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						6,
+						5.4
+					]
+				},
+				"west": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						5,
+						5.4
+					]
+				},
+				"down": {
+					"texture": "#mat-gunmetal",
+					"uv": [
+						0,
+						0,
+						6,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "PedFoot",
+			"from": [
+				4,
+				0,
+				4
+			],
+			"to": [
+				12,
+				0.6,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						7,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						8,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						7,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						8,
+						7
+					]
+				},
+				"down": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						8,
+						7
+					]
+				}
+			}
+		}
+	]
+}

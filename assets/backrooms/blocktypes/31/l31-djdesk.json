@@ -1,0 +1,223 @@
+// Level 31: a black DJ desk, one block, top at 14 units: deck (a turntable) or mixer; the crowd sees the side's front, the DJ stands behind
+{
+	"code": "l31-djdesk",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"deck",
+				"mixer"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-djdesk-deck-north": {
+			"base": "backrooms:block/31/l31-djdesk-deck"
+		},
+		"l31-djdesk-deck-east": {
+			"base": "backrooms:block/31/l31-djdesk-deck",
+			"rotateY": 270
+		},
+		"l31-djdesk-deck-south": {
+			"base": "backrooms:block/31/l31-djdesk-deck",
+			"rotateY": 180
+		},
+		"l31-djdesk-deck-west": {
+			"base": "backrooms:block/31/l31-djdesk-deck",
+			"rotateY": 90
+		},
+		"l31-djdesk-mixer-north": {
+			"base": "backrooms:block/31/l31-djdesk-mixer"
+		},
+		"l31-djdesk-mixer-east": {
+			"base": "backrooms:block/31/l31-djdesk-mixer",
+			"rotateY": 270
+		},
+		"l31-djdesk-mixer-south": {
+			"base": "backrooms:block/31/l31-djdesk-mixer",
+			"rotateY": 180
+		},
+		"l31-djdesk-mixer-west": {
+			"base": "backrooms:block/31/l31-djdesk-mixer",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l31-djdesk-deck-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375
+		},
+		"l31-djdesk-deck-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375,
+			"rotateY": 270
+		},
+		"l31-djdesk-deck-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375,
+			"rotateY": 180
+		},
+		"l31-djdesk-deck-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375,
+			"rotateY": 90
+		},
+		"l31-djdesk-mixer-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375
+		},
+		"l31-djdesk-mixer-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375,
+			"rotateY": 270
+		},
+		"l31-djdesk-mixer-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375,
+			"rotateY": 180
+		},
+		"l31-djdesk-mixer-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"l31-djdesk-deck-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375
+		},
+		"l31-djdesk-deck-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375,
+			"rotateY": 270
+		},
+		"l31-djdesk-deck-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375,
+			"rotateY": 180
+		},
+		"l31-djdesk-deck-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375,
+			"rotateY": 90
+		},
+		"l31-djdesk-mixer-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375
+		},
+		"l31-djdesk-mixer-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375,
+			"rotateY": 270
+		},
+		"l31-djdesk-mixer-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375,
+			"rotateY": 180
+		},
+		"l31-djdesk-mixer-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 1,
+			"y2": 0.875,
+			"z2": 0.9375,
+			"rotateY": 90
+		}
+	}
+}

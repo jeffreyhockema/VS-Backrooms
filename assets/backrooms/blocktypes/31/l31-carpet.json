@@ -1,0 +1,50 @@
+// Level 31: carpet (rink: near-black with muted 1990s confetti for halls and lobbies; black: rough black pile outside the rink; grey: plain office carpet for the employees' lounge)
+{
+	"code": "l31-carpet",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"rink",
+				"black",
+				"grey"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-rink": {
+			"all": {
+				"base": "block/31/carpet-rink"
+			}
+		},
+		"*-black": {
+			"all": {
+				"base": "block/31/carpet-black"
+			}
+		},
+		"*-grey": {
+			"all": {
+				"base": "block/31/carpet-grey"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth*",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	}
+}

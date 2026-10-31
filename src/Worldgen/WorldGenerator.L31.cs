@@ -23,6 +23,12 @@ public sealed partial class WorldGenerator
         l31Claw = new int[4], l31SkeeLane = new int[4], l31SkeeTarget = new int[4], l31Prize = new int[4], l31DjScreen = new int[4];
     private readonly int[,] l31Tube = new int[6, 4], l31Locker = new int[2, 4], l31Neon = new int[6, 2], l31Rail = new int[6, 4], l31Cabinet = new int[6, 4],
         l31Counter = new int[3, 4], l31Vending = new int[2, 4], l31Couch = new int[2, 4], l31Screen = new int[3, 4];
+    // The detail pass's blocks (tools/gen_31_props.py)
+    private int l31CarpetRink, l31CarpetBlack, l31CarpetGrey, l31Polished, l31RentalTile, l31Quarry, l31Brick, l31Table, l31Star;
+    private readonly int[] l31Chair = new int[4], l31Condiments = new int[4], l31Fountain = new int[4], l31Speaker = new int[4], l31Gate = new int[2],
+        l31Dispenser = new int[4], l31SkateShelf = new int[4], l31CinemaBench = new int[4], l31Cctv = new int[4], l31Monitors = new int[4],
+        l31Door70High = new int[4];
+    private readonly int[,] l31Sign = new int[9, 4], l31ParkBench = new int[2, 4], l31DjDesk = new int[2, 4], l31RetroCab = new int[3, 4], l31Tv = new int[6, 4];
     private readonly HashSet<string> l31Missing = new();
 
     /// <summary>A block of this mod's, or <paramref name="fallback"/> if it is not there (logged once).</summary>
@@ -101,6 +107,67 @@ public sealed partial class WorldGenerator
             l31Couch[0, f] = L31Block($"l3999-couch-left-{side}");
             l31Couch[1, f] = L31Block($"l3999-couch-right-{side}");
         }
+        InitL31Detail();
+    }
+
+    /// <summary>The blocks of the detail pass (2026-10-30): the level's own carpets and floors, the signs on its walls, the
+    /// food court's furniture, the DJ station, the star, the gates, the arcade's dispenser and old cabinets, the rental's
+    /// shelves, the cinema's benches and TV, the lounge's CCTV.</summary>
+    private void InitL31Detail()
+    {
+        l31CarpetRink = L31Block("l31-carpet-rink", l31Galaxy);
+        l31CarpetBlack = L31Block("l31-carpet-black", l31Retro);
+        l31CarpetGrey = L31Block("l31-carpet-grey", l31Retro);
+        l31Polished = L31Block("l31-floor-polished", l31Marble);
+        l31RentalTile = L31Block("l31-floor-tile", l31CheckerA);
+        l31Quarry = L31Block("l31-floor-quarry", l31Vinyl);
+        l31Brick = L31Block("l31-brick-plain", l31Plain);
+        l31Table = L31Block("l31-table-plain");
+        l31Star = L31Block("l31-star-plain", l31Ball);
+        l31Gate[0] = L31Block("l31-gate-we");
+        l31Gate[1] = L31Block("l31-gate-ns");
+        // (By WorldLayout.L31Sign's numbers: 4 is the first advert, 7 and 8 the other two; 0 the staff door's upper half)
+        string[] signs = { "staffdoorhigh", "trash", "outoforder", "menu", "ad1", "staffdoorlow", "door70low", "ad2", "ad3" };
+        string[] games = { "shooter", "barrels", "pyramid" }, parts = { "tl", "tm", "tr", "bl", "bm", "br" };
+        for (int f = 0; f < 4; f++)
+        {
+            string side = Sides[f];
+            for (int k = 0; k < signs.Length; k++) l31Sign[k, f] = L31Block($"l31-sign-{signs[k]}-{side}", l31Plain);
+            l31Door70High[f] = L31Block($"l31-sign-door70high-{side}", l31Dark);
+            l31Chair[f] = L31Block($"l31-chair-{side}");
+            l31ParkBench[0, f] = L31Block($"l31-bench-orange-{side}");
+            l31ParkBench[1, f] = L31Block($"l31-bench-green-{side}");
+            l31Condiments[f] = L31Block($"l31-condiments-{side}");
+            l31Fountain[f] = L31Block($"l31-fountain-{side}");
+            l31DjDesk[0, f] = L31Block($"l31-djdesk-deck-{side}");
+            l31DjDesk[1, f] = L31Block($"l31-djdesk-mixer-{side}");
+            l31Speaker[f] = L31Block($"l31-speaker-{side}");
+            l31Dispenser[f] = L31Block($"l31-dispenser-{side}");
+            for (int g = 0; g < 3; g++) l31RetroCab[g, f] = L31Block($"l31-retrocab-{games[g]}-{side}", l31Cabinet[g, f]);
+            l31SkateShelf[f] = L31Block($"l31-skateshelf-{side}");
+            l31CinemaBench[f] = L31Block($"l31-cinemabench-{side}");
+            for (int k = 0; k < 6; k++) l31Tv[k, f] = L31Block($"l31-tv-{parts[k]}-{side}");
+            l31Cctv[f] = L31Block($"l31-cctv-{side}");
+            l31Monitors[f] = L31Block($"l31-monitors-{side}");
+        }
+    }
+
+    /// <summary>A sign on a wall's face at a height (0 where the sign has nothing at that height).</summary>
+    private int L31SignBlock(in Tile t, int gx, int gz, int rel, int high)
+    {
+        int f = Facing(t.Pier);
+        int sign = t.Detail & L31.L31HueMask;
+        switch (sign)
+        {
+            case L31.L31Sign.StaffDoor: return rel == 1 ? l31Sign[5, f] : rel == 2 ? l31Sign[0, f] : 0;
+            case L31.L31Sign.Door70: return rel == 1 ? l31Sign[6, f] : rel == 2 ? l31Door70High[f] : 0;
+            case L31.L31Sign.Menu: return rel == (high >= 4 ? 3 : 2) ? l31Sign[3, f] : 0;
+            case L31.L31Sign.Advert:
+                if (rel != 2) return 0;
+                uint h = (uint)(gx * 73856093 ^ gz * 19349663) % 3;
+                return l31Sign[h == 0 ? 4 : h == 1 ? 7 : 8, f];
+            default: return rel == 2 && sign < 4 ? l31Sign[sign, f] : 0;
+        }
     }
 
     /// <summary>One block of a column of the level, <paramref name="rel"/> above its floor.</summary>
@@ -114,7 +181,7 @@ public sealed partial class WorldGenerator
             if (rel > high) return concreteId;
             if (rel == 0) return t.Kind == TileKind.Doorway ? L31Floor(t, gx, gz) : concreteId;
             if (t.Kind == TileKind.Doorway && rel <= 3) return 0;
-            return L31WallBlock(t, rel, high);
+            return L31WallBlock(t, gx, gz, rel, high);
         }
         int air = t.Height > 0 ? t.Height : 4;
         if (rel == 0) return L31Floor(t, gx, gz);
@@ -129,8 +196,10 @@ public sealed partial class WorldGenerator
                 case L31.L31Overhead.DeadNS: return l31NeonDead[0];
                 case L31.L31Overhead.DeadWE: return l31NeonDead[1];
                 case L31.L31Overhead.DiscoBall: return l31Ball;
+                case L31.L31Overhead.Star: return l31Star;
+                case L31.L31Overhead.Cctv: return l31Cctv[Facing(t.Pier)];
             }
-            if (t.Zone == (byte)Zone.Corridor)
+            if (t.Zone is (byte)Zone.Corridor or (byte)Zone.Hvac)
             {
                 int pipe = (t.Detail & L31.L31SubMask) >> L31.L31SubShift;
                 if (pipe == L31.L31PipeX) return pipeRunXId;
@@ -138,14 +207,27 @@ public sealed partial class WorldGenerator
             }
         }
         if (t.Variant == L31.L31Props.Screen) return rel == air ? l31Screen[System.Math.Min((int)t.Stack, 2), Facing(t.Pier)] : 0;
-        if (rel != 1) return 0;
+        // The cinema's big TV on the wall, its top row at rel 3 and its bottom at rel 2
+        if (t.Variant == L31.L31Props.Tv) return rel is 2 or 3 ? l31Tv[(rel == 3 ? 0 : 3) + System.Math.Min((int)t.Stack, 2), Facing(t.Pier)] : 0;
+        int sub = (t.Detail & L31.L31SubMask) >> L31.L31SubShift;
+        // A cinema row raised a step or three; a flooded HVAC room's water over its wet floor
+        int lift = t.Zone == (byte)Zone.Cinema ? sub : 0;
+        if (lift > 0 && rel <= lift) return l31Maroon;
+        if (t.Zone == (byte)Zone.Hvac && sub == L31.L31SubFlood && rel == 1)
+        {
+            fluid = waterId;
+            return 0;
+        }
+        if (rel != 1 + lift) return 0;
+        if (t.SupplyBox) return BoxOf(t);
         if (t.Variant != 0) return L31Prop(t);
         if ((t.Detail & L31.L31RailBit) != 0 && t.Zone == (byte)Zone.Hall) return l31Rail[(t.Detail & L31.L31HueMask) % 6, Facing(t.Pier)];
         return 0;
     }
 
-    private int L31WallBlock(in Tile t, int rel, int high)
+    private int L31WallBlock(in Tile t, int gx, int gz, int rel, int high)
     {
+        if ((t.Detail & L31.L31HueMask) != 0 && L31SignBlock(t, gx, gz, rel, high) is int sign and > 0) return sign;
         if ((t.Detail & L31.L31MirrorBit) != 0 && (high >= 7 ? rel is >= 3 and <= 5 : rel is 2 or 3)) return l31Mirror[Facing(t.Pier)];
         int skate = rel == 1 ? l31Stripe : l31Plain;
         return ((t.Detail & L31.L31SubMask) >> L31.L31SubShift) switch
@@ -156,18 +238,22 @@ public sealed partial class WorldGenerator
             L31.L31Wall.Dark => l31Dark,
             L31.L31Wall.Chart => rel == 2 ? l31Chart : skate,
             L31.L31Wall.Locker => rel <= 2 ? l31Locker[rel - 1, Facing(t.Pier)] : l31Plain,
+            L31.L31Wall.Brick => l31Brick,
             _ => skate,
         };
     }
 
     private int L31Floor(in Tile t, int gx, int gz) => t.Zone switch
     {
-        (byte)Zone.Hall => l31Galaxy,
-        (byte)Zone.Crossing => l31Marble,
-        (byte)Zone.Lobby or (byte)Zone.Skirt or (byte)Zone.Lounge => l31Retro,
+        // The level's own dark rink carpet in the halls and the lobby, rough black carpet round the rink (Wikidot), the
+        // crossings in shiny, just-cleaned concrete (Fandom), grey carpet in the employees' lounge
+        (byte)Zone.Hall or (byte)Zone.Lobby => l31CarpetRink,
+        (byte)Zone.Crossing => l31Polished,
+        (byte)Zone.Skirt => l31CarpetBlack,
+        (byte)Zone.Lounge => l31CarpetGrey,
         (byte)Zone.Rink => t.Variant == L31.L31Props.Dasher ? l31Board[0] : l31Board[System.Math.Min(3, (t.Detail & L31.L31SubMask) >> L31.L31SubShift)],
-        (byte)Zone.Snack => l31Vinyl,
-        (byte)Zone.Rental => l31CheckerA,
+        (byte)Zone.Snack => (t.Detail & L31.L31SubMask) >> L31.L31SubShift == L31.L31SubKitchen ? l31Quarry : l31Vinyl,
+        (byte)Zone.Rental => l31RentalTile,
         (byte)Zone.Bath => l31CheckerB,
         (byte)Zone.Arcade => l31Cosmic,
         (byte)Zone.Cinema => l31Maroon,
@@ -221,6 +307,20 @@ public sealed partial class WorldGenerator
             L31.L31Props.Vending => l31Vending[t.Stack & 1, f],
             L31.L31Props.Bin => l31Bin,
             L31.L31Props.Couch => l31Couch[t.Stack & 1, f],
+            L31.L31Props.Gate => l31Gate[t.Stack & 1],
+            L31.L31Props.Chair => l31Chair[f],
+            L31.L31Props.Table => l31Table,
+            L31.L31Props.ParkBench => l31ParkBench[t.Stack & 1, f],
+            L31.L31Props.Condiments => l31Condiments[f],
+            L31.L31Props.Fountain => l31Fountain[f],
+            L31.L31Props.DjDesk => l31DjDesk[t.Stack & 1, f],
+            L31.L31Props.Speaker => l31Speaker[f],
+            L31.L31Props.CardDispenser => l31Dispenser[f],
+            L31.L31Props.RetroCabinet => l31RetroCab[t.Stack % 3, f],
+            L31.L31Props.SkateShelf => l31SkateShelf[f],
+            L31.L31Props.CinemaBench => l31CinemaBench[f],
+            L31.L31Props.Monitors => l31Monitors[f],
+            L31.L31Props.StaffSpot => 0,
             Props.Shelf => shelfIds[Facing(Opposite(t.Pier))],
             >= 40 and < Props.Limit => PropBlock(t),
             _ => 0,

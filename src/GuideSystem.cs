@@ -38,6 +38,7 @@ public class GuideSystem : ModSystem
         // The experimental levels' own pages
         "basement",
         "l120", // Level 120 (experimental)
+        "level31", // Level 31, "Roller Rink" (experimental)
     };
 
     /// <summary>Vanilla pages kept, with a Backrooms preface: page code to the preface's lang key suffix.</summary>

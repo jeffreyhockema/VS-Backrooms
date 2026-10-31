@@ -1155,6 +1155,44 @@
    ]
   },
   {
+   "id": "l31",
+   "cls": "common",
+   "level": 24,
+   "chapter": "l31",
+   "entries": [
+    {
+     "key": "l31-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l31-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l31-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l31-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l31-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l31-6",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
    "id": "rare-l0",
    "cls": "rare",
    "level": 0,

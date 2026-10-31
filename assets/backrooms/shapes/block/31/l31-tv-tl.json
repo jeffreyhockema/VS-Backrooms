@@ -1,0 +1,53 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"mat-black": "backrooms:block/31/mat-black",
+		"tv-tl": "backrooms:block/31/tv-tl"
+	},
+	"elements": [
+		{
+			"name": "Panel",
+			"from": [
+				0,
+				0,
+				14
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#tv-tl",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 180
+				},
+				"up": {
+					"texture": "#mat-black",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#mat-black",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				}
+			}
+		}
+	]
+}

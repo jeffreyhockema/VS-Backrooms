@@ -1,0 +1,905 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cam-views": "backrooms:block/31/cam-views",
+		"crt-back": "backrooms:block/31/crt-back",
+		"crt-plastic": "backrooms:block/31/crt-plastic",
+		"desk-front": "backrooms:block/31/desk-front",
+		"desk-grey": "backrooms:block/31/desk-grey",
+		"desk-top": "backrooms:block/31/desk-top",
+		"kbd-top": "backrooms:block/31/kbd-top",
+		"mat-steel": "backrooms:block/31/mat-steel"
+	},
+	"elements": [
+		{
+			"name": "PedL",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				4,
+				5,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#desk-front",
+					"uv": [
+						0.0,
+						0.0,
+						4.0,
+						5.0
+					]
+				},
+				"east": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						12,
+						5
+					]
+				},
+				"south": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						4,
+						5
+					]
+				},
+				"west": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						12,
+						5
+					]
+				},
+				"up": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						4,
+						12
+					]
+				},
+				"down": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						4,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "PedR",
+			"from": [
+				12,
+				0,
+				1
+			],
+			"to": [
+				16,
+				5,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#desk-front",
+					"uv": [
+						0.0,
+						0.0,
+						4.0,
+						5.0
+					]
+				},
+				"east": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						12,
+						5
+					]
+				},
+				"south": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						4,
+						5
+					]
+				},
+				"west": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						12,
+						5
+					]
+				},
+				"up": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						4,
+						12
+					]
+				},
+				"down": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						4,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Modesty",
+			"from": [
+				4,
+				1,
+				11
+			],
+			"to": [
+				12,
+				5,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						8,
+						4
+					]
+				},
+				"south": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						8,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				0,
+				5,
+				0.5
+			],
+			"to": [
+				16,
+				6,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#desk-top",
+					"uv": [
+						0,
+						0,
+						16,
+						13.0
+					]
+				},
+				"down": {
+					"texture": "#desk-grey",
+					"uv": [
+						0,
+						0,
+						16,
+						13.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Kbd",
+			"from": [
+				3.5,
+				6,
+				0.9
+			],
+			"to": [
+				12.5,
+				6.7,
+				2.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						9.0,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.7
+					]
+				},
+				"south": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						9.0,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#kbd-top",
+					"uv": [
+						0.0,
+						0.0,
+						9.0,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#mat-steel",
+					"uv": [
+						0,
+						0,
+						9.0,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Crt0",
+			"from": [
+				1.0,
+				6.0,
+				3
+			],
+			"to": [
+				8.0,
+				11.0,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						7.0,
+						5.0
+					]
+				},
+				"east": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						2.5,
+						5.0
+					]
+				},
+				"west": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						2.5,
+						5.0
+					]
+				},
+				"up": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rear0",
+			"from": [
+				2.0,
+				6.6,
+				5.5
+			],
+			"to": [
+				7.0,
+				10.4,
+				9
+			],
+			"faces": {
+				"east": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						3.5,
+						3.8
+					]
+				},
+				"south": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.8
+					]
+				},
+				"west": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						3.5,
+						3.8
+					]
+				},
+				"up": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Scr0",
+			"from": [
+				1.75,
+				6.6,
+				2.8
+			],
+			"to": [
+				7.25,
+				10.4,
+				3.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cam-views",
+					"uv": [
+						0,
+						0,
+						5.5,
+						3.8
+					],
+					"glow": 70
+				}
+			}
+		},
+		{
+			"name": "Crt1",
+			"from": [
+				8.0,
+				6.0,
+				3
+			],
+			"to": [
+				15.0,
+				11.0,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						7.0,
+						5.0
+					]
+				},
+				"east": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						2.5,
+						5.0
+					]
+				},
+				"west": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						2.5,
+						5.0
+					]
+				},
+				"up": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rear1",
+			"from": [
+				9.0,
+				6.6,
+				5.5
+			],
+			"to": [
+				14.0,
+				10.4,
+				9
+			],
+			"faces": {
+				"east": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						3.5,
+						3.8
+					]
+				},
+				"south": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.8
+					]
+				},
+				"west": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						3.5,
+						3.8
+					]
+				},
+				"up": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Scr1",
+			"from": [
+				8.75,
+				6.6,
+				2.8
+			],
+			"to": [
+				14.25,
+				10.4,
+				3.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cam-views",
+					"uv": [
+						8,
+						0,
+						13.5,
+						3.8
+					],
+					"glow": 70
+				}
+			}
+		},
+		{
+			"name": "Crt2",
+			"from": [
+				1.0,
+				11.0,
+				3
+			],
+			"to": [
+				8.0,
+				16.0,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						7.0,
+						5.0
+					]
+				},
+				"east": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						2.5,
+						5.0
+					]
+				},
+				"west": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						2.5,
+						5.0
+					]
+				},
+				"up": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rear2",
+			"from": [
+				2.0,
+				11.6,
+				5.5
+			],
+			"to": [
+				7.0,
+				15.4,
+				9
+			],
+			"faces": {
+				"east": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						3.5,
+						3.8
+					]
+				},
+				"south": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.8
+					]
+				},
+				"west": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						3.5,
+						3.8
+					]
+				},
+				"up": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Scr2",
+			"from": [
+				1.75,
+				11.6,
+				2.8
+			],
+			"to": [
+				7.25,
+				15.4,
+				3.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cam-views",
+					"uv": [
+						0,
+						8,
+						5.5,
+						11.8
+					],
+					"glow": 70
+				}
+			}
+		},
+		{
+			"name": "Crt3",
+			"from": [
+				8.0,
+				11.0,
+				3
+			],
+			"to": [
+				15.0,
+				16.0,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						7.0,
+						5.0
+					]
+				},
+				"east": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						2.5,
+						5.0
+					]
+				},
+				"west": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						2.5,
+						5.0
+					]
+				},
+				"up": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#crt-plastic",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rear3",
+			"from": [
+				9.0,
+				11.6,
+				5.5
+			],
+			"to": [
+				14.0,
+				15.4,
+				9
+			],
+			"faces": {
+				"east": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						3.5,
+						3.8
+					]
+				},
+				"south": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.8
+					]
+				},
+				"west": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						3.5,
+						3.8
+					]
+				},
+				"up": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#crt-back",
+					"uv": [
+						0,
+						0,
+						5.0,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Scr3",
+			"from": [
+				8.75,
+				11.6,
+				2.8
+			],
+			"to": [
+				14.25,
+				15.4,
+				3.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cam-views",
+					"uv": [
+						8,
+						8,
+						13.5,
+						11.8
+					],
+					"glow": 70
+				}
+			}
+		}
+	]
+}

@@ -10,17 +10,18 @@ namespace Backrooms;
 /// <summary>
 /// Level 31, "Roller Rink"'s air and sound on the client (experimental, kept as level 24). Its base fog (its entry in
 /// <see cref="Levels"/>) is a thin indigo haze lit by the coloured tubes; the cinema, the emptinesses and the glowing-carpet
-/// rooms are darker and closer, the snack bar warmer. Titles name the rink, the arcade, the snack bar, the rental counter
-/// and the cinema. Sound: one muffled synth-pop loop from ceiling speakers somewhere (loudest out on the rink, quiet in
+/// rooms are darker and closer, the food court warmer. Titles name the rink, the arcade, the food court, the rental counter,
+/// the cinema and the employees' lounge. Sound: one muffled synth-pop loop from ceiling speakers somewhere (loudest out on the rink, quiet in
 /// the back rooms, gone in the cinema and the empty rooms, which have a faint room tone instead); now and then an arcade
-/// machine's attract jingle close by in an arcade. This file is the level's own.
+/// machine's attract jingle close by in an arcade; skates and laughter overhead on the rink and in the halls; a CCTV camera's
+/// servo in the silent employees' lounge. This file is the level's own.
 /// </summary>
 public partial class AtmosphereSystem
 {
     private static readonly Atmosphere L31Dark = new(0.020f, 0.04f, 0.03f, 0.08f, 0f);
     private static readonly Atmosphere L31Warm = new(0.008f, 0.24f, 0.15f, 0.12f, 0f);
     private ILoadedSound l31Music, l31Room;
-    private float l31Volume, l31Attract = 8;
+    private float l31Volume, l31Attract = 8, l31Above = 20, l31Cctv = 15;
 
     private Tile L31TileAt(EntityPos pos) => layout.TileAt((int)Math.Floor(pos.X), (int)Math.Floor(pos.Z));
 
@@ -34,6 +35,7 @@ public partial class AtmosphereSystem
             case (byte)Zone.Rental: titleKey = 2404; break;
             case (byte)Zone.Cinema: target = L31Dark; titleKey = 2405; break;
             case (byte)Zone.Empty or (byte)Zone.CarpetRoom: target = L31Dark; break;
+            case (byte)Zone.Lounge: titleKey = 2406; break;
         }
     }
 
@@ -42,8 +44,9 @@ public partial class AtmosphereSystem
     {
         (byte)Zone.Rink or (byte)Zone.Skirt => 0.34f,
         (byte)Zone.Lobby or (byte)Zone.Hall or (byte)Zone.Crossing => 0.24f,
-        (byte)Zone.Snack or (byte)Zone.Rental or (byte)Zone.Lounge => 0.18f,
-        (byte)Zone.Cinema or (byte)Zone.Empty or (byte)Zone.CarpetRoom => 0f,
+        (byte)Zone.Snack or (byte)Zone.Rental => 0.18f,
+        // (the employees' lounge is eerily silent: Fandom)
+        (byte)Zone.Cinema or (byte)Zone.Empty or (byte)Zone.CarpetRoom or (byte)Zone.Lounge => 0f,
         _ => 0.11f,
     };
 
@@ -91,6 +94,30 @@ public partial class AtmosphereSystem
         bool quiet = want == 0;
         if (quiet && l31Room == null) l31Room = L31Loop("backrooms:sounds/ambient/end/roomtone", 0.16f);
         else if (!quiet && l31Room != null) L31Stop(ref l31Room);
+
+        // Skates on the boards and laughter, heard "from above" (Fandom), out on the rink and in the halls and lobbies
+        if (zone is (byte)Zone.Rink or (byte)Zone.Skirt or (byte)Zone.Hall or (byte)Zone.Crossing or (byte)Zone.Lobby or (byte)Zone.Snack)
+        {
+            l31Above -= dt;
+            if (l31Above <= 0)
+            {
+                l31Above = 25 + (float)rand.NextDouble() * 35;
+                double a = rand.NextDouble() * Math.PI * 2;
+                bool laugh = rand.NextDouble() < 0.3;
+                capi.World.PlaySoundAt(new AssetLocation(laugh ? "backrooms:sounds/entity/laughter" : "backrooms:sounds/ambient/31/skates"),
+                    pos.X + Math.Cos(a) * 6, pos.Y + 9, pos.Z + Math.Sin(a) * 6, null, true, 24, laugh ? 0.12f : 0.35f);
+            }
+        }
+        // A CCTV camera turning on its mount in the employees' lounge
+        if (zone == (byte)Zone.Lounge)
+        {
+            l31Cctv -= dt;
+            if (l31Cctv <= 0)
+            {
+                l31Cctv = 18 + (float)rand.NextDouble() * 30;
+                capi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/ambient/31/cctv"), pos.X + rand.Next(-4, 5), pos.Y + 2.5, pos.Z + rand.Next(-4, 5), null, true, 12, 0.3f);
+            }
+        }
 
         // An arcade machine's attract jingle, somewhere close by
         if (zone != (byte)Zone.Arcade) return;

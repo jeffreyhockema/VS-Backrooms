@@ -1,0 +1,289 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"mat-dark": "backrooms:block/31/mat-dark",
+		"speaker-front": "backrooms:block/31/speaker-front",
+		"speaker-horn": "backrooms:block/31/speaker-horn",
+		"speaker-side": "backrooms:block/31/speaker-side",
+		"speaker-woofer": "backrooms:block/31/speaker-woofer"
+	},
+	"elements": [
+		{
+			"name": "Cab",
+			"from": [
+				1,
+				0,
+				2
+			],
+			"to": [
+				15,
+				16,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#speaker-front",
+					"uv": [
+						0.0,
+						0.0,
+						14.0,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#speaker-side",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#speaker-side",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#speaker-side",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"up": {
+					"texture": "#speaker-side",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				},
+				"down": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Horn",
+			"from": [
+				4.5,
+				11.2,
+				1.0
+			],
+			"to": [
+				11.5,
+				15.2,
+				2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#speaker-horn",
+					"uv": [
+						0.0,
+						0.0,
+						7.0,
+						4.0
+					]
+				},
+				"east": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4.0
+					]
+				},
+				"south": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						7.0,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4.0
+					]
+				},
+				"up": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Wf1",
+			"from": [
+				1.7,
+				3.6,
+				1.5
+			],
+			"to": [
+				7.7,
+				9.6,
+				2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#speaker-woofer",
+					"uv": [
+						0.0,
+						0.0,
+						6.0,
+						6.0
+					]
+				},
+				"east": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"south": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						6.0,
+						6.0
+					]
+				},
+				"west": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"up": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Wf2",
+			"from": [
+				8.3,
+				3.6,
+				1.5
+			],
+			"to": [
+				14.3,
+				9.6,
+				2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#speaker-woofer",
+					"uv": [
+						0.0,
+						0.0,
+						6.0,
+						6.0
+					]
+				},
+				"east": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"south": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						6.0,
+						6.0
+					]
+				},
+				"west": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"up": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#mat-dark",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}
