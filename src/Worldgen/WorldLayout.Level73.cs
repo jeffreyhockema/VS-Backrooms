@@ -264,10 +264,10 @@ public sealed partial class WorldLayout
         double r = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL73Bones + 0x10));
         if (floor == FloorKind.L73Burnt) return r < 0.07 ? 1 : 0;
         double patch = Fbm(gx / 19.0, gz / 19.0, SaltL73Burnt + 3);
-        double p = Math.Clamp(0.08 + (patch + 0.1) * 1.1, 0.04, 0.75);
+        double p = Math.Clamp(0.06 + (patch + 0.1) * 1.0, 0.03, 0.6);
         if (r >= p) return 0;
         double tall = Hashing.Unit(Hashing.Mix(Hashing.Hash(seed, gx, gz, SaltL73Bones + 0x10)));
-        return patch > 0.25 && tall < 0.45 ? 3 : tall < 0.5 ? 2 : 1;
+        return patch > 0.3 && tall < 0.3 ? 3 : tall < 0.55 ? 2 : 1;
     }
 
     // ================= The Great Hound =================
@@ -586,6 +586,9 @@ public sealed partial class WorldLayout
         Put(14, 22, 0, L73Thing.Sconce, N); Put(21, 22, 0, L73Thing.Sconce, N);
         Put(12, 12, 0, L73Thing.Painting, S); Put(15, 12, 0, L73Thing.Painting, S);
         Sofa(12, 17, 0, E); Sofa(23, 18, 0, W);
+        // Two round tables either side of the way in, chairs at them
+        Put(14, 20, 0, L73Thing.RoundTable, N); Put(13, 20, 0, L73Thing.Chair, E); Put(15, 20, 0, L73Thing.Chair, W);
+        Put(21, 20, 0, L73Thing.RoundTable, N); Put(20, 20, 0, L73Thing.Chair, E); Put(22, 20, 0, L73Thing.Chair, W);
         Put(14, 17, 0, L73Thing.Chandelier, N); Put(21, 18, 0, L73Thing.Chandelier, N);
         // The gallery: "numerous paintings of locations in The Frontrooms, but none of them lead outside"
         Put(27, 3, 0, L73Thing.Painting, E); Put(27, 9, 0, L73Thing.Painting, E);
@@ -776,8 +779,8 @@ public sealed partial class WorldLayout
         {
             ulong h = Hashing.Hash(seed, gx, gz, SaltL73Bones);
             double r = Hashing.Unit(h);
-            ushort prop = r < 1 / 170.0 ? Props.BonePile : r < 1 / 170.0 + 1 / 650.0 ? Props.Ribcage : r < 1 / 170.0 + 1 / 650.0 + 1 / 1100.0 ? Props.JawSkeleton
-                : r < 1 / 170.0 + 1 / 650.0 + 1 / 1100.0 + 1 / 3000.0 ? Props.Backpack : (ushort)0;
+            ushort prop = r < 1 / 170.0 ? Props.BonePile : r < 1 / 170.0 + 1 / 1400.0 ? Props.Ribcage : r < 1 / 170.0 + 1 / 1400.0 + 1 / 1100.0 ? Props.JawSkeleton
+                : r < 1 / 170.0 + 1 / 1400.0 + 1 / 1100.0 + 1 / 3000.0 ? Props.Backpack : (ushort)0;
             if (prop != 0)
             {
                 t.Variant = prop;

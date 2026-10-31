@@ -141,6 +141,12 @@ public sealed partial class WorldGenerator
             case Part.Court:
             case Part.Path:
                 if (c == 0) return part == Part.Court ? l73Rock : l73Ashlar;
+                // Buttresses against the keep's walls, between its windows, capped in slate
+                if (L73Buttress(u, v) && c <= 12) return c <= 11 ? l73Silver : l73Slate;
+                // A little slate canopy over the keep's door, pointed
+                if (v == WorldLayout.L73KeepV0 + WorldLayout.L73KeepD && u - WorldLayout.L73KeepU0 is >= 16 and <= 19
+                    && (c == 4 || c == 5 && u - WorldLayout.L73KeepU0 is 17 or 18))
+                    return l73Slate;
                 return WorldLayout.L73BannerAt(u, v) is { } banner && c == banner.Top ? l73Banner[Facing(banner.Facing)] : 0;
             case Part.Gate:
                 // The gateway, four wide and four high, under the wall-walk
@@ -155,9 +161,9 @@ public sealed partial class WorldGenerator
             {
                 if (c <= 10) return l73Silver;
                 int tu = u < 6 ? u : w - 1 - u, tv = v < 6 ? v : d - 1 - v;
-                if (c == 11 && (tu is 0 or 5 || tv is 0 or 5)) return Merlon(u, v) ? l73Silver : 0;
-                // A pointed slate roof inside the battlements, rising to a spire (the castle's gothic outline from afar)
-                if (c <= 12 && tu is >= 1 and <= 4 && tv is >= 1 and <= 4) return l73Slate;
+                // A steep pointed slate roof from the eaves, tapering to a spire (the castle's gothic outline from afar)
+                if (c == 11) return l73Slate;
+                if (c <= 13 && tu is >= 1 and <= 4 && tv is >= 1 and <= 4) return l73Slate;
                 return c <= 17 && tu is 2 or 3 && tv is 2 or 3 ? l73Slate : 0;
             }
             case Part.GateTower:
@@ -168,6 +174,19 @@ public sealed partial class WorldGenerator
                 return c <= 15 && u is 23 or 24 or 31 or 32 && v == d - 3 ? l73Slate : 0;
         }
         return L73KeepBlock(u - WorldLayout.L73KeepU0, v - WorldLayout.L73KeepV0, c);
+    }
+
+    /// <summary>
+    /// Whether a castle-local courtyard position holds a buttress against the keep's outer wall: on the long faces at keep
+    /// columns 4, 8, 15, 20, 27 and 31 (15 and 20 flank the door's path), on the ends at rows 4, 8, 15 and 19, so never
+    /// in front of a window (every fourth, from 2) or a banner.
+    /// </summary>
+    private static bool L73Buttress(int u, int v)
+    {
+        int ku = u - WorldLayout.L73KeepU0, kv = v - WorldLayout.L73KeepV0;
+        bool longFace = (kv == -1 || kv == WorldLayout.L73KeepD) && ku is 4 or 8 or 15 or 20 or 27 or 31;
+        bool endFace = (ku == -1 || ku == WorldLayout.L73KeepW) && kv is 4 or 8 or 15 or 19;
+        return longFace || endFace;
     }
 
     /// <summary>The keep, keep-local, <paramref name="c"/> above its floor: three storeys, the slabs between, the roof above.</summary>
@@ -193,7 +212,7 @@ public sealed partial class WorldGenerator
         {
             // A slab: the ceiling of the storey below, the floor of the one above (open over the flight below it)
             int below = c / storey - 1, above = below + 1;
-            if (ring) return l73Silver;
+            if (ring) return l73Ashlar; // (a string course of smooth stone round the outside at every floor)
             int step = WorldLayout.L73StairStep(ku, kv, below);
             if (step == 5) return hotelStairIds[0, Facing(WorldLayout.L73StairRise(below))];
             if (step > 0) return 0;

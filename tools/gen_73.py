@@ -141,27 +141,29 @@ def burnt(seed):
 
 
 def crust(seed):
-    """A crust of dried blood on the earth, cracked into plates: dull crimson, each plate a shade of its own, black cracks."""
-    pts = M.points(S, 14, seed, jitter=1.0)
+    """A crust of dried blood over the earth: a dull crimson glaze, crazed by thin dark cracks into small irregular flakes,
+    the earth showing through where it has flaked away."""
+    img = redearth(seed + 9)
+    px = img.load()
+    pts = M.points(S, 26, seed, jitter=1.0)
     f1, f2, idx = M.worley(S, pts)
+    cover = M.fbm(S, seed + 5, (16, 8))
     rng = random.Random(seed + 1)
-    shades = [rng.uniform(-22, 10) for _ in pts]
-    base = M.noise_hv((100, 27, 24), amp=5, seed=seed + 2, mottle=9, hue=3)
-    px = base.load()
+    shades = [rng.uniform(-12, 8) for _ in pts]
     for y in range(S):
         for x in range(S):
+            if cover[y][x] < -0.25:
+                continue  # flaked away: the earth under it
             r, g, b, a = px[x, y]
             d = shades[idx[y][x]]
+            glaze = (96 + d, 22 + d * 0.3, 20 + d * 0.3)
+            c = M.mix((r, g, b), glaze, 0.75)
             edge = f2[y][x] - f1[y][x]
-            if edge < 0.8:
-                px[x, y] = M.rgba((30, 11, 11))
-            elif edge < 1.6:
-                px[x, y] = M.rgba(M.mix((r + d, g + d * 0.3, b + d * 0.3), (56, 14, 13), 0.35))
-            else:
-                # The plate's top catches a little light; its curled edge on the far side is darker
-                px[x, y] = M.rgba((r + d, g + d * 0.3, b + d * 0.3))
-    flecks(base, seed + 3, 14, (150, 54, 44), 0.5)
-    return base
+            if edge < 0.7:
+                c = M.mix(c, (28, 10, 10), 0.75)
+            px[x, y] = M.rgba(c)
+    flecks(img, seed + 3, 10, (138, 46, 38), 0.45)
+    return img
 
 
 def deadgrass(seed, height):
@@ -175,7 +177,7 @@ def deadgrass(seed, height):
         x = rng.uniform(2, S - 3)
         h = S * top * rng.uniform(0.55, 1.0)
         lean = rng.uniform(-0.35, 0.35)
-        tip = rng.choice([(122, 70, 52), (110, 92, 78), (96, 48, 38), (134, 104, 82)])
+        tip = rng.choice([(112, 50, 38), (96, 66, 54), (86, 36, 30), (118, 78, 60)])
         bent = rng.random() < 0.3
         steps = int(h)
         for i in range(steps):
@@ -184,7 +186,7 @@ def deadgrass(seed, height):
             Y = S - 1 - i
             if not (0 <= X < S and 0 <= Y < S):
                 break
-            c = M.mix((30, 14, 13), tip, t ** 0.8)
+            c = M.mix((24, 10, 10), tip, t ** 1.0)
             px[X, Y] = M.rgba(c)
             if i < steps * 0.4 and 0 <= X + 1 < S:  # thicker at the root
                 px[X + 1, Y] = M.rgba(M.mix(c, (18, 8, 8), 0.4))
@@ -193,7 +195,7 @@ def deadgrass(seed, height):
 
 def bone(seed):
     """Old bone, bleached and weathered: ivory with long fibres along it, pores, and dark grime in its hollows."""
-    img = M.noise_hv((188, 178, 152), amp=5, seed=seed, mottle=8, hue=2)
+    img = M.noise_hv((164, 154, 132), amp=5, seed=seed, mottle=8, hue=2)
     px = img.load()
     fib = M.fbm(S, seed + 1, (16, 4))
     rng = random.Random(seed + 2)

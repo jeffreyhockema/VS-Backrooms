@@ -40,12 +40,12 @@ public partial class WorldLayout
             new(name, p.X, p.Y, p.Z, heading, pitch, setup);
 
         // The run: out on the fields south of the gate, the castle on its hill ahead and the moon over it
-        yield return At(Ground(mid + 0.5, gateZ + 92, 1, 0), "the-run", 0, 6);
+        yield return At(Ground(mid + 0.5, gateZ + 72, 1, 0), "the-run", 0, 7);
         // The foot of the stone path ("follow the hard sensation on the bottom of your feet")
         yield return At(Ground(mid, gateZ + 25), "path-foot", 0, 9);
         // Coran on the hill below the gate, beside the path, facing whoever comes up it
-        string coran = string.Format(CultureInfo.InvariantCulture, "/backrooms l73coran {0:0.#} {1:0.#} 167", mid + 3.5, gateZ + 25.5);
-        yield return At(Ground(mid + 5.5, gateZ + 34), "coran", 347, 8, coran);
+        string coran = string.Format(CultureInfo.InvariantCulture, "/backrooms l73coran {0:0.#} {1:0.#} 165", mid + 3.5, gateZ + 25.5);
+        yield return At(Ground(mid + 5, gateZ + 31), "coran", 345, 7, coran);
         // The gatehouse, close, its banners either side
         yield return At(Ground(mid, gateZ + 7), "gatehouse", 0, 16);
         // The courtyard: the keep's front, its door, banners, the balcony over the door and the attic on the roof
@@ -62,9 +62,9 @@ public partial class WorldLayout
         yield return At(Keep(24.5, 7.5, 2), "master-bedroom", 45, -12);
         // The roof terrace: the attic, shut, under its slate roof, the chimney stack, the turrets
         yield return At(Keep(4.5, 19.5, 3), "roof-attic", 55, 12);
-        // The Great Hound's bones on the fields, from off its flank (south of it, looking north across the ribs to the castle)
+        // The Great Hound's bones on the fields, from off its head (south-west of it, looking along the ribcage)
         var (hx, hz, _) = L73Hound;
-        yield return At(Ground(hx + 14.5, hz + 17.5), "great-hound", 335, -6);
+        yield return At(Ground(hx - 11.5, hz + 16.5), "great-hound", 62, -3);
         // The fields east of the castle: tors, dead grass, bones, the sea far off
         yield return At(Ground(L73IslandX + 70.5, L73IslandZ + 10.5, 1, 0), "fields", 100, -2);
         // The north shore under the moon
