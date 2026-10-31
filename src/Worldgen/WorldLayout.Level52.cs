@@ -39,7 +39,8 @@ public sealed partial class WorldLayout
 {
     /// <summary>Hash salts 0x2300-0x23BF are this level's (0x23C0-0x23FF its thresholds').</summary>
     private const ulong SaltL52Shape = 0x2301, SaltL52Campus = 0x2310, SaltL52Room = 0x2311, SaltL52Light = 0x2312, SaltL52Hill = 0x2313,
-        SaltL52Wave = 0x2314, SaltL52Tree = 0x2315, SaltL52Gap = 0x2316, SaltL52Stray = 0x2317, SaltL52Plan = 0x2318, SaltL52Storey = 0x2319;
+        SaltL52Wave = 0x2314, SaltL52Tree = 0x2315, SaltL52Gap = 0x2316, SaltL52Stray = 0x2317, SaltL52Plan = 0x2318, SaltL52Storey = 0x2319,
+        SaltL52Style = 0x231A;
 
     /// <summary>The campus lattice (blocks), a storey's height (its slab and three of air), a teaching wing's depth.</summary>
     public const int L52Period = 352, L52Storey = 4, L52WingDepth = 21;
@@ -64,6 +65,7 @@ public sealed partial class WorldLayout
     /// <summary>The interior paint (l52-wall-*, l52-locker-*) and the façades (l52-facade-*), by index.</summary>
     public static readonly string[] L52Paints = { "beige", "white", "blue", "grey" };
     public static readonly string[] L52Facades = { "white", "beige", "brick", "grey", "blue" };
+    public static readonly string[] L52Trims = { "light", "grey", "stone" };
 
     /// <summary>Where a campus is, and what it is: worked out cheaply from its hash (the roads between campuses ask often).</summary>
     public sealed class L52Head
@@ -85,6 +87,13 @@ public sealed partial class WorldLayout
         public int Index, Storeys;
         public L52BuildingKind Kind;
         public int U0, V0, U1, V1;
+        /// <summary>
+        /// How its outside looks (<see cref="L52AddBuilding"/>): its façade (<see cref="L52Facades"/>); its precast trim's colour
+        /// (<see cref="L52Trims"/>); where bands run (0 a cornice only, 1 at every floor line too, 2 at the first floor line); its
+        /// windows (0 two then a pier, 1 a ribbon, 2 one then a pier); a dark stone base course or not.
+        /// </summary>
+        public byte Facade, Trim, Band, Windows;
+        public bool Plinth;
     }
 
     /// <summary>A room (campus-local, its bounding box), the same on every storey of its building.</summary>
@@ -226,7 +235,43 @@ public sealed partial class WorldLayout
             double d = Math.Sqrt(dx * dx + dz * dz);
             f *= L52Smooth(Math.Clamp((d - 8) / 40.0, 0, 1));
         }
+        // (The roads run level, cut through the hills, the banks easing up either side)
+        if (f >= 0.5) f *= L52Smooth(Math.Clamp((L52RoadDistance(x, z) - 2) / 12.0, 0, 1));
         return Math.Clamp((int)Math.Round(f), 0, 7);
+    }
+
+    /// <summary>How far a block position is from the middle line of the nearest road (blocks; large where none is near).</summary>
+    private double L52RoadDistance(int x, int z)
+    {
+        int ci = Hashing.FloorDiv(x, L52Period), cj = Hashing.FloorDiv(z, L52Period);
+        L52Head here = L52HeadOf(ci, cj);
+        double best = 1e9;
+        void Pair(L52Head a, L52Head b, bool east)
+        {
+            if (!a.Exists || !b.Exists) return;
+            static double Seg(int x, int z, double x0, double z0, double x1, double z1)
+            {
+                double dx = Math.Max(0, Math.Max(Math.Min(x0, x1) - x, x - Math.Max(x0, x1)));
+                double dz = Math.Max(0, Math.Max(Math.Min(z0, z1) - z, z - Math.Max(z0, z1)));
+                return Math.Sqrt(dx * dx + dz * dz);
+            }
+            // (The three stretches of L52OnRoad, by their middle lines)
+            if (east)
+            {
+                double za = a.Z0 + a.Gap[1] - 0.5, zb = b.Z0 + b.Gap[3] - 0.5, xm = (a.X1 + b.X0) / 2 - 0.5;
+                best = Math.Min(best, Math.Min(Seg(x, z, a.X1, za, xm, za), Math.Min(Seg(x, z, xm, za, xm, zb), Seg(x, z, xm, zb, b.X0, zb))));
+            }
+            else
+            {
+                double xa = a.X0 + a.Gap[2] - 0.5, xb = b.X0 + b.Gap[0] - 0.5, zm = (a.Z1 + b.Z0) / 2 - 0.5;
+                best = Math.Min(best, Math.Min(Seg(x, z, xa, a.Z1, xa, zm), Math.Min(Seg(x, z, xa, zm, xb, zm), Seg(x, z, xb, zm, xb, b.Z0))));
+            }
+        }
+        Pair(here, L52HeadOf(ci + 1, cj), true);
+        Pair(L52HeadOf(ci - 1, cj), here, true);
+        Pair(here, L52HeadOf(ci, cj + 1), false);
+        Pair(L52HeadOf(ci, cj - 1), here, false);
+        return best;
     }
 
     private L52Head MakeL52Head(int ci, int cj)
@@ -489,7 +534,9 @@ public sealed partial class WorldLayout
             }
         }
 
+        L52LayBridges(c);
         L52LayPaths(c);
+        L52LayEntrances(c);
         L52LayGrounds(c);
         return c;
     }
@@ -500,9 +547,26 @@ public sealed partial class WorldLayout
         return r < 0.16 ? 2 : r < 0.46 ? 3 : r < 0.74 ? 4 : r < 0.89 ? 5 : r < 0.96 ? 6 : r < 0.99 ? 7 : 8;
     }
 
-    private static L52Building L52AddBuilding(L52Campus c, L52BuildingKind kind, int u0, int v0, int u1, int v1, int storeys)
+    /// <summary>
+    /// Adds a building to a campus, with the look of its outside: the campus's façade mostly, now and then another of the
+    /// lore's colours ("pale brown, gray, beige, and off-white"); Marshall David and J. Turner all white concrete, J. Barry
+    /// blue and white by turns. Trim, bands, windows and base course vary building by building, so no two read the same.
+    /// </summary>
+    private L52Building L52AddBuilding(L52Campus c, L52BuildingKind kind, int u0, int v0, int u1, int v1, int storeys)
     {
         var b = new L52Building { Index = c.Buildings.Count + 1, Kind = kind, U0 = u0, V0 = v0, U1 = u1, V1 = v1, Storeys = Math.Clamp(storeys, 1, L52MaxStoreys) };
+        ulong h = Hashing.Hash(seed, c.Head.X0 + b.Index * 101, c.Head.Z0 - b.Index * 37, SaltL52Style);
+        b.Facade = c.Head.Kind switch
+        {
+            L52CampusKind.MarshallDavid or L52CampusKind.JTurner => 0,
+            L52CampusKind.JBarry => (byte)(b.Index % 2 == 1 ? 4 : 0),
+            _ => Hashing.Unit(h) < 0.55 ? c.Facade : (byte)((h >> 8) % 4),
+        };
+        // (White concrete takes grey or sandstone trim; every other façade the off-white)
+        b.Trim = b.Facade == 0 ? (byte)((h >> 16) % 3 == 0 ? 2 : 1) : (byte)0;
+        b.Band = (byte)((h >> 12) % 3);
+        b.Windows = c.Head.Kind == L52CampusKind.MarshallDavid ? (byte)0 : (byte)((h >> 20) % 3);
+        b.Plinth = (h >> 24 & 3) != 0;
         c.Buildings.Add(b);
         return b;
     }
@@ -905,13 +969,14 @@ public sealed partial class WorldLayout
                 if (!c.InGrid(u + au, v + av) || !c.InGrid(u - au, v - av)) continue;
                 if (c.At(u + au, v + av).Zone is not ((byte)L52Zone.Ext or (byte)L52Zone.Entrance)
                     || c.At(u - au, v - av).Zone is not ((byte)L52Zone.Ext or (byte)L52Zone.Entrance)) continue;
-                if (Hashing.Mod(t.Pier is ArchPier.North or ArchPier.South ? u : v, 3) == 0) continue;
+                int along = t.Pier is ArchPier.North or ArchPier.South ? u : v;
+                if (b.Windows == 0 && Hashing.Mod(along, 3) == 0 || b.Windows == 2 && Hashing.Mod(along, 2) == 0) continue;
                 t.Under = Unders.L52Window;
             }
     }
 
     /// <summary>A hall standing apart (gym, canteen, warehouse): one room two storeys high, doors in its sides.</summary>
-    private static void L52LayHall(L52Campus c, int u0, int v0, int u1, int v1, L52BuildingKind kind, bool alongX)
+    private void L52LayHall(L52Campus c, int u0, int v0, int u1, int v1, L52BuildingKind kind, bool alongX)
     {
         L52Building b = L52AddBuilding(c, kind, u0, v0, u1, v1, 2);
         L52Footprint(c, b);
@@ -1085,6 +1150,117 @@ public sealed partial class WorldLayout
         }
     }
 
+    /// <summary>The storey a pedestrian bridge runs at (the first floor up).</summary>
+    public const int L52BridgeStorey = 1;
+
+    /// <summary>
+    /// "A pedestrian bridge" between buildings close together: from the quad to a teaching block or hall of lodgings that
+    /// stands 8-24 blocks off it, face to face, a covered glazed walkway three wide at the first floor up, straight across,
+    /// opening into whatever lies behind the wall at each end (a corridor or a room; nothing is put in the way there, see
+    /// <see cref="L52Furnish"/>). One bridge to a building at most.
+    /// </summary>
+    private static void L52LayBridges(L52Campus c)
+    {
+        if (c.Buildings.Count < 2) return;
+        L52Building q = c.Buildings[0];
+        if (q.Storeys <= L52BridgeStorey) return;
+        bool Inside(int u, int v) => c.InGrid(u, v) && c.At(u, v).Kind == TileKind.Floor && c.At(u, v).Depth > 0
+            && c.At(u, v).Zone is (byte)L52Zone.Room or (byte)L52Zone.Corridor or (byte)L52Zone.Lobby;
+        foreach (L52Building b in c.Buildings)
+        {
+            if (b == q || b.Kind is not (L52BuildingKind.Teaching or L52BuildingKind.Lodging) || b.Storeys <= L52BridgeStorey) continue;
+            // Face to face along u (the block east or west of the quad) or along v (north or south of it)
+            for (int axis = 0; axis < 2; axis++)
+            {
+                bool alongU = axis == 0;
+                int lo = alongU ? Math.Max(q.V0, b.V0) + 3 : Math.Max(q.U0, b.U0) + 3, hi = alongU ? Math.Min(q.V1, b.V1) - 3 : Math.Min(q.U1, b.U1) - 3;
+                if (hi - lo < 2) continue;
+                // (The wall tile on each side, the quad's and the block's, the span between them)
+                int qa, ba;
+                if (alongU) { if (b.U0 > q.U1) { qa = q.U1; ba = b.U0; } else if (b.U1 < q.U0) { qa = q.U0; ba = b.U1; } else continue; }
+                else { if (b.V0 > q.V1) { qa = q.V1; ba = b.V0; } else if (b.V1 < q.V0) { qa = q.V0; ba = b.V1; } else continue; }
+                int gap = Math.Abs(ba - qa) - 1, step = Math.Sign(ba - qa);
+                if (gap < 8 || gap > 24) continue;
+                int mid = (lo + hi) / 2, best = int.MinValue;
+                for (int k = 0; k <= hi - lo && best == int.MinValue; k++)
+                {
+                    int m = mid + (k + 1) / 2 * (k % 2 == 0 ? 1 : -1);
+                    if (m - 1 < lo || m + 1 > hi) continue;
+                    bool ok = true;
+                    for (int w = -1; w <= 1 && ok; w++)
+                    {
+                        (int U, int V) P(int a) => alongU ? (a, m + w) : (m + w, a);
+                        var (qu, qv) = P(qa);
+                        var (bu, bv) = P(ba);
+                        var (qiu, qiv) = P(qa - step);
+                        var (biu, biv) = P(ba + step);
+                        ok = c.At(qu, qv).Zone == (byte)L52Zone.Ext && c.At(bu, bv).Zone == (byte)L52Zone.Ext && Inside(qiu, qiv) && Inside(biu, biv);
+                        for (int a = qa + step; ok && a != ba; a += step)
+                        {
+                            var (pu, pv) = P(a);
+                            Tile o = c.At(pu, pv);
+                            ok = o.Depth == 0 && o.Kind == TileKind.Floor && o.Zone == (byte)L52Zone.Lawn;
+                        }
+                    }
+                    if (ok) best = m;
+                }
+                if (best == int.MinValue) continue;
+                ArchPier runs = alongU ? ArchPier.East : ArchPier.South;
+                for (int w = -1; w <= 1; w++)
+                    for (int a = qa; ; a += step)
+                    {
+                        var (u, v) = alongU ? (a, best + w) : (best + w, a);
+                        ref Tile t = ref c.At(u, v);
+                        if (a == qa || a == ba) t.Overhead = Overheads.L52BridgeDoor;
+                        else
+                        {
+                            t.Overhead = Overheads.L52Bridge;
+                            t.Pier = runs;
+                            t.Stack = (byte)(w == 0 ? 2 : 1);
+                            t.Variant = 0;
+                        }
+                        if (a == ba) break;
+                    }
+                break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// What makes a way in read as one: a precast surround on the wall either side of every outside door (and a lintel over
+    /// it, <see cref="Overheads.L52Frame"/>), and a flat canopy over the paving in front of it at the first floor line
+    /// (<see cref="Overheads.L52Canopy"/>), three blocks out and a block wider than the door each side. Nothing stands under it.
+    /// </summary>
+    private static void L52LayEntrances(L52Campus c)
+    {
+        for (int v = 0; v < c.D; v++)
+            for (int u = 0; u < c.W; u++)
+            {
+                Tile e = c.At(u, v);
+                if (e.Zone != (byte)L52Zone.Entrance || e.Depth == 0) continue;
+                var (ou, ov) = L52Step(e.Pier);
+                // (Only a door in an outside wall: outdoors in front of it)
+                if (!c.InGrid(u + ou, v + ov) || c.At(u + ou, v + ov).Depth != 0) continue;
+                var (au, av) = L52Step(L52LeftOf(e.Pier));
+                for (int k = -1; k <= 1; k += 2)
+                {
+                    int fu = u + au * k, fv = v + av * k;
+                    if (c.InGrid(fu, fv) && c.At(fu, fv).Zone == (byte)L52Zone.Ext && c.At(fu, fv).Overhead == 0) c.At(fu, fv).Overhead = Overheads.L52Frame;
+                }
+                for (int d = 1; d <= 3; d++)
+                    for (int l = -1; l <= 1; l++)
+                    {
+                        int pu = u + ou * d + au * l, pv = v + ov * d + av * l;
+                        if (!c.InGrid(pu, pv)) continue;
+                        ref Tile t = ref c.At(pu, pv);
+                        if (t.Depth != 0 || t.Kind != TileKind.Floor || t.Overhead != 0) continue;
+                        t.Overhead = Overheads.L52Canopy;
+                        t.Variant = 0;
+                        t.Stack = 0;
+                    }
+            }
+    }
+
     /// <summary>The lawns: lamps along the paths, a bench or a bin here and there, a few trees.</summary>
     private void L52LayGrounds(L52Campus c)
     {
@@ -1092,7 +1268,7 @@ public sealed partial class WorldLayout
             for (int u = 3; u < c.W - 3; u++)
             {
                 ref Tile t = ref c.At(u, v);
-                if (t.Zone != (byte)L52Zone.Lawn || t.Variant != 0) continue;
+                if (t.Zone != (byte)L52Zone.Lawn || t.Variant != 0 || t.Overhead != 0) continue;
                 bool byPath = false;
                 ArchPier toPath = ArchPier.North;
                 foreach (ArchPier side in L52Ways)
@@ -1111,7 +1287,7 @@ public sealed partial class WorldLayout
                 bool clear = true;
                 for (int dv = -2; dv <= 2 && clear; dv++)
                     for (int du = -2; du <= 2 && clear; du++)
-                        if (c.At(u + du, v + dv).Zone != (byte)L52Zone.Lawn) clear = false;
+                        if (c.At(u + du, v + dv).Zone != (byte)L52Zone.Lawn || c.At(u + du, v + dv).Overhead != 0) clear = false;
                 if (clear && r > 0.996) t.Variant = Props.Tree;
             }
         // The ground storey's rooms, furnished (the generator asks the same for every storey above)
@@ -1169,12 +1345,15 @@ public sealed partial class WorldLayout
         stack = 0;
         box = false;
         L52RoomKind kind = L52KindOn(c, room, storey);
-        // Never in a doorway's way: nothing on a tile beside a door
+        // Never in a doorway's way: nothing on a tile beside a door (nor, on its storey, within two of a bridge's opening)
         foreach (ArchPier side in L52Ways)
         {
             var (du, dv) = L52Step(side);
             int nu = u + du, nv = v + dv;
             if (c.InGrid(nu, nv) && c.At(nu, nv).Kind == TileKind.Doorway) return 0;
+            if (storey == L52BridgeStorey)
+                for (int k = 1; k <= 2; k++)
+                    if (c.InGrid(u + du * k, v + dv * k) && c.At(u + du * k, v + dv * k).Overhead == Overheads.L52BridgeDoor) return 0;
         }
         // The room's frame: d the depth from the door's wall (0 next to it), a along it
         bool alongX = room.DoorSide is ArchPier.North or ArchPier.South;

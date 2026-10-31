@@ -1,0 +1,45 @@
+// Level 52: an entrance canopy, a flat cantilevered slab over a doorway (charcoal fascia, pale soffit with downlights)
+{
+	"code": "l52-canopy",
+	"texturesByType": {
+		"*": {
+			"north": {
+				"base": "block/52/canopy-fascia"
+			},
+			"east": {
+				"base": "block/52/canopy-fascia"
+			},
+			"south": {
+				"base": "block/52/canopy-fascia"
+			},
+			"west": {
+				"base": "block/52/canopy-fascia"
+			},
+			"up": {
+				"base": "block/52/roof-membrane"
+			},
+			"down": {
+				"base": "block/52/canopy-soffit"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

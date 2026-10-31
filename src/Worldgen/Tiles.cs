@@ -882,6 +882,10 @@ public static class Overheads
     public const ushort L52First = 320, L52Last = 351;
     /// <summary>Level 52: the two halves of a door's number plaque on the corridor wall (Pier the way it faces; the room it numbers is the campus plan's).</summary>
     public const ushort L52PlaqueLo = 320, L52PlaqueHi = 321;
+    /// <summary>Level 52: an entrance canopy over this outdoor tile (at the first floor line); an outside wall tile beside an entrance, framed by a precast surround on the ground storey.</summary>
+    public const ushort L52Canopy = 322, L52Frame = 323;
+    /// <summary>Level 52: a pedestrian bridge over this outdoor tile at the first floor up (Pier the way it runs, Stack 1 its side, 2 its middle); an outside wall tile opened onto one at that floor.</summary>
+    public const ushort L52Bridge = 324, L52BridgeDoor = 325;
     public const ushort L31First = 352, L31Last = 383;
     public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;

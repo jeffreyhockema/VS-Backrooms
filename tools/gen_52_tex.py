@@ -233,6 +233,62 @@ def barrier(part, seed):
     return img
 
 
+# Round 2: the trim that breaks up a façade (string courses and cornices, a plinth, entrance frames) and the entrance canopies
+
+BAND_BASE = {"light": (230, 226, 216), "grey": (142, 143, 140), "stone": (198, 178, 142)}
+
+
+def band(kind, seed):
+    """A precast string course / cornice / door surround: a smooth band with a lit top arris and a drip groove near the bottom."""
+    img = M.concrete(seed, base=BAND_BASE[kind], grain=2, mottle=4, aggregate=0.02, pores=0.01, patches=2)
+    for x in range(S):
+        M.touch(img, x, 0, 0.10)
+        M.touch(img, x, 1, 0.05)
+        M.touch(img, x, 27, -0.22)
+        M.touch(img, x, 28, -0.08)
+        M.touch(img, x, 31, -0.10)
+    M.emboss_lines(img, xs=(0,), raised=False, strength=0.10)
+    M.grime(img, 0.05, seed + 1, color=(100, 94, 84), bias="bottom", cover=0.35)
+    return img
+
+
+def plinth(seed):
+    """The building's base course: dark grey honed stone panels with a joint, splashed a little by rain."""
+    img = M.concrete(seed, base=(92, 92, 90), grain=3, mottle=5, aggregate=0.10, pores=0.02, patches=3)
+    M.emboss_lines(img, xs=(0, 16), ys=(0,), raised=False, strength=0.14)
+    for x in range(S):
+        M.touch(img, x, 1, 0.14)
+    M.grime(img, 0.08, seed + 1, color=(60, 56, 50), bias="bottom", cover=0.5)
+    return img
+
+
+def canopy_fascia(seed):
+    """The edge of an entrance canopy: a powder-coated charcoal metal fascia with a lit top lip and panel joints."""
+    img = M.painted_metal(seed, base=(66, 70, 74), grain=2, mottle=3, panel=False, chips=0)
+    for x in range(S):
+        M.touch(img, x, 0, 0.30)
+        M.touch(img, x, 1, 0.12)
+        M.touch(img, x, 30, -0.15)
+        M.touch(img, x, 31, -0.25)
+    M.emboss_lines(img, xs=(0,), raised=False, strength=0.18)
+    return img
+
+
+def canopy_soffit(seed):
+    """The underside of a canopy: pale metal planks running across, a recessed downlight disc in the middle."""
+    img = steel(seed, (196, 198, 196), 4)
+    M.emboss_lines(img, ys=(0, 8, 16, 24), raised=False, strength=0.10)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            d = math.hypot(x - 15.5, y - 15.5)
+            if d < 3.2:
+                px[x, y] = (250, 246, 228, 255)
+            elif d < 4.3:
+                px[x, y] = (150, 150, 148, 255)
+    return img
+
+
 def slab_concrete(seed):
     img = M.concrete(seed, base=(158, 156, 150), grain=3, mottle=6, aggregate=0.05, pores=0.015, patches=3, patch_hue=2)
     M.ao_border(img, 1, 0.08)

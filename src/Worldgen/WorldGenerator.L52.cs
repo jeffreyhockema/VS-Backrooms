@@ -24,7 +24,8 @@ public sealed partial class WorldGenerator
     private static readonly string[] L52LightStates = { "on", "lit", "off", "flicker" };
     private const int L52SlabConcrete = 7, L52LightOn = 0, L52LightOff = 2;
 
-    private int l52Grass, l52Soil, l52Rock, l52Gravel, l52Sand, l52Coping, l52Barrier, l52Roof;
+    private int l52Grass, l52Soil, l52Rock, l52Gravel, l52Sand, l52Coping, l52Barrier, l52Roof, l52Plinth, l52Canopy;
+    private readonly int[] l52Trim = new int[3];
     private readonly int[,] l52Wall = new int[4, 3], l52Light = new int[9, 4], l52Window = new int[2, 2], l52Chain = new int[2, 2];
     private readonly int[,,] l52Locker = new int[4, 2, 4], l52Board = new int[2, 3, 4];
     private readonly int[,,,] l52Plaque = new int[2, 10, 10, 4];
@@ -60,6 +61,9 @@ public sealed partial class WorldGenerator
         l52Coping = L52Block("l52-coping", l52Facade[0]);
         l52Barrier = L52Block("l52-barrier", concreteId);
         l52Roof = L52Block("l52-roof", concreteId);
+        for (int i = 0; i < 3; i++) l52Trim[i] = L52Block("l52-band-" + WorldLayout.L52Trims[i], l52Coping);
+        l52Plinth = L52Block("l52-plinth", l52Trim[1]);
+        l52Canopy = L52Block("l52-canopy", l52Coping);
         for (int k = 0; k < 2; k++)
             for (int a = 0; a < 2; a++)
             {
@@ -205,6 +209,25 @@ public sealed partial class WorldGenerator
             };
         }
         int up1 = rel - g;
+        // A pedestrian bridge at the first floor up: its floor, glazed sides, roof (the sides in the quad's façade and trim)
+        if (t.Overhead == Overheads.L52Bridge && col.Campus != null)
+        {
+            int b = up1 - WorldLayout.L52BridgeStorey * WorldLayout.L52Storey;
+            if (b >= 0 && b <= 4)
+            {
+                WorldLayout.L52Building quad = col.Campus.Buildings[0];
+                bool side = t.Stack == 1;
+                return b switch
+                {
+                    0 => side ? l52Trim[quad.Trim] : l52Slab[0],
+                    1 => side ? l52Facade[quad.Facade] : 0,
+                    2 or 3 => side ? l52Window[b - 2, t.Pier is ArchPier.East or ArchPier.West ? 1 : 0] : 0,
+                    _ => side ? l52Trim[quad.Trim] : l52Roof,
+                };
+            }
+        }
+        // An entrance's canopy, at the first floor line
+        if (t.Overhead == Overheads.L52Canopy && up1 == WorldLayout.L52Storey) return l52Canopy;
         // A tree's trunk (five logs), and the crowns of the trees round about
         if (t.Variant == Props.Tree && up1 <= 5) return treeLogIds[Math.Max(0, col.Wood)];
         if (col.Wood >= 0)
@@ -239,14 +262,28 @@ public sealed partial class WorldGenerator
         int paint = c.Paint;
         if (t.Zone is (byte)Zone.Ext or (byte)Zone.Entrance)
         {
+            // (The building's own look: its façade, trim, bands and base course; see WorldLayout.L52AddBuilding)
+            WorldLayout.L52Building bld = t.Detail > 0 && t.Detail <= c.Buildings.Count ? c.Buildings[t.Detail - 1] : null;
+            int trim = l52Trim[bld?.Trim ?? 0];
             if (rel == top + 2) return l52Coping;
             if (rel > top + 2) return 0;
             int s = rel / 4, k = rel % 4;
-            if (rel <= top && t.Zone == (byte)Zone.Entrance && s == 0 && k is 1 or 2) return 0;
-            if (rel < top && k is 2 or 3 && (t.Under == Unders.L52Window || t.Zone == (byte)Zone.Entrance && s > 0))
+            bool entrance = t.Zone == (byte)Zone.Entrance;
+            if (entrance && s == 0 && k is 1 or 2) return 0;
+            // A bridge's opening at its floor, and its lintel
+            if (s == WorldLayout.L52BridgeStorey && t.Overhead == Overheads.L52BridgeDoor && k > 0) return k == 3 ? trim : 0;
+            // The door's lintel and the surround either side of it
+            if (s == 0 && k == 3 && entrance || s == 0 && k >= 1 && t.Overhead == Overheads.L52Frame) return trim;
+            if (rel < top && k is 2 or 3 && (t.Under == Unders.L52Window || entrance && s > 0))
                 return l52Window[k - 2, t.Pier is ArchPier.North or ArchPier.South ? 1 : 0];
-            if (t.Zone == (byte)Zone.Entrance && rel == 0) return l52Slab[0];
-            return l52Facade[c.Facade];
+            if (entrance && rel == 0) return l52Slab[0];
+            if (bld != null)
+            {
+                // The cornice under the parapet, the bands at the floor lines, the base course
+                if (rel == top || k == 0 && s >= 1 && (bld.Band == 1 || bld.Band == 2 && s == 1)) return trim;
+                if (rel == 1 && bld.Plinth) return l52Plinth;
+            }
+            return l52Facade[bld?.Facade ?? c.Facade];
         }
         // Over the top storey: the roof, an air-conditioning unit on it now and then
         if (rel == top + 1) return l52Roof;

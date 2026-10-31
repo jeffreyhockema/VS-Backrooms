@@ -3,6 +3,7 @@
     l52-wall-{palette}-{part}      painted interior wall (beige, white, blue, grey; base with skirting, dado with rail, upper); cubes
     l52-locker-{palette}-{part}-{side}   a bank of three steel lockers on one face of a wall block; cubes
     l52-facade-{palette}           exterior wall (white, beige, brick, grey, blue); l52-coping parapet cap; l52-barrier fence base
+    l52-band-{kind}, l52-plinth, l52-canopy   façade trim (string courses, cornice, door surrounds), base course, entrance canopy
     l52-window-{part}-{axis}       a two-block window, a glass pane in a white aluminium frame; JSON shape
     l52-slab-{kind}                floor finish above, suspended ceiling below; l52-roof; l52-light-{kind}-{state} troffer in the same
     l52-turf-{kind}, l52-court-{kind}, l52-paving-{kind}   outdoor surfaces
@@ -205,6 +206,11 @@ def new_textures():
         save(T.facade(kind, 5400 + i * 10), f"facade-{kind}")
     save(T.coping("top", 5460), "coping-top")
     save(T.coping("side", 5461), "coping-side")
+    for i, kind in enumerate(("light", "grey", "stone")):
+        save(T.band(kind, 5700 + i), "band-" + kind)
+    save(T.plinth(5710), "plinth")
+    save(T.canopy_fascia(5720), "canopy-fascia")
+    save(T.canopy_soffit(5721), "canopy-soffit")
     save(T.barrier("side", 5470), "barrier")
     save(T.barrier("top", 5471), "barrier-top")
     save(T.slab_concrete(5480), "slab-concrete")
@@ -453,6 +459,15 @@ def new_blocktypes():
                "Level 52: exterior wall (white concrete panels, beige render, pale brick, grey precast, blue-painted concrete)")
     cube_block("l52-coping", [], {"*": faces(sides="coping-side", up="coping-top", down="slab-concrete")},
                "Level 52: concrete coping cap for parapet tops (cap on top, drip line on the sides)")
+    bands = ["light", "grey", "stone"]
+    cube_block("l52-band", [group("kind", bands)], {f"l52-band-{k}": faces(sides=f"band-{k}", up="coping-top", down="slab-concrete") for k in bands},
+               "Level 52: a precast band on a façade (string course at a floor line, cornice under the parapet, an entrance's surround and lintel): "
+               "off-white, mid grey or pale sandstone")
+    cube_block("l52-plinth", [], {"*": faces(sides="plinth", up="coping-top", down="slab-concrete")},
+               "Level 52: the dark honed stone base course along the foot of an outside wall")
+    cube_block("l52-canopy", [], {"*": faces(sides="canopy-fascia", up="roof-membrane", down="canopy-soffit")},
+               "Level 52: an entrance canopy, a flat cantilevered slab over a doorway (charcoal fascia, pale soffit with downlights)", material="Metal",
+               sounds=METAL)
     cube_block("l52-barrier", [], {"*": faces(sides="barrier", up="barrier-top", down="slab-concrete")},
                "Level 52: the low weathered concrete wall a fence stands on, a chamfered cap line near its top")
     # Slabs and lights
@@ -654,7 +669,9 @@ def expected_codes():
             codes.add(f"l52-wall-{p}-{part}")
     for p in ("white", "beige", "brick", "grey", "blue"):
         codes.add(f"l52-facade-{p}")
-    codes |= {"l52-coping", "l52-barrier", "l52-roof"}
+    codes |= {"l52-coping", "l52-barrier", "l52-roof", "l52-plinth", "l52-canopy"}
+    for k in ("light", "grey", "stone"):
+        codes.add(f"l52-band-{k}")
     for part in ("lower", "upper"):
         for axis in ("ns", "we"):
             codes.add(f"l52-window-{part}-{axis}")
