@@ -31,7 +31,7 @@ public sealed partial class WorldGenerator
     private const int L23Low = -20, L23Height = WorldLayout.L23Top - L23Low + 1;
 
     private int l23Humus, l23Moss, l23Litter, l23Earth, l23RootEarth, l23Tangle, l23Root, l23Leaves, l23LeavesDense, l23RuinStone, l23RuinMoss,
-        l23Plaque, l23Sand, l23Gravel, l23Ember, l23Lantern, l23Table, l23Stick, l23TallGrass, l23ShortGrass, l23Flower;
+        l23Plaque, l23Sand, l23Gravel, l23Lantern, l23Table, l23Stick, l23TallGrass, l23ShortGrass, l23Flower;
     private readonly int[] l23Bark = new int[7];
     private readonly int[] l23Sentry = new int[4];
     private readonly int[] l23Latin = new int[4];
@@ -72,7 +72,6 @@ public sealed partial class WorldGenerator
         }
         l23Sand = GameId("game:sand-granite", "game:sand-basalt");
         l23Gravel = GameId("game:gravel-granite", "game:gravel-basalt");
-        l23Ember = GameId("game:ember");
         l23Lantern = GameId("game:lantern-small-up", "game:lantern-up");
         l23Table = OptionalId("game:table-normal");
         l23Stick = OptionalId("game:loosestick-free");
@@ -225,7 +224,7 @@ public sealed partial class WorldGenerator
             L23Carve(c, gx, gz, f, ceil, cave);
         }
         // ---- The tunnels ----
-        if (layout.L23Tunnel(gx, gz, out int tf, out int tc, out double off))
+        if (layout.L23Tunnel(gx, gz, out int tf, out int tc, out double off, out CaveKind tunnelTo))
         {
             if (off < 1)
             {
@@ -237,6 +236,9 @@ public sealed partial class WorldGenerator
                 }
                 // Its floor: trodden earth, a root across it now and then (a step)
                 if (tf <= ground && caveFloor == int.MinValue) b[tf - L23Low] = L23Unit(gx, gz, 5) < 0.12 ? l23Root : l23Earth;
+                // The M.E.G. light the ways down to Base Seedling: a lantern by the wall now and then (my invention)
+                if (tunnelTo == CaveKind.Seedling && off > 0.7 && tf < ground && caveFloor == int.MinValue && L23Unit(gx, gz, 20) < 0.07 && b[tf - L23Low] != 0)
+                    b[tf + 1 - L23Low] = l23Lantern;
                 if (caveFloor == int.MinValue || tf < caveFloor) caveFloor = tf;
             }
             else
@@ -375,15 +377,18 @@ public sealed partial class WorldGenerator
         if (gap >= 4 && b[under] == 0)
         {
             double h = L23Unit(gx, gz, 10);
-            double sorries = cave.Kind == CaveKind.Seedling ? 0.012 : 0.024;
+            // (More over the ruins, which lie deepest in their glow rooms: round 2's shots showed them nearly black)
+            double sorries = cave.Kind == CaveKind.Seedling ? 0.012 : cave.Kind == CaveKind.Ruin ? 0.045 : 0.024;
             if (h < sorries) b[under] = l23Sorry[cave.Colour == 0 || L23Unit(gx, gz, 11) < 0.15 ? 0 : cave.Colour];
             else if (h < sorries + 0.03) L23Hang(b, ceiling - 1, 1 + (int)(L23Hash(gx, gz, 12) % 3), floor, root: false);
             else if (h < sorries + 0.06) L23Hang(b, ceiling - 1, 1 + (int)(L23Hash(gx, gz, 12) % 2), floor, root: true);
         }
-        if (cave.Kind != CaveKind.Glow) return;
+        // (Round the ruins' plazas the glow room's own floor goes on: glowcaps, mushrooms and ferns, but no little trees)
+        bool ruinEdge = cave.Kind == CaveKind.Ruin && u * u + v * v > (WorldLayout.L23FlatRadius(CaveKind.Ruin) + 2) * (WorldLayout.L23FlatRadius(CaveKind.Ruin) + 2);
+        if (cave.Kind != CaveKind.Glow && !ruinEdge) return;
 
         // The little forest: petrified trees two to four high with a crown of leaves, on their own lattice
-        if (L23LittleTree(b, gx, gz, floor, ceiling)) return;
+        if (!ruinEdge && L23LittleTree(b, gx, gz, floor, ceiling)) return;
         int on = floor + 1 - L23Low;
         if (b[on] != 0 || c.Water[on] || c.Water[on - 1] || b[on - 1] == 0) return;
         double r = L23Unit(gx, gz, 13);
@@ -452,7 +457,8 @@ public sealed partial class WorldGenerator
             }
             b[rel - L23Low] = block;
         }
-        // Pottery: on the plaza and in the rooms, on the first floor up
+        // Pottery: on the plaza and in the rooms, on the first floor up; and the fungi the lore says overgrow the ruins,
+        // glowcaps of the room's colour come up through the moss on the paving (round 2: the plazas were black without them)
         double d = Math.Sqrt(u * u + v * v);
         if (d < WorldLayout.L23FlatRadius(CaveKind.Ruin) + 6)
             for (int rel = floor + 1; rel < ceiling - 1; rel++)
@@ -460,6 +466,7 @@ public sealed partial class WorldGenerator
                 int i = rel - L23Low;
                 if (b[i] != 0) continue;
                 if (b[i - 1] != 0 && L23Unit(gx, gz, 17) < 0.035) b[i] = l23Pottery[L23Unit(gx, gz, 18) < 0.4 ? 0 : 1];
+                else if (b[i - 1] == l23RuinMoss && L23Unit(gx, gz, 19) < 0.09) b[i] = l23Glowcap[cave.Colour];
                 break;
             }
     }
@@ -479,7 +486,8 @@ public sealed partial class WorldGenerator
             if (h == 2 && m == 3 && (u == 0 || v == 0) && v <= 0) return l23Latin[u == 0 ? 0 : u > 0 ? 1 : 2];
             return l23RuinStone;
         }
-        if (h == 10 && m == 0) return l23Ember;
+        // (Its fire on top: a lamp still burning, as the lore's lighthouse would have; an ember gave no light to see it by)
+        if (h == 10 && m == 0) return l23Lantern;
         if (h is 10 or 11 && au == 1 && av == 1) return l23RuinStone;
         return -1;
     }

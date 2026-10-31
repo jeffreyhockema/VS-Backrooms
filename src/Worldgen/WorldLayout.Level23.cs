@@ -791,10 +791,14 @@ public sealed partial class WorldLayout
     /// line); false where none passes near. Each slopes up from a cavern's floor near its edge to the forest floor some
     /// twenty-five blocks out, three to five wide, four high.
     /// </summary>
-    public bool L23Tunnel(int gx, int gz, out int floor, out int ceiling, out double off)
+    public bool L23Tunnel(int gx, int gz, out int floor, out int ceiling, out double off) => L23Tunnel(gx, gz, out floor, out ceiling, out off, out _);
+
+    /// <summary>A root tunnel at a column, as above, and the kind of cavern it leads down to.</summary>
+    public bool L23Tunnel(int gx, int gz, out int floor, out int ceiling, out double off, out L23CaveKind kind)
     {
         floor = ceiling = 0;
         off = 99;
+        kind = L23CaveKind.None;
         L23CaveWindow w = L23CavernsNear(gx, gz);
         double px = gx + 0.5, pz = gz + 0.5;
         for (int k = 0; k < w.Count; k++)
@@ -815,6 +819,7 @@ public sealed partial class WorldLayout
                 double o = Math.Sqrt(ox * ox + oz * oz) / width;
                 if (o > 2.2 || o >= off) continue;
                 off = o;
+                kind = c.Kind;
                 floor = (int)Math.Round(p.Fa + (p.Fb - p.Fa) * L23Smooth(tc));
                 ceiling = floor + 5;
             }

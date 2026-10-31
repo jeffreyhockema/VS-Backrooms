@@ -23,17 +23,19 @@ public partial class AtmosphereSystem
 {
     // (Dim but readable: the fog thin enough that the trunks stand one behind another for thirty-odd blocks before they
     // fade, its colour the grey-green of the light that gets through the lid, not black)
-    private static readonly Atmosphere L23Forest = new(0.0065f, 0.17f, 0.23f, 0.14f, -0.16f, scene: 0.95f);
-    private static readonly Atmosphere L23CoreAir = new(0.0045f, 0.26f, 0.33f, 0.24f, -0.22f, scene: 1f);
+    // (A ground fog thickens with depth under the fog's surface: only a trace of it on the forest floor, and none down in
+    // the basin or the caverns, where it closed everything in)
+    private static readonly Atmosphere L23Forest = new(0.0065f, 0.17f, 0.23f, 0.14f, -0.07f, scene: 0.95f);
+    private static readonly Atmosphere L23CoreAir = new(0.0045f, 0.26f, 0.33f, 0.24f, 0f, scene: 1f);
     private static readonly Atmosphere L23TunnelAir = new(0.013f, 0.10f, 0.08f, 0.05f, 0f, scene: 0.9f);
     private static readonly Atmosphere L23SeedlingAir = new(0.006f, 0.24f, 0.18f, 0.10f, 0f, scene: 1f);
-    private static readonly Atmosphere L23RuinAir = new(0.0075f, 0.13f, 0.15f, 0.13f, -0.12f, scene: 0.95f);
+    private static readonly Atmosphere L23RuinAir = new(0.0065f, 0.12f, 0.14f, 0.12f, 0f, scene: 1f);
     /// <summary>The glow rooms' air by their colour: teal, violet, amber.</summary>
     private static readonly Atmosphere[] L23GlowAir =
     {
-        new(0.009f, 0.06f, 0.20f, 0.19f, -0.15f, scene: 0.95f),
-        new(0.009f, 0.15f, 0.08f, 0.21f, -0.15f, scene: 0.95f),
-        new(0.009f, 0.21f, 0.14f, 0.05f, -0.15f, scene: 0.95f),
+        new(0.007f, 0.04f, 0.12f, 0.12f, 0f, scene: 1f),
+        new(0.007f, 0.09f, 0.05f, 0.13f, 0f, scene: 1f),
+        new(0.007f, 0.13f, 0.09f, 0.04f, 0f, scene: 1f),
     };
 
     /// <summary>The title keys of the level's named places (level-2801... in the lang file).</summary>

@@ -20,12 +20,6 @@ public partial class WorldLayout
         int mx = L23MidX, mz = L23MidZ;
         double bearing = L23Bearing;
 
-        // The Heart of Water: from the slope down to the shore between two Green Giants, across the pool to the far ones
-        {
-            double a = bearing + 0.5 * Math.PI * 2 / 7;
-            int x = mx + (int)Math.Round(Math.Cos(a) * 38), z = mz + (int)Math.Round(Math.Sin(a) * 38);
-            spots.Add(L23Spot("heart-of-water", x, z, L23Ground(x, z) + 1, fy, mx, mz, 6));
-        }
         // A long view through the forest: the clearest run of open ground among a few places round the middle
         {
             (int X, int Z, double H, int Run) best = (0, 0, 0, -1);
@@ -42,26 +36,43 @@ public partial class WorldLayout
             }
             if (best.Run >= 0) spots.Add(new Showcase.Spot("forest-long", best.X + 0.5, fy + L23Ground(best.X, best.Z) + 1, best.Z + 0.5, best.H, 4));
         }
-        // A light shaft: the nearest good-sized hole in the lid to the middle, from a few steps off, looking up into it
+        // The Heart of Water: from the shore, a Green Giant across the edge of the pool (the far side is too far to load)
         {
-            (double X, double Z, double D) hole = (0, 0, double.MaxValue);
+            L23Trunk g = L23GiantAt(0);
+            double ga = Math.Atan2(g.Z - mz, g.X - mx), a = ga - 0.75 * Math.PI * 2 / 7;
+            int x = mx + (int)Math.Round(Math.Cos(a) * 29), z = mz + (int)Math.Round(Math.Sin(a) * 29);
+            spots.Add(L23Spot("heart-of-water", x, z, L23Ground(x, z) + 1, fy, g.X, g.Z, 14));
+        }
+        // A light shaft: a good-sized hole in the lid near the middle, from a dozen steps off with the way to it open,
+        // looking up into it (the nearest such of the holes, nearest first)
+        {
+            var holes = new List<(double X, double Z, double D)>();
             int hi0 = Hashing.FloorDiv(mx, L23HolePitch), hj0 = Hashing.FloorDiv(mz, L23HolePitch);
-            for (int j = hj0 - 4; j <= hj0 + 4; j++)
-                for (int i = hi0 - 4; i <= hi0 + 4; i++)
+            for (int j = hj0 - 5; j <= hj0 + 5; j++)
+                for (int i = hi0 - 5; i <= hi0 + 5; i++)
                 {
-                    if (!L23HoleAt(i, j, out double cx, out double cz, out double r) || r < 3.4) continue;
+                    if (!L23HoleAt(i, j, out double cx, out double cz, out double r) || r < 3) continue;
                     double d = L23FromMid((int)cx, (int)cz);
-                    if (d < L23CoreRadius + 30 || d > L23Reach - 40 || d >= hole.D) continue;
-                    hole = (cx, cz, d);
+                    if (d < L23CoreRadius + 30 || d > L23Reach - 40) continue;
+                    holes.Add((cx, cz, d));
                 }
-            if (hole.D < double.MaxValue)
-                for (int k = 0; k < 6; k++)
-                {
-                    double a = bearing + k * Math.PI / 3;
-                    if (!L23ClearNear((int)(hole.X + Math.Cos(a) * 9), (int)(hole.Z + Math.Sin(a) * 9), 3, out int x, out int z)) continue;
-                    spots.Add(L23Spot("light-shaft", x, z, L23Ground(x, z) + 1, fy, hole.X, hole.Z, 30));
-                    break;
-                }
+            holes.Sort((p, q) => p.D.CompareTo(q.D));
+            bool found = false;
+            foreach (var hole in holes)
+            {
+                for (int dist = 10; dist <= 16 && !found; dist += 2)
+                    for (int k = 0; k < 16 && !found; k++)
+                    {
+                        double a = bearing + k * Math.PI / 8;
+                        if (!L23ClearNear((int)(hole.X + Math.Cos(a) * dist), (int)(hole.Z + Math.Sin(a) * dist), 2, out int x, out int z)) continue;
+                        double dx = hole.X - (x + 0.5), dz = hole.Z - (z + 0.5);
+                        double heading = (Math.Atan2(dx, -dz) * 180 / Math.PI + 360) % 360;
+                        if (L23OpenRun(x, z, heading, dist) < dist - 2) continue;
+                        spots.Add(L23Spot("light-shaft", x, z, L23Ground(x, z) + 1, fy, hole.X, hole.Z, 44));
+                        found = true;
+                    }
+                if (found) break;
+            }
         }
         // A buried sentry's face: the nearest to the middle with open ground in front of it
         {
