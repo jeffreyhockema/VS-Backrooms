@@ -170,6 +170,7 @@ public sealed partial class WorldLayout
         9 or FunLevel => 5,
         Poolrooms or TheEnd => 0,
         Level3999 or Hub or Level974 or RunLevel => 1,
+        Level73 => 5, // (experimental) the Redlands, Wikidot's Survival Difficulty 5
         _ => 1,
     };
 

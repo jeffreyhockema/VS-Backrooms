@@ -115,7 +115,7 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level3999 => 0.8, // (only its Neon Blackout has anything in it)
         Backrooms.Worldgen.WorldLayout.Level188 => 0.45, // the Courtyard of Windows: unsafe (Class 2-5 by the wikis), its windows worst of all
         // The experimental levels (ids 21-23): nothing in them yet
-        Backrooms.Worldgen.WorldLayout.Level73 => 0,
+        Backrooms.Worldgen.WorldLayout.Level73 => 0.9, // the Redlands: Survival Difficulty 5, "extremely hostile" hordes everywhere outside the Silver Castle
         Backrooms.Worldgen.WorldLayout.Basement => 0,
         Backrooms.Worldgen.WorldLayout.Level52 => 0,
         // Batch 2 (ids 24-27): nothing in them yet
@@ -394,7 +394,10 @@ public static class Roster
             E(Smiler, Heart, Encounters.Glimpse | Encounters.Stalk, 0.6) with { NeedsDark = true },
         },
         // The experimental levels (ids 21-23): empty
-        [Backrooms.Worldgen.WorldLayout.Level73] = Array.Empty<RosterEntry>(),
+        // Level 73, the Redlands: the Wikidot page's list, all "extremely hostile", gathering "in large groups to attack the
+        // nearest human"; nothing within the castle's walls (L73System.BandAt), and Coran kills what he hears outside them.
+        // (Windows and Camo Crawlers are left out: the handbook says so)
+        [Backrooms.Worldgen.WorldLayout.Level73] = new[] { E(Hound, Approach, Menacing, 1.0, 3, 5), E(Smiler, Approach, Menacing, 0.6, 1, 2) with { NeedsDark = true }, E(DeathRat, Approach, Menacing, 0.6, 3, 5), E(DeathmothFemale, Approach, Encounters.Stalk | Encounters.Hunt, 0.5, 3, 5), E(DeathmothMale, Approach, Encounters.Glimpse | Encounters.Stalk, 0.3, 1, 2), E(SkinStealer, Approach, Encounters.Stalk | Encounters.Hunt, 0.4, 1, 2), E(Duller, Approach, Encounters.Stalk | Encounters.Hunt, 0.3), E(Clump, Approach, Encounters.Stalk, 0.3, 1, 2) with { Ambush = true } },
         [Backrooms.Worldgen.WorldLayout.Basement] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level52] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level31] = Array.Empty<RosterEntry>(),
@@ -532,6 +535,7 @@ public static class Roster
         Backrooms.Worldgen.WorldLayout.TheEnd => 4.0,
         Backrooms.Worldgen.WorldLayout.Level3999 => 0.8,
         Backrooms.Worldgen.WorldLayout.Level188 => 1.0,
+        Backrooms.Worldgen.WorldLayout.Level73 => 0.15, // the Redlands: "one per 35 square feet", the busiest of all
         _ => 1.0,
     };
 
@@ -643,7 +647,7 @@ public static class Roster
             S("backrooms:sounds/effect/188/thump", 0.85f, 1.05f, 0.5f), S("backrooms:sounds/effect/188/knock", 0.9f, 1.1f, 0.4f), Footsteps,
         },
         // The experimental levels (ids 21-23): none yet
-        [Backrooms.Worldgen.WorldLayout.Level73] = Array.Empty<DistantSound>(),
+        [Backrooms.Worldgen.WorldLayout.Level73] = new[] { HoundHowl, HoundHowl, HoundGrowl, Wings, Scuttle, Hurt, Drag }, // the hordes far off, and what they caught
         [Backrooms.Worldgen.WorldLayout.Basement] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Level52] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Level31] = Array.Empty<DistantSound>(),

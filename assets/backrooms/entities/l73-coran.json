@@ -1,0 +1,138 @@
+// Coran (Level 73): the Silver Castle's guardian, 2.36 m, gold chains and spiked gauntlets, never harms a human. Class BackroomsCoran
+{
+	"code": "l73-coran",
+	"class": "BackroomsCoran",
+	"tags": [
+		"backrooms-entity",
+		"humanoid",
+		"habitat-land"
+	],
+	"weight": 250,
+	"hitboxSize": {
+		"x": 0.9,
+		"y": 2.3
+	},
+	"selectionBoxSize": {
+		"x": 1.0,
+		"y": 2.4
+	},
+	"eyeHeight": 2.1,
+	"canClimb": false,
+	"attributes": {
+		"invulnerable": true
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/73/l73-coran"
+		},
+		"texture": {
+			"base": "backrooms:entity/73/l73-coran"
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": false
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				}
+			},
+			{
+				"code": "walk",
+				"animation": "walk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "run",
+				"animation": "run",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "attack",
+				"animation": "attack",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "sweep",
+				"animation": "sweep",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "listen",
+				"animation": "listen",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "bow",
+				"animation": "bow",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 10
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": false
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-l73coran",
+						"priority": 1.6,
+						"priorityForCancel": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"walkSpeed": 0.022,
+						"runSpeed": 0.05
+					},
+					{
+						"code": "lookaround",
+						"priority": 0.5
+					}
+				]
+			}
+		]
+	},
+	"sounds": {
+		"hurt": "backrooms:entity/73/coran/hurt"
+	}
+}
