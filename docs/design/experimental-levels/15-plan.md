@@ -179,3 +179,61 @@ quiet? Light: about 10-13 at the floor in the halls (measured 7-14 at rel 1 roun
 **Open questions for the user.** Is one dark square in six right, and should the dark drain stability (my invention from
 Fandom's bad air)? Should the self-cleaning effect be built (items left in the lit halls vanish)? Are Robo-Men the right
 borrowed creature, given the lore has none? Should the star door ever lead anywhere?
+
+### Round 2 (2026-10-31): looked at in the game client, then fixed
+
+The lead's review of round 1: clean and on-lore, but every surface the same white panel, and arrivals facing a wall
+point-blank. What changed (all of it in the level's own files, plus the lines named below):
+
+- **Showcase spots** (`WorldLayout.Level15.Showcase.cs`, found from the layout round the middle, seed independent): a main
+  hall's long view, a crossing with its signs, a side corridor, a service passage, a machine room from its gate and from
+  inside (one with at least 24 machine blocks ahead, some running), a control room, a lecture hall, a laboratory, a camp
+  with its tent and its dead, a crematorium, a dark hall, a Robo-Man in it (`/backrooms l15 roboman x z`, the level's own
+  testing command in `src/Regions/L15System.cs`), and the nearest star door. `mapgen 15showcase` lists them offline.
+- **The main halls dressed** (`WorldGenerator.L15.cs`, from coordinates; one face of the wings' walls): a graphite band at
+  waist height with a pale cyan line along it (wayfinding), a graphite cornice under the ceiling with a strip of light, a
+  tall wall light in the middle of every bay (one in two gives light, by turns on the two walls; dead in the dark: the
+  lore's "large lights on walls"), and by every crossing a sign, "HALL" and a letter and number. Inventions: the band, the
+  cornice, the signs (the lore has codes on the walls, not hall names).
+- **Light rhythm**: each stretch of main hall between two crossings is lit its own way: one strip of panels, two strips,
+  or a square of nine panels in the middle of each bay; a square of nine panels over every crossing.
+- **Doors**: every doorway has steel jambs with a strip of light down them and a lit lintel (dead in the dark); the room's
+  code and the gate's scanner moved one block out, beside the jambs.
+- **Room walls** (both wikis' "white or grey concrete"): machine rooms, wrecked ones, stores and crematoria in pale grey cast
+  concrete (form-tie holes), kitchens and half the labs in white wall tiles over a grey row, a quarter of the bare rooms in
+  cast concrete; the rest white panels. A room's own walls only, so corridors now run past stretches of concrete, glass,
+  tiles and panels. One side corridor in four has the dark non-slip coating for its floor.
+- **The dark** fixed: the squares are now centred on the hall lines (round 1 put a hall along each square's edge, and the
+  lit rooms beside it lit the "dark" hall through their doors: light 6-9 measured there), and a room whose door opens into
+  the dark goes dark with it. Measured headless: light 0 in a dark hall. One square in about seven (0.15) is dark now, 17%
+  of the tiles with the rooms that follow them.
+- **Arrivals**: only in a lit main hall, off its foot strips, and facing along the longest way clear (`ThresholdSystem.L15.cs`,
+  as the Hub does for its sidewalks).
+- Smaller: the crematorium floor is worn ceramic so its soot reads (it was the dark coating); new blocks named in `en.json`.
+
+Shared files: `tools/mapgen/mapgen.csproj` compiles `src/Cheats/Showcase.cs` (the showcase stubs broke the harness for every
+level; exp/36 made the same one-line fix) and `tools/clientrig/rig.py` takes exp/36's fix (a404577b) so the showcase shots are
+copied out; `lang/en.json` (twelve block names in the level's block).
+
+**What the shots showed** (`%TEMP%/backrooms-shots/15-r2b`, `15-r2c`, `15-r2c-torch`, final `15-r2-final`; three look-fix
+cycles): round 1's corridors read as one white panel; now the halls read as halls (the band and its line running away, the
+cornice, the wall lights' rhythm, the lit door frames, the crossings' light squares), and corridors alternate panels, cast
+concrete, tiles and glass. The first pass found the dark hall fully lit (lit rooms' doors, fixed above) and a near-empty
+machine room picked for the showcase (now one with running machines); the crematorium's scorch on the dark coating read as
+pale patches (now worn ceramic); the first cast concrete's four tie holes a block looked like rivets (now one); the wall
+tiles were busy (now larger and softer). Torch shots: the dark hall with a Robo-Man reads well, the lit hall glowing at its
+far end.
+
+**Checks** (2026-10-31): `expclash` clean; mod and mapgen build, 0 errors; `layouthash` v1 and v12: no line for levels 0-20
+or the `layout hash` line differs from main's; `regions` 60/60 (none wrong, none in a pocket); `15stats 4`: 0 rooms cut
+off, 60/60 arrivals in a lit hall, dark 17.3%; headless (port 43165): a dummy placed in the level at light 13, a Robo-Man
+put down on it, 0 error lines; light in a dark hall measured 0 (port 43164); `GATE_TAG=l15 python tools/gate.py --fast
+--port-base 43160`: PASS.
+
+**Still weak.** Rooms are furnished as in round 1 (the machine rooms' monoliths are the best of it; stores, bare rooms and
+dormitories are plain). The rig's random arrivals look at fixed headings, so an arrival shot can still face a hall wall two
+blocks off even though the player arriving faces along the hall. The wall lights read as dark-framed panels more than glowing
+fittings at a distance.
+
+**Open questions for the user** (round 1's stand). Is the dark share right now (one square in seven, 17% of tiles with the
+rooms that open into it)? Should the halls' cyan line and the hall signs stay (inventions)?
