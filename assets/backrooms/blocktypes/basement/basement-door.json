@@ -1,0 +1,521 @@
+// The Basement: an old wooden door (closed, open, or swollen shut in its frame); right-click opens or shuts it
+{
+	"code": "basement-door",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"closed",
+				"open",
+				"jammed"
+			]
+		},
+		{
+			"code": "hinge",
+			"states": [
+				"w",
+				"e"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-closed-w-lower-north"
+		],
+		"construction": [
+			"*-closed-w-lower-north"
+		]
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsBasementDoor"
+		}
+	],
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-closed-w-lower-north": {
+			"base": "block/basement/door-closed-wlower",
+			"rotateY": 0
+		},
+		"*-closed-w-lower-east": {
+			"base": "block/basement/door-closed-wlower",
+			"rotateY": 270
+		},
+		"*-closed-w-lower-south": {
+			"base": "block/basement/door-closed-wlower",
+			"rotateY": 180
+		},
+		"*-closed-w-lower-west": {
+			"base": "block/basement/door-closed-wlower",
+			"rotateY": 90
+		},
+		"*-jammed-w-lower-north": {
+			"base": "block/basement/door-closed-wlower",
+			"rotateY": 0
+		},
+		"*-jammed-w-lower-east": {
+			"base": "block/basement/door-closed-wlower",
+			"rotateY": 270
+		},
+		"*-jammed-w-lower-south": {
+			"base": "block/basement/door-closed-wlower",
+			"rotateY": 180
+		},
+		"*-jammed-w-lower-west": {
+			"base": "block/basement/door-closed-wlower",
+			"rotateY": 90
+		},
+		"*-closed-w-upper-north": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 0
+		},
+		"*-closed-w-upper-east": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 270
+		},
+		"*-closed-w-upper-south": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 180
+		},
+		"*-closed-w-upper-west": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 90
+		},
+		"*-jammed-w-upper-north": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 0
+		},
+		"*-jammed-w-upper-east": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 270
+		},
+		"*-jammed-w-upper-south": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 180
+		},
+		"*-jammed-w-upper-west": {
+			"base": "block/basement/door-closed-wupper",
+			"rotateY": 90
+		},
+		"*-closed-e-lower-north": {
+			"base": "block/basement/door-closed-elower",
+			"rotateY": 0
+		},
+		"*-closed-e-lower-east": {
+			"base": "block/basement/door-closed-elower",
+			"rotateY": 270
+		},
+		"*-closed-e-lower-south": {
+			"base": "block/basement/door-closed-elower",
+			"rotateY": 180
+		},
+		"*-closed-e-lower-west": {
+			"base": "block/basement/door-closed-elower",
+			"rotateY": 90
+		},
+		"*-jammed-e-lower-north": {
+			"base": "block/basement/door-closed-elower",
+			"rotateY": 0
+		},
+		"*-jammed-e-lower-east": {
+			"base": "block/basement/door-closed-elower",
+			"rotateY": 270
+		},
+		"*-jammed-e-lower-south": {
+			"base": "block/basement/door-closed-elower",
+			"rotateY": 180
+		},
+		"*-jammed-e-lower-west": {
+			"base": "block/basement/door-closed-elower",
+			"rotateY": 90
+		},
+		"*-closed-e-upper-north": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 0
+		},
+		"*-closed-e-upper-east": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 270
+		},
+		"*-closed-e-upper-south": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 180
+		},
+		"*-closed-e-upper-west": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 90
+		},
+		"*-jammed-e-upper-north": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 0
+		},
+		"*-jammed-e-upper-east": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 270
+		},
+		"*-jammed-e-upper-south": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 180
+		},
+		"*-jammed-e-upper-west": {
+			"base": "block/basement/door-closed-eupper",
+			"rotateY": 90
+		},
+		"*-open-w-lower-north": {
+			"base": "block/basement/door-open-wlower",
+			"rotateY": 0
+		},
+		"*-open-w-lower-east": {
+			"base": "block/basement/door-open-wlower",
+			"rotateY": 270
+		},
+		"*-open-w-lower-south": {
+			"base": "block/basement/door-open-wlower",
+			"rotateY": 180
+		},
+		"*-open-w-lower-west": {
+			"base": "block/basement/door-open-wlower",
+			"rotateY": 90
+		},
+		"*-open-w-upper-north": {
+			"base": "block/basement/door-open-wupper",
+			"rotateY": 0
+		},
+		"*-open-w-upper-east": {
+			"base": "block/basement/door-open-wupper",
+			"rotateY": 270
+		},
+		"*-open-w-upper-south": {
+			"base": "block/basement/door-open-wupper",
+			"rotateY": 180
+		},
+		"*-open-w-upper-west": {
+			"base": "block/basement/door-open-wupper",
+			"rotateY": 90
+		},
+		"*-open-e-lower-north": {
+			"base": "block/basement/door-open-elower",
+			"rotateY": 0
+		},
+		"*-open-e-lower-east": {
+			"base": "block/basement/door-open-elower",
+			"rotateY": 270
+		},
+		"*-open-e-lower-south": {
+			"base": "block/basement/door-open-elower",
+			"rotateY": 180
+		},
+		"*-open-e-lower-west": {
+			"base": "block/basement/door-open-elower",
+			"rotateY": 90
+		},
+		"*-open-e-upper-north": {
+			"base": "block/basement/door-open-eupper",
+			"rotateY": 0
+		},
+		"*-open-e-upper-east": {
+			"base": "block/basement/door-open-eupper",
+			"rotateY": 270
+		},
+		"*-open-e-upper-south": {
+			"base": "block/basement/door-open-eupper",
+			"rotateY": 180
+		},
+		"*-open-e-upper-west": {
+			"base": "block/basement/door-open-eupper",
+			"rotateY": 90
+		}
+	},
+	"collisionSelectionBoxesByType": {
+		"*-closed-w-*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375
+			}
+		],
+		"*-closed-w-*-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 270
+			}
+		],
+		"*-closed-w-*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 180
+			}
+		],
+		"*-closed-w-*-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 90
+			}
+		],
+		"*-closed-e-*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375
+			}
+		],
+		"*-closed-e-*-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 270
+			}
+		],
+		"*-closed-e-*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 180
+			}
+		],
+		"*-closed-e-*-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 90
+			}
+		],
+		"*-open-w-*-north": [
+			{
+				"x1": 0.084375,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.25,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-open-w-*-east": [
+			{
+				"x1": 0.084375,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.25,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-open-w-*-south": [
+			{
+				"x1": 0.084375,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.25,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-open-w-*-west": [
+			{
+				"x1": 0.084375,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.25,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-open-e-*-north": [
+			{
+				"x1": 0.75,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.915625,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-open-e-*-east": [
+			{
+				"x1": 0.75,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.915625,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-open-e-*-south": [
+			{
+				"x1": 0.75,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.915625,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-open-e-*-west": [
+			{
+				"x1": 0.75,
+				"y1": 0,
+				"z1": 0.234375,
+				"x2": 0.915625,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-jammed-w-*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375
+			}
+		],
+		"*-jammed-w-*-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 270
+			}
+		],
+		"*-jammed-w-*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 180
+			}
+		],
+		"*-jammed-w-*-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 90
+			}
+		],
+		"*-jammed-e-*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375
+			}
+		],
+		"*-jammed-e-*-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 270
+			}
+		],
+		"*-jammed-e-*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 180
+			}
+		],
+		"*-jammed-e-*-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.125,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.234375,
+				"rotateY": 90
+			}
+		]
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 1,
+	"resistance": 3,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

@@ -1,4 +1,4 @@
-// The Basement: the low concrete ceiling (plain, drip-stained)
+// The Basement: the low concrete ceiling (plain, drip-stained), bare joists under old floorboards (joists); faint, a ceiling with the light that has no source
 {
 	"code": "basement-ceiling",
 	"variantgroups": [
@@ -6,7 +6,10 @@
 			"code": "type",
 			"states": [
 				"plain",
-				"stained"
+				"stained",
+				"joists",
+				"faint",
+				"joistsfaint"
 			]
 		}
 	],
@@ -40,15 +43,57 @@
 					}
 				]
 			}
+		},
+		"*-joists": {
+			"all": {
+				"base": "block/basement/joists",
+				"alternates": [
+					{
+						"base": "block/basement/joists-2"
+					}
+				]
+			}
+		},
+		"*-faint": {
+			"all": {
+				"base": "block/basement/ceiling-plain",
+				"alternates": [
+					{
+						"base": "block/basement/ceiling-plain-2"
+					}
+				]
+			}
+		},
+		"*-joistsfaint": {
+			"all": {
+				"base": "block/basement/joists",
+				"alternates": [
+					{
+						"base": "block/basement/joists-2"
+					}
+				]
+			}
 		}
 	},
 	"resistance": 8,
 	"requiredMiningTier": 3,
-	"lightAbsorption": 99,
+	"lightAbsorption": 0,
 	"sounds": {
 		"walk": "game:walk/stone",
 		"place": "game:block/loosestone",
 		"break": "game:block/rock-break-pickaxe",
 		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"lightHsvByType": {
+		"*-faint": [
+			8,
+			2,
+			6
+		],
+		"*-joistsfaint": [
+			8,
+			2,
+			6
+		]
 	}
 }

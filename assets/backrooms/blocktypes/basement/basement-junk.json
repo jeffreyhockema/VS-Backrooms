@@ -1,0 +1,165 @@
+// The Basement: things lying where somebody left them: a coil of rope, an old crowbar, an empty bottle, a jar gone bad
+{
+	"code": "basement-junk",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"rope",
+				"crowbar",
+				"bottle",
+				"jar"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"decorative": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-rope-north": {
+			"base": "block/basement/junk-rope",
+			"rotateY": 0
+		},
+		"*-rope-east": {
+			"base": "block/basement/junk-rope",
+			"rotateY": 270
+		},
+		"*-rope-south": {
+			"base": "block/basement/junk-rope",
+			"rotateY": 180
+		},
+		"*-rope-west": {
+			"base": "block/basement/junk-rope",
+			"rotateY": 90
+		},
+		"*-crowbar-north": {
+			"base": "block/basement/junk-crowbar",
+			"rotateY": 0
+		},
+		"*-crowbar-east": {
+			"base": "block/basement/junk-crowbar",
+			"rotateY": 270
+		},
+		"*-crowbar-south": {
+			"base": "block/basement/junk-crowbar",
+			"rotateY": 180
+		},
+		"*-crowbar-west": {
+			"base": "block/basement/junk-crowbar",
+			"rotateY": 90
+		},
+		"*-bottle-north": {
+			"base": "block/basement/junk-bottle",
+			"rotateY": 0
+		},
+		"*-bottle-east": {
+			"base": "block/basement/junk-bottle",
+			"rotateY": 270
+		},
+		"*-bottle-south": {
+			"base": "block/basement/junk-bottle",
+			"rotateY": 180
+		},
+		"*-bottle-west": {
+			"base": "block/basement/junk-bottle",
+			"rotateY": 90
+		},
+		"*-jar-north": {
+			"base": "block/basement/junk-jar",
+			"rotateY": 0
+		},
+		"*-jar-east": {
+			"base": "block/basement/junk-jar",
+			"rotateY": 270
+		},
+		"*-jar-south": {
+			"base": "block/basement/junk-jar",
+			"rotateY": 180
+		},
+		"*-jar-west": {
+			"base": "block/basement/junk-jar",
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.2,
+		"y1": 0,
+		"z1": 0.2,
+		"x2": 0.8,
+		"y2": 0.4,
+		"z2": 0.8
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.3,
+	"replaceable": 400,
+	"dropsByType": {
+		"*-rope-*": [
+			{
+				"type": "item",
+				"code": "game:rope",
+				"quantity": {
+					"avg": 1,
+					"var": 0
+				}
+			}
+		],
+		"*-crowbar-*": [
+			{
+				"type": "item",
+				"code": "prybar",
+				"quantity": {
+					"avg": 1,
+					"var": 0
+				}
+			}
+		],
+		"*-bottle-*": [
+			{
+				"type": "item",
+				"code": "emptybottle",
+				"quantity": {
+					"avg": 1,
+					"var": 0
+				}
+			}
+		],
+		"*-jar-*": [
+			{
+				"type": "item",
+				"code": "game:rot",
+				"quantity": {
+					"avg": 2,
+					"var": 1
+				}
+			}
+		]
+	},
+	"sounds": {
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

@@ -1,0 +1,159 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bottle": "backrooms:block/basement/bottle"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				6.5,
+				0,
+				4
+			],
+			"to": [
+				9.5,
+				3,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				},
+				"east": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						7,
+						3
+					]
+				},
+				"south": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				},
+				"west": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						7,
+						3
+					]
+				},
+				"up": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						3.0,
+						7
+					]
+				},
+				"down": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						3.0,
+						7
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				1.5,
+				8
+			],
+			"rotationY": -22.5
+		},
+		{
+			"name": "Neck",
+			"from": [
+				7.25,
+				0.75,
+				11
+			],
+			"to": [
+				8.75,
+				2.25,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						3,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						3,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"down": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				1.5,
+				8
+			],
+			"rotationY": -22.5
+		}
+	]
+}

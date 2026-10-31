@@ -1,0 +1,303 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"rope": "backrooms:block/basement/rope"
+	},
+	"elements": [
+		{
+			"name": "Strand",
+			"from": [
+				7.5,
+				6,
+				7.5
+			],
+			"to": [
+				8.5,
+				16,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10
+					]
+				},
+				"east": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10
+					]
+				},
+				"south": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10
+					]
+				},
+				"west": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10
+					]
+				},
+				"up": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Fray1",
+			"from": [
+				7,
+				2,
+				7.5
+			],
+			"to": [
+				7.5,
+				6.5,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.5
+					]
+				},
+				"east": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.5
+					]
+				},
+				"south": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.5
+					]
+				},
+				"west": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.5
+					]
+				},
+				"up": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.25,
+				4.25,
+				7.75
+			],
+			"rotationZ": 22.5
+		},
+		{
+			"name": "Fray2",
+			"from": [
+				8.5,
+				3,
+				8
+			],
+			"to": [
+				9,
+				6.5,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.75,
+				4.75,
+				8.25
+			],
+			"rotationZ": -22.5
+		},
+		{
+			"name": "Fray3",
+			"from": [
+				7.75,
+				1,
+				8.5
+			],
+			"to": [
+				8.25,
+				6,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"east": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"south": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"west": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"up": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				3.5,
+				8.75
+			],
+			"rotationX": 22.5
+		}
+	]
+}
