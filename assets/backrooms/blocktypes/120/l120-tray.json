@@ -1,4 +1,4 @@
-// Level 120: an overhead cable tray, a mesh channel full of black cable hung on rods, along x (we) or z (ns); or the rods alone
+// Level 120: an overhead cable tray, a mesh channel full of black cable hung on rods, along x (we) or z (ns)
 {
 	"code": "l120-tray",
 	"variantgroups": [
@@ -6,9 +6,7 @@
 			"code": "kind",
 			"states": [
 				"we",
-				"ns",
-				"rodwe",
-				"rodns"
+				"ns"
 			]
 		}
 	],
@@ -18,13 +16,6 @@
 		},
 		"*-ns": {
 			"base": "backrooms:block/120/l120-tray",
-			"rotateY": 90
-		},
-		"*-rodwe": {
-			"base": "backrooms:block/120/l120-tray-rods"
-		},
-		"*-rodns": {
-			"base": "backrooms:block/120/l120-tray-rods",
 			"rotateY": 90
 		}
 	},
@@ -52,7 +43,16 @@
 		"break": "game:block/heavymetal-hit",
 		"hit": "game:block/heavymetal-hit"
 	},
-	"drops": [],
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.4
+			}
+		}
+	],
 	"collisionboxByType": {
 		"*-we": {
 			"x1": 0,
@@ -67,23 +67,6 @@
 			"y1": 0.7,
 			"z1": 0.28,
 			"x2": 1,
-			"y2": 1,
-			"z2": 0.72,
-			"rotateY": 90
-		},
-		"*-rodwe": {
-			"x1": 0.1,
-			"y1": 0,
-			"z1": 0.28,
-			"x2": 0.9,
-			"y2": 1,
-			"z2": 0.72
-		},
-		"*-rodns": {
-			"x1": 0.1,
-			"y1": 0,
-			"z1": 0.28,
-			"x2": 0.9,
 			"y2": 1,
 			"z2": 0.72,
 			"rotateY": 90
@@ -103,23 +86,6 @@
 			"y1": 0.7,
 			"z1": 0.28,
 			"x2": 1,
-			"y2": 1,
-			"z2": 0.72,
-			"rotateY": 90
-		},
-		"*-rodwe": {
-			"x1": 0.1,
-			"y1": 0,
-			"z1": 0.28,
-			"x2": 0.9,
-			"y2": 1,
-			"z2": 0.72
-		},
-		"*-rodns": {
-			"x1": 0.1,
-			"y1": 0,
-			"z1": 0.28,
-			"x2": 0.9,
 			"y2": 1,
 			"z2": 0.72,
 			"rotateY": 90

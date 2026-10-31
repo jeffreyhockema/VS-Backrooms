@@ -128,8 +128,8 @@ public partial class AtmosphereSystem : ModSystem
         new(0.008f, 0.10f, 0.07f, 0.19f, 0f),
         // Level 36 (placeholder: a faint neutral haze)
         new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
-        // Level 120: near-black, cold blue-green air between the racks (its hot aisles, vaults and great halls: AtmosphereSystem.L120.cs)
-        new(0.014f, 0.035f, 0.075f, 0.08f, 0f),
+        // Level 120: pitch dark, a black with a little cold blue-green in it, the scene dimmed (its hot aisles, White Voids and hallways: AtmosphereSystem.L120.cs)
+        new(0.018f, 0.018f, 0.032f, 0.036f, 0f, scene: 0.8f),
         // Batch 3 (placeholders: a faint neutral haze)
         // Level 15
         new(0.004f, 0.70f, 0.70f, 0.68f, 0f),

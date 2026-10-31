@@ -1,4 +1,4 @@
-// Level 120: raised-floor panels, four to a block (clean; dirty; vent: perforated; hole: one panel lifted, the cables under it)
+// Level 120: the dirty white floor, two tiles to a block (clean; dirty; vent: a perforated raised-floor panel; hole: a panel lifted, the cables under it)
 {
 	"code": "l120-floor",
 	"variantgroups": [

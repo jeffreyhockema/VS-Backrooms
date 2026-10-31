@@ -1,0 +1,395 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"crt-case": "backrooms:block/120/crt-case",
+		"desk-frame": "backrooms:block/120/desk-frame",
+		"desk-top": "backrooms:block/120/desk-top",
+		"keyboard": "backrooms:block/120/keyboard",
+		"screen-boot": "backrooms:block/120/screen-boot"
+	},
+	"elements": [
+		{
+			"name": "Top",
+			"from": [
+				0.5,
+				10.5,
+				0.5
+			],
+			"to": [
+				15.5,
+				11.5,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#desk-top",
+					"uv": [
+						0,
+						0,
+						15.0,
+						15.0
+					]
+				},
+				"down": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						15.0,
+						15.0
+					]
+				}
+			}
+		},
+		{
+			"name": "SideL",
+			"from": [
+				1,
+				0,
+				1.5
+			],
+			"to": [
+				2,
+				10.5,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						1,
+						10.5
+					]
+				},
+				"east": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						13.0,
+						10.5
+					]
+				},
+				"south": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						1,
+						10.5
+					]
+				},
+				"west": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						13.0,
+						10.5
+					]
+				}
+			}
+		},
+		{
+			"name": "SideR",
+			"from": [
+				14,
+				0,
+				1.5
+			],
+			"to": [
+				15,
+				10.5,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						1,
+						10.5
+					]
+				},
+				"east": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						13.0,
+						10.5
+					]
+				},
+				"south": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						1,
+						10.5
+					]
+				},
+				"west": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						13.0,
+						10.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Modesty",
+			"from": [
+				2,
+				3,
+				13.5
+			],
+			"to": [
+				14,
+				10.5,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						12,
+						7.5
+					]
+				},
+				"south": {
+					"texture": "#desk-frame",
+					"uv": [
+						0,
+						0,
+						12,
+						7.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Case",
+			"from": [
+				3,
+				11.5,
+				3.5
+			],
+			"to": [
+				13,
+				16,
+				13
+			],
+			"faces": {
+				"east": {
+					"texture": "#crt-case",
+					"uv": [
+						0,
+						0,
+						9.5,
+						4.5
+					]
+				},
+				"south": {
+					"texture": "#crt-case",
+					"uv": [
+						0,
+						0,
+						10,
+						4.5
+					]
+				},
+				"west": {
+					"texture": "#crt-case",
+					"uv": [
+						0,
+						0,
+						9.5,
+						4.5
+					]
+				},
+				"up": {
+					"texture": "#crt-case",
+					"uv": [
+						0,
+						0,
+						10,
+						9.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Bezel",
+			"from": [
+				3,
+				11.5,
+				3
+			],
+			"to": [
+				13,
+				16,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#crt-case",
+					"uv": [
+						0,
+						0,
+						10,
+						4.5
+					]
+				},
+				"east": {
+					"texture": "#crt-case",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.5
+					]
+				},
+				"west": {
+					"texture": "#crt-case",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.5
+					]
+				},
+				"up": {
+					"texture": "#crt-case",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Screen",
+			"from": [
+				4,
+				12.5,
+				2.6
+			],
+			"to": [
+				12,
+				15.5,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#screen-boot",
+					"uv": [
+						0,
+						0,
+						8,
+						3.0
+					],
+					"glow": 220
+				}
+			}
+		},
+		{
+			"name": "Keyboard",
+			"from": [
+				4,
+				11.5,
+				0.8
+			],
+			"to": [
+				12,
+				12,
+				2.6
+			],
+			"faces": {
+				"up": {
+					"texture": "#keyboard",
+					"uv": [
+						0,
+						0,
+						8,
+						1.8
+					]
+				},
+				"north": {
+					"texture": "#keyboard",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#keyboard",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#keyboard",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

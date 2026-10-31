@@ -1,0 +1,276 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"rack-front": "backrooms:block/120/rack-front",
+		"rack-gutted": "backrooms:block/120/rack-gutted",
+		"rack-post": "backrooms:block/120/rack-post",
+		"rack-side": "backrooms:block/120/rack-side",
+		"rack-top": "backrooms:block/120/rack-top",
+		"wire-blue": "backrooms:block/120/wire-blue",
+		"wire-grey": "backrooms:block/120/wire-grey"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0.5,
+				0,
+				1
+			],
+			"to": [
+				15.5,
+				8.5,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rack-top",
+					"uv": [
+						0,
+						0,
+						15.0,
+						8.5
+					]
+				},
+				"east": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						14.5,
+						8.5
+					]
+				},
+				"south": {
+					"texture": "#rack-top",
+					"uv": [
+						0,
+						0,
+						15.0,
+						8.5
+					]
+				},
+				"west": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						14.5,
+						8.5
+					]
+				},
+				"up": {
+					"texture": "#rack-gutted",
+					"uv": [
+						0,
+						0,
+						15.0,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#rack-top",
+					"uv": [
+						0,
+						0,
+						15.0,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip",
+			"from": [
+				0.5,
+				8.5,
+				1
+			],
+			"to": [
+				15.5,
+				9,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#rack-post",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#rack-post",
+					"uv": [
+						0,
+						0,
+						1,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#rack-post",
+					"uv": [
+						0,
+						0,
+						1,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#rack-post",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Unit0",
+			"from": [
+				2,
+				0,
+				-0.0
+			],
+			"to": [
+				9,
+				1.5,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						7,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						7,
+						1.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				5.5,
+				0.75,
+				0.5
+			],
+			"rotationY": 18
+		},
+		{
+			"name": "WireA",
+			"from": [
+				6,
+				8.5,
+				4
+			],
+			"to": [
+				6.5,
+				9,
+				14
+			],
+			"faces": {
+				"up": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"east": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "WireB",
+			"from": [
+				10,
+				8.5,
+				2
+			],
+			"to": [
+				10.5,
+				9,
+				11
+			],
+			"faces": {
+				"up": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9
+					]
+				},
+				"east": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						9,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						9,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

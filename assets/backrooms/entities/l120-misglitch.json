@@ -1,0 +1,190 @@
+// Level 120's Misglitch: what someone who died here became (L120System puts one down where any player dies in the level). Texture 0 red marks, 1 all black (an internal death)
+{
+	"code": "l120-misglitch",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"humanoid",
+		"habitat-land"
+	],
+	"weight": 60,
+	"canClimb": true,
+	"hitboxSize": {
+		"x": 0.6,
+		"y": 1.9
+	},
+	"deadHitboxSize": {
+		"x": 0.6,
+		"y": 0.5
+	},
+	"eyeHeight": 1.7,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-l120-misglitch"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/120/l120-misglitch"
+		},
+		"texture": {
+			"base": "backrooms:entity/120/l120-misglitch",
+			"alternates": [
+				{
+					"base": "backrooms:entity/120/l120-misglitch-black"
+				}
+			]
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				},
+				"easeOutSpeed": 4
+			},
+			{
+				"code": "lurk",
+				"animation": "lurk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "glitch",
+				"animation": "glitch",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 4
+			},
+			{
+				"code": "walk",
+				"animation": "walk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "run",
+				"animation": "run",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "attack",
+				"animation": "attack",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 10
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "health",
+				"currenthealth": 20,
+				"maxhealth": 20
+			},
+			{
+				"code": "deaddecay",
+				"hoursToDecay": 0.05
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-l120-misglitch",
+						"priority": 1.6,
+						"priorityForCancel": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"walkSpeed": 0.016,
+						"runSpeed": 0.043,
+						"touch": 6,
+						"sneakTouch": 3.5,
+						"hearing": 18,
+						"lightSight": 16,
+						"leash": 32,
+						"attackRange": 2.4,
+						"damage": 5,
+						"damageTier": 2,
+						"knockback": 0.35,
+						"attackDurationMs": 1000,
+						"damageAtMs": 430,
+						"attackCooldownMs": 1700,
+						"skipEveryMs": 4500,
+						"skipDistance": 2.2,
+						"patienceMs": 25000,
+						"lifeHours": 24,
+						"staticSounds": [
+							"backrooms:entity/120/misglitch-static1",
+							"backrooms:entity/120/misglitch-static2",
+							"backrooms:entity/120/misglitch-static3"
+						],
+						"huntSound": "backrooms:entity/120/misglitch-hunt",
+						"sliceSound": "backrooms:entity/120/misglitch-slice",
+						"skipSound": "backrooms:entity/120/misglitch-step"
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {
+		"hurt": "backrooms:entity/120/misglitch-hurt",
+		"death": "backrooms:entity/120/misglitch-death"
+	}
+}

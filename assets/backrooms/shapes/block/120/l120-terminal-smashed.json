@@ -6,7 +6,8 @@
 		"desk-frame": "backrooms:block/120/desk-frame",
 		"desk-top": "backrooms:block/120/desk-top",
 		"keyboard": "backrooms:block/120/keyboard",
-		"screen-lit": "backrooms:block/120/screen-lit"
+		"screen-smashed": "backrooms:block/120/screen-smashed",
+		"window-glass": "backrooms:block/120/window-glass"
 	},
 	"elements": [
 		{
@@ -262,7 +263,13 @@
 						9.5
 					]
 				}
-			}
+			},
+			"rotationOrigin": [
+				8.0,
+				13.75,
+				8.25
+			],
+			"rotationY": 12
 		},
 		{
 			"name": "Bezel",
@@ -329,14 +336,13 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#screen-lit",
+					"texture": "#screen-smashed",
 					"uv": [
 						0,
 						0,
 						8,
 						3.0
-					],
-					"glow": 200
+					]
 				}
 			}
 		},
@@ -387,6 +393,54 @@
 						0,
 						1.8,
 						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shard0",
+			"from": [
+				5,
+				11.5,
+				1
+			],
+			"to": [
+				6,
+				11.75,
+				2
+			],
+			"faces": {
+				"up": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						1,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Shard1",
+			"from": [
+				9,
+				11.5,
+				0.6
+			],
+			"to": [
+				10.5,
+				11.75,
+				1.4
+			],
+			"faces": {
+				"up": {
+					"texture": "#window-glass",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.8
 					]
 				}
 			}

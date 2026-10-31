@@ -1,0 +1,85 @@
+// Level 120: office ceiling tiles (plain; water-stained; one fallen through) and a smashed fitting in its housing
+{
+	"code": "l120-ceiling",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"tile",
+				"stained",
+				"broken",
+				"smashed"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-tile": {
+			"all": {
+				"base": "block/120/ceiling-tile"
+			}
+		},
+		"*-stained": {
+			"all": {
+				"base": "block/120/ceiling-stained"
+			}
+		},
+		"*-broken": {
+			"all": {
+				"base": "block/120/ceiling-broken"
+			}
+		},
+		"*-smashed": {
+			"all": {
+				"base": "block/120/ceiling-smashed"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"dropsByType": {
+		"*-smashed": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0.3
+				}
+			}
+		],
+		"*": [
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.15,
+					"var": 0
+				}
+			}
+		]
+	}
+}

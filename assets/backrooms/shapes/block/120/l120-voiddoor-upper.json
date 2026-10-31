@@ -1,0 +1,112 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"void-black": "backrooms:block/120/void-black",
+		"void-door": "backrooms:block/120/void-door"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				0.5
+			],
+			"to": [
+				16,
+				15,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#void-door",
+					"uv": [
+						0,
+						0,
+						16,
+						15
+					]
+				},
+				"south": {
+					"texture": "#void-door",
+					"uv": [
+						0,
+						0,
+						16,
+						15
+					]
+				},
+				"east": {
+					"texture": "#void-door",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"west": {
+					"texture": "#void-door",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"up": {
+					"texture": "#void-door",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Frame",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				0.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#void-black",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#void-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#void-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		}
+	]
+}

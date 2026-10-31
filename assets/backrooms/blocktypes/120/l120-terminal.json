@@ -1,4 +1,4 @@
-// Level 120: a CRT terminal on a grey desk, its screen to the side: dead, or lit (cyan text; a little light)
+// Level 120: a CRT terminal on a grey desk, its screen to the side: dead, smashed, or whole (a green BOOT prompt, a little light; right-click to boot it). Salvage: glass, wire, a circuit board
 {
 	"code": "l120-terminal",
 	"variantgroups": [
@@ -6,7 +6,8 @@
 			"code": "state",
 			"states": [
 				"dead",
-				"lit"
+				"smashed",
+				"boot"
 			]
 		},
 		{
@@ -36,29 +37,45 @@
 			"base": "backrooms:block/120/l120-terminal-dead",
 			"rotateY": 90
 		},
-		"l120-terminal-lit-north": {
-			"base": "backrooms:block/120/l120-terminal-lit",
+		"l120-terminal-smashed-north": {
+			"base": "backrooms:block/120/l120-terminal-smashed",
 			"rotateY": 0
 		},
-		"l120-terminal-lit-east": {
-			"base": "backrooms:block/120/l120-terminal-lit",
+		"l120-terminal-smashed-east": {
+			"base": "backrooms:block/120/l120-terminal-smashed",
 			"rotateY": 270
 		},
-		"l120-terminal-lit-south": {
-			"base": "backrooms:block/120/l120-terminal-lit",
+		"l120-terminal-smashed-south": {
+			"base": "backrooms:block/120/l120-terminal-smashed",
 			"rotateY": 180
 		},
-		"l120-terminal-lit-west": {
-			"base": "backrooms:block/120/l120-terminal-lit",
+		"l120-terminal-smashed-west": {
+			"base": "backrooms:block/120/l120-terminal-smashed",
+			"rotateY": 90
+		},
+		"l120-terminal-boot-north": {
+			"base": "backrooms:block/120/l120-terminal-boot",
+			"rotateY": 0
+		},
+		"l120-terminal-boot-east": {
+			"base": "backrooms:block/120/l120-terminal-boot",
+			"rotateY": 270
+		},
+		"l120-terminal-boot-south": {
+			"base": "backrooms:block/120/l120-terminal-boot",
+			"rotateY": 180
+		},
+		"l120-terminal-boot-west": {
+			"base": "backrooms:block/120/l120-terminal-boot",
 			"rotateY": 90
 		}
 	},
 	"creativeinventory": {
 		"general": [
-			"l120-terminal-lit-north"
+			"l120-terminal-boot-north"
 		],
 		"backrooms": [
-			"l120-terminal-lit-north"
+			"l120-terminal-boot-north"
 		]
 	},
 	"blockmaterial": "Metal",
@@ -77,7 +94,6 @@
 		"break": "game:block/heavymetal-hit",
 		"hit": "game:block/heavymetal-hit"
 	},
-	"drops": [],
 	"collisionbox": {
 		"x1": 0.03,
 		"y1": 0,
@@ -95,10 +111,50 @@
 		"z2": 0.97
 	},
 	"lightHsvByType": {
-		"*-lit-*": [
-			33,
-			5,
-			6
+		"*-boot-*": [
+			22,
+			6,
+			5
+		]
+	},
+	"behaviorsByType": {
+		"*-boot-*": [
+			{
+				"name": "BackroomsL120Boot"
+			}
+		]
+	},
+	"resistanceByType": {
+		"*-boot-*": 40,
+		"*": 3
+	},
+	"dropsByType": {
+		"*-boot-*": [],
+		"*": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0.3
+				}
+			},
+			{
+				"type": "item",
+				"code": "l3999-circuitboard",
+				"quantity": {
+					"avg": 0.25,
+					"var": 0
+				}
+			}
 		]
 	}
 }

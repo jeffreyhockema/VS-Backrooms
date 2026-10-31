@@ -1,4 +1,4 @@
-// Level 120: a server rack, two blocks high (lower, upper), its front to the side; dark, its LEDs on (bank A green, bank B amber, both green and blue: the upper block gives a little light), or gutted
+// Level 120: a server rack, two blocks high (lower, upper), its front to the side; dark, its LEDs on (bank A green, bank B amber, both green and blue: the upper block gives a little light), or gutted. Salvage: copper wire, brackets, now and then a circuit board
 {
 	"code": "l120-rack",
 	"variantgroups": [
@@ -215,7 +215,6 @@
 		"break": "game:block/heavymetal-hit",
 		"hit": "game:block/heavymetal-hit"
 	},
-	"drops": [],
 	"collisionbox": {
 		"x1": 0.03,
 		"y1": 0,
@@ -236,17 +235,91 @@
 		"*-upper-leda-*": [
 			21,
 			6,
-			5
+			3
 		],
 		"*-upper-ledb-*": [
 			7,
 			6,
-			4
+			3
 		],
 		"*-upper-both-*": [
 			30,
 			5,
-			6
+			4
+		]
+	},
+	"dropsByType": {
+		"*-lower-gutted-*": [
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.4,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0.4
+				}
+			}
+		],
+		"*-upper-gutted-*": [
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0.3
+				}
+			}
+		],
+		"*-lower-*": [
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "l3999-circuitboard",
+				"quantity": {
+					"avg": 0.2,
+					"var": 0
+				}
+			}
+		],
+		"*-upper-*": [
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.4,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "l3999-circuitboard",
+				"quantity": {
+					"avg": 0.15,
+					"var": 0
+				}
+			}
 		]
 	}
 }

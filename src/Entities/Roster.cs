@@ -120,7 +120,7 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level52 => 0,
         // Batch 2 (ids 24-27): nothing in them yet
         Backrooms.Worldgen.WorldLayout.Level31 => 0,
-        Backrooms.Worldgen.WorldLayout.Level120 => 0,
+        Backrooms.Worldgen.WorldLayout.Level120 => 0.3, // Survival Difficulty 2: its Misglitches and the voids' Smilers (Regions/L120System.cs; the director puts nothing down)
         Backrooms.Worldgen.WorldLayout.Level36 => 0,
         Backrooms.Worldgen.WorldLayout.Level15 => 0,
         Backrooms.Worldgen.WorldLayout.Level23 => 0,
