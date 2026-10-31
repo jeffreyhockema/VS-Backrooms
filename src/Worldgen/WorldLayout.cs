@@ -759,6 +759,7 @@ public sealed partial class WorldLayout
         9 or 10 or 11 or Motion => true,
         Level73 => true, // an island under its own night sky
         Level23 => true, // a garden of stone trees under the open sky
+        Level52 => true, // school campuses on green hills under a blue sky that never changes
         // (The far places kept as 14-20, like every other level, have a ceiling or a sealed sky)
         _ => false,
     };
