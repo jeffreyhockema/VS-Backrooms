@@ -15,7 +15,7 @@ namespace Backrooms.Worldgen;
 /// <item>the trees: petrified bark of four kinds (grey, redwood red, pale oak, dark cypress), roots and arches of root wood,
 /// the Green Giants' green bark; ferns, mushrooms and fallen sticks at their feet, now and then a buried sentry's face;</item>
 /// <item>the lid: loose leaves hanging down from 33-41, dense leaves from 41 to the top of the world (they take the sun's
-/// light to about eight), lichen hanging from it; open where the star shines through;</item>
+/// light to about six on the forest floor), lichen hanging from it; open where the star shines through;</item>
 /// <item>the glow rooms: moss floors with puddles, little petrified trees, glowcaps, mushrooms and ferns, Gardener's
 /// Sorries and lichen hanging from the ceiling, pillars where a trunk comes down through; root tunnels up to the forest;</item>
 /// <item>the four ruins, Base Seedling's camp (its hollow tree, tents, lanterns, a spring), the Heart of Water's pool;</item>

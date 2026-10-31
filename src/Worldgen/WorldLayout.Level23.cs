@@ -38,7 +38,7 @@ public sealed partial class WorldLayout
     /// <summary>The top of the world above the level's floor (the floor is <see cref="WorldGeometry.L23Drop"/> below the shared one, which is 39 below the world's top block).</summary>
     public const int L23Top = 38 + WorldGeometry.L23Drop;
 
-    /// <summary>The dense lid of leaves: from here to the top of the world (its leaves take two of the sun's light each: eight of them leave eight).</summary>
+    /// <summary>The dense lid of leaves: from here to the top of the world (its leaves take two of the sun's light each: under eight of them the forest floor has about six).</summary>
     public const int L23LidDense = 41;
 
     /// <summary>How far down the lid's loose underside hangs at most.</summary>
