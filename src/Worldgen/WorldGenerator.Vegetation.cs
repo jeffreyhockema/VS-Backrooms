@@ -14,10 +14,15 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldGenerator
 {
     private const ulong SaltVegCover = 0x5E61, SaltVegHeight = 0x5E62, SaltVegJitter = 0x5E63, SaltVegPick = 0x5E64,
-        SaltVegPatch = 0x5E65, SaltVegTree = 0x5E66, SaltVegCrown = 0x5E67, SaltVegPond = 0x5E68, SaltVegKind = 0x5E69;
+        SaltVegPatch = 0x5E65, SaltVegTree = 0x5E66, SaltVegCrown = 0x5E67, SaltVegPond = 0x5E68, SaltVegKind = 0x5E69,
+        SaltVegPine = 0x5E6A, SaltVegResin = 0x5E6B;
 
     /// <summary>The trunk of every tree on these levels is drawn from this (the column builders all pass 4).</summary>
     private const int TreeTrunk = 4;
+
+    /// <summary>A pine's trunk is this many logs and up to two more (taller than the others'), and the share of Level 10's birches and maples that are pines.</summary>
+    private const int PineTrunk = 7;
+    private const double PineShare = 0.55;
 
     /// <summary>Tall grass, veryshort to verytall.</summary>
     private readonly int[] grassIds = new int[6];
@@ -25,6 +30,9 @@ public sealed partial class WorldGenerator
     private int looseStickId, waterReedId, waterLilyId, sedgeId, tuleId;
     private readonly int[] treeLogIds = new int[3];
     private readonly int[,] treeLeafIds = new int[3, 8];
+    // Level 10's pines (layout 13): the log, the resin log and the needles
+    private int pineLogId, pineResinId;
+    private readonly int[] pineLeafIds = new int[8];
 
     private void InitVegetation()
     {
@@ -49,6 +57,10 @@ public sealed partial class WorldGenerator
             for (int k = 0; k < 8; k++)
                 treeLeafIds[w, k] = GameId($"game:leaves-grown{(k == 0 ? "" : k.ToString())}-{woods[w]}", "game:leaves-grown-oak", "game:leaves-placed-oak");
         }
+        pineLogId = GameId("game:log-grown-pine-ud", "game:log-grown-oak-ud", "game:log-placed-oak-ud");
+        pineResinId = GameId("game:log-resin-pine-ud", "game:log-grown-pine-ud", "game:log-grown-oak-ud", "game:log-placed-oak-ud");
+        for (int k = 0; k < 8; k++)
+            pineLeafIds[k] = GameId($"game:leaves-grown{(k == 0 ? "" : k.ToString())}-pine", "game:leaves-grown-pine", "game:leaves-grown-oak", "game:leaves-placed-oak");
     }
 
     /// <summary>The ones of several vanilla blocks that exist (a warning for any that don't; tall grass if none do).</summary>
@@ -82,6 +94,8 @@ public sealed partial class WorldGenerator
         /// <summary>Added to a height above this column's ground to give the height above the trunk's (Level 94's hills).</summary>
         public int Shift;
         public int LogId, LeafId;
+        /// <summary>A pine's trunk on this column: bit r set, the log r above the ground is a resin log.</summary>
+        public uint ResinMask;
         /// <summary>What grows on the ground (height 1): a block, 0 for nothing, -1 to leave it to the tile's prop.</summary>
         public int Ground;
         /// <summary>Level 10's ponds: shallows with reeds standing in them, and lilies on the open water.</summary>
@@ -182,8 +196,22 @@ public sealed partial class WorldGenerator
             c.LogId = treeLogIds[wood];
             c.LeafId = treeLeafIds[wood, (int)((th >> 40) % 8)];
             c.Shift = t.Level == WorldLayout.Motion ? t.Height - trunk.Height : 0;
-            if (tdx == 0 && tdz == 0) c.LogTop = top;
-            c.LeafMask = CrownMask(-tdx, -tdz, top, big, tx, tz);
+            // Level 10 (layout 13) grows pines among its birches and maples (oak, the only tannin, keeps its share)
+            bool pine = t.Level == 10 && layout.Version >= 13 && big && species >= 0.55
+                && Hashing.Unit(Hashing.Hash(seed, tx, tz, SaltVegPine)) < PineShare;
+            if (pine)
+            {
+                top = PineTrunk + (int)(th % 3);
+                c.LogId = pineLogId;
+                c.LeafId = pineLeafIds[(int)((th >> 40) % 8)];
+                if (tdx == 0 && tdz == 0) { c.LogTop = top; c.ResinMask = PineResin(tx, tz); }
+                c.LeafMask = PineCrownMask(-tdx, -tdz, top, tx, tz);
+            }
+            else
+            {
+                if (tdx == 0 && tdz == 0) c.LogTop = top;
+                c.LeafMask = CrownMask(-tdx, -tdz, top, big, tx, tz);
+            }
             shade = big && (tdx != 0 || tdz != 0);
         }
 
@@ -200,6 +228,57 @@ public sealed partial class WorldGenerator
         if (t.Kind != TileKind.Floor || t.Variant == Props.Tree || door) return;
         bool between = trackW && trackE || trackN && trackS;
         c.Ground = GroundCover(t, gx, gz, shade, fence, road, field, backdrop, tower, hedge, tracks, between);
+    }
+
+    /// <summary>
+    /// A pine's resin logs, low on the trunk where a hand reaches (heights 1 to 3): none on one pine in seven, two on
+    /// a third of them, else one. Vanilla's own rate (1 % a log) would leave a few trees with none, and a sapling's
+    /// pine never gets any, so these are the world's only (renewable) resin.
+    /// </summary>
+    private uint PineResin(int tx, int tz)
+    {
+        ulong h = Hashing.Hash(seed, tx, tz, SaltVegResin);
+        double u = Hashing.Unit(h);
+        if (u < 1 / 7.0) return 0;
+        int first = 1 + (int)(Hashing.Mix(h) % 3);
+        uint mask = 1u << first;
+        if (u > 4 / 7.0) mask |= 1u << (1 + (first - 1 + 1 + (int)(Hashing.Mix(h + 1) % 2)) % 3);
+        return mask;
+    }
+
+    /// <summary>
+    /// A pine's needles over a column (dx, dz) from its trunk: a cone from the tip down to four blocks above the ground,
+    /// every other tier broader than the one over it, two blocks out at the widest, the edge blocks trimmed now and then.
+    /// Every leaf is within two blocks of a log (the trunk reaches the top of the cone's second tier).
+    /// </summary>
+    private uint PineCrownMask(int dx, int dz, int top, int tx, int tz)
+    {
+        int ax = Math.Abs(dx), az = Math.Abs(dz), d = Math.Max(ax, az), m = ax + az;
+        if (d > 2) return 0;
+        uint mask = 0;
+        int tip = top + 2;
+        for (int depth = 0; depth <= tip - 4; depth++)
+        {
+            // How far out this tier reaches: 0 at the tip, then in steps of two layers
+            bool here = depth switch
+            {
+                0 or 1 => d == 0,
+                2 => m <= 1,
+                3 => d <= 1,
+                4 => m <= 2,
+                5 => d <= 2 && m <= 3,
+                6 => m <= 1 || d <= 1,
+                _ => depth % 2 == 1 ? d <= 2 && m <= 3 : m <= 2,
+            };
+            if (!here) continue;
+            if (d == 2 || m == 2 && d == 1)
+            {
+                double u = Hashing.Unit(Hashing.Hash(seed, tx * 5 + dx, tz * 5 + dz, SaltVegCrown + 8 + (ulong)depth));
+                if (u < 0.2) continue;
+            }
+            mask |= 1u << (tip - depth);
+        }
+        return mask;
     }
 
     /// <summary>
@@ -242,7 +321,7 @@ public sealed partial class WorldGenerator
         ref VegColumn c = ref Veg(t, gx, gz);
         int r = rel + c.Shift;
         bool leaves = r >= 1 && r < 32 && (c.LeafMask >> r & 1) != 0;
-        if (c.LogTop > 0) return r >= 1 && r <= c.LogTop ? c.LogId : leaves ? c.LeafId : 0;
+        if (c.LogTop > 0) return r >= 1 && r <= c.LogTop ? (c.ResinMask >> r & 1) != 0 ? pineResinId : c.LogId : leaves ? c.LeafId : 0;
         if (leaves) return c.LeafId;
         if (rel == 1 && c.Ground >= 0) return c.Ground;
         // (The layout's own three-by-three crowns are drawn above instead)
