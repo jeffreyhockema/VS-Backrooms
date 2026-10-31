@@ -859,6 +859,8 @@ public static class Overheads
     public const ushort L31First = 352, L31Last = 383;
     public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
+    /// <summary>Level 36: what hangs under the ceiling: a gate or carousel sign (Depth its glyph: 0-25 A-Z, 26-85 1-60), a wayfinding sign (Depth its glyph, WorldLayout.L36SignGlyphs), a flight screen's half (Depth its board, Roof 0 left, 1 right), the Travel Agency's fascia (Roof 0-2 left to right). Pier the way it faces.</summary>
+    public const ushort L36GateSign = 416, L36Sign = 417, L36Fids = 418, L36BoothSign = 419;
     public const ushort L15First = 448, L15Last = 479;
     public const ushort L23First = 480, L23Last = 511;
     /// <summary>Level 31's tubes and disco ball and Level 120's cable trays, kept from before the widening (110-139 are main's to append to).</summary>
@@ -1640,6 +1642,10 @@ public static class Props
     /// <summary>Level 52: a student desk with its chair (Pier the way the student faces), a piece of chalkboard on the wall behind it (Pier its face; Stack 0 left end, 1 middle, 2 right end; walked through).</summary>
     public const ushort L52Desk = 1100, L52Chalkboard = 1101;
     public const ushort L36First = 1200, L36Last = 1299;
+    /// <summary>Level 36: a check-in desk (Stack 0 desk, 1 scale), a gate seat (Stack 0 blue, 1 grey, 2 a coat on it, 3 a bag), the gate podium, a queue stanchion (Stack 0 no belt, 1-4 its belt north, east, south, west), the scanner arch (two high, walked through), an X-ray machine (Stack 0 body, 1 belt), trays, the Travel Agency's booth (Stack 0 desk, 1 brochure rack), a perfume counter, a food-court table (Stack 0 tray, 1 cups, 2 plate, 3 bare), the meeting point (three high), a cabin seat, a Lost and Found shelf, a carousel's island, Level 3999's couch (Stack 0 left, 1 right), planter and bin. Pier their facing.</summary>
+    public const ushort L36Checkin = 1200, L36Seat = 1201, L36GateDesk = 1202, L36Stanchion = 1203, L36Scanner = 1204, L36Xray = 1205, L36Trays = 1206,
+        L36Booth = 1207, L36Perfume = 1208, L36MealTable = 1209, L36MeetingPoint = 1210, L36CabinSeat = 1211, L36LostFound = 1212,
+        L36CarouselIsland = 1213, L36Couch = 1214, L36Planter = 1215, L36Bin = 1216;
     public const ushort L15First = 1300, L15Last = 1399;
     public const ushort L23First = 1400, L23Last = 1499;
 
