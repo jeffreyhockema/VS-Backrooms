@@ -152,7 +152,7 @@
 		]
 	},
 	"buying": {
-		"maxItems": 6,
+		"maxItems": 7,
 		"list": [
 			{
 				"code": "game:metalbit-silver",
@@ -243,6 +243,19 @@
 				"price": {
 					"avg": 3,
 					"var": 0.75
+				}
+			},
+			{
+				"code": "backrooms:l3999-circuitboard",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
 				}
 			}
 		]

@@ -399,13 +399,18 @@ public partial class ThresholdSystem : ModSystem
 
     /// <summary>
     /// Marks on the player's map the way they just took (where they left from, and where it goes), and if they can come
-    /// back the same way, the way back where they arrive. Each is marked once.
+    /// back the same way, the way back where they arrive. Each is marked once. A way is the colour of the level it leads
+    /// to; one that stays inside its level is a grey ladder.
     /// </summary>
     private void Remember(IServerPlayer player, Vec3d from, Link to, bool twoWay, bool arrived = true)
     {
         string there = MapMarks.LevelName(layout, to.X, to.Z), here = MapMarks.LevelName(layout, from.X, from.Z);
-        MapMarks.Add(sapi, player, from, Lang.Get(twoWay ? "backrooms:waypoint-way" : "backrooms:waypoint-oneway", there), "spiral", MapMarks.WayColor, 6, tell: false);
-        if (twoWay && arrived) MapMarks.Add(sapi, player, new Vec3d(to.X, to.Y, to.Z), Lang.Get("backrooms:waypoint-back", here), "spiral", MapMarks.WayColor, 6, tell: false);
+        bool inside = there == here;
+        string icon = inside ? MapMarks.InLevelIcon : "spiral";
+        int toColor = inside ? MapMarks.InLevelColor : MapMarks.WayColorTo(layout, to.X, to.Z);
+        int backColor = inside ? MapMarks.InLevelColor : MapMarks.WayColorTo(layout, from.X, from.Z);
+        MapMarks.Add(sapi, player, from, Lang.Get(twoWay ? "backrooms:waypoint-way" : "backrooms:waypoint-oneway", there), icon, toColor, 6, tell: false);
+        if (twoWay && arrived) MapMarks.Add(sapi, player, new Vec3d(to.X, to.Y, to.Z), Lang.Get("backrooms:waypoint-back", here), icon, backColor, 6, tell: false);
     }
 
     /// <summary>
@@ -423,7 +428,8 @@ public partial class ThresholdSystem : ModSystem
         if (dx * dx + dz * dz > 6 * 6) return; // taken, not walked
         if (WorldLayout.IsOpenSky(level) && WorldLayout.IsOpenSky(last.Level)) return; // no wall there to have a gate in
         string a = MapMarks.LevelName(layout, last.X, last.Z), b = MapMarks.LevelName(layout, pos.X, pos.Z);
-        MapMarks.Add(sapi, player, pos.XYZ, Lang.Get("backrooms:waypoint-gate", a, b), "x", MapMarks.WayColor, 16, tell: false);
+        // (Marked just inside the level walked into, so it is the colour of the level it leads back to)
+        MapMarks.Add(sapi, player, pos.XYZ, Lang.Get("backrooms:waypoint-gate", a, b), "x", MapMarks.WayColorTo(last.Level), 16, tell: false);
     }
 
     /// <summary>

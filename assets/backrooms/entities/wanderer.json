@@ -243,7 +243,7 @@
 				]
 			},
 			"buying": {
-				"maxItems": 7,
+				"maxItems": 8,
 				"list": [
 					{
 						"code": "backrooms:metalbracket",
@@ -330,6 +330,19 @@
 						"stock": {
 							"avg": 6,
 							"var": 1.5
+						},
+						"price": {
+							"avg": 1,
+							"var": 0.25
+						}
+					},
+					{
+						"code": "backrooms:rottenwood",
+						"type": "item",
+						"stacksize": 8,
+						"stock": {
+							"avg": 3,
+							"var": 0.75
 						},
 						"price": {
 							"avg": 1,

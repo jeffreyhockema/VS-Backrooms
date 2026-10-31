@@ -126,7 +126,7 @@
 		]
 	},
 	"buying": {
-		"maxItems": 4,
+		"maxItems": 5,
 		"list": [
 			{
 				"code": "backrooms:l3999-ticket",
@@ -191,6 +191,32 @@
 				"price": {
 					"avg": 1,
 					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:l3999-coinmech",
+				"type": "item",
+				"stacksize": 2,
+				"stock": {
+					"avg": 3,
+					"var": 0.75
+				},
+				"price": {
+					"avg": 1,
+					"var": 0.25
+				}
+			},
+			{
+				"code": "backrooms:l3999-circuitboard",
+				"type": "item",
+				"stacksize": 1,
+				"stock": {
+					"avg": 2,
+					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
 				}
 			}
 		]

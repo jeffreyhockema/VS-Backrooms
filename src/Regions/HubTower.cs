@@ -430,7 +430,7 @@ public partial class HubSystem
         player.SendMessage(GlobalConstants.GeneralChatGroup, Backrooms.Say.T(player, waypoints ? "backrooms:hub-register-read" : "backrooms:hub-register-read-nomap"), EnumChatType.Notification);
         foreach (int level in new[] { 1, 11, WorldLayout.HubSnackroomsDoor })
             if (layout.HubDoorOf(level) is { } door)
-                MapMarks.Add(sapi, player, new Vec3d(door.X + 0.5, y, door.Z + 0.5), Backrooms.Say.T(player, "backrooms:waypoint-hubdoor", LevelName(player, level)), "spiral", MapMarks.WayColor, 6);
+                MapMarks.Add(sapi, player, new Vec3d(door.X + 0.5, y, door.Z + 0.5), Backrooms.Say.T(player, "backrooms:waypoint-hubdoor", LevelName(player, level)), "spiral", MapMarks.WayColorTo(level == WorldLayout.HubSnackroomsDoor ? 6 : level), 6);
         int nearest = 0;
         double nearestD = double.MaxValue;
         for (int k = 0; k < 10; k++)

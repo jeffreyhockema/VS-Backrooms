@@ -1453,15 +1453,15 @@ def trade(code, price, stock=2, stack=1, kind="item"):
 WANDERER_SITES = {
     # (game:gear-temporal at 6 rusty gears, about eight mid-level Hound bounties, at the people's sites: a ward part, never a finished anchor)
     # Level 1: a crate-pickers' camp round a burning barrel, unaligned. Crate goods, the basics, seeds; salvage and hides.
-    # (The Level 1 notes say: salvage and hides for Almond Water, Firesalt, candles, bandages and seeds.)
+    # (The Level 1 notes say: salvage and hides for Almond Water, Firesalt, candles, bandages and seeds.) Rotten wood feeds the barrel.
     "camp": {
         "sells": [("game:gear-temporal", 6, 1, 1), ("backrooms:almondwater", 1, 3, 1), ("backrooms:crackers", 1, 3, 2), ("backrooms:cannedbeans", 2, 2, 1),
                   ("game:candle", 1, 3, 2), ("backrooms:firesalt", 3, 2, 1, "block"), ("game:bandage-clean", 2, 2, 1),
                   ("game:flaxtwine", 1, 3, 4), ("game:seeds-flax", 2, 2, 4), ("game:seeds-cabbage", 2, 2, 4), ("game:linensack", 2, 1, 1)],
         "buys": [("backrooms:metalbracket", 1, 6, 4), ("backrooms:scrapwire", 1, 6, 5), ("backrooms:glassshard", 1, 4, 8),
                  ("game:hide-raw-medium", 2, 3, 1), ("game:hide-raw-large", 3, 2, 1), ("game:cloth-plain", 1, 4, 4),
-                 ("game:metalbit-copper", 1, 6, 6)],
-        "sellMax": 9, "buyMax": 7,
+                 ("game:metalbit-copper", 1, 6, 6), ("backrooms:rottenwood", 1, 3, 8)],
+        "sellMax": 9, "buyMax": 8,
     },
     # Level 4: an M.E.G. supply outpost, where Almond Water is most plentiful: water (cheapest here), bottles to carry it
     # down to Level 5, medicine, light, seeds. Buys specimens for the M.E.G.'s files, salvage, paper, the hotel's silver.
@@ -1494,8 +1494,8 @@ WANDERER_SITES = {
                   ("game:armor-body-sewn-linen", 5, 1, 1), ("backrooms:chalk", 2, 2, 1)],
         "buys": [("game:metalbit-silver", 2, 4, 3), ("game:metalbit-brass", 1, 4, 4), ("backrooms:l3999-ticket", 1, 4, 5),
                  ("backrooms:almondmilk", 2, 2, 1), ("backrooms:epsomsalt", 2, 2, 2), ("backrooms:mothquill", 2, 2, 1),
-                 ("game:hide-raw-large", 3, 2, 1)],
-        "sellMax": 8, "buyMax": 6,
+                 ("game:hide-raw-large", 3, 2, 1), ("backrooms:l3999-circuitboard", 2, 2, 1)],
+        "sellMax": 8, "buyMax": 7,
     },
     # The End: a Junkie, at home in the library (trades only with someone carrying Memory Juice: the dialogue). Sells
     # what the library holds and what was brought from home; buys juice above all, and food, which The End has none of.
@@ -1503,8 +1503,9 @@ WANDERER_SITES = {
         "sells": [("backrooms:end-cataloguecard", 3, 2, 1), ("game:paper-parchment", 1, 4, 4), ("game:candle", 1, 3, 2),
                   ("backrooms:l974-plush-bear", 4, 1, 1), ("backrooms:almondwatergreen", 2, 1, 1), ("backrooms:chalk", 2, 1, 1)],
         "buys": [("backrooms:end-memoryjuice", 6, 4, 1), ("backrooms:crackers", 1, 3, 2), ("backrooms:cannedbeans", 2, 2, 1),
-                 ("backrooms:almondwater", 1, 3, 1), ("backrooms:candybar", 1, 2, 1)],
-        "sellMax": 5, "buyMax": 5,
+                 ("backrooms:almondwater", 1, 3, 1), ("backrooms:candybar", 1, 2, 1),
+                 ("backrooms:l974-plush-cat", 3, 1, 1), ("backrooms:l974-plush-bunny", 3, 1, 1)],
+        "sellMax": 5, "buyMax": 6,
     },
     # The Hub, the M.E.G.'s doorstep carpet by the city door (whose two Level Keys a week HubTower puts among the wares,
     # in free slots). Field supplies for a cold, foodless place; buys salvage, paper and The End's catalogue cards.
@@ -1513,8 +1514,9 @@ WANDERER_SITES = {
                   ("game:candle", 1, 3, 2), ("backrooms:crackers", 1, 3, 2), ("game:torch-basic-extinct-up", 1, 3, 2, "block"),
                   ("game:armor-body-sewn-linen", 6, 1, 1), ("backrooms:firesalt", 3, 2, 1, "block")],
         "buys": [("backrooms:metalbracket", 1, 6, 4), ("backrooms:scrapwire", 1, 6, 5), ("backrooms:glassshard", 1, 4, 8),
-                 ("game:paper-parchment", 1, 4, 8), ("game:hide-raw-medium", 2, 2, 1), ("backrooms:end-cataloguecard", 2, 2, 1)],
-        "sellMax": 7, "buyMax": 6,
+                 ("game:paper-parchment", 1, 4, 8), ("game:hide-raw-medium", 2, 2, 1), ("backrooms:end-cataloguecard", 2, 2, 1),
+                 ("backrooms:l3999-circuitboard", 2, 2, 1)],
+        "sellMax": 7, "buyMax": 7,
     },
     # The Hub, Camp Amber by the Level 1 door: teachers with limited supplies, cheap, for the newly arrived. Buys the
     # Lobby's scraps, which is all a new wanderer has.
@@ -1533,8 +1535,9 @@ WANDERER_SITES = {
                   ("backrooms:l3999-popcorn", 1, 3, 1), ("backrooms:l3999-cottoncandy", 1, 3, 1), ("backrooms:l3999-soda-cherry", 1, 2, 1),
                   ("backrooms:l3999-glowband-cyan", 2, 1, 1), ("game:seeds-cabbage", 2, 2, 4), ("game:lantern-small-up", 7, 1, 1, "block")],
         "buys": [("backrooms:l3999-ticket", 1, 6, 5), ("backrooms:firesalt", 3, 2, 1, "block"), ("game:hide-raw-medium", 2, 2, 1),
-                 ("game:cloth-plain", 1, 3, 4), ("backrooms:metalbracket", 1, 4, 4)],
-        "sellMax": 7, "buyMax": 4,
+                 ("game:cloth-plain", 1, 3, 4), ("backrooms:metalbracket", 1, 4, 4),
+                 ("backrooms:l3999-coinmech", 1, 3, 2), ("backrooms:l3999-circuitboard", 2, 2, 1)],
+        "sellMax": 7, "buyMax": 5,
     },
 }
 

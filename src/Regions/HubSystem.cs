@@ -275,7 +275,7 @@ public partial class HubSystem : ModSystem
                 sapi.World.PlaySoundAt(chime, door.X + 0.5, geometry.FloorFor(WorldLayout.Hub) + 2.5, door.Z + 0.5, null, false, 24, 1f);
                 if (arrived)
                     MapMarks.Add(sapi, player, new Vec3d(door.X + 0.5, geometry.FloorFor(WorldLayout.Hub) + 1.5, door.Z + 0.5),
-                        Backrooms.Say.T(player, "backrooms:waypoint-hubdoor", LevelName(player, level)), "spiral", MapMarks.WayColor, 6, tell: false);
+                        Backrooms.Say.T(player, "backrooms:waypoint-hubdoor", LevelName(player, level)), "spiral", MapMarks.WayColorTo(level == WorldLayout.HubSnackroomsDoor ? 6 : level), 6, tell: false);
                 continue;
             }
             // From its door's direction, louder the nearer

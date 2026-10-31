@@ -16,8 +16,53 @@ namespace Backrooms.Map;
 /// </summary>
 public static class MapMarks
 {
-    /// <summary>Thresholds and gates: a pale violet.</summary>
+    /// <summary>Ways and places of the Hub's Tower that lead to no one level: a pale violet (what every way was before 0.610.3).</summary>
     public static readonly int WayColor = ColorUtil.ColorFromRgba(196, 150, 230, 255);
+
+    /// <summary>A way that stays inside its level (stairs or a passage to another part of it): grey, under a ladder, so it does not crowd the ways out.</summary>
+    public static readonly int InLevelColor = ColorUtil.ColorFromRgba(132, 132, 130, 255);
+
+    /// <summary>The icon of a way that stays inside its level.</summary>
+    public const string InLevelIcon = "ladder";
+
+    /// <summary>
+    /// The colour of a way by the level it leads to, by level id (0-11, then 37, 94, !, Fun, The End, the Hub, 974, 3999, 188),
+    /// so every way to one level is one colour on the map. Kelly's colours of greatest contrast, without the greys (taken by
+    /// <see cref="InLevelColor"/>) and black (lost on a dark floor), with a teal for the Hub; picked to suit the level where one could.
+    /// </summary>
+    private static readonly int[] LevelColors =
+    {
+        Rgb(0xF3C300), // 0: the Lobby's yellow
+        Rgb(0xF38400), // 1: orange
+        Rgb(0xE25822), // 2: reddish orange, the pipes' heat
+        Rgb(0xBE0032), // 3: red
+        Rgb(0xC2B280), // 4: buff, the offices
+        Rgb(0x882D17), // 5: reddish brown, the hotel
+        Rgb(0xF2F3F4), // 6: white
+        Rgb(0x0067A5), // 7: blue, the sea
+        Rgb(0x2B3D26), // 8: olive, the caves
+        Rgb(0x604E97), // 9: violet, the night
+        Rgb(0xDCD300), // 10: greenish yellow, the wheat
+        Rgb(0x875692), // 11: purple, the city
+        Rgb(0xA1CAF1), // 37: light blue, the pools
+        Rgb(0x008856), // 94: green, the hills
+        Rgb(0xB3446C), // !: purplish red
+        Rgb(0xE68FAC), // Fun: pink
+        Rgb(0x654522), // The End: yellowish brown, the shelves
+        Rgb(0x2CA6A4), // the Hub: teal
+        Rgb(0xF99379), // 974: yellowish pink
+        Rgb(0x8DB600), // 3999: yellow green
+        Rgb(0xF6A600), // 188: orange yellow, the lit windows
+    };
+
+    private static int Rgb(int rgb) => ColorUtil.ColorFromRgba((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF, 255);
+
+    /// <summary>The colour of a way to <paramref name="level"/> (a level id).</summary>
+    public static int WayColorTo(int level) => level >= 0 && level < LevelColors.Length ? LevelColors[level] : WayColor;
+
+    /// <summary>The colour of a way to the level at x, z.</summary>
+    public static int WayColorTo(WorldLayout layout, double x, double z) =>
+        WayColorTo(layout.LevelAt(WorldLayout.MacroOf((int)System.Math.Floor(x)), WorldLayout.MacroOf((int)System.Math.Floor(z))));
 
     /// <summary>What a note pointed to: the yellow of old paper.</summary>
     public static readonly int NoteColor = ColorUtil.ColorFromRgba(232, 214, 140, 255);
