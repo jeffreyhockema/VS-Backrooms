@@ -881,6 +881,40 @@ Shapes at the very edge of your sight in the corridors and the courtyard, gone w
 """)
 
 
+# --------------------------------------------------------------------------------------------------------------------
+# Level 120, "Broken Servos" (experimental level, id 26; its own page, after "What Lives Here"; GuideSystem.Added).
+# Self-contained: no other page links to it or depends on it.
+# --------------------------------------------------------------------------------------------------------------------
+
+PAGES["l120"] = ("Level 120: Broken Servos", """
+**Level 120: Broken Servos**
+*Broken server rooms in the dark. The danger here is the dark, the floor, and dying.*
+
+**What it is**
+Server rooms, one after another, in clusters of fifteen to twenty-three: banks of racks ripped apart on a dirty white floor, units pulled out and left lying, cables spilled across the aisles; dirty yellow wallpaper on rotting boards; office ceiling tiles with every light in them smashed or dead. Some rooms are terminal rooms (rows of dead or smashed CRTs), some are rack aisles, some are wrecked stores. Long passages run between the clusters, four wide, a dead duct along one wall. Class 2: short of the next life, little here is out to get you, but it is unforgiving of anyone who dies.
+
+**Reading the dark**
+It is pitch dark. A few racks still have their LEDs on, enough to see a wall by; one crossing in four in the passages keeps a working tube. Bring light, and think about when to use it (see *What lives here*). The rooms are cool (22 °C), the passages a little warmer; the narrow hot aisles behind the racks in the aisle rooms are hot enough to cost food (38 °C).
+
+**Computer blocks**
+Most clusters have one terminal still whole: its screen glows green, BOOT and a cursor. {rightmouse} it to boot it. Two seconds later you are somewhere else:
+- **A White Void** (three times in five): six to twelve pure white rooms, eleven blocks square, lit from their ceilings, with black doors between them. Smilers stand about in them, too lost in the light to come for you. The voids pull at your stability a little.
+- **A Pitch-Black Hallway**: two wide, hundreds of blocks long, folded back and forth, no light at all and cold (14 °C). It drains your stability more. **It is easy to trip**: run here and about every eight blocks you may go down (a point of damage, and slowed a moment); walking, you rarely do. Cables spilled over the floor anywhere in the level can catch a runner in the dark too.
+- **The way back:** walk in one direction until you reach the edge of the cluster. There is always a window there, already broken, black beyond. Step into it and you are back in front of the terminal you booted. The same terminal always takes you to the same place.
+
+**What lives here**
+- **Misglitches.** Anyone who dies in this level gets up again as one: a black figure in a haze of loose pixels, red where the wound was (all black if the death came from within: starving, poison). It stands where you fell, by what you dropped, and it crackles with static every few seconds: in the dark, the static is your warning. It wakes for anyone who comes within about six blocks of it (three or four, creeping), anyone running within earshot, and anyone carrying a light where it can see it. It is a little slower than a sprint, but now and then it is suddenly two blocks nearer; its arm is a pointed tentacle that slices from more than two blocks away (about 6 a blow, against your 15). It will not follow far from where it stood up, nor near a fire, and it gives up after half a minute without drawing blood. It lasts a day, then comes apart, or until it is killed. Getting your things back means getting past it.
+- **Smilers**, in the White Voids only. Strike one and it withdraws, as every Smiler does.
+- Not yet here: the **Sub-Misglitches** the reports describe, raised by the smallest spill of blood in this level and worse than the rest.
+
+**Salvage**
+Racks give [scrap wire](item-backrooms:scrapwire) and [metal brackets](item-backrooms:metalbracket), and now and then a [circuit board](item-backrooms:l3999-circuitboard) (the wanderers buy those); wrecked racks the same; terminals glass, wire and boards; the smashed lights glass. A sealed supply box turns up in about one room in five, more in the wrecked stores.
+
+**Ways in and out**
+This level is experimental: for now it is reached only from the cheats menu or with /backrooms goto 120, and has no way out. The reports speak of the smashed screen of an arcade machine in Level 25 and a door marked SERVER ROOM in Level 4.3 leading in, and of doors back to 4.3, or noclipping through a server room's wall into Level 70, leading out.
+""")
+
+
 # ====================================================================================================================
 # Prefaces for the vanilla guides: one short paragraph at the top of each, saying how it goes in the Backrooms.
 # The vanilla text follows unchanged. Keyed by the suffix GuideSystem.Bridged maps each page code to.
