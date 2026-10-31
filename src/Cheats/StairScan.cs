@@ -51,14 +51,14 @@ public partial class CheatSystem
             if (stairKinds.TryGetValue(block.Id, out StairKind? known)) return known;
             StairKind? kind = null;
             string path = block.Code?.Path ?? "";
-            if ((path.Contains("stair") || path.Contains("escalator")) && !path.Contains("sign") && !path.Contains("door")
-                && !path.Contains("window") && block.CollisionBoxes is { Length: > 0 } allBoxes)
+            // (By its shape, whatever it is called: stairs, steps, escalator; flights are only chains of two or more)
+            if (!path.Contains("sign") && !path.Contains("door") && !path.Contains("window") && block.CollisionBoxes is { Length: > 1 } allBoxes)
             {
                 // (A balustrade standing taller than the block is not the step: house stairs carry one on their open side)
                 Cuboidf[] boxes = allBoxes.Where(b => b.Y2 <= 1.001f).ToArray();
                 if (boxes.Length == 0) boxes = allBoxes;
                 float top = boxes.Max(b => b.Y2), low = boxes.Min(b => b.Y2);
-                if (top - low > 0.2f)
+                if (top - low > 0.2f && top > 0.6f)
                 {
                     var high = boxes.Where(b => b.Y2 > top - 0.01f).ToArray();
                     double hx = high.Average(b => (b.X1 + b.X2) / 2) - 0.5, hz = high.Average(b => (b.Z1 + b.Z2) / 2) - 0.5;
