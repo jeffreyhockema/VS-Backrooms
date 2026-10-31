@@ -123,7 +123,7 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level120 => 0,
         Backrooms.Worldgen.WorldLayout.Level36 => 0,
         Backrooms.Worldgen.WorldLayout.Level15 => 0,
-        Backrooms.Worldgen.WorldLayout.Level23 => 0,
+        Backrooms.Worldgen.WorldLayout.Level23 => 0.55, // the Petrified Garden: Unsafe (Wikidot's "4?"), its glow rooms worst
         // Level 94 (Class 3): its Animations hit and chase like Level 4's creatures; the King's trial keeps its own balance
         Backrooms.Worldgen.WorldLayout.Motion => 0.4,
         _ => 0,
@@ -401,7 +401,17 @@ public static class Roster
         [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level36] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level15] = Array.Empty<RosterEntry>(),
-        [Backrooms.Worldgen.WorldLayout.Level23] = Array.Empty<RosterEntry>(),
+        // Level 23, the Petrified Garden (Wikidot's list, Volpes, Curabitur Birds, Wranglers and the natives left for later): rats and
+        // moths among the trunks, Hounds and Clumps in the glow rooms and tunnels, a grin wherever it is darkest
+        [Backrooms.Worldgen.WorldLayout.Level23] = new[]
+        {
+            E(DeathRat, Heart, Menacing, 0.6, 2, 3),
+            E(DeathmothMale, Heart, Amb | Encounters.Glimpse, 0.5, 1, 2),
+            E(Hound, Approach, Menacing, 0.8, 1, 2),
+            E(Smiler, Approach, Menacing, 0.6) with { NeedsDark = true },
+            E(Clump, Approach, Encounters.Stalk, 0.4) with { Ambush = true },
+            E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.4, 2, 4),
+        },
         // The city: crowds of Facelings, Hounds that ignore you, rats in the alleys, a Duller in the subway
         [11] = new[]
         {
@@ -532,6 +542,7 @@ public static class Roster
         Backrooms.Worldgen.WorldLayout.TheEnd => 4.0,
         Backrooms.Worldgen.WorldLayout.Level3999 => 0.8,
         Backrooms.Worldgen.WorldLayout.Level188 => 1.0,
+        Backrooms.Worldgen.WorldLayout.Level23 => 0.9, // "Medium Entity Count"
         _ => 1.0,
     };
 
@@ -650,7 +661,7 @@ public static class Roster
         [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Level36] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Level15] = Array.Empty<DistantSound>(),
-        [Backrooms.Worldgen.WorldLayout.Level23] = Array.Empty<DistantSound>(),
+        [Backrooms.Worldgen.WorldLayout.Level23] = new[] { HoundHowl, Scuttle, Wings, Groan, Drip, Whisper },
     };
 
     /// <summary>The far-off cries of a dark's hunters: only Hound sounds for the Hounds, only rat sounds for the rats.</summary>

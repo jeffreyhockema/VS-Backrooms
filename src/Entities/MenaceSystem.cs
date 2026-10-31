@@ -536,7 +536,16 @@ public partial class MenaceSystem : ModSystem
             case WorldLayout.Level120: a.Band = MenaceBand.Safe; return;
             case WorldLayout.Level36: a.Band = MenaceBand.Safe; return;
             case WorldLayout.Level15: a.Band = MenaceBand.Safe; return;
-            case WorldLayout.Level23: a.Band = MenaceBand.Safe; return;
+            // Level 23: the forest the heart, the glow rooms and their tunnels the approach, the ruins the edge; Base Seedling safe
+            case WorldLayout.Level23:
+                a.Band = layout.L23ZoneAt(gx + 0.5, y, gz + 0.5, geometry.FloorFor(level), out _) switch
+                {
+                    WorldLayout.L23Seedling => MenaceBand.Safe,
+                    WorldLayout.L23Ruin => MenaceBand.Threshold,
+                    WorldLayout.L23Glow or WorldLayout.L23TunnelZone => MenaceBand.Approach,
+                    _ => MenaceBand.Heartland,
+                };
+                return;
         }
         if (a.Snackrooms || layout.IsSanctuary(gx, gz, level))
         {
