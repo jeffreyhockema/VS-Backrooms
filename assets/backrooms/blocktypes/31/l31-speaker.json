@@ -1,0 +1,131 @@
+// Level 31: a tall black PA speaker cabinet with two woofers and a horn on the side's face
+{
+	"code": "l31-speaker",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-speaker-north": {
+			"base": "backrooms:block/31/l31-speaker"
+		},
+		"l31-speaker-east": {
+			"base": "backrooms:block/31/l31-speaker",
+			"rotateY": 270
+		},
+		"l31-speaker-south": {
+			"base": "backrooms:block/31/l31-speaker",
+			"rotateY": 180
+		},
+		"l31-speaker-west": {
+			"base": "backrooms:block/31/l31-speaker",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l31-speaker-north": {
+			"x1": 0.0625,
+			"y1": 0,
+			"z1": 0.0625,
+			"x2": 0.9375,
+			"y2": 1,
+			"z2": 0.875
+		},
+		"l31-speaker-east": {
+			"x1": 0.0625,
+			"y1": 0,
+			"z1": 0.0625,
+			"x2": 0.9375,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 270
+		},
+		"l31-speaker-south": {
+			"x1": 0.0625,
+			"y1": 0,
+			"z1": 0.0625,
+			"x2": 0.9375,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 180
+		},
+		"l31-speaker-west": {
+			"x1": 0.0625,
+			"y1": 0,
+			"z1": 0.0625,
+			"x2": 0.9375,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"l31-speaker-north": {
+			"x1": 0.0625,
+			"y1": 0,
+			"z1": 0.0625,
+			"x2": 0.9375,
+			"y2": 1,
+			"z2": 0.875
+		},
+		"l31-speaker-east": {
+			"x1": 0.0625,
+			"y1": 0,
+			"z1": 0.0625,
+			"x2": 0.9375,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 270
+		},
+		"l31-speaker-south": {
+			"x1": 0.0625,
+			"y1": 0,
+			"z1": 0.0625,
+			"x2": 0.9375,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 180
+		},
+		"l31-speaker-west": {
+			"x1": 0.0625,
+			"y1": 0,
+			"z1": 0.0625,
+			"x2": 0.9375,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 90
+		}
+	}
+}

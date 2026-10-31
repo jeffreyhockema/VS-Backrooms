@@ -1,0 +1,609 @@
+// Level 31: a big flat TV, 3 blocks wide and 2 high on a wall (tl tm tr / bl bm br as seen by a viewer in front of it); screen toward the side, wall behind
+{
+	"code": "l31-tv",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"tl",
+				"tm",
+				"tr",
+				"bl",
+				"bm",
+				"br"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-tv-tl-north": {
+			"base": "backrooms:block/31/l31-tv-tl"
+		},
+		"l31-tv-tl-east": {
+			"base": "backrooms:block/31/l31-tv-tl",
+			"rotateY": 270
+		},
+		"l31-tv-tl-south": {
+			"base": "backrooms:block/31/l31-tv-tl",
+			"rotateY": 180
+		},
+		"l31-tv-tl-west": {
+			"base": "backrooms:block/31/l31-tv-tl",
+			"rotateY": 90
+		},
+		"l31-tv-tm-north": {
+			"base": "backrooms:block/31/l31-tv-tm"
+		},
+		"l31-tv-tm-east": {
+			"base": "backrooms:block/31/l31-tv-tm",
+			"rotateY": 270
+		},
+		"l31-tv-tm-south": {
+			"base": "backrooms:block/31/l31-tv-tm",
+			"rotateY": 180
+		},
+		"l31-tv-tm-west": {
+			"base": "backrooms:block/31/l31-tv-tm",
+			"rotateY": 90
+		},
+		"l31-tv-tr-north": {
+			"base": "backrooms:block/31/l31-tv-tr"
+		},
+		"l31-tv-tr-east": {
+			"base": "backrooms:block/31/l31-tv-tr",
+			"rotateY": 270
+		},
+		"l31-tv-tr-south": {
+			"base": "backrooms:block/31/l31-tv-tr",
+			"rotateY": 180
+		},
+		"l31-tv-tr-west": {
+			"base": "backrooms:block/31/l31-tv-tr",
+			"rotateY": 90
+		},
+		"l31-tv-bl-north": {
+			"base": "backrooms:block/31/l31-tv-bl"
+		},
+		"l31-tv-bl-east": {
+			"base": "backrooms:block/31/l31-tv-bl",
+			"rotateY": 270
+		},
+		"l31-tv-bl-south": {
+			"base": "backrooms:block/31/l31-tv-bl",
+			"rotateY": 180
+		},
+		"l31-tv-bl-west": {
+			"base": "backrooms:block/31/l31-tv-bl",
+			"rotateY": 90
+		},
+		"l31-tv-bm-north": {
+			"base": "backrooms:block/31/l31-tv-bm"
+		},
+		"l31-tv-bm-east": {
+			"base": "backrooms:block/31/l31-tv-bm",
+			"rotateY": 270
+		},
+		"l31-tv-bm-south": {
+			"base": "backrooms:block/31/l31-tv-bm",
+			"rotateY": 180
+		},
+		"l31-tv-bm-west": {
+			"base": "backrooms:block/31/l31-tv-bm",
+			"rotateY": 90
+		},
+		"l31-tv-br-north": {
+			"base": "backrooms:block/31/l31-tv-br"
+		},
+		"l31-tv-br-east": {
+			"base": "backrooms:block/31/l31-tv-br",
+			"rotateY": 270
+		},
+		"l31-tv-br-south": {
+			"base": "backrooms:block/31/l31-tv-br",
+			"rotateY": 180
+		},
+		"l31-tv-br-west": {
+			"base": "backrooms:block/31/l31-tv-br",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l31-tv-tl-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-tv-tl-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-tv-tl-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-tv-tl-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-tv-tm-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-tv-tm-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-tv-tm-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-tv-tm-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-tv-tr-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-tv-tr-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-tv-tr-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-tv-tr-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-tv-bl-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-tv-bl-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-tv-bl-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-tv-bl-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-tv-bm-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-tv-bm-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-tv-bm-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-tv-bm-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-tv-br-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-tv-br-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-tv-br-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-tv-br-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"l31-tv-tl-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-tv-tl-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-tv-tl-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-tv-tl-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-tv-tm-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-tv-tm-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-tv-tm-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-tv-tm-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-tv-tr-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-tv-tr-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-tv-tr-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-tv-tr-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-tv-bl-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-tv-bl-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-tv-bl-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-tv-bl-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-tv-bm-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-tv-bm-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-tv-bm-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-tv-bm-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-tv-br-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-tv-br-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-tv-br-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-tv-br-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"lightHsvByType": {
+		"l31-tv-tm-north": [
+			32,
+			2,
+			7
+		],
+		"l31-tv-tm-east": [
+			32,
+			2,
+			7
+		],
+		"l31-tv-tm-south": [
+			32,
+			2,
+			7
+		],
+		"l31-tv-tm-west": [
+			32,
+			2,
+			7
+		],
+		"l31-tv-bm-north": [
+			32,
+			2,
+			7
+		],
+		"l31-tv-bm-east": [
+			32,
+			2,
+			7
+		],
+		"l31-tv-bm-south": [
+			32,
+			2,
+			7
+		],
+		"l31-tv-bm-west": [
+			32,
+			2,
+			7
+		]
+	}
+}

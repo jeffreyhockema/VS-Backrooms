@@ -1,0 +1,309 @@
+// Level 31: a 1980s upright arcade cabinet, 30 units tall (it reaches into the block above), lit marquee and screen, by game and facing side
+{
+	"code": "l31-retrocab",
+	"variantgroups": [
+		{
+			"code": "game",
+			"states": [
+				"shooter",
+				"barrels",
+				"pyramid"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-retrocab-shooter-north": {
+			"base": "backrooms:block/31/l31-retrocab-shooter"
+		},
+		"l31-retrocab-shooter-east": {
+			"base": "backrooms:block/31/l31-retrocab-shooter",
+			"rotateY": 270
+		},
+		"l31-retrocab-shooter-south": {
+			"base": "backrooms:block/31/l31-retrocab-shooter",
+			"rotateY": 180
+		},
+		"l31-retrocab-shooter-west": {
+			"base": "backrooms:block/31/l31-retrocab-shooter",
+			"rotateY": 90
+		},
+		"l31-retrocab-barrels-north": {
+			"base": "backrooms:block/31/l31-retrocab-barrels"
+		},
+		"l31-retrocab-barrels-east": {
+			"base": "backrooms:block/31/l31-retrocab-barrels",
+			"rotateY": 270
+		},
+		"l31-retrocab-barrels-south": {
+			"base": "backrooms:block/31/l31-retrocab-barrels",
+			"rotateY": 180
+		},
+		"l31-retrocab-barrels-west": {
+			"base": "backrooms:block/31/l31-retrocab-barrels",
+			"rotateY": 90
+		},
+		"l31-retrocab-pyramid-north": {
+			"base": "backrooms:block/31/l31-retrocab-pyramid"
+		},
+		"l31-retrocab-pyramid-east": {
+			"base": "backrooms:block/31/l31-retrocab-pyramid",
+			"rotateY": 270
+		},
+		"l31-retrocab-pyramid-south": {
+			"base": "backrooms:block/31/l31-retrocab-pyramid",
+			"rotateY": 180
+		},
+		"l31-retrocab-pyramid-west": {
+			"base": "backrooms:block/31/l31-retrocab-pyramid",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l31-retrocab-shooter-north": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94
+		},
+		"l31-retrocab-shooter-east": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l31-retrocab-shooter-south": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l31-retrocab-shooter-west": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l31-retrocab-barrels-north": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94
+		},
+		"l31-retrocab-barrels-east": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l31-retrocab-barrels-south": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l31-retrocab-barrels-west": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l31-retrocab-pyramid-north": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94
+		},
+		"l31-retrocab-pyramid-east": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l31-retrocab-pyramid-south": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l31-retrocab-pyramid-west": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"l31-retrocab-shooter-north": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94
+		},
+		"l31-retrocab-shooter-east": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l31-retrocab-shooter-south": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l31-retrocab-shooter-west": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l31-retrocab-barrels-north": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94
+		},
+		"l31-retrocab-barrels-east": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l31-retrocab-barrels-south": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l31-retrocab-barrels-west": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 90
+		},
+		"l31-retrocab-pyramid-north": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94
+		},
+		"l31-retrocab-pyramid-east": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 270
+		},
+		"l31-retrocab-pyramid-south": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 180
+		},
+		"l31-retrocab-pyramid-west": {
+			"x1": 0.125,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.875,
+			"y2": 1,
+			"z2": 0.94,
+			"rotateY": 90
+		}
+	}
+}

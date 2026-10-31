@@ -1,0 +1,131 @@
+// Level 31: a steel condiment stand (ketchup, mustard, relish pumps, napkins, straws); the pumps point to the side
+{
+	"code": "l31-condiments",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-condiments-north": {
+			"base": "backrooms:block/31/l31-condiments"
+		},
+		"l31-condiments-east": {
+			"base": "backrooms:block/31/l31-condiments",
+			"rotateY": 270
+		},
+		"l31-condiments-south": {
+			"base": "backrooms:block/31/l31-condiments",
+			"rotateY": 180
+		},
+		"l31-condiments-west": {
+			"base": "backrooms:block/31/l31-condiments",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l31-condiments-north": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.93,
+			"y2": 0.88,
+			"z2": 0.8
+		},
+		"l31-condiments-east": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.93,
+			"y2": 0.88,
+			"z2": 0.8,
+			"rotateY": 270
+		},
+		"l31-condiments-south": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.93,
+			"y2": 0.88,
+			"z2": 0.8,
+			"rotateY": 180
+		},
+		"l31-condiments-west": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.93,
+			"y2": 0.88,
+			"z2": 0.8,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"l31-condiments-north": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.93,
+			"y2": 0.88,
+			"z2": 0.8
+		},
+		"l31-condiments-east": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.93,
+			"y2": 0.88,
+			"z2": 0.8,
+			"rotateY": 270
+		},
+		"l31-condiments-south": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.93,
+			"y2": 0.88,
+			"z2": 0.8,
+			"rotateY": 180
+		},
+		"l31-condiments-west": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.93,
+			"y2": 0.88,
+			"z2": 0.8,
+			"rotateY": 90
+		}
+	}
+}

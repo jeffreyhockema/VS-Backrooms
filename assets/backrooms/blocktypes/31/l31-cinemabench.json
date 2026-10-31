@@ -1,0 +1,131 @@
+// Level 31: one segment of a long continuous steel bench (low back on the side opposite the one named), full block wide
+{
+	"code": "l31-cinemabench",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-cinemabench-north": {
+			"base": "backrooms:block/31/l31-cinemabench"
+		},
+		"l31-cinemabench-east": {
+			"base": "backrooms:block/31/l31-cinemabench",
+			"rotateY": 270
+		},
+		"l31-cinemabench-south": {
+			"base": "backrooms:block/31/l31-cinemabench",
+			"rotateY": 180
+		},
+		"l31-cinemabench-west": {
+			"base": "backrooms:block/31/l31-cinemabench",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l31-cinemabench-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 0.69,
+			"z2": 0.76
+		},
+		"l31-cinemabench-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 0.69,
+			"z2": 0.76,
+			"rotateY": 270
+		},
+		"l31-cinemabench-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 0.69,
+			"z2": 0.76,
+			"rotateY": 180
+		},
+		"l31-cinemabench-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 0.69,
+			"z2": 0.76,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"l31-cinemabench-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 0.44,
+			"z2": 0.76
+		},
+		"l31-cinemabench-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 0.44,
+			"z2": 0.76,
+			"rotateY": 270
+		},
+		"l31-cinemabench-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 0.44,
+			"z2": 0.76,
+			"rotateY": 180
+		},
+		"l31-cinemabench-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 0.44,
+			"z2": 0.76,
+			"rotateY": 90
+		}
+	}
+}

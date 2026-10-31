@@ -1,0 +1,131 @@
+// Level 31: a moulded orange plastic food-court chair on chrome legs; the side is the way a sitter faces
+{
+	"code": "l31-chair",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-chair-north": {
+			"base": "backrooms:block/31/l31-chair"
+		},
+		"l31-chair-east": {
+			"base": "backrooms:block/31/l31-chair",
+			"rotateY": 270
+		},
+		"l31-chair-south": {
+			"base": "backrooms:block/31/l31-chair",
+			"rotateY": 180
+		},
+		"l31-chair-west": {
+			"base": "backrooms:block/31/l31-chair",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l31-chair-north": {
+			"x1": 0.2,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.8,
+			"y2": 0.93,
+			"z2": 0.82
+		},
+		"l31-chair-east": {
+			"x1": 0.2,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.8,
+			"y2": 0.93,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"l31-chair-south": {
+			"x1": 0.2,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.8,
+			"y2": 0.93,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"l31-chair-west": {
+			"x1": 0.2,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.8,
+			"y2": 0.93,
+			"z2": 0.82,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"l31-chair-north": {
+			"x1": 0.2,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.8,
+			"y2": 0.45,
+			"z2": 0.82
+		},
+		"l31-chair-east": {
+			"x1": 0.2,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.8,
+			"y2": 0.45,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"l31-chair-south": {
+			"x1": 0.2,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.8,
+			"y2": 0.45,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"l31-chair-west": {
+			"x1": 0.2,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.8,
+			"y2": 0.45,
+			"z2": 0.82,
+			"rotateY": 90
+		}
+	}
+}

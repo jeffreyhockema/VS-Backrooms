@@ -1,0 +1,95 @@
+// Level 31: a small grey CCTV camera on an L-bracket under the ceiling, lens toward the side and slightly down, with a red LED
+{
+	"code": "l31-cctv",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-cctv-north": {
+			"base": "backrooms:block/31/l31-cctv"
+		},
+		"l31-cctv-east": {
+			"base": "backrooms:block/31/l31-cctv",
+			"rotateY": 270
+		},
+		"l31-cctv-south": {
+			"base": "backrooms:block/31/l31-cctv",
+			"rotateY": 180
+		},
+		"l31-cctv-west": {
+			"base": "backrooms:block/31/l31-cctv",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l31-cctv-north": {
+			"x1": 0.3,
+			"y1": 0.55,
+			"z1": 0.1,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.6
+		},
+		"l31-cctv-east": {
+			"x1": 0.3,
+			"y1": 0.55,
+			"z1": 0.1,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 270
+		},
+		"l31-cctv-south": {
+			"x1": 0.3,
+			"y1": 0.55,
+			"z1": 0.1,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 180
+		},
+		"l31-cctv-west": {
+			"x1": 0.3,
+			"y1": 0.55,
+			"z1": 0.1,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionbox": null
+}
