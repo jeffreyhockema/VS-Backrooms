@@ -84,8 +84,14 @@ public partial class CheatSystem
         for (int i = 0; i < sites; i++)
         {
             ulong key = Hashing.Mix(0x57A1D5 + (ulong)i * 7919);
-            System.Func<Tile, bool> anchor = i % 2 == 0 ? t => t.Stair > 0 && t.Under == 0 : null;
-            if (layout.FindArrival(level, key, anchor) is not { } spot) continue;
+            if (layout.FindArrival(level, key) is not { } spot) continue;
+            // Every other site is the nearest step of the level to that arrival that is clear of the sites already picked
+            if (i % 2 == 0)
+            {
+                tileScanStopped = false;
+                var near = NearestTileAt(spot.X, spot.Z, 1024, level, (t, x, z) => t.Stair > 0 && !picked.Any(p => Math.Abs(p.X - x) <= 2 * radius && Math.Abs(p.Z - z) <= 2 * radius), out _);
+                if (near is { } stairs) spot = stairs;
+            }
             if (picked.Any(p => Math.Abs(p.X - spot.X) < radius && Math.Abs(p.Z - spot.Z) < radius)) continue;
             picked.Add(spot);
         }
