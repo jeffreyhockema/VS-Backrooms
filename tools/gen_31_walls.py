@@ -233,9 +233,13 @@ def blocktype():
     kinds = [f"m{c}{r}" for c in range(COLS) for r in range(ROWS)] + [f"f{r}{c}" for r in "tmb" for c in "lr"] + ["lacq", "lacqtop"]         + [f"dj{c}{r}" for c in range(3) for r in range(2)] + ["exit", "crt"]
     # One shape (the panel at the south edge of its block, its picture facing north), the picture by type
     # (the mural's paint glows a little, as UV paint under the halls' neon does)
-    refs = {glow: shape("l31-cladding" + ("-glow" if glow == 48 else "-lit" if glow else ""), [box("Panel", (0, 0, 15.5), (16, 16, 16), {"front": "art", "all": "edge"},
-                                                                       faces=("north", "east", "west", "up", "down"), glow=glow)])
-            for glow in (0, 48, 255)}
+    def panel(glow):
+        el = box("Panel", (0, 0, 15.5), (16, 16, 16), {"front": "art", "all": "edge"}, faces=("north", "east", "west", "up", "down"), glow=glow)
+        if glow == 255:  # (a lit sign's picture glows, not its rim)
+            for f in ("east", "west", "up", "down"):
+                el["faces"][f].pop("glow", None)
+        return el
+    refs = {glow: shape("l31-cladding" + ("-glow" if glow == 48 else "-lit" if glow else ""), [panel(glow)]) for glow in (0, 48, 255)}
     shapes, textures, sels = {}, {}, {}
     for k in kinds:
         for side in SIDES:
