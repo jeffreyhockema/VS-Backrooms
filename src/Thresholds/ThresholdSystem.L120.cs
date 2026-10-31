@@ -1,3 +1,4 @@
+using System;
 using Backrooms.Worldgen;
 using Vintagestory.API.Server;
 
@@ -12,8 +13,35 @@ namespace Backrooms.Thresholds;
 public partial class ThresholdSystem
 {
     /// <summary>Someone is about to be put down in the level at <paramref name="link"/>.</summary>
+    /// <remarks>
+    /// They face the way the floor runs furthest (up to 24 blocks: down a passage, along an aisle or a hallway's lane, into
+    /// a void's room) rather than whatever wall was before them. The turn waits until they are down.
+    /// </remarks>
     private void L120Arriving(IServerPlayer player, Link link, ref double drop)
     {
+        int ax = (int)Math.Floor(link.X), az = (int)Math.Floor(link.Z), best = 0;
+        float yaw = 0;
+        foreach (var (dx, dz) in new[] { (0, 1), (1, 0), (0, -1), (-1, 0) })
+        {
+            int run = 0;
+            while (run < 24)
+            {
+                Tile t = layout.TileAt(ax + dx * (run + 1), az + dz * (run + 1));
+                if (t.Level != WorldLayout.Level120 || t.Kind is not (TileKind.Floor or TileKind.Doorway) || !WorldLayout.IsWalkThroughProp(t.Variant) || t.SupplyBox || t.Stack > 0) break;
+                run++;
+            }
+            // (A player looks along (sin yaw, cos yaw))
+            if (run > best) { best = run; yaw = (float)Math.Atan2(dx, dz); }
+        }
+        if (best < 3) return;
+        int tries = 0;
+        void Check(float _)
+        {
+            if (player.Entity == null || ++tries > 40) return;
+            if (player.Entity.Pos.SquareDistanceTo(link.X, player.Entity.Pos.Y, link.Z) < 2.25) Face(player, yaw);
+            else sapi.Event.RegisterCallback(Check, 250);
+        }
+        sapi.Event.RegisterCallback(Check, 250);
     }
 
     /// <summary>Just before any arrival anywhere: somewhere else to send them, or null.</summary>
