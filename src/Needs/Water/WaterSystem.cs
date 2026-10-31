@@ -186,6 +186,13 @@ public class BlockBehaviorDrinkable : BlockBehavior
                 NeedsApi.Hydrate(entity, WaterClass.SaltHydration);
                 message = "backrooms:drink-salt";
                 break;
+            case WaterKind.Foul:
+                // The Basement's flood: it tastes almost of almonds, and it leaves you thirstier
+                NeedsApi.Hydrate(entity, WaterClass.FoulHydration);
+                Drinks.AddStability(entity, WaterClass.TaintedStability);
+                if (world.Rand.NextDouble() < WaterClass.FoulSickChance) NeedsApi.MakeSick(entity, WaterClass.SickHours);
+                message = "backrooms:drink-foul";
+                break;
             default:
                 entity.ReceiveDamage(new DamageSource { Source = EnumDamageSource.Internal, Type = EnumDamageType.Heat }, 2f);
                 message = "backrooms:drink-scald";

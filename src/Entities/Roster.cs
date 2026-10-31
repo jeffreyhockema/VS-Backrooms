@@ -116,7 +116,7 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level188 => 0.45, // the Courtyard of Windows: unsafe (Class 2-5 by the wikis), its windows worst of all
         // The experimental levels (ids 21-23): nothing in them yet
         Backrooms.Worldgen.WorldLayout.Level73 => 0,
-        Backrooms.Worldgen.WorldLayout.Basement => 0,
+        Backrooms.Worldgen.WorldLayout.Basement => 0.3, // Fandom's class 2: decent amount of entities, all of them visitors from above
         Backrooms.Worldgen.WorldLayout.Level52 => 0,
         // Batch 2 (ids 24-27): nothing in them yet
         Backrooms.Worldgen.WorldLayout.Level31 => 0,
@@ -395,7 +395,18 @@ public static class Roster
         },
         // The experimental levels (ids 21-23): empty
         [Backrooms.Worldgen.WorldLayout.Level73] = Array.Empty<RosterEntry>(),
-        [Backrooms.Worldgen.WorldLayout.Basement] = Array.Empty<RosterEntry>(),
+        // The Basement: no entities of its own; those that fall through the floors as people do ("Facelings, Skin-Stealers and
+        // Smilers": Fandom), something standing far off in the distance (Wikidot), and in the Flood the drowned thing that
+        // followed the man who wrote it all down
+        [Backrooms.Worldgen.WorldLayout.Basement] = new[]
+        {
+            E(Smiler, Heart, Menacing, 0.4) with { NeedsDark = true },
+            E(SkinStealer, Heart, Menacing | Amb, 0.3) with { Rarity = SkinStealerWanders },
+            E(Faceling, Heart, Amb, 0.3) with { Rarity = 0.35 },
+            // (The Flood is the Approach band: MenaceSystem)
+            E(Bacteria, Approach, Encounters.Glimpse | Encounters.Stalk, 0.6),
+            E(Wretch, Approach, Encounters.Stalk | Encounters.Hunt, 0.4),
+        },
         [Backrooms.Worldgen.WorldLayout.Level52] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level31] = Array.Empty<RosterEntry>(),
         [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<RosterEntry>(),
@@ -532,6 +543,7 @@ public static class Roster
         Backrooms.Worldgen.WorldLayout.TheEnd => 4.0,
         Backrooms.Worldgen.WorldLayout.Level3999 => 0.8,
         Backrooms.Worldgen.WorldLayout.Level188 => 1.0,
+        Backrooms.Worldgen.WorldLayout.Basement => 1.3, // the Basement: "devoid of all entities" of its own; what is there fell in
         _ => 1.0,
     };
 
@@ -644,7 +656,8 @@ public static class Roster
         },
         // The experimental levels (ids 21-23): none yet
         [Backrooms.Worldgen.WorldLayout.Level73] = Array.Empty<DistantSound>(),
-        [Backrooms.Worldgen.WorldLayout.Basement] = Array.Empty<DistantSound>(),
+        // The Basement: footsteps, a knock, a scratch in the walls, the far wail, water dripping
+        [Backrooms.Worldgen.WorldLayout.Basement] = new[] { Footsteps, Knock, Scratch, Groan, Drip },
         [Backrooms.Worldgen.WorldLayout.Level52] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Level31] = Array.Empty<DistantSound>(),
         [Backrooms.Worldgen.WorldLayout.Level120] = Array.Empty<DistantSound>(),

@@ -31,7 +31,7 @@ public sealed partial class WorldLayout
         Level3999 => 0.15, // this deep, hardly anyone has been through the stores
         Level188 => 0.3, // few come here, fewer leave
         Level73 => 0.3,
-        Basement => 0.3,
+        Basement => 0.75, // "Lack of Needed Resources": most of what was left has been gone through
         Level52 => 0.3,
         Level31 => 0.3,
         Level120 => 0.3,
