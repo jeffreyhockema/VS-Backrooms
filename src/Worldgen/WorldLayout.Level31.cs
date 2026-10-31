@@ -35,7 +35,8 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldLayout
 {
     /// <summary>Hash salts 0x2400-0x24BF are this level's (0x24C0-0x24FF its thresholds').</summary>
-    private const ulong SaltL31Shape = 0x2401, SaltL31Complex = 0x2410, SaltL31Room = 0x2411, SaltL31Light = 0x2412, SaltL31Hall = 0x2413;
+    private const ulong SaltL31Shape = 0x2401, SaltL31Complex = 0x2410, SaltL31Room = 0x2411, SaltL31Light = 0x2412, SaltL31Hall = 0x2413,
+        SaltL31Clad = 0x2416;
 
     /// <summary>The lattice: a neon hall every 128 blocks each way; a complex's inside is 121 square, its plan 123 with its walls.</summary>
     public const int L31Period = 128, L31Size = 121, L31Grid = 123;
@@ -87,6 +88,14 @@ public sealed partial class WorldLayout
         public const byte NeonNS = 140, NeonWE = 141, DeadNS = 142, DeadWE = 143, DiscoBall = 144;
         /// <summary>The star-shaped light at the rink's centre (Wikidot), and a CCTV camera under the ceiling of an employees' lounge (Pier the way it looks).</summary>
         public const byte Star = 145, Cctv = 146;
+        /// <summary>A hall tile by a wall, its wall clad (rel 2 up, toward its Pier) in the hall mural, or in black lacquer with
+        /// chrome-framed mirrors (<c>l31-cladding</c>; which, per side of each stretch of hall, by hash).</summary>
+        public const byte Mural = 147, Mirrors = 148;
+        /// <summary>A lit sign on the wall a tile stands against (toward its Pier; round a rink, away from the wall beside it):
+        /// round a rink, a column of the DJ station's neon sign (Detail's sub-kind 1-3, from the viewer's left; the rest of
+        /// the wall clad in the mural); in a cinema, its EXIT sign over the door, or with the rail bit a small TV on a side
+        /// wall (rel 4). (Never Stack: a tile with a Stack and no prop counts as blocked.)</summary>
+        public const byte Sign = 149;
     }
 
     /// <summary>The level's props (<see cref="Props.L31First"/>-<see cref="Props.L31Last"/>), all at rel 1 but the cinema screen.</summary>
@@ -197,8 +206,9 @@ public sealed partial class WorldLayout
     /// <summary>A place near the middle of the region to look for somewhere to arrive, picked by hash.</summary>
     private (int Mx, int Mz) L31ArrivalCell(ulong h) => RoundArrivalCell(h, L31CentreX, L31CentreZ, L31Radius);
 
-    /// <summary>Arriving: out in a neon hall or in a lobby, never in a room or out on the rink.</summary>
-    private static bool IsL31ArrivalSpot(Tile t) => IsArrivalSpot(t) && t.Zone is (byte)L31Zone.Hall or (byte)L31Zone.Crossing or (byte)L31Zone.Lobby;
+    /// <summary>Arriving: out in a neon hall, in a lobby or on the carpet round a rink, never in a room or out on the boards.</summary>
+    private static bool IsL31ArrivalSpot(Tile t) =>
+        IsArrivalSpot(t) && t.Zone is (byte)L31Zone.Hall or (byte)L31Zone.Crossing or (byte)L31Zone.Lobby or (byte)L31Zone.Skirt;
 
     /// <summary>How high above the level's floor to put someone down on an arrival tile (see <see cref="ArrivalHeight"/>).</summary>
     private static double L31ArrivalHeight(in Tile t, double stand) => stand;
@@ -272,9 +282,16 @@ public sealed partial class WorldLayout
         if (across is not (1 or 5)) return;
         // Along the walls: the neon strip at their foot where there is a wall behind (not a door); now and then a bench or a bin
         int bx = hallX ? gx + (u == 1 ? -1 : 1) : gx, bz = hallZ ? gz + (v == 1 ? -1 : 1) : gz;
-        if (L31PlanTile(bx, bz).Kind != TileKind.Wall) return;
+        TileKind behind = L31PlanTile(bx, bz).Kind;
+        if (behind is not (TileKind.Wall or TileKind.Doorway)) return;
         ArchPier facing = hallX ? (u == 1 ? ArchPier.East : ArchPier.West) : (v == 1 ? ArchPier.South : ArchPier.North);
         t.Pier = facing;
+        // The wall above the neon strip: each side of each stretch is clad in the mural (three in five) or in black lacquer
+        // with chrome-framed mirrors ("many chambers of shiny surfaces": Wikidot)
+        ulong clad = Hashing.Hash(seed, Hashing.FloorDiv(gx, L31Period), Hashing.FloorDiv(gz, L31Period), SaltL31Clad + (ulong)facing);
+        t.Overhead = Hashing.Unit(clad) < 0.6 ? L31Overhead.Mural : L31Overhead.Mirrors;
+        // (over a doorway the cladding starts above the opening, and there is no strip)
+        if (behind == TileKind.Doorway) return;
         double p = Hashing.Unit(Hashing.Mix(h));
         if (p < 0.006) t.Variant = p < 0.004 ? Props.Bench : L31Props.Bin;
         else t.Detail |= L31RailBit;
@@ -552,6 +569,24 @@ public sealed partial class WorldLayout
                     wall.Pier = plan.Dir(ArchPier.West);
                 }
                 for (int p = 50; p <= 51; p++) plan.At(p, 20).Detail = (byte)(L31Wall.Chart << L31SubShift);
+                // The lobby's walls in the halls' mural, above the skirting, but for the lockers and the size chart
+                for (int q = 0; q <= 19; q++)
+                    for (int p = 46; p <= 74; p++)
+                    {
+                        if (p is not (46 or 74) && q is not (0 or 19)) continue;
+                        ref Tile t = ref plan.At(p, q);
+                        if (t.Kind != TileKind.Floor || t.Variant != 0) continue;
+                        bool bare = false;
+                        foreach (var (wp, wq) in new[] { (p, q - 1), (p, q + 1), (p - 1, q), (p + 1, q) })
+                        {
+                            ref Tile nb = ref plan.At(wp, wq);
+                            if (nb.Kind is not (TileKind.Wall or TileKind.Doorway)) continue;
+                            byte sub = (byte)((nb.Detail & L31SubMask) >> L31SubShift);
+                            bare = sub is not (L31Wall.Locker or L31Wall.Chart);
+                            if (!bare) break;
+                        }
+                        if (bare) t.Overhead = L31Overhead.Mural;
+                    }
                 break;
             case L31Zone.Snack:
                 {
@@ -681,8 +716,39 @@ public sealed partial class WorldLayout
                             if (c.Kind == TileKind.Floor) c.Detail = (byte)(c.Detail & L31HueMask | step << L31SubShift);
                         }
                     }
+                    // (small, as Wikidot has it: a wide one is walled in to sixteen across round its TV)
+                    int edge = Math.Max(0, (across - 16) / 2);
+                    for (int v = 0; v < len; v++)
+                        for (int u = 0; u < across; u++)
+                        {
+                            if (u >= edge && u < across - edge) continue;
+                            var (p, q) = At(u, v);
+                            plan.At(p, q) = new Tile
+                            {
+                                Kind = TileKind.Wall, Pattern = WallPattern.L31Wall, Zone = (byte)L31Zone.Wall, Floor = FloorKind.L31Floor,
+                                Ceiling = CeilingKind.L31Ceiling, Height = 4,
+                            };
+                        }
                     foreach (int v in new[] { 7, 9, 11 })
-                        for (int u = 1; u < across - 1; u++) Put(u, v, L31Props.CinemaBench, toFar);
+                        for (int u = edge + 1; u < across - edge - 1; u++) Put(u, v, L31Props.CinemaBench, toFar);
+                    // Small TVs along both side walls, above the steps (Wikidot: "TV screens"), the room's only other light
+                    foreach (int v in new[] { 2, 5, 8, 13 })
+                        foreach (var (u, look) in new[] { (edge, toHighU), (across - edge - 1, toLowU) })
+                        {
+                            var (tp, tq) = At(u, v);
+                            ref Tile tv = ref plan.At(tp, tq);
+                            if (tv.Kind != TileKind.Floor) continue;
+                            tv.Overhead = L31Overhead.Sign;
+                            tv.Detail |= L31RailBit;
+                            tv.Pier = plan.Dir(look);
+                        }
+                    // The red EXIT sign over the way out
+                    {
+                        var (ep, eq) = At(Math.Clamp(doorU - 1, edge, across - edge - 1), len - 1);
+                        ref Tile exit = ref plan.At(ep, eq);
+                        exit.Overhead = L31Overhead.Sign;
+                        exit.Pier = plan.Dir(toFar);
+                    }
                     break;
                 }
             case L31Zone.Bath:
@@ -744,8 +810,37 @@ public sealed partial class WorldLayout
                 break;
             case L31Zone.Lounge:
                 {
-                    // The Employees Lounge (Fandom): exposed brick, grey carpet, lockers along a wall, a kitchenette, a table,
-                    // the CCTV desk and cameras in the corners, a custodian's corner; silent
+                    // The Employees Lounge (Fandom): exposed brick, grey carpet, lockers along the walls, a kitchenette and
+                    // the snack machines, tables, the CCTV desk and cameras in the corners, a custodian's corner; silent.
+                    // A big one is walled off a third of the way along: past a door in a wall of lockers, the staff's
+                    // stock room (shelves in rows, boxes)
+                    int lw = across;
+                    if (across > 22)
+                    {
+                        lw = 16;
+                        for (int v = 0; v < len; v++)
+                        {
+                            var (wp, wq) = At(lw, v);
+                            ref Tile wall = ref plan.At(wp, wq);
+                            wall = new Tile
+                            {
+                                Kind = v is 3 or 4 ? TileKind.Doorway : TileKind.Wall, Pattern = WallPattern.L31Wall, Zone = (byte)L31Zone.Lounge,
+                                Floor = FloorKind.L31Floor, Ceiling = CeilingKind.L31Ceiling, Height = 4,
+                                Detail = v is 3 or 4 ? (byte)0 : (byte)(L31Wall.Locker << L31SubShift), Pier = plan.Dir(toLowU),
+                            };
+                            for (int u = lw + 1; u < across; u++)
+                            {
+                                var (sp, sq) = At(u, v);
+                                plan.At(sp, sq).Zone = (byte)L31Zone.Store;
+                                plan.At(sp, sq).Detail = L31Hue.White;
+                            }
+                        }
+                        for (int u = lw + 3; u <= across - 2; u += 3)
+                            for (int v = 1; v <= len - 4; v++)
+                                if (v != len / 2) Put(u, v, Props.Shelf, (u - lw) % 2 == 0 ? toLowU : toHighU);
+                        for (int k = rng.Range(2, 4); k > 0; k--) Put(rng.Range(lw + 2, across - 1), rng.Chance(0.5) ? 0 : len - 3, Props.CardboardBoxes, toNear); // (at the aisles' ends, never across one)
+                        if (rng.Chance(0.5)) Box(across - 1, len - 2);
+                    }
                     for (int v = 1; v <= len - 2; v++)
                     {
                         var (lp, lq) = At(-1, v);
@@ -754,18 +849,26 @@ public sealed partial class WorldLayout
                         wall.Detail = (byte)(L31Wall.Locker << L31SubShift);
                         wall.Pier = plan.Dir(toHighU);
                     }
-                    Put(across - 1, 0, Props.Fridge, toNear);
-                    Put(across - 2, 0, Props.KitchenCounter, toNear, 1);
-                    Put(across - 3, 0, Props.KitchenCounter, toNear);
+                    Put(lw - 1, 0, Props.Fridge, toNear);
+                    Put(lw - 2, 0, Props.KitchenCounter, toNear, 1);
+                    Put(lw - 3, 0, Props.KitchenCounter, toNear);
+                    Put(lw - 5, 0, L31Props.Vending, toNear, 0);
+                    Put(lw - 6, 0, L31Props.Vending, toNear, 1);
                     Put(0, 0, L31Props.Monitors, toNear);
-                    Put(across / 2, len / 2, Props.CafeTable, toNear);
-                    Put(across / 2 - 1, len / 2, Props.CafeChair, toHighU);
-                    Put(across / 2 + 1, len / 2, Props.CafeChair, toLowU);
-                    Put(across - 1, len - 2, Props.Shelf, toLowU);
-                    Put(across - 2, len - 2, Props.WetFloorSign, toNear);
-                    Put(across - 1, len - 3, Props.CardboardBoxes, toNear);
-                    if (rng.Chance(0.4)) Box(across - 2, len - 3);
-                    foreach (var (u, v, look) in new[] { (across - 1, 1, toNear), (0, len - 2, toFar) })
+                    for (int v = 4; v <= len - 5; v += 5)
+                        for (int u = 3; u <= lw - 4; u += 5)
+                        {
+                            Put(u, v, Props.CafeTable, toNear);
+                            Put(u - 1, v, Props.CafeChair, toHighU);
+                            Put(u + 1, v, Props.CafeChair, toLowU);
+                            if (rng.Chance(0.5)) Put(u, v + 1, Props.CafeChair, toFar);
+                        }
+                    Put(lw - 1, len - 2, Props.Shelf, toLowU);
+                    Put(lw - 2, len - 2, Props.WetFloorSign, toNear);
+                    Put(lw - 1, len - 3, Props.CardboardBoxes, toNear);
+                    Put(0, len - 2, L31Props.Bin, toNear);
+                    if (rng.Chance(0.4)) Box(lw - 2, len - 3);
+                    foreach (var (u, v, look) in new[] { (lw - 1, 1, toNear), (0, len - 2, toFar) })
                     {
                         var (cp, cq) = At(u, v);
                         ref Tile cam = ref plan.At(cp, cq);
@@ -883,25 +986,26 @@ public sealed partial class WorldLayout
         for (int p = r0 + 6; p <= r1 - 6; p += 4)
             if (Math.Abs(p - pc) > 7 && ClearOfDoors(p, south - inward)) L31Put(plan, p, south, Props.Bench, toRink);
 
-        // Mirror panels round the rink's walls, facing in
-        for (int p = r0; p <= r1; p += 6)
+        // The walls round the skirt, above the benches: each side clad, by hash, in the mural or in black lacquer with
+        // chrome-framed mirrors, as the halls are (the generator finds the wall beside the tile; doors are left bare)
+        ulong clad = Hashing.Hash(seed, plan.Wx, plan.Wz, SaltL31Clad + 8);
+        for (int q = s0; q <= s1; q++)
+            for (int p = r0; p <= r1; p++)
+            {
+                int side = q == s0 ? 0 : q == s1 ? 1 : p == r0 ? 2 : p == r1 ? 3 : -1;
+                if (side < 0) continue;
+                var (wp, wq) = side switch { 0 => (p, q - 1), 1 => (p, q + 1), 2 => (p - 1, q), _ => (p + 1, q) };
+                if (plan.At(wp, wq).Kind is not (TileKind.Wall or TileKind.Doorway)) continue;
+                plan.At(p, q).Overhead = (clad >> side & 1) == 0 ? L31Overhead.Mural : L31Overhead.Mirrors;
+            }
+        // The DJ station's neon sign on the wall behind it (always the world's south wall: the viewer looks south, so the
+        // sign's left column is the east one)
+        for (int p = pc - 1; p <= pc + 1; p++)
         {
-            L31Mirror(plan, p, s0 - 1, ArchPier.South);
-            L31Mirror(plan, p, s1 + 1, ArchPier.North);
+            ref Tile t = ref plan.At(p, south);
+            t.Overhead = L31Overhead.Sign;
+            t.Detail = (byte)(t.Detail & L31HueMask | (1 + pc + 1 - p) << L31SubShift);
         }
-        for (int q = s0 + 2; q <= s1; q += 6)
-        {
-            L31Mirror(plan, r0 - 1, q, ArchPier.East);
-            L31Mirror(plan, r1 + 1, q, ArchPier.West);
-        }
-    }
-
-    private static void L31Mirror(L31Plan plan, int p, int q, ArchPier face)
-    {
-        ref Tile t = ref plan.At(p, q);
-        if (t.Kind != TileKind.Wall || (t.Detail & L31HueMask) != L31Sign.None) return;
-        t.Detail |= L31MirrorBit;
-        t.Pier = plan.Dir(face);
     }
 
     /// <summary>An emptiness: one dim bare room the size of the complex, pillars in a grid, a door in the middle of each side.</summary>
@@ -970,26 +1074,18 @@ public sealed partial class WorldLayout
                         rank = Math.Max(rank, Rank(n.Zone));
                     }
                 t.Height = (byte)height;
+                // (a doorway's lintel is faced as the wall it is cut in)
+                if (t.Kind == TileKind.Doorway)
+                {
+                    t.Detail = (byte)(Material(rank) << L31SubShift);
+                    continue;
+                }
                 if (t.Kind != TileKind.Wall) continue;
                 // A chart or the lockers laid out by a room stay as they are; an emptiness's pillars too; the mirror bit and a sign stay
                 byte sub = (byte)((t.Detail & L31SubMask) >> L31SubShift);
                 if (sub is L31Wall.Chart or L31Wall.Locker) continue;
                 t.Detail = (byte)(t.Detail & (L31MirrorBit | L31HueMask) | Material(rank) << L31SubShift);
             }
-        // The outside walls facing the halls: a mirror panel every eight blocks
-        for (int i = 3; i < L31Size; i += 8)
-        {
-            OuterMirror(ref plan.AtAB(i, -1), ArchPier.North);
-            OuterMirror(ref plan.AtAB(i, L31Size), ArchPier.South);
-            OuterMirror(ref plan.AtAB(-1, i), ArchPier.West);
-            OuterMirror(ref plan.AtAB(L31Size, i), ArchPier.East);
-        }
-        static void OuterMirror(ref Tile t, ArchPier face)
-        {
-            if (t.Kind != TileKind.Wall || (t.Detail & L31HueMask) != L31Sign.None) return;
-            t.Detail |= L31MirrorBit;
-            t.Pier = face;
-        }
     }
 
     /// <summary>Which of the level's props (<see cref="Props.L31First"/>-<see cref="Props.L31Last"/>) people walk through: the rink's gates, and where the staff stand.</summary>

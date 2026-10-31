@@ -53,6 +53,7 @@ public class L31System : ModSystem
     private readonly Dictionary<long, long> litterSeen = new();
     private readonly HashSet<string> skating = new();
     private readonly Random rand = new();
+    private bool forceShadow;
 
     public override bool ShouldLoad(EnumAppSide side) => true;
 
@@ -87,6 +88,35 @@ public class L31System : ModSystem
             slowTick = api.Event.RegisterGameTickListener(OnSlowTick, 3000, 1300);
             api.Event.PlayerDisconnect += OnPlayerDisconnect;
         });
+
+        api.ChatCommands.Get("backrooms")?
+            .BeginSubCommand("l31")
+                .WithDescription("Level 31 (testing): 'staff' puts the staff (the Coach, the food court's server, the DJ) at their spots near you now; 'shadow' tries to put a shadow figure down in a dark spot near you")
+                .WithArgs(api.ChatCommands.Parsers.Word("what"))
+                .RequiresPrivilege(Privilege.controlserver)
+                .HandleWith(OnCommand)
+            .EndSubCommand();
+    }
+
+    private TextCommandResult OnCommand(TextCommandCallingArgs args)
+    {
+        if (layout == null) return TextCommandResult.Error("Not a Backrooms world");
+        var players = PlayersHere();
+        if (players.Count == 0) return TextCommandResult.Error("Nobody is in Level 31");
+        switch ((string)args[0])
+        {
+            case "staff":
+                int before = staff.Count;
+                KeepStaff(players);
+                return TextCommandResult.Success($"{staff.Count} of the staff about ({staff.Count - before} new)");
+            case "shadow":
+                forceShadow = true;
+                Shadows(players);
+                forceShadow = false;
+                return TextCommandResult.Success($"{shadows.Count} shadow figures about");
+            default:
+                return TextCommandResult.Error("staff or shadow");
+        }
     }
 
     public override void Dispose()
@@ -342,7 +372,7 @@ public class L31System : ModSystem
         int floor = geometry.FloorFor(WorldLayout.Level31);
         foreach (IServerPlayer player in players)
         {
-            if (shadows.ContainsKey(player.PlayerUID) || rand.NextDouble() > 0.05) continue;
+            if (shadows.ContainsKey(player.PlayerUID) || !forceShadow && rand.NextDouble() > 0.05) continue;
             EntityPos pos = player.Entity.Pos;
             for (int attempt = 0; attempt < 12; attempt++)
             {

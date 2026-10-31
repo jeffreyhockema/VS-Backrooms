@@ -1371,7 +1371,7 @@ def blocks():
                lambda k: ref, (0, 0, 0.19, 1, 0.69, 0.76), (0, 0, 0.19, 1, 0.44, 0.76))
     refs = tv()
     parts = ["tl", "tm", "tr", "bl", "bm", "br"]
-    light = {f"l31-tv-{p}-{s}": [32, 2, 7] for p in ("tm", "bm") for s in SIDES}
+    light = {f"l31-tv-{p}-{s}": [36, 3, 12] for p in ("tm", "bm") for s in SIDES}
     prop_block("l31-tv", "Level 31: a big flat TV, 3 blocks wide and 2 high on a wall (tl tm tr / bl bm br as seen by a viewer in front of it); screen toward the side, wall behind",
                lambda k: refs[k], (0, 0, 0.875, 1, 1, 1), (0, 0, 0.875, 1, 1, 1), kinds=parts, kindgroup="part", resistance=3,
                extra={"lightHsvByType": light})
