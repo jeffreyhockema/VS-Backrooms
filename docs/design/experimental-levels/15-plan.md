@@ -139,3 +139,34 @@ its hint), 2702 A Machine Room, 2703 The Service Passages, 2704 A Control Room, 
 2707 The Crematorium (hint), 2708 The Star Door (hint); `block-l15-*` names; `blockdesc-l15-*` for the ESCAPE panel, the
 consoles, the radar, the views, the scrawled vent, the wooden door, the scanner, the star door and the dead; the notes'
 and the handbook page's keys (filled by the generators).
+
+## Detail pass (2026-10-30)
+
+Built from the scaffold in one pass (branch `exp/15`), to the brief's must and should lists and most of its nice list.
+
+**Built.** Everything in section 2: the lattice of main halls and the wings cut into corridors, service passages and
+eleven kinds of room; the power-out squares; machine rooms behind open security gates with dead hand scanners, room
+codes and thick glass, machines stacked from twelve casing faces (dead, running and humming, wrecked, an incinerator, a
+rod press with its conveyor and rods); labs, stores, dormitories, kitchens, control rooms (the radar, the ESCAPE panel and
+ACCESS DENIED consoles, readable as block descriptions), lecture halls, bare rooms, crematoria, the star door; the dead in
+lab coats with pipe-and-glass spears, abandoned camps, bones; wrong-angled beams, pillar stubs and a wooden door in a
+wall as the oddities. Blocks, textures, shapes and sounds from `tools/gen_15.py`; air, titles and the sound bed (hum,
+air handlers, beeps, the slowing heartbeat in the dark) in `AtmosphereSystem.L15.cs`. Robo-Men in the dark only; loot
+scarce; seven notes and a folded one; the handbook page; the title, hint and sub-zone lines.
+
+**Shared files touched** (one line or arm each, Level 15's): `Tiles.cs` (members in the L15 blocks), `AtmosphereSystem.cs`
+(the `Levels` line), `Roster.cs` (danger, roster, distant sounds, a solitude line), `MenaceSystem.cs` (the case),
+`WorldLayout.Loot.cs` (picked-over share), `WorldLayout.Notes.cs` (a `NoteSpots` arm), `NoteSystem.Spots.cs` (a source line
+for the dead), `GuideSystem.cs` (`"level15"` in `Added`), `tools/gen_notes.py` and `tools/gen_guide.py` (one block each),
+`lang/en.json` (one block after `levelname-27`; `config/notes.json` and `docs/design/notes-catalogue.md` regenerated).
+
+**What to check in game** (screenshots): a main hall (the LED strip, the floor lights, the ribs and pilasters: does it
+read clean, white and "futuristic", not hospital-plain?); a corridor and a service passage; a machine room from its gate
+(the shutter, the scanner, the code, the glass, the monoliths, a running machine's lit faces); a control room's wall of
+displays; a lecture hall; a dark square (black, the ticking audible, a Robo-Man now and then); a crematorium; the star door
+(`15stats 3 rim` prints its wing); a camp with a body. Sounds: is the hum too loud in the machine rooms, the heartbeat too
+quiet? Light: about 10-13 at the floor in the halls (measured 7-14 at rel 1 round an arrival).
+
+**Open questions for the user.** Is one dark square in six right, and should the dark drain stability (my invention from
+Fandom's bad air)? Should the self-cleaning effect be built (items left in the lit halls vanish)? Are Robo-Men the right
+borrowed creature, given the lore has none? Should the star door ever lead anywhere?

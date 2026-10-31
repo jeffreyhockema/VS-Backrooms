@@ -790,15 +790,16 @@ public sealed partial class WorldLayout
                 plan.Machines++;
                 if (alongX) z0 += 4; else x0 += 4;
             }
-            // The grid of machines
-            const int gap = 2;
+            // The grid of machines: in a big room up to 4 by 4 (the monoliths), with a gap of open floor now and then
+            int most = Math.Min(r.W, r.D) >= 20 ? 4 : 3;
             for (int b = z0; b <= z1;)
             {
-                int fd = rng.Range(1, Math.Min(3, z1 - b + 1));
+                int fd = rng.Range(1, Math.Min(most, z1 - b + 1));
                 for (int a = x0; a <= x1;)
                 {
-                    int fw = rng.Range(1, Math.Min(3, x1 - a + 1));
-                    if (rng.Chance(0.8))
+                    int fw = rng.Range(1, Math.Min(most, x1 - a + 1));
+                    int gap = rng.Chance(0.15) ? 4 : 2;
+                    if (rng.Chance(0.72))
                     {
                         int big = Math.Max(fw, fd);
                         int h = big >= 3 ? rng.Range(Math.Min(3, height - 1), height - 1) : big == 2 ? rng.Range(2, Math.Min(4, height - 1)) : rng.Range(1, 2);
@@ -811,7 +812,7 @@ public sealed partial class WorldLayout
                     }
                     a += fw + gap + (rng.Chance(0.3) ? 1 : 0);
                 }
-                b += fd + gap + (rng.Chance(0.3) ? 1 : 0);
+                b += fd + 2 + (rng.Chance(0.3) ? 1 : 0);
             }
             // Along the walls: switchgear, gauges, generators, tanks, small cabinets, a gap now and then
             foreach (var (a, b, wall) in Rim(r))
