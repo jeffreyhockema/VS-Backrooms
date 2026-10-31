@@ -226,27 +226,28 @@ def wainscot(seed):
 
 
 def damask(seed):
-    """Red damask wallpaper above the panelling: a deep crimson ground, a repeating medallion and leaf in a darker,
-    glossier red with a thread of dull gold, tiling on all sides (one block repeats up the wall)."""
-    img = M.noise_hv((104, 20, 26), amp=3, seed=seed, mottle=6, hue=2)
+    """Red damask wallpaper above the panelling: a deep crimson ground and a small repeating fleuron (a lozenge with a
+    stem and two leaves) in a darker, glossier red, a dot of dull gold at its heart; tiles on all sides (one block repeats
+    up the wall)."""
+    img = M.noise_hv((98, 18, 24), amp=3, seed=seed, mottle=6, hue=2)
     px = img.load()
-    def motif(cx, cy):
-        for y in range(-7, 8):
-            for x in range(-5, 6):
-                # a pointed oval (an ogee medallion) with a spine and a pair of leaves
-                q = (x / 5.0) ** 2 + (y / 7.5) ** 2
-                ring = 0.62 < q < 1.0
-                spine = x == 0 and abs(y) < 6
-                leaf = abs(abs(x) - 2) <= 1 and abs(y - (abs(x) - 2)) <= 1 and q < 0.6
-                X, Y = (cx + x) % S, (cy + y) % S
-                if ring or leaf:
-                    r, g, b, a = px[X, Y]
-                    px[X, Y] = M.rgba(M.mix((r, g, b), (66, 8, 14), 0.75))
-                if spine or (ring and (x + y) % 3 == 0):
-                    r, g, b, a = px[X, Y]
-                    px[X, Y] = M.rgba(M.mix((r, g, b), (150, 112, 52), 0.55))
-    motif(8, 8)
-    motif(24, 24)
+    def mark(X, Y, colour, k):
+        X, Y = X % S, Y % S
+        r, g, b, a = px[X, Y]
+        px[X, Y] = M.rgba(M.mix((r, g, b), colour, k))
+    def fleuron(cx, cy):
+        for y in range(-4, 5):
+            for x in range(-3, 4):
+                if abs(x) / 3.0 + abs(y) / 4.0 <= 1.0 and abs(x) / 3.0 + abs(y) / 4.0 > 0.55:
+                    mark(cx + x, cy + y, (64, 8, 14), 0.7)  # the lozenge's outline
+        for y in range(-2, 3):
+            mark(cx, cy + y, (64, 8, 14), 0.5)
+        for d in (-1, 1):
+            mark(cx + 2 * d, cy + 4, (64, 8, 14), 0.6)
+            mark(cx + 3 * d, cy + 5, (64, 8, 14), 0.5)
+        mark(cx, cy, (156, 116, 56), 0.6)
+    for cx, cy in ((8, 4), (24, 4), (0, 20), (16, 20)):
+        fleuron(cx, cy)
     return img
 
 

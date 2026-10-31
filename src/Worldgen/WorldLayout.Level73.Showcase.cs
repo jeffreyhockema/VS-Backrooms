@@ -64,7 +64,7 @@ public partial class WorldLayout
         yield return At(Keep(4.5, 19.5, 3), "roof-attic", 55, 12);
         // The Great Hound's bones on the fields, from off its head (south-west of it, looking along the ribcage)
         var (hx, hz, _) = L73Hound;
-        yield return At(Ground(hx - 11.5, hz + 16.5), "great-hound", 62, -3);
+        yield return At(Ground(hx - 6.5, hz + 10.5), "great-hound", 68, 2);
         // The fields east of the castle: tors, dead grass, bones, the sea far off
         yield return At(Ground(L73IslandX + 70.5, L73IslandZ + 10.5, 1, 0), "fields", 100, -2);
         // The north shore under the moon
