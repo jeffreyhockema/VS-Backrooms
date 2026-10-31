@@ -31,7 +31,7 @@ public partial class WorldLayout
         if (L15FindAlong(hcx, hcz, L15Zone.Service, 2) is { } service) Add("service", service.X, service.Z, service.Heading, 0);
 
         // A machine room from the corridor in front of its gate (the shutter, the scanner, the code, the glass), then inside
-        if (L15FindDoor(hcx, hcz, L15Zone.Machine, glass: true) is { } machine)
+        if (L15FindDoor(hcx, hcz, L15Zone.Machine, glass: true, machines: 24) is { } machine)
         {
             Add("machine-gate", machine.OutX, machine.OutZ, machine.Heading, 6);
             Add("machine-room", machine.InX, machine.InZ, machine.Heading, 10);
@@ -46,7 +46,7 @@ public partial class WorldLayout
         if (L15FindDarkHall(cx, cz) is { } dark)
         {
             Add("dark-hall", dark.X, dark.Z, 0, 0);
-            Add("roboman", dark.X, dark.Z - 14, 0, 0, $"/backrooms l15 roboman {dark.X} {dark.Z - 23}");
+            Add("roboman", dark.X, dark.Z - 10, 0, 0, $"/backrooms l15 roboman {dark.X} {dark.Z - 18}");
         }
         if (L15FindStarDoor() is { } star) Add("star-door", star.X, star.Z, star.Heading, 6);
         return spots;
@@ -81,7 +81,8 @@ public partial class WorldLayout
     /// The nearest lit door into a room of a kind: where to stand outside it (two blocks back across the corridor), where
     /// to stand just inside, and the heading into the room. With <paramref name="glass"/>, only a door with thick glass beside it.
     /// </summary>
-    private (int OutX, int OutZ, int InX, int InZ, double Heading)? L15FindDoor(int hcx, int hcz, L15Zone kind, bool glass = false, int rings = 4)
+    private (int OutX, int OutZ, int InX, int InZ, double Heading)? L15FindDoor(int hcx, int hcz, L15Zone kind, bool glass = false, int rings = 4,
+        int machines = 0)
     {
         foreach (var (hx, hz) in L15WingsRound(hcx, hcz, rings))
         {
@@ -97,6 +98,7 @@ public partial class WorldLayout
                     var (x, z) = plan.World(a, b);
                     if (TileAt(x, z).Level != Level15) continue;
                     if (glass && !L15GlassBeside(x, z, ox, oz)) continue;
+                    if (machines > 0 && !L15MachinesAhead(plan, a - ox, b - oz, -ox, -oz, machines)) continue;
                     // Out through the doorway to the corridor, then back across it
                     int sx = x, sz = z;
                     while (TileAt(sx, sz).Kind == TileKind.Doorway) { sx += ox; sz += oz; }
@@ -110,6 +112,26 @@ public partial class WorldLayout
                 }
         }
         return null;
+    }
+
+    /// <summary>
+    /// Whether a machine room seen from (a, b) looking along (dx, dz) has at least <paramref name="least"/> blocks of machine
+    /// in the fourteen blocks ahead (seven either side), some of them running.
+    /// </summary>
+    private static bool L15MachinesAhead(L15Plan plan, int a, int b, int dx, int dz, int least)
+    {
+        int n = 0, running = 0;
+        for (int k = 1; k <= 14; k++)
+            for (int j = -7; j <= 7; j++)
+            {
+                int pa = a + dx * k + dz * j, pb = b + dz * k + dx * j;
+                if (!L15Plan.In(pa, pb)) continue;
+                Tile t = plan.AtAB(pa, pb);
+                if (t.Variant != Props.L15Machine || L15ZoneOf(t) != L15Zone.Machine) continue;
+                n++;
+                if (t.Detail == L15MachineRunning) running++;
+            }
+        return n >= least && running >= 3;
     }
 
     /// <summary>Whether there is thick glass in the wall within five blocks either side of a door (at x, z, facing out along ox, oz).</summary>
@@ -159,7 +181,7 @@ public partial class WorldLayout
     private (int X, int Z, double Heading)? L15FindCamp(int hcx, int hcz)
     {
         (int X, int Z, double Heading)? fallback = null;
-        foreach (var (hx, hz) in L15WingsRound(hcx, hcz, 5))
+        foreach (var (hx, hz) in L15WingsRound(hcx, hcz, 6))
         {
             L15Plan plan = L15PlanOf(hx, hz);
             foreach (var (campX, campZ) in plan.CampSpots)
@@ -170,7 +192,7 @@ public partial class WorldLayout
                 // What the camp is: its tent or bedroll, its bags, chairs, boxes and barrel, and its dead
                 double sx = 0, sz = 0;
                 int n = 0;
-                bool body = false;
+                bool body = false, tent = false;
                 for (int dz = -6; dz <= 6; dz++)
                     for (int dx = -6; dx <= 6; dx++)
                     {
@@ -182,6 +204,7 @@ public partial class WorldLayout
                         bool near = dead || Math.Abs(dx) <= 4 && Math.Abs(dz) <= 4;
                         if (!part || !near) continue;
                         body |= dead;
+                        tent |= t.Variant == Props.CampTent;
                         sx += campX + dx;
                         sz += campZ + dz;
                         n++;
@@ -200,8 +223,8 @@ public partial class WorldLayout
                         best = (x, z, L15Heading(tx - x, tz - z));
                     }
                 if (best == null) continue;
-                if (body) return best;
-                fallback ??= best;
+                if (body && tent) return best;
+                if (body) fallback ??= best;
             }
         }
         return fallback;
@@ -221,9 +244,10 @@ public partial class WorldLayout
                     if (Math.Max(Math.Abs(i), Math.Abs(j)) != ring) continue;
                     int qx = qcx + i, qz = qcz + j;
                     if (Hashing.Mod(qx, 2) != 0) continue; // only the squares a north-south hall runs through
-                    int x = qx * 64 + 3, z = qz * 64 + 58;
-                    if (!L15DarkQuad(x, z) || TileAt(x, z).Level != Level15 || TileAt(x, z - 50).Level != Level15) continue;
-                    if (!L15Standable(x, z) || !L15Standable(x, z - 14)) continue;
+                    // (The square runs from 32 blocks before its line to 31 after: stand 26 in from its south edge)
+                    int x = qx * 64 + 3, z = qz * 64 + 26;
+                    if (!L15DarkQuad(x, z) || !L15DarkQuad(x, z - 50) || TileAt(x, z).Level != Level15 || TileAt(x, z - 50).Level != Level15) continue;
+                    if (!L15Standable(x, z) || !L15Standable(x, z - 10)) continue;
                     return (x, z);
                 }
         return null;

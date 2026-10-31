@@ -212,13 +212,17 @@ public sealed partial class WorldLayout
             }
     }
 
-    /// <summary>Whether the power is out in the square of 64 blocks a position lies in: about one in six, never at the very middle.</summary>
+    /// <summary>
+    /// Whether the power is out in the square of 64 blocks a position lies in: about one in six, never at the very middle.
+    /// The squares are centred on the main halls' lines (every other one on a hall, the hall down its middle), so a dark
+    /// stretch of hall has its own side rooms dark round it rather than lit ones pouring light through their doors.
+    /// </summary>
     public bool L15DarkQuad(int gx, int gz)
     {
-        int qx = Hashing.FloorDiv(gx, 64), qz = Hashing.FloorDiv(gz, 64);
+        int qx = Hashing.FloorDiv(gx + 32, 64), qz = Hashing.FloorDiv(gz + 32, 64);
         int cx = L15CentreX * MacroSize, cz = L15CentreZ * MacroSize;
-        if (Math.Abs(qx * 64 + 32 - cx) < 160 && Math.Abs(qz * 64 + 32 - cz) < 160) return false; // the middle stays lit (arrivals)
-        return Hashing.Unit(Hashing.Hash(seed, qx, qz, SaltL15Dark)) < 0.17;
+        if (Math.Abs(qx * 64 - cx) < 160 && Math.Abs(qz * 64 - cz) < 160) return false; // the middle stays lit (arrivals)
+        return Hashing.Unit(Hashing.Hash(seed, qx, qz, SaltL15Dark)) < 0.15;
     }
 
     /// <summary>
@@ -528,7 +532,8 @@ public sealed partial class WorldLayout
                     t.Depth = kind switch
                     {
                         L15Zone.Dorm or L15Zone.Lecture => L15FloorCarpet,
-                        L15Zone.Kitchen or L15Zone.Storage or L15Zone.Crematorium => L15FloorCoating,
+                        L15Zone.Kitchen or L15Zone.Storage => L15FloorCoating,
+                        L15Zone.Crematorium => L15FloorWorn,
                         L15Zone.Star => L15FloorDust,
                         _ => rng.Chance(0.06) ? L15FloorWorn : L15FloorCeramic,
                     };
@@ -570,6 +575,26 @@ public sealed partial class WorldLayout
                 if (Door(leaf, r, second, doorWidth, kind, zone)) doors.Add(second);
             }
             if (doors.Count == 0) return; // (a room too small for any door: left a bare white room nobody gets into)
+            // A lit room whose door opens into the dark goes dark with it (its lights would flood the dark through the door)
+            if (!dark && DoorIntoDark(r, zone))
+            {
+                dark = true;
+                byte was = zone;
+                zone |= L15DarkBit;
+                for (int b = r.Z0 - 3; b <= r.Z1 + 3; b++)
+                    for (int a = r.X0 - 3; a <= r.X1 + 3; a++)
+                    {
+                        if (!L15Plan.In(a, b)) continue;
+                        ref Tile t = ref At(a, b);
+                        if (t.Zone != was || t.Kind is not (TileKind.Floor or TileKind.Doorway)) continue;
+                        t.Zone = zone;
+                        if (t.Kind == TileKind.Floor && t.Ceiling is CeilingKind.L15LightOn or CeilingKind.L15LightLit or CeilingKind.L15LightFlicker)
+                        {
+                            var (x, z) = plan.World(a, b);
+                            t.Ceiling = layout.L15Lamp(x, z, true, true);
+                        }
+                    }
+            }
             RoomWalls(r, kind);
 
             switch (kind)
@@ -624,6 +649,21 @@ public sealed partial class WorldLayout
                     ref Tile t = ref At(a, b);
                     if (t.Kind == TileKind.Wall && t.Depth == L15WallWhite) t.Depth = mat;
                 }
+        }
+
+        /// <summary>Whether a door of the room (its doorway tiles, by the room's zone) opens onto a place where the power is out.</summary>
+        private bool DoorIntoDark(RoomBox r, byte zone)
+        {
+            for (int b = r.Z0 - 3; b <= r.Z1 + 3; b++)
+                for (int a = r.X0 - 3; a <= r.X1 + 3; a++)
+                {
+                    if (r.Inside(a, b) || !L15Plan.In(a, b)) continue;
+                    Tile t = At(a, b);
+                    if (t.Kind != TileKind.Doorway || t.Zone != zone) continue;
+                    var (dx, dz) = Step(t.Pier);
+                    if (Dark(a, b) || Dark(a + dx, b + dz)) return true;
+                }
+            return false;
         }
 
         private L15Zone PickKind(int w, int d)

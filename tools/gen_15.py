@@ -248,7 +248,7 @@ def wall_textures():
     # over a row of grey ones
     cast = M.concrete(seed=15022, base=CAST, grain=2, mottle=5, aggregate=0.0, pores=0.0015, patches=1)
     M.emboss_lines(cast, xs=(0,), ys=(0,), strength=0.14)
-    for x, y in ((8, 8), (24, 8), (8, 24), (24, 24)):
+    for x, y in ((16, 12),):
         # A form tie's hole: a small round recess, its lower lip catching the light
         for dx, dy, f in ((0, 0, -0.42), (1, 0, -0.42), (0, 1, -0.42), (1, 1, -0.42), (-1, 0, -0.18), (2, 0, -0.18), (0, -1, -0.22),
                           (1, -1, -0.22), (-1, 1, -0.12), (2, 1, -0.12), (0, 2, 0.14), (1, 2, 0.14)):
@@ -414,14 +414,14 @@ def deco_textures():
         img = deco_base()
         lower = name.startswith("lamplower")
         y0, y1 = (0, 27) if lower else (4, 31)
-        rect(img, 9, y0, 22, y1, (176, 182, 188))
-        rect(img, 11, y0 if lower else y0 + 2, 20, y1 - 2 if lower else y1, (240, 246, 252) if lit else (120, 126, 130))
+        rect(img, 6, y0, 25, y1, GRAPHITE)
+        rect(img, 8, y0 if lower else y0 + 2, 23, y1 - 2 if lower else y1, (244, 248, 252) if lit else (116, 122, 128))
         if lit:
             for y in range(y0, y1 + 1):
-                for x in range(11, 21):
+                for x in range(8, 24):
                     if (x + y) % 5 == 0:
                         blend(img, x, y, (214, 226, 236), 0.6)
-        M.bevel(img, (9, y0, 23, y1 + 1), strength=0.18)
+        M.bevel(img, (6, y0, 26, y1 + 1), strength=0.18)
         save(img, "deco-" + name)
     # The halls' signs, by each crossing: a dark plate, "HALL" and a letter and number in white stencil
     for n, code in enumerate(HALLS):
