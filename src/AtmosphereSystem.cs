@@ -131,8 +131,8 @@ public partial class AtmosphereSystem : ModSystem
         // Level 120: near-black, cold blue-green air between the racks (its hot aisles, vaults and great halls: AtmosphereSystem.L120.cs)
         new(0.014f, 0.035f, 0.075f, 0.08f, 0f),
         // Batch 3 (placeholders: a faint neutral haze)
-        // Level 15
-        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // Level 15: the halls' clean, faintly cool white air (the dark, the service passages, a crematorium, the star door: AtmosphereSystem.L15.cs)
+        new(0.003f, 0.82f, 0.86f, 0.90f, 0f),
         // Level 23
         new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
     };
