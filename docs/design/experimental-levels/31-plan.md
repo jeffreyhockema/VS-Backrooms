@@ -261,3 +261,42 @@ bins; the rental's shelves, counter and the Coach facing the customers; the TV's
 the cinema benches facing the TV on their steps; the retro cabinets (two blocks tall); the sign faces (not mirrored);
 the CCTV cameras' tilt; the Coach's and staff textures; the skates on a player's feet (attached to LowerFootL/R, toe
 toward -x); the flooded HVAC water staying put.
+
+### Round 2 (2026-10-31): looked at in the client
+
+The lead's review: every arrival landed in the neon halls (the rink and the rooms were never seen), and the halls' walls
+were flat saturated colour planes with mirror tiles that barely read. Four screenshot runs with `tools/clientrig/shots.py`
+(showcase spots and random arrivals); what was changed after looking:
+
+- **Showcase spots** (`WorldLayout.Level31.Showcase.cs`, 14): the rink along its boards, the star from a corner of the
+  oval, the DJ station with its DJ, the lobby from the hall, the food court and Skate Rental (staff put down by the new
+  `/backrooms l31 staff`), an arcade, a cinema (from the top step), the Employees Lounge, HVAC, a bathroom, a glowing-carpet
+  room, an emptiness, a neon hall with a Faceling. Each the nearest of its kind to the region's centre, from the plans.
+  `/backrooms l31 shadow` puts a Paranoia figure down for testing.
+- **Arrivals** may also land on a rink's carpet (about half now do), and every arrival is turned to the longest open
+  view (`ThresholdSystem.L31.cs`), not the wall beside it.
+- **The halls' walls** are clad (a new `l31-cladding`, thin panels on the hall side, `tools/gen_31_walls.py`), per side of
+  each stretch by hash: three in five a 1990s rink mural in UV paint on gloss black (6 x 4 blocks, seamless, its paint
+  glowing a little), the rest black lacquer with chrome-framed mirrors two wide and three high in every five blocks
+  ("reflective surfaces", "many chambers of shiny surfaces"). The rink's walls the same (each side by hash), and the lobby
+  in the mural; the cladding runs over doorways above their openings. The one-block mirror tiles are gone. Every outside
+  wall shows the halls the navy rink band at its foot behind the neon strip; doorway lintels take their wall's finish
+  (they were pale lavender squares).
+- **The DJ station** has a lit neon "DJ" sign on the wall behind it (3 x 2).
+- **The cinema** is walled in to sixteen across (it was the back band's full 28: lore says small), with four small lit TVs
+  along each side wall (Wikidot's "TV screens"), a red EXIT sign over the way out and a brighter big TV.
+- **The Employees Lounge** was one table in a 27- or 45-wide room: now lockers, the kitchenette and two machines, tables
+  with chairs in a grid, a bin, the custodian's corner; a wide one is walled off at sixteen across behind a wall of lockers
+  with a doorway, past which is the staff's stock room (shelves in rows, boxes at the aisles' ends, maybe a supply box).
+- `31stats` takes the rink's carpet as an arrival and names unreached tiles. All tiles reached (a Stack on a sign tile had
+  cut the cinema off; signs are marked in Detail instead).
+- Checked in the shots: the mural's continuity across blocks (columns run the right way on every face), the DJ facing
+  the boards behind his desk, the Coach behind the rental counter facing in, the adverts not mirrored, the food court's
+  chairs at their tables, the TV picture the right way round.
+
+**Own inventions this round:** the mural and its design, the lacquer-and-mirror walls, the DJ sign, the cinema's EXIT sign
+and small TVs as wall-hung sets, the lounge's stock room, arrivals turned toward the view.
+
+**Still weak:** the rink's upper walls and ceiling are a dark void above the lit boards (as a dimmed rink is, but large);
+bathrooms are open rows of toilets with no stalls; HVAC and store rooms are plain; the cinema stays very dark away from
+its screens (by the lore).
