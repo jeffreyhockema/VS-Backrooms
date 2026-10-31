@@ -39,6 +39,12 @@ public class BackroomsModSystem : ModSystem
     /// </summary>
     private const float FarmTintTemperature = 37f;
     private const int FarmTintRainfall = 198, FarmTintRainfallSpread = 18;
+    /// <summary>
+    /// Level 52's "verdant plains" (experimental): hot on paper so the seasonal yellowing drops out, wet enough for a fresh
+    /// spring green rather than the default map's dry olive, varying a little from cell to cell.
+    /// </summary>
+    private const float L52TintTemperature = 30f;
+    private const int L52TintRainfall = 206, L52TintRainfallSpread = 14;
 
     /// <summary>The levels <c>/backrooms goto</c> (and the other commands that take a level) accept, for their descriptions and errors.</summary>
     public const string LevelList = "0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, 73, basement, 52, 31, 120, 36, 15 or 23";
@@ -213,7 +219,7 @@ public class BackroomsModSystem : ModSystem
     }
 
     /// <summary>
-    /// A region with some of Motion, Level 10 or the Poolrooms in it: a climate map one cell per macro cell, that level's
+    /// A region with some of Motion, Level 10, the Poolrooms or (experimental) Level 52 in it: a climate map one cell per macro cell, that level's
     /// tint in its cells and the region's own everywhere else, or null for a region with none of them. The game lerps each cell towards
     /// the cells east and south of it, so a cell only takes a level's tint when the cells west, north and north-west of
     /// it are that level as well: the blend then happens inside the level, and no other level's grass is ever tinted by it.
@@ -240,6 +246,8 @@ public class BackroomsModSystem : ModSystem
             WorldLayout.Motion => motion,
             10 => (Climate.DescaleTemperature(FarmTintTemperature) << 16)
                   | ((FarmTintRainfall + (int)(Hashing.Hash(0x10F1, mx, mz, 0x7147) % (FarmTintRainfallSpread + 1))) << 8),
+            WorldLayout.Level52 => (Climate.DescaleTemperature(L52TintTemperature) << 16)
+                  | ((L52TintRainfall + (int)(Hashing.Hash(0x52F1, mx, mz, 0x2338) % (L52TintRainfallSpread + 1))) << 8),
             _ => -1,
         };
         var data = new int[span * span];
@@ -250,7 +258,7 @@ public class BackroomsModSystem : ModSystem
             for (int x = -1; x <= cells; x++)
             {
                 int mx = mx0 + x, mz = mz0 + z, level = layout.LevelAt(mx, mz);
-                bool deep = level is WorldLayout.Motion or 10 or WorldLayout.Poolrooms && layout.LevelAt(mx - 1, mz) == level && layout.LevelAt(mx, mz - 1) == level
+                bool deep = level is WorldLayout.Motion or 10 or WorldLayout.Poolrooms or WorldLayout.Level52 && layout.LevelAt(mx - 1, mz) == level && layout.LevelAt(mx, mz - 1) == level
                     && layout.LevelAt(mx - 1, mz - 1) == level;
                 data[(z + 1) * span + x + 1] = deep ? Tint(level, mx, mz) : climate;
                 any |= deep;

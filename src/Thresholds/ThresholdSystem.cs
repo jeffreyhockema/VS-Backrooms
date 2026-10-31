@@ -509,7 +509,8 @@ public partial class ThresholdSystem : ModSystem
         (int Dx, int Dz)? away = onStairs ? null : arrivalLevel is 1 or 4 ? network.AwayFromFlight(ax, az)
             : arrivalLevel is 6 or 7 ? network.DeepStairsFacing(ax, az) : null;
         // Put down on the Hub's narrow sidewalk, they look along the road rather than at the wall beside them
-        float? look = onStairs || arrivalLevel != WorldLayout.Hub ? null : HubArrivalYaw(ax, az);
+        // (In Level 52, along the corridor or across the open ground rather than at a wall)
+        float? look = onStairs ? null : arrivalLevel == WorldLayout.Hub ? HubArrivalYaw(ax, az) : arrivalLevel == WorldLayout.Level52 ? L52ArrivalYaw(ax, az) : null;
         // Put down in front of a door or an elevator built as the way back, they face away from it, as if just come out
         WayBack? wayBack = source is { } from ? network.WayBackOf(from) : null;
         if (!onStairs && away == null && wayBack is { } built) away = WayBackFacing(built);

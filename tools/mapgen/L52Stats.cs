@@ -38,7 +38,7 @@ static partial class LevelModes
         bool Walk(Tile t) => t.Level == WorldLayout.Level52 && (t.Kind is TileKind.Doorway
             || t.Kind == TileKind.Floor && !(t.Stack > 0 && t.Variant == 0) && !t.SupplyBox && WorldLayout.IsWalkThroughProp(t.Variant));
 
-        int campuses = 0, open = 0, rooms = 0, doorless = 0, plaques = 0, buildings = 0, wells = 0;
+        int campuses = 0, open = 0, rooms = 0, doorless = 0, plaques = 0, buildings = 0, wells = 0, bridgeDoors = 0, canopies = 0;
         var kinds = new SortedDictionary<string, int>();
         var bkinds = new SortedDictionary<string, int>();
         var storeys = new SortedDictionary<int, int>();
@@ -68,6 +68,8 @@ static partial class LevelModes
                 for (int i = 0; i < c.Grid.Length; i++)
                 {
                     if (c.Grid[i].Overhead == Overheads.L52PlaqueLo) plaques++;
+                    if (c.Grid[i].Overhead == Overheads.L52BridgeDoor) bridgeDoors++;
+                    if (c.Grid[i].Overhead == Overheads.L52Canopy) canopies++;
                     if (c.Grid[i].Zone == (byte)Zone.Stair && c.Grid[i].Detail == 0) wells++;
                 }
                 // Walk the ground storey from the gaps in the fence (through the built cells, as the game sees them)
@@ -108,7 +110,7 @@ static partial class LevelModes
             }
         Console.WriteLine($"campuses {campuses} (open plain {open}); buildings {buildings}: " + string.Join(", ", bkinds.Select(p => $"{p.Key} {p.Value}"))
             + "; storeys " + string.Join(", ", storeys.Select(p => $"{p.Key}: {p.Value}")));
-        Console.WriteLine($"rooms {rooms} (ground storey): " + string.Join(", ", kinds.Select(p => $"{p.Key} {p.Value}")) + $"; without a door {doorless}; plaques {plaques}; stairwells {wells}");
+        Console.WriteLine($"rooms {rooms} (ground storey): " + string.Join(", ", kinds.Select(p => $"{p.Key} {p.Value}")) + $"; without a door {doorless}; plaques {plaques}; stairwells {wells}; bridges {bridgeDoors / 6}; canopy tiles {canopies}");
         Console.WriteLine($"walkable ground-storey tiles {walkable}, unreached {unreached} ({100.0 * unreached / Math.Max(1, walkable):0.00}%)");
         if (doorless > 0) Bad("rooms without a door");
 
