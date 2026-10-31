@@ -62,11 +62,12 @@ public partial class WorldLayout
                     }
                     if (!plan.Tiny)
                     {
-                        // The rink: along it from the west skirt; across it from a corner to the star; the DJ station from the boards
-                        Add("rink", Spot(plan, 19, 60, 102, 60, 1.8));
-                        Add("rink-star", Spot(plan, 19, 27, 60, 60, 6.5));
+                        // The rink: along the boards from their west end; up at the star from a corner of the oval; the DJ
+                        // station from the boards
+                        Add("rink", Spot(plan, 27, 60, 100, 60, 1.2));
+                        Add("rink-star", Spot(plan, 40, 44, 60, 60, 7.0));
                         int south = plan.Mirror ? 26 : 94, inward = plan.Mirror ? 1 : -1, desk = south + 3 * inward;
-                        Add("dj", Spot(plan, 60, desk + 12 * inward, 60, desk, 1.6, setup: Staff));
+                        Add("dj", Spot(plan, 60, desk + 9 * inward, 60, desk, 2.2, setup: Staff));
                         // The lobby through its front doors, from the hall
                         Add("lobby", Spot(plan, 60, -4, 54, 14, 1.0));
                         // A neon hall: down the hall west of the complex towards a crossing, a Faceling about
@@ -88,8 +89,9 @@ public partial class WorldLayout
                         string setup = room.Kind is L31Zone.Rental or L31Zone.Snack ? Staff : null;
                         var (a0, b0, a1, b1) = (room.P0, room.Q0, room.P1, room.Q1);
                         Showcase.Spot? spot = room.Kind == L31Zone.Cinema
-                            // (from the end of the top row, 11 from the TV's wall and three steps up, to the TV)
-                            ? Spot(plan, a0, b1 - 11, mp, b1, 2.5, lift: 3, p0: a0, q0: b1 - 11, p1: a0 + 1, q1: b1 - 11)
+                            // (from the end of the top row, 11 from the TV's wall and three steps up, to the TV; the room is walled
+                            // in round its middle, so the end of the row is the first clear tile along it)
+                            ? L31RowEnd(plan, a0, a1, b1 - 11) is int e ? Spot(plan, e, b1 - 11, mp, b1, 2.5, lift: 3, p0: e, q0: b1 - 11, p1: e, q1: b1 - 11) : null
                             : front ? Spot(plan, a0 + 1, b1, a1, b0, 1.2, setup: setup, p0: a0, q0: b0, p1: a1, q1: b1)
                             : back ? Spot(plan, a0 + 1, b0, a1, b1, 1.2, setup: setup, p0: a0, q0: b0, p1: a1, q1: b1)
                             : west ? Spot(plan, a1, b0 + 1, a0, b1, 1.2, setup: setup, p0: a0, q0: b0, p1: a1, q1: b1)
@@ -97,6 +99,16 @@ public partial class WorldLayout
                         Add(name, spot);
                     }
                 }
+
+        int? L31RowEnd(L31Plan plan, int a0, int a1, int q)
+        {
+            for (int p = a0; p <= a1; p++)
+            {
+                var (x, z) = plan.World(p, q);
+                if (IsArrivalSpot(TileAt(x, z))) return p;
+            }
+            return null;
+        }
 
         foreach (string name in new[] { "rink", "rink-star", "dj", "lobby", "foodcourt", "rental", "arcade", "cinema", "lounge", "hvac", "bath", "glowroom", "emptiness", "hall" })
             if (found.TryGetValue(name, out var s)) yield return s;

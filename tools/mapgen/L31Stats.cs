@@ -9,7 +9,7 @@ static partial class LevelModes
     /// with "rim", round a point on its west rim): how many complexes there are of each kind (rinks, tiny rinks,
     /// emptinesses), the rooms of each kind, the share of tiles in each zone, and whether every room, and every walkable
     /// tile, can be walked to from the neon halls (after the shared SealPockets and ClearDoorways passes, as BuildMacro
-    /// runs them). Arrivals: 60, all in a hall or a lobby, none sealed.
+    /// runs them). Arrivals: 60, all in a hall, a lobby or on a rink's carpet, none sealed.
     /// </summary>
     static bool L31Modes(WorldLayout layout, string mode, string[] args)
     {
@@ -85,6 +85,15 @@ static partial class LevelModes
             .Select(zn => $"{zn} {100.0 * zones[(int)zn] / Math.Max(1, mine):0.0}%")));
         int unreached = walkable - reached.Count;
         Console.WriteLine($"walkable tiles {walkable}, reached from the halls {reached.Count}, unreached {unreached} ({100.0 * unreached / Math.Max(1, walkable):0.00}%), sealed {sealedTiles}");
+        int shown = 0;
+        for (int z = z0; z <= z1 && shown < 5; z++)
+            for (int x = x0; x <= x1 && shown < 5; x++)
+            {
+                Tile t = T(x, z);
+                if (t.Level != WorldLayout.Level31 || !Walk(t) || reached.Contains((x, z))) continue;
+                Console.WriteLine($"  unreached: {x},{z} ({(Zone)t.Zone})");
+                shown++;
+            }
 
         // Rooms: kinds, reachable
         var roomKinds = new SortedDictionary<string, int>();
@@ -133,9 +142,9 @@ static partial class LevelModes
             if (layout.FindArrival(WorldLayout.Level31, key * 7919UL) is not { } a) continue;
             arrivals++;
             Tile t = layout.TileAt(a.X, a.Z);
-            if (t.Level != WorldLayout.Level31 || t.Sealed || t.Variant != 0 || t.Zone is not ((byte)Zone.Hall or (byte)Zone.Crossing or (byte)Zone.Lobby)) wrong++;
+            if (t.Level != WorldLayout.Level31 || t.Sealed || t.Variant != 0 || t.Zone is not ((byte)Zone.Hall or (byte)Zone.Crossing or (byte)Zone.Lobby or (byte)Zone.Skirt)) wrong++;
         }
-        Console.WriteLine($"arrivals: {arrivals}/60, {wrong} outside a hall or a lobby");
+        Console.WriteLine($"arrivals: {arrivals}/60, {wrong} outside a hall, a lobby or a rink's carpet");
         if (arrivals < 60 || wrong > 0) Bad("arrivals");
         Console.WriteLine(bad == 0 ? "31stats: OK" : $"31stats: {bad} problem(s)");
         return true;

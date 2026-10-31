@@ -8,6 +8,8 @@ It writes only its own files:
                       seamless left to right; its paint glows a little, as blacklight paint does
         f<tl..br>     a chrome-framed wall mirror, 2 wide and 3 high (t m b by l r, as seen from in front)
         lacq, lacqtop black lacquer panels between the mirrors (lacqtop with the chrome trim along its top)
+        dj<c><r>      the DJ station's neon sign on the wall behind it, 3 wide and 2 high (lit, pink)
+        exit          a cinema's red EXIT sign over its door (lit, dim red)
     shapes/block/31/l31-cladding.json and textures/block/31/clad-*.png
 
 Run from the repo root:  bash tools/locked.sh run python tools/gen_31_walls.py
@@ -178,25 +180,61 @@ def lacquer():
     save(edge, "clad-edge")
 
 
+def signs():
+    """The DJ station's neon sign (96 x 64: "DJ" in pink tube lettering, cyan notes either side) and the cinema's EXIT sign."""
+    from gen_31_props import text, textw
+    W, H = 3 * S, 2 * S
+    img = Image.new("RGBA", (W, H), (14, 12, 22, 255))
+    glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    w = textw("DJ", 6)
+    text(glow, (W - w) // 2, 16, "DJ", (255, 70, 190), 6, 6)
+    d = ImageDraw.Draw(glow)
+    for x0 in (4, W - 18):  # two quavers
+        d.ellipse([x0, 40, x0 + 7, 46], fill=(70, 230, 255, 255))
+        d.line([(x0 + 7, 43), (x0 + 7, 22)], fill=(70, 230, 255, 255), width=2)
+        d.line([(x0 + 7, 22), (x0 + 13, 27)], fill=(70, 230, 255, 255), width=2)
+    halo = glow.filter(ImageFilter.GaussianBlur(2.5))
+    img.alpha_composite(halo)
+    img.alpha_composite(halo)
+    img.alpha_composite(glow)
+    # (a white-hot core down the middle of each tube)
+    px, cp = img.load(), glow.load()
+    for y in range(1, H - 1):
+        for x in range(1, W - 1):
+            if cp[x, y][3] and cp[x - 1, y][3] and cp[x + 1, y][3] and cp[x, y - 1][3] and cp[x, y + 1][3]:
+                r, g, b, a = px[x, y]
+                px[x, y] = (clamp(r * 0.5 + 128), clamp(g * 0.5 + 128), clamp(b * 0.5 + 128), 255)
+    for c in range(3):
+        for r in range(2):
+            save(img.crop((c * S, r * S, c * S + S, r * S + S)), f"clad-dj{c}{r}")
+    ex = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(ex)
+    d.rectangle([2, 9, 29, 22], fill=(30, 28, 30, 255))
+    d.rectangle([3, 10, 28, 21], fill=(60, 10, 12, 255))
+    text(ex, 16 - textw("EXIT", 1) // 2, 13, "EXIT", (255, 60, 50), 1, 1)
+    save(ex, "clad-exit")
+
+
 def blocktype():
-    kinds = [f"m{c}{r}" for c in range(COLS) for r in range(ROWS)] + [f"f{r}{c}" for r in "tmb" for c in "lr"] + ["lacq", "lacqtop"]
+    kinds = [f"m{c}{r}" for c in range(COLS) for r in range(ROWS)] + [f"f{r}{c}" for r in "tmb" for c in "lr"] + ["lacq", "lacqtop"]         + [f"dj{c}{r}" for c in range(3) for r in range(2)] + ["exit"]
     # One shape (the panel at the south edge of its block, its picture facing north), the picture by type
     # (the mural's paint glows a little, as UV paint under the halls' neon does)
-    refs = {glow: shape("l31-cladding" + ("-glow" if glow else ""), [box("Panel", (0, 0, 15.5), (16, 16, 16), {"front": "art", "all": "edge"},
+    refs = {glow: shape("l31-cladding" + ("-glow" if glow == 48 else "-lit" if glow else ""), [box("Panel", (0, 0, 15.5), (16, 16, 16), {"front": "art", "all": "edge"},
                                                                        faces=("north", "east", "west", "up", "down"), glow=glow)])
-            for glow in (0, 48)}
+            for glow in (0, 48, 255)}
     shapes, textures, sels = {}, {}, {}
     for k in kinds:
         for side in SIDES:
             key = f"l31-cladding-{k}-{side}"
-            ref = refs[48 if k.startswith("m") else 0]
+            ref = refs[48 if k.startswith("m") else 255 if k.startswith(("dj", "exit")) else 0]
             shapes[key] = {"base": ref, "rotateY": ROT[side]} if ROT[side] else {"base": ref}
             sel = {"x1": 0, "y1": 0, "z1": 0.96875, "x2": 1, "y2": 1, "z2": 1}
             if ROT[side]:
                 sel["rotateY"] = ROT[side]
             sels[key] = sel
         textures[f"*-{k}-*"] = {"art": {"base": "backrooms:block/31/clad-" + k}, "edge": {"base": "backrooms:block/31/clad-edge"}}
-    data = {"code": "l31-cladding", "variantgroups": [{"code": "kind", "states": kinds}, {"code": "side", "states": SIDES}],
+    light = {f"l31-cladding-{k}-*": ([51, 6, 9] if k.startswith("dj") else [0, 7, 5]) for k in kinds if k.startswith(("dj", "exit"))}
+    data = {"code": "l31-cladding", "lightHsvByType": light, "variantgroups": [{"code": "kind", "states": kinds}, {"code": "side", "states": SIDES}],
             "shapeByType": shapes, "texturesByType": textures,
             "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
             "blockmaterial": "Glass", "drawtype": "json", "sidesolid": {"all": False}, "sideopaque": {"all": False},
@@ -211,6 +249,7 @@ def main():
     mural()
     mirror()
     lacquer()
+    signs()
     blocktype()
     print("Level 31 cladding: textures in", os.path.relpath(TEX), "; blocktype in", os.path.relpath(BLOCKS))
 
