@@ -1,9 +1,10 @@
 """Renders the creature lineup for the mod page ("What lives here"): every entity at its true size relative to the
 others (the two giants at half scale), facing the viewer, standing on one ground line, named underneath.
 
-    python tools/lineup.py out.png [yaw=65] [pitch=8]
+    python tools/lineup.py out.png [yaw=65] [pitch=8] [rings=1]
 
-A 1920x1080 picture in three rows, with the Mangled standing at the right beside them, scaled to fill it. `yaw` turns the models from straight on (90) so their depth shows. The renderer is the one in
+`rings=1` draws only what lives in the rings (Levels 0 to 11), in two rows: the mod page's lineup, which keeps the far
+levels' creatures out of sight. A 1920x1080 picture in three rows, with the Mangled standing at the right beside them, scaled to fill it. `yaw` turns the models from straight on (90) so their depth shows. The renderer is the one in
 entrender.py (the game's element transforms), drawing onto a transparent canvas.
 """
 import json
@@ -35,6 +36,7 @@ ROSTER = [
     ("The Beast\nof Level 5", "beast", "beast", 1.0, 1),
     ("Giant Spider", "giantspider", "giantspider", 1.0, 1),
     ("Neighborhood\nWatch", "neighborhoodwatch", "neighborhoodwatch", 1.0, 1),
+    ("Watcher", "watcher", "watcher", 1.0, 1),
     ("Partygoer", "fun-partygoer", "fun-partygoer", 1.0, 1),
     ("Kitty", "974/l974-kitty", "974/l974-kitty", 1.0, 1),
     ("Window Arm", "188/l188-arm", "188/l188-arm", 1.0, 1),
@@ -117,15 +119,23 @@ def font(names, size):
 
 
 # Three rows: the small and human-sized first, then the far levels' own; The Thing last, the Mangled beside them all
-ROWS = [8, 8, 8]
+ROWS = [9, 8, 8]
+# What lives in the rings (Levels 0 to 11): the mod page's lineup (rings=1), two rows
+RINGS = ["Smiler", "Hound", "Faceling", "Deathmoth", "Skin-Stealer", "Duller", "Death Rat", "Clump", "Bacteria", "Wretch",
+         "The Beast\nof Level 5", "Giant Spider", "Neighborhood\nWatch", "Watcher", "The Thing\n(half scale)",
+         "The Mangled (half scale)"]
+RINGS_ROWS = [7, 8]
 # Drawn standing at the right, beside every row, so the rows need not be as tall as it
 SIDE = {"The Mangled (half scale)"}
 SIZE = (1920, 1080)
+RINGS_ONLY = False
 
 
 def render_all(ppb, yaw, pitch):
     figures = []
     for label, shape_name, tex_name, size, extra in ROSTER:
+        if RINGS_ONLY and label not in RINGS:
+            continue
         shape = json.load(open(os.path.join(ASSETS, "shapes", "entity", shape_name + ".json"), encoding="utf-8-sig"))
         tex = Image.open(os.path.join(ASSETS, "textures", "entity", tex_name + ".png")).convert("RGBA")
         img, ground = render_rgba(shape, tex, idle_pose(shape), yaw, pitch, ppb * size * extra)
@@ -166,6 +176,10 @@ def main():
     out = sys.argv[1]
     opts = dict(a.split("=", 1) for a in sys.argv[2:])
     yaw, pitch = float(opts.get("yaw", 65)), float(opts.get("pitch", 8))
+    global RINGS_ONLY, ROWS
+    RINGS_ONLY = opts.get("rings", "0") == "1"
+    if RINGS_ONLY:
+        ROWS = RINGS_ROWS
     W, H = SIZE
     label_font, title_font = font(["georgia.ttf", "times.ttf"], 28), font(["georgiab.ttf", "timesbd.ttf"], 52)
     gap, margin, top, label_h, row_gap = 26, 60, 130, 58, 18
