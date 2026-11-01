@@ -498,3 +498,19 @@ tables; the lifts' doors (the lore has lifts; these do not run).
   at the gym's upper level and notice boards on its walls; the entrance spot looked into the back of the campus map; the
   roof spot looked at the parapet; J. Barry's sign spot stood in the fence; the roof membrane too speckled; the courtyard
   crowded with trees. All fixed for run 2.
+- **Run 2** (`%TEMP%/backrooms-shots/52-r3b`, `sheet.jpg`): one EXIT and one number over each run of doors; the
+  entrance with its canopy number, hedges and bike racks; the fountain with its water; the roof with a stair bulkhead
+  and its door, vents and air handlers on a calmer membrane; the stair hall (EXIT over the stairwell doors, the lift, the
+  FLOOR 1 directory, a notice board); the car park with the mod's cars; the gym's upper walls closed. Wrong: COOL MART
+  CO. stood on the façade just over the canopy, where the canopy hid it from the ground (the dump showed the block
+  there): moved onto the canopy's front. Seen but left: the random arrivals (the rig's own camera) face a wall now and
+  then; the tower spot looks steeply up.
+
+### Questions for the user
+1. **Names on the buildings.** The lore says the doors carry four digits and "no subject and no campus name" anywhere,
+   so the buildings show their numbers (on the canopies) and the campuses' names appear only on the M.E.G.'s boards at
+   three gates. Should campuses (or buildings) have names cast over their doors anyway, as real schools do?
+2. **The clock tower, lecture theatres, pitch, car parks and bus shelters** are inventions for a campus that "houses a
+   university"; keep them all, or trim any that feel too much like a real campus and not enough like the Backrooms?
+3. **The lifts** are closed doors (the lore has lifts; DECISIONS says stairs first). Should they ever open?
+
