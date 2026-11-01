@@ -1,0 +1,137 @@
+// Level 36: a column with a lit poster on each of its faces (the Travel Agency's, two ads, the baggage notice)
+{
+	"code": "l36-colposter",
+	"variantgroups": [
+		{
+			"code": "n",
+			"states": [
+				"p0",
+				"p3",
+				"p5",
+				"p6"
+			]
+		},
+		{
+			"code": "row",
+			"states": [
+				"0",
+				"1"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-p0-0": {
+			"all": {
+				"base": "backrooms:block/36/l36-art-p0-0-0"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-wall-column"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-wall-column"
+			}
+		},
+		"*-p0-1": {
+			"all": {
+				"base": "backrooms:block/36/l36-art-p0-0-1"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-wall-column"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-wall-column"
+			}
+		},
+		"*-p3-0": {
+			"all": {
+				"base": "backrooms:block/36/l36-art-p3-0-0"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-wall-column"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-wall-column"
+			}
+		},
+		"*-p3-1": {
+			"all": {
+				"base": "backrooms:block/36/l36-art-p3-0-1"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-wall-column"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-wall-column"
+			}
+		},
+		"*-p5-0": {
+			"all": {
+				"base": "backrooms:block/36/l36-art-p5-0-0"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-wall-column"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-wall-column"
+			}
+		},
+		"*-p5-1": {
+			"all": {
+				"base": "backrooms:block/36/l36-art-p5-0-1"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-wall-column"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-wall-column"
+			}
+		},
+		"*-p6-0": {
+			"all": {
+				"base": "backrooms:block/36/l36-art-p6-0-0"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-wall-column"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-wall-column"
+			}
+		},
+		"*-p6-1": {
+			"all": {
+				"base": "backrooms:block/36/l36-art-p6-0-1"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-wall-column"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-wall-column"
+			}
+		}
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l36structure": true
+	},
+	"vertexFlags": {
+		"glowLevel": 90
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"drops": []
+}

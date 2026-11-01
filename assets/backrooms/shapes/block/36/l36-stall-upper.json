@@ -1,0 +1,265 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r3-partition": "backrooms:block/36/props/r3-partition",
+		"r3-steel": "backrooms:block/36/props/r3-steel"
+	},
+	"elements": [
+		{
+			"name": "PartL",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				1,
+				12,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"east": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						15,
+						12
+					]
+				},
+				"south": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"west": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						15,
+						12
+					]
+				},
+				"up": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						1,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "PartR",
+			"from": [
+				15,
+				0,
+				1
+			],
+			"to": [
+				16,
+				12,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"east": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						15,
+						12
+					]
+				},
+				"south": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"west": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						15,
+						12
+					]
+				},
+				"up": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						1,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				0,
+				10,
+				0
+			],
+			"to": [
+				16,
+				12,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"south": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						1,
+						2
+					]
+				},
+				"up": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"down": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "DoorTop",
+			"from": [
+				1,
+				0,
+				0.25
+			],
+			"to": [
+				8,
+				6,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						7,
+						6
+					]
+				},
+				"east": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						0.75,
+						6
+					]
+				},
+				"south": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						7,
+						6
+					]
+				},
+				"west": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						0.75,
+						6
+					]
+				},
+				"up": {
+					"texture": "#r3-partition",
+					"uv": [
+						0,
+						0,
+						7,
+						0.75
+					]
+				}
+			},
+			"rotationOrigin": [
+				1,
+				0,
+				0.6
+			],
+			"rotationY": -50
+		}
+	]
+}

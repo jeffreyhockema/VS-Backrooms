@@ -34,7 +34,112 @@
 				"security",
 				"checkin",
 				"blank",
-				"broken"
+				"broken",
+				"info",
+				"wgates-l-0",
+				"wgates-l-1",
+				"wgates-l-2",
+				"wgates-l-3",
+				"wgates-r-0",
+				"wgates-r-1",
+				"wgates-r-2",
+				"wgates-r-3",
+				"wbaggage-l-0",
+				"wbaggage-l-1",
+				"wbaggage-l-2",
+				"wbaggage-l-3",
+				"wbaggage-r-0",
+				"wbaggage-r-1",
+				"wbaggage-r-2",
+				"wbaggage-r-3",
+				"wexit-l-0",
+				"wexit-l-1",
+				"wexit-l-2",
+				"wexit-l-3",
+				"wexit-r-0",
+				"wexit-r-1",
+				"wexit-r-2",
+				"wexit-r-3",
+				"wmeeting-l-0",
+				"wmeeting-l-1",
+				"wmeeting-l-2",
+				"wmeeting-l-3",
+				"wmeeting-r-0",
+				"wmeeting-r-1",
+				"wmeeting-r-2",
+				"wmeeting-r-3",
+				"wfood-l-0",
+				"wfood-l-1",
+				"wfood-l-2",
+				"wfood-l-3",
+				"wfood-r-0",
+				"wfood-r-1",
+				"wfood-r-2",
+				"wfood-r-3",
+				"wdutyfree-l-0",
+				"wdutyfree-l-1",
+				"wdutyfree-l-2",
+				"wdutyfree-l-3",
+				"wdutyfree-r-0",
+				"wdutyfree-r-1",
+				"wdutyfree-r-2",
+				"wdutyfree-r-3",
+				"wlounge-l-0",
+				"wlounge-l-1",
+				"wlounge-l-2",
+				"wlounge-l-3",
+				"wlounge-r-0",
+				"wlounge-r-1",
+				"wlounge-r-2",
+				"wlounge-r-3",
+				"wtoilets-l-0",
+				"wtoilets-l-1",
+				"wtoilets-l-2",
+				"wtoilets-l-3",
+				"wtoilets-r-0",
+				"wtoilets-r-1",
+				"wtoilets-r-2",
+				"wtoilets-r-3",
+				"wsecurity-l-0",
+				"wsecurity-l-1",
+				"wsecurity-l-2",
+				"wsecurity-l-3",
+				"wsecurity-r-0",
+				"wsecurity-r-1",
+				"wsecurity-r-2",
+				"wsecurity-r-3",
+				"wcheckin-l-0",
+				"wcheckin-l-1",
+				"wcheckin-l-2",
+				"wcheckin-l-3",
+				"wcheckin-r-0",
+				"wcheckin-r-1",
+				"wcheckin-r-2",
+				"wcheckin-r-3",
+				"wtransfer-l-0",
+				"wtransfer-l-1",
+				"wtransfer-l-2",
+				"wtransfer-l-3",
+				"wtransfer-r-0",
+				"wtransfer-r-1",
+				"wtransfer-r-2",
+				"wtransfer-r-3",
+				"wnothing-l-0",
+				"wnothing-l-1",
+				"wnothing-l-2",
+				"wnothing-l-3",
+				"wnothing-r-0",
+				"wnothing-r-1",
+				"wnothing-r-2",
+				"wnothing-r-3",
+				"wgoods-l-0",
+				"wgoods-l-1",
+				"wgoods-l-2",
+				"wgoods-l-3",
+				"wgoods-r-0",
+				"wgoods-r-1",
+				"wgoods-r-2",
+				"wgoods-r-3"
 			]
 		},
 		{
@@ -183,6 +288,846 @@
 			"signback": {
 				"base": "backrooms:block/36/l36-sign-broken"
 			}
+		},
+		"l36-sign-info-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-info"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-info"
+			}
+		},
+		"l36-sign-wgates-l-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgates-l-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgates-r-3"
+			}
+		},
+		"l36-sign-wgates-l-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgates-l-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgates-r-2"
+			}
+		},
+		"l36-sign-wgates-l-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgates-l-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgates-r-1"
+			}
+		},
+		"l36-sign-wgates-l-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgates-l-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgates-r-0"
+			}
+		},
+		"l36-sign-wgates-r-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgates-r-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgates-l-3"
+			}
+		},
+		"l36-sign-wgates-r-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgates-r-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgates-l-2"
+			}
+		},
+		"l36-sign-wgates-r-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgates-r-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgates-l-1"
+			}
+		},
+		"l36-sign-wgates-r-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgates-r-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgates-l-0"
+			}
+		},
+		"l36-sign-wbaggage-l-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-l-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-r-3"
+			}
+		},
+		"l36-sign-wbaggage-l-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-l-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-r-2"
+			}
+		},
+		"l36-sign-wbaggage-l-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-l-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-r-1"
+			}
+		},
+		"l36-sign-wbaggage-l-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-l-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-r-0"
+			}
+		},
+		"l36-sign-wbaggage-r-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-r-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-l-3"
+			}
+		},
+		"l36-sign-wbaggage-r-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-r-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-l-2"
+			}
+		},
+		"l36-sign-wbaggage-r-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-r-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-l-1"
+			}
+		},
+		"l36-sign-wbaggage-r-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-r-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wbaggage-l-0"
+			}
+		},
+		"l36-sign-wexit-l-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wexit-l-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wexit-r-3"
+			}
+		},
+		"l36-sign-wexit-l-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wexit-l-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wexit-r-2"
+			}
+		},
+		"l36-sign-wexit-l-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wexit-l-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wexit-r-1"
+			}
+		},
+		"l36-sign-wexit-l-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wexit-l-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wexit-r-0"
+			}
+		},
+		"l36-sign-wexit-r-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wexit-r-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wexit-l-3"
+			}
+		},
+		"l36-sign-wexit-r-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wexit-r-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wexit-l-2"
+			}
+		},
+		"l36-sign-wexit-r-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wexit-r-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wexit-l-1"
+			}
+		},
+		"l36-sign-wexit-r-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wexit-r-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wexit-l-0"
+			}
+		},
+		"l36-sign-wmeeting-l-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-l-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-r-3"
+			}
+		},
+		"l36-sign-wmeeting-l-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-l-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-r-2"
+			}
+		},
+		"l36-sign-wmeeting-l-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-l-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-r-1"
+			}
+		},
+		"l36-sign-wmeeting-l-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-l-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-r-0"
+			}
+		},
+		"l36-sign-wmeeting-r-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-r-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-l-3"
+			}
+		},
+		"l36-sign-wmeeting-r-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-r-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-l-2"
+			}
+		},
+		"l36-sign-wmeeting-r-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-r-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-l-1"
+			}
+		},
+		"l36-sign-wmeeting-r-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-r-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wmeeting-l-0"
+			}
+		},
+		"l36-sign-wfood-l-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wfood-l-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wfood-r-3"
+			}
+		},
+		"l36-sign-wfood-l-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wfood-l-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wfood-r-2"
+			}
+		},
+		"l36-sign-wfood-l-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wfood-l-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wfood-r-1"
+			}
+		},
+		"l36-sign-wfood-l-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wfood-l-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wfood-r-0"
+			}
+		},
+		"l36-sign-wfood-r-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wfood-r-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wfood-l-3"
+			}
+		},
+		"l36-sign-wfood-r-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wfood-r-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wfood-l-2"
+			}
+		},
+		"l36-sign-wfood-r-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wfood-r-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wfood-l-1"
+			}
+		},
+		"l36-sign-wfood-r-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wfood-r-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wfood-l-0"
+			}
+		},
+		"l36-sign-wdutyfree-l-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-l-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-r-3"
+			}
+		},
+		"l36-sign-wdutyfree-l-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-l-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-r-2"
+			}
+		},
+		"l36-sign-wdutyfree-l-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-l-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-r-1"
+			}
+		},
+		"l36-sign-wdutyfree-l-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-l-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-r-0"
+			}
+		},
+		"l36-sign-wdutyfree-r-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-r-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-l-3"
+			}
+		},
+		"l36-sign-wdutyfree-r-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-r-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-l-2"
+			}
+		},
+		"l36-sign-wdutyfree-r-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-r-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-l-1"
+			}
+		},
+		"l36-sign-wdutyfree-r-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-r-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wdutyfree-l-0"
+			}
+		},
+		"l36-sign-wlounge-l-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wlounge-l-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wlounge-r-3"
+			}
+		},
+		"l36-sign-wlounge-l-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wlounge-l-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wlounge-r-2"
+			}
+		},
+		"l36-sign-wlounge-l-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wlounge-l-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wlounge-r-1"
+			}
+		},
+		"l36-sign-wlounge-l-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wlounge-l-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wlounge-r-0"
+			}
+		},
+		"l36-sign-wlounge-r-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wlounge-r-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wlounge-l-3"
+			}
+		},
+		"l36-sign-wlounge-r-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wlounge-r-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wlounge-l-2"
+			}
+		},
+		"l36-sign-wlounge-r-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wlounge-r-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wlounge-l-1"
+			}
+		},
+		"l36-sign-wlounge-r-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wlounge-r-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wlounge-l-0"
+			}
+		},
+		"l36-sign-wtoilets-l-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-l-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-r-3"
+			}
+		},
+		"l36-sign-wtoilets-l-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-l-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-r-2"
+			}
+		},
+		"l36-sign-wtoilets-l-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-l-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-r-1"
+			}
+		},
+		"l36-sign-wtoilets-l-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-l-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-r-0"
+			}
+		},
+		"l36-sign-wtoilets-r-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-r-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-l-3"
+			}
+		},
+		"l36-sign-wtoilets-r-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-r-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-l-2"
+			}
+		},
+		"l36-sign-wtoilets-r-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-r-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-l-1"
+			}
+		},
+		"l36-sign-wtoilets-r-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-r-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtoilets-l-0"
+			}
+		},
+		"l36-sign-wsecurity-l-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-l-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-r-3"
+			}
+		},
+		"l36-sign-wsecurity-l-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-l-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-r-2"
+			}
+		},
+		"l36-sign-wsecurity-l-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-l-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-r-1"
+			}
+		},
+		"l36-sign-wsecurity-l-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-l-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-r-0"
+			}
+		},
+		"l36-sign-wsecurity-r-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-r-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-l-3"
+			}
+		},
+		"l36-sign-wsecurity-r-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-r-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-l-2"
+			}
+		},
+		"l36-sign-wsecurity-r-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-r-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-l-1"
+			}
+		},
+		"l36-sign-wsecurity-r-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-r-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wsecurity-l-0"
+			}
+		},
+		"l36-sign-wcheckin-l-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-l-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-r-3"
+			}
+		},
+		"l36-sign-wcheckin-l-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-l-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-r-2"
+			}
+		},
+		"l36-sign-wcheckin-l-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-l-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-r-1"
+			}
+		},
+		"l36-sign-wcheckin-l-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-l-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-r-0"
+			}
+		},
+		"l36-sign-wcheckin-r-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-r-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-l-3"
+			}
+		},
+		"l36-sign-wcheckin-r-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-r-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-l-2"
+			}
+		},
+		"l36-sign-wcheckin-r-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-r-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-l-1"
+			}
+		},
+		"l36-sign-wcheckin-r-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-r-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wcheckin-l-0"
+			}
+		},
+		"l36-sign-wtransfer-l-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-l-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-r-3"
+			}
+		},
+		"l36-sign-wtransfer-l-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-l-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-r-2"
+			}
+		},
+		"l36-sign-wtransfer-l-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-l-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-r-1"
+			}
+		},
+		"l36-sign-wtransfer-l-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-l-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-r-0"
+			}
+		},
+		"l36-sign-wtransfer-r-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-r-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-l-3"
+			}
+		},
+		"l36-sign-wtransfer-r-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-r-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-l-2"
+			}
+		},
+		"l36-sign-wtransfer-r-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-r-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-l-1"
+			}
+		},
+		"l36-sign-wtransfer-r-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-r-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wtransfer-l-0"
+			}
+		},
+		"l36-sign-wnothing-l-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wnothing-l-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wnothing-r-3"
+			}
+		},
+		"l36-sign-wnothing-l-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wnothing-l-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wnothing-r-2"
+			}
+		},
+		"l36-sign-wnothing-l-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wnothing-l-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wnothing-r-1"
+			}
+		},
+		"l36-sign-wnothing-l-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wnothing-l-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wnothing-r-0"
+			}
+		},
+		"l36-sign-wnothing-r-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wnothing-r-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wnothing-l-3"
+			}
+		},
+		"l36-sign-wnothing-r-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wnothing-r-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wnothing-l-2"
+			}
+		},
+		"l36-sign-wnothing-r-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wnothing-r-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wnothing-l-1"
+			}
+		},
+		"l36-sign-wnothing-r-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wnothing-r-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wnothing-l-0"
+			}
+		},
+		"l36-sign-wgoods-l-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgoods-l-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgoods-r-3"
+			}
+		},
+		"l36-sign-wgoods-l-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgoods-l-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgoods-r-2"
+			}
+		},
+		"l36-sign-wgoods-l-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgoods-l-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgoods-r-1"
+			}
+		},
+		"l36-sign-wgoods-l-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgoods-l-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgoods-r-0"
+			}
+		},
+		"l36-sign-wgoods-r-0-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgoods-r-0"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgoods-l-3"
+			}
+		},
+		"l36-sign-wgoods-r-1-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgoods-r-1"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgoods-l-2"
+			}
+		},
+		"l36-sign-wgoods-r-2-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgoods-r-2"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgoods-l-1"
+			}
+		},
+		"l36-sign-wgoods-r-3-*": {
+			"signfront": {
+				"base": "backrooms:block/36/l36-sign-wgoods-r-3"
+			},
+			"signback": {
+				"base": "backrooms:block/36/l36-sign-wgoods-l-0"
+			}
 		}
 	},
 	"creativeinventory": {
@@ -196,6 +1141,16 @@
 	"lightHsvByType": {
 		"*-exit-*": [
 			20,
+			5,
+			6
+		],
+		"*-wexit-*": [
+			20,
+			5,
+			6
+		],
+		"*-info-*": [
+			8,
 			5,
 			6
 		],

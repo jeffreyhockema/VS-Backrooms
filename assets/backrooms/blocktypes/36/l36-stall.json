@@ -1,0 +1,303 @@
+// Level 36: a toilet cubicle, its back to the wall: the bowl, laminate partitions either side, the door left ajar (lower; upper the partitions' tops)
+{
+	"code": "l36-stall",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-stall-lower-north": {
+			"base": "backrooms:block/36/l36-stall-lower"
+		},
+		"l36-stall-lower-east": {
+			"base": "backrooms:block/36/l36-stall-lower",
+			"rotateY": 270
+		},
+		"l36-stall-lower-south": {
+			"base": "backrooms:block/36/l36-stall-lower",
+			"rotateY": 180
+		},
+		"l36-stall-lower-west": {
+			"base": "backrooms:block/36/l36-stall-lower",
+			"rotateY": 90
+		},
+		"l36-stall-upper-north": {
+			"base": "backrooms:block/36/l36-stall-upper"
+		},
+		"l36-stall-upper-east": {
+			"base": "backrooms:block/36/l36-stall-upper",
+			"rotateY": 270
+		},
+		"l36-stall-upper-south": {
+			"base": "backrooms:block/36/l36-stall-upper",
+			"rotateY": 180
+		},
+		"l36-stall-upper-west": {
+			"base": "backrooms:block/36/l36-stall-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxesByType": {
+		"l36-stall-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 0.0625,
+				"y2": 1,
+				"z2": 1
+			},
+			{
+				"x1": 0.9375,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"l36-stall-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 0.0625,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.9375,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"l36-stall-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 0.0625,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.9375,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"l36-stall-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 0.0625,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.9375,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"l36-stall-upper-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 0.0625,
+				"y2": 0.75,
+				"z2": 1
+			},
+			{
+				"x1": 0.9375,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 1
+			}
+		],
+		"l36-stall-upper-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 0.0625,
+				"y2": 0.75,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.9375,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"l36-stall-upper-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 0.0625,
+				"y2": 0.75,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.9375,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"l36-stall-upper-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 0.0625,
+				"y2": 0.75,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.9375,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxByType": {
+		"l36-stall-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-stall-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-stall-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-stall-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-stall-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"l36-stall-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"l36-stall-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"l36-stall-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 1
+		}
+	},
+	"drops": []
+}

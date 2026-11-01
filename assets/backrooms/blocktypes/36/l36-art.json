@@ -1,0 +1,480 @@
+// Level 36: a panel wall cube whose <side> face is a piece of a lit wall picture: the DEPARTURES and ARRIVALS boards (4 x 2), posters (p0-p2 the Backrooms Travel Agency's, p3-p5 invented ads, p6 the baggage notice, p7 a wanderer's sheet taped up), the food stalls' menu boards (2 x 1), the WELCOME banner (4 x 1); piece <kind>-<col>-<row>, col 0 leftmost seen from in front, row 0 lowest
+{
+	"code": "l36-art",
+	"variantgroups": [
+		{
+			"code": "piece",
+			"states": [
+				"dep-0-0",
+				"dep-0-1",
+				"dep-1-0",
+				"dep-1-1",
+				"dep-2-0",
+				"dep-2-1",
+				"dep-3-0",
+				"dep-3-1",
+				"arr-0-0",
+				"arr-0-1",
+				"arr-1-0",
+				"arr-1-1",
+				"arr-2-0",
+				"arr-2-1",
+				"arr-3-0",
+				"arr-3-1",
+				"p0-0-0",
+				"p0-0-1",
+				"p1-0-0",
+				"p1-0-1",
+				"p2-0-0",
+				"p2-0-1",
+				"p3-0-0",
+				"p3-0-1",
+				"p4-0-0",
+				"p4-0-1",
+				"p5-0-0",
+				"p5-0-1",
+				"p6-0-0",
+				"p6-0-1",
+				"p7-0-0",
+				"p7-0-1",
+				"m0-0-0",
+				"m0-1-0",
+				"m1-0-0",
+				"m1-1-0",
+				"m2-0-0",
+				"m2-1-0",
+				"m3-0-0",
+				"m3-1-0",
+				"welc-0-0",
+				"welc-1-0",
+				"welc-2-0",
+				"welc-3-0"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "backrooms:block/36/l36-art"
+		},
+		"*-east": {
+			"base": "backrooms:block/36/l36-art",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "backrooms:block/36/l36-art",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "backrooms:block/36/l36-art",
+			"rotateY": 90
+		}
+	},
+	"texturesByType": {
+		"l36-art-dep-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-dep-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-dep-0-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-dep-0-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-dep-1-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-dep-1-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-dep-1-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-dep-1-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-dep-2-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-dep-2-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-dep-2-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-dep-2-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-dep-3-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-dep-3-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-dep-3-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-dep-3-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-arr-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-arr-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-arr-0-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-arr-0-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-arr-1-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-arr-1-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-arr-1-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-arr-1-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-arr-2-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-arr-2-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-arr-2-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-arr-2-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-arr-3-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-arr-3-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-arr-3-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-arr-3-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p0-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p0-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p0-0-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p0-0-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p1-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p1-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p1-0-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p1-0-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p2-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p2-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p2-0-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p2-0-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p3-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p3-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p3-0-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p3-0-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p4-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p4-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p4-0-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p4-0-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p5-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p5-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p5-0-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p5-0-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p6-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p6-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p6-0-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p6-0-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p7-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p7-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-p7-0-1-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-p7-0-1"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-m0-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-m0-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-m0-1-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-m0-1-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-m1-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-m1-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-m1-1-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-m1-1-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-m2-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-m2-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-m2-1-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-m2-1-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-m3-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-m3-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-m3-1-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-m3-1-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-welc-0-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-welc-0-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-welc-1-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-welc-1-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-welc-2-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-welc-2-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-art-welc-3-0-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-art-welc-3-0"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightHsvByType": {
+		"l36-art-dep-*": [
+			36,
+			3,
+			6
+		],
+		"l36-art-arr-*": [
+			36,
+			3,
+			6
+		],
+		"l36-art-welc-*": [
+			36,
+			3,
+			5
+		]
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l36structure": true
+	},
+	"drops": []
+}

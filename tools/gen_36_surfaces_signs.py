@@ -338,6 +338,13 @@ def sign_face(glyph):
         return save(from_array(a), "l36-sign-blank")
     if glyph == "broken":
         return broken_face()
+    if glyph == "info":   # (round 3) the information desk's "i", charcoal on yellow
+        img = sign_ground(colour=(232, 184, 20), seed=seed_of("info"))
+        m = Image.new("L", size, 0)
+        pict_info(ImageDraw.Draw(m), (8 * K, 10 * K, 66 * K, 70 * K))
+        t, _ = text_mask(size, "Information", DIN_COND, (60 * K, 14 * K, 122 * K, 66 * K), 20 * K * 1.35)
+        m = Image.fromarray(np.maximum(np.asarray(m), np.asarray(t)))
+        return save(finish_face(img, layer_from(m, (30, 32, 36)), glow=False), "l36-sign-info")
     pict, word, arrow = SIGNS[glyph]
     img = sign_ground(seed=seed_of("sign-" + glyph))
     lay = Image.new("RGBA", size, (0, 0, 0, 0))
@@ -534,6 +541,26 @@ def fids_c32():
     _screen_finish(a, "c32")
 
 
+# (round 3) The claim hall's carousel screens: the belt's number, where its bags came from, the flight, ON BELT
+BELTS = {"arr0": ("3", "LV11", "LA 3301"), "arr1": ("7", "LV9", "LA 4806"), "arr2": ("12", "LV37", "LA 1919")}
+
+
+def fids_belt(name):
+    belt, frm, flight = BELTS[name]
+    a = _screen_base(seed_of("fids-" + name))
+    W = FW * 2
+    a[5:16, 4:W - 4] = HEADBAR
+    s = "BAGGAGE  BELT " + belt
+    _led_text(a, s, (W - _led_width(s)) // 2, 7, (255, 214, 60))
+    rows = (("FROM", frm, AMBER), ("FLIGHT", flight, AMBER), ("STATUS", "ON BELT", STATUS["BOARDING"]),
+            ("", "LEAVE NO BAG", (150, 156, 166)), ("", "TEN ROUNDS", (150, 156, 166)))
+    for i, (label, value, col) in enumerate(rows):
+        y = 20 + i * 10
+        _led_text(a, label, 22, y, (150, 156, 166))
+        _led_text(a, value, 78, y, col)
+    _screen_finish(a, name)
+
+
 def fids_misc():
     bez = M.painted_metal(seed_of("fidsbezel"), base=(26, 26, 28), grain=2, mottle=2, panel=False, chips=0)
     save(bez, "l36-fids-bezel")
@@ -556,6 +583,24 @@ FASCIA = {
 }
 FASCIA_LIGHT = {"perfume": [8, 3, 5], "fashion": [0, 1, 5], "books": [22, 3, 5], "snacks": [5, 4, 5], "tech": [34, 3, 5],
                 "bags": [6, 3, 5], "cafe": [5, 3, 5], "pharma": [21, 3, 5]}
+# (round 3, 2026-11-01) The concourses' own units and the food court's further stalls
+FASCIA.update({
+    "news": ("NEWS & BOOKS", (200, 30, 36), (255, 255, 255), ["bahnschrift.ttf", "arialbd.ttf"], b"Bold Condensed", None),
+    "dutyfree": ("DUTY FREE", (16, 16, 20), (236, 206, 130), ["BOD_R.TTF", "georgia.ttf", "times.ttf"], None, None),
+    "exchange": ("BUREAU DE CHANGE", (250, 196, 30), (24, 24, 26), ["bahnschrift.ttf", "arialbd.ttf"], b"Bold Condensed", None),
+    "prayer": ("PRAYER ROOM", (236, 236, 232), (52, 74, 120), ["bahnschrift.ttf", "arial.ttf"], b"SemiBold", None),
+    "info": ("INFORMATION", (250, 196, 30), (30, 32, 36), ["bahnschrift.ttf", "arialbd.ttf"], b"Bold", None),
+    "lostfound": ("LOST & FOUND", (40, 42, 47), (255, 200, 20), ["bahnschrift.ttf", "arialbd.ttf"], b"Bold", None),
+    "toilets": ("TOILETS", (40, 42, 47), (255, 200, 20), ["bahnschrift.ttf", "arialbd.ttf"], b"Bold", None),
+    "shoeshine": ("SHOE SHINE", (70, 30, 24), (240, 210, 150), ["ROCKB.TTF", "georgiab.ttf", "arialbd.ttf"], None, None),
+    "phones": ("TELEPHONES", (30, 92, 160), (255, 255, 255), ["bahnschrift.ttf", "arialbd.ttf"], b"Bold", None),
+    "noodles": ("NOODLE GATE", (160, 24, 30), (255, 236, 200), ["bahnschrift.ttf", "arialbd.ttf"], b"Bold", None),
+    "burger": ("BURGER BAY", (24, 26, 30), (250, 200, 40), ["FRAHV.TTF", "impact.ttf", "arialbd.ttf"], None, None),
+    "pizza": ("SLICE", (34, 82, 44), (250, 246, 230), ["GILSANUB.TTF", "bahnschrift.ttf", "arialbd.ttf"], b"Bold", None),
+})
+FASCIA_LIGHT.update({"news": [0, 4, 5], "dutyfree": [8, 2, 5], "exchange": [8, 5, 5], "prayer": [36, 1, 5], "info": [8, 5, 5],
+                     "lostfound": [8, 4, 5], "toilets": [8, 4, 5], "shoeshine": [5, 3, 5], "phones": [36, 4, 5],
+                     "noodles": [0, 4, 5], "burger": [8, 4, 5], "pizza": [22, 3, 5]})
 
 
 def fascia(shop):
@@ -708,8 +753,78 @@ SIGN_GLYPHS = ["gatesl", "gatesr", "baggage", "exit", "meeting", "dutyfree", "fo
                "checkin", "blank", "broken"]
 # (as WorldLayout.L36FidsTexts: the check-in boards, Gate C32's, then a gate's for each of WorldLayout.L36FlightLevels)
 FLIGHT_LEVELS = ["11", "9", "37", "3999", "188", "10"]
-FIDS_TEXTS = ["a", "b", "c", "d", "c32"] + ["to" + n for n in FLIGHT_LEVELS]
-SHOPS = ["perfume", "fashion", "books", "snacks", "tech", "bags", "cafe", "pharma"]
+FIDS_TEXTS = ["a", "b", "c", "d", "c32"] + ["to" + n for n in FLIGHT_LEVELS] + ["arr0", "arr1", "arr2"]
+SHOPS = ["perfume", "fashion", "books", "snacks", "tech", "bags", "cafe", "pharma",
+         # (round 3) as WorldLayout.L36Shops
+         "news", "dutyfree", "exchange", "prayer", "info", "lostfound", "toilets", "shoeshine", "phones", "noodles", "burger", "pizza"]
+# (round 3) Wide signs, four blocks across (pictogram, words, arrow): as WorldLayout.L36WideWords; each with its arrow to the
+# left and to the right, glyph "w<word>-<l|r>-<part>", part 0 the leftmost seen from in front
+WIDE = [("gates", "plane", "All Gates"), ("baggage", "suitcase", "Baggage Claim"), ("exit", "runner", "Exit"),
+        ("meeting", "meeting", "Meeting Point"), ("food", "food", "Food Court"), ("dutyfree", "bag", "Duty Free"),
+        ("lounge", "lounge", "Lounges"), ("toilets", "toilets", "Toilets"), ("security", "security", "Security"),
+        ("checkin", "checkin", "Check-in"), ("transfer", "plane", "Transfers"),
+        ("nothing", "suitcase", "Nothing to Declare"), ("goods", "suitcase", "Goods to Declare")]
+NO_ARROW = ("nothing", "goods")
+SIGN_GLYPHS += ["info"] + [f"w{w}-{d}-{i}" for w, _, _ in WIDE for d in "lr" for i in range(4)]
+SIGN_BACK = {"gatesl": "gatesr", "gatesr": "gatesl"}
+for _w, _, _ in WIDE:
+    for _i in range(4):
+        SIGN_BACK[f"w{_w}-l-{_i}"] = f"w{_w}-r-{3 - _i}"
+        SIGN_BACK[f"w{_w}-r-{_i}"] = f"w{_w}-l-{3 - _i}"
+
+
+def pict_info(d, box, fill=255):
+    """The information "i"."""
+    _disc(d, 0.5, 0.2, 0.1, box, fill)
+    _rrect(d, 0.36, 0.38, 0.6, 0.46, 0.02, box, fill)
+    _rrect(d, 0.43, 0.38, 0.6, 0.86, 0.02, box, fill)
+    _rrect(d, 0.34, 0.80, 0.68, 0.90, 0.02, box, fill)
+
+
+def wide_face(word, d):
+    """A wide sign, four blocks: the yellow pictogram tile, the words, the arrow at its end (green for the exit)."""
+    pict, text, = [(p, t) for w, p, t in WIDE if w == word][0]
+    W, H = SIGN_W * 4, SIGN_H
+    size = (W * K, H * K)
+    exit_ = word in ("exit", "nothing", "goods")
+    ground = (190, 30, 36) if word == "goods" else (0, 150, 74) if exit_ else CHARCOAL
+    if word in NO_ARROW:
+        d = "-"
+    base = M.noise_hv(ground, 2, seed_of("wideg-" + word), (W, H), 3, (32, 16), hue=1.0)
+    a = to_array(base)
+    a[0:2, :, :3] = np.array((120, 124, 130))
+    a[-2:, :, :3] = np.array((86, 88, 94))
+    a[:, 0:2, :3] = np.array((106, 110, 116))
+    a[:, -2:, :3] = np.array((92, 96, 102))
+    img = from_array(a)
+    ink = (246, 250, 246) if exit_ else YELLOW
+    lay = Image.new("RGBA", size, (0, 0, 0, 0))
+    x = 10
+    if d == "l":
+        m = Image.new("L", size, 0)
+        pict_arrow(ImageDraw.Draw(m), (x * K, 18 * K, (x + 48) * K, 62 * K), True)
+        lay.alpha_composite(layer_from(m, ink))
+        x += 58
+    if word == "exit":
+        m = Image.new("L", size, 0)
+        pict_runner(ImageDraw.Draw(m), (x * K, 10 * K, (x + 60) * K, 70 * K))
+        lay.alpha_composite(layer_from(m, ink))
+    elif exit_:
+        lay.alpha_composite(tile_layer(size, (x * K, 10 * K, (x + 60) * K, 70 * K), pict, tile_col=(246, 250, 246), ink=ground))
+    else:
+        lay.alpha_composite(tile_layer(size, (x * K, 10 * K, (x + 60) * K, 70 * K), pict))
+    x += 72
+    right = W - 12 - (58 if d == "r" else 0)
+    t, _ = text_mask(size, text, DIN, (x * K, 14 * K, right * K, 66 * K), 34 * K * 1.35)
+    lay.alpha_composite(layer_from(t, ink))
+    if d == "r":
+        m = Image.new("L", size, 0)
+        pict_arrow(ImageDraw.Draw(m), ((W - 60) * K, 18 * K, (W - 12) * K, 62 * K), False)
+        lay.alpha_composite(layer_from(m, ink))
+    out = finish_face(img, lay)
+    for dd in ("lr" if d == "-" else d):
+        for i in range(4):
+            save(out.crop((i * SIGN_W, 0, (i + 1) * SIGN_W, SIGN_H)), f"l36-sign-w{word}-{dd}-{i}")
 
 
 def generate():
@@ -717,13 +832,20 @@ def generate():
     for g in GATE_GLYPHS:
         gatesign_face(g)
     for g in SIGN_GLYPHS:
+        if g.startswith("w") and g[-2] == "-":
+            continue
         sign_face(g)
+    for w, _, _ in WIDE:   # (round 3)
+        for d in "lr":
+            wide_face(w, d)
     fids_misc()
     for t in "abcd":
         fids_board(t)
     for n in FLIGHT_LEVELS:
         fids_gate(n)
     fids_c32()
+    for n in BELTS:
+        fids_belt(n)
     for s in SHOPS:
         fascia(s)
     for k in ("nohands", "stopped"):

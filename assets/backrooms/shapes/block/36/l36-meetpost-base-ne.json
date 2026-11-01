@@ -1,0 +1,130 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r3-dark": "backrooms:block/36/props/r3-dark",
+		"r3-steel": "backrooms:block/36/props/r3-steel"
+	},
+	"elements": [
+		{
+			"name": "Post",
+			"from": [
+				0,
+				0,
+				12
+			],
+			"to": [
+				4,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r3-dark",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#r3-dark",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#r3-dark",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#r3-dark",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#r3-dark",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Plinth",
+			"from": [
+				0,
+				0,
+				6
+			],
+			"to": [
+				10,
+				3,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						10,
+						3
+					]
+				},
+				"east": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						10,
+						3
+					]
+				},
+				"south": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						10,
+						3
+					]
+				},
+				"west": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						10,
+						3
+					]
+				},
+				"up": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				}
+			}
+		}
+	]
+}

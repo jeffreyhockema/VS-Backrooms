@@ -1,0 +1,214 @@
+// Level 36: the meeting-point sign, a lit 2 x 2 x 2 cube on a post over the Meeting Place (quad: the block's corner of it; row lower/upper): the yellow pictogram and MEETING POINT on its four faces
+{
+	"code": "l36-meetbox",
+	"variantgroups": [
+		{
+			"code": "quad",
+			"states": [
+				"nw",
+				"ne",
+				"sw",
+				"se"
+			]
+		},
+		{
+			"code": "row",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-nw-lower": {
+			"north": {
+				"base": "backrooms:block/36/l36-meet-r-lower"
+			},
+			"south": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"west": {
+				"base": "backrooms:block/36/l36-meet-l-lower"
+			},
+			"east": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			}
+		},
+		"*-nw-upper": {
+			"north": {
+				"base": "backrooms:block/36/l36-meet-r-upper"
+			},
+			"south": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"west": {
+				"base": "backrooms:block/36/l36-meet-l-upper"
+			},
+			"east": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			}
+		},
+		"*-ne-lower": {
+			"north": {
+				"base": "backrooms:block/36/l36-meet-l-lower"
+			},
+			"south": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"west": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"east": {
+				"base": "backrooms:block/36/l36-meet-r-lower"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			}
+		},
+		"*-ne-upper": {
+			"north": {
+				"base": "backrooms:block/36/l36-meet-l-upper"
+			},
+			"south": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"west": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"east": {
+				"base": "backrooms:block/36/l36-meet-r-upper"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			}
+		},
+		"*-sw-lower": {
+			"north": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"south": {
+				"base": "backrooms:block/36/l36-meet-l-lower"
+			},
+			"west": {
+				"base": "backrooms:block/36/l36-meet-r-lower"
+			},
+			"east": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			}
+		},
+		"*-sw-upper": {
+			"north": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"south": {
+				"base": "backrooms:block/36/l36-meet-l-upper"
+			},
+			"west": {
+				"base": "backrooms:block/36/l36-meet-r-upper"
+			},
+			"east": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			}
+		},
+		"*-se-lower": {
+			"north": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"south": {
+				"base": "backrooms:block/36/l36-meet-r-lower"
+			},
+			"west": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"east": {
+				"base": "backrooms:block/36/l36-meet-l-lower"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			}
+		},
+		"*-se-upper": {
+			"north": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"south": {
+				"base": "backrooms:block/36/l36-meet-r-upper"
+			},
+			"west": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"east": {
+				"base": "backrooms:block/36/l36-meet-l-upper"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			}
+		}
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"attributes": {
+		"l36structure": true
+	},
+	"lightHsv": [
+		8,
+		1,
+		12
+	],
+	"vertexFlags": {
+		"glowLevel": 200
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"drops": []
+}

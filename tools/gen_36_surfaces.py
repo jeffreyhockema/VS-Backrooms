@@ -360,7 +360,7 @@ def blocktypes(sh):
 
     st = {}
     for g in G.SIGN_GLYPHS:
-        back = {"gatesl": "gatesr", "gatesr": "gatesl"}.get(g, g)   # an arrow points the same way seen from behind
+        back = G.SIGN_BACK.get(g, g)   # an arrow points the same way seen from behind (a wide sign's parts the other way round)
         st[f"l36-sign-{g}-*"] = {"signfront": tex("l36-sign-" + g), "signback": tex("l36-sign-" + back)}
     shp = {}
     for s in SIDES:
@@ -374,7 +374,7 @@ def blocktypes(sh):
               "variantgroups": [{"code": "glyph", "states": G.SIGN_GLYPHS}, {"code": "side", "states": SIDES}],
               "shapeByType": shp, "texturesByType": st,
               "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
-              "lightHsvByType": {"*-exit-*": [20, 5, 6], "*-blank-*": [8, 2, 6], "*-broken-*": [0, 0, 0], "*": [8, 4, 6]},
+              "lightHsvByType": {"*-exit-*": [20, 5, 6], "*-wexit-*": [20, 5, 6], "*-info-*": [8, 5, 6], "*-blank-*": [8, 2, 6], "*-broken-*": [0, 0, 0], "*": [8, 4, 6]},
               "selectionboxByType": rotated_boxes("*", sign_sel)}))
 
     # Shop fascias
