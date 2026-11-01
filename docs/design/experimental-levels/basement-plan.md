@@ -509,3 +509,32 @@ root cellars, about one rack a root cellar); shelving, furnace, heater, fuse box
 sticks and carpet fibre; rugs carpet fibre; trodden earth a block of soil. The supply boxes, crates and loot tables are
 unchanged. Hallways give long straight sightlines (two wide, up to 31 long) where the Cellar had none: the director's
 stalkers may see further there.
+
+### What the shots showed
+
+Three runs, all with a torch (`%TEMP%/backrooms-shots/basement-r3-run1`, `-run2`, and the final
+`%TEMP%/backrooms-shots/basement-r3-final`, `sheet.jpg` there; 33 shots, no server or client error lines).
+- **Run 1:** the set pieces read (the workshop's bench under its pegboard, the rec room, the fuse box's labels legible,
+  the hall of studs, the root cellar's earth and CAUTION sign, DANGER DEEP WATER by a stair down), but the furnace was a
+  thin pale figure with a crown of arms, the rug garish and patchy (rotated alternates), the pool lamps square boxes high
+  up, paint cans showing their bare tin, green slime showing under the stud walls, the brick still red, the store aisles
+  the old one-high shelf, the laundry spot finding a lone washer in a finished room. All fixed before run 2.
+- **Run 2:** the furnace was wider but its arms read as floating cubes; one hall had its bulbs mostly dead (a long dead
+  run is too common at a third dead); the crack's shaft lining was grey concrete. Fixed: the arms in fine steps (five,
+  and one up the back), bulbs dead one in five, the shaft a warm broken slab with rebar ends, the crack spot lower.
+- **Final:** the octopus furnace reads, with the fuse box beside it and the sump's grate; the laundry's washer and dryer,
+  washing on the line, the danger sign; the rec room's pool table under its two lamps on the rug, the sofa; the stud
+  hallway with its duct; steel shelving of paint and boxes; the crack's shaft lit from across the room with the joist
+  in the rubble. The Flood, the Dry Patch, the lift and the links look as in round 2.
+
+**Still weak:** the furnace's arms are stepped, not smooth (no rotated elements, to be safe of the rotation sign); the
+water heater stands two tiles from the furnace only where the wall has room, and no shot caught one; halls end flat
+against the cell's outer wall when no gap is there; the brick stairwell is still the brightest material under a torch;
+the Flood and the Dry Patch got only the sodden boxes this round.
+
+### Questions for the user
+
+1. The hallways of bare studs and insulation (45% of Cellar cells): keep that share, or fewer, as the Fandom page speaks
+   of rooms, not corridors?
+2. DO NOT ENTER is on every swollen-shut door (one face): keep on all, or only some?
+3. The nods to the Wikidot clipping (the furnace's Cincinnati maker's plate, the calendar stopped in January 1951): keep?
