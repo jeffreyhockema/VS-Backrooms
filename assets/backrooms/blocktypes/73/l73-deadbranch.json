@@ -1,0 +1,159 @@
+// Level 73: a dead tree's bare branch, the trunk to its back (south for -north)
+{
+	"code": "l73-deadbranch",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"a",
+				"b"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-a-north"
+		],
+		"backrooms": [
+			"*-a-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-a-north": {
+			"base": "block/73/deadbranch-a",
+			"rotateY": 0
+		},
+		"*-a-east": {
+			"base": "block/73/deadbranch-a",
+			"rotateY": 270
+		},
+		"*-a-south": {
+			"base": "block/73/deadbranch-a",
+			"rotateY": 180
+		},
+		"*-a-west": {
+			"base": "block/73/deadbranch-a",
+			"rotateY": 90
+		},
+		"*-b-north": {
+			"base": "block/73/deadbranch-b",
+			"rotateY": 0
+		},
+		"*-b-east": {
+			"base": "block/73/deadbranch-b",
+			"rotateY": 270
+		},
+		"*-b-south": {
+			"base": "block/73/deadbranch-b",
+			"rotateY": 180
+		},
+		"*-b-west": {
+			"base": "block/73/deadbranch-b",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"*-a-north": {
+			"x1": 0.3,
+			"y1": 0.1,
+			"z1": 0,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-a-east": {
+			"x1": 0.3,
+			"y1": 0.1,
+			"z1": 0,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-a-south": {
+			"x1": 0.3,
+			"y1": 0.1,
+			"z1": 0,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-a-west": {
+			"x1": 0.3,
+			"y1": 0.1,
+			"z1": 0,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-b-north": {
+			"x1": 0.3,
+			"y1": 0.1,
+			"z1": 0,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-b-east": {
+			"x1": 0.3,
+			"y1": 0.1,
+			"z1": 0,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-b-south": {
+			"x1": 0.3,
+			"y1": 0.1,
+			"z1": 0,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-b-west": {
+			"x1": 0.3,
+			"y1": 0.1,
+			"z1": 0,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

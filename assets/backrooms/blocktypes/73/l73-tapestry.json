@@ -1,0 +1,481 @@
+// Level 73: a tapestry two blocks by two (Coran and the Great Hound; the castle under the moon)
+{
+	"code": "l73-tapestry",
+	"variantgroups": [
+		{
+			"code": "design",
+			"states": [
+				"hunt",
+				"castle"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"bl",
+				"br",
+				"tl",
+				"tr"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-hunt-bl-north"
+		],
+		"backrooms": [
+			"*-hunt-bl-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-hunt-bl-north": {
+			"base": "block/73/tapestry-hunt-bl",
+			"rotateY": 0
+		},
+		"*-hunt-bl-east": {
+			"base": "block/73/tapestry-hunt-bl",
+			"rotateY": 270
+		},
+		"*-hunt-bl-south": {
+			"base": "block/73/tapestry-hunt-bl",
+			"rotateY": 180
+		},
+		"*-hunt-bl-west": {
+			"base": "block/73/tapestry-hunt-bl",
+			"rotateY": 90
+		},
+		"*-hunt-br-north": {
+			"base": "block/73/tapestry-hunt-br",
+			"rotateY": 0
+		},
+		"*-hunt-br-east": {
+			"base": "block/73/tapestry-hunt-br",
+			"rotateY": 270
+		},
+		"*-hunt-br-south": {
+			"base": "block/73/tapestry-hunt-br",
+			"rotateY": 180
+		},
+		"*-hunt-br-west": {
+			"base": "block/73/tapestry-hunt-br",
+			"rotateY": 90
+		},
+		"*-hunt-tl-north": {
+			"base": "block/73/tapestry-hunt-tl",
+			"rotateY": 0
+		},
+		"*-hunt-tl-east": {
+			"base": "block/73/tapestry-hunt-tl",
+			"rotateY": 270
+		},
+		"*-hunt-tl-south": {
+			"base": "block/73/tapestry-hunt-tl",
+			"rotateY": 180
+		},
+		"*-hunt-tl-west": {
+			"base": "block/73/tapestry-hunt-tl",
+			"rotateY": 90
+		},
+		"*-hunt-tr-north": {
+			"base": "block/73/tapestry-hunt-tr",
+			"rotateY": 0
+		},
+		"*-hunt-tr-east": {
+			"base": "block/73/tapestry-hunt-tr",
+			"rotateY": 270
+		},
+		"*-hunt-tr-south": {
+			"base": "block/73/tapestry-hunt-tr",
+			"rotateY": 180
+		},
+		"*-hunt-tr-west": {
+			"base": "block/73/tapestry-hunt-tr",
+			"rotateY": 90
+		},
+		"*-castle-bl-north": {
+			"base": "block/73/tapestry-castle-bl",
+			"rotateY": 0
+		},
+		"*-castle-bl-east": {
+			"base": "block/73/tapestry-castle-bl",
+			"rotateY": 270
+		},
+		"*-castle-bl-south": {
+			"base": "block/73/tapestry-castle-bl",
+			"rotateY": 180
+		},
+		"*-castle-bl-west": {
+			"base": "block/73/tapestry-castle-bl",
+			"rotateY": 90
+		},
+		"*-castle-br-north": {
+			"base": "block/73/tapestry-castle-br",
+			"rotateY": 0
+		},
+		"*-castle-br-east": {
+			"base": "block/73/tapestry-castle-br",
+			"rotateY": 270
+		},
+		"*-castle-br-south": {
+			"base": "block/73/tapestry-castle-br",
+			"rotateY": 180
+		},
+		"*-castle-br-west": {
+			"base": "block/73/tapestry-castle-br",
+			"rotateY": 90
+		},
+		"*-castle-tl-north": {
+			"base": "block/73/tapestry-castle-tl",
+			"rotateY": 0
+		},
+		"*-castle-tl-east": {
+			"base": "block/73/tapestry-castle-tl",
+			"rotateY": 270
+		},
+		"*-castle-tl-south": {
+			"base": "block/73/tapestry-castle-tl",
+			"rotateY": 180
+		},
+		"*-castle-tl-west": {
+			"base": "block/73/tapestry-castle-tl",
+			"rotateY": 90
+		},
+		"*-castle-tr-north": {
+			"base": "block/73/tapestry-castle-tr",
+			"rotateY": 0
+		},
+		"*-castle-tr-east": {
+			"base": "block/73/tapestry-castle-tr",
+			"rotateY": 270
+		},
+		"*-castle-tr-south": {
+			"base": "block/73/tapestry-castle-tr",
+			"rotateY": 180
+		},
+		"*-castle-tr-west": {
+			"base": "block/73/tapestry-castle-tr",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"*-hunt-bl-north": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-hunt-bl-east": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-hunt-bl-south": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-hunt-bl-west": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-hunt-br-north": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-hunt-br-east": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-hunt-br-south": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-hunt-br-west": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-hunt-tl-north": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-hunt-tl-east": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-hunt-tl-south": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-hunt-tl-west": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-hunt-tr-north": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-hunt-tr-east": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-hunt-tr-south": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-hunt-tr-west": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-castle-bl-north": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-castle-bl-east": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-castle-bl-south": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-castle-bl-west": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-castle-br-north": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-castle-br-east": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-castle-br-south": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-castle-br-west": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-castle-tl-north": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-castle-tl-east": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-castle-tl-south": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-castle-tl-west": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-castle-tr-north": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-castle-tr-east": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-castle-tr-south": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-castle-tr-west": {
+			"x1": 0.0,
+			"y1": 0.0,
+			"z1": 0.88,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"renderpass": "OpaqueNoCull",
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

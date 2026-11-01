@@ -1,0 +1,103 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cloth": "backrooms:block/73/tapestry-hunt-tl",
+		"iron": "backrooms:block/73/sconce-iron"
+	},
+	"elements": [
+		{
+			"name": "Cloth",
+			"from": [
+				0,
+				0,
+				15.2
+			],
+			"to": [
+				16,
+				16,
+				15.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#cloth",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rod",
+			"from": [
+				0,
+				15,
+				14.2
+			],
+			"to": [
+				16,
+				16,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"south": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#iron",
+					"uv": [
+						0.8,
+						0,
+						1.8,
+						1
+					]
+				},
+				"west": {
+					"texture": "#iron",
+					"uv": [
+						14.2,
+						0,
+						15.2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						14.2,
+						16,
+						15.2
+					]
+				},
+				"down": {
+					"texture": "#iron",
+					"uv": [
+						0,
+						0.8,
+						16,
+						1.8
+					]
+				}
+			}
+		}
+	]
+}

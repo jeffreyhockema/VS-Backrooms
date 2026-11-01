@@ -1,0 +1,35 @@
+// Level 73: earth trodden to mud along the tracks the runners wore toward the castle
+{
+	"code": "l73-trodden",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/73/trodden",
+			"alternates": [
+				{
+					"base": "block/73/trodden-2"
+				}
+			]
+		}
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/sludge*",
+		"place": "game:block/dirt*",
+		"break": "game:block/dirt*",
+		"hit": "game:block/dirt*"
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

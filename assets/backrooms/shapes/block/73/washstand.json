@@ -1,0 +1,452 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"wood": "backrooms:block/73/mahogany",
+		"end": "backrooms:block/73/mahogany-end",
+		"marble": "backrooms:block/73/marble",
+		"china": "backrooms:block/73/porcelain",
+		"mirror": "backrooms:block/73/mirror",
+		"frame": "backrooms:block/73/gold"
+	},
+	"elements": [
+		{
+			"name": "Cabinet",
+			"from": [
+				2,
+				0,
+				6
+			],
+			"to": [
+				14,
+				11,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						2,
+						5,
+						14,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						2,
+						5,
+						14,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						1,
+						5,
+						10,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						6,
+						5,
+						15,
+						16
+					]
+				},
+				"up": {
+					"texture": "#end",
+					"uv": [
+						2,
+						6,
+						14,
+						15
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						2,
+						1,
+						14,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				1.5,
+				11,
+				5.5
+			],
+			"to": [
+				14.5,
+				12,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#marble",
+					"uv": [
+						1.5,
+						4,
+						14.5,
+						5
+					]
+				},
+				"south": {
+					"texture": "#marble",
+					"uv": [
+						1.5,
+						4,
+						14.5,
+						5
+					]
+				},
+				"east": {
+					"texture": "#marble",
+					"uv": [
+						0.5,
+						4,
+						10.5,
+						5
+					]
+				},
+				"west": {
+					"texture": "#marble",
+					"uv": [
+						5.5,
+						4,
+						15.5,
+						5
+					]
+				},
+				"up": {
+					"texture": "#marble",
+					"uv": [
+						1.5,
+						5.5,
+						14.5,
+						15.5
+					]
+				},
+				"down": {
+					"texture": "#marble",
+					"uv": [
+						1.5,
+						0.5,
+						14.5,
+						10.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Basin",
+			"from": [
+				4,
+				12,
+				7
+			],
+			"to": [
+				11,
+				14,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#china",
+					"uv": [
+						5,
+						2,
+						12,
+						4
+					]
+				},
+				"south": {
+					"texture": "#china",
+					"uv": [
+						4,
+						2,
+						11,
+						4
+					]
+				},
+				"east": {
+					"texture": "#china",
+					"uv": [
+						3,
+						2,
+						9,
+						4
+					]
+				},
+				"west": {
+					"texture": "#china",
+					"uv": [
+						7,
+						2,
+						13,
+						4
+					]
+				},
+				"up": {
+					"texture": "#china",
+					"uv": [
+						4,
+						7,
+						11,
+						13
+					]
+				},
+				"down": {
+					"texture": "#china",
+					"uv": [
+						4,
+						3,
+						11,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "Jug",
+			"from": [
+				11.5,
+				12,
+				11
+			],
+			"to": [
+				13.5,
+				16,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#china",
+					"uv": [
+						2.5,
+						0,
+						4.5,
+						4
+					]
+				},
+				"south": {
+					"texture": "#china",
+					"uv": [
+						11.5,
+						0,
+						13.5,
+						4
+					]
+				},
+				"east": {
+					"texture": "#china",
+					"uv": [
+						3,
+						0,
+						5,
+						4
+					]
+				},
+				"west": {
+					"texture": "#china",
+					"uv": [
+						11,
+						0,
+						13,
+						4
+					]
+				},
+				"up": {
+					"texture": "#china",
+					"uv": [
+						11.5,
+						11,
+						13.5,
+						13
+					]
+				},
+				"down": {
+					"texture": "#china",
+					"uv": [
+						11.5,
+						3,
+						13.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Splash",
+			"from": [
+				1.5,
+				12,
+				15
+			],
+			"to": [
+				14.5,
+				15,
+				15.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#marble",
+					"uv": [
+						1.5,
+						1,
+						14.5,
+						4
+					]
+				},
+				"south": {
+					"texture": "#marble",
+					"uv": [
+						1.5,
+						1,
+						14.5,
+						4
+					]
+				},
+				"east": {
+					"texture": "#marble",
+					"uv": [
+						0.4,
+						1,
+						1,
+						4
+					]
+				},
+				"west": {
+					"texture": "#marble",
+					"uv": [
+						15,
+						1,
+						15.6,
+						4
+					]
+				},
+				"up": {
+					"texture": "#marble",
+					"uv": [
+						1.5,
+						15,
+						14.5,
+						15.6
+					]
+				},
+				"down": {
+					"texture": "#marble",
+					"uv": [
+						1.5,
+						0.4,
+						14.5,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "MirrorFrame",
+			"from": [
+				4,
+				17,
+				15.2
+			],
+			"to": [
+				12,
+				29,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#frame",
+					"uv": [
+						4,
+						0,
+						12,
+						0
+					]
+				},
+				"south": {
+					"texture": "#frame",
+					"uv": [
+						4,
+						0,
+						12,
+						0
+					]
+				},
+				"east": {
+					"texture": "#frame",
+					"uv": [
+						0.2,
+						0,
+						0.8,
+						0
+					]
+				},
+				"west": {
+					"texture": "#frame",
+					"uv": [
+						15.2,
+						0,
+						15.8,
+						0
+					]
+				},
+				"up": {
+					"texture": "#frame",
+					"uv": [
+						4,
+						15.2,
+						12,
+						15.8
+					]
+				},
+				"down": {
+					"texture": "#frame",
+					"uv": [
+						4,
+						0.2,
+						12,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Mirror",
+			"from": [
+				4.6,
+				17.6,
+				15.1
+			],
+			"to": [
+				11.4,
+				28.4,
+				15.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#mirror",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

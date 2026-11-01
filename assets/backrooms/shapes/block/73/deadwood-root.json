@@ -1,0 +1,355 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bark": "backrooms:block/73/deadbark",
+		"end": "backrooms:block/73/logend"
+	},
+	"elements": [
+		{
+			"name": "Trunk",
+			"from": [
+				3,
+				0,
+				3
+			],
+			"to": [
+				13,
+				16,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						3,
+						0,
+						13,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						3,
+						0,
+						13,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						3,
+						0,
+						13,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						3,
+						0,
+						13,
+						16
+					]
+				},
+				"up": {
+					"texture": "#end",
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					]
+				},
+				"down": {
+					"texture": "#end",
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Root0",
+			"from": [
+				0,
+				0,
+				6
+			],
+			"to": [
+				3,
+				4,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						13,
+						12,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						12,
+						3,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						6,
+						12,
+						10,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						6,
+						12,
+						10,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						6,
+						3,
+						10
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						6,
+						3,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Root1",
+			"from": [
+				13,
+				0,
+				5
+			],
+			"to": [
+				16,
+				3,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						13,
+						3,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						13,
+						13,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						7,
+						13,
+						11,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						5,
+						13,
+						9,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						13,
+						5,
+						16,
+						9
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						13,
+						7,
+						16,
+						11
+					]
+				}
+			}
+		},
+		{
+			"name": "Root2",
+			"from": [
+				6,
+				0,
+				0
+			],
+			"to": [
+				10,
+				5,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						6,
+						11,
+						10,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						6,
+						11,
+						10,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						13,
+						11,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						11,
+						3,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						6,
+						0,
+						10,
+						3
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						6,
+						13,
+						10,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Root3",
+			"from": [
+				5,
+				0,
+				13
+			],
+			"to": [
+				9,
+				3,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						7,
+						13,
+						11,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						5,
+						13,
+						9,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						13,
+						3,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						13,
+						13,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						5,
+						13,
+						9,
+						16
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						5,
+						0,
+						9,
+						3
+					]
+				}
+			}
+		}
+	]
+}

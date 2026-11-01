@@ -1,0 +1,148 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bark": "backrooms:block/73/deadbark",
+		"end": "backrooms:block/73/logend"
+	},
+	"elements": [
+		{
+			"name": "Lower",
+			"from": [
+				4,
+				0,
+				4
+			],
+			"to": [
+				12,
+				9,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						4,
+						7,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						4,
+						7,
+						12,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						4,
+						7,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						4,
+						7,
+						12,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						4,
+						4,
+						12,
+						12
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						4,
+						4,
+						12,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Upper",
+			"from": [
+				4.5,
+				9,
+				3.5
+			],
+			"to": [
+				11.5,
+				16,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						4.5,
+						0,
+						11.5,
+						7
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						4.5,
+						0,
+						11.5,
+						7
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						5,
+						0,
+						12.5,
+						7
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						3.5,
+						0,
+						11,
+						7
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						4.5,
+						3.5,
+						11.5,
+						11
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						4.5,
+						5,
+						11.5,
+						12.5
+					]
+				}
+			}
+		}
+	]
+}

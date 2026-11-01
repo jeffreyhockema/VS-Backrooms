@@ -1,0 +1,137 @@
+// Level 73: a lectern with the castle's book open on it
+{
+	"code": "l73-lectern",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-north": {
+			"base": "block/73/lectern",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/73/lectern",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/73/lectern",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/73/lectern",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.92,
+			"z2": 0.82,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.92,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.92,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.88,
+			"y2": 0.92,
+			"z2": 0.82,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 0.7,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 0.9,
+			"z2": 0.7,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

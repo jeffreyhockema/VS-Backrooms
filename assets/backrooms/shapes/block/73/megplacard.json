@@ -1,0 +1,79 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"plate": "backrooms:block/73/megplacard",
+		"metal": "backrooms:block/73/sconce-iron"
+	},
+	"elements": [
+		{
+			"name": "Plate",
+			"from": [
+				0,
+				4,
+				15
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#plate",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						15,
+						0,
+						16,
+						12
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						15,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		}
+	]
+}

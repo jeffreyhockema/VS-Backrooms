@@ -1,0 +1,742 @@
+// Level 73: a brass plate by a doorway, the room's name or number
+{
+	"code": "l73-plate",
+	"variantgroups": [
+		{
+			"code": "text",
+			"states": [
+				"i",
+				"ii",
+				"iii",
+				"iv",
+				"v",
+				"vi",
+				"bath",
+				"kitchen",
+				"library",
+				"pantry",
+				"solar",
+				"dining",
+				"laundry"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-i-north"
+		],
+		"backrooms": [
+			"*-i-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-i-north": {
+			"base": "block/73/plate-i",
+			"rotateY": 0
+		},
+		"*-i-east": {
+			"base": "block/73/plate-i",
+			"rotateY": 270
+		},
+		"*-i-south": {
+			"base": "block/73/plate-i",
+			"rotateY": 180
+		},
+		"*-i-west": {
+			"base": "block/73/plate-i",
+			"rotateY": 90
+		},
+		"*-ii-north": {
+			"base": "block/73/plate-ii",
+			"rotateY": 0
+		},
+		"*-ii-east": {
+			"base": "block/73/plate-ii",
+			"rotateY": 270
+		},
+		"*-ii-south": {
+			"base": "block/73/plate-ii",
+			"rotateY": 180
+		},
+		"*-ii-west": {
+			"base": "block/73/plate-ii",
+			"rotateY": 90
+		},
+		"*-iii-north": {
+			"base": "block/73/plate-iii",
+			"rotateY": 0
+		},
+		"*-iii-east": {
+			"base": "block/73/plate-iii",
+			"rotateY": 270
+		},
+		"*-iii-south": {
+			"base": "block/73/plate-iii",
+			"rotateY": 180
+		},
+		"*-iii-west": {
+			"base": "block/73/plate-iii",
+			"rotateY": 90
+		},
+		"*-iv-north": {
+			"base": "block/73/plate-iv",
+			"rotateY": 0
+		},
+		"*-iv-east": {
+			"base": "block/73/plate-iv",
+			"rotateY": 270
+		},
+		"*-iv-south": {
+			"base": "block/73/plate-iv",
+			"rotateY": 180
+		},
+		"*-iv-west": {
+			"base": "block/73/plate-iv",
+			"rotateY": 90
+		},
+		"*-v-north": {
+			"base": "block/73/plate-v",
+			"rotateY": 0
+		},
+		"*-v-east": {
+			"base": "block/73/plate-v",
+			"rotateY": 270
+		},
+		"*-v-south": {
+			"base": "block/73/plate-v",
+			"rotateY": 180
+		},
+		"*-v-west": {
+			"base": "block/73/plate-v",
+			"rotateY": 90
+		},
+		"*-vi-north": {
+			"base": "block/73/plate-vi",
+			"rotateY": 0
+		},
+		"*-vi-east": {
+			"base": "block/73/plate-vi",
+			"rotateY": 270
+		},
+		"*-vi-south": {
+			"base": "block/73/plate-vi",
+			"rotateY": 180
+		},
+		"*-vi-west": {
+			"base": "block/73/plate-vi",
+			"rotateY": 90
+		},
+		"*-bath-north": {
+			"base": "block/73/plate-bath",
+			"rotateY": 0
+		},
+		"*-bath-east": {
+			"base": "block/73/plate-bath",
+			"rotateY": 270
+		},
+		"*-bath-south": {
+			"base": "block/73/plate-bath",
+			"rotateY": 180
+		},
+		"*-bath-west": {
+			"base": "block/73/plate-bath",
+			"rotateY": 90
+		},
+		"*-kitchen-north": {
+			"base": "block/73/plate-kitchen",
+			"rotateY": 0
+		},
+		"*-kitchen-east": {
+			"base": "block/73/plate-kitchen",
+			"rotateY": 270
+		},
+		"*-kitchen-south": {
+			"base": "block/73/plate-kitchen",
+			"rotateY": 180
+		},
+		"*-kitchen-west": {
+			"base": "block/73/plate-kitchen",
+			"rotateY": 90
+		},
+		"*-library-north": {
+			"base": "block/73/plate-library",
+			"rotateY": 0
+		},
+		"*-library-east": {
+			"base": "block/73/plate-library",
+			"rotateY": 270
+		},
+		"*-library-south": {
+			"base": "block/73/plate-library",
+			"rotateY": 180
+		},
+		"*-library-west": {
+			"base": "block/73/plate-library",
+			"rotateY": 90
+		},
+		"*-pantry-north": {
+			"base": "block/73/plate-pantry",
+			"rotateY": 0
+		},
+		"*-pantry-east": {
+			"base": "block/73/plate-pantry",
+			"rotateY": 270
+		},
+		"*-pantry-south": {
+			"base": "block/73/plate-pantry",
+			"rotateY": 180
+		},
+		"*-pantry-west": {
+			"base": "block/73/plate-pantry",
+			"rotateY": 90
+		},
+		"*-solar-north": {
+			"base": "block/73/plate-solar",
+			"rotateY": 0
+		},
+		"*-solar-east": {
+			"base": "block/73/plate-solar",
+			"rotateY": 270
+		},
+		"*-solar-south": {
+			"base": "block/73/plate-solar",
+			"rotateY": 180
+		},
+		"*-solar-west": {
+			"base": "block/73/plate-solar",
+			"rotateY": 90
+		},
+		"*-dining-north": {
+			"base": "block/73/plate-dining",
+			"rotateY": 0
+		},
+		"*-dining-east": {
+			"base": "block/73/plate-dining",
+			"rotateY": 270
+		},
+		"*-dining-south": {
+			"base": "block/73/plate-dining",
+			"rotateY": 180
+		},
+		"*-dining-west": {
+			"base": "block/73/plate-dining",
+			"rotateY": 90
+		},
+		"*-laundry-north": {
+			"base": "block/73/plate-laundry",
+			"rotateY": 0
+		},
+		"*-laundry-east": {
+			"base": "block/73/plate-laundry",
+			"rotateY": 270
+		},
+		"*-laundry-south": {
+			"base": "block/73/plate-laundry",
+			"rotateY": 180
+		},
+		"*-laundry-west": {
+			"base": "block/73/plate-laundry",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"*-i-north": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-i-east": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-i-south": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-i-west": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-ii-north": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-ii-east": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-ii-south": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-ii-west": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-iii-north": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-iii-east": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-iii-south": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-iii-west": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-iv-north": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-iv-east": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-iv-south": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-iv-west": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-v-north": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-v-east": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-v-south": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-v-west": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-vi-north": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-vi-east": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-vi-south": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-vi-west": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-bath-north": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-bath-east": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-bath-south": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-bath-west": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-kitchen-north": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-kitchen-east": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-kitchen-south": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-kitchen-west": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-library-north": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-library-east": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-library-south": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-library-west": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-pantry-north": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-pantry-east": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-pantry-south": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-pantry-west": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-solar-north": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-solar-east": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-solar-south": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-solar-west": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-dining-north": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-dining-east": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-dining-south": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-dining-west": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-laundry-north": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-laundry-east": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-laundry-south": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-laundry-west": {
+			"x1": 0.25,
+			"y1": 0.375,
+			"z1": 0.94,
+			"x2": 0.75,
+			"y2": 0.625,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

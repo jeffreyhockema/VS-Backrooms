@@ -1,0 +1,357 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"wood": "backrooms:block/73/mahogany",
+		"end": "backrooms:block/73/mahogany-end",
+		"pages": "backrooms:block/73/pages",
+		"leather": "backrooms:block/73/leather"
+	},
+	"elements": [
+		{
+			"name": "Foot",
+			"from": [
+				3,
+				0,
+				4
+			],
+			"to": [
+				13,
+				1.5,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#end",
+					"uv": [
+						3,
+						14.5,
+						13,
+						16
+					]
+				},
+				"south": {
+					"texture": "#end",
+					"uv": [
+						3,
+						14.5,
+						13,
+						16
+					]
+				},
+				"east": {
+					"texture": "#end",
+					"uv": [
+						4,
+						14.5,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#end",
+					"uv": [
+						4,
+						14.5,
+						12,
+						16
+					]
+				},
+				"up": {
+					"texture": "#end",
+					"uv": [
+						3,
+						4,
+						13,
+						12
+					]
+				},
+				"down": {
+					"texture": "#end",
+					"uv": [
+						3,
+						4,
+						13,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Post",
+			"from": [
+				6.5,
+				1.5,
+				7
+			],
+			"to": [
+				9.5,
+				12,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						6.5,
+						4,
+						9.5,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						6.5,
+						4,
+						9.5,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						6,
+						4,
+						9,
+						14.5
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						7,
+						4,
+						10,
+						14.5
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						6.5,
+						7,
+						9.5,
+						10
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						6.5,
+						6,
+						9.5,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "Desk",
+			"from": [
+				2,
+				12,
+				3
+			],
+			"to": [
+				14,
+				13.5,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						2,
+						2.5,
+						14,
+						4
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						2,
+						2.5,
+						14,
+						4
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						3,
+						2.5,
+						13,
+						4
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						3,
+						2.5,
+						13,
+						4
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						2,
+						3,
+						14,
+						13
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						2,
+						3,
+						14,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Cover",
+			"from": [
+				2.5,
+				13.5,
+				4
+			],
+			"to": [
+				13.5,
+				14,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#leather",
+					"uv": [
+						2.5,
+						2,
+						13.5,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#leather",
+					"uv": [
+						2.5,
+						2,
+						13.5,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#leather",
+					"uv": [
+						4,
+						2,
+						12,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#leather",
+					"uv": [
+						4,
+						2,
+						12,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#leather",
+					"uv": [
+						2.5,
+						4,
+						13.5,
+						12
+					]
+				},
+				"down": {
+					"texture": "#leather",
+					"uv": [
+						2.5,
+						4,
+						13.5,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Pages",
+			"from": [
+				3,
+				14,
+				4.5
+			],
+			"to": [
+				13,
+				14.6,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pages",
+					"uv": [
+						3,
+						1.4,
+						13,
+						2
+					]
+				},
+				"south": {
+					"texture": "#pages",
+					"uv": [
+						3,
+						1.4,
+						13,
+						2
+					]
+				},
+				"east": {
+					"texture": "#pages",
+					"uv": [
+						4.5,
+						1.4,
+						11.5,
+						2
+					]
+				},
+				"west": {
+					"texture": "#pages",
+					"uv": [
+						4.5,
+						1.4,
+						11.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#pages",
+					"uv": [
+						3,
+						4.5,
+						13,
+						11.5
+					]
+				},
+				"down": {
+					"texture": "#pages",
+					"uv": [
+						3,
+						4.5,
+						13,
+						11.5
+					]
+				}
+			}
+		}
+	]
+}

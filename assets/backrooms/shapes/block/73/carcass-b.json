@@ -1,0 +1,356 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"hide": "backrooms:block/73/hide",
+		"meat": "backrooms:block/73/meat",
+		"bone": "backrooms:block/73/bone-old"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				2,
+				0,
+				3
+			],
+			"to": [
+				13,
+				5,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#hide",
+					"uv": [
+						3,
+						11,
+						14,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hide",
+					"uv": [
+						2,
+						11,
+						13,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hide",
+					"uv": [
+						3,
+						11,
+						13,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hide",
+					"uv": [
+						3,
+						11,
+						13,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hide",
+					"uv": [
+						2,
+						3,
+						13,
+						13
+					]
+				},
+				"down": {
+					"texture": "#hide",
+					"uv": [
+						2,
+						3,
+						13,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck",
+			"from": [
+				12,
+				0,
+				6
+			],
+			"to": [
+				16,
+				3.5,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#hide",
+					"uv": [
+						0,
+						12.5,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#hide",
+					"uv": [
+						12,
+						12.5,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#hide",
+					"uv": [
+						6,
+						12.5,
+						10,
+						16
+					]
+				},
+				"west": {
+					"texture": "#hide",
+					"uv": [
+						6,
+						12.5,
+						10,
+						16
+					]
+				},
+				"up": {
+					"texture": "#hide",
+					"uv": [
+						12,
+						6,
+						16,
+						10
+					]
+				},
+				"down": {
+					"texture": "#hide",
+					"uv": [
+						12,
+						6,
+						16,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Wound",
+			"from": [
+				5,
+				4.9,
+				6
+			],
+			"to": [
+				9,
+				5.3,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#meat",
+					"uv": [
+						7,
+						10.7,
+						11,
+						11.1
+					]
+				},
+				"south": {
+					"texture": "#meat",
+					"uv": [
+						5,
+						10.7,
+						9,
+						11.1
+					]
+				},
+				"east": {
+					"texture": "#meat",
+					"uv": [
+						6,
+						10.7,
+						10,
+						11.1
+					]
+				},
+				"west": {
+					"texture": "#meat",
+					"uv": [
+						6,
+						10.7,
+						10,
+						11.1
+					]
+				},
+				"up": {
+					"texture": "#meat",
+					"uv": [
+						5,
+						6,
+						9,
+						10
+					]
+				},
+				"down": {
+					"texture": "#meat",
+					"uv": [
+						5,
+						6,
+						9,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib",
+			"from": [
+				3,
+				5,
+				4
+			],
+			"to": [
+				4,
+				8,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						12,
+						8,
+						13,
+						11
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						3,
+						8,
+						4,
+						11
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						4,
+						8,
+						12,
+						11
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						4,
+						8,
+						12,
+						11
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						3,
+						4,
+						4,
+						12
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						3,
+						4,
+						4,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg",
+			"from": [
+				0,
+				1,
+				1
+			],
+			"to": [
+				5,
+				3,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#hide",
+					"uv": [
+						11,
+						13,
+						16,
+						15
+					]
+				},
+				"south": {
+					"texture": "#hide",
+					"uv": [
+						0,
+						13,
+						5,
+						15
+					]
+				},
+				"east": {
+					"texture": "#hide",
+					"uv": [
+						13,
+						13,
+						15,
+						15
+					]
+				},
+				"west": {
+					"texture": "#hide",
+					"uv": [
+						1,
+						13,
+						3,
+						15
+					]
+				},
+				"up": {
+					"texture": "#hide",
+					"uv": [
+						0,
+						1,
+						5,
+						3
+					]
+				},
+				"down": {
+					"texture": "#hide",
+					"uv": [
+						0,
+						13,
+						5,
+						15
+					]
+				}
+			}
+		}
+	]
+}

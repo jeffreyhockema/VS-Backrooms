@@ -1,0 +1,58 @@
+// Level 73: a dark oak beam under a ceiling
+{
+	"code": "l73-beam",
+	"variantgroups": [
+		{
+			"code": "axis",
+			"states": [
+				"ns",
+				"ew"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-ns"
+		],
+		"backrooms": [
+			"*-ns"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-ns": {
+			"base": "block/73/beam-ns"
+		},
+		"*-ew": {
+			"base": "block/73/beam-ew"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0.62,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"collisionbox": null,
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

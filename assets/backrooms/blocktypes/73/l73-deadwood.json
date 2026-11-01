@@ -1,0 +1,69 @@
+// Level 73: a dead tree's trunk, charred black (its root, a length of trunk, its forked top)
+{
+	"code": "l73-deadwood",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"root",
+				"trunk",
+				"top"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-trunk"
+		],
+		"backrooms": [
+			"*-trunk"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-root": {
+			"base": "block/73/deadwood-root"
+		},
+		"*-trunk": {
+			"base": "block/73/deadwood-trunk"
+		},
+		"*-top": {
+			"base": "block/73/deadwood-top"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionbox": {
+		"x1": 0.25,
+		"y1": 0,
+		"z1": 0.25,
+		"x2": 0.75,
+		"y2": 1,
+		"z2": 0.75
+	},
+	"collisionbox": {
+		"x1": 0.25,
+		"y1": 0,
+		"z1": 0.25,
+		"x2": 0.75,
+		"y2": 1,
+		"z2": 0.75
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

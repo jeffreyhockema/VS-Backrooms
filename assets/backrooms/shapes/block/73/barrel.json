@@ -1,0 +1,182 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"staves": "backrooms:block/73/staves",
+		"iron": "backrooms:block/73/sconce-iron",
+		"end": "backrooms:block/73/mahogany-end"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				2,
+				0,
+				2
+			],
+			"to": [
+				14,
+				14,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#staves",
+					"uv": [
+						2,
+						2,
+						14,
+						16
+					]
+				},
+				"south": {
+					"texture": "#staves",
+					"uv": [
+						2,
+						2,
+						14,
+						16
+					]
+				},
+				"east": {
+					"texture": "#staves",
+					"uv": [
+						2,
+						2,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#staves",
+					"uv": [
+						2,
+						2,
+						14,
+						16
+					]
+				},
+				"up": {
+					"texture": "#end",
+					"uv": [
+						2,
+						2,
+						14,
+						14
+					]
+				},
+				"down": {
+					"texture": "#end",
+					"uv": [
+						2,
+						2,
+						14,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Band1",
+			"from": [
+				1.6,
+				2,
+				1.6
+			],
+			"to": [
+				14.4,
+				3,
+				14.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#iron",
+					"uv": [
+						1.6,
+						13,
+						14.4,
+						14
+					]
+				},
+				"south": {
+					"texture": "#iron",
+					"uv": [
+						1.6,
+						13,
+						14.4,
+						14
+					]
+				},
+				"east": {
+					"texture": "#iron",
+					"uv": [
+						1.6,
+						13,
+						14.4,
+						14
+					]
+				},
+				"west": {
+					"texture": "#iron",
+					"uv": [
+						1.6,
+						13,
+						14.4,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Band2",
+			"from": [
+				1.6,
+				11,
+				1.6
+			],
+			"to": [
+				14.4,
+				12,
+				14.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#iron",
+					"uv": [
+						1.6,
+						4,
+						14.4,
+						5
+					]
+				},
+				"south": {
+					"texture": "#iron",
+					"uv": [
+						1.6,
+						4,
+						14.4,
+						5
+					]
+				},
+				"east": {
+					"texture": "#iron",
+					"uv": [
+						1.6,
+						4,
+						14.4,
+						5
+					]
+				},
+				"west": {
+					"texture": "#iron",
+					"uv": [
+						1.6,
+						4,
+						14.4,
+						5
+					]
+				}
+			}
+		}
+	]
+}

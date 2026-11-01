@@ -1,0 +1,492 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bark": "backrooms:block/73/deadbark"
+	},
+	"elements": [
+		{
+			"name": "B1",
+			"from": [
+				7,
+				6,
+				9
+			],
+			"to": [
+				10,
+				9,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						6,
+						7,
+						9,
+						10
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						7,
+						7,
+						10,
+						10
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						7,
+						7,
+						10
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						9,
+						7,
+						16,
+						10
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						7,
+						9,
+						10,
+						16
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						7,
+						0,
+						10,
+						7
+					]
+				}
+			}
+		},
+		{
+			"name": "B2",
+			"from": [
+				7.5,
+				7,
+				3
+			],
+			"to": [
+				9.5,
+				9.5,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						6.5,
+						6.5,
+						8.5,
+						9
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						7.5,
+						6.5,
+						9.5,
+						9
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						7,
+						6.5,
+						13,
+						9
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						3,
+						6.5,
+						9,
+						9
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						7.5,
+						3,
+						9.5,
+						9
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						7.5,
+						7,
+						9.5,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "B3",
+			"from": [
+				8,
+				8,
+				0
+			],
+			"to": [
+				9.5,
+				10,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						6.5,
+						6,
+						8,
+						8
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						8,
+						6,
+						9.5,
+						8
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						13,
+						6,
+						16,
+						8
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						6,
+						3,
+						8
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						8,
+						0,
+						9.5,
+						3
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						8,
+						13,
+						9.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "ForkL",
+			"from": [
+				3,
+				9,
+				4
+			],
+			"to": [
+				7.5,
+				10.5,
+				5.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						8.5,
+						5.5,
+						13,
+						7
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						3,
+						5.5,
+						7.5,
+						7
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						10.5,
+						5.5,
+						12,
+						7
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						4,
+						5.5,
+						5.5,
+						7
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						3,
+						4,
+						7.5,
+						5.5
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						3,
+						10.5,
+						7.5,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "ForkL2",
+			"from": [
+				2,
+				10,
+				3
+			],
+			"to": [
+				3.5,
+				14,
+				4.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						12.5,
+						2,
+						14,
+						6
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						2,
+						2,
+						3.5,
+						6
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						11.5,
+						2,
+						13,
+						6
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						3,
+						2,
+						4.5,
+						6
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						2,
+						3,
+						3.5,
+						4.5
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						2,
+						11.5,
+						3.5,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "ForkR",
+			"from": [
+				9.5,
+				9,
+				6
+			],
+			"to": [
+				13,
+				11,
+				7.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						3,
+						5,
+						6.5,
+						7
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						9.5,
+						5,
+						13,
+						7
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						8.5,
+						5,
+						10,
+						7
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						6,
+						5,
+						7.5,
+						7
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						9.5,
+						6,
+						13,
+						7.5
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						9.5,
+						8.5,
+						13,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "ForkR2",
+			"from": [
+				12,
+				11,
+				6
+			],
+			"to": [
+				13.5,
+				15,
+				7.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						2.5,
+						1,
+						4,
+						5
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						12,
+						1,
+						13.5,
+						5
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						8.5,
+						1,
+						10,
+						5
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						6,
+						1,
+						7.5,
+						5
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						12,
+						6,
+						13.5,
+						7.5
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						12,
+						8.5,
+						13.5,
+						10
+					]
+				}
+			}
+		}
+	]
+}
