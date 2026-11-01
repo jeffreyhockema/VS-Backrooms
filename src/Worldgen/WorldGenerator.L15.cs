@@ -64,7 +64,7 @@ public sealed partial class WorldGenerator
     private static readonly string[] L15SignKinds = BuildL15SignKinds();
     private static readonly int L15SAuth = L15PlateKinds.Length, L15SDecon = L15SAuth + 1, L15SHV = L15SAuth + 2, L15SHatch = L15SAuth + 3,
         L15SPipes = L15SAuth + 4, L15SLiftCall = L15SAuth + 5, L15SLiftInd = L15SAuth + 6, L15SLiftL = L15SAuth + 8, L15SLiftR = L15SAuth + 11,
-        L15SMenu = L15SAuth + 14, L15SBand = L15SAuth + 17;
+        L15SMenu = L15SAuth + 14, L15SBand = L15SAuth + 17, L15SBig = L15SAuth + 21;
     private readonly int[,] l15Sign = new int[L15SignKinds.Length, 4];
     /// <summary>The halls' floor marks: [colour, line ns, line we, chevron n e s w].</summary>
     private readonly int[,] l15Mark = new int[4, 6];
@@ -80,7 +80,7 @@ public sealed partial class WorldGenerator
         var kinds = new List<string>();
         foreach (string p in L15PlateKinds) kinds.Add("plate" + p);
         kinds.AddRange(new[] { "auth", "decon", "hv", "hatch", "pipes", "liftcall", "liftind0", "liftind1", "liftl0", "liftl1", "liftl2",
-            "liftr0", "liftr1", "liftr2", "menu0", "menu1", "menu2", "band0", "band1", "band2", "band3" });
+            "liftr0", "liftr1", "liftr2", "menu0", "menu1", "menu2", "band0", "band1", "band2", "band3", "big00", "big01", "big02", "big10", "big11", "big12" });
         return kinds.ToArray();
     }
 
@@ -367,6 +367,8 @@ public sealed partial class WorldGenerator
             case L.L15WallHatch when rel == 1: return l15Sign[L15SHatch, f];
             case L.L15WallPipes when rel == 1: return l15Sign[L15SPipes, f];
             case L.L15WallMenu when rel == 3: return l15Sign[L15SMenu + Math.Min((int)t.Stack, 2), f];
+            case L.L15WallBigScreen when rel is 3 or 4: return l15Sign[L15SBig + (rel - 3) * 3 + Math.Min((int)t.Stack, 2), f];
+            case L.L15WallBigScreen when rel == 2: return l15Deco[t.Stack == 1 ? L15DRadar : L15DDisplay, f];
             case L.L15WallLiftCall when rel == 2: return l15Sign[L15SLiftCall, f];
             case L.L15WallLiftL or L.L15WallLiftR when rel is >= 1 and <= 4:
                 bool left = t.Detail == L.L15WallLiftL;

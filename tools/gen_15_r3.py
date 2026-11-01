@@ -293,6 +293,43 @@ def escape_textures():
         save(img, name)
 
 
+def bigscreen_textures():
+    """A control room's big display over its wall of panels, three blocks wide and two high: the radar of the levels
+    (Wikidot's "Avalon 2.4": the levels as shapes, green lines between them), large."""
+    W, H = 3 * B, 2 * B
+    img = Image.new("RGBA", (W, H), (0, 0, 0, 255))
+    rect(img, 0, 0, W - 1, H - 1, (40, 44, 50))
+    rect(img, 4, 4, W - 5, H - 5, (4, 16, 8))
+    d = ImageDraw.Draw(img)
+    green, dim = (70, 230, 110, 255), (26, 90, 46, 255)
+    cx, cy = W // 2, H // 2 + 6
+    for r in (18, 36, 54):
+        d.ellipse((cx - r * 1.4, cy - r, cx + r * 1.4, cy + r), outline=dim)
+    d.line((cx - 80, cy, cx + 80, cy), fill=dim)
+    d.line((cx, cy - 56, cx, cy + 56), fill=dim)
+    rng = np.random.default_rng(15740)
+    nodes = [(cx, cy)] + [(int(cx + rng.uniform(-80, 80)), int(cy + rng.uniform(-48, 48))) for _ in range(11)]
+    for i, (x, y) in enumerate(nodes[1:], 1):
+        j = int(rng.integers(0, i))
+        d.line((x, y, nodes[j][0], nodes[j][1]), fill=green, width=1)
+    for i, (x, y) in enumerate(nodes):
+        s_ = 3 if i else 5
+        if i % 3 == 0:
+            d.rectangle((x - s_, y - s_, x + s_, y + s_), fill=(200, 255, 200, 255))
+        elif i % 3 == 1:
+            d.polygon([(x, y - s_), (x + s_, y + s_), (x - s_, y + s_)], fill=(200, 255, 200, 255))
+        else:
+            d.ellipse((x - s_, y - s_, x + s_, y + s_), fill=(200, 255, 200, 255))
+    # The sweep
+    d.line((cx, cy, cx + 70, cy - 40), fill=(150, 255, 170, 255), width=2)
+    draw_text(img, (8, 6, 70, 16), "AVALON 2.4", (110, 250, 140), 7)
+    draw_text(img, (120, 6, W - 8, 14), "LEVEL MAP  -  LINKS 214", (60, 170, 90), 5, condensed=True)
+    draw_text(img, (8, H - 14, W - 8, H - 7), "ACCESS DENIED: LEVEL 5 CLEARANCE REQUIRED TO CHANGE REALITY", (250, 90, 80), 5, condensed=True)
+    for row in range(2):
+        for k in range(3):
+            save(img.crop((k * B, (1 - row) * B, (k + 1) * B, (2 - row) * B)), f"sign-big{row}{k}")
+
+
 def band_textures():
     """The halls' band (gen_15's deco-band) in each hall line's colour, at the same 32 px."""
     base = Image.open(os.path.join(TEX, "deco-band.png")).convert("RGBA")
@@ -569,19 +606,22 @@ def dock_shape(part, lit):
                 box("ContactL", (4, 8, 13.5), (6, 12, 14), "dark"),
                 box("ContactR", (10, 8, 13.5), (12, 12, 14), "dark")]
         robot = json.load(open(os.path.join(ROOT, "assets", "backrooms", "shapes", "entity", "roboman.json"), encoding="utf-8"))
-        kids = json.loads(json.dumps(robot["elements"]))
+        # The creature's model, flattened (each part placed where its parents put it; its slight arm swing dropped) and
+        # turned a quarter clockwise seen from above (it faces west, -x, in its own model): it faces north, out of the dock
+        flat = []
 
-        def slump(es):
+        def walk(es, ox, oy, oz):
             for e in es:
-                if e["name"] == "Head":
-                    e["rotationZ"] = e.get("rotationZ", 0) + 24
-                if e["name"] in ("ArmL", "ArmR"):
-                    e["rotationZ"] = e.get("rotationZ", 0) + 8
-                slump(e.get("children", []))
-        slump(kids)
-        # The robot faces west (-x) in its own model; a root turned a quarter about the block's centre faces it north
-        els.append({"name": "Robot", "from": [0, 0.5, 0], "to": [0.01, 0.51, 0.01], "rotationOrigin": [8, 0, 8], "rotationY": -90,
-                    "faces": {}, "children": kids})
+                (x1, y1, z1), (x2, y2, z2) = e["from"], e["to"]
+                ax, ay, az = ox + x1, oy + y1, oz + z1
+                f = e["faces"]
+                flat.append({"name": "Robot" + e["name"],
+                             "from": [16 - (oz + z2), ay + 0.5, ax], "to": [16 - az, oy + y2 + 0.5, ox + x2],
+                             "faces": {k: v for k, v in {"east": f.get("north"), "south": f.get("east"), "west": f.get("south"),
+                                                         "north": f.get("west"), "up": f.get("up"), "down": f.get("down")}.items() if v}})
+                walk(e.get("children", []), ax, ay, az)
+        walk(robot["elements"], 0, 0, 0)
+        els += flat
         textures["skin"] = "backrooms:entity/roboman"
         extra = {"textureSizes": {"skin": [robot.get("textureWidth", 64), robot.get("textureHeight", 64)]}}
     else:
@@ -649,6 +689,9 @@ def sign_kinds():
         k[f"menu{i}"] = f"sign-menu{i}"
     for i in range(len(LINE_COLOURS)):
         k[f"band{i}"] = f"sign-band{i}"
+    for row in range(2):
+        for i in range(3):
+            k[f"big{row}{i}"] = f"sign-big{row}{i}"
     return k
 
 
@@ -662,7 +705,9 @@ def blocktypes():
             "texturesByType": tbt, "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
             "blockmaterial": "Stone", "drawtype": "cube", "resistance": 6, "drops": [], "sounds": STONE, "lightAbsorption": 99,
             "vertexFlagsByType": {"*-liftcall-*": {"glowLevel": 40}, "*-liftind0-*": {"glowLevel": 40}, "*-liftind1-*": {"glowLevel": 40},
-                                  "*-menu0-*": {"glowLevel": 50}, "*-menu1-*": {"glowLevel": 50}, "*-menu2-*": {"glowLevel": 50}}}
+                                  "*-menu0-*": {"glowLevel": 50}, "*-menu1-*": {"glowLevel": 50}, "*-menu2-*": {"glowLevel": 50},
+                                  "*-big*": {"glowLevel": 90}},
+            "lightHsvByType": {"*-big01-*": [23, 4, 5]}}
     write_json(os.path.join(BLOCKS, "l15-sign.json"), data,
                "Level 15: a white wall block with one face dressed (toward its side): the rooms' name plates, AUTHORIZED PERSONNEL ONLY, "
                "DECONTAMINATION, HIGH VOLTAGE, a service hatch, a grille with pipes behind it, the lift doors that do not open (left and "
@@ -813,6 +858,7 @@ def main():
     lift_textures()
     menu_textures()
     band_textures()
+    bigscreen_textures()
     escape_textures()
     floor_textures()
     floormark_textures()

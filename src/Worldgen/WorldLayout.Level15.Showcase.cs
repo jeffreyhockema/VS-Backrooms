@@ -45,7 +45,9 @@ public partial class WorldLayout
         // Round 3's set pieces: the hall's floor line and its hanging sign before a crossing; a robot dock; a lift; a lab's glass
         // wall and its plates from the corridor; a dormitory's bunks; a canteen's serving line and menu; a medical bay; a
         // hydroponics bay from its glass wall and from inside
-        Add("hall-sign", hallX + 1, hcz * L15Period + 24, 0, 6);
+        Add("hall-sign", hallX + 1, hcz * L15Period + 19, 0, 8);
+        if (L15FindLectureTop(hcx, hcz) is { } top)
+            spots.Add(new Showcase.Spot("lecture-stage", top.X + 0.5, y + top.Rise, top.Z + 0.5, top.Heading, -14, null));
         if (L15FindDock(hcx, hcz) is { } dock) Add("dock", dock.X, dock.Z, dock.Heading, -4);
         if (L15FindLift(hcx, hcz) is { } lift) Add("lift", lift.X, lift.Z, lift.Heading, 4);
         if (L15FindDoor(hcx, hcz, L15Zone.Lab, glass: true) is { } labGlass) Add("lab-glass", labGlass.OutX, labGlass.OutZ, labGlass.Heading, 0);
@@ -68,6 +70,38 @@ public partial class WorldLayout
         // The links: the ways in, in Levels 10 and 3, the door that does not open, and the ways out (WorldLayout.Level15.Links.cs)
         spots.AddRange(L15LinkSpots(geometry));
         return spots;
+    }
+
+    /// <summary>
+    /// The top of the nearest lit lecture hall's middle aisle: the highest step with another step in front of it, how high it
+    /// stands (blocks) and the way down to the stage.
+    /// </summary>
+    private (int X, int Z, double Rise, double Heading)? L15FindLectureTop(int hcx, int hcz)
+    {
+        foreach (var (hx, hz) in L15WingsRound(hcx, hcz, 4))
+        {
+            L15Plan plan = L15PlanOf(hx, hz);
+            (int A, int B, int Step)? best = null;
+            for (int b = 0; b < L15WingSize; b++)
+                for (int a = 0; a < L15WingSize; a++)
+                {
+                    Tile t = plan.AtAB(a, b);
+                    if (t.Variant != Props.L15Riser || L15ZoneOf(t) != L15Zone.Lecture || L15IsDark(t)) continue;
+                    var (dx, dz) = L15StepOf(t.Pier);
+                    var (sx, sz) = (dz, -dx); // either side across the aisle: steps too (the middle aisle, not a side one)
+                    if (!L15Plan.In(a + sx, b + sz) || !L15Plan.In(a - sx, b - sz)) continue;
+                    if (plan.AtAB(a + sx, b + sz).Variant != Props.L15Riser || plan.AtAB(a - sx, b - sz).Variant != Props.L15Riser) continue;
+                    if (best is not { } bb || t.Stack > bb.Step) best = (a, b, t.Stack);
+                }
+            if (best is { } top)
+            {
+                Tile t = plan.AtAB(top.A, top.B);
+                var (dx, dz) = L15StepOf(t.Pier);
+                var (x, z) = plan.World(top.A, top.B);
+                return (x, z, top.Step * 0.5, L15Heading(dx, dz));
+            }
+        }
+        return null;
     }
 
     /// <summary>The nearest lit robot dock on the main halls round the middle: a place across the hall from it, a little along, looking at it.</summary>

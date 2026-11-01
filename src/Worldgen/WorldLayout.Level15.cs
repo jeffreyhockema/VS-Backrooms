@@ -98,7 +98,7 @@ public sealed partial class WorldLayout
     /// part, 0-2 from the left as you face it); a HIGH VOLTAGE plate.
     /// </summary>
     public const byte L15WallAuth = 16, L15WallDecon = 17, L15WallLiftL = 18, L15WallLiftR = 19, L15WallLiftCall = 20, L15WallHatch = 21,
-        L15WallPipes = 22, L15WallMenu = 23, L15WallHV = 24;
+        L15WallPipes = 22, L15WallMenu = 23, L15WallHV = 24, L15WallBigScreen = 25;
 
     /// <summary>
     /// How many room codes there are to paint (<see cref="L15WallCode"/>): two per letter, H (labs), e (stores), M, D, K, C, L, S,
@@ -265,6 +265,8 @@ public sealed partial class WorldLayout
         t.Height = L15HallHeight;
         ulong h = Hashing.Hash(seed, gx, gz, SaltL15Hall);
         t.Depth = Hashing.Unit(h) < 0.08 ? L15FloorWorn : L15FloorCeramic;
+        // Round 3: dust drifts where the power is out (the lit halls stay clean; our invention, against Fandom's self-cleaning)
+        if (dark && Hashing.Unit(h) > 0.72) t.Depth = L15FloorDust;
         if (alongZ && alongX)
         {
             // A crossing: a square of nine panels over it, the middle one giving light
@@ -574,6 +576,7 @@ public sealed partial class WorldLayout
                 return;
             }
             t.Depth = coat ? L15FloorCoating : Hashing.Unit(h) < 0.1 ? L15FloorWorn : L15FloorCeramic;
+            if (dark && !coat && Hashing.Unit(h) > 0.7) t.Depth = L15FloorDust; // round 3: dust in the dark
             t.Ceiling = i == 1 && Hashing.Mod(along, 6) == 3 ? layout.L15Lamp(x, z, true, dark) : CeilingKind.L15Ceiling;
             if (i != 1 && Hashing.Mod(along, 16) == 11) t.Ceiling = CeilingKind.L15CeilingVent;
             if (Hashing.Mod(along, 8) == 0) t.Overhead = alongZ ? Overheads.L15RibWE : Overheads.L15RibNS;
@@ -1180,6 +1183,27 @@ public sealed partial class WorldLayout
             int front = Across(doorSide);
             ArchPier toFront = Dirs[front].Out, toBack = Opp(toFront);
             int len = front >= 2 ? r.W : r.D, depth = front >= 2 ? r.D : r.W;
+            // Round 3: a big display over the middle of the wall, three blocks wide, the radar large (where there is power)
+            if (!dark && len >= 7)
+            {
+                int mid = len / 2;
+                var (rx, rz) = RightOf(toBack);
+                var (la, lb) = WallAt(r, front, mid - 1);
+                var (ha, hb) = WallAt(r, front, mid + 1);
+                bool lowFirst = (ha - la) * rx + (hb - lb) * rz > 0;
+                bool plain = true;
+                for (int k = mid - 1; k <= mid + 1; k++)
+                {
+                    var (a, b) = WallAt(r, front, k);
+                    plain &= L15Plan.In(a, b) && At(a, b) is { Kind: TileKind.Wall, Detail: L15WallPlain, Depth: L15WallWhite };
+                }
+                if (plain)
+                    for (int k = mid - 1; k <= mid + 1; k++)
+                    {
+                        var (a, b) = WallAt(r, front, k);
+                        Decorate(a, b, L15WallBigScreen, toBack, (byte)(lowFirst ? k - (mid - 1) : (mid + 1) - k));
+                    }
+            }
             for (int k = 1; k < len - 1; k++)
             {
                 if (rng.Chance(0.35)) continue;
