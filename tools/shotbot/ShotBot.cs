@@ -34,6 +34,7 @@ namespace ShotBot;
 ///   daylight [off]          a clear day over the level's own air (Level 9's night, Level 10's overcast), this client only
 ///   wait ms
 ///   waitchat [ms]           wait until a chat line has arrived since the last cmd (its reply), at most ms (default 30000), then 0.5 s
+///   approach text [dist]    teleports to dist blocks (default 3) from the nearest entity whose code contains text, on the near side
 ///   lookat text             turns to the nearest entity (not a player) within 64 blocks whose code contains text
 ///   movewait                waits until something (a goto, a threshold) has moved the player more than 50 blocks, at most 60 s
 ///   mark name               append "name x y z heading pitch" (where the player stands now) to marks.txt and chat.txt
@@ -298,6 +299,18 @@ public class ShotBotSystem : ModSystem, IRenderer
                 e.BodyYaw = yaw; e.BodyYawServer = yaw;
                 e.Pos.HeadYaw = 0; e.Pos.HeadPitch = 0;
                 Wait(150);
+                break;
+            }
+            case "approach":
+            {
+                // Teleports to dist blocks (default 3) from the nearest entity (not a player) whose code contains the text, on the near side, on its floor
+                Vintagestory.API.Common.Entities.Entity target = capi.World.GetEntitiesAround(e.Pos.XYZ, 64, 64, x => x is not EntityPlayer && x.Code != null && x.Code.Path.Contains(p[1]))
+                    .OrderBy(x => x.Pos.XYZ.DistanceTo(e.Pos.XYZ)).FirstOrDefault();
+                if (target == null) { Log("approach " + p[1] + ": none within 64"); break; }
+                double dist = p.Length > 2 ? D(p[2]) : 3;
+                double ax = e.Pos.X - target.Pos.X, az = e.Pos.Z - target.Pos.Z, len = Math.Max(0.01, Math.Sqrt(ax * ax + az * az));
+                Teleport(target.Pos.X + ax / len * dist, target.Pos.Y, target.Pos.Z + az / len * dist);
+                Log(string.Format(CultureInfo.InvariantCulture, "approach {0}: {1} from {2:0.0} to {3:0.0} blocks", p[1], target.Code, len, dist));
                 break;
             }
             case "lookat":

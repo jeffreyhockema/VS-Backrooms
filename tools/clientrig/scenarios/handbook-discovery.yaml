@@ -1,4 +1,4 @@
-description: The handbook learns as you do - a new player has visited only Level 0 and met nothing; a goto marks Level 1; a Hound looked at for a second is met; What Lives Here, the Hound's page, The Levels, a level page and Ways Between Levels show only that, and hidden pages stay out of the list and search (read by eye from the screenshots, and from the hbfilter lines).
+description: The handbook learns as you do - a new player has visited only Level 0 and met nothing; a goto marks Level 1; a Hound in creative (it does not attack) is not met while you look at the ceiling, even four blocks from it, and is met once looked at for a second; What Lives Here, the Hound's page, The Levels, a level page and Ways Between Levels show only that, and hidden pages stay out of the list and search (read by eye from the screenshots, and from the hbfilter lines).
 steps:
   - bot: closeguis
   - bot: wait 3000
@@ -18,8 +18,17 @@ steps:
   - bot: ready 48
   - cmd: /backrooms discover status
   - expect_chat: "visited 2 (0, 1); met 0 of"
+  - cmd: /gamemode creative
   - cmd: /backrooms encounter hound hunt
-  - bot: wait 1500
+  - bot: look 0 85
+  - bot: wait 2500
+  - cmd: /backrooms discover status
+  - expect_chat: "visited 2 (0, 1); met 0 of"
+  - bot: approach hound 4
+  - bot: look 0 85
+  - bot: wait 2000
+  - cmd: /backrooms discover status
+  - expect_chat: "visited 2 (0, 1); met 0 of"
   - bot: lookat hound
   - bot: wait 400
   - bot: lookat hound
@@ -32,6 +41,7 @@ steps:
   - shot: disc-hound
   - cmd: /backrooms discover status
   - expect_chat: "met 1 of 29 (hound)"
+  - cmd: /gamemode survival
   - cmd: /backrooms goto 0
   - bot: movewait
   - bot: ready 48
