@@ -40,6 +40,12 @@
 				"code13",
 				"code14",
 				"code15",
+				"code16",
+				"code17",
+				"code18",
+				"code19",
+				"code20",
+				"code21",
 				"sign0",
 				"sign1",
 				"sign2",
@@ -1179,6 +1185,198 @@
 			},
 			"west": {
 				"base": "block/15/deco-code15"
+			}
+		},
+		"*-code16-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code16"
+			}
+		},
+		"*-code16-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code16"
+			}
+		},
+		"*-code16-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code16"
+			}
+		},
+		"*-code16-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code16"
+			}
+		},
+		"*-code17-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code17"
+			}
+		},
+		"*-code17-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code17"
+			}
+		},
+		"*-code17-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code17"
+			}
+		},
+		"*-code17-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code17"
+			}
+		},
+		"*-code18-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code18"
+			}
+		},
+		"*-code18-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code18"
+			}
+		},
+		"*-code18-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code18"
+			}
+		},
+		"*-code18-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code18"
+			}
+		},
+		"*-code19-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code19"
+			}
+		},
+		"*-code19-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code19"
+			}
+		},
+		"*-code19-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code19"
+			}
+		},
+		"*-code19-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code19"
+			}
+		},
+		"*-code20-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code20"
+			}
+		},
+		"*-code20-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code20"
+			}
+		},
+		"*-code20-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code20"
+			}
+		},
+		"*-code20-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code20"
+			}
+		},
+		"*-code21-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/deco-code21"
+			}
+		},
+		"*-code21-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/deco-code21"
+			}
+		},
+		"*-code21-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/deco-code21"
+			}
+		},
+		"*-code21-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/deco-code21"
 			}
 		},
 		"*-sign0-north": {

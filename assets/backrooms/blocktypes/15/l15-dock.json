@@ -1,0 +1,164 @@
+// Level 15: a robot charging dock against a wall, open toward its side, a Robo-Man standing in it powered down (lower); its hood, plate and lamp (upper); lit or dead
+{
+	"code": "l15-dock",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "state",
+			"states": [
+				"lit",
+				"dead"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l15-dock-lower-lit-north": {
+			"base": "backrooms:block/15/l15-dock-lower-lit",
+			"rotateY": 0
+		},
+		"l15-dock-lower-lit-east": {
+			"base": "backrooms:block/15/l15-dock-lower-lit",
+			"rotateY": 270
+		},
+		"l15-dock-lower-lit-south": {
+			"base": "backrooms:block/15/l15-dock-lower-lit",
+			"rotateY": 180
+		},
+		"l15-dock-lower-lit-west": {
+			"base": "backrooms:block/15/l15-dock-lower-lit",
+			"rotateY": 90
+		},
+		"l15-dock-lower-dead-north": {
+			"base": "backrooms:block/15/l15-dock-lower-dead",
+			"rotateY": 0
+		},
+		"l15-dock-lower-dead-east": {
+			"base": "backrooms:block/15/l15-dock-lower-dead",
+			"rotateY": 270
+		},
+		"l15-dock-lower-dead-south": {
+			"base": "backrooms:block/15/l15-dock-lower-dead",
+			"rotateY": 180
+		},
+		"l15-dock-lower-dead-west": {
+			"base": "backrooms:block/15/l15-dock-lower-dead",
+			"rotateY": 90
+		},
+		"l15-dock-upper-lit-north": {
+			"base": "backrooms:block/15/l15-dock-upper-lit",
+			"rotateY": 0
+		},
+		"l15-dock-upper-lit-east": {
+			"base": "backrooms:block/15/l15-dock-upper-lit",
+			"rotateY": 270
+		},
+		"l15-dock-upper-lit-south": {
+			"base": "backrooms:block/15/l15-dock-upper-lit",
+			"rotateY": 180
+		},
+		"l15-dock-upper-lit-west": {
+			"base": "backrooms:block/15/l15-dock-upper-lit",
+			"rotateY": 90
+		},
+		"l15-dock-upper-dead-north": {
+			"base": "backrooms:block/15/l15-dock-upper-dead",
+			"rotateY": 0
+		},
+		"l15-dock-upper-dead-east": {
+			"base": "backrooms:block/15/l15-dock-upper-dead",
+			"rotateY": 270
+		},
+		"l15-dock-upper-dead-south": {
+			"base": "backrooms:block/15/l15-dock-upper-dead",
+			"rotateY": 180
+		},
+		"l15-dock-upper-dead-west": {
+			"base": "backrooms:block/15/l15-dock-upper-dead",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l15-dock-lower-lit-north"
+		],
+		"backrooms": [
+			"l15-dock-lower-lit-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [],
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0.3,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0.3,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"lightHsvByType": {
+		"*-upper-lit-*": [
+			22,
+			4,
+			4
+		]
+	},
+	"dropsByType": {
+		"*-lower-*": [
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 1,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0.5
+				}
+			}
+		],
+		"*": []
+	}
+}

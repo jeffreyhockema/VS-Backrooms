@@ -15,7 +15,9 @@
 				"blood",
 				"scorch",
 				"track",
-				"dust"
+				"dust",
+				"vinyl",
+				"terrazzo"
 			]
 		}
 	],
@@ -73,6 +75,16 @@
 		"*-dust": {
 			"all": {
 				"base": "block/15/floor-dust"
+			}
+		},
+		"*-vinyl": {
+			"all": {
+				"base": "block/15/floor-vinyl"
+			}
+		},
+		"*-terrazzo": {
+			"all": {
+				"base": "block/15/floor-terrazzo"
 			}
 		}
 	},

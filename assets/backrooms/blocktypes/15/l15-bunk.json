@@ -1,0 +1,106 @@
+// Level 15: the upper bunk over a dormitory's cot (head, foot; head toward its side), its posts down to the floor
+{
+	"code": "l15-bunk",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"head",
+				"foot"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l15-bunk-head-north": {
+			"base": "backrooms:block/15/l15-bunk-head",
+			"rotateY": 0
+		},
+		"l15-bunk-head-east": {
+			"base": "backrooms:block/15/l15-bunk-head",
+			"rotateY": 270
+		},
+		"l15-bunk-head-south": {
+			"base": "backrooms:block/15/l15-bunk-head",
+			"rotateY": 180
+		},
+		"l15-bunk-head-west": {
+			"base": "backrooms:block/15/l15-bunk-head",
+			"rotateY": 90
+		},
+		"l15-bunk-foot-north": {
+			"base": "backrooms:block/15/l15-bunk-foot",
+			"rotateY": 0
+		},
+		"l15-bunk-foot-east": {
+			"base": "backrooms:block/15/l15-bunk-foot",
+			"rotateY": 270
+		},
+		"l15-bunk-foot-south": {
+			"base": "backrooms:block/15/l15-bunk-foot",
+			"rotateY": 180
+		},
+		"l15-bunk-foot-west": {
+			"base": "backrooms:block/15/l15-bunk-foot",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l15-bunk-head-north"
+		],
+		"backrooms": [
+			"l15-bunk-head-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.3
+			}
+		}
+	],
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0.18,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.42,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0.18,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.65,
+		"z2": 1
+	}
+}

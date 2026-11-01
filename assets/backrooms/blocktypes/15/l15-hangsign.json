@@ -1,0 +1,1452 @@
+// Level 15: a sign hung from the ceiling across a main hall before a crossing (three blocks, parts 0-2), the hall's name on both faces, glowing (off in the dark)
+{
+	"code": "l15-hangsign",
+	"variantgroups": [
+		{
+			"code": "hall",
+			"states": [
+				"0",
+				"1",
+				"2",
+				"3",
+				"4",
+				"5",
+				"6",
+				"7"
+			]
+		},
+		{
+			"code": "state",
+			"states": [
+				"lit",
+				"off"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"0",
+				"1",
+				"2"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"we",
+				"ns"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-0-lit-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-0-off-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-1-lit-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-1-off-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-2-lit-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-2-off-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-3-lit-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-3-off-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-4-lit-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-4-off-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-5-lit-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-5-off-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-6-lit-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-6-off-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-7-lit-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-7-off-0-we": {
+			"base": "backrooms:block/15/l15-hangsign-0-we"
+		},
+		"*-0-lit-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-0-off-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-1-lit-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-1-off-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-2-lit-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-2-off-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-3-lit-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-3-off-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-4-lit-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-4-off-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-5-lit-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-5-off-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-6-lit-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-6-off-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-7-lit-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-7-off-1-we": {
+			"base": "backrooms:block/15/l15-hangsign-1-we"
+		},
+		"*-0-lit-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-0-off-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-1-lit-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-1-off-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-2-lit-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-2-off-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-3-lit-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-3-off-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-4-lit-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-4-off-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-5-lit-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-5-off-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-6-lit-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-6-off-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-7-lit-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-7-off-2-we": {
+			"base": "backrooms:block/15/l15-hangsign-2-we"
+		},
+		"*-0-lit-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-0-off-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-1-lit-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-1-off-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-2-lit-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-2-off-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-3-lit-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-3-off-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-4-lit-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-4-off-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-5-lit-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-5-off-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-6-lit-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-6-off-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-7-lit-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-7-off-0-ns": {
+			"base": "backrooms:block/15/l15-hangsign-0-ns"
+		},
+		"*-0-lit-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-0-off-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-1-lit-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-1-off-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-2-lit-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-2-off-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-3-lit-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-3-off-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-4-lit-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-4-off-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-5-lit-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-5-off-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-6-lit-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-6-off-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-7-lit-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-7-off-1-ns": {
+			"base": "backrooms:block/15/l15-hangsign-1-ns"
+		},
+		"*-0-lit-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-0-off-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-1-lit-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-1-off-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-2-lit-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-2-off-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-3-lit-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-3-off-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-4-lit-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-4-off-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-5-lit-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-5-off-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-6-lit-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-6-off-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-7-lit-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		},
+		"*-7-off-2-ns": {
+			"base": "backrooms:block/15/l15-hangsign-2-ns"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l15-hangsign-0-lit-1-we"
+		],
+		"backrooms": [
+			"l15-hangsign-0-lit-1-we"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [],
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 0,
+		"y2": 0,
+		"z2": 0
+	},
+	"selectionboxByType": {
+		"*-we": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.44,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 0.56
+		},
+		"*-ns": {
+			"x1": 0.44,
+			"y1": 0.25,
+			"z1": 0,
+			"x2": 0.56,
+			"y2": 0.9,
+			"z2": 1
+		}
+	},
+	"texturesByType": {
+		"*-0-lit-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang0-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang0-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-0-off-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang0-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang0-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-1-lit-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang1-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang1-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-1-off-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang1-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang1-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-2-lit-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang2-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang2-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-2-off-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang2-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang2-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-3-lit-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang3-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang3-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-3-off-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang3-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang3-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-4-lit-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang4-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang4-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-4-off-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang4-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang4-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-5-lit-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang5-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang5-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-5-off-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang5-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang5-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-6-lit-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang6-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang6-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-6-off-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang6-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang6-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-7-lit-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang7-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang7-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-7-off-0-we": {
+			"front": {
+				"base": "backrooms:block/15/hang7-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang7-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-0-lit-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang0-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang0-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-0-off-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang0-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang0-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-1-lit-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang1-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang1-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-1-off-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang1-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang1-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-2-lit-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang2-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang2-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-2-off-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang2-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang2-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-3-lit-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang3-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang3-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-3-off-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang3-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang3-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-4-lit-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang4-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang4-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-4-off-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang4-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang4-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-5-lit-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang5-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang5-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-5-off-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang5-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang5-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-6-lit-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang6-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang6-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-6-off-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang6-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang6-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-7-lit-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang7-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang7-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-7-off-1-we": {
+			"front": {
+				"base": "backrooms:block/15/hang7-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang7-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-0-lit-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang0-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang0-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-0-off-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang0-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang0-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-1-lit-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang1-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang1-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-1-off-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang1-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang1-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-2-lit-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang2-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang2-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-2-off-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang2-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang2-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-3-lit-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang3-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang3-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-3-off-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang3-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang3-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-4-lit-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang4-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang4-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-4-off-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang4-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang4-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-5-lit-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang5-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang5-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-5-off-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang5-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang5-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-6-lit-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang6-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang6-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-6-off-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang6-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang6-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-7-lit-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang7-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang7-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-7-off-2-we": {
+			"front": {
+				"base": "backrooms:block/15/hang7-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang7-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-0-lit-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang0-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang0-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-0-off-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang0-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang0-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-1-lit-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang1-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang1-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-1-off-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang1-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang1-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-2-lit-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang2-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang2-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-2-off-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang2-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang2-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-3-lit-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang3-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang3-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-3-off-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang3-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang3-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-4-lit-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang4-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang4-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-4-off-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang4-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang4-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-5-lit-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang5-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang5-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-5-off-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang5-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang5-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-6-lit-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang6-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang6-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-6-off-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang6-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang6-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-7-lit-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang7-lit-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang7-lit-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-7-off-0-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang7-off-0"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang7-off-2"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-0-lit-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang0-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang0-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-0-off-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang0-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang0-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-1-lit-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang1-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang1-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-1-off-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang1-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang1-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-2-lit-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang2-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang2-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-2-off-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang2-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang2-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-3-lit-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang3-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang3-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-3-off-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang3-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang3-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-4-lit-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang4-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang4-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-4-off-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang4-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang4-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-5-lit-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang5-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang5-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-5-off-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang5-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang5-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-6-lit-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang6-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang6-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-6-off-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang6-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang6-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-7-lit-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang7-lit-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang7-lit-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-7-off-1-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang7-off-1"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang7-off-1"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-0-lit-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang0-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang0-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-0-off-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang0-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang0-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-1-lit-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang1-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang1-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-1-off-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang1-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang1-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-2-lit-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang2-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang2-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-2-off-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang2-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang2-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-3-lit-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang3-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang3-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-3-off-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang3-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang3-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-4-lit-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang4-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang4-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-4-off-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang4-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang4-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-5-lit-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang5-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang5-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-5-off-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang5-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang5-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-6-lit-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang6-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang6-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-6-off-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang6-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang6-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-7-lit-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang7-lit-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang7-lit-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		},
+		"*-7-off-2-ns": {
+			"front": {
+				"base": "backrooms:block/15/hang7-off-2"
+			},
+			"back": {
+				"base": "backrooms:block/15/hang7-off-0"
+			},
+			"rim": {
+				"base": "backrooms:block/15/dark"
+			}
+		}
+	},
+	"vertexFlagsByType": {
+		"*-lit-*": {
+			"glowLevel": 200
+		}
+	},
+	"lightHsvByType": {
+		"*-lit-1-*": [
+			33,
+			3,
+			5
+		]
+	}
+}

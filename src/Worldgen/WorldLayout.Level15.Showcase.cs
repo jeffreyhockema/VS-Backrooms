@@ -42,6 +42,22 @@ public partial class WorldLayout
         if (L15FindCamp(hcx, hcz) is { } camp) Add("camp", camp.X, camp.Z, camp.Heading, -28);
         if (L15FindDoor(hcx, hcz, L15Zone.Crematorium, rings: 8) is { } crem) Add("crematorium", crem.InX, crem.InZ, crem.Heading, -10);
 
+        // Round 3's set pieces: the hall's floor line and its hanging sign before a crossing; a robot dock; a lift; a lab's glass
+        // wall and its plates from the corridor; a dormitory's bunks; a canteen's serving line and menu; a medical bay; a
+        // hydroponics bay from its glass wall and from inside
+        Add("hall-sign", hallX + 1, hcz * L15Period + 24, 0, 6);
+        if (L15FindDock(hcx, hcz) is { } dock) Add("dock", dock.X, dock.Z, dock.Heading, -4);
+        if (L15FindLift(hcx, hcz) is { } lift) Add("lift", lift.X, lift.Z, lift.Heading, 4);
+        if (L15FindDoor(hcx, hcz, L15Zone.Lab, glass: true) is { } labGlass) Add("lab-glass", labGlass.OutX, labGlass.OutZ, labGlass.Heading, 0);
+        if (L15FindDoor(hcx, hcz, L15Zone.Dorm) is { } dorm) Add("dorm", dorm.InX, dorm.InZ, dorm.Heading, -8);
+        if (L15FindDoor(hcx, hcz, L15Zone.Canteen) is { } canteen) Add("canteen", canteen.InX, canteen.InZ, canteen.Heading, 4);
+        if (L15FindDoor(hcx, hcz, L15Zone.Medical) is { } medical) Add("medical-bay", medical.InX, medical.InZ, medical.Heading, -8);
+        if (L15FindDoor(hcx, hcz, L15Zone.Hydro, glass: true) is { } hydro)
+        {
+            Add("hydro-glass", hydro.OutX, hydro.OutZ, hydro.Heading, 0);
+            Add("hydroponics", hydro.InX, hydro.InZ, hydro.Heading, 0);
+        }
+
         // The dark: a main hall where the power is out, looking up it from near its end; a Robo-Man in it
         if (L15FindDarkHall(cx, cz) is { } dark)
         {
@@ -52,6 +68,49 @@ public partial class WorldLayout
         // The links: the ways in, in Levels 10 and 3, the door that does not open, and the ways out (WorldLayout.Level15.Links.cs)
         spots.AddRange(L15LinkSpots(geometry));
         return spots;
+    }
+
+    /// <summary>The nearest lit robot dock on the main halls round the middle: a place across the hall from it, a little along, looking at it.</summary>
+    private (int X, int Z, double Heading)? L15FindDock(int hcx, int hcz)
+    {
+        for (int ring = 0; ring <= 3; ring++)
+            for (int line = -ring; line <= ring; line++)
+                foreach (bool alongZ in new[] { true, false })
+                    for (int along = (alongZ ? hcz : hcx) * L15Period - ring * L15Period; along < (alongZ ? hcz : hcx) * L15Period + (ring + 1) * L15Period; along++)
+                    {
+                        int l0 = ((alongZ ? hcx : hcz) + line) * L15Period;
+                        foreach (int across in new[] { 1, L15HallWidth })
+                        {
+                            int x = alongZ ? l0 + across : along, z = alongZ ? along : l0 + across;
+                            if (!L15HallDockAt(x, z, alongZ, across) || L15DarkQuad(x, z) || TileAt(x, z).Level != Level15) continue;
+                            int other = across == 1 ? 4 : 2;
+                            int sx = alongZ ? l0 + other : along + 3, sz = alongZ ? along + 3 : l0 + other;
+                            return (sx, sz, L15Heading(x - sx, z - sz));
+                        }
+                    }
+        return null;
+    }
+
+    /// <summary>The nearest lift on a wing's wall onto a main hall: a place in the hall in front of it, looking at it.</summary>
+    private (int X, int Z, double Heading)? L15FindLift(int hcx, int hcz)
+    {
+        foreach (var (hx, hz) in L15WingsRound(hcx, hcz, 3))
+        {
+            L15Plan plan = L15PlanOf(hx, hz);
+            for (int k = 0; k < L15WingSize; k++)
+                foreach (var (a, b) in new[] { (-1, k), (L15WingSize, k), (k, -1), (k, L15WingSize) })
+                {
+                    Tile t = plan.AtAB(a, b);
+                    if (t.Kind != TileKind.Wall || t.Detail != L15WallLiftL) continue;
+                    var (x, z) = plan.World(a, b);
+                    var (dx, dz) = L15StepOf(t.Pier);
+                    if (L15DarkQuad(x, z) || TileAt(x, z).Level != Level15) continue;
+                    // Four blocks out into the hall, half a door to the right, looking back at the wall
+                    int sx = x + dx * 4, sz = z + dz * 4;
+                    return (sx, sz, L15Heading(-dx, -dz));
+                }
+        }
+        return null;
     }
 
     /// <summary>A compass heading (0 north, 90 east) for a way along x and z.</summary>

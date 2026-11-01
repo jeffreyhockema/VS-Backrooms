@@ -1,0 +1,124 @@
+// Level 15: the canteen's serving line, its customer side toward its side: steel wells, a stack of trays, the till; a glass guard over it
+{
+	"code": "l15-serve",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"wells",
+				"trays",
+				"till"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l15-serve-wells-north": {
+			"base": "backrooms:block/15/l15-serve-wells",
+			"rotateY": 0
+		},
+		"l15-serve-wells-east": {
+			"base": "backrooms:block/15/l15-serve-wells",
+			"rotateY": 270
+		},
+		"l15-serve-wells-south": {
+			"base": "backrooms:block/15/l15-serve-wells",
+			"rotateY": 180
+		},
+		"l15-serve-wells-west": {
+			"base": "backrooms:block/15/l15-serve-wells",
+			"rotateY": 90
+		},
+		"l15-serve-trays-north": {
+			"base": "backrooms:block/15/l15-serve-trays",
+			"rotateY": 0
+		},
+		"l15-serve-trays-east": {
+			"base": "backrooms:block/15/l15-serve-trays",
+			"rotateY": 270
+		},
+		"l15-serve-trays-south": {
+			"base": "backrooms:block/15/l15-serve-trays",
+			"rotateY": 180
+		},
+		"l15-serve-trays-west": {
+			"base": "backrooms:block/15/l15-serve-trays",
+			"rotateY": 90
+		},
+		"l15-serve-till-north": {
+			"base": "backrooms:block/15/l15-serve-till",
+			"rotateY": 0
+		},
+		"l15-serve-till-east": {
+			"base": "backrooms:block/15/l15-serve-till",
+			"rotateY": 270
+		},
+		"l15-serve-till-south": {
+			"base": "backrooms:block/15/l15-serve-till",
+			"rotateY": 180
+		},
+		"l15-serve-till-west": {
+			"base": "backrooms:block/15/l15-serve-till",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l15-serve-wells-north"
+		],
+		"backrooms": [
+			"l15-serve-wells-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	],
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.9,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"renderpass": "Transparent"
+}
