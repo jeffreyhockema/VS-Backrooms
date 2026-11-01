@@ -527,7 +527,7 @@ public enum FloorKind : ushort
     L52CarpetBlue = 320, L52CarpetRed = 321, L52CarpetGreen = 322, L52CarpetGrey = 323, L52Lino = 324, L52Concrete = 325,
     L52Grass = 326, L52Turf = 327, L52TurfWorn = 328, L52Paving = 329, L52Gravel = 330, L52Sand = 331, L52Court = 332, L52CourtLineNS = 333, L52CourtLineWE = 334,
     /// <summary>Level 52 (round 3): Marshall David's worn hall tile (dirt prints, cracks); a football pitch's turf with a white line north-south or west-east; a running track's rubber (plain, a lane line north-south, west-east).</summary>
-    L52HallWorn = 335, L52PitchLineNS = 336, L52PitchLineWE = 337, L52Track = 338, L52TrackLineNS = 339, L52TrackLineWE = 340, L52Mat = 341,
+    L52HallWorn = 335, L52PitchLineNS = 336, L52PitchLineWE = 337, L52Track = 338, L52TrackLineNS = 339, L52TrackLineWE = 340, L52Mat = 341, L52Asphalt = 342, L52AsphaltLine = 343,
     /// <summary>Level 31 (block 352-383, and 249 kept from before). Placeholder.</summary>
     L31Floor = 249,
     /// <summary>Level 120 (block 384-415, and 251 kept from before). Placeholder.</summary>

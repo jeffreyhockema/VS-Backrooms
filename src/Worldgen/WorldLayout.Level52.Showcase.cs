@@ -380,6 +380,25 @@ public partial class WorldLayout
                     }
                 }
 
+        // A car park (Marshall David's, or the nearest campus's): from one end of its aisle, along it
+        for (int r = 0, found = 0; r <= 2 && found == 0; r++)
+            for (int dj = -r; dj <= r && found == 0; dj++)
+                for (int di = -r; di <= r && found == 0; di++)
+                {
+                    if (Math.Max(Math.Abs(di), Math.Abs(dj)) != r) continue;
+                    L52Campus c = L52CampusOf(mi + di, mj + dj);
+                    if (c == null) continue;
+                    int pu0 = int.MaxValue, pv0 = int.MaxValue, pu1 = -1, pv1 = -1;
+                    for (int i = 0; i < c.Grid.Length; i++)
+                        if (c.Grid[i].Floor is FloorKind.L52Asphalt or FloorKind.L52AsphaltLine)
+                        {
+                            pu0 = Math.Min(pu0, i % c.W); pv0 = Math.Min(pv0, i / c.W); pu1 = Math.Max(pu1, i % c.W); pv1 = Math.Max(pv1, i / c.W);
+                        }
+                    if (pu1 < 0) continue;
+                    Add(c, "car-park", pu0, (pv0 + pv1) / 2, 0, 90, -6);
+                    found = 1;
+                }
+
         // J. Barry's warehouse from outside: COOL MART CO. over its doors
         if (jb != null)
             foreach (var (i, list) in jb.Fixtures)

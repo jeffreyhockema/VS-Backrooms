@@ -981,4 +981,46 @@ public sealed partial class WorldLayout
         var (lu, lv) = P(2, ld / 2);
         L52Put(c, lu, lv, Props.Desk, back);
     }
+
+    /// <summary>
+    /// A car park fifteen deep: a row of bays along each long side (cars nose in, north and south), an aisle between, white
+    /// lines between the bays; about one bay in three holds a car left behind. Cars are the mod's own (two by four).
+    /// </summary>
+    private void L52LayCarPark(L52Campus c, int u0, int v0, int u1, int v1)
+    {
+        for (int v = v0; v <= v1; v++)
+            for (int u = u0; u <= u1; u++)
+            {
+                if (!c.InGrid(u, v)) continue;
+                ref Tile t = ref c.At(u, v);
+                if (t.Depth != 0 || t.Kind != TileKind.Floor || t.Zone != (byte)L52Zone.Lawn) continue;
+                t.Zone = (byte)L52Zone.Path;
+                t.Variant = 0;
+                int dv = v - v0, du = u - u0;
+                bool bayRow = dv <= 4 || dv >= 10;
+                t.Floor = bayRow && du % 3 == 0 ? FloorKind.L52AsphaltLine : FloorKind.L52Asphalt;
+            }
+        // The cars: in a bay (the two tiles between lines), nose toward the row's outer edge
+        for (int u = u0 + 1; u + 1 <= u1; u += 3)
+            foreach (bool north in new[] { true, false })
+            {
+                ulong h = Hashing.Hash(seed, c.Head.X0 + u, c.Head.Z0 + v0 + (north ? 0 : 1), SaltL52Detail + 7);
+                if (Hashing.Unit(h) > 0.35) continue;
+                int gz = north ? v0 : v1 - 3;
+                bool ok = true;
+                for (int dz = 0; dz < 4 && ok; dz++)
+                    for (int dx = 0; dx < 2 && ok; dx++)
+                        if (!c.InGrid(u + dx, gz + dz) || c.At(u + dx, gz + dz).Floor != FloorKind.L52Asphalt || c.At(u + dx, gz + dz).Variant != 0) ok = false;
+                if (!ok) continue;
+                int au = north ? u : u + 1, av = north ? gz : gz + 3;
+                for (int dz = 0; dz < 4; dz++)
+                    for (int dx = 0; dx < 2; dx++)
+                    {
+                        ref Tile t = ref c.At(u + dx, gz + dz);
+                        t.Variant = u + dx == au && gz + dz == av ? Props.Car : Props.CarPart;
+                        t.Stack = (byte)(h >> 20 & 3);
+                        t.Pier = north ? ArchPier.North : ArchPier.South;
+                    }
+            }
+    }
 }

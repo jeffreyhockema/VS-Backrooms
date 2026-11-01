@@ -24,7 +24,7 @@ public sealed partial class WorldGenerator
     private static readonly string[] L52LightStates = { "on", "lit", "off", "flicker" };
     private const int L52SlabConcrete = 7, L52LightOn = 0, L52LightOff = 2;
 
-    private int l52Skylight, l52WallPatch;
+    private int l52Skylight, l52WallPatch, l52Asphalt, l52AsphaltLine;
     private readonly int[,,,] l52ExtWall = new int[5, 4, 3, 4];
     private int l52Grass, l52Soil, l52Rock, l52Gravel, l52Sand, l52Coping, l52Barrier, l52Roof, l52Plinth, l52Canopy;
     private readonly int[] l52Trim = new int[3];
@@ -110,6 +110,8 @@ public sealed partial class WorldGenerator
         }
         l52Skylight = L52Block("l52-skylight", l52Window[0, 0]);
         l52WallPatch = L52Block("l52-wallpatch", l52Wall[2, 1]);
+        l52Asphalt = L52Block("l52-asphalt-plain", l52Paving[0]);
+        l52AsphaltLine = L52Block("l52-asphalt-linens", l52Asphalt);
         for (int fa = 0; fa < 5; fa++)
             for (int p = 0; p < 4; p++)
                 for (int k = 0; k < 3; k++)
@@ -262,6 +264,8 @@ public sealed partial class WorldGenerator
                 FloorKind.L52Track => l52Track[0],
                 FloorKind.L52TrackLineNS => l52Track[1],
                 FloorKind.L52TrackLineWE => l52Track[2],
+                FloorKind.L52Asphalt => l52Asphalt,
+                FloorKind.L52AsphaltLine => l52AsphaltLine,
                 _ => l52Grass,
             };
         }

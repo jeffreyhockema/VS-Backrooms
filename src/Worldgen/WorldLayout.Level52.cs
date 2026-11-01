@@ -539,7 +539,7 @@ public sealed partial class WorldLayout
         if (Hashing.Unit(Hashing.Hash(seed, ci, cj, SaltL52Plan + 1)) < 0.45 || kind == L52CampusKind.MarshallDavid) kinds.Add(L52BuildingKind.Lecture);
         kinds.Add(rng.Chance(kind == L52CampusKind.JTurner ? 0.8 : 0.35) ? L52BuildingKind.Lodging : L52BuildingKind.Teaching);
         if (rng.Chance(0.5)) kinds.Add(L52BuildingKind.Teaching);
-        bool pitch = false;
+        bool pitch = false, park = false;
         foreach (var (pu0, pv0, pu1, pv1) in plots)
         {
             bool alongX = pu1 - pu0 >= pv1 - pv0;
@@ -570,6 +570,14 @@ public sealed partial class WorldLayout
                 int u1 = alongX ? u0 + length - 1 : u0 + across - 1, v1 = alongX ? v0 + across - 1 : v0 + length - 1;
                 L52LayPitch(c, u0, v0, u1, v1, alongX);
                 pitch = true;
+            }
+            // Else, where there is room, a car park: two rows of bays either side of an aisle, a few cars left in them
+            else if (!park && (alongX ? len - at >= 24 && room >= 19 : room >= 22 && len - at >= 17))
+            {
+                int u0 = alongX ? pu0 + at : pu0 + 1, v0 = alongX ? pv0 + (room - 15) / 2 : pv0 + at;
+                int u1 = alongX ? u0 + Math.Min(len - at, 42) - 1 : u0 + Math.Min(room - 2, 42) - 1, v1 = v0 + 14;
+                L52LayCarPark(c, u0, v0, u1, v1);
+                park = true;
             }
         }
 

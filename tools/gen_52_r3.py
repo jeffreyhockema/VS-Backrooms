@@ -583,6 +583,13 @@ def textures():
         d.line((k, 0, k, 31), fill=(236, 238, 238, 255))
         d.line((0, k, 31, k), fill=(236, 238, 238, 255))
     s(sky, "skylight")
+    # A car park's asphalt
+    for kind in ("plain", "linens"):
+        img = M.noise_hv((62, 64, 66), 5, 6340, (32, 32), 5, (16, 8))
+        d = ImageDraw.Draw(img)
+        if kind == "linens":
+            d.rectangle((15, 0, 16, 31), fill=(226, 224, 216, 255))
+        s(img, "asphalt-" + kind)
     # The running track: red rubber, white lane lines
     for kind in ("plain", "linens", "linewe"):
         img = M.noise_hv((156, 70, 54), 5, 6330, (32, 32), 5, (16, 8))
@@ -778,6 +785,9 @@ def blocktypes():
     G.cube_block("l52-extwall", [G.group("facade", FACADES), G.group("paint", PALETTES), G.group("part", ["base", "dado", "upper"]), G.group("side", SIDES)],
                  ext, "Level 52: an outside wall, the façade outward (side: the way the façade faces; its other faces too) and the room's paint "
                  "on the face inward (palette, part as l52-wall)")
+    G.cube_block("l52-asphalt", [G.group("kind", ["plain", "linens"])],
+                 {f"l52-asphalt-{k}": G.faces(sides="slab-concrete", up=f"asphalt-{k}", down="slab-concrete") for k in ("plain", "linens")},
+                 "Level 52: a car park's asphalt, plain or with a white bay line north-south")
     G.cube_block("l52-track", [G.group("kind", ["plain", "linens", "linewe"])],
                  {f"l52-track-{k}": G.faces(sides="slab-concrete", up=f"track-{k}", down="slab-concrete") for k in ("plain", "linens", "linewe")},
                  "Level 52: a running track's red rubber, plain or with a white lane line north-south (linens) or west-east (linewe)")
@@ -831,6 +841,8 @@ def expected():
         codes.add(f"l52-track-{k}")
     for k in ("linens", "linewe"):
         codes.add(f"l52-turf-{k}")
+    for k in ("plain", "linens"):
+        codes.add(f"l52-asphalt-{k}")
     for f in FACADES:
         for p in PALETTES:
             for part in ("base", "dado", "upper"):
