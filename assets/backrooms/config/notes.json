@@ -721,6 +721,11 @@
      "mark": null
     },
     {
+     "key": "l47-p1",
+     "gate": [],
+     "mark": null
+    },
+    {
      "key": "l15-h10",
      "gate": [],
      "mark": null
@@ -1328,6 +1333,49 @@
     },
     {
      "key": "l23-7",
+     "gate": [],
+     "mark": null
+    }
+   ]
+  },
+  {
+   "id": "l47",
+   "cls": "common",
+   "level": 30,
+   "chapter": "l47",
+   "entries": [
+    {
+     "key": "l47-1",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l47-2",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l47-3",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l47-4",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l47-5",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l47-6",
+     "gate": [],
+     "mark": null
+    },
+    {
+     "key": "l47-7",
      "gate": [],
      "mark": null
     }

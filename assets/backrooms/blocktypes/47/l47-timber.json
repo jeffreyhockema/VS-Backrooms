@@ -1,0 +1,33 @@
+// Level 47: the manor's old dark timber
+{
+	"code": "l47-timber",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/47/timber"
+		},
+		"up": {
+			"base": "block/47/rings-oak"
+		},
+		"down": {
+			"base": "block/47/rings-oak"
+		}
+	},
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

@@ -74,7 +74,7 @@ public readonly struct WorldGeometry
     public const int L36Drop = 0, L15Drop = 0, L23Drop = 10; // 23: ten down, so the lid of its forest reaches 48 over the forest floor
 
     /// <summary>The same for the experimental Levels 14 and 47 (29, 30).</summary>
-    public const int L14Drop = 0, L47Drop = 0;
+    public const int L14Drop = 0, L47Drop = 10; // 47: ten down (as Level 23), so its giants stand 48 high over the forest floor
 
     /// <summary>
     /// How far below its own floor the band each of the five is generated and lit over begins (<see cref="ShaftDepth"/> is
@@ -108,7 +108,7 @@ public readonly struct WorldGeometry
     /// 47 is under the open sky, so its band starts 12 below its floor (as Level 23's scaffold and Level 73's) and reaches
     /// 27 above it.
     /// </summary>
-    public const int L14BandDepth = ShaftDepth, L47BandDepth = 12;
+    public const int L14BandDepth = ShaftDepth, L47BandDepth = 10; // 47: lit from 10 under its forest floor (its stream beds) to 30 over it; its columns are built on up to the top of the world (WorldGenerator.Band)
 
     /// <summary>The street level of Level 11.</summary>
     public int CityFloorY => FloorY - CityDrop;

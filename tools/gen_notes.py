@@ -1030,6 +1030,55 @@ Out past where anyone goes, a tree is growing up through the floor: green bark, 
 through the ceiling, hollow at the foot. Nothing grows here. Whoever climbs into it doesn't come back out of it.
 — A.L., survey""", w="al"))
 
+# ---------- Level 47, the Adderwood (experimental level 30; its own block: tools/gen_47.py writes these keys into the level's
+# block of en.json, this script keeps them up to date in place) ----------
+L47 = 30
+LEVEL_IDS |= {L47}
+
+TRACKS.append(Track("l47", "common", "Level 47: the Adderwood", L47, entries=[
+    E("l47-1", "Fog by day", """
+The fog comes down every morning and lifts every night, regular as a clock. All day you can't see thirty steps and the
+sun never once shows through it. Then it goes, all at once, and there's the moon. Too big. Wrong face. Not our stars
+either. I sat under it till the fog came back and didn't sleep."""),
+    E("l47-2", "Not one snake", """
+Snakes everywhere here, in the leaves, on the logs, across the trail. Leave them be. Not one. Not by accident, not
+because it went for your boot. A kid in our group stepped on one and it bit him and he stamped on it. Then the birds
+stopped. Then it came: red, the size of a train, and faster than any of us. We didn't see him again.
+— Dez""", w="dez"),
+    E("l47-3", "The black dogs", """
+Ruth, there are dogs here at night. Big as ponies and black as the dark between the trees. One finds you and just
+watches you, close, for hours, and howls, and you hear the others answer from miles off. Don't run. Climb the tallest
+tree you can and sit there till it's light. They're gone with the fog. They always are.
+— Tom""", w="tom"),
+    E("l47-4", "The trail", """
+Survey, Level 47. Nothing here can be mapped: what I don't keep my eye on isn't where I left it. The one exception is a
+trail, trodden bare, that winds and winds and does not move. A stone post with a snake cut into it stands beside it
+every few hundred steps. Followed inward it ends at a glade. In the glade is a manor house, or a ring of standing stones.
+I looked a long time. I think it is both.
+— A.L., survey""", w="al"),
+    E("l47-5", "Red robes", """
+Met three of them on the trail, love. Red hoods, white masks, polite as anything. Said they could go anywhere, any level
+they liked, steer the trail to any door. One started on about a way home, the real home, and the others turned on him
+like I wasn't there. I said no thank you and walked the other way. You do the same.
+— Nell""", w="nell"),
+    E("l47-6", "Water, food, ways", """
+M.E.G. FIELD NOTICE. Level 47: the streams are safe to drink. Mushrooms are the food here; learn them (the red one with
+white spots and the pale green one are poison). The elk will kill you; don't try them without a weapon that drops one in
+a blow. No-clipping out is easier here than anywhere: the hollows of dead trees, mostly. A huge green-barked tree, if you
+find one, goes somewhere of stone.
+— Field Team 9""", w="meg"),
+    E("l47-7", "It puts things back", """
+I made a fire last night. This morning: no ashes, no stones, no fire, just the moss as if nobody had ever sat on it.
+The tree I cut a mark on doesn't have a mark. Keep what matters on you. Whatever you leave, and look away from, is the
+forest's again."""),
+]))
+# (And one in Level 10's own track, where its ancient dead trees stand: a key of this level's, at the end of that track)
+next(t for t in TRACKS if t.id == "l10").entries.append(E("l47-p1", "The old tree", """
+Out past the last farm, on a field's edge, a dead tree, grey as bone, older than anything else in the fields and bigger
+than any of the oaks. Hollow at the foot. It smells of rain in there, and moss, and the air is cold. I didn't go in. The
+man I was with did, and he didn't come out of it, and the hollow was empty when I looked.
+— A.L., survey""", w="al"))
+
 # ============================== Rare: folded notes ==============================
 
 RARE_CHAPTER = "rare"

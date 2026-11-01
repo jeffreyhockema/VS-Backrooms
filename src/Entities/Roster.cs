@@ -126,7 +126,7 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level23 => 0.55, // the Petrified Garden: Unsafe (Wikidot's "4?"), its glow rooms worst
         // Batch 4 (ids 29, 30): nothing in them yet
         Backrooms.Worldgen.WorldLayout.Level14 => 0,
-        Backrooms.Worldgen.WorldLayout.Level47 => 0,
+        Backrooms.Worldgen.WorldLayout.Level47 => 0.45, // the Adderwood: Survival Difficulty 3; its Shucks, the Order and the Great Adder are its own (Regions/L47System.cs; the director puts nothing down)
         // Level 94 (Class 3): its Animations hit and chase like Level 4's creatures; the King's trial keeps its own balance
         Backrooms.Worldgen.WorldLayout.Motion => 0.4,
         _ => 0,

@@ -1,0 +1,170 @@
+// Level 47's Ophion Occult Order: a hooded, crimson-robed, ivory-masked worshipper of the Great Old Adder. Textures 0 plain, 1 an elder's (deeper crimson, gold hems). Made by tools/gen_47_creatures.py
+{
+	"code": "l47-ophion",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"humanoid",
+		"habitat-land"
+	],
+	"weight": 60,
+	"canClimb": true,
+	"hitboxSize": {
+		"x": 0.6,
+		"y": 1.9
+	},
+	"deadHitboxSize": {
+		"x": 0.6,
+		"y": 0.5
+	},
+	"eyeHeight": 1.7,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-l47-ophion"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/47/l47-ophion"
+		},
+		"texture": {
+			"base": "backrooms:entity/47/l47-ophion",
+			"alternates": [
+				{
+					"base": "backrooms:entity/47/l47-ophion-elder"
+				}
+			]
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				},
+				"easeOutSpeed": 4
+			},
+			{
+				"code": "walk",
+				"animation": "walk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "run",
+				"animation": "run",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "attack",
+				"animation": "attack",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "preach",
+				"animation": "preach",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 5,
+				"easeInSpeed": 3,
+				"easeOutSpeed": 3
+			},
+			{
+				"code": "beckon",
+				"animation": "beckon",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 5
+			},
+			{
+				"code": "bow",
+				"animation": "bow",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 5
+			},
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 10
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "health",
+				"currenthealth": 24,
+				"maxhealth": 24
+			},
+			{
+				"code": "deaddecay",
+				"hoursToDecay": 0.25
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-l47-ophion",
+						"priority": 1.5,
+						"priorityForCancel": 1.5,
+						"mincooldown": 0,
+						"maxcooldown": 0
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	}
+}

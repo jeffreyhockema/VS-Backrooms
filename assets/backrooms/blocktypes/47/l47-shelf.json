@@ -1,0 +1,84 @@
+// Level 47: the Order's shelves: old books, jars, a snake's skull (the shelves on the -side's back wall)
+{
+	"code": "l47-shelf",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-north": {
+			"all": {
+				"base": "block/47/timber"
+			},
+			"north": {
+				"base": "block/47/shelf"
+			}
+		},
+		"*-east": {
+			"all": {
+				"base": "block/47/timber"
+			},
+			"east": {
+				"base": "block/47/shelf"
+			}
+		},
+		"*-south": {
+			"all": {
+				"base": "block/47/timber"
+			},
+			"south": {
+				"base": "block/47/shelf"
+			}
+		},
+		"*-west": {
+			"all": {
+				"base": "block/47/timber"
+			},
+			"west": {
+				"base": "block/47/shelf"
+			}
+		}
+	},
+	"resistance": 3,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:paper-parchment",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

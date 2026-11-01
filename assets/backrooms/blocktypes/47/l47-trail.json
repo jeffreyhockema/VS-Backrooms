@@ -1,0 +1,41 @@
+// Level 47: the trail, trodden bare (it never moves)
+{
+	"code": "l47-trail",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/47/trail",
+			"alternates": [
+				{
+					"base": "block/47/trail-2"
+				}
+			]
+		}
+	},
+	"resistance": 2.5,
+	"drops": [
+		{
+			"type": "block",
+			"code": "game:soil-low-none",
+			"quantity": {
+				"avg": 1,
+				"var": 0.0
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/gravel*",
+		"place": "game:block/dirt*",
+		"break": "game:block/dirt*",
+		"hit": "game:block/dirt*"
+	}
+}

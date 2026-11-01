@@ -1,0 +1,53 @@
+// Level 47: an iron brazier of coals by the manor's door (breaks to nothing)
+{
+	"code": "l47-brazier",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil",
+		"break": "game:block/anvil",
+		"hit": "game:block/anvil"
+	},
+	"shape": {
+		"base": "block/47/brazier"
+	},
+	"collisionbox": {
+		"x1": 0.12,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.88,
+		"y2": 0.75,
+		"z2": 0.88
+	},
+	"selectionbox": {
+		"x1": 0.12,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.88,
+		"y2": 0.75,
+		"z2": 0.88
+	},
+	"lightHsv": [
+		5,
+		6,
+		16
+	]
+}

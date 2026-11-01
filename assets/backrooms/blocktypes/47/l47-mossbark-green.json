@@ -1,0 +1,47 @@
+// Level 47: a green giant's green bark, mossed over
+{
+	"code": "l47-mossbark-green",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/47/mossbark-green",
+			"alternates": [
+				{
+					"base": "block/47/mossbark-green-2"
+				}
+			]
+		},
+		"up": {
+			"base": "block/47/rings-green"
+		},
+		"down": {
+			"base": "block/47/rings-green"
+		}
+	},
+	"resistance": 12,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:drygrass",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0.2
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

@@ -139,8 +139,8 @@ public partial class AtmosphereSystem : ModSystem
         // Batch 4 (placeholders: a faint neutral haze)
         // Level 14
         new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
-        // Level 47
-        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // Level 47: the Adderwood's thick damp fog by day (its clear moonlit night, the glade and the manor: AtmosphereSystem.L47.cs)
+        new(0.034f, 0.58f, 0.62f, 0.60f, -0.30f, scene: 0.85f, clouds: 0f, cloudBrightness: 0f, fogMin: 0.10f),
     };
 
     /// <summary>

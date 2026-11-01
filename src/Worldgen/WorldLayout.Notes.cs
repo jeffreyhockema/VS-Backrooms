@@ -254,6 +254,8 @@ public sealed partial class WorldLayout
                 break;
             // Level 36: by the Travel Agency's booths and desks, in the Lost and Found offices, at Gate C32 (WorldLayout.Level36.cs)
             case Level36: L36NoteSpots(mx, mz, Near); break;
+            // Level 47: at the foot of the Order's way-stones now and then, and on the manor's long table (WorldLayout.Level47.Glade.cs)
+            case Level47: L47NoteSpots(mx, mz, Near); break;
             case RunLevel:
             {
                 int lane = RunLaneAt(mx * MacroSize + c, mz * MacroSize + c);

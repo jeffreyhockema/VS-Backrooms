@@ -560,8 +560,12 @@ public enum FloorKind : ushort
 
     /// <summary>Level 14 (block 512-543). Placeholder.</summary>
     L14Floor = 512,
-    /// <summary>Level 47 (block 544-575). Placeholder.</summary>
+    /// <summary>Level 47 (block 544-575): moss and leaf litter over the forest floor, the trail, a stream's bed, the glade's grass, bark.</summary>
     L47Floor = 544,
+    L47Trail = 545,
+    L47Stream = 546,
+    L47Grass = 547,
+    L47Bark = 548,
 }
 
 /// <remarks>A ushort since 0.700.0-pre.1 (experimental-levels): values past 255 are the experimental levels' blocks.</remarks>
@@ -1130,6 +1134,8 @@ public static class Unders
     // Batch 4, the experimental Levels 14 and 47 (29, 30)
     public const ushort L14First = 512, L14Last = 543;
     public const ushort L47First = 544, L47Last = 575;
+    /// <summary>Level 47's ways (WorldLayout.Level47.Links.cs): a dead tree's hollow that leads out, a green giant's, and a dead tree's that leads nowhere (yet) in the Adderwood; Level 10's ancient dead tree (its bark, hollow, roots and limbs round it).</summary>
+    public const ushort L47DeadHollow = 544, L47GreenHollow = 545, L47Tree10Bark = 546, L47Tree10Hollow = 547, L47Tree10Foot = 548, L47StillHollow = 549;
     /// <summary>
     /// Level 23's ways in and out (WorldLayout.Level23.Links.cs). In Level 37, a hollow tree of green bark growing up through
     /// the tiles: its ring of bark (a wall), its hollow and the mouth into it (one-way into the Garden), the roots and broken
