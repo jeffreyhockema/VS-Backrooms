@@ -694,7 +694,7 @@ public sealed partial class WorldLayout
                 var queue = new Queue<(int, int)>();
                 for (int b = r.Z0; b <= r.Z1; b++)
                     for (int a = r.X0; a <= r.X1; a++)
-                        if (NextToDoor(a, b) && Walkable(a, b) && seen.Add((a, b))) queue.Enqueue((a, b));
+                        if (NextToWayIn(a, b) && Walkable(a, b) && seen.Add((a, b))) queue.Enqueue((a, b));
                 while (queue.Count > 0)
                 {
                     var (a, b) = queue.Dequeue();
@@ -749,6 +749,14 @@ public sealed partial class WorldLayout
                 }
                 Clear(cut.Value.A, cut.Value.B);
             }
+        }
+
+        /// <summary>Whether a tile is beside a doorway one can go through (not a contaminated room's window door).</summary>
+        private bool NextToWayIn(int a, int b)
+        {
+            foreach (var (dx, dz, _) in Dirs)
+                if (L14Plan.In(a + dx, b + dz) && At(a + dx, b + dz) is { Kind: TileKind.Doorway } d && d.Detail != L14DoorContam) return true;
+            return false;
         }
 
         /// <summary>Takes a thing off a floor tile (and the other half of a two-tile one).</summary>
