@@ -1,0 +1,226 @@
+// Level 52: a lab's fume hood: the cabinet and worktop (lower), the glass sash and the hood's casing (upper), its back to the wall
+{
+	"code": "l52-fumehood",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-fumehood-lower-north": {
+			"base": "backrooms:block/52/l52-fumehood-lower",
+			"rotateY": 0
+		},
+		"l52-fumehood-lower-east": {
+			"base": "backrooms:block/52/l52-fumehood-lower",
+			"rotateY": 270
+		},
+		"l52-fumehood-lower-south": {
+			"base": "backrooms:block/52/l52-fumehood-lower",
+			"rotateY": 180
+		},
+		"l52-fumehood-lower-west": {
+			"base": "backrooms:block/52/l52-fumehood-lower",
+			"rotateY": 90
+		},
+		"l52-fumehood-upper-north": {
+			"base": "backrooms:block/52/l52-fumehood-upper",
+			"rotateY": 0
+		},
+		"l52-fumehood-upper-east": {
+			"base": "backrooms:block/52/l52-fumehood-upper",
+			"rotateY": 270
+		},
+		"l52-fumehood-upper-south": {
+			"base": "backrooms:block/52/l52-fumehood-upper",
+			"rotateY": 180
+		},
+		"l52-fumehood-upper-west": {
+			"base": "backrooms:block/52/l52-fumehood-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-fumehood-lower-north"
+		],
+		"backrooms": [
+			"l52-fumehood-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"l52-fumehood-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-fumehood-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-fumehood-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-fumehood-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-fumehood-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-fumehood-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-fumehood-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-fumehood-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l52-fumehood-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-fumehood-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-fumehood-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-fumehood-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-fumehood-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-fumehood-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-fumehood-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-fumehood-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"renderpass": "Transparent"
+}

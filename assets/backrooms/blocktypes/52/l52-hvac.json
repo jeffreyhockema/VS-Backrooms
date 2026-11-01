@@ -1,0 +1,74 @@
+// Level 52: an air-handling unit's casing on a roof (body: louvred panels; top: fan grilles on its top face)
+{
+	"code": "l52-hvac",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"body",
+				"top"
+			]
+		}
+	],
+	"texturesByType": {
+		"l52-hvac-body": {
+			"north": {
+				"base": "block/52/hvac-side"
+			},
+			"east": {
+				"base": "block/52/hvac-side"
+			},
+			"south": {
+				"base": "block/52/hvac-side"
+			},
+			"west": {
+				"base": "block/52/hvac-side"
+			},
+			"up": {
+				"base": "block/52/hvac-side"
+			},
+			"down": {
+				"base": "block/52/hvac-side"
+			}
+		},
+		"l52-hvac-top": {
+			"north": {
+				"base": "block/52/hvac-side"
+			},
+			"east": {
+				"base": "block/52/hvac-side"
+			},
+			"south": {
+				"base": "block/52/hvac-side"
+			},
+			"west": {
+				"base": "block/52/hvac-side"
+			},
+			"up": {
+				"base": "block/52/hvac-top"
+			},
+			"down": {
+				"base": "block/52/hvac-side"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

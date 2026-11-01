@@ -1,0 +1,70 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"sign-edge-steel": "backrooms:block/52/sign-edge-steel",
+		"sign-mirror": "backrooms:block/52/sign-mirror"
+	},
+	"elements": [
+		{
+			"name": "Face",
+			"from": [
+				1,
+				2,
+				15.7
+			],
+			"to": [
+				15,
+				12,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#sign-mirror",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sign-edge-steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"west": {
+					"texture": "#sign-edge-steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"up": {
+					"texture": "#sign-edge-steel",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#sign-edge-steel",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

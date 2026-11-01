@@ -1,0 +1,1983 @@
+// Level 52: an outside wall, the façade outward (side: the way the façade faces; its other faces too) and the room's paint on the face inward (palette, part as l52-wall)
+{
+	"code": "l52-extwall",
+	"variantgroups": [
+		{
+			"code": "facade",
+			"states": [
+				"white",
+				"beige",
+				"brick",
+				"grey",
+				"blue"
+			]
+		},
+		{
+			"code": "paint",
+			"states": [
+				"beige",
+				"white",
+				"blue",
+				"grey"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"base",
+				"dado",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"texturesByType": {
+		"l52-extwall-white-beige-base-north": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"south": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-white-beige-base-east": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"west": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-white-beige-base-south": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"north": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-white-beige-base-west": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"east": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-white-beige-dado-north": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"south": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-white-beige-dado-east": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"west": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-white-beige-dado-south": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"north": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-white-beige-dado-west": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"east": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-white-beige-upper-north": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"south": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-white-beige-upper-east": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"west": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-white-beige-upper-south": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"north": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-white-beige-upper-west": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"east": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-white-white-base-north": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"south": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-white-white-base-east": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"west": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-white-white-base-south": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"north": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-white-white-base-west": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"east": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-white-white-dado-north": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"south": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-white-white-dado-east": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"west": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-white-white-dado-south": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"north": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-white-white-dado-west": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"east": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-white-white-upper-north": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"south": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-white-white-upper-east": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"west": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-white-white-upper-south": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"north": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-white-white-upper-west": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"east": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-white-blue-base-north": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"south": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-white-blue-base-east": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"west": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-white-blue-base-south": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"north": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-white-blue-base-west": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"east": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-white-blue-dado-north": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"south": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-white-blue-dado-east": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"west": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-white-blue-dado-south": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"north": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-white-blue-dado-west": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"east": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-white-blue-upper-north": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"south": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-white-blue-upper-east": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"west": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-white-blue-upper-south": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"north": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-white-blue-upper-west": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"east": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-white-grey-base-north": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"south": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-white-grey-base-east": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"west": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-white-grey-base-south": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"north": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-white-grey-base-west": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"east": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-white-grey-dado-north": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"south": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-white-grey-dado-east": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"west": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-white-grey-dado-south": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"north": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-white-grey-dado-west": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"east": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-white-grey-upper-north": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"south": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-white-grey-upper-east": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"west": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-white-grey-upper-south": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"north": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-white-grey-upper-west": {
+			"all": {
+				"base": "block/52/facade-white"
+			},
+			"east": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-beige-beige-base-north": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"south": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-beige-beige-base-east": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"west": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-beige-beige-base-south": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"north": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-beige-beige-base-west": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"east": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-beige-beige-dado-north": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"south": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-beige-beige-dado-east": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"west": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-beige-beige-dado-south": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"north": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-beige-beige-dado-west": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"east": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-beige-beige-upper-north": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"south": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-beige-beige-upper-east": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"west": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-beige-beige-upper-south": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"north": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-beige-beige-upper-west": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"east": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-beige-white-base-north": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"south": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-beige-white-base-east": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"west": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-beige-white-base-south": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"north": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-beige-white-base-west": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"east": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-beige-white-dado-north": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"south": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-beige-white-dado-east": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"west": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-beige-white-dado-south": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"north": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-beige-white-dado-west": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"east": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-beige-white-upper-north": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"south": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-beige-white-upper-east": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"west": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-beige-white-upper-south": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"north": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-beige-white-upper-west": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"east": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-beige-blue-base-north": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"south": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-beige-blue-base-east": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"west": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-beige-blue-base-south": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"north": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-beige-blue-base-west": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"east": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-beige-blue-dado-north": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"south": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-beige-blue-dado-east": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"west": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-beige-blue-dado-south": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"north": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-beige-blue-dado-west": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"east": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-beige-blue-upper-north": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"south": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-beige-blue-upper-east": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"west": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-beige-blue-upper-south": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"north": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-beige-blue-upper-west": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"east": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-beige-grey-base-north": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"south": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-beige-grey-base-east": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"west": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-beige-grey-base-south": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"north": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-beige-grey-base-west": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"east": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-beige-grey-dado-north": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"south": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-beige-grey-dado-east": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"west": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-beige-grey-dado-south": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"north": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-beige-grey-dado-west": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"east": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-beige-grey-upper-north": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"south": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-beige-grey-upper-east": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"west": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-beige-grey-upper-south": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"north": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-beige-grey-upper-west": {
+			"all": {
+				"base": "block/52/facade-beige"
+			},
+			"east": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-brick-beige-base-north": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"south": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-brick-beige-base-east": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"west": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-brick-beige-base-south": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"north": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-brick-beige-base-west": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"east": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-brick-beige-dado-north": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"south": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-brick-beige-dado-east": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"west": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-brick-beige-dado-south": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"north": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-brick-beige-dado-west": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"east": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-brick-beige-upper-north": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"south": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-brick-beige-upper-east": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"west": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-brick-beige-upper-south": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"north": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-brick-beige-upper-west": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"east": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-brick-white-base-north": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"south": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-brick-white-base-east": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"west": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-brick-white-base-south": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"north": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-brick-white-base-west": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"east": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-brick-white-dado-north": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"south": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-brick-white-dado-east": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"west": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-brick-white-dado-south": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"north": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-brick-white-dado-west": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"east": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-brick-white-upper-north": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"south": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-brick-white-upper-east": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"west": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-brick-white-upper-south": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"north": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-brick-white-upper-west": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"east": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-brick-blue-base-north": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"south": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-brick-blue-base-east": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"west": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-brick-blue-base-south": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"north": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-brick-blue-base-west": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"east": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-brick-blue-dado-north": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"south": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-brick-blue-dado-east": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"west": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-brick-blue-dado-south": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"north": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-brick-blue-dado-west": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"east": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-brick-blue-upper-north": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"south": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-brick-blue-upper-east": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"west": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-brick-blue-upper-south": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"north": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-brick-blue-upper-west": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"east": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-brick-grey-base-north": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"south": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-brick-grey-base-east": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"west": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-brick-grey-base-south": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"north": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-brick-grey-base-west": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"east": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-brick-grey-dado-north": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"south": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-brick-grey-dado-east": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"west": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-brick-grey-dado-south": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"north": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-brick-grey-dado-west": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"east": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-brick-grey-upper-north": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"south": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-brick-grey-upper-east": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"west": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-brick-grey-upper-south": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"north": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-brick-grey-upper-west": {
+			"all": {
+				"base": "block/52/facade-brick"
+			},
+			"east": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-grey-beige-base-north": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"south": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-grey-beige-base-east": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"west": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-grey-beige-base-south": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"north": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-grey-beige-base-west": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"east": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-grey-beige-dado-north": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"south": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-grey-beige-dado-east": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"west": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-grey-beige-dado-south": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"north": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-grey-beige-dado-west": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"east": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-grey-beige-upper-north": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"south": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-grey-beige-upper-east": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"west": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-grey-beige-upper-south": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"north": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-grey-beige-upper-west": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"east": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-grey-white-base-north": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"south": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-grey-white-base-east": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"west": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-grey-white-base-south": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"north": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-grey-white-base-west": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"east": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-grey-white-dado-north": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"south": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-grey-white-dado-east": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"west": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-grey-white-dado-south": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"north": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-grey-white-dado-west": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"east": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-grey-white-upper-north": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"south": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-grey-white-upper-east": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"west": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-grey-white-upper-south": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"north": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-grey-white-upper-west": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"east": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-grey-blue-base-north": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"south": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-grey-blue-base-east": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"west": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-grey-blue-base-south": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"north": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-grey-blue-base-west": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"east": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-grey-blue-dado-north": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"south": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-grey-blue-dado-east": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"west": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-grey-blue-dado-south": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"north": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-grey-blue-dado-west": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"east": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-grey-blue-upper-north": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"south": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-grey-blue-upper-east": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"west": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-grey-blue-upper-south": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"north": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-grey-blue-upper-west": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"east": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-grey-grey-base-north": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"south": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-grey-grey-base-east": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"west": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-grey-grey-base-south": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"north": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-grey-grey-base-west": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"east": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-grey-grey-dado-north": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"south": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-grey-grey-dado-east": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"west": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-grey-grey-dado-south": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"north": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-grey-grey-dado-west": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"east": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-grey-grey-upper-north": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"south": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-grey-grey-upper-east": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"west": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-grey-grey-upper-south": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"north": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-grey-grey-upper-west": {
+			"all": {
+				"base": "block/52/facade-grey"
+			},
+			"east": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-blue-beige-base-north": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"south": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-blue-beige-base-east": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"west": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-blue-beige-base-south": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"north": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-blue-beige-base-west": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"east": {
+				"base": "block/52/wall-beige-base"
+			}
+		},
+		"l52-extwall-blue-beige-dado-north": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"south": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-blue-beige-dado-east": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"west": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-blue-beige-dado-south": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"north": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-blue-beige-dado-west": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"east": {
+				"base": "block/52/wall-beige-dado"
+			}
+		},
+		"l52-extwall-blue-beige-upper-north": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"south": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-blue-beige-upper-east": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"west": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-blue-beige-upper-south": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"north": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-blue-beige-upper-west": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"east": {
+				"base": "block/52/wall-beige-upper"
+			}
+		},
+		"l52-extwall-blue-white-base-north": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"south": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-blue-white-base-east": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"west": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-blue-white-base-south": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"north": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-blue-white-base-west": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"east": {
+				"base": "block/52/wall-white-base"
+			}
+		},
+		"l52-extwall-blue-white-dado-north": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"south": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-blue-white-dado-east": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"west": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-blue-white-dado-south": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"north": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-blue-white-dado-west": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"east": {
+				"base": "block/52/wall-white-dado"
+			}
+		},
+		"l52-extwall-blue-white-upper-north": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"south": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-blue-white-upper-east": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"west": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-blue-white-upper-south": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"north": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-blue-white-upper-west": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"east": {
+				"base": "block/52/wall-white-upper"
+			}
+		},
+		"l52-extwall-blue-blue-base-north": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"south": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-blue-blue-base-east": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"west": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-blue-blue-base-south": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"north": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-blue-blue-base-west": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"east": {
+				"base": "block/52/wall-blue-base"
+			}
+		},
+		"l52-extwall-blue-blue-dado-north": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"south": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-blue-blue-dado-east": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"west": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-blue-blue-dado-south": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"north": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-blue-blue-dado-west": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"east": {
+				"base": "block/52/wall-blue-dado"
+			}
+		},
+		"l52-extwall-blue-blue-upper-north": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"south": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-blue-blue-upper-east": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"west": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-blue-blue-upper-south": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"north": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-blue-blue-upper-west": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"east": {
+				"base": "block/52/wall-blue-upper"
+			}
+		},
+		"l52-extwall-blue-grey-base-north": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"south": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-blue-grey-base-east": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"west": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-blue-grey-base-south": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"north": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-blue-grey-base-west": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"east": {
+				"base": "block/52/wall-grey-base"
+			}
+		},
+		"l52-extwall-blue-grey-dado-north": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"south": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-blue-grey-dado-east": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"west": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-blue-grey-dado-south": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"north": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-blue-grey-dado-west": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"east": {
+				"base": "block/52/wall-grey-dado"
+			}
+		},
+		"l52-extwall-blue-grey-upper-north": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"south": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-blue-grey-upper-east": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"west": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-blue-grey-upper-south": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"north": {
+				"base": "block/52/wall-grey-upper"
+			}
+		},
+		"l52-extwall-blue-grey-upper-west": {
+			"all": {
+				"base": "block/52/facade-blue"
+			},
+			"east": {
+				"base": "block/52/wall-grey-upper"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

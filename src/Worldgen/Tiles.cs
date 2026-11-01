@@ -528,6 +528,8 @@ public enum FloorKind : ushort
     /// <summary>Level 52's rooms' carpets (blue, maroon, green, grey), lab linoleum, sealed concrete (stairs, warehouse); outdoors: grass, artificial turf (plain, worn), paving, the roads' gravel and sand, the sports court (plain, a line north-south, west-east).</summary>
     L52CarpetBlue = 320, L52CarpetRed = 321, L52CarpetGreen = 322, L52CarpetGrey = 323, L52Lino = 324, L52Concrete = 325,
     L52Grass = 326, L52Turf = 327, L52TurfWorn = 328, L52Paving = 329, L52Gravel = 330, L52Sand = 331, L52Court = 332, L52CourtLineNS = 333, L52CourtLineWE = 334,
+    /// <summary>Level 52 (round 3): Marshall David's worn hall tile (dirt prints, cracks); a football pitch's turf with a white line north-south or west-east; a running track's rubber (plain, a lane line north-south, west-east).</summary>
+    L52HallWorn = 335, L52PitchLineNS = 336, L52PitchLineWE = 337, L52Track = 338, L52TrackLineNS = 339, L52TrackLineWE = 340, L52Mat = 341, L52Asphalt = 342, L52AsphaltLine = 343,
     /// <summary>Level 31 (block 352-383, and 249 kept from before). Placeholder.</summary>
     L31Floor = 249,
     /// <summary>Level 120 (block 384-415, and 251 kept from before). Placeholder.</summary>
@@ -1736,6 +1738,8 @@ public static class Props
     public const ushort L52Desk = 1100, L52Chalkboard = 1101;
     /// <summary>Level 52: a drinking fountain on the wall behind it (Pier its face).</summary>
     public const ushort L52Fountain = 1102;
+    /// <summary>Level 52 (round 3): a toilet stall, a lab's fume hood (both two high, Pier their face), a row of bleachers (Pier the way it faces; Stack 0 on the floor, 1 a block up on its riser).</summary>
+    public const ushort L52Stall = 1103, L52FumeHood = 1104, L52Bleacher = 1105;
     public const ushort L36First = 1200, L36Last = 1299;
     /// <summary>Level 36: a check-in desk (Stack 0 desk, 1 scale), a gate seat (Stack 0 blue, 1 grey, 2 a coat on it, 3 a bag), the gate podium, a queue stanchion (Stack 0 no belt, 1-4 its belt north, east, south, west), the scanner arch (two high, walked through), an X-ray machine (Stack 0 body, 1 belt), trays, the Travel Agency's booth (Stack 0 desk, 1 brochure rack), a perfume counter, a food-court table (Stack 0 tray, 1 cups, 2 plate, 3 bare), the meeting point (three high), a cabin seat, a Lost and Found shelf, a carousel's island, Level 3999's couch (Stack 0 left, 1 right), planter and bin. Pier their facing.</summary>
     public const ushort L36Checkin = 1200, L36Seat = 1201, L36GateDesk = 1202, L36Stanchion = 1203, L36Scanner = 1204, L36Xray = 1205, L36Trays = 1206,

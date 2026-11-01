@@ -1,0 +1,70 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"sign-edge-white": "backrooms:block/52/sign-edge-white",
+		"sign-poster-quiet": "backrooms:block/52/sign-poster-quiet"
+	},
+	"elements": [
+		{
+			"name": "Face",
+			"from": [
+				4,
+				1,
+				15.85
+			],
+			"to": [
+				12,
+				12,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#sign-poster-quiet",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sign-edge-white",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11
+					]
+				},
+				"west": {
+					"texture": "#sign-edge-white",
+					"uv": [
+						0,
+						0,
+						0.5,
+						11
+					]
+				},
+				"up": {
+					"texture": "#sign-edge-white",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#sign-edge-white",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

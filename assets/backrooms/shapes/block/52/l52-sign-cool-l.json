@@ -1,0 +1,70 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"sign-cool-l": "backrooms:block/52/sign-cool-l",
+		"sign-edge-blue": "backrooms:block/52/sign-edge-blue"
+	},
+	"elements": [
+		{
+			"name": "Face",
+			"from": [
+				0,
+				2,
+				14.5
+			],
+			"to": [
+				15,
+				13,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#sign-cool-l",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sign-edge-blue",
+					"uv": [
+						0,
+						0,
+						1.5,
+						11
+					]
+				},
+				"west": {
+					"texture": "#sign-edge-blue",
+					"uv": [
+						0,
+						0,
+						1.5,
+						11
+					]
+				},
+				"up": {
+					"texture": "#sign-edge-blue",
+					"uv": [
+						0,
+						0,
+						15,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#sign-edge-blue",
+					"uv": [
+						0,
+						0,
+						15,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

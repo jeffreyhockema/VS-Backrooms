@@ -1,0 +1,70 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"sign-edge-red": "backrooms:block/52/sign-edge-red",
+		"sign-ext": "backrooms:block/52/sign-ext"
+	},
+	"elements": [
+		{
+			"name": "Face",
+			"from": [
+				6,
+				1,
+				13.5
+			],
+			"to": [
+				10,
+				9,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#sign-ext",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sign-edge-red",
+					"uv": [
+						0,
+						0,
+						2.5,
+						8
+					]
+				},
+				"west": {
+					"texture": "#sign-edge-red",
+					"uv": [
+						0,
+						0,
+						2.5,
+						8
+					]
+				},
+				"up": {
+					"texture": "#sign-edge-red",
+					"uv": [
+						0,
+						0,
+						4,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#sign-edge-red",
+					"uv": [
+						0,
+						0,
+						4,
+						2.5
+					]
+				}
+			}
+		}
+	]
+}

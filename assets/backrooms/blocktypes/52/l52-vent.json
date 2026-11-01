@@ -1,0 +1,55 @@
+// Level 52: a roof vent, a steel mushroom cap on a stem
+{
+	"code": "l52-vent",
+	"variantgroups": [],
+	"shapeByType": {
+		"*": {
+			"base": "backrooms:block/52/l52-vent"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75
+		}
+	},
+	"selectionboxByType": {
+		"*": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.56,
+			"z2": 0.75
+		}
+	},
+	"drops": []
+}

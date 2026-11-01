@@ -20,16 +20,20 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private static readonly string[] L52SlabKinds = { "hall", "room", "carpetblue", "carpetred", "carpetgreen", "carpetgrey", "lino", "concrete", "wood" };
+    private static readonly string[] L52SlabKinds = { "hall", "room", "carpetblue", "carpetred", "carpetgreen", "carpetgrey", "lino", "concrete", "wood", "worn", "mat" };
     private static readonly string[] L52LightStates = { "on", "lit", "off", "flicker" };
     private const int L52SlabConcrete = 7, L52LightOn = 0, L52LightOff = 2;
 
+    private int l52Skylight, l52WallPatch, l52Asphalt, l52AsphaltLine;
+    private readonly int[,,,] l52ExtWall = new int[5, 4, 3, 4];
     private int l52Grass, l52Soil, l52Rock, l52Gravel, l52Sand, l52Coping, l52Barrier, l52Roof, l52Plinth, l52Canopy;
     private readonly int[] l52Trim = new int[3];
-    private readonly int[,] l52Wall = new int[4, 3], l52Light = new int[9, 4], l52Window = new int[2, 2], l52Chain = new int[2, 2];
+    private readonly int[,] l52Wall = new int[4, 3], l52Light = new int[11, 4], l52Window = new int[2, 2], l52Chain = new int[2, 2];
     private readonly int[,,] l52Locker = new int[4, 2, 4], l52Board = new int[2, 3, 4];
     private readonly int[,,,] l52Plaque = new int[2, 10, 10, 4];
-    private readonly int[] l52Slab = new int[9], l52Facade = new int[5], l52Turf = new int[2], l52Court = new int[3], l52Paving = new int[2],
+    private readonly int[,] l52Stall = new int[2, 4], l52Hood = new int[2, 4];
+    private readonly int[] l52Bleacher = new int[4], l52PitchLine = new int[2], l52Track = new int[3];
+    private readonly int[] l52Slab = new int[11], l52Facade = new int[5], l52Turf = new int[2], l52Court = new int[3], l52Paving = new int[2],
         l52GymLine = new int[3], l52Desk = new int[4], l52Fountain = new int[4];
     private readonly HashSet<string> l52Missing = new();
 
@@ -95,7 +99,49 @@ public sealed partial class WorldGenerator
                 for (int a = 0; a < 10; a++)
                     for (int b = 0; b < 10; b++) l52Plaque[h, a, b, f] = L52Block($"l52-plaque-{(h == 0 ? "lo" : "hi")}-{a}-{b}-{Sides[f]}");
         }
+        for (int f = 0; f < 4; f++)
+        {
+            for (int k = 0; k < 2; k++)
+            {
+                l52Stall[k, f] = L52Block($"l52-stall-{halves[k]}-{Sides[f]}");
+                l52Hood[k, f] = L52Block($"l52-fumehood-{halves[k]}-{Sides[f]}");
+            }
+            l52Bleacher[f] = L52Block("l52-bleacher-" + Sides[f]);
+        }
+        l52Skylight = L52Block("l52-skylight", l52Window[0, 0]);
+        l52WallPatch = L52Block("l52-wallpatch", l52Wall[2, 1]);
+        l52Asphalt = L52Block("l52-asphalt-plain", l52Paving[0]);
+        l52AsphaltLine = L52Block("l52-asphalt-linens", l52Asphalt);
+        for (int fa = 0; fa < 5; fa++)
+            for (int p = 0; p < 4; p++)
+                for (int k = 0; k < 3; k++)
+                    for (int f = 0; f < 4; f++)
+                        l52ExtWall[fa, p, k, f] = L52Block($"l52-extwall-{WorldLayout.L52Facades[fa]}-{WorldLayout.L52Paints[p]}-{parts[k]}-{Sides[f]}", l52Facade[fa]);
+        l52PitchLine[0] = L52Block("l52-turf-linens", l52Turf[0]);
+        l52PitchLine[1] = L52Block("l52-turf-linewe", l52Turf[0]);
+        for (int i = 0; i < 3; i++) l52Track[i] = L52Block("l52-track-" + courts[i], l52Court[i]);
         InitL52Links();
+    }
+
+    /// <summary>
+    /// A campus tile's fitting at a height (WorldLayout.Level52.Detail.cs), or -1 for none: <paramref name="rel"/> above the
+    /// floor (outdoors, above the ground); fittings on every storey count below <paramref name="top"/> (the building's roof).
+    /// </summary>
+    private int L52FixtureAt(WorldLayout.L52Campus c, int index, int rel, int top, out int fluid)
+    {
+        fluid = 0;
+        if (!c.Fixtures.TryGetValue(index, out var list)) return -1;
+        int h = rel % WorldLayout.L52Storey;
+        foreach (WorldLayout.L52Fixture f in list)
+        {
+            if (f.EveryStorey ? rel >= top || h < f.Lo || h > f.Hi : rel < f.Lo || rel > f.Hi) continue;
+            if (f.Code == "=water") { fluid = waterId; return 0; }
+            if (f.Code == "=hedge") return treeLeafIds[0, 0];
+            if (f.Code.StartsWith("=stair-"))
+                return stairIds[f.Code.EndsWith("north") ? 0 : f.Code.EndsWith("east") ? 1 : f.Code.EndsWith("south") ? 2 : 3];
+            return modBlocks.TryGetValue(f.Code, out int id) ? id : 0;
+        }
+        return -1;
     }
 
     /// <summary>The slab kind (<see cref="L52SlabKinds"/>) of a floor finish.</summary>
@@ -109,6 +155,8 @@ public sealed partial class WorldGenerator
         FloorKind.L52Lino => 6,
         FloorKind.L52Concrete => 7,
         FloorKind.L52Gym or FloorKind.L52GymLineNS or FloorKind.L52GymLineWE => 8,
+        FloorKind.L52HallWorn => 9,
+        FloorKind.L52Mat => 10,
         _ => 1,
     };
 
@@ -182,6 +230,11 @@ public sealed partial class WorldGenerator
         if (rel < -6) return concreteId;
         ref L52Column col = ref L52Col(t, gx, gz);
         if (t.Depth > 0 && col.Campus != null) return L52BuildingBlock(t, ref col, gx, gz, rel);
+        if (col.Campus != null && rel > t.Height && col.Campus.HasFixture[col.Index])
+        {
+            int fb = L52FixtureAt(col.Campus, col.Index, rel - t.Height, 0, out fluid);
+            if (fb >= 0) return fb;
+        }
 
         int g = t.Height;
         // The fences: a concrete barrier with chain-link over it (out on the plain, the chain-link alone)
@@ -206,6 +259,13 @@ public sealed partial class WorldGenerator
                 FloorKind.L52Court => l52Court[0],
                 FloorKind.L52CourtLineNS => l52Court[1],
                 FloorKind.L52CourtLineWE => l52Court[2],
+                FloorKind.L52PitchLineNS => l52PitchLine[0],
+                FloorKind.L52PitchLineWE => l52PitchLine[1],
+                FloorKind.L52Track => l52Track[0],
+                FloorKind.L52TrackLineNS => l52Track[1],
+                FloorKind.L52TrackLineWE => l52Track[2],
+                FloorKind.L52Asphalt => l52Asphalt,
+                FloorKind.L52AsphaltLine => l52AsphaltLine,
                 _ => l52Grass,
             };
         }
@@ -260,6 +320,11 @@ public sealed partial class WorldGenerator
         WorldLayout.L52Campus c = col.Campus;
         int n = t.Depth, top = n * WorldLayout.L52Storey;
         if (rel < 0) return concreteId;
+        if (rel > 0 && c.HasFixture[col.Index])
+        {
+            int fb = L52FixtureAt(c, col.Index, rel, n * WorldLayout.L52Storey, out _);
+            if (fb >= 0) return fb;
+        }
         int paint = c.Paint;
         if (t.Zone is (byte)Zone.Ext or (byte)Zone.Entrance)
         {
@@ -271,6 +336,10 @@ public sealed partial class WorldGenerator
             int s = rel / 4, k = rel % 4;
             bool entrance = t.Zone == (byte)Zone.Entrance;
             if (entrance && s == 0 && k is 1 or 2) return 0;
+            // (Round 3) over the quad's ways in, a glazed bay the height of the building (not at Marshall David, all white concrete)
+            if (s > 0 && rel < top && (entrance || t.Overhead == Overheads.L52Frame) && t.Detail == 1 && c.Head.Kind != WorldLayout.L52CampusKind.MarshallDavid
+                && t.Overhead != Overheads.L52BridgeDoor)
+                return k == 0 ? trim : l52Skylight;
             // A bridge's opening at its floor, and its lintel
             if (s == WorldLayout.L52BridgeStorey && t.Overhead == Overheads.L52BridgeDoor && k > 0) return k == 3 ? trim : 0;
             // The door's lintel and the surround either side of it
@@ -284,6 +353,8 @@ public sealed partial class WorldGenerator
                 if (rel == top || k == 0 && s >= 1 && (bld.Band == 1 || bld.Band == 2 && s == 1)) return trim;
                 if (rel == 1 && bld.Plinth) return l52Plinth;
             }
+            // (Round 3) inside, the room's paint on the wall's inward face
+            if (k >= 1 && rel < top && t.Zone == (byte)Zone.Ext) return l52ExtWall[bld?.Facade ?? c.Facade, paint, k - 1, Facing(t.Pier)];
             return l52Facade[bld?.Facade ?? c.Facade];
         }
         // Over the top storey: the roof, an air-conditioning unit on it now and then
@@ -302,12 +373,17 @@ public sealed partial class WorldGenerator
         {
             if (h == 0) return concreteId;
             if (t.Under == Unders.L52Locker && h <= 2) return l52Locker[paint, h - 1, Facing(t.Pier)];
+            // (J. Barry: the Crash's bullet holes filled and painted over, here and there)
+            if (h == 2 && paint == 2 && c.Head.Kind == WorldLayout.L52CampusKind.JBarry && Hashing.Unit(Hashing.Hash(seed, gx, gz * 7 + storey, 0x2338)) < 0.06) return l52WallPatch;
             return l52Wall[paint, h - 1];
         }
         int kind = L52SlabOf(t.Floor);
         if (t.Kind == TileKind.Doorway)
         {
             if (h == 0) return l52Slab[kind];
+            // (a gym's changing rooms are one storey: over their doors, wall)
+            if (storey > 0 && t.Detail > 0 && t.Detail <= c.Buildings.Count && c.Buildings[t.Detail - 1].Kind == WorldLayout.L52BuildingKind.Gym)
+                return l52Wall[paint, Math.Max(0, h - 1)];
             return h == 3 ? l52Wall[paint, 2] : 0;
         }
         // A floor tile: its slab (the floor of this storey, the ceiling of the one below), then its three of air
@@ -363,6 +439,9 @@ public sealed partial class WorldGenerator
         }
         if (prop == Props.L52Chalkboard)
             return h is 2 or 3 ? l52Board[h - 2, Math.Min((int)stack, 2), Facing(facing)] : 0;
+        if (prop == Props.L52Stall) return h is 1 or 2 ? l52Stall[h - 1, Facing(facing)] : 0;
+        if (prop == Props.L52FumeHood) return h is 1 or 2 ? l52Hood[h - 1, Facing(facing)] : 0;
+        if (prop == Props.L52Bleacher) return h == 1 + stack ? l52Bleacher[Facing(facing)] : h >= 1 && h <= stack ? l52Plinth : 0;
         if (h != 1) return 0;
         if (box)
         {

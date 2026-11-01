@@ -1,0 +1,70 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"sign-edge-steel": "backrooms:block/52/sign-edge-steel",
+		"sign-lifthi-r": "backrooms:block/52/sign-lifthi-r"
+	},
+	"elements": [
+		{
+			"name": "Face",
+			"from": [
+				1,
+				0,
+				15.4
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#sign-lifthi-r",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sign-edge-steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#sign-edge-steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						16
+					]
+				},
+				"up": {
+					"texture": "#sign-edge-steel",
+					"uv": [
+						0,
+						0,
+						15,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#sign-edge-steel",
+					"uv": [
+						0,
+						0,
+						15,
+						0.6
+					]
+				}
+			}
+		}
+	]
+}

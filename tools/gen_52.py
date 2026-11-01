@@ -28,6 +28,7 @@ import numpy as np
 from PIL import Image
 
 import gen_52_tex as T
+import gen_52_r3 as R3
 from modelkit import box
 from oggutil import write_ogg
 from gen_entity_sounds import RATE, band, reverb, seconds
@@ -42,10 +43,10 @@ S = 32
 SIDES = ["north", "east", "south", "west"]
 ROTATE = {"north": 0, "east": 270, "south": 180, "west": 90}
 PALETTES = ["beige", "white", "blue", "grey"]
-KINDS = ["hall", "room", "carpetblue", "carpetred", "carpetgreen", "carpetgrey", "lino", "concrete", "wood"]
+KINDS = ["hall", "room", "carpetblue", "carpetred", "carpetgreen", "carpetgrey", "lino", "concrete", "wood", "worn", "mat"]
 FLOOR = {"hall": "tile-hall", "room": "tile-room", "carpetblue": "floor-carpetblue", "carpetred": "floor-carpetred",
          "carpetgreen": "floor-carpetgreen", "carpetgrey": "floor-carpetgrey", "lino": "floor-lino",
-         "concrete": "floor-concrete", "wood": "gymfloor-plain"}
+         "concrete": "floor-concrete", "wood": "gymfloor-plain", "worn": "tile-hallworn", "mat": "floor-mat"}
 WRITTEN = {"blocktypes": set(), "shapes": set(), "textures": set()}
 
 STONE = {"walk": "game:walk/stone*", "place": "game:block/loosestone*", "break": "game:block/rock-break-pickaxe", "hit": "game:block/rock-hit-pickaxe"}
@@ -510,9 +511,10 @@ def new_blocktypes():
                        **{f"l52-light-{k}-lit": [{"type": "block", "code": f"l52-light-{k}-on"}] for k in KINDS}),
                    "soundsByType": {"*-on": hum, "*-lit": hum, "*": GLASS}})
     # Outdoor surfaces
-    cube_block("l52-turf", [group("kind", ["plain", "worn"])],
-               {f"l52-turf-{k}": faces(sides="turf-side", up=f"turf-{k}", down="slab-concrete") for k in ("plain", "worn")},
-               "Level 52: artificial grass over rubber crumb (plain; worn: paler flattened patches)",
+    cube_block("l52-turf", [group("kind", ["plain", "worn", "linens", "linewe"])],
+               {f"l52-turf-{k}": faces(sides="turf-side", up=f"turf-{k}", down="slab-concrete") for k in ("plain", "worn", "linens", "linewe")},
+               "Level 52: artificial grass over rubber crumb (plain; worn: paler flattened patches; linens, linewe: a pitch's white line "
+               "north-south or west-east)",
                sounds={"walk": "game:walk/grass", "place": "game:block/plant", "break": "game:block/plant", "hit": "game:block/plant"}, resistance=3)
     cube_block("l52-court", [group("kind", ["plain", "linens", "linewe"])],
                {f"l52-court-{k}": faces(sides="slab-concrete", up=f"court-{k}", down="slab-concrete") for k in ("plain", "linens", "linewe")},
@@ -724,7 +726,7 @@ def expected_codes():
         codes.add(f"l52-exitsign-{s}")
         for k in "0123":
             codes.add(f"l52-schoolsign-{k}-{s}")
-    return codes
+    return codes | R3.expected()
 
 
 def strip_comment(text):
@@ -803,6 +805,7 @@ def main():
     new_blocktypes()
     link_textures()
     link_blocktypes()
+    R3.build(__import__("sys").modules[__name__])
     bell()
     remove_stale()
     if not check():

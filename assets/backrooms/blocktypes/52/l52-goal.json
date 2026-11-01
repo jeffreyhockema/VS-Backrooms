@@ -1,0 +1,367 @@
+// Level 52: a football goal three blocks wide and two high, facing the way of its side: posts (l, r as seen from the pitch), the crossbar (upper), the net behind
+{
+	"code": "l52-goal",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"l",
+				"m",
+				"r"
+			]
+		},
+		{
+			"code": "half",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-goal-l-lower-north": {
+			"base": "backrooms:block/52/l52-goal-l-lower",
+			"rotateY": 0
+		},
+		"l52-goal-l-lower-east": {
+			"base": "backrooms:block/52/l52-goal-l-lower",
+			"rotateY": 270
+		},
+		"l52-goal-l-lower-south": {
+			"base": "backrooms:block/52/l52-goal-l-lower",
+			"rotateY": 180
+		},
+		"l52-goal-l-lower-west": {
+			"base": "backrooms:block/52/l52-goal-l-lower",
+			"rotateY": 90
+		},
+		"l52-goal-l-upper-north": {
+			"base": "backrooms:block/52/l52-goal-l-upper",
+			"rotateY": 0
+		},
+		"l52-goal-l-upper-east": {
+			"base": "backrooms:block/52/l52-goal-l-upper",
+			"rotateY": 270
+		},
+		"l52-goal-l-upper-south": {
+			"base": "backrooms:block/52/l52-goal-l-upper",
+			"rotateY": 180
+		},
+		"l52-goal-l-upper-west": {
+			"base": "backrooms:block/52/l52-goal-l-upper",
+			"rotateY": 90
+		},
+		"l52-goal-m-lower-north": {
+			"base": "backrooms:block/52/l52-goal-m-lower",
+			"rotateY": 0
+		},
+		"l52-goal-m-lower-east": {
+			"base": "backrooms:block/52/l52-goal-m-lower",
+			"rotateY": 270
+		},
+		"l52-goal-m-lower-south": {
+			"base": "backrooms:block/52/l52-goal-m-lower",
+			"rotateY": 180
+		},
+		"l52-goal-m-lower-west": {
+			"base": "backrooms:block/52/l52-goal-m-lower",
+			"rotateY": 90
+		},
+		"l52-goal-m-upper-north": {
+			"base": "backrooms:block/52/l52-goal-m-upper",
+			"rotateY": 0
+		},
+		"l52-goal-m-upper-east": {
+			"base": "backrooms:block/52/l52-goal-m-upper",
+			"rotateY": 270
+		},
+		"l52-goal-m-upper-south": {
+			"base": "backrooms:block/52/l52-goal-m-upper",
+			"rotateY": 180
+		},
+		"l52-goal-m-upper-west": {
+			"base": "backrooms:block/52/l52-goal-m-upper",
+			"rotateY": 90
+		},
+		"l52-goal-r-lower-north": {
+			"base": "backrooms:block/52/l52-goal-r-lower",
+			"rotateY": 0
+		},
+		"l52-goal-r-lower-east": {
+			"base": "backrooms:block/52/l52-goal-r-lower",
+			"rotateY": 270
+		},
+		"l52-goal-r-lower-south": {
+			"base": "backrooms:block/52/l52-goal-r-lower",
+			"rotateY": 180
+		},
+		"l52-goal-r-lower-west": {
+			"base": "backrooms:block/52/l52-goal-r-lower",
+			"rotateY": 90
+		},
+		"l52-goal-r-upper-north": {
+			"base": "backrooms:block/52/l52-goal-r-upper",
+			"rotateY": 0
+		},
+		"l52-goal-r-upper-east": {
+			"base": "backrooms:block/52/l52-goal-r-upper",
+			"rotateY": 270
+		},
+		"l52-goal-r-upper-south": {
+			"base": "backrooms:block/52/l52-goal-r-upper",
+			"rotateY": 180
+		},
+		"l52-goal-r-upper-west": {
+			"base": "backrooms:block/52/l52-goal-r-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-goal-l-lower-north"
+		],
+		"backrooms": [
+			"l52-goal-l-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l52-goal-l-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-goal-l-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-goal-l-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-goal-l-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-goal-l-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-goal-l-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-goal-l-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-goal-l-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-goal-m-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-goal-m-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-goal-m-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-goal-m-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-goal-m-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-goal-m-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-goal-m-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-goal-m-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-goal-r-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-goal-r-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-goal-r-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-goal-r-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-goal-r-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-goal-r-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-goal-r-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-goal-r-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"renderpass": "OpaqueNoCull",
+	"collisionbox": null
+}

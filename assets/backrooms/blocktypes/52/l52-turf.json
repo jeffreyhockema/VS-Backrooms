@@ -1,4 +1,4 @@
-// Level 52: artificial grass over rubber crumb (plain; worn: paler flattened patches)
+// Level 52: artificial grass over rubber crumb (plain; worn: paler flattened patches; linens, linewe: a pitch's white line north-south or west-east)
 {
 	"code": "l52-turf",
 	"variantgroups": [
@@ -6,7 +6,9 @@
 			"code": "kind",
 			"states": [
 				"plain",
-				"worn"
+				"worn",
+				"linens",
+				"linewe"
 			]
 		}
 	],
@@ -46,6 +48,46 @@
 			},
 			"up": {
 				"base": "block/52/turf-worn"
+			},
+			"down": {
+				"base": "block/52/slab-concrete"
+			}
+		},
+		"l52-turf-linens": {
+			"north": {
+				"base": "block/52/turf-side"
+			},
+			"east": {
+				"base": "block/52/turf-side"
+			},
+			"south": {
+				"base": "block/52/turf-side"
+			},
+			"west": {
+				"base": "block/52/turf-side"
+			},
+			"up": {
+				"base": "block/52/turf-linens"
+			},
+			"down": {
+				"base": "block/52/slab-concrete"
+			}
+		},
+		"l52-turf-linewe": {
+			"north": {
+				"base": "block/52/turf-side"
+			},
+			"east": {
+				"base": "block/52/turf-side"
+			},
+			"south": {
+				"base": "block/52/turf-side"
+			},
+			"west": {
+				"base": "block/52/turf-side"
+			},
+			"up": {
+				"base": "block/52/turf-linewe"
 			},
 			"down": {
 				"base": "block/52/slab-concrete"

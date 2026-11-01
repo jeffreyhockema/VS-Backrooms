@@ -384,18 +384,19 @@ def troffer(on, seed):
 
 def roof(seed):
     """A flat roof: grey bituminous membrane with scattered gravel ballast."""
-    img = M.noise_hv((92, 95, 96), 3, seed, S, 4, (8, 4), hue=1.0)
+    # (Round 3: calmer, as the lead asked of the roofs: a mid grey with sparse, low-contrast ballast)
+    img = M.noise_hv((112, 114, 114), 3, seed, S, 4, (8, 4), hue=1.0)
     rng = random.Random(seed)
     p = img.load()
-    for _ in range(95):
+    for _ in range(40):
         x, y = rng.randrange(S), rng.randrange(S)
-        base = rng.choice(((150, 148, 142), (118, 116, 112), (170, 164, 150), (96, 98, 100), (132, 126, 116)))
+        base = rng.choice(((130, 128, 124), (120, 118, 114), (136, 132, 124), (108, 110, 112)))
         big = rng.random() < 0.3
         cells = [(0, 0), (1, 0), (0, 1), (1, 1)] if big else [(0, 0)]
         for dx, dy in cells:
             p[(x + dx) % S, (y + dy) % S] = M.rgba(M.lift(base, rng.uniform(-4, 4)))
-        M.touch(img, x, y, 0.12)
-        M.touch(img, x + (2 if big else 1), y + (2 if big else 1), -0.22)
+        M.touch(img, x, y, 0.06)
+        M.touch(img, x + (2 if big else 1), y + (2 if big else 1), -0.1)
     return img
 
 

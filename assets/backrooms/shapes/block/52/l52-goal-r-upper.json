@@ -1,0 +1,247 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"goal-net": "backrooms:block/52/goal-net",
+		"goal-white": "backrooms:block/52/goal-white"
+	},
+	"elements": [
+		{
+			"name": "Bar",
+			"from": [
+				0,
+				13,
+				1
+			],
+			"to": [
+				16,
+				15,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"south": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"up": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "NetTop",
+			"from": [
+				0,
+				14.5,
+				3
+			],
+			"to": [
+				16,
+				14.6,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#goal-net",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#goal-net",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "NetBack",
+			"from": [
+				0,
+				0,
+				15.9
+			],
+			"to": [
+				16,
+				15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#goal-net",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#goal-net",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Post",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				2,
+				15,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						15
+					]
+				},
+				"east": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						15
+					]
+				},
+				"south": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						15
+					]
+				},
+				"west": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						15
+					]
+				},
+				"up": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "NetSide",
+			"from": [
+				0,
+				0,
+				3
+			],
+			"to": [
+				0.1,
+				14.5,
+				15.9
+			],
+			"faces": {
+				"east": {
+					"texture": "#goal-net",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#goal-net",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

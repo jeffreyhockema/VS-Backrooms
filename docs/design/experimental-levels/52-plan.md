@@ -375,3 +375,158 @@ end doors for the emergency exit; Dez's, A.L.'s and Tom's notes.
   through that door (an open doorway) leads back to where the opener stood, in front of the school / the exit
   (`l52-back-city`, `l52-back-office`). Dummy in Level 52 lands; `blocksweep` 11181 blocks, 0 threw; 0 error lines.
 - `GATE_TAG=52 python tools/gate.py --fast --port-base 43120`: PASS.
+
+## Round 3 (2026-11-01): the detailed visual pass
+
+Looked at first: round 2's final sheet (`%TEMP%/backrooms-shots/final-r2/sheets/52.jpg`), the lead's notes for Level 52, the
+brief, DECISIONS.md, this plan's open points, and the released levels with the same kind of place (Level 11's stores and
+signs, Level 5's lobby, Level 4's offices, Level 188's street furniture).
+
+**Signs and the lore.** The lore says a door's sign carries four digits and "no subject and no campus name" anywhere. So
+this round's text keeps to what that allows: numbers (building numbers over the entrances, floor numbers in the
+stairwells, room ranges on the directories), the words any building has (EXIT, STAIRS, the restroom pictograms, NO
+RUNNING), and the people's own signs, which the lore names: the M.E.G.'s outpost, Cool Mart Co. at J. Barry, the
+abandoned bases' boards, and the M.E.G.'s stencilled boards giving the three named campuses their names at their gates
+(the names are the M.E.G.'s, not the buildings'). No subject over a classroom door, no name cast into a building.
+
+### List
+Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: why]`.
+
+**1. Layout realism**
+1. (A) Rooms by function in the quad: a front office (reception counter, waiting chairs, the principal's office behind) beside the main lobby on the ground floor. [done] (`L52AssignRoles`: the rooms nearest the lobbies are the front office, the principal's office, the staff room, the library)
+2. (A) Restrooms by every stairwell (a pair per storey: stalls with partitions, toilets, a row of basins) instead of a classroom. [done] (the rooms nearest each stairwell's two doors, on every storey; stalls, basins, mirrors, a poster)
+3. (A) A real library: the biggest ground-storey room of a block, rows of shelving, reading tables with chairs, a circulation desk. [done] (stacks on one side, reading tables and chairs, an issue desk; nearest the fourth lobby, 50 tiles or more)
+4. (A) A staff room on each building's ground storey (sofa, coffee table, kitchenette counter, fridge, a table and chairs). [done] (one a building, nearest a lobby or door)
+5. (A) The gym with changing rooms walled off at one end (benches, lockers, two doors) and bleachers along a long side. [done] (`L52LayChanging`: a cross wall nine in, a passage from the end door, lockers, benches, pictograms; two rows of bleachers on the far long side)
+6. (A) Paths that lead between entrances and the fence gaps (a walk joining every building's doors), not only straight out across the lawns. [done] (an L-shaped walk three wide from each building's nearest door to the quad's nearest)
+7. (A) A sports field with goals inside a running track on campuses with the room for one. [done] (`L52LayPitch`: where a plot has 62 x 44 left; a track, lines, goals, a three-row stand)
+8. (B) A lecture theatre: a hall building with raked rows of seats facing a long board. [done] (`L52LayLecture`: a two-storey hall, doors at the front, tiers of desks to five up, stairs up both aisles; 28 in `52stats 4`)
+9. (B) Labs grouped on one storey with benches along both walls and fume hoods. [done] (a lab storey in buildings of three or more; fume hoods)
+10. (B) An outdoor seating area by the canteen (tables, chairs, benches) and a canteen serving line. [partly: café tables outside the canteens; the food stands were already the serving line]
+11. (B) Lodging blocks: a desk and a chair in each room, a shared washroom on each floor. [partly: a desk and chair in each room; the washrooms are the restrooms by the stairs]
+12. (C) Courtyard trees off their visible grid. [done] (`L52TreeSpot`)
+
+**2. Multi-block objects**
+13. (A) Roofs: air-handling units (several blocks, fan grilles), a stair bulkhead with a roof door over each stairwell, vents. [done] (`L52LayRoofs`)
+14. (A) A clock tower on Marshall David's quad (and on some other quads): a square tower over the roofline, a clock face on each side. [done] (`L52LayTower`: Marshall David always, about one other quad in three; clocks stopped at 3:52)
+15. (A) A fountain in the middle of a courtyard without a court (a stone basin with water, a jet column). [done] (`L52LayFountain`)
+16. (A) Flagpoles in front of the quad's main entrance (pole, base, flag at the top). [done] (`L52LayFlags`)
+17. (A) A campus map board at the main gap of every campus (a framed board on two posts). [done] (at every wide gap, beside the path in)
+18. (B) Bleachers (stepped rows) by the J. Turner court and the sports field. [done] (two rows by every court, three by every pitch)
+19. (B) The trophy case in the quad's lobby (glass case on a plinth) and benches. [partly: two trophy cases across the corridor from each front door whose lobby stops there; no bench]
+20. (B) Elevator doors (closed: the lore has lifts; stairs carry people) beside the quad's first stairwell, a call button and a floor indicator. [done] (lift doors and an unlit floor indicator by the quad's first stairwell, every storey)
+21. (B) A car park outside each named campus's main gap (paved bays, painted lines, a few cars) and a bus shelter by the road. [done] (a car park where a plot has no room for a pitch: two rows of bays, lines, a few of the mod's cars; a bus shelter by each east road)
+22. (B) Glazed courtyard roof on some quads (the lore's "translucent ceiling"). [done] (about one ordinary quad in three without a court)
+23. (C) Bike racks and planters by the entrances. [partly: bike racks along the wall beside teaching and lodging blocks' doors; no planters]
+
+**3. Signs and text**
+24. (A) EXIT signs over every outside door and every stairwell door, inside. [done]
+25. (A) Building numbers over the entrances (big numerals on the canopy fascia). [done] (the building's number on the front of every canopy)
+26. (A) Floor numbers in the stairwells (painted on the landing walls) and a floor directory beside each stairwell door (FLOOR n, the room ranges, arrows). [done] (floor number on the first landing; the directory gives the floor, which way the stairs go, the way out)
+27. (A) Restroom signs (pictograms) by their doors. [done]
+28. (A) The M.E.G. outpost's own sign at Marshall David's top floor (and its barrier notice), the M.E.G.'s placard conventions. [partly: the M.E.G. OUTPOST sign by the stairwells on Marshall David's top floor; no barrier (item 41)]
+29. (A) J. Barry's warehouse sign (COOL MART CO.) over its doors, and its alarm bells. [done] (COOL MART CO. over the warehouse's doors; red alarm bells along J. Barry's corridors)
+30. (A) The named campuses' names at their main gaps (the M.E.G.'s stencilled boards). [done]
+31. (B) Notice boards along the corridors (cork, pinned sheets) and posters (NO RUNNING, a fire plan). [done]
+32. (B) The abandoned bases' boards (Base Sunfire, Emberwatch, Blackcross) on a few ordinary campuses, with what they left (crates, a tent, a barricade). [done] (about one ordinary campus in six: the board at the main gap, a tent, crates, a pallet, a burn barrel, a lantern)
+33. (C) A wall clock over each chalkboard. [partly: a wall clock over every room's door, inside (over the board there is no room under the ceiling)]
+
+**4. Detail visuals**
+34. (A) Break the locker runs: fire-hose cabinets, extinguishers, notice boards, doors, bins (the lead's note). [done] (`L52LayCorridorFittings`: every 19 blocks along a wall, a hose cabinet with an extinguisher, a notice board, a poster)
+35. (A) Marshall David worn, as the lore has it: dirt prints and cracks in its corridors' floor, rubbish here and there. [done] (worn tile in patches, bin bags and boxes)
+36. (B) Hedges along the quad's front and the main walk. [done] (`L52LayHedges`: a step beyond the quad's paving, broken at every path)
+37. (B) Door leaves standing open against the wall beside classroom doors (wood with a narrow window). [done] (about two rooms in three)
+38. (B) The lobby's floor: an entrance mat inside each outside door, a different floor from the corridors. [done] (a ribbed entrance mat on the two tiles inside every outside door)
+39. (C) Fresh paint patches over the Crash's bullet holes at J. Barry (the aftermath text). [done] (`l52-wallpatch`, about one wall block in sixteen along J. Barry's corridors)
+
+**5. Lore alignment**
+40. (A) Classrooms stay identical and dark (the lore); the new room kinds take the places the lore lists (offices, faculty rooms, labs, libraries, utility rooms). [done] (classrooms untouched; the new kinds take the places of classrooms, as the lore's room list)
+41. (B) The M.E.G.'s locked top floor: a barrier at the top flight with its notice ("outsiders are sent back a floor"). [skipped: the sign says it; a barrier would shut the M.E.G.'s floor the showcase needs]
+42. (C) The roof's view: the campus below reads from the roof (a lower parapet on the roof-door side). [partly: the bulkheads and units now give the roof something to see; the parapet unchanged]
+
+**6. Released-level alignment**
+43. (A) Block names in the HUD for every new block (lang), pick-block works, sounds by material. [done] (en.json names; materials and sounds per block)
+44. (A) Showcase spots for every new set piece, computed from the layout. [done] (13 new spots: front office, restroom, library, staff room, lab, stair hall, gym, lecture theatre, clock tower, gate boards, abandoned base, pitch, J. Barry's sign; two link spots dropped)
+45. (B) The handbook page and notes mention the new sights where the lore has them (the M.E.G.'s sign, Cool Mart Co.). [done] (the handbook page: building and floor numbers, restrooms by the stairs, the M.E.G.'s sign, the tower clock, COOL MART CO., the alarm bells, the bases' boards)
+
+Beyond the list (seen in run 1): the quad's ways in get a glazed bay the height of the building (not at Marshall David,
+all white concrete by the lore); outside walls show the room's paint on their inward face (before, brick or façade
+panels showed inside the rooms and halls).
+
+### How it is built
+- `WorldLayout.Level52.Detail.cs` (new): the room roles (`L52AssignRoles`, from `L52Partition`), and every fitting laid once
+  per campus plan by `L52LayDetails` (before the grounds are furnished). A fitting (`L52Fixture`) is a block code at a
+  height on a campus tile: `rel` above the floor, or the height in every storey; outdoors the height above the ground.
+  The generator looks a tile's fittings up first (`L52FixtureAt`; `=water`, `=hedge`, `=stair-<side>` are the vanilla
+  blocks). So the tower, the bulkheads, the air handlers, the lecture theatres' tiers, the boards, flags, goals and the
+  stand are blocks laid by the plan, seed-independent, and the same in the harness.
+- `tools/gen_52_r3.py` (new, called from `gen_52.py`): `l52-sign-{kind}-{side}` (61 kinds of plate or fitting hung on the
+  wall behind its block; text drawn into the textures at 64 px a block, reading left to right from in front; signs two or
+  three blocks wide are cut at the seam), `l52-stall`, `l52-fumehood`, `l52-bleacher`, `l52-goal`, `l52-flagpole`,
+  `l52-post` (boards on two posts: the map, the M.E.G.'s campus names, the bases), `l52-jet`, `l52-vent`, `l52-hvac`,
+  `l52-track`, `l52-skylight`, `l52-bikerack`; new slab kinds `worn` and `mat`; turf with pitch lines.
+- Values (Level 52's blocks): `FloorKind` 335-341, `Props` 1103-1105. Lang: block names in Level 52's block of en.json.
+
+### Inventions (round 3; not in the lore)
+The room roles' places (restrooms by the stairs, the front office by the lobby); the signs' wording beyond the lore's
+plaques (EXIT, FLOOR n, the directory, the posters, NO RUNNING, FIRE EXIT PLAN, WASH YOUR HANDS, QUIET PLEASE); the M.E.G.
+OUTPOST sign's wording ("visitors report to floor below", after the brief's note idea); the M.E.G.'s boards naming the
+three campuses at their gaps; COOL MART CO.'s sign (the lore names the trader, not the sign); the abandoned bases'
+boards and camps (the lore names the bases, not where they stood); the clock tower and its stopped clocks; the courtyard
+fountain; the flagpoles and their nameless flag; the campus maps; the lecture theatres (the lore's campus houses "a
+university"); the pitch and running track; the bleachers; the glazed bays and courtyard roofs (the lore allows "a
+translucent ceiling" over a courtyard); the bus shelters; the trophy cases, hedges, bike racks, entrance mats, café
+tables; the lifts' doors (the lore has lifts; these do not run).
+
+### Balance notes for the lead
+- No new food, water or loot source: the restrooms' basins, the staff rooms' kitchenettes and fridges, the trophy
+  cases and the reception desks are scenery (no dispenser, no container). The canteens, fountains, vending machines and
+  supply boxes are as they were.
+- More desks and filing cabinets (front offices, staff rooms, lodging rooms' desks, lecture theatres' lecterns): if
+  notes are rolled per desk or cabinet, a little more note-finding on Level 52.
+- No new beds (the lodging rooms' beds were there). No shortcut, no threshold, no safe room beyond the level's own Safe.
+- The lecture theatres' tiers and the stands are climbed with jumps or the aisle stairs; no fall higher than five.
+
+### What the shots showed
+- **Run 1** (`%TEMP%/backrooms-shots/52-20261101-014255`, `sheet.jpg`): the new rooms read as what they are (front office
+  counter, restroom stalls and basins, library stacks and reading tables, staff room, lab with fume hoods, the lecture
+  theatre's tiers, the gym's bleachers and changing-room doors with their pictograms); the corridor's hose cabinets and
+  notice boards break the lockers; floor numbers in the stairwells; the clock tower over Marshall David's corner; the
+  campus map and the M.E.G.'s MARSHALL DAVID CAMPUS board at the gate; Base Sunfire's board and camp; the pitch with its
+  track, goal and stand; hedges, bike racks, door leaves and wall clocks seen through the windows; building numbers on
+  the canopies. Wrong: two EXIT signs (and two numbers) over a three-wide door; openings over the changing rooms' doors
+  at the gym's upper level and notice boards on its walls; the entrance spot looked into the back of the campus map; the
+  roof spot looked at the parapet; J. Barry's sign spot stood in the fence; the roof membrane too speckled; the courtyard
+  crowded with trees. All fixed for run 2.
+- **Run 2** (`%TEMP%/backrooms-shots/52-r3b`, `sheet.jpg`): one EXIT and one number over each run of doors; the
+  entrance with its canopy number, hedges and bike racks; the fountain with its water; the roof with a stair bulkhead
+  and its door, vents and air handlers on a calmer membrane; the stair hall (EXIT over the stairwell doors, the lift, the
+  FLOOR 1 directory, a notice board); the car park with the mod's cars; the gym's upper walls closed. Wrong: COOL MART
+  CO. stood on the façade just over the canopy, where the canopy hid it from the ground (the dump showed the block
+  there): moved onto the canopy's front. Seen but left: the random arrivals (the rig's own camera) face a wall now and
+  then; the tower spot looks steeply up.
+- **Run 3, final** (`%TEMP%/backrooms-shots/52-r3c`, `sheet.jpg`): COOL MART CO. across the warehouse's canopy; everything
+  else as run 2. Tally of the list: A 23 done, 1 partly (the M.E.G.'s barrier); B 12 done, 3 partly, 1 skipped; C 2 done,
+  3 partly.
+- **Still weak:** the random arrivals' framing (the rig's camera, not the level's facing); the hall buildings' upper
+  string course shows inside the two-storey halls; the toilets are simple shapes; the courtyard spot still looks into
+  the trees; the sky sphere's seam shows over the open pitch.
+
+### Checks (round 3)
+- `python tools/expclash.py`: clean. Mod and mapgen build with 0 errors.
+- layouthash (`BACKROOMS_NO_EXP_ENTRANCES=1`, versions 1 and 12): every line for levels 0-20 and the layout hash equal to
+  main's saved files (only the experimental levels' lines differ).
+- `regions`: 60/60 for Level 52, none wrong or in pockets. `52stats 4`: 68 campuses, 305 buildings (28 lecture theatres),
+  0 doorless rooms, 121 of about 1.95 million ground tiles unreached (single tiles boxed in by furniture), arrivals 60/60.
+- Headless (port 43128): `blocksweep` 12088 blocks, 0 threw; 0 missing blocks or items; `/backrooms dummy place 52 5`
+  lands at 565923,217,642303 with 0 error lines; `/backrooms showcase 52` lists every spot.
+- `GATE_TAG=52 python tools/gate.py --fast --port-base 43120`: PASS (generators, lang, build, boot, harness).
+
+### Questions for the user
+1. **Names on the buildings.** The lore says the doors carry four digits and "no subject and no campus name" anywhere,
+   so the buildings show their numbers (on the canopies) and the campuses' names appear only on the M.E.G.'s boards at
+   three gates. Should campuses (or buildings) have names cast over their doors anyway, as real schools do?
+2. **The clock tower, lecture theatres, pitch, car parks and bus shelters** are inventions for a campus that "houses a
+   university"; keep them all, or trim any that feel too much like a real campus and not enough like the Backrooms?
+3. **The lifts** are closed doors (the lore has lifts; DECISIONS says stairs first). Should they ever open?
+
