@@ -95,6 +95,7 @@ public sealed partial class WorldGenerator
                 for (int a = 0; a < 10; a++)
                     for (int b = 0; b < 10; b++) l52Plaque[h, a, b, f] = L52Block($"l52-plaque-{(h == 0 ? "lo" : "hi")}-{a}-{b}-{Sides[f]}");
         }
+        InitL52Links();
     }
 
     /// <summary>The slab kind (<see cref="L52SlabKinds"/>) of a floor finish.</summary>

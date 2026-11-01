@@ -1,0 +1,173 @@
+// Level 52's way in from the city: the HIGH SCHOOL sign over a high school's front doors, four blocks across (part 0 the left as seen from in front), on the side face
+{
+	"code": "l52-schoolsign",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"0",
+				"1",
+				"2",
+				"3"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"texturesByType": {
+		"l52-schoolsign-0-north": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"north": {
+				"base": "block/52/schoolsign-0"
+			}
+		},
+		"l52-schoolsign-0-east": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"east": {
+				"base": "block/52/schoolsign-0"
+			}
+		},
+		"l52-schoolsign-0-south": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"south": {
+				"base": "block/52/schoolsign-0"
+			}
+		},
+		"l52-schoolsign-0-west": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"west": {
+				"base": "block/52/schoolsign-0"
+			}
+		},
+		"l52-schoolsign-1-north": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"north": {
+				"base": "block/52/schoolsign-1"
+			}
+		},
+		"l52-schoolsign-1-east": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"east": {
+				"base": "block/52/schoolsign-1"
+			}
+		},
+		"l52-schoolsign-1-south": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"south": {
+				"base": "block/52/schoolsign-1"
+			}
+		},
+		"l52-schoolsign-1-west": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"west": {
+				"base": "block/52/schoolsign-1"
+			}
+		},
+		"l52-schoolsign-2-north": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"north": {
+				"base": "block/52/schoolsign-2"
+			}
+		},
+		"l52-schoolsign-2-east": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"east": {
+				"base": "block/52/schoolsign-2"
+			}
+		},
+		"l52-schoolsign-2-south": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"south": {
+				"base": "block/52/schoolsign-2"
+			}
+		},
+		"l52-schoolsign-2-west": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"west": {
+				"base": "block/52/schoolsign-2"
+			}
+		},
+		"l52-schoolsign-3-north": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"north": {
+				"base": "block/52/schoolsign-3"
+			}
+		},
+		"l52-schoolsign-3-east": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"east": {
+				"base": "block/52/schoolsign-3"
+			}
+		},
+		"l52-schoolsign-3-south": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"south": {
+				"base": "block/52/schoolsign-3"
+			}
+		},
+		"l52-schoolsign-3-west": {
+			"all": {
+				"base": "block/52/schoolsign-back"
+			},
+			"west": {
+				"base": "block/52/schoolsign-3"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

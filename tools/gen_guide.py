@@ -658,7 +658,10 @@ Little. The offices, labs and libraries were stripped long ago. Desks and filing
 The Sanguine Festivus reached Level 52 more than once: the First Crash in 1959, the Great Crash of 1997 that began at J. Barry, and Operation Blindside in 2002. The holes and stains have been painted over, and the outposts that stood here are abandoned.
 
 **Ways in and out**
-Wanderers say a door on almost any level may open onto one of these campuses, now and then; an emergency exit or a lift in Levels 1 to 4; or walking into a high school in the city. Out: a door that opens onto somewhere else, most often Level 53; some say noclipping through a wall of Marshall David leads further. (For now the only way here is the cheats menu or /backrooms goto 52.)
+- **A high school in the city.** Now and then, among the shops and apartment blocks of the low-rise streets and midtown, a brick school three or four storeys high with HIGH SCHOOL over a pair of steel doors. Go in by them ({rightmouse}) and you come in through the front doors of a campus quad, on Marshall David or a campus near it.
+- **An emergency exit in Level 4.** Rarely, a grey steel door under a green EMERGENCY EXIT sign, in an office wall with nothing behind it. It lets you out into the corridor at the end of a teaching block.
+- **The way back** is the doors you came in by: walk out through them and you are back where you were, in front of the school or under the sign. Every other door here is only a door.
+- **Rumours.** Wanderers say a door on almost any level may open onto one of these campuses, and a lift in Levels 1 to 4. Out, they say a door here now and then opens onto somewhere else, most often Level 53, and that noclipping through a wall of Marshall David leads to Level 556. Nobody has shown anyone either.
 """)
 
 PAGES["thresholds"] = ("Ways Between Levels", """

@@ -1,0 +1,68 @@
+// Level 52's way in from Level 4: Level 4's office wall with a green EMERGENCY EXIT sign on its side face, over the door
+{
+	"code": "l52-exitsign",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"texturesByType": {
+		"l52-exitsign-north": {
+			"all": {
+				"base": "block/level4/officewall"
+			},
+			"north": {
+				"base": "block/52/exitsign"
+			}
+		},
+		"l52-exitsign-east": {
+			"all": {
+				"base": "block/level4/officewall"
+			},
+			"east": {
+				"base": "block/52/exitsign"
+			}
+		},
+		"l52-exitsign-south": {
+			"all": {
+				"base": "block/level4/officewall"
+			},
+			"south": {
+				"base": "block/52/exitsign"
+			}
+		},
+		"l52-exitsign-west": {
+			"all": {
+				"base": "block/level4/officewall"
+			},
+			"west": {
+				"base": "block/52/exitsign"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

@@ -1,0 +1,48 @@
+// Level 52's ways in: a grey steel door with a push bar and wired glass on every face (it fits a wall either way): a city high school's front doors, Level 4's emergency exit. Kind l52-door; indestructible
+{
+	"code": "l52-door",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower": {
+			"base": "block/end/end-exitdoor-lower"
+		},
+		"*-upper": {
+			"base": "block/end/end-exitdoor-upper"
+		}
+	},
+	"lightAbsorption": 99,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "l52-door"
+			}
+		}
+	]
+}

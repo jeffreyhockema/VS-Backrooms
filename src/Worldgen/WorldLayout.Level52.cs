@@ -7,8 +7,8 @@ namespace Backrooms.Worldgen;
 /// <summary>
 /// Level 52, "The Greenfield Campus" (experimental): kept as level 23 (<see cref="Level52"/>) and shown as "52". After
 /// Fandom's Level 52 (the WindXD rewrite; docs/design/experimental-levels/lore/52-brief.md, 52-plan.md): school campuses
-/// on rolling green hills under a blue sky that never changes, each fenced in on its own, joined by gravel roads. No
-/// thresholds in or out: the cheats menu or <c>/backrooms goto 52</c> only.
+/// on rolling green hills under a blue sky that never changes, each fenced in on its own, joined by gravel roads. The ways
+/// in (a high school in the city, an emergency exit in Level 4) and the doors that lead back are WorldLayout.Level52.Links.cs's.
 ///
 /// <para><b>The land.</b> The round region is open sky. Campuses lie on a lattice <see cref="L52Period"/> blocks square,
 /// one to a lattice cell (about one cell in six is left as open plain); the ground between them rolls in low, wavy hills
@@ -537,6 +537,7 @@ public sealed partial class WorldLayout
         L52LayBridges(c);
         L52LayPaths(c);
         L52LayEntrances(c);
+        L52MarkWaysBack(c);
         L52LayGrounds(c);
         return c;
     }

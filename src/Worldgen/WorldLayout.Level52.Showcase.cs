@@ -233,6 +233,39 @@ public partial class WorldLayout
                     Add(jb, "barry-warehouse", p.U, p.V, 0, Heading((room.U0 + room.U1) / 2 - p.U, (room.V0 + room.V1) / 2 - p.V), -6);
                 break;
             }
+
+        // 15-18. The ways in and back (WorldLayout.Level52.Links.cs): the high school nearest spawn, from across its street;
+        // the EMERGENCY EXIT door nearest spawn in Level 4, from the office floor; and on Marshall David, a quad's front doors
+        // and a teaching block's end doors from just inside, looking out, as someone who came in by them sees them
+        foreach (var s in L52NearestSchools(1))
+        {
+            var (fx, fz) = FacingStep(s.Facing);
+            double cx = s.DoorX + (s.Facing == ArchPier.North ? 0.0 : 1.0), cz = s.DoorZ + 0.5 + fz * 11;
+            spots.Add(new Showcase.Spot("way-in-school", cx, geometry.FloorFor(11) + 1, cz, Heading(-fx, -fz), 14));
+        }
+        foreach (var (ex, ez, f) in L52NearestExits(1))
+        {
+            var (fx, fz) = FacingStep(f);
+            spots.Add(new Showcase.Spot("way-in-exit", ex + 0.5 + fx * 4, geometry.FloorFor(4) + 1, ez + 0.5 + fz * 4, Heading(-fx, -fz), 8));
+        }
+        foreach (var (name, under) in new[] { ("way-back-quad", Unders.L52QuadDoor), ("way-back-wing", Unders.L52WingDoor) })
+        {
+            bool done = false;
+            for (int v = 0; v < md.D && !done; v++)
+                for (int u = 0; u < md.W && !done; u++)
+                {
+                    Tile d = md.At(u, v);
+                    if (d.Under != under) continue;
+                    // (The middle of the three: a door tile with door tiles either side)
+                    var (au, av) = L52Step(L52LeftOf(d.Pier));
+                    if (!md.InGrid(u + au, v + av) || !md.InGrid(u - au, v - av) || md.At(u + au, v + av).Under != under || md.At(u - au, v - av).Under != under) continue;
+                    var (ou, ov) = L52Step(d.Pier);
+                    int pu = u - ou * 5, pv = v - ov * 5;
+                    if (!md.InGrid(pu, pv) || md.At(pu, pv).Kind != TileKind.Floor) continue;
+                    Add(md, name, pu, pv, 0, Heading(ou, ov), 4);
+                    done = true;
+                }
+        }
         return spots;
     }
 }

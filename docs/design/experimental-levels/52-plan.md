@@ -308,3 +308,70 @@ Checks (round 2): expclash clean; mod and mapgen 0 errors; layouthash v1 and v12
 to main's; `regions` 60/60 for 52; `52stats 4` OK (0 doorless rooms, 60 unreached ground tiles of ~2 million, 44 bridges);
 headless dummy (`/backrooms dummy place 52 5`, port 43125) lands at 565922,217,642274 with 0 error lines;
 `GATE_TAG=52 python tools/gate.py --fast --port-base 43120` passes.
+
+## Links (2026-10-31): the ways in and back
+
+As LINKS.md settles it ("Level 52"): two ways in, both doors you open and walk through, so both two-way; the ways out are
+those two, back. Code: `WorldLayout.Level52.Links.cs` (the entrances in the hosts, through the scaffold's `L52Entrances`
+hook, and the campus doors that can lead back), `WorldGenerator.L52.Links.cs` (their blocks, `L52EntranceBlock`),
+`ThresholdNetwork.L52.cs` (`L52Used`, `L52Walked`, `IntoL52Door`), `ThresholdSystem.L52.cs` (arrival facing, the dev test),
+`Regions/L52Sun.cs` (`/backrooms l52 waytest`), assets in `tools/gen_52.py` / `gen_52_tex.py`. Unders 322-326, layout
+salts 0x2380-0x2389, threshold salts 0x23C1-0x23C2.
+
+### What was built
+- **Level 11, a high school.** A city block of lots in midtown or the low-rise streets is drawn for one (1 in 80 by its
+  hash, its own salt); one of its street-front lots (an apartment block, an office or a shop, 14-30 wide, nothing else's
+  on it, every cell it touches city and not the rim) is planned again over the top as a brick (red, dark) or stone
+  building three or four storeys high, its outside walls kept where they were (corners, party walls) with no doors in
+  them, sealed inside; in the middle of its front a pair of grey steel doors (`l52-door`, the End's exit door's shape,
+  threshold kind `l52-door`) under a four-block HIGH SCHOOL sign (`l52-schoolsign`: cream letters on maroon in a brass
+  frame). The host tiles stay walls. Rarity: about 1 in 123 city blocks (1.07 per km2 of city; mean distance to the next
+  0.5 km), which is about one lot in a thousand or more; the nearest to spawn are 49.8-51.2 km out (the city's near edge).
+- **Level 4, an EMERGENCY EXIT door.** A cell drawn for one (1 in 500, its own salt; never two within 8 cells: the
+  lower roll keeps it) puts it in a straight office wall (drywall; three wall tiles in a line, clear floor in front, and
+  where the cell has one, nothing open behind): the same steel door, and over it at rel 3 a green EMERGENCY EXIT sign on
+  the office wall (`l52-exitsign`). Level 4 is mostly open floor, so only about a quarter of the cells drawn have a wall
+  for it: 0.49 per km2 of Level 4 (about five in the whole level in a full-size world); the nearest to spawn are 2.2, 2.7,
+  3.8, 4.2 and 4.7 km out.
+- **Arriving.** The school's doors put you just inside the front doors of a campus quad (its lobby), the exit door just
+  inside the end doors of a standalone teaching block (its corridor), on Marshall David or a campus beside it (the lore:
+  "each entrant will land in the same building or one nearby"), facing into the building as if just come through.
+  Messages `l52-arrive-school`, `l52-arrive-exit`.
+- **Back.** Those campus doors (`Unders.L52QuadDoor`, `L52WingDoor`, marked on every campus by `L52MarkWaysBack`) lead
+  anywhere only once something came in by them: walk out through them and you are back where you stood when you opened
+  the school's or the office's door (`l52-back-city`, `l52-back-office`). Every other door is only a door.
+- **Rumours** (handbook, notes): a door on almost any level, a lift in Levels 1-4; out, a door to Level 53 now and then,
+  noclipping in Marshall David to Level 556.
+- **Text.** Handbook "Ways in and out" rewritten (gen_guide.py); notes: `l52-7` "The doors you came in by" (Dez, in the
+  level's track), and one each at the end of the hosts' tracks, `l52-in-11` "High school" (A.L.) and `l52-in-4`
+  "Emergency exit" (Tom), added from the level's own block in gen_notes.py.
+- **Harness.** `mapgen <seed> 16000 52links`: the five schools and exits nearest spawn (checked built), density in a
+  121 x 151-block window of the city and over Level 4, Marshall David's way-back doors, ten arrivals by each way (all just
+  inside one of those doors). **Showcase:** `way-in-school` (from across its street), `way-in-exit` (from the office floor),
+  `way-back-quad` and `way-back-wing` (from just inside, looking out).
+- **No placard**: Level 52 (danger 0) is not more dangerous than either host.
+
+### Inventions (not in the lore)
+The school's look (brick, three or four storeys, the maroon HIGH SCHOOL sign, steel doors); the exit door's green sign;
+arriving inside the campus building rather than outside it; the quad's front doors for the city and a teaching block's
+end doors for the emergency exit; Dez's, A.L.'s and Tom's notes.
+
+### Rows for the guide's ways-between-levels table
+| From | Threshold | To | Way back |
+|---|---|---|---|
+| Level 11 | A high school's pair of steel doors under HIGH SCHOOL (one city block in a hundred or so, midtown and the low-rise streets) | Level 52, just inside the front doors of a campus quad, on Marshall David Campus or one beside it | Those doors, back to the sidewalk in front of the school |
+| Level 4 | A steel door under a green EMERGENCY EXIT sign in an office wall (rare) | Level 52, just inside the end doors of a teaching block | Those doors, back in front of the exit |
+
+### Checks (links round)
+- expclash clean; mod and mapgen 0 errors.
+- layouthash with `BACKROOMS_NO_EXP_ENTRANCES=1`, versions 1 and 12: every line for levels 0-20 and the layout hash equal
+  to main's. Without it only `world 777/16000 level 11` (and so the layout hash) moves, in both versions (the hosts'
+  other sample cells hold no school or exit).
+- `regions`: 60/60 for Level 52. `52links` OK.
+- Headless (port 43121, seed 12345, full size): `/backrooms l52 waytest school` and `waytest exit` (the school and the exit
+  nearest spawn): the school's column is `citypier-brickdark / l52-door-lower / l52-door-upper / l52-schoolsign-1-north`,
+  the exit's `officecarpet-plain / l52-door-lower / l52-door-upper / l52-exitsign-east`; each leads just inside a campus
+  door (a quad's lobby, zone 16; a teaching block's corridor, zone 13: `l52-slab-hall`, air above), and walking out
+  through that door (an open doorway) leads back to where the opener stood, in front of the school / the exit
+  (`l52-back-city`, `l52-back-office`). Dummy in Level 52 lands; `blocksweep` 11181 blocks, 0 threw; 0 error lines.
+- `GATE_TAG=52 python tools/gate.py --fast --port-base 43120`: PASS.
