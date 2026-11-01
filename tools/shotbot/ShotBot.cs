@@ -25,6 +25,8 @@ namespace ShotBot;
 ///   closeguis               closes every open dialog (confirms the character creation dialog)
 ///   handbook [page]         opens the handbook, and a page of it (e.g. backrooms-entities)
 ///   respawn                 presses the Respawn button of the death dialog
+///   cheats tab [dropdown]   opens the Backrooms cheat menu (F7) on a tab (0 Travel ... 5 Dev), and opens one of its dropdowns by key
+///   cheats close            closes it
 ///   pause off|on
 ///   focus                   brings the game window to the front
 ///   slot n                  selects hotbar slot n (0-9), e.g. to hold a lit torch
@@ -358,6 +360,25 @@ public class ShotBotSystem : ModSystem, IRenderer
                     Log("handbook page " + p[1] + ": " + (open == null ? "no OpenDetailPageFor" : open.Invoke(dlg, new object[] { p[1] })));
                     Wait(1500);
                 }
+                break;
+            }
+            case "cheats":
+            {
+                // The Backrooms cheat menu (CheatSystem's dialog), on a tab, with a dropdown opened for the shot (dev only)
+                var cheats = capi.ModLoader.Systems.FirstOrDefault(m => m.GetType().FullName == "Backrooms.Cheats.CheatSystem");
+                var dlg = cheats?.GetType().GetField("dialog", BindingFlags.Instance | BindingFlags.NonPublic)?.GetValue(cheats) as GuiDialog;
+                if (dlg == null) { Log("cheats: dialog not found"); break; }
+                if (p.Length > 1 && p[1] == "close") { dlg.TryClose(); Wait(300); break; }
+                if (!dlg.IsOpened()) { dlg.TryOpen(); Wait(800); }
+                if (p.Length > 1 && int.TryParse(p[1], out int tab))
+                    dlg.GetType().GetMethod("OnTabClicked", BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(dlg, new object[] { tab });
+                if (p.Length > 2)
+                {
+                    var dropDown = dlg.SingleComposer?.GetDropDown(p[2]);
+                    Log("cheats dropdown " + p[2] + ": " + (dropDown == null ? "not found" : "opened"));
+                    dropDown?.listMenu.Open();
+                }
+                Wait(1000);
                 break;
             }
             case "focus":
