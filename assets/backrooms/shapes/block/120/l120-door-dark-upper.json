@@ -29,7 +29,7 @@
 					]
 				},
 				"east": {
-					"texture": "#door-edge",
+					"texture": "#door-dark-upper",
 					"uv": [
 						0,
 						0,
@@ -47,7 +47,7 @@
 					]
 				},
 				"west": {
-					"texture": "#door-edge",
+					"texture": "#door-dark-upper",
 					"uv": [
 						0,
 						0,

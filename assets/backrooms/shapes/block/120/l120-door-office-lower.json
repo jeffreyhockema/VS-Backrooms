@@ -30,7 +30,7 @@
 					]
 				},
 				"east": {
-					"texture": "#door-edge",
+					"texture": "#door-office-lower",
 					"uv": [
 						0,
 						0,
@@ -48,7 +48,7 @@
 					]
 				},
 				"west": {
-					"texture": "#door-edge",
+					"texture": "#door-office-lower",
 					"uv": [
 						0,
 						0,
@@ -77,7 +77,7 @@
 			}
 		},
 		{
-			"name": "Gap",
+			"name": "GapNS",
 			"from": [
 				2,
 				0,
@@ -112,71 +112,37 @@
 			}
 		},
 		{
-			"name": "Lever",
+			"name": "GapWE",
 			"from": [
-				9.5,
-				13,
-				-0.8
+				-0.05,
+				0,
+				2
 			],
 			"to": [
-				13.5,
-				14,
-				16.8
+				16.05,
+				0.9,
+				14
 			],
 			"faces": {
-				"north": {
-					"texture": "#door-edge",
-					"uv": [
-						0,
-						0,
-						4.0,
-						1
-					]
-				},
 				"east": {
-					"texture": "#door-edge",
+					"texture": "#door-gap-office",
 					"uv": [
 						0,
 						0,
-						16,
-						1
-					]
-				},
-				"south": {
-					"texture": "#door-edge",
-					"uv": [
-						0,
-						0,
-						4.0,
-						1
-					]
+						12,
+						0.9
+					],
+					"glow": 200
 				},
 				"west": {
-					"texture": "#door-edge",
+					"texture": "#door-gap-office",
 					"uv": [
 						0,
 						0,
-						16,
-						1
-					]
-				},
-				"up": {
-					"texture": "#door-edge",
-					"uv": [
-						0,
-						0,
-						4.0,
-						16
-					]
-				},
-				"down": {
-					"texture": "#door-edge",
-					"uv": [
-						0,
-						0,
-						4.0,
-						16
-					]
+						12,
+						0.9
+					],
+					"glow": 200
 				}
 			}
 		}

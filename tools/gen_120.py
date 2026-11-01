@@ -845,8 +845,11 @@ def door_textures():
                     for sy in (23, 28):
                         rect(img, sx, sy, sx, sy, (96, 98, 96))
                 rect(img, 2, 30, S - 3, S - 1, (10, 10, 12))
-                rect(img, 22, 2, 25, 7, shade(paint, 0.7))  # the lock's escutcheon
-                rect(img, 23, 6, 24, 6, (20, 20, 22))
+                rect(img, 22, 1, 25, 5, shade(paint, 0.7))  # the lock's escutcheon
+                rect(img, 23, 4, 24, 4, (20, 20, 22))
+                rect(img, 22, 7, 25, 10, shade(paint, 0.62))  # the lever's rose, and the lever
+                rect(img, 13, 8, 23, 9, (178, 180, 176))
+                rect(img, 13, 10, 23, 10, shade(paint, 0.6))
             if grime:
                 rng = random.Random("door-grime-" + part)
                 px = img.load()
@@ -893,13 +896,15 @@ def door_textures():
 
 
 def door_shape(look, part):
-    """A steel door filling its block, alike on both faces: the leaf; on the lower half a lever right through it and
-    the strip of light in the gap under it (glowing)."""
+    """A steel door filling its block, the same on all four sides (the block has no facing: whichever way its wall runs,
+    the faces out of it are the door, the others are hidden in the wall); on the lower half the strip of light in the gap
+    under it (glowing) on every side. The lever is painted on, beside the lock, so the two agree on every face."""
     face = f"door-{look}-{part}" + ("-marked" if look == "office" and part == "upper" else "")
-    els = [box("Leaf", (0, 0, 0), (16, 16, 16), {"north": face, "south": face, "side": "door-edge", "top": "door-edge", "bottom": "door-edge"})]
+    els = [box("Leaf", (0, 0, 0), (16, 16, 16), {"side": face, "top": "door-edge", "bottom": "door-edge"})]
     if part == "lower":
-        els.append(box("Gap", (2, 0, -0.05), (14, 0.9, 16.05), f"door-gap-{look}", faces=("north", "south"), glow=200))
-        els.append(box("Lever", (9.5, 13, -0.8), (13.5, 14, 16.8), "door-edge"))
+        gap = f"door-gap-{look}"
+        els.append(box("GapNS", (2, 0, -0.05), (14, 0.9, 16.05), gap, faces=("north", "south"), glow=200))
+        els.append(box("GapWE", (-0.05, 0, 2), (16.05, 0.9, 14), gap, faces=("east", "west"), glow=200))
     return shape(f"l120-door-{look}-{part}", els)
 
 

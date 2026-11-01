@@ -90,10 +90,19 @@ public partial class WorldLayout
         // (across the corridor from it, its placard beside it); the nearest door back in a server room, and in a hallway
         foreach (var d in L120ServerDoorsNear(spawnMacroX, spawnMacroZ, 1200, 1))
         {
+            // (From the far side of the corridor, a few blocks along it, so the door and its placard are both in view)
             int sx = d.OutX - d.X, sz = d.OutZ - d.Z;
             Tile two = TileAt(d.X + 2 * sx, d.Z + 2 * sz);
             int back = two.Kind == TileKind.Floor && IsWalkable(two) ? 2 : 1;
-            spots.Add(new Showcase.Spot("serverroom-door", d.X + back * sx + 0.5, geometry.FloorFor(4) + 1, d.Z + back * sz + 0.5, L120Heading(-sx, -sz), -8));
+            int bx = d.X + back * sx, bz = d.Z + back * sz;
+            foreach (int along in new[] { 4, -4, 3, -3, 2, -2, 0 })
+            {
+                int cx = bx + sz * along, cz = bz + sx * along;
+                if (along != 0 && !(TileAt(cx, cz).Kind == TileKind.Floor && IsWalkable(TileAt(cx, cz)))) continue;
+                double heading = (Math.Atan2(d.X + 0.5 - (cx + 0.5), -(d.Z + 0.5 - (cz + 0.5))) * 180 / Math.PI + 360) % 360;
+                spots.Add(new Showcase.Spot("serverroom-door", cx + 0.5, geometry.FloorFor(4) + 1, cz + 0.5, heading, -10));
+                break;
+            }
         }
         foreach (var ring in rings)
         {
