@@ -6,6 +6,7 @@
 			"code": "part",
 			"states": [
 				"lower",
+				"loweropen",
 				"upper",
 				"duct"
 			]
@@ -35,6 +36,22 @@
 		},
 		"l120-crac-lower-west": {
 			"base": "backrooms:block/120/l120-crac-lower",
+			"rotateY": 90
+		},
+		"l120-crac-loweropen-north": {
+			"base": "backrooms:block/120/l120-crac-loweropen",
+			"rotateY": 0
+		},
+		"l120-crac-loweropen-east": {
+			"base": "backrooms:block/120/l120-crac-loweropen",
+			"rotateY": 270
+		},
+		"l120-crac-loweropen-south": {
+			"base": "backrooms:block/120/l120-crac-loweropen",
+			"rotateY": 180
+		},
+		"l120-crac-loweropen-west": {
+			"base": "backrooms:block/120/l120-crac-loweropen",
 			"rotateY": 90
 		},
 		"l120-crac-upper-north": {

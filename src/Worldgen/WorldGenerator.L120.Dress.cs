@@ -12,7 +12,7 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldGenerator
 {
     private readonly int[,,] l120Ups = new int[2, 2, 4];
-    private readonly int[,] l120Battery = new int[2, 4], l120Crac = new int[3, 4], l120Shelf = new int[2, 4], l120RowEnd = new int[9, 4];
+    private readonly int[,] l120Battery = new int[2, 4], l120Crac = new int[4, 4], l120Shelf = new int[2, 4], l120RowEnd = new int[9, 4];
     private readonly int[] l120Kvm = new int[4], l120Mop = new int[4], l120Debris = new int[4], l120Paper = new int[4];
     private int l120FloorHole, l120VoidGlitch, l120VoidPanelDead;
     /// <summary>The wall dressing: [kind, side] (see <see cref="L120DecoKinds"/>), the plates [text, side], notes, stencils.</summary>
@@ -45,6 +45,7 @@ public sealed partial class WorldGenerator
             l120Crac[0, f] = L120Block("l120-crac-lower-" + side);
             l120Crac[1, f] = L120Block("l120-crac-upper-" + side);
             l120Crac[2, f] = L120Block("l120-crac-duct-" + side);
+            l120Crac[3, f] = L120Block("l120-crac-loweropen-" + side, l120Crac[0, f]);
             l120RowEnd[0, f] = L120Block("l120-rowend-lower-" + side);
             for (int c = 0; c < 8; c++) l120RowEnd[1 + c, f] = L120Block($"l120-rowend-{(char)('a' + c)}-{side}");
             l120Kvm[f] = L120Block("l120-kvm-" + side);
@@ -118,7 +119,7 @@ public sealed partial class WorldGenerator
         {
             case WL.L120Ups: return rel <= 2 ? l120Ups[rel - 1, t.Detail == WL.L120UpsOpen ? 1 : 0, f] : 0;
             case WL.L120Battery: return rel <= 2 ? l120Battery[rel - 1, f] : 0;
-            case WL.L120Crac: return rel <= 3 ? l120Crac[rel - 1, f] : 0;
+            case WL.L120Crac: return rel == 1 && t.Detail == 1 ? l120Crac[3, f] : rel <= 3 ? l120Crac[rel - 1, f] : 0;
             case WL.L120Shelf: return rel <= 2 ? l120Shelf[rel - 1, f] : 0;
             case WL.L120RowEnd: return rel == 1 ? l120RowEnd[0, f] : rel == 2 ? l120RowEnd[1 + (t.Detail & 7), f] : 0;
             case WL.L120Kvm: return rel == 1 ? l120Kvm[f] : 0;

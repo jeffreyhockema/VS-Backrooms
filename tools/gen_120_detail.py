@@ -341,6 +341,16 @@ def prop_textures():
     for y in range(3, 30, 3):
         rect(louvre, 3, y, 28, y + 1, (90, 90, 86))
     save(grain(louvre, 12604, 3), "crac-lower")
+    # Behind the panel: the coil's fins and a fan, dust on everything
+    coil = canvas((60, 66, 64))
+    for x in range(2, 30, 2):
+        rect(coil, x, 2, x, 14, (120, 128, 124))
+    for y in range(17, 30):
+        for x in range(6, 26):
+            d = math.hypot(x - 15.5, y - 23.5)
+            if d < 6.5:
+                coil.load()[x, y] = ((30, 30, 32) if int(math.atan2(y - 23.5, x - 15.5) * 3) % 2 else (90, 92, 94)) + (255,)
+    save(grain(coil, 12615, 4), "crac-open")
     duct = canvas((150, 154, 156))
     for y in range(0, S, 8):
         rect(duct, 0, y, 31, y, (110, 114, 116))
@@ -428,8 +438,12 @@ def battery_shape(part):
 def crac_shape(part):
     if part == "duct":
         return shape("l120-crac-duct", [box("Duct", (3, 0, 4), (13, 16, 13), "duct", faces=("north", "east", "south", "west"))])
-    front = "crac-lower" if part == "lower" else "crac-upper"
+    front = {"lower": "crac-lower", "loweropen": "crac-open"}.get(part, "crac-upper")
     els = [box("Body", (0.5, 0, 2), (15.5, 16, 15.5), {"front": front, "side": "crac-side", "top": "crac-side", "back": "crac-side", "bottom": "crac-side"})]
+    if part == "loweropen":
+        # Its louvred panel pulled off and dropped in front of it
+        els.append(box("Panel", (1, 0, -3), (15, 0.8, 12), {"top": "crac-lower", "side": "crac-side", "bottom": "crac-side"},
+                       faces=("up", "north", "east", "west"), rot=(0, 9, 0)))
     if part == "upper":
         els.append(box("Collar", (2.5, 15.9, 3.5), (13.5, 16, 13.5), "duct", faces=("up",)))
     else:
@@ -647,12 +661,12 @@ def blocktypes():
                {"collisionbox": cuboid(FULL), "selectionbox": cuboid(FULL)},
                extra={"drops": drops(("metalbracket", 0.5, 0.4))}, inventory="l120-battery-lower-north")
     shapes = {}
-    for part in ("lower", "upper", "duct"):
+    for part in ("lower", "loweropen", "upper", "duct"):
         base = crac_shape(part)
         for s in SIDES:
             shapes[f"l120-crac-{part}-{s}"] = {"base": base, "rotateY": ROTATE[s]}
     duct = (0.18, 0, 0.25, 0.82, 1, 0.82)
-    json_block("l120-crac", [{"code": "part", "states": ["lower", "upper", "duct"]}] + SIDED, shapes,
+    json_block("l120-crac", [{"code": "part", "states": ["lower", "loweropen", "upper", "duct"]}] + SIDED, shapes,
                "Level 120: a cooling unit (CRAC 3), two high, louvres below and its control panel above, and its duct up into the ceiling. Salvage: brackets, wire",
                {"collisionboxByType": {"*-duct-*": cuboid(duct), "*": cuboid(FULL)}, "selectionboxByType": {"*-duct-*": cuboid(duct), "*": cuboid(FULL)}},
                extra={"drops": drops(("metalbracket", 0.5, 0.4), ("scrapwire", 0.3, 0.3))}, inventory="l120-crac-lower-north")

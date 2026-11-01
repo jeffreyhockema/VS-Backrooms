@@ -266,6 +266,7 @@ public sealed partial class WorldLayout
                 Tile other = L120Along(plan, alongP, l, s + 1);
                 if (t.Kind != TileKind.Floor || t.Variant != 0 || other.Variant != 0 || t.SupplyBox) continue;
                 t.Variant = L120Crac;
+                t.Detail = (byte)(rng.Chance(0.3) ? 1 : 0); // (now and then its panel pulled off)
                 t.Pier = alongP ? (l == l0 ? ArchPier.East : ArchPier.West) : (l == l0 ? ArchPier.South : ArchPier.North);
             }
     }
