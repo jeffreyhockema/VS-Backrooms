@@ -303,6 +303,10 @@ public sealed partial class WorldLayout
             }
             // A door standing open against the wall beside it, inside (not every room's: about two in three)
             if (r.Kind is L52RoomKind.Empty or L52RoomKind.Gym or L52RoomKind.Canteen or L52RoomKind.Warehouse) continue;
+            // A clock over the door, inside, as every classroom has (stopped, like the tower's)
+            int cu = r.DoorU - su, cv = r.DoorV - sv;
+            if (c.InGrid(cu, cv) && c.RoomOf[cu + cv * c.W] == r.Id && L52FixFree(c, cu, cv, 3, 3))
+                L52Sign(c, cu, cv, "wallclock", L52Opposite(side), 3, 3, true);
             ulong h = Hashing.Hash(seed, c.Head.X0 + r.DoorU, c.Head.Z0 + r.DoorV, SaltL52Detail);
             if (Hashing.Unit(h) < 0.33) continue;
             var (au, av) = L52Step(L52LeftOf(side));
@@ -456,6 +460,15 @@ public sealed partial class WorldLayout
                 if (!c.InGrid(u + ou, v + ov) || c.At(u + ou, v + ov).Depth != 0) continue;
                 L52Building b = e.Detail > 0 && e.Detail <= c.Buildings.Count ? c.Buildings[e.Detail - 1] : null;
                 if (b == null) continue;
+                // Bike racks along the wall beside the door, on the paving (round a teaching block or the quad)
+                if (b.Kind is L52BuildingKind.Teaching or L52BuildingKind.Lodging)
+                    for (int k = 3; k <= 5; k++)
+                    {
+                        var (ru, rv) = L52Right(u + ou, v + ov, e.Pier, -k);
+                        if (c.InGrid(ru, rv) && c.At(ru, rv).Zone == (byte)L52Zone.Path && c.At(ru, rv).Depth == 0 && c.At(ru, rv).Variant == 0
+                            && c.At(ru, rv).Overhead == 0 && !c.HasFixture[ru + rv * c.W] && c.At(ru - ou, rv - ov).Zone == (byte)L52Zone.Ext)
+                            L52Fix(c, ru, rv, "l52-bikerack-" + L52Side(e.Pier), 1, 1);
+                    }
                 // The number at the front of the canopy (its front edge is three out)
                 int n = b.Index % 10, fu = u + ou * 4, fv = v + ov * 4;
                 if (n > 0 && c.InGrid(fu, fv) && c.At(u + ou * 3, v + ov * 3).Overhead == Overheads.L52Canopy && c.At(fu, fv).Depth == 0)

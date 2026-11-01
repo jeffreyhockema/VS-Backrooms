@@ -730,6 +730,15 @@ def blocktypes():
              "front): the campus map at a gap in a fence; the M.E.G.'s stencilled boards naming Marshall David, J. Barry and J. Turner; the "
              "abandoned bases' boards (Sunfire, Emberwatch, Blackcross)", "Wood", G.WOOD, lambda p: (0, 0, 0.55, 1, 1, 0.8))
 
+    # A bike rack: three steel hoops standing across the block, their feet in a rail
+    hoops = [box("Rail", (0, 0, 7), (16, 0.8, 9), "hood-dark")]
+    for k, x in enumerate((2.5, 7.5, 12.5)):
+        hoops += [box(f"PostA{k}", (x - 0.5, 0.8, 2), (x + 0.5, 11, 3), "pole"), box(f"PostB{k}", (x - 0.5, 0.8, 13), (x + 0.5, 11, 14), "pole"),
+                  box(f"Top{k}", (x - 0.5, 11, 2), (x + 0.5, 12, 14), "pole"), box(f"FootA{k}", (x - 0.5, 0, 2), (x + 0.5, 0.8, 7), "hood-dark"),
+                  box(f"FootB{k}", (x - 0.5, 0, 9), (x + 0.5, 0.8, 14), "hood-dark")]
+    oriented("l52-bikerack", [G.group("side", SIDES)], {"l52-bikerack": G.shape("l52-bikerack", hoops)},
+             "Level 52: a bike rack, three steel hoops on a rail (nothing locked to them)", "Metal", G.METAL, lambda p: (0.1, 0, 0.1, 0.9, 0.75, 0.9))
+
     # The fountain's middle and a roof vent
     jet = [box("Column", (6, 0, 6), (10, 9, 10), "fountain-stone"), box("Bowl", (3, 9, 3), (13, 11, 13), "fountain-stone"),
            box("Water", (3.5, 11, 3.5), (12.5, 11.2, 12.5), "fountain-water", faces=("up",)),
@@ -797,6 +806,7 @@ def expected():
                 for part in "lr":
                     codes.add(f"l52-post-{kind}-{part}-{p}-{s}")
         codes.add(f"l52-bleacher-{s}")
+        codes.add(f"l52-bikerack-{s}")
         for part in ("base", "pole", "top"):
             codes.add(f"l52-flagpole-{part}-{s}")
     codes |= {"l52-jet", "l52-vent", "l52-hvac-body", "l52-hvac-top", "l52-skylight"}
