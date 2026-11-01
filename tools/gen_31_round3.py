@@ -507,11 +507,13 @@ def plate_shapes():
                            B("Nozzle", (6.5, 4.5, 11), (9.5, 6, 14), "plate-chrome"),
                            B("Button", (7, 9, 9.6), (9, 11, 10), "plate-chrome")]
                 elif style == "extinguisher":
-                    els = [B("Bracket", (6.5, 2, 15.4), (9.5, 12, 16), "plate-black"),
-                           B("Tank", (5.5, 2.5, 11), (10.5, 11, 15.4), "plate-red"),
-                           B("Neck", (7, 11, 12), (9, 12.5, 14), "plate-black"),
-                           B("Handle", (6, 12.5, 11.5), (10, 13.2, 14.5), "plate-black"),
-                           B("Hose", (10.5, 6, 12.5), (11.5, 11.5, 13.5), "plate-black")]
+                    els = [B("Bracket", (7, 3, 15.5), (9, 9, 16), "plate-black"),
+                           B("Tank", (6.4, 0.5, 12.4), (9.6, 11, 15.5), "plate-red"),
+                           B("TankX", (6, 1, 12.8), (10, 10.5, 15.1), "plate-red"),
+                           B("Neck", (7.3, 11, 13.2), (8.7, 12.4, 14.6), "plate-black"),
+                           B("Handle", (7.6, 12.4, 12.4), (8.4, 13, 15.2), "plate-black"),
+                           B("Hose", (9.6, 3, 13.4), (10.4, 11.6, 14.2), "plate-black"),
+                           B("Label", (6.9, 4, 12.3), (9.1, 7.5, 12.4), "plate-white", faces=("north",))]
                 elif style == "alarm":
                     els = [B("Box", (5, 5, 14), (11, 12, 16), "plate-red"),
                            B("Pull", (6.5, 7, 13.2), (9.5, 9, 14), "plate-white")]

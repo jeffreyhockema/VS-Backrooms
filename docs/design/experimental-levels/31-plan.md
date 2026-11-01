@@ -513,7 +513,7 @@ revolving doors' TO LV screens (asked for by the lead).
   refusal after littering stays 24 h).
 - **New water**: the shared drinks fridge (`detail/drinkfridge`, a restocking `BackroomsDispenser`: soda, water,
   Almond Waters) now stands at the end of every food court's counter and at each full rink's snack window (one per
-  complex with a full rink, about 60% of complexes, plus 23 food courts per 25 complexes in `31stats`). The food
+  complex with a full rink, about 60% of complexes, and 23 food courts in `31stats`'s window). The food
   court already had the restocking Almond Water fountain, so the level had water; this adds more of it. If that is
   too much, swap the fridge for a non-dispensing look (one line each in `L31LayRoom`/`L31LayRink`).
 - No new food, beds or safe rooms. The skate cubbies on the new free-standing racks give skates like the wall ones

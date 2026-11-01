@@ -803,10 +803,12 @@ public sealed partial class WorldLayout
                         L31MountRun(plan, pa, qa, pb, qb, name, face);
                     }
                     MountHere(mid - 1, mid + 1, 0, "rentbig", toNear);
+                    // (kids' sizes at the viewer's left: looking south, that is the east, the high-U end)
+                    bool rev = plan.Dir(toNear) == ArchPier.North;
                     for (int k = 0; k < 4; k++)
                     {
                         int u = k < 2 ? 2 + 3 * k : across - 3 - 3 * (3 - k);
-                        MountHere(u, u, 0, "sz" + k, toNear);
+                        MountHere(u, u, 0, "sz" + (rev ? 3 - k : k), toNear);
                     }
                     {
                         var (wa, wb) = At(0, 3);
@@ -958,24 +960,36 @@ public sealed partial class WorldLayout
                 }
             case L31Zone.Bath:
                 {
-                    // (round 3, a real restroom) A row of stalls along the far wall (two rows in a wide one: the men's and the
-                    // women's sides), the vanity of basins under their mirrors along one side by the door, the hand dryers and
-                    // a bin on the other
-                    for (int u = 1; u <= Math.Min(6, across - 2); u++) Put(u, 0, L31Props.Stall, toNear);
-                    if (across >= 16)
-                        for (int u = across - 7; u <= across - 2; u++) Put(u, 0, L31Props.Stall, toNear);
+                    // (round 3, a real restroom) Walled in to a restroom's size round its door (fourteen across, eleven deep:
+                    // the rooms were halls), a row of stalls along its far wall (the men's side and the women's, a gap
+                    // between), the vanity of basins under their mirrors along one side by the door, the hand dryers and a
+                    // bin on the other
+                    int bw = Math.Min(across, 14), ua = Math.Clamp(doorU - 6, 0, across - bw), ub = ua + bw - 1, vf = Math.Max(0, len - 11);
+                    for (int v = 0; v < len; v++)
+                        for (int u = 0; u < across; u++)
+                        {
+                            if (u >= ua && u <= ub && v >= vf) continue;
+                            var (wp, wq) = At(u, v);
+                            plan.At(wp, wq) = new Tile
+                            {
+                                Kind = TileKind.Wall, Pattern = WallPattern.L31Wall, Zone = (byte)L31Zone.Wall, Floor = FloorKind.L31Floor,
+                                Ceiling = CeilingKind.L31Ceiling, Height = 4,
+                            };
+                        }
+                    for (int u = ua + 1; u <= ub - 1; u++)
+                        if (u <= ua + 5 || u >= ub - 5) Put(u, vf, L31Props.Stall, toNear);
                     for (int v = len - 2; v >= len - 4; v--)
                     {
-                        Put(0, v, L31Props.Vanity, toHighU);
-                        var (mp, mq) = At(0, v);
+                        Put(ua, v, L31Props.Vanity, toHighU);
+                        var (mp, mq) = At(ua, v);
                         L31MountRun(plan, mp, mq, mp, mq, "mirror", toHighU);
                     }
                     foreach (int v in new[] { len - 3, len - 5 })
                     {
-                        var (hp, hq) = At(across - 1, v);
+                        var (hp, hq) = At(ub, v);
                         L31MountRun(plan, hp, hq, hp, hq, "dryer", toLowU);
                     }
-                    Put(across - 1, len - 2, L31Props.Bin, toLowU);
+                    Put(ub, len - 2, L31Props.Bin, toLowU);
                     break;
                 }
             case L31Zone.Hvac:
@@ -991,14 +1005,15 @@ public sealed partial class WorldLayout
                     }
                     // (round 3) The plant itself along the far wall: the air handlers side by side, the pressure tanks, the
                     // water heater, under the pipe run
-                    for (int u = 2; u <= Math.Min(across - 3, 7); u++) Put(u, 1, Props.AcUnit, toNear);
-                    Put(across - 3, 1, Props.PressureTank, toNear, 1);
-                    Put(across - 4, 1, Props.PressureTank, toNear);
-                    Put(across - 2, len - 3, Props.WaterTank, toNear);
+                    int hm = across / 2;
+                    for (int u = hm - 2; u <= hm + 1; u++) Put(u, 1, Props.AcUnit, toNear);
+                    Put(hm + 3, 1, Props.PressureTank, toNear, 1);
+                    Put(hm + 4, 1, Props.PressureTank, toNear);
+                    Put(hm - 4, 1, Props.PressureTank, toNear, 1);
                     // and the supply duct out of them under the ceiling, the length of the room
                     for (int v = 1; v <= len - 2; v++)
                     {
-                        var (dp, dq) = At(4, v);
+                        var (dp, dq) = At(hm, v);
                         plan.At(dp, dq).Overhead = door is ArchPier.North or ArchPier.South ? Overheads.L31DuctNS : Overheads.L31DuctWE;
                     }
                     for (int v = 2; v < len - 2; v += 3) Put(0, v, Props.Radiator, toHighU);

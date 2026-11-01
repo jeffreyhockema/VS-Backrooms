@@ -48,7 +48,7 @@ public partial class WorldLayout
             if (spot is { } s && !found.ContainsKey(name)) found[name] = s with { Name = name };
         }
 
-        for (int ring = 0; ring <= 5 && found.Count < 21; ring++)
+        for (int ring = 0; ring <= 5 && found.Count < 23; ring++)
             for (int wz = cz - ring; wz <= cz + ring; wz++)
                 for (int wx = cx - ring; wx <= cx + ring; wx++)
                 {
@@ -88,8 +88,28 @@ public partial class WorldLayout
                                 p0: room.P0, q0: 6, p1: room.P1, q1: 10));
                         if (room.Kind == L31Zone.Arcade && room.Q1 <= 19)
                             Add("prizes", Spot(plan, room.P1 - 7, room.Q0 + 8, room.P1, room.Q0 + 3, 2.0, p0: room.P0, q0: room.Q0, p1: room.P1, q1: room.Q1));
-                        if (room.Kind == L31Zone.Bath && room.Q0 >= 101)
-                            Add("restroom", Spot(plan, room.P0 + 6, room.Q0 + 2, room.P0 + 3, room.Q1, 1.4, p0: room.P0, q0: room.Q0, p1: room.P1, q1: room.Q1));
+                        if (room.Kind == L31Zone.Bath && room.DoorP > -9)
+                        {
+                            // (from just inside its door, to one side, across to its far wall's stalls: the restroom is walled in
+                            // round its door)
+                            int ox = room.DoorSide == ArchPier.West ? -1 : room.DoorSide == ArchPier.East ? 1 : 0;
+                            int oz = room.DoorSide == ArchPier.North ? -1 : room.DoorSide == ArchPier.South ? 1 : 0;
+                            int ip = room.DoorP - ox + (oz != 0 ? 3 : 0), iq = room.DoorQ - oz + (ox != 0 ? 3 : 0);
+                            Add(room.Q0 >= 101 ? "restroom" : "bath", Spot(plan, ip, iq, room.DoorP - 9 * ox - (oz != 0 ? 2 : 0), room.DoorQ - 9 * oz - (ox != 0 ? 2 : 0), 1.3,
+                                p0: room.P0, q0: room.Q0, p1: room.P1, q1: room.Q1));
+                        }
+                        if (room.Kind == L31Zone.Hvac)
+                        {
+                            // (from its door across to the air handlers on its far wall)
+                            int ox = room.DoorSide == ArchPier.West ? -1 : room.DoorSide == ArchPier.East ? 1 : 0;
+                            int oz = room.DoorSide == ArchPier.North ? -1 : room.DoorSide == ArchPier.South ? 1 : 0;
+                            int ip = room.DoorP - ox + (oz != 0 ? 4 : 0), iq = room.DoorQ - oz + (ox != 0 ? 4 : 0);
+                            Add("hvac", Spot(plan, ip, iq, (room.P0 + room.P1) / 2.0, (room.Q0 + room.Q1) / 2.0 - 0 * oz + (oz == 0 ? 0 : 0), 2.0,
+                                p0: room.P0, q0: room.Q0, p1: room.P1, q1: room.Q1));
+                        }
+                        if ((room.Kind == L31Zone.Rental || room.Kind == L31Zone.Snack) && room.Q1 <= 19)
+                            Add(room.Kind == L31Zone.Rental ? "doorsign-rental" : "doorsign-snack",
+                                Spot(plan, room.DoorP + 5, 23, room.DoorP + 1, 20, 3.6, p0: 13, q0: 21, p1: 107, q1: 24));
                         string name = room.Kind switch
                         {
                             L31Zone.Snack => "foodcourt", L31Zone.Rental => "rental", L31Zone.Arcade => "arcade", L31Zone.Cinema => "cinema",
@@ -139,7 +159,7 @@ public partial class WorldLayout
                 }
 
         foreach (string name in new[] { "rink", "rink-star", "dj", "lobby", "lobby-front", "foodcourt", "rental", "coach", "arcade", "prizes", "cinema",
-            "lounge", "hvac", "bath", "restroom", "snackwindow", "corridor", "trophies", "glowroom", "emptiness", "hall", "lobbydoor", "revolving" })
+            "lounge", "hvac", "bath", "restroom", "doorsign-rental", "doorsign-snack", "snackwindow", "corridor", "trophies", "glowroom", "emptiness", "hall", "lobbydoor", "revolving" })
             if (found.TryGetValue(name, out var s)) yield return s;
 
         // The wooden doors into the rink in its hosts, the nearest to spawn in each: from four steps in front of it
