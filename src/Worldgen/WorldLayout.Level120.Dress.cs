@@ -270,7 +270,7 @@ public sealed partial class WorldLayout
             }
     }
 
-    /// <summary>The terminal room's wall of screens: the wall the desks face, two rows of big dead monitors, now and then one showing a corrupted frame of a corridor.</summary>
+    /// <summary>The terminal room's wall of screens: the wall the desks face, two rows of big dead monitors, some smashed, now and then one showing a corrupted frame of a corridor.</summary>
     private static void L120HangScreens(L120Plan plan, L120Room r, ref Rng rng)
     {
         for (int p = r.P0; p <= r.P1; p++)
@@ -279,7 +279,8 @@ public sealed partial class WorldLayout
             if (w.Kind != TileKind.Wall || w.Variant != 0) continue;
             w.Variant = L120DecoScreens;
             w.Pier = ArchPier.South;
-            w.Detail = (byte)((rng.Chance(0.12) ? 1 : 0) | (rng.Chance(0.08) ? 2 : 0));
+            int lower = rng.Chance(0.12) ? 1 : rng.Chance(0.15) ? 4 : 0, upper = rng.Chance(0.08) ? 2 : rng.Chance(0.15) ? 8 : 0;
+            w.Detail = (byte)(lower | upper);
         }
     }
 

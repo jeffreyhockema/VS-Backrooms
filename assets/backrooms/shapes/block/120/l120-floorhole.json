@@ -2,8 +2,8 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"black": "backrooms:block/120/black",
 		"floor-clean": "backrooms:block/120/floor-clean",
+		"plenum": "backrooms:block/120/plenum",
 		"steel-grey": "backrooms:block/120/steel-grey",
 		"tray-cable": "backrooms:block/120/tray-cable",
 		"wire-blue": "backrooms:block/120/wire-blue",
@@ -24,7 +24,7 @@
 			],
 			"faces": {
 				"up": {
-					"texture": "#black",
+					"texture": "#plenum",
 					"uv": [
 						0,
 						0,
@@ -519,7 +519,7 @@
 			],
 			"faces": {
 				"south": {
-					"texture": "#black",
+					"texture": "#plenum",
 					"uv": [
 						0,
 						0,
@@ -543,7 +543,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#black",
+					"texture": "#plenum",
 					"uv": [
 						0,
 						0,
@@ -567,7 +567,7 @@
 			],
 			"faces": {
 				"east": {
-					"texture": "#black",
+					"texture": "#plenum",
 					"uv": [
 						0,
 						0,
@@ -591,7 +591,7 @@
 			],
 			"faces": {
 				"west": {
-					"texture": "#black",
+					"texture": "#plenum",
 					"uv": [
 						0,
 						0,

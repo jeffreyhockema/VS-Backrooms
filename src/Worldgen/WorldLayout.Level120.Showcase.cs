@@ -67,10 +67,10 @@ public partial class WorldLayout
         // room's wall of screens; the UPS room; a cooling unit at an aisle's end; a bank's end panels under its tray; storage;
         // a hole in the raised floor
         spots.Add(Spot("hall-door", L120HallDoorView(rings), -6));
-        spots.Add(Spot("hall-exit", L120Best(rings, Stand, (t, k, s) => t.Kind == TileKind.Doorway && t.Variant == L120DecoExit && k >= 3 ? 6 : 0, 6, 6, line: 3), 6));
+        spots.Add(Spot("hall-exit", L120ExitView(rings), 8));
         spots.Add(Spot("noc-screens", L120ScreensView(rings), 4));
         spots.Add(Spot("ups-room", L120Best(rings, Stand, (t, k, s) => t.Variant is L120Ups or L120Battery ? (k <= 4 ? 2 : 1) : 0, 7, 10), -6));
-        spots.Add(Spot("crac", L120Best(rings, Stand, (t, k, s) => t.Variant == L120Crac ? (k is >= 2 and <= 5 && Math.Abs(s) <= 1 ? 8 : 1) : Rack(t) ? 0.2 : 0, 7, 8, line: 1), 2));
+        spots.Add(Spot("crac", L120Best(rings, Stand, (t, k, s) => t.Variant == L120Crac && s == 0 && k is >= 3 and <= 4 ? 10 : Rack(t) && Math.Abs(s) == 1 ? 0.3 : 0, 5, 10, line: 2), -4));
         spots.Add(Spot("row-ends", L120Best(rings, Stand, (t, k, s) => t.Variant == L120RowEnd ? (k is >= 2 and <= 4 ? 4 : 1) : 0, 6, 8, line: 1), 4));
         spots.Add(Spot("storage", L120Best(rings, Stand, (t, k, s) => t.Variant == L120Shelf ? 1 : t.Variant is L120Kvm or L120Mop ? 2 : 0, 7, 8), -8));
         spots.Add(Spot("floor-hole", L120Best(rings, Stand, (t, k, s) => t.Depth == L120PanelHole && t.Variant == 0 && k == 2 && s == 0 ? 10 : t.Variant == L120Debris ? 1 : 0, 3, 10), -40));
@@ -152,6 +152,26 @@ public partial class WorldLayout
                         var (x, z) = plan.World(-4, k + 1);
                         if (TileAt(x, z).Zone == (byte)L120Zone.Corridor) return (x, z, 1, 0);
                     }
+            }
+        return null;
+    }
+
+    /// <summary>Inside a cluster, four blocks back from a door onto a passage, looking at it: the EXIT sign over it.</summary>
+    private (int X, int Z, int Dx, int Dz)? L120ExitView(List<List<(int Hx, int Hz)>> rings)
+    {
+        foreach (var ring in rings)
+            foreach (var (hx, hz) in ring)
+            {
+                L120Plan plan = L120PlanOf(hx, hz);
+                for (int k = 4; k < L120HallSize - 4; k++)
+                {
+                    if (plan.At(-1, k).Kind != TileKind.Doorway || plan.At(-1, k).Variant != L120DecoExit) continue;
+                    bool clear = true;
+                    for (int p = 0; p <= 4 && clear; p++) clear = plan.At(p, k).Kind == TileKind.Floor && IsWalkable(plan.At(p, k)) && plan.At(p, k).Variant == 0;
+                    if (!clear) continue;
+                    var (x, z) = plan.World(4, k);
+                    return (x, z, -1, 0);
+                }
             }
         return null;
     }

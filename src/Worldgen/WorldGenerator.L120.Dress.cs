@@ -16,16 +16,17 @@ public sealed partial class WorldGenerator
     private readonly int[] l120Kvm = new int[4], l120Mop = new int[4], l120Debris = new int[4], l120Paper = new int[4];
     private int l120FloorHole, l120VoidGlitch, l120VoidPanelDead;
     /// <summary>The wall dressing: [kind, side] (see <see cref="L120DecoKinds"/>), the plates [text, side], notes, stencils.</summary>
-    private readonly int[,] l120Deco = new int[16, 4], l120Plate = new int[20, 4], l120Note = new int[4, 4], l120Stencil = new int[8, 4];
+    private readonly int[,] l120Deco = new int[18, 4], l120Plate = new int[20, 4], l120Note = new int[4, 4], l120Stencil = new int[8, 4];
 
     /// <summary>The single wall dressings by index in <see cref="l120Deco"/>.</summary>
     private static readonly string[] L120DecoKinds =
     {
         "auth", "fire-lower", "fire-upper", "cables-lower", "cables-mid", "cables-upper", "screens-dead-lower", "screens-dead-upper",
         "screens-glitch-lower", "screens-glitch-upper", "evac", "conduit", "exit-dead", "exit-lit", "panel", "crack",
+        "screens-smashed-lower", "screens-smashed-upper",
     };
     private const int DecoAuth = 0, DecoFireLower = 1, DecoFireUpper = 2, DecoCables = 3, DecoScreens = 6, DecoEvac = 10, DecoConduit = 11,
-        DecoExitDead = 12, DecoExitLit = 13, DecoPanel = 14, DecoCrack = 15;
+        DecoExitDead = 12, DecoExitLit = 13, DecoPanel = 14, DecoCrack = 15, DecoSmashed = 16;
     private readonly int[] l120Smudge = new int[4];
 
     private void InitL120Dress()
@@ -77,6 +78,8 @@ public sealed partial class WorldGenerator
             case WL.L120DecoFire when rel is 1 or 2: return l120Deco[rel == 1 ? DecoFireLower : DecoFireUpper, f];
             case WL.L120DecoCables when rel is >= 1 and <= 3: return l120Deco[DecoCables + rel - 1, f];
             case WL.L120DecoScreens when rel is 2 or 3:
+                // (Detail: bits 0 and 1 a corrupted picture on the lower or upper screen, bits 2 and 3 the screen smashed)
+                if ((t.Detail & (rel == 2 ? 4 : 8)) != 0) return l120Deco[DecoSmashed + rel - 2, f];
                 bool glitch = (t.Detail & (rel == 2 ? 1 : 2)) != 0;
                 return l120Deco[DecoScreens + (glitch ? 2 : 0) + rel - 2, f];
             case WL.L120DecoEvac when rel == 2: return l120Deco[DecoEvac, f];

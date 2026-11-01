@@ -39,6 +39,8 @@
 				"screens-dead-upper",
 				"screens-glitch-lower",
 				"screens-glitch-upper",
+				"screens-smashed-lower",
+				"screens-smashed-upper",
 				"evac",
 				"stencil-a",
 				"stencil-b",
@@ -609,6 +611,38 @@
 		},
 		"l120-walldeco-screens-glitch-upper-west": {
 			"base": "backrooms:block/120/l120-walldeco-screens-glitch-upper",
+			"rotateY": 90
+		},
+		"l120-walldeco-screens-smashed-lower-north": {
+			"base": "backrooms:block/120/l120-walldeco-screens-smashed-lower",
+			"rotateY": 0
+		},
+		"l120-walldeco-screens-smashed-lower-east": {
+			"base": "backrooms:block/120/l120-walldeco-screens-smashed-lower",
+			"rotateY": 270
+		},
+		"l120-walldeco-screens-smashed-lower-south": {
+			"base": "backrooms:block/120/l120-walldeco-screens-smashed-lower",
+			"rotateY": 180
+		},
+		"l120-walldeco-screens-smashed-lower-west": {
+			"base": "backrooms:block/120/l120-walldeco-screens-smashed-lower",
+			"rotateY": 90
+		},
+		"l120-walldeco-screens-smashed-upper-north": {
+			"base": "backrooms:block/120/l120-walldeco-screens-smashed-upper",
+			"rotateY": 0
+		},
+		"l120-walldeco-screens-smashed-upper-east": {
+			"base": "backrooms:block/120/l120-walldeco-screens-smashed-upper",
+			"rotateY": 270
+		},
+		"l120-walldeco-screens-smashed-upper-south": {
+			"base": "backrooms:block/120/l120-walldeco-screens-smashed-upper",
+			"rotateY": 180
+		},
+		"l120-walldeco-screens-smashed-upper-west": {
+			"base": "backrooms:block/120/l120-walldeco-screens-smashed-upper",
 			"rotateY": 90
 		},
 		"l120-walldeco-evac-north": {

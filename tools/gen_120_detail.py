@@ -227,7 +227,7 @@ def flat_textures():
         d = ImageDraw.Draw(img)
         text_center(d, (0, 4, 128, 30), "HALL", 22, (30, 28, 26, 255))
         text_center(d, (0, 26, 128, 98), c, 66, (30, 28, 26, 255))
-        d.polygon([(30, 104), (98, 104), (98, 96), (116, 110), (98, 124), (98, 116), (30, 116)], fill=(30, 28, 26, 255))
+        d.rectangle([34, 104, 94, 112], fill=(30, 28, 26, 255))
         # Worn: speckle the paint back to the paper
         px = img.load()
         bpx = base.resize((128, 128), Image.NEAREST).load()
@@ -337,7 +337,6 @@ def prop_textures():
                 rect(gutted, 4 + col * 8, 4 + row * 7, 9 + col * 8, 7 + row * 7, (16, 16, 18))
                 rect(gutted, 5 + col * 8, 4 + row * 7, 5 + col * 8, 4 + row * 7, (170, 40, 40))
     save(gutted, "ups-open")
-    save(grain(canvas((196, 194, 184)), 12603, 4, 6), "crac-side")
     louvre = canvas((196, 194, 184))
     for y in range(3, 30, 3):
         rect(louvre, 3, y, 28, y + 1, (90, 90, 86))
@@ -347,6 +346,16 @@ def prop_textures():
         rect(duct, 0, y, 31, y, (110, 114, 116))
     save(grain(duct, 12605, 5, 6), "duct")
     save(grain(canvas((168, 34, 30)), 12606, 6), "extinguisher")
+    save(grain(canvas((92, 92, 90)), 12614, 6, 10), "plenum")
+    # The CRAC's sides: panels with seams, a latch and a vent strip
+    side = canvas((196, 194, 184))
+    rect(side, 15, 0, 15, 31, (150, 148, 140))
+    rect(side, 0, 0, 31, 0, (150, 148, 140))
+    for x in (13, 17):
+        rect(side, x, 14, x, 17, (90, 90, 86))
+    for y in range(24, 30, 2):
+        rect(side, 3, y, 12, y, (120, 118, 110))
+    save(grain(side, 12603, 4, 6), "crac-side")
     save(grain(canvas((24, 24, 26)), 12607, 3), "black")
     save(grain(canvas((214, 182, 40)), 12608, 6), "bucket")
     mop = canvas((196, 190, 170))
@@ -501,7 +510,7 @@ def shelf_shape(part):
 def floorhole_shape():
     els = [
         # The plenum's floor (the slab), cables run across it, pedestals at the corners, the stringers round the top
-        box("Slab", (0, 0, 0), (16, 0.2, 16), "black", faces=("up",)),
+        box("Slab", (0, 0, 0), (16, 0.2, 16), "plenum", faces=("up",)),
         box("CablesA", (0, 0.2, 3), (16, 2.2, 7), "tray-cable", faces=("up", "north", "south")),
         box("CablesB", (6, 0.2, 0), (9, 1.6, 16), "wire-blue", faces=("up", "east", "west")),
         box("CablesC", (11, 0.2, 9), (16, 1.2, 12), "wire-grey", faces=("up", "north", "south", "west")),
@@ -514,10 +523,10 @@ def floorhole_shape():
         box("LipW", (0, 14.5, 1), (1, 16, 15), {"top": "floor-clean", "side": "steel-grey"}, faces=("up", "east")),
         box("LipE", (15, 14.5, 1), (16, 16, 15), {"top": "floor-clean", "side": "steel-grey"}, faces=("up", "west")),
         # The sides of the hole, facing into it
-        box("SideN", (0, 0.2, 0), (16, 14.5, 0.05), "black", faces=("south",)),
-        box("SideS", (0, 0.2, 15.95), (16, 14.5, 16), "black", faces=("north",)),
-        box("SideW", (0, 0.2, 0), (0.05, 14.5, 16), "black", faces=("east",)),
-        box("SideE", (15.95, 0.2, 0), (16, 14.5, 16), "black", faces=("west",)),
+        box("SideN", (0, 0.2, 0), (16, 14.5, 0.05), "plenum", faces=("south",)),
+        box("SideS", (0, 0.2, 15.95), (16, 14.5, 16), "plenum", faces=("north",)),
+        box("SideW", (0, 0.2, 0), (0.05, 14.5, 16), "plenum", faces=("east",)),
+        box("SideE", (15.95, 0.2, 0), (16, 14.5, 16), "plenum", faces=("west",)),
     ]
     return shape("l120-floorhole", els)
 
@@ -564,7 +573,7 @@ def deco_elements(kind):
         return "wall-base", None, els
     if kind.startswith("screens-"):
         _, look, part = kind.split("-")
-        screen = "screen-glitch" if look == "glitch" else "screen-dead"
+        screen = {"glitch": "screen-glitch", "smashed": "screen-smashed"}.get(look, "screen-dead")
         y0, y1 = (2, 15.5) if part == "lower" else (0.5, 14)
         return "wall-base", None, [
             box("Bezel", (0, y0, -1), (16, y1, 0), "black", faces=("north", "east", "west", "up", "down")),
@@ -602,7 +611,7 @@ def deco_elements(kind):
 
 DECO_KINDS = ([f"plate-{i}" for i in range(len(PLATES))] + ["auth"] + [f"note-{i}" for i in range(len(NOTES))]
               + ["fire-lower", "fire-upper", "cables-lower", "cables-mid", "cables-upper"]
-              + [f"screens-{look}-{part}" for look in ("dead", "glitch") for part in ("lower", "upper")]
+              + [f"screens-{look}-{part}" for look in ("dead", "glitch", "smashed") for part in ("lower", "upper")]
               + ["evac"] + [f"stencil-{c.lower()}" for c in LETTERS] + ["conduit", "exit-dead", "exit-lit", "panel", "crack", "smudge"])
 
 

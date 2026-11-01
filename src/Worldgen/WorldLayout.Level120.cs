@@ -456,12 +456,23 @@ public sealed partial class WorldLayout
                     L120WallThing(plan, r, L120DecoPanel, 0, ref rng);
                     break;
             }
-            // Fittings over every room on a five grid: dead or smashed
+            // Fittings over every room on a five grid: dead or smashed (round 3: moved off a bank or a cabinet onto the floor
+            // beside it, so they hang over the aisles, not on the trays)
             for (int q = r.Q0 + 2; q <= r.Q1 - 1; q += 5)
                 for (int p = r.P0 + 2; p <= r.P1 - 1; p += 5)
                 {
-                    var (x, z) = plan.World(p, q);
-                    plan.At(p, q).Ceiling = L120Lamp(x, z);
+                    int lp = p, lq = q;
+                    foreach (var (dp, dq) in new[] { (0, 0), (0, 1), (1, 0), (0, -1), (-1, 0), (0, 2), (2, 0) })
+                    {
+                        Tile under = plan.At(p + dp, q + dq);
+                        if (under.Kind == TileKind.Floor && under.Overhead == 0 && under.Variant is 0 or L120Spill or L120Chair or L120Terminal)
+                        {
+                            (lp, lq) = (p + dp, q + dq);
+                            break;
+                        }
+                    }
+                    var (x, z) = plan.World(lp, lq);
+                    plan.At(lp, lq).Ceiling = L120Lamp(x, z);
                 }
             // Now and then a supply box someone left in a corner (more in the wrecked stores)
             if (rng.Chance(r.Kind == L120RoomKind.Wreck ? 0.45 : r.Kind is L120RoomKind.Ups or L120RoomKind.Terminals ? 0.1 : 0.22))
