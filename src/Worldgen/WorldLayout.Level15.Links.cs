@@ -280,6 +280,14 @@ public sealed partial class WorldLayout
     private void L15LinkPlan(L15Plan plan)
     {
         L15PlaceSealed(plan);
+        L15PlaceExit(plan);
+        // Last, Level 14's MEDICAL CENTER door in a medical bay's wall, on Level 14's salts (WorldLayout.Level14.Links.cs)
+        L14PlaceMedDoor(plan);
+    }
+
+    /// <summary>Now and then a way out of the wing.</summary>
+    private void L15PlaceExit(L15Plan plan)
+    {
         ulong h = Hashing.Hash(seed, plan.Hx, plan.Hz, SaltL15Exit);
         double r = Hashing.Unit(h);
         if (r >= L15ExitChance) return;

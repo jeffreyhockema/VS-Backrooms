@@ -146,10 +146,4 @@ static partial class LevelModes
         }
         return true;
     }
-
-    static bool L14Links(WorldLayout layout, string[] args) { Console.WriteLine("14links: not built yet"); return true; }
-
-    static string L14LinkLabel(Tile t) => null;
-
-    static string L14UseKind(Tile t) => null;
 }
