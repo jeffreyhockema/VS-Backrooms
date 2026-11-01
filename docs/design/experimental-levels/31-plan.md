@@ -518,3 +518,27 @@ revolving doors' TO LV screens (asked for by the lead).
   too much, swap the fridge for a non-dispensing look (one line each in `L31LayRoom`/`L31LayRink`).
 - No new food, beds or safe rooms. The skate cubbies on the new free-standing racks give skates like the wall ones
   (the "steal" way out is unchanged).
+
+### What the shots showed
+
+- **Run 1** (`%TEMP%/backrooms-shots/31-r3a/`, 26 spots + arrivals): the mounts read the right way round everywhere
+  (room signs, SKATE RENTAL, size boards, the whiteboard, PRIZES, Snacks, the rink's name over the lobby doors from
+  the hall and on the rink's wall, TO LV11 over a revolving door, the 5 x 3 TV, the session board by the DJ); the
+  trusses and mirror balls fill the rink's dark ceiling; the Coach close up behind his counter. Wrong: the restrooms
+  were still 28 x 20 halls with a row of stalls at the far end (walled in to 14 x 11 round their doors since, stalls
+  on both sides, vanities and dryers by the door); HVAC rooms read as scattered props and a water tower on legs
+  indoors (air handlers and tanks along the far wall under the duct since, no tower); the size boards ran from the
+  right in a mirrored complex (fixed); the extinguisher was a red box (rounder since); the food court's front third
+  was empty (a fourth row of tables and a jukebox since); the snack window's menu touched its frame (fixed).
+- **Run 2** (`31-r3b/`): the rig stopped after five spots on a PermissionError of its own (not the level's); its
+  shots (rink, star, DJ, lobby, lobby front) matched run 1's.
+- **Run 3** (final): see below.
+
+### Questions for the user
+
+1. The rink's name STARDUST ROLLER RINK is an invention (the lore names none). Keep it, rename it, or leave the
+   neon nameless?
+2. The lead asked for a projector window and a ticket booth at the cinema; the lore's cinema is one big TV and
+   three metal benches, free. Built: a bigger TV and NOW SHOWING cases outside. Is a projector wanted anyway?
+3. Drinks fridges (restocking) at every food court and rink snack window add water to a level that already had the
+   Almond Water fountain: keep, or make them look-only?
