@@ -137,8 +137,9 @@ public partial class AtmosphereSystem : ModSystem
         // the Heart of Water: AtmosphereSystem.L23.cs)
         new(0.0065f, 0.17f, 0.23f, 0.14f, -0.07f, scene: 0.95f),
         // Batch 4 (placeholders: a faint neutral haze)
-        // Level 14
-        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // Level 14: a pale green-grey haze, "heavy with the scent of antiseptic and decay" (its halls, dark, wards, surgery, storage,
+        // torture chambers, contaminated rooms and the Hunter's dread: AtmosphereSystem.L14.cs)
+        new(0.008f, 0.58f, 0.64f, 0.58f, 0f),
         // Level 47
         new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
     };

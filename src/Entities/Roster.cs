@@ -695,7 +695,12 @@ public static class Roster
         // Level 15: machinery turning over somewhere, a beep far down the halls
         [Backrooms.Worldgen.WorldLayout.Level15] = new[] { Machinery, S("backrooms:sounds/ambient/15/beep2", 0.8f, 1.0f, 0.35f) },
         [Backrooms.Worldgen.WorldLayout.Level23] = new[] { HoundHowl, Scuttle, Wings, Groan, Drip, Whisper },
-        [Backrooms.Worldgen.WorldLayout.Level14] = Array.Empty<DistantSound>(),
+        // Level 14: "the constant sound of distant footsteps and whispers" (its own bed of them plays on the client too: AtmosphereSystem.L14.cs)
+        [Backrooms.Worldgen.WorldLayout.Level14] = new[]
+        {
+            S("backrooms:sounds/ambient/14/steps1", 0.9f, 1.05f, 0.5f), S("backrooms:sounds/ambient/14/whisper1", 0.85f, 1.0f, 0.45f),
+            S("backrooms:sounds/ambient/14/door", 0.9f, 1.05f, 0.45f), S("backrooms:sounds/ambient/14/gurney", 0.9f, 1.05f, 0.4f), Whisper,
+        },
         [Backrooms.Worldgen.WorldLayout.Level47] = Array.Empty<DistantSound>(),
     };
 
