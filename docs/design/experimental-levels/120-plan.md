@@ -468,3 +468,38 @@ Code: `WorldLayout.Level120.Dress.cs` (new: the dressing's layout), `WorldGenera
 - **Handbook** (`guide-l120-text`, and `gen_guide.py`'s `PAGES["l120"]` alike): the rooms and plates, and the EXIT signs as
   marks to steer by. Showcase: `hall-door`, `hall-exit`, `noc-screens`, `ups-room`, `crac`, `row-ends`, `storage`,
   `floor-hole`, `void-odd`.
+
+### Inventions (round 3; not lore)
+The lore says only "broken server rooms", "massive blocks of computers ripped apart", yellow paper, office tiles, dark.
+Everything that makes a cluster a data hall is mine, from real ones: the operators' room by the way in with its wall of
+screens, the UPS / battery room, CRACs, trays over the banks, row letters, the plates and their wording (SERVER ROOM + a
+hall letter, DATA HALL, AUTHORIZED PERSONNEL ONLY, UPS 2, CRAC 3, PDU-2 480 V, EXIT / OFFICES), the EXIT signs still on
+their batteries, the fire points, evacuation plans, stencils, the four pencilled notes (in the wanderer notes' voice, no
+new lore), the passages' parked equipment, leaks, fallen tiles, skirting; and the White Voids' small wrong things (the
+lore's voids are "pure white": these are one thing at a time, and a third of the rooms have none).
+
+### Balance notes for the lead
+- **Misglitch cap** (the balance review): at most **3** within 24 blocks of a death (was 6), `L120System.L120MisglitchCap`;
+  the console/test command's message follows.
+- **Supply boxes**: room kinds shifted (one operators' room and one UPS room a cluster), so the box roll for those two
+  kinds is 10% (others unchanged: 22%, stores 45%); `120stats 3` gives 2.5-2.8 boxes a cluster across this round's builds
+  against 2.6 before (sample noise; the table and picked-over share are untouched).
+- **Salvage**: the new cabinets drop what racks drop (scrap wire, metal brackets; KVM carts and smashed screens glass):
+  more breakable salvage per cluster (a UPS row, battery rows, CRACs, shelving, end panels). No circuit boards from any new
+  block; no food, water, beds or safe rooms.
+- **Light**: EXIT signs over one door out in five (light 2, green) and over one door back in two; a corrupted screen
+  now and then (light 1). The level stays pitch dark; the lit EXIT over a door back is a tell for the way out.
+- **Floor holes**: a lifted panel is now a real half-block step down (2% of server-room aisle tiles, was a painted 3%;
+  0.3% of passage tiles). Walkable; the trip rule (L120System) does not look at them.
+- **Racks**: standing racks per cluster fell from ~965 to ~695 (the two new rooms, the end panels); lit racks 3.6-3.8%
+  of standing (was 4.1%).
+- `regions`: Level 120 60/60, but 1 of the 60 arrivals now counts as "in a pocket under 3000 tiles": the harness's own
+  walk-through list (`tools/mapgen/Regions.cs`, shared) counts every Level 120 prop as a wall (spilled cables, fallen tiles,
+  paper); in the game they are walked over, and `120stats` (the level's own check, with the game's rule) finds every
+  walkable tile reached from the passages.
+
+### Questions for the user
+1. The hall letters (A-H) are by hash, so neighbouring halls can share a letter: fine as a worn-out labelling, or should
+   they be unique round a passage crossing?
+2. The pencilled notes say DON'T BOOT THEM / WALK ONE WAY / NOT AGAIN / IT GETS UP WHERE YOU FALL: more, or other words?
+3. Should the lit EXIT sign over the doors back to the offices be rarer (it makes the way out easier to find in the dark)?

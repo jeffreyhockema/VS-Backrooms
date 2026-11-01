@@ -352,7 +352,8 @@ def rack_textures():
                 d = math.hypot(x - cx, y - cy)
                 if d < 6:
                     px[x, y] = ((22, 23, 26) if int(d) % 2 else (64, 66, 70)) + (255,)
-    for colour in ((40, 70, 150), (200, 200, 200), (190, 160, 40), (30, 30, 30), (40, 140, 70), (150, 40, 40)):
+    # (Round 3: the leads' colours toned down; in the dark they read as cables, not as a rainbow)
+    for colour in ((32, 50, 96), (112, 112, 110), (112, 96, 34), (30, 30, 30), (32, 86, 48), (96, 34, 34)):
         for _ in range(2):
             x = rng.randint(0, 31)
             for y in range(S):
