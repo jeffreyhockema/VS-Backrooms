@@ -36,7 +36,8 @@ public sealed partial class WorldLayout
     /// <summary>Hash salts 0x2100-0x21BF are this level's (0x21C0-0x21FF its thresholds').</summary>
     private const ulong SaltL73Shape = 0x2101, SaltL73Centre = 0x2102, SaltL73Coast = 0x2103, SaltL73Hill = 0x2104, SaltL73Rough = 0x2105,
         SaltL73Gully = 0x2106, SaltL73Outcrop = 0x2107, SaltL73Bed = 0x2108, SaltL73Bones = 0x2109, SaltL73Tor = 0x210A,
-        SaltL73Burnt = 0x210B, SaltL73Crust = 0x210E, SaltL73Jag = 0x2111;
+        SaltL73Burnt = 0x210B, SaltL73Crust = 0x210E, SaltL73Jag = 0x2111, SaltL73Ridge = 0x2112, SaltL73Shelf = 0x2113, SaltL73Track = 0x2114,
+        SaltL73Tree = 0x2115, SaltL73Boulder = 0x2116;
 
     /// <summary>The zones (<see cref="Tile.Zone"/>).</summary>
     public const byte L73Land = 1, L73Sea = 2, L73Court = 3, L73Keep = 4, L73Walls = 5, L73RimZone = 9;
@@ -64,17 +65,21 @@ public sealed partial class WorldLayout
     public enum L73Part : byte { Outside, Court, Path, Gate, Curtain, Tower, GateTower, Keep }
 
     /// <summary>The keep's rooms, by storey (<see cref="L73RoomAt"/>).</summary>
-    public enum L73Room : byte { Wall, Hall, Dining, Gallery, Bath, Guest, Sitting, Library, Landing, Master, Store }
+    public enum L73Room : byte { Wall, Hall, Dining, Gallery, Bath, Guest, Sitting, Library, Landing, Master, Store, Kitchen, Pantry, Laundry, Solar }
 
     /// <summary>The castle's furnishings.</summary>
     public enum L73Thing : byte
     {
         None, Sconce, Chandelier, Bookshelf, Clock, Candelabra, Table, Chair, BedHead, BedFoot, Nightstand, Wardrobe, Toilet,
         Bath, Painting, Banner, SofaLeft, SofaRight, Desk, RoundTable, Dresser, Box, Crate, Bones, Ribcage, Skull, Pack, Note,
+        // Round 3 (2026-11-01): fireplaces (the fire, the stone jambs either side), the castle's furniture, hangings and text
+        Fire, Jamb, Chest, Washstand, Worktable, PotRack, Lectern, Linen, WingChair, CoffeeTable, ConsoleTable, PantryShelf, Sacks,
+        TapestryL, TapestryR, SamplerL, SamplerR, Plate, Notice,
     }
 
-    /// <summary>Which layer of a tile a furnishing takes: the floor, the wall behind it (at eye height), or the ceiling.</summary>
-    public enum L73Layer : byte { Floor, Wall, Ceiling }
+    /// <summary>Which layer of a tile a furnishing takes: the floor, the wall behind it (above eye height), the ceiling, or the
+    /// wall at eye height (plates and pinned notes).</summary>
+    public enum L73Layer : byte { Floor, Wall, Ceiling, Low }
 
     // ================= Where it is =================
 
@@ -212,7 +217,11 @@ public sealed partial class WorldLayout
             double dome = 8.5 * Math.Pow(Math.Max(0, t), 0.7);
             double rough = 1.8 * Fbm(ux / 22.0, uz / 22.0, SaltL73Rough);
             double coast = L73Smooth(Math.Clamp(-beyond / 40.0, 0, 1));
-            f = 1 + (dome + L73Hills(ux, uz) + rough) * coast;
+            // Long low ridges across the fields between the hills (round 3: the run should read as a landscape)
+            double ridge = d > 66 ? 2.4 * Math.Max(0, 1 - Math.Abs(Noise(ux / 95.0, uz / 95.0, SaltL73Ridge)) / 0.2) : 0;
+            f = 1 + (dome + L73Hills(ux, uz) + rough + ridge) * coast;
+            // Along stretches of the coast the fields end in a low scarp of black rock over the beach (the shore's shelf)
+            if (L73ShelfAt(ux, uz)) f += 2.6 * L73Smooth(Math.Clamp((-beyond - 3) / 3.5, 0, 1));
             // The summit, levelled for the castle
             if (d < 62)
             {
@@ -225,7 +234,7 @@ public sealed partial class WorldLayout
                 double n = Math.Abs(Noise(ux / 55.0, uz / 55.0, SaltL73Gully));
                 if (n < 0.07)
                 {
-                    double cut = 3 * (1 - n / 0.07);
+                    double cut = 3.6 * (1 - n / 0.07);
                     f -= cut;
                     gully = cut > 0.8;
                 }
@@ -242,6 +251,7 @@ public sealed partial class WorldLayout
         }
         if (g < 0) floor = Noise(gx / 14.0, gz / 14.0, SaltL73Bed) > 0.2 ? FloorKind.L73Gravel : FloorKind.L73Seabed;
         else if (g <= 1) floor = FloorKind.L73Ash;
+        else if (beyond > -7.5 && L73ShelfAt(ux, uz)) floor = FloorKind.L73Rock; // (the scarp's face)
         else if (gully) floor = FloorKind.L73Mud;
         else if (g >= 11 || Noise(gx / 9.0, gz / 9.0, SaltL73Outcrop) > 0.55) floor = FloorKind.L73Rock;
         // The fields: crimson earth in broad blackened stretches ("blackened fields"), and here and there a crust of
@@ -250,7 +260,104 @@ public sealed partial class WorldLayout
         else if (Noise(gx / 11.0, gz / 11.0, SaltL73Crust) > 0.56 || (d >= 62 && f > 3.5 && Math.Abs(Noise(ux / 55.0, uz / 55.0, SaltL73Gully)) < 0.1))
             floor = FloorKind.L73Crust;
         else floor = FloorKind.L73Floor;
+        // The tracks the runners wore toward the castle, over the earth (not the rock, the mud or the beach)
+        if (floor is FloorKind.L73Floor or FloorKind.L73Burnt or FloorKind.L73Crust && L73OnTrack(ux, uz, d)) floor = FloorKind.L73Track;
         return g;
+    }
+
+    /// <summary>Whether the coast near an island-local position is one of the stretches that end in a scarp.</summary>
+    private bool L73ShelfAt(double ux, double uz) => Noise(ux / 70.0, uz / 70.0, SaltL73Shelf) > 0.05;
+
+    /// <summary>The number of worn tracks that wind in toward the castle.</summary>
+    private const int L73Tracks = 6;
+
+    /// <summary>
+    /// Whether an island-local position lies on one of the tracks worn toward the castle ("run straight to the castle"):
+    /// each comes in from the shore on a bearing of its own, wanders, and swings round the castle's hill to the foot of the
+    /// stone path (due south of the middle, about 50 out), two or three blocks wide.
+    /// </summary>
+    private bool L73OnTrack(double ux, double uz, double d)
+    {
+        if (d < 47) return false;
+        double bearing = Math.Atan2(ux, -uz); // (0 north, a quarter turn east)
+        double t = L73Smooth(Math.Clamp((d - 50) / 95.0, 0, 1));
+        for (int k = 0; k < L73Tracks; k++)
+        {
+            ulong h = Hashing.Hash(seed, k, 0, SaltL73Track);
+            double theta = (k + 0.15 + 0.7 * Hashing.Unit(h)) * Math.PI * 2 / L73Tracks;
+            double phi = Math.PI + L73Wrap(theta - Math.PI) * t + 0.2 * t * Noise(d / 40.0, k * 3.7, SaltL73Track);
+            double off = Math.Abs(L73Wrap(bearing - phi)) * d;
+            double width = 1.1 + 0.45 * Noise(d / 17.0, k * 5.3 + 1.1, SaltL73Track + 1);
+            if (off < width) return true;
+        }
+        return false;
+    }
+
+    private static double L73Wrap(double a)
+    {
+        a %= Math.PI * 2;
+        return a > Math.PI ? a - Math.PI * 2 : a < -Math.PI ? a + Math.PI * 2 : a;
+    }
+
+    /// <summary>
+    /// The dead tree nearest a block column, if one stands on it or beside it (its trunk's column, its height in blocks
+    /// above the ground, and its hash for its branches): charred trunks on a jittered lattice over the fields, a third of the
+    /// points, never near the castle's hill, on the path's line, the Hound, the beach, rock, mud or a track.
+    /// </summary>
+    public (int X, int Z, int Height, ulong H)? L73TreeNear(int gx, int gz)
+    {
+        const int pitch = 17;
+        int ux = gx - L73IslandX, uz = gz - L73IslandZ;
+        int ti = (int)Math.Floor(ux / (double)pitch), tj = (int)Math.Floor(uz / (double)pitch);
+        for (int dj = -1; dj <= 1; dj++)
+            for (int di = -1; di <= 1; di++)
+            {
+                ulong h = Hashing.Hash(seed, ti + di, tj + dj, SaltL73Tree);
+                if (Hashing.Unit(h) > 0.34) continue;
+                ulong h2 = Hashing.Mix(h), h3 = Hashing.Mix(h2);
+                int cx = (ti + di) * pitch + 2 + (int)(Hashing.Unit(h2) * (pitch - 4)), cz = (tj + dj) * pitch + 2 + (int)(Hashing.Unit(h3) * (pitch - 4));
+                if (Math.Abs(cx - ux) > 1 || Math.Abs(cz - uz) > 1) continue;
+                if (cx * cx + cz * cz < 74 * 74 || Math.Abs(cx) < 7 && cz > 0 && cz < 100) continue;
+                int tx = L73IslandX + cx, tz = L73IslandZ + cz;
+                if (L73Shore(tx, tz, out _) > -14 || InL73Hound(tx, tz)) continue;
+                int g = L73Ground(tx, tz, out FloorKind floor);
+                if (g < 2 || floor is not (FloorKind.L73Floor or FloorKind.L73Burnt or FloorKind.L73Crust)) continue;
+                return (tx, tz, 4 + (int)(Hashing.Unit(Hashing.Mix(h3)) * 4), Hashing.Mix(Hashing.Mix(h3)));
+            }
+        return null;
+    }
+
+    /// <summary>A dead tree's branch out of its trunk on a side (0 north, 1 east, 2 south, 3 west): the height over the
+    /// trunk's ground it grows at (0 none) and its kind (0 rising, 1 forking); two or three to a tree.</summary>
+    public static (int Level, int Kind) L73Branch(int height, ulong h, int side)
+    {
+        int first = (int)(h % 4), second = (first + 2) % 4;
+        bool has = side == first || side == second || ((h >> (8 + side)) & 1) == 1 && ((h >> 20) & 1) == 1;
+        if (!has) return (0, 0);
+        return (height - 1 - (int)((h >> (12 + side)) & 1), (int)((h >> (16 + side)) & 1));
+    }
+
+    /// <summary>
+    /// A black boulder at a block column, if one lies there (how many blocks high, 1 or 2; which shape; its turn): on a
+    /// jittered lattice over the fields, away from the castle's hill, the path, the tracks and the Hound; some with a
+    /// smaller stone beside them.
+    /// </summary>
+    public (int Height, int Kind, ArchPier Turn)? L73BoulderAt(int gx, int gz)
+    {
+        const int pitch = 11;
+        int ux = gx - L73IslandX, uz = gz - L73IslandZ;
+        int bi = (int)Math.Floor(ux / (double)pitch), bj = (int)Math.Floor(uz / (double)pitch);
+        ulong h = Hashing.Hash(seed, bi, bj, SaltL73Boulder);
+        if (Hashing.Unit(h) > 0.3) return null;
+        ulong h2 = Hashing.Mix(h), h3 = Hashing.Mix(h2), h4 = Hashing.Mix(h3);
+        int cx = bi * pitch + 1 + (int)(Hashing.Unit(h2) * (pitch - 3)), cz = bj * pitch + 1 + (int)(Hashing.Unit(h3) * (pitch - 3));
+        bool main = cx == ux && cz == uz, beside = ((h4 >> 3) & 1) == 1 && ux == cx + 1 - 2 * (int)((h4 >> 4) & 1) && uz == cz;
+        if (!main && !beside) return null;
+        if (cx * cx + cz * cz < 70 * 70 || Math.Abs(cx) < 6 && cz > 0 && cz < 100) return null;
+        if (L73Shore(gx, gz, out _) > -6 || InL73Hound(gx, gz)) return null;
+        L73Ground(gx, gz, out FloorKind floor);
+        if (floor is FloorKind.L73Mud or FloorKind.L73Tor or FloorKind.L73Track or FloorKind.L73Ash) return null;
+        return (main && (h4 & 7) < 3 ? 2 : 1, (int)((h4 >> 5) & 1), (ArchPier)((h4 >> 6) % 4));
     }
 
     /// <summary>
@@ -330,7 +437,50 @@ public sealed partial class WorldLayout
         b.Add((6, -6, 1)); b.Add((6, 6, 1)); b.Add((35, -5, 1)); b.Add((35, 5, 1)); // (paws)
         // The tail, falling to the ground
         for (int x = 30; x < L73HoundLength; x++) b.Add((x, (x - 30) / 4, Math.Max(1, 4 - (x - 30) / 2)));
+        // (round 3: the bones are drawn thin, each joined to its six neighbours; where two touch only on a slant, a joint
+        // between them, so the ribs, legs and tail run unbroken)
+        var joints = new List<(int, int, int)>();
+        foreach (var (x, z, h) in b)
+            for (int dx = -1; dx <= 1; dx++)
+                for (int dz = -1; dz <= 1; dz++)
+                    for (int dh = -1; dh <= 1; dh++)
+                    {
+                        int n = Math.Abs(dx) + Math.Abs(dz) + Math.Abs(dh);
+                        if (n < 2 || !b.Contains((x + dx, z + dz, h + dh))) continue;
+                        if (n == 2 && (dx != 0 && b.Contains((x + dx, z, h)) || dz != 0 && b.Contains((x, z + dz, h)) || dh != 0 && b.Contains((x, z, h + dh)))) continue;
+                        if (n == 2)
+                        {
+                            // (along the ground first, then up or down)
+                            joints.Add(dh != 0 ? (x + dx, z + dz, h) : (x + dx, z, h));
+                        }
+                        else if (!b.Contains((x + dx, z, h)) && !b.Contains((x, z + dz, h)) && !b.Contains((x, z, h + dh)))
+                        {
+                            joints.Add((x + dx, z, h));
+                            joints.Add((x + dx, z + dz, h));
+                        }
+                    }
+        foreach (var j in joints) b.Add(j);
         return b;
+    }
+
+    /// <summary>
+    /// How a bone of the Great Hound at a block position is drawn: -1 none; 64 solid (the skull); otherwise a thin bone joined
+    /// toward the neighbours whose bits are set (north, east, south, west, up, down = 1, 2, 4, 8, 16, 32).
+    /// </summary>
+    public int L73HoundBoneMask(int gx, int gz, int rel)
+    {
+        var (x0, z0, ground) = L73Hound;
+        int x = gx - x0, z = gz - z0, h = rel - ground;
+        if (!L73HoundBones.Contains((x, z, h))) return -1;
+        if (x <= 6 && Math.Abs(z) <= 2) return 64;
+        int mask = 0;
+        if (L73HoundBones.Contains((x, z - 1, h))) mask |= 1;
+        if (L73HoundBones.Contains((x + 1, z, h))) mask |= 2;
+        if (L73HoundBones.Contains((x, z + 1, h))) mask |= 4;
+        if (L73HoundBones.Contains((x - 1, z, h))) mask |= 8;
+        if (L73HoundBones.Contains((x, z, h + 1))) mask |= 16;
+        if (L73HoundBones.Contains((x, z, h - 1))) mask |= 32;
+        return mask;
     }
 
     /// <summary>
@@ -395,26 +545,29 @@ public sealed partial class WorldLayout
     /// <summary>
     /// The keep's rooms on a storey (0 the ground floor, 1, 2), keep-local: a cross wall at kv 11 and two at ku 9 and 26
     /// cut it into six. South: a guest room at each end (the lore's "two guest rooms per floor, one on each side") and in the
-    /// middle the main hall below, the landings above. North: the dining hall (its hearth on the north wall), the sitting
-    /// room and the master bedroom (which takes the east end too) in the middle; west a bathroom on the two lower storeys
-    /// and the store-room on the third; east the gallery of paintings and the library. The chimney rises through the upper
-    /// storeys over the hearth.
+    /// middle the main hall below, the landings above. North, in the middle: the dining hall (its hearth on the north wall),
+    /// the sitting room above it and Coran's solar on the third, round the chimney breast. West: a bathroom on the two lower
+    /// storeys with its laundry behind a wall at kv 7 (the lore's barrels are for "bathing and washing clothes"), the
+    /// store-room on the third. East: the kitchen off the dining hall with its pantry behind the same wall, the library, and
+    /// the master bedroom (Coran's). The chimney rises through the upper storeys over the hearth.
     /// </summary>
     public static L73Room L73RoomAt(int ku, int kv, int storey)
     {
-        if (ku <= 0 || kv <= 0 || ku >= L73KeepW - 1 || kv >= L73KeepD - 1 || kv == 11 || ku == 9) return L73Room.Wall;
+        if (ku <= 0 || kv <= 0 || ku >= L73KeepW - 1 || kv >= L73KeepD - 1 || kv == 11 || ku == 9 || ku == 26) return L73Room.Wall;
         bool north = kv < 11;
-        if (ku == 26 && !(storey == 2 && north)) return L73Room.Wall;
         if (storey > 0 && kv == 1 && ku is >= 16 and <= 19) return L73Room.Wall; // the chimney
-        if (ku < 9) return north ? (storey == 2 ? L73Room.Store : L73Room.Bath) : L73Room.Guest;
-        if (ku > 26) return north ? storey switch { 0 => L73Room.Gallery, 1 => L73Room.Library, _ => L73Room.Master } : L73Room.Guest;
-        if (north) return storey switch { 0 => L73Room.Dining, 1 => L73Room.Sitting, _ => L73Room.Master };
+        if (north && kv == 7 && (ku < 9 && storey < 2 || ku > 26 && storey == 0)) return L73Room.Wall; // bath | laundry, kitchen | pantry
+        if (ku < 9) return north ? (storey == 2 ? L73Room.Store : kv < 7 ? L73Room.Bath : L73Room.Laundry) : L73Room.Guest;
+        if (ku > 26)
+            return north ? storey switch { 0 => kv < 7 ? L73Room.Kitchen : L73Room.Pantry, 1 => L73Room.Library, _ => L73Room.Master } : L73Room.Guest;
+        if (north) return storey switch { 0 => L73Room.Dining, 1 => L73Room.Sitting, _ => L73Room.Solar };
         return storey == 0 ? L73Room.Hall : L73Room.Landing;
     }
 
     /// <summary>Whether a keep-local wall position on a storey is a doorway (two high) between rooms.</summary>
     public static bool L73Doorway(int ku, int kv, int storey) =>
-        kv == 11 && ku is 17 or 18 || ku == 9 && kv is 6 or 17 || ku == 26 && (kv == 17 || kv == 6 && storey < 2);
+        kv == 11 && ku is 17 or 18 || ku == 9 && kv is 6 or 17 || ku == 26 && kv is 6 or 17
+        || kv == 7 && (ku == 4 && storey < 2 || ku == 31 && storey == 0);
 
     /// <summary>Whether a keep-local position is the keep's door (two leaves, three high, in the south wall).</summary>
     public static bool L73MainDoor(int ku, int kv) => kv == L73KeepD - 1 && ku is 17 or 18;
@@ -496,30 +649,54 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// The furnishings, keep-local, by storey (3 the attic) and layer, with the way each faces and its kind (which
-    /// painting). Wall things face away from the wall they hang on; beds face from head to foot.
+    /// painting, hanging, plate or note; a bed's place under its canopy). Wall things face away from the wall they hang on;
+    /// beds face from head to foot.
     /// </summary>
     private static readonly Dictionary<(int, int, int, L73Layer), (L73Thing Thing, ArchPier Facing, byte Kind)> L73Furnishings = PlanL73Furnishings();
+
+    /// <summary>A bed's <see cref="L73FurnishingAt"/> kind under a canopy: it has one (4), it is the bed on the right as one
+    /// lies in it (1: the canopy's x-high half), the canopy's cloth is black (2: Coran's).</summary>
+    public const byte L73Canopy = 4, L73CanopyRight = 1, L73CanopyBlack = 2;
+
+    /// <summary>The plates by the doorways (<see cref="L73Thing.Plate"/>'s kind, in step with gen_73_interior.py's PLATES).</summary>
+    public const byte L73PlateBath = 6, L73PlateKitchen = 7, L73PlateLibrary = 8, L73PlatePantry = 9, L73PlateSolar = 10, L73PlateDining = 11,
+        L73PlateLaundry = 12;
+
+    /// <summary>The pinned notes (<see cref="L73Thing.Notice"/>'s kind, in step with gen_73_interior.py's NOTICES).</summary>
+    public const byte L73NoticeOutside = 0, L73NoticeAttic = 1, L73NoticeBang = 2, L73NoticeCount = 3;
+
+    /// <summary>A step one cell in a direction, keep-local.</summary>
+    public static (int Du, int Dv) L73Step(ArchPier p) => p switch
+    {
+        ArchPier.North => (0, -1), ArchPier.East => (1, 0), ArchPier.South => (0, 1), _ => (-1, 0),
+    };
+
+    /// <summary>A direction turned a quarter anticlockwise (north to west).</summary>
+    public static ArchPier L73Ccw(ArchPier p) => Turn(Turn(Turn(p)));
 
     private static Dictionary<(int, int, int, L73Layer), (L73Thing, ArchPier, byte)> PlanL73Furnishings()
     {
         var f = new Dictionary<(int, int, int, L73Layer), (L73Thing, ArchPier, byte)>();
         const ArchPier N = ArchPier.North, E = ArchPier.East, S = ArchPier.South, W = ArchPier.West;
         int painting = 0;
-        void Put(int ku, int kv, int s, L73Thing thing, ArchPier facing)
+        void Put(int ku, int kv, int s, L73Thing thing, ArchPier facing, int kind = -1)
         {
             L73Layer layer = thing switch
             {
-                L73Thing.Sconce or L73Thing.Painting or L73Thing.Banner => L73Layer.Wall,
-                L73Thing.Chandelier => L73Layer.Ceiling,
+                L73Thing.Sconce or L73Thing.Painting or L73Thing.Banner or L73Thing.TapestryL or L73Thing.TapestryR or L73Thing.SamplerL
+                    or L73Thing.SamplerR => L73Layer.Wall,
+                L73Thing.Chandelier or L73Thing.PotRack => L73Layer.Ceiling,
+                L73Thing.Plate or L73Thing.Notice => L73Layer.Low,
                 _ => L73Layer.Floor,
             };
-            byte kind = thing == L73Thing.Painting ? (byte)(painting++ % L73Paintings) : (byte)0;
-            f[(ku, kv, s, layer)] = (thing, facing, kind);
+            byte k = kind >= 0 ? (byte)kind : thing == L73Thing.Painting ? (byte)(painting++ % L73Paintings) : (byte)0;
+            f[(ku, kv, s, layer)] = (thing, facing, k);
         }
         // Mirrored for the east end of the keep (ku to 35 - ku, east and west swapped)
         ArchPier Flip(ArchPier p) => p == E ? W : p == W ? E : p;
-        void PutM(bool west, int ku, int kv, int s, L73Thing thing, ArchPier facing) =>
-            Put(west ? ku : L73KeepW - 1 - ku, kv, s, thing, west ? facing : Flip(facing));
+        int M(bool west, int ku) => west ? ku : L73KeepW - 1 - ku;
+        void PutM(bool west, int ku, int kv, int s, L73Thing thing, ArchPier facing, int kind = -1) =>
+            Put(M(west, ku), kv, s, thing, west ? facing : Flip(facing), kind);
         // A long sofa from its left end (as one sits on it, facing the way it faces) to its right
         void Sofa(int ku, int kv, int s, ArchPier facing)
         {
@@ -527,40 +704,81 @@ public sealed partial class WorldLayout
             Put(ku, kv, s, L73Thing.SofaLeft, facing);
             Put(ku + du, kv + dv, s, L73Thing.SofaRight, facing);
         }
+        // A large bed (the lore's "two large beds each"): two beds side by side under one four-poster's canopy; (ku, kv) the
+        // head of the one on the right as one lies in it, the other's head beside it to its left (anticlockwise of the facing)
+        void LargeBed(int ku, int kv, int s, ArchPier facing, bool black)
+        {
+            var (fu, fv) = L73Step(facing);
+            var (lu, lv) = L73Step(L73Ccw(facing));
+            int cloth = black ? L73CanopyBlack : 0;
+            Put(ku, kv, s, L73Thing.BedHead, facing, L73Canopy | L73CanopyRight | cloth);
+            Put(ku + fu, kv + fv, s, L73Thing.BedFoot, facing, L73Canopy | L73CanopyRight | cloth);
+            Put(ku + lu, kv + lv, s, L73Thing.BedHead, facing, L73Canopy | cloth);
+            Put(ku + lu + fu, kv + lv + fv, s, L73Thing.BedFoot, facing, L73Canopy | cloth);
+        }
+        // A hanging two cells wide on a wall: (ku, kv) its left half as one looks at it, the right half beside it
+        void Hang2(int ku, int kv, int s, ArchPier facing, L73Thing left, L73Thing right, int kind)
+        {
+            var (ru, rv) = L73Step(L73Ccw(facing));
+            Put(ku, kv, s, left, facing, kind);
+            Put(ku + ru, kv + rv, s, right, facing, kind);
+        }
+        // A fireplace against a wall: stone jambs at the ends, the fire between (two blocks), the mantel over all four and the
+        // chimney breast above; (ku, kv) its first jamb, running along (du, dv); the fires' kinds (0 logs, 1 a cauldron, 2 a spit)
+        void Fireplace(int ku, int kv, int s, ArchPier facing, int du, int dv, int fire1 = 0, int fire2 = 0)
+        {
+            Put(ku, kv, s, L73Thing.Jamb, facing);
+            Put(ku + du, kv + dv, s, L73Thing.Fire, facing, fire1);
+            Put(ku + 2 * du, kv + 2 * dv, s, L73Thing.Fire, facing, fire2);
+            Put(ku + 3 * du, kv + 3 * dv, s, L73Thing.Jamb, facing);
+        }
 
-        // ---- Guest rooms, six: two beds each, heads to the cross wall, a nightstand by each, a wardrobe, a dresser
+        // ---- Guest rooms, six: two large canopied beds each, heads to the cross wall, nightstands, chests at their feet,
+        // a fireplace on the end wall with two wing chairs before it, a wardrobe, a washstand, a writing desk, a brass plate
+        // by the door ("I" to "VI")
         for (int s = 0; s <= 2; s++)
             foreach (bool west in new[] { true, false })
             {
-                foreach (int bed in new[] { 2, 6 })
-                {
-                    PutM(west, bed, 12, s, L73Thing.BedHead, S);
-                    PutM(west, bed, 13, s, L73Thing.BedFoot, S);
-                    PutM(west, bed + 1, 12, s, L73Thing.Nightstand, S);
-                }
-                PutM(west, 4, 12, s, L73Thing.Painting, S);
+                // (facing south, the bed on the right as one lies in it is the west one of a pair)
+                foreach (int bed in new[] { 2, 6 }) LargeBed(west ? bed : M(false, bed + 1), 12, s, S, false);
+                PutM(west, 1, 12, s, L73Thing.Nightstand, S); PutM(west, 4, 12, s, L73Thing.Nightstand, S);
+                PutM(west, 5, 12, s, L73Thing.Nightstand, S); PutM(west, 8, 12, s, L73Thing.Nightstand, S);
+                PutM(west, 2, 14, s, L73Thing.Chest, S); PutM(west, 7, 14, s, L73Thing.Chest, S);
+                if (west) Fireplace(1, 16, s, E, 0, 1);
+                else Fireplace(L73KeepW - 2, 16, s, W, 0, 1);
+                PutM(west, 3, 17, s, L73Thing.WingChair, W); PutM(west, 3, 18, s, L73Thing.WingChair, W);
                 PutM(west, 1, 21, s, L73Thing.Wardrobe, E);
-                PutM(west, 1, 18, s, L73Thing.Dresser, E);
-                PutM(west, 5, 20, s, L73Thing.Chair, N);
-                PutM(west, 8, 14, s, L73Thing.Sconce, W);
-                PutM(west, 8, 20, s, L73Thing.Sconce, W);
-                PutM(west, 1, 16, s, L73Thing.Painting, E);
+                PutM(west, 8, 14, s, L73Thing.Washstand, W);
+                PutM(west, 8, 21, s, L73Thing.Dresser, W);
+                PutM(west, 4, 22, s, L73Thing.Desk, N); PutM(west, 4, 21, s, L73Thing.Chair, S);
+                PutM(west, 4, 12, s, L73Thing.Painting, S);
+                PutM(west, 1, 15, s, L73Thing.Sconce, E); PutM(west, 1, 20, s, L73Thing.Sconce, E);
+                PutM(west, 8, 19, s, L73Thing.Sconce, W);
+                PutM(west, 6, 22, s, L73Thing.Painting, N);
                 PutM(west, 5, 17, s, L73Thing.Chandelier, N);
+                // the plate by the door, on the hall's side
+                PutM(west, 10, 18, s, L73Thing.Plate, E, 2 * s + (west ? 0 : 1));
             }
 
-        // ---- The bathrooms (west end, ground and first floor): the lore's barrels of warm water, two each; a toilet, a cabinet
+        // ---- The bathrooms (west end, ground and first floor): the lore's barrels of warm water, two each; a toilet, a
+        // washstand; and behind them the laundry, racks of linen drying ("bathing and washing clothes")
         for (int s = 0; s <= 1; s++)
         {
             Put(3, 2, s, L73Thing.Bath, N);
             Put(6, 2, s, L73Thing.Bath, N);
-            Put(1, 9, s, L73Thing.Toilet, E);
-            Put(8, 9, s, L73Thing.Dresser, W);
-            Put(1, 5, s, L73Thing.Sconce, E);
-            Put(8, 3, s, L73Thing.Sconce, W);
+            Put(1, 5, s, L73Thing.Toilet, E);
+            Put(8, 3, s, L73Thing.Washstand, W);
+            Put(8, 5, s, L73Thing.Sconce, W);
+            Put(8, 2, s, L73Thing.Notice, W, L73NoticeOutside);
+            Put(2, 9, s, L73Thing.Linen, N); Put(6, 9, s, L73Thing.Linen, N);
+            Put(8, 9, s, L73Thing.Crate, W);
+            Put(4, 10, s, L73Thing.Sconce, N);
+            Put(5, 6, s, L73Thing.Plate, N, L73PlateLaundry);
+            Put(10, 5, s, L73Thing.Plate, E, L73PlateBath);
         }
 
         // ---- Ground floor. The dining hall: the long table of plenty (twelve by two, a place set at every one of its 24
-        // seats), the hearth in the middle of the north wall, banners either side of it
+        // seats) on a rug, the hearth in the middle of the north wall, banners either side of it, sideboards
         for (int ku = 12; ku <= 23; ku++)
         {
             Put(ku, 5, 0, L73Thing.Table, N);
@@ -570,6 +788,7 @@ public sealed partial class WorldLayout
         }
         Put(11, 2, 0, L73Thing.Candelabra, N); Put(24, 2, 0, L73Thing.Candelabra, N);
         Put(11, 9, 0, L73Thing.Candelabra, N); Put(24, 9, 0, L73Thing.Candelabra, N);
+        Put(10, 4, 0, L73Thing.ConsoleTable, E); Put(25, 4, 0, L73Thing.ConsoleTable, W);
         Put(14, 1, 0, L73Thing.Banner, S); Put(21, 1, 0, L73Thing.Banner, S);
         Put(11, 1, 0, L73Thing.Sconce, S); Put(24, 1, 0, L73Thing.Sconce, S);
         Put(10, 3, 0, L73Thing.Sconce, E); Put(25, 3, 0, L73Thing.Sconce, W);
@@ -577,81 +796,110 @@ public sealed partial class WorldLayout
         Put(13, 10, 0, L73Thing.Painting, N); Put(22, 10, 0, L73Thing.Painting, N);
         Put(15, 10, 0, L73Thing.Sconce, N); Put(20, 10, 0, L73Thing.Sconce, N);
         Put(14, 5, 0, L73Thing.Chandelier, N); Put(21, 6, 0, L73Thing.Chandelier, N);
-        // The main hall: the door in the south wall, the stair up along the cross wall, banners, a clock, candelabras
+        Put(25, 5, 0, L73Thing.Plate, W, L73PlateKitchen);
+        Put(16, 12, 0, L73Thing.Plate, S, L73PlateDining);
+
+        // The kitchen off it (the lore's food "appears"; a castle has one all the same): the cooking hearth on the east wall
+        // (a cauldron on its chain, a haunch on the spit: "Hound is the fuel"), worktables under a rack of pots, shelves
+        Fireplace(34, 2, 0, W, 0, 1, 1, 2);
+        Put(30, 3, 0, L73Thing.Worktable, N, 0); Put(31, 3, 0, L73Thing.Worktable, N, 0);
+        Put(30, 3, 0, L73Thing.PotRack, N); Put(31, 3, 0, L73Thing.PotRack, N);
+        Put(28, 5, 0, L73Thing.Worktable, E, 1);
+        Put(28, 1, 0, L73Thing.PantryShelf, S); Put(32, 1, 0, L73Thing.PantryShelf, S);
+        Put(33, 6, 0, L73Thing.Crate, N); Put(27, 1, 0, L73Thing.Sacks, S);
+        Put(27, 3, 0, L73Thing.Sconce, E); Put(33, 6, 0, L73Thing.Sconce, N);
+        Put(32, 6, 0, L73Thing.Plate, N, L73PlatePantry);
+        // The pantry behind it: dark, shelves, sacks, crates, and the stair down to the cellar (L73CellarStep)
+        foreach (int ku in new[] { 27, 28, 34 }) Put(ku, 10, 0, L73Thing.PantryShelf, N);
+        Put(27, 8, 0, L73Thing.Sacks, E); Put(29, 10, 0, L73Thing.Crate, N); Put(27, 9, 0, L73Thing.Sacks, E);
+
+        // The main hall: the door in the south wall, a runner up to the stair along the cross wall, the visitors' book on its
+        // lectern, the sampler ("We are safe here. We are loved here."), tapestries, a clock, sofas, candelabras
         Put(10, 14, 0, L73Thing.Clock, E);
         Put(11, 21, 0, L73Thing.Candelabra, N); Put(24, 21, 0, L73Thing.Candelabra, N);
-        Put(10, 19, 0, L73Thing.Banner, E); Put(25, 19, 0, L73Thing.Banner, W);
-        Put(10, 15, 0, L73Thing.Banner, E); Put(25, 15, 0, L73Thing.Banner, W);
-        Put(10, 21, 0, L73Thing.Sconce, E); Put(25, 21, 0, L73Thing.Sconce, W);
-        Put(14, 22, 0, L73Thing.Sconce, N); Put(21, 22, 0, L73Thing.Sconce, N);
+        Put(10, 20, 0, L73Thing.Banner, E); Put(25, 20, 0, L73Thing.Banner, W);
+        Hang2(10, 16, 0, E, L73Thing.TapestryL, L73Thing.TapestryR, 1);
+        Hang2(25, 15, 0, W, L73Thing.TapestryL, L73Thing.TapestryR, 0);
+        Put(10, 22, 0, L73Thing.Sconce, E); Put(25, 22, 0, L73Thing.Sconce, W);
+        Put(16, 22, 0, L73Thing.Sconce, N); Put(19, 22, 0, L73Thing.Sconce, N);
+        Hang2(13, 22, 0, N, L73Thing.SamplerL, L73Thing.SamplerR, 0);
+        Put(20, 22, 0, L73Thing.Notice, N, L73NoticeBang);
         Put(12, 12, 0, L73Thing.Painting, S); Put(15, 12, 0, L73Thing.Painting, S);
+        Put(23, 22, 0, L73Thing.Painting, N);
         Sofa(12, 17, 0, E); Sofa(23, 18, 0, W);
+        Put(15, 16, 0, L73Thing.Lectern, S);
         // Two round tables either side of the way in, chairs at them
         Put(14, 20, 0, L73Thing.RoundTable, N); Put(13, 20, 0, L73Thing.Chair, E); Put(15, 20, 0, L73Thing.Chair, W);
         Put(21, 20, 0, L73Thing.RoundTable, N); Put(20, 20, 0, L73Thing.Chair, E); Put(22, 20, 0, L73Thing.Chair, W);
         Put(14, 17, 0, L73Thing.Chandelier, N); Put(21, 18, 0, L73Thing.Chandelier, N);
-        // The gallery: "numerous paintings of locations in The Frontrooms, but none of them lead outside"
-        Put(27, 3, 0, L73Thing.Painting, E); Put(27, 9, 0, L73Thing.Painting, E);
-        Put(34, 4, 0, L73Thing.Painting, W); Put(34, 8, 0, L73Thing.Painting, W);
-        Put(29, 1, 0, L73Thing.Painting, S); Put(32, 1, 0, L73Thing.Painting, S);
-        Put(29, 10, 0, L73Thing.Painting, N); Put(32, 10, 0, L73Thing.Painting, N);
-        Sofa(30, 6, 0, N);
-        Put(28, 2, 0, L73Thing.Candelabra, N); Put(33, 9, 0, L73Thing.Candelabra, N);
-        Put(27, 5, 0, L73Thing.Sconce, E); Put(34, 6, 0, L73Thing.Sconce, W);
-        Put(30, 5, 0, L73Thing.Chandelier, N);
 
-        // ---- First floor. The sitting room round the chimney breast: two long sofas, chairs, bookshelves
-        Sofa(18, 3, 1, S); Sofa(17, 8, 1, N);
-        Put(14, 5, 1, L73Thing.Chair, E); Put(14, 6, 1, L73Thing.Chair, E);
-        Put(21, 5, 1, L73Thing.Chair, W); Put(21, 6, 1, L73Thing.Chair, W);
+        // ---- First floor. The sitting room round the chimney breast's fireplace: a sofa and two wing chairs before it, a
+        // low table, bookshelves either end
+        Sofa(17, 5, 1, N);
+        Put(15, 3, 1, L73Thing.WingChair, E); Put(20, 3, 1, L73Thing.WingChair, W);
+        Put(17, 4, 1, L73Thing.CoffeeTable, N);
+        Put(14, 8, 1, L73Thing.Chair, E); Put(21, 8, 1, L73Thing.Chair, W);
         for (int kv = 2; kv <= 4; kv++)
         {
             Put(10, kv, 1, L73Thing.Bookshelf, E);
             Put(25, kv, 1, L73Thing.Bookshelf, W);
         }
         Put(11, 9, 1, L73Thing.Candelabra, N); Put(24, 9, 1, L73Thing.Candelabra, N);
-        Put(17, 2, 1, L73Thing.Painting, S);
         Put(15, 1, 1, L73Thing.Banner, S); Put(20, 1, 1, L73Thing.Banner, S);
         Put(10, 8, 1, L73Thing.Sconce, E); Put(25, 8, 1, L73Thing.Sconce, W);
-        Put(13, 10, 1, L73Thing.Sconce, N); Put(22, 10, 1, L73Thing.Sconce, N);
-        Put(17, 5, 1, L73Thing.Chandelier, N);
-        // The library
+        Hang2(23, 10, 1, N, L73Thing.TapestryL, L73Thing.TapestryR, 1);
+        Put(13, 10, 1, L73Thing.Sconce, N);
+        Put(17, 7, 1, L73Thing.Chandelier, N);
+        Put(25, 5, 1, L73Thing.Plate, W, L73PlateLibrary);
+        // The library: shelves round the walls, a reading table, its own fireplace on the end wall
         for (int ku = 28; ku <= 33; ku++)
         {
             Put(ku, 1, 1, L73Thing.Bookshelf, S);
             Put(ku, 10, 1, L73Thing.Bookshelf, N);
         }
-        Put(34, 3, 1, L73Thing.Bookshelf, W); Put(34, 4, 1, L73Thing.Bookshelf, W); Put(34, 8, 1, L73Thing.Bookshelf, W);
-        Put(30, 5, 1, L73Thing.RoundTable, N); Put(30, 4, 1, L73Thing.Chair, S); Put(30, 6, 1, L73Thing.Chair, N);
+        Fireplace(34, 2, 1, W, 0, 1);
+        Put(34, 8, 1, L73Thing.Bookshelf, W); Put(34, 9, 1, L73Thing.Bookshelf, W);
+        Put(30, 6, 1, L73Thing.RoundTable, N); Put(30, 5, 1, L73Thing.Chair, S); Put(30, 7, 1, L73Thing.Chair, N);
+        Put(32, 4, 1, L73Thing.WingChair, E);
         Put(28, 8, 1, L73Thing.Candelabra, N);
         Put(27, 3, 1, L73Thing.Sconce, E); Put(27, 9, 1, L73Thing.Painting, E);
-        Put(31, 5, 1, L73Thing.Chandelier, N);
-        // The first floor's landing: the flight up from the hall arrives in the east, the next leaves in the west
+        Put(31, 6, 1, L73Thing.Chandelier, N);
+        // The first floor's landing: the flight up from the hall arrives in the east, the next leaves in the west; paintings
+        // (the gallery's), a tapestry, the Children's count pinned up
         Put(17, 18, 1, L73Thing.RoundTable, N);
         Put(16, 18, 1, L73Thing.Chair, E); Put(18, 18, 1, L73Thing.Chair, W);
         Put(11, 21, 1, L73Thing.Candelabra, N); Put(24, 21, 1, L73Thing.Candelabra, N);
-        Put(10, 19, 1, L73Thing.Banner, E); Put(25, 19, 1, L73Thing.Banner, W);
+        Put(10, 20, 1, L73Thing.Banner, E); Put(25, 20, 1, L73Thing.Banner, W);
         Put(10, 15, 1, L73Thing.Sconce, E); Put(25, 15, 1, L73Thing.Sconce, W);
         Put(13, 22, 1, L73Thing.Painting, N); Put(22, 22, 1, L73Thing.Painting, N);
+        Put(25, 13, 1, L73Thing.Painting, W); Put(10, 13, 1, L73Thing.Painting, E);
+        Hang2(17, 22, 1, N, L73Thing.TapestryL, L73Thing.TapestryR, 0);
+        Put(13, 22, 1, L73Thing.Notice, N, L73NoticeOutside);
+        Put(24, 22, 1, L73Thing.Notice, N, L73NoticeCount);
         Put(17, 16, 1, L73Thing.Chandelier, N);
 
-        // ---- Second floor. The master bedroom: Coran's, the whole north side east of the store-room; a bed made of two,
-        // a desk, wardrobes, bookshelves
-        foreach (int bed in new[] { 29, 30 })
-        {
-            Put(bed, 1, 2, L73Thing.BedHead, S);
-            Put(bed, 2, 2, L73Thing.BedFoot, S);
-        }
-        Put(28, 1, 2, L73Thing.Nightstand, S); Put(31, 1, 2, L73Thing.Nightstand, S);
-        Put(34, 4, 2, L73Thing.Wardrobe, W); Put(34, 5, 2, L73Thing.Wardrobe, W); Put(34, 8, 2, L73Thing.Dresser, W);
+        // ---- Second floor. The master bedroom (Coran's): a large bed hung in black, a chest, wardrobes, a fireplace on the
+        // end wall, a wing chair by it
+        LargeBed(30, 1, 2, S, true);
+        Put(29, 1, 2, L73Thing.Nightstand, S); Put(32, 1, 2, L73Thing.Nightstand, S);
+        Put(30, 3, 2, L73Thing.Chest, S);
+        Fireplace(34, 2, 2, W, 0, 1);
+        Put(32, 4, 2, L73Thing.WingChair, E);
+        Put(27, 9, 2, L73Thing.Wardrobe, E); Put(27, 10, 2, L73Thing.Wardrobe, E); Put(34, 9, 2, L73Thing.Dresser, W);
+        Put(33, 10, 2, L73Thing.Candelabra, N);
+        Put(27, 3, 2, L73Thing.Painting, E); Put(31, 10, 2, L73Thing.Sconce, N); Put(34, 7, 2, L73Thing.Sconce, W);
+        Put(31, 6, 2, L73Thing.Chandelier, N);
+        // His solar round the chimney breast's fireplace: a desk, bookshelves, wing chairs, the hunt in a tapestry
         for (int kv = 2; kv <= 4; kv++) Put(10, kv, 2, L73Thing.Bookshelf, E);
         Put(13, 3, 2, L73Thing.Desk, S); Put(13, 4, 2, L73Thing.Chair, N);
-        Put(11, 9, 2, L73Thing.Candelabra, N); Put(24, 9, 2, L73Thing.Candelabra, N); Put(33, 9, 2, L73Thing.Candelabra, N);
-        Put(15, 1, 2, L73Thing.Banner, S); Put(20, 1, 2, L73Thing.Banner, S);
-        Put(29, 1, 2, L73Thing.Painting, S);
-        Put(10, 8, 2, L73Thing.Sconce, E); Put(34, 2, 2, L73Thing.Sconce, W);
-        Put(13, 10, 2, L73Thing.Sconce, N); Put(22, 10, 2, L73Thing.Sconce, N); Put(31, 10, 2, L73Thing.Sconce, N);
-        Put(17, 5, 2, L73Thing.Chandelier, N); Put(29, 6, 2, L73Thing.Chandelier, N);
+        Put(16, 4, 2, L73Thing.WingChair, N); Put(19, 4, 2, L73Thing.WingChair, N);
+        Put(17, 5, 2, L73Thing.CoffeeTable, N);
+        Put(11, 9, 2, L73Thing.Candelabra, N); Put(24, 9, 2, L73Thing.Candelabra, N);
+        Put(14, 1, 2, L73Thing.Banner, S); Put(21, 1, 2, L73Thing.Banner, S);
+        Put(10, 8, 2, L73Thing.Sconce, E); Put(13, 10, 2, L73Thing.Sconce, N);
+        Hang2(23, 10, 2, N, L73Thing.TapestryL, L73Thing.TapestryR, 0);
+        Put(17, 7, 2, L73Thing.Chandelier, N);
+        Put(16, 12, 2, L73Thing.Plate, S, L73PlateSolar);
         // The store-room off it: what the castle keeps by (the level's supply boxes), crates, and the Hounds' bones
         Put(1, 2, 2, L73Thing.Box, E); Put(2, 1, 2, L73Thing.Box, S); Put(1, 4, 2, L73Thing.Box, E);
         Put(5, 1, 2, L73Thing.Crate, S); Put(6, 1, 2, L73Thing.Crate, S); Put(1, 8, 2, L73Thing.Crate, E);
@@ -659,21 +907,107 @@ public sealed partial class WorldLayout
         Put(8, 3, 2, L73Thing.Sconce, W);
         // The second floor's landing: the flight up from below arrives in the west, the shut one to the attic leaves east
         Put(11, 21, 2, L73Thing.Candelabra, N); Put(24, 21, 2, L73Thing.Candelabra, N);
-        Put(10, 19, 2, L73Thing.Banner, E); Put(25, 19, 2, L73Thing.Banner, W);
+        Put(10, 20, 2, L73Thing.Banner, E); Put(25, 20, 2, L73Thing.Banner, W);
         Put(10, 15, 2, L73Thing.Sconce, E); Put(25, 15, 2, L73Thing.Sconce, W);
         Put(13, 22, 2, L73Thing.Painting, N); Put(22, 22, 2, L73Thing.Painting, N);
+        Put(25, 13, 2, L73Thing.Painting, W); Put(10, 13, 2, L73Thing.Painting, E);
+        Put(19, 12, 2, L73Thing.Notice, S, L73NoticeAttic);
         Sofa(16, 20, 2, N);
         Put(17, 17, 2, L73Thing.Chandelier, N);
 
         // ---- Notes left lying: in a guest room, the library, by the attic stair
-        Put(4, 16, 0, L73Thing.Note, N); Put(32, 7, 1, L73Thing.Note, N); Put(19, 14, 2, L73Thing.Note, N); Put(30, 18, 2, L73Thing.Note, N);
+        Put(5, 19, 0, L73Thing.Note, N); Put(32, 7, 1, L73Thing.Note, N); Put(19, 14, 2, L73Thing.Note, N); Put(30, 18, 2, L73Thing.Note, N);
 
-        // ---- The attic (shut, and dark): crates, an old pack, bones, a great skull
+        // ---- The attic (shut, and dark): crates, an old pack, bones, a great skull, a chest
         Put(11, 6, 3, L73Thing.Crate, N); Put(12, 6, 3, L73Thing.Crate, N); Put(11, 7, 3, L73Thing.Crate, N);
         Put(16, 6, 3, L73Thing.Skull, S); Put(15, 7, 3, L73Thing.Ribcage, E); Put(14, 8, 3, L73Thing.Bones, N);
-        Put(22, 6, 3, L73Thing.Pack, S); Put(12, 13, 3, L73Thing.Bones, N);
+        Put(22, 6, 3, L73Thing.Pack, S); Put(12, 13, 3, L73Thing.Bones, N); Put(13, 10, 3, L73Thing.Chest, E);
         return f;
     }
+
+    /// <summary>
+    /// The rugs let into the keep's floors, keep-local (storey, the corners, the pattern: 0 red, 1 blue): before every guest
+    /// room's fire, under the dining table, the hall's runner from the door to the stair, the sitting room, the library, the
+    /// solar, the master bedroom, the landings and the baths.
+    /// </summary>
+    private static readonly (int S, int U0, int V0, int U1, int V1, byte Pattern)[] L73Rugs = PlanL73Rugs();
+
+    private static (int, int, int, int, int, byte)[] PlanL73Rugs()
+    {
+        var r = new List<(int, int, int, int, int, byte)>();
+        for (int s = 0; s <= 2; s++)
+        {
+            r.Add((s, 2, 15, 5, 20, (byte)(s % 2)));
+            r.Add((s, L73KeepW - 6, 15, L73KeepW - 3, 20, (byte)((s + 1) % 2)));
+        }
+        r.Add((0, 12, 3, 23, 8, 0));     // under the table of plenty
+        r.Add((0, 16, 14, 19, 22, 1));   // the hall's runner
+        r.Add((0, 2, 4, 6, 5, 1));       // the baths
+        r.Add((1, 2, 4, 6, 5, 0));
+        r.Add((1, 14, 2, 21, 7, 1));     // the sitting room
+        r.Add((1, 28, 4, 32, 8, 0));     // the library
+        r.Add((1, 14, 15, 20, 21, 0));   // the landings
+        r.Add((2, 14, 15, 20, 21, 1));
+        r.Add((2, 14, 2, 21, 7, 0));     // the solar
+        r.Add((2, 28, 3, 33, 7, 1));     // the master bedroom
+        return r.ToArray();
+    }
+
+    /// <summary>The rug at a keep-local floor position on a storey: its pattern and which part (0 the middle, 1-4 the n, e, s,
+    /// w edges, 5-8 the nw, ne, se, sw corners), or null.</summary>
+    public static (byte Pattern, int Part)? L73RugAt(int ku, int kv, int storey)
+    {
+        foreach (var (s, u0, v0, u1, v1, pattern) in L73Rugs)
+        {
+            if (s != storey || ku < u0 || ku > u1 || kv < v0 || kv > v1) continue;
+            bool n = kv == v0, so = kv == v1, w = ku == u0, e = ku == u1;
+            int part = n && w ? 5 : n && e ? 6 : so && e ? 7 : so && w ? 8 : n ? 1 : e ? 2 : so ? 3 : w ? 4 : 0;
+            return (pattern, part);
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// The keep's fires, keep-local (ku, kv, storey): the dining hall's hearth, the fires in the chimney breast over it (the
+    /// sitting room's, the solar's) and every fireplace's (round 3).
+    /// </summary>
+    private static readonly (int Ku, int Kv, int Storey)[] L73Fires = PlanL73Fires();
+
+    private static (int, int, int)[] PlanL73Fires()
+    {
+        var r = new List<(int, int, int)> { (17, 1, 0), (17, 1, 1), (17, 1, 2) };
+        foreach (var ((ku, kv, s, layer), (thing, _, _)) in L73Furnishings)
+            if (layer == L73Layer.Floor && thing == L73Thing.Fire && !r.Contains((ku, kv - 1, s)) && !r.Contains((ku - 1, kv, s))) r.Add((ku, kv, s));
+        return r.ToArray();
+    }
+
+    /// <summary>The nearest of the keep's fires to a block position on a storey (its block coordinates), for its crackle.</summary>
+    public (double X, double Z) L73NearestFire(double x, double z, int storey)
+    {
+        double best = double.MaxValue, bx = 0, bz = 0;
+        foreach (var (ku, kv, s) in L73Fires)
+        {
+            if (s != storey) continue;
+            double fx = L73CastleX0 + L73KeepU0 + ku + 0.5, fz = L73CastleZ0 + L73KeepV0 + kv + 0.5;
+            double d = (fx - x) * (fx - x) + (fz - z) * (fz - z);
+            if (d < best) { best = d; bx = fx; bz = fz; }
+        }
+        return (bx, bz);
+    }
+
+    /// <summary>
+    /// The cellar under the kitchen and the pantry (round 3; inv.: a castle's, and where the Hound meat that fuels the fires
+    /// is kept): keep-local ku 27-34, kv 1-10, its floor <see cref="L73CellarDepth"/> under the ground floor's. A stair goes
+    /// down from the pantry along kv 9, from ku 33 (its first step, one under the floor) to ku 30 (its fourth); this gives
+    /// the depth under the ground floor's slab of a step's tread (1-4), or 0.
+    /// </summary>
+    public static int L73CellarStep(int ku, int kv) => kv == 9 && ku is >= 30 and <= 33 ? 34 - ku : 0;
+
+    /// <summary>How far under the ground floor's slab the cellar's floor lies.</summary>
+    public const int L73CellarDepth = 5;
+
+    /// <summary>Whether a keep-local position is in the cellar (inside its walls).</summary>
+    public static bool InL73Cellar(int ku, int kv) => ku is >= 27 and <= 34 && kv is >= 1 and <= 10;
 
     /// <summary>How many paintings of the Frontrooms there are to hang (blocks l73-painting-1 to -6).</summary>
     public const int L73Paintings = 6;
@@ -776,8 +1110,14 @@ public sealed partial class WorldLayout
         }
         // The ground before the north door in the curtain wall stays clear (WorldLayout.Level73.Links.cs): Coran stands there to open it
         if (L73PosternApron(u, v)) return t;
+        // A dead tree's trunk, or a boulder (round 3): nobody is put down on them, nothing else lies there
+        if (L73TreeNear(gx, gz) is { } tree && tree.X == gx && tree.Z == gz || L73BoulderAt(gx, gz) != null)
+        {
+            t.Sealed = true;
+            return t;
+        }
         // Old bones on the fields, now and then a ribcage, and seldom a pack someone dropped running for the castle
-        if (g >= 2 && floor is not (FloorKind.L73Mud or FloorKind.L73Tor) && L73BannerAt(u, v) == null)
+        if (g >= 2 && floor is not (FloorKind.L73Mud or FloorKind.L73Tor or FloorKind.L73Track) && L73BannerAt(u, v) == null)
         {
             ulong h = Hashing.Hash(seed, gx, gz, SaltL73Bones);
             double r = Hashing.Unit(h);
@@ -849,8 +1189,8 @@ public sealed partial class WorldLayout
     private float L73Temperature(int x, int y, int z, int floorY)
     {
         int rel = y - floorY;
-        if (InL73Keep(x, z) && rel > L73Plateau && rel <= L73Plateau + L73AtticTop)
-            return InL73Dining(x, z) && rel <= L73Plateau + L73Storey ? 22f : rel > L73Plateau + L73Terrace ? 9f : 16f;
+        if (InL73Keep(x, z) && rel > L73Plateau - L73CellarDepth && rel <= L73Plateau + L73AtticTop)
+            return rel <= L73Plateau ? 10f : InL73Dining(x, z) && rel <= L73Plateau + L73Storey ? 22f : rel > L73Plateau + L73Terrace ? 9f : 16f;
         return 4f;
     }
 

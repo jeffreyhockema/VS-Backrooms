@@ -87,6 +87,19 @@ static partial class LevelModes
                 if (layout.TileAt(x, z) is { Zone: WorldLayout.L73Land, Sealed: true, Variant: 0 }) houndSealed++;
         Console.WriteLine($"the Great Hound at {hx},{hz}, on ground {hg}: {houndSealed} tiles sealed under it");
         sealedLand -= houndSealed;
+        // (and so are the dead trees' trunks and the boulders, round 3)
+        long trees = 0, boulders = 0;
+        for (int z = iz - 300; z <= iz + 300; z++)
+            for (int x = ix - 300; x <= ix + 300; x++)
+            {
+                Tile t = layout.TileAt(x, z);
+                if (t.Zone != WorldLayout.L73Land || !t.Sealed || t.Variant != 0 || layout.InL73Hound(x, z)) continue;
+                if (layout.L73TreeNear(x, z) is { } tree && tree.X == x && tree.Z == z) trees++;
+                else if (layout.L73BoulderAt(x, z) != null) boulders++;
+            }
+        Console.WriteLine($"dead trees {trees}, boulder tiles {boulders}");
+        sealedLand -= trees + boulders;
+        if (trees < 40) Bad("too few dead trees");
         if (sealedLand > 0) Bad($"{sealedLand} land tiles sealed");
         if (castle != WorldLayout.L73CastleW * WorldLayout.L73CastleD) Bad($"castle has {castle} tiles, not {WorldLayout.L73CastleW * WorldLayout.L73CastleD}");
         if (land < sea / 4) Bad("hardly any land");
@@ -136,7 +149,7 @@ static partial class LevelModes
                     }
                 }
         Console.WriteLine($"keep: {guestBeds} guest beds, {baths} bath barrels, {settings} places at the table, {windows} windows, {misplaced} misplaced");
-        if (guestBeds != 12) Bad("not six guest rooms of two beds");
+        if (guestBeds != 24) Bad("not six guest rooms of two large beds (two beds side by side under a canopy)");
         if (misplaced > 0) Bad("furnishings in walls, on stairs or in doorways");
         for (int s = 0; s <= 1; s++)
         {

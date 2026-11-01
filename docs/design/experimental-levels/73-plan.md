@@ -400,74 +400,74 @@ Tier A must, B should, C nice. Inventions are marked (inv.).
 ### List
 
 **1. Layout realism**
-1. [A] The ground floor's north-east room becomes the **kitchen** off the dining hall (inv.: the lore's food "appears", but a
+1. [A] [done] The ground floor's north-east room becomes the **kitchen** off the dining hall (inv.: the lore's food "appears", but a
    castle has one): a cooking hearth with its chimney breast, a cauldron, a worktable, shelves of pots, a butcher's block
    (the lore: "Hound is the fuel"); the gallery's paintings go to the halls and landings.
-2. [A] A **pantry / scullery** at the kitchen's north end behind a partition (sacks, barrels, shelves, a sink).
-3. [A] The **master bedroom** (now a 25 x 10 hall) is cut in two: Coran's bedchamber in the east (8 x 10) and his solar
+2. [A] [done: the pantry; no sink] A **pantry / scullery** at the kitchen's north end behind a partition (sacks, barrels, shelves, a sink).
+3. [A] [done] The **master bedroom** (now a 25 x 10 hall) is cut in two: Coran's bedchamber in the east (8 x 10) and his solar
    (a study round the chimney breast) in the middle, the partition and its doorway restored.
-4. [A] The **bathrooms** (8 x 10 tiled boxes) get a laundry end (the lore: the barrels are for "bathing and washing clothes"):
+4. [A] [done: a laundry behind a wall, linen racks] The **bathrooms** (8 x 10 tiled boxes) get a laundry end (the lore: the barrels are for "bathing and washing clothes"):
    wash tubs, a drying rack with linen, a partition screen.
-5. [B] A **cellar** under the kitchen, by a stair down (wine racks, barrels, the Hound-meat store: "Hound is the fuel").
-6. [B] The **courtyard** used like one: a covered well (dry, boarded: inv.), a cart, barrels and a pile of Hound carcasses
+5. [B] [done] A **cellar** under the kitchen, by a stair down (wine racks, barrels, the Hound-meat store: "Hound is the fuel").
+6. [B] [done] The **courtyard** used like one: a covered well (dry, boarded: inv.), a cart, barrels and a pile of Hound carcasses
    by the kitchen side (the fuel), flagstone walks from the gate round the keep; never in front of a window or banner.
-7. [B] A **guard room** in the gatehouse passage's flank (racks, a bench, a brazier) (inv.).
-8. [C] A **chapel / shrine** corner of the Children (candles, the emblem) on a landing (inv.: the "cultish" frame).
+7. [B] [skipped: the gate towers are solid masonry; time] A **guard room** in the gatehouse passage's flank (racks, a bench, a brazier) (inv.).
+8. [C] [skipped] A **chapel / shrine** corner of the Children (candles, the emblem) on a landing (inv.: the "cultish" frame).
 
 **2. Multi-block objects**
-9. [A] **Canopied beds**: the lore's "two large beds each" as two hotel beds side by side (sleepable, so the night's rest
+9. [A] [done] **Canopied beds**: the lore's "two large beds each" as two hotel beds side by side (sleepable, so the night's rest
    still counts) under one four-poster frame: four posts, a tester, a valance and drapes tied at the posts, a carved headboard.
-10. [A] **Fireplaces with chimney breasts** in every guest room (the end wall), the solar, the sitting room and the master
+10. [A] [done] **Fireplaces with chimney breasts** in every guest room (the end wall), the solar, the sitting room and the master
     bedroom: jambs, a firebox with burning logs and firedogs, a mantel with candlesticks, the breast rising to the ceiling,
     stacked storey over storey into chimney stacks on the roof at both ends.
-11. [A] The **grand stair** with a balustrade (balusters and a sloped rail on its open side, a rail round the stairwell
+11. [A] [done] The **grand stair** with a balustrade (balusters and a sloped rail on its open side, a rail round the stairwell
     on the floor above) and panelled sides instead of a solid stone mass.
-12. [A] **Beamed ceilings**: dark oak beams across every room under a plaster ceiling (the plain plank ceiling the lead
+12. [A] [done: one beam size] **Beamed ceilings**: dark oak beams across every room under a plaster ceiling (the plain plank ceiling the lead
     named), a bigger cross-beam over the main hall.
-13. [A] **Rugs** in the rooms (bordered, red, blue and gold), each a rectangle with its border.
-14. [A] The **kitchen hearth** as one object: a wide arched hearth with a cauldron on a chain and a spit.
-15. [B] **Tapestries** two blocks by two on the main hall's and the landings' walls (the castle under the moon; the emblem).
-16. [B] **Chests** at the foot of the beds (iron-bound oak).
-17. [B] A **washstand** with a basin and a mirror over it in each guest room and the bathrooms; a towel rail.
-18. [B] The **Great Hound's skeleton** remade with thin bones (spine, ribs, legs as bones, not cubes) so it reads; a darker,
+13. [A] [done] **Rugs** in the rooms (bordered, red, blue and gold), each a rectangle with its border.
+14. [A] [done] The **kitchen hearth** as one object: a wide arched hearth with a cauldron on a chain and a spit.
+15. [B] [done] **Tapestries** two blocks by two on the main hall's and the landings' walls (the castle under the moon; the emblem).
+16. [B] [done] **Chests** at the foot of the beds (iron-bound oak).
+17. [B] [done: no towel rail] A **washstand** with a basin and a mirror over it in each guest room and the bathrooms; a towel rail.
+18. [B] [done] The **Great Hound's skeleton** remade with thin bones (spine, ribs, legs as bones, not cubes) so it reads; a darker,
     aged bone texture; its spot from where its profile shows (the lead: "an unreadable pale block shape").
-19. [B] **Dead trees** on the island: charred trunks with bare twisted branches, several shapes, alone or in twos.
-20. [C] Attic: trunks, sheeted furniture, stacked frames, dust (seen only through the shut door's gap and the roof).
+19. [B] [done] **Dead trees** on the island: charred trunks with bare twisted branches, several shapes, alone or in twos.
+20. [C] [partly: a chest added] Attic: trunks, sheeted furniture, stacked frames, dust (seen only through the shut door's gap and the roof).
 
 **3. Signs and text**
-21. [A] An **M.E.G. placard** in the mod's convention beside the keep's door and the north door: "M.E.G. - LEVEL 73 -
+21. [A] [done: by the keep's door and on the gatehouse] An **M.E.G. placard** in the mod's convention beside the keep's door and the north door: "M.E.G. - LEVEL 73 -
     CLASS 5", second line "RUN. NO LIGHT. BANG ON THE DOOR" (inv.: placing; the lore's procedure is the M.E.G.'s).
-22. [A] A **needlework sampler** in the main hall: "WE ARE SAFE HERE. WE ARE LOVED HERE." (the page's own words).
-23. [B] **Brass plates** by the guest rooms' doorways ("I" to "VI"), "BATH", "LIBRARY", "KITCHEN" (as a house of this kind).
-24. [B] A **notice** by the curtains on each landing in a careful hand: "DO NOT LOOK OUTSIDE. - C." and by the attic stair
+22. [A] [done] A **needlework sampler** in the main hall: "WE ARE SAFE HERE. WE ARE LOVED HERE." (the page's own words).
+23. [B] [done] **Brass plates** by the guest rooms' doorways ("I" to "VI"), "BATH", "LIBRARY", "KITCHEN" (as a house of this kind).
+24. [B] [done] A **notice** by the curtains on each landing in a careful hand: "DO NOT LOOK OUTSIDE. - C." and by the attic stair
     "THE ATTIC IS HIS" (the lore: "CORAN has declared the attic off-limits"; "Do not look outside").
-25. [B] A **visitors' book** on a lectern in the main hall, the Children's tally ("37", "There is nobody here but us").
-26. [C] Coran's tally of kills scratched on the solar's wall (inv.).
+25. [B] [partly: the lectern and book, no text to read] A **visitors' book** on a lectern in the main hall, the Children's tally ("37", "There is nobody here but us").
+26. [C] [skipped] Coran's tally of kills scratched on the solar's wall (inv.).
 
 **4. Detail visuals**
-27. [A] **The island's relief**: a shore shelf (a step down of black rock to the beach in places), rolling rises and
+27. [A] [done] **The island's relief**: a shore shelf (a step down of black rock to the beach in places), rolling rises and
     long ridges between the hills, deeper gullies, so arrivals see a landscape, not a plate.
-28. [A] **Worn paths** toward the castle: trodden tracks of dark mud with footprints winding in from the shore from
+28. [A] [done] **Worn paths** toward the castle: trodden tracks of dark mud with footprints winding in from the shore from
     several bearings and joining the stone path (the lore: everyone runs straight to the castle).
-29. [A] **Rocks and boulders** on the fields (black rock, one to three blocks), beside the tors.
-30. [A] A **cornice** at the top of the keep's walls (the damask's top course with a carved moulding) and a skirting.
-31. [B] The **stone path** darkened and worn (it is the brightest thing outdoors): stained, cracked slabs.
-32. [B] **Floors by room**: flagstones in the kitchen and the pantry, boards elsewhere, carpet in the hall, tiles in the baths.
-33. [B] **Candle light with rhythm**: the corridors' sconces, candles on the mantels, the kitchen's fire glow; dark corners
+29. [A] [done] **Rocks and boulders** on the fields (black rock, one to three blocks), beside the tors.
+30. [A] [done] A **cornice** at the top of the keep's walls (the damask's top course with a carved moulding) and a skirting.
+31. [B] [done] The **stone path** darkened and worn (it is the brightest thing outdoors): stained, cracked slabs.
+32. [B] [done] **Floors by room**: flagstones in the kitchen and the pantry, boards elsewhere, carpet in the hall, tiles in the baths.
+33. [B] [done] **Candle light with rhythm**: the corridors' sconces, candles on the mantels, the kitchen's fire glow; dark corners
     in the store-room and pantry.
-34. [C] Fresher carcasses near the castle's hill (what Coran leaves; the brief's "gear and dark bones").
+34. [C] [partly: heaps of the dead in the courtyard and cellar] Fresher carcasses near the castle's hill (what Coran leaves; the brief's "gear and dark bones").
 
 **5. Lore alignment**
-35. [A] Lore check of every room: main hall, dining hall, six guest rooms with two large beds, master bedroom on the
+35. [A] [done] Lore check of every room: main hall, dining hall, six guest rooms with two large beds, master bedroom on the
     third floor, two bathrooms with barrels, attic off-limits with balcony, curtains and boards at every window, banners,
     paintings (the gallery's moved to the halls, still "numerous").
-36. [B] Coran up close and at distance (his idle, his heart's glow); a spot close to him.
-37. [B] Showcase spots for every new set piece (kitchen, solar, cellar, a canopied bed, the stair, the fields' trees and
+36. [B] [done: a close spot] Coran up close and at distance (his idle, his heart's glow); a spot close to him.
+37. [B] [done] Showcase spots for every new set piece (kitchen, solar, cellar, a canopied bed, the stair, the fields' trees and
     tracks, the shelf), all from the layout.
 
 **6. Released-level alignment**
-38. [A] Block names for every new block in the HUD (en.json), pick-block works, nothing breaks (the castle's `l73Fixed`).
-39. [B] The handbook page and the notes name what is new (the kitchen and cellar are not lore: no; only what the page
+38. [A] [done] Block names for every new block in the HUD (en.json), pick-block works, nothing breaks (the castle's `l73Fixed`).
+39. [B] [done] The handbook page and the notes name what is new (the kitchen and cellar are not lore: no; only what the page
     says). The notes' voice unchanged.
-40. [B] Hearth crackle near the fires (the sound bed inside), if a loop exists to reuse.
-41. [C] The title and hint lines and the map's colour for the new floor kinds (tracks, flagstones).
+40. [B] [done: the nearest fire on one's storey] Hearth crackle near the fires (the sound bed inside), if a loop exists to reuse.
+41. [C] [skipped] The title and hint lines and the map's colour for the new floor kinds (tracks, flagstones).
