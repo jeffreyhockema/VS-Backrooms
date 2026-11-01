@@ -32,6 +32,8 @@ from modelkit import box
 
 G = None  # gen_52, set by build()
 SIDES = ["north", "east", "south", "west"]
+FACADES = ["white", "beige", "brick", "grey", "blue"]
+PALETTES = ["beige", "white", "blue", "grey"]
 ROTATE = {"north": 0, "east": 270, "south": 180, "west": 90}
 FULL = (0, 0, 16, 16)
 P = 64  # sign faces: 64 px a block
@@ -763,6 +765,19 @@ def blocktypes():
                  extra={"lightAbsorption": 0, "renderpass": "Transparent", "sideopaque": {"all": False}, "sideao": {"all": False}})
     G.cube_block("l52-wallpatch", [], {"*": G.faces(all_="wall-blue-patch")},
                  "Level 52: J. Barry's blue corridor wall where bullet holes were filled and painted over, the paint a shade fresher in a patch")
+    # An outside wall seen from both sides: the façade on every face but the inward one, which is the room's paint
+    opp = {"north": "south", "south": "north", "east": "west", "west": "east"}
+    ext = {}
+    for f in FACADES:
+        for p in PALETTES:
+            for part in ("base", "dado", "upper"):
+                for side in SIDES:
+                    faces_ = G.faces(all_=f"facade-{f}")
+                    faces_[opp[side]] = G.tex(f"wall-{p}-{part}")
+                    ext[f"l52-extwall-{f}-{p}-{part}-{side}"] = faces_
+    G.cube_block("l52-extwall", [G.group("facade", FACADES), G.group("paint", PALETTES), G.group("part", ["base", "dado", "upper"]), G.group("side", SIDES)],
+                 ext, "Level 52: an outside wall, the façade outward (side: the way the façade faces; its other faces too) and the room's paint "
+                 "on the face inward (palette, part as l52-wall)")
     G.cube_block("l52-track", [G.group("kind", ["plain", "linens", "linewe"])],
                  {f"l52-track-{k}": G.faces(sides="slab-concrete", up=f"track-{k}", down="slab-concrete") for k in ("plain", "linens", "linewe")},
                  "Level 52: a running track's red rubber, plain or with a white lane line north-south (linens) or west-east (linewe)")
@@ -816,6 +831,11 @@ def expected():
         codes.add(f"l52-track-{k}")
     for k in ("linens", "linewe"):
         codes.add(f"l52-turf-{k}")
+    for f in FACADES:
+        for p in PALETTES:
+            for part in ("base", "dado", "upper"):
+                for s in SIDES:
+                    codes.add(f"l52-extwall-{f}-{p}-{part}-{s}")
     return codes
 
 

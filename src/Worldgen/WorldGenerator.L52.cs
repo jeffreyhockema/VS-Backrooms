@@ -25,6 +25,7 @@ public sealed partial class WorldGenerator
     private const int L52SlabConcrete = 7, L52LightOn = 0, L52LightOff = 2;
 
     private int l52Skylight, l52WallPatch;
+    private readonly int[,,,] l52ExtWall = new int[5, 4, 3, 4];
     private int l52Grass, l52Soil, l52Rock, l52Gravel, l52Sand, l52Coping, l52Barrier, l52Roof, l52Plinth, l52Canopy;
     private readonly int[] l52Trim = new int[3];
     private readonly int[,] l52Wall = new int[4, 3], l52Light = new int[11, 4], l52Window = new int[2, 2], l52Chain = new int[2, 2];
@@ -109,6 +110,11 @@ public sealed partial class WorldGenerator
         }
         l52Skylight = L52Block("l52-skylight", l52Window[0, 0]);
         l52WallPatch = L52Block("l52-wallpatch", l52Wall[2, 1]);
+        for (int fa = 0; fa < 5; fa++)
+            for (int p = 0; p < 4; p++)
+                for (int k = 0; k < 3; k++)
+                    for (int f = 0; f < 4; f++)
+                        l52ExtWall[fa, p, k, f] = L52Block($"l52-extwall-{WorldLayout.L52Facades[fa]}-{WorldLayout.L52Paints[p]}-{parts[k]}-{Sides[f]}", l52Facade[fa]);
         l52PitchLine[0] = L52Block("l52-turf-linens", l52Turf[0]);
         l52PitchLine[1] = L52Block("l52-turf-linewe", l52Turf[0]);
         for (int i = 0; i < 3; i++) l52Track[i] = L52Block("l52-track-" + courts[i], l52Court[i]);
@@ -343,6 +349,8 @@ public sealed partial class WorldGenerator
                 if (rel == top || k == 0 && s >= 1 && (bld.Band == 1 || bld.Band == 2 && s == 1)) return trim;
                 if (rel == 1 && bld.Plinth) return l52Plinth;
             }
+            // (Round 3) inside, the room's paint on the wall's inward face
+            if (k >= 1 && rel < top && t.Zone == (byte)Zone.Ext) return l52ExtWall[bld?.Facade ?? c.Facade, paint, k - 1, Facing(t.Pier)];
             return l52Facade[bld?.Facade ?? c.Facade];
         }
         // Over the top storey: the roof, an air-conditioning unit on it now and then
