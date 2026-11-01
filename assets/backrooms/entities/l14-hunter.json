@@ -1,0 +1,209 @@
+// Level 14's Hunter ("Patient Zero", Fandom's File 14-E): put down for each player in the level by L14HunterSystem (src/Regions/L14Hunter.cs); AiTaskL14Hunter. Health is scaled by the level's danger (46 base, about 91 at 0.7)
+{
+	"code": "l14-hunter",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"habitat-land"
+	],
+	"weight": 140,
+	"knockbackResistance": 0.7,
+	"canClimb": false,
+	"collisionBoxSize": {
+		"x": 0.58,
+		"y": 1.9
+	},
+	"selectionBoxSize": {
+		"x": 1.4,
+		"y": 2.2
+	},
+	"deadCollisionBoxSize": {
+		"x": 0.58,
+		"y": 0.5
+	},
+	"deadSelectionBoxSize": {
+		"x": 1.6,
+		"y": 0.6
+	},
+	"eyeHeight": 2.0,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-l14-hunter"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/14/l14-hunter"
+		},
+		"texture": {
+			"base": "backrooms:entity/14/l14-hunter"
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": false
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			},
+			{
+				"code": "backrooms-l14smoke"
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				},
+				"easeOutSpeed": 4
+			},
+			{
+				"code": "lurk",
+				"animation": "lurk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "shriek",
+				"animation": "shriek",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 6
+			},
+			{
+				"code": "walk",
+				"animation": "walk",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "run",
+				"animation": "run",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "attack",
+				"animation": "attack",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 8
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": false
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "health",
+				"currenthealth": 46,
+				"maxhealth": 46
+			},
+			{
+				"code": "deaddecay",
+				"hoursToDecay": 0.06
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-l14-hunter",
+						"priority": 1.6,
+						"priorityForCancel": 1.6,
+						"mincooldown": 0,
+						"maxcooldown": 0,
+						"roamSpeed": 0.014,
+						"stalkSpeed": 0.011,
+						"burstSpeed": 0.047,
+						"chaseSpeed": 0.041,
+						"senseEveryMs": 20000,
+						"stalkEveryMs": 5000,
+						"senseErrorMin": 3,
+						"senseErrorMax": 24,
+						"stalkRange": 24,
+						"sightRange": 20,
+						"eyeContactRange": 32,
+						"eyeContactDegrees": 10,
+						"burstMs": 5000,
+						"shriekMs": 900,
+						"loseMs": 20000,
+						"loseRange": 32,
+						"attackRange": 2.5,
+						"damage": 4.2,
+						"damageTier": 2,
+						"pull": 0.14,
+						"attackDurationMs": 1000,
+						"damageAtMs": 430,
+						"attackCooldownMs": 1800,
+						"agentEveryMinMs": 10000,
+						"agentEveryMaxMs": 15000,
+						"agentCap": 4,
+						"breathSounds": [
+							"backrooms:entity/14/hunter-breath1",
+							"backrooms:entity/14/hunter-breath2",
+							"backrooms:entity/14/hunter-breath3"
+						],
+						"dragSounds": [
+							"backrooms:entity/14/hunter-drag1",
+							"backrooms:entity/14/hunter-drag2",
+							"backrooms:entity/14/hunter-drag3"
+						],
+						"shriekSound": "backrooms:entity/14/hunter-shriek",
+						"lashSound": "backrooms:entity/14/hunter-lash",
+						"releaseSound": "backrooms:entity/14/hunter-release"
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	},
+	"sounds": {
+		"hurt": "backrooms:entity/14/hunter-hurt",
+		"death": "backrooms:entity/14/hunter-death"
+	}
+}
