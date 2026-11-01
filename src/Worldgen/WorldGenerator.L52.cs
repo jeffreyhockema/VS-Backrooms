@@ -24,6 +24,7 @@ public sealed partial class WorldGenerator
     private static readonly string[] L52LightStates = { "on", "lit", "off", "flicker" };
     private const int L52SlabConcrete = 7, L52LightOn = 0, L52LightOff = 2;
 
+    private int l52Skylight;
     private int l52Grass, l52Soil, l52Rock, l52Gravel, l52Sand, l52Coping, l52Barrier, l52Roof, l52Plinth, l52Canopy;
     private readonly int[] l52Trim = new int[3];
     private readonly int[,] l52Wall = new int[4, 3], l52Light = new int[11, 4], l52Window = new int[2, 2], l52Chain = new int[2, 2];
@@ -106,6 +107,7 @@ public sealed partial class WorldGenerator
             }
             l52Bleacher[f] = L52Block("l52-bleacher-" + Sides[f]);
         }
+        l52Skylight = L52Block("l52-skylight", l52Window[0, 0]);
         l52PitchLine[0] = L52Block("l52-turf-linens", l52Turf[0]);
         l52PitchLine[1] = L52Block("l52-turf-linewe", l52Turf[0]);
         for (int i = 0; i < 3; i++) l52Track[i] = L52Block("l52-track-" + courts[i], l52Court[i]);
@@ -323,6 +325,10 @@ public sealed partial class WorldGenerator
             int s = rel / 4, k = rel % 4;
             bool entrance = t.Zone == (byte)Zone.Entrance;
             if (entrance && s == 0 && k is 1 or 2) return 0;
+            // (Round 3) over the quad's ways in, a glazed bay the height of the building (not at Marshall David, all white concrete)
+            if (s > 0 && rel < top && (entrance || t.Overhead == Overheads.L52Frame) && t.Detail == 1 && c.Head.Kind != WorldLayout.L52CampusKind.MarshallDavid
+                && t.Overhead != Overheads.L52BridgeDoor)
+                return k == 0 ? trim : l52Skylight;
             // A bridge's opening at its floor, and its lintel
             if (s == WorldLayout.L52BridgeStorey && t.Overhead == Overheads.L52BridgeDoor && k > 0) return k == 3 ? trim : 0;
             // The door's lintel and the surround either side of it
