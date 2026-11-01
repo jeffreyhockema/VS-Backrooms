@@ -64,7 +64,7 @@ public sealed partial class WorldGenerator
     private static readonly string[] L15SignKinds = BuildL15SignKinds();
     private static readonly int L15SAuth = L15PlateKinds.Length, L15SDecon = L15SAuth + 1, L15SHV = L15SAuth + 2, L15SHatch = L15SAuth + 3,
         L15SPipes = L15SAuth + 4, L15SLiftCall = L15SAuth + 5, L15SLiftInd = L15SAuth + 6, L15SLiftL = L15SAuth + 8, L15SLiftR = L15SAuth + 11,
-        L15SMenu = L15SAuth + 14, L15SBand = L15SAuth + 17, L15SBig = L15SAuth + 21;
+        L15SMenu = L15SAuth + 14, L15SBand = L15SAuth + 17, L15SBig = L15SAuth + 21, L15SSlide = L15SAuth + 27;
     private readonly int[,] l15Sign = new int[L15SignKinds.Length, 4];
     /// <summary>The halls' floor marks: [colour, line ns, line we, chevron n e s w].</summary>
     private readonly int[,] l15Mark = new int[4, 6];
@@ -73,14 +73,15 @@ public sealed partial class WorldGenerator
     private readonly int[,] l15Bunk = new int[2, 4], l15Seat = new int[2, 4], l15Serve = new int[3, 4];
     private readonly int[,,] l15Grow = new int[2, 2, 4], l15Dock = new int[2, 2, 4];
     private readonly int[] l15Riser = new int[2], l15Tray = new int[2];
-    private readonly int[,] l15Appliance = new int[2, 4];
+    private readonly int[,] l15Appliance = new int[2, 4], l15Curtain = new int[2, 4];
 
     private static string[] BuildL15SignKinds()
     {
         var kinds = new List<string>();
         foreach (string p in L15PlateKinds) kinds.Add("plate" + p);
         kinds.AddRange(new[] { "auth", "decon", "hv", "hatch", "pipes", "liftcall", "liftind0", "liftind1", "liftl0", "liftl1", "liftl2",
-            "liftr0", "liftr1", "liftr2", "menu0", "menu1", "menu2", "band0", "band1", "band2", "band3", "big00", "big01", "big02", "big10", "big11", "big12" });
+            "liftr0", "liftr1", "liftr2", "menu0", "menu1", "menu2", "band0", "band1", "band2", "band3", "big00", "big01", "big02", "big10", "big11", "big12",
+            "slide00", "slide01", "slide02", "slide10", "slide11", "slide12", "slide20", "slide21", "slide22" });
         return kinds.ToArray();
     }
 
@@ -102,6 +103,8 @@ public sealed partial class WorldGenerator
             }
             l15Appliance[0, f] = L15Block($"l15-appliance-coffee-{Sides[f]}");
             l15Appliance[1, f] = L15Block($"l15-appliance-printer-{Sides[f]}");
+            l15Curtain[0, f] = L15Block($"l15-curtain-lower-{Sides[f]}");
+            l15Curtain[1, f] = L15Block($"l15-curtain-upper-{Sides[f]}");
             string[] serve = { "wells", "trays", "till" };
             for (int k = 0; k < 3; k++) l15Serve[k, f] = L15Block($"l15-serve-{serve[k]}-{Sides[f]}");
         }
@@ -237,6 +240,8 @@ public sealed partial class WorldGenerator
         if (rel == air + 1) return L15CeilingBlock(t, dark);
         if (rel > air) return concreteId;
 
+        // Round 3: a medical bay's curtain between its beds (rel 2-3, along the edge in Roof)
+        if (t.Overhead == Overheads.L15Curtain && rel is 2 or 3) return l15Curtain[rel - 2, Facing((ArchPier)t.Roof)];
         // Ribs, odd beams and ducts in the top block of air
         if (rel == air)
         {
@@ -369,6 +374,7 @@ public sealed partial class WorldGenerator
             case L.L15WallMenu when rel == 3: return l15Sign[L15SMenu + Math.Min((int)t.Stack, 2), f];
             case L.L15WallBigScreen when rel is 3 or 4: return l15Sign[L15SBig + (rel - 3) * 3 + Math.Min((int)t.Stack, 2), f];
             case L.L15WallBigScreen when rel == 2: return l15Deco[t.Stack == 1 ? L15DRadar : L15DDisplay, f];
+            case L.L15WallSlide when rel is >= 2 and <= 4: return l15Sign[L15SSlide + (rel - 2) * 3 + Math.Min((int)t.Stack, 2), f];
             case L.L15WallLiftCall when rel == 2: return l15Sign[L15SLiftCall, f];
             case L.L15WallLiftL or L.L15WallLiftR when rel is >= 1 and <= 4:
                 bool left = t.Detail == L.L15WallLiftL;

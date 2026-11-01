@@ -53,6 +53,7 @@ public partial class WorldLayout
         if (L15FindDoor(hcx, hcz, L15Zone.Lab, glass: true) is { } labGlass) Add("lab-glass", labGlass.OutX, labGlass.OutZ, labGlass.Heading, 0);
         if (L15FindDoor(hcx, hcz, L15Zone.Dorm) is { } dorm) Add("dorm", dorm.InX, dorm.InZ, dorm.Heading, -8);
         if (L15FindDoor(hcx, hcz, L15Zone.Canteen) is { } canteen) Add("canteen", canteen.InX, canteen.InZ, canteen.Heading, 4);
+        if (L15FindServe(hcx, hcz) is { } serve) Add("serving-line", serve.X, serve.Z, serve.Heading, 8);
         if (L15FindDoor(hcx, hcz, L15Zone.Medical) is { } medical) Add("medical-bay", medical.InX, medical.InZ, medical.Heading, -8);
         if (L15FindDoor(hcx, hcz, L15Zone.Hydro, glass: true) is { } hydro)
         {
@@ -100,6 +101,27 @@ public partial class WorldLayout
                 var (x, z) = plan.World(top.A, top.B);
                 return (x, z, top.Step * 0.5, L15Heading(dx, dz));
             }
+        }
+        return null;
+    }
+
+    /// <summary>The nearest lit canteen's serving line: a free place a few blocks out on the customers' side of its middle, looking at it.</summary>
+    private (int X, int Z, double Heading)? L15FindServe(int hcx, int hcz)
+    {
+        foreach (var (hx, hz) in L15WingsRound(hcx, hcz, 4))
+        {
+            L15Plan plan = L15PlanOf(hx, hz);
+            for (int b = 0; b < L15WingSize; b++)
+                for (int a = 0; a < L15WingSize; a++)
+                {
+                    Tile t = plan.AtAB(a, b);
+                    if (t.Variant != Props.L15Serve || t.Stack != 0 || L15IsDark(t)) continue;
+                    var (dx, dz) = L15StepOf(t.Pier);
+                    var (x, z) = plan.World(a, b);
+                    for (int k = 2; k <= 4; k++)
+                        if (L15Standable(x + dx * k, z + dz * k) && L15Standable(x + dx * (k - 1), z + dz * (k - 1)))
+                            return (x + dx * k, z + dz * k, L15Heading(-dx, -dz));
+                }
         }
         return null;
     }

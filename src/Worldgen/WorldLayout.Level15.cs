@@ -98,7 +98,7 @@ public sealed partial class WorldLayout
     /// part, 0-2 from the left as you face it); a HIGH VOLTAGE plate.
     /// </summary>
     public const byte L15WallAuth = 16, L15WallDecon = 17, L15WallLiftL = 18, L15WallLiftR = 19, L15WallLiftCall = 20, L15WallHatch = 21,
-        L15WallPipes = 22, L15WallMenu = 23, L15WallHV = 24, L15WallBigScreen = 25;
+        L15WallPipes = 22, L15WallMenu = 23, L15WallHV = 24, L15WallBigScreen = 25, L15WallSlide = 26;
 
     /// <summary>
     /// How many room codes there are to paint (<see cref="L15WallCode"/>): two per letter, H (labs), e (stores), M, D, K, C, L, S,
@@ -518,6 +518,7 @@ public sealed partial class WorldLayout
             // A corridor's floor, the whole length of it: ceramic tiles, or now and then the dark non-slip coating
             coat = !service && rng.Chance(0.28);
             tray = !service && rng.Chance(0.6);
+            slot = !service && rng.Chance(0.35);
             for (int k = from; k <= to; k++)
                 for (int i = 0; i < cw; i++)
                 {
@@ -552,7 +553,7 @@ public sealed partial class WorldLayout
         }
 
         /// <summary>Whether the corridor being cut has the non-slip coating, a cable tray along its top (<see cref="Cut"/>).</summary>
-        private bool coat, tray;
+        private bool coat, tray, slot;
 
         private void CorridorTile(ref Tile t, int x, int z, bool alongZ, bool service, int i, int along, bool dark)
         {
@@ -577,7 +578,10 @@ public sealed partial class WorldLayout
             }
             t.Depth = coat ? L15FloorCoating : Hashing.Unit(h) < 0.1 ? L15FloorWorn : L15FloorCeramic;
             if (dark && !coat && Hashing.Unit(h) > 0.7) t.Depth = L15FloorDust; // round 3: dust in the dark
-            t.Ceiling = i == 1 && Hashing.Mod(along, 6) == 3 ? layout.L15Lamp(x, z, true, dark) : CeilingKind.L15Ceiling;
+            // The lights down the middle: a panel every six (giving light), or (round 3, a corridor in three) a continuous slot of
+            // panels that look lit with one in six giving light
+            bool emitter = Hashing.Mod(along, 6) == 3;
+            t.Ceiling = i == 1 && (emitter || slot) ? layout.L15Lamp(x, z, emitter, dark) : CeilingKind.L15Ceiling;
             if (i != 1 && Hashing.Mod(along, 16) == 11) t.Ceiling = CeilingKind.L15CeilingVent;
             if (Hashing.Mod(along, 8) == 0) t.Overhead = alongZ ? Overheads.L15RibWE : Overheads.L15RibNS;
             else if (i != 1 && Hashing.Unit(Hashing.Mix(h)) > 0.997) t.Overhead = Overheads.L15OddBeam;
@@ -854,7 +858,18 @@ public sealed partial class WorldLayout
             if (gate) Decorate(sa, sb, L15WallScanner, outward, 0);
             // Round 3: AUTHORIZED PERSONNEL ONLY by a control room's door, DECONTAMINATION by most labs' and hydroponics bays'
             else if (kind == L15Zone.Control) Decorate(sa, sb, L15WallAuth, outward, 0);
-            else if (kind is L15Zone.Lab or L15Zone.Hydro && rng.Chance(0.7)) Decorate(sa, sb, L15WallDecon, outward, 0);
+            else if (kind is L15Zone.Lab or L15Zone.Hydro && rng.Chance(0.7))
+            {
+                Decorate(sa, sb, L15WallDecon, outward, 0);
+                // ...behind a shutter like the machine rooms' (rolled up), its tread on the floor
+                for (int i = 0; i < width; i++)
+                {
+                    var (da, db) = alongX ? (at + i, edge) : (edge, at + i);
+                    if (!L15Plan.In(da, db) || At(da, db).Kind != TileKind.Doorway) continue;
+                    At(da, db).Detail = L15DoorGate;
+                    At(da, db).Depth = L15FloorTrack;
+                }
+            }
             // A machine room's wall of thick glass, looking out on the corridor (not through a service passage's double wall); round
             // 3: the labs, control rooms, hydroponics bays and canteens have their glass walls too, now and then, so the rooms show
             // from the corridors
@@ -1241,10 +1256,19 @@ public sealed partial class WorldLayout
                     var (a, b) = FromSide(r, front, k, row);
                     if (!NextToDoor(a, b)) Put(a, b, Props.L15Stage);
                 }
-            for (int k = len / 2 - 1; k <= len / 2 + 1; k++)
+            // The projection screen over the stage, three wide (round 3): its parts left to right as the seats see it
             {
-                var (a, b) = WallAt(r, front, k);
-                Decorate(a, b, dark ? L15WallDisplay : L15WallView, Opp(toFront), (byte)rng.Range(0, L15Views - 1));
+                int m = len / 2;
+                var (rx, rz) = RightOf(Opp(toFront));
+                var (la, lb) = WallAt(r, front, m - 1);
+                var (ha, hb) = WallAt(r, front, m + 1);
+                bool lowFirst = (ha - la) * rx + (hb - lb) * rz > 0;
+                for (int k = m - 1; k <= m + 1; k++)
+                {
+                    var (a, b) = WallAt(r, front, k);
+                    if (dark) Decorate(a, b, L15WallDisplay, Opp(toFront), 0);
+                    else Decorate(a, b, L15WallSlide, Opp(toFront), (byte)(lowFirst ? k - (m - 1) : (m + 1) - k));
+                }
             }
             int mid = len / 2, most = Math.Max(0, 2 * (height - 3)); // the highest step (half blocks) leaving two blocks of headroom
             int tier = 0;
@@ -1350,6 +1374,17 @@ public sealed partial class WorldLayout
                     if (rng.Chance(0.8)) Put(ia, ib, Props.RunIvStand, into);
                     var (ca, cb) = FromSide(r, s, k + 1, 0);
                     if (rng.Chance(0.6)) Put(ca, cb, Props.RunBedside, into);
+                    // A curtain on its rail between this bed and the next, the length of the bed, drawn (most of them)
+                    var (na, nb) = FromSide(r, s, k + 2, 0);
+                    ArchPier edge = (na - ca, nb - cb) switch { (1, 0) => ArchPier.East, (-1, 0) => ArchPier.West, (0, 1) => ArchPier.South, _ => ArchPier.North };
+                    if (k + 2 < len - 1 && rng.Chance(0.75))
+                        for (int row = 0; row < 2; row++)
+                        {
+                            var (ta, tb) = FromSide(r, s, k + 1, row);
+                            if (!L15Plan.In(ta, tb) || At(ta, tb).Kind != TileKind.Floor) continue;
+                            At(ta, tb).Overhead = Overheads.L15Curtain;
+                            At(ta, tb).Roof = (byte)edge; // (the tile's Pier is its prop's)
+                        }
                 }
             }
             int blen = back >= 2 ? r.W : r.D;

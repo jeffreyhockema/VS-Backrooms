@@ -1,0 +1,493 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "curtain": "backrooms:block/15/curtain",
+  "steelgrey": "backrooms:block/15/steelgrey"
+ },
+ "elements": [
+  {
+   "name": "Fold0",
+   "from": [
+    0,
+    0,
+    0.4
+   ],
+   "to": [
+    4,
+    14,
+    0.9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      14
+     ]
+    },
+    "east": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14
+     ]
+    },
+    "south": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      14
+     ]
+    },
+    "west": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14
+     ]
+    },
+    "up": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Fold1",
+   "from": [
+    4,
+    0,
+    1.0
+   ],
+   "to": [
+    8,
+    14,
+    1.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      14
+     ]
+    },
+    "east": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14
+     ]
+    },
+    "south": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      14
+     ]
+    },
+    "west": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14
+     ]
+    },
+    "up": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Fold2",
+   "from": [
+    8,
+    0,
+    0.4
+   ],
+   "to": [
+    12,
+    14,
+    0.9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      14
+     ]
+    },
+    "east": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14
+     ]
+    },
+    "south": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      14
+     ]
+    },
+    "west": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14
+     ]
+    },
+    "up": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Fold3",
+   "from": [
+    12,
+    0,
+    1.0
+   ],
+   "to": [
+    16,
+    14,
+    1.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      14
+     ]
+    },
+    "east": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14
+     ]
+    },
+    "south": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      14
+     ]
+    },
+    "west": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      0.5,
+      14
+     ]
+    },
+    "up": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#curtain",
+     "uv": [
+      0,
+      0,
+      4,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Rail",
+   "from": [
+    0,
+    14,
+    0.25
+   ],
+   "to": [
+    16,
+    15,
+    1.25
+   ],
+   "faces": {
+    "north": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      16,
+      1
+     ]
+    },
+    "east": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      16,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      16,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      16,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "Hanger3.75",
+   "from": [
+    3.75,
+    15,
+    0.5
+   ],
+   "to": [
+    4.25,
+    32,
+    1
+   ],
+   "faces": {
+    "north": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Hanger11.75",
+   "from": [
+    11.75,
+    15,
+    0.5
+   ],
+   "to": [
+    12.25,
+    32,
+    1
+   ],
+   "faces": {
+    "north": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  }
+ ]
+}

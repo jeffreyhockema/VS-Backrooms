@@ -896,6 +896,8 @@ public static class Overheads
     public const ushort L15RibWE = 448, L15RibNS = 449, L15OddBeam = 450;
     /// <summary>Level 15: a cable tray hung along the top of a side corridor (along west-east, north-south).</summary>
     public const ushort L15TrayWE = 451, L15TrayNS = 452;
+    /// <summary>Level 15: a medical bay's curtain between two beds, hung from a rail (rel 2-3), along the tile's edge toward its Pier.</summary>
+    public const ushort L15Curtain = 453;
     public const ushort L23First = 480, L23Last = 511;
     /// <summary>Level 31's tubes and disco ball and Level 120's cable trays, kept from before the widening (110-139 are main's to append to).</summary>
     public const byte L31LegacyFirst = 140, L31LegacyLast = 149;

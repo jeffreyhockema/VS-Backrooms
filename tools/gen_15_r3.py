@@ -330,6 +330,28 @@ def bigscreen_textures():
             save(img.crop((k * B, (1 - row) * B, (k + 1) * B, (2 - row) * B)), f"sign-big{row}{k}")
 
 
+def slide_textures():
+    """The lecture hall's projection screen over the stage, three blocks wide and three high: a pale screen on a dark frame,
+    a slide still on it (the facility's induction, invented), the projector's light falling off at the corners."""
+    W = H = 3 * B
+    img = Image.new("RGBA", (W, H), (0, 0, 0, 255))
+    rect(img, 0, 0, W - 1, H - 1, (44, 48, 54))
+    rect(img, 5, 5, W - 6, H - 6, (226, 232, 238))
+    for y in range(5, H - 5):
+        for x in range(5, W - 5):
+            d = ((x - W / 2) ** 2 + (y - H / 2) ** 2) ** 0.5 / (W * 0.7)
+            blend(img, x, y, (150, 160, 176), min(0.6, d * d * 1.2))
+    rect(img, 16, 20, W - 17, 46, (40, 70, 110))
+    draw_text(img, (20, 22, W - 20, 44), "INDUCTION  -  DAY 1", (236, 242, 248), 12, condensed=True)
+    lines = ["1. REMAIN IN LIT AREAS", "2. REPORT ANY LOSS OF POWER", "3. KEEP TO YOUR WING", "4. DO NOT ENTER THE STAR ROOM"]
+    for line, y in zip(lines, (70, 94, 134, 158)):  # (clear of the seams between the blocks at 64 and 128)
+        draw_text(img, (22, y, W - 22, y + 14), line, (40, 46, 56), 9, condensed=True)
+    draw_text(img, (W - 70, H - 26, W - 14, H - 16), "AVALON 2.4", (40, 70, 110), 6)
+    for row in range(3):
+        for k in range(3):
+            save(img.crop((k * B, (2 - row) * B, (k + 1) * B, (3 - row) * B)), f"sign-slide{row}{k}")
+
+
 def band_textures():
     """The halls' band (gen_15's deco-band) in each hall line's colour, at the same 32 px."""
     base = Image.open(os.path.join(TEX, "deco-band.png")).convert("RGBA")
@@ -410,13 +432,22 @@ def prop_textures():
             if (x // 4 + y // 8) % 2 == 0:
                 blend(img, x, y, (255, 160, 250), 0.5)
     save(img, "growlight")
+    save(M.fabric(seed=15723, base=(150, 186, 184)), "curtain")
     save(M.new((S, S), (66, 40, 64)), "growlightoff")
-    img = M.new((S, S), (92, 70, 40))
+    # Dry leaves: olive gone yellow and brown, a darker vein down the middle
+    img = M.new((S, S), (128, 120, 60))
     rng = np.random.default_rng(15722)
-    for _ in range(140):
+    for _ in range(220):
         x, y = rng.integers(0, S, 2)
-        blend(img, int(x), int(y), (120, 104, 56) if rng.random() < 0.5 else (60, 44, 26), 0.8)
+        blend(img, int(x), int(y), [(150, 130, 66), (104, 98, 46), (120, 84, 44), (160, 146, 90)][int(rng.integers(0, 4))], 0.7)
+    for x in range(S):
+        blend(img, x, 15, (82, 70, 36), 0.6)
     save(img, "deadplant")
+    img = M.new((S, S), (96, 88, 50))
+    for _ in range(120):
+        x, y = rng.integers(0, S, 2)
+        blend(img, int(x), int(y), (70, 60, 34), 0.6)
+    save(img, "deadstalk")
     img = M.new((S, S), (40, 36, 30))
     for _ in range(120):
         x, y = rng.integers(0, S, 2)
@@ -573,17 +604,21 @@ def growrack_shape(part, lit):
     for i, y in enumerate((1, 9)):
         els.append(box(f"Shelf{i}", (0.5, y - 1, 2), (15.5, y, 14), "steelgrey"))
         els.append(box(f"Tray{i}", (1.5, y, 3), (14.5, y + 1.5, 13), {"all": "dark", "top": "soil"}))
-        for j, (px, pz, h) in enumerate(((3, 5, 3), (6.5, 9, 4), (10, 4.5, 2.5), (12, 9.5, 3.5), (4.5, 10, 2))):
-            els.append(box(f"Plant{i}{j}", (px, y + 1.5, pz), (px + 2, y + 1.5 + h, pz + 2), "deadplant"))
-            els.append(box(f"Leaf{i}{j}", (px - 0.75, y + 1.5 + h * 0.6, pz + 0.75), (px + 2.75, y + 1.6 + h * 0.6, pz + 1.25),
-                           "deadplant", rot=(0, 30 + 25 * j, 18), origin=(px + 1, y + 1.5 + h * 0.6, pz + 1)))
+        # Dead plants: a thin stalk each, two or three dry leaves hanging off it, a few fallen on the soil
+        for j, (px, pz, h) in enumerate(((3, 5, 4), (6.5, 9, 5), (10, 4.5, 3.5), (12.5, 9.5, 4.5), (4.5, 10.5, 3), (8.5, 6, 2.5))):
+            els.append(box(f"Stalk{i}{j}", (px, y + 1.5, pz), (px + 0.5, y + 1.5 + h, pz + 0.5), "deadstalk"))
+            for q, (dy, ang, droop) in enumerate(((0.45, 20 + 40 * j, 35), (0.75, 140 + 40 * j, -40), (0.95, 260 + 40 * j, 50))[: 2 + j % 2]):
+                ly = y + 1.5 + h * dy
+                els.append(box(f"Leaf{i}{j}{q}", (px + 0.25, ly, pz), (px + 3.25, ly + 0.1, pz + 1.25), "deadplant",
+                               rot=(0, ang % 360 - 180, droop), origin=(px + 0.25, ly, pz + 0.25)))
+            els.append(box(f"Fallen{i}{j}", (px + 1, y + 1.5, pz + 1), (px + 2.5, y + 1.55, pz + 2), "deadplant"))
         ly = 7.5 if i == 0 else 15.5
         els.append(box(f"Lamp{i}", (1.5, ly - 0.5, 6), (14.5, ly, 10), light, glow=220 if lit else 0))
         els.append(box(f"LampHousing{i}", (1.5, ly, 5.5), (14.5, ly + 0.5, 10.5), "steelgrey"))
     if part == "upper":
         els.append(box("Top", (0.5, 15.5, 2), (15.5, 16, 14), "steelgrey", faces=("up", "north", "south", "east", "west")))
     return write_shape(f"l15-growrack-{part}-{'lit' if lit else 'off'}", els,
-                       {k: T(k) for k in ("steelgrey", "dark", "soil", "deadplant", light)})
+                       {k: T(k) for k in ("steelgrey", "dark", "soil", "deadplant", "deadstalk", light)})
 
 
 def dock_shape(part, lit):
@@ -661,6 +696,22 @@ def appliance_shape(kind):
     return write_shape("l15-appliance-" + kind, els, {k: T(k) for k in tex_})
 
 
+def curtain_shape(part):
+    """A medical bay's curtain between two beds, along the north edge of the block, hung from a steel rail (upper: the rail
+    and its hangers up into the block above, the curtain's top; lower: the rest of it, its hem a little above the floor
+    below). Folded: strips of cloth in and out."""
+    els = []
+    y0, y1 = (-6, 16) if part == "lower" else (0, 14)
+    for i in range(4):
+        z0 = 0.4 if i % 2 == 0 else 1.0
+        els.append(box(f"Fold{i}", (i * 4, y0, z0), (i * 4 + 4, y1, z0 + 0.5), "curtain"))
+    if part == "upper":
+        els.append(box("Rail", (0, 14, 0.25), (16, 15, 1.25), "steelgrey"))
+        for x in (3.75, 11.75):
+            els.append(box(f"Hanger{x}", (x, 15, 0.5), (x + 0.5, 32, 1), "steelgrey"))
+    return write_shape("l15-curtain-" + part, els, {k: T(k) for k in ("curtain", "steelgrey")})
+
+
 def tray_shape():
     """A ladder cable tray along x near the top of a block, hung on rods from the ceiling, a bundle of cables in it."""
     els = [box("RailN", (0, 10, 4), (16, 12, 4.5), "steelgrey"),
@@ -692,6 +743,9 @@ def sign_kinds():
     for row in range(2):
         for i in range(3):
             k[f"big{row}{i}"] = f"sign-big{row}{i}"
+    for row in range(3):
+        for i in range(3):
+            k[f"slide{row}{i}"] = f"sign-slide{row}{i}"
     return k
 
 
@@ -706,7 +760,7 @@ def blocktypes():
             "blockmaterial": "Stone", "drawtype": "cube", "resistance": 6, "drops": [], "sounds": STONE, "lightAbsorption": 99,
             "vertexFlagsByType": {"*-liftcall-*": {"glowLevel": 40}, "*-liftind0-*": {"glowLevel": 40}, "*-liftind1-*": {"glowLevel": 40},
                                   "*-menu0-*": {"glowLevel": 50}, "*-menu1-*": {"glowLevel": 50}, "*-menu2-*": {"glowLevel": 50},
-                                  "*-big*": {"glowLevel": 90}},
+                                  "*-big*": {"glowLevel": 90}, "*-slide*": {"glowLevel": 70}},
             "lightHsvByType": {"*-big01-*": [23, 4, 5]}}
     write_json(os.path.join(BLOCKS, "l15-sign.json"), data,
                "Level 15: a white wall block with one face dressed (toward its side): the rooms' name plates, AUTHORIZED PERSONNEL ONLY, "
@@ -843,6 +897,18 @@ def blocktypes():
                {"collisionbox": cuboid((0.15, 0, 0.15, 0.85, 0.5, 0.85)), "selectionbox": cuboid((0.15, 0, 0.15, 0.85, 0.7, 0.85))},
                extra={"drops": [{"type": "item", "code": "scrapwire", "quantity": {"avg": 0.3, "var": 0.3}}]}, inventory="l15-appliance-coffee-north")
 
+    # The medical bays' curtains
+    shapes = {}
+    for part in ("lower", "upper"):
+        base = curtain_shape(part)
+        for s in SIDES:
+            shapes[f"l15-curtain-{part}-{s}"] = {"base": base, "rotateY": ROTATE[s]}
+    json_block("l15-curtain", [{"code": "part", "states": ["lower", "upper"]}, {"code": "side", "states": SIDES}], shapes,
+               "Level 15: a medical bay's curtain on its rail, along the block's edge toward its side (lower, upper)",
+               {"collisionbox": cuboid((0, 0, 0, 0, 0, 0)), "selectionbox": cuboid((0, 0, 0, 1, 1, 0.12))},
+               sounds=CLOTH, material="Cloth",
+               extra={"drops": [{"type": "item", "code": "game:flaxtwine", "quantity": {"avg": 0.5, "var": 0.3}}]}, inventory="l15-curtain-lower-north")
+
     # The cable tray
     base = tray_shape()
     json_block("l15-tray", [{"code": "axis", "states": ["we", "ns"]}], {"*-we": {"base": base}, "*-ns": {"base": base, "rotateY": 90}},
@@ -859,6 +925,7 @@ def main():
     menu_textures()
     band_textures()
     bigscreen_textures()
+    slide_textures()
     escape_textures()
     floor_textures()
     floormark_textures()
