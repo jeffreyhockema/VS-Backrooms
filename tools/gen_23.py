@@ -793,6 +793,11 @@ LANG = [
     ("block-l23-pottery-amphora", "Amphora"),
     ("block-l23-pottery-shards", "Broken Pottery"),
     ("blockdesc-l23-pottery-*", "The Architects' pottery: like something from a museum, only worse made. Some still hold a scrap of cloth."),
+    # The ways in and out (src/Thresholds/ThresholdNetwork.L23.cs)
+    ("l23-tree-in", "You climb into the hollow, and up through the dark inside the trunk, further than the tree is tall. You come out of another trunk, into a forest of stone under a roof of leaves."),
+    ("l23-tree-camp", "You climb up through the dark inside the trunk, and out of a hollow tree into lantern light. Tents, a spring, people: Base Seedling."),
+    ("l23-tree-home", "You climb up into the hollow tree, into the dark, further than a light shows. You come out of a trunk standing in warm water, under white tile."),
+    ("l23-well", "The water at the bottom of the well pulls, and keeps pulling. You come up in open sea, under a concrete sky."),
 ]
 
 
@@ -810,6 +815,13 @@ def lang_entries():
             for e in t.entries:
                 entries.append((f"note-{e.key}", gen_notes.to_vtml(e.text)))
                 entries.append((f"notetitle-{e.key}", e.title))
+    # (The level's notes in another level's track: Level 37's, where its trees are)
+    for t in gen_notes.TRACKS:
+        if t.level != gen_notes.L23:
+            for e in t.entries:
+                if e.key.startswith("l23-"):
+                    entries.append((f"note-{e.key}", gen_notes.to_vtml(e.text)))
+                    entries.append((f"notetitle-{e.key}", e.title))
     return entries
 
 

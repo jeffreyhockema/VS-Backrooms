@@ -967,14 +967,24 @@ The plaque on the sphere asks the Great Gardener's forgiveness. Nothing in them 
 — A.L., survey""", w="al"),
     E("l23-5", "Base Seedling", """
 M.E.G. FIELD NOTICE. Base Seedling is in a glow room off the roots: take the tunnels down until the light goes warm. We
-trade. Water we have; food we do not, so bring your own. Our way home is the hollow tree in the middle of camp. Do not
-touch the Green Giants.
+trade. Water we have; food we do not, so bring your own. Our way home is the hollow tree in the middle of camp: climb
+it, and you come out of a green tree in the Poolrooms that brings you back. Do not touch the Green Giants.
 — Field Team 9""", w="meg"),
     E("l23-6", "The Heart", """
 There's a pool in the middle, love, where the big green trees stand round it, and the light comes straight down on the
 water. Cleanest I've had since the fields. They say if you swim down far enough it takes you to the sea. I only drank.
 — Nell""", w="nell"),
+    E("l23-7", "The tree in the water", """
+Found a tree in the Poolrooms. Green bark, wider than a room, growing up through the tile like it was there first. I
+climbed into the hollow to sit somewhere dry and kept climbing, up in the dark, and came out of another trunk in this
+place. The trunk I came out of is just a trunk. Don't climb in unless you mean it.
+— Dez""", w="dez"),
 ]))
+# (And one in Level 37's own track, where the trees are: a key of this level's, at the end of that track)
+next(t for t in TRACKS if t.id == "l37").entries.append(E("l23-p1", "Green bark", """
+Out past where anyone goes, a tree is growing up through the floor: green bark, roots through the tile, straight up
+through the ceiling, hollow at the foot. Nothing grows here. Whoever climbs into it doesn't come back out of it.
+— A.L., survey""", w="al"))
 
 # ============================== Rare: folded notes ==============================
 
