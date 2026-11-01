@@ -126,6 +126,8 @@ public sealed partial class WorldGenerator
             if (f.EveryStorey ? rel >= top || h < f.Lo || h > f.Hi : rel < f.Lo || rel > f.Hi) continue;
             if (f.Code == "=water") { fluid = waterId; return 0; }
             if (f.Code == "=hedge") return treeLeafIds[0, 0];
+            if (f.Code.StartsWith("=stair-"))
+                return stairIds[f.Code.EndsWith("north") ? 0 : f.Code.EndsWith("east") ? 1 : f.Code.EndsWith("south") ? 2 : 3];
             return modBlocks.TryGetValue(f.Code, out int id) ? id : 0;
         }
         return -1;

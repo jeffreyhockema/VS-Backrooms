@@ -574,6 +574,13 @@ def textures():
     d.ellipse((13, 13, 18, 18), fill=(120, 124, 122, 255))
     frame(top, (140, 144, 142), 1)
     s(top, "hvac-top")
+    # A courtyard's glazed roof: pale glass, white glazing bars every half block
+    sky = Image.new("RGBA", (32, 32), (214, 232, 236, 70))
+    d = ImageDraw.Draw(sky)
+    for k in (0, 15, 16, 31):
+        d.line((k, 0, k, 31), fill=(236, 238, 238, 255))
+        d.line((0, k, 31, k), fill=(236, 238, 238, 255))
+    s(sky, "skylight")
     # The running track: red rubber, white lane lines
     for kind in ("plain", "linens", "linewe"):
         img = M.noise_hv((156, 70, 54), 5, 6330, (32, 32), 5, (16, 8))
@@ -741,6 +748,10 @@ def blocktypes():
                   "l52-hvac-top": G.faces(sides="hvac-side", up="hvac-top", down="hvac-side")},
                  "Level 52: an air-handling unit's casing on a roof (body: louvred panels; top: fan grilles on its top face)", material="Metal",
                  sounds=G.METAL)
+    G.cube_block("l52-skylight", [], {"*": G.faces(all_="skylight")},
+                 "Level 52: a courtyard's glazed roof (the lore's \"translucent ceiling\"): pale glass in a grid of white steel glazing bars",
+                 material="Glass", sounds=G.GLASS, resistance=2,
+                 extra={"lightAbsorption": 0, "renderpass": "Transparent", "sideopaque": {"all": False}, "sideao": {"all": False}})
     G.cube_block("l52-track", [G.group("kind", ["plain", "linens", "linewe"])],
                  {f"l52-track-{k}": G.faces(sides="slab-concrete", up=f"track-{k}", down="slab-concrete") for k in ("plain", "linens", "linewe")},
                  "Level 52: a running track's red rubber, plain or with a white lane line north-south (linens) or west-east (linewe)")
@@ -788,7 +799,7 @@ def expected():
         codes.add(f"l52-bleacher-{s}")
         for part in ("base", "pole", "top"):
             codes.add(f"l52-flagpole-{part}-{s}")
-    codes |= {"l52-jet", "l52-vent", "l52-hvac-body", "l52-hvac-top"}
+    codes |= {"l52-jet", "l52-vent", "l52-hvac-body", "l52-hvac-top", "l52-skylight"}
     for k in ("plain", "linens", "linewe"):
         codes.add(f"l52-track-{k}")
     for k in ("linens", "linewe"):

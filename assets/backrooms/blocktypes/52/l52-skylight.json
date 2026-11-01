@@ -1,0 +1,37 @@
+// Level 52: a courtyard's glazed roof (the lore's "translucent ceiling"): pale glass in a grid of white steel glazing bars
+{
+	"code": "l52-skylight",
+	"texturesByType": {
+		"*": {
+			"all": {
+				"base": "block/52/skylight"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "cube",
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"renderpass": "Transparent",
+	"sideopaque": {
+		"all": false
+	},
+	"sideao": {
+		"all": false
+	}
+}

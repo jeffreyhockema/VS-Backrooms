@@ -149,6 +149,25 @@ public sealed partial class WorldLayout
         L52LayBoards(c);
         L52LayHedges(c);
         L52LayTrophies(c);
+        L52LaySkylight(c);
+    }
+
+    /// <summary>
+    /// On about one ordinary quad in three (not where the courtyard is a court), the courtyard roofed over in glass at the
+    /// level of the quad's roof: the lore's courtyards have "a translucent or missing ceiling".
+    /// </summary>
+    private void L52LaySkylight(L52Campus c)
+    {
+        if (c.Buildings.Count == 0 || c.Head.Kind != L52CampusKind.Ordinary) return;
+        if (Hashing.Unit(Hashing.Hash(seed, c.Head.X0, c.Head.Z0, SaltL52Detail + 6)) > 0.35) return;
+        L52Building q = c.Buildings[0];
+        int rel = q.Storeys * L52Storey + 1;
+        for (int v = q.V0 + 21; v <= q.V1 - 21; v++)
+            for (int u = q.U0 + 21; u <= q.U1 - 21; u++)
+                if (c.At(u, v).Zone == (byte)L52Zone.Court) return;
+        for (int v = q.V0 + 21; v <= q.V1 - 21; v++)
+            for (int u = q.U0 + 21; u <= q.U1 - 21; u++)
+                if (c.At(u, v).Depth == 0) L52Fix(c, u, v, "l52-skylight", rel, rel);
     }
 
     /// <summary>Across the corridor from each of the quad's front doors (where the lobby does not run on to the courtyard): two trophy cases against the wall, either side of the lobby's line.</summary>
@@ -829,5 +848,56 @@ public sealed partial class WorldLayout
                 if (row > 0) L52Fix(c, u, v, "l52-plinth", 1, row);
                 L52Fix(c, u, v, "l52-bleacher-" + L52Side(toPitch), row + 1, row + 1);
             }
+    }
+
+    /// <summary>
+    /// A lecture theatre: a long board on the front wall with the lecturer's desk before it, and behind, rows of desks on
+    /// tiers rising a block every three rows deep (to five up), stairs up both side aisles. Built of fittings over the hall's
+    /// floor (the tiers are slabs of its carpet), so the plan's tiles stay a plain hall underneath.
+    /// </summary>
+    private static void L52LayLecture(L52Campus c, L52Room room, bool alongX)
+    {
+        int la = alongX ? room.U1 - room.U0 + 1 : room.V1 - room.V0 + 1, ld = alongX ? room.V1 - room.V0 + 1 : room.U1 - room.U0 + 1;
+        (int U, int V) P(int a, int d) => alongX ? (room.U0 + a, room.V0 + d) : (room.U0 + d, room.V0 + a);
+        ArchPier back = alongX ? ArchPier.East : ArchPier.South, front = L52Opposite(back);
+        string sb = L52Side(back), sf = L52Side(front);
+        for (int a = 6; a < la; a++)
+        {
+            int h = Math.Min(5, (a - 6) / 3);
+            for (int d = 0; d < ld; d++)
+            {
+                var (u, v) = P(a, d);
+                bool aisle = d == 1 || d == ld - 2;
+                if (h > 0)
+                {
+                    bool rise = (a - 6) % 3 == 0 && (a - 6) / 3 <= 5;
+                    if (aisle && rise)
+                    {
+                        if (h > 1) L52Fix(c, u, v, "l52-slab-carpetgrey", 1, h - 1);
+                        L52Fix(c, u, v, "=stair-" + sb, h, h);
+                    }
+                    else L52Fix(c, u, v, "l52-slab-carpetgrey", 1, h);
+                }
+                if (!aisle && d >= 3 && d <= ld - 4 && (a - 6) % 3 == 1) L52Fix(c, u, v, "l52-desk-" + sf, h + 1, h + 1);
+                c.At(u, v).Variant = 0;
+                c.At(u, v).Ceiling = h >= 4 ? 0 : c.At(u, v).Ceiling;
+            }
+        }
+        // The board along the front wall, two high, and the lecturer's desk before it
+        int d0 = 3, d1 = ld - 4;
+        for (int d = d0; d <= d1; d++)
+        {
+            var (u, v) = P(0, d);
+            // (its ends: left and right as seen from the seats, looking at the front)
+            var (ru, rv) = L52Right(u, v, back, 1);
+            var (nu, nv) = P(0, d + 1);
+            bool rightIsUp = ru == nu && rv == nv;
+            int k = rightIsUp ? d - d0 : d1 - d;
+            string end = k == 0 ? "l" : k == d1 - d0 ? "r" : "m";
+            L52Fix(c, u, v, $"l52-chalkboard-lower-{end}-{sb}", 2, 2);
+            L52Fix(c, u, v, $"l52-chalkboard-upper-{end}-{sb}", 3, 3);
+        }
+        var (lu, lv) = P(2, ld / 2);
+        L52Put(c, lu, lv, Props.Desk, back);
     }
 }

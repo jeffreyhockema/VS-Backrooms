@@ -58,9 +58,9 @@ public sealed partial class WorldLayout
 
     public enum L52CampusKind : byte { Ordinary, MarshallDavid, JBarry, JTurner }
 
-    public enum L52BuildingKind : byte { Teaching, Lodging, Gym, Canteen, Warehouse }
+    public enum L52BuildingKind : byte { Teaching, Lodging, Gym, Canteen, Warehouse, Lecture }
 
-    public enum L52RoomKind : byte { Classroom, Office, Lab, Library, Store, Empty, Lodging, Meg, Closet, Gym, Canteen, Warehouse, RestroomMen, RestroomWomen, Reception, StaffRoom, Changing }
+    public enum L52RoomKind : byte { Classroom, Office, Lab, Library, Store, Empty, Lodging, Meg, Closet, Gym, Canteen, Warehouse, RestroomMen, RestroomWomen, Reception, StaffRoom, Changing, Lecture }
 
     /// <summary>The interior paint (l52-wall-*, l52-locker-*) and the façades (l52-facade-*), by index.</summary>
     public static readonly string[] L52Paints = { "beige", "white", "blue", "grey" };
@@ -535,6 +535,8 @@ public sealed partial class WorldLayout
         if (kind == L52CampusKind.JBarry) kinds.Add(L52BuildingKind.Warehouse);
         kinds.Add(L52BuildingKind.Canteen);
         if (rng.Chance(0.6) || kind == L52CampusKind.MarshallDavid) kinds.Add(L52BuildingKind.Gym);
+        // (Round 3) a lecture theatre, as a university has (the lore's campus "housing a university")
+        if (Hashing.Unit(Hashing.Hash(seed, ci, cj, SaltL52Plan + 1)) < 0.45 || kind == L52CampusKind.MarshallDavid) kinds.Add(L52BuildingKind.Lecture);
         kinds.Add(rng.Chance(kind == L52CampusKind.JTurner ? 0.8 : 0.35) ? L52BuildingKind.Lodging : L52BuildingKind.Teaching);
         if (rng.Chance(0.5)) kinds.Add(L52BuildingKind.Teaching);
         bool pitch = false;
@@ -546,7 +548,7 @@ public sealed partial class WorldLayout
             while (kinds.Count > 0)
             {
                 L52BuildingKind bk = kinds[0];
-                bool hall = bk is L52BuildingKind.Gym or L52BuildingKind.Canteen or L52BuildingKind.Warehouse;
+                bool hall = bk is L52BuildingKind.Gym or L52BuildingKind.Canteen or L52BuildingKind.Warehouse or L52BuildingKind.Lecture;
                 int depth = hall ? Math.Min(room - 6, bk == L52BuildingKind.Gym ? 30 : 26) : L52WingDepth;
                 if (depth < (hall ? 20 : L52WingDepth) || room < depth + 6) { kinds.RemoveAt(0); continue; }
                 int length = hall ? Math.Min(len - at, bk == L52BuildingKind.Gym ? 40 : rng.Range(34, 46)) : Math.Min(len - at, rng.Range(46, 84));
@@ -1028,8 +1030,16 @@ public sealed partial class WorldLayout
         {
             Id = c.Rooms.Count, Building = b.Index, U0 = u0 + 1, V0 = v0 + 1, U1 = alongX && changing ? u1 - 10 : u1 - 1, V1 = !alongX && changing ? v1 - 10 : v1 - 1,
             Number = 1, HasDoor = true,
-            Kind = kind switch { L52BuildingKind.Gym => L52RoomKind.Gym, L52BuildingKind.Canteen => L52RoomKind.Canteen, _ => L52RoomKind.Warehouse },
-            Floor = kind switch { L52BuildingKind.Gym => FloorKind.L52Gym, L52BuildingKind.Canteen => FloorKind.L52Lino, _ => FloorKind.L52Concrete },
+            Kind = kind switch
+            {
+                L52BuildingKind.Gym => L52RoomKind.Gym, L52BuildingKind.Canteen => L52RoomKind.Canteen, L52BuildingKind.Lecture => L52RoomKind.Lecture,
+                _ => L52RoomKind.Warehouse,
+            },
+            Floor = kind switch
+            {
+                L52BuildingKind.Gym => FloorKind.L52Gym, L52BuildingKind.Canteen => FloorKind.L52Lino, L52BuildingKind.Lecture => FloorKind.L52CarpetGrey,
+                _ => FloorKind.L52Concrete,
+            },
             DoorSide = alongX ? ArchPier.North : ArchPier.West,
         };
         room.Area = (room.U1 - room.U0 + 1) * (room.V1 - room.V0 + 1);
@@ -1045,7 +1055,11 @@ public sealed partial class WorldLayout
             }
         // Double doors in the middle of both long sides, and one in each end
         int mu = (u0 + u1) / 2, mv = (v0 + v1) / 2;
-        foreach (var (u, v) in alongX
+        // (A lecture theatre's doors are at the front, by the board, on both long sides: its seats rise behind)
+        if (kind == L52BuildingKind.Lecture) { mu = u0 + 3; mv = v0 + 3; }
+        foreach (var (u, v) in kind == L52BuildingKind.Lecture
+                     ? alongX ? new[] { (mu, v0), (mu + 1, v0), (mu, v1), (mu + 1, v1) } : new[] { (u0, mv), (u0, mv + 1), (u1, mv), (u1, mv + 1) }
+                     : alongX
                      ? new[] { (mu, v0), (mu + 1, v0), (mu, v1), (mu + 1, v1), (u0, mv), (u1, mv) }
                      : new[] { (u0, mv), (u0, mv + 1), (u1, mv), (u1, mv + 1), (mu, v0), (mu, v1) })
         {
@@ -1054,6 +1068,7 @@ public sealed partial class WorldLayout
             t.Zone = (byte)L52Zone.Entrance;
         }
         if (changing) L52LayChanging(c, b, u0, v0, u1, v1, alongX);
+        if (kind == L52BuildingKind.Lecture) L52LayLecture(c, room, alongX);
         L52Windows(c, b);
         if (kind != L52BuildingKind.Gym) return;
         // The court's lines, two in from the walls and across the middle

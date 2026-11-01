@@ -278,6 +278,29 @@ public partial class WorldLayout
             break;
         }
 
+        // A lecture theatre (Marshall David's, or the nearest campus's): from the front, by the board, up its tiers
+        for (int r = 0; r <= 2; r++)
+        {
+            bool found = false;
+            for (int dj = -r; dj <= r && !found; dj++)
+                for (int di = -r; di <= r && !found; di++)
+                {
+                    if (Math.Max(Math.Abs(di), Math.Abs(dj)) != r) continue;
+                    L52Campus c = L52CampusOf(mi + di, mj + dj);
+                    if (c == null) continue;
+                    foreach (L52Room room in c.Rooms)
+                    {
+                        if (room.Kind != L52RoomKind.Lecture) continue;
+                        bool ax = room.DoorSide is ArchPier.North or ArchPier.South;
+                        int su = ax ? room.U0 + 1 : room.U0 + 1, sv = ax ? room.V0 + 1 : room.V0 + 1;
+                        Add(c, "lecture", su, sv, 0, Heading(room.U1 - su, room.V1 - sv), 14);
+                        found = true;
+                        break;
+                    }
+                }
+            if (found) break;
+        }
+
         // The clock tower over its corner of the quad, from the lawn out beyond that corner
         {
             ulong th = Hashing.Hash(seed, head.X0, head.Z0, SaltL52Detail + 3);
