@@ -1278,7 +1278,7 @@
 	"block-l73-sacks-*": "Sacks of Meal",
 	"block-l73-carcass-*": "Heap of the Dead",
 	"block-l73-barrel": "Barrel",
-	"block-l73-cart": "Hand Cart",
+	"block-l73-cart-*": "Hand Cart",
 	"block-l73-gloom": "The Gloom",
 	"block-l73-gloomair": "The Gloom",
 	"block-l73-postern-*": "North Door",
