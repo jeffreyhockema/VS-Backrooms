@@ -67,15 +67,15 @@ public partial class WorldLayout
                 // (clear of the boards and flagpoles that stand on the lawns: nothing fitted within three blocks)
                 bool Open(Tile t) => Outdoors(t);
                 (int U, int V)? spot = null;
-                for (int r = 0; r <= 7 && spot == null; r++)
+                for (int r = 0; r <= 10 && spot == null; r++)
                     for (int dv = -r; dv <= r && spot == null; dv++)
                         for (int du = -r; du <= r && spot == null; du++)
                         {
                             int su = u - 5 + du, sv = v + dir * 10 + dv;
                             if (Math.Max(Math.Abs(du), Math.Abs(dv)) != r || !Free(md, su, sv, Open)) continue;
                             bool clear = true;
-                            for (int k = -3; k <= 3 && clear; k++)
-                                for (int m = -3; m <= 3 && clear; m++)
+                            for (int k = -6; k <= 6 && clear; k++)
+                                for (int m = -6; m <= 6 && clear; m++)
                                     if (md.InGrid(su + k, sv + m) && md.At(su + k, sv + m).Depth == 0 && md.HasFixture[su + k + (sv + m) * md.W]) clear = false;
                             if (clear) spot = (su, sv);
                         }
