@@ -127,6 +127,22 @@ public sealed partial class WorldLayout
         var hollows = L23HollowTrunks();
         if (hollows.Count == 0) return null;
         var h = hollows[(int)(Hashing.Mix(key) % (ulong)hollows.Count)];
+        // The open floor nearest the trunk (round 3 puts arrivals in the open, not nose to the bark; the hollow stays in sight)
+        for (int d = 1; d <= 20; d++)
+        {
+            (int X, int Z)? best = null;
+            int bestSq = int.MaxValue;
+            for (int dz = -d; dz <= d; dz++)
+                for (int dx = -d; dx <= d; dx++)
+                {
+                    if (Math.Abs(dx) != d && Math.Abs(dz) != d) continue;
+                    Tile t = TileAt(h.X + dx, h.Z + dz);
+                    if (t.Level != Level23 || !IsL23ArrivalSpot(t) || dx * dx + dz * dz >= bestSq) continue;
+                    best = (h.X + dx, h.Z + dz);
+                    bestSq = dx * dx + dz * dz;
+                }
+            if (best != null) return best;
+        }
         return FindArrival(Level23, key, t => t.Under == Unders.L23HollowTrunk && t.Level == Level23, near: (MacroOf(h.X), MacroOf(h.Z)));
     }
 

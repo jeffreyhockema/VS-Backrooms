@@ -232,23 +232,38 @@ static partial class LevelModes
         if (well.Under != Unders.L23Well) Bad("the well is not marked");
 
         // The arrival finders
-        int hollowOk = 0, campOk = 0, seaOk = 0, treeOk = 0;
+        int hollowOk = 0, campOk = 0, seaOk = 0, treeOk = 0, hollowFar = 0;
         for (ulong k = 1; k <= 20; k++)
         {
             ulong key = k * 104729UL + 7;
+            // (Round 3 puts them down on the open floor nearest the hollow, no longer nose to the bark)
             if (layout.L23HollowArrival(key) is { } a && layout.TileAt(a.X, a.Z).Zone == WorldLayout.L23Surface
-                && new[] { (1, 0), (-1, 0), (0, 1), (0, -1) }.Any(o => layout.TileAt(a.X + o.Item1, a.Z + o.Item2).Under == Unders.L23HollowTrunk)) hollowOk++;
-            else if (layout.L23HollowArrival(key) is { } miss) Console.WriteLine($"  arrival {miss.X},{miss.Z} not beside a hollow trunk");
+                && HollowWithin(layout, a.X, a.Z, 16) is int d)
+            {
+                hollowOk++;
+                hollowFar = Math.Max(hollowFar, d);
+            }
+            else if (layout.L23HollowArrival(key) is { } miss) Console.WriteLine($"  arrival {miss.X},{miss.Z} not within 16 of a hollow trunk");
             if (layout.L23SeedlingArrival(key) is { } c && layout.TileAt(c.X, c.Z).Zone == WorldLayout.L23Seedling && Dist(c.X, c.Z, s.X, s.Z) < 6) campOk++;
             if (layout.L23SeaArrival(key) is { } e && layout.TileAt(e.X, e.Z) is { Kind: TileKind.Water, Level: 7 }) seaOk++;
             if (home != null && layout.L23SeedlingTreeArrival(key) is { } f && Dist(f.X, f.Z, home.X, home.Z) < home.R + 3) treeOk++;
         }
-        Console.WriteLine($"arrivals (of 20 keys): beside a hollow trunk {hollowOk}, at Seedling's door {campOk}, in Level 7's open sea {seaOk}, beside Seedling's tree in 37 {treeOk}");
-        if (hollowOk < 20) Bad("an arrival not beside a hollow trunk");
+        Console.WriteLine($"arrivals (of 20 keys): within 16 of a hollow trunk {hollowOk} (farthest {hollowFar}), at Seedling's door {campOk}, in Level 7's open sea {seaOk}, beside Seedling's tree in 37 {treeOk}");
+        if (hollowOk < 20) Bad("an arrival not within 16 of a hollow trunk");
         if (campOk < 20) Bad("an arrival not at Base Seedling's door");
         if (seaOk < 20) Bad("an arrival not in the sea");
         if (home != null && treeOk < 20) Bad("an arrival not beside Seedling's tree in 37");
         Console.WriteLine(bad == 0 ? "23links: ok" : $"23links: {bad} problems");
+    }
+
+    /// <summary>How far (in blocks, by the square's ring) the nearest hollow trunk tile is from x, z within r, or null.</summary>
+    static int? HollowWithin(WorldLayout layout, int x, int z, int r)
+    {
+        for (int d = 1; d <= r; d++)
+            for (int dz = -d; dz <= d; dz++)
+                for (int dx = -d; dx <= d; dx++)
+                    if ((Math.Abs(dx) == d || Math.Abs(dz) == d) && layout.TileAt(x + dx, z + dz).Under == Unders.L23HollowTrunk) return d;
+        return null;
     }
 
     static string L23UseKind(Tile t) => null;
