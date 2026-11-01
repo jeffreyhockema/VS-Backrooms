@@ -247,3 +247,27 @@ director's roster (it is the level's only hunter, as the lore says).
   L15 Links + one line in WorldGenerator.L15.cs; mapgen `14links`). Rarities: L0 door 1 Lobby cell in 1000 (outer 2/5), nearest
   0.47 km; L15 door 1 wing in 64; out to 15 / ! 1 wing in 80; collapse to 73 1 wing in 112; none within 200 of the middle.
 - Next (me): showcase spots (WorldLayout.Level14.Showcase.cs, call L14LinkShowcaseSpots), SuburbDoor fix, screenshot cycles.
+
+## 7. Links (built; LINKS.md's Level 14 section)
+
+| From | Threshold | To | Way | Rarity (seed 12345, full size) |
+|---|---|---|---|---|
+| Level 0 | a grey hospital EMERGENCY EXIT door in a Lobby wall (M.E.G. placard beside it from layout 12) | Level 14, a reception room | one way | 1 Lobby cell in 1000, outer two fifths of Level 0, never two within 16 cells; nearest 0.47 km from spawn |
+| Level 15 | a white sliding door marked MEDICAL CENTER in a medical bay's wall | Level 14, a reception room | one way | 1 wing in 64; nearest 550 blocks from 15's middle |
+| Level 14 | a rare futuristic white door in a corridor or hall wall | Level 15, a main hall beside a door that does not open | one way | 1 wing in 80; nearest 278 blocks from the middle |
+| Level 14 | a rare red EXIT door | Level !, a lane's start room | one way | 1 wing in 80; nearest 236 blocks |
+| Level 14 | a sagging patch of floor in a corridor, cracked round it (our invention) | Level 73, out of the sky (8 blocks, never lethal) | one way | 1 wing in 112; nearest 638 blocks |
+
+None within 200 blocks of the middle. `14links` lists them. `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash (v1, v12) = main; with the
+entrances on only levels 1, 2, 6 and 11 move (other experimental levels' entrances; Level 0's sampled cells hold no door).
+
+## 8. Checks (2026-11-01)
+
+expclash clean; mod and mapgen 0 errors; regions 60/60 in reception rooms, no pockets; `14stats 3`: 0 tiles cut off from the
+halls; layouthash as above; headless (43212): a dummy placed in Level 14 (light 9), the Hunter's clock running, 0 error lines;
+the agents' headless runs exercised the Hunter, the Agents, the rules and every way in and out (`/backrooms wayback l14-*`);
+`GATE_TAG=14 python tools/gate.py --fast --port-base 43210`: PASS. Screenshot cycles: four client runs
+(`%TEMP%/backrooms-shots/14-20261101-*`). Fixed after looking: crates drawn under every hanging sign (the sign's index in
+Stack), the Hunter shown off to the side (the yaw convention; now at the spot's own place), windows whose back showed in the
+next room, shared walls losing a padded cell's or a ward's look, a torture chamber with no steady light, halls too bright for
+"shadowy" (42% of hall troffers dead now).
