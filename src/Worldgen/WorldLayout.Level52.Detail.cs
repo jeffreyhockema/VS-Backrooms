@@ -490,18 +490,20 @@ public sealed partial class WorldLayout
                     }
                 // The number at the front of the canopy (its front edge is three out)
                 int n = b.Index % 10, fu = u + ou * 4, fv = v + ov * 4;
-                if (n > 0 && c.InGrid(fu, fv) && c.At(u + ou * 3, v + ov * 3).Overhead == Overheads.L52Canopy && c.At(fu, fv).Depth == 0)
-                    L52Sign(c, fu, fv, $"bnum{n}", e.Pier, L52Storey, L52Storey);
-                if (b.Kind == L52BuildingKind.Warehouse && c.Head.Kind == L52CampusKind.JBarry)
+                bool canopy = c.InGrid(fu, fv) && c.At(u + ou * 3, v + ov * 3).Overhead == Overheads.L52Canopy && c.At(fu, fv).Depth == 0;
+                if (b.Kind == L52BuildingKind.Warehouse && c.Head.Kind == L52CampusKind.JBarry && canopy)
                 {
+                    // COOL MART CO. across the canopy's front, three blocks (over the warehouse's every door)
                     string[] parts = { "cool-l", "cool-m", "cool-r" };
-                    var (lu, lv) = L52Right(u + ou, v + ov, e.Pier, -1);
+                    var (lu, lv) = L52Right(fu, fv, e.Pier, -1);
                     for (int k = 0; k < 3; k++)
                     {
                         var (pu, pv) = L52Right(lu, lv, e.Pier, k);
-                        if (c.InGrid(pu, pv) && c.At(pu, pv).Depth == 0) L52Sign(c, pu, pv, parts[k], e.Pier, L52Storey + 1, L52Storey + 1);
+                        if (c.InGrid(pu, pv) && c.At(pu, pv).Depth == 0) L52Sign(c, pu, pv, parts[k], e.Pier, L52Storey, L52Storey);
                     }
                 }
+                else if (n > 0 && canopy)
+                    L52Sign(c, fu, fv, $"bnum{n}", e.Pier, L52Storey, L52Storey);
             }
     }
 
