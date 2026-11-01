@@ -41,6 +41,7 @@ public sealed partial class WorldGenerator
         l31MediaCab = new int[4], l31Popcorn = new int[4], l31PrizeCase = new int[4], l31PrizeWall = new int[4];
     private readonly int[,] l31Plush = new int[4, 4];
     private int l31Riser;
+    private readonly int[] l31Truss = new int[2];
     private readonly HashSet<string> l31Missing = new();
 
     /// <summary>A block of this mod's, or <paramref name="fallback"/> if it is not there (logged once).</summary>
@@ -202,6 +203,8 @@ public sealed partial class WorldGenerator
             for (int k = 0; k < 4; k++) l31Plush[k, f] = L31Block($"l3999-plush-{plush[k]}-{side}");
         }
         l31Riser = L31Block("l31-riser", l31Maroon);
+        l31Truss[0] = L31Block("l31-truss-we");
+        l31Truss[1] = L31Block("l31-truss-ns");
     }
 
     /// <summary>A wall mount's block at a height over a floor tile (0 where it has nothing there).</summary>
@@ -269,6 +272,8 @@ public sealed partial class WorldGenerator
                 case L31.L31Overhead.DiscoBall: return l31Ball;
                 case L31.L31Overhead.Star: return l31Star;
                 case L31.L31Overhead.Cctv: return l31Cctv[Facing(t.Pier)];
+                case Overheads.L31TrussWE: return l31Truss[0];
+                case Overheads.L31TrussNS: return l31Truss[1];
             }
             if (t.Zone is (byte)Zone.Corridor or (byte)Zone.Hvac)
             {

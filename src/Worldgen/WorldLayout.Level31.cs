@@ -145,7 +145,7 @@ public sealed partial class WorldLayout
         ("name", 5, 1, 0), ("arcbig", 3, 1, 0), ("rules", 2, 2, 3), ("norun", 1, 1, 2), ("session", 2, 1, 4), ("snackwin", 2, 2, 4),
         ("admit", 3, 1, 0), ("mw", 1, 1, 2), ("mirror", 1, 1, 2), ("dryer", 1, 1, 2), ("ext", 1, 1, 2), ("alarm", 1, 1, 2),
         ("poster0", 1, 1, 2), ("poster1", 1, 1, 2), ("poster2", 1, 1, 2), ("poster3", 1, 1, 2), ("nowshow", 1, 2, 3),
-        ("board", 2, 1, 2), ("bigtv", 5, 3, 5),
+        ("board", 2, 1, 2), ("bigtv", 5, 3, 5), ("rev9", 3, 1, 0), ("rev10", 3, 1, 0), ("rev11", 3, 1, 0),
     };
 
     /// <summary>Every column of every mount, by <see cref="Tile.Depth"/>: which mount and which column (0 the viewer's left).</summary>
@@ -190,7 +190,7 @@ public sealed partial class WorldLayout
             int p = pa + i * dp, q = qa + i * dq;
             if (p < -1 || q < -1 || p > L31Size || q > L31Size) return false;
             ref Tile t = ref plan.At(p, q);
-            if (!(t.Kind == TileKind.Floor || doorways && t.Kind == TileKind.Doorway) || L31HasMount(t)) return false;
+            if (!(t.Kind == TileKind.Floor || doorways && (t.Kind == TileKind.Doorway || t.Under == Unders.L31Revolving)) || L31HasMount(t)) return false;
             var (x, z) = plan.World(p, q);
             xmin = Math.Min(xmin, x); xmax = Math.Max(xmax, x); zmin = Math.Min(zmin, z); zmax = Math.Max(zmax, z);
         }
@@ -524,6 +524,15 @@ public sealed partial class WorldLayout
         L31DressWalls(plan);
         // The lobby's wooden door, and now and then a revolving door (WorldLayout.Level31.Links.cs)
         L31LayLinks(plan);
+        // (round 3) Where a revolving door goes, on a screen over it on the hall's side and over it inside the lobby, as
+        // Level 36's gate screens (the door's way is the Links code's, read here)
+        if (plan.At(L31RevolvingP, L31RevolvingQ).Under == Unders.L31Revolving)
+        {
+            var (mx, mz) = plan.World(L31RevolvingP, L31RevolvingQ);
+            string sign = "rev" + L31RevolvingTarget(mx, mz);
+            L31MountRun(plan, L31RevolvingP - 1, L31RevolvingQ, L31RevolvingP + 1, L31RevolvingQ, sign, ArchPier.North, doorways: true);
+            L31MountRun(plan, L31RevolvingP - 1, L31RevolvingQ + 1, L31RevolvingP + 1, L31RevolvingQ + 1, sign, ArchPier.South);
+        }
         return plan;
     }
 
@@ -870,6 +879,11 @@ public sealed partial class WorldLayout
                         var (dp, dq) = At(doorU - 1, len - 1);
                         L31MountRun(plan, dp, dq, dp, dq, "tokens", toFar);
                     }
+                    {
+                        var (na, nq) = At(doorU, len - 1);
+                        var (nb, nr) = At(doorU + 1, len - 1);
+                        L31MountRun(plan, na, nq, nb, nr, "arc", toFar);
+                    }
                     // (the front band's arcade has a second door onto the hall, p 97-99, with its own dispenser, and ARCADE in
                     // neon over it on the hall's side)
                     if (door == ArchPier.South && p0 == 76)
@@ -1203,6 +1217,12 @@ public sealed partial class WorldLayout
         int turn = pc - (o0 + radius);
         plan.At(pc - turn, qc).Overhead = L31Overhead.DiscoBall;
         plan.At(pc + turn, qc).Overhead = L31Overhead.DiscoBall;
+        // Lighting trusses with par cans under the ceiling: one down the middle of the long way, two across it
+        for (int p = o0 + radius - 4; p <= o1 - radius + 4; p++)
+            if (Math.Abs(p - pc) > 1 && Math.Abs(Math.Abs(p - pc) - turn) > 1) plan.At(p, qc).Overhead = Overheads.L31TrussWE;
+        foreach (int p in new[] { pc - 12, pc + 12 })
+            for (int q = qc - (tiny ? 8 : 14); q <= qc + (tiny ? 8 : 14); q++)
+                if (q != qc && plan.At(p, q).Overhead == 0) plan.At(p, q).Overhead = Overheads.L31TrussNS;
         L31MountRun(plan, pc - 2, north, pc + 2, north, "name", toWall);
         L31MountRun(plan, pc - 14, north, pc - 13, north, "rules", toWall);
         L31MountRun(plan, pc + 5, south, pc + 6, south, "session", toRink);

@@ -389,6 +389,19 @@ def bigtv():
     return img
 
 
+def revolving(level, name):
+    """The sign over a revolving door naming where it goes, as Level 36's gate screens: yellow on a dark grey screen."""
+    W, H = 3 * P, P
+    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    d.rounded_rectangle([2, 6, W - 3, H - 7], 4, fill=(26, 27, 30, 255))
+    d.rounded_rectangle([5, 9, W - 6, H - 10], 3, fill=(44, 45, 50, 255))
+    noise(img, 3, level)
+    ctext(d, (8, 9, W - 8, 40), f"TO LV{level}", fit(f"TO LV{level}", BOLD, W - 40, 26), (255, 206, 20, 255))
+    ctext(d, (8, 40, W - 8, H - 11), name, fit(name, BOLD, W - 40, 9), (236, 236, 236, 255))
+    return img
+
+
 def extinguisher_tex():
     img = M.painted_metal(seed=3611, base=(196, 28, 26), panel=False, chips=1)
     return img
@@ -451,6 +464,8 @@ def define():
     sign("nowshow", 1, 2, nowshowing(), glow=150, light=[40, 3, 4], box=(1.5, 1, 14.5, 15))
     sign("board", 2, 1, noticeboard(), box=(0, 1.5, 16, 14.5))
     sign("bigtv", 5, 3, bigtv(), glow=230, light=[30, 3, 9], box=(0, 0.5, 16, 15.75))
+    for lv, nm in ((9, "THE SUBURBS"), (10, "BUMPER CROP"), (11, "THE ENDLESS CITY")):
+        sign(f"rev{lv}", 3, 1, revolving(lv, nm), glow=200, light=[8, 3, 4], box=(0, 1.5, 16, 14.5))
 
 
 def plate_shapes():
@@ -694,8 +709,34 @@ def riser():
     return shape("l31-riser", [el])
 
 
+def truss():
+    """A box truss of aluminium tube along X under the ceiling, with two par cans hanging from it (coloured lenses, lit)."""
+    for n, c in (("lens-pink", (255, 80, 200)), ("lens-cyan", (60, 230, 255)), ("lens-amber", (255, 190, 60)), ("lens-violet", (170, 100, 255))):
+        img = Image.new("RGBA", (S, S), rgba(c))
+        d = ImageDraw.Draw(img)
+        d.ellipse([6, 6, 25, 25], fill=rgba(tuple(min(255, v + 60) for v in c)))
+        d.ellipse([12, 12, 19, 19], fill=(255, 255, 255, 255))
+        save(img, "truss-" + n)
+    els = []
+    for i, (y, z) in enumerate(((12.5, 5.5), (12.5, 10), (15, 7.75))):
+        els.append(B(f"Chord{i}", (0, y, z), (16, y + 0.6, z + 0.6), "plate-chrome"))
+    for x in (0.2, 7.7, 15.2):
+        els.append(B(f"V{x}a", (x, 12.5, 5.5), (x + 0.6, 15.6, 6.1), "plate-chrome"))
+        els.append(B(f"V{x}b", (x, 12.5, 10), (x + 0.6, 15.6, 10.6), "plate-chrome"))
+        els.append(B(f"V{x}c", (x, 12.5, 5.5), (x + 0.6, 13.1, 10.6), "plate-chrome"))
+    for k, (x, lens) in enumerate(((4, "pink"), (12, "cyan"))):
+        els += [B(f"Clamp{k}", (x - 0.4, 11, 7.6), (x + 0.4, 12.5, 8.4), "plate-black"),
+                B(f"Yoke{k}", (x - 1.8, 9.6, 7.7), (x + 1.8, 11, 8.3), "plate-black"),
+                B(f"Can{k}", (x - 1.4, 6.5, 6.6), (x + 1.4, 10.5, 9.4), "plate-black", down=("truss-lens-" + lens, None, 255))]
+    return shape("l31-truss", els)
+
+
 def blocks():
     porcelain()
+    ref = truss()
+    prop_block("l31-truss", "Level 31: a lighting truss of aluminium tube under a rink's ceiling, two coloured par cans hanging from it, along the axis",
+               lambda k: {"base": ref} if k == "we" else {"base": ref, "rotateY": 90}, (0, 0.4, 0.3, 1, 1, 0.7), None,
+               kinds=["we", "ns"], kindgroup="axis", oriented=False, resistance=3, extra={"lightHsv": [50, 3, 9]})
     full = (0, 0, 0, 1, 1, 1)
     ref = stall()
     prop_block("l31-stall", "Level 31: a toilet stall, partitions and a door ajar on short legs (28 units tall), the toilet against the wall; the door faces the side",
