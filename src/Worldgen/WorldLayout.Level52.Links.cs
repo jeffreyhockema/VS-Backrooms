@@ -28,10 +28,10 @@ public sealed partial class WorldLayout
     private const ulong SaltL52School = 0x2380, SaltL52SchoolPick = 0x2381, SaltL52SchoolStyle = 0x2382, SaltL52Exit = 0x2388, SaltL52ExitPick = 0x2389;
 
     /// <summary>
-    /// The share of the city's blocks of lots (midtown and low-rise) that have a high school: about one lot in five hundred of
-    /// those it could be, a walk of a kilometre or more from one to the next.
+    /// The share of the city's blocks of lots (midtown and low-rise) that have a high school: one block in 640 (1 in 80 in the
+    /// links round, schools half a kilometre apart; tuned 2026-11-01 to the other levels' ways, about 1.4 km apart).
     /// </summary>
-    public const double L52SchoolBlockChance = 1 / 80.0;
+    public const double L52SchoolBlockChance = 1 / 640.0;
 
     /// <summary>
     /// The share of Level 4's cells drawn for an EMERGENCY EXIT door (about a third of them have a wall for one: the office is
