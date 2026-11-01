@@ -40,7 +40,7 @@ public sealed partial class WorldGenerator
     private readonly int[,] basementWineIds = new int[2, 4];
     /// <summary>[thing (BasementWallThings), facing]; [hang (line, shirt, sheet, towel, cobweb), facing].</summary>
     private readonly int[,] basementWallThingIds = new int[9, 4], basementOverheadIds = new int[5, 4];
-    private readonly int[] basementPoolLampIds = new int[4];
+    private readonly int[] basementPoolLampIds = new int[4], basementFallenIds = new int[4];
     private static readonly string[] BasementWallThings = { "pegboard-a", "pegboard-b", "fusebox", "conduit", "sign-caution", "sign-head", "sign-water", "calendar", "chute" };
 
     /// <summary>The level's block ids (called from the constructor).</summary>
@@ -124,6 +124,7 @@ public sealed partial class WorldGenerator
             for (int k = 0; k < BasementWallThings.Length; k++) basementWallThingIds[k, f] = Id($"basement-wallthing-{BasementWallThings[k]}-{Sides[f]}");
             for (int k = 0; k < hangs.Length; k++) basementOverheadIds[k, f] = Id($"basement-overhead-{hangs[k]}-{Sides[f]}");
             basementPoolLampIds[f] = Id($"basement-poollamp-{Sides[f]}");
+            basementFallenIds[f] = Id($"basement-fallen-{Sides[f]}");
         }
         // The way in, in other levels (WorldGenerator.Basement.Links.cs)
         InitBasementLinks();
@@ -292,6 +293,7 @@ public sealed partial class WorldGenerator
             Props.BasementBench => basementBenchIds[t.Stack & 1, facing],
             Props.BasementPoolTable => basementPoolIds[t.Stack & 1, facing],
             Props.BasementSump => 0,
+            Props.BasementFallen => basementFallenIds[facing],
             // (A body is an entity, laid down by Regions.BasementSystem; nothing of it is a block)
             Props.BasementBody => 0,
             // (Props of the other levels', reused: Level 0-11's furniture, bones, signs)

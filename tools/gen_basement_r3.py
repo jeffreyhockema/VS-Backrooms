@@ -63,7 +63,8 @@ T = {k: "backrooms:block/basement/" + k for k in (
 T.update({"metal": "backrooms:block/props/metal", "metaldark": "backrooms:block/props/metal-dark",
           "cardboard": "backrooms:block/supplybox-side", "cardboardtop": "backrooms:block/supplybox-top",
           "felt": "backrooms:block/level5/felt", "mahogany": "backrooms:block/level5/mahogany",
-          "brass": "backrooms:block/level5/brass", "redpaint": "backrooms:block/basement/crowbar"})
+          "brass": "backrooms:block/level5/brass", "redpaint": "backrooms:block/basement/crowbar",
+          "lobbycarpet": "backrooms:block/carpet-soaked"})
 
 
 def save(img, name):
@@ -570,6 +571,14 @@ def poollamp():
             b("Rim", (1.75, 1.75, 3.75), (14.25, 2.25, 12.25), "brass")]
 
 
+def fallen():
+    """Under the crack: a broken joist come down with the floor, leaning, and a board across it (each turned about its own
+    middle, so they stand clear of the floor whichever way the turn goes)."""
+    return [b("Joist", (6.5, 10.5, -8), (10, 14.5, 24), "panel", rot=(35, 0, 0), origin=(8, 12.5, 8)),
+            b("Board", (1, 5, 2), (15, 6, 6), "panel", rot=(0, 0, 20), origin=(8, 5.5, 4)),
+            b("Scrap", (2, 0.1, 8), (10, 0.6, 14), "lobbycarpet", rot=(0, 20, 0))]
+
+
 def studs():
     # (Round 3, after the first shots: narrower studs, the batts nearer the faces so they show between them)
     els = [b("Batt", (0, 0, 2.5), (16, 16, 13.5), "insulation")]
@@ -668,6 +677,16 @@ def blocks():
     oriented("basement-poollamp", "Pool table lamp", {(): shape("poollamp", poollamp())},
              "The Basement: the green-shaded lamp hung over the pool table, lit", material="Glass", sounds=METAL, collide=False,
              box=(0.1, 0.3, 0.2, 0.9, 1, 0.8), light={"*": [8, 3, 11]}, drops=[{"type": "item", "code": "glassshard", "quantity": {"avg": 1, "var": 0.5}}])
+    write_json(os.path.join(BLOCKS, "basement-fallen.json"), {
+        "code": "basement-fallen", "variantgroups": [{"code": "side", "states": list(ROT)}],
+        "creativeinventory": {"general": ["*-north"], "decorative": ["*-north"]},
+        "blockmaterial": "Wood", "drawtype": "json",
+        "shapeByType": {f"*-{s}": {"base": shape("fallen", fallen()), "rotateY": r} for s, r in ROT.items()},
+        "collisionbox": None, "selectionbox": {"x1": 0.1, "y1": 0, "z1": 0.1, "x2": 0.9, "y2": 0.9, "z2": 0.9},
+        "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 1, "replaceable": 400,
+        "drops": STICKS, "sounds": WOOD,
+    }, "The Basement: a broken joist and a board come down through the crack with whoever fell, leaning in the rubble")
+    LANG["block-basement-fallen-*"] = "Fallen Joist"
     write_json(os.path.join(BLOCKS, "basement-studs.json"), {
         "code": "basement-studs", "creativeinventory": {"general": ["*"], "construction": ["*"]},
         "blockmaterial": "Wood", "drawtype": "json", "shape": {"base": shape("studs", studs())},

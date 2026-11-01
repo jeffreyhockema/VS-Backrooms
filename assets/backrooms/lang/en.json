@@ -1351,6 +1351,7 @@
 	"block-basement-studs": "Unfinished Stud Wall",
 	"block-basement-earth": "Trodden Earth",
 	"block-basement-rug": "Braided Rug",
+	"block-basement-fallen-*": "Fallen Joist",
 	"blockhelp-basementdoor": "Open / close",
 	"blockhelp-basementdoor-force": "Force it (pry bar in hand)",
 	"basementdoor-jammed": "Swollen shut in its frame. It will not move by hand.",

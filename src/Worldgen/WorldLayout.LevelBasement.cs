@@ -590,6 +590,14 @@ public sealed partial class WorldLayout
         }
         var (rx, rz) = Steps[rng.Range(0, 3)];
         b.At(cx + rx, cz + rz).Overhead = Overheads.BasementRope;
+        // (Round 3) a broken joist that came down with the floor, leaning in the rubble
+        var (jx, jz) = Steps[rng.Range(0, 3)];
+        ref Tile joist = ref b.At(cx + jx, cz + jz);
+        if (joist.Kind == TileKind.Floor && joist.Variant == 0 && joist.Stack == 0)
+        {
+            joist.Variant = Props.BasementFallen;
+            joist.Pier = (ArchPier)rng.Range(0, 3);
+        }
         // The ladder: against the room's wall, in the corner nearest the crack's north-west
         if (!rng.Chance(0.45)) return;
         foreach (var (x, z, away) in new[] { (x0, cz, ArchPier.East), (x1, cz, ArchPier.West), (cx, z0, ArchPier.South), (cx, z1, ArchPier.North) })
@@ -1731,7 +1739,7 @@ public sealed partial class WorldLayout
     /// Which of the level's props (<see cref="Props.BasementFirst"/>-<see cref="Props.BasementLast"/>) people walk through:
     /// the rubble under a crack, the dead, what lies on the floor, and an Escherian stairwell's steps (they climb them).
     /// </summary>
-    private static bool BasementWalkThrough(ushort variant) => variant is Props.BasementDebris or Props.BasementBody or Props.BasementJunk or Props.BasementEscher or Props.BasementSump;
+    private static bool BasementWalkThrough(ushort variant) => variant is Props.BasementDebris or Props.BasementBody or Props.BasementJunk or Props.BasementEscher or Props.BasementSump or Props.BasementFallen;
 
     // ================= Air =================
 
