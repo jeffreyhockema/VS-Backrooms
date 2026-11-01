@@ -1,0 +1,46 @@
+// Level 14's surgery rooms: a surgical light, three lamp heads on arms, hanging in the top block of a room from the ceiling, lit. Walk-through
+{
+	"code": "l14-surglamp",
+	"shape": {
+		"base": "backrooms:block/14/l14-surglamp"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.12,
+		"y1": 0.2,
+		"z1": 0.12,
+		"x2": 0.88,
+		"y2": 1,
+		"z2": 0.88
+	},
+	"drops": [],
+	"lightHsv": [
+		8,
+		0,
+		14
+	]
+}

@@ -1,0 +1,131 @@
+// Level 14's surgery rooms: an anaesthesia machine, its flowmeters and gauges to <side>, the breathing bag and gas cylinders on it
+{
+	"code": "l14-anaesthesia",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "backrooms:block/14/l14-anaesthesia"
+		},
+		"*-east": {
+			"base": "backrooms:block/14/l14-anaesthesia",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "backrooms:block/14/l14-anaesthesia",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "backrooms:block/14/l14-anaesthesia",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 1,
+			"z2": 0.98
+		},
+		"*-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 1,
+			"z2": 0.98,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 1,
+			"z2": 0.98,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 1,
+			"z2": 0.98,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 1,
+			"z2": 0.98
+		},
+		"*-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 1,
+			"z2": 0.98,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 1,
+			"z2": 0.98,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 1,
+			"z2": 0.98,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

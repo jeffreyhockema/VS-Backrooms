@@ -1,0 +1,227 @@
+// Level 14's behaviour unit: a hospital bed with leather restraint straps over the chest, hips and ankles and cuffs on the rails, two blocks as l14-bed
+{
+	"code": "l14-strapbed",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"head",
+				"foot"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-head-north": {
+			"base": "backrooms:block/14/l14-strapbed-head"
+		},
+		"*-head-east": {
+			"base": "backrooms:block/14/l14-strapbed-head",
+			"rotateY": 270
+		},
+		"*-head-south": {
+			"base": "backrooms:block/14/l14-strapbed-head",
+			"rotateY": 180
+		},
+		"*-head-west": {
+			"base": "backrooms:block/14/l14-strapbed-head",
+			"rotateY": 90
+		},
+		"*-foot-north": {
+			"base": "backrooms:block/14/l14-strapbed-foot"
+		},
+		"*-foot-east": {
+			"base": "backrooms:block/14/l14-strapbed-foot",
+			"rotateY": 270
+		},
+		"*-foot-south": {
+			"base": "backrooms:block/14/l14-strapbed-foot",
+			"rotateY": 180
+		},
+		"*-foot-west": {
+			"base": "backrooms:block/14/l14-strapbed-foot",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-head-north"
+		],
+		"backrooms": [
+			"*-head-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxByType": {
+		"*-head-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"*-head-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"*-head-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"*-foot-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-foot-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"*-foot-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-head-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.2,
+			"z2": 1
+		},
+		"*-head-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.2,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.2,
+			"z2": 1
+		},
+		"*-head-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.2,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.0,
+			"z2": 1
+		},
+		"*-foot-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.0,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-foot-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.0,
+			"z2": 1
+		},
+		"*-foot-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.0,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"class": "BackroomsBed",
+	"entityClassByType": {
+		"*-head-*": "BackroomsBed"
+	},
+	"attributes": {
+		"bedFoot": "side",
+		"restQuality": 0.5
+	}
+}

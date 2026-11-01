@@ -1,0 +1,152 @@
+// Level 14's wards: a pale green privacy curtain, drawn, hanging from a ceiling track along the block's <side> edge (upper: the track on drop rods reaching a block up, the mesh band; lower: the curtain to its hem). Walk-through
+{
+	"code": "l14-curtain",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-lower-north": {
+			"base": "backrooms:block/14/l14-curtain-lower"
+		},
+		"*-lower-east": {
+			"base": "backrooms:block/14/l14-curtain-lower",
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"base": "backrooms:block/14/l14-curtain-lower",
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"base": "backrooms:block/14/l14-curtain-lower",
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"base": "backrooms:block/14/l14-curtain-upper"
+		},
+		"*-upper-east": {
+			"base": "backrooms:block/14/l14-curtain-upper",
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"base": "backrooms:block/14/l14-curtain-upper",
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"base": "backrooms:block/14/l14-curtain-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.5,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"*-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.12
+		},
+		"*-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.12,
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.12,
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.12,
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.12
+		},
+		"*-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.12,
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.12,
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.12,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

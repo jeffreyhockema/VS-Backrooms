@@ -1,0 +1,138 @@
+// Level 14's reception rooms: a standard lamp two blocks high (lower: the weighted base and pole; upper: the fabric shade, lit when on)
+{
+	"code": "l14-floorlamp",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "state",
+			"states": [
+				"on",
+				"off"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-lower-on": {
+			"base": "backrooms:block/14/l14-floorlamp-lower-on"
+		},
+		"*-lower-off": {
+			"base": "backrooms:block/14/l14-floorlamp-lower-off"
+		},
+		"*-upper-on": {
+			"base": "backrooms:block/14/l14-floorlamp-upper-on"
+		},
+		"*-upper-off": {
+			"base": "backrooms:block/14/l14-floorlamp-upper-off"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-lower-on",
+			"*-upper-on",
+			"*-upper-off"
+		],
+		"backrooms": [
+			"*-lower-on",
+			"*-upper-on",
+			"*-upper-off"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-lower-on": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"*-lower-off": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"*-upper-on": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 0.82
+		},
+		"*-upper-off": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 0.82
+		}
+	},
+	"selectionboxByType": {
+		"*-lower-on": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"*-lower-off": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"*-upper-on": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 0.82
+		},
+		"*-upper-off": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 0.82
+		}
+	},
+	"drops": [],
+	"lightHsvByType": {
+		"*-upper-on": [
+			7,
+			4,
+			12
+		]
+	}
+}

@@ -1,0 +1,129 @@
+// Level 14's halls: a linen cart of folded sheets and blankets, a laundry sack
+{
+	"code": "l14-linencart",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "backrooms:block/14/l14-linencart"
+		},
+		"*-east": {
+			"base": "backrooms:block/14/l14-linencart",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "backrooms:block/14/l14-linencart",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "backrooms:block/14/l14-linencart",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.85
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.85
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.85
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.85
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

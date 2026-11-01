@@ -1,0 +1,3397 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"p-black": "backrooms:block/14/p-black",
+		"p-blade": "backrooms:block/14/p-blade",
+		"p-brass": "backrooms:block/14/p-brass",
+		"p-chrome": "backrooms:block/14/p-chrome",
+		"p-darksteel": "backrooms:block/14/p-darksteel",
+		"p-glass": "backrooms:block/14/p-glass",
+		"p-glasscrack": "backrooms:block/14/p-glasscrack",
+		"p-knives": "backrooms:block/14/p-knives",
+		"p-rustcab": "backrooms:block/14/p-rustcab"
+	},
+	"elements": [
+		{
+			"name": "Plinth",
+			"from": [
+				1.5,
+				0,
+				3.5
+			],
+			"to": [
+				14.5,
+				1.5,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Floor",
+			"from": [
+				1,
+				1.5,
+				3
+			],
+			"to": [
+				15,
+				2.5,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						14,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						14,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Drawer0",
+			"from": [
+				1.25,
+				2.5,
+				2.5
+			],
+			"to": [
+				14.75,
+				4.15,
+				3.05
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						13.5,
+						1.65
+					]
+				},
+				"east": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.65
+					]
+				},
+				"west": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.65
+					]
+				},
+				"up": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						13.5,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						13.5,
+						0.55
+					]
+				}
+			}
+		},
+		{
+			"name": "Pull0",
+			"from": [
+				6.5,
+				3.025,
+				2
+			],
+			"to": [
+				9.5,
+				3.625,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Drawer1",
+			"from": [
+				1.25,
+				4.35,
+				2.5
+			],
+			"to": [
+				14.75,
+				6.0,
+				3.05
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						13.5,
+						1.65
+					]
+				},
+				"east": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.65
+					]
+				},
+				"west": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.55,
+						1.65
+					]
+				},
+				"up": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						13.5,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						13.5,
+						0.55
+					]
+				}
+			}
+		},
+		{
+			"name": "Pull1",
+			"from": [
+				6.5,
+				4.875,
+				2
+			],
+			"to": [
+				9.5,
+				5.475,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail",
+			"from": [
+				1,
+				6.0,
+				2.5
+			],
+			"to": [
+				15,
+				6.75,
+				3.05
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						14,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.55,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.55,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						14,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						14,
+						0.55
+					]
+				}
+			}
+		},
+		{
+			"name": "SideW",
+			"from": [
+				1,
+				1.5,
+				3
+			],
+			"to": [
+				1.75,
+				16,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.75,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						12,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.75,
+						14.5
+					]
+				},
+				"west": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						12,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "SideE",
+			"from": [
+				14.25,
+				1.5,
+				3
+			],
+			"to": [
+				15,
+				16,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.75,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						12,
+						14.5
+					]
+				},
+				"south": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.75,
+						14.5
+					]
+				},
+				"west": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						12,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				1.75,
+				2.5,
+				14.25
+			],
+			"to": [
+				14.25,
+				16,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-knives",
+					"uv": [
+						0,
+						0,
+						12.5,
+						13.5
+					]
+				},
+				"south": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						12.5,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0Bar",
+			"from": [
+				2,
+				10.0,
+				13.25
+			],
+			"to": [
+				14,
+				10.75,
+				14.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						12,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						12,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0H0",
+			"from": [
+				2.45,
+				10.25,
+				12.9
+			],
+			"to": [
+				3.05,
+				11.35,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0B0",
+			"from": [
+				2.4,
+				7.5,
+				12.95
+			],
+			"to": [
+				3.1,
+				10.25,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0H1",
+			"from": [
+				3.95,
+				10.25,
+				12.9
+			],
+			"to": [
+				4.55,
+				11.35,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0B1",
+			"from": [
+				4.05,
+				8.75,
+				12.95
+			],
+			"to": [
+				4.45,
+				10.25,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0H2",
+			"from": [
+				5.2,
+				10.25,
+				12.9
+			],
+			"to": [
+				5.8,
+				11.35,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0B2",
+			"from": [
+				5.15,
+				7.5,
+				12.95
+			],
+			"to": [
+				5.85,
+				10.25,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0H3",
+			"from": [
+				6.7,
+				10.25,
+				12.9
+			],
+			"to": [
+				7.3,
+				11.35,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0B3",
+			"from": [
+				6.65,
+				7.5,
+				12.95
+			],
+			"to": [
+				7.35,
+				10.25,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0H4",
+			"from": [
+				8.7,
+				10.25,
+				12.9
+			],
+			"to": [
+				9.3,
+				11.35,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0B4",
+			"from": [
+				8.8,
+				8.75,
+				12.95
+			],
+			"to": [
+				9.2,
+				10.25,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0H5",
+			"from": [
+				10.2,
+				10.25,
+				12.9
+			],
+			"to": [
+				10.8,
+				11.35,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0B5",
+			"from": [
+				10.15,
+				7.5,
+				12.95
+			],
+			"to": [
+				10.85,
+				10.25,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0H6",
+			"from": [
+				11.7,
+				10.25,
+				12.9
+			],
+			"to": [
+				12.3,
+				11.35,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0B6",
+			"from": [
+				11.65,
+				7.5,
+				12.95
+			],
+			"to": [
+				12.35,
+				10.25,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0H7",
+			"from": [
+				12.95,
+				10.25,
+				12.9
+			],
+			"to": [
+				13.55,
+				11.35,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives0B7",
+			"from": [
+				13.05,
+				8.75,
+				12.95
+			],
+			"to": [
+				13.45,
+				10.25,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf1",
+			"from": [
+				1.75,
+				11.1,
+				3.5
+			],
+			"to": [
+				14.25,
+				11.5,
+				14.25
+			],
+			"faces": {
+				"up": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						12.5,
+						10.75
+					]
+				},
+				"down": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						12.5,
+						10.75
+					]
+				},
+				"north": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1Bar",
+			"from": [
+				2,
+				14.75,
+				13.25
+			],
+			"to": [
+				14,
+				15.5,
+				14.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						12,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						12,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1H0",
+			"from": [
+				2.45,
+				15.0,
+				12.9
+			],
+			"to": [
+				3.05,
+				16.1,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1B0",
+			"from": [
+				2.4,
+				12.25,
+				12.95
+			],
+			"to": [
+				3.1,
+				15.0,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1H1",
+			"from": [
+				3.95,
+				15.0,
+				12.9
+			],
+			"to": [
+				4.55,
+				16.1,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1B1",
+			"from": [
+				4.05,
+				13.5,
+				12.95
+			],
+			"to": [
+				4.45,
+				15.0,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1H2",
+			"from": [
+				5.2,
+				15.0,
+				12.9
+			],
+			"to": [
+				5.8,
+				16.1,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1B2",
+			"from": [
+				5.15,
+				12.25,
+				12.95
+			],
+			"to": [
+				5.85,
+				15.0,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1H3",
+			"from": [
+				6.7,
+				15.0,
+				12.9
+			],
+			"to": [
+				7.3,
+				16.1,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1B3",
+			"from": [
+				6.65,
+				12.25,
+				12.95
+			],
+			"to": [
+				7.35,
+				15.0,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1H4",
+			"from": [
+				8.7,
+				15.0,
+				12.9
+			],
+			"to": [
+				9.3,
+				16.1,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1B4",
+			"from": [
+				8.8,
+				13.5,
+				12.95
+			],
+			"to": [
+				9.2,
+				15.0,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1H5",
+			"from": [
+				10.2,
+				15.0,
+				12.9
+			],
+			"to": [
+				10.8,
+				16.1,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1B5",
+			"from": [
+				10.15,
+				12.25,
+				12.95
+			],
+			"to": [
+				10.85,
+				15.0,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1H6",
+			"from": [
+				11.7,
+				15.0,
+				12.9
+			],
+			"to": [
+				12.3,
+				16.1,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1B6",
+			"from": [
+				11.65,
+				12.25,
+				12.95
+			],
+			"to": [
+				12.35,
+				15.0,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2.75
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.75
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1H7",
+			"from": [
+				12.95,
+				15.0,
+				12.9
+			],
+			"to": [
+				13.55,
+				16.1,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Knives1B7",
+			"from": [
+				13.05,
+				13.5,
+				12.95
+			],
+			"to": [
+				13.45,
+				15.0,
+				13.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-blade",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileW",
+			"from": [
+				1,
+				6.75,
+				2.5
+			],
+			"to": [
+				2,
+				16,
+				3.05
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						1,
+						9.25
+					]
+				},
+				"east": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.55,
+						9.25
+					]
+				},
+				"west": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.55,
+						9.25
+					]
+				},
+				"up": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						1,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						1,
+						0.55
+					]
+				}
+			}
+		},
+		{
+			"name": "StileE",
+			"from": [
+				14,
+				6.75,
+				2.5
+			],
+			"to": [
+				15,
+				16,
+				3.05
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						1,
+						9.25
+					]
+				},
+				"east": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.55,
+						9.25
+					]
+				},
+				"west": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.55,
+						9.25
+					]
+				},
+				"up": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						1,
+						0.55
+					]
+				},
+				"down": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						1,
+						0.55
+					]
+				}
+			}
+		},
+		{
+			"name": "StileMid",
+			"from": [
+				7.6,
+				6.75,
+				2.45
+			],
+			"to": [
+				8.4,
+				16,
+				3.05
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.8,
+						9.25
+					]
+				},
+				"east": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.6,
+						9.25
+					]
+				},
+				"west": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.6,
+						9.25
+					]
+				},
+				"up": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#p-rustcab",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass0",
+			"from": [
+				2,
+				6.75,
+				2.7
+			],
+			"to": [
+				7.6,
+				16,
+				2.85
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-glass",
+					"uv": [
+						0,
+						0,
+						5.6,
+						9.25
+					]
+				},
+				"south": {
+					"texture": "#p-glass",
+					"uv": [
+						0,
+						0,
+						5.6,
+						9.25
+					]
+				}
+			},
+			"renderPass": 3
+		},
+		{
+			"name": "Glass1",
+			"from": [
+				8.4,
+				6.75,
+				2.7
+			],
+			"to": [
+				14,
+				16,
+				2.85
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-glasscrack",
+					"uv": [
+						0,
+						0,
+						5.6,
+						9.25
+					]
+				},
+				"south": {
+					"texture": "#p-glasscrack",
+					"uv": [
+						0,
+						0,
+						5.6,
+						9.25
+					]
+				}
+			},
+			"renderPass": 3
+		},
+		{
+			"name": "HandleA",
+			"from": [
+				6.9,
+				8.5,
+				2
+			],
+			"to": [
+				7.3,
+				11.5,
+				2.45
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"east": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"south": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"up": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HandleB",
+			"from": [
+				8.7,
+				8.5,
+				2
+			],
+			"to": [
+				9.1,
+				11.5,
+				2.45
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"east": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"south": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.0
+					]
+				},
+				"up": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lock",
+			"from": [
+				7.65,
+				10,
+				2.3
+			],
+			"to": [
+				8.35,
+				10.7,
+				2.45
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-brass",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#p-brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"south": {
+					"texture": "#p-brass",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#p-brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#p-brass",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-brass",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

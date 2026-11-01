@@ -1,0 +1,96 @@
+// Level 14's M.E.G. placard: LEVEL 14, CLASS 4, SOMETHING HUNTS HERE., DO NOT MEET ITS EYES (flush on the wall behind it, its face toward its side)
+{
+	"code": "l14-placard",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "backrooms:block/14/l14-placard",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "backrooms:block/14/l14-placard",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "backrooms:block/14/l14-placard",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "backrooms:block/14/l14-placard",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"collisionbox": null,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.94,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.94,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.94,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0.25,
+			"z1": 0.94,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"resistance": 1.5,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

@@ -1,0 +1,154 @@
+// Level 14: a T.14.R.G. supply crate, stencilled, from the colony's stockpile
+{
+	"code": "l14-crate",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "backrooms:block/14/l14-crate"
+		},
+		"*-east": {
+			"base": "backrooms:block/14/l14-crate",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "backrooms:block/14/l14-crate",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "backrooms:block/14/l14-crate",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.91
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.91,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.91
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.91,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.91
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.91,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.91
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.09,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.91,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "backrooms:crackers",
+			"quantity": {
+				"avg": 1,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "backrooms:almondwater",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.6
+			}
+		},
+		{
+			"type": "item",
+			"code": "game:bandage-clean",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	]
+}

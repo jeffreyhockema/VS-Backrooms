@@ -1,0 +1,99 @@
+// Level 14: the foot of a hall wall (the wainscot, or the white units' foot) with a handrail on brackets and a bumper strip proud of its face, toward its side
+{
+	"code": "l14-rail",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"paint",
+				"white"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-paint-north": {
+			"base": "backrooms:block/14/l14-rail-paint",
+			"rotateY": 0
+		},
+		"*-paint-east": {
+			"base": "backrooms:block/14/l14-rail-paint",
+			"rotateY": 270
+		},
+		"*-paint-south": {
+			"base": "backrooms:block/14/l14-rail-paint",
+			"rotateY": 180
+		},
+		"*-paint-west": {
+			"base": "backrooms:block/14/l14-rail-paint",
+			"rotateY": 90
+		},
+		"*-white-north": {
+			"base": "backrooms:block/14/l14-rail-white",
+			"rotateY": 0
+		},
+		"*-white-east": {
+			"base": "backrooms:block/14/l14-rail-white",
+			"rotateY": 270
+		},
+		"*-white-south": {
+			"base": "backrooms:block/14/l14-rail-white",
+			"rotateY": 180
+		},
+		"*-white-west": {
+			"base": "backrooms:block/14/l14-rail-white",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-paint-north",
+			"*-white-north"
+		],
+		"backrooms": [
+			"*-paint-north",
+			"*-white-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

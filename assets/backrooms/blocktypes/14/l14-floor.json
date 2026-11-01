@@ -1,0 +1,230 @@
+// Level 14: the halls' sheet vinyl (worn; the darker band by the walls), the inpatient units' white, the maternity units' pink, the theatres' epoxy, the reception's terrazzo, concrete, white marble (shattered), blood, mould, a contaminated stain (glowing faintly), cracked (the warning), sagging (giving way: sunk, black in its gaps), the red way line and its arrows
+{
+	"code": "l14-floor",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"vinyl",
+				"vinylworn",
+				"vinylborder",
+				"white",
+				"pink",
+				"theatre",
+				"terrazzo",
+				"concrete",
+				"marble",
+				"marbleshattered",
+				"blood",
+				"mould",
+				"contam",
+				"cracked",
+				"sagging",
+				"line-ns",
+				"line-we",
+				"arrow-n",
+				"arrow-e",
+				"arrow-s",
+				"arrow-w"
+			]
+		}
+	],
+	"drawtypeByType": {
+		"*-sagging": "json",
+		"*": "cube"
+	},
+	"shapeByType": {
+		"*-sagging": {
+			"base": "backrooms:block/14/l14-floor-sagging"
+		}
+	},
+	"texturesByType": {
+		"*-vinyl": {
+			"all": {
+				"base": "block/14/floor-vinyl"
+			}
+		},
+		"*-vinylworn": {
+			"all": {
+				"base": "block/14/floor-vinylworn"
+			}
+		},
+		"*-vinylborder": {
+			"all": {
+				"base": "block/14/floor-vinylborder"
+			}
+		},
+		"*-white": {
+			"all": {
+				"base": "block/14/floor-white"
+			}
+		},
+		"*-pink": {
+			"all": {
+				"base": "block/14/floor-pink"
+			}
+		},
+		"*-theatre": {
+			"all": {
+				"base": "block/14/floor-theatre"
+			}
+		},
+		"*-terrazzo": {
+			"all": {
+				"base": "block/14/floor-terrazzo"
+			}
+		},
+		"*-concrete": {
+			"all": {
+				"base": "block/14/floor-concrete"
+			}
+		},
+		"*-marble": {
+			"all": {
+				"base": "block/14/floor-marble"
+			}
+		},
+		"*-marbleshattered": {
+			"all": {
+				"base": "block/14/floor-marbleshattered"
+			}
+		},
+		"*-blood": {
+			"all": {
+				"base": "block/14/floor-blood"
+			}
+		},
+		"*-mould": {
+			"all": {
+				"base": "block/14/floor-mould"
+			}
+		},
+		"*-contam": {
+			"all": {
+				"base": "block/14/floor-contam"
+			}
+		},
+		"*-cracked": {
+			"all": {
+				"base": "block/14/floor-cracked"
+			}
+		},
+		"*-line-ns": {
+			"all": {
+				"base": "block/14/floor-line-ns"
+			}
+		},
+		"*-line-we": {
+			"all": {
+				"base": "block/14/floor-line-we"
+			}
+		},
+		"*-arrow-n": {
+			"all": {
+				"base": "block/14/floor-arrow-n"
+			}
+		},
+		"*-arrow-e": {
+			"all": {
+				"base": "block/14/floor-arrow-e"
+			}
+		},
+		"*-arrow-s": {
+			"all": {
+				"base": "block/14/floor-arrow-s"
+			}
+		},
+		"*-arrow-w": {
+			"all": {
+				"base": "block/14/floor-arrow-w"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"sidesolidByType": {
+		"*-sagging": {
+			"all": false,
+			"down": true
+		},
+		"*": {
+			"all": true
+		}
+	},
+	"sideopaqueByType": {
+		"*-sagging": {
+			"all": false,
+			"down": true
+		},
+		"*": {
+			"all": true
+		}
+	},
+	"collisionboxByType": {
+		"*-sagging": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.8125,
+			"z2": 1
+		},
+		"*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"selectionboxByType": {
+		"*-sagging": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"lightAbsorptionByType": {
+		"*-contam": 0,
+		"*": 99
+	},
+	"lightHsvByType": {
+		"*-contam": [
+			16,
+			6,
+			3
+		]
+	},
+	"vertexFlagsByType": {
+		"*-contam": {
+			"glowLevel": 50
+		}
+	},
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

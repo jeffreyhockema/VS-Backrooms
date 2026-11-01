@@ -1,0 +1,219 @@
+// Level 14's torture chambers: rusted stretchers stacked atop each other, askew, a block and a half high (lower, upper)
+{
+	"code": "l14-stretchers",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-lower-north": {
+			"base": "backrooms:block/14/l14-stretchers-lower"
+		},
+		"*-lower-east": {
+			"base": "backrooms:block/14/l14-stretchers-lower",
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"base": "backrooms:block/14/l14-stretchers-lower",
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"base": "backrooms:block/14/l14-stretchers-lower",
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"base": "backrooms:block/14/l14-stretchers-upper"
+		},
+		"*-upper-east": {
+			"base": "backrooms:block/14/l14-stretchers-upper",
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"base": "backrooms:block/14/l14-stretchers-upper",
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"base": "backrooms:block/14/l14-stretchers-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-lower-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-lower-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-lower-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.6,
+			"z2": 1
+		},
+		"*-upper-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.6,
+			"z2": 1
+		},
+		"*-upper-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-lower-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-lower-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-lower-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.6,
+			"z2": 1
+		},
+		"*-upper-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.6,
+			"z2": 1
+		},
+		"*-upper-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

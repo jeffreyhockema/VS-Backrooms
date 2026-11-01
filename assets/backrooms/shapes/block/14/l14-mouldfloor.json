@@ -1,0 +1,334 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"p-mould": "backrooms:block/14/p-mould",
+		"p-mouldfloor": "backrooms:block/14/p-mouldfloor"
+	},
+	"elements": [
+		{
+			"name": "Layer",
+			"from": [
+				0,
+				0.02,
+				0
+			],
+			"to": [
+				16,
+				0.3,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#p-mouldfloor",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Clump0",
+			"from": [
+				1.75,
+				0.2,
+				2.75
+			],
+			"to": [
+				4.25,
+				1.1,
+				5.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.9
+					]
+				},
+				"south": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Clump1",
+			"from": [
+				8.5,
+				0.2,
+				4.5
+			],
+			"to": [
+				11.5,
+				1.4,
+				7.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Clump2",
+			"from": [
+				5.0,
+				0.2,
+				10.0
+			],
+			"to": [
+				7.0,
+				0.9,
+				12.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.7
+					]
+				},
+				"south": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Clump3",
+			"from": [
+				11.75,
+				0.2,
+				11.75
+			],
+			"to": [
+				14.25,
+				1.2,
+				14.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Clump4",
+			"from": [
+				11.25,
+				0.2,
+				1.25
+			],
+			"to": [
+				12.75,
+				0.8,
+				2.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#p-mould",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

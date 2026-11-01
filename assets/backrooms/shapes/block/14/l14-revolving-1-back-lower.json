@@ -1,0 +1,459 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"rev-black": "backrooms:block/14/rev-black",
+		"rev-bronze": "backrooms:block/14/rev-bronze",
+		"rev-dark": "backrooms:block/14/rev-dark",
+		"rev-floor": "backrooms:block/14/rev-floor"
+	},
+	"elements": [
+		{
+			"name": "Wing1",
+			"from": [
+				7.75,
+				3,
+				1.3
+			],
+			"to": [
+				8.25,
+				16,
+				14.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						9.0667,
+						0.5,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#rev-dark",
+					"uv": [
+						0,
+						9.0667,
+						13.5,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						9.0667,
+						0.5,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#rev-dark",
+					"uv": [
+						0,
+						9.0667,
+						13.5,
+						16.0
+					]
+				},
+				"down": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				3,
+				0.0
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "WingKick1",
+			"from": [
+				7.55,
+				0,
+				1.3
+			],
+			"to": [
+				8.45,
+				3,
+				14.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						0.9,
+						3.0
+					]
+				},
+				"east": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						13.5,
+						3.0
+					]
+				},
+				"south": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						0.9,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						13.5,
+						3.0
+					]
+				},
+				"up": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0,
+						0.9,
+						13.5
+					]
+				},
+				"down": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0,
+						0.9,
+						13.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				0,
+				0.0
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Wing2",
+			"from": [
+				7.75,
+				3,
+				1.3
+			],
+			"to": [
+				8.25,
+				16,
+				14.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						9.0667,
+						0.5,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#rev-dark",
+					"uv": [
+						0,
+						9.0667,
+						13.5,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						9.0667,
+						0.5,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#rev-dark",
+					"uv": [
+						0,
+						9.0667,
+						13.5,
+						16.0
+					]
+				},
+				"down": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				3,
+				0.0
+			],
+			"rotationY": -45
+		},
+		{
+			"name": "WingKick2",
+			"from": [
+				7.55,
+				0,
+				1.3
+			],
+			"to": [
+				8.45,
+				3,
+				14.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						0.9,
+						3.0
+					]
+				},
+				"east": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						13.5,
+						3.0
+					]
+				},
+				"south": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						0.9,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						13.5,
+						3.0
+					]
+				},
+				"up": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0,
+						0.9,
+						13.5
+					]
+				},
+				"down": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0,
+						0.9,
+						13.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				0,
+				0.0
+			],
+			"rotationY": -45
+		},
+		{
+			"name": "Post",
+			"from": [
+				6.7,
+				0,
+				0
+			],
+			"to": [
+				9.3,
+				16,
+				1.3
+			],
+			"faces": {
+				"east": {
+					"texture": "#rev-bronze",
+					"uv": [
+						14.7,
+						0.0,
+						16.0,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#rev-bronze",
+					"uv": [
+						6.7,
+						0.0,
+						9.3,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0.0,
+						0.0,
+						1.3,
+						16.0
+					]
+				},
+				"down": {
+					"texture": "#rev-bronze",
+					"uv": [
+						6.7,
+						14.7,
+						9.3,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "PostB",
+			"from": [
+				6.7,
+				0.01,
+				-1.3
+			],
+			"to": [
+				9.3,
+				16,
+				1.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						8.8894,
+						2.6,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						8.8894,
+						2.6,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						8.8894,
+						2.6,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						8.8894,
+						2.6,
+						16.0
+					]
+				},
+				"down": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0,
+						2.6,
+						2.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				0,
+				0.0
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Mat",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				0.3,
+				11.3
+			],
+			"faces": {
+				"up": {
+					"texture": "#rev-floor",
+					"uv": [
+						0.0,
+						0.0,
+						16.0,
+						11.3
+					]
+				}
+			}
+		},
+		{
+			"name": "Beyond",
+			"from": [
+				0,
+				0,
+				13.6
+			],
+			"to": [
+				16,
+				16,
+				14.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#rev-black",
+					"uv": [
+						0.0,
+						0.0,
+						16.0,
+						16.0
+					]
+				}
+			}
+		}
+	]
+}

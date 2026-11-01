@@ -1,0 +1,503 @@
+// Level 14: a hospital room door (closed, open, locked; hinged on the left or right as seen from the side its leaf is toward; lower, upper): pale laminate, a kick plate, a narrow wire-glass vision panel with dark behind it, a lever handle. Right-click opens or shuts it; a locked one stays shut
+{
+	"code": "l14-door",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"closed",
+				"open",
+				"locked"
+			]
+		},
+		{
+			"code": "hinge",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-closed-l-lower-north"
+		],
+		"backrooms": [
+			"*-closed-l-lower-north"
+		]
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsSuburbDoor"
+		}
+	],
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-closed-l-lower-north": {
+			"base": "backrooms:block/14/l14-door-closed-l-lower",
+			"rotateY": 0
+		},
+		"*-closed-l-lower-east": {
+			"base": "backrooms:block/14/l14-door-closed-l-lower",
+			"rotateY": 270
+		},
+		"*-closed-l-lower-south": {
+			"base": "backrooms:block/14/l14-door-closed-l-lower",
+			"rotateY": 180
+		},
+		"*-closed-l-lower-west": {
+			"base": "backrooms:block/14/l14-door-closed-l-lower",
+			"rotateY": 90
+		},
+		"*-closed-l-upper-north": {
+			"base": "backrooms:block/14/l14-door-closed-l-upper",
+			"rotateY": 0
+		},
+		"*-closed-l-upper-east": {
+			"base": "backrooms:block/14/l14-door-closed-l-upper",
+			"rotateY": 270
+		},
+		"*-closed-l-upper-south": {
+			"base": "backrooms:block/14/l14-door-closed-l-upper",
+			"rotateY": 180
+		},
+		"*-closed-l-upper-west": {
+			"base": "backrooms:block/14/l14-door-closed-l-upper",
+			"rotateY": 90
+		},
+		"*-closed-r-lower-north": {
+			"base": "backrooms:block/14/l14-door-closed-r-lower",
+			"rotateY": 0
+		},
+		"*-closed-r-lower-east": {
+			"base": "backrooms:block/14/l14-door-closed-r-lower",
+			"rotateY": 270
+		},
+		"*-closed-r-lower-south": {
+			"base": "backrooms:block/14/l14-door-closed-r-lower",
+			"rotateY": 180
+		},
+		"*-closed-r-lower-west": {
+			"base": "backrooms:block/14/l14-door-closed-r-lower",
+			"rotateY": 90
+		},
+		"*-closed-r-upper-north": {
+			"base": "backrooms:block/14/l14-door-closed-r-upper",
+			"rotateY": 0
+		},
+		"*-closed-r-upper-east": {
+			"base": "backrooms:block/14/l14-door-closed-r-upper",
+			"rotateY": 270
+		},
+		"*-closed-r-upper-south": {
+			"base": "backrooms:block/14/l14-door-closed-r-upper",
+			"rotateY": 180
+		},
+		"*-closed-r-upper-west": {
+			"base": "backrooms:block/14/l14-door-closed-r-upper",
+			"rotateY": 90
+		},
+		"*-open-l-lower-north": {
+			"base": "backrooms:block/14/l14-door-open-l-lower",
+			"rotateY": 0
+		},
+		"*-open-l-lower-east": {
+			"base": "backrooms:block/14/l14-door-open-l-lower",
+			"rotateY": 270
+		},
+		"*-open-l-lower-south": {
+			"base": "backrooms:block/14/l14-door-open-l-lower",
+			"rotateY": 180
+		},
+		"*-open-l-lower-west": {
+			"base": "backrooms:block/14/l14-door-open-l-lower",
+			"rotateY": 90
+		},
+		"*-open-l-upper-north": {
+			"base": "backrooms:block/14/l14-door-open-l-upper",
+			"rotateY": 0
+		},
+		"*-open-l-upper-east": {
+			"base": "backrooms:block/14/l14-door-open-l-upper",
+			"rotateY": 270
+		},
+		"*-open-l-upper-south": {
+			"base": "backrooms:block/14/l14-door-open-l-upper",
+			"rotateY": 180
+		},
+		"*-open-l-upper-west": {
+			"base": "backrooms:block/14/l14-door-open-l-upper",
+			"rotateY": 90
+		},
+		"*-open-r-lower-north": {
+			"base": "backrooms:block/14/l14-door-open-r-lower",
+			"rotateY": 0
+		},
+		"*-open-r-lower-east": {
+			"base": "backrooms:block/14/l14-door-open-r-lower",
+			"rotateY": 270
+		},
+		"*-open-r-lower-south": {
+			"base": "backrooms:block/14/l14-door-open-r-lower",
+			"rotateY": 180
+		},
+		"*-open-r-lower-west": {
+			"base": "backrooms:block/14/l14-door-open-r-lower",
+			"rotateY": 90
+		},
+		"*-open-r-upper-north": {
+			"base": "backrooms:block/14/l14-door-open-r-upper",
+			"rotateY": 0
+		},
+		"*-open-r-upper-east": {
+			"base": "backrooms:block/14/l14-door-open-r-upper",
+			"rotateY": 270
+		},
+		"*-open-r-upper-south": {
+			"base": "backrooms:block/14/l14-door-open-r-upper",
+			"rotateY": 180
+		},
+		"*-open-r-upper-west": {
+			"base": "backrooms:block/14/l14-door-open-r-upper",
+			"rotateY": 90
+		},
+		"*-locked-l-lower-north": {
+			"base": "backrooms:block/14/l14-door-closed-l-lower",
+			"rotateY": 0
+		},
+		"*-locked-l-lower-east": {
+			"base": "backrooms:block/14/l14-door-closed-l-lower",
+			"rotateY": 270
+		},
+		"*-locked-l-lower-south": {
+			"base": "backrooms:block/14/l14-door-closed-l-lower",
+			"rotateY": 180
+		},
+		"*-locked-l-lower-west": {
+			"base": "backrooms:block/14/l14-door-closed-l-lower",
+			"rotateY": 90
+		},
+		"*-locked-l-upper-north": {
+			"base": "backrooms:block/14/l14-door-closed-l-upper",
+			"rotateY": 0
+		},
+		"*-locked-l-upper-east": {
+			"base": "backrooms:block/14/l14-door-closed-l-upper",
+			"rotateY": 270
+		},
+		"*-locked-l-upper-south": {
+			"base": "backrooms:block/14/l14-door-closed-l-upper",
+			"rotateY": 180
+		},
+		"*-locked-l-upper-west": {
+			"base": "backrooms:block/14/l14-door-closed-l-upper",
+			"rotateY": 90
+		},
+		"*-locked-r-lower-north": {
+			"base": "backrooms:block/14/l14-door-closed-r-lower",
+			"rotateY": 0
+		},
+		"*-locked-r-lower-east": {
+			"base": "backrooms:block/14/l14-door-closed-r-lower",
+			"rotateY": 270
+		},
+		"*-locked-r-lower-south": {
+			"base": "backrooms:block/14/l14-door-closed-r-lower",
+			"rotateY": 180
+		},
+		"*-locked-r-lower-west": {
+			"base": "backrooms:block/14/l14-door-closed-r-lower",
+			"rotateY": 90
+		},
+		"*-locked-r-upper-north": {
+			"base": "backrooms:block/14/l14-door-closed-r-upper",
+			"rotateY": 0
+		},
+		"*-locked-r-upper-east": {
+			"base": "backrooms:block/14/l14-door-closed-r-upper",
+			"rotateY": 270
+		},
+		"*-locked-r-upper-south": {
+			"base": "backrooms:block/14/l14-door-closed-r-upper",
+			"rotateY": 180
+		},
+		"*-locked-r-upper-west": {
+			"base": "backrooms:block/14/l14-door-closed-r-upper",
+			"rotateY": 90
+		}
+	},
+	"collisionSelectionBoxesByType": {
+		"*-closed-l-*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.1719
+			}
+		],
+		"*-closed-l-*-east": [
+			{
+				"x1": 0.8281,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-closed-l-*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.8281,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.9375
+			}
+		],
+		"*-closed-l-*-west": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.1719,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-closed-r-*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.1719
+			}
+		],
+		"*-closed-r-*-east": [
+			{
+				"x1": 0.8281,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-closed-r-*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.8281,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.9375
+			}
+		],
+		"*-closed-r-*-west": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.1719,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-open-l-*-north": [
+			{
+				"x1": 0.8063,
+				"y1": 0,
+				"z1": 0.1656,
+				"x2": 0.9156,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-open-l-*-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.8063,
+				"x2": 0.8344,
+				"y2": 1,
+				"z2": 0.9156
+			}
+		],
+		"*-open-l-*-south": [
+			{
+				"x1": 0.0844,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.1937,
+				"y2": 1,
+				"z2": 0.8344
+			}
+		],
+		"*-open-l-*-west": [
+			{
+				"x1": 0.1656,
+				"y1": 0,
+				"z1": 0.0844,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.1937
+			}
+		],
+		"*-open-r-*-north": [
+			{
+				"x1": 0.0844,
+				"y1": 0,
+				"z1": 0.1656,
+				"x2": 0.1938,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-open-r-*-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0844,
+				"x2": 0.8344,
+				"y2": 1,
+				"z2": 0.1938
+			}
+		],
+		"*-open-r-*-south": [
+			{
+				"x1": 0.8063,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.9156,
+				"y2": 1,
+				"z2": 0.8344
+			}
+		],
+		"*-open-r-*-west": [
+			{
+				"x1": 0.1656,
+				"y1": 0,
+				"z1": 0.8063,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.9156
+			}
+		],
+		"*-locked-l-*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.1719
+			}
+		],
+		"*-locked-l-*-east": [
+			{
+				"x1": 0.8281,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-locked-l-*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.8281,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.9375
+			}
+		],
+		"*-locked-l-*-west": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.1719,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-locked-r-*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.1719
+			}
+		],
+		"*-locked-r-*-east": [
+			{
+				"x1": 0.8281,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-locked-r-*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.8281,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.9375
+			}
+		],
+		"*-locked-r-*-west": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.1719,
+				"y2": 1,
+				"z2": 1
+			}
+		]
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 1,
+	"resistance": 3,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

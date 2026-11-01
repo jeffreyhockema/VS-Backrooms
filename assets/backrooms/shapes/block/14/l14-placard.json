@@ -1,0 +1,94 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"link-placard": "backrooms:block/14/link-placard",
+		"link-placardback": "backrooms:block/14/link-placardback"
+	},
+	"elements": [
+		{
+			"name": "Plate",
+			"from": [
+				0,
+				4,
+				15
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#link-placard",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0,
+				4,
+				15.01
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"south": {
+					"texture": "#link-placardback",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"east": {
+					"texture": "#link-placardback",
+					"uv": [
+						0,
+						0,
+						0.99,
+						12
+					]
+				},
+				"west": {
+					"texture": "#link-placardback",
+					"uv": [
+						0,
+						0,
+						0.99,
+						12
+					]
+				},
+				"up": {
+					"texture": "#link-placardback",
+					"uv": [
+						0,
+						0,
+						16,
+						0.99
+					]
+				},
+				"down": {
+					"texture": "#link-placardback",
+					"uv": [
+						0,
+						0,
+						16,
+						0.99
+					]
+				}
+			}
+		}
+	]
+}

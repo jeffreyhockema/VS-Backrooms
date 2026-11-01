@@ -1,0 +1,412 @@
+// Level 14's reception rooms: a waiting-room seat facing <side>, teal vinyl on a steel shell, one a block; in a row the beam and the armrests join. magazine: a crumpled magazine on it; soda: a musty soft-drink bottle; torn: the vinyl split to the foam
+{
+	"code": "l14-waitchair",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"magazine",
+				"soda",
+				"torn"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-plain-north": {
+			"base": "backrooms:block/14/l14-waitchair-plain"
+		},
+		"*-plain-east": {
+			"base": "backrooms:block/14/l14-waitchair-plain",
+			"rotateY": 270
+		},
+		"*-plain-south": {
+			"base": "backrooms:block/14/l14-waitchair-plain",
+			"rotateY": 180
+		},
+		"*-plain-west": {
+			"base": "backrooms:block/14/l14-waitchair-plain",
+			"rotateY": 90
+		},
+		"*-magazine-north": {
+			"base": "backrooms:block/14/l14-waitchair-magazine"
+		},
+		"*-magazine-east": {
+			"base": "backrooms:block/14/l14-waitchair-magazine",
+			"rotateY": 270
+		},
+		"*-magazine-south": {
+			"base": "backrooms:block/14/l14-waitchair-magazine",
+			"rotateY": 180
+		},
+		"*-magazine-west": {
+			"base": "backrooms:block/14/l14-waitchair-magazine",
+			"rotateY": 90
+		},
+		"*-soda-north": {
+			"base": "backrooms:block/14/l14-waitchair-soda"
+		},
+		"*-soda-east": {
+			"base": "backrooms:block/14/l14-waitchair-soda",
+			"rotateY": 270
+		},
+		"*-soda-south": {
+			"base": "backrooms:block/14/l14-waitchair-soda",
+			"rotateY": 180
+		},
+		"*-soda-west": {
+			"base": "backrooms:block/14/l14-waitchair-soda",
+			"rotateY": 90
+		},
+		"*-torn-north": {
+			"base": "backrooms:block/14/l14-waitchair-torn"
+		},
+		"*-torn-east": {
+			"base": "backrooms:block/14/l14-waitchair-torn",
+			"rotateY": 270
+		},
+		"*-torn-south": {
+			"base": "backrooms:block/14/l14-waitchair-torn",
+			"rotateY": 180
+		},
+		"*-torn-west": {
+			"base": "backrooms:block/14/l14-waitchair-torn",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxByType": {
+		"*-plain-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85
+		},
+		"*-plain-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-plain-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"*-plain-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 90
+		},
+		"*-magazine-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85
+		},
+		"*-magazine-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-magazine-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"*-magazine-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 90
+		},
+		"*-soda-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85
+		},
+		"*-soda-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-soda-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"*-soda-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 90
+		},
+		"*-torn-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85
+		},
+		"*-torn-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-torn-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"*-torn-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-plain-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9
+		},
+		"*-plain-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"*-plain-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9
+		},
+		"*-plain-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9,
+			"rotateY": 90
+		},
+		"*-magazine-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9
+		},
+		"*-magazine-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"*-magazine-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9
+		},
+		"*-magazine-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9,
+			"rotateY": 90
+		},
+		"*-soda-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9
+		},
+		"*-soda-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"*-soda-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9
+		},
+		"*-soda-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9,
+			"rotateY": 90
+		},
+		"*-torn-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9
+		},
+		"*-torn-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"*-torn-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9
+		},
+		"*-torn-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.2,
+			"z2": 0.9,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"dropsByType": {
+		"*-soda-*": [
+			{
+				"type": "item",
+				"code": "backrooms:emptybottle",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "backrooms:l14-stalesoda",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0.5
+				}
+			}
+		],
+		"*": []
+	}
+}

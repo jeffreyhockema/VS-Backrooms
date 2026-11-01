@@ -1,0 +1,42 @@
+// Level 14's torture chambers: a pool of blood on the floor. Walk-through
+{
+	"code": "l14-bloodpool",
+	"shape": {
+		"base": "backrooms:block/14/l14-bloodpool"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Other",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/plant",
+		"break": "game:block/plant",
+		"hit": "game:block/plant"
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.06,
+		"z2": 1
+	},
+	"drops": [],
+	"replaceable": 4000
+}

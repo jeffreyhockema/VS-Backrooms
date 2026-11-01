@@ -1,0 +1,369 @@
+// Level 14: the reception's large stained-glass revolving door, depicting nothing beyond (3 wide: col 0-2 left to right as seen from the room; 2 deep: back in the wall line, front on the room's floor; 3 high: lower, middle, upper; it faces its side). It does not turn
+{
+	"code": "l14-revolving",
+	"variantgroups": [
+		{
+			"code": "col",
+			"states": [
+				"0",
+				"1",
+				"2"
+			]
+		},
+		{
+			"code": "row",
+			"states": [
+				"back",
+				"front"
+			]
+		},
+		{
+			"code": "tier",
+			"states": [
+				"lower",
+				"middle",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-1-front-lower-north"
+		],
+		"backrooms": [
+			"*-1-front-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-0-front-lower-north": {
+			"base": "backrooms:block/14/l14-revolving-0-front-lower",
+			"rotateY": 0
+		},
+		"*-0-front-lower-east": {
+			"base": "backrooms:block/14/l14-revolving-0-front-lower",
+			"rotateY": 270
+		},
+		"*-0-front-lower-south": {
+			"base": "backrooms:block/14/l14-revolving-0-front-lower",
+			"rotateY": 180
+		},
+		"*-0-front-lower-west": {
+			"base": "backrooms:block/14/l14-revolving-0-front-lower",
+			"rotateY": 90
+		},
+		"*-0-front-middle-north": {
+			"base": "backrooms:block/14/l14-revolving-0-front-middle",
+			"rotateY": 0
+		},
+		"*-0-front-middle-east": {
+			"base": "backrooms:block/14/l14-revolving-0-front-middle",
+			"rotateY": 270
+		},
+		"*-0-front-middle-south": {
+			"base": "backrooms:block/14/l14-revolving-0-front-middle",
+			"rotateY": 180
+		},
+		"*-0-front-middle-west": {
+			"base": "backrooms:block/14/l14-revolving-0-front-middle",
+			"rotateY": 90
+		},
+		"*-0-front-upper-north": {
+			"base": "backrooms:block/14/l14-revolving-0-front-upper",
+			"rotateY": 0
+		},
+		"*-0-front-upper-east": {
+			"base": "backrooms:block/14/l14-revolving-0-front-upper",
+			"rotateY": 270
+		},
+		"*-0-front-upper-south": {
+			"base": "backrooms:block/14/l14-revolving-0-front-upper",
+			"rotateY": 180
+		},
+		"*-0-front-upper-west": {
+			"base": "backrooms:block/14/l14-revolving-0-front-upper",
+			"rotateY": 90
+		},
+		"*-0-back-lower-north": {
+			"base": "backrooms:block/14/l14-revolving-0-back-lower",
+			"rotateY": 0
+		},
+		"*-0-back-lower-east": {
+			"base": "backrooms:block/14/l14-revolving-0-back-lower",
+			"rotateY": 270
+		},
+		"*-0-back-lower-south": {
+			"base": "backrooms:block/14/l14-revolving-0-back-lower",
+			"rotateY": 180
+		},
+		"*-0-back-lower-west": {
+			"base": "backrooms:block/14/l14-revolving-0-back-lower",
+			"rotateY": 90
+		},
+		"*-0-back-middle-north": {
+			"base": "backrooms:block/14/l14-revolving-0-back-middle",
+			"rotateY": 0
+		},
+		"*-0-back-middle-east": {
+			"base": "backrooms:block/14/l14-revolving-0-back-middle",
+			"rotateY": 270
+		},
+		"*-0-back-middle-south": {
+			"base": "backrooms:block/14/l14-revolving-0-back-middle",
+			"rotateY": 180
+		},
+		"*-0-back-middle-west": {
+			"base": "backrooms:block/14/l14-revolving-0-back-middle",
+			"rotateY": 90
+		},
+		"*-0-back-upper-north": {
+			"base": "backrooms:block/14/l14-revolving-0-back-upper",
+			"rotateY": 0
+		},
+		"*-0-back-upper-east": {
+			"base": "backrooms:block/14/l14-revolving-0-back-upper",
+			"rotateY": 270
+		},
+		"*-0-back-upper-south": {
+			"base": "backrooms:block/14/l14-revolving-0-back-upper",
+			"rotateY": 180
+		},
+		"*-0-back-upper-west": {
+			"base": "backrooms:block/14/l14-revolving-0-back-upper",
+			"rotateY": 90
+		},
+		"*-1-front-lower-north": {
+			"base": "backrooms:block/14/l14-revolving-1-front-lower",
+			"rotateY": 0
+		},
+		"*-1-front-lower-east": {
+			"base": "backrooms:block/14/l14-revolving-1-front-lower",
+			"rotateY": 270
+		},
+		"*-1-front-lower-south": {
+			"base": "backrooms:block/14/l14-revolving-1-front-lower",
+			"rotateY": 180
+		},
+		"*-1-front-lower-west": {
+			"base": "backrooms:block/14/l14-revolving-1-front-lower",
+			"rotateY": 90
+		},
+		"*-1-front-middle-north": {
+			"base": "backrooms:block/14/l14-revolving-1-front-middle",
+			"rotateY": 0
+		},
+		"*-1-front-middle-east": {
+			"base": "backrooms:block/14/l14-revolving-1-front-middle",
+			"rotateY": 270
+		},
+		"*-1-front-middle-south": {
+			"base": "backrooms:block/14/l14-revolving-1-front-middle",
+			"rotateY": 180
+		},
+		"*-1-front-middle-west": {
+			"base": "backrooms:block/14/l14-revolving-1-front-middle",
+			"rotateY": 90
+		},
+		"*-1-front-upper-north": {
+			"base": "backrooms:block/14/l14-revolving-1-front-upper",
+			"rotateY": 0
+		},
+		"*-1-front-upper-east": {
+			"base": "backrooms:block/14/l14-revolving-1-front-upper",
+			"rotateY": 270
+		},
+		"*-1-front-upper-south": {
+			"base": "backrooms:block/14/l14-revolving-1-front-upper",
+			"rotateY": 180
+		},
+		"*-1-front-upper-west": {
+			"base": "backrooms:block/14/l14-revolving-1-front-upper",
+			"rotateY": 90
+		},
+		"*-1-back-lower-north": {
+			"base": "backrooms:block/14/l14-revolving-1-back-lower",
+			"rotateY": 0
+		},
+		"*-1-back-lower-east": {
+			"base": "backrooms:block/14/l14-revolving-1-back-lower",
+			"rotateY": 270
+		},
+		"*-1-back-lower-south": {
+			"base": "backrooms:block/14/l14-revolving-1-back-lower",
+			"rotateY": 180
+		},
+		"*-1-back-lower-west": {
+			"base": "backrooms:block/14/l14-revolving-1-back-lower",
+			"rotateY": 90
+		},
+		"*-1-back-middle-north": {
+			"base": "backrooms:block/14/l14-revolving-1-back-middle",
+			"rotateY": 0
+		},
+		"*-1-back-middle-east": {
+			"base": "backrooms:block/14/l14-revolving-1-back-middle",
+			"rotateY": 270
+		},
+		"*-1-back-middle-south": {
+			"base": "backrooms:block/14/l14-revolving-1-back-middle",
+			"rotateY": 180
+		},
+		"*-1-back-middle-west": {
+			"base": "backrooms:block/14/l14-revolving-1-back-middle",
+			"rotateY": 90
+		},
+		"*-1-back-upper-north": {
+			"base": "backrooms:block/14/l14-revolving-1-back-upper",
+			"rotateY": 0
+		},
+		"*-1-back-upper-east": {
+			"base": "backrooms:block/14/l14-revolving-1-back-upper",
+			"rotateY": 270
+		},
+		"*-1-back-upper-south": {
+			"base": "backrooms:block/14/l14-revolving-1-back-upper",
+			"rotateY": 180
+		},
+		"*-1-back-upper-west": {
+			"base": "backrooms:block/14/l14-revolving-1-back-upper",
+			"rotateY": 90
+		},
+		"*-2-front-lower-north": {
+			"base": "backrooms:block/14/l14-revolving-2-front-lower",
+			"rotateY": 0
+		},
+		"*-2-front-lower-east": {
+			"base": "backrooms:block/14/l14-revolving-2-front-lower",
+			"rotateY": 270
+		},
+		"*-2-front-lower-south": {
+			"base": "backrooms:block/14/l14-revolving-2-front-lower",
+			"rotateY": 180
+		},
+		"*-2-front-lower-west": {
+			"base": "backrooms:block/14/l14-revolving-2-front-lower",
+			"rotateY": 90
+		},
+		"*-2-front-middle-north": {
+			"base": "backrooms:block/14/l14-revolving-2-front-middle",
+			"rotateY": 0
+		},
+		"*-2-front-middle-east": {
+			"base": "backrooms:block/14/l14-revolving-2-front-middle",
+			"rotateY": 270
+		},
+		"*-2-front-middle-south": {
+			"base": "backrooms:block/14/l14-revolving-2-front-middle",
+			"rotateY": 180
+		},
+		"*-2-front-middle-west": {
+			"base": "backrooms:block/14/l14-revolving-2-front-middle",
+			"rotateY": 90
+		},
+		"*-2-front-upper-north": {
+			"base": "backrooms:block/14/l14-revolving-2-front-upper",
+			"rotateY": 0
+		},
+		"*-2-front-upper-east": {
+			"base": "backrooms:block/14/l14-revolving-2-front-upper",
+			"rotateY": 270
+		},
+		"*-2-front-upper-south": {
+			"base": "backrooms:block/14/l14-revolving-2-front-upper",
+			"rotateY": 180
+		},
+		"*-2-front-upper-west": {
+			"base": "backrooms:block/14/l14-revolving-2-front-upper",
+			"rotateY": 90
+		},
+		"*-2-back-lower-north": {
+			"base": "backrooms:block/14/l14-revolving-2-back-lower",
+			"rotateY": 0
+		},
+		"*-2-back-lower-east": {
+			"base": "backrooms:block/14/l14-revolving-2-back-lower",
+			"rotateY": 270
+		},
+		"*-2-back-lower-south": {
+			"base": "backrooms:block/14/l14-revolving-2-back-lower",
+			"rotateY": 180
+		},
+		"*-2-back-lower-west": {
+			"base": "backrooms:block/14/l14-revolving-2-back-lower",
+			"rotateY": 90
+		},
+		"*-2-back-middle-north": {
+			"base": "backrooms:block/14/l14-revolving-2-back-middle",
+			"rotateY": 0
+		},
+		"*-2-back-middle-east": {
+			"base": "backrooms:block/14/l14-revolving-2-back-middle",
+			"rotateY": 270
+		},
+		"*-2-back-middle-south": {
+			"base": "backrooms:block/14/l14-revolving-2-back-middle",
+			"rotateY": 180
+		},
+		"*-2-back-middle-west": {
+			"base": "backrooms:block/14/l14-revolving-2-back-middle",
+			"rotateY": 90
+		},
+		"*-2-back-upper-north": {
+			"base": "backrooms:block/14/l14-revolving-2-back-upper",
+			"rotateY": 0
+		},
+		"*-2-back-upper-east": {
+			"base": "backrooms:block/14/l14-revolving-2-back-upper",
+			"rotateY": 270
+		},
+		"*-2-back-upper-south": {
+			"base": "backrooms:block/14/l14-revolving-2-back-upper",
+			"rotateY": 180
+		},
+		"*-2-back-upper-west": {
+			"base": "backrooms:block/14/l14-revolving-2-back-upper",
+			"rotateY": 90
+		}
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

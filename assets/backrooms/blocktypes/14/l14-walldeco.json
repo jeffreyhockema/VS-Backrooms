@@ -1,0 +1,1220 @@
+// Level 14: a mint wall block with one face dressed (toward its side): the rooms' name plates, the halls' department signs, children's posters, health posters, a stopped clock, a ward whiteboard, an X-ray light box (lit), blood smeared and running down, a mould bloom, scratches, the green running man (lit), a sanitizer, an extinguisher, the T.14.R.G. stencil
+{
+	"code": "l14-walldeco",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plate-ward",
+				"plate-icu",
+				"plate-surgery",
+				"plate-maternity",
+				"plate-psych",
+				"plate-storage",
+				"plate-reception",
+				"plate-office",
+				"plate-research",
+				"plate-danger",
+				"plate-biohazard",
+				"sign-0",
+				"sign-1",
+				"sign-2",
+				"sign-3",
+				"sign-4",
+				"sign-5",
+				"sign-6",
+				"sign-7",
+				"poster-kid0",
+				"poster-kid1",
+				"poster-kid2",
+				"poster-health0",
+				"poster-health1",
+				"clock",
+				"whiteboard",
+				"xray",
+				"blood",
+				"blooddrip",
+				"mould",
+				"scratches",
+				"exitsign",
+				"sanitizer",
+				"extinguisher",
+				"trg"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-plate-ward-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-plate-ward"
+			}
+		},
+		"*-plate-ward-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-plate-ward"
+			}
+		},
+		"*-plate-ward-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-plate-ward"
+			}
+		},
+		"*-plate-ward-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-plate-ward"
+			}
+		},
+		"*-plate-icu-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-plate-icu"
+			}
+		},
+		"*-plate-icu-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-plate-icu"
+			}
+		},
+		"*-plate-icu-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-plate-icu"
+			}
+		},
+		"*-plate-icu-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-plate-icu"
+			}
+		},
+		"*-plate-surgery-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-plate-surgery"
+			}
+		},
+		"*-plate-surgery-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-plate-surgery"
+			}
+		},
+		"*-plate-surgery-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-plate-surgery"
+			}
+		},
+		"*-plate-surgery-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-plate-surgery"
+			}
+		},
+		"*-plate-maternity-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-plate-maternity"
+			}
+		},
+		"*-plate-maternity-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-plate-maternity"
+			}
+		},
+		"*-plate-maternity-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-plate-maternity"
+			}
+		},
+		"*-plate-maternity-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-plate-maternity"
+			}
+		},
+		"*-plate-psych-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-plate-psych"
+			}
+		},
+		"*-plate-psych-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-plate-psych"
+			}
+		},
+		"*-plate-psych-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-plate-psych"
+			}
+		},
+		"*-plate-psych-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-plate-psych"
+			}
+		},
+		"*-plate-storage-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-plate-storage"
+			}
+		},
+		"*-plate-storage-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-plate-storage"
+			}
+		},
+		"*-plate-storage-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-plate-storage"
+			}
+		},
+		"*-plate-storage-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-plate-storage"
+			}
+		},
+		"*-plate-reception-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-plate-reception"
+			}
+		},
+		"*-plate-reception-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-plate-reception"
+			}
+		},
+		"*-plate-reception-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-plate-reception"
+			}
+		},
+		"*-plate-reception-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-plate-reception"
+			}
+		},
+		"*-plate-office-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-plate-office"
+			}
+		},
+		"*-plate-office-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-plate-office"
+			}
+		},
+		"*-plate-office-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-plate-office"
+			}
+		},
+		"*-plate-office-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-plate-office"
+			}
+		},
+		"*-plate-research-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-plate-research"
+			}
+		},
+		"*-plate-research-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-plate-research"
+			}
+		},
+		"*-plate-research-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-plate-research"
+			}
+		},
+		"*-plate-research-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-plate-research"
+			}
+		},
+		"*-plate-danger-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-plate-danger"
+			}
+		},
+		"*-plate-danger-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-plate-danger"
+			}
+		},
+		"*-plate-danger-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-plate-danger"
+			}
+		},
+		"*-plate-danger-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-plate-danger"
+			}
+		},
+		"*-plate-biohazard-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-plate-biohazard"
+			}
+		},
+		"*-plate-biohazard-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-plate-biohazard"
+			}
+		},
+		"*-plate-biohazard-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-plate-biohazard"
+			}
+		},
+		"*-plate-biohazard-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-plate-biohazard"
+			}
+		},
+		"*-sign-0-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-sign-0"
+			}
+		},
+		"*-sign-0-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-sign-0"
+			}
+		},
+		"*-sign-0-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-sign-0"
+			}
+		},
+		"*-sign-0-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-sign-0"
+			}
+		},
+		"*-sign-1-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-sign-1"
+			}
+		},
+		"*-sign-1-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-sign-1"
+			}
+		},
+		"*-sign-1-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-sign-1"
+			}
+		},
+		"*-sign-1-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-sign-1"
+			}
+		},
+		"*-sign-2-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-sign-2"
+			}
+		},
+		"*-sign-2-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-sign-2"
+			}
+		},
+		"*-sign-2-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-sign-2"
+			}
+		},
+		"*-sign-2-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-sign-2"
+			}
+		},
+		"*-sign-3-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-sign-3"
+			}
+		},
+		"*-sign-3-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-sign-3"
+			}
+		},
+		"*-sign-3-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-sign-3"
+			}
+		},
+		"*-sign-3-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-sign-3"
+			}
+		},
+		"*-sign-4-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-sign-4"
+			}
+		},
+		"*-sign-4-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-sign-4"
+			}
+		},
+		"*-sign-4-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-sign-4"
+			}
+		},
+		"*-sign-4-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-sign-4"
+			}
+		},
+		"*-sign-5-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-sign-5"
+			}
+		},
+		"*-sign-5-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-sign-5"
+			}
+		},
+		"*-sign-5-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-sign-5"
+			}
+		},
+		"*-sign-5-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-sign-5"
+			}
+		},
+		"*-sign-6-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-sign-6"
+			}
+		},
+		"*-sign-6-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-sign-6"
+			}
+		},
+		"*-sign-6-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-sign-6"
+			}
+		},
+		"*-sign-6-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-sign-6"
+			}
+		},
+		"*-sign-7-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-sign-7"
+			}
+		},
+		"*-sign-7-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-sign-7"
+			}
+		},
+		"*-sign-7-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-sign-7"
+			}
+		},
+		"*-sign-7-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-sign-7"
+			}
+		},
+		"*-poster-kid0-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-poster-kid0"
+			}
+		},
+		"*-poster-kid0-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-poster-kid0"
+			}
+		},
+		"*-poster-kid0-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-poster-kid0"
+			}
+		},
+		"*-poster-kid0-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-poster-kid0"
+			}
+		},
+		"*-poster-kid1-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-poster-kid1"
+			}
+		},
+		"*-poster-kid1-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-poster-kid1"
+			}
+		},
+		"*-poster-kid1-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-poster-kid1"
+			}
+		},
+		"*-poster-kid1-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-poster-kid1"
+			}
+		},
+		"*-poster-kid2-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-poster-kid2"
+			}
+		},
+		"*-poster-kid2-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-poster-kid2"
+			}
+		},
+		"*-poster-kid2-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-poster-kid2"
+			}
+		},
+		"*-poster-kid2-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-poster-kid2"
+			}
+		},
+		"*-poster-health0-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-poster-health0"
+			}
+		},
+		"*-poster-health0-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-poster-health0"
+			}
+		},
+		"*-poster-health0-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-poster-health0"
+			}
+		},
+		"*-poster-health0-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-poster-health0"
+			}
+		},
+		"*-poster-health1-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-poster-health1"
+			}
+		},
+		"*-poster-health1-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-poster-health1"
+			}
+		},
+		"*-poster-health1-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-poster-health1"
+			}
+		},
+		"*-poster-health1-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-poster-health1"
+			}
+		},
+		"*-clock-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-clock"
+			}
+		},
+		"*-clock-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-clock"
+			}
+		},
+		"*-clock-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-clock"
+			}
+		},
+		"*-clock-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-clock"
+			}
+		},
+		"*-whiteboard-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-whiteboard"
+			}
+		},
+		"*-whiteboard-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-whiteboard"
+			}
+		},
+		"*-whiteboard-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-whiteboard"
+			}
+		},
+		"*-whiteboard-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-whiteboard"
+			}
+		},
+		"*-xray-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-xray"
+			}
+		},
+		"*-xray-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-xray"
+			}
+		},
+		"*-xray-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-xray"
+			}
+		},
+		"*-xray-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-xray"
+			}
+		},
+		"*-blood-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-blood"
+			}
+		},
+		"*-blood-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-blood"
+			}
+		},
+		"*-blood-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-blood"
+			}
+		},
+		"*-blood-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-blood"
+			}
+		},
+		"*-blooddrip-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-blooddrip"
+			}
+		},
+		"*-blooddrip-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-blooddrip"
+			}
+		},
+		"*-blooddrip-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-blooddrip"
+			}
+		},
+		"*-blooddrip-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-blooddrip"
+			}
+		},
+		"*-mould-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-mould"
+			}
+		},
+		"*-mould-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-mould"
+			}
+		},
+		"*-mould-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-mould"
+			}
+		},
+		"*-mould-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-mould"
+			}
+		},
+		"*-scratches-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-scratches"
+			}
+		},
+		"*-scratches-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-scratches"
+			}
+		},
+		"*-scratches-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-scratches"
+			}
+		},
+		"*-scratches-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-scratches"
+			}
+		},
+		"*-exitsign-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-exitsign"
+			}
+		},
+		"*-exitsign-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-exitsign"
+			}
+		},
+		"*-exitsign-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-exitsign"
+			}
+		},
+		"*-exitsign-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-exitsign"
+			}
+		},
+		"*-sanitizer-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-sanitizer"
+			}
+		},
+		"*-sanitizer-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-sanitizer"
+			}
+		},
+		"*-sanitizer-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-sanitizer"
+			}
+		},
+		"*-sanitizer-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-sanitizer"
+			}
+		},
+		"*-extinguisher-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-extinguisher"
+			}
+		},
+		"*-extinguisher-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-extinguisher"
+			}
+		},
+		"*-extinguisher-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-extinguisher"
+			}
+		},
+		"*-extinguisher-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-extinguisher"
+			}
+		},
+		"*-trg-north": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"north": {
+				"base": "block/14/deco-trg"
+			}
+		},
+		"*-trg-east": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"east": {
+				"base": "block/14/deco-trg"
+			}
+		},
+		"*-trg-south": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"south": {
+				"base": "block/14/deco-trg"
+			}
+		},
+		"*-trg-west": {
+			"all": {
+				"base": "block/14/wall-paint"
+			},
+			"west": {
+				"base": "block/14/deco-trg"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"lightAbsorptionByType": {
+		"*-xray-*": 0,
+		"*-exitsign-*": 0,
+		"*": 99
+	},
+	"lightHsvByType": {
+		"*-xray-*": [
+			34,
+			1,
+			5
+		],
+		"*-exitsign-*": [
+			22,
+			6,
+			4
+		]
+	},
+	"vertexFlagsByType": {
+		"*-xray-*": {
+			"glowLevel": 150
+		},
+		"*-exitsign-*": {
+			"glowLevel": 170
+		}
+	}
+}

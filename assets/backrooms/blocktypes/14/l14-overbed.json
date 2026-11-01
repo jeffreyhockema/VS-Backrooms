@@ -1,0 +1,129 @@
+// Level 14's wards: an over-bed table, a paper cup and a jug left on it
+{
+	"code": "l14-overbed",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "backrooms:block/14/l14-overbed"
+		},
+		"*-east": {
+			"base": "backrooms:block/14/l14-overbed",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "backrooms:block/14/l14-overbed",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "backrooms:block/14/l14-overbed",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.82
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.82
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.82,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.82
+		},
+		"*-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.82
+		},
+		"*-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.18,
+			"x2": 0.94,
+			"y2": 0.9,
+			"z2": 0.82,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

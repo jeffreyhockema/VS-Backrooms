@@ -1,0 +1,244 @@
+// Level 14's torture chambers: a rusted metal cabinet, two blocks, its glazed doors toward <side> showing rows of knives, scalpels and razor blades
+{
+	"code": "l14-knifecab",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-lower-north": {
+			"base": "backrooms:block/14/l14-knifecab-lower"
+		},
+		"*-lower-east": {
+			"base": "backrooms:block/14/l14-knifecab-lower",
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"base": "backrooms:block/14/l14-knifecab-lower",
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"base": "backrooms:block/14/l14-knifecab-lower",
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"base": "backrooms:block/14/l14-knifecab-upper"
+		},
+		"*-upper-east": {
+			"base": "backrooms:block/14/l14-knifecab-upper",
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"base": "backrooms:block/14/l14-knifecab-upper",
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"base": "backrooms:block/14/l14-knifecab-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-lower-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97
+		},
+		"*-lower-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97
+		},
+		"*-upper-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-lower-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97
+		},
+		"*-lower-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97
+		},
+		"*-upper-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.14,
+			"x2": 0.94,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"dropsByType": {
+		"*-lower-*": [
+			{
+				"type": "item",
+				"code": "backrooms:scraper",
+				"quantity": {
+					"avg": 0.4,
+					"var": 0.4
+				}
+			},
+			{
+				"type": "item",
+				"code": "backrooms:metalbracket",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0
+				}
+			}
+		],
+		"*": []
+	}
+}

@@ -1,0 +1,130 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"p-blood": "backrooms:block/14/p-blood",
+		"p-bloodpool": "backrooms:block/14/p-bloodpool"
+	},
+	"elements": [
+		{
+			"name": "Pool",
+			"from": [
+				0.5,
+				0.02,
+				0.5
+			],
+			"to": [
+				15.5,
+				0.08,
+				15.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#p-bloodpool",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Drop0",
+			"from": [
+				1.25,
+				0.02,
+				12.75
+			],
+			"to": [
+				2.75,
+				0.1,
+				14.25
+			],
+			"faces": {
+				"up": {
+					"texture": "#p-blood",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Drop1",
+			"from": [
+				13.0,
+				0.02,
+				13.5
+			],
+			"to": [
+				14.0,
+				0.1,
+				14.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#p-blood",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Drop2",
+			"from": [
+				13.9,
+				0.02,
+				1.9
+			],
+			"to": [
+				15.1,
+				0.1,
+				3.1
+			],
+			"faces": {
+				"up": {
+					"texture": "#p-blood",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Drop3",
+			"from": [
+				1.1,
+				0.02,
+				1.6
+			],
+			"to": [
+				1.9,
+				0.1,
+				2.4
+			],
+			"faces": {
+				"up": {
+					"texture": "#p-blood",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

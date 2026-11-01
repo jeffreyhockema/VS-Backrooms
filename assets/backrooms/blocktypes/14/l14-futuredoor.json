@@ -1,0 +1,82 @@
+// Level 14's link: a rare futuristic white door in the old hospital's walls, a cool white light strip round it (lower, upper; alike on every face). Used: to Level 15
+{
+	"code": "l14-futuredoor",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-lower": {
+			"base": "backrooms:block/14/l14-futuredoor-lower"
+		},
+		"*-upper": {
+			"base": "backrooms:block/14/l14-futuredoor-upper"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-lower"
+		],
+		"backrooms": [
+			"*-lower"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 0,
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "l14-future"
+			}
+		}
+	],
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"lightHsvByType": {
+		"*-lower": [
+			34,
+			1,
+			6
+		],
+		"*-upper": [
+			34,
+			1,
+			6
+		]
+	}
+}

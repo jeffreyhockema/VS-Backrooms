@@ -1,0 +1,408 @@
+// Level 14's wards: a white hospital bed, two blocks (head, foot), the foot lying from the head toward <side> (so the head end is the headboard's): rails, castors, the chart on the footboard; made, or stripped to the stained mattress. Sleepable
+{
+	"code": "l14-bed",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"head",
+				"foot"
+			]
+		},
+		{
+			"code": "state",
+			"states": [
+				"made",
+				"stripped"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-head-made-north": {
+			"base": "backrooms:block/14/l14-bed-head-made"
+		},
+		"*-head-made-east": {
+			"base": "backrooms:block/14/l14-bed-head-made",
+			"rotateY": 270
+		},
+		"*-head-made-south": {
+			"base": "backrooms:block/14/l14-bed-head-made",
+			"rotateY": 180
+		},
+		"*-head-made-west": {
+			"base": "backrooms:block/14/l14-bed-head-made",
+			"rotateY": 90
+		},
+		"*-head-stripped-north": {
+			"base": "backrooms:block/14/l14-bed-head-stripped"
+		},
+		"*-head-stripped-east": {
+			"base": "backrooms:block/14/l14-bed-head-stripped",
+			"rotateY": 270
+		},
+		"*-head-stripped-south": {
+			"base": "backrooms:block/14/l14-bed-head-stripped",
+			"rotateY": 180
+		},
+		"*-head-stripped-west": {
+			"base": "backrooms:block/14/l14-bed-head-stripped",
+			"rotateY": 90
+		},
+		"*-foot-made-north": {
+			"base": "backrooms:block/14/l14-bed-foot-made"
+		},
+		"*-foot-made-east": {
+			"base": "backrooms:block/14/l14-bed-foot-made",
+			"rotateY": 270
+		},
+		"*-foot-made-south": {
+			"base": "backrooms:block/14/l14-bed-foot-made",
+			"rotateY": 180
+		},
+		"*-foot-made-west": {
+			"base": "backrooms:block/14/l14-bed-foot-made",
+			"rotateY": 90
+		},
+		"*-foot-stripped-north": {
+			"base": "backrooms:block/14/l14-bed-foot-stripped"
+		},
+		"*-foot-stripped-east": {
+			"base": "backrooms:block/14/l14-bed-foot-stripped",
+			"rotateY": 270
+		},
+		"*-foot-stripped-south": {
+			"base": "backrooms:block/14/l14-bed-foot-stripped",
+			"rotateY": 180
+		},
+		"*-foot-stripped-west": {
+			"base": "backrooms:block/14/l14-bed-foot-stripped",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-head-made-north",
+			"*-head-stripped-north"
+		],
+		"backrooms": [
+			"*-head-made-north",
+			"*-head-stripped-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxByType": {
+		"*-head-made-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"*-head-made-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-made-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"*-head-made-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-head-stripped-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"*-head-stripped-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-stripped-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"*-head-stripped-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-made-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"*-foot-made-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-foot-made-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"*-foot-made-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-stripped-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"*-foot-stripped-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-foot-stripped-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1
+		},
+		"*-foot-stripped-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 0.75,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-head-made-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.2,
+			"z2": 1
+		},
+		"*-head-made-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.2,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-made-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.2,
+			"z2": 1
+		},
+		"*-head-made-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.2,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-head-stripped-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.2,
+			"z2": 1
+		},
+		"*-head-stripped-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.2,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-stripped-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.2,
+			"z2": 1
+		},
+		"*-head-stripped-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.2,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-made-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.0,
+			"z2": 1
+		},
+		"*-foot-made-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.0,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-foot-made-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.0,
+			"z2": 1
+		},
+		"*-foot-made-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.0,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-stripped-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.0,
+			"z2": 1
+		},
+		"*-foot-stripped-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.0,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-foot-stripped-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.0,
+			"z2": 1
+		},
+		"*-foot-stripped-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.97,
+			"y2": 1.0,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"class": "BackroomsBed",
+	"entityClassByType": {
+		"*-head-*": "BackroomsBed"
+	},
+	"attributesByType": {
+		"*-stripped-*": {
+			"bedFoot": "side",
+			"restQuality": 0.6
+		},
+		"*": {
+			"bedFoot": "side",
+			"restQuality": 0.8
+		}
+	}
+}

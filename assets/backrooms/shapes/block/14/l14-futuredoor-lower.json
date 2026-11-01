@@ -1,0 +1,440 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"link-futurelower": "backrooms:block/14/link-futurelower",
+		"link-steel15": "backrooms:block/14/link-steel15",
+		"link-strip": "backrooms:block/14/link-strip"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#link-futurelower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#link-futurelower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#link-futurelower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#link-futurelower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StripLN",
+			"from": [
+				1.0,
+				0,
+				-0.3
+			],
+			"to": [
+				2.0,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "StripRN",
+			"from": [
+				14.0,
+				0,
+				-0.3
+			],
+			"to": [
+				15.0,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "StripLE",
+			"from": [
+				16,
+				0,
+				1.0
+			],
+			"to": [
+				16.3,
+				16,
+				2.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				},
+				"north": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "StripRE",
+			"from": [
+				16,
+				0,
+				14.0
+			],
+			"to": [
+				16.3,
+				16,
+				15.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				},
+				"north": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "StripLS",
+			"from": [
+				14.0,
+				0,
+				16
+			],
+			"to": [
+				15.0,
+				16,
+				16.3
+			],
+			"faces": {
+				"east": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "StripRS",
+			"from": [
+				1.0,
+				0,
+				16
+			],
+			"to": [
+				2.0,
+				16,
+				16.3
+			],
+			"faces": {
+				"east": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "StripLW",
+			"from": [
+				-0.3000000000000007,
+				0,
+				14.0
+			],
+			"to": [
+				0,
+				16,
+				15.0
+			],
+			"faces": {
+				"south": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					],
+					"glow": 255
+				},
+				"north": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "StripRW",
+			"from": [
+				-0.3000000000000007,
+				0,
+				1.0
+			],
+			"to": [
+				0,
+				16,
+				2.0
+			],
+			"faces": {
+				"south": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					],
+					"glow": 255
+				},
+				"north": {
+					"texture": "#link-strip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

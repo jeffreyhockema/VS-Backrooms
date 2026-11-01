@@ -1,0 +1,48 @@
+// Level 14's reception rooms: a low table, magazines and brochures of unusual contents on it
+{
+	"code": "l14-magtable",
+	"shape": {
+		"base": "backrooms:block/14/l14-magtable"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.94,
+		"y2": 0.44,
+		"z2": 0.88
+	},
+	"selectionbox": {
+		"x1": 0.06,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.94,
+		"y2": 0.44,
+		"z2": 0.88
+	},
+	"drops": []
+}

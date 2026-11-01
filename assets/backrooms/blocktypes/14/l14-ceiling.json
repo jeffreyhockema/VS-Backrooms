@@ -1,0 +1,188 @@
+// Level 14: acoustic ceiling tiles (water-stained), the troffers (on: cool white light; bright: the inpatient units' blinding white; lit: only looks it; flicker; off), a missing tile (black), blood soaked through, mould, plaster, concrete
+{
+	"code": "l14-ceiling",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"tile",
+				"stained",
+				"on",
+				"bright",
+				"lit",
+				"flicker",
+				"off",
+				"hole",
+				"blood",
+				"mould",
+				"plaster",
+				"concrete"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-tile": {
+			"all": {
+				"base": "block/14/ceil-tile"
+			}
+		},
+		"*-stained": {
+			"all": {
+				"base": "block/14/ceil-stained"
+			}
+		},
+		"*-on": {
+			"all": {
+				"base": "block/14/ceil-tile"
+			},
+			"down": {
+				"base": "block/14/ceil-troffer"
+			}
+		},
+		"*-bright": {
+			"all": {
+				"base": "block/14/ceil-tile"
+			},
+			"down": {
+				"base": "block/14/ceil-bright"
+			}
+		},
+		"*-lit": {
+			"all": {
+				"base": "block/14/ceil-tile"
+			},
+			"down": {
+				"base": "block/14/ceil-troffer"
+			}
+		},
+		"*-flicker": {
+			"all": {
+				"base": "block/14/ceil-tile"
+			},
+			"down": {
+				"base": "block/14/ceil-troffer"
+			}
+		},
+		"*-off": {
+			"all": {
+				"base": "block/14/ceil-tile"
+			},
+			"down": {
+				"base": "block/14/ceil-off"
+			}
+		},
+		"*-hole": {
+			"all": {
+				"base": "block/14/ceil-tile"
+			},
+			"down": {
+				"base": "block/14/ceil-hole"
+			}
+		},
+		"*-blood": {
+			"all": {
+				"base": "block/14/ceil-blood"
+			}
+		},
+		"*-mould": {
+			"all": {
+				"base": "block/14/ceil-mould"
+			}
+		},
+		"*-plaster": {
+			"all": {
+				"base": "block/14/ceil-plaster"
+			}
+		},
+		"*-concrete": {
+			"all": {
+				"base": "block/14/ceil-concrete"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"resistance": 2,
+	"lightHsvByType": {
+		"*-on": [
+			34,
+			1,
+			16
+		],
+		"*-bright": [
+			34,
+			1,
+			20
+		]
+	},
+	"lightAbsorptionByType": {
+		"*-on": 0,
+		"*-bright": 0,
+		"*-lit": 0,
+		"*-flicker": 0,
+		"*": 99
+	},
+	"vertexFlagsByType": {
+		"*-on": {
+			"glowLevel": 200
+		},
+		"*-bright": {
+			"glowLevel": 230
+		},
+		"*-lit": {
+			"glowLevel": 200
+		},
+		"*-flicker": {
+			"glowLevel": 200
+		}
+	},
+	"entityClassByType": {
+		"*-flicker": "BackroomsFlicker"
+	},
+	"attributesByType": {
+		"*-flicker": {
+			"offBlock": "backrooms:l14-ceiling-off"
+		}
+	},
+	"drops": [],
+	"soundsByType": {
+		"*-on": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass",
+			"ambient": "backrooms:ambient/hum",
+			"ambientBlockCount": 140
+		},
+		"*-bright": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass",
+			"ambient": "backrooms:ambient/hum",
+			"ambientBlockCount": 140
+		},
+		"*-lit": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/glass",
+			"break": "game:block/glass",
+			"hit": "game:block/glass",
+			"ambient": "backrooms:ambient/hum",
+			"ambientBlockCount": 140
+		},
+		"*": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/loosestone*",
+			"break": "game:block/rock-break-pickaxe",
+			"hit": "game:block/rock-hit-pickaxe"
+		}
+	}
+}
