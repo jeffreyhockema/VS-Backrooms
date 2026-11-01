@@ -110,3 +110,25 @@ creatures' spots put theirs down in front of the camera held still (`/backrooms 
    on. The stream shot stood on a log's end and looked through the flat ground fog (the level's floor is ten under the
    shared floor, so the vanilla fog floor lay at head height): the ground fog is now a hint (-0.07 by day), the stream spot
    keeps clear of wood.
+5. `l47-final` (the final sheet: `%TEMP%/backrooms-shots/l47-final/sheet.jpg`): every shot lit; the Great Adder rearing
+   crimson in the glade's meadow; the Order's keepers, a walker, the Shucks at night on the trail; the moon's far side
+   over the giants; the manor and the trilithons by day and night. Still weak: the stream shot (a narrow brook seen across
+   its bank, through mist); the dead trees' hollow mouths are square doorways; the aurora is faint; the Adder is a long
+   rigid S (it cannot follow the ground behind its head).
+
+## 8. Checks (2026-11-01)
+
+expclash clean; mod and mapgen 0 errors; layouthash (seed 12345, 16000, v1 and v12) with `BACKROOMS_NO_EXP_ENTRANCES=1`
+identical to main for 0-20 and the layout hash; with the entrances on, identical to the scaffold's (Level 10's trees are
+kept two cells inside Level 10, so no other level's edge moves; only `level 30` and the far places hash change); `regions`
+60/60 at full size and `SPAWN=1000`; `47stats` and `47links` ok; headless (port 43221/43223): a dummy in 47 with 0 error
+lines, the three ways through `/backrooms l23walk` (Level 10's tree to 47 beside a hollow, a 47 hollow to Level 10, a green
+giant to 23's hollow trunk); `GATE_TAG=47 tools/gate.py --fast --port-base 43220` PASS.
+
+## 9. Balance notes for the lead
+
+Food: mushrooms (about 9% of floor beside wood, 30% poisonous), the elk (vanilla moose, by day, rare); water: every stream
+is clean (`WaterClass`). Supply boxes 0.16 a cell plus five in the manor (guarded). Wood: bark and logs give a little
+firewood, so a fire is easy here. Danger: the director puts nothing down; the Shucks (5.5 damage scaled by Danger 0.45,
+30 health, packs of three) are the night's threat; the Great Adder (16 damage tier 5, 600 health) only for those who harm
+a snake or an Order member.
