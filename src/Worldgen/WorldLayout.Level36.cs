@@ -111,10 +111,11 @@ public sealed partial class WorldLayout
     /// <summary>The shops (<c>l36-shopsign-*</c>), in <see cref="Tile.Depth"/> of a shop's fascia.</summary>
     public static readonly string[] L36Shops = { "perfume", "fashion", "books", "snacks", "tech", "bags", "cafe", "pharma",
         // (round 3) the concourses' units and the food court's further stalls
-        "news", "dutyfree", "exchange", "prayer", "info", "lostfound", "toilets", "shoeshine", "phones", "noodles", "burger", "pizza" };
+        "news", "dutyfree", "exchange", "prayer", "info", "lostfound", "toilets", "shoeshine", "phones", "noodles", "burger", "pizza", "lounge", "foodcourt" };
     public const byte L36ShopPerfume = 0, L36ShopFashion = 1, L36ShopBooks = 2, L36ShopSnacks = 3, L36ShopTech = 4, L36ShopBags = 5, L36ShopCafe = 6,
         L36ShopPharma = 7, L36ShopNews = 8, L36ShopDutyFree = 9, L36ShopExchange = 10, L36ShopPrayer = 11, L36ShopInfo = 12, L36ShopLostFound = 13,
-        L36ShopToilets = 14, L36ShopShoeShine = 15, L36ShopPhones = 16, L36ShopNoodles = 17, L36ShopBurger = 18, L36ShopPizza = 19;
+        L36ShopToilets = 14, L36ShopShoeShine = 15, L36ShopPhones = 16, L36ShopNoodles = 17, L36ShopBurger = 18, L36ShopPizza = 19, L36ShopLounge = 20,
+        L36ShopFoodCourt = 21;
 
     public enum L36Kind : byte { Pier, DutyFree, FoodCourt, Lounge, Meeting, Service }
 
@@ -1060,6 +1061,8 @@ public sealed partial class WorldLayout
     {
         // The ways in, from all four concourses
         L36Fill(plan, 0, 114, 59, 125, L36Zone.Concourse, 7, L36Mat.Marble);
+        // (round 3) FOOD COURT over the west way in (the way the signs point), as a shop's fascia
+        L36MouthFascia(plan, 0, 118, L36ShopFoodCourt, ArchPier.West);
         L36Fill(plan, 180, 114, L36Size - 1, 125, L36Zone.Concourse, 7, L36Mat.Marble);
         L36Fill(plan, 114, 0, 125, 59, L36Zone.Concourse, 7, L36Mat.Marble);
         L36Fill(plan, 114, 180, 125, L36Size - 1, L36Zone.Concourse, 7, L36Mat.Marble);
@@ -1153,6 +1156,22 @@ public sealed partial class WorldLayout
             }
     }
 
+    /// <summary>(round 3) A fascia over a way in at the plan's edge: three tiles along Q from <paramref name="q0"/>, made a shop's doorway so the
+    /// fascia shows two over their air, facing <paramref name="facing"/> (plan).</summary>
+    private static void L36MouthFascia(L36Plan plan, int p, int q0, byte shop, ArchPier facing)
+    {
+        ArchPier world = plan.Dir(facing);
+        for (int i = 0; i < 3; i++)
+        {
+            ref Tile t = ref plan.At(p, q0 + i);
+            if (t.Kind != TileKind.Floor) continue;
+            t.Zone = (byte)L36Zone.Shop;
+            t.Depth = shop;
+            t.Pier = world;
+            t.Roof = (byte)(1 + L36Part(world, L36UpwardQ(plan, p, q0, i, 3), 3));
+        }
+    }
+
     /// <summary>As <see cref="L36Upward"/>, for a run along Q.</summary>
     private static int L36UpwardQ(L36Plan plan, int p, int q0, int index, int count)
     {
@@ -1166,6 +1185,8 @@ public sealed partial class WorldLayout
     private void L36LayLounge(L36Plan plan, ref Rng rng)
     {
         L36Fill(plan, 0, 116, 69, 123, L36Zone.Lounge, 5, L36Mat.CarpetGrey);
+        // (round 3) Its name over the way in from the concourse
+        L36MouthFascia(plan, 0, 118, L36ShopLounge, ArchPier.West);
         L36Lights(plan, 0, 116, 69, 123, 4);
         L36Hang(plan, 3, 119, Overheads.L36Sign, ArchPier.West, L36SLounge);
         L36Fill(plan, 70, 90, 169, 149, L36Zone.Lounge, 5, L36Mat.CarpetRed);

@@ -597,10 +597,12 @@ FASCIA.update({
     "noodles": ("NOODLE GATE", (160, 24, 30), (255, 236, 200), ["bahnschrift.ttf", "arialbd.ttf"], b"Bold", None),
     "burger": ("BURGER BAY", (24, 26, 30), (250, 200, 40), ["FRAHV.TTF", "impact.ttf", "arialbd.ttf"], None, None),
     "pizza": ("SLICE", (34, 82, 44), (250, 246, 230), ["GILSANUB.TTF", "bahnschrift.ttf", "arialbd.ttf"], b"Bold", None),
+    "lounge": ("FIRST CLASS LOUNGE", (24, 28, 52), (226, 196, 120), ["BOD_R.TTF", "georgia.ttf", "times.ttf"], None, None),
+    "foodcourt": ("FOOD COURT", (40, 42, 47), (255, 200, 20), ["bahnschrift.ttf", "arialbd.ttf"], b"Bold", None),
 })
 FASCIA_LIGHT.update({"news": [0, 4, 5], "dutyfree": [8, 2, 5], "exchange": [8, 5, 5], "prayer": [36, 1, 5], "info": [8, 5, 5],
                      "lostfound": [8, 4, 5], "toilets": [8, 4, 5], "shoeshine": [5, 3, 5], "phones": [36, 4, 5],
-                     "noodles": [0, 4, 5], "burger": [8, 4, 5], "pizza": [22, 3, 5]})
+                     "noodles": [0, 4, 5], "burger": [8, 4, 5], "pizza": [22, 3, 5], "lounge": [36, 2, 5], "foodcourt": [8, 4, 5]})
 
 
 def fascia(shop):
@@ -756,7 +758,8 @@ FLIGHT_LEVELS = ["11", "9", "37", "3999", "188", "10"]
 FIDS_TEXTS = ["a", "b", "c", "d", "c32"] + ["to" + n for n in FLIGHT_LEVELS] + ["arr0", "arr1", "arr2"]
 SHOPS = ["perfume", "fashion", "books", "snacks", "tech", "bags", "cafe", "pharma",
          # (round 3) as WorldLayout.L36Shops
-         "news", "dutyfree", "exchange", "prayer", "info", "lostfound", "toilets", "shoeshine", "phones", "noodles", "burger", "pizza"]
+         "news", "dutyfree", "exchange", "prayer", "info", "lostfound", "toilets", "shoeshine", "phones", "noodles", "burger", "pizza",
+         "lounge", "foodcourt"]
 # (round 3) Wide signs, four blocks across (pictogram, words, arrow): as WorldLayout.L36WideWords; each with its arrow to the
 # left and to the right, glyph "w<word>-<l|r>-<part>", part 0 the leftmost seen from in front
 WIDE = [("gates", "plane", "All Gates"), ("baggage", "suitcase", "Baggage Claim"), ("exit", "runner", "Exit"),
