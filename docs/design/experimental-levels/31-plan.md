@@ -445,7 +445,7 @@ fixture in the air block in front of a wall, at its own height; `Tile.Pipe` = `P
 22. (A) [done] The Coach's whiteboard behind the rental counter ("LESSONS TODAY", the session times, a smiley).
 23. (B) [done] Session board by the DJ (ALL SKATE / COUPLES SKATE / SPEED SKATE / LIMBO), the lit one now on.
 24. (B) [done] RESTROOMS figures plate (MEN | WOMEN) by the bathroom's door, hand-dryer PUSH plates.
-25. (B) [partly: admission board, no hours board] Admission price board over the lobby counter; WELCOME / hours board in the lobby.
+25. (B) [done] Admission price board over the lobby counter; WELCOME / hours board in the lobby.
 26. (B) [done] EMPLOYEES ONLY on the lounge door; a staff notice board inside (rota, a memo, "DO NOT TOUCH THE SKATES").
 27. (C) [done] Fire-extinguisher plates and a fire alarm pull on the corridor walls; posters along the corridor (rink events).
 28. (C) [done] Arcade: TOKENS / GREEN CARDS plate over the dispenser.
@@ -479,3 +479,42 @@ fixture in the air block in front of a wall, at its own height; `Tile.Pipe` = `P
 41. (A) [done] The food court's server feeds a player every 6 game hours (`L31System.ServeHours`, was 1.5).
 42. (A) [done] A screen over each revolving door naming where it goes (TO LV9 / LV10 / LV11), in Level 36's gate-screen style.
 43. (A) [done] The Coach's line about the doors names the Suburbs' danger.
+
+### How it is built
+
+- **Wall mounts** (`WorldLayout.L31Mounts`, `L31MountRun`; `tools/gen_31_round3.py` draws them as `l31-plate-<sign><col><row>`):
+  a thin panel or fitting in the air block in front of a wall (or hung in the middle of it), at its own height, its
+  columns placed from the viewer's left by the way it faces in the world, so text reads the right way round through
+  the plans' mirroring. A floor tile carries one column (`Tile.Pipe` = `Pipes.L31Mount` + facing, `Tile.Depth` the
+  column); a doorway's tile carries one for the hall tile in front of it (the rink's name over the lobby's front
+  doors, ARCADE over the arcade's hall door, the revolving doors' screens). A mount wins over the halls' cladding at
+  its own rows only. Lettering is TrueType (as Level 36's), lit signs glow and give a little light.
+- **Set pieces as tall models** (two blocks tall where they need it): `l31-stall`, `l31-vanity` (+ mirror plate),
+  `l31-photobooth`, `l31-jukebox`, `l31-trophycase`, `l31-mediacab` under the 5 x 3 TV, `l31-riser` (the cinema's
+  step blocks with amber aisle lights), `l31-truss` (`Overheads.L31TrussWE/NS`). Reused: Level 3999's prize cases
+  (with plush on them), prize wall; Level Fun's popcorn cart; the shared drinks fridge, AC unit, pressure tanks,
+  water tank, workbench, toolbox; the Basement's duct (`Overheads.L31DuctWE/NS`).
+- New props `L31Props` 729-737; `Overheads` 352-355 and `Pipes` 352 (the mount; 352-355 with its facing) in Level 31's
+  ranges; `expclash` clean.
+
+### Inventions (round 3)
+
+The rink's name STARDUST ROLLER RINK (from Wikidot's star light; the lore names no rink); the rink rules, session
+board, prices, hours, posters (couples skate, birthday parties, lessons with the Coach, retro night) and the staff
+notice board's notes ("DO NOT TAKE THE SKATES" points at the Fandom rule); the Coach's whiteboard; the NOW SHOWING
+cases ("your favorite movie", from Wikidot's cinema that plays your favourite film); the mirror balls over the turns,
+the lighting trusses, the rink-side snack window, skate lockers, trophy cases, jukebox, photo booth, restroom stalls
+and vanities, the rental's racks and benches, HVAC air handlers and ducts, the store room's repair bench; the
+revolving doors' TO LV screens (asked for by the lead).
+
+### Balance notes for the lead
+
+- **The server** (lead's item): `L31System.ServeHours` 1.5 -> **6** game hours between free meals per player (the
+  refusal after littering stays 24 h).
+- **New water**: the shared drinks fridge (`detail/drinkfridge`, a restocking `BackroomsDispenser`: soda, water,
+  Almond Waters) now stands at the end of every food court's counter and at each full rink's snack window (one per
+  complex with a full rink, about 60% of complexes, plus 23 food courts per 25 complexes in `31stats`). The food
+  court already had the restocking Almond Water fountain, so the level had water; this adds more of it. If that is
+  too much, swap the fridge for a non-dispensing look (one line each in `L31LayRoom`/`L31LayRink`).
+- No new food, beds or safe rooms. The skate cubbies on the new free-standing racks give skates like the wall ones
+  (the "steal" way out is unchanged).

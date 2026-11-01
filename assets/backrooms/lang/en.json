@@ -1638,6 +1638,8 @@
 	"block-l31-plate-rev1110-*": "Revolving Door Sign",
 	"block-l31-plate-rev1120-*": "Revolving Door Sign",
 	"block-l31-truss-*": "Lighting Truss",
+	"block-l31-plate-hours00-*": "Hours Board",
+	"block-l31-plate-hours01-*": "Hours Board",
 	"blockhelp-l31-skateshelf": "Take a pair of skates",
 	"l31-door-arrive": "The door swings shut behind you on a roller rink's lobby, and the music that was behind it is all round you now.",
 	"l31-door-back": "You push the wooden door open. The music shuts off behind you like a radio.",

@@ -402,6 +402,21 @@ def revolving(level, name):
     return img
 
 
+def hours():
+    """The lobby's hours board by the front doors, 1 x 2: a white panel of black lettering."""
+    W, H = P, 2 * P
+    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    d.rectangle([6, 6, W - 7, H - 7], fill=(30, 30, 34, 255))
+    d.rectangle([8, 8, W - 9, H - 9], fill=(246, 244, 236, 255))
+    ctext(d, (8, 10, W - 8, 24), "HOURS", fit("HOURS", IMPACT, 40, 12), (200, 30, 40, 255))
+    rows = ["MON-THU", "NOON - 10", "FRI-SAT", "NOON - 1AM", "SUN", "NOON - 8", "", "SKATE AT", "YOUR OWN", "RISK"]
+    for i, r in enumerate(rows):
+        if r:
+            ctext(d, (8, 26 + i * 9, W - 8, 35 + i * 9), r, fit(r, NARROW, 42, 8), (30, 30, 36, 255))
+    return img
+
+
 def extinguisher_tex():
     img = M.painted_metal(seed=3611, base=(196, 28, 26), panel=False, chips=1)
     return img
@@ -464,6 +479,7 @@ def define():
     sign("nowshow", 1, 2, nowshowing(), glow=150, light=[40, 3, 4], box=(1.5, 1, 14.5, 15))
     sign("board", 2, 1, noticeboard(), box=(0, 1.5, 16, 14.5))
     sign("bigtv", 5, 3, bigtv(), glow=230, light=[30, 3, 9], box=(0, 0.5, 16, 15.75))
+    sign("hours", 1, 2, hours(), box=(1.5, 1, 14.5, 15))
     for lv, nm in ((9, "THE SUBURBS"), (10, "BUMPER CROP"), (11, "THE ENDLESS CITY")):
         sign(f"rev{lv}", 3, 1, revolving(lv, nm), glow=200, light=[8, 3, 4], box=(0, 1.5, 16, 14.5))
 

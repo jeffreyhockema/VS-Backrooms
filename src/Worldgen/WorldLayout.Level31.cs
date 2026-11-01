@@ -145,7 +145,8 @@ public sealed partial class WorldLayout
         ("name", 5, 1, 0), ("arcbig", 3, 1, 0), ("rules", 2, 2, 3), ("norun", 1, 1, 2), ("session", 2, 1, 4), ("snackwin", 2, 2, 4),
         ("admit", 3, 1, 0), ("mw", 1, 1, 2), ("mirror", 1, 1, 2), ("dryer", 1, 1, 2), ("ext", 1, 1, 2), ("alarm", 1, 1, 2),
         ("poster0", 1, 1, 2), ("poster1", 1, 1, 2), ("poster2", 1, 1, 2), ("poster3", 1, 1, 2), ("nowshow", 1, 2, 3),
-        ("board", 2, 1, 2), ("bigtv", 5, 3, 5), ("rev9", 3, 1, 0), ("rev10", 3, 1, 0), ("rev11", 3, 1, 0),
+        ("board", 2, 1, 2), ("bigtv", 5, 3, 5), ("hours", 1, 2, 3), ("rev9", 3, 1, 0), ("rev10", 3, 1, 0),
+        ("rev11", 3, 1, 0),
     };
 
     /// <summary>Every column of every mount, by <see cref="Tile.Depth"/>: which mount and which column (0 the viewer's left).</summary>
@@ -682,6 +683,7 @@ public sealed partial class WorldLayout
                 L31Put(plan, 46, 14, L31Props.Jukebox, ArchPier.East);
                 L31MountRun(plan, 53, 12, 51, 12, "admit", ArchPier.North);
                 L31MountRun(plan, 60, 0, 60, 0, "exit", ArchPier.South);
+                L31MountRun(plan, 55, 0, 55, 0, "hours", ArchPier.South);
                 for (int k = 0; k < 3; k++) L31MountRun(plan, 53 + 4 * k, 19, 53 + 4 * k, 19, "poster" + (k + wx0 + wz0 & 3), ArchPier.North);
                 for (int q = 2; q <= 16; q++)
                 {
