@@ -1,0 +1,94 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"door-edge": "backrooms:block/120/door-edge",
+		"megplacard-120": "backrooms:block/120/megplacard-120"
+	},
+	"elements": [
+		{
+			"name": "Plate",
+			"from": [
+				0,
+				4,
+				15
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#megplacard-120",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0,
+				4,
+				15.01
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"south": {
+					"texture": "#door-edge",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"east": {
+					"texture": "#door-edge",
+					"uv": [
+						0,
+						0,
+						0.99,
+						12
+					]
+				},
+				"west": {
+					"texture": "#door-edge",
+					"uv": [
+						0,
+						0,
+						0.99,
+						12
+					]
+				},
+				"up": {
+					"texture": "#door-edge",
+					"uv": [
+						0,
+						0,
+						16,
+						0.99
+					]
+				},
+				"down": {
+					"texture": "#door-edge",
+					"uv": [
+						0,
+						0,
+						16,
+						0.99
+					]
+				}
+			}
+		}
+	]
+}

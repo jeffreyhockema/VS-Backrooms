@@ -16,6 +16,7 @@ static partial class LevelModes
     /// </summary>
     static bool L120Modes(WorldLayout layout, string mode, string[] args)
     {
+        if (mode == "120links") return L120LinksMode(layout, args);
         if (mode != "120stats") return false;
         int n = args.Length > 3 && int.TryParse(args[3], out int hn) ? hn : 3;
         bool rim = args.Length > 4 && args[4] == "rim";
@@ -173,5 +174,7 @@ static partial class LevelModes
 
     static string L120LinkLabel(Tile t) => null;
 
-    static string L120UseKind(Tile t) => null;
+    /// <summary>For the links mode: the door marked SERVER ROOM in Level 4, and Level 120's doors back to the offices.</summary>
+    static string L120UseKind(Tile t) =>
+        WorldLayout.IsL120ServerDoor(t) ? "l120-serverroom" : WorldLayout.IsL120ExitDoor(t) ? "l120-door" : null;
 }

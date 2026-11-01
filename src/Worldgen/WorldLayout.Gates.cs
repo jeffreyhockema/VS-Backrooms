@@ -172,6 +172,7 @@ public sealed partial class WorldLayout
         Level3999 or Hub or Level974 or RunLevel => 1,
         Basement => 2, // Fandom's 2/2/2 (the experimental Basement)
         Level73 => 5, // (experimental) the Redlands, Wikidot's Survival Difficulty 5
+        Level120 => 2, // (experimental) Broken Servos, Wikidot's Survival Difficulty 2
         Level23 => 4, // the Petrified Garden: Wikidot's "4?", Unsafe
         _ => 1,
     };

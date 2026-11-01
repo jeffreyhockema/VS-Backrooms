@@ -1,0 +1,102 @@
+// Level 120's doors (two high, alike on both faces): office, the door marked SERVER ROOM in Level 4's offices, a cold green light under it (kind l120-serverroom, into Level 120); dark, a door in a server room's or a hallway's wall in Level 120, a line of office light under it (kind l120-door, back to the offices)
+{
+	"code": "l120-door",
+	"variantgroups": [
+		{
+			"code": "look",
+			"states": [
+				"office",
+				"dark"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"shapeByType": {
+		"l120-door-office-lower": {
+			"base": "backrooms:block/120/l120-door-office-lower"
+		},
+		"l120-door-office-upper": {
+			"base": "backrooms:block/120/l120-door-office-upper"
+		},
+		"l120-door-dark-lower": {
+			"base": "backrooms:block/120/l120-door-dark-lower"
+		},
+		"l120-door-dark-upper": {
+			"base": "backrooms:block/120/l120-door-dark-upper"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-lower"
+		],
+		"backrooms": [
+			"*-lower"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"lightAbsorptionByType": {
+		"*-lower": 0,
+		"*": 99
+	},
+	"lightHsvByType": {
+		"*-office-lower": [
+			26,
+			4,
+			3
+		],
+		"*-dark-lower": [
+			8,
+			2,
+			3
+		]
+	},
+	"behaviorsByType": {
+		"*-office-*": [
+			{
+				"name": "BackroomsThreshold",
+				"properties": {
+					"kind": "l120-serverroom"
+				}
+			}
+		],
+		"*-dark-*": [
+			{
+				"name": "BackroomsThreshold",
+				"properties": {
+					"kind": "l120-door"
+				}
+			}
+		]
+	},
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

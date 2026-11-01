@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Backrooms.Cheats;
 
 namespace Backrooms.Worldgen;
@@ -11,7 +12,8 @@ public partial class WorldLayout
     /// its banks, a wrecked bank, a rack still lit, a rack aisle room under its trays, a terminal room, the one whole
     /// terminal's BOOT screen, cables over the floor, a passage to its working tube and one in the dark, the nearest White
     /// Void (its black doors, a broken window, a Smiler lost in the light) and Pitch-Black Hallway (along a lane, its
-    /// window), and a Misglitch in a server room. All found from the halls round the region's centre, nearest first.
+    /// window), and a Misglitch in a server room. All found from the halls round the region's centre, nearest first. And the
+    /// ways in and out: the door marked SERVER ROOM nearest spawn (in Level 4), a door back in a server room and in a hallway.
     /// </summary>
     public IEnumerable<Showcase.Spot> L120ShowcaseSpots(WorldGeometry geometry)
     {
@@ -84,8 +86,35 @@ public partial class WorldLayout
         if (servers is { } m)
             spots.Add(Spot("misglitch", servers, -2, $"/backrooms l120 misglitch {m.X + m.Dx * 5} {m.Z + m.Dz * 5}"));
 
+        // The ways in and out (WorldLayout.Level120.Links.cs): the door marked SERVER ROOM nearest spawn, in Level 4's offices
+        // (across the corridor from it, its placard beside it); the nearest door back in a server room, and in a hallway
+        foreach (var d in L120ServerDoorsNear(spawnMacroX, spawnMacroZ, 1200, 1))
+        {
+            int sx = d.OutX - d.X, sz = d.OutZ - d.Z;
+            Tile two = TileAt(d.X + 2 * sx, d.Z + 2 * sz);
+            int back = two.Kind == TileKind.Floor && IsWalkable(two) ? 2 : 1;
+            spots.Add(new Showcase.Spot("serverroom-door", d.X + back * sx + 0.5, geometry.FloorFor(4) + 1, d.Z + back * sz + 0.5, L120Heading(-sx, -sz), -8));
+        }
+        foreach (var ring in rings)
+        {
+            var exit = ring.SelectMany(h => L120ExitDoorsOf(h.Hx, h.Hz)).Cast<(int X, int Z, int FrontX, int FrontZ)?>().FirstOrDefault();
+            if (exit is not { } e) continue;
+            spots.Add(Spot("door-back", L120StandBack(e), -8));
+            break;
+        }
+        if (L120NearestPocket(chx, chz, L120HallKind.Hallway, 12) is { } hd && L120ExitDoorsOf(hd.Hx, hd.Hz) is { Count: > 0 } hdoors)
+            spots.Add(Spot("hallway-door", L120StandBack(hdoors[0]), -8));
+
         foreach (Showcase.Spot? s in spots)
             if (s is { } spot) yield return spot;
+    }
+
+    /// <summary>A few blocks back from a door (as far as the floor goes, up to three), looking at it.</summary>
+    private (int X, int Z, int Dx, int Dz) L120StandBack((int X, int Z, int FrontX, int FrontZ) door)
+    {
+        int sx = door.FrontX - door.X, sz = door.FrontZ - door.Z, back = 1;
+        while (back < 3 && IsWalkable(TileAt(door.X + (back + 1) * sx, door.Z + (back + 1) * sz)) && TileAt(door.X + (back + 1) * sx, door.Z + (back + 1) * sz).Kind == TileKind.Floor) back++;
+        return (door.X + back * sx, door.Z + back * sz, -sx, -sz);
     }
 
     /// <summary>A compass heading (0 north, 90 east) looking along a step.</summary>

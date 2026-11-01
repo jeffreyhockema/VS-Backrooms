@@ -1040,6 +1040,8 @@ public static class Unders
     public const ushort L52Window = 320, L52Locker = 321;
     public const ushort L31First = 352, L31Last = 383;
     public const ushort L120First = 384, L120Last = 415;
+    /// <summary>Level 120's ways in and out (experimental-levels/LINKS.md): in Level 4, the door marked SERVER ROOM on one of the offices' server rooms and the M.E.G. placard on the corridor floor beside it (Pier the way it faces); in Level 120, a steel door in a server room's or a Pitch-Black Hallway's wall that leads back to the offices.</summary>
+    public const ushort L120ServerDoor = 384, L120Placard = 385, L120ExitDoor = 386;
     public const ushort L36First = 416, L36Last = 447;
     public const ushort L15First = 448, L15Last = 479;
     public const ushort L23First = 480, L23Last = 511;

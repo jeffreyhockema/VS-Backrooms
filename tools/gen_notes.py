@@ -855,14 +855,20 @@ breath and walked right past one, close enough to touch it. Don't touch it. Leav
 Dark as it is, think before you light a torch here. The things that stand where people died come for light, and for
 running. Racks still blinking give enough to see a wall by. One crossing in four in the passages has a working tube.
 The racks are worth breaking: copper wire, brackets, now and then a circuit board."""),
+    E("l120-7", "A line of light", """
+In the dark, look low. Now and then there is a line of light under a door in a server room's wall, warm, like an
+office's. It is a way out: grey carpet, the lights buzzing, and the door behind you is only an office door, locked. The
+hallways have one each, in the first lane or the last. You won't get back in the way you came out.
+— Dez""", w="dez"),
 ]))
 
 TRACKS.append(Track("rare-l120", "rare", "Folded notes", L120, chapter="rare", entries=[
-    E("r-l120-1", "Ways in and out, unconfirmed", """
-M.E.G. BRIEFING, RESTRICTED. Reported ways into 120: the smashed screen of an arcade machine in Level 25; a door marked
-SERVER ROOM in the offices of 4.3. Reported ways out: doors in the server rooms and the black hallways, back to 4.3;
-noclipping the server room walls lands you in Level 70. Also reported: a drop of blood here raises smaller ones, worse
-than the rest. Team 9 has confirmed none of it.""", w="meg"),
+    E("r-l120-1", "Ways in and out", """
+M.E.G. BRIEFING, RESTRICTED. Confirmed: a door marked SERVER ROOM in the offices (the old reports say 4.3), grey steel,
+green light under it, one in thousands. It lets you in beside a steel door that takes you back to it. Confirmed: the
+other steel doors here, and the one in every black hallway, let you out into the offices, and not back. Unconfirmed:
+an arcade machine's smashed screen in Level 25; noclipping the server room walls into Level 70; a drop of blood here
+raising smaller ones, worse than the rest.""", w="meg"),
 ]))
 
 # ---- Level 31, "Roller Rink" (experimental, id 24; docs/design/experimental-levels/31-plan.md). Its own block: the
