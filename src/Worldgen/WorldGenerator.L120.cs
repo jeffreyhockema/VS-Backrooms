@@ -21,7 +21,7 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldGenerator
 {
     private static readonly string[] L120RackStates = { "off", "leda", "ledb", "both", "gutted" };
-    private readonly int[] l120Wall = new int[6], l120Floor = new int[4], l120Tray = new int[2], l120Ceil = new int[3], l120Spill = new int[2];
+    private readonly int[] l120Wall = new int[9], l120Floor = new int[6], l120Tray = new int[2], l120Ceil = new int[3], l120Spill = new int[2];
     private readonly int[,,] l120Rack = new int[2, 5, 4];
     private readonly int[,] l120Terminal = new int[3, 4], l120Window = new int[2, 4], l120VoidDoor = new int[2, 2];
     private readonly int[] l120Toppled = new int[4];
@@ -40,14 +40,16 @@ public sealed partial class WorldGenerator
     /// <summary>The level's block ids (called from the constructor).</summary>
     private void InitL120()
     {
-        string[] walls = { "base", "stained", "rot", "soot", "rot2", "rot3" };
+        string[] walls = { "base", "stained", "rot", "soot", "rot2", "rot3", "skirt", "skirtstain", "skirtrot" };
         int wallpaper = BlockId("backrooms:concretewall-plain");
-        for (int i = 0; i < 6; i++) l120Wall[i] = L120Block("l120-wall-" + walls[i], i >= 4 ? 0 : wallpaper);
+        for (int i = 0; i < 9; i++) l120Wall[i] = L120Block("l120-wall-" + walls[i], i >= 4 ? 0 : wallpaper);
         if (l120Wall[4] == 0) l120Wall[4] = l120Wall[2];
         if (l120Wall[5] == 0) l120Wall[5] = l120Wall[2];
-        string[] panels = { "clean", "dirty", "vent", "hole" };
+        for (int i = 6; i < 9; i++)
+            if (l120Wall[i] == 0) l120Wall[i] = l120Wall[i == 8 ? 2 : i - 6];
+        string[] panels = { "clean", "dirty", "vent", "hole", "port", "wet" };
         int concrete = BlockId("backrooms:concretefloor-plain");
-        for (int i = 0; i < 4; i++) l120Floor[i] = L120Block("l120-floor-" + panels[i], concrete);
+        for (int i = 0; i < 6; i++) l120Floor[i] = L120Block("l120-floor-" + panels[i], i >= 4 ? l120Floor[1] : concrete);
         l120Tray[0] = L120Block("l120-tray-we");
         l120Tray[1] = L120Block("l120-tray-ns");
         string[] ceilings = { "tile", "stained", "broken" };
@@ -85,6 +87,7 @@ public sealed partial class WorldGenerator
         }
         // The ways in and out (WorldGenerator.L120.Links.cs)
         InitL120Links();
+        InitL120Dress();
     }
 
     /// <summary>The material of a wall of the level: white in a void, soot black in a hallway, otherwise yellow paper (mostly yellowed, here and there stained, now and then torn off down to the rotting boards, in one of three tears).</summary>
@@ -96,6 +99,8 @@ public sealed partial class WorldGenerator
             case (byte)Zone.Hallway or (byte)Zone.HallWall: return l120Wall[3];
         }
         double r = Hashing.Unit(Hashing.Hash(seed, gx, gz * 8 + rel, 0x2620));
+        // (Round 3: a dark skirting board along the foot of the paper, rotting where the paper is torn)
+        if (rel == 1) return l120Wall[r < 0.72 ? 6 : r < 0.91 ? 7 : 8];
         return l120Wall[r < 0.72 ? 0 : r < 0.91 ? 1 : r < 0.94 ? 2 : r < 0.97 ? 4 : 5];
     }
 
@@ -110,17 +115,29 @@ public sealed partial class WorldGenerator
         {
             // The solid round a pocket's rooms is black, so a broken window looks out on nothing
             if (t.Zone == (byte)Zone.Fill) return l120Black;
-            // A door back to the offices (WorldLayout.Level120.Links.cs)
-            if (t.Kind == TileKind.Door && t.Under == Unders.L120ExitDoor && L120ExitDoorBlock(t, rel) is int exit and >= 0) return exit;
+            // A door back to the offices (WorldLayout.Level120.Links.cs), its EXIT sign over it
+            if (t.Kind == TileKind.Door && t.Under == Unders.L120ExitDoor)
+            {
+                if (L120ExitDoorBlock(t, rel) is int exit and >= 0) return exit;
+                if (rel == 3 && L120ExitOverDoor(gx, gz) is int sign and > 0) return sign;
+            }
             if (t.Kind == TileKind.Doorway)
             {
                 if (rel == 0) return voidZone ? l120VoidFloor : l120Floor[WorldLayout.L120PanelDirty];
                 if (rel <= 2) return t.Variant == WorldLayout.L120VoidDoor ? l120VoidDoor[rel - 1, t.Detail & 1] : 0;
             }
+            // Something on the wall's face (WorldLayout.Level120.Dress.cs), or the conduit along a passage's wall
+            if (t.Kind is TileKind.Wall or TileKind.Doorway && L120DecoBlock(t, gx, gz, rel) is int deco and > 0) return deco;
             return L120WallBlock(t, gx, gz, rel);
         }
         int air = t.Height is >= 3 and <= 6 ? t.Height : 3;
-        if (rel == 0) return voidZone ? l120VoidFloor : l120Floor[t.Depth & 3];
+        if (rel == 0)
+        {
+            if (voidZone) return t.Depth == WorldLayout.L120VoidGlitch && l120VoidGlitch != 0 ? l120VoidGlitch : l120VoidFloor;
+            // (Round 3: a lifted panel is a real hole down into the plenum)
+            if (t.Depth == WorldLayout.L120PanelHole && l120FloorHole != 0) return l120FloorHole;
+            return l120Floor[t.Depth <= 5 ? t.Depth : 0];
+        }
 
         // A broken window, in the line of a wall: the frame two high, the wall going on above it
         if (t.Variant == WorldLayout.L120Window)
@@ -128,7 +145,13 @@ public sealed partial class WorldGenerator
 
         if (rel == air + 1)
         {
-            if (voidZone) return t.Ceiling == CeilingKind.L120VoidPanel ? l120VoidPanel : l120VoidCeiling;
+            if (voidZone)
+                return t.Ceiling switch
+                {
+                    CeilingKind.L120VoidPanel => l120VoidPanel,
+                    CeilingKind.L120VoidPanelDead when l120VoidPanelDead != 0 => l120VoidPanelDead,
+                    _ => l120VoidCeiling,
+                };
             switch (t.Ceiling)
             {
                 case CeilingKind.LightOn: return lightOnId;
@@ -138,7 +161,9 @@ public sealed partial class WorldGenerator
                 case WorldLayout.L120Dim: return lampDimId;
                 case WorldLayout.L120SmashedLamp: return l120Smashed;
             }
-            // Office tiles, a few water-stained, now and then one fallen through
+            // Office tiles, a few water-stained, now and then one fallen through (over a fallen tile, always; over a leak, stained)
+            if (t.Variant == WorldLayout.L120Debris) return l120Ceil[2];
+            if (t.Depth == WorldLayout.L120PanelWet) return l120Ceil[1];
             double c = Hashing.Unit(Hashing.Hash(seed, gx, gz, 0x2621));
             return l120Ceil[c < 0.8 ? 0 : c < 0.95 ? 1 : 2];
         }
@@ -159,6 +184,7 @@ public sealed partial class WorldGenerator
             }
 
         int facing = Facing(t.Pier);
+        if (L120DressProp(t, rel, facing) is int dressed and >= 0) return dressed;
         switch (t.Variant)
         {
             case WorldLayout.L120Rack:

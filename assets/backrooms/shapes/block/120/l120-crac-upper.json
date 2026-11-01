@@ -1,0 +1,104 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"crac-side": "backrooms:block/120/crac-side",
+		"crac-upper": "backrooms:block/120/crac-upper",
+		"duct": "backrooms:block/120/duct"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0.5,
+				0,
+				2
+			],
+			"to": [
+				15.5,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#crac-upper",
+					"uv": [
+						0,
+						0,
+						15.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#crac-side",
+					"uv": [
+						0,
+						0,
+						13.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#crac-side",
+					"uv": [
+						0,
+						0,
+						15.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#crac-side",
+					"uv": [
+						0,
+						0,
+						13.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#crac-side",
+					"uv": [
+						0,
+						0,
+						15.0,
+						13.5
+					]
+				},
+				"down": {
+					"texture": "#crac-side",
+					"uv": [
+						0,
+						0,
+						15.0,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Collar",
+			"from": [
+				2.5,
+				15.9,
+				3.5
+			],
+			"to": [
+				13.5,
+				16,
+				13.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						11.0,
+						10.0
+					]
+				}
+			}
+		}
+	]
+}

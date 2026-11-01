@@ -188,7 +188,7 @@ they differ, this section wins.
   floating round it and four on its surface; two looks: red wound marks, or all black), animations idle, lurk,
   glitch, walk, run, attack, hurt, die; sounds by `tools/gen_120_sounds.py` (three static bursts, a corrupted shriek,
   a slice, hurt, death, a glitch blip). `L120System` puts one down wherever a player dies in Level 120 (all black for
-  an internal death: hunger, poison, suffocation, drowning), at most six within 24 blocks. `AiTaskMisglitch`
+  an internal death: hunger, poison, suffocation, drowning), at most six within 24 blocks (three from round 3, the balance review). `AiTaskMisglitch`
   (`src/Regions/L120Misglitch.cs`): stands slumped by the place, crackling static every 4-10 s (the warning in the
   dark); wakes for anyone within 6 blocks (3.5 sneaking), running within 18, or carrying light 7+ in its line of
   sight within 16; chases at 0.043 (x Danger.Speed: just under a sprint), and every 4.5 s may skip 2.2 blocks straight
@@ -364,3 +364,167 @@ lead's this round; its `PAGES["l120"]` block needs the same paragraph, in its ma
   corridor, the green line under it, the placard beside it), `door-back`, `hallway-door`. The first run showed a door in
   a wall along z as a plain slab (its door faces were north and south only): fixed, the door is on all four sides, the
   lever painted beside the lock.
+
+## Round 3 (2026-11-01): the detailed visual pass
+
+The user's ask: more detailed visuals, multi-block objects and signs where a real place has them, more realistic
+layouts, still to the lore (Wikidot "Broken Servos" only). Round 2's shots (`final-r2/sheets/120.jpg`): the server rooms,
+terminal rooms and cold aisles read by torchlight; the passages are long plain yellow runs; nothing anywhere has text but
+the BOOT screen (and that reads mirrored, "ƎOOT"); the White Void rooms are the same bare white box every time.
+
+### List
+Tiers: A must, B should, C nice. A real data centre is the model where the lore is silent (marked as invention below).
+
+**1. Layout realism**
+1. [A] [done] Each cluster has a front: its terminal room (the operators' room, NOC) is moved next to a door onto a passage when it has one, so you meet the screens first.
+2. [A] [done] A new room kind, one per cluster where a small room is free: the **UPS / battery room** (UPS cabinets and battery strings in rows, a switchgear panel, warning plates).
+3. [B] [done] Server rooms get **cooling units** (CRAC) standing against the walls at the ends of the aisles, ducting up into the ceiling, as a real hall's perimeter cooling.
+4. [A] [done] Every standing bank of racks gets its **cable tray over it** (the tray runs the bank's length at rel 3), so a row reads as one object with its trays, not loose cabinets.
+5. [B] [done] **Row-end panels**: each bank ends in a blank end cabinet with the row's letter on it.
+6. [B] [done] The wrecked stores become **storage / staging**: steel shelving along the walls with boxed drives, a KVM cart, crates, a mop bucket left in a corner.
+7. [B] [done] Passages are **service corridors**: equipment parked along the walls (a KVM cart, a mop bucket, a UPS cabinet wheeled out, crates, a toppled rack against the wall), fire points by the doors.
+8. [C] [done: the DATA HALL plates] Now and then a room's doorway onto the passage has a "SERVER ROOMS" plate and the cluster's letter, so the passages read as a building with halls, not a maze.
+9. [C] [done (round 2's turn; the rig's random arrivals still use fixed headings)] The void and hallway arrivals keep facing into their space (already done in round 2: check in the shots).
+
+**2. Multi-block objects**
+10. [A] [done] **UPS cabinet** (two high: status panel with a dead LCD, vent grilles, the warning plate), new block.
+11. [A] [done] **Cooling unit (CRAC)** (two high: grilles, a control panel, a square duct from its top up into the ceiling: three blocks as one object).
+12. [A] [done] **KVM cart** (a trolley with a monitor and keyboard, a cable trailing).
+13. [B] [done] **Battery cabinet** (two high, rows of sealed batteries behind a mesh door) for the UPS room.
+14. [A] [done] **Real holes in the raised floor**: a lifted panel shows the plenum below (pedestals, cable runs), a shallow step down, not a painted panel.
+15. [B] [done] **Floor cable ports** (a grommet with a cable tail) in the server rooms' floors.
+16. [B] [done] **Fallen ceiling tiles** on the floor under a tile broken through (the hole above it).
+17. [B] [done] **Mop bucket** with its mop (a cleaner's forgotten thing).
+18. [B] [done] **Cable bundles down the walls** (floor to ceiling, three blocks) in passages and cable rooms.
+19. [A] [done] Passages: a **second cable tray** along the other side (over the conduit) and **conduit** on the walls under the ceiling.
+20. [C] [done] A **wall of screens** in the terminal room's front wall (big dead monitors side by side; now and then one shows a corrupted frame of a corridor: the brief's nice item).
+
+**3. Signs and text**
+21. [A] [done] The BOOT screen reads mirrored ("ƎOOT"): fix its UV so it reads BOOT_.
+22. [A] [done] **Room plates** beside the doors: SERVER ROOM B (the cluster's letter), TERMINAL ROOM, UPS / BATTERY, CABLE ROOM, STORAGE.
+23. [A] [done] **Passage doors**: a DATA HALL plate with the cluster's letter on one side, AUTHORIZED PERSONNEL ONLY on the other.
+24. [A] [done] **EXIT signs** over the doors onto the passages, inside: dead, one in five still glowing a faint green on its battery (light 2: a little rhythm in the dark).
+25. [A] [done] **The door back** (Level 120's side) gets its plate too: the same plate as the SERVER ROOM door's, reading EXIT / OFFICES, and an EXIT sign over it: the plate at both ends.
+26. [A] [partly: the row letters on the end panels; the racks' own labels are one texture, not numbered] **Rack and row labels**: row-end plates with the row letter (25's panels); rack fronts with a numbered asset label.
+27. [A] [done] **Warning plates** on the UPS and battery cabinets (DANGER / HIGH VOLTAGE, UPS 2), the CRAC's unit number.
+28. [B] [done] **A hand-written note** taped on a wall by a door, now and then (DON'T BOOT THEM, WALK ONE WAY, NOT AGAIN...).
+29. [B] [done (no arrow: it pointed the same way on both walls)] **Wayfinding stencils** on passage walls by the crossings (the hall letter).
+30. [B] [done] **Fire points**: an extinguisher on its bracket with the red FIRE EXTINGUISHER sign over it, by the passage doors.
+31. [C] [done] An evacuation plan by some passage doors.
+
+**4. Detail visuals**
+32. [A] [done] Passages dressed (items 7, 18, 19, 29, 30): no long plain stretch.
+33. [B] [done] **Water damage**: a wet stain on the floor under a stained ceiling tile, now and then.
+34. [B] [done] **Skirting**: a dark wooden skirting board along the foot of the yellow walls (their lowest block), rotting where the paper is torn.
+35. [A] [done] **The White Void rooms differ**: one small thing per room by its hash: a crack in a wall, a glitched floor tile, a lone office chair, a single CRT on the floor, one ceiling panel dead, a smudge on a wall, a sheet of paper; some rooms nothing.
+36. [C] [done: fittings moved off the banks onto the aisles] Ceiling rhythm in the server rooms: the fittings line up over the aisles rather than on a grid.
+37. [B] [done] The faint green EXIT signs (24) as the passages' only light rhythm: rare and dim, the dark kept.
+
+**5. Lore alignment**
+38. [A] [done] Still "usually pitch-black": every new light is 2 or less and rare (EXIT signs on battery, a corrupted screen).
+39. [B] [partly: UPS cabinets torn open; the CRACs stand whole] "Massive blocks of computers ripped apart": the new cabinets come wrecked too (a UPS torn open, a CRAC with its panel off).
+40. [B] [done] The void oddities stay small: the lore's voids are "pure white"; nothing in them a player could take for a feature.
+41. [C] [done] The hand-written notes stay in the level's voice (the six wanderer notes' authors), not new lore.
+
+**6. Released-level alignment**
+42. [A] [done] Every new block has its name in en.json (HUD, pick-block), salvage like the racks' (scrap wire, brackets, glass), sounds.
+43. [A] [done] Showcase spots for every new set piece (UPS room, CRAC, KVM cart, floor hole, a dressed passage, door plates, the door back's plate, a void oddity, the wall of screens), computed from the layout.
+44. [B] [done (no placard on this side, as the released levels' exits)] The M.E.G. placard convention: Level 4's side has one; Level 120's door back gets its EXIT plate (25), no placard (an exit, as released levels' exits).
+45. [C] [done] The handbook page mentions the plates and the faint EXIT signs as a way to read the dark (en.json only).
+46. [C] [skipped: nothing the map needs] Map: nothing new (the map draws the plan's walls and floors; the new props are props).
+
+### Built (round 3)
+Code: `WorldLayout.Level120.Dress.cs` (new: the dressing's layout), `WorldGenerator.L120.Dress.cs` (new: its blocks), hooks in
+`WorldLayout.Level120.cs` and `WorldGenerator.L120.cs`; assets `tools/gen_120_detail.py` (new, run from the end of
+`gen_120.py`): 11 new blocktypes (`l120-ups`, `-battery`, `-crac`, `-kvm`, `-mop`, `-debris`, `-paper`, `-rowend`, `-shelf`,
+`-floorhole`, `-walldeco` with 49 kinds), new states on `l120-wall` (skirting), `l120-floor` (port, wet), `l120-void`
+(glitch, paneldead). One Tiles.cs member in Level 120's block (`CeilingKind.L120VoidPanelDead` 388). Props 807-815, Decor
+384-395 (declared in the level's file, as its other props are).
+- **A cluster as a data hall.** The room on the hall's edge at the middle of one side (where the first door onto that
+  passage opens) is the terminal room (the operators' room, with a wall of big dead screens two high on the wall the desks
+  face; one screen in eight shows a corrupted frame of a corridor, glowing faintly); the smallest other room is the **UPS /
+  battery room** (a row of UPS cabinets, one in four torn open, rows of battery cabinets behind with two-wide aisles, the
+  PDU panel DANGER 480 V, a fire point). Server rooms: every standing bank has its cable tray along its top and an end panel
+  at each end with its row's letter (ROW A, B...); cooling units (CRAC 3: louvres, control panel, a duct up into the
+  ceiling, three blocks) at half the aisles' ends; cable ports in the floor; lifted panels are now real holes into the
+  plenum (pedestals, cables, half a block down). Stores have steel shelving of boxed drives along both long walls, a KVM
+  cart or two, a mop bucket. Cable rooms have cables down their walls and a panel.
+- **Signs.** Beside the doors between rooms a plate naming the room behind (SERVER ROOM + the hall's letter, TERMINAL ROOM,
+  UPS / BATTERY, CABLE ROOM, STORAGE; on most doors, both sides); at every door onto a passage an EXIT sign over it inside
+  (one in five still faintly green, light 2), the blue DATA HALL plate with the hall's letter on one side outside,
+  AUTHORIZED PERSONNEL ONLY on the other, often a fire point (extinguisher on its bracket, the red sign over it) and now and
+  then an evacuation plan; the hall's letter stencilled (HALL B and an arrow) on the passage walls by each crossing; in six
+  clusters in ten one pencilled note taped up beside a door (DON'T BOOT THEM, WALK ONE WAY, NOT AGAIN, IT GETS UP WHERE
+  YOU FALL). The doors back to the offices carry their plate too (EXIT / OFFICES, the SERVER ROOM door's plate style) and an
+  EXIT sign over them (lit over one in two). The BOOT screen's B no longer loses its back to the screen's edge.
+- **Passages** are service corridors now: a cable tray down the far side over two runs of conduit on the wall, cables down
+  the walls, things parked along the walls (KVM carts, mop buckets, a UPS wheeled out, crates, boxes, a rack dumped on its
+  back, a wet-floor sign), fallen ceiling tiles (the hole above them), lifted panels and leaks (a wet patch under a stained
+  tile) down the middle.
+- **Detail.** A dark wooden skirting board along the foot of every yellow wall (rotting where the paper is torn); leaks and
+  fallen tiles in the rooms too.
+- **The White Voids**: about two rooms in three get one small thing wrong (List 35): a crack, a smudge, a glitched floor tile, a chair, a desk with
+  its dead CRT, one panel gone dark, a sheet of paper, a rack on its own; the rest as white as ever.
+- **Handbook** (`guide-l120-text`, and `gen_guide.py`'s `PAGES["l120"]` alike): the rooms and plates, and the EXIT signs as
+  marks to steer by. Showcase: `hall-door`, `hall-exit`, `noc-screens`, `ups-room`, `crac`, `row-ends`, `storage`,
+  `floor-hole`, `void-odd`.
+
+
+### What the shots showed (three runs, `--torch`)
+- **Run 1** (`%TEMP%/backrooms-shots/120-r3a/`): the passages now read as a building's service corridors (duct one side,
+  tray and conduit the other, HALL A / HALL E stencilled by the crossings, a fire point by a door); the DATA HALL plate and
+  AUTHORIZED PERSONNEL ONLY either side of a cluster door; the wall of screens in the operators' room; the UPS room's
+  rows; storage shelving; banks with their trays and ROW B / ROW C end panels; the door back's EXIT / OFFICES plate under
+  its green EXIT sign. Wrong: the hole into the plenum was a black square (black sides, unlit); the stencils' arrow pointed
+  the same way on both walls; the CRAC's sides were a blank beige slab; the `hall-exit` and `crac` spots looked past what
+  they were for; the racks' backs read as a rainbow by torchlight; room fittings sat over the banks' trays.
+- **Run 2** (`120-r3b/`): all of those fixed (grey plenum with pedestals and cables, a bar under the stencilled letter,
+  panelled CRAC sides, the EXIT sign over a cluster door seen from inside past the operators' desks, smashed screens in the
+  wall). Its CRACs showed as unknown blocks: a gate build had rewritten the mod folder under the rig between the client's
+  and the server's start ("different copy of the mod" in the log), not a fault of the blocks; the gate now runs apart.
+- **Run 3, final** (`120-r3c/`, `sheet.jpg`): CRAC 3 whole with its duct into the ceiling, the open-panel variant, duller
+  rack backs, hall letters that differ across every passage (E / H here); no unknown blocks, no mod mismatch.
+- Still weak: the rig's random arrivals look along fixed headings, so two of four show a wall close up (in play the
+  arrival turns you to the open floor); the server rooms' long rack backs are still the busiest texture in the level; the
+  Pitch-Black Hallways are unchanged (the lore wants them bare); the plates are small at a distance in the dark (true to a
+  real data hall, but a torch is needed to read them).
+
+### Checks (round 3)
+`expclash` clean; mod and mapgen 0 errors; `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash, versions 1 and 12: levels 0-20 and the
+layout hash identical to main's; `regions` Level 120 60/60 (none in a small pocket); `120stats 3` OK (0 unreached, 60/60
+arrivals); `120links` OK; headless dummy in Level 120 (port 43141), blocksweep 11721 blocks, 0 threw, 0 error lines; gate
+`--fast --port-base 43140` PASS (`review/gate/20261101-020910.md`).
+
+### Inventions (round 3; not lore)
+The lore says only "broken server rooms", "massive blocks of computers ripped apart", yellow paper, office tiles, dark.
+Everything that makes a cluster a data hall is mine, from real ones: the operators' room by the way in with its wall of
+screens, the UPS / battery room, CRACs, trays over the banks, row letters, the plates and their wording (SERVER ROOM + a
+hall letter, DATA HALL, AUTHORIZED PERSONNEL ONLY, UPS 2, CRAC 3, PDU-2 480 V, EXIT / OFFICES), the EXIT signs still on
+their batteries, the fire points, evacuation plans, stencils, the four pencilled notes (in the wanderer notes' voice, no
+new lore), the passages' parked equipment, leaks, fallen tiles, skirting; and the White Voids' small wrong things (the
+lore's voids are "pure white": these are one thing at a time, and a third of the rooms have none).
+
+### Balance notes for the lead
+- **Misglitch cap** (the balance review): at most **3** within 24 blocks of a death (was 6), `L120System.L120MisglitchCap`;
+  the console/test command's message follows.
+- **Supply boxes**: room kinds shifted (one operators' room and one UPS room a cluster), so the box roll for those two
+  kinds is 10% (others unchanged: 22%, stores 45%); `120stats 8` (257 clusters) gives 2.8 boxes a cluster against 3.0
+  before (718 against 761; the table and picked-over share are untouched).
+- **Salvage**: the new cabinets drop what racks drop (scrap wire, metal brackets; KVM carts and smashed screens glass):
+  more breakable salvage per cluster (a UPS row, battery rows, CRACs, shelving, end panels). No circuit boards from any new
+  block; no food, water, beds or safe rooms.
+- **Light**: EXIT signs over one door out in five (light 2, green) and over one door back in two; a corrupted screen
+  now and then (light 1). The level stays pitch dark; the lit EXIT over a door back is a tell for the way out.
+- **Floor holes**: a lifted panel is now a real half-block step down (2% of server-room aisle tiles, was a painted 3%;
+  0.3% of passage tiles). Walkable; the trip rule (L120System) does not look at them.
+- **Racks**: standing racks per cluster fell from 970 to 710 (`120stats 8`: the two new rooms, the end panels); lit racks
+  3.8% of standing (was 4.1%), so lit racks per cluster about 27 (was 40).
+- `regions`: Level 120 60/60, none in a small pocket (an earlier build of this round had one arrival the harness's own
+  walk-through list counted as shut in by cables and fallen tiles; `120stats`, with the game's rule, always found every
+  walkable tile reached from the passages).
+
+### Questions for the user
+1. The hall letters (A-H) repeat every eight halls (x + 3z mod 8: no two neighbours alike): enough, or should the halls
+   carry numbers too (DATA HALL B4)?
+2. The pencilled notes say DON'T BOOT THEM / WALK ONE WAY / NOT AGAIN / IT GETS UP WHERE YOU FALL: more, or other words?
+3. Should the lit EXIT sign over the doors back to the offices be rarer (it makes the way out easier to find in the dark)?

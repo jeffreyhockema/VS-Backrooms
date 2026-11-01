@@ -1,0 +1,114 @@
+// Level 120: steel shelving, two high, boxed drives and caddies on it. Salvage: brackets, wire
+{
+	"code": "l120-shelf",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l120-shelf-lower-north": {
+			"base": "backrooms:block/120/l120-shelf-lower",
+			"rotateY": 0
+		},
+		"l120-shelf-lower-east": {
+			"base": "backrooms:block/120/l120-shelf-lower",
+			"rotateY": 270
+		},
+		"l120-shelf-lower-south": {
+			"base": "backrooms:block/120/l120-shelf-lower",
+			"rotateY": 180
+		},
+		"l120-shelf-lower-west": {
+			"base": "backrooms:block/120/l120-shelf-lower",
+			"rotateY": 90
+		},
+		"l120-shelf-upper-north": {
+			"base": "backrooms:block/120/l120-shelf-upper",
+			"rotateY": 0
+		},
+		"l120-shelf-upper-east": {
+			"base": "backrooms:block/120/l120-shelf-upper",
+			"rotateY": 270
+		},
+		"l120-shelf-upper-south": {
+			"base": "backrooms:block/120/l120-shelf-upper",
+			"rotateY": 180
+		},
+		"l120-shelf-upper-west": {
+			"base": "backrooms:block/120/l120-shelf-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l120-shelf-lower-north"
+		],
+		"backrooms": [
+			"l120-shelf-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	],
+	"collisionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	},
+	"selectionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	}
+}

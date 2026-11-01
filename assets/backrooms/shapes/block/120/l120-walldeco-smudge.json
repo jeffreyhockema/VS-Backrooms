@@ -1,0 +1,79 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"void-smudge": "backrooms:block/120/void-smudge",
+		"void-white": "backrooms:block/120/void-white"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#void-smudge",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#void-white",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#void-white",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#void-white",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#void-white",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#void-white",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

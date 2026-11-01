@@ -1,0 +1,190 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/120/black",
+		"screen-glitch": "backrooms:block/120/screen-glitch",
+		"steel-grey": "backrooms:block/120/steel-grey",
+		"wall-base": "backrooms:block/120/wall-base"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Bezel",
+			"from": [
+				0,
+				2,
+				-1
+			],
+			"to": [
+				16,
+				15.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						16,
+						13.5
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1,
+						13.5
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1,
+						13.5
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Screen",
+			"from": [
+				0.8,
+				2.8,
+				-1.05
+			],
+			"to": [
+				15.2,
+				14.7,
+				-1
+			],
+			"faces": {
+				"north": {
+					"texture": "#screen-glitch",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 120
+				}
+			}
+		},
+		{
+			"name": "Mount",
+			"from": [
+				6,
+				5,
+				-0.01
+			],
+			"to": [
+				10,
+				12.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						4,
+						7.5
+					]
+				}
+			}
+		}
+	]
+}

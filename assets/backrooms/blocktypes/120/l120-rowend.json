@@ -1,0 +1,225 @@
+// Level 120: the end panel of a bank of racks, two high (lower; the upper with its row letter, a-h, to the side). Salvage: brackets
+{
+	"code": "l120-rowend",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"a",
+				"b",
+				"c",
+				"d",
+				"e",
+				"f",
+				"g",
+				"h"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l120-rowend-lower-north": {
+			"base": "backrooms:block/120/l120-rowend-lower",
+			"rotateY": 0
+		},
+		"l120-rowend-a-north": {
+			"base": "backrooms:block/120/l120-rowend-upper-a",
+			"rotateY": 0
+		},
+		"l120-rowend-b-north": {
+			"base": "backrooms:block/120/l120-rowend-upper-b",
+			"rotateY": 0
+		},
+		"l120-rowend-c-north": {
+			"base": "backrooms:block/120/l120-rowend-upper-c",
+			"rotateY": 0
+		},
+		"l120-rowend-d-north": {
+			"base": "backrooms:block/120/l120-rowend-upper-d",
+			"rotateY": 0
+		},
+		"l120-rowend-e-north": {
+			"base": "backrooms:block/120/l120-rowend-upper-e",
+			"rotateY": 0
+		},
+		"l120-rowend-f-north": {
+			"base": "backrooms:block/120/l120-rowend-upper-f",
+			"rotateY": 0
+		},
+		"l120-rowend-g-north": {
+			"base": "backrooms:block/120/l120-rowend-upper-g",
+			"rotateY": 0
+		},
+		"l120-rowend-h-north": {
+			"base": "backrooms:block/120/l120-rowend-upper-h",
+			"rotateY": 0
+		},
+		"l120-rowend-lower-east": {
+			"base": "backrooms:block/120/l120-rowend-lower",
+			"rotateY": 270
+		},
+		"l120-rowend-a-east": {
+			"base": "backrooms:block/120/l120-rowend-upper-a",
+			"rotateY": 270
+		},
+		"l120-rowend-b-east": {
+			"base": "backrooms:block/120/l120-rowend-upper-b",
+			"rotateY": 270
+		},
+		"l120-rowend-c-east": {
+			"base": "backrooms:block/120/l120-rowend-upper-c",
+			"rotateY": 270
+		},
+		"l120-rowend-d-east": {
+			"base": "backrooms:block/120/l120-rowend-upper-d",
+			"rotateY": 270
+		},
+		"l120-rowend-e-east": {
+			"base": "backrooms:block/120/l120-rowend-upper-e",
+			"rotateY": 270
+		},
+		"l120-rowend-f-east": {
+			"base": "backrooms:block/120/l120-rowend-upper-f",
+			"rotateY": 270
+		},
+		"l120-rowend-g-east": {
+			"base": "backrooms:block/120/l120-rowend-upper-g",
+			"rotateY": 270
+		},
+		"l120-rowend-h-east": {
+			"base": "backrooms:block/120/l120-rowend-upper-h",
+			"rotateY": 270
+		},
+		"l120-rowend-lower-south": {
+			"base": "backrooms:block/120/l120-rowend-lower",
+			"rotateY": 180
+		},
+		"l120-rowend-a-south": {
+			"base": "backrooms:block/120/l120-rowend-upper-a",
+			"rotateY": 180
+		},
+		"l120-rowend-b-south": {
+			"base": "backrooms:block/120/l120-rowend-upper-b",
+			"rotateY": 180
+		},
+		"l120-rowend-c-south": {
+			"base": "backrooms:block/120/l120-rowend-upper-c",
+			"rotateY": 180
+		},
+		"l120-rowend-d-south": {
+			"base": "backrooms:block/120/l120-rowend-upper-d",
+			"rotateY": 180
+		},
+		"l120-rowend-e-south": {
+			"base": "backrooms:block/120/l120-rowend-upper-e",
+			"rotateY": 180
+		},
+		"l120-rowend-f-south": {
+			"base": "backrooms:block/120/l120-rowend-upper-f",
+			"rotateY": 180
+		},
+		"l120-rowend-g-south": {
+			"base": "backrooms:block/120/l120-rowend-upper-g",
+			"rotateY": 180
+		},
+		"l120-rowend-h-south": {
+			"base": "backrooms:block/120/l120-rowend-upper-h",
+			"rotateY": 180
+		},
+		"l120-rowend-lower-west": {
+			"base": "backrooms:block/120/l120-rowend-lower",
+			"rotateY": 90
+		},
+		"l120-rowend-a-west": {
+			"base": "backrooms:block/120/l120-rowend-upper-a",
+			"rotateY": 90
+		},
+		"l120-rowend-b-west": {
+			"base": "backrooms:block/120/l120-rowend-upper-b",
+			"rotateY": 90
+		},
+		"l120-rowend-c-west": {
+			"base": "backrooms:block/120/l120-rowend-upper-c",
+			"rotateY": 90
+		},
+		"l120-rowend-d-west": {
+			"base": "backrooms:block/120/l120-rowend-upper-d",
+			"rotateY": 90
+		},
+		"l120-rowend-e-west": {
+			"base": "backrooms:block/120/l120-rowend-upper-e",
+			"rotateY": 90
+		},
+		"l120-rowend-f-west": {
+			"base": "backrooms:block/120/l120-rowend-upper-f",
+			"rotateY": 90
+		},
+		"l120-rowend-g-west": {
+			"base": "backrooms:block/120/l120-rowend-upper-g",
+			"rotateY": 90
+		},
+		"l120-rowend-h-west": {
+			"base": "backrooms:block/120/l120-rowend-upper-h",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l120-rowend-a-north"
+		],
+		"backrooms": [
+			"l120-rowend-a-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.3
+			}
+		}
+	],
+	"collisionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	},
+	"selectionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	}
+}

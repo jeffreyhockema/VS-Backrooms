@@ -1,0 +1,189 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/120/black",
+		"crac-lower": "backrooms:block/120/crac-lower",
+		"crac-open": "backrooms:block/120/crac-open",
+		"crac-side": "backrooms:block/120/crac-side"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0.5,
+				0,
+				2
+			],
+			"to": [
+				15.5,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#crac-open",
+					"uv": [
+						0,
+						0,
+						15.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#crac-side",
+					"uv": [
+						0,
+						0,
+						13.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#crac-side",
+					"uv": [
+						0,
+						0,
+						15.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#crac-side",
+					"uv": [
+						0,
+						0,
+						13.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#crac-side",
+					"uv": [
+						0,
+						0,
+						15.0,
+						13.5
+					]
+				},
+				"down": {
+					"texture": "#crac-side",
+					"uv": [
+						0,
+						0,
+						15.0,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				1,
+				0,
+				-3
+			],
+			"to": [
+				15,
+				0.8,
+				12
+			],
+			"faces": {
+				"up": {
+					"texture": "#crac-lower",
+					"uv": [
+						0,
+						0,
+						14,
+						15
+					]
+				},
+				"north": {
+					"texture": "#crac-side",
+					"uv": [
+						0,
+						0,
+						14,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#crac-side",
+					"uv": [
+						0,
+						0,
+						15,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#crac-side",
+					"uv": [
+						0,
+						0,
+						15,
+						0.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				0.4,
+				4.5
+			],
+			"rotationY": 9
+		},
+		{
+			"name": "Plinth",
+			"from": [
+				0.5,
+				0,
+				1.5
+			],
+			"to": [
+				15.5,
+				1,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

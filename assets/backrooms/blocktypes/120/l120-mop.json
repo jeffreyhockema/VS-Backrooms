@@ -1,0 +1,74 @@
+// Level 120: a yellow mop bucket, its wringer and mop: a cleaner's, left behind
+{
+	"code": "l120-mop",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l120-mop-north": {
+			"base": "backrooms:block/120/l120-mop",
+			"rotateY": 0
+		},
+		"l120-mop-east": {
+			"base": "backrooms:block/120/l120-mop",
+			"rotateY": 270
+		},
+		"l120-mop-south": {
+			"base": "backrooms:block/120/l120-mop",
+			"rotateY": 180
+		},
+		"l120-mop-west": {
+			"base": "backrooms:block/120/l120-mop",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l120-mop-north"
+		],
+		"backrooms": [
+			"l120-mop-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [],
+	"collisionbox": {
+		"x1": 0.25,
+		"y1": 0,
+		"z1": 0.25,
+		"x2": 0.75,
+		"y2": 0.5,
+		"z2": 0.75
+	},
+	"selectionbox": {
+		"x1": 0.25,
+		"y1": 0,
+		"z1": 0.25,
+		"x2": 0.75,
+		"y2": 1,
+		"z2": 0.75
+	}
+}

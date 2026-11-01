@@ -1,0 +1,390 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/120/black",
+		"extinguisher": "backrooms:block/120/extinguisher",
+		"steel-grey": "backrooms:block/120/steel-grey",
+		"wall-base": "backrooms:block/120/wall-base"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Bracket",
+			"from": [
+				6.5,
+				4,
+				-0.6
+			],
+			"to": [
+				9.5,
+				6,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2
+					]
+				},
+				"south": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Body",
+			"from": [
+				6,
+				4.5,
+				-3.6
+			],
+			"to": [
+				10,
+				14,
+				-0.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						4,
+						9.5
+					]
+				},
+				"east": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						3.0,
+						9.5
+					]
+				},
+				"west": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						3.0,
+						9.5
+					]
+				},
+				"up": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						4,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#extinguisher",
+					"uv": [
+						0,
+						0,
+						4,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Valve",
+			"from": [
+				7,
+				14,
+				-2.6
+			],
+			"to": [
+				9,
+				15.5,
+				-1.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						2,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						2,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Handle",
+			"from": [
+				7.5,
+				15.5,
+				-3.6
+			],
+			"to": [
+				8.5,
+				16,
+				-0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						2.8,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						2.8,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.8
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Hose",
+			"from": [
+				9.6,
+				6,
+				-2.6
+			],
+			"to": [
+				10.4,
+				15,
+				-1.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.8,
+						9
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.8,
+						9
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.8,
+						9
+					]
+				}
+			}
+		}
+	]
+}

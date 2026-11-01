@@ -1,0 +1,79 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"ups-open": "backrooms:block/120/ups-open",
+		"ups-side": "backrooms:block/120/ups-side"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				1,
+				0,
+				2
+			],
+			"to": [
+				15,
+				15,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#ups-open",
+					"uv": [
+						0,
+						0,
+						14,
+						15
+					]
+				},
+				"east": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						13,
+						15
+					]
+				},
+				"south": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						14,
+						15
+					]
+				},
+				"west": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						13,
+						15
+					]
+				},
+				"up": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						14,
+						13
+					]
+				},
+				"down": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						14,
+						13
+					]
+				}
+			}
+		}
+	]
+}

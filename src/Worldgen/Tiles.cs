@@ -615,8 +615,8 @@ public enum CeilingKind : ushort
     L31Ceiling = 96,
     /// <summary>Level 120 (block 384-415, and 112 kept from before). Placeholder.</summary>
     L120Ceiling = 112,
-    /// <summary>Level 120: a dim fitting, a smashed one, a White Void's plain white ceiling and its glowing panel.</summary>
-    L120Dim = 384, L120Smashed = 385, L120VoidCeiling = 386, L120VoidPanel = 387,
+    /// <summary>Level 120: a dim fitting, a smashed one, a White Void's plain white ceiling and its glowing panel, and one panel gone dark.</summary>
+    L120Dim = 384, L120Smashed = 385, L120VoidCeiling = 386, L120VoidPanel = 387, L120VoidPanelDead = 388,
 
     /// <summary>Level 36 (block 416-447). Placeholder.</summary>
     L36Ceiling = 416,

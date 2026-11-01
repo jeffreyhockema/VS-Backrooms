@@ -1,0 +1,155 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"ups-lower": "backrooms:block/120/ups-lower",
+		"ups-open": "backrooms:block/120/ups-open",
+		"ups-side": "backrooms:block/120/ups-side"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				1,
+				0,
+				2
+			],
+			"to": [
+				15,
+				16,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#ups-open",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"east": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						13,
+						16
+					]
+				},
+				"south": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						13,
+						16
+					]
+				},
+				"up": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						14,
+						13
+					]
+				},
+				"down": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						14,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Door",
+			"from": [
+				1.5,
+				0,
+				-2
+			],
+			"to": [
+				14.5,
+				15,
+				-1
+			],
+			"faces": {
+				"north": {
+					"texture": "#ups-lower",
+					"uv": [
+						0,
+						0,
+						13.0,
+						15
+					]
+				},
+				"east": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						1,
+						15
+					]
+				},
+				"south": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						13.0,
+						15
+					]
+				},
+				"west": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						1,
+						15
+					]
+				},
+				"up": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"down": {
+					"texture": "#ups-side",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				-1.5
+			],
+			"rotationX": -14
+		}
+	]
+}
