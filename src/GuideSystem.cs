@@ -111,12 +111,15 @@ public class GuideSystem : ModSystem
         if (!backrooms) return;
 
         int after = -1;
+        discovery ??= new DiscoveryPages(capi);
         for (int i = 0; i < pages.Count; i++)
         {
             if (pages[i] is not GuiHandbookTextPage vanilla) continue;
             if (!Rewritten.ContainsKey(vanilla.pageCode) && !Bridged.ContainsKey(vanilla.pageCode)) continue;
-            // Replaced by a page that draws its text in tiles, so a long page does not exceed a GL driver's texture limit (see TiledRichtext)
-            var page = TiledHandbookTextPage.From(vanilla);
+            // Replaced by a page that draws its text in tiles, so a long page does not exceed a GL driver's texture limit (see
+            // TiledRichtext), and shows the far levels and creatures it names only once they are found (DiscoveryPages.Resolve)
+            var page = DiscoveryPage.From(vanilla);
+            page.Filter = discovery.Resolve;
             vanilla.Dispose();
             pages[i] = page;
             if (Rewritten.TryGetValue(page.pageCode, out string guide))
@@ -136,7 +139,6 @@ public class GuideSystem : ModSystem
         }
 
         if (after < 0) after = pages.Count - 1;
-        discovery ??= new DiscoveryPages(capi);
         foreach (string guide in Added)
         {
             IEnumerable<GuiHandbookTextPage> added = guide switch
@@ -179,7 +181,7 @@ public class GuideSystem : ModSystem
 
     private GuiHandbookTextPage Plain(string guide)
     {
-        var page = new TiledHandbookTextPage { pageCode = "backrooms-" + guide, Title = Title(guide), Text = Text(guide) };
+        var page = new DiscoveryPage { pageCode = "backrooms-" + guide, Title = Title(guide), Text = Text(guide), Filter = discovery.Resolve };
         page.Init(capi);
         return page;
     }

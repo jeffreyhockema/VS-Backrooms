@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -28,6 +29,14 @@ public class DiscoveryPage : TiledHandbookTextPage
     public string HiddenText;
     /// <summary>Kept out of the list and search for good (an old page code that now opens another page's text).</summary>
     public bool Alias;
+    /// <summary>What is done to the text before it is shown or searched (<see cref="DiscoveryPages.Resolve(string)"/>: its markers).</summary>
+    public System.Func<string, string> Filter;
+
+    /// <summary>The page that replaces a vanilla text page: same code, title, text, category and visibility.</summary>
+    public static new DiscoveryPage From(GuiHandbookTextPage old) => new()
+    {
+        pageCode = old.pageCode, Title = old.Title, Text = old.Text, categoryCode = old.categoryCode, PageNumber = old.PageNumber, Visible = old.Visible,
+    };
 
     private string fixedText, searchTitle;
 
@@ -43,7 +52,8 @@ public class DiscoveryPage : TiledHandbookTextPage
     private string Current()
     {
         if (Shown != null && !Shown()) return Lang.Get(HiddenText);
-        return Compose?.Invoke() ?? fixedText;
+        string text = Compose?.Invoke() ?? fixedText;
+        return Filter == null ? text : Filter(text);
     }
 
     public override void ComposePage(GuiComposer detailViewGui, ElementBounds textBounds, ItemStack[] allstacks, ActionConsumable<string> openDetailPageFor)
@@ -137,10 +147,68 @@ public class DiscoveryPages
         var page = new DiscoveryPage
         {
             pageCode = code, Title = "backrooms:" + title, Text = text == null ? "" : "backrooms:" + text,
-            Compose = compose, Shown = shown, HiddenText = hidden == null ? null : "backrooms:" + hidden,
+            Compose = compose, Shown = shown, HiddenText = hidden == null ? null : "backrooms:" + hidden, Filter = Resolve,
         };
         page.Init(capi);
         return page;
+    }
+
+    // ================= The markers =================
+
+    private static readonly Regex Marker = new(@"\[\[(level|unvisited|met|unmet):([a-z0-9!,]+)\]\]((?:(?!\[\[).)*?)\[\[/\1\]\]", RegexOptions.Singleline | RegexOptions.Compiled);
+    private static readonly Regex MarkerOpen = new(@"\[\[(level|unvisited|met|unmet):([a-z0-9!,]+)\]\]", RegexOptions.Compiled);
+    private static readonly Regex Spaces = new(@" {2,}", RegexOptions.Compiled), SpaceBefore = new(@" +([,.;:)])", RegexOptions.Compiled), Breaks = new(@"(<br>){3,}", RegexOptions.Compiled);
+
+    /// <summary>A text's markers resolved for this player (see <see cref="Resolve(string, int, HashSet{string})"/>).</summary>
+    public string Resolve(string text) => Resolve(text, Visited, Met);
+
+    /// <summary>
+    /// Shows or leaves out the parts of a text marked (tools/gen_guide.py, which checks the same rules) by what the player
+    /// has found (lang form, with level ids; written {{level:94}} in gen_guide.py): [[level:13,17]]..[[/level]] once one of those levels has been visited, [[unvisited:ids|any]]..[[/unvisited]]
+    /// while one has not ("any": any level a [[level]] marker of the text names), [[met:hound]]..[[/met]] once one of those
+    /// creatures has been met, [[unmet:bacteria]]..[[/unmet]] until it has. Markers nest. Then a bullet left empty is dropped,
+    /// runs of spaces close up, no space is left before , . ; : or ) and no more than one blank line in a row.
+    /// </summary>
+    public static string Resolve(string text, int bits, HashSet<string> met)
+    {
+        if (string.IsNullOrEmpty(text) || !text.Contains("[[")) return text;
+        var named = new List<int>();
+        foreach (Match m in MarkerOpen.Matches(text))
+            if (m.Groups[1].Value == "level") named.AddRange(Ids(m.Groups[2].Value));
+        string last;
+        do
+        {
+            last = text;
+            text = Marker.Replace(text, m =>
+            {
+                string kind = m.Groups[1].Value, arg = m.Groups[2].Value;
+                bool shown = kind switch
+                {
+                    "level" => Discovery.HasVisitedAny(bits, Ids(arg)),
+                    "unvisited" => (arg == "any" ? named : Ids(arg)).Any(l => !Discovery.HasVisited(bits, l)),
+                    "met" => arg.Split(',').Any(met.Contains),
+                    _ => !arg.Split(',').Any(met.Contains),
+                };
+                return shown ? m.Groups[3].Value : "";
+            });
+        } while (text != last);
+        var lines = new List<string>();
+        foreach (string raw in text.Split("<br>"))
+        {
+            string line = SpaceBefore.Replace(Spaces.Replace(raw, " "), "$1").Trim();
+            if (line != "-") lines.Add(line);
+        }
+        text = Breaks.Replace(string.Join("<br>", lines), "<br><br>");
+        while (text.StartsWith("<br>")) text = text.Substring(4);
+        while (text.EndsWith("<br>")) text = text.Substring(0, text.Length - 4);
+        return text;
+    }
+
+    private static List<int> Ids(string arg)
+    {
+        var ids = new List<int>();
+        foreach (string s in arg.Split(',')) if (int.TryParse(s, out int id)) ids.Add(id);
+        return ids;
     }
 
     // ================= The indexes =================
