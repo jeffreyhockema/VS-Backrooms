@@ -309,7 +309,7 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
 17. (B) [done] Shoe-shine stand (two raised chairs on a platform).
 18. (B) [done] The food court's stalls: menu boards over each counter (lit, two blocks wide), more stall kinds (noodles, burgers,
     coffee, pizza) with their fascias.
-19. (C) [partly: duty-free units get perfume counters and drink fridges, news units shelves; no gondola model] A shop's interior: duty free gondolas of bottles, a newsstand's magazine racks.
+19. (C) [done: duty-free units have gondolas of bottles and perfume counters; news units shelves] A shop's interior: duty free gondolas of bottles, a newsstand's magazine racks.
 
 **3. Signs and text**
 20. (A) [done] Wide hanging wayfinding signs with words and arrows (three blocks: pictogram, words, arrow): GATES A-Z ->,
@@ -403,3 +403,35 @@ sign's look (the lore says only that the 47 positions are one place).
   is about every 20 blocks of concourse wall, so roughly one box per 400 blocks of wall more.
 - No beds, safe rooms or food sources were added; the restrooms' basins in the new units are decorative (not the linked
   sinks).
+
+### What the shots showed
+
+- Run 1 (`%TEMP%/backrooms-shots/36-r3a`): the frontage, gate counters, the plane at the gate, boards, posters and the
+  meeting-point sign all read; the customs signs, the wide signs and the gate signs had their lettering cut off at the
+  bottom: every hanging sign and screen face mapped only the top five eighths of its picture (the shape's default UV, a
+  round-1 bug, visible in round 2's "T 5" too). Fixed by mapping the whole picture. The services and shoe-shine alcoves
+  were big empty boxes (now six deep, more chairs, benches, fountains, boards); columns mixed two posters (now one per
+  column); the kiosks' canopy showed a white band (now purple); the information desk's spot looked at a column.
+- Run 2 (`36-r3b`): signs read in full ("Nothing to Declare / Goods to Declare", "Food Court", "T 5"); restrooms' cubicles,
+  shallow alcoves, the purple canopies; arrivals and departures boards legible.
+- Run 3 (`36-r3c`, final, sheet `%TEMP%/backrooms-shots/36-r3c/sheet.jpg`): as run 2, plus the duty-free gondolas and
+  the pier walkways. Still weak: the concourse walls above the shopfronts (rel 6-9) are plain panel; the halls stay evenly
+  bright (round 2's choice); the meeting-point cube is small in its 14-high atrium; the information desk spot frames it
+  from the side.
+
+### Checks (round 3)
+
+`expclash` clean; mod and mapgen build, 0 errors; `layouthash` (12345, 16000; layout versions 1 and 12;
+`BACKROOMS_NO_EXP_ENTRANCES=1`): every line for levels 0-20 and the `layout hash` line identical to main's saved files;
+`regions` 60/60 in Level 36; `36stats 3` runs (unreached tiles are shuttered shops and rooms cut by the sampled square's
+edge); headless (port 43157): `/backrooms dummy place 36 5` lands (light 12), 0 error lines, 0 missing blocks,
+`blocksweep` 12435 blocks, 0 threw; `GATE_TAG=l36 gate.py --fast --port-base 43150`: PASS (be6c01c5).
+
+### Questions for the user
+
+1. Customs on the way out of the claim hall (green and red channels) is my invention: the lore brings you in by the belt
+   and says nothing of customs, but a claim hall without it read wrong. Keep it?
+2. The new restrooms along the concourses have plain basins, not the linked sinks (Level 37): the links' frequency is not
+   this round's. Should they become linked sinks later (many more ways to the Poolrooms)?
+3. The Meeting Place's sign is the real airports' meeting-point cube. The lore's "47 positions, one place" could also be
+   shown (a placard naming the position, "MEETING PLACE 23 OF 47"): wanted?
