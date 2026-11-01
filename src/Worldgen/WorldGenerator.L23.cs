@@ -265,12 +265,11 @@ public sealed partial class WorldGenerator
         if (t.Under == Unders.L23HollowTrunk && ground >= L23Low) b[ground - L23Low] = L23Unit(gx, gz, 21) < 0.55 ? l23Litter : l23Humus;
         // A buried sentry's face, between two buttresses at head height
         for (int rel = ground; rel <= ground + 5; rel++)
-            if (layout.L23SentryAt(gx, gz, rel, out ArchPier facing) && b[rel - L23Low] != 0)
-            {
-                b[rel - L23Low] = l23Sentry[Facing(facing)];
-                // (Round 3: under the face, its body pushed out of the bark, so it reads as someone trapped there)
-                if (b[rel - 1 - L23Low] != 0 && rel - 1 > ground - 1) b[rel - 1 - L23Low] = l23SentryBody[Facing(facing)];
-            }
+        {
+            if (layout.L23SentryAt(gx, gz, rel, out ArchPier facing) && b[rel - L23Low] != 0) b[rel - L23Low] = l23Sentry[Facing(facing)];
+            // (Round 3: under the face, its body pushed out of the bark, so it reads as someone trapped there)
+            if (rel > ground && layout.L23SentryBodyAt(gx, gz, rel, out ArchPier bodyFacing) && b[rel - L23Low] != 0) b[rel - L23Low] = l23SentryBody[Facing(bodyFacing)];
+        }
         // Round 3: bracket fungi up the trunks' sides
         if (!core && layout.L23BracketAt(gx, gz, out int brRel, out ArchPier brFacing) && brRel > ground && brRel - L23Low < L23Height && b[brRel - L23Low] == 0)
             b[brRel - L23Low] = l23Bracket[Facing(brFacing)];
@@ -772,8 +771,8 @@ public sealed partial class WorldGenerator
         if ((u, v) is (-9, 4) or (-9, 5) or (-8, 3)) { b[on] = l23Barrel; return; }
         // The fire ring and its seats
         if ((u, v) == (-5, 10)) { b[on] = l23FireRing; return; }
-        if ((u, v) == (-7, 10)) { b[on] = l23Bark[WorldLayout.L23LogKind(WorldLayout.L23BarkPale, true)]; return; }
-        if ((u, v) == (-5, 8)) { b[on] = l23Bark[WorldLayout.L23LogKind(WorldLayout.L23BarkPale, false)]; return; }
+        // (Its seats: stumps of stone; round 3's first shots had whole log blocks, which read as plain cubes)
+        if ((u, v) is (-7, 10) or (-5, 8) or (-3, 10)) { b[on] = l23StonePlant[3]; return; }
     }
 
     /// <summary>Base Seedling's column: the hollow tree (the way home, they say), lanterns round the camp, a table, a spring.</summary>

@@ -316,6 +316,8 @@ public sealed partial class WorldLayout
         /// <summary>The sentry's face: the column, and the way it looks out.</summary>
         public int SentryX, SentryZ;
         public ArchPier SentryFacing;
+        /// <summary>Its body's column (round 3): the outermost bark under the face, on the same bearing, a block lower.</summary>
+        public int BodyX, BodyZ;
         public ulong H;
         /// <summary>A hollow trunk (WorldLayout.Level23.Links.cs): hollowed out from its foot to a few blocks up, a mouth facing <see cref="MouthA"/> (radians, along x then z).</summary>
         public bool Hollow;
@@ -380,6 +382,18 @@ public sealed partial class WorldLayout
             t.Sentry = true;
             t.SentryX = lastX;
             t.SentryZ = lastZ;
+            // (Round 3: its body, a block lower, where the bark comes out furthest on the same bearing: the buttress there
+            // stands proud of the face, and a body put straight under the face was buried behind it)
+            int bodyX = lastX, bodyZ = lastZ;
+            for (double r = 0; r < t.R + 7; r += 0.5)
+            {
+                int sx = (int)Math.Floor(t.X + ca * r), sz = (int)Math.Floor(t.Z + sa * r);
+                if (!L23InTrunk(t, sx + 0.5, sz + 0.5, rel - 1, out _)) break;
+                bodyX = sx;
+                bodyZ = sz;
+            }
+            t.BodyX = bodyX;
+            t.BodyZ = bodyZ;
             t.SentryFacing = Math.Abs(ca) > Math.Abs(sa) ? (ca > 0 ? ArchPier.East : ArchPier.West) : (sa > 0 ? ArchPier.South : ArchPier.North);
         }
         L23MaybeHollow(ref t, i, j);
@@ -659,6 +673,22 @@ public sealed partial class WorldLayout
             {
                 L23Trunk t = around[(dj + 2) * 6 + di + 2];
                 if (!t.Exists || !t.Sentry || rel != t.Base + 2 || t.SentryX != gx || t.SentryZ != gz) continue;
+                facing = t.SentryFacing;
+                return true;
+            }
+        return false;
+    }
+
+    /// <summary>Whether a column holds a buried sentry's body (under its face, a block lower), and which way it looks.</summary>
+    public bool L23SentryBodyAt(int gx, int gz, int rel, out ArchPier facing)
+    {
+        facing = ArchPier.North;
+        L23Trunk[] around = L23TrunksAround(Hashing.FloorDiv(gx, L23Pitch), Hashing.FloorDiv(gz, L23Pitch));
+        for (int dj = -1; dj <= 1; dj++)
+            for (int di = -1; di <= 1; di++)
+            {
+                L23Trunk t = around[(dj + 2) * 6 + di + 2];
+                if (!t.Exists || !t.Sentry || rel != t.Base + 1 || t.BodyX != gx || t.BodyZ != gz) continue;
                 facing = t.SentryFacing;
                 return true;
             }
