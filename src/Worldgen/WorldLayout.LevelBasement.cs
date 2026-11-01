@@ -718,6 +718,11 @@ public sealed partial class WorldLayout
                 ref Tile table = ref b.At(cx, cz);
                 table.Variant = Props.CoffeeTable;
                 table.Pier = ArchPier.North;
+                // (Round 3: a braided rug under it, now and then)
+                if (rng.Chance(0.6))
+                    for (int dz = -1; dz <= 1; dz++)
+                        for (int dx = -1; dx <= 1; dx++)
+                            if (b.At(cx + dx, cz + dz).Kind == TileKind.Floor) b.At(cx + dx, cz + dz).Floor = FloorKind.BasementRug;
                 foreach (var (dx, dz) in Steps)
                 {
                     if (!rng.Chance(0.45) || !Free(cx + dx, cz + dz) || !SafeToBlock(open, cx + dx, cz + dz)) continue;
