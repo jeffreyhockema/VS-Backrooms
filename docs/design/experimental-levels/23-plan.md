@@ -412,3 +412,40 @@ pool's shallows; the inscribed stones in the tunnels.
   stones' shallows are drinkable Clean water. The review proposes Tainted outside the spring and the Heart: a user
   decision, not changed.
 - Arrivals are now in or by a glade: lit, open, so a newcomer sees what is coming.
+
+### What the shots showed
+
+Runs (`%TEMP%/backrooms-shots/`, all with a torch; the no-torch look judged from the spots with light of their own: the
+glades, the light shaft, the Heart of Water, the glow rooms, the camp): `23-r3a-torch` (first), `23-r3c-torch-final`
+(after the first fixes), `23-r3d-torch-final` (the last).
+
+- *Arrivals* now open onto forest every way: the random arrivals stand in or by a glade or on open floor with aspens,
+  arches, stone mushrooms and undergrowth in view, no longer nose to a trunk (round 2's `r0b` was a wall of bark).
+- *The forest floor* reads as a floor with things on it: fallen logs (the rotated bark and ring ends read as logs; the thick
+  ones are walls to walk round), stone mushrooms with their gills, the stone undergrowth's shapes (shrubs, saplings,
+  fronds, stumps), moss over the trunks' feet, bracket fungi, white aspens among the grey and red trunks. Glades are pale,
+  grassy and flowered, landmarks seen from afar under the canopy.
+- *Base Seedling* reads as a working camp: the flagstone path to the hollow tree, BASE SEEDLING on its posts, the rules
+  board (legible), the quartermaster at his counter with the ledger, M.E.G. crates and the squirt guns behind, barrels by
+  the spring, the M.E.G.'s lanterns; the way-sign at a tunnel mouth reads from the forest.
+- *The Heart of Water* spot now shows the reservoir under its shaft, the shore and the Giants beyond.
+- Fixed after the first shots: the sentry's body was buried behind the buttress under its face (now on the outermost bark
+  a block lower, and its relief stronger after the second); the Heart's warning was hidden behind roots and then behind a
+  fern in front of the camera; the fire ring's log seats read as plain cubes (now stumps). The final run still showed a
+  fern in front of the warning's camera (its clear-line test gave up on the basin's slope and fell back to nine blocks
+  out); after it, the test counts only wood above the local ground and no fern grows within twelve blocks of the warning.
+  Checked headless (a block dump: both boards and their posts stand at the spot's target, the camera four blocks in
+  front), not reshot: the three runs were used.
+- The sentry's body reads in the final run: shoulders and two hands under the face.
+- Still weak: the forest is dim and its far trunks fog into one grey-green (as the lore wants, but it flattens a still
+  frame); the thick fallen logs are blocky walls; the barrel's stencil wraps round the bulge; the sentry's body is subtle
+  at a distance; with the rig's short view distance the sky sphere's glare shows through gaps at the loaded world's edge.
+
+### Questions for the user
+
+1. Water: every water block in the level is Clean (the reservoir feeds it all); the balance review proposes Tainted outside
+   Seedling's spring and the Heart of Water. Keep Clean, or make the glow rooms' puddles Tainted?
+2. Arrivals now favour the glades (lit, open): good for a first look, but the lore's surface is "extremely dense... little to
+   no light". Keep them by the glades, or put arrivals in the dim forest again (with open floor round them)?
+3. The M.E.G.'s signs, notice board, trails, planks by the sentries and the lost explorer's camp are inventions in the
+   lore's spirit (the M.E.G. hold Base Seedling): keep them all?

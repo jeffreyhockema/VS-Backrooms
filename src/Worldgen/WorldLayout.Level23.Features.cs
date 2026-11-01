@@ -319,11 +319,11 @@ public sealed partial class WorldLayout
 
     private (int X, int Z, ArchPier Side)? l23Warning;
 
-    /// <summary>Whether a column is within ten blocks of the Heart of Water's warning (kept clear of ferns, so it can be seen: round 3's shots had a fern in front of it).</summary>
+    /// <summary>Whether a column is within twelve blocks of the Heart of Water's warning (kept clear of ferns, so it can be seen: round 3's shots had a fern in front of it).</summary>
     public bool L23NearWarning(int gx, int gz)
     {
         var (wx, wz, _) = l23Warning ??= L23WarningAt;
-        return (gx - wx) * (gx - wx) + (gz - wz) * (gz - wz) < 100;
+        return (gx - wx) * (gx - wx) + (gz - wz) * (gz - wz) < 144;
     }
 
     /// <summary>The nearest of the four ways to a direction (x east, z south).</summary>

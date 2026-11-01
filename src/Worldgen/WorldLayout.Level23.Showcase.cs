@@ -51,15 +51,16 @@ public partial class WorldLayout
             var (fx, fz) = L23Step(side);
             // (From the nearest place out in front of it with nothing standing between: round 3's first shot looked at a root)
             var kinds = new byte[3];
-            for (int d = 3; d <= 9; d++)
+            for (int d = 4; d <= 9; d++)
             {
                 int x = wx + fx * d, z = wz + fz * d;
                 bool clear = true;
                 for (int k = 1; k <= d && clear; k++)
                 {
                     int cx = wx + fx * k, cz = wz + fz * k;
-                    L23Wood(cx, cz, L23Ground(wx, wz) + 1, kinds);
-                    clear = kinds[0] == 0 && kinds[1] == 0 && L23Ground(cx, cz) <= L23Ground(wx, wz) + 1;
+                    L23Wood(cx, cz, Math.Max(L23Ground(wx, wz), L23Ground(cx, cz)) + 1, kinds);
+                    // (The basin's slope rises behind it: only wood in the way counts, the viewer looks down at it)
+                    clear = kinds[0] == 0 && kinds[1] == 0;
                 }
                 if (!clear && d < 9) continue;
                 spots.Add(L23Spot("heart-warning", x, z, L23Ground(x, z) + 1, fy, wx + 0.5, wz + 0.5, 0, eyeAt: L23Ground(wx, wz) + 2.5));
