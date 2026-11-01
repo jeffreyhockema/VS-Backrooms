@@ -783,6 +783,24 @@ An elevator arrives beside another elevator, a stairwell beside a stairwell, a d
 - A threshold that has become a way back no longer leads where it once would have.
 - Three kinds of door are one-way although you walk through them: Level !'s doors slam and lock, the Hub's carved doors and The End's lone doorframe are gone behind you.
 - You wake in the last bed you slept in, wherever it is, or at your Level 0 home if you have slept in none. A temporal gear moves where you wake, from any level. Two-way ways that come out in Level 0 (a Level 4 stairwell, a hotel door, a city basement, Level 3999's mini arcade elevator) make good places for a home.
+
+**Two-way, to and from the farther levels (31, 36, 52, 120, 23)**
+- Levels 2, 3 and 6, a wooden door where no door should be, bubblegum pop playing faintly behind it: a lobby of Level 31, beside a wooden door that leads back.
+- Level 4, a grey steel door marked SERVER ROOM in an office's server room, a green light under it: Level 120, beside a steel door that leads back.
+- Level 4, a door under a green EMERGENCY EXIT sign: Level 52, just inside the end doors of a teaching block, which lead back.
+- Level 11, a high school (steel doors under a HIGH SCHOOL sign): Level 52, just inside a campus building's front doors, which lead back.
+- Levels 9 and 11, a glazed door under a lit airplane sign: Level 36's claim hall, beside a door in the baggage wall that leads back.
+- Level 23, the hollow tree in the middle of Base Seedling: one hollow tree in Level 37, which leads back.
+
+**One-way, the farther levels**
+- Level 10, a white wall of panels across the fields with one small reinforced door; Level 3, a steel door marked HIGH VOLTAGE with white light under it: Level 15, beside a reinforced door that does not open.
+- Level 15: the ESCAPE panel in a control room rolls up a gateway to Level 3; an orange-glowing pane in a machine room's glass wall, broken, opens on a Level 11 sidewalk; stairs down through the floor of an office that does not belong: Level 4.
+- Level 36, a gate's flight when its countdown runs out: the level on the gate's screen (11, 9, 37, 3999, 188 or 10). A restroom sink left to overflow, your head under: Level 37.
+- Level 31, the revolving door in the front of some lobbies: Level 9, 10 or 11. Walking out of Skate Rental with a pair from the cubbies, or out of the level in the Coach's: the Lobby, without them.
+- Level 120, a steel door with warm light under it, in a server room or a Pitch-Black Hallway: Level 4, out of a locked office door.
+- Level 37, a huge hollow tree of green bark growing up through the tiles: Level 23, out of a hollow trunk in the forest. Level 23, the well at the bottom of the Heart of Water: Level 7's open sea.
+- Levels 0, 1, 2, 4 and 5, a patch of cracked floor: it gives way into the Basement. Climbing to the top of the crack's shaft: the Lobby.
+- Level 9, the Gloom (a pool of darkness light does not reach), stayed in too long; Level 6's deepest dark, with no light, for minutes: Level 73. Level 73, the door in the castle's north wall that Coran opens for you: Level 9.
 """)
 
 PAGES["entities"] = ("What Lives Here", """
@@ -981,7 +999,9 @@ Most clusters have one terminal still whole: its screen glows green, BOOT and a 
 Racks give [scrap wire](item-backrooms:scrapwire) and [metal brackets](item-backrooms:metalbracket), and now and then a [circuit board](item-backrooms:l3999-circuitboard) (the wanderers buy those); wrecked racks the same; terminals glass, wire and boards; the smashed lights glass. A sealed supply box turns up in about one room in five, more in the wrecked stores.
 
 **Ways in and out**
-This level is experimental: for now it is reached only from the cheats menu or with /backrooms goto 120, and has no way out. The reports speak of the smashed screen of an arcade machine in Level 25 and a door marked SERVER ROOM in Level 4.3 leading in, and of doors back to 4.3, or noclipping through a server room's wall into Level 70, leading out.
+- **In:** the office blocks of Level 4 have server rooms of their own, open doorways onto a few racks. Very rarely (a handful in the whole of Level 4, kilometres apart) one has a grey steel door instead, marked SERVER ROOM, a cold green light in the gap under it and an M.E.G. placard beside it. <hk>rightmouse</hk> it and you are in a server room here, beside a steel door: that door takes you back to the corridor you left, every time.
+- **Out:** now and then a server room has a steel door in its wall, a line of warm light under it: in the dark, look low. Every Pitch-Black Hallway has one too, in its first lane or its last. Each opens on Level 4, and the door behind you there is only an office door, and locked: one way.
+- The reports also speak of the smashed screen of an arcade machine in Level 25 leading in, and of noclipping through a server room's wall into Level 70: neither is known to work.
 """)
 
 # ---------------- Level 15, "Futuristic Halls" (experimental, id 27; detail pass 2026-10-30): its own page ----------------
@@ -1216,7 +1236,7 @@ A service corridor runs round every rink. Off it: bathrooms; store rooms (supply
 In the dark rooms you may see a black figure standing still at the edge of the light. It is gone when you come close, and it has never been seen to move. Paranoia, the M.E.G. say.
 
 **Ways in and out**
-Wanderers tell of a wooden door with pop music behind it (in Levels 2, 3 and 6, among others) and stairs up from Level 30; out, a white door marked 70 behind the arcades, an EMPLOYEES ONLY door in the food court, an arcade that goes on until it is Level 25, and the Revolving Door. None of them is here yet: this level is reached only through the cheats menu. Taking the rental skates out of the level is said to drop you in the Lobby, barefoot.
+In: a wooden door where no door should be, in the tunnels of Level 2, the brick of Level 3 or the dark of Level 6 (rarer there), with bubblegum pop playing faintly behind it. You hear it before you see it. It opens on one of the rink's lobbies, beside a wooden door that takes you back the way you came. Out: the **Revolving Door** in the front of some lobbies, to the Suburbs, the fields of Level 10 or the Endless City (each door always to the same one, and no way back through it); ask the Coach the way out and he marks the nearest on your map. **Do not steal the skates:** walk out of Skate Rental with a pair from the cubbies, or leave the level by any way wearing the Coach's, and you noclip into the Lobby, without them. Wanderers also tell of stairs up from Level 30, a white door marked 70 behind the arcades, an EMPLOYEES ONLY door in the food court and an arcade that goes on until it is Level 25; none of them has been found to open.
 """)
 
 
@@ -1228,19 +1248,19 @@ Wanderers tell of a wooden door with pop music behind it (in Levels 2, 3 and 6, 
 
 PAGES["level36"] = ("Level 36: the Airport", """
 **Level 36, the Timeless Airport**
-*An endless terminal, empty and spotless, where every flight lands back where it left.*
+*An endless terminal, empty and spotless, where every level is one flight away.*
 
 **Arriving**
-You are brought in like luggage, on a baggage carousel in the claim hall. Behind it is the one wall anyone has found the end of; the hall runs north and south along it as far as you care to walk, a carousel every 32 blocks. The bags on the belts belong to nobody now: [suitcases](block-backrooms:suitcase) give clothes and odds and ends, and the Lost and Found offices along the wall hold more, with a supply box or two.
+Most come in like luggage, on a baggage carousel in the claim hall. Behind it is the one wall anyone has found the end of; the hall runs north and south along it as far as you care to walk, a carousel every 32 blocks. Some come in by a door under an airplane sign (see below) and stand in the same hall, beside one of the doors in that wall. The bags on the belts belong to nobody now: [suitcases](block-backrooms:suitcase) give clothes and odds and ends, and the Lost and Found offices along the wall hold more, with a supply box or two.
 
 **The terminal**
 East of the claim hall: check-in, rows of desks under flight screens with queue barriers before them, then the old security checkpoint, its scanners dead. Past it the concourses: wide halls every 256 blocks each way, with moving walkways down the north-south ones (some stopped), seats, vending machines and Almond Water fountains along their sides. Between them lie the terminal's wings (a letter A to Z over each one's mouth, its gates numbered within 1 to 60), duty-free streets, food courts, first-class lounges, the Meeting Place, and doors into the back of house: dim service corridors that end nowhere, and vents with fans in them.
 
 **Reading the screens**
-A flight screen gives a flight number, a level, a gate and a count in no unit at all. {rightmouse} a screen for the flights of the gates nearest it.
+A flight screen gives a flight number, a level, a gate and a count in no unit at all. {rightmouse} a screen for the flights of the gates nearest it. The screen at each gate names the level its flights go to, and it is always the same level for that gate: the city, the Suburbs, the Poolrooms, Level 3999, Level 188 or the fields of Level 10.
 
 **Flights**
-When a gate's count falls under 1000 it is boarding: {rightmouse} the jet-bridge door in the gate's window wall and you are aboard the plane parked behind it. The same door lets you off again until it leaves. Stay aboard when the count reaches nothing and you fly for about a minute, land, and come off on a baggage carousel in the claim hall. Every flight lands here. The flight at gate C32 of a C wing has been delayed for longer than anyone has counted.
+When a gate's count falls under 1000 it is boarding: {rightmouse} the jet-bridge door in the gate's window wall and you are aboard the plane parked behind it. The same door lets you off again until it leaves. Stay aboard when the count reaches nothing and you fly for about a minute, land, and step off in the level on the gate's screen, on your feet, and always in the same place for that gate. There is no flight back: to return, find your own way in again. The flight at gate C32 of a C wing has been delayed for longer than anyone has counted.
 
 **Time**
 The clocks have no hands, or have stopped. Nobody sleeps in the airport: lie down and you are up again at once. Nobody tires either: your Rest stays where it was when you arrived, for as long as you stay. Hunger and thirst go on as anywhere, so eat.
@@ -1255,7 +1275,10 @@ Further in, the signs contradict each other, and the EXIT signs lead nowhere. A 
 Far out, every way but back toward the carousels, the walls and floors dissolve into static. Reality thins there: your stability drains while you stand in it.
 
 **People**
-The Backrooms Travel Agency keeps a booth in check-in (booth 0 on the line through the middle of the hall, others every 1024 blocks along it) and a desk at every Meeting Place. Its Travel Planner talks, gives advice, and trades: travel goods for the junk of the terminal. The Gate C32 Support Group's things are at their gate; they are never in. The other ways the lore gives in and out (signs with an airplane on them, a train from the Metro, a restroom sink, a hotel's glass doors) are not open in this world: the cheats menu is the only way here.
+The Backrooms Travel Agency keeps a booth in check-in (booth 0 on the line through the middle of the hall, others every 1024 blocks along it) and a desk at every Meeting Place. Its Travel Planner talks, gives advice, and trades: travel goods for the junk of the terminal. The Gate C32 Support Group's things are at their gate; they are never in.
+
+**Ways in and out**
+In: very rarely, in the city or in the Suburbs, a plain stretch of wall has a door in it under a lit sign with an airplane on it, where no door should be. {rightmouse} it and you are in the claim hall, beside a door under the same sign in the baggage wall; that door takes you back out where you came in. The other doors in that wall are locked. Out: the gates' flights, one way, each to its own level. And a restroom sink (there is a pair of restrooms in every wing, and showers in the lounges): turn the tap and it runs over and will not stop; hold your head under ({rightmouse}, held) and you come up in the Poolrooms, one way. Wanderers also tell of a train from somewhere called the Metro, apartment doors in a part of the city nobody here has found, luggage that falls, and a hotel's glass doors that lead elsewhere. None of those has been seen here.
 """)
 
 

@@ -1,9 +1,10 @@
 # Experimental levels (branch `experimental-levels`)
 
-Eight prototype levels, built cheaply to try out ideas. They are **disconnected**: no thresholds in or out, no
-entities, no notes, no handbook text. The only way in is the cheats menu (F7) or
-`/backrooms goto 73|basement|52|31|120|36|15|23`. If an idea works, it gets a proper pass (lore polish, entrances,
-dangers) later; if not, its commits are dropped.
+Eight levels, built as prototypes and brought up to the released levels' quality in two detail rounds (round 2 judged
+from screenshots in the real client). Since the links round (2026-10-31) they are **connected**: each has the ways in and
+out its lore gives wherever the lore names a level this mod has (`LINKS.md`; the handbook's Ways Between Levels page
+lists them), and the rest are rumours in its notes. The cheats menu (F7) and `/backrooms goto
+73|basement|52|31|120|36|15|23` still take you straight there.
 
 This branch is not meant to merge into `main` for a long time. Each level is its own commit after the shared
 scaffolding commit, so one can be cherry-picked or reverted on its own. Levels 55 and 183 were built in batch 2 and
