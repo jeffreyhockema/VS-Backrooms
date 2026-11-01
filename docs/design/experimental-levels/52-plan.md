@@ -456,7 +456,7 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
   The generator looks a tile's fittings up first (`L52FixtureAt`; `=water`, `=hedge`, `=stair-<side>` are the vanilla
   blocks). So the tower, the bulkheads, the air handlers, the lecture theatres' tiers, the boards, flags, goals and the
   stand are blocks laid by the plan, seed-independent, and the same in the harness.
-- `tools/gen_52_r3.py` (new, called from `gen_52.py`): `l52-sign-{kind}-{side}` (62 kinds of plate or fitting hung on the
+- `tools/gen_52_r3.py` (new, called from `gen_52.py`): `l52-sign-{kind}-{side}` (61 kinds of plate or fitting hung on the
   wall behind its block; text drawn into the textures at 64 px a block, reading left to right from in front; signs two or
   three blocks wide are cut at the seam), `l52-stall`, `l52-fumehood`, `l52-bleacher`, `l52-goal`, `l52-flagpole`,
   `l52-post` (boards on two posts: the map, the M.E.G.'s campus names, the bases), `l52-jet`, `l52-vent`, `l52-hvac`,
@@ -482,3 +482,15 @@ tables; the lifts' doors (the lore has lifts; these do not run).
   notes are rolled per desk or cabinet, a little more note-finding on Level 52.
 - No new beds (the lodging rooms' beds were there). No shortcut, no threshold, no safe room beyond the level's own Safe.
 - The lecture theatres' tiers and the stands are climbed with jumps or the aisle stairs; no fall higher than five.
+
+### What the shots showed
+- **Run 1** (`%TEMP%/backrooms-shots/52-20261101-014255`, `sheet.jpg`): the new rooms read as what they are (front office
+  counter, restroom stalls and basins, library stacks and reading tables, staff room, lab with fume hoods, the lecture
+  theatre's tiers, the gym's bleachers and changing-room doors with their pictograms); the corridor's hose cabinets and
+  notice boards break the lockers; floor numbers in the stairwells; the clock tower over Marshall David's corner; the
+  campus map and the M.E.G.'s MARSHALL DAVID CAMPUS board at the gate; Base Sunfire's board and camp; the pitch with its
+  track, goal and stand; hedges, bike racks, door leaves and wall clocks seen through the windows; building numbers on
+  the canopies. Wrong: two EXIT signs (and two numbers) over a three-wide door; openings over the changing rooms' doors
+  at the gym's upper level and notice boards on its walls; the entrance spot looked into the back of the campus map; the
+  roof spot looked at the parapet; J. Barry's sign spot stood in the fence; the roof membrane too speckled; the courtyard
+  crowded with trees. All fixed for run 2.

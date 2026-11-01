@@ -287,7 +287,7 @@ public partial class WorldLayout
             var (st, _) = md.Stairs[0];
             var (jdu, jdv) = L52Step(st.J);
             var (idu, idv) = L52Step(st.I);
-            int u = st.U - 3 * idu - 5 * jdu, v = st.V - 3 * idv - 5 * jdv;
+            int u = st.U - 3 * idu - 2 * jdu, v = st.V - 3 * idv - 2 * jdv;
             if (md.InGrid(u, v) && md.At(u, v).Kind == TileKind.Floor) Add(md, "stair-hall", u, v, 0, Heading(jdu, jdv), -2);
         }
 
