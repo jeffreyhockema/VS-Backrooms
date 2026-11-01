@@ -413,7 +413,7 @@ fixture in the air block in front of a wall, at its own height; `Tile.Pipe` = `P
    and found box; the couches as a waiting corner.
 6. (B) [done] Bathrooms as real restrooms: a row of stalls (partitions and doors), a vanity of sinks under mirrors, hand dryers,
    a bin; the stalls on the far wall, sinks by the door.
-7. (C) [done] HVAC rooms with an air handler (a big unit) and pressure tanks rather than scattered props; store rooms as the
+7. (C) [partly: the units read weakly in the shots] HVAC rooms with an air handler (a big unit) and pressure tanks rather than scattered props; store rooms as the
    rink's stock and skate-repair room (a workbench, a toolbox, wheels).
 8. (C) [done] The cinema's door outside with lit NOW SHOWING poster cases either side (the "ticket booth" the lead asks for, in
    the lore's free cinema: no tickets).
@@ -532,7 +532,13 @@ revolving doors' TO LV screens (asked for by the lead).
   was empty (a fourth row of tables and a jukebox since); the snack window's menu touched its frame (fixed).
 - **Run 2** (`31-r3b/`): the rig stopped after five spots on a PermissionError of its own (not the level's); its
   shots (rink, star, DJ, lobby, lobby front) matched run 1's.
-- **Run 3** (final): see below.
+- **Run 3** (final, `%TEMP%/backrooms-shots/31-r3-final/`, `sheet.jpg`; 27 of 28 spots, Level 6's door spot fails to
+  shoot as in round 2's links run, the level is dark): the restrooms now read as restrooms (two runs of stalls,
+  the vanity under its mirrors); the corridor's SKATE RENTAL and SNACK BAR signs over their doors; the food court
+  fuller; the Coach, the prize corner, the snack window, the trophy cases, the cinema's TV, the revolving door's
+  TO LV11 screen and a random arrival facing the RINK RULES board all hold. **Still weak:** the HVAC rooms (the
+  shared AC unit reads as a low white slab along the far wall; the duct and pipes carry the room), the bare
+  glowing-carpet and emptiness rooms (as the lore wants them), the hall arrivals the rig turns to a wall.
 
 ### Questions for the user
 
