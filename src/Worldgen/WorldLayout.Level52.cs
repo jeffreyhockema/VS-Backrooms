@@ -1593,6 +1593,9 @@ public sealed partial class WorldLayout
                 if (d == ld - 2 && a % 3 == 1 && a <= la - 2) { facing = room.DoorSide; stack = 1; return Props.Bed; }
                 if (d == ld - 1 && a % 3 == 2 && a <= la - 2) { facing = room.DoorSide; return Props.Nightstand; }
                 if (d == 1 && a == 0) { facing = toHighA; return Props.Wardrobe; }
+                // (Round 3) a desk and chair under the window end, for whoever lodges here
+                if (d == ld - 1 && a == la - 1 && la >= 5) { facing = room.DoorSide; return Props.Desk; }
+                if (d == ld - 2 && a == la - 1 && la >= 5 && ld >= 5) { facing = intoRoom; return Props.OfficeChair; }
                 return 0;
             case L52RoomKind.Empty:
                 if (d == ld / 2 && a == la / 2 && (h >> 4 & 1) == 0) { facing = toLowA; return Props.L52Desk; }

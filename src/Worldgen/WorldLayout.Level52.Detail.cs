@@ -150,6 +150,52 @@ public sealed partial class WorldLayout
         L52LayHedges(c);
         L52LayTrophies(c);
         L52LaySkylight(c);
+        L52LayTerrace(c);
+    }
+
+    /// <summary>Outside a canteen's door on a long side, a few café tables with their chairs on the lawn: where people would eat in the sun.</summary>
+    private static void L52LayTerrace(L52Campus c)
+    {
+        foreach (L52Building b in c.Buildings)
+        {
+            if (b.Kind != L52BuildingKind.Canteen) continue;
+            bool done = false;
+            for (int v = b.V0; v <= b.V1 && !done; v++)
+                for (int u = b.U0; u <= b.U1 && !done; u++)
+                {
+                    Tile e = c.At(u, v);
+                    if (e.Zone != (byte)L52Zone.Entrance || e.Detail != b.Index) continue;
+                    var (ou, ov) = L52Step(e.Pier);
+                    var (au, av) = L52Step(L52LeftOf(e.Pier));
+                    // (a long side's pair: the door beside it is a door too)
+                    if (!c.InGrid(u + au, v + av) || c.At(u + au, v + av).Zone != (byte)L52Zone.Entrance) continue;
+                    foreach (int side in new[] { 1, -1 })
+                    {
+                        int placed = 0;
+                        for (int k = 0; k < 3; k++)
+                        {
+                            int tu = u + ou * 6 + au * side * (5 + k * 4), tv = v + ov * 6 + av * side * (5 + k * 4);
+                            bool free = true;
+                            for (int dv = -1; dv <= 1 && free; dv++)
+                                for (int du = -1; du <= 1 && free; du++)
+                                {
+                                    int nu = tu + du, nv = tv + dv;
+                                    if (!c.InGrid(nu, nv) || c.At(nu, nv).Zone != (byte)L52Zone.Lawn || c.At(nu, nv).Variant != 0 || c.At(nu, nv).Overhead != 0
+                                        || c.HasFixture[nu + nv * c.W]) free = false;
+                                }
+                            if (!free) continue;
+                            L52Put(c, tu, tv, Props.CafeTable, e.Pier);
+                            foreach (ArchPier w in L52Ways)
+                            {
+                                var (wu, wv) = L52Step(w);
+                                L52Put(c, tu + wu, tv + wv, Props.CafeChair, L52Opposite(w));
+                            }
+                            placed++;
+                        }
+                        if (placed > 0) done = true;
+                    }
+                }
+        }
     }
 
     /// <summary>
