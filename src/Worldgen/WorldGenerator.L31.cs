@@ -33,6 +33,14 @@ public sealed partial class WorldGenerator
     /// 2 x 3 by [row * 2 + column, side], the lacquer (plain, with its top trim).</summary>
     private readonly int[,] l31Mural = new int[24, 4], l31CladMirror = new int[6, 4], l31Lacquer = new int[2, 4], l31DjSign = new int[6, 4];
     private readonly int[] l31Exit = new int[4], l31Crt = new int[4];
+    /// <summary>Round 3 (tools/gen_31_round3.py): the wall mounts by [part (Tile.Depth), row from the top, side]; the stall,
+    /// vanity, photo booth, jukebox, trophy case and TV cabinet by side; the cinema's step; Level Fun's popcorn machine and
+    /// Level 3999's prize case, prize wall and plush (by kind, side).</summary>
+    private int[,,] l31Plate;
+    private readonly int[] l31Stall = new int[4], l31Vanity = new int[4], l31Booth = new int[4], l31Juke = new int[4], l31Trophy = new int[4],
+        l31MediaCab = new int[4], l31Popcorn = new int[4], l31PrizeCase = new int[4], l31PrizeWall = new int[4];
+    private readonly int[,] l31Plush = new int[4, 4];
+    private int l31Riser;
     private readonly HashSet<string> l31Missing = new();
 
     /// <summary>A block of this mod's, or <paramref name="fallback"/> if it is not there (logged once).</summary>
@@ -112,6 +120,7 @@ public sealed partial class WorldGenerator
             l31Couch[1, f] = L31Block($"l3999-couch-right-{side}");
         }
         InitL31Detail();
+        InitL31Round3();
         InitL31Links();
     }
 
@@ -167,6 +176,43 @@ public sealed partial class WorldGenerator
         }
     }
 
+    private void InitL31Round3()
+    {
+        var parts = L31.L31MountParts;
+        l31Plate = new int[parts.Length, 3, 4];
+        for (int i = 0; i < parts.Length; i++)
+        {
+            var m = L31.L31Mounts[parts[i].Mount];
+            for (int r = 0; r < m.Rows; r++)
+                for (int f = 0; f < 4; f++) l31Plate[i, r, f] = L31Block($"l31-plate-{m.Name}{parts[i].Col}{r}-{Sides[f]}");
+        }
+        string[] plush = { "bear", "cat", "alien", "smiley" };
+        for (int f = 0; f < 4; f++)
+        {
+            string side = Sides[f];
+            l31Stall[f] = L31Block($"l31-stall-{side}", propIds[Props.Toilet, 0, f]);
+            l31Vanity[f] = L31Block($"l31-vanity-{side}", propIds[Props.KitchenCounter, 0, f]);
+            l31Booth[f] = L31Block($"l31-photobooth-{side}");
+            l31Juke[f] = L31Block($"l31-jukebox-{side}");
+            l31Trophy[f] = L31Block($"l31-trophycase-{side}");
+            l31MediaCab[f] = L31Block($"l31-mediacab-{side}");
+            l31Popcorn[f] = L31Block($"fun-popcorncart-{side}");
+            l31PrizeCase[f] = L31Block($"l3999-prizecase-{side}", l31Prize[f]);
+            l31PrizeWall[f] = L31Block($"l3999-prizewall-{side}");
+            for (int k = 0; k < 4; k++) l31Plush[k, f] = L31Block($"l3999-plush-{plush[k]}-{side}");
+        }
+        l31Riser = L31Block("l31-riser", l31Maroon);
+    }
+
+    /// <summary>A wall mount's block at a height over a floor tile (0 where it has nothing there).</summary>
+    private int L31MountBlock(in Tile t, int rel, int air)
+    {
+        if (!L31.L31HasMount(t) || t.Depth >= l31Plate.GetLength(0)) return 0;
+        var m = L31.L31Mounts[L31.L31MountParts[t.Depth].Mount];
+        int top = m.Top == 0 ? air : m.Top, row = top - rel;
+        return row >= 0 && row < m.Rows ? l31Plate[t.Depth, row, t.Pipe - Pipes.L31Mount] : 0;
+    }
+
     /// <summary>A sign on a wall's face at a height (0 where the sign has nothing at that height).</summary>
     private int L31SignBlock(in Tile t, int gx, int gz, int rel, int high)
     {
@@ -204,6 +250,8 @@ public sealed partial class WorldGenerator
         if (rel == 0) return L31Floor(t, gx, gz);
         if (rel == air + 1) return L31Ceiling(t);
         if (rel > air) return concreteId;
+        // A sign or fitting on the wall the tile stands against (round 3)
+        if (rel >= 1 && L31MountBlock(t, rel, air) is int mount and > 0) return mount;
         if (rel >= 2 && t.Overhead is L31.L31Overhead.Mural or L31.L31Overhead.Mirrors or L31.L31Overhead.Sign)
         {
             // (a sign alone on a wall leaves the rest of its column to the room: a cinema's steps, say)
@@ -235,12 +283,14 @@ public sealed partial class WorldGenerator
         int sub = (t.Detail & L31.L31SubMask) >> L31.L31SubShift;
         // A cinema row raised a step or three; a flooded HVAC room's water over its wet floor
         int lift = t.Zone == (byte)Zone.Cinema ? sub : 0;
-        if (lift > 0 && rel <= lift) return l31Maroon;
+        if (lift > 0 && rel <= lift) return rel == lift ? l31Riser : l31Maroon;
         if (t.Zone == (byte)Zone.Hvac && sub == L31.L31SubFlood && rel == 1)
         {
             fluid = waterId;
             return 0;
         }
+        // (a plush on a prize case)
+        if (rel == 2 + lift && t.Variant == L31.L31Props.PrizeCase && t.Stack is >= 1 and <= 4) return l31Plush[t.Stack - 1, Facing(t.Pier)];
         if (rel != 1 + lift) return 0;
         if (t.SupplyBox) return BoxOf(t);
         if (t.Variant != 0) return L31Prop(t);
@@ -270,6 +320,8 @@ public sealed partial class WorldGenerator
         // (over a doorway, only above its opening)
         var (bx, bz) = facing switch { ArchPier.North => (gx, gz + 1), ArchPier.South => (gx, gz - 1), ArchPier.East => (gx - 1, gz), _ => (gx + 1, gz) };
         if (rel <= 3 && layout.TileAt(bx, bz) is { } behind && (behind.Kind == TileKind.Doorway || behind.Under is Unders.L31Revolving or Unders.L31LobbyDoor)) return 0;
+        // (a bank of lockers keeps its two rows: round 3's skate lockers round the rink)
+        if (rel <= 2 && layout.TileAt(bx, bz) is { Kind: TileKind.Wall } lk && (lk.Detail & L31.L31SubMask) >> L31.L31SubShift == L31.L31Wall.Locker) return 0;
         int f = Facing(facing);
         if (t.Overhead == L31.L31Overhead.Sign && rel >= air - 1)
             return l31DjSign[System.Math.Clamp(((t.Detail & L31.L31SubMask) >> L31.L31SubShift) - 1, 0, 2) * 2 + (air - rel), f];
@@ -383,6 +435,15 @@ public sealed partial class WorldGenerator
             L31.L31Props.CinemaBench => l31CinemaBench[f],
             L31.L31Props.Monitors => l31Monitors[f],
             L31.L31Props.StaffSpot => 0,
+            L31.L31Props.Stall => l31Stall[f],
+            L31.L31Props.Vanity => l31Vanity[f],
+            L31.L31Props.PhotoBooth => l31Booth[f],
+            L31.L31Props.Jukebox => l31Juke[f],
+            L31.L31Props.TrophyCase => l31Trophy[f],
+            L31.L31Props.MediaCab => l31MediaCab[f],
+            L31.L31Props.Popcorn => l31Popcorn[f],
+            L31.L31Props.PrizeCase => l31PrizeCase[f],
+            L31.L31Props.PrizeWall => l31PrizeWall[f],
             Props.Shelf => shelfIds[Facing(Opposite(t.Pier))],
             >= 40 and < Props.Limit => PropBlock(t),
             _ => 0,

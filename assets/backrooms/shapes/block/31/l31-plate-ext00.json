@@ -1,0 +1,355 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"plate-black": "backrooms:block/31/plate-black",
+		"plate-red": "backrooms:block/31/plate-red"
+	},
+	"elements": [
+		{
+			"name": "Bracket",
+			"from": [
+				6.5,
+				2,
+				15.4
+			],
+			"to": [
+				9.5,
+				12,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						3.0,
+						10
+					]
+				},
+				"east": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						10
+					]
+				},
+				"south": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						3.0,
+						10
+					]
+				},
+				"west": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						10
+					]
+				},
+				"up": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Tank",
+			"from": [
+				5.5,
+				2.5,
+				11
+			],
+			"to": [
+				10.5,
+				11,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#plate-red",
+					"uv": [
+						0,
+						0,
+						5.0,
+						8.5
+					]
+				},
+				"east": {
+					"texture": "#plate-red",
+					"uv": [
+						0,
+						0,
+						4.4,
+						8.5
+					]
+				},
+				"south": {
+					"texture": "#plate-red",
+					"uv": [
+						0,
+						0,
+						5.0,
+						8.5
+					]
+				},
+				"west": {
+					"texture": "#plate-red",
+					"uv": [
+						0,
+						0,
+						4.4,
+						8.5
+					]
+				},
+				"up": {
+					"texture": "#plate-red",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4.4
+					]
+				},
+				"down": {
+					"texture": "#plate-red",
+					"uv": [
+						0,
+						0,
+						5.0,
+						4.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck",
+			"from": [
+				7,
+				11,
+				12
+			],
+			"to": [
+				9,
+				12.5,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						2,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Handle",
+			"from": [
+				6,
+				12.5,
+				11.5
+			],
+			"to": [
+				10,
+				13.2,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						4,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.7
+					]
+				},
+				"south": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						4,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						4,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						4,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Hose",
+			"from": [
+				10.5,
+				6,
+				12.5
+			],
+			"to": [
+				11.5,
+				11.5,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.5
+					]
+				},
+				"east": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.5
+					]
+				},
+				"south": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.5
+					]
+				},
+				"west": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						5.5
+					]
+				},
+				"up": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#plate-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		}
+	]
+}

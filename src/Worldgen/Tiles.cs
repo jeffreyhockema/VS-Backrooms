@@ -804,6 +804,10 @@ public static class Pipes
     public const ushort BasementFirst = 288, BasementLast = 319;
     public const ushort L52First = 320, L52Last = 351;
     public const ushort L31First = 352, L31Last = 383;
+    /// <summary>Level 31: a wall mount (a sign or fitting on the wall a floor tile stands against, or hung over it); this value
+    /// plus the way it faces (WorldGenerator.Facing: 0 north, 1 east, 2 south, 3 west), so 352-355; Tile.Depth says which
+    /// (WorldLayout.L31Mounts).</summary>
+    public const ushort L31Mount = 352;
     public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
     public const ushort L15First = 448, L15Last = 479;

@@ -1,0 +1,70 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"art": "backrooms:block/31/plate-mw00",
+		"plate-edge": "backrooms:block/31/plate-edge"
+	},
+	"elements": [
+		{
+			"name": "Panel",
+			"from": [
+				2,
+				2.5,
+				15.0
+			],
+			"to": [
+				14,
+				13.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#art",
+					"uv": [
+						2,
+						2.5,
+						14,
+						13.5
+					]
+				},
+				"east": {
+					"texture": "#plate-edge",
+					"uv": [
+						0,
+						0,
+						1.0,
+						11.0
+					]
+				},
+				"west": {
+					"texture": "#plate-edge",
+					"uv": [
+						0,
+						0,
+						1.0,
+						11.0
+					]
+				},
+				"up": {
+					"texture": "#plate-edge",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#plate-edge",
+					"uv": [
+						0,
+						0,
+						12,
+						1.0
+					]
+				}
+			}
+		}
+	]
+}

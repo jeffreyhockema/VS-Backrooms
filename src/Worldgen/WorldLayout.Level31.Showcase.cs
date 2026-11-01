@@ -48,7 +48,7 @@ public partial class WorldLayout
             if (spot is { } s && !found.ContainsKey(name)) found[name] = s with { Name = name };
         }
 
-        for (int ring = 0; ring <= 5 && found.Count < 14; ring++)
+        for (int ring = 0; ring <= 5 && found.Count < 21; ring++)
             for (int wz = cz - ring; wz <= cz + ring; wz++)
                 for (int wx = cx - ring; wx <= cx + ring; wx++)
                 {
@@ -72,9 +72,24 @@ public partial class WorldLayout
                         Add("lobby", Spot(plan, 60, -4, 54, 14, 1.0));
                         // A neon hall: down the hall west of the complex towards a crossing, a Faceling about
                         Add("hall", Spot(plan, -4, 34, -4, -4, 1.6, setup: "/backrooms encounter faceling ambient 0 0 10"));
+                        // (round 3) The rink's name over the lobby's front doors, from along the hall; the snack window on the
+                        // rink's north skirt; the service corridor's door signs; the lobby's trophy cases and jukebox
+                        Add("lobby-front", Spot(plan, 50, -4, 60, -1, 4.6, p0: 40, q0: -6, p1: 80, q1: -2));
+                        int north = plan.Mirror ? 94 : 26, toRink = plan.Mirror ? -1 : 1;
+                        Add("snackwindow", Spot(plan, 66, north + 5 * toRink, 71.5, north, 2.6));
+                        Add("corridor", Spot(plan, 18, 22, 90, 22, 2.4, p0: 13, q0: 21, p1: 30, q1: 24));
+                        Add("trophies", Spot(plan, 53, 7, 46, 4, 1.4, p0: 47, q0: 1, p1: 73, q1: 18));
                     }
                     foreach (L31Room room in plan.Rooms)
                     {
+                        // (round 3) The Coach close up behind his counter, his whiteboard and the cubbies; the arcade's prize corner
+                        if (room.Kind == L31Zone.Rental && room.Q1 <= 19)
+                            Add("coach", Spot(plan, (room.P0 + room.P1) / 2 - 2, 9, (room.P0 + room.P1) / 2, 2, 1.9, setup: Staff,
+                                p0: room.P0, q0: 6, p1: room.P1, q1: 10));
+                        if (room.Kind == L31Zone.Arcade && room.Q1 <= 19)
+                            Add("prizes", Spot(plan, room.P1 - 7, room.Q0 + 8, room.P1, room.Q0 + 3, 2.0, p0: room.P0, q0: room.Q0, p1: room.P1, q1: room.Q1));
+                        if (room.Kind == L31Zone.Bath && room.Q0 >= 101)
+                            Add("restroom", Spot(plan, room.P0 + 6, room.Q0 + 2, room.P0 + 3, room.Q1, 1.4, p0: room.P0, q0: room.Q0, p1: room.P1, q1: room.Q1));
                         string name = room.Kind switch
                         {
                             L31Zone.Snack => "foodcourt", L31Zone.Rental => "rental", L31Zone.Arcade => "arcade", L31Zone.Cinema => "cinema",
@@ -123,8 +138,8 @@ public partial class WorldLayout
                         Add("revolving", Spot(plan, L31RevolvingP + 1, L31RevolvingQ + 7, L31RevolvingP, L31RevolvingQ, 1.6, p0: 46, q0: 0, p1: 74, q1: 19));
                 }
 
-        foreach (string name in new[] { "rink", "rink-star", "dj", "lobby", "foodcourt", "rental", "arcade", "cinema", "lounge", "hvac", "bath", "glowroom", "emptiness", "hall",
-            "lobbydoor", "revolving" })
+        foreach (string name in new[] { "rink", "rink-star", "dj", "lobby", "lobby-front", "foodcourt", "rental", "coach", "arcade", "prizes", "cinema",
+            "lounge", "hvac", "bath", "restroom", "snackwindow", "corridor", "trophies", "glowroom", "emptiness", "hall", "lobbydoor", "revolving" })
             if (found.TryGetValue(name, out var s)) yield return s;
 
         // The wooden doors into the rink in its hosts, the nearest to spawn in each: from four steps in front of it
