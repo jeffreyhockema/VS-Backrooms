@@ -354,6 +354,8 @@ public sealed partial class WorldLayout
             {
                 ref Tile w = ref c.At(u, v);
                 if (w.Zone != (byte)L52Zone.Wall || w.Depth == 0) continue;
+                // (in the teaching blocks and lodgings: a hall's few walls are the changing rooms')
+                if (w.Detail < 1 || w.Detail > c.Buildings.Count || c.Buildings[w.Detail - 1].Kind is not (L52BuildingKind.Teaching or L52BuildingKind.Lodging)) continue;
                 foreach (ArchPier side in L52Ways)
                 {
                     var (du, dv) = L52Step(side);
@@ -467,7 +469,9 @@ public sealed partial class WorldLayout
                 var (au, av) = L52Step(L52LeftOf(e.Pier));
                 bool l = c.InGrid(u + au, v + av) && c.At(u + au, v + av).Zone == (byte)L52Zone.Entrance;
                 bool r = c.InGrid(u - au, v - av) && c.At(u - au, v - av).Zone == (byte)L52Zone.Entrance;
-                bool middle = l == r || r && !l;
+                // (the middle of a run of three; the first of a pair (the one whose other is on its right); a lone door)
+                bool r2 = c.InGrid(u - au * 2, v - av * 2) && c.At(u - au * 2, v - av * 2).Zone == (byte)L52Zone.Entrance;
+                bool middle = l && r || !l && !r || r && !l && !r2;
                 if (!middle) continue;
                 int iu = u - ou, iv = v - ov;
                 if (c.InGrid(iu, iv) && c.At(iu, iv).Kind == TileKind.Floor && c.At(iu, iv).Zone != (byte)L52Zone.Stair && L52FixFree(c, iu, iv, 3, 3))

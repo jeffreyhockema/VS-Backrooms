@@ -64,7 +64,22 @@ public partial class WorldLayout
             for (int u = quad.U0 + 1; u < quad.U1; u++)
             {
                 if (md.At(u, v).Zone != (byte)L52Zone.Entrance || md.At(u + 1, v).Zone != (byte)L52Zone.Entrance || md.At(u - 1, v).Zone != (byte)L52Zone.Entrance) continue;
-                if (Near(md, u - 5, v + dir * 10, Outdoors, 3) is { } p)
+                // (clear of the boards and flagpoles that stand on the lawns: nothing fitted within three blocks)
+                bool Open(Tile t) => Outdoors(t);
+                (int U, int V)? spot = null;
+                for (int r = 0; r <= 7 && spot == null; r++)
+                    for (int dv = -r; dv <= r && spot == null; dv++)
+                        for (int du = -r; du <= r && spot == null; du++)
+                        {
+                            int su = u - 5 + du, sv = v + dir * 10 + dv;
+                            if (Math.Max(Math.Abs(du), Math.Abs(dv)) != r || !Free(md, su, sv, Open)) continue;
+                            bool clear = true;
+                            for (int k = -3; k <= 3 && clear; k++)
+                                for (int m = -3; m <= 3 && clear; m++)
+                                    if (md.InGrid(su + k, sv + m) && md.At(su + k, sv + m).Depth == 0 && md.HasFixture[su + k + (sv + m) * md.W]) clear = false;
+                            if (clear) spot = (su, sv);
+                        }
+                if (spot is { } p)
                     Add(md, "entrance", p.U, p.V, 0, Heading(u - p.U, v - p.V), 14);
                 break;
             }
@@ -100,6 +115,13 @@ public partial class WorldLayout
         int cu0 = quad.U0 + 21, cv0 = quad.V0 + 21, cu1 = quad.U1 - 21, cv1 = quad.V1 - 21;
         if (Near(md, (cu0 + cu1) / 2 + 5, cv0, Outdoors, 6) is { } cy)
             Add(md, "courtyard", cy.U, cy.V, 0, Heading((cu0 + cu1) / 2 - cy.U, (cv0 + cv1) / 2 + 6 - cy.V), 2);
+
+        // 4b. The courtyard's fountain, from the paving round it
+        {
+            int fu = (cu0 + cu1) / 2, fv = (cv0 + cv1) / 2;
+            if (md.InGrid(fu, fv + 5) && md.At(fu, fv).Kind == TileKind.Wall)
+                Add(md, "fountain", fu + 3, fv + 5, 0, Heading(-3, -5), -14);
+        }
 
         // 5. A locker corridor on the ground floor: the quad's west ring, looking along it
         if (Near(md, quad.U0 + 10, quad.V0 + 26, t => t.Zone == (byte)L52Zone.Corridor, 2) is { } cor)
@@ -167,8 +189,10 @@ public partial class WorldLayout
         // 11. The view from the quad's roof, over the campus and out across the hills
         // (at the quad's corner nearest the rest of the campus, looking out over it from just inside the parapet)
         {
-            int u = quadEast ? quad.U0 + 6 : quad.U1 - 6, v = quadNorth ? quad.V1 - 6 : quad.V0 + 6;
-            Add(md, "roof", u, v, quad.Storeys * L52Storey + 1, Heading(quadEast ? -1 : 1, quadNorth ? 1 : -1), -7);
+            // (looking along the roof over a stairwell's bulkhead and the air handlers, the campus beyond)
+            int u = quadEast ? quad.U0 + 4 : quad.U1 - 4, v = quadNorth ? quad.V1 - 4 : quad.V0 + 4;
+            int tu = quadEast ? quad.U0 + 16 : quad.U1 - 16, tv = quadNorth ? quad.V1 - 16 : quad.V0 + 16;
+            Add(md, "roof", u, v, quad.Storeys * L52Storey + 1, Heading(tu - u, tv - v), -6);
         }
 
         // 11b. A pedestrian bridge, from the lawn beside it (Marshall David's, or the nearest campus's that has one)
@@ -366,8 +390,11 @@ public partial class WorldLayout
                     if (!f.Code.StartsWith("l52-sign-cool-m")) continue;
                     ArchPier fp = f.Code.EndsWith("north") ? ArchPier.North : f.Code.EndsWith("south") ? ArchPier.South : f.Code.EndsWith("east") ? ArchPier.East : ArchPier.West;
                     var (fu, fv) = L52Step(fp);
-                    int x = jb.Head.X0 + i % jb.W + fu * 10, z = jb.Head.Z0 + i / jb.W + fv * 10;
-                    spots.Add(new Showcase.Spot("barry-sign", x + 0.5, floor + TileAt(x, z).Height + 1, z + 0.5, Math.Round(Heading(-fu, -fv)), 10));
+                    int back = 7;
+                    while (back > 3 && (!jb.InGrid(i % jb.W + fu * back, i / jb.W + fv * back) || jb.At(i % jb.W + fu * back, i / jb.W + fv * back).Zone == (byte)L52Zone.Fence
+                                         || jb.At(i % jb.W + fu * back, i / jb.W + fv * back).Kind != TileKind.Floor)) back--;
+                    int x = jb.Head.X0 + i % jb.W + fu * back, z = jb.Head.Z0 + i / jb.W + fv * back;
+                    spots.Add(new Showcase.Spot("barry-sign", x + 0.5, floor + TileAt(x, z).Height + 1, z + 0.5, Math.Round(Heading(-fu, -fv)), 22));
                     done = true;
                     break;
                 }

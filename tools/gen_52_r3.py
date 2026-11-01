@@ -761,6 +761,8 @@ def blocktypes():
                  "Level 52: a courtyard's glazed roof (the lore's \"translucent ceiling\"): pale glass in a grid of white steel glazing bars",
                  material="Glass", sounds=G.GLASS, resistance=2,
                  extra={"lightAbsorption": 0, "renderpass": "Transparent", "sideopaque": {"all": False}, "sideao": {"all": False}})
+    G.cube_block("l52-wallpatch", [], {"*": G.faces(all_="wall-blue-patch")},
+                 "Level 52: J. Barry's blue corridor wall where bullet holes were filled and painted over, the paint a shade fresher in a patch")
     G.cube_block("l52-track", [G.group("kind", ["plain", "linens", "linewe"])],
                  {f"l52-track-{k}": G.faces(sides="slab-concrete", up=f"track-{k}", down="slab-concrete") for k in ("plain", "linens", "linewe")},
                  "Level 52: a running track's red rubber, plain or with a white lane line north-south (linens) or west-east (linewe)")
@@ -809,7 +811,7 @@ def expected():
         codes.add(f"l52-bikerack-{s}")
         for part in ("base", "pole", "top"):
             codes.add(f"l52-flagpole-{part}-{s}")
-    codes |= {"l52-jet", "l52-vent", "l52-hvac-body", "l52-hvac-top", "l52-skylight"}
+    codes |= {"l52-jet", "l52-vent", "l52-hvac-body", "l52-hvac-top", "l52-skylight", "l52-wallpatch"}
     for k in ("plain", "linens", "linewe"):
         codes.add(f"l52-track-{k}")
     for k in ("linens", "linewe"):
@@ -822,6 +824,18 @@ def build(gen):
     G = gen
     textures()
     G.save(worn_hall(), "tile-hallworn")
+    # J. Barry's walls where the Crash's holes were filled and painted over: the paint a shade fresher in a patch
+    patch = Image.open(os.path.join(G.TEX, "wall-blue-dado.png")).convert("RGBA")
+    pp = patch.load()
+    rng = random.Random(6420)
+    x0, y0, x1, y1 = rng.randint(4, 9), rng.randint(3, 8), rng.randint(20, 27), rng.randint(17, 24)
+    for y in range(y0, y1):
+        for x in range(x0, x1):
+            r, g, b, a = pp[x, y]
+            pp[x, y] = (min(255, r + 14), min(255, g + 14), min(255, b + 12), a)
+    for (hx, hy) in [(rng.randint(x0 + 2, x1 - 3), rng.randint(y0 + 2, y1 - 3)) for _ in range(5)]:
+        pp[hx, hy] = tuple(min(255, v + 22) for v in pp[hx, hy][:3]) + (255,)
+    G.save(patch, "wall-blue-patch")
     mat = M.noise_hv((58, 60, 62), 3, 6410, (32, 32), 3, (16, 8))
     dm = ImageDraw.Draw(mat)
     for y in range(2, 30, 3):

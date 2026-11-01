@@ -1152,7 +1152,7 @@ public sealed partial class WorldLayout
                 if (byCross && Hashing.Mod(along, 7) == 3)
                     L52Put(c, u, v, Props.Bench, doorsNS ? (u < mu ? ArchPier.East : ArchPier.West) : (v < mv ? ArchPier.South : ArchPier.North));
                 else if (byCross && Hashing.Mod(along, 7) == 5 && rng.Chance(0.5)) L52Put(c, u, v, Props.TrashCan, ArchPier.North);
-                else if (!byCross && L52TreeSpot(c, u - u0, v - v0) && rng.Chance(0.75)) t.Variant = Props.Tree;
+                else if (!byCross && L52TreeSpot(c, u - u0, v - v0) && rng.Chance(0.5)) t.Variant = Props.Tree;
             }
         foreach (var (u, v) in new[] { (u0 + 2, v0 + 2), (u1 - 2, v0 + 2), (u0 + 2, v1 - 2), (u1 - 2, v1 - 2) })
             if (c.At(u, v).Zone == (byte)L52Zone.Turf) L52Put(c, u, v, Props.Streetlight, ArchPier.North);
