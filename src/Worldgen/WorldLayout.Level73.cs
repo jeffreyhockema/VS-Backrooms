@@ -774,6 +774,8 @@ public sealed partial class WorldLayout
             t.Sealed = true;
             return t;
         }
+        // The ground before the north door in the curtain wall stays clear (WorldLayout.Level73.Links.cs): Coran stands there to open it
+        if (L73PosternApron(u, v)) return t;
         // Old bones on the fields, now and then a ribcage, and seldom a pack someone dropped running for the castle
         if (g >= 2 && floor is not (FloorKind.L73Mud or FloorKind.L73Tor) && L73BannerAt(u, v) == null)
         {

@@ -317,3 +317,76 @@ bearing, the arrival facing.
 headless dummies in the level with 0 error lines, Coran put down and moved by `/backrooms l73coran`;
 `GATE_TAG=l73g gate.py --fast --port-base 43100` PASS (a separate build tag so the gate did not rebuild under a
 queued screenshot run).
+
+## Links (2026-10-31)
+
+The ways in and out of LINKS.md's Level 73 section (the lore: "Stay near the Gloom for too long on Level 9.1"; "from Level 14
+and Level 6"; no known way out; the user chose "Coran leads you out"). Code: `WorldLayout.Level73.Links.cs` (layout, the
+finders), `WorldGenerator.L73.Links.cs` (blocks), `ThresholdNetwork.L73.cs` / `ThresholdSystem.L73.cs` (the network),
+`Regions/L73System.Links.cs` (the lingering, the night's rest, Coran's lead, the north door), `AtmosphereSystem.L73.cs`
+(`L73Lingering`: what the player sees and hears), assets `tools/gen_73_links.py`.
+
+**Built**
+- *The Gloom (Level 9, one way).* One Suburbs cell in 2000 rolls it (own salt 0x2140, the hook last in precedence); where the
+  cell has a clear round of 4 blocks of lawn, pavement or asphalt with nothing on it, a lumpy pool 5-7 across is marked
+  (`Unders.L73Gloom` its heart, `L73GloomRim` its rim; nothing else in the cell changes: the harness checks every tile).
+  Blocks: black dull ground (`l73-gloom`, never breaks) and over the heart a black murk 2 high (`l73-gloomair`: no body,
+  `BlendNoCull` so it is dark from inside too, faces between two of it merged). Standing in it: warnings at 12, 40 and 70 s,
+  taken at 90 s ("a minute or two, warned"); stepping out says so, and 20 s out lets it go. On the client a black fog sphere
+  closes in round the player (tighter the longer they stay) and a heartbeat comes, quicker and louder. Arrival: on the island's
+  dry land (the level's own arrival finder, facing the gate), the same place for the same Gloom.
+- *Level 6's deepest dark (one way, no tile).* One cell of Lights Out in 2500 (salt 0x2142; never the Snackrooms; only where
+  the cell's north-west corner is wall, which stands for it in the network). Lingering there with no light in hand and block
+  light <= 3 at the eyes: warnings at 60, 120 and 160 s, taken at 180 s. The client plays a faint, slow heartbeat there with no
+  light in hand (nothing marks it otherwise: it is Level 6).
+- *A night under his roof.* Hours asleep in a bed inside the keep add up (`backrooms:l73Slept`, watched); at 4 the player is
+  `backrooms:l73Rested` and told so ("If you would go, he is the one to ask"). Both are cleared on any arrival in the level.
+- *Coran leads you out (one way, to Level 9).* Sneak + right-click Coran: not rested, he says to rest first; rested, he says
+  he will take you and walks round the walls on a ring 44 blocks out (a step of 0.55 rad at a time, the short way), waiting
+  and calling when you fall more than 10 blocks behind, still killing whatever comes; at the north door he tears the chain off
+  (strike, chain) and the door opens for 20 s (never shutting on anyone in it). Gives up after 5 minutes, or 30 s with you
+  more than 64 blocks off. The north door: two leaves two high in the outer course of the north curtain wall (castle u 27-28,
+  v 0), black iron-bound oak chained and padlocked (`l73-postern-*`, class BackroomsL73Door, `l73Door: postern`); its inner
+  course is silver on the courtyard side and black on the door's (`l73-postern-back`), so from the courtyard the wall is only
+  wall. Open, the leaves swing out against the wall and the doorway is black all round. Walking into it while open
+  (`L73Walked` + `L73MayPass`) takes you to an open spot in the Suburbs, the same one every time. Right-clicked shut: "black
+  and chained ... no door shows there" (rested: "ask him to lead you out").
+- *Text.* Handbook page: "Ways in" (the Gloom, Level 6, Level 14 as the page's rumour) and "Ways out" (Coran). Messages for
+  every warning, arrival and line of Coran's (`l73-gloom-*`, `l73-dark-*`, `l73-arrive-*`, `l73-coran-lead-*`, `l73-rested`,
+  `l73-postern-*`, `l73-out-arrive`). Notes: one at the end of Level 9's track ("The Gloom", Nell) and one at the end of
+  Level 6's ("Deeper"), with this level's keys (`l73-l9`, `l73-l6`).
+- *Dev commands.* `/backrooms l73way gloom x z | dark mx mz | out` (where a way leads, written down), `l73dummy gloom|dark` (a
+  straw dummy in the nearest one, carried to the island when it is taken), `l73rest [player]`, `l73lead [player]`,
+  `l73postern open|shut`.
+- *Harness* `73links`; *showcase*: `north-door`, `north-door-open`, `gloom`, `gloom-inside`, `deepest-dark`.
+
+**My inventions** (not in the lore): the Gloom's look (black ground, a murk two high) and its timings; the Level 6
+way's place (rare cells, no light) and timings; the whole way out: the night's rest as the condition, sneak-and-speak to ask,
+the lead round the walls, the north door in the outside of the curtain wall with no courtyard door behind it, and Level 9 as
+where it leads (Coran "newly recovered from the Gloom" in the page's M.E.G. log: he knows the way back to where the Gloom is).
+
+**Rows for the guide's ways-between-levels table** (for the lead to merge into docs/GUIDE.md / gen_guide.py):
+
+| From | Threshold | To | Way back |
+|---|---|---|---|
+| Level 9 | Standing a minute and a half in the Gloom, a rare pool of darkness in a yard or a street (black ground, a black murk over it; warned three times) | Level 73, on the island in sight of the castle | None (one way) |
+| Level 6 | Lingering three minutes with no light in the very deepest dark of Lights Out (one cell in 2500; warned three times) | Level 73, on the island in sight of the castle | None (one way) |
+| Level 73 | Asking Coran to lead you out (sneak and right-click him) after a night asleep in the castle: he walks you to the chained north door in the outside of the curtain wall and opens it | Level 9, out in the Suburbs | None (one way) |
+
+**Numbers (seed 12345, full size, `73links`)**: the Gloom: 9 of the 20 Level 9 cells that roll it hold one, about 0.22 a km² of
+Level 9 (some 2 km apart, about nine in the world); 20-29 tiles each, mostly on streets (asphalt 85, lawn 55, pavement 26 of 200
+tiles); nearest to spawn 6.72, 6.81, 7.37, 7.48 km. Level 6's deepest dark: 0.39 a km² of Level 6 (about 1.6 km apart; five
+in the world); nearest 4.25, 4.28, 4.45 km. Every way in leads onto the island's dry land; the north door to an open street
+in Level 9.
+
+**Checks**: `expclash` clean; mod and mapgen build, 0 errors; `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash at layout versions 1
+and 12: every line for 0-20 and the layout hash identical to main's; without it, no line for 0-20 moves either (the hash's
+sample cells hold no Gloom); `regions` 60/60 in Level 73; `73stats` OK; `73links` OK (every Gloom changes only its own tiles'
+Under). Headless (port 43100): `l73way` for all three ways, a straw dummy taken by the Gloom (90 s) and by the dark (180 s),
+0 error lines. Client rig (two runs, port 43105, seed 12345): a player in survival warned three times and taken by the
+Gloom, and by Level 6's dark; rested, led by Coran (he ran from the gate round the walls to the door) and through the open
+north door into the Suburbs; showcase shots of the north door shut and open, the Gloom from outside and inside.
+`GATE_TAG=l73g gate.py --fast --port-base 43100` PASS.
+
+**To look at**: the Gloom's murk from outside is a flat black slab over black ground: it reads as wrong, but blocky; a
+softer edge would need a shape of its own. The door opens only once whoever he leads is within 12 blocks of it.

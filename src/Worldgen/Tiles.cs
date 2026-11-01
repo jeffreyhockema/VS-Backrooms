@@ -1034,6 +1034,8 @@ public static class Unders
     public const byte L188LinkWindow = 110, L188Entrance = 111, L188Hatch = 112, L188FireDoor = 113;
     // The experimental levels (ids 21-28): one block of 32 each, past 255 (see docs/design/experimental-levels/README.md)
     public const ushort L73First = 256, L73Last = 287;
+    /// <summary>Level 73's way in from Level 9, the Gloom: a pool of darkness in a yard or a street (its heart under a black murk; its rim, black ground).</summary>
+    public const ushort L73Gloom = 256, L73GloomRim = 257;
     public const ushort BasementFirst = 288, BasementLast = 319;
     /// <summary>The Basement's way in, in Levels 0, 1, 2, 4 and 5: a patch of cracked floor five by five, one value a tile (288 + 5 dz + dx from its north-west corner); its middle three by three gives way.</summary>
     public const ushort BasementCrack = 288, BasementCrackEnd = 312;

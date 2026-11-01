@@ -15,6 +15,7 @@ static partial class LevelModes
     static bool L73Modes(WorldLayout layout, string mode, string[] args)
     {
         if (mode == "73map") { L73Map(layout); return true; }
+        if (mode == "73links") { L73Links(layout); return true; }
         if (mode == "73grid")
         {
             // Every column 300 blocks round the island's middle: height (negative under the sea), floor kind, zone, prop (for a picture)
@@ -191,4 +192,140 @@ static partial class LevelModes
     static string L73LinkLabel(Tile t) => null;
 
     static string L73UseKind(Tile t) => null;
+    /// <summary>
+    /// 73links: Level 73's ways in and out (WorldLayout.Level73.Links.cs). The nearest Glooms in Level 9 and cells of Level 6's
+    /// deepest dark to spawn (position, distance), how many there are a square kilometre of their host (from the chance a cell
+    /// has, and the share of the cells that roll it that hold one), the Glooms' sizes and ground, the north door, and where each
+    /// way leads when first taken (the threshold network, offline): into the level on dry land for the ways in, into Level 9
+    /// for the way out.
+    /// </summary>
+    static void L73Links(WorldLayout layout)
+    {
+        int bad = 0;
+        void Bad(string what) { bad++; Console.WriteLine("  BAD: " + what); }
+        var geometry = new WorldGeometry(256);
+        var net = new Backrooms.Thresholds.ThresholdNetwork(layout, geometry, 12345);
+        const double cellsPerKm2 = 1e6 / (WorldLayout.MacroSize * WorldLayout.MacroSize);
+
+        // The Gloom, in Level 9
+        var sw = Stopwatch.StartNew();
+        var glooms = layout.L73NearestGlooms(8);
+        Console.WriteLine($"Glooms (Level 9; one cell in {WorldLayout.L73GloomCells} rolls one; {sw.ElapsedMilliseconds} ms to find the nearest {glooms.Count}):");
+        int rolled = 0, held = 0, tilesAll = 0;
+        var grounds = new System.Collections.Generic.Dictionary<FloorKind, int>();
+        foreach (var (gx, gz, dist) in glooms)
+        {
+            int mx = WorldLayout.MacroOf((int)gx), mz = WorldLayout.MacroOf((int)gz);
+            int tiles = 0, heart = 0;
+            Tile[] cell = layout.BuildMacro(mx, mz);
+            foreach (Tile t in cell)
+            {
+                if (t.Under == Unders.L73Gloom) heart++;
+                if (t.Under is Unders.L73Gloom or Unders.L73GloomRim) tiles++;
+            }
+            tilesAll += tiles;
+            if (heart == 0) Bad($"the Gloom at {gx:0},{gz:0} has no heart");
+            // What it lies on (as the cell is without it), and that nothing else in the cell moved
+            WorldLayout.ExpEntrances = false;
+            Tile[] plain = layout.BuildMacro(mx, mz);
+            WorldLayout.ExpEntrances = true;
+            for (int i = 0; i < cell.Length; i++)
+            {
+                Tile a = cell[i], b = plain[i];
+                bool ours = a.Under is Unders.L73Gloom or Unders.L73GloomRim;
+                if (ours)
+                {
+                    grounds[b.Floor] = grounds.GetValueOrDefault(b.Floor) + 1;
+                    if (b.Under != 0 || b.Variant != 0 || b.Kind != TileKind.Floor) Bad($"the Gloom at {gx:0},{gz:0} took a tile that held something");
+                    a.Under = b.Under;
+                }
+                if (!a.Equals(b)) Bad($"the Gloom's cell {mx},{mz} changed more than the Gloom's tiles' Under (tile {i})");
+            }
+            var p = net.L73Gloom((int)gx, (int)gz);
+            var to = p == null ? null : net.Take(p, null);
+            string where = to is { } l ? $"to {l.X:0},{l.Y:0},{l.Z:0} ({Describe(layout, l.X, l.Z)})" : "NOWHERE";
+            if (to is not { } ll || layout.TileAt((int)Math.Floor(ll.X), (int)Math.Floor(ll.Z)) is not { Level: WorldLayout.Level73, Zone: WorldLayout.L73Land })
+                Bad($"the Gloom at {gx:0},{gz:0} does not lead onto the island's land");
+            Console.WriteLine($"  {gx:0},{gz:0}  {dist / 1000:0.00} km from spawn  {tiles} tiles ({heart} under the murk)  leads {where}");
+        }
+        // The share of the cells that roll one that hold one (Level 9 cells only), over a wider sample
+        foreach (var (rx, rz) in SampleRolled(60, (mx, mz) => layout.IsL73GloomCell(mx, mz) && layout.LevelAt(mx, mz) == 9))
+        {
+            rolled++;
+            if (layout.BuildMacro(rx, rz).Any(t => t.Under is Unders.L73Gloom or Unders.L73GloomRim)) held++;
+        }
+        double gloomDensity = cellsPerKm2 / WorldLayout.L73GloomCells * held / Math.Max(1, rolled);
+        Console.WriteLine($"  {held} of {rolled} Level 9 cells that rolled one hold one: {gloomDensity:0.00} a km2 of Level 9 (about {1 / Math.Sqrt(Math.Max(1e-9, gloomDensity)):0.0} km apart); "
+                          + $"{tilesAll / Math.Max(1.0, glooms.Count):0} tiles each, on " + string.Join(", ", grounds.Select(kv => $"{kv.Key} {kv.Value}")));
+
+        // Level 6's deepest dark
+        sw.Restart();
+        var dark = layout.L73NearestDark(8);
+        Console.WriteLine($"Level 6's deepest dark (one cell in {WorldLayout.L73DarkCells}; {sw.ElapsedMilliseconds} ms to find the nearest {dark.Count}):");
+        foreach (var (dx, dz, dist) in dark)
+        {
+            int mx = WorldLayout.MacroOf((int)dx), mz = WorldLayout.MacroOf((int)dz);
+            var p = net.L73Dark(mx, mz);
+            var to = p == null ? null : net.Take(p, null);
+            string where = to is { } l ? $"to {l.X:0},{l.Y:0},{l.Z:0} ({Describe(layout, l.X, l.Z)})" : "NOWHERE";
+            if (to is not { } ll || layout.TileAt((int)Math.Floor(ll.X), (int)Math.Floor(ll.Z)) is not { Level: WorldLayout.Level73, Zone: WorldLayout.L73Land })
+                Bad($"the dark cell {mx},{mz} does not lead onto the island's land");
+            Console.WriteLine($"  cell {mx},{mz} (middle {dx:0},{dz:0})  {dist / 1000:0.00} km from spawn  leads {where}");
+        }
+        int darkRolled = 0, darkHeld = 0;
+        foreach (var (rx, rz) in SampleRolled(60, (mx, mz) => layout.L73DarkRolls(mx, mz) && layout.LevelAt(mx, mz) == 6 && !layout.IsSnackrooms(mx, mz)))
+        {
+            darkRolled++;
+            if (layout.IsL73DarkCell(rx, rz)) darkHeld++;
+        }
+        double darkDensity = cellsPerKm2 / WorldLayout.L73DarkCells * darkHeld / Math.Max(1, darkRolled);
+        Console.WriteLine($"  {darkHeld} of {darkRolled} Level 6 cells that rolled one have the wall corner that stands for it: {darkDensity:0.00} a km2 of Level 6 "
+                          + $"(about {1 / Math.Sqrt(Math.Max(1e-9, darkDensity)):0.0} km apart)");
+
+        // The north door
+        var (px, pz) = layout.L73Postern;
+        var (fx, fz) = layout.L73PosternFront;
+        Console.WriteLine($"north door: leaves at {px},{pz} and {px + 1},{pz}; Coran stands at {fx:0.#},{fz:0.#}; the gate is at {layout.L73Gate}");
+        for (int leaf = 0; leaf < 2; leaf++)
+            if (layout.TileAt(px + leaf, pz) is not { Level: WorldLayout.Level73, Zone: WorldLayout.L73Walls }) Bad("the north door is not in the castle's walls");
+        for (int z = pz - 5; z < pz; z++)
+            for (int x = px - 3; x <= px + 4; x++)
+                if (layout.TileAt(x, z) is not { Zone: WorldLayout.L73Land, Variant: 0, Height: WorldLayout.L73Plateau }) Bad($"the ground before the north door at {x},{z} is not clear plateau");
+        var outTo = net.Take(net.L73OutPassage(), null);
+        Console.WriteLine($"  leads {(outTo is { } o ? $"to {o.X:0},{o.Y:0},{o.Z:0} ({Describe(layout, o.X, o.Z)})" : "NOWHERE")}");
+        if (outTo is not { } oo || layout.TileAt((int)Math.Floor(oo.X), (int)Math.Floor(oo.Z)).Level != Backrooms.Thresholds.ThresholdNetwork.L73OutLevel)
+            Bad("the north door does not lead into Level 9");
+        // The showcase's spots at the ways in
+        foreach (var spot in layout.L73LinkSpots(geometry))
+            Console.WriteLine($"  showcase {spot.Name}: {spot.X:0.#},{spot.Y:0.#},{spot.Z:0.#} heading {spot.Heading:0}");
+        Console.WriteLine(bad == 0 ? "73links: OK" : $"73links: {bad} BAD");
+    }
+
+    /// <summary>A level, a zone and a floor, said briefly.</summary>
+    static string Describe(WorldLayout layout, double x, double z)
+    {
+        Tile t = layout.TileAt((int)Math.Floor(x), (int)Math.Floor(z));
+        return $"level {t.Level}, zone {t.Zone}, floor {t.Floor}";
+    }
+
+    /// <summary>Up to n cells that pass a test, in rings out from the world's spawn cell (for a share among them).</summary>
+    static System.Collections.Generic.IEnumerable<(int X, int Z)> SampleRolled(int n, Func<int, int, bool> test)
+    {
+        // (The harness's spawn cell: SPAWN, 16000 by default)
+        int s = int.TryParse(Environment.GetEnvironmentVariable("SPAWN"), out int sp) ? sp : 16000, found = 0;
+        var side = new (int, int)[4];
+        for (int r = 1; r < 6000 && found < n; r++)
+            for (int i = -r; i < r && found < n; i++)
+            {
+                side[0] = (i, -r); side[1] = (r, i); side[2] = (-i, r); side[3] = (-r, -i);
+                for (int k = 0; k < 4; k++)
+                {
+                    var (dx, dz) = side[k];
+                    if (!test(s + dx, s + dz)) continue;
+                    found++;
+                    yield return (s + dx, s + dz);
+                    if (found >= n) yield break;
+                }
+            }
+    }
 }

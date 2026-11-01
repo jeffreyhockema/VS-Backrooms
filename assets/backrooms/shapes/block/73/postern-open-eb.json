@@ -1,0 +1,152 @@
+{
+	"textureWidth": 32,
+	"textureHeight": 32,
+	"textures": {
+		"out": "backrooms:block/73/postern-out",
+		"in": "backrooms:block/73/postern-in",
+		"void": "backrooms:block/73/void"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				12,
+				0,
+				-15
+			],
+			"to": [
+				16,
+				16,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#out",
+					"uv": [
+						0,
+						16,
+						16,
+						32
+					]
+				},
+				"west": {
+					"texture": "#in",
+					"uv": [
+						16,
+						16,
+						32,
+						32
+					]
+				},
+				"north": {
+					"texture": "#in",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#in",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#in",
+					"uv": [
+						0,
+						0,
+						4,
+						15
+					]
+				},
+				"down": {
+					"texture": "#in",
+					"uv": [
+						0,
+						0,
+						4,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Side",
+			"from": [
+				15.9,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"west": {
+					"texture": "#void",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sill",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				0.1,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#void",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0,
+				0,
+				15.9
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#void",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

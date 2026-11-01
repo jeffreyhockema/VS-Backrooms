@@ -1,0 +1,80 @@
+{
+	"textureWidth": 32,
+	"textureHeight": 32,
+	"textures": {
+		"out": "backrooms:block/73/postern-out",
+		"in": "backrooms:block/73/postern-in",
+		"void": "backrooms:block/73/void"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				6
+			],
+			"to": [
+				16,
+				16,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#out",
+					"uv": [
+						0,
+						16,
+						16,
+						32
+					]
+				},
+				"south": {
+					"texture": "#in",
+					"uv": [
+						16,
+						16,
+						32,
+						32
+					]
+				},
+				"east": {
+					"texture": "#in",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#in",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#in",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"down": {
+					"texture": "#in",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				}
+			}
+		}
+	]
+}
