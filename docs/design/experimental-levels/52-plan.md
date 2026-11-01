@@ -506,6 +506,16 @@ tables; the lifts' doors (the lore has lifts; these do not run).
   there): moved onto the canopy's front. Seen but left: the random arrivals (the rig's own camera) face a wall now and
   then; the tower spot looks steeply up.
 
+### Checks (round 3)
+- `python tools/expclash.py`: clean. Mod and mapgen build with 0 errors.
+- layouthash (`BACKROOMS_NO_EXP_ENTRANCES=1`, versions 1 and 12): every line for levels 0-20 and the layout hash equal to
+  main's saved files (only the experimental levels' lines differ).
+- `regions`: 60/60 for Level 52, none wrong or in pockets. `52stats 4`: 68 campuses, 305 buildings (28 lecture theatres),
+  0 doorless rooms, 121 of about 1.95 million ground tiles unreached (single tiles boxed in by furniture), arrivals 60/60.
+- Headless (port 43128): `blocksweep` 12088 blocks, 0 threw; 0 missing blocks or items; `/backrooms dummy place 52 5`
+  lands at 565923,217,642303 with 0 error lines; `/backrooms showcase 52` lists every spot.
+- `GATE_TAG=52 python tools/gate.py --fast --port-base 43120`: PASS (generators, lang, build, boot, harness).
+
 ### Questions for the user
 1. **Names on the buildings.** The lore says the doors carry four digits and "no subject and no campus name" anywhere,
    so the buildings show their numbers (on the canopies) and the campuses' names appear only on the M.E.G.'s boards at
