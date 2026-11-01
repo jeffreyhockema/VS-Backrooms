@@ -41,7 +41,7 @@ public class L31System : ModSystem
 {
     private const int StaffNear = 40, StaffGone = 96;
     /// <summary>How often the server feeds a player (in-game hours), and how long it refuses a litterer.</summary>
-    private const double ServeHours = 1.5, RefuseHours = 24;
+    private const double ServeHours = 6, RefuseHours = 24;
     /// <summary>How long in the level before the Coach says it is time to go, and how often after (in-game hours).</summary>
     private const double StayHours = 36, StayAgainHours = 12;
     private const string SkatesKey = "backrooms-l31skates";

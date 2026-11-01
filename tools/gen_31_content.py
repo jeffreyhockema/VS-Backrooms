@@ -257,7 +257,7 @@ def dialogue():
         # l31-leadout; the lore's other doors are only talk)
         {"code": "out", "owner": "trader", "type": "talk", "jumpTo": "out2", "trigger": "l31-leadout", "text": [
             {"value": say("out", "I can. Some of the lobbies have a revolving door in the front, glass, turning slow. Go round in it and "
-                                 "you come out somewhere else: the houses, the fields or the city, and each door always the same one. "
+                                 "you come out somewhere else: the houses, the fields or the city, and each door always the same one; it says on a sign over it where. Mind the one marked for the Suburbs: people do not come back from the Suburbs the way they went in. "
                                  "Come on, I'll walk you to the nearest.")}]},
         {"code": "out2", "owner": "trader", "type": "talk", "jumpTo": "main", "text": [
             {"value": say("out2", "The wooden door you came in by goes back the way you came, if that's what you want. Folk talk "

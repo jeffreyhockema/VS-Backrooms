@@ -123,6 +123,97 @@ public sealed partial class WorldLayout
         public const ushort Monitors = 727;
         /// <summary>Where one of the level's staff stands while anyone is near (Regions.L31System; nothing is built): Stack 0 the Coach behind the rental counter, 1 the food court's server, 2 the DJ.</summary>
         public const ushort StaffSpot = 728;
+        /// <summary>Round 3's set pieces: a toilet stall (two blocks tall), a washroom vanity (its mirror a wall mount over it), an
+        /// arcade photo booth (two tall), a jukebox, a trophy case (two tall), the cinema TV's cabinet, Level Fun's popcorn
+        /// machine, Level 3999's prize case (Stack 1-4: a plush on it, Level 3999's kinds) and prize wall.</summary>
+        public const ushort Stall = 729, Vanity = 730, PhotoBooth = 731, Jukebox = 732, TrophyCase = 733, MediaCab = 734, Popcorn = 735,
+            PrizeCase = 736, PrizeWall = 737;
+    }
+
+    /// <summary>
+    /// The wall mounts (round 3; tools/gen_31_round3.py's SIGNS, the same names, columns and rows): signs and fittings on the
+    /// wall a floor tile stands against (or hung over it), at their own height: <c>Top</c> is the rel of the top row, 0 for
+    /// just under the ceiling. A tile carries one column of one (<see cref="Tile.Pipe"/> = <see cref="Pipes.L31Mount"/> plus
+    /// the way it faces, <see cref="Tile.Depth"/> the column's index in <see cref="L31MountParts"/>); a doorway's tile carries
+    /// one for the hall tile in front of it.
+    /// </summary>
+    public static readonly (string Name, int Cols, int Rows, int Top)[] L31Mounts =
+    {
+        ("rent", 2, 1, 0), ("snack", 2, 1, 0), ("arc", 2, 1, 0), ("rest", 2, 1, 0), ("cine", 2, 1, 0), ("staff", 2, 1, 0),
+        ("store", 2, 1, 0), ("mech", 2, 1, 0), ("exit", 1, 1, 0), ("rentbig", 3, 1, 0), ("sz0", 1, 1, 2), ("sz1", 1, 1, 2),
+        ("sz2", 1, 1, 2), ("sz3", 1, 1, 2), ("wb", 2, 1, 2), ("snackbig", 3, 1, 0), ("prizes", 2, 1, 0), ("tokens", 1, 1, 2),
+        ("name", 5, 1, 0), ("arcbig", 3, 1, 0), ("rules", 2, 2, 3), ("norun", 1, 1, 2), ("session", 2, 1, 4), ("snackwin", 2, 2, 4),
+        ("admit", 3, 1, 0), ("mw", 1, 1, 2), ("mirror", 1, 1, 2), ("dryer", 1, 1, 2), ("ext", 1, 1, 2), ("alarm", 1, 1, 2),
+        ("poster0", 1, 1, 2), ("poster1", 1, 1, 2), ("poster2", 1, 1, 2), ("poster3", 1, 1, 2), ("nowshow", 1, 2, 3),
+        ("board", 2, 1, 2), ("bigtv", 5, 3, 5), ("hours", 1, 2, 3), ("rev9", 3, 1, 0), ("rev10", 3, 1, 0),
+        ("rev11", 3, 1, 0),
+    };
+
+    /// <summary>Every column of every mount, by <see cref="Tile.Depth"/>: which mount and which column (0 the viewer's left).</summary>
+    public static readonly (int Mount, int Col)[] L31MountParts = L31MakeMountParts();
+
+    private static (int, int)[] L31MakeMountParts()
+    {
+        var parts = new List<(int, int)>();
+        for (int m = 0; m < L31Mounts.Length; m++)
+            for (int c = 0; c < L31Mounts[m].Cols; c++) parts.Add((m, c));
+        return parts.ToArray();
+    }
+
+    private static int L31MountDepth(string name, int col)
+    {
+        for (int i = 0; i < L31MountParts.Length; i++)
+            if (L31Mounts[L31MountParts[i].Mount].Name == name && L31MountParts[i].Col == col) return i;
+        return -1;
+    }
+
+    /// <summary>Whether a tile carries a wall mount.</summary>
+    public static bool L31HasMount(in Tile t) => t.Pipe is >= Pipes.L31Mount and <= Pipes.L31Mount + 3;
+
+    private static int L31FacingIndex(ArchPier d) => d switch { ArchPier.North => 0, ArchPier.East => 1, ArchPier.South => 2, _ => 3 };
+
+    /// <summary>
+    /// Puts a mount along a straight run of tiles (A to B, as long as the mount is wide), facing <paramref name="face"/> (the
+    /// plan's terms), its columns from the viewer's left; nothing if a tile of the run is not open floor (or, with
+    /// <paramref name="doorways"/>, a doorway) or carries one already.
+    /// </summary>
+    private static bool L31MountRun(L31Plan plan, int pa, int qa, int pb, int qb, string name, ArchPier face, bool doorways = false)
+    {
+        int m = Array.FindIndex(L31Mounts, k => k.Name == name);
+        if (m < 0) return false;
+        int n = Math.Max(Math.Abs(pb - pa), Math.Abs(qb - qa)) + 1;
+        if (n != L31Mounts[m].Cols || pa != pb && qa != qb) return false;
+        int dp = Math.Sign(pb - pa), dq = Math.Sign(qb - qa);
+        ArchPier world = plan.Dir(face);
+        int xmin = int.MaxValue, xmax = int.MinValue, zmin = int.MaxValue, zmax = int.MinValue;
+        for (int i = 0; i < n; i++)
+        {
+            int p = pa + i * dp, q = qa + i * dq;
+            if (p < -1 || q < -1 || p > L31Size || q > L31Size) return false;
+            ref Tile t = ref plan.At(p, q);
+            if (!(t.Kind == TileKind.Floor || doorways && (t.Kind == TileKind.Doorway || t.Under == Unders.L31Revolving)) || L31HasMount(t)) return false;
+            var (x, z) = plan.World(p, q);
+            xmin = Math.Min(xmin, x); xmax = Math.Max(xmax, x); zmin = Math.Min(zmin, z); zmax = Math.Max(zmax, z);
+        }
+        for (int i = 0; i < n; i++)
+        {
+            int p = pa + i * dp, q = qa + i * dq;
+            var (x, z) = plan.World(p, q);
+            int col = world switch { ArchPier.North => xmax - x, ArchPier.South => x - xmin, ArchPier.East => zmax - z, _ => z - zmin };
+            ref Tile t = ref plan.At(p, q);
+            t.Pipe = (ushort)(Pipes.L31Mount + L31FacingIndex(world));
+            t.Depth = (byte)L31MountDepth(name, col);
+        }
+        return true;
+    }
+
+    /// <summary>A mount centred on a tile (the left of the two middle ones for an even width), its run along P or Q.</summary>
+    private static bool L31MountAt(L31Plan plan, int p, int q, bool alongP, string name, ArchPier face)
+    {
+        int m = Array.FindIndex(L31Mounts, k => k.Name == name);
+        if (m < 0) return false;
+        int a = -(L31Mounts[m].Cols - 1) / 2, b = a + L31Mounts[m].Cols - 1;
+        return alongP ? L31MountRun(plan, p + a, q, p + b, q, name, face) : L31MountRun(plan, p, q + a, p, q + b, name, face);
     }
 
     /// <summary>The staff a <see cref="L31Props.StaffSpot"/> is for.</summary>
@@ -135,6 +226,9 @@ public sealed partial class WorldLayout
     {
         public int P0, Q0, P1, Q1, Doors;
         public L31Zone Kind;
+        /// <summary>The first of its door's two doorway tiles, and the side of the room it is on (round 3: its sign outside).</summary>
+        public int DoorP = -9, DoorQ = -9;
+        public ArchPier DoorSide;
     }
 
     /// <summary>
@@ -292,7 +386,13 @@ public sealed partial class WorldLayout
         // with chrome-framed mirrors ("many chambers of shiny surfaces": Wikidot)
         ulong clad = Hashing.Hash(seed, Hashing.FloorDiv(gx, L31Period), Hashing.FloorDiv(gz, L31Period), SaltL31Clad + (ulong)facing);
         t.Overhead = Hashing.Unit(clad) < 0.6 ? L31Overhead.Mural : L31Overhead.Mirrors;
-        // (over a doorway the cladding starts above the opening, and there is no strip)
+        // (over a doorway the cladding starts above the opening, and there is no strip; a sign the plan hangs over the doorway
+        // on the hall's side, the rink's name over a lobby's front doors, is drawn from this tile)
+        if (behind == TileKind.Doorway && L31HasMount(wall))
+        {
+            t.Pipe = wall.Pipe;
+            t.Depth = wall.Depth;
+        }
         if (behind == TileKind.Doorway) return;
         double p = Hashing.Unit(Hashing.Mix(h));
         if (p < 0.006) t.Variant = p < 0.004 ? Props.Bench : L31Props.Bin;
@@ -420,10 +520,20 @@ public sealed partial class WorldLayout
                 L31LayRoom(plan, p0, 101, p1, last, z, ArchPier.North);
             }
             L31LayRink(plan);
+            L31LaySigns(plan);
         }
         L31DressWalls(plan);
         // The lobby's wooden door, and now and then a revolving door (WorldLayout.Level31.Links.cs)
         L31LayLinks(plan);
+        // (round 3) Where a revolving door goes, on a screen over it on the hall's side and over it inside the lobby, as
+        // Level 36's gate screens (the door's way is the Links code's, read here)
+        if (plan.At(L31RevolvingP, L31RevolvingQ).Under == Unders.L31Revolving)
+        {
+            var (mx, mz) = plan.World(L31RevolvingP, L31RevolvingQ);
+            string sign = "rev" + L31RevolvingTarget(mx, mz);
+            L31MountRun(plan, L31RevolvingP - 1, L31RevolvingQ, L31RevolvingP + 1, L31RevolvingQ, sign, ArchPier.North, doorways: true);
+            L31MountRun(plan, L31RevolvingP - 1, L31RevolvingQ + 1, L31RevolvingP + 1, L31RevolvingQ + 1, sign, ArchPier.South);
+        }
         return plan;
     }
 
@@ -506,6 +616,7 @@ public sealed partial class WorldLayout
             L31Door(ref plan.At(dp, dq), zone);
             L31Door(ref plan.At(dp, dq + 1), zone);
         }
+        (room.DoorP, room.DoorQ, room.DoorSide) = (doorP, doorQ, door);
 
         // Lights in a grid (the arcade mostly dark, its screens its light; the cinema and the glowing carpet entirely)
         for (int q = q0 + 2; q <= q1 - 1; q += 4)
@@ -565,6 +676,15 @@ public sealed partial class WorldLayout
                 L31Put(plan, 47, 19, L31Props.Vending, ArchPier.North, 0);
                 L31Put(plan, 48, 19, L31Props.Vending, ArchPier.North, 1);
                 L31Put(plan, 47, 1, L31Props.Bin, ArchPier.North);
+                // (round 3) The waiting corner's trophy cases and jukebox on the west wall; ADMISSION hung over the counter;
+                // EXIT over the front doors inside; the rink's events on the back wall
+                L31Put(plan, 46, 3, L31Props.TrophyCase, ArchPier.East);
+                L31Put(plan, 46, 4, L31Props.TrophyCase, ArchPier.East);
+                L31Put(plan, 46, 14, L31Props.Jukebox, ArchPier.East);
+                L31MountRun(plan, 53, 12, 51, 12, "admit", ArchPier.North);
+                L31MountRun(plan, 60, 0, 60, 0, "exit", ArchPier.South);
+                L31MountRun(plan, 55, 0, 55, 0, "hours", ArchPier.South);
+                for (int k = 0; k < 3; k++) L31MountRun(plan, 53 + 4 * k, 19, 53 + 4 * k, 19, "poster" + (k + wx0 + wz0 & 3), ArchPier.North);
                 for (int q = 2; q <= 16; q++)
                 {
                     ref Tile wall = ref plan.At(75, q);
@@ -617,9 +737,22 @@ public sealed partial class WorldLayout
                         Put(u, 2, u == mid + 3 ? L31Props.Fountain : Props.SnackCounter, toNear, (byte)(u == mid + 3 ? 0 : u == 3 ? 1 : u % 4 == 1 ? 2 : 0));
                     Put(mid, 1, L31Props.StaffSpot, toNear, L31Server);
                     Put(2, 4, L31Props.Condiments, toHighU);
-                    for (int v = 6; v <= len - 4; v += 4)
-                        for (int u = 4; u <= across - 5; u += 5)
+                    // (round 3) The popcorn machine at the counter's end, a drinks fridge at the other, a second condiment
+                    // stand; the lit SNACK BAR sign over the menus
+                    Put(across - 2, 2, L31Props.Popcorn, toNear);
+                    Put(0, 2, Props.DrinkFridge, toNear);
+                    Put(across - 3, 4, L31Props.Condiments, toLowU);
+                    Put(1, len - 2, L31Props.Jukebox, toHighU);
+                    {
+                        var (sa, sq) = At(mid - 1, 0);
+                        var (sb, sr) = At(mid + 1, 0);
+                        L31MountRun(plan, sa, sq, sb, sr, "snackbig", toNear);
+                    }
+                    // Tables in groups either side of a clear walk from the door to the till
+                    foreach (int v in len >= 19 ? new[] { 6, 10, 14, 17 } : new[] { 6, 10, 14 })
+                        foreach (int u in new[] { doorU - 4, doorU - 9, doorU + 5, doorU + 10 })
                         {
+                            if (v > len - 3 || u < 3 || u > across - 4) continue;
                             Put(u, v, L31Props.Table, toNear);
                             Put(u - 1, v, L31Props.Chair, toHighU);
                             Put(u + 1, v, L31Props.Chair, toLowU);
@@ -639,6 +772,15 @@ public sealed partial class WorldLayout
                         Put(u, len - 1, L31Props.Bin, toFar);
                         Sign(u, len, L31Sign.Trash, toFar);
                     }
+                    // Posters over the benches on the side walls (clear of the side doors in the front band)
+                    for (int v = 6; v <= len - 4; v += 6)
+                    {
+                        if (door == ArchPier.South && v is >= 7 and <= 10) continue;
+                        var (lp, lq) = At(0, v);
+                        L31MountRun(plan, lp, lq, lp, lq, "poster" + (v / 6 + mid & 3), toHighU);
+                        var (rp, rq) = At(across - 1, v);
+                        L31MountRun(plan, rp, rq, rp, rq, "poster" + (v / 6 + mid + 2 & 3), toLowU);
+                    }
                     break;
                 }
             case L31Zone.Rental:
@@ -646,19 +788,53 @@ public sealed partial class WorldLayout
                     // Skate Rental (the front band only, its door to the south): cubbies of skates along the far wall, the
                     // counter across the room with the Coach behind it, benches to put skates on, the size chart and adverts
                     // for brands nobody has heard of on the blue walls
+                    // (round 3, as a real rental: the wall of cubbies under its size boards, a free-standing rack in front of
+                    // it, the Coach between them and the counter, SKATE RENTAL lit over the wall, his whiteboard on the side
+                    // wall; the customers' side with back-to-back shoe benches either side of the walk from the door and coin
+                    // lockers along the lobby wall)
                     int mid = across / 2;
                     for (int u = 1; u < across - 1; u++) Put(u, 0, L31Props.SkateShelf, toNear);
+                    for (int u = 3; u <= across - 4; u++) Put(u, 2, L31Props.SkateShelf, toNear);
                     for (int u = 2; u <= across - 3; u++) Put(u, 5, L31Props.Counter, toNear, (byte)(u == 2 ? 0 : u == across - 3 ? 2 : 1));
-                    Put(mid, 3, L31Props.StaffSpot, toNear, L31Coach);
-                    for (int u = 2; u <= across - 3; u += 2) Put(u, len - 4, Props.Bench, toFar);
+                    Put(mid, 4, L31Props.StaffSpot, toNear, L31Coach);
+                    void MountHere(int ua, int ub, int v, string name, ArchPier face)
+                    {
+                        var (pa, qa) = At(ua, v);
+                        var (pb, qb) = At(ub, v);
+                        L31MountRun(plan, pa, qa, pb, qb, name, face);
+                    }
+                    MountHere(mid - 1, mid + 1, 0, "rentbig", toNear);
+                    // (kids' sizes at the viewer's left: looking south, that is the east, the high-U end)
+                    bool rev = plan.Dir(toNear) == ArchPier.North;
+                    for (int k = 0; k < 4; k++)
+                    {
+                        int u = k < 2 ? 2 + 3 * k : across - 3 - 3 * (3 - k);
+                        MountHere(u, u, 0, "sz" + (rev ? 3 - k : k), toNear);
+                    }
+                    {
+                        var (wa, wb) = At(0, 3);
+                        var (wc, wd) = At(0, 4);
+                        L31MountRun(plan, wa, wb, wc, wd, "wb", toHighU);
+                    }
+                    foreach (int v in new[] { 11, 12, 15, 16 })
+                        for (int u = 2; u <= across - 3; u++)
+                            if (u < doorU - 1 || u > doorU + 2) Put(u, v, Props.Bench, v is 11 or 15 ? toFar : toNear);
+                    for (int v = 10; v <= len - 2; v++)
+                    {
+                        var (lp, lq) = At(across, v);
+                        ref Tile wall = ref plan.At(lp, lq);
+                        if (wall.Kind != TileKind.Wall) continue;
+                        wall.Detail = (byte)(L31Wall.Locker << L31SubShift);
+                        wall.Pier = plan.Dir(toLowU);
+                    }
                     for (int v = 12; v <= 13; v++)
                     {
                         var (cp, cq) = At(-1, v);
                         plan.At(cp, cq).Detail = (byte)(L31Wall.Chart << L31SubShift);
                     }
-                    Sign(-1, 3, L31Sign.Advert, toHighU);
                     Sign(across, 3, L31Sign.Advert, toLowU);
-                    Sign(across, 15, L31Sign.Advert, toLowU);
+                    Sign(-1, 16, L31Sign.Advert, toHighU);
+                    Sign(doorU - 3, len, L31Sign.Advert, toFar);
                     break;
                 }
             case L31Zone.Arcade:
@@ -667,7 +843,7 @@ public sealed partial class WorldLayout
                     // then an old 1980s box cabinet; skee-ball along a wall; the green-card dispenser at the way in; on half
                     // of them a handmade OUT OF ORDER sign either side of the door; in one in three, a white door marked 70
                     for (int qa = q0 + 3; qa + 1 <= q1 - 3; qa += 6)
-                        for (int p = p0 + 4; p <= p1 - 3; p++)
+                        for (int p = p0 + 4; p <= p1 - 6; p++)
                         {
                             int k = (p - p0) % 7;
                             if (k == 0) continue;
@@ -687,11 +863,39 @@ public sealed partial class WorldLayout
                         L31Put(plan, p0, q, L31Props.SkeeTarget, ArchPier.East);
                         L31Put(plan, p0 + 1, q, L31Props.SkeeLane, ArchPier.East);
                     }
-                    L31Put(plan, p1, q0 + 2, L31Props.PrizeCounter, ArchPier.West);
-                    L31Put(plan, p1, q0 + 3, L31Props.PrizeCounter, ArchPier.West);
+                    // (round 3) The redemption corner at the east end: glass prize cases as its counter with plush on them,
+                    // the prize wall behind, PRIZES in neon over it
+                    for (int q = q0 + 1; q <= q0 + 5; q++)
+                    {
+                        L31Put(plan, p1 - 2, q, L31Props.PrizeCase, ArchPier.West, (byte)(q == q0 + 3 ? 0 : 1 + (q + p1) % 4));
+                        L31Put(plan, p1, q, L31Props.PrizeWall, ArchPier.West);
+                    }
+                    L31MountRun(plan, p1, q0 + 2, p1, q0 + 3, "prizes", ArchPier.West);
+                    // A row of pinball machines along the far wall, and the photo booth in its corner
+                    for (int u = 4; u <= across - 8; u++)
+                    {
+                        var (pp, pq) = At(u, 0);
+                        if (door == ArchPier.South && pp is >= 95 and <= 100) continue;
+                        if (u % 5 != 4) Put(u, 0, L31Props.Pinball, toNear);
+                    }
+                    Put(2, 0, L31Props.PhotoBooth, toNear);
                     Put(doorU - 1, len - 1, L31Props.CardDispenser, toFar);
-                    // (the front band's arcade has a second door onto the hall, p 97-99, with its own dispenser)
-                    if (door == ArchPier.South && p0 == 76) L31Put(plan, 96, 0, L31Props.CardDispenser, ArchPier.South);
+                    {
+                        var (dp, dq) = At(doorU - 1, len - 1);
+                        L31MountRun(plan, dp, dq, dp, dq, "tokens", toFar);
+                    }
+                    {
+                        var (na, nq) = At(doorU, len - 1);
+                        var (nb, nr) = At(doorU + 1, len - 1);
+                        L31MountRun(plan, na, nq, nb, nr, "arc", toFar);
+                    }
+                    // (the front band's arcade has a second door onto the hall, p 97-99, with its own dispenser, and ARCADE in
+                    // neon over it on the hall's side)
+                    if (door == ArchPier.South && p0 == 76)
+                    {
+                        L31Put(plan, 96, 0, L31Props.CardDispenser, ArchPier.South);
+                        L31MountRun(plan, 97, -1, 99, -1, "arcbig", ArchPier.North, doorways: true);
+                    }
                     if (rng.Chance(0.5))
                         foreach (int u in new[] { doorU - 1, doorU + 2 }) Sign(u, len, L31Sign.OutOfOrder, toNear);
                     if (rng.Chance(1 / 3.0)) L31SignOn(plan, p1 + 1, Math.Max(q0 + 6, q1 - 4), L31Sign.Door70, ArchPier.West);
@@ -702,12 +906,12 @@ public sealed partial class WorldLayout
                     // Dark and small (Wikidot): one big TV on the far wall, three rows of single continuous metal benches in
                     // front of it, each a step higher than the last, and steps down again behind them to the door
                     int mid = across / 2;
-                    ArchPier tvFacing = plan.Dir(toNear);
-                    for (int c = -1; c <= 1; c++)
+                    // (round 3) The big TV is five blocks wide and three high on the wall over its low cabinet and sound bar
+                    for (int c = -1; c <= 1; c++) Put(mid + c, 0, L31Props.MediaCab, toNear);
                     {
-                        // (the TV's columns go from the viewer's left: looking north, west is left; looking south, east is)
-                        byte col = (byte)(tvFacing == ArchPier.South ? c + 1 : 1 - c);
-                        Put(mid + c, 0, L31Props.Tv, toNear, col);
+                        var (ta, tq) = At(mid - 2, 0);
+                        var (tb, tr) = At(mid + 2, 0);
+                        L31MountRun(plan, ta, tq, tb, tr, "bigtv", toNear);
                     }
                     for (int v = 0; v < len; v++)
                     {
@@ -756,30 +960,62 @@ public sealed partial class WorldLayout
                     break;
                 }
             case L31Zone.Bath:
-                // Toilets along one long wall, sinks along the other
-                if (wide)
-                    for (int p = p0 + 1; p <= p1 - 1; p += 2)
+                {
+                    // (round 3, a real restroom) Walled in to a restroom's size round its door (fourteen across, eleven deep:
+                    // the rooms were halls), a row of stalls along its far wall (the men's side and the women's, a gap
+                    // between), the vanity of basins under their mirrors along one side by the door, the hand dryers and a
+                    // bin on the other
+                    int bw = Math.Min(across, 14), ua = Math.Clamp(doorU - 6, 0, across - bw), ub = ua + bw - 1, vf = Math.Max(0, len - 11);
+                    for (int v = 0; v < len; v++)
+                        for (int u = 0; u < across; u++)
+                        {
+                            if (u >= ua && u <= ub && v >= vf) continue;
+                            var (wp, wq) = At(u, v);
+                            plan.At(wp, wq) = new Tile
+                            {
+                                Kind = TileKind.Wall, Pattern = WallPattern.L31Wall, Zone = (byte)L31Zone.Wall, Floor = FloorKind.L31Floor,
+                                Ceiling = CeilingKind.L31Ceiling, Height = 4,
+                            };
+                        }
+                    for (int u = ua + 1; u <= ub - 1; u++)
+                        if (u <= ua + 5 || u >= ub - 5) Put(u, vf, L31Props.Stall, toNear);
+                    for (int v = len - 2; v >= len - 4; v--)
                     {
-                        L31Put(plan, p, q1, Props.Toilet, ArchPier.North);
-                        if (p % 4 == 1) L31Put(plan, p, q0 + 2, Props.KitchenCounter, ArchPier.South, 1);
+                        Put(ua, v, L31Props.Vanity, toHighU);
+                        var (mp, mq) = At(ua, v);
+                        L31MountRun(plan, mp, mq, mp, mq, "mirror", toHighU);
                     }
-                else
-                    for (int q = q0 + 1; q <= q1 - 1; q += 2)
+                    foreach (int v in new[] { len - 3, len - 5 })
                     {
-                        L31Put(plan, door == ArchPier.West ? p1 : p0, q, Props.Toilet, door == ArchPier.West ? ArchPier.West : ArchPier.East);
-                        if (q % 4 == 1) L31Put(plan, door == ArchPier.West ? p0 + 2 : p1 - 2, q, Props.KitchenCounter, door == ArchPier.West ? ArchPier.East : ArchPier.West, 1);
+                        var (hp, hq) = At(ub, v);
+                        L31MountRun(plan, hp, hq, hp, hq, "dryer", toLowU);
                     }
-                break;
+                    Put(ub, len - 2, L31Props.Bin, toLowU);
+                    break;
+                }
             case L31Zone.Hvac:
                 {
                     // Ducting and machinery, a fan, boxes, dead radiators, a pipe run along the far wall; the cold leaks in
                     // (8 C) and one in three is flooded where its pipes burst (Fandom); puddles elsewhere
-                    for (int k = rng.Range(3, 6); k > 0; k--)
+                    for (int k = rng.Range(1, 3); k > 0; k--)
                     {
-                        int p = rng.Range(p0 + 2, p1 - 2), q = rng.Range(q0 + 2, q1 - 2);
+                        int p = rng.Range(p0 + 2, p1 - 2), q = rng.Range(q0 + 3, q1 - 2);
                         double r = rng.NextDouble();
                         L31Put(plan, p, q, r < 0.4 ? Props.PipeStack : r < 0.6 ? Props.Generator : r < 0.8 ? Props.FloorFan : Props.CardboardBoxes,
                             (ArchPier)rng.Range(0, 3));
+                    }
+                    // (round 3) The plant itself along the far wall: the air handlers side by side, the pressure tanks, the
+                    // water heater, under the pipe run
+                    int hm = across / 2;
+                    for (int u = hm - 2; u <= hm + 1; u++) Put(u, 1, Props.AcUnit, toNear);
+                    Put(hm + 3, 1, Props.PressureTank, toNear, 1);
+                    Put(hm + 4, 1, Props.PressureTank, toNear);
+                    Put(hm - 4, 1, Props.PressureTank, toNear, 1);
+                    // and the supply duct out of them under the ceiling, the length of the room
+                    for (int v = 1; v <= len - 2; v++)
+                    {
+                        var (dp, dq) = At(hm, v);
+                        plan.At(dp, dq).Overhead = door is ArchPier.North or ArchPier.South ? Overheads.L31DuctNS : Overheads.L31DuctWE;
                     }
                     for (int v = 2; v < len - 2; v += 3) Put(0, v, Props.Radiator, toHighU);
                     bool alongP = door is ArchPier.North or ArchPier.South;
@@ -811,6 +1047,9 @@ public sealed partial class WorldLayout
                 for (int k = rng.Range(1, 3); k > 0; k--) L31Put(plan, rng.Range(p0 + 3, p1 - 3), rng.Range(q0 + 3, q1 - 3), Props.CardboardBoxes, ArchPier.North);
                 // What the rink's staff kept back: a supply box or two
                 for (int k = rng.Range(0, 2); k > 0; k--) Box(rng.Range(2, across - 3), rng.Range(2, len - 3));
+                // (round 3) The skate-repair bench in the middle, its toolbox beside it
+                Put(across / 2, len / 2, Props.Workbench, toNear);
+                Put(across / 2 + 1, len / 2, Props.Toolbox, toNear);
                 break;
             case L31Zone.Lounge:
                 {
@@ -859,6 +1098,15 @@ public sealed partial class WorldLayout
                     Put(lw - 5, 0, L31Props.Vending, toNear, 0);
                     Put(lw - 6, 0, L31Props.Vending, toNear, 1);
                     Put(0, 0, L31Props.Monitors, toNear);
+                    {
+                        var (ba, bq) = At(2, 0);
+                        var (bb, br) = At(3, 0);
+                        L31MountRun(plan, ba, bq, bb, br, "board", toNear);
+                    }
+                    {
+                        var (pp, pq) = At(5, 0);
+                        L31MountRun(plan, pp, pq, pp, pq, "poster" + (p0 + q0 & 3), toNear);
+                    }
                     for (int v = 4; v <= len - 5; v += 5)
                         for (int u = 3; u <= lw - 4; u += 5)
                         {
@@ -990,6 +1238,46 @@ public sealed partial class WorldLayout
         for (int p = r0 + 6; p <= r1 - 6; p += 4)
             if (Math.Abs(p - pc) > 7 && ClearOfDoors(p, south - inward)) L31Put(plan, p, south, Props.Bench, toRink);
 
+        // (round 3) A mirror ball over each turn (the star keeps the centre); the rink's name in neon on the wall facing the DJ,
+        // the rules board, NO RUNNING by every door, the session board by the DJ; the snack window on the north skirt (a
+        // counter against the wall under its menu, the popcorn machine and a drinks fridge); skate lockers along the side
+        // walls with benches in front of them
+        int turn = pc - (o0 + radius);
+        plan.At(pc - turn, qc).Overhead = L31Overhead.DiscoBall;
+        plan.At(pc + turn, qc).Overhead = L31Overhead.DiscoBall;
+        // Lighting trusses with par cans under the ceiling: one down the middle of the long way, two across it
+        for (int p = o0 + radius - 4; p <= o1 - radius + 4; p++)
+            if (Math.Abs(p - pc) > 1 && Math.Abs(Math.Abs(p - pc) - turn) > 1) plan.At(p, qc).Overhead = Overheads.L31TrussWE;
+        foreach (int p in new[] { pc - 12, pc + 12 })
+            for (int q = qc - (tiny ? 8 : 14); q <= qc + (tiny ? 8 : 14); q++)
+                if (q != qc && plan.At(p, q).Overhead == 0) plan.At(p, q).Overhead = Overheads.L31TrussNS;
+        L31MountRun(plan, pc - 2, north, pc + 2, north, "name", toWall);
+        L31MountRun(plan, pc - 14, north, pc - 13, north, "rules", toWall);
+        L31MountRun(plan, pc + 5, south, pc + 6, south, "session", toRink);
+        foreach (int p in new[] { 35, 85 }) L31MountRun(plan, p, s0, p, s0, "norun", ArchPier.South);
+        foreach (int p in new[] { 58, 62 }) L31MountRun(plan, p, s1, p, s1, "norun", ArchPier.North);
+        L31MountRun(plan, r0, 57, r0, 57, "norun", ArchPier.East);
+        L31MountRun(plan, r1, 61, r1, 61, "norun", ArchPier.West);
+        for (int p = 70; p <= 73; p++) L31Put(plan, p, north, Props.SnackCounter, toWall, (byte)(p == 70 ? 1 : 0));
+        L31Put(plan, 69, north, L31Props.Popcorn, toWall);
+        L31Put(plan, 74, north, Props.DrinkFridge, toWall);
+        L31MountRun(plan, 71, north, 72, north, "snackwin", toWall);
+        if (!tiny)
+            foreach (int q in new[] { s0 + 4, s0 + 6, s0 + 8, s0 + 10, s0 + 12, s1 - 12, s1 - 10, s1 - 8, s1 - 6, s1 - 4 })
+                for (int k = 0; k <= 1; k++)
+                {
+                    int wallP = k == 0 ? r0 - 1 : r1 + 1, benchP = k == 0 ? r0 + 1 : r1 - 1;
+                    ArchPier toIn = k == 0 ? ArchPier.East : ArchPier.West;
+                    for (int dq = 0; dq <= 1; dq++)
+                    {
+                        ref Tile wall = ref plan.At(wallP, q + dq);
+                        if (wall.Kind != TileKind.Wall) continue;
+                        wall.Detail = (byte)(L31Wall.Locker << L31SubShift);
+                        wall.Pier = plan.Dir(toIn);
+                    }
+                    L31Put(plan, benchP, q, Props.Bench, toIn);
+                }
+
         // The walls round the skirt, above the benches: each side clad, by hash, in the mural or in black lacquer with
         // chrome-framed mirrors, as the halls are (the generator finds the wall beside the tile; doors are left bare)
         ulong clad = Hashing.Hash(seed, plan.Wx, plan.Wz, SaltL31Clad + 8);
@@ -1010,6 +1298,64 @@ public sealed partial class WorldLayout
             t.Overhead = L31Overhead.Sign;
             t.Detail = (byte)(t.Detail & L31HueMask | (1 + pc + 1 - p) << L31SubShift);
         }
+    }
+
+    /// <summary>
+    /// Round 3's signs outside the rooms: each room's name over its door on the corridor's side (the restroom figures beside a
+    /// restroom's, NOW SHOWING cases either side of a cinema's), the rink's name over the lobby's front doors on the hall's
+    /// side; fire extinguishers, alarm pulls and the rink's posters along the corridor's inner walls; EXIT over the
+    /// passages out to the halls.
+    /// </summary>
+    private static void L31LaySigns(L31Plan plan)
+    {
+        foreach (L31Room room in plan.Rooms)
+        {
+            if (room.Kind == L31Zone.Lobby)
+            {
+                L31MountRun(plan, 58, -1, 62, -1, "name", ArchPier.North, doorways: true);
+                continue;
+            }
+            string name = room.Kind switch
+            {
+                L31Zone.Rental => "rent", L31Zone.Snack => "snack", L31Zone.Arcade => "arc", L31Zone.Bath => "rest", L31Zone.Cinema => "cine",
+                L31Zone.Lounge => "staff", L31Zone.Store => "store", L31Zone.Hvac => "mech", _ => null,
+            };
+            if (name == null || room.DoorP < -1) continue;
+            ArchPier side = room.DoorSide;
+            bool alongP = side is ArchPier.North or ArchPier.South;
+            int ap = room.DoorP + (side == ArchPier.West ? -1 : side == ArchPier.East ? 1 : 0);
+            int aq = room.DoorQ + (side == ArchPier.North ? -1 : side == ArchPier.South ? 1 : 0);
+            int sp = alongP ? 1 : 0, sq = alongP ? 0 : 1;
+            L31MountRun(plan, ap, aq, ap + sp, aq + sq, name, side);
+            if (room.Kind == L31Zone.Bath) L31MountRun(plan, ap + 2 * sp, aq + 2 * sq, ap + 2 * sp, aq + 2 * sq, "mw", side);
+            if (room.Kind == L31Zone.Cinema)
+            {
+                L31MountRun(plan, ap - sp, aq - sq, ap - sp, aq - sq, "nowshow", side);
+                L31MountRun(plan, ap + 2 * sp, aq + 2 * sq, ap + 2 * sp, aq + 2 * sq, "nowshow", side);
+            }
+        }
+        // Along the corridor's inner walls (the rink's), every ten blocks: an extinguisher, a poster, an alarm pull, a poster
+        int n = 0;
+        void Dress(int p, int q, int wp, int wq, ArchPier face)
+        {
+            if (plan.At(wp, wq).Kind != TileKind.Wall || plan.At(p, q).Zone != (byte)L31Zone.Corridor) return;
+            int k = n++;
+            string what = (k % 4) switch { 0 => "ext", 2 => "alarm", _ => "poster" + (k / 2 + plan.Wx + plan.Wz & 3) };
+            L31MountRun(plan, p, q, p, q, what, face);
+        }
+        for (int p = 21; p <= 99; p += 10)
+        {
+            Dress(p, 24, p, 25, ArchPier.North);
+            Dress(p + 4, 96, p + 4, 95, ArchPier.South);
+        }
+        for (int q = 31; q <= 89; q += 10)
+        {
+            Dress(16, q, 17, q, ArchPier.West);
+            Dress(104, q + 4, 103, q + 4, ArchPier.East);
+        }
+        L31MountRun(plan, 0, 59, 0, 59, "exit", ArchPier.East);
+        L31MountRun(plan, L31Size - 1, 60, L31Size - 1, 60, "exit", ArchPier.West);
+        L31MountRun(plan, 60, L31Size - 1, 60, L31Size - 1, "exit", ArchPier.North);
     }
 
     /// <summary>An emptiness: one dim bare room the size of the complex, pillars in a grid, a door in the middle of each side.</summary>

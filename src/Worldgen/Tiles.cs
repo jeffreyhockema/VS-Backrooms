@@ -804,6 +804,10 @@ public static class Pipes
     public const ushort BasementFirst = 288, BasementLast = 319;
     public const ushort L52First = 320, L52Last = 351;
     public const ushort L31First = 352, L31Last = 383;
+    /// <summary>Level 31: a wall mount (a sign or fitting on the wall a floor tile stands against, or hung over it); this value
+    /// plus the way it faces (WorldGenerator.Facing: 0 north, 1 east, 2 south, 3 west), so 352-355; Tile.Depth says which
+    /// (WorldLayout.L31Mounts).</summary>
+    public const ushort L31Mount = 352;
     public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
     public const ushort L15First = 448, L15Last = 479;
@@ -887,6 +891,10 @@ public static class Overheads
     /// <summary>Level 52: a pedestrian bridge over this outdoor tile at the first floor up (Pier the way it runs, Stack 1 its side, 2 its middle); an outside wall tile opened onto one at that floor.</summary>
     public const ushort L52Bridge = 324, L52BridgeDoor = 325;
     public const ushort L31First = 352, L31Last = 383;
+    /// <summary>Level 31: a lighting truss under a rink's ceiling with its coloured par cans (running west-east, north-south).</summary>
+    public const ushort L31TrussWE = 352, L31TrussNS = 353;
+    /// <summary>Level 31: an HVAC room's supply duct under its ceiling, out of the air handlers (running west-east, north-south).</summary>
+    public const ushort L31DuctWE = 354, L31DuctNS = 355;
     public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
     /// <summary>Level 36: what hangs under the ceiling: a gate or carousel sign (Depth its glyph: 0-25 A-Z, 26-85 1-60), a wayfinding sign (Depth its glyph, WorldLayout.L36SignGlyphs), a flight screen's half (Depth its board, Roof 0 left, 1 right), the Travel Agency's fascia (Roof 0-2 left to right). Pier the way it faces.</summary>

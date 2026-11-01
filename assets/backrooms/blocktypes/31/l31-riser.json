@@ -1,0 +1,37 @@
+// Level 31: a cinema step, maroon carpet on top and a dark riser with a row of small amber aisle lights
+{
+	"code": "l31-riser",
+	"shape": {
+		"base": "backrooms:block/31/l31-riser"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth*",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"lightHsv": [
+		8,
+		3,
+		2
+	]
+}

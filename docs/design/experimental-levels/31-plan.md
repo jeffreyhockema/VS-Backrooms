@@ -384,3 +384,167 @@ with the skates gone, a pair from the cubbies outside Skate Rental to Level 0 at
 lobby's door under the mural, the revolving door's drum in the lobby's front wall, the doors in Level 2's tunnel and
 Level 3's brick (Level 6's door spot shoots black: the level is dark). Gate `--fast` PASS. Not tried in a client: the
 Coach's "lead me out" waypoint (the dialogue trigger), the door music's loudness.
+
+## Round 3 (2026-11-01): the detailed visual pass
+
+The user: more detailed visuals, multi-block objects and signs where a real place has them, more realistic layouts, still
+the lore. Looked at: round 2's final sheet and full shots (`%TEMP%/backrooms-shots/final-r2/31/`), the lead's notes, the
+brief and DECISIONS.md, this plan's open points, and Level 3999's arcade and food court, Level 36's signs and Level 52's
+rooms as the released/finished levels of the same kind.
+
+### List
+
+Tiers: A must, B should, C nice. One mechanism carries most of the signs and wall things: a **wall mount** (a thin panel or
+fixture in the air block in front of a wall, at its own height; `Tile.Pipe` = `Pipes.L31Mount*` with the way it faces,
+`Tile.Depth` which part of which mount), so signs several blocks wide can hang over doors and on the cladding.
+
+**1. Layout realism**
+1. (A) [done] Skate Rental laid out as a real one: the counter across the room with a pass-through, racks of cubbies behind it in
+   rows (not one shelf along the wall), the Coach behind the counter; the customers' side with shoe benches in facing rows
+   and coin lockers along a side wall.
+2. (A) [done: tables in groups either side of the walk; no queue rail] Food court: a clear walk from the door to the counter (a queue line with stanchions before the till), fewer tables
+   in groups, the counter's end with a popcorn machine and a drinks fridge, napkin and straw dispensers on the tables'
+   side of the counter.
+3. (A) [done] Arcade: a redemption (prize) corner as one object: glass prize cases as a counter, the prize wall behind it, plush
+   on top; a pinball row along a wall; the green-card (token) machines at the doors; a photo booth.
+4. (B) [done] Rink-side: a snack window on the skirt (a counter against the wall with its menu and the SNACKS sign), skate
+   lockers and benches on the side skirts so the skirt reads as the place people sit and lace up.
+5. (B) [partly: no lost and found box] Lobby: the admission counter facing the front doors with its price board over it, a trophy case, a jukebox, a lost
+   and found box; the couches as a waiting corner.
+6. (B) [done] Bathrooms as real restrooms: a row of stalls (partitions and doors), a vanity of sinks under mirrors, hand dryers,
+   a bin; the stalls on the far wall, sinks by the door.
+7. (C) [partly: the units read weakly in the shots] HVAC rooms with an air handler (a big unit) and pressure tanks rather than scattered props; store rooms as the
+   rink's stock and skate-repair room (a workbench, a toolbox, wheels).
+8. (C) [done] The cinema's door outside with lit NOW SHOWING poster cases either side (the "ticket booth" the lead asks for, in
+   the lore's free cinema: no tickets).
+
+**2. Multi-block objects**
+9. (A) [done] Cinema: a bigger "one big TV" (Wikidot): 5 x 3 blocks with a frame and a speaker bar under it on a low cabinet, in
+   place of the 3 x 2; the three stepped rows' risers with amber aisle lights.
+10. (A) [done] Bathroom stall (a partitioned cubicle with its door ajar and the toilet inside, two blocks tall) and a vanity (basin
+    counter with the mirror over it, two blocks).
+11. (A) [done] Arcade photo booth (two blocks tall, a curtain, a lit sign) and the prize counter (cases + wall + plush).
+12. (B) [done] Jukebox (1990s neon-arch style, taller than a block) and a trophy case (glass, two blocks, trophies on shelves).
+13. (B) [done] Disco balls over the rink: the star stays at the centre (Wikidot), a mirror ball hangs over the middle of each
+    turn (the lead's "disco ball over the centre"; the star keeps the centre).
+14. (B) [done] Rink-side snack window: counter + menu board + sign as one set piece.
+15. (C) [done: Level Fun's popcorn cart at the counter's end, the shared drinks fridge] A popcorn machine on the food counter (Level Fun's popcorn cart reused) and a soda / drinks fridge beside it.
+16. (C) [done as lighting trusses with par cans] PA speaker clusters hung under the rink's ceiling at its corners (the rink's upper dark was "a void").
+
+**3. Signs and text** (every sign drawn in the generator, read from where a player stands)
+17. (A) [done] Over each room's door on the corridor side: SKATE RENTAL, SNACK BAR, ARCADE, RESTROOMS, CINEMA, EMPLOYEES ONLY
+    (lounge), STORAGE, MECHANICAL (HVAC).
+18. (A) [done] Inside: SKATE RENTAL over the counter (lit), the size boards over the cubbies (SIZES 1-5, 6-9, 10-13), the
+    SNACK BAR sign over the food counter, ARCADE in neon over the doors inside, PRIZES over the redemption corner.
+19. (A) [partly: one cinema EXIT, the cinema has one door] EXIT signs: over the passages from the service corridor to the halls, over the lobby's front doors inside, both
+    of the cinema's (one more).
+20. (A) [done] The rink's name (an invention: STARDUST ROLLER RINK, from the star) in neon over the lobby's front doors on the
+    hall side and on the rink's north wall facing the DJ.
+21. (A) [done] Rink rules board (SKATE COUNTER-CLOCKWISE, NO RUNNING, NO FOOD ON THE FLOOR, ...) on the skirt by the gates, and a
+    NO RUNNING / NO STREET SHOES plate at each rink door.
+22. (A) [done] The Coach's whiteboard behind the rental counter ("LESSONS TODAY", the session times, a smiley).
+23. (B) [done] Session board by the DJ (ALL SKATE / COUPLES SKATE / SPEED SKATE / LIMBO), the lit one now on.
+24. (B) [done] RESTROOMS figures plate (MEN | WOMEN) by the bathroom's door, hand-dryer PUSH plates.
+25. (B) [done] Admission price board over the lobby counter; WELCOME / hours board in the lobby.
+26. (B) [done] EMPLOYEES ONLY on the lounge door; a staff notice board inside (rota, a memo, "DO NOT TOUCH THE SKATES").
+27. (C) [done] Fire-extinguisher plates and a fire alarm pull on the corridor walls; posters along the corridor (rink events).
+28. (C) [done] Arcade: TOKENS / GREEN CARDS plate over the dispenser.
+
+**4. Detail visuals**
+29. (B) [done] The service corridor: rubber skirting/kick plate is too much; instead the door signs, extinguishers, a mop bucket
+    and the EXIT signs give it rhythm.
+30. (B) [done: food court posters; rental adverts kept] Food court and rental walls: posters and the blue walls' adverts more often; the food court's bare beige walls
+    get a menu-side neon and posters.
+31. (B) [done] The lounge: posters, notice board (item 26), CCTV stays.
+32. (C) [skipped: kept] Arcade carpet / lighting: cabinets give the light; keep.
+33. (C) [skipped: kept] Rink: aisle lights / lit floor edge under the barrier? Keep the boards as they are (they read well).
+
+**5. Lore alignment**
+34. (A) [done] Keep: star at the centre, DJ on the south, food court's taped sign, orange chairs and park benches, condiments,
+    the Almond Water fountain, the green-card dispenser, OUT OF ORDER signs, the cinema's TV and three stepped rows of
+    continuous metal benches (no projector: the lore's cinema is a TV), the EMPLOYEES ONLY kitchen door painted shut.
+35. (B) [done] The lead's "projector window" and "ticket booth" against the lore's TV-and-benches cinema: no projector; poster
+    cases outside instead (item 8).
+36. (B) [done] The Coach in a showcase spot close up behind his counter, with the whiteboard.
+37. (C) [done] Skates: the cubbies are the "steal" way out (Links); the rack rows keep that use (a cubby rack is still
+    right-clickable).
+
+**6. Released-level alignment**
+38. (A) [done] Block names in the HUD and pick-block for every new block (lang keys `block-l31-...`).
+39. (B) [done: TrueType lettering as Level 36's, the old pixel font kept for the old signs] Signs in the same 3x5 lettering family the level already uses, lit where a real sign is lit, as Level 36/3999 do.
+40. (C) [skipped: unchanged] Supply boxes, notes, handbook, sound bed: unchanged (they hold); the handbook page gets one line on the signs if
+    space (no; text unchanged).
+
+**7. The lead's balance items (added 2026-11-01 during the round, from the balance review)**
+41. (A) [done] The food court's server feeds a player every 6 game hours (`L31System.ServeHours`, was 1.5).
+42. (A) [done] A screen over each revolving door naming where it goes (TO LV9 / LV10 / LV11), in Level 36's gate-screen style.
+43. (A) [done] The Coach's line about the doors names the Suburbs' danger.
+
+### How it is built
+
+- **Wall mounts** (`WorldLayout.L31Mounts`, `L31MountRun`; `tools/gen_31_round3.py` draws them as `l31-plate-<sign><col><row>`):
+  a thin panel or fitting in the air block in front of a wall (or hung in the middle of it), at its own height, its
+  columns placed from the viewer's left by the way it faces in the world, so text reads the right way round through
+  the plans' mirroring. A floor tile carries one column (`Tile.Pipe` = `Pipes.L31Mount` + facing, `Tile.Depth` the
+  column); a doorway's tile carries one for the hall tile in front of it (the rink's name over the lobby's front
+  doors, ARCADE over the arcade's hall door, the revolving doors' screens). A mount wins over the halls' cladding at
+  its own rows only. Lettering is TrueType (as Level 36's), lit signs glow and give a little light.
+- **Set pieces as tall models** (two blocks tall where they need it): `l31-stall`, `l31-vanity` (+ mirror plate),
+  `l31-photobooth`, `l31-jukebox`, `l31-trophycase`, `l31-mediacab` under the 5 x 3 TV, `l31-riser` (the cinema's
+  step blocks with amber aisle lights), `l31-truss` (`Overheads.L31TrussWE/NS`). Reused: Level 3999's prize cases
+  (with plush on them), prize wall; Level Fun's popcorn cart; the shared drinks fridge, AC unit, pressure tanks,
+  water tank, workbench, toolbox; the Basement's duct (`Overheads.L31DuctWE/NS`).
+- New props `L31Props` 729-737; `Overheads` 352-355 and `Pipes` 352 (the mount; 352-355 with its facing) in Level 31's
+  ranges; `expclash` clean.
+
+### Inventions (round 3)
+
+The rink's name STARDUST ROLLER RINK (from Wikidot's star light; the lore names no rink); the rink rules, session
+board, prices, hours, posters (couples skate, birthday parties, lessons with the Coach, retro night) and the staff
+notice board's notes ("DO NOT TAKE THE SKATES" points at the Fandom rule); the Coach's whiteboard; the NOW SHOWING
+cases ("your favorite movie", from Wikidot's cinema that plays your favourite film); the mirror balls over the turns,
+the lighting trusses, the rink-side snack window, skate lockers, trophy cases, jukebox, photo booth, restroom stalls
+and vanities, the rental's racks and benches, HVAC air handlers and ducts, the store room's repair bench; the
+revolving doors' TO LV screens (asked for by the lead).
+
+### Balance notes for the lead
+
+- **The server** (lead's item): `L31System.ServeHours` 1.5 -> **6** game hours between free meals per player (the
+  refusal after littering stays 24 h).
+- **New water**: the shared drinks fridge (`detail/drinkfridge`, a restocking `BackroomsDispenser`: soda, water,
+  Almond Waters) now stands at the end of every food court's counter and at each full rink's snack window (one per
+  complex with a full rink, about 60% of complexes, and 23 food courts in `31stats`'s window). The food
+  court already had the restocking Almond Water fountain, so the level had water; this adds more of it. If that is
+  too much, swap the fridge for a non-dispensing look (one line each in `L31LayRoom`/`L31LayRink`).
+- No new food, beds or safe rooms. The skate cubbies on the new free-standing racks give skates like the wall ones
+  (the "steal" way out is unchanged).
+
+### What the shots showed
+
+- **Run 1** (`%TEMP%/backrooms-shots/31-r3a/`, 26 spots + arrivals): the mounts read the right way round everywhere
+  (room signs, SKATE RENTAL, size boards, the whiteboard, PRIZES, Snacks, the rink's name over the lobby doors from
+  the hall and on the rink's wall, TO LV11 over a revolving door, the 5 x 3 TV, the session board by the DJ); the
+  trusses and mirror balls fill the rink's dark ceiling; the Coach close up behind his counter. Wrong: the restrooms
+  were still 28 x 20 halls with a row of stalls at the far end (walled in to 14 x 11 round their doors since, stalls
+  on both sides, vanities and dryers by the door); HVAC rooms read as scattered props and a water tower on legs
+  indoors (air handlers and tanks along the far wall under the duct since, no tower); the size boards ran from the
+  right in a mirrored complex (fixed); the extinguisher was a red box (rounder since); the food court's front third
+  was empty (a fourth row of tables and a jukebox since); the snack window's menu touched its frame (fixed).
+- **Run 2** (`31-r3b/`): the rig stopped after five spots on a PermissionError of its own (not the level's); its
+  shots (rink, star, DJ, lobby, lobby front) matched run 1's.
+- **Run 3** (final, `%TEMP%/backrooms-shots/31-r3-final/`, `sheet.jpg`; the rig counts 27 of 28 spots shot though
+  every spot it logs, Level 6's door included, reports ok): the restrooms now read as restrooms (two runs of stalls,
+  the vanity under its mirrors); the corridor's SKATE RENTAL and SNACK BAR signs over their doors; the food court
+  fuller; the Coach, the prize corner, the snack window, the trophy cases, the cinema's TV, the revolving door's
+  TO LV11 screen and a random arrival facing the RINK RULES board all hold. **Still weak:** the HVAC rooms (the
+  shared AC unit reads as a low white slab along the far wall; the duct and pipes carry the room), the bare
+  glowing-carpet and emptiness rooms (as the lore wants them), the hall arrivals the rig turns to a wall.
+
+### Questions for the user
+
+1. The rink's name STARDUST ROLLER RINK is an invention (the lore names none). Keep it, rename it, or leave the
+   neon nameless?
+2. The lead asked for a projector window and a ticket booth at the cinema; the lore's cinema is one big TV and
+   three metal benches, free. Built: a bigger TV and NOW SHOWING cases outside. Is a projector wanted anyway?
+3. Drinks fridges (restocking) at every food court and rink snack window add water to a level that already had the
+   Almond Water fountain: keep, or make them look-only?

@@ -1,0 +1,83 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"riser-carpet": "backrooms:block/31/riser-carpet",
+		"riser-side": "backrooms:block/31/riser-side"
+	},
+	"elements": [
+		{
+			"name": "Step",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#riser-side",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 60
+				},
+				"east": {
+					"texture": "#riser-side",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 60
+				},
+				"south": {
+					"texture": "#riser-side",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 60
+				},
+				"west": {
+					"texture": "#riser-side",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 60
+				},
+				"up": {
+					"texture": "#riser-carpet",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#riser-carpet",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

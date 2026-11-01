@@ -1,0 +1,148 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"plate-red": "backrooms:block/31/plate-red",
+		"plate-white": "backrooms:block/31/plate-white"
+	},
+	"elements": [
+		{
+			"name": "Box",
+			"from": [
+				5,
+				5,
+				14
+			],
+			"to": [
+				11,
+				12,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#plate-red",
+					"uv": [
+						0,
+						0,
+						6,
+						7
+					]
+				},
+				"east": {
+					"texture": "#plate-red",
+					"uv": [
+						0,
+						0,
+						2,
+						7
+					]
+				},
+				"south": {
+					"texture": "#plate-red",
+					"uv": [
+						0,
+						0,
+						6,
+						7
+					]
+				},
+				"west": {
+					"texture": "#plate-red",
+					"uv": [
+						0,
+						0,
+						2,
+						7
+					]
+				},
+				"up": {
+					"texture": "#plate-red",
+					"uv": [
+						0,
+						0,
+						6,
+						2
+					]
+				},
+				"down": {
+					"texture": "#plate-red",
+					"uv": [
+						0,
+						0,
+						6,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Pull",
+			"from": [
+				6.5,
+				7,
+				13.2
+			],
+			"to": [
+				9.5,
+				9,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#plate-white",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					]
+				},
+				"east": {
+					"texture": "#plate-white",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2
+					]
+				},
+				"south": {
+					"texture": "#plate-white",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2
+					]
+				},
+				"west": {
+					"texture": "#plate-white",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2
+					]
+				},
+				"up": {
+					"texture": "#plate-white",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#plate-white",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}
