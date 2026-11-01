@@ -408,17 +408,23 @@ public class L47System : ModSystem
                 e.Pos.Yaw = (float)Math.Atan2(caller.Pos.X - e.Pos.X, caller.Pos.Z - e.Pos.Z);
                 return e;
             }
+            // (The Great Adder side on, so its length shows, not head on like a post)
+            Entity Sideways(Entity e)
+            {
+                if (e != null) e.Pos.Yaw += (float)(Math.PI / 2);
+                return e;
+            }
             Entity shown = what switch
             {
                 "showsnake" => Shown(Spawn(SnakeCode, Ahead(caller, 3, 1, heading), e => e.WatchedAttributes.SetInt("textureIndex", rand.Next(4)))),
-                "showadder" => Shown(Spawn(AdderCode, Ahead(caller, 11, 3, heading))),
+                "showadder" => Sideways(Shown(Spawn(AdderCode, Ahead(caller, 11, 3, heading)))),
                 "showelk" => Shown(Spawn("game:deer-moose-adult-male", Ahead(caller, 9, 3, heading))),
                 "showwalker" => Shown(PutDownOphion(Ahead(caller, 7, 2, heading), true)),
                 "showkeepers" => new[] { -3, 0, 3 }.Select(side => Shown(PutDownOphion(Ground(caller.Pos.X + side, caller.Pos.Y, caller.Pos.Z - 9 + Math.Abs(side), 2), false))).LastOrDefault(e => e != null),
-                "showpack" => Enumerable.Range(0, 3).Select(k => Shown(Spawn(ShuckCode, Ahead(caller, 6 + k * 2, 2, heading), e => e.WatchedAttributes.SetInt("textureIndex", k % 2)))).LastOrDefault(e => e != null),
+                "showpack" => Enumerable.Range(0, 3).Select(k => Shown(Spawn(ShuckCode, Ahead(caller, 5 + k * 2, 2, heading), e => e.WatchedAttributes.SetInt("textureIndex", k % 2)))).LastOrDefault(e => e != null),
                 _ => null,
             };
-            return shown == null ? TextCommandResult.Error($"Could not put down '{what}'.") : TextCommandResult.Success($"Put down {shown.Code.Path} for the shot.");
+            return shown == null ? TextCommandResult.Error($"Could not put down '{what}'.") : TextCommandResult.Success($"Put down {shown.Code.Path} for the shot at {shown.Pos.X:0.0},{shown.Pos.Y:0.0},{shown.Pos.Z:0.0} facing {shown.Pos.Yaw:0.00}.");
         }
         Entity made = what switch
         {

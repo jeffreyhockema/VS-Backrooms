@@ -679,8 +679,9 @@ def blocks():
         firewood = [drop("game:firewood", 0.5, 0.4)] if k != "green" else []
         out.append(cube(f"l47-bark-{k}", f"// Level 47: {names[k]}", [f"block/47/bark-{k}", f"block/47/bark-{k}-2"], "Wood", WOOD,
                         6 if k != "green" else 12, drops=firewood, faces=ends))
+        # (Moss on top too: the roots crawling over the ground and the snags' broken tops showed cut rings, like stumps)
         out.append(cube(f"l47-mossbark-{k}", f"// Level 47: {names[k]}, mossed over", [f"block/47/mossbark-{k}", f"block/47/mossbark-{k}-2"], "Wood", WOOD,
-                        6 if k != "green" else 12, drops=firewood + [drop("game:drygrass", 0.2, 0.2)], faces=ends))
+                        6 if k != "green" else 12, drops=firewood + [drop("game:drygrass", 0.2, 0.2)], faces={"up": "block/47/moss", "down": f"block/47/rings-{k}"}))
     for k in LEAVES:
         out.append(("// Level 47: the crowns' " + ("needles" if k == "needle" else k + " leaves") + " (cut out; let a little light by)", {
             "code": f"l47-leaves-{k}", "creativeinventory": {"general": ["*"], "backrooms": ["*"]}, "blockmaterial": "Leaves", "drawtype": "cube",
@@ -751,7 +752,7 @@ def blocks():
 
 def write_json(path, comment, obj):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8", newline="\n") as f:
+    with open(path, "w", encoding="utf-8", newline="\r\n") as f:
         if comment:
             f.write(comment + "\n")
         json.dump(obj, f, indent="\t")

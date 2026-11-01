@@ -205,16 +205,18 @@ public sealed partial class WorldLayout
         return fallback ?? none;
     }
 
-    /// <summary>Whether an ancient dead tree fits at a column of Level 10: all of it and round it in Level 10, off the roads, not in a farmstead, a paddock or a pond, nowhere near the spawn.</summary>
+    /// <summary>Whether an ancient dead tree fits at a column of Level 10: its cell and the two rings of cells round it in Level 10, off the roads, not in a farmstead, a paddock or a pond, nowhere near the spawn.</summary>
     private bool L47Tree10Fits(int x, int z)
     {
-        for (int dz = -12; dz <= 12; dz += 6)
-            for (int dx = -12; dx <= 12; dx += 6)
-            {
-                int mx = MacroOf(x + dx), mz = MacroOf(z + dz);
-                if (LevelAt(mx, mz) != 10 || IsSpawnMacro(mx, mz)) return false;
-                if (Math.Abs(dx) <= 6 && Math.Abs(dz) <= 6 && FarmRoadAt(x + dx, z + dz) >= 0) return false;
-            }
+        // (Every cell round its own in Level 10 too: a neighbouring level lines its edge from the cells beside it, and the
+        // tree must change nothing outside Level 10)
+        int tmx = MacroOf(x), tmz = MacroOf(z);
+        for (int dz = -2; dz <= 2; dz++)
+            for (int dx = -2; dx <= 2; dx++)
+                if (LevelAt(tmx + dx, tmz + dz) != 10 || IsSpawnMacro(tmx + dx, tmz + dz)) return false;
+        for (int dz = -6; dz <= 6; dz += 6)
+            for (int dx = -6; dx <= 6; dx += 6)
+                if (FarmRoadAt(x + dx, z + dz) >= 0) return false;
         var f = FieldAt(x, z);
         return FieldKind(f.I, f.J) is not (FarmField.Farmstead or FarmField.Lake or FarmField.Pasture);
     }

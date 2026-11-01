@@ -91,6 +91,22 @@ forest-long, trail, trail-walker, waystone, stream, glade, stones-through-roof, 
 keepers, snake, great-adder, elk, night-moon, night-glade, night-shucks, dead-hollow, green-giant, way-in-level10. The
 creatures' spots put theirs down in front of the camera held still (`/backrooms l47 show...`).
 
-## 7. Screenshot cycles
+## 7. Screenshot cycles (tools/clientrig/shots.py 47, port 43222)
 
-(below)
+1. `%TEMP%/backrooms-shots/l47-c1`: the day fog far too thick and white (the forest a blank); the night and the glade read
+   well (manor and trilithons through its roof, stars); the moon off frame; the creatures' showcase spots put them where
+   the camera was not yet looking (the tour turns after the setup); `/time set day` is dawn, half the "day" shots dark.
+   Fixed: day fog 0.034 to 0.017, darker grey-green, less fog floor; night scene 0.45 to 0.85; `lunch`/`midnight`; the show
+   commands take the shot's heading; lanterns in the entrance hall; a softer Milky Way (the dark lanes were blotches).
+2. `l47-c2`: the moon's far side over the trees; still random dark shots. Cause: every `/time set` jumps a day forward
+   and the light takes seconds to follow. Fixed: the tour sets the clock only where it changes (Level 10 first, the day's
+   spots, the night's, a last day view). Under the green giant's crown it was black (twenty layers of leaves): crowns are
+   now shells two blocks thick, as a real crown's gaps let light in.
+3. `l47-c3`: no dark shots but two; the forest reads (ferns, moss, old man's beard, layered trunks into the fog); the
+   Black Shucks on the trail at night with a walker; the green giant from 17 blocks. The roots' tops showed cut rings
+   (stumps): mossy bark has a moss top now. Logs no longer span streams (a one-block trunk over water looked like a plank
+   in the air).
+4. `l47-c4`: every shot lit. The Great Adder was there but head on in the grass, reading as a red post: now put down side
+   on. The stream shot stood on a log's end and looked through the flat ground fog (the level's floor is ten under the
+   shared floor, so the vanilla fog floor lay at head height): the ground fog is now a hint (-0.07 by day), the stream spot
+   keeps clear of wood.

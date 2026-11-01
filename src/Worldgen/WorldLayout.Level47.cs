@@ -580,7 +580,8 @@ public sealed partial class WorldLayout
                 double r = t.CrownR * Math.Pow(1 - up, 0.85) * (0.62 + 0.38 * (tier == 0 ? 1 : tier == 1 ? 0.82 : tier == 2 ? 0.64 : 0.5));
                 // Ragged edges: the tips of the boughs
                 double jag = 0.9 * (Hashing.Unit(Hashing.Hash(seed, gx * 61 + rel, gz, SaltL47Leaf)) - 0.5);
-                if (cd < r + jag && cd > 0.4) kinds[rel - lowest] = t.Leaf;
+                // (A shell two blocks thick: the light gets in under it, as through a real crown's gaps)
+                if (cd < r + jag && cd > 0.4 && (cd > r - 2.2 || tier == 0)) kinds[rel - lowest] = t.Leaf;
             }
             return;
         }
@@ -601,7 +602,9 @@ public sealed partial class WorldLayout
                 if (kinds[rel - lowest] != 0) continue;
                 double dy = (rel + 0.5 - cy) / (rel + 0.5 < cy ? 0.62 : 0.78);
                 double rough = 0.9 * (Hashing.Unit(Hashing.Hash(seed, gx * 61 + rel, gz, SaltL47Leaf)) - 0.5);
-                if (hd2 + dy * dy < (lr + rough) * (lr + rough)) kinds[rel - lowest] = t.Leaf;
+                // (Each lump a shell two blocks thick: the light gets in under it, as through a real crown's gaps)
+                double e2 = hd2 + dy * dy, inner = Math.Max(0, lr + rough - 2.2);
+                if (e2 < (lr + rough) * (lr + rough) && e2 > inner * inner) kinds[rel - lowest] = t.Leaf;
             }
         }
     }
@@ -624,10 +627,13 @@ public sealed partial class WorldLayout
         dead = (h5 >> 40 & 3) == 0;
         if (L47FromMid(cx, cz) < L47GladeClear + len / 2) return false;
         if (L47TrailDistance(cx, cz, out _) < L47TrailClear + len / 2 + 1) return false;
+        // (None across a stream: a trunk one block thick spanning the water looked like a plank hung in the air)
+        if (L47Stream((int)Math.Floor(cx), (int)Math.Floor(cz)) < L47BankAt + 0.01) return false;
         ax = cx - Math.Cos(a) * len / 2;
         az = cz - Math.Sin(a) * len / 2;
         bx = cx + Math.Cos(a) * len / 2;
         bz = cz + Math.Sin(a) * len / 2;
+        if (L47Stream((int)Math.Floor(ax), (int)Math.Floor(az)) < L47BankAt || L47Stream((int)Math.Floor(bx), (int)Math.Floor(bz)) < L47BankAt) return false;
         int ga = L47Ground((int)Math.Floor(ax), (int)Math.Floor(az)), gb = L47Ground((int)Math.Floor(bx), (int)Math.Floor(bz)), gc = L47Ground((int)Math.Floor(cx), (int)Math.Floor(cz));
         // (Over a stream it lies across from bank to bank, a bridge)
         y = Math.Max(Math.Max(ga, gb), Math.Max(gc, 0)) + r + 0.15;

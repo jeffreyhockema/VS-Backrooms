@@ -30,10 +30,11 @@ public partial class WorldLayout
             {
                 double a = k * Math.PI / 5 + 0.3;
                 if (!L47OpenNear(mx + (int)Math.Round(Math.Cos(a) * 150), mz + (int)Math.Round(Math.Sin(a) * 150), 10, out int x, out int z)) continue;
+                // (A run of 20 to 32 open blocks: trees at its end, not a blank of fog over a stream)
                 for (int d = 0; d < 8; d++)
                 {
                     int run = L47OpenRun(x, z, d * 45, 48);
-                    if (run > best.Run) best = (x, z, d * 45, run);
+                    if (run >= 20 && run <= 32 && (best.Run < 0 || Math.Abs(run - 26) < Math.Abs(best.Run - 26))) best = (x, z, d * 45, run);
                 }
             }
             if (best.Run >= 0) spots.Add(new Showcase.Spot("forest-long", best.X + 0.5, Feet(best.X, best.Z), best.Z + 0.5, best.H, 3, Day));
@@ -47,6 +48,9 @@ public partial class WorldLayout
             spots.Add(new Showcase.Spot("trail", ix + 0.5, Feet(ix, iz), iz + 0.5, HeadingTo(x, z, nx, nz), -4, Day));
             // A walker of the Order on it, come round the bend
             spots.Add(new Showcase.Spot("trail-walker", ix + 0.5, Feet(ix, iz), iz + 0.5, HeadingTo(x, z, nx, nz), -4, Day + $";/backrooms l47 showwalker {(int)HeadingTo(x, z, nx, nz)}"));
+            // The Great Adder come up the trail; at night, the Black Shucks on it
+            spots.Add(new Showcase.Spot("great-adder", ix + 0.5, Feet(ix, iz), iz + 0.5, HeadingTo(x, z, nx, nz), 6, Day + $";/backrooms l47 showadder {(int)HeadingTo(x, z, nx, nz)}"));
+            spots.Add(new Showcase.Spot("night-shucks", ix + 0.5, Feet(ix, iz), iz + 0.5, HeadingTo(x, z, nx, nz), -6, Night + $";/backrooms l47 showpack {(int)HeadingTo(x, z, nx, nz)}"));
         }
         // One of the Order's way-stones, from the trail beside it
         {
@@ -59,6 +63,7 @@ public partial class WorldLayout
         // A stream: the nearest stretch of water to a place out in the forest, from its bank
         {
             (int X, int Z, int Wx, int Wz) found = (0, 0, 0, 0);
+            var feet = new byte[3];
             bool any = false;
             for (int r = 80; r < 400 && !any; r += 6)
                 for (int k = 0; k < 24 && !any; k++)
@@ -72,7 +77,11 @@ public partial class WorldLayout
                         {
                             int bx = wx + dx * d, bz = wz + dz * d;
                             Tile t = TileAt(bx, bz);
-                            if (t.Kind == TileKind.Floor && t.Zone == L47Forest && !L47InWater(bx, bz)) { found = (bx, bz, wx, wz); any = true; break; }
+                            if (t.Kind != TileKind.Floor || t.Zone != L47Forest || L47InWater(bx, bz)) continue;
+                            // (Nothing standing at the feet: round 4's camera stood on a log's end)
+                            L47Wood(bx, bz, L47Ground(bx, bz) + 1, feet);
+                            if (feet[0] != 0 || feet[1] != 0) continue;
+                            found = (bx, bz, wx, wz); any = true; break;
                         }
                 }
             if (any) spots.Add(new Showcase.Spot("stream", found.X + 0.5, Feet(found.X, found.Z), found.Z + 0.5, HeadingTo(found.X, found.Z, found.Wx, found.Wz), -12, Day));
@@ -85,21 +94,20 @@ public partial class WorldLayout
         spots.Add(new Showcase.Spot("great-hall", mx - 4.5, fy + 2, mz + 5.5, 290, -6, Day));
         spots.Add(new Showcase.Spot("east-room", mx + 5.5, fy + 2, mz + 2.5, 95, -6, Day));
         spots.Add(new Showcase.Spot("entrance-hall", mx + 0.5, fy + 2, mz + 6.5, 0, -10, Day));
+        // The Great Adder in the open, on the glade's meadow (the Order keeps it, the lore says, "to some extent")
+        spots.Add(new Showcase.Spot("great-adder-glade", mx - 32.5, fy + 2, mz + 22.5, 90, 4, Day + ";/backrooms l47 showadder 90"));
         // The Order's keepers before the door
         spots.Add(new Showcase.Spot("keepers", mx + 0.5, fy + 2, mz + 24.5, 0, -4, Day + ";/backrooms l47 showkeepers"));
         // Out in the forest by day: a snake in the litter; the Great Adder rearing; an elk
         if (L47OpenNear(mx + 120, mz - 60, 12, out int sx, out int sz))
         {
             spots.Add(new Showcase.Spot("snake", sx + 0.5, Feet(sx, sz), sz + 0.5, 90, -30, Day + ";/backrooms l47 showsnake 90"));
-            spots.Add(new Showcase.Spot("great-adder", sx + 0.5, Feet(sx, sz), sz + 0.5, 90, 4, Day + ";/backrooms l47 showadder 90"));
             spots.Add(new Showcase.Spot("elk", sx + 0.5, Feet(sx, sz), sz + 0.5, 90, 0, Day + ";/backrooms l47 showelk 90"));
         }
         // The night: the fog gone, the moon's far side over the glade; the Black Shucks in the forest
         spots.Add(new Showcase.Spot("night-moon", mx + 0.5, fy + 2, mz + 30.5, 173, 45, Night));
         spots.Add(new Showcase.Spot("night-glade", mx + 0.5, fy + 2, mz + 40.5, 0, 8, Night));
         spots.Add(new Showcase.Spot("night-aurora", mx + 0.5, fy + 2, mz - 30.5, 0, 22, Night + ";/backrooms l47 aurora"));
-        if (L47OpenNear(mx - 130, mz + 70, 12, out int nx2, out int nz2))
-            spots.Add(new Showcase.Spot("night-shucks", nx2 + 0.5, Feet(nx2, nz2), nz2 + 0.5, 0, -2, Night + ";/backrooms l47 showpack 0"));
         // A dead tree's hollow (the nearest that leads out), from in front of its mouth
         foreach (var h in L47HollowTrees())
         {
@@ -108,8 +116,8 @@ public partial class WorldLayout
         }
         // A green giant, the way to Level 23, from in front of its mouth
         var giants = L47GreenGiants();
-        if (giants.Count > 0 && L47HollowFront(giants[0].X, giants[0].Z, 12) is { } g)
-            spots.Add(new Showcase.Spot("green-giant", g.X + 0.5, Feet(g.X, g.Z), g.Z + 0.5, HeadingTo(g.X, g.Z, giants[0].X, giants[0].Z), 12, Day));
+        if (giants.Count > 0 && L47HollowFront(giants[0].X, giants[0].Z, 17) is { } g)
+            spots.Add(new Showcase.Spot("green-giant", g.X + 0.5, Feet(g.X, g.Z), g.Z + 0.5, HeadingTo(g.X, g.Z, giants[0].X, giants[0].Z), 18, Day));
         // Level 10's ancient dead tree, the way in, nearest the spawn
         var trees10 = L47NearestTrees10();
         if (trees10.Count > 0)
@@ -119,7 +127,29 @@ public partial class WorldLayout
             int fx = tx + (int)Math.Round(Math.Cos(t.MouthA) * 9), fz = tz + (int)Math.Round(Math.Sin(t.MouthA) * 9);
             spots.Add(new Showcase.Spot("way-in-level10", fx + 0.5, geometry.FloorFor(10) + 1, fz + 0.5, HeadingTo(fx, fz, tx, tz), 10, Day));
         }
-        return spots;
+        // A last day view: the clock jumps from midnight back to noon here, and the light takes a moment to follow (the
+        // shot may be dark); the random arrivals after it are by day
+        if (spots.Count > 0 && spots[0].Name == "forest-long") spots.Add(spots[0] with { Name = "forest-again", Setup = Day });
+        // The tour in an order that changes the clock as seldom as possible: Level 10's tree (noon), the day's spots, the
+        // night's, the last; each setting the clock only where it changes (a jump of the clock darkens the next few seconds)
+        var ordered = new List<Showcase.Spot>();
+        ordered.AddRange(spots.FindAll(s => s.Name == "way-in-level10"));
+        ordered.AddRange(spots.FindAll(s => s.Name != "way-in-level10" && s.Name != "forest-again" && s.Setup?.StartsWith(Night) != true));
+        ordered.AddRange(spots.FindAll(s => s.Setup?.StartsWith(Night) == true));
+        ordered.AddRange(spots.FindAll(s => s.Name == "forest-again"));
+        string clock = null;
+        for (int k = 0; k < ordered.Count; k++)
+        {
+            string setup = ordered[k].Setup ?? "", want = setup.StartsWith(Night) ? Night : setup.StartsWith(Day) ? Day : null;
+            if (want == null) continue;
+            if (want == clock && ordered[k].Name != "forest-again")
+            {
+                string rest = setup.Substring(want.Length).TrimStart(';');
+                ordered[k] = ordered[k] with { Setup = rest.Length == 0 ? null : rest };
+            }
+            clock = want;
+        }
+        return ordered;
     }
 
     /// <summary>The nearest tile to a point with open forest floor all round it (within a reach), if any.</summary>
