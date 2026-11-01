@@ -1,10 +1,10 @@
 """Renders the creature lineup for the mod page ("What lives here"): every entity at its true size relative to the
 others (the two giants at half scale), facing the viewer, standing on one ground line, named underneath.
 
-    python tools/lineup.py out.png [yaw=65] [pitch=8] [rings=1]
+    python tools/lineup.py out.png [yaw=65] [pitch=8] [rings=1|few=1]
 
-`rings=1` draws only what lives in the rings (Levels 0 to 11), in two rows: the mod page's lineup, which keeps the far
-levels' creatures out of sight. A 1920x1080 picture in three rows, with the Mangled standing at the right beside them, scaled to fill it. `yaw` turns the models from straight on (90) so their depth shows. The renderer is the one in
+`rings=1` draws only what lives in the rings (Levels 0 to 11), in two rows. `few=1` draws eight of them in one row
+with "and many more to discover" under it: the mod page's lineup, which keeps most of what lives here out of sight. A 1920x1080 picture in three rows, with the Mangled standing at the right beside them, scaled to fill it. `yaw` turns the models from straight on (90) so their depth shows. The renderer is the one in
 entrender.py (the game's element transforms), drawing onto a transparent canvas.
 """
 import json
@@ -125,16 +125,24 @@ RINGS = ["Smiler", "Hound", "Faceling", "Deathmoth", "Skin-Stealer", "Duller", "
          "The Beast\nof Level 5", "Giant Spider", "Neighborhood\nWatch", "Watcher", "The Thing\n(half scale)",
          "The Mangled (half scale)"]
 RINGS_ROWS = [7, 8]
+# A taste (few=1): eight, in one row, and the rest left to be met
+FEW = ["Death Rat", "Deathmoth", "Hound", "Faceling", "Bacteria", "Keymaster", "The Thing\n(half scale)",
+       "The Mangled (half scale)"]
+FEW_ROWS = [7]
+FEW_CAPTION = "and many more to discover"
 # Drawn standing at the right, beside every row, so the rows need not be as tall as it
 SIDE = {"The Mangled (half scale)"}
 SIZE = (1920, 1080)
 RINGS_ONLY = False
+FEW_ONLY = False
 
 
 def render_all(ppb, yaw, pitch):
     figures = []
     for label, shape_name, tex_name, size, extra in ROSTER:
         if RINGS_ONLY and label not in RINGS:
+            continue
+        if FEW_ONLY and label not in FEW:
             continue
         shape = json.load(open(os.path.join(ASSETS, "shapes", "entity", shape_name + ".json"), encoding="utf-8-sig"))
         tex = Image.open(os.path.join(ASSETS, "textures", "entity", tex_name + ".png")).convert("RGBA")
@@ -176,13 +184,18 @@ def main():
     out = sys.argv[1]
     opts = dict(a.split("=", 1) for a in sys.argv[2:])
     yaw, pitch = float(opts.get("yaw", 65)), float(opts.get("pitch", 8))
-    global RINGS_ONLY, ROWS
+    global RINGS_ONLY, FEW_ONLY, ROWS
     RINGS_ONLY = opts.get("rings", "0") == "1"
+    FEW_ONLY = opts.get("few", "0") == "1"
     if RINGS_ONLY:
         ROWS = RINGS_ROWS
+    if FEW_ONLY:
+        ROWS = FEW_ROWS
     W, H = SIZE
     label_font, title_font = font(["georgia.ttf", "times.ttf"], 28), font(["georgiab.ttf", "timesbd.ttf"], 52)
     gap, margin, top, label_h, row_gap = 26, 60, 130, 58, 18
+    caption_font = font(["georgiai.ttf", "timesi.ttf", "georgia.ttf"], 40)
+    caption_h = 90 if FEW_ONLY else 0  # room under the rows for the caption
 
     # Measure at a reference scale, then render again at the largest scale that fits the frame (labels keep their
     # size, so shrink a little more until every row fits beside the side figure's column)
@@ -190,9 +203,9 @@ def main():
     figs, side = split(render_all(ref, yaw, pitch))
     rows = layout(figs, label_font, gap)
     fit_w = min((W - 2 * margin) / (w - gap * (len(r) - 1)) * 1.0 for r, w, _, _ in rows)
-    fit_h = (H - top - 30 - sum(label_h + LINE_H * (label_lines(r) - 1) for r, _, _, _ in rows) - row_gap * (len(rows) - 1)) / sum(a + b for _, _, a, b in rows)
+    fit_h = (H - top - 30 - caption_h - sum(label_h + LINE_H * (label_lines(r) - 1) for r, _, _, _ in rows) - row_gap * (len(rows) - 1)) / sum(a + b for _, _, a, b in rows)
     if side:
-        fit_h = min(fit_h, (H - top - 30 - label_h) / side[1].height)
+        fit_h = min(fit_h, (H - top - 30 - caption_h - label_h) / side[1].height)
     ppb = ref * min(fit_w, fit_h) * 0.97
     while True:
         figs, side = split(render_all(ppb, yaw, pitch))
@@ -213,8 +226,12 @@ def main():
 
     # Share the spare height out between the rows; the rows sit left of the side figure's column
     used = sum(a + b for _, _, a, b in rows) + sum(label_h + LINE_H * (label_lines(r) - 1) for r, _, _, _ in rows) + row_gap * (len(rows) - 1)
-    spare = max(0, H - top - 30 - used) / (len(rows) + 1)
+    if side:
+        used = max(used, side[1].height + label_h)  # (the side figure is the tallest thing: centre on it)
+    spare = max(0, H - top - 30 - caption_h - used) / (len(rows) + 1)
     y = top + spare
+    if side:
+        y += max(0, side[2] - rows[0][2])  # (the ground line goes under the side figure's full height, not the row's)
     base = 0
     for row, width, above, below in rows:
         base = int(y + above)
@@ -237,6 +254,10 @@ def main():
         d.line([(x - 20, base + 2), (x + slot + 20, base + 2)], fill=(86, 84, 94), width=2)
         sheet.alpha_composite(img, (int(x + (slot - img.width) / 2), int(base - ground)))
         d.text((x + (slot - lw) / 2, base + int(last_below) + 16), label, font=label_font, fill=(222, 216, 204))
+    if FEW_ONLY:
+        cw = caption_font.getbbox(FEW_CAPTION)[2]
+        # (Just under the last row's names: y is already past them, the row gap and the shared spare)
+        d.text((margin + (region - cw) / 2, y - spare - row_gap + 8), FEW_CAPTION, font=caption_font, fill=(222, 216, 204))
     sheet.convert("RGB").save(out)
     print(out, sheet.size, f"{ppb:.0f} px per block")
 
