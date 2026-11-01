@@ -1,0 +1,115 @@
+// Level 73's way out: the north door in the castle's curtain wall, chained; only CORAN opens it (Regions.L73System.Links)
+{
+	"code": "l73-postern",
+	"class": "BackroomsL73Door",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"shut",
+				"open"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"wb",
+				"eb",
+				"wt",
+				"et"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-shut-wb"
+		],
+		"backrooms": [
+			"*-shut-wb"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-shut-wb": {
+			"base": "block/73/postern-shut-wb"
+		},
+		"*-shut-eb": {
+			"base": "block/73/postern-shut-eb"
+		},
+		"*-shut-wt": {
+			"base": "block/73/postern-shut-wt"
+		},
+		"*-shut-et": {
+			"base": "block/73/postern-shut-et"
+		},
+		"*-open-wb": {
+			"base": "block/73/postern-open-wb"
+		},
+		"*-open-eb": {
+			"base": "block/73/postern-open-eb"
+		},
+		"*-open-wt": {
+			"base": "block/73/postern-open-wt"
+		},
+		"*-open-et": {
+			"base": "block/73/postern-open-et"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 1,
+	"collisionboxByType": {
+		"*-open-*": null,
+		"*-shut-*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.375,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.625
+		}
+	},
+	"selectionboxByType": {
+		"*-open-w*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": -0.9375,
+			"x2": 0.25,
+			"y2": 1,
+			"z2": 0
+		},
+		"*-open-e*": {
+			"x1": 0.75,
+			"y1": 0,
+			"z1": -0.9375,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0
+		},
+		"*-shut-*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.375,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.625
+		}
+	},
+	"attributes": {
+		"l73Door": "postern",
+		"l73Fixed": true
+	},
+	"resistance": 1000,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

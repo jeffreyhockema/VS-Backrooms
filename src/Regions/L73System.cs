@@ -32,7 +32,7 @@ namespace Backrooms.Regions;
 /// round the castle and kills whatever hostile thing he hears outside its walls (<see cref="AiTaskL73Coran"/>).</item>
 /// </list>
 /// </summary>
-public class L73System : ModSystem
+public partial class L73System : ModSystem
 {
     /// <summary>How many blows on the door from outside open it, within how long; how long it stays open.</summary>
     public const int Knocks = 4, KnockMs = 3500, OpenMs = 6000;
@@ -94,6 +94,7 @@ public class L73System : ModSystem
                     .RequiresPrivilege(Privilege.controlserver)
                     .HandleWith(OnCoranCommand)
                 .EndSubCommand();
+            RegisterLinkCommands(api);
             api.Logger.Notification("[backrooms] Level 73: the castle's gate at {0},{1}, its door at {2},{3}, the plateau at y {4}", layout.L73Gate.X, layout.L73Gate.Z,
                 layout.L73Door.X, layout.L73Door.Z, geometry.FloorFor(WorldLayout.Level73) + WorldLayout.L73Plateau);
         });
@@ -190,6 +191,8 @@ public class L73System : ModSystem
         if (anyone) lastPlayerMs = now;
         KeepCoran(anyone, now);
         DoorTick(now);
+        // The ways in and out (L73System.Links.cs): the Gloom and Level 6's deepest dark, a night's rest, Coran's lead, the north door
+        LinksTick(now);
     }
 
     // ================= No light =================
@@ -278,6 +281,11 @@ public class L73System : ModSystem
     public void Knock(IServerPlayer player, BlockPos pos, string door)
     {
         long now = sapi.World.ElapsedMilliseconds;
+        if (door == "postern")
+        {
+            KnockPostern(player, pos);
+            return;
+        }
         if (door == "attic")
         {
             sapi.World.PlaySoundAt(new AssetLocation("game:sounds/block/chestclose"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 12, 0.5f);
@@ -519,8 +527,19 @@ public class EntityCoran : EntityAgent
         return false;
     }
 
-    public override WorldInteraction[] GetInteractionHelp(IClientWorldAccessor world, EntitySelection es, IClientPlayer player) =>
-        help ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l73-coran", MouseButton = EnumMouseButton.Right } };
+    private static WorldInteraction[] restedHelp;
+
+    public override WorldInteraction[] GetInteractionHelp(IClientWorldAccessor world, EntitySelection es, IClientPlayer player)
+    {
+        // Once you have slept a night under his roof, you may ask him to lead you out
+        if (player?.Entity?.WatchedAttributes.GetBool(L73System.RestedKey) == true)
+            return restedHelp ??= new[]
+            {
+                new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l73-coran", MouseButton = EnumMouseButton.Right },
+                new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l73-leadout", MouseButton = EnumMouseButton.Right, HotKeyCode = "shift" },
+            };
+        return help ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l73-coran", MouseButton = EnumMouseButton.Right } };
+    }
 
     public override void OnInteract(EntityAgent byEntity, ItemSlot itemslot, Vec3d hitPosition, EnumInteractMode mode)
     {
@@ -534,6 +553,12 @@ public class EntityCoran : EntityAgent
         if (now < nextWordMs) return;
         nextWordMs = now + 2500;
         GetBehavior<EntityBehaviorTaskAI>()?.TaskManager.GetTask<AiTaskL73Coran>()?.TurnTo(byEntity);
+        // Sneaking: asking him to lead you out (L73System.Links.cs)
+        if (byEntity.Controls.Sneak)
+        {
+            L73System.Server?.AskToLeave(this, player);
+            return;
+        }
         L73System.Server?.CoranSays(this, player, $"backrooms:l73-coran-say-{1 + World.Rand.Next(AiTaskL73Coran.Lines)}");
     }
 }
@@ -545,7 +570,7 @@ public class EntityCoran : EntityAgent
 /// is never hostile to a human. Otherwise he walks the hill round the castle, stopping to listen; a wanderer who comes
 /// close is greeted, now and then, with a bow and a word.
 /// </summary>
-public class AiTaskL73Coran : AiTaskBase
+public partial class AiTaskL73Coran : AiTaskBase
 {
     /// <summary>How many things he says when spoken to (l73-coran-say-1 to -N), and when he greets (l73-coran-greet-1 to -N).</summary>
     public const int Lines = 8, Greetings = 4;
@@ -630,6 +655,8 @@ public class AiTaskL73Coran : AiTaskBase
             Hunt(now);
             return true;
         }
+        // Leading a wanderer out to the north door (L73System.Links.cs)
+        if (Lead(l73, now)) return true;
         if (Greet(l73, now)) return true;
         Patrol(l73, now);
         return true;

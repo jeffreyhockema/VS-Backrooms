@@ -70,6 +70,12 @@ public partial class WorldLayout
         // The north shore under the moon
         var (sx, sz) = L73Shoreline(10);
         yield return At((sx, floor + TileAt((int)Math.Floor(sx), (int)Math.Floor(sz)).Height + 1, sz), "shore-moon", 10, 12);
+        // The way out (WorldLayout.Level73.Links.cs): the north door in the outside of the curtain wall, chained shut, and opened
+        // on the dark as Coran opens it
+        yield return At(Ground(mid, z0 - 10.5), "north-door", 180, 6);
+        yield return At(Ground(mid, z0 - 5.5), "north-door-open", 180, 2, "/backrooms l73postern open");
+        // The ways in, in their host levels: the nearest Gloom in Level 9, the nearest of Level 6's deepest dark
+        foreach (Showcase.Spot spot in L73LinkSpots(geometry)) yield return spot;
     }
 
     /// <summary>A spot on the island's last dry ground on a bearing (degrees clockwise from north) from its middle.</summary>

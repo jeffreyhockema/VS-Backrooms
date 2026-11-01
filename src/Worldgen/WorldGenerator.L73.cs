@@ -92,6 +92,8 @@ public sealed partial class WorldGenerator
         floorIds[(int)FloorKind.L73Boards] = l73Boards;
         floorIds[(int)FloorKind.L73Tile] = l73TileFloor;
         floorIds[(int)FloorKind.L73Damask] = l73Damask;
+        // The ways in and out (WorldGenerator.L73.Links.cs)
+        InitL73Links();
     }
 
     /// <summary>One block of a column of the level, <paramref name="rel"/> above the sea's surface.</summary>
@@ -163,6 +165,8 @@ public sealed partial class WorldGenerator
                 if (c <= 7) return l73Silver;
                 return c == 8 && v == d - 1 && Merlon(u, v) ? l73Silver : 0;
             case Part.Curtain:
+                // The north door Coran opens, and the dark behind it (WorldGenerator.L73.Links.cs)
+                if (L73PosternBlock(u, v, c) is int postern and >= 0) return postern;
                 if (c <= 7) return l73Silver;
                 return c == 8 && (u == 0 || v == 0 || u == w - 1 || v == d - 1) && Merlon(u, v) ? l73Silver : 0;
             case Part.Tower:

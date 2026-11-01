@@ -1,0 +1,41 @@
+// Level 73's way in from Level 9: the black murk over the Gloom's heart (no body; seen from inside as well as out)
+{
+	"code": "l73-gloomair",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Air",
+	"drawtype": "cube",
+	"renderpass": "BlendNoCull",
+	"faceCullMode": "Merge",
+	"textures": {
+		"all": {
+			"base": "block/73/gloom-murk"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"emitSideAo": {
+		"all": false
+	},
+	"lightAbsorption": 6,
+	"collisionbox": null,
+	"selectionbox": null,
+	"replaceable": 6000,
+	"rainPermeable": true,
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000,
+	"drops": [],
+	"sounds": {}
+}

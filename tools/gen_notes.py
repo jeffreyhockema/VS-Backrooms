@@ -1333,6 +1333,18 @@ castle, to call off the search: "They won't be able to get out. They'll just be 
 — Field Team 9""", w="meg"),
 ]))
 
+# Level 73's ways in, as wanderers talk of them in the levels they lie in (exp/73 links): one note at the end of Level 9's
+# track (the Gloom) and one at the end of Level 6's (its deepest dark), with this level's own keys. Nothing else in either moves.
+next(t for t in TRACKS if t.id == "l9").entries.append(E("l73-l9", "The Gloom", """
+There's a yard a few streets over where the dark just sits. Not shadow: dark, like ink poured on the grass, and my torch
+stopped at the edge of it. The boy I was walking with stood in it for a bet. After a minute he said he could hear a
+heart beating, and then he wasn't there. M.E.G. calls it the Gloom. They say it lets you out on an island with a castle on it. Walk round it.
+— Nell""", w="nell"))
+next(t for t in TRACKS if t.id == "l6").entries.append(E("l73-l6", "Deeper", """
+Some of the dark down here is deeper than the rest. You can feel it, like a held breath. I sat down in it once to rest,
+light out, and after a long while I heard a heart beating under the floor. I lit up and ran. They say the ones who
+don't light up wake on an island under a full moon. Keep a light going."""))
+
 
 # ============================== Facts the notes rely on ==============================
 # Each must appear (case-insensitively) in the handbook text (gen_guide.py), README.md or docs/GUIDE.md, so that a change there makes

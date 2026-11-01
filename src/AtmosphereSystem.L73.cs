@@ -35,6 +35,14 @@ public partial class AtmosphereSystem
     private float l73Sky;
     private bool l73SphereSet;
 
+    // The ways in (WorldLayout.Level73.Links.cs): how long the player has stood in the Gloom (Level 9) or in Level 6's deepest
+    // dark with no light, as the client counts it (the server keeps its own count and does the taking); the black that closes
+    // round them in the Gloom (0-1); the next beat of the heart heard there
+    private float l73GloomTime, l73DarkTime, l73GloomFog, l73LingerBeat;
+
+    /// <summary>How long the Gloom takes (seconds, as Regions.L73System.Links), and Level 6's deepest dark.</summary>
+    private const float L73GloomTakes = 90f, L73DarkTakes = 180f;
+
     /// <summary>A slot of game hours in which the moon may be covered, the chance it is, and how long for (in game hours).</summary>
     private const double L73SpellSlot = 2, L73SpellChance = 0.35, L73SpellLength = 0.35;
 
@@ -83,6 +91,7 @@ public partial class AtmosphereSystem
 
     private void L73Sounds(float dt, EntityPos pos, bool here)
     {
+        L73Lingering(dt, pos);
         L73SkySphere(dt, here);
         if (!here)
         {
@@ -169,6 +178,18 @@ public partial class AtmosphereSystem
     {
         l73Sky += ((here ? 1f : 0f) - l73Sky) * Math.Min(1f, dt * 2f);
         DefaultShaderUniforms uniforms = capi.Render.ShaderUniforms;
+        if (l73Sky < 0.01f && l73GloomFog >= 0.01f)
+        {
+            // In the Gloom (Level 9): a black that closes in round the player, tighter the longer they stay
+            float[] dark = uniforms.FogSpheres;
+            dark[0] = dark[1] = dark[2] = 0;
+            dark[3] = 48f;
+            dark[4] = 0.32f * l73GloomFog;
+            dark[5] = dark[6] = dark[7] = 0.004f;
+            uniforms.FogSphereQuantity = 1;
+            l73SphereSet = true;
+            return;
+        }
         if (l73Sky < 0.01f)
         {
             if (l73SphereSet) uniforms.FogSphereQuantity = 0;
@@ -185,5 +206,42 @@ public partial class AtmosphereSystem
         sphere[7] = fogColor.B;
         uniforms.FogSphereQuantity = 1;
         l73SphereSet = true;
+    }
+
+    /// <summary>
+    /// The ways in, as the player feels them (the server does the taking, Regions/L73System.Links.cs). Standing in the Gloom in
+    /// Level 9: the dark closes in round them (<see cref="L73SkySphere"/>) and a slow heartbeat comes, louder and quicker the
+    /// longer they stay. In Level 6's deepest dark with no light: the same heart, faint and far off, as if under the floor.
+    /// </summary>
+    private void L73Lingering(float dt, EntityPos pos)
+    {
+        EntityPlayer entity = capi.World.Player?.Entity;
+        bool playing = entity != null && capi.World.Player.WorldData.CurrentGameMode is not (EnumGameMode.Creative or EnumGameMode.Spectator);
+        int bx = (int)Math.Floor(pos.X), bz = (int)Math.Floor(pos.Z);
+        int level = layout.LevelAt(WorldLayout.MacroOf(bx), WorldLayout.MacroOf(bz));
+        bool gloom = false, dark = false;
+        if (playing && level == 9)
+        {
+            double rel = pos.Y - geometry.FloorFor(9);
+            gloom = rel > 0.5 && rel < 3.5 && WorldLayout.IsL73Gloom(layout.TileAt(bx, bz));
+        }
+        else if (playing && level == 6 && layout.IsL73DarkCell(WorldLayout.MacroOf(bx), WorldLayout.MacroOf(bz)))
+            dark = Entities.Senses.HeldLight(entity) < Entities.Senses.LitLevel;
+        l73GloomTime = gloom ? l73GloomTime + dt : Math.Max(0, l73GloomTime - dt * 4);
+        l73DarkTime = dark ? l73DarkTime + dt : Math.Max(0, l73DarkTime - dt * 2);
+
+        // The black round them: at once a little, then more as they stay
+        float fogTarget = gloom ? Math.Min(1f, 0.3f + 0.7f * l73GloomTime / L73GloomTakes) : 0f;
+        l73GloomFog += (fogTarget - l73GloomFog) * Math.Min(1f, dt * (fogTarget > l73GloomFog ? 0.8f : 2.5f));
+        if (l73GloomFog < 0.005f) l73GloomFog = 0;
+
+        if (!gloom && !dark) return;
+        float k = gloom ? Math.Min(1f, l73GloomTime / L73GloomTakes) : Math.Min(1f, l73DarkTime / L73DarkTakes);
+        l73LingerBeat -= dt;
+        if (l73LingerBeat > 0) return;
+        // In the Gloom a beat every 6 s at first, every 1.5 at the last; in Level 6's dark one every 20 s, then 6
+        l73LingerBeat = gloom ? 6f - 4.5f * k : 20f - 14f * k;
+        float volume = gloom ? 0.12f + 0.3f * k : 0.04f + 0.12f * k;
+        capi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/run/heartbeat"), entity, null, randomizePitch: false, range: 8, volume: volume);
     }
 }

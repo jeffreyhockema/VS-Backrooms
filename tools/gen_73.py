@@ -19,6 +19,7 @@ import re
 from PIL import Image, ImageDraw, ImageFilter
 
 import gen_73_castle as castle
+import gen_73_links as links
 import gen_73_lore as lore
 import matlib as M
 import texlib
@@ -467,7 +468,7 @@ LANG = [
     ("block-l73-bone", "Great Hound's Bone"),
     ("block-l73-wainscot-*", "Mahogany Panelling"),
     ("block-l73-damask-*", "Damask-Papered Wall"),
-] + castle.LANG + lore.LANG
+] + castle.LANG + links.LANG + lore.LANG
 
 
 def write_lang():
@@ -548,8 +549,13 @@ def main():
     for comment, b in castle.blocktypes():
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
     n_shapes = castle.shapes(write_json, os.path.join(ASSETS, "shapes", "block", "73"))
+    # The ways in and out (gen_73_links.py): the Gloom's ground and murk, the north door
+    n_tex += links.textures(save)
+    for comment, b in links.blocktypes():
+        write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
+    n_shapes += links.shapes(write_json, os.path.join(ASSETS, "shapes", "block", "73"))
     write_lang()
-    print(f"gen_73: {22 + n_tex} textures, {12 + len(castle.blocktypes())} blocktypes, {1 + n_shapes} shapes, lang")
+    print(f"gen_73: {22 + n_tex} textures, {12 + len(castle.blocktypes()) + len(links.blocktypes())} blocktypes, {1 + n_shapes} shapes, lang")
 
 
 if __name__ == "__main__":

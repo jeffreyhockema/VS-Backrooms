@@ -1,0 +1,30 @@
+// Level 73's way in from Level 9: the Gloom's ground, black and dull, a pool of darkness light does not reach (it never breaks)
+{
+	"code": "l73-gloom",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/73/gloom"
+		}
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/sludge*",
+		"place": "game:block/dirt*",
+		"break": "game:block/dirt*",
+		"hit": "game:block/dirt*"
+	}
+}
