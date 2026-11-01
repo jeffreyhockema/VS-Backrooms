@@ -1,7 +1,9 @@
 # Experimental levels (branch `experimental-levels`)
 
-Eight levels, built as prototypes and brought up to the released levels' quality in two detail rounds (round 2 judged
-from screenshots in the real client). Since the links round (2026-10-31) they are **connected**: each has the ways in and
+Eight levels, built as prototypes and brought up to the released levels' quality in three detail rounds (rounds 2 and
+3 judged from screenshots in the real client; round 3, 2026-11-01, worked each level through a listed visual pass:
+rooms by function, multi-block objects, signs and text, and is written up in each `<tag>-plan.md` under "Round 3").
+`BALANCE.md` reviews how the eight sit against the released levels and records the balance changes made. Since the links round (2026-10-31) they are **connected**: each has the ways in and
 out its lore gives wherever the lore names a level this mod has (`LINKS.md`; the handbook's Ways Between Levels page
 lists them), and the rest are rumours in its notes. The cheats menu (F7) and `/backrooms goto
 73|basement|52|31|120|36|15|23` still take you straight there.
