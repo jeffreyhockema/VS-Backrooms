@@ -43,7 +43,8 @@ public sealed partial class WorldGenerator
     private readonly int[] l23SentryBody = new int[4];
     private readonly int[] l23Bedroll = new int[4];
     private readonly System.Collections.Generic.Dictionary<string, int[]> l23Signs = new();
-    private int l23SignPost, l23Barrel, l23Crate, l23FireRing, l23Ledger, l23Cloth, l23Flagstone;
+    private int l23SignPost, l23Barrel, l23Crate, l23FireRing, l23Ledger, l23Cloth, l23Flagstone, l23MossBark;
+    private readonly int[] l23SquirtRack = new int[4];
     private int[] l23Flowers;
     private readonly int[] l23Sentry = new int[4];
     private readonly int[] l23Latin = new int[4];
@@ -92,6 +93,8 @@ public sealed partial class WorldGenerator
         l23Ledger = Id("l23-ledger");
         l23Cloth = Id("l23-cloth");
         l23Flagstone = Id("l23-flagstone");
+        l23MossBark = Id("l23-mossbark");
+        for (int f = 0; f < 4; f++) l23SquirtRack[f] = Id("l23-squirtrack-" + Sides[f]);
         l23Humus = Id("l23-humus");
         l23Moss = Id("l23-moss");
         l23Litter = Id("l23-litter");
@@ -221,7 +224,16 @@ public sealed partial class WorldGenerator
         }
         // The Heart of Water's pool
         if (core && ground < WorldLayout.L23PoolSurface)
+        {
             for (int rel = ground + 1; rel <= WorldLayout.L23PoolSurface; rel++) c.Water[rel - L23Low] = true;
+            // (Round 3: mossy stones in the shallows round the edge, a few standing out of the water)
+            if (ground >= WorldLayout.L23PoolSurface - 3 && Noise2(gx / 3.0, gz / 3.0, SaltL23Mat + 16) > 0.55)
+                for (int rel = ground + 1; rel <= WorldLayout.L23PoolSurface + 1; rel++)
+                {
+                    b[rel - L23Low] = l23Bark[WorldLayout.L23Boulder];
+                    c.Water[rel - L23Low] = false;
+                }
+        }
 
         // ---- The wood: trunks, buttresses, roots, arches, limbs ----
         layout.L23Wood(gx, gz, L23Low, c.Wood);
@@ -234,6 +246,19 @@ public sealed partial class WorldGenerator
             if (rel < ground - 2 && w == WorldLayout.L23RootWood) continue;
             b[i] = l23Bark[w];
             c.Water[i] = false;
+        }
+        // Round 3: moss grown up over the trunks' feet (a block or two over the ground, in patches) and over the tops of
+        // the roots crawling out from them
+        if (!core && ground >= 0)
+        {
+            int band = ground + (Noise2(gx / 7.0, gz / 7.0, SaltL23Mat + 15) > 0 ? 2 : 1);
+            for (int rel = ground + 1; rel <= band && rel - L23Low < L23Height; rel++)
+            {
+                byte w = c.Wood[rel - L23Low];
+                if (w is >= WorldLayout.L23BarkGrey and <= WorldLayout.L23BarkDark or WorldLayout.L23BarkAspen) b[rel - L23Low] = l23MossBark;
+            }
+            for (int rel = ground + 1; rel <= ground + 3 && rel + 1 - L23Low < L23Height; rel++)
+                if (c.Wood[rel - L23Low] == WorldLayout.L23RootWood && c.Wood[rel + 1 - L23Low] == 0 && L23Unit(gx, gz, 27) < 0.6) b[rel - L23Low] = l23MossBark;
         }
         // A hollow trunk's floor (inside it and in its mouth): leaf litter and humus blown in, not the cut end of its bark
         if (t.Under == Unders.L23HollowTrunk && ground >= L23Low) b[ground - L23Low] = L23Unit(gx, gz, 21) < 0.55 ? l23Litter : l23Humus;
@@ -725,6 +750,8 @@ public sealed partial class WorldGenerator
         {
             b[on] = l23Crate;
             if (u == -4) b[on + 1] = l23Crate;
+            // (On the last crate, the camp's squirt guns, facing the counter)
+            if (u == -2) b[on + 1] = l23SquirtRack[Facing(ArchPier.South)];
             return;
         }
         // Water barrels by the spring

@@ -499,6 +499,35 @@ def lantern_glass(seed):
     return img
 
 
+def squirtrack():
+    """The M.E.G.'s Almond Water squirt guns (the lore's arms of Base Seedling), three on a little rack, facing north."""
+    els = [B("Back", (1, 0, 13), (15, 12, 14.5), "#wood"), B("Shelf", (1, 0, 9), (15, 1, 14.5), "#wood")]
+    for k, x in enumerate((2.5, 7, 11.5)):
+        els += [B(f"Body{k}", (x, 1, 10), (x + 2.5, 4, 13), "#orange"), B(f"Tank{k}", (x + 0.2, 4, 10.5), (x + 2.3, 7.5, 12.8), "#green"),
+                B(f"Barrel{k}", (x + 0.8, 2.5, 6.5), (x + 1.7, 3.4, 10), "#orange"), B(f"Grip{k}", (x + 0.6, 1, 12.6), (x + 1.9, 3, 13), "#green")]
+    return shape({"wood": "backrooms:block/23/planks", "orange": "backrooms:block/23/plastic-orange", "green": "backrooms:block/23/plastic-green"}, els)
+
+
+def plastic(rgb, seed):
+    img = M.noise_hv(rgb, 2, seed, mottle=3)
+    G.flecks(img, seed + 1, 6, (255, 255, 255), 0.3)
+    return img
+
+
+def mossbark(seed):
+    """Moss grown up over the foot of a trunk: dark bark under a thick green mat, ragged at its top edge."""
+    img = G.bark((70, 66, 58), seed, wave=1.3)
+    px = img.load()
+    edge = M.fbm(S, seed + 1, (8, 4))
+    for y in range(S):
+        for x in range(S):
+            t = (y / S) + 0.35 * edge[y][x]
+            if t > 0.28:
+                px[x, y] = M.rgba(M.mix(px[x, y], M.lift((58, 82, 36), 18 * edge[y][x]), min(1, (t - 0.28) * 3)))
+    G.flecks(img, seed + 2, 20, (126, 150, 70), 0.5)
+    return img
+
+
 def ledger():
     return shape({"paper": "backrooms:block/23/ledger", "cover": "backrooms:block/23/blanket"},
                  [B("Cover", (3, 0, 4), (13, 0.6, 12), "#cover"), B("Pages", (3.4, 0.6, 4.4), (12.6, 1.2, 11.6), "#paper", faces="u")])
@@ -663,6 +692,11 @@ def blocks():
                            "lantern", "Metal", {"walk": "game:walk/stone*", "place": "game:block/anvil", "break": "game:block/glass", "hit": "game:block/anvil"},
                            selection={"x1": 0.3, "y1": 0, "z1": 0.3, "x2": 0.7, "y2": 0.65, "z2": 0.7},
                            collision={"x1": 0.3, "y1": 0, "z1": 0.3, "x2": 0.7, "y2": 0.6, "z2": 0.7}, light=[7, 4, 14]))
+    out.append(G.cube_block("l23-mossbark", "// Level 23 (round 3): moss grown up over the foot of a trunk and over its roots", ["block/23/mossbark", "block/23/mossbark-2"],
+                            "Wood", *WOOD, 7, drops=[G.drop("game:firewood", 0.4, 0.4)], faces={"up": "block/23/moss", "down": "block/23/heartwood-grey"}))
+    out.append(model_block("l23-squirtrack", "// Level 23 (round 3): the M.E.G.'s Almond Water squirt guns on their rack (only looks)", "squirtrack", "Wood",
+                           {"walk": WOOD[0], "place": WOOD[1], "break": WOOD[1], "hit": WOOD[1]}, sides=True,
+                           selection={"x1": 0.05, "y1": 0, "z1": 0.4, "x2": 0.95, "y2": 0.75, "z2": 0.92}))
     out.append(model_block("l23-ledger", "// Level 23 (round 3): the quartermaster's ledger, open", "ledger", "Cloth",
                            {"walk": "game:walk/cloth*", "place": "game:block/cloth", "break": "game:block/cloth", "hit": "game:block/cloth"},
                            selection={"x1": 0.2, "y1": 0, "z1": 0.25, "x2": 0.8, "y2": 0.1, "z2": 0.75}))
@@ -693,7 +727,7 @@ def blocks():
 def shapes():
     out = {"stone-shrub": stone_shrub(), "stone-sapling": stone_sapling(), "stone-fern": stone_fern(), "stone-stump": stone_stump(),
            "bracket": bracket(), "signboard": signboard(), "signpost": signpost(), "barrel": barrel(), "bedroll": bedroll(),
-           "firering": firering(), "ledger": ledger(), "lantern": lantern(), "cloth": cloth_shape()}
+           "firering": firering(), "ledger": ledger(), "lantern": lantern(), "squirtrack": squirtrack(), "cloth": cloth_shape()}
     for c in ["teal", "violet", "amber"]:
         out[f"glowbush-{c}"] = glowbush(c)
     return out
@@ -723,6 +757,10 @@ def textures(save):
     save(sentry_body(2431), "block/23/sentry-body")
     save(ledger_tex(2432), "block/23/ledger")
     save(lantern_glass(2433), "block/23/lantern-glass")
+    save(plastic((236, 122, 40), 2434), "block/23/plastic-orange")
+    save(plastic((70, 168, 90), 2435), "block/23/plastic-green")
+    save(mossbark(2436), "block/23/mossbark")
+    save(mossbark(2437), "block/23/mossbark-2")
     for name, parts in [("camp", sign_camp()), ("rules", sign_rules()), ("giants", sign_giants())]:
         for k, img in enumerate(parts):
             save(img, f"block/23/sign-{name}-{'abc'[k]}")
@@ -760,6 +798,9 @@ LANG = [
     ("block-l23-firering", "Fire Ring"),
     ("block-l23-ledger", "Quartermaster's Ledger"),
     ("block-l23-lantern", "M.E.G. Lantern"),
+    ("block-l23-mossbark", "Mossy Petrified Bark"),
+    ("block-l23-squirtrack-*", "Squirt Gun Rack"),
+    ("blockdesc-l23-squirtrack-*", "Three plastic squirt guns, filled with Almond Water. The M.E.G. at Seedling swear by them. Nobody has said against what."),
     ("blockdesc-l23-lantern", "Bolted down and wired shut. The M.E.G. keep the ways to Seedling lit, and they count their lanterns."),
     ("blockdesc-l23-ledger", "Columns of names and rations. Under the last line: \"5 rescued. 0 back up the tree yet.\""),
     ("block-l23-cloth", "Rags of Cloth"),

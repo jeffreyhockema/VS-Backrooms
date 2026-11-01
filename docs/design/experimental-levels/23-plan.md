@@ -281,67 +281,131 @@ more sights in the vein of the sentry's face; arrivals facing open space.
 Tiers: A must, B should, C nice. Inventions are marked (inv.).
 
 **1. Layout realism**
-1. [A] Arrivals in the open: a surface tile is an arrival spot only with open forest floor all round it (a 9 x 9 square
+1. [A] [done: by a glade, 5x5 open and 7 out each way] Arrivals in the open: a surface tile is an arrival spot only with open forest floor all round it (a 9 x 9 square
    free of trunks and roots), so whichever way a player (or the rig's fixed headings) looks there is forest to see, not bark.
-2. [A] Glades: some holes in the lid much wider (radius 6-9), with a sunlit glade under them (grass, flowers, young
+2. [A] [done] Glades: some holes in the lid much wider (radius 6-9), with a sunlit glade under them (grass, flowers, young
    saplings, no trunks inside), landmarks seen from afar as pale columns of light. (inv.: their size and planting)
-3. [B] Base Seedling laid out as a working camp: the hollow tree in the middle, the tents in a row on one side with
+3. [B] [partly: flagstone path, counter by the door, barrels at the spring, fire ring; the tents stay where round 1 put them] Base Seedling laid out as a working camp: the hollow tree in the middle, the tents in a row on one side with
    bedrolls, the quartermaster's counter by the main tunnel's foot, the water barrels at the spring, a fire ring with
    seats as the camp's middle, a path of flat stones from the main tunnel to the tree.
-4. [B] A worn trail from Base Seedling's tunnel mouths out over the forest floor (trodden earth and litter where the
+4. [B] [done] A worn trail from Base Seedling's tunnel mouths out over the forest floor (trodden earth and litter where the
    ground is open), so the camp's ways read as used. (inv.)
-5. [C] The M.E.G.'s way-marks: blazes on the trunks along those trails. (inv.)
+5. [C] [skipped: the trails and way-signs carry it] The M.E.G.'s way-marks: blazes on the trunks along those trails. (inv.)
 
 **2. Multi-block objects**
-6. [A] Fallen petrified logs across the forest floor: trunks lying on their side (1-2 high, 7-18 long) with their ring
+6. [A] [done] Fallen petrified logs across the forest floor: trunks lying on their side (1-2 high, 7-18 long) with their ring
    ends showing, some broken in two, moss on their tops; the low ones a step to climb over, the thick ones to go round.
-7. [A] Stone mushrooms: giant petrified mushrooms (a stem 1-2 across, a cap 3-7 across and 3-7 up, gills under it),
+7. [A] [done: forest, and one glow-room little tree in four] Stone mushrooms: giant petrified mushrooms (a stem 1-2 across, a cap 3-7 across and 3-7 up, gills under it),
    alone or in clusters, in the forest and the glow rooms. (inv.: the lore has glowing fungi; these are the petrified kind)
-8. [A] Boulders: lumps of mossy stone and broken petrified wood, 2-4 across, half sunk in the humus.
-9. [A] Petrified undergrowth in several shapes (models): a stone shrub, a stone sapling with bare twigs, stone fern
+8. [A] [done] Boulders: lumps of mossy stone and broken petrified wood, 2-4 across, half sunk in the humus.
+9. [A] [done] Petrified undergrowth in several shapes (models): a stone shrub, a stone sapling with bare twigs, stone fern
    fronds, a broken stump; in patches at the trees' feet and along the logs.
-10. [B] Bracket fungi on the trunks: shelves of pale stone fungus stepping up a trunk's side (a few stacked).
-11. [A] Base Seedling's things: the camp sign on two posts, a notice board, the quartermaster's counter (tables, crates
+10. [B] [done] Bracket fungi on the trunks: shelves of pale stone fungus stepping up a trunk's side (a few stacked).
+11. [A] [done] Base Seedling's things: the camp sign on two posts, a notice board, the quartermaster's counter (tables, crates
    stacked behind, a ledger), water barrels, bedrolls by the tents, a fire ring with log seats, a path of flat stones.
-12. [B] Sentries as people trapped in the bark: under some faces a body pushed out of the bark (shoulders, arms, hands
+12. [B] [done: the body; hands are in its texture] Sentries as people trapped in the bark: under some faces a body pushed out of the bark (shoulders, arms, hands
    reaching), so a sentry reads as a person and not a mask. (the lore's "trapped in wood and bark")
-13. [B] Cypress knees: little conical stumps standing round the dark cypress trunks' feet.
-14. [C] Rounder crowns for the glow rooms' little trees (no plain cubes).
-15. [C] A lost wanderer's camp in the forest: a bedroll, a dead lantern, a crate, bones. (inv.)
+13. [B] [done] Cypress knees: little conical stumps standing round the dark cypress trunks' feet.
+14. [C] [partly: a quarter are stone mushrooms now; leaf crowns unchanged] Rounder crowns for the glow rooms' little trees (no plain cubes).
+15. [C] [skipped: time] A lost wanderer's camp in the forest: a bedroll, a dead lantern, a crate, bones. (inv.)
 
 **3. Signs and text**
-16. [A] "BASE SEEDLING" on the camp's sign, with the M.E.G.'s name, facing the way in.
-17. [A] The M.E.G.'s notice board at Seedling: the camp's rules (do not say it; water free, food by ration; the tree is
+16. [A] [done] "BASE SEEDLING" on the camp's sign, with the M.E.G.'s name, facing the way in.
+17. [A] [done] The M.E.G.'s notice board at Seedling: the camp's rules (do not say it; water free, food by ration; the tree is
    the way out; report sentries), legible from in front of it.
-18. [B] Way-signs at the surface mouths of Base Seedling's tunnels: "BASE SEEDLING" and an arrow down. (inv.)
-19. [B] A warning plate at the Heart of Water: the Green Giants are not to be tampered with (the lore's warning), from the M.E.G.
-20. [B] Stencils: "DRINKING WATER" on the camp's barrels, "M.E.G." on its crates.
-21. [C] Hasty Latin scratched into the bark of the tunnels down to the ruins (the lore's "hasty messages in Latin").
-22. [C] A plank nailed by a sentry or two, painted "DON'T SAY IT". (inv.)
+18. [B] [done] Way-signs at the surface mouths of Base Seedling's tunnels: "BASE SEEDLING" and an arrow down. (inv.)
+19. [B] [done] A warning plate at the Heart of Water: the Green Giants are not to be tampered with (the lore's warning), from the M.E.G.
+20. [B] [done: WATER on the barrels, M.E.G. on the crates] Stencils: "DRINKING WATER" on the camp's barrels, "M.E.G." on its crates.
+21. [C] [done: inscribed stones in the tunnels' walls, not bark] Hasty Latin scratched into the bark of the tunnels down to the ruins (the lore's "hasty messages in Latin").
+22. [C] [done] A plank nailed by a sentry or two, painted "DON'T SAY IT". (inv.)
 
 **4. Detail visuals**
-23. [A] Aspen: a fifth bark, white with black eyes (the lore lists aspen), and a wider spread of girths (more thin
+23. [A] [done] Aspen: a fifth bark, white with black eyes (the lore lists aspen), and a wider spread of girths (more thin
    young trunks, a few very thick).
-24. [B] Leaf-litter variety: a second, red-brown litter in drifts against roots and logs; twigs.
-25. [B] Moss collars: moss creeping up the trunks' feet and over the roots.
-26. [B] The canopy from below: limbs fanning out under the lid, the lid's underside in two tints, more lichen.
-27. [B] The forest's air a little less murky at eye level so the depth of trunks reads (fog paler and thinner, the dim kept).
-28. [A] The Heart of Water's showcase spot shows the reservoir (from the shore, looking down across the pool under its shaft).
-29. [C] The pool's shore: root islands and stepping stones at its edge; long roots dipping into the water.
+24. [B] [done: the red-brown alternate; twigs were there] Leaf-litter variety: a second, red-brown litter in drifts against roots and logs; twigs.
+25. [B] [done] Moss collars: moss creeping up the trunks' feet and over the roots.
+26. [B] [partly: more and lower limbs; the underside's tints unchanged] The canopy from below: limbs fanning out under the lid, the lid's underside in two tints, more lichen.
+27. [B] [done] The forest's air a little less murky at eye level so the depth of trunks reads (fog paler and thinner, the dim kept).
+28. [A] [done] The Heart of Water's showcase spot shows the reservoir (from the shore, looking down across the pool under its shaft).
+29. [C] [partly: stones in the shallows] The pool's shore: root islands and stepping stones at its edge; long roots dipping into the water.
 
 **5. Lore alignment**
-30. [B] Glowing bushes in the glow rooms (the lore's "glowing fungi and bushes").
-31. [B] The ruins' finds: damaged paintings (faded frescoes on the inner walls) and cloth (rags) besides the pottery.
-32. [C] The vault's pipes: roots hanging into the glow rooms with water at their foot (the lore's trees that pipe water down).
-33. [C] Almond Water squirt guns on a rack at the quartermaster's (the lore's arms of Seedling).
+30. [B] [done] Glowing bushes in the glow rooms (the lore's "glowing fungi and bushes").
+31. [B] [done] The ruins' finds: damaged paintings (faded frescoes on the inner walls) and cloth (rags) besides the pottery.
+32. [C] [skipped: time] The vault's pipes: roots hanging into the glow rooms with water at their foot (the lore's trees that pipe water down).
+33. [C] [done: a rack of three on the counter's crates] Almond Water squirt guns on a rack at the quartermaster's (the lore's arms of Seedling).
 
 **6. Released-level alignment**
-34. [A] Every new block named in the HUD and creative tab (lang), sensible drops (logs and stumps firewood, boulders
+34. [A] [done] Every new block named in the HUD and creative tab (lang), sensible drops (logs and stumps firewood, boulders
    stone, the camp's things nothing), pick-block as the released levels.
-35. [A] Showcase spots for the new set pieces (a fallen log, stone mushrooms, a glade, the camp's sign and board, the
+35. [A] [done] Showcase spots for the new set pieces (a fallen log, stone mushrooms, a glade, the camp's sign and board, the
    Heart's warning plate), all from the layout.
-36. [B] The handbook page and a note mention the new sights where they matter (the camp's rules board, the logs).
-37. [B] Balance notes for the lead: anything that is food, water or shelter (the camp's barrels are only looks).
-38. [C] A trickle in the sound bed near the glades' and the pool's water.
-39. [B] (The lead, from the balance review) Base Seedling's lanterns (the camp's, its tunnels', the Lighthouse's lamp) a
+36. [B] [done] The handbook page and a note mention the new sights where they matter (the camp's rules board, the logs).
+37. [B] [done] Balance notes for the lead: anything that is food, water or shelter (the camp's barrels are only looks).
+38. [C] [skipped: time] A trickle in the sound bed near the glades' and the pool's water.
+39. [B] [done] (The lead, from the balance review) Base Seedling's lanterns (the camp's, its tunnels', the Lighthouse's lamp) a
     block of the level's own that gives the same light and breaks to nothing, not vanilla lanterns to pick up.
+
+### What was built
+
+- *The forest floor* (`WorldLayout.Level23.Features.cs`): a lattice of its own (13 blocks) between the trees, each point
+  clear of trunks, hollow trunks' ways, tunnels, the Heart of Water and the tangle: **fallen logs** (24%; along x or z,
+  7-18 long, one block, two by two, or three across with the top corners off; their own blocks `l23-log-<bark>-<axis>`
+  with the bark along their length and the rings at their ends; a third broken in two; half of the thick ones with the
+  **root plate** they tore up standing at one end), **stone mushrooms** (13%; one to three, stem and cap `l23-mushstem`,
+  `l23-mushcap` with gills under; 3-7 high, caps 3-7 across, the big ones a second layer) and **boulders** (15%;
+  `l23-boulder`, mossy, half sunk). They are drawn into `L23Wood` like the trees, so the layout's walls and the blocks
+  agree; a one-high log or boulder is a step (`L23Steppable`). Trees and floor features are cached per lattice point
+  (the regions harness went from 13 s to 4 s for Level 23's 60 arrivals).
+- *Trees*: **aspen** (`l23-bark-aspen`, white with black eyes) among the thinner trunks; **cypress knees** round the dark
+  cypresses; **moss** grown up over the trunks' feet in a band one or two high and over the roots' tops
+  (`l23-mossbark`); **bracket fungi** of stone stepping up one tree in three (`l23-bracket-<side>`); three to five limbs
+  fanning out under the lid from 17 up (was two or three from 20).
+- *Glades*: one hole in five on the lid's lattice is 6-9 wide; no trunk stands in it; grass and five kinds of flowers,
+  ferns and stone saplings under it; a paler, clearer air when standing in one.
+- *Undergrowth of stone* (`l23-stoneplant-*`: shrub, sapling, fern fronds, stump) in patches of its own; a second, red-brown
+  leaf litter as the litter block's alternate.
+- *Arrivals*: aimed at the glade nearest the old random point and put down on a tile with a five by five square of open
+  floor round it and open floor seven out along each of the four ways (`L23MarkOpen`, `Tile.Detail` = `L23OpenGround`).
+- *Base Seedling*: a path of flagstones from the south up to the hollow tree's door; the camp's sign (BASE SEEDLING,
+  M.E.G. outpost 23-1, three boards on two posts) and the notice board (camp rules, a missing-person notice, a map scrap)
+  facing the way the camp is seen from; the quartermaster's counter (three tables, his ledger, crates stencilled M.E.G.
+  behind it, a rack of Almond Water squirt guns on the last); water barrels stencilled WATER by the spring; a fire ring
+  with glowing embers and two log seats; six bedrolls by the tents. The M.E.G.'s **trails** run out forty blocks from each
+  of its tunnels' mouths as trodden earth, and a **way-sign** (BASE SEEDLING and an arrow) stands beside each mouth.
+- *The lead's balance item*: every lantern of the level (the camp's, its tunnels', the lamp on the Lighthouse) is now
+  `l23-lantern`, a model of the level's own with the same light that breaks to nothing.
+- *Sentries*: under each face its body (`l23-sentrybody-<side>`: shoulders and two hands pressed against the inside of
+  the bark); by one sentry in three the M.E.G. have nailed a plank on a post, DON'T SAY IT.
+- *The Heart of Water*: the M.E.G.'s red warning between two Green Giants (GREEN GIANTS / DO NOT CUT, CLIMB, CARVE),
+  facing the way in; mossy stones standing in the shallows round the pool.
+- *Glow rooms*: glowing bushes of the room's colour (`l23-glowbush-*`, light 9); one little tree in four a stone mushroom.
+- *Ruins*: damaged frescoes (`l23-fresco-<side>`: a garden and people with green eyes, mostly flaked off) round the
+  Sphere's inside at eye height and on the Lighthouse chamber's walls; rags of cloth (`l23-cloth`) among the pottery;
+  inscribed stones set in the walls of the tunnels down to the ruins.
+- *Showcase spots* (from the layout): heart-of-water (now from up the slope across the pool), heart-warning,
+  boulder-undergrowth, stone-mushrooms, fallen-log, glade, seedling-sign, seedling-board, seedling-counter,
+  seedling-waysign, besides round 2's.
+- *Handbook*: the page's forest, sentries and Base Seedling paragraphs mention the logs, mushrooms, glades, the planks,
+  the camp's signs and rules board.
+
+### Inventions (round 3)
+
+All shapes and numbers above; the glades; the stone mushrooms, boulders, stone undergrowth, bracket fungi, knees and
+moss as the petrified forest's floor (the lore names the tree species, not the floor); the M.E.G.'s signs, notice board,
+rules, missing-person notice, ledger line, trails, way-signs, warning plate and planks by the sentries; the camp's
+furniture; the frescoes' subject (the lore says only "damaged paintings"); the sentries' bodies; the stones in the
+pool's shallows; the inscribed stones in the tunnels.
+
+### Balance notes for the lead
+
+- The lanterns are no longer loot (the review's item, done). The camp's barrels, crates, bedrolls, squirt guns, ledger
+  and fire ring are looks only: no water, no storage, no sleep spot, no light source to take (the fire ring gives light
+  but drops nothing).
+- New drops: fallen logs and mossy bark give a little firewood (as the bark does), boulders granite stones (2 +- 1),
+  stone undergrowth a stick now and then, rags of cloth a scrap of cloth (half the time), the signs a plank. None is food.
+- **Water**: every water block in Level 23 counts as Clean (`WaterClass`, Level 23's arm, round 1: the reservoir feeds the
+  whole level), so besides the spring at Seedling and the Heart of Water's pool, the puddles in every glow room and the
+  stones' shallows are drinkable Clean water. The review proposes Tainted outside the spring and the Heart: a user
+  decision, not changed.
+- Arrivals are now in or by a glade: lit, open, so a newcomer sees what is coming.
