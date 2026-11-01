@@ -417,7 +417,7 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
 20. (B) Elevator doors (closed: the lore has lifts; stairs carry people) beside the quad's first stairwell, a call button and a floor indicator. [done] (lift doors and an unlit floor indicator by the quad's first stairwell, every storey)
 21. (B) A car park outside each named campus's main gap (paved bays, painted lines, a few cars) and a bus shelter by the road. [partly: a bus shelter by each east road; no car park (no room left in the plots)]
 22. (B) Glazed courtyard roof on some quads (the lore's "translucent ceiling"). [done] (about one ordinary quad in three without a court)
-23. (C) Bike racks and planters by the entrances. [skipped: time; the hedges and flagpoles dress the fronts]
+23. (C) Bike racks and planters by the entrances. [partly: bike racks along the wall beside teaching and lodging blocks' doors; no planters]
 
 **3. Signs and text**
 24. (A) EXIT signs over every outside door and every stairwell door, inside. [done]
@@ -429,14 +429,14 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
 30. (A) The named campuses' names at their main gaps (the M.E.G.'s stencilled boards). [done]
 31. (B) Notice boards along the corridors (cork, pinned sheets) and posters (NO RUNNING, a fire plan). [done]
 32. (B) The abandoned bases' boards (Base Sunfire, Emberwatch, Blackcross) on a few ordinary campuses, with what they left (crates, a tent, a barricade). [done] (about one ordinary campus in six: the board at the main gap, a tent, crates, a pallet, a burn barrel, a lantern)
-33. (C) A wall clock over each chalkboard. [skipped: the board's end changes storey by storey; left for later]
+33. (C) A wall clock over each chalkboard. [partly: a wall clock over every room's door, inside (over the board there is no room under the ceiling)]
 
 **4. Detail visuals**
 34. (A) Break the locker runs: fire-hose cabinets, extinguishers, notice boards, doors, bins (the lead's note). [done] (`L52LayCorridorFittings`: every 19 blocks along a wall, a hose cabinet with an extinguisher, a notice board, a poster)
 35. (A) Marshall David worn, as the lore has it: dirt prints and cracks in its corridors' floor, rubbish here and there. [done] (worn tile in patches, bin bags and boxes)
 36. (B) Hedges along the quad's front and the main walk. [done] (`L52LayHedges`: a step beyond the quad's paving, broken at every path)
 37. (B) Door leaves standing open against the wall beside classroom doors (wood with a narrow window). [done] (about two rooms in three)
-38. (B) The lobby's floor: an entrance mat inside each outside door, a different floor from the corridors. [skipped: time]
+38. (B) The lobby's floor: an entrance mat inside each outside door, a different floor from the corridors. [done] (a ribbed entrance mat on the two tiles inside every outside door)
 39. (C) Fresh paint patches over the Crash's bullet holes at J. Barry (the aftermath text). [skipped: time]
 
 **5. Lore alignment**

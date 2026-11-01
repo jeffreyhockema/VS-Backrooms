@@ -20,18 +20,18 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private static readonly string[] L52SlabKinds = { "hall", "room", "carpetblue", "carpetred", "carpetgreen", "carpetgrey", "lino", "concrete", "wood", "worn" };
+    private static readonly string[] L52SlabKinds = { "hall", "room", "carpetblue", "carpetred", "carpetgreen", "carpetgrey", "lino", "concrete", "wood", "worn", "mat" };
     private static readonly string[] L52LightStates = { "on", "lit", "off", "flicker" };
     private const int L52SlabConcrete = 7, L52LightOn = 0, L52LightOff = 2;
 
     private int l52Grass, l52Soil, l52Rock, l52Gravel, l52Sand, l52Coping, l52Barrier, l52Roof, l52Plinth, l52Canopy;
     private readonly int[] l52Trim = new int[3];
-    private readonly int[,] l52Wall = new int[4, 3], l52Light = new int[10, 4], l52Window = new int[2, 2], l52Chain = new int[2, 2];
+    private readonly int[,] l52Wall = new int[4, 3], l52Light = new int[11, 4], l52Window = new int[2, 2], l52Chain = new int[2, 2];
     private readonly int[,,] l52Locker = new int[4, 2, 4], l52Board = new int[2, 3, 4];
     private readonly int[,,,] l52Plaque = new int[2, 10, 10, 4];
     private readonly int[,] l52Stall = new int[2, 4], l52Hood = new int[2, 4];
     private readonly int[] l52Bleacher = new int[4], l52PitchLine = new int[2], l52Track = new int[3];
-    private readonly int[] l52Slab = new int[10], l52Facade = new int[5], l52Turf = new int[2], l52Court = new int[3], l52Paving = new int[2],
+    private readonly int[] l52Slab = new int[11], l52Facade = new int[5], l52Turf = new int[2], l52Court = new int[3], l52Paving = new int[2],
         l52GymLine = new int[3], l52Desk = new int[4], l52Fountain = new int[4];
     private readonly HashSet<string> l52Missing = new();
 
@@ -145,6 +145,7 @@ public sealed partial class WorldGenerator
         FloorKind.L52Concrete => 7,
         FloorKind.L52Gym or FloorKind.L52GymLineNS or FloorKind.L52GymLineWE => 8,
         FloorKind.L52HallWorn => 9,
+        FloorKind.L52Mat => 10,
         _ => 1,
     };
 

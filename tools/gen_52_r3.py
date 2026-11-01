@@ -822,5 +822,11 @@ def build(gen):
     G = gen
     textures()
     G.save(worn_hall(), "tile-hallworn")
+    mat = M.noise_hv((58, 60, 62), 3, 6410, (32, 32), 3, (16, 8))
+    dm = ImageDraw.Draw(mat)
+    for y in range(2, 30, 3):
+        dm.line((2, y, 29, y), fill=(44, 46, 48, 255))
+    frame(mat, (90, 92, 94), 2)
+    G.save(mat, "floor-mat")
     extra_textures_for_shapes()
     blocktypes()

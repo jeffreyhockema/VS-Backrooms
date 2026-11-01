@@ -43,10 +43,10 @@ S = 32
 SIDES = ["north", "east", "south", "west"]
 ROTATE = {"north": 0, "east": 270, "south": 180, "west": 90}
 PALETTES = ["beige", "white", "blue", "grey"]
-KINDS = ["hall", "room", "carpetblue", "carpetred", "carpetgreen", "carpetgrey", "lino", "concrete", "wood", "worn"]
+KINDS = ["hall", "room", "carpetblue", "carpetred", "carpetgreen", "carpetgrey", "lino", "concrete", "wood", "worn", "mat"]
 FLOOR = {"hall": "tile-hall", "room": "tile-room", "carpetblue": "floor-carpetblue", "carpetred": "floor-carpetred",
          "carpetgreen": "floor-carpetgreen", "carpetgrey": "floor-carpetgrey", "lino": "floor-lino",
-         "concrete": "floor-concrete", "wood": "gymfloor-plain", "worn": "tile-hallworn"}
+         "concrete": "floor-concrete", "wood": "gymfloor-plain", "worn": "tile-hallworn", "mat": "floor-mat"}
 WRITTEN = {"blocktypes": set(), "shapes": set(), "textures": set()}
 
 STONE = {"walk": "game:walk/stone*", "place": "game:block/loosestone*", "break": "game:block/rock-break-pickaxe", "hit": "game:block/rock-hit-pickaxe"}

@@ -14,7 +14,8 @@
 				"lino",
 				"concrete",
 				"wood",
-				"worn"
+				"worn",
+				"mat"
 			]
 		},
 		{
@@ -827,6 +828,86 @@
 			"down": {
 				"base": "block/52/ceiling-troffer-on"
 			}
+		},
+		"l52-light-mat-on": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-mat"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-mat-lit": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-mat"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
+		},
+		"l52-light-mat-off": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-mat"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-off"
+			}
+		},
+		"l52-light-mat-flicker": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/floor-mat"
+			},
+			"down": {
+				"base": "block/52/ceiling-troffer-on"
+			}
 		}
 	},
 	"creativeinventory": {
@@ -898,6 +979,9 @@
 		},
 		"l52-light-worn-flicker": {
 			"offBlock": "backrooms:l52-light-worn-off"
+		},
+		"l52-light-mat-flicker": {
+			"offBlock": "backrooms:l52-light-mat-off"
 		}
 	},
 	"dropsByType": {
@@ -1161,6 +1245,32 @@
 				}
 			}
 		],
+		"l52-light-mat-off": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 1.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.12,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "scrapwire",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
 		"l52-light-hall-flicker": [
 			{
 				"type": "block",
@@ -1221,6 +1331,12 @@
 				"code": "l52-light-worn-off"
 			}
 		],
+		"l52-light-mat-flicker": [
+			{
+				"type": "block",
+				"code": "l52-light-mat-off"
+			}
+		],
 		"l52-light-hall-lit": [
 			{
 				"type": "block",
@@ -1279,6 +1395,12 @@
 			{
 				"type": "block",
 				"code": "l52-light-worn-on"
+			}
+		],
+		"l52-light-mat-lit": [
+			{
+				"type": "block",
+				"code": "l52-light-mat-on"
 			}
 		]
 	},

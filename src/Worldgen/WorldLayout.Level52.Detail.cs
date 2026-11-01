@@ -138,6 +138,21 @@ public sealed partial class WorldLayout
                         && Noise((c.Head.X0 + u) / 9.0, (c.Head.Z0 + v) / 9.0, SaltL52Detail + 5) > 0.42)
                         t.Floor = FloorKind.L52HallWorn;
                 }
+        // An entrance mat just inside every outside door
+        for (int v = 0; v < c.D; v++)
+            for (int u = 0; u < c.W; u++)
+            {
+                Tile e = c.At(u, v);
+                if (e.Zone != (byte)L52Zone.Entrance || e.Depth == 0) continue;
+                var (ou, ov) = L52Step(e.Pier);
+                if (!c.InGrid(u + ou, v + ov) || c.At(u + ou, v + ov).Depth != 0) continue;
+                for (int k = 1; k <= 2; k++)
+                {
+                    if (!c.InGrid(u - ou * k, v - ov * k)) break;
+                    ref Tile t = ref c.At(u - ou * k, v - ov * k);
+                    if (t.Zone is (byte)L52Zone.Lobby or (byte)L52Zone.Corridor && t.Floor is FloorKind.L52Floor or FloorKind.L52HallWorn) t.Floor = FloorKind.L52Mat;
+                }
+            }
         L52LayRoomFittings(c);
         L52LayCorridorFittings(c);
         L52LayStairFittings(c);
