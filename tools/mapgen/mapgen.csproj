@@ -17,5 +17,7 @@
     <Compile Include="..\..\src\Thresholds\ThresholdNetwork*.cs" />
     <Compile Include="..\..\src\Notes\NoteCatalog.cs" />
     <Compile Include="..\..\src\Notes\NoteSequencer.cs" />
+    <Compile Include="..\..\src\Cheats\FeatureCatalog.cs" />
+    <Compile Include="..\..\src\Cheats\FeatureFinder.cs" />
   </ItemGroup>
 </Project>
