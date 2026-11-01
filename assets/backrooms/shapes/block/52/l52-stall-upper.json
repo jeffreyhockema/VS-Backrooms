@@ -1,0 +1,148 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"alu": "backrooms:block/52/alu",
+		"partition": "backrooms:block/52/partition"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				15,
+				0,
+				0
+			],
+			"to": [
+				16,
+				12,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#partition",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"east": {
+					"texture": "#partition",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"south": {
+					"texture": "#partition",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"west": {
+					"texture": "#partition",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"up": {
+					"texture": "#partition",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"down": {
+					"texture": "#partition",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail",
+			"from": [
+				14.6,
+				12,
+				0
+			],
+			"to": [
+				16,
+				12.8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						1.4,
+						16
+					]
+				},
+				"down": {
+					"texture": "#alu",
+					"uv": [
+						0,
+						0,
+						1.4,
+						16
+					]
+				}
+			}
+		}
+	]
+}

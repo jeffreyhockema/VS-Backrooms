@@ -1,0 +1,148 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"fountain-stone": "backrooms:block/52/fountain-stone",
+		"pole": "backrooms:block/52/pole"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				5,
+				0,
+				5
+			],
+			"to": [
+				11,
+				3,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountain-stone",
+					"uv": [
+						0,
+						0,
+						6,
+						3
+					]
+				},
+				"east": {
+					"texture": "#fountain-stone",
+					"uv": [
+						0,
+						0,
+						6,
+						3
+					]
+				},
+				"south": {
+					"texture": "#fountain-stone",
+					"uv": [
+						0,
+						0,
+						6,
+						3
+					]
+				},
+				"west": {
+					"texture": "#fountain-stone",
+					"uv": [
+						0,
+						0,
+						6,
+						3
+					]
+				},
+				"up": {
+					"texture": "#fountain-stone",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"down": {
+					"texture": "#fountain-stone",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Pole",
+			"from": [
+				7.3,
+				3,
+				7.3
+			],
+			"to": [
+				8.7,
+				16,
+				8.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						13
+					]
+				},
+				"east": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						13
+					]
+				},
+				"south": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						13
+					]
+				},
+				"west": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						13
+					]
+				},
+				"up": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				}
+			}
+		}
+	]
+}

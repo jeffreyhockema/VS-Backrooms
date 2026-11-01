@@ -1,0 +1,78 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"pole": "backrooms:block/52/pole"
+	},
+	"elements": [
+		{
+			"name": "Pole",
+			"from": [
+				7.3,
+				0,
+				7.3
+			],
+			"to": [
+				8.7,
+				16,
+				8.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				}
+			}
+		}
+	]
+}

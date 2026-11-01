@@ -20,16 +20,18 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private static readonly string[] L52SlabKinds = { "hall", "room", "carpetblue", "carpetred", "carpetgreen", "carpetgrey", "lino", "concrete", "wood" };
+    private static readonly string[] L52SlabKinds = { "hall", "room", "carpetblue", "carpetred", "carpetgreen", "carpetgrey", "lino", "concrete", "wood", "worn" };
     private static readonly string[] L52LightStates = { "on", "lit", "off", "flicker" };
     private const int L52SlabConcrete = 7, L52LightOn = 0, L52LightOff = 2;
 
     private int l52Grass, l52Soil, l52Rock, l52Gravel, l52Sand, l52Coping, l52Barrier, l52Roof, l52Plinth, l52Canopy;
     private readonly int[] l52Trim = new int[3];
-    private readonly int[,] l52Wall = new int[4, 3], l52Light = new int[9, 4], l52Window = new int[2, 2], l52Chain = new int[2, 2];
+    private readonly int[,] l52Wall = new int[4, 3], l52Light = new int[10, 4], l52Window = new int[2, 2], l52Chain = new int[2, 2];
     private readonly int[,,] l52Locker = new int[4, 2, 4], l52Board = new int[2, 3, 4];
     private readonly int[,,,] l52Plaque = new int[2, 10, 10, 4];
-    private readonly int[] l52Slab = new int[9], l52Facade = new int[5], l52Turf = new int[2], l52Court = new int[3], l52Paving = new int[2],
+    private readonly int[,] l52Stall = new int[2, 4], l52Hood = new int[2, 4];
+    private readonly int[] l52Bleacher = new int[4], l52PitchLine = new int[2], l52Track = new int[3];
+    private readonly int[] l52Slab = new int[10], l52Facade = new int[5], l52Turf = new int[2], l52Court = new int[3], l52Paving = new int[2],
         l52GymLine = new int[3], l52Desk = new int[4], l52Fountain = new int[4];
     private readonly HashSet<string> l52Missing = new();
 
@@ -95,7 +97,37 @@ public sealed partial class WorldGenerator
                 for (int a = 0; a < 10; a++)
                     for (int b = 0; b < 10; b++) l52Plaque[h, a, b, f] = L52Block($"l52-plaque-{(h == 0 ? "lo" : "hi")}-{a}-{b}-{Sides[f]}");
         }
+        for (int f = 0; f < 4; f++)
+        {
+            for (int k = 0; k < 2; k++)
+            {
+                l52Stall[k, f] = L52Block($"l52-stall-{halves[k]}-{Sides[f]}");
+                l52Hood[k, f] = L52Block($"l52-fumehood-{halves[k]}-{Sides[f]}");
+            }
+            l52Bleacher[f] = L52Block("l52-bleacher-" + Sides[f]);
+        }
+        l52PitchLine[0] = L52Block("l52-turf-linens", l52Turf[0]);
+        l52PitchLine[1] = L52Block("l52-turf-linewe", l52Turf[0]);
+        for (int i = 0; i < 3; i++) l52Track[i] = L52Block("l52-track-" + courts[i], l52Court[i]);
         InitL52Links();
+    }
+
+    /// <summary>
+    /// A campus tile's fitting at a height (WorldLayout.Level52.Detail.cs), or -1 for none: <paramref name="rel"/> above the
+    /// floor (outdoors, above the ground); fittings on every storey count below <paramref name="top"/> (the building's roof).
+    /// </summary>
+    private int L52FixtureAt(WorldLayout.L52Campus c, int index, int rel, int top, out int fluid)
+    {
+        fluid = 0;
+        if (!c.Fixtures.TryGetValue(index, out var list)) return -1;
+        int h = rel % WorldLayout.L52Storey;
+        foreach (WorldLayout.L52Fixture f in list)
+        {
+            if (f.EveryStorey ? rel >= top || h < f.Lo || h > f.Hi : rel < f.Lo || rel > f.Hi) continue;
+            if (f.Code == "=water") { fluid = waterId; return 0; }
+            return modBlocks.TryGetValue(f.Code, out int id) ? id : 0;
+        }
+        return -1;
     }
 
     /// <summary>The slab kind (<see cref="L52SlabKinds"/>) of a floor finish.</summary>
@@ -109,6 +141,7 @@ public sealed partial class WorldGenerator
         FloorKind.L52Lino => 6,
         FloorKind.L52Concrete => 7,
         FloorKind.L52Gym or FloorKind.L52GymLineNS or FloorKind.L52GymLineWE => 8,
+        FloorKind.L52HallWorn => 9,
         _ => 1,
     };
 
@@ -182,6 +215,11 @@ public sealed partial class WorldGenerator
         if (rel < -6) return concreteId;
         ref L52Column col = ref L52Col(t, gx, gz);
         if (t.Depth > 0 && col.Campus != null) return L52BuildingBlock(t, ref col, gx, gz, rel);
+        if (col.Campus != null && rel > t.Height && col.Campus.HasFixture[col.Index])
+        {
+            int fb = L52FixtureAt(col.Campus, col.Index, rel - t.Height, 0, out fluid);
+            if (fb >= 0) return fb;
+        }
 
         int g = t.Height;
         // The fences: a concrete barrier with chain-link over it (out on the plain, the chain-link alone)
@@ -206,6 +244,11 @@ public sealed partial class WorldGenerator
                 FloorKind.L52Court => l52Court[0],
                 FloorKind.L52CourtLineNS => l52Court[1],
                 FloorKind.L52CourtLineWE => l52Court[2],
+                FloorKind.L52PitchLineNS => l52PitchLine[0],
+                FloorKind.L52PitchLineWE => l52PitchLine[1],
+                FloorKind.L52Track => l52Track[0],
+                FloorKind.L52TrackLineNS => l52Track[1],
+                FloorKind.L52TrackLineWE => l52Track[2],
                 _ => l52Grass,
             };
         }
@@ -260,6 +303,11 @@ public sealed partial class WorldGenerator
         WorldLayout.L52Campus c = col.Campus;
         int n = t.Depth, top = n * WorldLayout.L52Storey;
         if (rel < 0) return concreteId;
+        if (rel > 0 && c.HasFixture[col.Index])
+        {
+            int fb = L52FixtureAt(c, col.Index, rel, n * WorldLayout.L52Storey, out _);
+            if (fb >= 0) return fb;
+        }
         int paint = c.Paint;
         if (t.Zone is (byte)Zone.Ext or (byte)Zone.Entrance)
         {
@@ -363,6 +411,9 @@ public sealed partial class WorldGenerator
         }
         if (prop == Props.L52Chalkboard)
             return h is 2 or 3 ? l52Board[h - 2, Math.Min((int)stack, 2), Facing(facing)] : 0;
+        if (prop == Props.L52Stall) return h is 1 or 2 ? l52Stall[h - 1, Facing(facing)] : 0;
+        if (prop == Props.L52FumeHood) return h is 1 or 2 ? l52Hood[h - 1, Facing(facing)] : 0;
+        if (prop == Props.L52Bleacher) return h == 1 + stack ? l52Bleacher[Facing(facing)] : h >= 1 && h <= stack ? l52Plinth : 0;
         if (h != 1) return 0;
         if (box)
         {

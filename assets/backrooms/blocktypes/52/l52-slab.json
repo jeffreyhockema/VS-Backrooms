@@ -13,7 +13,8 @@
 				"carpetgrey",
 				"lino",
 				"concrete",
-				"wood"
+				"wood",
+				"worn"
 			]
 		}
 	],
@@ -193,6 +194,26 @@
 			},
 			"up": {
 				"base": "block/52/gymfloor-plain"
+			},
+			"down": {
+				"base": "block/52/ceiling-tile"
+			}
+		},
+		"l52-slab-worn": {
+			"north": {
+				"base": "block/52/slab-concrete"
+			},
+			"east": {
+				"base": "block/52/slab-concrete"
+			},
+			"south": {
+				"base": "block/52/slab-concrete"
+			},
+			"west": {
+				"base": "block/52/slab-concrete"
+			},
+			"up": {
+				"base": "block/52/tile-hallworn"
 			},
 			"down": {
 				"base": "block/52/ceiling-tile"

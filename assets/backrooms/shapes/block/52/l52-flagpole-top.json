@@ -1,0 +1,182 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"flag": "backrooms:block/52/flag",
+		"fountain-chrome-r3": "backrooms:block/52/fountain-chrome-r3",
+		"pole": "backrooms:block/52/pole"
+	},
+	"elements": [
+		{
+			"name": "Pole",
+			"from": [
+				7.3,
+				0,
+				7.3
+			],
+			"to": [
+				8.7,
+				14,
+				8.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						14
+					]
+				},
+				"east": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						14
+					]
+				},
+				"south": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						14
+					]
+				},
+				"west": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						14
+					]
+				},
+				"up": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Ball",
+			"from": [
+				7,
+				14,
+				7
+			],
+			"to": [
+				9,
+				16,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#fountain-chrome-r3",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"east": {
+					"texture": "#fountain-chrome-r3",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"south": {
+					"texture": "#fountain-chrome-r3",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"west": {
+					"texture": "#fountain-chrome-r3",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"up": {
+					"texture": "#fountain-chrome-r3",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#fountain-chrome-r3",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Flag",
+			"from": [
+				-6,
+				6,
+				7.9
+			],
+			"to": [
+				7.3,
+				13.5,
+				8.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#flag",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#flag",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

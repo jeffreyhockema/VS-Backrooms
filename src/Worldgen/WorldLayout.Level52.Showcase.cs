@@ -225,6 +225,7 @@ public partial class WorldLayout
 
         // 14. J. Barry's warehouse, from a corner
         L52Campus jb = L52CampusOf(barry.Ci, barry.Cj);
+        // (Round 3's spots follow J. Barry's)
         if (jb != null)
             foreach (L52Room room in jb.Rooms)
             {
@@ -232,6 +233,122 @@ public partial class WorldLayout
                 if (Near(jb, room.U0 + 1, room.V0 + 1, t => t.Zone == (byte)L52Zone.Hall, 3) is { } p)
                     Add(jb, "barry-warehouse", p.U, p.V, 0, Heading((room.U0 + room.U1) / 2 - p.U, (room.V0 + room.V1) / 2 - p.V), -6);
                 break;
+            }
+
+        // Round 3's set pieces. A room seen from just inside its door, toward its far side
+        bool RoomShot(L52Campus c, string name, Func<L52Room, bool> pick, int storey)
+        {
+            if (c == null) return false;
+            foreach (L52Room room in c.Rooms)
+            {
+                if (room.DoorU < 0 || !pick(room)) continue;
+                var (su, sv) = L52Step(room.DoorSide);
+                int u = room.DoorU - su, v = room.DoorV - sv;
+                if (!c.InGrid(u, v) || c.At(u, v).Kind != TileKind.Floor) continue;
+                Add(c, name, u, v, storey * L52Storey, Heading((room.U0 + room.U1) / 2.0 - u, (room.V0 + room.V1) / 2.0 - v), -14);
+                return true;
+            }
+            return false;
+        }
+        RoomShot(md, "front-office", r => r.GroundKind == L52RoomKind.Reception && r.Building == 1, 0);
+        RoomShot(md, "restroom", r => r.Kind == L52RoomKind.RestroomMen && r.Building == 1, 0);
+        RoomShot(md, "library", r => r.GroundKind == L52RoomKind.Library, 0);
+        RoomShot(md, "staff-room", r => r.GroundKind == L52RoomKind.StaffRoom, 0);
+        int labs = L52LabStorey(quad);
+        if (labs > 0) RoomShot(md, "lab", r => r.Building == 1 && r.HasDoor && L52KindOn(md, r, labs) == L52RoomKind.Lab, labs);
+
+        // The corridor by the quad's first stairwell: its doors, EXIT over them, the directory, the lift
+        if (md.Stairs.Count > 0)
+        {
+            var (st, _) = md.Stairs[0];
+            var (jdu, jdv) = L52Step(st.J);
+            var (idu, idv) = L52Step(st.I);
+            int u = st.U - 3 * idu - 5 * jdu, v = st.V - 3 * idv - 5 * jdv;
+            if (md.InGrid(u, v) && md.At(u, v).Kind == TileKind.Floor) Add(md, "stair-hall", u, v, 0, Heading(jdu, jdv), -2);
+        }
+
+        // The gym: from its door side, across the court to the bleachers and along to the changing rooms
+        foreach (L52Room room in md.Rooms)
+        {
+            if (room.Kind != L52RoomKind.Gym) continue;
+            bool alongX = room.DoorSide is ArchPier.North or ArchPier.South;
+            int su = alongX ? room.U0 + (room.U1 - room.U0) / 4 : room.U0 + 1, sv = alongX ? room.V0 + 1 : room.V0 + (room.V1 - room.V0) / 4;
+            if (Near(md, su, sv, t => t.Zone == (byte)L52Zone.Hall, 3) is { } p)
+                Add(md, "gym", p.U, p.V, 0, Heading(room.U1 - p.U, room.V1 - p.V), -6);
+            break;
+        }
+
+        // The clock tower over its corner of the quad, from the lawn out beyond that corner
+        {
+            ulong th = Hashing.Hash(seed, head.X0, head.Z0, SaltL52Detail + 3);
+            int corner = (int)(th >> 8 & 3), sx = (corner & 1) == 0 ? -1 : 1, sz = (corner & 2) == 0 ? -1 : 1;
+            int tu = ((corner & 1) == 0 ? quad.U0 : quad.U1 - 4) + 2, tv = ((corner & 2) == 0 ? quad.V0 : quad.V1 - 4) + 2;
+            if (Near(md, tu + sx * 20, tv + sz * 20, Outdoors, 8) is { } p)
+            {
+                double dist = Math.Sqrt((tu - p.U) * (tu - p.U) + (tv - p.V) * (tv - p.V));
+                Add(md, "clock-tower", p.U, p.V, 0, Heading(tu - p.U, tv - p.V), Math.Round(Math.Atan2(quad.Storeys * L52Storey + 4, dist) * 180 / Math.PI));
+            }
+        }
+
+        // The way in at the gap the quad faces, from the path inside: the campus map and the M.E.G.'s board either side
+        {
+            int s = quadNorth ? 0 : 2, g = head.Gap[s];
+            int u = g, v = quadNorth ? 11 : md.D - 12;
+            if (md.InGrid(u, v)) Add(md, "gate-boards", u, v, 0, quadNorth ? 0 : 180, -6);
+        }
+
+        // Other campuses near Marshall David: a football pitch, an abandoned base's board and camp
+        bool pitchShot = false, baseShot = false;
+        for (int r = 0; r <= 3 && !(pitchShot && baseShot); r++)
+            for (int dj = -r; dj <= r; dj++)
+                for (int di = -r; di <= r; di++)
+                {
+                    if (Math.Max(Math.Abs(di), Math.Abs(dj)) != r) continue;
+                    L52Campus c = L52CampusOf(mi + di, mj + dj);
+                    if (c == null) continue;
+                    var goals = new List<(int U, int V)>();
+                    foreach (var (i, list) in c.Fixtures)
+                        foreach (L52Fixture f in list)
+                        {
+                            if (!pitchShot && f.Code.StartsWith("l52-goal-m-lower")) goals.Add((i % c.W, i / c.W));
+                            if (!baseShot && f.Code.StartsWith("l52-post-") && f.Code.Contains("-l-upper-") && !f.Code.Contains("-map-")
+                                && (f.Code.Contains("sunfire") || f.Code.Contains("ember") || f.Code.Contains("blackcross")))
+                            {
+                                ArchPier fp = f.Code.EndsWith("north") ? ArchPier.North : f.Code.EndsWith("south") ? ArchPier.South : f.Code.EndsWith("east") ? ArchPier.East : ArchPier.West;
+                                var (fu, fv) = L52Step(fp);
+                                int u = i % c.W + fu * 6, v = i / c.W + fv * 6;
+                                if (c.InGrid(u, v))
+                                {
+                                    Add(c, "abandoned-base", u, v, 0, Heading(-fu, -fv), -4);
+                                    baseShot = true;
+                                }
+                            }
+                        }
+                    if (!pitchShot && goals.Count >= 2)
+                    {
+                        var (au, av) = goals[0];
+                        var (bu, bv) = goals[1];
+                        Add(c, "pitch", (au + 2 * bu) / 3, (av + 2 * bv) / 3, 0, Heading(au - bu, av - bv), -3);
+                        pitchShot = true;
+                    }
+                }
+
+        // J. Barry's warehouse from outside: COOL MART CO. over its doors
+        if (jb != null)
+            foreach (var (i, list) in jb.Fixtures)
+            {
+                bool done = false;
+                foreach (L52Fixture f in list)
+                {
+                    if (!f.Code.StartsWith("l52-sign-cool-m")) continue;
+                    ArchPier fp = f.Code.EndsWith("north") ? ArchPier.North : f.Code.EndsWith("south") ? ArchPier.South : f.Code.EndsWith("east") ? ArchPier.East : ArchPier.West;
+                    var (fu, fv) = L52Step(fp);
+                    int u = i % jb.W + fu * 13, v = i / jb.W + fv * 13;
+                    if (jb.InGrid(u, v)) Add(jb, "barry-sign", u, v, 0, Heading(-fu, -fv), 8);
+                    done = true;
+                    break;
+                }
+                if (done) break;
             }
 
         // 15-18. The ways in and back (WorldLayout.Level52.Links.cs): the high school nearest spawn, from across its street;
@@ -243,12 +360,7 @@ public partial class WorldLayout
             double cx = s.DoorX + (s.Facing == ArchPier.North ? 0.0 : 1.0), cz = s.DoorZ + 0.5 + fz * 11;
             spots.Add(new Showcase.Spot("way-in-school", cx, geometry.FloorFor(11) + 1, cz, Heading(-fx, -fz), 14));
         }
-        foreach (var (ex, ez, f) in L52NearestExits(1))
-        {
-            var (fx, fz) = FacingStep(f);
-            spots.Add(new Showcase.Spot("way-in-exit", ex + 0.5 + fx * 4, geometry.FloorFor(4) + 1, ez + 0.5 + fz * 4, Heading(-fx, -fz), 8));
-        }
-        foreach (var (name, under) in new[] { ("way-back-quad", Unders.L52QuadDoor), ("way-back-wing", Unders.L52WingDoor) })
+        foreach (var (name, under) in new[] { ("way-back-quad", Unders.L52QuadDoor) })
         {
             bool done = false;
             for (int v = 0; v < md.D && !done; v++)

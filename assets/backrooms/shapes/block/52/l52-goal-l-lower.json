@@ -1,0 +1,145 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"goal-net": "backrooms:block/52/goal-net",
+		"goal-white": "backrooms:block/52/goal-white"
+	},
+	"elements": [
+		{
+			"name": "NetBack",
+			"from": [
+				0,
+				0,
+				15.9
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#goal-net",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#goal-net",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Post",
+			"from": [
+				14,
+				0,
+				1
+			],
+			"to": [
+				16,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#goal-white",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "NetSide",
+			"from": [
+				15.9,
+				0,
+				3
+			],
+			"to": [
+				16.0,
+				16,
+				15.9
+			],
+			"faces": {
+				"east": {
+					"texture": "#goal-net",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#goal-net",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

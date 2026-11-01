@@ -1,0 +1,313 @@
+// Level 52: a flagpole (base, pole, top with a pale blue flag that carries no name), facing the way of its side
+{
+	"code": "l52-flagpole",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"base",
+				"pole",
+				"top"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-flagpole-base-north": {
+			"base": "backrooms:block/52/l52-flagpole-base",
+			"rotateY": 0
+		},
+		"l52-flagpole-base-east": {
+			"base": "backrooms:block/52/l52-flagpole-base",
+			"rotateY": 270
+		},
+		"l52-flagpole-base-south": {
+			"base": "backrooms:block/52/l52-flagpole-base",
+			"rotateY": 180
+		},
+		"l52-flagpole-base-west": {
+			"base": "backrooms:block/52/l52-flagpole-base",
+			"rotateY": 90
+		},
+		"l52-flagpole-pole-north": {
+			"base": "backrooms:block/52/l52-flagpole-pole",
+			"rotateY": 0
+		},
+		"l52-flagpole-pole-east": {
+			"base": "backrooms:block/52/l52-flagpole-pole",
+			"rotateY": 270
+		},
+		"l52-flagpole-pole-south": {
+			"base": "backrooms:block/52/l52-flagpole-pole",
+			"rotateY": 180
+		},
+		"l52-flagpole-pole-west": {
+			"base": "backrooms:block/52/l52-flagpole-pole",
+			"rotateY": 90
+		},
+		"l52-flagpole-top-north": {
+			"base": "backrooms:block/52/l52-flagpole-top",
+			"rotateY": 0
+		},
+		"l52-flagpole-top-east": {
+			"base": "backrooms:block/52/l52-flagpole-top",
+			"rotateY": 270
+		},
+		"l52-flagpole-top-south": {
+			"base": "backrooms:block/52/l52-flagpole-top",
+			"rotateY": 180
+		},
+		"l52-flagpole-top-west": {
+			"base": "backrooms:block/52/l52-flagpole-top",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-flagpole-base-north"
+		],
+		"backrooms": [
+			"l52-flagpole-base-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"l52-flagpole-base-north": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l52-flagpole-base-east": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l52-flagpole-base-south": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l52-flagpole-base-west": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		},
+		"l52-flagpole-pole-north": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l52-flagpole-pole-east": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l52-flagpole-pole-south": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l52-flagpole-pole-west": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		},
+		"l52-flagpole-top-north": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l52-flagpole-top-east": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l52-flagpole-top-south": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l52-flagpole-top-west": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l52-flagpole-base-north": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l52-flagpole-base-east": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l52-flagpole-base-south": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l52-flagpole-base-west": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		},
+		"l52-flagpole-pole-north": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l52-flagpole-pole-east": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l52-flagpole-pole-south": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l52-flagpole-pole-west": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		},
+		"l52-flagpole-top-north": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"l52-flagpole-top-east": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"l52-flagpole-top-south": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"l52-flagpole-top-west": {
+			"x1": 0.3,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.7,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"renderpass": "OpaqueNoCull"
+}

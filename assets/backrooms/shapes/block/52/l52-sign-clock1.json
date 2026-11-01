@@ -1,0 +1,70 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"sign-clock1": "backrooms:block/52/sign-clock1",
+		"sign-edge-stone": "backrooms:block/52/sign-edge-stone"
+	},
+	"elements": [
+		{
+			"name": "Face",
+			"from": [
+				0,
+				0,
+				15.2
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#sign-clock1",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sign-edge-stone",
+					"uv": [
+						0,
+						0,
+						0.8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#sign-edge-stone",
+					"uv": [
+						0,
+						0,
+						0.8,
+						16
+					]
+				},
+				"up": {
+					"texture": "#sign-edge-stone",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#sign-edge-stone",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

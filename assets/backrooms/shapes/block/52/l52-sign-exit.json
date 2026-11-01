@@ -1,0 +1,75 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"sign-edge-white": "backrooms:block/52/sign-edge-white",
+		"sign-exit": "backrooms:block/52/sign-exit"
+	},
+	"elements": [
+		{
+			"name": "Face",
+			"from": [
+				2,
+				4,
+				13.5
+			],
+			"to": [
+				14,
+				11,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#sign-exit",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 90
+				},
+				"east": {
+					"texture": "#sign-edge-white",
+					"uv": [
+						0,
+						0,
+						2.5,
+						7
+					],
+					"glow": 90
+				},
+				"west": {
+					"texture": "#sign-edge-white",
+					"uv": [
+						0,
+						0,
+						2.5,
+						7
+					],
+					"glow": 90
+				},
+				"up": {
+					"texture": "#sign-edge-white",
+					"uv": [
+						0,
+						0,
+						12,
+						2.5
+					],
+					"glow": 90
+				},
+				"down": {
+					"texture": "#sign-edge-white",
+					"uv": [
+						0,
+						0,
+						12,
+						2.5
+					],
+					"glow": 90
+				}
+			}
+		}
+	]
+}
