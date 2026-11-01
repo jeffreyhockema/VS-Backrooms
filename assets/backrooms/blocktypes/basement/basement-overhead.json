@@ -1,0 +1,171 @@
+// The Basement: in the top block of air, a clothesline (bare, a shirt, a sheet, a towel on it) or a cobweb in a corner
+{
+	"code": "basement-overhead",
+	"variantgroups": [
+		{
+			"code": "hang",
+			"states": [
+				"line",
+				"shirt",
+				"sheet",
+				"towel",
+				"cobweb"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-line-north"
+		],
+		"decorative": [
+			"*-line-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-line-north": {
+			"base": "block/basement/overhead-line",
+			"rotateY": 0
+		},
+		"*-line-east": {
+			"base": "block/basement/overhead-line",
+			"rotateY": 270
+		},
+		"*-line-south": {
+			"base": "block/basement/overhead-line",
+			"rotateY": 180
+		},
+		"*-line-west": {
+			"base": "block/basement/overhead-line",
+			"rotateY": 90
+		},
+		"*-shirt-north": {
+			"base": "block/basement/overhead-shirt",
+			"rotateY": 0
+		},
+		"*-shirt-east": {
+			"base": "block/basement/overhead-shirt",
+			"rotateY": 270
+		},
+		"*-shirt-south": {
+			"base": "block/basement/overhead-shirt",
+			"rotateY": 180
+		},
+		"*-shirt-west": {
+			"base": "block/basement/overhead-shirt",
+			"rotateY": 90
+		},
+		"*-sheet-north": {
+			"base": "block/basement/overhead-sheet",
+			"rotateY": 0
+		},
+		"*-sheet-east": {
+			"base": "block/basement/overhead-sheet",
+			"rotateY": 270
+		},
+		"*-sheet-south": {
+			"base": "block/basement/overhead-sheet",
+			"rotateY": 180
+		},
+		"*-sheet-west": {
+			"base": "block/basement/overhead-sheet",
+			"rotateY": 90
+		},
+		"*-towel-north": {
+			"base": "block/basement/overhead-towel",
+			"rotateY": 0
+		},
+		"*-towel-east": {
+			"base": "block/basement/overhead-towel",
+			"rotateY": 270
+		},
+		"*-towel-south": {
+			"base": "block/basement/overhead-towel",
+			"rotateY": 180
+		},
+		"*-towel-west": {
+			"base": "block/basement/overhead-towel",
+			"rotateY": 90
+		},
+		"*-cobweb-north": {
+			"base": "block/basement/overhead-cobweb",
+			"rotateY": 0
+		},
+		"*-cobweb-east": {
+			"base": "block/basement/overhead-cobweb",
+			"rotateY": 270
+		},
+		"*-cobweb-south": {
+			"base": "block/basement/overhead-cobweb",
+			"rotateY": 180
+		},
+		"*-cobweb-west": {
+			"base": "block/basement/overhead-cobweb",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0.2,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0.2,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0.2,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0.2,
+			"z1": 0.3,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.7,
+			"rotateY": 90
+		}
+	},
+	"renderpass": "OpaqueNoCull"
+}

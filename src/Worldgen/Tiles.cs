@@ -255,6 +255,8 @@ public enum WallPattern : ushort
     BasementWall = 288, BasementCinder = 289, BasementFloodWall = 290, BasementPillar = 291, BasementStained = 292,
     /// <summary>The Basement, detail pass: old wood panelling, an Escherian stairwell's brick, a dead elevator's doors set in a wall (Stack its leaf, Pier its face).</summary>
     BasementPanel = 293, BasementBrick = 294, BasementLift = 295,
+    /// <summary>The Basement, round 3: an unfinished wall of bare studs with insulation between (a hallway's).</summary>
+    BasementStuds = 296,
     /// <summary>Level 52 (block 320-351, and 224 kept from before). Placeholder.</summary>
     L52Wall = 224,
     /// <summary>Level 31 (block 352-383, and 240 kept from before). Placeholder.</summary>
@@ -521,6 +523,8 @@ public enum FloorKind : ushort
     BasementFloor = 228, BasementDamp = 229, BasementBed = 230, BasementPatch = 231,
     /// <summary>The Basement, detail pass: dusty carpet over the concrete (olive shag, worn brown).</summary>
     BasementCarpet = 288, BasementCarpetWorn = 289,
+    /// <summary>The Basement, round 3: a root cellar's trodden earth, a braided rug.</summary>
+    BasementEarth = 290, BasementRug = 291,
     /// <summary>Level 52 (block 320-351, and 244-248 kept from before): the halls' vinyl tile, the classrooms' plainer tile, the gym's floor and its court lines.</summary>
     L52Floor = 244, L52Room = 245, L52Gym = 246, L52GymLineNS = 247, L52GymLineWE = 248,
     /// <summary>Level 52's rooms' carpets (blue, maroon, green, grey), lab linoleum, sealed concrete (stairs, warehouse); outdoors: grass, artificial turf (plain, worn), paving, the roads' gravel and sand, the sports court (plain, a line north-south, west-east).</summary>
@@ -879,6 +883,15 @@ public static class Overheads
     public const ushort BasementFirst = 288, BasementLast = 319;
     /// <summary>The Basement, detail pass: a loop of dead wire hanging from the ceiling; the frayed end of a rope hanging high in the crack; the torn floor of the room above round the crack's top, and the walls of that room.</summary>
     public const ushort BasementWire = 288, BasementRope = 289, BasementCrackRim = 290, BasementCrackWall = 291;
+    /// <summary>
+    /// The Basement, round 3: on a wall at head height, in the block in front of it (Pier the way it faces, away from the
+    /// wall): a pegboard of tools, the fuse box (its conduit in the block over it), caution signs (CAUTION, WATCH YOUR HEAD,
+    /// DANGER DEEP WATER), a calendar, a coal chute's hatch. In the top block of air: a clothesline (west-east, north-south),
+    /// a cobweb in a corner (north-west, north-east, south-east, south-west), the lamp over the pool table (Pier the table's).
+    /// </summary>
+    public const ushort BasementPegboard = 292, BasementFuseBox = 293, BasementCaution = 294, BasementWatchHead = 295, BasementDeepWater = 296,
+        BasementCalendar = 297, BasementChute = 298, BasementLineWE = 299, BasementLineNS = 300, BasementCobweb = 301, BasementCobwebLast = 304,
+        BasementPoolLamp = 305;
     public const ushort L52First = 320, L52Last = 351;
     /// <summary>Level 52: the two halves of a door's number plaque on the corridor wall (Pier the way it faces; the room it numbers is the campus plan's).</summary>
     public const ushort L52PlaqueLo = 320, L52PlaqueHi = 321;
@@ -1713,6 +1726,14 @@ public static class Props
     /// a short ladder against a wall (Pier its face). Rubble and bodies are walked through.
     /// </summary>
     public const ushort BasementDoor = 1005, BasementEscher = 1006, BasementDebris = 1007, BasementBody = 1008, BasementJunk = 1009, BasementLadder = 1010;
+    /// <summary>
+    /// The Basement, round 3 (Pier their facing): an octopus furnace and a water heater (three blocks high, the top one
+    /// their ducts and pipes into the joists); a workbench and a pool table, two tiles long (Stack 0 the left, 1 the right
+    /// as seen from in front); steel shelving two high (Stack its load: boxes, jars, paint, odds); boxes stacked two high
+    /// (Stack their label); a wine rack two high; the sump pit (in the floor, walked over).
+    /// </summary>
+    public const ushort BasementFurnace = 1011, BasementHeater = 1012, BasementBench = 1013, BasementPoolTable = 1014, BasementShelving = 1015,
+        BasementBoxes = 1016, BasementWineRack = 1017, BasementSump = 1018;
     public const ushort L52First = 1100, L52Last = 1199;
     /// <summary>Level 52: a student desk with its chair (Pier the way the student faces), a piece of chalkboard on the wall behind it (Pier its face; Stack 0 left end, 1 middle, 2 right end; walked through).</summary>
     public const ushort L52Desk = 1100, L52Chalkboard = 1101;

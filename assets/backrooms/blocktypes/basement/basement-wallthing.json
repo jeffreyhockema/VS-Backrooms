@@ -1,0 +1,247 @@
+// The Basement: things on a wall at head height (pegboards of tools, the fuse box and its conduit, caution signs, a calendar, a coal chute's hatch), in the block in front of the wall
+{
+	"code": "basement-wallthing",
+	"variantgroups": [
+		{
+			"code": "thing",
+			"states": [
+				"pegboard-a",
+				"pegboard-b",
+				"fusebox",
+				"conduit",
+				"sign-caution",
+				"sign-head",
+				"sign-water",
+				"calendar",
+				"chute"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-pegboard-a-north"
+		],
+		"decorative": [
+			"*-pegboard-a-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-pegboard-a-north": {
+			"base": "block/basement/wallthing-pegboard-a",
+			"rotateY": 0
+		},
+		"*-pegboard-a-east": {
+			"base": "block/basement/wallthing-pegboard-a",
+			"rotateY": 270
+		},
+		"*-pegboard-a-south": {
+			"base": "block/basement/wallthing-pegboard-a",
+			"rotateY": 180
+		},
+		"*-pegboard-a-west": {
+			"base": "block/basement/wallthing-pegboard-a",
+			"rotateY": 90
+		},
+		"*-pegboard-b-north": {
+			"base": "block/basement/wallthing-pegboard-b",
+			"rotateY": 0
+		},
+		"*-pegboard-b-east": {
+			"base": "block/basement/wallthing-pegboard-b",
+			"rotateY": 270
+		},
+		"*-pegboard-b-south": {
+			"base": "block/basement/wallthing-pegboard-b",
+			"rotateY": 180
+		},
+		"*-pegboard-b-west": {
+			"base": "block/basement/wallthing-pegboard-b",
+			"rotateY": 90
+		},
+		"*-fusebox-north": {
+			"base": "block/basement/wallthing-fusebox",
+			"rotateY": 0
+		},
+		"*-fusebox-east": {
+			"base": "block/basement/wallthing-fusebox",
+			"rotateY": 270
+		},
+		"*-fusebox-south": {
+			"base": "block/basement/wallthing-fusebox",
+			"rotateY": 180
+		},
+		"*-fusebox-west": {
+			"base": "block/basement/wallthing-fusebox",
+			"rotateY": 90
+		},
+		"*-conduit-north": {
+			"base": "block/basement/wallthing-conduit",
+			"rotateY": 0
+		},
+		"*-conduit-east": {
+			"base": "block/basement/wallthing-conduit",
+			"rotateY": 270
+		},
+		"*-conduit-south": {
+			"base": "block/basement/wallthing-conduit",
+			"rotateY": 180
+		},
+		"*-conduit-west": {
+			"base": "block/basement/wallthing-conduit",
+			"rotateY": 90
+		},
+		"*-sign-caution-north": {
+			"base": "block/basement/wallthing-sign-caution",
+			"rotateY": 0
+		},
+		"*-sign-caution-east": {
+			"base": "block/basement/wallthing-sign-caution",
+			"rotateY": 270
+		},
+		"*-sign-caution-south": {
+			"base": "block/basement/wallthing-sign-caution",
+			"rotateY": 180
+		},
+		"*-sign-caution-west": {
+			"base": "block/basement/wallthing-sign-caution",
+			"rotateY": 90
+		},
+		"*-sign-head-north": {
+			"base": "block/basement/wallthing-sign-head",
+			"rotateY": 0
+		},
+		"*-sign-head-east": {
+			"base": "block/basement/wallthing-sign-head",
+			"rotateY": 270
+		},
+		"*-sign-head-south": {
+			"base": "block/basement/wallthing-sign-head",
+			"rotateY": 180
+		},
+		"*-sign-head-west": {
+			"base": "block/basement/wallthing-sign-head",
+			"rotateY": 90
+		},
+		"*-sign-water-north": {
+			"base": "block/basement/wallthing-sign-water",
+			"rotateY": 0
+		},
+		"*-sign-water-east": {
+			"base": "block/basement/wallthing-sign-water",
+			"rotateY": 270
+		},
+		"*-sign-water-south": {
+			"base": "block/basement/wallthing-sign-water",
+			"rotateY": 180
+		},
+		"*-sign-water-west": {
+			"base": "block/basement/wallthing-sign-water",
+			"rotateY": 90
+		},
+		"*-calendar-north": {
+			"base": "block/basement/wallthing-calendar",
+			"rotateY": 0
+		},
+		"*-calendar-east": {
+			"base": "block/basement/wallthing-calendar",
+			"rotateY": 270
+		},
+		"*-calendar-south": {
+			"base": "block/basement/wallthing-calendar",
+			"rotateY": 180
+		},
+		"*-calendar-west": {
+			"base": "block/basement/wallthing-calendar",
+			"rotateY": 90
+		},
+		"*-chute-north": {
+			"base": "block/basement/wallthing-chute",
+			"rotateY": 0
+		},
+		"*-chute-east": {
+			"base": "block/basement/wallthing-chute",
+			"rotateY": 270
+		},
+		"*-chute-south": {
+			"base": "block/basement/wallthing-chute",
+			"rotateY": 180
+		},
+		"*-chute-west": {
+			"base": "block/basement/wallthing-chute",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-east": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	}
+}

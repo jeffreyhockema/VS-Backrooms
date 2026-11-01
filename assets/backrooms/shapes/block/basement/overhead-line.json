@@ -1,0 +1,78 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"rope": "backrooms:block/basement/rope"
+	},
+	"elements": [
+		{
+			"name": "Line",
+			"from": [
+				0,
+				11.75,
+				7.85
+			],
+			"to": [
+				16,
+				12.15,
+				8.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,51 @@
+// The Basement: trodden earth
+{
+	"code": "basement-earth",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/basement/floor-earth",
+			"alternates": [
+				{
+					"base": "block/basement/floor-earth",
+					"rotation": 90
+				},
+				{
+					"base": "block/basement/floor-earth",
+					"rotation": 180
+				},
+				{
+					"base": "block/basement/floor-earth",
+					"rotation": 270
+				}
+			]
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 99,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:soil-medium-none",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/gravel",
+		"place": "game:block/dirt",
+		"break": "game:block/dirt",
+		"hit": "game:block/dirt"
+	}
+}

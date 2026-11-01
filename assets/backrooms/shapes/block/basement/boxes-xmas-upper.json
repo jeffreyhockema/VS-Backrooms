@@ -1,0 +1,161 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"box-xmas": "backrooms:block/basement/box-xmas",
+		"cardboard": "backrooms:block/supplybox-side",
+		"cardboardtop": "backrooms:block/supplybox-top"
+	},
+	"elements": [
+		{
+			"name": "Small",
+			"from": [
+				3,
+				0,
+				5
+			],
+			"to": [
+				12,
+				6,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#box-xmas",
+					"uv": [
+						0,
+						0,
+						9,
+						6
+					]
+				},
+				"east": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						9,
+						6
+					]
+				},
+				"south": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						9,
+						6
+					]
+				},
+				"west": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						9,
+						6
+					]
+				},
+				"up": {
+					"texture": "#cardboardtop",
+					"uv": [
+						0,
+						0,
+						9,
+						9
+					]
+				},
+				"down": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						9,
+						9
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.5,
+				3,
+				9.5
+			],
+			"rotationY": 10
+		},
+		{
+			"name": "Flat",
+			"from": [
+				2,
+				6,
+				4
+			],
+			"to": [
+				11,
+				8,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						9,
+						2
+					]
+				},
+				"east": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						9,
+						2
+					]
+				},
+				"south": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						9,
+						2
+					]
+				},
+				"west": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						9,
+						2
+					]
+				},
+				"up": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						9,
+						9
+					]
+				},
+				"down": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						9,
+						9
+					]
+				}
+			},
+			"rotationOrigin": [
+				6.5,
+				7,
+				8.5
+			],
+			"rotationY": -15
+		}
+	]
+}

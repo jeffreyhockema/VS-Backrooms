@@ -99,19 +99,19 @@
 			"rotateY": 90
 		},
 		"*-jammed-w-upper-north": {
-			"base": "block/basement/door-closed-wupper",
+			"base": "block/basement/door-jammed-wupper",
 			"rotateY": 0
 		},
 		"*-jammed-w-upper-east": {
-			"base": "block/basement/door-closed-wupper",
+			"base": "block/basement/door-jammed-wupper",
 			"rotateY": 270
 		},
 		"*-jammed-w-upper-south": {
-			"base": "block/basement/door-closed-wupper",
+			"base": "block/basement/door-jammed-wupper",
 			"rotateY": 180
 		},
 		"*-jammed-w-upper-west": {
-			"base": "block/basement/door-closed-wupper",
+			"base": "block/basement/door-jammed-wupper",
 			"rotateY": 90
 		},
 		"*-closed-e-lower-north": {
@@ -163,19 +163,19 @@
 			"rotateY": 90
 		},
 		"*-jammed-e-upper-north": {
-			"base": "block/basement/door-closed-eupper",
+			"base": "block/basement/door-jammed-eupper",
 			"rotateY": 0
 		},
 		"*-jammed-e-upper-east": {
-			"base": "block/basement/door-closed-eupper",
+			"base": "block/basement/door-jammed-eupper",
 			"rotateY": 270
 		},
 		"*-jammed-e-upper-south": {
-			"base": "block/basement/door-closed-eupper",
+			"base": "block/basement/door-jammed-eupper",
 			"rotateY": 180
 		},
 		"*-jammed-e-upper-west": {
-			"base": "block/basement/door-closed-eupper",
+			"base": "block/basement/door-jammed-eupper",
 			"rotateY": 90
 		},
 		"*-open-w-lower-north": {

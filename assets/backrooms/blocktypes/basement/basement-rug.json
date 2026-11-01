@@ -1,0 +1,51 @@
+// The Basement: braided rug
+{
+	"code": "basement-rug",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/basement/rug",
+			"alternates": [
+				{
+					"base": "block/basement/rug",
+					"rotation": 90
+				},
+				{
+					"base": "block/basement/rug",
+					"rotation": 180
+				},
+				{
+					"base": "block/basement/rug",
+					"rotation": 270
+				}
+			]
+		}
+	},
+	"resistance": 2,
+	"lightAbsorption": 99,
+	"drops": [
+		{
+			"type": "item",
+			"code": "carpetfibre",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	}
+}

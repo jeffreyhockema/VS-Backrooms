@@ -1,0 +1,265 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"insulation": "backrooms:block/basement/insulation",
+		"studs": "backrooms:block/basement/studs"
+	},
+	"elements": [
+		{
+			"name": "Batt",
+			"from": [
+				0,
+				0,
+				5
+			],
+			"to": [
+				16,
+				16,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						6,
+						16
+					]
+				},
+				"south": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						6,
+						16
+					]
+				},
+				"up": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						16,
+						6
+					]
+				},
+				"down": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						16,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Stud0",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				2,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"down": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Stud1",
+			"from": [
+				8,
+				0,
+				0
+			],
+			"to": [
+				10,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"down": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FaceN",
+			"from": [
+				2,
+				0,
+				4.8
+			],
+			"to": [
+				8,
+				16,
+				5
+			],
+			"faces": {
+				"north": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						6,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FaceS",
+			"from": [
+				10,
+				0,
+				11
+			],
+			"to": [
+				16,
+				16,
+				11.2
+			],
+			"faces": {
+				"south": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						6,
+						16
+					]
+				}
+			}
+		}
+	]
+}

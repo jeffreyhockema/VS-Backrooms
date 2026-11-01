@@ -165,6 +165,8 @@ def textures():
     save(dead, "bulb-off")
     detail_textures()
     link_textures()
+    import gen_basement_r3 as R3
+    R3.textures()
     print("textures:", len(os.listdir(TEX)))
 
 
@@ -264,7 +266,10 @@ def blocks():
         # concrete over it stops it there, src/Worldgen/WorldLighting.cs)
         # (shaft, round 2: the broken slab lining a crack someone fell through, lit from the room above: it carries the
         # Lobby's yellow light down the twenty blocks to the floor, where it would otherwise never reach)
-        {"lightHsvByType": {"*-faint": [8, 2, 6], "*-joistsfaint": [8, 2, 6], "*-shaft": [9, 3, 10]}, "lightAbsorption": 0})
+        # (Round 3: the shaft's lining glows, so the crack reads as lit from the room you land in; the faint light a little
+        # fainter and the bulbs a little brighter, for less flat rooms)
+        {"lightHsvByType": {"*-faint": [8, 2, 5], "*-joistsfaint": [8, 2, 5], "*-shaft": [9, 3, 12]}, "lightAbsorption": 0,
+         "vertexFlagsByType": {"*-shaft": {"glowLevel": 150}}})
     cube_block("basement-slime", ["wall", "bed"], {
         "wall": alts("slime-wall", ["slime-wall-2"]),
         "bed": alts("slime-bed", ["slime-bed-2"], rotate=True),
@@ -300,7 +305,7 @@ def blocks():
         "creativeinventory": {"general": ["*-on"], "decorative": ["*-on"]},
         "blockmaterial": "Glass", "drawtype": "json",
         "shapeByType": {"*-off": {"base": "block/basement/lamp-off"}, "*": {"base": "block/basement/lamp-lit"}},
-        "lightHsvByType": {"*-on": [7, 4, 11], "*-dim": [7, 4, 7], "*-bright": [7, 3, 14], "*-flicker": [7, 4, 10]},
+        "lightHsvByType": {"*-on": [7, 4, 12], "*-dim": [7, 4, 7], "*-bright": [7, 3, 14], "*-flicker": [7, 4, 10]},
         "entityClassByType": {"*-flicker": "BackroomsFlicker"},
         "attributesByType": {"*-flicker": {"offBlock": "backrooms:basement-lamp-off"}},
         "dropsByType": {"*": [{"type": "item", "code": "glassshard", "quantity": {"avg": 0.5, "var": 0}},
@@ -313,6 +318,8 @@ def blocks():
     }, "The Basement: a bare bulb in a wire cage on its cable (on, dim, bright, flicker, off)")
     detail_blocks()
     link_blocks()
+    import gen_basement_r3 as R3
+    R3.blocks()
     print("blocktypes:", sorted(os.listdir(BLOCKS)))
 
 
@@ -407,9 +414,10 @@ def panel_tex(seed, stained=False):
 
 
 def brick_tex(seed):
-    img = M.brick(seed=1300, base=(116, 64, 48), mortar=(104, 98, 88), course=8, length=16, jitter=10, hue=4, pits=0.05,
+    # (Round 3: an old sooty brown-grey brick, toned to the level's cold palette; the red stood out from everything)
+    img = M.brick(seed=1300, base=(92, 68, 56), mortar=(84, 82, 76), course=8, length=16, jitter=8, hue=3, pits=0.05,
                   grain=5, mottle=8, tones=seed)
-    M.grime(img, 0.25, seed=seed + 1, color=(48, 44, 40), cells=(8, 4, 2), cover=0.5)
+    M.grime(img, 0.32, seed=seed + 1, color=(44, 44, 42), cells=(8, 4, 2), cover=0.6)
     M.grime(img, 0.12, seed=seed + 2, color=(150, 146, 132), cells=(4, 2), cover=0.25)  # efflorescence
     return img
 
@@ -534,9 +542,17 @@ def door_blocks():
             parts = cut(model, 1, 2)
             for r, half in enumerate(("lower", "upper")):
                 path = write_shape(f"door-{state}-{hinge}{half}", parts[(0, r)], DOOR_TEX)
-                for st in ((state, "jammed") if state == "closed" else (state,)):
-                    for side, rot in ROT.items():
-                        shape_by[f"*-{st}-{hinge}-{half}-{side}"] = {"base": path, "rotateY": rot}
+                for side, rot in ROT.items():
+                    shape_by[f"*-{state}-{hinge}-{half}-{side}"] = {"base": path, "rotateY": rot}
+                if state != "closed":
+                    continue
+                # (Round 3) a swollen-shut door has a board nailed across it, DO NOT ENTER on it in marker
+                if half == "upper":
+                    import gen_basement_r3 as R3
+                    path = write_shape(f"door-jammed-{hinge}{half}", parts[(0, r)] + R3.door_board(),
+                                       dict(DOOR_TEX, **{k: R3.T[k] for k in ("doorboard", "panel", "metaldark")}))
+                for side, rot in ROT.items():
+                    shape_by[f"*-jammed-{hinge}-{half}-{side}"] = {"base": path, "rotateY": rot}
     for st in ("closed", "open", "jammed"):
         for hinge in ("w", "e"):
             b = (0, 0, 2 / 16, 1, 1, 3.75 / 16) if st != "open" else (1.35 / 16, 0, 3.75 / 16, 4 / 16, 1, 1)

@@ -1,0 +1,248 @@
+// The Basement: steel shelving two blocks high (lower, upper), loaded (boxes, jars, paint cans, odds and ends)
+{
+	"code": "basement-shelving",
+	"variantgroups": [
+		{
+			"code": "load",
+			"states": [
+				"boxes",
+				"jars",
+				"paint",
+				"odds"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-boxes-lower-north"
+		],
+		"decorative": [
+			"*-boxes-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-boxes-lower-north": {
+			"base": "block/basement/shelving-boxes-lower",
+			"rotateY": 0
+		},
+		"*-boxes-lower-east": {
+			"base": "block/basement/shelving-boxes-lower",
+			"rotateY": 270
+		},
+		"*-boxes-lower-south": {
+			"base": "block/basement/shelving-boxes-lower",
+			"rotateY": 180
+		},
+		"*-boxes-lower-west": {
+			"base": "block/basement/shelving-boxes-lower",
+			"rotateY": 90
+		},
+		"*-boxes-upper-north": {
+			"base": "block/basement/shelving-boxes-upper",
+			"rotateY": 0
+		},
+		"*-boxes-upper-east": {
+			"base": "block/basement/shelving-boxes-upper",
+			"rotateY": 270
+		},
+		"*-boxes-upper-south": {
+			"base": "block/basement/shelving-boxes-upper",
+			"rotateY": 180
+		},
+		"*-boxes-upper-west": {
+			"base": "block/basement/shelving-boxes-upper",
+			"rotateY": 90
+		},
+		"*-jars-lower-north": {
+			"base": "block/basement/shelving-jars-lower",
+			"rotateY": 0
+		},
+		"*-jars-lower-east": {
+			"base": "block/basement/shelving-jars-lower",
+			"rotateY": 270
+		},
+		"*-jars-lower-south": {
+			"base": "block/basement/shelving-jars-lower",
+			"rotateY": 180
+		},
+		"*-jars-lower-west": {
+			"base": "block/basement/shelving-jars-lower",
+			"rotateY": 90
+		},
+		"*-jars-upper-north": {
+			"base": "block/basement/shelving-jars-upper",
+			"rotateY": 0
+		},
+		"*-jars-upper-east": {
+			"base": "block/basement/shelving-jars-upper",
+			"rotateY": 270
+		},
+		"*-jars-upper-south": {
+			"base": "block/basement/shelving-jars-upper",
+			"rotateY": 180
+		},
+		"*-jars-upper-west": {
+			"base": "block/basement/shelving-jars-upper",
+			"rotateY": 90
+		},
+		"*-paint-lower-north": {
+			"base": "block/basement/shelving-paint-lower",
+			"rotateY": 0
+		},
+		"*-paint-lower-east": {
+			"base": "block/basement/shelving-paint-lower",
+			"rotateY": 270
+		},
+		"*-paint-lower-south": {
+			"base": "block/basement/shelving-paint-lower",
+			"rotateY": 180
+		},
+		"*-paint-lower-west": {
+			"base": "block/basement/shelving-paint-lower",
+			"rotateY": 90
+		},
+		"*-paint-upper-north": {
+			"base": "block/basement/shelving-paint-upper",
+			"rotateY": 0
+		},
+		"*-paint-upper-east": {
+			"base": "block/basement/shelving-paint-upper",
+			"rotateY": 270
+		},
+		"*-paint-upper-south": {
+			"base": "block/basement/shelving-paint-upper",
+			"rotateY": 180
+		},
+		"*-paint-upper-west": {
+			"base": "block/basement/shelving-paint-upper",
+			"rotateY": 90
+		},
+		"*-odds-lower-north": {
+			"base": "block/basement/shelving-odds-lower",
+			"rotateY": 0
+		},
+		"*-odds-lower-east": {
+			"base": "block/basement/shelving-odds-lower",
+			"rotateY": 270
+		},
+		"*-odds-lower-south": {
+			"base": "block/basement/shelving-odds-lower",
+			"rotateY": 180
+		},
+		"*-odds-lower-west": {
+			"base": "block/basement/shelving-odds-lower",
+			"rotateY": 90
+		},
+		"*-odds-upper-north": {
+			"base": "block/basement/shelving-odds-upper",
+			"rotateY": 0
+		},
+		"*-odds-upper-east": {
+			"base": "block/basement/shelving-odds-upper",
+			"rotateY": 270
+		},
+		"*-odds-upper-south": {
+			"base": "block/basement/shelving-odds-upper",
+			"rotateY": 180
+		},
+		"*-odds-upper-west": {
+			"base": "block/basement/shelving-odds-upper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionSelectionBoxesByType": {
+		"*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	}
+}

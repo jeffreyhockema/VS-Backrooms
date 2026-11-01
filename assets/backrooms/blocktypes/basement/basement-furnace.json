@@ -1,0 +1,160 @@
+// The Basement: an old octopus gravity furnace, its round body two blocks high and its lagged ducts rising from it into the joists (part lower, upper, top)
+{
+	"code": "basement-furnace",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper",
+				"top"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lower-north"
+		],
+		"decorative": [
+			"*-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower-north": {
+			"base": "block/basement/furnace-lower",
+			"rotateY": 0
+		},
+		"*-lower-east": {
+			"base": "block/basement/furnace-lower",
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"base": "block/basement/furnace-lower",
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"base": "block/basement/furnace-lower",
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"base": "block/basement/furnace-upper",
+			"rotateY": 0
+		},
+		"*-upper-east": {
+			"base": "block/basement/furnace-upper",
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"base": "block/basement/furnace-upper",
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"base": "block/basement/furnace-upper",
+			"rotateY": 90
+		},
+		"*-top-north": {
+			"base": "block/basement/furnace-top",
+			"rotateY": 0
+		},
+		"*-top-east": {
+			"base": "block/basement/furnace-top",
+			"rotateY": 270
+		},
+		"*-top-south": {
+			"base": "block/basement/furnace-top",
+			"rotateY": 180
+		},
+		"*-top-west": {
+			"base": "block/basement/furnace-top",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionSelectionBoxesByType": {
+		"*-north": [
+			{
+				"x1": 0.1,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.9,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-east": [
+			{
+				"x1": 0.1,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.9,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-south": [
+			{
+				"x1": 0.1,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.9,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-west": [
+			{
+				"x1": 0.1,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.9,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	}
+}

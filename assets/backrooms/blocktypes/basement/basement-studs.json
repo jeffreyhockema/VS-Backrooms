@@ -1,0 +1,49 @@
+// The Basement: an unfinished wall, bare studs with fibreglass batts stapled between them
+{
+	"code": "basement-studs",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"construction": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/basement/studs"
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 99,
+	"resistance": 3,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 1.5,
+				"var": 1
+			}
+		},
+		{
+			"type": "item",
+			"code": "carpetfibre",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

@@ -99,17 +99,22 @@
 		"*-faint": [
 			8,
 			2,
-			6
+			5
 		],
 		"*-joistsfaint": [
 			8,
 			2,
-			6
+			5
 		],
 		"*-shaft": [
 			9,
 			3,
-			10
+			12
 		]
+	},
+	"vertexFlagsByType": {
+		"*-shaft": {
+			"glowLevel": 150
+		}
 	}
 }

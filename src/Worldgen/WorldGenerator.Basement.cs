@@ -29,6 +29,19 @@ public sealed partial class WorldGenerator
     private readonly int[,] basementDebrisIds = new int[2, 4], basementJunkIds = new int[4, 4];
     /// <summary>[part (lower, upper, dial), leaf (l, r), facing].</summary>
     private readonly int[,,] basementLiftIds = new int[3, 2, 4];
+    // Round 3: the house's things of several blocks, and what hangs on its walls and from its joists
+    private int basementStudsId, basementEarthId, basementRugId, basementSumpId;
+    /// <summary>[part (lower, upper, top), facing].</summary>
+    private readonly int[,] basementFurnaceIds = new int[3, 4], basementHeaterIds = new int[3, 4];
+    /// <summary>[half (l, r), facing].</summary>
+    private readonly int[,] basementBenchIds = new int[2, 4], basementPoolIds = new int[2, 4];
+    /// <summary>[load or label, part (lower, upper), facing].</summary>
+    private readonly int[,,] basementShelvingIds = new int[4, 2, 4], basementBoxesIds = new int[4, 2, 4];
+    private readonly int[,] basementWineIds = new int[2, 4];
+    /// <summary>[thing (BasementWallThings), facing]; [hang (line, shirt, sheet, towel, cobweb), facing].</summary>
+    private readonly int[,] basementWallThingIds = new int[9, 4], basementOverheadIds = new int[5, 4];
+    private readonly int[] basementPoolLampIds = new int[4];
+    private static readonly string[] BasementWallThings = { "pegboard-a", "pegboard-b", "fusebox", "conduit", "sign-caution", "sign-head", "sign-water", "calendar", "chute" };
 
     /// <summary>The level's block ids (called from the constructor).</summary>
     private void InitBasement()
@@ -84,6 +97,34 @@ public sealed partial class WorldGenerator
                 for (int l = 0; l < 2; l++)
                     basementLiftIds[p, l, f] = Id($"basement-lift-{lift[p]}-{leaves[l]}-{Sides[f]}");
         }
+        basementStudsId = Id("basement-studs");
+        basementEarthId = Id("basement-earth");
+        basementRugId = Id("basement-rug");
+        basementSumpId = Id("basement-sump");
+        string[] three = { "lower", "upper", "top" }, two = { "lower", "upper" }, halves = { "l", "r" };
+        string[] loads = { "boxes", "jars", "paint", "odds" }, labels = { "xmas", "taxes", "moms", "keep" }, hangs = { "line", "shirt", "sheet", "towel", "cobweb" };
+        for (int f = 0; f < 4; f++)
+        {
+            for (int p = 0; p < 3; p++)
+            {
+                basementFurnaceIds[p, f] = Id($"basement-furnace-{three[p]}-{Sides[f]}");
+                basementHeaterIds[p, f] = Id($"basement-heater-{three[p]}-{Sides[f]}");
+            }
+            for (int p = 0; p < 2; p++)
+            {
+                basementBenchIds[p, f] = Id($"basement-bench-{halves[p]}-{Sides[f]}");
+                basementPoolIds[p, f] = Id($"basement-pooltable-{halves[p]}-{Sides[f]}");
+                basementWineIds[p, f] = Id($"basement-winerack-{two[p]}-{Sides[f]}");
+                for (int k = 0; k < 4; k++)
+                {
+                    basementShelvingIds[k, p, f] = Id($"basement-shelving-{loads[k]}-{two[p]}-{Sides[f]}");
+                    basementBoxesIds[k, p, f] = Id($"basement-boxes-{labels[k]}-{two[p]}-{Sides[f]}");
+                }
+            }
+            for (int k = 0; k < BasementWallThings.Length; k++) basementWallThingIds[k, f] = Id($"basement-wallthing-{BasementWallThings[k]}-{Sides[f]}");
+            for (int k = 0; k < hangs.Length; k++) basementOverheadIds[k, f] = Id($"basement-overhead-{hangs[k]}-{Sides[f]}");
+            basementPoolLampIds[f] = Id($"basement-poollamp-{Sides[f]}");
+        }
         // The way in, in other levels (WorldGenerator.Basement.Links.cs)
         InitBasementLinks();
     }
@@ -107,6 +148,7 @@ public sealed partial class WorldGenerator
                 WallPattern.BasementStained => basementWallStainedId,
                 WallPattern.BasementPanel => (gx * 7 + gz * 13) % 5 == 0 ? basementPanelStainedId : basementPanelId,
                 WallPattern.BasementLift => basementLiftIds[rel - 1, t.Stack & 1, Facing(t.Pier)],
+                WallPattern.BasementStuds => basementStudsId,
                 _ => basementWallId,
             };
         }
@@ -117,7 +159,13 @@ public sealed partial class WorldGenerator
             if (rel == ceiling) return concreteId;
             if (rel <= 2 && t.Variant == Props.BasementDoor) return BasementDoorPart(t, rel - 1);
             if (rel <= 2) return 0;
-            return t.Pattern == WallPattern.BasementPanel ? basementPanelId : t.Pattern == WallPattern.BasementStained ? basementWallStainedId : basementWallId;
+            return t.Pattern switch
+            {
+                WallPattern.BasementPanel => basementPanelId,
+                WallPattern.BasementStained => basementWallStainedId,
+                WallPattern.BasementStuds => basementStudsId,
+                _ => basementWallId,
+            };
         }
         if (rel == ceiling)
         {
@@ -134,7 +182,10 @@ public sealed partial class WorldGenerator
         }
         if (rel == ceiling - 1)
         {
-            // What hangs in the top block of air: a bulb, pipes or a duct, a dead wire
+            // What hangs in the top block of air: a furnace's or a heater's ducts and pipes going up, a bulb, pipes or a duct,
+            // what hangs from the joists (the pool table's lamp, a clothesline, a cobweb, the fuse box's conduit), a dead wire
+            if (t.Kind == TileKind.Floor && t.Variant == Props.BasementFurnace) return basementFurnaceIds[2, Facing(t.Pier)];
+            if (t.Kind == TileKind.Floor && t.Variant == Props.BasementHeater) return basementHeaterIds[2, Facing(t.Pier)];
             int lamp = t.Ceiling switch
             {
                 CeilingKind.BasementBulbOn => basementLampOnId,
@@ -145,6 +196,15 @@ public sealed partial class WorldGenerator
                 _ => 0,
             };
             if (lamp != 0) return lamp;
+            if (t.Kind == TileKind.Floor && t.Pipe == 0)
+                switch (t.Overhead)
+                {
+                    case Overheads.BasementPoolLamp: return basementPoolLampIds[Facing(t.Pier)];
+                    case >= Overheads.BasementCobweb and <= Overheads.BasementCobwebLast: return basementOverheadIds[4, t.Overhead - Overheads.BasementCobweb];
+                    case Overheads.BasementLineWE: return basementOverheadIds[BasementHash(gx, gz) % 4, 0];
+                    case Overheads.BasementLineNS: return basementOverheadIds[BasementHash(gx, gz) % 4, 1];
+                    case Overheads.BasementFuseBox: return basementWallThingIds[3, Facing(t.Pier)];
+                }
             if (t.Overhead == Overheads.BasementWire && t.Kind == TileKind.Floor) return basementWireId;
             return t.Pipe switch
             {
@@ -173,8 +233,10 @@ public sealed partial class WorldGenerator
         // The dry floor (the Cellar, the Dry Patch, a doorway), and what stands on it
         if (rel < 0) return concreteId;
         if (rel == 0)
-            return t.Floor switch
+            return t.Kind == TileKind.Floor && t.Variant == Props.BasementSump ? basementSumpId : t.Floor switch
             {
+                FloorKind.BasementEarth => basementEarthId,
+                FloorKind.BasementRug => basementRugId,
                 FloorKind.BasementDamp => basementFloorDampId,
                 FloorKind.BasementPatch => basementFloorPatchId,
                 FloorKind.BasementCarpet => basementCarpetOliveId,
@@ -185,8 +247,36 @@ public sealed partial class WorldGenerator
         if (t.SupplyBox) return rel == 1 ? BoxOf(t) : 0;
         if (t.Variant == 0 && t.Stack > 0) return rel <= t.Stack ? CrateOf(t) : 0;
         if (t.Variant == Props.BasementLadder) return rel <= 2 ? basementLadderIds[Facing(Opposite(t.Pier))] : 0;
-        if (rel != 1) return 0;
         int facing = Facing(t.Pier);
+        // Round 3: the things two blocks high, and what hangs on the wall over whatever stands there
+        if (rel <= 2)
+        {
+            int part = rel - 1;
+            switch (t.Variant)
+            {
+                case Props.BasementFurnace: return basementFurnaceIds[part, facing];
+                case Props.BasementHeater: return basementHeaterIds[part, facing];
+                case Props.BasementShelving: return basementShelvingIds[t.Stack & 3, part, facing];
+                case Props.BasementBoxes: return basementBoxesIds[t.Stack & 3, part, facing];
+                case Props.BasementWineRack: return basementWineIds[part, facing];
+            }
+        }
+        if (rel == 2)
+        {
+            int thing = t.Overhead switch
+            {
+                Overheads.BasementPegboard => BasementHash(gx, gz) % 2,
+                Overheads.BasementFuseBox => 2,
+                Overheads.BasementCaution => 4,
+                Overheads.BasementWatchHead => 5,
+                Overheads.BasementDeepWater => 6,
+                Overheads.BasementCalendar => 7,
+                Overheads.BasementChute => 8,
+                _ => -1,
+            };
+            return thing >= 0 ? basementWallThingIds[thing, facing] : 0;
+        }
+        if (rel != 1) return 0;
         return t.Variant switch
         {
             Props.BasementBoiler => boilerIds[facing],
@@ -196,12 +286,18 @@ public sealed partial class WorldGenerator
             Props.BasementCabinet => cabinetIds[facing],
             Props.BasementDebris => basementDebrisIds[t.Stack & 1, facing],
             Props.BasementJunk => basementJunkIds[t.Stack & 3, facing],
+            Props.BasementBench => basementBenchIds[t.Stack & 1, facing],
+            Props.BasementPoolTable => basementPoolIds[t.Stack & 1, facing],
+            Props.BasementSump => 0,
             // (A body is an entity, laid down by Regions.BasementSystem; nothing of it is a block)
             Props.BasementBody => 0,
             // (Props of the other levels', reused: Level 0-11's furniture, bones, signs)
             _ => t.Variant >= 40 && t.Variant < Props.RunFirst ? PropBlock(t) : 0,
         };
     }
+
+    /// <summary>A small hash of a column, for picking among looks that do not matter to the layout.</summary>
+    private static int BasementHash(int gx, int gz) => (int)((uint)(gx * 73856093 ^ gz * 19349663) >> 7);
 
     /// <summary>A part of a Basement door: <paramref name="part"/> 0 the lower block, 1 the upper.</summary>
     private int BasementDoorPart(in Tile t, int part, int state = -1)

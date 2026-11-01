@@ -1,0 +1,442 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chute": "backrooms:block/basement/chute",
+		"metaldark": "backrooms:block/props/metal-dark"
+	},
+	"elements": [
+		{
+			"name": "Frame",
+			"from": [
+				2,
+				4,
+				15
+			],
+			"to": [
+				14,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				},
+				"east": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"south": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				},
+				"west": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1,
+						12
+					]
+				},
+				"up": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"down": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Hatch",
+			"from": [
+				3,
+				5,
+				14.4
+			],
+			"to": [
+				13,
+				15,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				},
+				"east": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						0.6,
+						10
+					]
+				},
+				"south": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				},
+				"west": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						0.6,
+						10
+					]
+				},
+				"up": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						10,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						10,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Handle",
+			"from": [
+				7,
+				6,
+				13.8
+			],
+			"to": [
+				9,
+				7,
+				14.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Trough",
+			"from": [
+				4,
+				0,
+				6
+			],
+			"to": [
+				12,
+				1,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"east": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"south": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"west": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						10,
+						1
+					]
+				},
+				"up": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						8,
+						10
+					]
+				},
+				"down": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						8,
+						10
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				3,
+				16
+			],
+			"rotationX": -30
+		},
+		{
+			"name": "TroughW",
+			"from": [
+				3.5,
+				0,
+				6
+			],
+			"to": [
+				4,
+				3,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3
+					]
+				},
+				"east": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						10,
+						3
+					]
+				},
+				"south": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3
+					]
+				},
+				"west": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						10,
+						3
+					]
+				},
+				"up": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"down": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				3,
+				16
+			],
+			"rotationX": -30
+		},
+		{
+			"name": "TroughE",
+			"from": [
+				12,
+				0,
+				6
+			],
+			"to": [
+				12.5,
+				3,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3
+					]
+				},
+				"east": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						10,
+						3
+					]
+				},
+				"south": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3
+					]
+				},
+				"west": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						10,
+						3
+					]
+				},
+				"up": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"down": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				3,
+				16
+			],
+			"rotationX": -30
+		}
+	]
+}

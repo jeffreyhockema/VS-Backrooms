@@ -1,0 +1,425 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cloth-shirt": "backrooms:block/basement/cloth-shirt",
+		"panel": "backrooms:block/basement/panel",
+		"rope": "backrooms:block/basement/rope"
+	},
+	"elements": [
+		{
+			"name": "Line",
+			"from": [
+				0,
+				11.75,
+				7.85
+			],
+			"to": [
+				16,
+				12.15,
+				8.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shirt",
+			"from": [
+				4,
+				3,
+				7.7
+			],
+			"to": [
+				12,
+				11.75,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						8,
+						8.75
+					]
+				},
+				"east": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						0.6,
+						8.75
+					]
+				},
+				"south": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						8,
+						8.75
+					]
+				},
+				"west": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						0.6,
+						8.75
+					]
+				},
+				"up": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						8,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						8,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "SleeveW",
+			"from": [
+				2,
+				7.5,
+				7.7
+			],
+			"to": [
+				4,
+				11.75,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						2,
+						4.25
+					]
+				},
+				"east": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.25
+					]
+				},
+				"south": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						2,
+						4.25
+					]
+				},
+				"west": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.25
+					]
+				},
+				"up": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						2,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						2,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "SleeveE",
+			"from": [
+				12,
+				7.5,
+				7.7
+			],
+			"to": [
+				14,
+				11.75,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						2,
+						4.25
+					]
+				},
+				"east": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.25
+					]
+				},
+				"south": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						2,
+						4.25
+					]
+				},
+				"west": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.25
+					]
+				},
+				"up": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						2,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						2,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Peg0",
+			"from": [
+				4.5,
+				11,
+				7.6
+			],
+			"to": [
+				5.1,
+				13,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Peg1",
+			"from": [
+				11.5,
+				11,
+				7.6
+			],
+			"to": [
+				12.1,
+				13,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}
