@@ -17,6 +17,7 @@ static partial class LevelModes
     {
         if (mode == "47map") { L47Map(layout, args.Length > 0 && int.TryParse(args[^1], out int r) ? r : 160); return true; }
         if (mode == "47links") { L47Links(layout); return true; }
+        if (mode == "47prof") { layout.L47Profile(); return true; }
         if (mode != "47stats") return false;
         int bad = 0;
         void Bad(string what) { bad++; Console.WriteLine("  BAD: " + what); }

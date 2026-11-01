@@ -213,6 +213,8 @@ public sealed partial class WorldLayout
         {
             double phi = a + 2 * Math.PI * n;
             if (phi < 0 || phi > L47TrailPhiMax) continue;
+            // (A turn far off by its plain spiral is far off however it swings: the swings are 11.5 at most)
+            if (Math.Abs(r - (L47GladeRadius - 2 + L47TrailA * phi)) > 60) continue;
             var (tr, dr) = L47TrailR(phi);
             double d = Math.Abs(r - tr) / Math.Sqrt(1 + dr * dr / (tr * tr));
             if (d < best)
@@ -270,6 +272,57 @@ public sealed partial class WorldLayout
         public int Base, Top, CrownBase, Lobes;
         public double CrownR, Phase, Lean, LeanPhase, MouthA;
         public ulong H;
+        /// <summary>
+        /// Its roots and limbs, worked out once (<see cref="L47Shape"/>): per root its end and radius (3 numbers), per limb its
+        /// start, its rise from, its end, its rise and radius (7 numbers; NaN for a limb it does not have); how far out the
+        /// roots reach, and the lowest height a limb comes down to.
+        /// </summary>
+        public double[] Roots, Limbs;
+        public double RootReach;
+        public int LimbLow;
+    }
+
+    /// <summary>Works out a tree's roots and limbs once, as <see cref="L47TreeWood"/> draws them.</summary>
+    private static void L47Shape(ref L47Tree t)
+    {
+        int roots = t.R >= 1.2 ? 3 + (int)((t.H >> 60) % 3) : 0;
+        t.Roots = new double[roots * 3];
+        t.RootReach = 0;
+        for (int k = 0; k < roots; k++)
+        {
+            ulong h = Hashing.Mix(t.H + 17 + (ulong)k);
+            double a = t.Phase / t.Lobes + k * Math.PI * 2 / roots + (Hashing.Unit(h) - 0.5) * 0.7;
+            double len = t.R + (t.Giant ? 9 : 3) + 4 * Hashing.Unit(Hashing.Mix(h));
+            double rr = t.Giant ? 1.4 : 0.75 + 0.2 * Hashing.Unit(h << 7);
+            t.Roots[k * 3] = t.X + Math.Cos(a) * len;
+            t.Roots[k * 3 + 1] = t.Z + Math.Sin(a) * len;
+            t.Roots[k * 3 + 2] = rr;
+            t.RootReach = Math.Max(t.RootReach, len + rr + 1);
+        }
+        t.LimbLow = int.MaxValue;
+        if (t.Conifer || t.R < 0.9) { t.Limbs = Array.Empty<double>(); return; }
+        int limbs = t.Dead ? 2 + (int)(t.H >> 58 & 1) : 3 + (int)(t.H >> 58 & 1) + (t.R >= 2.4 ? 1 : 0);
+        t.Limbs = new double[limbs * 7];
+        for (int k = 0; k < limbs; k++)
+        {
+            ulong h = Hashing.Mix(t.H + 101 + (ulong)k);
+            double a = Hashing.Unit(h) * Math.PI * 2;
+            double from = t.Dead ? t.Base + 6 + (t.Top - t.Base - 6) * Hashing.Unit(Hashing.Mix(h)) : t.CrownBase - 3 + 6 * Hashing.Unit(Hashing.Mix(h));
+            if (from > t.Top - 1) { t.Limbs[k * 7] = double.NaN; continue; }
+            double len = t.Dead ? 3 + 3 * Hashing.Unit(h << 9) : t.CrownR * (0.55 + 0.3 * Hashing.Unit(h << 9));
+            double rise = t.Dead ? len * 0.8 : len * 0.6;
+            double rr = t.Dead ? 0.55 : 0.6 + 0.15 * t.R;
+            var (lx, lz) = L47Lean(t, (int)from);
+            double ax = t.X + lx, az = t.Z + lz;
+            t.Limbs[k * 7] = ax;
+            t.Limbs[k * 7 + 1] = az;
+            t.Limbs[k * 7 + 2] = from;
+            t.Limbs[k * 7 + 3] = ax + Math.Cos(a) * len;
+            t.Limbs[k * 7 + 4] = az + Math.Sin(a) * len;
+            t.Limbs[k * 7 + 5] = rise;
+            t.Limbs[k * 7 + 6] = rr;
+            t.LimbLow = Math.Min(t.LimbLow, (int)from - 2);
+        }
     }
 
     /// <summary>The tree at a point of the lattice (Exists false where there is none: a gap, the glade, the trail, a stream).</summary>
@@ -322,6 +375,7 @@ public sealed partial class WorldLayout
         }
         t.Exists = true;
         L47MaybeHollow(ref t);
+        L47Shape(ref t);
         return t;
     }
 
@@ -353,6 +407,7 @@ public sealed partial class WorldLayout
         t.CrownBase = L47Top - 22;
         t.CrownR = 13;
         t.MouthA = Hashing.Unit(Hashing.Mix(h4 + 2)) * Math.PI * 2;
+        L47Shape(ref t);
         return t;
     }
 
@@ -452,7 +507,7 @@ public sealed partial class WorldLayout
             {
                 double cx = (i0 + di + 0.5) * L47GiantPitch, cz = (j0 + dj + 0.5) * L47GiantPitch;
                 if (Math.Abs(gx - cx) > L47GiantPitch * 0.5 + 40 || Math.Abs(gz - cz) > L47GiantPitch * 0.5 + 40) continue;
-                L47Tree g = L47GiantAt(i0 + di, j0 + dj);
+                L47Tree g = L47GiantCached(i0 + di, j0 + dj);
                 if (!g.Exists) continue;
                 double dx = gx + 0.5 - g.X, dz = gz + 0.5 - g.Z;
                 if (dx * dx + dz * dz < 40 * 40) into.Add(g);
@@ -471,26 +526,105 @@ public sealed partial class WorldLayout
         Array.Clear(kinds);
         double px = gx + 0.5, pz = gz + 0.5;
         int top = lowest + kinds.Length - 1;
-        int i0 = Hashing.FloorDiv(gx, L47Pitch), j0 = Hashing.FloorDiv(gz, L47Pitch);
-        L47Tree[] around = L47TreesAround(i0, j0);
-        var giants = L47GiantsNear(gx, gz);
+        // (Only what can reach this 16-block square: worked out once for the square, in the order the full search met it)
+        L47Bucket near = L47BucketAt(gx, gz);
+        L47Tree[] trees = near.Trees;
         // (Trunks first, so a crown's leaves never fill a neighbour's bark)
         for (int pass = 0; pass < 2; pass++)
         {
-            for (int n = 0; n < 49; n++)
+            if (pass == 1 && top < near.CrownFrom) break;
+            for (int n = 0; n < near.TreeCount; n++)
             {
-                L47Tree t = around[n];
-                if (!t.Exists) continue;
-                if (pass == 0) L47TreeWood(t, px, pz, lowest, top, kinds);
-                else L47Crown(t, gx, gz, px, pz, lowest, top, kinds);
+                if (pass == 0) L47TreeWood(trees[n], px, pz, lowest, top, kinds);
+                else L47Crown(trees[n], gx, gz, px, pz, lowest, top, kinds);
             }
-            foreach (L47Tree g in giants)
-            {
-                if (pass == 0) L47TreeWood(g, px, pz, lowest, top, kinds);
-                else L47Crown(g, gx, gz, px, pz, lowest, top, kinds);
-            }
-            if (pass == 0) L47GroundThings(gx, gz, px, pz, lowest, top, kinds);
+            if (pass == 0) L47GroundThings(gx, gz, px, pz, lowest, top, kinds, near);
         }
+    }
+
+    /// <summary>The trees (the lattice's, then the green giants), logs and boulders that can reach a 16-block square, in the order the full search met them.</summary>
+    private sealed class L47Bucket
+    {
+        public WorldLayout Owner;
+        public int Bx = int.MinValue, Bz, TreeCount;
+        /// <summary>The lowest height any of its trees' crowns comes down to (a column worked out under it skips the crowns).</summary>
+        public int CrownFrom;
+        public L47Tree[] Trees = new L47Tree[64];
+        public readonly System.Collections.Generic.List<L47Log> Logs = new();
+        public readonly System.Collections.Generic.List<L47Boulder> Boulders = new();
+
+        public void Add(in L47Tree t)
+        {
+            if (TreeCount == Trees.Length) Array.Resize(ref Trees, Trees.Length * 2);
+            Trees[TreeCount++] = t;
+            if (!t.Dead) CrownFrom = Math.Min(CrownFrom, t.CrownBase - 8);
+        }
+    }
+
+    [ThreadStatic] private static L47Bucket[] l47Buckets;
+    [ThreadStatic] private static int l47BucketNext;
+
+    /// <summary>How far from its middle a tree's wood or leaves can reach, at any height.</summary>
+    private static double L47TreeReach(in L47Tree t) =>
+        Math.Max(t.R + (t.Giant ? 22 : 9) + t.Lean + (t.Dead || t.Conifer ? 0 : t.CrownR), t.Dead ? 0 : t.CrownR * 1.25 + 2 + t.Lean) + 1;
+
+    private L47Bucket L47BucketAt(int gx, int gz)
+    {
+        int bx = gx >> 4, bz = gz >> 4;
+        var all = l47Buckets ??= new[] { new L47Bucket(), new L47Bucket(), new L47Bucket(), new L47Bucket() };
+        for (int k = 0; k < all.Length; k++)
+            if (all[k].Owner == this && all[k].Bx == bx && all[k].Bz == bz) return all[k];
+        var b = all[l47BucketNext];
+        l47BucketNext = (l47BucketNext + 1) % all.Length;
+        b.Owner = null;
+        b.CrownFrom = int.MaxValue;
+        b.TreeCount = 0;
+        b.Logs.Clear();
+        b.Boulders.Clear();
+        double x0 = bx * 16, z0 = bz * 16, x1 = x0 + 16, z1 = z0 + 16;
+        double Away(double x, double z)
+        {
+            double dx = x < x0 ? x0 - x : x > x1 ? x - x1 : 0, dz = z < z0 ? z0 - z : z > z1 ? z - z1 : 0;
+            return Math.Sqrt(dx * dx + dz * dz);
+        }
+        // The lattice's trees in the lattice's order (rows, then columns): what any column of the square could reach
+        int ia = Hashing.FloorDiv((int)x0, L47Pitch) - 3, ib = Hashing.FloorDiv((int)x1 - 1, L47Pitch) + 3;
+        int ja = Hashing.FloorDiv((int)z0, L47Pitch) - 3, jb = Hashing.FloorDiv((int)z1 - 1, L47Pitch) + 3;
+        var kept = L47KeptHere();
+        for (int j = ja; j <= jb; j++)
+            for (int i = ia; i <= ib; i++)
+            {
+                if (!kept.Trees.TryGetValue((i, j), out L47Tree t)) kept.Trees[(i, j)] = t = L47TreeAt(i, j);
+                if (t.Exists && Away(t.X, t.Z) < L47TreeReach(t)) b.Add(t);
+            }
+        int gi0 = Hashing.FloorDiv((int)x0, L47GiantPitch), gj0 = Hashing.FloorDiv((int)z0, L47GiantPitch);
+        for (int dj = -1; dj <= 1; dj++)
+            for (int di = -1; di <= 1; di++)
+            {
+                L47Tree g = L47GiantCached(gi0 + di, gj0 + dj);
+                if (g.Exists && Away(g.X, g.Z) < 40) b.Add(g);
+            }
+        int li0 = Hashing.FloorDiv((int)x0, 23) - 1, li1 = Hashing.FloorDiv((int)x1 - 1, 23) + 1, lj0 = Hashing.FloorDiv((int)z0, 23) - 1, lj1 = Hashing.FloorDiv((int)z1 - 1, 23) + 1;
+        for (int j = lj0; j <= lj1; j++)
+            for (int i = li0; i <= li1; i++)
+            {
+                L47Log l = L47LogCached(i, j);
+                if (!l.Exists) continue;
+                double pad = l.R + 2;
+                if (Math.Max(l.Ax, l.Bx) + pad < x0 || Math.Min(l.Ax, l.Bx) - pad > x1 || Math.Max(l.Az, l.Bz) + pad < z0 || Math.Min(l.Az, l.Bz) - pad > z1) continue;
+                b.Logs.Add(l);
+            }
+        int oi0 = Hashing.FloorDiv((int)x0, 19) - 1, oi1 = Hashing.FloorDiv((int)x1 - 1, 19) + 1, oj0 = Hashing.FloorDiv((int)z0, 19) - 1, oj1 = Hashing.FloorDiv((int)z1 - 1, 19) + 1;
+        for (int j = oj0; j <= oj1; j++)
+            for (int i = oi0; i <= oi1; i++)
+            {
+                L47Boulder o = L47BoulderCached(i, j);
+                if (o.Exists && Away(o.Cx, o.Cz) < Math.Max(o.Rx, o.Rz) * 1.2 + 1.5) b.Boulders.Add(o);
+            }
+        b.Bx = bx;
+        b.Bz = bz;
+        b.Owner = this;
+        return b;
     }
 
     /// <summary>A tree's trunk (hollowed where it is hollow), the roots from its foot, and its limbs.</summary>
@@ -514,39 +648,21 @@ public sealed partial class WorldLayout
                 kinds[rel - lowest] = t.Bark;
             }
         // Roots: three to five crawling out over the ground from the foot of the old ones (a step up)
-        bool inHollow = t.Hollow && L47InHollowsWay(t, px, pz);
-        if (t.R >= 1.2 && !inHollow && lowest <= t.Base + 2 && d2 < (t.R + 16) * (t.R + 16))
-        {
-            int roots = 3 + (int)((t.H >> 60) % 3);
-            for (int k = 0; k < roots; k++)
-            {
-                ulong h = Hashing.Mix(t.H + 17 + (ulong)k);
-                double a = t.Phase / t.Lobes + k * Math.PI * 2 / roots + (Hashing.Unit(h) - 0.5) * 0.7;
-                double len = t.R + (t.Giant ? 9 : 3) + 4 * Hashing.Unit(Hashing.Mix(h));
-                double rr = t.Giant ? 1.4 : 0.75 + 0.2 * Hashing.Unit(h << 7);
-                double bx = t.X + Math.Cos(a) * len, bz = t.Z + Math.Sin(a) * len;
+        if (t.Roots.Length > 0 && lowest <= t.Base + 2 && d2 < t.RootReach * t.RootReach && !(t.Hollow && L47InHollowsWay(t, px, pz)))
+            for (int k = 0; k < t.Roots.Length; k += 3)
                 for (int rel = Math.Max(lowest, t.Base - 1); rel <= Math.Min(top, t.Base + 2); rel++)
                 {
                     if (kinds[rel - lowest] != 0) continue;
-                    if (L47InTube(px, pz, rel, t.X, t.Z, t.Base + 0.7, bx, bz, t.Base + 0.2, 0.3, rr, 0.5)) kinds[rel - lowest] = t.Bark;
+                    if (L47InTube(px, pz, rel, t.X, t.Z, t.Base + 0.7, t.Roots[k], t.Roots[k + 1], t.Base + 0.2, 0.3, t.Roots[k + 2], 0.5)) kinds[rel - lowest] = t.Bark;
                 }
-            }
-        }
         // Limbs: the broadleaves' boughs out into their crowns; the dead trees' bare limbs; the conifers have none to speak of
-        if (t.Conifer || t.R < 0.9) return;
-        int limbs = t.Dead ? 2 + (int)(t.H >> 58 & 1) : 3 + (int)(t.H >> 58 & 1) + (t.R >= 2.4 ? 1 : 0);
-        for (int k = 0; k < limbs; k++)
+        if (top < t.LimbLow) return;
+        for (int k = 0; k < t.Limbs.Length; k += 7)
         {
-            ulong h = Hashing.Mix(t.H + 101 + (ulong)k);
-            double a = Hashing.Unit(h) * Math.PI * 2;
-            double from = t.Dead ? t.Base + 6 + (t.Top - t.Base - 6) * Hashing.Unit(Hashing.Mix(h)) : t.CrownBase - 3 + 6 * Hashing.Unit(Hashing.Mix(h));
-            if (from > t.Top - 1) continue;
-            double len = t.Dead ? 3 + 3 * Hashing.Unit(h << 9) : t.CrownR * (0.55 + 0.3 * Hashing.Unit(h << 9));
-            double rise = t.Dead ? len * 0.8 : len * 0.6;
-            double rr = t.Dead ? 0.55 : 0.6 + 0.15 * t.R;
-            var (lx, lz) = L47Lean(t, (int)from);
-            double ax = t.X + lx, az = t.Z + lz;
-            double bx = ax + Math.Cos(a) * len, bz = az + Math.Sin(a) * len;
+            double ax = t.Limbs[k];
+            if (double.IsNaN(ax)) continue;
+            double az = t.Limbs[k + 1], from = t.Limbs[k + 2], bx = t.Limbs[k + 3], bz = t.Limbs[k + 4], rise = t.Limbs[k + 5], rr = t.Limbs[k + 6];
+            double lx = bx - ax, lz = bz - az, len = Math.Sqrt(lx * lx + lz * lz);
             if ((px - ax) * (px - ax) + (pz - az) * (pz - az) > (len + 2) * (len + 2)) continue;
             int lo = Math.Max(lowest, (int)from - 2), hi = Math.Min(top, (int)(from + rise) + 2);
             for (int rel = lo; rel <= hi; rel++)
@@ -660,42 +776,125 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>The logs, boulders and way-stones in a column.</summary>
-    private void L47GroundThings(int gx, int gz, double px, double pz, int lowest, int top, byte[] kinds)
+    private void L47GroundThings(int gx, int gz, double px, double pz, int lowest, int top, byte[] kinds, L47Bucket near)
     {
         if (lowest > 8) return;
-        int li = Hashing.FloorDiv(gx, 23), lj = Hashing.FloorDiv(gz, 23);
-        for (int dj = -1; dj <= 1; dj++)
-            for (int di = -1; di <= 1; di++)
+        foreach (L47Log log in near.Logs)
+        {
+            double ax = log.Ax, az = log.Az, bx = log.Bx, bz = log.Bz, y = log.Y, r = log.R;
+            bool alongZ = Math.Abs(bz - az) > Math.Abs(bx - ax);
+            byte kind = log.Dead ? (alongZ ? L47LogDeadZ : L47LogDeadX) : (alongZ ? L47LogOakZ : L47LogOakX);
+            for (int rel = Math.Max(lowest, (int)(y - r) - 1); rel <= Math.Min(top, (int)(y + r) + 1); rel++)
             {
-                if (!L47LogAt(li + di, lj + dj, out double ax, out double az, out double bx, out double bz, out double y, out double r, out bool dead)) continue;
-                bool alongZ = Math.Abs(bz - az) > Math.Abs(bx - ax);
-                byte kind = dead ? (alongZ ? L47LogDeadZ : L47LogDeadX) : (alongZ ? L47LogOakZ : L47LogOakX);
-                for (int rel = Math.Max(lowest, (int)(y - r) - 1); rel <= Math.Min(top, (int)(y + r) + 1); rel++)
-                {
-                    if (kinds[rel - lowest] != 0) continue;
-                    if (L47InTube(px, pz, rel, ax, az, y, bx, bz, y, 0, r + 0.15)) kinds[rel - lowest] = kind;
-                }
+                if (kinds[rel - lowest] != 0) continue;
+                if (L47InTube(px, pz, rel, ax, az, y, bx, bz, y, 0, r + 0.15)) kinds[rel - lowest] = kind;
             }
-        int bi = Hashing.FloorDiv(gx, 19), bj = Hashing.FloorDiv(gz, 19);
-        for (int dj = -1; dj <= 1; dj++)
-            for (int di = -1; di <= 1; di++)
+        }
+        foreach (L47Boulder stone in near.Boulders)
+        {
+            double cx = stone.Cx, cz = stone.Cz, rx = stone.Rx, rz = stone.Rz, ry = stone.Ry, cy = stone.Cy;
+            double ux = (px - cx) / rx, uz = (pz - cz) / rz;
+            if (ux * ux + uz * uz > 1.2) continue;
+            for (int rel = Math.Max(lowest, (int)(cy - ry) - 1); rel <= Math.Min(top, (int)(cy + ry) + 1); rel++)
             {
-                if (!L47BoulderAt(bi + di, bj + dj, out double cx, out double cz, out double rx, out double rz, out double ry, out double cy)) continue;
-                double ux = (px - cx) / rx, uz = (pz - cz) / rz;
-                if (ux * ux + uz * uz > 1.2) continue;
-                for (int rel = Math.Max(lowest, (int)(cy - ry) - 1); rel <= Math.Min(top, (int)(cy + ry) + 1); rel++)
-                {
-                    if (kinds[rel - lowest] != 0) continue;
-                    double uy = (rel + 0.5 - cy) / ry;
-                    double rough = 0.25 * (Hashing.Unit(Hashing.Hash(seed, gx * 61 + rel, gz, SaltL47Boulder + 1)) - 0.5);
-                    if (ux * ux + uz * uz + uy * uy < 1 + rough) kinds[rel - lowest] = L47Stone;
-                }
+                if (kinds[rel - lowest] != 0) continue;
+                double uy = (rel + 0.5 - cy) / ry;
+                double rough = 0.25 * (Hashing.Unit(Hashing.Hash(seed, gx * 61 + rel, gz, SaltL47Boulder + 1)) - 0.5);
+                if (ux * ux + uz * uz + uy * uy < 1 + rough) kinds[rel - lowest] = L47Stone;
             }
+        }
         if (L47MarkerHere(gx, gz))
         {
             int g = L47Ground(gx, gz);
             for (int rel = Math.Max(lowest, g + 1); rel <= Math.Min(top, g + 2); rel++) kinds[rel - lowest] = L47TrailStone;
         }
+    }
+
+    // ================= Kept: the things on their lattices, worked out once a thread =================
+
+    /// <summary>A fallen log, or a boulder, as <see cref="L47LogAt"/> and <see cref="L47BoulderAt"/> work them out.</summary>
+    private struct L47Log { public bool Exists, Dead; public double Ax, Az, Bx, Bz, Y, R; }
+    private struct L47Boulder { public bool Exists; public double Cx, Cz, Rx, Rz, Ry, Cy; }
+
+    /// <summary>
+    /// The logs, boulders and green giants already worked out on this thread (each lattice point's thing asked for by every
+    /// column round it: worked out once instead of a few hundred times; dropped when the layout changes or they grow many).
+    /// </summary>
+    private sealed class L47Kept
+    {
+        public WorldLayout Owner;
+        public readonly System.Collections.Generic.Dictionary<(int, int), L47Log> Logs = new();
+        public readonly System.Collections.Generic.Dictionary<(int, int), L47Boulder> Boulders = new();
+        public readonly System.Collections.Generic.Dictionary<(int, int), L47Tree> Giants = new();
+        public readonly System.Collections.Generic.Dictionary<(int, int), L47Tree> Trees = new();
+    }
+
+    [ThreadStatic] private static L47Kept l47Kept;
+
+    private L47Kept L47KeptHere()
+    {
+        var k = l47Kept ??= new L47Kept();
+        if (k.Owner != this || k.Logs.Count + k.Boulders.Count + k.Trees.Count > 32768)
+        {
+            k.Logs.Clear();
+            k.Boulders.Clear();
+            k.Giants.Clear();
+            k.Trees.Clear();
+            k.Owner = this;
+        }
+        return k;
+    }
+
+    private L47Log L47LogCached(int i, int j)
+    {
+        var k = L47KeptHere();
+        if (k.Logs.TryGetValue((i, j), out L47Log l)) return l;
+        l.Exists = L47LogAt(i, j, out l.Ax, out l.Az, out l.Bx, out l.Bz, out l.Y, out l.R, out l.Dead);
+        k.Logs[(i, j)] = l;
+        return l;
+    }
+
+    private L47Boulder L47BoulderCached(int i, int j)
+    {
+        var k = L47KeptHere();
+        if (k.Boulders.TryGetValue((i, j), out L47Boulder b)) return b;
+        b.Exists = L47BoulderAt(i, j, out b.Cx, out b.Cz, out b.Rx, out b.Rz, out b.Ry, out b.Cy);
+        k.Boulders[(i, j)] = b;
+        return b;
+    }
+
+    private L47Tree L47GiantCached(int i, int j)
+    {
+        var k = L47KeptHere();
+        if (k.Giants.TryGetValue((i, j), out L47Tree g)) return g;
+        return k.Giants[(i, j)] = L47GiantAt(i, j);
+    }
+
+    /// <summary>The harness's 47prof: how long the parts of a tile take, over a cell's worth of columns near the glade.</summary>
+    public void L47Profile()
+    {
+        int x0 = L47MidX + 150, z0 = L47MidZ + 90;
+        var kinds = new byte[3];
+        var sw = new System.Diagnostics.Stopwatch();
+        void Time(string name, Action<int, int> f)
+        {
+            sw.Restart();
+            for (int z = 0; z < 64; z++) for (int x = 0; x < 64; x++) f(x0 + x, z0 + z);
+            Console.WriteLine($"{name,-12} {sw.Elapsed.TotalMilliseconds / 4:0.00} ms a cell");
+        }
+        Time("ground", (x, z) => L47Ground(x, z));
+        Time("stream", (x, z) => L47Stream(x, z));
+        Time("trail", (x, z) => L47TrailAt(x, z));
+        Time("marker", (x, z) => L47MarkerHere(x, z));
+        Time("wood3", (x, z) => L47Wood(x, z, L47Ground(x, z) + 1, kinds));
+        Time("hollow", (x, z) => L47InHollow(x, z, 2, out _, out _));
+        Time("anytrunk", (x, z) => L47InAnyTrunk(x, z, 3));
+        Time("tile", (x, z) => L47TileAt(x, z, kinds));
+        Time("window", (x, z) => L47TreesAround(Hashing.FloorDiv(x, L47Pitch), Hashing.FloorDiv(z, L47Pitch)));
+        Time("giants", (x, z) => L47GiantsNear(x, z));
+        Time("bucket", (x, z) => L47BucketAt(x, z));
+        Time("treewood", (x, z) => { var w = L47TreesAround(Hashing.FloorDiv(x, L47Pitch), Hashing.FloorDiv(z, L47Pitch)); for (int n = 0; n < 49; n++) if (w[n].Exists) L47TreeWood(w[n], x + 0.5, z + 0.5, 3, 5, kinds); });
+        Time("crown", (x, z) => { var w = L47TreesAround(Hashing.FloorDiv(x, L47Pitch), Hashing.FloorDiv(z, L47Pitch)); for (int n = 0; n < 49; n++) if (w[n].Exists) L47Crown(w[n], x, z, x + 0.5, z + 0.5, 3, 5, kinds); });
     }
 
     // ================= Cells =================
@@ -778,15 +977,13 @@ public sealed partial class WorldLayout
     private bool L47InAnyTrunk(int gx, int gz, int rel)
     {
         double px = gx + 0.5, pz = gz + 0.5;
-        L47Tree[] around = L47TreesAround(Hashing.FloorDiv(gx, L47Pitch), Hashing.FloorDiv(gz, L47Pitch));
-        for (int dj = -1; dj <= 1; dj++)
-            for (int di = -1; di <= 1; di++)
-            {
-                L47Tree t = around[(dj + 3) * 7 + di + 3];
-                if (t.Exists && L47InTrunk(t, px, pz, rel, out _)) return true;
-            }
-        foreach (L47Tree g in L47GiantsNear(gx, gz))
-            if (L47InTrunk(g, px, pz, rel, out _)) return true;
+        L47Bucket near = L47BucketAt(gx, gz);
+        for (int n = 0; n < near.TreeCount; n++)
+        {
+            ref readonly L47Tree t = ref near.Trees[n];
+            double dx = px - t.X, dz = pz - t.Z, reach = t.R + (t.Giant ? 6 : 3.5) + t.Lean;
+            if (dx * dx + dz * dz < reach * reach && L47InTrunk(t, px, pz, rel, out _)) return true;
+        }
         return false;
     }
 

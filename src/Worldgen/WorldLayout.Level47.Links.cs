@@ -78,20 +78,16 @@ public sealed partial class WorldLayout
         green = still = false;
         double px = gx + 0.5, pz = gz + 0.5;
         int rel = ground + 1;
-        L47Tree[] around = L47TreesAround(Hashing.FloorDiv(gx, L47Pitch), Hashing.FloorDiv(gz, L47Pitch));
-        for (int dj = -1; dj <= 1; dj++)
-            for (int di = -1; di <= 1; di++)
-            {
-                L47Tree t = around[(dj + 3) * 7 + di + 3];
-                if (!t.Exists || !t.Hollow) continue;
-                if (!L47InTrunk(t, px, pz, rel, out double depth) || !L47Hollowed(t, px, pz, rel, ground, depth)) continue;
-                still = !L47HollowLeads(t.X, t.Z);
-                return true;
-            }
-        foreach (L47Tree g in L47GiantsNear(gx, gz))
+        L47Bucket near = L47BucketAt(gx, gz);
+        for (int n = 0; n < near.TreeCount; n++)
         {
-            if (!L47InTrunk(g, px, pz, rel, out double depth) || !L47Hollowed(g, px, pz, rel, ground, depth)) continue;
-            green = true;
+            ref readonly L47Tree t = ref near.Trees[n];
+            if (!t.Hollow) continue;
+            double dx = px - t.X, dz = pz - t.Z, reach = t.R + 6;
+            if (dx * dx + dz * dz > reach * reach) continue;
+            if (!L47InTrunk(t, px, pz, rel, out double depth) || !L47Hollowed(t, px, pz, rel, ground, depth)) continue;
+            if (t.Giant) green = true;
+            else still = !L47HollowLeads(t.X, t.Z);
             return true;
         }
         return false;
