@@ -1,0 +1,150 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"door-edge": "backrooms:block/120/door-edge",
+		"door-gap-office": "backrooms:block/120/door-gap-office",
+		"door-office-lower": "backrooms:block/120/door-office-lower"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#door-office-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#door-office-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#door-office-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#door-office-lower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#door-edge",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#door-edge",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "GapNS",
+			"from": [
+				2,
+				0,
+				-0.05
+			],
+			"to": [
+				14,
+				0.9,
+				16.05
+			],
+			"faces": {
+				"north": {
+					"texture": "#door-gap-office",
+					"uv": [
+						0,
+						0,
+						12,
+						0.9
+					],
+					"glow": 200
+				},
+				"south": {
+					"texture": "#door-gap-office",
+					"uv": [
+						0,
+						0,
+						12,
+						0.9
+					],
+					"glow": 200
+				}
+			}
+		},
+		{
+			"name": "GapWE",
+			"from": [
+				-0.05,
+				0,
+				2
+			],
+			"to": [
+				16.05,
+				0.9,
+				14
+			],
+			"faces": {
+				"east": {
+					"texture": "#door-gap-office",
+					"uv": [
+						0,
+						0,
+						12,
+						0.9
+					],
+					"glow": 200
+				},
+				"west": {
+					"texture": "#door-gap-office",
+					"uv": [
+						0,
+						0,
+						12,
+						0.9
+					],
+					"glow": 200
+				}
+			}
+		}
+	]
+}

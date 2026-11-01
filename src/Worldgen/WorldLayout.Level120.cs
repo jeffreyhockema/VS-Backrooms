@@ -7,8 +7,8 @@ namespace Backrooms.Worldgen;
 /// <summary>
 /// Level 120, "Broken Servos" (experimental): kept as level 26 (<see cref="Level120"/>) and shown as "120". Broken server
 /// rooms in the dark, in a round noclip region far out to the north-east, beyond Level Fun (after Wikidot's Level 120;
-/// the design is docs/design/experimental-levels/120-plan.md). No thresholds in or out: the cheats menu or
-/// <c>/backrooms goto 120</c> only.
+/// the design is docs/design/experimental-levels/120-plan.md). Its ways in and out (a door marked SERVER ROOM in Level 4's
+/// offices; doors back to them in the server rooms and the Pitch-Black Hallways) are WorldLayout.Level120.Links.cs.
 ///
 /// <para><b>The lattice.</b> Passages run straight through the whole region every <see cref="L120Period"/> blocks each
 /// way, four wide (x or z mod 96 in 1-4), dirty yellow walls, a duct along one side and dead lights; one crossing in four
@@ -79,6 +79,8 @@ public sealed partial class WorldLayout
         public int Hx, Hz;
         public L120HallKind Kind;
         public int Rooms, Racks, Lit, Wrecked, Terminals, Windows, Boxes;
+        /// <summary>How many doors back to the offices the hall has (WorldLayout.Level120.Links.cs).</summary>
+        public int Exits;
         /// <summary>Where a whole terminal stands, and the tile in front of it (world blocks).</summary>
         public readonly List<(int X, int Z, int FrontX, int FrontZ)> Boots = new();
         /// <summary>A pocket's arrival tile (world blocks).</summary>
@@ -270,6 +272,8 @@ public sealed partial class WorldLayout
             case L120HallKind.Hallway: L120LayHallway(plan, ref rng); break;
             default: L120LayCluster(plan, ref rng); break;
         }
+        // The doors back to the offices, on their own salt (WorldLayout.Level120.Links.cs)
+        L120PlaceExitDoors(plan);
         return plan;
     }
 

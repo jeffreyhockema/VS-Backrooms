@@ -5,10 +5,11 @@ using Vintagestory.API.Server;
 namespace Backrooms.Thresholds;
 
 /// <summary>
-/// What happens round Level 120, "Broken Servos"'s thresholds in the game (experimental, kept as level 26): it has none in
-/// or out. Its pockets (a booted terminal into a White Void or a Pitch-Black Hallway, a broken window back) are inside the
-/// level and are L120System's; this only lends them the way everyone is carried (the fade, the loading, the arrival).
-/// This file is the level's own.
+/// What happens round Level 120, "Broken Servos"'s thresholds in the game (experimental, kept as level 26). Its ways in and out
+/// are doors, used as any door is (ThresholdNetwork.L120.cs: the door marked SERVER ROOM in Level 4, the doors back); they
+/// need nothing here but the turn on arriving. Its pockets (a booted terminal into a White Void or a Pitch-Black Hallway, a
+/// broken window back) are inside the level and are L120System's; this only lends them the way everyone is carried (the
+/// fade, the loading, the arrival). This file is the level's own.
 /// </summary>
 public partial class ThresholdSystem
 {

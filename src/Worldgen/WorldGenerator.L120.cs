@@ -83,6 +83,8 @@ public sealed partial class WorldGenerator
             l120VoidDoor[0, w] = L120Block($"l120-voiddoor-lower-{ways[w]}");
             l120VoidDoor[1, w] = L120Block($"l120-voiddoor-upper-{ways[w]}");
         }
+        // The ways in and out (WorldGenerator.L120.Links.cs)
+        InitL120Links();
     }
 
     /// <summary>The material of a wall of the level: white in a void, soot black in a hallway, otherwise yellow paper (mostly yellowed, here and there stained, now and then torn off down to the rotting boards, in one of three tears).</summary>
@@ -108,6 +110,8 @@ public sealed partial class WorldGenerator
         {
             // The solid round a pocket's rooms is black, so a broken window looks out on nothing
             if (t.Zone == (byte)Zone.Fill) return l120Black;
+            // A door back to the offices (WorldLayout.Level120.Links.cs)
+            if (t.Kind == TileKind.Door && t.Under == Unders.L120ExitDoor && L120ExitDoorBlock(t, rel) is int exit and >= 0) return exit;
             if (t.Kind == TileKind.Doorway)
             {
                 if (rel == 0) return voidZone ? l120VoidFloor : l120Floor[WorldLayout.L120PanelDirty];

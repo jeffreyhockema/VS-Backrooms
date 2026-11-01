@@ -798,6 +798,149 @@ def blocktypes():
                extra={"resistance": 40}, inventory="l120-window-lower-north")
 
 
+# ======================================================================== The ways in and out (LINKS.md)
+
+GLYPHS = {"S": ["111", "100", "111", "001", "111"], "E": ["111", "100", "110", "100", "111"], "R": ["110", "101", "110", "101", "101"],
+          "V": ["101", "101", "101", "101", "010"], "O": ["111", "101", "101", "101", "111"], "M": ["101", "111", "101", "101", "101"]}
+
+
+def pixel_text(img, word, x0, y0, colour):
+    """A word in the 3 x 5 capitals above, one pixel apart."""
+    px = img.load()
+    for ch in word:
+        for gy, row in enumerate(GLYPHS[ch]):
+            for gx, bit in enumerate(row):
+                if bit == "1":
+                    px[x0 + gx, y0 + gy] = tuple(colour) + (255,)
+        x0 += 4
+
+
+def big_text(img, text, box_, colour, size):
+    """Centred text in a box, drawn large and scaled down (as gen_textures.text_img)."""
+    from PIL import ImageDraw, ImageFont
+    x0, y0, x1, y1 = box_
+    k = 4
+    big = Image.new("RGBA", ((x1 - x0) * k, (y1 - y0) * k), (0, 0, 0, 0))
+    d = ImageDraw.Draw(big)
+    font = ImageFont.load_default(size=size * k)
+    w, h = d.textbbox((0, 0), text, font=font)[2:]
+    d.text(((big.width - w) / 2, (big.height - h) / 2 - k), text, font=font, fill=tuple(colour) + (255,))
+    img.alpha_composite(big.resize((x1 - x0, y1 - y0), Image.LANCZOS), (x0, y0))
+
+
+def door_textures():
+    """The steel door, both faces alike (the block has no facing): grey paint over steel, the frame's edge down both sides,
+    a kick plate, the gap under it (the light strip is its own element); the upper half plain, or with the SERVER ROOM
+    plate at eye height (Level 4's side). 'office' paint is clean, 'dark' (Level 120's side) grimed and scuffed."""
+    for look, paint, grime in (("office", (124, 130, 134), False), ("dark", (96, 100, 102), True)):
+        for part in ("lower", "upper"):
+            img = grain(canvas(paint), 12090 + (part == "upper") + 2 * (look == "dark"), 3, 5)
+            rect(img, 0, 0, 1, S - 1, shade(paint, 0.55))
+            rect(img, S - 2, 0, S - 1, S - 1, shade(paint, 0.55))
+            if part == "upper":
+                rect(img, 0, 0, S - 1, 1, shade(paint, 0.55))
+            else:
+                rect(img, 2, 22, S - 3, 29, (150, 152, 148))
+                for sx in (4, S - 5):
+                    for sy in (23, 28):
+                        rect(img, sx, sy, sx, sy, (96, 98, 96))
+                rect(img, 2, 30, S - 3, S - 1, (10, 10, 12))
+                rect(img, 22, 1, 25, 5, shade(paint, 0.7))  # the lock's escutcheon
+                rect(img, 23, 4, 24, 4, (20, 20, 22))
+                rect(img, 22, 7, 25, 10, shade(paint, 0.62))  # the lever's rose, and the lever
+                rect(img, 13, 8, 23, 9, (178, 180, 176))
+                rect(img, 13, 10, 23, 10, shade(paint, 0.6))
+            if grime:
+                rng = random.Random("door-grime-" + part)
+                px = img.load()
+                for _ in range(36):
+                    x, y = rng.randrange(2, S - 2), rng.randrange(S)
+                    r, g, b, a = px[x, y]
+                    k = rng.uniform(0.8, 0.92)
+                    px[x, y] = (clamp(r * k), clamp(g * k * 0.98), clamp(b * k * 0.95), a)
+                for _ in range(2 if part == "lower" else 1):  # scuffs, as if kicked
+                    x = rng.randrange(4, S - 10)
+                    y = rng.randrange(15, 21) if part == "lower" else rng.randrange(6, 26)
+                    rect(img, x, y, x + rng.randint(2, 4), y, shade(paint, 1.12))
+            if look == "office" and part == "upper":
+                marked = img  # (only ever with its plate)
+            else:
+                save(img, f"door-{look}-{part}")
+    # The plate on Level 4's side: SERVER ROOM in black on an off-white plate, screwed on
+    img = marked
+    rect(img, 2, 8, 29, 23, (60, 60, 58))
+    rect(img, 3, 9, 28, 22, (222, 218, 204))
+    pixel_text(img, "SERVER", 5, 10, (26, 26, 30))
+    pixel_text(img, "ROOM", 9, 16, (26, 26, 30))
+    for sx in (3, 28):
+        rect(img, sx, 9, sx, 9, (120, 120, 116))
+    save(img, "door-office-upper-marked")
+    save(grain(canvas((86, 90, 94)), 12094, 3), "door-edge")
+    # The light in the gap under the door: cold green from the racks behind it, warm office light from beyond it
+    save(canvas((130, 255, 200)), "door-gap-office")
+    save(canvas((255, 232, 186)), "door-gap-dark")
+    # The M.E.G. placard (128 x 96, mapped whole onto the plate), in the style of the levels' own (tools/gen_lore.py)
+    from PIL import ImageDraw
+    plate = Image.new("RGBA", (128, 96), (0x2A, 0x30, 0x30, 255))
+    d = ImageDraw.Draw(plate)
+    d.rectangle([0, 0, 127, 95], outline=(0x8C, 0x94, 0x90))
+    d.rectangle([3, 3, 124, 92], outline=(0x58, 0x5F, 0x5C))
+    d.rectangle([6, 6, 121, 30], fill=(0xA8, 0xA8, 0x3C))
+    big_text(plate, "M.E.G. - LEVEL 120 - CLASS 2", (8, 8, 120, 28), (0x14, 0x10, 0x0C), 7)
+    big_text(plate, "PITCH DARK.", (6, 40, 122, 62), (0xE8, 0xE4, 0xD4), 8)
+    big_text(plate, "DO NOT DIE HERE", (6, 64, 122, 86), (0xE8, 0xE4, 0xD4), 8)
+    for sx, sy in ((10, 86), (117, 86)):
+        d.ellipse([sx - 2, sy - 2, sx + 2, sy + 2], fill=(0x7A, 0x80, 0x7C))
+    os.makedirs(TEX, exist_ok=True)
+    plate.save(os.path.join(TEX, "megplacard-120.png"))
+
+
+def door_shape(look, part):
+    """A steel door filling its block, the same on all four sides (the block has no facing: whichever way its wall runs,
+    the faces out of it are the door, the others are hidden in the wall); on the lower half the strip of light in the gap
+    under it (glowing) on every side. The lever is painted on, beside the lock, so the two agree on every face."""
+    face = f"door-{look}-{part}" + ("-marked" if look == "office" and part == "upper" else "")
+    els = [box("Leaf", (0, 0, 0), (16, 16, 16), {"side": face, "top": "door-edge", "bottom": "door-edge"})]
+    if part == "lower":
+        gap = f"door-gap-{look}"
+        els.append(box("GapNS", (2, 0, -0.05), (14, 0.9, 16.05), gap, faces=("north", "south"), glow=200))
+        els.append(box("GapWE", (-0.05, 0, 2), (16.05, 0.9, 14), gap, faces=("east", "west"), glow=200))
+    return shape(f"l120-door-{look}-{part}", els)
+
+
+def placard_shape():
+    """The M.E.G. placard: a steel plate flush on the wall to the south, its face to the north."""
+    return shape("l120-megplacard", [
+        box("Plate", (0, 4, 15), (16, 16, 16), "megplacard-120", faces=("north",), uv=(0, 0, 16, 16)),
+        box("Back", (0, 4, 15.01), (16, 16, 16), "door-edge", faces=("south", "east", "west", "up", "down")),
+    ])
+
+
+def link_blocktypes():
+    """The SERVER ROOM door (Level 4's side, kind l120-serverroom), the doors back (Level 120's side, kind l120-door), and
+    the placard. The doors are thresholds: nothing to salvage, and not to be broken through."""
+    shapes = {f"l120-door-{look}-{part}": {"base": door_shape(look, part)} for look in ("office", "dark") for part in ("lower", "upper")}
+    full = cuboid((0, 0, 0, 1, 1, 1))
+    data = {"code": "l120-door", "variantgroups": [{"code": "look", "states": ["office", "dark"]}, {"code": "part", "states": ["lower", "upper"]}],
+            "shapeByType": shapes, "creativeinventory": {"general": ["*-lower"], "backrooms": ["*-lower"]},
+            "blockmaterial": "Metal", "drawtype": "json", "collisionbox": full, "selectionbox": full,
+            # (The lower half lets its own light out: the mod's lighting takes a source's absorption off its first step)
+            "lightAbsorptionByType": {"*-lower": 0, "*": 99},
+            "lightHsvByType": {"*-office-lower": [26, 4, 3], "*-dark-lower": [8, 2, 3]},
+            "behaviorsByType": {"*-office-*": [{"name": "BackroomsThreshold", "properties": {"kind": "l120-serverroom"}}],
+                                "*-dark-*": [{"name": "BackroomsThreshold", "properties": {"kind": "l120-door"}}]},
+            "resistance": 99999, "drops": [], "sounds": METAL}
+    write_json(os.path.join(BLOCKS, "l120-door.json"), data,
+               "Level 120's doors (two high, alike on both faces): office, the door marked SERVER ROOM in Level 4's offices, a cold green light "
+               "under it (kind l120-serverroom, into Level 120); dark, a door in a server room's or a hallway's wall in Level 120, a line of "
+               "office light under it (kind l120-door, back to the offices)")
+    sb = {"x1": 0, "y1": 0.25, "z1": 0.94, "x2": 1, "y2": 1, "z2": 1}
+    json_block("l120-megplacard", SIDED, {f"l120-megplacard-{s}": {"base": placard_shape(), "rotateY": ROTATE[s]} for s in SIDES},
+               "An M.E.G. placard beside Level 4's door marked SERVER ROOM: LEVEL 120, CLASS 2, PITCH DARK, DO NOT DIE HERE",
+               {"collisionbox": None, "selectionboxByType": {f"*-{s}": dict(sb, **({"rotateY": ROTATE[s]} if ROTATE[s] else {})) for s in SIDES}},
+               extra={"resistance": 1.5}, inventory="l120-megplacard-north")
+
+
 # ======================================================================== Sound
 
 def serverhum():
@@ -892,7 +1035,9 @@ def main():
     void_textures()
     rack_textures()
     prop_textures()
+    door_textures()
     blocktypes()
+    link_blocktypes()
     misglitch_entity()
     serverhum()
     print("Level 120: textures in", os.path.relpath(TEX, ROOT), "; shapes in", os.path.relpath(SHAPES, ROOT), "; blocktypes in", os.path.relpath(BLOCKS, ROOT))

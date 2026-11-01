@@ -287,3 +287,80 @@ layouthash for 0-20 and the layout hash identical to main's, `regions` 60/60 for
 Still weak: the passages are long bare yellow runs (a cabinet, a bin, a duct; true to "connective tissue" but the
 plainest part of the level); the rig's random arrivals look at fixed headings, so some still show a wall close up (in
 play the arrival now turns you to the open floor).
+
+## Links (2026-10-31)
+
+The ways in and out LINKS.md settles for Level 120, built from Wikidot's Level 120 ("a door labelled 'Server Room' in Level
+4.3"; "doors in server rooms or black hallways back to Level 4.3"), with Level 4 standing in for 4.3. Code:
+`WorldLayout.Level120.Links.cs` (layout, both sides), `WorldGenerator.L120.Links.cs` (blocks), `ThresholdNetwork.L120.cs`
+(the two kinds), `tools/gen_120.py` (`door_textures`, `link_blocktypes`), `tools/mapgen/L120Links.cs` (`120links`).
+
+### Built
+- **In: the door marked SERVER ROOM (Level 4, two-way).** Level 4's office blocks already have server rooms (one room in
+  twenty, an open doorway, a few racks). In one office cell in 150 that has one (`L120ServerDoorChance`, salts 0x2680/0x2681;
+  worked out from the office grid's own hashes, `L120ServerDoorOf`, then checked on the built cell), that room's doorway is a
+  grey steel door marked SERVER ROOM, a cold green light in the gap under it (`l120-door-office-*`, kind `l120-serverroom`,
+  `Unders.L120ServerDoor`); the room behind is sealed as a locked office is. From layout 12 an M.E.G. placard stands on
+  the corridor wall beside it (`l120-megplacard`, `Unders.L120Placard`: "M.E.G. - LEVEL 120 - CLASS 2 / PITCH DARK. / DO NOT
+  DIE HERE"), as the offices' elevators down to Level 3 have theirs; `SurvivalClass(Level120)` is now 2 (Wikidot's Survival
+  Difficulty 2), one line in `WorldLayout.Gates.cs`. Used, it opens on a server room of Level 120 beside one of the
+  level's doors back (`FindArrival` anchored on it), and that door becomes its way back (`ReturnFeature`): it leads to the
+  corridor in front of the SERVER ROOM door, every time.
+- **Out: the doors back (Level 120, one-way).** One cluster in three-odd (`L120ExitClusterChance` 0.3, salt 0x2682) has a
+  steel door in a room's wall (a server room, cable room or rack aisle room: clear floor in front, the wall going on either
+  side, solid behind where it can be), a line of warm office light under it (`l120-door-dark-*`, kind `l120-door`,
+  `Unders.L120ExitDoor`, light 3); every Pitch-Black Hallway has one in the wall of its first or last lane (salt 0x2683).
+  Used, it opens on Level 4 beside a locked office door (`In(4, PlainDoor)`): one-way, as LINKS.md has it. The door that a
+  SERVER ROOM door paired with leads back to that door instead.
+- **Rumours** (notes, handbook): the smashed arcade screen of Level 25, noclipping into Level 70, the Sub-Misglitches.
+- **Text:** arrival lines `l120-serverroom-arrive`, `l120-door-arrive`; the block names; the folded note `r-l120-1` now
+  "Ways in and out" (the door and the doors back confirmed, 25 and 70 not); a seventh common note, `l120-7` "A line of
+  light" (Dez: look low for the light under a door); the handbook page's "Ways in and out" (en.json; see below).
+- **Showcase:** `serverroom-door` (in Level 4, across the corridor from the door nearest spawn, its placard beside it),
+  `door-back` (the nearest door back in a cluster round the centre), `hallway-door` (the nearest hallway's).
+
+### Numbers (seed 12345, full size; `mapgen 12345 16000 120links`)
+- Level 4 is about 15.5 km2 (5.5 km2 of it office blocks): **8 SERVER ROOM doors in the whole of it** (0.52 per km2 of
+  Level 4, 1.46 per km2 of offices), every one built and with its placard; nearest neighbours median 1290 blocks apart
+  (least 598); the nearest to spawn is 2472 blocks off (513092 514242), then 3072, 3492, 3709, 3801.
+- Level 120: 72 of the 257 clusters round the centre (28%) have a door back, 16/16 hallways; from an arrival the nearest
+  door back is a median 77 blocks off in a straight line (most 270).
+- The network (the harness's own `ThresholdNetwork`): the four nearest SERVER ROOM doors each arrive in Level 120 beside a
+  door back that leads home; four doors back used first each land in Level 4 beside a locked office door.
+
+### Inventions (not lore)
+- The look: grey steel, the SERVER ROOM plate, the green light under it (Level 4's side), the warm light under the doors
+  back ("look low"); the placard's wording; the rarity numbers; that the doors back come out beside a locked office door;
+  that the arrival is beside a door back which becomes the way back (the network's own rule for two-way doors).
+
+### For the guide's ways-between-levels table (the lead merges these)
+- Two-way: **Level 4, a grey steel door marked SERVER ROOM on one of the offices' server rooms (very rare; an M.E.G.
+  placard beside it): Level 120, beside a steel door that leads back.**
+- One-way: **Level 120, a steel door in a server room's wall (a line of light under it), or in a Pitch-Black Hallway:
+  Level 4, out of a locked office door.**
+- Rumoured: Level 25's smashed arcade screens (in); noclipping a server room's wall into Level 70 (out).
+
+The handbook page's "Ways in and out" is changed in en.json only (`guide-l120-text`), since `tools/gen_guide.py` is the
+lead's this round; its `PAGES["l120"]` block needs the same paragraph, in its markdown:
+
+```
+**Ways in and out**
+- **In:** the office blocks of Level 4 have server rooms of their own, open doorways onto a few racks. Very rarely (a handful in the whole of Level 4, kilometres apart) one has a grey steel door instead, marked SERVER ROOM, a cold green light in the gap under it and an M.E.G. placard beside it. <hk>rightmouse</hk> it and you are in a server room here, beside a steel door: that door takes you back to the corridor you left, every time.
+- **Out:** now and then a server room has a steel door in its wall, a line of warm light under it: in the dark, look low. Every Pitch-Black Hallway has one too, in its first lane or its last. Each opens on Level 4, and the door behind you there is only an office door, and locked: one way.
+- The reports also speak of the smashed screen of an arcade machine in Level 25 leading in, and of noclipping through a server room's wall into Level 70: neither is known to work.
+```
+
+### Checks
+- `expclash` clean; mod and mapgen 0 errors. `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash (versions 1 and 12): levels 0-20 and
+  the layout hash identical to main's. Without it, no line moves either: layouthash's 24 sample cells of Level 4 hold no
+  SERVER ROOM door (8 in the world); `120links` finds and checks each one on its built cell instead.
+- `regions`: Level 120 60/60; `120stats 3`: OK (0 unreached, 60/60 arrivals).
+- Headless (port 43140, `/backrooms wayback`): the SERVER ROOM door at 513092 514242 leads to Level 120 at 656533 368289,
+  beside the door back (the dump shows `l120-door-dark-*` beside the arrival); that door leads back to the corridor in
+  front of the SERVER ROOM door (the dump shows the door, its placard and the sealed room's racks); a fresh door back
+  and the nearest hallway's door each land in Level 4, one-way. A dummy in Level 120, blocksweep 11167 blocks, 0 threw,
+  0 error lines. Gate `--fast --port-base 43140`: PASS.
+- Shots (`%TEMP%/backrooms-shots/120-links2/`, `--torch`): `serverroom-door` (the grey door marked SERVER ROOM in the office
+  corridor, the green line under it, the placard beside it), `door-back`, `hallway-door`. The first run showed a door in
+  a wall along z as a plain slab (its door faces were north and south only): fixed, the door is on all four sides, the
+  lever painted beside the lock.

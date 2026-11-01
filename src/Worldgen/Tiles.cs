@@ -1052,6 +1052,8 @@ public static class Unders
     /// <summary>Level 31: a wooden door into the rink in a wall of Level 2, 3 or 6 (Pier the way it faces); a lobby's wooden door (the way back; a wall tile of the level's); a tile of a revolving door (Stack 0-2, 1 the drum's middle; Pier into the lobby).</summary>
     public const ushort L31HostDoor = 352, L31LobbyDoor = 353, L31Revolving = 354;
     public const ushort L120First = 384, L120Last = 415;
+    /// <summary>Level 120's ways in and out (experimental-levels/LINKS.md): in Level 4, the door marked SERVER ROOM on one of the offices' server rooms and the M.E.G. placard on the corridor floor beside it (Pier the way it faces); in Level 120, a steel door in a server room's or a Pitch-Black Hallway's wall that leads back to the offices.</summary>
+    public const ushort L120ServerDoor = 384, L120Placard = 385, L120ExitDoor = 386;
     public const ushort L36First = 416, L36Last = 447;
     /// <summary>Level 36's way in from Levels 9 and 11 (LINKS.md): a door in a wall under a sign with an airplane on it (Pier the way it faces, out).</summary>
     public const ushort L36AirportDoor = 416;
