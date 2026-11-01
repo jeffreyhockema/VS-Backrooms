@@ -421,7 +421,7 @@ def panel_tex(seed, stained=False):
 
 def brick_tex(seed):
     # (Round 3: an old sooty brown-grey brick, toned to the level's cold palette; the red stood out from everything)
-    img = M.brick(seed=1300, base=(92, 68, 56), mortar=(84, 82, 76), course=8, length=16, jitter=8, hue=3, pits=0.05,
+    img = M.brick(seed=1300, base=(80, 68, 60), mortar=(78, 78, 72), course=8, length=16, jitter=6, hue=2, pits=0.05,
                   grain=5, mottle=8, tones=seed)
     M.grime(img, 0.32, seed=seed + 1, color=(44, 44, 42), cells=(8, 4, 2), cover=0.6)
     M.grime(img, 0.12, seed=seed + 2, color=(150, 146, 132), cells=(4, 2), cover=0.25)  # efflorescence

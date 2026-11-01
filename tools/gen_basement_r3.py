@@ -246,13 +246,13 @@ def textures():
     # A braided rag rug: rings of faded colours
     rg = Image.new("RGBA", (32, 32), (0, 0, 0, 255))
     pr = rg.load()
-    cols = [(120, 70, 56), (96, 96, 70), (140, 120, 86), (80, 72, 90), (130, 90, 60)]
+    cols = [(104, 74, 60), (92, 90, 72), (118, 104, 82), (82, 76, 80), (110, 86, 64)]  # (faded: round 3's first shots read garish)
     for y in range(32):
         for x in range(32):
             ring = (y // 3 + (1 if (x // 2 + y) % 6 == 0 else 0))  # braided bands, a plait's stagger
             pr[x, y] = cols[ring % len(cols)] + (255,)
     M.grime(rg, 0.3, seed=391, color=(110, 104, 88), cells=(8, 4, 2), cover=0.6)
-    M.hue_jitter(rg, 6, seed=392, cell=2)
+    M.hue_jitter(rg, 3, seed=392, cell=2)
     save(rg, "rug")
     e = M.noise_hv((84, 70, 52), 6, seed=393, mottle=10)
     M.grime(e, 0.3, seed=394, color=(60, 50, 38), cells=(8, 4, 2), cover=0.6)
@@ -332,36 +332,36 @@ def round_body(name, cx, cz, r, y1, y2, tex, front=None):
 
 
 def furnace(part):
-    cx, cz = 8, 9.25
+    """(Round 3, after the first shots: wider, its arms climbing outward to the joists, as an octopus furnace's do.)"""
+    cx, cz = 8, 8.75
     if part == "lower":
-        els = [b("Plinth", (1.5, 0, 2.75), (14.5, 1.5, 15.75), "metaldark")]
-        els += round_body("Body", cx, cz, 6.25, 1.5, 16, "furnace")
-        els += [b("FireDoor", (5, 3.5, 2.6), (11, 9.5, 3.4), "furnacedoor"),
-                b("Latch", (9.5, 6, 2.1), (10.5, 7, 2.6), "brass"),
-                b("AshDoor", (5.5, 1.6, 2.8), (10.5, 2.9, 3.4), "metaldark"),
-                b("Plate", (5.25, 10.75, 2.7), (10.75, 13.5, 3.35), "furnaceplate", uv=(0, 0, 16, 8))]
+        els = [b("Plinth", (0.5, 0, 1.25), (15.5, 1.5, 16), "metaldark")]
+        els += round_body("Body", cx, cz, 7.25, 1.5, 16, "furnace")
+        els += [b("FireDoor", (4.75, 3.5, 1.2), (11.25, 10, 1.9), "furnacedoor"),
+                b("Latch", (9.75, 6.25, 0.7), (10.75, 7.25, 1.2), "brass"),
+                b("AshDoor", (5.5, 1.6, 1.4), (10.5, 3, 1.9), "metaldark"),
+                b("Plate", (5, 11, 1.3), (11, 14, 1.9), "furnaceplate", uv=(0, 0, 16, 8))]
         for k, y in enumerate((1.5, 15)):
-            els.append(b(f"Band{k}", (cx - 6.5, y, cz - 6.5), (cx + 6.5, y + 1, cz + 6.5), "metaldark", rot=(0, 45, 0), origin=(cx, y + 0.5, cz)))
+            els.append(b(f"Band{k}", (cx - 7.5, y, cz - 7.5), (cx + 7.5, y + 1, cz + 7.5), "metaldark", rot=(0, 45, 0), origin=(cx, y + 0.5, cz)))
         return els
     if part == "upper":
-        els = round_body("Body", cx, cz, 6.25, 0, 7, "furnace")
-        els += round_body("Shoulder", cx, cz, 5, 7, 10, "furnace")
-        els += [b("Collar", (5, 10, 6.75), (11, 16, 11.75), "lagging"),
-                b("Gauge", (7, 4, 2.9), (9, 6, 3.4), "brass"),
-                b("Flue", (11.5, 9, 13), (13.5, 16, 15), "metaldark"),
-                b("FlueBoot", (11, 6, 12.5), (14, 9, 15.5), "metaldark")]
-        # The arms leave the shoulder, lagged, rising toward the joists
-        els += [b("ArmW0", (0, 12, 7.75), (5, 15.5, 11.25), "lagging"), b("ArmE0", (11, 12, 7.75), (16, 15.5, 11.25), "lagging"),
-                b("ArmN0", (6.25, 12, 0), (9.75, 15.5, 6.75), "lagging")]
+        els = round_body("Body", cx, cz, 7.25, 0, 6, "furnace")
+        els += round_body("Shoulder", cx, cz, 6, 6, 9, "furnace")
+        els += round_body("Dome", cx, cz, 4.5, 9, 12, "furnace")
+        els += [b("Plenum", (5, 12, 6.25), (11, 16, 11.25), "lagging"),
+                b("Gauge", (7, 3, 1.4), (9, 5, 1.9), "brass"),
+                b("FlueBoot", (11, 7, 13), (14, 10, 16), "metaldark"), b("Flue", (11.5, 10, 13.5), (13.5, 16, 15.5), "metaldark")]
         return els
-    # top: the arms climb the last block into the floor above
-    els = [b("Plenum", (5, 0, 6.75), (11, 5, 11.75), "lagging"),
-           b("ArmW", (0, 0, 7.75), (3.5, 16, 11.25), "lagging"), b("ArmE", (12.5, 0, 7.75), (16, 16, 11.25), "lagging"),
-           b("ArmN", (6.25, 0, 0), (9.75, 16, 3.5), "lagging"), b("ArmBack", (6.25, 3, 12), (9.75, 16, 15.5), "lagging"),
-           b("ArmWElbow", (3.5, 0, 7.75), (5, 3.5, 11.25), "lagging"), b("ArmEElbow", (11, 0, 7.75), (12.5, 3.5, 11.25), "lagging"),
-           b("Flue", (11.5, 0, 13), (13.5, 16, 15), "metaldark")]
-    for k, (x1, z1, x2, z2) in enumerate(((-0.2, 7.55, 3.7, 11.45), (12.3, 7.55, 16.2, 11.45), (6.05, -0.2, 9.95, 3.7))):
-        els.append(b(f"Strap{k}", (x1, 9, z1), (x2, 10, z2), "metaldark"))
+    # top: the arms climb outward from the plenum to the joists in steps, lagged white; one goes straight up at the back
+    els = [b("Plenum", (5, 0, 6.25), (11, 4, 11.25), "lagging"), b("Flue", (11.5, 0, 13.5), (13.5, 16, 15.5), "metaldark"),
+           b("ArmBack", (6.25, 3, 10.5), (9.75, 16, 14), "lagging")]
+    for k in range(4):
+        y = 2 + k * 3.5
+        els += [b(f"ArmW{k}", (2 - k * 3, y, 7), (6 - k * 3, y + 4, 10.5), "lagging"),
+                b(f"ArmE{k}", (10 + k * 3, y, 7), (14 + k * 3, y + 4, 10.5), "lagging"),
+                b(f"ArmN{k}", (6.25, y, 3 - k * 3), (9.75, y + 4, 7 - k * 3), "lagging")]
+    for k, (x1, z1, x2, z2) in enumerate(((-4.2, 6.8, -3.8, 10.7), (19.8, 6.8, 20.2, 10.7), (6.05, -4.2, 9.95, -3.8))):
+        els.append(b(f"Collar{k}", (x1, 12.5, z1), (x2, 16, z2), "metaldark"))
     return els
 
 
@@ -569,10 +569,10 @@ def poollamp():
 
 
 def studs():
-    els = [b("Batt", (0, 0, 5), (16, 16, 11), "insulation")]
+    # (Round 3, after the first shots: narrower studs, the batts nearer the faces so they show between them)
+    els = [b("Batt", (0, 0, 2.5), (16, 16, 13.5), "insulation")]
     for k, x in enumerate((0, 8)):
-        els.append(b(f"Stud{k}", (x, 0, 0), (x + 2, 16, 16), "studs"))
-    els += [b("FaceN", (2, 0, 4.8), (8, 16, 5), "insulation", faces=("north",)), b("FaceS", (10, 0, 11), (16, 16, 11.2), "insulation", faces=("south",))]
+        els.append(b(f"Stud{k}", (x, 0, 0), (x + 1.5, 16, 16), "studs"))
     return els
 
 

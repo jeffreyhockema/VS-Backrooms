@@ -143,11 +143,11 @@ public partial class WorldLayout
                 int bestD = 0, bdx = 0, bdz = 0;
                 foreach (var (dx, dz) in ShowcaseDirs)
                 {
-                    int d = ShowcaseRun(tiles, x, z, dx, dz, 6);
+                    int d = ShowcaseRun(tiles, x, z, dx, dz, 4);
                     while (d > 3 && !ShowcaseStand(tiles, x + dx * d, z + dz * d)) d--;
                     if (d > bestD && ShowcaseStand(tiles, x + dx * d, z + dz * d)) { bestD = d; bdx = dx; bdz = dz; }
                 }
-                if (bestD >= 4) add("crack-room", mx, mz, x + bdx * bestD, z + bdz * bestD, ShowcaseHeading(-bdx, -bdz), 24, null);
+                if (bestD >= 3) add("crack-room", mx, mz, x + bdx * bestD, z + bdz * bestD, ShowcaseHeading(-bdx, -bdz), 32, null);
                 // (Standing in the opening beside the heap, looking up it)
                 foreach (var (dx, dz) in ShowcaseDirs)
                 {
@@ -201,7 +201,18 @@ public partial class WorldLayout
         // Round 3: the rooms by what they are for
         Prop("furnace", t => t.Variant == Props.BasementFurnace, 12);
         Prop("fusebox", t => t.Overhead == Overheads.BasementFuseBox && t.Variant == 0, 6);
-        Prop("laundry", t => t.Variant == Props.Laundry && t.Stack == 0, 6);
+        // (the laundry: a washer with its dryer beside it)
+        for (int z = 1; z < MacroSize - 1; z++)
+            for (int x = 1; x < MacroSize - 1; x++)
+            {
+                Tile t = tiles[TileIndex(x, z)];
+                if (t.Variant != Props.Laundry || t.Stack != 0) continue;
+                var (rx, rz) = BasementRightOf(t.Pier);
+                Tile n = tiles[TileIndex(x + rx, z + rz)];
+                if (n.Variant != Props.Laundry || n.Stack != 1) continue;
+                var (dx, dz) = PierStep(t.Pier);
+                if (ShowcaseFacing(tiles, x, z, dx, dz, 5, 3) is (var sx, var sz, var h)) add("laundry", mx, mz, sx, sz, h, 14, null);
+            }
         Prop("workshop", t => t.Variant == Props.BasementBench && t.Stack == 0, 0);
         Prop("store-shelves", t => t.Variant is Props.BasementShelving or Props.BasementBoxes, 2);
         for (int z = 1; z < MacroSize - 1; z++)

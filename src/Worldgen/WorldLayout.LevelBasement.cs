@@ -701,7 +701,10 @@ public sealed partial class WorldLayout
                     int x = alongX ? i : row, z = alongX ? row : i;
                     if (!Free(x, z) || !SafeToBlock(open, x, z)) continue;
                     ref Tile t = ref b.At(x, z);
-                    t.Variant = kind == BasementRoomKind.Pantry ? Props.PantryShelf : rng.Chance(0.15) ? Props.CardboardBoxes : Props.BasementShelf;
+                    // (Round 3: steel shelving two high, loaded, down most of a store room's aisles)
+                    double r = rng.NextDouble();
+                    t.Variant = kind == BasementRoomKind.Pantry ? (r < 0.6 ? Props.PantryShelf : Props.BasementShelving) : r < 0.12 ? Props.CardboardBoxes : r < 0.3 ? Props.BasementShelf : Props.BasementShelving;
+                    if (t.Variant == Props.BasementShelving) t.Stack = (byte)(kind == BasementRoomKind.Pantry ? 1 : rng.Range(0, 3));
                     bool even = (row - across0) / 3 % 2 == 0;
                     t.Pier = alongX ? (even ? ArchPier.South : ArchPier.North) : (even ? ArchPier.East : ArchPier.West);
                 }
@@ -766,7 +769,7 @@ public sealed partial class WorldLayout
                 case BasementRoomKind.Utility or BasementRoomKind.Boiler:
                     // The house's plant, long dead: a boiler, tanks and gauges, drums, crates gone through long ago
                     if (roll < 0.18) { t.Stack = (byte)rng.Range(1, 2); t.Looted = rng.Chance(0.8); }
-                    else if (roll < 0.32) t.Variant = Props.BasementBoiler;
+                    else if (roll < 0.32) t.Variant = kind == BasementRoomKind.Boiler ? Props.BasementDrum : Props.BasementBoiler;
                     else if (roll < 0.44) t.Variant = Props.BasementDrum;
                     else if (roll < 0.54) { t.Variant = Props.BasementShelving; t.Stack = 3; }
                     else if (roll < 0.62) t.Variant = Props.BasementCabinet;
@@ -846,7 +849,7 @@ public sealed partial class WorldLayout
                     else if (roll < 0.78) t.Variant = Props.WritingDesk;
                     else if (roll < 0.84) t.Variant = Props.HotelBookshelf;
                     else if (roll < 0.89) t.Variant = Props.Suitcase;
-                    else if (roll < 0.94) { t.Variant = Props.Laundry; t.Stack = (byte)rng.Range(0, 1); }
+                    else if (roll < 0.94) { t.Variant = Props.BasementBoxes; t.Stack = (byte)rng.Range(0, 3); }
                     else t.Variant = Props.Wastebasket;
                     break;
             }

@@ -140,7 +140,8 @@ public sealed partial class WorldGenerator
         if (t.Kind == TileKind.Wall)
         {
             if (rel == ceiling) return concreteId;
-            if (rel <= 0) return basementSlimeWallId; // (only ever seen from the water)
+            // (only ever seen from the water; under a stud wall, which can be seen through, the floor)
+            if (rel <= 0) return t.Pattern == WallPattern.BasementStuds ? (rel == 0 ? basementFloorDryId : concreteId) : basementSlimeWallId;
             return t.Pattern switch
             {
                 WallPattern.BasementPillar => pillarId,
