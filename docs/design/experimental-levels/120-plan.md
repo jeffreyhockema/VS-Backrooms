@@ -364,3 +364,71 @@ lead's this round; its `PAGES["l120"]` block needs the same paragraph, in its ma
   corridor, the green line under it, the placard beside it), `door-back`, `hallway-door`. The first run showed a door in
   a wall along z as a plain slab (its door faces were north and south only): fixed, the door is on all four sides, the
   lever painted beside the lock.
+
+## Round 3 (2026-11-01): the detailed visual pass
+
+The user's ask: more detailed visuals, multi-block objects and signs where a real place has them, more realistic
+layouts, still to the lore (Wikidot "Broken Servos" only). Round 2's shots (`final-r2/sheets/120.jpg`): the server rooms,
+terminal rooms and cold aisles read by torchlight; the passages are long plain yellow runs; nothing anywhere has text but
+the BOOT screen (and that reads mirrored, "ƎOOT"); the White Void rooms are the same bare white box every time.
+
+### List
+Tiers: A must, B should, C nice. A real data centre is the model where the lore is silent (marked as invention below).
+
+**1. Layout realism**
+1. [A] Each cluster has a front: its terminal room (the operators' room, NOC) is moved next to a door onto a passage when it has one, so you meet the screens first.
+2. [A] A new room kind, one per cluster where a small room is free: the **UPS / battery room** (UPS cabinets and battery strings in rows, a switchgear panel, warning plates).
+3. [B] Server rooms get **cooling units** (CRAC) standing against the walls at the ends of the aisles, ducting up into the ceiling, as a real hall's perimeter cooling.
+4. [A] Every standing bank of racks gets its **cable tray over it** (the tray runs the bank's length at rel 3), so a row reads as one object with its trays, not loose cabinets.
+5. [B] **Row-end panels**: each bank ends in a blank end cabinet with the row's letter on it.
+6. [B] The wrecked stores become **storage / staging**: steel shelving along the walls with boxed drives, a KVM cart, crates, a mop bucket left in a corner.
+7. [B] Passages are **service corridors**: equipment parked along the walls (a KVM cart, a mop bucket, a UPS cabinet wheeled out, crates, a toppled rack against the wall), fire points by the doors.
+8. [C] Now and then a room's doorway onto the passage has a "SERVER ROOMS" plate and the cluster's letter, so the passages read as a building with halls, not a maze.
+9. [C] The void and hallway arrivals keep facing into their space (already done in round 2: check in the shots).
+
+**2. Multi-block objects**
+10. [A] **UPS cabinet** (two high: status panel with a dead LCD, vent grilles, the warning plate), new block.
+11. [A] **Cooling unit (CRAC)** (two high: grilles, a control panel, a square duct from its top up into the ceiling: three blocks as one object).
+12. [A] **KVM cart** (a trolley with a monitor and keyboard, a cable trailing).
+13. [B] **Battery cabinet** (two high, rows of sealed batteries behind a mesh door) for the UPS room.
+14. [A] **Real holes in the raised floor**: a lifted panel shows the plenum below (pedestals, cable runs), a shallow step down, not a painted panel.
+15. [B] **Floor cable ports** (a grommet with a cable tail) in the server rooms' floors.
+16. [B] **Fallen ceiling tiles** on the floor under a tile broken through (the hole above it).
+17. [B] **Mop bucket** with its mop (a cleaner's forgotten thing).
+18. [B] **Cable bundles down the walls** (floor to ceiling, three blocks) in passages and cable rooms.
+19. [A] Passages: a **second cable tray** along the other side (over the conduit) and **conduit** on the walls under the ceiling.
+20. [C] A **wall of screens** in the terminal room's front wall (big dead monitors side by side; now and then one shows a corrupted frame of a corridor: the brief's nice item).
+
+**3. Signs and text**
+21. [A] The BOOT screen reads mirrored ("ƎOOT"): fix its UV so it reads BOOT_.
+22. [A] **Room plates** beside the doors: SERVER ROOM B (the cluster's letter), TERMINAL ROOM, UPS / BATTERY, CABLE ROOM, STORAGE.
+23. [A] **Passage doors**: a DATA HALL plate with the cluster's letter on one side, AUTHORIZED PERSONNEL ONLY on the other.
+24. [A] **EXIT signs** over the doors onto the passages, inside: dead, one in five still glowing a faint green on its battery (light 2: a little rhythm in the dark).
+25. [A] **The door back** (Level 120's side) gets its plate too: the same plate as the SERVER ROOM door's, reading EXIT / OFFICES, and an EXIT sign over it: the plate at both ends.
+26. [A] **Rack and row labels**: row-end plates with the row letter (25's panels); rack fronts with a numbered asset label.
+27. [A] **Warning plates** on the UPS and battery cabinets (DANGER / HIGH VOLTAGE, UPS 2), the CRAC's unit number.
+28. [B] **A hand-written note** taped on a wall by a door, now and then (DON'T BOOT THEM, WALK ONE WAY, NOT AGAIN...).
+29. [B] **Wayfinding stencils** on passage walls by the crossings (the hall letter).
+30. [B] **Fire points**: an extinguisher on its bracket with the red FIRE EXTINGUISHER sign over it, by the passage doors.
+31. [C] An evacuation plan by some passage doors.
+
+**4. Detail visuals**
+32. [A] Passages dressed (items 7, 18, 19, 29, 30): no long plain stretch.
+33. [B] **Water damage**: a wet stain on the floor under a stained ceiling tile, now and then.
+34. [B] **Skirting**: a dark wooden skirting board along the foot of the yellow walls (their lowest block), rotting where the paper is torn.
+35. [A] **The White Void rooms differ**: one small thing per room by its hash: a crack in a wall, a glitched floor tile, a lone office chair, a single CRT on the floor, one ceiling panel dead, a smudge on a wall, a sheet of paper; some rooms nothing.
+36. [C] Ceiling rhythm in the server rooms: the fittings line up over the aisles rather than on a grid.
+37. [B] The faint green EXIT signs (24) as the passages' only light rhythm: rare and dim, the dark kept.
+
+**5. Lore alignment**
+38. [A] Still "usually pitch-black": every new light is 2 or less and rare (EXIT signs on battery, a corrupted screen).
+39. [B] "Massive blocks of computers ripped apart": the new cabinets come wrecked too (a UPS torn open, a CRAC with its panel off).
+40. [B] The void oddities stay small: the lore's voids are "pure white"; nothing in them a player could take for a feature.
+41. [C] The hand-written notes stay in the level's voice (the six wanderer notes' authors), not new lore.
+
+**6. Released-level alignment**
+42. [A] Every new block has its name in en.json (HUD, pick-block), salvage like the racks' (scrap wire, brackets, glass), sounds.
+43. [A] Showcase spots for every new set piece (UPS room, CRAC, KVM cart, floor hole, a dressed passage, door plates, the door back's plate, a void oddity, the wall of screens), computed from the layout.
+44. [B] The M.E.G. placard convention: Level 4's side has one; Level 120's door back gets its EXIT plate (25), no placard (an exit, as released levels' exits).
+45. [C] The handbook page mentions the plates and the faint EXIT signs as a way to read the dark (en.json only).
+46. [C] Map: nothing new (the map draws the plan's walls and floors; the new props are props).
