@@ -66,7 +66,7 @@ blows); Level 1's heartland 8.6 and approach 23.5; Level 4's approach 21; Level 
   Level 9's streets: an expedition, not a shortcut, and the deep-cache bits are a handful. **9 to 73 and back to 9** is a safe
   restock loop for a Level 9 player (food eaten in place, clean water, sleep): fair for what the run costs.
 - **Verdict.** Keep the class, danger, solitude and roster. **Applied:** the hill Coran keeps (within 140 blocks of the castle's
-  middle, his own leash, which takes in the arrivals) is the Approach band instead of the edge: the director rolls about a
+  middle, his own leash, which takes in 192 of 200 arrivals; the farthest is 159 blocks out) is the Approach band instead of the edge: the director rolls about a
   quarter as many bodies there (208 an hour against 814) and hunters are about a quarter of them instead of nearly half; still
   the busiest approach band in the game (twice Level 9's) at one-blow danger, with Coran in it. Beyond 140 blocks the island
   stays the edge.
@@ -146,7 +146,7 @@ blows); Level 1's heartland 8.6 and approach 23.5; Level 4's approach 21; Level 
   blackouts.
 - **Rates.** At the default solitude (1.0) the dark rolled **95.5 bodies an hour**, nearly 40 % hunters: Level 1's or Level
   188's edge, most of Level 3999's Blackout (122, in a danger-0.8 level whose lore makes its Blackout the dangerous part). Not
-  "rare". **Applied:** solitude 2.5 (measured after: see Verification). Hound 9.1 a blow (1.6 blows unarmoured), Smiler 7.6 (2.0).
+  "rare". **Applied:** solitude 2.5: 36.3 bodies an hour in the dark (61 sounds), between Level 1's approach (23.5) and Level 3999's Blackout (122). Hound 9.1 a blow (1.6 blows unarmoured), Smiler 7.6 (2.0).
   Danger 0.35 sits just under the run floor (0.36): they do not outrun a sprint, which suits a Class 1 level. The walker could not
   test the dark (it stays on the claim hall: its route needs a gate).
 - **The Travel Planner** (the wanderer, site `36`): 25 health, flees, revives; sells Almond Water, crackers, candy, soda (1 rusty
@@ -272,7 +272,7 @@ Single lines or arms in this review's files; each builds, and nothing in Levels 
 
 | # | Change | File | Before | After | Measured | Why |
 |---|---|---|---|---|---|---|
-| A1 | Level 73: the hill Coran keeps is the Approach band | `src/Entities/MenaceSystem.cs` (Level 73's arm of the band switch) | the edge (Threshold) everywhere outside the walls | the Approach within 140 blocks of the castle's middle (`L73IslandX/Z`; Coran's leash; the arrivals lie inside), the edge beyond | the director's rolls there 813 to 208 bodies an hour, hunters about 45 % to 24 % of them; the walker (below) | the user's decision asks for a run "a fast player can make"; at one body every 9 s it was luck. Still the busiest approach band in the game at one-blow danger |
+| A1 | Level 73: the hill Coran keeps is the Approach band | `src/Entities/MenaceSystem.cs` (Level 73's arm of the band switch) | the edge (Threshold) everywhere outside the walls | the Approach within 140 blocks of the castle's middle (`L73IslandX/Z`; Coran's leash; the arrivals lie inside), the edge beyond | the director's rolls there 813 to 208 bodies an hour, hunters about 47 % to 24 % of them; the walker's felt hunts on the hill 289 to 131 an hour (Verification) | the user's decision asks for a run "a fast player can make"; at one body every 9 s it was luck. Still the busiest approach band in the game at one-blow danger |
 | A2 | Level 36: solitude 2.5 | `src/Entities/Roster.cs` (`Solitude`, a new arm) | 1.0 (the default) | 2.5 | the blackouts' rolls 95.5 to 36.3 bodies an hour (sounds 161 to 61) | the lore's "rarely", in a Class 1 level; now between Level 1's approach (23.5) and Level 3999's Blackout (122) |
 | A3 | The Basement: food from blocks x0.5 | `src/Salvage/ScarcitySystem.cs` (`ClassScale`, a new line) | x1 (Class 2) | x0.5 | pantry shelves, iceboxes, boxes and dispensers there give half (the class-scale behaviour every food block carries) | Fandom's "Lack of Needed Resources" and the plan's "no food of the level's own"; its pantries held more than ten sealed boxes each |
 | A4 | Level 31: survival class 0 | `src/Worldgen/WorldLayout.Gates.cs` (`SurvivalClass`, a new arm) | 1 (the default) | 0 | no behaviour: scarcity, kinds at once, placards and the crossing line are the same for 0 and 1 | Wikidot's Survival Difficulty 0; the table now says it |
@@ -306,3 +306,26 @@ Each with the file it lives in and the number; none applied.
   Levels 2 and 3 (the way to its server) and 15's door in Level 3 (Level 3 to 11). Nothing here asks for a change of number.
 
 ## Verification
+
+- `bash tools/locked.sh mod balance`: 0 errors. `python tools/expclash.py`: clean.
+- `BACKROOMS_NO_EXP_ENTRANCES=1 LAYOUT_VERSION=1|12 mapgen 12345 16000 layouthash`: every line for levels 0-20 and the
+  `layout hash` line (26f51e4b3d0326bf at v12) identical to main's saved files; nothing in a layout was changed.
+- `GATE_TAG=balance python tools/gate.py --only scorecard --port-base 43180`: **PASS**, 315 rows, 292 within the spec, 0
+  outside, 23 not measured (felt rates and class scales where a dummy cannot be placed reliably, as before), the eight new rows
+  included. `--fast --port-base 43180`: **PASS** (generators, lang, build, boot on a fresh seed with 0 missing blocks and 0 error
+  lines, harness smoke).
+- `/backrooms ratecheck`, 100 hours each, before and after: Level 36's edge 95.5 to 36.3 bodies an hour (sounds 161 to 61);
+  every other band of the eight unchanged within noise (Level 73's bands are per band: 208 / 813).
+- `tools/aitest/walk.py --level 73 --minutes 25` (ports 43183 before, 43187 after; 25 real minutes, unarmoured, light 7):
+
+  | | Before | After |
+  |---|---|---|
+  | Minutes in the Approach / edge | 0 / 24.5 | 8.7 / 11.3 |
+  | Felt bodies an hour, Approach | (none) | 290 (hunts 131) |
+  | Felt bodies an hour, edge | 510 (hunts 289) | 563 (hunts 329) |
+  | Seconds from an arrival to the first encounter (any kind) | 1, 2, 2, 3, 3, 9, 25, 27 | 1, 2, 2, 5, 7, 19, 24 |
+
+  On the hill a hunt now comes about every 27 s instead of every 12 s (the dummy's 90-block run takes 15-20 s), with glimpses and
+  stalkers still within seconds of arriving: deadly, but a run can be made, and beyond the hill nothing changed. (Headless
+  creatures do not walk, so the walker's deaths are not a measure; Coran is not modelled.) The Level 36 walker stayed on the
+  claim hall (its route needs a gate), so Level 36's change is measured by the rolls only.
