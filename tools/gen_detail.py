@@ -2213,6 +2213,7 @@ if __name__ == "__main__":
     gen_motion.generate()
     import gen_guide
     gen_guide.fill()
+    gen_guide.write_config()
     merge_lang()
     write_decor_table()
     import salvage

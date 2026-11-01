@@ -17,8 +17,11 @@ title, an italic line under it, short sections with a bold heading, plain friend
 blocks named. The vanilla pages are right about how things are made; these pages say where things are, and what is
 different here.
 
-Run on its own (python tools/gen_guide.py) or as part of gen_detail.py; python tools/gen_guide.py --check only looks
-for broken links and writes nothing. Every number here comes from the block types,
+The Levels, Ways Between Levels and What Lives Here learn as the player does: their levels and creatures are tables
+(LEVELS, ENTITIES), shown only once visited or met; see the note above LISTED_LEVELS. Run on its own
+(python tools/gen_guide.py: lang/en.json and config/guide.json) or as part of gen_detail.py; python tools/gen_guide.py
+--check writes nothing, and looks for broken links, tables that disagree and a stale lang file or guide.json.
+Every number here comes from the block types,
 recipes and code; check them when those change (tools/gen_notes.py --check also looks for the recipes the notes quote).
 """
 import json
@@ -141,7 +144,7 @@ Axles, gears and windmill rotors, the churn, the fruit press, lamellar armour an
 You can farm in Level 0: see [Home and Expeditions](backrooms-home). Seed packets turn up on the tool shelves of Level 9's garages and sheds, and now and then in a supply box; seed sacks are in Level 9's sheds and Level 10's barns; wanderers sell flax and cabbage seeds. Level 10's fields stand ripe: spelt, rye, flax and vegetables. The old fields are exhausted, so replant in fresh soil: hoe a lawn in Level 9, 10 or 11, or Level 94's turf. It never rains, so [farm](gamemechanicinfo-farming) within 3 blocks of water, or carry a watering can. Level 10 also has livestock in its paddocks ([husbandry](gamemechanicinfo-animalhusbandry)), bee skeps by the farmhouses, berry bushes, and cattails at the ponds for hand baskets. Do not dig below the soil in Level 10.
 
 **The city**
-Level 11 is reached through a barn wall in Level 10 (or by the Hub's Tunnel 10 door). Stores full of food, tools and clothes, safe streets, and elevators and doors back to almost every level: see [Ways Between Levels](backrooms-thresholds). Beyond it lie the places no ring reaches: see [The Levels: Beyond the Rings](backrooms-farlevels).
+Level 11 is reached through a barn wall in Level 10 (or by the Hub's Tunnel 10 door). Stores full of food, tools and clothes, safe streets, and elevators and doors back to almost every level: see [Ways Between Levels](backrooms-thresholds). Beyond it lie the places no ring reaches: see [The Levels](backrooms-levels).
 """)
 
 PAGES["stability"] = ("Game Mechanic: Reality Stability", """
@@ -377,7 +380,7 @@ Knives and axes are not used up by these, only worn.
 - **Chalk:** rarely above ceiling tiles; lost backpacks.
 - **Rusty gears:** reception desks, mahjong tables, curio cabinets, toy boxes, trash cans, grandfather clocks; supply boxes now and then. They are the wanderers' coin, and what you kill carries a bounty of them.
 - **Temporal gears:** early caches in Levels 1 to 5 give one in about 2 to 4 breaks in a hundred, deep caches under 1; the Level ! prize gives two; Level 3999's prize counter for 200 tickets; wanderers at five sites (not Camp Amber, The End or Level 3999) for 6 rusty gears.
-- **[Plush toys](item-backrooms:l974-plush-cat):** toy boxes (Level 9, about one in three); now and then a suitcase (Level 5) or a lost backpack. A plush is *cute* (see [Kitty's House](backrooms-farlevels)), and so are flowers and seashells.
+- **[Plush toys](item-backrooms:l974-plush-cat):** toy boxes (Level 9, about one in three); now and then a suitcase (Level 5) or a lost backpack. A plush is *cute* (see [Kitty's House](backrooms-level-18)), and so are flowers and seashells.
 - **Furniture for a home (The End):** chairs, tables, ladders and shelves come away whole; reading-room shelves, desks and card catalogues sometimes hold a book (a few are written in). Card catalogues give [catalogue cards](item-backrooms:end-cataloguecard): read one ({rightmouse}) and the nearest way out of The End is marked on your map.
 - **Party hats and red balloons:** Partygoers (Level Fun) drop hats; the ones holding a red balloon drop it. Together they are a disguise (see [What Lives Here](backrooms-entities)).
 - **Level 3999:** the machines that work cannot be broken, but dead cabinets give scrap wire, glass, brackets, a [circuit board](item-backrooms:l3999-circuitboard), [coin mechanisms](item-backrooms:l3999-coinmech), [plastic scrap](item-backrooms:l3999-plastic) and a ticket or two; air hockey tables plastic, brackets, wire and coin mechanisms; bins plastic, paper and tickets; dead neon [neon tubing](item-backrooms:l3999-neontubing) and glass. Plastic scrap burns as fuel. Lost-and-found bins hold clothes, cloth, now and then a backpack. In 3999.1 the prize cases (bandages, Firesalt, seeds, rusty gears, neon lamps, tubing, Almond Water, now and then a pry bar, a backpack or a plush) and ticket piles (3 to 6 tickets) are free for the taking.
@@ -505,60 +508,110 @@ Resting by a fire, or beside a wanderer, keeps the things that live here back (s
 For the things that come, see [What Lives Here](backrooms-entities). For the drain on your stability, see [Reality Stability](gamemechanicinfo-temporalstability).
 """)
 
-PAGES["levels"] = ("The Levels: 0 to 11", """
-**The Levels, from the Lobby to the City**
+# ====================================================================================================================
+# The pages that learn as you do (src/Guide/DiscoveryPages.cs): The Levels, Ways Between Levels and What Lives Here
+# are indexes the handbook fills from what the player has found (the levels they have been to, the things they have
+# met: src/Guide/DiscoverySystem.cs), and every level and creature has a page of its own that is hidden until then.
+# The tables below are the one source: fill() writes their text into lang (guide-level-<id>-*, guide-entity-<code>-*,
+# guide-ways-*, guide-notes-*) and write_config() what the handbook and the server need to know about them into
+# config/guide.json (which levels each creature is in, which entity types are which creature, which levels each way
+# leads out of). docs/GUIDE.md keeps everything, spoilers and all.
+#
+# Level ids are the layout's (WorldLayout: 0 to 11 the rings and the city, 12 Level 37, 13 Level 94, 14 Level !,
+# 15 Level Fun, 16 The End, 17 the Hub, 18 Level 974, 19 Level 3999, 20 Level 188); a sub-level is part of its level's
+# page (6.1 the Snackrooms of 6, 37.1 the Reservoir of 37, 3999.1 the Blackout of 3999).
+# ====================================================================================================================
+
+# The levels always on The Levels' list, by name, before anyone has been there; the rest appear once visited
+LISTED_LEVELS = list(range(0, 12))
+
+# The Levels' own text, above the list
+PAGES["levels"] = ("The Levels", """
+**The Levels**
 *Each lies around the one before, like rings. The walls between them are solid, but for a few gates.*
 
-The levels nest around the place you woke: Level 0 at the centre, Level 1 around it, Level 2 around that, and so on out to Level 10, which goes on forever. No ring is round: a level may end after a few hundred blocks in one direction and go on for several times that in another. Where two levels meet there is a wall with a gate every few hundred blocks (see [Finding the Way](backrooms-finding)), and each level keeps its own look right up to it: the next level only shows in the short passage through a gate. The deeper the level, the more dangerous and the better stocked (see [What Lives Here](backrooms-entities)). Levels 11, 37, 94 and the far places are not rings at all: see [The Levels: Beyond the Rings](backrooms-farlevels).
+The levels nest around the place you woke: Level 0 at the centre, Level 1 around it, Level 2 around that, and so on out to Level 10, which goes on forever. No ring is round: a level may end after a few hundred blocks in one direction and go on for several times that in another. Where two levels meet there is a wall with a gate every few hundred blocks (see [Finding the Way](backrooms-finding)), and each level keeps its own look right up to it: the next level only shows in the short passage through a gate. The deeper the level, the more dangerous and the better stocked (see [What Lives Here](backrooms-entities)). The city, Level 11, is not a ring, and there are places past the rings that no wall leads to.
 
-The distances on this page are for the usual *Backrooms level size*. That world setting (under World generation, when a world is created) makes every ring from half as wide (50%) to twice as wide (200%): only how far you go through each level changes, not its rooms, halls or buildings, and the far places lie where they always do. It is fixed when the world is made.
+The distances on these pages are for the usual *Backrooms level size*. That world setting (under World generation, when a world is created) makes every ring from half as wide (50%) to twice as wide (200%): only how far you go through each level changes, not its rooms, halls or buildings, and the far places lie where they always do. It is fixed when the world is made.
+""")
 
-**Level 0, the Lobby.** Yellow wallpaper, damp carpet, humming lights. Districts of rooms laid like bricks, split into rooms and winding hallways that turn every few dozen steps and open through doorless gaps; there is always more than one way. Supply boxes in the corners of rooms, glass in the ceiling, strips and fibres in the walls and floor. The **blackout zones** are dark, cold (10 °C) and drain you; the **Manila Room** (manila wallpaper, a table and a chandelier) restores you and nothing hostile goes in; the **Red Rooms** (red wallpaper, red lamps) hold untouched boxes and drain you faster than nearly anywhere: be quick. Pits in the floor drop into Level 2. The Lobby is empty but for the dark figures of its outer reaches, which rise out of the mould far out towards the edge (460 to 3,300 blocks out, depending on the direction). Smilers come only into the Red Rooms, and when the lights fail in a Reality Shift.
+INDEX_TEXT = {
+    # The Levels: the heading over the rings, over the far places (once one is visited), and an unvisited level
+    "levels-rings": "**From the Lobby to the City**",
+    "levels-far": "**Beyond the Rings**\n*No wall leads here. You get in by the ways in [Ways Between Levels](backrooms-thresholds), and by no other.*",
+    "levels-unvisited": "not yet visited",
+    # What Lives Here: the heading over the creatures, an unmet one, and the line when there is nothing to list
+    "entities-known": "**What lives where you have been**",
+    "entities-notmet": "not yet met",
+    "entities-none": "*Nothing you know of, yet.*",
+    # Ways Between Levels: the line when no way out of anywhere you have been is known
+    "thresholds-none": "*You know of no ways yet.*",
+    # The last line of each index
+    "footer": "*Pages appear as you meet things and go places.*",
+    # A page reached by a link before its time
+    "entity-unmet": "*You have not met this yet.*",
+    "level-unvisited": "*You have not been there yet.*",
+}
 
-**Level 1, the Habitable Zone.** A concrete car park in grey fog (28 °C), walled into districts with gaps where the aisles run through, and white maintenance halls. Supply crates (food, planks, twine, charcoal), pallets, workbenches, toolboxes, cable spools, loose stones and flint, wrecked cars, wanderers' makeshift camps. The car park is nearly neutral; the corridors drain a little. Stairwells lead to other stairwells. Rats and the odd Faceling in the halls, Hounds, Smilers and Dullers (in the walls) in the dark sections, Clumps and Wretches towards the edge, now and then a Skin-Stealer, and out there the lights of a whole section sometimes fail for a minute or two: a Flickering.
-
-**Level 2, Pipe Dreams.** *The first copper is here.* Hot (38 °C: you go hungry half again as fast), dark tunnels: the three-wide mains run on for miles, now and then jogging aside at a crossing; the narrow ones between them often end. Some carry the rusting rails of a dead tramway. Machine cabinets (copper), drums, trolleys, toolboxes, machine parts. Steel doors in the walls: most locked, some storerooms, a few lead to another level. Drains you everywhere: pass through. Smilers, hairless rats, Clumps buried in the floor, and towards the edges Hounds, Deathmoths and the odd Wretch.
-
-**Level 3, the Electrical Station.** Hot (35 °C) brick, tile and machinery: carry food. Cramped tangles and stooping squeezes, wide galleries, vast transformer halls, and Sanctums of ashlar stone where nothing hostile goes. Cable spools, stacked pipes, industrial fans, coal heaped by the generators (with Firesalt in it), clay in the flooded tunnels below the manholes (which drain you nearly as fast as a Red Room: dig and get out). Drains you. Elevators. Smilers, Hounds, Dullers in the walls, Clumps, Skin-Stealers, Wretches, and Facelings, which here are the Evolved: half-formed faces, and hostile. It is a busy level, far more so than Levels 0, 1 and 4: something turns up on most walks through its galleries.
-
-**Level 4, the Abandoned Office.** Quiet and safe, and it restores you. Furniture for planks and paper, fridges, Almond Water on tap from the fountains and coolers, toolboxes with the odd copper tool, potted plants for soil and pottery shards (a slow clay: see [Salvage](backrooms-salvage)). A few vending machines take you instead of serving you. Elevators and stairwells stand together in building cores, with restrooms. Wanderers' outposts. It is mostly devoid of entities: now and then a Duller reaches through its walls, and the odd Hound wanders by, both seldom.
-
-**Level 5, the Terror Hotel.** Beds (the head end comes away as a real bed), clothes, linen, silver and brass, coal in the boiler halls (42 °C, with scalding sumps underfoot). The lobby is neutral, the corridors wear on you, the boiler halls badly; the Beverly Room is safe and restores you. Elevators; a few of its locked doors open; the staff stairs behind an open STAFF door lead to Level 6, and the grand staircases by a lobby's front desk back up to Level 4. Hounds, Skin-Stealers, Death Rats in the boiler halls, Wretches, moths, and once in a long while, deep in the boiler halls above all, the Beast of Level 5.
-
-**Level 6, Lights Out.** Cold (8 °C), total darkness. Hold the brightest light you have and mark your way with [chalk](item-backrooms:chalk): chalk marks show white on the map. Keep to the long dry corridors; passages wet underfoot end blind. Lost backpacks. Stairs down lead to Level 7: they are few, and the deeper into the level the likelier. Listen for the waves, which grow louder the nearer you come, and look for arrows chalked along the corridors. The stairwell is two wide and goes down through the rock to a landing; walk on and you come out at the foot of the stairs into a room hung over the sea, and those stairs bring you back. (In worlds made before 0.514.0 the stairs are three steps, they are common, and they drop you out of a room in the ceiling into the sea, one way.) Nothing is ever met here, only seen: Smilers, far off in the dark.
+LEVELS = [
+    (0, "Level 0, the Lobby", """
+Yellow wallpaper, damp carpet, humming lights. Districts of rooms laid like bricks, split into rooms and winding hallways that turn every few dozen steps and open through doorless gaps; there is always more than one way. Supply boxes in the corners of rooms, glass in the ceiling, strips and fibres in the walls and floor. The **blackout zones** are dark, cold (10 °C) and drain you; the **Manila Room** (manila wallpaper, a table and a chandelier) restores you and nothing hostile goes in; the **Red Rooms** (red wallpaper, red lamps) hold untouched boxes and drain you faster than nearly anywhere: be quick. Pits in the floor drop into Level 2. The Lobby is empty but for the dark figures of its outer reaches, which rise out of the mould far out towards the edge (460 to 3,300 blocks out, depending on the direction). Smilers come only into the Red Rooms, and when the lights fail in a Reality Shift: then eyes watch even the heart of the Lobby from the dark. A door and a light at home keep them out.
+"""),
+    (1, "Level 1, the Habitable Zone", """
+A concrete car park in grey fog (28 °C), walled into districts with gaps where the aisles run through, and white maintenance halls. Supply crates (food, planks, twine, charcoal), pallets, workbenches, toolboxes, cable spools, loose stones and flint, wrecked cars, wanderers' makeshift camps. The car park is nearly neutral; the corridors drain a little. Stairwells lead to other stairwells. Rats and the odd Faceling in the halls, Hounds, Smilers and Dullers (in the walls) in the dark sections, Clumps and Wretches towards the edge, now and then a Skin-Stealer, and out there the lights of a whole section sometimes fail for a minute or two: a Flickering.
+"""),
+    (2, "Level 2, Pipe Dreams", """
+*The first copper is here.* Hot (38 °C: you go hungry half again as fast), dark tunnels: the three-wide mains run on for miles, now and then jogging aside at a crossing; the narrow ones between them often end. Some carry the rusting rails of a dead tramway. Machine cabinets (copper), drums, trolleys, toolboxes, machine parts. Steel doors in the walls: most locked, some storerooms, a few lead to another level. Drains you everywhere: pass through. Smilers, hairless rats, Clumps buried in the floor, and towards the edges Hounds, Deathmoths and the odd Wretch.
+"""),
+    (3, "Level 3, the Electrical Station", """
+Hot (35 °C) brick, tile and machinery: carry food. Cramped tangles and stooping squeezes, wide galleries, vast transformer halls, and Sanctums of ashlar stone where nothing hostile goes. Cable spools, stacked pipes, industrial fans, coal heaped by the generators (with Firesalt in it), clay in the flooded tunnels below the manholes (which drain you nearly as fast as a Red Room: dig and get out). Drains you. Elevators. Smilers, Hounds, Dullers in the walls, Clumps, Skin-Stealers, Wretches, and Facelings, which here are the Evolved: half-formed faces, and hostile. It is a busy level, far more so than Levels 0, 1 and 4: something turns up on most walks through its galleries.
+"""),
+    (4, "Level 4, the Abandoned Office", """
+Quiet and safe, and it restores you. Furniture for planks and paper, fridges, Almond Water on tap from the fountains and coolers, toolboxes with the odd copper tool, potted plants for soil and pottery shards (a slow clay: see [Salvage](backrooms-salvage)). A few vending machines take you instead of serving you. Elevators and stairwells stand together in building cores, with restrooms. Wanderers' outposts. It is mostly devoid of entities: now and then a Duller reaches through its walls, and the odd Hound wanders by, both seldom.
+"""),
+    (5, "Level 5, the Terror Hotel", """
+Beds (the head end comes away as a real bed), clothes, linen, silver and brass, coal in the boiler halls (42 °C, with scalding sumps underfoot). The lobby is neutral, the corridors wear on you, the boiler halls badly; the Beverly Room is safe and restores you. Elevators; a few of its locked doors open; the staff stairs behind an open STAFF door lead to Level 6, and the grand staircases by a lobby's front desk back up to Level 4. Hounds, Skin-Stealers, Death Rats in the boiler halls, Wretches, moths, and once in a long while, deep in the boiler halls above all, the Beast of Level 5.
+"""),
+    (6, "Level 6, Lights Out", """
+Cold (8 °C), total darkness. Hold the brightest light you have and mark your way with [chalk](item-backrooms:chalk): chalk marks show white on the map. Keep to the long dry corridors; passages wet underfoot end blind. Lost backpacks. Stairs down lead to Level 7: they are few, and the deeper into the level the likelier. Listen for the waves, which grow louder the nearer you come, and look for arrows chalked along the corridors. The stairwell is two wide and goes down through the rock to a landing; walk on and you come out at the foot of the stairs into a room hung over the sea, and those stairs bring you back. (In worlds made before 0.514.0 the stairs are three steps, they are common, and they drop you out of a room in the ceiling into the sea, one way.) Nothing is ever met here, only seen: Smilers, far off in the dark.
 
 **Level 6.1, the Snackrooms.** Sealed food courts, bright and safe, their machines and shelves full and refilling. Some shops are heaped to the ceiling with dead vending machines; only the one in the doorway still works. You cannot walk in, and nearly every door out shuts behind you.
-
-**Level 7, Thalassophobia.** A cold sea (12 °C, 6 °C under water) under a high concrete ceiling, in a dim light that comes from nowhere and is the same at every hour; it fades as you dive, and the midnight zone is dark. Driftwood, fish, seagrass and seaweed in the shallows, a dead reef, islands of dark rock with seashells on their rims, rising in steps from the water (some with an abandoned camp, now and then a shelter of broken furniture stuck together with tar), pillars of the same rock standing up into the ceiling from the islands and out of the sea, jetties, wrecks on the bottom, and a floor of sand (the Backrooms' only sand to speak of, and so the mortar for fire bricks). The surface is neutral; the deeper you dive the darker and the less stable, and something circles divers who stay down too long. Tar can be taken from its pools with a bucket: right-click a pool with an empty one (it scalds anyone standing in it), and rubble and a litre of it, in a barrel, make asphalt.
+"""),
+    (7, "Level 7, Thalassophobia", """
+A cold sea (12 °C, 6 °C under water) under a high concrete ceiling, in a dim light that comes from nowhere and is the same at every hour; it fades as you dive, and the midnight zone is dark. Driftwood, fish, seagrass and seaweed in the shallows, a dead reef, islands of dark rock with seashells on their rims, rising in steps from the water (some with an abandoned camp, now and then a shelter of broken furniture stuck together with tar), pillars of the same rock standing up into the ceiling from the islands and out of the sea, jetties, wrecks on the bottom, and a floor of sand (the Backrooms' only sand to speak of, and so the mortar for fire bricks). The surface is neutral; the deeper you dive the darker and the less stable, and something circles divers who stay down too long. Tar can be taken from its pools with a bucket: right-click a pool with an empty one (it scalds anyone standing in it), and rubble and a litre of it, in a barrel, make asphalt.
 
 **The entry rooms** hang from the ceiling in piers of concrete: a study with a bookcase, a coffee table and a chair, its carpet soaked, the stairs from Level 6 coming down into it, and across from them a doorway onto the sea five blocks above the water. A rope ladder hangs from the doorway into the water: the way back up.
 
 **Air under the sea.** Out over deep water a buoy floats with a rope ladder hanging from it all the way to the bottom. Under it lies a room on the seabed with air still trapped under its roof and its light still on, showing through its windows. Climb down the line, swim in under the room through the low tunnel beside it and come up through the hatch in its floor: you can breathe there before you go back up. Each room has a chest, and the deeper the room the better what is in it: a sea chest in the twilight zone (rope, bandages, candles, copper bits, the odd copper tool), a strongbox in the midnight zone (copper and bronze ingots, silver and gold bits, bronze tools, now and then a temporal gear). The midnight zone is where the Thing circles. (In worlds made from 0.514.0.)
-
-**Level 8, Cave Systems.** Cold (9 °C) real rock, ore, coal and clay, in the dark, with packs of Wretches where the light fails and Giant Spiders waiting in it, and here and there stretches of cave strung with their webs. Stalactites and stalagmites, hanging lichen, bracket fungi on the walls (tinder, and some to eat), glowing mushrooms in some stretches (mostly blood-red; they give nothing but rot), boulders from cave-ins, crystals deep down, and rare colonies of glowworms. Ore runs through the rock in veins and pockets. Dress warmly. Off the road it is a busy level, far more so than Levels 0, 1 and 4: the Wretches and spiders come often, with rats, the odd Duller and Smiler, and Hounds towards the edges. Keep to the lamps of the 9th Road and its camps: the road restores you and the dark off it drains you. The road winds through the rock, forking and joining again, but it does not always run on: now and then a rockfall ends it in a wall of rubble, with a long stretch of solid rock beyond and its lamps stopped short, and the way on lies down through the caves, away from the light. Look for a cave mouth in the road's wall just before the rubble: the passage winds off into the dark and down, past side passages that lead nowhere, and comes up on the far side. Camps are few and far between. Where the road meets another level it runs through the wall. Almond Water seeps from the rock beside the road: use a seep to fill a bottle. The pools of tar scald, but a bucket right-clicked on one takes tar from it (rubble and a litre of it, in a barrel, make asphalt).
-
-**Level 9, the Suburbs.** Endless night. Houses to search (in some, the bedrooms are upstairs; in new worlds the front and back doors open and shut with {rightmouse}, and a locked one gives only to a pry bar): kitchens, pantries, garages with tools and seeds, dressers of clothes, toy boxes. Real trees, tall grass, flowers, berry bushes gone wild, and wildlife by night: hares, foxes and raccoons. The streets drain you. Hounds, rats, Smilers, Wretches and Skin-Stealers, Deathmoths near the edges, the Striders of the Neighborhood Watch walking the streets (they see a light from far off) with the Watcher's floating eye above them, and once in a long while the Mangled. The Suburbs are a busy level, far more so than Levels 0, 1 and 4: something turns up on most walks through the streets.
-
-**Level 10, Bumper Crop.** Farmland under a grey sky, now and then lost in fog for a few minutes, safe and stable. Crops standing ripe, livestock in the paddocks, ponds with cattails, reeds and clay (and a little sand on the bed of a few), bee skeps, a few pines whose trunks bleed resin, barns with a quern and seed sacks, and iron hand pumps in the farmyards that still give a little Almond Water ({rightmouse}; it comes back after a week). The old fields are exhausted: replant in fresh soil. A metre under the soil is a mass of worms: do not dig down. Nothing hostile lives here: the worms underfoot are its only danger.
-
-**Level 11, the Endless City.** Not a ring: far out past the fields, reached through a barn wall. Safe on the streets (bar a rat or two in the alleys), and they restore you; the subway drains, and Dullers and Wretches live in it. Stores full of food, tools and clothes, diners, a subway, Almond Water everywhere, wanderers, and ways to almost every level: see [Ways Between Levels](backrooms-thresholds). On the streets nothing attacks unless you start it.
-""")
-
-PAGES["farlevels"] = ("The Levels: Beyond the Rings", """
-**The Levels Beyond the Rings**
-*No wall leads here. You get in by the ways in [Ways Between Levels](backrooms-thresholds), and by no other.*
-
-**Level 37, Sublimity (the Poolrooms).** White tile and warm, still water, rooms and pools that make no sense, light falling through slits from somewhere you never see, and corners left in the dark. Nothing lives here; no one has ever met anyone. Standing in lit water heals you, steadies you and counts as rest, so it is the place to recover between expeditions. But there is no food at all, the dark corners drain you, and the deep water is where people drown: stair pits go down further than you can see, and some passages are a swim under a wall. Crusts of [Epsom salt](item-backrooms:epsomsalt) dry on the rims in the dark.
+"""),
+    (8, "Level 8, Cave Systems", """
+Cold (9 °C) real rock, ore, coal and clay, in the dark, with packs of Wretches where the light fails and Giant Spiders waiting in it, and here and there stretches of cave strung with their webs. Stalactites and stalagmites, hanging lichen, bracket fungi on the walls (tinder, and some to eat), glowing mushrooms in some stretches (mostly blood-red; they give nothing but rot), boulders from cave-ins, crystals deep down, and rare colonies of glowworms. Ore runs through the rock in veins and pockets. Dress warmly. Off the road it is a busy level, far more so than Levels 0, 1 and 4: the Wretches and spiders come often, with rats, the odd Duller and Smiler, and Hounds towards the edges. Keep to the lamps of the 9th Road and its camps: the road restores you and the dark off it drains you. The road winds through the rock, forking and joining again, but it does not always run on: now and then a rockfall ends it in a wall of rubble, with a long stretch of solid rock beyond and its lamps stopped short, and the way on lies down through the caves, away from the light. Look for a cave mouth in the road's wall just before the rubble: the passage winds off into the dark and down, past side passages that lead nowhere, and comes up on the far side. Camps are few and far between. Where the road meets another level it runs through the wall. Almond Water seeps from the rock beside the road: use a seep to fill a bottle. The pools of tar scald, but a bucket right-clicked on one takes tar from it (rubble and a litre of it, in a barrel, make asphalt).
+"""),
+    (9, "Level 9, the Suburbs", """
+Endless night. Houses to search (in some, the bedrooms are upstairs; in new worlds the front and back doors open and shut with {rightmouse}, and a locked one gives only to a pry bar): kitchens, pantries, garages with tools and seeds, dressers of clothes, toy boxes. Real trees, tall grass, flowers, berry bushes gone wild, and wildlife by night: hares, foxes and raccoons. The streets drain you. Hounds, rats, Smilers, Wretches and Skin-Stealers, Deathmoths near the edges, the Striders of the Neighborhood Watch walking the streets (they see a light from far off) with the Watcher's floating eye above them, and once in a long while the Mangled. The Suburbs are a busy level, far more so than Levels 0, 1 and 4: something turns up on most walks through the streets.
+"""),
+    (10, "Level 10, Bumper Crop", """
+Farmland under a grey sky, now and then lost in fog for a few minutes, safe and stable. Crops standing ripe, livestock in the paddocks, ponds with cattails, reeds and clay (and a little sand on the bed of a few), bee skeps, a few pines whose trunks bleed resin, barns with a quern and seed sacks, and iron hand pumps in the farmyards that still give a little Almond Water ({rightmouse}; it comes back after a week). The old fields are exhausted: replant in fresh soil. A metre under the soil is a mass of worms: do not dig down. Nothing hostile lives here: the worms underfoot are its only danger.
+"""),
+    (11, "Level 11, the Endless City", """
+Not a ring: far out past the fields, reached through a barn wall. Safe on the streets (bar a rat or two in the alleys), and they restore you; the subway drains, and Dullers and Wretches live in it. Stores full of food, tools and clothes, diners, a subway, Almond Water everywhere, wanderers, and ways to almost every level: see [Ways Between Levels](backrooms-thresholds). On the streets nothing attacks unless you start it.
+"""),
+    (12, "Level 37, Sublimity (the Poolrooms)", """
+White tile and warm, still water, rooms and pools that make no sense, light falling through slits from somewhere you never see, and corners left in the dark. Nothing lives here; no one has ever met anyone. Standing in lit water heals you, steadies you and counts as rest, so it is the place to recover between expeditions. But there is no food at all, the dark corners drain you, and the deep water is where people drown: stair pits go down further than you can see, and some passages are a swim under a wall. Crusts of [Epsom salt](item-backrooms:epsomsalt) dry on the rims in the dark.
 
 **Level 37.1, the Sanguine Reservoir.** Far out in the Poolrooms, the light thins, the water turns thick and slow and red, and red sprouts on the pool floors are all the light there is. A distant chanting draws people in, louder the nearer you come. Stability drains fast. What the drowned left lies on the bottom, untouched; and the red water heals everything, at a price.
-
-**Level 94, Motion.** You fall into it out of the sky, and land softly. A stop-motion picture of the 1950s: round green hills, a two-storey cream house on each, winding roads behind white picket fences, small towns round fountains of Almond Water, siren poles playing the same tune all day. Food in plenty, and the ground is clay: dig the turf for soil, the red modelling clay under it for clay (blue clay a little way down), and three to seven blocks down, over much of the hills, pale seams of **fire clay**, the only fire clay in the Backrooms and the key to iron and steel. **By night the Animations come out** (with the odd Hound, Skin-Stealer and Smiler), and hunt anything that does not look animated: be indoors by dusk (when the tune slows and goes flat, from half past five, it is nearly time; they are out from eight until half past five in the morning), or stand quite still and be taken for a doll. Towards the middle the houses come apart, room by room, into heaps of furniture; follow the strangeness (or the white castle on the horizon, which glows a little after dusk) and you reach the glass mountain and the King's castle, which drains you.
-
-**Level !, Run For Your Life!** You are taken there, and the door slams behind you. A hospital room in red light, an alarm, something hammering at a chained door (it holds for twelve seconds, or four once you are in the hall). Take what is in the bedside table and the cabinet (Almond Water, [Energy Bars](item-backrooms:run-energybar), a bandage) and go: the way out is **the door under the lit EXIT sign**, and it sticks (pull it three times). Then **run, and don't stop**: about a minute and a quarter at a sprint, some 480 blocks of hall lit only by EXIT signs (600 in worlds made before 0.514.0). Swerve round beds and chairs, jump fallen shelving, mind the doors that fly open and the signs that burst into flame, and jump the junk on the floor (toys, boxes, tangled cords, fallen ceiling): sprint over it on the ground and you trip. The horde behind you runs at four fifths of your sprint, a little slower just after it bursts out: it falls back while you run and catches you the moment you stop, and **being caught is death**. **Telling the exits apart:** a false exit has a turn in the hall beside it, its EXIT sign is darker with the X burnt out, and the gap under its door is dark. The real exit is at a dead end with no turn either side, under a bright EXIT sign, with a faint light in the gap under the door; it leads to Level 1, Level 4 or The End. Escape once and the Backrooms never send you there again; a present waits by the door you come out of, once, ever: 25 rusty gears and 2 temporal gears. A blue stretch of hall is the Safe Zone: nothing comes in, not into the hall nor its side rooms, so rest and eat, but go when the walls shudder (after about two hours; at three the horde comes in).
-
-**Level Fun =).** Endless party rooms on a ship that cannot be this big: balloons, streamers, cake on every table, a tinny "Happy Birthday" somewhere through the walls. A room with a **balloon arch** over its door and **music** playing has guests: tall yellow **Partygoers** with a smile carved into the face (see [What Lives Here](backrooms-entities)). Their tables are the best larder in the Backrooms. Dark service corridors hold balloons tied to nothing: don't touch them. **Anything marked =) is a lie**, wanderers' notes included. It drains you everywhere, and the open decks are cold (11 °C). You arrive in an elevator lobby; the ways home are rare: stairs into the ceiling (Level 1), wooden doors marked FUN (the hotel), a waiting room's door (the city).
-
-**The End.** A library that goes on forever, and the cruellest trap in the Backrooms: it looks like the way out. Empty maple shelving under fluorescent lights, and in the middle a curved desk under bronze letters: THE END.
+"""),
+    (13, "Level 94, Motion", """
+You fall into it out of the sky, and land softly. A stop-motion picture of the 1950s: round green hills, a two-storey cream house on each, winding roads behind white picket fences, small towns round fountains of Almond Water, siren poles playing the same tune all day. Food in plenty, and the ground is clay: dig the turf for soil, the red modelling clay under it for clay (blue clay a little way down), and three to seven blocks down, over much of the hills, pale seams of **fire clay**, the only fire clay in the Backrooms and the key to iron and steel. **By night the Animations come out** (with the odd Hound, Skin-Stealer and Smiler), and hunt anything that does not look animated: be indoors by dusk (when the tune slows and goes flat, from half past five, it is nearly time; they are out from eight until half past five in the morning), or stand quite still and be taken for a doll. Towards the middle the houses come apart, room by room, into heaps of furniture; follow the strangeness (or the white castle on the horizon, which glows a little after dusk) and you reach the glass mountain and the King's castle, which drains you.
+"""),
+    (14, "Level !, Run For Your Life!", """
+You are taken there, and the door slams behind you. A hospital room in red light, an alarm, something hammering at a chained door (it holds for twelve seconds, or four once you are in the hall). Take what is in the bedside table and the cabinet (Almond Water, [Energy Bars](item-backrooms:run-energybar), a bandage) and go: the way out is **the door under the lit EXIT sign**, and it sticks (pull it three times). Then **run, and don't stop**: about a minute and a quarter at a sprint, some 480 blocks of hall lit only by EXIT signs (600 in worlds made before 0.514.0). Swerve round beds and chairs, jump fallen shelving, mind the doors that fly open and the signs that burst into flame, and jump the junk on the floor (toys, boxes, tangled cords, fallen ceiling): sprint over it on the ground and you trip. The horde behind you runs at four fifths of your sprint, a little slower just after it bursts out: it falls back while you run and catches you the moment you stop, and **being caught is death**. **Telling the exits apart:** a false exit has a turn in the hall beside it, its EXIT sign is darker with the X burnt out, and the gap under its door is dark. The real exit is at a dead end with no turn either side, under a bright EXIT sign, with a faint light in the gap under the door; it leads to Level 1, Level 4 or The End. Escape once and the Backrooms never send you there again; a present waits by the door you come out of, once, ever: 25 rusty gears and 2 temporal gears. A blue stretch of hall is the Safe Zone: nothing comes in, not into the hall nor its side rooms, so rest and eat, but go when the walls shudder (after about two hours; at three the horde comes in).
+"""),
+    (15, "Level Fun =)", """
+Endless party rooms on a ship that cannot be this big: balloons, streamers, cake on every table, a tinny "Happy Birthday" somewhere through the walls. A room with a **balloon arch** over its door and **music** playing has guests: tall yellow **Partygoers** with a smile carved into the face (see [What Lives Here](backrooms-entities)). Their tables are the best larder in the Backrooms. Dark service corridors hold balloons tied to nothing: don't touch them. **Anything marked =) is a lie**, wanderers' notes included. It drains you everywhere, and the open decks are cold (11 °C). You arrive in an elevator lobby; the ways home are rare: stairs into the ceiling (Level 1), wooden doors marked FUN (the hotel), a waiting room's door (the city).
+"""),
+    (16, "The End", """
+A library that goes on forever, and the cruellest trap in the Backrooms: it looks like the way out. Empty maple shelving under fluorescent lights, and in the middle a curved desk under bronze letters: THE END.
 - **Doors marked EXIT** stand in the stockrooms and at the corners of the central hall. Two in three never open. The rest always lead to the same place: Level 1, the Hub, the city, the Office or the Hotel, and back again.
 - **Fake realities:** out in the library, places you know (the Lobby, an office, a hotel corridor, a house, a snowfield) that the shelves blend into. Some have a real door in their middle.
 - **A vent** at the top of a ladder in some stockrooms drops you into Level 94.
@@ -566,8 +619,9 @@ PAGES["farlevels"] = ("The Levels: Beyond the Rings", """
 - **The longer you stay, the less sure of yourself you are:** after two in-game hours inside, stability drains a little more each minute. It is kindest in the middle; outward it drains, and the collapses and fake realities drain badly.
 - **Distortions:** now and then the floor shakes and for a few seconds you are somewhere else. Walk into a wall or a shelf then, and you will be (the snowfield leads nowhere). And the lights go out for a minute or two: carry a light.
 - No food (see [Food and Water](backrooms-food)), but furniture, ladders and books for a home. In the Home fake realities live the Junkies, who trade only with someone carrying Memory Juice.
-
-**The Hub.** A hidden crossroads of road tunnels under orange lamps, silent and cold (14 °C at the centre, 6 °C in the tunnels, 2 °C far out). Ten numbered tunnels run out from a tower at its centre, and both walls are lined with great concrete doors, a crop circle carved over each. Every door leads to a level, and almost all are locked.
+"""),
+    (17, "The Hub", """
+A hidden crossroads of road tunnels under orange lamps, silent and cold (14 °C at the centre, 6 °C in the tunnels, 2 °C far out). Ten numbered tunnels run out from a tower at its centre, and both walls are lined with great concrete doors, a crop circle carved over each. Every door leads to a level, and almost all are locked.
 - **Safe:** nothing hostile follows you in, it restores you, and resting here counts. But there is nothing to eat: bring food and clothes.
 - **Open doors:** three are always open, each one way: Level 1 in Tunnel 7, Level 11 in Tunnel 10, the Snackrooms ("178") in Tunnel 5. The M.E.G. marked them, and their outpost by the Level 11 door has a register ({rightmouse}) that marks them on your map, and a wanderer who sells Level Keys. A second camp keeps the Level 1 door.
 - **Level Keys:** any other door needs its level's key (see [Salvage](backrooms-salvage)). Hold a key in your hand in the Hub and listen: it rings from the way its door lies, and close by the door goes on your map. Use the door with the key: three turns, the key is gone, and there is no way back through.
@@ -576,27 +630,36 @@ PAGES["farlevels"] = ("The Levels: Beyond the Rings", """
 - **The way back** is the plain grey door you came in by.
 - **The Far Tunnels:** past the third ring road the lamps die out and the place stops restoring you. Out there are a wall that isn't there (Level 4), holes in the road (Level 94), and tunnels where the concrete turns to white tile (Level 37).
 - **The Tower:** ten ornate doors at the inner ends of the tunnels. You are let in once. Its keeper wants you gone, and will give you one key to make sure of it. Break nothing inside, and mind the balcony: fall from it and you are thrown out into the tunnels.
-
-**Level 974, Kitty's House.** Not a place you can walk to. Cross into any level with something cute on you (a plush, a flower, a seashell) and, once in a while, you are taken here instead, more often if you hold it in your hand. A small pink house with no door to the outside: its windows are paintings. To leave, hold out the cute thing you brought and call, "Here Kitty, Kitty, Kitty!" (right-click the tall shape with it in hand): Kitty takes it, you grow sleepy, and you wake somewhere safe. Nothing hostile comes: lights, water from every tap, a bed you can sleep in, a fridge and a pantry that fill again, and an old computer whose e-mail explains the rest. **Kitty** lives here: very tall, faceless, black as cloth, and it will never hurt you. It watches.
+"""),
+    (18, "Level 974, Kitty's House", """
+Not a place you can walk to. Cross into any level with something cute on you (a plush, a flower, a seashell) and, once in a while, you are taken here instead, more often if you hold it in your hand. A small pink house with no door to the outside: its windows are paintings. To leave, hold out the cute thing you brought and call, "Here Kitty, Kitty, Kitty!" (right-click the tall shape with it in hand): Kitty takes it, you grow sleepy, and you wake somewhere safe. Nothing hostile comes: lights, water from every tap, a bed you can sleep in, a fridge and a pantry that fill again, and an old computer whose e-mail explains the rest. **Kitty** lives here: very tall, faceless, black as cloth, and it will never hurt you. It watches.
 - **Be a good guest.** Break anything in the house, or strike Kitty, and the lights go out, the food is gone, your stability takes a blow, and Kitty will not see you for a day.
 - **Don't stay long.** After 18 hours the pink starts to wear on you (and more so at 36 and 60); after a day half the food is sweets, after two days all of it.
 - **To leave**, hold the cute thing you brought (not what you found here), sneak and {rightmouse} to call ("Here Kitty, Kitty, Kitty!"), then {rightmouse} Kitty when it holds out its arm. You fall asleep and wake somewhere safe (Level 4, 37 or the Snackrooms), the same place every time for your house, and for three minutes nothing comes near. Lost what you brought? After a day Kitty takes anything cute, but you wake where you last slept.
 - The house is yours: what you leave in it is there next time.
-
-**Level 3999, the Neon Paradise.** An arcade the size of a city: carpet that glows under black light, neon on every wall, music from nowhere. Concourses eighteen blocks high with galleries along both sides and **moving walkways** that carry you; game rooms and halls, food courts, bowling lanes, lobbies with a revolving door, pools of warm violet water. Warm (24 °C; the pools 34 °C) and **safe**: nothing hostile comes where the neon is lit, and the gear turns forward, most in the lobbies. Standing in a pool heals you slowly. Faceless **Arcade Attendants** keep the counters; a **mall directory** ({rightmouse}) marks the nearest food court and lobby on your map. More wanderers camp here than anywhere (one lobby in four).
+"""),
+    (19, "Level 3999, the Neon Paradise", """
+An arcade the size of a city: carpet that glows under black light, neon on every wall, music from nowhere. Concourses eighteen blocks high with galleries along both sides and **moving walkways** that carry you; game rooms and halls, food courts, bowling lanes, lobbies with a revolving door, pools of warm violet water. Warm (24 °C; the pools 34 °C) and **safe**: nothing hostile comes where the neon is lit, and the gear turns forward, most in the lobbies. Standing in a pool heals you slowly. Faceless **Arcade Attendants** keep the counters; a **mall directory** ({rightmouse}) marks the nearest food court and lobby on your map. More wanderers camp here than anywhere (one lobby in four).
 - **Machines:** hold {rightmouse} on one to play it out. Each pays you tickets once a day (little cabinets 0 to 3, pinball 0 to 4, racers, dance pads and skee-ball 1 to 5, now and then a jackpot of 12; the claw drops a plush one go in four, nothing otherwise), and no more than **40 tickets a day** from all of them together.
 - **Prize counters** take the dearest tier the tickets in your hand can pay (5, 15, 40 or 200: see [Salvage](backrooms-salvage)); **food stalls** sell a tray meal for 6; **vending machines** take one Almond Water for a snack or a drink.
 - **The machines, counters, doors and windows cannot be broken.** Dead machines, bins and dead neon can (see [Salvage](backrooms-salvage)).
 - **Ways in and out:** a lone arcade at the end of a line of five red-lit windmills in Level 10, a purple-flickering alley wall in the city, a computer in The End, magenta tiles under the far Poolrooms' deep water, and the Hub's door marked 3999 lead in; STAFF ONLY doors (one in six opens, onto the Hub), the mini arcade's elevator (Level 0), the themed cabinets (played to the end, one way to the level on the marquee) and the pools' drains (Level 37) lead out.
 - **Level 3999.1, the Neon Blackout:** far out, whole blocks of the mall have gone dark behind a stretch of failing neon. Cold (14 °C), it drains you fast, and Smilers, Hound packs and Partygoers hunt there. Its prize cases and ticket piles are free for the taking. A rusted cabinet in a row of machines is not solid: walk into it and you are in the dark.
-
-**Level 188, the Courtyard of Windows.** A dark courtyard of mossy lawns and a round wooden deck, walled in by a five-storey hotel with 160 small square windows, under a black sky. You come in through a window and climb down into the courtyard. **The window you came in by still shows where you came from, and leads back.** Other windows on the ground floor show other places, and lead there. Inside, grey corridors run round the courtyard past unnumbered rooms; the stairs are in the north-west corner, the lifts are dead and the lobby's front door is locked. The building cannot be broken.
+"""),
+    (20, "Level 188, the Courtyard of Windows", """
+A dark courtyard of mossy lawns and a round wooden deck, walled in by a five-storey hotel with 160 small square windows, under a black sky. You come in through a window and climb down into the courtyard. **The window you came in by still shows where you came from, and leads back.** Other windows on the ground floor show other places, and lead there. Inside, grey corridors run round the courtyard past unnumbered rooms; the stairs are in the north-west corner, the lifts are dead and the lobby's front door is locked. The building cannot be broken.
 - **Never open a blind from inside a room:** whoever does is taken, one way, always to the same place for that window; the window then shows it, and the room's door stays shut for three days.
 - **If someone is standing in a lit window, waving, count which room it is and stay out.** Within two blocks an arm comes out of the glass, and six seconds at the glass is death (see [What Lives Here](backrooms-entities)). They move to other windows every night.
 - The rooms are warm (21 °C) and steady you a little: shut a room's door behind you and nothing comes in, unless someone was waving in its window. The courtyard is cold (8 °C) and drains you, the roof more.
 - Clothes, cloth, beds and a little food (see [Salvage](backrooms-salvage)). A fire exit on each upper floor leads out, each somewhere different, and the iron ring in the deck opens onto a long fall into the water of Level 37.
-""")
+"""),
+]
 
+# Ways Between Levels. The text down to the first gated section is always shown; after it, a bold line starts a
+# section, and a bullet "- @a,b ..." is shown only to someone who has been to level a or b (the levels the way leads
+# out of: for a two-way way, where it is found); a bullet with no @ is always shown, and a section with nothing to
+# show is left out, heading and all. A way into a level you have not been to, out of one you have, is shown: that is
+# how you learn where a door goes.
 PAGES["thresholds"] = ("Ways Between Levels", """
 **Ways Between Levels**
 *The rings are only how the place is built. The doors are the real map.*
@@ -609,115 +672,118 @@ PAGES["thresholds"] = ("Ways Between Levels", """
 An elevator arrives beside another elevator, a stairwell beside a stairwell, a door beside a locked door, a vent beside a vent grille: that one is now your way back, and where the level has none to spare, one is built into a wall beside you. Only when there is no room for that, a **thin spot** is left where you arrived: a pale, wavering seam in the air that hums. {rightmouse} it to step back through. It stays for good.
 
 **Two-way**
-- Elevators (Levels 3, 4, 5): to another elevator in Levels 3 to 5; from the hotel, sometimes Level 1. Everyone in the car rides along.
-- Level 1 stairwells, up or down a flight: another stairwell in Level 1. From the top floors about one flight in twenty-five climbs into Level 4, and one flight in sixteen down from the bottom floor comes out in Level 2's pipe tunnels.
-- Level 4 stairwells: another Level 4 stairwell; one flight down in five comes out in Level 0.
-- Level 5 doors: most are locked for good. A few open (about one in sixteen), onto the hotel, Level 3 or Level 0.
-- Level 5 staff stairs (an open door under a STAFF sign): Level 6.
-- Level 5 grand staircases, either side of the front desk at the end of a lobby: up through the ceiling to Level 4, at the top of a stairwell's flight down, which leads back.
-- Level 2 steel doors in the tunnel walls: most are locked. Some open, onto Level 3, Level 4 or Level 1.
-- Level 8 vents beside the 9th Road: Level 2, out through a vent grille in a tunnel wall; crawl back into it to return.
-- Level 9, the gate at the end of a field behind the houses: Level 10.
-- Level 10, a stretch of barn wall that is not quite there (east wall, between the stalls, in some barns): Level 11.
-- Level 6, a stairwell down toward the sound of waves, walked to its landing: the foot of the stairs into one of Level 7's entry rooms, which lead back up to the landing.
+- @3,4,5 Elevators (Levels 3, 4, 5): to another elevator in Levels 3 to 5; from the hotel, sometimes Level 1. Everyone in the car rides along.
+- @1 Level 1 stairwells, up or down a flight: another stairwell in Level 1. From the top floors about one flight in twenty-five climbs into Level 4, and one flight in sixteen down from the bottom floor comes out in Level 2's pipe tunnels.
+- @4 Level 4 stairwells: another Level 4 stairwell; one flight down in five comes out in Level 0.
+- @5 Level 5 doors: most are locked for good. A few open (about one in sixteen), onto the hotel, Level 3 or Level 0.
+- @5 Level 5 staff stairs (an open door under a STAFF sign): Level 6.
+- @5 Level 5 grand staircases, either side of the front desk at the end of a lobby: up through the ceiling to Level 4, at the top of a stairwell's flight down, which leads back.
+- @2 Level 2 steel doors in the tunnel walls: most are locked. Some open, onto Level 3, Level 4 or Level 1.
+- @8 Level 8 vents beside the 9th Road: Level 2, out through a vent grille in a tunnel wall; crawl back into it to return.
+- @9 Level 9, the gate at the end of a field behind the houses: Level 10.
+- @10 Level 10, a stretch of barn wall that is not quite there (east wall, between the stalls, in some barns): Level 11.
+- @6 Level 6, a stairwell down toward the sound of waves, walked to its landing: the foot of the stairs into one of Level 7's entry rooms, which lead back up to the landing.
 
 **Two-way, from the city (Level 11)**
-- Office tower elevators: Level 4. Hotel elevators: Level 5.
-- Apartment basement door: Level 0.
-- Parking garage ramp down: Level 1.
-- Subway maintenance door: Level 2.
-- Substation door: Level 3.
-- A dark doorway off an alley: Level 6.
-- A rowhouse's front door: Level 9.
-- A diner's kitchen door: the Snackrooms. The kitchen door you come out of leads back.
-- A patch of wheat in a park: Level 10.
-- Public baths, a cyan door marked POOL: Level 37.
-- A cinema: walk up to the screen and on into the picture: Level 94.
+- @11 Office tower elevators: Level 4. Hotel elevators: Level 5.
+- @11 Apartment basement door: Level 0.
+- @11 Parking garage ramp down: Level 1.
+- @11 Subway maintenance door: Level 2.
+- @11 Substation door: Level 3.
+- @11 A dark doorway off an alley: Level 6.
+- @11 A rowhouse's front door: Level 9.
+- @11 A diner's kitchen door: the Snackrooms. The kitchen door you come out of leads back.
+- @11 A patch of wheat in a park: Level 10.
+- @11 Public baths, a cyan door marked POOL: Level 37.
+- @11 A cinema: walk up to the screen and on into the picture: Level 94.
 
 **Two-way, to and from Levels 37 and 94**
-- Level 5, now and then a locked door is a cyan door marked POOL: Level 37, out of one of its own POOL doors. Level 37's POOL doors lead out into the hotel.
-- Level 37, a long dry corridor whose tile gives way to office carpet: walk on into Level 4.
-- Level 37, the black round mouth at the end of a tunnel of arches: Level 7, over the sea.
-- Level 9, a doll's house (too clean, too cream): its front door opens onto a house on the hills of Level 94. One house in forty there opens back onto the Suburbs.
-- Level 94, a rusted gate with no sign on a hilltop, at twilight only (dusk and dawn): Level 10.
+- @5,12 Level 5, now and then a locked door is a cyan door marked POOL: Level 37, out of one of its own POOL doors. Level 37's POOL doors lead out into the hotel.
+- @12 Level 37, a long dry corridor whose tile gives way to office carpet: walk on into Level 4.
+- @12 Level 37, the black round mouth at the end of a tunnel of arches: Level 7, over the sea.
+- @9,13 Level 9, a doll's house (too clean, too cream): its front door opens onto a house on the hills of Level 94. One house in forty there opens back onto the Suburbs.
+- @13 Level 94, a rusted gate with no sign on a hilltop, at twilight only (dusk and dawn): Level 10.
 
 **Two-way, to and from Level Fun, The End and the Hub**
-- Level 1, stairs into the ceiling with confetti on the steps and a red balloon on the rail: Level Fun's service stairs.
-- Level 5, wooden double doors with big letters F-U-N (now and then a locked door): Level Fun's FUN doors.
-- Level 11, gym doors painted with a tiger, a parrot and a giraffe, at the back of a parking garage: a Level Fun waiting room.
-- Level 1, a locked hall door under a glowing EXIT sign: The End, beside an EXIT door.
-- Level 11, the door of a closed-down bookstore (THE END IS NEAR in its windows): The End.
-- The End, an EXIT door: two in three never open; the rest lead to Level 1, the Hub (beside a grey service door), the city, Level 4 or Level 5.
-- The End, the real door in the middle of a fake reality: the Lobby to Level 0, the office to Level 4, the hotel to Level 5, the house to Level 9.
-- The End, a vent up a ladder in a stockroom: Level 94, out of the sky.
-- The End, walking into a wall or a shelf during a distortion: the place it showed you, most often the Lobby, else an office, a house, the Poolrooms or the hills; one time in five, nowhere (and the snow leads nowhere).
-- Level 1, a grey door with a carved crop circle over it, partway along a winding maintenance hall (chalk arrows lead to it): the Hub, beside a grey service door.
-- Level 2, now and then a steel tunnel door with a chalk circle: the Hub.
-- Level 37, a dry corridor whose tile gives way to concrete and asphalt: the Hub, where a tunnel's concrete turns to white tile.
-- The Hub, walking into a stretch of wall whose seams don't meet (Far Tunnels): Level 4.
-- The Hub, walking on where a tunnel's concrete turns to white tile (Far Tunnels): Level 37.
+- @1 Level 1, stairs into the ceiling with confetti on the steps and a red balloon on the rail: Level Fun's service stairs.
+- @5 Level 5, wooden double doors with big letters F-U-N (now and then a locked door): Level Fun's FUN doors.
+- @11 Level 11, gym doors painted with a tiger, a parrot and a giraffe, at the back of a parking garage: a Level Fun waiting room.
+- @1 Level 1, a locked hall door under a glowing EXIT sign: The End, beside an EXIT door.
+- @11 Level 11, the door of a closed-down bookstore (THE END IS NEAR in its windows): The End.
+- @16 The End, an EXIT door: two in three never open; the rest lead to Level 1, the Hub (beside a grey service door), the city, Level 4 or Level 5.
+- @16 The End, the real door in the middle of a fake reality: the Lobby to Level 0, the office to Level 4, the hotel to Level 5, the house to Level 9.
+- @16 The End, a vent up a ladder in a stockroom: Level 94, out of the sky.
+- @16 The End, walking into a wall or a shelf during a distortion: the place it showed you, most often the Lobby, else an office, a house, the Poolrooms or the hills; one time in five, nowhere (and the snow leads nowhere).
+- @1 Level 1, a grey door with a carved crop circle over it, partway along a winding maintenance hall (chalk arrows lead to it): the Hub, beside a grey service door.
+- @2 Level 2, now and then a steel tunnel door with a chalk circle: the Hub.
+- @12 Level 37, a dry corridor whose tile gives way to concrete and asphalt: the Hub, where a tunnel's concrete turns to white tile.
+- @17 The Hub, walking into a stretch of wall whose seams don't meet (Far Tunnels): Level 4.
+- @17 The Hub, walking on where a tunnel's concrete turns to white tile (Far Tunnels): Level 37.
 
 **Two-way, to and from Levels 3999 and 188**
-- Level 10, a lone arcade (PARADISE in neon over dark glass) at the end of a line of five windmills with red lights on their caps: its revolving door, into a lobby of Level 3999, whose revolving door leads back. The lever by a windmill's door turns its light green, for good.
-- Level 11, a stretch of alley wall flickering purple: walk into it, Level 3999.
-- Level 3999, a STAFF ONLY door: one in six opens, onto the Hub beside a grey service door; the rest are locked.
-- Level 3999, the elevator at the back of a little arcade inside some game rooms: Level 0.
-- Level 0 (far from where you woke) and Level 1 (in a car park), a window where no window should be: climb in, Level 188's courtyard, beside the window that shows where you came from.
-- The Hub, the lit window in a tunnel wall; Level Fun, a party room's window with confetti on the sill: Level 188.
-- Level 188, a ground-floor window that shows another place: climb in at the sill (the Lobby, Level 1, 2, 4, 5, 6 or 9, the Hub, Level Fun).
-- Level 188, the fire door on each upper floor: Level 1 from the second, Level 5 from the third, Level 4 from the fourth, Level 2 from the fifth.
+- @10 Level 10, a lone arcade (PARADISE in neon over dark glass) at the end of a line of five windmills with red lights on their caps: its revolving door, into a lobby of Level 3999, whose revolving door leads back. The lever by a windmill's door turns its light green, for good.
+- @11 Level 11, a stretch of alley wall flickering purple: walk into it, Level 3999.
+- @19 Level 3999, a STAFF ONLY door: one in six opens, onto the Hub beside a grey service door; the rest are locked.
+- @19 Level 3999, the elevator at the back of a little arcade inside some game rooms: Level 0.
+- @0,1 Level 0 (far from where you woke) and Level 1 (in a car park), a window where no window should be: climb in, Level 188's courtyard, beside the window that shows where you came from.
+- @15,17 The Hub, the lit window in a tunnel wall; Level Fun, a party room's window with confetti on the sill: Level 188.
+- @20 Level 188, a ground-floor window that shows another place: climb in at the sill (the Lobby, Level 1, 2, 4, 5, 6 or 9, the Hub, Level Fun).
+- @20 Level 188, the fire door on each upper floor: Level 1 from the second, Level 5 from the third, Level 4 from the fourth, Level 2 from the fifth.
 
 **One-way**
-- Level 0 pits: Level 2.
-- Level 4, a vending machine that takes you (the same few always do): the Snackrooms.
-- Level 6, a wire across a passage: the Snackrooms.
-- Level 6, stairs down toward the sound of waves (worlds made before 0.514.0): Level 7, from the ceiling.
-- The Snackrooms: rusty doors to Level 6, glass doors to Level 4 or 5, vents to Level 3, kitchen doors to another food court (except the one you arrived beside from a diner, which leads back).
-- Level 7, diving into the ring of standing stones: Level 9. Swimming into a cave mouth in the deep: Level 8.
-- Level 10, diving to the bottom of a pond: Level 7.
-- The city: an open manhole to Level 2, a caved-in street to Level 8, the deep middle of a park fountain to Level 7.
-- Level 7, a patch of white tile on the seabed in the twilight zone, faintly lit: dive to it and surface in Level 37.
-- Level 9, the rare backyard pool that is still full, lit teal at midnight: dive to its bottom, Level 37.
-- Level 37, the bottom of a pit nobody has found the bottom of: you come up in a backyard pool in Level 9.
-- Level 94, the door of a house full of water: Level 7.
-- Level 94, winning the King's trial: you are carried to Level 1, Level 4, or back to a town in Level 94.
+- @0 Level 0 pits: Level 2.
+- @4 Level 4, a vending machine that takes you (the same few always do): the Snackrooms.
+- @6 Level 6, a wire across a passage: the Snackrooms.
+- @6 Level 6, stairs down toward the sound of waves (worlds made before 0.514.0): Level 7, from the ceiling.
+- @6 The Snackrooms: rusty doors to Level 6, glass doors to Level 4 or 5, vents to Level 3, kitchen doors to another food court (except the one you arrived beside from a diner, which leads back).
+- @7 Level 7, diving into the ring of standing stones: Level 9. Swimming into a cave mouth in the deep: Level 8.
+- @10 Level 10, diving to the bottom of a pond: Level 7.
+- @11 The city: an open manhole to Level 2, a caved-in street to Level 8, the deep middle of a park fountain to Level 7.
+- @7 Level 7, a patch of white tile on the seabed in the twilight zone, faintly lit: dive to it and surface in Level 37.
+- @9 Level 9, the rare backyard pool that is still full, lit teal at midnight: dive to its bottom, Level 37.
+- @12 Level 37, the bottom of a pit nobody has found the bottom of: you come up in a backyard pool in Level 9.
+- @13 Level 94, the door of a house full of water: Level 7.
+- @13 Level 94, winning the King's trial: you are carried to Level 1, Level 4, or back to a town in Level 94.
 
 **One-way, the places no ring reaches**
-- Level 1, a red steel EXIT door where no door should be, in a solid wall of the car park: Level !. It slams behind you.
-- Level 2, a tunnel closed by a smooth new concrete wall with a thread of red light at its foot: walk into it, Level !.
-- Level 37, a dry corridor lit red, ending in a red EXIT door: Level !.
-- Level !, the real exit, at a dead end with no turn either side: Level 1, Level 4 or The End, fixed for each hall. You come out of a locked red fire door marked NO RE-ENTRY, set into the level you arrive in; it leads nowhere.
-- Level !, falling into a hole in the floor of the dark last stretch: Level 8.
-- Level 0, touching a TIME 4 FUN =) poster in a room dressed for a party: Level Fun. Hold a lit torch to it instead and it burns away for good.
-- Level Fun, touching a reversed, blurred poster: Level 4.
-- Level Fun, going overboard from an open deck: Level 7's sea.
-- Level Fun, diving to the bottom of a deep ball pit: the ball pit in Level 94's castle.
-- Level 4, walking through a lone wooden doorframe standing on the carpet: The End. It is gone behind you.
-- The End, a computer whose screen says =): Level Fun.
-- The Hub, the open doors: Tunnel 7 to Level 1, Tunnel 10 to Level 11, Tunnel 5 ("178") to the Snackrooms.
-- The Hub, any other carved door, with its level's key (used up): that level. The door marked 3999 puts you down beside a STAFF ONLY door. The pink door, carrying something cute: Kitty's House.
-- The Hub, falling into a rectangular hole in the road (Far Tunnels): Level 94, out of the sky.
-- The Hub, falling from the Tower's balcony: thrown out into the tunnels.
-- The Hub, the Keymaster's escort: the door of the key he gave you.
-- Level 37, glowing magenta tiles at the bottom of the deepest water, far out: dive to them, Level 3999's violet pools.
-- The End, a computer that runs TRUEEND.EXE: Level 3999.
-- Level 3999, a cabinet with another place on its marquee, played to the end: that place (Level 4, 5, 6, 7, 9, 10, 11, 37, 94, Level !, Level Fun or Kitty's House).
-- Level 3999, a rusted cabinet in a row of machines: walk into it, Level 3999.1.
-- Level 3999, the drain at the bottom of a violet pool: Level 37.
-- Level 188, opening a blind from inside a room: taken, always to the same place for that window (most often Level 0, 1, 4 or 5; any other level less often, Level 37, 94, The End and Level Fun least).
-- Level 188, dropping through the hatch in the wooden deck: Level 37.
-- Any level, rarely and far from home: a grey door with a carved circle over it, where there was none a moment ago (it is gone after five minutes): the Hub.
+- @1 Level 1, a red steel EXIT door where no door should be, in a solid wall of the car park: Level !. It slams behind you.
+- @2 Level 2, a tunnel closed by a smooth new concrete wall with a thread of red light at its foot: walk into it, Level !.
+- @12 Level 37, a dry corridor lit red, ending in a red EXIT door: Level !.
+- @14 Level !, the real exit, at a dead end with no turn either side: Level 1, Level 4 or The End, fixed for each hall. You come out of a locked red fire door marked NO RE-ENTRY, set into the level you arrive in; it leads nowhere.
+- @14 Level !, falling into a hole in the floor of the dark last stretch: Level 8.
+- @0 Level 0, touching a TIME 4 FUN =) poster in a room dressed for a party: Level Fun. Hold a lit torch to it instead and it burns away for good.
+- @15 Level Fun, touching a reversed, blurred poster: Level 4.
+- @15 Level Fun, going overboard from an open deck: Level 7's sea.
+- @15 Level Fun, diving to the bottom of a deep ball pit: the ball pit in Level 94's castle.
+- @4 Level 4, walking through a lone wooden doorframe standing on the carpet: The End. It is gone behind you.
+- @16 The End, a computer whose screen says =): Level Fun.
+- @17 The Hub, the open doors: Tunnel 7 to Level 1, Tunnel 10 to Level 11, Tunnel 5 ("178") to the Snackrooms.
+- @17 The Hub, any other carved door, with its level's key (used up): that level. The door marked 3999 puts you down beside a STAFF ONLY door. The pink door, carrying something cute: Kitty's House.
+- @17 The Hub, falling into a rectangular hole in the road (Far Tunnels): Level 94, out of the sky.
+- @17 The Hub, falling from the Tower's balcony: thrown out into the tunnels.
+- @17 The Hub, the Keymaster's escort: the door of the key he gave you.
+- @12 Level 37, glowing magenta tiles at the bottom of the deepest water, far out: dive to them, Level 3999's violet pools.
+- @16 The End, a computer that runs TRUEEND.EXE: Level 3999.
+- @19 Level 3999, a cabinet with another place on its marquee, played to the end: that place (Level 4, 5, 6, 7, 9, 10, 11, 37, 94, Level !, Level Fun or Kitty's House).
+- @19 Level 3999, a rusted cabinet in a row of machines: walk into it, Level 3999.1.
+- @19 Level 3999, the drain at the bottom of a violet pool: Level 37.
+- @20 Level 188, opening a blind from inside a room: taken, always to the same place for that window (most often Level 0, 1, 4 or 5; any other level less often, Level 37, 94, The End and Level Fun least).
+- @20 Level 188, dropping through the hatch in the wooden deck: Level 37.
+- @17 Any level, rarely and far from home: a grey door with a carved circle over it, where there was none a moment ago (it is gone after five minutes): the Hub.
 
 **Taken by Kitty**
-- Any threshold (not a thin spot or a way back), crossed with something cute on you: one time in 20 (one in 6 if it is in your hand), Kitty's House instead. Never within two days of last leaving the house.
-- Kitty's House, giving Kitty the cute thing you brought: you wake in Level 4, Level 37 or the Snackrooms, the same place every time for your house.
+- @18 Any threshold (not a thin spot or a way back), crossed with something cute on you: one time in 20 (one in 6 if it is in your hand), Kitty's House instead. Never within two days of last leaving the house.
+- @18 Kitty's House, giving Kitty the cute thing you brought: you wake in Level 4, Level 37 or the Snackrooms, the same place every time for your house.
 
 **Good to know**
 - A threshold that has become a way back no longer leads where it once would have.
-- Three kinds of door are one-way although you walk through them: Level !'s doors slam and lock, the Hub's carved doors and The End's lone doorframe are gone behind you.
-- You wake in the last bed you slept in, wherever it is, or at your Level 0 home if you have slept in none. A temporal gear moves where you wake, from any level. Two-way ways that come out in Level 0 (a Level 4 stairwell, a hotel door, a city basement, Level 3999's mini arcade elevator) make good places for a home.
+- @1,2,12,14 Level !'s doors are one-way although you walk through them: they slam and lock behind you.
+- @4 The End's lone doorframe, in Level 4, is one-way although you walk through it: it is gone behind you.
+- @17 The Hub's carved doors are one-way although you walk through them: they are gone behind you.
+- You wake in the last bed you slept in, wherever it is, or at your Level 0 home if you have slept in none. A temporal gear moves where you wake, from any level. Two-way ways that come out in Level 0 (a Level 4 stairwell, a hotel door, a city basement) make good places for a home.
 """)
 
+# What Lives Here: the general part, which names no creature (each creature's own ways are on its page)
 PAGES["entities"] = ("What Lives Here", """
 **What lives in the Backrooms**
 *Most of what you hear will never touch you. Learn what keeps each thing back.*
@@ -725,32 +791,42 @@ PAGES["entities"] = ("What Lives Here", """
 **How danger works**
 - Every level has a heart and an edge. In the heart you hear things down the hall and glimpse things far off that go when you come near; further out, things follow you at a distance and wait for you to falter; near the edge into the next level, near elevators, stairs, pits and other ways through, and in dens, they hunt. In the deep levels even the heart is not quiet.
 - Things come bolder when you stand in the dark, when your [Reality Stability](gamemechanicinfo-temporalstability) is low, when you run, when you make noise (breaking anything open, and above all forcing a door), the longer you have been out without resting (worst after ten in-game hours), the more tired you are and when your water has run dry (see [Rest and Sleep](backrooms-rest)), and during a Reality Shift. After something has hit you, the pressure eases for a minute or so.
-- **The setting.** The *Backrooms entities* world setting (under Survival challenges) sets how often things come for you and how hard they hit. **Off** leaves only their sounds. On **Normal**, in the heart of Level 1 a creature turns up about every seven minutes, more often toward the edge. **Very low** is about every twenty minutes and hits half as hard; **Low** about every eleven and hits three quarters as hard; **High** about every four and a half, with more hunters, one more creature about at once and blows 1.3 times as hard; **Very high** about every three, with more again and blows 1.6 times as hard. Each setting is one step busier than in the previous build, so a world saved on Normal sees about 1.6 times the old number of visits. The big moments (a night visit to a sleeping player, a hive wave, the Mangled's fog, the Beast) scale more gently, by the square root of the setting. Deeper levels are busier on every setting.
+- **The setting.** The *Backrooms entities* world setting (under Survival challenges) sets how often things come for you and how hard they hit. **Off** leaves only their sounds. On **Normal**, in the heart of Level 1 a creature turns up about every seven minutes, more often toward the edge. **Very low** is about every twenty minutes and hits half as hard; **Low** about every eleven and hits three quarters as hard; **High** about every four and a half, with more hunters, one more creature about at once and blows 1.3 times as hard; **Very high** about every three, with more again and blows 1.6 times as hard. Each setting is one step busier than in the previous build, so a world saved on Normal sees about 1.6 times the old number of visits. The big moments (a night visit to a sleeping player, and the rarer set pieces of each level) scale more gently, by the square root of the setting. Deeper levels are busier on every setting.
 - **Resting:** a full minute by a lit firepit or burning Firesalt, beside a wanderer, somewhere nothing hostile goes, asleep in a bed, or at home (within 48 blocks of where you wake). See [Home and Expeditions](backrooms-home).
-- **Dens:** some places are where something lives. Bones on the floor, a grey papery hive, crosses chalked on the walls round about: inside, it is as dangerous as the edge of the level, and what lives there is what comes. At the heart of every den are two or three sealed boxes nobody has dared take, and often a folded note. A spider nest in Level 8's caves is the exception: cobwebs strung thick through the rock instead of chalk, and nothing at its heart but what the spiders caught.
+- **Dens:** some places are where something lives. Bones on the floor, a grey papery hive, crosses chalked on the walls round about: inside, it is as dangerous as the edge of the level, and what lives there is what comes. At the heart of every den are two or three sealed boxes nobody has dared take, and often a folded note.
 - Running for a gate runs into whatever waits there: near the edge, hunters are put down on the way you are going.
-- **Every level is worse than the last.** Deeper down, everything is quicker (a Hound always outruns you; a Smiler always does, in the dark), hits harder (from Level 6 through one more grade of armour), takes more killing, follows further, comes more often and in bigger packs, and the quiet after a close call is shorter. Running stops being an answer: fire, light, doors, a stare and keeping still are.
+- **Every level is worse than the last.** Deeper down, everything is quicker (from Level 3 the hunters outrun a sprint), hits harder (from Level 6 through one more grade of armour), takes more killing, follows further, comes more often and in bigger packs, and the quiet after a close call is shorter. Running stops being an answer: fire, light, doors, a stare and keeping still are.
 - **Classes and placards.** Every level has a class, from 1 to 5, and a gate into a higher class has an M.E.G. placard beside it naming the level and the class. Its second line is a warning: Class 3, THINGS HERE OUTRUN YOU; Class 4, ARMOUR OR DON'T; Class 5, NO UNARMOURED TRAVEL. Crossing into a higher class is said in chat, once a level. Food and Almond Water thin out from Class 3 down.
-- **And pays better.** A deep level's boxes, crates and cupboards are fuller, and often hold something extra: medicine and rusty gears, then copper, then bronze and iron, very rarely a temporal gear. What you kill there carries a bounty of rusty gears, the wanderers' coin; a Skin-Stealer drops the belongings of whoever it wore.
+- **And pays better.** A deep level's boxes, crates and cupboards are fuller, and often hold something extra: medicine and rusty gears, then copper, then bronze and iron, very rarely a temporal gear. What you kill there carries a bounty of rusty gears, the wanderers' coin.
 - **Nothing chases for ever.** A hunter that has not drawn blood for twenty seconds or so (longer, deeper down) gives up, falls back to following at a distance, and does not come for you again for a while. Keep out of reach, behind doors and fire, and it tires first.
 - **Dodge.** Every blow is wound up first: step back out of reach as it comes and it misses.
-- **Armour.** Unarmoured, a catch takes you in about two blows at Level 3 (a Hound hits for 9, a Smiler 8, a Skin-Stealer 13), one or two by Level 8, and a Hound kills in one at Level 9. Sewn leather about halves the blow. Copper or bronze lamellar stands three blows at Level 8, and iron plate stands many (seven to eleven) at Level 9. Armour wears fast against deep hitters: pleather lasts a hit or two against a Level 9 Smiler, sewn leather about six. Pleather, salvaged from car seats and chairs, is armour too, but it turns a blow only a little under half as well as leather. Most hunters outrun a sprint from Level 3 on, so from there armour and fire are the answer, not running. Wretches, Clumps and Dullers are the exceptions: they ambush or reach for you rather than chase, so a sprint is not what they are answered with. The Animations keep their own paces (the wooden ones a little faster than a walk).
-- **Fire wards.** A lit firepit, burning [Firesalt](block-backrooms:firesalt) or an angel statue keeps Hounds, Skin-Stealers, rats, moths, Giant Spiders, Partygoers and the wooden and paper Animations out to 8 blocks; a hunter will not close on anyone within 9 blocks of one. Smilers mind light, not fire; Wretches, Dullers, Clumps, clay Animations and Robo-Men mind neither.
-- Level 0 is empty but for the Bacteria of its outer reaches, and when the lights fail in a Reality Shift eyes watch even its heart from the dark (in the Lobby they only follow; in the Red Rooms they hunt). A door and a light at home keep them out.
-- Nothing hostile enters the Manila Room, a Sanctum (Level 3), the Beverly Room (Level 5), the Snackrooms, Level 3999 where its neon is lit, the lamplit 9th Road and its camps (Level 8), the Poolrooms (Level 37) outside the Reservoir, the Hub, or Kitty's House. Level 94 is safe by day and indoors. Level 4's heart is calm, and nothing hostile lives in Level 10. On the streets of the city (Level 11) nothing attacks unless you start it (a rat in an alley aside). In Level 188, a room with its door shut.
-- A closed door behind you stops whatever cannot find a way round it, with one exception: out towards the edge of a level, a Skin-Stealer that cannot reach you knocks, waits, and opens the door. It has hands. A door barred from the inside holds it, and it will not come near a fire.
-- Nothing hostile closes in on you while you keep company with a wanderer, and a minute beside one is a rest. Wanderers are few: camps in Level 1, outposts in Level 4, on the 9th Road, in the city, two camps in the Hub, one lobby in four in Level 3999, and the Junkies of The End. They are friendly and never fight back. Talk to one ({rightmouse}): they will tell you what lives where they keep, where the water is, how to sleep safely and where the ways out are, and they trade, for rusty gears. Each deals in what its place has and buys what it lacks. Level 1's crate-pickers sell Almond Water, crackers and beans, candles, Firesalt, bandages, twine and flax and cabbage seeds, for salvage (brackets, wire, glass, cloth, copper bits) and raw hides; they, the outposts, the road, the city and the Hub's doorstep also sell a temporal gear for 6 rusty gears. The M.E.G.'s outposts in Level 4 sell water (the Blue and Green kinds too) and empty bottles, bandages and poultices, Firesalt and seeds, and buy salvage, paper, silver and specimens (Deathmoth quills, moth jelly, Clump sinew). The camps of the 9th Road sell food, rope, torches, a lantern, bronze tools and weapons and sewn linen armour, and buy hides, cloth and spider silk. The B.N.T.G.'s vendors in the city sell candy, the coloured Almond Waters, Firesalt, bronze and chalk, and buy rare things from other levels. The Hub's two camps sell field supplies (Camp Amber, by the Level 1 door, cheap basics for the Lobby's scraps) and buy salvage (the M.E.G.'s also has two Level Keys a week); Level 3999's campers sell the mall's food and prizes and buy tickets; the Junkies sell catalogue cards and keepsakes for Memory Juice and food. Water is never plentiful: a few bottles a week at most. The faceless people wandering about are Facelings, not traders.
+- **Armour.** Unarmoured, a catch takes you in about two blows at Level 3, one or two by Level 8, and the worst of them kill in one at Level 9. Sewn leather about halves the blow. Copper or bronze lamellar stands three blows at Level 8, and iron plate stands many (seven to eleven) at Level 9. Armour wears fast against deep hitters: pleather lasts a hit or two against Level 9's hunters, sewn leather about six. Pleather, salvaged from car seats and chairs, is armour too, but it turns a blow only a little under half as well as leather. Most hunters outrun a sprint from Level 3 on, so from there armour and fire are the answer, not running. Some things ambush or reach for you rather than chase, and a sprint is not what they are answered with.
+- **Fire wards.** A lit firepit, burning [Firesalt](block-backrooms:firesalt) or an angel statue keeps most hunters out to 8 blocks; a hunter that minds fire will not close on anyone within 9 blocks of one. Not everything minds fire: some things mind light instead, and some mind neither. Each creature's page says which.
+- **Safe places.** Some places nothing hostile enters: a refuge room here and there, a whole level now and then. They are listed below, for the levels you have been to.
+- A closed door behind you stops whatever cannot find a way round it, but not everything: some things have hands. A door barred from the inside holds them.
+- **Wanderers.** Nothing hostile closes in on you while you keep company with a wanderer, and a minute beside one is a rest. They are few, friendly, and trade for rusty gears.
+""")
 
-**Smilers** (dark places: Level 0's Red Rooms and Reality Shifts only, Levels 1 to 3, 6 (seen, never close), 8, 9, 94 by night, the Reservoir, The End's collapses, Level 188, Level 3999's Blackout)
+# The creatures, in the order What Lives Here lists them: (code, name, the levels it is in, its page). The code is its
+# page's (backrooms-entity-<code>) and its lang keys'; the levels decide when What Lives Here lists it (once any of
+# them is visited: the Snackrooms count as 6, the Reservoir as 37 (12), Level 3999's Blackout as 3999 (19)). The
+# first line of a page says where it lives.
+ENTITIES = [
+    ("smiler", "Smilers", [0, 1, 2, 3, 6, 8, 9, 13, 12, 16, 20, 19], """
+*(dark places: Level 0's Red Rooms and Reality Shifts only, Levels 1 to 3, 6 (seen, never close), 8, 9, 94 by night, the Reservoir, The End's collapses, Level 188, Level 3999's Blackout)*
 Eyes and a grin in the dark. They cannot be killed; struck, they withdraw.
-- They never step into light of a torch's strength: a torch, a lantern, a fire, a working lamp. A candle is not enough.
+- They never step into light of a torch's strength: a torch, a lantern, a fire, a working lamp. A candle is not enough. They mind light, not fire.
 - Held in your gaze, while you neither run nor look away, a Smiler freezes, and after a few seconds goes.
-- They come for people alone in the dark, and turn to the hunt when you run, or your stability is low. Carry a torch, and do not run.
-
-**Bacteria** (the outer reaches of Level 0)
-The Lobby's dark figures: a tall figure of black wires that rises out of black mould, seen far off down a hallway, and sometimes following. It hunts only someone who runs near the way out of the level: run within about twenty blocks of one there and it howls, stands a moment, and gives chase, a little short of a sprint. Keep running and you pull away; stop and walk, or turn back towards the middle of the level, and it gives up and sinks back into the mould, as it does once it has struck you or after half a minute. It can be killed, and carries a good bounty in rusty gears; struck, it fights back. Its patience has an end: corner it, or keep chasing it for ten seconds or so, and it turns on you.
-
-**Hounds** (Level 1's dark sections, Levels 2 to 5 (only the edges of 2, and the odd one in 4), 8 (the edges), 9, 94 by night, Level 3999.1; harmless in the city)
+- They come for people alone in the dark, and turn to the hunt when you run, or your stability is low. Carry a torch, and do not run. A Smiler always outruns you in the dark.
+- In Level 0 they come only when the lights fail in a Reality Shift, and then they watch even the heart of the Lobby from the dark: there they only follow; in the Red Rooms they hunt. A door and a light at home keep them out.
+- At Level 3 one hits for 8 unarmoured; pleather lasts a hit or two against one in Level 9.
+"""),
+    ("bacteria", "Bacteria", [0], """
+*(the outer reaches of Level 0)*
+The Lobby's dark figures: a tall figure of black wires that rises out of black mould, seen far off down a hallway, and sometimes following. It hunts only someone who runs near the way out of the level: run within about twenty blocks of one there and it howls, stands a moment, and gives chase, a little short of a sprint. Keep running and you pull away; stop and walk, or turn back towards the middle of the level, and it gives up and sinks back into the mould, as it does once it has struck you or after half a minute. It can be killed, and carries a good bounty in rusty gears; struck, it fights back. Its patience has an end: corner it, or keep chasing it for ten seconds or so, and it turns on you. Level 0 holds nothing else but the Smilers of its Red Rooms and its Reality Shifts.
+"""),
+    ("hound", "Hounds", [1, 2, 3, 4, 5, 8, 9, 13, 19, 11], """
+*(Level 1's dark sections, Levels 2 to 5 (only the edges of 2, and the odd one in 4), 8 (the edges), 9, 94 by night, Level 3999.1; harmless in the city)*
 Pale, hairless, on all fours, in packs of two or three. You hear them first. Some are starved, thin and pale; now and then an old one, grey-haired, harder to put down and worth a double bounty.
 - Out towards the edge of Level 1, the lights of a section sometimes fail all at once: a Flickering. Hounds hunt you until the lights come back, a minute or two later. It never starts while something else is already about you. Keep a fire, or a door, between you and the dark.
 - They will not come within 8 blocks of a lit [firepit](search:firepit) or burning [Firesalt](block-backrooms:firesalt). A fire makes a camp safe.
@@ -758,65 +834,80 @@ Pale, hairless, on all fours, in packs of two or three. You hear them first. Som
 - Stare one down: look straight at a Hound that is following you for a few seconds, and it lowers its head, growls and backs off. Then back away at a walk, facing it. Running, or turning your back, brings it on at once, and a Hound always outruns you. Its nerve does not last long: use the seconds.
 - A shut door stops a Hound: it has no hands, and it cannot come through. It fits a gap one block wide, but squeezing through anything narrower than two blocks (a service tunnel, a cluttered aisle) slows it to about three fifths of its pace.
 - A carried light no longer slows them; it only lets them see you from farther off. A spear, a club and armour see them off; hurt, they run. Each drops meat and a medium hide for leather.
-
-**Facelings** (Levels 1, 3 (the Evolved), 4, 5, 9, the city, the Snackrooms; their children in 5, 9, the city and the Snackrooms)
-People with no faces, going about nothing; seldom met, except in the city. Their blank faces turn to follow you.
+- At Level 3 a Hound hits for 9 unarmoured, and at Level 9 one kills an unarmoured person in a single blow.
+"""),
+    ("faceling", "Facelings", [1, 3, 4, 5, 9, 11, 6], """
+*(Levels 1, 3 (the Evolved), 4, 5, 9, the city, the Snackrooms; their children in 5, 9, the city and the Snackrooms)*
+People with no faces, going about nothing; seldom met, except in the city. Their blank faces turn to follow you. They are not traders.
 - Greet one ({rightmouse}): it waves, then turns and points the way to the nearest gate out of the level, as far as it knows, and nods. You are told which way it pointed and roughly how far. One that knows of no gate shrugs; a child only waves.
 - Harmless unless you hurt one, and then every grown Faceling near turns on you together for a minute and a half, even where the level is safe. The exception is Level 3, where every one is an Evolved, with a half-formed face: hostile, and it does not greet.
 - The children come to look at you and run if you rush them. When they hurry away, Hounds are near.
-
-**Deathmoths** (the females in Levels 1, 2, 5 and 9, mostly towards the edges and in hives; the males in Levels 5 and 94)
+"""),
+    ("deathmoth", "Deathmoths", [1, 2, 5, 9, 13], """
+*(the females in Levels 1, 2, 5 and 9, mostly towards the edges and in hives; the males in Levels 5 and 94)*
 Moths the size of a hand span, drawn to open flame. They circle a torch; near the edges of a level the females bite whoever carries it.
-- A candle never gets you bitten, a closed [lantern](search:lantern) draws none; a torch draws them most. Smoke from a fire scatters them. A hive is a den with resin hearts: breaking one answers with every female near, and waves for a minute after. Leave it be.
+- A candle never gets you bitten, a closed [lantern](search:lantern) draws none; a torch draws them most. Smoke from a fire scatters them, and they keep out of a fire's ward. A hive is a den with resin hearts: breaking one answers with every female near, and waves for a minute after. Leave it be.
 - They settle on floors and tables to rest, the males (Levels 5 and 94) by puddles and bodies to drink. Leave a settled female be: come at her, or hurt one, and she rears up and calls every female near onto you, flame or no flame.
-
-**Skin-Stealers** (Levels 1, 3, 5, 9, 94 by night, 188; lairs)
+"""),
+    ("skinstealer", "Skin-Stealers", [1, 3, 5, 9, 13, 20], """
+*(Levels 1, 3, 5, 9, 94 by night, 188; lairs)*
 Large, pale yellow and slow. They cough and call out from out of sight in a voice that is nearly human. Strong, and from Level 3 they outrun a sprint like the other hunters.
 - A fed one (it has just killed) keeps to itself, ambling and muttering, but turns on anyone who comes within five blocks until they are well clear. A hungry one stalks you, and out towards the edge soon comes for you.
-- A shut door only delays it: it knocks, waits and opens it, though a door barred from the inside holds. A fire keeps it off. Keep your distance and keep a fire. One drops the hide and belongings of whoever it wore.
-
-**Wretches** (the outer parts of Levels 1, 2, 3, 5 and 9; packs of up to three in the dark of Level 8; the city's subway)
-Wanderers worn down to nothing by hunger, thirst and sleeplessness, still dressed near the top and all but gone deep down. They gurgle while they follow you and snarl before they charge; the bite is quick but they are frail, and they drop one or two things they carried when they were still wanderers. They come three times as readily for anyone down to the last quarter of their hunger bar: keep fed, and fight them one at a time. In Level 8 they share the dark with the spiders; the lamps of the 9th Road keep them off.
-
-**Giant Spiders** (Level 8's dark off the 9th Road, and its spider nests)
+- A shut door only delays it: it has hands. Out towards the edge of a level, one that cannot reach you knocks, waits and opens the door, though a door barred from the inside holds. A fire keeps it off: it will not come near one. Keep your distance and keep a fire. One drops the hide and belongings of whoever it wore.
+- At Level 3 one hits for 13 unarmoured.
+"""),
+    ("wretch", "Wretches", [1, 2, 3, 5, 9, 8, 11], """
+*(the outer parts of Levels 1, 2, 3, 5 and 9; packs of up to three in the dark of Level 8; the city's subway)*
+Wanderers worn down to nothing by hunger, thirst and sleeplessness, still dressed near the top and all but gone deep down. They gurgle while they follow you and snarl before they charge; the bite is quick but they are frail, and they drop one or two things they carried when they were still wanderers. They come three times as readily for anyone down to the last quarter of their hunger bar: keep fed, and fight them one at a time. They ambush rather than chase, so a sprint is not what they are answered with, and they mind neither fire nor light. In Level 8 they share the dark with the spiders; the lamps of the 9th Road keep them off.
+"""),
+    ("giantspider", "Giant Spiders", [8], """
+*(Level 8's dark off the 9th Road, and its spider nests)*
 As long as you are and low on its legs, waiting in the dark where its eyes catch your light; you hear its mouthparts clicking before you see it. Come within a few steps of it (fewer if you creep), run or make a racket within earshot, or strike it, and it rears with a hiss, then runs you down faster than a sprint. Its bite is venomous and burns on for a few seconds.
 - It is territorial: run the moment it rears, away from where it waited, and it lets you go once you are well clear of its ground. It will not follow into water (spiders can't swim), up to a fire, or onto the road.
 - Cobwebs slow you to a crawl and not it: keep out of them, or burn them. In worlds made from now on, whole stretches of cave well off the road are strung with them round a nest, where the spiders are what comes.
+- A spider nest is a den of its own kind: cobwebs strung thick through the rock instead of chalk, and nothing at its heart but what the spiders caught.
 - Noise carries to the whole nest: a bang, a block broken, a fight or a forced door within two dozen blocks of its heart wakes every spider of it and sends them after you, and the dark puts down one or two more if there are few. Be quiet in a nest, or do not go.
 - It climbs the walls. It mends while it waits; badly hurt, it flees. It carries a good bounty in rusty gears, and a little raw meat ("extra protein", and only worth eating cooked).
-
-**Dullers** (Levels 1, 3, 4, 8, the city's subway)
+"""),
+    ("duller", "Dullers", [1, 3, 4, 8, 11], """
+*(Levels 1, 3, 4, 8, the city's subway)*
 Tall and grey, and quick. They reach through walls at people passing close on the other side, then run. Plaster puffs out of the wall where the hand comes through.
 - Scraping or dragging inside the walls means one is near: walk down the middle of corridors.
 - One grab in four takes something from your hotbar instead. It lies on the floor wherever the Duller went: in the room on the other side, if you can find it.
 - [Almond Water](item-backrooms:almondwater) keeps them off for five minutes after a drink, and they will not reach for anyone near a fountain or seep of it.
-- Faced, they flee.
-
-**Death Rats** (Levels 1, 2, 5, 8, 9, the city's alleys; harmless by day in Level 94)
+- Faced, they flee. They reach rather than chase, so a sprint is no answer, and they mind neither fire nor light.
+"""),
+    ("deathrat", "Death Rats", [1, 2, 5, 8, 9, 11, 13], """
+*(Levels 1, 2, 5, 8, 9, the city's alleys; harmless by day in Level 94)*
 Rats, in packs, with short horns whose tips glow faintly red: two red points under a shelf in the dark. Hairless in Level 2's heat. They nip at your legs but keep clear of a carried torch or lantern (a candle will not do) and of fire. Food, if you can catch one.
 - Rarely, near the edges of Level 2, the Screaming: the lights fail, something screams close by, and a pack of Death Rats goes past at a run after whatever it is. Keep out of their way until the lights come back.
-
-**Clumps** (Levels 1, 2 and 3)
+"""),
+    ("clump", "Clumps", [1, 2, 3], """
+*(Levels 1, 2 and 3)*
 A bundle of limbs that buries itself where it waits: all you see is an arm sticking up out of the floor, a finger twitching now and then. Come within a few steps and the floor gives it up; it grabs and drags at whoever is in reach, then crawls away after a grab or two.
 - It hunts by ear: run near one, or make a real noise (forcing a door, breaking several things), and it crawls after you. Go quietly and it buries itself again. Struck, it leaves.
-- Where there is room, walk round. In a narrow tunnel there is none: go back, or take the grab and be quick.
-
-**The Thing** (deep in Level 7)
+- Where there is room, walk round. In a narrow tunnel there is none: go back, or take the grab and be quick. It ambushes rather than chases, and minds neither fire nor light.
+"""),
+    ("thething", "The Thing", [7], """
+*(deep in Level 7)*
 Something vast circles divers out at the edge of sight. Stay more than twenty blocks down for long with your stability failing, or go below fifty-five, and it strikes, once, hard, and leaves. It cannot be fought: surface, or come up for air under the roof of a sunken room, where it only waits. A lit lantern or oil lamp held under water within a dozen blocks of it as it rushes shows it what it is rushing at: it breaks off and circles for twenty seconds. A torch goes out in the water.
-
-**The Mangled** (the Suburbs, rarely; far likelier during a Reality Shift)
+"""),
+    ("mangled", "The Mangled", [9], """
+*(the Suburbs, rarely; far likelier during a Reality Shift)*
 There is only one. It comes with its own weather: over most of a minute the air turns cold, a grey fog rolls in, and voices start calling out of it, someone saying hello, someone hurt. Then a black pillar walks out of the fog, slower than a walking man: a mass of human faces held high above the roofs on legs like trees. Its reach is the danger, not its pace.
 - It cannot be killed. Striking it only keeps it longer.
 - Its tendrils take whoever they reach up into the dark and let go. Get indoors: it needs a clear line to you, and walls stop it.
 - It leaves after three minutes or so, and the fog lifts.
-
-**The Beast of Level 5** (the Terror Hotel, rarely; above all in its boiler halls; and anywhere, for whoever owes him)
+"""),
+    ("beast", "The Beast of Level 5", [5], """
+*(the Terror Hotel, rarely; above all in its boiler halls; and anywhere, for whoever owes him)*
 There is only one, and he chooses you. The hotel's music stops round you, a drum beats somewhere far off, something whispers, metal scrapes closer through the pipes; once, a gentleman watches you from the edge of your sight and is gone when you turn. Leave the hotel, or reach the Beverly Room, and he lets you be. Otherwise, after most of a minute, he steps out of a column of flame in a flash of violet light: an octopus's head, two tentacles for a second pair of arms, steel claws, a black fur suit. He offers a deal.
 - **Shake his hand** ({rightmouse} him): you are healed, fed and steady again, and in three days he comes to collect, wherever you are (the Hub excepted). Die to him then and the debt is paid; get away and he comes again a day later.
 - **Hold his gaze:** stand your ground and look him in the eye for five seconds, not running. He is startled as nobody startles him, stands frozen, and is gone. It frees you from a debt too.
 - **Refuse him** (strike him, walk away, or let the offer lapse) and his suit opens into moth wings: half as tall again, blades for claws, a little short of a sprint, and two of his blows will nearly kill you. A hunt that draws no blood for twenty seconds is given up, and safe places turn him away. Brought down, he dissolves and leaves Level 5's [Level Key](item-backrooms:hub-key-l5); not for long.
-
-**The Striders of the Neighborhood Watch** (the Suburbs' streets, out from the middle of the level, never near the wall into Level 10)
+"""),
+    ("neighborhoodwatch", "The Striders of the Neighborhood Watch", [9], """
+*(the Suburbs' streets, out from the middle of the level, never near the wall into Level 10)*
 A bloodshot eyeball the size of a man, carried three blocks up on six long legs, walking the streets and yards. It has no ears and no nose: it finds you by sight, and by touch close up.
 - The other things of the dark fear it: Hounds, Smilers, Skin-Stealers and Deathmoths within two dozen blocks of one turn tail. That is no help to you, only to them.
 - In the dark it sees you only within a dozen blocks; carrying a torch or lantern, standing under a working street lamp, in a lit room or by a fire, it sees you from forty. Crouching shrinks both. Put the light away on the streets.
@@ -824,64 +915,153 @@ A bloodshot eyeball the size of a man, carried three blocks up on six long legs,
 - Once sure, it stares, and comes, faster than you run. It chases only what it sees: break its line of sight (round a house, behind a hedge, through a door) and it goes to where it last saw you and searches. It may walk off and wait a little way away, watching: give it time.
 - It is too tall for any door. Indoors you are safe from it, but it looks in through the windows and taps on the glass, and being watched wears on your stability: keep away from the windows until it goes.
 - It can be killed, and it is worth a good bounty, but it hits hard and knocks you flat. Arrows and thrown spears hurt it twice as much as blows do.
-
-**The Watcher** (the Suburbs, above the streets and houses, rarely)
+"""),
+    ("watcher", "The Watcher", [9], """
+*(the Suburbs, above the streets and houses, rarely)*
 The Strider's floating form: a gigantic eye that levitates, silent, a few blocks up. Seen in the open within twelve blocks you have two seconds' warning, the eye turning on you and a tone rising, and then the beam turns you to dust, whatever you wear.
 - Break its line of sight in those two seconds: round a house, behind a wall, through a door. The beam needs open air, so from indoors it can only look in at the windows; it is too large to follow you in.
 - Nothing hurts or moves it. Lose it and it searches where you were for ten seconds.
-
-**Animations** (Level 94, by night)
-Puppets, clay and wooden figures and paper cut-outs that move a frame at a time, and hunt anything that does not look animated. Very strong, not clever: the clay ones are slower than a walk and smother, the wooden ones club and knock you about, the paper ones come in a crowd and are frail. The wooden and paper ones fear fire. They never come indoors (a porch is not indoors), and at dawn they are gone. Stand quite still for a few seconds and they take you for a doll. Whoever carries a shard of the King's crown is one of their own. Worst in the towns, on the roads, and near the glass mountain.
-
-**Robo-Men** (the castle in Level 94)
-Tin wind-up toys. Touch, use or break anything in the castle above the mountain's foot and you will hear a key turning: they come, for a minute and a half, slow but hard-hitting.
-
-**The King** (the throne room of the castle in Level 94)
+"""),
+    ("animation", "Animations", [13], """
+*(Level 94, by night)*
+Puppets, clay and wooden figures and paper cut-outs that move a frame at a time, and hunt anything that does not look animated. Very strong, not clever: the clay ones are slower than a walk and smother, the wooden ones club and knock you about (a little faster than a walk), the paper ones come in a crowd and are frail. They keep their own paces, whatever the level's danger. The wooden and paper ones fear fire; the clay ones mind neither fire nor light. They never come indoors (a porch is not indoors), and at dawn they are gone. Stand quite still for a few seconds and they take you for a doll. Whoever carries a shard of the King's crown is one of their own. Worst in the towns, on the roads, and near the glass mountain.
+"""),
+    ("roboman", "Robo-Men", [13], """
+*(the castle in Level 94)*
+Tin wind-up toys. Touch, use or break anything in the castle above the mountain's foot and you will hear a key turning: they come, for a minute and a half, slow but hard-hitting. They mind neither fire nor light.
+"""),
+    ("king", "The King", [13], """
+*(the throne room of the castle in Level 94)*
 A stone statue at the head of a long table. Only one of the throne room's four doors opens, a different one each day. Sit in the second chair and he raises your nightmare: the thing that has killed you most often (a Hound if nothing has yet), tougher than its kind, and **it can only do what you think it can:** with your [Reality Stability](gamemechanicinfo-temporalstability) full it hits at a quarter of its strength; with it gone, twice as hard. Drink Almond Water before you sit down. Destroy it and the King bursts into light, gives you a shard of his crown (the first time), and carries you out of Level 94.
-
-**The horde** (Level !)
+"""),
+    ("horde", "The horde", [14], """
+*(Level !)*
 Hounds, Skin-Stealers, Smilers, rats and moths, all running at four fifths of your sprint (a little slower just after they burst out). It can't be fought off (kill one and another takes its place) and it can't be outrun for long by anyone who stops: within a block and a half it pins you and tears you apart. It falls back out of sight while you keep running, and it waits at the Safe Zone's door for three hours before it comes in. Now and then a vent drops a Hound behind you, nearly as fast as you for a few seconds, or a dented door bursts and something slower comes out; neither follows you into the Safe Zone.
-
-**Partygoers** (Level Fun; a few in Level 3999.1)
+"""),
+    ("partygoer", "Partygoers", [15, 19], """
+*(Level Fun; a few in Level 3999.1)*
 Tall, yellow, a smile carved into the face; always in packs, round the head table of a party with music. They are slow and nearsighted (about 12 blocks in light, 7 in dim light, 4 in the dark; less if you sneak) and hear little but running, fighting and pops. One that sees you stares for a second, then its pack joins in. Run: they are slower than a sprint, never open doors, and keep away from fire ([Firesalt](block-backrooms:firesalt), a firepit).
 - If one **latches on**, you have **30 seconds** to use a poultice or a bandage, or the bite becomes **Party Fever**: hungrier, less steady, and it fades only once you are out of Level Fun (Almond Water helps). Three bites' worth and you join the party: you die, and a new Partygoer with a red balloon stands guard over what you dropped.
 - Below half health its chest opens: it stops biting and claws instead, and fire burns it badly.
 - **Disguise:** a party hat on your head and a red balloon in your hand, and a Partygoer more than three blocks off takes you for one of its own, as long as you don't run or strike.
 - One that has seen you may speak in a voice you know. Don't answer.
 - A killed guest stays dead for a day; then the party has a new one.
-
-**Carnivorous Balloons** (Level Fun's dark corridors)
+"""),
+    ("lureballoon", "Carnivorous Balloons", [15], """
+*(Level Fun's dark corridors)*
 A balloon floating at chest height, tied to nothing, on a curly ribbon. Walk into one and it stings and holds you nearly still for 3 seconds. Pop it and it lets out a gas that burns anyone close; what is left is onions, and the bang brings the guests. Poke it from out of reach, or walk round.
-
-**The Junkies** (The End)
-Wanderers who stayed, in the Home fake realities. Harmless, and nothing hostile comes near them, but they trade only with someone carrying Memory Juice.
-
-**Kitty** (Level 974)
+"""),
+    ("wanderer", "Wanderers", [1, 4, 8, 11, 17, 19], """
+*(camps in Level 1, outposts in Level 4, on the 9th Road, in the city, two camps in the Hub, one lobby in four in Level 3999)*
+People like you, who have lasted. Nothing hostile closes in on you while you keep company with a wanderer, and a minute beside one is a rest. They are few, friendly and never fight back. Talk to one ({rightmouse}): they will tell you what lives where they keep, where the water is, how to sleep safely and where the ways out are, and they trade, for rusty gears. Each deals in what its place has and buys what it lacks.
+- Level 1's crate-pickers sell Almond Water, crackers and beans, candles, Firesalt, bandages, twine and flax and cabbage seeds, for salvage (brackets, wire, glass, cloth, copper bits) and raw hides; they, the outposts, the road, the city and the Hub's doorstep also sell a temporal gear for 6 rusty gears.
+- The M.E.G.'s outposts in Level 4 sell water (the Blue and Green kinds too) and empty bottles, bandages and poultices, Firesalt and seeds, and buy salvage, paper, silver and specimens (Deathmoth quills, moth jelly, Clump sinew).
+- The camps of the 9th Road sell food, rope, torches, a lantern, bronze tools and weapons and sewn linen armour, and buy hides, cloth and spider silk.
+- The B.N.T.G.'s vendors in the city sell candy, the coloured Almond Waters, Firesalt, bronze and chalk, and buy rare things from other levels.
+- The Hub's two camps sell field supplies (Camp Amber, by the Level 1 door, cheap basics for the Lobby's scraps) and buy salvage (the M.E.G.'s also has two Level Keys a week); Level 3999's campers sell the mall's food and prizes and buy tickets.
+- Water is never plentiful: a few bottles a week at most.
+"""),
+    ("junkies", "The Junkies", [16], """
+*(The End)*
+Wanderers who stayed, in the Home fake realities. Harmless, and nothing hostile comes near them, but they trade only with someone carrying Memory Juice: they sell catalogue cards and keepsakes for Memory Juice and food.
+"""),
+    ("kitty", "Kitty", [18], """
+*(Level 974)*
 A figure three metres tall, faceless, matt black, its arms and legs ending in points. You will rarely see it move: it is simply somewhere else when you look again, in a doorway, at the end of the hall, by your bed while you sleep, behind you. It cannot be hurt and never harms anyone, but striking it, or breaking its things, offends it for a day. Hold out what you brought and call it, and it comes for its gift.
-
-**The Keymaster** (the Hub's Tower)
+"""),
+    ("keymaster", "The Keymaster", [17], """
+*(the Hub's Tower)*
 A tall cloaked figure with a ring of keys. He cannot be harmed and does not harm. He comes to anyone in the Tower carrying a Level Key, or who reaches the meeting hall at the top. {rightmouse} him to see the keys of levels you have been to; {shift} + {rightmouse} takes the one shown, once. Then he shows you to its door, and the Tower will not let you in again. Break anything of his and he throws you out with nothing.
-
-**Arcade Attendants** (Level 3999)
+"""),
+    ("attendant", "Arcade Attendants", [19], """
+*(Level 3999)*
 Faceless, polite, made of plastic, in plum or navy uniforms: behind the prize counters, the food stalls and the lobby desks. They cannot be hurt and will not hurt you. {rightmouse} one and it points the way to a lobby.
-
-**The Windows** (Level 188)
+"""),
+    ("windows", "The Windows", [20], """
+*(Level 188)*
 Someone standing in a lit window, beckoning. Within six blocks you hear whispering; stay within two for a second and a long black arm comes out of the glass, holds you, hurts you and drags you toward it. **Hit the arm twice, or get three and a half blocks away**, before it has held you six seconds at the glass: then you are pulled through, and that is death. About one room in sixteen has one, and they move to other windows every night.
-
-**Peripherals** (Level 188)
+"""),
+    ("peripherals", "Peripherals", [20], """
+*(Level 188)*
 Shapes at the very edge of your sight in the corridors and the courtyard, gone when you turn toward them. They do nothing but unsettle you (a little stability each time).
+"""),
+]
 
-**The wild and the tame.** Level 7's sea has fish. Level 9's night has hares, foxes and raccoons, as in any world. Level 10's paddocks hold livestock to keep (see [animal husbandry](gamemechanicinfo-animalhusbandry)). Nothing of the rust world lives here: Level 8's dark belongs to the Wretches and the spiders.
+# How the server knows a creature has been met (src/Guide/DiscoverySystem.cs): seen for about a second within 32
+# blocks, or a blow either way, by an entity that matches one of these. "types": entity codes (backrooms: implied; a
+# trailing * matches any variant); "attribute": the entity carries that attribute (any type); "atLevels"/"notAtLevels":
+# only where the player is in (or not in) one of those levels; "playerAttribute": met once that watched attribute of
+# the player is non-zero (a thing that is not an entity). One entity can be more than one creature (a Hound of the
+# horde is both).
+MEETS = {
+    "smiler": dict(types=["smiler"]),
+    "bacteria": dict(types=["bacteria"]),
+    "hound": dict(types=["hound"]),
+    "faceling": dict(types=["faceling", "faceling-child"]),
+    "deathmoth": dict(types=["deathmoth-*"]),
+    "skinstealer": dict(types=["skinstealer"]),
+    "wretch": dict(types=["wretch"]),
+    "giantspider": dict(types=["giantspider"]),
+    "duller": dict(types=["duller"]),
+    "deathrat": dict(types=["deathrat"]),
+    "clump": dict(types=["clump"]),
+    "thething": dict(types=["thething"]),
+    "mangled": dict(types=["mangled"]),
+    "beast": dict(types=["beast", "beast-unveiled"]),
+    "neighborhoodwatch": dict(types=["neighborhoodwatch"]),
+    "watcher": dict(types=["watcher"]),
+    "animation": dict(types=["animation-*"]),
+    "roboman": dict(types=["roboman"]),
+    # The King is stone: met in his trial, when the nightmare he raised (MotionSystem's backrooms:nightmareOf) is seen
+    "king": dict(attribute="backrooms:nightmareOf"),
+    # The horde is what runs behind you in Level ! (RunSystem's backrooms:horde)
+    "horde": dict(attribute="backrooms:horde"),
+    "partygoer": dict(types=["partygoer", "partygoer-intern", "partyhost"]),
+    "lureballoon": dict(types=["lureballoon"]),
+    "wanderer": dict(types=["wanderer-*"], notAtLevels=[16]),
+    "junkies": dict(types=["wanderer-*"], atLevels=[16]),
+    "kitty": dict(types=["l974-kitty"]),
+    "keymaster": dict(types=["hub-keymaster"]),
+    "attendant": dict(types=["l3999-attendant"]),
+    # The arm out of the glass is the Windows' own entity
+    "windows": dict(types=["l188-arm"]),
+    # Drawn by the client; the server counts each one shown (L188System.PeripheralKey)
+    "peripherals": dict(playerAttribute="backrooms:l188Peri"),
+}
 
-**Level 37** is empty, as far as anyone knows: nothing hostile goes there, but in the dark of the Sanguine Reservoir. **The Hub and Kitty's House** are safe: nothing hostile goes there. **Level 3999** is safe where the neon is lit; its Blackout is not. **The End** is empty but for Smilers glimpsed in the dark of its collapsed departments.
+# The end of What Lives Here: the lines of each section shown once one of their levels is visited (the @ markup of
+# Ways Between Levels, above)
+ENTITY_NOTES = """
+**Safe places**
+- @0 Level 0: the Manila Room, where nothing hostile goes in.
+- @3 Level 3: a Sanctum.
+- @4 Level 4's heart is calm.
+- @5 Level 5: the Beverly Room.
+- @6 Level 6.1: the Snackrooms, all of them.
+- @8 Level 8: the lamplit 9th Road and its camps.
+- @10 Level 10: nothing hostile lives there.
+- @11 Level 11: on the streets of the city nothing attacks unless you start it (a rat in an alley aside).
+- @12 Level 37 is empty, as far as anyone knows: nothing hostile goes there, but in the dark of the Sanguine Reservoir.
+- @13 Level 94 is safe by day and indoors.
+- @16 The End is empty but for what is glimpsed in the dark of its collapsed departments.
+- @17 The Hub: nothing hostile goes there.
+- @18 Kitty's House: nothing hostile goes there.
+- @19 Level 3999 is safe where its neon is lit; its Blackout is not.
+- @20 Level 188: a room with its door shut.
+
+**The wild and the tame**
+- @7 Level 7's sea has fish.
+- @9 Level 9's night has hares, foxes and raccoons, as in any world.
+- @10 Level 10's paddocks hold livestock to keep (see [animal husbandry](gamemechanicinfo-animalhusbandry)).
+- Nothing of the rust world lives here.
 
 **What keeps you safe, as you go deeper**
-- Level 0: light, and a steady mind (Almond Water).
-- Level 1: fire, doors, a spear or a club, improvised armour.
-- Level 3: [Firesalt](block-backrooms:firesalt), found in the coal by generators and boilers. Set it down and light it: for half a day nothing hostile comes near. Later you can make it: salt + powdered sulfur = 2 Firesalt.
-- Level 4: a lantern, which draws no moths.
-- Level 5 on: leather armour from Hound and Skin-Stealer hides; then copper and bronze from Level 8.
-""")
+- @0 Level 0: light, and a steady mind (Almond Water).
+- @1 Level 1: fire, doors, a spear or a club, improvised armour.
+- @3 Level 3: [Firesalt](block-backrooms:firesalt), found in the coal by generators and boilers. Set it down and light it: for half a day nothing hostile comes near. Later you can make it: salt + powdered sulfur = 2 Firesalt.
+- @4 Level 4: a lantern, which draws no moths.
+- @5 Level 5 on: leather armour from the hides of what you kill; then copper and bronze from Level 8.
+"""
 
 
 # ====================================================================================================================
@@ -1067,10 +1247,47 @@ def to_vtml(text):
     return text.replace("\n", "<br>")
 
 
+def gated(text):
+    """Splits a page in the @ markup (see Ways Between Levels): (the text always shown, [(heading, [(levels, line)])]).
+    The always-shown text is the blocks before the first that has a gated line; every block from there is a section."""
+    head, sections = [], []
+    for block in re.split(r"\n\s*\n", text.strip()):
+        lines = block.split("\n")
+        if not sections and not any(l.startswith("- @") for l in lines):
+            head.append(block)
+            continue
+        items = []
+        for line in lines[1:]:
+            m = re.match(r"- @([\d,]+) (.*)", line)
+            items.append(([int(x) for x in m.group(1).split(",")], "- " + m.group(2)) if m else ([], line))
+        sections.append((lines[0], items))
+    return "\n\n".join(head), sections
+
+
+def page_text(name, text):
+    """A level's or a creature's page: its name in bold over its text."""
+    return f"**{name}**\n{text.strip()}"
+
+
 def fill():
     for code, (title, text) in PAGES.items():
+        if code == "thresholds":
+            text = gated(text)[0]
         LANG[f"guide-{code}-title"] = title
         LANG[f"guide-{code}-text"] = to_vtml(text)
+    for key, text in INDEX_TEXT.items():
+        LANG[f"guide-index-{key}"] = to_vtml(text)
+    for lid, name, text in LEVELS:
+        LANG[f"guide-level-{lid}-title"] = name
+        LANG[f"guide-level-{lid}-text"] = to_vtml(page_text(name, text))
+    for code, name, _, text in ENTITIES:
+        LANG[f"guide-entity-{code}-title"] = name
+        LANG[f"guide-entity-{code}-text"] = to_vtml(page_text(name, text))
+    for page, text in (("thresholds", PAGES["thresholds"][1]), ("entities", ENTITY_NOTES)):
+        for s, (heading, items) in enumerate(gated(text)[1], 1):
+            LANG[f"guide-{page}-s{s}"] = to_vtml(heading)
+            for n, (_, line) in enumerate(items, 1):
+                LANG[f"guide-{page}-s{s}-{n}"] = to_vtml(line)
     for code, text in BRIDGES.items():
         LANG[f"guide-bridge-{code}"] = to_vtml(text)
     for n, text in enumerate(TUTORIAL, 1):
@@ -1080,8 +1297,55 @@ def fill():
     LANG["tutorial-backrooms-started"] = TUTORIAL_STARTED
 
 
+CONFIG_PATH = os.path.join(ASSETS, "config", "guide.json")
+
+
+def config():
+    """What the handbook (src/Guide/DiscoveryPages.cs) and the server (src/Guide/DiscoverySystem.cs) read: the levels in
+    the order The Levels lists them and those listed before they are visited, each creature's levels and how it is met,
+    and the levels each gated line of Ways Between Levels and What Lives Here is shown for (in the order of their lang
+    keys, guide-<page>-s<section>-<line>)."""
+    entities = []
+    for code, _, levels, _ in ENTITIES:
+        e = {"code": code, "levels": levels}
+        e.update(MEETS[code])
+        entities.append(e)
+    return {
+        "levels": [lid for lid, _, _ in LEVELS],
+        "listed": LISTED_LEVELS,
+        "entities": entities,
+        "thresholds": [[levels for levels, _ in items] for _, items in gated(PAGES["thresholds"][1])[1]],
+        "entityNotes": [[levels for levels, _ in items] for _, items in gated(ENTITY_NOTES)[1]],
+    }
+
+
+def config_text():
+    """config() as JSON, one creature or section to a line."""
+    c = config()
+    parts = []
+    for k, v in c.items():
+        if isinstance(v, list) and v and isinstance(v[0], (dict, list)):
+            parts.append(f'\t"{k}": [\n' + ",\n".join("\t\t" + json.dumps(row) for row in v) + "\n\t]")
+        else:
+            parts.append(f'\t"{k}": {json.dumps(v)}')
+    return "{\n" + ",\n".join(parts) + "\n}\n"
+
+
+def write_config():
+    with open(CONFIG_PATH, "w", encoding="utf-8", newline="\n") as f:
+        f.write(config_text())
+
+
+def all_texts():
+    """Every text the handbook can show (gen_notes.py checks the facts the notes rely on against these)."""
+    texts = [text for _, text in PAGES.values()]
+    texts += [text for _, _, text in LEVELS] + [text for _, _, _, text in ENTITIES] + [ENTITY_NOTES]
+    return texts + list(INDEX_TEXT.values())
+
+
 def check():
-    """Every link to one of our own items or blocks must name something that exists, and every page link a page."""
+    """Every link to one of our own items or blocks must name something that exists, every page link a page; the tables
+    must agree with each other; and config/guide.json and the lang file must be what config() and fill() make."""
     items = set()
     for kind in ("itemtypes", "blocktypes"):
         for root, _, files in os.walk(os.path.join(ASSETS, kind)):
@@ -1092,7 +1356,11 @@ def check():
                     m = re.search(r'"code"\s*:\s*"([^"]+)"', fh.read())
                 if m:
                     items.add(m.group(1))
-    pages = {"backrooms-" + code for code in PAGES} | {
+    level_ids = [lid for lid, _, _ in LEVELS]
+    # (backrooms-farlevels was The Levels: Beyond the Rings, and opens The Levels now)
+    pages = {"backrooms-" + code for code in PAGES} | {"backrooms-farlevels"}
+    pages |= {f"backrooms-level-{lid}" for lid in level_ids} | {f"backrooms-entity-{code}" for code, _, _, _ in ENTITIES}
+    pages |= {
         "craftinginfo-starterguide", "craftinginfo-progressionguide", "gamemechanicinfo-temporalstability",
         "craftinginfo-knapping", "craftinginfo-clayforming", "craftinginfo-mealcooking", "craftinginfo-charcoalburning",
         "gamemechanicinfo-farming", "gamemechanicinfo-foodpreservation", "gamemechanicinfo-animalhusbandry",
@@ -1105,6 +1373,8 @@ def check():
     }
     bad = []
     texts = [(code, text) for code, (_, text) in PAGES.items()] + list(BRIDGES.items())
+    texts += [(f"level-{lid}", text) for lid, _, text in LEVELS] + [(f"entity-{code}", text) for code, _, _, text in ENTITIES]
+    texts += [("entitynotes", ENTITY_NOTES)] + [(f"index-{k}", text) for k, text in INDEX_TEXT.items()]
     texts += [(f"tutorial-{n}", text) for n, text in enumerate(TUTORIAL, 1)]
     texts += [(f"tutorial-{n}", text) for n, text in TUTORIAL_MAP.items()]
     for code, text in texts:
@@ -1116,9 +1386,40 @@ def check():
             # (A variant, like wanderernote-door, is named after its file plus its states)
             if name not in items and not any(name.startswith(item + "-") for item in items):
                 bad.append((code, target))
-        for target in re.findall(r"\]\(([a-z]+-[a-z]+)\)", text):
+        for target in re.findall(r"\]\(([a-z]+(?:-[a-z0-9]+)+)\)", text):
             if target not in pages and not target.startswith(("item-", "block-")):
                 bad.append((code, target))
+    # The tables agree
+    if len(set(level_ids)) != len(level_ids):
+        bad.append(("LEVELS", "a level twice"))
+    codes = [code for code, _, _, _ in ENTITIES]
+    if len(set(codes)) != len(codes) or set(codes) != set(MEETS):
+        bad.append(("ENTITIES", "a code twice, or ENTITIES and MEETS differ: %s" % sorted(set(codes) ^ set(MEETS))))
+    for code, _, levels, _ in ENTITIES:
+        if not levels or any(l not in level_ids for l in levels):
+            bad.append((f"entity-{code}", f"levels {levels}"))
+    for page, text in (("thresholds", PAGES["thresholds"][1]), ("entitynotes", ENTITY_NOTES)):
+        for _, lines in gated(text)[1]:
+            for levels, line in lines:
+                if any(l not in level_ids for l in levels):
+                    bad.append((page, f"levels {levels} in {line[:40]}"))
+    if any(l not in level_ids for l in LISTED_LEVELS):
+        bad.append(("LISTED_LEVELS", "a level not in LEVELS"))
+    # What is on disk is what this writes
+    try:
+        with open(CONFIG_PATH, encoding="utf-8") as f:
+            if f.read() != config_text():
+                bad.append(("config/guide.json", "stale: run python tools/gen_guide.py"))
+    except OSError:
+        bad.append(("config/guide.json", "missing: run python tools/gen_guide.py"))
+    with open(os.path.join(ASSETS, "lang", "en.json"), encoding="utf-8") as f:
+        en = json.load(f)
+    stale = [k for k, v in LANG.items() if en.get(k) != v]
+    if stale:
+        bad.append(("lang/en.json", f"{len(stale)} handbook keys stale or missing (first {stale[0]}): run python tools/gen_guide.py"))
+    gone = [k for k in en if k.startswith("guide-") and k not in LANG]
+    if gone:
+        bad.append(("lang/en.json", f"handbook keys no longer written: {gone[:6]}"))
     return bad
 
 
@@ -1131,8 +1432,9 @@ if __name__ == "__main__":
         sys.exit(1 if problems else 0)
     from gen_detail import merge_lang
     merge_lang()
+    write_config()
     for code, (title, text) in PAGES.items():
         print(f"{code:12} {len(to_vtml(text)):5} characters  {title}")
-    print(f"{len(BRIDGES)} prefaces, {len(TUTORIAL)} tutorial steps")
+    print(f"{len(LEVELS)} levels, {len(ENTITIES)} creatures, {len(BRIDGES)} prefaces, {len(TUTORIAL)} tutorial steps")
     problems = check()
     print("links ok" if not problems else f"BROKEN LINKS: {problems}")

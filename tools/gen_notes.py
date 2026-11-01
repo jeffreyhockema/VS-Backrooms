@@ -1035,7 +1035,7 @@ def check():
     # Facts
     try:
         import gen_guide
-        guide = "\n".join(text for _, text in gen_guide.PAGES.values())
+        guide = "\n".join(gen_guide.all_texts())
     except Exception as ex:  # (gen_guide imports the texture kit; keep the check usable without it)
         guide = ""
         print(f"gen_notes: could not read the handbook ({ex}); checking facts against the README and player guide only")
