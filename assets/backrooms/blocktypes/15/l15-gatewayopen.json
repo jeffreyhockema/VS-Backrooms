@@ -1,0 +1,76 @@
+// Level 15's link: the gateway rolled up, dark, a warm glow low down (lower, upper); no collision: walk into it, one way, to Level 3
+{
+	"code": "l15-gatewayopen",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-lower": {
+			"all": {
+				"base": "block/15/gateway-openlower"
+			}
+		},
+		"*-upper": {
+			"all": {
+				"base": "block/15/gateway-openupper"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-lower"
+		],
+		"backrooms": [
+			"*-lower"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"collisionbox": null,
+	"lightAbsorption": 0,
+	"lightHsvByType": {
+		"*-lower": [
+			6,
+			6,
+			6
+		],
+		"*": [
+			6,
+			6,
+			2
+		]
+	},
+	"vertexFlagsByType": {
+		"*-lower": {
+			"glowLevel": 60
+		}
+	},
+	"resistance": 10,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "l15-gateway"
+			}
+		}
+	]
+}

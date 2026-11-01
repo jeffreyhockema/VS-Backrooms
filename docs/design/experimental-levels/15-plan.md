@@ -237,3 +237,88 @@ fittings at a distance.
 
 **Open questions for the user** (round 1's stand). Is the dark share right now (one square in seven, 17% of tiles with the
 rooms that open into it)? Should the halls' cyan line and the hall signs stay (inventions)?
+
+## Links (2026-10-31)
+
+LINKS.md's "Level 15" section, built (branch `exp/15`). Every way is one-way and rare: the level is "extremely hard to get
+into and out of". Code: `WorldLayout.Level15.Links.cs` (the layout of all of it, the arrival finder, the showcase spots),
+`WorldGenerator.L15.Links.cs` (the blocks), `ThresholdNetwork.L15.cs` (the thresholds), `Regions/L15System.cs` (the ESCAPE
+panel, the breaking pane, test commands), `tools/gen_15_links.py` (seven new blocks and their textures),
+`tools/mapgen/L15Stats.cs` (`15links`). Unders `L15Wall10` 448 to `L15Stairs` 457; layout salts 0x2780-0x2785; threshold
+salts 0x27C1-0x27C5.
+
+**Ways in.**
+- *Level 10, the white wall* (Wikidot, Fandom). Now and then an immense wall of Level 15's own white panels stands across
+  the fields: the main halls' wall seen from outside (the kick plate, the graphite band and its pale line, a wall light in
+  every other bay, the cornice light, white panels on up, a white steel pilaster every eight blocks, a steel coping), two
+  blocks thick, ten high (rel 1-10: Level 10's band ends there, so it cannot be taller) and 384 long, laid in the middle of
+  a block of the farm roads so that it never crosses one and runs from its door out of sight into the haze both ways. One
+  small reinforced door in one face, lit jambs and a lit lintel round it, a steel tread plate before it. At most one to a
+  square of the fields 2048 blocks a side (half the squares try; it must lie wholly on crops, stubble or meadow, clear of
+  trees, scarecrows, field sheds and troughs, farmsteads, paddocks, ponds, Level 3999's arcade and windmills, and 64 blocks
+  inside Level 10). Used: one way into Level 15.
+- *Level 3, a door* (Fandom: "opening numerous doors in Level 3 has, in rare instances, led to Level 15"; and its first
+  entrance, the shock from a door handle). About one cell in 1500 has a painted steel door (HIGH VOLTAGE) set in a straight
+  wall, solid wall behind it and either side, clear floor before it, cold white light under it. Used: a jolt, and Level 15,
+  one way.
+- *Where they come out*: in a lit main hall, beside a reinforced door that does not open, one in the wall of nearly every
+  wing (93%), between two pilasters, lit jambs either side (`L15SealedArrival`: the nearest such door to a place near the
+  middle picked by the key, its hall tile lit). Used, it is locked.
+
+**Ways out** (Fandom; each one-way; one wing in about 21 has one, a third of them each kind; none within about 200 blocks
+of the middle, where people are put down):
+- *ESCAPE* ("a control panel will occasionally contain a button labeled ESCAPE ... a nearby locked gateway available,
+  leading to Level 3"): in a lit control room one ESCAPE panel on the wall of displays is live (`l15-escapelive`: the
+  button lit, a green lamp). The room's side wall (else the wall across from the panel) holds a locked security gateway two
+  wide and three high (`l15-gatewayshut`, the hazard band at its foot), with more wall behind it where a service passage
+  allows. Pressed (`BlockBehaviorL15Escape`, a threshold block so it never breaks), the gateway's blocks are swapped for
+  `l15-gatewayopen` (dark, a warm glow low down, no collision) for good; walking into it, or using it: Level 3.
+- *Breaking a window* ("can result in transportation to Level 11"): one pane of a lit machine room's thick glass wall onto a
+  corridor is `l15-cityglass`: orange, a sodium lamp's bloom and far lit windows in it, as if a street lay past the machine
+  room (our invention, so the pane can be found). Broken (`DidBreakBlock`): taken through, to a city sidewalk; once broken,
+  climbing onto its sill does the same.
+- *An office staircase* ("descending an office staircase may take you to Level 4"): a lit bare room, store, dormitory or
+  lab (7 to 28 blocks, at least 12 the long way) turned into an office out of place: Level 4's carpet, filing cabinets along
+  the long walls, a desk or two with chairs, Level 4's ceiling tiles between the lights; down its middle a two-wide flight
+  of concrete stairs through the floor (six steps, a landing, drywall round the stairwell). Three steps down, out of sight
+  of the room: Level 4, at the foot of a stairwell's flight up where one is near.
+- The star door stays a sight. Level 14's MEDICAL CENTER door, Level 0.8's blue door, a hospital door, THE ARCHIVES and the
+  spilt Almond Water: rumours in a note and on the handbook page.
+
+**Numbers** (seed 12345, full size; `mapgen 12345 16000 15links`). Level 10: 563,470 km2 of fields, 38,506 walls, one per
+14.6 km2 (about 3.8 km apart); the nearest door 7.6 km from spawn (518940,508868, facing west). Level 3: 10.7 km2, 5 doors,
+one per 2.1 km2 (about 1.5 km apart); the nearest 2.6 km from spawn (514533,511314, facing south). Level 15, the 841 wings
+round the middle: a door that does not open in 93% of wings; ESCAPE panels 9 (1.1% of wings, one per 1.5 km2), the nearest
+598 blocks from the middle; street panes 16 (1.9%, one per 0.86 km2), nearest 186; office stairs 14 (1.7%, one per 0.98
+km2), nearest 435. Arrivals beside a door that does not open: 40/40. Every way gone through in the network (`15links`
+trips): both ways in come out beside a door that does not open; those doors and the shut gateway are locked; the gateway
+(walked or used) leads to Level 3, the pane (broken or climbed) to Level 11; the stairs do nothing at their top and lead to
+Level 4 four steps down; every one is one way and the same place again.
+
+**Our inventions.** The wall's dress (the halls' own: the lore's "identical to the one from Level 15's interior") and its
+door's lit frame; the doors that do not open in every wing (the arrival's "reinforced door that does not open"); the Level 3
+door's look; the live panel's lit button and green lamp; the gateway's place in the panel's room; the street pane's orange
+light; the office's furniture and the depth at which the stairs take you. The wall does not vanish after use (the lore's
+"the door later vanishes" is told in the notes; in the world it stays).
+
+**Text.** Handbook page: "Ways in", "Ways out", "The star door" (the experimental line gone). Notes: l15-1 rewritten (the
+door you come out beside does not open), l15-8 ESCAPE (M.E.G.), l15-9 the office (Dez), l15-10 orange glass (Tom), l15-11
+the camps' rumours; the folded r-l15-1 ends "Ways out: none I found. The M.E.G. claim three"; in the hosts' pools, through
+our own keys appended to their tracks from Level 15's block of gen_notes.py: l15-h10 (Level 10, Nell: the white wall) and
+l15-h3 (Level 3: white light under a door, the handle's jolt). A message for each arrival and for the panel.
+
+**Rows for the guide's ways-between-levels table.**
+
+| From | Threshold | To | Way |
+|---|---|---|---|
+| Level 10 | the small reinforced door in an immense white wall across the fields (one per ~15 km2) | Level 15, beside a door that does not open | one way |
+| Level 3 | a steel door with white light under it; its handle shocks (one per ~2 km2) | Level 15, beside a door that does not open | one way |
+| Level 15 | the gateway a live ESCAPE panel rolls up, in a control room | Level 3 | one way |
+| Level 15 | breaking an orange pane in a machine room's glass wall | Level 11, a sidewalk | one way |
+| Level 15 | down an office's staircase through the floor | Level 4, the foot of a stairwell | one way |
+
+**Shared files touched.** `Tiles.cs` (the Unders members in Level 15's block, one line); `lang/en.json` (Level 15's block);
+`tools/gen_notes.py` and `tools/gen_guide.py` (Level 15's blocks only; the two host notes are appended from there;
+`config/notes.json` and `notes-catalogue.md` regenerated). Level 15's own: `WorldLayout.Level15.cs` (`L15Plan` partial,
+`L15LinkPlan` after a wing is laid), `WorldGenerator.L15.cs` (the links' blocks first), the showcase (one line), the
+level's test command (`/backrooms l15 escape|break|l15-<kind> x z`).

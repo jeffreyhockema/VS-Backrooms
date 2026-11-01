@@ -1,0 +1,52 @@
+// Level 15's link: the locked gateway in a control room's wall, its shutter down (lower with the hazard band, upper). Its ESCAPE panel rolls it up (l15-gatewayopen)
+{
+	"code": "l15-gatewayshut",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-lower": {
+			"all": {
+				"base": "block/15/gate"
+			}
+		},
+		"*-upper": {
+			"all": {
+				"base": "block/15/gateway-slats"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-lower"
+		],
+		"backrooms": [
+			"*-lower"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 10,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "l15-gatewayshut"
+			}
+		}
+	]
+}

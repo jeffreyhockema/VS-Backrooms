@@ -1,0 +1,115 @@
+// Level 15's link: the small reinforced door in the immense white wall across Level 10's fields (lower, upper; the side its face is toward). Used: into Level 15, one way
+{
+	"code": "l15-walldoor",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-lower-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/door-reinforcedlower"
+			}
+		},
+		"*-lower-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/door-reinforcedlower"
+			}
+		},
+		"*-lower-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/door-reinforcedlower"
+			}
+		},
+		"*-lower-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/door-reinforcedlower"
+			}
+		},
+		"*-upper-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/door-reinforcedupper"
+			}
+		},
+		"*-upper-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/door-reinforcedupper"
+			}
+		},
+		"*-upper-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/door-reinforcedupper"
+			}
+		},
+		"*-upper-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/door-reinforcedupper"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-lower-north"
+		],
+		"backrooms": [
+			"*-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 10,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "l15-walldoor"
+			}
+		}
+	]
+}

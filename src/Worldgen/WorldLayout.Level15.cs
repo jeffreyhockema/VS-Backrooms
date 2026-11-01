@@ -108,7 +108,7 @@ public sealed partial class WorldLayout
     public const byte L15DoorGate = 1;
 
     /// <summary>The plan of one wing, by (A, B) = (x, z) from its inside's north-west corner, -1..121 each way (its walls included).</summary>
-    public sealed class L15Plan
+    public sealed partial class L15Plan
     {
         public int Hx, Hz;
         public int Rooms, Machines, Corpses, Camps, Boxes, Lockers;
@@ -320,6 +320,8 @@ public sealed partial class WorldLayout
     {
         var plan = new L15Plan { Hx = hx, Hz = hz };
         new L15Work(this, plan, Hashing.Hash(seed, hx, hz, SaltL15Wing)).Lay();
+        // Its links: the door that does not open, now and then a way out (WorldLayout.Level15.Links.cs)
+        L15LinkPlan(plan);
         return plan;
     }
 

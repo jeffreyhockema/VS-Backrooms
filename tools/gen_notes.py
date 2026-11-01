@@ -1121,9 +1121,10 @@ L15 = 27
 LEVEL_IDS.add(L15)
 TRACKS.append(Track("l15", "common", "Level 15: the Futuristic Halls", L15, entries=[
     E("l15-1", "The white wall", """
-Where Level 10's field ends there is a white wall too high to see the top of, and a small steel door in it. I went in
-and marked it on my chart. Two days later I went back for it and there was no door, only white wall from this side too.
-Write it down: the ways into this place close behind you.
+Out in Level 10's fields there is a white wall too high to climb, running out of sight both ways, and a small steel door
+in it. I went in and marked it on my chart. The door I came out beside is in a hall wall here, and it does not open from
+this side. There is one like it in nearly every block of these halls, and none of them open. Write it down: the ways
+into this place close behind you.
 — A.L., survey""", w="al"),
     E("l15-2", "The hum", """
 Ruth, it hums. Day and night, everywhere, like the whole place is one machine and we're inside it. Where the lights
@@ -1149,6 +1150,25 @@ Love, the power's out in patches a few hundred paces across. Black as anything i
 feel it in your head before long. Something walks in the dark, metal and slow, like a man built out of a stove. I heard
 it before I saw it. Go round.
 — Nell""", w="nell"),
+    E("l15-8", "ESCAPE", """
+M.E.G. FIELD NOTICE, UNCONFIRMED. In a few control rooms one panel on the display wall has its button lit, red, under
+the word ESCAPE, a green lamp beside it. Pressed, a locked security gateway in the same room rolls up onto dark. Two
+personnel who went through were later met in Level 3. One way. Every other ESCAPE panel is dead.
+— Field Team 9""", w="meg"),
+    E("l15-9", "An office", """
+Found an office in here. Carpet, filing cabinets, a desk, like somebody cut a piece out of Level 4 and set it down in
+the white. In the middle of it a staircase goes down through the floor. I went down it. I'm writing this in Level 4.
+Don't ask me to find it again; I tried.
+— Dez""", w="dez"),
+    E("l15-10", "Orange glass", """
+Ruth, one of the machine rooms has a pane in its glass wall that's orange, like there's a street lamp behind it and a
+city past that. There isn't, I walked round. I broke it anyway. If you find this, I'm in the city, I think. It's dark
+there, and nobody's in the windows.
+— Tom""", w="tom"),
+    E("l15-11", "What they say at the camps", """
+Talk at the camps, none of it seen by anyone I've met: a blue door; a door marked MEDICAL CENTER; a hospital door; a
+door marked THE ARCHIVES; a puddle of Almond Water you slip on in a narrow hall. All of them lead somewhere better. So
+does everything, at the camps."""),
     E("l15-7", "Two hours out", """
 Two hours out from where I camped, past the dark squares: an empty machine room, and in the middle of it a doorframe
 with no door and no wall, and in it a night sky and one small blue star. Cold came off it. I didn't go through and I
@@ -1159,9 +1179,20 @@ TRACKS.append(Track("rare-l15", "rare", "Folded notes", L15, chapter=RARE_CHAPTE
     E("r-l15-1", "The halls, fair copy", """
 Fair copy, Level 15. Main halls every hundred and twenty-eight paces both ways, lit, a steel rib every eight. Between
 them the wings: corridors cut across and across, rooms in between, a door each onto a corridor. Service passages grey
-and low and loud with air. One square in six without power. Bodies, camps, no one living in forty days. Ways out: none.
+and low and loud with air. One square in six without power. Bodies, camps, no one living in forty days. Ways out: none
+I found. The M.E.G. claim three: a lit ESCAPE button, an office stair, an orange pane.
 — A.L.""", w="al"),
 ]))
+# Level 15's ways in, talked of in the levels they lie in (our own keys, added to those levels' tracks)
+next(t for t in TRACKS if t.id == "l10").entries.append(E("l15-h10", "The white wall", """
+Love, past the last farm I came on a wall across the fields, white as a fridge and three times my height, running both
+ways till the haze took it. Lights set in it like a hallway's, and one small steel door with a lit frame. I didn't open
+it. Anything that clean out here isn't for us. Leave it be.
+— Nell""", w="nell"))
+next(t for t in TRACKS if t.id == "l3").entries.append(E("l15-h3", "A clean light", """
+Some of the doors in here have nothing behind them, and one I found had white light under it, cold and clean, nothing
+like the bulbs here. The handle bit me, a real jolt, and I let go. The fellow with me didn't. The door's still there.
+He isn't."""))
 # ---------------- (end of Level 15's block) ----------------
 
 TRACKS.append(Track("rare-any", "rare", "Folded notes", None, chapter=RARE_CHAPTER, entries=[

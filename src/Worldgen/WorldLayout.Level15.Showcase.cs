@@ -49,6 +49,8 @@ public partial class WorldLayout
             Add("roboman", dark.X, dark.Z - 10, 0, 0, $"/backrooms l15 roboman {dark.X} {dark.Z - 18}");
         }
         if (L15FindStarDoor() is { } star) Add("star-door", star.X, star.Z, star.Heading, 6);
+        // The links: the ways in, in Levels 10 and 3, the door that does not open, and the ways out (WorldLayout.Level15.Links.cs)
+        spots.AddRange(L15LinkSpots(geometry));
         return spots;
     }
 

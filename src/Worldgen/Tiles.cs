@@ -1042,6 +1042,14 @@ public static class Unders
     public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
     public const ushort L15First = 448, L15Last = 479;
+    /// <summary>
+    /// Level 15's links (WorldLayout.Level15.Links.cs). In Level 10: the immense white wall (Pier its face, Detail its dress),
+    /// the reinforced door in it, the tread plate before the door. In Level 3: the door that opens on Level 15 (Pier its face).
+    /// In Level 15: the hall doors that do not open, the ESCAPE panel that works, the gateway it opens, the pane that shows a
+    /// street, an office's floor, and the steps of the office's staircase down (Stack the step).
+    /// </summary>
+    public const ushort L15Wall10 = 448, L15WallDoor10 = 449, L15Apron10 = 450, L15Door3 = 451, L15Sealed = 452, L15Escape = 453,
+        L15Gateway = 454, L15Window = 455, L15Office = 456, L15Stairs = 457;
     public const ushort L23First = 480, L23Last = 511;
 
     /// <summary>One past the highest value (Tile.Under is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>

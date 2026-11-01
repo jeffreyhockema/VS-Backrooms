@@ -1004,15 +1004,24 @@ This level is devoid of them. Almond Water is all but absent. About half the sup
 **What walks in the dark**
 Where the power is out, and only there, a [Robo-Man](search:robo-man) walks now and then: slow, metal, and it will come for you. Where the lights are on you are safe.
 
-**The way in, and the star door**
-The wanderers say the way in is a small steel door in a white wall at the edge of Level 10's fields, and that the door is gone a day or two later. Nobody has written of a way out. Far from the middle, in one empty machine room, a doorframe stands on its own with a night sky in it and a small blue star. Nobody who went through it has written back, and it does not let you through.
+**Ways in**
+The level is hard to get into, and harder to leave. Rarely, out in Level 10's fields, an immense white wall rises across the crops, the halls' own wall seen from outside, running out of sight both ways, with one small reinforced door in it under a lit lintel. And very rarely one of Level 3's walls has a steel door in it that should not be there, cold white light under it; its handle gives you a shock. Either way you come to in a lit main hall, beside a small steel door that does not open from this side. There is one like it in the wall of nearly every block of halls, and none of them open.
+
+**Ways out**
+Every way out goes one way, and they are few: one block of halls in twenty or so has one, and nothing marks which.
+- In a few control rooms, one panel on the wall of displays has its red button lit, under the word ESCAPE, a green lamp beside it. Press it, and a locked security gateway in the same room rolls up onto the dark. Walk into it: Level 3.
+- Now and then a pane of a machine room's thick glass glows orange, as if a street lay behind it. Break it: you fall through onto a sidewalk of Level 11.
+- Somewhere there is an office that does not belong here, Level 4's carpet and filing cabinets, with a staircase going down through its floor. Go down it: Level 4.
+The wanderers talk of other doors (a blue door, one marked MEDICAL CENTER, a hospital door, one marked THE ARCHIVES); nobody who tells it has seen one.
+
+**The star door**
+Far from the middle, in one empty machine room, a doorframe stands on its own with a night sky in it and a small blue star. Nobody who went through it has written back, and it does not let you through.
 
 **Advice**
 - Stay in the light. Go round the dark squares rather than through them.
 - Mark your way: the halls repeat, and the codes on the doors (H for a lab, e for a store) are somebody else's system, not a map.
 - Never rest where the power is out. The dormitories' cots will do, where the lights work.
-
-*(An experimental level: no way in or out is built yet. It is reached with /backrooms goto 15.)*
+- Bring water in, and look in every control room for a lit button.
 """)
 # ---------------- (end of Level 15's page) ----------------
 # ---------- Level 23, the Petrified Garden (experimental level 28): its own page (GuideSystem.Added "level23"); tools/gen_23.py
