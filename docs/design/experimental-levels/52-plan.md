@@ -415,7 +415,7 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
 18. (B) Bleachers (stepped rows) by the J. Turner court and the sports field. [done] (two rows by every court, three by every pitch)
 19. (B) The trophy case in the quad's lobby (glass case on a plinth) and benches. [partly: two trophy cases across the corridor from each front door whose lobby stops there; no bench]
 20. (B) Elevator doors (closed: the lore has lifts; stairs carry people) beside the quad's first stairwell, a call button and a floor indicator. [done] (lift doors and an unlit floor indicator by the quad's first stairwell, every storey)
-21. (B) A car park outside each named campus's main gap (paved bays, painted lines, a few cars) and a bus shelter by the road. [partly: a bus shelter by each east road; no car park (no room left in the plots)]
+21. (B) A car park outside each named campus's main gap (paved bays, painted lines, a few cars) and a bus shelter by the road. [done] (a car park where a plot has no room for a pitch: two rows of bays, lines, a few of the mod's cars; a bus shelter by each east road)
 22. (B) Glazed courtyard roof on some quads (the lore's "translucent ceiling"). [done] (about one ordinary quad in three without a court)
 23. (C) Bike racks and planters by the entrances. [partly: bike racks along the wall beside teaching and lodging blocks' doors; no planters]
 
@@ -437,7 +437,7 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
 36. (B) Hedges along the quad's front and the main walk. [done] (`L52LayHedges`: a step beyond the quad's paving, broken at every path)
 37. (B) Door leaves standing open against the wall beside classroom doors (wood with a narrow window). [done] (about two rooms in three)
 38. (B) The lobby's floor: an entrance mat inside each outside door, a different floor from the corridors. [done] (a ribbed entrance mat on the two tiles inside every outside door)
-39. (C) Fresh paint patches over the Crash's bullet holes at J. Barry (the aftermath text). [skipped: time]
+39. (C) Fresh paint patches over the Crash's bullet holes at J. Barry (the aftermath text). [done] (`l52-wallpatch`, about one wall block in sixteen along J. Barry's corridors)
 
 **5. Lore alignment**
 40. (A) Classrooms stay identical and dark (the lore); the new room kinds take the places the lore lists (offices, faculty rooms, labs, libraries, utility rooms). [done] (classrooms untouched; the new kinds take the places of classrooms, as the lore's room list)
@@ -448,6 +448,10 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
 43. (A) Block names in the HUD for every new block (lang), pick-block works, sounds by material. [done] (en.json names; materials and sounds per block)
 44. (A) Showcase spots for every new set piece, computed from the layout. [done] (13 new spots: front office, restroom, library, staff room, lab, stair hall, gym, lecture theatre, clock tower, gate boards, abandoned base, pitch, J. Barry's sign; two link spots dropped)
 45. (B) The handbook page and notes mention the new sights where the lore has them (the M.E.G.'s sign, Cool Mart Co.). [done] (the handbook page: building and floor numbers, restrooms by the stairs, the M.E.G.'s sign, the tower clock, COOL MART CO., the alarm bells, the bases' boards)
+
+Beyond the list (seen in run 1): the quad's ways in get a glazed bay the height of the building (not at Marshall David,
+all white concrete by the lore); outside walls show the room's paint on their inward face (before, brick or façade
+panels showed inside the rooms and halls).
 
 ### How it is built
 - `WorldLayout.Level52.Detail.cs` (new): the room roles (`L52AssignRoles`, from `L52Partition`), and every fitting laid once
