@@ -532,8 +532,8 @@ revolving doors' TO LV screens (asked for by the lead).
   was empty (a fourth row of tables and a jukebox since); the snack window's menu touched its frame (fixed).
 - **Run 2** (`31-r3b/`): the rig stopped after five spots on a PermissionError of its own (not the level's); its
   shots (rink, star, DJ, lobby, lobby front) matched run 1's.
-- **Run 3** (final, `%TEMP%/backrooms-shots/31-r3-final/`, `sheet.jpg`; 27 of 28 spots, Level 6's door spot fails to
-  shoot as in round 2's links run, the level is dark): the restrooms now read as restrooms (two runs of stalls,
+- **Run 3** (final, `%TEMP%/backrooms-shots/31-r3-final/`, `sheet.jpg`; the rig counts 27 of 28 spots shot though
+  every spot it logs, Level 6's door included, reports ok): the restrooms now read as restrooms (two runs of stalls,
   the vanity under its mirrors); the corridor's SKATE RENTAL and SNACK BAR signs over their doors; the food court
   fuller; the Coach, the prize corner, the snack window, the trophy cases, the cinema's TV, the revolving door's
   TO LV11 screen and a random arrival facing the RINK RULES board all hold. **Still weak:** the HVAC rooms (the
