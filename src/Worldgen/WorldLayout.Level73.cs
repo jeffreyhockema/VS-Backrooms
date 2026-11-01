@@ -74,7 +74,7 @@ public sealed partial class WorldLayout
         Bath, Painting, Banner, SofaLeft, SofaRight, Desk, RoundTable, Dresser, Box, Crate, Bones, Ribcage, Skull, Pack, Note,
         // Round 3 (2026-11-01): fireplaces (the fire, the stone jambs either side), the castle's furniture, hangings and text
         Fire, Jamb, Chest, Washstand, Worktable, PotRack, Lectern, Linen, WingChair, CoffeeTable, ConsoleTable, PantryShelf, Sacks,
-        TapestryL, TapestryR, SamplerL, SamplerR, Plate, Notice,
+        TapestryL, TapestryR, SamplerL, SamplerR, Plate, Notice, Sheeted,
     }
 
     /// <summary>Which layer of a tile a furnishing takes: the floor, the wall behind it (above eye height), the ceiling, or the
@@ -768,7 +768,7 @@ public sealed partial class WorldLayout
             Put(6, 2, s, L73Thing.Bath, N);
             Put(1, 5, s, L73Thing.Toilet, E);
             Put(8, 3, s, L73Thing.Washstand, W);
-            Put(8, 5, s, L73Thing.Sconce, W);
+            Put(8, 5, s, L73Thing.Sconce, W); Put(1, 3, s, L73Thing.Sconce, E); Put(4, 3, s, L73Thing.Chandelier, N);
             Put(8, 2, s, L73Thing.Notice, W, L73NoticeOutside);
             Put(2, 9, s, L73Thing.Linen, N); Put(6, 9, s, L73Thing.Linen, N);
             Put(8, 9, s, L73Thing.Crate, W);
@@ -922,6 +922,8 @@ public sealed partial class WorldLayout
         Put(11, 6, 3, L73Thing.Crate, N); Put(12, 6, 3, L73Thing.Crate, N); Put(11, 7, 3, L73Thing.Crate, N);
         Put(16, 6, 3, L73Thing.Skull, S); Put(15, 7, 3, L73Thing.Ribcage, E); Put(14, 8, 3, L73Thing.Bones, N);
         Put(22, 6, 3, L73Thing.Pack, S); Put(12, 13, 3, L73Thing.Bones, N); Put(13, 10, 3, L73Thing.Chest, E);
+        Put(18, 5, 3, L73Thing.Sheeted, S, 0); Put(20, 5, 3, L73Thing.Sheeted, S, 1); Put(24, 8, 3, L73Thing.Sheeted, W, 1);
+        Put(17, 12, 3, L73Thing.Sheeted, N, 0);
         return f;
     }
 

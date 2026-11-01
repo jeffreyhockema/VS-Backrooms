@@ -32,6 +32,9 @@ public sealed partial class WorldGenerator
     private int l73FloorBoards, l73TileCeil, l73Flags, l73PathFlags, l73Trodden, l73PotRack, l73Well, l73Barrel;
     private readonly int[,] l73Carcass = new int[2, 4];
     private readonly int[] l73Cart = new int[4], l73Larder = new int[4], l73Sacks = new int[4];
+    private readonly int[,] l73Sheeted = new int[2, 4];
+    private readonly int[] l73Lime = new int[5];
+    private int l73HookMeat;
     private readonly int[] l73Mantel = new int[4], l73Beam = new int[2], l73StairRail = new int[2], l73Rail = new int[4], l73Chest = new int[4],
         l73Washstand = new int[4], l73Lectern = new int[4], l73Linen = new int[4], l73MegPlacard = new int[4], l73BoneJoint = new int[64],
         l73DeadWood = new int[3], l73Cornice = new int[5];
@@ -132,6 +135,8 @@ public sealed partial class WorldGenerator
         for (int p = 0; p < 3; p++) l73DeadWood[p] = Id("l73-deadwood-" + new[] { "root", "trunk", "top" }[p]);
         string[] lined = { "north", "east", "south", "west", "all" };
         for (int k = 0; k < 5; k++) l73Cornice[k] = Id("l73-cornice-" + lined[k]);
+        for (int k = 0; k < 5; k++) l73Lime[k] = Id("l73-lime-" + lined[k]);
+        l73HookMeat = Id("l73-hookmeat");
         for (int m = 0; m < 64; m++) l73BoneJoint[m] = Id("l73-bonejoint-c" + m);
         for (int k = 0; k < 2; k++)
             for (int p = 0; p < 9; p++) l73Rug[k, p] = Id($"l73-rug-{(k == 0 ? "red" : "blue")}-{rugParts[p]}");
@@ -147,6 +152,8 @@ public sealed partial class WorldGenerator
             l73MegPlacard[f] = Id("l73-megplacard-" + side);
             l73Cart[f] = Id("l73-cart-" + side);
             l73Larder[f] = Id("l73-larder-" + side);
+            l73Sheeted[0, f] = Id("l73-sheeted-a-" + side);
+            l73Sheeted[1, f] = Id("l73-sheeted-b-" + side);
             l73Sacks[f] = Id("l73-sacks-" + side);
             l73Carcass[0, f] = Id("l73-carcass-a-" + side);
             l73Carcass[1, f] = Id("l73-carcass-b-" + side);
@@ -385,7 +392,9 @@ public sealed partial class WorldGenerator
             // cornice at the ceiling
             int lined = kv == 0 && ku is > 0 and < WorldLayout.L73KeepW - 1 ? 2 : kv == WorldLayout.L73KeepD - 1 && ku is > 0 and < WorldLayout.L73KeepW - 1 ? 0
                 : ku == 0 && kv is > 0 and < WorldLayout.L73KeepD - 1 ? 1 : ku == WorldLayout.L73KeepW - 1 && kv is > 0 and < WorldLayout.L73KeepD - 1 ? 3 : -1;
-            return lined < 0 ? l73Silver : L73Lining(h, lined);
+            if (lined < 0) return l73Silver;
+            int iu = ku == 0 ? 1 : ku == WorldLayout.L73KeepW - 1 ? WorldLayout.L73KeepW - 2 : ku, iv = kv == 0 ? 1 : kv == WorldLayout.L73KeepD - 1 ? WorldLayout.L73KeepD - 2 : kv;
+            return L73Service(WorldLayout.L73RoomAt(iu, iv, s)) ? l73Lime[lined] : L73Lining(h, lined);
         }
         // The dining hall's hearth: a great open fire three high under its mantel, between stone jambs
         if (s == 0 && WorldLayout.L73HearthAt(ku, kv) is int hearth and > 0)
@@ -406,6 +415,8 @@ public sealed partial class WorldGenerator
                 bool fire = ku is 17 or 18;
                 return h == 1 ? (fire ? l73Fire[0, Facing(ArchPier.South)] : l73Silver) : h == 2 ? l73Mantel[Facing(ArchPier.South)] : l73Silver;
             }
+            // (the wall between the kitchen and the pantry is limewashed both sides)
+            if (s == 0 && kv == 7 && ku > 26) return l73Lime[4];
             return L73Lining(h, 4);
         }
         int st = WorldLayout.L73StairStep(ku, kv, s);
@@ -455,7 +466,7 @@ public sealed partial class WorldGenerator
         {
             return (ku, kv) switch
             {
-                (27, 1) or (28, 1) or (29, 1) or (27, 2) or (27, 3) or (33, 1) or (34, 1) => l73Barrel,
+                (27, 1) or (28, 1) or (29, 1) or (27, 2) or (27, 3) or (27, 4) or (33, 1) or (34, 1) or (32, 1) => l73Barrel,
                 (34, 3) or (34, 4) => l73Carcass[0, Facing(ArchPier.West)],
                 (33, 4) or (34, 5) => l73Carcass[1, Facing(ArchPier.North)],
                 (27, 7) or (27, 8) or (28, 10) => PropBlock(new Tile { Variant = Props.WreckCrate, Pier = ArchPier.East }),
@@ -464,10 +475,20 @@ public sealed partial class WorldGenerator
                 _ => 0,
             };
         }
-        if (h == 2 && (ku, kv) is (27, 1) or (28, 1) or (27, 2)) return l73Barrel; // (stacked)
-        if (h == 3) return (ku, kv) switch { (27, 5) => l73Sconce[Facing(ArchPier.East)], (34, 8) => l73Sconce[Facing(ArchPier.West)], _ => 0 };
+        if (h == 2 && (ku, kv) is (27, 1) or (28, 1) or (27, 2) or (29, 1) or (33, 1)) return l73Barrel; // (stacked)
+        if (h == 3) return (ku, kv) switch
+        {
+            (27, 5) => l73Sconce[Facing(ArchPier.East)], (34, 8) => l73Sconce[Facing(ArchPier.West)], (31, 1) => l73Sconce[Facing(ArchPier.South)],
+            (31, 10) => l73Sconce[Facing(ArchPier.North)],
+            _ => 0,
+        };
+        // Carcasses hung by their heels from hooks in two rows (the Hound meat that feeds the castle's fires)
+        if (h == 4 && ku is 30 or 32 && kv is 3 or 5 or 7) return l73HookMeat;
         return 0;
     }
+
+    /// <summary>The service rooms, limewashed rather than panelled and papered: the kitchen and the pantry.</summary>
+    private static bool L73Service(Room room) => room is Room.Kitchen or Room.Pantry;
 
     /// <summary>A lined wall's block at a height over the floor: the panelling (1), the damask (2, 3), the cornice (4).</summary>
     private int L73Lining(int h, int face) => h == 1 ? l73Lined[0, face] : h == 4 ? l73Cornice[face] : l73Lined[1, face];
@@ -643,6 +664,7 @@ public sealed partial class WorldGenerator
             Thing.Worktable => l73Worktable[System.Math.Min((int)kind, 1), f],
             Thing.Lectern => l73Lectern[f],
             Thing.Linen => l73Linen[f],
+            Thing.Sheeted => l73Sheeted[System.Math.Min((int)kind, 1), f],
             // Beds are modelled head to the north; the facing points from the head toward the foot
             Thing.BedHead => bedHeadIds[Facing(Opposite(facing))],
             Thing.BedFoot => bedFootIds[Facing(Opposite(facing))],

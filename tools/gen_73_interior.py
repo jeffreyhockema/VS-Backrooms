@@ -198,7 +198,8 @@ def rug_part(whole, part):
     """The 32x32 piece of the 96x96 rug a part takes (c the middle; n, e, s, w the edges; the corners)."""
     col = {"w": 0, "nw": 0, "sw": 0, "e": 2, "ne": 2, "se": 2}.get(part, 1)
     row = {"n": 0, "nw": 0, "ne": 0, "s": 2, "sw": 2, "se": 2}.get(part, 1)
-    return whole.crop((col * 32, row * 32, col * 32 + 32, row * 32 + 32))
+    # (the game shows a cube's up face turned half round against the picture: turn each piece to meet it)
+    return whole.crop((col * 32, row * 32, col * 32 + 32, row * 32 + 32)).rotate(180)
 
 
 def cornice(seed, damask_img):
@@ -469,10 +470,6 @@ def mantel_shape():
         box("Lintel", [0, 0, 2.5], [16, 4, 4], "#carved"),
         box("Shelf", [-1, 8, 0], [17, 10, 4], "#stone"),
         box("Bracket", [-1, 4, 1], [17, 8, 4], "#stone"),
-        box("StickL", [2, 10, 1], [3, 13, 2], "#iron"), box("CandleL", [2.1, 13, 1.1], [2.9, 16, 1.9], "#wax"),
-        box("FlameL", [2.2, 16, 1.2], [2.8, 17, 1.8], "#glow", glow=255),
-        box("StickR", [13, 10, 1], [14, 13, 2], "#iron"), box("CandleR", [13.1, 13, 1.1], [13.9, 16, 1.9], "#wax"),
-        box("FlameR", [13.2, 16, 1.2], [13.8, 17, 1.8], "#glow", glow=255),
     ])
 
 
@@ -687,7 +684,7 @@ def deadwood_shape(part):
             els.append(box(f"Root{i}", a, b, "#bark"))
         return shape(tex, els)
     if part == "trunk":
-        return shape(tex, [box("Lower", [4, 0, 4], [12, 9, 12], "#bark"), box("Upper", [4.5, 9, 3.5], [11.5, 16, 11], "#bark")])
+        return shape(tex, [box("Lower", [3.5, 0, 3.5], [12.5, 9, 12.5], "#bark"), box("Upper", [4, 9, 3.5], [12, 16, 12], "#bark")])
     # the top: the trunk narrows and forks
     return shape(tex, [
         box("Neck", [5, 0, 4.5], [11, 7, 10.5], "#bark"),
@@ -703,12 +700,12 @@ def deadbranch_shape(kind):
     tex = {"bark": T + "deadbark"}
     if kind == "a":
         return shape(tex, [
-            box("A1", [6.5, 2, 11], [9.5, 5, 16], "#bark"), box("A2", [6, 4, 6], [9, 8.5, 11], "#bark"),
+            box("A1", [6.5, 2, 11], [9.5, 5, 21], "#bark"), box("A2", [6, 4, 6], [9, 8.5, 11], "#bark"),
             box("A3", [5.5, 8, 1.5], [8, 13, 6], "#bark"), box("A4", [5.8, 13, 0], [7.5, 18, 2], "#bark"),
             box("Twig", [8, 8, 3], [10.5, 9.5, 5], "#bark"), box("Twig2", [10, 9, 2], [11.5, 12, 3.5], "#bark"),
         ])
     return shape(tex, [
-        box("B1", [7, 6, 9], [10, 9, 16], "#bark"), box("B2", [7.5, 7, 3], [9.5, 9.5, 9], "#bark"),
+        box("B1", [7, 6, 9], [10, 9, 21], "#bark"), box("B2", [7.5, 7, 3], [9.5, 9.5, 9], "#bark"),
         box("B3", [8, 8, 0], [9.5, 10, 3], "#bark"),
         box("ForkL", [3, 9, 4], [7.5, 10.5, 5.5], "#bark"), box("ForkL2", [2, 10, 3], [3.5, 14, 4.5], "#bark"),
         box("ForkR", [9.5, 9, 6], [13, 11, 7.5], "#bark"), box("ForkR2", [12, 11, 6], [13.5, 15, 7.5], "#bark"),
@@ -785,6 +782,38 @@ def sacks_shape():
     return shape(tex, [box("SackA", [1, 0, 2], [8, 9, 9], "#linen"), box("TieA", [3.5, 9, 4.5], [5.5, 10.5, 6.5], "#rope"),
                        box("SackB", [8, 0, 3], [15, 8, 10], "#linen"), box("SackC", [3, 0, 9], [11, 6, 15], "#linen"),
                        box("SackD", [4, 6, 9.5], [10, 10, 14.5], "#linen")])
+
+
+def sheeted_shape(kind):
+    """Furniture under a dust sheet in the shut attic: an armchair (a), something tall, a mirror or a wardrobe (b)."""
+    tex = {"sheet": T + "dustsheet"}
+    if kind == "a":
+        return shape(tex, [box("Seat", [1, 0, 2], [15, 8, 14], "#sheet"), box("Back", [1, 8, 10], [15, 17, 14], "#sheet"),
+                           box("ArmL", [0.5, 8, 2], [3, 11, 10], "#sheet"), box("ArmR", [13, 8, 2], [15.5, 11, 10], "#sheet"),
+                           box("Hem", [0.5, 0, 1.5], [15.5, 2, 14.5], "#sheet")])
+    return shape(tex, [box("Body", [2, 0, 4], [14, 28, 12], "#sheet"), box("Top", [2.5, 28, 4.5], [13.5, 30, 11.5], "#sheet"),
+                       box("Hem", [1.5, 0, 3.5], [14.5, 3, 12.5], "#sheet")])
+
+
+def dustsheet(seed):
+    img = M.fabric(seed=seed, base=(176, 170, 156), weave="plain", contrast=5)
+    M.grime(img, 0.25, seed=seed + 1, color=(110, 100, 86), cover=0.5)
+    return img
+
+
+def limewash(seed):
+    img = M.plaster(seed=seed, base=(206, 200, 184), grain=3, mottle=9)
+    M.grime(img, 0.22, seed=seed + 1, color=(120, 104, 84), cover=0.5)
+    M.drips(img, 3, seed=seed + 2, color=(130, 112, 90), strength=0.25)
+    return img
+
+
+def hookmeat_shape():
+    """A carcass hung by its heels from a hook and chain under the cellar's ceiling (the fuel)."""
+    tex = {"hide": T + "hide", "meat": T + "meat", "iron": T + "sconce-iron"}
+    return shape(tex, [box("Chain", [7.6, 10, 7.6], [8.4, 16, 8.4], "#iron"), box("Hook", [7, 8, 7.4], [9, 10, 8.6], "#iron"),
+                       box("Body", [5, -14, 5.5], [11, 8, 10.5], "#hide"), box("Cut", [5.5, -6, 5.2], [10.5, 4, 5.6], "#meat"),
+                       box("LegL", [5.5, 8, 7], [7, 10, 9], "#hide"), box("Head", [6, -19, 6], [10, -14, 10], "#hide")])
 
 
 def hide(seed):
@@ -878,7 +907,7 @@ def blocktypes():
                      [("kind", ["logs", "cauldron", "spit"]), ("side", SIDES)], lambda k, s: f"block/73/fire-{k}", "Stone",
                      FULL, coll=FULL, sounds=STONE, light=[4, 7, 14], inv="*-logs-north", extra={"renderpass": "OpaqueNoCull"}))
     out.append(multi("l73-mantel", "// Level 73: the carved stone over a fireplace, its mantel shelf with two candles",
-                     [("side", SIDES)], lambda s: "block/73/mantel", "Stone", FULL, coll=FULL, sounds=STONE, light=[6, 5, 6], inv="*-north"))
+                     [("side", SIDES)], lambda s: "block/73/mantel", "Stone", FULL, coll=FULL, sounds=STONE, inv="*-north"))
     out.append(multi("l73-canopy", "// Level 73: a four-poster's frame (posts, tester, valance, drapes) over two beds side by side, two blocks over them",
                      [("part", ["h0", "h1", "f0", "f1"]), ("cloth", ["red", "black"]), ("side", SIDES)],
                      lambda p, c, s: f"block/73/canopy-{p}-{c}", "Cloth", {"x1": 0, "y1": 0.75, "z1": 0, "x2": 1, "y2": 0.82, "z2": 1},
@@ -957,6 +986,16 @@ def blocktypes():
     out.append(multi("l73-sacks", "// Level 73: sacks of flour and meal (fixed, they give nothing)", [("side", SIDES)], lambda s: "block/73/sacks", "Cloth",
                      {"x1": 0.05, "y1": 0, "z1": 0.1, "x2": 0.95, "y2": 0.65, "z2": 0.95}, coll={"x1": 0.05, "y1": 0, "z1": 0.1, "x2": 0.95, "y2": 0.6, "z2": 0.95},
                      sounds=CLOTH, inv="*-north"))
+    out.append(multi("l73-sheeted", "// Level 73: furniture under a dust sheet in the attic (an armchair; something tall)",
+                     [("kind", ["a", "b"]), ("side", SIDES)], lambda k, s: f"block/73/sheeted-{k}", "Cloth", FULL, coll=FULL, sounds=CLOTH, inv="*-a-north"))
+    out.append(plain("l73-hookmeat", "// Level 73: a carcass hung on a hook under the cellar's ceiling (the fuel)", "block/73/hookmeat", "Cloth",
+                     sel={"x1": 0.3, "y1": 0, "z1": 0.3, "x2": 0.7, "y2": 1, "z2": 0.7}, sounds=CLOTH))
+    out.append(("// Level 73: limewashed walls of the keep's service rooms (the kitchen, the pantry), on the room's side", fixed({
+        "code": "l73-lime", "variantgroups": [{"code": "lined", "states": ["north", "east", "south", "west", "all"]}],
+        "creativeinventory": {"general": ["*-all"], "backrooms": ["*-all"]}, "blockmaterial": "Stone", "drawtype": "cube",
+        "texturesByType": dict({f"*-{f}": {"all": {"base": "block/73/silverwall"}, f: {"base": "block/73/limewash"}} for f in SIDES},
+                               **{"*-all": {"all": {"base": "block/73/limewash"}}}),
+        "drops": [], "sounds": STONE})))
     out.append(plain("l73-barrel", "// Level 73: a barrel in the courtyard", "block/73/barrel", "Wood",
                      sel={"x1": 0.12, "y1": 0, "z1": 0.12, "x2": 0.88, "y2": 0.88, "z2": 0.88}, coll={"x1": 0.12, "y1": 0, "z1": 0.12, "x2": 0.88, "y2": 0.88, "z2": 0.88}))
     out.append(multi("l73-cart", "// Level 73: a hand cart, its shafts to the front", [("side", SIDES)], lambda s: "block/73/cart", "Wood",
@@ -1025,6 +1064,8 @@ def textures(save):
     sv(trodden(7579), "trodden-2")
     sv(flags(7580), "flags")
     sv(hide(7583), "hide")
+    sv(limewash(7585), "limewash")
+    sv(dustsheet(7584), "dustsheet")
     sv(flags(7581, (92, 88, 86), stain=True), "pathflags")
     sv(flags(7582, (88, 84, 84), stain=True), "pathflags-2")
     return n
@@ -1073,7 +1114,10 @@ def shapes(write_json, shape_dir):
         w(f"boulder-{k}", boulder_shape(k))
         w(f"carcass-{k}", carcass_shape(k))
     w("well", well_shape())
+    w("hookmeat", hookmeat_shape())
     w("larder", larder_shape())
+    w("sheeted-a", sheeted_shape("a"))
+    w("sheeted-b", sheeted_shape("b"))
     w("sacks", sacks_shape())
     w("barrel", barrel_shape())
     w("cart", cart_shape())
@@ -1111,7 +1155,10 @@ LANG = [
     ("block-l73-boulder-*", "Black Boulder"),
     ("block-l73-cornice-*", "Cornice"),
     ("block-l73-well", "Well"),
+    ("block-l73-hookmeat", "Hung Carcass"),
+    ("block-l73-lime-*", "Limewashed Wall"),
     ("block-l73-larder-*", "Larder Shelves"),
+    ("block-l73-sheeted-*", "Dust Sheet"),
     ("block-l73-sacks-*", "Sacks of Meal"),
     ("block-l73-carcass-*", "Heap of the Dead"),
     ("block-l73-barrel", "Barrel"),

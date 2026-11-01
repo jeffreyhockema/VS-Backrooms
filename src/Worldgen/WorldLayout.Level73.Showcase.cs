@@ -65,13 +65,13 @@ public partial class WorldLayout
         // The kitchen off the dining hall: its hearth (a cauldron, a spit), the worktables under the pot rack
         yield return At(Keep(28.5, 3.5, 0), "kitchen", 90, -10);
         // The cellar under it, down the pantry's stair: barrels, the heaps of the dead kept for the fires
-        yield return At(Keep(29.5, 7.5, -1), "cellar", 45, -10);
+        yield return At(Keep(28.5, 8.5, -1), "cellar", 40, 4);
         // A guest room on the first floor: the two large canopied beds, a chest at the foot of each
         yield return At(Keep(6.5, 21.5, 1), "guest-room", 330, -16);
         // The same room's fireplace with the wing chairs before it
         yield return At(Keep(6.5, 18.5, 1), "guest-fire", 270, -8);
         // The ground floor's bathroom: the barrels of warm water, the washstand
-        yield return At(Keep(5.5, 5.5, 0), "bathroom", 330, -18);
+        yield return At(Keep(4.5, 5.5, 0), "bathroom", 20, -14);
         // The library on the first floor, its fireplace and shelves
         yield return At(Keep(29.5, 8.5, 1), "library", 70, -8);
         // Coran's solar on the third floor, round the chimney breast's fireplace
