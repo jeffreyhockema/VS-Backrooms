@@ -1,0 +1,94 @@
+// Level 15: the lecture hall's stepped floor, carpeted (half a block, a whole one)
+{
+	"code": "l15-riser",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"half",
+				"full"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-half": {
+			"base": "backrooms:block/15/l15-riser-half"
+		},
+		"*-full": {
+			"base": "backrooms:block/15/l15-riser-full"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolidByType": {
+		"*-full": {
+			"all": true
+		},
+		"*": {
+			"all": false,
+			"down": true
+		}
+	},
+	"sideopaqueByType": {
+		"*-full": {
+			"all": true
+		},
+		"*": {
+			"all": false,
+			"down": true
+		}
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth*",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxByType": {
+		"*-half": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"selectionboxByType": {
+		"*-half": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		}
+	}
+}

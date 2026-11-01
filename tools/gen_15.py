@@ -128,6 +128,9 @@ FONT = {
     "C": ["01110", "10001", "10000", "10000", "10000", "10001", "01110"],
     "D": ["11110", "10001", "10001", "10001", "10001", "10001", "11110"],
     "E": ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+    "F": ["11111", "10000", "10000", "11110", "10000", "10000", "10000"],
+    "G": ["01110", "10001", "10000", "10111", "10001", "10001", "01111"],
+    "R": ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
     "H": ["10001", "10001", "10001", "11111", "10001", "10001", "10001"],
     "I": ["01110", "00100", "00100", "00100", "00100", "00100", "01110"],
     "K": ["10001", "10010", "10100", "11000", "10100", "10010", "10001"],
@@ -414,8 +417,8 @@ def deco_textures():
         img = deco_base()
         lower = name.startswith("lamplower")
         y0, y1 = (0, 27) if lower else (4, 31)
-        rect(img, 6, y0, 25, y1, GRAPHITE)
-        rect(img, 8, y0 if lower else y0 + 2, 23, y1 - 2 if lower else y1, (244, 248, 252) if lit else (116, 122, 128))
+        rect(img, 6, y0, 25, y1, (150, 156, 164) if lit else GRAPHITE)  # round 3: a steel frame round a lit lens (it read as a dark panel)
+        rect(img, 7, y0 if lower else y0 + 1, 24, y1 - 1 if lower else y1, (250, 252, 255) if lit else (116, 122, 128))
         if lit:
             for y in range(y0, y1 + 1):
                 for x in range(8, 24):
@@ -448,7 +451,9 @@ def deco_textures():
 
 
 HALLS = ["A3", "C7", "D1", "E5", "K2", "L8", "M4", "N6"]
-CODES = ["H15", "H04", "e03", "e10", "M12", "M27", "D21", "D06", "K09", "K02", "C07", "C11", "L02", "L14", "S30", "S08"]
+CODES = ["H15", "H04", "e03", "e10", "M12", "M27", "D21", "D06", "K09", "K02", "C07", "C11", "L02", "L14", "S30", "S08",
+         # Round 3's rooms: canteens (F), medical bays (R), hydroponics (G)
+         "F06", "F12", "R03", "R08", "G05", "G11"]
 
 
 def view_rainbow(img, x0, y0, x1, y1):
@@ -1011,7 +1016,9 @@ def blocktypes():
 
     cube_block("l15-floor", {"ceramic": "floor-ceramic", "worn": "floor-worn", "coating": "floor-coating", "carpet": "floor-carpet",
                              "grating": "floor-grating", "strip": "floor-strip", "stripdead": "floor-stripdead", "blood": "floor-blood",
-                             "scorch": "floor-scorch", "track": "floor-track", "dust": "floor-dust"},
+                             "scorch": "floor-scorch", "track": "floor-track", "dust": "floor-dust",
+                             # Round 3 (gen_15_r3.py draws them): the medical bays' and labs' vinyl, the canteens' terrazzo
+                             "vinyl": "floor-vinyl", "terrazzo": "floor-terrazzo"},
                "Level 15: ceramic tiles (worn), a dark non-slip coating, carpet, steel grating, the floor lights along the halls' walls "
                "(strip: glowing to look at, giving no light; stripdead), dried blood, scorch, a gate's tread plate, dust",
                extra={"vertexFlagsByType": {"*-strip": {"glowLevel": 200}},

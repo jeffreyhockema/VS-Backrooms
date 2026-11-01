@@ -1,0 +1,152 @@
+// Level 15: a hydroponics rack two blocks high, its aisle side toward its side: trays of dead plants under grow lights (lit, off)
+{
+	"code": "l15-growrack",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "state",
+			"states": [
+				"lit",
+				"off"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l15-growrack-lower-lit-north": {
+			"base": "backrooms:block/15/l15-growrack-lower-lit",
+			"rotateY": 0
+		},
+		"l15-growrack-lower-lit-east": {
+			"base": "backrooms:block/15/l15-growrack-lower-lit",
+			"rotateY": 270
+		},
+		"l15-growrack-lower-lit-south": {
+			"base": "backrooms:block/15/l15-growrack-lower-lit",
+			"rotateY": 180
+		},
+		"l15-growrack-lower-lit-west": {
+			"base": "backrooms:block/15/l15-growrack-lower-lit",
+			"rotateY": 90
+		},
+		"l15-growrack-lower-off-north": {
+			"base": "backrooms:block/15/l15-growrack-lower-off",
+			"rotateY": 0
+		},
+		"l15-growrack-lower-off-east": {
+			"base": "backrooms:block/15/l15-growrack-lower-off",
+			"rotateY": 270
+		},
+		"l15-growrack-lower-off-south": {
+			"base": "backrooms:block/15/l15-growrack-lower-off",
+			"rotateY": 180
+		},
+		"l15-growrack-lower-off-west": {
+			"base": "backrooms:block/15/l15-growrack-lower-off",
+			"rotateY": 90
+		},
+		"l15-growrack-upper-lit-north": {
+			"base": "backrooms:block/15/l15-growrack-upper-lit",
+			"rotateY": 0
+		},
+		"l15-growrack-upper-lit-east": {
+			"base": "backrooms:block/15/l15-growrack-upper-lit",
+			"rotateY": 270
+		},
+		"l15-growrack-upper-lit-south": {
+			"base": "backrooms:block/15/l15-growrack-upper-lit",
+			"rotateY": 180
+		},
+		"l15-growrack-upper-lit-west": {
+			"base": "backrooms:block/15/l15-growrack-upper-lit",
+			"rotateY": 90
+		},
+		"l15-growrack-upper-off-north": {
+			"base": "backrooms:block/15/l15-growrack-upper-off",
+			"rotateY": 0
+		},
+		"l15-growrack-upper-off-east": {
+			"base": "backrooms:block/15/l15-growrack-upper-off",
+			"rotateY": 270
+		},
+		"l15-growrack-upper-off-south": {
+			"base": "backrooms:block/15/l15-growrack-upper-off",
+			"rotateY": 180
+		},
+		"l15-growrack-upper-off-west": {
+			"base": "backrooms:block/15/l15-growrack-upper-off",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l15-growrack-lower-lit-north"
+		],
+		"backrooms": [
+			"l15-growrack-lower-lit-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	],
+	"collisionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.1,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.9
+	},
+	"selectionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.1,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.9
+	},
+	"lightHsvByType": {
+		"*-upper-lit-*": [
+			54,
+			5,
+			7
+		]
+	}
+}

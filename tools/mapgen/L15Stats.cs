@@ -55,14 +55,14 @@ static partial class LevelModes
         var reached = new HashSet<(int, int)>();
         var queue = new Queue<(int, int)>();
         int walkable = 0, sealedTiles = 0, darkTiles = 0, levelTiles = 0, lights = 0;
-        var zones = new int[16];
+        var zones = new int[32];
         for (int z = z0; z <= z1; z++)
             for (int x = x0; x <= x1; x++)
             {
                 Tile t = T(x, z);
                 if (t.Level != WorldLayout.Level15) continue;
                 levelTiles++;
-                zones[(int)WorldLayout.L15ZoneOf(t) & 15]++;
+                zones[(int)WorldLayout.L15ZoneOf(t) & 31]++;
                 if (WorldLayout.L15IsDark(t) && darkTiles++ == 0) Console.WriteLine($"  first dark tile: block {x},{z} ({WorldLayout.L15ZoneOf(t)})");
                 if (t.Kind == TileKind.Floor && t.Ceiling == CeilingKind.L15LightOn && !WorldLayout.L15IsDark(t)) lights++;
                 if (!Walk(t)) continue;
@@ -190,7 +190,8 @@ static partial class LevelModes
                             Zone.Hall => (230, 230, 230), Zone.Corridor => (190, 190, 200), Zone.Service => (120, 120, 120),
                             Zone.Machine => (90, 140, 220), Zone.Wreck => (150, 80, 40), Zone.Lab => (120, 220, 160), Zone.Storage => (200, 170, 110),
                             Zone.Dorm => (200, 120, 200), Zone.Kitchen => (240, 160, 120), Zone.Control => (80, 220, 220), Zone.Lecture => (220, 220, 120),
-                            Zone.Blank => (250, 250, 250), Zone.Crematorium => (120, 40, 40), Zone.Star => (40, 40, 160), _ => (255, 0, 255),
+                            Zone.Blank => (250, 250, 250), Zone.Crematorium => (120, 40, 40), Zone.Star => (40, 40, 160),
+                            Zone.Canteen => (250, 200, 80), Zone.Medical => (240, 120, 120), Zone.Hydro => (120, 250, 80), _ => (255, 0, 255),
                         };
                     if (t.Kind == TileKind.Floor && (t.Variant != 0 || t.SupplyBox || t.Stack > 0)) (r, g, b) = (r / 2, g / 2, b / 2);
                     if (WorldLayout.L15IsDark(t)) (r, g, b) = (r / 3, g / 3, b / 3);
@@ -216,7 +217,7 @@ static partial class LevelModes
                 Tile t = layout.TileAt(x + dx, z + dz);
                 char c = t.Level != WorldLayout.Level15 ? '~' : t.Kind == TileKind.Wall ? '#' : t.Kind == TileKind.Doorway ? '+'
                     : t.SupplyBox ? 'B' : t.Variant == 0 && t.Stack > 0 ? 'C' : t.Variant != 0 && !WorldLayout.IsWalkThroughProp(t.Variant) ? (t.Variant >= 1300 ? (char)('a' + t.Variant - 1300) : 'P')
-                    : t.Sealed ? 's' : "?HcvMWLSDKCTBXZw"[(int)WorldLayout.L15ZoneOf(t) & 15];
+                    : t.Sealed ? 's' : "?HcvMWLSDKCTBXZwFRG"[(int)WorldLayout.L15ZoneOf(t) % 19];
                 line.Append(dx == 0 && dz == 0 ? '@' : c);
             }
             Console.WriteLine(line);

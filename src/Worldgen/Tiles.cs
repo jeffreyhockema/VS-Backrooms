@@ -894,6 +894,10 @@ public static class Overheads
     public const ushort L15First = 448, L15Last = 479;
     /// <summary>Level 15: a steel rib across the top of a hall (along the way it spans: west-east, north-south); a beam set in at a wrong angle.</summary>
     public const ushort L15RibWE = 448, L15RibNS = 449, L15OddBeam = 450;
+    /// <summary>Level 15: a cable tray hung along the top of a side corridor (along west-east, north-south).</summary>
+    public const ushort L15TrayWE = 451, L15TrayNS = 452;
+    /// <summary>Level 15: a medical bay's curtain between two beds, hung from a rail (rel 2-3), along the tile's edge toward its Pier.</summary>
+    public const ushort L15Curtain = 453;
     public const ushort L23First = 480, L23Last = 511;
     /// <summary>Level 31's tubes and disco ball and Level 120's cable trays, kept from before the widening (110-139 are main's to append to).</summary>
     public const byte L31LegacyFirst = 140, L31LegacyLast = 149;
@@ -1732,6 +1736,12 @@ public static class Props
     /// </summary>
     public const ushort L15Machine = 1300, L15Console = 1301, L15LabBench = 1302, L15Locker = 1303, L15Corpse = 1304, L15Rods = 1305,
         L15Stage = 1306, L15StarDoor = 1307, L15Pillar = 1308;
+    /// <summary>
+    /// Level 15, round 3: a lecture hall's row seat and its stepped floor (Stack the step, in half blocks; Pier the way the
+    /// seat faces), a robot charging dock (Pier its open side), the canteen's serving line (Stack its kind: wells, trays,
+    /// till; Pier the customer's side), a hydroponics rack (Pier its aisle side).
+    /// </summary>
+    public const ushort L15Seat = 1309, L15Riser = 1310, L15Dock = 1311, L15Serve = 1312, L15GrowRack = 1313;
     public const ushort L23First = 1400, L23Last = 1499;
 
     /// <summary>One past the highest prop any level may use: the size of the generator's prop tables (raise it with a new block).</summary>

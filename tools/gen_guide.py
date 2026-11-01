@@ -1016,7 +1016,7 @@ A labyrinth of clean white halls: panelled concrete, ribs and pilasters of white
 The machinery hums everywhere, louder in the machine rooms, and somewhere far off beeps now and then. In patches of the level, about one square in six and a few dozen paces across, the power is out: every light dead, the machines stopped, and instead of the hum a slow ticking like a heartbeat, which slows the longer you stay. The air there goes stale. It is four degrees colder, and it wears on your [Reality Stability](gamemechanicinfo-temporalstability) as long as you are in it.
 
 **Machine rooms and gates**
-Most of the tall rooms are machine rooms, behind security gates whose shutters are rolled up and whose hand scanners are dead, with a wall of thick glass onto the corridor. The machines go from cabinet size to monoliths five blocks high. Nearly all are dead; a few still run, lit and humming; some are burnt out. Break a dead machine's casing for [scrap wire](item-backrooms:scrapwire) and a little copper; the burnt ones give almost nothing. Somewhere a press still feeds steel rods onto a conveyor, for nobody. Other rooms are laboratories, stores, dormitories, kitchens, control rooms full of consoles (most dead; some lit, and all of them say no), lecture halls, and bare white rooms with something wrong in them.
+Most of the tall rooms are machine rooms, behind security gates whose shutters are rolled up and whose hand scanners are dead, with a wall of thick glass onto the corridor. The machines go from cabinet size to monoliths five blocks high. Nearly all are dead; a few still run, lit and humming; some are burnt out. Break a dead machine's casing for [scrap wire](item-backrooms:scrapwire) and a little copper; the burnt ones give almost nothing. Somewhere a press still feeds steel rods onto a conveyor, for nobody. Other rooms are laboratories, stores, dormitories of bunks, kitchens and canteens (the board over the serving line says SERVICE SUSPENDED), control rooms full of consoles (most dead; some lit, and all of them say no), raked lecture halls, medical bays with their beds still made, hydroponics bays where every plant is long dead (nothing in them is fit to eat), and bare white rooms with something wrong in them. Each door has its plate, a name and a code, and the lifts in the halls' walls have their call buttons lit; none of the lifts come.
 
 **What the dead left**
 No one lives here, and nothing native that anyone has proven. The dead do: in lab coats, months gone, some with a makeshift spear beside them. Break one for bones and threads, and the spear if there is one (a [glass spear](item-backrooms:glassspear)); sometimes a note. Their camps are in the dormitories and the bare rooms: a tent or a sleeping bag, a bag, a supply box, nearly always gone through. One room has an incinerator in it and is full of bones, mostly Hounds'.
@@ -1025,7 +1025,7 @@ No one lives here, and nothing native that anyone has proven. The dead do: in la
 This level is devoid of them. Almond Water is all but absent. About half the supply boxes were opened before you came. Steel lockers in the stores and dormitories that are still shut may hold a little; open ones were gone through. Carry water in.
 
 **What walks in the dark**
-Where the power is out, and only there, a [Robo-Man](search:robo-man) walks now and then: slow, metal, and it will come for you. Where the lights are on you are safe.
+Where the power is out, and only there, a [Robo-Man](search:robo-man) walks now and then: slow, metal, and it will come for you. Where the lights are on you are safe. Others stand in charging docks along the main halls, powered down, heads hung; none has been seen to move.
 
 **Ways in**
 The level is hard to get into, and harder to leave. Rarely, out in Level 10's fields, an immense white wall rises across the crops, the halls' own wall seen from outside, running out of sight both ways, with one small reinforced door in it under a lit lintel. And very rarely one of Level 3's walls has a steel door in it that should not be there, cold white light under it; its handle gives you a shock. Either way you come to in a lit main hall, beside a small steel door that does not open from this side. There is one like it in the wall of nearly every block of halls, and none of them open.
@@ -1043,7 +1043,7 @@ Far from the middle, in one empty machine room, a doorframe stands on its own wi
 **Advice**
 - Stay in the light. Go round the dark squares rather than through them.
 - Mark your way: the halls repeat, and the codes on the doors (H for a lab, e for a store) are somebody else's system, not a map.
-- Never rest where the power is out. The dormitories' cots will do, where the lights work.
+- Never rest where the power is out. The dormitories' bunks and the medical bays' beds will do, where the lights work.
 - Bring water in, and look in every control room for a lit button.
 """)
 # ---------------- (end of Level 15's page) ----------------

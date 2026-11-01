@@ -37,7 +37,7 @@ public sealed partial class WorldLayout
 {
     /// <summary>Hash salts 0x2700-0x27BF are this level's (0x27C0-0x27FF its thresholds').</summary>
     private const ulong SaltL15Shape = 0x2701, SaltL15Wing = 0x2710, SaltL15Light = 0x2711, SaltL15Dark = 0x2712, SaltL15Star = 0x2713,
-        SaltL15Hall = 0x2714, SaltL15HallStyle = 0x2715;
+        SaltL15Hall = 0x2714, SaltL15HallStyle = 0x2715, SaltL15Lift = 0x2716, SaltL15Dock = 0x2717;
 
     /// <summary>The lattice: a main hall every 128 blocks each way, five wide; a wing's inside is 121 square, its plan 123 with its walls.</summary>
     public const int L15Period = 128, L15HallWidth = 5, L15WingSize = 121, L15Grid = 123;
@@ -49,6 +49,8 @@ public sealed partial class WorldLayout
     public enum L15Zone : byte
     {
         None, Hall, Corridor, Service, Machine, Wreck, Lab, Storage, Dorm, Kitchen, Control, Lecture, Blank, Crematorium, Star, Wall,
+        /// <summary>Round 3's rooms: a canteen with its serving line, a medical bay, a hydroponics bay.</summary>
+        Canteen, Medical, Hydro,
     }
 
     /// <summary>Set in <see cref="Tile.Zone"/> where the power is out.</summary>
@@ -61,14 +63,14 @@ public sealed partial class WorldLayout
     public static bool L15IsDark(in Tile t) => (t.Zone & L15DarkBit) != 0;
 
     /// <summary>Whether a zone is one of the rooms (as against the halls, corridors and walls).</summary>
-    public static bool L15IsRoom(L15Zone z) => z is >= L15Zone.Machine and <= L15Zone.Star;
+    public static bool L15IsRoom(L15Zone z) => z is >= L15Zone.Machine and <= L15Zone.Star or >= L15Zone.Canteen and <= L15Zone.Hydro;
 
     /// <summary>Whether the power is out at a block position in Level 15 (false elsewhere).</summary>
     public bool L15DarkAt(int gx, int gz) => LevelAt(MacroOf(gx), MacroOf(gz)) == Level15 && L15IsDark(TileAt(gx, gz));
 
     /// <summary>A floor tile's finish (<see cref="Tile.Depth"/>).</summary>
     public const byte L15FloorCeramic = 0, L15FloorWorn = 1, L15FloorCoating = 2, L15FloorCarpet = 3, L15FloorGrating = 4, L15FloorStrip = 5,
-        L15FloorBlood = 6, L15FloorScorch = 7, L15FloorTrack = 8, L15FloorDust = 9;
+        L15FloorBlood = 6, L15FloorScorch = 7, L15FloorTrack = 8, L15FloorDust = 9, L15FloorVinyl = 11, L15FloorTerrazzo = 12;
 
     /// <summary>
     /// A wall tile's material (<see cref="Tile.Depth"/>): white panels, bare grey concrete (the service passages), scorched;
@@ -89,8 +91,21 @@ public sealed partial class WorldLayout
         L15WallDisplay = 6, L15WallRadar = 7, L15WallEscape = 8, L15WallView = 9, L15WallVent = 10, L15WallVentCode = 11, L15WallEtched = 12,
         L15WallWoodDoor = 13, L15WallBlood = 14, L15WallJamb = 15;
 
-    /// <summary>How many room codes there are to paint (<see cref="L15WallCode"/>): two per letter, H (labs), e (stores), M, D, K, C, L, S.</summary>
-    public const int L15Codes = 16;
+    /// <summary>
+    /// Round 3's wall dress (<see cref="Tile.Detail"/>): an AUTHORIZED PERSONNEL ONLY plate, a DECONTAMINATION plate (both at eye
+    /// height beside a door); a lift's left and right door leaves (rel 1-3, its indicator over them) and its call panel; a service
+    /// hatch and a grille with pipes behind it (at the foot of the wall); the canteen's menu board (<see cref="Tile.Stack"/> its
+    /// part, 0-2 from the left as you face it); a HIGH VOLTAGE plate.
+    /// </summary>
+    public const byte L15WallAuth = 16, L15WallDecon = 17, L15WallLiftL = 18, L15WallLiftR = 19, L15WallLiftCall = 20, L15WallHatch = 21,
+        L15WallPipes = 22, L15WallMenu = 23, L15WallHV = 24, L15WallBigScreen = 25, L15WallSlide = 26, L15WallMap = 27,
+        L15WallExtinguisher = 28;
+
+    /// <summary>
+    /// How many room codes there are to paint (<see cref="L15WallCode"/>): two per letter, H (labs), e (stores), M, D, K, C, L, S,
+    /// and round 3's F (canteens), R (medical bays), G (hydroponics). The letter (code / 2) also names the plate under it.
+    /// </summary>
+    public const int L15Codes = 22;
 
     /// <summary>How many views of other places a wall display can show (<see cref="L15WallView"/>).</summary>
     public const int L15Views = 3;
@@ -111,7 +126,7 @@ public sealed partial class WorldLayout
     public sealed partial class L15Plan
     {
         public int Hx, Hz;
-        public int Rooms, Machines, Corpses, Camps, Boxes, Lockers;
+        public int Rooms, Machines, Corpses, Camps, Boxes, Lockers, Lifts;
         public bool Star;
         /// <summary>Where the camps are (block positions), for the notes left at them.</summary>
         public readonly List<(int X, int Z)> CampSpots = new();
@@ -251,6 +266,8 @@ public sealed partial class WorldLayout
         t.Height = L15HallHeight;
         ulong h = Hashing.Hash(seed, gx, gz, SaltL15Hall);
         t.Depth = Hashing.Unit(h) < 0.08 ? L15FloorWorn : L15FloorCeramic;
+        // Round 3: dust drifts where the power is out (the lit halls stay clean; our invention, against Fandom's self-cleaning)
+        if (dark && Hashing.Unit(h) > 0.72) t.Depth = L15FloorDust;
         if (alongZ && alongX)
         {
             // A crossing: a square of nine panels over it, the middle one giving light
@@ -279,8 +296,18 @@ public sealed partial class WorldLayout
         if (Hashing.Mod(along, 8) == 0) t.Overhead = alongZ ? Overheads.L15RibWE : Overheads.L15RibNS;
         double p = Hashing.Unit(Hashing.Mix(h));
         if (t.Overhead == 0 && across is 1 or L15HallWidth && p > 0.9985) t.Overhead = Overheads.L15OddBeam;
-        // Now and then something left against a wall: a body, a dropped bag, bones (never in front of a door)
-        if (across is 1 or L15HallWidth && t.Overhead == 0 && p < 0.0017 && !L15DoorBeside(gx, gz, alongZ, across == 1))
+        // A robot's charging dock against the wall now and then, under a wall light (round 3; never by a door)
+        if (L15HallDockAt(gx, gz, alongZ, across))
+        {
+            t.Variant = Props.L15Dock;
+            t.Pier = alongZ ? (across == 1 ? ArchPier.East : ArchPier.West) : (across == 1 ? ArchPier.South : ArchPier.North);
+            return;
+        }
+        // Now and then something left against a wall: a body, a dropped bag, bones (never in front of a door); more of them
+        // where the power is out (round 3: the lore's dead and the Robo-Men's leavings lie in the dark)
+        double left = dark ? 0.0045 : 0.0017;
+        if (dark && p >= 0.0017 && p < left) p = 0.0013 + (p - 0.0017) / (left - 0.0017) * 0.0004; // bags and bones, not more bodies
+        if (across is 1 or L15HallWidth && t.Overhead == 0 && p < left && !L15DoorBeside(gx, gz, alongZ, across == 1))
         {
             if (p < 0.0007)
             {
@@ -292,6 +319,19 @@ public sealed partial class WorldLayout
             else if (p < 0.0013) t.Variant = Props.Backpack;
             else if (p < 0.0017) t.Variant = Props.BonePile;
         }
+    }
+
+    /// <summary>
+    /// Whether a robot's charging dock stands on a main hall's tile: against either wall (across 1 or 5), under a wall light
+    /// (8 blocks apart, bay 4), away from the crossings, about one bay in eighteen, never by a doorway.
+    /// </summary>
+    public bool L15HallDockAt(int gx, int gz, bool alongZ, int across)
+    {
+        if (across is not (1 or L15HallWidth)) return false;
+        int along = alongZ ? gz : gx, stretch = Hashing.Mod(along, L15Period);
+        if (Hashing.Mod(along, 8) != 4 || stretch < 16 || stretch > 112) return false;
+        if (Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltL15Dock)) >= 0.055) return false;
+        return !L15DoorBeside(gx, gz, alongZ, across == 1);
     }
 
     /// <summary>How a stretch of main hall between two crossings is lit (0 one strip, 1 two strips, 2 squares in the bays).</summary>
@@ -322,7 +362,72 @@ public sealed partial class WorldLayout
         new L15Work(this, plan, Hashing.Hash(seed, hx, hz, SaltL15Wing)).Lay();
         // Its links: the door that does not open, now and then a way out (WorldLayout.Level15.Links.cs)
         L15LinkPlan(plan);
+        // Round 3: lifts on its walls along the main halls, where the links left the wall plain
+        L15Lifts(plan);
         return plan;
+    }
+
+    /// <summary>
+    /// Round 3: now and then a lift in a wing's wall onto a main hall: two steel door leaves that do not open (a bay's blocks 1
+    /// and 2 after a pilaster), its indicator over them and its call panel beside (block 3, under the bay's wall light's
+    /// neighbour), on plain wall only and away from the crossings and their signs. About one wall in three.
+    /// </summary>
+    private void L15Lifts(L15Plan plan)
+    {
+        var rng = new Rng(Hashing.Hash(seed, plan.Hx, plan.Hz, SaltL15Lift));
+        bool Plain(int a, int b) => L15Plan.In(a, b) && plan.AtAB(a, b) is { Kind: TileKind.Wall, Detail: L15WallPlain, Depth: L15WallWhite, Under: 0 };
+        for (int side = 0; side < 4; side++)
+        {
+            if (!rng.Chance(0.35)) continue;
+            for (int attempt = 0; attempt < 8; attempt++)
+            {
+                int k = rng.Range(12, L15WingSize - 14);
+                var (a, b, face) = L15WingWall(side, k);
+                var (x, z) = plan.World(a, b);
+                int along = side < 2 ? z : x, stretch = Hashing.Mod(along, L15Period);
+                if (Hashing.Mod(along, 8) != 1 || stretch < 16 || stretch > 110) continue;
+                var (a1, b1, _) = L15WingWall(side, k + 1);
+                var (a2, b2, _) = L15WingWall(side, k + 2);
+                if (!Plain(a, b) || !Plain(a1, b1) || !Plain(a2, b2)) continue;
+                // Which leaf is the left one, as seen from the hall
+                var (rx, rz) = L15Work.RightOf(face);
+                bool kLeft = (a1 - a) * rx + (b1 - b) * rz > 0;
+                ref Tile l0 = ref plan.AtAB(a, b);
+                l0.Detail = kLeft ? L15WallLiftL : L15WallLiftR;
+                l0.Pier = face;
+                ref Tile l1 = ref plan.AtAB(a1, b1);
+                l1.Detail = kLeft ? L15WallLiftR : L15WallLiftL;
+                l1.Pier = face;
+                ref Tile call = ref plan.AtAB(a2, b2);
+                call.Detail = L15WallLiftCall;
+                call.Pier = face;
+                plan.Lifts++;
+                break;
+            }
+        }
+        // A sector map near a crossing on a wall of the wing (stretch 13-14 or 117-118, rel 2-3), where the wall is plain
+        for (int side = 0; side < 4; side++)
+        {
+            if (!rng.Chance(0.5)) continue;
+            foreach (int k in new[] { 6, L15WingSize - 11 })
+            {
+                var (a0, b0, face) = L15WingWall(side, k);
+                var (a1, b1, _) = L15WingWall(side, k + 1);
+                var (x0, z0) = plan.World(a0, b0);
+                if (Hashing.Mod(side < 2 ? z0 : x0, 8) is 0 or 7 || !Plain(a0, b0) || !Plain(a1, b1)) continue;
+                var (rx, rz) = L15Work.RightOf(face);
+                bool kLeft = (a1 - a0) * rx + (b1 - b0) * rz > 0;
+                ref Tile m0 = ref plan.AtAB(a0, b0);
+                m0.Detail = L15WallMap;
+                m0.Pier = face;
+                m0.Stack = (byte)(kLeft ? 0 : 1);
+                ref Tile m1 = ref plan.AtAB(a1, b1);
+                m1.Detail = L15WallMap;
+                m1.Pier = face;
+                m1.Stack = (byte)(kLeft ? 1 : 0);
+                break;
+            }
+        }
     }
 
     /// <summary>Whether a wing is far enough out (past 55% of the radius) and lucky enough to hold the star door.</summary>
@@ -384,6 +489,7 @@ public sealed partial class WorldLayout
                 }
             }
             for (int i = 0; i < leaves.Count; i++) Room(leaves[i], i == star);
+            CorridorWalls();
             HallWalls();
             // The dark: the corridors and walls by the square they lie in (each room went dark or not as a whole)
             for (int b = -1; b <= N; b++)
@@ -435,6 +541,8 @@ public sealed partial class WorldLayout
         {
             // A corridor's floor, the whole length of it: ceramic tiles, or now and then the dark non-slip coating
             coat = !service && rng.Chance(0.28);
+            tray = !service && rng.Chance(0.6);
+            slot = !service && rng.Chance(0.35);
             for (int k = from; k <= to; k++)
                 for (int i = 0; i < cw; i++)
                 {
@@ -468,8 +576,8 @@ public sealed partial class WorldLayout
                 }
         }
 
-        /// <summary>Whether the corridor being cut has the non-slip coating (<see cref="Cut"/>).</summary>
-        private bool coat;
+        /// <summary>Whether the corridor being cut has the non-slip coating, a cable tray along its top (<see cref="Cut"/>).</summary>
+        private bool coat, tray, slot;
 
         private void CorridorTile(ref Tile t, int x, int z, bool alongZ, bool service, int i, int along, bool dark)
         {
@@ -493,10 +601,16 @@ public sealed partial class WorldLayout
                 return;
             }
             t.Depth = coat ? L15FloorCoating : Hashing.Unit(h) < 0.1 ? L15FloorWorn : L15FloorCeramic;
-            t.Ceiling = i == 1 && Hashing.Mod(along, 6) == 3 ? layout.L15Lamp(x, z, true, dark) : CeilingKind.L15Ceiling;
+            if (dark && !coat && Hashing.Unit(h) > 0.7) t.Depth = L15FloorDust; // round 3: dust in the dark
+            // The lights down the middle: a panel every six (giving light), or (round 3, a corridor in three) a continuous slot of
+            // panels that look lit with one in six giving light
+            bool emitter = Hashing.Mod(along, 6) == 3;
+            t.Ceiling = i == 1 && (emitter || slot) ? layout.L15Lamp(x, z, emitter, dark) : CeilingKind.L15Ceiling;
             if (i != 1 && Hashing.Mod(along, 16) == 11) t.Ceiling = CeilingKind.L15CeilingVent;
             if (Hashing.Mod(along, 8) == 0) t.Overhead = alongZ ? Overheads.L15RibWE : Overheads.L15RibNS;
             else if (i != 1 && Hashing.Unit(Hashing.Mix(h)) > 0.997) t.Overhead = Overheads.L15OddBeam;
+            // Round 3: a cable tray along the top of one side (between the ribs)
+            if (tray && i == 0 && t.Overhead == 0) t.Overhead = alongZ ? Overheads.L15TrayNS : Overheads.L15TrayWE;
         }
 
         // ---------------- The rooms ----------------
@@ -537,6 +651,10 @@ public sealed partial class WorldLayout
                         L15Zone.Kitchen or L15Zone.Storage => L15FloorCoating,
                         L15Zone.Crematorium => L15FloorWorn,
                         L15Zone.Star => L15FloorDust,
+                        L15Zone.Medical => L15FloorVinyl,
+                        L15Zone.Lab => rng.Chance(0.08) ? L15FloorWorn : L15FloorVinyl,
+                        L15Zone.Canteen => L15FloorTerrazzo,
+                        L15Zone.Hydro => L15FloorGrating,
                         _ => rng.Chance(0.06) ? L15FloorWorn : L15FloorCeramic,
                     };
                     bool lamp = Hashing.Mod(a - ix0 - (w % 6) / 2, 6) == 3 && Hashing.Mod(b - iz0 - (d % 6) / 2, 6) == 3;
@@ -608,20 +726,25 @@ public sealed partial class WorldLayout
                 case L15Zone.Dorm: Dorm(r); break;
                 case L15Zone.Kitchen: Kitchen(r); break;
                 case L15Zone.Control: Control(r, doors[0], dark); break;
-                case L15Zone.Lecture: Lecture(r, doors[0], dark); break;
+                case L15Zone.Lecture: Lecture(r, doors[0], dark, height); break;
                 case L15Zone.Blank: Blank(r); break;
                 case L15Zone.Crematorium: Crematorium(r, doors[0]); break;
                 case L15Zone.Star: StarRoom(r, doors[0]); break;
+                case L15Zone.Canteen: Canteen(r, doors[0], dark); break;
+                case L15Zone.Medical: Medical(r, doors[0]); break;
+                case L15Zone.Hydro: Hydro(r, dark); break;
             }
             // Abandoned camps, and the dead
             double camp = kind switch
             {
-                L15Zone.Dorm => 0.3, L15Zone.Blank or L15Zone.Storage => 0.14, L15Zone.Lab or L15Zone.Kitchen or L15Zone.Control => 0.08, _ => 0,
+                L15Zone.Dorm => 0.3, L15Zone.Blank or L15Zone.Storage => 0.14,
+                L15Zone.Lab or L15Zone.Kitchen or L15Zone.Control or L15Zone.Canteen or L15Zone.Hydro => 0.08, L15Zone.Medical => 0.12, _ => 0,
             };
             if (rng.Chance(camp)) Camp(r);
             double dead = kind switch
             {
-                L15Zone.Lab or L15Zone.Control => 0.18, L15Zone.Machine or L15Zone.Storage or L15Zone.Kitchen => 0.08, L15Zone.Wreck => 0.25,
+                L15Zone.Lab or L15Zone.Control or L15Zone.Medical => 0.18, L15Zone.Machine or L15Zone.Storage or L15Zone.Kitchen or L15Zone.Canteen => 0.08,
+                L15Zone.Wreck => 0.25, L15Zone.Hydro => 0.06,
                 L15Zone.Star => 0, _ => 0.04,
             };
             if (rng.Chance(dead)) Corpse(r);
@@ -638,7 +761,7 @@ public sealed partial class WorldLayout
             byte mat = kind switch
             {
                 L15Zone.Machine or L15Zone.Wreck or L15Zone.Storage or L15Zone.Crematorium => L15WallCast,
-                L15Zone.Kitchen => L15WallTile,
+                L15Zone.Kitchen or L15Zone.Canteen or L15Zone.Medical => L15WallTile,
                 L15Zone.Lab => rng.Chance(0.5) ? L15WallTile : L15WallWhite,
                 L15Zone.Blank => rng.Chance(0.25) ? L15WallCast : L15WallWhite,
                 _ => L15WallWhite,
@@ -672,14 +795,17 @@ public sealed partial class WorldLayout
         {
             int small = Math.Min(w, d);
             double p = rng.NextDouble();
+            // Round 3: canteens (the big kitchens), medical bays and hydroponics bays among them; machine rooms still the most
             if (small >= 16)
-                return p < 0.50 ? L15Zone.Machine : p < 0.60 ? L15Zone.Lecture : p < 0.71 ? L15Zone.Wreck : p < 0.80 ? L15Zone.Blank
-                    : p < 0.87 ? L15Zone.Storage : p < 0.95 ? L15Zone.Lab : p < 0.975 ? L15Zone.Crematorium : L15Zone.Dorm;
+                return p < 0.45 ? L15Zone.Machine : p < 0.54 ? L15Zone.Lecture : p < 0.64 ? L15Zone.Wreck : p < 0.71 ? L15Zone.Blank
+                    : p < 0.77 ? L15Zone.Storage : p < 0.83 ? L15Zone.Lab : p < 0.89 ? L15Zone.Hydro : p < 0.95 ? L15Zone.Canteen
+                    : p < 0.975 ? L15Zone.Crematorium : L15Zone.Dorm;
             if (small >= 8)
-                return p < 0.24 ? L15Zone.Machine : p < 0.40 ? L15Zone.Lab : p < 0.54 ? L15Zone.Storage : p < 0.63 ? L15Zone.Dorm
-                    : p < 0.70 ? L15Zone.Kitchen : p < 0.80 ? L15Zone.Control : p < 0.87 ? L15Zone.Wreck : p < 0.99 ? L15Zone.Blank : L15Zone.Crematorium;
-            return p < 0.32 ? L15Zone.Storage : p < 0.55 ? L15Zone.Blank : p < 0.70 ? L15Zone.Machine : p < 0.82 ? L15Zone.Control
-                : p < 0.92 ? L15Zone.Lab : L15Zone.Kitchen;
+                return p < 0.22 ? L15Zone.Machine : p < 0.36 ? L15Zone.Lab : p < 0.48 ? L15Zone.Storage : p < 0.56 ? L15Zone.Dorm
+                    : p < 0.63 ? (small >= 10 ? L15Zone.Canteen : L15Zone.Kitchen) : p < 0.72 ? L15Zone.Control : p < 0.78 ? L15Zone.Wreck
+                    : p < 0.84 ? L15Zone.Medical : p < 0.89 ? L15Zone.Hydro : p < 0.99 ? L15Zone.Blank : L15Zone.Crematorium;
+            return p < 0.30 ? L15Zone.Storage : p < 0.51 ? L15Zone.Blank : p < 0.66 ? L15Zone.Machine : p < 0.78 ? L15Zone.Control
+                : p < 0.88 ? L15Zone.Lab : p < 0.94 ? L15Zone.Kitchen : L15Zone.Medical;
         }
 
         /// <summary>A side of the room to put a door in (0 west, 1 east, 2 north, 3 south), weighted by its length; not <paramref name="not"/>.</summary>
@@ -754,8 +880,29 @@ public sealed partial class WorldLayout
             if (rng.Chance(0.5)) (ca, cb, sa, sb) = (sa, sb, ca, cb);
             Decorate(ca, cb, L15WallCode, outward, CodeOf(kind));
             if (gate) Decorate(sa, sb, L15WallScanner, outward, 0);
-            // A machine room's wall of thick glass, looking out on the corridor (not through a service passage's double wall)
-            if (gate && reach == 0 && leaf.Sides[side] != Side.Service)
+            // Round 3: AUTHORIZED PERSONNEL ONLY by a control room's door, DECONTAMINATION by most labs' and hydroponics bays'
+            else if (kind == L15Zone.Control) Decorate(sa, sb, L15WallAuth, outward, 0);
+            else if (kind is L15Zone.Lab or L15Zone.Hydro && rng.Chance(0.7))
+            {
+                Decorate(sa, sb, L15WallDecon, outward, 0);
+                // ...behind a shutter like the machine rooms' (rolled up), its tread on the floor
+                for (int i = 0; i < width; i++)
+                {
+                    var (da, db) = alongX ? (at + i, edge) : (edge, at + i);
+                    if (!L15Plan.In(da, db) || At(da, db).Kind != TileKind.Doorway) continue;
+                    At(da, db).Detail = L15DoorGate;
+                    At(da, db).Depth = L15FloorTrack;
+                }
+            }
+            // A machine room's wall of thick glass, looking out on the corridor (not through a service passage's double wall); round
+            // 3: the labs, control rooms, hydroponics bays and canteens have their glass walls too, now and then, so the rooms show
+            // from the corridors
+            bool glass = gate || kind switch
+            {
+                L15Zone.Lab => rng.Chance(0.6), L15Zone.Control => rng.Chance(0.75), L15Zone.Hydro => rng.Chance(0.8), L15Zone.Canteen => rng.Chance(0.5),
+                _ => false,
+            };
+            if (glass && reach == 0 && leaf.Sides[side] != Side.Service)
                 for (int k = lo + 1; k < hi; k++)
                 {
                     if (k >= at - 2 && k <= at + width + 1) continue;
@@ -773,7 +920,7 @@ public sealed partial class WorldLayout
             int letter = kind switch
             {
                 L15Zone.Lab => 0, L15Zone.Storage => 1, L15Zone.Machine or L15Zone.Wreck => 2, L15Zone.Dorm => 3, L15Zone.Kitchen => 4,
-                L15Zone.Control => 5, L15Zone.Lecture => 6, _ => 7,
+                L15Zone.Control => 5, L15Zone.Lecture => 6, L15Zone.Canteen => 8, L15Zone.Medical => 9, L15Zone.Hydro => 10, _ => 7,
             };
             return (byte)(letter * 2 + rng.Range(0, 1));
         }
@@ -975,7 +1122,9 @@ public sealed partial class WorldLayout
                     double p = rng.NextDouble();
                     byte kind = (byte)(p < 0.4 ? 0 : p < 0.6 ? 1 : p < 0.85 ? 2 : 3);
                     ArchPier face = alongX ? ArchPier.South : ArchPier.East;
-                    if (!Put(a, b, Props.L15LabBench, face, 0, kind)) continue;
+                    // Round 3: now and then a stripped appliance on a plain bench (Stack: 1 a coffee machine, 2 a 3D printer's frame)
+                    byte gear = (byte)(kind == 0 && rng.Chance(0.22) ? rng.Range(1, 2) : 0);
+                    if (!Put(a, b, Props.L15LabBench, face, gear, kind)) continue;
                     var (sx, sz) = Step(face);
                     if (rng.Chance(0.45)) Put(a + sx, b + sz, Props.FoldingChair, Opp(face));
                 }
@@ -1046,7 +1195,7 @@ public sealed partial class WorldLayout
                 ArchPier into = Opp(wall);
                 if (!fridge && rng.Chance(0.15)) { Put(a, b, Props.Fridge, into); fridge = true; }
                 else if (!stove && rng.Chance(0.15)) { Put(a, b, Props.Stove, into); stove = true; }
-                else Put(a, b, Props.KitchenCounter, into, (byte)(rng.Chance(0.6) ? 0 : rng.Range(1, 2)));
+                else Counter(a, b, into, rng.Chance(0.6) ? 0 : rng.Range(1, 2));
             }
             for (int b = r.Z0 + 3; b <= r.Z1 - 3; b += 4)
                 for (int a = r.X0 + 3; a <= r.X1 - 3; a += 4)
@@ -1057,12 +1206,43 @@ public sealed partial class WorldLayout
                 }
         }
 
+        /// <summary>
+        /// A kitchen counter (its kind: plain, sink, microwave); round 3: on a plain one now and then an appliance stripped of its
+        /// insides (Fandom), in <see cref="Tile.Detail"/>: 1 a coffee machine, 2 a 3D printer's frame.
+        /// </summary>
+        private void Counter(int a, int b, ArchPier into, int kind)
+        {
+            byte gear = (byte)(kind == 0 && rng.Chance(0.25) ? rng.Range(1, 2) : 0);
+            Put(a, b, Props.KitchenCounter, into, (byte)kind, gear);
+        }
+
         /// <summary>A control room: rows of consoles facing a wall of displays (the radar, the ESCAPE panel, views of elsewhere), chairs behind them.</summary>
         private void Control(RoomBox r, int doorSide, bool dark)
         {
             int front = Across(doorSide);
             ArchPier toFront = Dirs[front].Out, toBack = Opp(toFront);
             int len = front >= 2 ? r.W : r.D, depth = front >= 2 ? r.D : r.W;
+            // Round 3: a big display over the middle of the wall, three blocks wide, the radar large (where there is power)
+            if (!dark && len >= 7)
+            {
+                int mid = len / 2;
+                var (rx, rz) = RightOf(toBack);
+                var (la, lb) = WallAt(r, front, mid - 1);
+                var (ha, hb) = WallAt(r, front, mid + 1);
+                bool lowFirst = (ha - la) * rx + (hb - lb) * rz > 0;
+                bool plain = true;
+                for (int k = mid - 1; k <= mid + 1; k++)
+                {
+                    var (a, b) = WallAt(r, front, k);
+                    plain &= L15Plan.In(a, b) && At(a, b) is { Kind: TileKind.Wall, Detail: L15WallPlain, Depth: L15WallWhite };
+                }
+                if (plain)
+                    for (int k = mid - 1; k <= mid + 1; k++)
+                    {
+                        var (a, b) = WallAt(r, front, k);
+                        Decorate(a, b, L15WallBigScreen, toBack, (byte)(lowFirst ? k - (mid - 1) : (mid + 1) - k));
+                    }
+            }
             for (int k = 1; k < len - 1; k++)
             {
                 if (rng.Chance(0.35)) continue;
@@ -1084,10 +1264,14 @@ public sealed partial class WorldLayout
                 }
         }
 
-        /// <summary>A lecture hall: a stage along the front wall under a big display, rows of benches facing it, an aisle up the middle.</summary>
-        private void Lecture(RoomBox r, int doorSide, bool dark)
+        /// <summary>
+        /// A lecture hall, raked (round 3): a stage along the front wall, by the door, under a big display; rows of seats with
+        /// backs facing it, each row on a step half a block higher than the one before, a way behind each row, an aisle of steps
+        /// up the middle and along both side walls. Round any other door the floor stays flat (a well at the foot of the steps).
+        /// </summary>
+        private void Lecture(RoomBox r, int doorSide, bool dark, int height)
         {
-            int front = Across(doorSide);
+            int front = doorSide;
             ArchPier toFront = Dirs[front].Out;
             int len = front >= 2 ? r.W : r.D, depth = front >= 2 ? r.D : r.W;
             for (int row = 0; row < 3; row++)
@@ -1096,18 +1280,195 @@ public sealed partial class WorldLayout
                     var (a, b) = FromSide(r, front, k, row);
                     if (!NextToDoor(a, b)) Put(a, b, Props.L15Stage);
                 }
-            for (int k = len / 2 - 1; k <= len / 2 + 1; k++)
+            // The projection screen over the stage, three wide (round 3): its parts left to right as the seats see it
             {
-                var (a, b) = WallAt(r, front, k);
-                Decorate(a, b, dark ? L15WallDisplay : L15WallView, Opp(toFront), (byte)rng.Range(0, L15Views - 1));
-            }
-            int mid = len / 2;
-            for (int row = 5; row < depth - 1; row += 2)
-                for (int k = 1; k < len - 1; k++)
+                int m = len / 2;
+                var (rx, rz) = RightOf(Opp(toFront));
+                var (la, lb) = WallAt(r, front, m - 1);
+                var (ha, hb) = WallAt(r, front, m + 1);
+                bool lowFirst = (ha - la) * rx + (hb - lb) * rz > 0;
+                for (int k = m - 1; k <= m + 1; k++)
                 {
-                    if (Math.Abs(k - mid) <= 1) continue; // the aisle
-                    var (a, b) = FromSide(r, front, k, row);
-                    Put(a, b, Props.Bench, toFront);
+                    var (a, b) = WallAt(r, front, k);
+                    if (dark) Decorate(a, b, L15WallDisplay, Opp(toFront), 0);
+                    else Decorate(a, b, L15WallSlide, Opp(toFront), (byte)(lowFirst ? k - (m - 1) : (m + 1) - k));
+                }
+            }
+            int mid = len / 2, most = Math.Max(0, 2 * (height - 3)); // the highest step (half blocks) leaving two blocks of headroom
+            int tier = 0;
+            for (int row = 4; row < depth; row += 2, tier = Math.Min(most, tier + 1))
+                for (int j = 0; j < 2 && row + j < depth; j++)
+                    for (int k = 0; k < len; k++)
+                    {
+                        var (a, b) = FromSide(r, front, k, row + j);
+                        if (NearDoor(a, b, 2)) continue;
+                        bool aisle = Math.Abs(k - mid) <= 1 || k == 0 || k == len - 1;
+                        if (j == 0 && !aisle) Put(a, b, Props.L15Seat, toFront, (byte)tier);
+                        else if (tier > 0) Put(a, b, Props.L15Riser, toFront, (byte)tier);
+                    }
+        }
+
+        /// <summary>Whether a doorway lies within <paramref name="d"/> tiles of (a, b) (either way).</summary>
+        private bool NearDoor(int a, int b, int d)
+        {
+            for (int db = -d; db <= d; db++)
+                for (int da = -d; da <= d; da++)
+                    if (L15Plan.In(a + da, b + db) && At(a + da, b + db).Kind == TileKind.Doorway) return true;
+            return false;
+        }
+
+        /// <summary>The way to step along a wall facing <paramref name="face"/> to go right, as someone in front of it looking at it sees it.</summary>
+        public static (int Dx, int Dz) RightOf(ArchPier face) => face switch
+        {
+            ArchPier.North => (-1, 0), ArchPier.South => (1, 0), ArchPier.East => (0, -1), _ => (0, 1),
+        };
+
+        /// <summary>
+        /// A canteen (round 3): the kitchen along the back wall (counters, a stove, a fridge) under the menu board, the serving
+        /// line two rows out (trays at one end, steel wells, the till at the other), and long tables with chairs down the room.
+        /// </summary>
+        private void Canteen(RoomBox r, int doorSide, bool dark)
+        {
+            int back = Across(doorSide);
+            ArchPier into = Opp(Dirs[back].Out);
+            int len = back >= 2 ? r.W : r.D, depth = back >= 2 ? r.D : r.W, mid = len / 2;
+            bool fridge = false, stove = false;
+            for (int k = 0; k < len; k++)
+            {
+                var (a, b) = FromSide(r, back, k, 0);
+                if (!Free(a, b)) continue;
+                if (!fridge && (k == len - 1 || rng.Chance(0.08))) { Put(a, b, Props.Fridge, into); fridge = true; }
+                else if (!stove && k >= mid - 3 && rng.Chance(0.3)) { Put(a, b, Props.Stove, into); stove = true; }
+                else if (rng.Chance(0.85)) Counter(a, b, into, rng.Chance(0.65) ? 0 : rng.Range(1, 2));
+            }
+            // The menu board over the kitchen, three wide, read left to right from the room
+            var (rx, rz) = RightOf(into);
+            var (la, lb) = WallAt(r, back, mid - 1);
+            var (ha, hb) = WallAt(r, back, mid + 1);
+            bool lowFirst = (ha - la) * rx + (hb - lb) * rz > 0; // stepping right from mid - 1 reaches mid + 1
+            for (int k = mid - 1; k <= mid + 1; k++)
+            {
+                var (a, b) = WallAt(r, back, k);
+                int part = lowFirst ? k - (mid - 1) : (mid + 1) - k;
+                Decorate(a, b, L15WallMenu, into, (byte)part);
+            }
+            // The serving line, the customers' side toward the room
+            if (depth >= 7)
+                for (int k = 2; k <= len - 3; k++)
+                {
+                    var (a, b) = FromSide(r, back, k, 2);
+                    byte kind = (byte)(k == 2 ? 1 : k == len - 3 ? 2 : 0);
+                    Put(a, b, Props.L15Serve, into, kind);
+                }
+            // Long tables down the room, chairs both sides
+            for (int row = 5; row < depth - 1; row += 3)
+                for (int k = 2; k < len - 2; k++)
+                {
+                    if ((k - 2) % 7 == 6) continue;
+                    var (a, b) = FromSide(r, back, k, row);
+                    if (!Put(a, b, Props.FoldingTable)) continue;
+                    foreach (int j in new[] { -1, 1 })
+                    {
+                        var (ca, cb) = FromSide(r, back, k, row + j);
+                        if (rng.Chance(0.7)) Put(ca, cb, Props.FoldingChair, j < 0 ? into : Dirs[back].Out);
+                    }
+                }
+        }
+
+        /// <summary>
+        /// A medical bay (round 3; the lore's rumour of Level 14's MEDICAL CENTER door): hospital beds head to the side walls
+        /// every three blocks, a drip stand at each head and a bedside cabinet, medicine cabinets and a crash cart along the back.
+        /// </summary>
+        private void Medical(RoomBox r, int doorSide)
+        {
+            int back = Across(doorSide);
+            int[] sides = doorSide < 2 ? new[] { 2, 3 } : new[] { 0, 1 };
+            foreach (int s in sides)
+            {
+                ArchPier into = Opp(Dirs[s].Out);
+                int len = s >= 2 ? r.W : r.D;
+                for (int k = 2; k + 1 < len - 1; k += 3)
+                {
+                    var (ha, hb) = FromSide(r, s, k, 0);
+                    var (fa, fb) = FromSide(r, s, k, 1);
+                    if (!Free(ha, hb) || !Free(fa, fb)) continue;
+                    Put(ha, hb, Props.HospitalBed, into, 0);
+                    Put(fa, fb, Props.HospitalBed, into, 1);
+                    var (ia, ib) = FromSide(r, s, k - 1, 0);
+                    if (rng.Chance(0.8)) Put(ia, ib, Props.RunIvStand, into);
+                    var (ca, cb) = FromSide(r, s, k + 1, 0);
+                    if (rng.Chance(0.6)) Put(ca, cb, Props.RunBedside, into);
+                    // A curtain on its rail between this bed and the next, the length of the bed, drawn (most of them)
+                    var (na, nb) = FromSide(r, s, k + 2, 0);
+                    ArchPier edge = (na - ca, nb - cb) switch { (1, 0) => ArchPier.East, (-1, 0) => ArchPier.West, (0, 1) => ArchPier.South, _ => ArchPier.North };
+                    if (k + 2 < len - 1 && rng.Chance(0.75))
+                        for (int row = 0; row < 2; row++)
+                        {
+                            var (ta, tb) = FromSide(r, s, k + 1, row);
+                            if (!L15Plan.In(ta, tb) || At(ta, tb).Kind != TileKind.Floor) continue;
+                            At(ta, tb).Overhead = Overheads.L15Curtain;
+                            At(ta, tb).Roof = (byte)edge; // (the tile's Pier is its prop's)
+                        }
+                }
+            }
+            int blen = back >= 2 ? r.W : r.D;
+            bool cart = false;
+            ArchPier fromBack = Opp(Dirs[back].Out);
+            for (int k = 1; k < blen - 1; k++)
+            {
+                var (a, b) = FromSide(r, back, k, 0);
+                if (!Free(a, b) || rng.Chance(0.35)) continue;
+                if (!cart && rng.Chance(0.2)) { Put(a, b, Props.RunCrashCart, fromBack); cart = true; }
+                else Put(a, b, Props.MedCabinet, fromBack);
+            }
+            if (rng.Chance(0.3)) Blood(r);
+        }
+
+        /// <summary>
+        /// A hydroponics bay (round 3; our invention: the lore has kitchens, not farms): rows of two-high racks of dead plants
+        /// under grow lights (dead where the power is out), nutrient tanks along one end wall. Nothing in it can be eaten.
+        /// </summary>
+        private void Hydro(RoomBox r, bool dark)
+        {
+            bool alongX = r.W >= r.D;
+            int across = alongX ? r.D : r.W, len = alongX ? r.W : r.D;
+            for (int row = 2; row < across - 2; row += 3)
+                for (int k = 1; k < len - 3; k++)
+                {
+                    if ((k - 1) % 8 == 7) continue;
+                    int a = alongX ? r.X0 + k : r.X0 + row, b = alongX ? r.Z0 + row : r.Z0 + k;
+                    ArchPier face = alongX ? (row % 2 == 0 ? ArchPier.North : ArchPier.South) : (row % 2 == 0 ? ArchPier.West : ArchPier.East);
+                    Put(a, b, Props.L15GrowRack, face);
+                }
+            // The nutrient tanks along the far end
+            int end = alongX ? 1 : 3;
+            for (int k = 1; k < across - 1; k++)
+            {
+                var (a, b) = FromSide(r, end, k, 0);
+                if (!Free(a, b) || rng.Chance(0.4)) continue;
+                Put(a, b, Props.PressureTank, Opp(Dirs[end].Out), (byte)rng.Range(0, 1));
+            }
+        }
+
+        /// <summary>
+        /// Round 3: what is on the side corridors' walls, toward the corridor: now and then a service hatch at the foot of the
+        /// wall or a grille with the pipes behind it.
+        /// </summary>
+        private void CorridorWalls()
+        {
+            for (int b = 0; b < N; b++)
+                for (int a = 0; a < N; a++)
+                {
+                    Tile t = At(a, b);
+                    if (t.Kind != TileKind.Floor || L15ZoneOf(t) != L15Zone.Corridor) continue;
+                    foreach (var (dx, dz, outward) in Dirs)
+                    {
+                        if (!L15Plan.In(a + dx, b + dz) || At(a + dx, b + dz).Kind != TileKind.Wall) continue;
+                        double p = rng.NextDouble();
+                        if (p < 0.014) Decorate(a + dx, b + dz, L15WallHatch, Opp(outward), 0);
+                        else if (p < 0.024) Decorate(a + dx, b + dz, L15WallPipes, Opp(outward), 0);
+                        else if (p < 0.030) Decorate(a + dx, b + dz, L15WallExtinguisher, Opp(outward), 0);
+                    }
                 }
         }
 
@@ -1297,6 +1658,7 @@ public sealed partial class WorldLayout
                 var (dx, dz) = Step(wall);
                 double p = rng.NextDouble();
                 if (p < 0.02) Decorate(a + dx, b + dz, rng.Chance(0.3) ? L15WallVentCode : L15WallVent, Opp(wall), 0);
+                else if (kind is L15Zone.Machine or L15Zone.Wreck && p < 0.035) Decorate(a + dx, b + dz, L15WallHV, Opp(wall), 0);
                 else if (p < 0.02 + display)
                 {
                     double q = rng.NextDouble();
@@ -1344,8 +1706,8 @@ public sealed partial class WorldLayout
         }
     }
 
-    /// <summary>Which of the level's props (<see cref="Props.L15First"/>-<see cref="Props.L15Last"/>) people walk through: the stage (a step up).</summary>
-    private static bool L15WalkThrough(ushort variant) => variant == Props.L15Stage;
+    /// <summary>Which of the level's props (<see cref="Props.L15First"/>-<see cref="Props.L15Last"/>) people walk through: the stage, the lecture hall's steps (a step up).</summary>
+    private static bool L15WalkThrough(ushort variant) => variant is Props.L15Stage or Props.L15Riser;
 
     // ================= Air =================
 

@@ -51,6 +51,9 @@ public partial class AtmosphereSystem
             case Zone.Lecture: titleKey = 2705; break;
             case Zone.Lab: titleKey = 2706; break;
             case Zone.Crematorium: target = L15SmokeAir; titleKey = 2707; break;
+            case Zone.Canteen: titleKey = 2709; break;
+            case Zone.Medical: titleKey = 2710; break;
+            case Zone.Hydro: titleKey = 2711; break;
         }
     }
 

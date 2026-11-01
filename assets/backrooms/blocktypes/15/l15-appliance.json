@@ -1,0 +1,106 @@
+// Level 15: an appliance left on a worktop, stripped of its insides (coffee: a coffee machine; printer: a 3D printer's frame)
+{
+	"code": "l15-appliance",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"coffee",
+				"printer"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l15-appliance-coffee-north": {
+			"base": "backrooms:block/15/l15-appliance-coffee",
+			"rotateY": 0
+		},
+		"l15-appliance-coffee-east": {
+			"base": "backrooms:block/15/l15-appliance-coffee",
+			"rotateY": 270
+		},
+		"l15-appliance-coffee-south": {
+			"base": "backrooms:block/15/l15-appliance-coffee",
+			"rotateY": 180
+		},
+		"l15-appliance-coffee-west": {
+			"base": "backrooms:block/15/l15-appliance-coffee",
+			"rotateY": 90
+		},
+		"l15-appliance-printer-north": {
+			"base": "backrooms:block/15/l15-appliance-printer",
+			"rotateY": 0
+		},
+		"l15-appliance-printer-east": {
+			"base": "backrooms:block/15/l15-appliance-printer",
+			"rotateY": 270
+		},
+		"l15-appliance-printer-south": {
+			"base": "backrooms:block/15/l15-appliance-printer",
+			"rotateY": 180
+		},
+		"l15-appliance-printer-west": {
+			"base": "backrooms:block/15/l15-appliance-printer",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l15-appliance-coffee-north"
+		],
+		"backrooms": [
+			"l15-appliance-coffee-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	],
+	"collisionbox": {
+		"x1": 0.15,
+		"y1": 0,
+		"z1": 0.15,
+		"x2": 0.85,
+		"y2": 0.5,
+		"z2": 0.85
+	},
+	"selectionbox": {
+		"x1": 0.15,
+		"y1": 0,
+		"z1": 0.15,
+		"x2": 0.85,
+		"y2": 0.7,
+		"z2": 0.85
+	}
+}
