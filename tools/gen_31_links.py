@@ -144,6 +144,8 @@ def revolving_block():
         text = f.read()
     data = json.loads(re.sub(r"^\s*//.*$", "", text, flags=re.M))
     out = json.loads(json.dumps(data).replace("l3999-revolvingdoor-", "l31-revolvingdoor-"))
+    # (the shapes stay Level 3999's own)
+    out = json.loads(json.dumps(out).replace("block/3999/l31-revolvingdoor-", "block/3999/l3999-revolvingdoor-"))
     out["code"] = "l31-revolvingdoor"
     out["behaviors"] = [{"name": "BackroomsThreshold", "properties": {"kind": "l31-revolving"}}]
     out.pop("attributes", None)

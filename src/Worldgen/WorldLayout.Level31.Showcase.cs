@@ -134,10 +134,13 @@ public partial class WorldLayout
             if (L31NearestHostDoor(host, MacroOf(sx), MacroOf(sz)) is not { } door) continue;
             var (fx, fz) = FacingStep(door.Facing);
             Showcase.Spot? shot = null;
-            for (int back = 4; back >= 2 && shot == null; back--)
+            for (int back = 4; back >= 1 && shot == null; back--)
             {
                 int ex = door.X + fx * back, ez = door.Z + fz * back;
-                if (!IsArrivalSpot(TileAt(ex, ez))) continue;
+                // (all the way from the door: a tunnel may turn a step or two in front of it)
+                bool clear = true;
+                for (int k = 1; k <= back; k++) clear &= TileAt(door.X + fx * k, door.Z + fz * k).Kind == TileKind.Floor;
+                if (!clear) continue;
                 double heading = (Math.Atan2(-fx, fz) * 180 / Math.PI + 360) % 360;
                 double pitch = Math.Atan2(1.2 - 1.6, back) * 180 / Math.PI;
                 shot = new Showcase.Spot($"door-l{host}", ex + 0.5, geometry.FloorFor(host) + 1.05, ez + 0.5, Math.Round(heading, 1), Math.Round(pitch, 1));

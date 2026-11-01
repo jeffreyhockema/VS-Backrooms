@@ -85,7 +85,7 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// A complex's ways out and back (called at the end of its plan): the lobby's wooden door in its back wall, and in one
-    /// lobby in twelve the revolving door in its front wall. The lobby tiles in front of them lose the mural's cladding there.
+    /// lobby in twelve the revolving door in its front wall (the lobby's mural stops above them: WorldGenerator.L31Cladding).
     /// </summary>
     private void L31LayLinks(L31Plan plan)
     {
@@ -95,7 +95,6 @@ public sealed partial class WorldLayout
         {
             door.Under = Unders.L31LobbyDoor;
             door.Pier = plan.Dir(ArchPier.North);
-            plan.At(L31LobbyDoorP, L31LobbyDoorQ - 1).Overhead = 0;
         }
         if (!L31RevolvingRoll(plan.Wx, plan.Wz)) return;
         for (int k = -1; k <= 1; k++)
@@ -106,7 +105,6 @@ public sealed partial class WorldLayout
             t.Stack = (byte)(k + 1);
             t.Pier = plan.Dir(ArchPier.South);
             t.Detail = 0;
-            plan.At(L31RevolvingP + k, L31RevolvingQ + 1).Overhead = 0;
         }
     }
 

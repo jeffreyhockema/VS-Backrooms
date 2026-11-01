@@ -22,48 +22,48 @@
 	],
 	"shapeByType": {
 		"l31-revolvingdoor-center-north": {
-			"base": "backrooms:block/3999/l31-revolvingdoor-center"
+			"base": "backrooms:block/3999/l3999-revolvingdoor-center"
 		},
 		"l31-revolvingdoor-center-east": {
-			"base": "backrooms:block/3999/l31-revolvingdoor-center",
+			"base": "backrooms:block/3999/l3999-revolvingdoor-center",
 			"rotateY": 270
 		},
 		"l31-revolvingdoor-center-south": {
-			"base": "backrooms:block/3999/l31-revolvingdoor-center",
+			"base": "backrooms:block/3999/l3999-revolvingdoor-center",
 			"rotateY": 180
 		},
 		"l31-revolvingdoor-center-west": {
-			"base": "backrooms:block/3999/l31-revolvingdoor-center",
+			"base": "backrooms:block/3999/l3999-revolvingdoor-center",
 			"rotateY": 90
 		},
 		"l31-revolvingdoor-side-north": {
-			"base": "backrooms:block/3999/l31-revolvingdoor-side"
+			"base": "backrooms:block/3999/l3999-revolvingdoor-side"
 		},
 		"l31-revolvingdoor-side-east": {
-			"base": "backrooms:block/3999/l31-revolvingdoor-side",
+			"base": "backrooms:block/3999/l3999-revolvingdoor-side",
 			"rotateY": 270
 		},
 		"l31-revolvingdoor-side-south": {
-			"base": "backrooms:block/3999/l31-revolvingdoor-side",
+			"base": "backrooms:block/3999/l3999-revolvingdoor-side",
 			"rotateY": 180
 		},
 		"l31-revolvingdoor-side-west": {
-			"base": "backrooms:block/3999/l31-revolvingdoor-side",
+			"base": "backrooms:block/3999/l3999-revolvingdoor-side",
 			"rotateY": 90
 		},
 		"l31-revolvingdoor-top-north": {
-			"base": "backrooms:block/3999/l31-revolvingdoor-top"
+			"base": "backrooms:block/3999/l3999-revolvingdoor-top"
 		},
 		"l31-revolvingdoor-top-east": {
-			"base": "backrooms:block/3999/l31-revolvingdoor-top",
+			"base": "backrooms:block/3999/l3999-revolvingdoor-top",
 			"rotateY": 270
 		},
 		"l31-revolvingdoor-top-south": {
-			"base": "backrooms:block/3999/l31-revolvingdoor-top",
+			"base": "backrooms:block/3999/l3999-revolvingdoor-top",
 			"rotateY": 180
 		},
 		"l31-revolvingdoor-top-west": {
-			"base": "backrooms:block/3999/l31-revolvingdoor-top",
+			"base": "backrooms:block/3999/l3999-revolvingdoor-top",
 			"rotateY": 90
 		}
 	},

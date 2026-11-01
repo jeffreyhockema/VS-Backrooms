@@ -371,3 +371,16 @@ Coach marking the revolving door on your map; the rates (the progression rule's 
 > of Skate Rental with a pair from the cubbies, or leave the level by any way wearing the Coach's, and you noclip into the
 > Lobby, without them. Wanderers also tell of stairs up from Level 30, a white door marked 70 behind the arcades, an
 > EMPLOYEES ONLY door in the food court and an arcade that goes on until it is Level 25; none of them has been found to open.
+
+**Checks.** `expclash` clean; mod and mapgen build, 0 errors. `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash, layout versions 1
+and 12: every line for levels 0-20 and the layout hash identical to main's; with the entrances, the Level 2 and Level 6
+lines and the layout hash move (no door falls in the sampled Level 3 cells), nothing else. `regions` 60/60 for 31;
+`31stats` OK. Headless (port 43132): `/backrooms wayback l31-door` at a door in each of Levels 2, 3 and 6 arrives in a
+lobby beside its wooden door, and that door leads back to the floor in front of the host's door; three revolving doors
+lead to Levels 10, 11 and 10, each of their tiles to the same place; a dummy in 31, `blocksweep` 11175 blocks, 0 threw,
+0 error lines. As a player (client rig, port 43134, `/backrooms l31 ...`): in and back by the doors of Levels 2, 3 and
+6 (back exactly where they stood), out by a revolving door to Level 11, out by it with the Coach's skates to Level 0
+with the skates gone, a pair from the cubbies outside Skate Rental to Level 0 at once, 0 error lines; the shots show the
+lobby's door under the mural, the revolving door's drum in the lobby's front wall, the doors in Level 2's tunnel and
+Level 3's brick (Level 6's door spot shoots black: the level is dark). Gate `--fast` PASS. Not tried in a client: the
+Coach's "lead me out" waypoint (the dialogue trigger), the door music's loudness.
