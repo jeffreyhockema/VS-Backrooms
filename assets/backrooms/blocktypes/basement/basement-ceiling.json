@@ -77,10 +77,10 @@
 		},
 		"*-shaft": {
 			"all": {
-				"base": "block/basement/ceiling-plain",
+				"base": "block/basement/shaft",
 				"alternates": [
 					{
-						"base": "block/basement/ceiling-plain-2"
+						"base": "block/basement/shaft-2"
 					}
 				]
 			}

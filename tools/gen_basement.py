@@ -266,7 +266,7 @@ def blocks():
         "joists": alts("joists", ["joists-2"]),
         "faint": alts("ceiling-plain", ["ceiling-plain-2"]),
         "joistsfaint": alts("joists", ["joists-2"]),
-        "shaft": alts("ceiling-plain", ["ceiling-plain-2"]),
+        "shaft": alts("shaft", ["shaft-2"]),
     }, "The Basement: the low concrete ceiling (plain, drip-stained), bare joists under old floorboards (joists); faint, a ceiling with the light that has no source",
         # (Light leaving a block loses that block's absorption, so a ceiling that gives light must let it through: the
         # concrete over it stops it there, src/Worldgen/WorldLighting.cs)

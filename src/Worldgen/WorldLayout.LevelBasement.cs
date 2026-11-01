@@ -760,7 +760,7 @@ public sealed partial class WorldLayout
             BasementRoomKind.Utility => 0.36,
             BasementRoomKind.Boiler => 0.26,
             BasementRoomKind.Rec => 0.22,
-            _ => 0.32,
+            _ => 0.4,
         };
         var round = new List<(int X, int Z)>();
         for (int x = x0; x <= x1; x++) round.Add((x, z0));
@@ -1180,11 +1180,13 @@ public sealed partial class WorldLayout
     private static void BasementHallBulbs(Builder b, ref Rng rng, int x0, int z0, int x1, int z1)
     {
         bool ns = x1 - x0 < z1 - z0;
-        int state = rng.Range(0, 2), phase = rng.Range(1, 4);
+        // (lit half the time, flickering three in ten, dead two in ten; a run changes one bulb in two)
+        int State(ref Rng r) => r.Chance(0.5) ? 0 : r.Chance(0.6) ? 1 : 2;
+        int state = State(ref rng), phase = rng.Range(1, 4);
         for (int i = phase; i < MacroSize - 1; i += 4)
         {
             ref Tile t = ref b.At(ns ? x1 : i, ns ? i : z1);
-            if (rng.Chance(0.35)) state = rng.Chance(0.5) ? 0 : rng.Chance(0.6) ? 1 : 2;
+            if (rng.Chance(0.5)) state = State(ref rng);
             if (t.Kind != TileKind.Floor || t.Pipe != 0 || t.Detail != 0 || t.Ceiling == CeilingKind.BasementOpen) continue;
             t.Ceiling = state == 0 ? CeilingKind.BasementBulbOn : state == 1 ? CeilingKind.BasementBulbFlicker : CeilingKind.BasementBulbOff;
         }

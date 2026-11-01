@@ -238,7 +238,7 @@ def textures():
     st = M.wood_planks(seed=381, base=(150, 120, 82), planks=1, direction="v", grain=4, per_plank=6, gap=(60, 46, 30))
     M.grime(st, 0.3, seed=382, color=(90, 84, 70), cells=(8, 4), cover=0.5)
     save(st, "studs")
-    ins = M.fabric(seed=383, base=(200, 150, 140), weave="plain", contrast=18, grain=6, mottle=10)
+    ins = M.fabric(seed=383, base=(178, 146, 126), weave="plain", contrast=18, grain=6, mottle=10)
     M.grime(ins, 0.35, seed=384, color=(120, 100, 80), cells=(8, 4, 2), cover=0.6)
     di2 = ImageDraw.Draw(ins)
     for y in (0, 31):
@@ -298,6 +298,16 @@ def textures():
     sw = M.noise_hv((14, 20, 16), 3, seed=431, mottle=6)
     M.grime(sw, 0.25, seed=432, color=(40, 50, 30), cells=(8, 4), cover=0.4)
     save(sw, "sumpwater")
+    # (The crack's shaft: broken slab lit warm by the Lobby's light, cracked, rebar ends sticking out)
+    for k, seed in enumerate((441, 442)):
+        sh = M.concrete(seed=seed, base=(150, 138, 104), cracks=3, aggregate=0.1)
+        M.grime(sh, 0.25, seed=seed + 5, color=(90, 80, 56), cells=(8, 4, 2), cover=0.5)
+        dsh = ImageDraw.Draw(sh)
+        for j in range(3):
+            x = 4 + ((seed * 7 + j * 11) % 24)
+            y = 3 + ((seed * 5 + j * 13) % 24)
+            dsh.line([x, y, x + 3, y + 1], fill=(92, 52, 30, 255), width=1)
+        save(sh, "shaft" if k == 0 else "shaft-2")
     g = M.painted_metal(seed=433, base=(48, 46, 44), panel=False, chips=1)
     M.rust(g, 0.5, seed=434, color=RUST, dark=RUSTDARK, cells=(4, 2))
     save(g, "grate")
@@ -346,23 +356,27 @@ def furnace(part):
             els.append(b(f"Band{k}", (cx - 7.5, y, cz - 7.5), (cx + 7.5, y + 1, cz + 7.5), "metaldark", rot=(0, 45, 0), origin=(cx, y + 0.5, cz)))
         return els
     if part == "upper":
-        els = round_body("Body", cx, cz, 7.25, 0, 6, "furnace")
-        els += round_body("Shoulder", cx, cz, 6, 6, 9, "furnace")
-        els += round_body("Dome", cx, cz, 4.5, 9, 12, "furnace")
-        els += [b("Plenum", (5, 12, 6.25), (11, 16, 11.25), "lagging"),
+        els = round_body("Body", cx, cz, 7.25, 0, 7, "furnace")
+        els += round_body("Shoulder", cx, cz, 6.5, 7, 10, "furnace")
+        els += [b("Bonnet", (3.5, 10, 4.5), (12.5, 16, 13), "lagging"),
+                b("BonnetBand", (3.3, 12.5, 4.3), (12.7, 13.5, 13.2), "metaldark"),
                 b("Gauge", (7, 3, 1.4), (9, 5, 1.9), "brass"),
-                b("FlueBoot", (11, 7, 13), (14, 10, 16), "metaldark"), b("Flue", (11.5, 10, 13.5), (13.5, 16, 15.5), "metaldark")]
+                b("FlueBoot", (12, 7, 13), (15, 10, 16), "metaldark"), b("Flue", (12.5, 10, 13.5), (14.5, 16, 15.5), "metaldark")]
         return els
-    # top: the arms climb outward from the plenum to the joists in steps, lagged white; one goes straight up at the back
-    els = [b("Plenum", (5, 0, 6.25), (11, 4, 11.25), "lagging"), b("Flue", (11.5, 0, 13.5), (13.5, 16, 15.5), "metaldark"),
-           b("ArmBack", (6.25, 3, 10.5), (9.75, 16, 14), "lagging")]
-    for k in range(4):
-        y = 2 + k * 3.5
-        els += [b(f"ArmW{k}", (2 - k * 3, y, 7), (6 - k * 3, y + 4, 10.5), "lagging"),
-                b(f"ArmE{k}", (10 + k * 3, y, 7), (14 + k * 3, y + 4, 10.5), "lagging"),
-                b(f"ArmN{k}", (6.25, y, 3 - k * 3), (9.75, y + 4, 7 - k * 3), "lagging")]
-    for k, (x1, z1, x2, z2) in enumerate(((-4.2, 6.8, -3.8, 10.7), (19.8, 6.8, 20.2, 10.7), (6.05, -4.2, 9.95, -3.8))):
-        els.append(b(f"Collar{k}", (x1, 12.5, z1), (x2, 16, z2), "metaldark"))
+    # top: the bonnet, and its arms climbing outward from it to the joists, lagged white (fine steps, so they read as one
+    # slanting duct each); one goes straight up at the back, the flue beside it
+    els = [b("Bonnet", (3.5, 0, 4.5), (12.5, 3, 13), "lagging"), b("Flue", (12.5, 0, 13.5), (14.5, 16, 15.5), "metaldark"),
+           b("ArmBack", (6.25, 3, 9.5), (9.75, 16, 13), "lagging")]
+    steps = 9
+    for k in range(steps):
+        y = 1.5 + k * 1.4
+        o = k * 1.1
+        els += [b(f"ArmW{k}", (2.5 - o, y, 7), (6 - o, y + 3.5, 10.5), "lagging", faces=K.DIRS),
+                b(f"ArmE{k}", (10 + o, y, 7), (13.5 + o, y + 3.5, 10.5), "lagging"),
+                b(f"ArmN{k}", (6.25, y, 3 - o), (9.75, y + 3.5, 6.5 - o), "lagging"),
+                # (and two to the front corners)
+                b(f"ArmNW{k}", (3.5 - o * 0.8, y, 4 - o * 0.8), (7 - o * 0.8, y + 3.5, 7.5 - o * 0.8), "lagging"),
+                b(f"ArmNE{k}", (9 + o * 0.8, y, 4 - o * 0.8), (12.5 + o * 0.8, y + 3.5, 7.5 - o * 0.8), "lagging")]
     return els
 
 

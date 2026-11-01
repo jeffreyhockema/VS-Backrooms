@@ -147,7 +147,7 @@ public partial class WorldLayout
                     while (d > 3 && !ShowcaseStand(tiles, x + dx * d, z + dz * d)) d--;
                     if (d > bestD && ShowcaseStand(tiles, x + dx * d, z + dz * d)) { bestD = d; bdx = dx; bdz = dz; }
                 }
-                if (bestD >= 3) add("crack-room", mx, mz, x + bdx * bestD, z + bdz * bestD, ShowcaseHeading(-bdx, -bdz), 32, null);
+                if (bestD >= 3) add("crack-room", mx, mz, x + bdx * bestD, z + bdz * bestD, ShowcaseHeading(-bdx, -bdz), 14, null);
                 // (Standing in the opening beside the heap, looking up it)
                 foreach (var (dx, dz) in ShowcaseDirs)
                 {
@@ -211,7 +211,7 @@ public partial class WorldLayout
                 Tile n = tiles[TileIndex(x + rx, z + rz)];
                 if (n.Variant != Props.Laundry || n.Stack != 1) continue;
                 var (dx, dz) = PierStep(t.Pier);
-                if (ShowcaseFacing(tiles, x, z, dx, dz, 5, 3) is (var sx, var sz, var h)) add("laundry", mx, mz, sx, sz, h, 14, null);
+                if (ShowcaseFacing(tiles, x, z, dx, dz, 6, 3) is (var sx, var sz, var h)) add("laundry", mx, mz, sx, sz, h, 4, null);
             }
         Prop("workshop", t => t.Variant == Props.BasementBench && t.Stack == 0, 0);
         Prop("store-shelves", t => t.Variant is Props.BasementShelving or Props.BasementBoxes, 2);
