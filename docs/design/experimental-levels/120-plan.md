@@ -469,6 +469,32 @@ Code: `WorldLayout.Level120.Dress.cs` (new: the dressing's layout), `WorldGenera
   marks to steer by. Showcase: `hall-door`, `hall-exit`, `noc-screens`, `ups-room`, `crac`, `row-ends`, `storage`,
   `floor-hole`, `void-odd`.
 
+
+### What the shots showed (three runs, `--torch`)
+- **Run 1** (`%TEMP%/backrooms-shots/120-r3a/`): the passages now read as a building's service corridors (duct one side,
+  tray and conduit the other, HALL A / HALL E stencilled by the crossings, a fire point by a door); the DATA HALL plate and
+  AUTHORIZED PERSONNEL ONLY either side of a cluster door; the wall of screens in the operators' room; the UPS room's
+  rows; storage shelving; banks with their trays and ROW B / ROW C end panels; the door back's EXIT / OFFICES plate under
+  its green EXIT sign. Wrong: the hole into the plenum was a black square (black sides, unlit); the stencils' arrow pointed
+  the same way on both walls; the CRAC's sides were a blank beige slab; the `hall-exit` and `crac` spots looked past what
+  they were for; the racks' backs read as a rainbow by torchlight; room fittings sat over the banks' trays.
+- **Run 2** (`120-r3b/`): all of those fixed (grey plenum with pedestals and cables, a bar under the stencilled letter,
+  panelled CRAC sides, the EXIT sign over a cluster door seen from inside past the operators' desks, smashed screens in the
+  wall). Its CRACs showed as unknown blocks: a gate build had rewritten the mod folder under the rig between the client's
+  and the server's start ("different copy of the mod" in the log), not a fault of the blocks; the gate now runs apart.
+- **Run 3, final** (`120-r3c/`, `sheet.jpg`): CRAC 3 whole with its duct into the ceiling, the open-panel variant, duller
+  rack backs, hall letters that differ across every passage (E / H here); no unknown blocks, no mod mismatch.
+- Still weak: the rig's random arrivals look along fixed headings, so two of four show a wall close up (in play the
+  arrival turns you to the open floor); the server rooms' long rack backs are still the busiest texture in the level; the
+  Pitch-Black Hallways are unchanged (the lore wants them bare); the plates are small at a distance in the dark (true to a
+  real data hall, but a torch is needed to read them).
+
+### Checks (round 3)
+`expclash` clean; mod and mapgen 0 errors; `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash, versions 1 and 12: levels 0-20 and the
+layout hash identical to main's; `regions` Level 120 60/60 (none in a small pocket); `120stats 3` OK (0 unreached, 60/60
+arrivals); `120links` OK; headless dummy in Level 120 (port 43141), blocksweep 11721 blocks, 0 threw, 0 error lines; gate
+`--fast --port-base 43140` PASS (`review/gate/20261101-020910.md`).
+
 ### Inventions (round 3; not lore)
 The lore says only "broken server rooms", "massive blocks of computers ripped apart", yellow paper, office tiles, dark.
 Everything that makes a cluster a data hall is mine, from real ones: the operators' room by the way in with its wall of
@@ -493,10 +519,9 @@ lore's voids are "pure white": these are one thing at a time, and a third of the
   0.3% of passage tiles). Walkable; the trip rule (L120System) does not look at them.
 - **Racks**: standing racks per cluster fell from 970 to 710 (`120stats 8`: the two new rooms, the end panels); lit racks
   3.8% of standing (was 4.1%), so lit racks per cluster about 27 (was 40).
-- `regions`: Level 120 60/60, but 1 of the 60 arrivals now counts as "in a pocket under 3000 tiles": the harness's own
-  walk-through list (`tools/mapgen/Regions.cs`, shared) counts every Level 120 prop as a wall (spilled cables, fallen tiles,
-  paper); in the game they are walked over, and `120stats` (the level's own check, with the game's rule) finds every
-  walkable tile reached from the passages.
+- `regions`: Level 120 60/60, none in a small pocket (an earlier build of this round had one arrival the harness's own
+  walk-through list counted as shut in by cables and fallen tiles; `120stats`, with the game's rule, always found every
+  walkable tile reached from the passages).
 
 ### Questions for the user
 1. The hall letters (A-H) repeat every eight halls (x + 3z mod 8: no two neighbours alike): enough, or should the halls
