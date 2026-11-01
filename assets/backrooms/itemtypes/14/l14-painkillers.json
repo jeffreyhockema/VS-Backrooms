@@ -1,0 +1,116 @@
+// Level 14: a bottle of painkillers from a reception desk or a medicine cabinet. Heals 4 over ten seconds (vanilla HealingItem)
+{
+	"code": "l14-painkillers",
+	"maxstacksize": 8,
+	"shape": {
+		"base": "item/14/pillbottle"
+	},
+	"textures": {
+		"tex": {
+			"base": "item/14/pillbottle"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"materialDensity": 400,
+	"behaviors": [
+		{
+			"name": "GroundStorable",
+			"properties": {
+				"layout": "Quadrants",
+				"collisionBox": {
+					"x1": 0,
+					"y1": 0,
+					"z1": 0,
+					"x2": 1,
+					"y2": 0.125,
+					"z2": 1
+				},
+				"selectionBox": {
+					"x1": 0,
+					"y1": 0,
+					"z1": 0,
+					"x2": 1,
+					"y2": 0.4,
+					"z2": 1
+				}
+			}
+		},
+		{
+			"name": "HealingItem",
+			"properties": {
+				"health": 4,
+				"applicationtimesec": 1.5,
+				"maxapplicationtimesec": 4.5,
+				"effectdurationsec": 10,
+				"ticks": 10,
+				"cancelinair": false,
+				"cancelwhileswimming": false,
+				"delaytocancelsec": 0.5,
+				"sound": "game:sounds/player/eat",
+				"appliedsound": "game:sounds/player/collect1"
+			}
+		}
+	],
+	"guiTransform": {
+		"rotation": {
+			"x": 157.4,
+			"y": -45.3,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.2,
+			"z": 0.5
+		},
+		"scale": 2.8
+	},
+	"fpHandTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0.2,
+			"z": 0.4
+		},
+		"rotation": {
+			"x": 0,
+			"y": -30,
+			"z": 0
+		},
+		"scale": 2.2
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.85,
+			"y": -0.45,
+			"z": -0.6
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": -10
+		},
+		"scale": 0.8
+	},
+	"groundTransform": {
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 3
+	}
+}

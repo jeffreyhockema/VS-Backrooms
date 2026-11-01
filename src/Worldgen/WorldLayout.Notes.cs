@@ -247,6 +247,8 @@ public sealed partial class WorldLayout
                 foreach (var (cx, cz) in L15PlanOf(Hashing.FloorDiv(mx * MacroSize, L15Period), Hashing.FloorDiv(mz * MacroSize, L15Period)).CampSpots)
                     if (MacroOf(cx) == mx && MacroOf(cz) == mz) Near(cx - mx * MacroSize, cz - mz * MacroSize, "cache", 3);
                 break;
+            // Level 14: a folded note in each of the T.14.R.G.'s rooms, by their broken containment chamber (L14Plan.NoteSpots)
+            case Level14: for (int hz = Hashing.FloorDiv(mz * MacroSize, L14Period) - 1; hz <= Hashing.FloorDiv(mz * MacroSize + MacroSize - 1, L14Period); hz++) for (int hx = Hashing.FloorDiv(mx * MacroSize, L14Period) - 1; hx <= Hashing.FloorDiv(mx * MacroSize + MacroSize - 1, L14Period); hx++) foreach (var (nx, nz) in L14PlanOf(hx, hz).NoteSpots) if (MacroOf(nx) == mx && MacroOf(nz) == mz) Near(nx - mx * MacroSize, nz - mz * MacroSize, "folded", 3); break;
             // Level 52: now and then on a campus, about the middle of the cell (its own salt)
             case Level52 when L52CampusAt(mx * MacroSize + c, mz * MacroSize + c, out _) != null
                 && Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltL52Room + 9)) < 0.12:

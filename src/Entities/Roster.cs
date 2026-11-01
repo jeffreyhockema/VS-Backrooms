@@ -125,7 +125,7 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level15 => 0.3, // Level 15: Class 1 (Fandom); only its few Robo-Men in the dark
         Backrooms.Worldgen.WorldLayout.Level23 => 0.55, // the Petrified Garden: Unsafe (Wikidot's "4?"), its glow rooms worst
         // Batch 4 (ids 29, 30): nothing in them yet
-        Backrooms.Worldgen.WorldLayout.Level14 => 0,
+        Backrooms.Worldgen.WorldLayout.Level14 => 0.7, // the Hospital: Class 4 (Fandom); only the Hunter and its Infecting Agents (Regions/L14Hunter.cs)
         Backrooms.Worldgen.WorldLayout.Level47 => 0,
         // Level 94 (Class 3): its Animations hit and chase like Level 4's creatures; the King's trial keeps its own balance
         Backrooms.Worldgen.WorldLayout.Motion => 0.4,
