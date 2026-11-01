@@ -1,0 +1,70 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"plate": "backrooms:block/73/plate-dining",
+		"brass": "backrooms:block/73/gold"
+	},
+	"elements": [
+		{
+			"name": "Plate",
+			"from": [
+				4,
+				6,
+				15.3
+			],
+			"to": [
+				12,
+				10,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#plate",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						6,
+						0.7,
+						10
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						15.3,
+						6,
+						16,
+						10
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						4,
+						15.3,
+						12,
+						16
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						4,
+						0,
+						12,
+						0.7
+					]
+				}
+			}
+		}
+	]
+}

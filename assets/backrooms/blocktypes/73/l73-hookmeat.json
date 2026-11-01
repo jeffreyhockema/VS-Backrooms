@@ -1,0 +1,44 @@
+// Level 73: a carcass hung on a hook under the cellar's ceiling (the fuel)
+{
+	"code": "l73-hookmeat",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/73/hookmeat"
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"selectionbox": {
+		"x1": 0.3,
+		"y1": 0,
+		"z1": 0.3,
+		"x2": 0.7,
+		"y2": 1,
+		"z2": 0.7
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": null,
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

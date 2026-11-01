@@ -1,0 +1,65 @@
+// Level 73: the grand stair's balustrade on the south edge of a step, rising east or west
+{
+	"code": "l73-stairrail",
+	"variantgroups": [
+		{
+			"code": "rise",
+			"states": [
+				"east",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-east"
+		],
+		"backrooms": [
+			"*-east"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-east": {
+			"base": "block/73/stairrail-east"
+		},
+		"*-west": {
+			"base": "block/73/stairrail-west"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0.88,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0.9,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

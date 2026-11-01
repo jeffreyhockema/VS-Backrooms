@@ -1,0 +1,33 @@
+// Level 73: a floor of the keep: aged boards on top, the plaster ceiling of the room below underneath
+{
+	"code": "l73-floorboards",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "game:block/wood/planks/aged1"
+		},
+		"down": {
+			"base": "block/73/ceilplaster"
+		}
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

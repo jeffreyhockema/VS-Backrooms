@@ -1,0 +1,289 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"stone": "backrooms:block/73/mantelstone",
+		"carved": "backrooms:block/73/carvedstone",
+		"iron": "backrooms:block/73/sconce-iron",
+		"wax": "backrooms:block/73/wax",
+		"glow": "backrooms:block/73/sconce-glow"
+	},
+	"elements": [
+		{
+			"name": "Breast",
+			"from": [
+				0,
+				0,
+				4
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#carved",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						4,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Lintel",
+			"from": [
+				0,
+				0,
+				2.5
+			],
+			"to": [
+				16,
+				4,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#carved",
+					"uv": [
+						0,
+						12,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#carved",
+					"uv": [
+						0,
+						12,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#carved",
+					"uv": [
+						12,
+						12,
+						13.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#carved",
+					"uv": [
+						2.5,
+						12,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#carved",
+					"uv": [
+						0,
+						2.5,
+						16,
+						4
+					]
+				},
+				"down": {
+					"texture": "#carved",
+					"uv": [
+						0,
+						12,
+						16,
+						13.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf",
+			"from": [
+				-1,
+				8,
+				0
+			],
+			"to": [
+				17,
+				10,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						6,
+						16,
+						8
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						6,
+						16,
+						8
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						6,
+						16,
+						8
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						6,
+						4,
+						8
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						12,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Bracket",
+			"from": [
+				-1,
+				4,
+				1
+			],
+			"to": [
+				17,
+				8,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						8,
+						16,
+						12
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						8,
+						16,
+						12
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						8,
+						15,
+						12
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						1,
+						8,
+						4,
+						12
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						1,
+						16,
+						4
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						12,
+						16,
+						15
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,313 @@
+// Level 73: a bone of the Great Hound's skeleton, joined to its neighbours (the mask: n e s w u d)
+{
+	"code": "l73-bonejoint",
+	"variantgroups": [
+		{
+			"code": "c",
+			"states": [
+				"c0",
+				"c1",
+				"c2",
+				"c3",
+				"c4",
+				"c5",
+				"c6",
+				"c7",
+				"c8",
+				"c9",
+				"c10",
+				"c11",
+				"c12",
+				"c13",
+				"c14",
+				"c15",
+				"c16",
+				"c17",
+				"c18",
+				"c19",
+				"c20",
+				"c21",
+				"c22",
+				"c23",
+				"c24",
+				"c25",
+				"c26",
+				"c27",
+				"c28",
+				"c29",
+				"c30",
+				"c31",
+				"c32",
+				"c33",
+				"c34",
+				"c35",
+				"c36",
+				"c37",
+				"c38",
+				"c39",
+				"c40",
+				"c41",
+				"c42",
+				"c43",
+				"c44",
+				"c45",
+				"c46",
+				"c47",
+				"c48",
+				"c49",
+				"c50",
+				"c51",
+				"c52",
+				"c53",
+				"c54",
+				"c55",
+				"c56",
+				"c57",
+				"c58",
+				"c59",
+				"c60",
+				"c61",
+				"c62",
+				"c63"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-c63"
+		],
+		"backrooms": [
+			"*-c63"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-c0": {
+			"base": "block/73/bone/c0"
+		},
+		"*-c1": {
+			"base": "block/73/bone/c1"
+		},
+		"*-c2": {
+			"base": "block/73/bone/c2"
+		},
+		"*-c3": {
+			"base": "block/73/bone/c3"
+		},
+		"*-c4": {
+			"base": "block/73/bone/c4"
+		},
+		"*-c5": {
+			"base": "block/73/bone/c5"
+		},
+		"*-c6": {
+			"base": "block/73/bone/c6"
+		},
+		"*-c7": {
+			"base": "block/73/bone/c7"
+		},
+		"*-c8": {
+			"base": "block/73/bone/c8"
+		},
+		"*-c9": {
+			"base": "block/73/bone/c9"
+		},
+		"*-c10": {
+			"base": "block/73/bone/c10"
+		},
+		"*-c11": {
+			"base": "block/73/bone/c11"
+		},
+		"*-c12": {
+			"base": "block/73/bone/c12"
+		},
+		"*-c13": {
+			"base": "block/73/bone/c13"
+		},
+		"*-c14": {
+			"base": "block/73/bone/c14"
+		},
+		"*-c15": {
+			"base": "block/73/bone/c15"
+		},
+		"*-c16": {
+			"base": "block/73/bone/c16"
+		},
+		"*-c17": {
+			"base": "block/73/bone/c17"
+		},
+		"*-c18": {
+			"base": "block/73/bone/c18"
+		},
+		"*-c19": {
+			"base": "block/73/bone/c19"
+		},
+		"*-c20": {
+			"base": "block/73/bone/c20"
+		},
+		"*-c21": {
+			"base": "block/73/bone/c21"
+		},
+		"*-c22": {
+			"base": "block/73/bone/c22"
+		},
+		"*-c23": {
+			"base": "block/73/bone/c23"
+		},
+		"*-c24": {
+			"base": "block/73/bone/c24"
+		},
+		"*-c25": {
+			"base": "block/73/bone/c25"
+		},
+		"*-c26": {
+			"base": "block/73/bone/c26"
+		},
+		"*-c27": {
+			"base": "block/73/bone/c27"
+		},
+		"*-c28": {
+			"base": "block/73/bone/c28"
+		},
+		"*-c29": {
+			"base": "block/73/bone/c29"
+		},
+		"*-c30": {
+			"base": "block/73/bone/c30"
+		},
+		"*-c31": {
+			"base": "block/73/bone/c31"
+		},
+		"*-c32": {
+			"base": "block/73/bone/c32"
+		},
+		"*-c33": {
+			"base": "block/73/bone/c33"
+		},
+		"*-c34": {
+			"base": "block/73/bone/c34"
+		},
+		"*-c35": {
+			"base": "block/73/bone/c35"
+		},
+		"*-c36": {
+			"base": "block/73/bone/c36"
+		},
+		"*-c37": {
+			"base": "block/73/bone/c37"
+		},
+		"*-c38": {
+			"base": "block/73/bone/c38"
+		},
+		"*-c39": {
+			"base": "block/73/bone/c39"
+		},
+		"*-c40": {
+			"base": "block/73/bone/c40"
+		},
+		"*-c41": {
+			"base": "block/73/bone/c41"
+		},
+		"*-c42": {
+			"base": "block/73/bone/c42"
+		},
+		"*-c43": {
+			"base": "block/73/bone/c43"
+		},
+		"*-c44": {
+			"base": "block/73/bone/c44"
+		},
+		"*-c45": {
+			"base": "block/73/bone/c45"
+		},
+		"*-c46": {
+			"base": "block/73/bone/c46"
+		},
+		"*-c47": {
+			"base": "block/73/bone/c47"
+		},
+		"*-c48": {
+			"base": "block/73/bone/c48"
+		},
+		"*-c49": {
+			"base": "block/73/bone/c49"
+		},
+		"*-c50": {
+			"base": "block/73/bone/c50"
+		},
+		"*-c51": {
+			"base": "block/73/bone/c51"
+		},
+		"*-c52": {
+			"base": "block/73/bone/c52"
+		},
+		"*-c53": {
+			"base": "block/73/bone/c53"
+		},
+		"*-c54": {
+			"base": "block/73/bone/c54"
+		},
+		"*-c55": {
+			"base": "block/73/bone/c55"
+		},
+		"*-c56": {
+			"base": "block/73/bone/c56"
+		},
+		"*-c57": {
+			"base": "block/73/bone/c57"
+		},
+		"*-c58": {
+			"base": "block/73/bone/c58"
+		},
+		"*-c59": {
+			"base": "block/73/bone/c59"
+		},
+		"*-c60": {
+			"base": "block/73/bone/c60"
+		},
+		"*-c61": {
+			"base": "block/73/bone/c61"
+		},
+		"*-c62": {
+			"base": "block/73/bone/c62"
+		},
+		"*-c63": {
+			"base": "block/73/bone/c63"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"selectionbox": {
+		"x1": 0.25,
+		"y1": 0.25,
+		"z1": 0.25,
+		"x2": 0.75,
+		"y2": 0.75,
+		"z2": 0.75
+	},
+	"collisionbox": {
+		"x1": 0.25,
+		"y1": 0.25,
+		"z1": 0.25,
+		"x2": 0.75,
+		"y2": 0.75,
+		"z2": 0.75
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

@@ -1,0 +1,265 @@
+// Level 73: a note pinned up in a careful hand
+{
+	"code": "l73-notice",
+	"variantgroups": [
+		{
+			"code": "text",
+			"states": [
+				"outside",
+				"attic",
+				"bang",
+				"count"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-outside-north"
+		],
+		"backrooms": [
+			"*-outside-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-outside-north": {
+			"base": "block/73/notice-outside",
+			"rotateY": 0
+		},
+		"*-outside-east": {
+			"base": "block/73/notice-outside",
+			"rotateY": 270
+		},
+		"*-outside-south": {
+			"base": "block/73/notice-outside",
+			"rotateY": 180
+		},
+		"*-outside-west": {
+			"base": "block/73/notice-outside",
+			"rotateY": 90
+		},
+		"*-attic-north": {
+			"base": "block/73/notice-attic",
+			"rotateY": 0
+		},
+		"*-attic-east": {
+			"base": "block/73/notice-attic",
+			"rotateY": 270
+		},
+		"*-attic-south": {
+			"base": "block/73/notice-attic",
+			"rotateY": 180
+		},
+		"*-attic-west": {
+			"base": "block/73/notice-attic",
+			"rotateY": 90
+		},
+		"*-bang-north": {
+			"base": "block/73/notice-bang",
+			"rotateY": 0
+		},
+		"*-bang-east": {
+			"base": "block/73/notice-bang",
+			"rotateY": 270
+		},
+		"*-bang-south": {
+			"base": "block/73/notice-bang",
+			"rotateY": 180
+		},
+		"*-bang-west": {
+			"base": "block/73/notice-bang",
+			"rotateY": 90
+		},
+		"*-count-north": {
+			"base": "block/73/notice-count",
+			"rotateY": 0
+		},
+		"*-count-east": {
+			"base": "block/73/notice-count",
+			"rotateY": 270
+		},
+		"*-count-south": {
+			"base": "block/73/notice-count",
+			"rotateY": 180
+		},
+		"*-count-west": {
+			"base": "block/73/notice-count",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"*-outside-north": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-outside-east": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-outside-south": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-outside-west": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-attic-north": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-attic-east": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-attic-south": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-attic-west": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-bang-north": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-bang-east": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-bang-south": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-bang-west": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-count-north": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-count-east": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-count-south": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-count-west": {
+			"x1": 0.25,
+			"y1": 0.19,
+			"z1": 0.95,
+			"x2": 0.75,
+			"y2": 0.81,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

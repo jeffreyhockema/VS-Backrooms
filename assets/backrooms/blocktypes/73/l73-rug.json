@@ -1,0 +1,248 @@
+// Level 73: a bordered rug let into the floor (the part names the border it carries), plaster below
+{
+	"code": "l73-rug",
+	"variantgroups": [
+		{
+			"code": "pattern",
+			"states": [
+				"red",
+				"blue"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"c",
+				"n",
+				"e",
+				"s",
+				"w",
+				"nw",
+				"ne",
+				"se",
+				"sw"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-red-c"
+		],
+		"backrooms": [
+			"*-red-c"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-red-c": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-red-c"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-red-n": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-red-n"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-red-e": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-red-e"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-red-s": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-red-s"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-red-w": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-red-w"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-red-nw": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-red-nw"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-red-ne": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-red-ne"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-red-se": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-red-se"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-red-sw": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-red-sw"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-blue-c": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-blue-c"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-blue-n": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-blue-n"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-blue-e": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-blue-e"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-blue-s": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-blue-s"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-blue-w": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-blue-w"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-blue-nw": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-blue-nw"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-blue-ne": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-blue-ne"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-blue-se": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-blue-se"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		},
+		"*-blue-sw": {
+			"all": {
+				"base": "game:block/wood/planks/aged1"
+			},
+			"up": {
+				"base": "block/73/rug-blue-sw"
+			},
+			"down": {
+				"base": "block/73/ceilplaster"
+			}
+		}
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

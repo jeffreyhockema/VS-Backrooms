@@ -1,0 +1,355 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"linen": "backrooms:block/73/linen",
+		"rope": "backrooms:block/73/oak"
+	},
+	"elements": [
+		{
+			"name": "SackA",
+			"from": [
+				1,
+				0,
+				2
+			],
+			"to": [
+				8,
+				9,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#linen",
+					"uv": [
+						8,
+						7,
+						15,
+						16
+					]
+				},
+				"south": {
+					"texture": "#linen",
+					"uv": [
+						1,
+						7,
+						8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#linen",
+					"uv": [
+						7,
+						7,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#linen",
+					"uv": [
+						2,
+						7,
+						9,
+						16
+					]
+				},
+				"up": {
+					"texture": "#linen",
+					"uv": [
+						1,
+						2,
+						8,
+						9
+					]
+				},
+				"down": {
+					"texture": "#linen",
+					"uv": [
+						1,
+						7,
+						8,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "TieA",
+			"from": [
+				3.5,
+				9,
+				4.5
+			],
+			"to": [
+				5.5,
+				10.5,
+				6.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rope",
+					"uv": [
+						10.5,
+						5.5,
+						12.5,
+						7
+					]
+				},
+				"south": {
+					"texture": "#rope",
+					"uv": [
+						3.5,
+						5.5,
+						5.5,
+						7
+					]
+				},
+				"east": {
+					"texture": "#rope",
+					"uv": [
+						9.5,
+						5.5,
+						11.5,
+						7
+					]
+				},
+				"west": {
+					"texture": "#rope",
+					"uv": [
+						4.5,
+						5.5,
+						6.5,
+						7
+					]
+				},
+				"up": {
+					"texture": "#rope",
+					"uv": [
+						3.5,
+						4.5,
+						5.5,
+						6.5
+					]
+				},
+				"down": {
+					"texture": "#rope",
+					"uv": [
+						3.5,
+						9.5,
+						5.5,
+						11.5
+					]
+				}
+			}
+		},
+		{
+			"name": "SackB",
+			"from": [
+				8,
+				0,
+				3
+			],
+			"to": [
+				15,
+				8,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#linen",
+					"uv": [
+						1,
+						8,
+						8,
+						16
+					]
+				},
+				"south": {
+					"texture": "#linen",
+					"uv": [
+						8,
+						8,
+						15,
+						16
+					]
+				},
+				"east": {
+					"texture": "#linen",
+					"uv": [
+						6,
+						8,
+						13,
+						16
+					]
+				},
+				"west": {
+					"texture": "#linen",
+					"uv": [
+						3,
+						8,
+						10,
+						16
+					]
+				},
+				"up": {
+					"texture": "#linen",
+					"uv": [
+						8,
+						3,
+						15,
+						10
+					]
+				},
+				"down": {
+					"texture": "#linen",
+					"uv": [
+						8,
+						6,
+						15,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "SackC",
+			"from": [
+				3,
+				0,
+				9
+			],
+			"to": [
+				11,
+				6,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#linen",
+					"uv": [
+						5,
+						10,
+						13,
+						16
+					]
+				},
+				"south": {
+					"texture": "#linen",
+					"uv": [
+						3,
+						10,
+						11,
+						16
+					]
+				},
+				"east": {
+					"texture": "#linen",
+					"uv": [
+						1,
+						10,
+						7,
+						16
+					]
+				},
+				"west": {
+					"texture": "#linen",
+					"uv": [
+						9,
+						10,
+						15,
+						16
+					]
+				},
+				"up": {
+					"texture": "#linen",
+					"uv": [
+						3,
+						9,
+						11,
+						15
+					]
+				},
+				"down": {
+					"texture": "#linen",
+					"uv": [
+						3,
+						1,
+						11,
+						7
+					]
+				}
+			}
+		},
+		{
+			"name": "SackD",
+			"from": [
+				4,
+				6,
+				9.5
+			],
+			"to": [
+				10,
+				10,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#linen",
+					"uv": [
+						6,
+						6,
+						12,
+						10
+					]
+				},
+				"south": {
+					"texture": "#linen",
+					"uv": [
+						4,
+						6,
+						10,
+						10
+					]
+				},
+				"east": {
+					"texture": "#linen",
+					"uv": [
+						1.5,
+						6,
+						6.5,
+						10
+					]
+				},
+				"west": {
+					"texture": "#linen",
+					"uv": [
+						9.5,
+						6,
+						14.5,
+						10
+					]
+				},
+				"up": {
+					"texture": "#linen",
+					"uv": [
+						4,
+						9.5,
+						10,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#linen",
+					"uv": [
+						4,
+						1.5,
+						10,
+						6.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,33 @@
+// Level 73: a bathroom's tiled floor, the plaster ceiling of the room below underneath
+{
+	"code": "l73-tileceil",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/188/tile-bath"
+		},
+		"down": {
+			"base": "block/73/ceilplaster"
+		}
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

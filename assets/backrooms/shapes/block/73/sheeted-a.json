@@ -1,0 +1,354 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"sheet": "backrooms:block/73/dustsheet"
+	},
+	"elements": [
+		{
+			"name": "Seat",
+			"from": [
+				1,
+				0,
+				2
+			],
+			"to": [
+				15,
+				8,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#sheet",
+					"uv": [
+						1,
+						8,
+						15,
+						16
+					]
+				},
+				"south": {
+					"texture": "#sheet",
+					"uv": [
+						1,
+						8,
+						15,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sheet",
+					"uv": [
+						2,
+						8,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#sheet",
+					"uv": [
+						2,
+						8,
+						14,
+						16
+					]
+				},
+				"up": {
+					"texture": "#sheet",
+					"uv": [
+						1,
+						2,
+						15,
+						14
+					]
+				},
+				"down": {
+					"texture": "#sheet",
+					"uv": [
+						1,
+						2,
+						15,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				1,
+				8,
+				10
+			],
+			"to": [
+				15,
+				17,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#sheet",
+					"uv": [
+						1,
+						0,
+						15,
+						8
+					]
+				},
+				"south": {
+					"texture": "#sheet",
+					"uv": [
+						1,
+						0,
+						15,
+						8
+					]
+				},
+				"east": {
+					"texture": "#sheet",
+					"uv": [
+						2,
+						0,
+						6,
+						8
+					]
+				},
+				"west": {
+					"texture": "#sheet",
+					"uv": [
+						10,
+						0,
+						14,
+						8
+					]
+				},
+				"up": {
+					"texture": "#sheet",
+					"uv": [
+						1,
+						10,
+						15,
+						14
+					]
+				},
+				"down": {
+					"texture": "#sheet",
+					"uv": [
+						1,
+						2,
+						15,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmL",
+			"from": [
+				0.5,
+				8,
+				2
+			],
+			"to": [
+				3,
+				11,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#sheet",
+					"uv": [
+						13,
+						5,
+						15.5,
+						8
+					]
+				},
+				"south": {
+					"texture": "#sheet",
+					"uv": [
+						0.5,
+						5,
+						3,
+						8
+					]
+				},
+				"east": {
+					"texture": "#sheet",
+					"uv": [
+						6,
+						5,
+						14,
+						8
+					]
+				},
+				"west": {
+					"texture": "#sheet",
+					"uv": [
+						2,
+						5,
+						10,
+						8
+					]
+				},
+				"up": {
+					"texture": "#sheet",
+					"uv": [
+						0.5,
+						2,
+						3,
+						10
+					]
+				},
+				"down": {
+					"texture": "#sheet",
+					"uv": [
+						0.5,
+						6,
+						3,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmR",
+			"from": [
+				13,
+				8,
+				2
+			],
+			"to": [
+				15.5,
+				11,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#sheet",
+					"uv": [
+						0.5,
+						5,
+						3,
+						8
+					]
+				},
+				"south": {
+					"texture": "#sheet",
+					"uv": [
+						13,
+						5,
+						15.5,
+						8
+					]
+				},
+				"east": {
+					"texture": "#sheet",
+					"uv": [
+						6,
+						5,
+						14,
+						8
+					]
+				},
+				"west": {
+					"texture": "#sheet",
+					"uv": [
+						2,
+						5,
+						10,
+						8
+					]
+				},
+				"up": {
+					"texture": "#sheet",
+					"uv": [
+						13,
+						2,
+						15.5,
+						10
+					]
+				},
+				"down": {
+					"texture": "#sheet",
+					"uv": [
+						13,
+						6,
+						15.5,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Hem",
+			"from": [
+				0.5,
+				0,
+				1.5
+			],
+			"to": [
+				15.5,
+				2,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#sheet",
+					"uv": [
+						0.5,
+						14,
+						15.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#sheet",
+					"uv": [
+						0.5,
+						14,
+						15.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#sheet",
+					"uv": [
+						1.5,
+						14,
+						14.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#sheet",
+					"uv": [
+						1.5,
+						14,
+						14.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#sheet",
+					"uv": [
+						0.5,
+						1.5,
+						15.5,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#sheet",
+					"uv": [
+						0.5,
+						1.5,
+						15.5,
+						14.5
+					]
+				}
+			}
+		}
+	]
+}

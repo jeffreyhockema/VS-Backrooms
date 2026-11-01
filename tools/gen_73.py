@@ -19,6 +19,7 @@ import re
 from PIL import Image, ImageDraw, ImageFilter
 
 import gen_73_castle as castle
+import gen_73_interior as interior
 import gen_73_links as links
 import gen_73_lore as lore
 import matlib as M
@@ -196,7 +197,7 @@ def deadgrass(seed, height):
 
 def bone(seed):
     """Old bone, bleached and weathered: ivory with long fibres along it, pores, and dark grime in its hollows."""
-    img = M.noise_hv((164, 154, 132), amp=5, seed=seed, mottle=8, hue=2)
+    img = M.noise_hv((146, 134, 110), amp=5, seed=seed, mottle=8, hue=2)
     px = img.load()
     fib = M.fbm(S, seed + 1, (16, 4))
     rng = random.Random(seed + 2)
@@ -207,7 +208,7 @@ def bone(seed):
             f = fib[(y * 3) % S][(x // 4) % S] * 18
             px[x, y] = M.rgba((r + f, g + f, b + f * 0.8))
     flecks(img, seed + 3, 30, (112, 100, 82), 0.6)
-    M.grime(img, 0.22, seed=seed + 4, color=(84, 66, 52), cover=0.45)
+    M.grime(img, 0.3, seed=seed + 4, color=(74, 56, 44), cover=0.55)
     for _ in range(3):
         blood_crack(img, rng.randrange(10000), colour=(96, 70, 58), length=(4, 9))
     return img
@@ -468,7 +469,7 @@ LANG = [
     ("block-l73-bone", "Great Hound's Bone"),
     ("block-l73-wainscot-*", "Mahogany Panelling"),
     ("block-l73-damask-*", "Damask-Papered Wall"),
-] + castle.LANG + links.LANG + lore.LANG
+] + castle.LANG + interior.LANG + links.LANG + lore.LANG
 
 
 def write_lang():
@@ -549,6 +550,11 @@ def main():
     for comment, b in castle.blocktypes():
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
     n_shapes = castle.shapes(write_json, os.path.join(ASSETS, "shapes", "block", "73"))
+    # Round 3's furnishings and landscape pieces (gen_73_interior.py)
+    n_tex += interior.textures(save)
+    for comment, b in interior.blocktypes():
+        write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
+    n_shapes += interior.shapes(write_json, os.path.join(ASSETS, "shapes", "block", "73"))
     # The ways in and out (gen_73_links.py): the Gloom's ground and murk, the north door
     n_tex += links.textures(save)
     for comment, b in links.blocktypes():

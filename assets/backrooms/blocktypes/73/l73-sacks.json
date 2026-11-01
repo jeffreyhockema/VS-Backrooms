@@ -1,0 +1,137 @@
+// Level 73: sacks of flour and meal (fixed, they give nothing)
+{
+	"code": "l73-sacks",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-north": {
+			"base": "block/73/sacks",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/73/sacks",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/73/sacks",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/73/sacks",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.95,
+			"y2": 0.65,
+			"z2": 0.95,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.95,
+			"y2": 0.65,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.95,
+			"y2": 0.65,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.95,
+			"y2": 0.65,
+			"z2": 0.95,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.95,
+			"y2": 0.6,
+			"z2": 0.95,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.95,
+			"y2": 0.6,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.95,
+			"y2": 0.6,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.95,
+			"y2": 0.6,
+			"z2": 0.95,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

@@ -67,7 +67,7 @@ public partial class AtmosphereSystem
     {
         int bx = (int)Math.Floor(pos.X), bz = (int)Math.Floor(pos.Z);
         double rel = pos.Y - geometry.FloorFor(WorldLayout.Level73);
-        bool keep = layout.InL73Keep(bx, bz) && rel > WorldLayout.L73Plateau && rel < WorldLayout.L73Plateau + WorldLayout.L73Terrace;
+        bool keep = layout.InL73Keep(bx, bz) && rel > WorldLayout.L73Plateau - WorldLayout.L73CellarDepth && rel < WorldLayout.L73Plateau + WorldLayout.L73Terrace;
         bool sea = !keep && layout.L73Shore(bx, bz, out _) > 8;
         return (keep, sea);
     }
@@ -108,10 +108,11 @@ public partial class AtmosphereSystem
         float surf = (float)Math.Clamp((beyond + 120) / 120, 0, 1);
         L73Loop(ref l73Surf, "game:sounds/environment/waterwaves", keep ? 0f : 0.05f + 0.4f * surf * surf);
 
-        // The fire in the dining hall's hearth
-        var (hx, hz) = layout.L73Hearth;
+        // The nearest fire on the storey one is on: the dining hall's hearth, the fireplaces (round 3)
         double floor = geometry.FloorFor(WorldLayout.Level73) + WorldLayout.L73Plateau;
-        L188Positional(ref l73Fire, "game:sounds/environment/fireplace", pos, hx + 0.5, floor + 1.5, hz + 1, 16, 0.7f);
+        int storey = Math.Clamp((int)Math.Floor((pos.Y - floor - 1) / WorldLayout.L73Storey), 0, 2);
+        var (hx, hz) = layout.L73NearestFire(pos.X, pos.Z, storey);
+        L188Positional(ref l73Fire, "game:sounds/environment/fireplace", pos, hx, floor + storey * WorldLayout.L73Storey + 1.5, hz, 16, 0.7f);
 
         if (keep)
         {
