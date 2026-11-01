@@ -90,7 +90,7 @@ public partial class CheatSystem
             // Every other site is the nearest step of the level to that arrival that is clear of the sites already picked
             if (i % 2 == 0)
             {
-                tileScanStopped = false;
+                finder.Stopped = false;
                 var near = NearestTileAt(spot.X, spot.Z, 1024, level, (t, x, z) => t.Stair > 0 && !picked.Any(p => Math.Abs(p.X - x) <= 2 * radius && Math.Abs(p.Z - z) <= 2 * radius), out _);
                 if (near is { } stairs) spot = stairs;
             }

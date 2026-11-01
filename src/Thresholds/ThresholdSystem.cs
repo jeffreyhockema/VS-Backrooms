@@ -538,8 +538,11 @@ public partial class ThresholdSystem : ModSystem
         _ => GameMath.PI + GameMath.PIHALF,    // climbs east: face west
     };
 
+    /// <summary>The entity yaw that looks along a compass heading (0 north, 90 east), degrees: a player looks along (sin yaw, cos yaw).</summary>
+    public static float YawOfHeading(double degrees) => (float)(Math.PI - degrees * Math.PI / 180);
+
     /// <summary>Turns a player to face the given way (the client owns where its camera looks, so it is told).</summary>
-    private void Face(IServerPlayer player, float yaw)
+    public void Face(IServerPlayer player, float yaw)
     {
         if (player.ConnectionState != EnumClientState.Playing || player.Entity == null) return;
         player.Entity.Pos.Yaw = yaw;

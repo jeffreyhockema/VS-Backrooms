@@ -1,0 +1,30 @@
+description: /backrooms feature and nearest turn the player to face the feature.
+steps:
+  - expect_no_startup_issues: ""
+  - bot: closeguis
+  - bot: hud on
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms heal
+  - cmd: /backrooms director off
+  - cmd: /backrooms feature redroom
+  - expect_chat: facing
+  - bot: wait 2500
+  - shot: face-redroom
+  - cmd: /backrooms goto 94 timeout=60
+  - bot: ready 48
+  - cmd: /backrooms feature l94castle timeout=40
+  - expect_chat: facing
+  - bot: wait 2500
+  - shot: face-castle
+  - cmd: /backrooms goto 5 timeout=60
+  - bot: ready 48
+  - cmd: /backrooms feature fronthall timeout=40
+  - expect_chat: facing
+  - bot: wait 2500
+  - shot: face-fronthall
+  - cmd: /backrooms nearest gate
+  - expect_chat: Gate
+  - bot: wait 2500
+  - shot: face-gate
+  - expect_no_log: Unhandled exception

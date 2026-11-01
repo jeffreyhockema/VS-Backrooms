@@ -103,6 +103,8 @@ if (args.Length > 2 && args[2] == "l11rooms") { L11Rooms.Run(layout, args.Length
 if (args.Length > 4 && args[2] == "hpeek") { HeightPeek.Run(layout, int.Parse(args[3]), int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 8); return; }
 if (args.Length > 2 && args[2] == "findres") { FindReservoir.Run(layout); return; }
 if (args.Length > 2 && args[2] == "layouthash") { LayoutHash.Run(args); return; }
+// featurecheck [arrivals] [level...]: every "Go to feature" finder of the cheat menu, from a few arrivals in its level (FeatureCheck.cs)
+if (args.Length > 2 && args[2] == "featurecheck") { FeatureCheck.Run(layout, args); return; }
 // manholes [maps]: Level 3's manholes round the level's arrival, <cells> across: the way in, the ladder, its foot (Manholes.cs)
 if (args.Length > 2 && args[2] == "manholes") { Manholes.Run(layout, seed, n, args.Length > 3 && args[3] == "maps"); return; }
 if (args.Length > 2 && args[2] == "tunnels") { Tunnels.Run(layout, n); return; }
