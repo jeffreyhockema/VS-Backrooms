@@ -102,7 +102,11 @@ rooms are contaminated and what they do.
 
 ## 3. The level in this mod (numbers)
 
-Filled in as built: see section 6 ("Built").
+**Survival class 4** (`SurvivalClass`), `Danger.OfLevel` 0.7. 19 °C (16 in dead halls, 12 in torture chambers). Stability 0.92
+(0.8 dark, 0.6 torture chambers, 0.45 contaminated rooms). Seed 12345, the 49 wings round the middle (`14stats 3`): 27.6 rooms a
+wing, a reception in every wing within 400 blocks of the middle (60% beyond), 63 surgeries, 7 torture chambers (none within 200
+blocks of the middle), 1 research room (one wing in fourteen beyond 160 blocks), 39 contaminated rooms, 169 supply boxes; tiles:
+halls 28k, corridors 34k, wards 23k, ICU 14k, storage 24k, offices 13k. Arrivals: 60/60 in reception rooms, no pockets.
 
 ## 4. Asset contract (block codes the generator draws)
 
@@ -193,13 +197,35 @@ medicine cabinet, shelf, cardboard boxes, filing cabinet, office chair, folding 
 ### The Hunter (`gen_14_hunter.py`, `src/Regions/L14Hunter.cs`)
 `backrooms:l14-hunter` and `backrooms:l14-agent` (entities), see section 5.
 
-## 5. The Hunter (design)
+## 5. The Hunter (design; our reading of File 14-E)
 
-Filled in as built (section 6).
+`src/Regions/L14Hunter.cs`. One Hunter per player in the level (3 at most), put down out of sight 36-60 blocks off (near a
+torture chamber if one is within 96) after 150-300 s in the level, again 20-30 minutes after a kill. It "senses" its player: a
+point near them re-picked every 20 s (error 30% of the distance), roaming slowly; within 24 blocks it stalks; seeing them
+within 20, or **eye contact** (the player looking at it within 10 degrees and 32 blocks), it shrieks and charges (a 5 s burst a
+little faster than a sprint, then sprint speed), lashes for about 7 at tier 3 and pulls you in ("drag those who wander too
+close"). While chasing it lets loose 1-2 Infecting Agents every 10-15 s (4 at most): fast worms, 3.5 health, a venomous bite
+(antibiotics clear it) and an acid spit you can sidestep; they die off after 40 s. Health about 91. Lost after 20 s unseen and
+32 blocks. The client's atmosphere thickens to a cold smoky blue-black within 30-40 blocks of it, with a heartbeat. Not on the
+director's roster (it is the level's only hunter, as the lore says).
 
 ## 6. Built
 
-(Filled in as built.)
+- **World** (`WorldLayout.Level14.cs`, `WorldGenerator.L14.cs`): halls every 64 blocks, four wide and four high, troffers in
+  pairs every eight (30% dead, one stretch in five all dead beyond 200 blocks), stained and missing ceiling tiles, a red
+  way-finding line with arrows on one hall line in three (the rumour's arrows), department signs hung before each crossing,
+  gurneys, wheelchairs, drip stands, linen carts, benches and blood left along the walls. Wings of 58 blocks, one department
+  each (medical 30%, ICU 15%, psychiatry 12%, maternity 13%, surgery 14%, stores 16%), cut by three-wide corridors (fire doors
+  propped open where they meet the halls), rooms in strips along them (back to back where deep), each room's plate by its door,
+  handrails along every hall and corridor wall. Rooms as section 4 lists their furniture; inpatient rooms blinding white with
+  bright troffers and windows onto black on their doorless walls; surgeries behind shut doors (one in ten locked); storage walls
+  thrown together; torture chambers (rust and bloodied tiles, blood on the ceiling, shattered marble, stretchers and knife
+  cabinets, hooks); the research group's room (a glass containment chamber broken out, desks, Compound 14, crates and boxes,
+  cots, a folded note); contaminated rooms (a door with a window you look through, a second door in, drums, stains). Every room
+  is walked through from its door after it is furnished and anything cutting a part off is taken away.
+- **Atmosphere and rules**: see the builder's log (agent S) and `L14System.cs`.
+- **Links**: see the builder's log (agent L) and `WorldLayout.Level14.Links.cs`.
+- **Content**: notes l14-1..7, the folded transcripts r-l14-1..3, host notes l14-h0, l14-h15, the handbook page, items.
 
 ## Builder's log (for picking the work up again)
 - e563a093 the Hunter (agent A: src/Regions/L14Hunter.cs, `/backrooms l14hunter spawn|show|agent|state|clear|kill`; lang lines
