@@ -110,7 +110,39 @@ public partial class WorldLayout
             return null;
         }
 
-        foreach (string name in new[] { "rink", "rink-star", "dj", "lobby", "foodcourt", "rental", "arcade", "cinema", "lounge", "hvac", "bath", "glowroom", "emptiness", "hall" })
+        // The ways in and out (WorldLayout.Level31.Links.cs): a lobby's wooden door and a revolving door, from inside the lobby
+        for (int ring = 0; ring <= 8 && !(found.ContainsKey("lobbydoor") && found.ContainsKey("revolving")); ring++)
+            for (int wz = cz - ring; wz <= cz + ring; wz++)
+                for (int wx = cx - ring; wx <= cx + ring; wx++)
+                {
+                    if (Math.Max(Math.Abs(wx - cx), Math.Abs(wz - cz)) != ring || !L31ComplexInside(wx, wz)) continue;
+                    L31Plan plan = L31PlanOf(wx, wz);
+                    if (plan.Kind != L31Kind.Rinks) continue;
+                    Add("lobbydoor", Spot(plan, L31LobbyDoorP - 2, L31LobbyDoorQ - 6, L31LobbyDoorP, L31LobbyDoorQ, 1.4, p0: 46, q0: 0, p1: 74, q1: 19));
+                    if (L31HasRevolving(wx, wz))
+                        Add("revolving", Spot(plan, L31RevolvingP + 1, L31RevolvingQ + 7, L31RevolvingP, L31RevolvingQ, 1.6, p0: 46, q0: 0, p1: 74, q1: 19));
+                }
+
+        foreach (string name in new[] { "rink", "rink-star", "dj", "lobby", "foodcourt", "rental", "arcade", "cinema", "lounge", "hvac", "bath", "glowroom", "emptiness", "hall",
+            "lobbydoor", "revolving" })
             if (found.TryGetValue(name, out var s)) yield return s;
+
+        // The wooden doors into the rink in its hosts, the nearest to spawn in each: from four steps in front of it
+        var (sx, sz) = FindSpawn();
+        foreach (int host in new[] { 2, 3, 6 })
+        {
+            if (L31NearestHostDoor(host, MacroOf(sx), MacroOf(sz)) is not { } door) continue;
+            var (fx, fz) = FacingStep(door.Facing);
+            Showcase.Spot? shot = null;
+            for (int back = 4; back >= 2 && shot == null; back--)
+            {
+                int ex = door.X + fx * back, ez = door.Z + fz * back;
+                if (!IsArrivalSpot(TileAt(ex, ez))) continue;
+                double heading = (Math.Atan2(-fx, fz) * 180 / Math.PI + 360) % 360;
+                double pitch = Math.Atan2(1.2 - 1.6, back) * 180 / Math.PI;
+                shot = new Showcase.Spot($"door-l{host}", ex + 0.5, geometry.FloorFor(host) + 1.05, ez + 0.5, Math.Round(heading, 1), Math.Round(pitch, 1));
+            }
+            if (shot is { } sh) yield return sh;
+        }
     }
 }

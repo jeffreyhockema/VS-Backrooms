@@ -112,6 +112,7 @@ public sealed partial class WorldGenerator
             l31Couch[1, f] = L31Block($"l3999-couch-right-{side}");
         }
         InitL31Detail();
+        InitL31Links();
     }
 
     /// <summary>The blocks of the detail pass (2026-10-30): the level's own carpets and floors, the signs on its walls, the
@@ -194,6 +195,8 @@ public sealed partial class WorldGenerator
             int high = t.Height > 0 ? t.Height : 4;
             if (rel > high) return concreteId;
             if (rel == 0) return t.Kind == TileKind.Doorway ? L31Floor(t, gx, gz) : concreteId;
+            // A lobby's wooden door, a revolving door (WorldGenerator.L31.Links.cs)
+            if (t.Under is Unders.L31LobbyDoor or Unders.L31Revolving && L31LinkBlock(t, rel) is int link and >= 0) return link;
             if (t.Kind == TileKind.Doorway && rel <= 3) return 0;
             return L31WallBlock(t, gx, gz, rel, high);
         }
@@ -266,7 +269,7 @@ public sealed partial class WorldGenerator
         }
         // (over a doorway, only above its opening)
         var (bx, bz) = facing switch { ArchPier.North => (gx, gz + 1), ArchPier.South => (gx, gz - 1), ArchPier.East => (gx - 1, gz), _ => (gx + 1, gz) };
-        if (rel <= 3 && layout.TileAt(bx, bz).Kind == TileKind.Doorway) return 0;
+        if (rel <= 3 && layout.TileAt(bx, bz) is { } behind && (behind.Kind == TileKind.Doorway || behind.Under is Unders.L31Revolving or Unders.L31LobbyDoor)) return 0;
         int f = Facing(facing);
         if (t.Overhead == L31.L31Overhead.Sign && rel >= air - 1)
             return l31DjSign[System.Math.Clamp(((t.Detail & L31.L31SubMask) >> L31.L31SubShift) - 1, 0, 2) * 2 + (air - rel), f];

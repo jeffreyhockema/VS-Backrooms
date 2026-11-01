@@ -902,6 +902,26 @@ court. I said I'm not ready. I just want to feel at home again. If you're readin
 — J."""),
 ]))
 
+# (The links round, 2026-10-31: wanderers in Levels 2, 3 and 6 talk of the wooden door into the rink, with music behind it.
+# One note each, appended to those levels' own tracks under the level's own keys.)
+for _host, _entry in (
+    ("l2", E("l31-in2", "Music in the pipes", """
+Down a blind tunnel, a wooden door in the concrete. Wood, down here. Pop music behind it, the bright sugary kind with
+handclaps, so faint I took it for the pipes. I didn't open it. Pell would have, and Pell would have said what's the worst
+that could happen, and look.
+— Dez""", w="dez")),
+    ("l3", E("l31-in3", "A door in the brick", """
+M.E.G. FIELD NOTICE. A plain wooden door has been reported in the brick walls of Level 3, pop music audible through it.
+It opens on Level 31, a roller rink: Class 1, safe, food served free. The door leads back. Sightings are rare. Mark it if
+you find one. Out of 31: the revolving doors, one way, to the Suburbs, the fields or the city.
+— Field Team 9""", w="meg")),
+    ("l6", E("l31-in6", "Something to dance to", """
+In the dark, music. Something bright and silly, a girl singing over handclaps, coming through a wall. I felt my way
+along it to wood, a handle, warm. I stood there an hour listening before I opened it. There was light on the other
+side, and a roller rink. Go toward the music.""")),
+):
+    next(t for t in TRACKS if t.id == _host).entries.append(_entry)
+
 # ============================== Level 52, the Greenfield Campus (experimental, id 23) ==============================
 # (One self-contained block: the level's id, its track. Experimental levels are reached only by the cheats menu for now.)
 

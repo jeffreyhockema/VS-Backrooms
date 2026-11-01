@@ -239,7 +239,7 @@ def dialogue():
                                      "{{playername}}. You learn fast.")}]},
         {"code": "lesson3", "owner": "trader", "type": "talk", "jumpTo": "main", "text": [
             {"value": say("lesson3", "Keep them. They're quick on the boards and the concrete; they won't do a thing on carpet. And "
-                                     "they're on loan, mind. Folk say skates walked out of here end up somewhere grey, without their feet.")}]},
+                                     "they're on loan, mind. Take them out of the rink and you'll find yourself somewhere yellow and humming, in your socks.")}]},
         {"code": "technique", "owner": "trader", "type": "talk", "jumpTo": "main", "text": [
             {"value": say("tech-1", "Spins today. Arms in, pick one spot and look at it every time you come round. Out of it the way you went in.")},
             {"value": say("tech-2", "Crossovers. Lean into the turn, step the outside skate over the inside one. Don't think about it. Feel it.")},
@@ -253,13 +253,16 @@ def dialogue():
         {"code": "shadows", "owner": "trader", "type": "talk", "jumpTo": "main", "text": [
             {"value": say("shadows", "In the dark rooms, standing still, and gone when you get close? I've seen them. Never once seen one "
                                      "move. I think they're what the dark makes when you've been alone too long. Don't go looking for them.")}]},
-        {"code": "out", "owner": "trader", "type": "talk", "jumpTo": "out2", "text": [
-            {"value": say("out", "I can. Behind the arcades, where the machines are switched off, there's a white door with a 70 on it. "
-                                 "The food court has a door marked Employees Only. Folk talk about others, a revolving door, the arcade "
-                                 "going on and on till it isn't ours any more.")}]},
+        # (His "lead me out" walks you to the nearest revolving door and marks it on your map: Regions.L31System, the trigger
+        # l31-leadout; the lore's other doors are only talk)
+        {"code": "out", "owner": "trader", "type": "talk", "jumpTo": "out2", "trigger": "l31-leadout", "text": [
+            {"value": say("out", "I can. Some of the lobbies have a revolving door in the front, glass, turning slow. Go round in it and "
+                                 "you come out somewhere else: the houses, the fields or the city, and each door always the same one. "
+                                 "Come on, I'll walk you to the nearest.")}]},
         {"code": "out2", "owner": "trader", "type": "talk", "jumpTo": "main", "text": [
-            {"value": say("out2", "They aren't there today. They come and go. When one's back, I'll walk you to it myself. And "
-                                  "{{playername}}? You're always welcome back.")}]},
+            {"value": say("out2", "The wooden door you came in by goes back the way you came, if that's what you want. Folk talk "
+                                  "about others, a white door with a 70 on it, the Employees Only door; they've never opened for me. "
+                                  "Leave the skates with me, mind. And {{playername}}? You're always welcome back.")}]},
         {"code": "why", "owner": "trader", "type": "talk", "jumpTo": "main", "text": [
             {"value": say("why", "Because it feels like home here, and that's the trouble. It's the safest place I know, so people stop. "
                                  "Stop eating, stop talking, stop trying. I've watched it. I'd rather miss you than watch it again. "

@@ -3,6 +3,7 @@ using Backrooms.Worldgen;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.MathTools;
 using Zone = Backrooms.Worldgen.WorldLayout.L31Zone;
 
 namespace Backrooms;
@@ -14,14 +15,19 @@ namespace Backrooms;
 /// the cinema and the employees' lounge. Sound: one muffled synth-pop loop from ceiling speakers somewhere (loudest out on the rink, quiet in
 /// the back rooms, gone in the cinema and the empty rooms, which have a faint room tone instead); now and then an arcade
 /// machine's attract jingle close by in an arcade; skates and laughter overhead on the rink and in the halls; a CCTV camera's
-/// servo in the silent employees' lounge. This file is the level's own.
+/// servo in the silent employees' lounge. Out of the level: in Levels 2, 3 and 6, 2000s bubblegum pop playing faintly behind
+/// a wooden door into the rink, when you come near one (the lore's way in). This file is the level's own.
 /// </summary>
 public partial class AtmosphereSystem
 {
     private static readonly Atmosphere L31Dark = new(0.020f, 0.04f, 0.03f, 0.08f, 0f);
     private static readonly Atmosphere L31Warm = new(0.008f, 0.24f, 0.15f, 0.12f, 0f);
-    private ILoadedSound l31Music, l31Room;
-    private float l31Volume, l31Attract = 8, l31Above = 20, l31Cctv = 15;
+    private ILoadedSound l31Music, l31Room, l31DoorMusic;
+    private float l31Volume, l31Attract = 8, l31Above = 20, l31Cctv = 15, l31DoorScan;
+    private (int X, int Z)? l31DoorAt;
+
+    /// <summary>How near a wooden door into the rink its music is heard from (blocks), and how far round a player one is looked for.</summary>
+    private const int L31DoorRange = 18;
 
     private Tile L31TileAt(EntityPos pos) => layout.TileAt((int)Math.Floor(pos.X), (int)Math.Floor(pos.Z));
 
@@ -76,8 +82,10 @@ public partial class AtmosphereSystem
             L31Stop(ref l31Music);
             L31Stop(ref l31Room);
             l31Volume = 0;
+            L31DoorSounds(dt, pos);
             return;
         }
+        if (l31DoorMusic != null) { L31Stop(ref l31DoorMusic); l31DoorAt = null; }
         byte zone = L31TileAt(pos).Zone;
 
         // The music: one loop, faded toward each part's loudness
@@ -127,5 +135,43 @@ public partial class AtmosphereSystem
         double angle = rand.NextDouble() * Math.PI * 2, r = 3 + rand.NextDouble() * 9;
         capi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/3999/attract-" + (1 + rand.Next(4))),
             pos.X + Math.Cos(angle) * r, pos.Y + 1, pos.Z + Math.Sin(angle) * r, null, true, 16, 0.3f);
+    }
+
+    /// <summary>
+    /// The music behind a wooden door into the rink (Wikidot, Fandom: "bubblegum pop from the middle of the 2000s playing on the
+    /// other side"), in Levels 2, 3 and 6: a faint loop at the nearest such door within <see cref="L31DoorRange"/> blocks, looked
+    /// for once a second.
+    /// </summary>
+    private void L31DoorSounds(float dt, EntityPos pos)
+    {
+        l31DoorScan -= dt;
+        if (l31DoorScan > 0) return;
+        l31DoorScan = 1;
+        int px = (int)Math.Floor(pos.X), pz = (int)Math.Floor(pos.Z);
+        int level = layout.LevelAt(WorldLayout.MacroOf(px), WorldLayout.MacroOf(pz));
+        (int X, int Z)? door = null;
+        if (level is 2 or 3 or 6)
+        {
+            int best = int.MaxValue;
+            for (int dz = -L31DoorRange; dz <= L31DoorRange; dz++)
+                for (int dx = -L31DoorRange; dx <= L31DoorRange; dx++)
+                {
+                    int d = dx * dx + dz * dz;
+                    if (d >= best || d > L31DoorRange * L31DoorRange) continue;
+                    if (WorldLayout.IsL31HostDoor(layout.TileAt(px + dx, pz + dz))) { best = d; door = (px + dx, pz + dz); }
+                }
+        }
+        if (door == l31DoorAt) return;
+        L31Stop(ref l31DoorMusic);
+        l31DoorAt = door;
+        if (door is not { } at) return;
+        // (Behind the door, a little into the wall: it is the other side that plays)
+        l31DoorMusic = capi.World.LoadSound(new SoundParams
+        {
+            Location = new AssetLocation("backrooms:sounds/ambient/31/doorpop"), ShouldLoop = true, DisposeOnFinish = false,
+            Position = new Vec3f(at.X + 0.5f, geometry.FloorFor(level) + 1.5f, at.Z + 0.5f), RelativePosition = false,
+            Range = L31DoorRange, Volume = 0.55f, SoundType = EnumSoundType.Ambient,
+        });
+        l31DoorMusic?.Start();
     }
 }

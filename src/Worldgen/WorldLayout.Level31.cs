@@ -7,7 +7,7 @@ namespace Backrooms.Worldgen;
 /// <summary>
 /// Level 31, "Roller Rink" (experimental): kept as level 24 (<see cref="Level31"/>) and shown as "31". An endless 1990s
 /// roller rink, the same for everyone in the world, in a round noclip region far out to the west-north-west (the design is
-/// docs/design/experimental-levels/31-plan.md). No thresholds in or out: the cheats menu or <c>/backrooms goto 31</c> only.
+/// docs/design/experimental-levels/31-plan.md). Its ways in and out are in WorldLayout.Level31.Links.cs.
 ///
 /// <para><b>The lattice.</b> Neon halls run straight through the whole region every <see cref="L31Period"/> blocks each
 /// way, five wide (x or z mod 128 in 1-5) and five high, on a galaxy carpet under black ceilings, a coloured neon tube
@@ -282,7 +282,9 @@ public sealed partial class WorldLayout
         if (across is not (1 or 5)) return;
         // Along the walls: the neon strip at their foot where there is a wall behind (not a door); now and then a bench or a bin
         int bx = hallX ? gx + (u == 1 ? -1 : 1) : gx, bz = hallZ ? gz + (v == 1 ? -1 : 1) : gz;
-        TileKind behind = L31PlanTile(bx, bz).Kind;
+        Tile wall = L31PlanTile(bx, bz);
+        // (a revolving door stands out into the hall like a doorway's opening: no strip, the cladding above it)
+        TileKind behind = wall.Under == Unders.L31Revolving ? TileKind.Doorway : wall.Kind;
         if (behind is not (TileKind.Wall or TileKind.Doorway)) return;
         ArchPier facing = hallX ? (u == 1 ? ArchPier.East : ArchPier.West) : (v == 1 ? ArchPier.South : ArchPier.North);
         t.Pier = facing;
@@ -420,6 +422,8 @@ public sealed partial class WorldLayout
             L31LayRink(plan);
         }
         L31DressWalls(plan);
+        // The lobby's wooden door, and now and then a revolving door (WorldLayout.Level31.Links.cs)
+        L31LayLinks(plan);
         return plan;
     }
 

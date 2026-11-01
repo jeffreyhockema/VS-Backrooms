@@ -1,0 +1,93 @@
+// Level 31: a varnished wooden panel door (lower and upper halves; its face on the north and south faces, or east and west). In a wall of Level 2, 3 or 6, with pop music playing faintly behind it, it opens on a lobby of the roller rink; in a lobby it is the way back (threshold kind l31-door)
+{
+	"code": "l31-door",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"ns",
+				"we"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-lower-ns": {
+			"all": {
+				"base": "block/31/door-edge"
+			},
+			"north": {
+				"base": "block/31/door-lower"
+			},
+			"south": {
+				"base": "block/31/door-lower"
+			}
+		},
+		"*-lower-we": {
+			"all": {
+				"base": "block/31/door-edge"
+			},
+			"east": {
+				"base": "block/31/door-lower"
+			},
+			"west": {
+				"base": "block/31/door-lower"
+			}
+		},
+		"*-upper-ns": {
+			"all": {
+				"base": "block/31/door-edge"
+			},
+			"north": {
+				"base": "block/31/door-upper"
+			},
+			"south": {
+				"base": "block/31/door-upper"
+			}
+		},
+		"*-upper-we": {
+			"all": {
+				"base": "block/31/door-edge"
+			},
+			"east": {
+				"base": "block/31/door-upper"
+			},
+			"west": {
+				"base": "block/31/door-upper"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-lower-ns"
+		],
+		"backrooms": [
+			"*-lower-ns"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "l31-door"
+			}
+		}
+	]
+}
