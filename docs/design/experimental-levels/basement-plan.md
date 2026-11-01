@@ -378,3 +378,83 @@ and Kel.
   the middle and it gives way, a long fall into the Basement under a crack in its ceiling.
 - The Basement, the top of a crack in its ceiling, sixteen blocks over the floor (bring a ladder, or blocks to stand
   on): Level 0.
+
+## Round 3 (2026-11-01): the detailed visual pass
+
+The user asked for more detailed visuals, multi-block objects and signs, more realistic layouts, closer to the lore and
+the released levels. Read against round 2's final sheet (`%TEMP%/backrooms-shots/final-r2/sheets/basement.jpg`), the
+lead's notes, the brief, DECISIONS.md and Levels 1, 2 and 5 (the concrete halls, the pipes, the hotel's boiler bays).
+
+### List
+
+Tiers: A must, B should, C nice. `[lead]` marks the lead's notes.
+
+**1. Layout realism**
+1. (A) [lead] Smaller rooms: split the Cellar's BSP further (most rooms 4-8 across); keep a big room only for a crack,
+   a stairwell or the rec room.
+2. (A) [lead] Rooms by function, not by chance alone: in each cell at most one boiler room, one laundry, one rec room,
+   the laundry and the boiler room near each other (the water and the flue), the rest workshop / storage / pantry /
+   root cellar / plain finished rooms.
+3. (A) [lead] Corridors: now and then a cell's first split is a hallway two wide right across it, rooms off it on both
+   sides, each with its own door onto it; unfinished walls of bare studs with insulation between, joists overhead, the
+   duct and conduit running along it.
+4. (A) [lead] The crack room reads from where you land: the shaft visibly lit (its lining glowing with the room
+   above's light), the Lobby's fluorescent seen at the top, a pool of light on the rubble.
+5. (B) [lead] A root cellar: earth floor, shelves of jars, sacks, bins of old potatoes (rot).
+6. (B) [lead] A coal chute in a boiler room's outer wall: the iron hatch high up, the coal heaped under it.
+7. (B) [lead] A sump pit in a utility room's corner: the floor's iron grate over black water.
+8. (B) A bar cellar (the Wikidot clipping's flooded bar basement, brief nice 14): kegs, a wine rack, crates, rarely.
+9. (C) The Flood's long passages broken now and then by a submerged door frame or a fallen shelf in the water.
+10. (C) The Dry Patch: a few more of the lore's signs of the man who rested there (a wrung-out shirt, a dead phone).
+
+**2. Multi-block objects**
+11. (A) [lead] The boiler room's set piece: an old "octopus" gravity furnace, its round body two blocks high and its
+    ducts rising from the top into the joists (three blocks, one object), a cast plate on its door.
+12. (A) [lead] A water heater: a tall tank two blocks high, its flue and pipes going up into the joists, its plate.
+13. (A) [lead] The workshop's bench: a long bench (two tiles) with a vice, and a pegboard of tools on the wall over it.
+14. (A) [lead] The laundry: washer and dryer side by side (reused), a utility sink, and a clothesline across the room
+    with things hanging on it.
+15. (A) [lead] Storage: steel shelving with boxes, jars and paint cans; cardboard boxes stacked two high (labelled).
+16. (A) [lead] The rec room: an old sofa facing a TV, a pool table (two tiles) under a hanging lamp, a rug.
+17. (A) [lead] A fuse box on the wall with conduit running up from it into the joists.
+18. (B) [lead] A wine rack against a wall (two blocks high, dusty bottles).
+19. (B) [lead] Cobwebs in the corners of the ceiling.
+20. (C) Kegs for the bar cellar (stacked on their sides).
+
+**3. Signs and text**
+21. (A) [lead] The fuse box's door open on its breakers, each with a hand-written label (FURNACE, WASHER, KITCHEN,
+    BASEMENT LTS, ? , DON'T).
+22. (A) [lead] A hand-written "DO NOT ENTER" on a board nailed across some of the swollen-shut doors.
+23. (A) [lead] The furnace's cast plate (an invented maker in Cincinnati: the clipping's city).
+24. (B) [lead] Pipe tags on the risers by the furnace and heater (HOT, COLD, GAS).
+25. (B) The water heater's plate and a "DANGER HOT" sticker.
+26. (A) Caution signs on walls (Fandom's "caution signs" among the out-of-place things): CAUTION, LOW CEILING; at the
+    stairs down to the water DANGER DEEP WATER.
+27. (B) Box labels in marker on the stacked boxes (XMAS, TAXES, MOM'S, KEEP).
+28. (C) A calendar on a wall stopped at January 1951 (the clipping's muddled date).
+
+**4. Detail visuals**
+29. (A) [lead] The stairwell's bright red brick toned down to the palette (old sooty brown-grey brick).
+30. (A) [lead] Hanging bulbs with rhythm: a corridor's bulbs every few tiles, lit / flickering / dead in runs; lit rooms
+    a little warmer and brighter, dark rooms darker (less flat).
+31. (B) [lead] Stains, damp and cracks: crack alternates on the cinder and the concrete floor, damp blooms low on walls.
+32. (B) [lead] Conduit runs on the walls up to the joists (with the fuse box) and along corridors.
+33. (B) A rug under the rec room's sofa and table (a finished room's floor changing in its middle).
+34. (C) Puddles under a leaking pipe.
+35. (C) Baseboards on the panelled walls.
+
+**5. Lore alignment**
+36. (A) The out-of-place things of the Fandom page that are thin: caution signs (26), ropes and wires (kept).
+37. (B) The arrival (falling through the crack): face into the room from the rubble (the rig's arrivals look where the
+    client looks; the showcase spot looks at the lit crack and the room together).
+38. (B) Keep the Dry Patch bare (the lore's resting place): no new comforts there.
+39. (C) The Wikidot clipping's bar (8, 20) marked as an invention of the place, not its name.
+
+**6. Released-level alignment**
+40. (A) Every new block named in en.json (HUD, pick-block), drops like the released props (scrap, sticks, nothing for
+    fixtures), sounds by material.
+41. (A) Showcase spots for every new set piece (boiler room, laundry, workshop, rec room, corridor, root cellar, fuse box).
+42. (B) The handbook page and notes untouched in voice; a line on the house's rooms if it helps.
+43. (B) The Basement's lamps and new lights stay within the level's light budget (no fullbright rooms).
+44. (C) The map colours of the new room kinds (the Cellar keeps one colour).
+
