@@ -2,15 +2,15 @@ namespace Backrooms.Worldgen;
 
 /// <summary>
 /// The blocks of Level 73's ways in and out (WorldLayout.Level73.Links.cs; this file is the level's own): the Gloom in Level 9
-/// (black ground, and over its heart a black murk two or three blocks high), and the north door in the castle's curtain wall.
+/// (black ground, and over its heart a black murk two blocks high), and the north door in the castle's curtain wall.
 /// </summary>
 public sealed partial class WorldGenerator
 {
     private int l73GloomGround, l73GloomAir, l73PosternBack;
     private readonly int[] l73Postern = new int[4];
 
-    /// <summary>A salt of the level's own (0x2100-0x21BF) for how high the murk stands over each block of the Gloom's heart.</summary>
-    private const ulong SaltL73GloomTop = 0x2143;
+    /// <summary>How high the murk stands over the Gloom's heart.</summary>
+    private const int L73GloomTop = 2;
 
     private void InitL73Links()
     {
@@ -22,7 +22,7 @@ public sealed partial class WorldGenerator
     }
 
     /// <summary>
-    /// The Gloom, in Level 9 (ExpLinks hook): its ground black; over its heart the murk, two or three high; nothing growing or
+    /// The Gloom, in Level 9 (ExpLinks hook): its ground black; over its heart the murk, two high; nothing growing or
     /// standing over its rim. Below the ground and above the murk, the street's or the yard's own (-1).
     /// </summary>
     partial void L73EntranceBlock(in Tile t, int gx, int gz, int rel, ref int id, ref int fluid)
@@ -33,7 +33,8 @@ public sealed partial class WorldGenerator
             id = l73GloomGround;
             return;
         }
-        int top = t.Under == Unders.L73Gloom ? 2 + (int)(Hashing.Hash(seed, gx, gz, SaltL73GloomTop) % 2) : 0;
+        // (One even height: steps in it read as a building's outline, not a pool of dark)
+        int top = t.Under == Unders.L73Gloom ? L73GloomTop : 0;
         if (rel <= top) id = l73GloomAir;
         else if (rel <= 4) id = 0;
     }

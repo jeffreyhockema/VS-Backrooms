@@ -330,7 +330,7 @@ finders), `WorldGenerator.L73.Links.cs` (blocks), `ThresholdNetwork.L73.cs` / `T
 - *The Gloom (Level 9, one way).* One Suburbs cell in 2000 rolls it (own salt 0x2140, the hook last in precedence); where the
   cell has a clear round of 4 blocks of lawn, pavement or asphalt with nothing on it, a lumpy pool 5-7 across is marked
   (`Unders.L73Gloom` its heart, `L73GloomRim` its rim; nothing else in the cell changes: the harness checks every tile).
-  Blocks: black dull ground (`l73-gloom`, never breaks) and over the heart a black murk 2-3 high (`l73-gloomair`: no body,
+  Blocks: black dull ground (`l73-gloom`, never breaks) and over the heart a black murk 2 high (`l73-gloomair`: no body,
   `BlendNoCull` so it is dark from inside too, faces between two of it merged). Standing in it: warnings at 12, 40 and 70 s,
   taken at 90 s ("a minute or two, warned"); stepping out says so, and 20 s out lets it go. On the client a black fog sphere
   closes in round the player (tighter the longer they stay) and a heartbeat comes, quicker and louder. Arrival: on the island's
@@ -360,7 +360,15 @@ finders), `WorldGenerator.L73.Links.cs` (blocks), `ThresholdNetwork.L73.cs` / `T
   `l73postern open|shut`.
 - *Harness* `73links`; *showcase*: `north-door`, `north-door-open`, `gloom`, `gloom-inside`, `deepest-dark`.
 
-**My inventions** (not in the lore): the Gloom's look (black ground, a murk two or three high) and its timings; the Level 6
+**My inventions** (not in the lore): the Gloom's look (black ground, a murk two high) and its timings; the Level 6
 way's place (rare cells, no light) and timings; the whole way out: the night's rest as the condition, sneak-and-speak to ask,
 the lead round the walls, the north door in the outside of the curtain wall with no courtyard door behind it, and Level 9 as
 where it leads (Coran "newly recovered from the Gloom" in the page's M.E.G. log: he knows the way back to where the Gloom is).
+
+**Rows for the guide's ways-between-levels table** (for the lead to merge into docs/GUIDE.md / gen_guide.py):
+
+| From | Threshold | To | Way back |
+|---|---|---|---|
+| Level 9 | Standing a minute and a half in the Gloom, a rare pool of darkness in a yard or a street (black ground, a black murk over it; warned three times) | Level 73, on the island in sight of the castle | None (one way) |
+| Level 6 | Lingering three minutes with no light in the very deepest dark of Lights Out (one cell in 2500; warned three times) | Level 73, on the island in sight of the castle | None (one way) |
+| Level 73 | Asking Coran to lead you out (sneak and right-click him) after a night asleep in the castle: he walks you to the chained north door in the outside of the curtain wall and opens it | Level 9, out in the Suburbs | None (one way) |

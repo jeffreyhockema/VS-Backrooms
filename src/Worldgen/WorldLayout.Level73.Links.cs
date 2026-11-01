@@ -10,7 +10,7 @@ namespace Backrooms.Worldgen;
 /// <list type="bullet">
 /// <item><b>The Gloom</b> (Level 9; Wikidot: "stay near the Gloom for too long on Level 9.1"): about one Suburbs cell in
 /// <see cref="L73GloomCells"/> holds, in a yard or a street, a pool of darkness that light does not reach: black ground, and over
-/// its heart a black murk two or three blocks high (<see cref="Unders.L73Gloom"/>, its rim <see cref="Unders.L73GloomRim"/>).
+/// its heart a black murk two blocks high (<see cref="Unders.L73Gloom"/>, its rim <see cref="Unders.L73GloomRim"/>).
 /// Whoever stays in it too long is on the island (Regions/L73System.Links.cs; one way).</item>
 /// <item><b>Level 6's deepest dark</b> (the page names Level 6 and nothing more): about one cell of Lights Out in
 /// <see cref="L73DarkCells"/> is darker than the rest. Nothing marks it in the layout; whoever lingers there a long time with no
