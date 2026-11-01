@@ -76,8 +76,8 @@
 			"type": "item",
 			"code": "emptybottle",
 			"quantity": {
-				"avg": 1,
-				"var": 1
+				"avg": 0.5,
+				"var": 0.5
 			}
 		}
 	],

@@ -458,3 +458,54 @@ Tiers: A must, B should, C nice. `[lead]` marks the lead's notes.
 43. (B) [done] The Basement's lamps and new lights stay within the level's light budget (no fullbright rooms).
 44. (C) [skipped: the map keeps one colour for the Cellar] The map colours of the new room kinds (the Cellar keeps one colour).
 
+
+### What was built
+
+- **Rooms by what they are for** (`BasementAssignKinds`): per cell one furnace room, one laundry (beside the furnace
+  room where a room fits), a rec room in the biggest room six by six or more, root cellars (trodden earth) for half the
+  pantries, the rest store rooms, workshops, utility and finished rooms. **Smaller rooms**: the BSP's stop chances by
+  area are now 24/48/90/160 (most rooms four to eight across).
+- **Hallways** (`BasementHall`, 45% of Cellar cells): two wide right across the cell between unfinished stud walls
+  (`basement-studs`, studs with fibreglass batts; `WallPattern.BasementStuds` 296), the rooms split off both sides, a door
+  onto each room that touches it (`BasementHallDoors`, never swollen shut), bare joists, the duct the length of it, a bulb
+  every four steps in runs lit, flickering and dead, now and then stacked boxes, a stack of chairs, WATCH YOUR HEAD.
+- **Set pieces** (`BasementSetPieces`): the furnace room's octopus furnace (`basement-furnace`, three blocks: the round
+  body and its lagged arms climbing to the joists, a cast HEARTHMASTER No. 6 CINCINNATI plate), the water heater two
+  along the same wall (`basement-heater`, three blocks, its plate, DANGER HOT, pipes tagged HOT and COLD), the coal chute's
+  hatch over a heap of coal, the fuse box (door open on breakers labelled in pencil: FURNACE, WASHER, KITCHEN, BSMT LTS,
+  PUMP, ?, UPSTAIRS, DON'T; its conduit up into the joists), the sump's grate in a corner; the laundry's washer and dryer
+  side by side, the sink, a clothesline across the room with a shirt, a sheet or a towel on it; the workshop's two-tile
+  bench (vice, a can of nails, a hammer, a toolbox and paint under it) under two pegboards of tools; the rec room's
+  two-tile pool table under two green-shaded lamps (lit) on a braided rug, an old sofa facing a TV; wine racks in root
+  cellars; steel shelving two high (boxes, jars, paint cans, odds and ends) down store aisles and round walls; cardboard
+  boxes stacked two high, labelled in marker (XMAS, TAXES '84-'91, MOM'S DON'T, KEEP).
+- **Writing on the walls** (`BasementWallSigns`): caution signs (CAUTION KEEP OUT, CAUTION WATCH YOUR HEAD), DANGER DEEP
+  WATER NO WADING beside every stair down into the Flood, a calendar stopped at January 1951 with its first six days
+  crossed off, a fuse box in a cell with no furnace room; DO NOT ENTER in red marker on a board nailed across every
+  swollen-shut door (one face). Cobwebs in ceiling corners (more in halls, store rooms, root cellars, furnace rooms).
+- **Detail**: a cracked block wall alternate with damp wicking up; wet floor under a leaking main; sodden boxes awash
+  in some of the Flood's dead ends; a rug under a sitting room's coffee table now and then; no washers in finished rooms.
+- **The crack**: its shaft's lining glows (`vertexFlags glowLevel` 150, light 12), so it reads lit from across the room;
+  a broken joist and a board come down with the floor lean in the rubble (`basement-fallen`).
+- **Palette**: the stairwell brick toned to a sooty brown-grey; bulbs V12 (was 11), the faint sourceless ceiling V5 (was 6)
+  for more contrast between lit and unlit rooms.
+- **Showcase**: new spots furnace, fusebox, laundry (a washer with its dryer), workshop, rec-room, hall, root-cellar,
+  store-shelves; the crack-room spot closer and steeper.
+- Values: `Props` 1011-1019, `Overheads` 292-305, `WallPattern` 296, `FloorKind` 290-291; asset script
+  `tools/gen_basement_r3.py` (called from `gen_basement.py`), 15 new block codes, en.json names, one sentence in the
+  handbook page (gen_guide.py's own block and en.json alike).
+
+### Inventions (round 3)
+
+The furnace's maker and its Cincinnati plate (the clipping's city), the heater's maker and year, the fuse labels, the box
+labels, the calendar's January 1951 (the clipping's muddled date), DO NOT ENTER on the swollen doors, the caution signs'
+wording, the rec room, the root cellars, the hallways of studs, the fallen joist, the sodden boxes in the Flood. The
+room functions follow a real house basement (the lead's notes), not either wiki.
+
+### Balance notes for the lead
+
+No new food, water, beds or safe rooms. New drops (all small): wine racks 0-1 empty bottle each (a water container, in
+root cellars, about one rack a root cellar); shelving, furnace, heater, fuse box and signs scrap metal and wire; stud walls
+sticks and carpet fibre; rugs carpet fibre; trodden earth a block of soil. The supply boxes, crates and loot tables are
+unchanged. Hallways give long straight sightlines (two wide, up to 31 long) where the Cellar had none: the director's
+stalkers may see further there.

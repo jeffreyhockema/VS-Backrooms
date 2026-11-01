@@ -648,7 +648,7 @@ def blocks():
              groups=[("label", labels), ("part", ["lower", "upper"])])
     oriented("basement-winerack", "Wine rack", {(p,): shape(f"winerack-{p}", winerack(p)) for p in ("lower", "upper")},
              "The Basement: a wine rack two blocks high (lower, upper), dusty bottles in most of its cubbies",
-             box=(0, 0, 0.35, 1, 1, 1), drops=[{"type": "item", "code": "emptybottle", "quantity": {"avg": 1, "var": 1}}],
+             box=(0, 0, 0.35, 1, 1, 1), drops=[{"type": "item", "code": "emptybottle", "quantity": {"avg": 0.5, "var": 0.5}}],
              groups=[("part", ["lower", "upper"])])
     write_json(os.path.join(BLOCKS, "basement-sump.json"), {
         "code": "basement-sump", "creativeinventory": {"general": ["*"], "decorative": ["*"]},
