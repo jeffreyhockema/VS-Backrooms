@@ -3,7 +3,7 @@ others (the two giants at half scale), facing the viewer, standing on one ground
 
     python tools/lineup.py out.png [yaw=65] [pitch=8] [rings=1|few=1]
 
-`rings=1` draws only what lives in the rings (Levels 0 to 11), in two rows. `few=1` draws eight of them in one row
+`rings=1` draws only what lives in the rings (Levels 0 to 11), in two rows. `few=1` draws eight of them in two rows beside the Mangled
 with "and many more to discover" under it: the mod page's lineup, which keeps most of what lives here out of sight. A 1920x1080 picture in three rows, with the Mangled standing at the right beside them, scaled to fill it. `yaw` turns the models from straight on (90) so their depth shows. The renderer is the one in
 entrender.py (the game's element transforms), drawing onto a transparent canvas.
 """
@@ -125,11 +125,11 @@ RINGS = ["Smiler", "Hound", "Faceling", "Deathmoth", "Skin-Stealer", "Duller", "
          "The Beast\nof Level 5", "Giant Spider", "Neighborhood\nWatch", "Watcher", "The Thing\n(half scale)",
          "The Mangled (half scale)"]
 RINGS_ROWS = [7, 8]
-# A taste (few=1): eight, in one row, and the rest left to be met
+# A taste (few=1): eight, the small ones over the tall ones beside the Mangled, and the rest left to be met
 FEW = ["Death Rat", "Deathmoth", "Hound", "Faceling", "Bacteria", "Keymaster", "The Thing\n(half scale)",
        "The Mangled (half scale)"]
-FEW_ROWS = [7]
-FEW_CAPTION = "and many more to discover"
+FEW_ROWS = [4, 3]
+FEW_CAPTION = "...and many more to discover"
 # Drawn standing at the right, beside every row, so the rows need not be as tall as it
 SIDE = {"The Mangled (half scale)"}
 SIZE = (1920, 1080)
@@ -195,7 +195,7 @@ def main():
     label_font, title_font = font(["georgia.ttf", "times.ttf"], 28), font(["georgiab.ttf", "timesbd.ttf"], 52)
     gap, margin, top, label_h, row_gap = 26, 60, 130, 58, 18
     caption_font = font(["georgiai.ttf", "timesi.ttf", "georgia.ttf"], 40)
-    caption_h = 90 if FEW_ONLY else 0  # room under the rows for the caption
+    caption_h = 56 if FEW_ONLY else 0  # room at the bottom for the caption, in the bottom right corner
 
     # Measure at a reference scale, then render again at the largest scale that fits the frame (labels keep their
     # size, so shrink a little more until every row fits beside the side figure's column)
@@ -225,13 +225,18 @@ def main():
     d.text((margin, 40), "What lives here", font=title_font, fill=(240, 234, 218))
 
     # Share the spare height out between the rows; the rows sit left of the side figure's column
-    used = sum(a + b for _, _, a, b in rows) + sum(label_h + LINE_H * (label_lines(r) - 1) for r, _, _, _ in rows) + row_gap * (len(rows) - 1)
-    if side:
-        used = max(used, side[1].height + label_h)  # (the side figure is the tallest thing: centre on it)
-    spare = max(0, H - top - 30 - caption_h - used) / (len(rows) + 1)
-    y = top + spare
-    if side:
-        y += max(0, side[2] - rows[0][2])  # (the ground line goes under the side figure's full height, not the row's)
+    labels_h = [label_h + LINE_H * (label_lines(r) - 1) for r, _, _, _ in rows]
+    used = sum(a + b for _, _, a, b in rows) + sum(labels_h) + row_gap * (len(rows) - 1)
+    if FEW_ONLY and side:
+        # A tight stack, centred together with the side figure, whose feet stand on the last row's ground line
+        last_from_top = used - (rows[-1][3] + labels_h[-1])
+        above_line = max(last_from_top, side[2])
+        below_line = max(rows[-1][3] + labels_h[-1], side[1].height - side[2] + label_h)
+        spare = 0
+        y = top + max(0, H - top - 30 - caption_h - above_line - below_line) / 2 + above_line - last_from_top
+    else:
+        spare = max(0, H - top - 30 - caption_h - used) / (len(rows) + 1)
+        y = top + spare
     base = 0
     for row, width, above, below in rows:
         base = int(y + above)
@@ -256,8 +261,7 @@ def main():
         d.text((x + (slot - lw) / 2, base + int(last_below) + 16), label, font=label_font, fill=(222, 216, 204))
     if FEW_ONLY:
         cw = caption_font.getbbox(FEW_CAPTION)[2]
-        # (Just under the last row's names: y is already past them, the row gap and the shared spare)
-        d.text((margin + (region - cw) / 2, y - spare - row_gap + 8), FEW_CAPTION, font=caption_font, fill=(222, 216, 204))
+        d.text((W - margin - cw, H - 30 - caption_h + 6), FEW_CAPTION, font=caption_font, fill=(222, 216, 204))
     sheet.convert("RGB").save(out)
     print(out, sheet.size, f"{ppb:.0f} px per block")
 
