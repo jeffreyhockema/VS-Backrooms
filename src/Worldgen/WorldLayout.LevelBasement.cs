@@ -426,7 +426,7 @@ public sealed partial class WorldLayout
         }
         BasementFinds(b, mx, mz, rooms, Solid, Open);
         BasementWallSigns(b, ref furnish, rooms, kinds, sides, Solid);
-        BasementUnseal(b);
+        BasementUnseal(b, sides);
     }
 
     /// <summary>
@@ -435,8 +435,13 @@ public sealed partial class WorldLayout
     /// cell's sides, walk the rooms (four ways, as people do, through doors that open), and take away anything standing
     /// beside a tile that was not reached, and unstick any jammed door beside one, until every tile is reached.
     /// </summary>
-    private static void BasementUnseal(Builder b)
+    private static void BasementUnseal(Builder b, BasementSide[] sides)
     {
+        // (Round 3: from the ways out of the cell only, the gaps in its west and north lines and the tiles inside the gaps of
+        // its east and south sides; a tile merely on the cell's edge may be a corner closed off by furniture)
+        bool Way(int x, int z) => x == 0 || z == 0
+            || x == MacroSize - 1 && sides[2].Ours && InGap(sides[2].Gaps, z)
+            || z == MacroSize - 1 && sides[3].Ours && InGap(sides[3].Gaps, x);
         bool Walk(in Tile t) => IsWalkable(t) && !BasementDoorJammed(t);
         for (int pass = 0; pass < 8; pass++)
         {
@@ -445,7 +450,7 @@ public sealed partial class WorldLayout
             for (int i = 0; i < reached.Length; i++)
             {
                 int x = i % MacroSize, z = i / MacroSize;
-                if ((x == 0 || z == 0 || x == MacroSize - 1 || z == MacroSize - 1) && Walk(b.Tiles[i])) { reached[i] = true; queue.Enqueue(i); }
+                if (Way(x, z) && Walk(b.Tiles[i])) { reached[i] = true; queue.Enqueue(i); }
             }
             if (queue.Count == 0) return;
             while (queue.Count > 0)
