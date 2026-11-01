@@ -449,3 +449,12 @@ glades, the light shaft, the Heart of Water, the glow rooms, the camp): `23-r3a-
    no light". Keep them by the glades, or put arrivals in the dim forest again (with open floor round them)?
 3. The M.E.G.'s signs, notice board, trails, planks by the sentries and the lost explorer's camp are inventions in the
    lore's spirit (the M.E.G. hold Base Seedling): keep them all?
+
+### Checks (2026-11-01, commit 028fb88d)
+
+`expclash.py` clean; mod and mapgen build, 0 errors; `layouthash` (seed 12345, 16000; layout 1 and 12,
+`BACKROOMS_NO_EXP_ENTRANCES=1`): every line for levels 0-20 and the `layout hash` line identical to main's saved files;
+`regions`: Level 23 60/60 (3.6 s, round 2's build 13 s); `23stats` ok (3.8 ms a cell, trunks and things in the way on
+29.8% of the forest's tiles); headless (port 43174): `/backrooms dummy place 23 5` lands in a glade (light 22), the
+showcase lists its 28 spots, 0 error lines; `GATE_TAG=l23 gate.py --fast --port-base 43170`: PASS. List: A 13/13 done;
+B 15 done, 2 partly; C 6 done, 1 partly, 2 skipped.
