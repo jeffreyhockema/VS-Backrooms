@@ -1261,8 +1261,8 @@ from a hundred thousand down to nothing. My watch stopped the moment I came in. 
     E("l36-3", "Flights", """
 M.E.G. FIELD NOTICE. Boarding is real. Use the jet-bridge door by the window while its gate is boarding and you are in the
 cabin of the plane parked behind it. You can step off by the same door until it goes. Stay aboard when the count runs
-out and you fly for a minute, land, and come off on a baggage carousel in the claim hall. Every flight we have taken
-landed here. The screens say Level 6, Level 37, Level 974. The screens are wrong.
+out and you fly for a minute and land where the gate's own screen says: every gate flies to one level, the same place
+every time. Logged so far: the city, the Suburbs, the Poolrooms, the fields of 10, 3999 and 188. Nothing flies back.
 — Field Team 9""", w="meg"),
     E("l36-4", "Gate C32", """
 Ruth, a woman at C32 gave me soup. There are about a hundred and fifty of them, bedrolls between the seats, waiting on
@@ -1288,9 +1288,11 @@ Don't go and look.
 
 TRACKS.append(Track("rare-l36", "rare", "Folded notes", L36, chapter=RARE_CHAPTER, entries=[
     E("r-l36-1", "Ways in, as told", """
-Ways into 36, as they were told to me, none of them walked: a sign with an airplane on it in the city or in the Suburbs; a
-door in one of the city's apartment blocks; luggage that falls; a train from somewhere called the Metro. Ways out, the
-same: the gates, a sink in a restroom to the Poolrooms, the glass doors of a hotel. I have only ever found the carousel.
+Ways into 36, as they were told to me: a door under a sign with an airplane on it, in the city or out in the Suburbs,
+where no door should be. That one I walked: it comes out by the carousels, and back the same way. The rest I have not: a
+door in one of the city's apartment blocks; luggage that falls; a train from somewhere called the Metro. Ways out: the
+gates, each to its own place; a restroom sink, if you can bear to put your head under it, to the Poolrooms; the glass
+doors of a hotel, they say.
 — A.L.""", w="al"),
 ]))
 

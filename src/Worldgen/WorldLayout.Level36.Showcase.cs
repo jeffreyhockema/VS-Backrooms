@@ -12,6 +12,9 @@ public partial class WorldLayout
     /// then airside a concourse and its travelators, the nearest lit superblock of each kind (a pier's corridor, a holdroom,
     /// the runway window, a gate's sign from the corridor, the cabin; duty free, the food court, the lounge, the Meeting Place,
     /// a service maze), a blackout with something in it and the Absolute Limit at the rim. All from the layout, so any seed.
+    /// (Links, 2026-10-31) Then the ways in and out: a door under the airplane sign in the baggage wall, a gate's screen naming
+    /// where its flights go, a restroom's sinks; the nearest door into the airport in the city and in the Suburbs (from the
+    /// sidewalk or the lawn); where the showcase gate's flight comes down and where that restroom's first sink comes up.
     /// </summary>
     public IEnumerable<Showcase.Spot> L36ShowcaseSpots(WorldGeometry geometry)
     {
@@ -73,6 +76,8 @@ public partial class WorldLayout
             Add(name, x + 0.5, z + 0.5, Math.Atan2(vx, -vz) * 180 / Math.PI, pitch, setup);
         }
 
+        L36Gate shownGate = null;
+        (int X, int Z)? shownSink = null;
         if (Nearest(L36Kind.Pier) is { } pier)
         {
             AddIn(pier, "pier", 2, 117, 1, 0.03, 2);
@@ -87,6 +92,15 @@ public partial class WorldLayout
             var (x0, z0) = pier.World(0, 0);
             var (xp, zp) = pier.World(1, 0);
             Add("cabin", gate.AisleX + (xp - x0) * 8 + 0.5, gate.AisleZ + (zp - z0) * 8 + 0.5, Math.Atan2(-(xp - x0), zp - z0) * 180 / Math.PI, -6);
+            // (links) The gate's screen by the window, naming where its flights go; the wing's restrooms and their sinks
+            Add("gate-screen", gate.DoorX + fx * 7 + 0.5, gate.DoorZ + fz * 7 + 0.5, back, 18);
+            shownGate = gate;
+            if (!pier.Dark)
+            {
+                AddIn(pier, "restroom", 100.5, 96, 0, 1, -22);
+                var sink = pier.World(100, 101);
+                if (L36Raw(sink.X, sink.Z).Variant == Props.L36Sink) shownSink = sink;
+            }
         }
         if (Nearest(L36Kind.DutyFree) is { } duty) AddIn(duty, "duty-free", 4, 112, 1, 0.12, 2);
         if (Nearest(L36Kind.FoodCourt) is { } food) AddIn(food, "food-court", 70, 70, 1, 1, -4);
@@ -99,6 +113,15 @@ public partial class WorldLayout
         }
         if (Nearest(L36Kind.Service) is { } service) AddIn(service, "service", 2, 66, 1, 0);
 
+        // (links) A door under the airplane sign in the baggage wall: the first one south of the centre line, from the hall
+        for (int m = 0; m < 16; m++)
+        {
+            int z = lz + m * 32 + 24;
+            if (L36Raw(wx, z).Detail is not L36Mat.LandDoor) continue;
+            Add("land-door", wx + 7.5, z + 0.5, 270, 10);
+            break;
+        }
+
         // The Absolute Limit: east along the centre line's concourse to the rim, a cell and a half short of it
         for (int x = L36AirX; x < L36AirX + 2 * L36Radius * MacroSize; x += 8)
             if (LevelAt(MacroOf(x), MacroOf(lz + 8)) != Level36)
@@ -106,6 +129,29 @@ public partial class WorldLayout
                 Add("limit", x - 1.5 * MacroSize + 0.5, lz + 7.5, 90);
                 break;
             }
+
+        // (links) The nearest door into the airport in the city (to its middle) and in the Suburbs (to its middle toward the
+        // city), seen from five blocks out on the sidewalk or the lawn; where the shown gate's flight comes down, and where the
+        // shown sink comes up (each the first place its threshold looks: ThresholdNetwork.L36.cs's keys)
+        foreach (var (host, rings, name) in new[] { (11, 160, "door-city"), (9, 400, "door-suburbs") })
+        {
+            var (hx, hz) = L36HostCentre(host);
+            var doors = L36HostDoorsNear(hx, hz, rings, 1, host);
+            if (doors.Count == 0) continue;
+            var d = doors[0];
+            var (sx, sz) = FacingStep(d.Facing);
+            spots.Add(new Showcase.Spot(name, d.X + sx * 5 + 0.5, geometry.FloorFor(host) + 1, d.Z + sz * 5 + 0.5,
+                (Math.Atan2(-sx, sz) * 180 / Math.PI % 360 + 360) % 360, 12));
+        }
+        if (shownGate != null)
+        {
+            int level = L36LevelOf(L36FlightTo(shownGate));
+            ulong key = Hashing.Hash(seed, shownGate.DoorX, shownGate.DoorZ, L36FlightKeySalt);
+            var at = level == Poolrooms ? FindArrival(level, key, spot: IsL36DryPoolSpot) : FindArrival(level, key);
+            if (at is { } a) spots.Add(new Showcase.Spot("landing-" + L36FlightTo(shownGate), a.X + 0.5, geometry.FloorFor(level) + ArrivalHeight(a.X, a.Z), a.Z + 0.5, 0, 0));
+        }
+        if (shownSink is { } sk && FindArrival(Poolrooms, Hashing.Hash(seed, sk.X, sk.Z, L36SinkKeySalt)) is { } up)
+            spots.Add(new Showcase.Spot("sink-landing", up.X + 0.5, geometry.FloorFor(Poolrooms) + ArrivalHeight(up.X, up.Z), up.Z + 0.5, 0, 0));
         return spots;
     }
 }

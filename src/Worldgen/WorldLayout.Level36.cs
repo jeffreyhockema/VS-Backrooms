@@ -7,8 +7,8 @@ namespace Backrooms.Worldgen;
 /// <summary>
 /// Level 36, "Airport" (experimental): kept as level 25 (<see cref="Level36"/>) and shown as "36". The Timeless Airport /
 /// Desolate Terminal: an endless, empty, spotless terminal in a round noclip region far out to the west-south-west (the
-/// design is docs/design/experimental-levels/36-plan.md). No thresholds in or out: the cheats menu or
-/// <c>/backrooms goto 36</c> only.
+/// design is docs/design/experimental-levels/36-plan.md). Its ways in and out (doors under an airplane sign in Levels 9 and
+/// 11, the flights, a restroom sink) are WorldLayout.Level36.Links.cs's.
 ///
 /// <para><b>Landside</b> (west to east, in blocks from the baggage wall, <see cref="L36WallX"/>, a straight north-south line
 /// three quarters of the radius west of the centre: everything west of it is solid, the only bounded edge the lore knows):
@@ -59,7 +59,9 @@ public sealed partial class WorldLayout
         public const byte Panel = 0, Plaster = 1, WallTile = 2, Service = 3, Purple = 4, Stainless = 6, Window = 7, GateDoor = 8,
             Flap = 9, Clock = 10, ShopSign = 11, Shutter = 12, CabinWall = 13, Auto = 15,
             // (round 2) a shop's glass front
-            Glass = 5;
+            Glass = 5,
+            // (links) a door under an airplane sign in the baggage wall, the way back of a door in Level 9 or 11
+            LandDoor = 14;
     }
 
     public const byte L36MatMask = 15, L36DarkBit = 16, L36StaticBit = 32, L36LimitBit = 64;
@@ -70,7 +72,10 @@ public sealed partial class WorldLayout
         L36SToilets = 8, L36SSecurity = 9, L36SCheckIn = 10, L36SBlank = 11, L36SBroken = 12;
 
     /// <summary>The flight screens' boards (<c>l36-fids-*</c>), in <see cref="Tile.Depth"/> under <see cref="Overheads.L36Fids"/>.</summary>
-    public static readonly string[] L36FidsTexts = { "a", "b", "c", "d", "gate", "c32" };
+    public static readonly string[] L36FidsTexts = { "a", "b", "c", "d", "c32", "to11", "to9", "to37", "to3999", "to188", "to10" };
+
+    /// <summary>Gate C32's board, and the first of the gates' boards, one for each of <see cref="L36FlightLevels"/> in order.</summary>
+    public const byte L36BoardC32 = 4, L36BoardTo = 5;
 
     /// <summary>The shops (<c>l36-shopsign-*</c>), in <see cref="Tile.Depth"/> of a shop's fascia.</summary>
     public static readonly string[] L36Shops = { "perfume", "fashion", "books", "snacks", "tech", "bags", "cafe", "pharma" };
@@ -282,6 +287,9 @@ public sealed partial class WorldLayout
             Tile w = L36Solid(L36Mat.Panel);
             if (L36IsCarousel(module) && k is 10 or 14) { w.Detail = L36Mat.Flap; w.Pier = ArchPier.East; }
             else if (Hashing.Mod(line, 64) == 40) { w.Detail = L36Mat.Clock; w.Pier = ArchPier.East; w.Stack = (byte)(module & 1); }
+            // (links) Every fourth module a door under an airplane sign, out to the city or the Suburbs (locked, but for one
+            // somebody has come in by)
+            else if (k == 24 && Hashing.Mod(module, 4) == 3 && L36IsCarousel(module)) { w.Detail = L36Mat.LandDoor; w.Pier = ArchPier.East; }
             return w;
         }
         if (u <= L36BaggageEnd) return L36Baggage(gx, gz, u, k, module, r);
@@ -739,7 +747,9 @@ public sealed partial class WorldLayout
                 if (r > 0.97) L36Put(plan, p, Q(qr + 1), r > 0.985 ? Props.Suitcase : Props.Backpack, (ArchPier)(int)(r * 1000 % 4));
             }
         L36Put(plan, pa0 + 14, Q(86), Props.L36GateDesk, fromWindow);
-        L36Screens(plan, pa0 + 13, Q(84), fromWindow, c32 ? (byte)5 : (byte)4);
+        // (links) The gate's screen names where its flight lands, always the same level for the gate
+        var (doorX, doorZ) = plan.World(pa0 + 10, Q(83));
+        L36Screens(plan, pa0 + 13, Q(84), fromWindow, L36GateBoard(doorX, doorZ, c32));
         // The gate's sign over its mouth: the letter and the number, read left to right from the corridor
         ArchPier signFacing = plan.Dir(fromWindow);
         L36Hang(plan, pa0 + 9 + L36Upward(plan, pa0 + 9, Q(112), L36Part(signFacing, 0, 2), 2), Q(112), Overheads.L36GateSign, fromWindow, (byte)(plan.Letter - 'A'));
@@ -785,7 +795,7 @@ public sealed partial class WorldLayout
             plan.At((p0 + p1) / 2, 105) = L36Air(L36Zone.Restroom, 4, L36Mat.TileFloor);
             plan.At((p0 + p1) / 2 + 1, 105) = L36Air(L36Zone.Restroom, 4, L36Mat.TileFloor);
             for (int p = p0; p <= p1; p += 2) L36Put(plan, p, 90, Props.Toilet, ArchPier.South);
-            for (int p = p0 + 1; p <= p1 - 1; p += 3) L36Put(plan, p, 101, Props.KitchenCounter, ArchPier.North, 1);
+            for (int p = p0 + 1; p <= p1 - 1; p += 3) L36Put(plan, p, 101, Props.L36Sink, ArchPier.North);
             L36Lights(plan, p0, 90, p1, 104, 4, 0.08, 0.06);
             if (rng.Chance(0.5)) L36Put(plan, p0 + 2, 103, Props.WetFloorSign, ArchPier.South);
         }
@@ -1016,7 +1026,7 @@ public sealed partial class WorldLayout
         }
         for (int p = 92; p <= 138; p += 4) L36Put(plan, p, 145, Props.L36MealTable, ArchPier.North, (byte)rng.Range(0, 3));
         for (int p = 151; p <= 168; p += 2) L36Put(plan, p, 90, Props.Toilet, ArchPier.South);
-        for (int p = 152; p <= 168; p += 4) L36Put(plan, p, 100, Props.KitchenCounter, ArchPier.North, 1);
+        for (int p = 152; p <= 168; p += 4) L36Put(plan, p, 100, Props.L36Sink, ArchPier.North);
         int boxes = rng.Range(2, 4);
         for (int i = 0; i < boxes; i++) L36Supply(plan, 152 + 4 * i, 147);
         for (int p = 151; p <= 168; p += 3) L36Put(plan, p, 137, Props.CardboardBoxes, ArchPier.North);

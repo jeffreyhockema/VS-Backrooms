@@ -21,9 +21,16 @@ namespace Backrooms.Regions;
 /// length), from a period and a phase of its own: when it reaches 1000 the gate is boarding, at 0 the flight leaves and the
 /// next one is counted down. Using the jet-bridge door while a flight boards takes the player aboard the plane parked behind
 /// it (the cabin, a sealed pocket in the apron); anyone still aboard when the count runs out flies: a minute of cabin roar,
-/// then touchdown, and they come off on a baggage carousel somewhere along the claim hall ("The flight lands. It's already
-/// the airport again."). From inside, the door lets anyone off again until the plane leaves. The flight screens, used, list
-/// the flights of the nearest gates. Gate C32's flight, 1784XBA8JLP to Level 186, is always tens of millions away.
+/// then touchdown, and they come off the plane in the level the gate's flights always go to (one of six, named on the gate's
+/// screen: WorldLayout.L36FlightTo), one-way, through the threshold network (kind "l36-flight", ThresholdNetwork.L36.cs), so
+/// each gate's flight always comes down in the same place. From inside, the door lets anyone off again until the plane
+/// leaves. The flight screens, used, list the flights of the nearest gates. Gate C32's flight, 1784XBA8JLP to Level 186, is
+/// always tens of millions away.
+/// </para>
+/// <para>
+/// <b>The restroom sinks</b> (Fandom: "Overflowing a sink ... and submerging one's head in it for a moment will transition the
+/// level to Level 37"): used, a sink's tap runs and will not turn off, and it overflows for a while; held while it overflows
+/// (your head under), it takes you to the Poolrooms, one-way (kind "l36-sink").
 /// </para>
 /// <para>
 /// <b>Time.</b> Nobody sleeps here and nobody tires: a player's awake hours are held where they were on arriving for as
@@ -39,6 +46,9 @@ public class L36System : ModSystem
     public const int Boarding = 1000;
     private const ulong SaltFlight = 0x2520;
     private const long FlightMs = 55_000;
+    /// <summary>How long a sink runs over once its tap is turned, and how long a head must be held under.</summary>
+    private const long OverflowMs = 45_000;
+    public const float DunkSeconds = 2.5f;
 
     private ICoreServerAPI sapi;
     private WorldLayout layout;
@@ -49,17 +59,18 @@ public class L36System : ModSystem
     private readonly Dictionary<string, float> heldAwake = new();
     /// <summary>The gate and flight cycle a player boarded (by uid).</summary>
     private readonly Dictionary<string, (string Gate, long Cycle)> aboard = new();
-    /// <summary>When a player in flight lands (by uid), and what has been said so far.</summary>
-    private readonly Dictionary<string, (long LandMs, int Said)> flying = new();
+    /// <summary>When a player in flight lands (by uid), what has been said so far, and the jet-bridge door of the gate it left.</summary>
+    private readonly Dictionary<string, (long LandMs, int Said, int DoorX, int DoorZ)> flying = new();
+    /// <summary>The sinks running over (by position), and when each stops.</summary>
+    private readonly Dictionary<BlockPos, long> overflowing = new();
     private readonly Dictionary<string, long> lastRefusal = new();
-
-    private static readonly int[] Destinations = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 37, 94, 188, 974, 3999, 6, 4, 2, 11 };
 
     public override double ExecuteOrder() => 1.3;
 
     public override void Start(ICoreAPI api)
     {
         api.RegisterBlockBehaviorClass("BackroomsL36GateDoor", typeof(BlockBehaviorL36GateDoor));
+        api.RegisterBlockBehaviorClass("BackroomsL36Sink", typeof(BlockBehaviorL36Sink));
     }
 
     /// <summary>The terminal's structure is unbreakable; the flight screens list flights when used (both sides: behaviours added now are not sent to clients).</summary>
@@ -123,11 +134,12 @@ public class L36System : ModSystem
         aboard.Remove(player.PlayerUID);
         flying.Remove(player.PlayerUID);
         lastRefusal.Remove(player.PlayerUID);
+        BlockBehaviorL36Sink.Forget(player.PlayerUID);
     }
 
     // ================= The flights =================
 
-    /// <summary>A gate's flight now: its countdown, which flight of the gate's it is, its number and where it says it goes.</summary>
+    /// <summary>A gate's flight now: its countdown, which flight of the gate's it is, its number and where it goes (always the same level for the gate).</summary>
     public readonly record struct Flight(long Count, long Cycle, string Number, int Destination, bool Boarding);
 
     public Flight FlightOf(WorldLayout.L36Gate gate)
@@ -139,7 +151,7 @@ public class L36System : ModSystem
         long cycle = (units + phase) / period, count = period - (units + phase) % period;
         ulong c = Hashing.Hash((ulong)sapi.World.Seed, (int)cycle, gate.DoorX ^ gate.DoorZ, SaltFlight + 1);
         string number = (1000 + (int)(c % 9000)).ToString() + (char)('A' + (int)(c / 9000 % 26)) + (char)('A' + (int)(c / 234000 % 26));
-        return new Flight(count, cycle, number, Destinations[(int)(c / 6084000 % (ulong)Destinations.Length)], count <= Boarding);
+        return new Flight(count, cycle, number, layout.L36FlightTo(gate), count <= Boarding);
     }
 
     private static void Tell(IServerPlayer player, string key, params object[] args) =>
@@ -213,6 +225,7 @@ public class L36System : ModSystem
     private void OnTick(float dt)
     {
         long now = sapi.World.ElapsedMilliseconds;
+        DrainSinks(now);
         foreach (IPlayer p in sapi.World.AllOnlinePlayers)
         {
             if (p is not IServerPlayer player || player.Entity == null || !player.Entity.Alive) continue;
@@ -261,14 +274,15 @@ public class L36System : ModSystem
             if (said == 0 && left < FlightMs - 15_000) { Tell(player, "backrooms:l36-cruise"); said = 1; }
             if (said == 1 && left < 12_000) { Tell(player, "backrooms:l36-descent"); Play("ding", player.Entity.Pos.X, player.Entity.Pos.Y + 1.5, player.Entity.Pos.Z, player); said = 2; }
             if (said == 2 && left < 4_000) { Play("touchdown", player.Entity.Pos.X, player.Entity.Pos.Y + 1, player.Entity.Pos.Z, player); said = 3; }
-            flying[uid] = (flight.LandMs, said);
+            flying[uid] = flight with { Said = said };
             if (left > 0) return;
             flying.Remove(uid);
             aboard.Remove(uid);
-            ulong key = Hashing.Hash((ulong)sapi.World.Seed, (int)(now / 1000), uid.GetHashCode(), SaltFlight + 2);
-            if (layout.FindArrival(WorldLayout.Level36, key) is { } landing) Move(player, landing.X, landing.Z);
-            Play("clunk", player.Entity.Pos.X, player.Entity.Pos.Y + 1, player.Entity.Pos.Z);
-            Tell(player, "backrooms:l36-landed");
+            // Off the plane, wherever the gate's flights go: one-way, through the threshold network, so every flight from
+            // this gate comes down in the same place (ThresholdNetwork.L36.cs)
+            Play("clunk", player.Entity.Pos.X, player.Entity.Pos.Y + 1, player.Entity.Pos.Z, player);
+            var door = new BlockPos(flight.DoorX, geometry.FloorFor(WorldLayout.Level36) + 1, flight.DoorZ);
+            sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>()?.Use(player, door, "l36-flight");
             return;
         }
         if (!Aboard(x, z))
@@ -282,9 +296,46 @@ public class L36System : ModSystem
         // (Aboard with no boarding remembered, after a restart: counted as boarded on this flight)
         if (!aboard.TryGetValue(uid, out var boarded) || boarded.Gate != gate.Code) aboard[uid] = boarded = (gate.Code, f.Cycle);
         if (f.Cycle <= boarded.Cycle || gate.SupportGroup) return;
-        flying[uid] = (now + FlightMs, 0);
+        flying[uid] = (now + FlightMs, 0, gate.DoorX, gate.DoorZ);
         Play("ding", player.Entity.Pos.X, player.Entity.Pos.Y + 1.5, player.Entity.Pos.Z, player);
         Tell(player, "backrooms:l36-takeoff", f.Number);
+    }
+
+    // ================= The restroom sinks =================
+
+    /// <summary>A sink's tap turned: it runs and will not turn off, and the basin runs over, for a while.</summary>
+    public void Overflow(IServerPlayer player, BlockPos pos, Block block)
+    {
+        if (block.Variant["state"] != "dry") return;
+        if (sapi.World.GetBlock(BlockCodes.WithVariant(block, "state", "overflow")) is not { BlockId: not 0 } over) return;
+        sapi.World.BlockAccessor.ExchangeBlock(over.BlockId, pos);
+        overflowing[pos.Copy()] = sapi.World.ElapsedMilliseconds + OverflowMs;
+        sapi.World.PlaySoundAt(new AssetLocation("game:sounds/effect/water-pour"), pos.X + 0.5, pos.Y + 1, pos.Z + 0.5, null, true, 16);
+        Tell(player, "backrooms:l36-sink-overflow");
+    }
+
+    /// <summary>A head held under an overflowing sink: the Poolrooms, one-way, through the threshold network.</summary>
+    public void Dunk(IServerPlayer player, BlockPos pos)
+    {
+        sapi.World.PlaySoundAt(new AssetLocation("game:sounds/environment/underwater"), pos.X + 0.5, pos.Y + 1, pos.Z + 0.5, player, true, 8);
+        sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>()?.Use(player, pos, "l36-sink");
+    }
+
+    /// <summary>The sinks whose time is up stop running over (those still loaded; one left running in an unloaded chunk stays so).</summary>
+    private void DrainSinks(long now)
+    {
+        if (overflowing.Count == 0) return;
+        List<BlockPos> done = null;
+        foreach (var (pos, until) in overflowing)
+            if (now >= until) (done ??= new List<BlockPos>()).Add(pos);
+        if (done == null) return;
+        foreach (BlockPos pos in done)
+        {
+            overflowing.Remove(pos);
+            Block block = sapi.World.BlockAccessor.GetBlock(pos);
+            if (block?.Code?.Path?.StartsWith("l36-sink-overflow-") != true) continue;
+            if (sapi.World.GetBlock(BlockCodes.WithVariant(block, "state", "dry")) is { BlockId: not 0 } dry) sapi.World.BlockAccessor.ExchangeBlock(dry.BlockId, pos);
+        }
     }
 }
 
@@ -332,6 +383,78 @@ public class BlockBehaviorL36Screen : BlockBehavior
         handling = EnumHandling.PreventDefault;
         if (world.Side == EnumAppSide.Server && byPlayer is IServerPlayer player)
             world.Api.ModLoader.GetModSystem<L36System>()?.UseScreen(player, blockSel.Position);
+        return true;
+    }
+}
+
+/// <summary>
+/// A restroom sink: used dry, its tap runs and the basin runs over (<see cref="L36System.Overflow"/>); held while it runs over,
+/// for <see cref="L36System.DunkSeconds"/>, the head goes under (<see cref="L36System.Dunk"/>).
+/// </summary>
+public class BlockBehaviorL36Sink : BlockBehavior
+{
+    /// <summary>A little slack for lag between the client's count of the hold and the server's clock.</summary>
+    private const long LagSlackMs = 750;
+
+    /// <summary>Server side: where each player (by uid) put their head under, and when by the server's clock.</summary>
+    private static readonly Dictionary<string, (BlockPos Pos, long StartMs)> under = new();
+
+    private WorldInteraction[] dryHelp, overHelp;
+
+    public BlockBehaviorL36Sink(Block block) : base(block)
+    {
+    }
+
+    public static void Forget(string uid) => under.Remove(uid);
+
+    private bool Over => block.Variant["state"] == "overflow";
+
+    public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer, ref EnumHandling handling)
+    {
+        dryHelp ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l36-sink-tap", MouseButton = EnumMouseButton.Right } };
+        overHelp ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l36-sink-dunk", MouseButton = EnumMouseButton.Right } };
+        return Over ? overHelp : dryHelp;
+    }
+
+    public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
+    {
+        handling = EnumHandling.PreventDefault;
+        bool server = world.Side == EnumAppSide.Server && byPlayer is IServerPlayer;
+        if (!Over)
+        {
+            if (server) world.Api.ModLoader.GetModSystem<L36System>()?.Overflow((IServerPlayer)byPlayer, blockSel.Position, block);
+            return false;
+        }
+        if (server)
+        {
+            under[byPlayer.PlayerUID] = (blockSel.Position.Copy(), world.ElapsedMilliseconds);
+            world.PlaySoundAt(new AssetLocation("game:sounds/environment/smallsplash"), blockSel.Position.X + 0.5, blockSel.Position.Y + 1, blockSel.Position.Z + 0.5, null, true, 12);
+        }
+        return true;
+    }
+
+    public override bool OnBlockInteractStep(float secondsUsed, IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
+    {
+        handling = EnumHandling.PreventDefault;
+        // (The server keeps the interaction open until the client's stop arrives)
+        return world.Side != EnumAppSide.Client || secondsUsed < L36System.DunkSeconds;
+    }
+
+    public override void OnBlockInteractStop(float secondsUsed, IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
+    {
+        handling = EnumHandling.PreventDefault;
+        if (world.Side != EnumAppSide.Server || byPlayer is not IServerPlayer player) return;
+        if (!under.Remove(player.PlayerUID, out var began)) return;
+        // Held long enough: by the client's count, and (give or take the lag) by the server's own clock, at this sink
+        bool held = secondsUsed >= L36System.DunkSeconds - 0.1f;
+        bool timed = world.ElapsedMilliseconds - began.StartMs >= (long)(L36System.DunkSeconds * 1000) - LagSlackMs;
+        if (held && timed && blockSel != null && began.Pos.Equals(blockSel.Position) && Over)
+            world.Api.ModLoader.GetModSystem<L36System>()?.Dunk(player, blockSel.Position.Copy());
+    }
+
+    public override bool OnBlockInteractCancel(float secondsUsed, IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
+    {
+        if (world.Side == EnumAppSide.Server && byPlayer != null) Forget(byPlayer.PlayerUID);
         return true;
     }
 }

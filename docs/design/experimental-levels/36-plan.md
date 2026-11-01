@@ -1,7 +1,8 @@
 # Level 36 "Airport": plan
 
 Internal id **25**, `WorldLayout.Level36`, tag `36`, blocks `l36-`, method infix `L36`, region west-south-west (Level 55's old
-slot, README batch 3). Disconnected: the cheats menu / `/backrooms goto 36` only, no thresholds in or out.
+slot, README batch 3). Linked since 2026-10-31 (see "Links" at the end): doors under an airplane sign in Levels 9 and 11 in,
+the gates' flights and a restroom sink out.
 Reserved (README): `WallPattern`/`FloorKind`/`CeilingKind`/`Unders`/`Overheads`/`Pipes`/`Decor` 416-447, `Props` 1200-1299,
 title keys 2501-2599, layout salts 0x2500-0x25BF, threshold salts 0x25C0-0x25FF, headless ports 43150-43159.
 
@@ -67,7 +68,8 @@ the most telling zone; a cabin's wall faces the cabin).
 - Flights: each gate's countdown is a unitless number, ten a second at the default day length (`TotalHours * 1200`), with
   a period of 6,000-36,000 and a phase from the door's position; boarding under 1,000; at 0 the next flight. Using the
   jet-bridge door while boarding takes you to the cabin's aisle; from inside it lets you off again; whoever is aboard
-  when the count wraps flies for 55 s (ding, cruise, descent, touchdown) and lands on a baggage carousel (`FindArrival`).
+  when the count wraps flies for 55 s (ding, cruise, descent, touchdown) and lands on a baggage carousel (`FindArrival`)
+  (links, 2026-10-31: now in the gate's own level of six instead; see "Links").
   Gate C32: 1784XBA8JLP to Level 186, 94,612,753 counting down by one every five seconds; never boards.
 - Flight screens: right-click lists the six nearest flights (number, level, gate, count, status).
 - No sleep, no tiring: awake hours held from arrival while in the level; anyone lying down is stood up with a line. Hunger and
@@ -188,3 +190,74 @@ the podium and the gate screen at the window; cabin seats face the nose, porthol
 (X-ray, arch, podium) faces right; travelators run, comb plates at the ends; the Absolute Limit's static; the blackout
 is black but for its failing ends and the lit junction beyond. Not seen: the Smiler in the blackout (put down out of
 frame), the boarding and the flight (need a player to wait for a count).
+
+## Links (2026-10-31)
+
+LINKS.md's "Level 36" section, built. Code: `src/Worldgen/WorldLayout.Level36.Links.cs` (the hook `L36Entrances`, the
+doors, the flights' levels), `WorldGenerator.L36.Links.cs` (the door's blocks in a host), `src/Thresholds/ThresholdNetwork.L36.cs`
+(the four kinds), `src/Regions/L36System.cs` (landing a flight, the sinks), harness `mapgen 12345 16000 36links [rings]`.
+
+**In: a door under an airplane sign (Levels 11 and 9), two-way.** In a few host cells (`L36EntranceChance`: the city one
+cell in 1400, the Suburbs one in 3000; own salt 0x2530, so nothing else moves) one tile of plain outside wall becomes
+`Unders.L36AirportDoor` (416): in the city a building's front (an office, hotel, apartment, rowhouse or sealed block; not
+a corner, storefront, party wall, column, open deck or set-back) on a sidewalk or plaza; in the Suburbs a house's plain
+siding (no window, corner or chimney) over open ground (no porch, pool, roof). The wall must run on either side, facing
+the same way. It is drawn as `l36-airportdoor-lower/upper` (a glazed aluminium door, a full wall cube) under
+`l36-airportsign` (a backlit charcoal box, the terminal's yellow airplane tile and an arrow down); the host's wall goes on
+above. Used (kind `l36-airport`), it opens on the claim hall, off the belts, beside one of the doors under the same sign
+in the baggage wall (`L36Mat.LandDoor`, every fourth carousel module: one every 128 blocks), which becomes its way back
+(the network's `ReturnFeature`); arriving faces east over the hall. A baggage-wall door nothing has come in by is
+locked ("It's locked."). The Level 36 arrival finder is `IntoL36Landside` (the anchored `FindArrival` round the claim
+hall's arrival cells). No M.E.G. placard: neither host's own gates carry one, and 36 (class 1) is no more dangerous
+than either.
+
+**Out: the flights, one-way.** Each gate's flight lands in one level, always the same for that gate, by a hash of its
+jet-bridge door (`L36FlightTo`, salt 0x2532): 11, 9, 37, 3999, 188 or 10 (the user's six). The gate's screen names it
+(`l36-fids-to<level>`; the `gate` board is gone, the check-in boards list only the six); the screens' chat list and
+the door's lines say it too; Gate C32 still says 186 and never leaves. When the count runs out L36System asks the
+threshold network (kind `l36-flight`, at the jet-bridge door, key salt 0x25C2), so a gate's flight always comes down
+in the same place: standing on the level's own arrival spots (in the Poolrooms a dry deck, never the water), with
+"The wheels touch. The door opens, and the airport is not there any more."
+
+**Out: a restroom sink, one-way.** The restrooms' basins (a pair of restrooms in every pier, the lounges' showers; they
+were kitchen-counter sinks) are now `l36-sink-dry|overflow` (`Props.L36Sink` 1217, `BlockBehaviorL36Sink`). Used, the
+tap runs and will not turn off: the block becomes its overflowing state for 45 s (water to the rim, over the front,
+a puddle). Held for 2.5 s while it overflows (the head under, as the Fandom page has it), it takes you to the
+Poolrooms (kind `l36-sink`, key salt 0x25C3, each sink always to the same place), up in the water or on a deck.
+
+**Text**: the handbook page's "Ways in and out" and the screens' and flights' paragraphs (written by gen_36_lang.py,
+over gen_guide.py's PAGES["level36"], which the links brief keeps out of the level agents' hands: the lead may move the
+text back at the merge), the hint line, notes l36-3 and r-l36-1, the Travel Planner's `exitssite` and `home` lines, the
+new messages (`l36-arrive-door`, `l36-leave-door`, `l36-sink-overflow`, `l36-sink-arrive`, the sink's two help lines).
+The Metro train, apartment doors in 11.2, luggage that falls, the hotel's glass doors (Level 42): rumours only. No notes
+were added to the hosts' pools.
+
+**My inventions**: the doors in the baggage wall as the way back (the lore gives the sign, not the far side); their
+being locked until someone comes in; the door's look (an airport's glazed door, the terminal's own sign style); which
+walls take a door; the flights' levels by a hash of the gate; the sink's overflow lasting 45 s and the 2.5 s hold.
+
+**Ways between levels (rows for the guide)**:
+
+| From | To | Way | Kind |
+|---|---|---|---|
+| Level 11 | Level 36 | a door under a lit airplane sign in a building's front, very rarely | two-way (back by the door in the baggage wall) |
+| Level 9 | Level 36 | a door under a lit airplane sign in a house's wall, very rarely | two-way (back by the door in the baggage wall) |
+| Level 36 | Level 11, 9, 37, 3999, 188 or 10 | a gate's flight, the level on the gate's screen | one-way |
+| Level 36 | Level 37 | a restroom sink: turn the tap, hold your head under the overflow | one-way |
+
+**Checks (2026-10-31)**: `expclash` clean; mod and mapgen build, 0 errors. `layouthash` (12345, 16000), layout versions 1
+and 12, with `BACKROOMS_NO_EXP_ENTRANCES=1`: every line for levels 0-20 and the `layout hash` line identical to main's;
+without it, no level line moved either (the hash's 24 sample cells a level hold no door). `regions` 60/60 in Level 36.
+`36links` (seed 12345, full size): the city 0.30 doors a km2 (one to 3.3 km2, about 1.8 km apart; nearest the city's
+middle 0.33 km off it, nearest the spawn 51.8 km), the Suburbs 0.34 a km2 (about 1.7 km apart; nearest the spawn 6.5 km,
+at 507758,516974); 16 doors in 2048 blocks of the baggage wall; 152 gates in 4 x 7 superblocks: 11 x22, 9 x18, 37 x33,
+3999 x25, 188 x22, 10 x32; 78 sinks. Generic `links`: L9 and L11 doors paired with a baggage-wall door each, the
+baggage-wall doors locked. Headless (ports 43152, 43154; `/backrooms wayback`): the Level 9 and Level 11 doors come out
+on the claim hall's floor beside a door in the baggage wall (dumped: the door and sign blocks there); those doors, used,
+lead back to the spot before each host door ("written down before"); an unused one is locked; a gate of each of the six
+levels lands in 188, 37 (pool tile, dry), 9 (road), 11 (sidewalk), 10 (field), 3999 (lobby carpet), feet and head in air;
+a sink comes up on the Poolrooms' coping; `column` shows the door, its upper part and the sign at rel 1-3 in both hosts;
+a dummy in the level; `blocksweep` 11219 blocks, 0 threw; 0 error lines. `GATE_TAG=l36 gate.py --fast --port-base 43150`:
+PASS. Client shots (`shots1`, seed 424242): the city door in a mirror-glass front, the Suburbs door in a brick house
+between its windows at night, the baggage wall's door, a gate's screen "TO LV3999", the restroom's sinks, the landings.
+Not tested with a player: the flight's landing through `Use` (exercised as the network sees it), the sink's hold.

@@ -1,0 +1,444 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"airglass": "backrooms:block/36/props/airglass",
+		"darksteel": "backrooms:block/36/props/darksteel",
+		"steel": "backrooms:block/36/props/steel",
+		"steelv": "backrooms:block/36/props/steelv"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				2
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "JambW",
+			"from": [
+				0,
+				0,
+				0.5
+			],
+			"to": [
+				1.5,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "JambE",
+			"from": [
+				14.5,
+				0,
+				0.5
+			],
+			"to": [
+				16,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileW",
+			"from": [
+				1.5,
+				0,
+				1.0
+			],
+			"to": [
+				3,
+				11.5,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						11.5
+					]
+				},
+				"east": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.0,
+						11.5
+					]
+				},
+				"west": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.0,
+						11.5
+					]
+				},
+				"up": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "StileE",
+			"from": [
+				13,
+				0,
+				1.0
+			],
+			"to": [
+				14.5,
+				11.5,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						11.5
+					]
+				},
+				"east": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.0,
+						11.5
+					]
+				},
+				"west": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.0,
+						11.5
+					]
+				},
+				"up": {
+					"texture": "#steelv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "TopRail",
+			"from": [
+				3,
+				10,
+				1.0
+			],
+			"to": [
+				13,
+				11.5,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						10,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						10,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						10,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Glass",
+			"from": [
+				3,
+				0,
+				1.6
+			],
+			"to": [
+				13,
+				10,
+				1.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#airglass",
+					"uv": [
+						0,
+						6,
+						10,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Transom",
+			"from": [
+				1.5,
+				11.5,
+				1.6
+			],
+			"to": [
+				14.5,
+				13,
+				1.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#airglass",
+					"uv": [
+						0,
+						0,
+						13,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				0,
+				13,
+				0.5
+			],
+			"to": [
+				16,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						3
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						3
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -20,6 +20,13 @@
     l36-meetingpoint-{part}         part base|mid|top: the Meeting Place column; top lit (light 10)
     l36-cabinseat-{side}            an airline economy seat
     l36-lostfound-{side}            a Lost & Found shelf unit crammed with luggage
+    l36-airportdoor-{part}-{side}   (links) part lower|upper: a glazed aluminium door, a FULL CUBE wall block (dark steel on
+                                    five faces, the door on <side>): in the baggage wall, and found in walls of Levels 9 and
+                                    11; structure; BackroomsThreshold kind l36-airport
+    l36-airportsign-{side}          (links) the backlit sign over it: the airplane on a yellow tile, an arrow down; a FULL CUBE
+    l36-sink-{state}-{side}         (links) state dry|overflow: a restroom washbasin on its vanity (a white bowl, a chrome tap,
+                                    a splashback); overflowing, water to the rim, over it and down the front onto the floor;
+                                    structure; BackroomsL36Sink
 
 `side` is the way the front faces; every shape is modelled facing north (front toward -Z) and turned with rotateY as
 Level 3999 does (north 0, east 270, south 180, west 90). Seen from the north, the viewer's left is +X.
@@ -79,6 +86,9 @@ NAMES = {
     "block-l36-meetingpoint-*": "Meeting Place Marker",
     "block-l36-cabinseat-*": "Economy Seat",
     "block-l36-lostfound-*": "Lost and Found Shelf",
+    "block-l36-airportdoor-*": "Door Under an Airplane Sign",
+    "block-l36-airportsign-*": "Airplane Sign",
+    "block-l36-sink-*": "Washbasin",
 }
 
 CODES = []
@@ -1005,6 +1015,91 @@ def lost_founds():
           boxes=[(0, 0, 0.15, 1, 1, 1)], material="Wood", sounds=WOOD)
 
 
+# ======================================================================== The links (2026-10-31)
+
+def airportdoor(part):
+    """A glazed aluminium door, flush in a full block of wall: the terminal's own way out to the curb (and, found in a wall of
+    the city or the Suburbs, its way in). Modelled facing north; the frame recessed half a pixel to two."""
+    upper = part == "upper"
+    cut = "down" if upper else "up"
+    els = [B("Wall", (0, 0, 2), (16, 16, 16), "darksteel", faces=("east", "south", "west", "up", "down"))]
+    for s, (x1, x2) in (("W", (0, 1.5)), ("E", (14.5, 16))):
+        els.append(B("Jamb" + s, (x1, 0, 0.5), (x2, 16, 2), "steelv", faces=no("south", cut)))
+    top = 11.5 if upper else 16
+    for s, (x1, x2) in (("W", (1.5, 3)), ("E", (13, 14.5))):
+        els.append(B("Stile" + s, (x1, 0, 1.0), (x2, top, 2), "steelv", faces=no("south", "down") if upper else no("south", "up")))
+    if upper:
+        els += [B("TopRail", (3, 10, 1.0), (13, 11.5, 2), "steel", faces=no("south")),
+                B("Glass", (3, 0, 1.6), (13, 10, 1.8), "airglass", faces=("north",), uv=(0, 6, 10, 16)),
+                B("Transom", (1.5, 11.5, 1.6), (14.5, 13, 1.8), "airglass", faces=("north",), uv=(0, 0, 13, 1.5)),
+                B("Head", (0, 13, 0.5), (16, 16, 2), "steel", faces=no("south"))]
+    else:
+        els += [B("Kick", (3, 0, 1.0), (13, 4, 2), "steel", faces=no("south", "down")),
+                B("Glass", (3, 4, 1.6), (13, 16, 1.8), "airglass", faces=("north",), uv=(0, 0, 10, 12)),
+                B("Sill", (0, 0, 0), (16, 0.25, 0.5), "steel", faces=("north", "up", "east", "west")),
+                B("BarL", (3.5, 8.25, 0.9), (4.25, 9.25, 1.6), "chrome", faces=no("south")),
+                B("BarR", (11.75, 8.25, 0.9), (12.5, 9.25, 1.6), "chrome", faces=no("south")),
+                B("Bar", (3.5, 8.25, 0.4), (12.5, 9.25, 0.9), "chrome", faces=no("south"))]
+    return els
+
+
+def airportsign():
+    """The backlit sign over the door: a full block of wall with the lit sign face on its front."""
+    return [B("Wall", (0, 0, 2), (16, 16, 16), "darksteel", faces=("east", "south", "west", "up", "down")),
+            pic(B("Face", (0, 0, 0), (16, 16, 2), "darksteel", faces=("north", "east", "west", "up", "down")), "north", "airsign", glow=160)]
+
+
+def sink(state):
+    """A restroom washbasin: a laminate vanity, a stone top, a white vessel bowl, a chrome tap from the splashback. Running
+    over: water to the rim, over the front, down the vanity and out across the floor."""
+    lam = {"front": "laminate", "side": "laminate-side", "top": "laminate-side", "back": "laminate-side", "bottom": "laminate-side"}
+    bowl_n = {"front": "white", "side": "white-side", "top": "white", "back": "white-side", "bottom": "white"}
+    bowl_s = {"front": "white-side", "side": "white-side", "top": "white", "back": "white", "bottom": "white"}
+    els = [B("Body", (0, 0, 4), (16, 11, 16), lam, faces=("north", "east", "west")),
+           B("Top", (0, 11, 3), (16, 12.5, 16), "worktop", faces=no("south")),
+           B("Splash", (0, 12.5, 15), (16, 16, 16), "white", faces=("north", "east", "west", "up")),
+           # the bowl: four walls and a floor
+           B("BowlN", (3.5, 12.5, 5), (12.5, 15.5, 5.75), bowl_n, faces=no("down")),
+           B("BowlS", (3.5, 12.5, 12.25), (12.5, 15.5, 13), bowl_s, faces=no("down")),
+           B("BowlW", (3.5, 12.5, 5.75), (4.25, 15.5, 12.25), "white-side", faces=("east", "west", "up")),
+           B("BowlE", (11.75, 12.5, 5.75), (12.5, 15.5, 12.25), "white-side", faces=("east", "west", "up")),
+           B("BowlFloor", (4.25, 12.5, 5.75), (11.75, 13.25, 12.25), "basin", faces=("up",), uv=(0, 0, 16, 16)),
+           # the tap
+           B("TapPost", (7.25, 12.5, 13.5), (8.75, 15.25, 15), "chrome", faces=no("down", "south")),
+           B("Spout", (7.5, 14.5, 10.25), (8.5, 15.25, 13.5), "chrome", faces=no("south")),
+           B("Lever", (7.75, 15.25, 13.75), (8.25, 15.75, 14.75), "chrome", faces=no("down"))]
+    if state == "overflow":
+        els += [B("Water", (4.25, 15.25, 5.75), (11.75, 15.35, 12.25), "water", faces=("up",)),
+                B("Stream", (7.6, 13.25, 10.3), (8.4, 14.5, 11.1), "waterfall", faces=("north", "east", "west")),
+                B("SpillRim", (5, 15.5, 4.85), (11, 15.6, 5.75), "water", faces=("up", "north")),
+                B("SpillBowl", (5, 12.5, 4.85), (11, 15.5, 4.95), "waterfall", faces=("north",)),
+                B("SpillTop", (4.5, 12.5, 2.85), (11.5, 12.6, 4.85), "water", faces=("up",)),
+                B("SpillLip", (4.5, 11, 2.85), (11.5, 12.5, 2.95), "waterfall", faces=("north",)),
+                B("SpillFront", (5, 0.1, 3.85), (11, 11, 3.95), "waterfall", faces=("north",)),
+                B("Puddle", (1, 0, -7), (15, 0.12, 4), "water", faces=("up",))]
+    return els
+
+
+def link_blocks():
+    door = {"sidesolid": {"all": True}, "sideopaque": {"all": True}, "lightAbsorption": 99, "resistance": 6,
+            "attributes": {"l36structure": True}}
+    block("l36-airportdoor", [("part", ["lower", "upper"]), ("side", SIDES)], lambda v: airportdoor(v["part"]),
+          "Level 36's way in and out (links): a glazed aluminium door flush in a full block of wall (dark steel on five faces, the door "
+          "on <side>), in the baggage wall and in walls of the city and the Suburbs, under the airplane sign. Structure; a threshold "
+          "(kind l36-airport, ThresholdNetwork.L36.cs)",
+          boxes=[(0, 0, 0, 1, 1, 1)], material="Metal", sounds=METAL,
+          data=dict(door, behaviors=[{"name": "BackroomsThreshold", "properties": {"kind": "l36-airport"}}]))
+    block("l36-airportsign", [("side", SIDES)], lambda v: airportsign(),
+          "Level 36's way in and out (links): the backlit sign over the door, a full block of wall with the airplane on a yellow tile "
+          "and an arrow down on <side>. Structure",
+          boxes=[(0, 0, 0, 1, 1, 1)], material="Metal", sounds=METAL, data=dict(door, lightHsv=[8, 4, 6]))
+    block("l36-sink", [("state", ["dry", "overflow"]), ("side", SIDES)], lambda v: sink(v["state"]),
+          "Level 36's restrooms (links): a washbasin on its vanity, against the wall behind it; overflow it (use) and hold your head "
+          "under (hold use) for the Poolrooms (Fandom). Structure; BackroomsL36Sink",
+          boxes=[(0, 0, 3 / 16, 1, 1, 1)], material="Ceramic", sounds=CERAMIC,
+          data={"behaviors": [{"name": "BackroomsL36Sink"}], "attributes": {"l36structure": True}})
+
+
 # ======================================================================== Checks and main
 
 def check():
@@ -1044,6 +1139,7 @@ def main():
     meetings()
     cabin_seats()
     lost_founds()
+    link_blocks()
     ok = check()
     print(f"gen_36_props: {len(CODES)} block types, {len(SHAPE_FILES)} shapes, {len(written)} textures, {'ok' if ok else 'PROBLEMS'}")
     return 0 if ok else 1

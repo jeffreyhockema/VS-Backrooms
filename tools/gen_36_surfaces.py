@@ -399,7 +399,7 @@ def blocktypes(sh):
             fx[f"l36-fids-{t}-{half}-*"] = {"screen": tex(f"l36-fids-{t}-{half}")}
     block("l36-fids", "Level 36: a flight information display two blocks wide (half l, r: left to right as seen facing it), "
           "12 px tall, its back flush with the block face opposite <side> so two hang back to back; departures boards a..d, "
-          "the gate desk's screen, and Gate C32's; no collision",
+          "Gate C32's, and a gate's screen for each level the gates' flights go to (to<level>); no collision",
           {"variantgroups": [{"code": "text", "states": G.FIDS_TEXTS}, {"code": "half", "states": ["l", "r"]},
                              {"code": "side", "states": SIDES}],
            "shapeByType": rotated_shapes("*", sh["fids"]), "texturesByType": fx,

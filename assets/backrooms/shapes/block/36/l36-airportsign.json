@@ -1,0 +1,131 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"airsign": "backrooms:block/36/props/airsign",
+		"darksteel": "backrooms:block/36/props/darksteel"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				2
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Face",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#airsign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 160
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				}
+			}
+		}
+	]
+}
