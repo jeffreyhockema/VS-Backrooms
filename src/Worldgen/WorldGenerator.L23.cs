@@ -497,6 +497,16 @@ public sealed partial class WorldGenerator
         if (cave.Kind == CaveKind.Seedling) L23SeedlingColumn(c, gx, gz, u, v, floor, ceiling);
         if (pillar) return;
 
+        // (Round 3: now and then in a glow room a long root comes down from the roof to the floor, wet, a pool at its foot:
+        // the lore's trees above that pipe water down to the glow rooms)
+        if (cave.Kind == CaveKind.Glow && gap >= 4 && L23Unit(gx, gz, 28) < 0.004 && b[floor + 1 - L23Low] == 0 && !c.Water[floor - L23Low])
+        {
+            for (int rel = ceiling - 1; rel > floor + 1; rel--) if (b[rel - L23Low] == 0) b[rel - L23Low] = l23Root;
+            b[floor - L23Low] = 0;
+            c.Water[floor - L23Low] = true;
+            b[floor - 1 - L23Low] = l23Earth;
+            return;
+        }
         // Hanging from the roof: Sorries (light), lichen, a root
         int under = ceiling - 1 - L23Low;
         if (gap >= 4 && b[under] == 0)
@@ -558,10 +568,13 @@ public sealed partial class WorldGenerator
                 {
                     if (b[crown - L23Low] == 0) b[crown - L23Low] = crownBlock;
                 }
-                else if (ax + az == 1 || Hashing.Unit(Hashing.Mix(h + (ulong)(ax * 3 + az * 5 + gx + gz))) < 0.5)
+                else if (ax + az == 1 || Hashing.Unit(Hashing.Mix(h + (ulong)(ax * 3 + az * 5 + gx + gz))) < 0.7)
                 {
+                    // (Round 3: a rounder crown: the side's middles a block higher too, now and then hanging a block lower)
                     if (b[crown - L23Low] == 0) b[crown - L23Low] = l23Leaves;
-                    if (ax + az == 1 && b[crown - 1 - L23Low] == 0 && Hashing.Unit(Hashing.Mix(h + 7)) < 0.5) b[crown - 1 - L23Low] = l23Leaves;
+                    ulong hs = Hashing.Mix(h + (ulong)(gx * 31 + gz * 17));
+                    if (ax + az == 1 && crown + 1 < tc && b[crown + 1 - L23Low] == 0 && Hashing.Unit(hs) < 0.6) b[crown + 1 - L23Low] = l23Leaves;
+                    if (ax + az == 1 && b[crown - 1 - L23Low] == 0 && Hashing.Unit(hs << 16) < 0.4) b[crown - 1 - L23Low] = l23Leaves;
                 }
             }
         return any;
