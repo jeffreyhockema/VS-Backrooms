@@ -1,0 +1,217 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"canvas": "backrooms:block/23/canvas",
+		"blanket": "backrooms:block/23/blanket"
+	},
+	"elements": [
+		{
+			"name": "Mat",
+			"from": [
+				2,
+				0,
+				0
+			],
+			"to": [
+				14,
+				1,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#canvas",
+					"uv": [
+						2,
+						15,
+						14,
+						16
+					]
+				},
+				"south": {
+					"texture": "#canvas",
+					"uv": [
+						2,
+						15,
+						14,
+						16
+					]
+				},
+				"east": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						15,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#canvas",
+					"uv": [
+						0,
+						15,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#canvas",
+					"uv": [
+						2,
+						0,
+						14,
+						16
+					]
+				},
+				"down": {
+					"texture": "#canvas",
+					"uv": [
+						2,
+						0,
+						14,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Blanket",
+			"from": [
+				2.2,
+				1,
+				5
+			],
+			"to": [
+				13.8,
+				1.6,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#blanket",
+					"uv": [
+						2.2,
+						14.4,
+						13.8,
+						15
+					]
+				},
+				"south": {
+					"texture": "#blanket",
+					"uv": [
+						2.2,
+						14.4,
+						13.8,
+						15
+					]
+				},
+				"east": {
+					"texture": "#blanket",
+					"uv": [
+						5,
+						14.4,
+						16,
+						15
+					]
+				},
+				"west": {
+					"texture": "#blanket",
+					"uv": [
+						5,
+						14.4,
+						16,
+						15
+					]
+				},
+				"up": {
+					"texture": "#blanket",
+					"uv": [
+						2.2,
+						5,
+						13.8,
+						16
+					]
+				},
+				"down": {
+					"texture": "#blanket",
+					"uv": [
+						2.2,
+						5,
+						13.8,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Roll",
+			"from": [
+				2.5,
+				1,
+				0.5
+			],
+			"to": [
+				13.5,
+				3.6,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#canvas",
+					"uv": [
+						2.5,
+						12.4,
+						13.5,
+						15
+					]
+				},
+				"south": {
+					"texture": "#canvas",
+					"uv": [
+						2.5,
+						12.4,
+						13.5,
+						15
+					]
+				},
+				"east": {
+					"texture": "#canvas",
+					"uv": [
+						0.5,
+						12.4,
+						4,
+						15
+					]
+				},
+				"west": {
+					"texture": "#canvas",
+					"uv": [
+						0.5,
+						12.4,
+						4,
+						15
+					]
+				},
+				"up": {
+					"texture": "#canvas",
+					"uv": [
+						2.5,
+						0.5,
+						13.5,
+						4
+					]
+				},
+				"down": {
+					"texture": "#canvas",
+					"uv": [
+						2.5,
+						0.5,
+						13.5,
+						4
+					]
+				}
+			}
+		}
+	]
+}

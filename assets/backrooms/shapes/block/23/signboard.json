@@ -1,0 +1,94 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"face": "backrooms:block/23/sign-trail",
+		"wood": "backrooms:block/23/planks"
+	},
+	"elements": [
+		{
+			"name": "Board",
+			"from": [
+				0,
+				2,
+				7
+			],
+			"to": [
+				16,
+				15,
+				9
+			],
+			"faces": {
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						1,
+						16,
+						14
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						7,
+						1,
+						9,
+						14
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						7,
+						1,
+						9,
+						14
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						7,
+						16,
+						9
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						0,
+						7,
+						16,
+						9
+					]
+				}
+			}
+		},
+		{
+			"name": "Face",
+			"from": [
+				0,
+				2,
+				6.98
+			],
+			"to": [
+				16,
+				15,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#face",
+					"uv": [
+						0,
+						1,
+						16,
+						15
+					]
+				}
+			}
+		}
+	]
+}

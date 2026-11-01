@@ -1,0 +1,97 @@
+// Level 23 (round 3): bracket fungi of stone stepping up a trunk (the trunk on the block's back)
+{
+	"code": "l23-bracket",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"shapeByType": {
+		"*-north": {
+			"base": "block/23/bracket",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/23/bracket",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/23/bracket",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/23/bracket",
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.1,
+			"y1": 0.15,
+			"z1": 0.55,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.1,
+			"y1": 0.15,
+			"z1": 0.55,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.1,
+			"y1": 0.15,
+			"z1": 0.55,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.1,
+			"y1": 0.15,
+			"z1": 0.55,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 90
+		}
+	}
+}

@@ -343,3 +343,5 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
 36. [B] The handbook page and a note mention the new sights where they matter (the camp's rules board, the logs).
 37. [B] Balance notes for the lead: anything that is food, water or shelter (the camp's barrels are only looks).
 38. [C] A trickle in the sound bed near the glades' and the pool's water.
+39. [B] (The lead, from the balance review) Base Seedling's lanterns (the camp's, its tunnels', the Lighthouse's lamp) a
+    block of the level's own that gives the same light and breaks to nothing, not vanilla lanterns to pick up.

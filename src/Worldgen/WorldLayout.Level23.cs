@@ -30,7 +30,7 @@ public sealed partial class WorldLayout
     private const ulong SaltL23Shape = 0x2801, SaltL23Centre = 0x2802, SaltL23Ground = 0x2803, SaltL23Ridge = 0x2804, SaltL23Trunk = 0x2805,
         SaltL23Arch = 0x2806, SaltL23Cave = 0x2807, SaltL23Hole = 0x2809, SaltL23Lid = 0x280A, SaltL23Rim = 0x280B,
         SaltL23Special = 0x280C, SaltL23Box = 0x280D, SaltL23Snag = 0x280F, SaltL23CaveWobble = 0x2810, SaltL23CaveFloor = 0x2811,
-        SaltL23Giant = 0x2812;
+        SaltL23Giant = 0x2812, SaltL23Feature = 0x2814, SaltL23Glade = 0x2815;
 
     /// <summary>The zones (<see cref="Tile.Zone"/>).</summary>
     public const byte L23Surface = 1, L23Glow = 2, L23TunnelZone = 3, L23Seedling = 4, L23Ruin = 5, L23Core = 6, L23RimZone = 9;
@@ -64,6 +64,18 @@ public sealed partial class WorldLayout
 
     /// <summary>The kinds of wood a column's block can be (<see cref="L23Wood"/>): none, the four barks, the Green Giants' green bark, a root.</summary>
     public const byte L23NoWood = 0, L23BarkGrey = 1, L23BarkRed = 2, L23BarkPale = 3, L23BarkDark = 4, L23BarkGreen = 5, L23RootWood = 6;
+
+    /// <summary>
+    /// Round 3's kinds besides: aspen bark (white with black eyes: the lore lists aspen), a boulder's stone, a stone mushroom's
+    /// stem and cap, and a fallen log (<see cref="L23LogKind"/>: 16 + its bark times two + 1 when it lies north-south).
+    /// </summary>
+    public const byte L23BarkAspen = 7, L23Boulder = 8, L23MushStem = 9, L23MushCap = 10, L23LogFirst = 16, L23KindLimit = 32;
+
+    /// <summary>The kind of a fallen log's block: its bark, and whether it lies along z (north-south) rather than x.</summary>
+    public static byte L23LogKind(byte bark, bool alongZ) => (byte)(L23LogFirst + bark * 2 + (alongZ ? 1 : 0));
+
+    /// <summary>Whether a kind of block on the ground is low enough to step up onto (a root, a fallen log, a boulder) when nothing is over it.</summary>
+    public static bool L23Steppable(byte kind) => kind == L23RootWood || kind == L23Boulder || kind >= L23LogFirst;
 
     /// <summary>The kinds of cavern.</summary>
     public enum L23CaveKind : byte { None, Glow, Seedling, Ruin }
@@ -115,17 +127,36 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>
-    /// A place to look for somewhere to arrive: in the open forest 90 to 240 blocks from the Heart of Water (the spot
-    /// test keeps it on the forest floor).
+    /// A place to look for somewhere to arrive: by the glade nearest a point of the open forest 90 to 240 blocks from the
+    /// Heart of Water (the spot test keeps it on open forest floor).
     /// </summary>
     private (int Mx, int Mz) L23ArrivalCell(ulong h)
     {
         double angle = Hashing.Unit(h) * Math.PI * 2, r = 90 + 150 * Hashing.Unit(Hashing.Mix(h));
-        return (MacroOf(L23MidX + (int)Math.Round(Math.Cos(angle) * r)), MacroOf(L23MidZ + (int)Math.Round(Math.Sin(angle) * r)));
+        int px = L23MidX + (int)Math.Round(Math.Cos(angle) * r), pz = L23MidZ + (int)Math.Round(Math.Sin(angle) * r);
+        // Round 3: toward the nearest glade (one of the lid's wide holes), where the forest floor is open all round, so
+        // those who arrive see the forest and not the bark of the trunk beside them; put down by its edge, not its middle
+        int hi = Hashing.FloorDiv(px, L23HolePitch), hj = Hashing.FloorDiv(pz, L23HolePitch);
+        double best = double.MaxValue;
+        int tx = px, tz = pz;
+        for (int dj = -2; dj <= 2; dj++)
+            for (int di = -2; di <= 2; di++)
+            {
+                if (!L23HoleAt(hi + di, hj + dj, out double cx, out double cz, out double hr) || hr < L23GladeMin) continue;
+                double dm = L23FromMid((int)cx, (int)cz);
+                if (dm < L23CoreRadius + 30 || dm > L23Reach - 30) continue;
+                double d = (cx - px) * (cx - px) + (cz - pz) * (cz - pz);
+                if (d >= best) continue;
+                best = d;
+                double a = Hashing.Unit(Hashing.Mix(h + 5)) * Math.PI * 2;
+                tx = (int)Math.Round(cx + Math.Cos(a) * (hr - 2));
+                tz = (int)Math.Round(cz + Math.Sin(a) * (hr - 2));
+            }
+        return (MacroOf(tx), MacroOf(tz));
     }
 
-    /// <summary>Arriving: on the forest floor, never over a cavern, in the Heart of Water or the tangle.</summary>
-    private static bool IsL23ArrivalSpot(Tile t) => IsArrivalSpot(t) && t.Zone == L23Surface;
+    /// <summary>Arriving: on the forest floor with open floor all round (never over a cavern, in the Heart of Water or the tangle).</summary>
+    private static bool IsL23ArrivalSpot(Tile t) => IsArrivalSpot(t) && t.Zone == L23Surface && t.Detail == L23OpenGround;
 
     /// <summary>
     /// How high above the level's floor to put someone down: on the ground of the forest, or on the floor of a cavern or a
@@ -207,7 +238,27 @@ public sealed partial class WorldLayout
         cx = (i + 0.2 + 0.6 * Hashing.Unit(h2)) * L23HolePitch;
         cz = (j + 0.2 + 0.6 * Hashing.Unit(h3)) * L23HolePitch;
         r = 2.2 + 2.3 * Hashing.Unit(Hashing.Mix(h3));
+        // Round 3: about one hole in five is wide, a glade of sunlight on the forest floor (a landmark: no tree stands in it)
+        ulong g = Hashing.Hash(seed, i, j, SaltL23Glade);
+        if (Hashing.Unit(g) < 0.2) r = L23GladeMin + 3 * Hashing.Unit(Hashing.Mix(g));
         return true;
+    }
+
+    /// <summary>A hole at least this wide is a glade.</summary>
+    public const double L23GladeMin = 6;
+
+    /// <summary>Whether a point lies in a glade (one of the lid's wide holes), within a margin past its edge.</summary>
+    public bool L23InGlade(double px, double pz, double margin)
+    {
+        int hi = Hashing.FloorDiv((int)Math.Floor(px), L23HolePitch), hj = Hashing.FloorDiv((int)Math.Floor(pz), L23HolePitch);
+        for (int dj = -1; dj <= 1; dj++)
+            for (int di = -1; di <= 1; di++)
+            {
+                if (!L23HoleAt(hi + di, hj + dj, out double cx, out double cz, out double r) || r < L23GladeMin) continue;
+                double dx = px - cx, dz = pz - cz;
+                if (dx * dx + dz * dz < (r + margin) * (r + margin)) return true;
+            }
+        return false;
     }
 
     /// <summary>Whether the sun comes through the lid over a block position: a scatter of holes, and a wide one over the pool.</summary>
@@ -284,6 +335,8 @@ public sealed partial class WorldLayout
         int ix = (int)Math.Floor(t.X), iz = (int)Math.Floor(t.Z);
         double dc = L23FromMid(ix, iz);
         if (dc < L23CoreRadius + 3 || dc > L23Reach + 40) return t;
+        // (No tree stands in a glade under one of the lid's wide holes: round 3)
+        if (L23InGlade(t.X, t.Z, 1.5)) return t;
         double u = Hashing.Unit(h4);
         t.R = Hashing.Unit(h5) < 0.06 ? 6.5 + Hashing.Unit(h6) : 2 + 4.2 * Math.Pow(u, 1.6);
         double k = Hashing.Unit(h6);
@@ -301,6 +354,8 @@ public sealed partial class WorldLayout
         // oval and narrowing toward the lid, some swelling and pinching, a quarter of the thick ones forked into two stems
         ulong s1 = Hashing.Mix(h9 + 3), s2 = Hashing.Mix(s1), s3 = Hashing.Mix(s2), s4 = Hashing.Mix(s3), s5 = Hashing.Mix(s4);
         if (t.R < 6 && Hashing.Unit(s1) < 0.14) t.R = 1.2 + 0.6 * Hashing.Unit(s1 << 20);
+        // Round 3: aspens, slender and white with black eyes (the lore lists aspen), among the thinner trees
+        if (t.R < 2.6 && Hashing.Unit(s1 << 40) < (t.R < 2 ? 0.6 : 0.3)) t.Kind = L23BarkAspen;
         t.Ecc = 0.22 * Hashing.Unit(s2);
         t.EccPhase = Hashing.Unit(s2 << 20) * Math.PI;
         t.Taper = 0.1 + 0.3 * Hashing.Unit(s3);
@@ -407,6 +462,8 @@ public sealed partial class WorldLayout
         public WorldLayout Owner;
         public int I0, J0;
         public readonly L23Trunk[] Trunks = new L23Trunk[36];
+        public WorldLayout CacheOwner;
+        public System.Collections.Generic.Dictionary<(int, int), L23Trunk> Cache;
     }
 
     [ThreadStatic] private static L23TrunkWindow l23TrunkWindow;
@@ -416,9 +473,18 @@ public sealed partial class WorldLayout
         var w = l23TrunkWindow ??= new L23TrunkWindow();
         if (w.Owner == this && w.I0 == i0 && w.J0 == j0) return w.Trunks;
         w.Owner = null;
+        // (Round 3: each tree worked out once and kept, as the cell's rows bring the same windows round again)
+        if (w.Cache == null || w.CacheOwner != this || w.Cache.Count > 8192)
+        {
+            w.Cache = new System.Collections.Generic.Dictionary<(int, int), L23Trunk>();
+            w.CacheOwner = this;
+        }
         for (int dj = -2; dj <= 3; dj++)
             for (int di = -2; di <= 3; di++)
-                w.Trunks[(dj + 2) * 6 + di + 2] = L23TrunkAt(i0 + di, j0 + dj);
+            {
+                if (!w.Cache.TryGetValue((i0 + di, j0 + dj), out L23Trunk t)) w.Cache[(i0 + di, j0 + dj)] = t = L23TrunkAt(i0 + di, j0 + dj);
+                w.Trunks[(dj + 2) * 6 + di + 2] = t;
+            }
         w.Owner = this;
         w.I0 = i0;
         w.J0 = j0;
@@ -438,6 +504,8 @@ public sealed partial class WorldLayout
         double px = gx + 0.5, pz = gz + 0.5;
         int i0 = Hashing.FloorDiv(gx, L23Pitch), j0 = Hashing.FloorDiv(gz, L23Pitch);
         int top = lowest + kinds.Length - 1;
+        // (The floor's things first: working them out may look at other windows of the trees')
+        L23Feature[] things = L23FeaturesAround(gx, gz);
         L23Trunk[] around = L23TrunksAround(i0, j0);
 
         void Trunk(in L23Trunk t)
@@ -488,6 +556,8 @@ public sealed partial class WorldLayout
                 Trunk(g);
                 L23RootsAndLimbs(g, px, pz, lowest, kinds);
             }
+        // Round 3: what lies on the forest floor between them (WorldLayout.Level23.Features.cs)
+        L23FloorThings(things, gx, gz, lowest, kinds);
     }
 
     /// <summary>The roots crawling out from a tree's foot over the ground (about a block proud of it: a step), and its limbs up into the lid.</summary>
@@ -515,16 +585,31 @@ public sealed partial class WorldLayout
                     if (L23InTube(px, pz, rel, t.X, t.Z, ay, bx, bz, by, 0.4, rr, 0.45)) kinds[rel - lowest] = L23RootWood;
                 }
             }
-        // Limbs: two or three from the trees that reach the lid, rising out into it
+        // Round 3: cypress knees, little stumps of root standing up round a cypress's foot
+        if (t.Kind == L23BarkDark && !t.Giant && !inHollow && lowest <= t.Base + 3)
+        {
+            int knees = 4 + (int)(t.H >> 50 & 3);
+            for (int k = 0; k < knees; k++)
+            {
+                ulong h = Hashing.Mix(t.H + 333 + (ulong)k);
+                double a = Hashing.Unit(h) * Math.PI * 2, d = t.R + 2.5 + 3 * Hashing.Unit(h << 12);
+                int kx = (int)Math.Floor(t.X + Math.Cos(a) * d), kz = (int)Math.Floor(t.Z + Math.Sin(a) * d);
+                if ((int)Math.Floor(px) != kx || (int)Math.Floor(pz) != kz) continue;
+                int g = L23Ground(kx, kz);
+                for (int rel = Math.Max(lowest, g + 1); rel <= Math.Min(top, g + 1 + (int)(h >> 62 & 1)); rel++)
+                    if (kinds[rel - lowest] == 0) kinds[rel - lowest] = L23BarkDark;
+            }
+        }
+        // Limbs: three to five from the trees that reach the lid, rising out into it
         if (t.Snag || t.R < 2.8) return;
         double reach = t.R + 16;
         if (d2 > reach * reach) return;
-        int limbs = 2 + (int)(t.H >> 58 & 1);
+        int limbs = 3 + (int)(t.H >> 58 & 1) + (t.R >= 4 ? 1 : 0);
         for (int k = 0; k < limbs; k++)
         {
             ulong h = Hashing.Mix(t.H + 101 + (ulong)k);
             double a = Hashing.Unit(h) * Math.PI * 2;
-            double from = 20 + 12 * Hashing.Unit(Hashing.Mix(h));
+            double from = 17 + 15 * Hashing.Unit(Hashing.Mix(h));
             double len = 5 + t.R + 5 * Hashing.Unit(h << 9);
             double rr = 0.8 + 0.15 * t.R;
             var (lx, lz) = L23Lean(t, (int)from);
@@ -905,6 +990,41 @@ public sealed partial class WorldLayout
                 t = L23TileAt(gx, gz, kinds);
             }
         if (!rimCell) L23PlaceThings(b, mx, mz);
+        if (!rimCell) L23MarkOpen(b);
+    }
+
+    /// <summary>A surface tile's <see cref="Tile.Detail"/> when open forest floor lies all round it (<see cref="L23MarkOpen"/>).</summary>
+    public const byte L23OpenGround = 1;
+
+    /// <summary>How far round an arrival spot the forest floor must be open (a square this many tiles out each way), and how far it must stay open along each of the four ways.</summary>
+    private const int L23OpenReach = 2, L23OpenWay = 7;
+
+    /// <summary>
+    /// Marks the forest floor's tiles with open floor all round them (a five by five square of it, no trunk, root, log or
+    /// hollow) and open forest floor seven blocks out along each of the four ways, where those who arrive are put down
+    /// (round 3: they arrived nose to the bark, and whichever way they turned they saw a trunk).
+    /// </summary>
+    private static void L23MarkOpen(Builder b)
+    {
+        int n = MacroSize;
+        var open = new bool[n * n];
+        for (int lz = 0; lz < n; lz++)
+            for (int lx = 0; lx < n; lx++)
+            {
+                Tile t = b.At(lx, lz);
+                open[lz * n + lx] = t.Kind == TileKind.Floor && t.Zone == L23Surface && t.Under == 0 && t.Variant == 0 && !t.SupplyBox;
+            }
+        for (int lz = L23OpenWay; lz < n - L23OpenWay; lz++)
+            for (int lx = L23OpenWay; lx < n - L23OpenWay; lx++)
+            {
+                bool all = true;
+                for (int dz = -L23OpenReach; dz <= L23OpenReach && all; dz++)
+                    for (int dx = -L23OpenReach; dx <= L23OpenReach; dx++)
+                        if (!open[(lz + dz) * n + lx + dx]) { all = false; break; }
+                for (int d = L23OpenReach + 1; d <= L23OpenWay && all; d++)
+                    all = open[(lz + d) * n + lx] && open[(lz - d) * n + lx] && open[lz * n + lx + d] && open[lz * n + lx - d];
+                if (all) b.At(lx, lz).Detail = L23OpenGround;
+            }
     }
 
     /// <summary>One tile of the forest (not the tangle).</summary>
@@ -922,7 +1042,7 @@ public sealed partial class WorldLayout
         }
         // In the way: a trunk or a buttress at the foot; anything at head height; a root to step onto with no room over it
         L23Wood(gx, gz, ground + 1, kinds);
-        bool blocked = kinds[1] != 0 || kinds[0] != 0 && (kinds[0] != L23RootWood || kinds[2] != 0);
+        bool blocked = kinds[1] != 0 || kinds[0] != 0 && (!L23Steppable(kinds[0]) || kinds[2] != 0);
         if (blocked)
         {
             t.Kind = TileKind.Wall;

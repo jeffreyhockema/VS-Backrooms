@@ -286,12 +286,13 @@ def moss(seed):
     return img
 
 
-def litter(seed):
-    """Leaf litter: grey-green, tan and rust leaves fallen over the humus, each with its midrib."""
+def litter(seed, colours=None):
+    """Leaf litter: grey-green, tan and rust leaves fallen over the humus, each with its midrib (round 3: an alternate in
+    drier reds and browns, so the drifts are not one colour)."""
     img = humus(seed)
     d = ImageDraw.Draw(img)
     rng = random.Random(seed + 5)
-    colours = [(104, 112, 78), (130, 108, 70), (120, 72, 44), (92, 96, 70), (146, 126, 84)]
+    colours = colours or [(104, 112, 78), (130, 108, 70), (120, 72, 44), (92, 96, 70), (146, 126, 84)]
     for _ in range(26):
         x, y = rng.randrange(S), rng.randrange(S)
         c = M.lift(rng.choice(colours), rng.uniform(-8, 8))
@@ -803,7 +804,8 @@ LANG = [
 
 def lang_entries():
     """Every key of the level's block: the ones above, the handbook page, and the notes' track."""
-    entries = list(LANG)
+    import gen_23_r3
+    entries = list(LANG) + list(gen_23_r3.LANG)
     import gen_guide
     title, text = gen_guide.PAGES["level23"]
     entries.append(("guide-level23-title", title))
@@ -872,6 +874,7 @@ def main():
     save(moss(2332), "block/23/moss")
     save(moss(2333), "block/23/moss-2")
     save(litter(2334), "block/23/litter")
+    save(litter(2338, [(138, 70, 40), (112, 58, 36), (150, 104, 56), (96, 70, 44), (160, 120, 70)]), "block/23/litter-2")
     save(earth(2335), "block/23/earth")
     save(earth(2336), "block/23/earth-2")
     save(rootearth(2337), "block/23/rootearth")
@@ -904,7 +907,7 @@ def main():
                    drops=[drop("game:soil-low-none", 1, kind="block")]),
         cube_block("l23-moss", "// Level 23: moss over earth", ["block/23/moss", "block/23/moss-2"], "Soil", *SOIL, 1.6,
                    drops=[drop("game:soil-low-none", 1, kind="block")]),
-        cube_block("l23-litter", "// Level 23: leaf litter over the humus", ["block/23/litter"], "Soil", "game:walk/grass*", "game:block/dirt*", 1.4,
+        cube_block("l23-litter", "// Level 23: leaf litter over the humus", ["block/23/litter", "block/23/litter-2"], "Soil", "game:walk/grass*", "game:block/dirt*", 1.4,
                    drops=[drop("game:soil-low-none", 1, kind="block"), drop("game:drygrass", 0.4, 0.4)]),
         cube_block("l23-earth", "// Level 23: dark, wet earth", ["block/23/earth", "block/23/earth-2"], "Soil", "game:walk/gravel*", "game:block/dirt*", 2,
                    drops=[drop("game:soil-low-none", 1, kind="block")]),
@@ -934,6 +937,10 @@ def main():
                    [], hang=True),
         pottery_block(),
     ]
+    # Round 3 (2026-11-01): the forest floor's things, Base Seedling's, the signs (tools/gen_23_r3.py)
+    import gen_23_r3
+    gen_23_r3.textures(save)
+    blocks += gen_23_r3.blocks()
     bt = os.path.join(ASSETS, "blocktypes", "23")
     for comment, b in blocks:
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
@@ -944,6 +951,8 @@ def main():
         write_json(os.path.join(sh, f"sorry-{c}.json"), None, sorry_shape(c))
     write_json(os.path.join(sh, "amphora.json"), None, amphora_shape())
     write_json(os.path.join(sh, "shards.json"), None, shards_shape())
+    for name, shp in gen_23_r3.shapes().items():
+        write_json(os.path.join(sh, name + ".json"), None, shp)
     write_lang()
     print(f"gen_23: {len(blocks)} blocktypes, shapes, textures, lang")
 

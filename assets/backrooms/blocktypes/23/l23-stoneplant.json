@@ -1,0 +1,83 @@
+// Level 23 (round 3): petrified undergrowth (a shrub, a sapling, fern fronds, a stump)
+{
+	"code": "l23-stoneplant",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"shrub",
+				"sapling",
+				"fern",
+				"stump"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"shapeByType": {
+		"*-shrub": {
+			"base": "block/23/stone-shrub"
+		},
+		"*-sapling": {
+			"base": "block/23/stone-sapling"
+		},
+		"*-fern": {
+			"base": "block/23/stone-fern"
+		},
+		"*-stump": {
+			"base": "block/23/stone-stump"
+		}
+	},
+	"selectionbox": {
+		"x1": 0.15,
+		"y1": 0,
+		"z1": 0.15,
+		"x2": 0.85,
+		"y2": 0.7,
+		"z2": 0.85
+	},
+	"collisionboxByType": {
+		"*-stump": {
+			"x1": 0.19,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 0.81,
+			"y2": 0.4,
+			"z2": 0.81
+		},
+		"*": null
+	},
+	"replaceable": 3500
+}

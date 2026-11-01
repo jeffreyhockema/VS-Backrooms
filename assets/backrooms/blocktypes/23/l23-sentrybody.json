@@ -1,0 +1,91 @@
+// Level 23 (round 3): a buried sentry's body under its face, shoulders and hands pushed out of the bark
+{
+	"code": "l23-sentrybody",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-north": {
+			"all": {
+				"base": "block/23/bark-grey"
+			},
+			"up": {
+				"base": "block/23/heartwood-grey"
+			},
+			"down": {
+				"base": "block/23/heartwood-grey"
+			},
+			"north": {
+				"base": "block/23/sentry-body"
+			}
+		},
+		"*-east": {
+			"all": {
+				"base": "block/23/bark-grey"
+			},
+			"up": {
+				"base": "block/23/heartwood-grey"
+			},
+			"down": {
+				"base": "block/23/heartwood-grey"
+			},
+			"east": {
+				"base": "block/23/sentry-body"
+			}
+		},
+		"*-south": {
+			"all": {
+				"base": "block/23/bark-grey"
+			},
+			"up": {
+				"base": "block/23/heartwood-grey"
+			},
+			"down": {
+				"base": "block/23/heartwood-grey"
+			},
+			"south": {
+				"base": "block/23/sentry-body"
+			}
+		},
+		"*-west": {
+			"all": {
+				"base": "block/23/bark-grey"
+			},
+			"up": {
+				"base": "block/23/heartwood-grey"
+			},
+			"down": {
+				"base": "block/23/heartwood-grey"
+			},
+			"west": {
+				"base": "block/23/sentry-body"
+			}
+		}
+	},
+	"resistance": 9,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

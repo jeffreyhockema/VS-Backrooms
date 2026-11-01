@@ -1,0 +1,332 @@
+// Level 23 (round 3): the M.E.G.'s painted boards (the camp's sign, its notice board, the way-signs, the warning at the Heart of Water, a plank by a sentry); each is a block of a board, on a post below
+{
+	"code": "l23-sign",
+	"variantgroups": [
+		{
+			"code": "text",
+			"states": [
+				"camp-a",
+				"camp-b",
+				"camp-c",
+				"rules-a",
+				"rules-b",
+				"trail",
+				"giants-a",
+				"giants-b",
+				"dontsay"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-camp-a-north": {
+			"base": "block/23/signboard",
+			"rotateY": 0
+		},
+		"*-camp-a-east": {
+			"base": "block/23/signboard",
+			"rotateY": 270
+		},
+		"*-camp-a-south": {
+			"base": "block/23/signboard",
+			"rotateY": 180
+		},
+		"*-camp-a-west": {
+			"base": "block/23/signboard",
+			"rotateY": 90
+		},
+		"*-camp-b-north": {
+			"base": "block/23/signboard",
+			"rotateY": 0
+		},
+		"*-camp-b-east": {
+			"base": "block/23/signboard",
+			"rotateY": 270
+		},
+		"*-camp-b-south": {
+			"base": "block/23/signboard",
+			"rotateY": 180
+		},
+		"*-camp-b-west": {
+			"base": "block/23/signboard",
+			"rotateY": 90
+		},
+		"*-camp-c-north": {
+			"base": "block/23/signboard",
+			"rotateY": 0
+		},
+		"*-camp-c-east": {
+			"base": "block/23/signboard",
+			"rotateY": 270
+		},
+		"*-camp-c-south": {
+			"base": "block/23/signboard",
+			"rotateY": 180
+		},
+		"*-camp-c-west": {
+			"base": "block/23/signboard",
+			"rotateY": 90
+		},
+		"*-rules-a-north": {
+			"base": "block/23/signboard",
+			"rotateY": 0
+		},
+		"*-rules-a-east": {
+			"base": "block/23/signboard",
+			"rotateY": 270
+		},
+		"*-rules-a-south": {
+			"base": "block/23/signboard",
+			"rotateY": 180
+		},
+		"*-rules-a-west": {
+			"base": "block/23/signboard",
+			"rotateY": 90
+		},
+		"*-rules-b-north": {
+			"base": "block/23/signboard",
+			"rotateY": 0
+		},
+		"*-rules-b-east": {
+			"base": "block/23/signboard",
+			"rotateY": 270
+		},
+		"*-rules-b-south": {
+			"base": "block/23/signboard",
+			"rotateY": 180
+		},
+		"*-rules-b-west": {
+			"base": "block/23/signboard",
+			"rotateY": 90
+		},
+		"*-trail-north": {
+			"base": "block/23/signboard",
+			"rotateY": 0
+		},
+		"*-trail-east": {
+			"base": "block/23/signboard",
+			"rotateY": 270
+		},
+		"*-trail-south": {
+			"base": "block/23/signboard",
+			"rotateY": 180
+		},
+		"*-trail-west": {
+			"base": "block/23/signboard",
+			"rotateY": 90
+		},
+		"*-giants-a-north": {
+			"base": "block/23/signboard",
+			"rotateY": 0
+		},
+		"*-giants-a-east": {
+			"base": "block/23/signboard",
+			"rotateY": 270
+		},
+		"*-giants-a-south": {
+			"base": "block/23/signboard",
+			"rotateY": 180
+		},
+		"*-giants-a-west": {
+			"base": "block/23/signboard",
+			"rotateY": 90
+		},
+		"*-giants-b-north": {
+			"base": "block/23/signboard",
+			"rotateY": 0
+		},
+		"*-giants-b-east": {
+			"base": "block/23/signboard",
+			"rotateY": 270
+		},
+		"*-giants-b-south": {
+			"base": "block/23/signboard",
+			"rotateY": 180
+		},
+		"*-giants-b-west": {
+			"base": "block/23/signboard",
+			"rotateY": 90
+		},
+		"*-dontsay-north": {
+			"base": "block/23/signboard",
+			"rotateY": 0
+		},
+		"*-dontsay-east": {
+			"base": "block/23/signboard",
+			"rotateY": 270
+		},
+		"*-dontsay-south": {
+			"base": "block/23/signboard",
+			"rotateY": 180
+		},
+		"*-dontsay-west": {
+			"base": "block/23/signboard",
+			"rotateY": 90
+		}
+	},
+	"texturesByType": {
+		"*-camp-a-*": {
+			"face": {
+				"base": "block/23/sign-camp-a"
+			}
+		},
+		"*-camp-b-*": {
+			"face": {
+				"base": "block/23/sign-camp-b"
+			}
+		},
+		"*-camp-c-*": {
+			"face": {
+				"base": "block/23/sign-camp-c"
+			}
+		},
+		"*-rules-a-*": {
+			"face": {
+				"base": "block/23/sign-rules-a"
+			}
+		},
+		"*-rules-b-*": {
+			"face": {
+				"base": "block/23/sign-rules-b"
+			}
+		},
+		"*-trail-*": {
+			"face": {
+				"base": "block/23/sign-trail"
+			}
+		},
+		"*-giants-a-*": {
+			"face": {
+				"base": "block/23/sign-giants-a"
+			}
+		},
+		"*-giants-b-*": {
+			"face": {
+				"base": "block/23/sign-giants-b"
+			}
+		},
+		"*-dontsay-*": {
+			"face": {
+				"base": "block/23/sign-dontsay"
+			}
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0.12,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.6,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0.12,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.6,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0.12,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.6,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0.12,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.6,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0.12,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.6,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0.12,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.6,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0.12,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.6,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0.12,
+			"z1": 0.4,
+			"x2": 1,
+			"y2": 0.95,
+			"z2": 0.6,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-oak",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

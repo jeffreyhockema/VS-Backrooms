@@ -1,0 +1,36 @@
+// Level 23 (round 3): the M.E.G.'s crates at Base Seedling (stencilled)
+{
+	"code": "l23-crate",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/23/crate"
+		}
+	},
+	"resistance": 3,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-oak",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}
