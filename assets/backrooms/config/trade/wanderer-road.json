@@ -4,7 +4,7 @@
 		"var": 6
 	},
 	"selling": {
-		"maxItems": 8,
+		"maxItems": 9,
 		"list": [
 			{
 				"code": "game:gear-temporal",
@@ -156,6 +156,19 @@
 				"stock": {
 					"avg": 2,
 					"var": 0.5
+				},
+				"price": {
+					"avg": 2,
+					"var": 0.5
+				}
+			},
+			{
+				"code": "game:resin",
+				"type": "item",
+				"stacksize": 2,
+				"stock": {
+					"avg": 3,
+					"var": 0.75
 				},
 				"price": {
 					"avg": 2,

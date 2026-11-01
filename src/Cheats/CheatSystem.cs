@@ -300,6 +300,7 @@ public partial class CheatSystem : ModSystem
                 .WithArgs(parsers.OptionalWord("action"), parsers.OptionalWord("id"))
                 .HandleWith(args => TextCommandResult.Success(sapi.ModLoader.GetModSystem<Corpse.CorpseSystem>()?.Debug(args.Caller, args[0] as string, args[1] as string) ?? "Not a Backrooms world"))
             .EndSubCommand();
+        RegisterStairScan(command, parsers);
     }
 
     private TextCommandResult OnHealCommand(TextCommandCallingArgs args)

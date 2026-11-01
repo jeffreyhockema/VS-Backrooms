@@ -36,6 +36,10 @@
       "far": "8808cf5b8452ad21",
       "layout": "26f51e4b3d0326bf"
     },
+    "13": {
+      "far": "8808cf5b8452ad21",
+      "layout": "26f51e4b3d0326bf"
+    },
     "9": {
       "far": "29d61d9ae6a6664e",
       "layout": "9112f6da4b91f617"
@@ -43,6 +47,34 @@
   },
   "shortcuts": {
     "v12": {
+      "L1 stair cores to Fun": 4,
+      "L1 stair flights down (to L2: 1 in 4 of the bottom floor's)": 292,
+      "L1 stair flights up (to L4: from the top floors)": 288,
+      "L2 steel doors: locked": 397,
+      "L2 steel doors: open to L1": 30,
+      "L2 steel doors: open to L3": 15,
+      "L2 steel doors: open to L4": 6,
+      "L3 elevators: to L3 (same level)": 115,
+      "L3 elevators: to L4": 16,
+      "L3 elevators: to L5": 10,
+      "L4 elevators: to L3": 24,
+      "L4 elevators: to L4 (same level)": 107,
+      "L4 elevators: to L5": 22,
+      "L6 tripwires": 42,
+      "L7 cave mouths": 11,
+      "L7 stone circles": 3,
+      "L7 tiled seabeds": 2,
+      "placards on L1 floors (plate 0)": 3,
+      "placards on L1 floors (plate 1)": 1,
+      "placards on L2 floors (plate 0)": 4,
+      "placards on L2 floors (plate 1)": 17,
+      "placards on L3 floors (plate 1)": 10,
+      "placards on L4 floors (plate 1)": 32,
+      "placards on L5 floors (plate 1)": 96,
+      "placards on L6 floors (plate 2)": 8,
+      "placards on L7 floors (plate 2)": 5
+    },
+    "v13": {
       "L1 stair cores to Fun": 4,
       "L1 stair flights down (to L2: 1 in 4 of the bottom floor's)": 292,
       "L1 stair flights up (to L4: from the top floors)": 288,

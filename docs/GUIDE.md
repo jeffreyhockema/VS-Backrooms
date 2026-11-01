@@ -114,6 +114,7 @@ The levels are classed from 1 to 5, and the way down is a climb through the clas
 - Levels 2 and 3: cable drums, pipe stacks, fans and machine cabinets give copper and lead bits. Scrap wire smelts to copper. The flooded tunnel under Level 3 is floored with clay for pottery, moulds and a crucible. The generator rooms have coal heaped beside them, enough to smelt with.
 - Level 4: office furniture gives lumber and paper. Fridges hold fruit and cheese. Storerooms sometimes hide a supply box. The dead potted plants give soil and pottery shards: pounded to grit with a stone and worked into soil, about four plants make one blue clay, a slow way to clay for whoever is not ready for Level 3's tunnel. The soil also builds a pit kiln, which needs no hole dug in the floor: set it in a corner (the walls are two of its sides) and close it in with two blocks of soil; it needs solid blocks that do not burn under it and on all four sides, and air above.
 - The Level 10 crops grow in old, exhausted farmland, so seeds planted back in it will not grow. Hoe fresh soil instead.
+- Resin, for axles, gears, windmills, the churn, the fruit press and lamellar armour: Level 10's pines bleed it (right-click a resin-streaked log; it comes back in about a week; a pine grown from a seed has none), and the wanderers of the Level 1 camp and the 9th Road sell it.
 - Temporal gears are rare: early caches in Levels 1 to 5 give one in about 2 to 4 breaks in a hundred, deep caches under 1; wanderers at five of their sites sell one for 6 rusty gears.
 
 ### Water
@@ -548,6 +549,7 @@ Endless farmland under a leaden overcast that hides the sun (18 °C), and one of
 - **Farm roads** wander for kilometres, two bare tire tracks with a strip of short grass between, lined with telegraph poles that carry no wires.
 - **Farmsteads** stand alone: a farmhouse, a red barn with hay and stalls, a grain silo, a tool shed, an old tractor and plough in the yard. Fenced paddocks hold livestock; ponds lie in hollows ringed with reeds, sedge and water lilies. The beds are mud, with clay banks in places, and in a few ponds a patch of sand, a few blocks at most: enough to start on mortar, but the plentiful sand is on the floor of Level 7's sea.
 - **The grass moves:** meadows of long grass in the wind, a wet, deep green rather than the yellow-green of the Suburbs' lawns, poppies, cornflowers and lupins along the field margins, cropped grass in the paddocks.
+- **Pines** stand here and there among the oaks, tall and narrow, and one or two logs low on each trunk are streaked with resin: right-click one for resin, and it oozes again in about a week. Fell a pine and its resin is gone; one grown from a seed has none.
 - **The soil is thin:** a metre down is a mass of worms. Dig into it and they erupt, biting and killing the crops around.
 - **Some barns are thin too:** in some, a stretch of the east wall between the stalls isn't quite there. Its boards look slightly out of true, and dust hangs in front of it. Walk into it and you noclip into Level 11.
 
