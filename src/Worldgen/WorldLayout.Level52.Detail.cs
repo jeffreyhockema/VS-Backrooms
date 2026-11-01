@@ -536,6 +536,8 @@ public sealed partial class WorldLayout
                 int w = alongU ? rng.Range(3, 5) : 2, d = alongU ? 2 : rng.Range(3, 5);
                 int u0 = rng.Range(b.U0 + 3, Math.Max(b.U0 + 4, b.U1 - 2 - w)), v0 = rng.Range(b.V0 + 3, Math.Max(b.V0 + 4, b.V1 - 2 - d));
                 bool ok = u0 + w <= b.U1 - 2 && v0 + d <= b.V1 - 2;
+                // (clear of the quad's corners, where a clock tower may stand)
+                if (b.Index == 1 && (u0 < b.U0 + 7 || u0 + w > b.U1 - 6) && (v0 < b.V0 + 7 || v0 + d > b.V1 - 6)) ok = false;
                 for (int v = v0 - 1; v <= v0 + d && ok; v++)
                     for (int u = u0 - 1; u <= u0 + w && ok; u++)
                     {
@@ -561,6 +563,7 @@ public sealed partial class WorldLayout
                 int u = rng.Range(b.U0 + 2, b.U1 - 2), v = rng.Range(b.V0 + 2, b.V1 - 2);
                 Tile t = c.At(u, v);
                 if (t.Depth != b.Storeys || t.Zone is (byte)L52Zone.Ext or (byte)L52Zone.Stair or (byte)L52Zone.Turf || taken.Contains(u + v * c.W)) continue;
+                if (b.Index == 1 && (u < b.U0 + 6 || u > b.U1 - 6) && (v < b.V0 + 6 || v > b.V1 - 6)) continue;
                 L52Fix(c, u, v, "l52-vent", top + 2, top + 2);
                 taken.Add(u + v * c.W);
             }
