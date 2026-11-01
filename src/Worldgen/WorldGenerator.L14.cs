@@ -211,7 +211,7 @@ public sealed partial class WorldGenerator
         {
             case 0:
                 if (t.SupplyBox) return rel == 1 ? BoxOf(t) : 0;
-                if (t.Stack > 0 && rel <= t.Stack) return CrateOf(t);
+                if (t.Stack > 0 && rel <= t.Stack && t.Overhead != Overheads.L14HangSign) return CrateOf(t);
                 return L14Curtain(t, rel);
             case Props.Shelf: return rel <= 2 ? shelfIds[Facing(Opposite(t.Pier))] : 0;
             case Props.OfficeChair: return rel == 1 ? chairIds[f] : 0;

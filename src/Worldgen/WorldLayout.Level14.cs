@@ -279,7 +279,7 @@ public sealed partial class WorldLayout
         if (across is 1 or L14HallWidth) t.Depth = L14FBorder;
         // A pair of troffers across the middle every eight blocks (one of the pair giving light), a stained or missing tile now and then
         double c = Hashing.Unit(Hashing.Mix(h));
-        if (across is 2 or 3 && Hashing.Mod(along, 8) == 4) t.Ceiling = L14Lamp(gx, gz, across == 2, dark, 0.3);
+        if (across is 2 or 3 && Hashing.Mod(along, 8) == 4) t.Ceiling = L14Lamp(gx, gz, across == 2, dark, 0.42);
         else if (c < 0.06) t.Ceiling = CeilingKind.L14CeilingStained;
         else if (c > 0.992) t.Ceiling = CeilingKind.L14CeilingHole;
         // The way-finding line down one lane, an arrow every sixteen blocks pointing toward the middle of the region
@@ -635,7 +635,9 @@ public sealed partial class WorldLayout
                     bool lamp = Hashing.Mod(a - r.X0 - (r.W % lampStep) / 2, lampStep) == lampStep / 2 && Hashing.Mod(b - r.Z0 - (r.D % lampStep) / 2, lampStep) == lampStep / 2;
                     t.Ceiling = r.Kind switch
                     {
-                        L14Zone.Torture => lamp && rng.Chance(0.5) ? CeilingKind.L14LightFlicker : rng.Chance(0.35) ? CeilingKind.L14CeilingBlood : CeilingKind.L14CeilingConcrete,
+                        // One bare light burning in the middle, the rest stuttering or dead
+                        L14Zone.Torture => a == (r.X0 + r.X1) / 2 && b == (r.Z0 + r.Z1) / 2 ? CeilingKind.L14LightOn
+                            : lamp ? (rng.Chance(0.5) ? CeilingKind.L14LightFlicker : CeilingKind.L14LightDead) : rng.Chance(0.35) ? CeilingKind.L14CeilingBlood : CeilingKind.L14CeilingConcrete,
                         L14Zone.Surgery => lamp ? layout.L14Lamp(x, z, true, r.Dark, 0.2) : CeilingKind.L14CeilingPlaster,
                         L14Zone.Storage => lamp ? layout.L14Lamp(x, z, true, r.Dark, 0.35) : CeilingKind.L14CeilingConcrete,
                         _ => lamp ? layout.L14Lamp(x, z, true, r.Dark, inpatient ? 0.08 : 0.25, inpatient) : rng.Chance(0.07) ? CeilingKind.L14CeilingStained : CeilingKind.L14Ceiling,
@@ -1225,6 +1227,9 @@ public sealed partial class WorldLayout
                 {
                     if ((k + s) % 3 != 1) continue;
                     var (a, b) = WallAt(r, s, k);
+                    // Not in a wall shared with another room (its far face would show the window's plain back in that room)
+                    var (ox, oz, _) = Dirs[s];
+                    if (L14Plan.In(a + ox, b + oz) && At(a + ox, b + oz) is { Kind: TileKind.Floor or TileKind.Doorway } beyond && L14IsRoom(L14ZoneOf(beyond))) continue;
                     Decorate(a, b, L14DWindow, Into(s), (byte)(rng.Chance(0.4) ? 1 : 0));
                 }
             }

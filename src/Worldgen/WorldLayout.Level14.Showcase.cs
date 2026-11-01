@@ -25,11 +25,11 @@ public partial class WorldLayout
         };
 
         // The halls: a lit stretch down its length from a crossing, and a stretch whose lights are dead
-        spots.Add(new Showcase.Spot("hall-lit", hcx * L14Period + 2.5, feet, hcz * L14Period + 7.5, 180, -4));
+        spots.Add(new Showcase.Spot("hall-lit", hcx * L14Period + 3.5, feet, hcz * L14Period + 11.5, 180, -4));
         for (int r = 3; r < 12 && spots.Count < 2; r++)
             for (int k = -r; k <= r && spots.Count < 2; k++)
                 if (L14DarkStretch(true, hcx + k, hcz + r) && L14In((hcx + k) * L14Period + 2, (hcz + r) * L14Period + 32))
-                    spots.Add(new Showcase.Spot("hall-dark", (hcx + k) * L14Period + 2.5, feet, (hcz + r) * L14Period + 7.5, 180, -4));
+                    spots.Add(new Showcase.Spot("hall-dark", (hcx + k) * L14Period + 3.5, feet, (hcz + r) * L14Period + 11.5, 180, -4));
 
         // The rooms, by kind (the first of each found walking out from the middle wing)
         var want = new List<L14Zone> { L14Zone.Reception, L14Zone.Ward, L14Zone.Icu, L14Zone.Maternity, L14Zone.Psych, L14Zone.Surgery,

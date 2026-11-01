@@ -411,7 +411,9 @@ public class L14HunterSystem : ModSystem
             case "show":
             {
                 if (me == null) return TextCommandResult.Error("Needs a player, or a straw dummy put down first");
-                double yaw = caller != null ? caller.Pos.Yaw : me.Pos.Yaw;
+                // (Along the way they look: the view vector, whatever the yaw's convention)
+                Vec3f view = (caller ?? me).Pos.GetViewVector();
+                double yaw = Math.Atan2(view.X, view.Z);
                 Vec3d at = FloorNear(me, yaw, 7);
                 if (at == null) return TextCommandResult.Error("No open floor 7 blocks in front of you");
                 Entity e = PutDownHunter(at, (float)Math.Atan2(me.Pos.X - at.X, me.Pos.Z - at.Z), me, calm: true, hunting: false, alwaysActive: console);
