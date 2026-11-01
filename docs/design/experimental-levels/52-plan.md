@@ -448,3 +448,37 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
 43. (A) Block names in the HUD for every new block (lang), pick-block works, sounds by material. [done] (en.json names; materials and sounds per block)
 44. (A) Showcase spots for every new set piece, computed from the layout. [done] (13 new spots: front office, restroom, library, staff room, lab, stair hall, gym, lecture theatre, clock tower, gate boards, abandoned base, pitch, J. Barry's sign; two link spots dropped)
 45. (B) The handbook page and notes mention the new sights where the lore has them (the M.E.G.'s sign, Cool Mart Co.). [done] (the handbook page: building and floor numbers, restrooms by the stairs, the M.E.G.'s sign, the tower clock, COOL MART CO., the alarm bells, the bases' boards)
+
+### How it is built
+- `WorldLayout.Level52.Detail.cs` (new): the room roles (`L52AssignRoles`, from `L52Partition`), and every fitting laid once
+  per campus plan by `L52LayDetails` (before the grounds are furnished). A fitting (`L52Fixture`) is a block code at a
+  height on a campus tile: `rel` above the floor, or the height in every storey; outdoors the height above the ground.
+  The generator looks a tile's fittings up first (`L52FixtureAt`; `=water`, `=hedge`, `=stair-<side>` are the vanilla
+  blocks). So the tower, the bulkheads, the air handlers, the lecture theatres' tiers, the boards, flags, goals and the
+  stand are blocks laid by the plan, seed-independent, and the same in the harness.
+- `tools/gen_52_r3.py` (new, called from `gen_52.py`): `l52-sign-{kind}-{side}` (62 kinds of plate or fitting hung on the
+  wall behind its block; text drawn into the textures at 64 px a block, reading left to right from in front; signs two or
+  three blocks wide are cut at the seam), `l52-stall`, `l52-fumehood`, `l52-bleacher`, `l52-goal`, `l52-flagpole`,
+  `l52-post` (boards on two posts: the map, the M.E.G.'s campus names, the bases), `l52-jet`, `l52-vent`, `l52-hvac`,
+  `l52-track`, `l52-skylight`, `l52-bikerack`; new slab kinds `worn` and `mat`; turf with pitch lines.
+- Values (Level 52's blocks): `FloorKind` 335-341, `Props` 1103-1105. Lang: block names in Level 52's block of en.json.
+
+### Inventions (round 3; not in the lore)
+The room roles' places (restrooms by the stairs, the front office by the lobby); the signs' wording beyond the lore's
+plaques (EXIT, FLOOR n, the directory, the posters, NO RUNNING, FIRE EXIT PLAN, WASH YOUR HANDS, QUIET PLEASE); the M.E.G.
+OUTPOST sign's wording ("visitors report to floor below", after the brief's note idea); the M.E.G.'s boards naming the
+three campuses at their gaps; COOL MART CO.'s sign (the lore names the trader, not the sign); the abandoned bases'
+boards and camps (the lore names the bases, not where they stood); the clock tower and its stopped clocks; the courtyard
+fountain; the flagpoles and their nameless flag; the campus maps; the lecture theatres (the lore's campus houses "a
+university"); the pitch and running track; the bleachers; the glazed bays and courtyard roofs (the lore allows "a
+translucent ceiling" over a courtyard); the bus shelters; the trophy cases, hedges, bike racks, entrance mats, café
+tables; the lifts' doors (the lore has lifts; these do not run).
+
+### Balance notes for the lead
+- No new food, water or loot source: the restrooms' basins, the staff rooms' kitchenettes and fridges, the trophy
+  cases and the reception desks are scenery (no dispenser, no container). The canteens, fountains, vending machines and
+  supply boxes are as they were.
+- More desks and filing cabinets (front offices, staff rooms, lodging rooms' desks, lecture theatres' lecterns): if
+  notes are rolled per desk or cabinet, a little more note-finding on Level 52.
+- No new beds (the lodging rooms' beds were there). No shortcut, no threshold, no safe room beyond the level's own Safe.
+- The lecture theatres' tiers and the stands are climbed with jumps or the aisle stairs; no fall higher than five.
