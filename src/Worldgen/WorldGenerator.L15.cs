@@ -98,6 +98,8 @@ public sealed partial class WorldGenerator
             }
             l15Rods[f] = L15Block("l15-rods-" + Sides[f]);
         }
+        // The links' blocks (WorldGenerator.L15.Links.cs)
+        InitL15Links();
     }
 
     /// <summary>One block of a column of the level, <paramref name="rel"/> above its floor.</summary>
@@ -105,6 +107,8 @@ public sealed partial class WorldGenerator
     {
         fluid = 0;
         const int top = 8; // the tallest room's ceiling; walls are dressed up to it everywhere
+        // The links: the doors that do not open, the ESCAPE panel and its gateway, the pane, the office and its stairs
+        if (t.Under is >= Unders.L15First and <= Unders.L15Last && L15LinkBlock(t, gx, gz, rel) is int link and >= 0) return link;
         if (rel < 0 || rel > top) return concreteId;
         switch (t.Kind)
         {

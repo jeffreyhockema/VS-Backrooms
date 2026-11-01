@@ -1,0 +1,127 @@
+// Level 15's link: a steel door in a wall of Level 3, cold white light under it (lower, upper; the side its face is toward). Used: a shock from the handle, and Level 15, one way
+{
+	"code": "l15-l3door",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-lower-north": {
+			"all": {
+				"base": "block/15/steel"
+			},
+			"north": {
+				"base": "block/15/door-l3lower"
+			}
+		},
+		"*-lower-east": {
+			"all": {
+				"base": "block/15/steel"
+			},
+			"east": {
+				"base": "block/15/door-l3lower"
+			}
+		},
+		"*-lower-south": {
+			"all": {
+				"base": "block/15/steel"
+			},
+			"south": {
+				"base": "block/15/door-l3lower"
+			}
+		},
+		"*-lower-west": {
+			"all": {
+				"base": "block/15/steel"
+			},
+			"west": {
+				"base": "block/15/door-l3lower"
+			}
+		},
+		"*-upper-north": {
+			"all": {
+				"base": "block/15/steel"
+			},
+			"north": {
+				"base": "block/15/door-l3upper"
+			}
+		},
+		"*-upper-east": {
+			"all": {
+				"base": "block/15/steel"
+			},
+			"east": {
+				"base": "block/15/door-l3upper"
+			}
+		},
+		"*-upper-south": {
+			"all": {
+				"base": "block/15/steel"
+			},
+			"south": {
+				"base": "block/15/door-l3upper"
+			}
+		},
+		"*-upper-west": {
+			"all": {
+				"base": "block/15/steel"
+			},
+			"west": {
+				"base": "block/15/door-l3upper"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-lower-north"
+		],
+		"backrooms": [
+			"*-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 10,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "l15-l3door"
+			}
+		}
+	],
+	"lightHsvByType": {
+		"*-lower-*": [
+			34,
+			1,
+			7
+		]
+	},
+	"vertexFlagsByType": {
+		"*-lower-*": {
+			"glowLevel": 110
+		}
+	}
+}

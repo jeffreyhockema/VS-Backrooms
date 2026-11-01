@@ -1050,6 +1050,14 @@ public static class Unders
     /// <summary>Level 36's way in from Levels 9 and 11 (LINKS.md): a door in a wall under a sign with an airplane on it (Pier the way it faces, out).</summary>
     public const ushort L36AirportDoor = 416;
     public const ushort L15First = 448, L15Last = 479;
+    /// <summary>
+    /// Level 15's links (WorldLayout.Level15.Links.cs). In Level 10: the immense white wall (Pier its face, Detail its dress),
+    /// the reinforced door in it, the tread plate before the door. In Level 3: the door that opens on Level 15 (Pier its face).
+    /// In Level 15: the hall doors that do not open, the ESCAPE panel that works, the gateway it opens, the pane that shows a
+    /// street, an office's floor, and the steps of the office's staircase down (Stack the step).
+    /// </summary>
+    public const ushort L15Wall10 = 448, L15WallDoor10 = 449, L15Apron10 = 450, L15Door3 = 451, L15Sealed = 452, L15Escape = 453,
+        L15Gateway = 454, L15Window = 455, L15Office = 456, L15Stairs = 457;
     public const ushort L23First = 480, L23Last = 511;
     /// <summary>
     /// Level 23's ways in and out (WorldLayout.Level23.Links.cs). In Level 37, a hollow tree of green bark growing up through
