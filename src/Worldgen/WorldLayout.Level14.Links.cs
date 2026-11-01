@@ -86,8 +86,11 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// Whether a cell is drawn for an EMERGENCY EXIT door, by its hashes alone (the cell may have no wall for it): a Lobby cell
-    /// in the outer two fifths of the level, never the spawn cell, a party nobody came to, a Red Room or the Manila Room.
+    /// in the outer two fifths of the level, at least 1500 blocks from spawn, never the spawn cell, a party nobody came to, a Red Room or the Manila Room.
     /// </summary>
+    /// <summary>How near the world's spawn (in blocks) no EMERGENCY EXIT door into Level 14 may stand.</summary>
+    public const int L14ExitMinFromSpawn = 1500;
+
     public bool L14ExitCell(int mx, int mz)
     {
         if (!ExpEntrances) return false;
@@ -95,6 +98,11 @@ public sealed partial class WorldLayout
         if (r >= L14ExitCellChance || LevelAt(mx, mz) != 0 || IsSpawnMacro(mx, mz)) return false;
         double angle = Math.Atan2(mz - spawnMacroZ, mx - spawnMacroX);
         if (RingDistance(mx, mz) < 0.6 * OuterEdge(0, angle)) return false;
+        // Never within L14ExitMinFromSpawn blocks of the world's spawn (the cell's nearest block to the spawn cell's middle): a new
+        // player must not walk into a Class 4 level a few hundred blocks from where they start
+        int sx = spawnMacroX * MacroSize + MacroSize / 2, sz = spawnMacroZ * MacroSize + MacroSize / 2;
+        double nx = Math.Clamp(sx, mx * MacroSize, mx * MacroSize + MacroSize - 1) - sx, nz = Math.Clamp(sz, mz * MacroSize, mz * MacroSize + MacroSize - 1) - sz;
+        if (nx * nx + nz * nz < (double)L14ExitMinFromSpawn * L14ExitMinFromSpawn) return false;
         if (IsFunPartyCell(mx, mz) || IsRedRoom(mx, mz) || IsManilaMacro(mx, mz)) return false;
         // (Never two within a few cells of each other: the lower roll keeps it)
         for (int dz = -L14ExitApart; dz <= L14ExitApart; dz++)
