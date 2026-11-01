@@ -67,7 +67,7 @@ public partial class WorldLayout
                 }
 
         // The Hunter, put down calm in front of the camera in a lit hall
-        spots.Add(new Showcase.Spot("hunter", hcx * L14Period + 2.5, feet, hcz * L14Period + 20.5, 180, -6, "/backrooms l14hunter show"));
+        spots.Add(new Showcase.Spot("hunter", hcx * L14Period + 2.5, feet, hcz * L14Period + 20.5, 180, -6, $"/backrooms l14hunter show {hcx * L14Period + 2} {hcz * L14Period + 27}"));
         spots.AddRange(L14LinkShowcaseSpots(geometry));
         return spots;
     }

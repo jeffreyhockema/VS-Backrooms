@@ -815,7 +815,7 @@ public sealed partial class WorldLayout
                     if (r.Inside(a, b) || a is -1 or N || b is -1 or N || !L14Plan.In(a, b)) continue;
                     ref Tile t = ref At(a, b);
                     if (t.Kind != TileKind.Wall) continue;
-                    t.Depth = r.Kind switch
+                    byte mat = r.Kind switch
                     {
                         L14Zone.Ward or L14Zone.Maternity => rng.Chance(0.08) ? L14MWhiteMoss : L14MWhite,
                         L14Zone.Icu => rng.Chance(0.5) ? L14MTile : L14MWhite,
@@ -826,8 +826,15 @@ public sealed partial class WorldLayout
                         L14Zone.Research => L14MConcrete,
                         _ => rng.Chance(0.1) ? L14MMould : L14MPaint,
                     };
+                    // A wall between two rooms keeps the stronger of their two looks (a padded cell's quilting, a ward's white)
+                    if (WallRank(mat) >= WallRank(t.Depth)) t.Depth = mat;
                 }
         }
+
+        private static int WallRank(byte m) => m switch
+        {
+            L14MRust or L14MTileBlood => 6, L14MPadded => 5, L14MTile => 4, L14MWhite or L14MWhiteMoss => 3, L14MPlywood or L14MCinder or L14MConcrete => 2, L14MMould => 1, _ => 0,
+        };
 
         /// <summary>
         /// Opens a door <paramref name="width"/> wide in a side of the room, through its wall to the corridor beyond (or through

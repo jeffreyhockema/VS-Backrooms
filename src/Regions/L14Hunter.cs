@@ -415,6 +415,13 @@ public class L14HunterSystem : ModSystem
                 Vec3f view = (caller ?? me).Pos.GetViewVector();
                 double yaw = Math.Atan2(view.X, view.Z);
                 Vec3d at = FloorNear(me, yaw, 7);
+                // (Or at x z, given: the showcase's spot, whichever way its camera happens to face when this runs)
+                if (hasXz)
+                {
+                    int sx = (int)args[1], sz = (int)args[2];
+                    int sy = Senses.FindFloor(sapi.World, sx, (int)Math.Floor(me.Pos.Y + 0.05), sz, 2, 4);
+                    if (sy != int.MinValue) at = new Vec3d(sx + 0.5, sy, sz + 0.5);
+                }
                 if (at == null) return TextCommandResult.Error("No open floor 7 blocks in front of you");
                 Entity e = PutDownHunter(at, (float)Math.Atan2(me.Pos.X - at.X, me.Pos.Z - at.Z), me, calm: true, hunting: false, alwaysActive: console);
                 return e == null ? TextCommandResult.Error("No Hunter type") : TextCommandResult.Success($"A Hunter stands at {at.X:0}, {at.Y:0}, {at.Z:0} (#{e.EntityId}), calm for 40 s");
