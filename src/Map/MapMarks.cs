@@ -53,6 +53,15 @@ public static class MapMarks
         Rgb(0xF99379), // 974: yellowish pink
         Rgb(0x8DB600), // 3999: yellow green
         Rgb(0xF6A600), // 188: orange yellow, the lit windows
+        // The experimental levels
+        Rgb(0x8B0000), // 73: dark red, the Redlands
+        Rgb(0x848482), // the Basement: grey, the brick
+        Rgb(0x5DBB63), // 52: lawn green
+        Rgb(0xD41CE0), // 31: neon magenta, the rink
+        Rgb(0x1C3F94), // 36: airline navy (id 25)
+        Rgb(0x222222), // 120: near black, the dark server rooms (id 26)
+        Rgb(0x5BC8E8), // 15: cyan, the halls' line
+        Rgb(0x2E6B3A), // 23: deep forest green
     };
 
     private static int Rgb(int rgb) => ColorUtil.ColorFromRgba((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF, 255);

@@ -13,6 +13,8 @@ double ringScale = double.TryParse(Environment.GetEnvironmentVariable("RING_SCAL
 // but the entrances changed the other levels (the library never reads the environment: these are harness-only statics)
 WorldLayout.NoFunEntrances = Environment.GetEnvironmentVariable("BACKROOMS_NO_FUN_ENTRANCES") == "1";
 WorldLayout.L188Entrances = Environment.GetEnvironmentVariable("BACKROOMS_NO_188_ENTRANCES") != "1";
+// BACKROOMS_NO_EXP_ENTRANCES=1 leaves out the experimental levels' entrances in levels 0-20 (layouthash must then match main's)
+WorldLayout.ExpEntrances = Environment.GetEnvironmentVariable("BACKROOMS_NO_EXP_ENTRANCES") != "1";
 var layout = new WorldLayout(seed, smx, smz, layoutVersion, foodScale, ringScale);
 int m0x = smx - n / 2, m0z = smz - n / 2, size = n * 32;
 if (args.Length > 4 && args[2] == "at") { m0x = int.Parse(args[3]) - n / 2; m0z = int.Parse(args[4]) - n / 2; }

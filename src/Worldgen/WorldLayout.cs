@@ -1079,6 +1079,8 @@ public sealed partial class WorldLayout
             case Level23: BuildLevel23(b, mx, mz); break;
             default: BuildLevel10(b, mx, mz); break;
         }
+        // The experimental levels' ways in, each on its own salt (nothing else here moves): WorldLayout.ExpLinks.cs
+        MarkExpEntrances(b, mx, mz);
 
         for (int i = 0; i < b.Tiles.Length; i++) b.Tiles[i].Level = (byte)b.Level;
         Edge east = GetEdge(mx + 1, mz, west: true), south = GetEdge(mx, mz + 1, west: false);

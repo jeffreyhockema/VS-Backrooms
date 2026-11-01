@@ -1151,6 +1151,9 @@ public sealed partial class WorldGenerator
         // Level 188's ways in, in other levels (a window where no window should be, in Level 0, Level 1 and Level Fun)
         if (t.Under is >= Unders.L188First and <= Unders.L188Last && t.Level != WorldLayout.Level188
             && L188EntranceBlock(t, y - Geometry.FloorFor(t.Level), out fluid) is int l188 and >= 0) return l188;
+        // The experimental levels' ways in, in other levels (WorldGenerator.ExpLinks.cs; each level draws its own)
+        if (t.Under >= 256 && t.Level <= WorldLayout.Level188
+            && ExpEntranceBlock(t, gx, gz, y - Geometry.FloorFor(t.Level), out fluid) is int exp and >= 0) return exp;
         switch (t.Level)
         {
             case 7: return Level7Block(t, gx, gz, rel, out fluid);
