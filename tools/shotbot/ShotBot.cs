@@ -24,6 +24,8 @@ namespace ShotBot;
 ///   hud off|on
 ///   closeguis               closes every open dialog (confirms the character creation dialog)
 ///   handbook [page]         opens the handbook, and a page of it (e.g. backrooms-entities)
+///   hbscroll fraction       scrolls the open handbook page (0 top, 1 bottom)
+///   hbtest vanilla|tiled [n] opens a handbook test page: What Lives Here n times (default 3), with the vanilla rich text or the mod's tiled one
 ///   respawn                 presses the Respawn button of the death dialog
 ///   pause off|on
 ///   focus                   brings the game window to the front
@@ -358,6 +360,55 @@ public class ShotBotSystem : ModSystem, IRenderer
                     Log("handbook page " + p[1] + ": " + (open == null ? "no OpenDetailPageFor" : open.Invoke(dlg, new object[] { p[1] })));
                     Wait(1500);
                 }
+                break;
+            }
+            case "hbscroll":
+            {
+                var hb = capi.ModLoader.Systems.FirstOrDefault(m => m.GetType().Name == "ModSystemSurvivalHandbook");
+                var dlg = hb?.GetType().GetField("dialog", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)?.GetValue(hb);
+                const BindingFlags any = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+                var t = dlg?.GetType();
+                while (t != null && t.GetField("detailViewGui", any) == null) t = t.BaseType;
+                if (dlg == null || t == null || p.Length < 2) { Log("hbscroll: no dialog or no fraction"); break; }
+                double frac = double.Parse(p[1], CultureInfo.InvariantCulture);
+                var gui = (GuiComposer)t.GetField("detailViewGui", any).GetValue(dlg);
+                var bar = gui.GetScrollbar("scrollbar");
+                var list = Convert.ToSingle(t.GetField("listHeight", any)?.GetValue(dlg) ?? 500);
+                var h = Convert.ToSingle(gui.GetRichtext("richtext").Bounds.fixedHeight);
+                float y = (float)(frac * Math.Max(0, h - list));
+                bar.CurrentYPosition = y;
+                t.GetMethod("OnNewScrollbarvalueDetailPage", any).Invoke(dlg, new object[] { y });
+                Log("hbscroll " + frac + ": y=" + y + " of " + h);
+                Wait(1500);
+                break;
+            }
+            case "hbtest":
+            {
+                var hb = capi.ModLoader.Systems.FirstOrDefault(m => m.GetType().Name == "ModSystemSurvivalHandbook");
+                var dlg = hb?.GetType().GetField("dialog", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)?.GetValue(hb) as GuiDialog;
+                if (dlg == null || p.Length < 2) { Log("hbtest: no dialog or no kind"); break; }
+                if (!dlg.IsOpened()) { dlg.TryOpen(); Wait(2500); }
+                int n = p.Length > 2 ? int.Parse(p[2]) : 3;
+                string one = Lang.Get("backrooms:guide-entities-text");
+                var text = string.Concat(Enumerable.Repeat(one + "<br><br>", n));
+                const BindingFlags any = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+                Type pageType = p[1] == "tiled"
+                    ? AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetType("Backrooms.TiledHandbookTextPage")).FirstOrDefault(x => x != null)
+                    : typeof(Vintagestory.GameContent.GuiHandbookTextPage);
+                if (pageType == null) { Log("hbtest: no page type"); break; }
+                var page = (Vintagestory.GameContent.GuiHandbookTextPage)Activator.CreateInstance(pageType);
+                string code = "hbtest-" + p[1];
+                page.pageCode = code; page.Title = "Test " + p[1]; page.Text = text;
+                pageType.GetMethod("Init", BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)?.Invoke(page, new object[] { capi });
+                if (pageType == typeof(Vintagestory.GameContent.GuiHandbookTextPage)) page.Init(capi);
+                var t = dlg.GetType();
+                while (t != null && t.GetField("allHandbookPages", any) == null) t = t.BaseType;
+                var all = (System.Collections.Generic.List<Vintagestory.GameContent.GuiHandbookPage>)t.GetField("allHandbookPages", any).GetValue(dlg);
+                var byCode = (System.Collections.Generic.Dictionary<string, int>)t.GetField("pageNumberByPageCode", any).GetValue(dlg);
+                page.PageNumber = all.Count; all.Add(page); byCode[code] = page.PageNumber;
+                var open = dlg.GetType().GetMethod("OpenDetailPageFor", BindingFlags.Instance | BindingFlags.Public);
+                Log("hbtest " + p[1] + " x" + n + " (" + text.Length + " chars): " + open.Invoke(dlg, new object[] { code }));
+                Wait(2500);
                 break;
             }
             case "focus":

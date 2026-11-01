@@ -109,7 +109,12 @@ public class GuideSystem : ModSystem
         int after = -1;
         for (int i = 0; i < pages.Count; i++)
         {
-            if (pages[i] is not GuiHandbookTextPage page) continue;
+            if (pages[i] is not GuiHandbookTextPage vanilla) continue;
+            if (!Rewritten.ContainsKey(vanilla.pageCode) && !Bridged.ContainsKey(vanilla.pageCode)) continue;
+            // Replaced by a page that draws its text in tiles, so a long page does not exceed a GL driver's texture limit (see TiledRichtext)
+            var page = TiledHandbookTextPage.From(vanilla);
+            vanilla.Dispose();
+            pages[i] = page;
             if (Rewritten.TryGetValue(page.pageCode, out string guide))
             {
                 page.Title = Title(guide);
@@ -129,7 +134,7 @@ public class GuideSystem : ModSystem
         if (after < 0) after = pages.Count - 1;
         foreach (string guide in Added)
         {
-            var page = new GuiHandbookTextPage { pageCode = "backrooms-" + guide, Title = Title(guide), Text = Text(guide) };
+            var page = new TiledHandbookTextPage { pageCode = "backrooms-" + guide, Title = Title(guide), Text = Text(guide) };
             page.Init(capi);
             pages.Insert(++after, page);
         }
