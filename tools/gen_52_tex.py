@@ -607,3 +607,95 @@ def sun():
         out[..., k] = np.clip(g + (c - g) * mix, 0, 255)
     out[..., 3] = np.round(alpha * 255)
     return Image.fromarray(out, "RGBA")
+
+
+# ======================================================================== The ways in, in other levels (links round)
+
+def _text(img, s, box, colour, px, stroke=0):
+    """Text centred in box (x0, y0, x1, y1), px high in capitals: drawn four times over and scaled down, so it stays crisp."""
+    from PIL import ImageDraw, ImageFont
+    x0, y0, x1, y1 = box
+    k = 4
+    big = Image.new("RGBA", ((x1 - x0) * k, (y1 - y0) * k), (0, 0, 0, 0))
+    d = ImageDraw.Draw(big)
+    size = px * k * 1.38
+    while True:
+        font = ImageFont.load_default(size=size)
+        l, t, r, b = d.textbbox((0, 0), s, font=font, stroke_width=stroke * k)
+        if r - l <= big.width * 0.96 and b - t <= big.height * 0.96 or size < 8:
+            break
+        size *= 0.94
+    d.text(((big.width - (r - l)) / 2 - l, (big.height - (b - t)) / 2 - t), s, font=font, fill=tuple(colour) + (255,),
+           stroke_width=stroke * k, stroke_fill=tuple(colour) + (255,))
+    img.alpha_composite(big.resize((x1 - x0, y1 - y0), Image.LANCZOS), (x0, y0))
+
+
+SIGN = 64  # the signs are drawn at 64 px a block, for letters that read from across the street
+
+
+def school_sign(seed):
+    """HIGH SCHOOL over a city high school's front doors, four blocks across (returned whole, 256 x 64): cast cream letters
+    on a maroon panel framed in tarnished brass, the kind of sign a 1960s school board put up and nobody has cleaned."""
+    w, h = SIGN * 4, SIGN
+    img = M.noise_hv((112, 26, 34), 3, seed, (w, h), 5, (32, 16), hue=0.5)
+    rng = random.Random(seed)
+    p = img.load()
+    brass = (150, 118, 62)
+    for x in range(w):
+        for y in list(range(0, 4)) + list(range(h - 4, h)):
+            p[x, y] = M.rgba(M.lift(brass, rng.uniform(-8, 8) - (10 if y in (3, h - 4) else 0)))
+    for y in range(h):
+        for x in list(range(0, 4)) + list(range(w - 4, w)):
+            p[x, y] = M.rgba(M.lift(brass, rng.uniform(-8, 8)))
+    # Letters with a dark drop shadow: raised, not painted
+    shadow = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    _text(shadow, "HIGH SCHOOL", (10, 12, w - 6, h - 8), (40, 8, 12), 30, stroke=1)
+    img.alpha_composite(shadow)
+    _text(img, "HIGH SCHOOL", (8, 10, w - 8, h - 10), (232, 220, 186), 30, stroke=1)
+    # Weathering: a few streaks down from the letters
+    for _ in range(14):
+        x, y = rng.randrange(8, w - 8), rng.randrange(36, 50)
+        for k in range(rng.randint(4, 10)):
+            if y + k < h - 4:
+                M.touch(img, x, y + k, -0.08)
+    return img
+
+
+def school_sign_back(seed):
+    """The sign's edges and back: the same maroon panel's brass frame, plain."""
+    img = M.noise_hv((120, 96, 52), 3, seed, S, 4, (8, 4), hue=0.5)
+    M.bevel(img, None, 1, 0.25)
+    return img
+
+
+def exit_sign(wall, seed):
+    """A green EMERGENCY EXIT sign on Level 4's office wall (64 px): EMERGENCY across the top, a figure running out through a
+    door and EXIT below; dusty along its top edge. `wall` is the office wall texture it hangs on."""
+    img = wall.convert("RGBA").resize((SIGN, SIGN), Image.NEAREST)
+    rng = random.Random(seed)
+    green, white = (22, 138, 70), (240, 246, 238)
+    x0, y0, x1, y1 = 3, 12, SIGN - 3, 50
+    p = img.load()
+    for y in range(y0 - 1, y1 + 1):
+        for x in range(x0 - 1, x1 + 1):
+            edge = y in (y0 - 1, y1) or x in (x0 - 1, x1)
+            p[x, y] = M.rgba((210, 214, 210) if edge else M.lift(green, rng.uniform(-6, 6) + (y1 - y) * 0.3))
+    _text(img, "EMERGENCY", (x0 + 2, y0 + 1, x1 - 2, y0 + 13), white, 10, stroke=0)
+    # The door frame and a figure running out through it, at the left of the lower half
+    fy = y0 + 15
+    for y in range(fy, y1 - 2):
+        for x in (x0 + 3, x0 + 4):
+            p[x, y] = M.rgba(white)
+    for x in range(x0 + 3, x0 + 13):
+        p[x, fy] = M.rgba(white)
+    figure = [(8, 3), (9, 3), (8, 4), (9, 4), (7, 6), (8, 6), (9, 6), (10, 6), (6, 7), (8, 7), (11, 7), (8, 8), (8, 9), (7, 10), (9, 10),
+              (6, 11), (10, 11), (5, 12), (11, 12), (11, 13)]
+    for fx, fz in figure:
+        for dy in range(2):
+            for dx in range(2):
+                p[x0 + fx * 2 - 6 + dx, fy + fz * 2 - 4 + dy] = M.rgba(white)
+    _text(img, "EXIT", (x0 + 20, fy + 1, x1 - 2, y1 - 2), white, 18, stroke=1)
+    for x in range(x0, x1):
+        if rng.random() < 0.5:
+            M.touch(img, x, y0, -0.12)
+    return img

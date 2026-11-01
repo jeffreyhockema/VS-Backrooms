@@ -245,6 +245,17 @@ def new_textures():
     T.sun().save(SUN)
 
 
+def link_textures():
+    """The ways in, in other levels: the HIGH SCHOOL sign (four blocks across, 64 px each), its frame, and the green
+    EMERGENCY EXIT sign on Level 4's office wall."""
+    whole = T.school_sign(5800)
+    for k in range(4):
+        save(whole.crop((k * T.SIGN, 0, (k + 1) * T.SIGN, T.SIGN)), f"schoolsign-{k}")
+    save(T.school_sign_back(5801), "schoolsign-back")
+    wall = Image.open(os.path.join(ASSETS, "textures", "block", "level4", "officewall.png"))
+    save(T.exit_sign(wall, 5802), "exitsign")
+
+
 # ======================================================================== Shapes
 
 def shape(name, elements, overrides=None):
@@ -567,6 +578,28 @@ def new_blocktypes():
                extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser", "attributes": {"liquidSource": True}})
 
 
+def link_blocktypes():
+    """Level 52's ways in, in other levels (WorldGenerator.L52.Links.cs): the steel door (End's exit door's shape, its own
+    threshold kind), the HIGH SCHOOL sign and the EMERGENCY EXIT sign."""
+    data = {"code": "l52-door", "variantgroups": [group("part", ["lower", "upper"])],
+            "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
+            "blockmaterial": "Metal", "drawtype": "json",
+            "shapeByType": {"*-lower": {"base": "block/end/end-exitdoor-lower"}, "*-upper": {"base": "block/end/end-exitdoor-upper"}},
+            "lightAbsorption": 99, "resistance": 20, "drops": [], "sounds": METAL,
+            "behaviors": [{"name": "BackroomsThreshold", "properties": {"kind": "l52-door"}}]}
+    write_json(os.path.join(BLOCKS, "l52-door.json"), data,
+               "Level 52's ways in: a grey steel door with a push bar and wired glass on every face (it fits a wall either way): a city high "
+               "school's front doors, Level 4's emergency exit. Kind l52-door; indestructible")
+    cube_block("l52-schoolsign", [group("part", ["0", "1", "2", "3"]), group("side", SIDES)],
+               {f"l52-schoolsign-{k}-{s}": dict(faces(all_="schoolsign-back"), **{s: tex(f"schoolsign-{k}")}) for k in "0123" for s in SIDES},
+               "Level 52's way in from the city: the HIGH SCHOOL sign over a high school's front doors, four blocks across (part 0 the left "
+               "as seen from in front), on the side face", material="Metal", sounds=METAL, resistance=20)
+    cube_block("l52-exitsign", [group("side", SIDES)],
+               {f"l52-exitsign-{s}": {"all": {"base": "block/level4/officewall"}, s: tex("exitsign")} for s in SIDES},
+               "Level 52's way in from Level 4: Level 4's office wall with a green EMERGENCY EXIT sign on its side face, over the door",
+               resistance=20)
+
+
 def old_blocktypes():
     cube_block("l52-tile", [{"code": "kind", "states": ["hall", "room"]}],
                {"*-hall": {"all": tex("tile-hall")}, "*-room": {"all": tex("tile-room")}},
@@ -686,6 +719,11 @@ def expected_codes():
         codes.add(f"l52-court-{k}")
     for k in ("a", "b"):
         codes.add(f"l52-paving-{k}")
+    codes |= {"l52-door-lower", "l52-door-upper"}
+    for s in SIDES:
+        codes.add(f"l52-exitsign-{s}")
+        for k in "0123":
+            codes.add(f"l52-schoolsign-{k}-{s}")
     return codes
 
 
@@ -763,6 +801,8 @@ def main():
     new_textures()
     old_blocktypes()
     new_blocktypes()
+    link_textures()
+    link_blocktypes()
     bell()
     remove_stale()
     if not check():

@@ -1038,6 +1038,12 @@ public static class Unders
     public const ushort L52First = 320, L52Last = 351;
     /// <summary>Level 52: an outside wall with a window bay in every storey; a wall with a bank of lockers on its Pier face.</summary>
     public const ushort L52Window = 320, L52Locker = 321;
+    /// <summary>
+    /// Level 52's ways in and back (WorldLayout.Level52.Links.cs): its own outside doors that can be a way back (the quad's
+    /// front doors, the end doors of the other teaching blocks); in Level 11 a high school's front doors and the sign over them;
+    /// in Level 4 an EMERGENCY EXIT door. The host tiles stay walls: the generator draws the door and the sign.
+    /// </summary>
+    public const ushort L52QuadDoor = 322, L52WingDoor = 323, L52SchoolDoor = 324, L52SchoolSign = 325, L52ExitDoor = 326;
     public const ushort L31First = 352, L31Last = 383;
     public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;

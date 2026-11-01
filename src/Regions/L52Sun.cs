@@ -9,13 +9,39 @@ namespace Backrooms.Regions;
 
 /// <summary>
 /// Level 52's clock (experimental): keeps <see cref="WorldLayout.L52Hours"/>, the hour the level's weather (its drifting
-/// temperature, 10 to 32 °C) is worked out for, up to date from the world's calendar, on the server and the client.
+/// temperature, 10 to 32 °C) is worked out for, up to date from the world's calendar, on the server and the client. Also the
+/// dev test of the level's ways in and back, <c>/backrooms l52 waytest school|exit|x z</c> (ThresholdSystem.L52.cs).
 /// </summary>
 public class L52System : ModSystem
 {
+    // (After BackroomsModSystem, which makes the backrooms command)
+    public override double ExecuteOrder() => 1.3;
+
     public override void Start(ICoreAPI api)
     {
         if (api is ICoreServerAPI sapi) sapi.Event.RegisterGameTickListener(_ => WorldLayout.L52Hours = api.World.Calendar.TotalHours, 2000, 500);
+    }
+
+    public override void StartServerSide(ICoreServerAPI api)
+    {
+        CommandArgumentParsers parsers = api.ChatCommands.Parsers;
+        api.ChatCommands.Get("backrooms")?
+            .BeginSubCommand("l52")
+                .WithDescription("Level 52 (testing): 'waytest school', 'waytest exit' or 'waytest x z' goes in by the high school or the EMERGENCY EXIT nearest spawn "
+                    + "(or the door at x z) and back out through the campus door beside the arrival, and says where each leads (run it twice: the first may only load chunks)")
+                .WithArgs(parsers.Word("what"), parsers.OptionalWord("where"), parsers.OptionalInt("x"), parsers.OptionalInt("z"))
+                .RequiresPrivilege(Privilege.controlserver)
+                .HandleWith(args =>
+                {
+                    if (((string)args[0])?.Trim() != "waytest") return TextCommandResult.Error("waytest school|exit|x z");
+                    string where = ((args[1] as string) ?? "school").Trim();
+                    int x = 0, z = 0;
+                    if (int.TryParse(where, out int px)) { x = px; z = args[2] is int pz ? pz : 0; where = "at"; }
+                    string text = api.ModLoader.GetModSystem<Thresholds.ThresholdSystem>()?.L52WayTest(where, x, z) ?? "no threshold system";
+                    api.Logger.Notification("[backrooms] l52 waytest: {0}", text);
+                    return TextCommandResult.Success(text);
+                })
+            .EndSubCommand();
     }
 }
 

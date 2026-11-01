@@ -14,6 +14,7 @@ static partial class LevelModes
     /// </summary>
     static bool L52Modes(WorldLayout layout, string mode, string[] args)
     {
+        if (mode == "52links") return L52Links(layout);
         if (mode != "52stats") return false;
         int reach = args.Length > 3 && int.TryParse(args[3], out int r) ? r : 2;
         bool plan = args.Contains("plan");
@@ -157,4 +158,110 @@ static partial class LevelModes
     static string L52LinkLabel(Tile t) => null;
 
     static string L52UseKind(Tile t) => null;
+
+    /// <summary>
+    /// 52links: Level 52's ways in, in the world as laid out (LINKS.md, "Level 52"): the high schools nearest spawn (the left
+    /// door's position, its distance from spawn) and how many there are per km2 of the city; the EMERGENCY EXIT doors nearest
+    /// spawn in Level 4 and how many per km2 of it; on the campus side, Marshall David's doors that can be a way back and where
+    /// ten arrivals by each way in are put down (each just inside one of those doors).
+    /// </summary>
+    static bool L52Links(WorldLayout layout)
+    {
+        var (sx, sz) = layout.L52SpawnBlock;
+        double Km(int x, int z) => Math.Sqrt((double)(x - sx) * (x - sx) + (double)(z - sz) * (z - sz)) / 1000.0;
+        Tile At(int x, int z)
+        {
+            int mx = WorldLayout.MacroOf(x), mz = WorldLayout.MacroOf(z);
+            return layout.BuildMacro(mx, mz)[WorldLayout.TileIndex(x - mx * WorldLayout.MacroSize, z - mz * WorldLayout.MacroSize)];
+        }
+        int bad = 0;
+
+        // The city
+        var (cmx, cmz, crad) = layout.L52City;
+        Console.WriteLine($"spawn block {sx},{sz}; the city: centre cell {cmx},{cmz}, radius {crad} cells ({crad * 32 / 1000.0:0.#} km)");
+        Console.WriteLine("high schools nearest spawn (Level 11; the left door as seen from the street):");
+        foreach (var s in layout.L52NearestSchools(5))
+        {
+            Tile t = At(s.DoorX, s.DoorZ);
+            bool ok = t.Level == 11 && t.Under == Unders.L52SchoolDoor;
+            if (!ok) bad++;
+            Console.WriteLine($"  door {s.DoorX},{s.DoorZ} facing {s.Facing}, lot {s.X1 - s.X0 + 1} wide, block {s.Bi},{s.Bj}: {Km(s.DoorX, s.DoorZ):0.00} km from spawn{(ok ? "" : "  BAD: not built")}");
+        }
+        // Density: every block of a window round the city's middle
+        int blocks = 0, schools = 0, candidates = 0;
+        var doors = new List<(int X, int Z)>();
+        int bi0 = -60, bi1 = 60, bj0 = -75, bj1 = 75;
+        for (int bj = bj0; bj <= bj1; bj++)
+            for (int bi = bi0; bi <= bi1; bi++)
+            {
+                int gx = layout.CityOriginX + bi * WorldLayout.AvePitch + WorldLayout.AvePitch / 2, gz = layout.CityOriginZ + bj * WorldLayout.StreetPitch + WorldLayout.StreetPitch / 2;
+                if (layout.LevelAt(WorldLayout.MacroOf(gx), WorldLayout.MacroOf(gz)) != 11) continue;
+                blocks++;
+                var near = layout.L52SchoolsNear(gx, gz, 0);
+                if (near.Count > 0) { schools++; doors.Add((near[0].DoorX, near[0].DoorZ)); }
+            }
+        candidates = (int)Math.Round(blocks * WorldLayout.L52SchoolBlockChance);
+        double km2 = blocks * WorldLayout.AvePitch * WorldLayout.StreetPitch / 1e6;
+        double nn = 0;
+        foreach (var a in doors)
+        {
+            double best = double.MaxValue;
+            foreach (var b in doors) if (a != b) best = Math.Min(best, Math.Sqrt((double)(a.X - b.X) * (a.X - b.X) + (double)(a.Z - b.Z) * (a.Z - b.Z)));
+            nn += best;
+        }
+        Console.WriteLine($"city window {bi1 - bi0 + 1} x {bj1 - bj0 + 1} blocks round its middle: {blocks} blocks ({km2:0.0} km2), {schools} high schools "
+            + $"(about {candidates} blocks drawn for one; the rest had no lot for it): {schools / km2:0.00} per km2, one per {(schools > 0 ? blocks / (double)schools : 0):0} blocks; "
+            + $"mean distance to the next {(doors.Count > 1 ? nn / doors.Count / 1000 : 0):0.00} km");
+
+        // Level 4
+        Console.WriteLine("EMERGENCY EXIT doors nearest spawn (Level 4):");
+        var exits = layout.L52NearestExits(5);
+        foreach (var (x, z, f) in exits)
+        {
+            Tile t = At(x, z);
+            bool ok = t.Level == 4 && t.Under == Unders.L52ExitDoor && t.Kind == TileKind.Wall;
+            if (!ok) bad++;
+            Console.WriteLine($"  door {x},{z} facing {f}: {Km(x, z):0.00} km from spawn{(ok ? "" : "  BAD")}");
+        }
+        // Density: of the Level 4 cells drawn for one, how many had a wall for it (the first 200 out from spawn)
+        int drawn = 0, built = 0;
+        for (int r = 1; r < 8000 && drawn < 200; r++)
+            for (int dz = -r; dz <= r && drawn < 200; dz++)
+                for (int dx = -r; dx <= r && drawn < 200; dx += Math.Abs(dz) == r ? 1 : 2 * r)
+                {
+                    int mx = sx / 32 + dx, mz = sz / 32 + dz;
+                    if (!layout.L52ExitCell(mx, mz) || layout.LevelAt(mx, mz) != 4) continue;
+                    drawn++;
+                    if (layout.L52ExitIn(mx, mz) != null) built++;
+                }
+        double perKm2 = 1e6 / 1024.0 * WorldLayout.L52ExitCellChance * built / Math.Max(1, drawn);
+        Console.WriteLine($"Level 4 cells drawn for one: {drawn}, with a wall for it: {built}; {perKm2:0.00} per km2 of Level 4, one to about every {1 / Math.Max(1e-9, perKm2):0.0} km2");
+
+        // The campus side
+        var (mi, mj) = layout.L52MarshallDavid;
+        var md = layout.L52CampusOf(mi, mj);
+        int quad = 0, wing = 0;
+        for (int v = 0; v < md.D; v++)
+            for (int u = 0; u < md.W; u++)
+            {
+                if (md.At(u, v).Under == Unders.L52QuadDoor) quad++;
+                if (md.At(u, v).Under == Unders.L52WingDoor) wing++;
+            }
+        Console.WriteLine($"Marshall David: {quad} tiles of quad front doors, {wing} of teaching-block end doors that can be a way back");
+        foreach (var (name, door) in new[] { ("from a high school", (Func<Tile, bool>)WorldLayout.IsL52QuadDoor), ("from an emergency exit", WorldLayout.IsL52WingDoor) })
+        {
+            int beside = 0, on = 0;
+            var seen = new HashSet<(int, int)>();
+            for (ulong k = 1; k <= 10; k++)
+            {
+                if (layout.FindArrival(WorldLayout.Level52, k * 7919, door, spot: WorldLayout.IsL52InsideDoorSpot) is not { } a) continue;
+                if (layout.FeatureBeside(a.X, a.Z, door) is { } f) { beside++; seen.Add(f); }
+                if (layout.L52CampusAt(a.X, a.Z, out _) is { } c) on++;
+            }
+            Console.WriteLine($"  arrivals {name}: 10 tried, {beside} just inside one of those doors ({seen.Count} different doors), {on} on a campus");
+            if (beside < 10) bad++;
+        }
+        Console.WriteLine(bad == 0 ? "52links: OK" : $"52links: {bad} BAD");
+        return true;
+    }
 }

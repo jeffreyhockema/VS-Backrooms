@@ -941,6 +941,24 @@ Reported ways out: a door that opens on somewhere else, most often Level 53. Unc
 — Field Team 9""", w="meg"),
 ]))
 
+# Level 52's ways in and back (the links round, 2026-10-31): the doors you came in by, told in the level; and one note at the
+# end of each host's own track, told where the way in is (the city's high schools, Level 4's emergency exits)
+next(t for t in TRACKS if t.id == "l52").entries.append(E("l52-7", "The doors you came in by", """
+Came in off the street through a school's doors, into a lobby full of lockers, and the doors behind me showed grass. An
+hour later I walked back out through them, and I was on the sidewalk again with HIGH SCHOOL over my head. Any other door
+here is only a door. The ones you came in by remember where you came from. Mark them.
+— Dez""", w="dez"))
+next(t for t in TRACKS if t.id == "l11").entries.append(E("l52-in-11", "High school", """
+Finding: now and then, among the shops and apartment blocks, a brick school three or four storeys high, HIGH SCHOOL in
+brass over a pair of steel doors. Not one of them is a school inside. Through the doors is a lobby with lockers, and
+through the lobby's glass, green hills under a blue sky. The same doors bring you back. I found two in a week's walking.
+— A.L., survey""", w="al"))
+next(t for t in TRACKS if t.id == "l4").entries.append(E("l52-in-4", "Emergency exit", """
+Ruth, there's a steel door here under a green EMERGENCY EXIT sign, in a wall with nothing behind it. I pushed the bar.
+A school corridor, lights on, lockers, and at the end of it doors onto grass and a sky so blue I had to sit down. I went
+back out the same doors and I was under the sign again. I'm going back tomorrow. You'd like it there.
+— Tom""", w="tom"))
+
 # ---------- Level 23, the Petrified Garden (experimental level 28; its own block: tools/gen_23.py writes these keys into
 # the level's block of en.json, this script keeps them up to date in place) ----------
 L23 = 28
