@@ -597,7 +597,10 @@ public sealed partial class WorldGenerator
         {
             int f = Facing(floor.Facing);
             if (h == 1) return floor.Thing == Thing.Fire ? l73Fire[System.Math.Min(2, (int)floor.Kind), f] : l73Silver;
-            return h == 2 ? l73Mantel[f] : l73Silver; // (the chimney breast over the mantel)
+            // A cooking hearth (a cauldron, a spit) stands open two high under its mantel; a room's fire one
+            bool tall = floor.Kind > 0;
+            if (tall && h == 2) return floor.Thing == Thing.Fire ? 0 : l73Silver;
+            return h == (tall ? 3 : 2) ? l73Mantel[f] : l73Silver; // (the chimney breast over the mantel)
         }
         if (h == 1 && floor.Thing != Thing.None) return L73FloorThing(floor.Thing, floor.Facing, floor.Kind);
         if (h == 3 && floor.Thing is Thing.BedHead or Thing.BedFoot && (floor.Kind & WorldLayout.L73Canopy) != 0)

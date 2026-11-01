@@ -614,8 +614,9 @@ def worktable_shape(kind):
         box("Shelf", [1, 3, 3], [15, 4, 13], "#oak"),
     ]
     if kind == "pots":
-        els += [box("Pot", [2, 15, 3], [7, 19, 8], "#copper"), box("Pan", [9, 15, 4], [14, 16, 9], "#iron"),
-                box("Bowl", [9, 15, 10], [12, 17, 13], "#copper"), box("Loaf", [3, 15, 10], [7, 17, 13], "#bread"),
+        els += [box("Pot", [2.5, 15, 3.5], [6, 17.5, 7], "#copper"), box("PotRim", [2, 17.5, 3], [6.5, 18, 7.5], "#copper"),
+                box("Pan", [9, 15, 4], [13, 15.8, 8], "#iron"), box("Handle", [13, 15.2, 5.6], [15.5, 15.6, 6.4], "#iron"),
+                box("Bowl", [9.5, 15, 10], [12, 16.3, 12.5], "#copper"), box("Loaf", [3, 15, 10], [6.5, 16.6, 12.5], "#bread"),
                 box("Kettle", [3, 4, 5], [7, 8, 9], "#iron")]
     else:
         els += [box("Haunch", [3, 15, 4], [10, 18.5, 10], "#meat"), box("Cleaver", [11, 15, 5], [14, 15.5, 9], "#iron"),

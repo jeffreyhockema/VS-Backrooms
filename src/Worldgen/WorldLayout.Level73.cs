@@ -727,10 +727,12 @@ public sealed partial class WorldLayout
         // chimney breast above; (ku, kv) its first jamb, running along (du, dv); the fires' kinds (0 logs, 1 a cauldron, 2 a spit)
         void Fireplace(int ku, int kv, int s, ArchPier facing, int du, int dv, int fire1 = 0, int fire2 = 0)
         {
-            Put(ku, kv, s, L73Thing.Jamb, facing);
+            // (a cooking hearth, with a cauldron or a spit, is open two high: its jambs say so with kind 1)
+            int tall = fire1 > 0 || fire2 > 0 ? 1 : 0;
+            Put(ku, kv, s, L73Thing.Jamb, facing, tall);
             Put(ku + du, kv + dv, s, L73Thing.Fire, facing, fire1);
             Put(ku + 2 * du, kv + 2 * dv, s, L73Thing.Fire, facing, fire2);
-            Put(ku + 3 * du, kv + 3 * dv, s, L73Thing.Jamb, facing);
+            Put(ku + 3 * du, kv + 3 * dv, s, L73Thing.Jamb, facing, tall);
         }
 
         // ---- Guest rooms, six: two large canopied beds each, heads to the cross wall, nightstands, chests at their feet,
