@@ -15,6 +15,10 @@
       <HintPath>$(VintageStory)\VintagestoryAPI.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="VSSurvivalMod">
+      <HintPath>$(VintageStory)\Mods\VSSurvivalMod.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="modinfo.json" CopyToOutputDirectory="PreserveNewest" />

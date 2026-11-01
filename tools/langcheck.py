@@ -304,7 +304,8 @@ def check_assets(en, idx, problems, notes):
     return missing
 
 
-LANGJSON_SKIP = {"code", "offBlock", "dispenses", "takes", "leavesBottle", "spearEntityCode", "item", "result", "block", "entity"}
+LANGJSON_SKIP = {"code", "offBlock", "dispenses", "takes", "leavesBottle", "spearEntityCode", "item", "result", "block", "entity",
+                 "attribute", "playerAttribute"}  # (config/guide.json: attribute names, not lang keys)
 
 
 def check_json_keys(idx, problems, stub):
@@ -488,6 +489,23 @@ def check_guide(en, problems, stub):
         for g in rewritten + added:
             wanted += ["guide-%s-title" % g, "guide-%s-text" % g]
         wanted += ["guide-bridge-%s" % b for b in bridged]
+        # The pages that learn as you do (src/Guide/DiscoveryPages.cs): every level and creature of config/guide.json,
+        # every gated line, and the index texts the page code asks for
+        table_path = os.path.join(REPO, "assets", "backrooms", "config", "guide.json")
+        if os.path.exists(table_path):
+            table = json.load(open(table_path, encoding="utf-8"))
+            for lid in table.get("levels", []):
+                wanted += ["guide-level-%d-title" % lid, "guide-level-%d-text" % lid]
+            for e in table.get("entities", []):
+                wanted += ["guide-entity-%s-title" % e["code"], "guide-entity-%s-text" % e["code"]]
+            for page, key in (("thresholds", "thresholds"), ("entities", "entityNotes")):
+                for s, lines in enumerate(table.get(key, []), 1):
+                    wanted += ["guide-%s-s%d" % (page, s)] + ["guide-%s-s%d-%d" % (page, s, n) for n in range(1, len(lines) + 1)]
+        else:
+            problems.append(("guide", "assets/backrooms/config/guide.json is missing (python tools/gen_guide.py)"))
+        pf = os.path.join(REPO, "src", "Guide", "DiscoveryPages.cs")
+        if os.path.exists(pf):
+            wanted += re.findall(r'"(guide-index-[a-z\-]+)"', open(pf, encoding="utf-8-sig").read())
         for k in wanted:
             if k not in en:
                 problems.append(("guide", "src/GuideSystem.cs: handbook text %s is not in assets/backrooms/lang/en.json" % k))

@@ -1,0 +1,80 @@
+description: The handbook learns as you do - a new player has visited only Level 0 and met nothing; a goto marks Level 1; a Hound in creative (it does not attack) is not met while you look at the ceiling, even four blocks from it, and is met once looked at for a second; What Lives Here, the Hound's page, The Levels, a level page and Ways Between Levels show only that, and hidden pages stay out of the list and search (read by eye from the screenshots, and from the hbfilter lines).
+steps:
+  - bot: closeguis
+  - bot: wait 3000
+  - cmd: /backrooms discover status
+  - expect_chat: "visited 1 (0); met 0 of"
+  - bot: handbook backrooms-entities
+  - bot: hbscroll 1
+  - shot: disc-new-entities
+  - bot: handbook backrooms-thresholds
+  - bot: hbscroll 1
+  - shot: disc-new-ways
+  - bot: hbfilter -
+  - expect_log: "hbfilter '': 9 backrooms pages: backrooms-home backrooms-finding backrooms-salvage backrooms-food backrooms-rest backrooms-levels backrooms-level-0 backrooms-thresholds backrooms-entities"
+  - bot: closeguis
+  - cmd: /backrooms goto 1
+  - bot: movewait
+  - bot: ready 48
+  - cmd: /backrooms discover status
+  - expect_chat: "visited 2 (0, 1); met 0 of"
+  - cmd: /gamemode creative
+  - cmd: /backrooms encounter hound hunt
+  - bot: look 0 85
+  - bot: wait 2500
+  - cmd: /backrooms discover status
+  - expect_chat: "visited 2 (0, 1); met 0 of"
+  - bot: approach hound 4
+  - bot: look 0 85
+  - bot: wait 2000
+  - cmd: /backrooms discover status
+  - expect_chat: "visited 2 (0, 1); met 0 of"
+  - bot: lookat hound
+  - bot: wait 400
+  - bot: lookat hound
+  - bot: wait 400
+  - bot: lookat hound
+  - bot: wait 400
+  - bot: lookat hound
+  - bot: wait 400
+  - bot: lookat hound
+  - shot: disc-hound
+  - cmd: /backrooms discover status
+  - expect_chat: "met 1 of 29 (hound)"
+  - cmd: /gamemode survival
+  - cmd: /backrooms goto 0
+  - bot: movewait
+  - bot: ready 48
+  - bot: handbook backrooms-entities
+  - shot: disc-entities-top
+  - bot: hbscroll 1
+  - shot: disc-entities-bottom
+  - bot: handbook backrooms-entity-hound
+  - shot: disc-hound-page
+  - bot: handbook backrooms-entity-smiler
+  - shot: disc-smiler-hidden
+  - bot: handbook backrooms-levels
+  - shot: disc-levels-top
+  - bot: hbscroll 1
+  - shot: disc-levels-bottom
+  - bot: handbook backrooms-level-1
+  - shot: disc-level-1
+  - bot: handbook backrooms-thresholds
+  - shot: disc-ways-top
+  - bot: hbscroll 1
+  - shot: disc-ways-bottom
+  - bot: hbfilter -
+  - expect_log: "backrooms-level-0 backrooms-level-1 backrooms-thresholds backrooms-entities backrooms-entity-hound"
+  - bot: hbfilter smile
+  - expect_no_log: "backrooms-entity-smiler"
+  - bot: closeguis
+  - cmd: /backrooms discover all
+  - expect_chat: "met 29 of 29"
+  - bot: handbook backrooms-entities
+  - bot: hbscroll 1
+  - shot: disc-all-entities-bottom
+  - bot: handbook backrooms-levels
+  - bot: hbscroll 1
+  - shot: disc-all-levels-bottom
+  - bot: closeguis
+  - expect_no_log: "Exception:"
