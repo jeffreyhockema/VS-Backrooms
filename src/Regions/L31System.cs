@@ -30,6 +30,11 @@ namespace Backrooms.Regions;
 /// <item><b>Do not stay</b> (Wikidot): after a day and a half in the level, and every half day after, the Coach finds the
 /// player by name and tells them it is time to go.</item>
 /// <item>The arcade's <b>green-card dispenser</b> drops a green card for anyone without one.</item>
+/// <item><b>Stealing skates</b> (Fandom; the links round): a pair can be lifted out of Skate Rental's cubbies, but whoever
+/// walks out of the rental with it noclips into Level 0 without it (Thresholds.ThresholdSystem.L31Steal); and whoever leaves
+/// the level by any way with the rink's skates about them likewise (ThresholdSystem.L31Redirect, <see cref="TakeSkates"/>).</item>
+/// <item>The Coach's "lead me out" (<c>l31-leadout</c>, his dialogue's trigger) marks the nearest revolving door on the
+/// player's map (Wikidot: he "leads you out if asked").</item>
 /// </list>
 /// </summary>
 public class L31System : ModSystem
@@ -64,6 +69,7 @@ public class L31System : ModSystem
     {
         api.RegisterEntity("BackroomsL31Staff", typeof(EntityL31Staff));
         api.RegisterBlockBehaviorClass("BackroomsL31Dispenser", typeof(BlockBehaviorL31Dispenser));
+        api.RegisterBlockBehaviorClass("BackroomsL31SkateShelf", typeof(BlockBehaviorL31SkateShelf));
     }
 
     public override void AssetsFinalize(ICoreAPI api)
@@ -71,6 +77,8 @@ public class L31System : ModSystem
         foreach (Block block in api.World.Blocks)
             if (block?.Code?.Domain == "backrooms" && block.Code.Path.StartsWith("l31-dispenser-", StringComparison.Ordinal))
                 BehaviorInjection.Add(block, new BlockBehaviorL31Dispenser(block));
+            else if (block?.Code?.Domain == "backrooms" && block.Code.Path.StartsWith("l31-skateshelf-", StringComparison.Ordinal))
+                BehaviorInjection.Add(block, new BlockBehaviorL31SkateShelf(block));
     }
 
     public override void StartServerSide(ICoreServerAPI api)
@@ -91,7 +99,9 @@ public class L31System : ModSystem
 
         api.ChatCommands.Get("backrooms")?
             .BeginSubCommand("l31")
-                .WithDescription("Level 31 (testing): 'staff' puts the staff (the Coach, the food court's server, the DJ) at their spots near you now; 'shadow' tries to put a shadow figure down in a dark spot near you")
+                .WithDescription("Level 31 (testing): 'staff' puts the staff (the Coach, the food court's server, the DJ) at their spots near you now; 'shadow' tries to put a shadow figure down in a dark spot near you; "
+                    + "the ways in and out, as a player: 'door2', 'door3', 'door6' take you to the wooden door nearest spawn in that level and through it; 'door' through the wooden door beside you; "
+                    + "'revolving' to the nearest revolving door and through it; 'skates' gives you the Coach's skates, 'steal' a pair from the cubbies; 'where' logs where you are and your skates")
                 .WithArgs(api.ChatCommands.Parsers.Word("what"))
                 .RequiresPrivilege(Privilege.controlserver)
                 .HandleWith(OnCommand)
@@ -101,6 +111,7 @@ public class L31System : ModSystem
     private TextCommandResult OnCommand(TextCommandCallingArgs args)
     {
         if (layout == null) return TextCommandResult.Error("Not a Backrooms world");
+        if (args.Caller.Player is IServerPlayer caller && LinkTest(caller, (string)args[0]) is { } tested) return tested;
         var players = PlayersHere();
         if (players.Count == 0) return TextCommandResult.Error("Nobody is in Level 31");
         switch ((string)args[0])
@@ -156,6 +167,9 @@ public class L31System : ModSystem
             if (e == null) continue;
             bool here = e.Alive && In31(e.Pos);
             Skates(player, e, here);
+            // Out of Skate Rental with a pair from the cubbies: noclipped into Level 0, without them
+            if (here && TileAt(e.Pos.X, e.Pos.Z).Zone != (byte)Zone.Rental && HasStolen(player))
+                sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>()?.L31Steal(player);
             if (!here)
             {
                 arrived.Remove(player.PlayerUID);
@@ -256,6 +270,7 @@ public class L31System : ModSystem
                 if (role != WorldLayout.L31Coach) person.WatchedAttributes.SetInt("textureIndex", role == WorldLayout.L31Dj ? 1 : 0);
                 person.WatchedAttributes.SetInt("l31role", role);
                 sapi.World.SpawnEntity(person);
+                if (role == WorldLayout.L31Coach) HearLeadOut(person);
                 staff[(x, z)] = person;
             }
     }
@@ -392,6 +407,201 @@ public class L31System : ModSystem
         }
     }
 
+    // ================= Testing the ways in and out as a player =================
+
+    private TextCommandResult LinkTest(IServerPlayer player, string what)
+    {
+        var thresholds = sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>();
+        EntityPos pos = player.Entity.Pos;
+        int px = (int)Math.Floor(pos.X), pz = (int)Math.Floor(pos.Z);
+        void Report(string label) => sapi.Event.RegisterCallback(_ => LogWhere(player, label), 6000);
+        switch (what)
+        {
+            case "door2" or "door3" or "door6":
+            {
+                int host = what[4] - '0';
+                var (sx, sz) = layout.FindSpawn();
+                if (layout.L31NearestHostDoor(host, WorldLayout.MacroOf(sx), WorldLayout.MacroOf(sz)) is not { } door)
+                    return TextCommandResult.Error($"No wooden door found in Level {host}");
+                var (fx, fz) = Step(door.Facing);
+                int floor = geometry.FloorFor(host);
+                var at = new BlockPos(door.X, floor + 1, door.Z);
+                sapi.Logger.Notification("[backrooms] l31 test {0}: the wooden door at {1}, {2} facing {3}; standing at {4}, {5}", what, door.X, door.Z, door.Facing, door.X + fx, door.Z + fz);
+                player.Entity.TeleportToDouble(door.X + fx + 0.5, floor + 1.05, door.Z + fz + 0.5, () =>
+                    sapi.Event.RegisterCallback(_ =>
+                    {
+                        LogWhere(player, what + " before");
+                        thresholds?.Use(player, at, "l31-door");
+                        Report(what + " after");
+                    }, 1500));
+                return TextCommandResult.Success($"To the wooden door at {door.X}, {door.Z} in Level {host}, and through it");
+            }
+            case "door":
+            {
+                for (int r = 1; r <= 4; r++)
+                    for (int dz = -r; dz <= r; dz++)
+                        for (int dx = -r; dx <= r; dx++)
+                        {
+                            Tile t = layout.TileAt(px + dx, pz + dz);
+                            if (!WorldLayout.IsL31LobbyDoor(t) && !WorldLayout.IsL31HostDoor(t)) continue;
+                            LogWhere(player, "door before");
+                            thresholds?.Use(player, new BlockPos(px + dx, geometry.FloorFor(t.Level) + 1, pz + dz), "l31-door");
+                            Report("door after");
+                            return TextCommandResult.Success($"Through the wooden door at {px + dx}, {pz + dz}");
+                        }
+                return TextCommandResult.Error("No wooden door beside you");
+            }
+            case "revolving":
+            {
+                (int X, int Z) from = In31(pos) ? (px, pz) : (layout.L31CentreX * WorldLayout.MacroSize, layout.L31CentreZ * WorldLayout.MacroSize);
+                if (layout.L31NearestRevolving(from.X, from.Z) is not { } door) return TextCommandResult.Error("No revolving door near");
+                // (In the lobby, a couple of steps in front of the drum: its middle tile faces into the lobby)
+                var (fx, fz) = Step(layout.TileAt(door.X, door.Z).Pier);
+                int floor = geometry.FloorFor(WorldLayout.Level31);
+                var at = new BlockPos(door.X, floor + 1, door.Z);
+                player.Entity.TeleportToDouble(door.X + 2 * fx + 0.5, floor + 1.05, door.Z + 2 * fz + 0.5, () =>
+                    sapi.Event.RegisterCallback(_ =>
+                    {
+                        LogWhere(player, "revolving before");
+                        thresholds?.Use(player, at, "l31-revolving");
+                        Report("revolving after");
+                    }, 1500));
+                return TextCommandResult.Success($"To the revolving door at {door.X}, {door.Z} (to Level {layout.L31RevolvingTarget(door.X, door.Z)}), and through it");
+            }
+            case "skates" or "steal":
+            {
+                Item skates = sapi.World.GetItem(new AssetLocation("backrooms:l31-skates"));
+                if (skates == null) return TextCommandResult.Error("No skates item");
+                var stack = new ItemStack(skates);
+                if (what == "steal") stack.Attributes.SetBool(StolenKey, true);
+                player.InventoryManager.TryGiveItemstack(stack, slotNotifyEffect: true);
+                Report(what);
+                return TextCommandResult.Success(what == "steal" ? "A pair from the cubbies" : "The Coach's skates");
+            }
+            case "where":
+                LogWhere(player, "where");
+                return TextCommandResult.Success("Logged");
+        }
+        return null;
+    }
+
+    private static (int Dx, int Dz) Step(ArchPier facing) => facing switch
+    {
+        ArchPier.North => (0, -1), ArchPier.South => (0, 1), ArchPier.East => (1, 0), _ => (-1, 0),
+    };
+
+    private void LogWhere(IServerPlayer player, string label)
+    {
+        if (player.Entity == null) return;
+        EntityPos p = player.Entity.Pos;
+        int x = (int)Math.Floor(p.X), z = (int)Math.Floor(p.Z);
+        int skates = 0, stolen = 0;
+        player.Entity.WalkInventory(slot =>
+        {
+            if (IsSkates(slot?.Itemstack))
+            {
+                skates++;
+                if (slot.Itemstack.Attributes.GetBool(StolenKey)) stolen++;
+            }
+            return true;
+        });
+        Tile t = layout.TileAt(x, z);
+        sapi.Logger.Notification("[backrooms] l31 test {0}: {1} in level {2} at {3:0.0}, {4:0.0}, {5:0.0} (zone {6}); skates {7} ({8} from the cubbies); beside: {9}",
+            label, player.PlayerName, t.Level, p.X, p.Y, p.Z, t.Zone, skates, stolen, Beside(x, z));
+    }
+
+    /// <summary>What wooden or revolving door stands beside a tile, for the test log.</summary>
+    private string Beside(int x, int z)
+    {
+        for (int dz = -2; dz <= 2; dz++)
+            for (int dx = -2; dx <= 2; dx++)
+            {
+                Tile t = layout.TileAt(x + dx, z + dz);
+                if (WorldLayout.IsL31LobbyDoor(t)) return $"a lobby's wooden door at {x + dx}, {z + dz}";
+                if (WorldLayout.IsL31HostDoor(t)) return $"a wooden door into the rink at {x + dx}, {z + dz}";
+                if (WorldLayout.IsL31Revolving(t)) return $"a revolving door at {x + dx}, {z + dz}";
+            }
+        return "nothing of the rink's";
+    }
+
+    // ================= The ways out =================
+
+    private const string StolenKey = "l31stolen";
+
+    private static bool IsSkates(ItemStack stack) => stack?.Collectible?.Attributes?["l31skates"].AsBool(false) == true;
+
+    /// <summary>Whether a player has a pair of skates from the cubbies about them (not the Coach's).</summary>
+    public static bool HasStolen(IServerPlayer player)
+    {
+        bool has = false;
+        player.Entity?.WalkInventory(slot =>
+        {
+            if (IsSkates(slot?.Itemstack) && slot.Itemstack.Attributes.GetBool(StolenKey)) has = true;
+            return !has;
+        });
+        return has;
+    }
+
+    /// <summary>Takes every pair of the rink's skates off a player (worn or carried); whether there were any.</summary>
+    public static bool TakeSkates(IServerPlayer player)
+    {
+        bool any = false;
+        player.Entity?.WalkInventory(slot =>
+        {
+            if (!IsSkates(slot?.Itemstack)) return true;
+            slot.Itemstack = null;
+            slot.MarkDirty();
+            any = true;
+            return true;
+        });
+        return any;
+    }
+
+    /// <summary>A pair lifted out of Skate Rental's cubbies (one at a time), marked as nobody's loan.</summary>
+    public static void LiftSkates(IServerPlayer player, BlockPos pos)
+    {
+        if (HasStolen(player))
+        {
+            Say(player, "backrooms:l31-skates-have");
+            return;
+        }
+        IWorldAccessor world = player.Entity.World;
+        Item skates = world.GetItem(new AssetLocation("backrooms:l31-skates"));
+        if (skates == null) return;
+        var stack = new ItemStack(skates);
+        stack.Attributes.SetBool(StolenKey, true);
+        if (!player.InventoryManager.TryGiveItemstack(stack, slotNotifyEffect: true) || stack.StackSize > 0)
+            world.SpawnItemEntity(stack, pos.ToVec3d().Add(0.5, 1.1, 0.5));
+        world.PlaySoundAt(new AssetLocation("game:sounds/player/build"), pos.X + 0.5, pos.Y + 0.5, pos.Z + 0.5, null, true, 8);
+        Say(player, "backrooms:l31-skates-take");
+    }
+
+    /// <summary>The Coach hears "lead me out" (his dialogue's <c>l31-leadout</c> trigger) and marks the nearest revolving door.</summary>
+    private void HearLeadOut(Entity coach)
+    {
+        if (coach.GetBehavior<Vintagestory.GameContent.EntityBehaviorConversable>() is not { } talk) return;
+        talk.OnControllerCreated += controller => controller.DialogTriggers += (who, value, data) =>
+        {
+            if (value != "l31-leadout") return -1;
+            if (who is EntityPlayer { Player: IServerPlayer player }) LeadOut(player);
+            return 0;
+        };
+    }
+
+    private void LeadOut(IServerPlayer player)
+    {
+        if (layout == null || player.Entity == null) return;
+        EntityPos pos = player.Entity.Pos;
+        if (layout.L31NearestRevolving((int)Math.Floor(pos.X), (int)Math.Floor(pos.Z)) is not { } door)
+        {
+            Say(player, "backrooms:l31-coach-leadout-none");
+            return;
+        }
+        var at = new Vec3d(door.X + 0.5, geometry.FloorFor(WorldLayout.Level31) + 1, door.Z + 0.5);
+        Map.MapMarks.Add(sapi, player, at, Lang.Get("backrooms:l31-waypoint-revolving"), "spiral", Map.MapMarks.WayColorTo(layout.L31RevolvingTarget(door.X, door.Z)), 6, tell: false);
+        Say(player, "backrooms:l31-coach-leadout");
+    }
+
     // ================= The card dispenser =================
 
     public static void Dispense(IServerPlayer player, BlockPos pos)
@@ -463,6 +673,29 @@ public class BlockBehaviorL31Dispenser : BlockBehavior
     {
         handling = EnumHandling.PreventDefault;
         if (world.Side == EnumAppSide.Server && byPlayer is IServerPlayer player) L31System.Dispense(player, blockSel.Position);
+        return true;
+    }
+}
+
+/// <summary>Skate Rental's cubbies: lift out a pair (Fandom's thief: noclipped to Level 0 on leaving the rental with it).</summary>
+public class BlockBehaviorL31SkateShelf : BlockBehavior
+{
+    private WorldInteraction[] help;
+
+    public BlockBehaviorL31SkateShelf(Block block) : base(block)
+    {
+    }
+
+    public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer, ref EnumHandling handling)
+    {
+        help ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l31-skateshelf", MouseButton = EnumMouseButton.Right } };
+        return help;
+    }
+
+    public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
+    {
+        handling = EnumHandling.PreventDefault;
+        if (world.Side == EnumAppSide.Server && byPlayer is IServerPlayer player) L31System.LiftSkates(player, blockSel.Position);
         return true;
     }
 }

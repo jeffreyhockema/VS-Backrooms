@@ -1039,6 +1039,8 @@ public static class Unders
     /// <summary>Level 52: an outside wall with a window bay in every storey; a wall with a bank of lockers on its Pier face.</summary>
     public const ushort L52Window = 320, L52Locker = 321;
     public const ushort L31First = 352, L31Last = 383;
+    /// <summary>Level 31: a wooden door into the rink in a wall of Level 2, 3 or 6 (Pier the way it faces); a lobby's wooden door (the way back; a wall tile of the level's); a tile of a revolving door (Stack 0-2, 1 the drum's middle; Pier into the lobby).</summary>
+    public const ushort L31HostDoor = 352, L31LobbyDoor = 353, L31Revolving = 354;
     public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
     public const ushort L15First = 448, L15Last = 479;

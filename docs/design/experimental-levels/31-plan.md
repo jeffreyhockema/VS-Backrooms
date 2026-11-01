@@ -300,3 +300,87 @@ and small TVs as wall-hung sets, the lounge's stock room, arrivals turned toward
 **Still weak:** the rink's upper walls and ceiling are a dark void above the lit boards (as a dimmed rink is, but large);
 bathrooms are open rows of toilets with no stalls; HVAC and store rooms are plain; the cinema stays very dark away from
 its screens (by the lore).
+
+## Links (2026-10-31)
+
+The level stops being cheats-only: the ways in and out LINKS.md settles for it ("Level 31"), from the lore.
+
+**Built.**
+- **In: the wooden door** (Wikidot: "a wooden door in Level 2 or Level 3 that has music playing on the other side";
+  Fandom: Levels 3 and 6, "even less frequent in Level 6", "simpler to locate when it occurs"). A varnished four-panel
+  wooden door (`l31-door`, `tools/gen_31_links.py`) set in one wall tile of the host's own wall: Level 2's tunnel
+  concrete, Level 3's red brick where the cell has any ("the wooden door within the brick walls of a long-forgotten
+  electrical station"; else its cinder block or glazed tile), Level 6's dark wall. Solid wall behind it and on either
+  side, open floor in front, so it reads as a door that should not be there. Within 18 blocks you hear 2000s bubblegum
+  pop through it (`sounds/ambient/31/doorpop.ogg`: 128 bpm, claps, octave bass, a sing-song lead, low-passed and boomy as
+  through a door; a positional loop on the client, `AtmosphereSystem.L31.cs`). One cell in 1200 of Levels 2 and 3 rolls
+  one, one in 2400 of Level 6 (`WorldLayout.Level31.Links.cs`, salts 0x2420/0x2424; never the spawn cell, the
+  Snackrooms, or a tile anything else took; `Unders.L31HostDoor` 352). **Two-way** (walked through): it opens in a lobby of
+  the rink beside the lobby's own wooden door (`Unders.L31LobbyDoor` 353, in every lobby's back wall), which leads back to
+  where you stood. A lobby door nobody came in by is locked.
+- **Out: the Revolving Door** (Fandom: "Going through The Revolving Door will land one in either Level 9, 10, or 11"). In
+  the front wall of one lobby in twelve, east of the front doors: Level 3999's glass drum (its shapes, `l31-revolvingdoor`
+  with its own threshold kind `l31-revolving`; `Unders.L31Revolving` 354, three tiles, the middle one draws it). Use it:
+  **one-way**, to Level 9, 10 or 11, each door always the same one (a third each by the hash of its middle tile, salt
+  0x2429). The Coach's "Can you lead me out?" now walks you to the nearest and marks it on your map (Wikidot: he "leads
+  you out if asked"; the dialogue's `l31-leadout` trigger, `Regions/L31System.cs`).
+- **Out: stealing skates** (Fandom: "trying to steal any roller skates ... an immediate noclip to Level 0, without skates").
+  Skate Rental's cubbies now give a pair on right-click; walk out of the rental with it and you noclip into the Lobby, the
+  skates gone (`ThresholdSystem.L31Steal`, one-way). The Coach's skates are on loan: leave the level by any way with them
+  about you and you come out in Level 0 instead of where the way leads, without them (`ThresholdSystem.L31Redirect`; what
+  the way leads to stays written down for the next one through).
+- **Text:** the handbook's "Ways in and out" paragraph (en.json only: `tools/gen_guide.py`'s `PAGES["level31"]` still has
+  the old one, see below), the hint ("Safe, and it feels like home. Don't stay. The revolving doors lead out; the skates
+  do not."), the Coach's out lines and lesson line, arrival and passage messages, the cubbies' help, block names. Three
+  notes in the hosts' own tracks under the level's keys (`gen_notes.py`, the L31 block): `l31-in2` (Dez, Level 2: music in
+  the pipes, "Pell would have"), `l31-in3` (M.E.G. notice, Level 3: the door in the brick, safe, leads back; the revolving
+  doors one way), `l31-in6` (a hand in the dark, Level 6: "Go toward the music"). Levels 40, 70, 232, 25 and 30 stay
+  rumours (the white 70 door and the EMPLOYEES ONLY door are painted shut).
+- **Harness:** `mapgen <seed> <cells> 31links [reach]`; `L31UseKind` for the `links` mode. **Showcase:** `lobbydoor`,
+  `revolving` (inside the lobby), `door-l2`, `door-l3`, `door-l6` (four steps in front of the nearest to spawn).
+- **Dev:** `/backrooms l31 door2|door3|door6|door|revolving|skates|steal|where` go through the ways as a player and log
+  where they end up.
+
+**Numbers** (seed 12345, full size, `31links`): Level 2 about 6.5 km2, 8 doors (1.2 per km2, one per 900 blocks
+square), nearest 1369 blocks from spawn; Level 3 about 10.8 km2, 6 doors (0.56 per km2, one per 1340), nearest 2333;
+Level 6 about 18.6 km2, 7 doors (0.38 per km2, one per 1630), nearest 3730. In the level: 20092 complexes, 17997 lobbies
+with a wooden door, 1448 revolving doors (4.4 per km2, about one per 480 blocks square; 518 to Level 9, 456 to 10, 474 to
+11), the nearest 39 blocks from the region's centre.
+
+**Own inventions:** the door's look (four panels, brass knob), the music itself and its 18-block reach; Level 3's brick
+preferred; the lobby's wooden door as the way back and its place in the lobby's back wall; one lobby in twelve with a
+revolving door, in its front wall; the thirds between 9, 10 and 11; the cubbies giving a pair (how one "steals"); the
+Coach marking the revolving door on your map; the rates (the progression rule's quarter, Level 6 half that).
+
+**Rows for the guide's ways-between-levels table** (for the lead):
+
+| From | Way | To | |
+|---|---|---|---|
+| Level 2, 3, 6 | a wooden door with pop music playing faintly behind it (rare; rarer in Level 6) | Level 31, a lobby | two-way |
+| Level 31 | the Revolving Door in the front of some lobbies | Level 9, 10 or 11 (each door always the same) | one-way |
+| Level 31 | walking out of Skate Rental with skates from the cubbies, or leaving the level with the Coach's | Level 0, without the skates | one-way |
+
+**For `tools/gen_guide.py`** (`PAGES["level31"]`, the last section), the text en.json now has:
+
+> **Ways in and out**
+> In: a wooden door where no door should be, in the tunnels of Level 2, the brick of Level 3 or the dark of Level 6
+> (rarer there), with bubblegum pop playing faintly behind it. You hear it before you see it. It opens on one of the
+> rink's lobbies, beside a wooden door that takes you back the way you came. Out: the **Revolving Door** in the front of
+> some lobbies, to the Suburbs, the fields of Level 10 or the Endless City (each door always to the same one, and no way
+> back through it); ask the Coach the way out and he marks the nearest on your map. **Do not steal the skates:** walk out
+> of Skate Rental with a pair from the cubbies, or leave the level by any way wearing the Coach's, and you noclip into the
+> Lobby, without them. Wanderers also tell of stairs up from Level 30, a white door marked 70 behind the arcades, an
+> EMPLOYEES ONLY door in the food court and an arcade that goes on until it is Level 25; none of them has been found to open.
+
+**Checks.** `expclash` clean; mod and mapgen build, 0 errors. `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash, layout versions 1
+and 12: every line for levels 0-20 and the layout hash identical to main's; with the entrances, the Level 2 and Level 6
+lines and the layout hash move (no door falls in the sampled Level 3 cells), nothing else. `regions` 60/60 for 31;
+`31stats` OK. Headless (port 43132): `/backrooms wayback l31-door` at a door in each of Levels 2, 3 and 6 arrives in a
+lobby beside its wooden door, and that door leads back to the floor in front of the host's door; three revolving doors
+lead to Levels 10, 11 and 10, each of their tiles to the same place; a dummy in 31, `blocksweep` 11175 blocks, 0 threw,
+0 error lines. As a player (client rig, port 43134, `/backrooms l31 ...`): in and back by the doors of Levels 2, 3 and
+6 (back exactly where they stood), out by a revolving door to Level 11, out by it with the Coach's skates to Level 0
+with the skates gone, a pair from the cubbies outside Skate Rental to Level 0 at once, 0 error lines; the shots show the
+lobby's door under the mural, the revolving door's drum in the lobby's front wall, the doors in Level 2's tunnel and
+Level 3's brick (Level 6's door spot shoots black: the level is dark). Gate `--fast` PASS. Not tried in a client: the
+Coach's "lead me out" waypoint (the dialogue trigger), the door music's loudness.

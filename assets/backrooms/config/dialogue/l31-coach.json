@@ -216,6 +216,7 @@
 			"owner": "trader",
 			"type": "talk",
 			"jumpTo": "out2",
+			"trigger": "l31-leadout",
 			"text": [
 				{
 					"value": "backrooms:l31-coach-out"

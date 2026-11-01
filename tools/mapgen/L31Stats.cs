@@ -13,6 +13,7 @@ static partial class LevelModes
     /// </summary>
     static bool L31Modes(WorldLayout layout, string mode, string[] args)
     {
+        if (mode == "31links") return L31Links(layout, args);
         if (mode != "31stats") return false;
         int n = args.Length > 3 && int.TryParse(args[3], out int wn) ? wn : 2;
         bool rim = args.Length > 4 && args[4] == "rim";
@@ -152,5 +153,89 @@ static partial class LevelModes
 
     static string L31LinkLabel(Tile t) => null;
 
-    static string L31UseKind(Tile t) => null;
+    static string L31UseKind(Tile t) =>
+        t.Under is Unders.L31HostDoor or Unders.L31LobbyDoor ? "l31-door" : t.Under == Unders.L31Revolving && t.Stack == 1 ? "l31-revolving" : null;
+
+    /// <summary>
+    /// 31links [cells]: the level's ways in and out for the lead to check their rarity and find them. For each host (Levels 2, 3
+    /// and 6), scanning out from spawn ring by ring to [cells] (default 1600): the host's area (sampled), how many cells roll a
+    /// wooden door and how many hold one, doors per square kilometre and the mean spacing, and the nearest few to spawn
+    /// (position, distance). In the level: the complexes, lobbies with a wooden door, revolving doors (and where each leads), the
+    /// nearest few revolving doors to the region's centre.
+    /// </summary>
+    static bool L31Links(WorldLayout layout, string[] args)
+    {
+        int reach = args.Length > 3 && int.TryParse(args[3], out int r0) ? r0 : 1600;
+        var (sx, sz) = layout.FindSpawn();
+        int smx = WorldLayout.MacroOf(sx), smz = WorldLayout.MacroOf(sz);
+        int[] hosts = { 2, 3, 6 };
+        var sampled = new Dictionary<int, long>();
+        var rolled = new Dictionary<int, int>();
+        var doors = new Dictionary<int, List<(int X, int Z, string Facing, double D)>>();
+        foreach (int h in hosts) { sampled[h] = 0; rolled[h] = 0; doors[h] = new(); }
+        for (int dz = -reach; dz <= reach; dz++)
+            for (int dx = -reach; dx <= reach; dx++)
+            {
+                int mx = smx + dx, mz = smz + dz;
+                bool sample = (dx & 3) == 0 && (dz & 3) == 0;
+                bool any = false;
+                foreach (int h in hosts) any |= layout.L31HostDoorCell(h, mx, mz);
+                if (!sample && !any) continue;
+                int level = layout.LevelAt(mx, mz);
+                if (level is not (2 or 3 or 6)) continue;
+                if (sample) sampled[level]++;
+                if (!layout.L31HostDoorCell(level, mx, mz)) continue;
+                rolled[level]++;
+                Tile[] tiles = layout.BuildMacro(mx, mz);
+                for (int i = 0; i < tiles.Length; i++)
+                    if (tiles[i].Under == Unders.L31HostDoor)
+                    {
+                        int x = mx * WorldLayout.MacroSize + i % WorldLayout.MacroSize, z = mz * WorldLayout.MacroSize + i / WorldLayout.MacroSize;
+                        doors[level].Add((x, z, tiles[i].Pier.ToString(), Math.Sqrt((double)(x - sx) * (x - sx) + (double)(z - sz) * (z - sz))));
+                    }
+            }
+        Console.WriteLine($"Level 31's ways in: spawn {sx},{sz}; scanned {2 * reach + 1} cells square round it");
+        foreach (int h in hosts)
+        {
+            double km2 = sampled[h] * 16.0 * WorldLayout.MacroSize * WorldLayout.MacroSize / 1e6;
+            int n = doors[h].Count;
+            Console.WriteLine($"  Level {h}: about {sampled[h] * 16} cells ({km2:0.0} km2); {rolled[h]} cells rolled a door, {n} hold one; "
+                + $"{(km2 > 0 ? n / km2 : 0):0.00} per km2, one per {(n > 0 ? Math.Sqrt(km2 * 1e6 / n) : 0):0} blocks square");
+            foreach (var d in doors[h].OrderBy(d => d.D).Take(5))
+                Console.WriteLine($"    wooden door at {d.X},{d.Z} facing {d.Facing}, {d.D:0} blocks from spawn");
+        }
+
+        // In the level: every complex wholly inside the region
+        int cx = layout.L31CentreX * WorldLayout.MacroSize + 16, cz = layout.L31CentreZ * WorldLayout.MacroSize + 16;
+        int radius = layout.L31Radius * WorldLayout.MacroSize, wn = radius / WorldLayout.L31Period + 1;
+        int wcx = Hashing.FloorDiv(cx, WorldLayout.L31Period), wcz = Hashing.FloorDiv(cz, WorldLayout.L31Period);
+        int lobbies = 0, complexes = 0;
+        var revolving = new List<(int X, int Z, int To, double D)>();
+        var to = new Dictionary<int, int> { [9] = 0, [10] = 0, [11] = 0 };
+        for (int wz = wcz - wn; wz <= wcz + wn; wz++)
+            for (int wx = wcx - wn; wx <= wcx + wn; wx++)
+            {
+                var (ax, az) = (wx * WorldLayout.L31Period + 66, wz * WorldLayout.L31Period + 66);
+                if (layout.LevelAt(WorldLayout.MacroOf(ax), WorldLayout.MacroOf(az)) != WorldLayout.Level31) continue;
+                complexes++;
+                var plan = layout.L31PlanOf(wx, wz);
+                if (plan.Kind == WorldLayout.L31Kind.Rinks)
+                {
+                    var (lx, lz) = plan.World(WorldLayout.L31LobbyDoorP, WorldLayout.L31LobbyDoorQ);
+                    if (WorldLayout.IsL31LobbyDoor(layout.TileAt(lx, lz))) lobbies++;
+                }
+                if (layout.L31RevolvingOf(wx, wz) is not { } d) continue;
+                Tile t = layout.TileAt(d.X, d.Z);
+                if (!WorldLayout.IsL31Revolving(t) || t.Stack != 1) { Console.WriteLine($"  BAD: revolving door at {d.X},{d.Z} not laid"); continue; }
+                int target = layout.L31RevolvingTarget(d.X, d.Z);
+                to[target]++;
+                revolving.Add((d.X, d.Z, target, Math.Sqrt((double)(d.X - cx) * (d.X - cx) + (double)(d.Z - cz) * (d.Z - cz))));
+            }
+        double area = Math.PI * radius * radius / 1e6;
+        Console.WriteLine($"Level 31: {complexes} complexes, {lobbies} lobbies with a wooden door; {revolving.Count} revolving doors "
+            + $"({revolving.Count / area:0.0} per km2; to Level 9: {to[9]}, 10: {to[10]}, 11: {to[11]})");
+        foreach (var d in revolving.OrderBy(d => d.D).Take(5))
+            Console.WriteLine($"    revolving door at {d.X},{d.Z} to Level {d.To}, {d.D:0} blocks from the region's centre");
+        return true;
+    }
 }

@@ -1,0 +1,324 @@
+// Level 31: the Revolving Door (Fandom), 3 wide and 3 high in the front wall of one lobby in twelve: Level 3999's drum of glass wings (its shapes; center draws the whole of it, side and top are invisible collision). Use it to go through, out to Level 9, 10 or 11, the same one every time (threshold kind l31-revolving)
+{
+	"code": "l31-revolvingdoor",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"center",
+				"side",
+				"top"
+			]
+		},
+		{
+			"code": "facing",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-revolvingdoor-center-north": {
+			"base": "backrooms:block/3999/l3999-revolvingdoor-center"
+		},
+		"l31-revolvingdoor-center-east": {
+			"base": "backrooms:block/3999/l3999-revolvingdoor-center",
+			"rotateY": 270
+		},
+		"l31-revolvingdoor-center-south": {
+			"base": "backrooms:block/3999/l3999-revolvingdoor-center",
+			"rotateY": 180
+		},
+		"l31-revolvingdoor-center-west": {
+			"base": "backrooms:block/3999/l3999-revolvingdoor-center",
+			"rotateY": 90
+		},
+		"l31-revolvingdoor-side-north": {
+			"base": "backrooms:block/3999/l3999-revolvingdoor-side"
+		},
+		"l31-revolvingdoor-side-east": {
+			"base": "backrooms:block/3999/l3999-revolvingdoor-side",
+			"rotateY": 270
+		},
+		"l31-revolvingdoor-side-south": {
+			"base": "backrooms:block/3999/l3999-revolvingdoor-side",
+			"rotateY": 180
+		},
+		"l31-revolvingdoor-side-west": {
+			"base": "backrooms:block/3999/l3999-revolvingdoor-side",
+			"rotateY": 90
+		},
+		"l31-revolvingdoor-top-north": {
+			"base": "backrooms:block/3999/l3999-revolvingdoor-top"
+		},
+		"l31-revolvingdoor-top-east": {
+			"base": "backrooms:block/3999/l3999-revolvingdoor-top",
+			"rotateY": 270
+		},
+		"l31-revolvingdoor-top-south": {
+			"base": "backrooms:block/3999/l3999-revolvingdoor-top",
+			"rotateY": 180
+		},
+		"l31-revolvingdoor-top-west": {
+			"base": "backrooms:block/3999/l3999-revolvingdoor-top",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l31-revolvingdoor-center-north"
+		],
+		"backrooms": [
+			"l31-revolvingdoor-center-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 99999,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"selectionboxByType": {
+		"l31-revolvingdoor-center-north": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 0.6
+		},
+		"l31-revolvingdoor-center-east": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 270
+		},
+		"l31-revolvingdoor-center-south": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 180
+		},
+		"l31-revolvingdoor-center-west": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 90
+		},
+		"l31-revolvingdoor-side-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-revolvingdoor-side-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-revolvingdoor-side-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-revolvingdoor-side-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-revolvingdoor-top-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-revolvingdoor-top-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-revolvingdoor-top-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-revolvingdoor-top-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"l31-revolvingdoor-center-north": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 0.6
+		},
+		"l31-revolvingdoor-center-east": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 270
+		},
+		"l31-revolvingdoor-center-south": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 180
+		},
+		"l31-revolvingdoor-center-west": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.4,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 90
+		},
+		"l31-revolvingdoor-side-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-revolvingdoor-side-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-revolvingdoor-side-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-revolvingdoor-side-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-revolvingdoor-top-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-revolvingdoor-top-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-revolvingdoor-top-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-revolvingdoor-top-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "l31-revolving"
+			}
+		}
+	],
+	"drops": [],
+	"lightHsvByType": {
+		"*-center-*": [
+			51,
+			7,
+			6
+		]
+	}
+}
