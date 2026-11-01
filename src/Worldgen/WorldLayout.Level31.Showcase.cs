@@ -135,7 +135,7 @@ public partial class WorldLayout
                     if (plan.Kind != L31Kind.Rinks) continue;
                     Add("lobbydoor", Spot(plan, L31LobbyDoorP - 2, L31LobbyDoorQ - 6, L31LobbyDoorP, L31LobbyDoorQ, 1.4, p0: 46, q0: 0, p1: 74, q1: 19));
                     if (L31HasRevolving(wx, wz))
-                        Add("revolving", Spot(plan, L31RevolvingP + 1, L31RevolvingQ + 7, L31RevolvingP, L31RevolvingQ, 1.6, p0: 46, q0: 0, p1: 74, q1: 19));
+                        Add("revolving", Spot(plan, L31RevolvingP + 1, L31RevolvingQ + 8, L31RevolvingP, L31RevolvingQ, 2.8, p0: 46, q0: 0, p1: 74, q1: 19));
                 }
 
         foreach (string name in new[] { "rink", "rink-star", "dj", "lobby", "lobby-front", "foodcourt", "rental", "coach", "arcade", "prizes", "cinema",

@@ -993,6 +993,12 @@ public sealed partial class WorldLayout
                     Put(across - 3, 1, Props.PressureTank, toNear, 1);
                     Put(across - 4, 1, Props.PressureTank, toNear);
                     Put(across - 2, len - 3, Props.WaterTank, toNear);
+                    // and the supply duct out of them under the ceiling, the length of the room
+                    for (int v = 1; v <= len - 2; v++)
+                    {
+                        var (dp, dq) = At(4, v);
+                        plan.At(dp, dq).Overhead = door is ArchPier.North or ArchPier.South ? Overheads.L31DuctNS : Overheads.L31DuctWE;
+                    }
                     for (int v = 2; v < len - 2; v += 3) Put(0, v, Props.Radiator, toHighU);
                     bool alongP = door is ArchPier.North or ArchPier.South;
                     for (int u = 0; u < across; u++)
@@ -1078,6 +1084,10 @@ public sealed partial class WorldLayout
                         var (ba, bq) = At(2, 0);
                         var (bb, br) = At(3, 0);
                         L31MountRun(plan, ba, bq, bb, br, "board", toNear);
+                    }
+                    {
+                        var (pp, pq) = At(5, 0);
+                        L31MountRun(plan, pp, pq, pp, pq, "poster" + (p0 + q0 & 3), toNear);
                     }
                     for (int v = 4; v <= len - 5; v += 5)
                         for (int u = 3; u <= lw - 4; u += 5)

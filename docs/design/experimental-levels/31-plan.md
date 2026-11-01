@@ -399,78 +399,83 @@ fixture in the air block in front of a wall, at its own height; `Tile.Pipe` = `P
 `Tile.Depth` which part of which mount), so signs several blocks wide can hang over doors and on the cladding.
 
 **1. Layout realism**
-1. (A) Skate Rental laid out as a real one: the counter across the room with a pass-through, racks of cubbies behind it in
+1. (A) [done] Skate Rental laid out as a real one: the counter across the room with a pass-through, racks of cubbies behind it in
    rows (not one shelf along the wall), the Coach behind the counter; the customers' side with shoe benches in facing rows
    and coin lockers along a side wall.
-2. (A) Food court: a clear walk from the door to the counter (a queue line with stanchions before the till), fewer tables
+2. (A) [done: tables in groups either side of the walk; no queue rail] Food court: a clear walk from the door to the counter (a queue line with stanchions before the till), fewer tables
    in groups, the counter's end with a popcorn machine and a drinks fridge, napkin and straw dispensers on the tables'
    side of the counter.
-3. (A) Arcade: a redemption (prize) corner as one object: glass prize cases as a counter, the prize wall behind it, plush
+3. (A) [done] Arcade: a redemption (prize) corner as one object: glass prize cases as a counter, the prize wall behind it, plush
    on top; a pinball row along a wall; the green-card (token) machines at the doors; a photo booth.
-4. (B) Rink-side: a snack window on the skirt (a counter against the wall with its menu and the SNACKS sign), skate
+4. (B) [done] Rink-side: a snack window on the skirt (a counter against the wall with its menu and the SNACKS sign), skate
    lockers and benches on the side skirts so the skirt reads as the place people sit and lace up.
-5. (B) Lobby: the admission counter facing the front doors with its price board over it, a trophy case, a jukebox, a lost
+5. (B) [partly: no lost and found box] Lobby: the admission counter facing the front doors with its price board over it, a trophy case, a jukebox, a lost
    and found box; the couches as a waiting corner.
-6. (B) Bathrooms as real restrooms: a row of stalls (partitions and doors), a vanity of sinks under mirrors, hand dryers,
+6. (B) [done] Bathrooms as real restrooms: a row of stalls (partitions and doors), a vanity of sinks under mirrors, hand dryers,
    a bin; the stalls on the far wall, sinks by the door.
-7. (C) HVAC rooms with an air handler (a big unit) and pressure tanks rather than scattered props; store rooms as the
+7. (C) [done] HVAC rooms with an air handler (a big unit) and pressure tanks rather than scattered props; store rooms as the
    rink's stock and skate-repair room (a workbench, a toolbox, wheels).
-8. (C) The cinema's door outside with lit NOW SHOWING poster cases either side (the "ticket booth" the lead asks for, in
+8. (C) [done] The cinema's door outside with lit NOW SHOWING poster cases either side (the "ticket booth" the lead asks for, in
    the lore's free cinema: no tickets).
 
 **2. Multi-block objects**
-9. (A) Cinema: a bigger "one big TV" (Wikidot): 5 x 3 blocks with a frame and a speaker bar under it on a low cabinet, in
+9. (A) [done] Cinema: a bigger "one big TV" (Wikidot): 5 x 3 blocks with a frame and a speaker bar under it on a low cabinet, in
    place of the 3 x 2; the three stepped rows' risers with amber aisle lights.
-10. (A) Bathroom stall (a partitioned cubicle with its door ajar and the toilet inside, two blocks tall) and a vanity (basin
+10. (A) [done] Bathroom stall (a partitioned cubicle with its door ajar and the toilet inside, two blocks tall) and a vanity (basin
     counter with the mirror over it, two blocks).
-11. (A) Arcade photo booth (two blocks tall, a curtain, a lit sign) and the prize counter (cases + wall + plush).
-12. (B) Jukebox (1990s neon-arch style, taller than a block) and a trophy case (glass, two blocks, trophies on shelves).
-13. (B) Disco balls over the rink: the star stays at the centre (Wikidot), a mirror ball hangs over the middle of each
+11. (A) [done] Arcade photo booth (two blocks tall, a curtain, a lit sign) and the prize counter (cases + wall + plush).
+12. (B) [done] Jukebox (1990s neon-arch style, taller than a block) and a trophy case (glass, two blocks, trophies on shelves).
+13. (B) [done] Disco balls over the rink: the star stays at the centre (Wikidot), a mirror ball hangs over the middle of each
     turn (the lead's "disco ball over the centre"; the star keeps the centre).
-14. (B) Rink-side snack window: counter + menu board + sign as one set piece.
-15. (C) A popcorn machine on the food counter (Level Fun's popcorn cart reused) and a soda / drinks fridge beside it.
-16. (C) PA speaker clusters hung under the rink's ceiling at its corners (the rink's upper dark was "a void").
+14. (B) [done] Rink-side snack window: counter + menu board + sign as one set piece.
+15. (C) [done: Level Fun's popcorn cart at the counter's end, the shared drinks fridge] A popcorn machine on the food counter (Level Fun's popcorn cart reused) and a soda / drinks fridge beside it.
+16. (C) [done as lighting trusses with par cans] PA speaker clusters hung under the rink's ceiling at its corners (the rink's upper dark was "a void").
 
 **3. Signs and text** (every sign drawn in the generator, read from where a player stands)
-17. (A) Over each room's door on the corridor side: SKATE RENTAL, SNACK BAR, ARCADE, RESTROOMS, CINEMA, EMPLOYEES ONLY
+17. (A) [done] Over each room's door on the corridor side: SKATE RENTAL, SNACK BAR, ARCADE, RESTROOMS, CINEMA, EMPLOYEES ONLY
     (lounge), STORAGE, MECHANICAL (HVAC).
-18. (A) Inside: SKATE RENTAL over the counter (lit), the size boards over the cubbies (SIZES 1-5, 6-9, 10-13), the
+18. (A) [done] Inside: SKATE RENTAL over the counter (lit), the size boards over the cubbies (SIZES 1-5, 6-9, 10-13), the
     SNACK BAR sign over the food counter, ARCADE in neon over the doors inside, PRIZES over the redemption corner.
-19. (A) EXIT signs: over the passages from the service corridor to the halls, over the lobby's front doors inside, both
+19. (A) [partly: one cinema EXIT, the cinema has one door] EXIT signs: over the passages from the service corridor to the halls, over the lobby's front doors inside, both
     of the cinema's (one more).
-20. (A) The rink's name (an invention: STARDUST ROLLER RINK, from the star) in neon over the lobby's front doors on the
+20. (A) [done] The rink's name (an invention: STARDUST ROLLER RINK, from the star) in neon over the lobby's front doors on the
     hall side and on the rink's north wall facing the DJ.
-21. (A) Rink rules board (SKATE COUNTER-CLOCKWISE, NO RUNNING, NO FOOD ON THE FLOOR, ...) on the skirt by the gates, and a
+21. (A) [done] Rink rules board (SKATE COUNTER-CLOCKWISE, NO RUNNING, NO FOOD ON THE FLOOR, ...) on the skirt by the gates, and a
     NO RUNNING / NO STREET SHOES plate at each rink door.
-22. (A) The Coach's whiteboard behind the rental counter ("LESSONS TODAY", the session times, a smiley).
-23. (B) Session board by the DJ (ALL SKATE / COUPLES SKATE / SPEED SKATE / LIMBO), the lit one now on.
-24. (B) RESTROOMS figures plate (MEN | WOMEN) by the bathroom's door, hand-dryer PUSH plates.
-25. (B) Admission price board over the lobby counter; WELCOME / hours board in the lobby.
-26. (B) EMPLOYEES ONLY on the lounge door; a staff notice board inside (rota, a memo, "DO NOT TOUCH THE SKATES").
-27. (C) Fire-extinguisher plates and a fire alarm pull on the corridor walls; posters along the corridor (rink events).
-28. (C) Arcade: TOKENS / GREEN CARDS plate over the dispenser.
+22. (A) [done] The Coach's whiteboard behind the rental counter ("LESSONS TODAY", the session times, a smiley).
+23. (B) [done] Session board by the DJ (ALL SKATE / COUPLES SKATE / SPEED SKATE / LIMBO), the lit one now on.
+24. (B) [done] RESTROOMS figures plate (MEN | WOMEN) by the bathroom's door, hand-dryer PUSH plates.
+25. (B) [partly: admission board, no hours board] Admission price board over the lobby counter; WELCOME / hours board in the lobby.
+26. (B) [done] EMPLOYEES ONLY on the lounge door; a staff notice board inside (rota, a memo, "DO NOT TOUCH THE SKATES").
+27. (C) [done] Fire-extinguisher plates and a fire alarm pull on the corridor walls; posters along the corridor (rink events).
+28. (C) [done] Arcade: TOKENS / GREEN CARDS plate over the dispenser.
 
 **4. Detail visuals**
-29. (B) The service corridor: rubber skirting/kick plate is too much; instead the door signs, extinguishers, a mop bucket
+29. (B) [done] The service corridor: rubber skirting/kick plate is too much; instead the door signs, extinguishers, a mop bucket
     and the EXIT signs give it rhythm.
-30. (B) Food court and rental walls: posters and the blue walls' adverts more often; the food court's bare beige walls
+30. (B) [done: food court posters; rental adverts kept] Food court and rental walls: posters and the blue walls' adverts more often; the food court's bare beige walls
     get a menu-side neon and posters.
-31. (B) The lounge: posters, notice board (item 26), CCTV stays.
-32. (C) Arcade carpet / lighting: cabinets give the light; keep.
-33. (C) Rink: aisle lights / lit floor edge under the barrier? Keep the boards as they are (they read well).
+31. (B) [done] The lounge: posters, notice board (item 26), CCTV stays.
+32. (C) [skipped: kept] Arcade carpet / lighting: cabinets give the light; keep.
+33. (C) [skipped: kept] Rink: aisle lights / lit floor edge under the barrier? Keep the boards as they are (they read well).
 
 **5. Lore alignment**
-34. (A) Keep: star at the centre, DJ on the south, food court's taped sign, orange chairs and park benches, condiments,
+34. (A) [done] Keep: star at the centre, DJ on the south, food court's taped sign, orange chairs and park benches, condiments,
     the Almond Water fountain, the green-card dispenser, OUT OF ORDER signs, the cinema's TV and three stepped rows of
     continuous metal benches (no projector: the lore's cinema is a TV), the EMPLOYEES ONLY kitchen door painted shut.
-35. (B) The lead's "projector window" and "ticket booth" against the lore's TV-and-benches cinema: no projector; poster
+35. (B) [done] The lead's "projector window" and "ticket booth" against the lore's TV-and-benches cinema: no projector; poster
     cases outside instead (item 8).
-36. (B) The Coach in a showcase spot close up behind his counter, with the whiteboard.
-37. (C) Skates: the cubbies are the "steal" way out (Links); the rack rows keep that use (a cubby rack is still
+36. (B) [done] The Coach in a showcase spot close up behind his counter, with the whiteboard.
+37. (C) [done] Skates: the cubbies are the "steal" way out (Links); the rack rows keep that use (a cubby rack is still
     right-clickable).
 
 **6. Released-level alignment**
-38. (A) Block names in the HUD and pick-block for every new block (lang keys `block-l31-...`).
-39. (B) Signs in the same 3x5 lettering family the level already uses, lit where a real sign is lit, as Level 36/3999 do.
-40. (C) Supply boxes, notes, handbook, sound bed: unchanged (they hold); the handbook page gets one line on the signs if
+38. (A) [done] Block names in the HUD and pick-block for every new block (lang keys `block-l31-...`).
+39. (B) [done: TrueType lettering as Level 36's, the old pixel font kept for the old signs] Signs in the same 3x5 lettering family the level already uses, lit where a real sign is lit, as Level 36/3999 do.
+40. (C) [skipped: unchanged] Supply boxes, notes, handbook, sound bed: unchanged (they hold); the handbook page gets one line on the signs if
     space (no; text unchanged).
+
+**7. The lead's balance items (added 2026-11-01 during the round, from the balance review)**
+41. (A) [done] The food court's server feeds a player every 6 game hours (`L31System.ServeHours`, was 1.5).
+42. (A) [done] A screen over each revolving door naming where it goes (TO LV9 / LV10 / LV11), in Level 36's gate-screen style.
+43. (A) [done] The Coach's line about the doors names the Suburbs' danger.
