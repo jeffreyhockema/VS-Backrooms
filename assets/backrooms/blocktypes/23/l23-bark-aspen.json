@@ -1,0 +1,47 @@
+// Level 23 (round 3): petrified aspen bark, white with black eyes; its cut ends grey rings
+{
+	"code": "l23-bark-aspen",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/23/bark-aspen",
+			"alternates": [
+				{
+					"base": "block/23/bark-aspen-2"
+				}
+			]
+		},
+		"up": {
+			"base": "block/23/heartwood-aspen"
+		},
+		"down": {
+			"base": "block/23/heartwood-aspen"
+		}
+	},
+	"resistance": 7,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

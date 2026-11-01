@@ -25,7 +25,10 @@ public partial class AtmosphereSystem
     // fade, its colour the grey-green of the light that gets through the lid, not black)
     // (A ground fog thickens with depth under the fog's surface: only a trace of it on the forest floor, and none down in
     // the basin or the caverns, where it closed everything in)
-    private static readonly Atmosphere L23Forest = new(0.0065f, 0.17f, 0.23f, 0.14f, -0.07f, scene: 0.95f);
+    // (Round 3: thinner and a shade paler again, so the depth of the trunks reads; a glade under one of the wide holes is
+    // brighter still, the light of the star coming down into it)
+    private static readonly Atmosphere L23Forest = new(0.0056f, 0.19f, 0.25f, 0.16f, -0.07f, scene: 0.97f);
+    private static readonly Atmosphere L23GladeAir = new(0.0048f, 0.30f, 0.34f, 0.22f, -0.07f, scene: 1f);
     private static readonly Atmosphere L23CoreAir = new(0.0045f, 0.26f, 0.33f, 0.24f, 0f, scene: 1f);
     private static readonly Atmosphere L23TunnelAir = new(0.013f, 0.10f, 0.08f, 0.05f, 0f, scene: 0.9f);
     private static readonly Atmosphere L23SeedlingAir = new(0.006f, 0.24f, 0.18f, 0.10f, 0f, scene: 1f);
@@ -75,7 +78,7 @@ public partial class AtmosphereSystem
                 target = L23TunnelAir;
                 break;
             default:
-                target = L23Forest;
+                target = layout.L23InGlade(pos.X, pos.Z, 2) ? L23GladeAir : L23Forest;
                 break;
         }
     }

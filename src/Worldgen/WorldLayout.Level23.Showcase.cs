@@ -37,12 +37,107 @@ public partial class WorldLayout
             }
             if (best.Run >= 0) spots.Add(new Showcase.Spot("forest-long", best.X + 0.5, fy + L23Ground(best.X, best.Z) + 1, best.Z + 0.5, best.H, 4));
         }
-        // The Heart of Water: from the shore, a Green Giant across the edge of the pool (the far side is too far to load)
+        // The Heart of Water: from up the slope inside the Green Giants' ring, looking down over the shore and across the
+        // reservoir under its shaft of light (round 2's spot looked up at a Giant and showed no water)
         {
             L23Trunk g = L23GiantAt(0);
-            double ga = Math.Atan2(g.Z - mz, g.X - mx), a = ga - 0.75 * Math.PI * 2 / 7;
-            int x = mx + (int)Math.Round(Math.Cos(a) * 29), z = mz + (int)Math.Round(Math.Sin(a) * 29);
-            spots.Add(L23Spot("heart-of-water", x, z, L23Ground(x, z) + 1, fy, g.X, g.Z, 14));
+            double ga = Math.Atan2(g.Z - mz, g.X - mx), a = ga - 0.5 * Math.PI * 2 / 7;
+            int x = mx + (int)Math.Round(Math.Cos(a) * 36), z = mz + (int)Math.Round(Math.Sin(a) * 36);
+            spots.Add(L23Spot("heart-of-water", x, z, L23Ground(x, z) + 1, fy, mx + 0.5, mz + 0.5, 0, eyeAt: L23PoolSurface + 2));
+        }
+        // Round 3: the M.E.G.'s warning between two Giants, from the way in, the pool beyond it
+        {
+            var (wx, wz, side) = L23WarningAt;
+            var (fx, fz) = L23Step(side);
+            // (From the nearest place out in front of it with nothing standing between: round 3's first shot looked at a root)
+            var kinds = new byte[3];
+            for (int d = 4; d <= 9; d++)
+            {
+                int x = wx + fx * d, z = wz + fz * d;
+                bool clear = true;
+                for (int k = 1; k <= d && clear; k++)
+                {
+                    int cx = wx + fx * k, cz = wz + fz * k;
+                    L23Wood(cx, cz, Math.Max(L23Ground(wx, wz), L23Ground(cx, cz)) + 1, kinds);
+                    // (The basin's slope rises behind it: only wood in the way counts, the viewer looks down at it)
+                    clear = kinds[0] == 0 && kinds[1] == 0;
+                }
+                if (!clear && d < 9) continue;
+                spots.Add(L23Spot("heart-warning", x, z, L23Ground(x, z) + 1, fy, wx + 0.5, wz + 0.5, 0, eyeAt: L23Ground(wx, wz) + 2.5));
+                break;
+            }
+        }
+        // Round 3: the forest floor's things: the nearest thick fallen log, cluster of stone mushrooms, boulder and glade
+        // to the middle, each from where it can be seen whole
+        {
+            int fi0 = Hashing.FloorDiv(mx, L23FeaturePitch), fj0 = Hashing.FloorDiv(mz, L23FeaturePitch);
+            bool log = false, mush = false, boulder = false;
+            for (int ring = 6; ring < 24 && !(log && mush && boulder); ring++)
+                for (int j = fj0 - ring; j <= fj0 + ring; j++)
+                    for (int i = fi0 - ring; i <= fi0 + ring; i++)
+                    {
+                        if (Math.Max(Math.Abs(i - fi0), Math.Abs(j - fj0)) != ring) continue;
+                        L23Feature f = L23FeatureAt(i, j);
+                        if (!log && f.Kind == L23FeatureKind.Log && f.Size >= 2 && f.B - f.A >= 10)
+                        {
+                            int mid = (f.A + f.B) / 2;
+                            int tx = f.AlongZ ? f.Line : mid, tz = f.AlongZ ? mid : f.Line;
+                            foreach (int side in new[] { 6, -6, 7, -7, 5, -5 })
+                            {
+                                int x = f.AlongZ ? f.Line + side : mid - 3, z = f.AlongZ ? mid - 3 : f.Line + side;
+                                if (!L23ClearSurface(x, z) || L23OpenRun(x, z, L23HeadingTo(x, z, tx, tz), Math.Abs(side) - 2) < Math.Abs(side) - 2) continue;
+                                spots.Add(L23Spot("fallen-log", x, z, L23Ground(x, z) + 1, fy, tx + 0.5, tz + 0.5, 0, eyeAt: L23Ground(tx, tz) + 1));
+                                log = true;
+                                break;
+                            }
+                        }
+                        if (!mush && f.Kind == L23FeatureKind.Mushroom && f.Count >= 2)
+                        {
+                            for (int k = 0; k < 8 && !mush; k++)
+                            {
+                                double a = bearing + k * Math.PI / 4;
+                                int x = (int)Math.Floor(f.X + Math.Cos(a) * 9), z = (int)Math.Floor(f.Z + Math.Sin(a) * 9);
+                                if (!L23ClearSurface(x, z)) continue;
+                                spots.Add(L23Spot("stone-mushrooms", x, z, L23Ground(x, z) + 1, fy, f.X, f.Z, 8));
+                                mush = true;
+                            }
+                        }
+                        if (!boulder && f.Kind == L23FeatureKind.Boulder)
+                        {
+                            for (int k = 0; k < 8 && !boulder; k++)
+                            {
+                                double a = bearing + k * Math.PI / 4;
+                                int x = (int)Math.Floor(f.X + Math.Cos(a) * 6), z = (int)Math.Floor(f.Z + Math.Sin(a) * 6);
+                                if (!L23ClearSurface(x, z)) continue;
+                                spots.Add(L23Spot("boulder-undergrowth", x, z, L23Ground(x, z) + 1, fy, f.X, f.Z, -12));
+                                boulder = true;
+                            }
+                        }
+                    }
+            var glades = new List<(double X, double Z, double R, double D)>();
+            int gi0 = Hashing.FloorDiv(mx, L23HolePitch), gj0 = Hashing.FloorDiv(mz, L23HolePitch);
+            for (int j = gj0 - 6; j <= gj0 + 6; j++)
+                for (int i = gi0 - 6; i <= gi0 + 6; i++)
+                {
+                    if (!L23HoleAt(i, j, out double cx, out double cz, out double r) || r < L23GladeMin) continue;
+                    double d = L23FromMid((int)cx, (int)cz);
+                    if (d < L23CoreRadius + 30 || d > L23Reach - 40) continue;
+                    glades.Add((cx, cz, r, d));
+                }
+            glades.Sort((p, q) => p.D.CompareTo(q.D));
+            bool shown = false;
+            foreach (var g in glades)
+            {
+                for (int k = 0; k < 16 && !shown; k++)
+                {
+                    double a = bearing + k * Math.PI / 8;
+                    int x = (int)Math.Floor(g.X + Math.Cos(a) * (g.R + 6)), z = (int)Math.Floor(g.Z + Math.Sin(a) * (g.R + 6));
+                    if (!L23ClearSurface(x, z) || L23OpenRun(x, z, L23HeadingTo(x, z, (int)g.X, (int)g.Z), 8) < 8) continue;
+                    spots.Add(L23Spot("glade", x, z, L23Ground(x, z) + 1, fy, g.X, g.Z, 6));
+                    shown = true;
+                }
+                if (shown) break;
+            }
         }
         // A light shaft: a good-sized hole in the lid near the middle, from a dozen steps off with the way to it open,
         // looking up into it (the nearest such of the holes, nearest first)
@@ -137,6 +232,14 @@ public partial class WorldLayout
             int cx = s.X + 1, cz = s.Z + 17;
             if (L23Cave(cx, cz, out int cf, out _, out _))
                 spots.Add(L23Spot("seedling-camp", cx, cz, cf + 1, fy, s.X + 0.5, s.Z + 2.5, 4));
+            // Round 3: the camp's sign and the M.E.G.'s notice board, each from a few steps in front of it
+            if (L23Cave(s.X - 8, s.Z + 17, out int sf, out _, out _))
+                spots.Add(L23Spot("seedling-sign", s.X - 8, s.Z + 17, sf + 1, fy, s.X - 7.5, s.Z + 13.5, 0, eyeAt: sf + 2.5));
+            if (L23Cave(s.X + 5, s.Z + 16, out int nf, out _, out _))
+                spots.Add(L23Spot("seedling-board", s.X + 5, s.Z + 16, nf + 1, fy, s.X + 6, s.Z + 13.5, 0, eyeAt: nf + 2.5));
+            // ... and the quartermaster's counter, from across the path
+            if (L23Cave(s.X + 2, s.Z + 9, out int qf, out _, out _))
+                spots.Add(L23Spot("seedling-counter", s.X + 2, s.Z + 9, qf + 1, fy, s.X - 3.5, s.Z + 5.5, 0, eyeAt: qf + 1.5));
         }
         // The ruins of the Architects, each from the south edge of its plaza (their doors face south)
         string[] ruins = { "lighthouse", "sphere", "colosseum", "parthenon" };
@@ -160,9 +263,22 @@ public partial class WorldLayout
                 break;
             }
         }
+        // Round 3: a way-sign at one of Base Seedling's tunnels, from out in the forest
+        foreach (var kv in L23Signs)
+        {
+            if (kv.Value.Text != "trail") continue;
+            var (fx, fz) = L23Step(kv.Value.Side);
+            int x = kv.Key.Item1 + fx * 4, z = kv.Key.Item2 + fz * 4;
+            if (!L23ClearSurface(x, z)) continue;
+            spots.Add(L23Spot("seedling-waysign", x, z, L23Ground(x, z) + 1, fy, kv.Key.Item1 + 0.5, kv.Key.Item2 + 0.5, 0, eyeAt: kv.Value.Board + 0.5));
+            break;
+        }
         L23LinkSpots(spots, geometry);
         return spots;
     }
+
+    /// <summary>The compass heading from one column to another.</summary>
+    private static double L23HeadingTo(int x, int z, int tx, int tz) => (Math.Atan2(tx - x, -(tz - z)) * 180 / Math.PI + 360) % 360;
 
     /// <summary>
     /// The ways in and out (WorldLayout.Level23.Links.cs): the hollow trunk nearest the middle (where those from Level 37

@@ -1,0 +1,477 @@
+// Level 23 (round 3): a fallen petrified log, lying along x or z, its rings at its ends
+{
+	"code": "l23-log",
+	"variantgroups": [
+		{
+			"code": "bark",
+			"states": [
+				"grey",
+				"red",
+				"pale",
+				"dark",
+				"aspen"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"x",
+				"z"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-x"
+		],
+		"backrooms": [
+			"*-x"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-grey-x": {
+			"all": {
+				"base": "block/23/bark-grey",
+				"alternates": [
+					{
+						"base": "block/23/bark-grey-2"
+					}
+				],
+				"rotation": 90
+			},
+			"north": {
+				"base": "block/23/bark-grey",
+				"alternates": [
+					{
+						"base": "block/23/bark-grey-2"
+					}
+				],
+				"rotation": 90
+			},
+			"south": {
+				"base": "block/23/bark-grey",
+				"alternates": [
+					{
+						"base": "block/23/bark-grey-2"
+					}
+				],
+				"rotation": 90
+			},
+			"east": {
+				"base": "block/23/heartwood-grey"
+			},
+			"west": {
+				"base": "block/23/heartwood-grey"
+			}
+		},
+		"*-grey-z": {
+			"all": {
+				"base": "block/23/bark-grey",
+				"alternates": [
+					{
+						"base": "block/23/bark-grey-2"
+					}
+				]
+			},
+			"north": {
+				"base": "block/23/heartwood-grey"
+			},
+			"south": {
+				"base": "block/23/heartwood-grey"
+			},
+			"east": {
+				"base": "block/23/bark-grey",
+				"alternates": [
+					{
+						"base": "block/23/bark-grey-2"
+					}
+				],
+				"rotation": 90
+			},
+			"west": {
+				"base": "block/23/bark-grey",
+				"alternates": [
+					{
+						"base": "block/23/bark-grey-2"
+					}
+				],
+				"rotation": 90
+			},
+			"up": {
+				"base": "block/23/bark-grey",
+				"alternates": [
+					{
+						"base": "block/23/bark-grey-2"
+					}
+				]
+			},
+			"down": {
+				"base": "block/23/bark-grey",
+				"alternates": [
+					{
+						"base": "block/23/bark-grey-2"
+					}
+				]
+			}
+		},
+		"*-red-x": {
+			"all": {
+				"base": "block/23/bark-red",
+				"alternates": [
+					{
+						"base": "block/23/bark-red-2"
+					}
+				],
+				"rotation": 90
+			},
+			"north": {
+				"base": "block/23/bark-red",
+				"alternates": [
+					{
+						"base": "block/23/bark-red-2"
+					}
+				],
+				"rotation": 90
+			},
+			"south": {
+				"base": "block/23/bark-red",
+				"alternates": [
+					{
+						"base": "block/23/bark-red-2"
+					}
+				],
+				"rotation": 90
+			},
+			"east": {
+				"base": "block/23/heartwood-red"
+			},
+			"west": {
+				"base": "block/23/heartwood-red"
+			}
+		},
+		"*-red-z": {
+			"all": {
+				"base": "block/23/bark-red",
+				"alternates": [
+					{
+						"base": "block/23/bark-red-2"
+					}
+				]
+			},
+			"north": {
+				"base": "block/23/heartwood-red"
+			},
+			"south": {
+				"base": "block/23/heartwood-red"
+			},
+			"east": {
+				"base": "block/23/bark-red",
+				"alternates": [
+					{
+						"base": "block/23/bark-red-2"
+					}
+				],
+				"rotation": 90
+			},
+			"west": {
+				"base": "block/23/bark-red",
+				"alternates": [
+					{
+						"base": "block/23/bark-red-2"
+					}
+				],
+				"rotation": 90
+			},
+			"up": {
+				"base": "block/23/bark-red",
+				"alternates": [
+					{
+						"base": "block/23/bark-red-2"
+					}
+				]
+			},
+			"down": {
+				"base": "block/23/bark-red",
+				"alternates": [
+					{
+						"base": "block/23/bark-red-2"
+					}
+				]
+			}
+		},
+		"*-pale-x": {
+			"all": {
+				"base": "block/23/bark-pale",
+				"alternates": [
+					{
+						"base": "block/23/bark-pale-2"
+					}
+				],
+				"rotation": 90
+			},
+			"north": {
+				"base": "block/23/bark-pale",
+				"alternates": [
+					{
+						"base": "block/23/bark-pale-2"
+					}
+				],
+				"rotation": 90
+			},
+			"south": {
+				"base": "block/23/bark-pale",
+				"alternates": [
+					{
+						"base": "block/23/bark-pale-2"
+					}
+				],
+				"rotation": 90
+			},
+			"east": {
+				"base": "block/23/heartwood-pale"
+			},
+			"west": {
+				"base": "block/23/heartwood-pale"
+			}
+		},
+		"*-pale-z": {
+			"all": {
+				"base": "block/23/bark-pale",
+				"alternates": [
+					{
+						"base": "block/23/bark-pale-2"
+					}
+				]
+			},
+			"north": {
+				"base": "block/23/heartwood-pale"
+			},
+			"south": {
+				"base": "block/23/heartwood-pale"
+			},
+			"east": {
+				"base": "block/23/bark-pale",
+				"alternates": [
+					{
+						"base": "block/23/bark-pale-2"
+					}
+				],
+				"rotation": 90
+			},
+			"west": {
+				"base": "block/23/bark-pale",
+				"alternates": [
+					{
+						"base": "block/23/bark-pale-2"
+					}
+				],
+				"rotation": 90
+			},
+			"up": {
+				"base": "block/23/bark-pale",
+				"alternates": [
+					{
+						"base": "block/23/bark-pale-2"
+					}
+				]
+			},
+			"down": {
+				"base": "block/23/bark-pale",
+				"alternates": [
+					{
+						"base": "block/23/bark-pale-2"
+					}
+				]
+			}
+		},
+		"*-dark-x": {
+			"all": {
+				"base": "block/23/bark-dark",
+				"alternates": [
+					{
+						"base": "block/23/bark-dark-2"
+					}
+				],
+				"rotation": 90
+			},
+			"north": {
+				"base": "block/23/bark-dark",
+				"alternates": [
+					{
+						"base": "block/23/bark-dark-2"
+					}
+				],
+				"rotation": 90
+			},
+			"south": {
+				"base": "block/23/bark-dark",
+				"alternates": [
+					{
+						"base": "block/23/bark-dark-2"
+					}
+				],
+				"rotation": 90
+			},
+			"east": {
+				"base": "block/23/heartwood-dark"
+			},
+			"west": {
+				"base": "block/23/heartwood-dark"
+			}
+		},
+		"*-dark-z": {
+			"all": {
+				"base": "block/23/bark-dark",
+				"alternates": [
+					{
+						"base": "block/23/bark-dark-2"
+					}
+				]
+			},
+			"north": {
+				"base": "block/23/heartwood-dark"
+			},
+			"south": {
+				"base": "block/23/heartwood-dark"
+			},
+			"east": {
+				"base": "block/23/bark-dark",
+				"alternates": [
+					{
+						"base": "block/23/bark-dark-2"
+					}
+				],
+				"rotation": 90
+			},
+			"west": {
+				"base": "block/23/bark-dark",
+				"alternates": [
+					{
+						"base": "block/23/bark-dark-2"
+					}
+				],
+				"rotation": 90
+			},
+			"up": {
+				"base": "block/23/bark-dark",
+				"alternates": [
+					{
+						"base": "block/23/bark-dark-2"
+					}
+				]
+			},
+			"down": {
+				"base": "block/23/bark-dark",
+				"alternates": [
+					{
+						"base": "block/23/bark-dark-2"
+					}
+				]
+			}
+		},
+		"*-aspen-x": {
+			"all": {
+				"base": "block/23/bark-aspen",
+				"alternates": [
+					{
+						"base": "block/23/bark-aspen-2"
+					}
+				],
+				"rotation": 90
+			},
+			"north": {
+				"base": "block/23/bark-aspen",
+				"alternates": [
+					{
+						"base": "block/23/bark-aspen-2"
+					}
+				],
+				"rotation": 90
+			},
+			"south": {
+				"base": "block/23/bark-aspen",
+				"alternates": [
+					{
+						"base": "block/23/bark-aspen-2"
+					}
+				],
+				"rotation": 90
+			},
+			"east": {
+				"base": "block/23/heartwood-aspen"
+			},
+			"west": {
+				"base": "block/23/heartwood-aspen"
+			}
+		},
+		"*-aspen-z": {
+			"all": {
+				"base": "block/23/bark-aspen",
+				"alternates": [
+					{
+						"base": "block/23/bark-aspen-2"
+					}
+				]
+			},
+			"north": {
+				"base": "block/23/heartwood-aspen"
+			},
+			"south": {
+				"base": "block/23/heartwood-aspen"
+			},
+			"east": {
+				"base": "block/23/bark-aspen",
+				"alternates": [
+					{
+						"base": "block/23/bark-aspen-2"
+					}
+				],
+				"rotation": 90
+			},
+			"west": {
+				"base": "block/23/bark-aspen",
+				"alternates": [
+					{
+						"base": "block/23/bark-aspen-2"
+					}
+				],
+				"rotation": 90
+			},
+			"up": {
+				"base": "block/23/bark-aspen",
+				"alternates": [
+					{
+						"base": "block/23/bark-aspen-2"
+					}
+				]
+			},
+			"down": {
+				"base": "block/23/bark-aspen",
+				"alternates": [
+					{
+						"base": "block/23/bark-aspen-2"
+					}
+				]
+			}
+		}
+	},
+	"resistance": 7,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

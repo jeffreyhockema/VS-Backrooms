@@ -1,0 +1,67 @@
+// Level 23 (round 3): the M.E.G.'s Almond Water squirt guns on their rack (only looks)
+{
+	"code": "l23-squirtrack",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"shapeByType": {
+		"*-north": {
+			"base": "block/23/squirtrack",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/23/squirtrack",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/23/squirtrack",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/23/squirtrack",
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.05,
+		"y1": 0,
+		"z1": 0.4,
+		"x2": 0.95,
+		"y2": 0.75,
+		"z2": 0.92
+	}
+}

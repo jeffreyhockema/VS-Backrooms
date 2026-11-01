@@ -1,0 +1,160 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"side": "backrooms:block/23/barrel-side",
+		"top": "backrooms:block/23/barrel-top"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				2,
+				0,
+				2
+			],
+			"to": [
+				14,
+				14,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#side",
+					"uv": [
+						2,
+						2,
+						14,
+						16
+					]
+				},
+				"south": {
+					"texture": "#side",
+					"uv": [
+						2,
+						2,
+						14,
+						16
+					]
+				},
+				"east": {
+					"texture": "#side",
+					"uv": [
+						2,
+						2,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#side",
+					"uv": [
+						2,
+						2,
+						14,
+						16
+					]
+				},
+				"down": {
+					"texture": "#side",
+					"uv": [
+						2,
+						2,
+						14,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Lid",
+			"from": [
+				2,
+				14,
+				2
+			],
+			"to": [
+				14,
+				14.01,
+				14
+			],
+			"faces": {
+				"up": {
+					"texture": "#top",
+					"uv": [
+						2,
+						2,
+						14,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "BulgeX",
+			"from": [
+				1.4,
+				2,
+				3
+			],
+			"to": [
+				14.6,
+				12,
+				13
+			],
+			"faces": {
+				"east": {
+					"texture": "#side",
+					"uv": [
+						3,
+						4,
+						13,
+						14
+					]
+				},
+				"west": {
+					"texture": "#side",
+					"uv": [
+						3,
+						4,
+						13,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "BulgeZ",
+			"from": [
+				3,
+				2,
+				1.4
+			],
+			"to": [
+				13,
+				12,
+				14.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#side",
+					"uv": [
+						3,
+						4,
+						13,
+						14
+					]
+				},
+				"south": {
+					"texture": "#side",
+					"uv": [
+						3,
+						4,
+						13,
+						14
+					]
+				}
+			}
+		}
+	]
+}

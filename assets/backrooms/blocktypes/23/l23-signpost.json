@@ -1,0 +1,57 @@
+// Level 23 (round 3): the post a sign stands on
+{
+	"code": "l23-signpost",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 2,
+				"var": 0
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"shape": {
+		"base": "block/23/signpost"
+	},
+	"collisionbox": {
+		"x1": 0.4,
+		"y1": 0,
+		"z1": 0.4,
+		"x2": 0.6,
+		"y2": 1,
+		"z2": 0.6
+	},
+	"selectionbox": {
+		"x1": 0.4,
+		"y1": 0,
+		"z1": 0.4,
+		"x2": 0.6,
+		"y2": 1,
+		"z2": 0.6
+	}
+}

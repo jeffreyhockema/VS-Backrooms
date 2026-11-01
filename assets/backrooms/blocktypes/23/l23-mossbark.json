@@ -1,0 +1,47 @@
+// Level 23 (round 3): moss grown up over the foot of a trunk and over its roots
+{
+	"code": "l23-mossbark",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/23/mossbark",
+			"alternates": [
+				{
+					"base": "block/23/mossbark-2"
+				}
+			]
+		},
+		"up": {
+			"base": "block/23/moss"
+		},
+		"down": {
+			"base": "block/23/heartwood-grey"
+		}
+	},
+	"resistance": 7,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

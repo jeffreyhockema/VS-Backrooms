@@ -1,0 +1,67 @@
+// Level 23 (round 3): a damaged painting on the inside of a ruin's wall (the painted face on the -side)
+{
+	"code": "l23-fresco",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"texturesByType": {
+		"*-north": {
+			"all": {
+				"base": "block/23/ruinstone"
+			},
+			"north": {
+				"base": "block/23/fresco"
+			}
+		},
+		"*-east": {
+			"all": {
+				"base": "block/23/ruinstone"
+			},
+			"east": {
+				"base": "block/23/fresco"
+			}
+		},
+		"*-south": {
+			"all": {
+				"base": "block/23/ruinstone"
+			},
+			"south": {
+				"base": "block/23/fresco"
+			}
+		},
+		"*-west": {
+			"all": {
+				"base": "block/23/ruinstone"
+			},
+			"west": {
+				"base": "block/23/fresco"
+			}
+		}
+	},
+	"resistance": 8,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

@@ -1,0 +1,78 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"wood": "backrooms:block/23/planks"
+	},
+	"elements": [
+		{
+			"name": "Post",
+			"from": [
+				6.5,
+				0,
+				6.5
+			],
+			"to": [
+				9.5,
+				16,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#wood",
+					"uv": [
+						6.5,
+						0,
+						9.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wood",
+					"uv": [
+						6.5,
+						0,
+						9.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wood",
+					"uv": [
+						6.5,
+						0,
+						9.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wood",
+					"uv": [
+						6.5,
+						0,
+						9.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wood",
+					"uv": [
+						6.5,
+						6.5,
+						9.5,
+						9.5
+					]
+				},
+				"down": {
+					"texture": "#wood",
+					"uv": [
+						6.5,
+						6.5,
+						9.5,
+						9.5
+					]
+				}
+			}
+		}
+	]
+}
