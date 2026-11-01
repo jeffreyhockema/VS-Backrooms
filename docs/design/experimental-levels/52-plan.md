@@ -505,6 +505,12 @@ tables; the lifts' doors (the lore has lifts; these do not run).
   CO. stood on the façade just over the canopy, where the canopy hid it from the ground (the dump showed the block
   there): moved onto the canopy's front. Seen but left: the random arrivals (the rig's own camera) face a wall now and
   then; the tower spot looks steeply up.
+- **Run 3, final** (`%TEMP%/backrooms-shots/52-r3c`, `sheet.jpg`): COOL MART CO. across the warehouse's canopy; everything
+  else as run 2. Tally of the list: A 23 done, 1 partly (the M.E.G.'s barrier); B 12 done, 3 partly, 1 skipped; C 2 done,
+  3 partly.
+- **Still weak:** the random arrivals' framing (the rig's camera, not the level's facing); the hall buildings' upper
+  string course shows inside the two-storey halls; the toilets are simple shapes; the courtyard spot still looks into
+  the trees; the sky sphere's seam shows over the open pitch.
 
 ### Checks (round 3)
 - `python tools/expclash.py`: clean. Mod and mapgen build with 0 errors.
