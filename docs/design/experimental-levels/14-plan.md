@@ -216,3 +216,8 @@ Filled in as built (section 6).
   ICU, psychiatry, maternity, surgery, storage, torture, T.14.R.G., office, contaminated; chat keys l14-contam-enter/-sick,
   l14-equipment-0..3, l14-crack-warn, l14-reception-shut, l14-arrive), notes l14-1..7, r-l14-1..3, l14-h0, l14-h15, guide page.
 - Next: agent S (sounds, atmosphere, L14System rules), agent L (links), me (showcase, screenshot cycles).
+- 507645aa agent S: sounds/ambient/14 (gen_14_sounds.py), AtmosphereSystem.L14.cs, L14System.cs (`/backrooms l14 contam|equipment|crack|reception|state`).
+- 60866ddb agent L: links (WorldLayout.Level14.Links.cs with `L14LinkShowcaseSpots`, WorldGenerator.L14.Links.cs, Threshold*.L14.cs,
+  L15 Links + one line in WorldGenerator.L15.cs; mapgen `14links`). Rarities: L0 door 1 Lobby cell in 1000 (outer 2/5), nearest
+  0.47 km; L15 door 1 wing in 64; out to 15 / ! 1 wing in 80; collapse to 73 1 wing in 112; none within 200 of the middle.
+- Next (me): showcase spots (WorldLayout.Level14.Showcase.cs, call L14LinkShowcaseSpots), SuburbDoor fix, screenshot cycles.
