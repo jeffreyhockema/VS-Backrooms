@@ -44,9 +44,9 @@ L36_LINES = {
     "creaturessite": "In the lit terminal? Nothing at all. Deeper in, where the lights have gone, a Smiler now and then, a Hound, a moth. Turn back at an empty sign.",
     "watersite": "The machines and fountains in the concourses are free and perfectly safe. The food court's tables are not: some of that has been there a very long time.",
     "sleepsite": "Not here, I'm afraid. Nobody sleeps in the airport, and nobody tires. Do remember to eat.",
-    "exitssite": "Watch the screens. When your gate's number drops under a thousand it's boarding: use the jet-bridge door by the window. Stay aboard until it reaches nothing.",
+    "exitssite": "Watch the screens. When your gate's number drops under a thousand it's boarding: use the jet-bridge door by the window and stay aboard until it reaches nothing. Read the gate's own screen first: each gate flies to one place, every time.",
     "rumours": "Gate C32 has a support group waiting on a flight to Level 186. Their count has nine digits. Very patient people. Lovely soup.",
-    "home": "Every flight we've booked so far has landed in baggage claim. The Agency is looking into it. Have you tried one of our lounges?",
+    "home": "If you came in by a door under an airplane sign, it lets you back out from the baggage wall. Otherwise, the Agency recommends a flight. None of them fly back, I'm afraid. Have you tried one of our lounges?",
 }
 
 

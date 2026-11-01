@@ -1041,6 +1041,8 @@ public static class Unders
     public const ushort L31First = 352, L31Last = 383;
     public const ushort L120First = 384, L120Last = 415;
     public const ushort L36First = 416, L36Last = 447;
+    /// <summary>Level 36's way in from Levels 9 and 11 (LINKS.md): a door in a wall under a sign with an airplane on it (Pier the way it faces, out).</summary>
+    public const ushort L36AirportDoor = 416;
     public const ushort L15First = 448, L15Last = 479;
     public const ushort L23First = 480, L23Last = 511;
 
@@ -1690,6 +1692,8 @@ public static class Props
     public const ushort L36Checkin = 1200, L36Seat = 1201, L36GateDesk = 1202, L36Stanchion = 1203, L36Scanner = 1204, L36Xray = 1205, L36Trays = 1206,
         L36Booth = 1207, L36Perfume = 1208, L36MealTable = 1209, L36MeetingPoint = 1210, L36CabinSeat = 1211, L36LostFound = 1212,
         L36CarouselIsland = 1213, L36Couch = 1214, L36Planter = 1215, L36Bin = 1216;
+    /// <summary>Level 36: a restroom washbasin on its counter (Pier its front); overflow it and put your head under for Level 37 (LINKS.md).</summary>
+    public const ushort L36Sink = 1217;
     public const ushort L15First = 1300, L15Last = 1399;
     /// <summary>
     /// Level 15 (see WorldLayout.Level15.cs): a machine's casing (Stack its height, Detail its state), a console, a lab bench, a

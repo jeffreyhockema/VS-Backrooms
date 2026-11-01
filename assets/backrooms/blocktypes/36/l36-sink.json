@@ -1,0 +1,231 @@
+// Level 36's restrooms (links): a washbasin on its vanity, against the wall behind it; overflow it (use) and hold your head under (hold use) for the Poolrooms (Fandom). Structure; BackroomsL36Sink
+{
+	"code": "l36-sink",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"dry",
+				"overflow"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-sink-dry-north": {
+			"base": "backrooms:block/36/l36-sink-dry"
+		},
+		"l36-sink-dry-east": {
+			"base": "backrooms:block/36/l36-sink-dry",
+			"rotateY": 270
+		},
+		"l36-sink-dry-south": {
+			"base": "backrooms:block/36/l36-sink-dry",
+			"rotateY": 180
+		},
+		"l36-sink-dry-west": {
+			"base": "backrooms:block/36/l36-sink-dry",
+			"rotateY": 90
+		},
+		"l36-sink-overflow-north": {
+			"base": "backrooms:block/36/l36-sink-overflow"
+		},
+		"l36-sink-overflow-east": {
+			"base": "backrooms:block/36/l36-sink-overflow",
+			"rotateY": 270
+		},
+		"l36-sink-overflow-south": {
+			"base": "backrooms:block/36/l36-sink-overflow",
+			"rotateY": 180
+		},
+		"l36-sink-overflow-west": {
+			"base": "backrooms:block/36/l36-sink-overflow",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Ceramic",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/ceramicplace",
+		"break": "game:block/ceramicbreak",
+		"hit": "game:block/ceramichit"
+	},
+	"collisionboxByType": {
+		"l36-sink-dry-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-sink-dry-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-sink-dry-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-sink-dry-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l36-sink-overflow-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-sink-overflow-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-sink-overflow-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-sink-overflow-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l36-sink-dry-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-sink-dry-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-sink-dry-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-sink-dry-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l36-sink-overflow-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-sink-overflow-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-sink-overflow-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-sink-overflow-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1875,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"behaviors": [
+		{
+			"name": "BackroomsL36Sink"
+		}
+	],
+	"attributes": {
+		"l36structure": true
+	}
+}

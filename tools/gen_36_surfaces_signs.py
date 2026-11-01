@@ -465,15 +465,16 @@ def _screen_finish(a, name):
         save(from_array(a[:, x0:x1].copy()), f"l36-fids-{name}-{half}")
 
 
+# (links, 2026-10-31: every flight goes to one of six levels, WorldLayout.L36FlightLevels, so the boards list only those)
 BOARDS = {
-    "a": [("4471QK", "LV6", "C14", "1204"), ("88JQ0", "LV37", "A03", "48881"), ("7720AB", "LV0", "B07", "BOARDING"),
-          ("13Q9X", "LV94", "E22", "DELAYED"), ("5502RT", "LV11", "D41", "73310")],
-    "b": [("0021LP", "LV3999", "F09", "CLOSED"), ("61ZZ8", "LV188", "K17", "906"), ("39KQ1", "LV2", "A11", "26044"),
-          ("8810MN", "LV974", "H05", "DELAYED"), ("4407CV", "LV8", "C29", "5517")],
-    "c": [("2290WE", "LV1", "M02", "BOARDING"), ("75HJ3", "LV5", "G33", "88120"), ("1103XA", "LV9", "B51", "12"),
-          ("660QQ", "LV3", "L46", "CLOSED"), ("9184PU", "LV7", "J08", "301877")],
-    "d": [("3301DD", "LV4", "T12", "DELAYED"), ("48GK7", "LV0", "Q58", "999999"), ("7077LM", "LV37", "A01", "4410"),
-          ("1919YO", "LV94", "Z60", "BOARDING"), ("2468EV", "LV11", "R26", "18806")],
+    "a": [("4471QK", "LV10", "C14", "1204"), ("88JQ0", "LV37", "A03", "48881"), ("7720AB", "LV9", "B07", "BOARDING"),
+          ("13Q9X", "LV188", "E22", "DELAYED"), ("5502RT", "LV11", "D41", "73310")],
+    "b": [("0021LP", "LV3999", "F09", "CLOSED"), ("61ZZ8", "LV188", "K17", "906"), ("39KQ1", "LV9", "A11", "26044"),
+          ("8810MN", "LV10", "H05", "DELAYED"), ("4407CV", "LV37", "C29", "5517")],
+    "c": [("2290WE", "LV11", "M02", "BOARDING"), ("75HJ3", "LV3999", "G33", "88120"), ("1103XA", "LV9", "B51", "12"),
+          ("660QQ", "LV37", "L46", "CLOSED"), ("9184PU", "LV10", "J08", "301877")],
+    "d": [("3301DD", "LV188", "T12", "DELAYED"), ("48GK7", "LV11", "Q58", "999999"), ("7077LM", "LV37", "A01", "4410"),
+          ("1919YO", "LV3999", "Z60", "BOARDING"), ("2468EV", "LV9", "R26", "18806")],
 }
 
 
@@ -493,17 +494,20 @@ def fids_board(name):
     _screen_finish(a, name)
 
 
-def fids_gate():
-    """The gate desk's screen: NOW BOARDING over a big gate code, the flight and its count beside it."""
+def fids_gate(level):
+    """A gate's screen: NOW BOARDING over where the gate's flights go (links, 2026-10-31: always the same level for a gate,
+    WorldLayout.L36FlightTo), the flight and its count beside it. One board for each of the six levels."""
     a = _screen_base(seed_of("fids-gate"))
     W = FW * 2
     a[5:17, 4:W - 4] = (14, 64, 34)
     s = "NOW BOARDING"
     _led_text(a, s, (W - _led_width(s)) // 2, 7, STATUS["NOW BOARDING"])
-    # (round 2: every gate shows this board, so it names the flight and where it goes, not a gate code that would
-    # contradict the sign over the holdroom; the gate line is left blank, as the lore's screens show only the flight)
+    # (round 2: it names the flight and where it goes, not a gate code that would contradict the sign over the holdroom;
+    # the gate line is left blank, as the lore's screens show only the flight)
     _led_text(a, "TO", 12, 22, WHITE)
-    _led_text(a, "LV6", 10, 32, (255, 214, 60), scale=4)
+    s = "LV" + level
+    scale = 4 if _led_width(s, 4) <= 84 else 3 if _led_width(s, 3) <= 84 else 2
+    _led_text(a, s, (94 - _led_width(s, scale)) // 2, 32 + (4 - scale) * 4, (255, 214, 60), scale=scale)
     x0 = 104
     for i, (label, value, col) in enumerate((("FLIGHT", "4471QK", AMBER), ("GATE", "--", AMBER),
                                              ("COUNT", "0987", WHITE))):
@@ -511,7 +515,7 @@ def fids_gate():
         _led_text(a, label, x0, y, (150, 156, 166))
         _led_text(a, value, x0 + 40, y, col)
     a[22:66, 94] = (40, 44, 52)
-    _screen_finish(a, "gate")
+    _screen_finish(a, "to" + level)
 
 
 def fids_c32():
@@ -702,7 +706,9 @@ def clock(kind):
 GATE_GLYPHS = [chr(c) for c in range(ord("a"), ord("z") + 1)] + [str(n) for n in range(1, 61)]
 SIGN_GLYPHS = ["gatesl", "gatesr", "baggage", "exit", "meeting", "dutyfree", "food", "lounge", "toilets", "security",
                "checkin", "blank", "broken"]
-FIDS_TEXTS = ["a", "b", "c", "d", "gate", "c32"]
+# (as WorldLayout.L36FidsTexts: the check-in boards, Gate C32's, then a gate's for each of WorldLayout.L36FlightLevels)
+FLIGHT_LEVELS = ["11", "9", "37", "3999", "188", "10"]
+FIDS_TEXTS = ["a", "b", "c", "d", "c32"] + ["to" + n for n in FLIGHT_LEVELS]
 SHOPS = ["perfume", "fashion", "books", "snacks", "tech", "bags", "cafe", "pharma"]
 
 
@@ -715,7 +721,8 @@ def generate():
     fids_misc()
     for t in "abcd":
         fids_board(t)
-    fids_gate()
+    for n in FLIGHT_LEVELS:
+        fids_gate(n)
     fids_c32()
     for s in SHOPS:
         fascia(s)

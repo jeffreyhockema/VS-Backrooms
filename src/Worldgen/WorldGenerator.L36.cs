@@ -28,10 +28,10 @@ public sealed partial class WorldGenerator
         l36BeltRun = new int[4], l36BeltStill = new int[4], l36Walk = new int[4], l36WalkEnd = new int[4], l36Flap = new int[4],
         l36Door = new int[8], l36GateDesk = new int[4], l36Stanchion = new int[5], l36Scanner = new int[8], l36Xray = new int[8],
         l36Perfume = new int[4], l36Meal = new int[4], l36Meeting = new int[3], l36CabinSeat = new int[4], l36LostFound = new int[4],
-        l36Couch = new int[8], l36Shutter = new int[8];
+        l36Couch = new int[8], l36Shutter = new int[8], l36AirDoor = new int[8], l36AirSign = new int[4], l36Sink = new int[4];
     private readonly int[,] l36Window = new int[4, 4], l36Clock = new int[2, 4], l36CabinWall = new int[3, 4], l36Checkin = new int[2, 4],
         l36Seat = new int[4, 4], l36Booth = new int[5, 4], l36GateSign = new int[86, 4], l36Sign = new int[13, 4];
-    private readonly int[,,] l36Fids = new int[6, 2, 4], l36ShopSign = new int[8, 3, 4];
+    private readonly int[,,] l36Fids = new int[L36.L36FidsTexts.Length, 2, 4], l36ShopSign = new int[8, 3, 4];
     private readonly HashSet<string> l36Missing = new();
 
     /// <summary>A block of this mod's, or <paramref name="fallback"/> if it is not there (logged once).</summary>
@@ -99,6 +99,11 @@ public sealed partial class WorldGenerator
             l36Couch[4 + f] = L36Block($"l3999-couch-right-{side}");
             l36Shutter[f] = L36Block($"l3999-shutter-lower-{side}", l36Panel);
             l36Shutter[4 + f] = L36Block($"l3999-shutter-upper-{side}", l36Panel);
+            // (links) The door under the airplane sign, in the baggage wall and in Levels 9 and 11; the restroom sink
+            l36AirDoor[f] = L36Block($"l36-airportdoor-lower-{side}", l36Panel);
+            l36AirDoor[4 + f] = L36Block($"l36-airportdoor-upper-{side}", l36Panel);
+            l36AirSign[f] = L36Block($"l36-airportsign-{side}", l36Panel);
+            l36Sink[f] = L36Block($"l36-sink-dry-{side}");
             for (int i = 0; i < 4; i++) l36Window[i, f] = L36Block($"l36-window-{rows[i]}-{side}", l36Plaster);
             l36Clock[0, f] = L36Block($"l36-wallclock-nohands-{side}", l36Panel);
             l36Clock[1, f] = L36Block($"l36-wallclock-stopped-{side}", l36Panel);
@@ -150,7 +155,7 @@ public sealed partial class WorldGenerator
             {
                 case Overheads.L36GateSign: return l36GateSign[t.Depth % 86, f];
                 case Overheads.L36Sign: return l36Sign[t.Depth % 13, f];
-                case Overheads.L36Fids: return l36Fids[t.Depth % 6, t.Roof & 1, f];
+                case Overheads.L36Fids: return l36Fids[t.Depth % L36.L36FidsTexts.Length, t.Roof & 1, f];
                 case Overheads.L36BoothSign: return l36Booth[2 + t.Roof % 3, f];
             }
         }
@@ -220,6 +225,7 @@ public sealed partial class WorldGenerator
             Mat.ShopSign => rel == 5 && t.Roof > 0 ? l36ShopSign[t.Depth % 8, (t.Roof - 1) % 3, f] : panel,
             Mat.Shutter => rel == 1 ? l36Shutter[f] : rel == 2 ? l36Shutter[4 + f] : t.Roof > 0 && rel == 7 ? l36ShopSign[t.Depth % 8, (t.Roof - 1) % 3, f] : l36Plaster,
             Mat.CabinWall => l36CabinWall[rel <= 1 ? 0 : rel == 2 ? 1 : 2, f],
+            Mat.LandDoor => rel == 1 ? l36AirDoor[f] : rel == 2 ? l36AirDoor[4 + f] : rel == 3 ? l36AirSign[f] : l36Panel,
             _ => panel,
         };
     }
@@ -250,6 +256,7 @@ public sealed partial class WorldGenerator
             Props.L36Couch => l36Couch[(t.Stack & 1) * 4 + f],
             Props.L36Planter => l36Planter,
             Props.L36Bin => l36Bin,
+            Props.L36Sink => l36Sink[f],
             Props.Vending => vendingIds[f],
             Props.Cooler => coolerIds[f],
             Props.Shelf => shelfIds[Facing(Opposite(t.Pier))],

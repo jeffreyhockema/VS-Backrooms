@@ -1,0 +1,81 @@
+// Level 36's way in and out (links): the backlit sign over the door, a full block of wall with the airplane on a yellow tile and an arrow down on <side>. Structure
+{
+	"code": "l36-airportsign",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-airportsign-north": {
+			"base": "backrooms:block/36/l36-airportsign"
+		},
+		"l36-airportsign-east": {
+			"base": "backrooms:block/36/l36-airportsign",
+			"rotateY": 270
+		},
+		"l36-airportsign-south": {
+			"base": "backrooms:block/36/l36-airportsign",
+			"rotateY": 180
+		},
+		"l36-airportsign-west": {
+			"base": "backrooms:block/36/l36-airportsign",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"drops": [],
+	"attributes": {
+		"l36structure": true
+	},
+	"lightHsv": [
+		8,
+		4,
+		6
+	]
+}

@@ -502,6 +502,79 @@ def lost_found():
     save(img, "lfsign")
 
 
+# ======================================================================== The links (2026-10-31)
+
+def _plane(d, cx, cy, w, fill):
+    """An airliner from above, nose up and a little to the right (as the terminal's own Gates signs draw it)."""
+    pts = [(0, -0.46), (0.045, -0.40), (0.05, -0.12), (0.44, 0.08), (0.44, 0.15), (0.05, 0.04), (0.04, 0.30),
+           (0.17, 0.40), (0.17, 0.46), (0, 0.42)]
+    pts = pts + [(-u, v) for u, v in reversed(pts[1:-1])]
+    a = math.radians(35)
+    d.polygon([(cx + (u * math.cos(a) - v * math.sin(a)) * w, cy + (u * math.sin(a) + v * math.cos(a)) * w) for u, v in pts], fill=fill)
+
+
+def links():
+    """The door under the airplane sign (in the baggage wall, and found in walls of the city and the Suburbs) and the
+    restroom sink."""
+    # The door's glazing: dark tinted glass, a cool reflection band, a faint frosted strip at hand height
+    img = M.noise_hv((30, 38, 46), 2, seed_of("airglass"), S, mottle=3, hue=0.5)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            c = px[x, y]
+            t = ((x + y) - 20) % S
+            t = min(t, S - t)
+            if t < 5:
+                c = M.lift(c, 22 * (1 - t / 5))
+            if 13 <= y <= 15:
+                c = M.mix(c, (150, 160, 168), 0.35)
+            px[x, y] = rgba(c)
+    save(img, "airglass")
+    # The sign: a backlit charcoal box, an aluminium rim, the terminal's yellow tile with the airplane knocked out of it,
+    # a small arrow pointing down at the door (supersampled four times and shrunk, so the edges stay clean)
+    K, W = 4, 64
+    big = Image.new("RGBA", (W * K, W * K), (0, 0, 0, 0))
+    d = ImageDraw.Draw(big)
+    d.rectangle((0, 0, W * K, W * K), fill=(40, 42, 47, 255))
+    d.rounded_rectangle((12 * K, 6 * K, 52 * K, 46 * K), radius=5 * K, fill=(255, 200, 20, 255))
+    _plane(d, 32 * K, 26 * K, 34 * K, (40, 42, 47, 255))
+    d.polygon([(26 * K, 50 * K), (38 * K, 50 * K), (32 * K, 59 * K)], fill=(238, 238, 232, 255))
+    img = big.resize((W, W), Image.LANCZOS)
+    px = img.load()
+    for y in range(W):
+        for x in range(W):
+            r, g, b, a = px[x, y]
+            glow = 6 * math.exp(-(((y - W / 2) / (W / 2.2)) ** 2))
+            if (r, g, b) == (40, 42, 47):
+                px[x, y] = (int(r + glow), int(g + glow), int(b + glow), 255)
+    for i in range(W):
+        for (x, y, c) in ((i, 0, (128, 132, 138)), (i, 1, (112, 116, 122)), (i, W - 1, (86, 88, 94)), (i, W - 2, (96, 98, 104)),
+                          (0, i, (106, 110, 116)), (1, i, (100, 104, 110)), (W - 1, i, (92, 96, 102)), (W - 2, i, (98, 102, 108))):
+            px[x, y] = c + (255,)
+    save(img, "airsign")
+    # The sink: white vitreous china, the basin's inside a shade darker toward the drain, and water (still, and running over)
+    img = M.noise_hv((214, 218, 220), 1.5, seed_of("basin"), S, mottle=2, hue=0.5)
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            dd = math.hypot(x - S / 2 + 0.5, y - S / 2 + 0.5) / (S / 2)
+            c = M.lift(px[x, y], -26 * max(0.0, 1 - dd))
+            if dd < 0.14:
+                c = M.mix(c, (150, 154, 160), 0.7)
+            px[x, y] = rgba(c)
+    save(img, "basin")
+    for name, base, amp in (("water", (78, 140, 164), 3), ("waterfall", (110, 168, 190), 4)):
+        img = M.noise_hv(base, amp, seed_of(name), S, mottle=4, cells=(8, 4), hue=1.0)
+        px = img.load()
+        for y in range(S):
+            for x in range(S):
+                c = px[x, y]
+                streak = (math.sin((x * 1.7 + y * (0.3 if name == "water" else 3.1)) * 0.9) + 1) / 2
+                c = M.lift(c, 18 * streak ** 6)
+                px[x, y] = rgba(c)
+        save(img, name)
+
+
 def textures():
     WRITTEN.clear()
     materials()
@@ -514,4 +587,5 @@ def textures():
     food()
     meeting()
     lost_found()
+    links()
     return list(WRITTEN)

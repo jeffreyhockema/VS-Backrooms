@@ -4,16 +4,16 @@ using Vintagestory.API.Server;
 namespace Backrooms.Thresholds;
 
 /// <summary>
-/// What happens round Level 36, "Airport"'s thresholds in the game (experimental, kept as level 25): nothing, it has none.
-/// This file is the level's own.
+/// What happens round Level 36, "Airport"'s thresholds in the game (experimental, kept as level 25; ThresholdNetwork.L36.cs):
+/// whoever arrives faces out over the claim hall. The flights and the sinks are Regions.L36System's. This file is the level's own.
 /// </summary>
 public partial class ThresholdSystem
 {
     /// <summary>Someone is about to be put down in the level at <paramref name="link"/>.</summary>
     private void L36Arriving(IServerPlayer player, Link link, ref double drop)
     {
-        // Put down on a carousel (round 2): facing east, out over the claim hall, rather than wherever they last looked
-        // (the baggage wall at their back)
+        // Put down on a carousel (round 2), or by a door in the baggage wall (links): facing east, out over the claim hall,
+        // rather than wherever they last looked (the baggage wall at their back)
         Face(player, Vintagestory.API.MathTools.GameMath.PIHALF);
     }
 

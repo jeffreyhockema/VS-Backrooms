@@ -1,4 +1,4 @@
-// Level 36: a flight information display two blocks wide (half l, r: left to right as seen facing it), 12 px tall, its back flush with the block face opposite <side> so two hang back to back; departures boards a..d, the gate desk's screen, and Gate C32's; no collision
+// Level 36: a flight information display two blocks wide (half l, r: left to right as seen facing it), 12 px tall, its back flush with the block face opposite <side> so two hang back to back; departures boards a..d, Gate C32's, and a gate's screen for each level the gates' flights go to (to<level>); no collision
 {
 	"code": "l36-fids",
 	"variantgroups": [
@@ -9,8 +9,13 @@
 				"b",
 				"c",
 				"d",
-				"gate",
-				"c32"
+				"c32",
+				"to11",
+				"to9",
+				"to37",
+				"to3999",
+				"to188",
+				"to10"
 			]
 		},
 		{
@@ -88,16 +93,6 @@
 				"base": "backrooms:block/36/l36-fids-d-r"
 			}
 		},
-		"l36-fids-gate-l-*": {
-			"screen": {
-				"base": "backrooms:block/36/l36-fids-gate-l"
-			}
-		},
-		"l36-fids-gate-r-*": {
-			"screen": {
-				"base": "backrooms:block/36/l36-fids-gate-r"
-			}
-		},
 		"l36-fids-c32-l-*": {
 			"screen": {
 				"base": "backrooms:block/36/l36-fids-c32-l"
@@ -106,6 +101,66 @@
 		"l36-fids-c32-r-*": {
 			"screen": {
 				"base": "backrooms:block/36/l36-fids-c32-r"
+			}
+		},
+		"l36-fids-to11-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-to11-l"
+			}
+		},
+		"l36-fids-to11-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-to11-r"
+			}
+		},
+		"l36-fids-to9-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-to9-l"
+			}
+		},
+		"l36-fids-to9-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-to9-r"
+			}
+		},
+		"l36-fids-to37-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-to37-l"
+			}
+		},
+		"l36-fids-to37-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-to37-r"
+			}
+		},
+		"l36-fids-to3999-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-to3999-l"
+			}
+		},
+		"l36-fids-to3999-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-to3999-r"
+			}
+		},
+		"l36-fids-to188-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-to188-l"
+			}
+		},
+		"l36-fids-to188-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-to188-r"
+			}
+		},
+		"l36-fids-to10-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-to10-l"
+			}
+		},
+		"l36-fids-to10-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-to10-r"
 			}
 		}
 	},

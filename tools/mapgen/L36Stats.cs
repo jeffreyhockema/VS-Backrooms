@@ -10,7 +10,10 @@ using Zone = Backrooms.Worldgen.WorldLayout.L36Zone;
 /// reports each zone's share, the superblocks' kinds, the gates (and C32s), the Travel Planner's spots, and how much of the
 /// walkable floor can be walked to from a carousel (the cabins and bridges are sealed on purpose: reached by boarding);
 /// <c>36map [width height [dx dz]]</c> (blocks, from the baggage wall, centred on the centre line, moved by dx, dz) writes l36map.bin (int width,
-/// int height, then per tile: zone, kind, material bits, prop/overhead flags) for render_36.py.
+/// int height, then per tile: zone, kind, material bits, prop/overhead flags) for render_36.py;
+/// <c>36links [rings]</c> (links, 2026-10-31) lists the doors into the airport in Levels 9 and 11 nearest the spawn and nearest
+/// each host's middle (position, facing, distance), how many there are to a square kilometre of each host, and the level each
+/// gate of the nearest piers flies to, with the doors in the baggage wall and the restroom sinks near the centre line.
 /// </summary>
 static partial class LevelModes
 {
@@ -18,6 +21,7 @@ static partial class LevelModes
     {
         if (mode == "36stats") { L36Stats(layout, args.Length > 3 ? int.Parse(args[3]) : 3); return true; }
         if (mode == "36shots") { L36Shots(layout); return true; }
+        if (mode == "36links") { L36Links(layout, args.Length > 3 ? int.Parse(args[3]) : 400); return true; }
         if (mode == "36map")
         {
             L36Map(layout, args.Length > 3 ? int.Parse(args[3]) : 1100, args.Length > 4 ? int.Parse(args[4]) : 1100,
@@ -47,7 +51,89 @@ static partial class LevelModes
 
     static string L36LinkLabel(Tile t) => null;
 
-    static string L36UseKind(Tile t) => null;
+    /// <summary>For the links mode: the doors under the airplane sign (in the hosts and the baggage wall) and the restroom sinks.</summary>
+    static string L36UseKind(Tile t) =>
+        WorldLayout.IsL36AirportDoor(t) || WorldLayout.IsL36LandDoor(t) ? "l36-airport" : t.Level == WorldLayout.Level36 && t.Kind == TileKind.Floor && t.Variant == Props.L36Sink ? "l36-sink" : null;
+
+    /// <summary>36links: where the ways in and out are, and how common the ways in.</summary>
+    static void L36Links(WorldLayout layout, int rings)
+    {
+        int smx = 16000, smz = 16000;
+        if (int.TryParse(Environment.GetEnvironmentVariable("SPAWN"), out int sp)) smx = smz = sp;
+        double Km(int x, int z, int ox, int oz) => Math.Sqrt((double)(x - ox) * (x - ox) + (double)(z - oz) * (z - oz)) / 1000;
+        foreach (int host in new[] { 11, 9 })
+        {
+            var (cx, cz) = layout.L36HostCentre(host);
+            Console.WriteLine($"Level {host}: middle cell {cx},{cz} (blocks {cx * 32},{cz * 32}), {Km(cx * 32, cz * 32, smx * 32, smz * 32):0.0} km from the spawn");
+            // How common: every cell of the host within the window round its middle, and the doors in them
+            long cells = 0;
+            int doors = 0, chosen = 0;
+            var near = new List<(int X, int Z, ArchPier F)>();
+            for (int mz = cz - rings; mz <= cz + rings; mz++)
+                for (int mx = cx - rings; mx <= cx + rings; mx++)
+                {
+                    if (layout.LevelAt(mx, mz) != host) continue;
+                    cells++;
+                    if (!layout.IsL36EntranceCell(mx, mz)) continue;
+                    chosen++;
+                    Tile[] tiles = layout.BuildMacro(mx, mz);
+                    for (int i = 0; i < tiles.Length; i++)
+                        if (WorldLayout.IsL36AirportDoor(tiles[i])) { doors++; near.Add((mx * 32 + i % 32, mz * 32 + i / 32, tiles[i].Pier)); }
+                }
+            double km2 = cells * 32.0 * 32.0 / 1e6;
+            Console.WriteLine($"  window of {2 * rings + 1} cells square round it: {cells} cells of the level ({km2:0.0} km2), {chosen} chosen, {doors} doors"
+                + $" = {doors / Math.Max(km2, 1e-9):0.000} a km2, one to {km2 / Math.Max(doors, 1):0.0} km2 (mean spacing about {Math.Sqrt(km2 / Math.Max(doors, 1)):0.0} km)");
+            near.Sort((a, b) => Km(a.X, a.Z, cx * 32, cz * 32).CompareTo(Km(b.X, b.Z, cx * 32, cz * 32)));
+            for (int i = 0; i < Math.Min(5, near.Count); i++)
+            {
+                var (x, z, f) = near[i];
+                double nn = double.MaxValue;
+                foreach (var o in near) if (o.X != x || o.Z != z) nn = Math.Min(nn, Km(x, z, o.X, o.Z));
+                Console.WriteLine($"  door at {x},{z} facing {f}: {Km(x, z, cx * 32, cz * 32):0.00} km from the middle, {Km(x, z, smx * 32, smz * 32):0.0} km from the spawn, the next door {nn:0.00} km off");
+            }
+            // The nearest to the spawn: rings out from the spawn
+            var fromSpawn = layout.L36HostDoorsNear(smx, smz, 6000, 3, host);
+            foreach (var d in fromSpawn)
+                Console.WriteLine($"  nearest the spawn: {d.X},{d.Z} facing {d.Facing}, {Km(d.X, d.Z, smx * 32, smz * 32):0.00} km from the spawn");
+        }
+        // Inside: the doors in the baggage wall, the gates' flights, the sinks, near the centre line
+        int wx = layout.L36WallX, lz = layout.L36LineZ;
+        int land = 0;
+        for (int z = lz - 1024; z < lz + 1024; z++) if (WorldLayout.IsL36LandDoor(layout.TileAt(wx, z))) land++;
+        Console.WriteLine($"Level 36: {land} doors under the airplane sign in 2048 blocks of the baggage wall (x {wx})");
+        var count = new int[WorldLayout.L36FlightLevels.Length];
+        int gates = 0, sinks = 0;
+        var firstTo = new int[WorldLayout.L36FlightLevels.Length];
+        (int X, int Z)? firstSink = null;
+        for (int sx = 0; sx < 4; sx++)
+            for (int sz = -3; sz <= 3; sz++)
+            {
+                WorldLayout.L36Plan plan = layout.L36PlanOf(sx, sz);
+                foreach (WorldLayout.L36Gate g in plan.Gates)
+                {
+                    if (g.SupportGroup) continue;
+                    gates++;
+                    count[layout.L36FlightIndex(g.DoorX, g.DoorZ)]++;
+                    if (firstTo[layout.L36FlightIndex(g.DoorX, g.DoorZ)]++ > 0) continue;
+                    string board = "none";
+                    for (int dz = -4; dz <= 4; dz++)
+                        for (int dx = -4; dx <= 4; dx++)
+                            if (layout.TileAt(g.DoorX + dx, g.DoorZ + dz) is { Overhead: Overheads.L36Fids } st) board = WorldLayout.L36FidsTexts[st.Depth];
+                    Console.WriteLine($"  the first gate to it: {g.Code} (door {g.DoorX},{g.DoorZ}) flies to Level {layout.L36FlightTo(g)}; its screen: {board}");
+                }
+                for (int i = 0; i < plan.Tiles.Length; i++)
+                    if (plan.Tiles[i].Variant == Props.L36Sink)
+                    {
+                        sinks++;
+                        firstSink ??= (plan.X0 + i % WorldLayout.L36Size, plan.Z0 + i / WorldLayout.L36Size);
+                    }
+            }
+        Console.Write($"  {gates} gates in 4 x 7 superblocks fly to:");
+        for (int i = 0; i < count.Length; i++) Console.Write($" {WorldLayout.L36FlightLevels[i]}: {count[i]}");
+        Console.WriteLine($"; {sinks} restroom sinks, the first at {firstSink}");
+        for (int z = lz; z < lz + 256; z++)
+            if (WorldLayout.IsL36LandDoor(layout.TileAt(wx, z))) { Console.WriteLine($"  the first door in the baggage wall south of the centre line: {wx},{z}"); break; }
+    }
 
     static void L36Map(WorldLayout layout, int w, int h, int dx, int dz)
     {
