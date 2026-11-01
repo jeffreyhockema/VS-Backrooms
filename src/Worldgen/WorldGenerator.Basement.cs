@@ -84,6 +84,8 @@ public sealed partial class WorldGenerator
                 for (int l = 0; l < 2; l++)
                     basementLiftIds[p, l, f] = Id($"basement-lift-{lift[p]}-{leaves[l]}-{Sides[f]}");
         }
+        // The way in, in other levels (WorldGenerator.Basement.Links.cs)
+        InitBasementLinks();
     }
 
     /// <summary>One block of a column of the level, <paramref name="rel"/> above its floor.</summary>

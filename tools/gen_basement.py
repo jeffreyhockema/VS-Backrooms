@@ -164,6 +164,7 @@ def textures():
     M.grime(dead, 0.3, seed=104, color=(60, 56, 48), cells=(4, 2), cover=0.6)
     save(dead, "bulb-off")
     detail_textures()
+    link_textures()
     print("textures:", len(os.listdir(TEX)))
 
 
@@ -311,6 +312,7 @@ def blocks():
         "sounds": {"place": "game:block/glass", "break": "game:block/glass", "hit": "game:block/glass"},
     }, "The Basement: a bare bulb in a wire cage on its cable (on, dim, bright, flicker, off)")
     detail_blocks()
+    link_blocks()
     print("blocktypes:", sorted(os.listdir(BLOCKS)))
 
 
@@ -790,6 +792,151 @@ def detail_sounds():
     path = os.path.join(SOUNDS, "lightson.ogg")
     if write_ogg(path, out, RATE):
         print("wrote", os.path.relpath(path, ROOT))
+
+
+# ======================================================================== Links (2026-10-31)
+#
+# The way in, in other levels (docs/design/experimental-levels/LINKS.md; src/Worldgen/WorldLayout.LevelBasement.Links.cs):
+# "breaking through the floor of most levels" (Fandom). A patch of cracked floor five by five in Level 0, 1, 2, 4 or 5,
+# drawn over the host's own floor as a flat decal one piece a tile (basement-floorcrack): in its middle the floor broken
+# through to the dark under it and sagging round the hole, cracks running out from it, rings of fracture round it, and
+# hairline cracks over the edge. Dark only, so it reads on yellow carpet, office carpet, hotel rugs and bare concrete
+# alike. Two drawings (a, b), each also turned half about by the generator (variant s).
+
+CRACK_TILE = 32
+CRACK_INK = (18, 14, 10)
+CRACK_LIP = (226, 216, 196)
+
+
+def crack_pattern(seed):
+    """One drawing of a cracked patch, five tiles by five, as RGBA (drawn four times over and scaled down, for clean lines)."""
+    import math
+    import random
+    from PIL import Image, ImageDraw, ImageFilter
+    rng = random.Random(seed)
+    k = 4
+    n = 5 * CRACK_TILE * k
+    c = n / 2 + rng.uniform(-3, 3) * k
+    cz = n / 2 + rng.uniform(-3, 3) * k
+    unit = CRACK_TILE * k  # one tile
+    ink = Image.new("L", (n, n), 0)      # the dark of the cracks and the hole
+    lit = Image.new("L", (n, n), 0)      # a pale broken edge along one side of the big cracks
+    d, dl = ImageDraw.Draw(ink), ImageDraw.Draw(lit)
+
+    # The sag: the middle three by three darkens toward the hole, as if the floor had settled into it
+    sag = Image.new("L", (n, n), 0)
+    sd = ImageDraw.Draw(sag)
+    steps = 40
+    for i in range(steps):
+        r = 1.6 * unit * (1 - i / steps)
+        sd.ellipse([c - r, cz - r, c + r, cz + r], fill=int(130 * (i / steps) ** 1.3))
+    sag = sag.filter(ImageFilter.GaussianBlur(7 * k))
+
+    # The hole: a jagged ring of broken edge round the dark, a pale lip on its far side
+    pts = []
+    m = 13
+    base = rng.uniform(0.5, 0.6) * unit
+    for i in range(m):
+        a = 2 * math.pi * i / m + rng.uniform(-0.15, 0.15)
+        r = base * rng.uniform(0.72, 1.25)
+        pts.append((c + r * math.cos(a), cz + r * math.sin(a)))
+    dl.polygon([(x + 1.5 * k, y + 1.5 * k) for x, y in pts], fill=70)
+    d.polygon(pts, fill=246)
+
+    def walk(x, y, ang, length, width, a0, branch, edge):
+        """A crack: straight runs with sharp kinks, thinning as it goes, now and then forking."""
+        done = 0.0
+        while done < length:
+            seg = rng.uniform(5, 11) * k
+            ang += rng.uniform(-0.55, 0.55) if rng.random() < 0.4 else rng.uniform(-0.12, 0.12)
+            nx, ny = x + seg * math.cos(ang), y + seg * math.sin(ang)
+            t = done / length
+            w = max(k * 0.8, width * (1 - 0.7 * t))
+            if edge and w > 1.6 * k:
+                ox, oy = -math.sin(ang) * w * 0.6, math.cos(ang) * w * 0.6
+                dl.line([(x + ox, y + oy), (nx + ox, ny + oy)], fill=int(60 * (1 - t)), width=int(round(w * 0.6)))
+            d.line([(x, y), (nx, ny)], fill=int(a0 * (1 - 0.4 * t)), width=int(round(w)))
+            if branch and rng.random() < 0.12 and t < 0.75:
+                walk(nx, ny, ang + rng.choice((-1, 1)) * rng.uniform(0.45, 1.0), (length - done) * rng.uniform(0.3, 0.55), w * 0.6, a0 * 0.85, False, False)
+            x, y = nx, ny
+            done += seg
+
+    # The main cracks, out from the hole across the middle and on into the edge
+    spokes = rng.randint(7, 9)
+    angles = sorted(2 * math.pi * i / spokes + rng.uniform(-0.25, 0.25) for i in range(spokes))
+    for a in angles:
+        r0 = base * 0.85
+        walk(c + r0 * math.cos(a), cz + r0 * math.sin(a), a, rng.uniform(1.15, 1.95) * unit, 2.6 * k, 230, True, True)
+
+    # Rings of fracture between the spokes: the plates the floor broke into round the hole (angular, a few corners each)
+    for ring, (rr, p) in enumerate(((0.9, 0.85), (1.4, 0.5))):
+        for i in range(spokes):
+            if rng.random() > p:
+                continue
+            a0, a1 = angles[i], angles[(i + 1) % spokes] + (2 * math.pi if i + 1 == spokes else 0)
+            line = []
+            corners = rng.randint(3, 4)
+            for j in range(corners + 1):
+                a = a0 + (a1 - a0) * j / corners
+                r = rr * unit * rng.uniform(0.88, 1.12)
+                line.append((c + r * math.cos(a), cz + r * math.sin(a)))
+            d.line(line, fill=200 if ring == 0 else 165, width=int(round((1.7 if ring == 0 else 1.2) * k)))
+
+    # Hairline cracks over the edge, faint
+    for _ in range(rng.randint(10, 14)):
+        a = rng.uniform(0, 2 * math.pi)
+        r = rng.uniform(1.35, 1.9) * unit
+        walk(c + r * math.cos(a), cz + r * math.sin(a), a + rng.uniform(-0.8, 0.8), rng.uniform(0.3, 0.6) * unit, 0.9 * k, 125, False, False)
+
+    ink_a = np.maximum(np.asarray(ink), np.asarray(sag)).astype(np.float64) / 255
+    lit_a = np.asarray(lit).astype(np.float64) / 255 * (1 - ink_a)
+    alpha = ink_a + lit_a
+    rgb = np.zeros((n, n, 3))
+    for ch in range(3):
+        rgb[..., ch] = (CRACK_INK[ch] * ink_a + CRACK_LIP[ch] * lit_a) / np.maximum(alpha, 1e-6)
+    out = Image.fromarray(np.dstack([rgb, alpha * 255]).clip(0, 255).astype(np.uint8), "RGBA")
+    out = out.resize((5 * CRACK_TILE, 5 * CRACK_TILE), Image.LANCZOS)
+    # (Nothing may reach the patch's outer edge: the floor round it is whole)
+    a = np.asarray(out).copy()
+    edge = 3
+    a[:edge, :, 3] = 0
+    a[-edge:, :, 3] = 0
+    a[:, :edge, 3] = 0
+    a[:, -edge:, 3] = 0
+    return Image.fromarray(a, "RGBA")
+
+
+def link_textures():
+    for name, seed in (("a", 901), ("b", 902)):
+        img = crack_pattern(seed)
+        for r in range(5):
+            for col in range(5):
+                piece = img.crop((col * CRACK_TILE, r * CRACK_TILE, (col + 1) * CRACK_TILE, (r + 1) * CRACK_TILE))
+                save(piece, f"floorcrack-{name}-p{r}{col}")
+
+
+def link_blocks():
+    # A flat decal lying on the floor, its one face up (a hair over the floor, so it never fights it)
+    write_json(os.path.join(SHAPES, "floorcrack.json"), {
+        "textureWidth": 16, "textureHeight": 16, "textures": {"crack": "backrooms:block/basement/floorcrack-a-p22"},
+        "elements": [{"name": "Crack", "from": [0, 0.2, 0], "to": [16, 0.2, 16],
+                      "faces": {"up": {"texture": "#crack", "uv": [0, 0, 16, 16]}}}]})
+    parts = [f"p{r}{c}" for r in range(5) for c in range(5)]
+    write_json(os.path.join(BLOCKS, "basement-floorcrack.json"), {
+        "code": "basement-floorcrack",
+        "variantgroups": [{"code": "drawing", "states": ["a", "b"]}, {"code": "part", "states": parts},
+                          {"code": "turn", "states": ["n", "s"]}],
+        "creativeinventory": {"general": ["*-a-p22-n"], "decorative": ["*-a-p22-n"]},
+        "blockmaterial": "Stone", "drawtype": "json", "renderpass": "Transparent",
+        "shapeByType": {"*-n": {"base": "block/basement/floorcrack"}, "*-s": {"base": "block/basement/floorcrack", "rotateY": 180}},
+        "texturesByType": {f"*-{dr}-{p}-*": {"crack": {"base": f"block/basement/floorcrack-{dr}-{p}"}} for dr in ("a", "b") for p in parts},
+        "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0,
+        "collisionbox": None,
+        "selectionbox": {"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 0.05, "z2": 1},
+        "resistance": 1, "drops": [],
+        "sounds": {"place": "game:block/loosestone", "break": "game:block/loosestone", "hit": "game:block/loosestone"},
+    }, "The Basement's way in, in other levels: a piece of a patch of cracked floor, five by five, that gives way in its middle "
+       "(drawing a or b, part p<row><column>, turned: n as drawn, s half about)")
 
 
 if __name__ == "__main__":

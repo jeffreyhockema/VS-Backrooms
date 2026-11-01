@@ -1035,6 +1035,8 @@ public static class Unders
     // The experimental levels (ids 21-28): one block of 32 each, past 255 (see docs/design/experimental-levels/README.md)
     public const ushort L73First = 256, L73Last = 287;
     public const ushort BasementFirst = 288, BasementLast = 319;
+    /// <summary>The Basement's way in, in Levels 0, 1, 2, 4 and 5: a patch of cracked floor five by five, one value a tile (288 + 5 dz + dx from its north-west corner); its middle three by three gives way.</summary>
+    public const ushort BasementCrack = 288, BasementCrackEnd = 312;
     public const ushort L52First = 320, L52Last = 351;
     /// <summary>Level 52: an outside wall with a window bay in every storey; a wall with a bank of lockers on its Pier face.</summary>
     public const ushort L52Window = 320, L52Locker = 321;
