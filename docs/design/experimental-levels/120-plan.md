@@ -349,3 +349,18 @@ lead's this round; its `PAGES["l120"]` block needs the same paragraph, in its ma
 - **Out:** now and then a server room has a steel door in its wall, a line of warm light under it: in the dark, look low. Every Pitch-Black Hallway has one too, in its first lane or its last. Each opens on Level 4, and the door behind you there is only an office door, and locked: one way.
 - The reports also speak of the smashed screen of an arcade machine in Level 25 leading in, and of noclipping through a server room's wall into Level 70: neither is known to work.
 ```
+
+### Checks
+- `expclash` clean; mod and mapgen 0 errors. `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash (versions 1 and 12): levels 0-20 and
+  the layout hash identical to main's. Without it, no line moves either: layouthash's 24 sample cells of Level 4 hold no
+  SERVER ROOM door (8 in the world); `120links` finds and checks each one on its built cell instead.
+- `regions`: Level 120 60/60; `120stats 3`: OK (0 unreached, 60/60 arrivals).
+- Headless (port 43140, `/backrooms wayback`): the SERVER ROOM door at 513092 514242 leads to Level 120 at 656533 368289,
+  beside the door back (the dump shows `l120-door-dark-*` beside the arrival); that door leads back to the corridor in
+  front of the SERVER ROOM door (the dump shows the door, its placard and the sealed room's racks); a fresh door back
+  and the nearest hallway's door each land in Level 4, one-way. A dummy in Level 120, blocksweep 11167 blocks, 0 threw,
+  0 error lines. Gate `--fast --port-base 43140`: PASS.
+- Shots (`%TEMP%/backrooms-shots/120-links2/`, `--torch`): `serverroom-door` (the grey door marked SERVER ROOM in the office
+  corridor, the green line under it, the placard beside it), `door-back`, `hallway-door`. The first run showed a door in
+  a wall along z as a plain slab (its door faces were north and south only): fixed, the door is on all four sides, the
+  lever painted beside the lock.
