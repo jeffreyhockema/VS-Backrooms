@@ -801,6 +801,7 @@ An elevator arrives beside another elevator, a stairwell beside a stairwell, a d
 - Level 37, a huge hollow tree of green bark growing up through the tiles: Level 23, out of a hollow trunk in the forest. Level 23, the well at the bottom of the Heart of Water: Level 7's open sea.
 - Levels 0, 1, 2, 4 and 5, a patch of cracked floor: it gives way into the Basement. Climbing to the top of the crack's shaft: the Lobby.
 - Level 9, the Gloom (a pool of darkness light does not reach), stayed in too long; Level 6's deepest dark, with no light, for minutes: Level 73. Level 73, the door in the castle's north wall that Coran opens for you: Level 9.
+- Level 10, an ancient dead tree, grey and hollow, alone on a field's edge: Level 47, out of a dead tree's hollow. Level 47, some of its dead trees' hollows: Level 10, beside its ancient dead tree; a green giant's hollow: Level 23, out of a hollow trunk in the forest.
 """)
 
 PAGES["entities"] = ("What Lives Here", """
@@ -1083,6 +1084,42 @@ The wanderers also tell of hollow green trees in Level 47, a hollow log in Level
 
 **What to bring**
 Light, and food. The forest floor and the glow rooms have mushrooms, but not all of them are safe (leave the red ones with white spots and the brown puffballs), and little else grows. Wood comes from the bark, slowly: it is stone, and gives up only a little firewood. And keep quiet.
+""")
+
+
+# ---------- Level 47, the Adderwood (experimental level 30): its own page (GuideSystem.Added "level47"); tools/gen_47.py
+# writes its keys into the level's block of en.json ----------
+PAGES["level47"] = ("Level 47: The Adderwood", """
+**Level 47, the Adderwood**
+*An experimental level. A primeval forest that will not stay mapped. Harm no snake.*
+
+**What it is**
+An old-growth forest, temperate, of oaks and beeches, firs and spruces, many of them over a hundred feet tall and hundreds of years old or more, with dead trees standing grey among them. Moss and lichen cover everything they can: the trunks to head height and in patches far above, the fallen logs, the boulders, the ground itself, and old man's beard hangs from the boughs. Streams wind through it, and their water is safe to drink. It is cool (11 °C, colder by the water). By day a thick, damp fog lies over all of it and the sun never shows; each night the fog lifts, without fail, and a full moon hangs over the trees, much nearer than ours and showing its far side, among stars that make none of our constellations; very rarely there is an aurora, silver-white. It drains you more than most forests (you can noclip out of it more easily than out of most places).
+
+The forest does not stay put. What you are not looking at may not be where you left it: nothing much, a tree, a log, but enough to make a map useless and to unsettle anyone who notices. What you build or leave here may not be there when you come back to it.
+
+**The trail**
+Somewhere in the forest runs a single trail, trodden bare, winding back and forth, that does not change and does not vanish once you have found it. Stone posts with a snake cut into them stand beside it now and then. Followed one way, it goes on for days and gets nowhere. Followed the other, it ends at a glade.
+
+**The glade**
+In the glade stands a manor house of grey stone with a slate roof, or an ancient ring of standing stones: both, in the same place, the stones standing through the house's rooms and out through its roof. It is the headquarters of the **Ophion Occult Order**, and they guard it: masked, in crimson robes, they warn whoever comes in once and then drive them out. Their stores are inside. Do not antagonise them.
+
+**What lives here**
+**Snakes**, everywhere, of many kinds, and none of them dangerous. They are sacred here: **harm one** (or one of the Order) and the **Great Old Adder**, a crimson snake as long as a house, comes for you. Nobody has ever got away from it or fought it off. Its quarry it devours; everyone else it leaves alone. Crows and ravens hunt the snakes, and that it does not mind.
+
+At night packs of **Black Shucks**, huge black dogs, come out. A scout finds you and stalks you, close, without attacking, howling for the rest; when the pack has gathered, they close in. Unwatched, they can be suddenly nearer. They cannot climb: **climb the tallest tree you can and wait for the dawn**, when they go back to their dens. They have been seen running from a single member of the Order. By day the forest's **elk** (great deer with broad antlers) graze far off; the bulls, and the cows with calves, charge whoever comes near.
+
+The Order's members walk the trail too. There they leave you alone, stop to look at you, and now and then preach: about the Great Adder, the World Snake it comes from, and the powers they say the Order has, to go anywhere in the Backrooms at will, to steer the trail to any place they like, even home. Take none of it as a promise.
+
+**Ways in and out**
+In: very rarely, an ancient dead tree, grey and hollow, older than anything round it, stands on a field's edge in Level 10. Step into its hollow and you come out of a dead tree's hollow in the Adderwood. One way.
+
+Out: the hollows of the Adderwood's dead trees. Some of them, stepped into, put you out in Level 10, beside its own ancient dead tree. One way. A **green giant**, a huge tree of green bark, hollow at the foot, stands here and there in the deep forest; climb into it and you come out of a hollow trunk in Level 23, the Petrified Garden. One way.
+
+The Order says the trail can be steered to any place where the world is thin, even the Frontrooms. Nobody has seen it done.
+
+**What to bring**
+A weapon you trust for the elk, and nothing you would use on a snake. The mushrooms are food, most of them: learn the poisonous ones (the fly agaric, the death cap, the earthball, the devil's bolete). There is water in every stream. Plan to be up a tree, or somewhere safe, before the fog lifts.
 """)
 
 

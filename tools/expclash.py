@@ -3,7 +3,7 @@
     python tools/expclash.py
 
 Reads src/Worldgen/Tiles.cs. Reports (1) an enum value held by both an experimental name (L73, Basement, L52, L31,
-L120, L36, L15, L23) and another name, or by two experimental levels, (2) a First/Last range of one side overlapping a
+L120, L36, L15, L23, L14, L47) and another name, or by two experimental levels, (2) a First/Last range of one side overlapping a
 range or constant of the other (or of another experimental level), (3) a constant at or above its table's Limit, (4) an
 experimental enum member, constant or range outside its own level's reserved block (RESERVED below, the table in
 docs/design/experimental-levels/README.md) and the values it kept from before the widening (KEPT). Main's values are
@@ -14,7 +14,7 @@ import os
 import re
 import sys
 
-LEVELS = ["L73", "Basement", "L52", "L31", "L120", "L36", "L15", "L23"]
+LEVELS = ["L73", "Basement", "L52", "L31", "L120", "L36", "L15", "L23", "L14", "L47"]
 EXP = re.compile(r"^(?:" + "|".join(LEVELS) + r")(?![0-9])")
 
 
@@ -26,7 +26,7 @@ def level_of(name):
 # One block of 32 per level past 255 in every widened table (in the order of LEVELS); Props one block of 100 from 700.
 BLOCK32 = {lv: (256 + 32 * k, 287 + 32 * k) for k, lv in enumerate(LEVELS)}
 PROPS = {"L31": (700, 799), "L120": (800, 899), "L73": (900, 999), "Basement": (1000, 1099), "L52": (1100, 1199),
-         "L36": (1200, 1299), "L15": (1300, 1399), "L23": (1400, 1499)}
+         "L36": (1200, 1299), "L15": (1300, 1399), "L23": (1400, 1499), "L14": (1500, 1599), "L47": (1600, 1699)}
 RESERVED = {"WallPattern": BLOCK32, "FloorKind": BLOCK32, "CeilingKind": BLOCK32, "Unders": BLOCK32, "Overheads": BLOCK32,
             "Pipes": BLOCK32, "Decor": BLOCK32, "Props": PROPS}
 # Values kept from before the widening, outside the blocks (theirs; never reuse them for anything else)

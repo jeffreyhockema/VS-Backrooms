@@ -323,7 +323,8 @@ public partial class ThresholdSystem : ModSystem
                 && L974MayPass(player, passage) && L3999MayPass(player, passage) && L188MayPass(player, passage)
                 && L73MayPass(player, passage) && BasementMayPass(player, passage) && L52MayPass(player, passage)
                 && L31MayPass(player, passage) && L120MayPass(player, passage)
-                && L36MayPass(player, passage) && L15MayPass(player, passage) && L23MayPass(player, passage))) continue;
+                && L36MayPass(player, passage) && L15MayPass(player, passage) && L23MayPass(player, passage)
+                && L14MayPass(player, passage) && L47MayPass(player, passage))) continue;
             Go(player, passage, network.Take(passage, passage.TwoWay ? network.HomeFor(passage) : null), dropping ? "fall" : "walk");
         }
     }
@@ -410,6 +411,7 @@ public partial class ThresholdSystem : ModSystem
         ?? L73Redirect(player, passage, destination) ?? BasementRedirect(player, passage, destination) ?? L52Redirect(player, passage, destination)
         ?? L31Redirect(player, passage, destination) ?? L120Redirect(player, passage, destination)
         ?? L36Redirect(player, passage, destination) ?? L15Redirect(player, passage, destination) ?? L23Redirect(player, passage, destination)
+        ?? L14Redirect(player, passage, destination) ?? L47Redirect(player, passage, destination)
         ?? destination;
 
     /// <summary>
@@ -503,6 +505,8 @@ public partial class ThresholdSystem : ModSystem
             case WorldLayout.Level36: L36Arriving(player, link, ref drop); break;
             case WorldLayout.Level15: L15Arriving(player, link, ref drop); break;
             case WorldLayout.Level23: L23Arriving(player, link, ref drop); break;
+            case WorldLayout.Level14: L14Arriving(player, link, ref drop); break;
+            case WorldLayout.Level47: L47Arriving(player, link, ref drop); break;
         }
         // Put down on a flight of stairs (near the top of the way back, after climbing another), they face down it,
         // and it takes them nowhere until they have stepped off it

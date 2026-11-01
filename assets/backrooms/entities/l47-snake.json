@@ -1,0 +1,146 @@
+// Level 47's snakes: ordinary forest snakes, sacred to the Great Old Adder. Textures 0 grass snake, 1 adder, 2 black rat snake, 3 ringed (milk) snake. Made by tools/gen_47_creatures.py
+{
+	"code": "l47-snake",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"animal",
+		"habitat-land"
+	],
+	"weight": 2,
+	"hitboxSize": {
+		"x": 0.7,
+		"y": 0.3
+	},
+	"deadHitboxSize": {
+		"x": 0.7,
+		"y": 0.25
+	},
+	"eyeHeight": 0.2,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-l47-snake"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/47/l47-snake"
+		},
+		"texture": {
+			"base": "backrooms:entity/47/l47-snake",
+			"alternates": [
+				{
+					"base": "backrooms:entity/47/l47-snake-adder"
+				},
+				{
+					"base": "backrooms:entity/47/l47-snake-rat"
+				},
+				{
+					"base": "backrooms:entity/47/l47-snake-ringed"
+				}
+			]
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				},
+				"easeOutSpeed": 4
+			},
+			{
+				"code": "slither",
+				"animation": "slither",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "rear",
+				"animation": "rear",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 5
+			},
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 10
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "health",
+				"currenthealth": 3,
+				"maxhealth": 3
+			},
+			{
+				"code": "deaddecay",
+				"hoursToDecay": 0.5
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-l47-snake",
+						"priority": 1.5,
+						"priorityForCancel": 1.5,
+						"mincooldown": 0,
+						"maxcooldown": 0
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	}
+}

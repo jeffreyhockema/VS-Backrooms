@@ -1,0 +1,47 @@
+// Level 47: dead wood, weathered grey
+{
+	"code": "l47-bark-dead",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/47/bark-dead",
+			"alternates": [
+				{
+					"base": "block/47/bark-dead-2"
+				}
+			]
+		},
+		"up": {
+			"base": "block/47/rings-dead"
+		},
+		"down": {
+			"base": "block/47/rings-dead"
+		}
+	},
+	"resistance": 6,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

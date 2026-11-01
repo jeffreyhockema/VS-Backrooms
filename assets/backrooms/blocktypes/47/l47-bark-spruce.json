@@ -1,0 +1,47 @@
+// Level 47: spruce
+{
+	"code": "l47-bark-spruce",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/47/bark-spruce",
+			"alternates": [
+				{
+					"base": "block/47/bark-spruce-2"
+				}
+			]
+		},
+		"up": {
+			"base": "block/47/rings-spruce"
+		},
+		"down": {
+			"base": "block/47/rings-spruce"
+		}
+	},
+	"resistance": 6,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

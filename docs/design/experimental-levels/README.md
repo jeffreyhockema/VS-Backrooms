@@ -6,7 +6,8 @@ rooms by function, multi-block objects, signs and text, and is written up in eac
 `BALANCE.md` reviews how the eight sit against the released levels and records the balance changes made. Since the links round (2026-10-31) they are **connected**: each has the ways in and
 out its lore gives wherever the lore names a level this mod has (`LINKS.md`; the handbook's Ways Between Levels page
 lists them), and the rest are rumours in its notes. The cheats menu (F7) and `/backrooms goto
-73|basement|52|31|120|36|15|23` still take you straight there.
+73|basement|52|31|120|36|15|23` still take you straight there. Two more, Levels 14 and 47, were scaffolded on
+2026-11-01 (batch 4, below) for builders to fill (`/backrooms goto 14|47`).
 
 This branch is not meant to merge into `main` for a long time. Each level is its own commit after the shared
 scaffolding commit, so one can be cherry-picked or reverted on its own. Levels 55 and 183 were built in batch 2 and
@@ -22,11 +23,13 @@ dropped on 2026-10-30 (their plans are in `dropped/`); their ids 25 and 27 now h
 | Level 120 "Server Room" | 26 | `WorldLayout.Level120` | `120` | 120 (`l120-`) | `L120` | far north-east beyond Level Fun: `spawn + (+F, -F)`, `F = round(R * 1.6 / sqrt 2)` |
 | Level 15 "Futuristic Halls" | 27 | `WorldLayout.Level15` | `15` | 15 (`l15-`) | `L15` | far north-west beyond the End: `spawn + (-F, -F)` (Level 183's old slot); big indoor level |
 | Level 23 "Petrified Garden" | 28 | `WorldLayout.Level23` | `23` | 23 (`l23-`) | `L23` | far south-west beyond Level 974: `spawn + (-F, +F)`; open sky (`IsOpenSky`), a landscape of stone trees |
+| Level 14 "The Hospital" (Fandom) | 29 | `WorldLayout.Level14` | `14` | 14 (`l14-`) | `L14` | far north-north-west, beyond Level 73 and the End: `1.35 R` out, 33.75 degrees west of north; big indoor level |
+| Level 47 "The Adderwood" (Wikidot) | 30 | `WorldLayout.Level47` | `47` | 47 (`l47-`) | `L47` | far south-south-east, beyond Level 52 and the Hub: `1.35 R` out, 33.75 degrees east of south; open sky (`IsOpenSky`), an old-growth forest |
 
 All are round noclip regions (like 37/94/188), radius `max(40, spawnMacroX / 50)` unless the level's plan says
 otherwise. `R = RegionReach` (see `docs/design/new-levels/CONTRACT.md`, which this branch follows: same hooks, same
-file naming, same rules for shared files). Level 23 = 28 is the last id: every `>= RunLevel && <= ...` name check ends
-at `WorldLayout.Level23`.
+file naming, same rules for shared files). Level 47 = 30 is the last id: every `>= RunLevel && <= ...` name check ends
+at `WorldLayout.Level47`.
 
 ## Reserved values (2026-10-30; supersedes every older table in this folder)
 
@@ -35,28 +38,28 @@ at `WorldLayout.Level23`.
 tables** (block `k` = `256 + 32k` to `287 + 32k`, `k` in the order of the columns), Props one block of 100. Values a
 level kept from before the widening are listed as "kept": they are the level's too, but put new values in the block.
 `Tiles.cs` has each level's `<N>First/<N>Last` (Unders, Overheads, Pipes, Props, Decor) and placeholder enum members.
-Every `Limit` is one past the last block (Unders, Overheads, Pipes, Decor 512; Props 1500); the generator's tables are
+Every `Limit` is one past the last block (Unders, Overheads, Pipes, Decor 576; Props 1700); the generator's tables are
 sized by them (`floorIds` by the largest `FloorKind`; `decorIds` makes a pattern's row only when a decoration is
 registered on it).
 
-| Range | 73 | Basement | 52 | 31 | 120 | 36 | 15 | 23 |
-|---|---|---|---|---|---|---|---|---|
-| `WallPattern` | 256-287 | 288-319 | 320-351 (kept 224) | 352-383 (kept 240) | 384-415 (kept 242) | 416-447 | 448-479 | 480-511 |
-| `FloorKind` | 256-287 | 288-319 (kept 228-231) | 320-351 (kept 244-248) | 352-383 (kept 249) | 384-415 (kept 251) | 416-447 | 448-479 | 480-511 |
-| `CeilingKind` | 256-287 | 288-319 | 320-351 (kept 88) | 352-383 (kept 96) | 384-415 (kept 112) | 416-447 | 448-479 | 480-511 |
-| `Unders` | 256-287 | 288-319 | 320-351 | 352-383 | 384-415 | 416-447 | 448-479 | 480-511 |
-| `Overheads` | 256-287 | 288-319 | 320-351 | 352-383 (kept 140-149: `L31Legacy`) | 384-415 (kept 160-169: `L120Legacy`) | 416-447 | 448-479 | 480-511 |
-| `Pipes` | 256-287 | 288-319 | 320-351 | 352-383 | 384-415 (kept 140-149: `L120Legacy`) | 416-447 | 448-479 | 480-511 |
-| `Decor` (wall decorations) | 256-287 | 288-319 | 320-351 | 352-383 | 384-415 | 416-447 | 448-479 | 480-511 |
-| `Props` (`Tile.Variant`) | 900-999 | 1000-1099 | 1100-1199 | 700-799 | 800-899 | 1200-1299 | 1300-1399 | 1400-1499 |
-| Title keys (`level-<key>`) | 2101-2199 | 2201-2299 | 2301-2399 | 2401-2499 | 2601-2699 | 2501-2599 | 2701-2799 | 2801-2899 |
-| Layout salts | 0x2100-0x21BF | 0x2200-0x22BF | 0x2300-0x23BF | 0x2400-0x24BF | 0x2600-0x26BF | 0x2500-0x25BF | 0x2700-0x27BF | 0x2800-0x28BF |
-| Threshold salts | 0x21C0-0x21FF | 0x22C0-0x22FF | 0x23C0-0x23FF | 0x24C0-0x24FF | 0x26C0-0x26FF | 0x25C0-0x25FF | 0x27C0-0x27FF | 0x28C0-0x28FF |
-| Headless ports | 43100-43109 | 43110-43119 | 43120-43129 | 43130-43139 | 43140-43149 | 43150-43159 | 43160-43169 | 43170-43179 |
-| Lang keys, block codes | `l73-` | `basement-` | `l52-` | `l31-` | `l120-` | `l36-` | `l15-` | `l23-` |
+| Range | 73 | Basement | 52 | 31 | 120 | 36 | 15 | 23 | 14 | 47 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `WallPattern` | 256-287 | 288-319 | 320-351 (kept 224) | 352-383 (kept 240) | 384-415 (kept 242) | 416-447 | 448-479 | 480-511 | 512-543 | 544-575 |
+| `FloorKind` | 256-287 | 288-319 (kept 228-231) | 320-351 (kept 244-248) | 352-383 (kept 249) | 384-415 (kept 251) | 416-447 | 448-479 | 480-511 | 512-543 | 544-575 |
+| `CeilingKind` | 256-287 | 288-319 | 320-351 (kept 88) | 352-383 (kept 96) | 384-415 (kept 112) | 416-447 | 448-479 | 480-511 | 512-543 | 544-575 |
+| `Unders` | 256-287 | 288-319 | 320-351 | 352-383 | 384-415 | 416-447 | 448-479 | 480-511 | 512-543 | 544-575 |
+| `Overheads` | 256-287 | 288-319 | 320-351 | 352-383 (kept 140-149: `L31Legacy`) | 384-415 (kept 160-169: `L120Legacy`) | 416-447 | 448-479 | 480-511 | 512-543 | 544-575 |
+| `Pipes` | 256-287 | 288-319 | 320-351 | 352-383 | 384-415 (kept 140-149: `L120Legacy`) | 416-447 | 448-479 | 480-511 | 512-543 | 544-575 |
+| `Decor` (wall decorations) | 256-287 | 288-319 | 320-351 | 352-383 | 384-415 | 416-447 | 448-479 | 480-511 | 512-543 | 544-575 |
+| `Props` (`Tile.Variant`) | 900-999 | 1000-1099 | 1100-1199 | 700-799 | 800-899 | 1200-1299 | 1300-1399 | 1400-1499 | 1500-1599 | 1600-1699 |
+| Title keys (`level-<key>`) | 2101-2199 | 2201-2299 | 2301-2399 | 2401-2499 | 2601-2699 | 2501-2599 | 2701-2799 | 2801-2899 | 2901-2999 | 3001-3099 |
+| Layout salts | 0x2100-0x21BF | 0x2200-0x22BF | 0x2300-0x23BF | 0x2400-0x24BF | 0x2600-0x26BF | 0x2500-0x25BF | 0x2700-0x27BF | 0x2800-0x28BF | 0x2900-0x29BF | 0x3000-0x30BF |
+| Threshold salts | 0x21C0-0x21FF | 0x22C0-0x22FF | 0x23C0-0x23FF | 0x24C0-0x24FF | 0x26C0-0x26FF | 0x25C0-0x25FF | 0x27C0-0x27FF | 0x28C0-0x28FF | 0x29C0-0x29FF | 0x30C0-0x30FF |
+| Headless ports | 43100-43109 | 43110-43119 | 43120-43129 | 43130-43139 | 43140-43149 | 43150-43159 | 43160-43169 | 43170-43179 | 43210-43219 | 43220-43229 |
+| Lang keys, block codes | `l73-` | `basement-` | `l52-` | `l31-` | `l120-` | `l36-` | `l15-` | `l23-` | `l14-` | `l47-` |
 
-Title keys and salts go by the internal id (`<id>01`..., `0x<id>00`...), which is why 36 (id 25) and 15 (id 27) have the
-dropped levels' numbers; the old 55 and 183 keys are gone from the lang file. A gate run for one level uses
+Title keys and salts go by the internal id (`<id>01`..., `0x<id>00`...; Level 47, id 30, has 3001... and 0x3000...),
+which is why 36 (id 25) and 15 (id 27) have the dropped levels' numbers; the old 55 and 183 keys are gone from the lang file. A gate run for one level uses
 `--port-base` at the start of its range with `--fast` (base and base+1; a full run also takes base+2 and base+10,
 the next level's).
 
@@ -265,3 +268,53 @@ in small pockets, at full size and `SPAWN=1000`. `overview` (bounds from spawn, 
 z 298..375; 15 x -944..-865, z -944..-866; 23 x -946..-864, z 864..943 (98 clear of 974's x -766 and 97 of its z 767,
 54 inside the map's edge). No region's bounds overlap another's. Headless (port 43010): `/backrooms dummy place <level> 5`
 put a dummy in each of 73, the Basement, 52, 31, 120, 36, 15 and 23, 0 error lines.
+
+### Scaffolding, batch 4 (done 2026-11-01)
+
+Two levels the lore kept pointing at, each from one wiki only (`LINKS.md`, "Levels 14 and 47"): **Level 14, "The
+Hospital"** (Fandom; id 29) and **Level 47, "The Adderwood"** (Wikidot; id 30). Registered everywhere ids 21-28 are, as
+batch 3 (`ca83d28e`) did: `LevelCount` is now `RingWidths.Length + 21`; `DisplayNumber`/`FromDisplayNumber` ("14",
+"47"); `ComputeLevel` (after 23); `IsOpenSky` (47 true); `GetEdge`; the rim's `WallPattern`; `TemperatureAt`;
+`LevelTemperatures` (29: 19, 30: 11); `BuildMacro`; `IsWalkThroughProp`; `StabilityAt`, `FindArrival`, `ArrivalHeight`;
+`IsSanctuary` (false), `PickedOverShare` (0.3); `WorldGeometry` (drop 0; band depth `ShaftDepth` for 14, as Level 15's;
+12 for 47, as Level 23's scaffold and Level 73's, so its sky reaches 27 above the floor); the generator's `Init`, `Band`
+and `ColumnBlock`; `Danger.OfLevel` (0), `Roster` and its distant sounds (empty), `MenaceSystem` (Safe);
+`Protection.RoofFrom` (47: `int.MaxValue`, open sky); the map's grouped case; every `>= RunLevel && <= ...` name check
+now ends at `Level47` (30, the last id); threshold dispatch; `AtmosphereSystem.Levels` (a neutral haze each) and its
+air and sound dispatch; the cheats dialog ("Level 14", "Level 47"); `BackroomsModSystem.LevelList` (`/backrooms goto
+14|47`); `Showcase.For` (stubs in `WorldLayout.Level14.Showcase.cs`, `.Level47.Showcase.cs`); `MapMarks.LevelColors`
+(29: pale hospital mint `0x9FD8CB`, 30: moss `0x4B5320`); the links hooks (`partial void L14Entrances`/`L47Entrances`:
+47's right after 15's, 14's last, after 73's; `ExpEntranceBlock` blocks 8 and 9, Unders 512-543 and 544-575); the
+harness (`LevelModes`, `regions`, `links`, `regionmap` and `shotgrid` names); `tools/expclash.py`'s names and
+`RESERVED` tables; lang `level-`, `levelhint-`, `levelname-29` and `-30` (en.json, after Level 23's block). Every
+`Limit` in the reserved tables went from 512 to 576, `Props.Limit` from 1500 to 1700 (the generator's `floorIds` and
+`decorIds` are sized from the enums and `Decor.Limit`, so they follow). Not registered, left to the builders with their
+content: `SurvivalClass` (14: 4, 47: 3; the default is 1), the handbook page (`GuideSystem.Added`, `gen_guide.py`),
+`WaterClass` (47's streams are safe water), `WorldLayout.Notes` camp spots.
+
+| Level | Id | Constant | Shown as | Tag (files, block codes) | Method infix | Region |
+|---|---|---|---|---|---|---|
+| Level 14 "The Hospital" | 29 | `WorldLayout.Level14` | `14` | 14 (`l14-`) | `L14` | far north-north-west: `spawn + (-round(1.35 R sin 33.75), -round(1.35 R cos 33.75))`; big indoor level |
+| Level 47 "The Adderwood" | 30 | `WorldLayout.Level47` | `47` | 47 (`l47-`) | `L47` | far south-south-east: `spawn + (+round(1.35 R sin 33.75), +round(1.35 R cos 33.75))`; open sky |
+
+Placeholders: 14 is batch 1's (one open floor, rim walls, concrete, a fluorescent light every eight blocks); 47 is a
+concrete floor under the open sky with a 12-high concrete rim wall (`WorldGenerator.L47.cs`, `L47RimTop`). Files as
+batch 3's: `WorldLayout.Level14.cs`, `WorldLayout.Level14.Showcase.cs`, `WorldGenerator.L14.cs`,
+`AtmosphereSystem.L14.cs`, `ThresholdNetwork.L14.cs`, `ThresholdSystem.L14.cs`, `tools/mapgen/L14Stats.cs` (and the same
+for `47`). Salts: `SaltL14Shape` 0x2901 / `SaltL14Threshold` 0x29C0, `SaltL47Shape` 0x3001 / 0x30C0.
+
+**Regions.** Both are new slots in the gaps the far places leave, mirror images through spawn, 1.35 R out (beyond
+the 1.1 R ring of 73, 188, the Basement and 52, and the 1.25 R diagonals of Fun, the End, the Hub and 974; inside the
+1.6 R corners of 3999, 120, 15 and 23), radius `max(40, spawnMacroX / 50)`. `overview`, full size (bounds from spawn,
+in cells): 14 at x -3320..-2672, z -4808..-4168 (208 clear of the End's z -3960, 880 of 15's x -4200, 976 of 73's x
+-1696); 47 at x 2672..3312, z 4168..4816 (576 clear of the Hub's z 3592, 664 of 52's x 2008, 816 of 3999's x 4128).
+`SPAWN=1000`: 14 at x -639..-562, z -939..-859 (93 clear of the End's z -766, 210 of 73's x -352, 226 of 15's x -865,
+61 inside the map's edge); 47 at x 561..640, z 860..938 (94 clear of the Hub's z 766, 183 of 52's x 378, 204 of 3999's
+x 844, 62 inside the edge). No region's bounds overlap another's.
+
+**Harness results.** `layouthash` (seed 12345, 16000; layout versions 1 and 12): with `BACKROOMS_NO_EXP_ENTRANCES=1`
+every line for levels 0-20 and the `layout hash` line identical to main's; with the entrances on, every line identical
+to the branch before the scaffold (only the new `level 29`/`level 30` lines and the `far places hash` added/moved).
+`regions`: 60/60 arrivals in each of 21-30, none in the wrong level, at full size and `SPAWN=1000`. Headless (port
+43210): `/backrooms dummy place <level> 5` put a dummy in each of the ten experimental levels, 0 error lines.
+`GATE_TAG=scaf python tools/gate.py --fast --port-base 43230`: PASS.

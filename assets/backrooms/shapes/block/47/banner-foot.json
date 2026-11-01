@@ -1,0 +1,79 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cloth": "backrooms:block/47/banner-foot",
+		"wood": "backrooms:block/47/timber"
+	},
+	"elements": [
+		{
+			"name": "Cloth",
+			"from": [
+				1,
+				0,
+				15
+			],
+			"to": [
+				15,
+				16,
+				15.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cloth",
+					"uv": [
+						1,
+						0,
+						15,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cloth",
+					"uv": [
+						15,
+						0,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cloth",
+					"uv": [
+						15,
+						0,
+						15.6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cloth",
+					"uv": [
+						15,
+						0,
+						15.6,
+						16
+					]
+				},
+				"up": {
+					"texture": "#cloth",
+					"uv": [
+						1,
+						15,
+						15,
+						15.6
+					]
+				},
+				"down": {
+					"texture": "#cloth",
+					"uv": [
+						1,
+						15,
+						15,
+						15.6
+					]
+				}
+			}
+		}
+	]
+}

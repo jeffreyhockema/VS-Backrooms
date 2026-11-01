@@ -1,0 +1,36 @@
+// Level 47: a stream's bed of pebbles
+{
+	"code": "l47-pebbles",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Gravel",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/47/pebbles"
+		}
+	},
+	"resistance": 1.5,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stone-granite",
+			"quantity": {
+				"avg": 1.5,
+				"var": 1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/gravel*",
+		"place": "game:block/gravel",
+		"break": "game:block/gravel",
+		"hit": "game:block/gravel"
+	}
+}

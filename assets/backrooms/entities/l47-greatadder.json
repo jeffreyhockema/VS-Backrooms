@@ -1,0 +1,150 @@
+// Level 47's Great Old Adder: a bright crimson titanoboa about 9.5 blocks long laid in an S behind its head (the hitbox covers the head end). Made by tools/gen_47_creatures.py
+{
+	"code": "l47-greatadder",
+	"class": "EntityAgent",
+	"tags": [
+		"backrooms-entity",
+		"animal",
+		"habitat-land"
+	],
+	"weight": 2500,
+	"canClimb": false,
+	"hitboxSize": {
+		"x": 1.6,
+		"y": 1.5
+	},
+	"deadHitboxSize": {
+		"x": 2.2,
+		"y": 1.0
+	},
+	"eyeHeight": 1.2,
+	"attributes": {
+		"killedByInfoText": "backrooms:deadcreature-l47-greatadder"
+	},
+	"client": {
+		"renderer": "Shape",
+		"shape": {
+			"base": "backrooms:entity/47/l47-greatadder"
+		},
+		"texture": {
+			"base": "backrooms:entity/47/l47-greatadder"
+		},
+		"size": 1.0,
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "interpolateposition"
+			}
+		],
+		"animations": [
+			{
+				"code": "idle",
+				"animation": "idle",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"triggeredBy": {
+					"defaultAnim": true
+				},
+				"easeOutSpeed": 4
+			},
+			{
+				"code": "slither",
+				"animation": "slither",
+				"animationSpeed": 1.0,
+				"blendMode": "Average"
+			},
+			{
+				"code": "rear",
+				"animation": "rear",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 5
+			},
+			{
+				"code": "strike",
+				"animation": "strike",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "devour",
+				"animation": "devour",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10
+			},
+			{
+				"code": "hurt",
+				"animation": "hurt",
+				"animationSpeed": 1.0,
+				"blendMode": "AddAverage",
+				"weight": 10
+			},
+			{
+				"code": "die",
+				"animation": "die",
+				"animationSpeed": 1.0,
+				"blendMode": "Average",
+				"weight": 10,
+				"triggeredBy": {
+					"onControls": [
+						"dead"
+					]
+				}
+			}
+		]
+	},
+	"server": {
+		"behaviors": [
+			{
+				"code": "repulseagents",
+				"movable": true
+			},
+			{
+				"code": "controlledphysics",
+				"stepHeight": 1.1251
+			},
+			{
+				"code": "health",
+				"currenthealth": 600,
+				"maxhealth": 600
+			},
+			{
+				"code": "deaddecay",
+				"hoursToDecay": 0.25
+			},
+			{
+				"code": "floatupwhenstuck",
+				"onlyWhenDead": true
+			},
+			{
+				"code": "taskai",
+				"aiCreatureType": "LandCreature",
+				"aitasks": [
+					{
+						"code": "backrooms-l47-greatadder",
+						"priority": 1.5,
+						"priorityForCancel": 1.5,
+						"mincooldown": 0,
+						"maxcooldown": 0
+					}
+				]
+			},
+			{
+				"code": "entitystatetags"
+			}
+		]
+	}
+}

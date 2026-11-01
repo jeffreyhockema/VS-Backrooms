@@ -1,0 +1,47 @@
+// Level 47: old oak
+{
+	"code": "l47-bark-oak",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/47/bark-oak",
+			"alternates": [
+				{
+					"base": "block/47/bark-oak-2"
+				}
+			]
+		},
+		"up": {
+			"base": "block/47/rings-oak"
+		},
+		"down": {
+			"base": "block/47/rings-oak"
+		}
+	},
+	"resistance": 6,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

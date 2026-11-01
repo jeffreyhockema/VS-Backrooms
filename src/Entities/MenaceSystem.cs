@@ -551,6 +551,8 @@ public partial class MenaceSystem : ModSystem
                     _ => MenaceBand.Heartland,
                 };
                 return;
+            case WorldLayout.Level14: a.Band = MenaceBand.Safe; return;
+            case WorldLayout.Level47: a.Band = MenaceBand.Safe; return;
         }
         if (a.Snackrooms || layout.IsSanctuary(gx, gz, level))
         {

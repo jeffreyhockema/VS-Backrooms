@@ -71,6 +71,8 @@ public sealed partial class WorldLayout
             Level36 => false,
             Level15 => false,
             Level23 => TileAt(gx, gz).Zone == L23Seedling, // Base Seedling: the M.E.G. keep it clear
+            Level14 => false,
+            Level47 => false,
             _ => false,
         };
     }

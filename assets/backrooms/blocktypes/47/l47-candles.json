@@ -1,0 +1,53 @@
+// Level 47: a dish of candles (breaks to nothing)
+{
+	"code": "l47-candles",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.5,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"shape": {
+		"base": "block/47/candles"
+	},
+	"collisionbox": {
+		"x1": 0.18,
+		"y1": 0,
+		"z1": 0.18,
+		"x2": 0.82,
+		"y2": 0.5,
+		"z2": 0.82
+	},
+	"selectionbox": {
+		"x1": 0.18,
+		"y1": 0,
+		"z1": 0.18,
+		"x2": 0.82,
+		"y2": 0.5,
+		"z2": 0.82
+	},
+	"lightHsv": [
+		8,
+		5,
+		9
+	]
+}

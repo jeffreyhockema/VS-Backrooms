@@ -115,3 +115,42 @@ tile that already holds another level's entrance (Level !'s, The End's, Fun's, 3
 
 `docs/GUIDE.md` / `tools/gen_guide.py`'s ways-between-levels text, the README, the map colours (done:
 `MapMarks.LevelColors` 21-28), and the cross-level checks.
+
+## Levels 14 and 47 (2026-11-01)
+
+The user chose to fill two gaps the lore kept pointing at: **Level 14 from Fandom** (the abandoned hospital, class 4,
+The Hunter; Wikidot's "Paradise" is a different place and is not used) and **Level 47 from Wikidot** ("The Adderwood",
+class 3; Fandom's question-rooms are a different place and are not used). Ids 29 and 30; their reserved ranges are in the
+README. Their ways, like the others: lore first, rumours where the lore names a level this mod has not.
+
+### Level 14, the Hospital (owner `l14`, Fandom "Level 14", class 4)
+- **In (Level 0):** "a rare emergency exit door found in Level 0": a hospital-style EMERGENCY EXIT door (push bar,
+  green running-man sign) in a Lobby wall, very rare. One-way: you arrive in a **reception room** (Fandom: "all of Level
+  14's entrants will first arrive" there), its stained-glass revolving door behind you showing nothing ("may never be
+  entered again once left"). Precedence in Level 0: after the Basement's cracks (it is added at the end of the order).
+  M.E.G. placard beside it (layout 12+: Level 0 is class 0, 14 is class 4).
+- **In (Level 15):** Fandom 15: "walking into a futuristic door labeled 'Medical Center' will send you to Level 14".
+  The door stands in or beside one of Level 15's medical bays (round 3 added them as a room kind). One-way, to a
+  reception room. Its block lives under Level 14's own assets (`blocktypes/14/`), placed by Level 15's Links layout
+  file (the visual pass owns Level 15's look and has agreed).
+- **Out (to Level 15):** Fandom 14: "going through a rare futuristic-looking door will lead one to Level 15". One-way,
+  to a Level 15 main hall beside a reinforced door that does not open (as 15's other ways in).
+- **Out (to Level !):** Fandom 14: "finding a rare red exit door and entering it will lead to Level !". One-way; arrive
+  as Level !'s other entrances do (a lane's start room), the door slamming.
+- **Out (to Level 73):** Wikidot 73 names Level 14 as a way in, with no detail. Our invention: Fandom 14's collapsing
+  floor tiles ("revealing hidden passageways or leading wanderers to plummet"): very rarely a patch that gives way drops
+  you onto the Redlands. One-way, rare, warned by cracks.
+- **Rumours:** the arrows on the floor to the main exit (Level 130), the glowing window (777), too far into the hospital
+  (16), toying with equipment (268), the teddy bear (14.1), the torture chambers (4.4); in: Levels 13, 130, 39, 0.01.
+
+### Level 47, the Adderwood (owner `l47`, Wikidot "Level 47", class 3)
+- **In (Level 10):** the lore: "no-clipping to or from Level 47 is easier and more frequent than average; the hollows of
+  dead trees appear especially prone". Our host: very rarely an ancient dead tree, hollow and mossy, stands in a Level
+  10 tree line or field corner, far older than anything round it; step into its hollow and you noclip out of a dead
+  tree's hollow in the Adderwood. One-way. Precedence: after Level 15's white wall.
+- **Out (to Level 23):** Wikidot 23: "huge hollow green-barked trees in Levels 37 and 47". A rare giant with green bark
+  and a hollow: climb in, out of a hollow trunk in the Petrified Garden (Level 23's existing arrival finder). One-way.
+- **Out (to Level 10):** the dead trees' hollows (the lore's noclip points): some of them, now and then, put you out
+  in Level 10 beside its own ancient dead tree. One-way. (Which hollows lead out, and how often, is the builder's;
+  "unstable, but more frequent than average".)
+- **Rumours:** the Ophion Occult Order's claim that the trail can be steered to any noclip point, even the Frontrooms.

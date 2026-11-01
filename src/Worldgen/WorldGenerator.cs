@@ -798,6 +798,8 @@ public sealed partial class WorldGenerator
         InitL36();
         InitL15();
         InitL23();
+        InitL14();
+        InitL47();
         cableXId = BlockId("backrooms:cables-run-we");
         cableZId = BlockId("backrooms:cables-run-ns");
         cableHubId = BlockId("backrooms:cables-hub");
@@ -1061,7 +1063,8 @@ public sealed partial class WorldGenerator
                 or WorldLayout.Level974 or WorldLayout.Level3999 or WorldLayout.Level188
                 or WorldLayout.Level73 or WorldLayout.Basement or WorldLayout.Level52
                 or WorldLayout.Level31 or WorldLayout.Level120
-                or WorldLayout.Level36 or WorldLayout.Level15 or WorldLayout.Level23 => Math.Min(g.BandBottom, g.BandBottomFor(level)),
+                or WorldLayout.Level36 or WorldLayout.Level15 or WorldLayout.Level23
+                or WorldLayout.Level14 or WorldLayout.Level47 => Math.Min(g.BandBottom, g.BandBottomFor(level)),
             _ => g.BandBottom,
         };
         int top = level is 11 or WorldLayout.Motion ? g.TopY : g.BandTop;
@@ -1071,10 +1074,12 @@ public sealed partial class WorldGenerator
         // (Level 7 from layout version 9: up to its high ceiling, with no mantle over it: see HighSea)
         if (HighSea(level)) top = g.FloorY + WorldLayout.SeaCeiling;
         // Those levels are generated over their own band, and sealed just above it
-        bool region = level >= WorldLayout.RunLevel && level <= WorldLayout.Level23;
+        bool region = level >= WorldLayout.RunLevel && level <= WorldLayout.Level47;
         if (region) top = g.BandTopFor(level);
         // (Level 23: its forest goes on up to the top of the world, the lid of leaves over it; only the band is lit)
         if (level == WorldLayout.Level23) top = g.TopY - 1;
+        // (Level 47: its giants' crowns, up to the top of the world)
+        if (level == WorldLayout.Level47) top = g.TopY - 1;
         return (bottom, top, region ? top + 1 : g.CapY);
     }
 
@@ -1181,6 +1186,8 @@ public sealed partial class WorldGenerator
             case WorldLayout.Level36: return Level36Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Level36), out fluid);
             case WorldLayout.Level15: return Level15Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Level15), out fluid);
             case WorldLayout.Level23: return Level23Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Level23), out fluid);
+            case WorldLayout.Level14: return Level14Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Level14), out fluid);
+            case WorldLayout.Level47: return Level47Block(t, gx, gz, y - Geometry.FloorFor(WorldLayout.Level47), out fluid);
         }
         // The stairwells of Levels 1 and 4 (from layout version 4): flights up through the ceiling and down through the floor
         if (WorldLayout.IsShaftFlight(t)) return FlightBlock(t, rel);

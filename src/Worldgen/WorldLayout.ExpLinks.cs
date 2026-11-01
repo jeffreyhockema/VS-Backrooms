@@ -26,16 +26,21 @@ public sealed partial class WorldLayout
     partial void L23Entrances(Builder b, int mx, int mz);
     partial void BasementEntrances(Builder b, int mx, int mz);
     partial void L73Entrances(Builder b, int mx, int mz);
+    partial void L47Entrances(Builder b, int mx, int mz);
+    partial void L14Entrances(Builder b, int mx, int mz);
 
     /// <summary>
     /// The experimental levels' entrances in a cell of one of the levels 0 to 20, after the level has laid the cell out
     /// and before its walls are lined and its doorways cleared. The order is the precedence where two could want the same
-    /// tile: the earlier wins, and a later one skips a tile <see cref="IsExpEntrance"/> already claims.
+    /// tile: the earlier wins, and a later one skips a tile <see cref="IsExpEntrance"/> already claims. (Level 47's dead
+    /// trees in Level 10 come just after Level 15's white wall there; Level 14's emergency exits in Level 0 come last,
+    /// after the Basement's cracks: LINKS.md.)
     /// </summary>
     private void MarkExpEntrances(Builder b, int mx, int mz)
     {
         if (!ExpEntrances || b.Level > Level188) return;
         L15Entrances(b, mx, mz);
+        L47Entrances(b, mx, mz);
         L36Entrances(b, mx, mz);
         L52Entrances(b, mx, mz);
         L120Entrances(b, mx, mz);
@@ -43,5 +48,6 @@ public sealed partial class WorldLayout
         L23Entrances(b, mx, mz);
         BasementEntrances(b, mx, mz);
         L73Entrances(b, mx, mz);
+        L14Entrances(b, mx, mz);
     }
 }

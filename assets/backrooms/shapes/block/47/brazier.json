@@ -1,0 +1,530 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"iron": "backrooms:block/47/iron",
+		"coals": "backrooms:block/47/coals"
+	},
+	"elements": [
+		{
+			"name": "Leg1",
+			"from": [
+				3,
+				0,
+				3
+			],
+			"to": [
+				4,
+				8,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#iron",
+					"uv": [
+						3,
+						8,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#iron",
+					"uv": [
+						3,
+						8,
+						4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#iron",
+					"uv": [
+						3,
+						8,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#iron",
+					"uv": [
+						3,
+						8,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#iron",
+					"uv": [
+						3,
+						3,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#iron",
+					"uv": [
+						3,
+						3,
+						4,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg2",
+			"from": [
+				12,
+				0,
+				3
+			],
+			"to": [
+				13,
+				8,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#iron",
+					"uv": [
+						12,
+						8,
+						13,
+						16
+					]
+				},
+				"south": {
+					"texture": "#iron",
+					"uv": [
+						12,
+						8,
+						13,
+						16
+					]
+				},
+				"east": {
+					"texture": "#iron",
+					"uv": [
+						3,
+						8,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#iron",
+					"uv": [
+						3,
+						8,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#iron",
+					"uv": [
+						12,
+						3,
+						13,
+						4
+					]
+				},
+				"down": {
+					"texture": "#iron",
+					"uv": [
+						12,
+						3,
+						13,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg3",
+			"from": [
+				3,
+				0,
+				12
+			],
+			"to": [
+				4,
+				8,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#iron",
+					"uv": [
+						3,
+						8,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#iron",
+					"uv": [
+						3,
+						8,
+						4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#iron",
+					"uv": [
+						12,
+						8,
+						13,
+						16
+					]
+				},
+				"west": {
+					"texture": "#iron",
+					"uv": [
+						12,
+						8,
+						13,
+						16
+					]
+				},
+				"up": {
+					"texture": "#iron",
+					"uv": [
+						3,
+						12,
+						4,
+						13
+					]
+				},
+				"down": {
+					"texture": "#iron",
+					"uv": [
+						3,
+						12,
+						4,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg4",
+			"from": [
+				12,
+				0,
+				12
+			],
+			"to": [
+				13,
+				8,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#iron",
+					"uv": [
+						12,
+						8,
+						13,
+						16
+					]
+				},
+				"south": {
+					"texture": "#iron",
+					"uv": [
+						12,
+						8,
+						13,
+						16
+					]
+				},
+				"east": {
+					"texture": "#iron",
+					"uv": [
+						12,
+						8,
+						13,
+						16
+					]
+				},
+				"west": {
+					"texture": "#iron",
+					"uv": [
+						12,
+						8,
+						13,
+						16
+					]
+				},
+				"up": {
+					"texture": "#iron",
+					"uv": [
+						12,
+						12,
+						13,
+						13
+					]
+				},
+				"down": {
+					"texture": "#iron",
+					"uv": [
+						12,
+						12,
+						13,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Bowl",
+			"from": [
+				2,
+				8,
+				2
+			],
+			"to": [
+				14,
+				11,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#iron",
+					"uv": [
+						2,
+						5,
+						14,
+						8
+					]
+				},
+				"south": {
+					"texture": "#iron",
+					"uv": [
+						2,
+						5,
+						14,
+						8
+					]
+				},
+				"east": {
+					"texture": "#iron",
+					"uv": [
+						2,
+						5,
+						14,
+						8
+					]
+				},
+				"west": {
+					"texture": "#iron",
+					"uv": [
+						2,
+						5,
+						14,
+						8
+					]
+				},
+				"up": {
+					"texture": "#iron",
+					"uv": [
+						2,
+						2,
+						14,
+						14
+					]
+				},
+				"down": {
+					"texture": "#iron",
+					"uv": [
+						2,
+						2,
+						14,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Coals",
+			"from": [
+				3,
+				11,
+				3
+			],
+			"to": [
+				13,
+				11.6,
+				13
+			],
+			"faces": {
+				"up": {
+					"texture": "#coals",
+					"uv": [
+						3,
+						3,
+						13,
+						13
+					],
+					"glow": 200
+				}
+			}
+		},
+		{
+			"name": "Ember1",
+			"from": [
+				5,
+				11,
+				6
+			],
+			"to": [
+				8,
+				12.5,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#coals",
+					"uv": [
+						5,
+						3.5,
+						8,
+						5
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#coals",
+					"uv": [
+						5,
+						3.5,
+						8,
+						5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#coals",
+					"uv": [
+						6,
+						3.5,
+						9,
+						5
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#coals",
+					"uv": [
+						6,
+						3.5,
+						9,
+						5
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#coals",
+					"uv": [
+						5,
+						6,
+						8,
+						9
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#coals",
+					"uv": [
+						5,
+						6,
+						8,
+						9
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Ember2",
+			"from": [
+				9,
+				11,
+				8
+			],
+			"to": [
+				11,
+				12,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#coals",
+					"uv": [
+						9,
+						4,
+						11,
+						5
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#coals",
+					"uv": [
+						9,
+						4,
+						11,
+						5
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#coals",
+					"uv": [
+						8,
+						4,
+						11,
+						5
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#coals",
+					"uv": [
+						8,
+						4,
+						11,
+						5
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#coals",
+					"uv": [
+						9,
+						8,
+						11,
+						11
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#coals",
+					"uv": [
+						9,
+						8,
+						11,
+						11
+					],
+					"glow": 255
+				}
+			}
+		}
+	]
+}

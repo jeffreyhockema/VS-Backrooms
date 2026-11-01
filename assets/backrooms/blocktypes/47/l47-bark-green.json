@@ -1,0 +1,38 @@
+// Level 47: a green giant's green bark
+{
+	"code": "l47-bark-green",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/47/bark-green",
+			"alternates": [
+				{
+					"base": "block/47/bark-green-2"
+				}
+			]
+		},
+		"up": {
+			"base": "block/47/rings-green"
+		},
+		"down": {
+			"base": "block/47/rings-green"
+		}
+	},
+	"resistance": 12,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

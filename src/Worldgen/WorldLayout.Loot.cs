@@ -38,6 +38,8 @@ public sealed partial class WorldLayout
         Level36 => 0.3,
         Level15 => 0.5, // "devoid of resources" (Fandom): those who came before took what there was
         Level23 => 0.3,
+        Level14 => 0.3,
+        Level47 => 0.3,
 
         _ => 0.4,
     };

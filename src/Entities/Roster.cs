@@ -124,6 +124,9 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level36 => 0.35, // (only its blackouts have anything in them: Class 1)
         Backrooms.Worldgen.WorldLayout.Level15 => 0.3, // Level 15: Class 1 (Fandom); only its few Robo-Men in the dark
         Backrooms.Worldgen.WorldLayout.Level23 => 0.55, // the Petrified Garden: Unsafe (Wikidot's "4?"), its glow rooms worst
+        // Batch 4 (ids 29, 30): nothing in them yet
+        Backrooms.Worldgen.WorldLayout.Level14 => 0,
+        Backrooms.Worldgen.WorldLayout.Level47 => 0.45, // the Adderwood: Survival Difficulty 3; its Shucks, the Order and the Great Adder are its own (Regions/L47System.cs; the director puts nothing down)
         // Level 94 (Class 3): its Animations hit and chase like Level 4's creatures; the King's trial keeps its own balance
         Backrooms.Worldgen.WorldLayout.Motion => 0.4,
         _ => 0,
@@ -434,6 +437,8 @@ public static class Roster
             E(Clump, Approach, Encounters.Stalk, 0.4) with { Ambush = true },
             E(DeathmothFemale, Edge, Encounters.Stalk | Encounters.Hunt, 0.4, 2, 4),
         },
+        [Backrooms.Worldgen.WorldLayout.Level14] = Array.Empty<RosterEntry>(),
+        [Backrooms.Worldgen.WorldLayout.Level47] = Array.Empty<RosterEntry>(),
         // The city: crowds of Facelings, Hounds that ignore you, rats in the alleys, a Duller in the subway
         [11] = new[]
         {
@@ -690,6 +695,8 @@ public static class Roster
         // Level 15: machinery turning over somewhere, a beep far down the halls
         [Backrooms.Worldgen.WorldLayout.Level15] = new[] { Machinery, S("backrooms:sounds/ambient/15/beep2", 0.8f, 1.0f, 0.35f) },
         [Backrooms.Worldgen.WorldLayout.Level23] = new[] { HoundHowl, Scuttle, Wings, Groan, Drip, Whisper },
+        [Backrooms.Worldgen.WorldLayout.Level14] = Array.Empty<DistantSound>(),
+        [Backrooms.Worldgen.WorldLayout.Level47] = Array.Empty<DistantSound>(),
     };
 
     /// <summary>The far-off cries of a dark's hunters: only Hound sounds for the Hounds, only rat sounds for the rats.</summary>

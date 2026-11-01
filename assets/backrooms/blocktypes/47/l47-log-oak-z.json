@@ -1,0 +1,45 @@
+// Level 47: a fallen old trunk lying along z, moss on top
+{
+	"code": "l47-log-oak-z",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/47/log-oak"
+		},
+		"north": {
+			"base": "block/47/rings-oak"
+		},
+		"south": {
+			"base": "block/47/rings-oak"
+		},
+		"up": {
+			"base": "block/47/logtop-oak"
+		}
+	},
+	"resistance": 5,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

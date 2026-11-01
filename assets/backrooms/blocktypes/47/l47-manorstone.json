@@ -1,0 +1,32 @@
+// Level 47: the manor's grey ashlar
+{
+	"code": "l47-manorstone",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "block/47/manorstone",
+			"alternates": [
+				{
+					"base": "block/47/manorstone-2"
+				}
+			]
+		}
+	},
+	"resistance": 10,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

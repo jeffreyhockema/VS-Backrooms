@@ -40,7 +40,8 @@ static class Links {
     foreach (int level in new[] { WorldLayout.RunLevel, WorldLayout.FunLevel, WorldLayout.TheEnd, WorldLayout.Hub, WorldLayout.Level974,
         WorldLayout.Level3999, WorldLayout.Level188, WorldLayout.Level73, WorldLayout.Basement, WorldLayout.Level52,
         WorldLayout.Level31, WorldLayout.Level120,
-        WorldLayout.Level36, WorldLayout.Level15, WorldLayout.Level23 })
+        WorldLayout.Level36, WorldLayout.Level15, WorldLayout.Level23,
+        WorldLayout.Level14, WorldLayout.Level47 })
       for (ulong k = 1; k <= 4; k++) if (layout.FindArrival(level, k * 104729UL + 7) is { } a) AddCells(WorldLayout.MacroOf(a.X), WorldLayout.MacroOf(a.Z), 2);
     // From layout version 9 Level 6's stairwells down are rare: a few of them, and a few of Level 7's entry rooms, which
     // are their way back (after everything else again)

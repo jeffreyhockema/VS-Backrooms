@@ -68,6 +68,9 @@ public static class WaterClass
             // Level 23: the Garden's water all comes from the Heart of Water's reservoir
             case WorldLayout.Level23:
                 return WaterKind.Clean;
+            // Level 47: its streams "are generally safe for human consumption" (Wikidot)
+            case WorldLayout.Level47:
+                return WaterKind.Clean;
             case WorldLayout.Motion:
                 return NearFountain(world, pos) ? WaterKind.Clean : WaterKind.Tainted;
             default:

@@ -270,6 +270,13 @@ public enum WallPattern : ushort
     L15Wall = 448,
     /// <summary>Level 23 (block 480-511). Placeholder.</summary>
     L23Wall = 480,
+
+    // ===== Batch 4, the experimental Levels 14 and 47 (29, 30): one block of 32 each =====
+
+    /// <summary>Level 14 (block 512-543). Placeholder.</summary>
+    L14Wall = 512,
+    /// <summary>Level 47 (block 544-575). Placeholder.</summary>
+    L47Wall = 544,
 }
 
 /// <summary>Trim on the bottom block of a wall.</summary>
@@ -548,6 +555,17 @@ public enum FloorKind : ushort
     /// banks), trodden earth (the tunnels), bark (a trunk, the tangle), the pool's bed.
     /// </summary>
     L23Floor = 480, L23Moss = 481, L23Earth = 482, L23Bark = 483, L23Water = 484,
+
+    // ===== Batch 4, the experimental Levels 14 and 47 (29, 30): one block of 32 each =====
+
+    /// <summary>Level 14 (block 512-543). Placeholder.</summary>
+    L14Floor = 512,
+    /// <summary>Level 47 (block 544-575): moss and leaf litter over the forest floor, the trail, a stream's bed, the glade's grass, bark.</summary>
+    L47Floor = 544,
+    L47Trail = 545,
+    L47Stream = 546,
+    L47Grass = 547,
+    L47Bark = 548,
 }
 
 /// <remarks>A ushort since 0.700.0-pre.1 (experimental-levels): values past 255 are the experimental levels' blocks.</remarks>
@@ -636,6 +654,13 @@ public enum CeilingKind : ushort
     L15LightOn = 449, L15LightLit = 450, L15LightFlicker = 451, L15LightDead = 452, L15ServiceCeiling = 453, L15CeilingVent = 454,
     /// <summary>Level 23 (block 480-511): placeholder (the level is under the open sky).</summary>
     L23Ceiling = 480,
+
+    // ===== Batch 4, the experimental Levels 14 and 47 (29, 30): one block of 32 each =====
+
+    /// <summary>Level 14 (block 512-543). Placeholder.</summary>
+    L14Ceiling = 512,
+    /// <summary>Level 47 (block 544-575). Placeholder (the level is under the open sky).</summary>
+    L47Ceiling = 544,
 }
 
 /// <summary>
@@ -824,6 +849,9 @@ public static class Pipes
     /// <summary>Level 15's service corridors: an air duct along the top of the passage (west-east, north-south).</summary>
     public const ushort L15DuctWE = 448, L15DuctNS = 449;
     public const ushort L23First = 480, L23Last = 511;
+    // Batch 4, the experimental Levels 14 and 47 (29, 30)
+    public const ushort L14First = 512, L14Last = 543;
+    public const ushort L47First = 544, L47Last = 575;
     /// <summary>The Basement's Flood: a run of pipes along the top of a passage (west-east, north-south), and the same leaking.</summary>
     public const ushort BasementPipeWE = 288, BasementPipeNS = 289, BasementLeakWE = 290, BasementLeakNS = 291;
     /// <summary>The Basement's Cellar: a heating duct of sheet metal under the ceiling (west-east, north-south).</summary>
@@ -832,7 +860,7 @@ public static class Pipes
     public const byte L120LegacyFirst = 140, L120LegacyLast = 149;
 
     /// <summary>One past the highest value (Tile.Pipe is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
-    public const int Limit = 512;
+    public const int Limit = 576;
 }
 
 /// <summary>Values of <see cref="Tile.Overhead"/>.</summary>
@@ -928,12 +956,15 @@ public static class Overheads
     /// <summary>Level 15: a medical bay's curtain between two beds, hung from a rail (rel 2-3), along the tile's edge toward its Pier.</summary>
     public const ushort L15Curtain = 453;
     public const ushort L23First = 480, L23Last = 511;
+    // Batch 4, the experimental Levels 14 and 47 (29, 30)
+    public const ushort L14First = 512, L14Last = 543;
+    public const ushort L47First = 544, L47Last = 575;
     /// <summary>Level 31's tubes and disco ball and Level 120's cable trays, kept from before the widening (110-139 are main's to append to).</summary>
     public const byte L31LegacyFirst = 140, L31LegacyLast = 149;
     public const byte L120LegacyFirst = 160, L120LegacyLast = 169;
 
     /// <summary>One past the highest value (Tile.Overhead is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
-    public const int Limit = 512;
+    public const int Limit = 576;
 }
 
 /// <summary>Values of <see cref="Tile.Under"/> beyond Level 3's flooded tunnels: thresholds below the floor.</summary>
@@ -1100,6 +1131,11 @@ public static class Unders
     public const ushort L15Wall10 = 448, L15WallDoor10 = 449, L15Apron10 = 450, L15Door3 = 451, L15Sealed = 452, L15Escape = 453,
         L15Gateway = 454, L15Window = 455, L15Office = 456, L15Stairs = 457;
     public const ushort L23First = 480, L23Last = 511;
+    // Batch 4, the experimental Levels 14 and 47 (29, 30)
+    public const ushort L14First = 512, L14Last = 543;
+    public const ushort L47First = 544, L47Last = 575;
+    /// <summary>Level 47's ways (WorldLayout.Level47.Links.cs): a dead tree's hollow that leads out, a green giant's, and a dead tree's that leads nowhere (yet) in the Adderwood; Level 10's ancient dead tree (its bark, hollow, roots and limbs round it).</summary>
+    public const ushort L47DeadHollow = 544, L47GreenHollow = 545, L47Tree10Bark = 546, L47Tree10Hollow = 547, L47Tree10Foot = 548, L47StillHollow = 549;
     /// <summary>
     /// Level 23's ways in and out (WorldLayout.Level23.Links.cs). In Level 37, a hollow tree of green bark growing up through
     /// the tiles: its ring of bark (a wall), its hollow and the mouth into it (one-way into the Garden), the roots and broken
@@ -1111,7 +1147,7 @@ public static class Unders
         L23PoolSeedMouth = 485, L23SeedlingHollow = 486, L23SeedlingDoor = 487, L23HollowTrunk = 488, L23Well = 489;
 
     /// <summary>One past the highest value (Tile.Under is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
-    public const int Limit = 512;
+    public const int Limit = 576;
 }
 
 /// <summary>Level 37: what a tile wall carries, in <see cref="Tile.Variant"/>, facing <see cref="Tile.Pier"/>.</summary>
@@ -1788,9 +1824,12 @@ public static class Props
     /// </summary>
     public const ushort L15Seat = 1309, L15Riser = 1310, L15Dock = 1311, L15Serve = 1312, L15GrowRack = 1313;
     public const ushort L23First = 1400, L23Last = 1499;
+    // Batch 4, the experimental Levels 14 and 47 (29, 30)
+    public const ushort L14First = 1500, L14Last = 1599;
+    public const ushort L47First = 1600, L47Last = 1699;
 
     /// <summary>One past the highest prop any level may use: the size of the generator's prop tables (raise it with a new block).</summary>
-    public const int Limit = 1500;
+    public const int Limit = 1700;
 
     public const byte WallPlain = 0;
     /// <summary>Level 2 wall with horizontal pipes on it.</summary>
@@ -1967,7 +2006,7 @@ public static class Decor
     /// <summary>Level 3999 draws its own walls; its walls' Variant is its own (a painted window's column), not a decoration.</summary>
     public const byte L188First = 248, L188Last = 255;
 
-    // The experimental levels (ids 21-28): one block of 32 each, past 255 (see docs/design/experimental-levels/README.md).
+    // The experimental levels (ids 21-30): one block of 32 each, past 255 (see docs/design/experimental-levels/README.md).
     // Decoration codes are looked up by name across every family: give yours names no other family uses.
     public const ushort L73First = 256, L73Last = 287;
     public const ushort BasementFirst = 288, BasementLast = 319;
@@ -1977,9 +2016,12 @@ public static class Decor
     public const ushort L36First = 416, L36Last = 447;
     public const ushort L15First = 448, L15Last = 479;
     public const ushort L23First = 480, L23Last = 511;
+    // Batch 4, the experimental Levels 14 and 47 (29, 30)
+    public const ushort L14First = 512, L14Last = 543;
+    public const ushort L47First = 544, L47Last = 575;
 
     /// <summary>One past the highest decoration (the generator's decoration tables are this long; <see cref="Tile.Variant"/> is a ushort).</summary>
-    public const int Limit = 512;
+    public const int Limit = 576;
 }
 
 /// <summary>The large-scale character of an area. Zones are irregular blobs a few hundred blocks across.</summary>

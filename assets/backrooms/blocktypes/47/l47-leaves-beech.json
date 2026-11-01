@@ -1,0 +1,62 @@
+// Level 47: the crowns' beech leaves (cut out; let a little light by)
+{
+	"code": "l47-leaves-beech",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Leaves",
+	"drawtype": "cube",
+	"renderpass": "OpaqueNoCull",
+	"faceCullMode": "CollapseMaterial",
+	"vertexFlags": {
+		"zOffset": 4,
+		"windMode": "Leaves"
+	},
+	"textures": {
+		"all": {
+			"base": "block/47/leaves-beech",
+			"alternates": [
+				{
+					"base": "block/47/leaves-beech-2"
+				}
+			]
+		}
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideao": {
+		"all": true
+	},
+	"emitSideAo": {
+		"all": false
+	},
+	"replaceable": 4000,
+	"lightAbsorption": 1,
+	"resistance": 0.5,
+	"collisionbox": null,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 0.1,
+				"var": 0.1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/grass*",
+		"place": "game:block/plant",
+		"break": "game:block/plant",
+		"hit": "game:block/plant"
+	}
+}
