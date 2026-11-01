@@ -471,3 +471,94 @@ Tier A must, B should, C nice. Inventions are marked (inv.).
     says). The notes' voice unchanged.
 40. [B] [done: the nearest fire on one's storey] Hearth crackle near the fires (the sound bed inside), if a loop exists to reuse.
 41. [C] [skipped] The title and hint lines and the map's colour for the new floor kinds (tracks, flagstones).
+
+### What was built (round 3)
+
+- *The keep by function* (`L73RoomAt`): the ground floor's north-east room is now the **kitchen** off the dining hall (a
+  cooking hearth with a cauldron and a spit, worktables under a rack of copper pots, larder shelves) with a dark **pantry**
+  behind a wall and, down a stair from it, a **cellar** (barrels, crates, heaps of the hordes' dead kept for the fires);
+  the bathrooms got a **laundry** behind a wall (racks of linen drying); the third floor's 25-wide "master bedroom" is now
+  Coran's **solar** (study round the chimney breast's fireplace) and his **bedchamber** behind the restored partition; the
+  gallery's paintings went to the hall and the landings.
+- *Multi-block objects*: **four-poster canopies** over every large bed (two hotel beds side by side under posts, tester,
+  valance, drapes; Coran's in black; the beds stay the mod's sleepable beds); **fireplaces** in every guest room, the
+  library, the master bedroom and the kitchen (jambs, a fire of logs on firedogs, a carved mantel with candles, the
+  chimney breast to the ceiling, stacked storey over storey into **chimney stacks** on the roof), and in the chimney over
+  the dining hearth on the two upper storeys (the sitting room's, the solar's); the dining hearth's fire and mantel;
+  **rugs** with borders; **oak beams** under plaster ceilings (every floor slab is now boards on top, plaster below);
+  a **cornice** at the top of every papered wall; the **grand stair's balustrade** (balusters and a stepped rail on its
+  open side, rails round each stairwell above), panelled under its treads; **tapestries** two by two (Coran over the slain
+  Great Hound; the castle under the moon); chests, washstands with mirrors, wing chairs, sideboards, a lectern with the
+  visitors' book; in the courtyard a flagged walk round the keep, a boarded **well** under a roof, the kitchen yard with
+  heaps of the dead, a hand cart and barrels; dust-sheeted furniture in the attic; carcasses hung on hooks in the cellar;
+  the kitchen and pantry limewashed instead of papered.
+- *Text*: an **M.E.G. placard** ("M.E.G. - LEVEL 73 - CLASS 5 / RUN TO THE CASTLE. / NO LIGHT. BANG ON THE DOOR") on the
+  gatehouse beside the gate and beside the keep's door; the **sampler** "WE ARE SAFE HERE. / WE ARE LOVED HERE." by the
+  main door; **brass plates** by the doorways (guest rooms I-VI, BATH, LAUNDRY, KITCHEN, PANTRY, DINING, LIBRARY, SOLAR);
+  **pinned notes** in a careful hand ("DO NOT LOOK OUTSIDE. - C." by the curtains, "THE ATTIC IS HIS. DO NOT GO UP." by
+  its stair, "IF THEY BANG, LET THEM IN." by the door, "WE ARE THIRTY-SEVEN." on a landing).
+- *The island*: long low **ridges** across the fields, a **shelf** (a scarp of black rock 2-3 high over the beach) along
+  stretches of the coast, deeper **gullies**; six **worn tracks** of trodden mud winding in from the shore and round the
+  hill to the foot of the stone path (`FloorKind.L73Track`, 271); **dead trees** (charred trunks with a root flare, two or
+  three crooked branches, a forked top; 112 on seed 12345); **black boulders** (one or two high, some with a smaller stone
+  beside); the stone path relaid in **darker, stained flags**; the **Great Hound** redrawn in thin bones joined to their
+  neighbours (spine, ribs, legs, tail; the skull solid) in an older, darker bone.
+- *Sound*: the fire's crackle now comes from the nearest fire on one's storey, not only the dining hearth.
+- *Showcase*: new spots `coran-close`, `keep-door`, `stair`, `kitchen`, `cellar`, `guest-fire`, `library`, `solar`,
+  `track`, `dead-tree`; `great-hound` now side on; `gatehouse`, `bathroom`, `master-bedroom` re-aimed.
+- *Text from the balance review (lead's request)*: the third warning in Level 6's deepest dark now says where it leads is
+  worse than here; the handbook page: "Near the castle, where CORAN hunts, the hordes are thinner; beyond the hill they are
+  not." It also names the kitchen, the study, the large curtained beds and the sampler.
+
+### Inventions (round 3)
+
+The kitchen, pantry, cellar, laundry and solar (the lore names the main hall, dining hall, guest rooms, master bedroom,
+bathrooms and attic only); the fireplaces in the guest rooms and the rest (the lore names the dining hall's); the
+canopies; the tapestries and their pictures; the sampler's place (its words are the page's); the plates, the notes' words
+(after the lore's "Do not look outside", "CORAN has declared the attic off-limits", "exactly 37"); the M.E.G. placards
+and their wording (the M.E.G.'s procedure from the page); the courtyard's well (boarded, dry), cart and heaps of the dead
+("Hound is the fuel"); the tracks, ridges, shelf, dead trees and boulders (the lore says only "blackened fields").
+
+### Balance notes for the lead
+
+- No new food or water: the larder shelves, sacks, barrels, heaps of the dead, the cart and the well are the level's own
+  fixed blocks (`l73Fixed`, no drops); the well is boarded. The kitchen's pantry deliberately does not use the mod's
+  `PantryShelf`/`SeedSacks` props (they drop canned beans, flour, seeds).
+- The new hotel furniture (wing chairs, coffee tables, sideboards) can be salvaged like the castle's existing hotel
+  furniture (chairs, sofas, bookshelves) already could.
+- The guest rooms now hold two hotel beds per large bed (24 beds where there were 12): more places to sleep the night's
+  rest, same safety.
+- Dead trees and boulders on the fields are cover and obstacles on the run (trunks block, boulders 1-2 high); they give
+  nothing. The tracks change nothing but the floor's look.
+- The cellar is inside the keep (safe, 10 C).
+
+### What the shots showed (three client runs, no torch: `%TEMP%/backrooms-shots/73-20261101-013959`, `-024808`, final `-033416`)
+
+- Run 1: the rooms read as a lived-in castle at last (canopied beds, fires, beams, cornices, rugs, the stair's balustrade,
+  the tapestry of Coran over the Hound, the plates and the sampler); the island reads as a landscape from the arrivals
+  (ridges, gullies, dead trees against the sky, boulders, the castle on its hill); the Great Hound reads as a skeleton
+  (arched ribs, spine, the skull). Wrong: every rug's border ran through its middle (the up face shows its texture turned
+  half round); the mantels carried a picket of candles; the kitchen was papered in damask; the bathroom and cellar were
+  near black and the cellar bare; the dead trees' branches stood a little off their trunks.
+- Run 2 (after the fixes): rugs right, kitchen limewashed, the cellar's carcasses on hooks and barrel rows, the bath lit.
+  The kitchen's hearth was a low room fireplace.
+- Final: the kitchen's hearth open two high under its mantel. Still weak: the far fields and two of the four random
+  arrivals are nearly black (the lore's dark: no torch, and a black-cloud spell may have been on); the kitchen's pots and
+  the heaps of the dead are blocky; the attic is still only seen from the roof; the `deepest-dark` link spot (Level 6,
+  `WorldLayout.Level73.Links.cs`, not this round's to touch) failed its shot in all three runs.
+
+### Checks (round 3)
+
+`expclash` clean; mod and mapgen build with 0 errors; `layouthash` (`BACKROOMS_NO_EXP_ENTRANCES=1`) at layout versions 1
+and 12: every line for 0-20 and the layout hash identical to main's; `regions` 60/60 in Level 73 (0 wrong, 0 in
+pockets); `73stats` OK (24 guest beds = 12 large, 4 bath barrels, 24 places, 32 windows, 0 misplaced, 112 dead trees,
+arrivals 57-133 from the gate); headless (port 43102) dummy placed in Level 73 with 0 error lines;
+`GATE_TAG=l73g gate.py --fast --port-base 43100` PASS.
+
+### Questions for the user
+
+- The kitchen, pantry, cellar and Coran's solar are inventions (the page names none of them): keep them?
+- Should the visitors' book on the lectern be readable (a right-click line, like the castle's doors)? It would need a line
+  in `Regions/L73System.cs`, which this round did not touch.
+- The far fields stay as dark as the lore asks (no light outside): is that the look you want in screenshots, or should
+  the moonlight be a shade brighter away from the castle?
