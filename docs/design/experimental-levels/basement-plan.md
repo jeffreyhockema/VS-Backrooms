@@ -360,6 +360,14 @@ and on the torn carpet, to Level 0): 11 falls and 11 climbs, 0 bad.
 the layout hash equal main's saved files. Without it only a Level 1 line and the layout hash move at both versions (the
 sample's cells hold no patch in the other hosts). `regions`: Basement 60/60. `expclash` clean.
 
+**In the client** (rig, seed 12345, port 43115, `%TEMP%/backrooms-shots/basement-links-20261031-230525/links`): the
+showcase's `link-l0`, `link-l2`, `link-l4`, `link-l5` show the patch on the Lobby's carpet, across a Level 2 tunnel, on
+office carpet and on the hotel's (Level 1's nearest had no free tile three steps off: the spot now looks from up to five);
+in survival, put on Level 0's patch: "The floor gives way...", down under the Basement crack the harness predicted
+(455526, 643302), about four health lost of fifteen; put at the top of that shaft: "You haul yourself...", out in the
+Lobby (512154, 511901, as predicted); Level 2's patch (BasementSystem's tick) and Level 5's both dropped into their
+predicted cracks. 54/54 steps, no server or client error lines. Gate `--fast` (port 43110): PASS.
+
 **Inventions:** the look of the patch (sagging, broken through, cracks and hairlines; the lore says only that people
 break through the floor), only its middle giving way, ten blocks of fall from the shaft (the lore's "several tens of
 feet", made survivable), coming out somewhere in the Lobby rather than beside a hole, the decal check, the Lobby note

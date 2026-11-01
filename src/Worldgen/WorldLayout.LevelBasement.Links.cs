@@ -157,7 +157,7 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// The showcase's spots for the way in (after the level's own, whose "crack-up" looks up the way out): the cracked patch
-    /// nearest spawn in each host level, from a free tile three steps off its middle, looking down at it. (None stands at
+    /// nearest spawn in each host level, from a free tile three (to five) steps off its middle, looking down at it. (None stands at
     /// the top of a crack: standing there is climbing out.)
     /// </summary>
     public IEnumerable<Showcase.Spot> BasementLinkShowcaseSpots(WorldGeometry geometry)
@@ -167,14 +167,18 @@ public sealed partial class WorldLayout
             if (BasementCracksNearSpawn(level, 1) is not { Count: > 0 } near) continue;
             var (cx, cz) = near[0];
             double feet = geometry.FloorFor(level) + 1;
-            foreach (var (dx, dz) in ShowcaseDirs)
-            {
-                int x = cx + 3 * dx, z = cz + 3 * dz;
-                Tile t = TileAt(x, z);
-                if (t.Level != level || !IsArrivalSpot(t)) continue;
-                yield return new Showcase.Spot($"link-l{level}", x + 0.5, feet, z + 0.5, ShowcaseHeading(-dx, -dz), -24);
-                break;
-            }
+            // (Three steps off, just clear of the patch, else four or five)
+            Showcase.Spot? spot = null;
+            for (int k = 3; k <= 5 && spot == null; k++)
+                foreach (var (dx, dz) in ShowcaseDirs)
+                {
+                    int x = cx + k * dx, z = cz + k * dz;
+                    Tile t = TileAt(x, z);
+                    if (t.Level != level || t.Kind != TileKind.Floor || t.Variant != 0 || t.SupplyBox || t.Stair != 0 || t.Under != 0) continue;
+                    spot = new Showcase.Spot($"link-l{level}", x + 0.5, feet, z + 0.5, ShowcaseHeading(-dx, -dz), k == 3 ? -24 : -18);
+                    break;
+                }
+            if (spot is { } found) yield return found;
         }
     }
 }
