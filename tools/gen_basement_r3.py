@@ -710,7 +710,7 @@ def blocks():
     LANG["block-basement-studs"] = "Unfinished stud wall"
     for code, tex, english, mat, snd, drops in (
             ("basement-earth", "floor-earth", "Trodden earth", "Soil", {"walk": "game:walk/gravel", "place": "game:block/dirt", "break": "game:block/dirt", "hit": "game:block/dirt"},
-             [{"type": "item", "code": "game:soil-medium-none", "quantity": {"avg": 1, "var": 0}}]),
+             [{"type": "block", "code": "game:soil-medium-none", "quantity": {"avg": 1, "var": 0}}]),
             ("basement-rug", "rug", "Braided rug", "Cloth", CLOTH, [{"type": "item", "code": "carpetfibre", "quantity": {"avg": 2, "var": 1}}])):
         write_json(os.path.join(BLOCKS, code + ".json"), {
             "code": code, "creativeinventory": {"general": ["*"], "construction": ["*"]}, "blockmaterial": mat, "drawtype": "cube",

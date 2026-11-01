@@ -34,7 +34,7 @@
 	"lightAbsorption": 99,
 	"drops": [
 		{
-			"type": "item",
+			"type": "block",
 			"code": "game:soil-medium-none",
 			"quantity": {
 				"avg": 1,
