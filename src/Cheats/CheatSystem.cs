@@ -498,14 +498,16 @@ public partial class CheatSystem : ModSystem
                 : $"No {target.Name.ToLowerInvariant()} within {radius} blocks in Level {WorldLayout.DisplayNumber(level)}");
         if (hit.Message != null)
         {
-            Teleport((IServerPlayer)args.Caller.Player, hit.Stand.Value.X + 0.5, hit.FeetY.Value, hit.Stand.Value.Z + 0.5);
-            return TextCommandResult.Success($"{hit.Message} ({FromSpawn(hit.X, hit.Z)})");
+            string message = FaceText(hit.Message, hit.Stand.Value.X, hit.Stand.Value.Z, hit, out float? shaftYaw, false);
+            Teleport((IServerPlayer)args.Caller.Player, hit.Stand.Value.X + 0.5, hit.FeetY.Value, hit.Stand.Value.Z + 0.5, shaftYaw);
+            return TextCommandResult.Success($"{message} ({FromSpawn(hit.X, hit.Z)})");
         }
         if (finder.StandNear(hit.X, hit.Z, level) is not { } stand) return TextCommandResult.Error($"Found a {target.Name.ToLowerInvariant()} at {FromSpawn(hit.X, hit.Z)}, but nowhere to stand near it");
 
         int distance = (int)Math.Sqrt((double)(hit.X - gx) * (hit.X - gx) + (double)(hit.Z - gz) * (hit.Z - gz));
-        Teleport((IServerPlayer)args.Caller.Player, stand.X, stand.Z, level);
-        return TextCommandResult.Success($"{target.Name}{hit.Detail}, {distance} blocks from where you were ({FromSpawn(hit.X, hit.Z)})");
+        string detail = FaceText(hit.Detail, stand.X, stand.Z, hit, out float? yaw);
+        Teleport((IServerPlayer)args.Caller.Player, stand.X + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(stand.X, stand.Z), stand.Z + 0.5, yaw);
+        return TextCommandResult.Success($"{target.Name}{detail}, {distance} blocks from where you were ({FromSpawn(hit.X, hit.Z)})");
     }
 
     /// <summary>As <see cref="FeatureFinder.NearestTileAt"/> (for the stair scan).</summary>
@@ -516,10 +518,18 @@ public partial class CheatSystem : ModSystem
         Teleport(player, x + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(x, z), z + 0.5);
 
     /// <summary>Every cheat teleport goes through here, so <c>/backrooms back</c> can undo it.</summary>
-    private void Teleport(IServerPlayer player, double x, double y, double z)
+    private void Teleport(IServerPlayer player, double x, double y, double z, float? yaw = null)
     {
         RememberBack(player, player.Entity.Pos.XYZ);
-        player.Entity.TeleportToDouble(x, y, z);
+        if (yaw is { } turn) player.Entity.TeleportToDouble(x, y, z, () =>
+        {
+            // (Turned again a moment on: a far teleport's position update can reach the client after the first turn and undo it)
+            var thresholds = sapi.ModLoader.GetModSystem<Thresholds.ThresholdSystem>();
+            thresholds?.Face(player, turn);
+            sapi.Event.RegisterCallback(_ => thresholds?.Face(player, turn), 600);
+            sapi.Event.RegisterCallback(_ => thresholds?.Face(player, turn), 1800);
+        });
+        else player.Entity.TeleportToDouble(x, y, z);
     }
 
     /// <summary>A position as the HUD shows it, relative to spawn.</summary>

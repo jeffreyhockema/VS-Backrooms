@@ -68,13 +68,31 @@ public partial class CheatSystem
 
         var player = (IServerPlayer)args.Caller.Player;
         var (sx, sz) = hit.Stand.Value;
-        if (hit.FeetY is { } feet) Teleport(player, sx + 0.5, feet, sz + 0.5);
-        else Teleport(player, sx, sz, level);
-
-        string detail = hit.Detail;
-        if (detail.Length == 0 && (sx, sz) != (hit.X, hit.Z)) detail = $" (heading {FeatureFinder.Heading(sx, sz, hit.X, hit.Z)} looks toward it)";
+        string detail = FaceText(hit.Detail, sx, sz, hit, out float? yaw);
+        if (hit.FeetY is { } feet) Teleport(player, sx + 0.5, feet, sz + 0.5, yaw);
+        else Teleport(player, sx + 0.5, geometry.FloorFor(level) + layout.ArrivalHeight(sx, sz), sz + 0.5, yaw);
         int distance = (int)Math.Sqrt((double)(hit.X - gx) * (hit.X - gx) + (double)(hit.Z - gz) * (hit.Z - gz));
         string where = hit.Elsewhere ? $"none within {radius} blocks, so one elsewhere in {here}, {distance} blocks away" : $"{distance} blocks from where you were";
         return TextCommandResult.Success($"{entry.Name}{detail}, {where} ({FromSpawn(hit.X, hit.Z)})");
+    }
+
+    private static readonly System.Text.RegularExpressions.Regex HeadingRx = new(@"heading (\d+)( looks[^,;)]*)?", System.Text.RegularExpressions.RegexOptions.Compiled);
+
+    /// <summary>
+    /// Which way to turn a player put down at a spot (<paramref name="yaw"/>): the heading the finder's text gives, else
+    /// the one from the spot to the place; and that text with the heading wording replaced by "you are facing it".
+    /// </summary>
+    private static string FaceText(string text, int sx, int sz, FeatureFinder.Hit hit, out float? yaw, bool plain = true)
+    {
+        text ??= "";
+        yaw = null;
+        if (HeadingRx.Match(text) is { Success: true } m)
+        {
+            yaw = Thresholds.ThresholdSystem.YawOfHeading(double.Parse(m.Groups[1].Value));
+            return text.Remove(m.Index, m.Length).Insert(m.Index, m.Groups[2].Success ? "you are facing it" : "you are facing that way");
+        }
+        if ((sx, sz) == (hit.X, hit.Z)) return text;
+        yaw = Thresholds.ThresholdSystem.YawOfHeading(FeatureFinder.Heading(sx, sz, hit.X, hit.Z));
+        return text.Length == 0 && plain ? " (you are facing it)" : text;
     }
 }
