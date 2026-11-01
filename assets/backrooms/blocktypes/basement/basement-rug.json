@@ -17,15 +17,7 @@
 			"alternates": [
 				{
 					"base": "block/basement/rug",
-					"rotation": 90
-				},
-				{
-					"base": "block/basement/rug",
 					"rotation": 180
-				},
-				{
-					"base": "block/basement/rug",
-					"rotation": 270
 				}
 			]
 		}

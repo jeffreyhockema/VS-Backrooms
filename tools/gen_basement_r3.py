@@ -413,13 +413,13 @@ def bench():
             b("ViceJawF", (3.5, 15.5, 1), (7.5, 19, 2.5), "metaldark"), b("ViceScrew", (5, 16.5, -1), (6, 17.5, 1), "metal"),
             b("ViceBar", (2.5, 16.75, -1.4), (8.5, 17.25, -0.9), "metal")]
     # On the bench: a can of nails, a coffee can of brushes, a block of wood, a hammer; under it a toolbox, paint
-    els += [b("NailCan", (12, 15, 8), (14.5, 18.5, 10.5), "paintcan"), b("BrushCan", (24, 15, 11), (26.5, 18, 13.5), "paintcan"),
+    els += [b("NailCan", (12, 15, 8), (14.5, 18.5, 10.5), "paintcan", uv=(4, 4, 8, 8.5)), b("BrushCan", (24, 15, 11), (26.5, 18, 13.5), "paintcan", uv=(8, 4, 12, 8.5)),
             b("Brush", (24.75, 18, 11.75), (25.75, 21, 12.75), "panel"),
             b("Block", (17, 15, 5), (22, 16.5, 9), "panel", rot=(0, 22.5, 0)),
             b("HammerHandle", (18.5, 15, 10.5), (19.5, 15.75, 15), "panel", rot=(0, -22.5, 0), origin=(19, 15.4, 12.75)),
             b("HammerHead", (17, 15, 14), (21, 16.5, 15.25), "metaldark", rot=(0, -22.5, 0), origin=(19, 15.4, 12.75)),
             b("Toolbox", (4, 4, 6), (11, 8, 10), "redpaint"), b("ToolboxHandle", (6.5, 8, 7.75), (8.5, 9, 8.25), "metal"),
-            b("Paint1", (20, 4, 6), (23, 8, 9), "paintcan"), b("Paint2", (24, 4, 7), (27, 8, 10), "paintcan"),
+            b("Paint1", (20, 4, 6), (23, 8, 9), "paintcan", uv=(12, 4, 16, 8.5)), b("Paint2", (24, 4, 7), (27, 8, 10), "paintcan", uv=(0, 4, 4, 8.5)),
             b("Board", (0, 15, 15), (32, 16, 16), "benchtop")]
     return cut2(els)
 
@@ -459,11 +459,11 @@ def shelving(part, kind):
             for j in range(3):
                 if (j + k) % 3 == 2:
                     continue
-                els.append(b(f"Can{k}{j}", (1.5 + j * 4.6, y0, 5), (5.5 + j * 4.6, y0 + 4.5, 9), "paintcan"))
+                els.append(b(f"Can{k}{j}", (1.5 + j * 4.6, y0, 5), (5.5 + j * 4.6, y0 + 4.5, 9), "paintcan", uv=((j * 4 + k * 8) % 16, 4, (j * 4 + k * 8) % 16 + 4, 8.5)))
             els.append(b(f"Tray{k}", (2, y0, 10), (13, y0 + 1, 14), "metaldark"))
         else:  # odds and ends: a box, a lamp base, jars
             els += [b(f"Box{k}", (1.5, y0, 6), (7, y0 + 4, 14), "cardboard"),
-                    b(f"Jar{k}", (9, y0, 6), (11.5, y0 + 4, 8.5), "jar"), b(f"Can{k}", (12, y0, 9), (15, y0 + 4.5, 12), "paintcan")]
+                    b(f"Jar{k}", (9, y0, 6), (11.5, y0 + 4, 8.5), "jar"), b(f"Can{k}", (12, y0, 9), (15, y0 + 4.5, 12), "paintcan", uv=(k * 4, 4, k * 4 + 4, 8.5))]
     return els
 
 
@@ -562,10 +562,12 @@ def overhead(kind):
 
 
 def poollamp():
-    return [b("Chain", (7.75, 9, 7.75), (8.25, 16, 8.25), "metaldark"),
-            b("Shade", (2, 5, 4), (14, 9, 12), "poolshade", faces=("north", "south", "east", "west", "up")),
-            b("ShadeIn", (2.5, 5.01, 4.5), (13.5, 8.5, 11.5), "bulb-lit", faces=("down",), glow=120),
-            b("Rim", (1.75, 4.75, 3.75), (14.25, 5.25, 12.25), "brass")]
+    """(Round 3, after the first shots: hung lower on its chain, the shade sloped.)"""
+    return [b("Chain", (7.75, 6, 7.75), (8.25, 16, 8.25), "metaldark"),
+            b("ShadeTop", (4, 5, 5.5), (12, 6, 10.5), "poolshade"),
+            b("Shade", (2, 2, 4), (14, 5, 12), "poolshade", faces=("north", "south", "east", "west", "up")),
+            b("ShadeIn", (2.5, 2.01, 4.5), (13.5, 4.5, 11.5), "bulb-lit", faces=("down",), glow=120),
+            b("Rim", (1.75, 1.75, 3.75), (14.25, 2.25, 12.25), "brass")]
 
 
 def studs():
@@ -679,7 +681,8 @@ def blocks():
             ("basement-rug", "rug", "Braided rug", "Cloth", CLOTH, [{"type": "item", "code": "carpetfibre", "quantity": {"avg": 2, "var": 1}}])):
         write_json(os.path.join(BLOCKS, code + ".json"), {
             "code": code, "creativeinventory": {"general": ["*"], "construction": ["*"]}, "blockmaterial": mat, "drawtype": "cube",
-            "textures": {"all": {"base": "block/basement/" + tex, "alternates": [{"base": "block/basement/" + tex, "rotation": r} for r in (90, 180, 270)]}},
+            # (the rug's braids keep one way; the earth turns)
+            "textures": {"all": {"base": "block/basement/" + tex, "alternates": [{"base": "block/basement/" + tex, "rotation": r} for r in ((180,) if tex == "rug" else (90, 180, 270))]}},
             "resistance": 2, "lightAbsorption": 99, "drops": drops, "sounds": snd,
         }, "The Basement: " + english.lower())
         LANG["block-" + code] = english
