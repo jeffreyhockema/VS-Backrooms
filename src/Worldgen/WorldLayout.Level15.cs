@@ -98,7 +98,8 @@ public sealed partial class WorldLayout
     /// part, 0-2 from the left as you face it); a HIGH VOLTAGE plate.
     /// </summary>
     public const byte L15WallAuth = 16, L15WallDecon = 17, L15WallLiftL = 18, L15WallLiftR = 19, L15WallLiftCall = 20, L15WallHatch = 21,
-        L15WallPipes = 22, L15WallMenu = 23, L15WallHV = 24, L15WallBigScreen = 25, L15WallSlide = 26;
+        L15WallPipes = 22, L15WallMenu = 23, L15WallHV = 24, L15WallBigScreen = 25, L15WallSlide = 26, L15WallMap = 27,
+        L15WallExtinguisher = 28;
 
     /// <summary>
     /// How many room codes there are to paint (<see cref="L15WallCode"/>): two per letter, H (labs), e (stores), M, D, K, C, L, S,
@@ -401,6 +402,29 @@ public sealed partial class WorldLayout
                 call.Detail = L15WallLiftCall;
                 call.Pier = face;
                 plan.Lifts++;
+                break;
+            }
+        }
+        // A sector map near a crossing on a wall of the wing (stretch 13-14 or 117-118, rel 2-3), where the wall is plain
+        for (int side = 0; side < 4; side++)
+        {
+            if (!rng.Chance(0.5)) continue;
+            foreach (int k in new[] { 6, L15WingSize - 11 })
+            {
+                var (a0, b0, face) = L15WingWall(side, k);
+                var (a1, b1, _) = L15WingWall(side, k + 1);
+                var (x0, z0) = plan.World(a0, b0);
+                if (Hashing.Mod(side < 2 ? z0 : x0, 8) is 0 or 7 || !Plain(a0, b0) || !Plain(a1, b1)) continue;
+                var (rx, rz) = L15Work.RightOf(face);
+                bool kLeft = (a1 - a0) * rx + (b1 - b0) * rz > 0;
+                ref Tile m0 = ref plan.AtAB(a0, b0);
+                m0.Detail = L15WallMap;
+                m0.Pier = face;
+                m0.Stack = (byte)(kLeft ? 0 : 1);
+                ref Tile m1 = ref plan.AtAB(a1, b1);
+                m1.Detail = L15WallMap;
+                m1.Pier = face;
+                m1.Stack = (byte)(kLeft ? 1 : 0);
                 break;
             }
         }
@@ -1443,6 +1467,7 @@ public sealed partial class WorldLayout
                         double p = rng.NextDouble();
                         if (p < 0.014) Decorate(a + dx, b + dz, L15WallHatch, Opp(outward), 0);
                         else if (p < 0.024) Decorate(a + dx, b + dz, L15WallPipes, Opp(outward), 0);
+                        else if (p < 0.030) Decorate(a + dx, b + dz, L15WallExtinguisher, Opp(outward), 0);
                     }
                 }
         }

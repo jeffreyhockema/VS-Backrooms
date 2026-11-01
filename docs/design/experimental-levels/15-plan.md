@@ -358,12 +358,12 @@ B should, C nice. "Lead" marks an item from the lead's notes.
    does not change), a locker at the foot, a footlocker now and then.
 5. (A, lead) [done] **Lecture hall raked**: rows of seats with backs and fold-down writing tablets on stepped risers rising away
    from the stage (half a block a row, an aisle of steps up the middle), the projection display over the stage kept.
-6. (B) [partly: the canteen has its own kitchen behind the serving line; AUTHORIZED by every control room's door; no pairing of rooms across walls] Rooms placed by adjacency where it is cheap: a kitchen or cafeteria pairs up with a store next to it; a control
+6. (B) [partly: the canteen has its own kitchen behind the serving line; AUTHORIZED by every control room's door; fire extinguisher cabinets in the corridors; no pairing of rooms across walls] Rooms placed by adjacency where it is cheap: a kitchen or cafeteria pairs up with a store next to it; a control
    room's door onto a main hall gets an AUTHORIZED plate; machine rooms keep their gate.
 7. (B, lead) [done] **Elevator lobbies** on the main halls: a pair of brushed-steel lift doors (2 wide, 3 high, a seam down the
    middle) that do not open, a call-button panel beside them and a floor indicator over them, now and then near a
    crossing.
-8. (B) [partly: the DECONTAMINATION plate by most labs' and hydroponics bays' doors; no hazard lintel] **Decontamination** look on labs: the lab door's lintel in yellow/black and a DECONTAMINATION plate.
+8. (B) [done: the DECONTAMINATION plate and a rolled-up shutter like the machine rooms' over those doors] **Decontamination** look on labs: the lab door's lintel in yellow/black and a DECONTAMINATION plate.
 9. (C) [skipped: time; the hanging signs and floor lines do the landmark work] A recurring landmark without a visible grid: a big atrium-like crossing now and then (taller light square).
 
 **2. Multi-block objects**
@@ -394,7 +394,7 @@ B should, C nice. "Lead" marks an item from the lead's notes.
 24. (B, lead) [done: blank brushed steel, as on the bare rooms and the crematoria] **Star door's plate**: a blank brushed-steel plate by the room's door (the lore names nothing).
 25. (B) [partly: HIGH VOLTAGE in machine rooms; no NO ENTRY] **Warning plates**: "HIGH VOLTAGE" and "CAUTION" on machine-room walls; "NO ENTRY" at service passages.
 26. (B, lead) [done] "MACHINE ROOM" and "DECONTAMINATION" text (items 8, 20).
-27. (C) [skipped: time] Directory boards at crossings listing the wing's rooms.
+27. (C) [partly: a two-block SECTOR MAP near a crossing on half the wings' walls, half lost to static (no directory: the lore's codes are "somebody else's system")] Directory boards at crossings listing the wing's rooms.
 
 **4. Detail visuals**
 28. (A, lead) [done] **Glass walls into the labs and control rooms** from the corridors (as the machine rooms have), so the
@@ -406,7 +406,7 @@ B should, C nice. "Lead" marks an item from the lead's notes.
     hydroponics on grating.
 32. (B) [done] Clutter that tells a story: stripped appliances (Fandom: coffee machines and 3D printers emptied of their
     insides) on kitchen counters and lab benches.
-33. (C) [skipped: the corridors keep their panels every six] Lighting rhythm in the corridors: a continuous slot of light in a few, the panels in others.
+33. (C) [done: a corridor in three has a continuous slot of panels, one in six giving light] Lighting rhythm in the corridors: a continuous slot of light in a few, the panels in others.
 34. (C) [done] Dust on the dark squares' floors.
 
 **5. Lore alignment**
@@ -437,7 +437,7 @@ a big radar display over each lit control room's panels; service hatches and pip
 trays along six side corridors in ten (`Overheads.L15TrayWE/NS`); robot docks on the main halls (`Props.L15Dock`,
 `L15HallDockAt`); lifts in the wings' walls onto the halls, placed after the links so no link moves (`L15Lifts`); stripped
 appliances on counters and benches; curtains between the medical bay's beds (`Overheads.L15Curtain`, its edge in `Roof`);
-dust in the dark; bags and bones more often in the dark halls. Generator (`WorldGenerator.L15.cs`): the hall line's colour
+dust in the dark; bags and bones more often in the dark halls; the lecture halls' projection screen (three by three, an induction slide), decontamination shutters, a continuous light slot in a corridor in three, sector maps by the crossings, fire extinguisher cabinets. Generator (`WorldGenerator.L15.cs`): the hall line's colour
 on the band and down the floor with chevrons every 16 blocks toward the nearer crossing; a hanging sign three blocks wide
 across each hall ten blocks out from each crossing, its name both ways (lit, dead in the dark); the bunks over the dorms'
 cots; the new props and dress. Assets: `tools/gen_15_r3.py` (run after `gen_15.py` and `gen_15_links.py`): `l15-sign`,

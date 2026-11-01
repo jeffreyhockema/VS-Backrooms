@@ -50,6 +50,7 @@ public partial class WorldLayout
             spots.Add(new Showcase.Spot("lecture-stage", top.X + 0.5, y + top.Rise, top.Z + 0.5, top.Heading, -14, null));
         if (L15FindDock(hcx, hcz) is { } dock) Add("dock", dock.X, dock.Z, dock.Heading, -4);
         if (L15FindLift(hcx, hcz) is { } lift) Add("lift", lift.X, lift.Z, lift.Heading, 4);
+        if (L15FindLift(hcx, hcz, L15WallMap) is { } map) Add("sector-map", map.X, map.Z, map.Heading, 6);
         if (L15FindDoor(hcx, hcz, L15Zone.Lab, glass: true) is { } labGlass) Add("lab-glass", labGlass.OutX, labGlass.OutZ, labGlass.Heading, 0);
         if (L15FindDoor(hcx, hcz, L15Zone.Dorm) is { } dorm) Add("dorm", dorm.InX, dorm.InZ, dorm.Heading, -8);
         if (L15FindDoor(hcx, hcz, L15Zone.Canteen) is { } canteen) Add("canteen", canteen.InX, canteen.InZ, canteen.Heading, 4);
@@ -147,8 +148,8 @@ public partial class WorldLayout
         return null;
     }
 
-    /// <summary>The nearest lift on a wing's wall onto a main hall: a place in the hall in front of it, looking at it.</summary>
-    private (int X, int Z, double Heading)? L15FindLift(int hcx, int hcz)
+    /// <summary>The nearest lift (or other dress: a sector map) on a wing's wall onto a main hall: a place in the hall in front of it, looking at it.</summary>
+    private (int X, int Z, double Heading)? L15FindLift(int hcx, int hcz, byte detail = L15WallLiftL)
     {
         foreach (var (hx, hz) in L15WingsRound(hcx, hcz, 3))
         {
@@ -157,7 +158,7 @@ public partial class WorldLayout
                 foreach (var (a, b) in new[] { (-1, k), (L15WingSize, k), (k, -1), (k, L15WingSize) })
                 {
                     Tile t = plan.AtAB(a, b);
-                    if (t.Kind != TileKind.Wall || t.Detail != L15WallLiftL) continue;
+                    if (t.Kind != TileKind.Wall || t.Detail != detail || detail == L15WallMap && t.Stack != 0) continue;
                     var (x, z) = plan.World(a, b);
                     var (dx, dz) = L15StepOf(t.Pier);
                     if (L15DarkQuad(x, z) || TileAt(x, z).Level != Level15) continue;

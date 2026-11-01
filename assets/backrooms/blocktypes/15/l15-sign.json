@@ -51,7 +51,12 @@
 				"slide12",
 				"slide20",
 				"slide21",
-				"slide22"
+				"slide22",
+				"map00",
+				"map01",
+				"map10",
+				"map11",
+				"extinguisher"
 			]
 		},
 		{
@@ -1568,6 +1573,166 @@
 			"west": {
 				"base": "block/15/sign-slide22"
 			}
+		},
+		"*-map00-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/sign-map00"
+			}
+		},
+		"*-map00-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/sign-map00"
+			}
+		},
+		"*-map00-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/sign-map00"
+			}
+		},
+		"*-map00-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/sign-map00"
+			}
+		},
+		"*-map01-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/sign-map01"
+			}
+		},
+		"*-map01-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/sign-map01"
+			}
+		},
+		"*-map01-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/sign-map01"
+			}
+		},
+		"*-map01-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/sign-map01"
+			}
+		},
+		"*-map10-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/sign-map10"
+			}
+		},
+		"*-map10-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/sign-map10"
+			}
+		},
+		"*-map10-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/sign-map10"
+			}
+		},
+		"*-map10-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/sign-map10"
+			}
+		},
+		"*-map11-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/sign-map11"
+			}
+		},
+		"*-map11-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/sign-map11"
+			}
+		},
+		"*-map11-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/sign-map11"
+			}
+		},
+		"*-map11-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/sign-map11"
+			}
+		},
+		"*-extinguisher-north": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"north": {
+				"base": "block/15/sign-extinguisher"
+			}
+		},
+		"*-extinguisher-east": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"east": {
+				"base": "block/15/sign-extinguisher"
+			}
+		},
+		"*-extinguisher-south": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"south": {
+				"base": "block/15/sign-extinguisher"
+			}
+		},
+		"*-extinguisher-west": {
+			"all": {
+				"base": "block/15/wall-panel"
+			},
+			"west": {
+				"base": "block/15/sign-extinguisher"
+			}
 		}
 	},
 	"creativeinventory": {
@@ -1613,6 +1778,9 @@
 		},
 		"*-slide*": {
 			"glowLevel": 70
+		},
+		"*-map*": {
+			"glowLevel": 60
 		}
 	},
 	"lightHsvByType": {

@@ -352,6 +352,58 @@ def slide_textures():
             save(img.crop((k * B, (2 - row) * B, (k + 1) * B, (3 - row) * B)), f"sign-slide{row}{k}")
 
 
+def map_textures():
+    """A facility map by a crossing, two blocks wide and two high: the halls as a cyan grid, the wings as blocks, a red YOU
+    ARE HERE, and across it a band of static where the map has failed (nobody's map is to be trusted here)."""
+    W = H = 2 * B
+    img = Image.new("RGBA", (W, H), (0, 0, 0, 255))
+    rect(img, 0, 0, W - 1, H - 1, (44, 48, 54))
+    rect(img, 4, 4, W - 5, H - 5, (10, 20, 28))
+    rect(img, 6, 6, W - 7, 17, (30, 44, 56))
+    draw_text(img, (8, 7, W - 8, 16), "SECTOR MAP", (200, 236, 246), 7, condensed=True)
+    d = ImageDraw.Draw(img)
+    for k in range(5):
+        x = 14 + k * 25
+        d.rectangle((x, 22, x + 2, H - 10), fill=(70, 170, 190, 255))
+        y = 22 + k * 22
+        if y < H - 12:
+            d.rectangle((10, y, W - 10, y + 2), fill=(70, 170, 190, 255))
+    rng = np.random.default_rng(15750)
+    for _ in range(14):
+        x, y = int(rng.integers(18, W - 26)), int(rng.integers(26, H - 26))
+        d.rectangle((x, y, x + int(rng.integers(4, 10)), y + int(rng.integers(3, 8))), fill=(40, 70, 86, 255))
+    d.ellipse((60, 64, 68, 72), fill=(240, 60, 50, 255))
+    draw_text(img, (70, 64, 118, 72), "YOU ARE HERE", (240, 110, 100), 5, condensed=True)
+    # The static band
+    for y in range(84, 104):
+        for x in range(5, W - 5):
+            v = int(rng.integers(30, 200))
+            img.putpixel((x, y), (v, v, v, 255))
+    rect(img, 30, 89, 98, 99, (10, 10, 12))
+    draw_text(img, (32, 90, 96, 98), "SIGNAL LOST", (230, 230, 230), 5, condensed=True)
+    for row in range(2):
+        for k in range(2):
+            save(img.crop((k * B, (1 - row) * B, (k + 1) * B, (2 - row) * B)), f"sign-map{row}{k}")
+
+
+def extinguisher_texture():
+    """A fire extinguisher in its wall cabinet: a red steel frame, a glass door, the extinguisher behind it."""
+    img = big_panel()
+    rect(img, 16, 6, 47, 59, (170, 30, 26))
+    bevel(img, (16, 6, 48, 60), 0.25)
+    rect(img, 19, 9, 44, 56, (36, 30, 30))
+    rect(img, 26, 18, 37, 52, (196, 34, 28))
+    rect(img, 29, 13, 34, 18, (40, 40, 44))
+    rect(img, 34, 14, 40, 16, (40, 40, 44))
+    rect(img, 27, 26, 36, 33, (236, 236, 230))
+    for y in range(9, 57):
+        for x in range(19, 45):
+            if (x + y) % 9 == 0:
+                blend(img, x, y, (220, 230, 240), 0.35)
+    draw_text(img, (18, 2, 46, 6), "FIRE", (190, 30, 26), 4, condensed=True)
+    save(img, "sign-extinguisher")
+
+
 def band_textures():
     """The halls' band (gen_15's deco-band) in each hall line's colour, at the same 32 px."""
     base = Image.open(os.path.join(TEX, "deco-band.png")).convert("RGBA")
@@ -746,6 +798,10 @@ def sign_kinds():
     for row in range(3):
         for i in range(3):
             k[f"slide{row}{i}"] = f"sign-slide{row}{i}"
+    for row in range(2):
+        for i in range(2):
+            k[f"map{row}{i}"] = f"sign-map{row}{i}"
+    k["extinguisher"] = "sign-extinguisher"
     return k
 
 
@@ -760,7 +816,7 @@ def blocktypes():
             "blockmaterial": "Stone", "drawtype": "cube", "resistance": 6, "drops": [], "sounds": STONE, "lightAbsorption": 99,
             "vertexFlagsByType": {"*-liftcall-*": {"glowLevel": 40}, "*-liftind0-*": {"glowLevel": 40}, "*-liftind1-*": {"glowLevel": 40},
                                   "*-menu0-*": {"glowLevel": 50}, "*-menu1-*": {"glowLevel": 50}, "*-menu2-*": {"glowLevel": 50},
-                                  "*-big*": {"glowLevel": 90}, "*-slide*": {"glowLevel": 70}},
+                                  "*-big*": {"glowLevel": 90}, "*-slide*": {"glowLevel": 70}, "*-map*": {"glowLevel": 60}},
             "lightHsvByType": {"*-big01-*": [23, 4, 5]}}
     write_json(os.path.join(BLOCKS, "l15-sign.json"), data,
                "Level 15: a white wall block with one face dressed (toward its side): the rooms' name plates, AUTHORIZED PERSONNEL ONLY, "
@@ -926,6 +982,8 @@ def main():
     band_textures()
     bigscreen_textures()
     slide_textures()
+    map_textures()
+    extinguisher_texture()
     escape_textures()
     floor_textures()
     floormark_textures()
