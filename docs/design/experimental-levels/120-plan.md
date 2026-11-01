@@ -482,8 +482,8 @@ lore's voids are "pure white": these are one thing at a time, and a third of the
 - **Misglitch cap** (the balance review): at most **3** within 24 blocks of a death (was 6), `L120System.L120MisglitchCap`;
   the console/test command's message follows.
 - **Supply boxes**: room kinds shifted (one operators' room and one UPS room a cluster), so the box roll for those two
-  kinds is 10% (others unchanged: 22%, stores 45%); `120stats 3` gives 2.5-2.8 boxes a cluster across this round's builds
-  against 2.6 before (sample noise; the table and picked-over share are untouched).
+  kinds is 10% (others unchanged: 22%, stores 45%); `120stats 8` (257 clusters) gives 2.8 boxes a cluster against 3.0
+  before (718 against 761; the table and picked-over share are untouched).
 - **Salvage**: the new cabinets drop what racks drop (scrap wire, metal brackets; KVM carts and smashed screens glass):
   more breakable salvage per cluster (a UPS row, battery rows, CRACs, shelving, end panels). No circuit boards from any new
   block; no food, water, beds or safe rooms.
@@ -491,8 +491,8 @@ lore's voids are "pure white": these are one thing at a time, and a third of the
   now and then (light 1). The level stays pitch dark; the lit EXIT over a door back is a tell for the way out.
 - **Floor holes**: a lifted panel is now a real half-block step down (2% of server-room aisle tiles, was a painted 3%;
   0.3% of passage tiles). Walkable; the trip rule (L120System) does not look at them.
-- **Racks**: standing racks per cluster fell from ~965 to ~695 (the two new rooms, the end panels); lit racks 3.6-3.8%
-  of standing (was 4.1%).
+- **Racks**: standing racks per cluster fell from 970 to 710 (`120stats 8`: the two new rooms, the end panels); lit racks
+  3.8% of standing (was 4.1%), so lit racks per cluster about 27 (was 40).
 - `regions`: Level 120 60/60, but 1 of the 60 arrivals now counts as "in a pocket under 3000 tiles": the harness's own
   walk-through list (`tools/mapgen/Regions.cs`, shared) counts every Level 120 prop as a wall (spilled cables, fallen tiles,
   paper); in the game they are walked over, and `120stats` (the level's own check, with the game's rule) finds every
