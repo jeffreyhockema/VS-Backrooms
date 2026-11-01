@@ -322,3 +322,16 @@ l15-h3 (Level 3: white light under a door, the handle's jolt). A message for eac
 `config/notes.json` and `notes-catalogue.md` regenerated). Level 15's own: `WorldLayout.Level15.cs` (`L15Plan` partial,
 `L15LinkPlan` after a wing is laid), `WorldGenerator.L15.cs` (the links' blocks first), the showcase (one line), the
 level's test command (`/backrooms l15 escape|break|l15-<kind> x z`).
+
+**Checks** (2026-10-31/11-01). `expclash` clean; mod and mapgen build, 0 errors. `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash at
+layout versions 1 and 12: every line for levels 0-20 and the `layout hash` line identical to main's saved files; without the
+variable no line moves either (the hash's sample cells hold none of these rare entrances). `regions` 60/60 in Level 15;
+`15stats 4` OK (0 rooms cut off, 60/60 lit arrivals). `GATE_TAG=l15 python tools/gate.py --fast --port-base 43160`: PASS
+(boot: 0 missing blocks, 0 error lines). In the game (two client-rig runs, ports 43163-43164, the op player): the showcase's
+`trip-*` spots went through every way: the white wall's door and the Level 3 door put the player down in a lit hall beside a
+door that does not open (the arrival messages shown), ESCAPE rolled its gateway up (6 blocks) and walking into it led to
+Level 3, the office's stairs to Level 4, breaking the orange pane to a night sidewalk of Level 11; 0 error lines. The shots
+(`%TEMP%/backrooms-shots/15-links1`, `15-links2`): the wall reads as a white hall wall standing in the wheat and running into
+the haze; the doors that do not open, the live panel, the gateway shut and open, the pane and the office read as meant. Fixed
+after the first run: the stairs' step numbers drawn as crates over the stairwell; the Level 3 door's light too faint to see in
+Level 3's dark (now light 7; it is still a dim door in a dim level, which is right for it).
