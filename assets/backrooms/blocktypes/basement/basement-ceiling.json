@@ -77,10 +77,10 @@
 		},
 		"*-shaft": {
 			"all": {
-				"base": "block/basement/ceiling-plain",
+				"base": "block/basement/shaft",
 				"alternates": [
 					{
-						"base": "block/basement/ceiling-plain-2"
+						"base": "block/basement/shaft-2"
 					}
 				]
 			}
@@ -99,17 +99,22 @@
 		"*-faint": [
 			8,
 			2,
-			6
+			5
 		],
 		"*-joistsfaint": [
 			8,
 			2,
-			6
+			5
 		],
 		"*-shaft": [
 			9,
 			3,
-			10
+			12
 		]
+	},
+	"vertexFlagsByType": {
+		"*-shaft": {
+			"glowLevel": 150
+		}
 	}
 }

@@ -1,0 +1,34 @@
+// The Basement: the sump pit, an iron grate in the floor over black water
+{
+	"code": "basement-sump",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"decorative": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/basement/sump"
+	},
+	"sidesolid": {
+		"all": false,
+		"up": true
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"requiredMiningTier": 2,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

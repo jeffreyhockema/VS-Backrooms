@@ -1,0 +1,135 @@
+// The Basement: a wine rack two blocks high (lower, upper), dusty bottles in most of its cubbies
+{
+	"code": "basement-winerack",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lower-north"
+		],
+		"decorative": [
+			"*-lower-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower-north": {
+			"base": "block/basement/winerack-lower",
+			"rotateY": 0
+		},
+		"*-lower-east": {
+			"base": "block/basement/winerack-lower",
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"base": "block/basement/winerack-lower",
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"base": "block/basement/winerack-lower",
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"base": "block/basement/winerack-upper",
+			"rotateY": 0
+		},
+		"*-upper-east": {
+			"base": "block/basement/winerack-upper",
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"base": "block/basement/winerack-upper",
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"base": "block/basement/winerack-upper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"drops": [
+		{
+			"type": "item",
+			"code": "emptybottle",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionSelectionBoxesByType": {
+		"*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	}
+}

@@ -1,0 +1,425 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"copper": "backrooms:block/basement/copper",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"pipetags": "backrooms:block/basement/pipetags"
+	},
+	"elements": [
+		{
+			"name": "Flue",
+			"from": [
+				6.5,
+				0,
+				8
+			],
+			"to": [
+				9.5,
+				16,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3,
+						16
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3,
+						16
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "FlueJoint",
+			"from": [
+				6.2,
+				6,
+				7.7
+			],
+			"to": [
+				9.8,
+				7,
+				11.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.6,
+						1
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.6,
+						1
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.6,
+						3.6
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.6,
+						3.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Cold",
+			"from": [
+				3.5,
+				0,
+				9
+			],
+			"to": [
+				4.75,
+				16,
+				10.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.25,
+						16
+					]
+				},
+				"east": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.25,
+						16
+					]
+				},
+				"south": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.25,
+						16
+					]
+				},
+				"west": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.25,
+						16
+					]
+				},
+				"up": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.25,
+						1.25
+					]
+				},
+				"down": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.25,
+						1.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Hot",
+			"from": [
+				11.25,
+				0,
+				9
+			],
+			"to": [
+				12.5,
+				16,
+				10.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.25,
+						16
+					]
+				},
+				"east": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.25,
+						16
+					]
+				},
+				"south": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.25,
+						16
+					]
+				},
+				"west": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.25,
+						16
+					]
+				},
+				"up": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.25,
+						1.25
+					]
+				},
+				"down": {
+					"texture": "#copper",
+					"uv": [
+						0,
+						0,
+						1.25,
+						1.25
+					]
+				}
+			}
+		},
+		{
+			"name": "TagCold",
+			"from": [
+				3.3,
+				7,
+				8.2
+			],
+			"to": [
+				4.95,
+				9,
+				8.95
+			],
+			"faces": {
+				"north": {
+					"texture": "#pipetags",
+					"uv": [
+						0,
+						8,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pipetags",
+					"uv": [
+						0,
+						8,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pipetags",
+					"uv": [
+						0,
+						8,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pipetags",
+					"uv": [
+						0,
+						8,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pipetags",
+					"uv": [
+						0,
+						8,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#pipetags",
+					"uv": [
+						0,
+						8,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "TagHot",
+			"from": [
+				11.05,
+				7,
+				8.2
+			],
+			"to": [
+				12.7,
+				9,
+				8.95
+			],
+			"faces": {
+				"north": {
+					"texture": "#pipetags",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"east": {
+					"texture": "#pipetags",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"south": {
+					"texture": "#pipetags",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"west": {
+					"texture": "#pipetags",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"up": {
+					"texture": "#pipetags",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"down": {
+					"texture": "#pipetags",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				}
+			}
+		}
+	]
+}

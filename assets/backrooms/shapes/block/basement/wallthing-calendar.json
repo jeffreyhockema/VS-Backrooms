@@ -1,0 +1,154 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"calendar": "backrooms:block/basement/calendar",
+		"metal": "backrooms:block/props/metal"
+	},
+	"elements": [
+		{
+			"name": "Paper",
+			"from": [
+				4.5,
+				1,
+				15.6
+			],
+			"to": [
+				11.5,
+				11,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#calendar",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#calendar",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#calendar",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#calendar",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#calendar",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#calendar",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				6.0,
+				15.8
+			],
+			"rotationZ": 3
+		},
+		{
+			"name": "Nail",
+			"from": [
+				7.75,
+				11,
+				15.2
+			],
+			"to": [
+				8.25,
+				11.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

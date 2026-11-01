@@ -1,0 +1,304 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"bulb-lit": "backrooms:block/basement/bulb-lit",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"poolshade": "backrooms:block/basement/poolshade"
+	},
+	"elements": [
+		{
+			"name": "Chain",
+			"from": [
+				7.75,
+				6,
+				7.75
+			],
+			"to": [
+				8.25,
+				16,
+				8.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "ShadeTop",
+			"from": [
+				4,
+				5,
+				5.5
+			],
+			"to": [
+				12,
+				6,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolshade",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"east": {
+					"texture": "#poolshade",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#poolshade",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"west": {
+					"texture": "#poolshade",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#poolshade",
+					"uv": [
+						0,
+						0,
+						8,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#poolshade",
+					"uv": [
+						0,
+						0,
+						8,
+						5.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Shade",
+			"from": [
+				2,
+				2,
+				4
+			],
+			"to": [
+				14,
+				5,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#poolshade",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"south": {
+					"texture": "#poolshade",
+					"uv": [
+						0,
+						0,
+						12,
+						3
+					]
+				},
+				"east": {
+					"texture": "#poolshade",
+					"uv": [
+						0,
+						0,
+						8,
+						3
+					]
+				},
+				"west": {
+					"texture": "#poolshade",
+					"uv": [
+						0,
+						0,
+						8,
+						3
+					]
+				},
+				"up": {
+					"texture": "#poolshade",
+					"uv": [
+						0,
+						0,
+						12,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "ShadeIn",
+			"from": [
+				2.5,
+				2.01,
+				4.5
+			],
+			"to": [
+				13.5,
+				4.5,
+				11.5
+			],
+			"faces": {
+				"down": {
+					"texture": "#bulb-lit",
+					"uv": [
+						0,
+						0,
+						11.0,
+						7.0
+					],
+					"glow": 120
+				}
+			}
+		},
+		{
+			"name": "Rim",
+			"from": [
+				1.75,
+				1.75,
+				3.75
+			],
+			"to": [
+				14.25,
+				2.25,
+				12.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						12.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						12.5,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						12.5,
+						8.5
+					]
+				}
+			}
+		}
+	]
+}

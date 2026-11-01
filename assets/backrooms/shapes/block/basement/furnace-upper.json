@@ -1,0 +1,645 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"furnace": "backrooms:block/basement/furnace",
+		"lagging": "backrooms:block/basement/lagging",
+		"metaldark": "backrooms:block/props/metal-dark"
+	},
+	"elements": [
+		{
+			"name": "BodyA",
+			"from": [
+				0.75,
+				0,
+				1.5
+			],
+			"to": [
+				15.25,
+				7,
+				16.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						14.5,
+						7
+					]
+				},
+				"east": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						14.5,
+						7
+					]
+				},
+				"south": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						14.5,
+						7
+					]
+				},
+				"west": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						14.5,
+						7
+					]
+				},
+				"up": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						14.5,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						14.5,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BodyB",
+			"from": [
+				0.75,
+				0,
+				1.5
+			],
+			"to": [
+				15.25,
+				7,
+				16.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						14.5,
+						7
+					]
+				},
+				"east": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						14.5,
+						7
+					]
+				},
+				"south": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						14.5,
+						7
+					]
+				},
+				"west": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						14.5,
+						7
+					]
+				},
+				"up": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						14.5,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						14.5,
+						14.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				3.5,
+				8.75
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "ShoulderA",
+			"from": [
+				1.5,
+				7,
+				2.25
+			],
+			"to": [
+				14.5,
+				10,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3
+					]
+				},
+				"east": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3
+					]
+				},
+				"south": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3
+					]
+				},
+				"west": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3
+					]
+				},
+				"up": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13.0
+					]
+				},
+				"down": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13.0
+					]
+				}
+			}
+		},
+		{
+			"name": "ShoulderB",
+			"from": [
+				1.5,
+				7,
+				2.25
+			],
+			"to": [
+				14.5,
+				10,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3
+					]
+				},
+				"east": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3
+					]
+				},
+				"south": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3
+					]
+				},
+				"west": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3
+					]
+				},
+				"up": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13.0
+					]
+				},
+				"down": {
+					"texture": "#furnace",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8.5,
+				8.75
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Bonnet",
+			"from": [
+				3.5,
+				10,
+				4.5
+			],
+			"to": [
+				12.5,
+				16,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#lagging",
+					"uv": [
+						0,
+						0,
+						9.0,
+						6
+					]
+				},
+				"east": {
+					"texture": "#lagging",
+					"uv": [
+						0,
+						0,
+						8.5,
+						6
+					]
+				},
+				"south": {
+					"texture": "#lagging",
+					"uv": [
+						0,
+						0,
+						9.0,
+						6
+					]
+				},
+				"west": {
+					"texture": "#lagging",
+					"uv": [
+						0,
+						0,
+						8.5,
+						6
+					]
+				},
+				"up": {
+					"texture": "#lagging",
+					"uv": [
+						0,
+						0,
+						9.0,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#lagging",
+					"uv": [
+						0,
+						0,
+						9.0,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BonnetBand",
+			"from": [
+				3.3,
+				12.5,
+				4.3
+			],
+			"to": [
+				12.7,
+				13.5,
+				13.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						9.4,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8.9,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						9.4,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8.9,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						9.4,
+						8.9
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						9.4,
+						8.9
+					]
+				}
+			}
+		},
+		{
+			"name": "Gauge",
+			"from": [
+				7,
+				3,
+				1.4
+			],
+			"to": [
+				9,
+				5,
+				1.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FlueBoot",
+			"from": [
+				12,
+				7,
+				13
+			],
+			"to": [
+				15,
+				10,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "Flue",
+			"from": [
+				12.5,
+				10,
+				13.5
+			],
+			"to": [
+				14.5,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2.0,
+						6
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2.0,
+						6
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2.0,
+						6
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2.0,
+						6
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				}
+			}
+		}
+	]
+}

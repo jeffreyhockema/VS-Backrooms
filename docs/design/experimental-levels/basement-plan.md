@@ -378,3 +378,163 @@ and Kel.
   the middle and it gives way, a long fall into the Basement under a crack in its ceiling.
 - The Basement, the top of a crack in its ceiling, sixteen blocks over the floor (bring a ladder, or blocks to stand
   on): Level 0.
+
+## Round 3 (2026-11-01): the detailed visual pass
+
+The user asked for more detailed visuals, multi-block objects and signs, more realistic layouts, closer to the lore and
+the released levels. Read against round 2's final sheet (`%TEMP%/backrooms-shots/final-r2/sheets/basement.jpg`), the
+lead's notes, the brief, DECISIONS.md and Levels 1, 2 and 5 (the concrete halls, the pipes, the hotel's boiler bays).
+
+### List
+
+Tiers: A must, B should, C nice. `[lead]` marks the lead's notes.
+
+**1. Layout realism**
+1. (A) [done] [lead] Smaller rooms: split the Cellar's BSP further (most rooms 4-8 across); keep a big room only for a crack,
+   a stairwell or the rec room.
+2. (A) [done] [lead] Rooms by function, not by chance alone: in each cell at most one boiler room, one laundry, one rec room,
+   the laundry and the boiler room near each other (the water and the flue), the rest workshop / storage / pantry /
+   root cellar / plain finished rooms.
+3. (A) [done] [lead] Corridors: now and then a cell's first split is a hallway two wide right across it, rooms off it on both
+   sides, each with its own door onto it; unfinished walls of bare studs with insulation between, joists overhead, the
+   duct and conduit running along it.
+4. (A) [done] [lead] The crack room reads from where you land: the shaft visibly lit (its lining glowing with the room
+   above's light), the Lobby's fluorescent seen at the top, a pool of light on the rubble.
+5. (B) [done] [lead] A root cellar: earth floor, shelves of jars, sacks, bins of old potatoes (rot).
+6. (B) [done] [lead] A coal chute in a boiler room's outer wall: the iron hatch high up, the coal heaped under it.
+7. (B) [done] [lead] A sump pit in a utility room's corner: the floor's iron grate over black water.
+8. (B) [partly: wine racks in root cellars; no keg room or bar sign (the clipping names no bar)] A bar cellar (the Wikidot clipping's flooded bar basement, brief nice 14): kegs, a wine rack, crates, rarely.
+9. (C) [partly: sodden boxes awash in some dead ends] The Flood's long passages broken now and then by a submerged door frame or a fallen shelf in the water.
+10. (C) [skipped: the lore wants it bare] The Dry Patch: a few more of the lore's signs of the man who rested there (a wrung-out shirt, a dead phone).
+
+**2. Multi-block objects**
+11. (A) [done] [lead] The boiler room's set piece: an old "octopus" gravity furnace, its round body two blocks high and its
+    ducts rising from the top into the joists (three blocks, one object), a cast plate on its door.
+12. (A) [done] [lead] A water heater: a tall tank two blocks high, its flue and pipes going up into the joists, its plate.
+13. (A) [done] [lead] The workshop's bench: a long bench (two tiles) with a vice, and a pegboard of tools on the wall over it.
+14. (A) [done] [lead] The laundry: washer and dryer side by side (reused), a utility sink, and a clothesline across the room
+    with things hanging on it.
+15. (A) [done] [lead] Storage: steel shelving with boxes, jars and paint cans; cardboard boxes stacked two high (labelled).
+16. (A) [done] [lead] The rec room: an old sofa facing a TV, a pool table (two tiles) under a hanging lamp, a rug.
+17. (A) [done] [lead] A fuse box on the wall with conduit running up from it into the joists.
+18. (B) [done] [lead] A wine rack against a wall (two blocks high, dusty bottles).
+19. (B) [done] [lead] Cobwebs in the corners of the ceiling.
+20. (C) [skipped: no bar room] Kegs for the bar cellar (stacked on their sides).
+
+**3. Signs and text**
+21. (A) [done] [lead] The fuse box's door open on its breakers, each with a hand-written label (FURNACE, WASHER, KITCHEN,
+    BASEMENT LTS, ? , DON'T).
+22. (A) [done] [lead] A hand-written "DO NOT ENTER" on a board nailed across some of the swollen-shut doors.
+23. (A) [done] [lead] The furnace's cast plate (an invented maker in Cincinnati: the clipping's city).
+24. (B) [partly: on the heater's pipes, not the mains] [lead] Pipe tags on the risers by the furnace and heater (HOT, COLD, GAS).
+25. (B) [done] The water heater's plate and a "DANGER HOT" sticker.
+26. (A) [done] Caution signs on walls (Fandom's "caution signs" among the out-of-place things): CAUTION, LOW CEILING; at the
+    stairs down to the water DANGER DEEP WATER.
+27. (B) [done] Box labels in marker on the stacked boxes (XMAS, TAXES, MOM'S, KEEP).
+28. (C) [done] A calendar on a wall stopped at January 1951 (the clipping's muddled date).
+
+**4. Detail visuals**
+29. (A) [done] [lead] The stairwell's bright red brick toned down to the palette (old sooty brown-grey brick).
+30. (A) [done] [lead] Hanging bulbs with rhythm: a corridor's bulbs every few tiles, lit / flickering / dead in runs; lit rooms
+    a little warmer and brighter, dark rooms darker (less flat).
+31. (B) [done] [lead] Stains, damp and cracks: crack alternates on the cinder and the concrete floor, damp blooms low on walls.
+32. (B) [partly: the fuse box's conduit up into the joists; no runs along walls] [lead] Conduit runs on the walls up to the joists (with the fuse box) and along corridors.
+33. (B) [done] A rug under the rec room's sofa and table (a finished room's floor changing in its middle).
+34. (C) [done: wet floor under a leak] Puddles under a leaking pipe.
+35. (C) [skipped: the panel texture repeats every block, a baseboard line would show three times] Baseboards on the panelled walls.
+
+**5. Lore alignment**
+36. (A) [done] The out-of-place things of the Fandom page that are thin: caution signs (26), ropes and wires (kept).
+37. (B) [partly: the crack-room spot looks at the lit shaft; arrivals face where the client faces] The arrival (falling through the crack): face into the room from the rubble (the rig's arrivals look where the
+    client looks; the showcase spot looks at the lit crack and the room together).
+38. (B) [done] Keep the Dry Patch bare (the lore's resting place): no new comforts there.
+39. (C) [done] The Wikidot clipping's bar (8, 20) marked as an invention of the place, not its name.
+
+**6. Released-level alignment**
+40. (A) [done] Every new block named in en.json (HUD, pick-block), drops like the released props (scrap, sticks, nothing for
+    fixtures), sounds by material.
+41. (A) [done] Showcase spots for every new set piece (boiler room, laundry, workshop, rec room, corridor, root cellar, fuse box).
+42. (B) [done] The handbook page and notes untouched in voice; a line on the house's rooms if it helps.
+43. (B) [done] The Basement's lamps and new lights stay within the level's light budget (no fullbright rooms).
+44. (C) [skipped: the map keeps one colour for the Cellar] The map colours of the new room kinds (the Cellar keeps one colour).
+
+
+### What was built
+
+- **Rooms by what they are for** (`BasementAssignKinds`): per cell one furnace room, one laundry (beside the furnace
+  room where a room fits), a rec room in the biggest room six by six or more, root cellars (trodden earth) for half the
+  pantries, the rest store rooms, workshops, utility and finished rooms. **Smaller rooms**: the BSP's stop chances by
+  area are now 24/48/90/160 (most rooms four to eight across).
+- **Hallways** (`BasementHall`, 45% of Cellar cells): two wide right across the cell between unfinished stud walls
+  (`basement-studs`, studs with fibreglass batts; `WallPattern.BasementStuds` 296), the rooms split off both sides, a door
+  onto each room that touches it (`BasementHallDoors`, never swollen shut), bare joists, the duct the length of it, a bulb
+  every four steps in runs lit, flickering and dead, now and then stacked boxes, a stack of chairs, WATCH YOUR HEAD.
+- **Set pieces** (`BasementSetPieces`): the furnace room's octopus furnace (`basement-furnace`, three blocks: the round
+  body and its lagged arms climbing to the joists, a cast HEARTHMASTER No. 6 CINCINNATI plate), the water heater two
+  along the same wall (`basement-heater`, three blocks, its plate, DANGER HOT, pipes tagged HOT and COLD), the coal chute's
+  hatch over a heap of coal, the fuse box (door open on breakers labelled in pencil: FURNACE, WASHER, KITCHEN, BSMT LTS,
+  PUMP, ?, UPSTAIRS, DON'T; its conduit up into the joists), the sump's grate in a corner; the laundry's washer and dryer
+  side by side, the sink, a clothesline across the room with a shirt, a sheet or a towel on it; the workshop's two-tile
+  bench (vice, a can of nails, a hammer, a toolbox and paint under it) under two pegboards of tools; the rec room's
+  two-tile pool table under two green-shaded lamps (lit) on a braided rug, an old sofa facing a TV; wine racks in root
+  cellars; steel shelving two high (boxes, jars, paint cans, odds and ends) down store aisles and round walls; cardboard
+  boxes stacked two high, labelled in marker (XMAS, TAXES '84-'91, MOM'S DON'T, KEEP).
+- **Writing on the walls** (`BasementWallSigns`): caution signs (CAUTION KEEP OUT, CAUTION WATCH YOUR HEAD), DANGER DEEP
+  WATER NO WADING beside every stair down into the Flood, a calendar stopped at January 1951 with its first six days
+  crossed off, a fuse box in a cell with no furnace room; DO NOT ENTER in red marker on a board nailed across every
+  swollen-shut door (one face). Cobwebs in ceiling corners (more in halls, store rooms, root cellars, furnace rooms).
+- **Detail**: a cracked block wall alternate with damp wicking up; wet floor under a leaking main; sodden boxes awash
+  in some of the Flood's dead ends; a rug under a sitting room's coffee table now and then; no washers in finished rooms.
+- **The crack**: its shaft's lining glows (`vertexFlags glowLevel` 150, light 12), so it reads lit from across the room;
+  a broken joist and a board come down with the floor lean in the rubble (`basement-fallen`).
+- **Palette**: the stairwell brick toned to a sooty brown-grey; bulbs V12 (was 11), the faint sourceless ceiling V5 (was 6)
+  for more contrast between lit and unlit rooms.
+- **Showcase**: new spots furnace, fusebox, laundry (a washer with its dryer), workshop, rec-room, hall, root-cellar,
+  store-shelves; the crack-room spot closer and steeper.
+- Values: `Props` 1011-1019, `Overheads` 292-305, `WallPattern` 296, `FloorKind` 290-291; asset script
+  `tools/gen_basement_r3.py` (called from `gen_basement.py`), 15 new block codes, en.json names, one sentence in the
+  handbook page (gen_guide.py's own block and en.json alike).
+
+### Inventions (round 3)
+
+The furnace's maker and its Cincinnati plate (the clipping's city), the heater's maker and year, the fuse labels, the box
+labels, the calendar's January 1951 (the clipping's muddled date), DO NOT ENTER on the swollen doors, the caution signs'
+wording, the rec room, the root cellars, the hallways of studs, the fallen joist, the sodden boxes in the Flood. The
+room functions follow a real house basement (the lead's notes), not either wiki.
+
+### Balance notes for the lead
+
+No new food, water, beds or safe rooms. New drops (all small): wine racks 0-1 empty bottle each (a water container, in
+root cellars, about one rack a root cellar); shelving, furnace, heater, fuse box and signs scrap metal and wire; stud walls
+sticks and carpet fibre; rugs carpet fibre; trodden earth a block of soil. The supply boxes, crates and loot tables are
+unchanged. Hallways give long straight sightlines (two wide, up to 31 long) where the Cellar had none: the director's
+stalkers may see further there.
+
+### What the shots showed
+
+Three runs, all with a torch (`%TEMP%/backrooms-shots/basement-r3-run1`, `-run2`, and the final
+`%TEMP%/backrooms-shots/basement-r3-final`, `sheet.jpg` there; 33 shots, no server or client error lines).
+- **Run 1:** the set pieces read (the workshop's bench under its pegboard, the rec room, the fuse box's labels legible,
+  the hall of studs, the root cellar's earth and CAUTION sign, DANGER DEEP WATER by a stair down), but the furnace was a
+  thin pale figure with a crown of arms, the rug garish and patchy (rotated alternates), the pool lamps square boxes high
+  up, paint cans showing their bare tin, green slime showing under the stud walls, the brick still red, the store aisles
+  the old one-high shelf, the laundry spot finding a lone washer in a finished room. All fixed before run 2.
+- **Run 2:** the furnace was wider but its arms read as floating cubes; one hall had its bulbs mostly dead (a long dead
+  run is too common at a third dead); the crack's shaft lining was grey concrete. Fixed: the arms in fine steps (five,
+  and one up the back), bulbs dead one in five, the shaft a warm broken slab with rebar ends, the crack spot lower.
+- **Final:** the octopus furnace reads, with the fuse box beside it and the sump's grate; the laundry's washer and dryer,
+  washing on the line, the danger sign; the rec room's pool table under its two lamps on the rug, the sofa; the stud
+  hallway with its duct; steel shelving of paint and boxes; the crack's shaft lit from across the room with the joist
+  in the rubble. The Flood, the Dry Patch, the lift and the links look as in round 2.
+
+**Still weak:** the furnace's arms are stepped, not smooth (no rotated elements, to be safe of the rotation sign); the
+water heater stands two tiles from the furnace only where the wall has room, and no shot caught one; halls end flat
+against the cell's outer wall when no gap is there; the brick stairwell is still the brightest material under a torch;
+the Flood and the Dry Patch got only the sodden boxes this round.
+
+### Questions for the user
+
+1. The hallways of bare studs and insulation (45% of Cellar cells): keep that share, or fewer, as the Fandom page speaks
+   of rooms, not corridors?
+2. DO NOT ENTER is on every swollen-shut door (one face): keep on all, or only some?
+3. The nods to the Wikidot clipping (the furnace's Cincinnati maker's plate, the calendar stopped in January 1951): keep?

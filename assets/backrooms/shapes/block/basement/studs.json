@@ -1,0 +1,217 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"insulation": "backrooms:block/basement/insulation",
+		"studs": "backrooms:block/basement/studs"
+	},
+	"elements": [
+		{
+			"name": "Batt",
+			"from": [
+				0,
+				0,
+				2.5
+			],
+			"to": [
+				16,
+				16,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						11.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						11.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						16,
+						11.0
+					]
+				},
+				"down": {
+					"texture": "#insulation",
+					"uv": [
+						0,
+						0,
+						16,
+						11.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Stud0",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				1.5,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"down": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Stud1",
+			"from": [
+				8,
+				0,
+				0
+			],
+			"to": [
+				9.5,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"down": {
+					"texture": "#studs",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				}
+			}
+		}
+	]
+}

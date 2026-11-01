@@ -1,0 +1,217 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"metal": "backrooms:block/props/metal",
+		"metaldark": "backrooms:block/props/metal-dark"
+	},
+	"elements": [
+		{
+			"name": "Conduit",
+			"from": [
+				7,
+				0,
+				14
+			],
+			"to": [
+				9,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Strap",
+			"from": [
+				6.5,
+				7,
+				13.75
+			],
+			"to": [
+				9.5,
+				8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2.25,
+						1
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						2.25,
+						1
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.25
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Box",
+			"from": [
+				6,
+				13,
+				13
+			],
+			"to": [
+				10,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3,
+						3
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				}
+			}
+		}
+	]
+}

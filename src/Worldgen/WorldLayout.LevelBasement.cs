@@ -77,6 +77,9 @@ public sealed partial class WorldLayout
     /// <summary>The share of Cellar cells with a crack in a ceiling, an Escherian stairwell, a room of the dead.</summary>
     private const double BasementCrackShare = 0.4, BasementEscherShare = 0.18, BasementCharnelShare = 0.18;
 
+    /// <summary>Round 3: the share of Cellar cells whose first split is a hallway two wide right across them, rooms off both sides.</summary>
+    private const double BasementHallShare = 0.45;
+
     // ================= Where it is =================
 
     /// <summary>How far from spawn the region's centre lies: 1.1 times the city's distance, 22.5 degrees west of south.</summary>
@@ -210,7 +213,7 @@ public sealed partial class WorldLayout
     /// gauges), a workshop (a bench, tools, lumber), a laundry (washer and dryer, a sink), a store room (boxes, furniture,
     /// suitcases, aisles of shelving) or a pantry (shelves of jars).
     /// </summary>
-    private enum BasementRoomKind : byte { Finished, Utility, Store, Workshop, Laundry, Pantry }
+    private enum BasementRoomKind : byte { Finished, Utility, Store, Workshop, Laundry, Pantry, Boiler, Rec, RootCellar, Hall }
 
     private void BuildBasementCellar(Builder b, int mx, int mz, BasementSide[] sides)
     {
@@ -237,11 +240,30 @@ public sealed partial class WorldLayout
         // The cell's one room of each special kind (by hash): the crack someone fell through, an Escherian stairwell, a
         // room of the dead. The split keeps a big room for each of the first two; the dead keep to a small one
         var special = new Rng(Hashing.Hash(seed, mx, mz, SaltBasementSpecial));
+        (int X0, int Z0, int X1, int Z1) hallRect = (-1, -1, -1, -1);
         bool wantCrack = special.Chance(BasementCrackShare), wantEscher = special.Chance(BasementEscherShare), wantCharnel = special.Chance(BasementCharnelShare);
+        bool wantHall = special.Chance(BasementHallShare);
         int keepBig = (wantCrack ? 1 : 0) + (wantEscher ? 1 : 0);
         var rooms = new List<(int X0, int Z0, int X1, int Z1)>();
         var doorRng = new Rng(Hashing.Hash(seed, mx, mz, SaltBasementDoor));
-        BasementSplit(b, ref rng, ref doorRng, Solid, 1, 1, MacroSize - 1, MacroSize - 1, rooms, ref keepBig);
+        // Round 3: now and then a hallway two wide right across the cell between unfinished stud walls, the rooms split off
+        // both sides of it, each with a door onto it
+        if (wantHall && BasementHall(b, ref special, Solid, out var hall, out bool hallNs))
+        {
+            if (hallNs)
+            {
+                BasementSplit(b, ref rng, ref doorRng, Solid, 1, 1, hall.X0 - 2, MacroSize - 1, rooms, ref keepBig);
+                BasementSplit(b, ref rng, ref doorRng, Solid, hall.X1 + 2, 1, MacroSize - 1, MacroSize - 1, rooms, ref keepBig);
+            }
+            else
+            {
+                BasementSplit(b, ref rng, ref doorRng, Solid, 1, 1, MacroSize - 1, hall.Z0 - 2, rooms, ref keepBig);
+                BasementSplit(b, ref rng, ref doorRng, Solid, 1, hall.Z1 + 2, MacroSize - 1, MacroSize - 1, rooms, ref keepBig);
+            }
+            BasementHallDoors(b, ref doorRng, rooms, hall, hallNs);
+            hallRect = hall;
+        }
+        else BasementSplit(b, ref rng, ref doorRng, Solid, 1, 1, MacroSize - 1, MacroSize - 1, rooms, ref keepBig);
 
         // A landing inside every gap in the cell's sides, so no wall of the rooms ends across one; nothing stands on it
         var keepClear = new bool[MacroSize * MacroSize];
@@ -280,22 +302,34 @@ public sealed partial class WorldLayout
             if (k != crackRoom && k != escherRoom && area >= 25 && area < least) { charnelRoom = k; least = area; }
         }
 
+        // The hallway is a room of its own (none of the special rooms)
+        int hallRoom = -1;
+        if (hallRect.X0 >= 0)
+        {
+            hallRoom = rooms.Count;
+            rooms.Add(hallRect);
+        }
+
         // The rooms' floors and ceilings, and what takes their middles (the crack, the stairwell, a pillar)
         var furnish = new Rng(Hashing.Hash(seed, mx, mz, SaltBasementFurnish));
-        var kinds = new BasementRoomKind[rooms.Count];
+        var kinds = BasementAssignKinds(ref furnish, rooms, crackRoom, escherRoom, charnelRoom, hallRoom);
         var middles = new bool[rooms.Count];
         for (int k = 0; k < rooms.Count; k++)
         {
             var (x0, z0, x1, z1) = rooms[k];
             int w = x1 - x0 + 1, h = z1 - z0 + 1;
-            BasementRoomKind kind = kinds[k] = k == charnelRoom ? BasementRoomKind.Store : BasementPickKind(ref furnish, w, h);
-            FloorKind floor = kind == BasementRoomKind.Finished
-                ? (furnish.Chance(0.85) ? (furnish.Chance(0.6) ? FloorKind.BasementCarpet : FloorKind.BasementCarpetWorn) : FloorKind.BasementFloor)
-                : FloorKind.BasementFloor;
-            // Real basements leave the joists bare over their workrooms; a finished room has them now and then
-            bool joists = furnish.Chance(kind == BasementRoomKind.Finished ? 0.35 : 0.6);
+            BasementRoomKind kind = kinds[k];
+            FloorKind floor = kind is BasementRoomKind.Finished or BasementRoomKind.Rec
+                ? (furnish.Chance(kind == BasementRoomKind.Rec ? 1 : 0.85) ? (furnish.Chance(0.6) ? FloorKind.BasementCarpet : FloorKind.BasementCarpetWorn) : FloorKind.BasementFloor)
+                : kind == BasementRoomKind.RootCellar ? FloorKind.BasementEarth : FloorKind.BasementFloor;
+            // Real basements leave the joists bare over their workrooms and hallways; a finished room has them now and then
+            bool joists = kind == BasementRoomKind.Hall || furnish.Chance(kind is BasementRoomKind.Finished or BasementRoomKind.Rec ? 0.35 : 0.6);
             // Damp comes up through the slab in patches (more in a laundry), and a carpet is worn to another colour in places
-            double damp = kind switch { BasementRoomKind.Laundry => 0.0, BasementRoomKind.Utility => 0.15, BasementRoomKind.Finished => 0.45, _ => 0.3 };
+            double damp = kind switch
+            {
+                BasementRoomKind.Laundry => 0.0, BasementRoomKind.Utility or BasementRoomKind.Boiler => 0.15, BasementRoomKind.Finished or BasementRoomKind.Rec => 0.45,
+                BasementRoomKind.Hall => 0.2, _ => 0.3,
+            };
             for (int z = z0; z <= z1; z++)
                 for (int x = x0; x <= x1; x++)
                 {
@@ -327,7 +361,7 @@ public sealed partial class WorldLayout
         if (over.Chance(0.65)) BasementOverheadRun(b, ref over, false);
         for (int k = 0; k < rooms.Count; k++)
         {
-            if (kinds[k] is not (BasementRoomKind.Utility or BasementRoomKind.Workshop or BasementRoomKind.Laundry) || !over.Chance(0.75)) continue;
+            if (kinds[k] is not (BasementRoomKind.Utility or BasementRoomKind.Workshop or BasementRoomKind.Laundry or BasementRoomKind.Boiler) || !over.Chance(0.75)) continue;
             var (x0, z0, x1, z1) = rooms[k];
             bool alongX = x1 - x0 >= z1 - z0;
             int line = alongX ? (over.Chance(0.5) ? z0 : z1) : (over.Chance(0.5) ? x0 : x1);
@@ -336,6 +370,18 @@ public sealed partial class WorldLayout
                 ref Tile t = ref b.At(alongX ? i : line, alongX ? line : i);
                 if (t.Kind == TileKind.Floor && t.Pipe == 0 && t.Ceiling != CeilingKind.BasementOpen && t.Detail == 0)
                     t.Pipe = over.Chance(0.06) ? (alongX ? Pipes.BasementLeakWE : Pipes.BasementLeakNS) : alongX ? Pipes.BasementPipeWE : Pipes.BasementPipeNS;
+            }
+        }
+
+        // The hallway's duct runs the length of it, the bulbs hang down its other side
+        if (hallRoom >= 0)
+        {
+            var (hx0, hz0, hx1, hz1) = rooms[hallRoom];
+            bool ns = hx1 - hx0 < hz1 - hz0;
+            for (int i = 1; i < MacroSize; i++)
+            {
+                ref Tile t = ref b.At(ns ? hx0 : i, ns ? i : hz0);
+                if (t.Kind == TileKind.Floor && t.Ceiling != CeilingKind.BasementOpen) t.Pipe = ns ? Pipes.BasementDuctNS : Pipes.BasementDuctWE;
             }
         }
 
@@ -349,8 +395,14 @@ public sealed partial class WorldLayout
             var (x0, z0, x1, z1) = rooms[k];
             int w = x1 - x0 + 1, h = z1 - z0 + 1;
             BasementRoomKind kind = kinds[k];
+            if (k == hallRoom)
+            {
+                BasementHallBulbs(b, ref furnish, x0, z0, x1, z1);
+                BasementFurnishHall(b, ref furnish, x0, z0, x1, z1, keepClear, Solid, Open);
+                continue;
+            }
             // A bare bulb in a little over half the rooms, two in a long one (off to the side of a crack or a stairwell)
-            if (furnish.Chance(k == crackRoom ? 0.35 : kind == BasementRoomKind.Finished ? 0.62 : 0.55))
+            if (furnish.Chance(k == crackRoom ? 0.35 : kind is BasementRoomKind.Finished or BasementRoomKind.Rec or BasementRoomKind.Boiler ? 0.7 : 0.55))
             {
                 int cx = x0 + w / 2, cz = z0 + h / 2;
                 var at = new List<(int, int)>();
@@ -373,6 +425,7 @@ public sealed partial class WorldLayout
             }
         }
         BasementFinds(b, mx, mz, rooms, Solid, Open);
+        BasementWallSigns(b, ref furnish, rooms, kinds, sides, Solid);
         BasementUnseal(b);
     }
 
@@ -424,6 +477,16 @@ public sealed partial class WorldLayout
                         changed = true;
                     }
                     if (t.Kind != TileKind.Floor || Walk(t) || t.Detail != 0) continue;
+                    // (a thing two tiles long goes whole)
+                    if (t.Variant is Props.BasementBench or Props.BasementPoolTable or Props.LongSofa or Props.Laundry)
+                        foreach (var (ex, ez) in Steps)
+                        {
+                            int px = nx + ex, pz = nz + ez;
+                            if (px < 0 || pz < 0 || px >= MacroSize || pz >= MacroSize) continue;
+                            ref Tile pair = ref b.At(px, pz);
+                            if (pair.Variant == t.Variant && pair.Variant is not Props.Laundry) { pair.Variant = 0; pair.Stack = 0; if (pair.Overhead == Overheads.BasementPoolLamp) pair.Overhead = 0; }
+                        }
+                    if (t.Overhead == Overheads.BasementPoolLamp) t.Overhead = 0;
                     t.Variant = 0;
                     t.Stack = 0;
                     t.SupplyBox = false;
@@ -470,6 +533,15 @@ public sealed partial class WorldLayout
             if (t.Kind != TileKind.Floor || t.Ceiling == CeilingKind.BasementOpen || t.Detail != 0 || t.Pipe != 0) continue;
             t.Pipe = duct ? (alongX ? Pipes.BasementDuctWE : Pipes.BasementDuctNS)
                 : i == leakAt ? (alongX ? Pipes.BasementLeakWE : Pipes.BasementLeakNS) : alongX ? Pipes.BasementPipeWE : Pipes.BasementPipeNS;
+            // (Round 3: the floor under a leak is wet, round it damp)
+            if (!duct && i == leakAt)
+                for (int k = -1; k <= 1; k++)
+                {
+                    int lx = alongX ? i + k : line, lz = alongX ? line : i + k;
+                    if (lx < 0 || lz < 0 || lx >= MacroSize || lz >= MacroSize) continue;
+                    ref Tile u = ref b.At(lx, lz);
+                    if (u.Kind == TileKind.Floor && u.Floor == FloorKind.BasementFloor) u.Floor = FloorKind.BasementDamp;
+                }
         }
     }
 
@@ -518,6 +590,14 @@ public sealed partial class WorldLayout
         }
         var (rx, rz) = Steps[rng.Range(0, 3)];
         b.At(cx + rx, cz + rz).Overhead = Overheads.BasementRope;
+        // (Round 3) a broken joist that came down with the floor, leaning in the rubble
+        var (jx, jz) = Steps[rng.Range(0, 3)];
+        ref Tile joist = ref b.At(cx + jx, cz + jz);
+        if (joist.Kind == TileKind.Floor && joist.Variant == 0 && joist.Stack == 0)
+        {
+            joist.Variant = Props.BasementFallen;
+            joist.Pier = (ArchPier)rng.Range(0, 3);
+        }
         // The ladder: against the room's wall, in the corner nearest the crack's north-west
         if (!rng.Chance(0.45)) return;
         foreach (var (x, z, away) in new[] { (x0, cz, ArchPier.East), (x1, cz, ArchPier.West), (cx, z0, ArchPier.South), (cx, z1, ArchPier.North) })
@@ -614,6 +694,9 @@ public sealed partial class WorldLayout
             return t.Kind == TileKind.Floor && t.Variant == 0 && t.Stack == 0 && !t.SupplyBox && t.Detail == 0 && t.Ceiling != CeilingKind.BasementOpen
                 && t.Overhead is 0 or Overheads.BasementWire;
         }
+        // Round 3: what the room is for, as things of several blocks, before the odds and ends round its walls
+        bool middleUsed = BasementSetPieces(b, ref rng, kind, x0, z0, x1, z1, middleTaken, keepClear, solid, open);
+        middleTaken |= middleUsed;
 
         // Aisles of shelving down a big store room or pantry, with a way round both ends
         if (!middleTaken && kind is BasementRoomKind.Store or BasementRoomKind.Pantry && w >= 7 && h >= 7 && rng.Chance(0.6))
@@ -626,7 +709,10 @@ public sealed partial class WorldLayout
                     int x = alongX ? i : row, z = alongX ? row : i;
                     if (!Free(x, z) || !SafeToBlock(open, x, z)) continue;
                     ref Tile t = ref b.At(x, z);
-                    t.Variant = kind == BasementRoomKind.Pantry ? Props.PantryShelf : rng.Chance(0.15) ? Props.CardboardBoxes : Props.BasementShelf;
+                    // (Round 3: steel shelving two high, loaded, down most of a store room's aisles)
+                    double r = rng.NextDouble();
+                    t.Variant = kind == BasementRoomKind.Pantry ? (r < 0.6 ? Props.PantryShelf : Props.BasementShelving) : r < 0.12 ? Props.CardboardBoxes : r < 0.3 ? Props.BasementShelf : Props.BasementShelving;
+                    if (t.Variant == Props.BasementShelving) t.Stack = (byte)(kind == BasementRoomKind.Pantry ? 1 : rng.Range(0, 3));
                     bool even = (row - across0) / 3 % 2 == 0;
                     t.Pier = alongX ? (even ? ArchPier.South : ArchPier.North) : (even ? ArchPier.East : ArchPier.West);
                 }
@@ -640,6 +726,11 @@ public sealed partial class WorldLayout
                 ref Tile table = ref b.At(cx, cz);
                 table.Variant = Props.CoffeeTable;
                 table.Pier = ArchPier.North;
+                // (Round 3: a braided rug under it, now and then)
+                if (rng.Chance(0.6))
+                    for (int dz = -1; dz <= 1; dz++)
+                        for (int dx = -1; dx <= 1; dx++)
+                            if (b.At(cx + dx, cz + dz).Kind == TileKind.Floor) b.At(cx + dx, cz + dz).Floor = FloorKind.BasementRug;
                 foreach (var (dx, dz) in Steps)
                 {
                     if (!rng.Chance(0.45) || !Free(cx + dx, cz + dz) || !SafeToBlock(open, cx + dx, cz + dz)) continue;
@@ -664,10 +755,12 @@ public sealed partial class WorldLayout
         // Round the walls: each tile along them by chance, starting anywhere on the round
         double density = kind switch
         {
-            BasementRoomKind.Store or BasementRoomKind.Pantry => 0.5,
-            BasementRoomKind.Workshop or BasementRoomKind.Laundry => 0.42,
+            BasementRoomKind.Store or BasementRoomKind.Pantry or BasementRoomKind.RootCellar => 0.5,
+            BasementRoomKind.Workshop or BasementRoomKind.Laundry => 0.4,
             BasementRoomKind.Utility => 0.36,
-            _ => 0.32,
+            BasementRoomKind.Boiler => 0.26,
+            BasementRoomKind.Rec => 0.22,
+            _ => 0.4,
         };
         var round = new List<(int X, int Z)>();
         for (int x = x0; x <= x1; x++) round.Add((x, z0));
@@ -686,12 +779,12 @@ public sealed partial class WorldLayout
             double roll = rng.NextDouble();
             switch (kind)
             {
-                case BasementRoomKind.Utility:
+                case BasementRoomKind.Utility or BasementRoomKind.Boiler:
                     // The house's plant, long dead: a boiler, tanks and gauges, drums, crates gone through long ago
                     if (roll < 0.18) { t.Stack = (byte)rng.Range(1, 2); t.Looted = rng.Chance(0.8); }
-                    else if (roll < 0.32) t.Variant = Props.BasementBoiler;
+                    else if (roll < 0.32) t.Variant = kind == BasementRoomKind.Boiler ? Props.BasementDrum : Props.BasementBoiler;
                     else if (roll < 0.44) t.Variant = Props.BasementDrum;
-                    else if (roll < 0.54) t.Variant = Props.BasementShelf;
+                    else if (roll < 0.54) { t.Variant = Props.BasementShelving; t.Stack = 3; }
                     else if (roll < 0.62) t.Variant = Props.BasementCabinet;
                     else if (roll < 0.71) { t.Variant = Props.PressureTank; t.Stack = (byte)rng.Range(0, 1); }
                     else if (roll < 0.8) { t.Variant = Props.GaugeFrame; t.Stack = (byte)rng.Range(0, 3); }
@@ -711,7 +804,7 @@ public sealed partial class WorldLayout
                     else if (roll < 0.74) t.Variant = Props.PipeStack;
                     else if (roll < 0.8) t.Variant = Props.CableSpool;
                     else if (roll < 0.86) t.Variant = Props.MachineParts;
-                    else if (roll < 0.92) t.Variant = Props.BasementShelf;
+                    else if (roll < 0.92) { t.Variant = Props.BasementShelving; t.Stack = (byte)(rng.Chance(0.6) ? 2 : 3); }
                     else if (roll < 0.96) t.Variant = Props.FloorFan;
                     else { t.Stack = 1; t.Looted = true; }
                     break;
@@ -731,22 +824,23 @@ public sealed partial class WorldLayout
                     else t.Variant = Props.CardboardBoxes;
                     break;
                 case BasementRoomKind.Store:
-                    // Boxes, a pile of old furniture, suitcases, stacked chairs, crates
-                    if (roll < 0.22) t.Variant = Props.CardboardBoxes;
+                    // Boxes (stacked two high, labelled), a pile of old furniture, suitcases, stacked chairs, crates
+                    if (roll < 0.22) { t.Variant = Props.BasementBoxes; t.Stack = (byte)rng.Range(0, 3); }
                     else if (roll < 0.36) { t.Variant = Props.FurniturePile; t.Stack = (byte)rng.Range(0, 3); }
                     else if (roll < 0.46) t.Variant = Props.Suitcase;
                     else if (roll < 0.54) t.Variant = Props.ChairStack;
                     else if (roll < 0.68) { t.Stack = (byte)rng.Range(1, 2); t.Looted = rng.Chance(0.85); }
-                    else if (roll < 0.78) t.Variant = Props.BasementShelf;
+                    else if (roll < 0.78) { t.Variant = Props.BasementShelving; t.Stack = (byte)rng.Range(0, 3); }
                     else if (roll < 0.84) t.Variant = Props.TrashBags;
                     else if (roll < 0.89) t.Variant = Props.Plywood;
                     else if (roll < 0.94) t.Variant = Props.ToyBox;
                     else t.Variant = Props.Dresser;
                     break;
-                case BasementRoomKind.Pantry:
-                    // Shelves of jars (most gone bad), an icebox, sacks, a barrel
-                    if (roll < 0.45) t.Variant = Props.PantryShelf;
-                    else if (roll < 0.6) t.Variant = Props.BasementShelf;
+                case BasementRoomKind.Pantry or BasementRoomKind.RootCellar:
+                    // Shelves of jars (most gone bad), an icebox, sacks, a barrel; in a root cellar, a wine rack now and then
+                    if (roll < 0.4) t.Variant = Props.PantryShelf;
+                    else if (roll < 0.52) { t.Variant = Props.BasementShelving; t.Stack = 1; }
+                    else if (roll < 0.6) t.Variant = kind == BasementRoomKind.RootCellar ? Props.BasementWineRack : Props.BasementShelf;
                     else if (roll < 0.68) t.Variant = Props.Icebox;
                     else if (roll < 0.8) { t.Stack = 1; t.Looted = rng.Chance(0.85); }
                     else if (roll < 0.9) t.Variant = Props.CardboardBoxes;
@@ -760,7 +854,7 @@ public sealed partial class WorldLayout
                     else if (roll < 0.26) t.Variant = Props.Radiator;
                     else if (roll < 0.33) t.Variant = Props.Icebox;
                     else if (roll < 0.39) t.Variant = Props.RotaryPhone;
-                    else if (roll < 0.47) t.Variant = Props.CardboardBoxes;
+                    else if (roll < 0.47) { t.Variant = Props.BasementBoxes; t.Stack = (byte)rng.Range(0, 3); }
                     else if (roll < 0.52) t.Variant = Props.ChairStack;
                     else if (roll < 0.59) t.Variant = Props.RadioCabinet;
                     else if (roll < 0.67) t.Variant = Props.Dresser;
@@ -768,7 +862,7 @@ public sealed partial class WorldLayout
                     else if (roll < 0.78) t.Variant = Props.WritingDesk;
                     else if (roll < 0.84) t.Variant = Props.HotelBookshelf;
                     else if (roll < 0.89) t.Variant = Props.Suitcase;
-                    else if (roll < 0.94) { t.Variant = Props.Laundry; t.Stack = (byte)rng.Range(0, 1); }
+                    else if (roll < 0.94) { t.Variant = Props.BasementBoxes; t.Stack = (byte)rng.Range(0, 3); }
                     else t.Variant = Props.Wastebasket;
                     break;
             }
@@ -860,7 +954,7 @@ public sealed partial class WorldLayout
     /// <summary>Opens a tile of a Cellar cell back up to bare floor.</summary>
     private static void BasementClear(ref Tile t)
     {
-        if (t.Kind is TileKind.Wall or TileKind.Doorway && t.Pattern is WallPattern.BasementCinder or WallPattern.BasementStained or WallPattern.BasementPanel)
+        if (t.Kind is TileKind.Wall or TileKind.Doorway && t.Pattern is WallPattern.BasementCinder or WallPattern.BasementStained or WallPattern.BasementPanel or WallPattern.BasementStuds)
         {
             t.Kind = TileKind.Floor;
             t.Variant = 0;
@@ -890,7 +984,8 @@ public sealed partial class WorldLayout
             rooms.Add((x0, z0, x1, z1));
             return;
         }
-        double stop = area <= 30 ? 1 : area <= 70 ? 0.5 : area <= 130 ? 0.22 : area <= 240 ? 0.06 : 0;
+        // (Round 3: smaller rooms, most four to eight across, as a house's basement is divided)
+        double stop = area <= 24 ? 1 : area <= 48 ? 0.45 : area <= 90 ? 0.15 : area <= 160 ? 0.03 : 0;
         if (!canX && !canZ || rng.Chance(stop))
         {
             rooms.Add((x0, z0, x1, z1));
@@ -934,6 +1029,433 @@ public sealed partial class WorldLayout
             return;
         }
         rooms.Add((x0, z0, x1, z1));
+    }
+
+    // ---- Round 3 (2026-11-01): the house's rooms by what they are for ----
+
+    /// <summary>
+    /// A hallway two wide right across the cell, between two walls of bare studs and insulation (north-south when
+    /// <paramref name="ns"/>), where neither wall would end against a gap in the cell's sides. Its floor's rectangle, or false.
+    /// </summary>
+    private static bool BasementHall(Builder b, ref Rng rng, Func<int, int, bool> solid, out (int X0, int Z0, int X1, int Z1) hall, out bool ns)
+    {
+        for (int attempt = 0; attempt < 6; attempt++)
+        {
+            ns = rng.Chance(0.5);
+            int a = rng.Range(6, MacroSize - 11);
+            bool ok = true;
+            foreach (int line in new[] { a, a + 3 })
+                ok &= ns ? solid(line, 0) && solid(line, MacroSize) : solid(0, line) && solid(MacroSize, line);
+            if (!ok) continue;
+            for (int i = 1; i < MacroSize; i++)
+                foreach (int line in new[] { a, a + 3 })
+                    SetWall(ref b.At(ns ? line : i, ns ? i : line), WallPattern.BasementStuds, BaseStyle.Plain);
+            hall = ns ? (a + 1, 1, a + 2, MacroSize - 1) : (1, a + 1, MacroSize - 1, a + 2);
+            return true;
+        }
+        hall = (-1, -1, -1, -1);
+        ns = false;
+        return false;
+    }
+
+    /// <summary>Every room against a hallway's wall gets a door onto it (shut or standing open, never swollen shut), if it has none.</summary>
+    private static void BasementHallDoors(Builder b, ref Rng doors, List<(int X0, int Z0, int X1, int Z1)> rooms, (int X0, int Z0, int X1, int Z1) hall, bool ns)
+    {
+        foreach (var (x0, z0, x1, z1) in rooms)
+        {
+            int line = ns ? (x1 == hall.X0 - 2 ? hall.X0 - 1 : x0 == hall.X1 + 2 ? hall.X1 + 1 : -1)
+                          : (z1 == hall.Z0 - 2 ? hall.Z0 - 1 : z0 == hall.Z1 + 2 ? hall.Z1 + 1 : -1);
+            if (line < 0) continue;
+            int from = ns ? z0 : x0, to = ns ? z1 : x1;
+            bool has = false;
+            for (int i = from; i <= to && !has; i++) has = b.At(ns ? line : i, ns ? i : line).Kind == TileKind.Doorway;
+            if (has) continue;
+            int at = from + (to - from) / 2 + (to - from >= 4 ? doors.Range(-1, 1) : 0);
+            ref Tile t = ref b.At(ns ? line : at, ns ? at : line);
+            t.Kind = TileKind.Doorway;
+            t.Variant = Props.BasementDoor;
+            t.Floor = FloorKind.BasementFloor;
+            t.Stack = (byte)((doors.Chance(0.55) ? 0 : 1) | (doors.Chance(0.5) ? 4 : 0));
+            bool flip = doors.Chance(0.5);
+            t.Pier = ns ? (flip ? ArchPier.East : ArchPier.West) : (flip ? ArchPier.South : ArchPier.North);
+        }
+    }
+
+    /// <summary>
+    /// What each room is for. A house's basement has one furnace room, one laundry (beside the furnace room where it can:
+    /// the water and the flue), a rec room in its biggest finished room, and the rest workshops, store rooms, pantries and
+    /// root cellars, finished rooms. The room of the dead is a store room; the hallway a hallway.
+    /// </summary>
+    private static BasementRoomKind[] BasementAssignKinds(ref Rng rng, List<(int X0, int Z0, int X1, int Z1)> rooms, int crack, int escher, int charnel, int hall)
+    {
+        int n = rooms.Count;
+        var kinds = new BasementRoomKind[n];
+        for (int k = 0; k < n; k++)
+        {
+            var (x0, z0, x1, z1) = rooms[k];
+            kinds[k] = BasementPickKind(ref rng, x1 - x0 + 1, z1 - z0 + 1);
+            // (a root cellar instead of a pantry, half the time)
+            if (kinds[k] == BasementRoomKind.Pantry && rng.Chance(0.5)) kinds[k] = BasementRoomKind.RootCellar;
+        }
+        if (charnel >= 0) kinds[charnel] = BasementRoomKind.Store;
+        if (hall >= 0) kinds[hall] = BasementRoomKind.Hall;
+        bool Plain(int k) => k != crack && k != escher && k != charnel && k != hall;
+        int Area(int k) => (rooms[k].X1 - rooms[k].X0 + 1) * (rooms[k].Z1 - rooms[k].Z0 + 1);
+        bool Next(int a, int c)
+        {
+            var (ax0, az0, ax1, az1) = rooms[a];
+            var (cx0, cz0, cx1, cz1) = rooms[c];
+            bool overlapZ = az0 <= cz1 && cz0 <= az1, overlapX = ax0 <= cx1 && cx0 <= ax1;
+            return overlapZ && (ax1 + 2 == cx0 || cx1 + 2 == ax0) || overlapX && (az1 + 2 == cz0 || cz1 + 2 == az0);
+        }
+        // The rec room: the biggest room six by six or more
+        int rec = -1;
+        for (int k = 0; k < n; k++)
+        {
+            var (x0, z0, x1, z1) = rooms[k];
+            if (Plain(k) && x1 - x0 >= 5 && z1 - z0 >= 5 && (rec < 0 || Area(k) > Area(rec))) rec = k;
+        }
+        if (rec >= 0 && rng.Chance(0.75)) kinds[rec] = BasementRoomKind.Rec;
+        else rec = -1;
+        // The furnace room: a middling room, five across or more
+        int boiler = -1;
+        int start = rng.Range(0, Math.Max(0, n - 1));
+        for (int j = 0; j < n && boiler < 0; j++)
+        {
+            int k = (start + j) % n;
+            var (x0, z0, x1, z1) = rooms[k];
+            if (Plain(k) && k != rec && x1 - x0 >= 4 && z1 - z0 >= 4 && Area(k) <= 110) boiler = k;
+        }
+        if (boiler >= 0 && rng.Chance(0.9)) kinds[boiler] = BasementRoomKind.Boiler;
+        else boiler = -1;
+        // The laundry: beside the furnace room where a room fits, else wherever the dice put one
+        if (boiler >= 0)
+            for (int k = 0; k < n; k++)
+                if (Plain(k) && k != rec && k != boiler && Next(k, boiler) && Area(k) <= 70)
+                {
+                    for (int j = 0; j < n; j++)
+                        if (kinds[j] == BasementRoomKind.Laundry) kinds[j] = BasementRoomKind.Store;
+                    kinds[k] = BasementRoomKind.Laundry;
+                    break;
+                }
+        // (a house has one laundry, one furnace room, one rec room: the dice's others become store rooms)
+        bool laundry = false;
+        for (int k = 0; k < n; k++)
+        {
+            if (kinds[k] == BasementRoomKind.Laundry) { if (laundry) kinds[k] = BasementRoomKind.Store; laundry = true; }
+            if (kinds[k] == BasementRoomKind.Utility && boiler >= 0 && rng.Chance(0.5)) kinds[k] = BasementRoomKind.Workshop;
+        }
+        return kinds;
+    }
+
+    /// <summary>The way to the right of something facing <paramref name="facing"/> (its left part to its right part).</summary>
+    private static (int Dx, int Dz) BasementRightOf(ArchPier facing) => facing switch
+    {
+        ArchPier.North => (1, 0),
+        ArchPier.South => (-1, 0),
+        ArchPier.East => (0, 1),
+        _ => (0, -1),
+    };
+
+    /// <summary>
+    /// Hangs something on the wall behind a tile (at head height; nothing is in the way of walking): the tile must have the
+    /// wall at its back, nothing hanging there yet, and anything standing on it must face the same way.
+    /// </summary>
+    private static bool BasementHang(Builder b, Func<int, int, bool> solid, int x, int z, ushort what, ArchPier away)
+    {
+        if (x < 1 || z < 1 || x >= MacroSize - 1 || z >= MacroSize - 1) return false;
+        ref Tile t = ref b.At(x, z);
+        if (t.Kind != TileKind.Floor || t.Overhead != 0 || t.Detail != 0 || t.SupplyBox || t.Ceiling == CeilingKind.BasementOpen) return false;
+        if (t.Variant is Props.BasementFurnace or Props.BasementHeater or Props.BasementShelving or Props.BasementBoxes or Props.BasementWineRack or Props.BasementLadder) return false;
+        if (t.Variant == 0 && t.Stack > 0) return false;
+        if (t.Variant != 0 && t.Pier != away) return false;
+        var (dx, dz) = PierStep(away);
+        if (!solid(x - dx, z - dz)) return false;
+        t.Overhead = what;
+        if (t.Variant == 0) t.Pier = away;
+        return true;
+    }
+
+    /// <summary>A hallway's bulbs: one every four steps down its far side, in runs lit, flickering and dead.</summary>
+    private static void BasementHallBulbs(Builder b, ref Rng rng, int x0, int z0, int x1, int z1)
+    {
+        bool ns = x1 - x0 < z1 - z0;
+        // (lit half the time, flickering three in ten, dead two in ten; a run changes one bulb in two)
+        int State(ref Rng r) => r.Chance(0.5) ? 0 : r.Chance(0.6) ? 1 : 2;
+        int state = State(ref rng), phase = rng.Range(1, 4);
+        for (int i = phase; i < MacroSize - 1; i += 4)
+        {
+            ref Tile t = ref b.At(ns ? x1 : i, ns ? i : z1);
+            if (rng.Chance(0.5)) state = State(ref rng);
+            if (t.Kind != TileKind.Floor || t.Pipe != 0 || t.Detail != 0 || t.Ceiling == CeilingKind.BasementOpen) continue;
+            t.Ceiling = state == 0 ? CeilingKind.BasementBulbOn : state == 1 ? CeilingKind.BasementBulbFlicker : CeilingKind.BasementBulbOff;
+        }
+    }
+
+    /// <summary>A hallway: mostly clear, now and then boxes stacked against a wall, a caution sign under the duct, a web.</summary>
+    private static void BasementFurnishHall(Builder b, ref Rng rng, int x0, int z0, int x1, int z1, bool[] keepClear, Func<int, int, bool> solid, Func<int, int, bool> open)
+    {
+        bool ns = x1 - x0 < z1 - z0;
+        for (int i = 2; i < MacroSize - 2; i++)
+            foreach (int across in ns ? new[] { x0, x1 } : new[] { z0, z1 })
+            {
+                int x = ns ? across : i, z = ns ? i : across;
+                ref Tile t = ref b.At(x, z);
+                if (keepClear[TileIndex(x, z)] || t.Kind != TileKind.Floor || t.Variant != 0 || t.Stack != 0 || t.Detail != 0) continue;
+                ArchPier away = ns ? (across == x0 ? ArchPier.East : ArchPier.West) : (across == z0 ? ArchPier.South : ArchPier.North);
+                var (dx, dz) = PierStep(away);
+                if (!solid(x - dx, z - dz)) continue;
+                double r = rng.NextDouble();
+                if (r < 0.05 && SafeToBlock(open, x, z)) { t.Variant = Props.BasementBoxes; t.Stack = (byte)rng.Range(0, 3); t.Pier = away; }
+                else if (r < 0.065 && SafeToBlock(open, x, z)) { t.Variant = Props.ChairStack; t.Pier = away; }
+                else if (r < 0.08) BasementHang(b, solid, x, z, Overheads.BasementWatchHead, away);
+                else if (r < 0.09) { t.Variant = Props.BasementJunk; t.Stack = (byte)(rng.Chance(0.5) ? 0 : 2); t.Pier = away; }
+            }
+    }
+
+    /// <summary>
+    /// What a room is for, built first: the furnace room's furnace and water heater (their ducts and pipes up into the
+    /// joists), its coal chute over the coal, the sump in a corner, the fuse box; the laundry's washer and dryer, sink and a
+    /// clothesline across the room; the workshop's long bench under a pegboard of tools; the rec room's pool table under its
+    /// lamp on a rug, an old sofa facing a TV. Returns whether it took the middle of the room.
+    /// </summary>
+    private static bool BasementSetPieces(Builder b, ref Rng rng, BasementRoomKind kind, int x0, int z0, int x1, int z1, bool middleTaken,
+        bool[] keepClear, Func<int, int, bool> solid, Func<int, int, bool> open)
+    {
+        int w = x1 - x0 + 1, h = z1 - z0 + 1;
+        bool Free(int x, int z)
+        {
+            if (x < 1 || z < 1 || x >= MacroSize - 1 || z >= MacroSize - 1 || keepClear[TileIndex(x, z)]) return false;
+            ref Tile t = ref b.At(x, z);
+            return t.Kind == TileKind.Floor && t.Variant == 0 && t.Stack == 0 && !t.SupplyBox && t.Detail == 0 && t.Ceiling != CeilingKind.BasementOpen
+                && t.Overhead is 0 or Overheads.BasementWire;
+        }
+        bool Bare(int x, int z) => b.At(x, z).Ceiling is CeilingKind.BasementCeiling or CeilingKind.BasementStained or CeilingKind.BasementJoists;
+        bool Put(int x, int z, ushort v, ArchPier p, int stack = 0)
+        {
+            if (!Free(x, z) || !SafeToBlock(open, x, z)) return false;
+            ref Tile t = ref b.At(x, z);
+            t.Variant = v;
+            t.Pier = p;
+            t.Stack = (byte)stack;
+            return true;
+        }
+        // Two tiles side by side along a wall (both with the wall at their back), left then right as seen from in front
+        bool Pair(int x, int z, ushort v, ArchPier away, int s0 = 0, int s1 = 1)
+        {
+            var (rx, rz) = BasementRightOf(away);
+            var (dx, dz) = PierStep(away);
+            int x2 = x + rx, z2 = z + rz;
+            if (x2 < x0 || x2 > x1 || z2 < z0 || z2 > z1 || !Free(x2, z2) || !solid(x2 - dx, z2 - dz)) return false;
+            if (!Put(x, z, v, away, s0)) return false;
+            if (Put(x2, z2, v, away, s1)) return true;
+            b.At(x, z).Variant = 0;
+            b.At(x, z).Stack = 0;
+            return false;
+        }
+        // The wall tiles round the room with the way away from their wall, from somewhere along it by chance
+        var spots = new List<(int X, int Z, ArchPier Away)>();
+        for (int x = x0; x <= x1; x++) { if (solid(x, z0 - 1)) spots.Add((x, z0, ArchPier.South)); }
+        for (int z = z0; z <= z1; z++) { if (solid(x1 + 1, z)) spots.Add((x1, z, ArchPier.West)); }
+        for (int x = x1; x >= x0; x--) { if (solid(x, z1 + 1)) spots.Add((x, z1, ArchPier.North)); }
+        for (int z = z1; z >= z0; z--) { if (solid(x0 - 1, z)) spots.Add((x0, z, ArchPier.East)); }
+        if (spots.Count == 0) return false;
+        int first = rng.Range(0, spots.Count - 1);
+        IEnumerable<(int X, int Z, ArchPier Away)> Round()
+        {
+            for (int n = 0; n < spots.Count; n++) yield return spots[(first + n) % spots.Count];
+        }
+        // (a wall's middle first: the furnace and the bench stand out from the corners)
+        bool Middling(int x, int z, ArchPier away) => away is ArchPier.North or ArchPier.South ? x > x0 && x < x1 : z > z0 && z < z1;
+
+        switch (kind)
+        {
+            case BasementRoomKind.Boiler:
+            {
+                (int X, int Z, ArchPier Away)? furnace = null;
+                foreach (var (x, z, away) in Round())
+                    if (Middling(x, z, away) && Bare(x, z) && b.At(x, z).Overhead == 0 && Put(x, z, Props.BasementFurnace, away)) { furnace = (x, z, away); break; }
+                if (furnace is (var fx, var fz, var fa))
+                {
+                    // The water heater two along the same wall, either way
+                    var (rx, rz) = BasementRightOf(fa);
+                    var (dx, dz) = PierStep(fa);
+                    foreach (int s in rng.Chance(0.5) ? new[] { 2, -2 } : new[] { -2, 2 })
+                    {
+                        int hx = fx + rx * s, hz = fz + rz * s;
+                        if (hx < x0 || hx > x1 || hz < z0 || hz > z1 || !Bare(hx, hz) || !solid(hx - dx, hz - dz) || b.At(hx, hz).Overhead != 0) continue;
+                        if (Put(hx, hz, Props.BasementHeater, fa)) break;
+                    }
+                }
+                // The coal chute's hatch on another wall, the coal heaped under it
+                foreach (var (x, z, away) in Round())
+                {
+                    if (furnace is (_, _, var ca) && ca == away) continue;
+                    if (!Middling(x, z, away) || !Put(x, z, Props.CoalPile, away)) continue;
+                    if (!BasementHang(b, solid, x, z, Overheads.BasementChute, away)) { b.At(x, z).Variant = 0; continue; }
+                    break;
+                }
+                // The fuse box, its conduit up into the joists
+                foreach (var (x, z, away) in Round())
+                    if (Free(x, z) && b.At(x, z).Pipe == 0 && Bare(x, z) && BasementHang(b, solid, x, z, Overheads.BasementFuseBox, away)) break;
+                // The sump in a corner
+                foreach (var (x, z) in new[] { (x0, z0), (x1, z0), (x1, z1), (x0, z1) })
+                    if (Free(x, z)) { b.At(x, z).Variant = Props.BasementSump; break; }
+                return false;
+            }
+            case BasementRoomKind.Laundry:
+            {
+                // Washer and dryer side by side, the sink beside them
+                foreach (var (x, z, away) in Round())
+                {
+                    if (!Pair(x, z, Props.Laundry, away)) continue;
+                    var (rx, rz) = BasementRightOf(away);
+                    var (dx, dz) = PierStep(away);
+                    int sx = x + 2 * rx, sz = z + 2 * rz;
+                    if (sx >= x0 && sx <= x1 && sz >= z0 && sz <= z1 && solid(sx - dx, sz - dz)) Put(sx, sz, Props.KitchenCounter, away, 1);
+                    break;
+                }
+                // A line across the room's middle, along it, with the washing left on it
+                bool alongX = w >= h;
+                int mid = alongX ? z0 + h / 2 : x0 + w / 2;
+                for (int i = alongX ? x0 : z0; i <= (alongX ? x1 : z1); i++)
+                {
+                    ref Tile t = ref b.At(alongX ? i : mid, alongX ? mid : i);
+                    if (t.Kind == TileKind.Floor && t.Overhead == 0 && t.Pipe == 0 && Bare(alongX ? i : mid, alongX ? mid : i))
+                        t.Overhead = alongX ? Overheads.BasementLineWE : Overheads.BasementLineNS;
+                }
+                return false;
+            }
+            case BasementRoomKind.Workshop:
+            {
+                // The bench along a wall, a pegboard of tools over it
+                foreach (var (x, z, away) in Round())
+                {
+                    if (!Middling(x, z, away) || !Pair(x, z, Props.BasementBench, away)) continue;
+                    var (rx, rz) = BasementRightOf(away);
+                    BasementHang(b, solid, x, z, Overheads.BasementPegboard, away);
+                    BasementHang(b, solid, x + rx, z + rz, Overheads.BasementPegboard, away);
+                    break;
+                }
+                return false;
+            }
+            case BasementRoomKind.Rec:
+            {
+                bool took = false;
+                // The pool table in the middle, along the room, a clear way all round it, its lamp over it, a rug under it
+                if (!middleTaken && w >= 6 && h >= 6)
+                {
+                    bool alongX = w >= h;
+                    int cx = x0 + (w - 1) / 2, cz = z0 + (h - 1) / 2;
+                    ArchPier f = alongX ? ArchPier.North : ArchPier.East;
+                    var (rx, rz) = BasementRightOf(f);
+                    bool clear = true;
+                    for (int dz = -1; dz <= 1 + rz && clear; dz++)
+                        for (int dx = -1; dx <= 1 + rx && clear; dx++)
+                            clear = Free(cx + dx, cz + dz);
+                    if (clear)
+                    {
+                        foreach (var (px, pz, half) in new[] { (cx, cz, 0), (cx + rx, cz + rz, 1) })
+                        {
+                            ref Tile t = ref b.At(px, pz);
+                            // (the lamp over the table, not a bare bulb)
+                            if (!Bare(px, pz) && t.Ceiling != CeilingKind.BasementOpen)
+                                t.Ceiling = Bare(cx - 1, cz - 1) ? b.At(cx - 1, cz - 1).Ceiling : CeilingKind.BasementCeiling;
+                            t.Variant = Props.BasementPoolTable;
+                            t.Pier = f;
+                            t.Stack = (byte)half;
+                            if (t.Pipe == 0 && Bare(px, pz)) t.Overhead = Overheads.BasementPoolLamp;
+                            else t.Overhead = 0;
+                        }
+                        for (int dz = -1; dz <= 1 + rz; dz++)
+                            for (int dx = -1; dx <= 1 + rx; dx++)
+                                if (b.At(cx + dx, cz + dz).Kind == TileKind.Floor) b.At(cx + dx, cz + dz).Floor = FloorKind.BasementRug;
+                        took = true;
+                    }
+                }
+                // The old sofa against a wall, and the TV on the wall across from it
+                foreach (var (x, z, away) in Round())
+                {
+                    if (!Middling(x, z, away) || !Pair(x, z, Props.LongSofa, away)) continue;
+                    var (dx, dz) = PierStep(away);
+                    for (int k = 2; k < 16; k++)
+                    {
+                        int tx = x + dx * k, tz = z + dz * k;
+                        if (tx < x0 || tx > x1 || tz < z0 || tz > z1) break;
+                        if (solid(tx + dx, tz + dz)) { Put(tx, tz, Props.Tv, Opposite(away)); break; }
+                    }
+                    break;
+                }
+                return took;
+            }
+            case BasementRoomKind.RootCellar:
+                // A wine rack against a wall now and then
+                foreach (var (x, z, away) in Round())
+                    if (rng.Chance(0.5) && Middling(x, z, away) && Put(x, z, Props.BasementWineRack, away)) break;
+                return false;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// What is written on the walls: caution signs that serve no purpose (Fandom's "caution signs"), DANGER DEEP WATER
+    /// beside the stairs down into the Flood, a calendar stopped long ago, a fuse box in a cell without a furnace room;
+    /// and cobwebs in the corners of the joists.
+    /// </summary>
+    private static void BasementWallSigns(Builder b, ref Rng rng, List<(int X0, int Z0, int X1, int Z1)> rooms, BasementRoomKind[] kinds, BasementSide[] sides, Func<int, int, bool> solid)
+    {
+        // Beside each way down into the water, on the wall next to it
+        for (int s = 0; s < 4; s++)
+        {
+            if (!sides[s].Ours || sides[s].Dry) continue;
+            var g = sides[s].Gaps;
+            ArchPier inward = Opposite(BasementOutward(s));
+            foreach (int i in new[] { g.A - 1, g.A + g.Width })
+            {
+                var (x, z, dx, dz) = BasementSideTile(s, i);
+                if (BasementHang(b, solid, x + dx, z + dz, Overheads.BasementDeepWater, inward)) break;
+            }
+        }
+        bool boiler = false;
+        foreach (var k in kinds) boiler |= k == BasementRoomKind.Boiler;
+        for (int k = 0; k < rooms.Count; k++)
+        {
+            var (x0, z0, x1, z1) = rooms[k];
+            BasementRoomKind kind = kinds[k];
+            // A wall tile of the room at random, and the way away from its wall
+            (int X, int Z, ArchPier Away)? Spot(ref Rng rng)
+            {
+                for (int tries = 0; tries < 12; tries++)
+                {
+                    int side = rng.Range(0, 3);
+                    int x = side switch { 1 => x1, 3 => x0, _ => rng.Range(x0, x1) }, z = side switch { 0 => z0, 2 => z1, _ => rng.Range(z0, z1) };
+                    ArchPier away = side switch { 0 => ArchPier.South, 1 => ArchPier.West, 2 => ArchPier.North, _ => ArchPier.East };
+                    var (dx, dz) = PierStep(away);
+                    if (solid(x - dx, z - dz)) return (x, z, away);
+                }
+                return null;
+            }
+            if (rng.Chance(kind is BasementRoomKind.Utility or BasementRoomKind.Boiler or BasementRoomKind.Store ? 0.22 : 0.1) && Spot(ref rng) is (var sx, var sz, var sa))
+                BasementHang(b, solid, sx, sz, rng.Chance(0.7) ? Overheads.BasementCaution : Overheads.BasementWatchHead, sa);
+            if (rng.Chance(kind is BasementRoomKind.Finished or BasementRoomKind.Rec or BasementRoomKind.Workshop or BasementRoomKind.Laundry ? 0.16 : 0.03) && Spot(ref rng) is (var cx, var cz, var ca))
+                BasementHang(b, solid, cx, cz, Overheads.BasementCalendar, ca);
+            if (!boiler && kind is BasementRoomKind.Utility or BasementRoomKind.Hall && Spot(ref rng) is (var fx, var fz, var fa) && b.At(fx, fz).Pipe == 0
+                && BasementHang(b, solid, fx, fz, Overheads.BasementFuseBox, fa))
+                boiler = true;
+            // Cobwebs up in the corners
+            double webs = kind is BasementRoomKind.Hall or BasementRoomKind.Store or BasementRoomKind.RootCellar or BasementRoomKind.Utility or BasementRoomKind.Boiler ? 0.45 : 0.2;
+            (int X, int Z, int Dx, int Dz)[] corners = { (x0, z0, -1, -1), (x1, z0, 1, -1), (x1, z1, 1, 1), (x0, z1, -1, 1) };
+            for (int c = 0; c < 4; c++)
+            {
+                var (x, z, dx, dz) = corners[c];
+                if (x < 1 || z < 1 || x >= MacroSize - 1 || z >= MacroSize - 1 || !rng.Chance(webs)) continue;
+                ref Tile t = ref b.At(x, z);
+                if (t.Kind != TileKind.Floor || t.Overhead != 0 || t.Pipe != 0 || t.Detail != 0 || !solid(x + dx, z) || !solid(x, z + dz)) continue;
+                if (t.Ceiling is not (CeilingKind.BasementCeiling or CeilingKind.BasementStained or CeilingKind.BasementJoists)) continue;
+                if (t.Variant is Props.BasementFurnace or Props.BasementHeater) continue;
+                t.Overhead = (ushort)(Overheads.BasementCobweb + c);
+            }
+        }
     }
 
     /// <summary>Whether a Basement door is swollen shut (it will not open).</summary>
@@ -1107,7 +1629,18 @@ public sealed partial class WorldLayout
         for (int j = 0; j < n; j++)
             for (int i = 0; i < n; i++)
             {
-                if (patch && InPatch(i, j) || degree[j * n + i] != 1 || stubbed[j * n + i] || !dead.Chance(0.3)) continue;
+                if (patch && InPatch(i, j) || degree[j * n + i] != 1 || stubbed[j * n + i]) continue;
+                if (!dead.Chance(0.3))
+                {
+                    // (Round 3) or boxes that floated down here and sank in a corner of it, their tops just out of the water
+                    if (!dead.Chance(0.35)) continue;
+                    ref Tile c = ref b.At(Node(i) + (dead.Chance(0.5) ? -1 : 1), Node(j) + (dead.Chance(0.5) ? -1 : 1));
+                    if (c.Kind != TileKind.Water || c.Height != 0 || c.Variant != 0) continue;
+                    c.Variant = Props.BasementBoxes;
+                    c.Stack = (byte)dead.Range(0, 3);
+                    c.Pier = (ArchPier)dead.Range(0, 3);
+                    continue;
+                }
                 ref Tile t = ref b.At(Node(i) + dead.Range(-1, 1), Node(j) + dead.Range(-1, 1));
                 if (t.Kind != TileKind.Water || t.Height != 0) continue;
                 t.Variant = Props.BasementBody;
@@ -1208,7 +1741,7 @@ public sealed partial class WorldLayout
     /// Which of the level's props (<see cref="Props.BasementFirst"/>-<see cref="Props.BasementLast"/>) people walk through:
     /// the rubble under a crack, the dead, what lies on the floor, and an Escherian stairwell's steps (they climb them).
     /// </summary>
-    private static bool BasementWalkThrough(ushort variant) => variant is Props.BasementDebris or Props.BasementBody or Props.BasementJunk or Props.BasementEscher;
+    private static bool BasementWalkThrough(ushort variant) => variant is Props.BasementDebris or Props.BasementBody or Props.BasementJunk or Props.BasementEscher or Props.BasementSump or Props.BasementFallen;
 
     // ================= Air =================
 

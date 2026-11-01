@@ -49,7 +49,8 @@ public partial class WorldLayout
     /// <summary>The spots, in the order a review reads best.</summary>
     private static readonly string[] ShowcaseOrder =
     {
-        "crack-room", "crack-up", "finished", "utility", "store", "panel-door", "long-view", "stairwell-door", "stairwell-stairs",
+        "crack-room", "crack-up", "furnace", "fusebox", "laundry", "workshop", "rec-room", "hall", "root-cellar", "store-shelves",
+        "finished", "utility", "store", "panel-door", "long-view", "stairwell-door", "stairwell-stairs",
         "dead", "lone-body", "flood-stairs", "flood-passage", "flood-figure", "dry-patch", "lift",
     };
 
@@ -142,11 +143,11 @@ public partial class WorldLayout
                 int bestD = 0, bdx = 0, bdz = 0;
                 foreach (var (dx, dz) in ShowcaseDirs)
                 {
-                    int d = ShowcaseRun(tiles, x, z, dx, dz, 5);
+                    int d = ShowcaseRun(tiles, x, z, dx, dz, 4);
                     while (d > 3 && !ShowcaseStand(tiles, x + dx * d, z + dz * d)) d--;
                     if (d > bestD && ShowcaseStand(tiles, x + dx * d, z + dz * d)) { bestD = d; bdx = dx; bdz = dz; }
                 }
-                if (bestD >= 4) add("crack-room", mx, mz, x + bdx * bestD, z + bdz * bestD, ShowcaseHeading(-bdx, -bdz), 30, null);
+                if (bestD >= 3) add("crack-room", mx, mz, x + bdx * bestD, z + bdz * bestD, ShowcaseHeading(-bdx, -bdz), 14, null);
                 // (Standing in the opening beside the heap, looking up it)
                 foreach (var (dx, dz) in ShowcaseDirs)
                 {
@@ -197,6 +198,51 @@ public partial class WorldLayout
                 }
         }
         Prop("utility", t => t.Variant == Props.BasementBoiler, -4);
+        // Round 3: the rooms by what they are for
+        Prop("furnace", t => t.Variant == Props.BasementFurnace, 12);
+        Prop("fusebox", t => t.Overhead == Overheads.BasementFuseBox && t.Variant == 0, 6);
+        // (the laundry: a washer with its dryer beside it)
+        for (int z = 1; z < MacroSize - 1; z++)
+            for (int x = 1; x < MacroSize - 1; x++)
+            {
+                Tile t = tiles[TileIndex(x, z)];
+                if (t.Variant != Props.Laundry || t.Stack != 0) continue;
+                var (rx, rz) = BasementRightOf(t.Pier);
+                Tile n = tiles[TileIndex(x + rx, z + rz)];
+                if (n.Variant != Props.Laundry || n.Stack != 1) continue;
+                var (dx, dz) = PierStep(t.Pier);
+                if (ShowcaseFacing(tiles, x, z, dx, dz, 6, 3) is (var sx, var sz, var h)) add("laundry", mx, mz, sx, sz, h, 4, null);
+            }
+        Prop("workshop", t => t.Variant == Props.BasementBench && t.Stack == 0, 0);
+        Prop("store-shelves", t => t.Variant is Props.BasementShelving or Props.BasementBoxes, 2);
+        for (int z = 1; z < MacroSize - 1; z++)
+            for (int x = 1; x < MacroSize - 1; x++)
+            {
+                Tile t = tiles[TileIndex(x, z)];
+                if (t.Variant != Props.BasementPoolTable || t.Stack != 0) continue;
+                // (from beside the table's long side, back across it to the room)
+                var (rx, rz) = BasementRightOf(t.Pier);
+                foreach (var (dx, dz) in new[] { (rz, rx), (-rz, -rx) })
+                    if (ShowcaseFacing(tiles, x, z, dx, dz, 5, 2) is (var sx, var sz, var h)) { add("rec-room", mx, mz, sx, sz, h, -14, null); break; }
+            }
+        // A hallway between its stud walls, from one end
+        int hallRun = 0, hx = 0, hz = 0;
+        double hh = 0;
+        for (int z = 1; z < MacroSize - 1; z++)
+            for (int x = 1; x < MacroSize - 1; x++)
+            {
+                if (!ShowcaseStand(tiles, x, z)) continue;
+                foreach (var (dx, dz) in ShowcaseDirs)
+                {
+                    Tile side = tiles[TileIndex(x + dz, z + dx)];
+                    if (side.Kind != TileKind.Wall || side.Pattern != WallPattern.BasementStuds) continue;
+                    int run = ShowcaseRun(tiles, x, z, dx, dz, 28);
+                    if (run > hallRun && run >= 10) { hallRun = run; hx = x; hz = z; hh = ShowcaseHeading(dx, dz); }
+                }
+            }
+        if (hallRun > 0) add("hall", mx, mz, hx, hz, hh, -2, null);
+        if (ShowcaseBestView(tiles, t => t.Floor == FloorKind.BasementEarth, 8) is (var ex, var ez, var edx, var edz))
+            add("root-cellar", mx, mz, ex, ez, ShowcaseHeading(edx, edz), -10, null);
         Prop("store", t => t.Variant is Props.FurniturePile or Props.Suitcase, -10);
         if (ShowcaseBestView(tiles, t => t.Floor is FloorKind.BasementCarpet or FloorKind.BasementCarpetWorn, 12) is (var fx, var fz, var fdx, var fdz))
             add("finished", mx, mz, fx, fz, ShowcaseHeading(fdx, fdz), -8, null);

@@ -1,0 +1,240 @@
+// The Basement: cardboard boxes stacked two high (lower, upper), labelled in marker
+{
+	"code": "basement-boxes",
+	"variantgroups": [
+		{
+			"code": "label",
+			"states": [
+				"xmas",
+				"taxes",
+				"moms",
+				"keep"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-xmas-lower-north"
+		],
+		"decorative": [
+			"*-xmas-lower-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-xmas-lower-north": {
+			"base": "block/basement/boxes-xmas-lower",
+			"rotateY": 0
+		},
+		"*-xmas-lower-east": {
+			"base": "block/basement/boxes-xmas-lower",
+			"rotateY": 270
+		},
+		"*-xmas-lower-south": {
+			"base": "block/basement/boxes-xmas-lower",
+			"rotateY": 180
+		},
+		"*-xmas-lower-west": {
+			"base": "block/basement/boxes-xmas-lower",
+			"rotateY": 90
+		},
+		"*-xmas-upper-north": {
+			"base": "block/basement/boxes-xmas-upper",
+			"rotateY": 0
+		},
+		"*-xmas-upper-east": {
+			"base": "block/basement/boxes-xmas-upper",
+			"rotateY": 270
+		},
+		"*-xmas-upper-south": {
+			"base": "block/basement/boxes-xmas-upper",
+			"rotateY": 180
+		},
+		"*-xmas-upper-west": {
+			"base": "block/basement/boxes-xmas-upper",
+			"rotateY": 90
+		},
+		"*-taxes-lower-north": {
+			"base": "block/basement/boxes-taxes-lower",
+			"rotateY": 0
+		},
+		"*-taxes-lower-east": {
+			"base": "block/basement/boxes-taxes-lower",
+			"rotateY": 270
+		},
+		"*-taxes-lower-south": {
+			"base": "block/basement/boxes-taxes-lower",
+			"rotateY": 180
+		},
+		"*-taxes-lower-west": {
+			"base": "block/basement/boxes-taxes-lower",
+			"rotateY": 90
+		},
+		"*-taxes-upper-north": {
+			"base": "block/basement/boxes-taxes-upper",
+			"rotateY": 0
+		},
+		"*-taxes-upper-east": {
+			"base": "block/basement/boxes-taxes-upper",
+			"rotateY": 270
+		},
+		"*-taxes-upper-south": {
+			"base": "block/basement/boxes-taxes-upper",
+			"rotateY": 180
+		},
+		"*-taxes-upper-west": {
+			"base": "block/basement/boxes-taxes-upper",
+			"rotateY": 90
+		},
+		"*-moms-lower-north": {
+			"base": "block/basement/boxes-moms-lower",
+			"rotateY": 0
+		},
+		"*-moms-lower-east": {
+			"base": "block/basement/boxes-moms-lower",
+			"rotateY": 270
+		},
+		"*-moms-lower-south": {
+			"base": "block/basement/boxes-moms-lower",
+			"rotateY": 180
+		},
+		"*-moms-lower-west": {
+			"base": "block/basement/boxes-moms-lower",
+			"rotateY": 90
+		},
+		"*-moms-upper-north": {
+			"base": "block/basement/boxes-moms-upper",
+			"rotateY": 0
+		},
+		"*-moms-upper-east": {
+			"base": "block/basement/boxes-moms-upper",
+			"rotateY": 270
+		},
+		"*-moms-upper-south": {
+			"base": "block/basement/boxes-moms-upper",
+			"rotateY": 180
+		},
+		"*-moms-upper-west": {
+			"base": "block/basement/boxes-moms-upper",
+			"rotateY": 90
+		},
+		"*-keep-lower-north": {
+			"base": "block/basement/boxes-keep-lower",
+			"rotateY": 0
+		},
+		"*-keep-lower-east": {
+			"base": "block/basement/boxes-keep-lower",
+			"rotateY": 270
+		},
+		"*-keep-lower-south": {
+			"base": "block/basement/boxes-keep-lower",
+			"rotateY": 180
+		},
+		"*-keep-lower-west": {
+			"base": "block/basement/boxes-keep-lower",
+			"rotateY": 90
+		},
+		"*-keep-upper-north": {
+			"base": "block/basement/boxes-keep-upper",
+			"rotateY": 0
+		},
+		"*-keep-upper-east": {
+			"base": "block/basement/boxes-keep-upper",
+			"rotateY": 270
+		},
+		"*-keep-upper-south": {
+			"base": "block/basement/boxes-keep-upper",
+			"rotateY": 180
+		},
+		"*-keep-upper-west": {
+			"base": "block/basement/boxes-keep-upper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"drops": [
+		{
+			"type": "item",
+			"code": "carpetfibre",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionSelectionBoxesByType": {
+		"*-north": [
+			{
+				"x1": 0.05,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.95,
+				"y2": 1,
+				"z2": 0.95
+			}
+		],
+		"*-east": [
+			{
+				"x1": 0.05,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.95,
+				"y2": 1,
+				"z2": 0.95,
+				"rotateY": 270
+			}
+		],
+		"*-south": [
+			{
+				"x1": 0.05,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.95,
+				"y2": 1,
+				"z2": 0.95,
+				"rotateY": 180
+			}
+		],
+		"*-west": [
+			{
+				"x1": 0.05,
+				"y1": 0,
+				"z1": 0.15,
+				"x2": 0.95,
+				"y2": 1,
+				"z2": 0.95,
+				"rotateY": 90
+			}
+		]
+	}
+}

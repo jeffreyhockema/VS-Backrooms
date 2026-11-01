@@ -1,0 +1,72 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cobweb": "backrooms:block/basement/cobweb"
+	},
+	"elements": [
+		{
+			"name": "Web",
+			"from": [
+				-3,
+				2,
+				4.5
+			],
+			"to": [
+				13,
+				16,
+				4.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cobweb",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cobweb",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				5,
+				9,
+				5
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "WebTop",
+			"from": [
+				0,
+				15.8,
+				0
+			],
+			"to": [
+				9,
+				15.9,
+				9
+			],
+			"faces": {
+				"down": {
+					"texture": "#cobweb",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

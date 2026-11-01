@@ -1,0 +1,149 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"box-taxes": "backrooms:block/basement/box-taxes",
+		"cardboard": "backrooms:block/supplybox-side",
+		"cardboardtop": "backrooms:block/supplybox-top"
+	},
+	"elements": [
+		{
+			"name": "Big",
+			"from": [
+				1,
+				0,
+				3
+			],
+			"to": [
+				15,
+				9,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#box-taxes",
+					"uv": [
+						0,
+						0,
+						14,
+						9
+					]
+				},
+				"east": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						12,
+						9
+					]
+				},
+				"south": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						14,
+						9
+					]
+				},
+				"west": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						12,
+						9
+					]
+				},
+				"up": {
+					"texture": "#cardboardtop",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				},
+				"down": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						14,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Mid",
+			"from": [
+				2,
+				9,
+				4
+			],
+			"to": [
+				14,
+				16,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#box-taxes",
+					"uv": [
+						0,
+						0,
+						12,
+						7
+					]
+				},
+				"east": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						10.5,
+						7
+					]
+				},
+				"south": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						12,
+						7
+					]
+				},
+				"west": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						10.5,
+						7
+					]
+				},
+				"up": {
+					"texture": "#cardboardtop",
+					"uv": [
+						0,
+						0,
+						12,
+						10.5
+					]
+				},
+				"down": {
+					"texture": "#cardboard",
+					"uv": [
+						0,
+						0,
+						12,
+						10.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,891 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"benchtop": "backrooms:block/basement/benchtop",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"paintcan": "backrooms:block/basement/paintcan",
+		"panel": "backrooms:block/basement/panel"
+	},
+	"elements": [
+		{
+			"name": "Top",
+			"from": [
+				0,
+				13,
+				3
+			],
+			"to": [
+				16,
+				15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#benchtop",
+					"uv": [
+						0.0,
+						0.0,
+						8.0,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#benchtop",
+					"uv": [
+						0,
+						0.0,
+						13,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#benchtop",
+					"uv": [
+						8.0,
+						0.0,
+						16.0,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#benchtop",
+					"uv": [
+						8.0,
+						0,
+						16.0,
+						13
+					]
+				},
+				"down": {
+					"texture": "#benchtop",
+					"uv": [
+						8.0,
+						0,
+						16.0,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Apron",
+			"from": [
+				0,
+				10.5,
+				3
+			],
+			"to": [
+				15.5,
+				13,
+				3.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#benchtop",
+					"uv": [
+						0.0,
+						0.0,
+						8.0,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#benchtop",
+					"uv": [
+						0,
+						0.0,
+						0.75,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#benchtop",
+					"uv": [
+						8.0,
+						0.0,
+						16.0,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#benchtop",
+					"uv": [
+						8.0,
+						0,
+						16.0,
+						0.75
+					]
+				},
+				"down": {
+					"texture": "#benchtop",
+					"uv": [
+						8.0,
+						0,
+						16.0,
+						0.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf",
+			"from": [
+				0,
+				3,
+				4
+			],
+			"to": [
+				15,
+				4,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#benchtop",
+					"uv": [
+						0.0,
+						0.0,
+						8.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#benchtop",
+					"uv": [
+						0,
+						0.0,
+						11.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#benchtop",
+					"uv": [
+						8.0,
+						0.0,
+						16.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#benchtop",
+					"uv": [
+						8.0,
+						0,
+						16.0,
+						11.5
+					]
+				},
+				"down": {
+					"texture": "#benchtop",
+					"uv": [
+						8.0,
+						0,
+						16.0,
+						11.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg1",
+			"from": [
+				13,
+				0,
+				4
+			],
+			"to": [
+				15,
+				13,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0.0,
+						0.0,
+						2.0,
+						13.0
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0.0,
+						2,
+						13.0
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0.0,
+						0.0,
+						2.0,
+						13.0
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0.0,
+						2,
+						13.0
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0.0,
+						0,
+						2.0,
+						2
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0.0,
+						0,
+						2.0,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Leg3",
+			"from": [
+				13,
+				0,
+				13.5
+			],
+			"to": [
+				15,
+				13,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0.0,
+						0.0,
+						2.0,
+						13.0
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0.0,
+						2.0,
+						13.0
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0.0,
+						0.0,
+						2.0,
+						13.0
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0.0,
+						2.0,
+						13.0
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0.0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0.0,
+						0,
+						2.0,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "BrushCan",
+			"from": [
+				8,
+				15,
+				11
+			],
+			"to": [
+				10.5,
+				18,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#paintcan",
+					"uv": [
+						8.0,
+						4.0,
+						12.0,
+						8.5
+					]
+				},
+				"east": {
+					"texture": "#paintcan",
+					"uv": [
+						8,
+						4.0,
+						12,
+						8.5
+					]
+				},
+				"south": {
+					"texture": "#paintcan",
+					"uv": [
+						8.0,
+						4.0,
+						12.0,
+						8.5
+					]
+				},
+				"west": {
+					"texture": "#paintcan",
+					"uv": [
+						8,
+						4.0,
+						12,
+						8.5
+					]
+				},
+				"up": {
+					"texture": "#paintcan",
+					"uv": [
+						8.0,
+						4,
+						12.0,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#paintcan",
+					"uv": [
+						8.0,
+						4,
+						12.0,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Brush",
+			"from": [
+				8.75,
+				18,
+				11.75
+			],
+			"to": [
+				9.75,
+				21,
+				12.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0.0,
+						0.0,
+						1.0,
+						3.0
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						3.0
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0.0,
+						0.0,
+						1.0,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0.0,
+						1.0,
+						3.0
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0.0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0.0,
+						0,
+						1.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Paint1",
+			"from": [
+				4,
+				4,
+				6
+			],
+			"to": [
+				7,
+				8,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#paintcan",
+					"uv": [
+						12.0,
+						4.0,
+						16.0,
+						8.5
+					]
+				},
+				"east": {
+					"texture": "#paintcan",
+					"uv": [
+						12,
+						4.0,
+						16,
+						8.5
+					]
+				},
+				"south": {
+					"texture": "#paintcan",
+					"uv": [
+						12.0,
+						4.0,
+						16.0,
+						8.5
+					]
+				},
+				"west": {
+					"texture": "#paintcan",
+					"uv": [
+						12,
+						4.0,
+						16,
+						8.5
+					]
+				},
+				"up": {
+					"texture": "#paintcan",
+					"uv": [
+						12.0,
+						4,
+						16.0,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#paintcan",
+					"uv": [
+						12.0,
+						4,
+						16.0,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Paint2",
+			"from": [
+				8,
+				4,
+				7
+			],
+			"to": [
+				11,
+				8,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#paintcan",
+					"uv": [
+						0.0,
+						4.0,
+						4.0,
+						8.5
+					]
+				},
+				"east": {
+					"texture": "#paintcan",
+					"uv": [
+						0,
+						4.0,
+						4,
+						8.5
+					]
+				},
+				"south": {
+					"texture": "#paintcan",
+					"uv": [
+						0.0,
+						4.0,
+						4.0,
+						8.5
+					]
+				},
+				"west": {
+					"texture": "#paintcan",
+					"uv": [
+						0,
+						4.0,
+						4,
+						8.5
+					]
+				},
+				"up": {
+					"texture": "#paintcan",
+					"uv": [
+						0.0,
+						4,
+						4.0,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#paintcan",
+					"uv": [
+						0.0,
+						4,
+						4.0,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Board",
+			"from": [
+				0,
+				15,
+				15
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#benchtop",
+					"uv": [
+						0.0,
+						0.0,
+						8.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#benchtop",
+					"uv": [
+						0,
+						0.0,
+						1,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#benchtop",
+					"uv": [
+						8.0,
+						0.0,
+						16.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#benchtop",
+					"uv": [
+						8.0,
+						0,
+						16.0,
+						1
+					]
+				},
+				"down": {
+					"texture": "#benchtop",
+					"uv": [
+						8.0,
+						0,
+						16.0,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Block",
+			"from": [
+				1,
+				15.0,
+				5.0
+			],
+			"to": [
+				6,
+				16.5,
+				9.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						4,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						4,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						5,
+						4
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						5,
+						4
+					]
+				}
+			},
+			"rotationOrigin": [
+				3.5,
+				15.75,
+				7.0
+			],
+			"rotationY": 22.5
+		},
+		{
+			"name": "HammerHandle",
+			"from": [
+				2.5,
+				15.0,
+				10.5
+			],
+			"to": [
+				3.5,
+				15.75,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						4.5,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4.5
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				3,
+				15.4,
+				12.75
+			],
+			"rotationY": -22.5
+		},
+		{
+			"name": "HammerHead",
+			"from": [
+				1,
+				15.0,
+				14.0
+			],
+			"to": [
+				5,
+				16.5,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.25,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.25,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						1.25
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						1.25
+					]
+				}
+			},
+			"rotationOrigin": [
+				3,
+				15.4,
+				12.75
+			],
+			"rotationY": -22.5
+		}
+	]
+}

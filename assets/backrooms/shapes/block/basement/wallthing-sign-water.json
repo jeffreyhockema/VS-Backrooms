@@ -1,0 +1,79 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"metal": "backrooms:block/props/metal",
+		"sign-water": "backrooms:block/basement/sign-water"
+	},
+	"elements": [
+		{
+			"name": "Plate",
+			"from": [
+				2,
+				4,
+				15.3
+			],
+			"to": [
+				14,
+				12,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#sign-water",
+					"uv": [
+						0,
+						0,
+						16,
+						10.67
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						16,
+						10.67
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						16,
+						10.67
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						16,
+						10.67
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						16,
+						10.67
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						16,
+						10.67
+					]
+				}
+			}
+		}
+	]
+}

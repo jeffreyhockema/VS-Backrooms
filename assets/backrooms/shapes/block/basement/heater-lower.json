@@ -1,0 +1,640 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"brass": "backrooms:block/level5/brass",
+		"heater": "backrooms:block/basement/heater",
+		"heaterplate": "backrooms:block/basement/heaterplate",
+		"metaldark": "backrooms:block/props/metal-dark",
+		"redpaint": "backrooms:block/basement/crowbar"
+	},
+	"elements": [
+		{
+			"name": "TankA",
+			"from": [
+				2.5,
+				0.5,
+				4.0
+			],
+			"to": [
+				13.5,
+				16,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#heater",
+					"uv": [
+						0,
+						0,
+						11.0,
+						15.5
+					]
+				},
+				"east": {
+					"texture": "#heater",
+					"uv": [
+						0,
+						0,
+						11.0,
+						15.5
+					]
+				},
+				"south": {
+					"texture": "#heater",
+					"uv": [
+						0,
+						0,
+						11.0,
+						15.5
+					]
+				},
+				"west": {
+					"texture": "#heater",
+					"uv": [
+						0,
+						0,
+						11.0,
+						15.5
+					]
+				},
+				"up": {
+					"texture": "#heater",
+					"uv": [
+						0,
+						0,
+						11.0,
+						11.0
+					]
+				},
+				"down": {
+					"texture": "#heater",
+					"uv": [
+						0,
+						0,
+						11.0,
+						11.0
+					]
+				}
+			}
+		},
+		{
+			"name": "TankB",
+			"from": [
+				2.5,
+				0.5,
+				4.0
+			],
+			"to": [
+				13.5,
+				16,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#heater",
+					"uv": [
+						0,
+						0,
+						11.0,
+						15.5
+					]
+				},
+				"east": {
+					"texture": "#heater",
+					"uv": [
+						0,
+						0,
+						11.0,
+						15.5
+					]
+				},
+				"south": {
+					"texture": "#heater",
+					"uv": [
+						0,
+						0,
+						11.0,
+						15.5
+					]
+				},
+				"west": {
+					"texture": "#heater",
+					"uv": [
+						0,
+						0,
+						11.0,
+						15.5
+					]
+				},
+				"up": {
+					"texture": "#heater",
+					"uv": [
+						0,
+						0,
+						11.0,
+						11.0
+					]
+				},
+				"down": {
+					"texture": "#heater",
+					"uv": [
+						0,
+						0,
+						11.0,
+						11.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8.25,
+				9.5
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Base",
+			"from": [
+				3,
+				0,
+				4.5
+			],
+			"to": [
+				13,
+				0.5,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						10,
+						10.0
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						10,
+						10.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Burner",
+			"from": [
+				6,
+				1,
+				3.6
+			],
+			"to": [
+				10,
+				4,
+				4.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						4,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Valve",
+			"from": [
+				6.5,
+				5,
+				3.0
+			],
+			"to": [
+				9.5,
+				8,
+				4.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						1.1,
+						3
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.0,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "Knob",
+			"from": [
+				7.5,
+				6,
+				2.4
+			],
+			"to": [
+				8.5,
+				7,
+				3.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#redpaint",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#redpaint",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#redpaint",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#redpaint",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#redpaint",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#redpaint",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Gasline",
+			"from": [
+				9.5,
+				6,
+				3.3
+			],
+			"to": [
+				16,
+				6.8,
+				4.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						6.5,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						6.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						6.5,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						6.5,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Drain",
+			"from": [
+				7.5,
+				1.5,
+				2.8
+			],
+			"to": [
+				8.5,
+				2.5,
+				3.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#brass",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				5.5,
+				9,
+				3.55
+			],
+			"to": [
+				10.5,
+				15,
+				4.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#heaterplate",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#heaterplate",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#heaterplate",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#heaterplate",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#heaterplate",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#heaterplate",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

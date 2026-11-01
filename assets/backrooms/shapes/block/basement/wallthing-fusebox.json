@@ -1,0 +1,356 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"fusebox": "backrooms:block/basement/fusebox",
+		"fuseinside": "backrooms:block/basement/fuseinside",
+		"metal": "backrooms:block/props/metal"
+	},
+	"elements": [
+		{
+			"name": "Box",
+			"from": [
+				3,
+				1,
+				13
+			],
+			"to": [
+				13,
+				13,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#fuseinside",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#fusebox",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#fusebox",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#fusebox",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#fusebox",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#fusebox",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Door",
+			"from": [
+				2,
+				1,
+				3.5
+			],
+			"to": [
+				2.5,
+				13,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#fusebox",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12
+					]
+				},
+				"east": {
+					"texture": "#fusebox",
+					"uv": [
+						0,
+						0,
+						9.5,
+						12
+					]
+				},
+				"south": {
+					"texture": "#fusebox",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12
+					]
+				},
+				"west": {
+					"texture": "#fusebox",
+					"uv": [
+						0,
+						0,
+						9.5,
+						12
+					]
+				},
+				"up": {
+					"texture": "#fusebox",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.5
+					]
+				},
+				"down": {
+					"texture": "#fusebox",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.5
+					]
+				}
+			}
+		},
+		{
+			"name": "DoorHinge",
+			"from": [
+				2.25,
+				2,
+				12.75
+			],
+			"to": [
+				3.25,
+				12,
+				13.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Conduit",
+			"from": [
+				7,
+				13,
+				14
+			],
+			"to": [
+				9,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						3
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						3
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						3
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						3
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "ConduitLow",
+			"from": [
+				10,
+				0,
+				14.5
+			],
+			"to": [
+				11.5,
+				1,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		}
+	]
+}
