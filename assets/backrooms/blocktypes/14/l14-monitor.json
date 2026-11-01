@@ -1,0 +1,102 @@
+// Level 14's wards: a vital-signs monitor on a wheeled pole, its screen to <side>; on: an ECG trace still running
+{
+	"code": "l14-monitor",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"on",
+				"off"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-on-north": {
+			"base": "backrooms:block/14/l14-monitor-on"
+		},
+		"*-on-east": {
+			"base": "backrooms:block/14/l14-monitor-on",
+			"rotateY": 270
+		},
+		"*-on-south": {
+			"base": "backrooms:block/14/l14-monitor-on",
+			"rotateY": 180
+		},
+		"*-on-west": {
+			"base": "backrooms:block/14/l14-monitor-on",
+			"rotateY": 90
+		},
+		"*-off-north": {
+			"base": "backrooms:block/14/l14-monitor-off"
+		},
+		"*-off-east": {
+			"base": "backrooms:block/14/l14-monitor-off",
+			"rotateY": 270
+		},
+		"*-off-south": {
+			"base": "backrooms:block/14/l14-monitor-off",
+			"rotateY": 180
+		},
+		"*-off-west": {
+			"base": "backrooms:block/14/l14-monitor-off",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.15,
+		"y1": 0,
+		"z1": 0.15,
+		"x2": 0.85,
+		"y2": 1,
+		"z2": 0.85
+	},
+	"selectionbox": {
+		"x1": 0.15,
+		"y1": 0,
+		"z1": 0.15,
+		"x2": 0.85,
+		"y2": 1,
+		"z2": 0.85
+	},
+	"drops": [],
+	"lightHsvByType": {
+		"*-on-*": [
+			23,
+			5,
+			4
+		]
+	}
+}

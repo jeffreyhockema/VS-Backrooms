@@ -124,8 +124,8 @@ public static class Danger
         Backrooms.Worldgen.WorldLayout.Level36 => 0.35, // (only its blackouts have anything in them: Class 1)
         Backrooms.Worldgen.WorldLayout.Level15 => 0.3, // Level 15: Class 1 (Fandom); only its few Robo-Men in the dark
         Backrooms.Worldgen.WorldLayout.Level23 => 0.55, // the Petrified Garden: Unsafe (Wikidot's "4?"), its glow rooms worst
-        // Batch 4 (ids 29, 30): nothing in them yet
-        Backrooms.Worldgen.WorldLayout.Level14 => 0,
+        // Batch 4 (ids 29, 30)
+        Backrooms.Worldgen.WorldLayout.Level14 => 0.7, // the Hospital: Class 4 (Fandom); only the Hunter and its Infecting Agents (Regions/L14Hunter.cs)
         Backrooms.Worldgen.WorldLayout.Level47 => 0.45, // the Adderwood: Survival Difficulty 3; its Shucks, the Order and the Great Adder are its own (Regions/L47System.cs; the director puts nothing down)
         // Level 94 (Class 3): its Animations hit and chase like Level 4's creatures; the King's trial keeps its own balance
         Backrooms.Worldgen.WorldLayout.Motion => 0.4,
@@ -695,7 +695,12 @@ public static class Roster
         // Level 15: machinery turning over somewhere, a beep far down the halls
         [Backrooms.Worldgen.WorldLayout.Level15] = new[] { Machinery, S("backrooms:sounds/ambient/15/beep2", 0.8f, 1.0f, 0.35f) },
         [Backrooms.Worldgen.WorldLayout.Level23] = new[] { HoundHowl, Scuttle, Wings, Groan, Drip, Whisper },
-        [Backrooms.Worldgen.WorldLayout.Level14] = Array.Empty<DistantSound>(),
+        // Level 14: "the constant sound of distant footsteps and whispers" (its own bed of them plays on the client too: AtmosphereSystem.L14.cs)
+        [Backrooms.Worldgen.WorldLayout.Level14] = new[]
+        {
+            S("backrooms:sounds/ambient/14/steps1", 0.9f, 1.05f, 0.5f), S("backrooms:sounds/ambient/14/whisper1", 0.85f, 1.0f, 0.45f),
+            S("backrooms:sounds/ambient/14/door", 0.9f, 1.05f, 0.45f), S("backrooms:sounds/ambient/14/gurney", 0.9f, 1.05f, 0.4f), Whisper,
+        },
         [Backrooms.Worldgen.WorldLayout.Level47] = Array.Empty<DistantSound>(),
     };
 

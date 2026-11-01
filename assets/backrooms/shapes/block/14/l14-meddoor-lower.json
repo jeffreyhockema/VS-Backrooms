@@ -1,0 +1,324 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"link-medlower": "backrooms:block/14/link-medlower",
+		"link-medpanel": "backrooms:block/14/link-medpanel",
+		"link-steel15": "backrooms:block/14/link-steel15"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#link-medlower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#link-medlower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#link-medlower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#link-medlower",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PanelN",
+			"from": [
+				12.6,
+				11.0,
+				-0.5
+			],
+			"to": [
+				14.6,
+				14.0,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#link-medpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 200
+				},
+				"east": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PanelE",
+			"from": [
+				16,
+				11.0,
+				12.6
+			],
+			"to": [
+				16.5,
+				14.0,
+				14.6
+			],
+			"faces": {
+				"east": {
+					"texture": "#link-medpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 200
+				},
+				"south": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"north": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PanelS",
+			"from": [
+				1.4000000000000004,
+				11.0,
+				16
+			],
+			"to": [
+				3.4000000000000004,
+				14.0,
+				16.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#link-medpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 200
+				},
+				"west": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PanelW",
+			"from": [
+				-0.5,
+				11.0,
+				1.4000000000000004
+			],
+			"to": [
+				0,
+				14.0,
+				3.4000000000000004
+			],
+			"faces": {
+				"south": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#link-medpanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 200
+				},
+				"north": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#link-steel15",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

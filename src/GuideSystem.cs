@@ -43,6 +43,7 @@ public class GuideSystem : ModSystem
         "level73", // Level 73, "The Redlands" (experimental)
         "level52", // Level 52, the Greenfield Campus (experimental)
         "level23", // (experimental: Level 23, the Petrified Garden)
+        "level14", // Level 14, "The Hospital" (experimental)
         "level47", // (experimental: Level 47, the Adderwood)
     };
 

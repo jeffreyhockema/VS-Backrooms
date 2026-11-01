@@ -1,0 +1,41 @@
+// Level 14's torture chambers: rusted chains and a meat hook hanging in the top block of a room. Walk-through
+{
+	"code": "l14-hook",
+	"shape": {
+		"base": "backrooms:block/14/l14-hook"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.35,
+		"y1": 0.05,
+		"z1": 0.4,
+		"x2": 0.75,
+		"y2": 1,
+		"z2": 0.75
+	},
+	"drops": []
+}

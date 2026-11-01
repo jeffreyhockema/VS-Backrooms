@@ -1,0 +1,147 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"tex": "backrooms:item/14/pillbottle"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				6.25,
+				0,
+				6.25
+			],
+			"to": [
+				9.75,
+				5,
+				9.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#tex",
+					"uv": [
+						0,
+						0,
+						8,
+						12
+					]
+				},
+				"east": {
+					"texture": "#tex",
+					"uv": [
+						0,
+						0,
+						8,
+						12
+					]
+				},
+				"south": {
+					"texture": "#tex",
+					"uv": [
+						0,
+						0,
+						8,
+						12
+					]
+				},
+				"west": {
+					"texture": "#tex",
+					"uv": [
+						0,
+						0,
+						8,
+						12
+					]
+				},
+				"up": {
+					"texture": "#tex",
+					"uv": [
+						8,
+						8,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#tex",
+					"uv": [
+						8,
+						8,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				6,
+				5,
+				6
+			],
+			"to": [
+				10,
+				6.5,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#tex",
+					"uv": [
+						8,
+						0,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#tex",
+					"uv": [
+						8,
+						0,
+						16,
+						4
+					]
+				},
+				"south": {
+					"texture": "#tex",
+					"uv": [
+						8,
+						0,
+						16,
+						4
+					]
+				},
+				"west": {
+					"texture": "#tex",
+					"uv": [
+						8,
+						0,
+						16,
+						4
+					]
+				},
+				"up": {
+					"texture": "#tex",
+					"uv": [
+						8,
+						4,
+						16,
+						8
+					]
+				},
+				"down": {
+					"texture": "#tex",
+					"uv": [
+						8,
+						8,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

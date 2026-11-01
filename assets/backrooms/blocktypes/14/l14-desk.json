@@ -1,0 +1,865 @@
+// Level 14's reception rooms: the oval reception desk, four tiles in a row (endl, two mids, endr; with side north endl is the west end): a veneered front toward <side> with a raised transaction ledge, the work surface behind; the ends sweep back round the receptionist's side. supplies: bandages, antibiotics and painkillers left out; lamp: a lit desk lamp; phone: a telephone
+{
+	"code": "l14-desk",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"endl",
+				"mid",
+				"supplies",
+				"lamp",
+				"phone",
+				"endr"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-endl-north": {
+			"base": "backrooms:block/14/l14-desk-endl"
+		},
+		"*-endl-east": {
+			"base": "backrooms:block/14/l14-desk-endl",
+			"rotateY": 270
+		},
+		"*-endl-south": {
+			"base": "backrooms:block/14/l14-desk-endl",
+			"rotateY": 180
+		},
+		"*-endl-west": {
+			"base": "backrooms:block/14/l14-desk-endl",
+			"rotateY": 90
+		},
+		"*-mid-north": {
+			"base": "backrooms:block/14/l14-desk-mid"
+		},
+		"*-mid-east": {
+			"base": "backrooms:block/14/l14-desk-mid",
+			"rotateY": 270
+		},
+		"*-mid-south": {
+			"base": "backrooms:block/14/l14-desk-mid",
+			"rotateY": 180
+		},
+		"*-mid-west": {
+			"base": "backrooms:block/14/l14-desk-mid",
+			"rotateY": 90
+		},
+		"*-supplies-north": {
+			"base": "backrooms:block/14/l14-desk-supplies"
+		},
+		"*-supplies-east": {
+			"base": "backrooms:block/14/l14-desk-supplies",
+			"rotateY": 270
+		},
+		"*-supplies-south": {
+			"base": "backrooms:block/14/l14-desk-supplies",
+			"rotateY": 180
+		},
+		"*-supplies-west": {
+			"base": "backrooms:block/14/l14-desk-supplies",
+			"rotateY": 90
+		},
+		"*-lamp-north": {
+			"base": "backrooms:block/14/l14-desk-lamp"
+		},
+		"*-lamp-east": {
+			"base": "backrooms:block/14/l14-desk-lamp",
+			"rotateY": 270
+		},
+		"*-lamp-south": {
+			"base": "backrooms:block/14/l14-desk-lamp",
+			"rotateY": 180
+		},
+		"*-lamp-west": {
+			"base": "backrooms:block/14/l14-desk-lamp",
+			"rotateY": 90
+		},
+		"*-phone-north": {
+			"base": "backrooms:block/14/l14-desk-phone"
+		},
+		"*-phone-east": {
+			"base": "backrooms:block/14/l14-desk-phone",
+			"rotateY": 270
+		},
+		"*-phone-south": {
+			"base": "backrooms:block/14/l14-desk-phone",
+			"rotateY": 180
+		},
+		"*-phone-west": {
+			"base": "backrooms:block/14/l14-desk-phone",
+			"rotateY": 90
+		},
+		"*-endr-north": {
+			"base": "backrooms:block/14/l14-desk-endr"
+		},
+		"*-endr-east": {
+			"base": "backrooms:block/14/l14-desk-endr",
+			"rotateY": 270
+		},
+		"*-endr-south": {
+			"base": "backrooms:block/14/l14-desk-endr",
+			"rotateY": 180
+		},
+		"*-endr-west": {
+			"base": "backrooms:block/14/l14-desk-endr",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-mid-north",
+			"*-endl-north",
+			"*-endr-north",
+			"*-supplies-north",
+			"*-lamp-north",
+			"*-phone-north"
+		],
+		"backrooms": [
+			"*-mid-north",
+			"*-endl-north",
+			"*-endr-north",
+			"*-supplies-north",
+			"*-lamp-north",
+			"*-phone-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxesByType": {
+		"*-endl-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.44
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.44,
+				"x2": 0.45,
+				"y2": 1.08,
+				"z2": 1
+			}
+		],
+		"*-endl-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.44,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.44,
+				"x2": 0.45,
+				"y2": 1.08,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-endl-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.44,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.44,
+				"x2": 0.45,
+				"y2": 1.08,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-endl-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.44,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.44,
+				"x2": 0.45,
+				"y2": 1.08,
+				"z2": 1,
+				"rotateY": 90
+			}
+		],
+		"*-mid-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75
+			}
+		],
+		"*-mid-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75,
+				"rotateY": 270
+			}
+		],
+		"*-mid-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75,
+				"rotateY": 180
+			}
+		],
+		"*-mid-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75,
+				"rotateY": 90
+			}
+		],
+		"*-supplies-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75
+			}
+		],
+		"*-supplies-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75,
+				"rotateY": 270
+			}
+		],
+		"*-supplies-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75,
+				"rotateY": 180
+			}
+		],
+		"*-supplies-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75,
+				"rotateY": 90
+			}
+		],
+		"*-lamp-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75
+			}
+		],
+		"*-lamp-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75,
+				"rotateY": 270
+			}
+		],
+		"*-lamp-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75,
+				"rotateY": 180
+			}
+		],
+		"*-lamp-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75,
+				"rotateY": 90
+			}
+		],
+		"*-phone-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75
+			}
+		],
+		"*-phone-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75,
+				"rotateY": 270
+			}
+		],
+		"*-phone-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75,
+				"rotateY": 180
+			}
+		],
+		"*-phone-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.42,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.42,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.75,
+				"rotateY": 90
+			}
+		],
+		"*-endr-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.44
+			},
+			{
+				"x1": 0.55,
+				"y1": 0,
+				"z1": 0.44,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 1
+			}
+		],
+		"*-endr-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.44,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.55,
+				"y1": 0,
+				"z1": 0.44,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-endr-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.44,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.55,
+				"y1": 0,
+				"z1": 0.44,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-endr-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 0.44,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.55,
+				"y1": 0,
+				"z1": 0.44,
+				"x2": 1,
+				"y2": 1.08,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxByType": {
+		"*-endl-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1
+		},
+		"*-endl-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1
+		},
+		"*-endl-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1
+		},
+		"*-endl-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1
+		},
+		"*-mid-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78
+		},
+		"*-mid-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78,
+			"rotateY": 270
+		},
+		"*-mid-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78,
+			"rotateY": 180
+		},
+		"*-mid-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78,
+			"rotateY": 90
+		},
+		"*-supplies-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78
+		},
+		"*-supplies-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78,
+			"rotateY": 270
+		},
+		"*-supplies-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78,
+			"rotateY": 180
+		},
+		"*-supplies-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78,
+			"rotateY": 90
+		},
+		"*-lamp-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78
+		},
+		"*-lamp-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78,
+			"rotateY": 270
+		},
+		"*-lamp-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78,
+			"rotateY": 180
+		},
+		"*-lamp-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78,
+			"rotateY": 90
+		},
+		"*-phone-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78
+		},
+		"*-phone-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78,
+			"rotateY": 270
+		},
+		"*-phone-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78,
+			"rotateY": 180
+		},
+		"*-phone-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 0.78,
+			"rotateY": 90
+		},
+		"*-endr-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1
+		},
+		"*-endr-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1
+		},
+		"*-endr-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1
+		},
+		"*-endr-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1
+		}
+	},
+	"drops": [],
+	"lightHsvByType": {
+		"*-lamp-*": [
+			7,
+			4,
+			8
+		]
+	},
+	"dropsByType": {
+		"*-supplies-*": [
+			{
+				"type": "item",
+				"code": "game:bandage-clean",
+				"quantity": {
+					"avg": 1,
+					"var": 0.6
+				}
+			},
+			{
+				"type": "item",
+				"code": "backrooms:l14-painkillers",
+				"quantity": {
+					"avg": 0.6,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "backrooms:l14-antibiotics",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0.3
+				}
+			}
+		],
+		"*": []
+	}
+}

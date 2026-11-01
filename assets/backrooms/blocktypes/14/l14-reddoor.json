@@ -1,0 +1,77 @@
+// Level 14's link: a rare red steel exit door, EXIT in white on red glowing faintly over it (lower, upper; alike on every face). Used: to Level !
+{
+	"code": "l14-reddoor",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-lower": {
+			"base": "backrooms:block/14/l14-reddoor-lower"
+		},
+		"*-upper": {
+			"base": "backrooms:block/14/l14-reddoor-upper"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-lower"
+		],
+		"backrooms": [
+			"*-lower"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 0,
+	"behaviors": [
+		{
+			"name": "BackroomsThreshold",
+			"properties": {
+				"kind": "l14-red"
+			}
+		}
+	],
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"lightHsvByType": {
+		"*-upper": [
+			0,
+			7,
+			4
+		]
+	}
+}

@@ -175,6 +175,7 @@ public sealed partial class WorldLayout
         Level120 => 2, // (experimental) Broken Servos, Wikidot's Survival Difficulty 2
         Level31 => 0, // (experimental) the Roller Rink, Wikidot's Survival Difficulty 0 (balance review 2026-11-01: was the default 1; nothing else reads a difference)
         Level23 => 4, // the Petrified Garden: Wikidot's "4?", Unsafe
+        Level14 => 4, // (experimental) the Hospital, Fandom's Class 4: unsafe, unstable, dangerous entities and hazards
         Level47 => 3, // (experimental) the Adderwood, Wikidot's Survival Difficulty 3
         _ => 1,
     };

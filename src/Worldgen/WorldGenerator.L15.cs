@@ -218,6 +218,7 @@ public sealed partial class WorldGenerator
         const int top = 8; // the tallest room's ceiling; walls are dressed up to it everywhere
         // The links: the doors that do not open, the ESCAPE panel and its gateway, the pane, the office and its stairs
         if (t.Under is >= Unders.L15First and <= Unders.L15Last && L15LinkBlock(t, gx, gz, rel) is int link and >= 0) return link;
+        if (t.Under is >= Unders.L14First and <= Unders.L14Last && L14InL15Block(t, rel) is int l14 and >= 0) return l14; // (Level 14's MEDICAL CENTER door: WorldGenerator.L14.Links.cs)
         if (rel < 0 || rel > top) return concreteId;
         switch (t.Kind)
         {

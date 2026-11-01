@@ -1,0 +1,130 @@
+// Level 14: a contaminated room's steel door (lower, upper; its leaf toward its side): a green glow through its square of wire glass, the trefoil, DO NOT ENTER. It does not open
+{
+	"code": "l14-contamdoor",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-lower-north"
+		],
+		"backrooms": [
+			"*-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-lower-north": {
+			"base": "backrooms:block/14/l14-contamdoor-lower",
+			"rotateY": 0
+		},
+		"*-lower-east": {
+			"base": "backrooms:block/14/l14-contamdoor-lower",
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"base": "backrooms:block/14/l14-contamdoor-lower",
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"base": "backrooms:block/14/l14-contamdoor-lower",
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"base": "backrooms:block/14/l14-contamdoor-upper",
+			"rotateY": 0
+		},
+		"*-upper-east": {
+			"base": "backrooms:block/14/l14-contamdoor-upper",
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"base": "backrooms:block/14/l14-contamdoor-upper",
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"base": "backrooms:block/14/l14-contamdoor-upper",
+			"rotateY": 90
+		}
+	},
+	"collisionSelectionBoxesByType": {
+		"*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.0625,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.1719
+			}
+		],
+		"*-east": [
+			{
+				"x1": 0.8281,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.9375,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.8281,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.9375
+			}
+		],
+		"*-west": [
+			{
+				"x1": 0.0625,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.1719,
+				"y2": 1,
+				"z2": 1
+			}
+		]
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"lightHsvByType": {
+		"*-upper-*": [
+			20,
+			6,
+			3
+		]
+	},
+	"resistance": 99999,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

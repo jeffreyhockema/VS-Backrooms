@@ -1,0 +1,69 @@
+// Level 14's contaminated rooms: a steel drum with the radiation trefoil; leaking: rusted through, glowing green ooze pooled round it
+{
+	"code": "l14-drum",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"sealed",
+				"leaking"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-sealed": {
+			"base": "backrooms:block/14/l14-drum-sealed"
+		},
+		"*-leaking": {
+			"base": "backrooms:block/14/l14-drum-leaking"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.12,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.88,
+		"y2": 0.9,
+		"z2": 0.88
+	},
+	"selectionbox": {
+		"x1": 0.12,
+		"y1": 0,
+		"z1": 0.12,
+		"x2": 0.88,
+		"y2": 0.9,
+		"z2": 0.88
+	},
+	"drops": [],
+	"lightHsvByType": {
+		"*-leaking": [
+			19,
+			6,
+			4
+		]
+	}
+}

@@ -1,0 +1,162 @@
+// Level 14: a hall's fire door, propped open flat against the wall behind it, its face toward its side (hinged at the left or right as seen from its face; lower, upper): red-brown steel, wire glass, FIRE DOOR KEEP SHUT
+{
+	"code": "l14-firedoor",
+	"variantgroups": [
+		{
+			"code": "hinge",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-l-lower-north"
+		],
+		"backrooms": [
+			"*-l-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-r-lower-north": {
+			"base": "backrooms:block/14/l14-firedoor-r-lower",
+			"rotateY": 0
+		},
+		"*-r-lower-east": {
+			"base": "backrooms:block/14/l14-firedoor-r-lower",
+			"rotateY": 270
+		},
+		"*-r-lower-south": {
+			"base": "backrooms:block/14/l14-firedoor-r-lower",
+			"rotateY": 180
+		},
+		"*-r-lower-west": {
+			"base": "backrooms:block/14/l14-firedoor-r-lower",
+			"rotateY": 90
+		},
+		"*-r-upper-north": {
+			"base": "backrooms:block/14/l14-firedoor-r-upper",
+			"rotateY": 0
+		},
+		"*-r-upper-east": {
+			"base": "backrooms:block/14/l14-firedoor-r-upper",
+			"rotateY": 270
+		},
+		"*-r-upper-south": {
+			"base": "backrooms:block/14/l14-firedoor-r-upper",
+			"rotateY": 180
+		},
+		"*-r-upper-west": {
+			"base": "backrooms:block/14/l14-firedoor-r-upper",
+			"rotateY": 90
+		},
+		"*-l-lower-north": {
+			"base": "backrooms:block/14/l14-firedoor-l-lower",
+			"rotateY": 0
+		},
+		"*-l-lower-east": {
+			"base": "backrooms:block/14/l14-firedoor-l-lower",
+			"rotateY": 270
+		},
+		"*-l-lower-south": {
+			"base": "backrooms:block/14/l14-firedoor-l-lower",
+			"rotateY": 180
+		},
+		"*-l-lower-west": {
+			"base": "backrooms:block/14/l14-firedoor-l-lower",
+			"rotateY": 90
+		},
+		"*-l-upper-north": {
+			"base": "backrooms:block/14/l14-firedoor-l-upper",
+			"rotateY": 0
+		},
+		"*-l-upper-east": {
+			"base": "backrooms:block/14/l14-firedoor-l-upper",
+			"rotateY": 270
+		},
+		"*-l-upper-south": {
+			"base": "backrooms:block/14/l14-firedoor-l-upper",
+			"rotateY": 180
+		},
+		"*-l-upper-west": {
+			"base": "backrooms:block/14/l14-firedoor-l-upper",
+			"rotateY": 90
+		}
+	},
+	"collisionSelectionBoxesByType": {
+		"*-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.8375,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 0.1625,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.1625
+			}
+		],
+		"*-west": [
+			{
+				"x1": 0.8375,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1
+			}
+		]
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

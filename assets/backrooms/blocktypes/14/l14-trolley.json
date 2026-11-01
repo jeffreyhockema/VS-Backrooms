@@ -1,0 +1,236 @@
+// Level 14's surgery rooms: an instrument trolley laid with scalpels, syringes, forceps and a stethoscope, as if in use; rusty: gone to rust, the drape bloodied
+{
+	"code": "l14-trolley",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"clean",
+				"rusty"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-clean-north": {
+			"base": "backrooms:block/14/l14-trolley-clean"
+		},
+		"*-clean-east": {
+			"base": "backrooms:block/14/l14-trolley-clean",
+			"rotateY": 270
+		},
+		"*-clean-south": {
+			"base": "backrooms:block/14/l14-trolley-clean",
+			"rotateY": 180
+		},
+		"*-clean-west": {
+			"base": "backrooms:block/14/l14-trolley-clean",
+			"rotateY": 90
+		},
+		"*-rusty-north": {
+			"base": "backrooms:block/14/l14-trolley-rusty"
+		},
+		"*-rusty-east": {
+			"base": "backrooms:block/14/l14-trolley-rusty",
+			"rotateY": 270
+		},
+		"*-rusty-south": {
+			"base": "backrooms:block/14/l14-trolley-rusty",
+			"rotateY": 180
+		},
+		"*-rusty-west": {
+			"base": "backrooms:block/14/l14-trolley-rusty",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-clean-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88
+		},
+		"*-clean-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"*-clean-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88
+		},
+		"*-clean-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88,
+			"rotateY": 90
+		},
+		"*-rusty-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88
+		},
+		"*-rusty-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"*-rusty-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88
+		},
+		"*-rusty-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-clean-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88
+		},
+		"*-clean-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"*-clean-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88
+		},
+		"*-clean-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88,
+			"rotateY": 90
+		},
+		"*-rusty-north": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88
+		},
+		"*-rusty-east": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"*-rusty-south": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88
+		},
+		"*-rusty-west": {
+			"x1": 0.06,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.94,
+			"y2": 0.85,
+			"z2": 0.88,
+			"rotateY": 90
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "backrooms:glassshard",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "backrooms:metalbracket",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	]
+}

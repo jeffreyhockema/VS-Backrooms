@@ -659,6 +659,9 @@ public enum CeilingKind : ushort
 
     /// <summary>Level 14 (block 512-543). Placeholder.</summary>
     L14Ceiling = 512,
+    /// <summary>Level 14: a fluorescent troffer (on, bright, lit-looking, failing, dead), a missing tile, stained, bloody, mouldy, plaster, bare concrete.</summary>
+    L14LightOn = 513, L14LightBright = 514, L14LightLit = 515, L14LightFlicker = 516, L14LightDead = 517, L14CeilingHole = 518, L14CeilingStained = 519,
+    L14CeilingBlood = 520, L14CeilingMould = 521, L14CeilingPlaster = 522, L14CeilingConcrete = 523,
     /// <summary>Level 47 (block 544-575). Placeholder (the level is under the open sky).</summary>
     L47Ceiling = 544,
 }
@@ -958,6 +961,8 @@ public static class Overheads
     public const ushort L23First = 480, L23Last = 511;
     // Batch 4, the experimental Levels 14 and 47 (29, 30)
     public const ushort L14First = 512, L14Last = 543;
+    /// <summary>Level 14: a curtain on its rail along the tile's edge toward Roof, a surgical light, chains and a hook, a sign hung across a hall (Stack the sign).</summary>
+    public const ushort L14Curtain = 512, L14SurgLamp = 513, L14Hook = 514, L14HangSign = 515;
     public const ushort L47First = 544, L47Last = 575;
     /// <summary>Level 31's tubes and disco ball and Level 120's cable trays, kept from before the widening (110-139 are main's to append to).</summary>
     public const byte L31LegacyFirst = 140, L31LegacyLast = 149;
@@ -1133,6 +1138,8 @@ public static class Unders
     public const ushort L23First = 480, L23Last = 511;
     // Batch 4, the experimental Levels 14 and 47 (29, 30)
     public const ushort L14First = 512, L14Last = 543;
+    /// <summary>Level 14's ways (WorldLayout.Level14.Links.cs): Level 0's EMERGENCY EXIT door and its placard, Level 15's MEDICAL CENTER door; in Level 14 the futuristic door (to 15), the red exit door (to Level !), the floor that gives way (to 73) and the cracks round it.</summary>
+    public const ushort L14ExitDoor = 512, L14Placard = 513, L14MedDoor = 514, L14FutureDoor = 515, L14RedDoor = 516, L14Collapse = 517, L14Cracks = 518;
     public const ushort L47First = 544, L47Last = 575;
     /// <summary>Level 47's ways (WorldLayout.Level47.Links.cs): a dead tree's hollow that leads out, a green giant's, and a dead tree's that leads nowhere (yet) in the Adderwood; Level 10's ancient dead tree (its bark, hollow, roots and limbs round it).</summary>
     public const ushort L47DeadHollow = 544, L47GreenHollow = 545, L47Tree10Bark = 546, L47Tree10Hollow = 547, L47Tree10Foot = 548, L47StillHollow = 549;
@@ -1826,6 +1833,12 @@ public static class Props
     public const ushort L23First = 1400, L23Last = 1499;
     // Batch 4, the experimental Levels 14 and 47 (29, 30)
     public const ushort L14First = 1500, L14Last = 1599;
+    /// <summary>Level 14's props (Stack/Detail as WorldLayout.Level14.cs says).</summary>
+    public const ushort L14Desk = 1500, L14WaitChair = 1501, L14FloorLamp = 1502, L14MagTable = 1503, L14Sodas = 1504, L14Bed = 1505, L14StrapBed = 1506,
+        L14Overbed = 1507, L14Monitor = 1508, L14Ventilator = 1509, L14Crib = 1510, L14Teddy = 1511, L14Desk2 = 1512, L14Cabinet = 1513, L14OpTable = 1514,
+        L14Trolley = 1515, L14Anaesthesia = 1516, L14EquipShelf = 1517, L14TubeRack = 1518, L14Vines = 1519, L14MouldFloor = 1520, L14Stretchers = 1521,
+        L14KnifeCab = 1522, L14BloodPool = 1523, L14TrgDesk = 1524, L14SampleRack = 1525, L14Cell = 1526, L14Crate = 1527, L14Drum = 1528, L14Station = 1529,
+        L14LinenCart = 1530, L14Bench = 1531, L14Revolving = 1532;
     public const ushort L47First = 1600, L47Last = 1699;
 
     /// <summary>One past the highest prop any level may use: the size of the generator's prop tables (raise it with a new block).</summary>

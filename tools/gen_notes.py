@@ -1269,7 +1269,7 @@ city past that. There isn't, I walked round. I broke it anyway. If you find this
 there, and nobody's in the windows.
 — Tom""", w="tom"),
     E("l15-11", "What they say at the camps", """
-Talk at the camps, none of it seen by anyone I've met: a blue door; a door marked MEDICAL CENTER; a hospital door; a
+Talk at the camps, none of it seen by anyone I've met: a blue door; a hospital door; a
 door marked THE ARCHIVES; a puddle of Almond Water you slip on in a narrow hall. All of them lead somewhere better. So
 does everything, at the camps."""),
     E("l15-7", "Two hours out", """
@@ -1489,6 +1489,92 @@ next(t for t in TRACKS if t.id == "rare-l0").entries.append(E("r-l0-basement", "
 Some of the floor out here is cracked, a patch a few steps across, sunk in the middle as if there's nothing under it.
 Don't stand on it. Kel did. It went from under him and he was gone, and I heard him land a long way down. He called up
 for a while about rooms and doors and a smell. I had no rope. The cracks are still there. The hole isn't."""))
+
+
+# ============================== Level 14, the Hospital (experimental, id 29; exp/14) ==============================
+# Self-contained: the level's id, its common track, its folded notes (the T.14.R.G.'s two transcripts, then a fair copy), and
+# one note each in the hosts' tracks (Level 0's EMERGENCY EXIT door, Level 15's MEDICAL CENTER door), with this level's own
+# keys. After Fandom's Level 14 only (docs/design/experimental-levels/14-plan.md, sections 1-2): what the page says is told
+# as seen, the rumours as rumours. The folded notes lie in the research group's rooms (WorldLayout.L14Plan.NoteSpots).
+L14 = 29
+LEVEL_IDS.add(L14)
+
+TRACKS.append(Track("l14", "common", "Level 14: the Hospital", L14, entries=[
+    E("l14-1", "Reception", """
+I came through an EMERGENCY EXIT door in the Lobby and it turned me out into a waiting room: an oval desk, a lamp, a few
+chairs, magazines about nothing I recognise. Behind me a revolving door of stained glass, and through every pane nothing
+at all. Not dark: nothing. The room's door let me out into a hall and has not opened from the hall side since. These
+rooms are one way. Take what is on the desk before you leave.
+— A.L., survey""", w="al"),
+    E("l14-2", "Footsteps", """
+Ruth, there are footsteps here all the time. Far off, down some other hall, never closer and never further. And
+whispering, just under hearing, like the next room is full of people talking about me. I keep turning round. There's
+never anyone. It smells of antiseptic and of something gone off underneath it. I've started answering the whispers. I know.
+— Tom""", w="tom"),
+    E("l14-3", "The windows", """
+Love, the wards have windows, the only ones I've found, and every one is broken and there's nothing past it. Not night:
+black, flat as paint. The beds are made and the drips still hang, a cup on every table, as if everyone stepped out a
+minute ago and never came back. In the maternity rooms there are teddy bears in the cots. Folk say to hug one. I didn't.
+— Nell""", w="nell"),
+    E("l14-4", "Surgery", """
+Surgery rooms are behind shut doors, and harder to find than the wards. Mostly a bed tipped head-down and a big lamp
+over it. Some have gone green, mould up the walls and vines over the floor, and on one shelf a rack of test tubes with
+moss growing up out of whatever's in them. Don't drink it. And keep off the trolleys: one threw a scalpel at me. Threw
+it. The old equipment wakes up sometimes, all on its own.
+— Dez""", w="dez"),
+    E("l14-5", "Look first", """
+M.E.G. FIELD NOTICE. Some rooms in Level 14 are contaminated. Their steel doors carry a trefoil and a square window, a
+green light through the glass, and they do not open; some of those rooms have a second, ordinary door on another
+corridor. Do not go in. The air makes you sick and confused, and it stays with you. Look through a window before you
+enter any room. Reports that some windows are entities in disguise are unconfirmed.
+— Field Team 9""", w="meg"),
+    E("l14-6", "Cracks", """
+Watch the floor. Before it goes, it cracks: the tiles split in lines and the patch sags like wet card. When it creaks
+under you, don't stop to look. Run. Mara stopped to look. The floor went and she went with it, and I heard her land a
+long way down, and nothing after. A man at the last camp swore the ones who fall through wake on a red island under a
+full moon, a castle on a hill. I'd sooner believe that than the other thing."""),
+    E("l14-7", "Patient Zero", """
+M.E.G. FIELD NOTICE, RESTRICTED. Rooms of rusted stretchers stacked on each other, shattered marble, blood down the
+walls, cabinets of knives: the torture chambers. They mean the Hunter is near. You will feel it first: dread, the air
+cold and thick with smoke. Leave the room and run, and do not look at it: once it meets your eyes, it does not stop.
+It lets worms go from its arms, fast, all teeth; their bites burn. Antibiotics from the reception desks stop it.
+— Field Team 9 (three of us)""", w="meg"),
+]))
+
+TRACKS.append(Track("rare-l14", "rare", "Folded notes", L14, chapter=RARE_CHAPTER, entries=[
+    E("r-l14-1", "Transcript #1", """
+T.14.R.G., THE LEVEL 14 RESEARCH GROUP. TRANSCRIPT #1: MEMBERS. Objective: to gather as much information as possible
+about Level 14. Dwight M. Williams, project leader. Researchers. Security guards. Containment Chamber Contractors.
+Chemical Sample Collectors and Containers. Twenty members in all; a stockpile of supplies for the duration. (The rest
+of the list is water-stained past reading. One name in the researchers' column survives: Lawrence R. Afton.)""", w="meg"),
+    E("r-l14-2", "Transcript #2", """
+T.14.R.G. TRANSCRIPT #2. EXPERIMENT #1: GONE WRONG. Subject: Lawrence R. Afton, 25, injected with Compound 14. Within
+30 minutes, distress; then aggression. His skin had turned pitch black, and octopus-like tentacles started to stretch
+out of his body. His eyes became bloodshot, a vacant, almost lifeless gaze. He seemingly could sense whether someone was
+nearby. Only 4 out of the 20 team members escaped the level alive. The survival difficulty of Level 14 has been
+increased by three.
+— Dwight M. Williams""", w="meg"),
+    E("r-l14-3", "The hospital, fair copy", """
+Fair copy, Level 14. Halls four wide, every sixty-four paces both ways; between them the wings, a department each:
+wards, intensive care, psychiatry, maternity, surgery, stores. You arrive in a reception room and cannot go back into
+it. Ways out, one way and rare: a futuristic door of steel and lit seams, to Level 15; a red EXIT door, to Level !; a
+floor that gives way, to I do not know where. Unconfirmed: arrows on the floor to a main exit; a glowing window; a
+teddy bear held tight; walking too far in.
+— A.L.""", w="al"),
+]))
+
+# Level 14's ways in, talked of in the levels they lie in (our own keys, at the end of those levels' tracks)
+next(t for t in TRACKS if t.id == "l0").entries.append(E("l14-h0", "EMERGENCY EXIT", """
+There's a door in one of the yellow walls out here that has no business being there: grey steel, a push bar, a green
+running man over it, EMERGENCY EXIT. You smell it before you see it, antiseptic, like a hospital corridor at night. My
+brother pushed the bar. It let him through and swung shut, and he didn't come back out. I didn't follow. The smell is
+still on my coat."""))
+next(t for t in TRACKS if t.id == "l15").entries.append(E("l14-h15", "MEDICAL CENTER", """
+M.E.G. FIELD NOTICE. Beside some of Level 15's medical bays: a futuristic door marked MEDICAL CENTER. It smells of
+antiseptic and decay, which nothing else in these halls does. Personnel who walked through it came out in a hospital
+waiting room in Level 14, a Class 4 level, and could not return the way they came. Do not use it.
+— Field Team 9""", w="meg"))
+# ---------------- (end of Level 14's block) ----------------
 
 
 # ============================== Facts the notes rely on ==============================

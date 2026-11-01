@@ -1,0 +1,642 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"p-chrome": "backrooms:block/14/p-chrome",
+		"p-darksteel": "backrooms:block/14/p-darksteel",
+		"p-drapestain": "backrooms:block/14/p-drapestain",
+		"p-leather": "backrooms:block/14/p-leather",
+		"p-optpad": "backrooms:block/14/p-optpad",
+		"p-steel": "backrooms:block/14/p-steel",
+		"p-whiteworn": "backrooms:block/14/p-whiteworn"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				3.0,
+				0.0,
+				11
+			],
+			"to": [
+				13.0,
+				1.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-whiteworn",
+					"uv": [
+						0,
+						0,
+						10,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#p-whiteworn",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#p-whiteworn",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#p-whiteworn",
+					"uv": [
+						0,
+						0,
+						10,
+						5
+					]
+				},
+				"down": {
+					"texture": "#p-whiteworn",
+					"uv": [
+						0,
+						0,
+						10,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "BasePlinth",
+			"from": [
+				3.5,
+				0.0,
+				10.5
+			],
+			"to": [
+				12.5,
+				0.75,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						9.0,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						5.5,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						5.5,
+						0.75
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameF",
+			"from": [
+				2.75,
+				11.5,
+				1
+			],
+			"to": [
+				13.25,
+				12.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-steel",
+					"uv": [
+						0,
+						0,
+						10.5,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#p-steel",
+					"uv": [
+						0,
+						0,
+						15,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#p-steel",
+					"uv": [
+						0,
+						0,
+						10.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#p-steel",
+					"uv": [
+						0,
+						0,
+						15,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#p-steel",
+					"uv": [
+						0,
+						0,
+						10.5,
+						15
+					]
+				},
+				"down": {
+					"texture": "#p-steel",
+					"uv": [
+						0,
+						0,
+						10.5,
+						15
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				12.0,
+				19
+			],
+			"rotationX": 15
+		},
+		{
+			"name": "PadF",
+			"from": [
+				3.0,
+				12.5,
+				1.25
+			],
+			"to": [
+				13.0,
+				14.0,
+				15.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-optpad",
+					"uv": [
+						0,
+						0,
+						10,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#p-optpad",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#p-optpad",
+					"uv": [
+						0,
+						0,
+						10,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#p-optpad",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#p-optpad",
+					"uv": [
+						0,
+						0,
+						10,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#p-optpad",
+					"uv": [
+						0,
+						0,
+						10,
+						14.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				12.0,
+				19
+			],
+			"rotationX": 15
+		},
+		{
+			"name": "RailWF",
+			"from": [
+				2.0,
+				11.0,
+				1.5
+			],
+			"to": [
+				2.5,
+				11.75,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.0
+					]
+				},
+				"down": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				12.0,
+				19
+			],
+			"rotationX": 15
+		},
+		{
+			"name": "RailEF",
+			"from": [
+				13.5,
+				11.0,
+				1.5
+			],
+			"to": [
+				14.0,
+				11.75,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.0
+					]
+				},
+				"down": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				12.0,
+				19
+			],
+			"rotationX": 15
+		},
+		{
+			"name": "StrapF",
+			"from": [
+				2.75,
+				14.0,
+				5
+			],
+			"to": [
+				13.25,
+				14.35,
+				6.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-leather",
+					"uv": [
+						0,
+						0,
+						10.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#p-leather",
+					"uv": [
+						0,
+						0,
+						1.75,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#p-leather",
+					"uv": [
+						0,
+						0,
+						10.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#p-leather",
+					"uv": [
+						0,
+						0,
+						1.75,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#p-leather",
+					"uv": [
+						0,
+						0,
+						10.5,
+						1.75
+					]
+				},
+				"down": {
+					"texture": "#p-leather",
+					"uv": [
+						0,
+						0,
+						10.5,
+						1.75
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				12.0,
+				19
+			],
+			"rotationX": 15
+		},
+		{
+			"name": "Drape",
+			"from": [
+				3.5,
+				14.0,
+				9
+			],
+			"to": [
+				14.35,
+				14.3,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-drapestain",
+					"uv": [
+						0,
+						0,
+						10.85,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#p-drapestain",
+					"uv": [
+						0,
+						0,
+						6.4,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#p-drapestain",
+					"uv": [
+						0,
+						0,
+						10.85,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#p-drapestain",
+					"uv": [
+						0,
+						0,
+						6.4,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#p-drapestain",
+					"uv": [
+						0,
+						0,
+						10.85,
+						6.4
+					]
+				},
+				"down": {
+					"texture": "#p-drapestain",
+					"uv": [
+						0,
+						0,
+						10.85,
+						6.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				12.0,
+				19
+			],
+			"rotationX": 15
+		},
+		{
+			"name": "DrapeHang",
+			"from": [
+				14.05,
+				7.5,
+				9
+			],
+			"to": [
+				14.35,
+				14.3,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-drapestain",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.8
+					]
+				},
+				"east": {
+					"texture": "#p-drapestain",
+					"uv": [
+						0,
+						0,
+						6.4,
+						6.8
+					]
+				},
+				"south": {
+					"texture": "#p-drapestain",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.8
+					]
+				},
+				"west": {
+					"texture": "#p-drapestain",
+					"uv": [
+						0,
+						0,
+						6.4,
+						6.8
+					]
+				},
+				"up": {
+					"texture": "#p-drapestain",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.4
+					]
+				},
+				"down": {
+					"texture": "#p-drapestain",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				12.0,
+				19
+			],
+			"rotationX": 15
+		}
+	]
+}

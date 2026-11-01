@@ -1,0 +1,303 @@
+// Level 14: the T.14.R.G.'s field desk, an olive steel table: their papers; their field radio; an open case of samples and a microscope
+{
+	"code": "l14-trgdesk",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"papers",
+				"radio",
+				"samples"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-papers-north": {
+			"base": "backrooms:block/14/l14-trgdesk-papers"
+		},
+		"*-papers-east": {
+			"base": "backrooms:block/14/l14-trgdesk-papers",
+			"rotateY": 270
+		},
+		"*-papers-south": {
+			"base": "backrooms:block/14/l14-trgdesk-papers",
+			"rotateY": 180
+		},
+		"*-papers-west": {
+			"base": "backrooms:block/14/l14-trgdesk-papers",
+			"rotateY": 90
+		},
+		"*-radio-north": {
+			"base": "backrooms:block/14/l14-trgdesk-radio"
+		},
+		"*-radio-east": {
+			"base": "backrooms:block/14/l14-trgdesk-radio",
+			"rotateY": 270
+		},
+		"*-radio-south": {
+			"base": "backrooms:block/14/l14-trgdesk-radio",
+			"rotateY": 180
+		},
+		"*-radio-west": {
+			"base": "backrooms:block/14/l14-trgdesk-radio",
+			"rotateY": 90
+		},
+		"*-samples-north": {
+			"base": "backrooms:block/14/l14-trgdesk-samples"
+		},
+		"*-samples-east": {
+			"base": "backrooms:block/14/l14-trgdesk-samples",
+			"rotateY": 270
+		},
+		"*-samples-south": {
+			"base": "backrooms:block/14/l14-trgdesk-samples",
+			"rotateY": 180
+		},
+		"*-samples-west": {
+			"base": "backrooms:block/14/l14-trgdesk-samples",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-papers-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88
+		},
+		"*-papers-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"*-papers-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88
+		},
+		"*-papers-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88,
+			"rotateY": 90
+		},
+		"*-radio-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88
+		},
+		"*-radio-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"*-radio-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88
+		},
+		"*-radio-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88,
+			"rotateY": 90
+		},
+		"*-samples-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88
+		},
+		"*-samples-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"*-samples-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88
+		},
+		"*-samples-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-papers-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88
+		},
+		"*-papers-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"*-papers-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88
+		},
+		"*-papers-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88,
+			"rotateY": 90
+		},
+		"*-radio-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88
+		},
+		"*-radio-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"*-radio-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88
+		},
+		"*-radio-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88,
+			"rotateY": 90
+		},
+		"*-samples-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88
+		},
+		"*-samples-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"*-samples-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88
+		},
+		"*-samples-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.97,
+			"y2": 0.78,
+			"z2": 0.88,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

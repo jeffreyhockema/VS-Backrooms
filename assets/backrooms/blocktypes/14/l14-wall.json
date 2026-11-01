@@ -1,0 +1,173 @@
+// Level 14: the halls' mint paint (paint, scuffed, the teal-green wainscot with its kick strip at the foot), the inpatient units' white (and its foot), white wall tile (and its green foot), the behaviour cells' padding, painted cinderblock, patched plywood, corroded steel (and with blood run down it), filthy tiles with blood run down them, mould, white with moss creeping up, bare concrete, a doorway's steel frame head (lintel)
+{
+	"code": "l14-wall",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"paint",
+				"paintscuff",
+				"paintbase",
+				"white",
+				"whitebase",
+				"tile",
+				"tilebase",
+				"padded",
+				"cinder",
+				"plywood",
+				"rust",
+				"rustblood",
+				"tileblood",
+				"mould",
+				"whitemoss",
+				"concrete",
+				"lintel"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-paint": {
+			"all": {
+				"base": "block/14/wall-paint"
+			}
+		},
+		"*-paintscuff": {
+			"all": {
+				"base": "block/14/wall-paintscuff"
+			}
+		},
+		"*-paintbase": {
+			"all": {
+				"base": "block/14/wall-paintbase"
+			}
+		},
+		"*-white": {
+			"all": {
+				"base": "block/14/wall-white"
+			}
+		},
+		"*-whitebase": {
+			"all": {
+				"base": "block/14/wall-whitebase"
+			}
+		},
+		"*-tile": {
+			"all": {
+				"base": "block/14/wall-tile"
+			}
+		},
+		"*-tilebase": {
+			"all": {
+				"base": "block/14/wall-tilebase"
+			}
+		},
+		"*-padded": {
+			"all": {
+				"base": "block/14/wall-padded"
+			}
+		},
+		"*-cinder": {
+			"all": {
+				"base": "block/14/wall-cinder"
+			}
+		},
+		"*-plywood": {
+			"all": {
+				"base": "block/14/wall-plywood"
+			}
+		},
+		"*-rust": {
+			"all": {
+				"base": "block/14/wall-rust"
+			}
+		},
+		"*-rustblood": {
+			"all": {
+				"base": "block/14/wall-rustblood"
+			}
+		},
+		"*-tileblood": {
+			"all": {
+				"base": "block/14/wall-tileblood"
+			}
+		},
+		"*-mould": {
+			"all": {
+				"base": "block/14/wall-mould"
+			}
+		},
+		"*-whitemoss": {
+			"all": {
+				"base": "block/14/wall-whitemoss"
+			}
+		},
+		"*-concrete": {
+			"all": {
+				"base": "block/14/wall-concrete"
+			}
+		},
+		"*-lintel": {
+			"all": {
+				"base": "block/14/wall-lintel"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterialByType": {
+		"*-plywood": "Wood",
+		"*-rust": "Metal",
+		"*-rustblood": "Metal",
+		"*-lintel": "Metal",
+		"*-padded": "Cloth",
+		"*": "Stone"
+	},
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"soundsByType": {
+		"*-plywood": {
+			"walk": "game:walk/wood*",
+			"place": "game:block/planks",
+			"break": "game:block/planks",
+			"hit": "game:block/planks"
+		},
+		"*-rust": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/anvil1",
+			"break": "game:block/heavymetal-hit",
+			"hit": "game:block/heavymetal-hit"
+		},
+		"*-rustblood": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/anvil1",
+			"break": "game:block/heavymetal-hit",
+			"hit": "game:block/heavymetal-hit"
+		},
+		"*-lintel": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/anvil1",
+			"break": "game:block/heavymetal-hit",
+			"hit": "game:block/heavymetal-hit"
+		},
+		"*-padded": {
+			"walk": "game:walk/cloth*",
+			"place": "game:block/cloth",
+			"break": "game:block/cloth",
+			"hit": "game:block/cloth"
+		},
+		"*": {
+			"walk": "game:walk/stone*",
+			"place": "game:block/loosestone*",
+			"break": "game:block/rock-break-pickaxe",
+			"hit": "game:block/rock-hit-pickaxe"
+		}
+	}
+}

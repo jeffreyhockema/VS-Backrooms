@@ -1,0 +1,384 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"link-edge": "backrooms:block/14/link-edge",
+		"link-redsign": "backrooms:block/14/link-redsign",
+		"link-redupper": "backrooms:block/14/link-redupper"
+	},
+	"elements": [
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#link-redupper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#link-redupper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#link-redupper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#link-redupper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "SignHousingN",
+			"from": [
+				2.5,
+				12.2,
+				-1.2
+			],
+			"to": [
+				13.5,
+				15.6,
+				0
+			],
+			"faces": {
+				"east": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.4
+					]
+				},
+				"west": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.4
+					]
+				},
+				"up": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "SignFaceN",
+			"from": [
+				2.5,
+				12.2,
+				-1.2
+			],
+			"to": [
+				13.5,
+				15.6,
+				-1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#link-redsign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 140
+				}
+			}
+		},
+		{
+			"name": "SignHousingE",
+			"from": [
+				16,
+				12.2,
+				2.5
+			],
+			"to": [
+				17.2,
+				15.6,
+				13.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.4
+					]
+				},
+				"north": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.4
+					]
+				},
+				"up": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "SignFaceE",
+			"from": [
+				17.0,
+				12.2,
+				2.5
+			],
+			"to": [
+				17.2,
+				15.6,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#link-redsign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 140
+				}
+			}
+		},
+		{
+			"name": "SignHousingS",
+			"from": [
+				2.5,
+				12.2,
+				16
+			],
+			"to": [
+				13.5,
+				15.6,
+				17.2
+			],
+			"faces": {
+				"east": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.4
+					]
+				},
+				"west": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.4
+					]
+				},
+				"up": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "SignFaceS",
+			"from": [
+				2.5,
+				12.2,
+				17.0
+			],
+			"to": [
+				13.5,
+				15.6,
+				17.2
+			],
+			"faces": {
+				"south": {
+					"texture": "#link-redsign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 140
+				}
+			}
+		},
+		{
+			"name": "SignHousingW",
+			"from": [
+				-1.1999999999999993,
+				12.2,
+				2.5
+			],
+			"to": [
+				0,
+				15.6,
+				13.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.4
+					]
+				},
+				"north": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						1.2,
+						3.4
+					]
+				},
+				"up": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#link-edge",
+					"uv": [
+						0,
+						0,
+						11.0,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "SignFaceW",
+			"from": [
+				-1.1999999999999993,
+				12.2,
+				2.5
+			],
+			"to": [
+				-1.0,
+				15.6,
+				13.5
+			],
+			"faces": {
+				"west": {
+					"texture": "#link-redsign",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 140
+				}
+			}
+		}
+	]
+}

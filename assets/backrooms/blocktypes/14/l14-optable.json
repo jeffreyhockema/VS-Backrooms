@@ -1,0 +1,219 @@
+// Level 14's surgery rooms: an operating table on its column, two blocks (head, foot; the foot lies from the head toward <side>), its top tilted head-down, the pads cracked and stained, strapped
+{
+	"code": "l14-optable",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"head",
+				"foot"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-head-north": {
+			"base": "backrooms:block/14/l14-optable-head"
+		},
+		"*-head-east": {
+			"base": "backrooms:block/14/l14-optable-head",
+			"rotateY": 270
+		},
+		"*-head-south": {
+			"base": "backrooms:block/14/l14-optable-head",
+			"rotateY": 180
+		},
+		"*-head-west": {
+			"base": "backrooms:block/14/l14-optable-head",
+			"rotateY": 90
+		},
+		"*-foot-north": {
+			"base": "backrooms:block/14/l14-optable-foot"
+		},
+		"*-foot-east": {
+			"base": "backrooms:block/14/l14-optable-foot",
+			"rotateY": 270
+		},
+		"*-foot-south": {
+			"base": "backrooms:block/14/l14-optable-foot",
+			"rotateY": 180
+		},
+		"*-foot-west": {
+			"base": "backrooms:block/14/l14-optable-foot",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-head-north"
+		],
+		"backrooms": [
+			"*-head-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-head-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"*-head-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"*-head-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1.0,
+			"z2": 1
+		},
+		"*-foot-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1.0,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-foot-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1.0,
+			"z2": 1
+		},
+		"*-foot-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1.0,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-head-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"*-head-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"*-head-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1.0,
+			"z2": 1
+		},
+		"*-foot-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1.0,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-foot-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1.0,
+			"z2": 1
+		},
+		"*-foot-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 1.0,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

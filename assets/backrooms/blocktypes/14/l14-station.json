@@ -1,0 +1,470 @@
+// Level 14's halls: a nurses' station, its front with a ledge toward <side>, the work surface behind (computer: a beige computer on it, facing the nurse); corner: an L, the counter running on east (same side) and south (side turned a quarter left: corner-north joins counter-north to its east and counter-west to its south)
+{
+	"code": "l14-station",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"counter",
+				"computer",
+				"corner"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-counter-north": {
+			"base": "backrooms:block/14/l14-station-counter"
+		},
+		"*-counter-east": {
+			"base": "backrooms:block/14/l14-station-counter",
+			"rotateY": 270
+		},
+		"*-counter-south": {
+			"base": "backrooms:block/14/l14-station-counter",
+			"rotateY": 180
+		},
+		"*-counter-west": {
+			"base": "backrooms:block/14/l14-station-counter",
+			"rotateY": 90
+		},
+		"*-computer-north": {
+			"base": "backrooms:block/14/l14-station-computer"
+		},
+		"*-computer-east": {
+			"base": "backrooms:block/14/l14-station-computer",
+			"rotateY": 270
+		},
+		"*-computer-south": {
+			"base": "backrooms:block/14/l14-station-computer",
+			"rotateY": 180
+		},
+		"*-computer-west": {
+			"base": "backrooms:block/14/l14-station-computer",
+			"rotateY": 90
+		},
+		"*-corner-north": {
+			"base": "backrooms:block/14/l14-station-corner"
+		},
+		"*-corner-east": {
+			"base": "backrooms:block/14/l14-station-corner",
+			"rotateY": 270
+		},
+		"*-corner-south": {
+			"base": "backrooms:block/14/l14-station-corner",
+			"rotateY": 180
+		},
+		"*-corner-west": {
+			"base": "backrooms:block/14/l14-station-corner",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxesByType": {
+		"*-counter-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.06,
+				"z2": 0.35
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.82
+			}
+		],
+		"*-counter-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.06,
+				"z2": 0.35,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.82,
+				"rotateY": 270
+			}
+		],
+		"*-counter-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.06,
+				"z2": 0.35,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.82,
+				"rotateY": 180
+			}
+		],
+		"*-counter-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.06,
+				"z2": 0.35,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.82,
+				"rotateY": 90
+			}
+		],
+		"*-computer-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.06,
+				"z2": 0.35
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.82
+			}
+		],
+		"*-computer-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.06,
+				"z2": 0.35,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.82,
+				"rotateY": 270
+			}
+		],
+		"*-computer-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.06,
+				"z2": 0.35,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.82,
+				"rotateY": 180
+			}
+		],
+		"*-computer-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.06,
+				"z2": 0.35,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.82,
+				"rotateY": 90
+			}
+		],
+		"*-corner-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.06,
+				"z2": 0.35
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 0.35,
+				"y2": 1.06,
+				"z2": 1
+			},
+			{
+				"x1": 0.35,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.82
+			}
+		],
+		"*-corner-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.06,
+				"z2": 0.35,
+				"rotateY": 270
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 0.35,
+				"y2": 1.06,
+				"z2": 1,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.35,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.82,
+				"rotateY": 270
+			}
+		],
+		"*-corner-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.06,
+				"z2": 0.35,
+				"rotateY": 180
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 0.35,
+				"y2": 1.06,
+				"z2": 1,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.35,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.82,
+				"rotateY": 180
+			}
+		],
+		"*-corner-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0,
+				"x2": 1,
+				"y2": 1.06,
+				"z2": 0.35,
+				"rotateY": 90
+			},
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 0.35,
+				"y2": 1.06,
+				"z2": 1,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.35,
+				"y1": 0,
+				"z1": 0.35,
+				"x2": 1,
+				"y2": 0.75,
+				"z2": 0.82,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxByType": {
+		"*-counter-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.1,
+			"z2": 0.85
+		},
+		"*-counter-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.1,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-counter-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.1,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"*-counter-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.1,
+			"z2": 0.85,
+			"rotateY": 90
+		},
+		"*-computer-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.1,
+			"z2": 0.85
+		},
+		"*-computer-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.1,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-computer-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.1,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"*-computer-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.1,
+			"z2": 0.85,
+			"rotateY": 90
+		},
+		"*-corner-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.1,
+			"z2": 1
+		},
+		"*-corner-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.1,
+			"z2": 1
+		},
+		"*-corner-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.1,
+			"z2": 1
+		},
+		"*-corner-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1.1,
+			"z2": 1
+		}
+	},
+	"drops": []
+}

@@ -136,9 +136,10 @@ public partial class AtmosphereSystem : ModSystem
         // Level 23: a dim green murk under the lid of leaves, a mist on the forest floor (its glow rooms, tunnels, camp, ruins and
         // the Heart of Water: AtmosphereSystem.L23.cs)
         new(0.0065f, 0.17f, 0.23f, 0.14f, -0.07f, scene: 0.95f),
-        // Batch 4 (placeholders: a faint neutral haze)
-        // Level 14
-        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // Batch 4
+        // Level 14: a pale green-grey haze, "heavy with the scent of antiseptic and decay" (its halls, dark, wards, surgery, storage,
+        // torture chambers, contaminated rooms and the Hunter's dread: AtmosphereSystem.L14.cs)
+        new(0.008f, 0.58f, 0.64f, 0.58f, 0f),
         // Level 47: the Adderwood's thick damp fog by day (its clear moonlit night, the glade and the manor: AtmosphereSystem.L47.cs)
         new(0.017f, 0.50f, 0.55f, 0.52f, -0.07f, scene: 0.9f, clouds: 0f, cloudBrightness: 0f, fogMin: 0.035f),
     };

@@ -801,6 +801,8 @@ An elevator arrives beside another elevator, a stairwell beside a stairwell, a d
 - Level 37, a huge hollow tree of green bark growing up through the tiles: Level 23, out of a hollow trunk in the forest. Level 23, the well at the bottom of the Heart of Water: Level 7's open sea.
 - Levels 0, 1, 2, 4 and 5, a patch of cracked floor: it gives way into the Basement. Climbing to the top of the crack's shaft: the Lobby.
 - Level 9, the Gloom (a pool of darkness light does not reach), stayed in too long; Level 6's deepest dark, with no light, for minutes: Level 73. Level 73, the door in the castle's north wall that Coran opens for you: Level 9.
+- Level 0, a rare EMERGENCY EXIT door in a Lobby wall that smells of antiseptic; Level 15, a futuristic door marked MEDICAL CENTER by a medical bay: Level 14, a reception room, its stained-glass revolving door showing nothing.
+- Level 14, a rare futuristic door: a main hall of Level 15. A rare red exit door: Level !. Very rarely, a cracked patch of floor that gives way: Level 73's Redlands.
 - Level 10, an ancient dead tree, grey and hollow, alone on a field's edge: Level 47, out of a dead tree's hollow. Level 47, some of its dead trees' hollows: Level 10, beside its ancient dead tree; a green giant's hollow: Level 23, out of a hollow trunk in the forest.
 """)
 
@@ -1029,14 +1031,15 @@ This level is devoid of them. Almond Water is all but absent. About half the sup
 Where the power is out, and only there, a [Robo-Man](search:robo-man) walks now and then: slow, metal, and it will come for you. Where the lights are on you are safe. Others stand in charging docks along the main halls, powered down, heads hung; none has been seen to move.
 
 **Ways in**
-The level is hard to get into, and harder to leave. Rarely, out in Level 10's fields, an immense white wall rises across the crops, the halls' own wall seen from outside, running out of sight both ways, with one small reinforced door in it under a lit lintel. And very rarely one of Level 3's walls has a steel door in it that should not be there, cold white light under it; its handle gives you a shock. Either way you come to in a lit main hall, beside a small steel door that does not open from this side. There is one like it in the wall of nearly every block of halls, and none of them open.
+The level is hard to get into, and harder to leave. Rarely, out in Level 10's fields, an immense white wall rises across the crops, the halls' own wall seen from outside, running out of sight both ways, with one small reinforced door in it under a lit lintel. And very rarely one of Level 3's walls has a steel door in it that should not be there, cold white light under it; its handle gives you a shock. Either way you come to in a lit main hall, beside a small steel door that does not open from this side. There is one like it in the wall of nearly every block of halls, and none of them open. And out of Level 14, the hospital, a rare futuristic door opens onto one of these main halls too; it does not open back.
 
 **Ways out**
 Every way out goes one way, and they are few: one block of halls in twenty or so has one, and nothing marks which.
 - In a few control rooms, one panel on the wall of displays has its red button lit, under the word ESCAPE, a green lamp beside it. Press it, and a locked security gateway in the same room rolls up onto the dark. Walk into it: Level 3.
 - Now and then a pane of a machine room's thick glass glows orange, as if a street lay behind it. Break it: you fall through onto a sidewalk of Level 11.
 - Somewhere there is an office that does not belong here, Level 4's carpet and filing cabinets, with a staircase going down through its floor. Go down it: Level 4.
-The wanderers talk of other doors (a blue door, one marked MEDICAL CENTER, a hospital door, one marked THE ARCHIVES); nobody who tells it has seen one.
+- Very rarely, in a medical bay's wall, a white door with MEDICAL CENTER over it and a red cross beside. Go through it: a reception room of Level 14, the hospital, and the door is not behind you.
+The wanderers talk of other doors (a blue door, a hospital door, one marked THE ARCHIVES); nobody who tells it has seen one.
 
 **The star door**
 Far from the middle, in one empty machine room, a doorframe stands on its own with a night sky in it and a small blue star. Nobody who went through it has written back, and it does not let you through.
@@ -1076,11 +1079,11 @@ In one glow room the M.E.G. keep a camp: three tents round a hollow tree with gr
 Death Rats and male Deathmoths among the trunks; Hounds, Smilers and Clumps in the glow rooms and tunnels; female Deathmoths about the ruins (see [What Lives Here](backrooms-entities)). The wanderers also tell of Volpes, Curabitur Birds, the rare Wrangler and the Garden's own animal-like natives in the glow rooms; none has been met here yet.
 
 **Ways in and out**
-In: now and then, kilometres apart, a huge hollow tree with green bark grows up through the tiles of the Poolrooms, floor and ceiling, its roots breaking the tile round its foot. Climb into the hollow and you climb up through the dark inside it, and out of a hollow trunk somewhere in the Garden's forest. No tree behind you goes back.
+In: now and then, kilometres apart, a huge hollow tree with green bark grows up through the tiles of the Poolrooms, floor and ceiling, its roots breaking the tile round its foot. Climb into the hollow and you climb up through the dark inside it, and out of a hollow trunk somewhere in the Garden's forest. No tree behind you goes back. The same is true from Level 47, the Adderwood: climb into the hollow of one of its green-barked giants and you come out of a hollow trunk here.
 
 Out: the hollow tree at Base Seedling, the M.E.G.'s way home and the only one that works every time. Climb up into it and you come out of one of those green trees in the Poolrooms (Level 37), the one nearest their middle, and that tree brings you back. (The wanderers say it goes to Level 135; in this world it comes out in the Poolrooms.) Or swim down into the Heart of Water: in the middle of the pool's bed a well goes on down, and at its bottom the reservoir takes you and puts you up in the open sea of Level 7. One way.
 
-The wanderers also tell of hollow green trees in Level 47, a hollow log in Level 121, and the reservoir coming out in Level 121's ocean or an exhibit in Level 43. Nobody here has found those.
+The wanderers also tell of a hollow log in Level 121, and the reservoir coming out in Level 121's ocean or an exhibit in Level 43. Nobody here has found those.
 
 **What to bring**
 Light, and food. The forest floor and the glow rooms have mushrooms, but not all of them are safe (leave the red ones with white spots and the brown puffballs), and little else grows. Wood comes from the bark, slowly: it is stone, and gives up only a little firewood. And keep quiet.
@@ -1317,6 +1320,58 @@ The Backrooms Travel Agency keeps a booth in check-in (booth 0 on the line throu
 **Ways in and out**
 In: very rarely, in the city or in the Suburbs, a plain stretch of wall has a door in it under a lit sign with an airplane on it, where no door should be. {rightmouse} it and you are in the claim hall, beside a door under the same sign in the baggage wall; that door takes you back out where you came in. The other doors in that wall are locked. Out: the gates' flights, one way, each to its own level. And a restroom sink (there is a pair of restrooms in every wing, and showers in the lounges): turn the tap and it runs over and will not stop; hold your head under ({rightmouse}, held) and you come up in the Poolrooms, one way. Wanderers also tell of a train from somewhere called the Metro, apartment doors in a part of the city nobody here has found, luggage that falls, and a hotel's glass doors that lead elsewhere. None of those has been seen here.
 """)
+
+
+# ---------------- Level 14, "The Hospital" (experimental, id 29; exp/14): its own page (GuideSystem.Added "level14") ----------------
+# Fandom's Level 14 only (docs/design/experimental-levels/14-plan.md); the Hunter as src/Regions/L14Hunter.cs makes it, the ways
+# as LINKS.md's "Level 14, the Hospital".
+PAGES["level14"] = ("Level 14: The Hospital", """
+**Level 14: The Hospital**
+*A well-equipped hospital that never ends, and something in it that was once a patient.*
+
+**The look of it, and the air**
+Shadowy main halls four wide run straight through the level both ways, troffers down their middle and too many of them dead, a red line painted along the vinyl. Between the halls lie the wings, each a department of the hospital (a medical ward, intensive care, psychiatry, maternity, the surgical suite, the stores), cut by narrower corridors with rooms along them, a name plate by every door. The air is heavy with antiseptic and, under it, decay. You will hear footsteps the whole time, far off down some other hall, and whispering just under hearing. Nobody is there.
+
+**Reception rooms**
+Everyone arrives in one: an oval desk, a few chairs, a lamp, crumpled magazines and brochures that make no sense, musty soft-drink bottles. Behind you stands a large revolving door of stained glass, and through it there is nothing at all. The room's door lets you out into the hospital, and **never lets you back in**: these rooms cannot be entered again once left, so take what is on the desk first.
+
+**The rooms**
+- **Inpatient rooms** (the wards, intensive care, psychiatry's padded cells and restraint beds, maternity's cots): blinding white, everything set out as if in use a minute ago. The only windows in the level are here, broken, and behind them only blackness.
+- **Surgery rooms**, behind shut doors and harder to find: a tilted operating table under a surgical light, shelves of old, damaged instruments, sometimes mould and vines over everything and moss growing up out of test tubes.
+- **Storage rooms**, their walls thrown together out of whatever was to hand: supply boxes.
+- **Offices** and nurses' stations, a desk and files.
+- Rarely, what is left of the **T.14.R.G.**, the Level 14 Research Group: field desks, a radio, racks of black vials, a containment chamber broken out from the inside, their stencil on the walls and their stockpile in crates. Their papers lie there.
+- Rarely, a **torture chamber** (see below).
+
+**Hazards**
+- **Contaminated rooms.** A steel door with a trefoil and a square window, green light through the glass: the room behind is full of something toxic and radioactive. Those doors do not open, but such a room may have an ordinary door on another corridor. Breathing its air makes you sick. **Look through a door's window before you go in.**
+- **Equipment.** Now and then the old equipment springs to life: a scalpel flies off a trolley, a syringe comes at you, a monitor shrieks and throws sparks, a stethoscope whips. Keep your distance from the trolleys.
+- **The floor.** Some of the floor is cracked, and some of it sags. When the floor creaks and gives a little under you, do not stop to look: **run**. It is about to go.
+- **The dark.** Stretches of hall and whole wings have no light. Carry your own.
+
+**The Hunter**
+Patient Zero: once a member of the research group, now black and wet, all writhing tentacles, swallowing the light. One comes for each wanderer a few minutes after they arrive, put down out of sight, often by a torture chamber. It always knows roughly where you are, and it closes in. You feel it before you see it: a dread, a wet breathing, the air going thick and smoky. If it sees you, or **if you meet its eyes**, it shrieks and runs you down, faster than you can sprint at first. Its tentacles drag you in rather than knock you away. Every few seconds of a chase it lets go of **Infecting Agents**, worms with mouths full of teeth that squirm along the floor fast: their bite leaves a poison burning, and they spit something corrosive at where you stand (step aside). They die off in under a minute. If you sense the Hunter, leave the room and run; break its line of sight and get far away, and after a while it loses you. Struck, it turns on whoever struck it. Killed, another comes, later.
+
+**Torture chambers**
+Rusted stretchers stacked on each other, a shattered marble floor, blood down the walls and dripping from the ceiling, cabinets of knives and razor blades. They mean the Hunter is near. Avoid them.
+
+**What to take**
+- At the reception desks: bandages, [painkillers](item-backrooms:l14-painkillers) (they heal a few points over ten seconds) and [antibiotics](item-backrooms:l14-antibiotics) (they heal a little, and stop the poison of an Infecting Agent's bite). Keep some antibiotics.
+- In the reception rooms: [musty soft drinks](item-backrooms:l14-stalesoda). Drinkable, barely, and now and then they turn your stomach.
+- The medicine cabinets, the stores' supply boxes, and the research group's stockpile of supply crates.
+
+**Ways in and out**
+- **In:** very rarely, a Lobby wall in Level 0 has a grey EMERGENCY EXIT door in it, a green running man over it and a smell of antiseptic; and beside some of Level 15's medical bays stands a futuristic door marked MEDICAL CENTER. Either one puts you in a reception room, and there is no way back through it.
+- **Out:** every way out goes one way, and they are rare. A futuristic door, out of place among the rest: a main hall of Level 15. A red exit door: Level !, the door slamming behind you. And very rarely, a patch of floor that gives way drops you onto the Redlands, Level 73.
+- Wanderers tell of arrows on the floor that lead to the hospital's main exit, a bright glowing window, a teddy bear that takes you somewhere if you hug it, and what happens to those who go too far in. The painted lines on the floor lead nowhere anyone has found, and the bears in the maternity cots are only bears.
+
+**Advice**
+- Strip the reception desk before you leave the room: you will not get back in.
+- Look through the window before you open any door. Keep to the halls when you can.
+- Never meet its eyes. When the air turns cold and smoky, go.
+- Watch the floor.
+""")
+# ---------------- (end of Level 14's page) ----------------
 
 
 # ====================================================================================================================

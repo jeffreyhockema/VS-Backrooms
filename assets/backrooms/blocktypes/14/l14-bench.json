@@ -1,0 +1,131 @@
+// Level 14's halls: a bench of pale slats on a steel frame, facing <side>
+{
+	"code": "l14-bench",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "backrooms:block/14/l14-bench"
+		},
+		"*-east": {
+			"base": "backrooms:block/14/l14-bench",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "backrooms:block/14/l14-bench",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "backrooms:block/14/l14-bench",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 0.5,
+			"z2": 0.8
+		},
+		"*-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 0.5,
+			"z2": 0.8,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 0.5,
+			"z2": 0.8,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 0.5,
+			"z2": 0.8,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 0.95,
+			"z2": 0.82
+		},
+		"*-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 0.95,
+			"z2": 0.82,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 0.95,
+			"z2": 0.82,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.97,
+			"y2": 0.95,
+			"z2": 0.82,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

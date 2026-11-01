@@ -52,6 +52,7 @@ public partial class NoteSystem
         ("run-remains", 0, 0.25, 0.15),
         ("end-desk", 0, 0.06, 0.03),
         ("l15-corpse", 0, 0.2, 0.12), // Level 15's dead in their lab coats
+        ("l14-trgdesk", 0, 0.2, 0.12), // Level 14: the T.14.R.G.'s field desks, papers and all
     };
 
     private static readonly string[] Kinds = { "door", "way", "cache", "refuge" };

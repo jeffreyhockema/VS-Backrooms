@@ -51,8 +51,8 @@ public class BlockBehaviorSuburbDoor : BlockBehavior
     private static void Swap(IWorldAccessor world, BlockPos pos, string state)
     {
         Block here = world.BlockAccessor.GetBlock(pos);
-        string path = $"{here.FirstCodePart()}-{state}-{here.Variant["hinge"]}-{here.Variant["part"]}-{here.Variant["side"]}";
-        Block to = world.GetBlock(new AssetLocation("backrooms", path));
+        // (By variant, so a door whose code has a hyphen in its first part, Level 14's l14-door, swaps too)
+        Block to = world.GetBlock(here.CodeWithVariant("state", state));
         if (to == null) return;
         world.BlockAccessor.ExchangeBlock(to.BlockId, pos);
         world.BlockAccessor.MarkBlockDirty(pos);
