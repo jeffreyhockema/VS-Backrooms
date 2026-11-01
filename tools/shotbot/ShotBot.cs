@@ -25,6 +25,7 @@ namespace ShotBot;
 ///   closeguis               closes every open dialog (confirms the character creation dialog)
 ///   handbook [page]         opens the handbook, and a page of it (e.g. backrooms-entities)
 ///   hbscroll fraction       scrolls the open handbook page (0 top, 1 bottom)
+///   hbfilter text|-         filters the open handbook list by a search text and logs the backrooms- pages it shows (client log too)
 ///   hbtest vanilla|tiled [n] opens a handbook test page: What Lives Here n times (default 3), with the vanilla rich text or the mod's tiled one
 ///   respawn                 presses the Respawn button of the death dialog
 ///   pause off|on
@@ -33,6 +34,7 @@ namespace ShotBot;
 ///   daylight [off]          a clear day over the level's own air (Level 9's night, Level 10's overcast), this client only
 ///   wait ms
 ///   waitchat [ms]           wait until a chat line has arrived since the last cmd (its reply), at most ms (default 30000), then 0.5 s
+///   lookat text             turns to the nearest entity (not a player) within 64 blocks whose code contains text
 ///   movewait                waits until something (a goto, a threshold) has moved the player more than 50 blocks, at most 60 s
 ///   mark name               append "name x y z heading pitch" (where the player stands now) to marks.txt and chat.txt
 ///   shot name               screenshot, moved to SHOTBOT_DIR/name.png
@@ -298,6 +300,25 @@ public class ShotBotSystem : ModSystem, IRenderer
                 Wait(150);
                 break;
             }
+            case "lookat":
+            {
+                // Turns to the nearest loaded entity (not a player) whose code contains the text, within 64 blocks
+                Vec3d eye = e.Pos.XYZ.Add(0, e.LocalEyePos.Y, 0);
+                Vintagestory.API.Common.Entities.Entity target = capi.World.GetEntitiesAround(eye, 64, 64, x => x is not EntityPlayer && x.Code != null && x.Code.Path.Contains(p[1]))
+                    .OrderBy(x => x.Pos.XYZ.DistanceTo(eye)).FirstOrDefault();
+                if (target == null) { Log("lookat " + p[1] + ": none within 64"); break; }
+                Vec3d at = target.Pos.XYZ.Add(0, target.SelectionBox.Y2 / 2, 0);
+                double dx = at.X - eye.X, dy = at.Y - eye.Y, dz = at.Z - eye.Z;
+                float yaw = GameMath.Mod((float)(Math.PI - Math.Atan2(dx, -dz)), (float)(Math.PI * 2));
+                float pitch = (float)(Math.PI - Math.Atan2(dy, Math.Sqrt(dx * dx + dz * dz)));
+                capi.Input.MouseYaw = yaw; capi.Input.MousePitch = pitch;
+                e.Pos.Yaw = yaw; e.Pos.Pitch = pitch;
+                e.BodyYaw = yaw; e.BodyYawServer = yaw;
+                e.Pos.HeadYaw = 0; e.Pos.HeadPitch = 0;
+                Log(string.Format(CultureInfo.InvariantCulture, "lookat {0}: {1} at {2:0.0} blocks", p[1], target.Code, Math.Sqrt(dx * dx + dy * dy + dz * dz)));
+                Wait(150);
+                break;
+            }
             case "movewait":
             {
                 // waits until something (a goto, a threshold) has moved the player more than 50 blocks
@@ -380,6 +401,28 @@ public class ShotBotSystem : ModSystem, IRenderer
                 t.GetMethod("OnNewScrollbarvalueDetailPage", any).Invoke(dlg, new object[] { y });
                 Log("hbscroll " + frac + ": y=" + y + " of " + h);
                 Wait(1500);
+                break;
+            }
+            case "hbfilter":
+            {
+                // Filters the open handbook's list by a search text (or none: "hbfilter -") and logs the backrooms- pages it shows
+                var hb = capi.ModLoader.Systems.FirstOrDefault(m => m.GetType().Name == "ModSystemSurvivalHandbook");
+                var dlg = hb?.GetType().GetField("dialog", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)?.GetValue(hb) as GuiDialog;
+                if (dlg == null) { Log("hbfilter: no dialog"); break; }
+                if (!dlg.IsOpened()) { dlg.TryOpen(); Wait(2500); }
+                const BindingFlags any = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+                var t = dlg.GetType();
+                while (t != null && t.GetField("shownHandbookPages", any) == null) t = t.BaseType;
+                string text = p.Length > 1 && p[1] != "-" ? string.Join(" ", p.Skip(1)) : "";
+                t.GetField("currentSearchText", any).SetValue(dlg, null);
+                t.GetField("currentCatgoryCode", any)?.SetValue(dlg, null);  // (the Everything tab)
+                t.GetMethod("FilterItemsBySearchText", any).Invoke(dlg, new object[] { text });
+                var shown = (System.Collections.IEnumerable)t.GetField("shownHandbookPages", any).GetValue(dlg);
+                var codes = shown.Cast<Vintagestory.GameContent.GuiHandbookPage>().Select(x => x.PageCode).Where(c => c.StartsWith("backrooms-")).ToList();
+                string found = $"hbfilter '{text}': {codes.Count} backrooms pages: {string.Join(" ", codes)}";
+                Log(found);
+                capi.Logger.Notification("[shotbot] " + found);
+                Wait(500);
                 break;
             }
             case "hbtest":
