@@ -186,6 +186,8 @@ public sealed partial class WorldGenerator
             b[i] = l23Bark[w];
             c.Water[i] = false;
         }
+        // A hollow trunk's floor (inside it and in its mouth): leaf litter and humus blown in, not the cut end of its bark
+        if (t.Under == Unders.L23HollowTrunk && ground >= L23Low) b[ground - L23Low] = L23Unit(gx, gz, 21) < 0.55 ? l23Litter : l23Humus;
         // A buried sentry's face, between two buttresses at head height
         for (int rel = ground; rel <= ground + 5; rel++)
             if (layout.L23SentryAt(gx, gz, rel, out ArchPier facing) && b[rel - L23Low] != 0) b[rel - L23Low] = l23Sentry[Facing(facing)];
@@ -273,6 +275,8 @@ public sealed partial class WorldGenerator
     {
         if (core)
         {
+            // (The well at the bottom of the pool, where the reservoir goes on down: dark roots, no gravel)
+            if (ground == WorldLayout.L23WellFloor) return l23Tangle;
             if (fromMid < WorldLayout.L23PoolRadius) return Noise2(gx / 6.0, gz / 6.0, SaltL23Mat + 1) > 0.1 ? l23Gravel : l23Sand;
             if (fromMid < WorldLayout.L23PoolRadius + 3) return l23Gravel;
             return Noise2(gx / 9.0, gz / 9.0, SaltL23Mat + 2) > -0.2 ? l23Moss : l23Humus;

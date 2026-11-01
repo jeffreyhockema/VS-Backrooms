@@ -16,6 +16,7 @@ static partial class LevelModes
     static bool L23Modes(WorldLayout layout, string mode, string[] args)
     {
         if (mode == "23map") { L23Map(layout); return true; }
+        if (mode == "23links") { L23Links(layout); return true; }
         if (mode != "23stats") return false;
         int bad = 0;
         void Bad(string what) { bad++; Console.WriteLine("  BAD: " + what); }
@@ -128,7 +129,127 @@ static partial class LevelModes
         Console.Write(sb.ToString());
     }
 
-    static string L23LinkLabel(Tile t) => null;
+    /// <summary>For the links mode: what one of the level's walked thresholds is, or null.</summary>
+    static string L23LinkLabel(Tile t) => t.Under switch
+    {
+        Unders.L23PoolHollow or Unders.L23PoolMouth => "hollow green tree (23)",
+        Unders.L23PoolSeedHollow or Unders.L23PoolSeedMouth => "Base Seedling's tree in 37 (23)",
+        Unders.L23SeedlingHollow or Unders.L23SeedlingDoor => "Base Seedling's hollow tree",
+        Unders.L23Well => "Heart of Water's well",
+        _ => null,
+    };
+
+    /// <summary>
+    /// 23links: Level 23's ways in and out for the lead to check rarity and find them. The hollow trees in Level 37: how many
+    /// to a square kilometre where people arrive (the inner two fifths of the Poolrooms), how far apart, the nearest few to
+    /// spawn and to the Poolrooms' middle, and which is Base Seedling's way home; that each has its hollow and a spot to stand
+    /// outside its mouth. In the level: the hollow trunks (where those from 37 climb out), Base Seedling's hollow tree and the
+    /// well in the Heart of Water; and that every arrival finder finds somewhere.
+    /// </summary>
+    static void L23Links(WorldLayout layout)
+    {
+        int bad = 0;
+        void Bad(string what) { bad++; Console.WriteLine("  BAD: " + what); }
+        var spawn = layout.FindSpawn();
+        var (pcx, pcz, prad) = layout.L23PoolroomsDisc;
+        int side = WorldLayout.L23TreeSquare * WorldLayout.PoolBlock;
+        Console.WriteLine($"spawn {spawn.X},{spawn.Z}; Poolrooms middle {pcx},{pcz}, radius {prad} ({Dist(spawn.X, spawn.Z, pcx, pcz) / 1000:0.0} km from spawn)");
+        Console.WriteLine($"hollow trees in 37: at most one to a square {side} blocks a side");
+        static double Dist(double ax, double az, double bx, double bz) => Math.Sqrt((ax - bx) * (ax - bx) + (az - bz) * (az - bz));
+        int SquareOf(int g, int origin) => (int)Math.Floor((g - origin) / (double)side);
+
+        // Where people arrive in the Poolrooms (within two fifths of its radius of the middle): how many, how far apart
+        var trees = new System.Collections.Generic.List<WorldLayout.L23PoolTree>();
+        double inner = prad * 0.4;
+        int sq0x = SquareOf(pcx, layout.PoolOriginX), sq0z = SquareOf(pcz, layout.PoolOriginZ), reach = (int)(inner / side) + 1, squares = 0;
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        for (int sj = sq0z - reach; sj <= sq0z + reach; sj++)
+            for (int si = sq0x - reach; si <= sq0x + reach; si++)
+            {
+                double cx = layout.PoolOriginX + (si + 0.5) * side, cz = layout.PoolOriginZ + (sj + 0.5) * side;
+                if (Dist(cx, cz, pcx, pcz) > inner) continue;
+                squares++;
+                var t = layout.L23PoolTreeOfSquare(si, sj);
+                if (t.Valid) trees.Add(t);
+            }
+        double km2 = squares * (double)side * side / 1e6;
+        Console.WriteLine($"inner Poolrooms: {squares} squares ({km2:0} km2), {trees.Count} trees: {trees.Count / km2:0.00} per km2, one per {km2 / Math.Max(1, trees.Count):0.0} km2"
+            + $" ({sw.Elapsed.TotalMilliseconds / Math.Max(1, squares):0} ms a square)");
+        if (trees.Count > 1)
+        {
+            var nn = trees.Select(a => trees.Where(b => b != a).Min(b => Dist(a.X, a.Z, b.X, b.Z))).OrderBy(d => d).ToList();
+            Console.WriteLine($"nearest neighbour: least {nn[0]:0} blocks, median {nn[nn.Count / 2]:0}, most {nn[^1]:0}");
+            if (nn[0] < 600) Bad($"two trees only {nn[0]:0} blocks apart");
+        }
+        if (trees.Count == 0) Bad("no hollow trees where people arrive");
+
+        // Each one laid out: its hollow, its mouth, and a floor to stand on outside it
+        foreach (var t in trees)
+        {
+            Tile mid = layout.TileAt(t.X, t.Z);
+            if (mid.Level != WorldLayout.Poolrooms || mid.Under is not (Unders.L23PoolHollow or Unders.L23PoolSeedHollow)) Bad($"tree at {t.X},{t.Z}: middle tile Under {mid.Under}");
+            int fx = t.X + (int)Math.Round(Math.Cos(t.MouthA) * (t.R + 1.5)), fz = t.Z + (int)Math.Round(Math.Sin(t.MouthA) * (t.R + 1.5));
+            Tile front = layout.TileAt(fx, fz);
+            if (front.Kind != TileKind.Floor || front.Under != 0 || front.Depth > 1) Bad($"tree at {t.X},{t.Z}: nothing to stand on outside its mouth ({front.Kind}, Under {front.Under}, depth {front.Depth})");
+        }
+
+        // The nearest few to spawn (on the Poolrooms' near edge), and to its middle
+        var ring = new System.Collections.Generic.List<(int Si, int Sj, double D)>();
+        int all = (int)(prad / side) + 2;
+        for (int sj = sq0z - all; sj <= sq0z + all; sj++)
+            for (int si = sq0x - all; si <= sq0x + all; si++)
+            {
+                double cx = layout.PoolOriginX + (si + 0.5) * side, cz = layout.PoolOriginZ + (sj + 0.5) * side;
+                if (Dist(cx, cz, pcx, pcz) > prad + side) continue;
+                ring.Add((si, sj, Dist(cx, cz, spawn.X, spawn.Z)));
+            }
+        int shown = 0;
+        foreach (var (si, sj, _) in ring.OrderBy(r => r.D))
+        {
+            var t = layout.L23PoolTreeOfSquare(si, sj);
+            if (!t.Valid) continue;
+            Console.WriteLine($"  near spawn: Level 37, hollow tree (in, one-way), {t.X},{t.Z} (water level y = floor of 37), {Dist(t.X, t.Z, spawn.X, spawn.Z) / 1000:0.0} km from spawn");
+            if (++shown == 4) break;
+        }
+        foreach (var t in trees.OrderBy(t => Dist(t.X, t.Z, pcx, pcz)).Take(4))
+            Console.WriteLine($"  near the Poolrooms' middle: Level 37, hollow tree{(layout.L23IsSeedlingTree(t) ? " (Base Seedling's way home, two-way)" : " (in, one-way)")}, {t.X},{t.Z}, "
+                + $"{Dist(t.X, t.Z, pcx, pcz):0} from the middle, {Dist(t.X, t.Z, spawn.X, spawn.Z) / 1000:0.0} km from spawn");
+        var home = layout.L23SeedlingTree;
+        if (home == null) Bad("no tree for Base Seedling's way home");
+        else Console.WriteLine($"Base Seedling's tree in 37: {home.X},{home.Z}, {Dist(home.X, home.Z, pcx, pcz):0} blocks from the Poolrooms' middle");
+
+        // In the level
+        var hollows = layout.L23HollowTrunks();
+        Console.WriteLine($"Level 23: {hollows.Count} hollow trunks to climb out of");
+        foreach (var h in hollows.OrderBy(h => Dist(h.X, h.Z, layout.L23MidX, layout.L23MidZ)).Take(3))
+            Console.WriteLine($"  hollow trunk {h.X},{h.Z} (radius {h.R:0.0}), {Dist(h.X, h.Z, layout.L23MidX, layout.L23MidZ):0} from the Heart of Water");
+        if (hollows.Count < 8) Bad($"only {hollows.Count} hollow trunks");
+        var s = layout.L23SeedlingAt;
+        Console.WriteLine($"Base Seedling's hollow tree (out, two-way to 37): {s.X},{s.Z}, {Dist(s.X, s.Z, spawn.X, spawn.Z) / 1000:0.0} km from spawn; tile Under {layout.TileAt(s.X, s.Z).Under}");
+        if (layout.TileAt(s.X, s.Z).Under != Unders.L23SeedlingHollow) Bad("Base Seedling's hollow is not marked");
+        Tile well = layout.TileAt(layout.L23MidX, layout.L23MidZ);
+        Console.WriteLine($"the Heart of Water's well (out, one-way to 7): {layout.L23MidX},{layout.L23MidZ}, depth {well.Depth}, Under {well.Under}");
+        if (well.Under != Unders.L23Well) Bad("the well is not marked");
+
+        // The arrival finders
+        int hollowOk = 0, campOk = 0, seaOk = 0, treeOk = 0;
+        for (ulong k = 1; k <= 20; k++)
+        {
+            ulong key = k * 104729UL + 7;
+            if (layout.L23HollowArrival(key) is { } a && layout.TileAt(a.X, a.Z).Zone == WorldLayout.L23Surface
+                && new[] { (1, 0), (-1, 0), (0, 1), (0, -1) }.Any(o => layout.TileAt(a.X + o.Item1, a.Z + o.Item2).Under == Unders.L23HollowTrunk)) hollowOk++;
+            else if (layout.L23HollowArrival(key) is { } miss) Console.WriteLine($"  arrival {miss.X},{miss.Z} not beside a hollow trunk");
+            if (layout.L23SeedlingArrival(key) is { } c && layout.TileAt(c.X, c.Z).Zone == WorldLayout.L23Seedling && Dist(c.X, c.Z, s.X, s.Z) < 6) campOk++;
+            if (layout.L23SeaArrival(key) is { } e && layout.TileAt(e.X, e.Z) is { Kind: TileKind.Water, Level: 7 }) seaOk++;
+            if (home != null && layout.L23SeedlingTreeArrival(key) is { } f && Dist(f.X, f.Z, home.X, home.Z) < home.R + 3) treeOk++;
+        }
+        Console.WriteLine($"arrivals (of 20 keys): beside a hollow trunk {hollowOk}, at Seedling's door {campOk}, in Level 7's open sea {seaOk}, beside Seedling's tree in 37 {treeOk}");
+        if (hollowOk < 20) Bad("an arrival not beside a hollow trunk");
+        if (campOk < 20) Bad("an arrival not at Base Seedling's door");
+        if (seaOk < 20) Bad("an arrival not in the sea");
+        if (home != null && treeOk < 20) Bad("an arrival not beside Seedling's tree in 37");
+        Console.WriteLine(bad == 0 ? "23links: ok" : $"23links: {bad} problems");
+    }
 
     static string L23UseKind(Tile t) => null;
 }

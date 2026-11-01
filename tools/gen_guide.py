@@ -1019,7 +1019,7 @@ The wanderers say the way in is a small steel door in a white wall at the edge o
 # writes its keys into the level's block of en.json ----------
 PAGES["level23"] = ("Level 23: The Petrified Garden", """
 **Level 23, the Petrified Garden**
-*An experimental level: no way in or out yet but the cheats menu. A forest of stone trees on a world that is one tree.*
+*An experimental level. A forest of stone trees on a world that is one tree.*
 
 **What it is**
 Those who have been there say Level 23 is not a forest on a world but a world that is a forest: a tangle of trees the size of a planet, grown into one another, petrified, and somehow still alive. What you walk in is a patch of its crust. Overhead a lid of leaves lets almost no light through. A star that never moves shines through a few holes in it; there is no day and no night. Underfoot are humus, moss and leaf litter between trunks four to fourteen blocks thick (grey, redwood red, pale oak, dark cypress, all of it stone), buttress roots swelling at their feet and arching from one tree to the next, high enough in the middle to walk under. At the edge the trees fuse into a tangle nobody has got through. It is mild (17 °C) and it drains you, slowly.
@@ -1042,8 +1042,12 @@ In one glow room the M.E.G. keep a camp: three tents round a hollow tree with gr
 **What lives here**
 Death Rats and male Deathmoths among the trunks; Hounds, Smilers and Clumps in the glow rooms and tunnels; female Deathmoths about the ruins (see [What Lives Here](backrooms-entities)). The wanderers also tell of Volpes, Curabitur Birds, the rare Wrangler and the Garden's own animal-like natives in the glow rooms; none has been met here yet.
 
-**Ways in and out (as the wanderers tell it)**
-In: huge hollow trees with green bark in Levels 37 and 47, a hollow tree in Level 135 that comes out at Base Seedling, a hollow log in Level 121. Out: down into the reservoir at the Heart of Water, which noclips you into the ocean of Level 7 or 121, or the hollow tree at Base Seedling, back to Level 135. None of them is open yet.
+**Ways in and out**
+In: now and then, kilometres apart, a huge hollow tree with green bark grows up through the tiles of the Poolrooms, floor and ceiling, its roots breaking the tile round its foot. Climb into the hollow and you climb up through the dark inside it, and out of a hollow trunk somewhere in the Garden's forest. No tree behind you goes back.
+
+Out: the hollow tree at Base Seedling, the M.E.G.'s way home and the only one that works every time. Climb up into it and you come out of one of those green trees in the Poolrooms (Level 37), the one nearest their middle, and that tree brings you back. (The wanderers say it goes to Level 135; in this world it comes out in the Poolrooms.) Or swim down into the Heart of Water: in the middle of the pool's bed a well goes on down, and at its bottom the reservoir takes you and puts you up in the open sea of Level 7. One way.
+
+The wanderers also tell of hollow green trees in Level 47, a hollow log in Level 121, and the reservoir coming out in Level 121's ocean or an exhibit in Level 43. Nobody here has found those.
 
 **What to bring**
 Light, and food. The forest floor and the glow rooms have mushrooms, but not all of them are safe (leave the red ones with white spots and the brown puffballs), and little else grows. Wood comes from the bark, slowly: it is stone, and gives up only a little firewood. And keep quiet.

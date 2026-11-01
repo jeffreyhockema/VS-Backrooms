@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Backrooms.Cheats;
 
 namespace Backrooms.Worldgen;
@@ -159,7 +160,68 @@ public partial class WorldLayout
                 break;
             }
         }
+        L23LinkSpots(spots, geometry);
         return spots;
+    }
+
+    /// <summary>
+    /// The ways in and out (WorldLayout.Level23.Links.cs): the hollow trunk nearest the middle (where those from Level 37
+    /// climb out), Base Seedling's hollow tree up close, the well in the Heart of Water from its shore, and in Level 37 the
+    /// tree that is Base Seedling's way home and the nearest other hollow tree to the Poolrooms' middle, each from in front
+    /// of its mouth.
+    /// </summary>
+    private void L23LinkSpots(List<Showcase.Spot> spots, WorldGeometry geometry)
+    {
+        int fy = geometry.FloorFor(Level23), fy37 = geometry.FloorFor(Poolrooms);
+        int mx = L23MidX, mz = L23MidZ;
+        // A hollow trunk in the forest, from a few steps out in front of its mouth
+        foreach (var h in L23HollowTrunks().OrderBy(h => L23FromMid(h.X, h.Z)))
+        {
+            int ox = h.X + (int)Math.Round(Math.Cos(h.MouthA) * (h.R + 5)), oz = h.Z + (int)Math.Round(Math.Sin(h.MouthA) * (h.R + 5));
+            if (!L23ClearNear(ox, oz, 2, out int x, out int z)) continue;
+            spots.Add(L23Spot("link-hollow-trunk", x, z, L23Ground(x, z) + 1, fy, h.X + 0.5, h.Z + 0.5, 0, eyeAt: L23Ground(h.X, h.Z) + 2));
+            break;
+        }
+        // Base Seedling's hollow tree, from just in front of its doorway (where those who come home by it arrive)
+        {
+            var s = L23SeedlingAt;
+            if (L23Cave(s.X + 1, s.Z + 6, out int f, out _, out _))
+                spots.Add(L23Spot("link-seedling-tree", s.X + 1, s.Z + 6, f + 1, fy, s.X + 0.5, s.Z + 0.5, 0, eyeAt: f + 3));
+        }
+        // The well at the bottom of the Heart of Water's pool, from the shore, looking down into it
+        {
+            double a = L23Bearing + Math.PI;
+            int x = mx + (int)Math.Round(Math.Cos(a) * (L23PoolRadius + 2)), z = mz + (int)Math.Round(Math.Sin(a) * (L23PoolRadius + 2));
+            spots.Add(L23Spot("link-heart-well", x, z, L23Ground(x, z) + 1, fy, mx + 0.5, mz + 0.5, 0, eyeAt: L23WellFloor));
+        }
+        // In Level 37: Base Seedling's tree there, and the nearest other hollow tree to the Poolrooms' middle
+        void PoolTree(string name, L23PoolTree tree)
+        {
+            for (int d = 7; d >= 4; d--)
+            {
+                int x = tree.X + (int)Math.Round(Math.Cos(tree.MouthA) * (tree.R + d)), z = tree.Z + (int)Math.Round(Math.Sin(tree.MouthA) * (tree.R + d));
+                Tile t = TileAt(x, z);
+                if (t.Kind != TileKind.Floor || t.Under != 0 || t.Depth > 1) continue;
+                spots.Add(L23Spot(name, x, z, 1 - t.Depth, fy37, tree.X + 0.5, tree.Z + 0.5, 0, eyeAt: 4 - t.Depth));
+                return;
+            }
+        }
+        L23PoolTree home = L23SeedlingTree;
+        if (home != null) PoolTree("link-pool-seedling-tree", home);
+        var (pcx, pcz, _) = L23PoolroomsDisc;
+        int side = L23TreeSquare * PoolBlock;
+        int si0 = Hashing.FloorDiv(pcx - PoolOriginX, side), sj0 = Hashing.FloorDiv(pcz - PoolOriginZ, side);
+        L23PoolTree other = null;
+        long best = long.MaxValue;
+        for (int sj = sj0 - 2; sj <= sj0 + 2; sj++)
+            for (int si = si0 - 2; si <= si0 + 2; si++)
+            {
+                L23PoolTree t = L23PoolTreeOfSquare(si, sj);
+                if (!t.Valid || home != null && t.X == home.X && t.Z == home.Z) continue;
+                long d = (long)(t.X - pcx) * (t.X - pcx) + (long)(t.Z - pcz) * (t.Z - pcz);
+                if (d < best) { best = d; other = t; }
+            }
+        if (other != null) PoolTree("link-pool-tree", other);
     }
 
     /// <summary>A spot standing on <paramref name="rel"/> (feet) at a column, looking toward a point (at a pitch, or toward a height when <paramref name="eyeAt"/> is given).</summary>

@@ -1049,6 +1049,15 @@ public static class Unders
     public const ushort L36AirportDoor = 416;
     public const ushort L15First = 448, L15Last = 479;
     public const ushort L23First = 480, L23Last = 511;
+    /// <summary>
+    /// Level 23's ways in and out (WorldLayout.Level23.Links.cs). In Level 37, a hollow tree of green bark growing up through
+    /// the tiles: its ring of bark (a wall), its hollow and the mouth into it (one-way into the Garden), the roots and broken
+    /// tile round its foot; and the hollow and mouth of the one such tree that is Base Seedling's way home (two-way). In
+    /// Level 23: Base Seedling's hollow tree (its hollow, and the doorway into it), a hollow trunk in the forest (where those
+    /// who climbed into a tree in Level 37 climb out), and the well at the bottom of the Heart of Water's pool (to Level 7).
+    /// </summary>
+    public const ushort L23PoolBark = 480, L23PoolHollow = 481, L23PoolMouth = 482, L23PoolRoots = 483, L23PoolSeedHollow = 484,
+        L23PoolSeedMouth = 485, L23SeedlingHollow = 486, L23SeedlingDoor = 487, L23HollowTrunk = 488, L23Well = 489;
 
     /// <summary>One past the highest value (Tile.Under is a ushort; past 255 are the experimental levels' blocks). Tables indexed by it are this long.</summary>
     public const int Limit = 512;

@@ -195,3 +195,73 @@ tree's door. Still weak: with the rig's short view distance the edge of the load
 sphere through gaps (seen across the Heart of Water's clearing, whose air is the thinnest); the little trees' crowns are
 plain cubes; the Hound brought into the amber glow room was put down out of view; the light shaft's motes barely show in
 a still frame.
+
+## 4. Links (2026-10-31)
+
+LINKS.md's Level 23 section, built. Code: `WorldLayout.Level23.Links.cs` (layout: the trees in Level 37 through
+`L23Entrances`, the hollow trunks, the well, the arrival finders), `WorldGenerator.L23.Links.cs` (the trees' blocks through
+`L23EntranceBlock`), `ThresholdNetwork.L23.cs` (the thresholds), `ThresholdSystem.L23.cs` and `Regions/L23System.cs` (the
+dev test `/backrooms l23walk x z [rel]`), `tools/mapgen/L23Stats.cs` (`23links`), showcase spots `link-*`. Unders
+480-489 (`Unders.L23Pool*`, `L23SeedlingHollow/Door`, `L23HollowTrunk`, `L23Well`); layout salts 0x2860-0x2862, generator
+0x2864-0x2865, threshold salts 0x28C0-0x28C3.
+
+**Built.**
+- *In, from Level 37 (one-way).* A huge hollow tree of green bark (the Green Giants' `l23-bark-green`) growing up through the
+  Poolrooms' tiles: a ring of bark 7-9 blocks across (radius 3.6-4.4) through floor and ceiling, a dry hollow 5 across
+  (humus and leaf litter on bark) going up into the dark three blocks past the room's ceiling, a mouth three wide and three
+  high facing the most open way, and round its foot three roots crawling out over the tile and the tile broken into earth
+  and moss (the ceiling round the trunk broken by roots too); the way out of the mouth is left clear. At most one to a
+  square of 16 x 16 plan blocks (1536 blocks a side), in three squares of five, in the middle half of the square each way,
+  in a plan block's floor with the most room round it (dry or a step deep, ceiling 6 or more, in the light where it can be),
+  never in the Sanguine Reservoir or a cell at the edge. Climbing into the hollow (any of its tiles, at the water's level)
+  takes you up through the dark and out of a hollow trunk in the forest, beside its mouth (chosen by key among them).
+- *Where they come out.* Hollow trunks in the forest: one of the thick trunks (radius 3.4+, whole, unforked, no sentry) in
+  twelve is hollowed out from its foot to nine up (bark 1.3 thick), with a mouth between two buttresses three high; its
+  roots leave the hollow and the way out open. Seed 12345: 21 of them on the forest floor.
+- *Base Seedling's hollow tree (two-way, our substitution for Level 135).* Climbing up into its hollow (the doorway and the
+  hollow are one threshold) comes out beside the mouth of the Poolrooms tree nearest the Poolrooms' middle, and that one
+  tree (its own Unders) leads back to the camp, in front of the doorway; every other tree is one-way into the forest.
+- *Out, the Heart of Water (one-way).* In the middle of the pool's bed a well (radius 3.5) goes on down to 19 below the
+  level's floor, its floor dark root tangle, under the light from the lid's one wide hole; at the bottom (within two of it)
+  the reservoir takes you and you come up swimming in Level 7's open sea (water at least 8 deep, no entry room, nothing
+  afloat).
+- *Text.* Messages `l23-tree-in`, `l23-tree-camp`, `l23-tree-home`, `l23-well`; the handbook page's "Ways in and out"
+  (rumours: Level 47's trees, Level 121's log and ocean, Level 43's exhibit); the M.E.G. notice (l23-5) says where the
+  camp's tree comes out; a new note in the level (l23-7, Dez, the tree in the water) and one in Level 37's own track
+  (l23-p1, A.L.: green bark through the tile, nobody comes back out of it).
+
+**Numbers (seed 12345, full size, `23links`).** In the inner two fifths of the Poolrooms (where people arrive): 65 trees
+in 340 km2, one per 5.2 km2; nearest neighbour 965 blocks at least, median 1443, most 3050. The nearest to spawn are on
+the Poolrooms' near edge, 102.8 km out (409301,517261). Base Seedling's tree: 384527,511276, 899 blocks from the
+Poolrooms' middle. Every arrival finder found its place for 20 keys of 20 (beside a hollow trunk's mouth, at the camp's
+door, in Level 7's open sea, beside Seedling's tree in 37). No placard: Level 37's own ways have none.
+
+**My inventions.** Every shape and number above (the tree's size, roots, broken tile and ceiling, the dry hollow, where in
+a plan block it stands, the rarity); the hollow trunks the way in comes out of (the lore says only "you climb out of a
+hollow trunk"); the well at the bottom of the pool as the reservoir's way down; the camp's tree coming out at the tree
+nearest the Poolrooms' middle (LINKS.md: "a Poolrooms tree"); the texts.
+
+**Fixed on the way.** Round 2's tree silhouettes read their extra hash bits from the low end (`Hashing.Unit(h >> 20)` is
+always nearly 0): every thick trunk forked, all along the same line, every trunk swelled, all leaned the least, and the
+thin trees were all 1.2 across. Now as the plan says (a quarter forked, each its own way; a third swelling; leans 0.6-1.6).
+The level's own layout moved; levels 0-20 did not.
+
+**Rows for the guide's ways-between-levels table.**
+
+| From | Threshold | To | Way back |
+|---|---|---|---|
+| Level 37 | Climbing into the hollow of a huge green-barked tree growing up through the tile (kilometres apart) | Level 23, out of a hollow trunk in the forest | None |
+| Level 37 | Climbing into the hollow of the green-barked tree nearest the Poolrooms' middle | Level 23, Base Seedling, in front of its hollow tree | That tree |
+| Level 23 | Climbing up into Base Seedling's hollow tree (the lore's way to Level 135) | Level 37, beside the green-barked tree nearest the Poolrooms' middle | That tree |
+| Level 23 | Diving to the bottom of the well in the middle of the Heart of Water's pool | Level 7, swimming in the open sea | None |
+
+**Checks (2026-10-31).** `expclash.py` clean; mod and mapgen build, 0 errors. `layouthash` (seed 12345, 16000; layout 1 and
+12), with and without `BACKROOMS_NO_EXP_ENTRANCES=1`: every line for levels 0-20 and the `layout hash` line identical to
+main's (no level line moved: the sample of Level 37 holds no tree). `regions`: Level 23 60/60. `23stats` ok, `23links` ok.
+Headless (port 43172, `/backrooms l23walk`): each way gone through twice (first time and as written down): a tree in 37
+comes out beside a hollow trunk on the forest floor (air at feet and head); Base Seedling's tree comes out in the water
+beside Seedling's tree in 37 and that tree leads back to the camp's doorway (each the other's way back); the well comes
+out swimming in Level 7's sea; 0 error lines. `GATE_TAG=l23 gate.py --fast --port-base 43170`: PASS.
+Shots (`%TEMP%/backrooms-shots/23-links-a`, `link-*`): the trees in 37 read as huge green trunks through the tile with a
+dark hollow and a mouth; the hollow trunk in the forest read as one, but its floor showed the bark's cut end (now leaf
+litter and humus, not reshot); the well is hard to see from the shore under the dark water.
