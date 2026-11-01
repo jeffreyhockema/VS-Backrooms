@@ -43,12 +43,34 @@ public partial class WorldLayout
                 dark = true;
             }
 
+        // (round 3) The customs channels on the way out of the claim hall, the arrivals board and the WELCOME banner over the
+        // hall's side of its wall, the departures boards on check-in's side, the information desk
+        Add("customs", wx + 17.5, lz + 16, 90, 6);
+        Add("arrivals-board", wx + 17.5, lz + 56, 90, 8);
+        Add("departures-board", wx + 32.5, lz + 4, 270, 16);
+        Add("info-desk", wx + 28.5, lz + 16 * 32 + 27.5, 30, 4);
         Add("checkin", wx + 35.5, lz + 35.5, 180, 4);
         Add("travel-agency", wx + 27.5, lz + 16, 90, 12);
         Add("security", wx + 49.5, lz + 8.5, 90, -4);
         Add("lost-and-found", wx + 9.5, lz + 6 * 32 + 16, 270, -6);
         // A concourse: the long view east along the first west-east one, the travelators down the first north-south one
         Add("concourse", L36AirX + 20.5, lz + 7.5, 90);
+        // (round 3) The concourses' frontage: along the centre line's concourse, the first shop, services alcove and other
+        // unit (restrooms, prayer room, information desk, shoe shine) on its south side, each from across the hall
+        {
+            bool shop = false, services = false, other = false;
+            for (int x = L36AirX + L36Hall; x < L36AirX + 6 * L36Period && !(shop && services && other); x++)
+            {
+                Tile t = L36Raw(x, lz + L36Hall);
+                if (t.Kind != TileKind.Floor || t.Zone != (byte)L36Zone.Shop || t.Roof != 2 || LevelAt(MacroOf(x), MacroOf(lz + 40)) != Level36) continue;
+                bool isServices = t.Depth == L36ShopPhones;
+                bool isOther = t.Depth is L36ShopToilets or L36ShopPrayer or L36ShopInfo or L36ShopShoeShine;
+                string name = isServices ? "services" : isOther ? "unit-" + L36Shops[t.Depth] : "shop-" + L36Shops[t.Depth];
+                if (isServices ? services : isOther ? other : shop) continue;
+                if (isServices) services = true; else if (isOther) other = true; else shop = true;
+                Add(name, x + 0.5, lz + 3.5, 180, 8);
+            }
+        }
         Add("travelators", L36AirX + 7.5, lz + 18.5, 180, -4);
 
         // The nearest lit superblock of each kind
@@ -86,6 +108,8 @@ public partial class WorldLayout
             int fx = gate.Facing switch { ArchPier.East => 1, ArchPier.West => -1, _ => 0 }, fz = gate.Facing switch { ArchPier.South => 1, ArchPier.North => -1, _ => 0 };
             double back = Math.Atan2(-fx, fz) * 180 / Math.PI;
             Add("holdroom", gate.DoorX + fx * 24 + 0.5, gate.DoorZ + fz * 24 + 0.5, back, 2);
+            // (round 3) The gate counter under its sign, the plane through the window beyond it
+            Add("gate-counter", gate.DoorX + fx * 12 + 0.5 + Math.Abs(fz) * -3, gate.DoorZ + fz * 12 + 0.5 + Math.Abs(fx) * -3, back, 10);
             Add("runway", gate.DoorX + fx * 3 + 0.5, gate.DoorZ + fz * 3 + 0.5, back, 4);
             Add("gate-sign", gate.DoorX + fx * 35 + 0.5, gate.DoorZ + fz * 35 + 0.5, back, 24);
             // The cabin: from the back of the aisle toward the nose (plan west)
@@ -97,13 +121,18 @@ public partial class WorldLayout
             shownGate = gate;
             if (!pier.Dark)
             {
-                AddIn(pier, "restroom", 100.5, 96, 0, 1, -22);
+                AddIn(pier, "restroom", 100.5, 100, 0, -1, -8);
                 var sink = pier.World(100, 101);
                 if (L36Raw(sink.X, sink.Z).Variant == Props.L36Sink) shownSink = sink;
             }
         }
         if (Nearest(L36Kind.DutyFree) is { } duty) AddIn(duty, "duty-free", 4, 112, 1, 0.12, 2);
-        if (Nearest(L36Kind.FoodCourt) is { } food) AddIn(food, "food-court", 70, 70, 1, 1, -4);
+        if (Nearest(L36Kind.FoodCourt) is { } food)
+        {
+            AddIn(food, "food-court", 70, 70, 1, 1, -4);
+            // (round 3) A row of stalls, their fascias and menu boards
+            AddIn(food, "food-stalls", 93, 76, 0.3, -1, 14);
+        }
         if (Nearest(L36Kind.Lounge) is { } lounge) AddIn(lounge, "lounge", 78, 119, 1, -0.2, -6);
         if (Nearest(L36Kind.Meeting) is { } meeting)
         {

@@ -12,7 +12,21 @@
 				"tech",
 				"bags",
 				"cafe",
-				"pharma"
+				"pharma",
+				"news",
+				"dutyfree",
+				"exchange",
+				"prayer",
+				"info",
+				"lostfound",
+				"toilets",
+				"shoeshine",
+				"phones",
+				"noodles",
+				"burger",
+				"pizza",
+				"lounge",
+				"foodcourt"
 			]
 		},
 		{
@@ -242,6 +256,342 @@
 			"side": {
 				"base": "backrooms:block/36/l36-wall-panel"
 			}
+		},
+		"l36-shopsign-news-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-news-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-news-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-news-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-news-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-news-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-dutyfree-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-dutyfree-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-dutyfree-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-dutyfree-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-dutyfree-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-dutyfree-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-exchange-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-exchange-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-exchange-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-exchange-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-exchange-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-exchange-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-prayer-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-prayer-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-prayer-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-prayer-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-prayer-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-prayer-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-info-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-info-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-info-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-info-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-info-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-info-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-lostfound-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-lostfound-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-lostfound-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-lostfound-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-lostfound-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-lostfound-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-toilets-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-toilets-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-toilets-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-toilets-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-toilets-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-toilets-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-shoeshine-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-shoeshine-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-shoeshine-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-shoeshine-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-shoeshine-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-shoeshine-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-phones-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-phones-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-phones-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-phones-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-phones-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-phones-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-noodles-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-noodles-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-noodles-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-noodles-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-noodles-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-noodles-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-burger-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-burger-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-burger-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-burger-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-burger-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-burger-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-pizza-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-pizza-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-pizza-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-pizza-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-pizza-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-pizza-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-lounge-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-lounge-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-lounge-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-lounge-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-lounge-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-lounge-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-foodcourt-l-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-foodcourt-l"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-foodcourt-m-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-foodcourt-m"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"l36-shopsign-foodcourt-r-*": {
+			"front": {
+				"base": "backrooms:block/36/l36-shopsign-foodcourt-r"
+			},
+			"side": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
 		}
 	},
 	"creativeinventory": {
@@ -299,6 +649,76 @@
 		"l36-shopsign-pharma-*": [
 			21,
 			3,
+			5
+		],
+		"l36-shopsign-news-*": [
+			0,
+			4,
+			5
+		],
+		"l36-shopsign-dutyfree-*": [
+			8,
+			2,
+			5
+		],
+		"l36-shopsign-exchange-*": [
+			8,
+			5,
+			5
+		],
+		"l36-shopsign-prayer-*": [
+			36,
+			1,
+			5
+		],
+		"l36-shopsign-info-*": [
+			8,
+			5,
+			5
+		],
+		"l36-shopsign-lostfound-*": [
+			8,
+			4,
+			5
+		],
+		"l36-shopsign-toilets-*": [
+			8,
+			4,
+			5
+		],
+		"l36-shopsign-shoeshine-*": [
+			5,
+			3,
+			5
+		],
+		"l36-shopsign-phones-*": [
+			36,
+			4,
+			5
+		],
+		"l36-shopsign-noodles-*": [
+			0,
+			4,
+			5
+		],
+		"l36-shopsign-burger-*": [
+			8,
+			4,
+			5
+		],
+		"l36-shopsign-pizza-*": [
+			22,
+			3,
+			5
+		],
+		"l36-shopsign-lounge-*": [
+			36,
+			2,
+			5
+		],
+		"l36-shopsign-foodcourt-*": [
+			8,
+			4,
 			5
 		]
 	},

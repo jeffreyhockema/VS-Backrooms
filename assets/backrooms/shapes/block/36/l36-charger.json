@@ -1,0 +1,205 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r3-blue": "backrooms:block/36/props/r3-blue",
+		"r3-charger": "backrooms:block/36/props/r3-charger",
+		"r3-steel": "backrooms:block/36/props/r3-steel",
+		"r3-white": "backrooms:block/36/props/r3-white"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				5,
+				0,
+				5
+			],
+			"to": [
+				11,
+				1,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"east": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"west": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#r3-steel",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Column",
+			"from": [
+				6,
+				1,
+				6
+			],
+			"to": [
+				10,
+				20,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#r3-charger",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					],
+					"glow": 30
+				},
+				"east": {
+					"texture": "#r3-charger",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					],
+					"glow": 30
+				},
+				"south": {
+					"texture": "#r3-charger",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					],
+					"glow": 30
+				},
+				"west": {
+					"texture": "#r3-charger",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					],
+					"glow": 30
+				},
+				"up": {
+					"texture": "#r3-white",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#r3-white",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				5.5,
+				20,
+				5.5
+			],
+			"to": [
+				10.5,
+				21,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#r3-blue",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#r3-blue",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#r3-blue",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#r3-blue",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#r3-blue",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5.0
+					]
+				}
+			}
+		}
+	]
+}

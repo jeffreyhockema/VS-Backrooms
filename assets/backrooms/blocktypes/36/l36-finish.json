@@ -1,0 +1,82 @@
+// Level 36: round 3's finishes: coffer (a coffered ceiling), wood (oak slats), stone (a travertine dado on the walls of the public halls) and stonetop (its top course under a steel trim), skylight (overcast sky through the mullions of a roof light, glowing)
+{
+	"code": "l36-finish",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"coffer",
+				"wood",
+				"stone",
+				"stonetop",
+				"skylight"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-coffer": {
+			"all": {
+				"base": "backrooms:block/36/l36-finish-coffer"
+			}
+		},
+		"*-wood": {
+			"all": {
+				"base": "backrooms:block/36/l36-finish-wood"
+			}
+		},
+		"*-stone": {
+			"all": {
+				"base": "backrooms:block/36/l36-finish-stone"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"*-stonetop": {
+			"all": {
+				"base": "backrooms:block/36/l36-finish-stonetop"
+			},
+			"up": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			},
+			"down": {
+				"base": "backrooms:block/36/l36-wall-panel"
+			}
+		},
+		"*-skylight": {
+			"all": {
+				"base": "backrooms:block/36/l36-finish-skylight"
+			}
+		}
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l36structure": true
+	},
+	"vertexFlagsByType": {
+		"*-skylight": {
+			"glowLevel": 120
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"drops": []
+}

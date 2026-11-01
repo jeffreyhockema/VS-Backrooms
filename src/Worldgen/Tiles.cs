@@ -620,6 +620,8 @@ public enum CeilingKind : ushort
 
     /// <summary>Level 36 (block 416-447). Placeholder.</summary>
     L36Ceiling = 416,
+    /// <summary>Level 36 (round 3): a coffered ceiling, a skylight, oak slats.</summary>
+    L36Coffer = 417, L36Skylight = 418, L36Wood = 419,
     /// <summary>Level 15 (block 448-479). Placeholder.</summary>
     L15Ceiling = 448,
     /// <summary>Level 15: an LED panel giving light, one that only looks lit, one failing, a dead one; bare service concrete; an air-handler grille.</summary>
@@ -899,6 +901,8 @@ public static class Overheads
     public const ushort L36First = 416, L36Last = 447;
     /// <summary>Level 36: what hangs under the ceiling: a gate or carousel sign (Depth its glyph: 0-25 A-Z, 26-85 1-60), a wayfinding sign (Depth its glyph, WorldLayout.L36SignGlyphs), a flight screen's half (Depth its board, Roof 0 left, 1 right), the Travel Agency's fascia (Roof 0-2 left to right). Pier the way it faces.</summary>
     public const ushort L36GateSign = 416, L36Sign = 417, L36Fids = 418, L36BoothSign = 419;
+    /// <summary>Level 36 (round 3), on a wall tile: a wall picture on its Pier face (Depth its kind, WorldLayout.L36Art; Roof its column, 0 the leftmost seen from in front; Stack the height of its lowest row above the floor); the plane at the gate painted over a runway window or a jet-bridge door's wall (Roof its column, 0-8).</summary>
+    public const ushort L36Art = 420, L36Apron = 421;
     public const ushort L15First = 448, L15Last = 479;
     /// <summary>Level 15: a steel rib across the top of a hall (along the way it spans: west-east, north-south); a beam set in at a wrong angle.</summary>
     public const ushort L15RibWE = 448, L15RibNS = 449, L15OddBeam = 450;
@@ -1737,6 +1741,10 @@ public static class Props
         L36CarouselIsland = 1213, L36Couch = 1214, L36Planter = 1215, L36Bin = 1216;
     /// <summary>Level 36: a restroom washbasin on its counter (Pier its front); overflow it and put your head under for Level 37 (LINKS.md).</summary>
     public const ushort L36Sink = 1217;
+    /// <summary>Level 36 (round 3): a kiosk's purple wall, five high (Stack: a poster on its Pier face, 0 none, else the poster's kind + 1); a charging post; a payphone, a cash machine, a drinking fountain (Almond Water), a shoe-shine chair, a toilet cubicle (Pier their front).</summary>
+    public const ushort L36KioskWall = 1218, L36Charger = 1219, L36Phone = 1220, L36Atm = 1221, L36Fountain = 1222, L36ShoeShine = 1223, L36Stall = 1224;
+    /// <summary>Level 36 (round 3): a duty-free gondola of bottles (Pier along its spine).</summary>
+    public const ushort L36Gondola = 1225;
     public const ushort L15First = 1300, L15Last = 1399;
     /// <summary>
     /// Level 15 (see WorldLayout.Level15.cs): a machine's casing (Stack its height, Detail its state), a console, a lab bench, a

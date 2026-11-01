@@ -15,7 +15,10 @@
 				"to37",
 				"to3999",
 				"to188",
-				"to10"
+				"to10",
+				"arr0",
+				"arr1",
+				"arr2"
 			]
 		},
 		{
@@ -161,6 +164,36 @@
 		"l36-fids-to10-r-*": {
 			"screen": {
 				"base": "backrooms:block/36/l36-fids-to10-r"
+			}
+		},
+		"l36-fids-arr0-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-arr0-l"
+			}
+		},
+		"l36-fids-arr0-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-arr0-r"
+			}
+		},
+		"l36-fids-arr1-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-arr1-l"
+			}
+		},
+		"l36-fids-arr1-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-arr1-r"
+			}
+		},
+		"l36-fids-arr2-l-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-arr2-l"
+			}
+		},
+		"l36-fids-arr2-r-*": {
+			"screen": {
+				"base": "backrooms:block/36/l36-fids-arr2-r"
 			}
 		}
 	},

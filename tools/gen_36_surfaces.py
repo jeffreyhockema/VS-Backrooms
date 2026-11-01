@@ -188,6 +188,10 @@ def sign_shape(name, glow):
     if glow:
         body["faces"]["north"]["glow"] = glow
         body["faces"]["south"]["glow"] = glow
+    # (round 3) the whole picture on each broad face: the box is 10 units tall, its texture 16 x 10 units' worth, so map all
+    # of it (the default 0-10 of 16 showed only the top five eighths: the lettering was cut off at the bottom)
+    body["faces"]["north"]["uv"] = [0, 0, 16, 16]
+    body["faces"]["south"]["uv"] = [0, 0, 16, 16]
     rods = [box("RodL", (3, 14, 7.5), (4, 16, 8.5), "rod", faces=("north", "east", "south", "west", "up")),
             box("RodR", (12, 14, 7.5), (13, 16, 8.5), "rod", faces=("north", "east", "south", "west", "up"))]
     return shape(name, [body] + rods)
@@ -216,6 +220,7 @@ def shapes():
     screen = box("Screen", (0, 2, 14), (16, 14, 16), {"front": "screen", "all": "bezel"},
                  faces=("north", "east", "west", "up", "down", "south"))
     screen["faces"]["north"]["glow"] = 170
+    screen["faces"]["north"]["uv"] = [0, 0, 16, 16]   # (round 3) the whole screen picture, as the signs
     out["fids"] = shape("l36-fids", [screen])
     out["pole"] = shape("l36-fidspole", [box("Pole", (7, 0, 7), (9, 16, 9), "pole")])
     return out
@@ -360,7 +365,7 @@ def blocktypes(sh):
 
     st = {}
     for g in G.SIGN_GLYPHS:
-        back = {"gatesl": "gatesr", "gatesr": "gatesl"}.get(g, g)   # an arrow points the same way seen from behind
+        back = G.SIGN_BACK.get(g, g)   # an arrow points the same way seen from behind (a wide sign's parts the other way round)
         st[f"l36-sign-{g}-*"] = {"signfront": tex("l36-sign-" + g), "signback": tex("l36-sign-" + back)}
     shp = {}
     for s in SIDES:
@@ -374,7 +379,7 @@ def blocktypes(sh):
               "variantgroups": [{"code": "glyph", "states": G.SIGN_GLYPHS}, {"code": "side", "states": SIDES}],
               "shapeByType": shp, "texturesByType": st,
               "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
-              "lightHsvByType": {"*-exit-*": [20, 5, 6], "*-blank-*": [8, 2, 6], "*-broken-*": [0, 0, 0], "*": [8, 4, 6]},
+              "lightHsvByType": {"*-exit-*": [20, 5, 6], "*-wexit-*": [20, 5, 6], "*-info-*": [8, 5, 6], "*-blank-*": [8, 2, 6], "*-broken-*": [0, 0, 0], "*": [8, 4, 6]},
               "selectionboxByType": rotated_boxes("*", sign_sel)}))
 
     # Shop fascias

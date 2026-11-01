@@ -1,0 +1,131 @@
+// Level 36: a cash machine in its dark surround; it asks for a card it will never take
+{
+	"code": "l36-atm",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-atm-north": {
+			"base": "backrooms:block/36/l36-atm"
+		},
+		"l36-atm-east": {
+			"base": "backrooms:block/36/l36-atm",
+			"rotateY": 270
+		},
+		"l36-atm-south": {
+			"base": "backrooms:block/36/l36-atm",
+			"rotateY": 180
+		},
+		"l36-atm-west": {
+			"base": "backrooms:block/36/l36-atm",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"l36-atm-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 1,
+			"y2": 1.85,
+			"z2": 1
+		},
+		"l36-atm-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 1,
+			"y2": 1.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-atm-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 1,
+			"y2": 1.85,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-atm-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 1,
+			"y2": 1.85,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l36-atm-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 1,
+			"y2": 1.85,
+			"z2": 1
+		},
+		"l36-atm-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 1,
+			"y2": 1.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-atm-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 1,
+			"y2": 1.85,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-atm-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 1,
+			"y2": 1.85,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}
