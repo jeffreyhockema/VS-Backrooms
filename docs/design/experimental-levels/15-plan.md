@@ -335,3 +335,93 @@ Level 3, the office's stairs to Level 4, breaking the orange pane to a night sid
 the haze; the doors that do not open, the live panel, the gateway shut and open, the pane and the office read as meant. Fixed
 after the first run: the stairs' step numbers drawn as crates over the stairwell; the Level 3 door's light too faint to see in
 Level 3's dark (now light 7; it is still a dim door in a dim level, which is right for it).
+
+## Round 3 (2026-11-01): the detailed visual pass
+
+The user asked for more detailed visuals, multi-block objects and signs where a real place has them, more realistic
+layouts, and the lore kept. The lead's notes for Level 15 (from round 2's final sheet): on-lore and clean, the wayfinding
+stripe and door numbers help, but monotonous between the set pieces. Compared with the released levels of the same kind
+(Level 4's offices and their signs, Level 5's hotel corridors, Level 3999's halls, Level 11's store signs). Tiers: A must,
+B should, C nice. "Lead" marks an item from the lead's notes.
+
+### List
+
+**1. Layout realism**
+1. (A, lead) New room kind, a **cafeteria**: the big kitchens turned into a serving line (counter with a sneeze-guard and
+   steel wells, trays, a menu board over it), long tables with stools, the kitchen behind (counters, stove, fridge).
+2. (A, lead) New room kind, a **medical bay** (the Level 14 MEDICAL CENTER rumour): hospital beds with curtain rails
+   between them, an IV stand by each, a medicine cabinet wall, a red-cross sign over the door. A sight only (no link).
+3. (A, lead) New room kind, a **hydroponics bay**: rows of two-high grow racks with dead and withered plants under
+   magenta grow lights, a nutrient tank with pipes up into the ceiling. Invention (the lore has kitchens and food-service
+   appliances, not farms): food is NOT harvestable (balance unchanged).
+4. (A, lead) **Dormitories with bunks**: an upper bunk frame over each cot (the cot stays the bed, so the number of beds
+   does not change), a locker at the foot, a footlocker now and then.
+5. (A, lead) **Lecture hall raked**: rows of seats with backs and fold-down writing tablets on stepped risers rising away
+   from the stage (half a block a row, an aisle of steps up the middle), the projection display over the stage kept.
+6. (B) Rooms placed by adjacency where it is cheap: a kitchen or cafeteria pairs up with a store next to it; a control
+   room's door onto a main hall gets an AUTHORIZED plate; machine rooms keep their gate.
+7. (B, lead) **Elevator lobbies** on the main halls: a pair of brushed-steel lift doors (2 wide, 3 high, a seam down the
+   middle) that do not open, a call-button panel beside them and a floor indicator over them, now and then near a
+   crossing.
+8. (B) **Decontamination** look on labs: the lab door's lintel in yellow/black and a DECONTAMINATION plate.
+9. (C) A recurring landmark without a visible grid: a big atrium-like crossing now and then (taller light square).
+
+**2. Multi-block objects**
+10. (A, lead) **Robot charging docks** in the main halls: a recess in the wall with contacts and a status lamp, a
+    powered-down Robo-Man standing in it (the existing creature's model as a block), a dock number plate; in the dark the
+    lamp is dead. Invention (the Robo-Men are our borrowed creature).
+11. (A) **Serving line** (item 1): counter blocks with glass guards reading as one run.
+12. (A) **Bunk beds** (item 4): cot + upper frame reading as one bed.
+13. (A) **Raked seating** (item 5): riser + seat rows reading as one tiered block.
+14. (A) **Hospital beds with curtain rails** (item 2): bed and the rail and curtain reading as one bay.
+15. (B, lead) **Cable trays** along the side corridors' ceilings (a ladder tray with bundled cables, a run the length of
+    the corridor).
+16. (B) **Grow racks** (item 3) two blocks high with the light strip under each shelf.
+17. (B) **Lift doors** (item 7) as a 2 x 3 set with the indicator over them.
+18. (C) A big **wall display** in the control rooms spanning three blocks (the radar large: "AVALON 2.4").
+
+**3. Signs and text**
+19. (A, lead) **Room name plates by every door**: LABORATORY, STORAGE, MACHINE ROOM, DORMITORY, KITCHEN, CAFETERIA,
+    CONTROL, LECTURE HALL, MEDICAL, HYDROPONICS, and the door number (wing letter and number, "B-114"), a white plate with
+    the wing's colour bar.
+20. (A, lead) **AUTHORIZED PERSONNEL ONLY** plate on each machine room's gate side, "MACHINE ROOM" on its name plate.
+21. (A, lead) **Holographic-looking signs** at the crossings: a glowing cyan sign hanging from the ceiling over each
+    approach to a crossing (the hall's name, arrows), readable from both ways.
+22. (A, lead) **Floor arrows and zone colours**: each main hall line its own colour (cyan, amber, green, violet), a line
+    of that colour down the middle of the floor with a chevron every 16 blocks; the hall signs take the same colour.
+23. (B, lead) **ESCAPE control panel labels**: the panel redrawn with small print ("EMERGENCY", "EGRESS"), the radar and
+    ACCESS DENIED consoles stay.
+24. (B, lead) **Star door's plate**: a blank brushed-steel plate by the room's door (the lore names nothing).
+25. (B) **Warning plates**: "HIGH VOLTAGE" and "CAUTION" on machine-room walls; "NO ENTRY" at service passages.
+26. (B, lead) "MACHINE ROOM" and "DECONTAMINATION" text (items 8, 20).
+27. (C) Directory boards at crossings listing the wing's rooms.
+
+**4. Detail visuals**
+28. (A, lead) **Glass walls into the labs and control rooms** from the corridors (as the machine rooms have), so the
+    rooms show from the hall.
+29. (B, lead) **Vents, pipes behind grilles, service hatches** on the halls' and corridors' walls (a hatch with a handle
+    and hazard corner, a grille with pipes behind it).
+30. (B) Wall lights brighter (round 2: they read as dark-framed panels at a distance).
+31. (B) Floors that change by room: the medical bay in pale blue-grey vinyl, the cafeteria in a warm terrazzo,
+    hydroponics on grating.
+32. (B) Clutter that tells a story: stripped appliances (Fandom: coffee machines and 3D printers emptied of their
+    insides) on kitchen counters and lab benches.
+33. (C) Lighting rhythm in the corridors: a continuous slot of light in a few, the panels in others.
+34. (C) Dust on the dark squares' floors.
+
+**5. Lore alignment**
+35. (A) Keep the halls clean and white; the new rooms marked as inventions where the lore lacks them (hydroponics, docks,
+    medical bay, signage text).
+36. (B, lead) "More Roboman and bones where the lore puts them": bones and dropped bags in the dark squares' halls more
+    often (visual); the Robo-Men's numbers are the balance agent's (noted below), so the docks carry the extra Robo-Men as
+    powered-down hulks.
+37. (B) "Appliances stripped of their inner machinery" (Fandom), item 32.
+38. (C) A crematorium's door plate left blank, a hand-written "DON'T" by its door.
+
+**6. Released-level alignment**
+39. (A) Every new block named in `en.json` (HUD names, pick-block) in the level's block.
+40. (B) Sub-zone titles for the new rooms (A Cafeteria, The Medical Bay, A Hydroponics Bay) as the other rooms have.
+41. (B) The handbook page mentions the medical bay, the docks and the signs (no new mechanics).
+42. (B) Showcase spots for each new set piece (cafeteria, medical bay, hydroponics, raked lecture hall, a dock, a lift
+    lobby, a hanging sign), all computed from the layout.
+43. (C) The new rooms' share kept so the level's room mix still reads as machines first.
