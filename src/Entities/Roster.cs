@@ -568,6 +568,7 @@ public static class Roster
         Backrooms.Worldgen.WorldLayout.Level15 => 3.0, // Level 15: "lacks any sort of life whatsoever" (Fandom); isolation is its danger
         Backrooms.Worldgen.WorldLayout.Level73 => 0.15, // the Redlands: "one per 35 square feet", the busiest of all
         Backrooms.Worldgen.WorldLayout.Level23 => 0.9, // "Medium Entity Count"
+        Backrooms.Worldgen.WorldLayout.Level36 => 2.5, // Level 36: Class 1, things only "rarely" in its blackouts (balance review 2026-11-01: was 1.0, 95 bodies an hour in the dark)
         _ => 1.0,
     };
 

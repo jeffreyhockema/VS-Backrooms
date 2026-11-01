@@ -529,7 +529,9 @@ public partial class MenaceSystem : ModSystem
             // Level 188: safe in a room with its door shut, the heart in the courtyard and below, the edge upstairs and by the windows out
             case WorldLayout.Level188: a.Band = Regions.L188System.BandAt(layout, geometry, gx, y, gz); return;
             // The experimental levels (ids 21-23): safe for now
-            case WorldLayout.Level73: a.Band = Regions.L73System.BandAt(layout, gx, gz); return; // the edge everywhere but in the castle
+            // Level 73: the edge everywhere but in the castle, except the hill Coran keeps (his leash, 140 blocks from the castle's middle, where the arrivals are): the
+            // Approach there, so the run from the arrival to the door can be made (balance review 2026-11-01; was the edge, about 400 bodies an hour felt)
+            case WorldLayout.Level73: a.Band = Regions.L73System.BandAt(layout, gx, gz); if (a.Band == MenaceBand.Threshold && (long)(gx - layout.L73IslandX) * (gx - layout.L73IslandX) + (long)(gz - layout.L73IslandZ) * (gz - layout.L73IslandZ) < 140 * 140) a.Band = MenaceBand.Approach; return;
             // The Basement: its rooms the heart, the Flood the approach (where the figure stands and the drowned thing follows)
             case WorldLayout.Basement: a.Band = layout.BasementZoneAt(gx, gz) == WorldLayout.BasementZone.Flood ? MenaceBand.Approach : MenaceBand.Heartland; return;
             case WorldLayout.Level52: a.Band = MenaceBand.Safe; return;

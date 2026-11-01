@@ -539,6 +539,158 @@ levels:
     bands: {}     # nothing is rolled that could be met: no rows
     armour: {}              # no hunter that hits; danger is read off a Smiler's armourtest line
 
+  # ---- the experimental levels (branch experimental-levels; balance review 2026-11-01, docs/design/experimental-levels/BALANCE.md)
+  - level: "73"
+    id: 21
+    name: "The Redlands (experimental)"
+    note: "Threshold everywhere outside the castle but the hill Coran keeps (140 blocks from the castle's middle: Approach, balance review 2026-11-01); Coran kills what he hears there"
+    lore_class: 5
+    solitude: 0.15
+    danger: 0.9
+    max_kinds: 2
+    class_scale: 0.35
+    bands:
+      approach:
+        bodies: {target: 207.8, tol_pct: 25, basis: measurement}   # M: 207.8/h (ratecheck 100 h, 2026-11-01)
+        sounds: {target: 579.7, tol_pct: 25, basis: measurement}   # M: 579.7/h
+      threshold:
+        bodies: {target: 812.7, tol_pct: 25, basis: measurement}   # M: 812.7/h (ratecheck 100 h, 2026-11-01)
+        sounds: {target: 764.8, tol_pct: 25, basis: measurement}   # M: 764.8/h
+    armour:                # basis: measurement; the level's commonest hunter by roster weight
+      hunter: hound
+      hit_unarmoured: 17.6
+      sets:
+        none: {hit: 17.61, blows: 0.9}
+        sewn-leather: {hit: 8.53, blows: 1.8}
+        lamellar-tinbronze: {hit: 6.69, blows: 2.2}
+        plate-iron: {hit: 2.01, blows: 7.5}
+  - level: "basement"
+    id: 22
+    name: "The Basement (experimental)"
+    note: "the Cellar the heartland, the Flood the approach; food from blocks halved (ScarcitySystem: Lack of Needed Resources)"
+    lore_class: 2
+    solitude: 1.3
+    danger: 0.3
+    max_kinds: 1
+    class_scale: 0.5
+    bands:
+      heartland:
+        bodies: {target: 8.7, tol_pct: 25, basis: measurement}   # M: 8.7/h (ratecheck 100 h, 2026-11-01)
+        sounds: {target: 28.4, tol_pct: 25, basis: measurement}   # M: 28.4/h
+      approach:
+        bodies: {target: 23.2, tol_pct: 25, basis: measurement}   # M: 23.2/h (ratecheck 100 h, 2026-11-01)
+        sounds: {target: 57.7, tol_pct: 25, basis: measurement}   # M: 57.7/h
+    armour:                # basis: measurement; the level's commonest hunter by roster weight
+      hunter: smiler
+      hit_unarmoured: 7.6
+      sets:
+        none: {hit: 7.58, blows: 2.0}
+        sewn-leather: {hit: 3.58, blows: 4.2}
+        lamellar-tinbronze: {hit: 2.84, blows: 5.3}
+        plate-iron: {hit: 0.77, blows: 19.6}
+  - level: "52"
+    id: 23
+    name: "Greenfield Campus (experimental)"
+    note: "Safe everywhere (no hostile entities today): a rare Faceling only; no band rows"
+    lore_class: 1
+    solitude: 1.0
+    danger: 0.0
+    max_kinds: 1
+    class_scale: 1
+    bands: {}     # nothing the director rolls is ever met here
+    armour: {}              # no hunter; danger is read off a Smiler's armourtest line
+  - level: "31"
+    id: 24
+    name: "Roller Rink (experimental)"
+    note: "Safe everywhere, docile Facelings only (Wikidot class 0); no band rows"
+    lore_class: 0
+    solitude: 1.0
+    danger: 0.0
+    max_kinds: 1
+    class_scale: 1
+    bands: {}     # nothing the director rolls is ever met here
+    armour: {}              # no hunter; danger is read off a Smiler's armourtest line
+  - level: "36"
+    id: 25
+    name: "Airport (experimental)"
+    note: "Safe but its blackouts and dark back of house (the Threshold band); solitude 2.5 (balance review 2026-11-01: rare, as the lore has it)"
+    lore_class: 1
+    solitude: 2.5
+    danger: 0.35
+    max_kinds: 1
+    class_scale: 1
+    bands:
+      threshold:
+        bodies: {target: 36.3, tol_pct: 25, basis: measurement}   # M: 36.3/h (ratecheck 100 h, 2026-11-01)
+        sounds: {target: 61.4, tol_pct: 25, basis: measurement}   # M: 61.4/h
+    armour:                # basis: measurement; the level's commonest hunter by roster weight
+      hunter: smiler
+      hit_unarmoured: 7.6
+      sets:
+        none: {hit: 7.58, blows: 2.0}
+        sewn-leather: {hit: 3.58, blows: 4.2}
+        lamellar-tinbronze: {hit: 2.84, blows: 5.3}
+        plate-iron: {hit: 0.77, blows: 19.6}
+  - level: "120"
+    id: 26
+    name: "Broken Servos (experimental)"
+    note: "the director puts nothing down (band Safe, empty roster); Misglitches where players died and the voids' Smilers are L120System's own"
+    lore_class: 2
+    solitude: 1.0
+    danger: 0.3
+    max_kinds: 1
+    class_scale: 1
+    bands: {}     # nothing the director rolls is ever met here
+    armour: {}              # no hunter; danger is read off a Smiler's armourtest line
+  - level: "15"
+    id: 27
+    name: "Futuristic Halls (experimental)"
+    note: "Safe in the lit halls; a Robo-Man now and then where the power is out (Approach)"
+    lore_class: 1
+    solitude: 3.0
+    danger: 0.3
+    max_kinds: 1
+    class_scale: 1
+    bands:
+      approach:
+        bodies: {target: 10.2, tol_pct: 25, basis: measurement}   # M: 10.2/h (ratecheck 100 h, 2026-11-01)
+        sounds: {target: 25.0, tol_pct: 25, basis: measurement}   # M: 25.0/h
+    armour:                # basis: measurement; the level's commonest hunter by roster weight
+      hunter: roboman
+      hit_unarmoured: 7.6
+      sets:
+        none: {hit: 7.58, blows: 2.0}
+        sewn-leather: {hit: 3.58, blows: 4.2}
+        lamellar-tinbronze: {hit: 2.84, blows: 5.3}
+        plate-iron: {hit: 0.77, blows: 19.6}
+  - level: "23"
+    id: 28
+    name: "The Petrified Garden (experimental)"
+    note: "the forest the heartland, glow rooms and tunnels the approach, the ruins the edge; Base Seedling safe"
+    lore_class: 4
+    solitude: 0.9
+    danger: 0.55
+    max_kinds: 2
+    class_scale: 0.5
+    bands:
+      heartland:
+        bodies: {target: 12.1, tol_pct: 25, basis: measurement}   # M: 12.1/h (ratecheck 100 h, 2026-11-01)
+        sounds: {target: 40.6, tol_pct: 25, basis: measurement}   # M: 40.6/h
+      approach:
+        bodies: {target: 34.3, tol_pct: 25, basis: measurement}   # M: 34.3/h (ratecheck 100 h, 2026-11-01)
+        sounds: {target: 82.5, tol_pct: 25, basis: measurement}   # M: 82.5/h
+      threshold:
+        bodies: {target: 104.4, tol_pct: 25, basis: measurement}   # M: 104.4/h (ratecheck 100 h, 2026-11-01)
+        sounds: {target: 176.4, tol_pct: 25, basis: measurement}   # M: 176.4/h
+    armour:                # basis: measurement; the level's commonest hunter by roster weight
+      hunter: hound
+      hit_unarmoured: 10.4
+      sets:
+        none: {hit: 10.42, blows: 1.4}
+        sewn-leather: {hit: 4.52, blows: 3.3}
+        lamellar-tinbronze: {hit: 2.76, blows: 5.4}
+        plate-iron: {hit: 0.86, blows: 17.4}
+
 # ---- shortcuts ---------------------------------------------------------------------------------------------------
 # The v12 counts of `mapgen 12345 24 shortcuts` (the cells around the first 12 arrivals of each level), recorded in
 # tools/gate.hashes.json on 2026-10-25. The numbers are a measurement; the QUARTERING is the decision (progression decision
