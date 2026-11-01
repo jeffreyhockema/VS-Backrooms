@@ -499,3 +499,9 @@ read orange next to the white halls (round 2's choice, kept).
   them sleepable, or make them a look only?
 - The hydroponics bays and the robot docks are inventions: keep both?
 - The induction slide's "DO NOT ENTER THE STAR ROOM" ties the lecture halls to the star door: too much of a hint?
+
+**Checks** (2026-11-01). `expclash` clean; mod and mapgen build, 0 errors; `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash at
+layout versions 1 and 12: no line for levels 0-20 and no `layout hash` line differs from main's saved files; `regions`
+60/60 in Level 15 (none wrong, none in a pocket); `15stats 4` OK (0 rooms cut off, 0.43% of walkable tiles unreached,
+60/60 lit arrivals, dark 17.7%); headless (port 43165) a dummy placed in the level twice (light 13) and a Robo-Man put
+down on it, 0 error lines; `GATE_TAG=l15 python tools/gate.py --fast --port-base 43160`: PASS (c60b752a).
