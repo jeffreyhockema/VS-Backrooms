@@ -147,6 +147,63 @@ public sealed partial class WorldLayout
         L52LayFountain(c);
         L52LayFlags(c);
         L52LayBoards(c);
+        L52LayHedges(c);
+        L52LayTrophies(c);
+    }
+
+    /// <summary>Across the corridor from each of the quad's front doors (where the lobby does not run on to the courtyard): two trophy cases against the wall, either side of the lobby's line.</summary>
+    private static void L52LayTrophies(L52Campus c)
+    {
+        if (c.Buildings.Count == 0) return;
+        L52Building q = c.Buildings[0];
+        for (int v = q.V0; v <= q.V1; v++)
+            for (int u = q.U0; u <= q.U1; u++)
+            {
+                Tile e = c.At(u, v);
+                if (e.Zone != (byte)L52Zone.Entrance || u != q.U0 && u != q.U1 && v != q.V0 && v != q.V1) continue;
+                var (au, av) = L52Step(L52LeftOf(e.Pier));
+                if (!c.InGrid(u + au, v + av) || !c.InGrid(u - au, v - av) || c.At(u + au, v + av).Zone != (byte)L52Zone.Entrance || c.At(u - au, v - av).Zone != (byte)L52Zone.Entrance) continue;
+                var (ou, ov) = L52Step(e.Pier);
+                int fu = u - ou * 11, fv = v - ov * 11, wu = u - ou * 12, wv = v - ov * 12;
+                if (!c.InGrid(wu, wv) || c.At(wu, wv).Kind != TileKind.Wall) continue;
+                foreach (int k in new[] { -1, 1 })
+                {
+                    int tu = fu + au * k, tv = fv + av * k;
+                    if (c.At(tu, tv).Zone is (byte)L52Zone.Corridor or (byte)L52Zone.Lobby && c.At(tu - ou, tv - ov).Kind == TileKind.Wall && !c.HasFixture[tu + tv * c.W])
+                    {
+                        L52Put(c, tu, tv, Props.CurioCabinet, e.Pier);
+                        L52Fix(c, tu, tv, "l52-sign-exit-none", 99, 99); // (marks the tile taken: the corridor's things keep off it)
+                    }
+                }
+            }
+    }
+
+    /// <summary>A clipped hedge along the quad's outside, a step beyond its paving, broken wherever a path leads off.</summary>
+    private static void L52LayHedges(L52Campus c)
+    {
+        if (c.Buildings.Count == 0) return;
+        L52Building q = c.Buildings[0];
+        for (int v = q.V0 - 3; v <= q.V1 + 3; v++)
+            for (int u = q.U0 - 3; u <= q.U1 + 3; u++)
+            {
+                if (u != q.U0 - 3 && u != q.U1 + 3 && v != q.V0 - 3 && v != q.V1 + 3 || !c.InGrid(u, v)) continue;
+                ref Tile t = ref c.At(u, v);
+                if (t.Zone != (byte)L52Zone.Lawn || t.Depth != 0 || t.Variant != 0 || t.Overhead != 0 || c.HasFixture[u + v * c.W]) continue;
+                bool nearPath = false;
+                for (int dv = -2; dv <= 2 && !nearPath; dv++)
+                    for (int du = -2; du <= 2 && !nearPath; du++)
+                    {
+                        int nu = u + du, nv = v + dv;
+                        if (!c.InGrid(nu, nv)) continue;
+                        Tile n = c.At(nu, nv);
+                        // (a path that does not belong to the apron: one further out than the hedge line)
+                        bool apron = nu >= q.U0 - 2 && nu <= q.U1 + 2 && nv >= q.V0 - 2 && nv <= q.V1 + 2;
+                        if (n.Zone == (byte)L52Zone.Path && !apron || n.Zone != (byte)L52Zone.Lawn && n.Zone != (byte)L52Zone.Path && n.Depth == 0) nearPath = true;
+                    }
+                if (nearPath) continue;
+                t.Kind = TileKind.Wall; // (not walked through)
+                L52Fix(c, u, v, "=hedge", 1, 1);
+            }
     }
 
     /// <summary>The restrooms' signs, mirrors and posters; the doors of rooms standing open against the wall inside.</summary>

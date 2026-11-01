@@ -393,6 +393,13 @@ public sealed partial class WorldLayout
                     t.Floor = Noise(x / 7.0, z / 7.0, SaltL52Gap) > 0.45 ? FloorKind.L52Sand : FloorKind.L52Gravel;
                     continue;
                 }
+                // (Round 3) a bus shelter by the road where it leaves a campus's east gap, its back to the hills
+                if (L52BusStop(x, z))
+                {
+                    t.Variant = Props.BusShelter;
+                    t.Pier = ArchPier.South;
+                    continue;
+                }
                 if (L52StrayFence(x, z, out ArchPier along))
                 {
                     t.Kind = TileKind.Wall;
@@ -406,6 +413,19 @@ public sealed partial class WorldLayout
                 if (Hashing.Unit(th) < 0.07 && x == tx * 11 + 2 + (int)((th >> 20) % 7) && z == tz * 11 + 2 + (int)((th >> 28) % 7) && g < 10)
                     t.Variant = Props.Tree;
             }
+    }
+
+    /// <summary>Where a bus shelter stands: beside the road out of a campus's east gap, ten blocks out from the fence, on the north side.</summary>
+    private bool L52BusStop(int x, int z)
+    {
+        int ci = Hashing.FloorDiv(x - 10, L52Period), cj = Hashing.FloorDiv(z, L52Period);
+        for (int d = 0; d <= 1; d++)
+        {
+            L52Head h = L52HeadOf(ci + d, cj);
+            if (!h.Exists || !L52HeadOf(ci + d + 1, cj).Exists) continue;
+            if (x == h.X1 + 10 && z == h.Z0 + h.Gap[1] - 4) return true;
+        }
+        return false;
     }
 
     /// <summary>"A long fence that serves no use": out on an empty plain (a lattice cell with no campus), now and then a long straight run of chain-link.</summary>

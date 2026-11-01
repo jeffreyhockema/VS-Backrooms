@@ -343,8 +343,8 @@ public partial class WorldLayout
                     if (!f.Code.StartsWith("l52-sign-cool-m")) continue;
                     ArchPier fp = f.Code.EndsWith("north") ? ArchPier.North : f.Code.EndsWith("south") ? ArchPier.South : f.Code.EndsWith("east") ? ArchPier.East : ArchPier.West;
                     var (fu, fv) = L52Step(fp);
-                    int u = i % jb.W + fu * 13, v = i / jb.W + fv * 13;
-                    if (jb.InGrid(u, v)) Add(jb, "barry-sign", u, v, 0, Heading(-fu, -fv), 8);
+                    int x = jb.Head.X0 + i % jb.W + fu * 10, z = jb.Head.Z0 + i / jb.W + fv * 10;
+                    spots.Add(new Showcase.Spot("barry-sign", x + 0.5, floor + TileAt(x, z).Height + 1, z + 0.5, Math.Round(Heading(-fu, -fv)), 10));
                     done = true;
                     break;
                 }
