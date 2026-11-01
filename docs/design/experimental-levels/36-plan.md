@@ -277,75 +277,129 @@ ceilings all slats.
 Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: why]`.
 
 **1. Layout realism**
-1. (A) Concourse frontage: the superblocks' faces onto the concourses are blank walls for 240 blocks. Carve units along
+1. (A) [done] Concourse frontage: the superblocks' faces onto the concourses are blank walls for 240 blocks. Carve units along
    every superblock edge (not the service mazes, not where a hall opens): shops with glass fronts and fascias (newsstand,
    cafe, pharmacy, duty free, bureau de change), a services alcove (payphones, ATMs, a drinking fountain), restrooms, a
    prayer room, an information desk, a shoe-shine stand, so a concourse reads as an airside street.
-2. (A) Gate counter: each holdroom's lone podium becomes a gate counter (two desks and the podium in a row, the screen on a
+2. (A) [done] Gate counter: each holdroom's lone podium becomes a gate counter (two desks and the podium in a row, the screen on a
    post) with the gate's sign (letter and number) hung over it, as at a real gate.
-3. (A) Claim hall flow: customs at the claim hall's way out (green NOTHING TO DECLARE and red GOODS TO DECLARE channels
+3. (A) [done] Claim hall flow: customs at the claim hall's way out (green NOTHING TO DECLARE and red GOODS TO DECLARE channels
    over the openings into the landside hall), a customs bench on the red side.
-4. (B) Check-in: an information desk with the "i" over it in check-in (one module in 32, opposite the Agency's).
-5. (B) Trolley bays in the claim hall (a row of nested luggage trolleys by every other column).
-6. (C) Pier corridors: moving walkways in runs down the middle of long piers.
-7. (C) A Concourse M lounge for the M.E.G.'s Track Mappers (lore) rather than a plain lounge when the pier letter is M.
+4. (B) [done] Check-in: an information desk with the "i" over it in check-in (one module in 32, opposite the Agency's).
+5. (B) [done] Trolley bays in the claim hall (a row of nested luggage trolleys by every other column).
+6. (C) [done] Pier corridors: moving walkways in runs down the middle of long piers.
+7. (C) [skipped: the M.E.G. placard is a danger-class sign, not a lounge; the lore gives no look to build from] A Concourse M lounge for the M.E.G.'s Track Mappers (lore) rather than a plain lounge when the pier letter is M.
 
 **2. Multi-block objects**
-8. (A) The plane at the gate: the window panels round each jet-bridge door painted as one picture (the bridge's tunnel
+8. (A) [done] The plane at the gate: the window panels round each jet-bridge door painted as one picture (the bridge's tunnel
    running out to a parked airliner's nose, cockpit windows, the fuselage), 9 wide x 5 high, so a holdroom looks out at
    its plane.
-9. (A) The Meeting Place's marker: the classic meeting-point sign, a tall pillar topped by a lit cube with the pictogram
+9. (A) [done] The Meeting Place's marker: the classic meeting-point sign, a tall pillar topped by a lit cube with the pictogram
    and MEETING POINT on four faces, instead of the stubby column.
-10. (A) The Travel Agency kiosk (Meeting Place) and booth 0 (check-in): today a solid purple box from floor to the band
+10. (A) [done] The Travel Agency kiosk (Meeting Place) and booth 0 (check-in): today a solid purple box from floor to the band
     (the canopy's wall runs up to the atrium's ceiling). A real kiosk: purple panels five high, the canopy, open air above,
     the BTA logo on its outer faces.
-11. (A) Departure boards: a big wall-mounted DEPARTURES board (4 x 2 blocks) in check-in and facing every junction, an
+11. (A) [done] Departure boards: a big wall-mounted DEPARTURES board (4 x 2 blocks) in check-in and facing every junction, an
     ARRIVALS / baggage board in the claim hall.
-12. (B) Carousel screens: a screen at each carousel's head naming its flight (FROM LEVEL .., FLIGHT .., ON BELT).
-13. (B) Restroom stalls: toilet cubicles (partitions and doors) instead of toilets in the open.
-14. (B) Charging posts between the holdrooms' seat rows (the lore's outlets and USB ports).
-15. (B) Payphone bank and ATMs as models (in the services alcoves).
-16. (B) A drinking fountain model (stainless, bi-level) for the lore's Almond Water fountains.
-17. (B) Shoe-shine stand (two raised chairs on a platform).
-18. (B) The food court's stalls: menu boards over each counter (lit, two blocks wide), more stall kinds (noodles, burgers,
+12. (B) [done] Carousel screens: a screen at each carousel's head naming its flight (FROM LEVEL .., FLIGHT .., ON BELT).
+13. (B) [done] Restroom stalls: toilet cubicles (partitions and doors) instead of toilets in the open.
+14. (B) [done] Charging posts between the holdrooms' seat rows (the lore's outlets and USB ports).
+15. (B) [done] Payphone bank and ATMs as models (in the services alcoves).
+16. (B) [done] A drinking fountain model (stainless, bi-level) for the lore's Almond Water fountains.
+17. (B) [done] Shoe-shine stand (two raised chairs on a platform).
+18. (B) [done] The food court's stalls: menu boards over each counter (lit, two blocks wide), more stall kinds (noodles, burgers,
     coffee, pizza) with their fascias.
-19. (C) A shop's interior: duty free gondolas of bottles, a newsstand's magazine racks.
+19. (C) [partly: duty-free units get perfume counters and drink fridges, news units shelves; no gondola model] A shop's interior: duty free gondolas of bottles, a newsstand's magazine racks.
 
 **3. Signs and text**
-20. (A) Wide hanging wayfinding signs with words and arrows (three blocks: pictogram, words, arrow): GATES A-Z ->,
+20. (A) [done] Wide hanging wayfinding signs with words and arrows (three blocks: pictogram, words, arrow): GATES A-Z ->,
     BAGGAGE CLAIM, EXIT, SECURITY, CHECK-IN, TOILETS, MEETING POINT, FOOD COURT, DUTY FREE, LOUNGES, TRANSFERS, in place
     of the one-block pictogram boxes over the concourses.
-21. (A) Fascias for every new unit: NEWS, CAFE, PHARMACY, DUTY FREE, BUREAU DE CHANGE, PRAYER ROOM, INFORMATION, LOST
+21. (A) [done] Fascias for every new unit: NEWS, CAFE, PHARMACY, DUTY FREE, BUREAU DE CHANGE, PRAYER ROOM, INFORMATION, LOST
     AND FOUND, TOILETS, SHOE SHINE, PHONES.
-22. (A) Posters on walls between the units: the Backrooms Travel Agency's purple posters (lore: "every level is only one
+22. (A) [done] Posters on walls between the units: the Backrooms Travel Agency's purple posters (lore: "every level is only one
     flight away", "remember to eat"), invented ads, a lost-luggage notice, a BTA notice that the clocks have stopped.
-23. (B) Pillars (the columns of the claim hall, check-in, food court, Meeting Place) carrying posters.
-24. (B) The Lost and Found office's own fascia over its door.
-25. (B) Customs signs (item 3) and a "Welcome" banner over the claim hall's openings (the lore's multilingual placards:
+23. (B) [done] Pillars (the columns of the claim hall, check-in, food court, Meeting Place) carrying posters.
+24. (B) [done] The Lost and Found office's own fascia over its door.
+25. (B) [done] Customs signs (item 3) and a "Welcome" banner over the claim hall's openings (the lore's multilingual placards:
     WELCOME / BIENVENUE / WILLKOMMEN / BIENVENIDOS).
-26. (C) Restroom doors with the men/women pictogram.
+26. (C) [skipped: the TOILETS fascia and hanging sign say it] Restroom doors with the men/women pictogram.
 
 **4. Detail visuals**
-27. (A) Ceilings: the steel slats everywhere. Coffered ceilings (deep square coffers) in check-in, the junctions and the
+27. (A) [done] Ceilings: the steel slats everywhere. Coffered ceilings (deep square coffers) in check-in, the junctions and the
     Meeting Place; skylights (the lore's dim grey sky) down the food court and over the Meeting Place's atrium; wood slats in
     the lounge; plain tiles in the shops (kept).
-28. (B) Walls: a stone (travertine) dado on walls facing the concourses, piers and streets (up to four blocks), so the panel
+28. (B) [done] Walls: a stone (travertine) dado on walls facing the concourses, piers and streets (up to four blocks), so the panel
     grid is not the only finish.
-29. (B) More bags on the running belts and round the carousels (Fandom: "luggage seemingly abandoned").
-30. (C) Light rhythm: brighter pools over the seating, the corridor between dimmer (the halls still read as lit).
-31. (C) Floors: a marble border pattern along the concourses' edges.
+29. (B) [done] More bags on the running belts and round the carousels (Fandom: "luggage seemingly abandoned").
+30. (C) [skipped: the halls stay evenly lit (round 2 chose that); the blackouts are the dark] Light rhythm: brighter pools over the seating, the corridor between dimmer (the halls still read as lit).
+31. (C) [skipped: the grey border rows already frame the concourses] Floors: a marble border pattern along the concourses' edges.
 
 **5. Lore alignment**
-32. (A) The Meeting Place is one place in 47 positions: the same marker, kiosk and benches every time (kept), its marker now
+32. (A) [done] The Meeting Place is one place in 47 positions: the same marker, kiosk and benches every time (kept), its marker now
     reads as a meeting point.
-33. (B) BTA's purple signs: the posters and the kiosks' outer panels (lore: "purple signs").
-34. (B) Charging posts: the lore's "seats and tables with outlets and USB ports" (item 14).
-35. (C) Water fountains give Almond Water (as the coolers do): the fountain model takes the cooler's behaviour if it has one.
-36. (C) "Clothing laying all over the chairs": more coats on seats in some holdrooms.
+33. (B) [done] BTA's purple signs: the posters and the kiosks' outer panels (lore: "purple signs").
+34. (B) [done] Charging posts: the lore's "seats and tables with outlets and USB ports" (item 14).
+35. (C) [done] Water fountains give Almond Water (as the coolers do): the fountain model takes the cooler's behaviour if it has one.
+36. (C) [done] "Clothing laying all over the chairs": more coats on seats in some holdrooms.
 
 **6. Released-level alignment**
-37. (A) Every new block named in the HUD (en.json, `block-l36-...`), pick-block works (creative inventory entries).
-38. (A) Showcase spots for each new set piece (the frontage, a gate counter with its plane, the departures board, the
+37. (A) [done] Every new block named in the HUD (en.json, `block-l36-...`), pick-block works (creative inventory entries).
+38. (A) [done] Showcase spots for each new set piece (the frontage, a gate counter with its plane, the departures board, the
     meeting marker, the customs channels, a restroom's stalls), computed from the layout.
-39. (B) The handbook page mentions the Meeting Place's marker and the BTA's posters (one line, in the page's voice).
-40. (B) New blocks unbreakable where they are structure (`l36structure`), like the rest of the level.
+39. (B) [done] The handbook page mentions the Meeting Place's marker and the BTA's posters (one line, in the page's voice).
+40. (B) [done] New blocks unbreakable where they are structure (`l36structure`), like the rest of the level.
+
+### What was built (round 3)
+
+- **Concourse frontage** (`L36LayFrontage`): every superblock but the service mazes carves units 17 wide into its edges where
+  its own plan left them solid (a unit is skipped where a pier's corridor, a hall's way in or anything else comes through),
+  fronts on the concourse: shops behind glass with a fascia over the door (news & books, duty free, the cafe, the pharmacy,
+  a bureau de change with a departures board behind its counter, books, tech, fashion, snacks; a quarter shuttered), a
+  TELEPHONES alcove (payphones, cash machines, Almond Water fountains, benches), restrooms (cubicles, basins), a prayer room
+  (rows of chairs, books, plants), an INFORMATION alcove (the desk, screens, the "i", a departures board), a SHOE SHINE
+  alcove (six raised chairs); a fifth of the stretches are plain wall with a departures board or posters. Alcoves are six
+  deep, shops and rooms ten. A poster on the wall between each two units.
+- **Gates**: the gate counter (two check-in desks and the podium facing the room, the gate's letter and number hung over
+  it); charging posts at the ends of the seat rows; the nine window panels round the jet-bridge door are one painted
+  picture (`l36-apron`): the jet bridge running out to a LIMINAL AIR airliner parked nose-in; one holdroom in four has
+  coats left over a third of its seats; pier corridors have moving walkways in two runs each way.
+- **Landside**: customs on the way out of the claim hall (green NOTHING TO DECLARE / red GOODS TO DECLARE wide signs over
+  the openings, a customs bench; one opening in four the EXIT that leads into check-in); the ARRIVALS board or the WELCOME
+  banner (five languages) on the claim hall's side of its east wall, DEPARTURES boards on check-in's side; a screen at each
+  carousel's head (BAGGAGE BELT n, from where, ON BELT); more bags on the belts; trolley bays; posters on the columns; the
+  Lost and Found's fascia; an information desk under its "i" in check-in one module in 32; notices on security's wall.
+- **Meeting Place**: the meeting-point sign (a lit 2 x 2 x 2 cube on a post, the pictogram and MEETING POINT on four
+  faces) in place of the stubby column; the Travel Agency's kiosk is five high with open air above it (it had been a solid
+  purple box to the atrium's ceiling: walls are columns in this generator), its canopy purple, the Agency's posters on
+  its back; the same for booth 0's back wall in check-in.
+- **Signs**: four-block wide wayfinding signs (pictogram, words, arrow: All Gates, Baggage Claim, Exit, Meeting Point, Food
+  Court, Duty Free, Lounges, Toilets, Transfers...) over the concourses in place of four boxes each saying something else;
+  twelve new fascias; eight posters (three of the Agency's: "Every level is one flight away", "Remember to eat", "The
+  clocks have stopped"; three invented ads; the unattended-baggage notice; a wanderer's taped-up "Don't trust the exit
+  signs / Empty sign = no good"); four menu boards; and a fix to every hanging sign and screen: their faces showed only
+  the top five eighths of their picture (the lettering cut off at the bottom since round 1).
+- **Finishes**: coffered ceilings in check-in, the junctions and the Meeting Place; skylights down the duty-free streets,
+  in bands across the food courts and over the meeting point; oak slats in the lounges; a travertine dado (two blocks and
+  a capped course) on the panel walls of the public halls.
+- **Food court**: stalls are cafes, snack bars, noodles, burgers or pizza, each with two menu boards beside its fascia.
+- **New blocks** (`tools/gen_36_detail.py`): `l36-art`, `l36-apron`, `l36-colposter`, `l36-meetbox`, `l36-meetpost`,
+  `l36-finish`, `l36-charger`, `l36-payphone`, `l36-atm`, `l36-fountain` (BackroomsDispenser, as the coolers),
+  `l36-shoeshine`, `l36-stall`; Tiles.cs: `Props.L36KioskWall`...`L36Stall` (1218-1224), `Overheads.L36Art`/`L36Apron`
+  (420-421), `CeilingKind.L36Coffer`/`L36Skylight`/`L36Wood` (417-419); `Tile.Detail` bit 7 on a wall is the dado.
+
+### Inventions (round 3)
+
+The airline LIMINAL AIR on the plane (it was on the check-in counters already); the stall brands (Noodle Gate, Burger Bay,
+Slice) and their menus and prices; the posters' words (the Agency's are the lore's own phrases); the frontage's mix of
+units; customs at all (the lore has the belt as the way in; a claim hall without customs read wrong); the meeting-point
+sign's look (the lore says only that the 47 positions are one place).
+
+### Balance notes for the lead
+
+- More Almond Water: every TELEPHONES alcove (about one frontage unit in eight) has two drinking fountains
+  (`l36-fountain`, the coolers' dispenser). The concourses already had a cooler every 72 blocks.
+- More supply boxes: an open shop on a concourse has a 10 % chance of one (as the duty-free shops' 12 %). A frontage unit
+  is about every 20 blocks of concourse wall, so roughly one box per 400 blocks of wall more.
+- No beds, safe rooms or food sources were added; the restrooms' basins in the new units are decorative (not the linked
+  sinks).

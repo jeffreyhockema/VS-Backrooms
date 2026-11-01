@@ -380,7 +380,14 @@ public sealed partial class WorldLayout
             return w;
         }
         if (u <= L36CheckInEnd) return L36CheckIn(gx, gz, u, k, module, r);
-        if (u == 44) return k is >= 8 and <= 23 ? L36Air(L36Zone.Security, 5, L36Mat.MarbleGrey) : L36Solid();
+        if (u == 44)
+        {
+            if (k is >= 8 and <= 23) return L36Air(L36Zone.Security, 5, L36Mat.MarbleGrey);
+            // (round 3) Notices on the security side of the wall: unattended baggage, and the Agency's
+            Tile sw = L36Solid();
+            if (k is 3 or 28) L36WallArt(ref sw, ArchPier.East, 0, (byte)(L36ArtPoster + (k == 3 ? 6 : 1 + Hashing.Mod(module, 2))), 2);
+            return sw;
+        }
         int m = Hashing.Mod(line, 16);
         if (u <= L36SecurityEnd) return L36Security(gx, gz, u, m, r);
         // u == 57: through to the airside where the lanes come out
@@ -393,7 +400,7 @@ public sealed partial class WorldLayout
     private Tile L36Baggage(int gx, int gz, int u, int k, int module, double r)
     {
         // (round 2) A column between every two modules, out in the hall
-        if (u is 19 or 20 && k is 0 or 31) return L36PosterColumn(module);
+        if (u is 19 or 20 && k is 0 or 31) return L36PosterColumn(k == 31 ? module + 1 : module);
         Tile t = L36Air(L36Zone.Baggage, 7, L36Mat.Marble);
         if (u == 1 || u == L36BaggageEnd || k is 0 or 31) t.Detail = L36Mat.MarbleGrey;
         L36HallLights(ref t, gx, gz, u is 4 or 10 or 16 or 22, k);
@@ -469,7 +476,7 @@ public sealed partial class WorldLayout
     private Tile L36CheckIn(int gx, int gz, int u, int k, int module, double r)
     {
         // (round 2) Columns down the middle of the hall, between the islands
-        if (u is 34 or 35 && k is 0 or 31) return L36PosterColumn(module + 1);
+        if (u is 34 or 35 && k is 0 or 31) return L36PosterColumn((k == 31 ? module + 1 : module) + 1);
         Tile t = L36Air(L36Zone.CheckIn, 9, L36Mat.Marble);
         if (u == 26 || u == L36CheckInEnd) t.Detail = L36Mat.MarbleGrey;
         L36HallLights(ref t, gx, gz, u is 28 or 34 or 40, k);
@@ -785,6 +792,23 @@ public sealed partial class WorldLayout
                 var (x, z) = plan.World(p, q);
                 plan.At(p, q).Ceiling = L36Light(x, z, true, 0.04, 0.04);
             }
+        // (round 3) Moving walkways down the corridor's middle in two runs, out toward the window on one side and back on the
+        // other, the benches between them; one run in five stopped (all of them in a blackout)
+        foreach (var (p0, p1) in new[] { (20, 98), (132, 210) })
+            for (int lane = 0; lane < 2; lane++)
+            {
+                bool still = plan.Dark || rng.Chance(0.2);
+                ArchPier way = lane == 0 ? ArchPier.East : ArchPier.West;
+                foreach (int q in lane == 0 ? new[] { 116, 117 } : new[] { 122, 123 })
+                    for (int p = p0; p <= p1; p++)
+                    {
+                        ref Tile t = ref plan.At(p, q);
+                        t.Detail = still ? L36Mat.TravelatorStill : L36Mat.Travelator;
+                        t.Pier = plan.Dir(way);
+                        bool from = lane == 0 ? p == p0 : p == p1;
+                        if (p == p0 || p == p1) t.Stack = (byte)(1 | (from ? 8 : 0));
+                    }
+            }
         // The wing's letter over its mouth, and the way to its gates
         L36Hang(plan, 3, 119, Overheads.L36GateSign, ArchPier.West, (byte)(plan.Letter - 'A'));
         L36Hang(plan, 3, 120, Overheads.L36Sign, ArchPier.West, L36GatesR);
@@ -849,14 +873,17 @@ public sealed partial class WorldLayout
                 if (q != 68 && p >= pa0 + 4 && p != pa0 + 10) { c.Variant = Props.L36CabinSeat; c.Pier = plan.Dir(ArchPier.West); }
                 if (q == 68 && (p - pa0) % 4 == 1) c.Ceiling = CeilingKind.LightOn;
             }
-        // The seats: rows facing the window, an aisle down the middle
+        // The seats: rows facing the window, an aisle down the middle; (round 3) in one holdroom in four, coats and bags left
+        // over the seats all over (Fandom: "clothing laying all over the chairs, and luggage seemingly abandoned")
+        var (gx0, gz0) = plan.World(pa0, Q(84));
+        double left = Hashing.Unit(Hashing.Hash(seed, gx0, gz0, SaltL36Prop + 4)) < 0.25 ? 0.3 : 0.08;
         for (int qr = 89; qr <= 101; qr += 4)
             for (int p = pa0 + 2; p <= pa0 + 18; p++)
             {
                 if (p == pa0 + 10) continue;
                 var (x, z) = plan.World(p, Q(qr));
                 double r = Hashing.Unit(Hashing.Hash(seed, x, z, SaltL36Prop));
-                byte kind = (byte)(r < 0.08 ? 2 : r < 0.13 ? 3 : (qr / 4 + p / 9) % 2 == 0 ? 0 : 1);
+                byte kind = (byte)(r < left ? 2 : r < left + 0.05 ? 3 : (qr / 4 + p / 9) % 2 == 0 ? 0 : 1);
                 L36Put(plan, p, Q(qr), Props.L36Seat, toWindow, kind);
                 // Bags left between the rows
                 if (r > 0.97) L36Put(plan, p, Q(qr + 1), r > 0.985 ? Props.Suitcase : Props.Backpack, (ArchPier)(int)(r * 1000 % 4));
@@ -1327,20 +1354,22 @@ public sealed partial class WorldLayout
                 };
                 bool closed = kind == 0 && r2 * 7 % 1 < 0.25;
                 L36Zone zone = kind == 2 ? L36Zone.Restroom : L36Zone.Shop;
+                bool alcove = kind is 1 or 4 or 5;
+                // (an alcove is shallow: six deep, the rest of the unit's depth left solid behind it)
+                int deep = alcove ? 6 : Deep;
                 int height = kind is 1 or 4 or 5 ? 6 : kind == 2 ? 4 : 5;
                 byte floor = kind == 2 ? L36Mat.TileFloor : kind == 3 ? L36Mat.CarpetBlue : kind == 0 && shop == L36ShopCafe ? L36Mat.CarpetRed : kind == 0 ? L36Mat.MarbleGrey : L36Mat.Marble;
-                for (int d = 1; d < Deep; d++)
+                for (int d = 1; d < deep; d++)
                     for (int s = s0 + 1; s <= s0 + 17; s++)
                     {
                         var (p, q) = At(s, d);
                         plan.At(p, q) = L36Air(zone, height, floor);
                     }
                 var (lp0, lq0) = At(s0 + 1, 1);
-                var (lp1, lq1) = At(s0 + 17, Deep - 1);
+                var (lp1, lq1) = At(s0 + 17, deep - 1);
                 if (!closed) L36Lights(plan, Math.Min(lp0, lp1), Math.Min(lq0, lq1), Math.Max(lp0, lp1), Math.Max(lq0, lq1), 4, 0.05, 0.05);
                 // The front: open for an alcove, else glass (plaster for the restrooms and the prayer room) round a doorway; the
                 // fascia over the doorway's middle three
-                bool alcove = kind is 1 or 4 or 5;
                 int door0 = alcove ? s0 + 2 : kind is 2 or 3 ? s0 + 8 : s0 + 7, door1 = alcove ? s0 + 16 : kind is 2 or 3 ? s0 + 10 : s0 + 11;
                 for (int s = s0; s <= s0 + 18; s++)
                 {
@@ -1406,12 +1435,13 @@ public sealed partial class WorldLayout
                         break;
                     case 1:
                         // payphones down one side of the back wall, cash machines and a fountain on the other; a bench
-                        for (int s = s0 + 2; s <= s0 + 7; s++) Put(s, Deep - 1, Props.L36Phone, outward);
-                        for (int s = s0 + 10; s <= s0 + 12; s++) Put(s, Deep - 1, Props.L36Atm, outward);
-                        Put(s0 + 15, Deep - 1, Props.L36Fountain, outward);
-                        Put(s0 + 16, Deep - 1, Props.L36Bin, outward);
-                        Put(s0 + 8, 4, Props.Bench, outward);
-                        Put(s0 + 9, 4, Props.Bench, outward);
+                        for (int s = s0 + 2; s <= s0 + 7; s++) Put(s, deep - 1, Props.L36Phone, outward);
+                        for (int s = s0 + 10; s <= s0 + 12; s++) Put(s, deep - 1, Props.L36Atm, outward);
+                        Put(s0 + 14, deep - 1, Props.L36Fountain, outward);
+                        Put(s0 + 15, deep - 1, Props.L36Fountain, outward);
+                        Put(s0 + 16, deep - 1, Props.L36Bin, outward);
+                        Put(s0 + 8, 2, Props.Bench, inward);
+                        Put(s0 + 9, 2, Props.Bench, inward);
                         break;
                     case 2:
                         // cubicles along the back, basins either side of the door, the wet-floor sign
@@ -1429,23 +1459,27 @@ public sealed partial class WorldLayout
                         break;
                     case 4:
                         // the information desk across the alcove, its screens behind it, the "i" hung in front
-                        for (int s = s0 + 4; s <= s0 + 14; s++) Put(s, 5, Props.ReceptionDesk, outward);
+                        for (int s = s0 + 4; s <= s0 + 14; s++) Put(s, 3, Props.ReceptionDesk, outward);
                         for (int i = 0; i < 2; i++)
                         {
-                            var (p, q) = At(s0 + 8 + i, 7);
+                            var (p, q) = At(s0 + 8 + i, 5);
                             L36Hang(plan, p, q, Overheads.L36Fids, outward, (byte)(h % 4), L36Part(face, Up(s0 + 8, i, 2), 2));
                         }
                         {
                             var (p, q) = At(s0 + 11, 2);
                             L36Hang(plan, p, q, Overheads.L36Sign, outward, L36SInfo);
                         }
-                        Put(s0 + 3, Deep - 1, Props.CardboardBoxes, outward);
+                        Put(s0 + 3, deep - 1, Props.CardboardBoxes, outward);
+                        for (int i = 0; i < 4; i++) Art(s0 + 12 + i, deep, outward, Up(s0 + 12, i, 4), L36ArtDep, 3);
                         break;
                     default:
                         // shoe-shine chairs on their platforms, a shelf of polish, a coat stand
-                        foreach (int s in new[] { s0 + 6, s0 + 9, s0 + 12 }) Put(s, Deep - 2, Props.L36ShoeShine, outward);
-                        Put(s0 + 3, Deep - 1, Props.Shelf, outward);
-                        Put(s0 + 15, Deep - 1, Props.CoatStand, outward);
+                        for (int s = s0 + 4; s <= s0 + 14; s += 2) Put(s, deep - 1, Props.L36ShoeShine, outward);
+                        Put(s0 + 2, deep - 1, Props.Shelf, outward);
+                        Put(s0 + 16, deep - 1, Props.CoatStand, outward);
+                        Put(s0 + 8, 2, Props.Bench, inward);
+                        Put(s0 + 10, 2, Props.Bench, inward);
+                        foreach (int ps in new[] { s0 + 3, s0 + 15 }) Art(ps, deep, outward, 0, (byte)(L36ArtPoster + (ps - s0) % 8), 3);
                         break;
                 }
                 if (Hashing.Unit(Hashing.Mix(h + 3)) < 0.5)

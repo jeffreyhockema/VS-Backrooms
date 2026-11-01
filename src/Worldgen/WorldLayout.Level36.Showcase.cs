@@ -48,7 +48,7 @@ public partial class WorldLayout
         Add("customs", wx + 17.5, lz + 16, 90, 6);
         Add("arrivals-board", wx + 17.5, lz + 56, 90, 8);
         Add("departures-board", wx + 32.5, lz + 4, 270, 16);
-        Add("info-desk", wx + 29.5, lz + 16 * 32 + 24.5, 120, 4);
+        Add("info-desk", wx + 28.5, lz + 16 * 32 + 27.5, 30, 4);
         Add("checkin", wx + 35.5, lz + 35.5, 180, 4);
         Add("travel-agency", wx + 27.5, lz + 16, 90, 12);
         Add("security", wx + 49.5, lz + 8.5, 90, -4);
@@ -121,7 +121,7 @@ public partial class WorldLayout
             shownGate = gate;
             if (!pier.Dark)
             {
-                AddIn(pier, "restroom", 100.5, 96, 0, 1, -22);
+                AddIn(pier, "restroom", 100.5, 100, 0, -1, -8);
                 var sink = pier.World(100, 101);
                 if (L36Raw(sink.X, sink.Z).Variant == Props.L36Sink) shownSink = sink;
             }

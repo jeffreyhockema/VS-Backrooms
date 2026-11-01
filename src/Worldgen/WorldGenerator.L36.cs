@@ -242,7 +242,9 @@ public sealed partial class WorldGenerator
         {
             (byte)Zone.CheckIn or (byte)Zone.Junction or (byte)Zone.Meeting => l36Coffer,
             (byte)Zone.Lounge => l36Wood,
-            (byte)Zone.Restroom or (byte)Zone.Lounge or (byte)Zone.Shop or (byte)Zone.LostFound or (byte)Zone.Booth or (byte)Zone.Bridge => l36CeilTile,
+            // (round 3: a kiosk's canopy purple, as its walls)
+            (byte)Zone.Booth => l36Purple,
+            (byte)Zone.Restroom or (byte)Zone.Lounge or (byte)Zone.Shop or (byte)Zone.LostFound or (byte)Zone.Bridge => l36CeilTile,
             (byte)Zone.Service or (byte)Zone.Vent => l36CeilDark,
             (byte)Zone.Cabin => l36CeilCabin,
             _ => l36CeilSteel,

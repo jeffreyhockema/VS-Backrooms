@@ -85,10 +85,10 @@ def _led(a, s, x, y, col, scale=1):
     return G._led_text(a, s, x, y, col, scale)
 
 
-DEP_ROWS = [("LA 4471", "LV10", "C14", "1,204", "BOARDING"), ("LA 0088", "LV37", "A03", "48,881", "SCHEDULED"),
+DEP_ROWS = [("LA 4471", "LV10", "C14", "1,204", "BOARDING"), ("LA 0088", "LV37", "A03", "48,881", "ON TIME"),
             ("LA 7720", "LV9", "B07", "906", "GATE OPEN"), ("LA 1309", "LV188", "E22", "--", "DELAYED"),
-            ("LA 5502", "LV11", "D41", "73,310", "SCHEDULED"), ("LA 0021", "LV3999", "F09", "0", "CLOSED"),
-            ("LA 6128", "LV188", "K17", "17,250", "SCHEDULED"), ("1784XBA8JLP", "LV186", "C32", "94,612,753", "DELAYED")]
+            ("LA 5502", "LV11", "D41", "73,310", "ON TIME"), ("LA 0021", "LV3999", "F09", "0", "CLOSED"),
+            ("LA 6128", "LV188", "K17", "17,250", "ON TIME"), ("1784XBA8JLP", "LV186", "C32", "94,612,753", "DELAYED")]
 ARR_ROWS = [("LA 3301", "LV11", "3", "ON BELT"), ("LA 4806", "LV9", "7", "ON BELT"), ("LA 1919", "LV37", "12", "LANDED"),
             ("LA 2468", "LV10", "5", "ON BELT"), ("LA 7077", "LV3999", "--", "EXPECTED"), ("LA 9184", "LV188", "21", "ON BELT"),
             ("LA 0004", "LV0", "--", "NOT KNOWN"), ("LA 6610", "LV9", "9", "ON BELT")]
@@ -106,7 +106,7 @@ def board(kind):
     a[0:22] = NAVYBOARD
     amber, white = (255, 178, 46), (232, 234, 228)
     if kind == "dep":
-        cols, heads, rows = (4, 72, 112, 136, 198), ("FLIGHT", "TO", "GATE", "COUNT", "REMARKS"), DEP_ROWS
+        cols, heads, rows = (4, 76, 118, 142, 206), ("FLIGHT", "TO", "GATE", "COUNT", "REMARKS"), DEP_ROWS
     else:
         cols, heads, rows = (4, 72, 128, 170), ("FLIGHT", "FROM", "BELT", "REMARKS"), ARR_ROWS
     for x, h in zip(cols, heads):
