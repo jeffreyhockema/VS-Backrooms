@@ -64,9 +64,17 @@ public partial class ThresholdSystem
         Tile here = layout.TileAt(x, z);
         var sb = new System.Text.StringBuilder($"way in at {x},{z} (level {here.Level}, under {here.Under}): ");
         var a = sapi.World.BlockAccessor;
+        int loading = 0;
         string Column(int cx, int cz, int level)
         {
             int floor = geometry.FloorFor(level);
+            if (a.GetChunk(cx / Vintagestory.API.Config.GlobalConstants.ChunkSize, floor / Vintagestory.API.Config.GlobalConstants.ChunkSize,
+                    cz / Vintagestory.API.Config.GlobalConstants.ChunkSize) == null)
+            {
+                loading++;
+                sapi.WorldManager.LoadChunkColumnPriority(cx / Vintagestory.API.Config.GlobalConstants.ChunkSize, cz / Vintagestory.API.Config.GlobalConstants.ChunkSize);
+                return "(loading: run again)";
+            }
             var parts = new System.Collections.Generic.List<string>();
             for (int rel = 0; rel <= 3; rel++)
                 parts.Add(a.GetBlock(new Vintagestory.API.MathTools.BlockPos(cx, floor + rel, cz))?.Code?.Path ?? "unloaded");
@@ -89,7 +97,7 @@ public partial class ThresholdSystem
             if (back == null) return sb.Append($"the door at {ax + dx},{az + dz} does NOT lead back").ToString();
             Link? there = network.Take(back, network.HomeFor(back));
             bool homeOk = there is { } t && System.Math.Abs(t.X - home.X) < 0.01 && System.Math.Abs(t.Z - home.Z) < 0.01;
-            return sb.Append($"out through the door at {ax + dx},{az + dz} (rel 0-3 {Column(ax + dx, az + dz, at.Level)}): leads to {there} ({back.Message}), "
+            return sb.Append($"out through the door at {ax + dx},{az + dz} (rel 0-3 {Column(ax + dx, az + dz, at.Level)}): leads to {(there is { } lt ? $"{lt.X:0.0},{lt.Y:0.0},{lt.Z:0.0}" : "nowhere")} ({back.Message}), "
                 + (homeOk ? "home, beside the way in" : "NOT home")).ToString();
         }
         return sb.Append("no campus door beside the arrival").ToString();
