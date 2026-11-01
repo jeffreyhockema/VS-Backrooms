@@ -1,0 +1,345 @@
+// The Basement's way in, in other levels: a piece of a patch of cracked floor, five by five, that gives way in its middle (drawing a or b, part p<row><column>, turned: n as drawn, s half about)
+{
+	"code": "basement-floorcrack",
+	"variantgroups": [
+		{
+			"code": "drawing",
+			"states": [
+				"a",
+				"b"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"p00",
+				"p01",
+				"p02",
+				"p03",
+				"p04",
+				"p10",
+				"p11",
+				"p12",
+				"p13",
+				"p14",
+				"p20",
+				"p21",
+				"p22",
+				"p23",
+				"p24",
+				"p30",
+				"p31",
+				"p32",
+				"p33",
+				"p34",
+				"p40",
+				"p41",
+				"p42",
+				"p43",
+				"p44"
+			]
+		},
+		{
+			"code": "turn",
+			"states": [
+				"n",
+				"s"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-a-p22-n"
+		],
+		"decorative": [
+			"*-a-p22-n"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"renderpass": "Transparent",
+	"shapeByType": {
+		"*-n": {
+			"base": "block/basement/floorcrack"
+		},
+		"*-s": {
+			"base": "block/basement/floorcrack",
+			"rotateY": 180
+		}
+	},
+	"texturesByType": {
+		"*-a-p00-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p00"
+			}
+		},
+		"*-a-p01-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p01"
+			}
+		},
+		"*-a-p02-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p02"
+			}
+		},
+		"*-a-p03-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p03"
+			}
+		},
+		"*-a-p04-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p04"
+			}
+		},
+		"*-a-p10-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p10"
+			}
+		},
+		"*-a-p11-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p11"
+			}
+		},
+		"*-a-p12-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p12"
+			}
+		},
+		"*-a-p13-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p13"
+			}
+		},
+		"*-a-p14-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p14"
+			}
+		},
+		"*-a-p20-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p20"
+			}
+		},
+		"*-a-p21-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p21"
+			}
+		},
+		"*-a-p22-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p22"
+			}
+		},
+		"*-a-p23-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p23"
+			}
+		},
+		"*-a-p24-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p24"
+			}
+		},
+		"*-a-p30-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p30"
+			}
+		},
+		"*-a-p31-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p31"
+			}
+		},
+		"*-a-p32-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p32"
+			}
+		},
+		"*-a-p33-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p33"
+			}
+		},
+		"*-a-p34-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p34"
+			}
+		},
+		"*-a-p40-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p40"
+			}
+		},
+		"*-a-p41-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p41"
+			}
+		},
+		"*-a-p42-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p42"
+			}
+		},
+		"*-a-p43-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p43"
+			}
+		},
+		"*-a-p44-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-a-p44"
+			}
+		},
+		"*-b-p00-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p00"
+			}
+		},
+		"*-b-p01-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p01"
+			}
+		},
+		"*-b-p02-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p02"
+			}
+		},
+		"*-b-p03-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p03"
+			}
+		},
+		"*-b-p04-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p04"
+			}
+		},
+		"*-b-p10-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p10"
+			}
+		},
+		"*-b-p11-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p11"
+			}
+		},
+		"*-b-p12-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p12"
+			}
+		},
+		"*-b-p13-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p13"
+			}
+		},
+		"*-b-p14-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p14"
+			}
+		},
+		"*-b-p20-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p20"
+			}
+		},
+		"*-b-p21-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p21"
+			}
+		},
+		"*-b-p22-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p22"
+			}
+		},
+		"*-b-p23-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p23"
+			}
+		},
+		"*-b-p24-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p24"
+			}
+		},
+		"*-b-p30-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p30"
+			}
+		},
+		"*-b-p31-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p31"
+			}
+		},
+		"*-b-p32-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p32"
+			}
+		},
+		"*-b-p33-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p33"
+			}
+		},
+		"*-b-p34-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p34"
+			}
+		},
+		"*-b-p40-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p40"
+			}
+		},
+		"*-b-p41-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p41"
+			}
+		},
+		"*-b-p42-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p42"
+			}
+		},
+		"*-b-p43-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p43"
+			}
+		},
+		"*-b-p44-*": {
+			"crack": {
+				"base": "block/basement/floorcrack-b-p44"
+			}
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.05,
+		"z2": 1
+	},
+	"resistance": 1,
+	"drops": [],
+	"sounds": {
+		"place": "game:block/loosestone",
+		"break": "game:block/loosestone",
+		"hit": "game:block/loosestone"
+	}
+}

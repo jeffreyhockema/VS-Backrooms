@@ -15,6 +15,7 @@ static partial class LevelModes
     /// </summary>
     static bool BasementModes(WorldLayout layout, string mode, string[] args)
     {
+        if (mode == "basementlinks") return BasementLinks(layout, args);
         if (mode != "basementstats" && mode != "basementmap") return false;
         int n = args.Length > 3 && int.TryParse(args[3], out int k) ? k : 24;
         var (cmx, cmz, radius) = layout.BasementRegion;
@@ -221,7 +222,8 @@ static partial class LevelModes
         return true;
     }
 
-    static string BasementLinkLabel(Tile t) => null;
+    static string BasementLinkLabel(Tile t) => WorldLayout.BasementCrackGives(t) ? "cracked floor into the Basement"
+        : t.Level == WorldLayout.Basement && t.Ceiling == CeilingKind.BasementOpen ? "top of the Basement's crack" : null;
 
     static string BasementUseKind(Tile t) => null;
 }

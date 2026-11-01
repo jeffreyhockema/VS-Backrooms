@@ -1,0 +1,33 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"crack": "backrooms:block/basement/floorcrack-a-p22"
+	},
+	"elements": [
+		{
+			"name": "Crack",
+			"from": [
+				0,
+				0.2,
+				0
+			],
+			"to": [
+				16,
+				0.2,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#crack",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

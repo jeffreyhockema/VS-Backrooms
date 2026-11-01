@@ -41,6 +41,8 @@ public partial class WorldLayout
                 }
 
         spots.Sort((a, b) => Array.IndexOf(ShowcaseOrder, a.Name).CompareTo(Array.IndexOf(ShowcaseOrder, b.Name)));
+        // (The way in, in other levels, and out at the top of a crack: WorldLayout.LevelBasement.Links.cs)
+        spots.AddRange(BasementLinkShowcaseSpots(geometry));
         return spots;
     }
 

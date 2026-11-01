@@ -26,6 +26,9 @@ namespace Backrooms.Regions;
 /// <item><b>The smell</b> (Fandom: "the smell of the corpses … can suffocate one if it is inhaled for long enough"):
 /// with two or more of the dead within four blocks, it builds; a warning at a quarter of a minute, then from three
 /// quarters of a minute a little suffocation every few seconds until you get away. It eases twice as fast as it builds.</item>
+/// <item><b>The cracked floor of Level 2</b>: the walked thresholds leave Level 2 alone, so whoever is there is looked at
+/// here, and stepping onto the middle of one of the Basement's cracked patches drops them in as anywhere else
+/// (ThresholdSystem.Basement.cs).</item>
 /// </list>
 /// The doors (<see cref="BlockBehaviorBasementDoor"/>) are registered here too.
 /// </summary>
@@ -39,6 +42,7 @@ public class BasementSystem : ModSystem
     private ICoreServerAPI sapi;
     private WorldLayout layout;
     private WorldGeometry geometry;
+    private Thresholds.ThresholdSystem thresholds;
     private readonly HashSet<long> bodiesDone = new();
     private readonly Dictionary<string, float> exposure = new();
     private readonly Dictionary<string, long> lastLoopMs = new();
@@ -64,6 +68,8 @@ public class BasementSystem : ModSystem
             api.Event.GameWorldSave += OnSave;
             api.Event.RegisterGameTickListener(OnLoopTick, 200);
             api.Event.RegisterGameTickListener(OnDeadTick, 1000, 500);
+            thresholds = api.ModLoader.GetModSystem<Thresholds.ThresholdSystem>();
+            api.Event.RegisterGameTickListener(OnLevel2Tick, 250, 100);
             api.Event.PlayerDisconnect += p => { exposure.Remove(p.PlayerUID); lastLoopMs.Remove(p.PlayerUID); };
         });
         // Dev test, console-safe (a console line's trailing carriage return is taken and ignored): lays down the bodies of
@@ -102,6 +108,21 @@ public class BasementSystem : ModSystem
 
     private bool InBasement(EntityPos pos) =>
         layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(pos.X)), WorldLayout.MacroOf((int)Math.Floor(pos.Z))) == WorldLayout.Basement;
+
+    // ================= The cracked floor of Level 2 =================
+
+    /// <summary>Whoever is in Level 2 and on one of the Basement's cracked patches goes through it (ThresholdSystem.Basement.cs).</summary>
+    private void OnLevel2Tick(float dt)
+    {
+        if (layout == null || thresholds == null) return;
+        foreach (IPlayer p in sapi.World.AllOnlinePlayers)
+        {
+            if (p is not IServerPlayer sp || sp.Entity == null) continue;
+            int x = (int)Math.Floor(sp.Entity.Pos.X), z = (int)Math.Floor(sp.Entity.Pos.Z);
+            if (layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)) != 2 || !WorldLayout.IsBasementCrack(layout.TileAt(x, z))) continue;
+            thresholds.BasementCrackInLevel2(sp);
+        }
+    }
 
     // ================= The stairwells =================
 
