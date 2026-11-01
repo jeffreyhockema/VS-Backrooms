@@ -30,7 +30,7 @@ import zipfile
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STAGES = ["generators", "lang", "build", "boot", "mapgen", "scorecard", "oldworld", "harness", "zip"]
 FAST = ["generators", "lang", "build", "boot", "harness"]
-TAG = "gate"
+TAG = os.environ.get("GATE_TAG", "gate")
 HASH_VERSIONS = [1, 9, 10, 11]          # past layout versions, always checked; the current one is added
 DEFAULT_CONFIG = {"oldWorldSave": "C:/Users/icebu/AppData/Roaming/VintagestoryData/Saves/sunny cave tales.vcdbs"}
 NEVER_TOUCH = ("creepy kingdom",)       # the user's live save
