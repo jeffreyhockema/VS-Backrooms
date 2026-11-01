@@ -310,3 +310,63 @@ shaft, the Dry Patch's pillars and the sleeper's camp.
 **Still weak:** big finished rooms are still emptier in the middle than a real cellar; the brick inside a stairwell is
 bright and plain under a torch; the duct is the only new model (a furnace, water heater, a bar cellar's kegs and the
 brief's rising tide are still left out); the Bacteria put down by `encounter ... glimpse` did not land in the frame.
+
+## Links (2026-10-31)
+
+After `LINKS.md` ("The Basement"): one way in, from five levels, and one way out, both one-way.
+
+**In: the floor gives way** (Fandom: "breaking through the floor of most levels"; the Wikidot account starts by breaking
+through Level 0's floor). Very rarely a cell of Level 0, 1, 2, 4 or 5 holds a patch of cracked floor five by five
+(`WorldLayout.LevelBasement.Links.cs`, `BasementEntrances`, salts 0x2280-0x2282): the host's own floor, with a flat decal
+over each tile (`basement-floorcrack`, two drawings, each also turned half about by a hash of the patch's middle; dark
+only, so it reads on yellow carpet, office carpet, hotel rugs and concrete): in the middle a hole broken through to the
+dark, the floor sagging round it, cracks running out across the edge, rings of fracture, hairline cracks over the edge.
+Each tile's `Under` is its piece (`Unders.BasementCrack` 288 + 5 dz + dx, to 312). Step onto the middle three by three
+and it gives way (`ThresholdNetwork.BasementWalked`, feet under rel 1.6): a crumbling sound and the floor's dust where you
+stood, the chat line "The floor gives way under you...", and you are put down ten blocks up the shaft of a crack in the
+Basement's ceiling (`IntoBasement`: under a crack, on dry Cellar floor) and fall the rest: about six health of fall
+damage, never a killing one (the pit's fall grace, `FallGraceKey`). One-way; the patch is one threshold (its middle tile)
+and always drops into the same crack. Placement takes free plain floor only, clear of the cell's edge: a whole free five
+by five if the cell has one (a room), else a free middle three by three (a wide hall), else the middle tile and two more
+(across one of Level 2's narrow tunnels); never the spawn cell, nor a Red Room, the Manila Room or a party cell in
+Level 0. A patch only gives way where its decal lies on the floor (`BasementMayPass`): a stretch of a world generated
+before this build, or a patch whose cracks someone dug up, holds.
+
+**Out: up the crack** (Fandom: "near impossible", bring a ladder). Whoever gets to the top of a crack's shaft (feet at rel
+16 or more over its open middle or the torn carpet round it, level with the floor of the room up there), by a ladder,
+blocks or anything else, hauls themselves out into Level 0 ("...into yellow light and the hum of the fluorescents. The
+hole is gone behind you."), at an open spot of the Lobby (`In(0)`), always the same one for that crack. One-way.
+
+**Level 2:** `ThresholdSystem.OnTick` does not look at Levels 2, 3 and 8 for walked thresholds, so `BasementSystem` looks
+at whoever is in Level 2 every quarter second and, on a patch's middle, sends them through the same passage
+(`ThresholdSystem.BasementCrackInLevel2`). No shared line was needed.
+
+**Text:** the handbook page's *Getting here* and *Leaving* say how (gen_guide.py's own `PAGES["basement"]` block: the note
+"Nothing leads here yet" is gone); a folded note in the Lobby (`r-l0-basement`, "Soft floor", appended to `rare-l0` by
+a self-contained block in gen_notes.py: a wanderer who watched Kel go through); the two chat lines and the block's name
+in en.json. The level's own notes already said "bring a ladder".
+
+**Numbers** (`mapgen <seed> 16000 basementlinks`: the cells within 400 of spawn): a cell in 1500 of Levels 0 and 2, in
+2000 of Level 1, in 3000 of Levels 4 and 5. Seed 12345: Level 0 1 patch (3.8 km², nearest 1922 m from spawn), Level 1 3
+(6.7 km², 1859 m), Level 2 1 (6.5 km², 2040 m), Level 4 7 (15.6 km², 2728 m), Level 5 4 (18.5 km², 3188 m): 16 in the
+world, 0.15-0.45 per km², a median of 0.8-2.6 km to the next in the same level. Over six seeds each level has 1-10, 0.1-1.2
+per km², and every cell picked for one held one (Level 2's narrow tunnels needed the third fallback). For comparison
+layout 11's ways were a few hundred blocks apart: these are a few kilometres. The mode also goes through every tile of
+the nearest three patches of each host (only the middle gives way, every tile to the same crack, never a block and a half
+over the floor, the same again) and up each landing crack (not from the floor, nor at rel 15.2; at the top of the middle
+and on the torn carpet, to Level 0): 11 falls and 11 climbs, 0 bad.
+
+**Checks:** `layouthash` with `BACKROOMS_NO_EXP_ENTRANCES=1` at layout versions 1 and 12: every line for levels 0-20 and
+the layout hash equal main's saved files. Without it only a Level 1 line and the layout hash move at both versions (the
+sample's cells hold no patch in the other hosts). `regions`: Basement 60/60. `expclash` clean.
+
+**Inventions:** the look of the patch (sagging, broken through, cracks and hairlines; the lore says only that people
+break through the floor), only its middle giving way, ten blocks of fall from the shaft (the lore's "several tens of
+feet", made survivable), coming out somewhere in the Lobby rather than beside a hole, the decal check, the Lobby note
+and Kel.
+
+**Ways between levels (rows for the guide's table, One-way):**
+- Levels 0, 1, 2, 4 and 5, very rarely a patch of cracked floor a few paces across, its middle broken and sunk: step onto
+  the middle and it gives way, a long fall into the Basement under a crack in its ceiling.
+- The Basement, the top of a crack in its ceiling, sixteen blocks over the floor (bring a ladder, or blocks to stand
+  on): Level 0.
