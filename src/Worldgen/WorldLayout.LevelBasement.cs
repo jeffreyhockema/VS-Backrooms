@@ -533,6 +533,15 @@ public sealed partial class WorldLayout
             if (t.Kind != TileKind.Floor || t.Ceiling == CeilingKind.BasementOpen || t.Detail != 0 || t.Pipe != 0) continue;
             t.Pipe = duct ? (alongX ? Pipes.BasementDuctWE : Pipes.BasementDuctNS)
                 : i == leakAt ? (alongX ? Pipes.BasementLeakWE : Pipes.BasementLeakNS) : alongX ? Pipes.BasementPipeWE : Pipes.BasementPipeNS;
+            // (Round 3: the floor under a leak is wet, round it damp)
+            if (!duct && i == leakAt)
+                for (int k = -1; k <= 1; k++)
+                {
+                    int lx = alongX ? i + k : line, lz = alongX ? line : i + k;
+                    if (lx < 0 || lz < 0 || lx >= MacroSize || lz >= MacroSize) continue;
+                    ref Tile u = ref b.At(lx, lz);
+                    if (u.Kind == TileKind.Floor && u.Floor == FloorKind.BasementFloor) u.Floor = FloorKind.BasementDamp;
+                }
         }
     }
 
@@ -1602,7 +1611,18 @@ public sealed partial class WorldLayout
         for (int j = 0; j < n; j++)
             for (int i = 0; i < n; i++)
             {
-                if (patch && InPatch(i, j) || degree[j * n + i] != 1 || stubbed[j * n + i] || !dead.Chance(0.3)) continue;
+                if (patch && InPatch(i, j) || degree[j * n + i] != 1 || stubbed[j * n + i]) continue;
+                if (!dead.Chance(0.3))
+                {
+                    // (Round 3) or boxes that floated down here and sank in a corner of it, their tops just out of the water
+                    if (!dead.Chance(0.35)) continue;
+                    ref Tile c = ref b.At(Node(i) + (dead.Chance(0.5) ? -1 : 1), Node(j) + (dead.Chance(0.5) ? -1 : 1));
+                    if (c.Kind != TileKind.Water || c.Height != 0 || c.Variant != 0) continue;
+                    c.Variant = Props.BasementBoxes;
+                    c.Stack = (byte)dead.Range(0, 3);
+                    c.Pier = (ArchPier)dead.Range(0, 3);
+                    continue;
+                }
                 ref Tile t = ref b.At(Node(i) + dead.Range(-1, 1), Node(j) + dead.Range(-1, 1));
                 if (t.Kind != TileKind.Water || t.Height != 0) continue;
                 t.Variant = Props.BasementBody;

@@ -136,6 +136,12 @@ def textures():
     save(wall(11), "wall-plain")
     save(wall(12), "wall-plain-2")
     save(wall(13, stained=0.6), "wall-plain-3")
+    # (Round 3) a block wall cracked through its courses, a damp bloom wicking up from the floor
+    cracked = wall(14, stained=0.3)
+    M.crack(cracked, seed=15, length=(14, 26), strength=0.35)
+    M.crack(cracked, seed=16, length=(8, 16), strength=0.3)
+    M.tideline(cracked, 24, seed=17, color=(48, 56, 50), amount=0.4, wave=1.6, below=0.9)
+    save(cracked, "wall-plain-4")
     save(wall(21, stained=1.0), "wall-stained")
     save(wall(22, stained=1.0), "wall-stained-2")
     save(wall(31, stained=0.8, tide=True), "wall-tide")
@@ -243,7 +249,7 @@ def blocks():
     fresh(BLOCKS)
     fresh(SHAPES)
     cube_block("basement-wall", ["plain", "stained", "tide"], {
-        "plain": alts("wall-plain", ["wall-plain-2", "wall-plain", "wall-plain-2", "wall-plain-3"]),
+        "plain": alts("wall-plain", ["wall-plain-2", "wall-plain", "wall-plain-2", "wall-plain-3", "wall-plain-4"]),
         "stained": alts("wall-stained", ["wall-stained-2"]),
         "tide": alts("wall-tide", ["wall-tide-2"]),
     }, "The Basement: damp painted cinder block (plain, stained; tide: the Flood's wall just over the water)")

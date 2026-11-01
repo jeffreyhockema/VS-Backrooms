@@ -227,6 +227,8 @@ public sealed partial class WorldGenerator
                 if (rel == stepRel) { fluid = waterId; return basementStepIds[Facing(t.Pier)]; }
             }
             if (rel == -2) return basementSlimeBedId;
+            // (Round 3: sodden boxes drifted into a dead end, awash, their tops just out of the water)
+            if (t.Variant == Props.BasementBoxes && rel == 0) { fluid = waterId; return basementBoxesIds[t.Stack & 3, 0, Facing(t.Pier)]; }
             if (rel <= 0) { fluid = waterId; return 0; }
             return 0;
         }
