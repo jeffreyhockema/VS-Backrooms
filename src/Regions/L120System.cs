@@ -310,12 +310,18 @@ public class L120System : ModSystem
         if (born != null) player.SendMessage(GlobalConstants.GeneralChatGroup, Text(player, "l120-misglitch-born"), EnumChatType.Notification);
     }
 
-    /// <summary>A Misglitch standing up at a place (look 0 red-marked, 1 all black); null if there are already six about or the type is missing.</summary>
+    /// <summary>
+    /// At most this many Misglitches within 24 blocks of a death (the balance review, 2026-11-01: was six; a Class 2 level's
+    /// director allows one to three menacing things at once, and six fast long-reach hunters round a corpse is a death loop).
+    /// </summary>
+    public const int L120MisglitchCap = 3;
+
+    /// <summary>A Misglitch standing up at a place (look 0 red-marked, 1 all black); null if there are already three about (the balance review: was six) or the type is missing.</summary>
     public Entity PutDownMisglitch(Vec3d at, int look, string of, bool alwaysActive = false)
     {
         EntityProperties type = sapi.World.GetEntityType(new AssetLocation(MisglitchCode));
         if (type == null) return null;
-        if (sapi.World.GetEntitiesAround(at, 24, 8, e => e.Alive && e.Code?.Path == "l120-misglitch").Length >= 6) return null;
+        if (sapi.World.GetEntitiesAround(at, 24, 8, e => e.Alive && e.Code?.Path == "l120-misglitch").Length >= L120MisglitchCap) return null;
         Entity e = sapi.World.ClassRegistry.CreateEntity(type);
         double y = Math.Floor(at.Y + 0.1);
         e.Pos.SetPos(at.X, y, at.Z);
@@ -387,7 +393,7 @@ public class L120System : ModSystem
                 Entity e = PutDownMisglitch(at, rand.Next(2), args.Caller.Player?.PlayerName ?? "the console", alwaysActive: caller == null);
                 // (Put down away from you: it stands turned to you)
                 if (e != null && hasXz && caller != null) e.Pos.Yaw = (float)Math.Atan2(caller.Pos.X - at.X, caller.Pos.Z - at.Z);
-                return e == null ? TextCommandResult.Error("No Misglitch (its type is missing, or six are already about)") : TextCommandResult.Success($"A Misglitch stands at {at.X:0}, {at.Y:0}, {at.Z:0} (#{e.EntityId})");
+                return e == null ? TextCommandResult.Error("No Misglitch (its type is missing, or three are already about)") : TextCommandResult.Success($"A Misglitch stands at {at.X:0}, {at.Y:0}, {at.Z:0} (#{e.EntityId})");
             }
             case "void":
             case "hallway":
