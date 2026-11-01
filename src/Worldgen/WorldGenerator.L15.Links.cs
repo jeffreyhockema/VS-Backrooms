@@ -120,9 +120,10 @@ public sealed partial class WorldGenerator
             }
             case Unders.L15Stairs:
             {
-                // Concrete stairs down through the floor (Pier the way they climb), six steps, then the landing; the room over them as it is
-                if (rel > 0) return -1;
-                int n = t.Stack;
+                // Concrete stairs down through the floor (Pier the way they climb), six steps, then the landing; open air over them up
+                // to the room's ceiling (Stack is the step here, not a stack of crates)
+                int n = t.Stack, room = t.Height is >= 3 and <= 7 ? t.Height : 4;
+                if (rel > 0) return rel <= room ? 0 : -1;
                 if (n > L.L15StairSteps)
                     return rel == -L.L15StairSteps ? floorIds[(int)FloorKind.OfficeCarpet] : rel < -L.L15StairSteps ? concreteId : 0;
                 int tread = 1 - n;

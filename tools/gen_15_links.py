@@ -198,8 +198,8 @@ def blocktypes():
         data, c = door_block(code, texture, kind, comment, other)
         if code == "l15-l3door":
             # The light under the door: a little, cold
-            data["lightHsvByType"] = {"*-lower-*": [34, 1, 4]}
-            data["vertexFlagsByType"] = {"*-lower-*": {"glowLevel": 40}}
+            data["lightHsvByType"] = {"*-lower-*": [34, 1, 7]}
+            data["vertexFlagsByType"] = {"*-lower-*": {"glowLevel": 110}}
         write_json(os.path.join(BLOCKS, code + ".json"), data, c)
 
     tbt = {f"*-{s}": {"all": tex("wall-panel"), s: tex("deco-escapelive")} for s in SIDES}

@@ -116,12 +116,12 @@
 		"*-lower-*": [
 			34,
 			1,
-			4
+			7
 		]
 	},
 	"vertexFlagsByType": {
 		"*-lower-*": {
-			"glowLevel": 40
+			"glowLevel": 110
 		}
 	}
 }
