@@ -375,3 +375,76 @@ end doors for the emergency exit; Dez's, A.L.'s and Tom's notes.
   through that door (an open doorway) leads back to where the opener stood, in front of the school / the exit
   (`l52-back-city`, `l52-back-office`). Dummy in Level 52 lands; `blocksweep` 11181 blocks, 0 threw; 0 error lines.
 - `GATE_TAG=52 python tools/gate.py --fast --port-base 43120`: PASS.
+
+## Round 3 (2026-11-01): the detailed visual pass
+
+Looked at first: round 2's final sheet (`%TEMP%/backrooms-shots/final-r2/sheets/52.jpg`), the lead's notes for Level 52, the
+brief, DECISIONS.md, this plan's open points, and the released levels with the same kind of place (Level 11's stores and
+signs, Level 5's lobby, Level 4's offices, Level 188's street furniture).
+
+**Signs and the lore.** The lore says a door's sign carries four digits and "no subject and no campus name" anywhere. So
+this round's text keeps to what that allows: numbers (building numbers over the entrances, floor numbers in the
+stairwells, room ranges on the directories), the words any building has (EXIT, STAIRS, the restroom pictograms, NO
+RUNNING), and the people's own signs, which the lore names: the M.E.G.'s outpost, Cool Mart Co. at J. Barry, the
+abandoned bases' boards, and the M.E.G.'s stencilled boards giving the three named campuses their names at their gates
+(the names are the M.E.G.'s, not the buildings'). No subject over a classroom door, no name cast into a building.
+
+### List
+Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: why]`.
+
+**1. Layout realism**
+1. (A) Rooms by function in the quad: a front office (reception counter, waiting chairs, the principal's office behind) beside the main lobby on the ground floor.
+2. (A) Restrooms by every stairwell (a pair per storey: stalls with partitions, toilets, a row of basins) instead of a classroom.
+3. (A) A real library: the biggest ground-storey room of a block, rows of shelving, reading tables with chairs, a circulation desk.
+4. (A) A staff room on each building's ground storey (sofa, coffee table, kitchenette counter, fridge, a table and chairs).
+5. (A) The gym with changing rooms walled off at one end (benches, lockers, two doors) and bleachers along a long side.
+6. (A) Paths that lead between entrances and the fence gaps (a walk joining every building's doors), not only straight out across the lawns.
+7. (A) A sports field with goals inside a running track on campuses with the room for one.
+8. (B) A lecture theatre: a hall building with raked rows of seats facing a long board.
+9. (B) Labs grouped on one storey with benches along both walls and fume hoods.
+10. (B) An outdoor seating area by the canteen (tables, chairs, benches) and a canteen serving line.
+11. (B) Lodging blocks: a desk and a chair in each room, a shared washroom on each floor.
+12. (C) Courtyard trees off their visible grid.
+
+**2. Multi-block objects**
+13. (A) Roofs: air-handling units (several blocks, fan grilles), a stair bulkhead with a roof door over each stairwell, vents.
+14. (A) A clock tower on Marshall David's quad (and on some other quads): a square tower over the roofline, a clock face on each side.
+15. (A) A fountain in the middle of a courtyard without a court (a stone basin with water, a jet column).
+16. (A) Flagpoles in front of the quad's main entrance (pole, base, flag at the top).
+17. (A) A campus map board at the main gap of every campus (a framed board on two posts).
+18. (B) Bleachers (stepped rows) by the J. Turner court and the sports field.
+19. (B) The trophy case in the quad's lobby (glass case on a plinth) and benches.
+20. (B) Elevator doors (closed: the lore has lifts; stairs carry people) beside the quad's first stairwell, a call button and a floor indicator.
+21. (B) A car park outside each named campus's main gap (paved bays, painted lines, a few cars) and a bus shelter by the road.
+22. (B) Glazed courtyard roof on some quads (the lore's "translucent ceiling").
+23. (C) Bike racks and planters by the entrances.
+
+**3. Signs and text**
+24. (A) EXIT signs over every outside door and every stairwell door, inside.
+25. (A) Building numbers over the entrances (big numerals on the canopy fascia).
+26. (A) Floor numbers in the stairwells (painted on the landing walls) and a floor directory beside each stairwell door (FLOOR n, the room ranges, arrows).
+27. (A) Restroom signs (pictograms) by their doors.
+28. (A) The M.E.G. outpost's own sign at Marshall David's top floor (and its barrier notice), the M.E.G.'s placard conventions.
+29. (A) J. Barry's warehouse sign (COOL MART CO.) over its doors, and its alarm bells.
+30. (A) The named campuses' names at their main gaps (the M.E.G.'s stencilled boards).
+31. (B) Notice boards along the corridors (cork, pinned sheets) and posters (NO RUNNING, a fire plan).
+32. (B) The abandoned bases' boards (Base Sunfire, Emberwatch, Blackcross) on a few ordinary campuses, with what they left (crates, a tent, a barricade).
+33. (C) A wall clock over each chalkboard.
+
+**4. Detail visuals**
+34. (A) Break the locker runs: fire-hose cabinets, extinguishers, notice boards, doors, bins (the lead's note).
+35. (A) Marshall David worn, as the lore has it: dirt prints and cracks in its corridors' floor, rubbish here and there.
+36. (B) Hedges along the quad's front and the main walk.
+37. (B) Door leaves standing open against the wall beside classroom doors (wood with a narrow window).
+38. (B) The lobby's floor: an entrance mat inside each outside door, a different floor from the corridors.
+39. (C) Fresh paint patches over the Crash's bullet holes at J. Barry (the aftermath text).
+
+**5. Lore alignment**
+40. (A) Classrooms stay identical and dark (the lore); the new room kinds take the places the lore lists (offices, faculty rooms, labs, libraries, utility rooms).
+41. (B) The M.E.G.'s locked top floor: a barrier at the top flight with its notice ("outsiders are sent back a floor").
+42. (C) The roof's view: the campus below reads from the roof (a lower parapet on the roof-door side).
+
+**6. Released-level alignment**
+43. (A) Block names in the HUD for every new block (lang), pick-block works, sounds by material.
+44. (A) Showcase spots for every new set piece, computed from the layout.
+45. (B) The handbook page and notes mention the new sights where the lore has them (the M.E.G.'s sign, Cool Mart Co.).
