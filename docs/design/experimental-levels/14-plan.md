@@ -210,3 +210,9 @@ Filled in as built (section 6).
   counter-north on its east and counter-west on its south. Lang names: gen_14_props.py `NAMES`, and agent B1's list.
   TODO: BackroomsSuburbDoor.Swap uses FirstCodePart() ("l14"): l14-door never changes state; fix in my own behaviour
   class or use BlockCodes.WithVariant. Items l14-painkillers, l14-antibiotics, l14-stalesoda to add.
+- 173530b6 layout + generator (WorldLayout.Level14.cs, WorldGenerator.L14.cs; harness `14stats [wings] [map]`, `14dump x z r`,
+  `14showcase`; 14links stub in L14Stats.cs). Checks then: regions 60/60 no pockets; layouthash v1/v12 = main (no exp entrances).
+- fd700714 content agent: SurvivalClass 4, Danger 0.7, items (L14Items.cs), lang block (title keys 2901-2911 = reception, ward,
+  ICU, psychiatry, maternity, surgery, storage, torture, T.14.R.G., office, contaminated; chat keys l14-contam-enter/-sick,
+  l14-equipment-0..3, l14-crack-warn, l14-reception-shut, l14-arrive), notes l14-1..7, r-l14-1..3, l14-h0, l14-h15, guide page.
+- Next: agent S (sounds, atmosphere, L14System rules), agent L (links), me (showcase, screenshot cycles).
