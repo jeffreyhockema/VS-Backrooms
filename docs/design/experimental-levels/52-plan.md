@@ -319,14 +319,14 @@ hook, and the campus doors that can lead back), `WorldGenerator.L52.Links.cs` (t
 salts 0x2380-0x2389, threshold salts 0x23C1-0x23C2.
 
 ### What was built
-- **Level 11, a high school.** A city block of lots in midtown or the low-rise streets is drawn for one (1 in 80 by its
-  hash, its own salt); one of its street-front lots (an apartment block, an office or a shop, 14-30 wide, nothing else's
+- **Level 11, a high school.** A city block of lots in midtown or the low-rise streets is drawn for one (1 in 640 by its
+  hash, its own salt; 1 in 80 until the links tune of 2026-11-01); one of its street-front lots (an apartment block, an office or a shop, 14-30 wide, nothing else's
   on it, every cell it touches city and not the rim) is planned again over the top as a brick (red, dark) or stone
   building three or four storeys high, its outside walls kept where they were (corners, party walls) with no doors in
   them, sealed inside; in the middle of its front a pair of grey steel doors (`l52-door`, the End's exit door's shape,
   threshold kind `l52-door`) under a four-block HIGH SCHOOL sign (`l52-schoolsign`: cream letters on maroon in a brass
-  frame). The host tiles stay walls. Rarity: about 1 in 123 city blocks (1.07 per km2 of city; mean distance to the next
-  0.5 km), which is about one lot in a thousand or more; the nearest to spawn are 49.8-51.2 km out (the city's near edge).
+  frame). The host tiles stay walls. Rarity after the tune: 0.12 per km2 of city, about 1.75 km apart on average (`52links`), in line with the other
+  levels' ways; the nearest to spawn are 49.8-51.2 km out (the city's near edge).
 - **Level 4, an EMERGENCY EXIT door.** A cell drawn for one (1 in 500, its own salt; never two within 8 cells: the
   lower roll keeps it) puts it in a straight office wall (drywall; three wall tiles in a line, clear floor in front, and
   where the cell has one, nothing open behind): the same steel door, and over it at rel 3 a green EMERGENCY EXIT sign on
