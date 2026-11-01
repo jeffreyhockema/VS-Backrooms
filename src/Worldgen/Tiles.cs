@@ -1731,6 +1731,8 @@ public static class Props
     public const ushort L36Sink = 1217;
     /// <summary>Level 36 (round 3): a kiosk's purple wall, five high (Stack: a poster on its Pier face, 0 none, else the poster's kind + 1); a charging post; a payphone, a cash machine, a drinking fountain (Almond Water), a shoe-shine chair, a toilet cubicle (Pier their front).</summary>
     public const ushort L36KioskWall = 1218, L36Charger = 1219, L36Phone = 1220, L36Atm = 1221, L36Fountain = 1222, L36ShoeShine = 1223, L36Stall = 1224;
+    /// <summary>Level 36 (round 3): a duty-free gondola of bottles (Pier along its spine).</summary>
+    public const ushort L36Gondola = 1225;
     public const ushort L15First = 1300, L15Last = 1399;
     /// <summary>
     /// Level 15 (see WorldLayout.Level15.cs): a machine's casing (Stack its height, Detail its state), a console, a lab bench, a

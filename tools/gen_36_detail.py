@@ -491,6 +491,13 @@ def _tex_props():
     TX.save(M.noise_hv((150, 156, 150), 2, s + 6, S, 3, (16, 8)), "r3-partition")
     TX.save(M.noise_hv((244, 244, 240), 1, s + 7, S, 2, (16, 8)), "r3-porcelain")
     TX.save(M.noise_hv((10, 12, 16), 1, s + 8, S, 1, (16, 8)), "r3-black")
+    for i, c in enumerate(BOTTLES):   # glass bottles: the tint, a pale highlight down one side, a label band
+        img = M.noise_hv(c, 2, s + 20 + i, S, 2, (16, 8))
+        d = ImageDraw.Draw(img)
+        d.rectangle((4, 0, 6, 31), fill=tuple(min(255, v + 60) for v in c) + (255,))
+        d.rectangle((0, 14, 31, 22), fill=(236, 232, 220, 255))
+        d.rectangle((0, 0, 31, 3), fill=(40, 40, 44, 255))
+        TX.save(img, f"r3-bottle{i}")
     # the charger's face: sockets and USB ports in two columns
     img = Image.new("RGBA", (S, S), (232, 232, 228, 255))
     d = ImageDraw.Draw(img)
@@ -628,6 +635,30 @@ def stall(part):
             B("Roll", (13.5, 7, 9), (15, 9, 11), "r3-white")]
 
 
+BOTTLES = [(214, 182, 112), (120, 30, 40), (40, 90, 60), (200, 200, 210), (90, 60, 30), (30, 60, 120), (230, 150, 40)]
+
+
+def gondola():
+    """A duty-free gondola: a steel island two shelves high, bottles on both faces (spirits, perfume), a price rail."""
+    els = [B("Base", (1, 0, 3), (15, 3, 13), "r3-dark", faces=no("down")),
+           B("Spine", (7.5, 3, 3), (8.5, 22, 13), "r3-steel"),
+           B("Cap", (1, 22, 3), (15, 23, 13), "r3-dark")]
+    rng = random.Random(36)
+    for t, y in enumerate((3, 12)):
+        els.append(B(f"Shelf{t}", (1, y, 3), (15, y + 0.75, 13), "r3-steel"))
+        for side, (z0, z1) in enumerate(((3.5, 7), (9, 12.5))):
+            x = 1.6
+            k = 0
+            while x < 14:
+                w = rng.choice((1.6, 2, 2.4))
+                h = rng.choice((5, 6, 7))
+                col = rng.randrange(len(BOTTLES))
+                els.append(B(f"B{t}{side}{k}", (x, y + 0.75, z0), (min(14.6, x + w), y + 0.75 + h, z1), f"r3-bottle{col}", faces=no("down")))
+                x += w + 0.4
+                k += 1
+    return els
+
+
 def prop_blocks():
     nb = [(0, 0, 0, 1, 1, 1)]
     P.block("l36-meetpost", [("part", ("base", "pole")), ("quad", ("nw", "ne", "sw", "se"))],
@@ -636,6 +667,9 @@ def prop_blocks():
             "plinth at the foot (base)",
             boxes=lambda v: [tuple(c / 16 for c in (lambda b: (b[0], 0, b[1], b[2], 16, b[3]))(_corner_box(v["quad"], 4)))], rot="none", material="Metal", sounds=P.METAL,
             data={"attributes": {"l36structure": True}})
+    P.block("l36-gondola", [("side", tuple(SIDES))], lambda v: gondola(),
+            "Level 36: a duty-free gondola, two steel shelves of bottles on both faces (tinted water: the lore says the "
+            "perfumes are worthless)", boxes=[(0.0625, 0, 0.1875, 0.9375, 1.4375, 0.8125)], material="Metal", sounds=P.METAL)
     P.block("l36-charger", [], lambda v: charger(),
             "Level 36: a charging post between the gate seats: sockets and USB ports up a slim white column (the lore's "
             "outlets and USB ports; nothing to charge here)", boxes=[(0.375, 0, 0.375, 0.625, 1.3, 0.625)],
@@ -685,6 +719,7 @@ NAMES = {
     "block-l36-finish-skylight": "Skylight",
     "block-l36-finish-*": "Terminal Finish",
     "block-l36-charger": "Charging Post",
+    "block-l36-gondola-*": "Duty-free Gondola",
     "block-l36-payphone-*": "Payphone",
     "block-l36-atm-*": "Cash Machine",
     "block-l36-fountain-*": "Drinking Fountain",

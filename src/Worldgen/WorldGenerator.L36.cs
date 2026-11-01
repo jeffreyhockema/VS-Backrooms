@@ -36,7 +36,7 @@ public sealed partial class WorldGenerator
     private readonly int[,,,] l36Art = new int[L36.L36ArtKinds.Length, 4, 2, 4];
     private readonly int[,,] l36Apron = new int[9, 5, 4];
     private readonly int[,] l36ColPoster = new int[4, 2], l36MeetBox = new int[4, 2], l36MeetPost = new int[2, 4], l36Stall = new int[2, 4];
-    private readonly int[] l36Phone = new int[4], l36Atm = new int[4], l36Fountain = new int[4], l36ShoeShine = new int[4];
+    private readonly int[] l36Gondola = new int[4], l36Phone = new int[4], l36Atm = new int[4], l36Fountain = new int[4], l36ShoeShine = new int[4];
     private int l36Coffer, l36Wood, l36Stone, l36StoneTop, l36Skylight, l36Charger;
     private readonly HashSet<string> l36Missing = new();
 
@@ -146,6 +146,7 @@ public sealed partial class WorldGenerator
             for (int c = 0; c < 9; c++)
                 for (int r = 0; r < 5; r++) l36Apron[c, r, f] = L36Block($"l36-apron-{c}-{r}-{side}", l36Window[System.Math.Min(r, 3), f]);
             l36Phone[f] = L36Block($"l36-payphone-{side}");
+            l36Gondola[f] = L36Block($"l36-gondola-{side}");
             l36Atm[f] = L36Block($"l36-atm-{side}");
             l36Fountain[f] = L36Block($"l36-fountain-{side}", coolerIds[f]);
             l36ShoeShine[f] = L36Block($"l36-shoeshine-{side}");
@@ -322,6 +323,7 @@ public sealed partial class WorldGenerator
             Props.L36Sink => l36Sink[f],
             Props.L36Charger => l36Charger,
             Props.L36Phone => l36Phone[f],
+            Props.L36Gondola => l36Gondola[f],
             Props.L36Atm => l36Atm[f],
             Props.L36Fountain => l36Fountain[f],
             Props.L36ShoeShine => l36ShoeShine[f],

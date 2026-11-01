@@ -1418,7 +1418,7 @@ public sealed partial class WorldLayout
                                 ushort prop = shop switch
                                 {
                                     L36ShopNews => d % 4 == 2 ? Props.HotelBookshelf : Props.SnackShelf,
-                                    L36ShopDutyFree => s % 3 != 0 ? Props.L36Perfume : Props.DrinkFridge,
+                                    L36ShopDutyFree => d % 4 == 2 ? (s % 3 != 0 ? Props.L36Gondola : (ushort)0) : s % 3 != 0 ? Props.L36Perfume : Props.DrinkFridge,
                                     L36ShopPharma => s % 2 == 0 ? Props.MedCabinet : Props.Shelf,
                                     L36ShopExchange => 0,
                                     L36ShopBooks => Props.HotelBookshelf,
