@@ -254,3 +254,14 @@ The level's own layout moved; levels 0-20 did not.
 | Level 37 | Climbing into the hollow of the green-barked tree nearest the Poolrooms' middle | Level 23, Base Seedling, in front of its hollow tree | That tree |
 | Level 23 | Climbing up into Base Seedling's hollow tree (the lore's way to Level 135) | Level 37, beside the green-barked tree nearest the Poolrooms' middle | That tree |
 | Level 23 | Diving to the bottom of the well in the middle of the Heart of Water's pool | Level 7, swimming in the open sea | None |
+
+**Checks (2026-10-31).** `expclash.py` clean; mod and mapgen build, 0 errors. `layouthash` (seed 12345, 16000; layout 1 and
+12), with and without `BACKROOMS_NO_EXP_ENTRANCES=1`: every line for levels 0-20 and the `layout hash` line identical to
+main's (no level line moved: the sample of Level 37 holds no tree). `regions`: Level 23 60/60. `23stats` ok, `23links` ok.
+Headless (port 43172, `/backrooms l23walk`): each way gone through twice (first time and as written down): a tree in 37
+comes out beside a hollow trunk on the forest floor (air at feet and head); Base Seedling's tree comes out in the water
+beside Seedling's tree in 37 and that tree leads back to the camp's doorway (each the other's way back); the well comes
+out swimming in Level 7's sea; 0 error lines. `GATE_TAG=l23 gate.py --fast --port-base 43170`: PASS.
+Shots (`%TEMP%/backrooms-shots/23-links-a`, `link-*`): the trees in 37 read as huge green trunks through the tile with a
+dark hollow and a mouth; the hollow trunk in the forest read as one, but its floor showed the bark's cut end (now leaf
+litter and humus, not reshot); the well is hard to see from the shore under the dark water.
