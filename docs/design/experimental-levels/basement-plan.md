@@ -538,3 +538,12 @@ the Flood and the Dry Patch got only the sodden boxes this round.
    of rooms, not corridors?
 2. DO NOT ENTER is on every swollen-shut door (one face): keep on all, or only some?
 3. The nods to the Wikidot clipping (the furnace's Cincinnati maker's plate, the calendar stopped in January 1951): keep?
+
+### Checks (round 3, commit a9134958)
+
+`expclash` clean; mod and mapgen build with 0 errors; `layouthash` with `BACKROOMS_NO_EXP_ENTRANCES=1` at layout versions
+1 and 12: every line for levels 0-20 and the layout hash equal main's saved files; `regions` Basement 60/60; `basementstats`
+(seed 12345 and seed 777 `SPAWN=4000`) 100% of walkable tiles in one piece, 0 sealed, 60/60 arrivals; headless (port
+43114) `blocksweep` 11589 blocks, 0 threw, a dummy placed in the Basement, 0 error lines; `GATE_TAG=basement gate.py
+--fast --port-base 43110` PASS. The last two commits after the final shots (the earth's drop, the unsealing walk) change
+nothing that shows.
