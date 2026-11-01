@@ -372,3 +372,21 @@ where it leads (Coran "newly recovered from the Gloom" in the page's M.E.G. log:
 | Level 9 | Standing a minute and a half in the Gloom, a rare pool of darkness in a yard or a street (black ground, a black murk over it; warned three times) | Level 73, on the island in sight of the castle | None (one way) |
 | Level 6 | Lingering three minutes with no light in the very deepest dark of Lights Out (one cell in 2500; warned three times) | Level 73, on the island in sight of the castle | None (one way) |
 | Level 73 | Asking Coran to lead you out (sneak and right-click him) after a night asleep in the castle: he walks you to the chained north door in the outside of the curtain wall and opens it | Level 9, out in the Suburbs | None (one way) |
+
+**Numbers (seed 12345, full size, `73links`)**: the Gloom: 9 of the 20 Level 9 cells that roll it hold one, about 0.22 a km² of
+Level 9 (some 2 km apart, about nine in the world); 20-29 tiles each, mostly on streets (asphalt 85, lawn 55, pavement 26 of 200
+tiles); nearest to spawn 6.72, 6.81, 7.37, 7.48 km. Level 6's deepest dark: 0.39 a km² of Level 6 (about 1.6 km apart; five
+in the world); nearest 4.25, 4.28, 4.45 km. Every way in leads onto the island's dry land; the north door to an open street
+in Level 9.
+
+**Checks**: `expclash` clean; mod and mapgen build, 0 errors; `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash at layout versions 1
+and 12: every line for 0-20 and the layout hash identical to main's; without it, no line for 0-20 moves either (the hash's
+sample cells hold no Gloom); `regions` 60/60 in Level 73; `73stats` OK; `73links` OK (every Gloom changes only its own tiles'
+Under). Headless (port 43100): `l73way` for all three ways, a straw dummy taken by the Gloom (90 s) and by the dark (180 s),
+0 error lines. Client rig (two runs, port 43105, seed 12345): a player in survival warned three times and taken by the
+Gloom, and by Level 6's dark; rested, led by Coran (he ran from the gate round the walls to the door) and through the open
+north door into the Suburbs; showcase shots of the north door shut and open, the Gloom from outside and inside.
+`GATE_TAG=l73g gate.py --fast --port-base 43100` PASS.
+
+**To look at**: the Gloom's murk from outside is a flat black slab over black ground: it reads as wrong, but blocky; a
+softer edge would need a shape of its own. The door opens only once whoever he leads is within 12 blocks of it.

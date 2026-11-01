@@ -582,5 +582,5 @@ public partial class AiTaskL73Coran
     }
 
     /// <summary>How close to the door the one he leads must be before he opens it.</summary>
-    private const double LeadOpenBlocks = 8;
+    private const double LeadOpenBlocks = 12;
 }
