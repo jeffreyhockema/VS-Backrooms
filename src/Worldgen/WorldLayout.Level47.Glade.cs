@@ -201,8 +201,9 @@ public sealed partial class WorldLayout
                 if (u == 8 && v == 4 && rel == 3) return L47GLantern;
                 return L47GAir;
             }
-            // The entrance hall: candles on the Altar Stone's ends
+            // The entrance hall: candles on the Altar Stone's ends, lanterns either side of the door
             if (au == 2 && v == 0 && rel == 3) return L47GCandles;
+            if (au == 3 && v == 6 && rel == 2) return L47GLantern;
             return L47GAir;
         }
         // The loft: a lantern or two, banners on the gables

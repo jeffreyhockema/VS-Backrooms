@@ -23,10 +23,10 @@ namespace Backrooms;
 /// </summary>
 public partial class AtmosphereSystem
 {
-    private static readonly Atmosphere L47DayForest = new(0.034f, 0.58f, 0.62f, 0.60f, -0.30f, scene: 0.85f, clouds: 0f, cloudBrightness: 0f, fogMin: 0.10f);
-    private static readonly Atmosphere L47NightForest = new(0.0055f, 0.030f, 0.045f, 0.080f, -0.12f, scene: 0.45f, clouds: 0f, cloudBrightness: 0f);
-    private static readonly Atmosphere L47DayGlade = new(0.022f, 0.62f, 0.65f, 0.62f, -0.25f, scene: 0.9f, clouds: 0f, cloudBrightness: 0f, fogMin: 0.08f);
-    private static readonly Atmosphere L47NightGlade = new(0.0045f, 0.035f, 0.05f, 0.09f, -0.10f, scene: 0.5f, clouds: 0f, cloudBrightness: 0f);
+    private static readonly Atmosphere L47DayForest = new(0.017f, 0.50f, 0.55f, 0.52f, -0.16f, scene: 0.9f, clouds: 0f, cloudBrightness: 0f, fogMin: 0.035f);
+    private static readonly Atmosphere L47NightForest = new(0.0055f, 0.030f, 0.045f, 0.080f, -0.10f, scene: 0.85f, clouds: 0f, cloudBrightness: 0f);
+    private static readonly Atmosphere L47DayGlade = new(0.012f, 0.55f, 0.59f, 0.56f, -0.12f, scene: 0.95f, clouds: 0f, cloudBrightness: 0f, fogMin: 0.025f);
+    private static readonly Atmosphere L47NightGlade = new(0.0045f, 0.035f, 0.05f, 0.09f, -0.08f, scene: 0.9f, clouds: 0f, cloudBrightness: 0f);
     private static readonly Atmosphere L47ManorAir = new(0.006f, 0.14f, 0.10f, 0.07f, 0f, scene: 0.75f, clouds: 0f, cloudBrightness: 0f);
 
     /// <summary>The title keys of the level's named places (level-3001... in the lang file).</summary>

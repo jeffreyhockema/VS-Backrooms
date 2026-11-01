@@ -509,8 +509,9 @@ def stars(seed, w=2048, h=1024):
     from PIL import Image as _I
     fine_img = _I.fromarray(((fine - fine.min()) / (fine.max() - fine.min()) * 255).astype(np.uint8)).resize((w, h), _I.BICUBIC)
     fine = np.asarray(fine_img).astype(float) / 255.0
-    lanes = np.exp(-((band - 0.02) / 0.03) ** 2) * (fine > 0.5)
-    mw = glow * (0.5 + 0.7 * fine) * (1 - 0.7 * lanes)
+    # (A soft lane of dust down the middle, not blotches)
+    lanes = np.exp(-((band - 0.015) / 0.025) ** 2)
+    mw = glow * (0.55 + 0.45 * fine) * (1 - 0.45 * lanes)
     img += mw[..., None] * np.array([46, 46, 54])
     # Stars: mostly faint, a few bright, more in the band
     n = 9000

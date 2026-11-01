@@ -140,7 +140,7 @@ public partial class AtmosphereSystem : ModSystem
         // Level 14
         new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
         // Level 47: the Adderwood's thick damp fog by day (its clear moonlit night, the glade and the manor: AtmosphereSystem.L47.cs)
-        new(0.034f, 0.58f, 0.62f, 0.60f, -0.30f, scene: 0.85f, clouds: 0f, cloudBrightness: 0f, fogMin: 0.10f),
+        new(0.017f, 0.50f, 0.55f, 0.52f, -0.16f, scene: 0.9f, clouds: 0f, cloudBrightness: 0f, fogMin: 0.035f),
     };
 
     /// <summary>

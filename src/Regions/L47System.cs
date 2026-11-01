@@ -186,9 +186,9 @@ public class L47System : ModSystem
     }
 
     /// <summary>A free standing spot on the ground in front of an entity, about a distance off (for the showcase shots).</summary>
-    private Vec3d Ahead(Entity who, double distance, int headroom)
+    private Vec3d Ahead(Entity who, double distance, int headroom, double heading = double.NaN)
     {
-        var (fx, fz) = Forward(who);
+        var (fx, fz) = double.IsNaN(heading) ? Forward(who) : (Math.Sin(heading * Math.PI / 180), -Math.Cos(heading * Math.PI / 180));
         for (int attempt = 0; attempt < 12; attempt++)
         {
             double side = (attempt % 2 == 0 ? 1 : -1) * (attempt / 2) * 0.8, d = distance + (attempt / 4);
@@ -262,8 +262,8 @@ public class L47System : ModSystem
         });
     }
 
-    /// <summary>The keepers' places in the glade (glade-local): before the door, by the stones, in the hall.</summary>
-    private static readonly (int U, int V)[] KeeperPlaces = { (0, 11), (-6, 15), (7, 14), (-2, 4) };
+    /// <summary>The keepers' places in the glade (glade-local): before the door, by the stones, on the walk in.</summary>
+    private static readonly (int U, int V)[] KeeperPlaces = { (0, 11), (-6, 15), (7, 14), (3, 30) };
 
     private void OnTick(float dt)
     {
@@ -379,7 +379,7 @@ public class L47System : ModSystem
             return TextCommandResult.Success("l47 state:\n" + string.Join("\n", lines));
         }
         Vec3d at;
-        if (args.Parsers[1].IsMissing) at = caller?.Pos.XYZ;
+        if (args.Parsers[2].IsMissing) at = caller?.Pos.XYZ;
         else
         {
             int x = (int)args[1], z = (int)args[2];
@@ -389,9 +389,18 @@ public class L47System : ModSystem
         if (at == null) return TextCommandResult.Error("Where? Give x and z from the console.");
         Entity quarry = caller ?? sapi.World.GetNearestEntity(at, 32, 8, e => e.Alive && (e is EntityPlayer || Senses.IsTestTarget(e)));
         string quarryId = quarry is EntityPlayer ep ? ep.PlayerUID : quarry?.EntityId.ToString();
+        // An aurora over the caller's night whatever night it is (for the showcase: the sky is drawn on their client, Regions.L47Sky)
+        if (what == "aurora" && caller != null)
+        {
+            bool on = !caller.WatchedAttributes.GetBool(L47Sky.AuroraKey);
+            caller.WatchedAttributes.SetBool(L47Sky.AuroraKey, on);
+            return TextCommandResult.Success(on ? "An aurora tonight." : "The aurora as the nights have it.");
+        }
         // The showcase's: put down in front of whoever asks, held still for the shot
         if (what.StartsWith("show") && caller != null)
         {
+            // (The heading the shot looks along, in degrees, as the first number: the camera turns after the setup runs)
+            double heading = args.Parsers[1].IsMissing ? double.NaN : (int)args[1];
             Entity Shown(Entity e)
             {
                 if (e == null) return null;
@@ -401,12 +410,12 @@ public class L47System : ModSystem
             }
             Entity shown = what switch
             {
-                "showsnake" => Shown(Spawn(SnakeCode, Ahead(caller, 3, 1), e => e.WatchedAttributes.SetInt("textureIndex", rand.Next(4)))),
-                "showadder" => Shown(Spawn(AdderCode, Ahead(caller, 11, 3))),
-                "showelk" => Shown(Spawn("game:deer-moose-adult-male", Ahead(caller, 9, 3))),
-                "showwalker" => Shown(PutDownOphion(Ahead(caller, 7, 2), true)),
+                "showsnake" => Shown(Spawn(SnakeCode, Ahead(caller, 3, 1, heading), e => e.WatchedAttributes.SetInt("textureIndex", rand.Next(4)))),
+                "showadder" => Shown(Spawn(AdderCode, Ahead(caller, 11, 3, heading))),
+                "showelk" => Shown(Spawn("game:deer-moose-adult-male", Ahead(caller, 9, 3, heading))),
+                "showwalker" => Shown(PutDownOphion(Ahead(caller, 7, 2, heading), true)),
                 "showkeepers" => new[] { -3, 0, 3 }.Select(side => Shown(PutDownOphion(Ground(caller.Pos.X + side, caller.Pos.Y, caller.Pos.Z - 9 + Math.Abs(side), 2), false))).LastOrDefault(e => e != null),
-                "showpack" => Enumerable.Range(0, 3).Select(k => Shown(Spawn(ShuckCode, Ahead(caller, 6 + k * 2, 2), e => e.WatchedAttributes.SetInt("textureIndex", k % 2)))).LastOrDefault(e => e != null),
+                "showpack" => Enumerable.Range(0, 3).Select(k => Shown(Spawn(ShuckCode, Ahead(caller, 6 + k * 2, 2, heading), e => e.WatchedAttributes.SetInt("textureIndex", k % 2)))).LastOrDefault(e => e != null),
                 _ => null,
             };
             return shown == null ? TextCommandResult.Error($"Could not put down '{what}'.") : TextCommandResult.Success($"Put down {shown.Code.Path} for the shot.");

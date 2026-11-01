@@ -19,7 +19,7 @@ public partial class WorldLayout
         int fy = geometry.FloorFor(Level47);
         var spots = new List<Showcase.Spot>();
         int mx = L47MidX, mz = L47MidZ;
-        const string Day = "/time set day", Night = "/time set night";
+        const string Day = "/time set lunch", Night = "/time set midnight";
         double Feet(int x, int z) => fy + Math.Max(0, L47Ground(x, z)) + 1;
         double HeadingTo(double fx, double fz, double tx, double tz) => (Math.Atan2(tx - fx, -(tz - fz)) * 180 / Math.PI + 360) % 360;
 
@@ -46,7 +46,7 @@ public partial class WorldLayout
             int ix = (int)Math.Floor(x), iz = (int)Math.Floor(z);
             spots.Add(new Showcase.Spot("trail", ix + 0.5, Feet(ix, iz), iz + 0.5, HeadingTo(x, z, nx, nz), -4, Day));
             // A walker of the Order on it, come round the bend
-            spots.Add(new Showcase.Spot("trail-walker", ix + 0.5, Feet(ix, iz), iz + 0.5, HeadingTo(x, z, nx, nz), -4, Day + ";/backrooms l47 showwalker"));
+            spots.Add(new Showcase.Spot("trail-walker", ix + 0.5, Feet(ix, iz), iz + 0.5, HeadingTo(x, z, nx, nz), -4, Day + $";/backrooms l47 showwalker {(int)HeadingTo(x, z, nx, nz)}"));
         }
         // One of the Order's way-stones, from the trail beside it
         {
@@ -75,7 +75,7 @@ public partial class WorldLayout
                             if (t.Kind == TileKind.Floor && t.Zone == L47Forest && !L47InWater(bx, bz)) { found = (bx, bz, wx, wz); any = true; break; }
                         }
                 }
-            if (any) spots.Add(new Showcase.Spot("stream", found.X + 0.5, Feet(found.X, found.Z), found.Z + 0.5, HeadingTo(found.X, found.Z, found.Wx, found.Wz), -20, Day));
+            if (any) spots.Add(new Showcase.Spot("stream", found.X + 0.5, Feet(found.X, found.Z), found.Z + 0.5, HeadingTo(found.X, found.Z, found.Wx, found.Wz), -12, Day));
         }
         // The glade from the walk in: the manor, and the stones round it and through it
         spots.Add(new Showcase.Spot("glade", mx + 0.5, fy + 2, mz + 38.5, 0, 6, Day));
@@ -90,15 +90,16 @@ public partial class WorldLayout
         // Out in the forest by day: a snake in the litter; the Great Adder rearing; an elk
         if (L47OpenNear(mx + 120, mz - 60, 12, out int sx, out int sz))
         {
-            spots.Add(new Showcase.Spot("snake", sx + 0.5, Feet(sx, sz), sz + 0.5, 90, -30, Day + ";/backrooms l47 showsnake"));
-            spots.Add(new Showcase.Spot("great-adder", sx + 0.5, Feet(sx, sz), sz + 0.5, 90, 4, Day + ";/backrooms l47 showadder"));
-            spots.Add(new Showcase.Spot("elk", sx + 0.5, Feet(sx, sz), sz + 0.5, 90, 0, Day + ";/backrooms l47 showelk"));
+            spots.Add(new Showcase.Spot("snake", sx + 0.5, Feet(sx, sz), sz + 0.5, 90, -30, Day + ";/backrooms l47 showsnake 90"));
+            spots.Add(new Showcase.Spot("great-adder", sx + 0.5, Feet(sx, sz), sz + 0.5, 90, 4, Day + ";/backrooms l47 showadder 90"));
+            spots.Add(new Showcase.Spot("elk", sx + 0.5, Feet(sx, sz), sz + 0.5, 90, 0, Day + ";/backrooms l47 showelk 90"));
         }
         // The night: the fog gone, the moon's far side over the glade; the Black Shucks in the forest
-        spots.Add(new Showcase.Spot("night-moon", mx + 0.5, fy + 2, mz + 30.5, 160, 40, Night));
+        spots.Add(new Showcase.Spot("night-moon", mx + 0.5, fy + 2, mz + 30.5, 173, 45, Night));
         spots.Add(new Showcase.Spot("night-glade", mx + 0.5, fy + 2, mz + 40.5, 0, 8, Night));
+        spots.Add(new Showcase.Spot("night-aurora", mx + 0.5, fy + 2, mz - 30.5, 0, 22, Night + ";/backrooms l47 aurora"));
         if (L47OpenNear(mx - 130, mz + 70, 12, out int nx2, out int nz2))
-            spots.Add(new Showcase.Spot("night-shucks", nx2 + 0.5, Feet(nx2, nz2), nz2 + 0.5, 0, -2, Night + ";/backrooms l47 showpack"));
+            spots.Add(new Showcase.Spot("night-shucks", nx2 + 0.5, Feet(nx2, nz2), nz2 + 0.5, 0, -2, Night + ";/backrooms l47 showpack 0"));
         // A dead tree's hollow (the nearest that leads out), from in front of its mouth
         foreach (var h in L47HollowTrees())
         {

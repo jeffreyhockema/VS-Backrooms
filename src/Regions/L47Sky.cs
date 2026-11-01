@@ -84,6 +84,9 @@ public class L47Sky : ModSystem, IRenderer
         return m;
     }
 
+    /// <summary>Player attribute (set by <c>/backrooms l47 aurora</c>, for the showcase): an aurora every night.</summary>
+    public const string AuroraKey = "backrooms:l47Aurora";
+
     /// <summary>Whether there is an aurora on the night that began on a day (about one night in six, the same for everyone).</summary>
     public static bool AuroraOn(int worldSeed, double totalDays) =>
         Hashing.Unit(Hashing.Hash((ulong)(uint)worldSeed, (int)Math.Floor(totalDays + 0.25), 0, 0x30A0)) < 1 / 6.0;
@@ -126,7 +129,7 @@ public class L47Sky : ModSystem, IRenderer
         }
 
         // The aurora, low in the north, on its nights
-        if (auroraTex > 0 && AuroraOn(capi.World.Seed, capi.World.Calendar.TotalDays))
+        if (auroraTex > 0 && (AuroraOn(capi.World.Seed, capi.World.Calendar.TotalDays) || player.WatchedAttributes.GetBool(AuroraKey)))
         {
             double t = capi.World.ElapsedMilliseconds / 1000.0;
             float k = night * (0.55f + 0.25f * (float)Math.Sin(t * 0.21) + 0.2f * (float)Math.Sin(t * 0.53 + 1.3));
