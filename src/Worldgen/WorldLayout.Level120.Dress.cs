@@ -18,7 +18,7 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldLayout
 {
-    private const ulong SaltL120Letter = 0x2614, SaltL120Dress = 0x2615;
+    private const ulong SaltL120Dress = 0x2615;
 
     /// <summary>Round 3's props: a UPS cabinet, a battery cabinet, a cooling unit (all two high; the unit's duct a third), a KVM cart, a mop bucket, a fallen ceiling tile, a sheet of paper, a bank's end panel, steel shelving.</summary>
     public const ushort L120Ups = Props.L120First + 7, L120Battery = Props.L120First + 8, L120Crac = Props.L120First + 9,
@@ -40,8 +40,11 @@ public sealed partial class WorldLayout
     /// <summary>A UPS (<see cref="Tile.Detail"/>): whole, or torn open.</summary>
     public const byte L120UpsWhole = 0, L120UpsOpen = 1;
 
-    /// <summary>The hall's letter, A-H (0-7): on its DATA HALL plates, its stencils and its SERVER ROOM plates.</summary>
-    public int L120HallLetter(int hx, int hz) => (int)(Hashing.Hash(seed, hx, hz, SaltL120Letter) & 7);
+    /// <summary>
+    /// The hall's letter, A-H (0-7): on its DATA HALL plates, its stencils and its SERVER ROOM plates. Laid out as x + 3z
+    /// (mod 8), so no hall shares its letter with any of the eight round it (across a passage the letters always differ).
+    /// </summary>
+    public static int L120HallLetter(int hx, int hz) => Hashing.Mod(hx + 3 * hz, 8);
 
     /// <summary>The way out of a wall tile's face toward a step.</summary>
     private static ArchPier L120Toward(int dp, int dq) => dp > 0 ? ArchPier.East : dp < 0 ? ArchPier.West : dq > 0 ? ArchPier.South : ArchPier.North;

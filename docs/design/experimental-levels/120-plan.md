@@ -499,7 +499,7 @@ lore's voids are "pure white": these are one thing at a time, and a third of the
   walkable tile reached from the passages.
 
 ### Questions for the user
-1. The hall letters (A-H) are by hash, so neighbouring halls can share a letter: fine as a worn-out labelling, or should
-   they be unique round a passage crossing?
+1. The hall letters (A-H) repeat every eight halls (x + 3z mod 8: no two neighbours alike): enough, or should the halls
+   carry numbers too (DATA HALL B4)?
 2. The pencilled notes say DON'T BOOT THEM / WALK ONE WAY / NOT AGAIN / IT GETS UP WHERE YOU FALL: more, or other words?
 3. Should the lit EXIT sign over the doors back to the offices be rarer (it makes the way out easier to find in the dark)?
