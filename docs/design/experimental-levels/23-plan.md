@@ -306,8 +306,8 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
 12. [B] [done: the body; hands are in its texture] Sentries as people trapped in the bark: under some faces a body pushed out of the bark (shoulders, arms, hands
    reaching), so a sentry reads as a person and not a mask. (the lore's "trapped in wood and bark")
 13. [B] [done] Cypress knees: little conical stumps standing round the dark cypress trunks' feet.
-14. [C] [partly: a quarter are stone mushrooms now; leaf crowns unchanged] Rounder crowns for the glow rooms' little trees (no plain cubes).
-15. [C] [skipped: time] A lost wanderer's camp in the forest: a bedroll, a dead lantern, a crate, bones. (inv.)
+14. [C] [done: a quarter are stone mushrooms; the rest rounder, a layer above and below] Rounder crowns for the glow rooms' little trees (no plain cubes).
+15. [C] [done: one forest cell in twenty, bedroll, crate, bones] A lost wanderer's camp in the forest: a bedroll, a dead lantern, a crate, bones. (inv.)
 
 **3. Signs and text**
 16. [A] [done] "BASE SEEDLING" on the camp's sign, with the M.E.G.'s name, facing the way in.
@@ -332,7 +332,7 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
 **5. Lore alignment**
 30. [B] [done] Glowing bushes in the glow rooms (the lore's "glowing fungi and bushes").
 31. [B] [done] The ruins' finds: damaged paintings (faded frescoes on the inner walls) and cloth (rags) besides the pottery.
-32. [C] [skipped: time] The vault's pipes: roots hanging into the glow rooms with water at their foot (the lore's trees that pipe water down).
+32. [C] [done: a long root from roof to floor now and then, a pool at its foot] The vault's pipes: roots hanging into the glow rooms with water at their foot (the lore's trees that pipe water down).
 33. [C] [done: a rack of three on the counter's crates] Almond Water squirt guns on a rack at the quartermaster's (the lore's arms of Seedling).
 
 **6. Released-level alignment**
@@ -383,6 +383,9 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
 - *Ruins*: damaged frescoes (`l23-fresco-<side>`: a garden and people with green eyes, mostly flaked off) round the
   Sphere's inside at eye height and on the Lighthouse chamber's walls; rags of cloth (`l23-cloth`) among the pottery;
   inscribed stones set in the walls of the tunnels down to the ruins.
+- *More*: a lost M.E.G. explorer's last camp in one forest cell in twenty (bedroll, crate, bones); long roots now and
+  then from a glow room's roof to its floor with a pool at their foot (the lore's trees piping water down); rounder
+  crowns on the little trees; stumps for seats round the fire ring.
 - *Showcase spots* (from the layout): heart-of-water (now from up the slope across the pool), heart-warning,
   boulder-undergrowth, stone-mushrooms, fallen-log, glade, seedling-sign, seedling-board, seedling-counter,
   seedling-waysign, besides round 2's.

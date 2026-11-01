@@ -359,13 +359,17 @@ def sentry_body(seed):
             dx = (x + 0.5 - 16) / 13.0
             sh = 1 - dx * dx * 1.2 - max(0, y - 20) * 0.02
             if y < 26 and sh > 0 and y > 1 + 6 * dx * dx:
-                c = M.lift(px[x, y], 12 * sh - (10 if y > 22 else 0))
+                # (Round 3's first shots: too faint to read at a few steps; the shoulders stand out more, edged dark)
+                c = M.lift(px[x, y], 24 * sh - (14 if y > 22 else 0) - (30 if sh < 0.12 else 0))
                 px[x, y] = M.rgba(c)
-    for hx in (9, 19):  # the hands, fingers splayed
-        for k in range(4):
-            for j in range(5):
-                M.touch(img, hx + k, 6 + j + (k % 2), 0.18)
-            M.touch(img, hx + k, 11, -0.2)
+    for hx in (8, 19):  # the hands, pressed flat against the bark, fingers splayed and dark between
+        for k in range(5):
+            for j in range(6):
+                if k % 2 == 0 or j > 3:
+                    M.touch(img, hx + k, 5 + j, 0.32)
+                else:
+                    M.touch(img, hx + k, 5 + j, -0.3)
+            M.touch(img, hx + k, 11, -0.35)
     for x in range(14, 18):  # the neck's shadow at the top
         M.touch(img, x, 0, -0.22)
     return img

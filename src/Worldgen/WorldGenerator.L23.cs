@@ -292,7 +292,7 @@ public sealed partial class WorldGenerator
 
         // ---- What grows on the forest floor (before the caverns cut into it) ----
         if (!core && ground >= 0) L23Undergrowth(b, gx, gz, ground, hole);
-        else if (core && ground >= WorldLayout.L23PoolSurface + 1 && b[ground + 1 - L23Low] == 0)
+        else if (core && ground >= WorldLayout.L23PoolSurface + 1 && b[ground + 1 - L23Low] == 0 && !layout.L23NearWarning(gx, gz))
         {
             double u = L23Unit(gx, gz, 3);
             if (u < 0.06) b[ground + 1 - L23Low] = l23Ferns[L23Hash(gx, gz, 4) % (ulong)l23Ferns.Length];
