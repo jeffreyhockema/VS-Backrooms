@@ -244,3 +244,20 @@ walls take a door; the flights' levels by a hash of the gate; the sink's overflo
 | Level 9 | Level 36 | a door under a lit airplane sign in a house's wall, very rarely | two-way (back by the door in the baggage wall) |
 | Level 36 | Level 11, 9, 37, 3999, 188 or 10 | a gate's flight, the level on the gate's screen | one-way |
 | Level 36 | Level 37 | a restroom sink: turn the tap, hold your head under the overflow | one-way |
+
+**Checks (2026-10-31)**: `expclash` clean; mod and mapgen build, 0 errors. `layouthash` (12345, 16000), layout versions 1
+and 12, with `BACKROOMS_NO_EXP_ENTRANCES=1`: every line for levels 0-20 and the `layout hash` line identical to main's;
+without it, no level line moved either (the hash's 24 sample cells a level hold no door). `regions` 60/60 in Level 36.
+`36links` (seed 12345, full size): the city 0.30 doors a km2 (one to 3.3 km2, about 1.8 km apart; nearest the city's
+middle 0.33 km off it, nearest the spawn 51.8 km), the Suburbs 0.34 a km2 (about 1.7 km apart; nearest the spawn 6.5 km,
+at 507758,516974); 16 doors in 2048 blocks of the baggage wall; 152 gates in 4 x 7 superblocks: 11 x22, 9 x18, 37 x33,
+3999 x25, 188 x22, 10 x32; 78 sinks. Generic `links`: L9 and L11 doors paired with a baggage-wall door each, the
+baggage-wall doors locked. Headless (ports 43152, 43154; `/backrooms wayback`): the Level 9 and Level 11 doors come out
+on the claim hall's floor beside a door in the baggage wall (dumped: the door and sign blocks there); those doors, used,
+lead back to the spot before each host door ("written down before"); an unused one is locked; a gate of each of the six
+levels lands in 188, 37 (pool tile, dry), 9 (road), 11 (sidewalk), 10 (field), 3999 (lobby carpet), feet and head in air;
+a sink comes up on the Poolrooms' coping; `column` shows the door, its upper part and the sign at rel 1-3 in both hosts;
+a dummy in the level; `blocksweep` 11219 blocks, 0 threw; 0 error lines. `GATE_TAG=l36 gate.py --fast --port-base 43150`:
+PASS. Client shots (`shots1`, seed 424242): the city door in a mirror-glass front, the Suburbs door in a brick house
+between its windows at night, the baggage wall's door, a gate's screen "TO LV3999", the restroom's sinks, the landings.
+Not tested with a player: the flight's landing through `Use` (exercised as the network sees it), the sink's hold.
