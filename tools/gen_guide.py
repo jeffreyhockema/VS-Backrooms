@@ -603,10 +603,10 @@ PAGES["basement"] = ("The Basement", """
 **The Basement**
 *Under most of the levels, they say: the bottom of the Backrooms.*
 
-Note: an experimental level. Nothing leads here yet; it is reached from the cheats menu, and what is written here may change.
+Note: an experimental level; what is written here may change.
 
 **Getting here**
-Two accounts describe it, and both came in the same way: through the floor. Tear up a level's carpet, break what is under it, and you fall a long way, into the dark. It stays dark for a moment, and then the lights come on, all at once. The crack you came through is still overhead, twenty blocks up, the yellow light of the Lobby at the top of it and a frayed end of rope hanging out of reach. **Class 2.**
+Two accounts describe it, and both came in the same way: through the floor. Very rarely, in the Lobby, Level 1, the pipes of Level 2, the office or the hotel, a patch of the floor a few paces across is cracked, its middle broken and sunk as if nothing were under it. Step onto the middle and it gives way: you fall a long way, into the dark, and land hard. It hurts; it has not killed anyone yet. It stays dark for a moment, and then the lights come on, all at once. The crack you came through is still overhead, twenty blocks up, the yellow light of the Lobby at the top of it whatever floor you fell through, and a frayed end of rope hanging out of reach. The cracked patch you stepped on is still there, and always drops into the same place. **Class 2.**
 
 **The Cellar**
 A basement, like a house's, only far larger than any house: rooms of cinder block, concrete or old pine panelling, dusty carpet over the floors of the finished ones, bare joists overhead, and wooden doors between them ({rightmouse} to open or shut one). Now and then a door is swollen shut in its frame: a [pry bar](item-backrooms:prybar) in hand forces it. Cold (8 °C) and dark, a bare bulb in about every other room, yet nowhere is quite black: a faint light comes from no source anyone has found.
@@ -623,7 +623,7 @@ Further in, the rooms are under water: tight passages with two blocks of black w
 Nothing of its own: what comes here falls in, as people do. Facelings now and then, a Skin-Stealer, Smilers in the dark rooms. Out in the Flood, something stands far off at the end of a passage, watching, and something follows people through the water. The Fandom page tells of rare windows on the walls and the Windows behind them; none has been found here yet. See [What Lives Here](backrooms-entities).
 
 **Leaving**
-The only way out anyone describes is the way in: back up the crack, which takes a ladder or a long rope and more luck than most have. One man wrote of an elevator in the distance; he never reached it, and nobody has since. Neither way is built here yet.
+The only way out anyone describes is the way in: back up a crack, which everyone calls near impossible. Bring a [ladder](block-ladder-stick-north), or blocks to stand on, and climb until you are level with the torn carpet at the top, sixteen blocks over the floor: whoever gets that far hauls themselves out into the Lobby, somewhere, and the hole is not behind them. Each crack always lets out in the same place. One man wrote of an elevator in the distance; he never reached it, and nobody has since: the cage lifts of the Dry Patch are dead.
 """)
 
 # ---- Level 52, the Greenfield Campus (experimental, id 23): its own page (one self-contained block) ----

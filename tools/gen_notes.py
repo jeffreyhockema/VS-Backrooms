@@ -1334,6 +1334,15 @@ castle, to call off the search: "They won't be able to get out. They'll just be 
 ]))
 
 
+# ---------- The Basement's way in (links round, 2026-10-31): one folded note in the Lobby, self-contained ----------
+# "Breaking through the floor of most levels" (Fandom); the Wikidot account starts with a man breaking through the floor of
+# Level 0. Appended to the Lobby's folded notes (its own key), after the two there: a cracked patch of floor that gives way.
+next(t for t in TRACKS if t.id == "rare-l0").entries.append(E("r-l0-basement", "Soft floor", """
+Some of the floor out here is cracked, a patch a few steps across, sunk in the middle as if there's nothing under it.
+Don't stand on it. Kel did. It went from under him and he was gone, and I heard him land a long way down. He called up
+for a while about rooms and doors and a smell. I had no rope. The cracks are still there. The hole isn't."""))
+
+
 # ============================== Facts the notes rely on ==============================
 # Each must appear (case-insensitively) in the handbook text (gen_guide.py), README.md or docs/GUIDE.md, so that a change there makes
 # this check fail until the notes are looked at again.
