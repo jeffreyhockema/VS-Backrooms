@@ -428,6 +428,8 @@ B should, C nice. "Lead" marks an item from the lead's notes.
 
 ### What was built (code)
 
+Commits on `exp/15`: 048bcdd2 (the list), a3c190fa, then the fixes after each run (see `git log`).
+
 Layout (`WorldLayout.Level15.cs`): three new room kinds (`L15Zone.Canteen`, `Medical`, `Hydro`, codes F, R, G) in the
 size ladders; the lecture hall raked (its stage now by its door, rows of seats on steps half a block higher each row,
 three aisles of steps; `Props.L15Seat`, `L15Riser`, the steps walkable); glass walls by the doors of labs, control rooms,
@@ -464,3 +466,36 @@ line and "Avalon 2.4" are the lore's.
   edible or drinkable: the hydroponics bays' plants are dead and drop no food.
 - The roster is untouched: "more Roboman" was done with powered-down hulks in docks, not more live ones.
 - Dark halls hold more dropped bags (props only, not containers) and bones.
+
+### What the shots showed
+
+Three client-rig runs (`%TEMP%/backrooms-shots/15-r3a`, `15-r3b`, final `15-r3-final` with a torch in hand).
+- **Run 1** (stopped by a rig error after 13 spots): the halls' floor line and the hanging HALL signs read at once, the
+  plates by the gates ("M27" over MACHINE ROOM) read as a facility's, and the raked lecture hall read as one, rows of blue
+  seats climbing away. The docked Robo-Man stood sideways in its dock: the model's own turn was not drawn; now the model
+  is flattened and turned in the generator.
+- **Run 2** (all 42 spots): the big radar over the control room's panels, the lift with its B3 indicator and lit call
+  button, DECONTAMINATION and LABORATORY plates by a lab's door, the dorm's bunks over the cots, the canteen (long tables,
+  terrazzo, the serving line and menu far off), the medical bay's beds and cabinets, the hydroponics bay's magenta racks
+  all read; the random arrivals now face along the halls. Fixed after it: the hydroponics plants read as cardboard boxes
+  (now stalks and drooping dry leaves); the canteen's serving line was too far to see (a spot of its own); the medical bay
+  had no curtains (now on rails between the beds); the lecture hall's stage had three small displays (now a projection
+  screen three by three).
+- **Final run** (`15-r3-final`, 44 shots, a lit torch in hand so the dark squares show; the torch warms the white halls
+  to cream near the camera, which the unlit runs do not have): the curtains between the medical bay's beds, the serving
+  line's glass guard and trays, the projection screen over the lecture hall's stage seen from the top of the aisle, the
+  sector map with its static by HALL N6, the hydroponics racks' dead plants under magenta light, and the dark hall with a
+  Robo-Man in it, its floor line and dead floor lights, all read. After it, only the dry leaves were made smaller (they
+  read a little too large and stiff); no shot was taken of that.
+
+**Still weak.** The main halls between crossings are better dressed but still long and regular (the lore's labyrinth);
+the docks, lifts and maps are rare by design. The menu board and the canteen's kitchen are far from the canteen's door
+spot. The bed curtains are one fixed shape (always drawn the same way). The service passages' caged lamps are warm and
+read orange next to the white halls (round 2's choice, kept).
+
+### Questions for the user
+
+- The medical bays are an invention from the lore's rumoured MEDICAL CENTER door, and their beds are real beds: keep
+  them sleepable, or make them a look only?
+- The hydroponics bays and the robot docks are inventions: keep both?
+- The induction slide's "DO NOT ENTER THE STAR ROOM" ties the lecture halls to the star door: too much of a hint?

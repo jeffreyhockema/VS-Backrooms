@@ -661,7 +661,7 @@ def growrack_shape(part, lit):
             els.append(box(f"Stalk{i}{j}", (px, y + 1.5, pz), (px + 0.5, y + 1.5 + h, pz + 0.5), "deadstalk"))
             for q, (dy, ang, droop) in enumerate(((0.45, 20 + 40 * j, 35), (0.75, 140 + 40 * j, -40), (0.95, 260 + 40 * j, 50))[: 2 + j % 2]):
                 ly = y + 1.5 + h * dy
-                els.append(box(f"Leaf{i}{j}{q}", (px + 0.25, ly, pz), (px + 3.25, ly + 0.1, pz + 1.25), "deadplant",
+                els.append(box(f"Leaf{i}{j}{q}", (px + 0.25, ly, pz + 0.1), (px + 2.25, ly + 0.1, pz + 0.85), "deadplant",
                                rot=(0, ang % 360 - 180, droop), origin=(px + 0.25, ly, pz + 0.25)))
             els.append(box(f"Fallen{i}{j}", (px + 1, y + 1.5, pz + 1), (px + 2.5, y + 1.55, pz + 2), "deadplant"))
         ly = 7.5 if i == 0 else 15.5
