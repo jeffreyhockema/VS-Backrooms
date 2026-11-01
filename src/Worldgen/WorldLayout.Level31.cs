@@ -742,16 +742,17 @@ public sealed partial class WorldLayout
                     Put(across - 2, 2, L31Props.Popcorn, toNear);
                     Put(0, 2, Props.DrinkFridge, toNear);
                     Put(across - 3, 4, L31Props.Condiments, toLowU);
+                    Put(1, len - 2, L31Props.Jukebox, toHighU);
                     {
                         var (sa, sq) = At(mid - 1, 0);
                         var (sb, sr) = At(mid + 1, 0);
                         L31MountRun(plan, sa, sq, sb, sr, "snackbig", toNear);
                     }
                     // Tables in groups either side of a clear walk from the door to the till
-                    foreach (int v in new[] { 6, 10, 14 })
+                    foreach (int v in len >= 19 ? new[] { 6, 10, 14, 17 } : new[] { 6, 10, 14 })
                         foreach (int u in new[] { doorU - 4, doorU - 9, doorU + 5, doorU + 10 })
                         {
-                            if (v > len - 4 || u < 3 || u > across - 4) continue;
+                            if (v > len - 3 || u < 3 || u > across - 4) continue;
                             Put(u, v, L31Props.Table, toNear);
                             Put(u - 1, v, L31Props.Chair, toHighU);
                             Put(u + 1, v, L31Props.Chair, toLowU);

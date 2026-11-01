@@ -14,6 +14,7 @@ static partial class LevelModes
     static bool L31Modes(WorldLayout layout, string mode, string[] args)
     {
         if (mode == "31links") return L31Links(layout, args);
+        if (mode == "31peek") return L31Peek(layout, args);
         if (mode != "31stats") return false;
         int n = args.Length > 3 && int.TryParse(args[3], out int wn) ? wn : 2;
         bool rim = args.Length > 4 && args[4] == "rim";
@@ -236,6 +237,40 @@ static partial class LevelModes
             + $"({revolving.Count / area:0.0} per km2; to Level 9: {to[9]}, 10: {to[10]}, 11: {to[11]})");
         foreach (var d in revolving.OrderBy(d => d.D).Take(5))
             Console.WriteLine($"    revolving door at {d.X},{d.Z} to Level {d.To}, {d.D:0} blocks from the region's centre");
+        return true;
+    }
+
+    /// <summary>
+    /// 31peek [dx dz] [p0 q0 p1 q1]: prints a complex's plan (the one dx, dz complexes from the region's centre's), in the
+    /// plan's own (P, Q) terms: '#' wall, 'D' doorway, '.' floor, 'P' a prop, 'M' a wall mount on a floor tile, 'm' one on
+    /// a doorway, 'B' a supply box, '~' flooded; with the zone of each room's first tile listed under it.
+    /// </summary>
+    static bool L31Peek(WorldLayout layout, string[] args)
+    {
+        int dx = args.Length > 3 ? int.Parse(args[3]) : 0, dz = args.Length > 4 ? int.Parse(args[4]) : 0;
+        int p0 = args.Length > 8 ? int.Parse(args[5]) : -1, q0 = args.Length > 8 ? int.Parse(args[6]) : -1;
+        int p1 = args.Length > 8 ? int.Parse(args[7]) : WorldLayout.L31Size, q1 = args.Length > 8 ? int.Parse(args[8]) : WorldLayout.L31Size;
+        int cx = layout.L31CentreX * WorldLayout.MacroSize + 16, cz = layout.L31CentreZ * WorldLayout.MacroSize + 16;
+        int wx = Hashing.FloorDiv(cx, WorldLayout.L31Period) + dx, wz = Hashing.FloorDiv(cz, WorldLayout.L31Period) + dz;
+        var plan = layout.L31PlanOf(wx, wz);
+        Console.WriteLine($"complex {wx},{wz}: {plan.Kind}, tiny {plan.Tiny}, mirror {plan.Mirror}");
+        for (int q = q0; q <= q1; q++)
+        {
+            var line = new System.Text.StringBuilder();
+            for (int p = p0; p <= p1; p++)
+            {
+                Tile t = plan.At(p, q);
+                char c = t.Kind switch
+                {
+                    TileKind.Wall => t.Under != 0 ? 'U' : '#',
+                    TileKind.Doorway => WorldLayout.L31HasMount(t) ? 'm' : 'D',
+                    _ => t.SupplyBox ? 'B' : WorldLayout.L31HasMount(t) ? 'M' : t.Variant != 0 ? 'P' : '.',
+                };
+                line.Append(c);
+            }
+            Console.WriteLine($"{line}  q={q}");
+        }
+        foreach (var room in plan.Rooms) Console.WriteLine($"  {room.Kind} p {room.P0}-{room.P1} q {room.Q0}-{room.Q1} door {room.DoorP},{room.DoorQ} {room.DoorSide}");
         return true;
     }
 }
