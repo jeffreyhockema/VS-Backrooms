@@ -43,7 +43,7 @@ public sealed partial class WorldLayout
 
     public enum L120HallKind : byte { Cluster, Void, Hallway }
 
-    public enum L120RoomKind : byte { Servers, Aisles, Terminals, Wreck, Cables }
+    public enum L120RoomKind : byte { Servers, Aisles, Terminals, Wreck, Cables, Ups }
 
     /// <summary>
     /// The level's props: a server rack (two blocks high), a terminal on its desk, an office chair, a wreck (a rack toppled
@@ -193,20 +193,36 @@ public sealed partial class WorldLayout
         int across = alongZ ? u : v, along = alongZ ? gz : gx;
         t.Pipe = across == 1 ? (alongZ ? L120DuctZ : L120DuctX) : Pipes.None;
         if (across == 3 && Hashing.Mod(along, 6) == 3) t.Ceiling = L120Lamp(gx, gz);
-        // Now and then a dead cabinet, a bin, scrap, or cables pulled out across the floor
+        // A cable tray down the far side, over the conduit on the wall (round 3)
+        if (across == 4) t.Overhead = alongZ ? L120TrayZ : L120TrayX;
+        // Now and then a dead cabinet, a bin, scrap, or cables pulled out across the floor; things parked along the walls
+        // (a KVM cart, a mop bucket, a UPS cabinet wheeled out, crates and boxes, a rack dumped on its back, a wet floor
+        // sign); in the middle a fallen ceiling tile, a lifted panel, a leak
         double p = Hashing.Unit(Hashing.Mix(h));
         if (across is 1 or 4)
         {
             ArchPier into = alongZ ? (across == 1 ? ArchPier.East : ArchPier.West) : (across == 1 ? ArchPier.South : ArchPier.North);
-            if (p < 0.012)
-            {
-                t.Variant = Props.Cabinet;
-                t.Pier = into;
-            }
+            t.Pier = into;
+            if (p < 0.012) t.Variant = Props.Cabinet;
             else if (p < 0.016) t.Variant = Props.TrashCan;
             else if (p < 0.02) t.Variant = Props.ScrapMetal;
+            else if (p < 0.024) t.Variant = L120Kvm;
+            else if (p < 0.027) t.Variant = L120Mop;
+            else if (p < 0.03) { t.Variant = L120Ups; t.Detail = p < 0.0285 ? L120UpsOpen : L120UpsWhole; }
+            else if (p < 0.034) t.Stack = (byte)(p < 0.032 ? 1 : 2);
+            else if (p < 0.037) t.Variant = Props.CardboardBoxes;
+            else if (p < 0.039)
+            {
+                t.Variant = L120Wreck;
+                t.Detail = L120WreckToppled;
+                t.Pier = alongZ ? ArchPier.North : ArchPier.East;
+            }
+            else if (p < 0.041) t.Variant = Props.WetFloorSign;
         }
         else if (p < 0.012) t.Variant = L120Spill;
+        else if (p < 0.017) t.Variant = L120Debris;
+        else if (p < 0.02) t.Depth = L120PanelHole;
+        else if (p < 0.028) t.Depth = L120PanelWet;
     }
 
     // ================= Halls =================
@@ -326,7 +342,7 @@ public sealed partial class WorldLayout
         }
         plan.Rooms = rooms.Count;
 
-        // Room kinds: mostly server rooms; the big ones may be rack aisles
+        // Room kinds: mostly server rooms; the big ones may be rack aisles; then the operators' room by a passage and the UPS room
         for (int i = 0; i < rooms.Count; i++)
         {
             L120Room r = rooms[i];
@@ -334,6 +350,11 @@ public sealed partial class WorldLayout
             r.Kind = k < 0.5 ? L120RoomKind.Servers : k < 0.62 ? (r.W >= 16 && r.H >= 16 ? L120RoomKind.Aisles : L120RoomKind.Servers)
                 : k < 0.76 ? L120RoomKind.Terminals : k < 0.88 ? L120RoomKind.Wreck : L120RoomKind.Cables;
             rooms[i] = r;
+        }
+        L120PickFront(rooms, ref rng);
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            L120Room r = rooms[i];
             L120Zone zone = r.Kind switch { L120RoomKind.Terminals => L120Zone.Terminals, L120RoomKind.Wreck => L120Zone.Wreck, _ => L120Zone.Room };
             for (int q = r.Q0; q <= r.Q1; q++)
                 for (int p = r.P0; p <= r.P1; p++)
@@ -369,6 +390,7 @@ public sealed partial class WorldLayout
             int j = rng.Range(0, i);
             (pairs[i], pairs[j]) = (pairs[j], pairs[i]);
         }
+        var doors = new List<(int A, int C, bool Vertical, int At, int Start, int Width)>();
         var parent = new int[rooms.Count];
         for (int i = 0; i < parent.Length; i++) parent[i] = i;
         int Root(int x) { while (parent[x] != x) x = parent[x] = parent[parent[x]]; return x; }
@@ -380,6 +402,7 @@ public sealed partial class WorldLayout
             if (tree) parent[fa] = fc;
             int width = hi - lo >= 6 && rng.Chance(0.5) ? 2 : 1;
             int start = rng.Range(lo + 1, hi - width);
+            doors.Add((a, c, vertical, at, start, width));
             byte zone = vertical ? plan.At(at - 1, start).Zone : plan.At(start, at - 1).Zone;
             for (int k = 0; k < width; k++)
             {
@@ -399,15 +422,15 @@ public sealed partial class WorldLayout
                 if (L120Opens(plan, side, 43 + d)) first = 43 + d;
                 else if (L120Opens(plan, side, 43 - d)) first = 43 - d;
             }
-            var doors = new List<int>();
-            if (first >= 0) doors.Add(first);
+            var outs = new List<int>();
+            if (first >= 0) outs.Add(first);
             if (rng.Chance(0.7))
                 for (int tries = 0; tries < 12; tries++)
                 {
                     int k = rng.Range(4, n - 7);
-                    if (L120Opens(plan, side, k) && (first < 0 || Math.Abs(k - first) >= 15)) { doors.Add(k); break; }
+                    if (L120Opens(plan, side, k) && (first < 0 || Math.Abs(k - first) >= 15)) { outs.Add(k); break; }
                 }
-            foreach (int k in doors)
+            foreach (int k in outs)
                 for (int j = 0; j < 3; j++)
                 {
                     ref Tile t = ref plan.At(side == 0 ? -1 : side == 1 ? n : k + j, side < 2 ? k + j : side == 2 ? -1 : n);
@@ -423,9 +446,15 @@ public sealed partial class WorldLayout
             {
                 case L120RoomKind.Servers: L120LayServers(plan, r, ref rng); break;
                 case L120RoomKind.Aisles: L120LayAisles(plan, r, ref rng); break;
-                case L120RoomKind.Terminals: L120LayTerminals(plan, r, ref rng); break;
-                case L120RoomKind.Wreck: L120LayWreck(plan, r, ref rng); break;
-                default: L120LayCables(plan, r, ref rng); break;
+                case L120RoomKind.Terminals: L120LayTerminals(plan, r, ref rng); L120HangScreens(plan, r, ref rng); break;
+                case L120RoomKind.Wreck: L120LayWreck(plan, r, ref rng); L120DressStore(plan, r, ref rng); break;
+                case L120RoomKind.Ups: L120LayUps(plan, r, ref rng); break;
+                default:
+                    L120LayCables(plan, r, ref rng);
+                    // (Round 3: the cables come down the walls into it, and the room's panel)
+                    for (int i = 0; i < 3; i++) L120WallThing(plan, r, L120DecoCables, 0, ref rng);
+                    L120WallThing(plan, r, L120DecoPanel, 0, ref rng);
+                    break;
             }
             // Fittings over every room on a five grid: dead or smashed
             for (int q = r.Q0 + 2; q <= r.Q1 - 1; q += 5)
@@ -435,7 +464,7 @@ public sealed partial class WorldLayout
                     plan.At(p, q).Ceiling = L120Lamp(x, z);
                 }
             // Now and then a supply box someone left in a corner (more in the wrecked stores)
-            if (rng.Chance(r.Kind == L120RoomKind.Wreck ? 0.45 : 0.22))
+            if (rng.Chance(r.Kind == L120RoomKind.Wreck ? 0.45 : r.Kind is L120RoomKind.Ups or L120RoomKind.Terminals ? 0.1 : 0.22))
             {
                 int p = rng.Chance(0.5) ? r.P0 + 1 : r.P1 - 1, q = rng.Chance(0.5) ? r.Q0 + 1 : r.Q1 - 1;
                 ref Tile t = ref plan.At(p, q);
@@ -447,6 +476,9 @@ public sealed partial class WorldLayout
         if (rng.Chance(0.85)) L120PlaceBoot(plan, rooms, ref rng);
 
         L120FillUnreached(plan);
+        // The plates, signs and wall dressing, on a hash of their own (WorldLayout.Level120.Dress.cs)
+        var dress = new Rng(Hashing.Hash(seed, plan.Hx, plan.Hz, SaltL120Dress));
+        L120DressCluster(plan, rooms, doors, ref dress);
     }
 
     /// <summary>Whether three tiles inside a side of the hall, from <paramref name="k"/>, are all room floor (a door onto the passage can open there).</summary>
@@ -488,6 +520,27 @@ public sealed partial class WorldLayout
                     L120PlaceRack(plan, ref L120Along(plan, alongP, k, s), ref rng, low, wrecked);
                     L120PlaceRack(plan, ref L120Along(plan, alongP, k, s + 1), ref rng, high, wrecked);
                 }
+                if (!wrecked)
+                {
+                    // A standing bank is one object: its tray along the top, an end panel with the row's letter at each end
+                    byte tray = alongP ? L120TrayX : L120TrayZ;
+                    for (int k = l; k < l + len; k++)
+                    {
+                        L120Along(plan, alongP, k, s).Overhead = tray;
+                        L120Along(plan, alongP, k, s + 1).Overhead = tray;
+                    }
+                    if (len >= 4)
+                        foreach (var (k, face) in new[] { (l, alongP ? ArchPier.West : ArchPier.North), (l + len - 1, alongP ? ArchPier.East : ArchPier.South) })
+                            foreach (int side in new[] { s, s + 1 })
+                            {
+                                ref Tile e = ref L120Along(plan, alongP, k, side);
+                                if (e.Variant == L120Rack && e.Detail is >= L120RackLedA and <= L120RackBoth) plan.Lit--;
+                                if (e.Variant == L120Rack) plan.Racks--;
+                                e.Variant = L120RowEnd;
+                                e.Detail = (byte)((s - s0) / 4 & 7);
+                                e.Pier = face;
+                            }
+                }
                 if (wrecked)
                     // The insides of the bank spilled over the aisles either side
                     for (int k = l - 1; k <= l + len; k++)
@@ -500,15 +553,17 @@ public sealed partial class WorldLayout
                 l += len + 2;
             }
         }
-        // Lifted panels and vents in the aisles
+        L120PlaceCooling(plan, alongP, l0, l1, s0, s1, ref rng);
+        // Lifted panels, vents and cable ports in the aisles
         for (int q = q0; q <= q1; q++)
             for (int p = p0; p <= p1; p++)
             {
                 ref Tile t = ref plan.At(p, q);
                 if (t.Variant != 0) continue;
                 double v = rng.NextDouble();
-                if (v < 0.03) t.Depth = L120PanelHole;
-                else if (v < 0.18) t.Depth = L120PanelVent;
+                if (v < 0.02) t.Depth = L120PanelHole;
+                else if (v < 0.17) t.Depth = L120PanelVent;
+                else if (v < 0.2) t.Depth = L120PanelPort;
             }
     }
 
@@ -733,7 +788,7 @@ public sealed partial class WorldLayout
         {
             ref Tile t = ref plan.Tiles[i];
             if (reached[i] || !IsWalkable(t)) continue;
-            if (t.Kind == TileKind.Doorway) { t.Kind = TileKind.Wall; continue; }
+            if (t.Kind == TileKind.Doorway) { t.Kind = TileKind.Wall; t.Variant = 0; continue; }
             t.Variant = Props.ScrapMetal;
         }
     }
@@ -823,6 +878,7 @@ public sealed partial class WorldLayout
                 t.Pier = di > 0 ? ArchPier.West : di < 0 ? ArchPier.East : dj > 0 ? ArchPier.North : ArchPier.South;
                 plan.Windows++;
             }
+        L120VoidOddities(plan, list, ref rng);
         plan.Arrival = plan.World(Lo(start.I) + pitch / 2 - 2, Lo(start.J) + pitch / 2 - 2);
     }
 
@@ -892,8 +948,8 @@ public sealed partial class WorldLayout
     /// <summary>Where a pocket hall puts down whoever booted their way into it (a world block).</summary>
     public (int X, int Z) L120PocketArrival(int hx, int hz) => L120PlanOf(hx, hz).Arrival;
 
-    /// <summary>Which of the level's props (<see cref="Props.L120First"/>-<see cref="Props.L120Last"/>) people walk through: the spilled cables, the broken windows.</summary>
-    private static bool L120WalkThrough(ushort variant) => variant is L120Spill or L120Window;
+    /// <summary>Which of the level's props (<see cref="Props.L120First"/>-<see cref="Props.L120Last"/>) people walk through: the spilled cables, the broken windows, a fallen ceiling tile, a sheet of paper.</summary>
+    private static bool L120WalkThrough(ushort variant) => variant is L120Spill or L120Window or L120Debris or L120Paper;
 
     // ================= Air =================
 

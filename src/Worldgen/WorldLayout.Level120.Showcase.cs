@@ -63,6 +63,18 @@ public partial class WorldLayout
         spots.Add(Spot("passage-tube", L120PassageView(chx, chz, 10), 0));
         spots.Add(Spot("passage-dark", L120PassageView(chx + 1, chz, 3), 0));
 
+        // Round 3 (WorldLayout.Level120.Dress.cs): a door onto a passage with its plates, EXIT over it inside; the terminal
+        // room's wall of screens; the UPS room; a cooling unit at an aisle's end; a bank's end panels under its tray; storage;
+        // a hole in the raised floor
+        spots.Add(Spot("hall-door", L120HallDoorView(rings), -6));
+        spots.Add(Spot("hall-exit", L120Best(rings, Stand, (t, k, s) => t.Kind == TileKind.Doorway && t.Variant == L120DecoExit && k >= 3 ? 6 : 0, 6, 6, line: 3), 6));
+        spots.Add(Spot("noc-screens", L120ScreensView(rings), 4));
+        spots.Add(Spot("ups-room", L120Best(rings, Stand, (t, k, s) => t.Variant is L120Ups or L120Battery ? (k <= 4 ? 2 : 1) : 0, 7, 10), -6));
+        spots.Add(Spot("crac", L120Best(rings, Stand, (t, k, s) => t.Variant == L120Crac ? (k is >= 2 and <= 5 && Math.Abs(s) <= 1 ? 8 : 1) : Rack(t) ? 0.2 : 0, 7, 8, line: 1), 2));
+        spots.Add(Spot("row-ends", L120Best(rings, Stand, (t, k, s) => t.Variant == L120RowEnd ? (k is >= 2 and <= 4 ? 4 : 1) : 0, 6, 8, line: 1), 4));
+        spots.Add(Spot("storage", L120Best(rings, Stand, (t, k, s) => t.Variant == L120Shelf ? 1 : t.Variant is L120Kvm or L120Mop ? 2 : 0, 7, 8), -8));
+        spots.Add(Spot("floor-hole", L120Best(rings, Stand, (t, k, s) => t.Depth == L120PanelHole && t.Variant == 0 && k == 2 && s == 0 ? 10 : t.Variant == L120Debris ? 1 : 0, 3, 10), -40));
+
         // The nearest White Void: across a room to its black doors, a broken window, a Smiler lost in the light
         if (L120NearestPocket(chx, chz, L120HallKind.Void, 12) is { } v)
         {
@@ -70,6 +82,7 @@ public partial class WorldLayout
             var doors = L120Best(hall, InVoid, (t, k, s) => t.Variant == L120VoidDoor ? 3 - 0.2 * Math.Abs(s) : 0, 13, 13, line: 4);
             spots.Add(Spot("void-doors", doors, 0));
             spots.Add(Spot("void-window", L120Best(hall, InVoid, (t, k, s) => t.Variant == L120Window && s == 0 && k >= 4 ? 3 : 0, 7, 1, line: 3), -4));
+            spots.Add(Spot("void-odd", L120Best(hall, InVoid, (t, k, s) => k >= 2 && (t.Variant is L120Chair or L120Terminal or L120Paper or L120Rack || t.Depth == L120VoidGlitch) ? 5 : 0, 6, 5, line: 2), -12));
             if (doors is { } d)
                 spots.Add(Spot("void-smiler", doors, 0, $"/backrooms l120 smiler {d.X + d.Dx * 5} {d.Z + d.Dz * 5}"));
         }
@@ -124,6 +137,49 @@ public partial class WorldLayout
         int sx = door.FrontX - door.X, sz = door.FrontZ - door.Z, back = 1;
         while (back < 3 && IsWalkable(TileAt(door.X + (back + 1) * sx, door.Z + (back + 1) * sz)) && TileAt(door.X + (back + 1) * sx, door.Z + (back + 1) * sz).Kind == TileKind.Floor) back++;
         return (door.X + back * sx, door.Z + back * sz, -sx, -sz);
+    }
+
+    /// <summary>From a passage, across it to the nearest door into a cluster: its DATA HALL plate and AUTHORIZED PERSONNEL ONLY either side.</summary>
+    private (int X, int Z, int Dx, int Dz)? L120HallDoorView(List<List<(int Hx, int Hz)>> rings)
+    {
+        foreach (var ring in rings)
+            foreach (var (hx, hz) in ring)
+            {
+                L120Plan plan = L120PlanOf(hx, hz);
+                for (int k = 4; k < L120HallSize - 4; k++)
+                    if (plan.At(-1, k).Kind == TileKind.Doorway && plan.At(-1, k - 1).Kind != TileKind.Doorway && plan.At(-1, k - 1).Variant == L120DecoAuth)
+                    {
+                        var (x, z) = plan.World(-4, k + 1);
+                        if (TileAt(x, z).Zone == (byte)L120Zone.Corridor) return (x, z, 1, 0);
+                    }
+            }
+        return null;
+    }
+
+    /// <summary>Across a terminal room to its wall of screens.</summary>
+    private (int X, int Z, int Dx, int Dz)? L120ScreensView(List<List<(int Hx, int Hz)>> rings)
+    {
+        foreach (var ring in rings)
+            foreach (var (hx, hz) in ring)
+            {
+                L120Plan plan = L120PlanOf(hx, hz);
+                for (int q = 0; q < L120HallSize - 6; q++)
+                    for (int p = 2; p < L120HallSize - 2; p++)
+                    {
+                        if (plan.At(p, q - 1).Variant != L120DecoScreens || plan.At(p - 2, q - 1).Variant != L120DecoScreens || plan.At(p + 2, q - 1).Variant != L120DecoScreens) continue;
+                        // (Back from the wall as far as the floor is clear, up to five)
+                        for (int back = 5; back >= 2; back--)
+                        {
+                            Tile t = plan.At(p, q + back - 1);
+                            if (t.Kind == TileKind.Floor && t.Variant == 0 && !t.SupplyBox && t.Stack == 0)
+                            {
+                                var (x, z) = plan.World(p, q + back - 1);
+                                return (x, z, 0, -1);
+                            }
+                        }
+                    }
+            }
+        return null;
     }
 
     /// <summary>A compass heading (0 north, 90 east) looking along a step.</summary>
