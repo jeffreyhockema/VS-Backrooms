@@ -1,0 +1,39 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"paper-sheet": "backrooms:block/120/paper-sheet"
+	},
+	"elements": [
+		{
+			"name": "Sheet",
+			"from": [
+				5,
+				0,
+				4
+			],
+			"to": [
+				11,
+				0.1,
+				12
+			],
+			"faces": {
+				"up": {
+					"texture": "#paper-sheet",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				0.05,
+				8.0
+			],
+			"rotationY": 23
+		}
+	]
+}

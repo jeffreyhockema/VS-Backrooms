@@ -1,0 +1,482 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/120/black",
+		"steel-grey": "backrooms:block/120/steel-grey",
+		"tray-cable": "backrooms:block/120/tray-cable",
+		"wall-base": "backrooms:block/120/wall-base",
+		"wire-blue": "backrooms:block/120/wire-blue",
+		"wire-grey": "backrooms:block/120/wire-grey"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "C0",
+			"from": [
+				5.5,
+				0,
+				-1.4
+			],
+			"to": [
+				6.5,
+				16,
+				-0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "C1",
+			"from": [
+				6.6,
+				0,
+				-1.25
+			],
+			"to": [
+				7.6,
+				16,
+				-0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						1.05,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wire-blue",
+					"uv": [
+						0,
+						0,
+						1.05,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "C2",
+			"from": [
+				7.7,
+				0,
+				-1.4
+			],
+			"to": [
+				8.7,
+				16,
+				-0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "C3",
+			"from": [
+				8.8,
+				0,
+				-1.25
+			],
+			"to": [
+				9.8,
+				16,
+				-0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						1.05,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wire-grey",
+					"uv": [
+						0,
+						0,
+						1.05,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "C4",
+			"from": [
+				9.9,
+				0,
+				-1.4
+			],
+			"to": [
+				10.9,
+				16,
+				-0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#tray-cable",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tie4",
+			"from": [
+				5.3,
+				4,
+				-1.6
+			],
+			"to": [
+				11,
+				4.5,
+				-0.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						5.7,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						5.7,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						5.7,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Tie12",
+			"from": [
+				5.3,
+				12,
+				-1.6
+			],
+			"to": [
+				11,
+				12.5,
+				-0.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						5.7,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						5.7,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						5.7,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Clamp",
+			"from": [
+				4.5,
+				13,
+				-2
+			],
+			"to": [
+				11.5,
+				14,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"south": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1
+					]
+				},
+				"west": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				},
+				"up": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2
+					]
+				},
+				"down": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						7.0,
+						2
+					]
+				}
+			}
+		}
+	]
+}

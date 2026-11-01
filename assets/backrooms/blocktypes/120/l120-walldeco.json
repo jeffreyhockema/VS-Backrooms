@@ -1,0 +1,935 @@
+// Level 120: the wall (yellow paper on rotting boards, or a White Void's white) with something on its face, to the side: the plates beside the doors, AUTHORIZED PERSONNEL ONLY, notes taped up, a fire point, cables down the wall, a wall of screens, an evacuation plan, the hall's stencilled letter, conduit, EXIT signs over the doorways, an electrical panel; a crack, a smudge
+{
+	"code": "l120-walldeco",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plate-0",
+				"plate-1",
+				"plate-2",
+				"plate-3",
+				"plate-4",
+				"plate-5",
+				"plate-6",
+				"plate-7",
+				"plate-8",
+				"plate-9",
+				"plate-10",
+				"plate-11",
+				"plate-12",
+				"plate-13",
+				"plate-14",
+				"plate-15",
+				"plate-16",
+				"plate-17",
+				"plate-18",
+				"plate-19",
+				"auth",
+				"note-0",
+				"note-1",
+				"note-2",
+				"note-3",
+				"fire-lower",
+				"fire-upper",
+				"cables-lower",
+				"cables-mid",
+				"cables-upper",
+				"screens-dead-lower",
+				"screens-dead-upper",
+				"screens-glitch-lower",
+				"screens-glitch-upper",
+				"evac",
+				"stencil-a",
+				"stencil-b",
+				"stencil-c",
+				"stencil-d",
+				"stencil-e",
+				"stencil-f",
+				"stencil-g",
+				"stencil-h",
+				"conduit",
+				"exit-dead",
+				"exit-lit",
+				"panel",
+				"crack",
+				"smudge"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l120-walldeco-plate-0-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-0",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-0-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-0",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-0-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-0",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-0-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-0",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-1-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-1",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-1-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-1",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-1-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-1",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-1-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-1",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-2-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-2",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-2-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-2",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-2-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-2",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-2-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-2",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-3-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-3",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-3-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-3",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-3-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-3",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-3-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-3",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-4-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-4",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-4-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-4",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-4-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-4",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-4-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-4",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-5-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-5",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-5-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-5",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-5-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-5",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-5-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-5",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-6-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-6",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-6-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-6",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-6-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-6",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-6-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-6",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-7-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-7",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-7-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-7",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-7-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-7",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-7-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-7",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-8-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-8",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-8-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-8",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-8-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-8",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-8-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-8",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-9-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-9",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-9-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-9",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-9-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-9",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-9-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-9",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-10-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-10",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-10-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-10",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-10-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-10",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-10-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-10",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-11-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-11",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-11-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-11",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-11-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-11",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-11-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-11",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-12-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-12",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-12-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-12",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-12-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-12",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-12-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-12",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-13-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-13",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-13-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-13",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-13-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-13",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-13-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-13",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-14-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-14",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-14-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-14",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-14-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-14",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-14-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-14",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-15-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-15",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-15-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-15",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-15-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-15",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-15-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-15",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-16-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-16",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-16-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-16",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-16-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-16",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-16-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-16",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-17-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-17",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-17-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-17",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-17-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-17",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-17-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-17",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-18-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-18",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-18-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-18",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-18-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-18",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-18-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-18",
+			"rotateY": 90
+		},
+		"l120-walldeco-plate-19-north": {
+			"base": "backrooms:block/120/l120-walldeco-plate-19",
+			"rotateY": 0
+		},
+		"l120-walldeco-plate-19-east": {
+			"base": "backrooms:block/120/l120-walldeco-plate-19",
+			"rotateY": 270
+		},
+		"l120-walldeco-plate-19-south": {
+			"base": "backrooms:block/120/l120-walldeco-plate-19",
+			"rotateY": 180
+		},
+		"l120-walldeco-plate-19-west": {
+			"base": "backrooms:block/120/l120-walldeco-plate-19",
+			"rotateY": 90
+		},
+		"l120-walldeco-auth-north": {
+			"base": "backrooms:block/120/l120-walldeco-auth",
+			"rotateY": 0
+		},
+		"l120-walldeco-auth-east": {
+			"base": "backrooms:block/120/l120-walldeco-auth",
+			"rotateY": 270
+		},
+		"l120-walldeco-auth-south": {
+			"base": "backrooms:block/120/l120-walldeco-auth",
+			"rotateY": 180
+		},
+		"l120-walldeco-auth-west": {
+			"base": "backrooms:block/120/l120-walldeco-auth",
+			"rotateY": 90
+		},
+		"l120-walldeco-note-0-north": {
+			"base": "backrooms:block/120/l120-walldeco-note-0",
+			"rotateY": 0
+		},
+		"l120-walldeco-note-0-east": {
+			"base": "backrooms:block/120/l120-walldeco-note-0",
+			"rotateY": 270
+		},
+		"l120-walldeco-note-0-south": {
+			"base": "backrooms:block/120/l120-walldeco-note-0",
+			"rotateY": 180
+		},
+		"l120-walldeco-note-0-west": {
+			"base": "backrooms:block/120/l120-walldeco-note-0",
+			"rotateY": 90
+		},
+		"l120-walldeco-note-1-north": {
+			"base": "backrooms:block/120/l120-walldeco-note-1",
+			"rotateY": 0
+		},
+		"l120-walldeco-note-1-east": {
+			"base": "backrooms:block/120/l120-walldeco-note-1",
+			"rotateY": 270
+		},
+		"l120-walldeco-note-1-south": {
+			"base": "backrooms:block/120/l120-walldeco-note-1",
+			"rotateY": 180
+		},
+		"l120-walldeco-note-1-west": {
+			"base": "backrooms:block/120/l120-walldeco-note-1",
+			"rotateY": 90
+		},
+		"l120-walldeco-note-2-north": {
+			"base": "backrooms:block/120/l120-walldeco-note-2",
+			"rotateY": 0
+		},
+		"l120-walldeco-note-2-east": {
+			"base": "backrooms:block/120/l120-walldeco-note-2",
+			"rotateY": 270
+		},
+		"l120-walldeco-note-2-south": {
+			"base": "backrooms:block/120/l120-walldeco-note-2",
+			"rotateY": 180
+		},
+		"l120-walldeco-note-2-west": {
+			"base": "backrooms:block/120/l120-walldeco-note-2",
+			"rotateY": 90
+		},
+		"l120-walldeco-note-3-north": {
+			"base": "backrooms:block/120/l120-walldeco-note-3",
+			"rotateY": 0
+		},
+		"l120-walldeco-note-3-east": {
+			"base": "backrooms:block/120/l120-walldeco-note-3",
+			"rotateY": 270
+		},
+		"l120-walldeco-note-3-south": {
+			"base": "backrooms:block/120/l120-walldeco-note-3",
+			"rotateY": 180
+		},
+		"l120-walldeco-note-3-west": {
+			"base": "backrooms:block/120/l120-walldeco-note-3",
+			"rotateY": 90
+		},
+		"l120-walldeco-fire-lower-north": {
+			"base": "backrooms:block/120/l120-walldeco-fire-lower",
+			"rotateY": 0
+		},
+		"l120-walldeco-fire-lower-east": {
+			"base": "backrooms:block/120/l120-walldeco-fire-lower",
+			"rotateY": 270
+		},
+		"l120-walldeco-fire-lower-south": {
+			"base": "backrooms:block/120/l120-walldeco-fire-lower",
+			"rotateY": 180
+		},
+		"l120-walldeco-fire-lower-west": {
+			"base": "backrooms:block/120/l120-walldeco-fire-lower",
+			"rotateY": 90
+		},
+		"l120-walldeco-fire-upper-north": {
+			"base": "backrooms:block/120/l120-walldeco-fire-upper",
+			"rotateY": 0
+		},
+		"l120-walldeco-fire-upper-east": {
+			"base": "backrooms:block/120/l120-walldeco-fire-upper",
+			"rotateY": 270
+		},
+		"l120-walldeco-fire-upper-south": {
+			"base": "backrooms:block/120/l120-walldeco-fire-upper",
+			"rotateY": 180
+		},
+		"l120-walldeco-fire-upper-west": {
+			"base": "backrooms:block/120/l120-walldeco-fire-upper",
+			"rotateY": 90
+		},
+		"l120-walldeco-cables-lower-north": {
+			"base": "backrooms:block/120/l120-walldeco-cables-lower",
+			"rotateY": 0
+		},
+		"l120-walldeco-cables-lower-east": {
+			"base": "backrooms:block/120/l120-walldeco-cables-lower",
+			"rotateY": 270
+		},
+		"l120-walldeco-cables-lower-south": {
+			"base": "backrooms:block/120/l120-walldeco-cables-lower",
+			"rotateY": 180
+		},
+		"l120-walldeco-cables-lower-west": {
+			"base": "backrooms:block/120/l120-walldeco-cables-lower",
+			"rotateY": 90
+		},
+		"l120-walldeco-cables-mid-north": {
+			"base": "backrooms:block/120/l120-walldeco-cables-mid",
+			"rotateY": 0
+		},
+		"l120-walldeco-cables-mid-east": {
+			"base": "backrooms:block/120/l120-walldeco-cables-mid",
+			"rotateY": 270
+		},
+		"l120-walldeco-cables-mid-south": {
+			"base": "backrooms:block/120/l120-walldeco-cables-mid",
+			"rotateY": 180
+		},
+		"l120-walldeco-cables-mid-west": {
+			"base": "backrooms:block/120/l120-walldeco-cables-mid",
+			"rotateY": 90
+		},
+		"l120-walldeco-cables-upper-north": {
+			"base": "backrooms:block/120/l120-walldeco-cables-upper",
+			"rotateY": 0
+		},
+		"l120-walldeco-cables-upper-east": {
+			"base": "backrooms:block/120/l120-walldeco-cables-upper",
+			"rotateY": 270
+		},
+		"l120-walldeco-cables-upper-south": {
+			"base": "backrooms:block/120/l120-walldeco-cables-upper",
+			"rotateY": 180
+		},
+		"l120-walldeco-cables-upper-west": {
+			"base": "backrooms:block/120/l120-walldeco-cables-upper",
+			"rotateY": 90
+		},
+		"l120-walldeco-screens-dead-lower-north": {
+			"base": "backrooms:block/120/l120-walldeco-screens-dead-lower",
+			"rotateY": 0
+		},
+		"l120-walldeco-screens-dead-lower-east": {
+			"base": "backrooms:block/120/l120-walldeco-screens-dead-lower",
+			"rotateY": 270
+		},
+		"l120-walldeco-screens-dead-lower-south": {
+			"base": "backrooms:block/120/l120-walldeco-screens-dead-lower",
+			"rotateY": 180
+		},
+		"l120-walldeco-screens-dead-lower-west": {
+			"base": "backrooms:block/120/l120-walldeco-screens-dead-lower",
+			"rotateY": 90
+		},
+		"l120-walldeco-screens-dead-upper-north": {
+			"base": "backrooms:block/120/l120-walldeco-screens-dead-upper",
+			"rotateY": 0
+		},
+		"l120-walldeco-screens-dead-upper-east": {
+			"base": "backrooms:block/120/l120-walldeco-screens-dead-upper",
+			"rotateY": 270
+		},
+		"l120-walldeco-screens-dead-upper-south": {
+			"base": "backrooms:block/120/l120-walldeco-screens-dead-upper",
+			"rotateY": 180
+		},
+		"l120-walldeco-screens-dead-upper-west": {
+			"base": "backrooms:block/120/l120-walldeco-screens-dead-upper",
+			"rotateY": 90
+		},
+		"l120-walldeco-screens-glitch-lower-north": {
+			"base": "backrooms:block/120/l120-walldeco-screens-glitch-lower",
+			"rotateY": 0
+		},
+		"l120-walldeco-screens-glitch-lower-east": {
+			"base": "backrooms:block/120/l120-walldeco-screens-glitch-lower",
+			"rotateY": 270
+		},
+		"l120-walldeco-screens-glitch-lower-south": {
+			"base": "backrooms:block/120/l120-walldeco-screens-glitch-lower",
+			"rotateY": 180
+		},
+		"l120-walldeco-screens-glitch-lower-west": {
+			"base": "backrooms:block/120/l120-walldeco-screens-glitch-lower",
+			"rotateY": 90
+		},
+		"l120-walldeco-screens-glitch-upper-north": {
+			"base": "backrooms:block/120/l120-walldeco-screens-glitch-upper",
+			"rotateY": 0
+		},
+		"l120-walldeco-screens-glitch-upper-east": {
+			"base": "backrooms:block/120/l120-walldeco-screens-glitch-upper",
+			"rotateY": 270
+		},
+		"l120-walldeco-screens-glitch-upper-south": {
+			"base": "backrooms:block/120/l120-walldeco-screens-glitch-upper",
+			"rotateY": 180
+		},
+		"l120-walldeco-screens-glitch-upper-west": {
+			"base": "backrooms:block/120/l120-walldeco-screens-glitch-upper",
+			"rotateY": 90
+		},
+		"l120-walldeco-evac-north": {
+			"base": "backrooms:block/120/l120-walldeco-evac",
+			"rotateY": 0
+		},
+		"l120-walldeco-evac-east": {
+			"base": "backrooms:block/120/l120-walldeco-evac",
+			"rotateY": 270
+		},
+		"l120-walldeco-evac-south": {
+			"base": "backrooms:block/120/l120-walldeco-evac",
+			"rotateY": 180
+		},
+		"l120-walldeco-evac-west": {
+			"base": "backrooms:block/120/l120-walldeco-evac",
+			"rotateY": 90
+		},
+		"l120-walldeco-stencil-a-north": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-a",
+			"rotateY": 0
+		},
+		"l120-walldeco-stencil-a-east": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-a",
+			"rotateY": 270
+		},
+		"l120-walldeco-stencil-a-south": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-a",
+			"rotateY": 180
+		},
+		"l120-walldeco-stencil-a-west": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-a",
+			"rotateY": 90
+		},
+		"l120-walldeco-stencil-b-north": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-b",
+			"rotateY": 0
+		},
+		"l120-walldeco-stencil-b-east": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-b",
+			"rotateY": 270
+		},
+		"l120-walldeco-stencil-b-south": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-b",
+			"rotateY": 180
+		},
+		"l120-walldeco-stencil-b-west": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-b",
+			"rotateY": 90
+		},
+		"l120-walldeco-stencil-c-north": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-c",
+			"rotateY": 0
+		},
+		"l120-walldeco-stencil-c-east": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-c",
+			"rotateY": 270
+		},
+		"l120-walldeco-stencil-c-south": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-c",
+			"rotateY": 180
+		},
+		"l120-walldeco-stencil-c-west": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-c",
+			"rotateY": 90
+		},
+		"l120-walldeco-stencil-d-north": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-d",
+			"rotateY": 0
+		},
+		"l120-walldeco-stencil-d-east": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-d",
+			"rotateY": 270
+		},
+		"l120-walldeco-stencil-d-south": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-d",
+			"rotateY": 180
+		},
+		"l120-walldeco-stencil-d-west": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-d",
+			"rotateY": 90
+		},
+		"l120-walldeco-stencil-e-north": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-e",
+			"rotateY": 0
+		},
+		"l120-walldeco-stencil-e-east": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-e",
+			"rotateY": 270
+		},
+		"l120-walldeco-stencil-e-south": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-e",
+			"rotateY": 180
+		},
+		"l120-walldeco-stencil-e-west": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-e",
+			"rotateY": 90
+		},
+		"l120-walldeco-stencil-f-north": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-f",
+			"rotateY": 0
+		},
+		"l120-walldeco-stencil-f-east": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-f",
+			"rotateY": 270
+		},
+		"l120-walldeco-stencil-f-south": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-f",
+			"rotateY": 180
+		},
+		"l120-walldeco-stencil-f-west": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-f",
+			"rotateY": 90
+		},
+		"l120-walldeco-stencil-g-north": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-g",
+			"rotateY": 0
+		},
+		"l120-walldeco-stencil-g-east": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-g",
+			"rotateY": 270
+		},
+		"l120-walldeco-stencil-g-south": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-g",
+			"rotateY": 180
+		},
+		"l120-walldeco-stencil-g-west": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-g",
+			"rotateY": 90
+		},
+		"l120-walldeco-stencil-h-north": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-h",
+			"rotateY": 0
+		},
+		"l120-walldeco-stencil-h-east": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-h",
+			"rotateY": 270
+		},
+		"l120-walldeco-stencil-h-south": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-h",
+			"rotateY": 180
+		},
+		"l120-walldeco-stencil-h-west": {
+			"base": "backrooms:block/120/l120-walldeco-stencil-h",
+			"rotateY": 90
+		},
+		"l120-walldeco-conduit-north": {
+			"base": "backrooms:block/120/l120-walldeco-conduit",
+			"rotateY": 0
+		},
+		"l120-walldeco-conduit-east": {
+			"base": "backrooms:block/120/l120-walldeco-conduit",
+			"rotateY": 270
+		},
+		"l120-walldeco-conduit-south": {
+			"base": "backrooms:block/120/l120-walldeco-conduit",
+			"rotateY": 180
+		},
+		"l120-walldeco-conduit-west": {
+			"base": "backrooms:block/120/l120-walldeco-conduit",
+			"rotateY": 90
+		},
+		"l120-walldeco-exit-dead-north": {
+			"base": "backrooms:block/120/l120-walldeco-exit-dead",
+			"rotateY": 0
+		},
+		"l120-walldeco-exit-dead-east": {
+			"base": "backrooms:block/120/l120-walldeco-exit-dead",
+			"rotateY": 270
+		},
+		"l120-walldeco-exit-dead-south": {
+			"base": "backrooms:block/120/l120-walldeco-exit-dead",
+			"rotateY": 180
+		},
+		"l120-walldeco-exit-dead-west": {
+			"base": "backrooms:block/120/l120-walldeco-exit-dead",
+			"rotateY": 90
+		},
+		"l120-walldeco-exit-lit-north": {
+			"base": "backrooms:block/120/l120-walldeco-exit-lit",
+			"rotateY": 0
+		},
+		"l120-walldeco-exit-lit-east": {
+			"base": "backrooms:block/120/l120-walldeco-exit-lit",
+			"rotateY": 270
+		},
+		"l120-walldeco-exit-lit-south": {
+			"base": "backrooms:block/120/l120-walldeco-exit-lit",
+			"rotateY": 180
+		},
+		"l120-walldeco-exit-lit-west": {
+			"base": "backrooms:block/120/l120-walldeco-exit-lit",
+			"rotateY": 90
+		},
+		"l120-walldeco-panel-north": {
+			"base": "backrooms:block/120/l120-walldeco-panel",
+			"rotateY": 0
+		},
+		"l120-walldeco-panel-east": {
+			"base": "backrooms:block/120/l120-walldeco-panel",
+			"rotateY": 270
+		},
+		"l120-walldeco-panel-south": {
+			"base": "backrooms:block/120/l120-walldeco-panel",
+			"rotateY": 180
+		},
+		"l120-walldeco-panel-west": {
+			"base": "backrooms:block/120/l120-walldeco-panel",
+			"rotateY": 90
+		},
+		"l120-walldeco-crack-north": {
+			"base": "backrooms:block/120/l120-walldeco-crack",
+			"rotateY": 0
+		},
+		"l120-walldeco-crack-east": {
+			"base": "backrooms:block/120/l120-walldeco-crack",
+			"rotateY": 270
+		},
+		"l120-walldeco-crack-south": {
+			"base": "backrooms:block/120/l120-walldeco-crack",
+			"rotateY": 180
+		},
+		"l120-walldeco-crack-west": {
+			"base": "backrooms:block/120/l120-walldeco-crack",
+			"rotateY": 90
+		},
+		"l120-walldeco-smudge-north": {
+			"base": "backrooms:block/120/l120-walldeco-smudge",
+			"rotateY": 0
+		},
+		"l120-walldeco-smudge-east": {
+			"base": "backrooms:block/120/l120-walldeco-smudge",
+			"rotateY": 270
+		},
+		"l120-walldeco-smudge-south": {
+			"base": "backrooms:block/120/l120-walldeco-smudge",
+			"rotateY": 180
+		},
+		"l120-walldeco-smudge-west": {
+			"base": "backrooms:block/120/l120-walldeco-smudge",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l120-walldeco-plate-0-north"
+		],
+		"backrooms": [
+			"l120-walldeco-plate-0-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"lightAbsorptionByType": {
+		"*-exit-lit-*": 0,
+		"*-screens-glitch-*": 0,
+		"*": 99
+	},
+	"lightHsvByType": {
+		"*-exit-lit-*": [
+			22,
+			5,
+			2
+		],
+		"*-screens-glitch-*": [
+			24,
+			3,
+			1
+		]
+	},
+	"dropsByType": {
+		"*-fire-lower-*": [
+			{
+				"type": "item",
+				"code": "metalbracket",
+				"quantity": {
+					"avg": 0.3,
+					"var": 0
+				}
+			}
+		],
+		"*-screens-*": [
+			{
+				"type": "item",
+				"code": "glassshard",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0.3
+				}
+			}
+		],
+		"*": []
+	}
+}

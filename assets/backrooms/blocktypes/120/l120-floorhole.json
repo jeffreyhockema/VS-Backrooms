@@ -1,0 +1,67 @@
+// Level 120: a raised-floor panel lifted out, the plenum under it (pedestals, cables): half a block down
+{
+	"code": "l120-floorhole",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"open"
+			]
+		}
+	],
+	"shapeByType": {
+		"*": {
+			"base": "backrooms:block/120/l120-floorhole"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l120-floorhole-open"
+		],
+		"backrooms": [
+			"l120-floorhole-open"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	],
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 0.5,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	}
+}

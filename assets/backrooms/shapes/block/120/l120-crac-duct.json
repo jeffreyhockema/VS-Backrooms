@@ -1,0 +1,60 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"duct": "backrooms:block/120/duct"
+	},
+	"elements": [
+		{
+			"name": "Duct",
+			"from": [
+				3,
+				0,
+				4
+			],
+			"to": [
+				13,
+				16,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				},
+				"east": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						9,
+						16
+					]
+				},
+				"south": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						10,
+						16
+					]
+				},
+				"west": {
+					"texture": "#duct",
+					"uv": [
+						0,
+						0,
+						9,
+						16
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,183 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"conduit": "backrooms:block/120/conduit",
+		"panel-pdu": "backrooms:block/120/panel-pdu",
+		"steel-grey": "backrooms:block/120/steel-grey",
+		"wall-base": "backrooms:block/120/wall-base"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				3,
+				1,
+				-1.6
+			],
+			"to": [
+				13,
+				14,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel-pdu",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.6,
+						13
+					]
+				},
+				"west": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.6,
+						13
+					]
+				},
+				"up": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						10,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						10,
+						1.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Conduit",
+			"from": [
+				7,
+				14,
+				-1.2
+			],
+			"to": [
+				9,
+				16,
+				-0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#conduit",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"east": {
+					"texture": "#conduit",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				},
+				"west": {
+					"texture": "#conduit",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2
+					]
+				}
+			}
+		}
+	]
+}

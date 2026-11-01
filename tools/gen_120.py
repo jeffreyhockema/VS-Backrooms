@@ -434,7 +434,7 @@ def prop_textures():
     px = boot.load()
     glyphs = {"B": ["110", "101", "110", "101", "110"], "O": ["111", "101", "101", "101", "111"], "T": ["111", "010", "010", "010", "010"],
               "_": ["000", "000", "000", "000", "111"]}
-    x0 = 0
+    x0 = 2
     for ch in "BOOT":
         for gy, row in enumerate(glyphs[ch]):
             for gx, bit in enumerate(row):
@@ -443,7 +443,7 @@ def prop_textures():
                         for dx in range(2):
                             px[x0 + gx * 2 + dx, 1 + gy * 2 + dy] = (110, 255, 140, 255)
         x0 += 7
-    rect(boot, 29, 9, 31, 10, (110, 255, 140))  # the cursor
+    rect(boot, 30, 9, 31, 10, (110, 255, 140))  # the cursor
     for y in range(0, S, 2):
         for x in range(S):
             r, g, b, a = px[x, y]
@@ -699,19 +699,21 @@ def sided_shapes(code, base_by_state):
 
 def blocktypes():
     cube_block("l120-wall", {"base": "wall-base", "stained": "wall-stained", "rot": "wall-rot", "soot": "wall-soot",
-                             "rot2": "wall-rot2", "rot3": "wall-rot3"},
+                             "rot2": "wall-rot2", "rot3": "wall-rot3", "skirt": "wall-skirt", "skirtrot": "wall-skirtrot",
+                             "skirtstain": "wall-skirtstain"},
                "Level 120: dirty yellow wallpaper over rotting boards (base; stained with brown streaks; rot: the paper torn off; soot: the "
                "Pitch-Black Hallways' near-black paper)", material="Wood", sounds=WOOD)
-    cube_block("l120-floor", {k: "floor-" + k for k in ("clean", "dirty", "vent", "hole")},
+    cube_block("l120-floor", {k: "floor-" + k for k in ("clean", "dirty", "vent", "hole", "port", "wet")},
                "Level 120: the dirty white floor, two tiles to a block (clean; dirty; vent: a perforated raised-floor panel; hole: a panel "
-               "lifted, the cables under it)", sounds=METAL)
+               "lifted, the cables under it; port: a cable grommet; wet: a puddle under a leak)", sounds=METAL)
     cube_block("l120-ceiling", {"tile": "ceiling-tile", "stained": "ceiling-stained", "broken": "ceiling-broken", "smashed": "ceiling-smashed"},
                "Level 120: office ceiling tiles (plain; water-stained; one fallen through) and a smashed fitting in its housing", sounds=STONE,
                extra={"dropsByType": {"*-smashed": drops(("glassshard", 0.6, 0.4), ("metalbracket", 0.3, 0.3)), "*": drops(("metalbracket", 0.15, 0))}})
 
     # The White Voids: plain white surfaces, a glowing panel every third block of the ceiling, the black round them
-    data = {"code": "l120-void", "variantgroups": [{"code": "kind", "states": ["floor", "wall", "ceiling", "panel", "black"]}],
-            "texturesByType": {"*-floor": {"all": tex("void-floor")}, "*-black": {"all": tex("void-black")}, "*": {"all": tex("void-white")}},
+    data = {"code": "l120-void", "variantgroups": [{"code": "kind", "states": ["floor", "wall", "ceiling", "panel", "black", "glitch", "paneldead"]}],
+            "texturesByType": {"*-floor": {"all": tex("void-floor")}, "*-black": {"all": tex("void-black")}, "*-glitch": {"all": tex("void-glitch")},
+                               "*-paneldead": {"all": tex("void-paneldead")}, "*": {"all": tex("void-white")}},
             "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
             "blockmaterial": "Stone", "drawtype": "cube", "resistance": 8, "drops": [], "sounds": STONE,
             # (The panel lets its own light out: the mod's lighting takes a source's absorption off its first step)
@@ -864,6 +866,15 @@ def door_textures():
                     rect(img, x, y, x + rng.randint(2, 4), y, shade(paint, 1.12))
             if look == "office" and part == "upper":
                 marked = img  # (only ever with its plate)
+            elif look == "dark" and part == "upper":
+                # Round 3: Level 120's side carries its plate too, the same plate: EXIT, and where to
+                rect(img, 2, 8, 29, 23, (60, 60, 58))
+                rect(img, 3, 9, 28, 22, (214, 210, 196))
+                big_text(img, "EXIT", (3, 9, 29, 17), (26, 26, 30), 8)
+                big_text(img, "OFFICES", (3, 16, 29, 22), (26, 26, 30), 5)
+                for sx in (3, 28):
+                    rect(img, sx, 9, sx, 9, (120, 120, 116))
+                save(img, f"door-{look}-{part}")
             else:
                 save(img, f"door-{look}-{part}")
     # The plate on Level 4's side: SERVER ROOM in black on an off-white plate, screwed on
@@ -1040,6 +1051,9 @@ def main():
     link_blocktypes()
     misglitch_entity()
     serverhum()
+    # Round 3's detail blocks (tools/gen_120_detail.py, built on the textures above)
+    import gen_120_detail
+    gen_120_detail.main()
     print("Level 120: textures in", os.path.relpath(TEX, ROOT), "; shapes in", os.path.relpath(SHAPES, ROOT), "; blocktypes in", os.path.relpath(BLOCKS, ROOT))
 
 

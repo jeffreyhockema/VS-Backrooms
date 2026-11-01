@@ -1,0 +1,80 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"rack-side": "backrooms:block/120/rack-side",
+		"rack-top": "backrooms:block/120/rack-top",
+		"rowend-f": "backrooms:block/120/rowend-f"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0.5,
+				0,
+				0.5
+			],
+			"to": [
+				15.5,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rowend-f",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						15.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						15.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#rack-side",
+					"uv": [
+						0,
+						0,
+						15.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#rack-top",
+					"uv": [
+						0,
+						0,
+						15.0,
+						15.0
+					]
+				},
+				"down": {
+					"texture": "#rack-top",
+					"uv": [
+						0,
+						0,
+						15.0,
+						15.0
+					]
+				}
+			}
+		}
+	]
+}

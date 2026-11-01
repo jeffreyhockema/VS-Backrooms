@@ -10,7 +10,10 @@
 				"rot",
 				"soot",
 				"rot2",
-				"rot3"
+				"rot3",
+				"skirt",
+				"skirtrot",
+				"skirtstain"
 			]
 		}
 	],
@@ -43,6 +46,21 @@
 		"*-rot3": {
 			"all": {
 				"base": "block/120/wall-rot3"
+			}
+		},
+		"*-skirt": {
+			"all": {
+				"base": "block/120/wall-skirt"
+			}
+		},
+		"*-skirtrot": {
+			"all": {
+				"base": "block/120/wall-skirtrot"
+			}
+		},
+		"*-skirtstain": {
+			"all": {
+				"base": "block/120/wall-skirtstain"
 			}
 		}
 	},

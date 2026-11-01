@@ -1,0 +1,109 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"note-3": "backrooms:block/120/note-3",
+		"wall-base": "backrooms:block/120/wall-base"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Note",
+			"from": [
+				5,
+				3,
+				-0.15
+			],
+			"to": [
+				11,
+				11,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#note-3",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.0,
+				-0.075
+			],
+			"rotationZ": -5
+		}
+	]
+}

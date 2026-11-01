@@ -1,0 +1,629 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"box-cardboard": "backrooms:block/120/box-cardboard",
+		"rack-front": "backrooms:block/120/rack-front",
+		"steel-grey": "backrooms:block/120/steel-grey"
+	},
+	"elements": [
+		{
+			"name": "Post0",
+			"from": [
+				0.5,
+				0,
+				1
+			],
+			"to": [
+				1.5,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"south": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Post1",
+			"from": [
+				14.5,
+				0,
+				1
+			],
+			"to": [
+				15.5,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"south": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Post2",
+			"from": [
+				0.5,
+				0,
+				14
+			],
+			"to": [
+				1.5,
+				16,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"south": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Post3",
+			"from": [
+				14.5,
+				0,
+				14
+			],
+			"to": [
+				15.5,
+				16,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"south": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf0",
+			"from": [
+				0.5,
+				0,
+				1
+			],
+			"to": [
+				15.5,
+				0.6,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						14,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						14,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						15.0,
+						14
+					]
+				},
+				"down": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						15.0,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Box01",
+			"from": [
+				1.5,
+				0.6,
+				2.5368
+			],
+			"to": [
+				6.4724,
+				6.0804,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#box-cardboard",
+					"uv": [
+						0,
+						0,
+						4.9724,
+						5.4804
+					]
+				},
+				"east": {
+					"texture": "#box-cardboard",
+					"uv": [
+						0,
+						0,
+						11.4632,
+						5.4804
+					]
+				},
+				"south": {
+					"texture": "#box-cardboard",
+					"uv": [
+						0,
+						0,
+						4.9724,
+						5.4804
+					]
+				},
+				"west": {
+					"texture": "#box-cardboard",
+					"uv": [
+						0,
+						0,
+						11.4632,
+						5.4804
+					]
+				},
+				"up": {
+					"texture": "#box-cardboard",
+					"uv": [
+						0,
+						0,
+						4.9724,
+						11.4632
+					]
+				},
+				"down": {
+					"texture": "#box-cardboard",
+					"uv": [
+						0,
+						0,
+						4.9724,
+						11.4632
+					]
+				}
+			}
+		},
+		{
+			"name": "Box06",
+			"from": [
+				6.8724,
+				0.6,
+				2.4909
+			],
+			"to": [
+				10.0226,
+				4.3777,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#box-cardboard",
+					"uv": [
+						0,
+						0,
+						3.1502,
+						3.7777
+					]
+				},
+				"east": {
+					"texture": "#box-cardboard",
+					"uv": [
+						0,
+						0,
+						11.5091,
+						3.7777
+					]
+				},
+				"south": {
+					"texture": "#box-cardboard",
+					"uv": [
+						0,
+						0,
+						3.1502,
+						3.7777
+					]
+				},
+				"west": {
+					"texture": "#box-cardboard",
+					"uv": [
+						0,
+						0,
+						11.5091,
+						3.7777
+					]
+				},
+				"up": {
+					"texture": "#box-cardboard",
+					"uv": [
+						0,
+						0,
+						3.1502,
+						11.5091
+					]
+				},
+				"down": {
+					"texture": "#box-cardboard",
+					"uv": [
+						0,
+						0,
+						3.1502,
+						11.5091
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf1",
+			"from": [
+				0.5,
+				7,
+				1
+			],
+			"to": [
+				15.5,
+				7.6,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						14,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						14,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						15.0,
+						14
+					]
+				},
+				"down": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						15.0,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Box16",
+			"from": [
+				6.8135,
+				7.6,
+				3.2568
+			],
+			"to": [
+				11.1101,
+				11.1859,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						4.2966,
+						3.5859
+					]
+				},
+				"east": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						10.7432,
+						3.5859
+					]
+				},
+				"south": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						4.2966,
+						3.5859
+					]
+				},
+				"west": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						10.7432,
+						3.5859
+					]
+				},
+				"up": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						4.2966,
+						10.7432
+					]
+				},
+				"down": {
+					"texture": "#rack-front",
+					"uv": [
+						0,
+						0,
+						4.2966,
+						10.7432
+					]
+				}
+			}
+		},
+		{
+			"name": "Shelf2",
+			"from": [
+				0.5,
+				14,
+				1
+			],
+			"to": [
+				15.5,
+				14.6,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						14,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						14,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						15.0,
+						14
+					]
+				},
+				"down": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						15.0,
+						14
+					]
+				}
+			}
+		}
+	]
+}

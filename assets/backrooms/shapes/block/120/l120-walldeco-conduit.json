@@ -1,0 +1,224 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"conduit": "backrooms:block/120/conduit",
+		"steel-grey": "backrooms:block/120/steel-grey",
+		"wall-base": "backrooms:block/120/wall-base"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall-base",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Pipe",
+			"from": [
+				0,
+				11,
+				-1.4
+			],
+			"to": [
+				16,
+				12.4,
+				-0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#conduit",
+					"uv": [
+						0,
+						0,
+						16,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#conduit",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#conduit",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Pipe2",
+			"from": [
+				0,
+				8.8,
+				-1.0
+			],
+			"to": [
+				16,
+				9.8,
+				-0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#conduit",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#conduit",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#conduit",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Clip",
+			"from": [
+				7,
+				8.5,
+				-1.6
+			],
+			"to": [
+				8,
+				12.8,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1,
+						4.3
+					]
+				},
+				"east": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.6,
+						4.3
+					]
+				},
+				"west": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1.6,
+						4.3
+					]
+				},
+				"up": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#steel-grey",
+					"uv": [
+						0,
+						0,
+						1,
+						1.6
+					]
+				}
+			}
+		}
+	]
+}
