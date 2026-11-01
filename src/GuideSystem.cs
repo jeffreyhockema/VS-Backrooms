@@ -31,10 +31,13 @@ public class GuideSystem : ModSystem
         ["gamemechanicinfo-temporalstability"] = "stability",
     };
 
-    /// <summary>Pages of our own, in the order they follow the Progression Guide.</summary>
+    /// <summary>
+    /// Pages of our own, in the order they follow the Progression Guide. The Levels, Ways Between Levels and What Lives
+    /// Here learn as the player does, and bring the level and creature pages with them (<see cref="DiscoveryPages"/>).
+    /// </summary>
     private static readonly string[] Added =
     {
-        "home", "finding", "salvage", "food", "rest", "levels", "farlevels", "thresholds", "entities",
+        "home", "finding", "salvage", "food", "rest", "levels", "thresholds", "entities",
     };
 
     /// <summary>Vanilla pages kept, with a Backrooms preface: page code to the preface's lang key suffix.</summary>
@@ -77,6 +80,7 @@ public class GuideSystem : ModSystem
     private ModSystemTutorial tutorials;
     private ITutorial vanillaFirstSteps;
     private BackroomsTutorial ours;
+    private DiscoveryPages discovery;
 
     public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Client;
 
@@ -132,11 +136,17 @@ public class GuideSystem : ModSystem
         }
 
         if (after < 0) after = pages.Count - 1;
+        discovery ??= new DiscoveryPages(capi);
         foreach (string guide in Added)
         {
-            var page = new TiledHandbookTextPage { pageCode = "backrooms-" + guide, Title = Title(guide), Text = Text(guide) };
-            page.Init(capi);
-            pages.Insert(++after, page);
+            IEnumerable<GuiHandbookTextPage> added = guide switch
+            {
+                "levels" => discovery.LevelPages(),
+                "thresholds" => new[] { discovery.Thresholds() },
+                "entities" => discovery.EntityPages(),
+                _ => new[] { Plain(guide) },
+            };
+            foreach (GuiHandbookTextPage page in added) pages.Insert(++after, page);
         }
     }
 
@@ -165,6 +175,13 @@ public class GuideSystem : ModSystem
             tutorials.StartTutorial(BackroomsTutorial.Code);
             capi.ShowChatMessage(Lang.Get("backrooms:tutorial-backrooms-started"));
         }, 2500);
+    }
+
+    private GuiHandbookTextPage Plain(string guide)
+    {
+        var page = new TiledHandbookTextPage { pageCode = "backrooms-" + guide, Title = Title(guide), Text = Text(guide) };
+        page.Init(capi);
+        return page;
     }
 
     private static string Title(string guide) => $"backrooms:guide-{guide}-title";
