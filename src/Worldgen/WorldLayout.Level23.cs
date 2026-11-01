@@ -127,8 +127,11 @@ public sealed partial class WorldLayout
     /// <summary>Arriving: on the forest floor, never over a cavern, in the Heart of Water or the tangle.</summary>
     private static bool IsL23ArrivalSpot(Tile t) => IsArrivalSpot(t) && t.Zone == L23Surface;
 
-    /// <summary>How high above the level's floor to put someone down: on the ground.</summary>
-    private static double L23ArrivalHeight(in Tile t, double stand) => t.Height + stand;
+    /// <summary>
+    /// How high above the level's floor to put someone down: on the ground of the forest, or on the floor of a cavern or a
+    /// tunnel (Base Seedling's, for those who come home by its hollow tree), or the Heart of Water's shore.
+    /// </summary>
+    private static double L23ArrivalHeight(in Tile t, double stand) => t.Zone == L23Surface ? t.Height + stand : -t.Depth + stand;
 
     // ================= The special places =================
 
@@ -185,6 +188,8 @@ public sealed partial class WorldLayout
             return (int)Math.Round(ground * (1 - s) + -6 * s);
         }
         if (dc >= L23PoolRadius) return -6;
+        // (In the middle of the bed, the well the reservoir goes on down through: WorldLayout.Level23.Links.cs)
+        if (dc < L23WellRadius) return L23WellFloor;
         double q = dc / L23PoolRadius;
         return L23PoolSurface - 1 - (int)Math.Round(6 * (1 - q * q));
     }
@@ -261,6 +266,9 @@ public sealed partial class WorldLayout
         public int SentryX, SentryZ;
         public ArchPier SentryFacing;
         public ulong H;
+        /// <summary>A hollow trunk (WorldLayout.Level23.Links.cs): hollowed out from its foot to a few blocks up, a mouth facing <see cref="MouthA"/> (radians, along x then z).</summary>
+        public bool Hollow;
+        public double MouthA;
     }
 
     /// <summary>The tree at a lattice point (Exists false where there is none: a clearing, the Heart of Water, the tangle).</summary>
@@ -286,20 +294,20 @@ public sealed partial class WorldLayout
         t.Top = t.Snag ? t.Base + 10 + (int)(14 * Hashing.Unit(h8)) : L23Top;
         t.Lobes = 3 + (int)(h9 % 3);
         t.Phase = Hashing.Unit(h8) * Math.PI * 2;
-        t.Lean = 0.6 + 1.0 * Hashing.Unit(h9 >> 8);
+        t.Lean = 0.6 + 1.0 * Hashing.Unit(h9 << 8);
         t.LeanPhase = Hashing.Unit(Hashing.Mix(h9)) * Math.PI * 2;
         t.Pillar = Hashing.Unit(Hashing.Mix(h9 + 1)) < 0.55;
         // Silhouettes (round 2: the trunks were all round columns of one width all the way up): some young and thin, most
         // oval and narrowing toward the lid, some swelling and pinching, a quarter of the thick ones forked into two stems
         ulong s1 = Hashing.Mix(h9 + 3), s2 = Hashing.Mix(s1), s3 = Hashing.Mix(s2), s4 = Hashing.Mix(s3), s5 = Hashing.Mix(s4);
-        if (t.R < 6 && Hashing.Unit(s1) < 0.14) t.R = 1.2 + 0.6 * Hashing.Unit(s1 >> 20);
+        if (t.R < 6 && Hashing.Unit(s1) < 0.14) t.R = 1.2 + 0.6 * Hashing.Unit(s1 << 20);
         t.Ecc = 0.22 * Hashing.Unit(s2);
-        t.EccPhase = Hashing.Unit(s2 >> 20) * Math.PI;
+        t.EccPhase = Hashing.Unit(s2 << 20) * Math.PI;
         t.Taper = 0.1 + 0.3 * Hashing.Unit(s3);
-        t.Swell = Hashing.Unit(s3 >> 20) < 0.35 ? 0.1 + 0.08 * Hashing.Unit(s3 >> 40) : 0;
+        t.Swell = Hashing.Unit(s3 << 20) < 0.35 ? 0.1 + 0.08 * Hashing.Unit(s3 << 40) : 0;
         t.SwellPhase = Hashing.Unit(s4) * Math.PI * 2;
-        if (!t.Snag && t.R >= 3 && Hashing.Unit(s4 >> 20) < 0.25) t.ForkAt = t.Base + 13 + (int)(9 * Hashing.Unit(s5));
-        t.ForkPhase = Hashing.Unit(s5 >> 20) * Math.PI;
+        if (!t.Snag && t.R >= 3 && Hashing.Unit(s4 << 20) < 0.25) t.ForkAt = t.Base + 13 + (int)(9 * Hashing.Unit(s5));
+        t.ForkPhase = Hashing.Unit(s5 << 20) * Math.PI;
         t.Exists = true;
         // A buried sentry in about one of the thicker trunks in nine: a face in the bark, between two buttresses, at head height
         if (t.R >= 3 && Hashing.Unit(Hashing.Mix(h9 + 2)) < 0.11)
@@ -319,6 +327,7 @@ public sealed partial class WorldLayout
             t.SentryZ = lastZ;
             t.SentryFacing = Math.Abs(ca) > Math.Abs(sa) ? (ca > 0 ? ArchPier.East : ArchPier.West) : (sa > 0 ? ArchPier.South : ArchPier.North);
         }
+        L23MaybeHollow(ref t, i, j);
         return t;
     }
 
@@ -437,10 +446,18 @@ public sealed partial class WorldLayout
             double reach = t.R * (1 + t.Ecc + t.Swell) + (t.Giant ? 6.5 : 4.5) + t.Lean + (t.ForkAt > 0 ? t.R * 0.9 : 0);
             if (dx * dx + dz * dz > reach * reach) return;
             int hi = Math.Min(top, t.Snag ? t.Top + (int)(Hashing.Hash(seed, gx, gz, SaltL23Snag) & 3) - 1 : top);
+            int floor = int.MinValue;
             for (int rel = lowest; rel <= hi; rel++)
             {
                 if (kinds[rel - lowest] != 0) continue;
-                if (L23InTrunk(t, px, pz, rel, out _)) kinds[rel - lowest] = t.Kind;
+                if (!L23InTrunk(t, px, pz, rel, out double depth)) continue;
+                // (A hollow trunk is hollowed out over the ground of this column: WorldLayout.Level23.Links.cs)
+                if (t.Hollow)
+                {
+                    if (floor == int.MinValue) floor = L23Ground(gx, gz);
+                    if (L23Hollowed(t, px, pz, rel, floor, depth)) continue;
+                }
+                kinds[rel - lowest] = t.Kind;
             }
         }
 
@@ -481,13 +498,15 @@ public sealed partial class WorldLayout
         // Roots: three or four, out to four to nine blocks past the bark
         int roots = 3 + (int)(t.H >> 60 & 1);
         double far = t.R + (t.Giant ? 16 : 10);
-        if (d2 < far * far && lowest <= t.Base + 3)
+        // (A hollow trunk's roots leave its hollow, its mouth and the way out of it open)
+        bool inHollow = t.Hollow && L23InHollowsWay(t, px, pz);
+        if (d2 < far * far && lowest <= t.Base + 3 && !inHollow)
             for (int k = 0; k < roots; k++)
             {
                 ulong h = Hashing.Mix(t.H + 17 + (ulong)k);
                 double a = t.Phase / t.Lobes + k * Math.PI * 2 / roots + (Hashing.Unit(h) - 0.5) * 0.6;
                 double len = t.R + (t.Giant ? 9 : 4) + (t.Giant ? 6 : 5) * Hashing.Unit(Hashing.Mix(h));
-                double rr = t.Giant ? 1.6 : 0.95 + 0.25 * Hashing.Unit(h >> 7);
+                double rr = t.Giant ? 1.6 : 0.95 + 0.25 * Hashing.Unit(h << 7);
                 double bx = t.X + Math.Cos(a) * len, bz = t.Z + Math.Sin(a) * len;
                 double ay = t.Base + 0.6, by = t.Base + 0.1;
                 for (int rel = Math.Max(lowest, t.Base - 2); rel <= Math.Min(top, t.Base + 3); rel++)
@@ -506,7 +525,7 @@ public sealed partial class WorldLayout
             ulong h = Hashing.Mix(t.H + 101 + (ulong)k);
             double a = Hashing.Unit(h) * Math.PI * 2;
             double from = 20 + 12 * Hashing.Unit(Hashing.Mix(h));
-            double len = 5 + t.R + 5 * Hashing.Unit(h >> 9);
+            double len = 5 + t.R + 5 * Hashing.Unit(h << 9);
             double rr = 0.8 + 0.15 * t.R;
             var (lx, lz) = L23Lean(t, (int)from);
             double ax = t.X + lx, az = t.Z + lz;
@@ -899,6 +918,7 @@ public sealed partial class WorldLayout
             t.Height = 0;
             t.Depth = (byte)Math.Max(0, -ground);
             t.Floor = ground < L23PoolSurface ? FloorKind.L23Water : FloorKind.L23Moss;
+            if (ground == L23WellFloor) t.Under = Unders.L23Well;
         }
         // In the way: a trunk or a buttress at the foot; anything at head height; a root to step onto with no room over it
         L23Wood(gx, gz, ground + 1, kinds);
@@ -928,6 +948,8 @@ public sealed partial class WorldLayout
                 t.Floor = FloorKind.L23Earth;
             }
         }
+        // Inside a hollow trunk, or in its mouth (WorldLayout.Level23.Links.cs)
+        if (t.Zone == L23Surface && t.Kind == TileKind.Floor && L23InHollowTrunk(gx, gz, ground)) t.Under = Unders.L23HollowTrunk;
         return t;
     }
 
@@ -1046,12 +1068,18 @@ public sealed partial class WorldLayout
                 if (lx < 0 || lz < 0 || lx >= MacroSize || lz >= MacroSize) continue;
                 double d = Math.Sqrt(u * u + v * v);
                 ref Tile t = ref b.At(lx, lz);
-                if (d < 2.4) t.Sealed = true;
+                if (d < 2.4)
+                {
+                    t.Sealed = true;
+                    // (Climbing up it is the way home: WorldLayout.Level23.Links.cs)
+                    t.Under = Unders.L23SeedlingHollow;
+                }
                 else if (d < 3.9 && !L23HollowDoor(u, v))
                 {
                     t.Kind = TileKind.Wall;
                     t.Pattern = WallPattern.L23Wall;
                 }
+                else if (d < 3.9) t.Under = Unders.L23SeedlingDoor;
             }
     }
 

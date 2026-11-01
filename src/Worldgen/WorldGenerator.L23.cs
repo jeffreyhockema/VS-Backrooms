@@ -273,6 +273,8 @@ public sealed partial class WorldGenerator
     {
         if (core)
         {
+            // (The well at the bottom of the pool, where the reservoir goes on down: dark roots, no gravel)
+            if (ground == WorldLayout.L23WellFloor) return l23Tangle;
             if (fromMid < WorldLayout.L23PoolRadius) return Noise2(gx / 6.0, gz / 6.0, SaltL23Mat + 1) > 0.1 ? l23Gravel : l23Sand;
             if (fromMid < WorldLayout.L23PoolRadius + 3) return l23Gravel;
             return Noise2(gx / 9.0, gz / 9.0, SaltL23Mat + 2) > -0.2 ? l23Moss : l23Humus;
