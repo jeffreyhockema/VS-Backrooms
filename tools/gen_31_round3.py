@@ -229,7 +229,7 @@ def session():
     f = font(NARROW, 11)
     for i, (s, c, lit) in enumerate(rows):
         y = 8 + i * 13
-        col = c if lit else tuple(int(v * 0.22) for v in c)
+        col = c if lit else tuple(int(v * 0.42) for v in c)
         d.rectangle([8, y + 2, 14, y + 8], fill=rgba(col))
         d.text((20, y), s, font=f, fill=rgba(col))
     return img
@@ -247,7 +247,7 @@ def menu_window():
     items = [("PIZZA SLICE", "1.50"), ("HOT DOG", "1.25"), ("NACHOS", "2.00"), ("POPCORN", "1.00"), ("SODA", ".75")]
     f = font(NARROW, 9)
     for i, (n, p) in enumerate(items):
-        y = P + 8 + i * 10
+        y = P + 7 + i * 9
         d.text((10, y), n, font=f, fill=(250, 240, 220, 255))
         d.text((W - 32, y), p, font=f, fill=(255, 200, 80, 255))
     return img
