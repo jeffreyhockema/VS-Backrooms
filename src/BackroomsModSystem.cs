@@ -47,7 +47,7 @@ public class BackroomsModSystem : ModSystem
     private const int L52TintRainfall = 194, L52TintRainfallSpread = 14;
 
     /// <summary>The levels <c>/backrooms goto</c> (and the other commands that take a level) accept, for their descriptions and errors.</summary>
-    public const string LevelList = "0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, 73, basement, 52, 31, 120, 36, 15 or 23";
+    public const string LevelList = "0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, 73, basement, 52, 31, 120, 36, 15, 23, 14 or 47";
 
     private ICoreServerAPI sapi;
     /// <summary>
@@ -410,7 +410,7 @@ public class BackroomsModSystem : ModSystem
         // Motion's hills and mountain rise far above its valleys
         int dumpLevel = layout.LevelAt(WorldLayout.MacroOf(cx), WorldLayout.MacroOf(cz)), floor = g.FloorFor(dumpLevel);
         // (The five kept as 14-18: the band each is lit over, from its own floor)
-        bool region = dumpLevel >= WorldLayout.RunLevel && dumpLevel <= WorldLayout.Level23;
+        bool region = dumpLevel >= WorldLayout.RunLevel && dumpLevel <= WorldLayout.Level47;
         // (Level 7 from layout version 9: down to the midnight zone's seabed, and up to the high ceiling)
         bool highSea = dumpLevel == 7 && layout.Version >= 9;
         int y0 = dumpLevel switch { WorldLayout.Poolrooms => floor - WorldGeometry.PoolPitDepth - 2, WorldLayout.Motion => floor - 10, _ when region => g.BandBottomFor(dumpLevel),

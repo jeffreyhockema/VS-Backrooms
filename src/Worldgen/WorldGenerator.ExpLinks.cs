@@ -17,11 +17,13 @@ public sealed partial class WorldGenerator
     partial void L36EntranceBlock(in Tile t, int gx, int gz, int rel, ref int id, ref int fluid);
     partial void L15EntranceBlock(in Tile t, int gx, int gz, int rel, ref int id, ref int fluid);
     partial void L23EntranceBlock(in Tile t, int gx, int gz, int rel, ref int id, ref int fluid);
+    partial void L14EntranceBlock(in Tile t, int gx, int gz, int rel, ref int id, ref int fluid);
+    partial void L47EntranceBlock(in Tile t, int gx, int gz, int rel, ref int id, ref int fluid);
 
     /// <summary>
     /// The block of an experimental level's entrance at this height (rel from the host level's floor), or -1 for the host
     /// level's own. The owner is the README's block the Under falls in: 256-287 Level 73, then the Basement, 52, 31, 120,
-    /// 36, 15, 23.
+    /// 36, 15, 23, 14 (512-543) and 47 (544-575).
     /// </summary>
     internal int ExpEntranceBlock(in Tile t, int gx, int gz, int rel, out int fluid)
     {
@@ -37,6 +39,8 @@ public sealed partial class WorldGenerator
             case 5: L36EntranceBlock(t, gx, gz, rel, ref id, ref fluid); break;
             case 6: L15EntranceBlock(t, gx, gz, rel, ref id, ref fluid); break;
             case 7: L23EntranceBlock(t, gx, gz, rel, ref id, ref fluid); break;
+            case 8: L14EntranceBlock(t, gx, gz, rel, ref id, ref fluid); break;
+            case 9: L47EntranceBlock(t, gx, gz, rel, ref id, ref fluid); break;
         }
         return id;
     }

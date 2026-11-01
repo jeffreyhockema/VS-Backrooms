@@ -136,6 +136,11 @@ public partial class AtmosphereSystem : ModSystem
         // Level 23: a dim green murk under the lid of leaves, a mist on the forest floor (its glow rooms, tunnels, camp, ruins and
         // the Heart of Water: AtmosphereSystem.L23.cs)
         new(0.0065f, 0.17f, 0.23f, 0.14f, -0.07f, scene: 0.95f),
+        // Batch 4 (placeholders: a faint neutral haze)
+        // Level 14
+        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
+        // Level 47
+        new(0.004f, 0.70f, 0.70f, 0.68f, 0f),
     };
 
     /// <summary>
@@ -388,6 +393,8 @@ public partial class AtmosphereSystem : ModSystem
             case WorldLayout.Level36: L36Air(dt, pos, ref target, ref titleKey); break;
             case WorldLayout.Level15: L15Air(dt, pos, ref target, ref titleKey); break;
             case WorldLayout.Level23: L23Air(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level14: L14Air(dt, pos, ref target, ref titleKey); break;
+            case WorldLayout.Level47: L47Air(dt, pos, ref target, ref titleKey); break;
             case 10: L10Air(ref target); break;
         }
         AnnounceLevel(titleKey);
@@ -586,6 +593,8 @@ public partial class AtmosphereSystem : ModSystem
         L36Sounds(dt, pos, level == WorldLayout.Level36);
         L15Sounds(dt, pos, level == WorldLayout.Level15);
         L23Sounds(dt, pos, level == WorldLayout.Level23);
+        L14Sounds(dt, pos, level == WorldLayout.Level14);
+        L47Sounds(dt, pos, level == WorldLayout.Level47);
         HotelSounds(dt, pos, level == 5);
 
         // The Poolrooms' room tone

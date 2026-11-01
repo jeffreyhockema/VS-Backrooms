@@ -288,7 +288,7 @@ public partial class HubSystem : ModSystem
     public static string LevelName(IServerPlayer player, int level) => level switch
     {
         WorldLayout.HubSnackroomsDoor => Backrooms.Say.T(player, "backrooms:levelname-6.1"),
-        >= WorldLayout.RunLevel and <= WorldLayout.Level23 => Backrooms.Say.T(player, "backrooms:levelname-" + level),
+        >= WorldLayout.RunLevel and <= WorldLayout.Level47 => Backrooms.Say.T(player, "backrooms:levelname-" + level),
         _ => Backrooms.Say.T(player, "backrooms:levelname", WorldLayout.DisplayNumber(level)),
     };
 

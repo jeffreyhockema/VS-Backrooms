@@ -15,6 +15,8 @@ rest wait here. Tick a level off (move it to "Built") when its commit lands.
 | Level 36 "Airport" (scaffolded; detail pass to come) | 25 | 3 |
 | Level 15 "Futuristic Halls" (scaffolded; detail pass to come) | 27 | 3 |
 | Level 23 "Petrified Garden" (scaffolded; detail pass to come) | 28 | 3 |
+| Level 14 "The Hospital" (Fandom; scaffolded, builder to come) | 29 | 4 |
+| Level 47 "The Adderwood" (Wikidot; scaffolded, builder to come) | 30 | 4 |
 
 ## Dropped
 

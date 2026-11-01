@@ -110,7 +110,7 @@ if (args.Length > 2 && args[2] == "manholes") { Manholes.Run(layout, seed, n, ar
 if (args.Length > 2 && args[2] == "tunnels") { Tunnels.Run(layout, n); return; }
 // shotgrid and feet: camera planning for the graphics pass's spot lists (ShotGrid.cs)
 if (args.Length > 2 && ShotGrid.Run(layout, args)) return;
-// Each of the levels kept as 14-27 has its own modes (runstats, funstats, endstats, hubstats, 974stats, 3999stats, 188stats; 73, basement, 52, 31, 120, 36, 15 and 23: none yet), in its own file
+// Each of the levels kept as 14-27 has its own modes (runstats, funstats, endstats, hubstats, 974stats, 3999stats, 188stats; 73, basement, 52, 31, 120, 36, 15, 23, 14 and 47: none yet), in its own file
 if (args.Length > 2 && LevelModes.Run(layout, args)) return;
 if (args.Length > 2 && args[2] == "regions") { Regions.Run(layout, smx, smz); return; }
 if (args.Length > 3 && args[2] == "regionmap") { Regions.Map(layout, WorldLayout.FromDisplayName(args[3]), n, args.Length > 4 ? int.Parse(args[4]) : 0, args.Length > 5 ? int.Parse(args[5]) : 0); return; }

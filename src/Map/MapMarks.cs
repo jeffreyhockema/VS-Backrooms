@@ -62,6 +62,8 @@ public static class MapMarks
         Rgb(0x222222), // 120: near black, the dark server rooms (id 26)
         Rgb(0x5BC8E8), // 15: cyan, the halls' line
         Rgb(0x2E6B3A), // 23: deep forest green
+        Rgb(0x9FD8CB), // 14: pale hospital mint (id 29)
+        Rgb(0x4B5320), // 47: moss (id 30)
     };
 
     private static int Rgb(int rgb) => ColorUtil.ColorFromRgba((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF, 255);
@@ -124,7 +126,7 @@ public static class MapMarks
         if (level == 6 && layout.IsSnackrooms(mx, mz)) return Lang.Get("backrooms:levelname-6.1");
         if (level == WorldLayout.Poolrooms && layout.IsReservoir(mx, mz)) return Lang.Get("backrooms:levelname-37.1");
         // Levels 14 to 20 (Level !, Fun, The End, The Hub, 974, 3999, 188) and the experimental 21 to 27 have names of their own: levelname-14 to levelname-27
-        if (level >= WorldLayout.RunLevel && level <= WorldLayout.Level23) return Lang.Get("backrooms:levelname-" + level);
+        if (level >= WorldLayout.RunLevel && level <= WorldLayout.Level47) return Lang.Get("backrooms:levelname-" + level);
         return Lang.Get("backrooms:levelname", WorldLayout.DisplayNumber(level));
     }
 }

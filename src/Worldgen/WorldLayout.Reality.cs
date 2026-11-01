@@ -84,6 +84,8 @@ public sealed partial class WorldLayout
             case Level36: return L36Stability(x, y, z, floorY, drift);
             case Level15: return L15Stability(x, y, z, floorY, drift);
             case Level23: return L23Stability(x, y, z, floorY, drift);
+            case Level14: return L14Stability(x, y, z, floorY, drift);
+            case Level47: return L47Stability(x, y, z, floorY, drift);
             case 5:
                 return HotelZoneAt(mx, mz) switch
                 {
@@ -303,6 +305,16 @@ public sealed partial class WorldLayout
             (cx, cz) = L23ArrivalCell(h);
             spot ??= IsL23ArrivalSpot;
         }
+        else if (level == Level14)
+        {
+            (cx, cz) = L14ArrivalCell(h);
+            spot ??= IsL14ArrivalSpot;
+        }
+        else if (level == Level47)
+        {
+            (cx, cz) = L47ArrivalCell(h);
+            spot ??= IsL47ArrivalSpot;
+        }
         int reach = cellFilter != null ? 16 : 6;
         if (near != null) (cx, cz, reach) = (near.Value.Mx, near.Value.Mz, Math.Min(reach, 5));
 
@@ -513,6 +525,8 @@ public sealed partial class WorldLayout
             Level36 => L36ArrivalHeight(t, stand),
             Level15 => L15ArrivalHeight(t, stand),
             Level23 => L23ArrivalHeight(t, stand),
+            Level14 => L14ArrivalHeight(t, stand),
+            Level47 => L47ArrivalHeight(t, stand),
             _ => stand,
         };
     }

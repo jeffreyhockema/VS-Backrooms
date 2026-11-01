@@ -29,6 +29,8 @@ public static class Showcase
         WorldLayout.Level36 => layout.L36ShowcaseSpots(geometry),
         WorldLayout.Level15 => layout.L15ShowcaseSpots(geometry),
         WorldLayout.Level23 => layout.L23ShowcaseSpots(geometry),
+        WorldLayout.Level14 => layout.L14ShowcaseSpots(geometry),
+        WorldLayout.Level47 => layout.L47ShowcaseSpots(geometry),
         _ => Array.Empty<Spot>(),
     };
 }
