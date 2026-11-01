@@ -404,4 +404,41 @@ public sealed partial class WorldLayout
         }
         return false;
     }
+
+    [ThreadStatic] private static Dictionary<(int, int), (int X, int Z, ArchPier Side)?> l23LostCamps;
+    [ThreadStatic] private static WorldLayout l23LostCampsOwner;
+
+    /// <summary>
+    /// A lost M.E.G. explorer's last camp in a cell of the forest, if there is one (one cell in twenty; my invention): a
+    /// bedroll on open ground, a crate at its foot, and a pile of bones beside it. Its bedroll's column and the way its
+    /// head lies.
+    /// </summary>
+    public (int X, int Z, ArchPier Side)? L23LostCampIn(int mx, int mz)
+    {
+        if (l23LostCampsOwner != this || l23LostCamps == null || l23LostCamps.Count > 4096)
+        {
+            l23LostCamps = new Dictionary<(int, int), (int, int, ArchPier)?>();
+            l23LostCampsOwner = this;
+        }
+        if (l23LostCamps.TryGetValue((mx, mz), out var known)) return known;
+        (int, int, ArchPier)? found = null;
+        ulong h = Hashing.Hash(seed, mx, mz, SaltL23Feature + 5);
+        if (Hashing.Unit(h) < 0.05)
+        {
+            var rng = new Rng(Hashing.Mix(h));
+            for (int attempt = 0; attempt < 16 && found == null; attempt++)
+            {
+                int x = mx * MacroSize + rng.Range(3, MacroSize - 4), z = mz * MacroSize + rng.Range(3, MacroSize - 4);
+                if (L23FromMid(x, z) < L23CoreRadius + 12 || L23FromMid(x, z) > L23Reach - 20 || L23OnTrail(x, z)) continue;
+                bool clear = true;
+                for (int dz = -1; dz <= 1 && clear; dz++)
+                    for (int dx = -1; dx <= 1 && clear; dx++)
+                        clear = L23ClearSurface(x + dx, z + dz) && L23Ground(x + dx, z + dz) == L23Ground(x, z);
+                if (!clear) continue;
+                found = (x, z, (ArchPier)(Hashing.Mix(h + 9) % 4));
+            }
+        }
+        l23LostCamps[(mx, mz)] = found;
+        return found;
+    }
 }

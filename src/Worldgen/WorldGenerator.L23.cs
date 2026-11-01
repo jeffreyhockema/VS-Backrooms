@@ -43,7 +43,7 @@ public sealed partial class WorldGenerator
     private readonly int[] l23SentryBody = new int[4];
     private readonly int[] l23Bedroll = new int[4];
     private readonly System.Collections.Generic.Dictionary<string, int[]> l23Signs = new();
-    private int l23SignPost, l23Barrel, l23Crate, l23FireRing, l23Ledger, l23Cloth, l23Flagstone, l23MossBark;
+    private int l23SignPost, l23Barrel, l23Crate, l23FireRing, l23Ledger, l23Cloth, l23Flagstone, l23MossBark, l23Bones;
     private readonly int[] l23SquirtRack = new int[4];
     private int[] l23Flowers;
     private readonly int[] l23Sentry = new int[4];
@@ -94,6 +94,7 @@ public sealed partial class WorldGenerator
         l23Cloth = Id("l23-cloth");
         l23Flagstone = Id("l23-flagstone");
         l23MossBark = Id("l23-mossbark");
+        l23Bones = OptionalId("bonepile");
         for (int f = 0; f < 4; f++) l23SquirtRack[f] = Id("l23-squirtrack-" + Sides[f]);
         l23Humus = Id("l23-humus");
         l23Moss = Id("l23-moss");
@@ -305,6 +306,19 @@ public sealed partial class WorldGenerator
             for (int rel = ground + 1; rel < sign.Board; rel++) b[rel - L23Low] = l23SignPost;
             b[sign.Board - L23Low] = l23Signs[sign.Text][Facing(sign.Side)];
             c.Water[sign.Board - L23Low] = false;
+        }
+
+        // ---- A lost explorer's last camp (round 3, my invention): a bedroll, a crate at its foot, bones beside it ----
+        if (!core && t.Zone == WorldLayout.L23Surface && ground >= 0 && b[ground + 1 - L23Low] == 0
+            && layout.L23LostCampIn(Hashing.FloorDiv(gx, WorldLayout.MacroSize), Hashing.FloorDiv(gz, WorldLayout.MacroSize)) is { } lost)
+        {
+            var (lx, lz, head) = lost;
+            var (hx, hz) = WorldLayout.L23Step(head);
+            var (sx, sz) = WorldLayout.L23LeftOf(head);
+            int at = ground + 1 - L23Low;
+            if (gx == lx && gz == lz) b[at] = l23Bedroll[Facing(head)];
+            else if (gx == lx - hx && gz == lz - hz) b[at] = l23Crate;
+            else if (gx == lx + sx && gz == lz + sz && l23Bones != 0) b[at] = l23Bones;
         }
 
         // ---- The caverns ----
