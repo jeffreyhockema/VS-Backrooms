@@ -61,4 +61,23 @@ static class FeatureCheck
         Console.WriteLine($"--- {total} features: {allFound} found from every arrival, {someFound} from some, {total - allFound - someFound} from none");
         foreach (string m in misses) Console.WriteLine("MISS " + m);
     }
+
+    /// <summary>showcase [level...]: the experimental levels' showcase spots (name, feet, heading, the level each stands in).</summary>
+    public static void ListShowcase(WorldLayout layout, string[] args)
+    {
+        var only = args.Skip(3).Select(WorldLayout.FromDisplayName).ToHashSet();
+        var geometry = new WorldGeometry(256);
+        for (int level = 0; level < WorldLayout.LevelCount; level++)
+        {
+            if (only.Count > 0 && !only.Contains(level)) continue;
+            var spots = Showcase.For(level, layout, geometry).ToList();
+            if (spots.Count == 0) continue;
+            Console.WriteLine($"=== Level {WorldLayout.DisplayNumber(level)}: {spots.Count} spots");
+            foreach (var s in spots)
+            {
+                int at = layout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(s.X)), WorldLayout.MacroOf((int)Math.Floor(s.Z)));
+                Console.WriteLine($"  {s.Name,-28} {s.X,9:0.0} {s.Y,6:0.0} {s.Z,9:0.0}  h {s.Heading,5:0} p {s.Pitch,4:0}  in {WorldLayout.DisplayNumber(at)}{(s.Setup != null ? "  setup " + s.Setup : "")}");
+            }
+        }
+    }
 }

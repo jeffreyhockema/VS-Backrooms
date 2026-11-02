@@ -107,6 +107,8 @@ if (args.Length > 2 && args[2] == "findres") { FindReservoir.Run(layout); return
 if (args.Length > 2 && args[2] == "layouthash") { LayoutHash.Run(args); return; }
 // featurecheck [arrivals] [level...]: every "Go to feature" finder of the cheat menu, from a few arrivals in its level (FeatureCheck.cs)
 if (args.Length > 2 && args[2] == "featurecheck") { FeatureCheck.Run(layout, args); return; }
+// showcase [level...]: every showcase spot of the experimental levels (src/Cheats/Showcase.cs) and the level it stands in
+if (args.Length > 2 && args[2] == "showcase") { FeatureCheck.ListShowcase(layout, args); return; }
 // manholes [maps]: Level 3's manholes round the level's arrival, <cells> across: the way in, the ladder, its foot (Manholes.cs)
 if (args.Length > 2 && args[2] == "manholes") { Manholes.Run(layout, seed, n, args.Length > 3 && args[3] == "maps"); return; }
 if (args.Length > 2 && args[2] == "tunnels") { Tunnels.Run(layout, n); return; }

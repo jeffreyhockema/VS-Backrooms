@@ -12,7 +12,7 @@ namespace Backrooms.Cheats;
 /// finders. A miss leaves <see cref="Error"/> set when the search cannot be made here (the wrong level), and
 /// <see cref="Stopped"/> when a tile scan ran out of time.
 /// </summary>
-public sealed class FeatureFinder
+public sealed partial class FeatureFinder
 {
     /// <summary>What a search found.</summary>
     public sealed class Hit
@@ -409,6 +409,10 @@ public sealed class FeatureFinder
             case "l188firedoor": return TileHit(t => t.Under == Unders.L188FireDoor);
 
             // ----- The rest are /backrooms nearest's own targets -----
+            // ----- The experimental levels, and their ways in: their showcase tours' spots (FeatureFinder.Experimental.cs) -----
+            case var _ when IsShowcaseFeature(code):
+                return ShowcaseFeature(code, gx, gz, radius, level);
+
             default:
                 if (Targets.Any(t => t.Code == code)) return Target(code, gx, gz, radius, level, null);
                 Error = $"No finder for {code}";
