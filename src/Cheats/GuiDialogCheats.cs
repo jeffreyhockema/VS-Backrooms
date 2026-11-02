@@ -7,6 +7,7 @@ using Vintagestory.API.Datastructures;
 using Backrooms.Entities;
 using Backrooms.Map;
 using Backrooms.Salvage;
+using Backrooms.Worldgen;
 
 namespace Backrooms.Cheats;
 
@@ -50,7 +51,9 @@ public class GuiDialogCheats : GuiDialog
     private string creature = CreatureCodes[0];
     private string encounter = EncounterKinds[0];
     private string distance = Distances[0];
-    private string findLevel = "";
+    private string featureCode = "";
+    /// <summary>The level the Travel tab's feature list was made for (it is made again when you go to another).</summary>
+    private int composedLevel = -2;
     private string photoSpot = PhotoSpots[0].Code;
     private string noteKind = NoteKinds[0];
     private readonly string[] settingChoice = new string[Settings.Length];
@@ -67,7 +70,18 @@ public class GuiDialogCheats : GuiDialog
     {
         Compose();
         base.OnGuiOpened();
-        statusListener = capi.Event.RegisterGameTickListener(_ => SingleComposer?.GetDynamicText("status")?.SetNewText(cheats.StatusLine()), 500);
+        statusListener = capi.Event.RegisterGameTickListener(_ => OnStatusTick(), 500);
+    }
+
+    /// <summary>Keeps the status line current, and the Travel tab's feature list to the level you are in.</summary>
+    private void OnStatusTick()
+    {
+        if (tab == 0 && cheats.CurrentLevel() != composedLevel)
+        {
+            Compose();
+            return;
+        }
+        SingleComposer?.GetDynamicText("status")?.SetNewText(cheats.StatusLine());
     }
 
     public override void OnGuiClosed()
@@ -97,7 +111,7 @@ public class GuiDialogCheats : GuiDialog
         y += LineHeight + 2;
         if (!cheats.Privileged)
         {
-            y = Note(composer, "You lack the controlserver privilege: the server refuses these commands, and the view cheats are off.", y,
+            y = Note(composer, "No controlserver privilege: the server will refuse these.", y,
                 CairoFont.WhiteDetailText().WithColor(GuiStyle.ErrorTextColor));
         }
         y += 4;
@@ -110,8 +124,7 @@ public class GuiDialogCheats : GuiDialog
             case 4: y = ComposeView(composer, y); break;
             default: y = ComposeDev(composer, y); break;
         }
-        composer.AddStaticText("Replies show in chat. F7 or .cheats toggles this menu.",
-            CairoFont.WhiteDetailText(), ElementBounds.Fixed(0, y + 6, Width, 20));
+        Note(composer, "Replies show in chat. F7 or .cheats toggles this menu.", y + 4);
 
         composer.EndChildElements();
         composer.GetHorizontalTabs("tabs").activeElement = tab;
@@ -125,25 +138,33 @@ public class GuiDialogCheats : GuiDialog
         y = Heading(c, "Go to a level", y);
         y = ButtonGrid(c, y, LevelNumbers.Select(n => B(LevelLabel(n), $"/backrooms goto {n}")).ToArray(), 7);
 
-        y = Heading(c, "Go beside a feature", y + RowGap);
-        c.AddStaticText("in level", CairoFont.WhiteSmallText(), ElementBounds.Fixed(0, y + 4, 70, ButtonHeight));
-        string[] levelValues = LevelNumbers.Prepend("").ToArray();
-        string[] levelNames = LevelNumbers.Select(LevelLabel).Prepend("its usual level").ToArray();
-        c.AddDropDown(levelValues, levelNames, Math.Max(0, Array.IndexOf(levelValues, findLevel)), (code, _) => findLevel = code,
-            ElementBounds.Fixed(70, y, 180, ButtonHeight), "findlevel");
-        y += ButtonHeight + Gap;
-        y = ButtonGrid(c, y, CheatSystem.Features.Select(f => new Button(f.Name, () => Send($"/backrooms find {f.Code}" + (findLevel != "" ? " " + findLevel : "")))).ToArray(), 3);
+        // The special places of the level you are in (made again when you go to another level)
+        composedLevel = cheats.CurrentLevel();
+        y = Heading(c, "Go to feature (in this level)", y + RowGap);
+        FeatureCatalog.Entry[] features = composedLevel < 0 ? Array.Empty<FeatureCatalog.Entry>() : FeatureCatalog.ForLevel(composedLevel);
+        if (features.Length == 0)
+        {
+            y = Note(c, composedLevel < 0 ? "Not a Backrooms world." : $"{LevelLabel(WorldLayout.DisplayNumber(composedLevel))} has no special places listed.", y);
+        }
+        else
+        {
+            if (!features.Any(f => f.Code == featureCode)) featureCode = features[0].Code;
+            c.AddDropDown(features.Select(f => f.Code).ToArray(), features.Select(f => f.Name).ToArray(), Array.FindIndex(features, f => f.Code == featureCode),
+                (code, _) => featureCode = code, ElementBounds.Fixed(0, y, 400, ButtonHeight), "feature");
+            c.AddSmallButton("Go", () => Send($"/backrooms feature {featureCode}"), ElementBounds.Fixed(410, y, Width - 410, ButtonHeight));
+            c.AddAutoSizeHoverText("To the nearest one in this level, beside or in it (/backrooms back undoes it)",
+                CairoFont.WhiteDetailText(), 360, ElementBounds.Fixed(410, y, Width - 410, ButtonHeight));
+            y += ButtonHeight + Gap;
+        }
 
-        y = Heading(c, "Nearest from here (in this level)", y + RowGap);
-        y = ButtonGrid(c, y, CheatSystem.Targets.Where(t => CheatSystem.GameplayTargets.Contains(t.Code))
-            .Select(t => B(t.Name, $"/backrooms nearest {t.Code}")).ToArray(), 3);
-
-        y = Heading(c, "Other", y + RowGap);
+        y = Heading(c, "Go to nearest (in this level)", y + RowGap);
         return ButtonGrid(c, y, new[]
         {
-            B("Back", "/backrooms back", "Back to where you were before your last goto, find, nearest, home or back (this session only)"),
-            B("Wake-up point", "/backrooms home"),
-            B("Where am I?", "/backrooms where"),
+            B("Gate", "/backrooms nearest gate", "The nearest door, stair or elevator that leads to another level"),
+            B("Way out", "/backrooms nearest threshold", "The nearest of any way out of this level"),
+            B("Unopened cache", "/backrooms nearest cache", "The nearest sealed box or crate not yet opened"),
+            B("Refuge", "/backrooms nearest refuge", "The nearest safe place or trader"),
+            B("Den", "/backrooms nearest den", "The nearest creatures' den"),
         }, 3);
     }
 
@@ -160,16 +181,12 @@ public class GuiDialogCheats : GuiDialog
         y = Heading(c, "Survival", y + RowGap);
         y = ButtonGrid(c, y, new[]
         {
-            B("Heal and rest", "/backrooms heal", "Health, food, body temperature and stability back to full, and your time out reset"),
+            B("Heal and rest", "/backrooms heal", "Health, food, water, body temperature and stability back to full, rested, and your time awake reset"),
             B("Die (test waking)", "/backrooms die"),
-            B("Corpses: list", "/backrooms corpse list", "Lists every corpse a death has left: whose, where, how old, what it holds"),
-            B("Corpse: make one", "/backrooms corpse make", "Puts a corpse of yours with some test things at your feet"),
-            B("Corpse: to bones", "/backrooms corpse age", "Turns the newest corpse to bones now"),
-            B("Lantern in hand", "/backrooms light lantern", "A lit light in your active hotbar slot (only a light in hand lights Level 6)"),
-            B("Torch in hand", "/backrooms light torch"),
-        }, 4);
+            B("Where am I?", "/backrooms where"),
+        }, 3);
 
-        y = Heading(c, "Set your state", y + RowGap);
+        y = Heading(c, "Set state", y + RowGap);
         y = ButtonGrid(c, y, new[]
         {
             B("Health 10%", "/backrooms stat health 0.1"),
@@ -183,13 +200,13 @@ public class GuiDialogCheats : GuiDialog
             B("Needs", "/backrooms needs", "Says your hydration, awake hours and band, caffeine, sickness, bed and the director's multiplier"),
         }, 4);
 
-        y = Heading(c, "Time out (raises menace until you rest)", y + RowGap);
+        y = Heading(c, "Time awake", y + RowGap);
         y = ButtonGrid(c, y, new[]
         {
             B("Rested", "/backrooms exposure 0"),
-            B("Out 6 h", "/backrooms exposure 6"),
-            B("Out 24 h", "/backrooms exposure 24"),
-            B("Out 72 h", "/backrooms exposure 72"),
+            B("Awake 6 h", "/backrooms exposure 6"),
+            B("Awake 24 h", "/backrooms exposure 24"),
+            B("Awake 72 h", "/backrooms exposure 72"),
         }, 4);
 
         y = Heading(c, "Kits", y + RowGap);
@@ -215,8 +232,8 @@ public class GuiDialogCheats : GuiDialog
         c.AddSmallButton("Spawn", () => Send(SpawnCommand()), ElementBounds.Fixed(330, y, 120, ButtonHeight));
         c.AddSmallButton("Perceive", () => Send(PerceiveCommand()), ElementBounds.Fixed(460, y, 120, ButtonHeight));
         y += ButtonHeight + Gap;
-        y = Note(c, "Smilers need the dark, the Thing needs deep water; auto picks a fitting spot or fails. "
-            + "Perceive puts the creature down that many blocks off (held still, 20 on auto) and reports each second what it sees, hears and believes of you.", y, lines: 3);
+        y = Note(c, "Smilers need the dark, the Thing deep water; auto picks a fitting spot or fails.", y);
+        y = Note(c, "Perceive: held still that far off (20 on auto), it reports what it senses of you.", y);
 
         y = Heading(c, "Director", y + RowGap);
         y = ButtonGrid(c, y, new[]
@@ -311,11 +328,10 @@ public class GuiDialogCheats : GuiDialog
         }
         int version = config?.GetInt(BackroomsWorld.LayoutVersionKey, 1) ?? 1;
         string food = config?.HasAttribute(BackroomsWorld.WorldgenFoodKey) == true ? $"{config.GetFloat(BackroomsWorld.WorldgenFoodKey):0.##}"
-            : version < 7 ? "1 (no thinning before layout version 7)" : "not recorded yet";
+            : version < 7 ? "1 (before v7)" : "not recorded";
         int levelSize = config?.GetInt(BackroomsWorld.LayoutLevelSizeKey, 100) ?? 100;
-        y = Note(c, $"Layout version {version}, worldgen food {food}, level size {levelSize}%: fixed when the world was made, never changed here.", y);
-        return Note(c, "Set sends /worldconfig. It takes effect after a server restart (dispensers and Kitty's fridge follow scarcity at once). "
-            + "Worldgen thinning keeps the recorded worldgen food, whatever the scarcity. This menu shows new values once you rejoin.", y, lines: 3);
+        y = Note(c, $"Fixed at creation: layout v{version}, worldgen food {food}, level size {levelSize}%.", y + 2);
+        return Note(c, "Set takes effect after a server restart; rejoin to see it here.", y);
     }
 
     private double ComposeView(GuiComposer c, double y)
@@ -330,7 +346,7 @@ public class GuiDialogCheats : GuiDialog
         }, 3);
         if (!hasMap) c.AddStaticText("Reveal map: no map in this world", CairoFont.WhiteDetailText().WithColor(GuiStyle.DialogDefaultTextColor),
             ElementBounds.Fixed(2 * ((Width - 2 * Gap) / 3 + Gap), y - ButtonHeight - Gap + 5, (Width - 2 * Gap) / 3, ButtonHeight));
-        return Note(c, "The HUD reads the layout under your feet as this client works it out from the seed.", y);
+        return Note(c, "The HUD reads the layout under your feet from the seed, on this client.", y);
     }
 
     private double ComposeDev(GuiComposer c, double y)
@@ -383,8 +399,8 @@ public class GuiDialogCheats : GuiDialog
             B("Dummy: no light", "/backrooms dummy light 0", "The nearest straw dummy carries no light"),
             B("Dummy: sneak", "/backrooms dummy sneak", "Toggles whether the nearest straw dummy sneaks"),
             B("Dummy: run", "/backrooms dummy run", "Toggles whether the nearest straw dummy counts as running"),
-            B("Dummy: face toward", "/backrooms dummy face toward", "The nearest straw dummy looks at the nearest creature (a stare, for the Hound's nerve)"),
-            B("Dummy: face away", "/backrooms dummy face away", "The nearest straw dummy turns its back on the nearest creature (what sets a Hound off)"),
+            B("Dummy: stare", "/backrooms dummy face toward", "The nearest straw dummy looks at the nearest creature (a stare, for the Hound's nerve)"),
+            B("Dummy: back turned", "/backrooms dummy face away", "The nearest straw dummy turns its back on the nearest creature (what sets a Hound off)"),
             B("Dummy: unsteady", "/backrooms dummy stability 0.3", "Sets the nearest straw dummy's Reality Stability to 0.3"),
             B("Dummy: noise", "/backrooms dummy noise 0.5", "The nearest straw dummy makes a noise, at loudness 0.5, which the creatures can hear"),
             B("Remove dummies", "/backrooms dummy remove", "Removes every straw dummy put down for tests"),
@@ -427,10 +443,14 @@ public class GuiDialogCheats : GuiDialog
         return y + 26;
     }
 
-    private static double Note(GuiComposer c, string text, double y, CairoFont font = null, int lines = 1)
+    /// <summary>A line of small text (more if it wraps: its height is the lines it really takes, so nothing below overlaps it).</summary>
+    private double Note(GuiComposer c, string text, double y, CairoFont font = null)
     {
-        c.AddStaticText(text, font ?? CairoFont.WhiteDetailText(), ElementBounds.Fixed(0, y, Width, LineHeight * lines));
-        return y + LineHeight * lines + Gap;
+        font ??= CairoFont.WhiteDetailText();
+        int lines = Math.Max(1, capi.Gui.Text.GetQuantityTextLines(font, text, GuiElement.scaled(Width)));
+        double lineHeight = Math.Max(LineHeight, capi.Gui.Text.GetLineHeight(font) / GuiElement.scaled(1));
+        c.AddStaticText(text, font, ElementBounds.Fixed(0, y, Width, lineHeight * lines + 2));
+        return y + lineHeight * lines + Gap;
     }
 
     /// <summary>Lays out buttons, <paramref name="columns"/> to a row (a default one leaves its place empty); returns the y below them.</summary>

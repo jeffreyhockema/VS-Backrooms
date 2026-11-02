@@ -1,0 +1,49 @@
+description: The mechanics pages hide far levels and creatures until they are found - Starter (the Bacteria hint), Progression, Stability and Food as a new player (Level 0 only, nothing met), then the same after /backrooms discover all (read by eye from the screenshots).
+steps:
+  - bot: closeguis
+  - bot: wait 3000
+  - cmd: /backrooms discover status
+  - expect_chat: "visited 1 (0); met 0 of"
+  - bot: handbook craftinginfo-starterguide
+  - bot: hbscroll 0.6
+  - shot: spoil-new-starter
+  - bot: handbook craftinginfo-progressionguide
+  - shot: spoil-new-progression-top
+  - bot: hbscroll 0.5
+  - shot: spoil-new-progression-mid
+  - bot: hbscroll 1
+  - shot: spoil-new-progression-bottom
+  - bot: handbook gamemechanicinfo-temporalstability
+  - shot: spoil-new-stability-top
+  - bot: hbscroll 1
+  - shot: spoil-new-stability-bottom
+  - bot: handbook backrooms-food
+  - bot: hbscroll 0.5
+  - shot: spoil-new-food-mid
+  - bot: hbscroll 1
+  - shot: spoil-new-food-bottom
+  - bot: hbfilter kitty
+  - expect_log: "hbfilter 'kitty': 0 backrooms pages"
+  - bot: closeguis
+  - cmd: /backrooms discover all
+  - expect_chat: "met 29 of 29"
+  - bot: handbook craftinginfo-starterguide
+  - bot: hbscroll 0.6
+  - shot: spoil-all-starter
+  - bot: handbook craftinginfo-progressionguide
+  - shot: spoil-all-progression-top
+  - bot: hbscroll 0.5
+  - shot: spoil-all-progression-mid
+  - bot: hbscroll 1
+  - shot: spoil-all-progression-bottom
+  - bot: handbook gamemechanicinfo-temporalstability
+  - shot: spoil-all-stability-top
+  - bot: hbscroll 1
+  - shot: spoil-all-stability-bottom
+  - bot: handbook backrooms-food
+  - bot: hbscroll 0.5
+  - shot: spoil-all-food-mid
+  - bot: hbscroll 1
+  - shot: spoil-all-food-bottom
+  - bot: closeguis
+  - expect_no_log: "Exception:"

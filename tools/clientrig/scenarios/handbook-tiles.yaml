@@ -1,0 +1,25 @@
+description: The long handbook pages render (not black) - What Lives Here at top, middle and bottom, the Starter Guide, and a test page 3x as long with the vanilla and the tiled rich text (read by eye from the screenshots).
+steps:
+  - bot: closeguis
+  - bot: wait 3000
+  - bot: handbook
+  - bot: handbook backrooms-entities
+  - shot: hb-entities-top
+  - bot: hbscroll 0.5
+  - shot: hb-entities-mid
+  - bot: hbscroll 1
+  - shot: hb-entities-bottom
+  - bot: handbook craftinginfo-starterguide
+  - shot: hb-starter
+  - bot: hbtest tiled 3
+  - shot: hb-test-tiled-top
+  - bot: hbscroll 0.5
+  - shot: hb-test-tiled-mid
+  - bot: hbscroll 1
+  - shot: hb-test-tiled-bottom
+  - bot: hbtest vanilla 3
+  - shot: hb-test-vanilla-top
+  - bot: hbscroll 0.5
+  - shot: hb-test-vanilla-mid
+  - bot: hbscroll 1
+  - shot: hb-test-vanilla-bottom

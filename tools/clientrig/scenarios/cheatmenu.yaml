@@ -1,0 +1,54 @@
+description: The F7 cheat menu on each tab, its Go to feature list in Level 0 and Level 3 (rebuilt while open), and /backrooms feature.
+steps:
+  - expect_no_startup_issues: ""
+  - bot: closeguis
+  - bot: hud on
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms heal
+  - cmd: /backrooms director off
+  - bot: look 0 0
+  - bot: cheats 0
+  - shot: cheats-travel-l0
+  - bot: cheats - feature
+  - shot: cheats-travel-l0-features
+  - bot: cheats close
+  - cmd: /backrooms features
+  - expect_chat: manila
+  - cmd: /backrooms feature manila
+  - expect_chat: Manila Room
+  - cmd: /backrooms feature l0blackout
+  - expect_chat: Blackout zone
+  - cmd: /backrooms nearest gate
+  - expect_chat: Gate
+  # The list follows the level while the menu is open
+  - bot: cheats 0
+  - cmd: /backrooms goto 3 timeout=40
+  - bot: ready 48
+  - bot: wait 1500
+  - bot: cheats - feature
+  - shot: cheats-travel-l3-features
+  - bot: cheats close
+  - cmd: /backrooms feature l3transformer timeout=20
+  - expect_chat: Transformer hall
+  - cmd: /backrooms feature redroom
+  - expect_chat: Level 0
+  - bot: cheats 1
+  - shot: cheats-player
+  - bot: cheats 2
+  - shot: cheats-creatures
+  - bot: cheats 3
+  - shot: cheats-world
+  - bot: cheats 4
+  - shot: cheats-view
+  - bot: cheats 5
+  - shot: cheats-dev
+  - bot: cheats close
+  - cmd: /backrooms goto fun timeout=40
+  - bot: ready 48
+  - bot: cheats 0 feature
+  - shot: cheats-travel-fun-features
+  - bot: cheats close
+  - cmd: /backrooms feature funplay
+  - expect_chat: Ball pit room
+  - expect_no_log: Unhandled exception

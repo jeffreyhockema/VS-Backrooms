@@ -1,0 +1,51 @@
+{
+	"levels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+	"listed": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+	"entities": [
+		{"code": "smiler", "levels": [0, 1, 2, 3, 6, 8, 9, 13, 12, 16, 20, 19], "types": ["smiler"]},
+		{"code": "bacteria", "levels": [0], "types": ["bacteria"]},
+		{"code": "hound", "levels": [1, 2, 3, 4, 5, 8, 9, 13, 19, 11], "types": ["hound"]},
+		{"code": "faceling", "levels": [1, 3, 4, 5, 9, 11, 6], "types": ["faceling", "faceling-child"]},
+		{"code": "deathmoth", "levels": [1, 2, 5, 9, 13], "types": ["deathmoth-*"]},
+		{"code": "skinstealer", "levels": [1, 3, 5, 9, 13, 20], "types": ["skinstealer"]},
+		{"code": "wretch", "levels": [1, 2, 3, 5, 9, 8, 11], "types": ["wretch"]},
+		{"code": "giantspider", "levels": [8], "types": ["giantspider"]},
+		{"code": "duller", "levels": [1, 3, 4, 8, 11], "types": ["duller"]},
+		{"code": "deathrat", "levels": [1, 2, 5, 8, 9, 11, 13], "types": ["deathrat"]},
+		{"code": "clump", "levels": [1, 2, 3], "types": ["clump"]},
+		{"code": "thething", "levels": [7], "types": ["thething"]},
+		{"code": "mangled", "levels": [9], "types": ["mangled"]},
+		{"code": "beast", "levels": [5], "types": ["beast", "beast-unveiled"]},
+		{"code": "neighborhoodwatch", "levels": [9], "types": ["neighborhoodwatch"]},
+		{"code": "watcher", "levels": [9], "types": ["watcher"]},
+		{"code": "animation", "levels": [13], "types": ["animation-*"]},
+		{"code": "roboman", "levels": [13], "types": ["roboman"]},
+		{"code": "king", "levels": [13], "attribute": "backrooms:nightmareOf"},
+		{"code": "horde", "levels": [14], "attribute": "backrooms:horde"},
+		{"code": "partygoer", "levels": [15, 19], "types": ["partygoer", "partygoer-intern", "partyhost"]},
+		{"code": "lureballoon", "levels": [15], "types": ["lureballoon"]},
+		{"code": "wanderer", "levels": [1, 4, 8, 11, 17, 19], "types": ["wanderer-*"], "notAtLevels": [16]},
+		{"code": "junkies", "levels": [16], "types": ["wanderer-*"], "atLevels": [16]},
+		{"code": "kitty", "levels": [18], "types": ["l974-kitty"]},
+		{"code": "keymaster", "levels": [17], "types": ["hub-keymaster"]},
+		{"code": "attendant", "levels": [19], "types": ["l3999-attendant"]},
+		{"code": "windows", "levels": [20], "types": ["l188-arm"]},
+		{"code": "peripherals", "levels": [20], "playerAttribute": "backrooms:l188Peri"}
+	],
+	"thresholds": [
+		[[3, 4, 5], [1], [4], [5], [5], [5], [2], [8], [9], [10], [6]],
+		[[11], [11], [11], [11], [11], [11], [11], [11], [11], [11], [11]],
+		[[5, 12], [12], [12], [9, 13], [13]],
+		[[1], [5], [11], [1], [11], [16], [16], [16], [16], [1], [2], [12], [17], [17]],
+		[[10], [11], [19], [19], [0, 1], [15, 17], [20], [20]],
+		[[0], [4], [6], [6], [6], [7], [10], [11], [7], [9], [12], [13], [13]],
+		[[1], [2], [12], [14], [14], [0], [15], [15], [15], [4], [16], [17], [17], [17], [17], [17], [12], [16], [19], [19], [19], [20], [20], [17]],
+		[[18], [18]],
+		[[], [1, 2, 12, 14], [4], [17], []]
+	],
+	"entityNotes": [
+		[[0], [3], [4], [5], [6], [8], [10], [11], [12], [13], [16], [17], [18], [19], [20]],
+		[[7], [9], [10], []],
+		[[0], [1], [3], [4], [5]]
+	]
+}

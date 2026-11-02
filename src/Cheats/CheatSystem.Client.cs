@@ -56,6 +56,15 @@ public partial class CheatSystem
         return sb.ToString();
     }
 
+    /// <summary>The level this player stands in by the layout (worked out on this client, as the HUD does), or -1 outside a Backrooms world.</summary>
+    public int CurrentLevel()
+    {
+        EntityPlayer player = capi.World.Player?.Entity;
+        if (player == null || !BackroomsWorld.IsBackroomsClimate(capi.World.Config)) return -1;
+        clientLayout ??= BackroomsWorld.CreateLayout(capi.World);
+        return clientLayout.LevelAt(WorldLayout.MacroOf((int)Math.Floor(player.Pos.X)), WorldLayout.MacroOf((int)Math.Floor(player.Pos.Z)));
+    }
+
     public override void StartClientSide(ICoreClientAPI api)
     {
         capi = api;

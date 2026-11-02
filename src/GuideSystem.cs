@@ -31,20 +31,13 @@ public class GuideSystem : ModSystem
         ["gamemechanicinfo-temporalstability"] = "stability",
     };
 
-    /// <summary>Pages of our own, in the order they follow the Progression Guide.</summary>
+    /// <summary>
+    /// Pages of our own, in the order they follow the Progression Guide. The Levels, Ways Between Levels and What Lives
+    /// Here learn as the player does, and bring the level and creature pages with them (<see cref="DiscoveryPages"/>).
+    /// </summary>
     private static readonly string[] Added =
     {
-        "home", "finding", "salvage", "food", "rest", "levels", "farlevels", "thresholds", "entities",
-        // The experimental levels' own pages
-        "basement",
-        "l120", // Level 120 (experimental)
-        "level31", // Level 31, "Roller Rink" (experimental)
-        "level15", // Level 15 (experimental)
-        "level73", // Level 73, "The Redlands" (experimental)
-        "level52", // Level 52, the Greenfield Campus (experimental)
-        "level23", // (experimental: Level 23, the Petrified Garden)
-        "level14", // Level 14, "The Hospital" (experimental)
-        "level47", // (experimental: Level 47, the Adderwood)
+        "home", "finding", "salvage", "food", "rest", "levels", "thresholds", "entities",
     };
 
     /// <summary>Vanilla pages kept, with a Backrooms preface: page code to the preface's lang key suffix.</summary>
@@ -87,6 +80,7 @@ public class GuideSystem : ModSystem
     private ModSystemTutorial tutorials;
     private ITutorial vanillaFirstSteps;
     private BackroomsTutorial ours;
+    private DiscoveryPages discovery;
 
     public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Client;
 
@@ -117,9 +111,17 @@ public class GuideSystem : ModSystem
         if (!backrooms) return;
 
         int after = -1;
+        discovery ??= new DiscoveryPages(capi);
         for (int i = 0; i < pages.Count; i++)
         {
-            if (pages[i] is not GuiHandbookTextPage page) continue;
+            if (pages[i] is not GuiHandbookTextPage vanilla) continue;
+            if (!Rewritten.ContainsKey(vanilla.pageCode) && !Bridged.ContainsKey(vanilla.pageCode)) continue;
+            // Replaced by a page that draws its text in tiles, so a long page does not exceed a GL driver's texture limit (see
+            // TiledRichtext), and shows the far levels and creatures it names only once they are found (DiscoveryPages.Resolve)
+            var page = DiscoveryPage.From(vanilla);
+            page.Filter = discovery.Resolve;
+            vanilla.Dispose();
+            pages[i] = page;
             if (Rewritten.TryGetValue(page.pageCode, out string guide))
             {
                 page.Title = Title(guide);
@@ -139,9 +141,14 @@ public class GuideSystem : ModSystem
         if (after < 0) after = pages.Count - 1;
         foreach (string guide in Added)
         {
-            var page = new GuiHandbookTextPage { pageCode = "backrooms-" + guide, Title = Title(guide), Text = Text(guide) };
-            page.Init(capi);
-            pages.Insert(++after, page);
+            IEnumerable<GuiHandbookTextPage> added = guide switch
+            {
+                "levels" => discovery.LevelPages(),
+                "thresholds" => new[] { discovery.Thresholds() },
+                "entities" => discovery.EntityPages(),
+                _ => new[] { Plain(guide) },
+            };
+            foreach (GuiHandbookTextPage page in added) pages.Insert(++after, page);
         }
     }
 
@@ -170,6 +177,13 @@ public class GuideSystem : ModSystem
             tutorials.StartTutorial(BackroomsTutorial.Code);
             capi.ShowChatMessage(Lang.Get("backrooms:tutorial-backrooms-started"));
         }, 2500);
+    }
+
+    private GuiHandbookTextPage Plain(string guide)
+    {
+        var page = new DiscoveryPage { pageCode = "backrooms-" + guide, Title = Title(guide), Text = Text(guide), Filter = discovery.Resolve };
+        page.Init(capi);
+        return page;
     }
 
     private static string Title(string guide) => $"backrooms:guide-{guide}-title";
