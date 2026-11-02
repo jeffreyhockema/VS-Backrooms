@@ -38,6 +38,10 @@
       <HintPath>$(VintageStory)\Lib\0Harmony.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="cairo-sharp">
+      <HintPath>$(VintageStory)\Lib\cairo-sharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="VSSurvivalMod">
       <HintPath>$(VintageStory)\Mods\VSSurvivalMod.dll</HintPath>
       <Private>false</Private>
@@ -57,7 +61,7 @@
   </Target>
 
   <PropertyGroup>
-    <Version>0.610.4</Version>
+    <Version>0.610.5</Version>
   </PropertyGroup>
 
 </Project>
