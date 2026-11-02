@@ -1,0 +1,226 @@
+description: The experimental levels on main 0.610.5's systems (run with --seed 12345, whose showcase spots the Coran step uses) - the F7 Travel tab's Go to feature list in Level 73 and in Level 14; every new creature met by sight (Coran, the Hunter and an Infecting Agent, a Misglitch, the Coach, the Travel Planner, a snake, a keeper of the Order, the Great Old Adder), the sentries by their scream, and a Black Shuck in Level 47; then What Lives Here, the Shuck's page, The Levels and Level 47's page.
+steps:
+  - expect_no_startup_issues: ""
+  - bot: closeguis
+  - bot: hud on
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms heal
+  - cmd: /backrooms director off
+  - cmd: /gamemode creative
+  - cmd: /backrooms discover reset
+  # ----- Level 73: the feature list, then Coran on the path below the gate
+  - cmd: /backrooms goto 73 timeout=60
+  - bot: movewait
+  - bot: ready 48
+  - bot: wait 1500
+  - bot: cheats 0 feature
+  - shot: x-cheats-l73-features
+  - bot: cheats close
+  - cmd: /backrooms features
+  - expect_chat: l73northdoor
+  - cmd: /backrooms feature l73path timeout=30
+  - expect_chat: Stone path up the hill
+  - bot: ready 48
+  - cmd: /backrooms l73coran 458126.5 381987.5 180
+  - bot: wait 1000
+  - bot: lookat coran
+  - bot: wait 400
+  - bot: lookat coran
+  - bot: wait 400
+  - bot: lookat coran
+  - bot: wait 400
+  - bot: lookat coran
+  - bot: wait 600
+  - cmd: /backrooms discover status
+  - expect_chat: coran
+  # ----- Level 14: the feature list, then the Hunter (calm, shown) and an Infecting Agent
+  - cmd: /backrooms goto 14 timeout=60
+  - bot: movewait
+  - bot: ready 48
+  - bot: wait 1500
+  - bot: cheats 0 feature
+  - shot: x-cheats-l14-features
+  - bot: cheats close
+  - cmd: /backrooms feature l14hall timeout=30
+  - expect_chat: Main hall
+  - bot: ready 48
+  - cmd: /backrooms l14hunter show
+  - bot: wait 1000
+  - bot: lookat hunter
+  - bot: wait 400
+  - bot: lookat hunter
+  - bot: wait 400
+  - bot: lookat hunter
+  - bot: wait 400
+  - bot: lookat hunter
+  - bot: wait 600
+  - cmd: /backrooms l14hunter agent
+  - bot: wait 800
+  - bot: lookat agent
+  - bot: wait 400
+  - bot: lookat agent
+  - bot: wait 400
+  - bot: lookat agent
+  - bot: wait 400
+  - bot: lookat agent
+  - bot: wait 600
+  - cmd: /backrooms discover status
+  - expect_chat: hunter
+  - cmd: /backrooms l14hunter kill
+  # ----- Level 120: a Misglitch
+  - cmd: /backrooms goto 120 timeout=60
+  - bot: movewait
+  - bot: ready 48
+  - cmd: /backrooms l120 misglitch
+  - bot: wait 800
+  - bot: approach misglitch 5
+  - bot: wait 400
+  - bot: lookat misglitch
+  - bot: wait 400
+  - bot: lookat misglitch
+  - bot: wait 400
+  - bot: lookat misglitch
+  - bot: wait 400
+  - bot: lookat misglitch
+  - bot: wait 600
+  - cmd: /backrooms discover status
+  - expect_chat: misglitch
+  # ----- Level 31: the Coach at Skate Rental
+  - cmd: /backrooms goto 31 timeout=60
+  - bot: movewait
+  - bot: ready 48
+  - cmd: /backrooms feature l31rental timeout=30
+  - bot: ready 48
+  - cmd: /backrooms l31 staff
+  - bot: wait 1000
+  - bot: approach coach 4
+  - bot: lookat coach
+  - bot: wait 400
+  - bot: lookat coach
+  - bot: wait 400
+  - bot: lookat coach
+  - bot: wait 400
+  - bot: lookat coach
+  - bot: wait 600
+  - cmd: /backrooms discover status
+  - expect_chat: coach
+  # ----- Level 36: the Travel Planner at a Travel Agency booth
+  - cmd: /backrooms goto 36 timeout=60
+  - bot: movewait
+  - bot: ready 48
+  # (the wanderers' tick puts the Planner down behind the booth only while someone is 20 to 72 blocks off and not
+  # looking: wait at the carousel, 60 blocks off, facing away)
+  - cmd: /backrooms feature l36carousel timeout=30
+  - bot: ready 48
+  - bot: wait 15000
+  - cmd: /backrooms feature l36agency timeout=30
+  - bot: ready 48
+  - bot: wait 1500
+  - bot: approach wanderer 4
+  - bot: lookat wanderer
+  - bot: wait 400
+  - bot: lookat wanderer
+  - bot: wait 400
+  - bot: lookat wanderer
+  - bot: wait 400
+  - bot: lookat wanderer
+  - bot: wait 600
+  - cmd: /backrooms discover status
+  - expect_chat: planner
+  # ----- Level 23: the sentries, by saying it
+  - cmd: /backrooms goto 23 timeout=60
+  - bot: movewait
+  - bot: ready 48
+  - cmd: /backrooms feature l23sentry timeout=30
+  - bot: ready 48
+  - bot: wait 2000
+  - bot: cmd It's only a matter of time
+  - bot: wait 1500
+  - cmd: /backrooms discover status
+  - expect_chat: sentries
+  # ----- Level 47: a snake, a keeper, the Great Old Adder, and a Black Shuck
+  - cmd: /backrooms goto 47 timeout=60
+  - bot: movewait
+  - bot: ready 48
+  - bot: wait 1500
+  - cmd: /backrooms discover status
+  - expect_chat: "47"
+  - cmd: /backrooms l47 snake
+  - bot: wait 800
+  - bot: approach snake 4
+  - bot: lookat snake
+  - bot: wait 400
+  - bot: lookat snake
+  - bot: wait 400
+  - bot: lookat snake
+  - bot: wait 400
+  - bot: lookat snake
+  - bot: wait 600
+  - cmd: /backrooms l47 keeper
+  - bot: wait 800
+  - bot: approach ophion 5
+  - bot: lookat ophion
+  - bot: wait 400
+  - bot: lookat ophion
+  - bot: wait 400
+  - bot: lookat ophion
+  - bot: wait 400
+  - bot: lookat ophion
+  - bot: wait 600
+  - cmd: /backrooms l47 adder
+  - bot: wait 800
+  - bot: lookat greatadder
+  - bot: wait 300
+  - bot: lookat greatadder
+  - bot: wait 300
+  - bot: lookat greatadder
+  - bot: wait 300
+  - bot: lookat greatadder
+  - bot: wait 300
+  - bot: lookat greatadder
+  - bot: wait 400
+  - bot: lookat greatadder
+  - bot: wait 400
+  - bot: lookat greatadder
+  - bot: wait 400
+  - bot: lookat greatadder
+  - bot: wait 600
+  - cmd: /backrooms l47 shuck
+  - bot: wait 1500
+  - bot: approach shuck 6
+  - bot: lookat shuck
+  - bot: wait 400
+  - bot: lookat shuck
+  - bot: wait 400
+  - bot: lookat shuck
+  - bot: wait 400
+  - bot: lookat shuck
+  - bot: wait 400
+  - bot: lookat shuck
+  - shot: x-shuck
+  - cmd: /backrooms discover status
+  - expect_chat: shuck
+  - cmd: /backrooms discover status
+  - expect_chat: greatadder
+  - cmd: /backrooms discover status
+  - expect_chat: ophion
+  - cmd: /backrooms discover status
+  - expect_chat: snake
+  # ----- The handbook: What Lives Here, the Shuck's page, The Levels, Level 47's page
+  - bot: handbook backrooms-entities
+  - shot: x-entities-top
+  - bot: hbscroll 1
+  - shot: x-entities-bottom
+  - bot: handbook backrooms-entity-shuck
+  - shot: x-shuck-page
+  - bot: handbook backrooms-levels
+  - bot: hbscroll 1
+  - shot: x-levels-bottom
+  - bot: handbook backrooms-level-30
+  - shot: x-level-47
+  - bot: handbook backrooms-thresholds
+  - bot: hbscroll 1
+  - shot: x-ways-bottom
+  - bot: closeguis
+  - expect_no_log: "Exception:"
