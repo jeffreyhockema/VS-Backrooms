@@ -188,13 +188,13 @@ public class DiscoverySystem : ModSystem
                     }))
                 .EndSubCommand()
                 .BeginSubCommand("level")
-                    .WithDescription("Marks a level visited (a number or name as /backrooms goto takes it: 37, 94, !, fun, end, hub, 974, 3999, 188; or #<id>), or all")
+                    .WithDescription("Marks a level visited (a number or name as /backrooms goto takes it: 37, 94, !, fun, end, hub, 974, 3999, 188, and the experimental 73, basement, 52, 31, 36, 120, 15, 23, 14, 47; or #<id>), or all")
                     .WithArgs(parsers.Word("level"), parsers.OptionalWord("player"))
                     .HandleWith(args => WithPlayer(args, 1, e =>
                     {
                         string which = (string)args[0];
                         int[] levels = which == "all" ? table.Levels : new[] { ParseLevel(which) };
-                        if (levels.Any(l => l < 0 || l > Discovery.MaxLevelBit)) return TextCommandResult.Error("No such level (try 0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, #<id> or all)");
+                        if (levels.Any(l => l < 0 || l > Discovery.MaxLevelBit)) return TextCommandResult.Error("No such level (try 0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, 73, basement, 52, 31, 36, 120, 15, 23, 14, 47, #<id> or all)");
                         foreach (int l in levels) MarkLevel(e, l);
                         return TextCommandResult.Success("Visited. " + Status(e));
                     }))

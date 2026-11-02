@@ -22,6 +22,8 @@ public class L23Sentries : ModSystem
     private const double HurtReach = 10;
     private const float Blow = 3f;
     private const string Phrase = "only a matter of time";
+    /// <summary>A player's watched int, 1 once sentries have screamed at them (the handbook then counts them met).</summary>
+    public const string ScreamedKey = "backrooms:l23Screamed";
 
     private ICoreServerAPI sapi;
     private WorldLayout layout;
@@ -89,6 +91,8 @@ public class L23Sentries : ModSystem
             foreach (Vec3d s in screaming) near |= e.Pos.XYZ.SquareDistanceTo(s) < HurtReach * HurtReach;
             if (!near) continue;
             e.ReceiveDamage(new DamageSource { Source = EnumDamageSource.Block, Type = EnumDamageType.Injury, SourcePos = screaming[0] }, Blow);
+            // (The handbook's "met" for the sentries, which are blocks: config/guide.json's playerAttribute)
+            e.WatchedAttributes.SetInt(ScreamedKey, 1);
             sp.SendMessage(Vintagestory.API.Config.GlobalConstants.GeneralChatGroup, Say.T(sp, "backrooms:l23-sentry-scream"), EnumChatType.Notification);
         }
         sapi.Logger.Notification("[backrooms] Level 23: {0} said it near {1} sentries", player.PlayerName, screaming.Count);

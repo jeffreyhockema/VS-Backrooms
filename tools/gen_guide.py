@@ -21,7 +21,8 @@ src/Guide/DiscoveryPages.cs), so that a page names a far level or a creature onl
     {{met:hound}}...{{/met}}            shown once one of these creatures (ENTITIES codes) has been met
     {{unmet:bacteria}}...{{/unmet}}     shown until then
 
-Levels are named as a player would (0-11, 37, 94, !, fun, end, hub, 974, 3999, 188); markers nest. Gate a whole
+Levels are named as a player would (0-11, 37, 94, !, fun, end, hub, 974, 3999, 188, and the experimental 73, basement,
+52, 31, 36, 120, 15, 23, 14, 47); markers nest. Gate a whole
 sentence, or a clause with its own comma, so that what is left reads. After resolving, a bullet left empty is dropped,
 runs of spaces close up and no space is left before , . ; : or ). --check renders every text with nothing found and
 with everything found (and each level or creature alone), and fails on what would read wrong. A text with no marker
@@ -534,7 +535,9 @@ For the things that come, see [What Lives Here](backrooms-entities). For the dra
 # leads out of). docs/GUIDE.md keeps everything, spoilers and all.
 #
 # Level ids are the layout's (WorldLayout: 0 to 11 the rings and the city, 12 Level 37, 13 Level 94, 14 Level !,
-# 15 Level Fun, 16 The End, 17 the Hub, 18 Level 974, 19 Level 3999, 20 Level 188); a sub-level is part of its level's
+# 15 Level Fun, 16 The End, 17 the Hub, 18 Level 974, 19 Level 3999, 20 Level 188; the experimental levels 21 Level 73,
+# 22 the Basement, 23 Level 52, 24 Level 31, 25 Level 36, 26 Level 120, 27 Level 15, 28 Level 23, 29 Level 14, 30 Level 47,
+# the last the visited bits hold); a sub-level is part of its level's
 # page (6.1 the Snackrooms of 6, 37.1 the Reservoir of 37, 3999.1 the Blackout of 3999).
 # ====================================================================================================================
 
@@ -669,12 +672,44 @@ A dark courtyard of mossy lawns and a round wooden deck, walled in by a five-sto
 - The rooms are warm (21 °C) and steady you a little: shut a room's door behind you and nothing comes in, unless someone was waving in its window. The courtyard is cold (8 °C) and drains you, the roof more.
 - Clothes, cloth, beds and a little food (see [Salvage](backrooms-salvage)). A fire exit on each upper floor leads out, each somewhere different, and the iron ring in the deck opens onto a long fall into the water of Level 37.
 """),
-]
+    # ---------- The experimental levels (ids 21 to 30; docs/design/experimental-levels/). Each was its own page until
+    # 0.610.5's tables; the levels it names as ways in from another far level are gated by that level ----------
+    (21, "Level 73, the Redlands", """
+*"We are safe here. We are loved here."*
 
-# ---------- The Basement (experimental level, id 22; detail pass 2026-10-30): its own page ----------
-# After both wikis (docs/design/experimental-levels/lore/basement-brief.md). Listed in src/GuideSystem.cs's Added pages.
-PAGES["basement"] = ("The Basement", """
-**The Basement**
+**The island**
+One island of black-red ground in a dark sea, under a night that never ends. A full moon hangs over it and never moves; now and then thick black cloud covers it and the whole level goes dark. On the island's highest point stands the **Silver Castle**, the only building there is, and the only safe place: you arrive somewhere out on the island, nearly always with the castle in sight. The sea round it has never been crossed, and something lives in it. It is cold (4 °C), and the island drains you a little.
+
+**The one rule**
+**Run straight to the castle. Do not look around. Do not stop.** The island is Survival Difficulty 5: Hounds in packs of three to five, Smilers, Death Rats, Deathmoths, Skin-Stealers, Dullers and Clumps, all of them hostile and many of them about at once, and they hunt whoever they find until they die (see [What Lives Here](backrooms-entities)). **Do not carry a light outside the walls**: they come to it from far off. Near the castle, where CORAN hunts, the hordes are thinner; beyond the hill they are not. The stone path under your feet leads up the hill to the gate, and the gate is always open; worn tracks wind in to it from every side.
+
+**The door**
+The keep's door is shut, and nothing gets through it. **Bang on it as hard and as fast as you can** ({rightmouse} it four times in a few seconds) and it is opened for you; from inside a single touch opens it. It shuts itself again behind you. Within the castle's walls nothing hostile comes.
+
+**The castle**
+Three floors and an attic, gothic, fully furnished and lit. On every floor a guest room at each end with two large curtained beds and a fire of its own; the main hall, the dining hall with its great fireplace, a bathroom and the kitchen on the ground floor; a sitting room, a library and the second bathroom above; the master bedroom and Coran's study on the third. By the main door hangs a piece of needlework: *We are safe here. We are loved here.* The walls, the doors and the windows cannot be broken.
+- **The table.** At the long mahogany table in the dining hall a place is set at every seat: a plate of stew and bread and a glass of water. {rightmouse} a place to eat and drink it; it is set again some four hours later. Do not ask what the stew is (the fireplace burns Hound).
+- **The baths.** The barrels in the two bathrooms are always full of warm water: {rightmouse} to wash and warm through, or with an [empty bottle](item-backrooms:emptybottle) to fill it with clean water.
+- **The curtains.** Red velvet hangs over every window, and behind it the windows are boarded up. Coran says it keeps the Windows away. **Do not look outside.**
+- **The paintings** show places in the Frontrooms. None of them lead anywhere.
+- **The attic** is chained shut. Coran has declared it off-limits.
+- What the castle keeps by is in the store-room off Coran's study.
+
+**Coran**
+The castle's keeper, and the reason anyone is alive here (see [Coran](backrooms-entity-coran) once you have met him). He walks the hill round the castle and kills whatever hostile thing he hears there: if you are being chased, run toward him. **He will never harm you.** Those who live in the castle call themselves his children.
+
+**Not here yet**
+The page also names the Windows (which the curtains are for) and Camo Crawlers among the island's hordes, and unidentified things in the sea. None of these are in this version.
+
+**Ways in**
+- **The Gloom (Level 9).** Very rarely, a yard or a street of the Suburbs holds a pool of darkness that light does not reach: black ground, and a black murk over it that your torch stops at. Stand in it too long (a minute or two: it warns you, more than once) and you are on the island, somewhere in sight of the castle. One way.
+- **Level 6.** Wanderers say the very deepest dark of Lights Out ends the same way, for whoever lingers in it a long time with no light. It is very rare, it takes a long while, and it warns you. One way.
+- {{level:14}}**Level 14.** Very rarely, a patch of the hospital's floor gives way under you, and you land on the island. One way.{{/level}}
+
+**Ways out**
+The page knows of none. But **Coran will lead you out**, once you have slept a night under his roof, if you ask him (sneak and {rightmouse} him). Stay close: he walks you round the walls to a chained door in the outside of the north wall, a door with no courtyard behind it, and opens it on the dark. Through it you come out in the Suburbs (Level 9). One way. He will not come with you: he will not leave his children.
+"""),
+    (22, "The Basement", """
 *Under most of the levels, they say: the bottom of the Backrooms.*
 
 Note: an experimental level; what is written here may change.
@@ -698,11 +733,8 @@ Nothing of its own: what comes here falls in, as people do. Facelings now and th
 
 **Leaving**
 The only way out anyone describes is the way in: back up a crack, which everyone calls near impossible. Bring a [ladder](block-ladder-stick-north), or blocks to stand on, and climb until you are level with the torn carpet at the top, sixteen blocks over the floor: whoever gets that far hauls themselves out into the Lobby, somewhere, and the hole is not behind them. Each crack always lets out in the same place. One man wrote of an elevator in the distance; he never reached it, and nobody has since: the cage lifts of the Dry Patch are dead.
-""")
-
-# ---- Level 52, the Greenfield Campus (experimental, id 23): its own page (one self-contained block) ----
-PAGES["level52"] = ("Level 52: The Greenfield Campus", """
-**Level 52: The Greenfield Campus**
+"""),
+    (23, "Level 52, the Greenfield Campus", """
 *Green hills, a blue sky, and schools with nobody in them.*
 
 **What it is**
@@ -736,7 +768,245 @@ The Sanguine Festivus reached Level 52 more than once: the First Crash in 1959, 
 - **An emergency exit in Level 4.** Rarely, a grey steel door under a green EMERGENCY EXIT sign, in an office wall with nothing behind it. It lets you out into the corridor at the end of a teaching block.
 - **The way back** is the doors you came in by: walk out through them and you are back where you were, in front of the school or under the sign. Every other door here is only a door.
 - **Rumours.** Wanderers say a door on almost any level may open onto one of these campuses, and a lift in Levels 1 to 4. Out, they say a door here now and then opens onto somewhere else, most often Level 53, and that noclipping through a wall of Marshall David leads to Level 556. Nobody has shown anyone either.
-""")
+"""),
+    (24, "Level 31, the Roller Rink", """
+*Safe, warm and familiar. That is the danger: do not stay.*
+
+A 1990s roller rink that goes on for ever: a rink every hundred and twenty-eight blocks, each inside its own building of rooms, joined by neon-lit halls on dark rink carpet. Muffled pop plays from the ceiling speakers, the coloured tubes are a different hue in every room, and now and then you hear skates and laughter from somewhere overhead, though there is nothing above. **Nothing here will hurt you** (Class 1, no Hounds), and the gear turns forward a little. It is cool (12 °C), and the HVAC rooms are colder.
+
+**The Rink**
+Maple boards inside a low barrier, a short wooden gate with flaps in each gap, rough black carpet round the outside, mirrors on the walls and a star-shaped light over the middle. The DJ station is always on the south side; the Faceling at the decks chooses the songs and will not talk. Some rinks are small and low.
+
+**The Food Court**
+Square tables, orange plastic chairs, orange and green benches by the walls. Ask the Faceling behind the counter ({rightmouse}) and it serves you for free: a slice of [pizza](item-backrooms:l31-food-pizza), [wings](item-backrooms:l31-food-wings) or a [foot-long hot dog](item-backrooms:l31-food-hotdog), often with an Almond Water, once every hour and a half. The soda fountain pours Almond Water whenever you like. **Put nothing down on its floor:** whatever lies there is swept up, and whoever left it gets nothing for a day. It is the safest place in the level to camp.
+
+**Skate Rental and the Coach**
+Past the blue walls, behind the counter, stands **the Coach**, the only one here who talks ({rightmouse}). He remembers your name. He offers a free lesson, and with it [rink skates](item-backrooms:l31-skates): worn on your feet, they make you quicker on the boards, tiles and concrete of this level (never on carpet). Ask him how to get by, or the way out. Stay a day and a half and he will come and find you to say it is time to go.
+
+**The Arcade**
+To the east of the rink, and rarer to find. Press the blue button on the machine by the door for a [green card](item-backrooms:l31-greencard). The cabinets pay out tickets and the prize counter takes them{{level:3999}}, as in Level 3999{{/level}} (see [Salvage](backrooms-salvage)); a few old box cabinets from the 1980s stand among them. Some arcade doors carry a handmade OUT OF ORDER sign.
+
+**The Cinema**
+North of the rink, small and dark: one big TV and three rows of continuous metal benches, each a step higher than the last. The quietest place to sleep.
+
+**The back rooms**
+A service corridor runs round every rink. Off it: bathrooms; store rooms (supply boxes); the cold HVAC rooms (8 °C), wet underfoot, with dead radiators, and some of them flooded; and the **Employees Lounge**: exposed brick, grey carpet, lockers, a kitchenette and a CCTV desk, silent but for the cameras turning.
+
+**Shadows**
+In the dark rooms you may see a black figure standing still at the edge of the light. It is gone when you come close, and it has never been seen to move. Paranoia, the M.E.G. say.
+
+**Ways in and out**
+In: a wooden door where no door should be, in the tunnels of Level 2, the brick of Level 3 or the dark of Level 6 (rarer there), with bubblegum pop playing faintly behind it. You hear it before you see it. It opens on one of the rink's lobbies, beside a wooden door that takes you back the way you came. Out: the **Revolving Door** in the front of some lobbies, to the Suburbs, the fields of Level 10 or the Endless City (each door always to the same one, and no way back through it); ask the Coach the way out and he marks the nearest on your map. **Do not steal the skates:** walk out of Skate Rental with a pair from the cubbies, or leave the level by any way wearing the Coach's, and you noclip into the Lobby, without them. Wanderers also tell of stairs up from Level 30, a white door marked 70 behind the arcades, an EMPLOYEES ONLY door in the food court and an arcade that goes on until it is Level 25; none of them has been found to open.
+"""),
+    (25, "Level 36, the Airport", """
+*An endless terminal, empty and spotless, where every level is one flight away.*
+
+**Arriving**
+Most come in like luggage, on a baggage carousel in the claim hall. Behind it is the one wall anyone has found the end of; the hall runs north and south along it as far as you care to walk, a carousel every 32 blocks. Some come in by a door under an airplane sign (see below) and stand in the same hall, beside one of the doors in that wall. The bags on the belts belong to nobody now: [suitcases](block-backrooms:suitcase) give clothes and odds and ends, and the Lost and Found offices along the wall hold more, with a supply box or two.
+
+**The terminal**
+East of the claim hall: check-in, rows of desks under flight screens with queue barriers before them, then the old security checkpoint, its scanners dead. Past it the concourses: wide halls every 256 blocks each way, with moving walkways down the north-south ones (some stopped), seats, vending machines and Almond Water fountains along their sides. Between them lie the terminal's wings (a letter A to Z over each one's mouth, its gates numbered within 1 to 60), duty-free streets, food courts, first-class lounges, the Meeting Place, and doors into the back of house: dim service corridors that end nowhere, and vents with fans in them.
+
+**Reading the screens**
+A flight screen gives a flight number, a level, a gate and a count in no unit at all. {rightmouse} a screen for the flights of the gates nearest it. The screen at each gate names the level its flights go to, and it is always the same level for that gate: the city, the Suburbs, the Poolrooms, Level 3999, Level 188 or the fields of Level 10.
+
+**Flights**
+When a gate's count falls under 1000 it is boarding: {rightmouse} the jet-bridge door in the gate's window wall and you are aboard the plane parked behind it. The same door lets you off again until it leaves. Stay aboard when the count reaches nothing and you fly for about a minute, land, and step off in the level on the gate's screen, on your feet, and always in the same place for that gate. There is no flight back: to return, find your own way in again. The flight at gate C32 of a C wing has been delayed for longer than anyone has counted.
+
+**Time**
+The clocks have no hands, or have stopped. Nobody sleeps in the airport: lie down and you are up again at once. Nobody tires either: your Rest stays where it was when you arrived, for as long as you stay. Hunger and thirst go on as anywhere, so eat.
+
+**Food and water**
+The vending machines and fountains are free and safe. What was left on the food courts' tables has been there far too long.
+
+**Signs and blackouts**
+Further in, the signs contradict each other, and the EXIT signs lead nowhere. A lit sign with nothing on it means trouble ahead. Deeper in, whole stretches of concourse and whole wings are blacked out, and half the back of house is dark; only there, and rarely, does something wait: a Smiler, a Hound or two, a Deathmoth. Nothing hunts where the lights are on. Some stretches of concourse run cold (10 °C) and some warm (28 °C).
+
+**The Absolute Limit**
+Far out, every way but back toward the carousels, the walls and floors dissolve into static. Reality thins there: your stability drains while you stand in it.
+
+**People**
+The Backrooms Travel Agency keeps a booth in check-in (booth 0 on the line through the middle of the hall, others every 1024 blocks along it) and a desk at every Meeting Place, a purple kiosk beside the meeting-point sign (the lit cube on its post is the same in every one of them, because it is the same place). Its posters are up all over the terminal: every level is only one flight away; remember to eat. Its Travel Planner talks, gives advice, and trades: travel goods for the junk of the terminal. The Gate C32 Support Group's things are at their gate; they are never in.
+
+**Ways in and out**
+In: very rarely, in the city or in the Suburbs, a plain stretch of wall has a door in it under a lit sign with an airplane on it, where no door should be. {rightmouse} it and you are in the claim hall, beside a door under the same sign in the baggage wall; that door takes you back out where you came in. The other doors in that wall are locked. Out: the gates' flights, one way, each to its own level. And a restroom sink (there is a pair of restrooms in every wing, and showers in the lounges): turn the tap and it runs over and will not stop; hold your head under ({rightmouse}, held) and you come up in the Poolrooms, one way. Wanderers also tell of a train from somewhere called the Metro, apartment doors in a part of the city nobody here has found, luggage that falls, and a hotel's glass doors that lead elsewhere. None of those has been seen here.
+"""),
+    (26, "Level 120, Broken Servos", """
+*Broken server rooms in the dark. The danger here is the dark, the floor, and dying.*
+
+**What it is**
+Server rooms, one after another, in clusters of fifteen to twenty-three: banks of racks ripped apart on a dirty white floor, units pulled out and left lying, cables spilled across the aisles; dirty yellow wallpaper on rotting boards; office ceiling tiles with every light in them smashed or dead. Some rooms are terminal rooms (rows of dead or smashed CRTs facing a wall of dead screens), some are rack aisles, cable rooms, stores with shelving; each cluster has a room of UPS and battery cabinets, and cooling units stand at the ends of the aisles. Whoever built it labelled it: a plate beside a door names the room behind it (SERVER ROOM and the hall's letter, TERMINAL ROOM, UPS / BATTERY, CABLE ROOM, STORAGE). Long passages run between the clusters, four wide, a dead duct along one wall and a cable tray along the other; each door into a cluster has its DATA HALL plate and AUTHORIZED PERSONNEL ONLY beside it, and the hall's letter is stencilled on the walls by the crossings. Class 2: short of the next life, little here is out to get you, but it is unforgiving of anyone who dies.
+
+**Reading the dark**
+It is pitch dark. A few racks still have their LEDs on, enough to see a wall by; one crossing in four in the passages keeps a working tube. Over the doors out of a cluster hang EXIT signs; one in five still glows a faint green on its battery, a mark to steer by, and so does every other one over the steel doors back to the offices. Bring light, and think about when to use it (see *What lives here*). The rooms are cool (22 °C), the passages a little warmer; the narrow hot aisles behind the racks in the aisle rooms are hot enough to cost food (38 °C).
+
+**Computer blocks**
+Most clusters have one terminal still whole: its screen glows green, BOOT and a cursor. {rightmouse} it to boot it. Two seconds later you are somewhere else:
+- **A White Void** (three times in five): six to twelve pure white rooms, eleven blocks square, lit from their ceilings, with black doors between them. Smilers stand about in them, too lost in the light to come for you. The voids pull at your stability a little.
+- **A Pitch-Black Hallway**: two wide, hundreds of blocks long, folded back and forth, no light at all and cold (14 °C). It drains your stability more. **It is easy to trip**: run here and about every eight blocks you may go down (a point of damage, and slowed a moment); walking, you rarely do. Cables spilled over the floor anywhere in the level can catch a runner in the dark too.
+- **The way back:** walk in one direction until you reach the edge of the cluster. There is always a window there, already broken, black beyond. Step into it and you are back in front of the terminal you booted. The same terminal always takes you to the same place.
+
+**What lives here**
+- **Misglitches.** Anyone who dies in this level gets up again as one, where they fell, by what they dropped (see [What Lives Here](backrooms-entities)). It crackles with static every few seconds: in the dark, the static is your warning. Getting your things back means getting past it.
+- **Smilers**, in the White Voids only. Strike one and it withdraws, as every Smiler does.
+- Not yet here: the **Sub-Misglitches** the reports describe, raised by the smallest spill of blood in this level and worse than the rest.
+
+**Salvage**
+Racks give [scrap wire](item-backrooms:scrapwire) and [metal brackets](item-backrooms:metalbracket), and now and then a [circuit board](item-backrooms:l3999-circuitboard) (the wanderers buy those); wrecked racks the same; terminals glass, wire and boards; the smashed lights glass. A sealed supply box turns up in about one room in five, more in the wrecked stores.
+
+**Ways in and out**
+- **In:** the office blocks of Level 4 have server rooms of their own, open doorways onto a few racks. Very rarely (a handful in the whole of Level 4, kilometres apart) one has a grey steel door instead, marked SERVER ROOM, a cold green light in the gap under it and an M.E.G. placard beside it. {rightmouse} it and you are in a server room here, beside a steel door: that door takes you back to the corridor you left, every time.
+- **Out:** now and then a server room has a steel door in its wall, a line of warm light under it: in the dark, look low. Every Pitch-Black Hallway has one too, in its first lane or its last. Each opens on Level 4, and the door behind you there is only an office door, and locked: one way.
+- The reports also speak of the smashed screen of an arcade machine in Level 25 leading in, and of noclipping through a server room's wall into Level 70: neither is known to work.
+"""),
+    (27, "Level 15, the Futuristic Halls", """
+*White halls, a hum that never stops, and nobody left alive to say what it was all for.*
+
+**The look of it, and the air**
+A labyrinth of clean white halls: panelled concrete, ribs and pilasters of white steel every few paces, ceramic floors, a strip of LED panels overhead and lights set into the floor along the foot of the walls. Main halls run straight through it both ways, a hundred and twenty-eight paces apart; between them every block of the level is cut again and again by side corridors and bare grey service passages, with rooms in between. The air is clean and cool. Nothing has rotted and nothing grows.
+
+**The hum and the dark**
+The machinery hums everywhere, louder in the machine rooms, and somewhere far off beeps now and then. In patches of the level, about one square in six and a few dozen paces across, the power is out: every light dead, the machines stopped, and instead of the hum a slow ticking like a heartbeat, which slows the longer you stay. The air there goes stale. It is four degrees colder, and it wears on your [Reality Stability](gamemechanicinfo-temporalstability) as long as you are in it.
+
+**Machine rooms and gates**
+Most of the tall rooms are machine rooms, behind security gates whose shutters are rolled up and whose hand scanners are dead, with a wall of thick glass onto the corridor. The machines go from cabinet size to monoliths five blocks high. Nearly all are dead; a few still run, lit and humming; some are burnt out. Break a dead machine's casing for [scrap wire](item-backrooms:scrapwire) and a little copper; the burnt ones give almost nothing. Somewhere a press still feeds steel rods onto a conveyor, for nobody. Other rooms are laboratories, stores, dormitories of bunks, kitchens and canteens (the board over the serving line says SERVICE SUSPENDED), control rooms full of consoles (most dead; some lit, and all of them say no), raked lecture halls, medical bays with their beds still made, hydroponics bays where every plant is long dead (nothing in them is fit to eat), and bare white rooms with something wrong in them. Each door has its plate, a name and a code, and the lifts in the halls' walls have their call buttons lit; none of the lifts come.
+
+**What the dead left**
+No one lives here, and nothing native that anyone has proven. The dead do: in lab coats, months gone, some with a makeshift spear beside them. Break one for bones and threads, and the spear if there is one (a [glass spear](item-backrooms:glassspear)); sometimes a note. Their camps are in the dormitories and the bare rooms: a tent or a sleeping bag, a bag, a supply box, nearly always gone through. One room has an incinerator in it and is full of bones, mostly Hounds'.
+
+**Water and food**
+This level is devoid of them. Almond Water is all but absent. About half the supply boxes were opened before you came. Steel lockers in the stores and dormitories that are still shut may hold a little; open ones were gone through. Carry water in.
+
+**What walks in the dark**
+Where the power is out, and only there, a Robo-Man walks now and then: slow, metal, and it will come for you. Where the lights are on you are safe. Others stand in charging docks along the main halls, powered down, heads hung; none has been seen to move.
+
+**Ways in**
+The level is hard to get into, and harder to leave. Rarely, out in Level 10's fields, an immense white wall rises across the crops, the halls' own wall seen from outside, running out of sight both ways, with one small reinforced door in it under a lit lintel. And very rarely one of Level 3's walls has a steel door in it that should not be there, cold white light under it; its handle gives you a shock. Either way you come to in a lit main hall, beside a small steel door that does not open from this side. There is one like it in the wall of nearly every block of halls, and none of them open.{{level:14}} And out of Level 14, the hospital, a rare futuristic door opens onto one of these main halls too; it does not open back.{{/level}}
+
+**Ways out**
+Every way out goes one way, and they are few: one block of halls in twenty or so has one, and nothing marks which.
+- In a few control rooms, one panel on the wall of displays has its red button lit, under the word ESCAPE, a green lamp beside it. Press it, and a locked security gateway in the same room rolls up onto the dark. Walk into it: Level 3.
+- Now and then a pane of a machine room's thick glass glows orange, as if a street lay behind it. Break it: you fall through onto a sidewalk of Level 11.
+- Somewhere there is an office that does not belong here, Level 4's carpet and filing cabinets, with a staircase going down through its floor. Go down it: Level 4.
+- Very rarely, in a medical bay's wall, a white door with MEDICAL CENTER over it and a red cross beside. Go through it: a reception room of Level 14, the hospital, and the door is not behind you.
+The wanderers talk of other doors (a blue door, a hospital door, one marked THE ARCHIVES); nobody who tells it has seen one.
+
+**The star door**
+Far from the middle, in one empty machine room, a doorframe stands on its own with a night sky in it and a small blue star. Nobody who went through it has written back, and it does not let you through.
+
+**Advice**
+- Stay in the light. Go round the dark squares rather than through them.
+- Mark your way: the halls repeat, and the codes on the doors (H for a lab, e for a store) are somebody else's system, not a map.
+- Never rest where the power is out. The dormitories' bunks and the medical bays' beds will do, where the lights work.
+- Bring water in, and look in every control room for a lit button.
+"""),
+    (28, "Level 23, the Petrified Garden", """
+*An experimental level. A forest of stone trees on a world that is one tree.*
+
+**What it is**
+Those who have been there say Level 23 is not a forest on a world but a world that is a forest: a tangle of trees the size of a planet, grown into one another, petrified, and somehow still alive. What you walk in is a patch of its crust. Overhead a lid of leaves lets almost no light through. A star that never moves shines through a few holes in it; there is no day and no night. Underfoot are humus, moss and leaf litter between trunks four to fourteen blocks thick (grey, redwood red, pale oak, dark cypress, all of it stone), buttress roots swelling at their feet and arching from one tree to the next, high enough in the middle to walk under. Trees that fell long ago lie across the floor where they came down, stone like the rest, some with the plate of roots they tore up still standing at one end; there are boulders, mushrooms as big as sheds gone to stone, and shrubs and saplings of stone in the undergrowth. Here and there a hole in the lid is wide enough to make a glade, grass and flowers in a pool of light, the one place up there where things still grow green. At the edge the trees fuse into a tangle nobody has got through. It is mild (17 °C) and it drains you, slowly.
+
+**The glow rooms**
+Under the forest floor are caverns, reached by root tunnels that slope down from the surface: underground forests of little petrified trees, glowing fungi, ferns and moss, damp and cool (12 °C), with puddles in the hollows. They are lit by the **Gardener's Sorries**, glowing strands hanging from the roof, teal, violet, amber or green; stand still and you can hear them, every one, whispering "sorry". Most of what lives in the Garden lives down there. Carry a light for the tunnels.
+
+**The ruins**
+Four of the deepest caverns hold ruins, and none of them is the right shape: a Lighthouse of Alexandria built as a stepped pyramid with its fire still burning on top, a Great Pyramid built as a sphere, a square Colosseum, a triangular Parthenon. They are mossed over, their stones falling out, Latin cut into their walls in a hurry (look at an inscribed stone to read it). Their pottery lies everywhere: break an amphora and there may be a scrap of cloth in it. The sphere has a bronze plaque beside its door. The ruins drain you faster than the rest of the Garden, and what hunts there is worse.
+
+**The buried sentries**
+Here and there a face looks out of the bark at head height, eyes shut, and under it shoulders and two hands pressed against the inside of the bark. They are quiet. The M.E.G. have nailed a plank by some of them. **Never say "it's only a matter of time" near one**: they scream like rusty chainsaws cutting wood, loud enough to burst your eardrums.
+
+**The Heart of Water**
+In the middle the trees open into a clearing ringed by the **Green Giants**, trunks of green bark wider than a house that hold up the lid. Leave them alone. The ground falls away to a pool, the reservoir that feeds the whole level, under the one wide hole in the lid. The Garden's water is clean, all of it: the pool, the puddles in the caverns, the spring at Base Seedling.
+
+**Base Seedling**
+In one glow room the M.E.G. keep a camp: three tents round a hollow tree with green bark, lanterns, a spring with water barrels beside it, a fire ring, a few stores, and their quartermaster at his counter, who trades. Their signs mark the tunnels down to it from the forest, and their notice board by the path lists the camp's rules (the first is the one about what not to say). Nothing hostile comes in, and resting there counts. They are short of food themselves. They say the hollow tree is the only way out that works every time.
+
+**What lives here**
+Death Rats and male Deathmoths among the trunks; Hounds, Smilers and Clumps in the glow rooms and tunnels; female Deathmoths about the ruins (see [What Lives Here](backrooms-entities)). The wanderers also tell of Volpes, Curabitur Birds, the rare Wrangler and the Garden's own animal-like natives in the glow rooms; none has been met here yet.
+
+**Ways in and out**
+In: you climb out of a hollow trunk somewhere in the Garden's forest, and no tree behind you goes back.{{level:37}} The trees that lead here grow up through the tiles of the Poolrooms, now and then and kilometres apart: huge hollow trees with green bark, their roots breaking the tile round their foot. Climb into the hollow and up through the dark inside it.{{/level}}{{level:47}} So do the green-barked giants of Level 47, the Adderwood.{{/level}}
+
+Out: the hollow tree at Base Seedling, the M.E.G.'s way home and the only one that works every time. Climb up into it and you come out of one of those green trees in the Poolrooms (Level 37), the one nearest their middle, and that tree brings you back. (The wanderers say it goes to Level 135; in this world it comes out in the Poolrooms.) Or swim down into the Heart of Water: in the middle of the pool's bed a well goes on down, and at its bottom the reservoir takes you and puts you up in the open sea of Level 7. One way.
+
+The wanderers also tell of a hollow log in Level 121, and the reservoir coming out in Level 121's ocean or an exhibit in Level 43. Nobody here has found those.
+
+**What to bring**
+Light, and food. The forest floor and the glow rooms have mushrooms, but not all of them are safe (leave the red ones with white spots and the brown puffballs), and little else grows. Wood comes from the bark, slowly: it is stone, and gives up only a little firewood. And keep quiet.
+"""),
+    (29, "Level 14, the Hospital", """
+*A well-equipped hospital that never ends, and something in it that was once a patient.*
+
+**The look of it, and the air**
+Shadowy main halls four wide run straight through the level both ways, troffers down their middle and too many of them dead, a red line painted along the vinyl. Between the halls lie the wings, each a department of the hospital (a medical ward, intensive care, psychiatry, maternity, the surgical suite, the stores), cut by narrower corridors with rooms along them, a name plate by every door. The air is heavy with antiseptic and, under it, decay. You will hear footsteps the whole time, far off down some other hall, and whispering just under hearing. Nobody is there.
+
+**Reception rooms**
+Everyone arrives in one: an oval desk, a few chairs, a lamp, crumpled magazines and brochures that make no sense, musty soft-drink bottles. Behind you stands a large revolving door of stained glass, and through it there is nothing at all. The room's door lets you out into the hospital, and **never lets you back in**: these rooms cannot be entered again once left, so take what is on the desk first.
+
+**The rooms**
+- **Inpatient rooms** (the wards, intensive care, psychiatry's padded cells and restraint beds, maternity's cots): blinding white, everything set out as if in use a minute ago. The only windows in the level are here, broken, and behind them only blackness.
+- **Surgery rooms**, behind shut doors and harder to find: a tilted operating table under a surgical light, shelves of old, damaged instruments, sometimes mould and vines over everything and moss growing up out of test tubes.
+- **Storage rooms**, their walls thrown together out of whatever was to hand: supply boxes.
+- **Offices** and nurses' stations, a desk and files.
+- Rarely, what is left of the **T.14.R.G.**, the Level 14 Research Group: field desks, a radio, racks of black vials, a containment chamber broken out from the inside, their stencil on the walls and their stockpile in crates. Their papers lie there.
+- Rarely, a **torture chamber** (see below).
+
+**Hazards**
+- **Contaminated rooms.** A steel door with a trefoil and a square window, green light through the glass: the room behind is full of something toxic and radioactive. Those doors do not open, but such a room may have an ordinary door on another corridor. Breathing its air makes you sick. **Look through a door's window before you go in.**
+- **Equipment.** Now and then the old equipment springs to life: a scalpel flies off a trolley, a syringe comes at you, a monitor shrieks and throws sparks, a stethoscope whips. Keep your distance from the trolleys.
+- **The floor.** Some of the floor is cracked, and some of it sags. When the floor creaks and gives a little under you, do not stop to look: **run**. It is about to go.
+- **The dark.** Stretches of hall and whole wings have no light. Carry your own.
+
+**The Hunter**
+Patient Zero: once a member of the research group, now black and wet, all writhing tentacles, swallowing the light (see [What Lives Here](backrooms-entities)). One comes for each wanderer a few minutes after they arrive. You feel it before you see it: a dread, a wet breathing, the air going thick and smoky. **Never meet its eyes.** If you sense the Hunter, leave the room and run.
+
+**Torture chambers**
+Rusted stretchers stacked on each other, a shattered marble floor, blood down the walls and dripping from the ceiling, cabinets of knives and razor blades. They mean the Hunter is near. Avoid them.
+
+**What to take**
+- At the reception desks: bandages, [painkillers](item-backrooms:l14-painkillers) (they heal a few points over ten seconds) and [antibiotics](item-backrooms:l14-antibiotics) (they heal a little, and stop the poison of an Infecting Agent's bite). Keep some antibiotics.
+- In the reception rooms: [musty soft drinks](item-backrooms:l14-stalesoda). Drinkable, barely, and now and then they turn your stomach.
+- The medicine cabinets, the stores' supply boxes, and the research group's stockpile of supply crates.
+
+**Ways in and out**
+- **In:** very rarely, a Lobby wall in Level 0 has a grey EMERGENCY EXIT door in it, a green running man over it and a smell of antiseptic{{level:15}}; and beside some of Level 15's medical bays stands a futuristic door marked MEDICAL CENTER{{/level}}. You come out in a reception room, and there is no way back through.
+- **Out:** every way out goes one way, and they are rare. A futuristic door, out of place among the rest: a main hall of Level 15. A red exit door: Level !, the door slamming behind you. And very rarely, a patch of floor that gives way drops you onto the Redlands, Level 73.
+- Wanderers tell of arrows on the floor that lead to the hospital's main exit, a bright glowing window, a teddy bear that takes you somewhere if you hug it, and what happens to those who go too far in. The painted lines on the floor lead nowhere anyone has found, and the bears in the maternity cots are only bears.
+
+**Advice**
+- Strip the reception desk before you leave the room: you will not get back in.
+- Look through the window before you open any door. Keep to the halls when you can.
+- Never meet its eyes. When the air turns cold and smoky, go.
+- Watch the floor.
+"""),
+    (30, "Level 47, the Adderwood", """
+*An experimental level. A primeval forest that will not stay mapped. Harm no snake.*
+
+**What it is**
+An old-growth forest, temperate, of oaks and beeches, firs and spruces, many of them over a hundred feet tall and hundreds of years old or more, with dead trees standing grey among them. Moss and lichen cover everything they can: the trunks to head height and in patches far above, the fallen logs, the boulders, the ground itself, and old man's beard hangs from the boughs. Streams wind through it, and their water is safe to drink. It is cool (11 °C, colder by the water). By day a thick, damp fog lies over all of it and the sun never shows; each night the fog lifts, without fail, and a full moon hangs over the trees, much nearer than ours and showing its far side, among stars that make none of our constellations; very rarely there is an aurora, silver-white. It drains you more than most forests (you can noclip out of it more easily than out of most places).
+
+The forest does not stay put. What you are not looking at may not be where you left it: nothing much, a tree, a log, but enough to make a map useless and to unsettle anyone who notices. What you build or leave here may not be there when you come back to it.
+
+**The trail**
+Somewhere in the forest runs a single trail, trodden bare, winding back and forth, that does not change and does not vanish once you have found it. Stone posts with a snake cut into them stand beside it now and then. Followed one way, it goes on for days and gets nowhere. Followed the other, it ends at a glade.
+
+**The glade**
+In the glade stands a manor house of grey stone with a slate roof, or an ancient ring of standing stones: both, in the same place, the stones standing through the house's rooms and out through its roof. It is the headquarters of the **Ophion Occult Order**, and they guard it: masked, in crimson robes, they warn whoever comes in once and then drive them out. Their stores are inside. Do not antagonise them.
+
+**What lives here**
+**Snakes**, everywhere, of many kinds, and none of them dangerous. They are sacred here: **harm one** (or one of the Order) and the **Great Old Adder** comes for you. At night packs of **Black Shucks**, huge black dogs, come out: **climb the tallest tree you can and wait for the dawn**. By day the forest's **elk** (great deer with broad antlers) graze far off; the bulls, and the cows with calves, charge whoever comes near. The Order's members walk the trail too. See [What Lives Here](backrooms-entities).
+
+**Ways in and out**
+In: very rarely, an ancient dead tree, grey and hollow, older than anything round it, stands on a field's edge in Level 10. Step into its hollow and you come out of a dead tree's hollow in the Adderwood. One way.
+
+Out: the hollows of the Adderwood's dead trees. Some of them, stepped into, put you out in Level 10, beside its own ancient dead tree. One way. A **green giant**, a huge tree of green bark, hollow at the foot, stands here and there in the deep forest; climb into it and you come out of a hollow trunk in Level 23, the Petrified Garden. One way.
+
+The Order says the trail can be steered to any place where the world is thin, even the Frontrooms. Nobody has seen it done.
+
+**What to bring**
+A weapon you trust for the elk, and nothing you would use on a snake. The mushrooms are food, most of them: learn the poisonous ones (the fly agaric, the death cap, the earthball, the devil's bolete). There is water in every stream. Plan to be up a tree, or somewhere safe, before the fog lifts.
+"""),
+]
 
 # Ways Between Levels. The text down to the first gated section is always shown; after it, a bold line starts a
 # section, and a bullet "- @a,b ..." is shown only to someone who has been to level a or b (the levels the way leads
@@ -854,37 +1124,44 @@ An elevator arrives beside another elevator, a stairwell beside a stairwell, a d
 - @20 Level 188, dropping through the hatch in the wooden deck: Level 37.
 - @17 Any level, rarely and far from home: a grey door with a carved circle over it, where there was none a moment ago (it is gone after five minutes): the Hub.
 
+**Two-way, to and from the farther levels**
+- @2,3,6,24 Levels 2, 3 and 6, a wooden door where no door should be, bubblegum pop playing faintly behind it: a lobby of Level 31, beside a wooden door that leads back.
+- @4,26 Level 4, a grey steel door marked SERVER ROOM in an office's server room, a green light under it: Level 120, beside a steel door that leads back.
+- @4,23 Level 4, a door under a green EMERGENCY EXIT sign: Level 52, just inside the end doors of a teaching block, which lead back.
+- @11,23 Level 11, a high school (steel doors under a HIGH SCHOOL sign): Level 52, just inside a campus building's front doors, which lead back.
+- @9,11,25 Levels 9 and 11, a glazed door under a lit airplane sign: Level 36's claim hall, beside a door in the baggage wall that leads back.
+- @12,28 Level 23, the hollow tree in the middle of Base Seedling: one hollow tree in Level 37, which leads back.
+
+**One-way, the farther levels**
+- @10 Level 10, a white wall of panels across the fields with one small reinforced door: Level 15, beside a reinforced door that does not open.
+- @3 Level 3, a steel door marked HIGH VOLTAGE with white light under it: Level 15, beside a reinforced door that does not open.
+- @27 Level 15: the ESCAPE panel in a control room rolls up a gateway to Level 3; an orange-glowing pane in a machine room's glass wall, broken, opens on a Level 11 sidewalk; stairs down through the floor of an office that does not belong: Level 4.
+- @27 Level 15, a white door marked MEDICAL CENTER in a medical bay's wall: Level 14, a reception room.
+- @0 Level 0, a rare EMERGENCY EXIT door in a Lobby wall that smells of antiseptic: Level 14, a reception room, its stained-glass revolving door showing nothing.
+- @29 Level 14, a rare futuristic door: a main hall of Level 15. A rare red exit door: Level !. Very rarely, a cracked patch of floor that gives way: Level 73's Redlands.
+- @25 Level 36, a gate's flight when its countdown runs out: the level on the gate's screen (11, 9, 37, 3999, 188 or 10). A restroom sink left to overflow, your head under: Level 37.
+- @24 Level 31, the revolving door in the front of some lobbies: Level 9, 10 or 11. Walking out of Skate Rental with a pair from the cubbies, or out of the level in the Coach's: the Lobby, without them.
+- @26 Level 120, a steel door with warm light under it, in a server room or a Pitch-Black Hallway: Level 4, out of a locked office door.
+- @12 Level 37, a huge hollow tree of green bark growing up through the tiles: Level 23, out of a hollow trunk in the forest.
+- @28 Level 23, the well at the bottom of the Heart of Water: Level 7's open sea.
+- @0,1,2,4,5 Levels 0, 1, 2, 4 and 5, a patch of cracked floor: it gives way into the Basement.
+- @22 The Basement, climbing to the top of the crack's shaft: the Lobby.
+- @9 Level 9, the Gloom (a pool of darkness light does not reach), stayed in too long: Level 73.
+- @6 Level 6's deepest dark, with no light, for minutes: Level 73.
+- @21 Level 73, the door in the castle's north wall that Coran opens for you: Level 9.
+- @10 Level 10, an ancient dead tree, grey and hollow, alone on a field's edge: Level 47, out of a dead tree's hollow.
+- @30 Level 47, some of its dead trees' hollows: Level 10, beside its ancient dead tree. A green giant's hollow: Level 23, out of a hollow trunk in the forest.
+
 **Taken by Kitty**
 - @18 Any threshold (not a thin spot or a way back), crossed with something cute on you: one time in 20 (one in 6 if it is in your hand), Kitty's House instead. Never within two days of last leaving the house.
 - @18 Kitty's House, giving Kitty the cute thing you brought: you wake in Level 4, Level 37 or the Snackrooms, the same place every time for your house.
 
 **Good to know**
 - A threshold that has become a way back no longer leads where it once would have.
-- @1,2,12,14 Level !'s doors are one-way although you walk through them: they slam and lock behind you.
+- @1,2,12,14,29 Level !'s doors are one-way although you walk through them: they slam and lock behind you.
 - @4 The End's lone doorframe, in Level 4, is one-way although you walk through it: it is gone behind you.
 - @17 The Hub's carved doors are one-way although you walk through them: they are gone behind you.
 - You wake in the last bed you slept in, wherever it is, or at your Level 0 home if you have slept in none. A temporal gear moves where you wake, from any level. Two-way ways that come out in Level 0 (a Level 4 stairwell, a hotel door, a city basement) make good places for a home.
-
-**Two-way, to and from the farther levels (31, 36, 52, 120, 23)**
-- Levels 2, 3 and 6, a wooden door where no door should be, bubblegum pop playing faintly behind it: a lobby of Level 31, beside a wooden door that leads back.
-- Level 4, a grey steel door marked SERVER ROOM in an office's server room, a green light under it: Level 120, beside a steel door that leads back.
-- Level 4, a door under a green EMERGENCY EXIT sign: Level 52, just inside the end doors of a teaching block, which lead back.
-- Level 11, a high school (steel doors under a HIGH SCHOOL sign): Level 52, just inside a campus building's front doors, which lead back.
-- Levels 9 and 11, a glazed door under a lit airplane sign: Level 36's claim hall, beside a door in the baggage wall that leads back.
-- Level 23, the hollow tree in the middle of Base Seedling: one hollow tree in Level 37, which leads back.
-
-**One-way, the farther levels**
-- Level 10, a white wall of panels across the fields with one small reinforced door; Level 3, a steel door marked HIGH VOLTAGE with white light under it: Level 15, beside a reinforced door that does not open.
-- Level 15: the ESCAPE panel in a control room rolls up a gateway to Level 3; an orange-glowing pane in a machine room's glass wall, broken, opens on a Level 11 sidewalk; stairs down through the floor of an office that does not belong: Level 4.
-- Level 36, a gate's flight when its countdown runs out: the level on the gate's screen (11, 9, 37, 3999, 188 or 10). A restroom sink left to overflow, your head under: Level 37.
-- Level 31, the revolving door in the front of some lobbies: Level 9, 10 or 11. Walking out of Skate Rental with a pair from the cubbies, or out of the level in the Coach's: the Lobby, without them.
-- Level 120, a steel door with warm light under it, in a server room or a Pitch-Black Hallway: Level 4, out of a locked office door.
-- Level 37, a huge hollow tree of green bark growing up through the tiles: Level 23, out of a hollow trunk in the forest. Level 23, the well at the bottom of the Heart of Water: Level 7's open sea.
-- Levels 0, 1, 2, 4 and 5, a patch of cracked floor: it gives way into the Basement. Climbing to the top of the crack's shaft: the Lobby.
-- Level 9, the Gloom (a pool of darkness light does not reach), stayed in too long; Level 6's deepest dark, with no light, for minutes: Level 73. Level 73, the door in the castle's north wall that Coran opens for you: Level 9.
-- Level 0, a rare EMERGENCY EXIT door in a Lobby wall that smells of antiseptic; Level 15, a futuristic door marked MEDICAL CENTER by a medical bay: Level 14, a reception room, its stained-glass revolving door showing nothing.
-- Level 14, a rare futuristic door: a main hall of Level 15. A rare red exit door: Level !. Very rarely, a cracked patch of floor that gives way: Level 73's Redlands.
-- Level 10, an ancient dead tree, grey and hollow, alone on a field's edge: Level 47, out of a dead tree's hollow. Level 47, some of its dead trees' hollows: Level 10, beside its ancient dead tree; a green giant's hollow: Level 23, out of a hollow trunk in the forest.
 """)
 
 # What Lives Here: the general part, which names no creature (each creature's own ways are on its page)
@@ -916,8 +1193,8 @@ PAGES["entities"] = ("What Lives Here", """
 # them is visited: the Snackrooms count as 6, the Reservoir as 37 (12), Level 3999's Blackout as 3999 (19)). The
 # first line of a page says where it lives.
 ENTITIES = [
-    ("smiler", "Smilers", [0, 1, 2, 3, 6, 8, 9, 13, 12, 16, 20, 19], """
-*(dark places: Level 0's Red Rooms and Reality Shifts only, Levels 1 to 3, 6 (seen, never close), 8, 9, 94 by night, the Reservoir, The End's collapses, Level 188, Level 3999's Blackout)*
+    ("smiler", "Smilers", [0, 1, 2, 3, 6, 8, 9, 13, 12, 16, 20, 19, 21, 22, 25, 26, 28], """
+*(dark places: Level 0's Red Rooms and Reality Shifts only, Levels 1 to 3, 6 (seen, never close), 8, 9, 94 by night, the Reservoir, The End's collapses, Level 188, Level 3999's Blackout{{level:73}}, Level 73{{/level}}{{level:basement}}, the Basement's dark rooms{{/level}}{{level:36}}, Level 36's blackouts{{/level}}{{level:120}}, Level 120's White Voids{{/level}}{{level:23}}, Level 23's glow rooms and tunnels{{/level}})*
 Eyes and a grin in the dark. They cannot be killed; struck, they withdraw.
 - They never step into light of a torch's strength: a torch, a lantern, a fire, a working lamp. A candle is not enough. They mind light, not fire.
 - Held in your gaze, while you neither run nor look away, a Smiler freezes, and after a few seconds goes.
@@ -925,12 +1202,12 @@ Eyes and a grin in the dark. They cannot be killed; struck, they withdraw.
 - In Level 0 they come only when the lights fail in a Reality Shift, and then they watch even the heart of the Lobby from the dark: there they only follow; in the Red Rooms they hunt. A door and a light at home keep them out.
 - At Level 3 one hits for 8 unarmoured; pleather lasts a hit or two against one in Level 9.
 """),
-    ("bacteria", "Bacteria", [0], """
-*(the outer reaches of Level 0)*
+    ("bacteria", "Bacteria", [0, 22], """
+*(the outer reaches of Level 0{{level:basement}}; far off down the flooded passages of the Basement{{/level}})*
 The Lobby's dark figures: a tall figure of black wires that rises out of black mould, seen far off down a hallway, and sometimes following. It hunts only someone who runs near the way out of the level: run within about twenty blocks of one there and it howls, stands a moment, and gives chase, a little short of a sprint. Keep running and you pull away; stop and walk, or turn back towards the middle of the level, and it gives up and sinks back into the mould, as it does once it has struck you or after half a minute. It can be killed, and carries a good bounty in rusty gears; struck, it fights back. Its patience has an end: corner it, or keep chasing it for ten seconds or so, and it turns on you. Level 0 holds nothing else but the Smilers of its Red Rooms and its Reality Shifts.
 """),
-    ("hound", "Hounds", [1, 2, 3, 4, 5, 8, 9, 13, 19, 11], """
-*(Level 1's dark sections, Levels 2 to 5 (only the edges of 2, and the odd one in 4), 8 (the edges), 9, 94 by night, Level 3999.1; harmless in the city)*
+    ("hound", "Hounds", [1, 2, 3, 4, 5, 8, 9, 13, 19, 11, 21, 25, 28], """
+*(Level 1's dark sections, Levels 2 to 5 (only the edges of 2, and the odd one in 4), 8 (the edges), 9, 94 by night, Level 3999.1{{level:73}}, Level 73 in packs of three to five{{/level}}{{level:36}}, Level 36's blackouts{{/level}}{{level:23}}, Level 23's glow rooms{{/level}}; harmless in the city)*
 Pale, hairless, on all fours, in packs of two or three. You hear them first. Some are starved, thin and pale; now and then an old one, grey-haired, harder to put down and worth a double bounty.
 - Out towards the edge of Level 1, the lights of a section sometimes fail all at once: a Flickering. Hounds hunt you until the lights come back, a minute or two later. It never starts while something else is already about you. Keep a fire, or a door, between you and the dark.
 - They will not come within 8 blocks of a lit [firepit](search:firepit) or burning [Firesalt](block-backrooms:firesalt). A fire makes a camp safe.
@@ -940,28 +1217,28 @@ Pale, hairless, on all fours, in packs of two or three. You hear them first. Som
 - A carried light no longer slows them; it only lets them see you from farther off. A spear, a club and armour see them off; hurt, they run. Each drops meat and a medium hide for leather.
 - At Level 3 a Hound hits for 9 unarmoured, and at Level 9 one kills an unarmoured person in a single blow.
 """),
-    ("faceling", "Facelings", [1, 3, 4, 5, 9, 11, 6], """
-*(Levels 1, 3 (the Evolved), 4, 5, 9, the city, the Snackrooms; their children in 5, 9, the city and the Snackrooms)*
+    ("faceling", "Facelings", [1, 3, 4, 5, 9, 11, 6, 22, 23, 24], """
+*(Levels 1, 3 (the Evolved), 4, 5, 9, the city, the Snackrooms{{level:basement}}, the Basement{{/level}}{{level:52}}, Level 52 (in a teacher's clothes){{/level}}{{level:31}}, Level 31 (and behind its counters and decks){{/level}}; their children in 5, 9{{level:31}}, 31{{/level}}, the city and the Snackrooms)*
 People with no faces, going about nothing; seldom met, except in the city. Their blank faces turn to follow you. They are not traders.
 - Greet one ({rightmouse}): it waves, then turns and points the way to the nearest gate out of the level, as far as it knows, and nods. You are told which way it pointed and roughly how far. One that knows of no gate shrugs; a child only waves.
 - Harmless unless you hurt one, and then every grown Faceling near turns on you together for a minute and a half, even where the level is safe. The exception is Level 3, where every one is an Evolved, with a half-formed face: hostile, and it does not greet.
 - The children come to look at you and run if you rush them. When they hurry away, Hounds are near.
 """),
-    ("deathmoth", "Deathmoths", [1, 2, 5, 9, 13], """
-*(the females in Levels 1, 2, 5 and 9, mostly towards the edges and in hives; the males in Levels 5 and 94)*
+    ("deathmoth", "Deathmoths", [1, 2, 5, 9, 13, 21, 25, 28], """
+*(the females in Levels 1, 2, 5 and 9, mostly towards the edges and in hives; the males in Levels 5 and 94{{level:73}}; both in Level 73{{/level}}{{level:36}}; the females in Level 36's blackouts{{/level}}{{level:23}}; in Level 23 the males among the trunks, the females about the ruins{{/level}})*
 Moths the size of a hand span, drawn to open flame. They circle a torch; near the edges of a level the females bite whoever carries it.
 - A candle never gets you bitten, a closed [lantern](search:lantern) draws none; a torch draws them most. Smoke from a fire scatters them, and they keep out of a fire's ward. A hive is a den with resin hearts: breaking one answers with every female near, and waves for a minute after. Leave it be.
 - They settle on floors and tables to rest, the males (Levels 5 and 94) by puddles and bodies to drink. Leave a settled female be: come at her, or hurt one, and she rears up and calls every female near onto you, flame or no flame.
 """),
-    ("skinstealer", "Skin-Stealers", [1, 3, 5, 9, 13, 20], """
-*(Levels 1, 3, 5, 9, 94 by night, 188; lairs)*
+    ("skinstealer", "Skin-Stealers", [1, 3, 5, 9, 13, 20, 21, 22], """
+*(Levels 1, 3, 5, 9, 94 by night, 188{{level:73}}, 73{{/level}}{{level:basement}}, the Basement{{/level}}; lairs)*
 Large, pale yellow and slow. They cough and call out from out of sight in a voice that is nearly human. Strong, and from Level 3 they outrun a sprint like the other hunters.
 - A fed one (it has just killed) keeps to itself, ambling and muttering, but turns on anyone who comes within five blocks until they are well clear. A hungry one stalks you, and out towards the edge soon comes for you.
 - A shut door only delays it: it has hands. Out towards the edge of a level, one that cannot reach you knocks, waits and opens the door, though a door barred from the inside holds. A fire keeps it off: it will not come near one. Keep your distance and keep a fire. One drops the hide and belongings of whoever it wore.
 - At Level 3 one hits for 13 unarmoured.
 """),
-    ("wretch", "Wretches", [1, 2, 3, 5, 9, 8, 11], """
-*(the outer parts of Levels 1, 2, 3, 5 and 9; packs of up to three in the dark of Level 8; the city's subway)*
+    ("wretch", "Wretches", [1, 2, 3, 5, 9, 8, 11, 22], """
+*(the outer parts of Levels 1, 2, 3, 5 and 9; packs of up to three in the dark of Level 8; the city's subway{{level:basement}}; the Basement's Flood, following people through the water{{/level}})*
 Wanderers worn down to nothing by hunger, thirst and sleeplessness, still dressed near the top and all but gone deep down. They gurgle while they follow you and snarl before they charge; the bite is quick but they are frail, and they drop one or two things they carried when they were still wanderers. They come three times as readily for anyone down to the last quarter of their hunger bar: keep fed, and fight them one at a time. They ambush rather than chase, so a sprint is not what they are answered with, and they mind neither fire nor light. In Level 8 they share the dark with the spiders; the lamps of the 9th Road keep them off.
 """),
     ("giantspider", "Giant Spiders", [8], """
@@ -973,21 +1250,21 @@ As long as you are and low on its legs, waiting in the dark where its eyes catch
 - Noise carries to the whole nest: a bang, a block broken, a fight or a forced door within two dozen blocks of its heart wakes every spider of it and sends them after you, and the dark puts down one or two more if there are few. Be quiet in a nest, or do not go.
 - It climbs the walls. It mends while it waits; badly hurt, it flees. It carries a good bounty in rusty gears, and a little raw meat ("extra protein", and only worth eating cooked).
 """),
-    ("duller", "Dullers", [1, 3, 4, 8, 11], """
-*(Levels 1, 3, 4, 8, the city's subway)*
+    ("duller", "Dullers", [1, 3, 4, 8, 11, 21], """
+*(Levels 1, 3, 4, 8, the city's subway{{level:73}}, Level 73{{/level}})*
 Tall and grey, and quick. They reach through walls at people passing close on the other side, then run. Plaster puffs out of the wall where the hand comes through.
 - Scraping or dragging inside the walls means one is near: walk down the middle of corridors.
 - One grab in four takes something from your hotbar instead. It lies on the floor wherever the Duller went: in the room on the other side, if you can find it.
 - [Almond Water](item-backrooms:almondwater) keeps them off for five minutes after a drink, and they will not reach for anyone near a fountain or seep of it.
 - Faced, they flee. They reach rather than chase, so a sprint is no answer, and they mind neither fire nor light.
 """),
-    ("deathrat", "Death Rats", [1, 2, 5, 8, 9, 11, 13], """
-*(Levels 1, 2, 5, 8, 9, the city's alleys; harmless by day in Level 94)*
+    ("deathrat", "Death Rats", [1, 2, 5, 8, 9, 11, 13, 21, 28], """
+*(Levels 1, 2, 5, 8, 9, the city's alleys{{level:73}}, Level 73{{/level}}{{level:23}}, Level 23 among the trunks{{/level}}; harmless by day in Level 94)*
 Rats, in packs, with short horns whose tips glow faintly red: two red points under a shelf in the dark. Hairless in Level 2's heat. They nip at your legs but keep clear of a carried torch or lantern (a candle will not do) and of fire. Food, if you can catch one.
 - Rarely, near the edges of Level 2, the Screaming: the lights fail, something screams close by, and a pack of Death Rats goes past at a run after whatever it is. Keep out of their way until the lights come back.
 """),
-    ("clump", "Clumps", [1, 2, 3], """
-*(Levels 1, 2 and 3)*
+    ("clump", "Clumps", [1, 2, 3, 21, 28], """
+*(Levels 1, 2 and 3{{level:73}}; Level 73{{/level}}{{level:23}}; Level 23's glow rooms and tunnels{{/level}})*
 A bundle of limbs that buries itself where it waits: all you see is an arm sticking up out of the floor, a finger twitching now and then. Come within a few steps and the floor gives it up; it grabs and drags at whoever is in reach, then crawls away after a grab or two.
 - It hunts by ear: run near one, or make a real noise (forcing a door, breaking several things), and it crawls after you. Go quietly and it buries itself again. Struck, it leaves.
 - Where there is room, walk round. In a narrow tunnel there is none: go back, or take the grab and be quick. It ambushes rather than chases, and minds neither fire nor light.
@@ -1030,9 +1307,9 @@ The Strider's floating form: a gigantic eye that levitates, silent, a few blocks
 *(Level 94, by night)*
 Puppets, clay and wooden figures and paper cut-outs that move a frame at a time, and hunt anything that does not look animated. Very strong, not clever: the clay ones are slower than a walk and smother, the wooden ones club and knock you about (a little faster than a walk), the paper ones come in a crowd and are frail. They keep their own paces, whatever the level's danger. The wooden and paper ones fear fire; the clay ones mind neither fire nor light. They never come indoors (a porch is not indoors), and at dawn they are gone. Stand quite still for a few seconds and they take you for a doll. Whoever carries a shard of the King's crown is one of their own. Worst in the towns, on the roads, and near the glass mountain.
 """),
-    ("roboman", "Robo-Men", [13], """
-*(the castle in Level 94)*
-Tin wind-up toys. Touch, use or break anything in the castle above the mountain's foot and you will hear a key turning: they come, for a minute and a half, slow but hard-hitting. They mind neither fire nor light.
+    ("roboman", "Robo-Men", [13, 27], """
+*(the castle in Level 94{{level:15}}; the dark squares of Level 15, where the power is out{{/level}})*
+Tin wind-up toys. Touch, use or break anything in the castle above the mountain's foot and you will hear a key turning: they come, for a minute and a half, slow but hard-hitting. They mind neither fire nor light.{{level:15}} In Level 15 one walks now and then where the power is out, and only there, and comes for whoever it finds; where the lights are on you are safe. Others stand powered down in the charging docks along its main halls.{{/level}}
 """),
     ("king", "The King", [13], """
 *(the throne room of the castle in Level 94)*
@@ -1055,8 +1332,8 @@ Tall, yellow, a smile carved into the face; always in packs, round the head tabl
 *(Level Fun's dark corridors)*
 A balloon floating at chest height, tied to nothing, on a curly ribbon. Walk into one and it stings and holds you nearly still for 3 seconds. Pop it and it lets out a gas that burns anyone close; what is left is onions, and the bang brings the guests. Poke it from out of reach, or walk round.
 """),
-    ("wanderer", "Wanderers", [1, 4, 8, 11, 17, 19], """
-*(camps in Level 1, outposts in Level 4, on the 9th Road, in the city, two camps in the Hub, one lobby in four in Level 3999)*
+    ("wanderer", "Wanderers", [1, 4, 8, 11, 17, 19, 28], """
+*(camps in Level 1, outposts in Level 4, on the 9th Road, in the city, two camps in the Hub, one lobby in four in Level 3999{{level:23}}, the M.E.G.'s quartermaster at Level 23's Base Seedling{{/level}})*
 People like you, who have lasted. Nothing hostile closes in on you while you keep company with a wanderer, and a minute beside one is a rest. They are few, friendly and never fight back. Talk to one ({rightmouse}): they will tell you what lives where they keep, where the water is, how to sleep safely and where the ways out are, and they trade, for rusty gears. Each deals in what its place has and buys what it lacks.
 - Level 1's crate-pickers sell Almond Water, crackers and beans, candles, Firesalt, bandages, twine and flax and cabbage seeds, for salvage (brackets, wire, glass, cloth, copper bits) and raw hides; they, the outposts, the road, the city and the Hub's doorstep also sell a temporal gear for 6 rusty gears.
 - The M.E.G.'s outposts in Level 4 sell water (the Blue and Green kinds too) and empty bottles, bandages and poultices, Firesalt and seeds, and buy salvage, paper, silver and specimens (Deathmoth quills, moth jelly, Clump sinew).
@@ -1089,6 +1366,76 @@ Someone standing in a lit window, beckoning. Within six blocks you hear whisperi
 *(Level 188)*
 Shapes at the very edge of your sight in the corridors and the courtyard, gone when you turn toward them. They do nothing but unsettle you (a little stability each time).
 """),
+    # ---------- The experimental levels' own (ids 21 to 30) ----------
+    ("coran", "Coran", [21], """
+*(Level 73: the Silver Castle and the hill round it)*
+The castle's keeper, and the reason anyone is alive in the Redlands: a giant of a man with ram's horns, a black shell over his body and a heart beating in his chest where you can see it, his arms two great golden chains ending in spiked black gauntlets. He is blind (his eyes hang on a cord round his neck), and he hunts by ear.
+- **He will never harm you**, and nothing you do can harm him.
+- He walks the hill round the castle and kills whatever hostile thing he hears there: if you are being chased, run toward him.
+- {rightmouse} him and he will speak to you. Those who live in the castle call themselves his children.
+- Sleep a night under his roof, then sneak and {rightmouse} him: he leads you round the walls to the chained door in the north wall and opens it for you. He will not come with you.
+"""),
+    ("shadows", "Shadows", [24], """
+*(Level 31's dark rooms)*
+A black figure standing still at the edge of the light. It is gone when you come close, and it has never been seen to move. Paranoia, the M.E.G. say. It does nothing.
+"""),
+    ("coach", "The Coach", [24], """
+*(Level 31: behind the Skate Rental counter)*
+A faceless man in a striped coach's shirt with a name tag, and the only one in the rink who talks ({rightmouse}). He cannot be hurt and means you no harm.
+- He remembers your name, and offers a free lesson with a pair of [rink skates](item-backrooms:l31-skates).
+- Ask him how to get by, or the way out: he marks the nearest Revolving Door on your map.
+- Stay a day and a half and he will come and find you to say it is time to go.
+- **Do not steal the skates**, his or the cubbies': leave with a pair and you noclip into the Lobby, without them.
+"""),
+    ("planner", "The Travel Planner", [25], """
+*(Level 36: the Backrooms Travel Agency's booths in check-in, and its desk at every Meeting Place)*
+The Backrooms Travel Agency's agent, in a wanderer's clothes. Every level is only one flight away, the posters say; remember to eat. The Planner talks ({rightmouse}), gives advice about flights and the terminal, and trades: travel goods for the junk of the terminal. Nothing hostile closes in on you while you keep company with one, as with any wanderer.
+"""),
+    ("misglitch", "Misglitches", [26], """
+*(Level 120: wherever someone died)*
+Anyone who dies in Level 120 gets up again as one: a black figure in a haze of loose pixels, red where the wound was (all black if the death came from within: starving, poison). It stands where you fell, by what you dropped, and it crackles with static every few seconds: in the dark, the static is your warning.
+- It wakes for anyone who comes within about six blocks of it (three or four, creeping), anyone running within earshot, and anyone carrying a light where it can see it.
+- It is a little slower than a sprint, but now and then it is suddenly two blocks nearer; its arm is a pointed tentacle that slices from more than two blocks away (about 6 a blow).
+- It will not follow far from where it stood up, nor near a fire, and it gives up after half a minute without drawing blood.
+- It lasts a day, then comes apart, or until it is killed. Getting your things back means getting past it.
+"""),
+    ("sentries", "The Buried Sentries", [28], """
+*(Level 23: faces in the bark of its trees)*
+Here and there a face looks out of the bark at head height, eyes shut, and under it shoulders and two hands pressed against the inside of the bark. They are quiet. **Never say "it's only a matter of time" near one** (in chat, within a dozen blocks): every sentry near screams like rusty chainsaws cutting wood, heard far off, and everyone within ten blocks of one takes a blow and goes about with their ears ringing. The M.E.G. have nailed a plank by some of them.
+"""),
+    ("hunter", "The Hunter", [29], """
+*(Level 14, one for each wanderer who comes in)*
+Patient Zero: once a member of the research group, now black and wet, all writhing tentacles, swallowing the light. One comes for each wanderer a few minutes after they arrive, put down out of sight, often by a torture chamber. It always knows roughly where you are, and it closes in.
+- You feel it before you see it: a dread, a wet breathing, the air going thick and smoky.
+- If it sees you, or **if you meet its eyes**, it shrieks and runs you down, faster than you can sprint at first. Its tentacles drag you in rather than knock you away.
+- Every few seconds of a chase it lets go of [Infecting Agents](backrooms-entity-agent).
+- If you sense it, leave the room and run; break its line of sight and get far away, and after a while it loses you. Struck, it turns on whoever struck it. Killed, another comes, later.
+"""),
+    ("agent", "Infecting Agents", [29], """
+*(Level 14, let go by the Hunter as it chases)*
+Worms with mouths full of teeth that squirm along the floor fast. Their bite leaves a poison burning (antibiotics stop it), and they spit something corrosive at where you stand: step aside. They die off in under a minute.
+"""),
+    ("snake", "Snakes", [30], """
+*(Level 47, everywhere)*
+Grass snakes, adders, rat snakes and ringed snakes, of many kinds, and none of them dangerous. They are sacred here: **harm one** and the [Great Old Adder](backrooms-entity-greatadder) comes for you. Crows and ravens hunt them, and that it does not mind.
+"""),
+    ("greatadder", "The Great Old Adder", [30], """
+*(Level 47, for whoever harms a snake or one of the Order)*
+A crimson snake as long as a house, come from the World Snake, the Order says. It comes for whoever harms a snake, or one of the Ophion Order. Nobody has ever got away from it or fought it off. Its quarry it devours; everyone else it leaves alone.
+"""),
+    ("shuck", "Black Shucks", [30], """
+*(Level 47, at night)*
+Huge black dogs that come out in packs when the fog lifts. A scout finds you and stalks you, close, without attacking, howling for the rest; when the pack has gathered, they close in. Unwatched, they can be suddenly nearer.
+- They cannot climb: **climb the tallest tree you can and wait for the dawn**, when they go back to their dens.
+- They have been seen running from a single member of the Ophion Order.
+"""),
+    ("ophion", "The Ophion Occult Order", [30], """
+*(Level 47: the keepers of the glade's manor, and the walkers of the trail)*
+Masked, in crimson robes, worshippers of the Great Old Adder.
+- **The keepers** guard the glade, their headquarters: whoever comes in they warn once, and then drive out, striking, as far as the edge of the forest. Their stores are inside. Do not antagonise them.
+- **The walkers** go along the trail. There they leave you alone, stop to look at you, and now and then preach: about the Great Adder, the World Snake it comes from, and the powers they say the Order has, to go anywhere in the Backrooms at will, to steer the trail to any place they like, even home. Take none of it as a promise.
+- Harm one of them and the Great Adder comes for you, as for a snake.
+"""),
 ]
 
 # How the server knows a creature has been met (src/Guide/DiscoverySystem.cs): seen for about a second within 32
@@ -1101,7 +1448,7 @@ MEETS = {
     "smiler": dict(types=["smiler"]),
     "bacteria": dict(types=["bacteria"]),
     "hound": dict(types=["hound"]),
-    "faceling": dict(types=["faceling", "faceling-child"]),
+    "faceling": dict(types=["faceling", "faceling-child", "l31-staff"]),
     "deathmoth": dict(types=["deathmoth-*"]),
     "skinstealer": dict(types=["skinstealer"]),
     "wretch": dict(types=["wretch"]),
@@ -1122,7 +1469,7 @@ MEETS = {
     "horde": dict(attribute="backrooms:horde"),
     "partygoer": dict(types=["partygoer", "partygoer-intern", "partyhost"]),
     "lureballoon": dict(types=["lureballoon"]),
-    "wanderer": dict(types=["wanderer-*"], notAtLevels=[16]),
+    "wanderer": dict(types=["wanderer-*"], notAtLevels=[16, 25]),
     "junkies": dict(types=["wanderer-*"], atLevels=[16]),
     "kitty": dict(types=["l974-kitty"]),
     "keymaster": dict(types=["hub-keymaster"]),
@@ -1131,6 +1478,22 @@ MEETS = {
     "windows": dict(types=["l188-arm"]),
     # Drawn by the client; the server counts each one shown (L188System.PeripheralKey)
     "peripherals": dict(playerAttribute="backrooms:l188Peri"),
+    # The experimental levels' own (Level 31's staff are Facelings, above; Level 23's quartermaster is a wanderer)
+    "coran": dict(types=["l73-coran"]),
+    "shadows": dict(types=["l31-shadow"]),
+    "coach": dict(types=["l31-coach"]),
+    # The Travel Planner is Level 36's wanderer
+    "planner": dict(types=["wanderer-*"], atLevels=[25]),
+    "misglitch": dict(types=["l120-misglitch"]),
+    # Blocks in the bark: met once they have screamed at the player (L23Sentries' backrooms:l23Screamed)
+    "sentries": dict(playerAttribute="backrooms:l23Screamed"),
+    "hunter": dict(types=["l14-hunter"]),
+    "agent": dict(types=["l14-agent"]),
+    "snake": dict(types=["l47-snake"]),
+    "greatadder": dict(types=["l47-greatadder"]),
+    "shuck": dict(types=["l47-shuck"]),
+    # Keepers and walkers alike (a watched attribute tells them apart)
+    "ophion": dict(types=["l47-ophion"]),
 }
 
 # The end of What Lives Here: the lines of each section shown once one of their levels is visited (the @ markup of
@@ -1152,11 +1515,18 @@ ENTITY_NOTES = """
 - @18 Kitty's House: nothing hostile goes there.
 - @19 Level 3999 is safe where its neon is lit; its Blackout is not.
 - @20 Level 188: a room with its door shut.
+- @21 Level 73: inside the Silver Castle's walls nothing hostile comes. Outside them, run for it.
+- @23 Level 52: nothing lives there now.
+- @24 Level 31: nothing there will hurt you.
+- @25 Level 36: nothing hunts where the lights are on.
+- @27 Level 15: where the power is on, you are safe.
+- @28 Level 23: Base Seedling, where nothing hostile comes in.
 
 **The wild and the tame**
 - @7 Level 7's sea has fish.
 - @9 Level 9's night has hares, foxes and raccoons, as in any world.
 - @10 Level 10's paddocks hold livestock to keep (see [animal husbandry](gamemechanicinfo-animalhusbandry)).
+- @30 Level 47's forest has elk: the bulls, and the cows with calves, charge whoever comes near.
 - Nothing of the rust world lives here.
 
 **What keeps you safe, as you go deeper**
@@ -1166,160 +1536,6 @@ ENTITY_NOTES = """
 - @4 Level 4: a lantern, which draws no moths.
 - @5 Level 5 on: leather armour from the hides of what you kill; then copper and bronze from Level 8.
 """
-
-
-# --------------------------------------------------------------------------------------------------------------------
-# Level 120, "Broken Servos" (experimental level, id 26; its own page, after "What Lives Here"; GuideSystem.Added).
-# Self-contained: no other page links to it or depends on it.
-# --------------------------------------------------------------------------------------------------------------------
-
-PAGES["l120"] = ("Level 120: Broken Servos", """
-**Level 120: Broken Servos**
-*Broken server rooms in the dark. The danger here is the dark, the floor, and dying.*
-
-**What it is**
-Server rooms, one after another, in clusters of fifteen to twenty-three: banks of racks ripped apart on a dirty white floor, units pulled out and left lying, cables spilled across the aisles; dirty yellow wallpaper on rotting boards; office ceiling tiles with every light in them smashed or dead. Some rooms are terminal rooms (rows of dead or smashed CRTs facing a wall of dead screens), some are rack aisles, cable rooms, stores with shelving; each cluster has a room of UPS and battery cabinets, and cooling units stand at the ends of the aisles. Whoever built it labelled it: a plate beside a door names the room behind it (SERVER ROOM and the hall's letter, TERMINAL ROOM, UPS / BATTERY, CABLE ROOM, STORAGE). Long passages run between the clusters, four wide, a dead duct along one wall and a cable tray along the other; each door into a cluster has its DATA HALL plate and AUTHORIZED PERSONNEL ONLY beside it, and the hall's letter is stencilled on the walls by the crossings. Class 2: short of the next life, little here is out to get you, but it is unforgiving of anyone who dies.
-
-**Reading the dark**
-It is pitch dark. A few racks still have their LEDs on, enough to see a wall by; one crossing in four in the passages keeps a working tube. Over the doors out of a cluster hang EXIT signs; one in five still glows a faint green on its battery, a mark to steer by, and so does every other one over the steel doors back to the offices. Bring light, and think about when to use it (see *What lives here*). The rooms are cool (22 °C), the passages a little warmer; the narrow hot aisles behind the racks in the aisle rooms are hot enough to cost food (38 °C).
-
-**Computer blocks**
-Most clusters have one terminal still whole: its screen glows green, BOOT and a cursor. {rightmouse} it to boot it. Two seconds later you are somewhere else:
-- **A White Void** (three times in five): six to twelve pure white rooms, eleven blocks square, lit from their ceilings, with black doors between them. Smilers stand about in them, too lost in the light to come for you. The voids pull at your stability a little.
-- **A Pitch-Black Hallway**: two wide, hundreds of blocks long, folded back and forth, no light at all and cold (14 °C). It drains your stability more. **It is easy to trip**: run here and about every eight blocks you may go down (a point of damage, and slowed a moment); walking, you rarely do. Cables spilled over the floor anywhere in the level can catch a runner in the dark too.
-- **The way back:** walk in one direction until you reach the edge of the cluster. There is always a window there, already broken, black beyond. Step into it and you are back in front of the terminal you booted. The same terminal always takes you to the same place.
-
-**What lives here**
-- **Misglitches.** Anyone who dies in this level gets up again as one: a black figure in a haze of loose pixels, red where the wound was (all black if the death came from within: starving, poison). It stands where you fell, by what you dropped, and it crackles with static every few seconds: in the dark, the static is your warning. It wakes for anyone who comes within about six blocks of it (three or four, creeping), anyone running within earshot, and anyone carrying a light where it can see it. It is a little slower than a sprint, but now and then it is suddenly two blocks nearer; its arm is a pointed tentacle that slices from more than two blocks away (about 6 a blow, against your 15). It will not follow far from where it stood up, nor near a fire, and it gives up after half a minute without drawing blood. It lasts a day, then comes apart, or until it is killed. Getting your things back means getting past it.
-- **Smilers**, in the White Voids only. Strike one and it withdraws, as every Smiler does.
-- Not yet here: the **Sub-Misglitches** the reports describe, raised by the smallest spill of blood in this level and worse than the rest.
-
-**Salvage**
-Racks give [scrap wire](item-backrooms:scrapwire) and [metal brackets](item-backrooms:metalbracket), and now and then a [circuit board](item-backrooms:l3999-circuitboard) (the wanderers buy those); wrecked racks the same; terminals glass, wire and boards; the smashed lights glass. A sealed supply box turns up in about one room in five, more in the wrecked stores.
-
-**Ways in and out**
-- **In:** the office blocks of Level 4 have server rooms of their own, open doorways onto a few racks. Very rarely (a handful in the whole of Level 4, kilometres apart) one has a grey steel door instead, marked SERVER ROOM, a cold green light in the gap under it and an M.E.G. placard beside it. <hk>rightmouse</hk> it and you are in a server room here, beside a steel door: that door takes you back to the corridor you left, every time.
-- **Out:** now and then a server room has a steel door in its wall, a line of warm light under it: in the dark, look low. Every Pitch-Black Hallway has one too, in its first lane or its last. Each opens on Level 4, and the door behind you there is only an office door, and locked: one way.
-- The reports also speak of the smashed screen of an arcade machine in Level 25 leading in, and of noclipping through a server room's wall into Level 70: neither is known to work.
-""")
-
-# ---------------- Level 15, "Futuristic Halls" (experimental, id 27; detail pass 2026-10-30): its own page ----------------
-PAGES["level15"] = ("Level 15: the Futuristic Halls", """
-**Level 15: the Futuristic Halls**
-*White halls, a hum that never stops, and nobody left alive to say what it was all for.*
-
-**The look of it, and the air**
-A labyrinth of clean white halls: panelled concrete, ribs and pilasters of white steel every few paces, ceramic floors, a strip of LED panels overhead and lights set into the floor along the foot of the walls. Main halls run straight through it both ways, a hundred and twenty-eight paces apart; between them every block of the level is cut again and again by side corridors and bare grey service passages, with rooms in between. The air is clean and cool. Nothing has rotted and nothing grows.
-
-**The hum and the dark**
-The machinery hums everywhere, louder in the machine rooms, and somewhere far off beeps now and then. In patches of the level, about one square in six and a few dozen paces across, the power is out: every light dead, the machines stopped, and instead of the hum a slow ticking like a heartbeat, which slows the longer you stay. The air there goes stale. It is four degrees colder, and it wears on your [Reality Stability](gamemechanicinfo-temporalstability) as long as you are in it.
-
-**Machine rooms and gates**
-Most of the tall rooms are machine rooms, behind security gates whose shutters are rolled up and whose hand scanners are dead, with a wall of thick glass onto the corridor. The machines go from cabinet size to monoliths five blocks high. Nearly all are dead; a few still run, lit and humming; some are burnt out. Break a dead machine's casing for [scrap wire](item-backrooms:scrapwire) and a little copper; the burnt ones give almost nothing. Somewhere a press still feeds steel rods onto a conveyor, for nobody. Other rooms are laboratories, stores, dormitories of bunks, kitchens and canteens (the board over the serving line says SERVICE SUSPENDED), control rooms full of consoles (most dead; some lit, and all of them say no), raked lecture halls, medical bays with their beds still made, hydroponics bays where every plant is long dead (nothing in them is fit to eat), and bare white rooms with something wrong in them. Each door has its plate, a name and a code, and the lifts in the halls' walls have their call buttons lit; none of the lifts come.
-
-**What the dead left**
-No one lives here, and nothing native that anyone has proven. The dead do: in lab coats, months gone, some with a makeshift spear beside them. Break one for bones and threads, and the spear if there is one (a [glass spear](item-backrooms:glassspear)); sometimes a note. Their camps are in the dormitories and the bare rooms: a tent or a sleeping bag, a bag, a supply box, nearly always gone through. One room has an incinerator in it and is full of bones, mostly Hounds'.
-
-**Water and food**
-This level is devoid of them. Almond Water is all but absent. About half the supply boxes were opened before you came. Steel lockers in the stores and dormitories that are still shut may hold a little; open ones were gone through. Carry water in.
-
-**What walks in the dark**
-Where the power is out, and only there, a [Robo-Man](search:robo-man) walks now and then: slow, metal, and it will come for you. Where the lights are on you are safe. Others stand in charging docks along the main halls, powered down, heads hung; none has been seen to move.
-
-**Ways in**
-The level is hard to get into, and harder to leave. Rarely, out in Level 10's fields, an immense white wall rises across the crops, the halls' own wall seen from outside, running out of sight both ways, with one small reinforced door in it under a lit lintel. And very rarely one of Level 3's walls has a steel door in it that should not be there, cold white light under it; its handle gives you a shock. Either way you come to in a lit main hall, beside a small steel door that does not open from this side. There is one like it in the wall of nearly every block of halls, and none of them open. And out of Level 14, the hospital, a rare futuristic door opens onto one of these main halls too; it does not open back.
-
-**Ways out**
-Every way out goes one way, and they are few: one block of halls in twenty or so has one, and nothing marks which.
-- In a few control rooms, one panel on the wall of displays has its red button lit, under the word ESCAPE, a green lamp beside it. Press it, and a locked security gateway in the same room rolls up onto the dark. Walk into it: Level 3.
-- Now and then a pane of a machine room's thick glass glows orange, as if a street lay behind it. Break it: you fall through onto a sidewalk of Level 11.
-- Somewhere there is an office that does not belong here, Level 4's carpet and filing cabinets, with a staircase going down through its floor. Go down it: Level 4.
-- Very rarely, in a medical bay's wall, a white door with MEDICAL CENTER over it and a red cross beside. Go through it: a reception room of Level 14, the hospital, and the door is not behind you.
-The wanderers talk of other doors (a blue door, a hospital door, one marked THE ARCHIVES); nobody who tells it has seen one.
-
-**The star door**
-Far from the middle, in one empty machine room, a doorframe stands on its own with a night sky in it and a small blue star. Nobody who went through it has written back, and it does not let you through.
-
-**Advice**
-- Stay in the light. Go round the dark squares rather than through them.
-- Mark your way: the halls repeat, and the codes on the doors (H for a lab, e for a store) are somebody else's system, not a map.
-- Never rest where the power is out. The dormitories' bunks and the medical bays' beds will do, where the lights work.
-- Bring water in, and look in every control room for a lit button.
-""")
-# ---------------- (end of Level 15's page) ----------------
-# ---------- Level 23, the Petrified Garden (experimental level 28): its own page (GuideSystem.Added "level23"); tools/gen_23.py
-# writes its keys into the level's block of en.json ----------
-PAGES["level23"] = ("Level 23: The Petrified Garden", """
-**Level 23, the Petrified Garden**
-*An experimental level. A forest of stone trees on a world that is one tree.*
-
-**What it is**
-Those who have been there say Level 23 is not a forest on a world but a world that is a forest: a tangle of trees the size of a planet, grown into one another, petrified, and somehow still alive. What you walk in is a patch of its crust. Overhead a lid of leaves lets almost no light through. A star that never moves shines through a few holes in it; there is no day and no night. Underfoot are humus, moss and leaf litter between trunks four to fourteen blocks thick (grey, redwood red, pale oak, dark cypress, all of it stone), buttress roots swelling at their feet and arching from one tree to the next, high enough in the middle to walk under. Trees that fell long ago lie across the floor where they came down, stone like the rest, some with the plate of roots they tore up still standing at one end; there are boulders, mushrooms as big as sheds gone to stone, and shrubs and saplings of stone in the undergrowth. Here and there a hole in the lid is wide enough to make a glade, grass and flowers in a pool of light, the one place up there where things still grow green. At the edge the trees fuse into a tangle nobody has got through. It is mild (17 °C) and it drains you, slowly.
-
-**The glow rooms**
-Under the forest floor are caverns, reached by root tunnels that slope down from the surface: underground forests of little petrified trees, glowing fungi, ferns and moss, damp and cool (12 °C), with puddles in the hollows. They are lit by the **Gardener's Sorries**, glowing strands hanging from the roof, teal, violet, amber or green; stand still and you can hear them, every one, whispering "sorry". Most of what lives in the Garden lives down there. Carry a light for the tunnels.
-
-**The ruins**
-Four of the deepest caverns hold ruins, and none of them is the right shape: a Lighthouse of Alexandria built as a stepped pyramid with its fire still burning on top, a Great Pyramid built as a sphere, a square Colosseum, a triangular Parthenon. They are mossed over, their stones falling out, Latin cut into their walls in a hurry (look at an inscribed stone to read it). Their pottery lies everywhere: break an amphora and there may be a scrap of cloth in it. The sphere has a bronze plaque beside its door. The ruins drain you faster than the rest of the Garden, and what hunts there is worse.
-
-**The buried sentries**
-Here and there a face looks out of the bark at head height, eyes shut, and under it shoulders and two hands pressed against the inside of the bark. They are quiet. The M.E.G. have nailed a plank by some of them. **Never say "it's only a matter of time" near one**: they scream like rusty chainsaws cutting wood, loud enough to burst your eardrums.
-
-**The Heart of Water**
-In the middle the trees open into a clearing ringed by the **Green Giants**, trunks of green bark wider than a house that hold up the lid. Leave them alone. The ground falls away to a pool, the reservoir that feeds the whole level, under the one wide hole in the lid. The Garden's water is clean, all of it: the pool, the puddles in the caverns, the spring at Base Seedling.
-
-**Base Seedling**
-In one glow room the M.E.G. keep a camp: three tents round a hollow tree with green bark, lanterns, a spring with water barrels beside it, a fire ring, a few stores, and their quartermaster at his counter, who trades. Their signs mark the tunnels down to it from the forest, and their notice board by the path lists the camp's rules (the first is the one about what not to say). Nothing hostile comes in, and resting there counts. They are short of food themselves. They say the hollow tree is the only way out that works every time.
-
-**What lives here**
-Death Rats and male Deathmoths among the trunks; Hounds, Smilers and Clumps in the glow rooms and tunnels; female Deathmoths about the ruins (see [What Lives Here](backrooms-entities)). The wanderers also tell of Volpes, Curabitur Birds, the rare Wrangler and the Garden's own animal-like natives in the glow rooms; none has been met here yet.
-
-**Ways in and out**
-In: now and then, kilometres apart, a huge hollow tree with green bark grows up through the tiles of the Poolrooms, floor and ceiling, its roots breaking the tile round its foot. Climb into the hollow and you climb up through the dark inside it, and out of a hollow trunk somewhere in the Garden's forest. No tree behind you goes back. The same is true from Level 47, the Adderwood: climb into the hollow of one of its green-barked giants and you come out of a hollow trunk here.
-
-Out: the hollow tree at Base Seedling, the M.E.G.'s way home and the only one that works every time. Climb up into it and you come out of one of those green trees in the Poolrooms (Level 37), the one nearest their middle, and that tree brings you back. (The wanderers say it goes to Level 135; in this world it comes out in the Poolrooms.) Or swim down into the Heart of Water: in the middle of the pool's bed a well goes on down, and at its bottom the reservoir takes you and puts you up in the open sea of Level 7. One way.
-
-The wanderers also tell of a hollow log in Level 121, and the reservoir coming out in Level 121's ocean or an exhibit in Level 43. Nobody here has found those.
-
-**What to bring**
-Light, and food. The forest floor and the glow rooms have mushrooms, but not all of them are safe (leave the red ones with white spots and the brown puffballs), and little else grows. Wood comes from the bark, slowly: it is stone, and gives up only a little firewood. And keep quiet.
-""")
-
-
-# ---------- Level 47, the Adderwood (experimental level 30): its own page (GuideSystem.Added "level47"); tools/gen_47.py
-# writes its keys into the level's block of en.json ----------
-PAGES["level47"] = ("Level 47: The Adderwood", """
-**Level 47, the Adderwood**
-*An experimental level. A primeval forest that will not stay mapped. Harm no snake.*
-
-**What it is**
-An old-growth forest, temperate, of oaks and beeches, firs and spruces, many of them over a hundred feet tall and hundreds of years old or more, with dead trees standing grey among them. Moss and lichen cover everything they can: the trunks to head height and in patches far above, the fallen logs, the boulders, the ground itself, and old man's beard hangs from the boughs. Streams wind through it, and their water is safe to drink. It is cool (11 °C, colder by the water). By day a thick, damp fog lies over all of it and the sun never shows; each night the fog lifts, without fail, and a full moon hangs over the trees, much nearer than ours and showing its far side, among stars that make none of our constellations; very rarely there is an aurora, silver-white. It drains you more than most forests (you can noclip out of it more easily than out of most places).
-
-The forest does not stay put. What you are not looking at may not be where you left it: nothing much, a tree, a log, but enough to make a map useless and to unsettle anyone who notices. What you build or leave here may not be there when you come back to it.
-
-**The trail**
-Somewhere in the forest runs a single trail, trodden bare, winding back and forth, that does not change and does not vanish once you have found it. Stone posts with a snake cut into them stand beside it now and then. Followed one way, it goes on for days and gets nowhere. Followed the other, it ends at a glade.
-
-**The glade**
-In the glade stands a manor house of grey stone with a slate roof, or an ancient ring of standing stones: both, in the same place, the stones standing through the house's rooms and out through its roof. It is the headquarters of the **Ophion Occult Order**, and they guard it: masked, in crimson robes, they warn whoever comes in once and then drive them out. Their stores are inside. Do not antagonise them.
-
-**What lives here**
-**Snakes**, everywhere, of many kinds, and none of them dangerous. They are sacred here: **harm one** (or one of the Order) and the **Great Old Adder**, a crimson snake as long as a house, comes for you. Nobody has ever got away from it or fought it off. Its quarry it devours; everyone else it leaves alone. Crows and ravens hunt the snakes, and that it does not mind.
-
-At night packs of **Black Shucks**, huge black dogs, come out. A scout finds you and stalks you, close, without attacking, howling for the rest; when the pack has gathered, they close in. Unwatched, they can be suddenly nearer. They cannot climb: **climb the tallest tree you can and wait for the dawn**, when they go back to their dens. They have been seen running from a single member of the Order. By day the forest's **elk** (great deer with broad antlers) graze far off; the bulls, and the cows with calves, charge whoever comes near.
-
-The Order's members walk the trail too. There they leave you alone, stop to look at you, and now and then preach: about the Great Adder, the World Snake it comes from, and the powers they say the Order has, to go anywhere in the Backrooms at will, to steer the trail to any place they like, even home. Take none of it as a promise.
-
-**Ways in and out**
-In: very rarely, an ancient dead tree, grey and hollow, older than anything round it, stands on a field's edge in Level 10. Step into its hollow and you come out of a dead tree's hollow in the Adderwood. One way.
-
-Out: the hollows of the Adderwood's dead trees. Some of them, stepped into, put you out in Level 10, beside its own ancient dead tree. One way. A **green giant**, a huge tree of green bark, hollow at the foot, stands here and there in the deep forest; climb into it and you come out of a hollow trunk in Level 23, the Petrified Garden. One way.
-
-The Order says the trail can be steered to any place where the world is thin, even the Frontrooms. Nobody has seen it done.
-
-**What to bring**
-A weapon you trust for the elk, and nothing you would use on a snake. The mushrooms are food, most of them: learn the poisonous ones (the fly agaric, the death cap, the earthball, the devil's bolete). There is water in every stream. Plan to be up a tree, or somewhere safe, before the fog lifts.
-""")
 
 
 # ====================================================================================================================
@@ -1443,132 +1659,6 @@ BRIDGES["fishing"] = """
 **In the Backrooms:** the fish are in Level 7's sea, and they are the sea's own kinds. Fishing poles turn up in the waterlogged crates on its bottom and in lost backpacks, or are made as usual. Worms for bait come from a worm grunter in the soil of Levels 9 or 10 {{level:94}}(or Level 94's turf){{/level}}; meat and small fish work as bait too.
 """
 
-# ---- Level 31, "Roller Rink" (experimental, id 24): its page (registered in src/GuideSystem.cs's Added list)
-PAGES["level31"] = ("Level 31: The Roller Rink", """
-**Level 31: The Roller Rink**
-*Safe, warm and familiar. That is the danger: do not stay.*
-
-A 1990s roller rink that goes on for ever: a rink every hundred and twenty-eight blocks, each inside its own building of rooms, joined by neon-lit halls on dark rink carpet. Muffled pop plays from the ceiling speakers, the coloured tubes are a different hue in every room, and now and then you hear skates and laughter from somewhere overhead, though there is nothing above. **Nothing here will hurt you** (Class 1, no Hounds), and the gear turns forward a little. It is cool (12 °C), and the HVAC rooms are colder.
-
-**The Rink**
-Maple boards inside a low barrier, a short wooden gate with flaps in each gap, rough black carpet round the outside, mirrors on the walls and a star-shaped light over the middle. The DJ station is always on the south side; the Faceling at the decks chooses the songs and will not talk. Some rinks are small and low.
-
-**The Food Court**
-Square tables, orange plastic chairs, orange and green benches by the walls. Ask the Faceling behind the counter ({rightmouse}) and it serves you for free: a slice of [pizza](item-backrooms:l31-food-pizza), [wings](item-backrooms:l31-food-wings) or a [foot-long hot dog](item-backrooms:l31-food-hotdog), often with an Almond Water, once every hour and a half. The soda fountain pours Almond Water whenever you like. **Put nothing down on its floor:** whatever lies there is swept up, and whoever left it gets nothing for a day. It is the safest place in the level to camp.
-
-**Skate Rental and the Coach**
-Past the blue walls, behind the counter, stands **the Coach**: a faceless man in a striped coach's shirt with a name tag, and the only one here who talks ({rightmouse}). He remembers your name. He offers a free lesson, and with it [rink skates](item-backrooms:l31-skates): worn on your feet, they make you quicker on the boards, tiles and concrete of this level (never on carpet). Ask him how to get by, or the way out. Stay a day and a half and he will come and find you to say it is time to go.
-
-**The Arcade**
-To the east of the rink, and rarer to find. Press the blue button on the machine by the door for a [green card](item-backrooms:l31-greencard). The cabinets and the prize counter work as Level 3999's do (see [Salvage](backrooms-salvage)); a few old box cabinets from the 1980s stand among them. Some arcade doors carry a handmade OUT OF ORDER sign.
-
-**The Cinema**
-North of the rink, small and dark: one big TV and three rows of continuous metal benches, each a step higher than the last. The quietest place to sleep.
-
-**The back rooms**
-A service corridor runs round every rink. Off it: bathrooms; store rooms (supply boxes); the cold HVAC rooms (8 °C), wet underfoot, with dead radiators, and some of them flooded; and the **Employees Lounge**: exposed brick, grey carpet, lockers, a kitchenette and a CCTV desk, silent but for the cameras turning.
-
-**Shadows**
-In the dark rooms you may see a black figure standing still at the edge of the light. It is gone when you come close, and it has never been seen to move. Paranoia, the M.E.G. say.
-
-**Ways in and out**
-In: a wooden door where no door should be, in the tunnels of Level 2, the brick of Level 3 or the dark of Level 6 (rarer there), with bubblegum pop playing faintly behind it. You hear it before you see it. It opens on one of the rink's lobbies, beside a wooden door that takes you back the way you came. Out: the **Revolving Door** in the front of some lobbies, to the Suburbs, the fields of Level 10 or the Endless City (each door always to the same one, and no way back through it); ask the Coach the way out and he marks the nearest on your map. **Do not steal the skates:** walk out of Skate Rental with a pair from the cubbies, or leave the level by any way wearing the Coach's, and you noclip into the Lobby, without them. Wanderers also tell of stairs up from Level 30, a white door marked 70 behind the arcades, an EMPLOYEES ONLY door in the food court and an arcade that goes on until it is Level 25; none of them has been found to open.
-""")
-
-
-# ====================================================================================================================
-# Level 36 "Airport" (experimental, id 25; detail pass 2026-10-30): its own page, shown after The Levels: Beyond the Rings
-# (src/Regions/L36System.cs adds it to the handbook, so GuideSystem's list is left alone). The rules it states are
-# L36System's and WorldLayout.Level36.cs's.
-# ====================================================================================================================
-
-PAGES["level36"] = ("Level 36: the Airport", """
-**Level 36, the Timeless Airport**
-*An endless terminal, empty and spotless, where every level is one flight away.*
-
-**Arriving**
-Most come in like luggage, on a baggage carousel in the claim hall. Behind it is the one wall anyone has found the end of; the hall runs north and south along it as far as you care to walk, a carousel every 32 blocks. Some come in by a door under an airplane sign (see below) and stand in the same hall, beside one of the doors in that wall. The bags on the belts belong to nobody now: [suitcases](block-backrooms:suitcase) give clothes and odds and ends, and the Lost and Found offices along the wall hold more, with a supply box or two.
-
-**The terminal**
-East of the claim hall: check-in, rows of desks under flight screens with queue barriers before them, then the old security checkpoint, its scanners dead. Past it the concourses: wide halls every 256 blocks each way, with moving walkways down the north-south ones (some stopped), seats, vending machines and Almond Water fountains along their sides. Between them lie the terminal's wings (a letter A to Z over each one's mouth, its gates numbered within 1 to 60), duty-free streets, food courts, first-class lounges, the Meeting Place, and doors into the back of house: dim service corridors that end nowhere, and vents with fans in them.
-
-**Reading the screens**
-A flight screen gives a flight number, a level, a gate and a count in no unit at all. {rightmouse} a screen for the flights of the gates nearest it. The screen at each gate names the level its flights go to, and it is always the same level for that gate: the city, the Suburbs, the Poolrooms, Level 3999, Level 188 or the fields of Level 10.
-
-**Flights**
-When a gate's count falls under 1000 it is boarding: {rightmouse} the jet-bridge door in the gate's window wall and you are aboard the plane parked behind it. The same door lets you off again until it leaves. Stay aboard when the count reaches nothing and you fly for about a minute, land, and step off in the level on the gate's screen, on your feet, and always in the same place for that gate. There is no flight back: to return, find your own way in again. The flight at gate C32 of a C wing has been delayed for longer than anyone has counted.
-
-**Time**
-The clocks have no hands, or have stopped. Nobody sleeps in the airport: lie down and you are up again at once. Nobody tires either: your Rest stays where it was when you arrived, for as long as you stay. Hunger and thirst go on as anywhere, so eat.
-
-**Food and water**
-The vending machines and fountains are free and safe. What was left on the food courts' tables has been there far too long.
-
-**Signs and blackouts**
-Further in, the signs contradict each other, and the EXIT signs lead nowhere. A lit sign with nothing on it means trouble ahead. Deeper in, whole stretches of concourse and whole wings are blacked out, and half the back of house is dark; only there, and rarely, does something wait: a Smiler, a Hound or two, a Deathmoth. Nothing hunts where the lights are on. Some stretches of concourse run cold (10 °C) and some warm (28 °C).
-
-**The Absolute Limit**
-Far out, every way but back toward the carousels, the walls and floors dissolve into static. Reality thins there: your stability drains while you stand in it.
-
-**People**
-The Backrooms Travel Agency keeps a booth in check-in (booth 0 on the line through the middle of the hall, others every 1024 blocks along it) and a desk at every Meeting Place, a purple kiosk beside the meeting-point sign (the lit cube on its post is the same in every one of them, because it is the same place). Its posters are up all over the terminal: every level is only one flight away; remember to eat. Its Travel Planner talks, gives advice, and trades: travel goods for the junk of the terminal. The Gate C32 Support Group's things are at their gate; they are never in.
-
-**Ways in and out**
-In: very rarely, in the city or in the Suburbs, a plain stretch of wall has a door in it under a lit sign with an airplane on it, where no door should be. {rightmouse} it and you are in the claim hall, beside a door under the same sign in the baggage wall; that door takes you back out where you came in. The other doors in that wall are locked. Out: the gates' flights, one way, each to its own level. And a restroom sink (there is a pair of restrooms in every wing, and showers in the lounges): turn the tap and it runs over and will not stop; hold your head under ({rightmouse}, held) and you come up in the Poolrooms, one way. Wanderers also tell of a train from somewhere called the Metro, apartment doors in a part of the city nobody here has found, luggage that falls, and a hotel's glass doors that lead elsewhere. None of those has been seen here.
-""")
-
-
-# ---------------- Level 14, "The Hospital" (experimental, id 29; exp/14): its own page (GuideSystem.Added "level14") ----------------
-# Fandom's Level 14 only (docs/design/experimental-levels/14-plan.md); the Hunter as src/Regions/L14Hunter.cs makes it, the ways
-# as LINKS.md's "Level 14, the Hospital".
-PAGES["level14"] = ("Level 14: The Hospital", """
-**Level 14: The Hospital**
-*A well-equipped hospital that never ends, and something in it that was once a patient.*
-
-**The look of it, and the air**
-Shadowy main halls four wide run straight through the level both ways, troffers down their middle and too many of them dead, a red line painted along the vinyl. Between the halls lie the wings, each a department of the hospital (a medical ward, intensive care, psychiatry, maternity, the surgical suite, the stores), cut by narrower corridors with rooms along them, a name plate by every door. The air is heavy with antiseptic and, under it, decay. You will hear footsteps the whole time, far off down some other hall, and whispering just under hearing. Nobody is there.
-
-**Reception rooms**
-Everyone arrives in one: an oval desk, a few chairs, a lamp, crumpled magazines and brochures that make no sense, musty soft-drink bottles. Behind you stands a large revolving door of stained glass, and through it there is nothing at all. The room's door lets you out into the hospital, and **never lets you back in**: these rooms cannot be entered again once left, so take what is on the desk first.
-
-**The rooms**
-- **Inpatient rooms** (the wards, intensive care, psychiatry's padded cells and restraint beds, maternity's cots): blinding white, everything set out as if in use a minute ago. The only windows in the level are here, broken, and behind them only blackness.
-- **Surgery rooms**, behind shut doors and harder to find: a tilted operating table under a surgical light, shelves of old, damaged instruments, sometimes mould and vines over everything and moss growing up out of test tubes.
-- **Storage rooms**, their walls thrown together out of whatever was to hand: supply boxes.
-- **Offices** and nurses' stations, a desk and files.
-- Rarely, what is left of the **T.14.R.G.**, the Level 14 Research Group: field desks, a radio, racks of black vials, a containment chamber broken out from the inside, their stencil on the walls and their stockpile in crates. Their papers lie there.
-- Rarely, a **torture chamber** (see below).
-
-**Hazards**
-- **Contaminated rooms.** A steel door with a trefoil and a square window, green light through the glass: the room behind is full of something toxic and radioactive. Those doors do not open, but such a room may have an ordinary door on another corridor. Breathing its air makes you sick. **Look through a door's window before you go in.**
-- **Equipment.** Now and then the old equipment springs to life: a scalpel flies off a trolley, a syringe comes at you, a monitor shrieks and throws sparks, a stethoscope whips. Keep your distance from the trolleys.
-- **The floor.** Some of the floor is cracked, and some of it sags. When the floor creaks and gives a little under you, do not stop to look: **run**. It is about to go.
-- **The dark.** Stretches of hall and whole wings have no light. Carry your own.
-
-**The Hunter**
-Patient Zero: once a member of the research group, now black and wet, all writhing tentacles, swallowing the light. One comes for each wanderer a few minutes after they arrive, put down out of sight, often by a torture chamber. It always knows roughly where you are, and it closes in. You feel it before you see it: a dread, a wet breathing, the air going thick and smoky. If it sees you, or **if you meet its eyes**, it shrieks and runs you down, faster than you can sprint at first. Its tentacles drag you in rather than knock you away. Every few seconds of a chase it lets go of **Infecting Agents**, worms with mouths full of teeth that squirm along the floor fast: their bite leaves a poison burning, and they spit something corrosive at where you stand (step aside). They die off in under a minute. If you sense the Hunter, leave the room and run; break its line of sight and get far away, and after a while it loses you. Struck, it turns on whoever struck it. Killed, another comes, later.
-
-**Torture chambers**
-Rusted stretchers stacked on each other, a shattered marble floor, blood down the walls and dripping from the ceiling, cabinets of knives and razor blades. They mean the Hunter is near. Avoid them.
-
-**What to take**
-- At the reception desks: bandages, [painkillers](item-backrooms:l14-painkillers) (they heal a few points over ten seconds) and [antibiotics](item-backrooms:l14-antibiotics) (they heal a little, and stop the poison of an Infecting Agent's bite). Keep some antibiotics.
-- In the reception rooms: [musty soft drinks](item-backrooms:l14-stalesoda). Drinkable, barely, and now and then they turn your stomach.
-- The medicine cabinets, the stores' supply boxes, and the research group's stockpile of supply crates.
-
-**Ways in and out**
-- **In:** very rarely, a Lobby wall in Level 0 has a grey EMERGENCY EXIT door in it, a green running man over it and a smell of antiseptic; and beside some of Level 15's medical bays stands a futuristic door marked MEDICAL CENTER. Either one puts you in a reception room, and there is no way back through it.
-- **Out:** every way out goes one way, and they are rare. A futuristic door, out of place among the rest: a main hall of Level 15. A red exit door: Level !, the door slamming behind you. And very rarely, a patch of floor that gives way drops you onto the Redlands, Level 73.
-- Wanderers tell of arrows on the floor that lead to the hospital's main exit, a bright glowing window, a teddy bear that takes you somewhere if you hug it, and what happens to those who go too far in. The painted lines on the floor lead nowhere anyone has found, and the bears in the maternity cots are only bears.
-
-**Advice**
-- Strip the reception desk before you leave the room: you will not get back in.
-- Look through the window before you open any door. Keep to the halls when you can.
-- Never meet its eyes. When the air turns cold and smoky, go.
-- Watch the floor.
-""")
-# ---------------- (end of Level 14's page) ----------------
-
 
 # ====================================================================================================================
 # The tutorial: Backrooms: First Steps (src/Tutorial/BackroomsTutorial.cs). One entry per step, in order.
@@ -1623,6 +1713,8 @@ TUTORIAL_STARTED = "Backrooms: First Steps is on screen. Hide it with .tutorial 
 # The levels as the markers name them, to the layout's ids (WorldLayout)
 MARKER_LEVELS = {str(n): n for n in range(12)}
 MARKER_LEVELS.update({"37": 12, "94": 13, "!": 14, "fun": 15, "end": 16, "hub": 17, "974": 18, "3999": 19, "188": 20})
+# (the experimental levels: WorldLayout.Level73 and on)
+MARKER_LEVELS.update({"73": 21, "basement": 22, "52": 23, "31": 24, "36": 25, "120": 26, "15": 27, "23": 28, "14": 29, "47": 30})
 # In the lang file the markers are [[level:13]]..[[/level]], with level ids: the game's Lang.Get formats a text, and
 # would turn {{ into {
 SOURCE_OPEN = re.compile(r"\{\{(level|unvisited|met|unmet):([a-z0-9!,]+)\}\}")

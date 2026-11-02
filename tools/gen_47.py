@@ -806,18 +806,14 @@ def block_lang():
 
 def lang_entries():
     """Every key of the level's block: the ones above, the blocks', the creatures' and the level's texts
-    (tools/gen_47_lore.py), the handbook page and the notes' track."""
+    (tools/gen_47_lore.py) and the notes' track."""
     entries = list(LANG) + block_lang()
     try:
         import gen_47_lore
         entries += list(gen_47_lore.LANG)
     except ImportError:
         pass
-    import gen_guide
-    if "level47" in gen_guide.PAGES:
-        title, text = gen_guide.PAGES["level47"]
-        entries.append(("guide-level47-title", title))
-        entries.append(("guide-level47-text", gen_guide.to_vtml(text)))
+    # (The handbook page is gen_guide.py's LEVELS row 30, the creatures' its ENTITIES rows)
     import gen_notes
     if hasattr(gen_notes, "L47"):
         for t in gen_notes.TRACKS:

@@ -803,13 +803,9 @@ LANG = [
 
 
 def lang_entries():
-    """Every key of the level's block: the ones above, the handbook page, and the notes' track."""
+    """Every key of the level's block: the ones above and the notes' track (the handbook page is gen_guide.py's LEVELS row 28)."""
     import gen_23_r3
     entries = list(LANG) + list(gen_23_r3.LANG)
-    import gen_guide
-    title, text = gen_guide.PAGES["level23"]
-    entries.append(("guide-level23-title", title))
-    entries.append(("guide-level23-text", gen_guide.to_vtml(text)))
     import gen_notes
     for t in gen_notes.TRACKS:
         if t.level == gen_notes.L23:

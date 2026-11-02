@@ -104,21 +104,6 @@ public class L36System : ModSystem
         });
     }
 
-    /// <summary>The level's handbook page (tools/gen_guide.py's "level36"), after The Levels: Beyond the Rings, in a Backrooms world.</summary>
-    public override void StartClientSide(ICoreClientAPI api)
-    {
-        api.ModLoader.GetModSystem<ModSystemSurvivalHandbook>().OnInitCustomPages += pages =>
-        {
-            if (api.World?.Config == null || !BackroomsWorld.IsBackroomsClimate(api.World.Config)) return;
-            if (pages.Exists(p => p.PageCode == "backrooms-level36")) return;
-            int after = pages.FindIndex(p => p.PageCode == "backrooms-farlevels");
-            var page = new GuiHandbookTextPage { pageCode = "backrooms-level36", Title = "backrooms:guide-level36-title", Text = "backrooms:guide-level36-text" };
-            page.Init(api);
-            if (after < 0) pages.Add(page);
-            else pages.Insert(after + 1, page);
-        };
-    }
-
     public override void Dispose()
     {
         if (sapi != null)

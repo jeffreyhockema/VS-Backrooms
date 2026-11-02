@@ -3,7 +3,7 @@ its lang keys. Run under the asset lock: bash tools/locked.sh run python tools/g
 
 Writes assets/backrooms/blocktypes/73/l73-*.json, textures/block/73/*.png, shapes/block/73/*.json,
 textures/environment/l73-moon.png, and the level's keys in lang/en.json (between the Level 73 lines, in place): the
-castle's furnishings come from gen_73_castle.py, the messages, Coran's lines and the handbook page from gen_73_lore.py.
+castle's furnishings come from gen_73_castle.py, the messages, Coran's lines from gen_73_lore.py (the handbook page is gen_guide.py's).
 Coran himself is tools/gen_73_coran.py; the level's notes are in gen_notes.py.
 
 The island is crimson earth flecked with black and split by thin blood-red cracks; black basalt with a maroon sheen and
