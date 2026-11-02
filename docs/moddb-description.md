@@ -1,6 +1,6 @@
 # Backrooms: Survival Story
 
-<!-- The text of the mod database page (https://mods.vintagestory.at/backrooms), version 0.610.4. moddb-description.html is the same text with the page's styling and images; keep both in sync. To publish, open the page editor's source view (the <> button) and replace everything with moddb-description.html; every style there is inline, and it has no HTML comments because the editor shows them as text.
+<!-- The text of the mod database page (https://mods.vintagestory.at/backrooms), version 0.610.5. moddb-description.html is the same text with the page's styling and images; keep both in sync. To publish, open the page editor's source view (the <> button) and replace everything with moddb-description.html; every style there is inline, and it has no HTML comments because the editor shows them as text.
 
 Spoiler policy (2026-11-01): the page stays around 2,500 words. Full cards, and named places, only for the rings (Levels 0 to 11 and the Snackrooms), with no creature named in a card; every level beyond the rings is a number, its name and a few words, so a reader knows which lore was built; the roster lists only what lives in the rings, what each does and no counters; no creature drops, no one-way door list, no level-by-level materials list. The player guide has the rest. -->
 
@@ -18,8 +18,9 @@ At a glance: 22 levels, 70+ ways between levels, 25+ things that live here, 1 pl
 
 ---
 
-## Recent updates: 0.610.4
+## Recent updates: 0.610.5
 
+- **0.610.5, what you have seen.** The handbook learns as you do: it names a far level or a creature only once you have been there or met it, and opens a page on each as you find them. Long handbook pages no longer show black on Linux. The F7 cheat menu lists the special places of the level you are in and takes you to one, facing it.
 - **0.610.4, pine and paper.** Level 10 grows pines whose low logs ooze resin (in new worlds), and two wanderers' camps sell it. Other mods' schematics turn up in deep caches. Level 1's and Level 5's stairs can be climbed to the top in new worlds.
 - **0.610.3, the colour of the way.** Map waypoints for the ways between levels are coloured by where they lead. Wanderers buy a few more things. When the lights go out in Level 1, they go out for the whole party.
 - **0.610.1 and 0.610.2.** Players together are no longer hunted twice as often. Hotbar tooltips work again. Hounds fit through one-block gaps.
@@ -156,7 +157,7 @@ World settings, under *Survival challenges* (level size under *World generation*
 ## Notes and credits
 
 - Built for Vintage Story 1.22.
-- Version 0.610.4 is a full, playable survival game, and still in active development: expect balance changes and refinements between versions.
+- Version 0.610.5 is a full, playable survival game, and still in active development: expect balance changes and refinements between versions.
 - In English and Spanish; the Spanish translation is by NeoB.
 - The levels are generated as you walk; the first chunks of a new region take a moment.
 - Lore follows the Backrooms Wikidot wiki first, the Fandom and Miraheze wikis second, with the original photo posted in 2019 and Kane Pixels' films for Level 0's look and feel.
