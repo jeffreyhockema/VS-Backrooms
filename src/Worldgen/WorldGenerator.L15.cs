@@ -591,7 +591,8 @@ public sealed partial class WorldGenerator
                 return L15Panel(dark ? "lamplowerdead" : "lamplower", f, l15Deco[dark ? L15DLampLowerDead : L15DLampLower, f]);
             case 4 when bay == 4 && t.Detail != L.L15WallWoodDoor:
                 // Round 4: near the lit side the dead light's place takes a battery emergency lamp, still burning amber
-                if (dark && L15DarkEdge(gx, gz, hall.Face is ArchPier.East or ArchPier.West) is 1 or 2)
+                if (dark && L15DarkEdge(gx, gz, hall.Face is ArchPier.East or ArchPier.West) is int edge
+                    && (edge == 1 || edge == 2 && hall.Face is ArchPier.East or ArchPier.South))
                     return L15Panel("emerglit", f, l15Deco[L15DLampUpperDead, f]);
                 if (dark) return L15Panel("lampupperdead", f, l15Deco[L15DLampUpperDead, f]);
                 bool turn = hall.Face is ArchPier.East or ArchPier.South;

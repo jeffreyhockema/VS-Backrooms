@@ -820,7 +820,7 @@ def panel_shapes():
             for e in els[-2:]:
                 e["faces"]["north"]["glow"] = 230
         add("emerg" + ("lit" if lit else "dead"), els, {"whitegloss": T("whitegloss"), "dark": T("dark"), "ledgreen": T("ledgreen"),
-                                                        lens: T(lens)}, light=[6, 5, 11] if lit else None)
+                                                        lens: T(lens)}, light=[6, 5, 9] if lit else None)
     # The breaker panel by the dark: its door swung open, the breakers inside, one tripped, a tag on the door
     els = panel_els() + [
         box("Box", (3, 1, -1.5), (13, 14, 0), {"all": "steelgrey", "north": "breakers"}),

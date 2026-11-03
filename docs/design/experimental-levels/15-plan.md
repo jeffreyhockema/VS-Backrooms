@@ -644,8 +644,8 @@ surround of Level 14's door, the lift indicator's B3, the dead's ID cards and la
 
 ### Balance notes for the lead
 
-- Light: the battery emergency lamps (`l15-panel-emerglit`, amber, light 11) stand in the dark halls within 16 blocks of
-  the lit side, in the wall lights' places (every 8 blocks along both walls); they light a few blocks round them at the very edge of the dark. The Robo-Man
+- Light: the battery emergency lamps (`l15-panel-emerglit`, amber, light 9) stand in the dark halls in the wall lights'
+  places nearest the lit side (both walls within 8 blocks, one wall at 16); they light a few blocks round them at the very edge of the dark. The Robo-Man
   needs the dark: these edges are a little less dark than before. The vitals monitors (light 4), the lectern's lamp (5)
   and the door surround's cross (6) are in lit rooms.
 - Drops: the glazing drops shards as the old thick glass did; the new stools, tables, lectern and monitors a little scrap
