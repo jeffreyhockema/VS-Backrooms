@@ -1,0 +1,140 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"deco-plate-surgery": "backrooms:block/14/deco-plate-surgery",
+		"p-darkplastic": "backrooms:block/14/p-darkplastic",
+		"wall": "backrooms:block/14/wall-paint"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				2.25,
+				5.5,
+				-0.35
+			],
+			"to": [
+				13.75,
+				10.75,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#deco-plate-surgery",
+					"uv": [
+						2.25,
+						5.25,
+						13.75,
+						10.5
+					]
+				},
+				"east": {
+					"texture": "#p-darkplastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.25
+					]
+				},
+				"west": {
+					"texture": "#p-darkplastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.25
+					]
+				},
+				"up": {
+					"texture": "#p-darkplastic",
+					"uv": [
+						0,
+						0,
+						11.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-darkplastic",
+					"uv": [
+						0,
+						0,
+						11.5,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,279 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"deco-sign-0": "backrooms:block/14/deco-sign-0",
+		"p-chrome": "backrooms:block/14/p-chrome",
+		"p-darksteel": "backrooms:block/14/p-darksteel",
+		"wall": "backrooms:block/14/wall-paint"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sign",
+			"from": [
+				0.75,
+				4.75,
+				-0.6
+			],
+			"to": [
+				15.25,
+				11.25,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#deco-sign-0",
+					"uv": [
+						0.75,
+						4.75,
+						15.25,
+						11.25
+					]
+				},
+				"east": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						6.5
+					]
+				},
+				"west": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						6.5
+					]
+				},
+				"up": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						14.5,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						14.5,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Screw0",
+			"from": [
+				1.7,
+				7.75,
+				-0.75
+			],
+			"to": [
+				2.2,
+				8.25,
+				-0.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Screw1",
+			"from": [
+				13.8,
+				7.75,
+				-0.75
+			],
+			"to": [
+				14.3,
+				8.25,
+				-0.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

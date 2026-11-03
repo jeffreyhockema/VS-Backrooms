@@ -1,0 +1,140 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"deco-poster-kid2": "backrooms:block/14/deco-poster-kid2",
+		"p-papers": "backrooms:block/14/p-papers",
+		"wall": "backrooms:block/14/wall-paint"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Poster",
+			"from": [
+				2.0,
+				1.5,
+				-0.08
+			],
+			"to": [
+				13.75,
+				14.25,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#deco-poster-kid2",
+					"uv": [
+						2.25,
+						1.75,
+						14.0,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#p-papers",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.75
+					]
+				},
+				"west": {
+					"texture": "#p-papers",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.75
+					]
+				},
+				"up": {
+					"texture": "#p-papers",
+					"uv": [
+						0,
+						0,
+						11.75,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-papers",
+					"uv": [
+						0,
+						0,
+						11.75,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,282 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"lift-door": "backrooms:block/14/lift-door",
+		"lift-notice": "backrooms:block/14/lift-notice",
+		"p-darksteel": "backrooms:block/14/p-darksteel",
+		"p-papers": "backrooms:block/14/p-papers",
+		"p-rubber": "backrooms:block/14/p-rubber",
+		"p-steel": "backrooms:block/14/p-steel",
+		"wall-paint": "backrooms:block/14/wall-paint"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				2
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall-paint",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall-paint",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall-paint",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall-paint",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall-paint",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				},
+				"down": {
+					"texture": "#wall-paint",
+					"uv": [
+						0,
+						0,
+						16,
+						14
+					]
+				}
+			}
+		},
+		{
+			"name": "Recess",
+			"from": [
+				0,
+				0,
+				1.6
+			],
+			"to": [
+				14,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-darksteel",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaf",
+			"from": [
+				0,
+				0,
+				1.0
+			],
+			"to": [
+				14,
+				16,
+				1.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#lift-door",
+					"uv": [
+						0,
+						0,
+						14,
+						16
+					]
+				},
+				"up": {
+					"texture": "#lift-door",
+					"uv": [
+						0,
+						0,
+						14,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#lift-door",
+					"uv": [
+						0,
+						0,
+						14,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Jamb",
+			"from": [
+				14,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-steel",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#p-steel",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#p-steel",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#p-steel",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"down": {
+					"texture": "#p-steel",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Meet",
+			"from": [
+				0,
+				0,
+				0.9
+			],
+			"to": [
+				0.4,
+				16,
+				1.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-rubber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Notice",
+			"from": [
+				4,
+				3,
+				0.9
+			],
+			"to": [
+				11.5,
+				10.5,
+				1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#lift-notice",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tape",
+			"from": [
+				6.5,
+				10.2,
+				0.85
+			],
+			"to": [
+				9.0,
+				11.0,
+				0.95
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-papers",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

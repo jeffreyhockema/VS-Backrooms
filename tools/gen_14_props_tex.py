@@ -511,18 +511,30 @@ def organic():
     img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
     px = img.load()
     rng = random.Random(seed_of("bloodpool"))
-    blobs = [(15, 15, 10), (6, 24, 5), (24, 8, 5), (25, 22, 3), (5, 8, 2.5)]
+    # round 4: an irregular pool (noise-edged), its rim dried dark and matt, the middle still glossy, a smear dragged
+    # off one side and drops flung round it
+    field = M.fbm(S, seed_of("bloodpoolF"), (8, 4, 2))
+    blobs = [(14, 16, 8.5), (9, 21, 5), (21, 11, 4.5), (19, 21, 3)]
     for y in range(S):
         for x in range(S):
             inside = max(1 - math.hypot(x - bx, y - by) / r for bx, by, r in blobs)
-            inside += (rng.random() - 0.5) * 0.14
+            inside += (field[y][x] - 0.5) * 0.5
             if inside > 0:
-                c = M.mix((72, 6, 8), (118, 14, 16), min(1, inside * 1.6))
-                if 0.08 < inside < 0.16:
-                    c = (56, 6, 8)
-                px[x, y] = rgba(c)
-    for (x, y) in ((12, 11), (13, 11), (12, 12), (19, 17)):
-        px[x, y] = rgba((190, 80, 80))
+                c = M.mix((54, 6, 8), (96, 12, 14), min(1, inside * 1.4))
+                if inside < 0.12:
+                    c = (44, 8, 8)
+                px[x, y] = rgba(M.lift(c, rng.uniform(-3, 3)))
+    for k in range(5):  # the smear, dragged to the east edge
+        y0 = 13 + k * 1.4
+        for x in range(20, S):
+            if rng.random() < 0.85 - (x - 20) * 0.05:
+                px[x, int(y0 + (x - 20) * 0.2)] = rgba(M.lift((70, 10, 10), rng.uniform(-6, 4)))
+    for _ in range(14):
+        x, y = rng.randrange(S), rng.randrange(S)
+        if px[x, y][3] == 0 and math.hypot(x - 14, y - 16) > 10:
+            px[x, y] = rgba((62, 8, 10))
+    for (x, y) in ((12, 13), (13, 13), (11, 14), (15, 18)):
+        px[x, y] = rgba((150, 60, 60))
     save(img, "bloodpool")
     img = M.noise_hv(BLOOD, 4, seed_of("blood"), S, mottle=8)
     save(img, "blood")

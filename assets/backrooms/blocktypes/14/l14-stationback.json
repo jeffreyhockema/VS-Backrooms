@@ -1,0 +1,404 @@
+// Level 14: the back wall unit of a nurses' station, two blocks, its front to <side> and its back against a wall: a cupboard, a worktop with a phone and charts, pigeonholes (lower); a whiteboard of names or a rack of chart binders (upper)
+{
+	"code": "l14-stationback",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "kind",
+			"states": [
+				"board",
+				"files"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-lower-board-north": {
+			"base": "backrooms:block/14/l14-stationback-lower-board"
+		},
+		"*-lower-board-east": {
+			"base": "backrooms:block/14/l14-stationback-lower-board",
+			"rotateY": 270
+		},
+		"*-lower-board-south": {
+			"base": "backrooms:block/14/l14-stationback-lower-board",
+			"rotateY": 180
+		},
+		"*-lower-board-west": {
+			"base": "backrooms:block/14/l14-stationback-lower-board",
+			"rotateY": 90
+		},
+		"*-lower-files-north": {
+			"base": "backrooms:block/14/l14-stationback-lower-files"
+		},
+		"*-lower-files-east": {
+			"base": "backrooms:block/14/l14-stationback-lower-files",
+			"rotateY": 270
+		},
+		"*-lower-files-south": {
+			"base": "backrooms:block/14/l14-stationback-lower-files",
+			"rotateY": 180
+		},
+		"*-lower-files-west": {
+			"base": "backrooms:block/14/l14-stationback-lower-files",
+			"rotateY": 90
+		},
+		"*-upper-board-north": {
+			"base": "backrooms:block/14/l14-stationback-upper-board"
+		},
+		"*-upper-board-east": {
+			"base": "backrooms:block/14/l14-stationback-upper-board",
+			"rotateY": 270
+		},
+		"*-upper-board-south": {
+			"base": "backrooms:block/14/l14-stationback-upper-board",
+			"rotateY": 180
+		},
+		"*-upper-board-west": {
+			"base": "backrooms:block/14/l14-stationback-upper-board",
+			"rotateY": 90
+		},
+		"*-upper-files-north": {
+			"base": "backrooms:block/14/l14-stationback-upper-files"
+		},
+		"*-upper-files-east": {
+			"base": "backrooms:block/14/l14-stationback-upper-files",
+			"rotateY": 270
+		},
+		"*-upper-files-south": {
+			"base": "backrooms:block/14/l14-stationback-upper-files",
+			"rotateY": 180
+		},
+		"*-upper-files-west": {
+			"base": "backrooms:block/14/l14-stationback-upper-files",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-lower-board-north",
+			"*-upper-board-north",
+			"*-upper-files-north"
+		],
+		"backrooms": [
+			"*-lower-board-north",
+			"*-upper-board-north",
+			"*-upper-files-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-lower-board-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 1
+		},
+		"*-lower-board-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-lower-board-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-lower-board-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-lower-files-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 1
+		},
+		"*-lower-files-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-lower-files-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-lower-files-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-upper-board-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-upper-board-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-upper-board-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-upper-board-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-upper-files-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-upper-files-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-upper-files-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-upper-files-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.8,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-lower-board-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-lower-board-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-lower-board-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-lower-board-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-lower-files-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-lower-files-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-lower-files-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-lower-files-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.38,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-upper-board-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-upper-board-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-upper-board-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-upper-board-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-upper-files-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-upper-files-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-upper-files-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-upper-files-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

@@ -189,9 +189,11 @@ def floorlamp(part, on):
            B("HarpBar", (5, 7, 7.75), (11, 7.5, 8.25), "p-brass"),
            B("Finial", (7.4, 11.25, 7.4), (8.6, 12.5, 8.6), "p-brass"),
            B("Chain", (9.8, 3, 7.9), (10.1, 6.5, 8.2), "p-brass"), B("ChainEnd", (9.6, 2.5, 7.7), (10.3, 3, 8.4), "p-brass")]
-    els += octagon("Shade", 8, 8, 4.75, 4.5, 11, shade)
-    els += octagon("TrimLow", 8, 8, 4.95, 4.25, 5, "p-brass", faces=("north", "south", "east", "west", "down"))
-    els += octagon("TrimTop", 8, 8, 4.95, 10.5, 11.25, "p-brass", faces=("north", "south", "east", "west", "up"))
+    # round 4: a tapered shade (three tiers narrowing upward), a brass trim at its hem and its top
+    for k, (r, y1, y2) in enumerate(((5.2, 4.5, 6.7), (4.6, 6.7, 8.9), (4.0, 8.9, 11))):
+        els += octagon(f"Shade{k}", 8, 8, r, y1, y2, shade, step=0.01)
+    els += octagon("TrimLow", 8, 8, 5.4, 4.25, 5, "p-brass", faces=("north", "south", "east", "west", "down"))
+    els += octagon("TrimTop", 8, 8, 4.2, 10.5, 11.25, "p-brass", faces=("north", "south", "east", "west", "up"))
     if on:
         glow([e for e in els if e["name"].startswith("Shade")], g)
     return els

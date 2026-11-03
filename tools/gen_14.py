@@ -37,11 +37,14 @@ import random
 
 from PIL import Image, ImageDraw
 
+import sys
+
 import matlib as M
 import texlib
 from modelkit import box, turn, move, textures as shape_keys, lever, kick_plate, hinge, inset_window, PX, DIRS, without
 from gen_15 import SMALL, STONE, METAL, GLASS, CLOTH, WOOD, text as pixel_text
 from gen_15_r3 import draw_text, font
+import gen_14_r4 as R4
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 ASSETS = os.path.join(ROOT, "assets", "backrooms")
@@ -194,6 +197,68 @@ def blotch(img, seed, at, radius, colour, strength=0.8, rough=0.5, fuzz=True, wr
     return img
 
 
+def mould_wall(seed):
+    """Round 4: the mint paint with black mould growing on it in colonies: round spots of all sizes, each with a dark
+    core, a sooty halo and a fringe of olive, crowding into patches and merging, the paint between them yellowed and
+    damp-stained; seamless."""
+    rng = random.Random(seed)
+    img = paint(seed)
+    M.tideline(img, 22, seed=seed + 1, color=(130, 132, 100), amount=0.25)
+    M.grime(img, 0.18, seed=seed + 2, color=(150, 150, 110), cells=(16, 8), cover=0.6)
+    px = img.load()
+    # colonies cluster round a few centres
+    centres = [(rng.randrange(S), rng.randrange(S)) for _ in range(3)]
+    for _ in range(46):
+        cx, cy = rng.choice(centres)
+        x, y = cx + rng.gauss(0, 6), cy + rng.gauss(0, 6)
+        r = rng.choice((0.6, 0.8, 1.0, 1.2, 1.6, 2.2, 3.0))
+        for yy in range(int(y - r - 2), int(y + r + 3)):
+            for xx in range(int(x - r - 2), int(x + r + 3)):
+                d = math.hypot(xx - x, yy - y) / r
+                X, Y = xx % S, yy % S
+                if d < 0.55:
+                    blend(img, X, Y, (22, 24, 20), 0.92)
+                elif d < 1.0:
+                    blend(img, X, Y, MOULD_DK, 0.75)
+                elif d < 1.45 and rng.random() < 0.7:
+                    blend(img, X, Y, MOULD, 0.4)
+    speckle(img, seed + 3, 0.02, [MOULD_DK, (24, 26, 22)])
+    return img
+
+
+def seamless_runs(img, seed, n=3):
+    """Round 4: old blood run down a wall from above, in runs that go the whole height and come back to where they
+    started (so the block above and below carry them on), dried dark at the edges and darker where thick; a short run
+    or two that stops in a bead, and a fine spatter."""
+    rng = random.Random(seed)
+    w, h = img.size
+    xs = rng.sample(range(2, w - 3), n + 2)
+    for i, x0 in enumerate(xs):
+        full = i < n
+        wd = rng.choice((1, 2, 2, 3)) if full else 1
+        L = h if full else rng.randint(6, 14)
+        y0 = 0 if full else rng.randint(0, 12)
+        wander = [0.0]
+        for k in range(1, L):
+            wander.append(wander[-1] + rng.choice((0, 0, 0, 0.5, -0.5)))
+        if full:  # come back to x0 at the bottom so it meets itself in the next block
+            drift = wander[-1]
+            wander = [v - drift * k / (L - 1) for k, v in enumerate(wander)]
+        col = M.lift((84, 8, 10), rng.uniform(-10, 6))
+        for k in range(L):
+            fx = x0 + wander[k]
+            for dx in range(wd):
+                edge = dx in (0, wd - 1) and wd > 1
+                blend(img, int(fx) + dx, (y0 + k) % h, M.lift(col, -14) if edge else col, 0.9 if not edge else 0.75)
+        if not full:
+            yb = (y0 + L) % h
+            for dx in (-1, 0, 1):
+                blend(img, int(x0 + wander[-1]) + dx, yb, M.lift(col, -18), 0.85)
+    for _ in range(10):
+        blend(img, rng.randrange(w), rng.randrange(h), (70, 8, 10), rng.uniform(0.5, 0.9))
+    return img
+
+
 def runs(img, seed, n, colour, start=(0, 6), length=(10, 30), width=(1, 2), strength=0.85, xs=None):
     """Thick liquid running down from the top: each run a wavering line, wider and darker at its head, a bead where it stops."""
     rng = random.Random(seed)
@@ -286,7 +351,28 @@ def wall_textures():
     save(whb, "wall-whitebase")
     # White ceramic wall tile; its foot a band of pale green tiles, grimy
     def walltile(seed):
-        return M.tile(seed=seed, base=(230, 234, 232), grout=(190, 196, 194), pitch=8, grout_w=1, jitter=2, uneven=1, crazing=0.15)
+        # round 4: flat glazed tiles (a soft highlight, hardly a tilt), pale grout, fine crazing and a little dirt in the joints
+        rng = random.Random(seed)
+        img = M.noise_hv((228, 232, 230), 1.5, seed, S, 2, (16, 8))
+        px = img.load()
+        for ty in range(4):
+            for tx in range(4):
+                v = rng.uniform(-2.5, 2.5)
+                for y in range(ty * 8, ty * 8 + 7):
+                    for x in range(tx * 8, tx * 8 + 7):
+                        M.touch(img, x, y, v / 100)
+                M.touch(img, tx * 8 + 1, ty * 8 + 1, 0.06)
+                M.touch(img, tx * 8 + 2, ty * 8 + 1, 0.04)
+                for x in range(tx * 8, tx * 8 + 7):
+                    M.touch(img, x, ty * 8 + 6, -0.03)
+        for i in range(S):
+            for j in range(S):
+                if i % 8 == 7 or j % 8 == 7:
+                    px[i, j] = M.rgba(M.lift((196, 200, 196), rng.uniform(-4, 3)))
+        for k in range(3):
+            M.crack(img, seed + 20 + k, length=(3, 6), strength=0.08)
+        M.grime(img, 0.05, seed=seed + 7, color=(150, 150, 136), cells=(8, 4), cover=0.4)
+        return img
     save(walltile(14030), "wall-tile")
     tb = walltile(14031)
     band = M.tile(seed=14032, base=(150, 190, 174), grout=(132, 158, 148), pitch=8, grout_w=1, jitter=3, uneven=1)
@@ -296,24 +382,24 @@ def wall_textures():
             px[x, y] = bp[x, y]
     M.grime(tb, 0.14, seed=14033, bias="bottom", color=(96, 98, 84))
     save(tb, "wall-tilebase")
-    # The behaviour cells: quilted white cushions in a square grid, a button pulling in at each corner, soft and grubby
-    pad = M.fabric(seed=14040, base=(222, 222, 212), weave="plain", contrast=4, mottle=3)
+    # The behaviour cells (round 4): button-tufted vinyl padding in a diamond lattice: a button sunk at each point, the
+    # padding puffed up between them, creases running button to button, grubby where hands and heads have been
+    pad = M.fabric(seed=14040, base=(224, 222, 210), weave="plain", contrast=3, mottle=3)
+    buttons = [(x, y) for y in range(0, S + 1, 8) for x in range(0 if (y // 8) % 2 == 0 else 8, S + 1, 16)]
     for y in range(S):
         for x in range(S):
-            u, v = (x % 16) / 15.0, (y % 16) / 15.0
-            d = max(abs(u - 0.5), abs(v - 0.5)) * 2  # 0 centre .. 1 edge
-            f = 0.10 * (1 - d ** 2) - 0.12 * max(0.0, d - 0.82) / 0.18
-            f += 0.05 * (0.5 - v)  # lit from above: upper half of each pillow brighter
+            d = min(math.hypot(x - bx, y - by) for bx, by in buttons)
+            f = 0.09 * min(1.0, d / 6.0) - 0.05
+            f += 0.03 * (0.5 - (y % 8) / 8.0)
             M.touch(pad, x, y, f)
-    for cx in (0, 16):
-        for cy in (0, 16):
-            for dx in range(-1, 1):
-                for dy in range(-1, 1):
-                    blend(pad, cx + dx, cy + dy, (120, 118, 108), 0.7)
-            for k in range(1, 3):
-                for dx, dy in ((k, k), (-k - 1, k), (k, -k - 1), (-k - 1, -k - 1)):
-                    blend(pad, cx + dx, cy + dy, (168, 166, 156), 0.35)
-    M.grime(pad, 0.1, seed=14041, color=(160, 150, 120), cells=(16, 8), cover=0.4)
+    for bx, by in buttons:
+        for dx, dy in ((0, 0), (-1, 0), (0, -1), (-1, -1)):
+            blend(pad, bx + dx, by + dy, (128, 124, 112), 0.75)
+        for k in range(1, 5):
+            for sx, sy in ((1, 1), (-1, 1), (1, -1), (-1, -1)):
+                blend(pad, bx + sx * k, by + sy * k, (176, 172, 160), 0.3 * (1 - k / 5))
+    M.grime(pad, 0.12, seed=14041, color=(160, 150, 120), cells=(16, 8), cover=0.45)
+    M.stain(pad, seed=14042, radius=5, color=(170, 150, 110), strength=0.25, at=(22, 20))
     save(pad, "wall-padded")
     # Painted cinderblock: blocks 16 x 8, the paint a pale grey-green thick over their pores
     cin = M.brick(seed=14050, base=(170, 184, 172), mortar=(158, 170, 160), course=8, length=16, offset=0.5, jitter=3, hue=0,
@@ -341,24 +427,17 @@ def wall_textures():
     M.drips(rs, n=4, seed=14072, color=(96, 50, 28), length=(8, 24), strength=0.4)
     save(rs, "wall-rust")
     rb = rs.copy()
-    runs(rb, 14073, 4, BLOOD, start=(0, 4), length=(12, 30), width=(1, 2), strength=0.85)
-    blotch(rb, 14074, (20, 4), 5, (70, 8, 10), 0.75)
+    seamless_runs(rb, 14073, n=1)
     save(rb, "wall-rustblood")
     # Filthy tiles, cracked, blood run down them from the top
     tbl = walltile(14080)
     M.grime(tbl, 0.32, seed=14081, color=(150, 140, 96), cells=(8, 4, 2), cover=0.7)
     for k in range(3):
         M.crack(tbl, 14082 + k, length=(6, 14), strength=0.3)
-    runs(tbl, 14085, 5, BLOOD, start=(0, 3), length=(14, 31), width=(1, 3), strength=0.88)
-    blotch(tbl, 14086, (8, 2), 6, (78, 8, 10), 0.8)
+    seamless_runs(tbl, 14085, n=1)
     save(tbl, "wall-tileblood")
     # Mould: the mint gone black and green in blooms, a damp tide below
-    mo = paint(14090)
-    M.tideline(mo, 22, seed=14091, color=(120, 124, 92), amount=0.3)
-    M.grime(mo, 0.42, seed=14092, color=MOULD_DK, cells=(16, 8, 4, 2), cover=0.6)
-    M.grime(mo, 0.24, seed=14093, color=MOULD, cells=(8, 4, 2), cover=0.45)
-    speckle(mo, 14094, 0.03, [MOULD_DK, (24, 26, 22), MOULD])
-    save(mo, "wall-mould")
+    save(mould_wall(14090), "wall-mould")
     # White with moss creeping up from the foot, and a rust run from a fixing
     wm = M.plaster(seed=14100, base=WHITE, grain=1, mottle=2, roller=0.15)
     M.grime(wm, 0.55, seed=14101, bias="bottom", color=MOULD, cells=(8, 4, 2), cover=0.5)
@@ -412,11 +491,21 @@ def trefoil(d, cx, cy, r, colour, k=1, kind="radiation"):
         d.ellipse([cx - r * 0.42, cy - r * 0.42, cx + r * 0.42, cy + r * 0.42], fill=(0, 0, 0, 0))
         d.ellipse([cx - r * 0.25, cy - r * 0.25, cx + r * 0.25, cy + r * 0.25], fill=colour)
     else:
-        w = max(1, int(r * 0.16))
+        # the biohazard symbol (round 4): three crescents open outward round a ring, cut through at the middle
+        clear = (0, 0, 0, 0)
+
+        def disc(a, dist, rad, fill):
+            ox, oy = cx + dist * math.cos(math.radians(a)), cy + dist * math.sin(math.radians(a))
+            d.ellipse([ox - rad, oy - rad, ox + rad, oy + rad], fill=fill)
         for a in (-90, 30, 150):
-            ox, oy = cx + r * 0.42 * math.cos(math.radians(a)), cy + r * 0.42 * math.sin(math.radians(a))
-            d.ellipse([ox - r * 0.55, oy - r * 0.55, ox + r * 0.55, oy + r * 0.55], outline=colour, width=w * 2)
-        d.ellipse([cx - r * 0.2, cy - r * 0.2, cx + r * 0.2, cy + r * 0.2], outline=colour, width=w)
+            disc(a, r * 0.46, r * 0.54, colour)
+        for a in (-90, 30, 150):
+            disc(a, r * 0.62, r * 0.38, clear)
+        d.ellipse([cx - r * 0.36, cy - r * 0.36, cx + r * 0.36, cy + r * 0.36], outline=colour, width=max(1, int(r * 0.1)))
+        d.ellipse([cx - r * 0.15, cy - r * 0.15, cx + r * 0.15, cy + r * 0.15], fill=clear)
+        for a in (90, 210, 330):
+            ex, ey = cx + r * 0.42 * math.cos(math.radians(a)), cy + r * 0.42 * math.sin(math.radians(a))
+            d.line([cx, cy, ex, ey], fill=clear, width=max(1, int(r * 0.07)))
 
 
 PLATES = [("ward", "WARD", (60, 120, 170)), ("icu", "INTENSIVE\nCARE", (180, 60, 50)), ("surgery", "SURGERY", (60, 140, 110)),
@@ -757,6 +846,48 @@ def deco_textures():
             blend(img, x, y0 + k, (28, 30, 28), 0.7 * (1 - k / 14))
     draw_text(img, (14, 40, 50, 48), "LEVEL 14 RESEARCH GROUP", (40, 42, 40), 3, condensed=True)
     save(img, "deco-trg")
+    directory_textures()
+
+
+def directory_textures():
+    """Round 4: the hospital directory board by a hall crossing, two blocks wide (deco-directory-l and -r, the board's
+    left and right halves as seen from the hall): a teal enamel board in an aluminium frame, HOSPITAL DIRECTORY over the
+    departments with their arrows, a YOU ARE HERE dot with no map round it, a sticker gone over one line."""
+    W, H = 128, 64
+    board = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    x0, y0, x1, y1 = 6, 10, 121, 55
+    rect(board, x0 - 2, y0 - 2, x1 + 2, y1 + 2, (176, 182, 184))
+    rect(board, x0 - 1, y0 - 1, x1 + 1, y1 + 1, (120, 126, 128))
+    face = M.painted_metal(seed=14290, size=(120, 48), base=SIGN_TEAL, panel=False, chips=0)
+    board.alpha_composite(face.crop((0, 0, x1 - x0 + 1, y1 - y0 + 1)), (x0, y0))
+    rect(board, x0, y0, x1, y0 + 8, (236, 238, 230))
+    draw_text(board, (x0 + 2, y0 + 1, x1 - 2, y0 + 8), "HOSPITAL DIRECTORY", SIGN_TEAL, 6)
+    rows = [("WARD 1", ">"), ("INTENSIVE CARE", "<"), ("SURGERY", "^"), ("MATERNITY", ">"), ("PSYCHIATRY", "<"), ("STORES", "^")]
+    for i, (name, arrow) in enumerate(rows):
+        col, row = i // 3, i % 3
+        bx = x0 + 3 + col * 58
+        by = y0 + 11 + row * 11
+        draw_text(board, (bx, by, bx + 40, by + 8), name, (236, 238, 230), 5, condensed=True)
+        ax, ay = bx + 46, by + 4
+
+        def arr(d, k, Wd, Hd, a=arrow):
+            m, c = Hd / 2, (236, 238, 230, 255)
+            pts = {">": [(0.1, m - 1.2 * k), (0.55 * Wd, m - 1.2 * k), (0.55 * Wd, 0), (Wd, m), (0.55 * Wd, Hd), (0.55 * Wd, m + 1.2 * k), (0.1, m + 1.2 * k)],
+                   "<": [(Wd - 0.1, m - 1.2 * k), (0.45 * Wd, m - 1.2 * k), (0.45 * Wd, 0), (0, m), (0.45 * Wd, Hd), (0.45 * Wd, m + 1.2 * k), (Wd - 0.1, m + 1.2 * k)],
+                   "^": [(Wd / 2 - 1.2 * k, Hd), (Wd / 2 - 1.2 * k, 0.45 * Hd), (0, 0.45 * Hd), (Wd / 2, 0), (Wd, 0.45 * Hd), (Wd / 2 + 1.2 * k, 0.45 * Hd), (Wd / 2 + 1.2 * k, Hd)]}[a]
+            d.polygon(pts, fill=c)
+        art(board, (ax - 4, ay - 4, ax + 4, ay + 4), arr)
+    # YOU ARE HERE: a red dot and nothing round it
+    rect(board, 100, 44, 103, 47, (210, 40, 36))
+    draw_text(board, (78, 48, 120, 54), "YOU ARE HERE", (236, 238, 230), 4, condensed=True)
+    # a strip of tape over the last line, half peeled
+    rect(board, x0 + 58, y0 + 33, x0 + 100, y0 + 39, (214, 206, 170))
+    M.grime(board, 0.14, seed=14291, color=(40, 44, 36), cells=(8, 4))
+    M.scratches(board, n=6, seed=14292, light=0.12)
+    for half, xs in (("l", 0), ("r", 64)):
+        img = deco_base()
+        img.alpha_composite(board.crop((xs, 0, xs + 64, 64)), (0, 0))
+        save(img, "deco-directory-" + half)
 
 
 # ======================================================================== Floors
@@ -766,6 +897,47 @@ def vinyl(seed, base=VINYL, chips=None, density=0.16):
     img = M.noise_hv(base, 2, seed, S, 4, (16, 8))
     chips = chips or [M.lift(base, -50), M.lift(base, -30), M.lift(base, 30), (132, 160, 150), (110, 116, 108)]
     speckle(img, seed + 1, density, chips)
+    return img
+
+
+def terrazzo(seed):
+    """Round 4: polished terrazzo: a warm cream cement matrix packed with marble chips of mixed size (mostly white, pale
+    grey, rose and sage, a few dark), each chip with a lit edge, a soft polish sheen, wear dulling it in patches, and a
+    brass divider strip along two edges (a grid of panels a block across)."""
+    rng = random.Random(seed)
+    img = M.noise_hv((214, 204, 186), 2, seed, S, 3, (16, 8))
+    px = img.load()
+    chips = [((240, 236, 226), 30), ((226, 222, 212), 18), ((196, 192, 186), 14), ((214, 184, 170), 10), ((176, 188, 168), 8),
+             ((168, 160, 148), 8), ((124, 116, 106), 5), ((92, 86, 80), 3), ((184, 150, 120), 4)]
+    pool = [c for c, n in chips for _ in range(n)]
+    shapes = [((0, 0),), ((0, 0), (1, 0)), ((0, 0), (0, 1)), ((0, 0), (1, 0), (0, 1)), ((0, 0), (1, 0), (1, 1)),
+              ((0, 0), (1, 0), (0, 1), (1, 1)), ((0, 0), (1, 0), (2, 0), (1, 1))]
+    weights = [34, 18, 18, 10, 10, 6, 4]
+    taken = set()
+    for _ in range(int(S * S * 0.30)):
+        x, y = rng.randrange(1, S), rng.randrange(1, S)
+        shp = rng.choices(shapes, weights)[0]
+        cells = [((x + dx) % S, (y + dy) % S) for dx, dy in shp]
+        if any(c in taken for c in cells):
+            continue
+        col = M.lift(rng.choice(pool), rng.uniform(-6, 6))
+        for k, (cx, cy) in enumerate(cells):
+            taken.add((cx, cy))
+            edge = 8 if (k == 0 and len(cells) > 1) else 0
+            px[cx, cy] = M.rgba(M.lift(col, edge))
+    # polish: a broad soft sheen, then traffic wear dulling it
+    for y in range(S):
+        for x in range(S):
+            t = 0.5 + 0.5 * math.sin(2 * math.pi * (x + y) / S)
+            M.touch(img, x, y, 0.035 * t)
+    M.grime(img, 0.08, seed=seed + 1, color=(170, 160, 140), cells=(16, 8), cover=0.5)
+    M.scratches(img, n=4, seed=seed + 2, light=0.06)
+    # the brass divider strip along the north and west edges (a grid of block-sized panels)
+    for i in range(S):
+        px[i, 0] = M.rgba(M.lift((186, 150, 84), rng.uniform(-8, 8)))
+        px[0, i] = M.rgba(M.lift((186, 150, 84), rng.uniform(-8, 8)))
+        M.touch(img, i, 1, -0.06)
+        M.touch(img, 1, i, -0.04)
     return img
 
 
@@ -784,11 +956,7 @@ def floor_textures():
     M.grime(th, 0.08, seed=14310, color=(110, 120, 110), cells=(16, 8), cover=0.5)
     M.scratches(th, n=3, seed=14311, light=0.08)
     save(th, "floor-theatre")
-    tz = M.noise_hv((206, 198, 182), 3, 14312, S, 4, (16, 8))
-    speckle(tz, 14313, 0.3, [(70, 68, 64), (150, 96, 76), (238, 234, 224), (110, 126, 112), (140, 130, 116)], sizes=(1, 1, 1, 2))
-    rect(tz, 0, 0, S - 1, 0, (176, 150, 90))
-    rect(tz, 0, 0, 0, S - 1, (176, 150, 90))
-    save(tz, "floor-terrazzo")
+    save(terrazzo(14312), "floor-terrazzo")
     cf = M.concrete(seed=14314, base=(140, 138, 132), grain=4, mottle=6, aggregate=0.04, pores=0.01, cracks=1)
     M.stain(cf, seed=14315, radius=8, color=(110, 104, 90), strength=0.3, at=(20, 12))
     save(cf, "floor-concrete")
@@ -799,19 +967,21 @@ def floor_textures():
         return img
     save(marble(14316), "floor-marble")
     ms = marble(14317)
-    pts = M.points(S, 7, 14318)
+    # round 4: hairline fractures (dark, a pixel wide) with a chipped pale lip on one side, the shards tipped a little
+    # (a slight shade each), no cartoon outlines
+    pts = M.points(S, 5, 14318)
     f1, f2, idx = M.worley(S, pts)
     rng = random.Random(14319)
-    shade = [rng.uniform(-0.18, 0.06) for _ in pts]
+    shade = [rng.uniform(-0.09, 0.04) for _ in pts]
     px = ms.load()
     for y in range(S):
         for x in range(S):
             M.touch(ms, x, y, shade[idx[y][x]])
             e = f2[y][x] - f1[y][x]
-            if e < 0.55:
-                px[x, y] = (52, 48, 44, 255)
-            elif e < 1.2:
-                M.touch(ms, x, y, -0.16)
+            if e < 0.32:
+                px[x, y] = (70, 66, 62, 255)
+            elif e < 0.75:
+                M.touch(ms, x, y, 0.07 if idx[y][x] % 2 else -0.1)
     for _ in range(4):
         x, y = rng.randrange(S), rng.randrange(S)
         for dx in range(2):
@@ -1086,9 +1256,33 @@ def stained_glass(seed, W=80, H=80, panes=5):
 def revolving_textures():
     save(stained_glass(1), "rev-glasse")
     save(stained_glass(4), "rev-glassw")
-    br = M.brushed_metal(seed=14600, base=(150, 112, 60), direction="v", streak=6, sheen=10)
-    M.grime(br, 0.18, seed=14601, color=(58, 76, 60), cells=(8, 4, 2), cover=0.4)  # verdigris in the corners of years
+    br = M.brushed_metal(seed=14600, base=(166, 126, 66), direction="v", streak=6, sheen=16)
+    M.grime(br, 0.16, seed=14601, color=(58, 86, 70), cells=(8, 4, 2), cover=0.4)  # verdigris in the corners of years
+    M.scratches(br, 4, seed=14605, light=0.18)
     save(br, "rev-bronze")
+    # round 4: the canopy's frieze: a raised bronze meander between two beads, verdigris in the recesses
+    fr = M.brushed_metal(seed=14606, base=(120, 90, 48), direction="h", streak=5, sheen=8)
+    px = fr.load()
+    hi, lo = (196, 156, 90), (70, 54, 30)
+    for x in range(S):
+        for y in (2, 3, 28, 29):
+            px[x, y] = M.rgba(hi if y in (2, 28) else lo)
+    # the meander: a square key every 16 px, 2 px strokes
+    def stroke(x0, y0, x1, y1):
+        for x in range(min(x0, x1), max(x0, x1) + 2):
+            for y in range(min(y0, y1), max(y0, y1) + 2):
+                px[x % S, y] = M.rgba(hi)
+                if y + 2 < S:
+                    M.touch(fr, x % S, y + 2, -0.12)
+    for k in (0, 16):
+        stroke(k, 22, k + 14, 22)
+        stroke(k + 14, 8, k + 14, 22)
+        stroke(k + 4, 8, k + 14, 8)
+        stroke(k + 4, 8, k + 4, 17)
+        stroke(k + 4, 17, k + 9, 17)
+        stroke(k + 9, 12, k + 9, 17)
+    M.grime(fr, 0.2, seed=14607, color=(58, 96, 76), cells=(4, 2), cover=0.35)
+    save(fr, "rev-frieze")
     dk = M.noise_hv((10, 12, 14), 1, 14602, S, 2, (8, 4))
     for k in range(S):
         for w_ in range(3):
@@ -1548,6 +1742,15 @@ def revolving_model():
         els.append(ring(f"WingEdge{j}", phi, 14.0, 15.3, 0.5, 0, 35, "rev-bronze", "rev-bronze", "rev-bronze"))
         for s in (-1, 1):
             els.append(ring(f"Push{j}{'ab'[s > 0]}", phi, 4.0, 13.0, 0.3, 16.5, 17.5, "rev-bronze", "rev-bronze", "rev-bronze", lateral=s * 1.1))
+    # round 4: a bronze threshold ring across the open front, and the canopy's frieze all round
+    for i, phi in enumerate((337.5, 0, 22.5)):
+        els.append(ring(f"Threshold{i}", phi, R - 0.9, R + 0.3, hw + 0.05, 0, 0.45, "rev-bronze", "rev-bronze", "rev-bronze"))
+    for i in range(16):
+        phi = i * 22.5
+        if 112.5 < phi < 247.5:
+            continue  # the back half is in the wall
+        els.append(ring(f"Frieze{i}", phi, R + 1.4, R + 1.85, (R + 1.5) * math.tan(math.radians(11.25)) + 0.05, 37.2, 41.2,
+                        "rev-frieze", "rev-black", "rev-bronze"))
     # the post
     els.append(box("Post", (C[0] - 1.3, 0, C[1] - 1.3), (C[0] + 1.3, 36, C[1] + 1.3), "rev-bronze"))
     els.append(box("PostB", (C[0] - 1.3, 0.01, C[1] - 1.3), (C[0] + 1.3, 35.99, C[1] + 1.3), "rev-bronze", rot=(0, 45, 0), origin=(C[0], 0, C[1])))
@@ -1626,7 +1829,36 @@ def turned_box(b, side):
 FULL = {"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 1, "z2": 1}
 
 
-def blocktypes(rail, windows, doors, contam, revolving, fire, hang, sag):
+def lift_shapes():
+    """Round 4: a hospital lift in a hall wall (our invention: a "well-equipped hospital"), two blocks wide and three
+    high: l / r halves (left and right seen from the hall), lower / upper / header; its doors shut, a dead indicator."""
+    out = {}
+    for half in ("l", "r"):
+        for part in ("lower", "upper", "header"):
+            els = R4.lift_model(half, part)
+            keys = shape_keys(els)
+            write_json(os.path.join(SHAPES, f"l14-lift-{half}-{part}.json"),
+                       {"textureWidth": 16, "textureHeight": 16, "textures": {k: T(k) for k in keys}, "elements": els})
+            out[(half, part)] = T(f"l14-lift-{half}-{part}")
+    return out
+
+
+def walldeco_shapes(bboxes):
+    """Round 4: the wall decorations' models (gen_14_r4.deco_model), one a kind; returns {kind: shape path}."""
+    out = {}
+    ext = R4.ext_textures()
+    for name, bbox in bboxes.items():
+        kind = name[len("deco-"):]
+        els = R4.deco_model(kind, bbox)
+        keys = shape_keys(els)
+        textures = {k: (ext[k] if k in ext else T("wall-paint") if k == "wall" else T(k)) for k in keys}
+        write_json(os.path.join(SHAPES, f"l14-walldeco-{kind}.json"),
+                   {"textureWidth": 16, "textureHeight": 16, "textures": textures, "elements": els})
+        out[kind] = T(f"l14-walldeco-{kind}")
+    return out
+
+
+def blocktypes(rail, windows, doors, contam, revolving, fire, hang, sag, deco_shapes):
     # ---- walls
     walls = ["paint", "paintscuff", "paintbase", "white", "whitebase", "tile", "tilebase", "padded", "cinder", "plywood", "rust",
              "rustblood", "tileblood", "mould", "whitemoss", "concrete", "lintel"]
@@ -1656,36 +1888,44 @@ def blocktypes(rail, windows, doors, contam, revolving, fire, hang, sag):
         "Level 14: the foot of a hall wall (the wainscot, or the white units' foot) with a handrail on brackets and a bumper strip "
         "proud of its face, toward its side")
 
-    # ---- wall decorations
-    deco = [f"plate-{c}" for c, _, _ in PLATES] + [f"sign-{n}" for n in range(len(SIGNS))] + \
-           ["poster-kid0", "poster-kid1", "poster-kid2", "poster-health0", "poster-health1", "clock", "whiteboard", "xray", "blood",
-            "blooddrip", "mould", "scratches", "exitsign", "sanitizer", "extinguisher", "trg"]
-    tbt = {}
+    # ---- wall decorations (round 4: models proud of the wall, on the wall's own material)
+    deco = list(deco_shapes)
+    shapes, tbt = {}, {}
     for k in deco:
-        for s in SIDES:
-            tbt[f"*-{k}-{s}"] = {"all": tex("wall-paint"), s: tex("deco-" + k)}
+        for sd in SIDES:
+            shapes[f"l14-walldeco-{k}-*-{sd}"] = {"base": deco_shapes[k], "rotateY": ROTATE[sd]}
+    for w in R4.DECO_WALLS:
+        for sd in SIDES:
+            tbt[f"*-{w}-{sd}"] = {"wall": tex("wall-" + w)}
+    allowed = [f"l14-walldeco-*-{w}-*" for w in ("paint", "white", "tile")] + [f"l14-walldeco-{k}-*" for k in R4.DECALS]
     write_json(os.path.join(BLOCKS, "l14-walldeco.json"), {
-        "code": "l14-walldeco", "variantgroups": [{"code": "kind", "states": deco}, {"code": "side", "states": SIDES}],
-        "texturesByType": tbt, "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
-        "blockmaterial": "Stone", "drawtype": "cube", "resistance": 6, "drops": [], "sounds": STONE,
-        "lightAbsorptionByType": {"*-xray-*": 0, "*-exitsign-*": 0, "*": 99},
-        "lightHsvByType": {"*-xray-*": [34, 1, 5], "*-exitsign-*": [22, 6, 4]},
-        "vertexFlagsByType": {"*-xray-*": {"glowLevel": 150}, "*-exitsign-*": {"glowLevel": 170}}},
-        "Level 14: a mint wall block with one face dressed (toward its side): the rooms' name plates, the halls' department signs, "
-        "children's posters, health posters, a stopped clock, a ward whiteboard, an X-ray light box (lit), blood smeared and running "
-        "down, a mould bloom, scratches, the green running man (lit), a sanitizer, an extinguisher, the T.14.R.G. stencil")
+        "code": "l14-walldeco", "variantgroups": [{"code": "kind", "states": deco}, {"code": "wall", "states": R4.DECO_WALLS},
+                                                  {"code": "side", "states": SIDES}],
+        "allowedVariants": allowed, "shapeByType": shapes, "texturesByType": tbt,
+        "creativeinventory": {"general": ["*-paint-north"], "backrooms": ["*-paint-north"]},
+        "blockmaterial": "Stone", "drawtype": "json", "sidesolid": {"all": True}, "sideopaque": {"all": True}, "lightAbsorption": 99,
+        "collisionbox": FULL, "selectionbox": FULL, "resistance": 6, "drops": [], "sounds": STONE,
+        "lightHsvByType": {"*-xray-*": [34, 1, 5], "*-exitsign-*": [22, 6, 4]}},
+        "Level 14: a wall block (of the wall's own material: <wall>) with a decoration on the face toward its side: the rooms' name "
+        "plates, the halls' department signs, children's and health posters, a stopped clock, a ward whiteboard with its tray, an "
+        "X-ray light box (lit), blood smeared and running down, a mould bloom, scratches, an EXIT box sign (lit), a hand gel "
+        "dispenser, the mod's extinguisher, the T.14.R.G. stencil")
 
     # ---- windows
     shapes = {}
     for part in ("lower", "upper"):
         for st in ("broken", "shattered"):
             for s in SIDES:
-                shapes[f"*-{part}-{st}-{s}"] = {"base": windows[(part, st)], "rotateY": ROTATE[s]}
+                shapes[f"*-{part}-{st}-*-{s}"] = {"base": windows[(part, st)], "rotateY": ROTATE[s]}
+    # round 4: the wall round the window in the wall's own material (paint, the inpatient white, tile)
+    win_walls = ["paint", "white", "tile"]
+    tbt = {f"*-{w}-{s}": {"wall-paint": tex("wall-" + w)} for w in win_walls for s in SIDES}
     write_json(os.path.join(BLOCKS, "l14-window.json"), {
         "code": "l14-window", "variantgroups": [{"code": "part", "states": ["lower", "upper"]}, {"code": "state", "states": ["broken", "shattered"]},
-                                                {"code": "side", "states": SIDES}],
-        "shapeByType": shapes, "creativeinventory": {"general": ["*-lower-broken-north", "*-upper-broken-north"],
-                                                     "backrooms": ["*-lower-broken-north", "*-upper-broken-north"]},
+                                                {"code": "wall", "states": win_walls}, {"code": "side", "states": SIDES}],
+        "shapeByType": shapes, "texturesByType": tbt,
+        "creativeinventory": {"general": ["*-lower-broken-white-north", "*-upper-broken-white-north"],
+                              "backrooms": ["*-lower-broken-white-north", "*-upper-broken-white-north"]},
         "blockmaterial": "Stone", "drawtype": "json", "sidesolid": {"all": True}, "sideopaque": {"all": True}, "lightAbsorption": 99,
         "collisionbox": FULL, "selectionbox": FULL, "resistance": 6, "drops": [], "sounds": STONE},
         "Level 14: a wall block with a window in the face toward its side (lower, upper; broken: shards left in the frame, shattered: "
@@ -1821,6 +2061,9 @@ def blocktypes(rail, windows, doors, contam, revolving, fire, hang, sag):
 def main():
     wall_textures()
     deco_textures()
+    deco = walldeco_shapes(R4.deco_cutouts(sys.modules[__name__]))
+    R4.lift_textures(sys.modules[__name__])
+    lift = lift_shapes()
     floor_textures()
     ceiling_textures()
     model_textures()
@@ -1831,7 +2074,16 @@ def main():
     fire = firedoor_shapes()
     hang = {n: hangsign_shape(n) for n in range(len(SIGNS))}
     sag = sagging_shape()
-    blocktypes(rail, windows, doors, contam, revolving, fire, hang, sag)
+    blocktypes(rail, windows, doors, contam, revolving, fire, hang, sag, deco)
+    shapes = {f"*-{h}-{p}-{sd}": {"base": lift[(h, p)], "rotateY": ROTATE[sd]} for h in ("l", "r") for p in ("lower", "upper", "header") for sd in SIDES}
+    write_json(os.path.join(BLOCKS, "l14-lift.json"), {
+        "code": "l14-lift", "variantgroups": [{"code": "half", "states": ["l", "r"]}, {"code": "part", "states": ["lower", "upper", "header"]},
+                                              {"code": "side", "states": SIDES}],
+        "shapeByType": shapes, "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
+        "blockmaterial": "Metal", "drawtype": "json", "sidesolid": {"all": True}, "sideopaque": {"all": True}, "lightAbsorption": 99,
+        "collisionbox": FULL, "selectionbox": FULL, "resistance": 8, "drops": [], "sounds": METAL},
+        "Level 14: a lift in a hall wall, two wide (l, r seen from the hall) and three high (lower, upper, header), its brushed steel "
+        "doors shut and taped, the floor indicator over them dead, a call panel by it. It does not come")
     print("Level 14: textures in", os.path.relpath(TEX, ROOT), "; shapes in", os.path.relpath(SHAPES, ROOT), "; blocktypes in",
           os.path.relpath(BLOCKS, ROOT))
 

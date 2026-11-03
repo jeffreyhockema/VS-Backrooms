@@ -1,0 +1,394 @@
+// Level 14: a gurney two blocks long (head, foot; the foot lies from the head toward <side>): castors, hydraulic columns in bellows, the deck and mattress, the back rest raised, a rumpled sheet, one side rail up; strap: restraints and blood
+{
+	"code": "l14-gurney",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"head",
+				"foot"
+			]
+		},
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"strap"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-head-plain-north": {
+			"base": "backrooms:block/14/l14-gurney-head-plain"
+		},
+		"*-head-plain-east": {
+			"base": "backrooms:block/14/l14-gurney-head-plain",
+			"rotateY": 270
+		},
+		"*-head-plain-south": {
+			"base": "backrooms:block/14/l14-gurney-head-plain",
+			"rotateY": 180
+		},
+		"*-head-plain-west": {
+			"base": "backrooms:block/14/l14-gurney-head-plain",
+			"rotateY": 90
+		},
+		"*-head-strap-north": {
+			"base": "backrooms:block/14/l14-gurney-head-strap"
+		},
+		"*-head-strap-east": {
+			"base": "backrooms:block/14/l14-gurney-head-strap",
+			"rotateY": 270
+		},
+		"*-head-strap-south": {
+			"base": "backrooms:block/14/l14-gurney-head-strap",
+			"rotateY": 180
+		},
+		"*-head-strap-west": {
+			"base": "backrooms:block/14/l14-gurney-head-strap",
+			"rotateY": 90
+		},
+		"*-foot-plain-north": {
+			"base": "backrooms:block/14/l14-gurney-foot-plain"
+		},
+		"*-foot-plain-east": {
+			"base": "backrooms:block/14/l14-gurney-foot-plain",
+			"rotateY": 270
+		},
+		"*-foot-plain-south": {
+			"base": "backrooms:block/14/l14-gurney-foot-plain",
+			"rotateY": 180
+		},
+		"*-foot-plain-west": {
+			"base": "backrooms:block/14/l14-gurney-foot-plain",
+			"rotateY": 90
+		},
+		"*-foot-strap-north": {
+			"base": "backrooms:block/14/l14-gurney-foot-strap"
+		},
+		"*-foot-strap-east": {
+			"base": "backrooms:block/14/l14-gurney-foot-strap",
+			"rotateY": 270
+		},
+		"*-foot-strap-south": {
+			"base": "backrooms:block/14/l14-gurney-foot-strap",
+			"rotateY": 180
+		},
+		"*-foot-strap-west": {
+			"base": "backrooms:block/14/l14-gurney-foot-strap",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-head-plain-north",
+			"*-head-strap-north"
+		],
+		"backrooms": [
+			"*-head-plain-north",
+			"*-head-strap-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-head-plain-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"*-head-plain-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-plain-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"*-head-plain-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-head-strap-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"*-head-strap-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-strap-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"*-head-strap-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-plain-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"*-foot-plain-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-foot-plain-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"*-foot-plain-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-strap-north": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"*-foot-strap-east": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-foot-strap-south": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1
+		},
+		"*-foot-strap-west": {
+			"x1": 0.18,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.82,
+			"y2": 0.8,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-head-plain-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1.05,
+			"z2": 1
+		},
+		"*-head-plain-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1.05,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-plain-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1.05,
+			"z2": 1
+		},
+		"*-head-plain-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1.05,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-head-strap-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1.05,
+			"z2": 1
+		},
+		"*-head-strap-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1.05,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-head-strap-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1.05,
+			"z2": 1
+		},
+		"*-head-strap-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1.05,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-plain-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"*-foot-plain-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-foot-plain-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"*-foot-plain-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-foot-strap-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"*-foot-strap-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-foot-strap-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"*-foot-strap-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

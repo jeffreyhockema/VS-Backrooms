@@ -1,0 +1,169 @@
+// Level 14: a lift in a hall wall, two wide (l, r seen from the hall) and three high (lower, upper, header), its brushed steel doors shut and taped, the floor indicator over them dead, a call panel by it. It does not come
+{
+	"code": "l14-lift",
+	"variantgroups": [
+		{
+			"code": "half",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper",
+				"header"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-l-lower-north": {
+			"base": "backrooms:block/14/l14-lift-l-lower",
+			"rotateY": 0
+		},
+		"*-l-lower-east": {
+			"base": "backrooms:block/14/l14-lift-l-lower",
+			"rotateY": 270
+		},
+		"*-l-lower-south": {
+			"base": "backrooms:block/14/l14-lift-l-lower",
+			"rotateY": 180
+		},
+		"*-l-lower-west": {
+			"base": "backrooms:block/14/l14-lift-l-lower",
+			"rotateY": 90
+		},
+		"*-l-upper-north": {
+			"base": "backrooms:block/14/l14-lift-l-upper",
+			"rotateY": 0
+		},
+		"*-l-upper-east": {
+			"base": "backrooms:block/14/l14-lift-l-upper",
+			"rotateY": 270
+		},
+		"*-l-upper-south": {
+			"base": "backrooms:block/14/l14-lift-l-upper",
+			"rotateY": 180
+		},
+		"*-l-upper-west": {
+			"base": "backrooms:block/14/l14-lift-l-upper",
+			"rotateY": 90
+		},
+		"*-l-header-north": {
+			"base": "backrooms:block/14/l14-lift-l-header",
+			"rotateY": 0
+		},
+		"*-l-header-east": {
+			"base": "backrooms:block/14/l14-lift-l-header",
+			"rotateY": 270
+		},
+		"*-l-header-south": {
+			"base": "backrooms:block/14/l14-lift-l-header",
+			"rotateY": 180
+		},
+		"*-l-header-west": {
+			"base": "backrooms:block/14/l14-lift-l-header",
+			"rotateY": 90
+		},
+		"*-r-lower-north": {
+			"base": "backrooms:block/14/l14-lift-r-lower",
+			"rotateY": 0
+		},
+		"*-r-lower-east": {
+			"base": "backrooms:block/14/l14-lift-r-lower",
+			"rotateY": 270
+		},
+		"*-r-lower-south": {
+			"base": "backrooms:block/14/l14-lift-r-lower",
+			"rotateY": 180
+		},
+		"*-r-lower-west": {
+			"base": "backrooms:block/14/l14-lift-r-lower",
+			"rotateY": 90
+		},
+		"*-r-upper-north": {
+			"base": "backrooms:block/14/l14-lift-r-upper",
+			"rotateY": 0
+		},
+		"*-r-upper-east": {
+			"base": "backrooms:block/14/l14-lift-r-upper",
+			"rotateY": 270
+		},
+		"*-r-upper-south": {
+			"base": "backrooms:block/14/l14-lift-r-upper",
+			"rotateY": 180
+		},
+		"*-r-upper-west": {
+			"base": "backrooms:block/14/l14-lift-r-upper",
+			"rotateY": 90
+		},
+		"*-r-header-north": {
+			"base": "backrooms:block/14/l14-lift-r-header",
+			"rotateY": 0
+		},
+		"*-r-header-east": {
+			"base": "backrooms:block/14/l14-lift-r-header",
+			"rotateY": 270
+		},
+		"*-r-header-south": {
+			"base": "backrooms:block/14/l14-lift-r-header",
+			"rotateY": 180
+		},
+		"*-r-header-west": {
+			"base": "backrooms:block/14/l14-lift-r-header",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"resistance": 8,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

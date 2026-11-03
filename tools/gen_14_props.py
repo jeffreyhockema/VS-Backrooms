@@ -44,6 +44,7 @@ import gen_14_props_tex as TX  # noqa: E402
 import gen_14_props_kit as K  # noqa: E402
 import gen_14_props_a as A  # noqa: E402
 import gen_14_props_b as PB  # noqa: E402
+import gen_14_r4 as R4  # noqa: E402
 from gen_14_props_kit import block, drops, SIDES, WOOD, METAL, CLOTH, GLASS, PLANT, SOFT  # noqa: E402
 
 WARM8, WARM12 = [7, 4, 8], [7, 4, 12]
@@ -77,6 +78,10 @@ NAMES = {
     "block-l14-crate-*": "T.14.R.G. Supply Crate",
     "block-l14-drum-sealed": "Radioactive Waste Drum", "block-l14-drum-leaking": "Leaking Radioactive Waste Drum",
     "block-l14-station-*": "Nurses' Station", "block-l14-linencart-*": "Linen Cart", "block-l14-bench-*": "Hall Bench",
+    # round 4
+    "block-l14-gurney-*-plain-*": "Gurney", "block-l14-gurney-*-strap-*": "Gurney with Restraints", "block-l14-wheelchair-*": "Wheelchair",
+    "block-l14-ivstand-*": "Drip Stand", "block-l14-stationback-*": "Nurses' Station Back Unit", "block-l14-vending-*": "Vending Machine (Empty)",
+    "block-l14-locker-*": "Staff Lockers",
 }
 
 FULL = (0, 0, 0, 1, 1, 1)
@@ -142,7 +147,7 @@ def wards():
     block("l14-overbed", [("side", SIDES)], lambda v: A.overbed(),
           "Level 14's wards: an over-bed table, a paper cup and a jug left on it", boxes=[(0.06, 0, 0.18, 0.94, 0.9, 0.82)],
           material="Metal", sounds=METAL)
-    block("l14-monitor", [("state", ["on", "off"]), ("side", SIDES)], lambda v: A.monitor(v["state"] == "on"),
+    block("l14-monitor", [("state", ["on", "off"]), ("side", SIDES)], lambda v: R4.monitor(v["state"] == "on"),
           "Level 14's wards: a vital-signs monitor on a wheeled pole, its screen to <side>; on: an ECG trace still running",
           boxes=[(0.15, 0, 0.15, 0.85, 1, 0.85)], material="Metal", sounds=METAL, data={"lightHsvByType": {"*-on-*": GREEN4}})
     block("l14-ventilator", [("side", SIDES)], lambda v: A.ventilator(), "Level 14's wards: an ICU ventilator on a wheeled stand, its "
@@ -161,12 +166,12 @@ def wards():
 
 
 def surgery():
-    block("l14-optable", [("part", ["head", "foot"]), ("side", SIDES)], lambda v: PB.optable(v["part"]),
+    block("l14-optable", [("part", ["head", "foot"]), ("side", SIDES)], lambda v: R4.optable(v["part"]),
           "Level 14's surgery rooms: an operating table on its column, two blocks (head, foot; the foot lies from the head toward "
           "<side>), its top tilted head-down, the pads cracked and stained, strapped",
           boxes=lambda v: [(0.12, 0, 0, 0.88, 1.0 if v["part"] == "foot" else 0.85, 1)], material="Metal", sounds=METAL,
           inventory=["*-head-north"])
-    block("l14-surglamp", [], lambda v: PB.surglamp(), "Level 14's surgery rooms: a surgical light, three lamp heads on arms, hanging in "
+    block("l14-surglamp", [], lambda v: R4.surglamp(), "Level 14's surgery rooms: a surgical light, three lamp heads on arms, hanging in "
           "the top block of a room from the ceiling, lit. Walk-through", boxes=None, sel=[(0.12, 0.2, 0.12, 0.88, 1, 0.88)],
           material="Metal", sounds=METAL, data={"lightHsv": WHITE14})
     block("l14-trolley", [("state", ["clean", "rusty"]), ("side", SIDES)], lambda v: PB.trolley(v["state"]),
@@ -189,7 +194,7 @@ def surgery():
 
 
 def torture():
-    block("l14-stretchers", [("part", ["lower", "upper"]), ("side", SIDES)], lambda v: PB.stretchers(v["part"]),
+    block("l14-stretchers", [("part", ["lower", "upper"]), ("side", SIDES)], lambda v: R4.stretchers(v["part"]),
           "Level 14's torture chambers: rusted stretchers stacked atop each other, askew, a block and a half high (lower, upper)",
           boxes=lambda v: [(0.12, 0, 0, 0.88, 1 if v["part"] == "lower" else 0.6, 1)], material="Metal", sounds=METAL)
     block("l14-knifecab", [("part", ["lower", "upper"]), ("side", SIDES)], lambda v: PB.knifecab(v["part"]),
@@ -198,7 +203,7 @@ def torture():
           data={"dropsByType": {"*-lower-*": drops(("backrooms:scraper", 0.4, 0.4), ("backrooms:metalbracket", 0.6, 0)), "*": []}})
     block("l14-hook", [], lambda v: PB.hook(), "Level 14's torture chambers: rusted chains and a meat hook hanging in the top block of a "
           "room. Walk-through", boxes=None, sel=[(0.35, 0.05, 0.4, 0.75, 1, 0.75)], material="Metal", sounds=METAL)
-    block("l14-bloodpool", [], lambda v: PB.bloodpool(), "Level 14's torture chambers: a pool of blood on the floor. Walk-through",
+    block("l14-bloodpool", [("side", SIDES)], lambda v: PB.bloodpool(), "Level 14's torture chambers: a pool of blood on the floor. Walk-through",
           boxes=None, sel=[(0, 0, 0, 1, 0.06, 1)], material="Other", sounds=SOFT, data={"resistance": 0.2, "replaceable": 4000})
 
 
@@ -241,6 +246,45 @@ def halls():
           boxes=[(0.03, 0, 0.15, 0.97, 0.5, 0.8)], sel=[(0.03, 0, 0.15, 0.97, 0.95, 0.82)], material="Wood", sounds=WOOD)
 
 
+def round4():
+    """Round 4 (2026-11-02): the gurney, wheelchair and drip stand of the level's own, the nurses' station back unit."""
+    block("l14-gurney", [("part", ["head", "foot"]), ("kind", ["plain", "strap"]), ("side", SIDES)], lambda v: R4.gurney(v["part"], v["kind"]),
+          "Level 14: a gurney two blocks long (head, foot; the foot lies from the head toward <side>): castors, hydraulic columns in "
+          "bellows, the deck and mattress, the back rest raised, a rumpled sheet, one side rail up; strap: restraints and blood",
+          boxes=[(0.18, 0, 0, 0.82, 0.8, 1)], sel=lambda v: [(0.15, 0, 0, 0.85, 1.05 if v["part"] == "head" else 0.85, 1)],
+          material="Metal", sounds=METAL, inventory=["*-head-plain-north", "*-head-strap-north"])
+    block("l14-wheelchair", [("side", SIDES)], lambda v: R4.wheelchair(),
+          "Level 14: a hospital wheelchair facing <side>: spoked wheels with push rims, castors, a cracked vinyl sling seat",
+          boxes=[(0.06, 0, 0.05, 0.94, 0.75, 0.95)], sel=[(0.03, 0, 0, 0.97, 1.0, 1)], material="Metal", sounds=METAL)
+    block("l14-ivstand", [("side", SIDES)], lambda v: R4.ivstand(),
+          "Level 14: a drip stand, a saline bag on its hook and the line to an infusion pump on the pole, the pump's panel to <side>",
+          boxes=[(0.4, 0, 0.4, 0.6, 1, 0.6)], sel=[(0.15, 0, 0.15, 0.85, 1, 0.85)], material="Metal", sounds=METAL)
+    block("l14-stationback", [("part", ["lower", "upper"]), ("kind", ["board", "files"]), ("side", SIDES)],
+          lambda v: R4.stationback(v["part"], v["kind"]),
+          "Level 14: the back wall unit of a nurses' station, two blocks, its front to <side> and its back against a wall: a cupboard, "
+          "a worktop with a phone and charts, pigeonholes (lower); a whiteboard of names or a rack of chart binders (upper)",
+          boxes=lambda v: [(0, 0, 0.38, 1, 0.6, 1)] if v["part"] == "lower" else [(0, 0, 0.8, 1, 1, 1)],
+          sel=lambda v: [(0, 0, 0.38, 1, 1, 1)] if v["part"] == "lower" else [(0, 0, 0.7, 1, 1, 1)],
+          material="Wood", sounds=WOOD, inventory=["*-lower-board-north", "*-upper-board-north", "*-upper-files-north"])
+    block("l14-locker", [("part", ["lower", "upper"]), ("state", ["closed", "ajar"]), ("side", SIDES)],
+          lambda v: R4.locker(v["part"], v["state"] == "ajar"),
+          "Level 14's staff rooms: a pair of grey-green staff lockers, two blocks high, fronts to <side>, louvred, one padlocked; "
+          "ajar: the left one swung open, a shirt on its hook", boxes=[(0, 0, 0.17, 1, 1, 1)], material="Metal", sounds=METAL,
+          inventory=["*-lower-closed-north", "*-upper-closed-north"])
+    # A dead vending machine in the reception rooms: the mod's own broken one (shapes/block/detail/brokenvending.json), as a
+    # block of the level's that drops only a stale soft drink now and then (the mod's drops a meal; balance is not ours)
+    K.write_json(os.path.join(K.BLOCKS, "l14-vending.json"), {
+        "code": "l14-vending", "variantgroups": [{"code": "side", "states": SIDES}],
+        "shapeByType": {f"*-{sd}": {"base": "block/detail/brokenvending", "rotateY": K.ROTATE[sd]} for sd in SIDES},
+        "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
+        "blockmaterial": "Metal", "drawtype": "json", "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0,
+        "resistance": 4, "sounds": METAL, "collisionbox": {"x1": 0.05, "y1": 0, "z1": 0.1, "x2": 0.95, "y2": 1, "z2": 0.95},
+        "selectionbox": {"x1": 0.05, "y1": 0, "z1": 0.1, "x2": 0.95, "y2": 1, "z2": 0.95},
+        "drops": drops(("backrooms:l14-stalesoda", 0.4, 0.4), ("backrooms:glassshard", 0.5, 0.5))},
+        "Level 14's reception rooms: a dead vending machine (the mod's broken vending machine), its glass smashed, long since emptied")
+    K.CODES.append("l14-vending")
+
+
 def check():
     problems = []
     for name in K.SHAPE_FILES:
@@ -256,6 +300,8 @@ def check():
         data = json.loads(re.sub(r"^//.*$", "", raw, flags=re.M))
         shapes = [data["shape"]] if "shape" in data else list(data["shapeByType"].values())
         for s in shapes:
+            if "block/14/" not in s["base"]:
+                continue  # a shared shape (round 4's vending machine)
             path = os.path.join(K.SHAPES, s["base"].split("block/14/")[1] + ".json")
             if not os.path.exists(path):
                 problems.append(f"{code}: shape {s['base']} missing")
@@ -268,12 +314,15 @@ def main():
     K.CODES.clear()
     K.SHAPE_FILES.clear()
     written = TX.textures()
+    R4.textures()
+    R4.locker_textures()
     reception()
     wards()
     surgery()
     torture()
     trg()
     halls()
+    round4()
     ok = check()
     print(f"gen_14_props: {len(K.CODES)} block types, {len(K.SHAPE_FILES)} shapes, {len(written)} textures, {'ok' if ok else 'PROBLEMS'}")
     return 0 if ok else 1

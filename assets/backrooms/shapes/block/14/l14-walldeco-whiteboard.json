@@ -1,0 +1,479 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"deco-whiteboard": "backrooms:block/14/deco-whiteboard",
+		"p-chrome": "backrooms:block/14/p-chrome",
+		"p-darkplastic": "backrooms:block/14/p-darkplastic",
+		"p-liqblue": "backrooms:block/14/p-liqblue",
+		"p-liqred": "backrooms:block/14/p-liqred",
+		"wall": "backrooms:block/14/wall-paint"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Board",
+			"from": [
+				1.0,
+				2.75,
+				-0.45
+			],
+			"to": [
+				15.0,
+				13.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#deco-whiteboard",
+					"uv": [
+						1.0,
+						2.5,
+						15.0,
+						13.25
+					]
+				},
+				"east": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10.75
+					]
+				},
+				"west": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10.75
+					]
+				},
+				"up": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Tray",
+			"from": [
+				1.5,
+				2.15,
+				-1.6
+			],
+			"to": [
+				14.5,
+				2.75,
+				-0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "TrayLip",
+			"from": [
+				1.5,
+				2.75,
+				-1.6
+			],
+			"to": [
+				14.5,
+				3.1,
+				-1.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#p-chrome",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "MarkerA",
+			"from": [
+				2.5,
+				2.75,
+				-1.2
+			],
+			"to": [
+				5.0,
+				3.2,
+				-0.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-liqblue",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#p-liqblue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#p-liqblue",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#p-liqblue",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#p-liqblue",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-liqblue",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "MarkerB",
+			"from": [
+				5.6,
+				2.75,
+				-1.25
+			],
+			"to": [
+				8.0,
+				3.2,
+				-0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-liqred",
+					"uv": [
+						0,
+						0,
+						2.4,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#p-liqred",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#p-liqred",
+					"uv": [
+						0,
+						0,
+						2.4,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#p-liqred",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#p-liqred",
+					"uv": [
+						0,
+						0,
+						2.4,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#p-liqred",
+					"uv": [
+						0,
+						0,
+						2.4,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Eraser",
+			"from": [
+				10.5,
+				2.75,
+				-1.3
+			],
+			"to": [
+				12.8,
+				3.65,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-darkplastic",
+					"uv": [
+						0,
+						0,
+						2.3,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#p-darkplastic",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.9
+					]
+				},
+				"south": {
+					"texture": "#p-darkplastic",
+					"uv": [
+						0,
+						0,
+						2.3,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#p-darkplastic",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#p-darkplastic",
+					"uv": [
+						0,
+						0,
+						2.3,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#p-darkplastic",
+					"uv": [
+						0,
+						0,
+						2.3,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}
