@@ -32,6 +32,131 @@ static class StairCheck {
 
   static void Print(Dictionary<string,int> c, Dictionary<string,string> ex) {
     foreach (var k in c.Keys.OrderBy(k=>k)) Console.WriteLine($"{k}: {c[k]} e.g. {ex[k]}");
+    foreach (var k in headKinds.Keys.OrderBy(k=>k)) {
+      var (n, bad, least, eg) = headKinds[k];
+      Console.WriteLine($"headroom {k}: {n} flights, least {least:0.00}, {(bad == 0 ? "ok" : $"FAIL {bad}")}{(bad > 0 ? " e.g. " + eg : "")}");
+    }
+    headKinds.Clear();
+  }
+
+  // ---- headroom: the player's box (0.6 x 1.85, stepping up at most 0.6, as l9stairs does) walked up each flight over the blocks the
+  // generator builds. Covers Level 1's stairs to nowhere (the steps and the dark way on from layout 10) and Level 5's grand
+  // staircases, modelled from NowhereBlock / Level1Block and Level5Block in WorldGenerator.cs, which this must be kept in step with.
+  const double Half = 0.3, Tall = 1.85, StepUp = 0.6, MinHead = 2.0;
+  record struct Box(double X1, double Y1, double Z1, double X2, double Y2, double Z2);
+  static readonly Dictionary<string, (int N, int Bad, double Least, string Eg)> headKinds = new();
+  static readonly WorldGeometry geo = new(256);
+
+  static int Order(in Tile t) {
+    if (t.Level == 5) return t.Grand ? t.Stair : -1;
+    if (t.Level != 1 || t.Zone < WorldLayout.FlightZoneNowhere || t.Zone > WorldLayout.NowhereTurn2) return -1;
+    if (t.Zone == WorldLayout.FlightZoneNowhere) return t.Stair;
+    return t.Zone switch { WorldLayout.NowhereWall => 4, WorldLayout.NowhereRise or WorldLayout.NowhereTurn1 => 5, WorldLayout.NowhereTop or WorldLayout.NowhereTurn2 => 6, _ => 7 };
+  }
+
+  /// A block of the stairs' column: 0 air, 1 full, 2 stair (lower half, the upper half on the side it climbs toward).
+  static int KindAt(in Tile t, int rel) {
+    int top = geo.BandTop - geo.FloorY - 1, v = layout.Version;
+    if (t.Level == 5) {
+      int room = t.Grand ? WorldGeometry.MaxRoomHeight : WorldGeometry.RoomHeight;
+      bool grandStair = t.Grand && t.Stair >= (v >= 13 ? 2 : WorldLayout.GrandStairTripStep);
+      if (rel > room + 1) return grandStair && rel == room + 2 ? 0 : 1;
+      if (rel == 0) return 1;
+      if (t.Stair > 0 && rel <= t.Stair) return rel < t.Stair ? 1 : 2;
+      if (rel == room + 1) return grandStair ? 0 : 1;
+      if (t.Kind is TileKind.Wall or TileKind.Door) return 1;
+      if (t.Kind == TileKind.Doorway) return rel <= 2 ? 0 : 1;
+      if (rel == room) return t.Ceiling == CeilingKind.Chandelier || t.Overhead != 0 || (int)t.Pipe != 0 ? 1 : 0;
+      return 0;
+    }
+    const int rm = WorldGeometry.Level1RoomHeight;
+    if (v >= 10 && t.Zone >= WorldLayout.FlightZoneNowhere && t.Zone <= WorldLayout.NowhereTurn2) {
+      if (t.Zone == WorldLayout.FlightZoneNowhere) {
+        const int slab = rm + 1;
+        bool open = v >= 13 ? t.Stair == 2 && rel == slab || t.Stair == 3 && rel is slab or slab + 1 : t.Stair == 3 && rel == slab;
+        if (open) return 0;
+      } else {
+        int step = t.Zone is WorldLayout.NowhereWall ? 4 : t.Zone is WorldLayout.NowhereRise or WorldLayout.NowhereTurn1 ? 5 : t.Zone is WorldLayout.NowhereTop or WorldLayout.NowhereTurn2 ? 6 : 7;
+        if (rel > top || rel < step - 1 && t.Zone != WorldLayout.NowhereLanding) { }
+        else if (t.Zone == WorldLayout.NowhereLanding) { if (rel == 6) return 1; if (rel > 6) return 0; }
+        else if (rel == step) return 2;
+        else if (rel > step) return 0;
+      }
+    }
+    if (rel > rm + 1) return 1;
+    if (rel == 0 || rel == rm + 1) return 1;
+    if (t.Kind is TileKind.Wall or TileKind.Door) return 1;
+    if (t.Kind == TileKind.Doorway) return rel <= 2 ? 0 : 1;
+    if (t.Stair > 0 && rel <= t.Stair) return rel < t.Stair ? 1 : 2;
+    if (rel == rm) return t.Beam || t.Overhead != 0 || (int)t.Pipe != 0 ? 1 : 0;
+    return 0;
+  }
+
+  static IEnumerable<Box> BlockBoxes(int x, int rel, int z) {
+    Tile t = At(x, z); int k = KindAt(t, rel);
+    if (k == 1) { yield return new Box(x, rel, z, x + 1, rel + 1, z + 1); yield break; }
+    if (k != 2) yield break;
+    var (cx, cz) = Climb(t.Pier);
+    yield return new Box(x, rel, z, x + 1, rel + 0.5, z + 1);
+    yield return new Box(cx > 0 ? x + 0.5 : x, rel + 0.5, cz > 0 ? z + 0.5 : z, cx < 0 ? x + 0.5 : x + 1, rel + 1, cz < 0 ? z + 0.5 : z + 1);
+  }
+
+  static IEnumerable<Box> Near(double px, double pz, double feet, double reach = Tall + 1) {
+    for (int bx = (int)Math.Floor(px - Half); bx <= (int)Math.Floor(px + Half - 1e-9); bx++)
+      for (int bz = (int)Math.Floor(pz - Half); bz <= (int)Math.Floor(pz + Half - 1e-9); bz++)
+        for (int rel = (int)Math.Floor(feet) - 1; rel <= (int)Math.Floor(feet + reach); rel++)
+          foreach (var b in BlockBoxes(bx, rel, bz))
+            if (b.X2 > px - Half + 1e-6 && b.X1 < px + Half - 1e-6 && b.Z2 > pz - Half + 1e-6 && b.Z1 < pz + Half - 1e-6) yield return b;
+  }
+
+  /// Walks the flight whose first step is at (x, z), every column of it at the middle and 0.2 to either side, from the floor before the
+  /// first step to the end of its tiles; records the least headroom, and any place the box strikes something or cannot step up.
+  static void Headroom(Tile first, int x, int z) {
+    var (cx, cz) = Climb(first.Pier);
+    int px0 = cz != 0 ? 1 : 0, pz0 = cx != 0 ? 1 : 0; // across the flight
+    bool Same(int ax, int az) { var o = At(ax, az); return o.Stair == 1 && o.Level == first.Level && o.Zone == first.Zone && o.Pier == first.Pier && o.Grand == first.Grand; }
+    if (Same(x - px0, z - pz0)) return; // (a column of a flight already walked from its first)
+    string kind = first.Level == 5 ? "L5 grand staircases" : "L1 stairs to nowhere";
+    double least = double.MaxValue; string fault = null;
+    for (int col = 0; Same(x + px0 * col, z + pz0 * col); col++) {
+      int tx = x + px0 * col, tz = z + pz0 * col;
+      var cells = new List<(int X, int Z)> { (tx - cx, tz - cz), (tx, tz) };
+      while (true) {
+        var (lx, lz) = cells[^1]; int want = Order(At(lx, lz)) + 1; (int X, int Z)? next = null;
+        foreach (var (dx, dz) in new[] { (0, -1), (0, 1), (1, 0), (-1, 0) }) {
+          Tile o = At(lx + dx, lz + dz);
+          if (Order(o) == want && o.Level == first.Level && !cells.Contains((lx + dx, lz + dz))) { next = (lx + dx, lz + dz); break; }
+        }
+        if (next is not { } n) break;
+        cells.Add(n);
+      }
+      bool straight = cells.Skip(1).Zip(cells, (b, a) => (b.X - a.X, b.Z - a.Z)).All(d => d == (cx, cz));
+      foreach (double side in straight ? new[] { -0.2, 0.0, 0.2 } : new[] { 0.0 }) {
+        var path = new List<(double X, double Z)>();
+        for (int i = 1; i < cells.Count; i++)
+          for (double s = i == 1 ? 0 : 0.05; s <= 1.0001; s += 0.05) {
+            var (a, b) = (cells[i - 1], cells[i]);
+            path.Add((a.X + 0.5 + (b.X - a.X) * s + px0 * side, a.Z + 0.5 + (b.Z - a.Z) * s + pz0 * side));
+          }
+        double feet = 1;
+        foreach (var (px, pz) in path) {
+          double support = 0;
+          foreach (var b in Near(px, pz, feet)) if (b.Y1 < feet + StepUp - 1e-6) support = Math.Max(support, b.Y2);
+          if (support > feet + StepUp + 1e-6) { least = 0; fault ??= $"could not step up at {px:0.00},{pz:0.00}"; break; }
+          double nf = support, ceiling = double.MaxValue; bool hit = false;
+          foreach (var b in Near(px, pz, nf, 8)) {
+            if (b.Y1 >= nf - 1e-6) ceiling = Math.Min(ceiling, b.Y1);
+            if (b.Y2 > nf + 1e-6 && b.Y1 < nf + Tall - 1e-6) hit = true;
+          }
+          least = Math.Min(least, ceiling - nf);
+          if (hit) { least = Math.Min(least, 0); fault ??= $"strikes something at {px:0.00},{pz:0.00} (feet {nf:0.00}, headroom {ceiling - nf:0.00})"; break; }
+          if (ceiling - nf < MinHead - 1e-6) fault ??= $"headroom {ceiling - nf:0.00} at {px:0.00},{pz:0.00} (feet {nf:0.00})";
+          feet = nf;
+        }
+      }
+    }
+    var (n0, bad0, l0, e0) = headKinds.GetValueOrDefault(kind, (0, 0, double.MaxValue, null));
+    headKinds[kind] = (n0 + 1, bad0 + (fault != null ? 1 : 0), Math.Min(l0, least), e0 ?? (fault != null ? $"flight at {x},{z} climbing {first.Pier}: {fault}" : null));
   }
 
   static void Scan(int m0x, int m0z, int n, Dictionary<string,int> c, Dictionary<string,string> ex) {
@@ -39,6 +164,7 @@ static class StairCheck {
     for (int z = m0z*32+1; z < (m0z+n)*32-1; z++) for (int x = m0x*32+1; x < (m0x+n)*32-1; x++) {
       var t = At(x,z); if (t.Zone == WorldLayout.NowhereTurn1 && t.Level == 1) Note("L1 stairs to nowhere: turned along the wall (counted once per tile of the run)", x, z); else if (t.Zone == WorldLayout.NowhereRise && t.Level == 1) Note("L1 stairs to nowhere: straight on (counted once per tile)", x, z);
       if (t.Stair == 0 || t.Level > 5) continue;
+      if (t.Stair == 1 && (t.Level == 1 && t.Zone == WorldLayout.FlightZoneNowhere || t.Level == 5 && t.Grand)) Headroom(t, x, z);
       if (t.Variant != 0 || t.Stack != 0 || t.SupplyBox) Note($"L{t.Level} prop/box on a stair tile", x, z);
       if (WorldLayout.IsShaftFlight(t)) { Shaft(t, x, z, Note); continue; }
       if (t.Stair == 1) { // bottom step: tile behind it (opposite the climb) should be standable floor
@@ -67,7 +193,9 @@ static class StairCheck {
     if (walled != t.Stair > open) Note($"{kind}: step {t.Stair} {(walled ? "under a wall" : "on the floor")}", x, z);
     foreach (int side in new[] { 1, -1 }) {
       Tile s = At(x + dz * side, z + dx * side);
-      if (!s.IsWallLike) Note($"{kind}: open side (could fall in or bump the shaft's edge)", x, z);
+      // (From layout 9 a flight is two wide: the neighbouring step of the same flight is a side too, only the outer column has a wall)
+      bool sibling = WorldLayout.IsShaftFlight(s) && s.Zone == t.Zone && s.Stair == t.Stair && s.Pier == t.Pier && s.Level == t.Level;
+      if (!s.IsWallLike && !sibling) Note($"{kind}: open side (could fall in or bump the shaft's edge)", x, z);
       if (s.Level != t.Level || s.Under != 0) Note($"{kind}: shaft beside another level or a way elsewhere", x, z);
       if (t.Level == 1 && s.Variant == Decor.LevelSign && WorldLayout.L1FloorOf(s) != WorldLayout.L1FloorOf(t)) Note($"{kind}: painted floor not its own", x, z);
     }
@@ -90,7 +218,7 @@ static class StairCheck {
     if (!clear) Note($"{kind}: landing blocked", x, z);
     // Its pair, across the dividing wall, from the same landing
     bool pair = false;
-    for (int ox = -2; ox <= 2; ox++) for (int oz = -2; oz <= 2; oz++) { Tile o = At(x + ox, z + oz);
+    for (int ox = -4; ox <= 4; ox++) for (int oz = -4; oz <= 4; oz++) { Tile o = At(x + ox, z + oz);
       pair |= WorldLayout.IsShaftFlight(o) && o.Stair == 1 && (o.Zone == WorldLayout.FlightZoneDown) != (t.Zone == WorldLayout.FlightZoneDown) && o.Height == t.Height; }
     if (!pair) Note($"{kind}: no flight the other way beside it (on its floor)", x, z);
   }
