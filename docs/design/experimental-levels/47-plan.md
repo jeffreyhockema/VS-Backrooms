@@ -294,6 +294,16 @@ manor's 15 C already has. The loft's stores are props (chests, sacks, barrels, c
    tiles; the tapestry spot looked at a trilithon (the north wall's tapestry is behind one from anywhere in the hall); the
    camp was behind a boulder from its spot (and its fire could lose its cell to a fern); the root plate's spot looked
    through a dead tree. All fixed for the third run.
+3. `%TEMP%/backrooms-shots/47-r4c` (the final run): the windows solid, mullioned and barred in their surrounds (the door
+   shot is the best of the level's); the World Snake tapestry shows, half behind a trilithon as everything in that hall is;
+   the camp was still lost in ferns, read from the camera's own fern: after the run its site is trodden bare and cleared
+   round the fire and the spot stands inside the clearing (not seen in a shot: the third run was the last). Still weak:
+   the trunks' big flat faces between the fillets (the fillets round the notches only; a trunk of radius 3 still shows
+   faces three blocks wide); the moss drapes read as flat green pads from a distance; the root plate's spot still looks
+   past a dead tree; the dead trees' hollow mouths read nearly as before (the cleft's narrowing is a single block); the
+   stream remains a narrow brook seen through mist.
+
+Tally: A 17/17 done; B 12 done, 2 partly; C 5 done, 2 skipped.
 
 ### Checks (round 4, 2026-11-03 04:10)
 
