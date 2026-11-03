@@ -649,3 +649,56 @@ Tiers: A must, B should, C nice.
 43. (C) [done] The DJ sign's tubes (gen_31_walls.py's cladding kinds `dj<c><r>`, patched by round 4).
 44. (B) [done] `l31-counter`: the rental's and lobby's counter in the rink's style (navy front in the rink's stripes, a
     laminate top with a pink nose, bell, size tags) in place of Level 3999's reception desk.
+
+### How it is built (round 4)
+
+- `tools/gen_31_round4.py` (run after `gen_31.py`, `gen_31_props.py`, `gen_31_round3.py`; `gen_31_walls.py` too, whose
+  cladding blocktype it patches for the DJ sign) owns the rebuilt codes and the new ones; its textures are `r4-*` in
+  `textures/block/31/`, all saved with alpha 0 or 255 only. Helpers: `octo` (an octagonal prism of four boxes, two
+  of them turned 45 degrees, ends from one box only so they do not z-fight), `disc_tex` (round pictures on a clear
+  background: wheels, records, cones, jog wheels, cup holders), `mirror_x`. `tools/preview_shapes.py` and
+  `tools/check_zfight.py` checked every shape (no same-plane pairs over a pixel or two left).
+- **The barrier** (`WorldGenerator.L31.Round4.cs`): a rink tile with the barrier (`L31Props.Dasher`) finds the sides
+  off the boards and draws a straight piece (one side), a corner (two sides) or, on a board tile whose only
+  off-board neighbour is diagonal, the post where two runs meet; the gaps' gate tiles draw the hinge post and leaf
+  (left or right, by which neighbour is the barrier) or the sill. The layout is unchanged (the same tiles), only
+  the blocks.
+- **Placed by the layout (new prop ids in Level 31's range):** `L31Props.AirHandler` 738 (Level 120's CRAC, rel 1-3+
+  lower, upper, duct; two per HVAC room in place of four AC boxes), `Slushie` 739 (one counter section in the food
+  court and at the rink's snack window), `Stanchion` 740 (Level 36's queue posts in front of the rental counter).
+  `l31-pinball`, `l31-popcorn` and `l31-counter` replace Level 3999's pinball, Level Fun's cart and Level 3999's
+  reception desk through the same props (fallbacks kept); `l31-locker` replaces Level 52's lockers in the rink's walls
+  (fallback kept).
+- **Showcase / F7:** new spots `djbooth`, `gate`, `skates`, `pinball`, under the existing F7 entries (DJ station, The
+  Rink, Skate Rental, Arcade).
+
+### Shared assets below the bar (for the lead; not touched)
+
+- `detail/acunit` (3 boxes: a grey cube with a fan ring painted on top): reads as a slab. Level 31 now uses Level 120's
+  CRAC instead; any other level that uses it would gain from a cabinet with grilles, a fan guard and service panels.
+- Level Fun's `fun-popcorncart` (the popcorn is one cube, no case): Level 31 has its own `l31-popcorn` now; the cart
+  could take the same case, kettle and heap.
+- Level 3999's `l3999-pinball` (13 boxes, no legs' levellers, a flat head): Level 31 has `l31-pinball` now.
+- Level 52's `l52-locker` (a cube with the lockers painted on): Level 31 has its own coin lockers now; 52's lead note
+  asks for lockers with vents, dials and the odd open door, which `l31-locker`'s build (doors in frames, an ajar one)
+  could share.
+- The shared `detail/snackcounter-register` till is fine; the `drinkfridge` is fine.
+
+### Inventions (round 4)
+
+The look of every rebuilt object is ours (the lore names a DJ station, skates, arcade machines and pinball, a food
+counter, a TV and benches; not their make): the STARDUST pinball backglass (after the round-3 rink name), the
+rental's tan and white skates with coloured wheels, the 1990s CD decks beside the turntables, the slushie machine's
+two flavours, the coin lockers' 25-cent keys, the VCR blinking 12:00, the trophy case's skater figures. Nothing in
+the lore is contradicted: the cinema is still one big TV over three stepped rows of continuous metal benches (the
+cup holders are on the bench backs), the DJ still on the south, the star at the centre.
+
+### Balance notes for the lead
+
+- **Salvage:** the HVAC rooms' air handlers are now Level 120's CRAC blocks, whose blocktype drops a metal bracket
+  (avg 0.5) and scrap wire (avg 0.3) per block broken; two units of three blocks per HVAC room. The shared AC boxes
+  they replace dropped themselves. If Level 31 should give no salvage there, the lead can give Level 31 a look-only
+  copy (or keep the AC boxes).
+- No new food, water, beds or safe rooms: the slushie and popcorn machines and the till are look-only; the soda
+  fountain (Almond Water) and the drinks fridges are unchanged. The rink's barrier is thinner than the old cube
+  (the boards' edge tiles are now walkable inside it), with the same gaps.
