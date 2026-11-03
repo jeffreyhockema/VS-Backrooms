@@ -112,14 +112,14 @@ public partial class WorldLayout
     }
 
     /// <summary>A free tile a few steps out from a thing along the way it faces (nothing in between), looking back at it.</summary>
-    private static (int X, int Z, double Heading)? ShowcaseFacing(Tile[] tiles, int x, int z, int dx, int dz, int far, int near)
+    private static (int X, int Z, double Heading)? ShowcaseFacing(Tile[] tiles, int x, int z, int dx, int dz, int far, int near, bool throughDoors = true)
     {
         for (int k = far; k >= near; k--)
         {
             int sx = x + dx * k, sz = z + dz * k;
             if (!ShowcaseStand(tiles, sx, sz)) continue;
             bool seen = true;
-            for (int j = 1; j < k && seen; j++) seen = ShowcaseClear(tiles, x + dx * j, z + dz * j);
+            for (int j = 1; j < k && seen; j++) seen = ShowcaseClear(tiles, x + dx * j, z + dz * j) && (throughDoors || tiles[TileIndex(x + dx * j, z + dz * j)].Kind != TileKind.Doorway);
             if (seen) return (sx, sz, ShowcaseHeading(-dx, -dz));
         }
         return null;
@@ -187,7 +187,7 @@ public partial class WorldLayout
             }
 
         // The kinds of room, by what stands in them
-        void Prop(string name, Func<Tile, bool> what, double pitch)
+        void Prop(string name, Func<Tile, bool> what, double pitch, bool throughDoors = true)
         {
             for (int z = 1; z < MacroSize - 1; z++)
                 for (int x = 1; x < MacroSize - 1; x++)
@@ -195,7 +195,7 @@ public partial class WorldLayout
                     Tile t = tiles[TileIndex(x, z)];
                     if (!what(t)) continue;
                     var (dx, dz) = PierStep(t.Pier);
-                    if (ShowcaseFacing(tiles, x, z, dx, dz, 6, 4) is (var sx, var sz, var h)) { add(name, mx, mz, sx, sz, h, pitch, null); return; }
+                    if (ShowcaseFacing(tiles, x, z, dx, dz, 6, 4, throughDoors) is (var sx, var sz, var h)) { add(name, mx, mz, sx, sz, h, pitch, null); return; }
                 }
         }
         Prop("utility", t => t.Variant == Props.BasementBoiler, -4);
@@ -220,7 +220,8 @@ public partial class WorldLayout
                 if (ShowcaseFacing(tiles, x, z, dx, dz, 6, 3) is (var sx, var sz, var h)) add("laundry", mx, mz, sx, sz, h, 4, null);
             }
         Prop("workshop", t => t.Variant == Props.BasementBench && t.Stack == 0, 0);
-        Prop("store-shelves", t => t.Variant is Props.BasementShelving or Props.BasementBoxes, 2);
+        // (Round 4: not from beyond a doorway, whose frame filled round 4's second shot)
+        Prop("store-shelves", t => t.Variant is Props.BasementShelving or Props.BasementBoxes, 2, false);
         for (int z = 1; z < MacroSize - 1; z++)
             for (int x = 1; x < MacroSize - 1; x++)
             {

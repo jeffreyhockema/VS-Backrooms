@@ -1419,8 +1419,10 @@ public sealed partial class WorldLayout
                 if (rng.Chance(0.7))
                     foreach (var (x, z, away) in Round())
                     {
-                        if (!Middling(x, z, away) || !Pair(x, z, Props.BasementBar, away)) continue;
+                        // (not hard by a doorway: its casing would cut into the mirror)
                         var (rx, rz) = BasementRightOf(away);
+                        bool Door(int ax, int az) => ax >= 0 && az >= 0 && ax < MacroSize && az < MacroSize && b.At(ax, az).Kind == TileKind.Doorway;
+                        if (!Middling(x, z, away) || Door(x - rx, z - rz) || Door(x + 2 * rx, z + 2 * rz) || !Pair(x, z, Props.BasementBar, away)) continue;
                         var (dx, dz) = PierStep(away);
                         foreach (int s in new[] { 0, 1 })
                         {
