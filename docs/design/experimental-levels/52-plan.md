@@ -555,11 +555,11 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
 9. (B) `l52-stall-*` restroom stall: a real pan (bowl, seat and lid), a flush valve, the partition with its door, hinges and latch, chrome feet. [done] (stepped pan, open seat, lid up, chrome flushometer, partition off the floor with shoe, roll holder, headrail, coat hook)
 10. (B) `l52-fumehood-*` fume hood: framed sash with a handle, baffle slots, cabinet doors with handles, a gas tap and the airflow gauge. [done]
 11. (B) `l52-sign-notice-*` notice boards: aluminium frame, cork, pinned sheets as raised layers, pins. [done]
-12. (B) `l52-sign-wallclock` and the tower's dials: a round body with a bezel and the hands as elements. [partly: the wall clock rebuilt (bezel, hands at 3:52, red second hand); the tower dials see the list's end]
+12. (B) `l52-sign-wallclock` and the tower's dials: a round body with a bezel and the hands as elements. [done] (the wall clock: bezel, hands at 3:52, red second hand; the tower's dials: a stone surround and bezel ring across the nine pieces, raised batons and hands)
 13. (B) `l52-goal-*` football goal: round-section posts (bevelled), stanchions and the ground frame behind, a net with depth. [done]
 14. (B) `l52-flagpole-*`: a plinth with a plaque, the pole's taper, a cleat and halyard, the flag cloth in folds (rotated elements). [done]
 15. (B) `l52-post-*` boards on posts: posts with caps and feet, a framed board with a canopy and bolts. [done]
-16. (B) `l52-vent` / `l52-hvac-*` roof plant: a gooseneck/mushroom vent; air handlers as one unit with louvres, fan shroud, access panels and a duct into the roof. [partly: the vent rebuilt (mushroom cap on a flashed curb); the air handlers see the list's end]
+16. (B) `l52-vent` / `l52-hvac-*` roof plant: a gooseneck/mushroom vent; air handlers as one unit with louvres, fan shroud, access panels and a duct into the roof. [done] (the vent: a mushroom cap on a flashed curb; the air handlers in relief: louvres, posts, the fan shroud and grille)
 17. (C) `l52-jet` / courtyard fountain: a tiered bowl on a fluted column, the basin rim with coping. [done] (`l52-jet` rebuilt; `l52-basinrim-{edge,corner}-*`: a coped precast rim, wet and green at the water line inside)
 18. (C) `l52-bikerack-*`: fine as it is (16 boxes); leave. [skipped: already at the bar]
 
@@ -573,7 +573,7 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
 25. (B) A ceiling projector in classrooms (off, as the lore's dark classrooms) on a drop pole, and a pull-down screen case over the board. [partly: `l52-projector-*` in every classroom, off; no pull-down screen case (the map roller on the board stands in)]
 26. (B) A dugout at the pitch: a bench under a curved shelter with a back wall. [done] (`l52-dugout-*` either side of the stand)
 27. (B) Entrance canopies with columns at their front corners. [done] (`l52-column-*` under the outer corners; `l52-planter` beside each canopy)
-28. (B) Stairwell handrails along the flights (a rail on posts), the treads' nosings. [skipped: the flights are vanilla stairs in a generated well; a rail that follows them is a bigger job than this round allows]
+28. (B) Stairwell handrails along the flights (a rail on posts), the treads' nosings. [done] (`l52-stairrail-{l,r}-*`: a steel rail at 45 degrees on brackets and rosettes, on the walls beside both flights, laid per storey in `L52LayStair`; nosings not done)
 29. (C) The trophy case rebuilt: glass, shelves, trophies (cups, a plate, a ball) and a light. [done] (`l52-trophy-*`, glass, cups, figures, medals, a lit header)
 30. (C) The library: a rolling ladder on the stacks; a few books left on the shelves (the lore's rooms are "vacant and missing contents", so a handful, not full shelves). [partly: the rolling ladder (`l52-ladder-*`, Props.L52Ladder); shelves stay empty (the lore)]
 
@@ -665,3 +665,37 @@ L52LunchSeat 1110).
   pitch's goal with its net; the clouds gone (no more slabs in the sky). Wrong: the roof gravel's 8-block patches read as a
   patchwork (now gravel all over, membrane walkways every eleventh block); two random arrivals stood inside a lawn tree's crown
   (arrivals now on paths and corridors only; `regions` still 60/60).
+
+### Checks (round 4)
+- `python tools/expclash.py`: clean. Mod and mapgen build with 0 errors. `gen_52.py` check: 2552 codes defined and expected, 0
+  problems; `langcheck` clean.
+- layouthash (`BACKROOMS_NO_EXP_ENTRANCES=1`, versions 1 and 12): every line for levels 0-20 and the layout hash equal to
+  main's saved files.
+- `regions`: 60/60 for Level 52, none wrong or in pockets (full size and `SPAWN=1000`). `52stats 4`: 68 campuses, 305 buildings,
+  0 doorless rooms, 121 of about 1.94 million ground tiles unreached (single tiles boxed in by furniture), arrivals 60/60.
+  `featurecheck 2 52`: 17 of 17 features found from every arrival (the new `l52court`; `gym-hoop`, `court-hoop`, `trophy-case`
+  spots in their entries).
+- Headless (port 43128): `blocksweep` 16501 blocks, 0 threw; 0 missing blocks or items; `/backrooms dummy place 52 5` lands
+  at 565925,217,642287 with 0 error lines; `/backrooms showcase 52` lists every spot. (Four earlier blocksweeps with this
+  round's builds hit a crash in the game's own `Relight` thread (`ChunkIlluminator.UpdateLightAt`, a null light layer) while
+  the sweep set and cleared 16,000 blocks in one tick; two later sweeps of the same builds and the final one passed, and
+  swapping DLLs and assets between builds did not pin it on any block: a race in the engine under load, noted for the lead.)
+- `GATE_TAG=52g python tools/gate.py --fast --port-base 43120`: PASS at 90db15a3 (generators, lang, build, boot, harness).
+
+### Questions for the user
+1. **Clouds.** Level 52's few white clouds are off: the game's cloud layer met the blue sky sphere as white slabs over every
+   open view. The lore asks for "few clouds"; would you rather have them back (and the seam) or keep a clear sky?
+2. **Arrivals** now land on paths and in ground-floor corridors only (never on a lawn, where one stood inside a tree's
+   crown). Fine, or should some still land on the grass?
+3. **The libraries** stay nearly bare (the lore: "vacant and missing contents"), with dust marks where the books stood and a
+   few left behind. Should they hold more books, as a real school library would?
+- **Run 3, final** (`%TEMP%/backrooms-shots/52-r4c`, `sheet.jpg`): the canteen's long lunch tables with their orange benches on
+  folding frames; the classroom's CRT on its AV cart beside the teacher's desk; the courtyard fountain's coped rim; the roofs
+  gravelled with membrane walkways; everything from run 2 as it was; the arrivals in corridors, at a window and on a path. The rig
+  hit a `PermissionError` writing a file after the 30th spot, so `car-park`, `barry-sign`, `way-in-school` and `way-back-quad` are
+  missing from this run (they are in run 2's folder and did not change). Tally of the list: A 18 done; B 20 done, 1 partly
+  (the projector's screen case); C 2 done, 2 partly, 2 skipped (the bike rack already at the bar; the M.E.G. placards).
+- **Still weak:** the shared props Level 52 still uses (folding chairs in some rooms, office chairs, the staff room's sofa,
+  the street lights, benches and bins outdoors, the cars) are a step below the new pieces up close; the locker number plates
+  read as dark dots; the stair treads have no nosings; the courtyard's trees still crowd its lawns; the canteens' food stands
+  are the shared snack counter.
