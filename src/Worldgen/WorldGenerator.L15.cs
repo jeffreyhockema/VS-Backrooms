@@ -135,7 +135,7 @@ public sealed partial class WorldGenerator
     }
 
     /// <summary>A round-4 wall panel facing <paramref name="f"/>, or <paramref name="fallback"/> where its asset is missing.</summary>
-    private int L15Panel(string kind, int f, int fallback) => l15Panel.TryGetValue(kind, out int[]? ids) && ids[f] > 0 ? ids[f] : fallback;
+    private int L15Panel(string kind, int f, int fallback) => l15Panel.TryGetValue(kind, out int[] ids) && ids[f] > 0 ? ids[f] : fallback;
 
     /// <summary>Round 4: a bulkhead crosses a main hall every 32 blocks, on one of its ribs.</summary>
     private static bool L15IsBulkhead(int along) => Hashing.Mod(along, 32) == 16;
