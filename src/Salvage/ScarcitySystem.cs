@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vintagestory.API.Common;
+using Vintagestory.API.Common.Entities;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
@@ -53,6 +54,21 @@ public class ScarcitySystem : ModSystem
     public static float ClassScale(IWorldAccessor world, int x, int z) => ClassScale(ProtectionSystem.LevelAt(world, x, z));
 
     /// <summary>
+    /// Food and drink for a party (2026-11): the factor on what a container gives when <paramref name="byPlayer"/> breaks it,
+    /// 1 + 0.5 for each other person with them (<see cref="Entities.MenaceSystem.PartyFoodFactor"/>, counted by
+    /// <see cref="Entities.MenaceSystem.FoodPartySize"/>: within 48 blocks, in the same level). 1 with no player (a block broken
+    /// by something else, the <c>classdrops</c> rolls), on the client, and alone. Used on the food and drink drops of every block
+    /// of ours (<see cref="BlockBehaviorClassScale"/>) and of Level Fun's supply shelves; never on dispensers' stock or trade.
+    /// </summary>
+    public static float PartyScale(IWorldAccessor world, IPlayer byPlayer)
+    {
+        Entity breaker = byPlayer?.Entity ?? testBreaker;
+        if (world?.Side != EnumAppSide.Server || breaker == null) return 1f;
+        int members = world.Api.ModLoader.GetModSystem<Entities.MenaceSystem>()?.FoodPartySize(breaker) ?? 1;
+        return (float)Entities.MenaceSystem.PartyFoodFactor(members);
+    }
+
+    /// <summary>
     /// <paramref name="count"/> scaled by the world's food multiplier, rounded at random so the average is right (on
     /// Scarce, a dispenser that held 2 holds 1 now and then and nothing the rest of the time); at least
     /// <paramref name="min"/>.
@@ -74,6 +90,29 @@ public class ScarcitySystem : ModSystem
 
     private static TextCommandResult OnClassDropsCommand(ICoreServerAPI api, TextCommandCallingArgs args) =>
         ClassDrops(api, (string)args[0], (int)args[1], (int)args[2], (int)args[3]);
+
+    /// <summary>Headless tests only (/backrooms partydrops): the straw dummy that breaks the block while no player does.</summary>
+    [ThreadStatic] private static Entity testBreaker;
+
+    /// <summary>
+    /// /backrooms partydrops: rolls a block's drops as if the first straw dummy put down broke it where it stands, so the party
+    /// rule (<see cref="PartyScale"/>) counts the other dummies (with /backrooms dummies on) and any players about it.
+    /// </summary>
+    private static TextCommandResult OnPartyDropsCommand(ICoreServerAPI api, TextCommandCallingArgs args)
+    {
+        var menace = api.ModLoader.GetModSystem<Entities.MenaceSystem>();
+        Entity breaker = menace?.LivingDummies.FirstOrDefault();
+        if (breaker == null) return TextCommandResult.Error("Put a straw dummy down first (/backrooms dummy place ...); with /backrooms dummies on, the others count as the party");
+        int members = menace.FoodPartySize(breaker);
+        testBreaker = breaker;
+        try
+        {
+            TextCommandResult result = ClassDrops(api, (string)args[0], (int)breaker.Pos.X, (int)breaker.Pos.Z, (int)args[1]);
+            string head = $"party of {members} (food x{Entities.MenaceSystem.PartyFoodFactor(members):0.##}): ";
+            return result.Status == EnumCommandStatus.Success ? TextCommandResult.Success(head + result.StatusMessage) : TextCommandResult.Error(head + result.StatusMessage);
+        }
+        finally { testBreaker = null; }
+    }
 
     /// <summary>The command's work, also used by the client rig (/backrooms rig classdrops) at the player's own position.</summary>
     internal static TextCommandResult ClassDrops(ICoreServerAPI api, string blockCode, int x, int z, int rollCount)
@@ -124,6 +163,12 @@ public class ScarcitySystem : ModSystem
                 .RequiresPrivilege(Privilege.controlserver)
                 .WithArgs(api.ChatCommands.Parsers.Word("block"), api.ChatCommands.Parsers.Int("x"), api.ChatCommands.Parsers.Int("z"), api.ChatCommands.Parsers.OptionalInt("rolls", 2000))
                 .HandleWith(args => OnClassDropsCommand(api, args))
+            .EndSubCommand()
+            .BeginSubCommand("partydrops")
+                .WithDescription("Rolls a block's drops many times as if the first straw dummy put down broke it where it stands: the other dummies (with /backrooms dummies on) and players within 48 blocks make the party that grows its food and drink. Args: block (e.g. supplybox), [rolls]")
+                .RequiresPrivilege(Privilege.controlserver)
+                .WithArgs(api.ChatCommands.Parsers.Word("block"), api.ChatCommands.Parsers.OptionalInt("rolls", 2000))
+                .HandleWith(args => OnPartyDropsCommand(api, args))
             .EndSubCommand());
         api.Event.ServerRunPhase(EnumServerRunPhase.RunGame, () =>
         {
@@ -159,8 +204,9 @@ public class ScarcitySystem : ModSystem
 
 /// <summary>
 /// Thins the food and drink a block gives when broken by the survival class of the level it stands in
-/// (<see cref="ScarcitySystem.ClassScale(int)"/>); everything else it gives is as it was. Added to every block of ours with
-/// food among its drops when the world starts. In Classes 0 to 2 (and the exempt levels) it does nothing.
+/// (<see cref="ScarcitySystem.ClassScale(int)"/>), and grows it for a party (<see cref="ScarcitySystem.PartyScale"/>);
+/// everything else it gives is as it was. Added to every block of ours with food among its drops when the world starts. For
+/// one person in Classes 0 to 2 (and the exempt levels) it does nothing.
 /// </summary>
 public class BlockBehaviorClassScale : BlockBehavior
 {
@@ -173,10 +219,11 @@ public class BlockBehaviorClassScale : BlockBehavior
 
     public override ItemStack[] GetDrops(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, ref float dropQuantityMultiplier, ref EnumHandling handling)
     {
-        float scale = ScarcitySystem.ClassScale(world, pos.X, pos.Z);
+        // (2026-11: and grown for a party, 1.5 times for two, twice for three: ScarcitySystem.PartyScale. Fractions are rolled, so the average holds)
+        float scale = ScarcitySystem.ClassScale(world, pos.X, pos.Z) * ScarcitySystem.PartyScale(world, byPlayer);
         BlockDropItemStack[] drops = block.Drops;
-        if (scale >= 1f || drops == null) return null;
-        // (As Block.GetDrops rolls them, with the food entries' multiplier thinned; the other behaviours' drops are added by the caller)
+        if (scale == 1f || drops == null) return null;
+        // (As Block.GetDrops rolls them, with the food entries' multiplier scaled; the other behaviours' drops are added by the caller)
         var rolled = new List<ItemStack>();
         for (int i = 0; i < drops.Length; i++)
         {

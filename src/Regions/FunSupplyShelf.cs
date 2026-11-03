@@ -26,10 +26,11 @@ public class BlockFunSupplyShelf : BlockGenericTypedContainer
         bool self = Attributes?["drop"]?[GetType(world.BlockAccessor, pos)]?.AsBool(false) == true;
         if (self) return new[] { OnPickBlock(world, pos) };
         var drops = new List<ItemStack>();
+        // (Class 5: its food and drink thinned like every other block's, Salvage.ScarcitySystem.ClassScale, and grown for a party, PartyScale)
+        float food = Salvage.ScarcitySystem.ClassScale(world, pos.X, pos.Z) * Salvage.ScarcitySystem.PartyScale(world, byPlayer);
         if (Drops != null)
             foreach (BlockDropItemStack drop in Drops)
-                // (Class 5: its food and drink thinned like every other block's, Salvage.ScarcitySystem.ClassScale)
-                if (drop.GetNextItemStack(dropQuantityMultiplier * (Salvage.ScarcitySystem.IsFood(drop.ResolvedItemstack?.Collectible) ? Salvage.ScarcitySystem.ClassScale(world, pos.X, pos.Z) : 1f)) is { } stack) drops.Add(stack);
+                if (drop.GetNextItemStack(dropQuantityMultiplier * (Salvage.ScarcitySystem.IsFood(drop.ResolvedItemstack?.Collectible) ? food : 1f)) is { } stack) drops.Add(stack);
         return drops.ToArray();
     }
 }

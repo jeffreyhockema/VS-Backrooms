@@ -28,6 +28,42 @@ public partial class MenaceSystem
     /// <summary>The factor on the rates of a party of <paramref name="members"/> (1 for one person).</summary>
     public static double PartyFactor(int members) => 1 + PartyBonus * Math.Max(0, members - 1);
 
+    /// <summary>
+    /// Food and drink for a party (2026-11): what each person beyond the first adds to the food and drink a broken container
+    /// gives, as a share of what it gives one person. Two together find 1.5 times a lone player's food, three twice it: enough
+    /// that a party can eat, not so much that a pair lives off one storeroom. (Salvage.ScarcitySystem.PartyScale)
+    /// </summary>
+    public const double PartyFoodBonus = 0.5;
+
+    /// <summary>The factor on the food and drink a container gives a party of <paramref name="members"/> (1 for one person).</summary>
+    public static double PartyFoodFactor(int members) => 1 + PartyFoodBonus * Math.Max(0, members - 1);
+
+    /// <summary>
+    /// How many people share what <paramref name="who"/> breaks open: they themselves, and the living players (not in Creative or
+    /// Spectator) of the same level within <see cref="PartyRadius"/> flat and <see cref="PartyHeight"/> up or down of them, as the
+    /// director's parties are counted; with <c>/backrooms dummies on</c> (<see cref="DirectsDummies"/>) the straw dummies too, so
+    /// a headless test can stand two beside the breaker.
+    /// </summary>
+    /// <summary>The straw dummies put down for tests that still stand, first put down first (/backrooms partydrops breaks as the first).</summary>
+    internal IReadOnlyList<Entity> LivingDummies => dummies.FindAll(d => d.Alive);
+
+    public int FoodPartySize(Entity who)
+    {
+        if (who == null) return 1;
+        int level = Salvage.ProtectionSystem.LevelAt(sapi.World, (int)who.Pos.X, (int)who.Pos.Z), n = 1;
+        var near = new List<Entity>();
+        if (DirectsDummies) near.AddRange(dummies);
+        foreach (Vintagestory.API.Common.IPlayer online in sapi.World.AllOnlinePlayers)
+            if (online.WorldData.CurrentGameMode is not (Vintagestory.API.Common.EnumGameMode.Spectator or Vintagestory.API.Common.EnumGameMode.Creative)) near.Add(online.Entity);
+        foreach (Entity other in near)
+        {
+            if (other == null || other == who || !other.Alive || other.Pos.Dimension != who.Pos.Dimension) continue;
+            if (Math.Abs(other.Pos.Y - who.Pos.Y) > PartyHeight || !Within(other.Pos.X - who.Pos.X, other.Pos.Z - who.Pos.Z)) continue;
+            if (Salvage.ProtectionSystem.LevelAt(sapi.World, (int)other.Pos.X, (int)other.Pos.Z) == level) n++;
+        }
+        return n;
+    }
+
     private static bool Within(double dx, double dz) => dx * dx + dz * dz <= PartyRadius * PartyRadius;
 
     /// <summary>Groups 0..count-1 greedily: each joins the first group that has a member it is <paramref name="near"/>, else starts one.</summary>
