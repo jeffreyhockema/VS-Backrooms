@@ -724,3 +724,12 @@ the dead on the hill's flanks; Coran's mantle.
 - The **heaps of the dead** (about one tile in 240 on the hill's flanks, 44-88 out from the castle's middle) and the
   shore's **rocks and wreckage** are fixed blocks that give nothing; they are sealed tiles (no arrivals on them).
 - The castle's new blocks are all `l73Fixed` (never break, drop nothing).
+
+### Questions for the user (round 4)
+
+- The lead asked for Coran with "a hooded cloak and a lantern, lit". The page makes him blind and armless (chains to
+  gauntlets), and forbids light outside; he got a tattered mantle and no lantern or hood. Should he carry a light anyway?
+- The dry ditch before the gate (two deep, one at its ends) makes missing the bridge costly on the run: keep it, or make
+  it one deep?
+- The castle now borrows only the beds (sleepable), from the hotel: is a castle bed frame worth changing the shared bed
+  shape for?
