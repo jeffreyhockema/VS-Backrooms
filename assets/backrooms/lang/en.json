@@ -2184,6 +2184,7 @@
 	"block-l15-medmonitor-*": "Vitals Monitor",
 	"blockdesc-l15-medmonitor-lit-*": "A flat green line, the numbers at nothing, ASYSTOLE in amber. Nobody came for that alarm.",
 	"block-l15-stool": "Canteen Stool",
+	"block-l15-cagelamp-*": "Caged Ceiling Light",
 	"block-l15-projector-*": "Ceiling Projector",
 	"block-l15-tank-*": "Nutrient Tank",
 	"blockdesc-l15-tank-*": "The sight glass shows a green line a hand above the bottom. It has not moved.",

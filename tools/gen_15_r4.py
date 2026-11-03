@@ -1160,6 +1160,23 @@ def projector_shape():
                                                                  "ledgreen")})
 
 
+def cagelamp_shape(lit):
+    """A service passage's ceiling block with a caged bulkhead light under it (round 4: cool white like the halls, not
+    round 2's warm lamp): the bare concrete ceiling, a cast base, a frosted lens, a wire cage of bars over it, a conduit
+    running off along the ceiling."""
+    lens = "cagelens" if lit else "cagelensdead"
+    els = [box("Ceiling", (0, 0, 0), (16, 16, 16), "ceiling-service"),
+           box("Base", (4.5, -1, 4.5), (11.5, 0, 11.5), "steelgrey"),
+           box("Lens", (5.5, -3.25, 5.5), (10.5, -1, 10.5), lens, glow=200 if lit else 0),
+           box("Conduit", (7.5, -0.6, 11.5), (8.5, 0, 16), "steelgrey")]
+    for k, x in enumerate((5.2, 7.75, 10.3)):
+        els.append(box(f"BarX{k}", (x, -3.6, 5.1), (x + 0.5, -3.25, 10.9), "dark"))
+        els.append(box(f"BarZ{k}", (5.1, -3.55, x), (10.9, -3.2, x + 0.5), "dark"))
+    for k, (x, z) in enumerate(((5.1, 5.1), (10.4, 5.1), (5.1, 10.4), (10.4, 10.4))):
+        els.append(box(f"Post{k}", (x, -3.6, z), (x + 0.5, -1, z + 0.5), "dark"))
+    return write_shape(f"l15-cagelamp-{'lit' if lit else 'dead'}", els, {k: T(k) for k in ("ceiling-service", "steelgrey", lens, "dark")})
+
+
 def stool_shape():
     """A canteen's fixed stool: a floor flange, a steel column, a foot ring, a round seat (two crossed boxes and a cap)."""
     els = [box("Flange", (5.5, 0, 5.5), (10.5, 0.4, 10.5), "brushed"),
@@ -1481,6 +1498,18 @@ def blocktypes():
     d["sidesolid"] = {"all": True}
     d["sideopaque"] = {"all": True}
     write_json(path, d, head[3:])
+
+    # l15-cagelamp
+    save(M.new((S, S), (238, 246, 252)), "cagelens")
+    save(M.new((S, S), (104, 108, 112)), "cagelensdead")
+    sbt = {f"*-{st}": {"base": cagelamp_shape(st == "lit")} for st in ("lit", "dead")}
+    data = {"code": "l15-cagelamp", "variantgroups": [{"code": "state", "states": ["lit", "dead"]}], "shapeByType": sbt,
+            "creativeinventory": {"general": ["*"], "backrooms": ["*"]}, "blockmaterial": "Stone", "drawtype": "json",
+            "sidesolid": {"all": True, "down": False}, "sideopaque": {"all": True, "down": False}, "lightAbsorption": 0,
+            "lightHsvByType": {"*-lit": [34, 1, 13]}, "resistance": 4, "drops": [], "sounds": STONE,
+            "collisionbox": cuboid((0, 0, 0, 1, 1, 1)), "selectionbox": cuboid((0, 0, 0, 1, 1, 1))}
+    write_json(os.path.join(BLOCKS, "l15-cagelamp.json"), data,
+               "Level 15 (round 4): a service passage's concrete ceiling with a caged bulkhead light under it (lit, dead)")
 
     # l15-projector
     base = projector_shape()

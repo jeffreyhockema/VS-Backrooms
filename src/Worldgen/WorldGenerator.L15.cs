@@ -84,7 +84,7 @@ public sealed partial class WorldGenerator
     private readonly int[,,] l15Glazing = new int[2, 2, 2];
     private int l15Stool, l15CTable;
     private readonly int[,] l15Lectern = new int[2, 4], l15Tank = new int[2, 4];
-    private readonly int[] l15Projector = new int[4];
+    private readonly int[] l15Projector = new int[4], l15CageLamp = new int[2];
 
     private static readonly string[] L15PanelKinds = BuildL15PanelKinds();
 
@@ -130,6 +130,11 @@ public sealed partial class WorldGenerator
             l15Tank[0, f] = L15Block($"l15-tank-lower-{Sides[f]}");
             l15Tank[1, f] = L15Block($"l15-tank-upper-{Sides[f]}");
             l15Projector[f] = L15Block($"l15-projector-{Sides[f]}");
+            if (f == 0)
+            {
+                l15CageLamp[0] = L15Block("l15-cagelamp-lit", lampDimId);
+                l15CageLamp[1] = L15Block("l15-cagelamp-dead", lightOffId);
+            }
         }
         l15CTable = L15Block("l15-ctable");
     }
@@ -413,10 +418,11 @@ public sealed partial class WorldGenerator
         bool service = L.L15ZoneOf(t) == L.L15Zone.Service;
         switch (t.Ceiling)
         {
-            case CeilingKind.L15LightOn: return dark ? l15Ceiling[4] : service ? lampDimId : l15Ceiling[1];
+            // (round 4: the service passages' caged lamps cool white like the halls', as models)
+            case CeilingKind.L15LightOn: return dark ? (service ? l15CageLamp[1] : l15Ceiling[4]) : service ? l15CageLamp[0] : l15Ceiling[1];
             case CeilingKind.L15LightLit: return dark ? l15Ceiling[4] : l15Ceiling[2];
-            case CeilingKind.L15LightFlicker: return service ? lightOffId : l15Ceiling[3];
-            case CeilingKind.L15LightDead: return service ? lightOffId : l15Ceiling[4];
+            case CeilingKind.L15LightFlicker: return service ? l15CageLamp[1] : l15Ceiling[3];
+            case CeilingKind.L15LightDead: return service ? l15CageLamp[1] : l15Ceiling[4];
             case CeilingKind.L15ServiceCeiling: return l15Ceiling[5];
             case CeilingKind.L15CeilingVent: return l15Ceiling[6];
             default: return service ? l15Ceiling[5] : l15Ceiling[0];

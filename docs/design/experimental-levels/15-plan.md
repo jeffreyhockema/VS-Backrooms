@@ -616,7 +616,7 @@ the spears' blades opaque (they were translucent in the opaque pass). New blocks
 model on its face: the extinguisher, the ESCAPE panel, the lift's leaves in a portal with its lit indicator and call
 panel, the big display's bezel, the wall displays in bezels, the hall wall lights in housings, the bulkheads' jambs and
 code plates, the hall tags, the battery emergency lamp, the tripped breaker, the MEDICAL CENTER door's surround),
-`l15-bulkhead`, `l15-glazing`, `l15-medmonitor`, `l15-lectern`, `l15-projector`, `l15-tank`, `l15-stool`, `l15-ctable`, `l15-ceiling-trough{ns,we}`.
+`l15-bulkhead`, `l15-glazing`, `l15-medmonitor`, `l15-lectern`, `l15-projector`, `l15-tank`, `l15-cagelamp`, `l15-stool`, `l15-ctable`, `l15-ceiling-trough{ns,we}`.
 Generator (`WorldGenerator.L15.cs`, `InitL15Round4`, `L15WallRound4`): bulkheads on the rib every 32 blocks along the
 main halls (jambs, header, tread plate), a hall tag on one wall 4 blocks after each, the cable troughs along the halls'
 ceiling edges, the battery lamps and the breaker at the dark squares' edges (`L15DarkEdge`), the medical monitors over
@@ -650,4 +650,6 @@ surround of Level 14's door, the lift indicator's B3, the dead's ID cards and la
   and the door surround's cross (6) are in lit rooms.
 - Drops: the glazing drops shards as the old thick glass did; the new stools, tables, lectern and monitors a little scrap
   wire or a bracket, like round 3's props; nothing edible or drinkable.
+- The service passages' lit lamps were the shared warm dim lamp; they are now `l15-cagelamp-lit` (cool white, light 13),
+  so the passages are a little brighter where they had a lamp (the dead and failing ones stay dark).
 - No bed, water or shortcut changed. The canteen's folding chairs became stools (no seat behaviour lost: neither sits).
