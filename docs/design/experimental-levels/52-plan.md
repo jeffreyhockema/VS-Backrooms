@@ -530,3 +530,70 @@ tables; the lifts' doors (the lore has lifts; these do not run).
    university"; keep them all, or trim any that feel too much like a real campus and not enough like the Backrooms?
 3. **The lifts** are closed doors (the lore has lifts; DECISIONS says stairs first). Should they ever open?
 
+
+## Round 4 (2026-11-02): the asset-quality pass
+
+Looked at first: round 3's final sheet (`%TEMP%/backrooms-shots/final-r3/52/sheet.jpg`), the lead's round-4 notes, the
+"Still weak" of round 3, the brief and DECISIONS.md, and the props that set the bar (188's street furniture, the detail
+kit, 15's lab benches and seats, 31's lockers and trophy case, 14's hospital kit). Nearly every Level 52 shape was 1-5
+boxes (a plate with a picture); the gym showed no hoop at all from its spot (the shared `basketballhoop` is one block with
+a 12-px board). Lore guard rails kept: digits-only signage (names only on the M.E.G.'s boards), classrooms dark with
+their electrical gear off, libraries and labs "vacant and missing contents".
+
+### List
+Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: why]`.
+
+**1. Assets to rebuild to the bar**
+1. (A) `l52-desk` (student desk-and-chair, classrooms and lecture tiers): tube frame, moulded seat and back, desktop with lip, book rack under, glides.
+2. (A) `l52-chalkboard-*` (keep the codes: the coloured-chalk system uses them): aluminium frame, chalk tray with chalk and a felt eraser, map rail on top, a board surface with ghosts of old writing.
+3. (A) `l52-locker-*` lockers: a JSON front in relief (door panels inset, louvre vents, a handle and a dial lock, number plates, hinges, kick base); the odd door ajar.
+4. (A) `l52-fountain` drinking fountain: a stainless wall basin on a back plate, bubbler, push bar, drain, a refill spout.
+5. (A) `l52-bleacher` (gym and courts): seat planks with gaps, foot planks, risers, aisle steps and a frame of uprights and braces; an end rail.
+6. (A) `l52-sign-hose` / `l52-sign-ext` fire hose cabinet and extinguisher: a recessed cabinet with a glazed door and a coiled hose on a reel; the extinguisher on its bracket (or the shared ones if they meet the bar).
+7. (A) `l52-sign-exit` EXIT: a lit box with a canopy mount (or the shared EXIT sign if it meets the bar; same vocabulary as the released levels).
+8. (A) `l52-window-*`: frames, mullions, a transom, sill and the glass set in, not a pane with lines drawn on it.
+9. (B) `l52-stall-*` restroom stall: a real pan (bowl, seat and lid), a flush valve, the partition with its door, hinges and latch, chrome feet.
+10. (B) `l52-fumehood-*` fume hood: framed sash with a handle, baffle slots, cabinet doors with handles, a gas tap and the airflow gauge.
+11. (B) `l52-sign-notice-*` notice boards: aluminium frame, cork, pinned sheets as raised layers, pins.
+12. (B) `l52-sign-wallclock` and the tower's dials: a round body with a bezel and the hands as elements.
+13. (B) `l52-goal-*` football goal: round-section posts (bevelled), stanchions and the ground frame behind, a net with depth.
+14. (B) `l52-flagpole-*`: a plinth with a plaque, the pole's taper, a cleat and halyard, the flag cloth in folds (rotated elements).
+15. (B) `l52-post-*` boards on posts: posts with caps and feet, a framed board with a canopy and bolts.
+16. (B) `l52-vent` / `l52-hvac-*` roof plant: a gooseneck/mushroom vent; air handlers as one unit with louvres, fan shroud, access panels and a duct into the roof.
+17. (C) `l52-jet` / courtyard fountain: a tiered bowl on a fluted column, the basin rim with coping.
+18. (C) `l52-bikerack-*`: fine as it is (16 boxes); leave.
+
+**2. Multi-block set pieces**
+19. (A) **Basketball hoop, outdoor** (courtyard courts, J. Turner): a padded steel post on a base plate, a gooseneck arm, the backboard (1.8 blocks wide, its bottom padded, the shooter's square), the rim at 3 blocks with its bracket, the net hanging into the air block in front. Several blocks that read as one.
+20. (A) **Basketball hoop, gym**: wall-mounted on the end wall with a braced truss out to the board, the same board, rim and net; wall mats under it.
+21. (A) Court markings: the key (painted lane), free-throw line and circle, the three-point arc and the centre circle, as flat decals on the court and on the gym floor.
+22. (A) The gym's scoreboard on the long wall (lit digits, HOME / GUEST, PERIOD) and wall mats along the end walls.
+23. (A) The outside courts fenced: chain-link round the courtyard court with a gap for the path.
+24. (B) The lecture theatre's seats: flip seats with a writing tablet on the arm, in rows on the tiers.
+25. (B) A ceiling projector in classrooms (off, as the lore's dark classrooms) on a drop pole, and a pull-down screen case over the board.
+26. (B) A dugout at the pitch: a bench under a curved shelter with a back wall.
+27. (B) Entrance canopies with columns at their front corners.
+28. (B) Stairwell handrails along the flights (a rail on posts), the treads' nosings.
+29. (C) The trophy case rebuilt: glass, shelves, trophies (cups, a plate, a ball) and a light.
+30. (C) The library: a rolling ladder on the stacks; a few books left on the shelves (the lore's rooms are "vacant and missing contents", so a handful, not full shelves).
+
+**3. Level design**
+31. (A) The gym reads as a gym from its spot: hoops at both ends, the scoreboard, mats, the key on the floor, the bleachers.
+32. (A) The courtyard court as the heart of J. Turner (lore: "basketball court and courtyard at the core"): fenced, marked, hoops facing.
+33. (B) The two-storey halls' upper string course showing inside (round 3's Still weak).
+34. (B) The courtyard spot looks into the trees (round 3's Still weak): move the spot.
+35. (B) The sky sphere's seam over the open pitch (round 3's Still weak): look at the sphere's radius against the view.
+36. (C) The roof: gravel patches by the plant, parapet caps.
+
+**4. Lore**
+37. (A) Keep digits-only signage: the scoreboard and court use numbers and generic words (HOME, GUEST), no campus or school names.
+38. (B) Classrooms' 2000s audiovisual gear: the projector (item 25) and the corner TV on its wall bracket or cart (shared `Tv` today).
+39. (C) The M.E.G.'s presence on the top floor: their placards (shared `megplacard`) by the outpost sign.
+
+**5. Alignment with the other levels**
+40. (A) Shared EXIT signs, extinguishers and hose cabinets: use the mod's own where they meet the bar, else write them under "Shared assets below the bar" and keep ours.
+41. (B) Lab benches: from `l15-labbench-sink` (Level 15), retinted to the campus's grey-white resin and steel (similar but unique: Level 15 is clean futurist white).
+42. (B) Lockers: compared with `l15-locker-*` (ajar) and Level 31's; ours stay the campus's palette.
+43. (B) Lecture seats: compared with `l15-seat-*` and Level 36's seat rows; ours a timber-and-steel flip seat with a tablet.
+44. (A) Showcase spots and F7 entries for the new set pieces (gym hoop, court hoop, scoreboard, dugout); `featurecheck`.
+45. (B) Block names in en.json (Level 52's block) for every new code; pick-block; sounds by material.
