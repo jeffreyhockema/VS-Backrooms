@@ -361,6 +361,11 @@ public class ShotBotSystem : ModSystem, IRenderer
                     capi.Input.GetHotKeyByCode("togglehud")?.Handler?.Invoke(new KeyCombination());
                 break;
             }
+            case "hotkey":
+                // hotkey <code>: runs a game hotkey's handler (e.g. worldmaphud, the minimap)
+                Log("hotkey " + p[1] + ": " + (capi.Input.GetHotKeyByCode(p[1])?.Handler?.Invoke(new KeyCombination()) ?? false));
+                Wait(500);
+                break;
             case "closeguis":
                 CloseGuis();
                 Wait(300);
