@@ -54,6 +54,8 @@ NEW = ("galv", "foiltape", "castiron", "blackpipe", "redwheel", "yellowgrip", "e
 T = dict(R3.T)
 T.update({k: "backrooms:block/basement/" + k for k in NEW})
 T["dialface"] = "backrooms:block/detail/gauge"
+T["lobbytile"] = "backrooms:block/ceilingtile-stain"
+T["lobbypaper"] = "backrooms:block/wallpaper/chevron-plain-damp"
 T["ceiling-under"] = "backrooms:block/basement/ceiling-plain"
 S2 = 64
 
@@ -613,6 +615,46 @@ def heater(part):
             b("Tag", (4.6, 2.2, 6.6), (6.6, 4.8, 6.7), "gauge-tag", uv=(0, 0, 16, 16), rot=(0, 0, 8)),
             b("TagCold", (3.45, 9, 8.6), (5.05, 11, 8.75), "pipetags", uv=(0, 8, 16, 16)),
             b("TagHot", (10.95, 9, 8.6), (12.55, 11, 8.75), "pipetags", uv=(0, 0, 16, 8))]
+    return els
+
+
+# ---- The boiler (the utility rooms': a cast-iron sectional boiler, in place of Level 5's) ----
+
+def boiler(part):
+    """Against a wall (to the south), facing north. Lower: the cast-iron sections on a base, ribbed, the front section's
+    fire door and the burner under it, the tridicator gauge, the relief valve and the return coming down to the bottom.
+    Upper: the supply riser with its gate valve and tag, the flue: both bend back into the wall."""
+    if part == "lower":
+        els = [b("Base", (1, 0, 2), (15, 2, 15.5), "castiron")]
+        for k in range(6):
+            z = 3.0 + k * 2.0
+            els += [b(f"Section{k}", (1.6, 2, z), (14.4, 13.5, z + 1.6), "castiron"),
+                    b(f"SectionTop{k}", (3.0, 13.5, z + 0.2), (13.0, 14.5, z + 1.4), "castiron")]
+        els += [b("Core", (2.2, 2, 3.0), (13.8, 13.2, 14.8), "castiron"),
+                b("Front", (1.2, 2, 1.6), (14.8, 14.0, 3.0), "castiron"),
+                b("FireDoor", (4.0, 6.5, 1.1), (12.0, 11.5, 1.6), "furnacedoor"),
+                b("Hinge", (3.4, 7.0, 1.2), (4.2, 11.0, 1.6), "castiron"), b("Latch", (10.6, 8.5, 0.6), (11.6, 9.5, 1.1), "brass"),
+                b("Burner", (5.0, 2.4, 1.2), (11.0, 5.0, 1.6), "metaldark"), b("Peep", (7.4, 3.2, 1.0), (8.6, 4.2, 1.2), "bulb-lit", glow=40),
+                b("Plate", (5.0, 12.0, 1.1), (11.0, 13.6, 1.25), "furnaceplate", uv=(0, 0, 16, 8))]
+        els += K.gauge("Tri", 12.6, 15.0, 2.4, r=1.6, angle=50, face="dialface", body="brass", needle="redwheel", depth=1.2, stem=False)
+        els += [b("TriStem", (12.4, 13.0, 2.6), (12.8, 13.5, 3.4), "brass")]
+        els += rod_y("Return", 2.5, 16, 14.8, 13.5, 1.6, "blackpipe")
+        els += [b("ReturnTee", (13.9, 3.0, 12.6), (15.7, 5.0, 14.4), "blackpipe"), b("Drain", (14.4, 3.5, 11.6), (15.2, 4.5, 12.6), "brass")]
+        els += rod_y("Supply", 14.5, 16, 8.0, 9.0, 2.0, "blackpipe")
+        els += [b("Relief", (3.0, 14.5, 9.0), (4.6, 16.0, 10.6), "brass")]
+        return els
+    els = rod_y("Supply", 0, 9.5, 8.0, 9.0, 2.0, "blackpipe")
+    els += [b("Elbow", (6.8, 8.5, 7.8), (9.2, 11.5, 10.2), "blackpipe")]
+    els += rod_z("SupplyOut", 10.0, 16.4, 8.0, 10.0, 2.0, "blackpipe")
+    els += [b("GateBody", (6.6, 3.0, 7.6), (9.4, 6.0, 10.4), "brass"), b("GateStem", (7.7, 4.1, 5.8), (8.3, 4.9, 7.6), "brass")]
+    els += ring_xy("Wheel", 8.0, 4.5, 5.2, 5.8, 1.8, 0.5, "redwheel")
+    els += [b("Tag", (8.6, 1.4, 5.3), (10.6, 4.0, 5.4), "gauge-tag", uv=(0, 0, 16, 16), rot=(0, 0, -8))]
+    els += rod_y("Return", 0, 12.0, 14.8, 13.5, 1.6, "blackpipe")
+    els += rod_z("ReturnOut", 13.0, 16.4, 14.8, 12.0, 1.6, "blackpipe")
+    els += [b("Collar", (6.4, 8.4, 15.6), (9.6, 11.6, 16.0), "castiron"), b("Collar2", (13.6, 10.8, 15.6), (16.0, 13.2, 16.0), "castiron")]
+    els += rod_y("Flue", 0, 6, 4.0, 12.5, 2.6, "blackpipe")
+    els += rod_z("FlueOut", 11.5, 16.4, 4.0, 5.2, 2.6, "blackpipe")
+    els += [b("Thimble", (2.2, 3.4, 15.6), (5.8, 7.0, 16.0), "castiron")]
     return els
 
 
@@ -1288,6 +1330,35 @@ def sumppipe(part):
     return els
 
 
+def debris(kind):
+    """Under the crack: what came down with whoever fell, heaped: broken slab with its rebar, a stained ceiling tile and
+    a strip of the yellow wallpaper from the room above, a scrap of its wet carpet, splintered floorboards, grit."""
+    els = [b("Grit", (0.5, 0, 0.5), (15.5, 0.25, 15.5), "slabbreak", faces=("up", "north", "south", "east", "west"))]
+    if kind == "boards":
+        els += [b("Board1", (1, 0.25, 6), (15, 1.25, 9), "panel", rot=(0, 22.5, 0)),
+                b("Board2", (3, 0.5, 3), (13, 1.5, 5.5), "panel", rot=(0, -22.5, 8), origin=(8, 1, 4.25)),
+                b("Splinter", (12.5, 0.5, 3.6), (15.5, 1.1, 4.4), "panel", rot=(0, -40, 15), origin=(12.5, 0.8, 4)),
+                b("Board3", (4, 0.25, 11), (14, 1.75, 13.5), "panel", rot=(0, 8, -10), origin=(9, 1, 12.25)),
+                b("Carpet", (2, 0.3, 1), (11, 0.8, 9), "lobbycarpet", rot=(0, 22.5, 0)),
+                b("CarpetFold", (2.5, 0.8, 1.5), (10.5, 1.2, 4.5), "lobbycarpet", rot=(-25, 22.5, 0), origin=(6.5, 0.8, 4.5)),
+                b("Tile", (8, 1.25, 7), (14, 1.75, 12.5), "lobbytile", rot=(0, 30, 12), origin=(11, 1.5, 9.75), uv=(0, 0, 8, 8)),
+                b("Chunk", (10, 0.25, 1.5), (13.5, 3.25, 5), "slabbreak", rot=(0, 45, 0)),
+                b("Rebar", (9.5, 2.5, 3.0), (15.5, 3.0, 3.5), "rebar", rot=(0, 30, -20), origin=(11.5, 2.75, 3.25))]
+        return els
+    els += [b("Chunk1", (2, 0.25, 3), (8, 4.5, 8.5), "slabbreak", rot=(0, 22.5, 10), origin=(5, 2, 5.75)),
+            b("Chunk2", (8, 0.25, 7), (14, 3.0, 12), "slabbreak", rot=(8, -22.5, 0), origin=(11, 1.5, 9.5)),
+            b("Chunk3", (4, 0.25, 10), (7.5, 2.0, 13.5), "slabbreak", rot=(0, 45, 0)),
+            b("Chunk4", (9.5, 0.25, 2), (12.5, 1.75, 5), "slabbreak", rot=(0, 15, 0)),
+            b("UnderCeil", (2.2, 4.5, 3.2), (7.8, 4.55, 8.3), "ceiling-under", faces=("up",), rot=(0, 22.5, 10), origin=(5, 2, 5.75)),
+            b("RebarA", (1.0, 3.6, 5.3), (11.0, 4.1, 5.8), "rebar", rot=(0, 22.5, 18), origin=(5, 3.85, 5.5)),
+            b("RebarB", (5.5, 2.4, 2.5), (6.0, 2.9, 12.5), "rebar", rot=(-12, 10, 0), origin=(5.75, 2.65, 7.5)),
+            b("Carpet", (7, 0.3, 12.5), (15, 0.8, 15.5), "lobbycarpet", rot=(0, -22.5, 0)),
+            b("Paper", (1, 0.3, 12), (6, 0.5, 15), "lobbypaper", rot=(0, 30, 0), uv=(0, 0, 10, 6)),
+            b("Tile", (10, 3.0, 7.5), (14.5, 3.4, 11.5), "lobbytile", rot=(15, -22.5, 0), origin=(12.25, 3.2, 9.5), uv=(0, 0, 8, 8)),
+            b("Board", (1, 0.25, 0.5), (12, 1.25, 2.5), "panel", rot=(0, 5, 6), origin=(6.5, 0.75, 1.5))]
+    return els
+
+
 # ---- The crack's broken edge ----
 
 def slabedge(kind):
@@ -1368,6 +1439,8 @@ def blocks():
     for k in ("pegboard-a", "pegboard-b"):
         shape(f"wallthing-{k}", pegboard(k))
     shape("wallthing-fusebox", fusebox())
+    shape("debris-boards", debris("boards"))
+    shape("debris-chunks", debris("chunks"))
     shape("wallthing-chute", chute())
     for k in ("xmas", "taxes", "moms", "keep"):
         for p in ("lower", "upper"):
@@ -1404,6 +1477,11 @@ def blocks():
              "The Basement: the handrail down the steps into the Flood, its newel leaning (hand l: on the west of a stair that "
              "climbs north)", sounds=METAL, box=(0.03, 0, 0.4, 0.2, 1, 0.55), drops=SCRAP, groups=[("hand", ["l", "r"])])
     fix_mirrored_box(os.path.join(BLOCKS, "basement-rail.json"))
+    oriented("basement-boiler", "Old boiler", {(p,): shape(f"boiler-{p}", boiler(p)) for p in ("lower", "upper")},
+             "The Basement: a cast-iron sectional boiler, its gauge and relief valve; upper, its supply with a gate valve, its "
+             "return and its flue going back into the wall", material="Metal", sounds=METAL, box=(0.06, 0, 0.1, 0.94, 1, 1),
+             drops=SCRAP, groups=[("part", ["lower", "upper"])])
+    patch_upper_no_collide(os.path.join(BLOCKS, "basement-boiler.json"), sel=(0.2, 0, 0.3, 0.8, 0.8, 1))
     # The sump, turned to its corner, and its pipe up the walls
     oriented("basement-sump", "Sump pit", {(): shape("sump", sump())},
              "The Basement: the sump pit in a room's corner, its pump in the black water under an iron grate (the walls to the "

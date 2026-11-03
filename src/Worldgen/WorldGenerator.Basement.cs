@@ -50,7 +50,7 @@ public sealed partial class WorldGenerator
     private readonly int[,] basementSofaIds = new int[2, 4], basementTvIds = new int[2, 4], basementRailIds = new int[2, 4], basementSlabEdgeIds = new int[2, 4];
     private readonly int[] basementCueRackIds = new int[4], basementShopLightIds = new int[4], basementWallRailIds = new int[4], basementSumpIds = new int[4];
     /// <summary>[part (low, high), facing].</summary>
-    private readonly int[,] basementSumpPipeIds = new int[2, 4];
+    private readonly int[,] basementSumpPipeIds = new int[2, 4], basementBoilerIds = new int[2, 4];
     /// <summary>[part (low, mid, top), axis (we, ns)].</summary>
     private readonly int[,] basementStudIds = new int[3, 2];
     /// <summary>[kind (plain, cable, box, bridge), axis (we, ns), light (dark, faint)].</summary>
@@ -142,6 +142,8 @@ public sealed partial class WorldGenerator
             basementSumpIds[f] = Id("basement-sump-" + Sides[f]);
             basementSumpPipeIds[0, f] = Id("basement-sumppipe-low-" + Sides[f]);
             basementSumpPipeIds[1, f] = Id("basement-sumppipe-high-" + Sides[f]);
+            basementBoilerIds[0, f] = Id("basement-boiler-lower-" + Sides[f]);
+            basementBoilerIds[1, f] = Id("basement-boiler-upper-" + Sides[f]);
         }
         basementEarthId = Id("basement-earth");
         basementRugId = Id("basement-rug");
@@ -318,6 +320,7 @@ public sealed partial class WorldGenerator
                 case Props.BasementShelving: return basementShelvingIds[t.Stack & 3, part, facing];
                 case Props.BasementBoxes: return basementBoxesIds[t.Stack & 3, part, facing];
                 case Props.BasementWineRack: return basementWineIds[part, facing];
+                case Props.BasementBoiler when part == 0 || t.Overhead == 0: return basementBoilerIds[part, facing];
                 case Props.BasementSump when part == 1 && t.Overhead == 0: return basementSumpPipeIds[1, BasementSumpCorner(gx, gz)];
                 // (Round 4: the house's own washer, dryer and tub, its TV; their upper part is the wall or the lid over them)
                 case Props.Laundry when part == 0 || t.Overhead == 0: return basementLaundryIds[t.Stack & 1, part, facing];
