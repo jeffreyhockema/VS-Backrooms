@@ -34,6 +34,7 @@ namespace ShotBot;
 ///   focus                   brings the game window to the front
 ///   slot n                  selects hotbar slot n (0-9), e.g. to hold a lit torch
 ///   daylight [off]          a clear day over the level's own air (Level 9's night, Level 10's overcast), this client only
+///   hold ms key...          holds hotkeys (e.g. walkforward sprint) down for ms, as if pressed, then lets go (immersive mouse mode on meanwhile, so sprint counts unfocused)
 ///   wait ms
 ///   waitchat [ms]           wait until a chat line has arrived since the last cmd (its reply), at most ms (default 30000), then 0.5 s
 ///   approach text [dist]    teleports to dist blocks (default 3) from the nearest entity whose code contains text, on the near side
@@ -122,9 +123,30 @@ public class ShotBotSystem : ModSystem, IRenderer
                 e.Pos.X, e.Pos.Y, e.Pos.Z, heading, 180 - e.Pos.Pitch * 180 / Math.PI, capi.World.SeaLevel, capi.World.Calendar.HourOfDay, done, IsPaused(), HudVisible(), guis));
     }
 
+    DateTime holdUntil = DateTime.MinValue;
+    int[] holdKeys = Array.Empty<int>();
+    bool? holdImmersive;
+
+    /// <summary>The client's own key state (ClientMain.KeyboardState), which the player's controls read every tick.</summary>
+    bool[] KeyState() => capi.World.GetType().GetField("KeyboardState", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(capi.World) as bool[];
+
+    void Hold(DateTime now)
+    {
+        if (holdKeys.Length == 0) return;
+        bool[] keys = KeyState();
+        bool on = now < holdUntil;
+        if (keys != null) foreach (int k in holdKeys) if (k >= 0 && k < keys.Length) keys[k] = on;
+        if (on) return;
+        holdKeys = Array.Empty<int>();
+        if (holdImmersive is bool was) capi.Settings.Bool["immersiveMouseMode"] = was;
+        holdImmersive = null;
+        Log("hold released");
+    }
+
     public void OnRenderFrame(float deltaTime, EnumRenderStage stage)
     {
         DateTime now = DateTime.UtcNow;
+        try { Hold(now); } catch (Exception ex) { Log("hold error: " + ex.Message); }
         if ((now - lastTick).TotalMilliseconds < 200) return;
         lastTick = now;
         try { Tick(now); }
@@ -526,6 +548,17 @@ public class ShotBotSystem : ModSystem, IRenderer
                 inv.ActiveHotbarSlotNumber = (int)D(p[1]);
                 Log("holding " + (inv.ActiveHotbarSlot?.Itemstack?.Collectible?.Code?.ToString() ?? "nothing"));
                 Wait(300);
+                break;
+            }
+            case "hold":
+            {
+                int ms = (int)D(p[1]);
+                holdKeys = p.Skip(2).Select(code => capi.Input.GetHotKeyByCode(code)?.CurrentMapping?.KeyCode ?? -1).ToArray();
+                holdImmersive = capi.Settings.Bool["immersiveMouseMode"];
+                capi.Settings.Bool["immersiveMouseMode"] = true;
+                holdUntil = DateTime.UtcNow.AddMilliseconds(ms);
+                Log("hold " + string.Join(",", p.Skip(2)) + " = keys " + string.Join(",", holdKeys) + " for " + ms + " ms");
+                Wait(ms + 500);
                 break;
             }
             case "wait":

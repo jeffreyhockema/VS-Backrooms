@@ -1,0 +1,65 @@
+description: Food pressure (2026-11). Each food prop beside its stripped twin (metal shelving, fridge, drum, cardboard), Food Scraps in hand and in the handbook, the Food page's new lines, and the Rest bar after a minute of walking and a minute of sprinting (sprinting tires four times as fast).
+steps:
+  - bot: closeguis
+  - cmd: /backrooms director off
+  - bot: ready 48
+  - bot: hud off
+  - bot: look 0 -15
+  - cmd: /backrooms rig place metalshelf-south@-1,-3
+  - cmd: /backrooms rig place metalshelfbare-south@1,-3
+  - expect_chat: rig-place
+  - bot: wait 1500
+  - shot: shelf-full-vs-stripped
+  - cmd: /backrooms rig place fridge-south@-1,-3
+  - cmd: /backrooms rig place fridgeajar-south@1,-3
+  - bot: wait 1500
+  - shot: fridge-full-vs-stripped
+  - cmd: /backrooms rig place oildrum@-1,-3
+  - cmd: /backrooms rig place oildrumopen@1,-3
+  - bot: wait 1500
+  - shot: drum-full-vs-stripped
+  - cmd: /backrooms rig place cardboardboxes@-1,-3
+  - cmd: /backrooms rig place cardboardflat@1,-3
+  - bot: wait 1500
+  - shot: cardboard-full-vs-stripped
+  - cmd: /backrooms rig place kitchencabinet-south@-1,-3
+  - cmd: /backrooms rig place kitchencabinetbare-south@1,-3
+  - bot: wait 1500
+  - shot: cupboard-full-vs-stripped
+  - cmd: /backrooms rig place pantryshelf-south@-1,-3
+  - cmd: /backrooms rig place pantryshelfbare-south@1,-3
+  - bot: wait 1500
+  - shot: pantry-full-vs-stripped
+  - cmd: /giveitem backrooms:foodscraps 4
+  - bot: slot 0
+  - bot: hud on
+  - bot: look 0 -40
+  - bot: wait 1500
+  - shot: scraps-in-hand
+  - bot: handbook item-backrooms:foodscraps
+  - bot: wait 2000
+  - shot: handbook-scraps
+  - bot: handbook backrooms-food
+  - bot: wait 2000
+  - bot: hbscroll 0.55
+  - bot: wait 1000
+  - shot: handbook-food-middle
+  - bot: closeguis
+  - cmd: /gamemode survival
+  - bot: wait 3000
+  - cmd: /backrooms needs
+  - expect_chat: Awake
+  - shot: rest-start
+  - bot: look 90 0
+  - bot: hold 60000 walkforward
+  - cmd: /backrooms needs
+  - expect_chat: Awake
+  - shot: rest-after-walking
+  - bot: look 270 0
+  - bot: hold 60000 walkforward sprint
+  - cmd: /backrooms needs
+  - expect_chat: Awake
+  - shot: rest-after-sprinting
+  - note: "Compare the three /backrooms needs lines' Awake hours: a minute of walking adds about 0.5 h (a game hour is two real minutes), a minute of sprinting about 2 h."
+  - cmd: /gamemode creative
+  - expect_no_log: "Exception:"

@@ -28,7 +28,7 @@ public class RigCommands : ModSystem
         var parsers = api.ChatCommands.Parsers;
         api.ChatCommands.Get("backrooms")?
             .BeginSubCommand("rig")
-                .WithDescription("Client test rig helpers: equip <set> (wear game:armor-head/body/legs-<set>, e.g. sewn-leather), sleep (put a hotel bed beside you if there is none and lie down in it), face <text> (reports the heading and pitch to the nearest block whose code contains text, within 16 blocks), walk <blocks> (moves you that far along the way you face, one block at a time, over a floor and through free air), hurt <amount> (a blow from nothing in particular), classdrops <block> (the drops of a block such as supplybox rolled 400 times as if it stood where you do)")
+                .WithDescription("Client test rig helpers: equip <set> (wear game:armor-head/body/legs-<set>, e.g. sewn-leather), sleep (put a hotel bed beside you if there is none and lie down in it), face <text> (reports the heading and pitch to the nearest block whose code contains text, within 16 blocks), walk <blocks> (moves you that far along the way you face, one block at a time, over a floor and through free air), hurt <amount> (a blow from nothing in particular), classdrops <block> (the drops of a block such as supplybox rolled 400 times as if it stood where you do), place <code@dx,dz> (sets a block at your feet height dx, dz off, clearing the one above)")
                 .RequiresPlayer()
                 .WithArgs(parsers.Word("what"), parsers.OptionalWord("arg"))
                 .HandleWith(Handle)
@@ -126,8 +126,26 @@ public class RigCommands : ModSystem
                 var r = Backrooms.Salvage.ScarcitySystem.ClassDrops(sapi, arg ?? "supplybox", at.X, at.Z, 400);
                 return r.Status == EnumCommandStatus.Success ? TextCommandResult.Success("rig-classdrops " + r.StatusMessage) : r;
             }
-            default: return TextCommandResult.Error("rig-error: equip, sleep, face, walk, hurt or classdrops");
+            case "place": return Place(player, arg);
+            default: return TextCommandResult.Error("rig-error: equip, sleep, face, walk, hurt, classdrops or place");
         }
+    }
+
+    /// <summary>
+    /// place code@dx,dz: sets the block backrooms:code (or a domain:code) at the player's feet height, dx and dz blocks off
+    /// (east and south), clearing the block above it, so a prop and its stripped twin can be photographed side by side.
+    /// </summary>
+    TextCommandResult Place(IServerPlayer player, string arg)
+    {
+        string[] parts = arg?.Split('@') ?? Array.Empty<string>();
+        string[] off = parts.Length == 2 ? parts[1].Split(',') : Array.Empty<string>();
+        if (off.Length != 2 || !int.TryParse(off[0], out int dx) || !int.TryParse(off[1], out int dz)) return TextCommandResult.Error("rig-error: place code@dx,dz");
+        Block block = sapi.World.GetBlock(new AssetLocation(parts[0].Contains(':') ? parts[0] : "backrooms:" + parts[0]));
+        if (block == null || block.Id == 0) return TextCommandResult.Error("rig-error: no block " + parts[0]);
+        BlockPos pos = player.Entity.Pos.AsBlockPos.AddCopy(dx, 0, dz);
+        sapi.World.BlockAccessor.SetBlock(block.Id, pos);
+        sapi.World.BlockAccessor.SetBlock(0, pos.UpCopy());
+        return TextCommandResult.Success($"rig-place {block.Code} at {pos.X} {pos.Y} {pos.Z}");
     }
 
     TextCommandResult Equip(IServerPlayer player, string set)
