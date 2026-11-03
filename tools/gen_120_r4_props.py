@@ -1104,15 +1104,14 @@ def cardboard_texture():
     white shipping label, scuffs, a darker foot; laid out so a small box face (its top-left corner of the texture) still
     shows a tape edge and the label."""
     img = M.noise_hv((168, 124, 78), 3, 8500, mottle=6)
-    for x in range(0, 32, 3):
+    for x in range(0, 32, 4):
         for y in range(32):
-            M.touch(img, x, y, -0.05)
+            M.touch(img, x, y, -0.02)
     for y in range(2, 5):
         for x in range(32):
-            px_set(img, x, y, M.lift((150, 104, 58), random.Random(x * 7 + y).uniform(-3, 3)))
-    for x in range(15, 18):
-        for y in range(32):
-            px_set(img, x, y, M.lift((150, 104, 58), random.Random(x * 11 + y).uniform(-3, 3)))
+            px_set(img, x, y, M.lift((196, 150, 92), random.Random(x * 7 + y).uniform(-3, 3)))
+        for x in range(32):
+            M.touch(img, x, 5, -0.12)
     for y in range(7, 13):
         for x in range(3, 11):
             px_set(img, x, y, (214, 210, 198) if (y, x % 3) != (9, 0) else (90, 88, 84))
