@@ -446,3 +446,15 @@ All new models are in `tools/gen_14_r4.py` (called from `gen_14_props.py` and `g
   frame (the `surgery-set` spot now looks up a little); the reception's vending machine never found a free place (the
   chairs line the side walls: now the back corners first); mould blocks stacked up a wall repeated their bloom (now only
   at eye height and here and there above); a big ICU's middle was empty white (a station there now).
+- **Run c, final** (`%TEMP%/backrooms-shots/14-r4c`): the surgical light now in frame over its table (two heads on their
+  arms), the ICU bay with its curtain and monitor arm, a vending machine in the reception's back corner, mould only in blooms
+  at eye height. `hall-lit` is black for the third time although the spot was moved to where the layout's troffers give light
+  (and `hall-dark`, shot second, is lit): the first shot of a run comes before the client has lit the chunk. Worth a look
+  in the client (`/backrooms feature l14hall`), not a layout fault as far as the harness can tell.
+
+### Questions for the user
+1. The lift (out of order, taped) and the hospital directory board are ours, not the lore's: keep them?
+2. The main halls are dark in long stretches (42% of their troffers dead, for the lore's "shadowy hallways"): keep, or
+   light them a little more?
+3. The Hunter stays pure black (the lore's light-absorbing skin) with its red mouths; it has fifteen tentacles now. Want a
+   faint rim of light on it so it reads in the dark, or keep it a hole in the picture?
