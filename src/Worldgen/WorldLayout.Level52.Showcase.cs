@@ -321,19 +321,33 @@ public partial class WorldLayout
                 }
         }
         HoopShot(md, "gym", "gym-hoop");
-        // (Round 4) the trophy case in the quad's lobby, from three tiles in front of it
-        foreach (var (i, list) in md.Fixtures)
-        {
-            L52Fixture tf = list.Find(f => f.Code.StartsWith("l52-trophy-upper-"));
-            if (tf.Code == null) continue;
-            ArchPier tp = tf.Code.EndsWith("north") ? ArchPier.North : tf.Code.EndsWith("south") ? ArchPier.South : tf.Code.EndsWith("east") ? ArchPier.East : ArchPier.West;
-            var (tdu, tdv) = L52Step(tp);
-            var (rdu, rdv) = L52Step(L52RightOf(tp));
-            int tu = i % md.W + tdu * 3 + rdu, tv = i / md.W + tdv * 3 + rdv;
-            if (!md.InGrid(tu, tv) || md.At(tu, tv).Kind != TileKind.Floor) continue;
-            Add(md, "trophy-case", tu, tv, 0, Heading(i % md.W - tu, i / md.W - tv), -12);
-            break;
-        }
+        // (Round 4) a trophy case in a quad's lobby (Marshall David's, or the nearest campus's), from a few tiles in front of it
+        bool trophyShot = false;
+        for (int r = 0; r <= 2 && !trophyShot; r++)
+            for (int dj = -r; dj <= r && !trophyShot; dj++)
+                for (int di = -r; di <= r && !trophyShot; di++)
+                {
+                    if (Math.Max(Math.Abs(di), Math.Abs(dj)) != r) continue;
+                    L52Campus tc = L52CampusOf(mi + di, mj + dj);
+                    if (tc == null) continue;
+                    foreach (var (i, list) in tc.Fixtures)
+                    {
+                        L52Fixture tf = list.Find(f => f.Code.StartsWith("l52-trophy-upper-"));
+                        if (tf.Code == null) continue;
+                        ArchPier tp = tf.Code.EndsWith("north") ? ArchPier.North : tf.Code.EndsWith("south") ? ArchPier.South : tf.Code.EndsWith("east") ? ArchPier.East : ArchPier.West;
+                        var (tdu, tdv) = L52Step(tp);
+                        var (rdu, rdv) = L52Step(L52RightOf(tp));
+                        foreach (var (f, k) in new[] { (3, 1), (3, -1), (3, 0), (2, 1), (2, 0) })
+                        {
+                            int tu = i % tc.W + tdu * f + rdu * k, tv = i / tc.W + tdv * f + rdv * k;
+                            if (!tc.InGrid(tu, tv) || tc.At(tu, tv).Kind != TileKind.Floor || tc.HasFixture[tu + tv * tc.W]) continue;
+                            Add(tc, "trophy-case", tu, tv, 0, Heading(i % tc.W - tu, i / tc.W - tv), -12);
+                            trophyShot = true;
+                            break;
+                        }
+                        if (trophyShot) break;
+                    }
+                }
         {
             var (tn, _) = L52Named;
             HoopShot(L52CampusOf(tn.Ci, tn.Cj), "yard", "court-hoop");
