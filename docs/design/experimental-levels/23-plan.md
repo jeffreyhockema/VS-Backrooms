@@ -552,7 +552,7 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
   furrows, the mossed band with cushions of moss); the fissures' walls and floor a darker copy of the bark; two patterns
   that meet above and below. Root flares (`l23-flare`) in the air at every trunk's foot: a concave slope of mossy bark
   (green on the Giants), or a lower one with a root running out; a step (half a block). Broken limbs (`l23-limb`): two
-  to five a tree, six to fifteen up, an octagonal limb tilted up out of a collar of bark, its broken end showing rings,
+  to five a tree, four to fifteen up, an octagonal limb tilted up out of a collar of bark, its broken end showing rings,
   a fork on the long ones. The roots' tops near the ground rounded (`l23-rootknuckle`).
 - *The floor's things*: fallen logs as slices of their round section (`l23-logpart`, eleven pieces for logs one, two and
   three blocks across, rings on their ends, moss along their tops); stone mushroom caps with a drooping rim, gills under

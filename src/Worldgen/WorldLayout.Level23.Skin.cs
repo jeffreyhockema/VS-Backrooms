@@ -116,7 +116,7 @@ public sealed partial class WorldLayout
 
     /// <summary>
     /// A broken limb out of a trunk's side at a column, if one grows there: on most trees (not the Green Giants nor the
-    /// hollow ones), two to five, six to fifteen over the foot, at the first column outside the bark along
+    /// hollow ones), two to five, four to fifteen over the foot, at the first column outside the bark along
     /// their bearing. Returns the height, the way it points (away from the trunk), the bark, and whether it is a long limb
     /// (else a short stub).
     /// </summary>
