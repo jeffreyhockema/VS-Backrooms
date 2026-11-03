@@ -128,7 +128,7 @@ public sealed partial class WorldGenerator
         if (down == 1)
         {
             // A cave-in: loose boulders where a stretch of the ceiling came down
-            if (Noise2(gx / 16.0, gz / 16.0, SaltRubble) > 0.55)
+            if (ColNoise(ref col.RubbleNoise, gx / 16.0, gz / 16.0, SaltRubble) > 0.55)
             {
                 double r = Hashing.Unit(Hashing.Hash(seed, gx, gz, SaltRubble + 1 + (ulong)(y & 1023)));
                 string rock = StrataName(gx, y - 1, gz);
@@ -136,8 +136,8 @@ public sealed partial class WorldGenerator
                 if (r < 0.18) return looseStoneIds.TryGetValue(rock, out int stones) ? stones : 0;
             }
         }
-        if (down <= 2 && layout.Version >= 5 && Glowcaps(gx, y, gz, rel, down) is int glowing and >= 0) return glowing;
-        if (down <= 3) return WallFungus(gx, y, gz, rel);
+        if (down <= 2 && layout.Version >= 5 && Glowcaps(col, gx, y, gz, rel, down) is int glowing and >= 0) return glowing;
+        if (down <= 3) return WallFungus(col, gx, y, gz, rel);
         return -1;
     }
 
@@ -146,9 +146,11 @@ public sealed partial class WorldGenerator
     /// "multicolored bioluminescent mushrooms"): in some stretches of cave, clusters on the floor and at the foot of
     /// the walls, faintly lit, mostly blood-red, in places of many colours. -1 where none is.
     /// </summary>
-    private int Glowcaps(int gx, int y, int gz, int rel, int down)
+    private int Glowcaps(CaveColumn col, int gx, int y, int gz, int rel, int down)
     {
-        if (Noise2(gx / 36.0, gz / 36.0, SaltGlowcap) < 0.4) return -1;
+        // (From layout version 14 none below the band the lighting covers: a light there would never be lit)
+        if (layout.Version >= 14 && rel < -WorldGeometry.ShaftDepth) return -1;
+        if (ColNoise(ref col.GlowcapNoise, gx / 36.0, gz / 36.0, SaltGlowcap) < 0.4) return -1;
         ulong h = Hashing.Hash(seed, gx, gz, SaltGlowcap + 1 + (ulong)(y & 1023));
         if (Hashing.Unit(h) > 0.035) return -1;
         // One kind to a stretch, mostly red
@@ -172,18 +174,18 @@ public sealed partial class WorldGenerator
         double u = Hashing.Unit(h);
         Hang kind = Hang.None;
         int len = 0, variant = (int)((h >> 40) & 1);
-        double density = SpeleoDensity(gx, gz);
+        double density = SpeleoDensity(col, gx, gz);
         if (u < density)
         {
             kind = Hang.Stalactite;
             len = 2 + (int)((h >> 20) % 3);
         }
-        else if (GlowSlot(gx, gz))
+        else if (GlowSlot(col, gx, gz))
         {
             kind = Hang.Glowworms;
             len = 1 + (int)((h >> 20) % 4); // 1: a short base alone; otherwise base, segments and an end
         }
-        else if (u < density + 0.025 && Noise2(gx / 18.0, gz / 18.0, SaltLichen) > 0.15)
+        else if (u < density + 0.025 && ColNoise(ref col.LichenNoise, gx / 18.0, gz / 18.0, SaltLichen) > 0.15)
         {
             kind = Hang.Lichen;
             len = 1 + (int)((h >> 20) % 4);
@@ -193,15 +195,18 @@ public sealed partial class WorldGenerator
         if (gap < 4) return (Hang.None, 0, 0);
         // Glowworms only in the big chambers
         if (kind == Hang.Glowworms && gap < 9) return (Hang.None, 0, 0);
+        len = Math.Min(len, gap - 3);
+        // From layout version 14 no strand reaches below the band the lighting covers (its lights would never be lit)
+        if (kind == Hang.Glowworms && layout.Version >= 14 && ceilY - len - Geometry.FloorY < -WorldGeometry.ShaftDepth) return (Hang.None, 0, 0);
         // At least three blocks of headroom are always left under whatever hangs here
-        return (kind, Math.Min(len, gap - 3), variant);
+        return (kind, len, variant);
     }
 
     /// <summary>How tall a stalagmite rises from the floor at <paramref name="floorY"/> (0: none).</summary>
     private int Rising(int gx, int gz, int floorY, CaveColumn col)
     {
         ulong h = Hashing.Hash(seed, gx, gz, SaltSpeleoUp + (ulong)(floorY & 1023));
-        if (Hashing.Unit(h) >= SpeleoDensity(gx, gz) * 0.7) return 0;
+        if (Hashing.Unit(h) >= SpeleoDensity(col, gx, gz) * 0.7) return 0;
         // Not where the pools may flood
         if (col.Pool && floorY + 1 - Geometry.FloorY < -18) return 0;
         int len = 1 + (int)((h >> 20) % 3);
@@ -223,7 +228,20 @@ public sealed partial class WorldGenerator
     }
 
     /// <summary>Speleothems gather in groves: a little denser where a slow noise says so.</summary>
-    private double SpeleoDensity(int gx, int gz) => 0.03 + 0.1 * Math.Max(0, Noise2(gx / 11.0, gz / 11.0, SaltSpeleoDensity));
+    private double SpeleoDensity(CaveColumn col, int gx, int gz)
+    {
+        double d = col.Density;
+        if (double.IsNaN(d)) col.Density = d = 0.03 + 0.1 * Math.Max(0, Noise2(gx / 11.0, gz / 11.0, SaltSpeleoDensity));
+        return d;
+    }
+
+    /// <summary>A noise of the column's position, worked out once for the column and kept in <paramref name="slot"/> (NaN until then).</summary>
+    private double ColNoise(ref double slot, double x, double z, ulong salt)
+    {
+        double n = slot;
+        if (double.IsNaN(n)) slot = n = Noise2(x, z, salt);
+        return n;
+    }
 
     /// <summary>The open height under a ceiling (a large number if it runs on past <see cref="SpanScan"/>).</summary>
     private static int SpanBelow(CaveColumn col, int ceilY)
@@ -245,7 +263,13 @@ public sealed partial class WorldGenerator
     /// Glowworm colonies: rare patches, and in one only a strand or so in every 8 by 8 columns, so there are never
     /// more than sixteen strands to a chunk (each block of one is a faint light).
     /// </summary>
-    private bool GlowSlot(int gx, int gz)
+    private bool GlowSlot(CaveColumn col, int gx, int gz)
+    {
+        if (col.GlowSlotState == 0) col.GlowSlotState = (byte)(GlowSlotAt(gx, gz) ? 2 : 1);
+        return col.GlowSlotState == 2;
+    }
+
+    private bool GlowSlotAt(int gx, int gz)
     {
         if (Noise2(gx / 48.0, gz / 48.0, SaltGlowColony) < 0.5) return false;
         int sx = Hashing.FloorDiv(gx, 8), sz = Hashing.FloorDiv(gz, 8);
@@ -286,11 +310,11 @@ public sealed partial class WorldGenerator
     }
 
     /// <summary>A bracket fungus on the wall beside a cave block near the floor, in the damper stretches.</summary>
-    private int WallFungus(int gx, int y, int gz, int rel)
+    private int WallFungus(CaveColumn col, int gx, int y, int gz, int rel)
     {
         ulong h = Hashing.Hash(seed, gx, gz, SaltFungus + (ulong)(y & 1023));
         if (Hashing.Unit(h) > 0.05) return -1;
-        if (Noise2(gx / 20.0, gz / 20.0, SaltFungus + 1) < 0.2) return -1;
+        if (ColNoise(ref col.FungusNoise, gx / 20.0, gz / 20.0, SaltFungus + 1) < 0.2) return -1;
         int start = (int)((h >> 24) & 3);
         for (int i = 0; i < 4; i++)
         {

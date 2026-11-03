@@ -1028,6 +1028,8 @@ public sealed partial class WorldGenerator
         // From layout version 9 the Suburbs go on up to the roofs of their two-storey houses, their chimneys and the tops
         // of their trees (in 1-8 nothing above the usual band was built: a two-storey house stopped at its eaves, flat)
         if (level == 9 && layout.Version >= 9) top = Math.Min(g.TopY - 1, g.FloorY + SuburbTop);
+        // Level 10 from layout version 14: two blocks more, for the tips of its tall pines (needles to 11 above the floor)
+        if (level == 10 && layout.Version >= 14) top = g.FloorY + Level10Top;
         // (Level 7 from layout version 9: up to its high ceiling, with no mantle over it: see HighSea)
         if (HighSea(level)) top = g.FloorY + WorldLayout.SeaCeiling;
         // Those levels are generated over their own band, and sealed just above it
