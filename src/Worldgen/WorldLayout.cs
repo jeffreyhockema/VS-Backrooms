@@ -466,9 +466,11 @@ public sealed partial class WorldLayout
     /// renewable resin; WorldGenerator.Vegetation.cs). It also gives stairs the headroom to climb them: Level 1's stairs to nowhere
     /// have the slab open over their second step and the concrete over the third cut a block higher, and Level 5's grand staircases
     /// open the ceiling from the second step, not the third (blocks only; the tiles, and so <c>layouthash</c>, are as in 12).</item>
+    /// <item><b>14</b>: the 2026-11 review's layout fixes (each gated on <c>Version &gt;= 14</c>; the list is kept in docs/DEVELOPING.md
+    /// under "Layout versions").</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 13;
+    public const int CurrentVersion = 14;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;
