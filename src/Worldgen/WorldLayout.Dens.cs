@@ -76,11 +76,14 @@ public sealed partial class WorldLayout
     public (DenKind Kind, int X, int Z)? DenNear(int gx, int gz)
     {
         int mx0 = MacroOf(gx), mz0 = MacroOf(gz);
+        int level = LevelAt(mx0, mz0);
         for (int mz = mz0 - 1; mz <= mz0 + 1; mz++)
             for (int mx = mx0 - 1; mx <= mx0 + 1; mx++)
             {
                 DenKind kind = DenAt(mx, mz);
                 if (kind == DenKind.None) continue;
+                // (A den's bubble stops at its level's wall)
+                if (LevelAt(mx, mz) != level) continue;
                 int cx = mx * MacroSize + MacroSize / 2, cz = mz * MacroSize + MacroSize / 2;
                 if ((cx - gx) * (cx - gx) + (cz - gz) * (cz - gz) <= DenRadius * DenRadius) return (kind, cx, cz);
             }

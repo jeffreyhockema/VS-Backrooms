@@ -1148,7 +1148,17 @@ public sealed partial class WorldLayout
     /// Any pocket of floor that can't be walked to from the cell's edges (a room whose door fell on a wall, a
     /// corner fenced in by furniture) is marked sealed, so nobody is ever put down there.
     /// </summary>
-    private static void SealPockets(Builder b, Edge east, Edge south)
+    private static bool HasOpenNeighbour(Builder b, int x, int z)
+    {
+        foreach ((int dx, int dz) in Steps)
+        {
+            int nx = x + dx, nz = z + dz;
+            if (nx >= 0 && nz >= 0 && nx < MacroSize && nz < MacroSize && IsWalkable(b.Tiles[TileIndex(nx, nz)])) return true;
+        }
+        return false;
+    }
+
+    private void SealPockets(Builder b, Edge east, Edge south)
     {
         var reached = new bool[MacroSize * MacroSize];
         var queue = new Queue<int>();
@@ -1162,8 +1172,9 @@ public sealed partial class WorldLayout
         for (int i = 0; i < MacroSize; i++)
         {
             // The west and north edges are this cell's own tiles; past the east and south ones, the neighbours' edges must be open
-            Seed(i, 0, true);
-            Seed(0, i, true);
+            // (From layout version 14, not where the tile's neighbours in the cell are all blocked: that is a one-tile pocket, not a passage)
+            Seed(i, 0, Version < 14 || HasOpenNeighbour(b, i, 0));
+            Seed(0, i, Version < 14 || HasOpenNeighbour(b, 0, i));
             Seed(i, MacroSize - 1, south.Tiles[i] != EdgeTile.Wall);
             Seed(MacroSize - 1, i, east.Tiles[i] != EdgeTile.Wall);
         }
