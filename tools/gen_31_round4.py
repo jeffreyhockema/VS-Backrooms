@@ -8,7 +8,8 @@ Rebuilt (codes kept):  l31-skateshelf (real skates in two-by-three cubbies), l31
     in the classic profile), l31-photobooth, l31-dispenser (the green-card machine), l31-cinemabench, l31-mediacab,
     l31-riser's shape (nosing and aisle lights), l31-table, l31-trophycase, l31-cctv, l31-stall, l31-vanity, l31-jukebox; and round 3's wall mounts get
     their depth: the neon signs' tubes stand proud of their boards (the DJ sign's too:
-    gen_31_walls.py's blocktype is patched for its dj kinds), the big TV gets a bezel, the dryer a real body
+    gen_31_walls.py's blocktype is patched for its dj kinds), the big TV gets a bezel, the dryer a real body, and the EXIT sign, extinguisher and fire alarm
+    mounts take the mod's shared models (detail/exithanging, the Level 1 extinguisher and alarm bell)
 New:  l31-barrier (the rink's barrier: a thin padded wall along the boards' outer edge; straight, corner and post
     pieces, chosen by WorldGenerator.L31.Round4.cs from the neighbours), l31-rinkgate (the gaps' gates: a hinge post
     with a leaf swung open into the rink, left or right, or the sill between), l31-pinball (in place of Level 3999's in
@@ -1140,6 +1141,34 @@ def cctv():
     return shape("l31-cctv", els)
 
 
+def shared_fittings():
+    """The EXIT sign, extinguisher and fire alarm mounts take the mod's shared models (no fork): the hanging EXIT box
+    (detail/exithanging) as it is, and the Level 1 extinguisher and alarm bell (detail/concretedeco-*) without their
+    concrete wall block, moved back against the wall behind the mount's block. Read from the shared shapes each run, so
+    they follow any change to those."""
+    import json
+    from gen_31 import SHAPES
+    detail = os.path.join(SHAPES, "..", "detail")
+    for kind, src, dz in (("exit00", "exithanging", 0.0), ("ext00", "concretedeco-extinguisher", 16.0), ("alarm00", "concretedeco-alarm", 16.0)):
+        with open(os.path.join(detail, src + ".json"), encoding="utf-8") as f:
+            data = json.load(f)
+        els = []
+        for e in data["elements"]:
+            if e["name"] == "Wall":
+                continue
+            e = dict(e)
+            e["from"] = [e["from"][0], e["from"][1], round(e["from"][2] + dz, 4)]
+            e["to"] = [e["to"][0], e["to"][1], round(e["to"][2] + dz, 4)]
+            if "rotationOrigin" in e:
+                o = e["rotationOrigin"]
+                e["rotationOrigin"] = [o[0], o[1], round(o[2] + dz, 4)]
+            els.append(e)
+        used = {fc["texture"][1:] for e in els for fc in e["faces"].values()}
+        data["textures"] = {k: v for k, v in data["textures"].items() if k in used}
+        data["elements"] = els
+        write_json(os.path.join(SHAPES, f"l31-plate-{kind}.json"), data)
+
+
 # ======================================================================== Restrooms
 
 def stall():
@@ -1449,6 +1478,7 @@ def blocks():
     dryer()
     neon_tubes()
     dj_tubes()
+    shared_fittings()
     lang()
 
 
