@@ -88,7 +88,7 @@ static partial class LevelModes
         Console.WriteLine($"the Great Hound at {hx},{hz}, on ground {hg}: {houndSealed} tiles sealed under it");
         sealedLand -= houndSealed;
         // (and so are the dead trees' trunks and the boulders, round 3)
-        long trees = 0, boulders = 0;
+        long trees = 0, boulders = 0, heaps = 0, ditch = 0, drums = 0;
         for (int z = iz - 300; z <= iz + 300; z++)
             for (int x = ix - 300; x <= ix + 300; x++)
             {
@@ -96,9 +96,17 @@ static partial class LevelModes
                 if (t.Zone != WorldLayout.L73Land || !t.Sealed || t.Variant != 0 || layout.InL73Hound(x, z)) continue;
                 if (layout.L73TreeNear(x, z) is { } tree && tree.X == x && tree.Z == z) trees++;
                 else if (layout.L73BoulderAt(x, z) != null) boulders++;
+                else if (t.Detail == 2) heaps++;
+                else
+                {
+                    int u = x - layout.L73CastleX0, v = z - layout.L73CastleZ0;
+                    if (WorldLayout.L73Ditch(u, v) > 0 || WorldLayout.L73BridgeSide(u, v)) ditch++;
+                    else if (v is >= WorldLayout.L73CastleD and <= WorldLayout.L73CastleD + 1 && (u is >= 22 and <= 25 || u is >= 30 and <= 33)) drums++;
+                }
             }
-        Console.WriteLine($"dead trees {trees}, boulder tiles {boulders}");
-        sealedLand -= trees + boulders;
+        Console.WriteLine($"dead trees {trees}, boulder tiles {boulders}; round 4: heaps of the dead {heaps}, ditch and bridge {ditch}, drum tiles {drums}");
+        sealedLand -= trees + boulders + heaps + ditch + drums;
+        if (drums != 16) Bad($"{drums} drum tiles, not 16");
         if (trees < 40) Bad("too few dead trees");
         if (sealedLand > 0) Bad($"{sealedLand} land tiles sealed");
         if (castle != WorldLayout.L73CastleW * WorldLayout.L73CastleD) Bad($"castle has {castle} tiles, not {WorldLayout.L73CastleW * WorldLayout.L73CastleD}");

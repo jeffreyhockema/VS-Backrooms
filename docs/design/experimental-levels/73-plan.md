@@ -562,3 +562,207 @@ arrivals 57-133 from the gate); headless (port 43102) dummy placed in Level 73 w
   in `Regions/L73System.cs`, which this round did not touch.
 - The far fields stay as dark as the lore asks (no light outside): is that the look you want in screenshots, or should
   the moonlight be a shade brighter away from the castle?
+
+## Round 4 (2026-11-02): the asset-quality pass
+
+From the round-3 final sheet (`%TEMP%/backrooms-shots/final-r3/73/sheet.jpg`), the lead's round-4 notes, round 3's
+"Still weak", the brief and DECISIONS.md, and the released levels' best props (188's street kit, Fun's set pieces, the
+detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.).
+
+### List
+
+**1. Assets to rebuild to the bar**
+1. [A] [done] `l73-sconce`: a real wall candle-lamp (back plate, curled iron arm, drip pan, candle with wax drips, a flame
+   that glows) instead of a box with a picture.
+2. [A] [done: l73-chandelier, l73-candelabrum] A real **chandelier** (`l73-chandelier`: an iron ring of candles with drip cups and flames, a central boss,
+   hung on a chain from a ceiling rose) and a floor **candelabrum** (`l73-candelabrum`) for the halls, replacing the
+   hotel's crystal ones the castle borrowed.
+3. [A] [done] `l73-fire`: logs crossed on firedogs as rotated round logs (bark, cut ends), layered flame planes with glow,
+   embers bright only where they burn; the dining hearth's and the kitchen's as the same family.
+4. [A] [done] `l73-tapestry`: cloth hung from an iron rod on brackets with finials, a hem and a fringe, a slight belly, not a
+   flat painted board.
+5. [A] [done] `l73-canopy`: four-posters with turned posts (bases, collars, finials), a carved tester, drapes in folds held
+   by tie-backs.
+6. [A] [done: l73-highchair at both ends] `l73-table` (set): pewter plates with rims, goblets with stems, a candlestick in the middle, knife and spoon;
+   a carved **high chair** (`l73-highchair`) at the head of the table (Coran's place, inv.).
+7. [A] [done] `l73-barrel` / `l73-bath`: staved barrels with a bulge, three iron hoops and a chime; the bath's water sunk
+   inside the rim.
+8. [A] [done: l73-hound-0..9, ten anchor blocks] `l73-bone` (the Great Hound): sculpted skull with jaw, teeth, sockets and brow, vertebrae with processes,
+   ribs as rotated curved segments, limb bones with knuckled ends, as one multi-block piece.
+9. [A] [done: 164 elements, was 65] Coran's model (`gen_73_coran.py`): more elements: chain links with depth, gauntlets with knuckles, fingers and
+   spikes, the eye necklace, a tattered mantle (see 41 on the lantern and hood).
+10. [A] [done] `l73-silverwall`: masonry with wear: weathering variants for the plinth course (moss, damp), streaks under
+    the crenels, quoins at the corners in a paler dressed stone.
+11. [B] [done: l73-bookcase-{a,b}] A **bookcase** of the castle's own (`l73-bookcase`): shelves with spines of varied height, colour and lean,
+    a book lying flat, for the library and the solar (the hotel's shelves are a picture).
+12. [B] [done] `l73-hookmeat` / `l73-carcass`: an iron rail with S-hooks and sculpted carcasses (ribs, hide, a limb); heaps
+    of the dead as bones and rags, not blocks.
+13. [B] [done] `l73-deadwood` / `l73-deadbranch`: silhouettes with forking rotated branches and twigs.
+14. [B] [done] `l73-boulder`: faceted rocks of several boxes, a moss-dark foot.
+15. [B] [done] `l73-potrack`: copper pots and pans with handles and lids on hooks.
+16. [B] [done: straps, studs, ring pull] `l73-door`: iron strap hinges, studs and a ring pull as real boxes.
+17. [C] [skipped: time] `l73-chest`, `l73-washstand`, `l73-well`: edge banding, straps, a windlass on the well.
+
+**2. Multi-block set pieces**
+18. [A] [done] **The attic** (the lead: "fix that first"): a pitched slate roof with gables, a ridge with cresting, dormers
+    with leaded windows, the balcony with a stone balustrade and its door, the chimney stacks rising through it.
+19. [A] [done] **The gatehouse**: two drum towers (round in plan), a pointed arch with a **portcullis** hanging into it,
+    machicolations over the gate, arrow slits, banners on the towers.
+20. [A] [done] **Machicolations and crenels**: corbelled parapets on the curtain wall's towers and the keep, merlons with
+    caps, arrow slits in the towers.
+21. [A] [done] **The keep's front**: quoins, string courses, buttresses, the pointed window heads with the boards behind and
+    a warm glow between the boards (see 28).
+22. [B] [done] **A dry ditch and stone bridge** before the gate (inv.: the page has a gatehouse, no ditch).
+23. [B] [partly: conical roofs and corbelled bartizans at the four outer corners; the towers stay square] The corner towers round (drum) with conical slate roofs.
+24. [B] [done] The **dining hall** as one set: the high chair, the place settings, candelabra on the table, the hearth.
+25. [B] [done] The **chandeliers** hung on chains through the beams in the main hall and the dining hall.
+26. [C] [skipped: the well already had its windlass] The well with a windlass and bucket; the cart with spoked wheels.
+
+**3. Level design**
+27. [A] [done: scene 0.44 / 0.40] **The island at night**: keep the lore's dark but let things read: a faint moon rim (scene brightness a shade
+    up on the fields, lighter top texels on ridges and rocks), the castle as the one warm thing.
+28. [A] [done] **Windows glow**: light leaks between the boards of the keep's windows (emissive cracks, a low warm light on
+    the outside face) so the path and courtyard read; no lamp outside (the lore).
+29. [B] [done] **The shore**: black rocks at the waterline and wreckage (ribs of a boat, planks, a crate) on the beaches.
+30. [B] [done] **Heaps of the dead** on the fields sculpted (bones, rags, a pack), near the castle's hill where Coran leaves
+    them.
+31. [B] [done: the outline, cones and glow read from the run (the-run, coran shots)] The arrival view: the castle's outline and glow read from 60-120 blocks.
+32. [C] [skipped: time] A guard room in a gatehouse tower (racks, a bench, a brazier) (inv.).
+
+**4. Lore**
+33. [A] [done: the banners were already on rods; two moved beside the drums] Coran's device on the gatehouse and keep: large banners (silver heart, ram's horns, black field) hung from
+    poles with finials.
+34. [A] [done] The attic reads "off-limits" from the roof: the chained door, the balcony.
+35. [B] [done] The paintings in real gilt frames with depth.
+36. [B] [done] The table of plenty: "silverware at the grand mahogany table": silver plates and goblets.
+37. [C] [done: four pages, right-click] The visitors' book readable.
+
+**5. Alignment with the other levels**
+38. [A] [done] Look for shared candles, lanterns, braziers, banners (Level 47's `candles`, `lantern`, `brazier`, `banner`) and
+    the Hub's / 188's lights; reuse or retint before building new.
+39. [B] [done: 73's own barrels rebuilt with hoops and a bulge] Barrels and crates: share with 23/47 where theirs are better; else 73's to the bar.
+40. [B] [done] Showcase spots and F7 entries for the rebuilt set pieces (attic, gatehouse, chandelier, the Hound up close,
+    the shore).
+41. [B] [done] Coran stays to the lore (no arms but chains, blind): no lantern and no hood (the lead's note; a lantern
+    outside breaks the light rule and he has no eyes); a mantle instead.
+42. [C] [done; and the hotel furniture replaced by the castle's own, beds and clock excepted] "Shared assets below the bar" written for the lead (the hotel chandelier, bookshelves, beds).
+
+### What was built (round 4)
+
+- *The castle from outside* (`tools/gen_73_r4_castle.py`, `src/Worldgen/WorldGenerator.L73.Outside.cs`): the ashlar redone
+  larger and darker (two courses a block, each stone its own shade, tooled, `r4castle.ashlar`), moss and damp on the foot
+  courses (`l73-silverfoot`), rain streaks under every parapet (`l73-silverstreak`), pale dressed quoins at every corner
+  (`l73-quoin`); machicolations under every parapet (`l73-corbel-{straight,corner}-*`: three stepped corbels carrying a
+  projecting floor, its underside dark between them) with the merlons standing out on them (`l73-merlon-{plain,slit,corner}-*`,
+  sloped caps, some with arrow slits); arrow slits in the curtain and the towers (`l73-slit-*`); conical slate roofs with an
+  iron finial and vane on the corner towers, the drums and the keep's turrets (`l73-cone-*`, the turrets now pepper-pots
+  on corbels).
+- *The gatehouse*: two half-round **drum towers** standing two out before the gate (`l73-drum-{cell}-{course}`, cut cell
+  by cell from a circle: foot, body, a string course, a corbelled parapet, merlons round the curve), the gate under a
+  **pointed arch** (`l73-arch-*`) with the **portcullis** raised in its slot, its spiked foot hanging into the arch; the
+  machicolations over the gate; the two outer banners moved to the curtain beside the drums. Before it a **dry ditch**
+  (two deep, one at its ends) and the **stone bridge** that carries the path over it (inv.).
+- *The attic* (the lead: "fix that first"): a 45-degree **slate roof** (`l73-roof-*`: the slates in laps, an eave with
+  its fascia and lead gutter, the ridge with a roll and **iron cresting**, rafters underneath), **stone gables** coped and
+  crowned with a **cross** at each end, four **dormers** with leaded windows under little gabled roofs (`l73-dormer-*`);
+  the chimney stacks capped with a corbelled cornice and **clay pots** (`l73-chimneycap`).
+- *The keep's windows* (`l73-window-{low,high}-*`): a stone reveal, a sill with its drip, a **pointed head** with a hood
+  mould and keystone, the boards set back in it with the rooms' **warm light showing between them** (light 5 on the path
+  and the courtyard; nothing outside the walls); iron **strap hinges**, studs and a ring pull on the keep's door leaves.
+- *The castle's own furniture* (`gen_73_r4_castle.py`) in place of the Level 5 hotel's: carved side chairs with pointed
+  backs at the table (24), settees, wing chairs, low tables, sideboards with silver on them, armoires, bedside cabinets,
+  chests of drawers with swing mirrors, writing desks with pigeonholes; a gabled stone hood on brackets over the keep's
+  door, coped weatherings on the buttresses, candle-sconces in the gate passage.
+- *Inside* (`tools/gen_73_r4_props.py`, rebuilt shapes in `gen_73_interior.py` / `gen_73_castle.py`): the castle's own
+  **chandelier** (an iron ring of eight candles on a chain from a ceiling rose) and **candelabrum** (five-armed, on a
+  tripod) in place of the hotel's crystal ones; the **sconce** a real candle-sconce; **fires** of round logs crossed on
+  firedogs, the cauldron on its crane; **tapestries** hung from iron rods on brackets with finials, hemmed and fringed;
+  **four-posters** with turned posts, a carved tester and tied-back drapes; the **table of plenty** set with pewter plates,
+  goblets, knife and spoon and a napkin, a carved **high chair** at each end (`l73-highchair-*`); **barrels** staved with
+  hoops; **bookcases** of the castle's own with books of every height and lean (`l73-bookcase-{a,b}-*`); hooks and
+  carcasses, the heaps of the dead, the pot rack with copper pots and lids.
+- *Coran* (`tools/gen_73_coran.py`, 164 elements, was 65): ring links of four bars each, gauntlets with fingers, thumb,
+  knuckle and back spikes, layered plates (pauldrons, lames, abdomen, thighs, shins, knees, sabatons), five-segment
+  curled horns, the eye necklace bigger, a tattered black mantle; no lantern and no hood (see the list, 41).
+- *The Great Hound* (`tools/gen_73_r4_hound.py`): sculpted, carried by ten anchor blocks along its axis (`l73-hound-0..9`):
+  the skull (cranium, crest, brows, dark sockets, cheekbones, snout, nose, the jaw dropped open, fangs and teeth), neck
+  vertebrae, the arched spine (centra, leaning spines, processes), nine pairs of ribs curving to the ground (two broken,
+  the pieces lying below), shoulder blades, the pelvis, the legs flat out with knobbed joints and clawed toes, the tail.
+- *The island*: dead trees with crooked forking limbs and twigs on an eight-sided trunk with a root flare; faceted
+  boulders; black rocks and **wreckage** on the beaches (a boat's ribs sunk in the sand, planks and rope; `l73-wreck-*`);
+  **heaps of the dead** on the hill's flanks where Coran leaves them; the moonlit scene a shade brighter (0.44, was 0.36).
+- *Showcase* spots `gate-arch`, `corner-tower`, `chandelier`, `attic-roof` (F7: under the gate, the hall and the attic).
+
+### Inventions (round 4)
+
+The dry ditch and its stone bridge (the page has "a singular open gatehouse", no ditch); the drum towers, portcullis,
+machicolations and conical roofs (the page says only "gothic", "high and thin stone walls"); the attic's pitched roof,
+gables, crosses and dormers (the page: "an attic opening onto a balcony"); the light between the boards (the page: the
+windows are "completely boarded"; the light here is the rooms' own, seen through the cracks, and falls only inside the
+walls); the high chairs at the table's ends; the wreckage on the beaches (the page: an unexplored ocean); the heaps of
+the dead on the hill's flanks; Coran's mantle.
+
+### Shared assets below the bar
+
+- The Level 5 hotel pieces the castle still borrows: the beds under the canopies (they must stay the mod's sleepable
+  beds for the night's rest; a castle frame round them would need the shared bed shape to change), the grandfather
+  clock and the toilet. Round 4 replaced the rest with the castle's own (`l73-chair`, `-settee`, `-wingchair`,
+  `-lowtable`, `-sideboard`, `-armoire`, `-bedside`, `-drawers`, `-desk`, `-bookcase`, `-highchair`); the hotel's
+  versions (`hotelchair`, `longsofa`, `wingchair`, `coffeetable`, `consoletable`, `dresser`, `writingdesk`, `nightstand`,
+  `wardrobe`, `hotelbookshelf`) are one-box legs and flat fronts next to them, if Level 5 wants a pass.
+- The field bones (`Props.BonePile`, `Ribcage`, `JawSkeleton`) and `Props.WreckCrate`: low-detail boxes; a bone pile of
+  several rotated bones and a skull would serve every level that uses them.
+- The hotel's crystal `chandelier` (top-level `shapes/block/chandelier.json`): no longer used here; still a flat ring.
+
+### Balance notes for the lead
+
+- The **dry ditch** before the gate (two deep, one at its two ends) is an obstacle on the run: whoever misses the bridge
+  (4 wide, on the path) drops in and must walk to an end to climb out. Hounds and the rest path round it or follow in.
+  If that is too cruel for the run, make it one deep (`WorldLayout.L73Ditch`).
+- The **windows** give light 5 inside the walls (the courtyard and the path to the keep's door); nothing outside the
+  curtain wall changes; the light rule (a light in hand outside the walls) is untouched.
+- The **heaps of the dead** (about one tile in 240 on the hill's flanks, 44-88 out from the castle's middle) and the
+  shore's **rocks and wreckage** are fixed blocks that give nothing; they are sealed tiles (no arrivals on them).
+- The castle's new blocks are all `l73Fixed` (never break, drop nothing).
+
+### Questions for the user (round 4)
+
+- The lead asked for Coran with "a hooded cloak and a lantern, lit". The page makes him blind and armless (chains to
+  gauntlets), and forbids light outside; he got a tattered mantle and no lantern or hood. Should he carry a light anyway?
+- The dry ditch before the gate (two deep, one at its ends) makes missing the bridge costly on the run: keep it, or make
+  it one deep?
+- The castle now borrows only the beds (sleepable), from the hotel: is a castle bed frame worth changing the shared bed
+  shape for?
+
+### What the shots showed (round 4)
+
+Run 1 (`%TEMP%/backrooms-shots/73-r4a`, no torch, 36 shots; the lock came after three and a half hours of queue):
+- The castle reads as a castle at last: the two drum towers with their conical roofs either side of the pointed arch,
+  the portcullis's spiked grid overhead in the arch, machicolations and capped merlons along every wall, the corner
+  towers' steep cones, slits with their cross-arms, the keep's front with buttresses, framed windows glowing between
+  their boards, string courses, the gabled hood over the door; the attic is a coped, crossed gable and a slate roof with
+  dormers and cresting.
+- The Great Hound reads as a beast's skeleton (skull, open jaw, the arched spine and its processes, ribs to the ground,
+  legs and claws); Coran in plate with ring chains and the glowing heart; the dining hall's carved chairs, goblets and
+  plates, the high chair; the rooms' chandeliers, armoires, wing chairs, settees, low tables, bookcases, the clock.
+- Wrong: the eave's fascia showed a strip of another texture (book spines) and the drums' curves fine vertical stripes:
+  faces outside the block had been given zero-size UVs at the texture's edge; fixed (every shape regenerated).
+- Still weak: the grand stair's treads were the hotel's white marble (now the castle's own oak and velvet stairs, after
+  the run); the far fields and the random arrivals stay
+  very dark (the lore's night, no torch); the skull is still boxy close to.
+
+Run 2, the final (`%TEMP%/backrooms-shots/73-r4b`, 32 shots: the rig stopped the showcase after `shore-moon` on a
+PermissionError of its own, so the link spots, unchanged this round, are in run 1): the eave's fascia is oak now, the
+castle's oak-and-velvet stairs replace the hotel's marble, the bartizans stand at the outer corners. The drums' curves
+still show faint vertical banding (many thin boxes); the skull is still boxy close to.
+
+### Checks (round 4)
+
+`expclash` clean; mod and mapgen build with 0 errors (tags 73, 73b, 73g); `layouthash` (`BACKROOMS_NO_EXP_ENTRANCES=1`) at
+layout versions 1 and 12: every line for levels 0-20 and the layout hash identical to main's saved files; `regions` 60/60
+in Level 73 (0 wrong, 0 in pockets); `featurecheck` 15/15 Level 73 features found from 3 arrivals; `73stats` OK (24 guest
+beds, 4 bath barrels, 24 places, 32 windows, 0 misplaced; 112 dead trees; 60 heaps of the dead, 96 ditch and bridge tiles,
+16 drum tiles; arrivals 58-133 from the gate); headless (port 43101, fresh world): a dummy placed in Level 73 with 0
+error lines, `blocksweep` 15829 blocks, 0 threw (one earlier run on a reused world stopped on an engine relight exception
+in `ChunkIlluminator.UpdateLightAt` during the sweep at the console spawn; it did not come back on a fresh world).
+`GATE_TAG=73g gate.py --fast --port-base 43100` PASS (generators, lang, build, boot, harness; commit 509b009b).

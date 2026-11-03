@@ -1,0 +1,160 @@
+// Level 73 (round 4): a long carved settee, its left (l) and right (r) halves as one sits on it (facing north for -north)
+{
+	"code": "l73-settee",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-l-north"
+		],
+		"backrooms": [
+			"*-l-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1.4,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"shapeByType": {
+		"*-l-north": {
+			"base": "block/73/settee-l",
+			"rotateY": 0
+		},
+		"*-l-east": {
+			"base": "block/73/settee-l",
+			"rotateY": 270
+		},
+		"*-l-south": {
+			"base": "block/73/settee-l",
+			"rotateY": 180
+		},
+		"*-l-west": {
+			"base": "block/73/settee-l",
+			"rotateY": 90
+		},
+		"*-r-north": {
+			"base": "block/73/settee-r",
+			"rotateY": 0
+		},
+		"*-r-east": {
+			"base": "block/73/settee-r",
+			"rotateY": 270
+		},
+		"*-r-south": {
+			"base": "block/73/settee-r",
+			"rotateY": 180
+		},
+		"*-r-west": {
+			"base": "block/73/settee-r",
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.6,
+			"z2": 0.9,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.6,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.6,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.6,
+			"z2": 0.9,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

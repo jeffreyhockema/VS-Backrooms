@@ -1,0 +1,90 @@
+// Level 73: the Great Hound's bones, sculpted (round 4): one block on the skeleton's axis carries the bones about it
+{
+	"code": "l73-hound",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"0",
+				"1",
+				"2",
+				"3",
+				"4",
+				"5",
+				"6",
+				"7",
+				"8",
+				"9"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-0"
+		],
+		"backrooms": [
+			"*-0"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-0": {
+			"base": "block/73/hound-0"
+		},
+		"*-1": {
+			"base": "block/73/hound-1"
+		},
+		"*-2": {
+			"base": "block/73/hound-2"
+		},
+		"*-3": {
+			"base": "block/73/hound-3"
+		},
+		"*-4": {
+			"base": "block/73/hound-4"
+		},
+		"*-5": {
+			"base": "block/73/hound-5"
+		},
+		"*-6": {
+			"base": "block/73/hound-6"
+		},
+		"*-7": {
+			"base": "block/73/hound-7"
+		},
+		"*-8": {
+			"base": "block/73/hound-8"
+		},
+		"*-9": {
+			"base": "block/73/hound-9"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"collisionbox": null,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

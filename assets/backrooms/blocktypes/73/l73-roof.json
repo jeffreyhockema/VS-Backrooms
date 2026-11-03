@@ -1,0 +1,212 @@
+// Level 73: the attic's 45-degree slate roof, rising toward the variant's side (eave, ridge with cresting, stone gable with coping)
+{
+	"code": "l73-roof",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"slate",
+				"eave",
+				"ridge",
+				"gable",
+				"gablepeak"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-slate-south"
+		],
+		"backrooms": [
+			"*-slate-south"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"shapeByType": {
+		"*-slate-north": {
+			"base": "block/73/roof-slate",
+			"rotateY": 180
+		},
+		"*-slate-east": {
+			"base": "block/73/roof-slate",
+			"rotateY": 90
+		},
+		"*-slate-south": {
+			"base": "block/73/roof-slate",
+			"rotateY": 0
+		},
+		"*-slate-west": {
+			"base": "block/73/roof-slate",
+			"rotateY": 270
+		},
+		"*-eave-north": {
+			"base": "block/73/roof-eave",
+			"rotateY": 180
+		},
+		"*-eave-east": {
+			"base": "block/73/roof-eave",
+			"rotateY": 90
+		},
+		"*-eave-south": {
+			"base": "block/73/roof-eave",
+			"rotateY": 0
+		},
+		"*-eave-west": {
+			"base": "block/73/roof-eave",
+			"rotateY": 270
+		},
+		"*-ridge-north": {
+			"base": "block/73/roof-ridge",
+			"rotateY": 180
+		},
+		"*-ridge-east": {
+			"base": "block/73/roof-ridge",
+			"rotateY": 90
+		},
+		"*-ridge-south": {
+			"base": "block/73/roof-ridge",
+			"rotateY": 0
+		},
+		"*-ridge-west": {
+			"base": "block/73/roof-ridge",
+			"rotateY": 270
+		},
+		"*-gable-north": {
+			"base": "block/73/roof-gable",
+			"rotateY": 180
+		},
+		"*-gable-east": {
+			"base": "block/73/roof-gable",
+			"rotateY": 90
+		},
+		"*-gable-south": {
+			"base": "block/73/roof-gable",
+			"rotateY": 0
+		},
+		"*-gable-west": {
+			"base": "block/73/roof-gable",
+			"rotateY": 270
+		},
+		"*-gablepeak-north": {
+			"base": "block/73/roof-gablepeak",
+			"rotateY": 180
+		},
+		"*-gablepeak-east": {
+			"base": "block/73/roof-gablepeak",
+			"rotateY": 90
+		},
+		"*-gablepeak-south": {
+			"base": "block/73/roof-gablepeak",
+			"rotateY": 0
+		},
+		"*-gablepeak-west": {
+			"base": "block/73/roof-gablepeak",
+			"rotateY": 270
+		}
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"renderpass": "OpaqueNoCull",
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

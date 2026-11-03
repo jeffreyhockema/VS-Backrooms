@@ -1,0 +1,137 @@
+// Level 73 (round 4): a carved side chair, velvet seat, tall pointed back (front north for -north)
+{
+	"code": "l73-chair",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 1.6,
+			"z2": 0.9,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 1.6,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 1.6,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 1.6,
+			"z2": 0.9,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"shapeByType": {
+		"*-north": {
+			"base": "block/73/chair",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/73/chair",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/73/chair",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/73/chair",
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.6,
+			"z2": 0.9,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.6,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.6,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.6,
+			"z2": 0.9,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

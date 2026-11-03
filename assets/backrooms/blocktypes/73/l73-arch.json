@@ -1,0 +1,113 @@
+// Level 73: the gate's pointed arch, one cell of it (column and row over the gate's floor); gate: with the raised portcullis
+{
+	"code": "l73-arch",
+	"variantgroups": [
+		{
+			"code": "piece",
+			"states": [
+				"03",
+				"13",
+				"23",
+				"33",
+				"04",
+				"14",
+				"24",
+				"34"
+			]
+		},
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"gate"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-04-plain"
+		],
+		"backrooms": [
+			"*-04-plain"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-03-plain": {
+			"base": "block/73/arch-03-plain"
+		},
+		"*-03-gate": {
+			"base": "block/73/arch-03-gate"
+		},
+		"*-13-plain": {
+			"base": "block/73/arch-13-plain"
+		},
+		"*-13-gate": {
+			"base": "block/73/arch-13-gate"
+		},
+		"*-23-plain": {
+			"base": "block/73/arch-23-plain"
+		},
+		"*-23-gate": {
+			"base": "block/73/arch-23-gate"
+		},
+		"*-33-plain": {
+			"base": "block/73/arch-33-plain"
+		},
+		"*-33-gate": {
+			"base": "block/73/arch-33-gate"
+		},
+		"*-04-plain": {
+			"base": "block/73/arch-04-plain"
+		},
+		"*-04-gate": {
+			"base": "block/73/arch-04-gate"
+		},
+		"*-14-plain": {
+			"base": "block/73/arch-14-plain"
+		},
+		"*-14-gate": {
+			"base": "block/73/arch-14-gate"
+		},
+		"*-24-plain": {
+			"base": "block/73/arch-24-plain"
+		},
+		"*-24-gate": {
+			"base": "block/73/arch-24-gate"
+		},
+		"*-34-plain": {
+			"base": "block/73/arch-34-plain"
+		},
+		"*-34-gate": {
+			"base": "block/73/arch-34-gate"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"collisionbox": null,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

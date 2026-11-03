@@ -130,6 +130,7 @@
 			"rotateY": 90
 		}
 	},
+	"class": "BackroomsL73Lectern",
 	"attributes": {
 		"l73Fixed": true
 	},

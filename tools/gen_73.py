@@ -22,6 +22,9 @@ import gen_73_castle as castle
 import gen_73_interior as interior
 import gen_73_links as links
 import gen_73_lore as lore
+import gen_73_r4_castle as r4castle
+import gen_73_r4_hound as r4hound
+import gen_73_r4_props as r4props
 import matlib as M
 import texlib
 
@@ -254,10 +257,8 @@ def damask(seed):
 
 
 def silverwall(seed):
-    img = M.brick(seed=seed, base=(172, 176, 182), mortar=(112, 114, 120), course=8, length=16, offset=0.5, mortar_w=1,
-                  jitter=9, hue=2, pits=0.04, chamfer=True, grain=4, mottle=7)
-    M.grime(img, 0.08, seed=seed + 1, color=(84, 80, 84), cover=0.4)
-    return img
+    # (round 4: larger ashlar, two courses a block, darker and more varied; gen_73_r4_castle.py)
+    return r4castle.ashlar(seed)
 
 
 def sconce_iron(seed):
@@ -336,7 +337,7 @@ def cube_block(code, comment, textures, material, walk, dig, resistance, extra=N
 def sconce_block():
     sides = ["north", "east", "south", "west"]
     rot = {"north": 0, "east": 270, "south": 180, "west": 90}
-    box = {"x1": 0.3, "y1": 0.25, "z1": 0.5, "x2": 0.7, "y2": 0.8, "z2": 1}
+    box = {"x1": 0.3, "y1": 0.13, "z1": 0.45, "x2": 0.7, "y2": 0.9, "z2": 1}
     return ("// Level 73: an iron wall sconce in the Silver Castle (the wall to its back, south for -north), a dim amber glow", {
         "code": "l73-sconce",
         "variantgroups": [{"code": "side", "states": sides}],
@@ -348,6 +349,7 @@ def sconce_block():
         "sideopaque": {"all": False},
         "lightAbsorption": 0,
         "lightHsv": [6, 5, 8],
+        "renderpass": "OpaqueNoCull",
         "resistance": 1.5,
         "collisionbox": None,
         "selectionboxByType": {f"*-{s}": dict(box, rotateY=rot[s]) for s in sides},
@@ -426,17 +428,39 @@ def box(name, frm, to, tex, glow=0):
 
 
 def sconce_shape():
+    """A wall candle-sconce (the wall to its back, south): a pointed iron back plate with a raised field, a gilt boss
+    and rivets, C-scrolls either side; an arm out from the boss on a curled brace, curling down at its end; a drip pan
+    with a lip, a socket, a candle with wax run down it and pooled on the pan, the flame (drawn from both sides:
+    the block is OpaqueNoCull)."""
+    import gen_73_r4_props as P
+    from gen_73_interior import bb, octo
+    els = [
+        bb("Plate", (6.0, 3.0, 15.3), (10.0, 12.0, 16.0), "#iron"),
+        bb("Field", (6.6, 3.6, 15.0), (9.4, 11.4, 15.3), "#iron"),
+        bb("PlatePoint", (6.9, 10.9, 15.32), (9.1, 13.1, 16.0), "#iron", rot=("z", 45, (8, 12.0, 15.6))),
+        bb("PlateDrop", (7.2, 2.2, 15.33), (8.8, 3.8, 16.0), "#iron", rot=("z", 45, (8, 3.0, 15.6))),
+        bb("RivetTop", (7.7, 10.4, 14.75), (8.3, 11.0, 15.0), "#gold"),
+        bb("RivetLow", (7.7, 4.0, 14.75), (8.3, 4.6, 15.0), "#gold"),
+    ]
+    els += octo("Boss", "z", (8, 7.3), 14.3, 15.0, 0.95, "#gold", n=2)
+    for nm, x0, sg in (("L", 5.2, 1), ("R", 10.4, -1)):
+        hx = (x0, x0 + 1.4) if sg > 0 else (x0 - 1.0, x0 + 0.4)
+        els += [bb(f"Scroll{nm}", (x0, 6.0, 15.4), (x0 + 0.4, 9.8, 16.0), "#iron"),
+                bb(f"Scroll{nm}Top", (hx[0], 9.4, 15.4), (hx[1], 9.8, 16.0), "#iron"),
+                bb(f"Scroll{nm}Low", (hx[0], 6.0, 15.4), (hx[1], 6.4, 16.0), "#iron"),
+                bb(f"Scroll{nm}Tip", (x0 + (0.4 if sg > 0 else -0.6), 8.6, 15.4), (x0 + (1.0 if sg > 0 else 0.0), 9.4, 16.0), "#iron")]
+    els += [bb("Arm", (7.7, 6.9, 9.0), (8.3, 7.5, 14.3), "#iron"),
+            bb("Brace", (7.75, 5.6, 11.8), (8.25, 6.0, 14.6), "#iron", rot=("x", 35, (8, 5.8, 13.2))),
+            bb("BraceCurl", (7.75, 4.4, 14.2), (8.25, 5.3, 14.9), "#iron"),
+            bb("ArmCurl", (7.75, 6.1, 8.5), (8.25, 7.4, 8.95), "#iron"),
+            bb("ArmTip", (7.75, 5.8, 8.95), (8.25, 6.25, 9.6), "#iron")]
+    els += P.candle("Candle", 8, 7.5, 9.6, 3.8, r=0.55, pan=1.9, cup=0.7, drip=0, blob=True, fw=1.25, fh=2.1)
+    els += P.ring8("Lip", 8, 9.6, 7.75, 8.05, 1.75, 0.22, "#iron")
     return {
         "textureWidth": 16, "textureHeight": 16,
-        "textures": {"iron": "backrooms:block/73/sconce-iron", "glow": "backrooms:block/73/sconce-glow"},
-        "elements": [
-            box("Plate", [6, 4, 15], [10, 12, 16], "#iron"),
-            box("Arm", [7.5, 9, 12.5], [8.5, 10, 15], "#iron"),
-            box("Base", [5.5, 4.5, 8.5], [10.5, 5.5, 13.5], "#iron"),
-            box("Glass", [6.5, 5.5, 9.5], [9.5, 10, 12.5], "#glow", glow=180),
-            box("Cap", [5.5, 10, 8.5], [10.5, 11, 13.5], "#iron"),
-            box("Finial", [7.5, 11, 10.5], [8.5, 12.5, 11.5], "#iron"),
-        ],
+        "textures": {"iron": "backrooms:block/73/sconce-iron", "gold": "backrooms:block/73/gold", "wax": "backrooms:block/73/r4p-wax",
+                     "flame": "backrooms:block/73/r4p-flame"},
+        "elements": els,
     }
 
 
@@ -469,7 +493,7 @@ LANG = [
     ("block-l73-bone", "Great Hound's Bone"),
     ("block-l73-wainscot-*", "Mahogany Panelling"),
     ("block-l73-damask-*", "Damask-Papered Wall"),
-] + castle.LANG + interior.LANG + links.LANG + lore.LANG
+] + castle.LANG + interior.LANG + r4castle.LANG + r4props.LANG + r4hound.LANG + links.LANG + lore.LANG
 
 
 def write_lang():
@@ -555,6 +579,12 @@ def main():
     for comment, b in interior.blocktypes():
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
     n_shapes += interior.shapes(write_json, os.path.join(ASSETS, "shapes", "block", "73"))
+    # Round 4's asset-quality pass (2026-11-02): the castle's outside (gen_73_r4_castle.py), the furnishings (gen_73_r4_props.py)
+    for mod in (r4castle, r4props, r4hound):
+        n_tex += mod.textures(save)
+        for comment, b in mod.blocktypes():
+            write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
+        n_shapes += mod.shapes(write_json, os.path.join(ASSETS, "shapes", "block", "73"))
     # The ways in and out (gen_73_links.py): the Gloom's ground and murk, the north door
     n_tex += links.textures(save)
     for comment, b in links.blocktypes():

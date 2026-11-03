@@ -35,6 +35,12 @@ LANG = [
     ("l73-door-knock", "Nothing yet. Bang harder: someone inside has to hear you."),
     ("l73-door-opened", "Bolts slide back. The door swings in, and warm light spills out. Quick, inside."),
     ("l73-attic-locked", "Chained and padlocked. CORAN has declared the attic off-limits."),
+    # (round 4) the visitors' book on the lectern in the main hall
+    ("l73-book-1", "The visitors' book. Page after page of names in different hands, each with the day it came. None has a day it left."),
+    ("l73-book-2", "A column of tallies in a careful hand, struck through in fives. The total at the foot is underlined twice: 37."),
+    ("l73-book-3", "Across a whole page, in large letters: THERE IS NOBODY HERE BUT US. Underneath, smaller: and him."),
+    ("l73-book-4", "The last name is in fresh ink. The line below it is already ruled, waiting."),
+    ("blockhelp-l73-read", "Read the book"),
     ("l73-table-cleared", "Your place has been cleared. It will be set again."),
     ("l73-bath-washed", "The water is warm. The island's red dust comes off you."),
     ("blockhelp-l73-knock", "Bang on the door"),

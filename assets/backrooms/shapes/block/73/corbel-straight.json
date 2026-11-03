@@ -1,0 +1,782 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"stone": "backrooms:block/73/silverwall",
+		"foot": "backrooms:block/73/silverfoot",
+		"streak": "backrooms:block/73/silverstreak",
+		"coping": "backrooms:block/73/r4-coping",
+		"dark": "backrooms:block/73/r4-dark",
+		"iron": "backrooms:block/73/r4-iron",
+		"slate": "backrooms:block/73/r4-slate",
+		"rafters": "backrooms:block/73/r4-rafters",
+		"boards": "backrooms:block/73/r4-boardgaps",
+		"glow": "backrooms:block/73/r4-warmglow",
+		"leaded": "backrooms:block/73/r4-leaded",
+		"pot": "backrooms:block/73/r4-terracotta",
+		"quoin": "backrooms:block/73/quoin",
+		"oak": "backrooms:block/73/beam",
+		"oakb": "backrooms:block/73/oak"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#streak",
+					"uv": [
+						0.0,
+						0.0,
+						16.0,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#streak",
+					"uv": [
+						0.0,
+						0.0,
+						16.0,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#streak",
+					"uv": [
+						0.0,
+						0.0,
+						16.0,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#streak",
+					"uv": [
+						0.0,
+						0.0,
+						16.0,
+						16.0
+					]
+				},
+				"up": {
+					"texture": "#streak",
+					"uv": [
+						0.0,
+						0.0,
+						16.0,
+						16.0
+					]
+				},
+				"down": {
+					"texture": "#streak",
+					"uv": [
+						0.0,
+						0.0,
+						16.0,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CorbelN00",
+			"from": [
+				0.9,
+				5,
+				-1.0
+			],
+			"to": [
+				4.1,
+				8.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						11.9,
+						7.5,
+						15.1,
+						11
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0.9,
+						7.5,
+						4.1,
+						11
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						7.5,
+						1.0,
+						11
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						15.0,
+						7.5,
+						16,
+						11
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0.9,
+						15.0,
+						4.1,
+						16
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0.9,
+						0,
+						4.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CorbelN01",
+			"from": [
+				0.9,
+				8.5,
+				-2.0
+			],
+			"to": [
+				4.1,
+				12,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						11.9,
+						4,
+						15.1,
+						7.5
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0.9,
+						4,
+						4.1,
+						7.5
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						4,
+						2.0,
+						7.5
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						14.0,
+						4,
+						16,
+						7.5
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0.9,
+						14.0,
+						4.1,
+						16
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0.9,
+						0,
+						4.1,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CorbelN02",
+			"from": [
+				0.9,
+				12,
+				-2.8
+			],
+			"to": [
+				4.1,
+				13.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						11.9,
+						2.5,
+						15.1,
+						4
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0.9,
+						2.5,
+						4.1,
+						4
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						2.5,
+						2.8,
+						4
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						13.2,
+						2.5,
+						16,
+						4
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0.9,
+						13.2,
+						4.1,
+						16
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0.9,
+						0,
+						4.1,
+						2.8
+					]
+				}
+			}
+		},
+		{
+			"name": "CorbelN10",
+			"from": [
+				6.4,
+				5,
+				-1.0
+			],
+			"to": [
+				9.6,
+				8.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						6.4,
+						7.5,
+						9.6,
+						11
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						6.4,
+						7.5,
+						9.6,
+						11
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						7.5,
+						1.0,
+						11
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						15.0,
+						7.5,
+						16,
+						11
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						6.4,
+						15.0,
+						9.6,
+						16
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						6.4,
+						0,
+						9.6,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CorbelN11",
+			"from": [
+				6.4,
+				8.5,
+				-2.0
+			],
+			"to": [
+				9.6,
+				12,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						6.4,
+						4,
+						9.6,
+						7.5
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						6.4,
+						4,
+						9.6,
+						7.5
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						4,
+						2.0,
+						7.5
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						14.0,
+						4,
+						16,
+						7.5
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						6.4,
+						14.0,
+						9.6,
+						16
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						6.4,
+						0,
+						9.6,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CorbelN12",
+			"from": [
+				6.4,
+				12,
+				-2.8
+			],
+			"to": [
+				9.6,
+				13.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						6.4,
+						2.5,
+						9.6,
+						4
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						6.4,
+						2.5,
+						9.6,
+						4
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						2.5,
+						2.8,
+						4
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						13.2,
+						2.5,
+						16,
+						4
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						6.4,
+						13.2,
+						9.6,
+						16
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						6.4,
+						0,
+						9.6,
+						2.8
+					]
+				}
+			}
+		},
+		{
+			"name": "CorbelN20",
+			"from": [
+				11.9,
+				5,
+				-1.0
+			],
+			"to": [
+				15.1,
+				8.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0.9,
+						7.5,
+						4.1,
+						11
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						11.9,
+						7.5,
+						15.1,
+						11
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						7.5,
+						1.0,
+						11
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						15.0,
+						7.5,
+						16,
+						11
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						11.9,
+						15.0,
+						15.1,
+						16
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						11.9,
+						0,
+						15.1,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CorbelN21",
+			"from": [
+				11.9,
+				8.5,
+				-2.0
+			],
+			"to": [
+				15.1,
+				12,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0.9,
+						4,
+						4.1,
+						7.5
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						11.9,
+						4,
+						15.1,
+						7.5
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						4,
+						2.0,
+						7.5
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						14.0,
+						4,
+						16,
+						7.5
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						11.9,
+						14.0,
+						15.1,
+						16
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						11.9,
+						0,
+						15.1,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CorbelN22",
+			"from": [
+				11.9,
+				12,
+				-2.8
+			],
+			"to": [
+				15.1,
+				13.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0.9,
+						2.5,
+						4.1,
+						4
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						11.9,
+						2.5,
+						15.1,
+						4
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						2.5,
+						2.8,
+						4
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						13.2,
+						2.5,
+						16,
+						4
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						11.9,
+						13.2,
+						15.1,
+						16
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						11.9,
+						0,
+						15.1,
+						2.8
+					]
+				}
+			}
+		},
+		{
+			"name": "FloorN",
+			"from": [
+				0,
+				13.5,
+				-3.0
+			],
+			"to": [
+				16,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#coping",
+					"uv": [
+						0.0,
+						0,
+						16.0,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#coping",
+					"uv": [
+						0.0,
+						0,
+						16.0,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#coping",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#coping",
+					"uv": [
+						13.0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#coping",
+					"uv": [
+						0.0,
+						13.0,
+						16.0,
+						16
+					]
+				},
+				"down": {
+					"texture": "#dark",
+					"uv": [
+						0.0,
+						0,
+						16.0,
+						3.0
+					]
+				}
+			}
+		}
+	]
+}

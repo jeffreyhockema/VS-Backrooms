@@ -50,7 +50,11 @@ public partial class WorldLayout
         string coranClose = string.Format(CultureInfo.InvariantCulture, "/backrooms l73coran {0:0.#} {1:0.#} 180", mid + 0.5, gateZ + 12.5);
         yield return At(Ground(mid + 0.5, gateZ + 17.5), "coran-close", 0, 14, coranClose);
         // The gatehouse, close, its banners either side, the M.E.G.'s plate beside the gate
-        yield return At(Ground(mid, gateZ + 7), "gatehouse", 350, 12);
+        yield return At(Ground(mid, gateZ + 9), "gatehouse", 352, 14);
+        // Round 4: under the gate's pointed arch, the portcullis's spiked foot overhead, the machicolations over it
+        yield return At(Ground(mid, gateZ + 2.5), "gate-arch", 0, 38);
+        // Round 4: the south-east corner tower from outside (machicolations, arrow slits, the conical roof), the east drum beyond
+        yield return At(Ground(x0 + L73CastleW + 7.5, gateZ + 9.5), "corner-tower", 312, 16);
         // The courtyard: the keep's front, its door, banners, the balcony over the door and the attic on the roof
         yield return At((mid, floor + L73Plateau + 1, z0 + L73CastleD - 4.5), "keep-front", 0, 22);
         // The keep's door close: its slate canopy, the M.E.G.'s plate beside it
@@ -60,6 +64,8 @@ public partial class WorldLayout
         yield return At(Keep(18.0, 21.5, 0), "main-hall", 0, 4);
         // The grand stair from the hall, rising east under the landing's rail
         yield return At(Keep(16.5, 17.5, 0), "stair", 60, 8);
+        // Round 4: the main hall's chandelier under the beams, its ring of candles
+        yield return At(Keep(14.5, 20.5, 0), "chandelier", 0, 34);
         // The dining hall: the table of plenty along its length, the hearth on the north wall
         yield return At(Keep(25.5, 7.5, 0), "dining-hall", 282, -14);
         // The kitchen off the dining hall: its hearth (a cauldron, a spit), the worktables under the pot rack
@@ -80,6 +86,8 @@ public partial class WorldLayout
         yield return At(Keep(28.5, 8.5, 2), "master-bedroom", 30, -12);
         // The roof terrace: the attic, shut, under its slate roof, the chimney stack, the turrets
         yield return At(Keep(4.5, 19.5, 3), "roof-attic", 55, 12);
+        // Round 4: the attic's south slope from the balcony: dormers, the ridge's cresting, the coped gables and their crosses
+        yield return At(Keep(17.5, 19.5, 3), "attic-roof", 20, 30);
         // The Great Hound's bones on the fields, side on from the south (the skull, the arched spine over the ribs, the tail)
         var (hx, hz, _) = L73Hound;
         yield return At(Ground(hx + 19.5, hz + 16.5), "great-hound", 0, -4);
