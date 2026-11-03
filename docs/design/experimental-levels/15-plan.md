@@ -522,84 +522,84 @@ block codes stay where they are (no save break), new blocks are added.
 ### List
 
 **1. Assets to rebuild to the bar**
-1. (A, lead) `l15-console` (dead, denied, radar): a real console desk: a plinth with a kick recess, a sloped keyboard
+1. (A, lead) [done] `l15-console` (dead, denied, radar): a real console desk: a plinth with a kick recess, a sloped keyboard
    deck with a keyboard and a trackball, a monitor in a bezel on a neck and foot, tilted back, its screen glowing where
    lit, cable to the floor, edge wear.
-2. (A, lead) `l15-dock`: the charging dock rebuilt: a back plate with sprung contact arms at the robot's shoulders, a
+2. (A, lead) [done] `l15-dock`: the charging dock rebuilt: a back plate with sprung contact arms at the robot's shoulders, a
    charging pad with guide rails and contact studs, a cable conduit up into a hood, the status lamp and a small lit
    display, chamfered cheeks; the docked Robo-Man's eye lit when the dock has power.
-3. (A, lead) `l15-seat` / `l15-riser`: lecture seats as real seats: two steel side standards, an upholstered pan and a
+3. (A, lead) [done] `l15-seat` / `l15-riser`: lecture seats as real seats: two steel side standards, an upholstered pan and a
    curved back (rotated, stitched seams), a hinged writing tablet on a swing arm, aisle step lights in the risers.
-4. (A, lead) `l15-serve`: the serving line: a tubular tray rail on brackets, a steel-framed angled sneeze guard (glass in
+4. (A, lead) [done] `l15-serve`: the serving line: a tubular tray rail on brackets, a steel-framed angled sneeze guard (glass in
    the translucent pass), heat lamps glowing under the top shelf, wells with pans and a ladle, a till with a screen.
-5. (A, lead) New `l15-stool`: the canteen's tables get fixed steel stools (pedestal, foot ring, round seat) in place of
+5. (A, lead) [done: `l15-stool` and `l15-ctable` in place of the folding chairs and tables in canteens] New `l15-stool`: the canteen's tables get fixed steel stools (pedestal, foot ring, round seat) in place of
    the office chairs at the long tables.
-6. (A, lead) `l15-growrack`: hydroponics racks: NFT gutters with net pots and small, varied dead plants, a feed pipe
+6. (A, lead) [done] `l15-growrack`: hydroponics racks: NFT gutters with net pots and small, varied dead plants, a feed pipe
    with drippers and a return pipe, LED bars on hangers with a cable, end posts with feet.
-7. (A, lead) `l15-curtain`: the bay curtains on a ceiling track with end stops and hangers, gathered folds (rotated), a
+7. (A, lead) [done] `l15-curtain`: the bay curtains on a ceiling track with end stops and hangers, gathered folds (rotated), a
    mesh top band, the hem clear of the floor.
-8. (A, lead) New `l15-medmonitor`: a vitals monitor on a wall arm (or a roll stand) at each medical bed's head, its screen
+8. (A, lead) [done] New `l15-medmonitor`: a vitals monitor on a wall arm (or a roll stand) at each medical bed's head, its screen
    lit (flatline and dead) where there is power (similar to `l14-monitor`, clean white for 15).
-9. (A, lead) Lifts: the doors in a proud brushed-steel portal (jambs, header, sill plate) as model blocks; the call
+9. (A, lead) [done] Lifts: the doors in a proud brushed-steel portal (jambs, header, sill plate) as model blocks; the call
    panel and the floor indicator as lit models (bezel, buttons, glowing digits).
-10. (A, lead) The ESCAPE panels and the big radar display as lit models (a bezel standing off the wall, the screen
+10. (A, lead) [done: and every wall display (dead, radar, views) in a bezel] The ESCAPE panels and the big radar display as lit models (a bezel standing off the wall, the screen
     glowing, buttons and a key switch), not pictures flat on the panel.
-11. (A, lead) `l15-hangsign`: hall signs as lit models: a frame with a lit edge, the face glowing, ceiling rods with
+11. (A, lead) [done] `l15-hangsign`: hall signs as lit models: a frame with a lit edge, the face glowing, ceiling rods with
     plates and a cable, read both ways.
-12. (A, lead) Glass walls with frames: `l15-glass` (clear, cracked) gets a steel sill, a head rail and a mullion every
+12. (A, lead) [done: `l15-glazing`] Glass walls with frames: `l15-glass` (clear, cracked) gets a steel sill, a head rail and a mullion every
     block, glass kept translucent.
-13. (A, lead) `l15-wall` panels: real panel seams (bevelled joints, recessed fasteners), scuffs at hand height, grime at
+13. (A, lead) [partly: seams folded back and corner fasteners on the panel (every texture drawn on it regenerated); pilasters unchanged, the bulkheads carry the shaped columns] `l15-wall` panels: real panel seams (bevelled joints, recessed fasteners), scuffs at hand height, grime at
     the foot; the pilaster as a shaped column (chamfers, a plinth).
-14. (B) `l15-labbench`: lab benches with a reagent-shelf upright, gas taps, a gooseneck tap over the sink, drawer fronts
+14. (B) [done] `l15-labbench`: lab benches with a reagent-shelf upright, gas taps, a gooseneck tap over the sink, drawer fronts
     with pulls.
-15. (B) `l15-locker`: lockers with vents, a handle, a number plate, the ajar door swung open (rotated).
-16. (B) `l15-tray`: cable trays with coloured bundles and ties, hung on threaded rods with a channel.
-17. (B) `l15-stage`: a lectern on the stage with a reading lamp (new `l15-lectern`).
-18. (B, lead) Robo-Man: the creature is shared with the Castle (`roboman`), so its model is the lead's; the dock's copy
+15. (B) [done: the open one hollow, a lab coat left hanging] `l15-locker`: lockers with vents, a handle, a number plate, the ajar door swung open (rotated).
+16. (B) [done: three bundles, ties, trapezes on threaded rods] `l15-tray`: cable trays with coloured bundles and ties, hung on threaded rods with a channel.
+17. (B) [done: `l15-lectern` beside the screen on stages 9 wide or more] `l15-stage`: a lectern on the stage with a reading lamp (new `l15-lectern`).
+18. (B, lead) [partly: the dock's copy has its eyes lit; the creature itself is the Castle's too (below, for the lead)] Robo-Man: the creature is shared with the Castle (`roboman`), so its model is the lead's; the dock's copy
     gets the lit eye; a rebuild note for the lead.
-19. (C) `l15-stardoor`: the frame with bolts, a threshold plate and the star's halo.
-20. (C) `l15-corpse`: lab coats with folds, a lanyard, the spear's binding.
-21. (C) `l15-machine` casings: a few faces with relief (louvres, a handle) as shapes.
+19. (C) [done] `l15-stardoor`: the frame with bolts, a threshold plate and the star's halo.
+20. (C) [done] `l15-corpse`: lab coats with folds, a lanyard, the spear's binding.
+21. (C) [done: every casing kind a model, same codes] `l15-machine` casings: a few faces with relief (louvres, a handle) as shapes.
 
 **2. Multi-block set pieces**
-22. (A, lead) **Bulkheads** across the main halls every 32 blocks: a heavy portal frame (jamb blocks proud of both walls,
+22. (A, lead) [done: `l15-bulkhead` headers and `l15-panel` jambs on the rib every 32 blocks, a tread plate across the floor] **Bulkheads** across the main halls every 32 blocks: a heavy portal frame (jamb blocks proud of both walls,
     a deep header under the ceiling with a light bar and a hazard band, the hall's line code stencilled on the jamb).
-23. (A, lead) **Lift lobby** as one object: portal, doors, call panel, indicator, sill (item 9).
-24. (A, lead) **Medical bed bay** as one: bed, monitor on its arm, drip stand, curtain on its track (items 7, 8).
-25. (A, lead) **Serving line** as one: counter run, guard, heat lamps, tray rail, the menu board over it (item 4).
-26. (B, lead) **Control desk run**: consoles side by side join into one desk (end caps at the row's ends), the big radar
+23. (A, lead) [done] **Lift lobby** as one object: portal, doors, call panel, indicator, sill (item 9).
+24. (A, lead) [done] **Medical bed bay** as one: bed, monitor on its arm, drip stand, curtain on its track (items 7, 8).
+25. (A, lead) [done] **Serving line** as one: counter run, guard, heat lamps, tray rail, the menu board over it (item 4).
+26. (B, lead) [partly: the console desks stand side by side as one run with their cheeks; no separate end caps] **Control desk run**: consoles side by side join into one desk (end caps at the row's ends), the big radar
     display over the panels (items 1, 10).
-27. (B) **Hydroponics feed**: the nutrient tank with a pipe run along the racks' ends (item 6).
-28. (C) Lecture hall: a ceiling projector over the aisle aimed at the screen.
+27. (B) [partly: each rack has its feed and return lines; the tanks are still Level 3's pressure tanks] **Hydroponics feed**: the nutrient tank with a pipe run along the racks' ends (item 6).
+28. (C) [skipped: time; the lectern and the screen carry the stage] Lecture hall: a ceiling projector over the aisle aimed at the screen.
 
 **3. Level design**
-29. (A, lead) The main halls' rhythm: bulkheads (22) break the long runs; the colour band stops at the bulkheads and
+29. (A, lead) [done: bulkheads, and a hall tag on the band a few blocks past each] The main halls' rhythm: bulkheads (22) break the long runs; the colour band stops at the bulkheads and
     doors and carries the hall's code every 16 blocks.
-30. (A, lead) Inset floor lights: the lit floor lights as recessed fixtures (a steel rim, a lens glowing), dead ones
+30. (A, lead) [done] Inset floor lights: the lit floor lights as recessed fixtures (a steel rim, a lens glowing), dead ones
     with a dark lens.
-31. (A, lead) The dark squares' edges: the change reads as a power fault, not a hard cut: battery emergency lamps
+31. (A, lead) [done] The dark squares' edges: the change reads as a power fault, not a hard cut: battery emergency lamps
     (amber) on the walls for a few blocks into the dark, a tripped breaker panel at the boundary.
-32. (B, lead) Cable trays behind grilles: runs of ceiling grilles along the halls' light strips (the trays seen through
+32. (B, lead) [done: `l15-ceiling-trough*` along both edges of the halls' ceilings] Cable trays behind grilles: runs of ceiling grilles along the halls' light strips (the trays seen through
     them).
-33. (B) Arrival views and spot check: the random arrivals keep facing along a hall; every new set piece in a showcase
+33. (B) [done: spots `bulkhead`, `dark-edge`] Arrival views and spot check: the random arrivals keep facing along a hall; every new set piece in a showcase
     spot.
-34. (C) A recurring taller crossing (an atrium-like light square) now and then (round 3's skipped 9).
+34. (C) [skipped: time] A recurring taller crossing (an atrium-like light square) now and then (round 3's skipped 9).
 
 **4. Lore**
-35. (B) Symbols etched on the beams (Wikidot): some bulkhead jambs carry the etched marks.
-36. (B) The codes by the vents ("eco3x10c", Fandom) and "H15": kept; the bulkheads carry the line code in the same
+35. (B) [partly: an etched pilaster that falls on a bulkhead keeps its marks] Symbols etched on the beams (Wikidot): some bulkhead jambs carry the etched marks.
+36. (B) [done] The codes by the vents ("eco3x10c", Fandom) and "H15": kept; the bulkheads carry the line code in the same
     stencil.
-37. (C) The crematorium's hand-written "DON'T" by its door (round 3's skipped 38).
-38. (C) A M.E.G. placard (the shared `MegPlacard`) at a camp now and then, the Wikidot camps' explorers.
+37. (C) [skipped: the crematorium's plate is the same blank kind as the bare rooms'; not worth a layout flag] The crematorium's hand-written "DON'T" by its door (round 3's skipped 38).
+38. (C) [skipped: the placards describe levels; a camp's would read as a M.E.G. base, against DECISIONS.md] A M.E.G. placard (the shared `MegPlacard`) at a camp now and then, the Wikidot camps' explorers.
 
 **5. Alignment with the other levels**
-39. (A) Fire extinguishers: the level's own flat picture swapped for the mod's shared extinguisher cabinet
+39. (A) [done: the detail kit's extinguisher model on 15's panel] Fire extinguishers: the level's own flat picture swapped for the mod's shared extinguisher cabinet
     (`officedeco` extinguisher / `Decor.ExtCabinet`), as the brief's shared list asks.
-40. (A) The Medical Center door (Level 14's link in a medical bay): its surround and plate in 15's white and steel so it
+40. (A) [done: the block over the door, a portal on both faces with lit strips and a green cross lamp] The Medical Center door (Level 14's link in a medical bay): its surround and plate in 15's white and steel so it
     sits in the bay's wall (the door block itself is Level 14's).
-41. (B) The vitals monitor (8) from `l14-monitor`'s family, retinted clean; note the source.
-42. (B) "Shared assets below the bar": the hospital bed, drip stand, crash cart and bedside cabinet (Level Run), Level
+41. (B) [done] The vitals monitor (8) from `l14-monitor`'s family, retinted clean; note the source.
+42. (B) [done: below] "Shared assets below the bar": the hospital bed, drip stand, crash cart and bedside cabinet (Level Run), Level
     1's camp props, Level 4's office chairs: listed for the lead with what to change.
-43. (B) Showcase spots and F7 entries for the bulkhead, the lift lobby, the console desk, the medical bed bay, the
+43. (B) [partly: spots done; no new F7 entries (bulkheads are everywhere, not a place to go to)] Showcase spots and F7 entries for the bulkhead, the lift lobby, the console desk, the medical bed bay, the
     serving line, the hydroponics feed and the dark edge.
-44. (C) Cable trays: compare with `l120-tray` and share the better one.
+44. (C) [done: rebuilt; `l120-tray` is its own level's, darker, so 15 keeps its own] Cable trays: compare with `l120-tray` and share the better one.
