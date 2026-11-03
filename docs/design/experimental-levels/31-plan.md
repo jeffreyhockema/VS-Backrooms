@@ -647,3 +647,5 @@ Tiers: A must, B should, C nice.
 42. (B) [done] `l31-locker`: coin lockers set in the rink's walls (doors in frames, louvres, numbers, keys on tags, one
     ajar) in place of Level 52's school lockers.
 43. (C) [done] The DJ sign's tubes (gen_31_walls.py's cladding kinds `dj<c><r>`, patched by round 4).
+44. (B) [done] `l31-counter`: the rental's and lobby's counter in the rink's style (navy front in the rink's stripes, a
+    laminate top with a pink nose, bell, size tags) in place of Level 3999's reception desk.
