@@ -378,6 +378,25 @@ def stone_shrub_shape():
     return els
 
 
+# ---------------- The glow rooms' little trees ----------------
+
+def smalltrunk_shape(part):
+    """A little petrified tree's trunk (the glow rooms'), an octagon eight across: its foot flaring with four roots
+    spreading over the floor; its middle; its top branching into the crown above."""
+    b = "#bark"
+    if part == "foot":
+        els = octagon("Trunk", 0, 16, 8.0, b) + octagon("Flare", 0, 3.0, 11.0, b)
+        for k in range(4):
+            els.append(E(f"Root{k}", (8, 0, 7), (16.5, 2.0, 9), every(b), {"rotationOrigin": [8, 0, 8], "rotationY": k * 90 + 40, "rotationZ": -8}))
+        return els
+    if part == "mid":
+        return octagon("Trunk", 0, 16, 7.6, b)
+    els = octagon("Trunk", 0, 12, 7.2, b)
+    for k in range(4):
+        els.append(E(f"Branch{k}", (8, 8, 7.2), (16, 9.6, 8.8), every(b), {"rotationOrigin": [8, 8, 8], "rotationY": k * 90 + 20, "rotationZ": 38}))
+    return els
+
+
 # ---------------- The squirt-gun rack ----------------
 
 def squirtrack_shape():
@@ -481,6 +500,19 @@ def blocks():
         "resistance": 0.5, "collisionbox": None, "selectionbox": {"x1": 0.2, "y1": 0, "z1": 0.3, "x2": 0.8, "y2": 0.2, "z2": 0.8},
         "drops": [G.drop("game:stick", 1, 1)],
         "sounds": {"walk": "game:walk/grass*", "place": "game:block/plant", "break": "game:block/plant", "hit": "game:block/plant"}}))
+    tex_by, shape_by = {}, {}
+    for bark in ("grey", "red", "pale", "dark", "stem"):
+        tex_by[f"*-{bark}-*"] = {"bark": {"base": "block/23/mushstem" if bark == "stem" else f"block/23/bark-{bark}"}}
+        for part in ("foot", "mid", "top"):
+            shape_by[f"*-{bark}-{part}"] = {"base": f"block/23/smalltrunk-{part}"}
+    out.append(("// Level 23 (round 4): a glow room's little petrified tree's trunk (foot, middle, top), or a stone mushroom's stem", {
+        "code": "l23-smalltrunk", "variantgroups": [{"code": "bark", "states": ["grey", "red", "pale", "dark", "stem"]},
+                                                    {"code": "part", "states": ["foot", "mid", "top"]}],
+        "creativeinventory": {"general": ["*-grey-foot"], "backrooms": ["*-grey-foot"]}, "blockmaterial": "Wood", "drawtype": "json",
+        "shapeByType": shape_by, "texturesByType": tex_by, "sidesolid": {"all": False}, "sideopaque": {"all": False},
+        "lightAbsorption": 0, "resistance": 6, "drops": [G.drop("game:firewood", 0.4, 0.3)], "sounds": WOOD_SOUNDS,
+        "collisionbox": {"x1": 0.25, "y1": 0, "z1": 0.25, "x2": 0.75, "y2": 1, "z2": 0.75},
+        "selectionbox": {"x1": 0.25, "y1": 0, "z1": 0.25, "x2": 0.75, "y2": 1, "z2": 0.75}}))
     out.append(sided("l23-rootknuckle", "// Level 23 (round 4): the rounded top of a root crawling out over the ground (bare or mossed)",
                      [("kind", ["bare", "moss"])], lambda s: "rootknuckle",
                      lambda s: {"root": "backrooms:block/23/root" if s["kind"] == "bare" else "backrooms:block/23/mossbark",
@@ -507,6 +539,8 @@ def shapes():
     out["signpost"] = shape({"wood": "backrooms:block/23/planks", "moss": "backrooms:block/23/moss-cushion"}, signpost_shape())
     out["stone-sapling"] = shape({"bark": "backrooms:block/23/bark-pale"}, stone_sapling_shape())
     out["stone-shrub"] = shape({"bark": "backrooms:block/23/bark-grey"}, stone_shrub_shape())
+    for part in ("foot", "mid", "top"):
+        out[f"smalltrunk-{part}"] = shape({"bark": "backrooms:block/23/bark-grey"}, smalltrunk_shape(part))
     out["squirtrack"] = shape({"wood": "backrooms:block/23/planks", "orange": "backrooms:block/23/plastic-orange",
                                "green": "backrooms:block/23/plastic-green"}, squirtrack_shape())
     out["amphora"] = shape({"clay": "backrooms:block/23/terracotta"}, amphora_shape())
@@ -551,6 +585,7 @@ LANG = [
     ("block-l23-sunbeam", "Shaft of Light"),
     ("block-l23-rootknuckle-*", "Petrified Root"),
     ("block-l23-frieze-*", "Carved Lintel"),
+    ("block-l23-smalltrunk-*", "Little Petrified Tree"),
     ("block-l23-nest", "Bird's Nest"),
     ("blockdesc-l23-nest", "Twigs of stone, woven tight. The eggs are cold. Whatever laid them is somewhere up in the dark."),
 ]

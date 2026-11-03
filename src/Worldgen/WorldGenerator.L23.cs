@@ -580,18 +580,24 @@ public sealed partial class WorldGenerator
                 int crown = tf + height + 1;
                 // (Round 3: one in four is a stone mushroom instead, its cap a flat disc three across)
                 bool mush = Hashing.Unit(Hashing.Mix(h + 11)) < 0.25;
-                int stem = mush ? l23Bark[WorldLayout.L23MushStem] : l23Bark[1 + (int)(Hashing.Mix(h + 3) % 4)];
+                // (Round 4: the trunk an octagonal model, flaring at its foot and branching at its top; a mushroom's stem the same)
+                int kind = mush ? 4 : (int)(Hashing.Mix(h + 3) % 4);
                 int crownBlock = mush ? l23Bark[WorldLayout.L23MushCap] : l23Leaves;
                 if (ax == 0 && az == 0)
                 {
-                    for (int rel = floor + 1; rel <= tf + height; rel++) if (b[rel - L23Low] == 0) b[rel - L23Low] = stem;
+                    for (int rel = floor + 1; rel <= tf + height; rel++)
+                        if (b[rel - L23Low] == 0) b[rel - L23Low] = l23SmallTrunk[kind, rel == floor + 1 ? 0 : rel == tf + height && !mush ? 2 : 1];
                     if (b[crown - L23Low] == 0) b[crown - L23Low] = crownBlock;
                     if (!mush && b[crown + 1 - L23Low] == 0 && crown + 1 < tc) b[crown + 1 - L23Low] = l23Leaves;
                     any = true;
                 }
                 else if (mush)
                 {
-                    if (b[crown - L23Low] == 0) b[crown - L23Low] = crownBlock;
+                    // (Round 4: the cap's edge as the forest's stone mushrooms', its rim drooping)
+                    int part = ax + az == 1 ? 0 : 1;
+                    int dx = gx - tx, dz = gz - tz;
+                    ArchPier f = part == 0 ? WorldLayout.L23Cardinal(dx, dz) : dx > 0 ? (dz < 0 ? ArchPier.North : ArchPier.East) : (dz > 0 ? ArchPier.South : ArchPier.West);
+                    if (b[crown - L23Low] == 0) b[crown - L23Low] = l23CapRim[part, Facing(f)];
                 }
                 else if (ax + az == 1 || Hashing.Unit(Hashing.Mix(h + (ulong)(ax * 3 + az * 5 + gx + gz))) < 0.7)
                 {

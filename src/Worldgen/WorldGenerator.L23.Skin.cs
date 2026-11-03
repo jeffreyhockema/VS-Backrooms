@@ -23,6 +23,8 @@ public sealed partial class WorldGenerator
     private readonly int[,,] l23Pillar = new int[4, 2, 4];
     private readonly int[,] l23Statue = new int[3, 4];
     private readonly int[] l23Frieze = new int[4];
+    /// <summary>The glow rooms' little trees' trunks by bark (grey, red, pale, dark, a mushroom's stem) and part (foot, middle, top).</summary>
+    private readonly int[,] l23SmallTrunk = new int[5, 3];
     private int l23LilyPad, l23Sunbeam, l23Brazier, l23Nest;
     /// <summary>Root knuckles (bare, mossed), facing north only (they are the same every way).</summary>
     private readonly int[] l23RootKnuckle = new int[2];
@@ -33,6 +35,10 @@ public sealed partial class WorldGenerator
         l23Sunbeam = Id("l23-sunbeam");
         l23Brazier = OptionalId("backrooms:l47-brazier");
         l23Nest = Id("l23-nest");
+        string[] smallBarks = { "grey", "red", "pale", "dark", "stem" }, smallParts = { "foot", "mid", "top" };
+        for (int k = 0; k < 5; k++)
+            for (int p = 0; p < 3; p++)
+                l23SmallTrunk[k, p] = Id($"l23-smalltrunk-{smallBarks[k]}-{smallParts[p]}");
         l23RootKnuckle[0] = Id("l23-rootknuckle-bare-north");
         l23RootKnuckle[1] = Id("l23-rootknuckle-moss-north");
         string[] faceBarks = { "grey", "red", "pale", "dark", "green", "aspen", "moss" };
