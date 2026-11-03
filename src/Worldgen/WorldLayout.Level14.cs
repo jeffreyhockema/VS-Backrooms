@@ -369,6 +369,8 @@ public sealed partial class WorldLayout
         private Rng rng;
         private readonly List<(int X0, int Z0, int X1, int Z1)> leaves = new();
         private readonly List<RoomBox> rooms = new();
+        /// <summary>Round 4: what a room's furnishing adds after all of its draws (run by <see cref="Furnish"/> before Unblock).</summary>
+        private readonly List<Action> later = new();
 
         public L14Work(WorldLayout layout, L14Plan plan, ulong seed)
         {
@@ -687,6 +689,8 @@ public sealed partial class WorldLayout
             }
             if (inpatient) Windows(r);
             if (r.Contam) Contaminate(r);
+            foreach (var act in later) act();
+            later.Clear();
             Unblock(r);
         }
 
@@ -1130,11 +1134,15 @@ public sealed partial class WorldLayout
             WallDress(r, 0.08, (L14DPoster, 3), (L14DPoster, 4), (L14DClock, 0), (L14DSanitizer, 0));
             // Round 4 (after the draws): the musty soft drinks came from somewhere: a dead vending machine (the mod's shape) against
             // a side wall by the door, the first free of the two places
-            foreach (var (s, k) in new[] { (sideA, 1), (sideB, 1), (sideA, LenOf(r, sideA) - 2) })
+            var spots = new[] { (sideA, 1), (sideB, 1), (sideA, LenOf(r, sideA) - 2) };
+            later.Add(() =>
             {
-                var (a, b) = FromSide(r, s, k, 0);
-                if (Put(a, b, Props.L14Vending, Into(s))) break;
-            }
+                foreach (var (s, k) in spots)
+                {
+                    var (a, b) = FromSide(r, s, k, 0);
+                    if (Put(a, b, Props.L14Vending, Into(s))) break;
+                }
+            });
         }
 
         // ---------------- Inpatient rooms ----------------
@@ -1168,13 +1176,13 @@ public sealed partial class WorldLayout
                     {
                         Put(ia, ib, Props.L14Monitor, into, 0, (byte)(r.Dark || rng.Chance(0.5) ? 1 : 0));
                         Put(ca, cb, Props.L14Ventilator, into);
-                        // Round 4: a drip stand at the bed's side, as if still in use
+                        // Round 4: a drip stand at the bed's side, as if still in use, and a monitor on its arm over the bed's
+                        // head, high on the wall behind it (after the room's draws)
                         var (da, db) = FromSide(r, s, k + 1, 1);
-                        Put(da, db, Props.L14IvStand, Opp(into));
-                        // and a monitor on its arm over the bed's head, high on the wall behind it
                         var (wdx, wdz) = Step(Opp(into));
-                        if (L14Plan.In(ha + wdx, hb + wdz) && At(ha + wdx, hb + wdz) is { Kind: TileKind.Wall, Detail: L14DNone or L14DRail })
-                            Decorate(ha + wdx, hb + wdz, L14DMonArm, into, 0);
+                        int wa = ha + wdx, wb = hb + wdz;
+                        ArchPier bedInto = into;
+                        later.Add(() => { Put(da, db, Props.L14IvStand, Opp(bedInto)); Decorate(wa, wb, L14DMonArm, bedInto, 0); });
                     }
                     else
                     {
@@ -1251,11 +1259,14 @@ public sealed partial class WorldLayout
             WallDress(r, 0.06, (L14DScratches, 0), (L14DClock, 0), (L14DBoard, 0));
             // Round 4 (after the draws): the ward's night station in the middle, a desk facing the door, a wheelchair left by it
             int ca = (r.X0 + r.X1) / 2, cb = (r.Z0 + r.Z1) / 2;
-            if (Put(ca, cb, Props.L14Desk2, Into(Across(doorSide))))
+            later.Add(() =>
             {
-                var (dx, dz) = Step(Into(Across(doorSide)));
-                Put(ca - dz, cb + dx, Props.L14Wheelchair, Into(doorSide));
-            }
+                if (Put(ca, cb, Props.L14Desk2, Into(Across(doorSide))))
+                {
+                    var (dx, dz) = Step(Into(Across(doorSide)));
+                    Put(ca - dz, cb + dx, Props.L14Wheelchair, Into(doorSide));
+                }
+            });
         }
 
         /// <summary>
@@ -1324,12 +1335,6 @@ public sealed partial class WorldLayout
             if (rng.Chance(0.75)) Put(sa, sb, Props.L14Trolley, Opp(toDoor), (byte)(decay > 0.5 ? 1 : 0));
             var (aa, ab) = FromSide(r, back, mid - 1, dmid - 1);
             if (rng.Chance(0.55)) Put(aa, ab, Props.L14Anaesthesia, toDoor);
-            // Round 4: the rest of the set round the table's head, as if the operation were still going on (no draws, so the
-            // rest of the room is as it was): a monitor on the other side of the head, a drip stand by the anaesthetist
-            var (ma, mb) = FromSide(r, back, mid + 1, dmid - 1);
-            Put(ma, mb, Props.L14Monitor, toDoor, 0, (byte)(r.Dark ? 1 : 0));
-            var (ia, ib) = FromSide(r, back, mid - 1, dmid);
-            Put(ia, ib, Props.L14IvStand, Opp(toDoor));
             if (Math.Min(r.W, r.D) >= 7 || decay > 0.4)
                 foreach (var (a, b, wall) in Rim(r))
                 {
@@ -1349,6 +1354,16 @@ public sealed partial class WorldLayout
             }
             if (rng.Chance(0.2)) WallDress(r, 0.12, (L14DPoster, 0), (L14DPoster, 1), (L14DPoster, 2));
             WallDress(r, 0.04, (L14DXray, 0), (L14DClock, 0));
+            // Round 4 (after the room's draws): the rest of the set round the table's head, as if the operation were still going
+            // on: a monitor on the other side of the head, a drip stand by the anaesthetist
+            var (ma, mb) = FromSide(r, back, mid + 1, dmid - 1);
+            var (ia, ib) = FromSide(r, back, mid - 1, dmid);
+            byte dark = (byte)(r.Dark ? 1 : 0);
+            later.Add(() =>
+            {
+                Put(ma, mb, Props.L14Monitor, toDoor, 0, dark);
+                Put(ia, ib, Props.L14IvStand, Opp(toDoor));
+            });
         }
 
         // ---------------- Storage ----------------
@@ -1436,13 +1451,16 @@ public sealed partial class WorldLayout
             // Round 4: "drag those who wander too close ... onto the beds": a gurney with restraints in the middle under a hook,
             // blood under it (placed after the draws above, so the rest of the room is as it was)
             int ga = (r.X0 + r.X1) / 2, gb = (r.Z0 + r.Z1) / 2;
-            if (r.X1 - r.X0 >= 4 && Free(ga, gb) && Free(ga + 1, gb))
+            later.Add(() =>
             {
-                Put(ga, gb, Props.L14Gurney, ArchPier.East, 0, 1);
-                Put(ga + 1, gb, Props.L14Gurney, ArchPier.East, 1, 1);
-                At(ga, gb).Overhead = Overheads.L14Hook;
-                if (Free(ga, gb + 1)) Put(ga, gb + 1, Props.L14BloodPool);
-            }
+                if (r.X1 - r.X0 >= 4 && Free(ga, gb) && Free(ga + 1, gb))
+                {
+                    Put(ga, gb, Props.L14Gurney, ArchPier.East, 0, 1);
+                    Put(ga + 1, gb, Props.L14Gurney, ArchPier.East, 1, 1);
+                    At(ga, gb).Overhead = Overheads.L14Hook;
+                    if (Free(ga, gb + 1)) Put(ga, gb + 1, Props.L14BloodPool);
+                }
+            });
         }
 
         // ---------------- The research group's remains ----------------
@@ -1504,8 +1522,8 @@ public sealed partial class WorldLayout
                 else if (p < 0.6) Put(a, b, Props.FilingCabinet, Opp(wall));
                 else if (p < 0.75) Put(a, b, Props.L14Cabinet, Opp(wall));
                 else if (p < 0.85) Put(a, b, Props.CardboardBoxes, Opp(wall));
-                // Round 4: staff lockers (no draw of their own: the same p), now and then one standing open
-                else if (p < 0.95) Put(a, b, Props.L14Locker, Opp(wall), 0, (byte)((a * 7 + b * 3) % 4 == 0 ? 1 : 0));
+                // Round 4: staff lockers (no draw of their own: the same p), placed at the end
+                else if (p < 0.95) { int la = a, lb = b; ArchPier lf = Opp(wall); later.Add(() => Put(la, lb, Props.L14Locker, lf, 0, (byte)((la * 7 + lb * 3) % 4 == 0 ? 1 : 0))); }
             }
             if (r.W >= 6 && r.D >= 6 && rng.Chance(0.5))
             {
@@ -1518,9 +1536,10 @@ public sealed partial class WorldLayout
                     var (a, b) = FromSide(r, back, k, row);
                     Put(a, b, Props.L14Station, face, (byte)(k == l / 2 ? 1 : 0));
                     // Round 4: its back wall, against the room's back wall: cupboards and pigeonholes, a whiteboard of names
-                    // over the middle, chart racks either side
+                    // over the middle, chart racks either side (placed at the end)
                     var (ba, bb) = FromSide(r, back, k, 0);
-                    if (row >= 2) Put(ba, bb, Props.L14StationBack, face, 0, (byte)(Math.Abs(k - l / 2) <= 1 ? 0 : 1));
+                    byte kind = (byte)(Math.Abs(k - l / 2) <= 1 ? 0 : 1);
+                    if (row >= 2) later.Add(() => Put(ba, bb, Props.L14StationBack, face, 0, kind));
                 }
             }
             WallDress(r, 0.1, (L14DXray, 0), (L14DBoard, 0), (L14DClock, 0), (L14DPoster, 3), (L14DPoster, 4));
