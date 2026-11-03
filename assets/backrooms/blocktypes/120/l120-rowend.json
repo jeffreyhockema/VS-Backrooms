@@ -1,4 +1,4 @@
-// Level 120: the end panel of a bank of racks, two high (lower; the upper with its row letter, a-h, to the side). Salvage: brackets
+// Level 120: the end panel of a bank of racks, two high (lower; the upper with its ROW plate, a-h, to the side). Salvage: brackets
 {
 	"code": "l120-rowend",
 	"variantgroups": [

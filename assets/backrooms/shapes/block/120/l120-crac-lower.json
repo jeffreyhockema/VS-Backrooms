@@ -2,16 +2,17 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"black": "backrooms:block/120/black",
-		"crac-lower": "backrooms:block/120/crac-lower",
-		"crac-side": "backrooms:block/120/crac-side"
+		"cr-louvre": "backrooms:block/120/cr-louvre",
+		"cr-paint": "backrooms:block/120/cr-paint",
+		"cr-panel": "backrooms:block/120/cr-panel",
+		"rk-black": "backrooms:block/120/rk-black"
 	},
 	"elements": [
 		{
 			"name": "Body",
 			"from": [
 				0.5,
-				0,
+				1,
 				2
 			],
 			"to": [
@@ -21,7 +22,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#crac-lower",
+					"texture": "#cr-panel",
 					"uv": [
 						0,
 						0,
@@ -30,7 +31,16 @@
 					]
 				},
 				"east": {
-					"texture": "#crac-side",
+					"texture": "#cr-panel",
+					"uv": [
+						0,
+						0,
+						13.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cr-panel",
 					"uv": [
 						0,
 						0,
@@ -39,39 +49,12 @@
 					]
 				},
 				"south": {
-					"texture": "#crac-side",
+					"texture": "#cr-paint",
 					"uv": [
 						0,
 						0,
 						15.0,
 						16
-					]
-				},
-				"west": {
-					"texture": "#crac-side",
-					"uv": [
-						0,
-						0,
-						13.5,
-						16
-					]
-				},
-				"up": {
-					"texture": "#crac-side",
-					"uv": [
-						0,
-						0,
-						15.0,
-						13.5
-					]
-				},
-				"down": {
-					"texture": "#crac-side",
-					"uv": [
-						0,
-						0,
-						15.0,
-						13.5
 					]
 				}
 			}
@@ -79,49 +62,280 @@
 		{
 			"name": "Plinth",
 			"from": [
-				0.5,
+				0.75,
 				0,
-				1.5
+				2.25
 			],
 			"to": [
-				15.5,
+				15.25,
 				1,
-				2
+				15.25
 			],
 			"faces": {
 				"north": {
-					"texture": "#black",
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,
-						15.0,
+						14.5,
 						1
 					]
 				},
 				"east": {
-					"texture": "#black",
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,
-						0.5,
+						13.0,
 						1
 					]
 				},
 				"west": {
-					"texture": "#black",
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Louvre",
+			"from": [
+				1.5,
+				1.5,
+				1.5
+			],
+			"to": [
+				14.5,
+				9,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#cr-louvre",
+					"uv": [
+						0,
+						0,
+						13.0,
+						7.5
+					]
+				},
+				"up": {
+					"texture": "#cr-louvre",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#cr-louvre",
 					"uv": [
 						0,
 						0,
 						0.5,
-						1
+						7.5
 					]
 				},
-				"up": {
-					"texture": "#black",
+				"west": {
+					"texture": "#cr-louvre",
 					"uv": [
 						0,
 						0,
-						15.0,
+						0.5,
+						7.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PanelU",
+			"from": [
+				1.5,
+				9.5,
+				1.5
+			],
+			"to": [
+				14.5,
+				16,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#cr-panel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						6.5
+					]
+				},
+				"up": {
+					"texture": "#cr-panel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cr-panel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#cr-panel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.5
+					]
+				},
+				"west": {
+					"texture": "#cr-panel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LatchA",
+			"from": [
+				2.5,
+				12,
+				1.0
+			],
+			"to": [
+				3.5,
+				13.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LatchB",
+			"from": [
+				12.5,
+				12,
+				1.0
+			],
+			"to": [
+				13.5,
+				13.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						1.0,
 						0.5
 					]
 				}

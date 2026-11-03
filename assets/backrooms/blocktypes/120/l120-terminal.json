@@ -1,4 +1,4 @@
-// Level 120: a CRT terminal on a grey desk, its screen to the side: dead, smashed, or whole (a green BOOT prompt, a little light; right-click to boot it). Salvage: glass, wire, a circuit board
+// Level 120: an operator's desk with a CRT terminal, its keyboard and mouse, its screen to the side: dead, smashed, or whole (a green BOOT prompt, a little light; right-click to boot it). Salvage: glass, wire, a circuit board
 {
 	"code": "l120-terminal",
 	"variantgroups": [

@@ -3,6 +3,7 @@
 	"textureHeight": 16,
 	"textures": {
 		"plate-18": "backrooms:block/120/plate-18",
+		"plate-18-glow": "backrooms:block/120/plate-18-glow",
 		"wall-base": "backrooms:block/120/wall-base"
 	},
 	"elements": [
@@ -132,6 +133,31 @@
 						16,
 						16
 					]
+				}
+			}
+		},
+		{
+			"name": "Glow",
+			"from": [
+				2,
+				3,
+				-0.45
+			],
+			"to": [
+				14,
+				11,
+				-0.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#plate-18-glow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 90
 				}
 			}
 		}

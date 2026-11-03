@@ -66,7 +66,8 @@ def plate_textures():
     """Engraved plates: dark text on a worn off-white plate (the SERVER ROOM door's style); DATA HALL on blue."""
     for i, text in enumerate(PLATES):
         hall = text.startswith("DATA HALL")
-        bg, fg = ((34, 62, 112), (232, 232, 222)) if hall else ((214, 210, 196), (26, 26, 30))
+        # (Round 4: the room plates are photoluminescent, a pale yellow-green that glows faintly in the dark, dark text on it)
+        bg, fg = ((34, 62, 112), (232, 232, 222)) if hall else ((206, 214, 180), (26, 26, 30))
 
         def draw(img, d, k, text=text, bg=bg, fg=fg, hall=hall):
             w, h = img.width // k, img.height // k
@@ -89,6 +90,22 @@ def plate_textures():
             k = rng.uniform(0.8, 0.95)
             px[x, y] = (clamp(r * k), clamp(g * k), clamp(b * k * 0.95), a)
         img.save(os.path.join(TEX, f"plate-{i}.png"))
+        if hall:
+            # (Round 4) The DATA HALL plate's letters are photoluminescent: their own cut-out layer, glowing faintly
+            def glow(img, d, k, text=text):
+                d.rectangle([0, 0, img.width, img.height], fill=(0, 0, 0, 0))
+                text_center(d, (0, 3 * k, img.width, 16 * k), "DATA HALL", 12 * k, (206, 236, 196, 255))
+                text_center(d, (0, 14 * k, img.width, img.height - 3 * k), text[-1], 38 * k, (206, 236, 196, 255))
+            gk = 4
+            g = Image.new("RGBA", (96 * gk, 64 * gk), (0, 0, 0, 0))
+            glow(g, ImageDraw.Draw(g), gk)
+            g = g.resize((96, 64), Image.LANCZOS)
+            gp = g.load()
+            for y in range(g.height):
+                for x in range(g.width):
+                    r, gg, b, a = gp[x, y]
+                    gp[x, y] = (206, 236, 196, 255) if a >= 110 else (0, 0, 0, 0)
+            g.save(os.path.join(TEX, f"plate-{i}-glow.png"))
 
     def auth(img, d, k):
         d.rectangle([0, 0, img.width, img.height], fill=(232, 228, 216))
@@ -557,7 +574,12 @@ def deco_elements(kind):
         i = int(kind[6:])
         hall = i >= 12
         y0, y1 = (3, 11) if hall else (6, 10.5)
-        return "wall-base", None, [box("Plate", (2, y0, -0.4), (14, y1, 0), f"plate-{i}", faces=("north", "east", "west", "up", "down"), uv=(0, 0, 16, 16))]
+        els = [box("Plate", (2, y0, -0.4), (14, y1, 0), f"plate-{i}", faces=("north", "east", "west", "up", "down"), uv=(0, 0, 16, 16))]
+        if hall:
+            els.append(box("Glow", (2, y0, -0.45), (14, y1, -0.4), f"plate-{i}-glow", faces=("north",), uv=(0, 0, 16, 16), glow=90))
+        else:
+            els[0]["faces"]["north"]["glow"] = 60
+        return "wall-base", None, els
     if kind == "auth":
         return "wall-base", None, [box("Plate", (3, 4, -0.4), (13, 11.5, 0), "plate-auth", faces=("north", "east", "west", "up", "down"), uv=(0, 0, 16, 16))]
     if kind.startswith("note-"):
@@ -723,7 +745,7 @@ def blocktypes():
     full = cuboid((0, 0, 0, 1, 1, 1))
     data_extra = {
         "sidesolid": {"all": True}, "sideopaque": {"all": True}, "lightAbsorptionByType": {"*-exit-lit-*": 0, "*-screens-glitch-*": 0, "*": 99},
-        "lightHsvByType": {"*-exit-lit-*": [22, 5, 2], "*-screens-glitch-*": [24, 3, 1]}, "resistance": 6,
+        "lightHsvByType": {"*-exit-lit-*": [0, 6, 2], "*-screens-glitch-*": [24, 3, 1]}, "resistance": 6,
         "dropsByType": {"*-fire-lower-*": drops(("metalbracket", 0.3, 0)), "*-screens-*": drops(("glassshard", 0.5, 0.3)), "*": []},
     }
     json_block("l120-walldeco", [{"code": "kind", "states": DECO_KINDS}] + SIDED, shapes,

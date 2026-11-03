@@ -1,4 +1,4 @@
-// Level 120: a UPS cabinet, two high, its front to the side: whole (a dead display, UPS 2, HIGH VOLTAGE) or torn open (the batteries showing, the front panel against it). Salvage: wire, brackets
+// Level 120: a UPS cabinet, two high, its front to the side: whole (a louvred door, a dead display and keypad, its breakers behind a window, UPS 2, DANGER 480 V) or torn open (the battery trays and boards showing, the door down). Salvage: wire, brackets
 {
 	"code": "l120-ups",
 	"variantgroups": [

@@ -1,4 +1,4 @@
-// Level 120: an overhead cable tray, a mesh channel full of black cable hung on rods, along x (we) or z (ns)
+// Level 120: an overhead ladder rack on trapeze hangers, cable looms tied along it, the yellow fibre raceway beside it; along x (we) or z (ns)
 {
 	"code": "l120-tray",
 	"variantgroups": [
@@ -57,18 +57,18 @@
 		"*-we": {
 			"x1": 0,
 			"y1": 0.7,
-			"z1": 0.28,
+			"z1": 0.04,
 			"x2": 1,
 			"y2": 1,
-			"z2": 0.72
+			"z2": 0.8
 		},
 		"*-ns": {
 			"x1": 0,
 			"y1": 0.7,
-			"z1": 0.28,
+			"z1": 0.04,
 			"x2": 1,
 			"y2": 1,
-			"z2": 0.72,
+			"z2": 0.8,
 			"rotateY": 90
 		}
 	},
@@ -76,18 +76,18 @@
 		"*-we": {
 			"x1": 0,
 			"y1": 0.7,
-			"z1": 0.28,
+			"z1": 0.04,
 			"x2": 1,
 			"y2": 1,
-			"z2": 0.72
+			"z2": 0.8
 		},
 		"*-ns": {
 			"x1": 0,
 			"y1": 0.7,
-			"z1": 0.28,
+			"z1": 0.04,
 			"x2": 1,
 			"y2": 1,
-			"z2": 0.72,
+			"z2": 0.8,
 			"rotateY": 90
 		}
 	}

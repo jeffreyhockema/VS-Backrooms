@@ -2,7 +2,10 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"duct": "backrooms:block/120/duct"
+		"du-galv": "backrooms:block/120/du-galv",
+		"du-tape": "backrooms:block/120/du-tape",
+		"rk-black": "backrooms:block/120/rk-black",
+		"rk-chrome": "backrooms:block/120/rk-chrome"
 	},
 	"elements": [
 		{
@@ -19,7 +22,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#duct",
+					"texture": "#du-galv",
 					"uv": [
 						0,
 						0,
@@ -28,7 +31,7 @@
 					]
 				},
 				"east": {
-					"texture": "#duct",
+					"texture": "#du-galv",
 					"uv": [
 						0,
 						0,
@@ -37,7 +40,7 @@
 					]
 				},
 				"south": {
-					"texture": "#duct",
+					"texture": "#du-galv",
 					"uv": [
 						0,
 						0,
@@ -46,12 +49,276 @@
 					]
 				},
 				"west": {
-					"texture": "#duct",
+					"texture": "#du-galv",
 					"uv": [
 						0,
 						0,
 						9,
 						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FlangeB",
+			"from": [
+				2.5,
+				0,
+				3.5
+			],
+			"to": [
+				13.5,
+				0.75,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						11.0,
+						10.0
+					]
+				}
+			}
+		},
+		{
+			"name": "FlangeT",
+			"from": [
+				2.5,
+				15.25,
+				3.5
+			],
+			"to": [
+				13.5,
+				16,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.75
+					]
+				},
+				"down": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						11.0,
+						10.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Tape",
+			"from": [
+				2.95,
+				7,
+				3.95
+			],
+			"to": [
+				13.05,
+				8.5,
+				13.05
+			],
+			"faces": {
+				"north": {
+					"texture": "#du-tape",
+					"uv": [
+						0,
+						0,
+						10.1,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#du-tape",
+					"uv": [
+						0,
+						0,
+						9.1,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#du-tape",
+					"uv": [
+						0,
+						0,
+						10.1,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#du-tape",
+					"uv": [
+						0,
+						0,
+						9.1,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Damper",
+			"from": [
+				7.5,
+				9.5,
+				3.4
+			],
+			"to": [
+				8.5,
+				10.5,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "DamperArm",
+			"from": [
+				6,
+				9.75,
+				3.2
+			],
+			"to": [
+				10,
+				10.25,
+				3.45
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						4,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						4,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						4,
+						0.5
 					]
 				}
 			}

@@ -1,0 +1,173 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"fs-brass": "backrooms:block/120/fs-brass",
+		"fs-red": "backrooms:block/120/fs-red",
+		"lr-galv": "backrooms:block/120/lr-galv"
+	},
+	"elements": [
+		{
+			"name": "Pipe",
+			"from": [
+				7.4,
+				0,
+				12.4
+			],
+			"to": [
+				8.6,
+				16,
+				13.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#fs-red",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#fs-red",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#fs-red",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#fs-red",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Clamp",
+			"from": [
+				7.1,
+				10,
+				12.1
+			],
+			"to": [
+				8.9,
+				10.8,
+				15.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#lr-galv",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#lr-galv",
+					"uv": [
+						0,
+						0,
+						3.8,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#lr-galv",
+					"uv": [
+						0,
+						0,
+						3.8,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#lr-galv",
+					"uv": [
+						0,
+						0,
+						1.8,
+						3.8
+					]
+				},
+				"down": {
+					"texture": "#lr-galv",
+					"uv": [
+						0,
+						0,
+						1.8,
+						3.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Nozzle",
+			"from": [
+				7.2,
+				15.2,
+				12.2
+			],
+			"to": [
+				8.8,
+				16,
+				13.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#fs-brass",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#fs-brass",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#fs-brass",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#fs-brass",
+					"uv": [
+						0,
+						0,
+						1.6,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

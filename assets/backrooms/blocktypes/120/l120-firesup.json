@@ -1,0 +1,143 @@
+// Level 120: the fire suppression bank against a wall, two high: three red agent cylinders strapped to their uprights, the valve heads, hoses to the manifold, and the discharge pipe up into the ceiling. Salvage: brackets
+{
+	"code": "l120-firesup",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper",
+				"pipe"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l120-firesup-lower-north": {
+			"base": "backrooms:block/120/l120-firesup-lower",
+			"rotateY": 0
+		},
+		"l120-firesup-lower-east": {
+			"base": "backrooms:block/120/l120-firesup-lower",
+			"rotateY": 270
+		},
+		"l120-firesup-lower-south": {
+			"base": "backrooms:block/120/l120-firesup-lower",
+			"rotateY": 180
+		},
+		"l120-firesup-lower-west": {
+			"base": "backrooms:block/120/l120-firesup-lower",
+			"rotateY": 90
+		},
+		"l120-firesup-upper-north": {
+			"base": "backrooms:block/120/l120-firesup-upper",
+			"rotateY": 0
+		},
+		"l120-firesup-upper-east": {
+			"base": "backrooms:block/120/l120-firesup-upper",
+			"rotateY": 270
+		},
+		"l120-firesup-upper-south": {
+			"base": "backrooms:block/120/l120-firesup-upper",
+			"rotateY": 180
+		},
+		"l120-firesup-upper-west": {
+			"base": "backrooms:block/120/l120-firesup-upper",
+			"rotateY": 90
+		},
+		"l120-firesup-pipe-north": {
+			"base": "backrooms:block/120/l120-firesup-pipe",
+			"rotateY": 0
+		},
+		"l120-firesup-pipe-east": {
+			"base": "backrooms:block/120/l120-firesup-pipe",
+			"rotateY": 270
+		},
+		"l120-firesup-pipe-south": {
+			"base": "backrooms:block/120/l120-firesup-pipe",
+			"rotateY": 180
+		},
+		"l120-firesup-pipe-west": {
+			"base": "backrooms:block/120/l120-firesup-pipe",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l120-firesup-lower-north"
+		],
+		"backrooms": [
+			"l120-firesup-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.3
+			}
+		}
+	],
+	"collisionboxByType": {
+		"*-pipe-*": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 0.9
+		},
+		"*": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.45,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"selectionboxByType": {
+		"*-pipe-*": {
+			"x1": 0.4,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 0.6,
+			"y2": 1,
+			"z2": 0.9
+		},
+		"*": {
+			"x1": 0.05,
+			"y1": 0,
+			"z1": 0.45,
+			"x2": 0.95,
+			"y2": 1,
+			"z2": 1
+		}
+	}
+}

@@ -2,10 +2,9 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"crac-side": "backrooms:block/120/crac-side",
-		"sign-exit-lit": "backrooms:block/120/sign-exit-lit",
-		"steel-grey": "backrooms:block/120/steel-grey",
-		"wall-base": "backrooms:block/120/wall-base"
+		"wall-base": "backrooms:block/120/wall-base",
+		"x-exitface": "backrooms:block/detail/exitface",
+		"x-exithousing": "backrooms:block/detail/exithousing"
 	},
 	"elements": [
 		{
@@ -78,91 +77,87 @@
 			}
 		},
 		{
-			"name": "Box",
+			"name": "Housing",
 			"from": [
+				2,
 				3,
-				1,
-				-2.2
+				-2.5
 			],
 			"to": [
-				13,
-				6,
-				-0.2
-			],
-			"faces": {
-				"north": {
-					"texture": "#sign-exit-lit",
-					"uv": [
-						0,
-						0,
-						16,
-						16
-					],
-					"glow": 200
-				},
-				"east": {
-					"texture": "#crac-side",
-					"uv": [
-						0,
-						0,
-						2.0,
-						5
-					],
-					"glow": 200
-				},
-				"west": {
-					"texture": "#crac-side",
-					"uv": [
-						0,
-						0,
-						2.0,
-						5
-					],
-					"glow": 200
-				},
-				"up": {
-					"texture": "#crac-side",
-					"uv": [
-						0,
-						0,
-						10,
-						2.0
-					],
-					"glow": 200
-				},
-				"down": {
-					"texture": "#crac-side",
-					"uv": [
-						0,
-						0,
-						10,
-						2.0
-					],
-					"glow": 200
-				}
-			}
-		},
-		{
-			"name": "Back",
-			"from": [
-				3.5,
-				1.5,
-				-0.2
-			],
-			"to": [
-				12.5,
-				5.5,
+				14,
+				11,
 				0
 			],
 			"faces": {
 				"north": {
-					"texture": "#steel-grey",
+					"texture": "#x-exithousing",
 					"uv": [
 						0,
 						0,
-						9.0,
-						4.0
+						12,
+						8
 					]
+				},
+				"east": {
+					"texture": "#x-exithousing",
+					"uv": [
+						0,
+						0,
+						2.5,
+						8
+					]
+				},
+				"west": {
+					"texture": "#x-exithousing",
+					"uv": [
+						0,
+						0,
+						2.5,
+						8
+					]
+				},
+				"up": {
+					"texture": "#x-exithousing",
+					"uv": [
+						0,
+						0,
+						12,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#x-exithousing",
+					"uv": [
+						0,
+						0,
+						12,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Face",
+			"from": [
+				2.4,
+				3.4,
+				-2.6
+			],
+			"to": [
+				13.6,
+				10.6,
+				-2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#x-exitface",
+					"uv": [
+						0,
+						4,
+						16,
+						12
+					],
+					"glow": 200
 				}
 			}
 		}

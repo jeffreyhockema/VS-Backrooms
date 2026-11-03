@@ -1,4 +1,4 @@
-// Level 120: a server rack, two blocks high (lower, upper), its front to the side; dark, its LEDs on (bank A green, bank B amber, both green and blue: the upper block gives a little light), or gutted. Salvage: copper wire, brackets, now and then a circuit board
+// Level 120: a server rack, two blocks high (lower, upper), its front to the side. Servers behind a perforated door, dark or their LEDs on (leda green, ledb amber, both green and blue); a storage array of disk shelves (store, storelit); a network rack of patch panels, switches and patch cords (net, netlit); or gutted, its door hanging off. A lit upper block gives a little light. Salvage: copper wire, brackets, now and then a circuit board
 {
 	"code": "l120-rack",
 	"variantgroups": [
@@ -16,7 +16,11 @@
 				"leda",
 				"ledb",
 				"both",
-				"gutted"
+				"gutted",
+				"store",
+				"storelit",
+				"net",
+				"netlit"
 			]
 		},
 		{
@@ -110,6 +114,70 @@
 			"base": "backrooms:block/120/l120-rack-lower-gutted",
 			"rotateY": 90
 		},
+		"l120-rack-lower-store-north": {
+			"base": "backrooms:block/120/l120-rack-lower-store",
+			"rotateY": 0
+		},
+		"l120-rack-lower-store-east": {
+			"base": "backrooms:block/120/l120-rack-lower-store",
+			"rotateY": 270
+		},
+		"l120-rack-lower-store-south": {
+			"base": "backrooms:block/120/l120-rack-lower-store",
+			"rotateY": 180
+		},
+		"l120-rack-lower-store-west": {
+			"base": "backrooms:block/120/l120-rack-lower-store",
+			"rotateY": 90
+		},
+		"l120-rack-lower-storelit-north": {
+			"base": "backrooms:block/120/l120-rack-lower-storelit",
+			"rotateY": 0
+		},
+		"l120-rack-lower-storelit-east": {
+			"base": "backrooms:block/120/l120-rack-lower-storelit",
+			"rotateY": 270
+		},
+		"l120-rack-lower-storelit-south": {
+			"base": "backrooms:block/120/l120-rack-lower-storelit",
+			"rotateY": 180
+		},
+		"l120-rack-lower-storelit-west": {
+			"base": "backrooms:block/120/l120-rack-lower-storelit",
+			"rotateY": 90
+		},
+		"l120-rack-lower-net-north": {
+			"base": "backrooms:block/120/l120-rack-lower-net",
+			"rotateY": 0
+		},
+		"l120-rack-lower-net-east": {
+			"base": "backrooms:block/120/l120-rack-lower-net",
+			"rotateY": 270
+		},
+		"l120-rack-lower-net-south": {
+			"base": "backrooms:block/120/l120-rack-lower-net",
+			"rotateY": 180
+		},
+		"l120-rack-lower-net-west": {
+			"base": "backrooms:block/120/l120-rack-lower-net",
+			"rotateY": 90
+		},
+		"l120-rack-lower-netlit-north": {
+			"base": "backrooms:block/120/l120-rack-lower-netlit",
+			"rotateY": 0
+		},
+		"l120-rack-lower-netlit-east": {
+			"base": "backrooms:block/120/l120-rack-lower-netlit",
+			"rotateY": 270
+		},
+		"l120-rack-lower-netlit-south": {
+			"base": "backrooms:block/120/l120-rack-lower-netlit",
+			"rotateY": 180
+		},
+		"l120-rack-lower-netlit-west": {
+			"base": "backrooms:block/120/l120-rack-lower-netlit",
+			"rotateY": 90
+		},
 		"l120-rack-upper-off-north": {
 			"base": "backrooms:block/120/l120-rack-upper-off",
 			"rotateY": 0
@@ -189,6 +257,70 @@
 		"l120-rack-upper-gutted-west": {
 			"base": "backrooms:block/120/l120-rack-upper-gutted",
 			"rotateY": 90
+		},
+		"l120-rack-upper-store-north": {
+			"base": "backrooms:block/120/l120-rack-upper-store",
+			"rotateY": 0
+		},
+		"l120-rack-upper-store-east": {
+			"base": "backrooms:block/120/l120-rack-upper-store",
+			"rotateY": 270
+		},
+		"l120-rack-upper-store-south": {
+			"base": "backrooms:block/120/l120-rack-upper-store",
+			"rotateY": 180
+		},
+		"l120-rack-upper-store-west": {
+			"base": "backrooms:block/120/l120-rack-upper-store",
+			"rotateY": 90
+		},
+		"l120-rack-upper-storelit-north": {
+			"base": "backrooms:block/120/l120-rack-upper-storelit",
+			"rotateY": 0
+		},
+		"l120-rack-upper-storelit-east": {
+			"base": "backrooms:block/120/l120-rack-upper-storelit",
+			"rotateY": 270
+		},
+		"l120-rack-upper-storelit-south": {
+			"base": "backrooms:block/120/l120-rack-upper-storelit",
+			"rotateY": 180
+		},
+		"l120-rack-upper-storelit-west": {
+			"base": "backrooms:block/120/l120-rack-upper-storelit",
+			"rotateY": 90
+		},
+		"l120-rack-upper-net-north": {
+			"base": "backrooms:block/120/l120-rack-upper-net",
+			"rotateY": 0
+		},
+		"l120-rack-upper-net-east": {
+			"base": "backrooms:block/120/l120-rack-upper-net",
+			"rotateY": 270
+		},
+		"l120-rack-upper-net-south": {
+			"base": "backrooms:block/120/l120-rack-upper-net",
+			"rotateY": 180
+		},
+		"l120-rack-upper-net-west": {
+			"base": "backrooms:block/120/l120-rack-upper-net",
+			"rotateY": 90
+		},
+		"l120-rack-upper-netlit-north": {
+			"base": "backrooms:block/120/l120-rack-upper-netlit",
+			"rotateY": 0
+		},
+		"l120-rack-upper-netlit-east": {
+			"base": "backrooms:block/120/l120-rack-upper-netlit",
+			"rotateY": 270
+		},
+		"l120-rack-upper-netlit-south": {
+			"base": "backrooms:block/120/l120-rack-upper-netlit",
+			"rotateY": 180
+		},
+		"l120-rack-upper-netlit-west": {
+			"base": "backrooms:block/120/l120-rack-upper-netlit",
+			"rotateY": 90
 		}
 	},
 	"creativeinventory": {
@@ -246,6 +378,16 @@
 			30,
 			5,
 			4
+		],
+		"*-upper-storelit-*": [
+			30,
+			5,
+			3
+		],
+		"*-upper-netlit-*": [
+			21,
+			6,
+			3
 		]
 	},
 	"dropsByType": {

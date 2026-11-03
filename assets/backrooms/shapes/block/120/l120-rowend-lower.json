@@ -2,8 +2,10 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"rack-side": "backrooms:block/120/rack-side",
-		"rack-top": "backrooms:block/120/rack-top"
+		"rk-black": "backrooms:block/120/rk-black",
+		"rk-mesh": "backrooms:block/120/rk-mesh",
+		"rk-paint": "backrooms:block/120/rk-paint",
+		"rk-side": "backrooms:block/120/rk-side"
 	},
 	"elements": [
 		{
@@ -11,66 +13,222 @@
 			"from": [
 				0.5,
 				0,
-				0.5
+				0.75
 			],
 			"to": [
 				15.5,
 				16,
-				15.5
+				15.25
 			],
 			"faces": {
-				"north": {
-					"texture": "#rack-side",
-					"uv": [
-						0,
-						0,
-						15.0,
-						16
-					]
-				},
 				"east": {
-					"texture": "#rack-side",
+					"texture": "#rk-paint",
 					"uv": [
 						0,
 						0,
-						15.0,
-						16
-					]
-				},
-				"south": {
-					"texture": "#rack-side",
-					"uv": [
-						0,
-						0,
-						15.0,
+						14.5,
 						16
 					]
 				},
 				"west": {
-					"texture": "#rack-side",
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						14.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#rk-paint",
 					"uv": [
 						0,
 						0,
 						15.0,
 						16
 					]
-				},
-				"up": {
-					"texture": "#rack-top",
+				}
+			}
+		},
+		{
+			"name": "FrameL",
+			"from": [
+				0.5,
+				0,
+				0.25
+			],
+			"to": [
+				2,
+				16,
+				0.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-paint",
 					"uv": [
 						0,
 						0,
-						15.0,
-						15.0
+						1.5,
+						16
 					]
 				},
-				"down": {
-					"texture": "#rack-top",
+				"east": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameR",
+			"from": [
+				14,
+				0,
+				0.25
+			],
+			"to": [
+				15.5,
+				16,
+				0.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				2,
+				0,
+				0.5
+			],
+			"to": [
+				14,
+				16,
+				0.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-side",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				0.5,
+				0,
+				0.0
+			],
+			"to": [
+				15.5,
+				1.5,
+				0.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,
 						15.0,
-						15.0
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.75,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.75,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Grille",
+			"from": [
+				4,
+				3,
+				0.35
+			],
+			"to": [
+				12,
+				6,
+				0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-mesh",
+					"uv": [
+						0,
+						0,
+						8,
+						3
 					]
 				}
 			}
