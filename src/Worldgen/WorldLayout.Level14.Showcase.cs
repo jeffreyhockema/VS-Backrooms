@@ -66,6 +66,82 @@ public partial class WorldLayout
                         }
                 }
 
+        // Round 4: a gurney left along a hall wall (the nearest to the middle), seen from three blocks up the hall in the far lane
+        bool gurney = false;
+        for (int ring = 0; ring < 4 && !gurney; ring++)
+            for (int k = -ring; k <= ring && !gurney; k++)
+            {
+                int bx = (hcx + k) * L14Period, bz = (hcz + ring) * L14Period;
+                for (int gz = bz + 12; gz < bz + 54 && !gurney; gz++)
+                    foreach (int u in new[] { 1, L14HallWidth })
+                    {
+                        int gx = bx + u;
+                        if (!L14In(gx, gz) || L14WingAt(gx, gz) != null) continue;
+                        var t = new Tile { Kind = TileKind.Floor };
+                        L14HallTile(ref t, gx, gz, u, Hashing.Mod(gz, L14Period));
+                        if (t.Variant != Props.L14Gurney || t.Stack != 0) continue;
+                        double sx = bx + (u == 1 ? 3.5 : 1.5), sz = gz - 2.5;
+                        spots.Add(new Showcase.Spot("gurney-hall", sx, feet, sz, Heading((int)Math.Round((gx + 0.5 - sx) * 4), (int)Math.Round((gz + 1 - sz) * 4)), -22));
+                        gurney = true;
+                        break;
+                    }
+            }
+        // Round 4: a nurses' station (its counter and back unit) in an office, from three blocks in front of its counter
+        bool station = false;
+        for (int ring = 0; ring < 9 && !station; ring++)
+            for (int dz = -ring; dz <= ring && !station; dz++)
+                for (int dx = -ring; dx <= ring && !station; dx++)
+                {
+                    if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != ring) continue;
+                    var plan = L14PlanOf(hcx + dx, hcz + dz);
+                    var (wx, wz) = plan.World(L14WingSize / 2, L14WingSize / 2);
+                    if (!L14In(wx, wz)) continue;
+                    for (int b = 0; b < L14WingSize && !station; b++)
+                        for (int a = 0; a < L14WingSize && !station; a++)
+                        {
+                            Tile t = plan.AtAB(a, b);
+                            if (t.Variant != Props.L14Station || t.Stack != 1) continue;
+                            var (ox, oz) = StepOf(t.Pier);
+                            int sa = a + ox * 3, sb = b + oz * 3;
+                            if (!L14Plan.In(sa, sb) || plan.AtAB(sa, sb).Kind != TileKind.Floor || plan.AtAB(sa, sb).Variant != 0) continue;
+                            var (x, zz) = plan.World(sa, sb);
+                            spots.Add(new Showcase.Spot("nurses-station", x + 0.5, feet, zz + 0.5, Heading(-ox, -oz), -12));
+                            station = true;
+                        }
+                }
+
+        // Round 4: a lift and a directory board in hall walls, seen from the hall in front of them
+        foreach (var (what, name, back, pitch) in new[] { (L14DLift, "lift", 4, 6), (L14DDirectory, "directory", 3, -2) })
+        {
+            bool found = false;
+            for (int ring = 0; ring < 6 && !found; ring++)
+                for (int dz = -ring; dz <= ring && !found; dz++)
+                    for (int dx = -ring; dx <= ring && !found; dx++)
+                    {
+                        if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != ring) continue;
+                        var plan = L14PlanOf(hcx + dx, hcz + dz);
+                        var (wx, wz) = plan.World(L14WingSize / 2, L14WingSize / 2);
+                        if (!L14In(wx, wz)) continue;
+                        for (int b = -1; b <= L14WingSize && !found; b++)
+                            for (int a = -1; a <= L14WingSize && !found; a++)
+                            {
+                                Tile t = plan.AtAB(a, b);
+                                if (t.Kind != TileKind.Wall || t.Detail != what || t.Stack != 0) continue;
+                                var (ox, oz) = StepOf(t.Pier);
+                                // its other half beside it along the wall
+                                int ra = a + oz, rb = b + ox, la = a - oz, lb = b - ox;
+                                (int A, int B)? other = L14Plan.In(ra, rb) && plan.AtAB(ra, rb).Detail == what && plan.AtAB(ra, rb).Stack == 1 ? (ra, rb)
+                                    : L14Plan.In(la, lb) && plan.AtAB(la, lb).Detail == what && plan.AtAB(la, lb).Stack == 1 ? (la, lb) : null;
+                                if (other is not { } o) continue;
+                                var (x0, z0) = plan.World(a, b);
+                                var (x1, z1) = plan.World(o.A, o.B);
+                                double mx = (x0 + x1) / 2.0 + 0.5, mz = (z0 + z1) / 2.0 + 0.5;
+                                spots.Add(new Showcase.Spot(name, mx + ox * back, feet, mz + oz * back, Heading(-ox, -oz), pitch));
+                                found = true;
+                            }
+                    }
+        }
+
         // The Hunter, put down calm in front of the camera in a lit hall
         spots.Add(new Showcase.Spot("hunter", hcx * L14Period + 2.5, feet, hcz * L14Period + 20.5, 180, -6, $"/backrooms l14hunter show {hcx * L14Period + 2} {hcz * L14Period + 27}"));
         spots.AddRange(L14LinkShowcaseSpots(geometry));

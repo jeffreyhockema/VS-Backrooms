@@ -1838,7 +1838,8 @@ public static class Props
         L14Overbed = 1507, L14Monitor = 1508, L14Ventilator = 1509, L14Crib = 1510, L14Teddy = 1511, L14Desk2 = 1512, L14Cabinet = 1513, L14OpTable = 1514,
         L14Trolley = 1515, L14Anaesthesia = 1516, L14EquipShelf = 1517, L14TubeRack = 1518, L14Vines = 1519, L14MouldFloor = 1520, L14Stretchers = 1521,
         L14KnifeCab = 1522, L14BloodPool = 1523, L14TrgDesk = 1524, L14SampleRack = 1525, L14Cell = 1526, L14Crate = 1527, L14Drum = 1528, L14Station = 1529,
-        L14LinenCart = 1530, L14Bench = 1531, L14Revolving = 1532;
+        L14LinenCart = 1530, L14Bench = 1531, L14Revolving = 1532,
+        L14Gurney = 1533, L14Wheelchair = 1534, L14IvStand = 1535, L14StationBack = 1536, L14Vending = 1537, L14Locker = 1538;
     public const ushort L47First = 1600, L47Last = 1699;
 
     /// <summary>One past the highest prop any level may use: the size of the generator's prop tables (raise it with a new block).</summary>

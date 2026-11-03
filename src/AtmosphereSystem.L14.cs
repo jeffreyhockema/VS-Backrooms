@@ -199,11 +199,12 @@ public partial class AtmosphereSystem
         if (me == null) return;
         Vec3f look = me.Pos.GetViewVector();
         double x = me.Pos.X + look.X * 0.5, y = me.Pos.Y + me.LocalEyePos.Y - 0.18 + look.Y * 0.5, z = me.Pos.Z + look.Z * 0.5;
-        var puff = new SimpleParticleProperties(5, 8, ColorUtil.ToRgba(60, 225, 230, 240), new Vec3d(x - 0.06, y - 0.04, z - 0.06), new Vec3d(x + 0.06, y + 0.04, z + 0.06),
-            new Vec3f(look.X * 0.25f - 0.05f, 0.02f, look.Z * 0.25f - 0.05f), new Vec3f(look.X * 0.45f + 0.05f, 0.1f, look.Z * 0.45f + 0.05f), 1.4f, -0.01f, 0.25f, 0.5f,
+        // Round 4: a fine mist of many small motes, not a few big quads (a big pale square hung in front of the camera)
+        var puff = new SimpleParticleProperties(12, 18, ColorUtil.ToRgba(34, 225, 230, 240), new Vec3d(x - 0.08, y - 0.06, z - 0.08), new Vec3d(x + 0.08, y + 0.03, z + 0.08),
+            new Vec3f(look.X * 0.25f - 0.06f, 0.0f, look.Z * 0.25f - 0.06f), new Vec3f(look.X * 0.5f + 0.06f, 0.08f, look.Z * 0.5f + 0.06f), 1.2f, -0.01f, 0.05f, 0.11f,
             EnumParticleModel.Quad)
         {
-            SizeEvolve = EvolvingNatFloat.create(EnumTransformFunction.LINEAR, 1.4f),
+            SizeEvolve = EvolvingNatFloat.create(EnumTransformFunction.LINEAR, 0.6f),
             OpacityEvolve = EvolvingNatFloat.create(EnumTransformFunction.LINEAR, -40f),
             WindAffected = false,
             ShouldDieInLiquid = true,
