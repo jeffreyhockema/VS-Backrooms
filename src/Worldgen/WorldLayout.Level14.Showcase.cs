@@ -110,6 +110,47 @@ public partial class WorldLayout
                         }
                 }
 
+        // Round 4: the surgery set (the table under its light, the monitor and drip stand at its head), seen from three blocks
+        // beyond the table's foot; an ICU bed with its monitor arm, seen from three blocks out from the wall
+        bool surg = false, icuBed = false;
+        for (int ring = 0; ring < 9 && !(surg && icuBed); ring++)
+            for (int dz = -ring; dz <= ring && !(surg && icuBed); dz++)
+                for (int dx = -ring; dx <= ring && !(surg && icuBed); dx++)
+                {
+                    if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != ring) continue;
+                    var plan = L14PlanOf(hcx + dx, hcz + dz);
+                    var (wx, wz) = plan.World(L14WingSize / 2, L14WingSize / 2);
+                    if (!L14In(wx, wz)) continue;
+                    for (int b = -1; b <= L14WingSize; b++)
+                        for (int a = -1; a <= L14WingSize; a++)
+                        {
+                            Tile t = plan.AtAB(a, b);
+                            if (!surg && t.Variant == Props.L14OpTable && t.Stack == 1)
+                            {
+                                // the foot: the table runs from its head toward Pier; stand on past the foot
+                                var (ox, oz) = StepOf(t.Pier);
+                                int sa = a + ox * 2, sb = b + oz * 2;
+                                if (L14Plan.In(sa, sb) && plan.AtAB(sa, sb) is { Kind: TileKind.Floor, Variant: 0 })
+                                {
+                                    var (x, zz) = plan.World(sa, sb);
+                                    spots.Add(new Showcase.Spot("surgery-set", x + 0.5, feet, zz + 0.5, Heading(-ox, -oz), -12));
+                                    surg = true;
+                                }
+                            }
+                            if (!icuBed && t.Kind == TileKind.Wall && t.Detail == L14DMonArm)
+                            {
+                                var (ox, oz) = StepOf(t.Pier);
+                                int sa = a + ox * 4, sb = b + oz * 4;
+                                if (L14Plan.In(sa, sb) && plan.AtAB(sa, sb) is { Kind: TileKind.Floor, Variant: 0 })
+                                {
+                                    var (x, zz) = plan.World(sa, sb);
+                                    spots.Add(new Showcase.Spot("icu-bed", x + 0.5, feet, zz + 0.5, Heading(-ox, -oz), 2));
+                                    icuBed = true;
+                                }
+                            }
+                        }
+                }
+
         // Round 4: a lift and a directory board in hall walls, seen from the hall in front of them
         foreach (var (what, name, back, pitch) in new[] { (L14DLift, "lift", 4, 6), (L14DDirectory, "directory", 3, -2) })
         {
