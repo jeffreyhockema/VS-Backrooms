@@ -18,7 +18,7 @@ public sealed class MusicVoice
 {
     private readonly ICoreClientAPI capi;
     private ILoadedSound tune, fading;
-    private string key;
+    private string key, failedKey;
 
     public MusicVoice(ICoreClientAPI capi) => this.capi = capi;
 
@@ -30,6 +30,8 @@ public sealed class MusicVoice
     {
         string want = track == null ? null : track + "@" + (int)Math.Floor(at.X) + "," + (int)Math.Floor(at.Y) + "," + (int)Math.Floor(at.Z);
         if (want == key && (want == null || tune != null)) return;
+        if (want != null && want == failedKey) return; // it did not load: not again until the wish changes
+        if (want != failedKey) failedKey = null;
         if (tune != null)
         {
             ILoadedSound old = tune;
@@ -49,7 +51,7 @@ public sealed class MusicVoice
             Location = new AssetLocation("backrooms:sounds/" + track), ShouldLoop = true, RelativePosition = false, DisposeOnFinish = false,
             Position = at, Range = range, Volume = 0.01f, SoundType = EnumSoundType.Ambient,
         });
-        if (tune == null) return;
+        if (tune == null) { failedKey = want; return; }
         key = want;
         tune.Start();
         tune.PlaybackPosition = (float)(Random.Shared.NextDouble() * tune.SoundLengthSeconds);
@@ -109,7 +111,7 @@ public sealed class BlockFinder
                                 if (!ids.Contains(chunk.Data.GetBlockIdUnsafe(i))) continue;
                                 found.Add(new Vec3i(cx * cs + i % cs, cy * cs + i / (cs * cs), cz * cs + i / cs % cs));
                             }
-                        entry = (now + 8, found);
+                        entry = (now + 8 + ((key ^ (key >> 20) ^ (key >> 32)) & 3), found); // (jittered, so the 27 chunks do not all rescan in one frame)
                         chunks[key] = entry;
                     }
                     foreach (Vec3i s in entry.Found)

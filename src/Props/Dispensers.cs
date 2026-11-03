@@ -210,7 +210,12 @@ public class BlockEntityDispenser : BlockEntity
     {
         base.Initialize(api);
         // (A stock rolled before is kept, as saved)
-        if (api.Side == EnumAppSide.Server && stock < 0) stock = RollStock();
+        if (api.Side == EnumAppSide.Server && stock < 0)
+        {
+            stock = RollStock();
+            // (Saved with the chunk, so an untouched machine keeps its roll)
+            MarkDirty();
+        }
     }
 
     /// <summary>Server: restocks if the time has come; whether a portion is left (if not, the player is told).</summary>
@@ -224,7 +229,7 @@ public class BlockEntityDispenser : BlockEntity
             emptySinceDay = -1;
         }
         if (stock > 0) return true;
-        (player as IServerPlayer)?.SendIngameError("dispenserempty", Lang.Get("backrooms:dispenser-empty"));
+        if (player is IServerPlayer sp) sp.SendIngameError("dispenserempty", Say.T(sp, "backrooms:dispenser-empty"));
         return false;
     }
 

@@ -165,7 +165,18 @@ public class GuideSystem : ModSystem
     {
         if (!InBackrooms) return;
         SelectTutorial(true);
-        if (capi.LoadModConfig<TutorialFlag>(TutorialFlagFile)?.Started == true) return;
+        if (capi.LoadModConfig<TutorialFlag>(TutorialFlagFile)?.Started == true)
+        {
+            // Started on this client before: not started again, but a player who has not finished it is told where it is
+            capi.Event.RegisterCallback(_ =>
+            {
+                if (capi.World?.Player == null || tutorials.CurrentTutorial != null) return;
+                if (capi.World.Player.WorldData.CurrentGameMode == EnumGameMode.Creative) return;
+                tutorials.GetTutorialProgress(BackroomsTutorial.Code);
+                if (!ours.Complete) capi.ShowChatMessage(Lang.Get("backrooms:tutorial-backrooms-started"));
+            }, 2500);
+            return;
+        }
         // Once per client: the vanilla tutorial is opt-in, but a Backrooms newcomer has no cattails to look for
         capi.Event.RegisterCallback(_ =>
         {

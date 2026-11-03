@@ -464,7 +464,7 @@ public class BackroomsModSystem : ModSystem
         waypoints.AddWaypoint(new Waypoint
         {
             Position = new Vec3d(spawn.x + 0.5, spawn.y ?? generator.Geometry.FloorY + 1, spawn.z + 0.5),
-            Title = Lang.Get("backrooms:waypoint-wokeup"),
+            Title = Say.T(player, "backrooms:waypoint-wokeup"),
             Icon = "home",
             Color = ColorUtil.ColorFromRgba(215, 212, 138, 255),
             OwningPlayerUid = player.PlayerUID,

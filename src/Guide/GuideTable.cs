@@ -39,16 +39,35 @@ public sealed class GuideTable
             if (NotAtLevels != null && Array.IndexOf(NotAtLevels, playerLevel) >= 0) return false;
             if (Attribute != null && !entity.Attributes.HasAttribute(Attribute)) return false;
             if (Types.Length == 0) return Attribute != null;
-            foreach (string type in Types)
+            foreach (TypeRule rule in Rules())
             {
-                string domain = "backrooms", path = type;
-                int colon = type.IndexOf(':');
-                if (colon >= 0) { domain = type.Substring(0, colon); path = type.Substring(colon + 1); }
-                if (entity.Code.Domain != domain) continue;
-                if (path.EndsWith("*") ? entity.Code.Path.StartsWith(path.Substring(0, path.Length - 1), StringComparison.Ordinal) : entity.Code.Path == path)
+                if (entity.Code.Domain != rule.Domain) continue;
+                if (rule.Prefix ? entity.Code.Path.StartsWith(rule.Path, StringComparison.Ordinal) : entity.Code.Path == rule.Path)
                     return true;
             }
             return false;
+        }
+
+        /// <summary>One entry of <see cref="Types"/>, split once: the domain, the path (without the *) and whether it is a prefix.</summary>
+        public readonly record struct TypeRule(string Domain, string Path, bool Prefix);
+
+        private TypeRule[] rules;
+
+        /// <summary>The <see cref="Types"/>, parsed on first use (the table is read once and not changed after).</summary>
+        public TypeRule[] Rules()
+        {
+            if (rules != null) return rules;
+            var list = new TypeRule[Types.Length];
+            for (int i = 0; i < list.Length; i++)
+            {
+                string domain = "backrooms", path = Types[i];
+                int colon = path.IndexOf(':');
+                if (colon >= 0) { domain = path.Substring(0, colon); path = path.Substring(colon + 1); }
+                bool prefix = path.EndsWith("*");
+                if (prefix) path = path.Substring(0, path.Length - 1);
+                list[i] = new TypeRule(domain, path, prefix);
+            }
+            return rules = list;
         }
     }
 
@@ -86,11 +105,33 @@ public sealed class GuideTable
         return JsonSerializer.Deserialize<GuideTable>(json, options) ?? new GuideTable();
     }
 
+    private HashSet<string> domains;
+    private bool anyDomain;
+
+    /// <summary>Whether any row could match this entity: false for an entity whose domain no row names (and no row matches by attribute alone).</summary>
+    public bool MayMatch(Entity entity)
+    {
+        if (entity?.Code == null) return false;
+        if (domains == null)
+        {
+            var set = new HashSet<string>();
+            foreach (Creature c in Entities)
+            {
+                if (c.PlayerAttribute != null) continue;
+                if (c.Types.Length == 0) anyDomain = true;
+                foreach (Creature.TypeRule rule in c.Rules()) set.Add(rule.Domain);
+            }
+            domains = set;
+        }
+        return anyDomain || domains.Contains(entity.Code.Domain);
+    }
+
     public Creature Find(string code) => Entities.FirstOrDefault(c => c.Code == code);
 
     /// <summary>The creatures an entity counts as, for a player in a level (a Hound of the horde is both).</summary>
     public IEnumerable<string> CreaturesOf(Entity entity, int playerLevel)
     {
+        if (!MayMatch(entity)) yield break;
         foreach (Creature c in Entities)
             if (c.Matches(entity, playerLevel)) yield return c.Code;
     }
