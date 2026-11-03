@@ -701,3 +701,9 @@ glow-in-the-dark plates. All from real data halls; the lore says only "massive b
    tie to Level 2?
 3. The fire suppression bank, tape libraries and the newer desks with monitors on arms are inventions from real data
    halls (the lore only says "massive blocks of computers ripped apart"): keep, or keep the level closer to the bare lore?
+- **Run 2** (`%TEMP%/backrooms-shots/120-r4b/`, 39 shots, no unknown blocks): the battery rooms are open battery racks
+  now (strings of batteries on shelves behind restraint bars); the rack hardware dark; the console spot from the operators'
+  side shows the newer desks with their arms and one glitching screen under the wall of screens (the best shot of the
+  level); the CRT's new proportions; the cardboard boxes; the White Voids' black doors with panels and levers; the
+  lifted floor panel. Wrong: the fire suppression spot stood behind a torn-open UPS whose hanging door hid the bank (only
+  the riser showed); the floor-hole spot looked into a rack's side. Both spots fixed for run 3.
