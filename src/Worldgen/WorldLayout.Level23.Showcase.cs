@@ -293,6 +293,8 @@ public partial class WorldLayout
                             int x2 = (int)Math.Floor(t.X + ca * (reach + 9)), z2 = (int)Math.Floor(t.Z + sa * (reach + 9));
                             int xm = (int)Math.Floor(t.X + ca * (reach + 2)), zm = (int)Math.Floor(t.Z + sa * (reach + 2));
                             if (!L23ClearSurface(x, z) || !L23ClearSurface(x2, z2) || !L23ClearSurface(xm, zm)) continue;
+                            // (Round 4's first shots: the far camera stood under a root arch; nothing over it for fourteen up)
+                            if (!L23OpenOver(x2, z2, 14)) continue;
                             spots.Add(L23Spot("trunk-foot", x, z, L23Ground(x, z) + 1, fy, t.X, t.Z, 0, eyeAt: t.Base + 1.5));
                             spots.Add(L23Spot("trunk-limbs", x2, z2, L23Ground(x2, z2) + 1, fy, t.X, t.Z, 0, eyeAt: t.Base + 11));
                             done = true;
@@ -314,12 +316,23 @@ public partial class WorldLayout
         // Round 4: a statue of an Architect at the Parthenon's way in, from in front of it
         {
             L23Cavern r = L23Specials[4];
-            int x = r.X - 4, z = r.Z + 19;
+            // (from three steps off, a little to its side: round 4's first shot was far and had a supply box in front)
+            int x = r.X - 4, z = r.Z + 18;
             if (L23Cave(x, z, out int f, out _, out _))
-                spots.Add(L23Spot("ruin-statue", x, z, f + 1, fy, r.X - 5.5, r.Z + 15.5, 0, eyeAt: r.Floor + 3.2));
+                spots.Add(L23Spot("ruin-statue", x, z, f + 1, fy, r.X - 5.5, r.Z + 15.5, 0, eyeAt: r.Floor + 2.8));
         }
         L23LinkSpots(spots, geometry);
         return spots;
+    }
+
+    /// <summary>Whether a forest column has no wood over its ground for a height (round 4: a camera with nothing over it).</summary>
+    private bool L23OpenOver(int gx, int gz, int height)
+    {
+        int g = L23Ground(gx, gz);
+        var kinds = new byte[height];
+        L23Wood(gx, gz, g + 1, kinds);
+        foreach (byte k in kinds) if (k != 0) return false;
+        return true;
     }
 
     /// <summary>The compass heading from one column to another.</summary>

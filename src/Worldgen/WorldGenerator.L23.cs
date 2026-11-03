@@ -293,7 +293,7 @@ public sealed partial class WorldGenerator
             }
         // Round 4: shafts of light under the holes in the lid, a slice a block from high up down to a few over the ground, in
         // a scatter of the hole's columns (the lore's star never moves: they stand still)
-        if (hole && (L23Mod(gx * 7 + gz * 13, 6) == 0) && l23Sunbeam != 0)
+        if (hole && (L23Mod(gx * 7 + gz * 13, 5) == 0) && l23Sunbeam != 0)
             for (int rel = Math.Max(ground, WorldLayout.L23PoolSurface) + 4; rel <= WorldLayout.L23Top - 4; rel++)
                 if (b[rel - L23Low] == 0 && !c.Water[rel - L23Low]) b[rel - L23Low] = l23Sunbeam;
         // Lichen hanging from the lid, now and then; long roots from the vault over the pool

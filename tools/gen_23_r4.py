@@ -204,22 +204,35 @@ def bark_textures(bark):
 
 def flare_shape(kind, form):
     """The air at a trunk's foot (the trunk on the south side): a concave slope of bark from the trunk's face down to the
-    ground, its top mossed. "root": the slope lower, a root running out along the middle to the cell's far edge."""
+    ground, its top mossed. Round 4's first shots read the stepped slope as a stair, so the slope's face is two planks laid
+    along its chords (turned about x), the steps under them only a fill (each no higher than the chord over its front).
+    "root": the slope lower, a root running out along the middle past the cell's edge, laid along its own line."""
     top, side = "#top", "#side"
+    k = 1.0 if form == "full" else 0.55
+    za, ya, zb, yb = 9.0, 5.3 * k, 16.0, 16.0 * k
+
+    def chord(z):
+        return ya * z / za if z <= za else ya + (yb - ya) * (z - za) / (zb - za)
+
     els = []
-    scale = 1.0 if form == "full" else 0.55
-    for k in range(8):
-        z1, z2 = 2 * k, 2 * k + 2
-        h = 16 * scale * ((z2 - 0.5) / 16) ** 1.9
-        if h < 0.4:
+    for n in range(8):
+        z1, z2 = 2 * n, 2 * n + 2
+        h = chord(z1) - 0.25
+        if h < 0.3:
             continue
-        els.append(E(f"Slope{k}", (0, 0, z1), (16, h, z2), {"north": side, "up": top, "east": side, "west": side}))
+        els.append(E(f"Fill{n}", (0, 0, z1), (16, h, z2), {"north": side, "east": side, "west": side}))
+    for nm, (z0, y0, z1, y1) in (("SlopeLow", (0.0, 0.0, za, ya)), ("SlopeHigh", (za, ya, zb, yb))):
+        length = math.hypot(z1 - z0, y1 - y0)
+        ang = math.degrees(math.atan2(y1 - y0, z1 - z0))
+        els.append(E(nm, (0, y0 - 1.2, z0), (16, y0, z0 + length + 0.15), {"up": top, "east": side, "west": side, "north": side},
+                     {"rotationOrigin": [8, y0, z0], "rotationX": -ang}))
     if form == "root":
-        prof = [(0, 3, 2.2), (3, 6, 3.2), (6, 10, 4.4), (10, 13, 6), (13, 16, 8)]
-        for k, (z1, z2, h) in enumerate(prof):
-            w = 2.6 + k * 0.35
-            els.append(E(f"Root{k}", (8 - w, 0, z1), (8 + w, h, z2), {"north": side, "up": top, "east": side, "west": side}))
-        els.append(E("RootTip", (6.2, 0, -1.5), (9.8, 1.6, 0.5), {"north": side, "up": top, "east": side, "west": side}))
+        z0, y0, z1, y1 = -1.5, 0.0, 16.0, 9.0
+        length = math.hypot(z1 - z0, y1 - y0)
+        ang = math.degrees(math.atan2(y1 - y0, z1 - z0))
+        rot = {"rotationOrigin": [8, y0, z0], "rotationX": -ang}
+        els += [E("Root", (5.4, y0 - 3.0, z0), (10.6, y0, z0 + length), {"up": top, "east": side, "west": side, "north": side}, rot),
+                E("RootSide", (4.6, y0 - 3.0, z0 + 2), (11.4, y0 - 0.9, z0 + length), {"up": side, "east": side, "west": side}, rot)]
     return els
 
 

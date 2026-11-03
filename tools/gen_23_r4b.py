@@ -436,12 +436,13 @@ def amphora_shape():
 # ---------------- Light shafts ----------------
 
 def sunbeam_shape():
-    """A slice of a shaft of light falling through a hole in the lid: three thin upright planes crossed (one each way
-    and one turned), soft at their edges, glowing; the shaft is a stack of them."""
+    """A slice of a shaft of light falling through a hole in the lid: three upright planes crossed (one each way and one
+    turned), each two blocks wide and soft to nothing at its sides, so the slices of neighbouring columns melt into one
+    shaft (round 4's first shots: one block wide they read as bright strings)."""
     f = {"north": "#beam", "south": "#beam"}
-    return [E("PlaneA", (0, 0, 7.9), (16, 16, 8.1), f, glow=90),
-            E("PlaneB", (7.9, 0, 0), (8.1, 16, 16), {"east": "#beam", "west": "#beam"}, glow=90),
-            E("PlaneC", (0, 0, 7.9), (16, 16, 8.1), f, {"rotationOrigin": [8, 0, 8], "rotationY": 45}, glow=90)]
+    return [E("PlaneA", (-8, 0, 7.9), (24, 16, 8.1), f, glow=40),
+            E("PlaneB", (7.9, 0, -8), (8.1, 16, 24), {"east": "#beam", "west": "#beam"}, glow=40),
+            E("PlaneC", (-8, 0, 7.9), (24, 16, 8.1), f, {"rotationOrigin": [8, 0, 8], "rotationY": 45}, glow=40)]
 
 
 def sunbeam_tex():
@@ -453,11 +454,11 @@ def sunbeam_tex():
     for y in range(S):
         for x in range(S):
             t = 1 - abs(x + 0.5 - S / 2) / (S / 2)
-            a = int(46 * t ** 1.6)
+            a = int(26 * t ** 2.0)
             px[x, y] = (255, 240, 196, a)
     for _ in range(10):
         x, y = rng.randrange(6, S - 6), rng.randrange(S)
-        px[x, y] = (255, 250, 230, 120)
+        px[x, y] = (255, 250, 230, 60)
     return img
 
 
