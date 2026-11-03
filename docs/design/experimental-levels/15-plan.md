@@ -669,6 +669,14 @@ Three client-rig runs, no torch (the halls' own white): `%TEMP%/backrooms-shots/
   machine casings' relief (corner posts, louvres, bezels) and the lectern beside the screen showed. Wrong: the first
   bays of the dark were lit amber from wall to wall by the battery lamps (the dark-hall spot was no longer dark). Fixed:
   one lamp still burns on one wall at the very edge, light 7; the others have run flat.
+- **Final run** (`15-r4c`, 46 shots): the edge of the dark now reads as a power fault (one amber pool on the wall, then
+  black), the dark hall is dark again, the projector hangs over the lecture hall's aisle with the lectern on the stage,
+  the star door has one star with its halo, the pilasters stand off the walls as I-section columns, the nutrient tanks
+  and the caged service lamps are in. Not looked at closely in a shot: the MEDICAL CENTER door's surround and the DON'T
+  by a crematorium door (no spot reaches them; checked in the shape previews).
+
+**Still weak.** The service passages are still bare grey concrete with Level 2's warm duct; the hydroponics racks' posts
+read heavy close up; the side corridors between the halls are plainer than the halls; the Robo-Man itself (shared).
 
 ### Questions for the user
 
