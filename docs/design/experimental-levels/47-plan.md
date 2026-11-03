@@ -284,3 +284,13 @@ manor's 15 C already has. The loft's stores are props (chests, sacks, barrels, c
    were rows); the lichen rosettes on the alternates read as white polka dots; the stream spot stood on a dead root's cut
    end and looked at a bank of moss, not along the water. Fixed: the oak's furrows ragged and its breaks short slanting
    cracks, lichen fewer, smaller and greyer, the stream spot on clear ground looking along the brook.
+2. `%TEMP%/backrooms-shots/47-r4b`: the models in place and reading as objects. The manor from the walk: slate roof with
+   eaves and ridge, chimney pots, the porch on its posts, lamp posts with their lanterns hung over the walk; the door
+   open in its oak frame with the Tudor head, strap hinges and studs; the great hall's hearth with fire, andirons,
+   hearthstone and the mantel of candles, the trestle table set and lit, benches, sconces; the library's bookcases (books,
+   scrolls, bottles) on three walls; the way-stone reads as a post with a snake coiling up it; the oak bark as furrowed
+   bark; brackets and moss drapes on the trunks. Still wrong: the leaded windows' stone surrounds drew as ghosts (the
+   translucent pass); the beard strands under the moss read as white sticks; the dead wood's bark strips as regular dark
+   tiles; the tapestry spot looked at a trilithon (the north wall's tapestry is behind one from anywhere in the hall); the
+   camp was behind a boulder from its spot (and its fire could lose its cell to a fern); the root plate's spot looked
+   through a dead tree. All fixed for the third run.
