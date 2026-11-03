@@ -596,6 +596,13 @@ pale columns over the Heart of Water; the Colosseum's outer arcade on columns is
 bark reads as bark, not masonry. Fixed after it: the limbs' spot still looked into a root arch (now a sight line checked
 to the trunk); the cypress knees were plain dark cubes (now cones, `l23-knee`).
 
+Run C (`%TEMP%/backrooms-shots/23-r4c`, the final run): the limbs' spot now looks up the trunks' sides with nothing in
+the way; the knees are cones; everything else as run B. Still weak: the trunks above nine blocks are textured blocks
+(relief stops there); the root arches' undersides and sides are still blocks (only their tops are rounded); the thick
+fallen logs' roundness shows only from their ends or from above; the wall tent is small seen from five steps; the
+sentry's face is boxy up close (a mask, brow, nose and mouth of boxes); the glades' and the Heart's shafts are a
+little strong in the fog's pale air.
+
 ### Inventions (round 4)
 
 All shapes, profiles and numbers; the bark's relief by species; the root flares, limbs and knuckles; the wall tent's
@@ -636,3 +643,13 @@ Run A (`%TEMP%/backrooms-shots/23-r4a`, with a torch, after the A items):
   chords, the steps only a fill under them); the shafts were hard-edged one-block strips (now two blocks wide, soft,
   fainter: at the Heart of Water they were a white curtain); the limbs' spot stood under a root arch (now a camera with
   nothing over it); the statue's spot was far, a supply box in front (now three steps off).
+
+### Checks (round 4, 2026-11-03, code at dcfa4987)
+
+`expclash.py` clean; mod and mapgen build, 0 errors; `layouthash` (seed 12345, 16000; layout 1 and 12,
+`BACKROOMS_NO_EXP_ENTRANCES=1`): every line for levels 0-20 and the `layout hash` line identical to main's saved files;
+`regions`: Level 23 60/60 (1.25 ms a cell cold); headless (port 43174): `/backrooms dummy place 23 5` lands in the forest
+(light 22), `/backrooms blocksweep` 15987 blocks tried, 0 threw, 0 error lines; block dumps of the new spots show every
+new block placed (the tent's four parts each way, the counter, fire, statues, columns, frieze, lily pads, shafts, knees,
+flares, limbs, logs' slices, caps' rims); `GATE_TAG=23g gate.py --fast --port-base 43170`: PASS (7efcc08e, docs only
+after dcfa4987). List: A 18/18 done; B 11 done, 3 partly, 2 skipped; C 3 done, 2 partly, 1 skipped.
