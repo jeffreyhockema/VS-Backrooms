@@ -16,6 +16,10 @@ public static class MapColors
     private static readonly int CarpetStained = Rgb(0x8E7C44);
     private static readonly int OtherFloor = Rgb(0x9A9890);
     private static readonly int Chalk = Rgb(0xF6F6F0);
+    private static readonly int ChalkRed = Rgb(0xE8453A);
+    private static readonly int ChalkBlue = Rgb(0x4A7DF0);
+    private static readonly int ChalkYellow = Rgb(0xF2D435);
+    private static readonly int ChalkGreen = Rgb(0x3CC85A);
     private static readonly int Vegetation = Rgb(0x2F5A2A);
     private static readonly int Grass = Rgb(0x5E8040);
     private static readonly int Field = Rgb(0x7A5C38);
@@ -42,7 +46,12 @@ public static class MapColors
         Block eye = blockAccessor.GetBlock(tmpPos.Set(x, floorY + 2, z));
         Block feet = blockAccessor.GetBlock(tmpPos.Set(x, floorY + 1, z));
         // Surveyor's chalk shows up bright white: in the dark of Level 6 it is the trail you can trust
-        if (IsChalk(eye) || IsChalk(feet) || IsChalk(blockAccessor.GetBlock(tmpPos.Set(x, floorY + 3, z)))) return Chalk;
+        Block head = blockAccessor.GetBlock(tmpPos.Set(x, floorY + 3, z));
+        if (IsChalk(eye) || IsChalk(feet) || IsChalk(head))
+        {
+            // Coloured marks (chalkmark-red-...) show in their colour; white ones as before
+            return ChalkColor(eye) ?? ChalkColor(feet) ?? ChalkColor(head) ?? Chalk;
+        }
         if (IsSolid(eye)) return IsPlant(eye) ? Vegetation : Wall;
 
         if (feet.Code?.Path is "supplybox" or "crate") return SupplyBox;
@@ -96,6 +105,17 @@ public static class MapColors
     }
 
     private static bool IsChalk(Block block) => block.Code?.Domain == "backrooms" && block.Code.Path.StartsWith("chalkmark", StringComparison.Ordinal);
+
+    private static int? ChalkColor(Block block)
+    {
+        string path = block.Code?.Domain == "backrooms" ? block.Code.Path : "";
+        if (!path.StartsWith("chalkmark-", StringComparison.Ordinal)) return null;
+        if (path.StartsWith("chalkmark-red-", StringComparison.Ordinal)) return ChalkRed;
+        if (path.StartsWith("chalkmark-blue-", StringComparison.Ordinal)) return ChalkBlue;
+        if (path.StartsWith("chalkmark-yellow-", StringComparison.Ordinal)) return ChalkYellow;
+        if (path.StartsWith("chalkmark-green-", StringComparison.Ordinal)) return ChalkGreen;
+        return null;
+    }
 
     /// <summary>Whether a block stops the player (and so the map's line of sight): anything with a collision box.</summary>
     internal static bool IsSolid(Block block) => block.BlockId != 0 && block.CollisionBoxes != null && block.CollisionBoxes.Length > 0;

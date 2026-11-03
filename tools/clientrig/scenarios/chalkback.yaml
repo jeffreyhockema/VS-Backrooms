@@ -1,0 +1,14 @@
+description: A coloured chalk mark seen from the open far side of its wall (no hole through the wall).
+steps:
+  - bot: closeguis
+  - server: /time set 12:00
+  - bot: hud off
+  - bot: look 0 0
+  - cmd: /backrooms rig chalk red
+  - bot: wait 700
+  - shot: front
+  - bot: tp 512018 217 512004
+  - bot: wait 1500
+  - bot: look 180 0
+  - bot: wait 700
+  - shot: back

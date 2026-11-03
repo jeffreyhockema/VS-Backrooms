@@ -1,0 +1,30 @@
+description: Coloured chalk marks (all four symbols per colour) on Level 0 walls, and the minimap with coloured marks.
+steps:
+  - bot: closeguis
+  - server: /time set 12:00
+  - bot: hud off
+  - bot: look 0 0
+  - cmd: /backrooms rig chalk red
+  - bot: wait 700
+  - shot: marks-red-north
+  - bot: look 90 0
+  - cmd: /backrooms rig chalk green
+  - bot: wait 700
+  - shot: marks-green-east
+  - bot: look 180 0
+  - cmd: /backrooms rig chalk blue
+  - bot: wait 700
+  - shot: marks-blue-south
+  - bot: look 270 0
+  - cmd: /backrooms rig chalk yellow
+  - bot: wait 700
+  - shot: marks-yellow-west
+  - bot: hud on
+  - bot: look 0 0
+  - bot: wait 2000
+  - shot: hud-default
+  - bot: wait 25000
+  - bot: keepmap on
+  - bot: hotkey worldmapdialog
+  - bot: wait 10000
+  - shot: worldmap-marks

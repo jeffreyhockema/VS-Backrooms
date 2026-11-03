@@ -223,14 +223,58 @@
 			"rotateY": 90
 		}
 	},
-	"drops": [
-		{
-			"type": "item",
-			"code": "game:plank-aged",
-			"quantity": {
-				"avg": 0.5,
-				"var": 0.5
+	"dropsByType": {
+		"*-lower-*": [
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0.5
+				}
+			},
+			{
+				"type": "item",
+				"code": "chalk-red",
+				"quantity": {
+					"avg": 0.025,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "chalk-blue",
+				"quantity": {
+					"avg": 0.025,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "chalk-yellow",
+				"quantity": {
+					"avg": 0.025,
+					"var": 0
+				}
+			},
+			{
+				"type": "item",
+				"code": "chalk-green",
+				"quantity": {
+					"avg": 0.025,
+					"var": 0
+				}
 			}
-		}
-	]
+		],
+		"*": [
+			{
+				"type": "item",
+				"code": "game:plank-aged",
+				"quantity": {
+					"avg": 0.5,
+					"var": 0.5
+				}
+			}
+		]
+	}
 }

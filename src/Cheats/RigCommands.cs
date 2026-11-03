@@ -120,6 +120,7 @@ public class RigCommands : ModSystem
                 player.Entity.ReceiveDamage(new DamageSource { Source = EnumDamageSource.Void, Type = EnumDamageType.BluntAttack }, amount);
                 return TextCommandResult.Success("rig-hurt " + amount.ToString(CultureInfo.InvariantCulture));
             }
+            case "chalk": return Chalk(player, arg);
             case "classdrops":
             {
                 var at = player.Entity.Pos.AsBlockPos;
@@ -146,6 +147,43 @@ public class RigCommands : ModSystem
         sapi.World.BlockAccessor.SetBlock(block.Id, pos);
         sapi.World.BlockAccessor.SetBlock(0, pos.UpCopy());
         return TextCommandResult.Success($"rig-place {block.Code} at {pos.X} {pos.Y} {pos.Z}");
+    }
+
+    /// <summary>chalk [colour]: gives the four coloured sticks (hotbar), and puts the four marks of the colour (white by default) on the wall ahead.</summary>
+    TextCommandResult Chalk(IServerPlayer player, string colour)
+    {
+        foreach (string c in new[] { "red", "blue", "yellow", "green" })
+        {
+            Item stick = sapi.World.GetItem(new AssetLocation("backrooms", "chalk-" + c));
+            if (stick == null) return TextCommandResult.Error("rig-error: no item chalk-" + c);
+            player.InventoryManager.TryGiveItemstack(new ItemStack(stick), true);
+        }
+        string prefix = string.IsNullOrEmpty(colour) || colour == "white" ? "" : colour + "-";
+        IBlockAccessor blocks = sapi.World.BlockAccessor;
+        BlockFacing travel = BlockFacing.HorizontalFromYaw(player.Entity.Pos.Yaw);
+        BlockFacing side = travel.Opposite;
+        BlockFacing across = travel.GetCW();
+        BlockPos pos = player.Entity.Pos.AsBlockPos.Copy();
+        pos.Y += 1;
+        for (int d = 1; d <= 10; d++)
+        {
+            BlockPos wall = pos.AddCopy(travel, d);
+            if (!blocks.GetBlock(wall).SideSolid[side.Index]) continue;
+            int placed = 0;
+            string[] symbols = { "left", "right", "cross", "circle" };
+            for (int i = 0; i < 4; i++)
+            {
+                BlockPos wallI = wall.AddCopy(across, i % 2).UpCopy(i / 2);
+                BlockPos air = wallI.AddCopy(side);
+                Block mark = sapi.World.GetBlock(new AssetLocation("backrooms", $"chalkmark-{prefix}{symbols[i]}-{side.Code}"));
+                if (mark == null) return TextCommandResult.Error("rig-error: no block chalkmark-" + prefix + symbols[i] + "-" + side.Code);
+                if (!blocks.GetBlock(wallI).SideSolid[side.Index]) continue;
+                blocks.SetBlock(mark.BlockId, air);
+                placed++;
+            }
+            return TextCommandResult.Success($"rig-chalk {prefix}marks {placed} at {wall.X} {wall.Y} {wall.Z}");
+        }
+        return TextCommandResult.Error("rig-error: no wall within 10 blocks ahead");
     }
 
     TextCommandResult Equip(IServerPlayer player, string set)
