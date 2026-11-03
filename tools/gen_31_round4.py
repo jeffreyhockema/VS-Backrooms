@@ -14,7 +14,8 @@ New:  l31-barrier (the rink's barrier: a thin padded wall along the boards' oute
     pieces, chosen by WorldGenerator.L31.Round4.cs from the neighbours), l31-rinkgate (the gaps' gates: a hinge post
     with a leaf swung open into the rink, left or right, or the sill between), l31-pinball (in place of Level 3999's in
     the arcade), l31-slushie (the snack counters' slushie machine), l31-popcorn (in place of Level Fun's popcorn cart),
-    l31-locker (the rink's coin lockers, in place of Level 52's school lockers)
+    l31-locker (the rink's coin lockers, in place of Level 52's school lockers),
+    l31-counter (the rental's and lobby's counter, in place of Level 3999's reception desk)
 Reused from other levels, placed by the layout: Level 120's CRAC units in the HVAC rooms, Level 36's queue posts in
     Skate Rental.
 
@@ -1199,6 +1200,52 @@ def fountain():
     return shape("l31-fountain", els)
 
 
+def counter_textures():
+    front = Image.new("RGBA", (S, S), rgba((34, 40, 88)))
+    d = ImageDraw.Draw(front)
+    d.rectangle([0, 9, 31, 12], fill=rgba((226, 60, 170)))
+    d.rectangle([0, 16, 31, 18], fill=rgba((60, 200, 230)))
+    M.noise_hv((34, 40, 88), 2, 4310, S, 2, (8, 4))
+    for x in (0, 31):
+        d.line([(x, 0), (x, 31)], fill=rgba((24, 28, 64)))
+    M.grime(front, 0.14, 4311, color=(16, 16, 30), bias="bottom", cover=0.5)
+    M.scratches(front, n=4, seed=4312, length=(2, 5), light=0.18)
+    save_tex(front, "r4-counterfront")
+    top = M.noise_hv((232, 230, 224), 2, 4313, S, 2, (8, 4))
+    rng = random.Random(4314)
+    tp = top.load()
+    for _ in range(50):
+        x, y = rng.randrange(S), rng.randrange(S)
+        tp[x, y] = (150, 156, 166, 255) if rng.random() < 0.6 else (250, 250, 250, 255)
+    save_tex(top, "r4-countertop")
+
+
+def counter(kind):
+    """The rental's and the lobby's counter: a laminate top with a rounded nose over a navy front in the rink's stripes,
+    a recessed chrome kick, the staff side's shelf; the ends close it; the middle has a service bell and a tray of
+    size tags. Kinds left, mid, right as Level 3999's reception counter (the ends as seen from the customer's side)."""
+    els = [
+        B("Front", (0, 1.0, 2.0), (16, 14.0, 3.0), "r4-counterfront", faces=without(DIRS, "south")),
+        B("Kick", (0, 0, 2.8), (16, 1.0, 3.6), "r4-chrome", faces=without(DIRS, "south")),
+        B("Top", (0, 14.0, 0.8), (16, 15.0, 12.0), "r4-countertop", faces=without(DIRS, "down")),
+        B("Nose", (0, 13.6, 0.4), (16, 15.0, 0.8), "r4-padpink", faces=without(DIRS, "south")),
+        B("Under", (0, 13.4, 0.8), (16, 14.0, 12.0), "r4-black", faces=("down",)),
+        B("Shelf", (0, 6.0, 3.0), (16, 6.6, 11.0), "r4-countertop"),
+        B("Back", (0, 0, 3.0), (16, 6.0, 3.6), "r4-black", faces=("south",)),
+    ]
+    if kind == "left":
+        els.append(B("EndL", (14.8, 0, 3.0), (16, 14.0, 12.0), "r4-counterfront", faces=without(DIRS, "north", "up")))
+    if kind == "right":
+        els.append(B("EndR", (0, 0, 3.0), (1.2, 14.0, 12.0), "r4-counterfront", faces=without(DIRS, "north", "up")))
+    if kind == "mid":
+        els += [B("BellBase", (11.0, 15.0, 3.0), (13.0, 15.4, 5.0), "r4-black"),
+                B("Bell", (11.3, 15.4, 3.3), (12.7, 16.4, 4.7), "r4-gold"),
+                B("BellKnob", (11.85, 16.4, 3.85), (12.15, 16.8, 4.15), "r4-gold"),
+                B("Tray", (3.0, 15.0, 4.0), (7.0, 15.6, 7.0), "r4-black"),
+                B("Tags", (3.4, 15.6, 4.4), (6.6, 15.8, 6.6), "plate-white", faces=("up",))]
+    return shape("l31-counter-" + kind, els)
+
+
 # ======================================================================== Restrooms
 
 def stall():
@@ -1485,6 +1532,10 @@ def blocks():
     prop_block("l31-jukebox", "Level 31: a 1990s jukebox, wood under a stepped neon arch, the record window, selector keys, bubble tubes either side, a chrome grille, 22 units tall, toward the side",
                lambda k: ref, (0.03, 0, 0.21, 0.97, 1, 0.82), (0.03, 0, 0.21, 0.97, 1, 0.82), resistance=3, extra={"lightHsv": [50, 4, 6]})
     riser()
+    counter_textures()
+    crefs = {k: counter(k) for k in ("left", "mid", "right")}
+    prop_block("l31-counter", "Level 31: the rental's and the lobby's counter, a laminate top with a rounded pink nose over a navy front in the rink's stripes, a chrome kick, a shelf on the staff side; left and right close the ends (seen from the customer's side), the middle has a bell and a tray of size tags; the front faces the side",
+               lambda k: crefs[k], (0, 0, 0.02, 1, 0.94, 0.75), (0, 0, 0.02, 1, 0.94, 0.75), kinds=["left", "mid", "right"], kindgroup="part", resistance=3)
     ref = fountain()
     prop_block("l31-fountain", "Level 31: the food court's soda fountain on its counter section (a block tall and the tower over it), six valves under lit labels, the drip grate, ice lever, cups and straws; the valves face the side; dispenses Almond Water",
                lambda k: ref, (0, 0, 0.05, 1, 1, 1), (0, 0, 0.05, 1, 1, 1), resistance=4,
@@ -1524,6 +1575,7 @@ LANG = {
     "block-l31-slushie-*": "Slushie Machine",
     "block-l31-popcorn-*": "Popcorn Machine",
     "block-l31-locker-*": "Coin Lockers",
+    "block-l31-counter-*": "Counter",
 }
 
 

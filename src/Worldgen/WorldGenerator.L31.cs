@@ -113,7 +113,7 @@ public sealed partial class WorldGenerator
             l31DjScreen[f] = L31Block($"l3999-dance-screen-{side}");
             for (int k = 0; k < 3; k++)
             {
-                l31Counter[k, f] = L31Block($"l3999-reception-{desk[k]}-{side}");
+                l31Counter[k, f] = L31Block($"l31-counter-{desk[k]}-{side}", L31Block($"l3999-reception-{desk[k]}-{side}"));
                 l31Screen[k, f] = L31Block($"fun-screen-{screens[k]}-{side}");
             }
             l31Vending[0, f] = L31Block($"l3999-vending-snack-{side}");
