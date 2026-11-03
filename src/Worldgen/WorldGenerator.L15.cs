@@ -94,6 +94,8 @@ public sealed partial class WorldGenerator
             "lamplower", "lampupper", "lampon", "lamplowerdead", "lampupperdead" };
         for (int r = 1; r <= 5; r++) { kinds.Add($"jamb{r}"); kinds.Add($"jamb{r}e"); }
         for (int i = 0; i < 4; i++) kinds.Add($"jambplate{i}");
+        for (int c = 0; c < 4; c++)
+            for (int n = 0; n < L15Signs; n++) kinds.Add($"tag{c}{n}");
         return kinds.ToArray();
     }
 
@@ -554,6 +556,9 @@ public sealed partial class WorldGenerator
                 if (dark && bay == 4 && hall.Face is ArchPier.East or ArchPier.South && t.Detail == L.L15WallPlain
                     && L15DarkEdge(gx, gz, hall.Face is ArchPier.East or ArchPier.West) == 1)
                     return L15Panel("breaker", f, l15Sign[L15SBand + Hashing.Mod(hall.Line, 4), f]);
+                // Round 4: the hall's name on a tag on the band, on one wall, a few blocks past each bulkhead
+                if (Hashing.Mod(hall.Along, 32) == 20 && hall.Face is ArchPier.West or ArchPier.North && t.Detail == L.L15WallPlain)
+                    return L15Panel($"tag{Hashing.Mod(hall.Line, 4)}{L15HallSign(hall.Line, hall.Along)}", f, l15Sign[L15SBand + Hashing.Mod(hall.Line, 4), f]);
                 return l15Sign[L15SBand + Hashing.Mod(hall.Line, 4), f];
             case 3 when t.Detail is not (L.L15WallCode or L.L15WallScanner) && stretch is 11 or 123:
                 // The hall's sign: its letter from the line it runs along, its number from the stretch it is in

@@ -1,0 +1,247 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "sign-band0": "backrooms:block/15/sign-band0",
+  "bezel": "backrooms:block/15/bezel",
+  "tag0": "backrooms:block/15/tag0",
+  "brushed": "backrooms:block/15/brushed",
+  "wall": "backrooms:block/15/wall-panel"
+ },
+ "elements": [
+  {
+   "name": "Body",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#sign-band0",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "Plate",
+   "from": [
+    3,
+    4.5,
+    -0.5
+   ],
+   "to": [
+    13,
+    11.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#tag0",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      7.0
+     ]
+    },
+    "south": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      10,
+      7.0
+     ]
+    },
+    "west": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      7.0
+     ]
+    },
+    "up": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      10,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      10,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw0",
+   "from": [
+    3.5,
+    10.5,
+    -0.6
+   ],
+   "to": [
+    4,
+    11,
+    -0.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw1",
+   "from": [
+    12,
+    10.5,
+    -0.6
+   ],
+   "to": [
+    12.5,
+    11,
+    -0.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw2",
+   "from": [
+    3.5,
+    5,
+    -0.6
+   ],
+   "to": [
+    4,
+    5.5,
+    -0.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Screw3",
+   "from": [
+    12,
+    5,
+    -0.6
+   ],
+   "to": [
+    12.5,
+    5.5,
+    -0.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  }
+ ]
+}

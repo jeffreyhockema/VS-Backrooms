@@ -704,6 +704,20 @@ def panel_shapes():
         add(kind, els, {tex_: T(tex_), "whitegloss": T("whitegloss"), "bezel": T("bezel")},
             light=[34, 1, 12] if kind == "lampon" else None)
 
+    # The halls' tags on the band every 32 blocks (round 4): the band in its line's colour behind, a dark plate standing
+    # off it with the hall's name and a small arrow, screwed at its corners
+    from gen_15_r3 import HALLS
+    for c in range(len(LINE_COLOURS)):
+        for n in range(len(HALLS)):
+            els = [box("Body", (0, 0, 0), (16, 16, 16), {"all": "wall", "north": f"sign-band{c}"})]
+            els[0]["faces"]["north"]["uv"] = [0, 0, 16, 16]
+            els += [uvfull(box("Plate", (3, 4.5, -0.5), (13, 11.5, 0), {"all": "bezel", "north": f"tag{n}"}), "north"),
+                    box("Screw0", (3.5, 10.5, -0.6), (4, 11, -0.5), "brushed", faces=("north",)),
+                    box("Screw1", (12, 10.5, -0.6), (12.5, 11, -0.5), "brushed", faces=("north",)),
+                    box("Screw2", (3.5, 5, -0.6), (4, 5.5, -0.5), "brushed", faces=("north",)),
+                    box("Screw3", (12, 5, -0.6), (12.5, 5.5, -0.5), "brushed", faces=("north",))]
+            add(f"tag{c}{n}", els, {f"sign-band{c}": T(f"sign-band{c}"), "bezel": T("bezel"), f"tag{n}": T(f"tag{n}"), "brushed": T("brushed")})
+
     # The big display's bezel (three wide, two high: row 0 the lower, i 0 the left as seen, its outer edge at x 16)
     for row in range(2):
         for i in range(3):
@@ -780,6 +794,19 @@ def panel_shapes():
 
 
 def panel_textures():
+    # The halls' tags (64 x 64, the plate's 10 x 7 face drawn in its middle rows): HALL and the name, an arrow each way
+    from gen_15_r3 import HALLS
+    for n, code in enumerate(HALLS):
+        img = Image.new("RGBA", (B, B), (24, 28, 32, 255))
+        rect(img, 1, 1, B - 2, B - 2, (34, 40, 46))
+        rect(img, 1, 1, B - 2, 3, (200, 206, 210))
+        draw_text(img, (4, 8, 26, 24), "HALL", (170, 180, 188), 7, condensed=True)
+        draw_text(img, (28, 6, 60, 40), code, (236, 242, 246), 20)
+        d = ImageDraw.Draw(img)
+        d.polygon([(6, 50), (14, 44), (14, 56)], fill=(200, 206, 210, 255))
+        d.polygon([(58, 50), (50, 44), (50, 56)], fill=(200, 206, 210, 255))
+        rect(img, 14, 49, 50, 51, (200, 206, 210))
+        save(img, f"tag{n}")
     # The ESCAPE button's parts, a hand-written tag
     save(M.painted_metal(seed=15840, base=(232, 190, 30), panel=False, chips=1), "yellowcollar")
     save(M.painted_metal(seed=15841, base=(170, 28, 24), panel=False, chips=0), "redbutton")
