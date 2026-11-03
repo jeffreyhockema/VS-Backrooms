@@ -172,8 +172,11 @@ public class GuideSystem : ModSystem
             {
                 if (capi.World?.Player == null || tutorials.CurrentTutorial != null) return;
                 if (capi.World.Player.WorldData.CurrentGameMode == EnumGameMode.Creative) return;
-                tutorials.GetTutorialProgress(BackroomsTutorial.Code);
-                if (!ours.Complete) capi.ShowChatMessage(Lang.Get("backrooms:tutorial-backrooms-resume"));
+                // The tutorial's steps exist only once something has asked for them (TutorialBase.Complete indexes the
+                // last step, and throws on an empty list): make them, then load the saved progress into them. Progress
+                // is 0 on an empty list, where Complete is not safe
+                ours.GetTutorialSteps(false);
+                if (tutorials.GetTutorialProgress(BackroomsTutorial.Code) < 1f) capi.ShowChatMessage(Lang.Get("backrooms:tutorial-backrooms-resume"));
             }, 2500);
             return;
         }
