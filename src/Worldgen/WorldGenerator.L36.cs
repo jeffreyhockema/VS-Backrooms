@@ -46,7 +46,7 @@ public sealed partial class WorldGenerator
     private readonly int[,] l36Gallery = new int[2, 4], l36FrameLight = new int[4, 4];
     private readonly int[] l36FrameSky = new int[4];
     private readonly int[,,] l36KioskPoster = new int[3, 2, 4];
-    private readonly int[] l36MagRack = new int[4], l36FireCab = new int[4], l36InfoPylon = new int[4];
+    private readonly int[] l36MagRack = new int[4], l36FireCab = new int[4], l36InfoPylon = new int[4], l36Bench = new int[4];
     private readonly int[,] l36PrayerMat = new int[2, 4], l36Luggage = new int[5, 4];
     private readonly HashSet<string> l36Missing = new();
 
@@ -194,6 +194,7 @@ public sealed partial class WorldGenerator
             l36Gallery[1, f] = L36Block($"l36-gallery-glass-{side}", l36Panel);
             l36MagRack[f] = L36Block($"l36-magrack-{side}");
             l36InfoPylon[f] = L36Block($"l36-infopylon-{side}");
+            l36Bench[f] = L36Block($"l36-bench-{side}");
             l36PrayerMat[0, f] = L36Block($"l36-prayermat-laid-{side}");
             l36PrayerMat[1, f] = L36Block($"l36-prayermat-rolled-{side}");
             string[] bags = { "spin0", "spin1", "duffel", "garment", "upright" };
@@ -518,6 +519,8 @@ public sealed partial class WorldGenerator
             Props.L36Stool => l36Stool,
             Props.L36Trolley => l36Trolley[f],
             Props.L36MagRack => l36MagRack[f],
+            // (round 4) the level's own airport bench for the shared one
+            Props.Bench when l36Bench[f] != 0 => l36Bench[f],
             Props.L36PrayerMat => l36PrayerMat[t.Stack & 1, f],
             Props.L36InfoPylon => l36InfoPylon[f],
             Props.L36Luggage => l36Luggage[t.Stack % 5, f],

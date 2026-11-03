@@ -262,6 +262,8 @@ def textures():
     a[0:2, :, :3] += 16
     a[30:32, :, :3] -= 18
     TX.save(_img(a), "r4-cognac")
+    # the bench's oiled oak slats, grain along them
+    TX.save(M.wood_planks(s + 80, size=S, base=(150, 104, 62), planks=4, direction="h", grain=3, contrast=0.9), "r4-oak")
     # a restroom mirror: the cool grey of the room behind, a pale diagonal sheen, a little desilvering at the foot
     mi = np.zeros((S, S, 4))
     mi[..., 3] = 255
@@ -276,8 +278,11 @@ def textures():
     a = _arr(can)
     yy, xx = np.mgrid[0:S, 0:S]
     r = np.hypot(xx - 15.5, yy - 15.5)
-    a[(r < 7.5) & (r >= 5.5), :3] = (230, 230, 226)
-    a[r < 5.5, :3] = (255, 250, 232)
+    # (a slim white trim, a small lens and a soft warm halo on the purple, not a flat disc)
+    a[(r < 5.2) & (r >= 4.2), :3] = (222, 222, 218)
+    a[r < 4.2, :3] = (255, 250, 232)
+    halo = (r >= 5.2) & (r < 9)
+    a[halo, :3] += (np.clip(9 - r[halo], 0, 4)[:, None] * 6)
     a[0, :, :3] -= 20
     a[:, 0, :3] -= 20
     TX.save(_img(a), "r4-canopy")
@@ -551,6 +556,24 @@ def sofa(part):
     return els + (arm if part == "left" else P.mirror_x(arm))
 
 
+def bench():
+    """(round 4) An airport bench, backless, a block long so they run in rows: five oak slats on a steel rail, a cast
+    aluminium leg frame at one end (the next block's frame carries the other), a floor plate under it."""
+    els = [B("RailN", (0, 6, 4), (16, 7, 5), "darksteel"), B("RailS", (0, 6, 11), (16, 7, 12), "darksteel")]
+    for i in range(5):
+        z = 3 + i * 2.1
+        els.append(B(f"Slat{i}", (0, 7, z), (16, 8, z + 1.7), {"top": "r4-oak", "all": "r4-oak"}))
+    # a leg frame near each end (a lone bench stands; in a row the frames pair up at the joints)
+    for e, x in (("W", 1), ("E", 13.5)):
+        els += [B(f"LegN{e}", (x, 0.5, 4.25), (x + 1.5, 6, 5.25), "chrome", faces=no("up", "down")),
+                B(f"LegS{e}", (x, 0.5, 10.75), (x + 1.5, 6, 11.75), "chrome", faces=no("up", "down")),
+                B(f"Cross{e}", (x, 5, 5.25), (x + 1.5, 6, 10.75), "chrome", faces=no("up")),
+                B(f"Foot{e}", (x - 0.5, 0, 3.5), (x + 2, 0.5, 12.5), "darksteel", faces=no("down"))]
+    els += [B("Divider", (1, 8, 6), (2.5, 11, 10), "chrome"),
+            B("DividerPad", (0.75, 11, 5.75), (2.75, 11.5, 10.25), "rubber", faces=no("down"))]
+    return els
+
+
 def coffee():
     """A cafe's back counter with the espresso machine on it, its group heads toward the customers (north)."""
     wood = {"front": "r4-woodv", "side": "r4-woodv", "back": "r4-woodv", "top": "worktop", "bottom": "r4-woodv"}
@@ -625,8 +648,10 @@ def till():
 def stool():
     els = [B("Base", (4, 0, 4), (12, 0.75, 12), "chrome", faces=no("down")),
            B("Post", (7.25, 0.75, 7.25), (8.75, 11, 8.75), "chrome", faces=no("up", "down")),
-           B("Ring", (4.5, 5, 4.5), (11.5, 5.5, 11.5), "chrome", faces=no()),
-           B("RingHole", (5, 4.9, 5), (11, 5.6, 11), "black", faces=("up", "down"))]
+           # the foot ring: four chrome bars round the post on two spokes
+           B("RingN", (4.5, 5, 4.5), (11.5, 5.5, 5.1), "chrome"), B("RingS", (4.5, 5, 10.9), (11.5, 5.5, 11.5), "chrome"),
+           B("RingW", (4.5, 5, 5.1), (5.1, 5.5, 10.9), "chrome"), B("RingE", (10.9, 5, 5.1), (11.5, 5.5, 10.9), "chrome"),
+           B("Spoke", (5.1, 5.1, 7.75), (10.9, 5.4, 8.25), "chrome", faces=no("east", "west"))]
     els += P.octagon("Seat", 8, 8, 4.25, 11, 12.75, {"top": "r4-redvinyl", "side": "r4-redvinyl", "bottom": "black"})
     els += P.octagon("SeatRim", 8, 8, 4.4, 10.5, 11.25, "chrome", step=0.03)
     return els
@@ -712,6 +737,9 @@ def blocks():
     P.block("l36-sofa", [("part", ("left", "right")), ("side", SIDES)], lambda v: sofa(v["part"]),
             "Level 36 (round 4): half of a first-class lounge sofa in cognac leather (left / right as Level 3999's couch halves)",
             boxes=[(0, 0, 0.12, 1, 0.53, 1), (0, 0, 0.8, 1, 1.1, 1)], sel=[(0, 0, 0.12, 1, 1.15, 1)], material="Cloth", sounds=P.CLOTH)
+    P.block("l36-bench", [("side", SIDES)], lambda v: bench(),
+            "Level 36 (round 4): an airport bench, oak slats on a steel rail, a cast aluminium leg and seat divider at one end; "
+            "they run in rows", boxes=[(0, 0, 0.15, 1, 0.5, 0.85)], material="Wood", sounds=P.WOOD)
     P.block("l36-magrack", [("side", SIDES)], lambda v: magrack(),
             "Level 36 (round 4): a newsstand's magazine rack, four sloping tiers of covers (every one of them the same week's)",
             boxes=[(0, 0, 0.25, 1, 1.6, 1)], material="Metal", sounds=P.METAL)
@@ -760,6 +788,7 @@ NAMES = {
     "block-l36-bridgeceil": "Jet Bridge Ceiling",
     "block-l36-gallery-*": "Upper Gallery",
     "block-l36-magrack-*": "Magazine Rack",
+    "block-l36-bench-*": "Airport Bench",
     "block-l36-sofa-*": "Lounge Sofa",
     "block-l36-luggage-*": "Unclaimed Luggage",
     "block-l36-prayermat-*": "Prayer Mat",
