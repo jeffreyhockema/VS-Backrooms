@@ -654,6 +654,8 @@ Tiers: A must, B should, C nice.
 46. (B) [done] `l31-skatebench`: the rink's carpeted lacing-up bench (padded top, piping) in place of the shared slatted
     bench on the skirts and in Skate Rental (Level 31 only).
 47. (C) [done] Skate trainers (`l31-walker`, the PVC walker frames learners push) parked inside the barrier at the gaps.
+48. (C) [done] Weathering that tells the story: things dropped on the skirts (a skate, a spilt soda, a popcorn bucket)
+    and prize tickets in the arcade's aisles (`l31-litter`, rare, walked through).
 
 ### How it is built (round 4)
 

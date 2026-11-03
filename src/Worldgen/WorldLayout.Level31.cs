@@ -36,7 +36,7 @@ public sealed partial class WorldLayout
 {
     /// <summary>Hash salts 0x2400-0x24BF are this level's (0x24C0-0x24FF its thresholds').</summary>
     private const ulong SaltL31Shape = 0x2401, SaltL31Complex = 0x2410, SaltL31Room = 0x2411, SaltL31Light = 0x2412, SaltL31Hall = 0x2413,
-        SaltL31Clad = 0x2416, SaltL31Back = 0x2430;
+        SaltL31Clad = 0x2416, SaltL31Back = 0x2430, SaltL31Litter = 0x2431;
 
     /// <summary>The lattice: a neon hall every 128 blocks each way; a complex's inside is 121 square, its plan 123 with its walls.</summary>
     public const int L31Period = 128, L31Size = 121, L31Grid = 123;
@@ -137,6 +137,8 @@ public sealed partial class WorldLayout
         public const ushort Covered = 741;
         /// <summary>Round 4: a skate trainer (a learner's walker frame) parked on the boards by a gate.</summary>
         public const ushort Walker = 742;
+        /// <summary>Round 4: something dropped on the floor (Stack 0 a skate, 1 a spilt soda, 2 a popcorn bucket, 3 prize tickets).</summary>
+        public const ushort Litter = 743;
     }
 
     /// <summary>
@@ -915,6 +917,16 @@ public sealed partial class WorldLayout
                     }
                     if (rng.Chance(0.5))
                         foreach (int u in new[] { doorU - 1, doorU + 2 }) Sign(u, len, L31Sign.OutOfOrder, toNear);
+                    // (round 4) Prize tickets dropped in the aisles (one tile in a hundred)
+                    for (int q = q0; q <= q1; q++)
+                        for (int p = p0; p <= p1; p++)
+                        {
+                            ref Tile lt = ref plan.At(p, q);
+                            if (lt.Kind != TileKind.Floor || lt.Zone != (byte)L31Zone.Arcade || lt.Variant != 0 || lt.SupplyBox) continue;
+                            var (lx, lz) = plan.World(p, q);
+                            ulong h = Hashing.Hash(seed, lx, lz, SaltL31Litter);
+                            if (Hashing.Unit(h) < 0.01) L31Put(plan, p, q, L31Props.Litter, (ArchPier)(byte)(h >> 40 & 3), 3);
+                        }
                     if (rng.Chance(1 / 3.0)) L31SignOn(plan, p1 + 1, Math.Max(q0 + 6, q1 - 4), L31Sign.Door70, ArchPier.West);
                     break;
                 }
@@ -1320,6 +1332,17 @@ public sealed partial class WorldLayout
                     L31Put(plan, benchP, q, Props.Bench, toIn);
                 }
 
+        // (round 4) What people dropped round the skirt: a skate, a spilt soda, a popcorn bucket (one tile in two hundred)
+        for (int q = s0; q <= s1; q++)
+            for (int p = r0; p <= r1; p++)
+            {
+                ref Tile lt = ref plan.At(p, q);
+                if (lt.Kind != TileKind.Floor || lt.Zone != (byte)L31Zone.Skirt || lt.Variant != 0 || lt.SupplyBox) continue;
+                var (lx, lz) = plan.World(p, q);
+                ulong h = Hashing.Hash(seed, lx, lz, SaltL31Litter);
+                if (Hashing.Unit(h) < 0.005) L31Put(plan, p, q, L31Props.Litter, (ArchPier)(byte)(h >> 40 & 3), (byte)((h >> 44) % 3));
+            }
+
         // The walls round the skirt, above the benches: each side clad, by hash, in the mural or in black lacquer with
         // chrome-framed mirrors, as the halls are (the generator finds the wall beside the tile; doors are left bare)
         ulong clad = Hashing.Hash(seed, plan.Wx, plan.Wz, SaltL31Clad + 8);
@@ -1481,7 +1504,7 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>Which of the level's props (<see cref="Props.L31First"/>-<see cref="Props.L31Last"/>) people walk through: the rink's gates, and where the staff stand.</summary>
-    private static bool L31WalkThrough(ushort variant) => variant is L31Props.Gate or L31Props.StaffSpot or L31Props.Walker;
+    private static bool L31WalkThrough(ushort variant) => variant is L31Props.Gate or L31Props.StaffSpot or L31Props.Walker or L31Props.Litter;
 
     // ================= Air =================
 

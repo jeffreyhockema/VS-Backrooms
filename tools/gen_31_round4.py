@@ -17,7 +17,8 @@ New:  l31-barrier (the rink's barrier: a thin padded wall along the boards' oute
     l31-locker (the rink's coin lockers, in place of Level 52's school lockers),
     l31-counter (the rental's and lobby's counter, in place of Level 3999's reception desk), l31-covered (the back
     arcade's machines under dust sheets, in half of the store rooms), l31-skatebench (the carpeted lacing-up bench, in
-    place of the shared slatted bench in Level 31), l31-walker (skate trainers parked by the rink's gates)
+    place of the shared slatted bench in Level 31), l31-walker (skate trainers parked by the rink's gates),
+    l31-litter (a dropped skate, a spilt soda, popcorn, prize tickets)
 Reused from other levels, placed by the layout: Level 120's CRAC units in the HVAC rooms, Level 36's queue posts in
     Skate Rental.
 
@@ -1543,6 +1544,52 @@ def walker():
     return shape("l31-walker", els)
 
 
+def litter_textures():
+    disc_tex("r4-spill", 32, lambda d, x, y: (96, 52, 30) if d < 0.55 + 0.35 * math.sin(math.atan2(y - 16, x - 16) * 3) ** 2 else None)
+    stripes = Image.new("RGBA", (S, S), rgba((240, 236, 226)))
+    d = ImageDraw.Draw(stripes)
+    for x in range(0, S, 8):
+        d.rectangle([x, 0, x + 3, S - 1], fill=rgba((206, 30, 40)))
+    save_tex(stripes, "r4-bucket")
+    tick = Image.new("RGBA", (S, S), rgba((246, 150, 40)))
+    d = ImageDraw.Draw(tick)
+    for y in range(0, S, 8):
+        d.line([(0, y), (S - 1, y)], fill=rgba((200, 100, 20)))
+        d.rectangle([4, y + 3, 27, y + 4], fill=rgba((120, 60, 10)))
+    save_tex(tick, "r4-tickets")
+
+
+def litter(kind):
+    """What people dropped: a single skate on its side, a soda cup knocked over in its spill, a popcorn bucket tipped
+    out, a strip of prize tickets; flat on the floor, walked through."""
+    if kind == "skate":
+        els = skate("S", 8.0, 0.0, 5.5, 0, "tan", "orange")
+        for e in els:
+            e["rotationOrigin"] = [8.85, 0.0, 8.0]
+            e["rotationZ"] = -90
+            e["rotationY"] = 0
+    elif kind == "cup":
+        els = [B("Spill", (3.0, 0.0, 4.0), (12.0, 0.06, 13.0), "r4-black", faces=("up",), up=("r4-spill", FULL)),
+               B("Cup", (5.0, 0.0, 6.0), (8.0, 2.4, 11.0), "plate-white", rot=(0, 0, 0)),
+               B("Band", (4.95, 0.6, 7.0), (8.05, 1.8, 10.0), "cab-red", faces=without(DIRS, "down")),
+               B("Lid", (4.8, 0.0, 11.0), (8.2, 2.6, 11.4), "plate-white"),
+               B("Straw", (6.2, 1.2, 11.4), (6.8, 1.8, 14.6), "cab-red")]
+    elif kind == "popcorn":
+        els = [B("Bucket", (2.0, 0.0, 4.0), (7.6, 3.6, 7.6), "r4-bucket", rot=(0, 25, 0), origin=(4.8, 1.8, 5.8), east=("r4-popcorn", None)),
+               B("Rim", (7.6, 0.0, 3.8), (8.0, 3.8, 7.8), "plate-white", rot=(0, 25, 0), origin=(4.8, 1.8, 5.8), faces=without(DIRS, "east", "down"))]
+        rng = random.Random(4350)
+        for k in range(14):
+            x, z = rng.uniform(7, 14), rng.uniform(3, 12)
+            sz = rng.uniform(0.5, 0.8)
+            els.append(B(f"K{k}", (x, 0, z), (x + sz, sz, z + sz), "r4-popcorn"))
+    else:
+        els = [B("Strip0", (3.0, 0.0, 5.0), (6.0, 0.1, 12.0), "r4-tickets", faces=("up", "north", "south", "east", "west"), rot=(0, 20, 0)),
+               B("Strip1", (6.5, 0.0, 7.0), (9.5, 0.1, 14.0), "r4-tickets", faces=("up", "north", "south", "east", "west"), rot=(0, -35, 0)),
+               B("Fold", (5.4, 0.1, 10.6), (7.6, 0.9, 11.0), "r4-tickets", faces=("north", "south", "up", "east", "west"), rot=(0, -10, 0)),
+               B("Strip2", (9.0, 0.0, 3.0), (12.0, 0.1, 8.0), "r4-tickets", faces=("up", "north", "south", "east", "west"), rot=(0, 60, 0))]
+    return shape("l31-litter-" + kind, els)
+
+
 # ======================================================================== Block types
 
 def blocks():
@@ -1621,6 +1668,10 @@ def blocks():
     prop_block("l31-jukebox", "Level 31: a 1990s jukebox, wood under a stepped neon arch, the record window, selector keys, bubble tubes either side, a chrome grille, 22 units tall, toward the side",
                lambda k: ref, (0.03, 0, 0.21, 0.97, 1, 0.82), (0.03, 0, 0.21, 0.97, 1, 0.82), resistance=3, extra={"lightHsv": [50, 4, 6]})
     riser()
+    litter_textures()
+    trefs = {k: litter(k) for k in ("skate", "cup", "popcorn", "tickets")}
+    prop_block("l31-litter", "Level 31: what people dropped, flat on the floor: a skate on its side, a soda cup knocked over in its spill, a tipped popcorn bucket, a strip of prize tickets; walked through",
+               lambda k: trefs[k], (0.15, 0, 0.15, 0.85, 0.2, 0.85), None, kinds=list(trefs), kindgroup="kind", material="Cloth", sounds=CLOTH, resistance=1)
     ref = walker()
     prop_block("l31-walker", "Level 31: a skate trainer, the white PVC walker frame learners push round the rink, its handlebar toward the side; walk-through",
                lambda k: ref, (0.1, 0, 0.1, 0.9, 0.65, 0.9), None, material="Wood", sounds=WOOD, resistance=1)
@@ -1680,6 +1731,7 @@ LANG = {
     "block-l31-covered-*": "Covered Arcade Machine",
     "block-l31-skatebench-*": "Skate Bench",
     "block-l31-walker-*": "Skate Trainer",
+    "block-l31-litter-*": "Litter",
 }
 
 
