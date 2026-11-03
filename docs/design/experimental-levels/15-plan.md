@@ -620,7 +620,7 @@ code plates, the hall tags, the battery emergency lamp, the tripped breaker, the
 Generator (`WorldGenerator.L15.cs`, `InitL15Round4`, `L15WallRound4`): bulkheads on the rib every 32 blocks along the
 main halls (jambs, header, tread plate), a hall tag on one wall 4 blocks after each, the cable troughs along the halls'
 ceiling edges, the battery lamps and the breaker at the dark squares' edges (`L15DarkEdge`), the medical monitors over
-the beds' heads, stools and tables in canteens, the lectern; layout (`WorldLayout.Level15.cs`): only the lectern's flag
+the beds' heads, stools and tables in canteens, the lectern; layout (`WorldLayout.Level15.cs`): the lectern's flag
 on one stage tile, the projector's on one aisle step, DON'T by the crematoria's doors (`L15WallScrawl`). Showcase: `bulkhead`, `dark-edge`.
 
 ### Inventions
