@@ -751,6 +751,11 @@ Run 1 (`%TEMP%/backrooms-shots/73-r4a`, no torch, 36 shots; the lock came after 
   the run); the far fields and the random arrivals stay
   very dark (the lore's night, no torch); the skull is still boxy close to.
 
+Run 2, the final (`%TEMP%/backrooms-shots/73-r4b`, 32 shots: the rig stopped the showcase after `shore-moon` on a
+PermissionError of its own, so the link spots, unchanged this round, are in run 1): the eave's fascia is oak now, the
+castle's oak-and-velvet stairs replace the hotel's marble, the bartizans stand at the outer corners. The drums' curves
+still show faint vertical banding (many thin boxes); the skull is still boxy close to.
+
 ### Checks (round 4)
 
 `expclash` clean; mod and mapgen build with 0 errors (tags 73, 73b, 73g); `layouthash` (`BACKROOMS_NO_EXP_ENTRANCES=1`) at
