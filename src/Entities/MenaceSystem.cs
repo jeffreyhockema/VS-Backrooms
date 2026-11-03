@@ -68,6 +68,10 @@ public partial class MenaceSystem : ModSystem
     private sealed class Watch
     {
         public Assessment Now = new();
+        /// <summary>Whether <see cref="Now"/> has been worked out (a watch made only to note views has not).</summary>
+        public bool Assessed;
+        /// <summary>How many were in this one's party at the last round of the director (see <see cref="DirectByPlace"/>); 1 alone.</summary>
+        public int PartySize = 1;
         public long CalmUntilMs;
         /// <summary>In-game hours: when the player's Flickering ends, and when the next may come.</summary>
         public double FlickerUntilHours = -1, NextFlickerHours;
@@ -195,7 +199,7 @@ public partial class MenaceSystem : ModSystem
                 if (type == null) api.Logger.Warning("[backrooms] entity type {0} is missing", entity);
                 else types[entity] = type;
             }
-            api.Event.RegisterGameTickListener(_ => SampleViews(), e => api.Logger.Error("[backrooms] view sampling: {0}", e), ViewSampleMs, 1000);
+            viewListener = api.Event.RegisterGameTickListener(_ => SampleViews(), e => api.Logger.Error("[backrooms] view sampling: {0}", e), ViewSampleMs, 1000);
             tickListener = api.Event.RegisterGameTickListener(OnTick, e => api.Logger.Error("[backrooms] entity director: {0}", e), IntervalMs, 1000);
             // Breaking things open is loud
             api.Event.DidBreakBlock += OnBrokeBlock;
@@ -294,7 +298,7 @@ public partial class MenaceSystem : ModSystem
         RegisterWalkerCommands(api, command);
     }
 
-    private long tickListener;
+    private long tickListener, viewListener;
 
     private void OnBrokeBlock(IServerPlayer player, int oldBlockId, BlockSelection sel) =>
         MakeNoise(player?.Entity, BreakNoise, sel == null ? null : sel.Position.ToVec3d().Add(0.5, 0.5, 0.5), BreakLoudness, "break");
@@ -316,6 +320,7 @@ public partial class MenaceSystem : ModSystem
             sapi.Event.DidBreakBlock -= OnBrokeBlock;
             sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
             if (tickListener != 0) sapi.Event.UnregisterGameTickListener(tickListener);
+            if (viewListener != 0) sapi.Event.UnregisterGameTickListener(viewListener);
             StopListening(sapi);
             StopHives(sapi);
         }
@@ -333,11 +338,8 @@ public partial class MenaceSystem : ModSystem
     public Assessment AssessmentOf(Entity target)
     {
         if (target == null || layout == null) return new Assessment { Band = MenaceBand.Safe };
-        if (!watches.TryGetValue(target.EntityId, out Watch watch))
-        {
-            watches[target.EntityId] = watch = new Watch();
-            Assess(target, watch);
-        }
+        if (!watches.TryGetValue(target.EntityId, out Watch watch)) watches[target.EntityId] = watch = new Watch();
+        if (!watch.Assessed) Assess(target, watch);
         return watch.Now;
     }
 
@@ -406,6 +408,9 @@ public partial class MenaceSystem : ModSystem
     private void Assess(Entity target, Watch watch)
     {
         Assessment a = watch.Now;
+        // (A new watch learns of a Flickering still running for a player who came back in the middle of it)
+        if (!watch.Assessed && watch.FlickerUntilHours < 0) watch.FlickerUntilHours = target.WatchedAttributes.GetDouble(FlickerKey, -1);
+        watch.Assessed = true;
         Rate(a, (int)Math.Floor(target.Pos.X), target.Pos.Y, (int)Math.Floor(target.Pos.Z));
         // Level 94 by night: whoever stands quite still is taken for a doll, and nothing comes for them; in the castle,
         // the Robo-Men only stir once someone has touched something there
@@ -615,10 +620,10 @@ public partial class MenaceSystem : ModSystem
     }
 
     /// <summary>Players (and dummies) in the same level this close share one spawn roll, a party's (README section 5; MenaceSystem.Party.cs).</summary>
-    private const double PlaceRadius = PartyRadius, PlaceHeight = PartyHeight;
+    private const double PlaceHeight = PartyHeight;
 
     /// <summary>
-    /// Directs everyone, rolling for a spawn once per party: those within <see cref="PlaceRadius"/> blocks of each other
+    /// Directs everyone, rolling for a spawn once per party: those within <see cref="PartyRadius"/> blocks of each other
     /// in the same level (greedily, each joining the first group that has a member that near) share one roll, made for
     /// the member in the most danger (the highest menace), at PartyFactor times the rate; the Flickering and the Screaming are rolled with it and the arrival is for a member drawn at random. Wanderers stay per person.
     /// Someone alone in their place is directed exactly as before.
@@ -646,6 +651,8 @@ public partial class MenaceSystem : ModSystem
                 mates.Add((entity, watch));
                 if (rolls < 0 || watch.Now.Value > directed[rolls].Watch.Now.Value) rolls = i;
             }
+            // (Remembered for the Beast and the Mangled, which roll apart from this: PartyShare reads it)
+            foreach (int i in group) directed[i].Watch.PartySize = Math.Max(1, mates.Count);
             // The place shares its body and sound clocks: the roller sees the latest of the group's, and all are stamped with the result
             if (rolls >= 0)
                 foreach (int i in group)
@@ -761,7 +768,7 @@ public partial class MenaceSystem : ModSystem
         // Bodies and sounds are rolled apart, as rates with hard gaps (EncounterRoll); no fallback sounds: a failed spawn is silence
         long nowMs = sapi.World.ElapsedMilliseconds;
         // (Thirst and fatigue scale the odds for this player: Needs.DirectorMult, 1 when rested and watered)
-        RollKind roll = EncounterRoll.Roll(a.Band, a.Level, a.Value, Setting.Spawns * Backrooms.Needs.Needs.DirectorMult(target) * factor, nowMs - watch.LastBodyMs, nowMs - watch.LastSoundMs, a.Den != DenKind.None, CountMenacingKinds(target), a.Worst, rand);
+        RollKind roll = EncounterRoll.Roll(a.Band, a.Level, a.Value, Setting.Spawns * Backrooms.Needs.Needs.DirectorMult(target) * factor, nowMs - watch.LastBodyMs, nowMs - watch.LastSoundMs, a.Den != DenKind.None, () => CountMenacingKinds(target), a.Worst, rand);
         if (roll == RollKind.Nothing) return;
         if (roll == RollKind.Sound)
         {
@@ -869,13 +876,16 @@ public partial class MenaceSystem : ModSystem
         int first = Math.Min(FirstCueMinMs + rand.Next(FirstCueMaxMs - FirstCueMinMs + 1), delay - 1000);
         if (Logging) sapi.Logger.Notification("[backrooms] flicker: the Hounds come in {0:0.0} s (first cry in {1:0.0} s)", delay / 1000.0, first / 1000.0);
         foreach (double share in new[] { 0, 0.5, 0.85 })
-            sapi.World.RegisterCallback(_ => { if (target.Alive && sapi.World.Calendar.TotalHours < watch.FlickerUntilHours) PlayDistantSound(target, 1, force: true, minDistance: 26, maxDistance: 44, only: cues); }, (int)(first + (delay - first) * share));
+            sapi.World.RegisterCallback(_ => { if (StillHere(target) && sapi.World.Calendar.TotalHours < watch.FlickerUntilHours) PlayDistantSound(target, 1, force: true, minDistance: 26, maxDistance: 44, only: cues); }, (int)(first + (delay - first) * share));
         sapi.World.RegisterCallback(_ => SendDarkHunters(target, watch, hunters, 0), delay);
     }
 
+    /// <summary>Whether someone is still in the world: a delayed set piece for a player who has left is dropped.</summary>
+    private bool StillHere(Entity target) => target.Alive && sapi.World.GetEntityById(target.EntityId) != null;
+
     private void SendDarkHunters(Entity target, Watch watch, RosterEntry hunters, int failed)
     {
-        if (!target.Alive || sapi.World.Calendar.TotalHours >= watch.FlickerUntilHours) return;
+        if (!StillHere(target) || sapi.World.Calendar.TotalHours >= watch.FlickerUntilHours) return;
         // (Not gated on what else is about: the pack is clipped to the cap, to one at least)
         if (TrySpawn(target, watch.Now, hunters, Encounter.Hunt, watch.FlickerUntilHours, setPiece: true, minDistance: FlickerMinDistance, failedTries: failed))
         {
@@ -959,7 +969,7 @@ public partial class MenaceSystem : ModSystem
         var pack = new RosterEntry(Roster.DeathRat, MenaceBand.Heartland, Encounters.Glimpse, 1, 4, 6) { Frenzy = true };
         sapi.World.RegisterCallback(_ =>
         {
-            if (target.Alive) TrySpawn(target, watch.Now, pack, Encounter.Glimpse, setPiece: true);
+            if (StillHere(target)) TrySpawn(target, watch.Now, pack, Encounter.Glimpse, setPiece: true);
         }, 2500);
         // What the rats are after is you, or what comes for you: the Hounds in Level 1, the rats themselves in Level 2
         RosterEntry hunters = watch.Now.Level == 1 ? Roster.For(1).FirstOrDefault(e => e.Code == Roster.Hound) : new RosterEntry(Roster.DeathRat, MenaceBand.Heartland, Encounters.Hunt, 1, 2, 3);
@@ -1034,7 +1044,7 @@ public partial class MenaceSystem : ModSystem
             Encounter.Hunt => (14.0, 24.0),
             _ => (18.0, 40.0),
         };
-        (double ox, double oz) = layout.Outward((int)target.Pos.X, (int)target.Pos.Z);
+        (double ox, double oz) = layout.Outward((int)Math.Floor(target.Pos.X), (int)Math.Floor(target.Pos.Z));
         Vec3f view = target.Pos.GetViewVector();
         // At the edge of a level, the danger comes from the way the player is going: between them and the gate they are
         // making for, or else simply from further out
@@ -1418,7 +1428,7 @@ public partial class MenaceSystem : ModSystem
             Danger.TierBonus(dl) > 0 ? ", one armour tier harder" : "");
         text.AppendFormat("\nOut {0:0.0} h since resting (resting {1:0} s), noise {2:0.00}{3}.", a.OutHours, watch.RestingFor, a.Noise,
             a.Den != DenKind.None ? ", in a den: " + a.Den : "");
-        if (layout.NearestGate((int)entity.Pos.X, (int)entity.Pos.Z, a.Level, 400) is { } gate)
+        if (layout.NearestGate((int)Math.Floor(entity.Pos.X), (int)Math.Floor(entity.Pos.Z), a.Level, 400) is { } gate)
             text.AppendFormat(" Nearest gate: {0}, {1} (to Level {2}).", gate.X, gate.Z, gate.To);
         foreach (Entity e in sapi.World.GetEntitiesAround(entity.Pos.XYZ, 64, 24, e => e.Alive && e.GetBehavior<EntityBehaviorMenace>() != null))
         {
@@ -1493,7 +1503,7 @@ public partial class MenaceSystem : ModSystem
     {
         why = null;
         // Keep the area loaded: with nobody online the server would otherwise unload it, entities and all
-        int cx = x / GlobalConstants.ChunkSize, cz = z / GlobalConstants.ChunkSize;
+        int cx = x >> 5, cz = z >> 5;
         for (int dz = -2; dz <= 2; dz++)
             for (int dx = -2; dx <= 2; dx++)
                 sapi.WorldManager.LoadChunkColumn(cx + dx, cz + dz, true);

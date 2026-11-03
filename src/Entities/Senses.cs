@@ -223,11 +223,14 @@ public static class Senses
     {
         BlockSelection blockSel = null;
         EntitySelection entitySel = null;
-        world.RayTraceForSelection(from, to, ref blockSel, ref entitySel,
-            (pos, block) => block.CollisionBoxes != null && block.CollisionBoxes.Length > 0 && block.Replaceable < 6000
-                            && !(throughGlass && block.BlockMaterial == EnumBlockMaterial.Glass), e => false);
+        world.RayTraceForSelection(from, to, ref blockSel, ref entitySel, throughGlass ? SolidOrGlass : Solid, NoEntity);
         return blockSel == null;
     }
+
+    // (Cached: a delegate built per call would be garbage for every ray of every look)
+    private static readonly BlockFilter Solid = (pos, block) => block.CollisionBoxes != null && block.CollisionBoxes.Length > 0 && block.Replaceable < 6000;
+    private static readonly BlockFilter SolidOrGlass = (pos, block) => Solid(pos, block) && block.BlockMaterial != EnumBlockMaterial.Glass;
+    private static readonly EntityFilter NoEntity = e => false;
 
     /// <summary>Whether a player could see an entity right now: in front of them, within range, nothing in the way.</summary>
     public static bool Sees(Entity player, Entity entity, double range = 48, double halfAngleDeg = 55)

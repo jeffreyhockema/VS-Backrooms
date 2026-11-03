@@ -60,14 +60,15 @@ public static class EncounterRoll
     /// <summary>
     /// One tick's roll: the body roll first (through <see cref="BodyMayCome"/>), then the sound roll, which the one-kind rule does not touch.
     /// </summary>
-    /// <param name="kinds">How many different kinds of menacing entity are about already.</param>
+    /// <param name="kinds">How many different kinds of menacing entity are about already (asked for only when a body roll has otherwise come up).</param>
     /// <param name="isWorst">In one of the worst places (a Red Room): Level 0's hunters are stalkers anywhere else.</param>
     /// <param name="sinceBodyMs">Real milliseconds since the last body for this place (a large number if never).</param>
     /// <param name="sinceSoundMs">Real milliseconds since the last distant sound.</param>
-    public static RollKind Roll(MenaceBand band, int level, double menace, double spawns, double sinceBodyMs, double sinceSoundMs, bool inDen, int kinds, bool isWorst, Random rand)
+    public static RollKind Roll(MenaceBand band, int level, double menace, double spawns, double sinceBodyMs, double sinceSoundMs, bool inDen, System.Func<int> kinds, bool isWorst, Random rand)
     {
         double body = BodyMeanMs(band, level, menace, spawns, inDen);
-        if (BodyMayCome(kinds, Roster.MaxKinds(level), sinceBodyMs, HardGapShare * body) && rand.NextDouble() < TickSeconds * 1000 / ((1 - HardGapShare) * body))
+        // (The kinds are counted last, only for a roll that has passed the gap and the odds: counting means scanning the entities about)
+        if (sinceBodyMs >= HardGapShare * body && rand.NextDouble() < TickSeconds * 1000 / ((1 - HardGapShare) * body) && kinds() < Roster.MaxKinds(level))
         {
             RollKind kind = BodyKind(band, level, rand);
             // The Lobby is empty, as the lore has it: nothing hunts there but in the Red Rooms
@@ -135,7 +136,7 @@ public partial class MenaceSystem
         {
             sinceBody += tick;
             sinceSound += tick;
-            RollKind kind = EncounterRoll.Roll(band, level, menace, spawns, sinceBody, sinceSound, inDen, kinds, false, rand);
+            RollKind kind = EncounterRoll.Roll(band, level, menace, spawns, sinceBody, sinceSound, inDen, () => kinds, false, rand);
             if (kind == RollKind.Nothing) continue;
             if (kind == RollKind.Sound)
             {
