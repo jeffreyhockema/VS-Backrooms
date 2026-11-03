@@ -182,35 +182,35 @@ Tier A must, B should, C nice. Block codes are the ones to (re)build.
    iron candle sconces on the walls (`l73-sconce` reused).
 22. [A] [done] A fallen giant with its root plate: some old trunks lie fallen with the root plate torn up at one end (a
    vertical disc of roots and earth, a pit before it), the lead's example.
-23. [B] The megalith circle: sarsens with weathered rounded tops (`l47-sarsencap`), lintels that read as lintels
+23. [B] [partly: weathered round tops on the stones with no lintel (`l47-sarsentop`); lintel ends left square] The megalith circle: sarsens with weathered rounded tops (`l47-sarsencap`), lintels that read as lintels
    (projecting ends), moss at the feet.
-24. [B] [skipped: time; the door frame's Tudor head and the open leaves carry the entrance] A porch over the front door: a gabled timber porch on two oak posts with braces, slate roof, a lantern.
+24. [B] [done: a pent roof of slate on two oak posts with braces (`l47-porchpost-*`)] A porch over the front door: a gabled timber porch on two oak posts with braces, slate roof, a lantern.
 25. [B] [done: bookcases on three walls, the reading table] The east room as a library of scrolls and bottles: bookcases on three walls, a reading table with an open
    book, a lantern, scroll racks.
-26. [C] The Order's shrine at the Altar Stone: offering bowls, candles all round, an ouroboros carved on its top.
+26. [C] [done: `l47-offering-bowl/skull/book` on the Altar Stone] The Order's shrine at the Altar Stone: offering bowls, candles all round, an ouroboros carved on its top.
 
 **3. Level design**
 27. [A] [done: hearth, tapestry, manor-door, root-plate, mossy-oak; F7 l47hearth, l47library, l47door, l47rootplate, l47mossy] Showcase spots and F7 entries for every new or rebuilt set piece (hearth, table, library, door/porch, roof,
    waystone, root plate, brackets/moss, mushrooms).
-28. [B] The walk up to the manor: lanterns on posts along the flagstones, the braziers on stone bases.
-29. [B] Light rhythm inside: the hearth lights the great hall warm, the entrance hall by the altar's candles, the east
+28. [B] [done: `l47-lamppost-*`, four pairs] The walk up to the manor: lanterns on posts along the flagstones, the braziers on stone bases.
+29. [B] [done: the fire, the table's candles, the mantel, sconces in the hall; one candle in the library; the loft dark but for its lanterns] Light rhythm inside: the hearth lights the great hall warm, the entrance hall by the altar's candles, the east
    room by one lamp, the loft dark.
 30. [B] [done: river stones, stepping stones] The stream: mossy stones and pebble shoals at its banks, so it reads as a brook, not a ditch.
 31. [C] [done: `l73-chest`, `l73-sacks`, `l23-barrel`, `l23-crate`] The loft as the Order's store: chests, sacks, robes on pegs (reuse `l73-chest`, `l73-sacks`).
-32. [C] Pools where streams meet, wider water in places.
+32. [C] [skipped: time] Pools where streams meet, wider water in places.
 
 **4. Lore**
 33. [B] [done] "Thick green moss and lichens cover most surfaces": moss drapes (3), lichen on the stones, moss on the roof's
    north slope and the waystones' feet.
-34. [C] "campfires or improvised tools ... vanish or revert": an abandoned wanderer's camp half gone (a cold fire ring
+34. [C] [done: one cell in sixteen, `l23-firering` alight, `l23-bedroll`, a log; spot `camp`] "campfires or improvised tools ... vanish or revert": an abandoned wanderer's camp half gone (a cold fire ring
    with a log missing, a dropped pack), rare.
-35. [C] Crows and ravens: a carved crow on the waystone tops? (left to sound unless time).
+35. [C] [skipped: left to the sound bed] Crows and ravens: a carved crow on the waystone tops? (left to sound unless time).
 
 **5. Alignment with the other levels**
 36. [A] [done] Reuse instead of forking: `l73-sconce` (wall candles), `l73-chest`, `l73-sacks` for the loft, `l23-lantern`'s
    shape (already), the mod's supply boxes and notes; similar-but-unique: the tapestry (from `l73-tapestry`'s 2x2
    layout, redrawn with the Order's World Snake), the fire (own logs model in our hearth, after `l73-fire-logs`).
-37. [B] "Shared assets below the bar" and the families written in this doc for the lead.
+37. [B] [done: below] "Shared assets below the bar" and the families written in this doc for the lead.
 38. [A] [done: untouched] Lead's note: keep the day fog, the moon and the aurora as they are.
 
 ### What was built (round 4)
@@ -294,3 +294,17 @@ manor's 15 C already has. The loft's stores are props (chests, sacks, barrels, c
    tiles; the tapestry spot looked at a trilithon (the north wall's tapestry is behind one from anywhere in the hall); the
    camp was behind a boulder from its spot (and its fire could lose its cell to a fern); the root plate's spot looked
    through a dead tree. All fixed for the third run.
+
+### Checks (round 4, 2026-11-03 04:10)
+
+expclash clean; mod and mapgen 0 errors; layouthash (seed 12345, 16000, `BACKROOMS_NO_EXP_ENTRANCES=1`, v1 and v12)
+identical to main for levels 0-20 and the layout hash; `regions` 60/60 in Level 47; `47stats` ok (2.7 ms a cell, the
+same zone shares, the trail walked with 0 in a wall); headless dummy in 47 (port 43221) with 0 problem lines;
+`GATE_TAG=47g python tools/gate.py --fast --port-base 43220` PASS.
+
+### Questions for the user (round 4)
+
+1. The manor's windows are now opaque old glass (dark green-grey diamonds), since the translucent pass drew the stone
+   round them as ghosts: keep them so, or would you rather have open leaded lattices (no glass, see-through)?
+2. The wanderer's camp keeps its fire alight with nobody at it (the lore's things that "revert" or vanish, not yet): one
+   cell in sixteen. Too often, too rare, or should the fire be cold?
