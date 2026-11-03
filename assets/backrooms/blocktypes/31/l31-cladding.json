@@ -581,93 +581,93 @@
 			"rotateY": 90
 		},
 		"l31-cladding-dj00-north": {
-			"base": "backrooms:block/31/l31-cladding-lit"
+			"base": "backrooms:block/31/l31-cladding-dj00"
 		},
 		"l31-cladding-dj00-east": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj00",
 			"rotateY": 270
 		},
 		"l31-cladding-dj00-south": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj00",
 			"rotateY": 180
 		},
 		"l31-cladding-dj00-west": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj00",
 			"rotateY": 90
 		},
 		"l31-cladding-dj01-north": {
-			"base": "backrooms:block/31/l31-cladding-lit"
+			"base": "backrooms:block/31/l31-cladding-dj01"
 		},
 		"l31-cladding-dj01-east": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj01",
 			"rotateY": 270
 		},
 		"l31-cladding-dj01-south": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj01",
 			"rotateY": 180
 		},
 		"l31-cladding-dj01-west": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj01",
 			"rotateY": 90
 		},
 		"l31-cladding-dj10-north": {
-			"base": "backrooms:block/31/l31-cladding-lit"
+			"base": "backrooms:block/31/l31-cladding-dj10"
 		},
 		"l31-cladding-dj10-east": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj10",
 			"rotateY": 270
 		},
 		"l31-cladding-dj10-south": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj10",
 			"rotateY": 180
 		},
 		"l31-cladding-dj10-west": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj10",
 			"rotateY": 90
 		},
 		"l31-cladding-dj11-north": {
-			"base": "backrooms:block/31/l31-cladding-lit"
+			"base": "backrooms:block/31/l31-cladding-dj11"
 		},
 		"l31-cladding-dj11-east": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj11",
 			"rotateY": 270
 		},
 		"l31-cladding-dj11-south": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj11",
 			"rotateY": 180
 		},
 		"l31-cladding-dj11-west": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj11",
 			"rotateY": 90
 		},
 		"l31-cladding-dj20-north": {
-			"base": "backrooms:block/31/l31-cladding-lit"
+			"base": "backrooms:block/31/l31-cladding-dj20"
 		},
 		"l31-cladding-dj20-east": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj20",
 			"rotateY": 270
 		},
 		"l31-cladding-dj20-south": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj20",
 			"rotateY": 180
 		},
 		"l31-cladding-dj20-west": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj20",
 			"rotateY": 90
 		},
 		"l31-cladding-dj21-north": {
-			"base": "backrooms:block/31/l31-cladding-lit"
+			"base": "backrooms:block/31/l31-cladding-dj21"
 		},
 		"l31-cladding-dj21-east": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj21",
 			"rotateY": 270
 		},
 		"l31-cladding-dj21-south": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj21",
 			"rotateY": 180
 		},
 		"l31-cladding-dj21-west": {
-			"base": "backrooms:block/31/l31-cladding-lit",
+			"base": "backrooms:block/31/l31-cladding-dj21",
 			"rotateY": 90
 		},
 		"l31-cladding-exit-north": {
@@ -964,6 +964,9 @@
 			},
 			"edge": {
 				"base": "backrooms:block/31/clad-edge"
+			},
+			"tube": {
+				"base": "backrooms:block/31/r4-tube-dj00"
 			}
 		},
 		"*-dj01-*": {
@@ -972,6 +975,9 @@
 			},
 			"edge": {
 				"base": "backrooms:block/31/clad-edge"
+			},
+			"tube": {
+				"base": "backrooms:block/31/r4-tube-dj01"
 			}
 		},
 		"*-dj10-*": {
@@ -980,6 +986,9 @@
 			},
 			"edge": {
 				"base": "backrooms:block/31/clad-edge"
+			},
+			"tube": {
+				"base": "backrooms:block/31/r4-tube-dj10"
 			}
 		},
 		"*-dj11-*": {
@@ -988,6 +997,9 @@
 			},
 			"edge": {
 				"base": "backrooms:block/31/clad-edge"
+			},
+			"tube": {
+				"base": "backrooms:block/31/r4-tube-dj11"
 			}
 		},
 		"*-dj20-*": {
@@ -996,6 +1008,9 @@
 			},
 			"edge": {
 				"base": "backrooms:block/31/clad-edge"
+			},
+			"tube": {
+				"base": "backrooms:block/31/r4-tube-dj20"
 			}
 		},
 		"*-dj21-*": {
@@ -1004,6 +1019,9 @@
 			},
 			"edge": {
 				"base": "backrooms:block/31/clad-edge"
+			},
+			"tube": {
+				"base": "backrooms:block/31/r4-tube-dj21"
 			}
 		},
 		"*-exit-*": {

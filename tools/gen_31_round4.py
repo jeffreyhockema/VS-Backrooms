@@ -6,8 +6,9 @@ Rebuilt (codes kept):  l31-skateshelf (real skates in two-by-three cubbies), l31
     with lit strips, a turntable, a mixer between CD decks), l31-speaker (a PA stack), l31-truss (a laced box truss with
     par cans on yokes), l31-discoball (the mirror ball's shape), l31-rinkwood's textures, l31-retrocab (1980s uprights
     in the classic profile), l31-photobooth, l31-dispenser (the green-card machine), l31-cinemabench, l31-mediacab,
-    l31-riser's shape (nosing and aisle lights), l31-table, l31-stall, l31-vanity, l31-jukebox; and round 3's wall mounts get
-    their depth: the neon signs' tubes stand proud of their boards, the big TV gets a bezel, the dryer a real body
+    l31-riser's shape (nosing and aisle lights), l31-table, l31-trophycase, l31-stall, l31-vanity, l31-jukebox; and round 3's wall mounts get
+    their depth: the neon signs' tubes stand proud of their boards (the DJ sign's too:
+    gen_31_walls.py's blocktype is patched for its dj kinds), the big TV gets a bezel, the dryer a real body
 New:  l31-barrier (the rink's barrier: a thin padded wall along the boards' outer edge; straight, corner and post
     pieces, chosen by WorldGenerator.L31.Round4.cs from the neighbours), l31-rinkgate (the gaps' gates: a hinge post
     with a leaf swung open into the rink, left or right, or the sill between), l31-pinball (in place of Level 3999's in
@@ -1025,6 +1026,98 @@ def neon_tubes():
         write_json(full, data)
 
 
+def dj_tubes():
+    """The DJ station's neon sign (gen_31_walls.py's cladding kinds dj<c><r>, 3 x 2 on the wall behind the booth) gets
+    its tubes as round 3's mounts do: the bright strokes cut out and lit, a unit and a half proud of the board. Patches
+    gen_31_walls.py's blocktype for those kinds only (their shape, and a "tube" texture)."""
+    import json
+    import re
+    from gen_31 import SHAPES
+    bt = os.path.join(BLOCKS, "l31-cladding.json")
+    with open(bt, encoding="utf-8") as f:
+        raw = f.read()
+    comment = raw.split("\n", 1)[0][3:] if raw.startswith("//") else None
+    data = json.loads(re.sub(r"^//.*\n", "", raw))
+    for c in range(3):
+        for r in range(2):
+            kind = f"dj{c}{r}"
+            src = Image.open(os.path.join(TEX, f"clad-{kind}.png")).convert("RGBA")
+            tube = Image.new("RGBA", src.size, (0, 0, 0, 0))
+            sp, tp = src.load(), tube.load()
+            for y in range(src.size[1]):
+                for x in range(src.size[0]):
+                    rr, g, b, a = sp[x, y]
+                    if a > 0 and max(rr, g, b) > 200:
+                        tp[x, y] = (min(255, rr + 30), min(255, g + 30), min(255, b + 30), 255)
+            save_tex(tube, f"r4-tube-{kind}")
+            els = [B("Panel", (0, 0, 15.5), (16, 16, 16), "edge", faces=("north", "east", "west", "up", "down"),
+                     north=("art", FULL, 255)),
+                   B("Tubes", (0, 0, 14.0), (16, 16, 14.2), "tube", faces=("north",), north=("tube", FULL, 255))]
+            for k, sx in enumerate((3.0, 12.5)):
+                els.append(B(f"Standoff{k}", (sx, 7.75, 14.2), (sx + 0.5, 8.25, 15.5), "edge", faces=("east", "west", "up", "down")))
+            ref = shape_named(f"l31-cladding-{kind}", els, {"art": f"clad-{kind}", "edge": "clad-edge", "tube": f"r4-tube-{kind}"})
+            for sd in SIDES:
+                key = f"l31-cladding-{kind}-{sd}"
+                data["shapeByType"][key] = {"base": ref, "rotateY": ROT[sd]} if ROT[sd] else {"base": ref}
+            data["texturesByType"][f"*-{kind}-*"]["tube"] = {"base": f"backrooms:block/31/r4-tube-{kind}"}
+    write_json(bt, data, comment)
+
+
+def shape_named(name, elements, keys):
+    """A shape whose texture keys are names other than the files (art, edge, tube), mapped by `keys`."""
+    from gen_31 import SHAPES
+    data = {"textureWidth": 16, "textureHeight": 16, "textures": {k: "backrooms:block/31/" + v for k, v in keys.items()}, "elements": elements}
+    write_json(os.path.join(SHAPES, name + ".json"), data)
+    return "backrooms:block/31/" + name
+
+
+def trophycase():
+    """The lobby's trophy case: an oak cabinet base, a lit glass cabinet over it (chrome door frames, a light strip under
+    its top), a mirror back, two glass shelves of cups (two-handled cups, a skater figure on a column, a plaque) and
+    pennants; 30 units tall."""
+    gold = M.brushed_metal(seed=4300, base=(226, 182, 60), sheen=26)
+    save_tex(gold, "r4-gold")
+    plaque = Image.new("RGBA", (S, S), rgba((70, 40, 24)))
+    d = ImageDraw.Draw(plaque)
+    d.rectangle([4, 8, 27, 23], fill=rgba((214, 176, 70)))
+    for y in (12, 15, 18):
+        d.line([(8, y), (23, y)], fill=rgba((90, 60, 20)))
+    save_tex(plaque, "r4-plaque")
+    els = [
+        B("Base", (0, 0, 3), (16, 9, 15), "case-wood"),
+        B("BaseTop", (-0.2, 9, 2.6), (16.2, 9.8, 15.2), "case-wood"),
+        B("Back", (0.6, 9.8, 14.4), (15.4, 29, 15), "mirror", faces=("north",)),
+        B("BackBoard", (0, 9.8, 15), (16, 29, 15.4), "case-wood"),
+        B("Top", (-0.2, 29, 2.6), (16.2, 30.4, 15.4), "case-wood"),
+        B("Light", (1, 28.4, 4), (15, 29, 14), "r4-led-amber", glow=200, faces=("down",)),
+        B("PostL", (0, 9.8, 3), (0.8, 29, 3.8), "r4-chrome"),
+        B("PostR", (15.2, 9.8, 3), (16, 29, 3.8), "r4-chrome"),
+        B("PostMid", (7.7, 9.8, 3.0), (8.3, 29, 3.4), "r4-chrome", faces=without(DIRS, "south")),
+        B("SideL", (0, 9.8, 3.8), (0.4, 29, 14.4), "case-back"),
+        B("SideR", (15.6, 9.8, 3.8), (16, 29, 14.4), "case-back"),
+        B("Shelf", (0.8, 19.0, 4), (15.2, 19.4, 14.4), "r4-chrome"),
+        B("Pull", (8.6, 12, 2.6), (9.0, 15, 3.0), "r4-chrome"),
+    ]
+    for shelf, y in ((0, 9.8), (1, 19.4)):
+        # A two-handled cup, a skater on a column, a plaque, a smaller cup
+        x = 3.0
+        els += [B(f"CupFoot{shelf}", (x - 1.4, y, 7.6), (x + 1.4, y + 1.2, 10.4), "case-wood"),
+                B(f"CupStem{shelf}", (x - 0.4, y + 1.2, 8.6), (x + 0.4, y + 2.4, 9.4), "r4-gold"),
+                B(f"Cup{shelf}", (x - 1.3, y + 2.4, 7.7), (x + 1.3, y + 5.8 - shelf, 10.3), "r4-gold"),
+                B(f"HandL{shelf}", (x - 2.0, y + 3.4, 8.7), (x - 1.3, y + 5.0 - shelf, 9.3), "r4-gold"),
+                B(f"HandR{shelf}", (x + 1.3, y + 3.4, 8.7), (x + 2.0, y + 5.0 - shelf, 9.3), "r4-gold")]
+        x = 7.0 if shelf == 0 else 11.5
+        els += [B(f"ColBase{shelf}", (x - 1.2, y, 8.0), (x + 1.2, y + 1.0, 10.4), "case-wood"),
+                B(f"Col{shelf}", (x - 0.6, y + 1.0, 8.6), (x + 0.6, y + 5.0, 9.8), "r4-gold"),
+                B(f"Figure{shelf}", (x - 0.4, y + 5.0, 8.9), (x + 0.4, y + 7.4, 9.5), "r4-gold"),
+                B(f"FigArm{shelf}", (x - 1.2, y + 6.4, 9.0), (x + 1.2, y + 6.8, 9.4), "r4-gold")]
+        x = 11.5 if shelf == 0 else 7.0
+        els += [B(f"Plaque{shelf}", (x - 1.8, y, 12.6), (x + 1.8, y + 4.0, 13.4), "case-wood", north=("r4-plaque", FULL), rot=(-12, 0, 0),
+                  origin=(x, y, 13.4))]
+        els += [B(f"Small{shelf}", (13.4, y, 6.4), (14.6, y + 2.6, 7.6), "r4-gold")]
+    return shape("l31-trophycase", els)
+
+
 # ======================================================================== Restrooms
 
 def stall():
@@ -1311,6 +1404,9 @@ def blocks():
     prop_block("l31-jukebox", "Level 31: a 1990s jukebox, wood under a stepped neon arch, the record window, selector keys, bubble tubes either side, a chrome grille, 22 units tall, toward the side",
                lambda k: ref, (0.03, 0, 0.21, 0.97, 1, 0.82), (0.03, 0, 0.21, 0.97, 1, 0.82), resistance=3, extra={"lightHsv": [50, 4, 6]})
     riser()
+    ref = trophycase()
+    prop_block("l31-trophycase", "Level 31: the lobby's trophy case, 30 units tall: an oak base, a lit glass cabinet with chrome door frames and a mirror back, two shelves of cups, skater figures and plaques; open toward the side",
+               lambda k: ref, (0, 0, 0.16, 1, 1, 0.96), (0, 0, 0.16, 1, 1, 0.96), material="Wood", sounds=WOOD, resistance=3, extra={"lightHsv": [8, 3, 5]})
     locker_textures()
     lrefs = {k: locker(k) for k in ("lower", "upper")}
     data = {"code": "l31-locker", "variantgroups": [{"code": "part", "states": ["lower", "upper"]}, {"code": "side", "states": SIDES}],
@@ -1327,6 +1423,7 @@ def blocks():
                (0.05, 0, 0.05, 0.95, 0.75, 0.95), (0.05, 0, 0.05, 0.95, 0.75, 0.95), kinds=["plain"], oriented=False, resistance=2)
     dryer()
     neon_tubes()
+    dj_tubes()
     lang()
 
 

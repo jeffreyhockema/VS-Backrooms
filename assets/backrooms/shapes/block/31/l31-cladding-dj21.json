@@ -1,0 +1,199 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"art": "backrooms:block/31/clad-dj21",
+		"edge": "backrooms:block/31/clad-edge",
+		"tube": "backrooms:block/31/r4-tube-dj21"
+	},
+	"elements": [
+		{
+			"name": "Panel",
+			"from": [
+				0,
+				0,
+				15.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#art",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Tubes",
+			"from": [
+				0,
+				0,
+				14.0
+			],
+			"to": [
+				16,
+				16,
+				14.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#tube",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Standoff0",
+			"from": [
+				3.0,
+				7.75,
+				14.2
+			],
+			"to": [
+				3.5,
+				8.25,
+				15.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						1.3,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						1.3,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.3
+					]
+				},
+				"down": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.3
+					]
+				}
+			}
+		},
+		{
+			"name": "Standoff1",
+			"from": [
+				12.5,
+				7.75,
+				14.2
+			],
+			"to": [
+				13.0,
+				8.25,
+				15.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						1.3,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						1.3,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.3
+					]
+				},
+				"down": {
+					"texture": "#edge",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.3
+					]
+				}
+			}
+		}
+	]
+}
