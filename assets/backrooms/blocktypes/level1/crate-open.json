@@ -26,6 +26,14 @@
 	"drops": [
 		{
 			"type": "item",
+			"code": "foodscraps",
+			"quantity": {
+				"avg": 0.25,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
 			"code": "game:plank-aged",
 			"quantity": {
 				"avg": 1.5,
