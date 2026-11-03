@@ -1,0 +1,30 @@
+// Level 52: a flat roof's ballast gravel (patches over the membrane)
+{
+	"code": "l52-roofgravel",
+	"texturesByType": {
+		"*": {
+			"all": {
+				"base": "block/52/r4-roofgravel"
+			}
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Gravel",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 2,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

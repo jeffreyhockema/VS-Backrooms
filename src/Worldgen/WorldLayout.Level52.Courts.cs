@@ -108,9 +108,9 @@ public sealed partial class WorldLayout
                 if (sideV && !sideU && Math.Abs(u - mu) <= 1) continue;
                 t.Zone = (byte)L52Zone.Court;
                 t.Variant = 0;
-                string axis = sideU ? "ns" : "we";
-                L52Fix(c, u, v, $"l52-chainlink-lower-{axis}", 1, 1);
-                L52Fix(c, u, v, $"l52-chainlink-upper-{axis}", 2, 2);
+                string axis = sideU ? "ns" : "we", kind = (sideU ? v : u) % 3 == 0 || sideU && sideV ? "chainpost" : "chainlink";
+                L52Fix(c, u, v, $"l52-{kind}-lower-{axis}", 1, 1);
+                L52Fix(c, u, v, $"l52-{kind}-upper-{axis}", 2, 2);
             }
     }
 
@@ -144,35 +144,51 @@ public sealed partial class WorldLayout
         }
         var (cu, cv) = L52RoomTile(r, side, (2 + la - 3) / 2, dm);
         L52LayCentreCircle(c, cu, cv, toHighA, "gym");
-        // The scoreboard: three blocks wide, two high (rel 5 and 6), on a long wall with no window behind it, nearest the middle
-        foreach (var (d, faces, wallD) in new[] { (0, intoRoom, -1), (ld - 1, side, ld) })
-            for (int k = 0; k <= la / 2 - 3; k++)
-                foreach (int a0 in new[] { la / 2 - 1 - k, la / 2 - 1 + k })
+        // The scoreboard: three blocks wide, two high (rel 5 and 6), hung where no window is behind it: a long wall nearest the
+        // middle, else an end wall beside the hoop (the changing rooms' cross wall has none), else a long wall over its windows
+        bool TryBoard((int U, int V)[] tiles, (int U, int V)[] walls, ArchPier faces, bool overWindows)
+        {
+            for (int m = 0; m < 3; m++)
+            {
+                var (xu, xv) = walls[m];
+                if (!c.InGrid(xu, xv) || c.At(xu, xv).Kind == TileKind.Floor || !overWindows && c.At(xu, xv).Under == Unders.L52Window
+                    || !L52FixFree(c, tiles[m].U, tiles[m].V, 5, 6)) return false;
+            }
+            // (l, m, r as seen from in front: order the three from the viewer's left)
+            var (rdu, rdv) = L52Step(L52RightOf(faces));
+            bool forward = (tiles[2].U - tiles[0].U) * rdu + (tiles[2].V - tiles[0].V) * rdv > 0;
+            for (int m = 0; m < 3; m++)
+            {
+                var (tu, tv) = tiles[forward ? m : 2 - m];
+                string part = m == 0 ? "l" : m == 1 ? "m" : "r";
+                L52Fix(c, tu, tv, $"l52-score-{part}-lo-{L52Side(faces)}", 5, 5);
+                L52Fix(c, tu, tv, $"l52-score-{part}-hi-{L52Side(faces)}", 6, 6);
+            }
+            return true;
+        }
+        foreach (bool overWindows in new[] { false, true })
+        {
+            foreach (var (d, faces, wallD) in new[] { (0, intoRoom, -1), (ld - 1, side, ld) })
+                for (int k = 0; k <= la / 2 - 3; k++)
+                    foreach (int a0 in new[] { la / 2 - 1 - k, la / 2 - 1 + k })
+                    {
+                        if (a0 < 3 || a0 + 2 > la - 4) continue;
+                        var tiles = new (int, int)[3];
+                        var walls = new (int, int)[3];
+                        for (int m = 0; m < 3; m++) { tiles[m] = L52RoomTile(r, side, a0 + m, d); walls[m] = L52RoomTile(r, side, a0 + m, wallD); }
+                        if (TryBoard(tiles, walls, faces, overWindows)) return;
+                    }
+            if (overWindows) break;
+            foreach (var (a, faces, wallA) in new[] { (la - 1, toLowA, la), (0, toHighA, -1) })
+                foreach (int d0 in new[] { dm + 3, dm - 5 })
                 {
-                    if (a0 < 3 || a0 + 2 > la - 4) continue;
-                    bool ok = true;
-                    for (int m = 0; m < 3 && ok; m++)
-                    {
-                        var (xu, xv) = L52RoomTile(r, side, a0 + m, wallD);
-                        var (tu, tv) = L52RoomTile(r, side, a0 + m, d);
-                        ok = c.InGrid(xu, xv) && c.At(xu, xv).Under != Unders.L52Window && c.At(xu, xv).Kind != TileKind.Floor && L52FixFree(c, tu, tv, 5, 6);
-                    }
-                    if (!ok) continue;
-                    // (l, m, r as seen from in front: the parts run to the viewer's right)
-                    var (rdu, rdv) = L52Step(L52RightOf(faces));
-                    var (au, av) = L52RoomTile(r, side, a0, d);
-                    var (bu2, bv2) = L52RoomTile(r, side, a0 + 2, d);
-                    // start from whichever end is the viewer's left
-                    bool fromA0 = (bu2 - au) * rdu + (bv2 - av) * rdv > 0;
-                    for (int m = 0; m < 3; m++)
-                    {
-                        var (tu, tv) = L52RoomTile(r, side, fromA0 ? a0 + m : a0 + 2 - m, d);
-                        string part = m == 0 ? "l" : m == 1 ? "m" : "r";
-                        L52Fix(c, tu, tv, $"l52-score-{part}-lo-{L52Side(faces)}", 5, 5);
-                        L52Fix(c, tu, tv, $"l52-score-{part}-hi-{L52Side(faces)}", 6, 6);
-                    }
-                    return;
+                    if (d0 < 1 || d0 + 2 > ld - 2) continue;
+                    var tiles = new (int, int)[3];
+                    var walls = new (int, int)[3];
+                    for (int m = 0; m < 3; m++) { tiles[m] = L52RoomTile(r, side, a, d0 + m); walls[m] = L52RoomTile(r, side, wallA, d0 + m); }
+                    if (TryBoard(tiles, walls, faces, false)) return;
                 }
+        }
     }
 
     /// <summary>

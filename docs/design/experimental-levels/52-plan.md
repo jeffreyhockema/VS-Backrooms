@@ -578,12 +578,12 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
 30. (C) The library: a rolling ladder on the stacks; a few books left on the shelves (the lore's rooms are "vacant and missing contents", so a handful, not full shelves). [partly: the rolling ladder (`l52-ladder-*`, Props.L52Ladder); shelves stay empty (the lore)]
 
 **3. Level design**
-31. (A) The gym reads as a gym from its spot: hoops at both ends, the scoreboard, mats, the key on the floor, the bleachers.
-32. (A) The courtyard court as the heart of J. Turner (lore: "basketball court and courtyard at the core"): fenced, marked, hoops facing.
+31. (A) The gym reads as a gym from its spot: hoops at both ends, the scoreboard, mats, the key on the floor, the bleachers. [done] (run 1: `gym` and `gym-hoop`; the façade's grey over the end doors now the room's paint inside)
+32. (A) The courtyard court as the heart of J. Turner (lore: "basketball court and courtyard at the core"): fenced, marked, hoops facing. [done] (fence with a post every third block, like the campus fences now)
 33. (B) The two-storey halls' upper string course showing inside (round 3's Still weak). [done] (no band at a hall's middle line; the room's paint inside)
 34. (B) The courtyard spot looks into the trees (round 3's Still weak): move the spot. [done] (from a corner along the diagonal)
-35. (B) The sky sphere's seam over the open pitch (round 3's Still weak): look at the sphere's radius against the view.
-36. (C) The roof: gravel patches by the plant, parapet caps. [skipped: time]
+35. (B) The sky sphere's seam over the open pitch (round 3's Still weak): look at the sphere's radius against the view. [done] (it was the game's cloud layer meeting the sky sphere as white slabs: Level 52's clouds are off)
+36. (C) The roof: gravel patches by the plant, parapet caps. [partly: gravel patches; the parapets as they were]
 
 **4. Lore**
 37. (A) Keep digits-only signage: the scoreboard and court use numbers and generic words (HOME, GUEST), no campus or school names. [done]
@@ -640,3 +640,20 @@ classroom posters, the lab benches' gas taps and eyewash, a locker door left ope
   fountain is rebuilt but still the same block (it dispenses as before). Ajar lockers are scenery (lockers were never containers).
 - The desk and chalkboard keep their coloured-chalk drops (now written by the generator).
 - The library ladder is climbable (a way onto the bookstacks' tops; no new place reached). No shortcut, threshold or safe room.
+
+Beyond the list (from run 1): the libraries' stacks were the shared office bookshelf seen from behind as blank slabs: now
+double-sided steel bookstacks (`l52-stack-{a,b}-*`, Props.L52Stack 1108), near bare with dust marks where the books stood; the
+front office's and library's counter was the hotel reception desk with WELCOME on it (words the lore does not allow): now
+`l52-counter-*`; the chain-link fences (campus and courts) get a galvanised post every third block (`l52-chainpost-*`); flat roofs
+get ballast gravel in patches (`l52-roofgravel`; item 36 after all); the gym's scoreboard, which found no window-free stretch of
+long wall, falls back to the changing rooms' cross wall beside the hoop (then over windows); a hall's interior walls are plain
+upper paint on their upper storey (the cross wall showed a second skirting band at the hoop's height).
+
+### What the shots showed
+- **Run 1** (`%TEMP%/backrooms-shots/52-r4a`, `sheet.jpg`): the gym hoop (truss, orange-framed board with its pad, rim and
+  net, wall mats, the painted key) and the court hoop (green post with its pad, rusty board, torn net, the fence, the green key on
+  the red court) read as the real things; lockers in relief with a door open; the classroom's desks, board, projector and wall
+  clock; stair handrails; the hanging EXIT signs; lab benches and fume hoods; lecture seats; restroom stalls; columns and a planter
+  at the entrance; the dugout by the pitch. Wrong: the library's stacks (blank slabs: shared bookshelves seen from behind) and the
+  ladder standing clear of them; WELCOME on the front office counter; white cloud slabs over open views; the façade's grey
+  showing inside the gym over its end doors; the courtyard spot behind a lamp post; the pitch spot looking at empty turf.

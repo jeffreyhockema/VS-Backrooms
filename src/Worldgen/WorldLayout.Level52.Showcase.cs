@@ -321,6 +321,19 @@ public partial class WorldLayout
                 }
         }
         HoopShot(md, "gym", "gym-hoop");
+        // (Round 4) the trophy case in the quad's lobby, from three tiles in front of it
+        foreach (var (i, list) in md.Fixtures)
+        {
+            L52Fixture tf = list.Find(f => f.Code.StartsWith("l52-trophy-upper-"));
+            if (tf.Code == null) continue;
+            ArchPier tp = tf.Code.EndsWith("north") ? ArchPier.North : tf.Code.EndsWith("south") ? ArchPier.South : tf.Code.EndsWith("east") ? ArchPier.East : ArchPier.West;
+            var (tdu, tdv) = L52Step(tp);
+            var (rdu, rdv) = L52Step(L52RightOf(tp));
+            int tu = i % md.W + tdu * 3 + rdu, tv = i / md.W + tdv * 3 + rdv;
+            if (!md.InGrid(tu, tv) || md.At(tu, tv).Kind != TileKind.Floor) continue;
+            Add(md, "trophy-case", tu, tv, 0, Heading(i % md.W - tu, i / md.W - tv), -12);
+            break;
+        }
         {
             var (tn, _) = L52Named;
             HoopShot(L52CampusOf(tn.Ci, tn.Cj), "yard", "court-hoop");

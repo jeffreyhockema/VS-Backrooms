@@ -50,7 +50,7 @@ public sealed partial class FeatureFinder
         // ----- Level 52, the Greenfield Campus -----
         ["l52quad"] = (WorldLayout.Level52, new[] { "entrance", "approach", "way-back-quad" }),
         ["l52courtyard"] = (WorldLayout.Level52, new[] { "courtyard", "fountain" }),
-        ["l52corridor"] = (WorldLayout.Level52, new[] { "corridor", "stair-hall" }),
+        ["l52corridor"] = (WorldLayout.Level52, new[] { "corridor", "stair-hall", "trophy-case" }),
         ["l52classroom"] = (WorldLayout.Level52, new[] { "classroom" }),
         ["l52lab"] = (WorldLayout.Level52, new[] { "lab" }),
         ["l52library"] = (WorldLayout.Level52, new[] { "library" }),

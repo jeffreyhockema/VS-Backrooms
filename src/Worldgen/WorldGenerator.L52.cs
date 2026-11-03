@@ -26,9 +26,9 @@ public sealed partial class WorldGenerator
 
     private int l52Skylight, l52WallPatch, l52Asphalt, l52AsphaltLine;
     private readonly int[,,,] l52ExtWall = new int[5, 4, 3, 4];
-    private int l52Grass, l52Soil, l52Rock, l52Gravel, l52Sand, l52Coping, l52Barrier, l52Roof, l52Plinth, l52Canopy;
+    private int l52Grass, l52Soil, l52Rock, l52Gravel, l52Sand, l52Coping, l52Barrier, l52Roof, l52Plinth, l52Canopy, l52RoofGravel;
     private readonly int[] l52Trim = new int[3];
-    private readonly int[,] l52Wall = new int[4, 3], l52Light = new int[11, 4], l52Window = new int[2, 2], l52Chain = new int[2, 2];
+    private readonly int[,] l52Wall = new int[4, 3], l52Light = new int[11, 4], l52Window = new int[2, 2], l52Chain = new int[2, 2], l52ChainPost = new int[2, 2];
     private readonly int[,,] l52Locker = new int[4, 2, 4], l52LockerAjar = new int[4, 2, 4], l52Board = new int[2, 3, 4];
     private readonly int[,,,] l52Plaque = new int[2, 10, 10, 4];
     private readonly int[,] l52Stall = new int[2, 4], l52Hood = new int[2, 4], l52Ladder = new int[2, 4], l52LabBench = new int[3, 4];
@@ -74,11 +74,13 @@ public sealed partial class WorldGenerator
         for (int i = 0; i < 3; i++) l52Trim[i] = L52Block("l52-band-" + WorldLayout.L52Trims[i], l52Coping);
         l52Plinth = L52Block("l52-plinth", l52Trim[1]);
         l52Canopy = L52Block("l52-canopy", l52Coping);
+        l52RoofGravel = L52Block("l52-roofgravel", l52Roof);
         for (int k = 0; k < 2; k++)
             for (int a = 0; a < 2; a++)
             {
                 l52Window[k, a] = L52Block($"l52-window-{halves[k]}-{axes[a]}", concreteId);
                 l52Chain[k, a] = L52Block($"l52-chainlink-{halves[k]}-{axes[a]}");
+                l52ChainPost[k, a] = L52Block($"l52-chainpost-{halves[k]}-{axes[a]}", l52Chain[k, a]);
             }
         for (int s = 0; s < L52SlabKinds.Length; s++)
         {
@@ -256,7 +258,8 @@ public sealed partial class WorldGenerator
             if (rel <= g) return rel == g && t.Zone == (byte)Zone.Fence ? l52Paving[0] : rel == g ? l52Grass : rel >= g - 2 ? l52Soil : l52Rock;
             int up = rel - g - (t.Zone == (byte)Zone.Fence ? 1 : 0);
             if (up == 0) return l52Barrier;
-            return up is 1 or 2 ? l52Chain[up - 1, axis] : 0;
+            // (Round 4) a post every third block along the fence
+            return up is 1 or 2 ? (Hashing.Mod(axis == 0 ? gz : gx, 3) == 0 ? l52ChainPost : l52Chain)[up - 1, axis] : 0;
         }
         if (rel <= g)
         {
@@ -374,7 +377,10 @@ public sealed partial class WorldGenerator
             return l52Facade[bld?.Facade ?? c.Facade];
         }
         // Over the top storey: the roof, an air-conditioning unit on it now and then
-        if (rel == top + 1) return l52Roof;
+        // (Round 4) ballast gravel in broad patches over the membrane
+        if (rel == top + 1)
+            return Hashing.Unit(Hashing.Hash(seed, gx >> 3, gz >> 3, 0x2342)) < 0.45 || Hashing.Unit(Hashing.Hash(seed, (gx + 4) >> 3, (gz + 4) >> 3, 0x2343)) < 0.3
+                ? l52RoofGravel : l52Roof;
         if (rel == top + 2)
         {
             if (t.Kind != TileKind.Floor || t.Zone == (byte)Zone.Stair) return 0;
@@ -393,6 +399,10 @@ public sealed partial class WorldGenerator
                 return Hashing.Unit(Hashing.Hash(seed, gx, gz * 31 + storey, 0x2341)) < 0.07 ? l52LockerAjar[paint, h - 1, Facing(t.Pier)] : l52Locker[paint, h - 1, Facing(t.Pier)];
             // (J. Barry: the Crash's bullet holes filled and painted over, here and there)
             if (h == 2 && paint == 2 && c.Head.Kind == WorldLayout.L52CampusKind.JBarry && Hashing.Unit(Hashing.Hash(seed, gx, gz * 7 + storey, 0x2338)) < 0.06) return l52WallPatch;
+            // (Round 4) inside a hall two storeys high, a wall's upper storey is plain upper paint (no second skirting band)
+            if (storey > 0 && t.Detail > 0 && t.Detail <= c.Buildings.Count
+                && c.Buildings[t.Detail - 1].Kind is WorldLayout.L52BuildingKind.Gym or WorldLayout.L52BuildingKind.Canteen or WorldLayout.L52BuildingKind.Warehouse or WorldLayout.L52BuildingKind.Lecture)
+                return l52Wall[paint, 2];
             return l52Wall[paint, h - 1];
         }
         int kind = L52SlabOf(t.Floor);

@@ -685,6 +685,8 @@ def expected():
         codes.add(f"l52-projector-{s}")
     codes |= {f"l52-labbench-{k}-{s}" for k in ("plain", "sink", "gas") for s in SIDES}
     codes |= {f"l52-stairrail-{h}-{s}" for h in "lr" for s in SIDES}
+    codes |= {f"l52-chainpost-{p}-{a}" for p in ("lower", "upper") for a in ("ns", "we")}
+    codes.add("l52-roofgravel")
     codes |= {"l52-column-base", "l52-column-shaft", "l52-column-cap", "l52-planter"}
     cells = sorted({c for surf in MARK_CELLS for c in MARK_CELLS[surf]})
     for surf in ("gym", "yard"):
@@ -847,6 +849,42 @@ def jet_shape():
     return els
 
 
+def chainpost_blocktypes():
+    """A chain-link panel with its post (every third block of a fence): the round's galvanised post through the mesh's middle,
+    a cap on top (upper); the panel as round 1's."""
+    shp = {}
+    for part in ("lower", "upper"):
+        els = [box("Mesh", (7.8, 0, 0), (8.2, 16 if part == "lower" else 14.4, 16), "chainlink-mesh", faces=("east", "west"), uv=FULL)]
+        if part == "upper":
+            els.append(box("Rail", (7.2, 14.4, 0), (8.8, 16, 16), "chainlink-rail", uv=FULL))
+        els.append(box("Post", (7.1, 0, 7.1), (8.9, 16 if part == "lower" else 15.2, 8.9), "r4-galv"))
+        if part == "lower":
+            els.append(box("Footing", (6.4, -0.01, 6.4), (9.6, 0.6, 9.6), "r4-footing", faces=("north", "east", "south", "west", "up")))
+        else:
+            els += [box("Clamp", (6.9, 13.6, 6.9), (9.1, 14.4, 9.1), "r4-galv"), box("Cap", (6.8, 16.0, 6.8), (9.2, 16.8, 9.2), "r4-galv")]
+        shp[part] = G.shape(f"l52-chainpost-{part}", els)
+    shape_by = {}
+    for part in ("lower", "upper"):
+        for axis, ang in (("ns", 0), ("we", 90)):
+            d = {"base": shp[part]}
+            if ang:
+                d["rotateY"] = ang
+            shape_by[f"l52-chainpost-{part}-{axis}"] = d
+    thin = {"*-ns": G.cuboid((0.4375, 0, 0, 0.5625, 1, 1)), "*-we": G.cuboid((0, 0, 0.4375, 1, 1, 0.5625))}
+    G.json_block("l52-chainpost", [G.group("part", ["lower", "upper"]), G.group("axis", ["ns", "we"])], shape_by,
+                 "Level 52: a chain-link panel with its galvanised post (every third block of a fence; axis as l52-chainlink)", "Metal",
+                 G.METAL, thin, thin, resistance=3, extra={"renderpass": "OpaqueNoCull"})
+
+
+def roof_gravel():
+    """Ballast gravel on a flat roof (patches of it over the membrane): pale pebbles, a few dark ones."""
+    img = M.asphalt(7400, base=(150, 148, 142), aggregate=0.65, binder=0.1, chip=(10, 40), pits=0.03, shadow=0.18)
+    M.grime(img, amount=0.08, seed=7401, cover=0.4)
+    save(img, "r4-roofgravel")
+    G.cube_block("l52-roofgravel", [], {"*": G.faces(all_="r4-roofgravel")},
+                 "Level 52: a flat roof's ballast gravel (patches over the membrane)", "Gravel", G.STONE, resistance=2)
+
+
 def build(gen):
     global G
     G = gen
@@ -859,4 +897,6 @@ def build(gen):
     set_blocktypes()
     plant_blocktypes()
     rail_blocktypes()
+    chainpost_blocktypes()
+    roof_gravel()
     G.shape("l52-jet", jet_shape())
