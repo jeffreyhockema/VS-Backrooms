@@ -1316,3 +1316,42 @@ def blocktypes():  # noqa: F811
 
 
 LANG.append(("block-l73-privy-*", "Close Stool"))
+
+
+# ---- A string course (round 4): a wall block with a moulded drip standing out from its outer face (and the west for the corner) ----
+
+def stringcourse_shape(corner):
+    els = [box("Wall", [0, 0, 0], [16, 16, 16], "#stone"),
+           box("MouldN", [-1.6 if corner else 0, 12, -1.6], [16, 14, 0], "#coping"),
+           box("DripN", [-1.0 if corner else 0, 11, -1.0], [16, 12, 0], "#coping"),
+           box("WashN", [-0.8 if corner else 0, 14, -0.8], [16, 15, 0], "#coping")]
+    if corner:
+        els += [box("MouldW", [-1.6, 12, 0], [0, 14, 16], "#coping"), box("DripW", [-1.0, 11, 0], [0, 12, 16], "#coping"),
+                box("WashW", [-0.8, 14, 0], [0, 15, 16], "#coping")]
+    return shape(STONE_TEX, els)
+
+
+_shapes_privy = shapes
+
+
+def shapes(write_json, shape_dir):  # noqa: F811
+    n = _shapes_privy(write_json, shape_dir)
+    for k in ("straight", "corner"):
+        write_json(os.path.join(shape_dir, f"string-{k}.json"), None, stringcourse_shape(k == "corner"))
+    return n + 2
+
+
+_blocktypes_privy = blocktypes
+
+
+def blocktypes():  # noqa: F811
+    out = _blocktypes_privy()
+    out.append(oriented(
+        "l73-string", "// Level 73: a string course, a wall block with a moulded drip on its outer face (-north: north; corner: and west)",
+        None, "Stone", FULL, coll=FULL, sounds=STONE, extra_variants=[{"code": "kind", "states": ["straight", "corner"]}],
+        shape_by={f"*-{k}-{s}": {"base": f"block/73/string-{k}", "rotateY": ROT[s]} for k in ("straight", "corner") for s in SIDES},
+        inv="*-straight-north"))
+    return out
+
+
+LANG.append(("block-l73-string-*", "String Course"))

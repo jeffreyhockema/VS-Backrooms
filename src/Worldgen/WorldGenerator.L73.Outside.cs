@@ -20,6 +20,7 @@ public sealed partial class WorldGenerator
     private readonly int[] l73Slit = new int[4], l73Cone = new int[3];
     private readonly int[,] l73Wreck = new int[2, 4];
     private readonly int[] l73Hood = new int[2];
+    private readonly int[,] l73String = new int[2, 4];
     // the castle's own chairs and tables (round 4, in place of the Level 5 hotel's)
     private readonly int[] l73Chair = new int[4], l73WingChair = new int[4], l73LowTable = new int[4], l73Sideboard = new int[4];
     private readonly int[,] l73Settee = new int[2, 4];
@@ -41,6 +42,7 @@ public sealed partial class WorldGenerator
         for (int f = 0; f < 4; f++)
         {
             for (int k = 0; k < 2; k++) l73Corbel[k, f] = Id($"l73-corbel-{corbels[k]}-{Sides[f]}");
+            for (int k = 0; k < 2; k++) l73String[k, f] = Id($"l73-string-{corbels[k]}-{Sides[f]}");
             for (int k = 0; k < 3; k++) l73Merlon[k, f] = Id($"l73-merlon-{merlons[k]}-{Sides[f]}");
             for (int k = 0; k < 5; k++) l73Roof[k, f] = Id($"l73-roof-{roofs[k]}-{Sides[f]}");
             for (int k = 0; k < 3; k++) l73Dormer[k, f] = Id($"l73-dormer-{dormers[k]}-{Sides[f]}");
@@ -108,6 +110,7 @@ public sealed partial class WorldGenerator
         if (c <= 1) return l73Foot;
         if (c == 3 && outer >= 0 && (u * 5 + v * 3) % 9 == 4 && !(v == 0 && u is >= 25 and <= 30) && !(v == d - 1 && u is >= 19 and <= 23))
             return l73Slit[outer];
+        if (c == 5 && outer >= 0) return l73String[L73Straight, outer];
         if (c <= 5) return l73Silver;
         if (c == 6) return outer >= 0 ? l73Streak : l73Silver;
         if (c == 7) return outer >= 0 ? l73Corbel[L73Straight, outer] : l73Silver;
@@ -124,6 +127,7 @@ public sealed partial class WorldGenerator
         var (side, corner) = L73RingSide(a, b, 6);
         bool outerFace = u == 0 || v == 0 || u == w - 1 || v == d - 1;
         if (c <= 1) return side >= 0 ? l73Foot : l73Silver;
+        if (c == 5 && side >= 0) return l73String[corner ? L73Corner : L73Straight, side];
         if (c <= 9)
         {
             if (corner) return l73Quoin;
@@ -151,6 +155,7 @@ public sealed partial class WorldGenerator
         int side = a == 0 && b == 0 ? 0 : a == 3 && b == 0 ? 1 : b == 0 ? 0 : a == 3 ? 1 : a == 0 ? 3 : -1;
         bool corner = b == 0 && a is 0 or 3;
         if (c <= 1) return side >= 0 ? l73Foot : l73Silver;
+        if (c == 5 && side >= 0) return l73String[corner ? L73Corner : L73Straight, side];
         if (c <= 9)
         {
             if (corner) return l73Quoin;
@@ -219,7 +224,13 @@ public sealed partial class WorldGenerator
     {
         const int kw = WorldLayout.L73KeepW, kd = WorldLayout.L73KeepD;
         bool turret = (ku < 3 || ku >= kw - 3) && (kv < 3 || kv >= kd - 3);
-        if (c != WorldLayout.L73Terrace || turret) return l73Ashlar;
+        if (c != WorldLayout.L73Terrace || turret)
+        {
+            // a moulded string course (round 4), turning the corners
+            bool corner = (ku is 0 or kw - 1) && (kv is 0 or kd - 1);
+            int cs = !corner ? L73KeepOut(ku, kv) : ku == 0 ? (kv == 0 ? 0 : 3) : (kv == 0 ? 1 : 2);
+            return l73String[corner ? L73Corner : L73Straight, cs];
+        }
         int side = kv == 0 ? 0 : ku == kw - 1 ? 1 : kv == kd - 1 ? 2 : 3;
         return l73Corbel[L73Straight, side];
     }
