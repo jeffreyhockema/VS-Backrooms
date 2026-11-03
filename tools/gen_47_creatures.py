@@ -705,6 +705,8 @@ def adder_head(kind):
                         c = rig.shade(c, 0.72)
                     elif gx > 0.75 and gy > 0.6:
                         c = rig.mix(c, CRIMSON_HI, 0.5)
+                    if kind == "skull" and u > 0.35 and abs(abs(fv - 0.5) * 2 - (u - 0.35) * 1.5) < 0.1:
+                        c = rig.mix(SADDLE, CRIMSON_DK, 0.4)       # the arrowhead mark on the crown
                     if kind == "skull" and abs(fv - 0.5) < 0.08 and u > 0.55:
                         c = rig.shade(c, 0.6)           # a dark line down the crown
                 elif f in ("south", "north"):
@@ -778,11 +780,23 @@ def build_adder():
     a0 = hx + ADDER_HEAD
     head = m.part("Head", (hx + 4, 2.6, -5), (10, 5.4, 10), pivot=(a0, 4.0, 0), parent="Seg0", paint=adder_head("skull"))
     m.part("Snout", (hx, 2.7, -3.8), (4.2, 4.0, 7.6), pivot=(hx + 4, 4.2, 0), parent=head, paint=adder_head("snout"))
-    m.part("BrowL", (hx + 3.3, 7.1, 2.5), (5.4, 1.5, 2.8), pivot=(hx + 6, 7.6, 3.9), parent=head, rest=(-8, 0, 0), paint=adder_brow)
+    m.part("BrowL", (hx + 3.0, 6.7, 2.3), (6.2, 2.0, 3.0), pivot=(hx + 6, 7.6, 3.9), parent=head, rest=(-8, 0, 0), paint=adder_brow)
     m.mirror("BrowL", "BrowR")
+    # heavy supraocular scales: a second, smaller plate forward of each brow, a raised rostral scale at the tip, two dark crown scales
+    m.part("BrowFrontL", (hx + 0.8, 6.3, 1.5), (3.4, 1.3, 2.4), pivot=(hx + 2.5, 6.8, 2.7), parent=head, rest=(-6, 0, 0), paint=adder_brow)
+    m.mirror("BrowFrontL", "BrowFrontR")
+    m.part("Rostral", (hx - 0.5, 3.3, -1.1), (0.7, 1.8, 2.2), pivot=(hx, 4.2, 0), parent="Snout", paint=adder_brow)
+    m.part("CrownA", (hx + 6.4, 7.9, -1.1), (2.8, 0.8, 2.2), pivot=(hx + 8, 8, 0), parent=head, paint=adder_brow)
+    m.part("CrownB", (hx + 9.5, 7.9, -1.3), (2.8, 0.8, 2.6), pivot=(hx + 11, 8, 0), parent=head, paint=adder_brow)
+    # the jowls: a muscular bulge behind each eye over the hinge of the jaw
+    m.part("JowlL", (hx + 8.4, 1.5, 4.7), (4.8, 3.9, 1.0), pivot=(hx + 11, 3.5, 4.8), parent=head, paint=adder_head("skull"))
+    m.mirror("JowlL", "JowlR")
     m.part("EyeL", (hx + 4.4, 5.0, 4.6), (2.4, 1.9, 0.8), pivot=(hx + 5.6, 6.0, 5.0), parent=head, paint=adder_eye, glow=90)
     m.mirror("EyeL", "EyeR")
     jaw = m.part("Jaw", (hx + 0.4, 0.0, -4.4), (13.0, 2.65, 8.8), pivot=(hx + 13.2, 2.6, 0), parent=head, paint=adder_head("jaw"))
+    m.part("JawChin", (hx + 1.6, -0.9, -3.3), (10.0, 1.1, 6.6), pivot=(hx + 13.2, 2.6, 0), parent=jaw, paint=adder_head("jaw"))
+    m.part("JawKeelL", (hx + 3.0, -0.3, 3.9), (7.0, 2.2, 0.8), pivot=(hx + 13.2, 2.6, 0), parent=jaw, paint=adder_head("jaw"))
+    m.mirror("JawKeelL", "JawKeelR")
     m.part("FangL", (hx + 1.0, 1.0, 1.9), (0.8, 1.8, 0.8), pivot=(hx + 1.4, 2.8, 2.3), parent="Snout", rest=(0, 0, -8), paint=fang)
     m.mirror("FangL", "FangR")
     t = m.part("Tongue", (hx + 2.4, 2.7, -0.4), (6.0, 0.4, 0.8), pivot=(hx + 8.4, 2.9, 0), parent=head, paint=black_tongue)
@@ -1004,7 +1018,9 @@ class OphionLook:
 
 # faces that look into the hood or a sleeve (painted as deep shadow)
 INNER = {("HoodL", "north"), ("HoodR", "south"), ("HoodTop", "down"), ("HoodPeak", "down"), ("HoodBack", "west"), ("HoodPeak", "east"),
-         ("CuffL", "down"), ("CuffR", "down"), ("HoodTip", "west")}
+         ("CuffL", "down"), ("CuffR", "down"), ("HoodTip", "west"), ("HoodRimL", "north"), ("HoodRimR", "south"), ("HoodBrow", "down"),
+         ("HoodBrow", "east"), ("HoodRimL", "east"), ("HoodRimR", "east")}
+DUST = (126, 92, 72)
 
 
 def gold_band(ctx, px, yy0, yy1, rng):
@@ -1021,9 +1037,10 @@ def gold_band(ctx, px, yy0, yy1, rng):
             put(ctx, px, xx, yy, rig.shade(c, 0.92 + 0.12 * rng.random()))
 
 
-def robe_painter(look, trim=None):
-    """Crimson cloth: a fine twill, folds down the skirt, shading down each side; trims by `trim`: 'hem' (the skirt's
-    foot), 'cuff', 'hood' (its front edge), 'mantle' (its lower edge), 'front' (the elder's embroidered front panel)."""
+def robe_painter(look, trim=None, dust=0.0, fold=1.0):
+    """Crimson wool: a visible twill, soft folds (a dark crease with a lit ridge beside it) wandering down each face,
+    darker toward the foot; `dust` (0..1) greys the hem with road dust and frays it. Trims by `trim`: 'hem' (a band at
+    the foot), 'cuff', 'mantle', 'hood' (its front edge), 'front' (the elder's embroidered front panel)."""
     def paint(ctx):
         p = ctx.part
         f = ctx.face
@@ -1034,20 +1051,27 @@ def robe_painter(look, trim=None):
                     put(ctx, px, xx, yy, rig.shade(SHADOW, 0.8 + 0.4 * ctx.rng.random()))
             return
         rig.lit_fill(ctx, look.robe, 0.05)
-        rig.weave(ctx, 4.0, "twill")
+        rig.weave(ctx, 6.0, "twill")
         side = f in ("north", "south", "east", "west")
-        if side and p.name.startswith("Skirt"):
-            n = max(2, ctx.w // 7)
+        w, h = ctx.w, ctx.h
+        rng = ctx.rng
+        if side and fold > 0 and w >= 5:
+            n = max(2, int(w / 5.5))
             for i in range(n):
-                x0 = int((i + 0.5 + 0.3 * (ctx.rng.random() - 0.5)) * ctx.w / n)
-                for yy in range(ctx.h):
-                    xx = x0 + int(round(0.8 * math.sin(yy * 0.15 + i)))
-                    put(ctx, px, xx, yy, rig.mix(look.robe_lo, look.robe, 0.3))
-                    put(ctx, px, xx + 1, yy, rig.mix(look.robe_hi, look.robe, 0.4))
+                x0 = (i + 0.5 + 0.35 * (rng.random() - 0.5)) * w / n
+                ph = rng.random() * 6
+                for yy in range(h):
+                    t = yy / max(1, h - 1)
+                    xx = int(round(x0 + 0.9 * math.sin(yy * 0.13 + ph) + 1.5 * t * (i - n / 2) / n))
+                    for dx, k in ((-1, 1.0 + 0.10 * fold), (0, 1.0 - 0.30 * fold * (0.6 + 0.6 * t)), (1, 1.0 - 0.15 * fold), (2, 1.0 + 0.05 * fold)):
+                        if 0 <= xx + dx < w:
+                            c = px[ctx.x + xx + dx, ctx.y + yy]
+                            put(ctx, px, xx + dx, yy, rig.shade(c[:3], k))
         if side:
-            for yy in range(ctx.h):
-                k = 1.06 - 0.16 * yy / max(1, ctx.h - 1)
-                for xx in range(ctx.w):
+            for yy in range(h):
+                t = yy / max(1, h - 1)
+                k = 1.08 - 0.20 * t
+                for xx in range(w):
                     put(ctx, px, xx, yy, rig.shade(px[ctx.x + xx, ctx.y + yy][:3], k))
         if trim in ("hem", "cuff", "mantle") and side:
             if look.elder:
@@ -1056,10 +1080,28 @@ def robe_painter(look, trim=None):
             else:
                 for xx in range(ctx.w):
                     put(ctx, px, xx, ctx.h - 1, rig.shade(look.robe_lo, 0.8))
+        if dust and side:
+            top = h * (1 - 0.42)
+            for yy in range(h):
+                t = (yy - top) / max(1.0, h - top)
+                if t <= 0:
+                    continue
+                for xx in range(w):
+                    a = dust * (t ** 1.3) * (0.55 + 0.6 * rng.random())
+                    c = px[ctx.x + xx, ctx.y + yy][:3]
+                    put(ctx, px, xx, yy, rig.mix(c, DUST, min(0.8, a)))
+            if not look.elder or trim != "hem":
+                for xx in range(w):                       # the hem frayed: a ragged last row of dark threads and pale ends
+                    r = rng.random()
+                    put(ctx, px, xx, h - 1, rig.shade(DUST, 0.45) if r < 0.5 else rig.shade(look.robe_lo, 0.7))
+                    if r < 0.3 and h > 2:
+                        put(ctx, px, xx, h - 2, rig.shade(DUST, 0.7))
         if trim == "hood" and f == "west":
             for yy in range(ctx.h):
                 for xx in range(ctx.w):
                     c = rig.mix(GOLD, GOLD_HI, 0.5 * ctx.rng.random()) if look.elder else rig.mix(look.robe_hi, look.robe, 0.5)
+                    if xx == 0 or xx == w - 1:
+                        c = rig.shade(c, 0.7)
                     put(ctx, px, xx, yy, c)
         if trim == "front" and f == "west" and look.elder:
             c0, c1 = int(ctx.w * 0.38), int(math.ceil(ctx.w * 0.62))
@@ -1108,14 +1150,85 @@ def mask_paint(ctx):
             for i in range(int(w * 0.2)):
                 xx = int(w * (0.5 + side * 0.13)) + side * i
                 yy = int(h * 0.44)
-                put(ctx, px, xx, yy, (12, 6, 8))
-                put(ctx, px, xx, yy + 1, (28, 14, 16))
-                put(ctx, px, xx, yy - 1, rig.shade(IVORY_DK, 0.95))
+                yy += int(round(0.35 * i * side * -1)) if False else 0
+                put(ctx, px, xx, yy, (8, 3, 5))
+                put(ctx, px, xx, yy + 1, (8, 3, 5))
+                put(ctx, px, xx, yy + 2, (30, 14, 16))
+                put(ctx, px, xx, yy - 1, rig.shade(IVORY_DK, 0.8))
+                put(ctx, px, xx, yy - 2, rig.shade(IVORY_DK, 0.9))
+        for yy in range(int(h * 0.26), int(h * 0.40)):          # the shadow under the brow ridge
+            for xx in range(w):
+                put(ctx, px, xx, yy, rig.shade(px[ctx.x + xx, ctx.y + yy][:3], 0.78))
+        for side in (-1, 1):                                       # a cheek line down from each eye
+            for i in range(int(h * 0.2)):
+                put(ctx, px, int(w * (0.5 + side * 0.26)) - side * (i // 3), int(h * 0.56) + i, rig.shade(IVORY_DK, 0.85))
         for xx in range(int(w * 0.42), int(w * 0.58) + 1):
             put(ctx, px, xx, int(h * 0.82), rig.shade(IVORY_DK, 0.9))   # a thin closed mouth
     elif f in ("south", "north"):
         for xx in range(ctx.w):
             put(ctx, px, xx, int(ctx.h * 0.21), IVORY_DK)                 # the coil carries on round the sides
+
+
+def ivory_paint(kind):
+    """Pieces of the mask in relief: bone-white, lit from above, the brow ridge carrying the carved serpent."""
+    def paint(ctx):
+        px = ctx.img.load()
+        f = ctx.face
+        w, h = ctx.w, ctx.h
+        for yy in range(h):
+            for xx in range(w):
+                t = yy / max(1, h - 1)
+                k = FACEK[f] * (0.97 + 0.05 * ctx.rng.random())
+                if kind == "nose" and f in ("north", "south"):
+                    k *= 1.0 - 0.18 * t
+                if kind == "brow" and f in ("west", "north", "south"):
+                    k *= 1.04 - 0.22 * t                 # the ridge shadows its underside
+                put(ctx, px, xx, yy, rig.shade(IVORY, k))
+        if kind == "brow" and f == "west":
+            # the serpent along the ridge: a wavy body of scale ticks, the head over the left eye with a red eye
+            for xx in range(w):
+                u = (xx + 0.5) / w
+                y = int(round(h * 0.5 + 1.0 * math.sin(TAU * (u * 2.2 + 0.1))))
+                for dy in (-1, 0, 1):
+                    put(ctx, px, xx, y + dy, IVORY_DK if dy == 0 else rig.shade(IVORY_DK, 1.1))
+                if xx % 2 == 0:
+                    put(ctx, px, xx, y + 1, rig.shade(IVORY_DK, 0.8))
+            hx = int(w * 0.82)
+            for dx in range(-1, 4):
+                for dy in range(-2, 3):
+                    if abs(dy) + max(0, dx - 1) <= 2:
+                        put(ctx, px, hx + dx, h // 2 + dy, IVORY_DK)
+            put(ctx, px, hx + 1, h // 2 - 1, (150, 24, 24))
+        if kind == "brow" and f == "up":
+            for xx in range(w):
+                put(ctx, px, xx, 0, rig.shade(IVORY, 1.1))
+        if kind == "nose" and f == "west":
+            for yy in range(h - 2, h):
+                for xx in range(w):
+                    if xx in (0, w - 1) or yy == h - 1:
+                        put(ctx, px, xx, yy, rig.shade(IVORY_DK, 0.7))   # the nostrils, two dark notches under the tip
+    return paint
+
+
+def gold_paint(ctx):
+    px = ctx.img.load()
+    for yy in range(ctx.h):
+        for xx in range(ctx.w):
+            t = yy / max(1, ctx.h - 1)
+            c = rig.mix(GOLD_HI, GOLD, t * 0.8)
+            if (xx + yy) % 5 == 0:
+                c = rig.shade(c, 0.88)
+            put(ctx, px, xx, yy, rig.shade(rig.mix(c, GOLD_LO, 0.25 * ctx.rng.random()), FACEK[ctx.face]))
+
+
+def garnet_paint(ctx):
+    px = ctx.img.load()
+    for yy in range(ctx.h):
+        for xx in range(ctx.w):
+            c = rig.mix((90, 4, 14), (200, 30, 40), (1 - yy / max(1, ctx.h - 1)) * 0.6 + 0.2 * ctx.rng.random())
+            if xx == 0 and yy == 0 and ctx.face == "west":
+                c = (255, 200, 190)
+            put(ctx, px, xx, yy, rig.shade(c, FACEK[ctx.face]))
 
 
 def hand_paint(ctx):
@@ -1171,14 +1284,36 @@ def cord_paint(look):
     return paint
 
 
+def tassel_paint(look):
+    def paint(ctx):
+        px = ctx.img.load()
+        a, b = (GOLD_HI, GOLD_LO) if look.elder else ((176, 140, 88), (70, 50, 30))
+        for yy in range(ctx.h):
+            for xx in range(ctx.w):
+                c = a if (xx % 2 == 0) else b
+                put(ctx, px, xx, yy, rig.shade(c, FACEK[ctx.face] * (0.75 + 0.3 * yy / max(1, ctx.h - 1))))
+    return paint
+
+
 def build_ophion(look):
     m = Model(OPHION, atlas_width=48, seed=473)
     robe = robe_painter(look)
     front = robe_painter(look, "front")
     pelvis = m.part("Pelvis", (-2.2, 13, -3.6), (4.4, 3, 7.2), pivot=(0, 14.5, 0), paint=robe)
     up = m.part("SkirtUpper", (-2.9, 8.4, -4.3), (5.8, 5.4, 8.6), pivot=(0, 13.6, 0), parent=pelvis, paint=front)
-    mid = m.part("SkirtMid", (-3.6, 3.8, -4.9), (7.2, 4.8, 9.8), pivot=(0, 8.6, 0), parent=up, paint=front)
-    m.part("SkirtHem", (-4.3, 0.15, -5.5), (8.6, 3.8, 11.0), pivot=(0, 3.9, 0), parent=mid, paint=robe_painter(look, "hem"))
+    mid = m.part("SkirtMid", (-3.6, 3.8, -4.9), (7.2, 4.8, 9.8), pivot=(0, 8.6, 0), parent=up, paint=robe_painter(look, "front", 0.25))
+    hem = m.part("SkirtHem", (-4.3, 0.55, -5.5), (8.6, 3.4, 11.0), pivot=(0, 3.9, 0), parent=mid, paint=robe_painter(look, dust=0.5))
+    # the hem flares in a last wide step with a heavy, dusty, frayed lip (the elder's is banded in gold)
+    m.part("HemLip", (-4.9, 0.0, -6.1), (9.8, 1.5, 12.2), pivot=(0, 3.9, 0), parent=hem, paint=robe_painter(look, "hem", 0.9, 0.6))
+    # box pleats down the front, a deep fold at each side, and a short train behind
+    for nm, par, x, y0, y1, zz in (("PleatU", up, -2.9, 8.9, 13.3, 1.5), ("PleatM", mid, -3.6, 4.2, 8.3, 1.9), ("PleatH", hem, -4.3, 1.5, 3.9, 2.3)):
+        m.part(nm + "L", (x - 0.55, y0, zz - 0.6), (0.6, y1 - y0, 1.2), pivot=(0, y1, 0), parent=par, paint=robe_painter(look, fold=0.6))
+        m.part(nm + "R", (x - 0.55, y0, -zz - 0.6), (0.6, y1 - y0, 1.2), pivot=(0, y1, 0), parent=par, paint=robe_painter(look, fold=0.6))
+    m.part("FoldMidL", (-1.8, 4.4, 4.9), (3.6, 3.9, 0.6), pivot=(0, 8.6, 0), parent=mid, paint=robe_painter(look))
+    m.part("FoldMidR", (-1.8, 4.4, -5.5), (3.6, 3.9, 0.6), pivot=(0, 8.6, 0), parent=mid, paint=robe_painter(look))
+    m.part("FoldHemL", (-2.4, 1.2, 5.5), (4.2, 2.6, 0.6), pivot=(0, 3.9, 0), parent=hem, paint=robe_painter(look, dust=0.5))
+    m.part("FoldHemR", (-2.4, 1.2, -6.1), (4.2, 2.6, 0.6), pivot=(0, 3.9, 0), parent=hem, paint=robe_painter(look, dust=0.5))
+    m.part("Train", (4.8, 0.0, -3.6), (1.0, 2.2, 7.2), pivot=(0, 3.9, 0), parent=hem, paint=robe_painter(look, "hem", 0.9, 0.7))
     thigh = m.part("ThighL", (-1.1, 7.2, 0.5), (2.2, 6.6, 2.2), pivot=(0, 13.6, 1.6), parent=pelvis, paint=robe)
     shin = m.part("ShinL", (-1.0, 1.1, 0.6), (2.0, 6.3, 2.0), pivot=(0, 7.4, 1.6), parent=thigh, paint=robe)
     m.part("FootL", (-4.9, 0, 0.45), (4.6, 1.25, 2.3), pivot=(0, 1.2, 1.6), parent=shin, paint=plain((40, 30, 26)))
@@ -1186,24 +1321,57 @@ def build_ophion(look):
     waist = m.part("Waist", (-2.4, 15.8, -3.5), (4.8, 4.4, 7.0), pivot=(0, 16, 0), parent=pelvis, paint=front)
     belt = m.part("Belt", (-2.7, 15.4, -3.8), (5.4, 1.1, 7.6), pivot=(0, 16, 0), parent=waist, paint=cord_paint(look))
     m.part("Knot", (-3.3, 14.8, -0.7), (0.7, 1.3, 1.4), pivot=(-3, 15.4, 0), parent=belt, paint=cord_paint(look))
-    m.part("CordL", (-3.35, 10.6, 0.1), (0.5, 4.4, 0.5), pivot=(-3.1, 15, 0.35), parent=belt, paint=cord_paint(look))
-    m.part("CordR", (-3.35, 11.6, -0.75), (0.5, 3.4, 0.5), pivot=(-3.1, 15, -0.5), parent=belt, paint=cord_paint(look))
+    cl = m.part("CordL", (-3.35, 10.6, 0.1), (0.5, 4.4, 0.5), pivot=(-3.1, 15, 0.35), parent=belt, paint=cord_paint(look))
+    cr = m.part("CordR", (-3.35, 11.6, -0.75), (0.5, 3.4, 0.5), pivot=(-3.1, 15, -0.5), parent=belt, paint=cord_paint(look))
+    # tassels: a bound bulb and a spread of loose threads at each cord's end
+    for c, nm, z, y in ((cl, "L", 0.35, 10.6), (cr, "R", -0.5, 11.6)):
+        m.part("TasselBulb" + nm, (-3.55, y - 1.3, z - 0.5), (0.9, 1.3, 1.0), pivot=(-3.1, 15, z), parent=c, paint=cord_paint(look))
+        m.part("TasselFringe" + nm, (-3.65, y - 2.5, z - 0.65), (1.1, 1.2, 1.3), pivot=(-3.1, 15, z), parent=c, paint=tassel_paint(look))
     chest = m.part("Chest", (-2.6, 19.8, -3.8), (5.2, 4.8, 7.6), pivot=(0, 20, 0), parent=waist, paint=front)
     mantle = m.part("Mantle", (-3.1, 22.4, -4.4), (6.2, 2.8, 8.8), pivot=(0, 23, 0), parent=chest, paint=robe_painter(look, "mantle"))
-    m.part("Clasp", (-3.55, 22.8, -1.0), (0.5, 2.0, 2.0), pivot=(-3.3, 23.8, 0), parent=mantle, paint=clasp_paint)
+    m.part("MantleLip", (-3.6, 21.5, -4.9), (7.2, 1.1, 9.8), pivot=(0, 23, 0), parent=mantle, paint=robe_painter(look, "mantle", fold=0.5))
+    m.part("Drape", (2.7, 14.4, -3.6), (0.9, 8.4, 7.2), pivot=(0, 23, 0), parent=mantle, paint=robe_painter(look, "hem", 0.3))
+    # the clasp: a gold ring (a snake eating its tail), a garnet in its eye, four studs, the biting head
+    clasp = m.part("Clasp", (-3.55, 22.6, -1.1), (0.5, 2.2, 2.2), pivot=(-3.3, 23.8, 0), parent=mantle, paint=clasp_paint)
+    m.part("ClaspGem", (-3.85, 23.2, -0.5), (0.4, 1.0, 1.0), pivot=(-3.3, 23.8, 0), parent=clasp, paint=garnet_paint)
+    m.part("ClaspTop", (-3.8, 24.8, -0.5), (0.5, 0.7, 1.0), pivot=(-3.3, 23.8, 0), parent=clasp, paint=gold_paint)
+    m.part("ClaspBottom", (-3.8, 21.9, -0.5), (0.5, 0.7, 1.0), pivot=(-3.3, 23.8, 0), parent=clasp, paint=gold_paint)
+    m.part("ClaspSideL", (-3.8, 23.2, 1.1), (0.5, 1.0, 0.7), pivot=(-3.3, 23.8, 0), parent=clasp, paint=gold_paint)
+    m.part("ClaspSideR", (-3.8, 23.2, -1.8), (0.5, 1.0, 0.7), pivot=(-3.3, 23.8, 0), parent=clasp, paint=gold_paint)
+    m.part("ClaspHead", (-4.0, 24.2, 0.1), (0.4, 0.8, 1.2), pivot=(-3.3, 23.8, 0), parent=clasp, paint=gold_paint)
     head = m.part("Head", (-1.6, 25.0, -2.3), (3.8, 4.4, 4.6), pivot=(0, 25.2, 0), parent=chest, paint=plain(SHADOW))
-    m.part("Mask", (-2.2, 25.2, -1.85), (0.7, 4.1, 3.7), pivot=(-1.9, 27, 0), parent=head, paint=mask_paint)
+    mask = m.part("Mask", (-2.2, 25.2, -1.85), (0.7, 4.1, 3.7), pivot=(-1.9, 27, 0), parent=head, paint=mask_paint)
+    ivory = ivory_paint
+    m.part("MaskBrow", (-2.75, 28.1, -1.95), (0.65, 0.95, 3.9), pivot=(-1.9, 27, 0), parent=mask, paint=ivory("brow"))
+    m.part("MaskNose", (-2.75, 25.9, -0.45), (0.6, 1.9, 0.9), pivot=(-1.9, 27, 0), parent=mask, paint=ivory("nose"))
+    m.part("MaskNoseTip", (-2.95, 25.8, -0.35), (0.3, 0.7, 0.7), pivot=(-1.9, 27, 0), parent=mask, paint=ivory("nose"))
+    m.part("MaskCheekL", (-2.5, 25.5, 0.9), (0.35, 1.3, 0.95), pivot=(-1.9, 27, 0), parent=mask, paint=ivory("cheek"))
+    m.part("MaskCheekR", (-2.5, 25.5, -1.85), (0.35, 1.3, 0.95), pivot=(-1.9, 27, 0), parent=mask, paint=ivory("cheek"))
+    m.part("MaskChin", (-2.5, 25.0, -0.95), (0.4, 0.8, 1.9), pivot=(-1.9, 27, 0), parent=mask, paint=ivory("chin"))
+    # the hood: a flat crown stepping up into a peak that leans back, a rim round the opening, a deep nape
     m.part("HoodTop", (-2.9, 29.4, -3.1), (6.0, 1.1, 6.2), pivot=(0, 29.9, 0), parent=head, paint=robe)
     m.part("HoodCrown", (-2.0, 30.3, -2.4), (4.6, 1.0, 4.8), pivot=(0, 30.8, 0), parent=head, paint=robe)
+    m.part("HoodPeak1", (-0.8, 31.3, -2.0), (3.6, 1.0, 4.0), pivot=(0, 30.8, 0), parent=head, paint=robe)
+    m.part("HoodPeak2", (0.2, 32.3, -1.5), (2.6, 0.9, 3.0), pivot=(0, 30.8, 0), parent=head, paint=robe)
+    m.part("HoodPeak3", (1.3, 33.2, -1.0), (1.6, 0.8, 2.0), pivot=(0, 30.8, 0), parent=head, paint=robe)
     m.part("HoodL", (-2.9, 24.4, 2.3), (6.0, 5.1, 0.85), pivot=(0, 27, 2.7), parent=head, paint=robe_painter(look, "hood"))
     m.mirror("HoodL", "HoodR")
+    m.part("HoodRimL", (-3.35, 24.5, 1.95), (1.3, 5.0, 1.3), pivot=(0, 27, 2.7), parent=head, paint=robe_painter(look, "hood", fold=0.4))
+    m.mirror("HoodRimL", "HoodRimR")
+    m.part("HoodBrow", (-3.45, 29.0, -3.3), (1.5, 1.3, 6.6), pivot=(0, 29.9, 0), parent=head, paint=robe_painter(look, "hood", fold=0.4))
     m.part("HoodBack", (2.2, 24.2, -3.1), (1.0, 5.3, 6.2), pivot=(2.7, 27, 0), parent=head, paint=robe)
+    m.part("HoodNape", (2.6, 21.6, -3.4), (1.1, 3.6, 6.8), pivot=(2.7, 27, 0), parent=head, paint=robe_painter(look, "mantle", fold=0.8))
     m.part("HoodPeak", (-3.7, 28.9, -2.4), (1.4, 1.1, 4.8), pivot=(-3.0, 29.4, 0), parent=head, rest=(0, 0, 8), paint=robe_painter(look, "hood"))
     m.part("HoodTip", (2.9, 25.4, -1.4), (1.5, 3.6, 2.8), pivot=(3.2, 28.8, 0), parent=head, rest=(0, 0, 14), paint=robe)
     arm = m.part("ArmL", (-1.3, 18.2, 3.8), (2.6, 5.6, 2.5), pivot=(0, 23.2, 5.0), parent=chest, paint=robe)
+    m.part("ArmFoldL", (-1.8, 19.0, 6.3), (3.6, 3.6, 0.6), pivot=(0, 23.2, 5.0), parent=arm, paint=robe)
     fore = m.part("ForearmL", (-1.5, 13.0, 3.6), (3.0, 5.4, 2.9), pivot=(0, 18.4, 5.0), parent=arm, paint=robe)
-    m.part("CuffL", (-2.1, 11.6, 3.1), (4.2, 2.8, 3.9), pivot=(0, 13.2, 5.0), parent=fore, paint=robe_painter(look, "cuff"))
-    m.part("HandL", (-1.0, 9.8, 4.25), (2.0, 2.8, 1.5), pivot=(0, 12.6, 5.0), parent=fore, paint=hand_paint)
+    # the wide sleeve opening over the hand: a flared bell, a banded cuff, a hanging fold
+    m.part("SleeveL", (-2.0, 12.6, 3.2), (4.0, 4.4, 3.7), pivot=(0, 18.4, 5.0), parent=fore, paint=robe_painter(look, fold=0.8))
+    m.part("CuffL", (-2.4, 10.8, 2.9), (4.8, 2.6, 4.3), pivot=(0, 13.2, 5.0), parent=fore, paint=robe_painter(look, "cuff", 0.15))
+    m.part("CuffTrimL", (-2.7, 10.5, 2.65), (5.4, 0.8, 4.8), pivot=(0, 13.2, 5.0), parent=fore, paint=robe_painter(look, "cuff", 0.25, 0.5))
+    m.part("SleeveHangL", (-1.9, 8.8, 6.7), (3.8, 2.6, 0.7), pivot=(0, 13.2, 5.0), parent=fore, paint=robe_painter(look, "cuff", 0.3, 0.5))
+    m.part("HandL", (-1.0, 8.3, 4.25), (2.0, 4.1, 1.5), pivot=(0, 12.6, 5.0), parent=fore, paint=hand_paint)
     m.mirror("ArmL", "ArmR")
     return m
 

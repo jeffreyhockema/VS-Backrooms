@@ -78,20 +78,36 @@ public partial class WorldLayout
                             int bx = wx + dx * d, bz = wz + dz * d;
                             Tile t = TileAt(bx, bz);
                             if (t.Kind != TileKind.Floor || t.Zone != L47Forest || L47InWater(bx, bz)) continue;
-                            // (Nothing standing at the feet: round 4's camera stood on a log's end)
-                            L47Wood(bx, bz, L47Ground(bx, bz) + 1, feet);
-                            if (feet[0] != 0 || feet[1] != 0) continue;
+                            // (Nothing standing at the feet, nor under them: the camera stood on a log's end, then on a root)
+                            L47Wood(bx, bz, L47Ground(bx, bz), feet);
+                            if (feet[0] != 0 || feet[1] != 0 || feet[2] != 0) continue;
                             found = (bx, bz, wx, wz); any = true; break;
                         }
                 }
-            if (any) spots.Add(new Showcase.Spot("stream", found.X + 0.5, Feet(found.X, found.Z), found.Z + 0.5, HeadingTo(found.X, found.Z, found.Wx, found.Wz), -12, Day));
+            if (any)
+            {
+                // (Round 4: look along the brook, turned a little toward it, so it runs away into the fog between its banks)
+                double gx = L47Stream(found.Wx + 1, found.Wz) - L47Stream(found.Wx - 1, found.Wz), gz = L47Stream(found.Wx, found.Wz + 1) - L47Stream(found.Wx, found.Wz - 1);
+                double tx = -gz, tz = gx, tl = Math.Sqrt(tx * tx + tz * tz);
+                double h = tl > 1e-9 ? HeadingTo(0, 0, tx, tz) : HeadingTo(found.X, found.Z, found.Wx, found.Wz);
+                double toWater = HeadingTo(found.X, found.Z, found.Wx, found.Wz);
+                double diff = ((toWater - h + 540) % 360) - 180;
+                if (Math.Abs(diff) > 90) { h = (h + 180) % 360; diff = ((toWater - h + 540) % 360) - 180; }
+                spots.Add(new Showcase.Spot("stream", found.X + 0.5, Feet(found.X, found.Z), found.Z + 0.5, (h + Math.Sign(diff) * 20 + 360) % 360, -10, Day));
+            }
         }
         // The glade from the walk in: the manor, and the stones round it and through it
         spots.Add(new Showcase.Spot("glade", mx + 0.5, fy + 2, mz + 38.5, 0, 6, Day));
         // The trilithons standing through the roof, from the meadow to the south-east
         spots.Add(new Showcase.Spot("stones-through-roof", mx + 16.5, fy + 2, mz + 13.5, HeadingTo(mx + 16.5, mz + 13.5, mx, mz), 14, Day));
-        // Inside: the great hall (its long table, lanterns, banners, a trilithon through it), the east room (the shelves), the entrance hall (the Altar Stone)
-        spots.Add(new Showcase.Spot("great-hall", mx - 4.5, fy + 2, mz + 5.5, 290, -6, Day));
+        // Inside: the great hall (its trestle table and benches, the hearth, tapestries, banners, a trilithon through it), the east room (the library), the entrance hall (the Altar Stone)
+        // (Round 4: the great hall down its length to the hearth wall; the hearth and its fire close to; a tapestry over the
+        // table; the door from the walk, open, in its frame; the library)
+        spots.Add(new Showcase.Spot("great-hall", mx - 4.5, fy + 2, mz + 0.5, 270, -5, Day));
+        spots.Add(new Showcase.Spot("hearth", mx - 6.5, fy + 2, mz - 2.5, HeadingTo(mx - 6.5, mz - 2.5, mx - 10.5, mz - 0.0), -4, Day));
+        // (the south wall's: the north wall's is behind a trilithon from anywhere in the hall)
+        spots.Add(new Showcase.Spot("tapestry", mx - 5.0, fy + 2, mz + 2.5, HeadingTo(mx - 5.0, mz + 2.5, mx - 7.0, mz + 6.5), 8, Day));
+        spots.Add(new Showcase.Spot("manor-door", mx + 0.5, fy + 2, mz + 11.5, 0, 6, Day));
         spots.Add(new Showcase.Spot("east-room", mx + 5.5, fy + 2, mz + 2.5, 95, -6, Day));
         spots.Add(new Showcase.Spot("entrance-hall", mx + 0.5, fy + 2, mz + 6.5, 0, -10, Day));
         // The Great Adder in the open, on the glade's meadow (the Order keeps it, the lore says, "to some extent")
@@ -108,6 +124,71 @@ public partial class WorldLayout
         spots.Add(new Showcase.Spot("night-moon", mx + 0.5, fy + 2, mz + 30.5, 173, 45, Night));
         spots.Add(new Showcase.Spot("night-glade", mx + 0.5, fy + 2, mz + 40.5, 0, 8, Night));
         spots.Add(new Showcase.Spot("night-aurora", mx + 0.5, fy + 2, mz - 30.5, 0, 22, Night + ";/backrooms l47 aurora"));
+        // (Round 4) A fallen giant's root plate, from out in front of it; an old oak with moss on its north side, brackets
+        // and mushrooms at its foot
+        {
+            (double D, double X, double Z, double Ax, double Az) best = (1e9, 0, 0, 0, 0);
+            int li = Hashing.FloorDiv(mx + 140, 23), lj = Hashing.FloorDiv(mz, 23);
+            for (int j = lj - 8; j <= lj + 8; j++)
+                for (int i = li - 8; i <= li + 8; i++)
+                {
+                    L47Log l = L47LogCached(i, j);
+                    if (!l.Exists || l.Plate <= 0) continue;
+                    double len = Math.Sqrt((l.Bx - l.Ax) * (l.Bx - l.Ax) + (l.Bz - l.Az) * (l.Bz - l.Az));
+                    double ux = (l.Bx - l.Ax) / len, uz = (l.Bz - l.Az) / len;
+                    // (Out in front of the plate, on the side away from the trunk, a little to one side to see both, with
+                    // nothing standing between: round 4's first shot looked at a dead tree)
+                    foreach (var (back, side) in new[] { (7.0, 3.0), (7.0, -3.0), (6.0, 5.0), (6.0, -5.0), (9.0, 0.0) })
+                    {
+                        double fx = l.Ax - ux * back - uz * side, fz = l.Az - uz * back + ux * side;
+                        int ix = (int)Math.Floor(fx), iz = (int)Math.Floor(fz);
+                        Tile t = TileAt(ix, iz);
+                        if (t.Kind != TileKind.Floor || t.Zone != L47Forest) continue;
+                        double len2 = Math.Sqrt((l.Ax - fx) * (l.Ax - fx) + (l.Az - fz) * (l.Az - fz));
+                        bool clear = true;
+                        for (double k = 1; k < len2 - 2.5 && clear; k += 0.5)
+                            clear = TileAt((int)Math.Floor(fx + (l.Ax - fx) * k / len2), (int)Math.Floor(fz + (l.Az - fz) * k / len2)).Kind == TileKind.Floor;
+                        if (!clear) continue;
+                        double d = Math.Abs(l.Ax - (mx + 140)) + Math.Abs(l.Az - mz);
+                        if (d < best.D) best = (d, ix, iz, l.Ax, l.Az);
+                        break;
+                    }
+                }
+            if (best.D < 1e9)
+                spots.Add(new Showcase.Spot("root-plate", best.X + 0.5, Feet((int)best.X, (int)best.Z), best.Z + 0.5, HeadingTo(best.X + 0.5, best.Z + 0.5, best.Ax, best.Az), 8, Day));
+        }
+        {
+            (double D, int X, int Z, double Tx, double Tz) best = (1e9, 0, 0, 0, 0);
+            int ti = Hashing.FloorDiv(mx - 120, L47Pitch), tj = Hashing.FloorDiv(mz + 60, L47Pitch);
+            for (int j = tj - 6; j <= tj + 6; j++)
+                for (int i = ti - 6; i <= ti + 6; i++)
+                {
+                    L47Tree t = L47TreeAt(i, j);
+                    if (!t.Exists || t.Dead || t.Conifer || t.R < 2.2) continue;
+                    // (From the north, five or six blocks out past the buttresses: the moss is on the north side)
+                    int fx = (int)Math.Floor(t.X), fz = (int)Math.Floor(t.Z - t.R - 5.5);
+                    Tile tile = TileAt(fx, fz);
+                    if (tile.Kind != TileKind.Floor || tile.Zone != L47Forest) continue;
+                    double d = Math.Abs(t.X - (mx - 120)) + Math.Abs(t.Z - (mz + 60));
+                    if (d < best.D) best = (d, fx, fz, t.X, t.Z);
+                }
+            if (best.D < 1e9)
+                spots.Add(new Showcase.Spot("mossy-oak", best.X + 0.5, Feet(best.X, best.Z), best.Z + 0.5, HeadingTo(best.X + 0.5, best.Z + 0.5, best.Tx, best.Tz), 12, Day));
+        }
+        // (Round 4) A wanderer's camp, left with its fire alight: the nearest to a place out east of the glade, from the south
+        {
+            int cx = MacroOf(mx + 200), cz = MacroOf(mz);
+            bool done = false;
+            for (int r = 0; r <= 8 && !done; r++)
+                for (int dz = -r; dz <= r && !done; dz++)
+                    for (int dx = -r; dx <= r && !done; dx++)
+                    {
+                        if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r || !L47CampAt(cx + dx, cz + dz, out int ax, out int az) || !L47CampFits(ax, az)) continue;
+                        // (From along its row, east of it: the log, the fire and the bedroll in a line, nothing between)
+                        spots.Add(new Showcase.Spot("camp", ax + 4.5, Feet(ax + 4, az), az + 0.5, 270, -24, Day));
+                        done = true;
+                    }
+        }
         // A dead tree's hollow (the nearest that leads out), from in front of its mouth
         foreach (var h in L47HollowTrees())
         {

@@ -1,0 +1,407 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"stone": "backrooms:block/47/granite",
+		"moss": "backrooms:block/47/moss",
+		"worn": "backrooms:block/47/granite-2"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				1.5,
+				0,
+				2.5
+			],
+			"to": [
+				14.5,
+				13,
+				13.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						11.0,
+						13
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						11.0,
+						13
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						13.0,
+						11.0
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						13.0,
+						11.0
+					]
+				}
+			}
+		},
+		{
+			"name": "BaseX",
+			"from": [
+				2.5,
+				0,
+				1.5
+			],
+			"to": [
+				13.5,
+				13,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						11.0,
+						13
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						11.0,
+						13
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						11.0,
+						13.0
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						11.0,
+						13.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab",
+			"from": [
+				2.0,
+				13,
+				3.0
+			],
+			"to": [
+				14.0,
+				15.2,
+				13.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						12.0,
+						2.2
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						10.0,
+						2.2
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						12.0,
+						2.2
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						10.0,
+						2.2
+					]
+				},
+				"up": {
+					"texture": "#worn",
+					"uv": [
+						0,
+						0,
+						12.0,
+						10.0
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						12.0,
+						10.0
+					]
+				}
+			}
+		},
+		{
+			"name": "SlabX",
+			"from": [
+				3.0,
+				13,
+				2.0
+			],
+			"to": [
+				13.0,
+				15.2,
+				14.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						10.0,
+						2.2
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						12.0,
+						2.2
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						10.0,
+						2.2
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						12.0,
+						2.2
+					]
+				},
+				"up": {
+					"texture": "#worn",
+					"uv": [
+						0,
+						0,
+						10.0,
+						12.0
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						10.0,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Moss1",
+			"from": [
+				2.0,
+				15.2,
+				9.0
+			],
+			"to": [
+				5.0,
+				15.6,
+				12.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.5
+					]
+				},
+				"north": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						0,
+						3.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						0,
+						3.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Moss2",
+			"from": [
+				11.0,
+				15.2,
+				3.0
+			],
+			"to": [
+				13.5,
+				15.5,
+				5.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"north": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

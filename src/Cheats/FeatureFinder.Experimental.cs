@@ -186,6 +186,11 @@ public sealed partial class FeatureFinder
         ["l47stones"] = (WorldLayout.Level47, new[] { "stones-through-roof" }),
         ["l47hollow"] = (WorldLayout.Level47, new[] { "dead-hollow" }),
         ["l47giant"] = (WorldLayout.Level47, new[] { "green-giant" }),
+        ["l47hearth"] = (WorldLayout.Level47, new[] { "hearth" }),
+        ["l47library"] = (WorldLayout.Level47, new[] { "east-room" }),
+        ["l47door"] = (WorldLayout.Level47, new[] { "manor-door" }),
+        ["l47rootplate"] = (WorldLayout.Level47, new[] { "root-plate" }),
+        ["l47mossy"] = (WorldLayout.Level47, new[] { "mossy-oak" }),
         // ----- Their ways in, where they stand in other levels (each tour's links part) -----
         ["l0crack"] = (WorldLayout.Basement, new[] { "link-l0" }),
         ["l0emergency"] = (WorldLayout.Level14, new[] { "link-l0-exit" }),

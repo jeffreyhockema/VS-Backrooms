@@ -1,0 +1,85 @@
+// Level 47 (round 4): the offerings on the Altar Stone (a bowl with a shed skin, a snake's skull, the Order's book)
+{
+	"code": "l47-offering",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"bowl",
+				"skull",
+				"book"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-bowl": {
+			"base": "block/47/offering-bowl"
+		},
+		"*-skull": {
+			"base": "block/47/offering-skull"
+		},
+		"*-book": {
+			"base": "block/47/offering-book"
+		}
+	},
+	"textures": {
+		"bronze": {
+			"base": "backrooms:block/47/bronze"
+		},
+		"dark": {
+			"base": "backrooms:block/47/hearth"
+		},
+		"skin": {
+			"base": "backrooms:block/47/parchment"
+		},
+		"cloth": {
+			"base": "backrooms:block/47/gold"
+		},
+		"bone": {
+			"base": "backrooms:block/47/bone"
+		},
+		"leather": {
+			"base": "backrooms:block/47/leather"
+		},
+		"pages": {
+			"base": "backrooms:block/47/parchment"
+		},
+		"script": {
+			"base": "backrooms:block/47/script"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1,
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.15,
+		"y1": 0,
+		"z1": 0.15,
+		"x2": 0.85,
+		"y2": 0.3,
+		"z2": 0.85
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

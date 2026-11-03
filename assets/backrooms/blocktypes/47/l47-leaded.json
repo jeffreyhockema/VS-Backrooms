@@ -1,0 +1,85 @@
+// Level 47 (round 4): the manor's leaded windows in their stone surrounds (part lower/upper/single, axis of the wall)
+{
+	"code": "l47-leaded",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper",
+				"single"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"ns",
+				"ew"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-ns"
+		],
+		"backrooms": [
+			"*-ns"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"renderpass": "OpaqueNoCull",
+	"faceCullMode": "NeverCull",
+	"shapeByType": {
+		"*-lower-ns": {
+			"base": "block/47/leaded-lower",
+			"rotateY": 0
+		},
+		"*-lower-ew": {
+			"base": "block/47/leaded-lower",
+			"rotateY": 90
+		},
+		"*-upper-ns": {
+			"base": "block/47/leaded-upper",
+			"rotateY": 0
+		},
+		"*-upper-ew": {
+			"base": "block/47/leaded-upper",
+			"rotateY": 90
+		},
+		"*-single-ns": {
+			"base": "block/47/leaded-single",
+			"rotateY": 0
+		},
+		"*-single-ew": {
+			"base": "block/47/leaded-single",
+			"rotateY": 90
+		}
+	},
+	"textures": {
+		"stone": {
+			"base": "backrooms:block/47/manorstone-dressed"
+		},
+		"glass": {
+			"base": "backrooms:block/47/leaded-glass"
+		},
+		"iron": {
+			"base": "backrooms:block/47/iron"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 8,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	}
+}

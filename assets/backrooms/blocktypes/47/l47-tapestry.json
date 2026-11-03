@@ -1,0 +1,183 @@
+// Level 47 (round 4): the Order's tapestry, the World Snake coiled round the world (2x2: cell tl/tr/bl/br)
+{
+	"code": "l47-tapestry",
+	"variantgroups": [
+		{
+			"code": "cell",
+			"states": [
+				"tl",
+				"tr",
+				"bl",
+				"br"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.6,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:cloth-plain",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/cloth*",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"textures": {
+		"taptl": {
+			"base": "backrooms:block/47/tapestry-tl"
+		},
+		"taptr": {
+			"base": "backrooms:block/47/tapestry-tr"
+		},
+		"tapbl": {
+			"base": "backrooms:block/47/tapestry-bl"
+		},
+		"tapbr": {
+			"base": "backrooms:block/47/tapestry-br"
+		},
+		"iron": {
+			"base": "backrooms:block/47/wrought"
+		},
+		"gold": {
+			"base": "backrooms:block/47/gold"
+		}
+	},
+	"shapeByType": {
+		"*-tl-north": {
+			"base": "block/47/tapestry-tl",
+			"rotateY": 0
+		},
+		"*-tl-east": {
+			"base": "block/47/tapestry-tl",
+			"rotateY": 270
+		},
+		"*-tl-south": {
+			"base": "block/47/tapestry-tl",
+			"rotateY": 180
+		},
+		"*-tl-west": {
+			"base": "block/47/tapestry-tl",
+			"rotateY": 90
+		},
+		"*-tr-north": {
+			"base": "block/47/tapestry-tr",
+			"rotateY": 0
+		},
+		"*-tr-east": {
+			"base": "block/47/tapestry-tr",
+			"rotateY": 270
+		},
+		"*-tr-south": {
+			"base": "block/47/tapestry-tr",
+			"rotateY": 180
+		},
+		"*-tr-west": {
+			"base": "block/47/tapestry-tr",
+			"rotateY": 90
+		},
+		"*-bl-north": {
+			"base": "block/47/tapestry-bl",
+			"rotateY": 0
+		},
+		"*-bl-east": {
+			"base": "block/47/tapestry-bl",
+			"rotateY": 270
+		},
+		"*-bl-south": {
+			"base": "block/47/tapestry-bl",
+			"rotateY": 180
+		},
+		"*-bl-west": {
+			"base": "block/47/tapestry-bl",
+			"rotateY": 90
+		},
+		"*-br-north": {
+			"base": "block/47/tapestry-br",
+			"rotateY": 0
+		},
+		"*-br-east": {
+			"base": "block/47/tapestry-br",
+			"rotateY": 270
+		},
+		"*-br-south": {
+			"base": "block/47/tapestry-br",
+			"rotateY": 180
+		},
+		"*-br-west": {
+			"base": "block/47/tapestry-br",
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.85,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.85,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.85,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.85,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null
+}

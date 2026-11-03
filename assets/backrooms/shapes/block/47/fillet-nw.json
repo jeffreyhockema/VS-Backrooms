@@ -1,0 +1,292 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bark": "backrooms:block/47/bark-oak",
+		"top": "backrooms:block/47/rings-oak"
+	},
+	"elements": [
+		{
+			"name": "Face",
+			"from": [
+				7.199999999999999,
+				0,
+				-3.3137000000000008
+			],
+			"to": [
+				8.4,
+				16,
+				19.3137
+			],
+			"faces": {
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#top",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8,
+				8
+			],
+			"rotationY": -45
+		},
+		{
+			"name": "Step0",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				4,
+				16,
+				12
+			],
+			"faces": {
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				},
+				"down": {
+					"texture": "#top",
+					"uv": [
+						0,
+						0,
+						12,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Step1",
+			"from": [
+				4,
+				0,
+				0
+			],
+			"to": [
+				8,
+				16,
+				8
+			],
+			"faces": {
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						8,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						8,
+						16
+					]
+				},
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						0,
+						8,
+						4
+					]
+				},
+				"down": {
+					"texture": "#top",
+					"uv": [
+						0,
+						0,
+						8,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Step2",
+			"from": [
+				8,
+				0,
+				0
+			],
+			"to": [
+				12,
+				16,
+				4
+			],
+			"faces": {
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"down": {
+					"texture": "#top",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		}
+	]
+}

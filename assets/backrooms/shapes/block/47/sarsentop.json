@@ -1,0 +1,355 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"stone": "backrooms:block/47/megalith",
+		"lichen": "backrooms:block/47/megalith-moss"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				9,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						16,
+						9
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Round1",
+			"from": [
+				0.8,
+				9,
+				0.6
+			],
+			"to": [
+				15.2,
+				12.5,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						14.4,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						14.8,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						14.4,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						14.8,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#lichen",
+					"uv": [
+						0,
+						0,
+						14.4,
+						14.8
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						14.4,
+						14.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Round2",
+			"from": [
+				2.4,
+				12.5,
+				2.0
+			],
+			"to": [
+				13.6,
+				14.8,
+				14.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						11.2,
+						2.3
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						12.0,
+						2.3
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						11.2,
+						2.3
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						12.0,
+						2.3
+					]
+				},
+				"up": {
+					"texture": "#lichen",
+					"uv": [
+						0,
+						0,
+						11.2,
+						12.0
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						11.2,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Crown",
+			"from": [
+				4.5,
+				14.8,
+				4.2
+			],
+			"to": [
+				11.0,
+				16.0,
+				11.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						6.5,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						7.6,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						6.5,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						7.6,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#lichen",
+					"uv": [
+						0,
+						0,
+						6.5,
+						7.6
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						6.5,
+						7.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Spall",
+			"from": [
+				11.0,
+				13.8,
+				10.0
+			],
+			"to": [
+				15.0,
+				14.6,
+				14.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						4.6,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						4.6,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4.6
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4.6
+					]
+				}
+			}
+		}
+	]
+}

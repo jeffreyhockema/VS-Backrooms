@@ -1,0 +1,265 @@
+// Level 47 (round 4): the bark (or granite) chamfer in a notch of a trunk's, root's or boulder's stepped outline, so it reads round
+{
+	"code": "l47-fillet",
+	"variantgroups": [
+		{
+			"code": "bark",
+			"states": [
+				"oak",
+				"beech",
+				"fir",
+				"spruce",
+				"dead",
+				"green",
+				"mossoak",
+				"mossbeech",
+				"mossfir",
+				"mossspruce",
+				"mossdead",
+				"mossgreen",
+				"granite",
+				"granitemoss"
+			]
+		},
+		{
+			"code": "corner",
+			"states": [
+				"ne",
+				"se",
+				"sw",
+				"nw"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-oak-ne"
+		],
+		"backrooms": [
+			"*-oak-ne"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-ne": {
+			"base": "block/47/fillet-ne"
+		},
+		"*-se": {
+			"base": "block/47/fillet-se"
+		},
+		"*-sw": {
+			"base": "block/47/fillet-sw"
+		},
+		"*-nw": {
+			"base": "block/47/fillet-nw"
+		}
+	},
+	"texturesByType": {
+		"*-oak-*": {
+			"bark": {
+				"base": "block/47/bark-oak"
+			},
+			"top": {
+				"base": "block/47/rings-oak"
+			}
+		},
+		"*-beech-*": {
+			"bark": {
+				"base": "block/47/bark-beech"
+			},
+			"top": {
+				"base": "block/47/rings-beech"
+			}
+		},
+		"*-fir-*": {
+			"bark": {
+				"base": "block/47/bark-fir"
+			},
+			"top": {
+				"base": "block/47/rings-fir"
+			}
+		},
+		"*-spruce-*": {
+			"bark": {
+				"base": "block/47/bark-spruce"
+			},
+			"top": {
+				"base": "block/47/rings-spruce"
+			}
+		},
+		"*-dead-*": {
+			"bark": {
+				"base": "block/47/bark-dead"
+			},
+			"top": {
+				"base": "block/47/rings-dead"
+			}
+		},
+		"*-green-*": {
+			"bark": {
+				"base": "block/47/bark-green"
+			},
+			"top": {
+				"base": "block/47/rings-green"
+			}
+		},
+		"*-mossoak-*": {
+			"bark": {
+				"base": "block/47/mossbark-oak"
+			},
+			"top": {
+				"base": "block/47/moss"
+			}
+		},
+		"*-mossbeech-*": {
+			"bark": {
+				"base": "block/47/mossbark-beech"
+			},
+			"top": {
+				"base": "block/47/moss"
+			}
+		},
+		"*-mossfir-*": {
+			"bark": {
+				"base": "block/47/mossbark-fir"
+			},
+			"top": {
+				"base": "block/47/moss"
+			}
+		},
+		"*-mossspruce-*": {
+			"bark": {
+				"base": "block/47/mossbark-spruce"
+			},
+			"top": {
+				"base": "block/47/moss"
+			}
+		},
+		"*-mossdead-*": {
+			"bark": {
+				"base": "block/47/mossbark-dead"
+			},
+			"top": {
+				"base": "block/47/moss"
+			}
+		},
+		"*-mossgreen-*": {
+			"bark": {
+				"base": "block/47/mossbark-green"
+			},
+			"top": {
+				"base": "block/47/moss"
+			}
+		},
+		"*-granite-*": {
+			"bark": {
+				"base": "block/47/granite"
+			},
+			"top": {
+				"base": "block/47/granite"
+			}
+		},
+		"*-granitemoss-*": {
+			"bark": {
+				"base": "block/47/granite-moss"
+			},
+			"top": {
+				"base": "block/47/moss"
+			}
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"faceCullMode": "NeverCull",
+	"collisionboxByType": {
+		"*-ne": {
+			"x1": 0.5,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.5
+		},
+		"*-se": {
+			"x1": 0.5,
+			"y1": 0,
+			"z1": 0.5,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-sw": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.5,
+			"x2": 0.5,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-nw": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.5,
+			"y2": 1,
+			"z2": 0.5
+		}
+	},
+	"selectionboxByType": {
+		"*-ne": {
+			"x1": 0.5,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.5
+		},
+		"*-se": {
+			"x1": 0.5,
+			"y1": 0,
+			"z1": 0.5,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-sw": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.5,
+			"x2": 0.5,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-nw": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.5,
+			"y2": 1,
+			"z2": 0.5
+		}
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

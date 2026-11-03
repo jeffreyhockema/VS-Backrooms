@@ -1,0 +1,183 @@
+// Level 47 (round 4): the Order's way-stone, a dressed granite post with the snake carved coiling up it, its head over the top (our invention)
+{
+	"code": "l47-waystone2",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 12,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stone-granite",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"textures": {
+		"stone": {
+			"base": "backrooms:block/47/waystone-dressed"
+		},
+		"snake": {
+			"base": "backrooms:block/47/waystone-snake"
+		},
+		"rough": {
+			"base": "backrooms:block/47/granite"
+		},
+		"moss": {
+			"base": "backrooms:block/47/moss"
+		},
+		"eye": {
+			"base": "backrooms:block/47/iron"
+		}
+	},
+	"shapeByType": {
+		"*-lower-north": {
+			"base": "block/47/waystone-lower",
+			"rotateY": 0
+		},
+		"*-lower-east": {
+			"base": "block/47/waystone-lower",
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"base": "block/47/waystone-lower",
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"base": "block/47/waystone-lower",
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"base": "block/47/waystone-upper",
+			"rotateY": 0
+		},
+		"*-upper-east": {
+			"base": "block/47/waystone-upper",
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"base": "block/47/waystone-upper",
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"base": "block/47/waystone-upper",
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.2,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.8,
+			"y2": 1,
+			"z2": 0.8,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.2,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.8,
+			"y2": 1,
+			"z2": 0.8,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.2,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.8,
+			"y2": 1,
+			"z2": 0.8,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.2,
+			"y1": 0,
+			"z1": 0.2,
+			"x2": 0.8,
+			"y2": 1,
+			"z2": 0.8,
+			"rotateY": 90
+		}
+	}
+}

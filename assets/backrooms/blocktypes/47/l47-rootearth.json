@@ -1,0 +1,44 @@
+// Level 47 (round 4): the face of a fallen giant's root plate: earth held in roots
+{
+	"code": "l47-rootearth",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Soil",
+	"drawtype": "cube",
+	"textures": {
+		"all": {
+			"base": "backrooms:block/47/rootearth",
+			"alternates": [
+				{
+					"base": "backrooms:block/47/rootearth-2"
+				}
+			]
+		},
+		"up": {
+			"base": "backrooms:block/47/moss"
+		}
+	},
+	"resistance": 2,
+	"drops": [
+		{
+			"type": "block",
+			"code": "game:soil-low-none",
+			"quantity": {
+				"avg": 1,
+				"var": 0
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/gravel*",
+		"place": "game:block/dirt*",
+		"break": "game:block/dirt*",
+		"hit": "game:block/dirt*"
+	}
+}

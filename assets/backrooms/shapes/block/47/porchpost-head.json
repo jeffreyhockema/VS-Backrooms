@@ -1,0 +1,513 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"post": "backrooms:block/47/oak-post",
+		"beam": "backrooms:block/47/oak-beam",
+		"stone": "backrooms:block/47/manorstone-dressed",
+		"moss": "backrooms:block/47/moss"
+	},
+	"elements": [
+		{
+			"name": "Post",
+			"from": [
+				5.5,
+				0,
+				5.5
+			],
+			"to": [
+				10.5,
+				16,
+				10.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						5.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						5.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						5.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						5.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5.0
+					]
+				},
+				"down": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						5.0,
+						5.0
+					]
+				}
+			}
+		},
+		{
+			"name": "ArrisA",
+			"from": [
+				5.2,
+				0.5,
+				5.2
+			],
+			"to": [
+				6.0,
+				15.5,
+				6.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.8,
+						15.0
+					]
+				},
+				"east": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.8,
+						15.0
+					]
+				},
+				"south": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.8,
+						15.0
+					]
+				},
+				"west": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.8,
+						15.0
+					]
+				},
+				"up": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "ArrisB",
+			"from": [
+				10.0,
+				0.5,
+				10.0
+			],
+			"to": [
+				10.8,
+				15.5,
+				10.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.8,
+						15.0
+					]
+				},
+				"east": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.8,
+						15.0
+					]
+				},
+				"south": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.8,
+						15.0
+					]
+				},
+				"west": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.8,
+						15.0
+					]
+				},
+				"up": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Capital",
+			"from": [
+				4.5,
+				13.0,
+				4.5
+			],
+			"to": [
+				11.5,
+				16,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						7.0,
+						3.0
+					]
+				},
+				"east": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						7.0,
+						3.0
+					]
+				},
+				"south": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						7.0,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						7.0,
+						3.0
+					]
+				},
+				"up": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						7.0,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						7.0,
+						7.0
+					]
+				}
+			}
+		},
+		{
+			"name": "BraceE",
+			"from": [
+				8.0,
+				10.5,
+				7.0
+			],
+			"to": [
+				16.5,
+				12.0,
+				9.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						8.5,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						8.5,
+						2.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				10.5,
+				8.0,
+				8
+			],
+			"rotationZ": 35
+		},
+		{
+			"name": "BraceW",
+			"from": [
+				-0.5,
+				10.5,
+				7.0
+			],
+			"to": [
+				8.0,
+				12.0,
+				9.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						8.5,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						8.5,
+						2.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				5.5,
+				8.0,
+				8
+			],
+			"rotationZ": -35
+		},
+		{
+			"name": "BraceN",
+			"from": [
+				7.0,
+				10.5,
+				-0.5
+			],
+			"to": [
+				9.0,
+				12.0,
+				8.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						2.0,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						2.0,
+						8.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8.0,
+				5.5
+			],
+			"rotationX": 35
+		}
+	]
+}

@@ -1,0 +1,440 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"slate": "backrooms:block/47/roofslate",
+		"boards": "backrooms:block/47/boards",
+		"beam": "backrooms:block/47/oak-beam",
+		"iron": "backrooms:block/47/wrought",
+		"ridge": "backrooms:block/47/ridge",
+		"wall": "backrooms:block/47/manorstone"
+	},
+	"elements": [
+		{
+			"name": "SlatesS",
+			"from": [
+				0,
+				8,
+				8
+			],
+			"to": [
+				16,
+				10,
+				19.3137
+			],
+			"faces": {
+				"north": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						11.3137,
+						2
+					]
+				},
+				"south": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						11.3137,
+						2
+					]
+				},
+				"up": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						11.3137
+					]
+				},
+				"down": {
+					"texture": "#boards",
+					"uv": [
+						0,
+						0,
+						16,
+						11.3137
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8,
+				8
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "SlatesN",
+			"from": [
+				0,
+				8,
+				-3.3137
+			],
+			"to": [
+				16,
+				10,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						11.3137,
+						2
+					]
+				},
+				"south": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						11.3137,
+						2
+					]
+				},
+				"up": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						11.3137
+					]
+				},
+				"down": {
+					"texture": "#boards",
+					"uv": [
+						0,
+						0,
+						16,
+						11.3137
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8,
+				8
+			],
+			"rotationX": -45
+		},
+		{
+			"name": "Ridge",
+			"from": [
+				0,
+				8.5,
+				6
+			],
+			"to": [
+				16,
+				11,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						4,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						4,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"down": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "RidgeTop",
+			"from": [
+				0,
+				11,
+				6.8
+			],
+			"to": [
+				16,
+				12,
+				9.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						2.4,
+						1
+					]
+				},
+				"south": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						2.4,
+						1
+					]
+				},
+				"up": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						16,
+						2.4
+					]
+				},
+				"down": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						16,
+						2.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Joint0",
+			"from": [
+				0,
+				8.5,
+				5.8
+			],
+			"to": [
+				0.6,
+				12.1,
+				10.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3.6
+					]
+				},
+				"east": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						4.4,
+						3.6
+					]
+				},
+				"south": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3.6
+					]
+				},
+				"west": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						4.4,
+						3.6
+					]
+				},
+				"up": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.4
+					]
+				},
+				"down": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Joint8",
+			"from": [
+				8,
+				8.5,
+				5.8
+			],
+			"to": [
+				8.6,
+				12.1,
+				10.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3.6
+					]
+				},
+				"east": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						4.4,
+						3.6
+					]
+				},
+				"south": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3.6
+					]
+				},
+				"west": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						4.4,
+						3.6
+					]
+				},
+				"up": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.4
+					]
+				},
+				"down": {
+					"texture": "#ridge",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.4
+					]
+				}
+			}
+		}
+	]
+}
