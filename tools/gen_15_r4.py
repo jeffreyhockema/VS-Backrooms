@@ -1312,7 +1312,7 @@ def blocktypes():
     data = {"code": "l15-panel", "variantgroups": [{"code": "kind", "states": kinds}, {"code": "side", "states": SIDES}],
             "shapeByType": sbt, "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
             "blockmaterial": "Stone", "drawtype": "json", "sidesolid": {"all": True}, "sideopaque": {"all": True},
-            "lightAbsorption": 99, "lightAbsorptionByType": {"*-lampon-*": 0, "*-emerglit-*": 0, "*": 99},
+            "lightAbsorption": 99, "lightAbsorptionByType": {"*-lampon-*": 0, "*-emerglit-*": 0, "*-medheadlit-*": 0, "*-radar-*": 0, "*-view*": 0, "*": 99},
             "resistance": 6, "drops": [], "sounds": STONE, "lightHsvByType": light,
             "emitSideAo": {"all": False}}
     write_json(os.path.join(BLOCKS, "l15-panel.json"), data,

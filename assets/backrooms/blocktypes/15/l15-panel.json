@@ -1365,6 +1365,9 @@
 	"lightAbsorptionByType": {
 		"*-lampon-*": 0,
 		"*-emerglit-*": 0,
+		"*-medheadlit-*": 0,
+		"*-radar-*": 0,
+		"*-view*": 0,
 		"*": 99
 	},
 	"resistance": 6,
