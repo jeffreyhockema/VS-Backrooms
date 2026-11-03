@@ -140,7 +140,7 @@ public sealed partial class WorldLayout
                 for (int k = 0; k < n; k++)
                 {
                     ulong hk = Hashing.Mix(h + (ulong)k * 29);
-                    int r = t.Base + 6 + (int)(hk % 10);
+                    int r = t.Base + 4 + (int)(hk % 12);
                     if (t.Snag && r > t.Top - 2) continue;
                     var (lx, lz) = L23Lean(t, r);
                     double a = Hashing.Unit(hk << 10) * Math.PI * 2, ca = Math.Cos(a), sa = Math.Sin(a);
