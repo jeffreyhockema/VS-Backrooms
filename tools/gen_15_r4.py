@@ -1016,6 +1016,72 @@ def stardoor_shape(part):
     return write_shape("l15-stardoor-" + part, els, {k: T(k) for k in ("steel", "dark", "starfield", "starglow", "starhalo")})
 
 
+def corpse_shape(pose, with_spear):
+    """The dead in lab coats (round 4: round 1's bodies with the coat's collar, pockets and buttons, a lanyard and an ID
+    card, hair, both hands, the shoes' soles; the spear's binding wound round it). Sitting: back to the wall (south),
+    legs out to the north. Lying across two blocks: head (head and trunk) and feet (legs)."""
+    if pose == "sitting":
+        lean = dict(rot=(-10, 0, 0), origin=(8, 2, 14))
+        els = [
+            box("Trunk", (4, 2, 10), (12, 11, 14), "labcoat", **lean),
+            box("CollarL", (4.5, 9.5, 9.6), (7.5, 11.25, 10.4), "labcoat", rot=(-10, 0, 20), origin=(6, 10, 10)),
+            box("CollarR", (8.5, 9.5, 9.6), (11.5, 11.25, 10.4), "labcoat", rot=(-10, 0, -20), origin=(10, 10, 10)),
+            box("Shirt", (6.75, 6, 9.85), (9.25, 10.5, 10), "trousers", faces=("north",), **lean),
+            box("Pocket", (9, 4, 9.8), (11.25, 6.25, 10), "labcoatdark", faces=("north",), **lean),
+            box("Lanyard", (7.75, 6.5, 9.7), (8.25, 10.5, 9.85), "ledred", faces=("north",), **lean),
+            uvfull(box("Card", (7, 4.75, 9.6), (9, 6.75, 9.75), "idcard", faces=("north",), **lean), "north"),
+            box("Head", (5.5, 11, 9.5), (10.5, 15, 13.5), "skin", rot=(-20, 0, 0), origin=(8, 11, 12)),
+            box("Hair", (5.25, 13.5, 10.5), (10.75, 15.4, 13.8), "hair", rot=(-20, 0, 0), origin=(8, 11, 12)),
+            box("CoatSkirt", (3.5, 0, 6), (12.5, 3, 14), "labcoat"),
+            box("LegL", (4.5, 0, 0.5), (7.5, 2.5, 7), "trousers"),
+            box("LegR", (8.5, 0, 1.5), (11.5, 2.5, 7), "trousers"),
+            box("ShoeL", (4.25, 0, -0.5), (7.75, 3, 1.5), "shoe"),
+            box("ShoeR", (8.25, 0, 0.5), (11.75, 3, 2.5), "shoe"),
+            box("ArmL", (2.5, 1, 7), (4.5, 8, 11), "labcoat"),
+            box("HandL", (2.6, 0, 6), (4.4, 1.25, 8), "bone"),
+            box("ArmR", (11.5, 0, 4), (13.5, 2, 11), "labcoat"),
+            box("HandR", (11.5, 0, 2.5), (13.5, 1.5, 4), "bone"),
+        ]
+    elif pose == "head":
+        els = [
+            box("Head", (5.5, 0, 11), (10.5, 4.5, 15.5), "skin"),
+            box("Hair", (5.25, 0, 13.5), (10.75, 4.75, 15.9), "hair"),
+            box("Jaw", (6.5, 0, 10.2), (9.5, 1.5, 11), "bone"),
+            box("Trunk", (3.5, 0, 0), (12.5, 4, 10.5), "labcoat"),
+            box("Shirt", (6.75, 4, 6), (9.25, 4.1, 10.5), "trousers", faces=("up",)),
+            box("CollarL", (4.5, 4, 8.5), (7, 4.4, 10.5), "labcoat"),
+            box("CollarR", (9, 4, 8.5), (11.5, 4.4, 10.5), "labcoat"),
+            box("Pocket", (9, 4, 2), (11.5, 4.1, 4.5), "labcoatdark", faces=("up",)),
+            box("Lanyard", (7.75, 4.05, 4), (8.25, 4.15, 9), "ledred", faces=("up",)),
+            uvfull(box("Card", (6.5, 4, 1.5), (9, 4.3, 4), {"all": "white", "up": "idcard"}, rot=(0, 25, 0), origin=(7.75, 4, 2.75)), "up"),
+            box("ArmL", (1.5, 0, 1), (3.5, 2.5, 10), "labcoat"),
+            box("HandL", (1.6, 0, -0.5), (3.4, 1.25, 1), "bone"),
+            box("ArmR", (12.5, 0, 0), (14.5, 2.5, 7), "labcoat"),
+            box("HandR", (12.5, 0, -1.5), (14.5, 1.5, 0), "bone"),
+        ]
+    else:
+        els = [
+            box("CoatSkirt", (3.5, 0, 9), (12.5, 3, 16), "labcoat"),
+            box("CoatHem", (3.25, 0, 8.5), (12.75, 2.25, 9), "labcoatdark"),
+            box("LegL", (4, 0, 2), (7.5, 2.5, 13), "trousers"),
+            box("LegR", (8.5, 0, 1), (12, 2.5, 12), "trousers"),
+            box("ShoeL", (3.75, 0, 0), (7.75, 3.5, 2), "shoe"),
+            box("ShoeR", (8.25, 0, -0.5), (12.25, 3.5, 1.5), "shoe"),
+            box("SoleL", (3.75, 0, -0.1), (7.75, 0.75, 0), "dark", faces=("north",)),
+            box("SoleR", (8.25, 0, -0.6), (12.25, 0.75, -0.5), "dark", faces=("north",)),
+        ]
+    if with_spear:
+        els += [box("Shaft", (0, 0, 13), (13, 0.75, 13.75), "pipe"),
+                box("Tape", (11.5, 0, 12.85), (14, 0.9, 13.9), "tape"),
+                box("Wrap0", (12, 0, 12.75), (12.4, 1, 14), "tape"),
+                box("Wrap1", (13.2, 0, 12.75), (13.6, 1, 14), "tape"),
+                box("Blade", (13.5, 0, 13), (16, 0.5, 13.75), "shard"),
+                box("BladeTip", (15.5, 0, 13.15), (16.75, 0.35, 13.6), "shard")]
+    return write_shape(f"l15-corpse-{pose}-{'spear' if with_spear else 'plain'}", els, {k: T(k) for k in
+                       ("labcoat", "labcoatdark", "trousers", "ledred", "idcard", "skin", "hair", "bone", "shoe", "white", "dark",
+                        "pipe", "tape", "shard")})
+
+
 def stool_shape():
     """A canteen's fixed stool: a floor flange, a steel column, a foot ring, a round seat (two crossed boxes and a cap)."""
     els = [box("Flange", (5.5, 0, 5.5), (10.5, 0.4, 10.5), "brushed"),
@@ -1156,6 +1222,19 @@ def glass_textures():
         M.grime(img, 0.05, seed=15850, color=(150, 160, 160))
         save(opaque(img), name)
     save(M.new((S, S), (140, 70, 20)), "amberglass")
+    # The dead's ID card (a photo square, lines of print, a coloured band), the coat's shaded fold, hair
+    img = Image.new("RGBA", (S, S), (236, 238, 236, 255))
+    rect(img, 0, 0, S - 1, 6, LINE_COLOURS[0])
+    rect(img, 3, 10, 13, 22, (150, 140, 130))
+    for y in (11, 15, 19):
+        rect(img, 16, y, 28, y + 1, (60, 64, 70))
+    rect(img, 3, 26, 28, 28, (40, 44, 50))
+    save(img, "idcard")
+    coat = load("labcoat")
+    a = np.array(coat).astype(float)
+    a[..., :3] *= 0.8
+    save(Image.fromarray(a.clip(0, 255).astype("uint8"), "RGBA"), "labcoatdark")
+    save(M.noise_hv((58, 46, 36), amp=6, seed=15870, mottle=8), "hair")
     # The star door's sky without its star (the star stands in the opening as a model): a night sky, small stars
     sky = M.new((S, S), (4, 6, 14))
     rng = random.Random(15516)
@@ -1195,6 +1274,9 @@ def blocktypes():
     for k in ("plain", "sink", "equipment", "glassware"):
         labbench_shape(k)
     tray_shape()
+    for pose in ("sitting", "head", "feet"):
+        for spear in (False, True):
+            corpse_shape(pose, spear)
     for part in ("lower", "upper"):
         stardoor_shape(part)
     for part in ("lower", "upper"):

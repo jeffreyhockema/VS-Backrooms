@@ -1,356 +1,484 @@
 {
-	"textureWidth": 16,
-	"textureHeight": 16,
-	"textures": {
-		"labcoat": "backrooms:block/15/labcoat",
-		"shoe": "backrooms:block/15/shoe",
-		"trousers": "backrooms:block/15/trousers"
-	},
-	"elements": [
-		{
-			"name": "CoatSkirt",
-			"from": [
-				3.5,
-				0,
-				9
-			],
-			"to": [
-				12.5,
-				3,
-				16
-			],
-			"faces": {
-				"north": {
-					"texture": "#labcoat",
-					"uv": [
-						0,
-						0,
-						9.0,
-						3
-					]
-				},
-				"east": {
-					"texture": "#labcoat",
-					"uv": [
-						0,
-						0,
-						7,
-						3
-					]
-				},
-				"south": {
-					"texture": "#labcoat",
-					"uv": [
-						0,
-						0,
-						9.0,
-						3
-					]
-				},
-				"west": {
-					"texture": "#labcoat",
-					"uv": [
-						0,
-						0,
-						7,
-						3
-					]
-				},
-				"up": {
-					"texture": "#labcoat",
-					"uv": [
-						0,
-						0,
-						9.0,
-						7
-					]
-				},
-				"down": {
-					"texture": "#labcoat",
-					"uv": [
-						0,
-						0,
-						9.0,
-						7
-					]
-				}
-			}
-		},
-		{
-			"name": "LegL",
-			"from": [
-				4,
-				0,
-				2
-			],
-			"to": [
-				7.5,
-				2.5,
-				13
-			],
-			"faces": {
-				"north": {
-					"texture": "#trousers",
-					"uv": [
-						0,
-						0,
-						3.5,
-						2.5
-					]
-				},
-				"east": {
-					"texture": "#trousers",
-					"uv": [
-						0,
-						0,
-						11,
-						2.5
-					]
-				},
-				"south": {
-					"texture": "#trousers",
-					"uv": [
-						0,
-						0,
-						3.5,
-						2.5
-					]
-				},
-				"west": {
-					"texture": "#trousers",
-					"uv": [
-						0,
-						0,
-						11,
-						2.5
-					]
-				},
-				"up": {
-					"texture": "#trousers",
-					"uv": [
-						0,
-						0,
-						3.5,
-						11
-					]
-				},
-				"down": {
-					"texture": "#trousers",
-					"uv": [
-						0,
-						0,
-						3.5,
-						11
-					]
-				}
-			}
-		},
-		{
-			"name": "LegR",
-			"from": [
-				8.5,
-				0,
-				1
-			],
-			"to": [
-				12,
-				2.5,
-				12
-			],
-			"faces": {
-				"north": {
-					"texture": "#trousers",
-					"uv": [
-						0,
-						0,
-						3.5,
-						2.5
-					]
-				},
-				"east": {
-					"texture": "#trousers",
-					"uv": [
-						0,
-						0,
-						11,
-						2.5
-					]
-				},
-				"south": {
-					"texture": "#trousers",
-					"uv": [
-						0,
-						0,
-						3.5,
-						2.5
-					]
-				},
-				"west": {
-					"texture": "#trousers",
-					"uv": [
-						0,
-						0,
-						11,
-						2.5
-					]
-				},
-				"up": {
-					"texture": "#trousers",
-					"uv": [
-						0,
-						0,
-						3.5,
-						11
-					]
-				},
-				"down": {
-					"texture": "#trousers",
-					"uv": [
-						0,
-						0,
-						3.5,
-						11
-					]
-				}
-			}
-		},
-		{
-			"name": "ShoeL",
-			"from": [
-				3.75,
-				0,
-				0
-			],
-			"to": [
-				7.75,
-				3.5,
-				2
-			],
-			"faces": {
-				"north": {
-					"texture": "#shoe",
-					"uv": [
-						0,
-						0,
-						4.0,
-						3.5
-					]
-				},
-				"east": {
-					"texture": "#shoe",
-					"uv": [
-						0,
-						0,
-						2,
-						3.5
-					]
-				},
-				"south": {
-					"texture": "#shoe",
-					"uv": [
-						0,
-						0,
-						4.0,
-						3.5
-					]
-				},
-				"west": {
-					"texture": "#shoe",
-					"uv": [
-						0,
-						0,
-						2,
-						3.5
-					]
-				},
-				"up": {
-					"texture": "#shoe",
-					"uv": [
-						0,
-						0,
-						4.0,
-						2
-					]
-				},
-				"down": {
-					"texture": "#shoe",
-					"uv": [
-						0,
-						0,
-						4.0,
-						2
-					]
-				}
-			}
-		},
-		{
-			"name": "ShoeR",
-			"from": [
-				8.25,
-				0,
-				-0.5
-			],
-			"to": [
-				12.25,
-				3.5,
-				1.5
-			],
-			"faces": {
-				"north": {
-					"texture": "#shoe",
-					"uv": [
-						0,
-						0,
-						4.0,
-						3.5
-					]
-				},
-				"east": {
-					"texture": "#shoe",
-					"uv": [
-						0,
-						0,
-						2.0,
-						3.5
-					]
-				},
-				"south": {
-					"texture": "#shoe",
-					"uv": [
-						0,
-						0,
-						4.0,
-						3.5
-					]
-				},
-				"west": {
-					"texture": "#shoe",
-					"uv": [
-						0,
-						0,
-						2.0,
-						3.5
-					]
-				},
-				"up": {
-					"texture": "#shoe",
-					"uv": [
-						0,
-						0,
-						4.0,
-						2.0
-					]
-				},
-				"down": {
-					"texture": "#shoe",
-					"uv": [
-						0,
-						0,
-						4.0,
-						2.0
-					]
-				}
-			}
-		}
-	]
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "labcoat": "backrooms:block/15/labcoat",
+  "labcoatdark": "backrooms:block/15/labcoatdark",
+  "trousers": "backrooms:block/15/trousers",
+  "ledred": "backrooms:block/15/ledred",
+  "idcard": "backrooms:block/15/idcard",
+  "skin": "backrooms:block/15/skin",
+  "hair": "backrooms:block/15/hair",
+  "bone": "backrooms:block/15/bone",
+  "shoe": "backrooms:block/15/shoe",
+  "white": "backrooms:block/15/white",
+  "dark": "backrooms:block/15/dark",
+  "pipe": "backrooms:block/15/pipe",
+  "tape": "backrooms:block/15/tape",
+  "shard": "backrooms:block/15/shard"
+ },
+ "elements": [
+  {
+   "name": "CoatSkirt",
+   "from": [
+    3.5,
+    0,
+    9
+   ],
+   "to": [
+    12.5,
+    3,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#labcoat",
+     "uv": [
+      0,
+      0,
+      9.0,
+      3
+     ]
+    },
+    "east": {
+     "texture": "#labcoat",
+     "uv": [
+      0,
+      0,
+      7,
+      3
+     ]
+    },
+    "south": {
+     "texture": "#labcoat",
+     "uv": [
+      0,
+      0,
+      9.0,
+      3
+     ]
+    },
+    "west": {
+     "texture": "#labcoat",
+     "uv": [
+      0,
+      0,
+      7,
+      3
+     ]
+    },
+    "up": {
+     "texture": "#labcoat",
+     "uv": [
+      0,
+      0,
+      9.0,
+      7
+     ]
+    },
+    "down": {
+     "texture": "#labcoat",
+     "uv": [
+      0,
+      0,
+      9.0,
+      7
+     ]
+    }
+   }
+  },
+  {
+   "name": "CoatHem",
+   "from": [
+    3.25,
+    0,
+    8.5
+   ],
+   "to": [
+    12.75,
+    2.25,
+    9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#labcoatdark",
+     "uv": [
+      0,
+      0,
+      9.5,
+      2.25
+     ]
+    },
+    "east": {
+     "texture": "#labcoatdark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.25
+     ]
+    },
+    "south": {
+     "texture": "#labcoatdark",
+     "uv": [
+      0,
+      0,
+      9.5,
+      2.25
+     ]
+    },
+    "west": {
+     "texture": "#labcoatdark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      2.25
+     ]
+    },
+    "up": {
+     "texture": "#labcoatdark",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#labcoatdark",
+     "uv": [
+      0,
+      0,
+      9.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LegL",
+   "from": [
+    4,
+    0,
+    2
+   ],
+   "to": [
+    7.5,
+    2.5,
+    13
+   ],
+   "faces": {
+    "north": {
+     "texture": "#trousers",
+     "uv": [
+      0,
+      0,
+      3.5,
+      2.5
+     ]
+    },
+    "east": {
+     "texture": "#trousers",
+     "uv": [
+      0,
+      0,
+      11,
+      2.5
+     ]
+    },
+    "south": {
+     "texture": "#trousers",
+     "uv": [
+      0,
+      0,
+      3.5,
+      2.5
+     ]
+    },
+    "west": {
+     "texture": "#trousers",
+     "uv": [
+      0,
+      0,
+      11,
+      2.5
+     ]
+    },
+    "up": {
+     "texture": "#trousers",
+     "uv": [
+      0,
+      0,
+      3.5,
+      11
+     ]
+    },
+    "down": {
+     "texture": "#trousers",
+     "uv": [
+      0,
+      0,
+      3.5,
+      11
+     ]
+    }
+   }
+  },
+  {
+   "name": "LegR",
+   "from": [
+    8.5,
+    0,
+    1
+   ],
+   "to": [
+    12,
+    2.5,
+    12
+   ],
+   "faces": {
+    "north": {
+     "texture": "#trousers",
+     "uv": [
+      0,
+      0,
+      3.5,
+      2.5
+     ]
+    },
+    "east": {
+     "texture": "#trousers",
+     "uv": [
+      0,
+      0,
+      11,
+      2.5
+     ]
+    },
+    "south": {
+     "texture": "#trousers",
+     "uv": [
+      0,
+      0,
+      3.5,
+      2.5
+     ]
+    },
+    "west": {
+     "texture": "#trousers",
+     "uv": [
+      0,
+      0,
+      11,
+      2.5
+     ]
+    },
+    "up": {
+     "texture": "#trousers",
+     "uv": [
+      0,
+      0,
+      3.5,
+      11
+     ]
+    },
+    "down": {
+     "texture": "#trousers",
+     "uv": [
+      0,
+      0,
+      3.5,
+      11
+     ]
+    }
+   }
+  },
+  {
+   "name": "ShoeL",
+   "from": [
+    3.75,
+    0,
+    0
+   ],
+   "to": [
+    7.75,
+    3.5,
+    2
+   ],
+   "faces": {
+    "north": {
+     "texture": "#shoe",
+     "uv": [
+      0,
+      0,
+      4.0,
+      3.5
+     ]
+    },
+    "east": {
+     "texture": "#shoe",
+     "uv": [
+      0,
+      0,
+      2,
+      3.5
+     ]
+    },
+    "south": {
+     "texture": "#shoe",
+     "uv": [
+      0,
+      0,
+      4.0,
+      3.5
+     ]
+    },
+    "west": {
+     "texture": "#shoe",
+     "uv": [
+      0,
+      0,
+      2,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#shoe",
+     "uv": [
+      0,
+      0,
+      4.0,
+      2
+     ]
+    },
+    "down": {
+     "texture": "#shoe",
+     "uv": [
+      0,
+      0,
+      4.0,
+      2
+     ]
+    }
+   }
+  },
+  {
+   "name": "ShoeR",
+   "from": [
+    8.25,
+    0,
+    -0.5
+   ],
+   "to": [
+    12.25,
+    3.5,
+    1.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#shoe",
+     "uv": [
+      0,
+      0,
+      4.0,
+      3.5
+     ]
+    },
+    "east": {
+     "texture": "#shoe",
+     "uv": [
+      0,
+      0,
+      2.0,
+      3.5
+     ]
+    },
+    "south": {
+     "texture": "#shoe",
+     "uv": [
+      0,
+      0,
+      4.0,
+      3.5
+     ]
+    },
+    "west": {
+     "texture": "#shoe",
+     "uv": [
+      0,
+      0,
+      2.0,
+      3.5
+     ]
+    },
+    "up": {
+     "texture": "#shoe",
+     "uv": [
+      0,
+      0,
+      4.0,
+      2.0
+     ]
+    },
+    "down": {
+     "texture": "#shoe",
+     "uv": [
+      0,
+      0,
+      4.0,
+      2.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "SoleL",
+   "from": [
+    3.75,
+    0,
+    -0.1
+   ],
+   "to": [
+    7.75,
+    0.75,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      4.0,
+      0.75
+     ]
+    }
+   }
+  },
+  {
+   "name": "SoleR",
+   "from": [
+    8.25,
+    0,
+    -0.6
+   ],
+   "to": [
+    12.25,
+    0.75,
+    -0.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      4.0,
+      0.75
+     ]
+    }
+   }
+  }
+ ]
 }
