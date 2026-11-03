@@ -13,6 +13,9 @@ and gen_31_walls.py; it writes only its own files).
     blocktypes/31/l31-mediacab.json    the cinema TV's low cabinet with a sound bar
     blocktypes/31/l31-riser.json   a cinema step: maroon carpet on top, a dark riser with amber aisle lights on its sides
 
+Round 4 (tools/gen_31_round4.py, run after this one) rebuilds some of these blocks over this script's files; see its
+docstring for which.
+
 Every oriented block faces NORTH in its model, as the level's other props, with the variant group "side" last.
 Run from the repo root:  bash tools/locked.sh run python tools/gen_31_round3.py
 """

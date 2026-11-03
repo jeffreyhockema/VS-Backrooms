@@ -3,12 +3,18 @@ gen_31_round3.py: it rebuilds some of their blocks to the round's bar (same bloc
 it overwrites their shape, texture and blocktype files) and adds a few new ones.
 
 Rebuilt (codes kept):  l31-skateshelf (real skates in two-by-three cubbies), l31-djdesk (deck, mixer: a booth fascia
-    with a lit strip, turntables, a mixer and CD decks), l31-speaker (a PA stack: sub and top with horn), l31-truss (a
-    box truss with lacing and par cans on yokes), l31-discoball (the mirror ball's shape: stacked faceted rings on a
-    drop rod and motor), l31-rinkwood's textures (maple strips with grain, wear and wheel scuffs)
+    with lit strips, a turntable, a mixer between CD decks), l31-speaker (a PA stack), l31-truss (a laced box truss with
+    par cans on yokes), l31-discoball (the mirror ball's shape), l31-rinkwood's textures, l31-retrocab (1980s uprights
+    in the classic profile), l31-photobooth, l31-dispenser (the green-card machine), l31-cinemabench, l31-mediacab,
+    l31-riser's shape (nosing and aisle lights), l31-table, l31-stall, l31-vanity, l31-jukebox; and round 3's wall mounts get
+    their depth: the neon signs' tubes stand proud of their boards, the big TV gets a bezel, the dryer a real body
 New:  l31-barrier (the rink's barrier: a thin padded wall along the boards' outer edge; straight, corner and post
-    pieces, chosen by WorldGenerator.L31 from the neighbours), l31-rinkgate (the gaps' gates: a hinge post with a
-    leaf swung open into the rink, or the sill between them)
+    pieces, chosen by WorldGenerator.L31.Round4.cs from the neighbours), l31-rinkgate (the gaps' gates: a hinge post
+    with a leaf swung open into the rink, left or right, or the sill between), l31-pinball (in place of Level 3999's in
+    the arcade), l31-slushie (the snack counters' slushie machine), l31-popcorn (in place of Level Fun's popcorn cart),
+    l31-locker (the rink's coin lockers, in place of Level 52's school lockers)
+Reused from other levels, placed by the layout: Level 120's CRAC units in the HVAC rooms, Level 36's queue posts in
+    Skate Rental.
 
 Every oriented prop is modelled facing NORTH (its front at low z) with the variant group "side" last: -east is
 rotateY 270, -south 180, -west 90. Run from the repo root:  bash tools/locked.sh run python tools/gen_31_round4.py
@@ -916,6 +922,44 @@ def mediacab():
     return shape("l31-mediacab", els)
 
 
+def riser():
+    """A cinema step (round 3's block, its shape rebuilt): carpet on top, an aluminium nosing round its edge and a row of
+    amber aisle lights under it on every side (where a neighbouring step stands, they are inside it and unseen)."""
+    els = [B("Step", (0, 0, 0), (16, 16, 16), "riser-side", up=("riser-carpet", None), down=("riser-carpet", None))]
+    side = [B("Nose", (-0.08, 15.0, -0.08), (16.08, 15.96, 0.0), "r4-alu", faces=without(DIRS, "south"))]
+    for k, x in enumerate((2.5, 8.0, 13.5)):
+        side.append(B(f"Led{k}", (x - 0.6, 13.7, -0.1), (x + 0.6, 14.3, 0.0), "r4-led-amber", glow=255, faces=without(DIRS, "south")))
+    for t in range(4):
+        for e in turn(side, t):
+            e["name"] = e["name"] + str(t)
+            els.append(e)
+    return shape("l31-riser", els)
+
+
+def table():
+    """The food court's cafe table: white laminate with a magenta edge band, on a chrome column and a cross foot with
+    levellers; a napkin holder, salt and pepper and a ketchup bottle on it. Not oriented."""
+    disc_tex("r4-napkin", 16, lambda d, x, y: (250, 250, 246))
+    els = [
+        B("Top", (1, 11.2, 1), (15, 12.0, 15), "table-laminate", faces=("up", "down")),
+        B("Edge", (0.8, 10.9, 0.8), (15.2, 12.0, 15.2), "r4-padpink", faces=("north", "east", "south", "west", "down")),
+        B("Column", (7.2, 1.0, 7.2), (8.8, 10.9, 8.8), "r4-chrome", faces=without(DIRS, "up", "down")),
+        B("Spider", (5.0, 10.2, 7.4), (11.0, 10.9, 8.6), "r4-chrome", faces=without(DIRS, "up")),
+        B("SpiderZ", (7.4, 10.25, 5.0), (8.6, 10.85, 11.0), "r4-chrome", faces=without(DIRS, "up")),
+        B("FootX", (2.0, 0.4, 7.2), (14.0, 1.0, 8.8), "r4-chrome"),
+        B("FootZ", (7.2, 0.45, 2.0), (8.8, 0.95, 14.0), "r4-chrome", faces=("north", "south", "east", "west")),
+        B("Napkins", (6.0, 12.0, 7.0), (10.0, 14.6, 9.0), "plate-white"),
+        B("Holder", (5.7, 12.0, 6.7), (10.3, 12.8, 9.3), "r4-chrome"),
+        B("Salt", (11.0, 12.0, 7.4), (11.8, 13.6, 8.2), "plate-white"),
+        B("Pepper", (11.0, 12.0, 8.6), (11.8, 13.6, 9.4), "r4-black"),
+        B("Ketchup", (4.0, 12.0, 7.6), (5.0, 14.6, 8.6), "cab-red"),
+        B("KetchupCap", (4.2, 14.6, 7.8), (4.8, 15.2, 8.4), "plate-white"),
+    ]
+    for k, (x, z) in enumerate(((1.6, 7.4), (13.6, 7.4), (7.4, 1.6), (7.4, 13.6))):
+        els.append(B(f"Lev{k}", (x, 0, z), (x + 1.2, 0.4, z + 1.2), "r4-black", faces=without(DIRS, "down")))
+    return shape("l31-table", els)
+
+
 # ======================================================================== Neon tubes and the big TV's bezel
 
 NEON_PLATES = ("name", "arc", "arcbig", "prizes", "snackbig")
@@ -1133,6 +1177,62 @@ def jukebox():
     return shape("l31-jukebox", els)
 
 
+# ======================================================================== The rink's coin lockers
+
+def locker_textures():
+    for n, c in (("blue", (40, 96, 190)), ("orange", (232, 120, 30))):
+        img = M.painted_metal(seed=4290 + len(n), base=c, panel=False, chips=4, under=(150, 150, 150))
+        d = ImageDraw.Draw(img)
+        for y in (4, 7, 10):
+            d.rectangle([8, y, 23, y + 1], fill=rgba(tuple(int(v * 0.35) for v in c)))  # louvres
+        M.grime(img, 0.12, 4293 + len(n), color=(40, 40, 46), bias="bottom", cover=0.4)
+        save_tex(img, "r4-lockerdoor-" + n)
+    body = M.painted_metal(seed=4295, base=(70, 72, 80), panel=False, chips=3, under=(140, 140, 140))
+    save_tex(body, "r4-lockerbody")
+    for k in range(8):
+        img = Image.new("RGBA", (S, S), rgba((230, 226, 210)))
+        ctext(img, 16, 4, str(101 + k * 7), (30, 30, 36), sx=2)
+        save_tex(img, f"r4-lockernum{k}")
+    tag = Image.new("RGBA", (S, S), rgba((240, 110, 30)))
+    ctext(tag, 16, 12, "25", (255, 255, 255), sx=2)
+    save_tex(tag, "r4-lockertag")
+
+
+def locker(part):
+    """One block of a bank of coin lockers set in the wall, its face north: two doors across and two high in it (four
+    small lockers), each a door in its frame with louvres, a number plate, the coin lock with its key on an orange tag
+    (the key gone and the door ajar on one); the lower block has the kick base. The block is a full cube: a wall."""
+    els = [B("Body", (0, 0, 0.8), (16, 16, 16), "r4-lockerbody", north=("r4-black", None))]
+    y0 = 1.6 if part == "lower" else 0.0
+    if part == "lower":
+        els.append(B("Kick", (0, 0, 0.4), (16, 1.6, 0.8), "r4-blackmetal", faces=without(DIRS, "south")))
+    els.append(B("FrameTop", (0, 15.4, 0.3), (16, 16, 0.8), "r4-lockerbody", faces=without(DIRS, "south")))
+    els.append(B("FrameMid", (7.7, y0, 0.3), (8.3, 15.4, 0.8), "r4-lockerbody", faces=without(DIRS, "south")))
+    h = (15.4 - y0) / 2
+    k = 0
+    for row in range(2):
+        ya = y0 + row * h + 0.3
+        yb = ya + h - 0.6
+        for col, (xa, xb) in enumerate(((0.4, 7.5), (8.5, 15.6))):
+            colour = "orange" if (row + col + (part == "upper")) % 3 == 0 else "blue"
+            ajar = part == "lower" and row == 1 and col == 0
+            rot = (0, 35, 0) if ajar else None
+            o = (xa, ya, 0.5)
+            els += [
+                B(f"Door{k}", (xa, ya, 0.3), (xb, yb, 0.6), "r4-lockerdoor-" + colour, rot=rot, origin=o,
+                  north=("r4-lockerdoor-" + colour, FULL)),
+                B(f"Num{k}", (xa + 2.0, yb - 1.4, 0.2), (xb - 2.0, yb - 0.6, 0.3), "r4-black", faces=("north",),
+                  north=(f"r4-lockernum{(k + (4 if part == 'upper' else 0)) % 8}", (0, 0, 16, 8)), rot=rot, origin=o),
+                B(f"Lock{k}", (xb - 2.2, ya + 1.6, 0.0), (xb - 0.8, ya + 3.4, 0.3), "r4-chrome", faces=without(DIRS, "south"), rot=rot, origin=o),
+            ]
+            if not ajar:
+                els.append(B(f"Key{k}", (xb - 1.8, ya + 0.6, -0.3), (xb - 1.2, ya + 1.6, 0.0), "r4-lockertag", faces=without(DIRS, "south")))
+            else:
+                els.append(B(f"Dark{k}", (xa + 0.2, ya + 0.2, 0.75), (xb - 0.2, yb - 0.2, 0.8), "r4-black", faces=("north",)))
+            k += 1
+    return shape("l31-locker-" + part, els)
+
+
 # ======================================================================== Block types
 
 def blocks():
@@ -1153,7 +1253,7 @@ def blocks():
               "post": shape("l31-barrier-post", barrier_post())}
     sel = {"straight": (0, 0, 0, 1, 1, 0.34), "corner": (0, 0, 0, 1, 1, 1), "post": (0, 0, 0, 0.34, 1, 0.34)}
     prop_block("l31-barrier", "Level 31: the rink's barrier along the boards' outer edge (the side named is the skirt's): a thin padded wall, white on the rink side, carpet on the skirt's, a bumper rail and a padded cap; straight, corner (that side and the one to its left) or post (the corner square where two runs meet)",
-               lambda k: shapes[k], lambda k: sel[k], lambda k: (0, 0, 0, 1, 1, 0.3) if k == "straight" else sel[k] if k == "post" else (0, 0, 0, 1, 1, 0.3),
+               lambda k: shapes[k], lambda k: sel[k], lambda k: (0, 0, 0, 1, 1, 0.3) if k == "straight" else sel[k],
                kinds=list(shapes), kindgroup="piece", material="Plastic", resistance=3)
     gshapes = {"leafl": shape("l31-rinkgate-leaf", gate_leaf()), "leafr": shape("l31-rinkgate-leafr", mirror_x(gate_leaf())),
                "sill": shape("l31-rinkgate-sill", gate_sill())}
@@ -1210,6 +1310,21 @@ def blocks():
     ref = jukebox()
     prop_block("l31-jukebox", "Level 31: a 1990s jukebox, wood under a stepped neon arch, the record window, selector keys, bubble tubes either side, a chrome grille, 22 units tall, toward the side",
                lambda k: ref, (0.03, 0, 0.21, 0.97, 1, 0.82), (0.03, 0, 0.21, 0.97, 1, 0.82), resistance=3, extra={"lightHsv": [50, 4, 6]})
+    riser()
+    locker_textures()
+    lrefs = {k: locker(k) for k in ("lower", "upper")}
+    data = {"code": "l31-locker", "variantgroups": [{"code": "part", "states": ["lower", "upper"]}, {"code": "side", "states": SIDES}],
+            "shapeByType": {f"l31-locker-{k}-{sd}": ({"base": lrefs[k], "rotateY": ROT[sd]} if ROT[sd] else {"base": lrefs[k]})
+                            for k in ("lower", "upper") for sd in SIDES},
+            "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
+            "blockmaterial": "Metal", "drawtype": "json", "sidesolid": {"all": True}, "sideopaque": {"all": True},
+            "lightAbsorption": 99, "resistance": 6, "drops": [], "sounds": METAL}
+    write_json(os.path.join(BLOCKS, "l31-locker.json"), data,
+               "Level 31: a bank of coin lockers set in the rink's wall (a full wall block), its doors toward the side: two across and two high, "
+               "louvres, number plates, coin locks with keys on orange tags, one door ajar in the lower; lower (with the kick base) and upper")
+    ref = table()
+    prop_block("l31-table", "Level 31: a cafe table, white laminate with a magenta edge band on a chrome column and cross foot, napkins, salt, pepper and ketchup on it (not oriented)", lambda k: ref,
+               (0.05, 0, 0.05, 0.95, 0.75, 0.95), (0.05, 0, 0.05, 0.95, 0.75, 0.95), kinds=["plain"], oriented=False, resistance=2)
     dryer()
     neon_tubes()
     lang()
@@ -1221,6 +1336,7 @@ LANG = {
     "block-l31-pinball-*": "Pinball Machine",
     "block-l31-slushie-*": "Slushie Machine",
     "block-l31-popcorn-*": "Popcorn Machine",
+    "block-l31-locker-*": "Coin Lockers",
 }
 
 

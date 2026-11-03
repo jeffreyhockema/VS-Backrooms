@@ -1,4 +1,4 @@
-// Level 31: a square cafe table, white laminate on a chrome pedestal (not oriented)
+// Level 31: a cafe table, white laminate with a magenta edge band on a chrome column and cross foot, napkins, salt, pepper and ketchup on it (not oriented)
 {
 	"code": "l31-table",
 	"variantgroups": [
@@ -40,23 +40,23 @@
 	},
 	"selectionboxByType": {
 		"l31-table-plain": {
-			"x1": 0.0625,
+			"x1": 0.05,
 			"y1": 0,
-			"z1": 0.0625,
-			"x2": 0.9375,
+			"z1": 0.05,
+			"x2": 0.95,
 			"y2": 0.75,
-			"z2": 0.9375
+			"z2": 0.95
 		}
 	},
 	"drops": [],
 	"collisionboxByType": {
 		"l31-table-plain": {
-			"x1": 0.0625,
+			"x1": 0.05,
 			"y1": 0,
-			"z1": 0.0625,
-			"x2": 0.9375,
+			"z1": 0.05,
+			"x2": 0.95,
 			"y2": 0.75,
-			"z2": 0.9375
+			"z2": 0.95
 		}
 	}
 }

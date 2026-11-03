@@ -9,6 +9,9 @@ It writes only its own files, none of the ones gen_31.py writes:
     shapes/block/31/ and textures/block/31/ for them (the textures are procedural; pictures are 64 px, lettering is
     drawn with a 3x5 pixel font of our own).
 
+Round 4 (tools/gen_31_round4.py, run after this one) rebuilds some of these blocks over this script's files; see its
+docstring for which.
+
 Every oriented prop is modelled facing NORTH (low z) and has the variant group "side" (north, east, south, west) last:
 -east is rotateY 270, -south 180, -west 90, as l3999-chair. Run from the repo root:
     bash tools/locked.sh run python tools/gen_31_props.py

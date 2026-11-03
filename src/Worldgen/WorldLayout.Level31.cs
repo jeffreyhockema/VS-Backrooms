@@ -131,6 +131,8 @@ public sealed partial class WorldLayout
         /// <summary>Round 4: an air handler (Level 120's CRAC unit, two high with its duct up to the ceiling), a slushie machine on
         /// its cabinet.</summary>
         public const ushort AirHandler = 738, Slushie = 739;
+        /// <summary>Round 4: a queue post (Level 36's stanchion; Stack 0 no belt, 1 a belt toward its Pier).</summary>
+        public const ushort Stanchion = 740;
     }
 
     /// <summary>
@@ -801,6 +803,13 @@ public sealed partial class WorldLayout
                     for (int u = 3; u <= across - 4; u++) Put(u, 2, L31Props.SkateShelf, toNear);
                     for (int u = 2; u <= across - 3; u++) Put(u, 5, L31Props.Counter, toNear, (byte)(u == 2 ? 0 : u == across - 3 ? 2 : 1));
                     Put(mid, 4, L31Props.StaffSpot, toNear, L31Coach);
+                    // (round 4) Queue posts with their belts across the customers' side, either side of the walk to the counter
+                    for (int u = 3; u <= across - 4; u++)
+                    {
+                        if (u >= mid - 1 && u <= mid + 1) continue;
+                        bool last = u == mid - 2 || u == across - 4;
+                        Put(u, 8, L31Props.Stanchion, toHighU, (byte)(last ? 0 : 1));
+                    }
                     void MountHere(int ua, int ub, int v, string name, ArchPier face)
                     {
                         var (pa, qa) = At(ua, v);

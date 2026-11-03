@@ -15,11 +15,13 @@ public sealed partial class WorldGenerator
     private readonly int[,] l31Barrier = new int[3, 4], l31RinkGate = new int[3, 4];
     /// <summary>Level 120's CRAC unit by [part: lower, upper, duct; side]; the slushie machine by side.</summary>
     private readonly int[,] l31Crac = new int[3, 4];
-    private readonly int[] l31Slushie = new int[4];
+    private readonly int[] l31Slushie = new int[4], l31Stanchion = new int[5];
 
     private void InitL31Round4()
     {
         string[] pieces = { "straight", "corner", "post" }, gate = { "leafl", "leafr", "sill" };
+        l31Stanchion[0] = L31Block("l36-stanchion-none");
+        for (int f = 0; f < 4; f++) l31Stanchion[1 + f] = L31Block("l36-stanchion-" + Sides[f], l31Stanchion[0]);
         for (int f = 0; f < 4; f++)
         {
             for (int k = 0; k < 3; k++) l31Barrier[k, f] = L31Block($"l31-barrier-{pieces[k]}-{Sides[f]}", k == 0 ? l31Dasher : 0);

@@ -96,8 +96,9 @@ public sealed partial class WorldGenerator
         {
             string side = Sides[f];
             l31Mirror[f] = L31Block("l31-mirror-" + side, l31Plain);
-            l31Locker[0, f] = L31Block($"l52-locker-lower-{side}", l31Stripe);
-            l31Locker[1, f] = L31Block($"l52-locker-upper-{side}", l31Plain);
+            // (round 4: the rink's own coin lockers; Level 52's school lockers before)
+            l31Locker[0, f] = L31Block($"l31-locker-lower-{side}", L31Block($"l52-locker-lower-{side}", l31Stripe));
+            l31Locker[1, f] = L31Block($"l31-locker-upper-{side}", L31Block($"l52-locker-upper-{side}", l31Plain));
             for (int c = 0; c < 6; c++)
             {
                 l31Rail[c, f] = L31Block($"l3999-neonrail-{colours[c]}-{side}");
@@ -459,6 +460,7 @@ public sealed partial class WorldGenerator
             L31.L31Props.PrizeCase => l31PrizeCase[f],
             L31.L31Props.PrizeWall => l31PrizeWall[f],
             L31.L31Props.Slushie => l31Slushie[f],
+            L31.L31Props.Stanchion => l31Stanchion[t.Stack == 0 ? 0 : 1 + f],
             Props.Shelf => shelfIds[Facing(Opposite(t.Pier))],
             >= 40 and < Props.Limit => PropBlock(t),
             _ => 0,
