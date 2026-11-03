@@ -123,8 +123,8 @@ def px_set(img, x, y, c):
 
 def materials():
     # Painted steel of the racks: matte charcoal with a few worn spots; a panelled side with its seam and screws
-    save(M.grime(M.painted_metal(401, base=CHAR, panel=False, chips=5, under=(92, 94, 96)), 0.08, 402), "rk-paint")
-    save(M.grime(M.painted_metal(403, base=shade3(CHAR, 1.08), panel=True, chips=3, under=(92, 94, 96), screws=True), 0.1, 404, bias="bottom"), "rk-side")
+    save(M.grime(M.painted_metal(401, base=CHAR, panel=False, chips=3, mottle=2, grain=2, under=(92, 94, 96)), 0.05, 402), "rk-paint")
+    save(M.grime(M.painted_metal(403, base=shade3(CHAR, 1.08), panel=True, chips=2, mottle=2, grain=2, under=(92, 94, 96), screws=True), 0.06, 404, bias="bottom"), "rk-side")
     # The perforated door: 1 px holes (cut out), staggered row by row (a fine hex perforation), each
     # hole's lower lip lit
     mesh = M.painted_metal(405, base=shade3(CHAR, 1.12), panel=False, chips=2, under=(90, 92, 94))
