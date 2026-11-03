@@ -23,6 +23,7 @@ import gen_73_interior as interior
 import gen_73_links as links
 import gen_73_lore as lore
 import gen_73_r4_castle as r4castle
+import gen_73_r4_hound as r4hound
 import gen_73_r4_props as r4props
 import matlib as M
 import texlib
@@ -256,10 +257,8 @@ def damask(seed):
 
 
 def silverwall(seed):
-    img = M.brick(seed=seed, base=(172, 176, 182), mortar=(112, 114, 120), course=8, length=16, offset=0.5, mortar_w=1,
-                  jitter=9, hue=2, pits=0.04, chamfer=True, grain=4, mottle=7)
-    M.grime(img, 0.08, seed=seed + 1, color=(84, 80, 84), cover=0.4)
-    return img
+    # (round 4: larger ashlar, two courses a block, darker and more varied; gen_73_r4_castle.py)
+    return r4castle.ashlar(seed)
 
 
 def sconce_iron(seed):
@@ -494,7 +493,7 @@ LANG = [
     ("block-l73-bone", "Great Hound's Bone"),
     ("block-l73-wainscot-*", "Mahogany Panelling"),
     ("block-l73-damask-*", "Damask-Papered Wall"),
-] + castle.LANG + interior.LANG + r4castle.LANG + r4props.LANG + links.LANG + lore.LANG
+] + castle.LANG + interior.LANG + r4castle.LANG + r4props.LANG + r4hound.LANG + links.LANG + lore.LANG
 
 
 def write_lang():
@@ -581,7 +580,7 @@ def main():
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
     n_shapes += interior.shapes(write_json, os.path.join(ASSETS, "shapes", "block", "73"))
     # Round 4's asset-quality pass (2026-11-02): the castle's outside (gen_73_r4_castle.py), the furnishings (gen_73_r4_props.py)
-    for mod in (r4castle, r4props):
+    for mod in (r4castle, r4props, r4hound):
         n_tex += mod.textures(save)
         for comment, b in mod.blocktypes():
             write_json(os.path.join(bt, b["code"] + ".json"), comment, b)

@@ -75,6 +75,8 @@ public sealed partial class WorldLayout
         // Round 3 (2026-11-01): fireplaces (the fire, the stone jambs either side), the castle's furniture, hangings and text
         Fire, Jamb, Chest, Washstand, Worktable, PotRack, Lectern, Linen, WingChair, CoffeeTable, ConsoleTable, PantryShelf, Sacks,
         TapestryL, TapestryR, SamplerL, SamplerR, Plate, Notice, Sheeted,
+        // Round 4 (2026-11-02): a carved high-backed chair at each end of the table of plenty
+        HighChair,
     }
 
     /// <summary>Which layer of a tile a furnishing takes: the floor, the wall behind it (above eye height), the ceiling, or the
@@ -483,6 +485,16 @@ public sealed partial class WorldLayout
         return mask;
     }
 
+    /// <summary>The block carrying the Great Hound's sculpted bones about it (round 4): anchor k at skeleton-local x 1 + 4k, z 0,
+    /// one over the ground it lies on (tools/gen_73_r4_hound.py); -1 elsewhere.</summary>
+    public int L73HoundAnchor(int gx, int gz, int rel)
+    {
+        var (x0, z0, ground) = L73Hound;
+        int x = gx - x0;
+        if (gz != z0 || rel != ground + 1 || x < 1 || x > 37 || (x - 1) % 4 != 0) return -1;
+        return (x - 1) / 4;
+    }
+
     /// <summary>
     /// Where the Great Hound lies (its snout's tip, block coordinates) and the ground it lies on above the sea: on the fields
     /// south-east of the castle, a little off the path, in sight of anyone coming up it; its ground the lowest of a few
@@ -507,6 +519,17 @@ public sealed partial class WorldLayout
         }
     }
     private volatile Tuple<int, int, int> l73Hound;
+
+    /// <summary>The dry ditch before the south wall (round 4, inv.): how deep at a castle-local position (0 none): rows v 50-53
+    /// from u 14 to 41, but the bridge (u 25-30); two deep, one at its two ends.</summary>
+    public static int L73Ditch(int u, int v)
+    {
+        if (v < L73CastleD + 2 || v > L73CastleD + 5 || u < 14 || u > 41 || u is >= 25 and <= 30) return 0;
+        return u is 14 or 41 ? 1 : 2;
+    }
+
+    /// <summary>Whether a castle-local position is one of the bridge's parapets over the ditch (round 4).</summary>
+    public static bool L73BridgeSide(int u, int v) => v >= L73CastleD + 2 && v <= L73CastleD + 5 && u is 25 or 30;
 
     /// <summary>Whether a block column lies under the Great Hound (its footprint, one round).</summary>
     public bool InL73Hound(int gx, int gz)
@@ -689,7 +712,8 @@ public sealed partial class WorldLayout
                 L73Thing.Plate or L73Thing.Notice => L73Layer.Low,
                 _ => L73Layer.Floor,
             };
-            byte k = kind >= 0 ? (byte)kind : thing == L73Thing.Painting ? (byte)(painting++ % L73Paintings) : (byte)0;
+            byte k = kind >= 0 ? (byte)kind : thing == L73Thing.Painting ? (byte)(painting++ % L73Paintings)
+                : thing == L73Thing.Bookshelf ? (byte)((ku * 3 + kv) % 2) : (byte)0; // (round 4: the bookcases' two fillings)
             f[(ku, kv, s, layer)] = (thing, facing, k);
         }
         // Mirrored for the east end of the keep (ku to 35 - ku, east and west swapped)
@@ -788,6 +812,7 @@ public sealed partial class WorldLayout
             Put(ku, 4, 0, L73Thing.Chair, S);
             Put(ku, 7, 0, L73Thing.Chair, N);
         }
+        Put(11, 5, 0, L73Thing.HighChair, E); Put(24, 6, 0, L73Thing.HighChair, W); // (round 4: the table's head and foot)
         Put(11, 2, 0, L73Thing.Candelabra, N); Put(24, 2, 0, L73Thing.Candelabra, N);
         Put(11, 9, 0, L73Thing.Candelabra, N); Put(24, 9, 0, L73Thing.Candelabra, N);
         Put(10, 4, 0, L73Thing.ConsoleTable, E); Put(25, 4, 0, L73Thing.ConsoleTable, W);
@@ -1029,7 +1054,7 @@ public sealed partial class WorldLayout
     {
         const int w = L73CastleW, d = L73CastleD;
         // Outside the walls
-        if (v == d && u is 23 or 32) return (ArchPier.South, 9);
+        if (v == d && u is 19 or 36) return (ArchPier.South, 6); // (round 4: beside the drums, which stand out where these hung)
         if (v == -1 && u is 18 or 37) return (ArchPier.North, 6);
         if (u == -1 && v is 16 or 31) return (ArchPier.West, 6);
         if (u == w && v is 16 or 31) return (ArchPier.East, 6);
@@ -1106,6 +1131,27 @@ public sealed partial class WorldLayout
             t.Floor = FloorKind.L73Path;
             return t;
         }
+        // Round 4 (inv.): a dry ditch before the walls either side of the gate, two deep (one at its ends, to climb out),
+        // and the stone bridge that carries the path over it, its parapets at u 25 and 30
+        if (L73Ditch(u, v) is int ditch and > 0 && g == L73Plateau)
+        {
+            t.Height = (byte)(g - ditch);
+            t.Floor = FloorKind.L73Burnt;
+            t.Sealed = true;
+            return t;
+        }
+        if (L73BridgeSide(u, v) && g == L73Plateau)
+        {
+            t.Floor = FloorKind.L73Path;
+            t.Sealed = true;
+            return t;
+        }
+        // Under the gatehouse's drum towers (round 4: WorldGenerator.L73.Outside.cs): nothing else there
+        if (v is >= L73CastleD and <= L73CastleD + 1 && (u is >= 22 and <= 25 || u is >= 30 and <= 33))
+        {
+            t.Sealed = true;
+            return t;
+        }
         // Under the Great Hound's bones: nobody is put down there, nothing else lies there
         if (InL73Hound(gx, gz))
         {
@@ -1119,6 +1165,19 @@ public sealed partial class WorldLayout
         {
             t.Sealed = true;
             return t;
+        }
+        // Round 4: on the hill's flanks, where Coran leaves them, heaps of the fresher dead (Detail 2: WorldGenerator.L73.cs)
+        if (g >= 2 && floor is not (FloorKind.L73Mud or FloorKind.L73Tor or FloorKind.L73Track) && !(u is >= 23 and <= 32 && v >= L73CastleD))
+        {
+            double dc = Math.Sqrt((double)(gx - L73IslandX) * (gx - L73IslandX) + (double)(gz - L73IslandZ) * (gz - L73IslandZ));
+            ulong hc = Hashing.Hash(seed, gx, gz, 0x2191);
+            if (dc is > 44 and < 88 && Hashing.Unit(hc) < 1 / 240.0)
+            {
+                t.Sealed = true;
+                t.Detail = 2;
+                t.Pier = (ArchPier)(Hashing.Mix(hc) % 4);
+                return t;
+            }
         }
         // Old bones on the fields, now and then a ribcage, and seldom a pack someone dropped running for the castle
         if (g >= 2 && floor is not (FloorKind.L73Mud or FloorKind.L73Tor or FloorKind.L73Track) && L73BannerAt(u, v) == null)

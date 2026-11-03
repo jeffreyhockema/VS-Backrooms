@@ -1,0 +1,161 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"stone": "backrooms:block/73/silverwall",
+		"foot": "backrooms:block/73/silverfoot",
+		"streak": "backrooms:block/73/silverstreak",
+		"coping": "backrooms:block/73/r4-coping",
+		"dark": "backrooms:block/73/r4-dark",
+		"iron": "backrooms:block/73/r4-iron",
+		"slate": "backrooms:block/73/r4-slate",
+		"rafters": "backrooms:block/73/r4-rafters",
+		"boards": "backrooms:block/73/r4-boardgaps",
+		"glow": "backrooms:block/73/r4-warmglow",
+		"leaded": "backrooms:block/73/r4-leaded",
+		"pot": "backrooms:block/73/r4-terracotta",
+		"quoin": "backrooms:block/73/quoin",
+		"oak": "backrooms:block/73/beam",
+		"oakb": "backrooms:block/73/oak"
+	},
+	"elements": [
+		{
+			"name": "Body0",
+			"from": [
+				0.0,
+				0,
+				0.0
+			],
+			"to": [
+				16.0,
+				13.5,
+				16.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#streak",
+					"uv": [
+						0,
+						2.5,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#streak",
+					"uv": [
+						0,
+						2.5,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#streak",
+					"uv": [
+						0,
+						2.5,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#streak",
+					"uv": [
+						0,
+						2.5,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#streak",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#streak",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Floor0",
+			"from": [
+				0.0,
+				13.5,
+				0.0
+			],
+			"to": [
+				16.0,
+				16,
+				16.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#coping",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#coping",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#coping",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#coping",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#coping",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#coping",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

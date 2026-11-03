@@ -1,0 +1,195 @@
+// Level 73: the gatehouse's drum towers, one cell of a half-round front by course
+{
+	"code": "l73-drum",
+	"variantgroups": [
+		{
+			"code": "cell",
+			"states": [
+				"00",
+				"01",
+				"10",
+				"11",
+				"20",
+				"21",
+				"30",
+				"31"
+			]
+		},
+		{
+			"code": "course",
+			"states": [
+				"foot",
+				"body",
+				"string",
+				"corbel",
+				"merlon"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-11-body"
+		],
+		"backrooms": [
+			"*-11-body"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-00-foot": {
+			"base": "block/73/drum-00-foot"
+		},
+		"*-00-body": {
+			"base": "block/73/drum-00-body"
+		},
+		"*-00-string": {
+			"base": "block/73/drum-00-string"
+		},
+		"*-00-corbel": {
+			"base": "block/73/drum-00-corbel"
+		},
+		"*-00-merlon": {
+			"base": "block/73/drum-00-merlon"
+		},
+		"*-01-foot": {
+			"base": "block/73/drum-01-foot"
+		},
+		"*-01-body": {
+			"base": "block/73/drum-01-body"
+		},
+		"*-01-string": {
+			"base": "block/73/drum-01-string"
+		},
+		"*-01-corbel": {
+			"base": "block/73/drum-01-corbel"
+		},
+		"*-01-merlon": {
+			"base": "block/73/drum-01-merlon"
+		},
+		"*-10-foot": {
+			"base": "block/73/drum-10-foot"
+		},
+		"*-10-body": {
+			"base": "block/73/drum-10-body"
+		},
+		"*-10-string": {
+			"base": "block/73/drum-10-string"
+		},
+		"*-10-corbel": {
+			"base": "block/73/drum-10-corbel"
+		},
+		"*-10-merlon": {
+			"base": "block/73/drum-10-merlon"
+		},
+		"*-11-foot": {
+			"base": "block/73/drum-11-foot"
+		},
+		"*-11-body": {
+			"base": "block/73/drum-11-body"
+		},
+		"*-11-string": {
+			"base": "block/73/drum-11-string"
+		},
+		"*-11-corbel": {
+			"base": "block/73/drum-11-corbel"
+		},
+		"*-11-merlon": {
+			"base": "block/73/drum-11-merlon"
+		},
+		"*-20-foot": {
+			"base": "block/73/drum-20-foot"
+		},
+		"*-20-body": {
+			"base": "block/73/drum-20-body"
+		},
+		"*-20-string": {
+			"base": "block/73/drum-20-string"
+		},
+		"*-20-corbel": {
+			"base": "block/73/drum-20-corbel"
+		},
+		"*-20-merlon": {
+			"base": "block/73/drum-20-merlon"
+		},
+		"*-21-foot": {
+			"base": "block/73/drum-21-foot"
+		},
+		"*-21-body": {
+			"base": "block/73/drum-21-body"
+		},
+		"*-21-string": {
+			"base": "block/73/drum-21-string"
+		},
+		"*-21-corbel": {
+			"base": "block/73/drum-21-corbel"
+		},
+		"*-21-merlon": {
+			"base": "block/73/drum-21-merlon"
+		},
+		"*-30-foot": {
+			"base": "block/73/drum-30-foot"
+		},
+		"*-30-body": {
+			"base": "block/73/drum-30-body"
+		},
+		"*-30-string": {
+			"base": "block/73/drum-30-string"
+		},
+		"*-30-corbel": {
+			"base": "block/73/drum-30-corbel"
+		},
+		"*-30-merlon": {
+			"base": "block/73/drum-30-merlon"
+		},
+		"*-31-foot": {
+			"base": "block/73/drum-31-foot"
+		},
+		"*-31-body": {
+			"base": "block/73/drum-31-body"
+		},
+		"*-31-string": {
+			"base": "block/73/drum-31-string"
+		},
+		"*-31-corbel": {
+			"base": "block/73/drum-31-corbel"
+		},
+		"*-31-merlon": {
+			"base": "block/73/drum-31-merlon"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

@@ -483,6 +483,16 @@ def painting_shape(n):
         box("FrameBottom", [1, 4, 14.6], [15, 5, 16], "#frame"),
         box("FrameLeft", [1, 5, 14.6], [2, 12, 16], "#frame"),
         box("FrameRight", [14, 5, 14.6], [15, 12, 16], "#frame"),
+        # (round 4) a moulded gilt frame: an outer step, an inner lip, corner rosettes, a crest at the top, the cord to its nail
+        box("OuterTop", [0.4, 12.6, 15.0], [15.6, 13.6, 16], "#frame"), box("OuterBottom", [0.4, 3.4, 15.0], [15.6, 4.4, 16], "#frame"),
+        box("OuterLeft", [0.4, 4.4, 15.0], [1.4, 12.6, 16], "#frame"), box("OuterRight", [14.6, 4.4, 15.0], [15.6, 12.6, 16], "#frame"),
+        box("LipTop", [2, 11.6, 14.9], [14, 12, 15.3], "#frame"), box("LipBottom", [2, 5, 14.9], [14, 5.4, 15.3], "#frame"),
+        box("LipLeft", [2, 5.4, 14.9], [2.4, 11.6, 15.3], "#frame"), box("LipRight", [13.6, 5.4, 14.9], [14, 11.6, 15.3], "#frame"),
+        box("RoseNW", [0.6, 12.2, 14.2], [2.2, 13.8, 14.8], "#frame"), box("RoseNE", [13.8, 12.2, 14.2], [15.4, 13.8, 14.8], "#frame"),
+        box("RoseSW", [0.6, 3.2, 14.2], [2.2, 4.8, 14.8], "#frame"), box("RoseSE", [13.8, 3.2, 14.2], [15.4, 4.8, 14.8], "#frame"),
+        box("Crest", [6, 13.4, 14.4], [10, 14.8, 15.2], "#frame"), box("CrestTop", [7.2, 14.8, 14.6], [8.8, 15.6, 15.2], "#frame"),
+        box("CordL", [4.5, 13.6, 15.6], [5, 15.8, 15.9], "#frame"), box("CordR", [11, 13.6, 15.6], [11.5, 15.8, 15.9], "#frame"),
+        box("Nail", [7.5, 15.6, 15.3], [8.5, 16, 16], "#frame"),
     ]
     return shape(tex, els)
 
@@ -512,7 +522,24 @@ def door_shape(part, state, attic=False):
         el = {"name": "Leaf", "from": [x0, 0, -10], "to": [x0 + 4, 16, 6], "faces": {
             ("west" if col == 0 else "east"): face("#out", outer), ("east" if col == 0 else "west"): face("#in", inner),
             "north": face("#edge", edge), "south": face("#edge", edge), "up": face("#edge", [0, 0, 4, 16]), "down": face("#edge", [0, 0, 4, 16])}}
-    return {"textureWidth": tw, "textureHeight": th, "textures": tex, "elements": [el]}
+    els = [el]
+    if state == "shut":
+        # (round 4) iron strap hinges across the outer face with their studs and fleured ends, a ring pull at the meeting
+        # stiles on the middle row
+        tex["iron"] = "backrooms:block/73/r4-iron"
+        iron = lambda n, a, b: {"name": n, "from": a, "to": b, "faces": {k: face("#iron", [0, 0, 4, 4]) for k in ("north", "south", "east", "west", "up", "down")}}
+        hinge_x = 0.6 if col == 0 else 15.4  # the hinges at the outer stiles
+        for k, y in enumerate((3.0, 11.5)):
+            els.append(iron(f"Strap{k}", [0.6, y, 10], [15.4, y + 1.4, 10.5]))
+            els.append(iron(f"Fleur{k}", [hinge_x - 0.6 if col == 0 else hinge_x - 2.4, y - 0.8, 10], [hinge_x + 2.4 if col == 0 else hinge_x + 0.6, y + 2.2, 10.4]))
+            for j, x in enumerate((3.0, 7.5, 12.0)):
+                els.append(iron(f"Stud{k}{j}", [x, y + 0.2, 10.5], [x + 1.0, y + 1.2, 11.0]))
+        if row == 1 or (attic and row == 0):
+            cx = 14.0 if col == 0 else 2.0
+            els += [iron("Boss", [cx - 1.0, 7.0, 10], [cx + 1.0, 9.0, 10.6]),
+                    iron("RingL", [cx - 1.8, 3.4, 10.6], [cx - 1.2, 7.4, 11.2]), iron("RingR", [cx + 1.2, 3.4, 10.6], [cx + 1.8, 7.4, 11.2]),
+                    iron("RingB", [cx - 1.8, 2.8, 10.6], [cx + 1.8, 3.4, 11.2])]
+    return {"textureWidth": tw, "textureHeight": th, "textures": tex, "elements": els}
 
 
 def table_shape(state):

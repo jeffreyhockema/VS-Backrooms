@@ -21,10 +21,11 @@ namespace Backrooms;
 /// </summary>
 public partial class AtmosphereSystem
 {
+    // (round 4: scene 0.44 / 0.40, was 0.36 / 0.33, so the ridges, trees and rocks read by the moon alone)
     // (clouds 0: vanilla's clouds are hidden, never drawn low and white over the island's night; the lore's black cloud is
     // the dark spell, which takes the moon away rather than drawing cloud)
-    private static readonly Atmosphere L73Island = new(0.0035f, 0.10f, 0.03f, 0.035f, -0.12f, scene: 0.36f, clouds: 0f, cloudBrightness: 0f);
-    private static readonly Atmosphere L73SeaAir = new(0.0060f, 0.08f, 0.025f, 0.03f, -0.18f, scene: 0.33f, clouds: 0f, cloudBrightness: 0f);
+    private static readonly Atmosphere L73Island = new(0.0035f, 0.10f, 0.03f, 0.035f, -0.12f, scene: 0.44f, clouds: 0f, cloudBrightness: 0f);
+    private static readonly Atmosphere L73SeaAir = new(0.0060f, 0.08f, 0.025f, 0.03f, -0.18f, scene: 0.40f, clouds: 0f, cloudBrightness: 0f);
     private static readonly Atmosphere L73KeepAir = new(0.0015f, 0.12f, 0.07f, 0.035f, 0f, scene: 0.85f, clouds: 0f, cloudBrightness: 0f);
 
     /// <summary>The title key of the castle's keep (level-2101 in the lang file).</summary>

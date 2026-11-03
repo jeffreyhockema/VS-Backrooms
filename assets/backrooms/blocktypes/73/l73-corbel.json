@@ -1,0 +1,160 @@
+// Level 73: the machicolation course: corbels carrying a projecting floor on the outer face (-north: north; corner: and west)
+{
+	"code": "l73-corbel",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"straight",
+				"corner"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-straight-north"
+		],
+		"backrooms": [
+			"*-straight-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"shapeByType": {
+		"*-straight-north": {
+			"base": "block/73/corbel-straight",
+			"rotateY": 0
+		},
+		"*-straight-east": {
+			"base": "block/73/corbel-straight",
+			"rotateY": 270
+		},
+		"*-straight-south": {
+			"base": "block/73/corbel-straight",
+			"rotateY": 180
+		},
+		"*-straight-west": {
+			"base": "block/73/corbel-straight",
+			"rotateY": 90
+		},
+		"*-corner-north": {
+			"base": "block/73/corbel-corner",
+			"rotateY": 0
+		},
+		"*-corner-east": {
+			"base": "block/73/corbel-corner",
+			"rotateY": 270
+		},
+		"*-corner-south": {
+			"base": "block/73/corbel-corner",
+			"rotateY": 180
+		},
+		"*-corner-west": {
+			"base": "block/73/corbel-corner",
+			"rotateY": 90
+		}
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}
