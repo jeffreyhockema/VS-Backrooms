@@ -79,14 +79,15 @@ public partial class WorldLayout
         // network rack's patch cords, down a hot aisle between the racks' backs, a rack torn open, the fire suppression bank, a
         // tape library, the operators' desks with their monitors on arms
         static bool Door(Tile t) => t.Variant == L120Rack && t.Detail <= L120RackBoth;
-        spots.Add(Spot("rack-doors", L120Best(rings, Stand, (t, k, s) => k == 2 && Math.Abs(s) <= 1 && Door(t) ? 2 : 0, 2, 6, line: 1), 6));
-        spots.Add(Spot("rack-storage", L120Best(rings, Stand, (t, k, s) => k == 2 && Math.Abs(s) <= 1 && t.Variant == L120Rack && t.Detail is L120RackStore or L120RackStoreLit ? 2 : 0, 2, 6, line: 1), 6));
-        spots.Add(Spot("rack-network", L120Best(rings, Stand, (t, k, s) => k == 2 && Math.Abs(s) <= 1 && t.Variant == L120Rack && t.Detail is L120RackNet or L120RackNetLit ? 2 : 0, 2, 6, line: 1), 6));
+        spots.Add(Spot("rack-doors", L120Best(rings, Stand, (t, k, s) => k == 2 && Math.Abs(s) <= 1 && Door(t) ? 2 : 0, 2, 6, line: 1), -8));
+        spots.Add(Spot("rack-storage", L120Best(rings, Stand, (t, k, s) => k == 2 && Math.Abs(s) <= 1 && t.Variant == L120Rack && t.Detail is L120RackStore or L120RackStoreLit ? 2 : 0, 2, 6, line: 1), -8));
+        spots.Add(Spot("rack-network", L120Best(rings, Stand, (t, k, s) => k == 2 && Math.Abs(s) <= 1 && t.Variant == L120Rack && t.Detail is L120RackNet or L120RackNetLit ? 2 : 0, 2, 6, line: 1), -8));
         spots.Add(Spot("hot-aisle", L120Best(rings, t => Stand(t) && t.Zone == (byte)L120Zone.Hot, (t, k, s) => Math.Abs(s) == 1 && Rack(t) ? 1 : 0, 6, 10, line: 5), -2));
         spots.Add(Spot("rack-torn", L120Best(rings, Stand, (t, k, s) => k == 2 && s == 0 && t.Variant == L120Wreck && t.Detail == L120WreckTorn ? 6 : k == 2 && Math.Abs(s) == 1 && t.Variant == L120Wreck ? 1 : 0, 2, 6, line: 1), 4));
-        spots.Add(Spot("fire-suppression", L120Best(rings, Stand, (t, k, s) => k is 2 or 3 && s == 0 && t.Variant == L120FireSup ? 10 : 0, 3, 10, line: 1), 14));
+        spots.Add(Spot("fire-suppression", L120FacingView(rings, t => t.Variant == L120FireSup, 3), 12));
         spots.Add(Spot("tape-library", L120Best(rings, Stand, (t, k, s) => k is 2 or 3 && Math.Abs(s) <= 1 && t.Variant == L120TapeLib ? 3 : 0, 3, 6, line: 1), 6));
-        spots.Add(Spot("noc-consoles", L120Best(rings, Stand, (t, k, s) => k <= 4 && t.Variant == L120Terminal && t.Detail is L120TermConsole or L120TermConsoleGlitch ? (t.Detail == L120TermConsoleGlitch ? 4 : 1) : 0, 4, 6, zone: L120Zone.Terminals), -18));
+        spots.Add(Spot("noc-consoles", L120FacingView(rings, t => t.Variant == L120Terminal && t.Detail == L120TermConsoleGlitch, 3)
+            ?? L120FacingView(rings, t => t.Variant == L120Terminal && t.Detail == L120TermConsole, 3), -14));
 
         // The nearest White Void: across a room to its black doors, a broken window, a Smiler lost in the light
         if (L120NearestPocket(chx, chz, L120HallKind.Void, 12) is { } v)
@@ -216,6 +217,37 @@ public partial class WorldLayout
     }
 
     /// <summary>A compass heading (0 north, 90 east) looking along a step.</summary>
+    /// <summary>
+    /// (Round 4) The nearest thing that matches, seen from <paramref name="dist"/> tiles in front of its face (its
+    /// <see cref="Tile.Pier"/>), looking back at it; the tiles between clear.
+    /// </summary>
+    private (int X, int Z, int Dx, int Dz)? L120FacingView(List<List<(int Hx, int Hz)>> rings, Func<Tile, bool> match, int dist)
+    {
+        (int, int)[] steps = { (-1, 0), (1, 0), (0, -1), (0, 1) }; // (ArchPier: West, East, North, South)
+        foreach (var ring in rings)
+            foreach (var (hx, hz) in ring)
+            {
+                L120Plan plan = L120PlanOf(hx, hz);
+                for (int q = 0; q < L120HallSize; q++)
+                    for (int p = 0; p < L120HallSize; p++)
+                    {
+                        Tile t = plan.At(p, q);
+                        if (!match(t)) continue;
+                        var (dx, dz) = steps[(int)t.Pier & 3];
+                        bool clear = true;
+                        for (int k = 1; k <= dist && clear; k++)
+                        {
+                            int pp = p + dx * k, qq = q + dz * k;
+                            clear = pp >= 0 && qq >= 0 && pp < L120HallSize && qq < L120HallSize && IsWalkable(plan.At(pp, qq));
+                        }
+                        if (!clear) continue;
+                        var (x, z) = plan.World(p + dx * dist, q + dz * dist);
+                        return (x, z, -dx, -dz);
+                    }
+            }
+        return null;
+    }
+
     private static double L120Heading(int dx, int dz) => (Math.Atan2(dx, -dz) * 180 / Math.PI + 360) % 360;
 
     /// <summary>

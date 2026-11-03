@@ -169,20 +169,14 @@ def materials():
             for x in range(S):
                 px_set(img, x, y, (24, 24, 24))
         save(img, name)
-    # The asset label on the top rail: white with a barcode and a number
-    lab = Image.new("RGBA", (32, 32), (222, 220, 210, 255))
+    # The asset label on the top rail: an aged white strip, a line of small print and a short barcode, read at 2 px high
+    lab = Image.new("RGBA", (32, 32), (186, 182, 166, 255))
     rng = random.Random(413)
     d = ImageDraw.Draw(lab)
-    for row in range(4):
-        y0 = row * 8
-        x = 1
-        while x < 20:
-            w = rng.choice((1, 1, 2))
-            d.rectangle([x, y0 + 1, x + w - 1, y0 + 4], fill=(30, 30, 30, 255))
-            x += w + rng.choice((1, 1, 2))
-        for i in range(3):
-            d.rectangle([22 + i * 3, y0 + 2, 23 + i * 3, y0 + 4], fill=(40, 40, 40, 255))
-        d.line([0, y0 + 6, 31, y0 + 6], fill=(200, 198, 186, 255))
+    for y0 in range(0, 32, 2):
+        for x in range(1, 31):
+            if (x < 14 and rng.random() < 0.55) or (x >= 16 and x % 2 == 0):
+                d.point((x, y0 + 1), fill=(70, 68, 62, 255) if x < 14 else (40, 40, 40, 255))
     save(M.grime(lab, 0.12, 414), "rk-label")
     leds()
     server_faces()
@@ -373,14 +367,14 @@ def rack_elements(part, state):
     if lower:
         els += [b("Plinth", (0.75, 0, 1.25), (15.25, 1.25, 14.75), {"front": "rk-black", "back": "rk-black", "side": "rk-black", "top": "rk-paint"},
                   faces=("north", "south")),
-                b("FootW", (0.25, 0, 0.5), (1.5, 0.5, 1.75), "rk-chrome", faces=("north", "west", "up")),
-                b("FootE", (14.5, 0, 0.5), (15.75, 0.5, 1.75), "rk-chrome", faces=("north", "east", "up")),
+                b("FootW", (0.25, 0, 0.5), (1.5, 0.5, 1.75), "rk-black", faces=("north", "west", "up")),
+                b("FootE", (14.5, 0, 0.5), (15.75, 0.5, 1.75), "rk-black", faces=("north", "east", "up")),
                 b("Sill", (0.75, 1.25, 1.25), (15.25, 2.75, 2.5), "rk-paint", faces=("north", "up"))]
     else:
         els += [b("Cap", (0, 15, 0.5), (16, 16, 15.5), {"top": "rk-top", "side": "rk-paint", "front": "rk-paint", "back": "rk-paint"},
                   faces=("up", "north", "south", "east", "west")),
                 b("Header", (0.75, 13, 1.25), (15.25, 15, 2.5), "rk-paint", faces=("north", "down")),
-                uvb("Label", (5, 13.5, 1.1), (11, 14.5, 1.25), "rk-label", (0, 0, 6, 1)),
+                uvb("Label", (6, 13.75, 1.1), (10, 14.75, 1.25), "rk-label", (0, 0, 4, 1)),
                 b("Brush", (6, 16, 9), (12, 16.25, 12), "rk-black", faces=("up", "north", "south", "east", "west"))]
 
     # The units on their rails
@@ -415,15 +409,15 @@ def rack_elements(part, state):
         if lower:
             els += [b("RailB", (2.25, 1.25, dz0), (13.75, 2.75, dz1), "rk-paint", faces=("north", "up")),
                     b("Mesh", (2.25, 2.75, 0.6), (13.75, 16, 0.7), "rk-mesh", faces=N_),
-                    b("Hinge0", (0.5, 4, 0.0), (1.25, 6, 0.75), "rk-chrome", faces=("north", "west", "up", "down")),
+                    b("Hinge0", (0.5, 4, 0.0), (1.25, 6, 0.75), "rk-black", faces=("north", "west", "up", "down")),
                     b("HandleBase", (14.05, 10.5, 0.0), (14.95, 15, 0.25), "rk-black", faces=("north", "east", "west", "up", "down")),
-                    b("Handle", (14.2, 11, -0.6), (14.8, 14.5, 0.0), "rk-chrome", faces=("north", "east", "west", "up", "down")),
+                    b("Handle", (14.2, 11, -0.6), (14.8, 14.5, 0.0), "rk-black", faces=("north", "east", "west", "up", "down")),
                     b("Lock", (14.25, 14.6, -0.15), (14.75, 15.1, 0.0), "rk-chrome", faces=("north", "up"))]
         else:
             els += [b("RailT", (0.75, 13, dz0), (15.25, 15, dz1), "rk-paint", faces=("north", "down", "east", "west")),
                     b("Mesh", (2.25, 0, 0.6), (13.75, 13, 0.7), "rk-mesh", faces=N_),
-                    b("Hinge1", (0.5, 9, 0.0), (1.25, 11, 0.75), "rk-chrome", faces=("north", "west", "up", "down")),
-                    uvb("DoorLabel", (5, 13.5, 0.1), (11, 14.5, 0.25), "rk-label", (0, 2, 6, 3))]
+                    b("Hinge1", (0.5, 9, 0.0), (1.25, 11, 0.75), "rk-black", faces=("north", "west", "up", "down")),
+                    uvb("DoorLabel", (6, 13.75, 0.1), (10, 14.75, 0.25), "rk-label", (0, 2, 4, 3))]
             # (the asset label sits on the door's top rail when there is a door)
             els = [e for e in els if e["name"] != "Label"]
     elif kind != "srv" or gutted:
@@ -451,7 +445,7 @@ def rack_elements(part, state):
         b("RMesh", (2.25, y0 if not lower else 1.25, 15.3), (13.75, y1 - (2 if not lower else 0), 15.4), "rk-mesh", faces=("south",)),
     ]
     if lower:
-        els.append(b("RHandle", (1.2, 11, 15.75), (1.8, 14.5, 16.3), "rk-chrome", faces=("south", "east", "west", "up", "down")))
+        els.append(b("RHandle", (1.2, 11, 15.75), (1.8, 14.5, 16.3), "rk-black", faces=("south", "east", "west", "up", "down")))
     else:
         els.append(b("RRailT", (0.75, 13, dz0), (15.25, 15, dz1), "rk-paint", faces=("south", "down")))
     return els

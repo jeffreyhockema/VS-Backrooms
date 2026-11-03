@@ -102,7 +102,7 @@ def textures():
     save(pcb, "pcb")
     save(M.noise_hv((60, 70, 96), 3, 7723, mottle=4), "cap-blue")
     # Batteries: matte dark plastic with a pale band; their tops with the vent caps
-    bat = M.noise_hv((46, 48, 50), 3, 7724, mottle=3)
+    bat = M.noise_hv((62, 64, 66), 3, 7724, mottle=3)
     for y in range(6, 11):
         for x in range(32):
             px_set(bat, x, y, M.lift((150, 148, 140), rng.uniform(-3, 3)))
@@ -366,18 +366,12 @@ def battery_elements(part):
             els.append(b(f"Tp{i}{j}", (x + 0.4, y + 4.2, 3.6), (x + 1.1, y + 4.6, 4.3), "term-red", faces=("north", "up", "east", "west")))
             els.append(b(f"Tn{i}{j}", (x + 2.5, y + 4.2, 3.6), (x + 3.2, y + 4.6, 4.3), "rk-black", faces=("north", "up", "east", "west")))
         els.append(b(f"Link{i}", (2.9, y + 4.6, 3.8), (13.4, y + 4.9, 4.2), "fs-brass", faces=("north", "up")))
-    # The door: a frame and upright bars, a handle
+    # (No door: an open battery rack, a restraint bar across each shelf, the uprights at the front)
     top = 16 if lower else 13.25
-    els += [b("DoorL", (1.5, 0 if not lower else 1, 0.75), (2.5, top, 1.5), "up-paint", faces=("north", "east", "west")),
-            b("DoorR", (13.5, 0 if not lower else 1, 0.75), (14.5, top, 1.5), "up-paint", faces=("north", "east", "west"))]
-    if lower:
-        els.append(b("DoorB", (2.5, 1, 0.75), (13.5, 2, 1.5), "up-paint", faces=("north", "up")))
-        els.append(b("Handle", (12.6, 8, 0.1), (13.2, 12, 0.75), "rk-chrome", faces=("north", "east", "west", "up", "down")))
-    else:
-        els.append(b("DoorT", (2.5, 12.25, 0.75), (13.5, 13.25, 1.5), "up-paint", faces=("north", "down")))
-    for k in range(7):
-        x = 3.6 + k * 1.45
-        els.append(b(f"Bar{k}", (x, 0 if not lower else 2, 0.95), (x + 0.4, top - (1 if not lower else 0), 1.3), "rk-chrome", faces=("north", "east", "west")))
+    els += [b("UpL", (1.5, 0, 1.25), (2.25, top, 2), "dk-steel", faces=("north", "east", "west")),
+            b("UpR", (13.75, 0, 1.25), (14.5, top, 2), "dk-steel", faces=("north", "east", "west"))]
+    for i, y in enumerate(shelves):
+        els.append(b(f"Rail{i}", (2.25, y + 2.2, 1.6), (13.75, y + 2.7, 2.0), "rk-black", faces=("north", "up", "down")))
     return els
 
 
@@ -781,6 +775,7 @@ def main():
     textures()
     floor_textures()
     wall_textures()
+    ceiling_textures()
     more_textures()
     blocktypes()
     blocktypes_more()
@@ -1074,3 +1069,28 @@ def duct_blocktype():
                {"collisionboxByType": {"*-we": cuboid(bx), "*-ns": cuboid(bx, 90), "*-hub": cuboid((0, 0.53, 0, 1, 1, 1))},
                 "selectionboxByType": {"*-we": cuboid(bx), "*-ns": cuboid(bx, 90), "*-hub": cuboid((0, 0.53, 0, 1, 1, 1))}},
                extra={"drops": drops(("metalbracket", 0.3, 0.3))}, inventory="l120-duct-we")
+
+
+# ======================================================================== The ceiling (round 4)
+
+def ceiling_textures():
+    """The office ceiling: matlib's mineral-fibre tile in its T-bar grid, aged and dirtier than the released offices';
+    one water-stained; one fallen through, black above it, a ragged edge of tile left in the grid."""
+    base = (196, 190, 172)
+    tile = M.ceiling_tile(8400, base=base, fissures=0.7)
+    M.grime(tile, 0.1, 8401, color=(120, 110, 88))
+    save(tile, "ceiling-tile")
+    stained = M.ceiling_tile(8402, base=base, fissures=0.7, stain_color=(150, 118, 70))
+    M.grime(stained, 0.12, 8403, color=(120, 110, 88))
+    save(stained, "ceiling-stained")
+    broken = tile.copy()
+    p = broken.load()
+    rng = random.Random(8404)
+    for y in range(2, 30):
+        left = 3 + int(2.5 * math.sin(y * 0.7)) + rng.randint(0, 1)
+        right = 29 - int(2 * math.sin(y * 0.5 + 1)) - rng.randint(0, 1)
+        for x in range(left, right):
+            p[x, y] = (8, 8, 9, 255)
+        if left - 1 >= 0:
+            M.touch(broken, left - 1, y, 0.15)
+    save(broken, "ceiling-broken")
