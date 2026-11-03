@@ -99,7 +99,9 @@ public sealed partial class WorldLayout
     /// </summary>
     public const byte L15WallAuth = 16, L15WallDecon = 17, L15WallLiftL = 18, L15WallLiftR = 19, L15WallLiftCall = 20, L15WallHatch = 21,
         L15WallPipes = 22, L15WallMenu = 23, L15WallHV = 24, L15WallBigScreen = 25, L15WallSlide = 26, L15WallMap = 27,
-        L15WallExtinguisher = 28;
+        L15WallExtinguisher = 28,
+        // Round 4: DON'T scrawled by a crematorium's door
+        L15WallScrawl = 29;
 
     /// <summary>
     /// How many room codes there are to paint (<see cref="L15WallCode"/>): two per letter, H (labs), e (stores), M, D, K, C, L, S,
@@ -882,6 +884,8 @@ public sealed partial class WorldLayout
             if (gate) Decorate(sa, sb, L15WallScanner, outward, 0);
             // Round 3: AUTHORIZED PERSONNEL ONLY by a control room's door, DECONTAMINATION by most labs' and hydroponics bays'
             else if (kind == L15Zone.Control) Decorate(sa, sb, L15WallAuth, outward, 0);
+            // Round 4: someone wrote on the wall by the crematorium's door
+            else if (kind == L15Zone.Crematorium) Decorate(sa, sb, L15WallScrawl, outward, 0);
             else if (kind is L15Zone.Lab or L15Zone.Hydro && rng.Chance(0.7))
             {
                 Decorate(sa, sb, L15WallDecon, outward, 0);

@@ -60,6 +60,7 @@
 				"tag37",
 				"medheadlit",
 				"medheaddead",
+				"scrawl",
 				"big00",
 				"big01",
 				"big02",
@@ -974,6 +975,22 @@
 		},
 		"*-medheaddead-west": {
 			"base": "backrooms:block/15/l15-panel-medheaddead",
+			"rotateY": 90
+		},
+		"*-scrawl-north": {
+			"base": "backrooms:block/15/l15-panel-scrawl",
+			"rotateY": 0
+		},
+		"*-scrawl-east": {
+			"base": "backrooms:block/15/l15-panel-scrawl",
+			"rotateY": 270
+		},
+		"*-scrawl-south": {
+			"base": "backrooms:block/15/l15-panel-scrawl",
+			"rotateY": 180
+		},
+		"*-scrawl-west": {
+			"base": "backrooms:block/15/l15-panel-scrawl",
 			"rotateY": 90
 		},
 		"*-big00-north": {

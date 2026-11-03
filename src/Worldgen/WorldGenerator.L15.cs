@@ -95,6 +95,7 @@ public sealed partial class WorldGenerator
             "lamplower", "lampupper", "lampon", "lamplowerdead", "lampupperdead" };
         for (int r = 1; r <= 5; r++) { kinds.Add($"jamb{r}"); kinds.Add($"jamb{r}e"); }
         for (int i = 0; i < 4; i++) kinds.Add($"jambplate{i}");
+        kinds.Add("scrawl");
         kinds.Add("medheadlit");
         kinds.Add("medheaddead");
         for (int c = 0; c < 4; c++)
@@ -484,6 +485,7 @@ public sealed partial class WorldGenerator
         switch (t.Detail)
         {
             case L.L15WallExtinguisher when rel == 2: return L15Panel("ext", f, 0);
+            case L.L15WallScrawl when rel == 2: return L15Panel("scrawl", f, 0);
             case L.L15WallEscape when rel == 2: return L15Panel("escape", f, 0);
             case L.L15WallDisplay when rel == 2: return L15Panel("display", f, 0);
             case L.L15WallRadar when rel == 2: return L15Panel("radar", f, 0);

@@ -737,6 +737,11 @@ def panel_shapes():
         add("medhead" + ("lit" if lit else "dead"), els, {"whitegloss": T("whitegloss"), strip: T(strip), cross: T(cross)},
             light=[23, 4, 6] if lit else None)
 
+    # DON'T, scrawled in marker on the panel by a crematorium's door (a picture: there is nothing to model)
+    els = [box("Body", (0, 0, 0), (16, 16, 16), {"all": "wall", "north": "scrawl"})]
+    els[0]["faces"]["north"]["uv"] = [0, 0, 16, 16]
+    add("scrawl", els, {"scrawl": T("scrawl")})
+
     # The big display's bezel (three wide, two high: row 0 the lower, i 0 the left as seen, its outer edge at x 16)
     for row in range(2):
         for i in range(3):
@@ -813,6 +818,26 @@ def panel_shapes():
 
 
 def panel_textures():
+    # DON'T in black marker on the white panel at 64 px, the letters uneven, a drip from the T
+    img = Image.open(os.path.join(TEX, "wall-panel.png")).convert("RGBA").resize((B, B), Image.NEAREST)
+    m = Image.new("L", (B * 4, B * 4), 0)
+    from PIL import ImageFont
+    try:
+        f = ImageFont.truetype(os.path.join(os.environ.get("WINDIR", "C:/Windows"), "Fonts", "segoepr.ttf"), 64)
+    except OSError:
+        f = ImageFont.load_default()
+    d = ImageDraw.Draw(m)
+    d.text((14, 70), "DON'T", fill=255, font=f)
+    m = m.rotate(-6, resample=Image.BICUBIC).resize((B, B), Image.LANCZOS)
+    a = np.array(m)
+    px = img.load()
+    for y in range(B):
+        for x in range(B):
+            if a[y, x] > 110:
+                px[x, y] = (26, 24, 26, 255)
+    for y in range(36, 47):
+        px[49, y] = (26, 24, 26, 255)
+    save(img, "scrawl")
     # A green cross lamp (lit, dead)
     for name, (bg, c) in (("medcross", ((226, 240, 232), (40, 200, 90))), ("medcrossdead", ((150, 156, 152), (60, 90, 70)))):
         img = M.new((S, S), bg)

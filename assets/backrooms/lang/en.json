@@ -2151,6 +2151,8 @@
 	"blockdesc-l15-appliance-*": "The casing is all there. Everything that was inside it is gone, cut out clean.",
 	"block-l15-panel-ext-*": "Fire Extinguisher",
 	"block-l15-panel-escape-*": "ESCAPE Panel",
+	"block-l15-panel-scrawl-*": "Wall Panel (Written On)",
+	"blockdesc-l15-panel-scrawl-*": "DON'T, in black marker, by the door. Nothing else.",
 	"block-l15-panel-medhead*": "Door Surround",
 	"block-l15-panel-tag*": "Hall Tag",
 	"block-l15-panel-lamp*": "Wall Light",

@@ -589,7 +589,7 @@ block codes stay where they are (no save break), new blocks are added.
 35. (B) [partly: an etched pilaster that falls on a bulkhead keeps its marks] Symbols etched on the beams (Wikidot): some bulkhead jambs carry the etched marks.
 36. (B) [done] The codes by the vents ("eco3x10c", Fandom) and "H15": kept; the bulkheads carry the line code in the same
     stencil.
-37. (C) [skipped: the crematorium's plate is the same blank kind as the bare rooms'; not worth a layout flag] The crematorium's hand-written "DON'T" by its door (round 3's skipped 38).
+37. (C) [done: `L15WallScrawl` beside a crematorium's door, in black marker] The crematorium's hand-written "DON'T" by its door (round 3's skipped 38).
 38. (C) [skipped: the placards describe levels; a camp's would read as a M.E.G. base, against DECISIONS.md] A M.E.G. placard (the shared `MegPlacard`) at a camp now and then, the Wikidot camps' explorers.
 
 **5. Alignment with the other levels**
@@ -621,7 +621,7 @@ Generator (`WorldGenerator.L15.cs`, `InitL15Round4`, `L15WallRound4`): bulkheads
 main halls (jambs, header, tread plate), a hall tag on one wall 4 blocks after each, the cable troughs along the halls'
 ceiling edges, the battery lamps and the breaker at the dark squares' edges (`L15DarkEdge`), the medical monitors over
 the beds' heads, stools and tables in canteens, the lectern; layout (`WorldLayout.Level15.cs`): only the lectern's flag
-on one stage tile. Showcase: `bulkhead`, `dark-edge`.
+on one stage tile, the projector's on one aisle step, DON'T by the crematoria's doors (`L15WallScrawl`). Showcase: `bulkhead`, `dark-edge`.
 
 ### Inventions
 
