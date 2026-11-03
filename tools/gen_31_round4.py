@@ -1490,7 +1490,7 @@ def covered_textures():
     for y in range(S):
         for x in range(S):
             r, g, b, a = px[x, y]
-            k = 1.0 + 0.10 * math.sin(x * 0.55) - (0.08 if x % 9 == 0 else 0)  # long folds
+            k = 1.0 + 0.16 * math.sin(x * 0.55 + 0.3 * math.sin(y * 0.2)) - (0.14 if x % 9 == 0 else 0) + (0.06 if x % 9 == 1 else 0)  # long folds
             px[x, y] = (M.clamp(r * k), M.clamp(g * k), M.clamp(b * k), 255)
     M.grime(sheet, 0.22, 4321, color=(120, 112, 96), bias="bottom", cover=0.6)
     save_tex(sheet, "r4-dustsheet")
