@@ -41,7 +41,7 @@ public sealed partial class WorldLayout
     /// <summary>What a block of the forest is (<see cref="L47Wood"/>): nothing, the barks, leaves, stone, fallen logs, the Order's trail stones.</summary>
     public const byte L47Air = 0, L47BarkOak = 1, L47BarkBeech = 2, L47BarkFir = 3, L47BarkSpruce = 4, L47BarkDead = 5, L47BarkGreen = 6,
         L47LeafOak = 8, L47LeafBeech = 9, L47LeafNeedle = 10, L47Stone = 11, L47LogOakX = 12, L47LogOakZ = 13, L47LogDeadX = 14, L47LogDeadZ = 15,
-        L47TrailStone = 16, L47KindLimit = 24;
+        L47TrailStone = 16, L47RootEarth = 17, L47KindLimit = 24;
 
     public static bool L47IsBark(byte k) => k is >= L47BarkOak and <= L47BarkGreen;
     public static bool L47IsLeaf(byte k) => k is >= L47LeafOak and <= L47LeafNeedle;
@@ -610,7 +610,7 @@ public sealed partial class WorldLayout
             {
                 L47Log l = L47LogCached(i, j);
                 if (!l.Exists) continue;
-                double pad = l.R + 2;
+                double pad = Math.Max(l.R + 2, l.Plate + 1.5);
                 if (Math.Max(l.Ax, l.Bx) + pad < x0 || Math.Min(l.Ax, l.Bx) - pad > x1 || Math.Max(l.Az, l.Bz) + pad < z0 || Math.Min(l.Az, l.Bz) - pad > z1) continue;
                 b.Logs.Add(l);
             }
@@ -756,6 +756,23 @@ public sealed partial class WorldLayout
         return true;
     }
 
+    /// <summary>
+    /// The root plate of a fallen giant (round 4): an old trunk (not dead wood, thick, long enough) blown over with its roots,
+    /// torn up with the earth in them, standing on edge at its foot; the plate's radius, or 0 where the log has none (about
+    /// half of those that could).
+    /// </summary>
+    private double L47PlateOf(int i, int j, in L47Log l)
+    {
+        if (l.Dead || l.R < 0.8) return 0;
+        double len = Math.Sqrt((l.Bx - l.Ax) * (l.Bx - l.Ax) + (l.Bz - l.Az) * (l.Bz - l.Az));
+        if (len < 9) return 0;
+        ulong h = Hashing.Hash(seed, i, j, SaltL47Log + 0x40);
+        if (Hashing.Unit(h) > 0.6) return 0;
+        // (Not where the plate would stand on the trail or in the glade)
+        if (L47TrailDistance(l.Ax, l.Az, out _) < L47TrailClear + 4.5 || L47FromMid(l.Ax, l.Az) < L47GladeClear + 4) return 0;
+        return 2.6 + 1.6 * Hashing.Unit(Hashing.Mix(h));
+    }
+
     /// <summary>A boulder on its own lattice (19 blocks), if there is one: its middle, its radii, and the height of its middle.</summary>
     private bool L47BoulderAt(int i, int j, out double cx, out double cz, out double rx, out double rz, out double ry, out double cy)
     {
@@ -789,6 +806,33 @@ public sealed partial class WorldLayout
                 if (kinds[rel - lowest] != 0) continue;
                 if (L47InTube(px, pz, rel, ax, az, y, bx, bz, y, 0, r + 0.15)) kinds[rel - lowest] = kind;
             }
+            // The root plate at its foot: a disc of earth held in roots standing across the trunk's end, ragged, the roots
+            // reaching out past its rim; a little behind the trunk's end, so the trunk runs into it
+            if (log.Plate > 0)
+            {
+                double dx = bx - ax, dz = bz - az, len = Math.Sqrt(dx * dx + dz * dz);
+                double ux = dx / len, uz = dz / len;
+                double rx = px - ax, rz = pz - az;
+                double along = rx * ux + rz * uz, side = -rx * uz + rz * ux;
+                if (along > -1.6 && along < 0.9 && Math.Abs(side) < log.Plate + 2.5)
+                {
+                    double cy = y + 0.6, pr = log.Plate;
+                    for (int rel = Math.Max(lowest, (int)(y - pr) - 1); rel <= Math.Min(top, (int)(cy + pr) + 2); rel++)
+                    {
+                        if (kinds[rel - lowest] != 0) continue;
+                        double vy = rel + 0.5 - cy, d = Math.Sqrt(side * side + vy * vy);
+                        double a = Math.Atan2(vy, side);
+                        double rag = pr * (0.82 + 0.18 * Math.Sin(a * 5 + log.Ax) + 0.12 * (Hashing.Unit(Hashing.Hash(seed, gx * 61 + rel, gz, SaltL47Log + 0x41)) - 0.5));
+                        // (the disc proper: earth in the middle, the rim of roots; then roots reaching out beyond it)
+                        if (along > -0.6 && d < rag) kinds[rel - lowest] = d > rag - 0.9 ? log.Dead ? L47BarkDead : L47BarkOak : L47RootEarth;
+                        else if (d < pr + 2.3 && d > rag - 0.5 && along > -1.6)
+                        {
+                            double spoke = Math.Abs(Math.Sin(a * 3.5 + log.Az));
+                            if (spoke < 0.18 && along > -0.6) kinds[rel - lowest] = L47BarkOak;
+                        }
+                    }
+                }
+            }
         }
         foreach (L47Boulder stone in near.Boulders)
         {
@@ -813,7 +857,7 @@ public sealed partial class WorldLayout
     // ================= Kept: the things on their lattices, worked out once a thread =================
 
     /// <summary>A fallen log, or a boulder, as <see cref="L47LogAt"/> and <see cref="L47BoulderAt"/> work them out.</summary>
-    private struct L47Log { public bool Exists, Dead; public double Ax, Az, Bx, Bz, Y, R; }
+    private struct L47Log { public bool Exists, Dead; public double Ax, Az, Bx, Bz, Y, R, Plate; }
     private struct L47Boulder { public bool Exists; public double Cx, Cz, Rx, Rz, Ry, Cy; }
 
     /// <summary>
@@ -850,6 +894,7 @@ public sealed partial class WorldLayout
         var k = L47KeptHere();
         if (k.Logs.TryGetValue((i, j), out L47Log l)) return l;
         l.Exists = L47LogAt(i, j, out l.Ax, out l.Az, out l.Bx, out l.Bz, out l.Y, out l.R, out l.Dead);
+        l.Plate = l.Exists ? L47PlateOf(i, j, l) : 0;
         k.Logs[(i, j)] = l;
         return l;
     }

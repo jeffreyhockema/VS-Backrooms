@@ -21,7 +21,19 @@ public sealed partial class WorldLayout
     /// <summary>The glade's blocks (<see cref="L47GladeBlock"/>), by kind; a facing is packed above them (<see cref="L47GladeFacing"/>).</summary>
     public const int L47GAir = 0, L47GStone = 1, L47GPlinth = 2, L47GTimber = 3, L47GSlate = 4, L47GBoards = 5, L47GWindow = 6, L47GMegalith = 7,
         L47GFlag = 8, L47GLadder = 9, L47GTable = 10, L47GShelf = 11, L47GBannerTop = 12, L47GBannerFoot = 13, L47GLantern = 14, L47GBrazier = 15,
-        L47GAltar = 16, L47GHearth = 17, L47GCandles = 18, L47GGrass = 19, L47GKeep = -1;
+        L47GAltar = 16, L47GHearth = 17, L47GCandles = 18, L47GGrass = 19, L47GKeep = -1,
+        // (Round 4: the manor's models; their part in L47GladePart)
+        L47GRoofSlope = 20, L47GRoofEave = 21, L47GRoofRidge = 22, L47GRoofGable = 23, L47GLeaded = 24, L47GDoor = 25, L47GJamb = 26,
+        L47GBookcase = 27, L47GFire = 28, L47GMantel = 29, L47GTrestle = 30, L47GBench = 31, L47GTapestry = 32, L47GSconce = 33,
+        L47GStore = 34, L47GPot = 35, L47GSarsenTop = 36, L47GLampPost = 37, L47GOffering = 38;
+
+    /// <summary>Where the lamp posts stand beside the walk up to the manor (round 4): either side, every eight blocks.</summary>
+    private static bool L47LampPostAt(int au, int v) => au == 3 && v is 16 or 24 or 32 or 40;
+
+    /// <summary>The part packed into a glade block's code above its facing (a window's lower/upper/single and axis, a door piece...).</summary>
+    public static int L47GladePart(int code) => code >> 10 & 31;
+
+    private static int L47GP(int kind, ArchPier facing, int part) => kind | (int)facing << 8 | part << 10;
 
     /// <summary>The facing packed into a glade block's code (the way the thing faces: its back to the wall).</summary>
     public static ArchPier L47GladeFacing(int code) => (ArchPier)(code >> 8 & 3);
@@ -107,7 +119,7 @@ public sealed partial class WorldLayout
         }
         // (The walk in, and the braziers and banner poles beside it, are kept clear of anything put down)
         if (Math.Abs(u) <= 1 && v > L47HouseV) t.Floor = FloorKind.L47Trail;
-        if (Math.Abs(u) == 3 && (v == 9 || v == 44))
+        if (Math.Abs(u) == 3 && (v == 9 || v == 44) || L47LampPostAt(Math.Abs(u), v))
         {
             t.Kind = TileKind.Wall;
             t.Pattern = WallPattern.L47Wall;
@@ -128,16 +140,19 @@ public sealed partial class WorldLayout
         // The stones first: they stand through everything
         if (L47StoneAt(gx, gz, out int stoneTop, out int lintel))
         {
-            if (stoneTop > 0 && rel >= 1 && rel <= stoneTop) return L47GMegalith;
+            // (Round 4: a stone with no lintel over it ends in a weathered, rounded top)
+            if (stoneTop > 0 && rel >= 1 && rel <= stoneTop) return rel == stoneTop && lintel != stoneTop + 1 ? L47GSarsenTop : L47GMegalith;
             if (lintel > 0 && rel == lintel) return L47GMegalith;
         }
-        // The Altar Stone, lying in the entrance hall
+        // The Altar Stone, lying in the entrance hall; offerings on it (round 4: a bowl, a snake's skull, an open book)
         if (au <= 2 && v is -1 or 0 && rel == 2) return L47GAltar;
+        if (rel == 3 && (u, v) is (-1, -1) or (1, 0) or (0, -1)) return L47GP(L47GOffering, ArchPier.South, u == -1 ? 0 : u == 1 ? 1 : 2);
         // Outside the manor: the walk, the braziers by the door, the banner poles where the walk leaves the trail
         if (au > L47HouseU + 1 || av > L47HouseV + 1)
         {
             if (au <= 1 && v > L47HouseV && rel == 1) return L47GFlag;
             if (au == 3 && v == 9) return rel == 1 ? L47GFlag : rel == 2 ? L47GBrazier : L47GKeep;
+            if (L47LampPostAt(au, v) && rel is 2 or 3) return L47GP(L47GLampPost, u < 0 ? ArchPier.East : ArchPier.West, rel - 2);
             if (au == 3 && v == 44)
             {
                 if (rel >= 2 && rel <= 7) return L47GTimber;
@@ -150,9 +165,19 @@ public sealed partial class WorldLayout
             if (au == L47HouseU + 2 && v is -1 or 0 && rel >= 1 && rel <= 20) return L47GStone;
             return L47GKeep;
         }
-        // The roof (one over the walls all round), and the attic's open space under it
+        // The roof (one over the walls all round), and the attic's open space under it; the chimney stacks stand through it
         int roof = L47RoofAt(v);
-        if (au <= L47HouseU + 1 && av <= L47HouseV + 1 && rel == roof) return L47GSlate;
+        if (au == L47HouseU + 1 && v is -1 or 0 && rel >= 1 && rel <= 22) return L47GStone;
+        if (au == L47HouseU + 1 && v is -1 or 0 && rel == 23) return L47GPot;
+        if (au <= L47HouseU + 1 && av <= L47HouseV + 1 && rel == roof)
+        {
+            // (Round 4: slate slopes, the eaves with fascia and gutter, the ridge; over the gable walls the wall filled up under it)
+            ArchPier fall = v > 0 ? ArchPier.South : ArchPier.North;
+            if (v == 0) return L47GF(L47GRoofRidge, ArchPier.South);
+            if (av == L47HouseV + 1) return L47GF(L47GRoofEave, fall);
+            if (au == L47HouseU) return L47GF(L47GRoofGable, fall);
+            return L47GF(L47GRoofSlope, fall);
+        }
         if (au == L47HouseU + 1 || av == L47HouseV + 1)
         {
             if (au == L47HouseU + 1 && v is -1 or 0 && rel >= 1 && rel <= 22) return L47GStone;
@@ -167,47 +192,91 @@ public sealed partial class WorldLayout
             // Corners dressed, a timber band between the storeys
             if (longWall && gable) return rel <= L47Eaves ? L47GPlinth : L47GStone;
             if (rel == L47LoftFloor) return L47GTimber;
-            if (gable && rel > L47Eaves) return v == 0 && rel == L47Eaves + 3 ? L47GWindow : L47GStone;
+            if (gable && rel > L47Eaves) return v == 0 && rel == L47Eaves + 3 ? L47GP(L47GLeaded, ArchPier.North, 2 | 4) : L47GStone;
             // The front door (three wide, a timber lintel), the hearth's opening in each gable
-            if (longWall && v > 0 && au <= 1) return rel <= 4 ? L47GAir : rel == 5 ? L47GTimber : L47GStone;
+            if (longWall && v > 0 && au <= 1)
+            {
+                // (Round 4: the oak frame with its Tudor head either side of the opening)
+                if (au == 1 && rel is >= 2 and <= 4) return L47GP(L47GJamb, ArchPier.North, (u < 0 ? 0 : 1) | (rel == 4 ? 2 : 0));
+                return rel <= 4 ? L47GAir : rel == 5 ? L47GTimber : L47GStone;
+            }
             if (gable && v is -1 or 0 && rel is 2 or 3) return L47GHearth;
             // Windows: tall pairs along the long walls and in the gables, on both storeys
-            bool windowCol = longWall ? au is 2 or 6 or 9 : av == 3;
-            if (windowCol && (rel is 3 or 4 || rel is 8 or 9)) return L47GWindow;
+            // (the west gable's ground-floor pair stands either side of the hearth's chimney breast, v -2..1: round 4)
+            bool windowCol = longWall ? au is 2 or 6 or 9 : u < 0 && rel < L47LoftFloor ? v is -4 or 3 : av == 3;
+            // (Round 4: leaded lights in stone surrounds: part 0 lower, 1 upper, 2 single; 4 = the gables' axis)
+            if (windowCol && (rel is 3 or 4 || rel is 8 or 9)) return L47GP(L47GLeaded, ArchPier.North, (rel is 4 or 9 ? 1 : 0) | (gable ? 4 : 0));
             return rel <= L47Eaves ? L47GStone : L47GStone;
         }
         // Inside: the boards of the ground floor and the loft
         if (rel <= 0) return L47GKeep;
+        // (Round 4: the hearthstone before the great hall's fire)
+        if (rel == L47HouseFloor && u == -10 && v >= -2 && v <= 1) return L47GFlag;
         if (rel == L47HouseFloor) return L47GBoards;
         if (rel == L47LoftFloor) return u == -3 && v == -6 ? L47GAir : L47GBoards;
         // The partitions between the hall and the rooms either side (a doorway in each)
         if (au == 4 && rel < L47LoftFloor) return v is 0 or 1 && rel <= 4 ? L47GAir : L47GStone;
         // A ladder up to the loft, against the back wall of the entrance hall
         if (u == -3 && v == -6 && rel >= 2 && rel <= L47LoftFloor + 1) return L47GF(L47GLadder, ArchPier.South);
+        // The open door's two leaves, swung into the entrance hall against the doorway's sides (round 4)
+        if (au == 1 && v is 5 or 6 && rel is >= 2 and <= 4)
+            return L47GP(L47GDoor, ArchPier.North, (u < 0 ? 0 : 1) | (v == 6 ? 0 : 2) | (rel - 2) << 2);
         if (rel < L47LoftFloor)
         {
-            // The great hall (west): a long table down its middle, lanterns on it, the Order's banners on the far wall
+            // The great hall (west): the hearth wall (the chimney breast with the fire, the mantel over it), a trestle table
+            // down its middle with benches either side, set, its candles lit; the Order's tapestries between the windows,
+            // its banners either side of the hearth, sconces on the partition (round 4)
             if (u <= -5)
             {
-                if (v == 0 && u >= -10 && u <= -6) return rel == 2 ? L47GTable : rel == 3 && u is -10 or -6 ? L47GLantern : rel == 3 && u == -8 ? L47GCandles : L47GAir;
-                if (u == -11 && v is -3 or 3 && rel is 3 or 4) return L47GF(rel == 4 ? L47GBannerTop : L47GBannerFoot, ArchPier.East);
+                if (u == -11 && v >= -2 && v <= 1)
+                {
+                    if (rel >= 4 || v is -2 or 1) return L47GStone;
+                    return rel == 2 ? L47GF(L47GFire, ArchPier.East) : L47GAir;
+                }
+                if (u == -10 && v >= -2 && v <= 1 && rel == 4) return L47GP(L47GMantel, ArchPier.East, v == -2 ? 0 : v == 1 ? 2 : 1);
+                if (v == 0 && u >= -9 && u <= -6 && rel == 2) return L47GP(L47GTrestle, ArchPier.North, u is -9 or -6 ? 0 : u == -7 ? 2 : 1);
+                if (v is -1 or 1 && u >= -9 && u <= -6 && rel == 2) return L47GP(L47GBench, ArchPier.North, u is -9 or -6 ? 0 : 1);
+                if (u == -11 && v is -3 or 2 && rel is 3 or 4) return L47GF(rel == 4 ? L47GBannerTop : L47GBannerFoot, ArchPier.East);
+                if (av == 6 && u is -8 or -7 && rel is 3 or 4)
+                {
+                    // (2x2: the viewer's left is west on the north wall, east on the south wall)
+                    bool left = v < 0 ? u == -8 : u == -7;
+                    return L47GP(L47GTapestry, v < 0 ? ArchPier.South : ArchPier.North, (rel == 4 ? 0 : 2) | (left ? 0 : 1));
+                }
+                if (u == -5 && v is -3 or 4 && rel == 4) return L47GF(L47GSconce, ArchPier.West);
                 return L47GAir;
             }
-            // The east room: shelves along the gable wall, candles, a lantern
+            // The east room: the Order's library, bookcases of books, scrolls and bottles on three walls, a reading table
             if (u >= 5)
             {
-                if (u == 11 && av != 3 && av <= 5 && rel is 2 or 3) return L47GF(L47GShelf, ArchPier.West);
-                if (u == 8 && v == 4 && rel == 2) return L47GTable;
-                if (u == 8 && v == 4 && rel == 3) return L47GLantern;
+                if (u == 11 && av != 3 && av <= 5 && rel is 2 or 3) return L47GP(L47GBookcase, ArchPier.West, (rel == 3 ? 1 : 0) | ((v & 1) << 1));
+                if (av == 6 && u is 5 or 7 or 8 or 10 && rel is 2 or 3)
+                    return L47GP(L47GBookcase, v < 0 ? ArchPier.South : ArchPier.North, (rel == 3 ? 1 : 0) | ((u & 1) << 1));
+                if (u == 8 && v == 4 && rel == 2) return L47GP(L47GTrestle, ArchPier.North, 0);
+                if (u == 5 && v == -3 && rel == 4) return L47GF(L47GSconce, ArchPier.East);
                 return L47GAir;
             }
+            if (au == 2 && v == -6 && rel == 4) return L47GF(L47GSconce, ArchPier.South);
             // The entrance hall: candles on the Altar Stone's ends, lanterns either side of the door
             if (au == 2 && v == 0 && rel == 3) return L47GCandles;
             if (au == 3 && v is 6 or -3 && rel == 2) return L47GLantern;
             return L47GAir;
         }
-        // The loft: a lantern or two, banners on the gables
+        // The loft: a lantern or two, banners on the gables; the Order's stores along the eaves (round 4: the Redlands'
+        // chests and sacks, the Petrified Garden's barrels and crates, the mod's shared props)
         if (rel == L47LoftFloor + 1 && (u, v) is (6, -4) or (-7, 3)) return L47GLantern;
+        if (rel == L47LoftFloor + 1 && av == 6)
+        {
+            int store = (u, v) switch
+            {
+                (-9, -6) or (9, -6) or (8, 6) => 0,
+                (-8, -6) or (10, 6) => 1,
+                (4, -6) or (-9, 6) => 2,
+                (5, -6) or (-10, 6) or (9, 6) => 3,
+                _ => -1,
+            };
+            if (store >= 0) return L47GP(L47GStore, v < 0 ? ArchPier.South : ArchPier.North, store);
+        }
         if (au == L47HouseU - 1 && v is -2 or 2 && rel is 8 or 9) return L47GF(rel == 9 ? L47GBannerTop : L47GBannerFoot, u < 0 ? ArchPier.East : ArchPier.West);
         return L47GAir;
     }

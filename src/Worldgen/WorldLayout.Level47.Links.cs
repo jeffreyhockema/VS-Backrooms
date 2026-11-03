@@ -56,10 +56,14 @@ public sealed partial class WorldLayout
     {
         if (rel <= floor || rel > t.Base + (t.Giant ? L47GiantHollowHigh : L47DeadHollowHigh)) return false;
         if (depth > (t.Giant ? L47GiantWall : L47DeadWall)) return true;
-        if (rel > floor + L47MouthHigh) return false;
+        // (Round 4: the mouth a cleft, not a doorway: full width for the two rows one walks through, narrowing over them to
+        // a split at its top; the walking rows, where the way is found, are as they were)
+        int up = rel - floor;
+        if (up > L47MouthHigh + 1) return false;
         var (lx, lz) = L47Lean(t, rel);
         double dx = px - (t.X + lx), dz = pz - (t.Z + lz), ca = Math.Cos(t.MouthA), sa = Math.Sin(t.MouthA);
-        return dx * ca + dz * sa > 0 && Math.Abs(dz * ca - dx * sa) < (t.Giant ? L47GiantMouth : L47DeadMouth);
+        double half = (t.Giant ? L47GiantMouth : L47DeadMouth) * (up <= 2 ? 1 : up == 3 ? 0.78 : 0.45);
+        return dx * ca + dz * sa > 0 && Math.Abs(dz * ca - dx * sa) < half;
     }
 
     /// <summary>Whether a point is in a hollow tree's hollow, its mouth, or the few blocks in front of its mouth (where its roots do not go).</summary>

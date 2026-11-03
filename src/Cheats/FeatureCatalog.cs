@@ -415,6 +415,11 @@ public static class FeatureCatalog
         new(WorldLayout.Level47, "l47stones", "Stones through the roof", Region),
         new(WorldLayout.Level47, "l47hollow", "Dead tree's hollow (to 10)", Region),
         new(WorldLayout.Level47, "l47giant", "Green giant (to 23)", Region),
+        new(WorldLayout.Level47, "l47hearth", "The great hall's hearth", Region),
+        new(WorldLayout.Level47, "l47library", "The Order's library", Region),
+        new(WorldLayout.Level47, "l47door", "The manor's door", Region),
+        new(WorldLayout.Level47, "l47rootplate", "Fallen giant (root plate)", Region),
+        new(WorldLayout.Level47, "l47mossy", "Old oak, moss and brackets", Region),
     };
 
     /// <summary>The features of a level, in the menu's order.</summary>

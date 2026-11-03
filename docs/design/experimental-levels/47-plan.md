@@ -144,71 +144,133 @@ almost everything is a full cube with a picture on it (5 model shapes in the who
 Tier A must, B should, C nice. Block codes are the ones to (re)build.
 
 **1. Assets to rebuild to the bar**
-1. [A] Trunks read as square columns: `l47-fillet-<bark>-<moss>-<corner>`, a 45-degree bark chamfer (a rotated element) in
+1. [A] [done] Trunks read as square columns: `l47-fillet-<bark>-<moss>-<corner>`, a 45-degree bark chamfer (a rotated element) in
    every notch of a trunk's, root's, buttress's and limb's stepped outline, so trunks read round and roots flow.
-2. [A] Bark relief in the textures: deeper furrows and plates (oak), corky ridges (fir), scales (spruce), smooth beech
+2. [A] [done] Bark relief in the textures: deeper furrows and plates (oak), corky ridges (fir), scales (spruce), smooth beech
    with its eyes, split grey dead wood; light on the ridges, dark in the furrows, so the trunks have relief at 2 and 20 blocks.
-3. [A] Moss and lichen draped on the north side: `l47-mossdrape-<side>`, a cushion of moss on the trunk's face with
+3. [A] [done] Moss and lichen draped on the north side: `l47-mossdrape-<side>`, a cushion of moss on the trunk's face with
    ragged hanging fringes, on the north (and damp) faces at the foot and in patches up the trunk.
-4. [A] Bracket fungi on the trunks: `l47-bracket-<side>`, tiers of shelf fungus (cream, ochre, rust) on a trunk face.
-5. [A] Mushroom clusters on the ground and on logs as models: `l47-mushclump-<kind>` (fly agaric with white warts, a
+4. [A] [done] Bracket fungi on the trunks: `l47-bracket-<side>`, tiers of shelf fungus (cream, ochre, rust) on a trunk face.
+5. [A] [done] Mushroom clusters on the ground and on logs as models: `l47-mushclump-<kind>` (fly agaric with white warts, a
    honey-fungus clump, a cluster of pale caps); decor only, the vanilla mushrooms stay the food.
-6. [A] The way-stone: `l47-waystone-lower/upper`, a dressed granite post (tapered, chamfered) with the snake carved in
+6. [A] [done] The way-stone: `l47-waystone-lower/upper`, a dressed granite post (tapered, chamfered) with the snake carved in
    relief coiling up it (elements), its head over the top, moss at the foot; replaces the cube with a zigzag picture.
-7. [A] The manor's windows: `l47-window` as a model: stone mullion and surround, a sill, lead cames in diamonds over
+7. [A] [done] The manor's windows: `l47-window` as a model: stone mullion and surround, a sill, lead cames in diamonds over
    translucent green glass (translucent pass).
-8. [A] The manor's front door: `l47-door-*`, iron-strapped oak double door with ring handles and studs, in the 3-wide
+8. [A] [done] The manor's front door: `l47-door-*`, iron-strapped oak double door with ring handles and studs, in the 3-wide
    arch (one leaf open so the house stays walkable).
-9. [A] The roof: `l47-roof-<side>` slate slopes (a rotated slate plate over a stepped fill) instead of stepped slate
+9. [A] [done: chimney pots too] The roof: `l47-roof-<side>` slate slopes (a rotated slate plate over a stepped fill) instead of stepped slate
    cubes; `l47-ridge` cap along the ridge; chimney pots on the stacks.
-10. [A] The shelves: `l47-bookcase-<side>` as a model (frame, shelves, book spines of different heights, scroll
+10. [A] [done] The shelves: `l47-bookcase-<side>` as a model (frame, shelves, book spines of different heights, scroll
    pigeonholes, bottles and jars, the snake skull), replaces the cube with a picture.
-11. [B] The banners: rod with finials and a cord, the cloth hanging in slight folds (several elements), the gold hem.
-12. [B] The candles: `l47-candelabrum` (iron stand, drip pan, five candles with drips and flames that glow).
-13. [B] The hollow mouths: rounded, ragged arches (`l47-mouth-*` bark pieces at the mouth's top corners), not square doorways.
-14. [B] Leaf fringes: `l47-leafspray`, sprays of leaves/needles hanging under and beside the crowns' lumps, so the
+11. [B] [done] The banners: rod with finials and a cord, the cloth hanging in slight folds (several elements), the gold hem.
+12. [B] [done: the dish of candles rebuilt; a candelabrum on the table] The candles: `l47-candelabrum` (iron stand, drip pan, five candles with drips and flames that glow).
+13. [B] [done: a cleft narrowing over the walking rows] The hollow mouths: rounded, ragged arches (`l47-mouth-*` bark pieces at the mouth's top corners), not square doorways.
+14. [B] [done: `l47-leafspray`] Leaf fringes: `l47-leafspray`, sprays of leaves/needles hanging under and beside the crowns' lumps, so the
    crowns' silhouettes are not cubes.
-15. [B] Boulders rounded with granite fillets (`l47-fillet-granite-*`); logs too (`l47-fillet` on their bark).
-16. [B] The Order's figures (`l47-ophion`): fuller robe with sleeves, a peaked hood, the ivory mask with brow and nose.
-17. [C] The Great Adder's head: brow scales, a heavier jaw (check up close first).
-18. [C] Stepping stones at the trail's fords as flat mossy slabs (`l47-steppingstone`), not boulder cubes in water.
+15. [B] [partly: boulders yes; logs not (their steps are vertical)] Boulders rounded with granite fillets (`l47-fillet-granite-*`); logs too (`l47-fillet` on their bark).
+16. [B] [done: a helper agent, 35 -> 80 elements] The Order's figures (`l47-ophion`): fuller robe with sleeves, a peaked hood, the ivory mask with brow and nose.
+17. [C] [done: brow scales, jowls, heavier jaw] The Great Adder's head: brow scales, a heavier jaw (check up close first).
+18. [C] [done: `l47-streamstone-step`, and `-rock` in the streams] Stepping stones at the trail's fords as flat mossy slabs (`l47-steppingstone`), not boulder cubes in water.
 
 **2. Multi-block set pieces**
-19. [A] The great hall's hearth wall: a chimney breast in the west gable with a stone surround, a timber mantel beam
+19. [A] [done] The great hall's hearth wall: a chimney breast in the west gable with a stone surround, a timber mantel beam
    with candles, an iron fireback, firedogs and burning logs (lit), flagged hearth before it.
-20. [A] The great hall's long table as one piece: `l47-table` trestle table segments (top, trestles, stretcher) with
+20. [A] [done] The great hall's long table as one piece: `l47-table` trestle table segments (top, trestles, stretcher) with
    `l47-bench` benches either side, set with pewter plates, cups and candles.
-21. [A] The Order's tapestries: `l47-tapestry-*` 2x2 (the World Snake round the world), on rods, in the great hall;
+21. [A] [done: own sconce, not `l73-sconce` (6 boxes, below the bar)] The Order's tapestries: `l47-tapestry-*` 2x2 (the World Snake round the world), on rods, in the great hall;
    iron candle sconces on the walls (`l73-sconce` reused).
-22. [A] A fallen giant with its root plate: some old trunks lie fallen with the root plate torn up at one end (a
+22. [A] [done] A fallen giant with its root plate: some old trunks lie fallen with the root plate torn up at one end (a
    vertical disc of roots and earth, a pit before it), the lead's example.
 23. [B] The megalith circle: sarsens with weathered rounded tops (`l47-sarsencap`), lintels that read as lintels
    (projecting ends), moss at the feet.
-24. [B] A porch over the front door: a gabled timber porch on two oak posts with braces, slate roof, a lantern.
-25. [B] The east room as a library of scrolls and bottles: bookcases on three walls, a reading table with an open
+24. [B] [skipped: time; the door frame's Tudor head and the open leaves carry the entrance] A porch over the front door: a gabled timber porch on two oak posts with braces, slate roof, a lantern.
+25. [B] [done: bookcases on three walls, the reading table] The east room as a library of scrolls and bottles: bookcases on three walls, a reading table with an open
    book, a lantern, scroll racks.
 26. [C] The Order's shrine at the Altar Stone: offering bowls, candles all round, an ouroboros carved on its top.
 
 **3. Level design**
-27. [A] Showcase spots and F7 entries for every new or rebuilt set piece (hearth, table, library, door/porch, roof,
+27. [A] [done: hearth, tapestry, manor-door, root-plate, mossy-oak; F7 l47hearth, l47library, l47door, l47rootplate, l47mossy] Showcase spots and F7 entries for every new or rebuilt set piece (hearth, table, library, door/porch, roof,
    waystone, root plate, brackets/moss, mushrooms).
 28. [B] The walk up to the manor: lanterns on posts along the flagstones, the braziers on stone bases.
 29. [B] Light rhythm inside: the hearth lights the great hall warm, the entrance hall by the altar's candles, the east
    room by one lamp, the loft dark.
-30. [B] The stream: mossy stones and pebble shoals at its banks, so it reads as a brook, not a ditch.
-31. [C] The loft as the Order's store: chests, sacks, robes on pegs (reuse `l73-chest`, `l73-sacks`).
+30. [B] [done: river stones, stepping stones] The stream: mossy stones and pebble shoals at its banks, so it reads as a brook, not a ditch.
+31. [C] [done: `l73-chest`, `l73-sacks`, `l23-barrel`, `l23-crate`] The loft as the Order's store: chests, sacks, robes on pegs (reuse `l73-chest`, `l73-sacks`).
 32. [C] Pools where streams meet, wider water in places.
 
 **4. Lore**
-33. [B] "Thick green moss and lichens cover most surfaces": moss drapes (3), lichen on the stones, moss on the roof's
+33. [B] [done] "Thick green moss and lichens cover most surfaces": moss drapes (3), lichen on the stones, moss on the roof's
    north slope and the waystones' feet.
 34. [C] "campfires or improvised tools ... vanish or revert": an abandoned wanderer's camp half gone (a cold fire ring
    with a log missing, a dropped pack), rare.
 35. [C] Crows and ravens: a carved crow on the waystone tops? (left to sound unless time).
 
 **5. Alignment with the other levels**
-36. [A] Reuse instead of forking: `l73-sconce` (wall candles), `l73-chest`, `l73-sacks` for the loft, `l23-lantern`'s
+36. [A] [done] Reuse instead of forking: `l73-sconce` (wall candles), `l73-chest`, `l73-sacks` for the loft, `l23-lantern`'s
    shape (already), the mod's supply boxes and notes; similar-but-unique: the tapestry (from `l73-tapestry`'s 2x2
    layout, redrawn with the Order's World Snake), the fire (own logs model in our hearth, after `l73-fire-logs`).
 37. [B] "Shared assets below the bar" and the families written in this doc for the lead.
-38. [A] Lead's note: keep the day fog, the moon and the aurora as they are.
+38. [A] [done: untouched] Lead's note: keep the day fog, the moon and the aurora as they are.
+
+### What was built (round 4)
+
+All of it is generated: `tools/gen_47_tex4.py` (the surfaces as lit relief), `tools/gen_47_props4.py` (the models, their
+textures and blocktypes), both called from `tools/gen_47.py`; the creatures in `tools/gen_47_creatures.py`.
+
+- **Surfaces**: every bark (oak plates and furrows, fir's corky ridges, spruce scales, smooth beech with lenticels and
+  algae, split grey dead wood, the green giants' furrows) painted from a height field and lit from the upper left; moss as
+  cushions with a shadow under each; lichen rosettes; granite rounded with feldspar specks and crazing; logs' furrows run
+  along them now (the oak log's texture was standing up).
+- **The forest's outline**: `l47-fillet-<bark>-<corner>` (14 barks incl. mossy and granite, 4 corners), a 45-degree plate
+  over a stepped fill in every notch of a trunk's, root's, limb's or boulder's stepped outline (wood on two sides and the
+  corner between), matching the neighbour's bark (and its moss); `l47-leafspray-<leaf>-hang/tuft` under and over the
+  crowns' lumps (40% / 30% of the cells there). The generator caches each column's wood a thread
+  (`WorldGenerator.L47.cs`, `L47WoodAt`) so the neighbours cost little.
+- **On the trunks**: `l47-mossdrape-a/b-<side>` (the collar at the foot, patches higher up; on mossy north faces one in
+  two, other mossy faces one in seven), `l47-bracket-zoned/sulphur-<side>` (one in eight dead-wood faces, one in forty
+  living); `l47-mushclump-agaric/honey/inkcap` by the wood and on the logs (decor; the vanilla mushrooms stay the food).
+- **The ground**: fallen giants with their root plates (`L47PlateOf`, `l47-rootearth` and root bark: a disc 2.6-4.2 in
+  radius on edge at the foot of about half of the old, thick, long logs); `l47-streamstone-step` at the trail's fords and
+  `-rock` mossy river stones (6% of stream cells), both standing in the water; the Order's way-stone `l47-waystone2`
+  (two blocks: footing, dressed post, the carved snake coiling up it, its head over the top, turned to the trail).
+- **The hollows**: the mouth a cleft narrowing over the two walking rows (not a square doorway); the walking rows, where
+  the way is found, unchanged.
+- **The manor**: slate roof slopes, eaves with fascia and gutter, the ridge, the gables' stone filled up under the slope
+  (`l47-roof-*`; the north slope mossed); clay chimney pots; the chimney stacks now stand through the roof (the roof plate
+  was drawn inside them); leaded windows in dressed stone surrounds with mullion, saddle bars, sill, head and hood mould
+  (`l47-leaded-*`); the oak door, iron-strapped and studded, both leaves open into the hall (`l47-door-*`) in an oak frame
+  with a Tudor head (`l47-doorjamb-*`); the great hall's hearth wall (a chimney breast four wide with the fire on andirons
+  `l47-fire`, the hearthstone, the mantel beam on corbels with candles `l47-mantel-*`), the trestle table set with pewter,
+  bread and lit candles (`l47-table-*`, four long) with benches (`l47-bench-*`), the World Snake tapestry (2x2,
+  `l47-tapestry-*`) between the windows on both long walls, the banners either side of the hearth (the west gable's
+  ground-floor windows moved to stand either side of the breast), iron sconces (`l47-sconce-*`); the east room as the
+  Order's library (`l47-bookcase-*` on three walls: books, scroll stacks, bottles and jars, the snake's skull) with a
+  reading table; the loft's stores; the banners in folds on an iron rod with finials and cord, tassels at the foot; the
+  dish of candles with drips and pooled wax; the standing stones with no lintel end in a weathered round top
+  (`l47-sarsentop`).
+- **The Order's figures** (`l47-ophion`, 35 -> 80 elements: stepped skirt flaring to a frayed hem, pleats, a mantle,
+  wide sleeves with cuffs, a peaked hood with a rim, the ivory mask with brow, nose, cheeks and eye slits, the ouroboros
+  clasp with a garnet, the cord belt's tassels) and the Great Adder's head (27 -> 37: brow and supraocular scales, a
+  rostral scale, jowls, a heavier jaw with chin and keels, an arrowhead on the crown): a helper agent, in
+  `tools/gen_47_creatures.py`.
+
+### Inventions (round 4, ours)
+
+The World Snake tapestry's picture (a red serpent round a dark world under a pale moon), the library's contents, the
+Order keeping a fire in the great hall, the fallen giants' root plates (the lore's forest reverts damage; a giant blown over
+unseen is ours), the carved snake's head on the way-stones.
+
+### Shared assets below the bar (for the lead)
+
+- `l73-sconce` (6 boxes) is below the bar; 47 has its own `l47-sconce` (9 boxes: plate, scrolled arm, brace, pan, candle,
+  drip, flame) the Redlands could share.
+- `l73-chest` (5 boxes) and `l73-sacks` (5) are reused in 47's loft as they are; both would want hasps, bands and handles
+  (the chest) and tied necks and folds (the sacks).
+- `l23-crate` and `l23-barrel` are full cubes with pictures; reused in the loft, they are the weakest things in it.
+
+### Balance notes for the lead (round 4)
+
+Nothing the balance rests on changed: no new food, water or beds; the mushroom clumps drop nothing; the river stones and
+stepping stones only make the streams easier to cross; the great hall's fire gives light and no warmth beyond what the
+manor's 15 C already has. The loft's stores are props (chests, sacks, barrels, crates), not containers with loot.
