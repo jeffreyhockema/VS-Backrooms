@@ -850,7 +850,10 @@ public sealed partial class WorldGenerator
                 for (int rel = floor + 1; rel <= Math.Max(ceiling, -1); rel++)
                 {
                     int h = rel - floor;
-                    b[rel - L23Low] = WorldLayout.L23HollowDoor(u, v) && h <= 3 ? 0 : l23Bark[WorldLayout.L23BarkGreen];
+                    b[rel - L23Low] = WorldLayout.L23HollowDoor(u, v) && h <= 3 ? 0
+                        // (round 4: its outer bark in relief up to a little over head height, as the forest's trunks)
+                        : d >= 3.0 && h <= WorldLayout.L23SkinHeight ? l23BarkFace[4, (int)(L23Hash(gx, gz * 31 + rel, 40) & 1), Facing(WorldLayout.L23Cardinal(u, v))]
+                        : l23Bark[WorldLayout.L23BarkGreen];
                 }
             return;
         }
