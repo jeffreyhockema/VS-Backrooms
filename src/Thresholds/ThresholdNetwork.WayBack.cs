@@ -307,13 +307,14 @@ public sealed partial class ThresholdNetwork
     /// <summary>
     /// Reads saved ways back, after the links (<see cref="Load"/>). False if something saved could not all be read (a newer
     /// version keeps nothing; a cut-off end keeps what came before it). A way back whose threshold or tiles have no link
-    /// (they are written down together), or of a style this version does not know, is left out: its door, if built, still
+    /// (they are written down together), or of a style this version does not know, is left out (and false is returned, so the caller keeps a copy): its door, if built, still
     /// stands in the world and still leads back, as a written-down link; it is only not rebuilt.
     /// </summary>
     public bool LoadWayBacks(byte[] data)
     {
         wayBacks.Clear();
         if (data == null || data.Length == 0) return true;
+        bool skipped = false;
         try
         {
             using var reader = new BinaryReader(new MemoryStream(data));
@@ -325,12 +326,13 @@ public sealed partial class ThresholdNetwork
             {
                 long id = reader.ReadInt64();
                 var way = new WayBack(reader.ReadInt32(), reader.ReadInt32(), FacingOf(reader.ReadByte()), (WayBackStyle)reader.ReadByte());
-                if (!Enum.IsDefined(way.Style) || !links.ContainsKey(id)) continue;
+                if (!Enum.IsDefined(way.Style) || !links.ContainsKey(id)) { skipped = true; continue; }
                 bool linked = true;
                 foreach ((int X, int Z) tile in way.Tiles) linked &= links.ContainsKey(Id(tile));
                 if (linked) wayBacks[id] = way;
+                else skipped = true;
             }
-            return true;
+            return !skipped;
         }
         catch (EndOfStreamException)
         {
