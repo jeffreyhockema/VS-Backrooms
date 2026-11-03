@@ -2026,6 +2026,8 @@ public class AiTaskMenace : AiTaskBase
     {
         base.FinishExecute(cancelled);
         Stop();
+        // (A hunt begun again after a calm must run OnKindChanged afresh)
+        if (menace?.Kind == Encounter.Ambient) lastKind = (Encounter)(-1);
         if (attackStartMs >= 0 && attackAnim != null) entity.AnimManager.StopAnimation(attackAnim);
         attackStartMs = -1;
         // (A Hound stared down when the task ends must not go on growling)

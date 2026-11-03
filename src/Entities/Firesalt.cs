@@ -37,7 +37,11 @@ public class BlockEntityFiresalt : BlockEntity
     {
         base.Initialize(api);
         if (api.Side != EnumAppSide.Server) return;
-        if (litAtHours < 0) litAtHours = api.World.Calendar.TotalHours;
+        if (litAtHours < 0)
+        {
+            litAtHours = api.World.Calendar.TotalHours;
+            MarkDirty();
+        }
         Wards.Invalidate();
         RegisterGameTickListener(OnTick, 5000);
     }

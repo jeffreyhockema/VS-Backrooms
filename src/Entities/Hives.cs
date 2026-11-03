@@ -124,7 +124,11 @@ public class BlockEntityClumpRemnant : BlockEntity
     {
         base.Initialize(api);
         if (api.Side != EnumAppSide.Server) return;
-        if (placedAtHours < 0) placedAtHours = api.World.Calendar.TotalHours;
+        if (placedAtHours < 0)
+        {
+            placedAtHours = api.World.Calendar.TotalHours;
+            MarkDirty();
+        }
         Live.Add(Pos.Copy());
         RegisterGameTickListener(OnTick, CheckMs);
     }

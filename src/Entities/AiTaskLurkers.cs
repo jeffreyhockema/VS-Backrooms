@@ -138,9 +138,9 @@ public class AiTaskClump : AiTaskBase
         {
             case State.Buried:
                 // (Fed, it lies dormant: neither a footstep nor a shout wakes it for a while)
-                if (now < dormantUntilMs) return true;
+                if (now < dormantUntilMs || Strike.IsCreative(target)) return true;
                 if (gap < wakeRange && dy < 2) Wake(State.Awake);
-                else if (loud && !Strike.IsCreative(target)) Wake(State.Crawling);
+                else if (loud) Wake(State.Crawling);
                 return true;
 
             case State.Crawling:

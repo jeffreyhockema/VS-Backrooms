@@ -14,6 +14,7 @@ namespace Backrooms.Entities;
 /// </summary>
 public class AiTaskOutburst : AiTaskBase
 {
+    private EntityBehaviorMenace menace;
     private enum Step { Turn, Gesture, Charge, Shove, Calm }
 
     private readonly float damage, knockback, walkSpeed, range;
@@ -60,7 +61,7 @@ public class AiTaskOutburst : AiTaskBase
             askedAtMs = -1;
             return false;
         }
-        var menace = entity.GetBehavior<EntityBehaviorMenace>();
+        menace ??= entity.GetBehavior<EntityBehaviorMenace>();
         return menace == null || menace.Kind == Encounter.Ambient;
     }
 
@@ -81,7 +82,7 @@ public class AiTaskOutburst : AiTaskBase
     public override bool ContinueExecute(float dt)
     {
         if (!entity.Alive || target == null || !target.Alive) return false;
-        var menace = entity.GetBehavior<EntityBehaviorMenace>();
+        menace ??= entity.GetBehavior<EntityBehaviorMenace>();
         if (menace != null && menace.Kind != Encounter.Ambient) return false; // struck: the kin defence has it now
         stepTime += dt;
         double distance = entity.Pos.DistanceTo(target.Pos);
@@ -182,6 +183,7 @@ public class AiTaskOutburst : AiTaskBase
 /// </summary>
 public class AiTaskCompanion : AiTaskBase
 {
+    private EntityBehaviorMenace menace;
     private readonly float walkSpeed, runSpeed, minDistance, maxDistance;
     private long nextLookMs, lastPathMs;
     private Vec3d pathGoal;
@@ -199,7 +201,9 @@ public class AiTaskCompanion : AiTaskBase
     private Entity Leader()
     {
         long id = entity.Attributes.GetLong(EntityBehaviorFaceling.FollowKey, -1);
-        if (id < 0 || entity.World.ElapsedMilliseconds >= entity.Attributes.GetLong(EntityBehaviorFaceling.FollowUntilKey, 0)) return null;
+        long until = entity.Attributes.GetLong(EntityBehaviorFaceling.FollowUntilKey, 0);
+        // (An uptime stamp saved before a restart is ahead of now by more than the follow window: stale)
+        if (id < 0 || !EntityBehaviorFaceling.StampAhead(until, entity.World.ElapsedMilliseconds, EntityBehaviorFaceling.FollowWindowMs)) return null;
         Entity who = entity.World.GetEntityById(id);
         return who != null && who.Alive ? who : null;
     }
@@ -209,7 +213,7 @@ public class AiTaskCompanion : AiTaskBase
         long now = entity.World.ElapsedMilliseconds;
         if (now < nextLookMs) return false;
         nextLookMs = now + 500;
-        var menace = entity.GetBehavior<EntityBehaviorMenace>();
+        menace ??= entity.GetBehavior<EntityBehaviorMenace>();
         return (menace == null || menace.Kind == Encounter.Ambient) && Leader() != null;
     }
 
@@ -222,7 +226,7 @@ public class AiTaskCompanion : AiTaskBase
     public override bool ContinueExecute(float dt)
     {
         Entity leader = Leader();
-        var menace = entity.GetBehavior<EntityBehaviorMenace>();
+        menace ??= entity.GetBehavior<EntityBehaviorMenace>();
         if (!entity.Alive || leader == null || menace != null && menace.Kind != Encounter.Ambient) return false;
         think -= dt;
         if (think > 0) return true;

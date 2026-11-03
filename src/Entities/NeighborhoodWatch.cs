@@ -381,7 +381,7 @@ public class AiTaskWatch : AiTaskBase
     public void Alarm(Vec3d at, Entity who)
     {
         menace ??= entity.GetBehavior<EntityBehaviorMenace>();
-        if (menace == null || menace.Kind == Encounter.Leave || mode is Mode.Chase or Mode.Peer) return;
+        if (menace == null || menace.Kind is Encounter.Leave or Encounter.Ambient || mode is Mode.Chase or Mode.Peer) return;
         menace.Target = who;
         if (!menace.Passive) menace.Kind = Encounter.Hunt;
         lastKind = menace.Kind;
@@ -498,7 +498,7 @@ public class AiTaskWatch : AiTaskBase
             pathTraverser.Stop();
             Go(chasing, runSpeed, attackRange * 0.6f + (entity.SelectionBox.XSize + watched.SelectionBox.XSize) / 2, null);
         }
-        else if (v > 0)
+        else if (v > 0 && pathTraverser.Active && pathTraverser.CurrentTarget != null)
         {
             pathTraverser.CurrentTarget.X = to.X;
             pathTraverser.CurrentTarget.Y = to.Y;
@@ -701,7 +701,7 @@ public class AiTaskWatch : AiTaskBase
         menace ??= entity.GetBehavior<EntityBehaviorMenace>();
         if (menace == null || menace.Kind == Encounter.Leave || entity.World.Side != EnumAppSide.Server) return;
         // Struck, it feels where it came from: it turns on whoever did it
-        if (source.GetCauseEntity() is EntityAgent cause && cause != entity && !IsCreative(cause) && mode != Mode.Chase)
+        if (source.GetCauseEntity() is EntityAgent cause && (cause is EntityPlayer || cause.WatchedAttributes.GetBool("backrooms:testTarget")) && cause != entity && !IsCreative(cause) && mode != Mode.Chase)
         {
             director ??= entity.Api.ModLoader.GetModSystem<MenaceSystem>();
             Spot(cause);

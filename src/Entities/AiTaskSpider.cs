@@ -338,7 +338,7 @@ public class AiTaskSpider : AiTaskBase
             // (Asynchronous, as the other hunters: the traverser is not active until a later tick, so the repath is rate limited, not gated on it)
             Go(chasing, runSpeed, within);
         }
-        else
+        else if (pathTraverser.Active && pathTraverser.CurrentTarget != null)
         {
             pathTraverser.CurrentTarget.X = target.Pos.X;
             pathTraverser.CurrentTarget.Y = target.Pos.Y;

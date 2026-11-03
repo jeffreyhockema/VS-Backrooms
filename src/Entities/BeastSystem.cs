@@ -68,6 +68,7 @@ public class BeastSystem : ModSystem
     }
 
     private static ICoreServerAPI sapi;
+    private ICoreServerAPI own;
     private MenaceSystem director;
     private readonly Dictionary<long, Event> events = new();
     private readonly Dictionary<long, double> nextAllowedHours = new();
@@ -100,7 +101,7 @@ public class BeastSystem : ModSystem
 
     public override void StartServerSide(ICoreServerAPI api)
     {
-        sapi = api;
+        sapi = own = api;
         rand = new Random();
         api.Event.ServerRunPhase(EnumServerRunPhase.RunGame, () =>
         {
@@ -536,6 +537,8 @@ public class BeastSystem : ModSystem
             sapi.Event.OnEntityDeath -= OnEntityDeath;
             if (tickListener != 0) sapi.Event.UnregisterGameTickListener(tickListener);
         }
+        // (Static: a dead world's server must not stay reachable through Put, Tell and Unveil)
+        if (ReferenceEquals(sapi, own)) sapi = null;
         base.Dispose();
     }
 
