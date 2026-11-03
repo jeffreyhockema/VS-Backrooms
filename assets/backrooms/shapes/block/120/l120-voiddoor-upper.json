@@ -2,14 +2,76 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"void-black": "backrooms:block/120/void-black",
-		"void-door": "backrooms:block/120/void-door"
+		"rk-chrome": "backrooms:block/120/rk-chrome",
+		"vd-black": "backrooms:block/120/vd-black",
+		"vd-panel": "backrooms:block/120/vd-panel",
+		"void-black": "backrooms:block/120/void-black"
 	},
 	"elements": [
 		{
-			"name": "Leaf",
+			"name": "StileA",
 			"from": [
 				0,
+				0,
+				0.5
+			],
+			"to": [
+				1.5,
+				15,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#vd-black",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"south": {
+					"texture": "#vd-black",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"east": {
+					"texture": "#vd-black",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"west": {
+					"texture": "#vd-black",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"up": {
+					"texture": "#vd-black",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "StileB",
+			"from": [
+				14.5,
 				0,
 				0.5
 			],
@@ -20,25 +82,25 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#void-door",
+					"texture": "#vd-black",
 					"uv": [
 						0,
 						0,
-						16,
+						1.5,
 						15
 					]
 				},
 				"south": {
-					"texture": "#void-door",
+					"texture": "#vd-black",
 					"uv": [
 						0,
 						0,
-						16,
+						1.5,
 						15
 					]
 				},
 				"east": {
-					"texture": "#void-door",
+					"texture": "#vd-black",
 					"uv": [
 						0,
 						0,
@@ -47,7 +109,7 @@
 					]
 				},
 				"west": {
-					"texture": "#void-door",
+					"texture": "#vd-black",
 					"uv": [
 						0,
 						0,
@@ -56,12 +118,45 @@
 					]
 				},
 				"up": {
-					"texture": "#void-door",
+					"texture": "#vd-black",
 					"uv": [
 						0,
 						0,
-						16,
+						1.5,
 						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				1.5,
+				0,
+				0.75
+			],
+			"to": [
+				14.5,
+				15,
+				1.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#vd-panel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						15
+					]
+				},
+				"south": {
+					"texture": "#vd-panel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						15
 					]
 				}
 			}
@@ -104,6 +199,159 @@
 						0,
 						0.5,
 						16
+					]
+				}
+			}
+		},
+		{
+			"name": "RailM",
+			"from": [
+				1.5,
+				0,
+				0.5
+			],
+			"to": [
+				14.5,
+				1,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#vd-black",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#vd-black",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#vd-black",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RailT",
+			"from": [
+				1.5,
+				13.5,
+				0.5
+			],
+			"to": [
+				14.5,
+				15,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#vd-black",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#vd-black",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#vd-black",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#vd-black",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Hinge1",
+			"from": [
+				0.25,
+				9,
+				2
+			],
+			"to": [
+				1.0,
+				11,
+				2.4
+			],
+			"faces": {
+				"south": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.75,
+						2
+					]
+				},
+				"east": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"west": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
 					]
 				}
 			}

@@ -776,10 +776,12 @@ def main():
     floor_textures()
     wall_textures()
     ceiling_textures()
+    cardboard_texture()
     more_textures()
     blocktypes()
     blocktypes_more()
     duct_blocktype()
+    voiddoor_blocktype()
 
 
 # ======================================================================== The walls, round 4
@@ -1094,3 +1096,64 @@ def ceiling_textures():
         if left - 1 >= 0:
             M.touch(broken, left - 1, y, 0.15)
     save(broken, "ceiling-broken")
+
+
+def cardboard_texture():
+    """Corrugated cardboard: fluting in faint vertical lines, brown packing tape across the top and down the middle, a
+    white shipping label, scuffs, a darker foot; laid out so a small box face (its top-left corner of the texture) still
+    shows a tape edge and the label."""
+    img = M.noise_hv((168, 124, 78), 3, 8500, mottle=6)
+    for x in range(0, 32, 3):
+        for y in range(32):
+            M.touch(img, x, y, -0.05)
+    for y in range(2, 5):
+        for x in range(32):
+            px_set(img, x, y, M.lift((150, 104, 58), random.Random(x * 7 + y).uniform(-3, 3)))
+    for x in range(15, 18):
+        for y in range(32):
+            px_set(img, x, y, M.lift((150, 104, 58), random.Random(x * 11 + y).uniform(-3, 3)))
+    for y in range(7, 13):
+        for x in range(3, 11):
+            px_set(img, x, y, (214, 210, 198) if (y, x % 3) != (9, 0) else (90, 88, 84))
+    for x in range(4, 10, 2):
+        px_set(img, x, 11, (60, 60, 60))
+    M.scratches(img, 4, 8501, light=0.1)
+    M.grime(img, 0.12, 8502, color=(100, 80, 56), bias="bottom")
+    save(img, "box-cardboard")
+
+
+def voiddoor_elements(part):
+    """A White Void's black door standing open flat against the side of its doorway (the way through along x): a matte
+    black leaf with two sunk panels, its lever handle and hinges, and the black frame's edge."""
+    lower = part == "lower"
+    top = 16 if lower else 15
+    els = [b("StileA", (0, 0, 0.5), (1.5, top, 2), "vd-black", faces=("north", "south", "east", "west", "up")),
+           b("StileB", (14.5, 0, 0.5), (16, top, 2), "vd-black", faces=("north", "south", "east", "west", "up")),
+           b("Panel", (1.5, 0, 0.75), (14.5, top, 1.75), "vd-panel", faces=("north", "south")),
+           b("Frame", (0, 0, 0), (16, 16, 0.5), "void-black", faces=("south", "east", "west"))]
+    if lower:
+        els += [b("RailB", (1.5, 0, 0.5), (14.5, 1.5, 2), "vd-black", faces=("north", "south", "up")),
+                b("RailM", (1.5, 15, 0.5), (14.5, 16, 2), "vd-black", faces=("north", "south", "down")),
+                b("Rose", (12.5, 14.5, 2), (13.5, 15.5, 2.2), "rk-chrome", faces=("south", "east", "west", "up", "down")),
+                b("Lever", (10.5, 14.75, 2.2), (13.25, 15.25, 2.7), "rk-chrome", faces=("south", "east", "west", "up", "down")),
+                b("Hinge0", (0.25, 3, 2), (1.0, 5, 2.4), "rk-chrome", faces=("south", "east", "west", "up", "down"))]
+    else:
+        els += [b("RailM", (1.5, 0, 0.5), (14.5, 1, 2), "vd-black", faces=("north", "south", "up")),
+                b("RailT", (1.5, 13.5, 0.5), (14.5, 15, 2), "vd-black", faces=("north", "south", "down", "up")),
+                b("Hinge1", (0.25, 9, 2), (1.0, 11, 2.4), "rk-chrome", faces=("south", "east", "west", "up", "down"))]
+    return els
+
+
+def voiddoor_blocktype():
+    save(M.painted_metal(8600, base=(24, 24, 26), panel=False, chips=1, under=(60, 60, 62)), "vd-black")
+    save(M.painted_metal(8601, base=(20, 20, 22), panel=True, chips=0), "vd-panel")
+    shapes = {}
+    for part in ("lower", "upper"):
+        base = shape("l120-voiddoor-" + part, voiddoor_elements(part))
+        shapes[f"l120-voiddoor-{part}-we"] = {"base": base}
+        shapes[f"l120-voiddoor-{part}-ns"] = {"base": base, "rotateY": 90}
+    leaf = (0, 0, 0, 1, 1, 0.125)
+    json_block("l120-voiddoor", [{"code": "part", "states": ["lower", "upper"]}, {"code": "way", "states": ["we", "ns"]}], shapes,
+               "Level 120: a White Void's black door, standing open against the side of its doorway (two high; the way through along x or z)",
+               {"collisionboxByType": {"*-we": cuboid(leaf), "*-ns": cuboid(leaf, 90)}, "selectionboxByType": {"*-we": cuboid(leaf), "*-ns": cuboid(leaf, 90)}},
+               extra={"resistance": 40}, inventory="l120-voiddoor-lower-we")
