@@ -1,0 +1,78 @@
+// Level 36 (round 4): a space-frame ceiling block whose deck is a roof light (overcast sky, glowing)
+{
+	"code": "l36-framesky",
+	"variantgroups": [
+		{
+			"code": "q",
+			"states": [
+				"ee",
+				"oe",
+				"eo",
+				"oo"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-framesky-ee": {
+			"base": "backrooms:block/36/l36-framesky-ee"
+		},
+		"l36-framesky-oe": {
+			"base": "backrooms:block/36/l36-framesky-oe"
+		},
+		"l36-framesky-eo": {
+			"base": "backrooms:block/36/l36-framesky-eo"
+		},
+		"l36-framesky-oo": {
+			"base": "backrooms:block/36/l36-framesky-oo"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"drops": [],
+	"attributes": {
+		"l36structure": true
+	},
+	"lightHsv": [
+		5,
+		1,
+		13
+	]
+}

@@ -1,0 +1,298 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4-prayermat": "backrooms:block/36/props/r4-prayermat",
+		"worktop": "backrooms:block/36/props/worktop"
+	},
+	"elements": [
+		{
+			"name": "Roll0",
+			"from": [
+				6.4,
+				2.5,
+				7.3373
+			],
+			"to": [
+				9.6,
+				13.5,
+				8.6627
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						3.2,
+						11.0
+					]
+				},
+				"east": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						1.3255,
+						11.0
+					]
+				},
+				"south": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						3.2,
+						11.0
+					]
+				},
+				"west": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						1.3255,
+						11.0
+					]
+				},
+				"up": {
+					"texture": "#worktop",
+					"uv": [
+						0,
+						0,
+						3.2,
+						1.3255
+					]
+				},
+				"down": {
+					"texture": "#worktop",
+					"uv": [
+						0,
+						0,
+						3.2,
+						1.3255
+					]
+				}
+			}
+		},
+		{
+			"name": "Roll1",
+			"from": [
+				7.3373,
+				2.52,
+				6.4
+			],
+			"to": [
+				8.6627,
+				13.48,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						1.3255,
+						10.96
+					]
+				},
+				"east": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						3.2,
+						10.96
+					]
+				},
+				"south": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						1.3255,
+						10.96
+					]
+				},
+				"west": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						3.2,
+						10.96
+					]
+				},
+				"up": {
+					"texture": "#worktop",
+					"uv": [
+						0,
+						0,
+						1.3255,
+						3.2
+					]
+				},
+				"down": {
+					"texture": "#worktop",
+					"uv": [
+						0,
+						0,
+						1.3255,
+						3.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Roll2",
+			"from": [
+				6.4,
+				2.54,
+				7.3373
+			],
+			"to": [
+				9.6,
+				13.46,
+				8.6627
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						3.2,
+						10.92
+					]
+				},
+				"east": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						1.3255,
+						10.92
+					]
+				},
+				"south": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						3.2,
+						10.92
+					]
+				},
+				"west": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						1.3255,
+						10.92
+					]
+				},
+				"up": {
+					"texture": "#worktop",
+					"uv": [
+						0,
+						0,
+						3.2,
+						1.3255
+					]
+				},
+				"down": {
+					"texture": "#worktop",
+					"uv": [
+						0,
+						0,
+						3.2,
+						1.3255
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				2.5,
+				8
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Roll3",
+			"from": [
+				7.3373,
+				2.56,
+				6.4
+			],
+			"to": [
+				8.6627,
+				13.44,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						1.3255,
+						10.88
+					]
+				},
+				"east": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						3.2,
+						10.88
+					]
+				},
+				"south": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						1.3255,
+						10.88
+					]
+				},
+				"west": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						3.2,
+						10.88
+					]
+				},
+				"up": {
+					"texture": "#worktop",
+					"uv": [
+						0,
+						0,
+						1.3255,
+						3.2
+					]
+				},
+				"down": {
+					"texture": "#worktop",
+					"uv": [
+						0,
+						0,
+						1.3255,
+						3.2
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				2.5,
+				8
+			],
+			"rotationY": 45
+		}
+	]
+}

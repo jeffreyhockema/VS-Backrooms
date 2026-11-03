@@ -1,0 +1,73 @@
+// Level 36 (round 4): the space-frame ceiling: a dark acoustic deck with white tubes hung under it, square on square 2 x 2 blocks a module (q: the block's x and z parity, even or odd), its top nodes on the even corners, its bottom nodes on the odd ones; a ceiling block
+{
+	"code": "l36-frame",
+	"variantgroups": [
+		{
+			"code": "q",
+			"states": [
+				"ee",
+				"oe",
+				"eo",
+				"oo"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-frame-ee": {
+			"base": "backrooms:block/36/l36-frame-ee"
+		},
+		"l36-frame-oe": {
+			"base": "backrooms:block/36/l36-frame-oe"
+		},
+		"l36-frame-eo": {
+			"base": "backrooms:block/36/l36-frame-eo"
+		},
+		"l36-frame-oo": {
+			"base": "backrooms:block/36/l36-frame-oo"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"drops": [],
+	"attributes": {
+		"l36structure": true
+	}
+}

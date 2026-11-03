@@ -70,6 +70,13 @@
 			"glowLevel": 120
 		}
 	},
+	"lightHsvByType": {
+		"*-skylight": [
+			5,
+			1,
+			13
+		]
+	},
 	"creativeinventory": {
 		"general": [
 			"*"

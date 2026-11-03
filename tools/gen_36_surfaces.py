@@ -67,6 +67,7 @@ NAMES = {
     "block-l36-belt-still-*": "Stopped Baggage Belt",
     "block-l36-belt-*": "Baggage Belt",
     "block-l36-carousel-island": "Carousel Island",
+    "block-l36-carousel-island-*": "Carousel Island",
     "block-l36-carousel-*": "Carousel Flap Opening",
     "block-l36-static-*": "The Absolute Limit",
     "block-l36-wall-plaster": "Terminal Plaster",
@@ -132,7 +133,10 @@ DEFAULT_TEX = {"front": "l36-window-mid", "side": "l36-wall-plaster", "signfront
                "signback": "l36-gatesign-a", "case": "l36-sign-case", "rod": "l36-sign-rod", "screen": "l36-fids-a-l",
                "bezel": "l36-fids-bezel", "pole": "l36-fidspole", "tread": "l36-belt-tread", "beltside": "l36-belt-side",
                "top": "l36-carousel-top", "islandside": "l36-carousel-side", "frame": "l36-carousel-frame",
-               "curtain": "l36-carousel-curtain", "dark": "l36-carousel-dark", "panel": "l36-wall-panel"}
+               "curtain": "l36-carousel-curtain", "dark": "l36-carousel-dark", "panel": "l36-wall-panel",
+               # (round 4) the props' materials, shared with the carousel, the signs and the fascias
+               "rubber": "props/rubber", "darksteel": "props/darksteel", "steel": "props/steel", "chrome": "props/chrome",
+               "alu": "props/r4-alu", "hazard": "props/r4-hazard", "strip": "props/r4-strip"}
 
 
 def cuboid(b, angle=0):
@@ -194,26 +198,98 @@ def sign_shape(name, glow):
     body["faces"]["south"]["uv"] = [0, 0, 16, 16]
     rods = [box("RodL", (3, 14, 7.5), (4, 16, 8.5), "rod", faces=("north", "east", "south", "west", "up")),
             box("RodR", (12, 14, 7.5), (13, 16, 8.5), "rod", faces=("north", "east", "south", "west", "up"))]
+    # (round 4) the housing: a lip standing proud along the top and the bottom of each face, a ceiling plate on each rod
+    rods += [box("LipTopN", (0, 13.25, 5.5), (16, 14, 6), "case", faces=("north", "up", "down", "east", "west")),
+             box("LipBotN", (0, 4, 5.5), (16, 4.75, 6), "case", faces=("north", "up", "down", "east", "west")),
+             box("LipTopS", (0, 13.25, 10), (16, 14, 10.5), "case", faces=("south", "up", "down", "east", "west")),
+             box("LipBotS", (0, 4, 10), (16, 4.75, 10.5), "case", faces=("south", "up", "down", "east", "west")),
+             box("PlateL", (2, 15.5, 6.5), (5, 16, 9.5), "rod", faces=("north", "east", "south", "west", "down")),
+             box("PlateR", (11, 15.5, 6.5), (14, 16, 9.5), "rod", faces=("north", "east", "south", "west", "down"))]
     return shape(name, [body] + rods)
+
+
+def island_parts(kind):
+    """(round 4) The carousel island, modelled with the belt to the north (edge) or to the north and east (corner)."""
+    top = {"top": "top", "all": "islandside"}
+    if kind == "inner":
+        return [box("Deck", (0, 0, 0), (16, 12.5, 16), top, faces=("up",)),
+                box("Seam", (7.75, 12.5, 0), (8.25, 12.75, 16), "darksteel", faces=("up", "east", "west"))]
+    corner = kind == "corner"
+    x2 = 14 if corner else 16
+    els = [box("Skirt", (0, 0, 2), (x2, 9, 16), {"all": "islandside"}, faces=("north", "east") if corner else ("north",)),
+           box("Kick", (0, 0, 1.5), (x2, 2, 2), "darksteel", faces=("north", "up", "east") if corner else ("north", "up")),
+           box("Bumper", (0, 7, 0.75), (x2 + 1.25 if corner else 16, 9.5, 2), "rubber",
+               faces=("north", "up", "down", "east") if corner else ("north", "up", "down"))]
+    if not corner:
+        # the plate sloping up from the bumper to the deck (17 degrees), its far end under the deck's lip
+        els.append(box("Slope", (0, 9, 2), (16, 9.75, 10.6), {"all": "top"}, faces=("up", "north"), rot=(-17, 0, 0), origin=(8, 9.5, 2)))
+        els += [box("Deck", (0, 11.75, 10.25), (16, 12.5, 16), {"top": "top", "all": "islandside"}, faces=("up", "north")),
+                box("Fill", (0, 9, 2.5), (16, 11.75, 16), "islandside", faces=("up",))]
+        for i, x in enumerate((2, 8, 14)):
+            els.append(box(f"Bolt{i}", (x - 0.5, 12.5, 12.5), (x + 0.5, 12.75, 13.5), "chrome", faces=("up", "north", "south", "east", "west")))
+    else:
+        els += [box("BumperE", (14, 7, 2), (15.25, 9.5, 16), "rubber", faces=("east", "up", "down")),
+                box("SkirtTop", (0, 9, 2), (14, 10, 16), {"all": "top"}, faces=("up", "north", "east")),
+                box("Cap", (0, 10, 6), (10, 12.5, 16), {"top": "top", "all": "islandside"}, faces=("up", "north", "east"))]
+    return els
+
+
+def flap_parts():
+    """(round 4) The belt's mouth in the wall: a steel portal with a hazard-striped lintel, a curtain of separate rubber
+    strips hanging into the dark (one swung up and back where a bag last came through), the slats just showing."""
+    els = [box("Back", (0, 0, 3), (16, 16, 16), {"front": "dark", "all": "panel"}),
+           box("Lintel", (0, 12, 0), (16, 16, 3), {"front": "frame", "bottom": "frame", "all": "panel"}, faces=("north", "east", "west", "up", "down")),
+           box("Hazard", (1, 12.5, -0.5), (15, 14.5, 0), "hazard", faces=("north", "up", "down", "east", "west")),
+           box("JambL", (0, 0, 0), (2, 12, 3), {"front": "frame", "all": "panel", "east": "frame"}, faces=("north", "east", "west", "down")),
+           box("JambR", (14, 0, 0), (16, 12, 3), {"front": "frame", "all": "panel", "west": "frame"}, faces=("north", "east", "west", "down")),
+           box("GuardL", (2, 0, -0.5), (2.75, 10, 0.25), "steel", faces=("north", "east", "up")),
+           box("GuardR", (13.25, 0, -0.5), (14, 10, 0.25), "steel", faces=("north", "west", "up")),
+           box("Floor", (2, 0, 0), (14, 0.5, 3), {"top": "tread", "all": "frame"}, faces=("north", "up", "down")),
+           box("Rail", (2, 11.25, 1.25), (14, 12, 2.25), "darksteel", faces=("north", "down"))]
+    for i in range(6):
+        x = 2.1 + i * 2
+        if i == 2:
+            els.append(box(f"Strip{i}", (x, 3.5, 1.5), (x + 1.8, 11.25, 1.9), "strip", faces=("north", "south", "down"),
+                           rot=(28, 0, 0), origin=(x + 0.9, 11.25, 1.7)))
+        else:
+            els.append(box(f"Strip{i}", (x, 1 + (i % 2) * 0.5, 1.5), (x + 1.8, 11.25, 1.9), "strip", faces=("north", "south", "down")))
+    return els
+
+
+def fascia_shape(name, part):
+    """(round 4) A shop fascia: the wall cube (panel on every face), out of its front face a light box 1.5 deep, lit only
+    on its face (the picture), aluminium trims top and bottom, end caps on the left and right parts."""
+    cube_ = box("Cube", (0, 0, 0), (16, 16, 16), {"all": "side"})
+    face = box("Face", (0, 1.5, -1.5), (16, 14.5, 0), {"front": "front", "all": "alu"}, faces=("north",))
+    face["faces"]["north"]["glow"] = 140
+    face["faces"]["north"]["uv"] = [0, 1.5, 16, 14.5]
+    els = [cube_, face,
+           box("TrimTop", (0, 14.5, -2), (16, 15.5, 0), "alu", faces=("north", "up", "down")),
+           box("TrimBot", (0, 0.5, -2), (16, 1.5, 0), "alu", faces=("north", "up", "down"))]
+    if part == "l":
+        els.append(box("CapL", (0, 0.5, -2), (0.75, 15.5, 0), "alu", faces=("north", "west", "up", "down")))
+    if part == "r":
+        els.append(box("CapR", (15.25, 0.5, -2), (16, 15.5, 0), "alu", faces=("north", "east", "up", "down")))
+    return shape(name, els, {"front": "l36-shopsign-cafe-m", "side": "l36-wall-panel"})
 
 
 def shapes():
     out = {}
     out["belt"] = shape("l36-belt", [box("Tread", (0, 0, 0), (16, 15, 16), {"top": "tread", "all": "beltside"})])
-    out["island"] = shape("l36-carousel-island", [box("Island", (0, 0, 0), (16, 10, 16), {"top": "top", "all": "islandside"})])
-    out["flap"] = shape("l36-carousel-flap", [
-        box("Back", (0, 0, 3), (16, 16, 16), {"front": "dark", "all": "panel"}),
-        box("Lintel", (0, 12, 0), (16, 16, 3), {"front": "frame", "bottom": "frame", "all": "panel"},
-            faces=("north", "east", "west", "up", "down")),
-        box("JambL", (0, 0, 0), (2, 12, 3), {"front": "frame", "all": "panel", "east": "frame"},
-            faces=("north", "east", "west", "down")),
-        box("JambR", (14, 0, 0), (16, 12, 3), {"front": "frame", "all": "panel", "west": "frame"},
-            faces=("north", "east", "west", "down")),
-        box("Floor", (2, 0, 0), (14, 0.5, 3), {"top": "tread", "all": "frame"}, faces=("north", "up", "down")),
-        box("Curtain", (2, 1, 1.5), (14, 12, 2), "curtain", faces=("north", "south", "down")),
-    ])
-    out["window"] = faced_cube("l36-window", 70, "l36-window-mid", "l36-wall-plaster")
-    out["shopsign"] = faced_cube("l36-shopsign", 140, "l36-shopsign-cafe-m", "l36-wall-panel")
+    # (round 4) the island as a carousel's middle: interior blocks a flat stainless deck; blocks on its edge a skirt, a kick
+    # plate, a black rubber bumper over the belt and a plate sloping up to the deck; corners the bumper round two sides
+    out["island"] = shape("l36-carousel-island", island_parts("inner"))
+    out["island-edge"] = shape("l36-carousel-island-edge", island_parts("edge"))
+    out["island-corner"] = shape("l36-carousel-island-corner", island_parts("corner"))
+    out["flap"] = shape("l36-carousel-flap", flap_parts())
+    # (round 4) the runway glazing with a real mullion standing proud at each block's edge (the picture's own frame lines
+    # read flat from an angle)
+    win = box("Cube", (0, 0, 0), (16, 16, 16), {"front": "front", "all": "side"})
+    win["faces"]["north"]["glow"] = 70
+    out["window"] = shape("l36-window", [win, box("Mullion", (0, 0, -0.75), (0.75, 16, 0), "darksteel", faces=("north", "east", "west"))],
+                          {"front": "l36-window-mid", "side": "l36-wall-plaster"})
+    for part in "lmr":   # (round 4) a light box standing out of the wall, aluminium trims, end caps on the outer parts
+        out["shopsign-" + part] = fascia_shape("l36-shopsign-" + part, part)
     out["cabinglow"] = faced_cube("l36-cabinwall-window", 60, "l36-cabinwall-window", "l36-cabin-plastic")
     out["sign"] = sign_shape("l36-sign", 150)
     out["signdead"] = sign_shape("l36-sign-unlit", 0)
@@ -221,7 +297,11 @@ def shapes():
                  faces=("north", "east", "west", "up", "down", "south"))
     screen["faces"]["north"]["glow"] = 170
     screen["faces"]["north"]["uv"] = [0, 0, 16, 16]   # (round 3) the whole screen picture, as the signs
-    out["fids"] = shape("l36-fids", [screen])
+    # (round 4) a housing: the bezel's lips standing proud top and bottom, a hanger bar along the top of the back case
+    out["fids"] = shape("l36-fids", [screen,
+        box("LipTop", (0, 13.5, 13.25), (16, 14.5, 14), "darksteel", faces=("north", "up", "down", "east", "west")),
+        box("LipBot", (0, 2, 13.25), (16, 3, 14), "darksteel", faces=("north", "up", "down", "east", "west")),
+        box("Hanger", (0, 14, 14.25), (16, 14.75, 15.75), "alu", faces=("north", "south", "up", "east", "west"))])
     out["pole"] = shape("l36-fidspole", [box("Pole", (7, 0, 7), (9, 16, 9), "pole")])
     return out
 
@@ -252,10 +332,18 @@ def blocktypes(sh):
            "selectionbox": belt_box, "collisionbox": belt_box,
            "attributesByType": {"*-run-*": {"l36structure": True, "l3999walkway": {"speed": 0.9}}, "*": dict(STRUCT)}})
 
-    parts = ["island"] + [f"flap-{s}" for s in SIDES]
-    island_box = cuboid((0, 0, 0, 1, 0.625, 1))
+    # (round 4) island: the deck inside; island-edge-<side> / island-corner-<side> on its rim, the belt to <side> (a corner:
+    # to <side> and the side clockwise from it)
+    rims = [f"island-{k}-{s}" for k in ("edge", "corner") for s in SIDES]
+    parts = ["island"] + rims + [f"flap-{s}" for s in SIDES]
+    island_box = cuboid((0, 0, 0, 1, 0.78, 1))
     shapes_ = {"*-island": {"base": sh["island"]}}
     solid, opaque = {"*-island": {"all": False, "down": True}}, {"*-island": {"all": False, "down": True}}
+    for k in ("edge", "corner"):
+        for s in SIDES:
+            shapes_[f"*-island-{k}-{s}"] = {"base": sh["island-" + k], "rotateY": ROT[s]} if ROT[s] else {"base": sh["island-" + k]}
+            solid[f"*-island-{k}-{s}"] = {"all": False, "down": True}
+            opaque[f"*-island-{k}-{s}"] = {"all": False, "down": True}
     for s in SIDES:
         shapes_[f"*-flap-{s}"] = {"base": sh["flap"], "rotateY": ROT[s]} if ROT[s] else {"base": sh["flap"]}
         solid[f"*-flap-{s}"] = {"all": True, s: False}
@@ -266,8 +354,10 @@ def blocktypes(sh):
           {"variantgroups": [{"code": "part", "states": parts}], "shapeByType": shapes_,
            "blockmaterial": "Metal", "drawtype": "json", "sidesolidByType": solid, "sideopaqueByType": opaque,
            "lightAbsorption": 99, "resistance": 6, "sounds": METAL,
-           "selectionboxByType": {"*-island": island_box, "*": cuboid((0, 0, 0, 1, 1, 1))},
-           "collisionboxByType": {"*-island": island_box, "*": cuboid((0, 0, 0, 1, 1, 1))},
+           "selectionboxByType": {"*-island*": island_box, "*": cuboid((0, 0, 0, 1, 1, 1))},
+           "collisionboxByType": {"*-island*": island_box, "*": cuboid((0, 0, 0, 1, 1, 1))},
+           "creativeinventory": {"general": ["*-island", "*-island-edge-north", "*-island-corner-north", "*-flap-north"],
+                                 "backrooms": ["*-island", "*-island-edge-north", "*-island-corner-north", "*-flap-north"]},
            "attributes": dict(STRUCT)})
 
     cube("l36-static", [{"code": "kind", "states": ["a", "b", "c", "d"]}], {"all": tex("l36-static-{kind}")},
@@ -317,14 +407,24 @@ def blocktypes(sh):
            "blockmaterial": "Stone", "sidesolid": {"all": True}, "sideopaque": {"all": True},
            "lightAbsorption": 99, "resistance": 3, "sounds": STONE, "attributes": dict(STRUCT)})
 
-    kt = {}
-    for k in ("nohands", "stopped"):
-        for s in SIDES:
-            kt[f"*-{k}-{s}"] = {"all": tex("l36-wall-panel"), s: tex("l36-wallclock-" + k)}
-    cube("l36-wallclock", [{"code": "kind", "states": ["nohands", "stopped"]}, {"code": "side", "states": SIDES}], kt,
-         "Level 36: a panel wall with a round station clock on its <side> face: no hands at all, or stopped at 3:47 "
-         "under cracked glass (clocks here freeze)", by_type=True,
-         extra={"creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]}})
+    # (round 4) the clock stands out of the wall: its face in a dark case 1.25 deep, a steel bezel round it, the hanger above
+    face = box("Face", (1.5, 1.5, -1.25), (14.5, 14.5, 0), {"front": "clock", "all": "darksteel"}, faces=("north", "east", "west", "up", "down"))
+    face["faces"]["north"]["uv"] = [1.5, 1.5, 14.5, 14.5]
+    clock = shape("l36-wallclock", [box("Cube", (0, 0, 0), (16, 16, 16), {"all": "panel"}), face,
+                                    box("BezelT", (1.25, 14.5, -1.5), (14.75, 14.75, 0), "steel", faces=("north", "up", "down")),
+                                    box("BezelB", (1.25, 1.25, -1.5), (14.75, 1.5, 0), "steel", faces=("north", "up", "down")),
+                                    box("BezelL", (1.25, 1.5, -1.5), (1.5, 14.5, 0), "steel", faces=("north", "east", "west")),
+                                    box("BezelR", (14.5, 1.5, -1.5), (14.75, 14.5, 0), "steel", faces=("north", "east", "west")),
+                                    box("Hanger", (7, 14.75, -0.75), (9, 16, 0), "darksteel", faces=("north", "east", "west"))],
+                  {"clock": "l36-wallclock-stopped"})
+    block("l36-wallclock", "Level 36: a panel wall with a station clock standing out of its <side> face: no hands at all, or "
+          "stopped at 3:47 under cracked glass (clocks here freeze)",
+          {"variantgroups": [{"code": "kind", "states": ["nohands", "stopped"]}, {"code": "side", "states": SIDES}],
+           "shapeByType": rotated_shapes("*", clock),
+           "texturesByType": {f"*-{k}-*": {"clock": tex("l36-wallclock-" + k)} for k in ("nohands", "stopped")},
+           "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
+           "blockmaterial": "Stone", "drawtype": "json", "sidesolid": {"all": True}, "sideopaque": {"all": True},
+           "lightAbsorption": 99, "resistance": 3, "sounds": STONE, "attributes": dict(STRUCT)})
 
     cube("l36-ceiling", [{"code": "kind", "states": ["steel", "tile", "dark", "cabin"]}], {"all": tex("l36-ceiling-{kind}")},
          "Level 36: ceilings (steel: the concourses' linear metal baffles; tile: offices and restrooms; dark: the open black "
@@ -391,7 +491,8 @@ def blocktypes(sh):
           "as seen facing it), on a panel wall cube; invented brands",
           {"variantgroups": [{"code": "shop", "states": G.SHOPS}, {"code": "part", "states": ["l", "m", "r"]},
                              {"code": "side", "states": SIDES}],
-           "shapeByType": rotated_shapes("*", sh["shopsign"]), "texturesByType": ft,
+           "shapeByType": {k: v for part in "lmr" for k, v in rotated_shapes(f"*-{part}", sh["shopsign-" + part]).items()},
+           "texturesByType": ft,
            "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
            "blockmaterial": "Stone", "drawtype": "json", "sidesolid": {"all": True}, "sideopaque": {"all": True},
            "lightHsvByType": {f"l36-shopsign-{shop}-*": G.FASCIA_LIGHT[shop] for shop in G.SHOPS},

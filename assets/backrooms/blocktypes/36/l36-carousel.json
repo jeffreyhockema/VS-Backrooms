@@ -6,6 +6,14 @@
 			"code": "part",
 			"states": [
 				"island",
+				"island-edge-north",
+				"island-edge-east",
+				"island-edge-south",
+				"island-edge-west",
+				"island-corner-north",
+				"island-corner-east",
+				"island-corner-south",
+				"island-corner-west",
 				"flap-north",
 				"flap-east",
 				"flap-south",
@@ -16,6 +24,36 @@
 	"shapeByType": {
 		"*-island": {
 			"base": "backrooms:block/36/l36-carousel-island"
+		},
+		"*-island-edge-north": {
+			"base": "backrooms:block/36/l36-carousel-island-edge"
+		},
+		"*-island-edge-east": {
+			"base": "backrooms:block/36/l36-carousel-island-edge",
+			"rotateY": 270
+		},
+		"*-island-edge-south": {
+			"base": "backrooms:block/36/l36-carousel-island-edge",
+			"rotateY": 180
+		},
+		"*-island-edge-west": {
+			"base": "backrooms:block/36/l36-carousel-island-edge",
+			"rotateY": 90
+		},
+		"*-island-corner-north": {
+			"base": "backrooms:block/36/l36-carousel-island-corner"
+		},
+		"*-island-corner-east": {
+			"base": "backrooms:block/36/l36-carousel-island-corner",
+			"rotateY": 270
+		},
+		"*-island-corner-south": {
+			"base": "backrooms:block/36/l36-carousel-island-corner",
+			"rotateY": 180
+		},
+		"*-island-corner-west": {
+			"base": "backrooms:block/36/l36-carousel-island-corner",
+			"rotateY": 90
 		},
 		"*-flap-north": {
 			"base": "backrooms:block/36/l36-carousel-flap"
@@ -40,6 +78,38 @@
 			"all": false,
 			"down": true
 		},
+		"*-island-edge-north": {
+			"all": false,
+			"down": true
+		},
+		"*-island-edge-east": {
+			"all": false,
+			"down": true
+		},
+		"*-island-edge-south": {
+			"all": false,
+			"down": true
+		},
+		"*-island-edge-west": {
+			"all": false,
+			"down": true
+		},
+		"*-island-corner-north": {
+			"all": false,
+			"down": true
+		},
+		"*-island-corner-east": {
+			"all": false,
+			"down": true
+		},
+		"*-island-corner-south": {
+			"all": false,
+			"down": true
+		},
+		"*-island-corner-west": {
+			"all": false,
+			"down": true
+		},
 		"*-flap-north": {
 			"all": true,
 			"north": false
@@ -59,6 +129,38 @@
 	},
 	"sideopaqueByType": {
 		"*-island": {
+			"all": false,
+			"down": true
+		},
+		"*-island-edge-north": {
+			"all": false,
+			"down": true
+		},
+		"*-island-edge-east": {
+			"all": false,
+			"down": true
+		},
+		"*-island-edge-south": {
+			"all": false,
+			"down": true
+		},
+		"*-island-edge-west": {
+			"all": false,
+			"down": true
+		},
+		"*-island-corner-north": {
+			"all": false,
+			"down": true
+		},
+		"*-island-corner-east": {
+			"all": false,
+			"down": true
+		},
+		"*-island-corner-south": {
+			"all": false,
+			"down": true
+		},
+		"*-island-corner-west": {
 			"all": false,
 			"down": true
 		},
@@ -88,12 +190,12 @@
 		"hit": "game:block/heavymetal-hit"
 	},
 	"selectionboxByType": {
-		"*-island": {
+		"*-island*": {
 			"x1": 0,
 			"y1": 0,
 			"z1": 0,
 			"x2": 1,
-			"y2": 0.625,
+			"y2": 0.78,
 			"z2": 1
 		},
 		"*": {
@@ -106,12 +208,12 @@
 		}
 	},
 	"collisionboxByType": {
-		"*-island": {
+		"*-island*": {
 			"x1": 0,
 			"y1": 0,
 			"z1": 0,
 			"x2": 1,
-			"y2": 0.625,
+			"y2": 0.78,
 			"z2": 1
 		},
 		"*": {
@@ -123,16 +225,22 @@
 			"z2": 1
 		}
 	},
-	"attributes": {
-		"l36structure": true
-	},
 	"creativeinventory": {
 		"general": [
-			"*"
+			"*-island",
+			"*-island-edge-north",
+			"*-island-corner-north",
+			"*-flap-north"
 		],
 		"backrooms": [
-			"*"
+			"*-island",
+			"*-island-edge-north",
+			"*-island-corner-north",
+			"*-flap-north"
 		]
+	},
+	"attributes": {
+		"l36structure": true
 	},
 	"drops": []
 }

@@ -308,8 +308,9 @@ public sealed partial class WorldLayout
                 Tile n = L36Raw(gx + dx, gz + dz);
                 if (n.Kind == TileKind.Wall) continue;
                 height = Math.Max(height, n.Height);
+                // (round 4: the holdrooms and the food courts too, so their walls are not bare panel)
                 if ((L36Zone)n.Zone is L36Zone.Concourse or L36Zone.Junction or L36Zone.Pier or L36Zone.Street or L36Zone.Meeting or L36Zone.CheckIn
-                    or L36Zone.Baggage) toHall = true;
+                    or L36Zone.Baggage or L36Zone.Holdroom or L36Zone.FoodCourt) toHall = true;
                 var (r, m) = (L36Zone)n.Zone switch
                 {
                     L36Zone.Restroom => (6, L36Mat.WallTile),
@@ -353,6 +354,8 @@ public sealed partial class WorldLayout
             // (links) Every fourth module a door under an airplane sign, out to the city or the Suburbs (locked, but for one
             // somebody has come in by)
             else if (k == 24 && Hashing.Mod(module, 4) == 3 && L36IsCarousel(module)) { w.Detail = L36Mat.LandDoor; w.Pier = ArchPier.East; }
+            // (round 4) posters along the baggage wall between the carousels (the Agency's, the ads, the baggage notice)
+            else if (k is 4 or 19) L36WallArt(ref w, ArchPier.East, 0, (byte)(L36ArtPoster + Hashing.Mod(module * 5 + k, 8)), 2);
             return w;
         }
         if (u <= L36BaggageEnd) return L36Baggage(gx, gz, u, k, module, r);
@@ -419,9 +422,14 @@ public sealed partial class WorldLayout
                 }
                 t.Zone = (byte)L36Zone.LostFound;
                 t.Detail = L36Mat.CarpetGrey;
+                // (round 4) an office's ceiling, four high, not the claim hall's seven over a few shelves
+                t.Height = 4;
+                t.Ceiling = (u - 2) % 4 == 0 && k % 4 == 2 ? CeilingKind.LightOn : CeilingKind.L36Ceiling;
                 if (u == 1 && k % 2 == 0) { t.Variant = Props.L36LostFound; t.Pier = ArchPier.East; }
                 else if (u == 8 && k is >= 10 and <= 21 && k is not (15 or 16)) { t.Variant = Props.ReceptionDesk; t.Pier = ArchPier.East; }
                 else if (u is >= 3 and <= 6 && r < 0.18) { t.Variant = r < 0.12 ? Props.Suitcase : Props.Backpack; t.Pier = (ArchPier)(int)(r * 40 % 4); }
+                // (round 4) and heaps of the cases nobody claimed (decor: the ones you can open are the suitcases above)
+                else if (u is >= 2 and <= 7 && r < 0.42) { t.Variant = Props.L36Luggage; t.Stack = (byte)((int)(r * 997) % 5); t.Pier = (ArchPier)(int)(r * 7919 % 4); }
                 else if (u == 2 && k == 5) t.SupplyBox = true;
             }
             if (u == 12 && k == 15) { t.Overhead = Overheads.L36Sign; t.Depth = L36SBaggage; t.Pier = ArchPier.East; }
@@ -443,19 +451,26 @@ public sealed partial class WorldLayout
             // Bags nobody came for (more on a running one: ten rounds and they go to Lost and Found)
             // (round 3: more of them, as the Fandom page has it, "luggage seemingly abandoned")
             if (r < (running ? 0.26 : 0.12)) { t.Variant = r < 0.07 ? Props.Backpack : Props.Suitcase; t.Stack = (byte)((int)(r * 97) % 4); }
+            // (round 4) and more that cannot be opened: hard-shell spinners, duffels, garment bags (decor, no loot; they face the way the belt runs)
+            else if (r < (running ? 0.42 : 0.24)) { t.Variant = Props.L36Luggage; t.Stack = (byte)((int)(r * 997) % 4); }
             return t;
         }
         // Round it: benches facing the belt, trolleys, bins, a fountain, abandoned bags; a sign over the middle of the hall
-        if (u == 18 && k is 9 or 15 && r < 0.8) { t.Variant = Props.Bench; t.Pier = ArchPier.West; }
+        // (round 4) rows of three gate seats on their beam facing the belt, in place of lone benches; airport trolleys
+        if (u == 18 && (k is >= 7 and <= 9 or >= 15 and <= 17))
+        {
+            t.Variant = Props.L36Seat; t.Pier = ArchPier.West;
+            t.Stack = (byte)(r < 0.06 ? 2 : r < 0.1 ? 3 : 1);
+        }
         else if (u == 22 && k == 2) t.Variant = Props.L36Bin;
-        else if (u is 16 or 17 && k is 4 or 5 && r < 0.6) t.Variant = Props.LuggageCart;
+        else if (u is 16 or 17 && k is 4 or 5 && r < 0.6) { t.Variant = Props.L36Trolley; t.Pier = (ArchPier)(int)(r * 40 % 4); }
         else if (u == 23 && k == 24 && r < 0.6) { t.Variant = Props.Cooler; t.Pier = ArchPier.West; }
         else if (u is > 14 and < 24 && r < 0.012) { t.Variant = r < 0.008 ? Props.Suitcase : Props.Backpack; t.Pier = (ArchPier)(int)(r * 997 % 4); }
         if (u is 12 or 13 && k == 24) { t.Overhead = Overheads.L36Sign; t.Depth = u == 12 ? L36SCheckIn : L36SBaggage; t.Pier = ArchPier.West; }
         // (round 3) The carousel's screen at the loop's head: its belt, where its bags came from
         if (u == 15 && k is 12 or 13) { t.Overhead = Overheads.L36Fids; t.Pier = ArchPier.East; t.Depth = (byte)(L36BoardBelt + Hashing.Mod(module, 3)); t.Roof = L36Part(ArchPier.East, k - 12, 2); }
         // (round 3) A bay of nested trolleys by the columns; a customs bench on the red channel's side
-        if (u == 21 && k is 28 or 29 or 30 && t.Variant == 0) { t.Variant = Props.LuggageCart; t.Pier = ArchPier.North; }
+        if (u == 21 && k is 28 or 29 or 30 && t.Variant == 0) { t.Variant = Props.L36Trolley; t.Pier = ArchPier.North; }
         if (u == 23 && k is 16 or 17 && Hashing.Mod(module, 4) != 1) { t.Variant = Props.FoldingTable; t.Pier = ArchPier.West; }
         if (u == 20 && k == 28 && Hashing.Mod(module, 5) == 2) t.SupplyBox = true;
         return t;
@@ -516,6 +531,9 @@ public sealed partial class WorldLayout
                 t.Pier = u == 33 ? ArchPier.West : u == 36 ? ArchPier.East : k == 12 ? ArchPier.North : ArchPier.South;
             }
             if (u is 34 or 35 && k is 15 or 16) { t.Overhead = Overheads.L36Sign; t.Depth = L36SInfo; t.Pier = k == 15 ? ArchPier.North : ArchPier.South; }
+            // (round 4) an information pylon off each end of the desk, facing the hall
+            if (u == 34 && k == 10) { t.Variant = Props.L36InfoPylon; t.Pier = ArchPier.North; }
+            if (u == 35 && k == 21) { t.Variant = Props.L36InfoPylon; t.Pier = ArchPier.South; }
             if (u is 34 or 35 && k is 14 or 17) { t.Overhead = Overheads.L36Fids; t.Depth = (byte)Hashing.Mod(module + u, 4); t.Pier = k == 14 ? ArchPier.North : ArchPier.South; t.Roof = L36Part(t.Pier, u - 34, 2); }
             return t;
         }
@@ -866,6 +884,12 @@ public sealed partial class WorldLayout
         L36Fill(plan, pa0 + 9, Q(71), pa0 + 11, Q(82), L36Zone.Bridge, 3, L36Mat.CarpetGrey);
         for (int p = pa0 + 9; p <= pa0 + 11; p++)
             if (p != pa0 + 10) plan.At(p, Q(71)) = L36Solid();
+        // (round 4) In one bridge in four a wanderer's chalk cross on the wall, just inside the door (the lore: the flights do
+        // not come back)
+        {
+            var (bx, bz) = plan.World(pa0 + 9, Q(81));
+            if (Hashing.Unit(Hashing.Hash(seed, bx, bz, SaltL36Prop + 9)) < 0.25) plan.At(pa0 + 9, Q(81)).Chalk = ChalkBits.Make(plan.Dir(ArchPier.West), 2);
+        }
         for (int q = 66; q <= 70; q++)
             for (int p = pa0 + 1; p <= pa0 + 19; p++)
             {
@@ -1098,9 +1122,19 @@ public sealed partial class WorldLayout
                         0 => (s, 60 + depth), 1 => (s, 179 - depth), 2 => (60 + depth, s), _ => (179 - depth, s),
                     };
                     var counter = At(3);
-                    L36Put(plan, counter.P, counter.Q, Props.SnackCounter, inward, (byte)(d == 4 ? 1 : d % 3 == 0 ? 2 : 0));
+                    bool cafe = stall == L36ShopCafe;
+                    // (round 4) a cafe's counter: pastry cases and the till; its kitchen espresso counters; stools along the counters
+                    if (cafe && d is 2 or 3 or 5 or 6) L36Put(plan, counter.P, counter.Q, Props.L36Pastry, inward);
+                    else if (d == 4) L36Put(plan, counter.P, counter.Q, Props.L36Till, inward);
+                    else L36Put(plan, counter.P, counter.Q, Props.SnackCounter, inward, (byte)(d % 3 == 0 ? 2 : 0));
+                    if (d is 1 or 3 or 5 or 7 && Hashing.Unit(Hashing.Hash(seed, counter.P + plan.Sx * 256, counter.Q + plan.Sz * 256, SaltL36Prop + 7)) < 0.8)
+                    {
+                        var seat = At(4);
+                        L36Put(plan, seat.P, seat.Q, Props.L36Stool, inward);
+                    }
                     var kitchen = At(0);
-                    L36Put(plan, kitchen.P, kitchen.Q, d % 3 == 0 ? Props.Stove : d % 3 == 1 ? Props.Fryer : Props.KitchenCounter, inward);
+                    L36Put(plan, kitchen.P, kitchen.Q, cafe ? (d % 3 == 0 ? Props.L36Coffee : Props.KitchenCounter)
+                        : d % 3 == 0 ? Props.Stove : d % 3 == 1 ? Props.Fryer : Props.KitchenCounter, inward);
                     if (d is 1 or 2 or 6 or 7)
                     {
                         // (round 3) The menu boards, two blocks each, at head height over the kitchen
@@ -1152,7 +1186,7 @@ public sealed partial class WorldLayout
             {
                 if (cp == 119 && cq == 119) continue;
                 for (int dq = 0; dq < 2; dq++)
-                    for (int dp = 0; dp < 2; dp++) plan.At(cp + dp, cq + dq) = L36Solid();
+                    for (int dp = 0; dp < 2; dp++) plan.At(cp + dp, cq + dq) = L36PosterColumn(cp + cq);   // (round 4: clad and postered)
             }
     }
 
@@ -1253,6 +1287,8 @@ public sealed partial class WorldLayout
                 // (round 3) coffered, a skylight over the marker
                 t.Ceiling = d < 9 ? CeilingKind.L36Skylight : CeilingKind.L36Coffer;
                 if (p % 4 == 2 && q % 4 == 2 && d >= 9) t.Ceiling = CeilingKind.LightOn;
+                // (round 4) lights among the skylight's panes too: the floor round the marker was dark
+                else if (p % 4 == 0 && q % 4 == 0 && d is >= 2.5 and < 9) t.Ceiling = CeilingKind.LightOn;
                 else if ((d is > 13.5 and < 14.5 || d is > 25.5 and < 26.5 || d is > 37.5 and < 38.5) && (p + q) % 3 == 0) t.Ceiling = CeilingKind.LightLit;
             }
         // (round 2) A ring of eight columns round the atrium, between the planters and the outer lights
@@ -1261,7 +1297,7 @@ public sealed partial class WorldLayout
             double ang = i * Math.PI / 4 + Math.PI / 8;
             int cp = (int)Math.Round(119.5 + Math.Cos(ang) * 31 - 0.5), cq = (int)Math.Round(119.5 + Math.Sin(ang) * 31 - 0.5);
             for (int dq = 0; dq < 2; dq++)
-                for (int dp = 0; dp < 2; dp++) plan.At(cp + dp, cq + dq) = L36Solid();
+                for (int dp = 0; dp < 2; dp++) plan.At(cp + dp, cq + dq) = L36PosterColumn(i);
         }
         // The meeting point in the middle (round 3: the sign every airport has, a lit cube two blocks on a side on a post, the
         // pictogram and MEETING POINT on its four faces; Stack the quarter of it a block holds, 0 north-west, 1 north-east,
@@ -1417,7 +1453,8 @@ public sealed partial class WorldLayout
                                 double rr = Hashing.Unit(Hashing.Hash(seed, s * 31 + edge, d * 17 + (int)(h % 997), SaltL36Prop + 3));
                                 ushort prop = shop switch
                                 {
-                                    L36ShopNews => d % 4 == 2 ? Props.HotelBookshelf : Props.SnackShelf,
+                                    // (round 4) a newsstand's magazine racks between its shelves of books and snacks
+                                    L36ShopNews => d % 4 == 2 ? Props.HotelBookshelf : s % 2 == 0 ? Props.L36MagRack : Props.SnackShelf,
                                     L36ShopDutyFree => d % 4 == 2 ? (s % 3 != 0 ? Props.L36Gondola : (ushort)0) : s % 3 != 0 ? Props.L36Perfume : Props.DrinkFridge,
                                     L36ShopPharma => s % 2 == 0 ? Props.MedCabinet : Props.Shelf,
                                     L36ShopExchange => 0,
@@ -1440,12 +1477,14 @@ public sealed partial class WorldLayout
                         for (int s = s0 + 2; s <= s0 + 16; s++)
                         {
                             if (shop == L36ShopExchange) { Put(s, 6, Props.ReceptionDesk, outward); continue; }
-                            ushort back = shop == L36ShopCafe ? (s % 3 == 0 ? Props.Stove : s % 3 == 1 ? Props.SnackCounter : Props.KitchenCounter)
+                            // (round 4) a cafe's back counter: espresso machines between the worktops
+                            ushort back = shop == L36ShopCafe ? (s % 3 == 0 ? Props.L36Coffee : s % 3 == 1 ? Props.SnackCounter : Props.KitchenCounter)
                                 : s % 2 == 0 ? Props.Shelf : (ushort)0;
                             if (back != 0) Put(s, Deep - 1, back, outward);
                         }
-                        Put(s0 + 3, 1, Props.SnackCounter, outward, 1);
-                        Put(s0 + 4, 1, Props.SnackCounter, outward, 0);
+                        // (round 4) the till by the door, the clerk behind it; a cafe's pastry case beside it
+                        Put(s0 + 3, 1, Props.L36Till, inward);
+                        Put(s0 + 4, 1, shop == L36ShopCafe ? Props.L36Pastry : Props.SnackCounter, shop == L36ShopCafe ? inward : outward);
                         if (shop == L36ShopExchange)
                             for (int i = 0; i < 4; i++) Art(s0 + 7 + i, Deep, outward, Up(s0 + 7, i, 4), L36ArtDep, 3);
                         if (!closed && Hashing.Unit(Hashing.Mix(h + 7)) < 0.1)
@@ -1473,14 +1512,22 @@ public sealed partial class WorldLayout
                         break;
                     case 3:
                         // rows of chairs facing the back wall, books and plants along it; quiet
+                        // (round 4) chairs on one side of the aisle, prayer mats laid in rows on the other, one rolled at a row's end
                         for (int d = 3; d <= 7; d += 2)
                             for (int s = s0 + 3; s <= s0 + 15; s++)
-                                if (s - s0 is not (8 or 9 or 10)) Put(s, d, Props.HotelChair, inward);
+                            {
+                                if (s - s0 is 8 or 9 or 10) continue;
+                                if (s - s0 < 8) Put(s, d, Props.HotelChair, inward);
+                                else Put(s, d, Props.L36PrayerMat, inward, (byte)(s - s0 == 15 && d == 7 ? 1 : 0));
+                            }
                         for (int s = s0 + 5; s <= s0 + 13; s++) Put(s, Deep - 1, s % 2 == 0 ? Props.OfficeBookshelf : Props.Ficus, outward);
                         break;
                     case 4:
                         // the information desk across the alcove, its screens behind it, the "i" hung in front
                         for (int s = s0 + 4; s <= s0 + 14; s++) Put(s, 3, Props.ReceptionDesk, outward);
+                        // (round 4) an information pylon either side of the desk, facing the concourse
+                        Put(s0 + 2, 2, Props.L36InfoPylon, outward);
+                        Put(s0 + 16, 2, Props.L36InfoPylon, outward);
                         for (int i = 0; i < 2; i++)
                         {
                             var (p, q) = At(s0 + 8 + i, 5);

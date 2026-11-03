@@ -1,0 +1,31 @@
+// Level 36 (round 4): a jet bridge's studded rubber floor
+{
+	"code": "l36-bridgefloor",
+	"textures": {
+		"all": {
+			"base": "backrooms:block/36/props/r4-bridgefloor"
+		}
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"attributes": {
+		"l36structure": true
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"drops": []
+}

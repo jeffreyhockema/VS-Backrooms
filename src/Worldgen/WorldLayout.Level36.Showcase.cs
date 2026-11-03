@@ -30,6 +30,11 @@ public partial class WorldLayout
         const string dwell = "/backrooms where;/backrooms where;/backrooms where;/backrooms where;/backrooms where";
         Add("carousel", wx + 20.5, lz + 76.5, 270, -18, dwell);
         Add("claim-hall", wx + 21.5, lz + 52.5, 0);
+        // (round 4) The carousel's mouth in the baggage wall (the rubber curtain, the hazard lintel), the space frame over the
+        // claim hall seen from under it, a clad column with its capital
+        Add("carousel-flap", wx + 5.5, lz + 64 + 16.5, 320, -10);
+        Add("space-frame", wx + 21.5, lz + 40.5, 20, 38);
+        Add("column", wx + 15.5, lz + 28.5, 128, 12);
         // A blackout: the nearest dark north-south concourse stretch, something in it, looking north to its failing end
         // (the encounter is put down where the player faces on arriving: the claim hall's heading, north, as the shot's)
         bool dark = false;
@@ -48,7 +53,8 @@ public partial class WorldLayout
         Add("customs", wx + 17.5, lz + 16, 90, 6);
         Add("arrivals-board", wx + 17.5, lz + 56, 90, 8);
         Add("departures-board", wx + 32.5, lz + 4, 270, 16);
-        Add("info-desk", wx + 28.5, lz + 16 * 32 + 27.5, 30, 4);
+        // (round 4: from the front, down the hall onto its north end and its pylon)
+        Add("info-desk", wx + 35.0, lz + 16 * 32 + 3.5, 180, 8);
         Add("checkin", wx + 35.5, lz + 35.5, 180, 4);
         Add("travel-agency", wx + 27.5, lz + 16, 90, 12);
         Add("security", wx + 49.5, lz + 8.5, 90, -4);
@@ -118,6 +124,8 @@ public partial class WorldLayout
             Add("cabin", gate.AisleX + (xp - x0) * 8 + 0.5, gate.AisleZ + (zp - z0) * 8 + 0.5, Math.Atan2(-(xp - x0), zp - z0) * 180 / Math.PI, -6);
             // (links) The gate's screen by the window, naming where its flights go; the wing's restrooms and their sinks
             Add("gate-screen", gate.DoorX + fx * 7 + 0.5, gate.DoorZ + fz * 7 + 0.5, back, 18);
+            // (round 4) The jet bridge, from just inside its door down its glazed run toward the cabin
+            Add("bridge", gate.DoorX - fx + 0.5, gate.DoorZ - fz + 0.5, back, -4);
             shownGate = gate;
             if (!pier.Dark)
             {
@@ -132,13 +140,22 @@ public partial class WorldLayout
             AddIn(food, "food-court", 70, 70, 1, 1, -4);
             // (round 3) A row of stalls, their fascias and menu boards
             AddIn(food, "food-stalls", 93, 76, 0.3, -1, 14);
+            // (round 4) A cafe stall: its pastry cases and till over the stools, the espresso counters behind
+            for (int p = 62; p <= 178; p++)
+            {
+                var (cx, cz) = food.World(p, 63);
+                if (L36Raw(cx, cz).Variant != Props.L36Pastry) continue;
+                AddIn(food, "cafe", p + 0.5, 68, 0.35, -1, -14);
+                break;
+            }
         }
         if (Nearest(L36Kind.Lounge) is { } lounge) AddIn(lounge, "lounge", 78, 119, 1, -0.2, -6);
         if (Nearest(L36Kind.Meeting) is { } meeting)
         {
             // First from behind the Travel Agency's kiosk (out of its sight, so its Planner is put down while the tour waits)
             AddIn(meeting, "meeting-kiosk", 120, 160, -0.15, -1, 6, dwell);
-            AddIn(meeting, "meeting-place", 119.5, 102, 0, 1, 6);
+            // (round 4: the marker's cube is now eight and nine up: look up to it)
+            AddIn(meeting, "meeting-place", 119.5, 102, 0, 1, 18);
         }
         if (Nearest(L36Kind.Service) is { } service) AddIn(service, "service", 2, 66, 1, 0);
 

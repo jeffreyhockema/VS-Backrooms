@@ -129,8 +129,9 @@ def fabrics():
     save(img, "cabin")
     save(M.fabric(seed=seed_of("cabinside"), base=(30, 40, 86), weave="plain", contrast=5, grain=2, mottle=3), "cabin-side")
     save(M.fabric(seed=seed_of("headcover"), base=(232, 232, 226), weave="plain", contrast=5, grain=2, mottle=3), "headcover")
-    save(M.fabric(seed=seed_of("jacket"), base=(150, 128, 92), weave="twill", contrast=10, grain=2, mottle=6), "jacket")
-    save(M.fabric(seed=seed_of("jacketdark"), base=(112, 94, 66), weave="twill", contrast=8, grain=2, mottle=5), "jacket-dark")
+    # (round 4) a dark olive parka with a darker lining, not camel: on the seats the camel read as cardboard boxes
+    save(M.fabric(seed=seed_of("jacket"), base=(84, 94, 58), weave="twill", contrast=10, grain=2, mottle=6), "jacket")
+    save(M.fabric(seed=seed_of("jacketdark"), base=(52, 58, 38), weave="twill", contrast=8, grain=2, mottle=5), "jacket-dark")
     save(M.fabric(seed=seed_of("shirt"), base=(172, 192, 216), weave="plain", contrast=6, grain=2, mottle=4), "shirt")
     save(M.fabric(seed=seed_of("pack"), base=(166, 50, 46), weave="ripstop", contrast=6, grain=2, mottle=4), "pack")
     save(M.fabric(seed=seed_of("packdark"), base=(116, 34, 32), weave="ripstop", contrast=5, grain=2, mottle=3), "pack-dark")

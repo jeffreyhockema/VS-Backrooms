@@ -1,0 +1,145 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"darksteel": "backrooms:block/36/props/darksteel",
+		"r4-bridgepanel": "backrooms:block/36/props/r4-bridgepanel",
+		"r4-led": "backrooms:block/36/props/r4-led"
+	},
+	"elements": [
+		{
+			"name": "Panel",
+			"from": [
+				0,
+				0,
+				2
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-bridgepanel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Cove",
+			"from": [
+				0,
+				13.5,
+				0.5
+			],
+			"to": [
+				16,
+				14.5,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Led",
+			"from": [
+				0,
+				14.5,
+				1.25
+			],
+			"to": [
+				16,
+				15,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-led",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					],
+					"glow": 220
+				},
+				"down": {
+					"texture": "#r4-led",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					],
+					"glow": 220
+				}
+			}
+		},
+		{
+			"name": "Rib",
+			"from": [
+				0,
+				0,
+				1.5
+			],
+			"to": [
+				0.75,
+				13.5,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						13.5
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13.5
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13.5
+					]
+				}
+			}
+		}
+	]
+}

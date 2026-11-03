@@ -1,0 +1,131 @@
+// Level 36 (round 4): a cafe's back counter and its espresso machine (red enamel, two group heads, a steam wand, cups warming on top), a grinder full of beans; the machine is cold
+{
+	"code": "l36-coffee",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-coffee-north": {
+			"base": "backrooms:block/36/l36-coffee"
+		},
+		"l36-coffee-east": {
+			"base": "backrooms:block/36/l36-coffee",
+			"rotateY": 270
+		},
+		"l36-coffee-south": {
+			"base": "backrooms:block/36/l36-coffee",
+			"rotateY": 180
+		},
+		"l36-coffee-west": {
+			"base": "backrooms:block/36/l36-coffee",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"l36-coffee-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l36-coffee-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-coffee-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-coffee-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l36-coffee-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1
+		},
+		"l36-coffee-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-coffee-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-coffee-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

@@ -2,6 +2,7 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
+		"darksteel": "backrooms:block/36/props/darksteel",
 		"front": "backrooms:block/36/l36-apron-0-0",
 		"side": "backrooms:block/36/l36-wall-plaster"
 	},
@@ -71,6 +72,48 @@
 						0,
 						0,
 						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion",
+			"from": [
+				0,
+				0,
+				-0.75
+			],
+			"to": [
+				0.75,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						16
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						16
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.75,
 						16
 					]
 				}

@@ -1821,6 +1821,11 @@ public static class Props
     public const ushort L36KioskWall = 1218, L36Charger = 1219, L36Phone = 1220, L36Atm = 1221, L36Fountain = 1222, L36ShoeShine = 1223, L36Stall = 1224;
     /// <summary>Level 36 (round 3): a duty-free gondola of bottles (Pier along its spine).</summary>
     public const ushort L36Gondola = 1225;
+    /// <summary>Level 36 (round 4): a cafe's espresso counter, a pastry case, a shop's till counter, a bar stool, a luggage trolley (Pier their front).</summary>
+    public const ushort L36Coffee = 1226, L36Pastry = 1227, L36Till = 1228, L36Stool = 1229, L36Trolley = 1230, L36MagRack = 1231,
+        L36PrayerMat = 1232, L36InfoPylon = 1233,
+        /// <summary>(round 4) decorative unclaimed luggage (Stack its kind 0-4: two spinners, a duffel, a garment bag, a spinner standing).</summary>
+        L36Luggage = 1234;
     public const ushort L15First = 1300, L15Last = 1399;
     /// <summary>
     /// Level 15 (see WorldLayout.Level15.cs): a machine's casing (Stack its height, Detail its state), a console, a lab bench, a

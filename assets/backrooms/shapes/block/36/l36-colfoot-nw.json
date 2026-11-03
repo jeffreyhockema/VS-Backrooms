@@ -1,0 +1,229 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4-colclad": "backrooms:block/36/props/r4-colclad",
+		"steel": "backrooms:block/36/props/steel"
+	},
+	"elements": [
+		{
+			"name": "Clad",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-colclad",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#r4-colclad",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "B0n",
+			"from": [
+				-1.0,
+				0,
+				-1.0
+			],
+			"to": [
+				16,
+				2.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "B0w",
+			"from": [
+				-1.0,
+				0,
+				0
+			],
+			"to": [
+				0,
+				2.5,
+				16
+			],
+			"faces": {
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "B1n",
+			"from": [
+				-0.5,
+				2.5,
+				-0.5
+			],
+			"to": [
+				16,
+				3,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "B1w",
+			"from": [
+				-0.5,
+				2.5,
+				0
+			],
+			"to": [
+				0,
+				3,
+				16
+			],
+			"faces": {
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,367 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"darkplastic": "backrooms:block/36/props/darkplastic",
+		"darksteel": "backrooms:block/36/props/darksteel",
+		"r4-info": "backrooms:block/36/props/r4-info",
+		"r4-touch": "backrooms:block/36/props/r4-touch",
+		"steel": "backrooms:block/36/props/steel"
+	},
+	"elements": [
+		{
+			"name": "Foot",
+			"from": [
+				4,
+				0,
+				5
+			],
+			"to": [
+				12,
+				1,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						1
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						8,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Column",
+			"from": [
+				5,
+				1,
+				6
+			],
+			"to": [
+				11,
+				24,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						6,
+						16
+					]
+				},
+				"east": {
+					"texture": "#darkplastic",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#darkplastic",
+					"uv": [
+						0,
+						0,
+						6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#darkplastic",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						6,
+						4
+					]
+				},
+				"down": {
+					"texture": "#darkplastic",
+					"uv": [
+						0,
+						0,
+						6,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				3,
+				24,
+				6.5
+			],
+			"to": [
+				13,
+				31,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						7
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						7
+					]
+				},
+				"south": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						7
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						7
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						10,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "InfoN",
+			"from": [
+				3.5,
+				24.5,
+				6.25
+			],
+			"to": [
+				12.5,
+				30.5,
+				6.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-info",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 180
+				}
+			}
+		},
+		{
+			"name": "InfoS",
+			"from": [
+				3.5,
+				24.5,
+				9.5
+			],
+			"to": [
+				12.5,
+				30.5,
+				9.75
+			],
+			"faces": {
+				"south": {
+					"texture": "#r4-info",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 180
+				}
+			}
+		},
+		{
+			"name": "Bezel",
+			"from": [
+				3.5,
+				12,
+				3
+			],
+			"to": [
+				12.5,
+				17,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#darkplastic",
+					"uv": [
+						0,
+						0,
+						9.0,
+						5
+					]
+				},
+				"east": {
+					"texture": "#darkplastic",
+					"uv": [
+						0,
+						0,
+						3,
+						5
+					]
+				},
+				"south": {
+					"texture": "#darkplastic",
+					"uv": [
+						0,
+						0,
+						9.0,
+						5
+					]
+				},
+				"west": {
+					"texture": "#darkplastic",
+					"uv": [
+						0,
+						0,
+						3,
+						5
+					]
+				},
+				"up": {
+					"texture": "#darkplastic",
+					"uv": [
+						0,
+						0,
+						9.0,
+						3
+					]
+				},
+				"down": {
+					"texture": "#darkplastic",
+					"uv": [
+						0,
+						0,
+						9.0,
+						3
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				6
+			],
+			"rotationX": 25
+		},
+		{
+			"name": "Touch",
+			"from": [
+				4,
+				12.5,
+				2.75
+			],
+			"to": [
+				12,
+				16.5,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-touch",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 140
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				6
+			],
+			"rotationX": 25
+		}
+	]
+}

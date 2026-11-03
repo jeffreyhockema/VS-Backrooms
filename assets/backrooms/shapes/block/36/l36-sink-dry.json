@@ -6,6 +6,7 @@
 		"chrome": "backrooms:block/36/props/chrome",
 		"laminate": "backrooms:block/36/props/laminate",
 		"laminate-side": "backrooms:block/36/props/laminate-side",
+		"r4-mirror": "backrooms:block/36/props/r4-mirror",
 		"white": "backrooms:block/36/props/white",
 		"white-side": "backrooms:block/36/props/white-side",
 		"worktop": "backrooms:block/36/props/worktop"
@@ -553,6 +554,261 @@
 					]
 				},
 				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "MirrorPanel",
+			"from": [
+				0.5,
+				16,
+				15.5
+			],
+			"to": [
+				15.5,
+				31.75,
+				16
+			],
+			"faces": {
+				"south": {
+					"texture": "#white-side",
+					"uv": [
+						0,
+						0,
+						15.0,
+						15.75
+					]
+				},
+				"east": {
+					"texture": "#white-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.75
+					]
+				},
+				"west": {
+					"texture": "#white-side",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.75
+					]
+				},
+				"up": {
+					"texture": "#white-side",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "MirrorFrame",
+			"from": [
+				1,
+				18,
+				15.25
+			],
+			"to": [
+				15,
+				31,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						14,
+						13
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						14,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13
+					]
+				}
+			}
+		},
+		{
+			"name": "Mirror",
+			"from": [
+				1.75,
+				18.75,
+				15.1
+			],
+			"to": [
+				14.25,
+				30.25,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-mirror",
+					"uv": [
+						0,
+						0,
+						12.5,
+						11.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Soap",
+			"from": [
+				11.5,
+				17,
+				14.25
+			],
+			"to": [
+				13.5,
+				21,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						2.0,
+						4
+					]
+				},
+				"east": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				},
+				"west": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						1.0,
+						4
+					]
+				},
+				"up": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#white",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "SoapNozzle",
+			"from": [
+				12.25,
+				16.5,
+				13.5
+			],
+			"to": [
+				12.75,
+				17,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"down": {
 					"texture": "#chrome",
 					"uv": [
 						0,
