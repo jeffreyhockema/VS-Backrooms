@@ -1,18 +1,58 @@
-// The Basement: an unfinished wall, bare studs with fibreglass batts stapled between them
+// The Basement: an unfinished wall, bare studs with kraft-faced batts stapled between them (part low with the bottom plate, mid, top with the top plate; axis the way the wall runs)
 {
 	"code": "basement-studs",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"low",
+				"mid",
+				"top"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"we",
+				"ns"
+			]
+		}
+	],
 	"creativeinventory": {
 		"general": [
-			"*"
+			"*-mid-we"
 		],
 		"construction": [
-			"*"
+			"*-mid-we"
 		]
 	},
 	"blockmaterial": "Wood",
 	"drawtype": "json",
-	"shape": {
-		"base": "block/basement/studs"
+	"shapeByType": {
+		"*-low-we": {
+			"base": "block/basement/studs-low",
+			"rotateY": 0
+		},
+		"*-low-ns": {
+			"base": "block/basement/studs-low",
+			"rotateY": 90
+		},
+		"*-mid-we": {
+			"base": "block/basement/studs-mid",
+			"rotateY": 0
+		},
+		"*-mid-ns": {
+			"base": "block/basement/studs-mid",
+			"rotateY": 90
+		},
+		"*-top-we": {
+			"base": "block/basement/studs-top",
+			"rotateY": 0
+		},
+		"*-top-ns": {
+			"base": "block/basement/studs-top",
+			"rotateY": 90
+		}
 	},
 	"sidesolid": {
 		"all": false

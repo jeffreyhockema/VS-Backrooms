@@ -1,0 +1,223 @@
+// The Basement: on the Flood's water, a film of scum and leaves, or a floating board, a sodden box, a bottle (swum through)
+{
+	"code": "basement-scum",
+	"variantgroups": [
+		{
+			"code": "what",
+			"states": [
+				"a",
+				"b",
+				"c",
+				"board",
+				"box",
+				"bottle",
+				"chair",
+				"laptop"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-a-north"
+		],
+		"decorative": [
+			"*-a-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-a-north": {
+			"base": "block/basement/scum-a",
+			"rotateY": 0
+		},
+		"*-a-east": {
+			"base": "block/basement/scum-a",
+			"rotateY": 270
+		},
+		"*-a-south": {
+			"base": "block/basement/scum-a",
+			"rotateY": 180
+		},
+		"*-a-west": {
+			"base": "block/basement/scum-a",
+			"rotateY": 90
+		},
+		"*-b-north": {
+			"base": "block/basement/scum-b",
+			"rotateY": 0
+		},
+		"*-b-east": {
+			"base": "block/basement/scum-b",
+			"rotateY": 270
+		},
+		"*-b-south": {
+			"base": "block/basement/scum-b",
+			"rotateY": 180
+		},
+		"*-b-west": {
+			"base": "block/basement/scum-b",
+			"rotateY": 90
+		},
+		"*-c-north": {
+			"base": "block/basement/scum-c",
+			"rotateY": 0
+		},
+		"*-c-east": {
+			"base": "block/basement/scum-c",
+			"rotateY": 270
+		},
+		"*-c-south": {
+			"base": "block/basement/scum-c",
+			"rotateY": 180
+		},
+		"*-c-west": {
+			"base": "block/basement/scum-c",
+			"rotateY": 90
+		},
+		"*-board-north": {
+			"base": "block/basement/scum-board",
+			"rotateY": 0
+		},
+		"*-board-east": {
+			"base": "block/basement/scum-board",
+			"rotateY": 270
+		},
+		"*-board-south": {
+			"base": "block/basement/scum-board",
+			"rotateY": 180
+		},
+		"*-board-west": {
+			"base": "block/basement/scum-board",
+			"rotateY": 90
+		},
+		"*-box-north": {
+			"base": "block/basement/scum-box",
+			"rotateY": 0
+		},
+		"*-box-east": {
+			"base": "block/basement/scum-box",
+			"rotateY": 270
+		},
+		"*-box-south": {
+			"base": "block/basement/scum-box",
+			"rotateY": 180
+		},
+		"*-box-west": {
+			"base": "block/basement/scum-box",
+			"rotateY": 90
+		},
+		"*-bottle-north": {
+			"base": "block/basement/scum-bottle",
+			"rotateY": 0
+		},
+		"*-bottle-east": {
+			"base": "block/basement/scum-bottle",
+			"rotateY": 270
+		},
+		"*-bottle-south": {
+			"base": "block/basement/scum-bottle",
+			"rotateY": 180
+		},
+		"*-bottle-west": {
+			"base": "block/basement/scum-bottle",
+			"rotateY": 90
+		},
+		"*-chair-north": {
+			"base": "block/basement/scum-chair",
+			"rotateY": 0
+		},
+		"*-chair-east": {
+			"base": "block/basement/scum-chair",
+			"rotateY": 270
+		},
+		"*-chair-south": {
+			"base": "block/basement/scum-chair",
+			"rotateY": 180
+		},
+		"*-chair-west": {
+			"base": "block/basement/scum-chair",
+			"rotateY": 90
+		},
+		"*-laptop-north": {
+			"base": "block/basement/scum-laptop",
+			"rotateY": 0
+		},
+		"*-laptop-east": {
+			"base": "block/basement/scum-laptop",
+			"rotateY": 270
+		},
+		"*-laptop-south": {
+			"base": "block/basement/scum-laptop",
+			"rotateY": 180
+		},
+		"*-laptop-west": {
+			"base": "block/basement/scum-laptop",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.1,
+			"y1": 0.8,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.95,
+			"z2": 0.9
+		},
+		"*-east": {
+			"x1": 0.1,
+			"y1": 0.8,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.95,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.1,
+			"y1": 0.8,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.95,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.1,
+			"y1": 0.8,
+			"z1": 0.1,
+			"x2": 0.9,
+			"y2": 0.95,
+			"z2": 0.9,
+			"rotateY": 90
+		}
+	},
+	"renderpass": "OpaqueNoCull",
+	"replaceable": 500
+}

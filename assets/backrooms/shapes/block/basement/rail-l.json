@@ -1,0 +1,748 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"castiron": "backrooms:block/basement/castiron",
+		"newel": "backrooms:block/basement/newel",
+		"railpipe": "backrooms:block/basement/railpipe"
+	},
+	"elements": [
+		{
+			"name": "Rail",
+			"from": [
+				1.15,
+				6.6,
+				5.0
+			],
+			"to": [
+				2.05,
+				7.5,
+				25.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						16,
+						0.9
+					]
+				},
+				"south": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						16,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.9,
+						16
+					]
+				},
+				"down": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.9,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.6,
+				7.05,
+				15.0
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "RailB",
+			"from": [
+				1.3,
+				6.45,
+				5.05
+			],
+			"to": [
+				1.9,
+				7.65,
+				24.95
+			],
+			"faces": {
+				"north": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.6,
+						16
+					]
+				},
+				"down": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.6,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.6,
+				7.05,
+				15.0
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Newel",
+			"from": [
+				0.6,
+				0,
+				6.5
+			],
+			"to": [
+				2.6,
+				15.0,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						15.0
+					]
+				},
+				"east": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						15.0
+					]
+				},
+				"south": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						15.0
+					]
+				},
+				"west": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						15.0
+					]
+				},
+				"up": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.6,
+				0,
+				7.5
+			],
+			"rotationX": 5,
+			"rotationZ": -3
+		},
+		{
+			"name": "NewelCap",
+			"from": [
+				0.3,
+				15.0,
+				6.2
+			],
+			"to": [
+				2.9,
+				16.0,
+				8.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.6,
+						2.6
+					]
+				},
+				"down": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.6,
+						2.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.6,
+				0,
+				7.5
+			],
+			"rotationX": 5,
+			"rotationZ": -3
+		},
+		{
+			"name": "NewelBall",
+			"from": [
+				0.9,
+				16.0,
+				6.8
+			],
+			"to": [
+				2.3,
+				17.0,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.6,
+				0,
+				7.5
+			],
+			"rotationX": 5,
+			"rotationZ": -3
+		},
+		{
+			"name": "NewelBase",
+			"from": [
+				0.3,
+				0,
+				6.2
+			],
+			"to": [
+				2.9,
+				1.0,
+				8.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.6,
+						2.6
+					]
+				},
+				"down": {
+					"texture": "#newel",
+					"uv": [
+						0,
+						0,
+						2.6,
+						2.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.6,
+				0,
+				7.5
+			],
+			"rotationX": 5,
+			"rotationZ": -3
+		},
+		{
+			"name": "Bolt",
+			"from": [
+				2.5,
+				3.0,
+				7.0
+			],
+			"to": [
+				3.0,
+				3.6,
+				7.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.6,
+				0,
+				7.5
+			],
+			"rotationX": 5,
+			"rotationZ": -3
+		},
+		{
+			"name": "Baluster",
+			"from": [
+				1.25,
+				-8.0,
+				13.65
+			],
+			"to": [
+				1.95,
+				8.0,
+				14.35
+			],
+			"faces": {
+				"north": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.7,
+						16
+					]
+				},
+				"east": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.7,
+						16
+					]
+				},
+				"south": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.7,
+						16
+					]
+				},
+				"west": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.7,
+						16
+					]
+				},
+				"up": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Bracket",
+			"from": [
+				-0.2,
+				9.6,
+				11.2
+			],
+			"to": [
+				1.6,
+				10.2,
+				11.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "BracketPlate",
+			"from": [
+				-0.1,
+				8.8,
+				10.7
+			],
+			"to": [
+				0.2,
+				11.0,
+				12.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.2
+					]
+				},
+				"east": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2.2
+					]
+				},
+				"south": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.2
+					]
+				},
+				"west": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						2.2
+					]
+				},
+				"up": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.6
+					]
+				}
+			}
+		}
+	]
+}

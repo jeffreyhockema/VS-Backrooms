@@ -1216,6 +1216,25 @@ public sealed partial class WorldLayout
                 else if (r < 0.08) BasementHang(b, solid, x, z, Overheads.BasementWatchHead, away);
                 else if (r < 0.09) { t.Variant = Props.BasementJunk; t.Stack = (byte)(rng.Chance(0.5) ? 0 : 2); t.Pier = away; }
             }
+        // (Round 4) a hall that ends on the cell's wall ends on something: steel shelving and boxes against it
+        foreach (int end in new[] { 1, MacroSize - 1 })
+        {
+            int ox = ns ? 0 : (end == 1 ? -1 : 1), oz = ns ? (end == 1 ? -1 : 1) : 0;
+            ArchPier back = ns ? (end == 1 ? ArchPier.South : ArchPier.North) : (end == 1 ? ArchPier.East : ArchPier.West);
+            int k = 0;
+            foreach (int across in ns ? new[] { x0, x1 } : new[] { z0, z1 })
+            {
+                int x = ns ? across : end, z = ns ? end : across;
+                ref Tile t = ref b.At(x, z);
+                bool free = solid(x + ox, z + oz) && !keepClear[TileIndex(x, z)] && t.Kind == TileKind.Floor && t.Variant == 0 && t.Stack == 0
+                            && t.Detail == 0 && !t.SupplyBox && SafeToBlock(open, x, z);
+                if (k++ > 0 && !free) continue;
+                if (!free) continue;
+                t.Variant = k == 1 ? Props.BasementShelving : Props.BasementBoxes;
+                t.Stack = (byte)rng.Range(0, 3);
+                t.Pier = back;
+            }
+        }
     }
 
     /// <summary>
@@ -1391,6 +1410,10 @@ public sealed partial class WorldLayout
                     }
                     break;
                 }
+                // (Round 4) the cue rack on another wall, where the pool table is
+                if (took)
+                    foreach (var (x, z, away) in Round())
+                        if (Middling(x, z, away) && b.At(x, z).Overhead == 0 && Put(x, z, Props.BasementCueRack, away)) break;
                 return took;
             }
             case BasementRoomKind.RootCellar:

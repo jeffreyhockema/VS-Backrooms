@@ -2,6 +2,8 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
+		"metal": "backrooms:block/props/metal",
+		"pegwood": "backrooms:block/basement/pegwood",
 		"rope": "backrooms:block/basement/rope"
 	},
 	"elements": [
@@ -9,13 +11,13 @@
 			"name": "Line",
 			"from": [
 				0,
-				11.75,
+				12.1,
 				7.85
 			],
 			"to": [
 				16,
-				12.15,
-				8.15
+				12.45,
+				8.2
 			],
 			"faces": {
 				"north": {
@@ -70,6 +72,420 @@
 						0,
 						16,
 						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PegAF",
+			"from": [
+				6.0,
+				10.6,
+				7.45
+			],
+			"to": [
+				6.5,
+				13.0,
+				7.85
+			],
+			"faces": {
+				"north": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PegAB",
+			"from": [
+				6.0,
+				10.6,
+				8.2
+			],
+			"to": [
+				6.5,
+				13.0,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PegAS",
+			"from": [
+				5.95,
+				11.7,
+				7.4
+			],
+			"to": [
+				6.55,
+				12.1,
+				8.65
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.25
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.25
+					]
+				}
+			}
+		},
+		{
+			"name": "PegBF",
+			"from": [
+				11.5,
+				10.6,
+				7.45
+			],
+			"to": [
+				12.0,
+				13.0,
+				7.85
+			],
+			"faces": {
+				"north": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PegBB",
+			"from": [
+				11.5,
+				10.6,
+				8.2
+			],
+			"to": [
+				12.0,
+				13.0,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PegBS",
+			"from": [
+				11.45,
+				11.7,
+				7.4
+			],
+			"to": [
+				12.05,
+				12.1,
+				8.65
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.25
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.25
 					]
 				}
 			}

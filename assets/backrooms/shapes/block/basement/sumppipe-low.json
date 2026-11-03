@@ -1,0 +1,702 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bakelite": "backrooms:block/basement/bakelite",
+		"castiron": "backrooms:block/basement/castiron",
+		"metal": "backrooms:block/props/metal",
+		"pvc": "backrooms:block/basement/pvc"
+	},
+	"elements": [
+		{
+			"name": "PipeA",
+			"from": [
+				3.3,
+				0,
+				3.566
+			],
+			"to": [
+				4.7,
+				16,
+				4.434
+			],
+			"faces": {
+				"north": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						1.4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						0.868,
+						16
+					]
+				},
+				"south": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						1.4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						0.868,
+						16
+					]
+				},
+				"up": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.868
+					]
+				},
+				"down": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.868
+					]
+				}
+			}
+		},
+		{
+			"name": "PipeB",
+			"from": [
+				3.566,
+				0.01,
+				3.3
+			],
+			"to": [
+				4.434,
+				15.99,
+				4.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						0.868,
+						15.98
+					]
+				},
+				"east": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						1.4,
+						15.98
+					]
+				},
+				"south": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						0.868,
+						15.98
+					]
+				},
+				"west": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						1.4,
+						15.98
+					]
+				},
+				"up": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						0.868,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						0.868,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Check",
+			"from": [
+				3.0,
+				5,
+				3.0
+			],
+			"to": [
+				5.0,
+				8.5,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CheckBolt",
+			"from": [
+				2.7,
+				6.5,
+				3.6
+			],
+			"to": [
+				5.3,
+				7.0,
+				4.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						2.6,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						2.6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						2.6,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						2.6,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Union",
+			"from": [
+				3.2,
+				11,
+				3.2
+			],
+			"to": [
+				4.8,
+				12,
+				4.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1
+					]
+				},
+				"east": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1
+					]
+				},
+				"south": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1
+					]
+				},
+				"west": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1
+					]
+				},
+				"up": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#pvc",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Strap",
+			"from": [
+				3.1,
+				13.5,
+				0
+			],
+			"to": [
+				4.9,
+				14.1,
+				4.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						4.9,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.8,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						4.9,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.8,
+						4.9
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.8,
+						4.9
+					]
+				}
+			}
+		},
+		{
+			"name": "Cord",
+			"from": [
+				9.6,
+				0,
+				1.6
+			],
+			"to": [
+				10.0,
+				9.5,
+				2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.5
+					]
+				},
+				"east": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.5
+					]
+				},
+				"south": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.5
+					]
+				},
+				"west": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.5
+					]
+				},
+				"up": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CordRun",
+			"from": [
+				9.6,
+				0,
+				2.0
+			],
+			"to": [
+				10.0,
+				0.4,
+				4.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						2.6,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						2.6,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.6
+					]
+				},
+				"down": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.6
+					]
+				}
+			}
+		},
+		{
+			"name": "OutletBox",
+			"from": [
+				8.6,
+				9.5,
+				0
+			],
+			"to": [
+				11.4,
+				13.5,
+				0.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2.8,
+						4.0
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4.0
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2.8,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4.0
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2.8,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						2.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Plug",
+			"from": [
+				9.4,
+				10.2,
+				0.8
+			],
+			"to": [
+				10.2,
+				11.2,
+				1.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

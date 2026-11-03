@@ -1,0 +1,347 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"panel": "backrooms:block/basement/panel",
+		"scum-a": "backrooms:block/basement/scum-a"
+	},
+	"elements": [
+		{
+			"name": "Film",
+			"from": [
+				0,
+				14.3,
+				0
+			],
+			"to": [
+				16,
+				14.35,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#scum-a",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#scum-a",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Seat",
+			"from": [
+				3,
+				10.3,
+				3
+			],
+			"to": [
+				13,
+				11.8,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						10,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						10,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						10,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						10,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						10,
+						10
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12.3,
+				8
+			],
+			"rotationX": -62,
+			"rotationY": 20
+		},
+		{
+			"name": "LegA",
+			"from": [
+				3,
+				11.8,
+				3
+			],
+			"to": [
+				4.2,
+				20.3,
+				4.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						8.5
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						8.5
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						8.5
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						8.5
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12.3,
+				8
+			],
+			"rotationX": -62,
+			"rotationY": 20
+		},
+		{
+			"name": "LegB",
+			"from": [
+				11.8,
+				11.8,
+				3
+			],
+			"to": [
+				13,
+				20.3,
+				4.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						8.5
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						8.5
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						8.5
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						8.5
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12.3,
+				8
+			],
+			"rotationX": -62,
+			"rotationY": 20
+		},
+		{
+			"name": "Stretcher",
+			"from": [
+				4.2,
+				16.8,
+				3.3
+			],
+			"to": [
+				11.8,
+				17.5,
+				3.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						7.6,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.7
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						7.6,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						7.6,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						7.6,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12.3,
+				8
+			],
+			"rotationX": -62,
+			"rotationY": 20
+		}
+	]
+}

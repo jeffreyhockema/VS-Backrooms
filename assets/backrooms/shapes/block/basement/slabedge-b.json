@@ -1,0 +1,662 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"ceiling-under": "backrooms:block/basement/ceiling-plain",
+		"rebar": "backrooms:block/basement/rebar",
+		"slabbreak": "backrooms:block/basement/slabbreak"
+	},
+	"elements": [
+		{
+			"name": "Slab0",
+			"from": [
+				0,
+				0,
+				4
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"up": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"down": {
+					"texture": "#ceiling-under",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab1",
+			"from": [
+				0,
+				8,
+				0.5
+			],
+			"to": [
+				5,
+				16,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						5,
+						8
+					]
+				},
+				"east": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						3.5,
+						8
+					]
+				},
+				"south": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						5,
+						8
+					]
+				},
+				"west": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						3.5,
+						8
+					]
+				},
+				"up": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						5,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#ceiling-under",
+					"uv": [
+						0,
+						0,
+						5,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab2",
+			"from": [
+				5,
+				4,
+				2.5
+			],
+			"to": [
+				12,
+				16,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						7,
+						12
+					]
+				},
+				"east": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						1.5,
+						12
+					]
+				},
+				"south": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						7,
+						12
+					]
+				},
+				"west": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						1.5,
+						12
+					]
+				},
+				"up": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						7,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#ceiling-under",
+					"uv": [
+						0,
+						0,
+						7,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab3",
+			"from": [
+				12,
+				10,
+				1.5
+			],
+			"to": [
+				16,
+				16,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						4,
+						6
+					]
+				},
+				"east": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						2.5,
+						6
+					]
+				},
+				"south": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						4,
+						6
+					]
+				},
+				"west": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						2.5,
+						6
+					]
+				},
+				"up": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						4,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#ceiling-under",
+					"uv": [
+						0,
+						0,
+						4,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rebar0",
+			"from": [
+				2.2,
+				12.2,
+				-5.5
+			],
+			"to": [
+				2.8,
+				12.8,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						7.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				2.5,
+				12.5,
+				0.5
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "Rebar1",
+			"from": [
+				6.7,
+				9.2,
+				-3.5
+			],
+			"to": [
+				7.3,
+				9.8,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						7.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.0,
+				9.5,
+				2.5
+			],
+			"rotationX": -45
+		},
+		{
+			"name": "Rebar2",
+			"from": [
+				10.2,
+				9.2,
+				-3.5
+			],
+			"to": [
+				10.8,
+				9.8,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						7.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				10.5,
+				9.5,
+				2.5
+			],
+			"rotationX": -80
+		},
+		{
+			"name": "Rebar3",
+			"from": [
+				13.7,
+				12.2,
+				-4.5
+			],
+			"to": [
+				14.3,
+				12.8,
+				2.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#rebar",
+					"uv": [
+						0,
+						0,
+						0.6,
+						7.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				14.0,
+				12.5,
+				1.5
+			],
+			"rotationX": -30
+		},
+		{
+			"name": "Spall",
+			"from": [
+				6,
+				0,
+				5.0
+			],
+			"to": [
+				11,
+				0.6,
+				8.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						5,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						5,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#slabbreak",
+					"uv": [
+						0,
+						0,
+						5,
+						3.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.5,
+				0.3,
+				5.0
+			],
+			"rotationX": 8
+		}
+	]
+}

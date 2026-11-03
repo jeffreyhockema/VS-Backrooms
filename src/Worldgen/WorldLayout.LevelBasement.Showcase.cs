@@ -49,7 +49,8 @@ public partial class WorldLayout
     /// <summary>The spots, in the order a review reads best.</summary>
     private static readonly string[] ShowcaseOrder =
     {
-        "crack-room", "crack-up", "furnace", "fusebox", "laundry", "workshop", "rec-room", "hall", "root-cellar", "store-shelves",
+        "crack-room", "crack-up", "furnace", "heater", "fusebox", "laundry", "workshop", "rec-room", "tv", "cue-rack", "hall", "joists",
+        "root-cellar", "store-shelves",
         "finished", "utility", "store", "panel-door", "long-view", "stairwell-door", "stairwell-stairs",
         "dead", "lone-body", "flood-stairs", "flood-passage", "flood-figure", "dry-patch", "lift",
     };
@@ -201,6 +202,10 @@ public partial class WorldLayout
         // Round 3: the rooms by what they are for
         Prop("furnace", t => t.Variant == Props.BasementFurnace, 12);
         Prop("fusebox", t => t.Overhead == Overheads.BasementFuseBox && t.Variant == 0, 6);
+        // Round 4: the water heater, the console TV (from the sofa's side of the room), the cue rack
+        Prop("heater", t => t.Variant == Props.BasementHeater, 14);
+        Prop("tv", t => t.Variant == Props.Tv && t.Overhead == 0, -2);
+        Prop("cue-rack", t => t.Variant == Props.BasementCueRack, 10);
         // (the laundry: a washer with its dryer beside it)
         for (int z = 1; z < MacroSize - 1; z++)
             for (int x = 1; x < MacroSize - 1; x++)
@@ -241,6 +246,9 @@ public partial class WorldLayout
                 }
             }
         if (hallRun > 0) add("hall", mx, mz, hx, hz, hh, -2, null);
+        // Round 4: looking up at a finished room's joists (the cable, a junction box, the bridging)
+        if (ShowcaseBestView(tiles, t => t.Ceiling == CeilingKind.BasementJoists, 8) is (var jx, var jz, var jdx, var jdz))
+            add("joists", mx, mz, jx, jz, ShowcaseHeading(jdx, jdz), 38, null);
         if (ShowcaseBestView(tiles, t => t.Floor == FloorKind.BasementEarth, 8) is (var ex, var ez, var edx, var edz))
             add("root-cellar", mx, mz, ex, ez, ShowcaseHeading(edx, edz), -10, null);
         Prop("store", t => t.Variant is Props.FurniturePile or Props.Suitcase, -10);

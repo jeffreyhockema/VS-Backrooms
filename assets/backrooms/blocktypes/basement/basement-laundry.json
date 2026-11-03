@@ -1,0 +1,255 @@
+// The Basement: its own washer and dryer (porthole doors, consoles, hoses to a bib, the dryer's vent into the wall) and a laundry tub on legs; upper is the wall over them
+{
+	"code": "basement-laundry",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"washer",
+				"dryer",
+				"tub"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-washer-lower-north"
+		],
+		"decorative": [
+			"*-washer-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-washer-lower-north": {
+			"base": "block/basement/laundry-washer-lower",
+			"rotateY": 0
+		},
+		"*-washer-lower-east": {
+			"base": "block/basement/laundry-washer-lower",
+			"rotateY": 270
+		},
+		"*-washer-lower-south": {
+			"base": "block/basement/laundry-washer-lower",
+			"rotateY": 180
+		},
+		"*-washer-lower-west": {
+			"base": "block/basement/laundry-washer-lower",
+			"rotateY": 90
+		},
+		"*-washer-upper-north": {
+			"base": "block/basement/laundry-washer-upper",
+			"rotateY": 0
+		},
+		"*-washer-upper-east": {
+			"base": "block/basement/laundry-washer-upper",
+			"rotateY": 270
+		},
+		"*-washer-upper-south": {
+			"base": "block/basement/laundry-washer-upper",
+			"rotateY": 180
+		},
+		"*-washer-upper-west": {
+			"base": "block/basement/laundry-washer-upper",
+			"rotateY": 90
+		},
+		"*-dryer-lower-north": {
+			"base": "block/basement/laundry-dryer-lower",
+			"rotateY": 0
+		},
+		"*-dryer-lower-east": {
+			"base": "block/basement/laundry-dryer-lower",
+			"rotateY": 270
+		},
+		"*-dryer-lower-south": {
+			"base": "block/basement/laundry-dryer-lower",
+			"rotateY": 180
+		},
+		"*-dryer-lower-west": {
+			"base": "block/basement/laundry-dryer-lower",
+			"rotateY": 90
+		},
+		"*-dryer-upper-north": {
+			"base": "block/basement/laundry-dryer-upper",
+			"rotateY": 0
+		},
+		"*-dryer-upper-east": {
+			"base": "block/basement/laundry-dryer-upper",
+			"rotateY": 270
+		},
+		"*-dryer-upper-south": {
+			"base": "block/basement/laundry-dryer-upper",
+			"rotateY": 180
+		},
+		"*-dryer-upper-west": {
+			"base": "block/basement/laundry-dryer-upper",
+			"rotateY": 90
+		},
+		"*-tub-lower-north": {
+			"base": "block/basement/laundry-tub-lower",
+			"rotateY": 0
+		},
+		"*-tub-lower-east": {
+			"base": "block/basement/laundry-tub-lower",
+			"rotateY": 270
+		},
+		"*-tub-lower-south": {
+			"base": "block/basement/laundry-tub-lower",
+			"rotateY": 180
+		},
+		"*-tub-lower-west": {
+			"base": "block/basement/laundry-tub-lower",
+			"rotateY": 90
+		},
+		"*-tub-upper-north": {
+			"base": "block/basement/laundry-tub-upper",
+			"rotateY": 0
+		},
+		"*-tub-upper-east": {
+			"base": "block/basement/laundry-tub-upper",
+			"rotateY": 270
+		},
+		"*-tub-upper-south": {
+			"base": "block/basement/laundry-tub-upper",
+			"rotateY": 180
+		},
+		"*-tub-upper-west": {
+			"base": "block/basement/laundry-tub-upper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-upper-*": null
+	},
+	"collisionSelectionBoxesByType": {
+		"*-lower-north": [
+			{
+				"x1": 0.05,
+				"y1": 0,
+				"z1": 0.1,
+				"x2": 0.95,
+				"y2": 1,
+				"z2": 0.95
+			}
+		],
+		"*-lower-east": [
+			{
+				"x1": 0.05,
+				"y1": 0,
+				"z1": 0.1,
+				"x2": 0.95,
+				"y2": 1,
+				"z2": 0.95,
+				"rotateY": 270
+			}
+		],
+		"*-lower-south": [
+			{
+				"x1": 0.05,
+				"y1": 0,
+				"z1": 0.1,
+				"x2": 0.95,
+				"y2": 1,
+				"z2": 0.95,
+				"rotateY": 180
+			}
+		],
+		"*-lower-west": [
+			{
+				"x1": 0.05,
+				"y1": 0,
+				"z1": 0.1,
+				"x2": 0.95,
+				"y2": 1,
+				"z2": 0.95,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionBoxByType": {
+		"*-upper-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 0.9,
+			"y2": 0.6,
+			"z2": 1
+		},
+		"*-upper-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 0.9,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 0.9,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.7,
+			"x2": 0.9,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 90
+		}
+	}
+}

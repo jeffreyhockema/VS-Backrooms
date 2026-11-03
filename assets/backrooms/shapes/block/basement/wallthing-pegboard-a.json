@@ -2,10 +2,15 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
+		"bakelite": "backrooms:block/basement/bakelite",
+		"brass": "backrooms:block/level5/brass",
+		"grip": "backrooms:block/basement/grip",
+		"handlewood": "backrooms:block/basement/handlewood",
 		"metal": "backrooms:block/props/metal",
+		"metaldark": "backrooms:block/props/metal-dark",
 		"panel": "backrooms:block/basement/panel",
 		"pegboard": "backrooms:block/basement/pegboard",
-		"rope": "backrooms:block/basement/rope"
+		"toolsteel": "backrooms:block/basement/toolsteel"
 	},
 	"elements": [
 		{
@@ -78,15 +83,15 @@
 			}
 		},
 		{
-			"name": "Cleat",
+			"name": "FrameT",
 			"from": [
 				0,
-				0.5,
-				15.75
+				14.6,
+				15.0
 			],
 			"to": [
 				16,
-				1.5,
+				15.4,
 				16
 			],
 			"faces": {
@@ -96,7 +101,7 @@
 						0,
 						0,
 						16,
-						1.0
+						0.8
 					]
 				},
 				"east": {
@@ -104,8 +109,8 @@
 					"uv": [
 						0,
 						0,
-						0.5,
-						1.0
+						1.0,
+						0.8
 					]
 				},
 				"south": {
@@ -114,7 +119,7 @@
 						0,
 						0,
 						16,
-						1.0
+						0.8
 					]
 				},
 				"west": {
@@ -122,8 +127,8 @@
 					"uv": [
 						0,
 						0,
-						0.5,
-						1.0
+						1.0,
+						0.8
 					]
 				},
 				"up": {
@@ -132,7 +137,7 @@
 						0,
 						0,
 						16,
-						0.5
+						1.0
 					]
 				},
 				"down": {
@@ -141,7 +146,76 @@
 						0,
 						0,
 						16,
-						0.5
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameB",
+			"from": [
+				0,
+				0.6,
+				15.0
+			],
+			"to": [
+				16,
+				1.4,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
 					]
 				}
 			}
@@ -149,358 +223,496 @@
 		{
 			"name": "SawBlade",
 			"from": [
-				2,
-				6,
-				14.9
-			],
-			"to": [
-				9,
-				10,
-				15.2
-			],
-			"faces": {
-				"north": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						7,
-						4
-					]
-				},
-				"east": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.5,
-						4
-					]
-				},
-				"south": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						7,
-						4
-					]
-				},
-				"west": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.5,
-						4
-					]
-				},
-				"up": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						7,
-						0.5
-					]
-				},
-				"down": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						7,
-						0.5
-					]
-				}
-			}
-		},
-		{
-			"name": "SawHandle",
-			"from": [
-				9,
-				6.5,
-				14.6
-			],
-			"to": [
-				11.5,
-				10,
-				15.2
-			],
-			"faces": {
-				"north": {
-					"texture": "#panel",
-					"uv": [
-						0,
-						0,
-						2.5,
-						3.5
-					]
-				},
-				"east": {
-					"texture": "#panel",
-					"uv": [
-						0,
-						0,
-						0.6,
-						3.5
-					]
-				},
-				"south": {
-					"texture": "#panel",
-					"uv": [
-						0,
-						0,
-						2.5,
-						3.5
-					]
-				},
-				"west": {
-					"texture": "#panel",
-					"uv": [
-						0,
-						0,
-						0.6,
-						3.5
-					]
-				},
-				"up": {
-					"texture": "#panel",
-					"uv": [
-						0,
-						0,
-						2.5,
-						0.6
-					]
-				},
-				"down": {
-					"texture": "#panel",
-					"uv": [
-						0,
-						0,
-						2.5,
-						0.6
-					]
-				}
-			}
-		},
-		{
-			"name": "Wrench1",
-			"from": [
-				12,
-				3,
-				14.9
-			],
-			"to": [
-				12.75,
-				12,
-				15.2
-			],
-			"faces": {
-				"north": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.75,
-						9
-					]
-				},
-				"east": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.5,
-						9
-					]
-				},
-				"south": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.75,
-						9
-					]
-				},
-				"west": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.5,
-						9
-					]
-				},
-				"up": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.75,
-						0.5
-					]
-				},
-				"down": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.75,
-						0.5
-					]
-				}
-			}
-		},
-		{
-			"name": "Wrench2",
-			"from": [
-				13.5,
-				4,
-				14.9
-			],
-			"to": [
-				14.25,
-				12,
-				15.2
-			],
-			"faces": {
-				"north": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.75,
-						8
-					]
-				},
-				"east": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.5,
-						8
-					]
-				},
-				"south": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.75,
-						8
-					]
-				},
-				"west": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.5,
-						8
-					]
-				},
-				"up": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.75,
-						0.5
-					]
-				},
-				"down": {
-					"texture": "#metal",
-					"uv": [
-						0,
-						0,
-						0.75,
-						0.5
-					]
-				}
-			}
-		},
-		{
-			"name": "Coil",
-			"from": [
-				3,
 				1.5,
+				6.5,
+				14.8
+			],
+			"to": [
+				9.5,
+				9.8,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						3.3
+					]
+				},
+				"east": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.3
+					]
+				},
+				"south": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "SawTip",
+			"from": [
+				1.0,
+				7.8,
+				14.8
+			],
+			"to": [
+				1.6,
+				9.8,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "SawTeeth",
+			"from": [
+				1.5,
+				6.1,
+				14.82
+			],
+			"to": [
+				9.5,
+				6.5,
+				14.98
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "SawHandleT",
+			"from": [
+				9.4,
+				9.0,
+				14.5
+			],
+			"to": [
+				12.2,
+				10.4,
+				15.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						2.8,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						0.65,
+						1.4
+					]
+				},
+				"south": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						2.8,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						0.65,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						2.8,
+						0.65
+					]
+				},
+				"down": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						2.8,
+						0.65
+					]
+				}
+			}
+		},
+		{
+			"name": "SawHandleB",
+			"from": [
+				9.4,
+				5.6,
+				14.5
+			],
+			"to": [
+				11.6,
+				6.8,
+				15.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						2.2,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						0.65,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						2.2,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						0.65,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.65
+					]
+				},
+				"down": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.65
+					]
+				}
+			}
+		},
+		{
+			"name": "SawGrip",
+			"from": [
+				11.0,
+				5.6,
+				14.5
+			],
+			"to": [
+				12.2,
+				10.4,
+				15.15
+			],
+			"faces": {
+				"north": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						1.2,
+						4.8
+					]
+				},
+				"east": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						0.65,
+						4.8
+					]
+				},
+				"south": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						1.2,
+						4.8
+					]
+				},
+				"west": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						0.65,
+						4.8
+					]
+				},
+				"up": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.65
+					]
+				},
+				"down": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.65
+					]
+				}
+			}
+		},
+		{
+			"name": "SawRivet",
+			"from": [
+				9.8,
+				7.7,
 				14.4
 			],
 			"to": [
-				7,
-				5,
-				15.2
+				10.4,
+				8.3,
+				14.5
 			],
 			"faces": {
 				"north": {
-					"texture": "#rope",
+					"texture": "#brass",
 					"uv": [
 						0,
 						0,
-						4,
-						3.5
+						0.6,
+						0.6
 					]
 				},
 				"east": {
-					"texture": "#rope",
+					"texture": "#brass",
 					"uv": [
 						0,
 						0,
-						0.8,
-						3.5
+						0.5,
+						0.6
 					]
 				},
 				"south": {
-					"texture": "#rope",
+					"texture": "#brass",
 					"uv": [
 						0,
 						0,
-						4,
-						3.5
+						0.6,
+						0.6
 					]
 				},
 				"west": {
-					"texture": "#rope",
+					"texture": "#brass",
 					"uv": [
 						0,
 						0,
-						0.8,
-						3.5
+						0.5,
+						0.6
 					]
 				},
 				"up": {
-					"texture": "#rope",
+					"texture": "#brass",
 					"uv": [
 						0,
 						0,
-						4,
-						0.8
+						0.6,
+						0.5
 					]
 				},
 				"down": {
-					"texture": "#rope",
+					"texture": "#brass",
 					"uv": [
 						0,
 						0,
-						4,
-						0.8
+						0.6,
+						0.5
 					]
 				}
 			}
 		},
 		{
-			"name": "Hook",
+			"name": "HookS",
 			"from": [
-				4.75,
-				5,
-				14.6
+				10.4,
+				10.4,
+				14.0
 			],
 			"to": [
-				5.25,
-				6,
+				10.8,
+				10.8,
 				15.2
 			],
 			"faces": {
@@ -510,7 +722,7 @@
 						0,
 						0,
 						0.5,
-						1
+						0.5
 					]
 				},
 				"east": {
@@ -518,8 +730,8 @@
 					"uv": [
 						0,
 						0,
-						0.6,
-						1
+						1.2,
+						0.5
 					]
 				},
 				"south": {
@@ -528,7 +740,7 @@
 						0,
 						0,
 						0.5,
-						1
+						0.5
 					]
 				},
 				"west": {
@@ -536,8 +748,8 @@
 					"uv": [
 						0,
 						0,
-						0.6,
-						1
+						1.2,
+						0.5
 					]
 				},
 				"up": {
@@ -546,7 +758,7 @@
 						0,
 						0,
 						0.5,
-						0.6
+						1.2
 					]
 				},
 				"down": {
@@ -555,7 +767,1456 @@
 						0,
 						0,
 						0.5,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "HookUpS",
+			"from": [
+				10.4,
+				10.8,
+				14.0
+			],
+			"to": [
+				10.8,
+				11.5,
+				14.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Wr0",
+			"from": [
+				12.65,
+				3.0,
+				14.8
+			],
+			"to": [
+				13.35,
+				12.0,
+				15.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						9.0
+					]
+				},
+				"east": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.0
+					]
+				},
+				"south": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						9.0
+					]
+				},
+				"west": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						9.0
+					]
+				},
+				"up": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "WrOpenL0",
+			"from": [
+				12.2,
+				12.0,
+				14.8
+			],
+			"to": [
+				12.85,
+				13.4,
+				15.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.65,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"south": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.65,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.65,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.65,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "WrOpenR0",
+			"from": [
+				13.15,
+				12.0,
+				14.8
+			],
+			"to": [
+				13.8,
+				13.4,
+				15.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.65,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"south": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.65,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.65,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.65,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "WrRing0",
+			"from": [
+				12.3,
+				1.8,
+				14.8
+			],
+			"to": [
+				13.7,
+				3.0,
+				15.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HookW0",
+			"from": [
+				12.8,
+				13.4,
+				14.0
+			],
+			"to": [
+				13.2,
+				13.8,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "HookUpW0",
+			"from": [
+				12.8,
+				13.8,
+				14.0
+			],
+			"to": [
+				13.2,
+				14.5,
+				14.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Wr1",
+			"from": [
+				14.45,
+				4.5,
+				14.8
+			],
+			"to": [
+				15.15,
+				11.5,
+				15.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						7.0
+					]
+				},
+				"east": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7.0
+					]
+				},
+				"south": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						7.0
+					]
+				},
+				"west": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7.0
+					]
+				},
+				"up": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "WrOpenL1",
+			"from": [
+				14.15,
+				11.5,
+				14.8
+			],
+			"to": [
+				14.65,
+				12.9,
+				15.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"south": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "WrOpenR1",
+			"from": [
+				14.95,
+				11.5,
+				14.8
+			],
+			"to": [
+				15.45,
+				12.9,
+				15.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"south": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "WrRing1",
+			"from": [
+				14.25,
+				3.3,
+				14.8
+			],
+			"to": [
+				15.35,
+				4.5,
+				15.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#toolsteel",
+					"uv": [
+						0,
+						0,
+						1.1,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HookW1",
+			"from": [
+				14.6,
+				12.9,
+				14.0
+			],
+			"to": [
+				15.0,
+				13.3,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "HookUpW1",
+			"from": [
+				14.6,
+				13.3,
+				14.0
+			],
+			"to": [
+				15.0,
+				14.0,
+				14.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CordT",
+			"from": [
+				2.8,
+				4.6,
+				14.2
+			],
+			"to": [
+				7.2,
+				5.2,
+				15.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						4.4,
 						0.6
+					]
+				},
+				"east": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						4.4,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						4.4,
+						0.9
+					]
+				},
+				"down": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						4.4,
+						0.9
+					]
+				}
+			}
+		},
+		{
+			"name": "CordB",
+			"from": [
+				3.0,
+				0.9,
+				14.2
+			],
+			"to": [
+				7.0,
+				1.5,
+				15.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.9
+					]
+				},
+				"down": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.9
+					]
+				}
+			}
+		},
+		{
+			"name": "CordW",
+			"from": [
+				2.6,
+				1.3,
+				14.2
+			],
+			"to": [
+				3.2,
+				4.8,
+				15.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.9,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.9,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.9
+					]
+				},
+				"down": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.9
+					]
+				}
+			}
+		},
+		{
+			"name": "CordE",
+			"from": [
+				6.8,
+				1.3,
+				14.2
+			],
+			"to": [
+				7.4,
+				4.8,
+				15.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.9,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.9,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.9
+					]
+				},
+				"down": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.9
+					]
+				}
+			}
+		},
+		{
+			"name": "CordIn",
+			"from": [
+				3.6,
+				1.7,
+				14.4
+			],
+			"to": [
+				6.6,
+				4.3,
+				14.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.6
+					]
+				},
+				"east": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.6
+					]
+				},
+				"south": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						3.0,
+						2.6
+					]
+				},
+				"west": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.6
+					]
+				},
+				"up": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#grip",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Plug",
+			"from": [
+				4.7,
+				0.0,
+				14.3
+			],
+			"to": [
+				5.6,
+				1.0,
+				14.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.9,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.9,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						0.9,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "HookC",
+			"from": [
+				4.8,
+				5.2,
+				14.0
+			],
+			"to": [
+				5.2,
+				5.6,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "HookUpC",
+			"from": [
+				4.8,
+				5.6,
+				14.0
+			],
+			"to": [
+				5.2,
+				6.3,
+				14.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
 					]
 				}
 			}

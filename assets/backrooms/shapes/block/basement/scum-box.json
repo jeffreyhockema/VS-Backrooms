@@ -1,0 +1,193 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"scum-a": "backrooms:block/basement/scum-a",
+		"soggy": "backrooms:block/basement/soggy"
+	},
+	"elements": [
+		{
+			"name": "Film",
+			"from": [
+				0,
+				14.3,
+				0
+			],
+			"to": [
+				16,
+				14.35,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#scum-a",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#scum-a",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Box",
+			"from": [
+				4,
+				9.8,
+				4
+			],
+			"to": [
+				12,
+				15.9,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#soggy",
+					"uv": [
+						0,
+						0,
+						8,
+						6.1
+					]
+				},
+				"east": {
+					"texture": "#soggy",
+					"uv": [
+						0,
+						0,
+						8,
+						6.1
+					]
+				},
+				"south": {
+					"texture": "#soggy",
+					"uv": [
+						0,
+						0,
+						8,
+						6.1
+					]
+				},
+				"west": {
+					"texture": "#soggy",
+					"uv": [
+						0,
+						0,
+						8,
+						6.1
+					]
+				},
+				"up": {
+					"texture": "#soggy",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				},
+				"down": {
+					"texture": "#soggy",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				12.85,
+				8.0
+			],
+			"rotationY": 14
+		},
+		{
+			"name": "Flap",
+			"from": [
+				4,
+				15.9,
+				4
+			],
+			"to": [
+				12,
+				16.3,
+				7.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#soggy",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#soggy",
+					"uv": [
+						0,
+						0,
+						3.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#soggy",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#soggy",
+					"uv": [
+						0,
+						0,
+						3.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#soggy",
+					"uv": [
+						0,
+						0,
+						8,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#soggy",
+					"uv": [
+						0,
+						0,
+						8,
+						3.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				15.9,
+				4
+			],
+			"rotationX": -50
+		}
+	]
+}

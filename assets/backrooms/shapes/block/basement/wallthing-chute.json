@@ -2,15 +2,16 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"chute": "backrooms:block/basement/chute",
-		"metaldark": "backrooms:block/props/metal-dark"
+		"bakelite": "backrooms:block/basement/bakelite",
+		"castiron": "backrooms:block/basement/castiron",
+		"chute": "backrooms:block/basement/chute"
 	},
 	"elements": [
 		{
-			"name": "Frame",
+			"name": "FrameT",
 			"from": [
 				2,
-				4,
+				14.5,
 				15
 			],
 			"to": [
@@ -25,7 +26,7 @@
 						0,
 						0,
 						12,
-						12
+						1.5
 					]
 				},
 				"east": {
@@ -34,7 +35,7 @@
 						0,
 						0,
 						1,
-						12
+						1.5
 					]
 				},
 				"south": {
@@ -43,7 +44,7 @@
 						0,
 						0,
 						12,
-						12
+						1.5
 					]
 				},
 				"west": {
@@ -52,7 +53,7 @@
 						0,
 						0,
 						1,
-						12
+						1.5
 					]
 				},
 				"up": {
@@ -76,16 +77,16 @@
 			}
 		},
 		{
-			"name": "Hatch",
+			"name": "FrameB",
 			"from": [
-				3,
-				5,
-				14.4
+				2,
+				4,
+				15
 			],
 			"to": [
-				13,
-				15,
-				15
+				14,
+				5.5,
+				16
 			],
 			"faces": {
 				"north": {
@@ -93,8 +94,239 @@
 					"uv": [
 						0,
 						0,
-						10,
-						10
+						12,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						12,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				},
+				"down": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						12,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameW",
+			"from": [
+				2,
+				5.5,
+				15
+			],
+			"to": [
+				3.5,
+				14.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1.5,
+						9.0
+					]
+				},
+				"east": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1,
+						9.0
+					]
+				},
+				"south": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1.5,
+						9.0
+					]
+				},
+				"west": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1,
+						9.0
+					]
+				},
+				"up": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1
+					]
+				},
+				"down": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameE",
+			"from": [
+				12.5,
+				5.5,
+				15
+			],
+			"to": [
+				14,
+				14.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1.5,
+						9.0
+					]
+				},
+				"east": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1,
+						9.0
+					]
+				},
+				"south": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1.5,
+						9.0
+					]
+				},
+				"west": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1,
+						9.0
+					]
+				},
+				"up": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1
+					]
+				},
+				"down": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Dark",
+			"from": [
+				3.5,
+				5.5,
+				15.8
+			],
+			"to": [
+				12.5,
+				14.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						9.0,
+						9.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Hatch",
+			"from": [
+				3.2,
+				5.6,
+				14.3
+			],
+			"to": [
+				12.8,
+				14.6,
+				14.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#chute",
+					"uv": [
+						0,
+						0,
+						9.6,
+						9.0
 					]
 				},
 				"east": {
@@ -103,7 +335,7 @@
 						0,
 						0,
 						0.6,
-						10
+						9.0
 					]
 				},
 				"south": {
@@ -111,8 +343,8 @@
 					"uv": [
 						0,
 						0,
-						10,
-						10
+						9.6,
+						9.0
 					]
 				},
 				"west": {
@@ -121,7 +353,7 @@
 						0,
 						0,
 						0.6,
-						10
+						9.0
 					]
 				},
 				"up": {
@@ -129,7 +361,7 @@
 					"uv": [
 						0,
 						0,
-						10,
+						9.6,
 						0.6
 					]
 				},
@@ -138,8 +370,152 @@
 					"uv": [
 						0,
 						0,
-						10,
+						9.6,
 						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				14.6,
+				14.9
+			],
+			"rotationX": -14
+		},
+		{
+			"name": "HingeW",
+			"from": [
+				4.0,
+				14.2,
+				14.2
+			],
+			"to": [
+				5.5,
+				15.2,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeE",
+			"from": [
+				10.5,
+				14.2,
+				14.2
+			],
+			"to": [
+				12.0,
+				15.2,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.0
 					]
 				}
 			}
@@ -148,70 +524,151 @@
 			"name": "Handle",
 			"from": [
 				7,
-				6,
-				13.8
+				6.4,
+				13.4
 			],
 			"to": [
 				9,
-				7,
+				7.2,
+				14.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				14.6,
+				14.9
+			],
+			"rotationX": -14
+		},
+		{
+			"name": "Rivets",
+			"from": [
+				3.8,
+				13.4,
+				14.2
+			],
+			"to": [
+				12.2,
+				13.8,
 				14.4
 			],
 			"faces": {
 				"north": {
-					"texture": "#metaldark",
+					"texture": "#castiron",
 					"uv": [
 						0,
 						0,
-						2,
-						1
+						8.4,
+						0.5
 					]
 				},
 				"east": {
-					"texture": "#metaldark",
+					"texture": "#castiron",
 					"uv": [
 						0,
 						0,
-						0.6,
-						1
+						0.5,
+						0.5
 					]
 				},
 				"south": {
-					"texture": "#metaldark",
+					"texture": "#castiron",
 					"uv": [
 						0,
 						0,
-						2,
-						1
+						8.4,
+						0.5
 					]
 				},
 				"west": {
-					"texture": "#metaldark",
+					"texture": "#castiron",
 					"uv": [
 						0,
 						0,
-						0.6,
-						1
+						0.5,
+						0.5
 					]
 				},
 				"up": {
-					"texture": "#metaldark",
+					"texture": "#castiron",
 					"uv": [
 						0,
 						0,
-						2,
-						0.6
+						8.4,
+						0.5
 					]
 				},
 				"down": {
-					"texture": "#metaldark",
+					"texture": "#castiron",
 					"uv": [
 						0,
 						0,
-						2,
-						0.6
+						8.4,
+						0.5
 					]
 				}
-			}
+			},
+			"rotationOrigin": [
+				8,
+				14.6,
+				14.9
+			],
+			"rotationX": -14
 		},
 		{
 			"name": "Trough",
