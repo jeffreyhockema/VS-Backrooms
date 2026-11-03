@@ -2,9 +2,15 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"crac-side": "backrooms:block/120/crac-side",
-		"crac-upper": "backrooms:block/120/crac-upper",
-		"duct": "backrooms:block/120/duct"
+		"bk-white": "backrooms:block/120/bk-white",
+		"cr-paint": "backrooms:block/120/cr-paint",
+		"cr-panel": "backrooms:block/120/cr-panel",
+		"dk-steel": "backrooms:block/120/dk-steel",
+		"du-galv": "backrooms:block/120/du-galv",
+		"lcd-dead": "backrooms:block/120/lcd-dead",
+		"pl-crac": "backrooms:block/120/pl-crac",
+		"rk-led-dead": "backrooms:block/120/rk-led-dead",
+		"term-red": "backrooms:block/120/term-red"
 	},
 	"elements": [
 		{
@@ -21,7 +27,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#crac-upper",
+					"texture": "#cr-panel",
 					"uv": [
 						0,
 						0,
@@ -30,7 +36,16 @@
 					]
 				},
 				"east": {
-					"texture": "#crac-side",
+					"texture": "#cr-panel",
+					"uv": [
+						0,
+						0,
+						13.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cr-panel",
 					"uv": [
 						0,
 						0,
@@ -39,39 +54,240 @@
 					]
 				},
 				"south": {
-					"texture": "#crac-side",
+					"texture": "#cr-paint",
 					"uv": [
 						0,
 						0,
 						15.0,
 						16
 					]
-				},
-				"west": {
-					"texture": "#crac-side",
+				}
+			}
+		},
+		{
+			"name": "PanelU",
+			"from": [
+				1.5,
+				0,
+				1.5
+			],
+			"to": [
+				14.5,
+				14.5,
+				2
+			],
+			"faces": {
+				"north": {
+					"texture": "#cr-panel",
 					"uv": [
 						0,
 						0,
-						13.5,
-						16
+						13.0,
+						14.5
 					]
 				},
 				"up": {
-					"texture": "#crac-side",
+					"texture": "#cr-panel",
 					"uv": [
 						0,
 						0,
-						15.0,
-						13.5
+						13.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#cr-panel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.5
+					]
+				},
+				"west": {
+					"texture": "#cr-panel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Ctl",
+			"from": [
+				3,
+				7,
+				1.0
+			],
+			"to": [
+				13,
+				12.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#dk-steel",
+					"uv": [
+						0,
+						0,
+						10,
+						5.5
+					]
+				},
+				"east": {
+					"texture": "#dk-steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"west": {
+					"texture": "#dk-steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5.5
+					]
+				},
+				"up": {
+					"texture": "#dk-steel",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
 					]
 				},
 				"down": {
-					"texture": "#crac-side",
+					"texture": "#dk-steel",
 					"uv": [
 						0,
 						0,
-						15.0,
-						13.5
+						10,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lcd",
+			"from": [
+				3.75,
+				8.5,
+				0.9
+			],
+			"to": [
+				8.5,
+				11.75,
+				1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#lcd-dead",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				5,
+				2.5,
+				1.3
+			],
+			"to": [
+				11,
+				4.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pl-crac",
+					"uv": [
+						0,
+						4,
+						16,
+						11
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				0.25,
+				15,
+				1.75
+			],
+			"to": [
+				15.75,
+				16,
+				15.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#cr-paint",
+					"uv": [
+						0,
+						0,
+						15.5,
+						1
+					]
+				},
+				"east": {
+					"texture": "#cr-paint",
+					"uv": [
+						0,
+						0,
+						14.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#cr-paint",
+					"uv": [
+						0,
+						0,
+						15.5,
+						1
+					]
+				},
+				"west": {
+					"texture": "#cr-paint",
+					"uv": [
+						0,
+						0,
+						14.0,
+						1
+					]
+				},
+				"up": {
+					"texture": "#cr-paint",
+					"uv": [
+						0,
+						0,
+						15.5,
+						14.0
+					]
+				},
+				"down": {
+					"texture": "#cr-paint",
+					"uv": [
+						0,
+						0,
+						15.5,
+						14.0
 					]
 				}
 			}
@@ -80,22 +296,262 @@
 			"name": "Collar",
 			"from": [
 				2.5,
-				15.9,
+				16,
 				3.5
 			],
 			"to": [
 				13.5,
-				16,
+				16.5,
 				13.5
 			],
 			"faces": {
+				"north": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.5
+					]
+				},
 				"up": {
-					"texture": "#duct",
+					"texture": "#du-galv",
 					"uv": [
 						0,
 						0,
 						11.0,
 						10.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Btn0",
+			"from": [
+				9.5,
+				9,
+				0.6
+			],
+			"to": [
+				10.3,
+				9.8,
+				1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#term-red",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#term-red",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#term-red",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#term-red",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#term-red",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Btn1",
+			"from": [
+				10.7,
+				9,
+				0.6
+			],
+			"to": [
+				11.5,
+				9.8,
+				1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#bk-white",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#bk-white",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#bk-white",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#bk-white",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#bk-white",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Btn2",
+			"from": [
+				11.9,
+				9,
+				0.6
+			],
+			"to": [
+				12.7,
+				9.8,
+				1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#bk-white",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#bk-white",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#bk-white",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#bk-white",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#bk-white",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Status",
+			"from": [
+				9.5,
+				11,
+				0.8
+			],
+			"to": [
+				13,
+				11.5,
+				1.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-led-dead",
+					"uv": [
+						0,
+						0,
+						3.5,
+						0.5
 					]
 				}
 			}

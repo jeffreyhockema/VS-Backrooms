@@ -2,9 +2,12 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"conduit": "backrooms:block/120/conduit",
-		"panel-pdu": "backrooms:block/120/panel-pdu",
-		"steel-grey": "backrooms:block/120/steel-grey",
+		"dk-drawer": "backrooms:block/120/dk-drawer",
+		"dk-steel": "backrooms:block/120/dk-steel",
+		"pl-hv": "backrooms:block/120/pl-hv",
+		"pl-ups": "backrooms:block/120/pl-ups",
+		"rk-black": "backrooms:block/120/rk-black",
+		"rk-chrome": "backrooms:block/120/rk-chrome",
 		"wall-base": "backrooms:block/120/wall-base"
 	},
 	"elements": [
@@ -78,11 +81,11 @@
 			}
 		},
 		{
-			"name": "Panel",
+			"name": "Box",
 			"from": [
 				3,
 				1,
-				-1.6
+				-1.75
 			],
 			"to": [
 				13,
@@ -90,49 +93,310 @@
 				0
 			],
 			"faces": {
+				"east": {
+					"texture": "#dk-steel",
+					"uv": [
+						0,
+						0,
+						1.75,
+						13
+					]
+				},
+				"west": {
+					"texture": "#dk-steel",
+					"uv": [
+						0,
+						0,
+						1.75,
+						13
+					]
+				},
+				"up": {
+					"texture": "#dk-steel",
+					"uv": [
+						0,
+						0,
+						10,
+						1.75
+					]
+				},
+				"down": {
+					"texture": "#dk-steel",
+					"uv": [
+						0,
+						0,
+						10,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Door",
+			"from": [
+				3.25,
+				1.25,
+				-2.0
+			],
+			"to": [
+				12.75,
+				13.75,
+				-1.75
+			],
+			"faces": {
 				"north": {
-					"texture": "#panel-pdu",
+					"texture": "#dk-drawer",
+					"uv": [
+						0,
+						0,
+						9.5,
+						12.5
+					]
+				},
+				"east": {
+					"texture": "#dk-drawer",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.5
+					]
+				},
+				"west": {
+					"texture": "#dk-drawer",
+					"uv": [
+						0,
+						0,
+						0.5,
+						12.5
+					]
+				},
+				"up": {
+					"texture": "#dk-drawer",
+					"uv": [
+						0,
+						0,
+						9.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dk-drawer",
+					"uv": [
+						0,
+						0,
+						9.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeA",
+			"from": [
+				2.75,
+				3,
+				-2.0
+			],
+			"to": [
+				3.25,
+				5,
+				-1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"west": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HingeB",
+			"from": [
+				2.75,
+				10,
+				-2.0
+			],
+			"to": [
+				3.25,
+				12,
+				-1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"west": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2
+					]
+				},
+				"up": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Latch",
+			"from": [
+				11,
+				6.5,
+				-2.6
+			],
+			"to": [
+				11.75,
+				8.5,
+				-2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.75,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Card",
+			"from": [
+				5,
+				9.5,
+				-2.1
+			],
+			"to": [
+				9,
+				12,
+				-2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#pl-hv",
 					"uv": [
 						0,
 						0,
 						16,
 						16
 					]
-				},
-				"east": {
-					"texture": "#steel-grey",
+				}
+			}
+		},
+		{
+			"name": "Holder",
+			"from": [
+				5,
+				3,
+				-2.15
+			],
+			"to": [
+				10,
+				7.5,
+				-2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#pl-ups",
 					"uv": [
 						0,
-						0,
-						1.6,
-						13
-					]
-				},
-				"west": {
-					"texture": "#steel-grey",
-					"uv": [
-						0,
-						0,
-						1.6,
-						13
-					]
-				},
-				"up": {
-					"texture": "#steel-grey",
-					"uv": [
-						0,
-						0,
-						10,
-						1.6
-					]
-				},
-				"down": {
-					"texture": "#steel-grey",
-					"uv": [
-						0,
-						0,
-						10,
-						1.6
+						8,
+						16,
+						16
 					]
 				}
 			}
@@ -140,41 +404,65 @@
 		{
 			"name": "Conduit",
 			"from": [
-				7,
+				7.4,
 				14,
-				-1.2
+				-1.3
 			],
 			"to": [
-				9,
+				8.6,
 				16,
-				-0.2
+				-0.1
 			],
 			"faces": {
 				"north": {
-					"texture": "#conduit",
+					"texture": "#rk-chrome",
 					"uv": [
 						0,
 						0,
-						2,
+						1.2,
 						2
 					]
 				},
 				"east": {
-					"texture": "#conduit",
+					"texture": "#rk-chrome",
 					"uv": [
 						0,
 						0,
-						1.0,
+						1.2,
 						2
 					]
 				},
 				"west": {
-					"texture": "#conduit",
+					"texture": "#rk-chrome",
 					"uv": [
 						0,
 						0,
-						1.0,
+						1.2,
 						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Lock",
+			"from": [
+				11.1,
+				9,
+				-2.2
+			],
+			"to": [
+				11.6,
+				9.5,
+				-2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
 					]
 				}
 			}

@@ -2,11 +2,11 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"black": "backrooms:block/120/black",
-		"tray-cable": "backrooms:block/120/tray-cable",
-		"wall-base": "backrooms:block/120/wall-base",
-		"wire-blue": "backrooms:block/120/wire-blue",
-		"wire-grey": "backrooms:block/120/wire-grey"
+		"cb-black": "backrooms:block/120/cb-black",
+		"cb-blue": "backrooms:block/120/cb-blue",
+		"cb-grey": "backrooms:block/120/cb-grey",
+		"rk-black": "backrooms:block/120/rk-black",
+		"wall-base": "backrooms:block/120/wall-base"
 	},
 	"elements": [
 		{
@@ -92,7 +92,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#tray-cable",
+					"texture": "#cb-black",
 					"uv": [
 						0,
 						0,
@@ -101,7 +101,7 @@
 					]
 				},
 				"east": {
-					"texture": "#tray-cable",
+					"texture": "#cb-black",
 					"uv": [
 						0,
 						0,
@@ -110,7 +110,7 @@
 					]
 				},
 				"west": {
-					"texture": "#tray-cable",
+					"texture": "#cb-black",
 					"uv": [
 						0,
 						0,
@@ -134,7 +134,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#wire-blue",
+					"texture": "#cb-blue",
 					"uv": [
 						0,
 						0,
@@ -143,7 +143,7 @@
 					]
 				},
 				"east": {
-					"texture": "#wire-blue",
+					"texture": "#cb-blue",
 					"uv": [
 						0,
 						0,
@@ -152,7 +152,7 @@
 					]
 				},
 				"west": {
-					"texture": "#wire-blue",
+					"texture": "#cb-blue",
 					"uv": [
 						0,
 						0,
@@ -176,7 +176,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#tray-cable",
+					"texture": "#cb-grey",
 					"uv": [
 						0,
 						0,
@@ -185,7 +185,7 @@
 					]
 				},
 				"east": {
-					"texture": "#tray-cable",
+					"texture": "#cb-grey",
 					"uv": [
 						0,
 						0,
@@ -194,7 +194,7 @@
 					]
 				},
 				"west": {
-					"texture": "#tray-cable",
+					"texture": "#cb-grey",
 					"uv": [
 						0,
 						0,
@@ -218,7 +218,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#wire-grey",
+					"texture": "#cb-blue",
 					"uv": [
 						0,
 						0,
@@ -227,7 +227,7 @@
 					]
 				},
 				"east": {
-					"texture": "#wire-grey",
+					"texture": "#cb-blue",
 					"uv": [
 						0,
 						0,
@@ -236,7 +236,7 @@
 					]
 				},
 				"west": {
-					"texture": "#wire-grey",
+					"texture": "#cb-blue",
 					"uv": [
 						0,
 						0,
@@ -260,7 +260,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#tray-cable",
+					"texture": "#cb-black",
 					"uv": [
 						0,
 						0,
@@ -269,7 +269,7 @@
 					]
 				},
 				"east": {
-					"texture": "#tray-cable",
+					"texture": "#cb-black",
 					"uv": [
 						0,
 						0,
@@ -278,7 +278,7 @@
 					]
 				},
 				"west": {
-					"texture": "#tray-cable",
+					"texture": "#cb-black",
 					"uv": [
 						0,
 						0,
@@ -302,7 +302,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#black",
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,
@@ -311,7 +311,7 @@
 					]
 				},
 				"east": {
-					"texture": "#black",
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,
@@ -320,7 +320,7 @@
 					]
 				},
 				"west": {
-					"texture": "#black",
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,
@@ -329,7 +329,7 @@
 					]
 				},
 				"up": {
-					"texture": "#black",
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,
@@ -338,7 +338,7 @@
 					]
 				},
 				"down": {
-					"texture": "#black",
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,
@@ -362,7 +362,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#black",
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,
@@ -371,7 +371,7 @@
 					]
 				},
 				"east": {
-					"texture": "#black",
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,
@@ -380,7 +380,7 @@
 					]
 				},
 				"west": {
-					"texture": "#black",
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,
@@ -389,7 +389,7 @@
 					]
 				},
 				"up": {
-					"texture": "#black",
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,
@@ -398,7 +398,7 @@
 					]
 				},
 				"down": {
-					"texture": "#black",
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,

@@ -1055,6 +1055,10 @@ def main():
     # Round 3's detail blocks (tools/gen_120_detail.py, built on the textures above)
     import gen_120_detail
     gen_120_detail.main()
+    # Round 4's rebuilt assets (tools/gen_120_r4.py): the racks, cabinets, desks, trays, floor and the new set pieces,
+    # overwriting the shapes and blocktypes above for the blocks it rebuilds
+    import gen_120_r4
+    gen_120_r4.main()
     print("Level 120: textures in", os.path.relpath(TEX, ROOT), "; shapes in", os.path.relpath(SHAPES, ROOT), "; blocktypes in", os.path.relpath(BLOCKS, ROOT))
 
 

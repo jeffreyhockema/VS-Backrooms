@@ -1,0 +1,76 @@
+// Level 120: a raised-floor panel lifted out and left beside its hole, the suction lifter still on it (walked over)
+{
+	"code": "l120-lifter",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l120-lifter-north": {
+			"base": "backrooms:block/120/l120-lifter",
+			"rotateY": 0
+		},
+		"l120-lifter-east": {
+			"base": "backrooms:block/120/l120-lifter",
+			"rotateY": 270
+		},
+		"l120-lifter-south": {
+			"base": "backrooms:block/120/l120-lifter",
+			"rotateY": 180
+		},
+		"l120-lifter-west": {
+			"base": "backrooms:block/120/l120-lifter",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l120-lifter-north"
+		],
+		"backrooms": [
+			"l120-lifter-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.2,
+				"var": 0
+			}
+		}
+	],
+	"collisionbox": null,
+	"selectionbox": {
+		"x1": 0.2,
+		"y1": 0,
+		"z1": 0.2,
+		"x2": 0.8,
+		"y2": 0.25,
+		"z2": 0.85
+	}
+}

@@ -528,3 +528,201 @@ lore's voids are "pure white": these are one thing at a time, and a third of the
    carry numbers too (DATA HALL B4)?
 2. The pencilled notes say DON'T BOOT THEM / WALK ONE WAY / NOT AGAIN / IT GETS UP WHERE YOU FALL: more, or other words?
 3. Should the lit EXIT sign over the doors back to the offices be rarer (it makes the way out easier to find in the dark)?
+
+## Round 4 (2026-11-02): the asset-quality pass
+
+The user's ask: AAA assets, multi-block objects where they belong, level design refined, lore and the other levels
+aligned (sharing where it fits, similar-but-unique where it adds). Round 3's final sheet (`final-r3/120/sheet.jpg`): the
+layout and the signs read; the assets do not meet the bar. The rack (the level's main object, thousands of them) is one
+box with a picture of units on its front and a rainbow on its back; the UPS, battery, CRAC, row-end panels and the wall
+of screens are boxes with pictures; the terminal is a box CRT on a box desk; the tray is a flat mesh channel; the floor
+and walls are flat-shaded fills with noise. Source of the bar: Level 188's street furniture, the detail kit's
+`controldesk` (67 elements), Level 14's station and revolving door. Real data halls are the model where the lore is
+silent (inventions marked).
+
+### List
+Tiers: A must, B should, C nice.
+
+**1. Assets to rebuild to the bar**
+1. [A] [done] `l120-rack` (lower/upper x off/leda/ledb/both/gutted): a real cabinet: frame posts and top/bottom rails, a perforated front door (frame, mesh inset, hinges, a swing handle with lock), the 1U/2U servers recessed behind it with their own bezels, drive caddies, pull tabs and LEDs, side panels with seams; the lower block on a plinth with levelling feet, the upper with a top cap and cable-entry brush. The two blocks read as ONE 2 m cabinet (the door spans both; seams meet).
+2. [A] [done] Rack backs (lead): a calmer rear: a perforated rear door over vertical cable managers, patch bundles as geometry in muted colours tied in looms, a vertical PDU strip; no rainbow.
+3. [A] [done: the asset label on the top rail or door; the servers carry theirs in their bezels] Rack labels (lead; round 3's 26 partly): an asset label on each cabinet's top rail, labels on the servers.
+4. [A] [done] `l120-rack` gutted and the wrecks (`l120-wreck` toppled / tornlower / tornupper) rebuilt from the new rack's parts: door hanging off a hinge, servers half out on their rails, cables spilling.
+5. [A] [done] `l120-ups` (whole/open): a UPS cabinet: inset doors with handles, a status display and keypad, louvred vent grilles, a breaker row behind a window, plinth; the open one with its door off and the batteries/boards showing.
+6. [A] [done] `l120-battery`: a battery cabinet: a steel frame and mesh door (real bars), batteries on shelves as blocks with terminals and links, the acid warning plate.
+7. [A] [done] `l120-crac` (lower/loweropen/upper/duct): a downflow cooling unit: grilles as bars, a front of panels with handles, a control panel with a display, the top return grille; the duct as a square duct with flanges and foil tape; the open one with the coil and fans showing.
+8. [A] [done] `l120-terminal` (dead/boot/smashed): an operator's desk with a modesty panel and a drawer pedestal; the CRT with a tapered back, bezel and a recessed screen, a keyboard with key rows, a mouse on its cable; the BOOT one lit only on its glass.
+9. [A] [done] Operators' monitors on arms (lead): a new terminal-room desk, `l120-console`: two flat monitors on articulated arms (rotated elements) clamped to the desk, dead / one glitched; for part of the terminal room's desks.
+10. [A] [done] `l120-tray`: a ladder rack: two side stringers and rungs, cable bundles laid on it as looms (several colours), drop rods with nuts; the same tray in the passages.
+11. [A] [done] `l120-kvm`: a KVM console cart: tubular frame with a push handle, casters with forks, a monitor on a post, a keyboard tray, a drive box on the lower shelf, the cable trailing.
+12. [A] [done] `l120-floor`: the raised floor to matlib quality: square panels with bevelled edges and corner screws, the perforated tile (vent) with real perforation shading, grime in the seams; dirty white (the lore).
+13. [B] [done] `l120-rowend` (lower, upper A-H): an end-of-row panel: inset panels, the row letter plate mounted proud, a kick plate.
+14. [B] [done] `l120-walldeco` screens (dead/glitch/smashed): the NOC wall of screens as framed flat panels on a mounting rail with bezels and gaps, not a picture.
+15. [B] [done] `l120-walldeco` conduit (passages): round conduit with couplings and straps.
+16. [B] [done] `l120-walldeco` panel (electrical panel): a box with a door, hinges, a handle and a label holder.
+17. [B] [done] `l120-shelf`: shelving with uprights and beams, boxed drives with labels; `l120-mop`: a yellow mop bucket with casters and a wringer.
+18. [B] [done] `l120-wall`: wallpaper and rotting boards from matlib's paper and wood (seams, peel, damp tide line at the foot); skirting kept.
+19. [B] [done] `l120-window` (the voids' broken window, lead): a finished window: frame with stops, a sill, the glass shards translucent in the frame.
+20. [C] [done] `l120-ceiling`: office tile via matlib's ceiling_tile (T-bar rails, fissured tile), stains, the broken-through tile with a jagged edge.
+21. [C] [skipped: they read at floor scale] `l120-debris`, `l120-spill`: finer pieces (a bent T-bar, insulation).
+
+**2. Multi-block set pieces**
+22. [A] [done] **The rack bank as one object**: racks, the ladder rack over them carrying the bundles, end panels at both ends; rack doors aligned and the tray's drops landing on the cabinet tops.
+23. [A] [done] **Fire suppression** (lead): a bank of red agent cylinders strapped to a wall bracket with valve heads, a manifold and the discharge pipe up into the ceiling (two blocks), and its control panel with the abort button and the "AGENT RELEASE" plate; in the UPS room and in some server rooms. (Invention: real data centres.)
+24. [B] [done] **Tape library** (lead): a cabinet two high, a window onto tape slots and the robot's gantry, a small panel with a dead display; in the storage rooms and some server rooms.
+25. [A] [done] **The UPS lineup** (5, 6 + the PDU panel): UPS cabinets, battery cabinets and the switchgear reading as one line-up (matching plinths and top rails).
+26. [B] [done] **The CRAC with its duct** (7): unit, the duct, a ceiling collar, reading as one machine.
+27. [B] [done] **The NOC**: wall of screens (14) over the operators' desks (8, 9) with chairs.
+28. [C] [skipped: needs the paired banks in the plan; left for a later round] **Cold-aisle containment**: at some banks' ends, a containment door frame standing open across the cold aisle (invention).
+29. [C] [done] A floor-tile lifter (suction cups) beside some lifted panels.
+
+**3. Level design**
+30. [A] [done] Server rooms less samey: rack kinds by bank (servers / storage arrays with drive bays / network racks with patch panels), so a hall has rows that differ.
+31. [B] [done] Showcase spots for every rebuilt or new set piece (racks up close, the rear, the UPS lineup, fire suppression, tape library, monitor arms, the void window), computed from the layout; F7 entries to match.
+32. [B] [done (unchanged)] The pitch-black hallways kept bare (lead); check their arrival view only.
+33. [B] [done (desk, CRT and window rebuilt)] The void rooms' one wrong thing stays; each a finished object (the chair, the desk and its CRT, the window: items 8, 19).
+34. [B] [done] Plates readable without a torch where the EXIT light falls (lead): the plates' text photoluminescent (a faint glow on the text only, no block light), as real safety signage.
+35. [C] [done (unchanged: the screens and the BOOT CRT are its light)] The terminal room's lighting: the corrupted screens and the BOOT screen as its only light; its sightline from the door kept.
+
+**4. Lore**
+36. [A] [done] "Massive blocks of computers ripped apart on the dirty, white floor": the new wrecks (4) carry this; the floor tone dirty white (12).
+37. [B] [done: checked, round 1's rigged model has the pixels, the red marks and the tentacle arm; left as is] The Misglitch's look checked against the lore (black, pixels round it, red marks, the pointed arm); rebuild if below the bar.
+38. [C] [done] The White Voids stay pure white; the window (19) is the lore's "windows ... usually already broken".
+
+**5. Alignment with the other levels**
+39. [A] [done] EXIT signs over the doors: the mod's shared EXIT sign (`exitlintel-*` model and texture) on our wall, not our own drawing; the faint battery-lit state kept as its dead/lit pair.
+40. [A] [done] Fire points: the shared extinguisher (`officedeco-extinguisher` model) on our wall, not our own.
+41. [B] [done: kept, 25 elements with casters, at the bar] Chairs: the shared `officechair` (casters) kept; checked against the bar, noted if below.
+42. [B] [done: the shared EXIT, extinguisher, chair and supply boxes; Level 14's monitors and the detail kit's controldesk did not fit a 1990s-2000s hall, so new] Reuse check: Level 14's monitors (`l14-monitor`), the detail kit's `controldesk` / `cablespool` / `floorcable`, the Basement's fuse box: reuse where they fit, retint into `l120-` where the level wants its own (source noted).
+43. [B] [done] "Shared assets below the bar" written for the lead (the detail kit's `serverrack` is two boxes: Level 120's new rack could replace it; Level 2's ducts in the passages).
+44. [C] [done] Pick-block / HUD names for every new block; salvage as the racks'.
+
+**6. Checks**
+45. [A] [done] expclash clean, layouthash 0-20 = main, regions 60/60, dummy and blocksweep 0 errors, F7 featurecheck, gate `--fast` with GATE_TAG=120g; three rig runs at most (`--torch`).
+
+### Built (round 4)
+Assets: `tools/gen_120_r4.py` (materials, the rack, the wall dressings rebuilt; run from the end of `gen_120.py`, after
+`gen_120_detail.py`, overwriting the shapes and blocktypes it rebuilds and deleting the textures nothing uses any more) and
+`tools/gen_120_r4_props.py` (the cabinets, desks, trays, floor, walls and the new set pieces). All on matlib materials
+(painted and brushed metal, galvanised steel, rubber, paper, planks, fabric) with geometry for every part a player would
+recognise; no element count over 60 a block. Code: rack kinds and console rows in `WorldLayout.Level120.cs`, the fire
+suppression bank and tape libraries in `WorldLayout.Level120.Dress.cs`, their blocks in `WorldGenerator.L120*.cs`, eight
+new showcase spots and four F7 entries.
+- **The rack** (`l120-rack`, 18 shapes): a 2 m cabinet in two blocks that share every x/z coordinate: side panels with
+  seams, zinc mounting rails with their square holes, a plinth with levelling feet, a top cap with vents and a cable brush,
+  an asset label on the top rail. Servers stand behind a perforated door (cut-out 1 px holes on a staggered 2 px pitch: the
+  units, their bezels and LEDs show through it), hinges, a swing handle and lock; the units are separate boxes recessed on
+  the rails (1U, 2U SFF, 2U LFF, 4U, blanks and gaps), each with its LED. The rear: a perforated door over the units' backs
+  (PSUs, ports), three muted looms and a PDU strip: calm, no rainbow. New states (save-safe additions): `store`/`storelit`
+  (a doorless storage array of disk shelves), `net`/`netlit` (a network rack: patch panels, switches, cords looping to the
+  side managers). One standing bank in five is storage, one in five network. Gutted: the door swung out off its hinge, one
+  unit pulled half out on its rails, cables hanging. Wrecks: toppled is now a whole cabinet lying on its back, its mesh
+  door to the ceiling and a unit slid off it; torn open has its units hanging out at angles and its door on the floor.
+- **UPS** (`l120-ups`): plinth, double door with a louvre and bar handles, the dead LCD and keypad, eight breakers (some
+  tripped) behind a window, the UPS 2 / 160 kVA plate and the DANGER 480 V plate; torn open: battery trays inside, the door
+  leaning against it, the upper's door hanging, a board, capacitors, a heatsink and the bus bar.
+- **Battery cabinet**: side walls, a door of bars with its handle, nine sealed batteries on shelves with red and black
+  terminals and the brass links of the string, BATTERY / ACID / NO FLAME.
+- **CRAC**: aged enamel panels with screws and rust runs, louvres, latches, the control panel with display, buttons and
+  CRAC 3 plate; the duct with flanges, foil tape and a damper; the open one with its two fans, motor and coil, its panel
+  leaning against it.
+- **Operators' desks**: a laminate desk with an edge band, a drawer pedestal (one drawer out), modesty panel and grommet;
+  the CRT with its bezel, recessed glass and a tapered back, keyboard, mouse on its cord, a binder (`l120-terminal`); every
+  other row in the terminal room is the newer desk, `l120-console` (new): two flat monitors on a pole arm clamped to the
+  back of the desk, a mug and papers; one in three of the smashed ones is a glitch instead (a corrupted corridor, glow).
+- **Ladder rack** (`l120-tray`): stringers, rungs, trapeze hangers with their rods, three looms tied on it, and a yellow
+  fibre raceway on its bracket alongside: the bank and its trays read as one data-hall row.
+- **KVM cart**, **mop bucket** (yellow, on casters, wringer and lever), **shelving** (uprights, beams, decks, labelled
+  boxes, caddies, binders), **row ends** (framed panel, kick plate with a grille, the ROW plate proud on stand-offs).
+- **Fire suppression bank** (`l120-firesup`, new, three blocks): three red FM-200 cylinders on strut uprights with
+  straps and labels, brass valves with gauges and red actuators, hoses to the manifold, the discharge pipe up through a
+  clamp to its nozzle at the ceiling. One in each UPS room, against a short wall on the walk round it.
+- **Tape library** (`l120-tapelib`, new, two blocks): graphite cabinet, its window smashed (shards in the corners and on the
+  floor), rows of tape cartridges with their labels inside, the robot's gantry and picker, a dead LCD, the mail slot and
+  plate. Two to four in each storage room in place of shelving.
+- **Floor** (raised floor, dirty white, 2 x 2 bevelled panels with dark gaps, perforated vents, the grommet, a puddle),
+  **walls** (matlib paper with butt seams and the old print, a dark skirting board along the foot with its shadow,
+  drips and a tide line, tears onto wet mouldy boards), the **broken window** (frame, stops, sill with a drip, the pane
+  round a jagged cut-out hole, glass on the sill).
+- **Wall dressing**: the EXIT sign is the released levels' own (`detail/exitface`, `exithousing`, red, the faint battery
+  light now red too); the fire point is Level 1's extinguisher model (`l1deco-extinguisher`) on our wall; the wall of
+  screens as framed panels on a rail; conduit round with couplings and straps; cables tied and clamped; the electrical
+  panel a box with its door, hinges, latch and card. The room plates are photoluminescent (a pale yellow-green face that
+  glows faintly, dark letters), the DATA HALL plates' letters glow: readable in the dark without a torch.
+
+### Reused and retinted (round 4)
+- The EXIT sign over every cluster door and door back is now the released levels' (`detail/exitlintel-*`'s housing and
+  `exitface`, on our wallpaper), not our own green drawing; ours keeps its dead / battery-lit pair (light 2, now red).
+- The fire point's extinguisher is Level 1's (`detail/l1deco-extinguisher`, its model and textures) on our wall, under our
+  red FIRE EXTINGUISHER sign.
+- Office chairs: the shared `officechair` (casters, 25 elements): at the bar, kept.
+- Supply boxes, M.E.G. placard, notes: the mod's own, unchanged.
+- Looked at and not taken: Level 14's monitors and station, the detail kit's `controldesk` and `serverrack`, Level 15's
+  consoles (futuristic or too clean for a dead 1990s-2000s hall); the Basement's fuse box (a house's).
+
+### Inventions (round 4; not lore)
+Rack kinds (storage arrays, network racks), the doors' perforation, the fire suppression bank (FM-200), the tape library,
+the newer operators' desks with monitors on arms and a glitching one, the ladder rack's yellow fibre raceway, the
+glow-in-the-dark plates. All from real data halls; the lore says only "massive blocks of computers ripped apart".
+
+### Shared assets below the bar
+- `detail/serverrack` (two boxes: a body and a picture of servers) is used by other levels' server rooms (Level 4's SERVER
+  ROOM, the End's): Level 120's `l120-rack-lower-off` / `upper-off` pair (37 + 34 elements) could stand in for it, or a
+  one-block retint of it.
+- Level 2's `pipes` (the ducts along Level 120's passages): square boxes with a picture of a seam; a duct with flanges and
+  tape (as `l120-crac-duct`) would read better.
+- `detail/exitlintel-*`'s housing is one box with a flat face: fine at a distance; a lip round the face would lift it.
+
+### Balance notes for the lead (round 4)
+- Light: the glitching console (one in three of the smashed desks in the newer rows, so about one desk in twelve of a
+  terminal room) gives light 1, as the corrupted wall screens do; the photoluminescent plates give no block light (glow on
+  their faces only). Lit racks are as many as before (the bank kinds keep each rack's lit state: `120stats 3` 3.6% lit).
+- No food, water, beds or safe rooms; salvage of the new blocks as the racks' (brackets, wire). The tape library and fire
+  suppression bank are breakable salvage like the cabinets.
+- The toppled rack is now a full block high (was 0.56): a wrecked bank blocks as a standing one does; `120stats 3` still
+  finds every walkable tile reached (0 unreached) and 60/60 arrivals.
+
+### What the shots showed (round 4, `--torch`)
+- **Run 1** (`%TEMP%/backrooms-shots/120-r4a/`, 39 shots, no unknown blocks): the cold aisle now reads as a data hall:
+  rows of cabinets with perforated doors and their swing handles, the ladder rack and yellow raceway overhead, perforated
+  floor tiles down the aisle, a gutted rack with its door hanging, torn racks with units hanging out, a toppled cabinet
+  with its mesh door up; the hot aisle between the calm rear doors; the storage arrays and network racks with their cords;
+  tape libraries with their smashed windows; the shared red EXIT signs over the doors (and over the doors back); the fire
+  suppression bank's cylinders and riser. Wrong: the battery cabinets' doors of bars read as prison cells; the asset label
+  on the top rail read as a white comb; the swing handles, hinges and feet in chrome read as pale tags in the dark; the
+  fire suppression and console spots looked along the wall / at the monitors' backs; the rack close-ups looked at the
+  trays; the cardboard boxes on the shelving were flat orange fills up close.
+
+### Questions for the user (round 4)
+1. Most server racks now stand behind perforated doors (as real ones do), so a row reads as a dark mesh wall with its LEDs
+   through it; one bank in five is a doorless storage array and one in five a network rack with its cords. More doorless
+   racks (more to see by torchlight), or keep the doors?
+2. The passages' duct is now the level's own galvanised duct, not Level 2's pipe bundle: keep it, or keep the pipes as a
+   tie to Level 2?
+3. The fire suppression bank, tape libraries and the newer desks with monitors on arms are inventions from real data
+   halls (the lore only says "massive blocks of computers ripped apart"): keep, or keep the level closer to the bare lore?
+- **Run 2** (`%TEMP%/backrooms-shots/120-r4b/`, 39 shots, no unknown blocks): the battery rooms are open battery racks
+  now (strings of batteries on shelves behind restraint bars); the rack hardware dark; the console spot from the operators'
+  side shows the newer desks with their arms and one glitching screen under the wall of screens (the best shot of the
+  level); the CRT's new proportions; the cardboard boxes; the White Voids' black doors with panels and levers; the
+  lifted floor panel. Wrong: the fire suppression spot stood behind a torn-open UPS whose hanging door hid the bank (only
+  the riser showed); the floor-hole spot looked into a rack's side. Both spots fixed for run 3.
+
+- **Run 3, final** (`%TEMP%/backrooms-shots/120-r4c/`, `sheet.jpg`, 39 shots, no unknown blocks; one bot wait step hit a
+  Windows file lock and was skipped, every shot taken): the fire suppression bank seen whole (cylinders, valves and gauges,
+  manifold, riser to its nozzle beside the electrical panel), the finer perforation on the doors, the NOC, tape
+  libraries, storage arrays and network racks, the hot aisle, the operators' desks. Still weak: the floor-hole spot still
+  looks into a rack's side close to (the hole itself is fine in the cold-aisle shot); the rig's random arrivals look along
+  fixed headings, so one in four shows a wall close up; the passages read much as in round 3 apart from the new duct and
+  tray (the lore wants them plain); the Misglitch is round 1's model.
+- New since run 1 (in runs 2 and 3): the passages' own galvanised duct (`l120-duct`: run and plenum hub, in place of Level 2's
+  pipe bundle), cable drops from the ladder rack into one rack top in four, the lifted floor panel with its lifter
+  (`l120-lifter`), matlib ceiling tiles.
+
+### Checks (round 4)
+`expclash` clean; mod and mapgen 0 errors; `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash, versions 1 and 12: levels 0-20 and the
+layout hash identical to main's (only the far places hash moves); `120stats 3` OK (0 unreached, 60/60 arrivals, the lit
+share 3.6%); `featurecheck`: all 18 of Level 120's F7 entries found 3/3 (the four new: racks up close, fire suppression,
+tape library, operators' desks); headless dummy in Level 120 (port 43141) with 0 error lines and 0 missing blocks,
+`blocksweep` 15681 blocks, 0 threw; gate `--fast --port-base 43140` with `GATE_TAG=120g` PASS
+(`review/gate/`, commit 40f51421). Element counts: the busiest block (the network rack) 56.

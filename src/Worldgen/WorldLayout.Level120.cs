@@ -55,8 +55,20 @@ public sealed partial class WorldLayout
     /// <summary>A rack's LEDs (<see cref="Tile.Detail"/>): dark, bank A on (green), bank B (amber), both (green and blue); or gutted.</summary>
     public const byte L120RackOff = 0, L120RackLedA = 1, L120RackLedB = 2, L120RackBoth = 3, L120RackGutted = 4;
 
+    /// <summary>
+    /// (Round 4) A standing bank's kind changes its racks' look (<see cref="Tile.Detail"/>): servers behind perforated doors (the
+    /// states above), a storage array of disk shelves (dark or lit), a network rack of patch panels and cords (dark or lit).
+    /// </summary>
+    public const byte L120RackStore = 5, L120RackStoreLit = 6, L120RackNet = 7, L120RackNetLit = 8;
+
+    /// <summary>Whether a rack's state has its LEDs on (it gives a little light).</summary>
+    public static bool L120RackLit(byte state) => state is >= L120RackLedA and <= L120RackBoth or L120RackStoreLit or L120RackNetLit;
+
     /// <summary>A terminal (<see cref="Tile.Detail"/>): dead, still whole (it boots), its screen smashed.</summary>
     public const byte L120TermDead = 0, L120TermBoot = 1, L120TermSmashed = 2;
+
+    /// <summary>(Round 4) An operator's desk with two flat monitors on an arm: dead, or one still showing a corrupted picture.</summary>
+    public const byte L120TermConsole = 3, L120TermConsoleGlitch = 4;
 
     /// <summary>A wreck (<see cref="Tile.Detail"/>): a rack toppled onto its back, one torn open with its insides spilling out.</summary>
     public const byte L120WreckToppled = 0, L120WreckTorn = 1;
@@ -545,11 +557,22 @@ public sealed partial class WorldLayout
                             foreach (int side in new[] { s, s + 1 })
                             {
                                 ref Tile e = ref L120Along(plan, alongP, k, side);
-                                if (e.Variant == L120Rack && e.Detail is >= L120RackLedA and <= L120RackBoth) plan.Lit--;
+                                if (e.Variant == L120Rack && L120RackLit(e.Detail)) plan.Lit--;
                                 if (e.Variant == L120Rack) plan.Racks--;
                                 e.Variant = L120RowEnd;
                                 e.Detail = (byte)((s - s0) / 4 & 7);
                                 e.Pier = face;
+                            }
+                    // (Round 4) The bank's kind: servers (most), a storage array, or network racks
+                    double kind = rng.NextDouble();
+                    if (kind >= 0.6)
+                        for (int k = l; k < l + len; k++)
+                            foreach (int side in new[] { s, s + 1 })
+                            {
+                                ref Tile e = ref L120Along(plan, alongP, k, side);
+                                if (e.Variant != L120Rack || e.Detail == L120RackGutted) continue;
+                                bool lit = L120RackLit(e.Detail);
+                                e.Detail = kind < 0.82 ? (lit ? L120RackStoreLit : L120RackStore) : (lit ? L120RackNetLit : L120RackNet);
                             }
                 }
                 if (wrecked)
@@ -609,7 +632,7 @@ public sealed partial class WorldLayout
             r.Variant = L120Rack;
             r.Detail = state;
             plan.Racks++;
-            if (state is >= L120RackLedA and <= L120RackBoth) plan.Lit++;
+            if (L120RackLit(state)) plan.Lit++;
         }
     }
 
@@ -676,6 +699,8 @@ public sealed partial class WorldLayout
                 t.Variant = L120Terminal;
                 t.Pier = ArchPier.South;
                 t.Detail = rng.Chance(0.45) ? L120TermSmashed : L120TermDead;
+                // (Round 4) Every other row is the newer desks: two flat monitors on an arm, now and then one still glitching
+                if ((q - q0) / 4 % 2 == 1) t.Detail = t.Detail == L120TermSmashed && rng.Chance(0.3) ? L120TermConsoleGlitch : L120TermConsole;
                 plan.Terminals++;
                 if (!rng.Chance(0.7)) continue;
                 ref Tile c = ref plan.At(p, q + 1);
@@ -960,7 +985,7 @@ public sealed partial class WorldLayout
     public (int X, int Z) L120PocketArrival(int hx, int hz) => L120PlanOf(hx, hz).Arrival;
 
     /// <summary>Which of the level's props (<see cref="Props.L120First"/>-<see cref="Props.L120Last"/>) people walk through: the spilled cables, the broken windows, a fallen ceiling tile, a sheet of paper.</summary>
-    private static bool L120WalkThrough(ushort variant) => variant is L120Spill or L120Window or L120Debris or L120Paper;
+    private static bool L120WalkThrough(ushort variant) => variant is L120Spill or L120Window or L120Debris or L120Paper or L120Lifter;
 
     // ================= Air =================
 

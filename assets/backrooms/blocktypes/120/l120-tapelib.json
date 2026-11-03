@@ -1,0 +1,114 @@
+// Level 120: a tape library, two high: its window smashed, the tapes in their slots behind, the robot's gantry and picker; TAPE LIB 1. Salvage: wire, brackets
+{
+	"code": "l120-tapelib",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l120-tapelib-lower-north": {
+			"base": "backrooms:block/120/l120-tapelib-lower",
+			"rotateY": 0
+		},
+		"l120-tapelib-lower-east": {
+			"base": "backrooms:block/120/l120-tapelib-lower",
+			"rotateY": 270
+		},
+		"l120-tapelib-lower-south": {
+			"base": "backrooms:block/120/l120-tapelib-lower",
+			"rotateY": 180
+		},
+		"l120-tapelib-lower-west": {
+			"base": "backrooms:block/120/l120-tapelib-lower",
+			"rotateY": 90
+		},
+		"l120-tapelib-upper-north": {
+			"base": "backrooms:block/120/l120-tapelib-upper",
+			"rotateY": 0
+		},
+		"l120-tapelib-upper-east": {
+			"base": "backrooms:block/120/l120-tapelib-upper",
+			"rotateY": 270
+		},
+		"l120-tapelib-upper-south": {
+			"base": "backrooms:block/120/l120-tapelib-upper",
+			"rotateY": 180
+		},
+		"l120-tapelib-upper-west": {
+			"base": "backrooms:block/120/l120-tapelib-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l120-tapelib-lower-north"
+		],
+		"backrooms": [
+			"l120-tapelib-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.3
+			}
+		},
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.3
+			}
+		}
+	],
+	"collisionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	},
+	"selectionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	}
+}

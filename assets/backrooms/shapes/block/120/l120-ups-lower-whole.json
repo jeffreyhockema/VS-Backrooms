@@ -2,25 +2,28 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"ups-lower": "backrooms:block/120/ups-lower",
-		"ups-side": "backrooms:block/120/ups-side"
+		"rk-black": "backrooms:block/120/rk-black",
+		"rk-chrome": "backrooms:block/120/rk-chrome",
+		"up-door": "backrooms:block/120/up-door",
+		"up-louvre": "backrooms:block/120/up-louvre",
+		"up-paint": "backrooms:block/120/up-paint"
 	},
 	"elements": [
 		{
 			"name": "Body",
 			"from": [
 				1,
-				0,
-				2
+				1,
+				1.5
 			],
 			"to": [
 				15,
 				16,
-				15
+				15.5
 			],
 			"faces": {
 				"north": {
-					"texture": "#ups-lower",
+					"texture": "#up-door",
 					"uv": [
 						0,
 						0,
@@ -29,48 +32,276 @@
 					]
 				},
 				"east": {
-					"texture": "#ups-side",
+					"texture": "#up-paint",
 					"uv": [
 						0,
 						0,
-						13,
-						16
-					]
-				},
-				"south": {
-					"texture": "#ups-side",
-					"uv": [
-						0,
-						0,
-						14,
+						14.0,
 						16
 					]
 				},
 				"west": {
-					"texture": "#ups-side",
+					"texture": "#up-paint",
 					"uv": [
 						0,
 						0,
-						13,
+						14.0,
 						16
 					]
 				},
-				"up": {
-					"texture": "#ups-side",
+				"south": {
+					"texture": "#up-paint",
 					"uv": [
 						0,
 						0,
 						14,
-						13
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Plinth",
+			"from": [
+				1.25,
+				0,
+				1.75
+			],
+			"to": [
+				14.75,
+				1,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						13.5,
+						1
+					]
+				},
+				"east": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						13.5,
+						1
+					]
+				},
+				"west": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						13.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						13.5,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "Louvre",
+			"from": [
+				2.5,
+				2,
+				1.0
+			],
+			"to": [
+				13.5,
+				7,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#up-louvre",
+					"uv": [
+						0,
+						0,
+						11.0,
+						5
+					]
+				},
+				"up": {
+					"texture": "#up-louvre",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#up-louvre",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				},
+				"west": {
+					"texture": "#up-louvre",
+					"uv": [
+						0,
+						0,
+						0.5,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Seam",
+			"from": [
+				7.85,
+				1,
+				1.35
+			],
+			"to": [
+				8.15,
+				16,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "HandleL",
+			"from": [
+				6.6,
+				9,
+				0.6
+			],
+			"to": [
+				7.2,
+				13.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.5
+					]
+				},
+				"east": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.9,
+						4.5
+					]
+				},
+				"west": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.9,
+						4.5
+					]
+				},
+				"up": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.9
 					]
 				},
 				"down": {
-					"texture": "#ups-side",
+					"texture": "#rk-chrome",
 					"uv": [
 						0,
 						0,
-						14,
-						13
+						0.6,
+						0.9
+					]
+				}
+			}
+		},
+		{
+			"name": "HandleR",
+			"from": [
+				8.8,
+				9,
+				0.6
+			],
+			"to": [
+				9.4,
+				13.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.5
+					]
+				},
+				"east": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.9,
+						4.5
+					]
+				},
+				"west": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.9,
+						4.5
+					]
+				},
+				"up": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.9
+					]
+				},
+				"down": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.9
 					]
 				}
 			}

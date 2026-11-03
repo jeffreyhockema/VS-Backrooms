@@ -25,6 +25,12 @@ public sealed partial class WorldLayout
         L120Kvm = Props.L120First + 10, L120Mop = Props.L120First + 11, L120Debris = Props.L120First + 12,
         L120Paper = Props.L120First + 13, L120RowEnd = Props.L120First + 14, L120Shelf = Props.L120First + 15;
 
+    /// <summary>(Round 4) The fire suppression bank against a wall (two high, its pipe a third), a tape library (two high).</summary>
+    public const ushort L120FireSup = Props.L120First + 16, L120TapeLib = Props.L120First + 17;
+
+    /// <summary>(Round 4) A raised-floor panel lifted out and left beside its hole, the suction lifter on it (walked over).</summary>
+    public const ushort L120Lifter = Props.L120First + 18;
+
     /// <summary>Wall decorations (<see cref="Tile.Variant"/> of a wall, facing <see cref="Tile.Pier"/>).</summary>
     public const ushort L120DecoPlate = Decor.L120First, L120DecoAuth = Decor.L120First + 1, L120DecoNote = Decor.L120First + 2,
         L120DecoFire = Decor.L120First + 3, L120DecoCables = Decor.L120First + 4, L120DecoScreens = Decor.L120First + 5,
@@ -112,6 +118,37 @@ public sealed partial class WorldLayout
         // The panel and a fire point on the long wall behind the UPS row's far end... or wherever the wall is whole
         L120WallThing(plan, r, L120DecoPanel, 0, ref rng);
         L120WallThing(plan, r, L120DecoFire, 0, ref rng);
+        // (Round 4) The room's fire suppression bank, against a short wall on the walk round the room
+        L120AgainstWall(plan, r, L120FireSup, alongP, ref rng);
+    }
+
+    /// <summary>
+    /// (Round 4) Stands a two-high cabinet on the walk round a room against one of its short walls, facing in (not before a
+    /// doorway, and with the tiles either side of it and the one in front of it free, so the walk goes round it).
+    /// </summary>
+    private static bool L120AgainstWall(L120Plan plan, L120Room r, ushort variant, bool alongP, ref Rng rng)
+    {
+        for (int tries = 0; tries < 10; tries++)
+        {
+            bool low = rng.Chance(0.5);
+            int l = alongP ? (low ? r.P0 : r.P1) : (low ? r.Q0 : r.Q1);
+            int sMin = alongP ? r.Q0 + 1 : r.P0 + 1, sMax = alongP ? r.Q1 - 1 : r.P1 - 1;
+            if (sMax < sMin) return false;
+            int sv = rng.Range(sMin, sMax);
+            int p = alongP ? l : sv, q = alongP ? sv : l;
+            int dp = alongP ? (low ? 1 : -1) : 0, dq = alongP ? 0 : (low ? 1 : -1);
+            ref Tile t = ref plan.At(p, q);
+            if (t.Kind != TileKind.Floor || t.Variant != 0 || t.SupplyBox || t.Stack != 0) continue;
+            if (plan.At(p - dp, q - dq).Kind != TileKind.Wall) continue;
+            Tile a = alongP ? plan.At(p, q - 1) : plan.At(p - 1, q), c = alongP ? plan.At(p, q + 1) : plan.At(p + 1, q), front = plan.At(p + dp, q + dq);
+            if (a.Kind != TileKind.Floor || c.Kind != TileKind.Floor || a.Variant != 0 || c.Variant != 0 || front.Kind != TileKind.Floor || front.Variant != 0) continue;
+            Tile wa = alongP ? plan.At(p - dp, q - 1) : plan.At(p - 1, q - dq), wc = alongP ? plan.At(p - dp, q + 1) : plan.At(p + 1, q - dq);
+            if (wa.Kind == TileKind.Doorway || wc.Kind == TileKind.Doorway) continue;
+            t.Variant = variant;
+            t.Pier = L120Toward(dp, dq);
+            return true;
+        }
+        return false;
     }
 
     /// <summary>Hangs a decoration on some whole stretch of a room's wall (not beside a door), facing into the room.</summary>
@@ -134,7 +171,7 @@ public sealed partial class WorldLayout
             Tile a = dp != 0 ? plan.At(p, q - 1) : plan.At(p - 1, q), b = dp != 0 ? plan.At(p, q + 1) : plan.At(p + 1, q);
             if (a.Kind == TileKind.Doorway || b.Kind == TileKind.Doorway) continue;
             Tile front = plan.At(p + dp, q + dq);
-            if (front.Variant is L120Rack or L120Ups or L120Battery or L120Crac or L120Shelf or L120RowEnd) continue;
+            if (front.Variant is L120Rack or L120Ups or L120Battery or L120Crac or L120Shelf or L120RowEnd or L120FireSup or L120TapeLib) continue;
             w.Variant = deco;
             w.Detail = detail;
             w.Pier = L120Toward(dp, dq);
@@ -234,6 +271,19 @@ public sealed partial class WorldLayout
                 else if (v < 0.011 && t.Depth is L120PanelClean or L120PanelDirty) t.Depth = L120PanelWet;
             }
 
+        // (Round 4) Beside some holes in the raised floor, the panel that came out of it, the lifter still on it
+        (int, int, ArchPier)[] around = { (0, -1, ArchPier.South), (1, 0, ArchPier.West), (0, 1, ArchPier.North), (-1, 0, ArchPier.East) };
+        for (int q = 1; q < n - 1; q++)
+            for (int p = 1; p < n - 1; p++)
+            {
+                if (plan.At(p, q).Depth != L120PanelHole || plan.At(p, q).Kind != TileKind.Floor || !rng.Chance(0.6)) continue;
+                var (dp, dq, face) = around[rng.Range(0, 3)];
+                ref Tile t = ref plan.At(p + dp, q + dq);
+                if (t.Kind != TileKind.Floor || t.Variant != 0 || t.SupplyBox || t.Stack != 0 || t.Depth == L120PanelHole) continue;
+                t.Variant = L120Lifter;
+                t.Pier = face;
+            }
+
         // A tile of the wall round the hall is dressed only if it is wall, and nothing is on it yet
         void Hang(int side, int k, ushort deco, byte detail, ArchPier face)
         {
@@ -323,6 +373,15 @@ public sealed partial class WorldLayout
             ref Tile t = ref L120Along(plan, alongP, l0, s1 - 1);
             t.Variant = L120Mop;
             t.Pier = (ArchPier)rng.Range(0, 3);
+        }        // (Round 4) A tape library, two to four cabinets, in place of shelving along the first wall
+        int run = rng.Range(2, 4), start = rng.Range(l0 + 1, Math.Max(l0 + 1, l1 - 1 - run));
+        for (int l = start; l < start + run && l <= l1 - 1; l++)
+        {
+            ref Tile t = ref L120Along(plan, alongP, l, s0);
+            if (t.SupplyBox) continue;
+            t.Variant = L120TapeLib;
+            t.Pier = alongP ? ArchPier.South : ArchPier.East;
+            t.Stack = 0;
         }
     }
 

@@ -33,7 +33,7 @@ public partial class WorldLayout
 
         static bool Stand(Tile t) => t.Kind == TileKind.Floor && t.Variant == 0 && !t.SupplyBox && t.Stack == 0;
         static bool Rack(Tile t) => t.Variant == L120Rack && t.Detail != L120RackGutted;
-        static bool Lit(Tile t) => t.Variant == L120Rack && t.Detail is >= L120RackLedA and <= L120RackBoth;
+        static bool Lit(Tile t) => t.Variant == L120Rack && L120RackLit(t.Detail);
         static bool Wreck(Tile t) => t.Variant is L120Wreck or Props.MachineParts or Props.ScrapMetal || t.Variant == L120Rack && t.Detail == L120RackGutted;
         static bool Terminal(Tile t) => t.Variant is L120Terminal or L120Chair;
         static bool Spill(Tile t) => t.Variant == L120Spill;
@@ -73,7 +73,21 @@ public partial class WorldLayout
         spots.Add(Spot("crac", L120Best(rings, Stand, (t, k, s) => t.Variant == L120Crac && s == 0 && k is >= 3 and <= 4 ? 10 : Rack(t) && Math.Abs(s) == 1 ? 0.3 : 0, 5, 10, line: 2), -4));
         spots.Add(Spot("row-ends", L120Best(rings, Stand, (t, k, s) => t.Variant == L120RowEnd ? (k is >= 2 and <= 4 ? 4 : 1) : 0, 6, 8, line: 1), 4));
         spots.Add(Spot("storage", L120Best(rings, Stand, (t, k, s) => t.Variant == L120Shelf ? 1 : t.Variant is L120Kvm or L120Mop ? 2 : 0, 7, 8), -8));
-        spots.Add(Spot("floor-hole", L120Best(rings, Stand, (t, k, s) => t.Depth == L120PanelHole && t.Variant == 0 && k == 2 && s == 0 ? 10 : t.Variant == L120Debris ? 1 : 0, 3, 10), -40));
+        spots.Add(Spot("floor-hole", L120Best(rings, Stand, (t, k, s) => t.Depth == L120PanelHole && t.Variant == 0 && k == 2 && s == 0 ? 10 : t.Variant == L120Lifter && k <= 3 ? 4 : t.Variant == L120Debris ? 1 : 0, 3, 10, line: 3), -35));
+
+        // Round 4 (the asset-quality pass, tools/gen_120_r4*.py): racks up close behind their perforated doors, a storage array, a
+        // network rack's patch cords, down a hot aisle between the racks' backs, a rack torn open, the fire suppression bank, a
+        // tape library, the operators' desks with their monitors on arms
+        static bool Door(Tile t) => t.Variant == L120Rack && t.Detail <= L120RackBoth;
+        spots.Add(Spot("rack-doors", L120Best(rings, Stand, (t, k, s) => k == 2 && Math.Abs(s) <= 1 && Door(t) ? 2 : 0, 2, 6, line: 1), -8));
+        spots.Add(Spot("rack-storage", L120Best(rings, Stand, (t, k, s) => k == 2 && Math.Abs(s) <= 1 && t.Variant == L120Rack && t.Detail is L120RackStore or L120RackStoreLit ? 2 : 0, 2, 6, line: 1), -8));
+        spots.Add(Spot("rack-network", L120Best(rings, Stand, (t, k, s) => k == 2 && Math.Abs(s) <= 1 && t.Variant == L120Rack && t.Detail is L120RackNet or L120RackNetLit ? 2 : 0, 2, 6, line: 1), -8));
+        spots.Add(Spot("hot-aisle", L120Best(rings, t => Stand(t) && t.Zone == (byte)L120Zone.Hot, (t, k, s) => Math.Abs(s) == 1 && Rack(t) ? 1 : 0, 6, 10, line: 5), -2));
+        spots.Add(Spot("rack-torn", L120Best(rings, Stand, (t, k, s) => k == 2 && s == 0 && t.Variant == L120Wreck && t.Detail == L120WreckTorn ? 6 : k == 2 && Math.Abs(s) == 1 && t.Variant == L120Wreck ? 1 : 0, 2, 6, line: 1), 4));
+        spots.Add(Spot("fire-suppression", L120FacingView(rings, t => t.Variant == L120FireSup, 2), 6));
+        spots.Add(Spot("tape-library", L120Best(rings, Stand, (t, k, s) => k is 2 or 3 && Math.Abs(s) <= 1 && t.Variant == L120TapeLib ? 3 : 0, 3, 6, line: 1), 6));
+        spots.Add(Spot("noc-consoles", L120FacingView(rings, t => t.Variant == L120Terminal && t.Detail == L120TermConsoleGlitch, 3)
+            ?? L120FacingView(rings, t => t.Variant == L120Terminal && t.Detail == L120TermConsole, 3), -14));
 
         // The nearest White Void: across a room to its black doors, a broken window, a Smiler lost in the light
         if (L120NearestPocket(chx, chz, L120HallKind.Void, 12) is { } v)
@@ -203,6 +217,37 @@ public partial class WorldLayout
     }
 
     /// <summary>A compass heading (0 north, 90 east) looking along a step.</summary>
+    /// <summary>
+    /// (Round 4) The nearest thing that matches, seen from <paramref name="dist"/> tiles in front of its face (its
+    /// <see cref="Tile.Pier"/>), looking back at it; the tiles between clear.
+    /// </summary>
+    private (int X, int Z, int Dx, int Dz)? L120FacingView(List<List<(int Hx, int Hz)>> rings, Func<Tile, bool> match, int dist)
+    {
+        (int, int)[] steps = { (-1, 0), (1, 0), (0, -1), (0, 1) }; // (ArchPier: West, East, North, South)
+        foreach (var ring in rings)
+            foreach (var (hx, hz) in ring)
+            {
+                L120Plan plan = L120PlanOf(hx, hz);
+                for (int q = 0; q < L120HallSize; q++)
+                    for (int p = 0; p < L120HallSize; p++)
+                    {
+                        Tile t = plan.At(p, q);
+                        if (!match(t)) continue;
+                        var (dx, dz) = steps[(int)t.Pier & 3];
+                        bool clear = true;
+                        for (int k = 1; k <= dist && clear; k++)
+                        {
+                            int pp = p + dx * k, qq = q + dz * k;
+                            clear = pp >= 0 && qq >= 0 && pp < L120HallSize && qq < L120HallSize && IsWalkable(plan.At(pp, qq));
+                        }
+                        if (!clear) continue;
+                        var (x, z) = plan.World(p + dx * dist, q + dz * dist);
+                        return (x, z, -dx, -dz);
+                    }
+            }
+        return null;
+    }
+
     private static double L120Heading(int dx, int dz) => (Math.Atan2(dx, -dz) * 180 / Math.PI + 360) % 360;
 
     /// <summary>

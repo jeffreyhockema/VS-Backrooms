@@ -2,9 +2,9 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"black": "backrooms:block/120/black",
-		"screen-glitch": "backrooms:block/120/screen-glitch",
-		"steel-grey": "backrooms:block/120/steel-grey",
+		"arm-grey": "backrooms:block/120/arm-grey",
+		"mon-black": "backrooms:block/120/mon-black",
+		"mon-glitch": "backrooms:block/120/mon-glitch",
 		"wall-base": "backrooms:block/120/wall-base"
 	},
 	"elements": [
@@ -78,110 +78,329 @@
 			}
 		},
 		{
-			"name": "Bezel",
+			"name": "Rail",
 			"from": [
 				0,
-				2,
-				-1
+				7,
+				-0.4
 			],
 			"to": [
 				16,
-				15.5,
+				8,
 				0
 			],
 			"faces": {
 				"north": {
-					"texture": "#black",
+					"texture": "#arm-grey",
 					"uv": [
 						0,
 						0,
 						16,
-						13.5
-					]
-				},
-				"east": {
-					"texture": "#black",
-					"uv": [
-						0,
-						0,
-						1,
-						13.5
-					]
-				},
-				"west": {
-					"texture": "#black",
-					"uv": [
-						0,
-						0,
-						1,
-						13.5
+						1
 					]
 				},
 				"up": {
-					"texture": "#black",
+					"texture": "#arm-grey",
 					"uv": [
 						0,
 						0,
 						16,
-						1
+						0.5
 					]
 				},
 				"down": {
-					"texture": "#black",
+					"texture": "#arm-grey",
 					"uv": [
 						0,
 						0,
 						16,
-						1
+						0.5
 					]
 				}
 			}
 		},
 		{
-			"name": "Screen",
+			"name": "BezelT",
 			"from": [
-				0.8,
-				2.8,
-				-1.05
+				0.5,
+				15.25,
+				-1.4
 			],
 			"to": [
-				15.2,
-				14.7,
-				-1
+				15.5,
+				16,
+				-0.4
 			],
 			"faces": {
 				"north": {
-					"texture": "#screen-glitch",
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.75
+					]
+				}
+			}
+		},
+		{
+			"name": "BezelB",
+			"from": [
+				0.5,
+				2.5,
+				-1.4
+			],
+			"to": [
+				15.5,
+				3.25,
+				-0.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						15.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.75
+					]
+				}
+			}
+		},
+		{
+			"name": "BezelL",
+			"from": [
+				0.5,
+				3.25,
+				-1.4
+			],
+			"to": [
+				1.25,
+				15.25,
+				-0.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						0.75,
+						12.0
+					]
+				},
+				"east": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12.0
+					]
+				},
+				"west": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "BezelR",
+			"from": [
+				14.75,
+				3.25,
+				-1.4
+			],
+			"to": [
+				15.5,
+				15.25,
+				-0.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						0.75,
+						12.0
+					]
+				},
+				"east": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12.0
+					]
+				},
+				"west": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						1.0,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				1.25,
+				3.25,
+				-1.2
+			],
+			"to": [
+				14.75,
+				15.25,
+				-1.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#mon-glitch",
 					"uv": [
 						0,
 						0,
 						16,
 						16
 					],
-					"glow": 120
+					"glow": 140
 				}
 			}
 		},
 		{
-			"name": "Mount",
+			"name": "Back",
 			"from": [
-				6,
-				5,
-				-0.01
+				1.25,
+				3.25,
+				-1.1
 			],
 			"to": [
-				10,
-				12.5,
-				0
+				14.75,
+				15.25,
+				-0.4
 			],
 			"faces": {
-				"north": {
-					"texture": "#steel-grey",
+				"east": {
+					"texture": "#mon-black",
 					"uv": [
 						0,
 						0,
-						4,
-						7.5
+						0.7,
+						12.0
+					]
+				},
+				"west": {
+					"texture": "#mon-black",
+					"uv": [
+						0,
+						0,
+						0.7,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Logo",
+			"from": [
+				7.25,
+				2.7,
+				-1.45
+			],
+			"to": [
+				8.75,
+				3.0,
+				-1.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#arm-grey",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
 					]
 				}
 			}

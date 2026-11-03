@@ -1,0 +1,284 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"du-galv": "backrooms:block/120/du-galv",
+		"du-tape": "backrooms:block/120/du-tape",
+		"lr-galv": "backrooms:block/120/lr-galv"
+	},
+	"elements": [
+		{
+			"name": "DBody",
+			"from": [
+				0.0,
+				9,
+				1.25
+			],
+			"to": [
+				16.0,
+				15.25,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						16,
+						6.25
+					]
+				},
+				"south": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						16,
+						6.25
+					]
+				},
+				"up": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						16,
+						9.75
+					]
+				},
+				"down": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						16,
+						9.75
+					]
+				},
+				"east": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						9.75,
+						6.25
+					]
+				},
+				"west": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						9.75,
+						6.25
+					]
+				}
+			}
+		},
+		{
+			"name": "DFlange",
+			"from": [
+				0.0,
+				8.6,
+				0.85
+			],
+			"to": [
+				0.6,
+				15.6,
+				11.4
+			],
+			"faces": {
+				"south": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						0.6,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						0.6,
+						10.55
+					]
+				},
+				"east": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.55,
+						7.0
+					]
+				},
+				"west": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.55,
+						7.0
+					]
+				},
+				"up": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						0.6,
+						10.55
+					]
+				}
+			}
+		},
+		{
+			"name": "DTape",
+			"from": [
+				0.6,
+				8.95,
+				1.2
+			],
+			"to": [
+				2.0,
+				15.3,
+				11.05
+			],
+			"faces": {
+				"south": {
+					"texture": "#du-tape",
+					"uv": [
+						0,
+						0,
+						1.4,
+						6.35
+					]
+				},
+				"down": {
+					"texture": "#du-tape",
+					"uv": [
+						0,
+						0,
+						1.4,
+						9.85
+					]
+				},
+				"up": {
+					"texture": "#du-tape",
+					"uv": [
+						0,
+						0,
+						1.4,
+						9.85
+					]
+				}
+			}
+		},
+		{
+			"name": "StrapU",
+			"from": [
+				9,
+				8.5,
+				0.75
+			],
+			"to": [
+				9.75,
+				9,
+				11.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#lr-galv",
+					"uv": [
+						0,
+						0,
+						0.75,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#lr-galv",
+					"uv": [
+						0,
+						0,
+						0.75,
+						10.75
+					]
+				},
+				"east": {
+					"texture": "#lr-galv",
+					"uv": [
+						0,
+						0,
+						10.75,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#lr-galv",
+					"uv": [
+						0,
+						0,
+						10.75,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RodS",
+			"from": [
+				9.1,
+				9,
+				11.5
+			],
+			"to": [
+				9.6,
+				16,
+				12
+			],
+			"faces": {
+				"south": {
+					"texture": "#lr-galv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7
+					]
+				},
+				"east": {
+					"texture": "#lr-galv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7
+					]
+				},
+				"west": {
+					"texture": "#lr-galv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7
+					]
+				},
+				"north": {
+					"texture": "#lr-galv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						7
+					]
+				}
+			}
+		}
+	]
+}

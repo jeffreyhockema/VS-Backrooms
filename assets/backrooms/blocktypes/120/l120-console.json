@@ -1,0 +1,121 @@
+// Level 120: an operator's desk with two flat monitors on an arm clamped to its back: dead, or one still showing a corrupted frame of a corridor (a faint light). Salvage: glass, wire
+{
+	"code": "l120-console",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"dead",
+				"glitch"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l120-console-dead-north": {
+			"base": "backrooms:block/120/l120-console-dead",
+			"rotateY": 0
+		},
+		"l120-console-dead-east": {
+			"base": "backrooms:block/120/l120-console-dead",
+			"rotateY": 270
+		},
+		"l120-console-dead-south": {
+			"base": "backrooms:block/120/l120-console-dead",
+			"rotateY": 180
+		},
+		"l120-console-dead-west": {
+			"base": "backrooms:block/120/l120-console-dead",
+			"rotateY": 90
+		},
+		"l120-console-glitch-north": {
+			"base": "backrooms:block/120/l120-console-glitch",
+			"rotateY": 0
+		},
+		"l120-console-glitch-east": {
+			"base": "backrooms:block/120/l120-console-glitch",
+			"rotateY": 270
+		},
+		"l120-console-glitch-south": {
+			"base": "backrooms:block/120/l120-console-glitch",
+			"rotateY": 180
+		},
+		"l120-console-glitch-west": {
+			"base": "backrooms:block/120/l120-console-glitch",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l120-console-dead-north"
+		],
+		"backrooms": [
+			"l120-console-dead-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "glassshard",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	],
+	"collisionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	},
+	"selectionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 1,
+		"z2": 0.97
+	},
+	"lightHsvByType": {
+		"*-glitch-*": [
+			24,
+			3,
+			1
+		]
+	}
+}

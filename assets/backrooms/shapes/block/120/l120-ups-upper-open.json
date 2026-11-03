@@ -2,8 +2,14 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"ups-open": "backrooms:block/120/ups-open",
-		"ups-side": "backrooms:block/120/ups-side"
+		"cap-blue": "backrooms:block/120/cap-blue",
+		"cb-red": "backrooms:block/120/cb-red",
+		"du-galv": "backrooms:block/120/du-galv",
+		"fs-brass": "backrooms:block/120/fs-brass",
+		"pcb": "backrooms:block/120/pcb",
+		"rk-void": "backrooms:block/120/rk-void",
+		"up-door": "backrooms:block/120/up-door",
+		"up-paint": "backrooms:block/120/up-paint"
 	},
 	"elements": [
 		{
@@ -11,69 +17,558 @@
 			"from": [
 				1,
 				0,
-				2
+				1.5
 			],
 			"to": [
 				15,
 				15,
-				15
+				15.5
 			],
 			"faces": {
-				"north": {
-					"texture": "#ups-open",
-					"uv": [
-						0,
-						0,
-						14,
-						15
-					]
-				},
 				"east": {
-					"texture": "#ups-side",
+					"texture": "#up-paint",
 					"uv": [
 						0,
 						0,
-						13,
-						15
-					]
-				},
-				"south": {
-					"texture": "#ups-side",
-					"uv": [
-						0,
-						0,
-						14,
+						14.0,
 						15
 					]
 				},
 				"west": {
-					"texture": "#ups-side",
+					"texture": "#up-paint",
 					"uv": [
 						0,
 						0,
-						13,
+						14.0,
 						15
 					]
 				},
-				"up": {
-					"texture": "#ups-side",
+				"south": {
+					"texture": "#up-paint",
 					"uv": [
 						0,
 						0,
 						14,
-						13
-					]
-				},
-				"down": {
-					"texture": "#ups-side",
-					"uv": [
-						0,
-						0,
-						14,
-						13
+						15
 					]
 				}
 			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				0.75,
+				14.25,
+				1.25
+			],
+			"to": [
+				15.25,
+				15,
+				15.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#up-paint",
+					"uv": [
+						0,
+						0,
+						14.5,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#up-paint",
+					"uv": [
+						0,
+						0,
+						14.5,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#up-paint",
+					"uv": [
+						0,
+						0,
+						14.5,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#up-paint",
+					"uv": [
+						0,
+						0,
+						14.5,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#up-paint",
+					"uv": [
+						0,
+						0,
+						14.5,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#up-paint",
+					"uv": [
+						0,
+						0,
+						14.5,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "InBack",
+			"from": [
+				1.1,
+				0,
+				15.35
+			],
+			"to": [
+				14.9,
+				14.25,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-void",
+					"uv": [
+						0,
+						0,
+						13.8,
+						14.25
+					]
+				}
+			}
+		},
+		{
+			"name": "InW",
+			"from": [
+				1.1,
+				0,
+				1.5
+			],
+			"to": [
+				1.15,
+				14.25,
+				15.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#rk-void",
+					"uv": [
+						0,
+						0,
+						13.9,
+						14.25
+					]
+				}
+			}
+		},
+		{
+			"name": "InE",
+			"from": [
+				14.85,
+				0,
+				1.5
+			],
+			"to": [
+				14.9,
+				14.25,
+				15.4
+			],
+			"faces": {
+				"west": {
+					"texture": "#rk-void",
+					"uv": [
+						0,
+						0,
+						13.9,
+						14.25
+					]
+				}
+			}
+		},
+		{
+			"name": "InFloor",
+			"from": [
+				1.1,
+				0,
+				1.5
+			],
+			"to": [
+				14.9,
+				0.05,
+				15.4
+			],
+			"faces": {
+				"up": {
+					"texture": "#rk-void",
+					"uv": [
+						0,
+						0,
+						13.8,
+						13.9
+					]
+				}
+			}
+		},
+		{
+			"name": "InRoof",
+			"from": [
+				1.1,
+				14.2,
+				1.5
+			],
+			"to": [
+				14.9,
+				14.25,
+				15.4
+			],
+			"faces": {
+				"down": {
+					"texture": "#rk-void",
+					"uv": [
+						0,
+						0,
+						13.8,
+						13.9
+					]
+				}
+			}
+		},
+		{
+			"name": "Board",
+			"from": [
+				2,
+				5,
+				9
+			],
+			"to": [
+				14,
+				13.5,
+				9.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#pcb",
+					"uv": [
+						0,
+						0,
+						12,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CapA",
+			"from": [
+				3,
+				1,
+				6
+			],
+			"to": [
+				5,
+				4.5,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#cap-blue",
+					"uv": [
+						0,
+						0,
+						2,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#cap-blue",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"east": {
+					"texture": "#cap-blue",
+					"uv": [
+						0,
+						0,
+						2,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#cap-blue",
+					"uv": [
+						0,
+						0,
+						2,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CapB",
+			"from": [
+				5.5,
+				1,
+				6
+			],
+			"to": [
+				7.5,
+				4.5,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#cap-blue",
+					"uv": [
+						0,
+						0,
+						2.0,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#cap-blue",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2
+					]
+				},
+				"east": {
+					"texture": "#cap-blue",
+					"uv": [
+						0,
+						0,
+						2,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#cap-blue",
+					"uv": [
+						0,
+						0,
+						2,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Heatsink",
+			"from": [
+				9,
+				1,
+				5
+			],
+			"to": [
+				13.5,
+				4,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						4.5,
+						3
+					]
+				},
+				"up": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						4.5,
+						4
+					]
+				},
+				"east": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				},
+				"west": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						4,
+						3
+					]
+				}
+			}
+		},
+		{
+			"name": "BusBar",
+			"from": [
+				2,
+				13.6,
+				4
+			],
+			"to": [
+				14,
+				14.2,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#fs-brass",
+					"uv": [
+						0,
+						0,
+						12,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#fs-brass",
+					"uv": [
+						0,
+						0,
+						12,
+						5
+					]
+				},
+				"up": {
+					"texture": "#fs-brass",
+					"uv": [
+						0,
+						0,
+						12,
+						5
+					]
+				}
+			}
+		},
+		{
+			"name": "Wires",
+			"from": [
+				11,
+				4,
+				4
+			],
+			"to": [
+				11.6,
+				13.5,
+				4.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cb-red",
+					"uv": [
+						0,
+						0,
+						0.6,
+						9.5
+					]
+				},
+				"east": {
+					"texture": "#cb-red",
+					"uv": [
+						0,
+						0,
+						0.6,
+						9.5
+					]
+				},
+				"west": {
+					"texture": "#cb-red",
+					"uv": [
+						0,
+						0,
+						0.6,
+						9.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Door",
+			"from": [
+				1.5,
+				0.5,
+				0.75
+			],
+			"to": [
+				14.5,
+				14,
+				1.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#up-door",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13.5
+					]
+				},
+				"south": {
+					"texture": "#up-paint",
+					"uv": [
+						0,
+						0,
+						13.0,
+						13.5
+					]
+				},
+				"east": {
+					"texture": "#up-paint",
+					"uv": [
+						0,
+						0,
+						0.65,
+						13.5
+					]
+				},
+				"west": {
+					"texture": "#up-paint",
+					"uv": [
+						0,
+						0,
+						0.65,
+						13.5
+					]
+				},
+				"down": {
+					"texture": "#up-paint",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.65
+					]
+				}
+			},
+			"rotationOrigin": [
+				14.5,
+				7,
+				1.0
+			],
+			"rotationY": -58
 		}
 	]
 }

@@ -2,9 +2,12 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"rack-side": "backrooms:block/120/rack-side",
-		"rack-top": "backrooms:block/120/rack-top",
-		"rowend-f": "backrooms:block/120/rowend-f"
+		"re-plate-f": "backrooms:block/120/re-plate-f",
+		"rk-chrome": "backrooms:block/120/rk-chrome",
+		"rk-led-dead": "backrooms:block/120/rk-led-dead",
+		"rk-paint": "backrooms:block/120/rk-paint",
+		"rk-side": "backrooms:block/120/rk-side",
+		"rk-top": "backrooms:block/120/rk-top"
 	},
 	"elements": [
 		{
@@ -12,16 +15,397 @@
 			"from": [
 				0.5,
 				0,
-				0.5
+				0.75
 			],
 			"to": [
 				15.5,
-				16,
-				15.5
+				15,
+				15.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						14.5,
+						15
+					]
+				},
+				"west": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						14.5,
+						15
+					]
+				},
+				"south": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						15.0,
+						15
+					]
+				},
+				"up": {
+					"texture": "#rk-top",
+					"uv": [
+						0,
+						0,
+						15.0,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameL",
+			"from": [
+				0.5,
+				0,
+				0.25
+			],
+			"to": [
+				2,
+				15,
+				0.75
 			],
 			"faces": {
 				"north": {
-					"texture": "#rowend-f",
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"east": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15
+					]
+				},
+				"west": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameR",
+			"from": [
+				14,
+				0,
+				0.25
+			],
+			"to": [
+				15.5,
+				15,
+				0.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						1.5,
+						15
+					]
+				},
+				"east": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15
+					]
+				},
+				"west": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				2,
+				0,
+				0.5
+			],
+			"to": [
+				14,
+				15,
+				0.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-side",
+					"uv": [
+						0,
+						0,
+						12,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				0,
+				15,
+				0.25
+			],
+			"to": [
+				16,
+				16,
+				15.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"east": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						15.5,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"west": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						15.5,
+						1
+					]
+				},
+				"up": {
+					"texture": "#rk-top",
+					"uv": [
+						0,
+						0,
+						16,
+						15.5
+					]
+				},
+				"down": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						16,
+						15.5
+					]
+				}
+			}
+		},
+		{
+			"name": "RailT",
+			"from": [
+				2,
+				13,
+				0.25
+			],
+			"to": [
+				14,
+				15,
+				0.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						12,
+						2
+					]
+				},
+				"down": {
+					"texture": "#rk-paint",
+					"uv": [
+						0,
+						0,
+						12,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Stand0",
+			"from": [
+				5.5,
+				9.5,
+				-0.2
+			],
+			"to": [
+				6,
+				10,
+				0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Stand1",
+			"from": [
+				10,
+				3.5,
+				-0.2
+			],
+			"to": [
+				10.5,
+				4,
+				0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#rk-chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				4,
+				2.5,
+				-0.45
+			],
+			"to": [
+				12,
+				11,
+				-0.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#re-plate-f",
 					"uv": [
 						0,
 						0,
@@ -30,48 +414,81 @@
 					]
 				},
 				"east": {
-					"texture": "#rack-side",
+					"texture": "#rk-paint",
 					"uv": [
 						0,
 						0,
-						15.0,
-						16
-					]
-				},
-				"south": {
-					"texture": "#rack-side",
-					"uv": [
-						0,
-						0,
-						15.0,
-						16
+						0.5,
+						8.5
 					]
 				},
 				"west": {
-					"texture": "#rack-side",
+					"texture": "#rk-paint",
 					"uv": [
 						0,
 						0,
-						15.0,
-						16
+						0.5,
+						8.5
 					]
 				},
 				"up": {
-					"texture": "#rack-top",
+					"texture": "#rk-paint",
 					"uv": [
 						0,
 						0,
-						15.0,
-						15.0
+						8,
+						0.5
 					]
 				},
 				"down": {
-					"texture": "#rack-top",
+					"texture": "#rk-paint",
 					"uv": [
 						0,
 						0,
-						15.0,
-						15.0
+						8,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lamp",
+			"from": [
+				7,
+				11.75,
+				-0.25
+			],
+			"to": [
+				9,
+				12.5,
+				0.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-led-dead",
+					"uv": [
+						0,
+						0,
+						2,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#rk-led-dead",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rk-led-dead",
+					"uv": [
+						0,
+						0,
+						2,
+						0.5
 					]
 				}
 			}

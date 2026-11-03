@@ -2,17 +2,22 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"black": "backrooms:block/120/black",
-		"crac-lower": "backrooms:block/120/crac-lower",
-		"crac-open": "backrooms:block/120/crac-open",
-		"crac-side": "backrooms:block/120/crac-side"
+		"cr-coil": "backrooms:block/120/cr-coil",
+		"cr-fan": "backrooms:block/120/cr-fan",
+		"cr-louvre": "backrooms:block/120/cr-louvre",
+		"cr-paint": "backrooms:block/120/cr-paint",
+		"cr-panel": "backrooms:block/120/cr-panel",
+		"dk-steel": "backrooms:block/120/dk-steel",
+		"du-galv": "backrooms:block/120/du-galv",
+		"rk-black": "backrooms:block/120/rk-black",
+		"rk-void": "backrooms:block/120/rk-void"
 	},
 	"elements": [
 		{
 			"name": "Body",
 			"from": [
 				0.5,
-				0,
+				1,
 				2
 			],
 			"to": [
@@ -21,17 +26,17 @@
 				15.5
 			],
 			"faces": {
-				"north": {
-					"texture": "#crac-open",
+				"east": {
+					"texture": "#cr-panel",
 					"uv": [
 						0,
 						0,
-						15.0,
+						13.5,
 						16
 					]
 				},
-				"east": {
-					"texture": "#crac-side",
+				"west": {
+					"texture": "#cr-panel",
 					"uv": [
 						0,
 						0,
@@ -40,39 +45,546 @@
 					]
 				},
 				"south": {
-					"texture": "#crac-side",
+					"texture": "#cr-paint",
 					"uv": [
 						0,
 						0,
 						15.0,
 						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Plinth",
+			"from": [
+				0.75,
+				0,
+				2.25
+			],
+			"to": [
+				15.25,
+				1,
+				15.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1
+					]
+				},
+				"east": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1
 					]
 				},
 				"west": {
-					"texture": "#crac-side",
+					"texture": "#rk-black",
 					"uv": [
 						0,
 						0,
-						13.5,
-						16
+						13.0,
+						1
+					]
+				},
+				"south": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						14.5,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "InBack",
+			"from": [
+				0.6,
+				1,
+				15.35
+			],
+			"to": [
+				15.4,
+				16,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#rk-void",
+					"uv": [
+						0,
+						0,
+						14.8,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "InW",
+			"from": [
+				0.6,
+				1,
+				2
+			],
+			"to": [
+				0.65,
+				16,
+				15.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#rk-void",
+					"uv": [
+						0,
+						0,
+						13.4,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "InE",
+			"from": [
+				15.35,
+				1,
+				2
+			],
+			"to": [
+				15.4,
+				16,
+				15.4
+			],
+			"faces": {
+				"west": {
+					"texture": "#rk-void",
+					"uv": [
+						0,
+						0,
+						13.4,
+						15
+					]
+				}
+			}
+		},
+		{
+			"name": "InFloor",
+			"from": [
+				0.6,
+				1,
+				2
+			],
+			"to": [
+				15.4,
+				1.05,
+				15.4
+			],
+			"faces": {
+				"up": {
+					"texture": "#rk-void",
+					"uv": [
+						0,
+						0,
+						14.8,
+						13.4
+					]
+				}
+			}
+		},
+		{
+			"name": "InRoof",
+			"from": [
+				0.6,
+				15.95,
+				2
+			],
+			"to": [
+				15.4,
+				16,
+				15.4
+			],
+			"faces": {
+				"down": {
+					"texture": "#rk-void",
+					"uv": [
+						0,
+						0,
+						14.8,
+						13.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Coil",
+			"from": [
+				1,
+				1,
+				11
+			],
+			"to": [
+				15,
+				15.5,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#cr-coil",
+					"uv": [
+						0,
+						0,
+						14,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FanRing0",
+			"from": [
+				1.5,
+				3,
+				6
+			],
+			"to": [
+				7.5,
+				9,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#cr-fan",
+					"uv": [
+						0,
+						0,
+						6.0,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Blade0a",
+			"from": [
+				1.9,
+				5.7,
+				5.8
+			],
+			"to": [
+				7.1,
+				6.3,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cr-fan",
+					"uv": [
+						0,
+						0,
+						5.2,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				6,
+				5.9
+			],
+			"rotationZ": 30
+		},
+		{
+			"name": "Blade0b",
+			"from": [
+				1.9,
+				5.7,
+				5.7
+			],
+			"to": [
+				7.1,
+				6.3,
+				5.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#cr-fan",
+					"uv": [
+						0,
+						0,
+						5.2,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				6,
+				5.8
+			],
+			"rotationZ": -50
+		},
+		{
+			"name": "Hub0",
+			"from": [
+				3.75,
+				5.25,
+				5.4
+			],
+			"to": [
+				5.25,
+				6.75,
+				5.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
 					]
 				},
 				"up": {
-					"texture": "#crac-side",
+					"texture": "#du-galv",
 					"uv": [
 						0,
 						0,
-						15.0,
-						13.5
+						1.5,
+						0.5
 					]
 				},
 				"down": {
-					"texture": "#crac-side",
+					"texture": "#du-galv",
 					"uv": [
 						0,
 						0,
-						15.0,
-						13.5
+						1.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FanRing1",
+			"from": [
+				8.5,
+				3,
+				6
+			],
+			"to": [
+				14.5,
+				9,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#cr-fan",
+					"uv": [
+						0,
+						0,
+						6.0,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Blade1a",
+			"from": [
+				8.9,
+				5.7,
+				5.8
+			],
+			"to": [
+				14.1,
+				6.3,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#cr-fan",
+					"uv": [
+						0,
+						0,
+						5.2,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				6,
+				5.9
+			],
+			"rotationZ": 30
+		},
+		{
+			"name": "Blade1b",
+			"from": [
+				8.9,
+				5.7,
+				5.7
+			],
+			"to": [
+				14.1,
+				6.3,
+				5.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#cr-fan",
+					"uv": [
+						0,
+						0,
+						5.2,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				11.5,
+				6,
+				5.8
+			],
+			"rotationZ": -50
+		},
+		{
+			"name": "Hub1",
+			"from": [
+				10.75,
+				5.25,
+				5.4
+			],
+			"to": [
+				12.25,
+				6.75,
+				5.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						1.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Motor",
+			"from": [
+				6.5,
+				10,
+				6
+			],
+			"to": [
+				9.5,
+				14,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#dk-steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						4
+					]
+				},
+				"east": {
+					"texture": "#dk-steel",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"west": {
+					"texture": "#dk-steel",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"up": {
+					"texture": "#dk-steel",
+					"uv": [
+						0,
+						0,
+						3.0,
+						4
 					]
 				}
 			}
@@ -82,108 +594,66 @@
 			"from": [
 				1,
 				0,
-				-3
+				-3.5
 			],
 			"to": [
 				15,
-				0.8,
-				12
+				13,
+				-2.75
 			],
 			"faces": {
-				"up": {
-					"texture": "#crac-lower",
+				"north": {
+					"texture": "#cr-louvre",
 					"uv": [
 						0,
 						0,
 						14,
-						15
+						13
 					]
 				},
-				"north": {
-					"texture": "#crac-side",
+				"south": {
+					"texture": "#cr-paint",
 					"uv": [
 						0,
 						0,
 						14,
-						0.8
+						13
 					]
 				},
 				"east": {
-					"texture": "#crac-side",
+					"texture": "#cr-paint",
 					"uv": [
 						0,
 						0,
-						15,
-						0.8
+						0.75,
+						13
 					]
 				},
 				"west": {
-					"texture": "#crac-side",
+					"texture": "#cr-paint",
 					"uv": [
 						0,
 						0,
-						15,
-						0.8
+						0.75,
+						13
+					]
+				},
+				"up": {
+					"texture": "#cr-paint",
+					"uv": [
+						0,
+						0,
+						14,
+						0.75
 					]
 				}
 			},
 			"rotationOrigin": [
-				8.0,
-				0.4,
-				4.5
-			],
-			"rotationY": 9
-		},
-		{
-			"name": "Plinth",
-			"from": [
-				0.5,
+				8,
 				0,
-				1.5
+				-3.1
 			],
-			"to": [
-				15.5,
-				1,
-				2
-			],
-			"faces": {
-				"north": {
-					"texture": "#black",
-					"uv": [
-						0,
-						0,
-						15.0,
-						1
-					]
-				},
-				"east": {
-					"texture": "#black",
-					"uv": [
-						0,
-						0,
-						0.5,
-						1
-					]
-				},
-				"west": {
-					"texture": "#black",
-					"uv": [
-						0,
-						0,
-						0.5,
-						1
-					]
-				},
-				"up": {
-					"texture": "#black",
-					"uv": [
-						0,
-						0,
-						15.0,
-						0.5
-					]
-				}
-			}
+			"rotationX": -18
 		}
 	]
 }

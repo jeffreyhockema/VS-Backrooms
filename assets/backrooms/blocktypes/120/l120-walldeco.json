@@ -933,8 +933,8 @@
 	},
 	"lightHsvByType": {
 		"*-exit-lit-*": [
-			22,
-			5,
+			0,
+			6,
 			2
 		],
 		"*-screens-glitch-*": [
