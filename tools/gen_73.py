@@ -22,6 +22,8 @@ import gen_73_castle as castle
 import gen_73_interior as interior
 import gen_73_links as links
 import gen_73_lore as lore
+import gen_73_r4_castle as r4castle
+import gen_73_r4_props as r4props
 import matlib as M
 import texlib
 
@@ -469,7 +471,7 @@ LANG = [
     ("block-l73-bone", "Great Hound's Bone"),
     ("block-l73-wainscot-*", "Mahogany Panelling"),
     ("block-l73-damask-*", "Damask-Papered Wall"),
-] + castle.LANG + interior.LANG + links.LANG + lore.LANG
+] + castle.LANG + interior.LANG + r4castle.LANG + r4props.LANG + links.LANG + lore.LANG
 
 
 def write_lang():
@@ -555,6 +557,12 @@ def main():
     for comment, b in interior.blocktypes():
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
     n_shapes += interior.shapes(write_json, os.path.join(ASSETS, "shapes", "block", "73"))
+    # Round 4's asset-quality pass (2026-11-02): the castle's outside (gen_73_r4_castle.py), the furnishings (gen_73_r4_props.py)
+    for mod in (r4castle, r4props):
+        n_tex += mod.textures(save)
+        for comment, b in mod.blocktypes():
+            write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
+        n_shapes += mod.shapes(write_json, os.path.join(ASSETS, "shapes", "block", "73"))
     # The ways in and out (gen_73_links.py): the Gloom's ground and murk, the north door
     n_tex += links.textures(save)
     for comment, b in links.blocktypes():
