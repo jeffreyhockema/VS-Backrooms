@@ -1,4 +1,4 @@
-// Level 31: a 1990s jukebox, neon tubes round a record window, 22 units tall, toward the side
+// Level 31: a 1990s jukebox, wood under a stepped neon arch, the record window, selector keys, bubble tubes either side, a chrome grille, 22 units tall, toward the side
 {
 	"code": "l31-jukebox",
 	"variantgroups": [
@@ -55,76 +55,76 @@
 	},
 	"selectionboxByType": {
 		"l31-jukebox-north": {
-			"x1": 0.06,
+			"x1": 0.03,
 			"y1": 0,
-			"z1": 0.22,
-			"x2": 0.94,
+			"z1": 0.21,
+			"x2": 0.97,
 			"y2": 1,
-			"z2": 0.84
+			"z2": 0.82
 		},
 		"l31-jukebox-east": {
-			"x1": 0.06,
+			"x1": 0.03,
 			"y1": 0,
-			"z1": 0.22,
-			"x2": 0.94,
+			"z1": 0.21,
+			"x2": 0.97,
 			"y2": 1,
-			"z2": 0.84,
+			"z2": 0.82,
 			"rotateY": 270
 		},
 		"l31-jukebox-south": {
-			"x1": 0.06,
+			"x1": 0.03,
 			"y1": 0,
-			"z1": 0.22,
-			"x2": 0.94,
+			"z1": 0.21,
+			"x2": 0.97,
 			"y2": 1,
-			"z2": 0.84,
+			"z2": 0.82,
 			"rotateY": 180
 		},
 		"l31-jukebox-west": {
-			"x1": 0.06,
+			"x1": 0.03,
 			"y1": 0,
-			"z1": 0.22,
-			"x2": 0.94,
+			"z1": 0.21,
+			"x2": 0.97,
 			"y2": 1,
-			"z2": 0.84,
+			"z2": 0.82,
 			"rotateY": 90
 		}
 	},
 	"drops": [],
 	"collisionboxByType": {
 		"l31-jukebox-north": {
-			"x1": 0.06,
+			"x1": 0.03,
 			"y1": 0,
-			"z1": 0.22,
-			"x2": 0.94,
+			"z1": 0.21,
+			"x2": 0.97,
 			"y2": 1,
-			"z2": 0.84
+			"z2": 0.82
 		},
 		"l31-jukebox-east": {
-			"x1": 0.06,
+			"x1": 0.03,
 			"y1": 0,
-			"z1": 0.22,
-			"x2": 0.94,
+			"z1": 0.21,
+			"x2": 0.97,
 			"y2": 1,
-			"z2": 0.84,
+			"z2": 0.82,
 			"rotateY": 270
 		},
 		"l31-jukebox-south": {
-			"x1": 0.06,
+			"x1": 0.03,
 			"y1": 0,
-			"z1": 0.22,
-			"x2": 0.94,
+			"z1": 0.21,
+			"x2": 0.97,
 			"y2": 1,
-			"z2": 0.84,
+			"z2": 0.82,
 			"rotateY": 180
 		},
 		"l31-jukebox-west": {
-			"x1": 0.06,
+			"x1": 0.03,
 			"y1": 0,
-			"z1": 0.22,
-			"x2": 0.94,
+			"z1": 0.21,
+			"x2": 0.97,
 			"y2": 1,
-			"z2": 0.84,
+			"z2": 0.82,
 			"rotateY": 90
 		}
 	},

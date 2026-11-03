@@ -36,7 +36,7 @@ public sealed partial class WorldLayout
 {
     /// <summary>Hash salts 0x2400-0x24BF are this level's (0x24C0-0x24FF its thresholds').</summary>
     private const ulong SaltL31Shape = 0x2401, SaltL31Complex = 0x2410, SaltL31Room = 0x2411, SaltL31Light = 0x2412, SaltL31Hall = 0x2413,
-        SaltL31Clad = 0x2416;
+        SaltL31Clad = 0x2416, SaltL31Back = 0x2430, SaltL31Litter = 0x2431;
 
     /// <summary>The lattice: a neon hall every 128 blocks each way; a complex's inside is 121 square, its plan 123 with its walls.</summary>
     public const int L31Period = 128, L31Size = 121, L31Grid = 123;
@@ -128,6 +128,19 @@ public sealed partial class WorldLayout
         /// machine, Level 3999's prize case (Stack 1-4: a plush on it, Level 3999's kinds) and prize wall.</summary>
         public const ushort Stall = 729, Vanity = 730, PhotoBooth = 731, Jukebox = 732, TrophyCase = 733, MediaCab = 734, Popcorn = 735,
             PrizeCase = 736, PrizeWall = 737;
+        /// <summary>Round 4: an air handler (Level 120's CRAC unit, two high with its duct up to the ceiling), a slushie machine on
+        /// its cabinet.</summary>
+        public const ushort AirHandler = 738, Slushie = 739;
+        /// <summary>Round 4: a queue post (Level 36's stanchion; Stack 0 no belt, 1 a belt toward its Pier).</summary>
+        public const ushort Stanchion = 740;
+        /// <summary>Round 4: an arcade machine under a dust sheet in the back arcade (Stack 0 an upright, 1 a pinball).</summary>
+        public const ushort Covered = 741;
+        /// <summary>Round 4: a skate trainer (a learner's walker frame) parked on the boards by a gate.</summary>
+        public const ushort Walker = 742;
+        /// <summary>Round 4: something dropped on the floor (Stack 0 a skate, 1 a spilt soda, 2 a popcorn bucket, 3 prize tickets).</summary>
+        public const ushort Litter = 743;
+        /// <summary>Round 4: a gumball machine (Stack 0 gum, 1 candy).</summary>
+        public const ushort Gumball = 744;
     }
 
     /// <summary>
@@ -676,6 +689,8 @@ public sealed partial class WorldLayout
                 L31Put(plan, 47, 19, L31Props.Vending, ArchPier.North, 0);
                 L31Put(plan, 48, 19, L31Props.Vending, ArchPier.North, 1);
                 L31Put(plan, 47, 1, L31Props.Bin, ArchPier.North);
+                // (round 4) Gumball machines by the front doors, as every rink lobby has
+                for (int p = 64; p <= 66; p++) L31Put(plan, p, 0, L31Props.Gumball, ArchPier.South, (byte)(p == 65 ? 1 : 0));
                 // (round 3) The waiting corner's trophy cases and jukebox on the west wall; ADMISSION hung over the counter;
                 // EXIT over the front doors inside; the rink's events on the back wall
                 L31Put(plan, 46, 3, L31Props.TrophyCase, ArchPier.East);
@@ -734,7 +749,8 @@ public sealed partial class WorldLayout
                     Sign(1, -1, L31Sign.StaffDoor, toNear);
                     for (int u = mid - 2; u <= mid + 2; u++) Sign(u, -1, L31Sign.Menu, toNear);
                     for (int u = 2; u <= across - 3; u++)
-                        Put(u, 2, u == mid + 3 ? L31Props.Fountain : Props.SnackCounter, toNear, (byte)(u == mid + 3 ? 0 : u == 3 ? 1 : u % 4 == 1 ? 2 : 0));
+                        Put(u, 2, u == mid + 3 ? L31Props.Fountain : u == mid - 3 && u > 3 ? L31Props.Slushie : Props.SnackCounter, toNear,
+                            (byte)(u == mid + 3 ? 0 : u == 3 ? 1 : u % 4 == 1 ? 2 : 0));
                     Put(mid, 1, L31Props.StaffSpot, toNear, L31Server);
                     Put(2, 4, L31Props.Condiments, toHighU);
                     // (round 3) The popcorn machine at the counter's end, a drinks fridge at the other, a second condiment
@@ -797,6 +813,13 @@ public sealed partial class WorldLayout
                     for (int u = 3; u <= across - 4; u++) Put(u, 2, L31Props.SkateShelf, toNear);
                     for (int u = 2; u <= across - 3; u++) Put(u, 5, L31Props.Counter, toNear, (byte)(u == 2 ? 0 : u == across - 3 ? 2 : 1));
                     Put(mid, 4, L31Props.StaffSpot, toNear, L31Coach);
+                    // (round 4) Queue posts with their belts across the customers' side, either side of the walk to the counter
+                    for (int u = 3; u <= across - 4; u++)
+                    {
+                        if (u >= mid - 1 && u <= mid + 1) continue;
+                        bool last = u == mid - 2 || u == across - 4;
+                        Put(u, 8, L31Props.Stanchion, toHighU, (byte)(last ? 0 : 1));
+                    }
                     void MountHere(int ua, int ub, int v, string name, ArchPier face)
                     {
                         var (pa, qa) = At(ua, v);
@@ -898,6 +921,16 @@ public sealed partial class WorldLayout
                     }
                     if (rng.Chance(0.5))
                         foreach (int u in new[] { doorU - 1, doorU + 2 }) Sign(u, len, L31Sign.OutOfOrder, toNear);
+                    // (round 4) Prize tickets dropped in the aisles (one tile in a hundred)
+                    for (int q = q0; q <= q1; q++)
+                        for (int p = p0; p <= p1; p++)
+                        {
+                            ref Tile lt = ref plan.At(p, q);
+                            if (lt.Kind != TileKind.Floor || lt.Zone != (byte)L31Zone.Arcade || lt.Variant != 0 || lt.SupplyBox) continue;
+                            var (lx, lz) = plan.World(p, q);
+                            ulong h = Hashing.Hash(seed, lx, lz, SaltL31Litter);
+                            if (Hashing.Unit(h) < 0.01) L31Put(plan, p, q, L31Props.Litter, (ArchPier)(byte)(h >> 40 & 3), 3);
+                        }
                     if (rng.Chance(1 / 3.0)) L31SignOn(plan, p1 + 1, Math.Max(q0 + 6, q1 - 4), L31Sign.Door70, ArchPier.West);
                     break;
                 }
@@ -1007,7 +1040,8 @@ public sealed partial class WorldLayout
                     // (round 3) The plant itself along the far wall: the air handlers side by side, the pressure tanks, the
                     // water heater, under the pipe run
                     int hm = across / 2;
-                    for (int u = hm - 2; u <= hm + 1; u++) Put(u, 1, Props.AcUnit, toNear);
+                    // (round 4: two of Level 120's CRAC units with their ducts up into the ceiling, in place of four low AC boxes)
+                    foreach (int u in new[] { hm - 2, hm + 1 }) Put(u, 1, L31Props.AirHandler, toNear);
                     Put(hm + 3, 1, Props.PressureTank, toNear, 1);
                     Put(hm + 4, 1, Props.PressureTank, toNear);
                     Put(hm - 4, 1, Props.PressureTank, toNear, 1);
@@ -1047,7 +1081,23 @@ public sealed partial class WorldLayout
                 for (int k = rng.Range(1, 3); k > 0; k--) L31Put(plan, rng.Range(p0 + 3, p1 - 3), rng.Range(q0 + 3, q1 - 3), Props.CardboardBoxes, ArchPier.North);
                 // What the rink's staff kept back: a supply box or two
                 for (int k = rng.Range(0, 2); k > 0; k--) Box(rng.Range(2, across - 3), rng.Range(2, len - 3));
-                // (round 3) The skate-repair bench in the middle, its toolbox beside it
+                // (round 4) Half of them are the back arcade (Wikidot: "a back arcade area with covered machines"): the old
+                // machines in rows under dust sheets, an aisle down the middle (clear of the supply boxes); the rest keep
+                // round 3's skate-repair bench in the middle, its toolbox beside it
+                if (Hashing.Unit(Hashing.Hash(seed, wx0, wz0, SaltL31Back)) < 0.5)
+                {
+                    for (int v = 3; v <= len - 4; v += 3)
+                        for (int u = 2; u <= across - 3; u++)
+                        {
+                            if (Math.Abs(2 * u - (across - 1)) <= 2) continue;
+                            var (cp, cq) = At(u, v);
+                            if (plan.At(cp, cq).SupplyBox) continue;
+                            // (one in eleven with its sheet pulled off: a dead upright, its screen dark)
+                            if ((u * 7 + v) % 11 == 3) Put(u, v, L31Props.DeadCabinet, (v / 3) % 2 == 0 ? toNear : toFar);
+                            else Put(u, v, L31Props.Covered, (v / 3) % 2 == 0 ? toNear : toFar, (byte)((u * 7 + v) % 5 == 0 ? 1 : 0));
+                        }
+                    break;
+                }
                 Put(across / 2, len / 2, Props.Workbench, toNear);
                 Put(across / 2 + 1, len / 2, Props.Toolbox, toNear);
                 break;
@@ -1187,6 +1237,15 @@ public sealed partial class WorldLayout
                 else if (!tiny && (p == o0 + 9 || p == o1 - 9) && q >= oq0 + radius && q <= oq1 - radius) sub = plan.AlongPIsX ? L31BoardStripeNS : L31BoardStripeWE;
                 t.Detail = (byte)(L31Hue.White | sub << L31SubShift);
             }
+        // (round 4) A skate trainer parked inside the barrier at the outer end of each gap
+        for (int q = s0; q <= s1; q++)
+            foreach (int p in new[] { 40, 80 })
+            {
+                if (plan.At(p, q).Variant != L31Props.Gate) continue;
+                int qi = q < (s0 + s1) / 2 ? q + 1 : q - 1, pi = p == 40 ? 39 : 81;
+                if (plan.At(pi, qi) is { Zone: (byte)L31Zone.Rink, Variant: 0 })
+                    L31Put(plan, pi, qi, L31Props.Walker, p == 40 ? ArchPier.East : ArchPier.West);
+            }
         // Doors from the corridor
         foreach (int p in new[] { 36, 37, 38, 82, 83, 84 }) L31Door(ref plan.At(p, s0 - 1), L31Zone.Skirt);
         for (int p = 59; p <= 61; p++) L31Door(ref plan.At(p, s1 + 1), L31Zone.Skirt);
@@ -1258,7 +1317,8 @@ public sealed partial class WorldLayout
         foreach (int p in new[] { 58, 62 }) L31MountRun(plan, p, s1, p, s1, "norun", ArchPier.North);
         L31MountRun(plan, r0, 57, r0, 57, "norun", ArchPier.East);
         L31MountRun(plan, r1, 61, r1, 61, "norun", ArchPier.West);
-        for (int p = 70; p <= 73; p++) L31Put(plan, p, north, Props.SnackCounter, toWall, (byte)(p == 70 ? 1 : 0));
+        for (int p = 70; p <= 72; p++) L31Put(plan, p, north, Props.SnackCounter, toWall, (byte)(p == 70 ? 1 : 0));
+        L31Put(plan, 73, north, L31Props.Slushie, toWall);
         L31Put(plan, 69, north, L31Props.Popcorn, toWall);
         L31Put(plan, 74, north, Props.DrinkFridge, toWall);
         L31MountRun(plan, 71, north, 72, north, "snackwin", toWall);
@@ -1277,6 +1337,17 @@ public sealed partial class WorldLayout
                     }
                     L31Put(plan, benchP, q, Props.Bench, toIn);
                 }
+
+        // (round 4) What people dropped round the skirt: a skate, a spilt soda, a popcorn bucket (one tile in two hundred)
+        for (int q = s0; q <= s1; q++)
+            for (int p = r0; p <= r1; p++)
+            {
+                ref Tile lt = ref plan.At(p, q);
+                if (lt.Kind != TileKind.Floor || lt.Zone != (byte)L31Zone.Skirt || lt.Variant != 0 || lt.SupplyBox) continue;
+                var (lx, lz) = plan.World(p, q);
+                ulong h = Hashing.Hash(seed, lx, lz, SaltL31Litter);
+                if (Hashing.Unit(h) < 0.005) L31Put(plan, p, q, L31Props.Litter, (ArchPier)(byte)(h >> 40 & 3), (byte)((h >> 44) % 3));
+            }
 
         // The walls round the skirt, above the benches: each side clad, by hash, in the mural or in black lacquer with
         // chrome-framed mirrors, as the halls are (the generator finds the wall beside the tile; doors are left bare)
@@ -1439,7 +1510,7 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>Which of the level's props (<see cref="Props.L31First"/>-<see cref="Props.L31Last"/>) people walk through: the rink's gates, and where the staff stand.</summary>
-    private static bool L31WalkThrough(ushort variant) => variant is L31Props.Gate or L31Props.StaffSpot;
+    private static bool L31WalkThrough(ushort variant) => variant is L31Props.Gate or L31Props.StaffSpot or L31Props.Walker or L31Props.Litter;
 
     // ================= Air =================
 

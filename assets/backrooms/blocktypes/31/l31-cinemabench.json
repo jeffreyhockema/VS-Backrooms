@@ -1,4 +1,4 @@
-// Level 31: one segment of a long continuous steel bench (low back on the side opposite the one named), full block wide
+// Level 31: one segment of the cinema's long continuous steel bench: a perforated seat with a rolled front, a slanted back, a T-leg bolted down, a cup holder on the back for the row behind; the sitter faces the side
 {
 	"code": "l31-cinemabench",
 	"variantgroups": [
@@ -57,36 +57,36 @@
 		"l31-cinemabench-north": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.19,
+			"z1": 0.17,
 			"x2": 1,
-			"y2": 0.69,
-			"z2": 0.76
+			"y2": 0.9,
+			"z2": 0.95
 		},
 		"l31-cinemabench-east": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.19,
+			"z1": 0.17,
 			"x2": 1,
-			"y2": 0.69,
-			"z2": 0.76,
+			"y2": 0.9,
+			"z2": 0.95,
 			"rotateY": 270
 		},
 		"l31-cinemabench-south": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.19,
+			"z1": 0.17,
 			"x2": 1,
-			"y2": 0.69,
-			"z2": 0.76,
+			"y2": 0.9,
+			"z2": 0.95,
 			"rotateY": 180
 		},
 		"l31-cinemabench-west": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.19,
+			"z1": 0.17,
 			"x2": 1,
-			"y2": 0.69,
-			"z2": 0.76,
+			"y2": 0.9,
+			"z2": 0.95,
 			"rotateY": 90
 		}
 	},
@@ -95,36 +95,36 @@
 		"l31-cinemabench-north": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.19,
+			"z1": 0.17,
 			"x2": 1,
 			"y2": 0.44,
-			"z2": 0.76
+			"z2": 0.75
 		},
 		"l31-cinemabench-east": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.19,
+			"z1": 0.17,
 			"x2": 1,
 			"y2": 0.44,
-			"z2": 0.76,
+			"z2": 0.75,
 			"rotateY": 270
 		},
 		"l31-cinemabench-south": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.19,
+			"z1": 0.17,
 			"x2": 1,
 			"y2": 0.44,
-			"z2": 0.76,
+			"z2": 0.75,
 			"rotateY": 180
 		},
 		"l31-cinemabench-west": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.19,
+			"z1": 0.17,
 			"x2": 1,
 			"y2": 0.44,
-			"z2": 0.76,
+			"z2": 0.75,
 			"rotateY": 90
 		}
 	}

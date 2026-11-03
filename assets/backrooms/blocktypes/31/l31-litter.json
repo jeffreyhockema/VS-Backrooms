@@ -1,0 +1,254 @@
+// Level 31: what people dropped, flat on the floor: a skate on its side, a soda cup knocked over in its spill, a tipped popcorn bucket, a strip of prize tickets; walked through
+{
+	"code": "l31-litter",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"skate",
+				"cup",
+				"popcorn",
+				"tickets"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-litter-skate-north": {
+			"base": "backrooms:block/31/l31-litter-skate"
+		},
+		"l31-litter-skate-east": {
+			"base": "backrooms:block/31/l31-litter-skate",
+			"rotateY": 270
+		},
+		"l31-litter-skate-south": {
+			"base": "backrooms:block/31/l31-litter-skate",
+			"rotateY": 180
+		},
+		"l31-litter-skate-west": {
+			"base": "backrooms:block/31/l31-litter-skate",
+			"rotateY": 90
+		},
+		"l31-litter-cup-north": {
+			"base": "backrooms:block/31/l31-litter-cup"
+		},
+		"l31-litter-cup-east": {
+			"base": "backrooms:block/31/l31-litter-cup",
+			"rotateY": 270
+		},
+		"l31-litter-cup-south": {
+			"base": "backrooms:block/31/l31-litter-cup",
+			"rotateY": 180
+		},
+		"l31-litter-cup-west": {
+			"base": "backrooms:block/31/l31-litter-cup",
+			"rotateY": 90
+		},
+		"l31-litter-popcorn-north": {
+			"base": "backrooms:block/31/l31-litter-popcorn"
+		},
+		"l31-litter-popcorn-east": {
+			"base": "backrooms:block/31/l31-litter-popcorn",
+			"rotateY": 270
+		},
+		"l31-litter-popcorn-south": {
+			"base": "backrooms:block/31/l31-litter-popcorn",
+			"rotateY": 180
+		},
+		"l31-litter-popcorn-west": {
+			"base": "backrooms:block/31/l31-litter-popcorn",
+			"rotateY": 90
+		},
+		"l31-litter-tickets-north": {
+			"base": "backrooms:block/31/l31-litter-tickets"
+		},
+		"l31-litter-tickets-east": {
+			"base": "backrooms:block/31/l31-litter-tickets",
+			"rotateY": 270
+		},
+		"l31-litter-tickets-south": {
+			"base": "backrooms:block/31/l31-litter-tickets",
+			"rotateY": 180
+		},
+		"l31-litter-tickets-west": {
+			"base": "backrooms:block/31/l31-litter-tickets",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1,
+	"sounds": {
+		"walk": "game:walk/cloth*",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"l31-litter-skate-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85
+		},
+		"l31-litter-skate-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"l31-litter-skate-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"l31-litter-skate-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85,
+			"rotateY": 90
+		},
+		"l31-litter-cup-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85
+		},
+		"l31-litter-cup-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"l31-litter-cup-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"l31-litter-cup-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85,
+			"rotateY": 90
+		},
+		"l31-litter-popcorn-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85
+		},
+		"l31-litter-popcorn-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"l31-litter-popcorn-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"l31-litter-popcorn-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85,
+			"rotateY": 90
+		},
+		"l31-litter-tickets-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85
+		},
+		"l31-litter-tickets-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"l31-litter-tickets-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"l31-litter-tickets-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 0.2,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionbox": null
+}

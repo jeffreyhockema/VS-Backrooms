@@ -1,0 +1,203 @@
+// Level 31: a gap in the rink's barrier (the side named is the skirt's): leafl / leafr, the end post (at the left or right end, seen from the rink) with the gate swung open into the rink on its hinges; sill, the aluminium threshold; walk-through
+{
+	"code": "l31-rinkgate",
+	"variantgroups": [
+		{
+			"code": "piece",
+			"states": [
+				"leafl",
+				"leafr",
+				"sill"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-rinkgate-leafl-north": {
+			"base": "backrooms:block/31/l31-rinkgate-leaf"
+		},
+		"l31-rinkgate-leafl-east": {
+			"base": "backrooms:block/31/l31-rinkgate-leaf",
+			"rotateY": 270
+		},
+		"l31-rinkgate-leafl-south": {
+			"base": "backrooms:block/31/l31-rinkgate-leaf",
+			"rotateY": 180
+		},
+		"l31-rinkgate-leafl-west": {
+			"base": "backrooms:block/31/l31-rinkgate-leaf",
+			"rotateY": 90
+		},
+		"l31-rinkgate-leafr-north": {
+			"base": "backrooms:block/31/l31-rinkgate-leafr"
+		},
+		"l31-rinkgate-leafr-east": {
+			"base": "backrooms:block/31/l31-rinkgate-leafr",
+			"rotateY": 270
+		},
+		"l31-rinkgate-leafr-south": {
+			"base": "backrooms:block/31/l31-rinkgate-leafr",
+			"rotateY": 180
+		},
+		"l31-rinkgate-leafr-west": {
+			"base": "backrooms:block/31/l31-rinkgate-leafr",
+			"rotateY": 90
+		},
+		"l31-rinkgate-sill-north": {
+			"base": "backrooms:block/31/l31-rinkgate-sill"
+		},
+		"l31-rinkgate-sill-east": {
+			"base": "backrooms:block/31/l31-rinkgate-sill",
+			"rotateY": 270
+		},
+		"l31-rinkgate-sill-south": {
+			"base": "backrooms:block/31/l31-rinkgate-sill",
+			"rotateY": 180
+		},
+		"l31-rinkgate-sill-west": {
+			"base": "backrooms:block/31/l31-rinkgate-sill",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"selectionboxByType": {
+		"l31-rinkgate-leafl-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.15,
+			"y2": 1,
+			"z2": 0.3
+		},
+		"l31-rinkgate-leafl-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.15,
+			"y2": 1,
+			"z2": 0.3,
+			"rotateY": 270
+		},
+		"l31-rinkgate-leafl-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.15,
+			"y2": 1,
+			"z2": 0.3,
+			"rotateY": 180
+		},
+		"l31-rinkgate-leafl-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.15,
+			"y2": 1,
+			"z2": 0.3,
+			"rotateY": 90
+		},
+		"l31-rinkgate-leafr-north": {
+			"x1": 0.85,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.3
+		},
+		"l31-rinkgate-leafr-east": {
+			"x1": 0.85,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.3,
+			"rotateY": 270
+		},
+		"l31-rinkgate-leafr-south": {
+			"x1": 0.85,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.3,
+			"rotateY": 180
+		},
+		"l31-rinkgate-leafr-west": {
+			"x1": 0.85,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.3,
+			"rotateY": 90
+		},
+		"l31-rinkgate-sill-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.05,
+			"z2": 0.25
+		},
+		"l31-rinkgate-sill-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.05,
+			"z2": 0.25,
+			"rotateY": 270
+		},
+		"l31-rinkgate-sill-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.05,
+			"z2": 0.25,
+			"rotateY": 180
+		},
+		"l31-rinkgate-sill-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.05,
+			"z2": 0.25,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionbox": null
+}

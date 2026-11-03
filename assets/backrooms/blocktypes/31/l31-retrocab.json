@@ -1,4 +1,4 @@
-// Level 31: a 1980s upright arcade cabinet, 30 units tall (it reaches into the block above), lit marquee and screen, by game and facing side
+// Level 31: a 1980s upright arcade cabinet, 30 units tall (it reaches into the block above): side art and T-moulding, lit marquee, the CRT in its bezel, a sloped control panel, a coin door with lit coin returns; by game and facing side
 {
 	"code": "l31-retrocab",
 	"variantgroups": [
@@ -93,217 +93,222 @@
 	},
 	"selectionboxByType": {
 		"l31-retrocab-shooter-north": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94
+			"z2": 0.97
 		},
 		"l31-retrocab-shooter-east": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 270
 		},
 		"l31-retrocab-shooter-south": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 180
 		},
 		"l31-retrocab-shooter-west": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 90
 		},
 		"l31-retrocab-barrels-north": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94
+			"z2": 0.97
 		},
 		"l31-retrocab-barrels-east": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 270
 		},
 		"l31-retrocab-barrels-south": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 180
 		},
 		"l31-retrocab-barrels-west": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 90
 		},
 		"l31-retrocab-pyramid-north": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94
+			"z2": 0.97
 		},
 		"l31-retrocab-pyramid-east": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 270
 		},
 		"l31-retrocab-pyramid-south": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 180
 		},
 		"l31-retrocab-pyramid-west": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 90
 		}
 	},
 	"drops": [],
 	"collisionboxByType": {
 		"l31-retrocab-shooter-north": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94
+			"z2": 0.97
 		},
 		"l31-retrocab-shooter-east": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 270
 		},
 		"l31-retrocab-shooter-south": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 180
 		},
 		"l31-retrocab-shooter-west": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 90
 		},
 		"l31-retrocab-barrels-north": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94
+			"z2": 0.97
 		},
 		"l31-retrocab-barrels-east": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 270
 		},
 		"l31-retrocab-barrels-south": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 180
 		},
 		"l31-retrocab-barrels-west": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 90
 		},
 		"l31-retrocab-pyramid-north": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94
+			"z2": 0.97
 		},
 		"l31-retrocab-pyramid-east": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 270
 		},
 		"l31-retrocab-pyramid-south": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 180
 		},
 		"l31-retrocab-pyramid-west": {
-			"x1": 0.125,
+			"x1": 0.09,
 			"y1": 0,
-			"z1": 0.09,
-			"x2": 0.875,
+			"z1": 0.03,
+			"x2": 0.91,
 			"y2": 1,
-			"z2": 0.94,
+			"z2": 0.97,
 			"rotateY": 90
 		}
-	}
+	},
+	"lightHsv": [
+		40,
+		3,
+		4
+	]
 }

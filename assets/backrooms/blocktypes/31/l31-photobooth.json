@@ -1,4 +1,4 @@
-// Level 31: an arcade photo booth, 31 units tall, a red curtain and a lit PHOTO header toward the side
+// Level 31: an arcade photo booth, 31 units tall: the curtain in folds over the left half, the lit PHOTO header, sample strips, coin box and print slot on the right, a stool and camera inside; toward the side
 {
 	"code": "l31-photobooth",
 	"variantgroups": [
@@ -127,5 +127,10 @@
 			"z2": 1,
 			"rotateY": 90
 		}
-	}
+	},
+	"lightHsv": [
+		8,
+		3,
+		5
+	]
 }

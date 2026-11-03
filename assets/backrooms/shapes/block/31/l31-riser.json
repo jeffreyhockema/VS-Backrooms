@@ -2,6 +2,8 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
+		"r4-alu": "backrooms:block/31/r4-alu",
+		"r4-led-amber": "backrooms:block/31/r4-led-amber",
 		"riser-carpet": "backrooms:block/31/riser-carpet",
 		"riser-side": "backrooms:block/31/riser-side"
 	},
@@ -26,8 +28,7 @@
 						0,
 						16,
 						16
-					],
-					"glow": 60
+					]
 				},
 				"east": {
 					"texture": "#riser-side",
@@ -36,8 +37,7 @@
 						0,
 						16,
 						16
-					],
-					"glow": 60
+					]
 				},
 				"south": {
 					"texture": "#riser-side",
@@ -46,8 +46,7 @@
 						0,
 						16,
 						16
-					],
-					"glow": 60
+					]
 				},
 				"west": {
 					"texture": "#riser-side",
@@ -56,8 +55,7 @@
 						0,
 						16,
 						16
-					],
-					"glow": 60
+					]
 				},
 				"up": {
 					"texture": "#riser-carpet",
@@ -76,6 +74,1026 @@
 						16,
 						16
 					]
+				}
+			}
+		},
+		{
+			"name": "Nose0",
+			"from": [
+				-0.08,
+				15.0,
+				-0.08
+			],
+			"to": [
+				16.08,
+				15.96,
+				0.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.96
+					]
+				},
+				"east": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.96
+					]
+				},
+				"west": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.96
+					]
+				},
+				"up": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Led00",
+			"from": [
+				1.9,
+				13.7,
+				-0.1
+			],
+			"to": [
+				3.1,
+				14.3,
+				0.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.6
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Led10",
+			"from": [
+				7.4,
+				13.7,
+				-0.1
+			],
+			"to": [
+				8.6,
+				14.3,
+				0.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.6
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Led20",
+			"from": [
+				12.9,
+				13.7,
+				-0.1
+			],
+			"to": [
+				14.1,
+				14.3,
+				0.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.6
+					],
+					"glow": 255
+				},
+				"east": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Nose1",
+			"from": [
+				16.0,
+				15.0,
+				-0.08
+			],
+			"to": [
+				16.08,
+				15.96,
+				16.08
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.96
+					]
+				},
+				"south": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.96
+					]
+				},
+				"north": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.96
+					]
+				},
+				"up": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Led01",
+			"from": [
+				16.0,
+				13.7,
+				1.9
+			],
+			"to": [
+				16.1,
+				14.3,
+				3.1
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.6
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"north": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Led11",
+			"from": [
+				16.0,
+				13.7,
+				7.4
+			],
+			"to": [
+				16.1,
+				14.3,
+				8.6
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.6
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"north": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Led21",
+			"from": [
+				16.0,
+				13.7,
+				12.9
+			],
+			"to": [
+				16.1,
+				14.3,
+				14.1
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.6
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"north": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Nose2",
+			"from": [
+				-0.0799999999999983,
+				15.0,
+				16.0
+			],
+			"to": [
+				16.08,
+				15.96,
+				16.08
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.96
+					]
+				},
+				"south": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.96
+					]
+				},
+				"west": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.96
+					]
+				},
+				"up": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Led02",
+			"from": [
+				12.9,
+				13.7,
+				16.0
+			],
+			"to": [
+				14.1,
+				14.3,
+				16.1
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.6
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Led12",
+			"from": [
+				7.4,
+				13.7,
+				16.0
+			],
+			"to": [
+				8.6,
+				14.3,
+				16.1
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.6
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Led22",
+			"from": [
+				1.9000000000000004,
+				13.7,
+				16.0
+			],
+			"to": [
+				3.0999999999999996,
+				14.3,
+				16.1
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.6
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Nose3",
+			"from": [
+				-0.0799999999999983,
+				15.0,
+				-0.0799999999999983
+			],
+			"to": [
+				0.0,
+				15.96,
+				16.08
+			],
+			"faces": {
+				"south": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.96
+					]
+				},
+				"west": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.96
+					]
+				},
+				"north": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.96
+					]
+				},
+				"up": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Led03",
+			"from": [
+				-0.10000000000000142,
+				13.7,
+				12.9
+			],
+			"to": [
+				0.0,
+				14.3,
+				14.1
+			],
+			"faces": {
+				"south": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.6
+					],
+					"glow": 255
+				},
+				"north": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Led13",
+			"from": [
+				-0.10000000000000142,
+				13.7,
+				7.4
+			],
+			"to": [
+				0.0,
+				14.3,
+				8.6
+			],
+			"faces": {
+				"south": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.6
+					],
+					"glow": 255
+				},
+				"north": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Led23",
+			"from": [
+				-0.10000000000000142,
+				13.7,
+				1.9000000000000004
+			],
+			"to": [
+				0.0,
+				14.3,
+				3.0999999999999996
+			],
+			"faces": {
+				"south": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"west": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.6
+					],
+					"glow": 255
+				},
+				"north": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					],
+					"glow": 255
+				},
+				"up": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
+				},
+				"down": {
+					"texture": "#r4-led-amber",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					],
+					"glow": 255
 				}
 			}
 		}

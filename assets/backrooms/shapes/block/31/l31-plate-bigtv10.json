@@ -3,7 +3,8 @@
 	"textureHeight": 16,
 	"textures": {
 		"art": "backrooms:block/31/plate-bigtv10",
-		"plate-edge": "backrooms:block/31/plate-edge"
+		"plate-edge": "backrooms:block/31/plate-edge",
+		"r4-black": "backrooms:block/31/r4-black"
 	},
 	"elements": [
 		{
@@ -63,6 +64,66 @@
 						0,
 						16,
 						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "R4BezelT",
+			"from": [
+				0,
+				14.75,
+				13.8
+			],
+			"to": [
+				16,
+				15.75,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-black",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#r4-black",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#r4-black",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#r4-black",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#r4-black",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
 					]
 				}
 			}

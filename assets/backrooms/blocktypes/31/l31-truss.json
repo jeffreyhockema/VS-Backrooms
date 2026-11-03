@@ -1,4 +1,4 @@
-// Level 31: a lighting truss of aluminium tube under a rink's ceiling, two coloured par cans hanging from it, along the axis
+// Level 31: a box truss of aluminium tube under a rink's ceiling, laced, with two par cans on yokes tilted out over the boards (lenses lit), along the axis
 {
 	"code": "l31-truss",
 	"variantgroups": [
@@ -46,7 +46,7 @@
 	"selectionboxByType": {
 		"l31-truss-we": {
 			"x1": 0,
-			"y1": 0.4,
+			"y1": 0.35,
 			"z1": 0.3,
 			"x2": 1,
 			"y2": 1,
@@ -54,7 +54,7 @@
 		},
 		"l31-truss-ns": {
 			"x1": 0,
-			"y1": 0.4,
+			"y1": 0.35,
 			"z1": 0.3,
 			"x2": 1,
 			"y2": 1,

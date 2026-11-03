@@ -1,4 +1,4 @@
-// Level 31: a small grey CCTV camera on an L-bracket under the ceiling, lens toward the side and slightly down, with a red LED
+// Level 31: a 1990s CCTV camera on a drop arm under the ceiling, in its sun hood, tilted down toward the side, a red LED
 {
 	"code": "l31-cctv",
 	"variantgroups": [
@@ -55,38 +55,38 @@
 	},
 	"selectionboxByType": {
 		"l31-cctv-north": {
-			"x1": 0.3,
+			"x1": 0.36,
 			"y1": 0.55,
-			"z1": 0.1,
-			"x2": 0.7,
+			"z1": 0.18,
+			"x2": 0.64,
 			"y2": 1,
-			"z2": 0.6
+			"z2": 0.86
 		},
 		"l31-cctv-east": {
-			"x1": 0.3,
+			"x1": 0.36,
 			"y1": 0.55,
-			"z1": 0.1,
-			"x2": 0.7,
+			"z1": 0.18,
+			"x2": 0.64,
 			"y2": 1,
-			"z2": 0.6,
+			"z2": 0.86,
 			"rotateY": 270
 		},
 		"l31-cctv-south": {
-			"x1": 0.3,
+			"x1": 0.36,
 			"y1": 0.55,
-			"z1": 0.1,
-			"x2": 0.7,
+			"z1": 0.18,
+			"x2": 0.64,
 			"y2": 1,
-			"z2": 0.6,
+			"z2": 0.86,
 			"rotateY": 180
 		},
 		"l31-cctv-west": {
-			"x1": 0.3,
+			"x1": 0.36,
 			"y1": 0.55,
-			"z1": 0.1,
-			"x2": 0.7,
+			"z1": 0.18,
+			"x2": 0.64,
 			"y2": 1,
-			"z2": 0.6,
+			"z2": 0.86,
 			"rotateY": 90
 		}
 	},

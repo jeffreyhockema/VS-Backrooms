@@ -1,0 +1,273 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4-tickets": "backrooms:block/31/r4-tickets"
+	},
+	"elements": [
+		{
+			"name": "Strip0",
+			"from": [
+				3.0,
+				0.0,
+				5.0
+			],
+			"to": [
+				6.0,
+				0.1,
+				12.0
+			],
+			"faces": {
+				"up": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						3.0,
+						7.0
+					]
+				},
+				"north": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				4.5,
+				0.05,
+				8.5
+			],
+			"rotationY": 20
+		},
+		{
+			"name": "Strip1",
+			"from": [
+				6.5,
+				0.0,
+				7.0
+			],
+			"to": [
+				9.5,
+				0.1,
+				14.0
+			],
+			"faces": {
+				"up": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						3.0,
+						7.0
+					]
+				},
+				"north": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				0.05,
+				10.5
+			],
+			"rotationY": -35
+		},
+		{
+			"name": "Fold",
+			"from": [
+				5.4,
+				0.1,
+				10.6
+			],
+			"to": [
+				7.6,
+				0.9,
+				11.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				6.5,
+				0.5,
+				10.8
+			],
+			"rotationY": -10
+		},
+		{
+			"name": "Strip2",
+			"from": [
+				9.0,
+				0.0,
+				3.0
+			],
+			"to": [
+				12.0,
+				0.1,
+				8.0
+			],
+			"faces": {
+				"up": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						3.0,
+						5.0
+					]
+				},
+				"north": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4-tickets",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				10.5,
+				0.05,
+				5.5
+			],
+			"rotationY": 60
+		}
+	]
+}

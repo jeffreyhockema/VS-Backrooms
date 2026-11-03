@@ -1,4 +1,4 @@
-// Level 31: a tall black PA speaker cabinet with two woofers and a horn on the side's face
+// Level 31: a PA stack, 30 units tall: a sub cabinet with an 18-inch cone under a top cabinet with a 12-inch cone and a horn, steel corners; faces the side
 {
 	"code": "l31-speaker",
 	"variantgroups": [
@@ -57,36 +57,36 @@
 		"l31-speaker-north": {
 			"x1": 0.0625,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 0.9375,
 			"y2": 1,
-			"z2": 0.875
+			"z2": 0.97
 		},
 		"l31-speaker-east": {
 			"x1": 0.0625,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 0.9375,
 			"y2": 1,
-			"z2": 0.875,
+			"z2": 0.97,
 			"rotateY": 270
 		},
 		"l31-speaker-south": {
 			"x1": 0.0625,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 0.9375,
 			"y2": 1,
-			"z2": 0.875,
+			"z2": 0.97,
 			"rotateY": 180
 		},
 		"l31-speaker-west": {
 			"x1": 0.0625,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 0.9375,
 			"y2": 1,
-			"z2": 0.875,
+			"z2": 0.97,
 			"rotateY": 90
 		}
 	},
@@ -95,36 +95,36 @@
 		"l31-speaker-north": {
 			"x1": 0.0625,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 0.9375,
 			"y2": 1,
-			"z2": 0.875
+			"z2": 0.97
 		},
 		"l31-speaker-east": {
 			"x1": 0.0625,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 0.9375,
 			"y2": 1,
-			"z2": 0.875,
+			"z2": 0.97,
 			"rotateY": 270
 		},
 		"l31-speaker-south": {
 			"x1": 0.0625,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 0.9375,
 			"y2": 1,
-			"z2": 0.875,
+			"z2": 0.97,
 			"rotateY": 180
 		},
 		"l31-speaker-west": {
 			"x1": 0.0625,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 0.9375,
 			"y2": 1,
-			"z2": 0.875,
+			"z2": 0.97,
 			"rotateY": 90
 		}
 	}

@@ -1,0 +1,136 @@
+// Level 31: a slushie machine on its stainless cabinet, two bowls (blue raspberry, cherry) under a lit SLUSH header, taps and a drip tray, 31 units tall; faces the side
+{
+	"code": "l31-slushie",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-slushie-north": {
+			"base": "backrooms:block/31/l31-slushie"
+		},
+		"l31-slushie-east": {
+			"base": "backrooms:block/31/l31-slushie",
+			"rotateY": 270
+		},
+		"l31-slushie-south": {
+			"base": "backrooms:block/31/l31-slushie",
+			"rotateY": 180
+		},
+		"l31-slushie-west": {
+			"base": "backrooms:block/31/l31-slushie",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l31-slushie-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-slushie-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-slushie-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-slushie-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"l31-slushie-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-slushie-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-slushie-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-slushie-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"lightHsv": [
+		40,
+		3,
+		4
+	]
+}

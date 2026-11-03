@@ -1,0 +1,223 @@
+// Level 31: an arcade machine under a dusty sheet in the back arcade (Wikidot's covered machines): an upright (its marquee and panel under the folds) or a pinball (its head, the legs showing); the front faces the side
+{
+	"code": "l31-covered",
+	"variantgroups": [
+		{
+			"code": "machine",
+			"states": [
+				"cabinet",
+				"pinball"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-covered-cabinet-north": {
+			"base": "backrooms:block/31/l31-covered-cabinet"
+		},
+		"l31-covered-cabinet-east": {
+			"base": "backrooms:block/31/l31-covered-cabinet",
+			"rotateY": 270
+		},
+		"l31-covered-cabinet-south": {
+			"base": "backrooms:block/31/l31-covered-cabinet",
+			"rotateY": 180
+		},
+		"l31-covered-cabinet-west": {
+			"base": "backrooms:block/31/l31-covered-cabinet",
+			"rotateY": 90
+		},
+		"l31-covered-pinball-north": {
+			"base": "backrooms:block/31/l31-covered-pinball"
+		},
+		"l31-covered-pinball-east": {
+			"base": "backrooms:block/31/l31-covered-pinball",
+			"rotateY": 270
+		},
+		"l31-covered-pinball-south": {
+			"base": "backrooms:block/31/l31-covered-pinball",
+			"rotateY": 180
+		},
+		"l31-covered-pinball-west": {
+			"base": "backrooms:block/31/l31-covered-pinball",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/cloth*",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"l31-covered-cabinet-north": {
+			"x1": 0.08,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.92,
+			"y2": 1,
+			"z2": 0.97
+		},
+		"l31-covered-cabinet-east": {
+			"x1": 0.08,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.92,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"l31-covered-cabinet-south": {
+			"x1": 0.08,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.92,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"l31-covered-cabinet-west": {
+			"x1": 0.08,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.92,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 90
+		},
+		"l31-covered-pinball-north": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-covered-pinball-east": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-covered-pinball-south": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-covered-pinball-west": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"l31-covered-cabinet-north": {
+			"x1": 0.08,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.92,
+			"y2": 1,
+			"z2": 0.97
+		},
+		"l31-covered-cabinet-east": {
+			"x1": 0.08,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.92,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 270
+		},
+		"l31-covered-cabinet-south": {
+			"x1": 0.08,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.92,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 180
+		},
+		"l31-covered-cabinet-west": {
+			"x1": 0.08,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.92,
+			"y2": 1,
+			"z2": 0.97,
+			"rotateY": 90
+		},
+		"l31-covered-pinball-north": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"l31-covered-pinball-east": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-covered-pinball-south": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-covered-pinball-west": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.93,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 90
+		}
+	}
+}

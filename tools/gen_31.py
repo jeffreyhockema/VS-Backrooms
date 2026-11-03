@@ -12,6 +12,9 @@
     l31-glowcarpet  dark carpet with 1990s teal and magenta squiggles that glow faintly (light 5); cube
     sounds/ambient/31/rinkmusic.ogg   a muffled four-chord synth-pop loop, as if from ceiling speakers two rooms away
 
+Round 4 (tools/gen_31_round4.py, run after this one) rebuilds some of these blocks over this script's files; see its
+docstring for which.
+
 Textures are 32 px a block (block/31/); the ball's shape names its texture keys itself and its blocktype names no
 textures for it. Run from the repo root:  python tools/gen_31.py
 """

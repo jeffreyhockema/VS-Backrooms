@@ -1,4 +1,4 @@
-// Level 31: the cinema TV's low black cabinet with a sound bar on it, toward the side
+// Level 31: the cinema TV's low walnut cabinet, two doors and an open shelf (a VCR blinking 12:00, a disc player), the sound bar on top; toward the side
 {
 	"code": "l31-mediacab",
 	"variantgroups": [
@@ -37,7 +37,7 @@
 			"*"
 		]
 	},
-	"blockmaterial": "Metal",
+	"blockmaterial": "Wood",
 	"drawtype": "json",
 	"sidesolid": {
 		"all": false
@@ -48,10 +48,10 @@
 	"lightAbsorption": 0,
 	"resistance": 3,
 	"sounds": {
-		"walk": "game:walk/stone*",
-		"place": "game:block/anvil1",
-		"break": "game:block/heavymetal-hit",
-		"hit": "game:block/heavymetal-hit"
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
 	},
 	"selectionboxByType": {
 		"l31-mediacab-north": {
@@ -59,7 +59,7 @@
 			"y1": 0,
 			"z1": 0.22,
 			"x2": 1,
-			"y2": 0.57,
+			"y2": 0.6,
 			"z2": 0.94
 		},
 		"l31-mediacab-east": {
@@ -67,7 +67,7 @@
 			"y1": 0,
 			"z1": 0.22,
 			"x2": 1,
-			"y2": 0.57,
+			"y2": 0.6,
 			"z2": 0.94,
 			"rotateY": 270
 		},
@@ -76,7 +76,7 @@
 			"y1": 0,
 			"z1": 0.22,
 			"x2": 1,
-			"y2": 0.57,
+			"y2": 0.6,
 			"z2": 0.94,
 			"rotateY": 180
 		},
@@ -85,7 +85,7 @@
 			"y1": 0,
 			"z1": 0.22,
 			"x2": 1,
-			"y2": 0.57,
+			"y2": 0.6,
 			"z2": 0.94,
 			"rotateY": 90
 		}
@@ -97,7 +97,7 @@
 			"y1": 0,
 			"z1": 0.22,
 			"x2": 1,
-			"y2": 0.57,
+			"y2": 0.6,
 			"z2": 0.94
 		},
 		"l31-mediacab-east": {
@@ -105,7 +105,7 @@
 			"y1": 0,
 			"z1": 0.22,
 			"x2": 1,
-			"y2": 0.57,
+			"y2": 0.6,
 			"z2": 0.94,
 			"rotateY": 270
 		},
@@ -114,7 +114,7 @@
 			"y1": 0,
 			"z1": 0.22,
 			"x2": 1,
-			"y2": 0.57,
+			"y2": 0.6,
 			"z2": 0.94,
 			"rotateY": 180
 		},
@@ -123,7 +123,7 @@
 			"y1": 0,
 			"z1": 0.22,
 			"x2": 1,
-			"y2": 0.57,
+			"y2": 0.6,
 			"z2": 0.94,
 			"rotateY": 90
 		}

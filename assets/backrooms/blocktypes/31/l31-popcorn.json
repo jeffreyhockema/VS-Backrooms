@@ -1,0 +1,136 @@
+// Level 31: a kettle popcorn machine on its red cart, the case framed in chrome with popcorn heaped in it and the kettle hung from its roof, the lit POPCORN header, 30 units tall; faces the side
+{
+	"code": "l31-popcorn",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-popcorn-north": {
+			"base": "backrooms:block/31/l31-popcorn"
+		},
+		"l31-popcorn-east": {
+			"base": "backrooms:block/31/l31-popcorn",
+			"rotateY": 270
+		},
+		"l31-popcorn-south": {
+			"base": "backrooms:block/31/l31-popcorn",
+			"rotateY": 180
+		},
+		"l31-popcorn-west": {
+			"base": "backrooms:block/31/l31-popcorn",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l31-popcorn-north": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 0.9
+		},
+		"l31-popcorn-east": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"l31-popcorn-south": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"l31-popcorn-west": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 0.9,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"l31-popcorn-north": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 0.9
+		},
+		"l31-popcorn-east": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 0.9,
+			"rotateY": 270
+		},
+		"l31-popcorn-south": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 0.9,
+			"rotateY": 180
+		},
+		"l31-popcorn-west": {
+			"x1": 0.04,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 0.96,
+			"y2": 1,
+			"z2": 0.9,
+			"rotateY": 90
+		}
+	},
+	"lightHsv": [
+		8,
+		3,
+		4
+	]
+}
