@@ -589,6 +589,13 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
   blocks (`l23-barkface-green-*`, `l23-flare-green-*`) round their feet the same way (the lead's call: their link files
   and layout are Level 47's).
 
+Run B (`%TEMP%/backrooms-shots/23-r4b`, after those fixes and the Colosseum's columns, the arches' rounded tops, the
+furrowed bark without its lit lips): the flares are smooth slopes now, reading as buttress roots fanning from the trunks
+(and the stone mushrooms' stems flare the same way); the shafts of light are soft god rays over the glades and two broad
+pale columns over the Heart of Water; the Colosseum's outer arcade on columns is the second-best ruin shot; the furrowed
+bark reads as bark, not masonry. Fixed after it: the limbs' spot still looked into a root arch (now a sight line checked
+to the trunk); the cypress knees were plain dark cubes (now cones, `l23-knee`).
+
 ### Inventions (round 4)
 
 All shapes, profiles and numbers; the bark's relief by species; the root flares, limbs and knuckles; the wall tent's
