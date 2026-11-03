@@ -26,6 +26,7 @@ import gen_23 as G
 S = G.S
 SIDES = ["north", "east", "south", "west"]
 ROT = {"north": 0, "east": 270, "south": 180, "west": 90}
+BACK = {"north": "south", "east": "west", "south": "north", "west": "east"}
 WOOD = G.WOOD
 STONE = ("game:walk/stone*", "game:block/rock-hit-pickaxe")
 TEXDIR = os.path.join(G.TEX, "block", "23")
@@ -223,7 +224,8 @@ def flare_shape(kind, form):
 
 
 FLARE_KINDS = {"moss": ("backrooms:block/23/moss", "backrooms:block/23/mossbark"),
-               "green": ("backrooms:block/23/moss-2", "backrooms:block/23/bark-green")}
+               "green": ("backrooms:block/23/moss-2", "backrooms:block/23/bark-green"),
+               "stem": ("backrooms:block/23/mushstem", "backrooms:block/23/mushstem")}
 
 
 # ---------------- Limbs ----------------
@@ -421,7 +423,12 @@ def blocks():
                      [("bark", FACE_BARKS), ("pattern", ["a", "b"])],
                      lambda s: f"barkface-{BARK_PROFILES[s['bark']]}{'-moss' if s['bark'] == 'moss' else ''}-{s['pattern']}",
                      lambda s: bark_textures(s["bark"]), "Wood", WOOD_SOUNDS, drops=[G.drop("game:firewood", 0.6, 0.4)],
-                     extra={"lightAbsorption": 99, "resistance": 7}))
+                     extra={"lightAbsorption": 99, "resistance": 7,
+                            # (its back, against the trunk's inside, is whole: the bark block behind need not draw its face,
+                            # and the top is near enough whole for the next block up; its foot is not, the ground shows in
+                            # the fissures)
+                            "sidesolidByType": {f"*-{s}": {"all": False, "up": True, BACK[s]: True} for s in SIDES}}))
+    out[-1][1].pop("sidesolid")
     out.append(sided("l23-flare", "// Level 23 (round 4): a root flare at a trunk's foot (the trunk on its back), its slope mossed; a step",
                      [("kind", list(FLARE_KINDS)), ("form", ["full", "root"])],
                      lambda s: f"flare-{s['form']}", lambda s: {"top": FLARE_KINDS[s["kind"]][0], "side": FLARE_KINDS[s["kind"]][1]},

@@ -476,51 +476,51 @@ bark layer near eye height becomes relief blocks, and the air at their foot and 
 Tiers: A must, B should, C nice. Inventions are marked (inv.).
 
 **1. Assets to rebuild to the bar**
-1. [A] Bark relief: the trunks' outermost bark from the ground to ~10 up as model blocks (`l23-barkface-<bark>-<side>`):
+1. [A] [done: `l23-barkface-<bark>-<a|b>-<side>`, six profiles] Bark relief: the trunks' outermost bark from the ground to ~10 up as model blocks (`l23-barkface-<bark>-<side>`):
    deep vertical fissures and raised plates (redwood fibrous ridges, oak blocky plates, cypress stringy strips, grey
    furrows, aspen smooth with eyes), the outward side only, so the silhouette breaks; five barks plus the green.
-2. [A] Fallen logs rounded: one-high logs as an octagonal/round section model with the rings on its ends and moss on
+2. [A] [done: `l23-logpart`, eleven slices of 1-3 wide sections] Fallen logs rounded: one-high logs as an octagonal/round section model with the rings on its ends and moss on
    top (`l23-loground-<bark>-<axis>`); the thick logs' corner cells as quarter-rounds, so no log reads as a box.
-3. [A] Stone mushroom caps: the cap's rim cells as rounded, drooping edge models with gills under (`l23-caprim-<side>`),
+3. [A] [done: `l23-caprim` side/corner/upper; the stem's foot not flared] Stone mushroom caps: the cap's rim cells as rounded, drooping edge models with gills under (`l23-caprim-<side>`),
    the stem's foot flared.
-4. [A] Boulders: the outer cells as rounded, chunky stone models (several rotated lumps, a moss cap) instead of cubes
+4. [A] [done: `l23-boulderpart` cap/edge/corner] Boulders: the outer cells as rounded, chunky stone models (several rotated lumps, a moss cap) instead of cubes
    (`l23-boulderlump`).
-5. [A] Glowcaps (`l23-glowcap-*`): rebuilt as a cluster of three to five mushrooms with stems, caps with an underside,
+5. [A] [done: four-mushroom clusters, glowing gills, spores] Glowcaps (`l23-glowcap-*`): rebuilt as a cluster of three to five mushrooms with stems, caps with an underside,
    gills that glow, a lit spot on the ground; the colour only where the light is.
-6. [A] Base Seedling's tents: an M.E.G. ridge tent of the level's own (`l23-tent-*`, similar to Level 8's `camptent`,
+6. [A] [done: `l23-tent`, from the detail kit's `camptent`, re-detailed as a wall tent] Base Seedling's tents: an M.E.G. ridge tent of the level's own (`l23-tent-*`, similar to Level 8's `camptent`,
    but canvas olive with M.E.G. stencil): two A-frame poles, a ridge pole, sloped canvas, one flap tied open, pegs,
    guy lines; three blocks long (inv.: from `camptent`, re-detailed).
-7. [A] Crates and barrels: crates with frame boards, corner irons, a lid with a gap; barrels with staves, two iron
+7. [A] [done: `l23-campcrate`, `l23-campbarrel`] Crates and barrels: crates with frame boards, corner irons, a lid with a gap; barrels with staves, two iron
    hoops, a lid and a tap; WATER stencil flat on the staves (round 3's wrapped round the bulge).
-8. [A] The fire ring: a ring of stones, charred logs crossed, ash with embers, and a tripod with a pot over it.
-9. [A] Bedrolls: a rolled blanket at the head, a pillow, the mat with quilting, a strap.
-10. [A] The lantern (`l23-lantern`): frame, glass panes (translucent), a wire handle, a bright flame, base and cap.
-11. [B] The quartermaster's counter as one piece (`l23-counter-*`): plank top, front boards, posts, a shelf under, the
+8. [A] [done: `l23-campfire`] The fire ring: a ring of stones, charred logs crossed, ash with embers, and a tripod with a pot over it.
+9. [A] [done: `l23-campbed`] Bedrolls: a rolled blanket at the head, a pillow, the mat with quilting, a strap.
+10. [A] [done: `l23-camplamp`, a hurricane lantern; its glass glows opaque (one block, one pass)] The lantern (`l23-lantern`): frame, glass panes (translucent), a wire handle, a bright flame, base and cap.
+11. [B] [done: `l23-counter` l/m/r] The quartermaster's counter as one piece (`l23-counter-*`): plank top, front boards, posts, a shelf under, the
     ledger open on it, a cash tin and a scale (inv.), replacing the vanilla tables.
-12. [B] The sentry faces (`l23-sentry-*`) sculpted: brow, eye sockets, nose, open mouth in relief, bark folding round.
-13. [B] Bracket fungi with real shelf curves (several stepped half-discs, a pale rim, zoning bands on top).
-14. [B] Stone undergrowth (`l23-stoneplant-*`): more elements; rotated twigs on the sapling, frond curves on the fern.
-15. [B] The signs and the M.E.G. board: framed boards with bevels, nails and a little roof over the notice board.
+12. [B] [done: `l23-sentryface`] The sentry faces (`l23-sentry-*`) sculpted: brow, eye sockets, nose, open mouth in relief, bark folding round.
+13. [B] [done] Bracket fungi with real shelf curves (several stepped half-discs, a pale rim, zoning bands on top).
+14. [B] [partly: the fern rebuilt with pinnae; shrub, sapling, stump as round 3] Stone undergrowth (`l23-stoneplant-*`): more elements; rotated twigs on the sapling, frond curves on the fern.
+15. [B] [partly: battens top and bottom, nails, a capped post with a mossy foot; no roof] The signs and the M.E.G. board: framed boards with bevels, nails and a little roof over the notice board.
 16. [C] The squirt-gun rack and ledger: more detail (trigger, tank, nozzle).
 
 **2. Multi-block set pieces**
-17. [A] Root flares: round every trunk's foot, wedge models in the air next to the bark (`l23-flare-<bark>-<side>`,
+17. [A] [done: `l23-flare`] Root flares: round every trunk's foot, wedge models in the air next to the bark (`l23-flare-<bark>-<side>`,
     rotated slopes from the bark down into the ground), so a trunk grows out of the ground instead of standing on it.
-18. [A] Limbs: broken petrified branch stubs and dead limbs (rotated elements) out of the trunks between 6 and 16 up
+18. [A] [done: `l23-limb`, two to five a tree] Limbs: broken petrified branch stubs and dead limbs (rotated elements) out of the trunks between 6 and 16 up
     (`l23-limb-<bark>-<side>`), so the trunks have branches under the canopy.
-19. [B] Buttress roots: the roots crawling out from the foot get a rounded top (half-round root caps, `l23-roottop`)
+19. [B] [done: `l23-rootknuckle`, the roots' tops near the ground] Buttress roots: the roots crawling out from the foot get a rounded top (half-round root caps, `l23-roottop`)
     where they are one high, so they read as roots and not steps of cubes.
-20. [A] The ruins: Parthenon columns as fluted drums with a capital and base (`l23-column-*`), a carved lintel/frieze
+20. [A] [partly: columns (base, fluted shaft, capital) and two broken ones on the plaza; no carved lintel] The ruins: Parthenon columns as fluted drums with a capital and base (`l23-column-*`), a carved lintel/frieze
     over the cella door, a fallen column on the plaza.
-21. [B] A statue in the ruins: a weathered robed figure on a plinth (two blocks), mossed, one arm broken (inv.).
-22. [A] The Heart of Water: lily pads on the pool's edge water, and a stone rim of mossy blocks where shore meets water.
+21. [B] [done: `l23-statue`, two at each ruin's way in] A statue in the ruins: a weathered robed figure on a plinth (two blocks), mossed, one arm broken (inv.).
+22. [A] [partly: lily pads; no stone rim] The Heart of Water: lily pads on the pool's edge water, and a stone rim of mossy blocks where shore meets water.
 23. [B] The hollow trunks (the way in from Level 47 and out): a mouth with a lip of bark relief and flare blocks round
     it, moss at its sill, the inside lined with dark relief, so the arrival reads as stepping out of a tree.
 24. [B] The Heart's warning: the board framed, on two posts with a little roof, chained to a Giant's root (inv.).
 25. [C] The Lighthouse's lamp as a brazier with a fire bowl on its top, not a lantern.
 
 **3. Level design**
-26. [A] Light shafts under the holes: pale translucent sun-beam planes (`l23-sunbeam`) hanging from the lid's holes to
+26. [A] [done: `l23-sunbeam`, translucent] Light shafts under the holes: pale translucent sun-beam planes (`l23-sunbeam`) hanging from the lid's holes to
     the floor, so the glades and holes read as columns of light from afar (inv.: the lore's star never moves).
 27. [B] Ground variety: stone outcrops (bare petrified stone patches), leaf drifts against the trunks' windward side,
     more red litter, puddles in hollows.
@@ -535,10 +535,74 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
 34. [C] Cloth rags hung over stones, not only on the floor.
 
 **5. Alignment with the other levels**
-35. [A] Showcase spots and F7 entries for the new and rebuilt pieces (tent, fire ring, counter, columns, statue, lily
+35. [A] [done: trunk-foot, trunk-limbs, seedling-tent, seedling-fire, ruin-statue; F7 entries] Showcase spots and F7 entries for the new and rebuilt pieces (tent, fire ring, counter, columns, statue, lily
     pads, a flared trunk, a limb, a fallen log, the sunbeam), from the layout.
-36. [A] Lang names for every new block (HUD), drops as round 3 (bark firewood, stone stones, camp things nothing).
+36. [A] [done] Lang names for every new block (HUD), drops as round 3 (bark firewood, stone stones, camp things nothing).
 37. [B] Level 47 shares the forest kind: note for the lead which of my relief/flare/limb blocks 47's giants could take.
 38. [B] Shared things kept shared: supply boxes, notes, placards, chalk, Almond Water: unchanged.
 39. [C] Shared assets below the bar: write up Level 8's `camptent` and anything else seen.
-40. [A] Opaque textures with no translucent texels (alpha 0 or 255 only) except the sunbeam and the lantern's glass.
+40. [A] [done: also fixed round 3's crate, barrel and the Sorries' strands] Opaque textures with no translucent texels (alpha 0 or 255 only) except the sunbeam and the lantern's glass.
+
+### What was built (round 4)
+
+- *The trunks' skin* (`WorldLayout.Level23.Skin.cs`, `WorldGenerator.L23.Skin.cs`, models in `tools/gen_23_r4.py`): the outermost
+  bark from the ground to nine up is `l23-barkface-<bark>-<a|b>-<side>`: a core with the fissures' floor 3.5 px in and
+  ridges standing out to the block's face, each bark its own profile (grey furrows with plates broken across, redwood's
+  soft fibres, oak's blocky plates, cypress's stringy strips, aspen smooth with a black eye, the Green Giants' deep
+  furrows, the mossed band with cushions of moss); the fissures' walls and floor a darker copy of the bark; two patterns
+  that meet above and below. Root flares (`l23-flare`) in the air at every trunk's foot: a concave slope of mossy bark
+  (green on the Giants), or a lower one with a root running out; a step (half a block). Broken limbs (`l23-limb`): two
+  to five a tree, six to fifteen up, an octagonal limb tilted up out of a collar of bark, its broken end showing rings,
+  a fork on the long ones. The roots' tops near the ground rounded (`l23-rootknuckle`).
+- *The floor's things*: fallen logs as slices of their round section (`l23-logpart`, eleven pieces for logs one, two and
+  three blocks across, rings on their ends, moss along their tops); stone mushroom caps with a drooping rim, gills under
+  and a sloped upper layer (`l23-caprim`); boulders' rounded tops and edges (`l23-boulderpart`); the stone fern rebuilt
+  with pinnae; bracket fungi as half-disc shelves narrowing outward.
+- *Base Seedling* (`tools/gen_23_r4_camp.py`): the M.E.G.'s wall tents (`l23-tent`, two by two on the layout's tent tiles:
+  canvas walls, a pitched fly on a ridge pole, the door flaps tied back under a valance, guy lines to pegs, a stovepipe
+  with its rain cap and the stove under it, M.E.G. 23-1 stencilled by the door; a cot, blanket, pillow and footlocker
+  inside); the quartermaster's counter (`l23-counter`, three blocks, plank top, boarded front, a shelf of tins, a brass
+  balance and a cash tin, the ledger on it); the fire (`l23-campfire`: stones, ash, crossed charred logs, embers and
+  flames glowing, a tripod of poles with a pot on a chain); water barrels (`l23-campbarrel`: staves, two iron hoops, a lid,
+  a brass tap, DRINKING WATER on a flat label); crates (`l23-campcrate`: boards, battens, corner irons, a lid, M.E.G.);
+  bedrolls (`l23-campbed`); hurricane lanterns (`l23-camplamp`) at the camp and down its tunnels; the signs framed with
+  battens and nails, their posts capped and mossed at the foot.
+- *The sentries*: faces sculpted (`l23-sentryface`): bark folds round a mask, brow, sunken shut eyes, cheekbones, nose,
+  the mouth open, a chin; paler stone than the bark.
+- *The ruins*: the Parthenon's colonnade as columns (`l23-column`: a base with plinth and torus, fluted octagonal shafts,
+  Doric capitals with echinus and abacus; mossy at the foot), two broken columns standing apart on its plaza; two statues
+  of Architects at every ruin's way in (`l23-statue`, three blocks: an inscribed plinth, HORTVLANO MAGNO; a robed figure
+  with a sapling held to its chest, one arm broken, two green stones for eyes); the Lighthouse's fire is Level 47's brazier.
+- *Glow rooms*: glowcaps as clusters of four with glowing gills and spores on the ground.
+- *The Heart of Water*: lily pads with a flower on the shallows.
+- *Light*: shafts of light (`l23-sunbeam`, translucent crossed planes, glowing, no light given) under a scatter of every
+  hole's columns, from four over the ground to the top.
+- *Fixes*: round 3's crate and barrel stencils and the Sorries' strands had translucent texels (now opaque); the lost
+  explorer's camp never had its bones (the block was looked up in the wrong domain).
+- *Showcase*: trunk-foot, trunk-limbs, seedling-tent, seedling-fire, ruin-statue (F7: Forest floor, Base Seedling, the
+  Parthenon).
+
+### Shared assets below the bar
+
+- The detail kit's `camptent` (Level 8's camps) is good; the wall tent here is a sibling, not a replacement.
+- Level 47's `l47-brazier`, reused on the Lighthouse, is a fine fit; Level 47's giants could take this level's skin
+  blocks (`l23-barkface-green-*`, `l23-flare-green-*`) round their feet the same way (the lead's call: their link files
+  and layout are Level 47's).
+
+### Inventions (round 4)
+
+All shapes, profiles and numbers; the bark's relief by species; the root flares, limbs and knuckles; the wall tent's
+stove and cot, the counter's balance and tins, the tripod and pot; the statues (an Architect holding a sapling, the
+green stones for eyes after the plaque, the inscription HORTVLANO MAGNO), their places at the ruins' ways in and the two
+broken columns; the lily pads (the lore names no plants on the reservoir); the shafts of light (the lore's star never
+moves, so they stand still); the brazier on the Lighthouse (shared from Level 47).
+
+### Balance notes for the lead
+
+- Nothing to eat, drink, sleep in or carry away was added. The root flares are a half-block step at every trunk's foot;
+  the limbs, lily pads and shafts of light have no collision; the camp's things block like round 3's (the tent its four
+  tiles, the counter like the tables it replaces). Drops: relief bark, flares and limbs firewood as the bark; root
+  knuckles a stick; boulders' tops stones as boulders; the camp's crates and barrels planks as before; tents, counter's
+  ledger, statues, columns, lanterns, fire nothing (columns and statues are ruin stone: no drop).
+- The camp fire gives light 11 (round 3's ring 10); the lanterns the same as before; the Lighthouse's brazier is Level
+  47's (light as there, drops nothing).

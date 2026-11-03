@@ -95,7 +95,7 @@ public sealed partial class WorldGenerator
         l23Cloth = Id("l23-cloth");
         l23Flagstone = Id("l23-flagstone");
         l23MossBark = Id("l23-mossbark");
-        l23Bones = OptionalId("bonepile");
+        l23Bones = OptionalId("backrooms:bonepile"); // (round 4: the domain was missing, so round 3 never put the bones down)
         for (int f = 0; f < 4; f++) l23SquirtRack[f] = Id("l23-squirtrack-" + Sides[f]);
         l23Humus = Id("l23-humus");
         l23Moss = Id("l23-moss");
@@ -237,7 +237,8 @@ public sealed partial class WorldGenerator
             if (ground >= WorldLayout.L23PoolSurface - 3 && Noise2(gx / 3.0, gz / 3.0, SaltL23Mat + 16) > 0.55)
                 for (int rel = ground + 1; rel <= WorldLayout.L23PoolSurface + 1; rel++)
                 {
-                    b[rel - L23Low] = l23Bark[WorldLayout.L23Boulder];
+                    // (round 4: the top one rounded and mossed)
+                    b[rel - L23Low] = rel == WorldLayout.L23PoolSurface + 1 ? l23BoulderPart[0, (int)(L23Hash(gx, gz, 42) & 3)] : l23Bark[WorldLayout.L23Boulder];
                     c.Water[rel - L23Low] = false;
                 }
         }
@@ -631,6 +632,14 @@ public sealed partial class WorldGenerator
             for (int k = 0; k < 3; k++) b[floor + 1 + k - L23Low] = l23Statue[k, Facing(ArchPier.South)];
             return;
         }
+        // (and on the Parthenon's plaza, two columns that stood apart, one broken off at the height of a man, one a stump)
+        if (cave.Ruin == Ruin.Parthenon && (u, v) is (-10, 9) or (10, 10) && floor + 3 < ceiling)
+        {
+            b[floor + 1 - L23Low] = l23Column[0, 1, 0];
+            b[floor + 2 - L23Low] = l23Column[u < 0 ? 1 : 3, 1, 0];
+            if (u < 0) b[floor + 3 - L23Low] = l23Column[3, 0, 0];
+            return;
+        }
         // Pottery: on the plaza and in the rooms, on the first floor up; and the fungi the lore says overgrow the ruins,
         // glowcaps of the room's colour come up through the moss on the paving (round 2: the plazas were black without them)
         double d = Math.Sqrt(u * u + v * v);
@@ -666,7 +675,8 @@ public sealed partial class WorldGenerator
             return l23RuinStone;
         }
         // (Its fire on top: a lamp still burning, as the lore's lighthouse would have; an ember gave no light to see it by)
-        if (h == 10 && m == 0) return l23Lantern;
+        // (Round 4: a brazier, Level 47's, shared: a lighthouse's fire, not a camp lantern)
+        if (h == 10 && m == 0) return l23Brazier != 0 ? l23Brazier : l23Lantern;
         if (h is 10 or 11 && au == 1 && av == 1) return l23RuinStone;
         return -1;
     }

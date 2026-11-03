@@ -10,8 +10,8 @@ public sealed partial class WorldGenerator
 {
     /// <summary>Relief bark by bark (grey, red, pale, dark, green, aspen, moss), pattern (2) and facing.</summary>
     private readonly int[,,] l23BarkFace = new int[7, 2, 4];
-    /// <summary>Root flares by kind (moss, green), form (full, root) and facing.</summary>
-    private readonly int[,,] l23Flare = new int[2, 2, 4];
+    /// <summary>Root flares by kind (moss, green, a mushroom's stem), form (full, root) and facing.</summary>
+    private readonly int[,,] l23Flare = new int[3, 2, 4];
     /// <summary>Limbs by bark (grey, red, pale, dark, aspen), kind (stub, limb) and facing.</summary>
     private readonly int[,,] l23Limb = new int[5, 2, 4];
     /// <summary>Fallen logs' pieces by bark (as limbs), part (WorldLayout.L23LogPiece) and axis (x, z).</summary>
@@ -22,7 +22,7 @@ public sealed partial class WorldGenerator
     /// <summary>The Parthenon's columns by part (base, shaft, capital, broken), moss (clean, mossy) and facing; the statues by part (plinth, lower, upper) and facing; lily pads.</summary>
     private readonly int[,,] l23Column = new int[4, 2, 4];
     private readonly int[,] l23Statue = new int[3, 4];
-    private int l23LilyPad, l23Sunbeam;
+    private int l23LilyPad, l23Sunbeam, l23Brazier;
     /// <summary>Root knuckles (bare, mossed), facing north only (they are the same every way).</summary>
     private readonly int[] l23RootKnuckle = new int[2];
 
@@ -30,6 +30,7 @@ public sealed partial class WorldGenerator
     {
         l23LilyPad = Id("l23-lilypad");
         l23Sunbeam = Id("l23-sunbeam");
+        l23Brazier = OptionalId("backrooms:l47-brazier");
         l23RootKnuckle[0] = Id("l23-rootknuckle-bare-north");
         l23RootKnuckle[1] = Id("l23-rootknuckle-moss-north");
         string[] faceBarks = { "grey", "red", "pale", "dark", "green", "aspen", "moss" };
@@ -42,9 +43,10 @@ public sealed partial class WorldGenerator
             for (int b = 0; b < 7; b++)
                 for (int p = 0; p < 2; p++)
                     l23BarkFace[b, p, f] = Id($"l23-barkface-{faceBarks[b]}-{(p == 0 ? "a" : "b")}-{Sides[f]}");
-            for (int k = 0; k < 2; k++)
+            string[] flareKinds = { "moss", "green", "stem" };
+            for (int k = 0; k < 3; k++)
                 for (int form = 0; form < 2; form++)
-                    l23Flare[k, form, f] = Id($"l23-flare-{(k == 0 ? "moss" : "green")}-{(form == 0 ? "full" : "root")}-{Sides[f]}");
+                    l23Flare[k, form, f] = Id($"l23-flare-{flareKinds[k]}-{(form == 0 ? "full" : "root")}-{Sides[f]}");
             for (int b = 0; b < 5; b++)
                 for (int k = 0; k < 2; k++)
                     l23Limb[b, k, f] = Id($"l23-limb-{logBarks[b]}-{(k == 0 ? "stub" : "limb")}-{Sides[f]}");
@@ -131,6 +133,9 @@ public sealed partial class WorldGenerator
         if (!inTunnel && on > 0 && on < L23Height && b[on] == 0 && !c.Water[on] && b[on - 1] != 0 && !c.Water[on - 1]
             && layout.L23FlareAt(gx, gz, ground + 1, out ArchPier facing, out bool giant, out int form))
             b[on] = l23Flare[giant ? 1 : 0, form, Facing(facing)];
+        // (a stone mushroom's stem spreading at its foot the same way)
+        else if (!inTunnel && on > 0 && on < L23Height && b[on] == 0 && !c.Water[on] && b[on - 1] != 0 && layout.L23StemFootAt(gx, gz, ground + 1, out ArchPier sf))
+            b[on] = l23Flare[2, 0, Facing(sf)];
         if (layout.L23LimbAt(gx, gz, out int rel, out ArchPier lf, out byte bark, out bool longLimb) && rel - L23Low is > 0 and < L23Height
             && b[rel - L23Low] == 0 && c.Wood[rel - L23Low] == 0)
             b[rel - L23Low] = l23Limb[L23LogBark(bark), longLimb ? 1 : 0, Facing(lf)];

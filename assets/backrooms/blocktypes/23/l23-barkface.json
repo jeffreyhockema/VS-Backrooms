@@ -267,9 +267,6 @@
 			"rotateY": 90
 		}
 	},
-	"sidesolid": {
-		"all": false
-	},
 	"sideopaque": {
 		"all": false
 	},
@@ -416,5 +413,27 @@
 			}
 		}
 	},
-	"lightAbsorption": 99
+	"lightAbsorption": 99,
+	"sidesolidByType": {
+		"*-north": {
+			"all": false,
+			"up": true,
+			"south": true
+		},
+		"*-east": {
+			"all": false,
+			"up": true,
+			"west": true
+		},
+		"*-south": {
+			"all": false,
+			"up": true,
+			"north": true
+		},
+		"*-west": {
+			"all": false,
+			"up": true,
+			"east": true
+		}
+	}
 }

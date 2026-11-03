@@ -254,6 +254,44 @@ def rootknuckle_shape():
             E("Round2", (3.2, 14.2, 2.6), (12.8, 15.6, 13.4), {"north": r, "east": r, "south": r, "west": r, "up": t})]
 
 
+# ---------------- The M.E.G.'s boards ----------------
+
+def signboard_shape():
+    """A painted board on a post's top (the post its own block below), front north: the board, battens along the top and
+    bottom of the painted face (a hair proud), nail heads at the corners, the post's top showing behind it with a cap."""
+    w = "#wood"
+    fr = {"north": w, "east": w, "west": w, "up": w, "down": w}
+    els = [E("Board", (0, 2, 7), (16, 15, 9), {"east": w, "south": w, "west": w, "up": w, "down": w}),
+           {"name": "Face", "from": [0, 2, 6.98], "to": [16, 15, 7], "faces": {"north": {"texture": "#face", "uv": [0, 1, 16, 15]}}},
+           E("FrameTop", (0, 14.3, 6.4), (16, 15.3, 7), fr), E("FrameBottom", (0, 1.7, 6.4), (16, 2.6, 7), fr),
+           # (no battens up the sides: a sign of two or three boards reads across their joins)
+           E("Back", (6.5, 0, 9), (9.5, 15.6, 10.4), {"east": w, "south": w, "west": w, "up": w}),
+           E("Cap", (6.1, 15.6, 8.6), (9.9, 16.4, 10.8), every(w))]
+    for k, (x, y) in enumerate(((1.2, 13.2), (14.2, 13.2), (1.2, 2.8), (14.2, 2.8))):
+        els.append(E(f"Nail{k}", (x, y, 6.2), (x + 0.6, y + 0.6, 6.4), {"north": "#nail", "east": "#nail", "west": "#nail", "up": "#nail"}))
+    return els
+
+
+def signpost_shape():
+    w = "#wood"
+    return [E("Post", (6.5, 0, 6.5), (9.5, 16, 9.5), every(w)), E("Foot", (6.0, 0, 6.0), (10.0, 1.4, 10.0), every("#moss"))]
+
+
+# ---------------- Stone fern ----------------
+
+def stone_fern_shape():
+    """A fern gone to stone: six fronds arching out from a crown, each a rachis with pinnae across it shortening toward
+    its tip (each piece turned with its frond: lifted about z, then swung about y)."""
+    els = [E("Crown", (6.8, 0, 6.8), (9.2, 1.4, 9.2), every("#bark"))]
+    for k in range(6):
+        rot = {"rotationOrigin": [8, 0.6, 8], "rotationZ": 30 + (k % 2) * 14, "rotationY": k * 60 + (k % 3) * 9}
+        els.append(E(f"Rachis{k}", (8, 0.4, 7.7), (15.5, 0.9, 8.3), every("#bark"), rot))
+        for n, d in enumerate((1.6, 3.2, 4.8, 6.2)):
+            half = 2.2 - n * 0.45
+            els.append(E(f"Pinna{k}_{n}", (8 + d, 0.5, 8 - half), (8 + d + 0.9, 0.8, 8 + half), every("#bark"), rot))
+    return els
+
+
 # ---------------- Light shafts ----------------
 
 def sunbeam_shape():
@@ -331,6 +369,10 @@ def shapes():
                             lilypad_shape())}
     out["bracket"] = shape({"cap": "backrooms:block/23/mushcap-top", "rim": "backrooms:block/23/mushstem", "gills": "backrooms:block/23/mushcap-gills"},
                            bracket_shape())
+    out["signboard"] = shape({"face": "backrooms:block/23/sign-trail", "wood": "backrooms:block/23/planks", "nail": "backrooms:block/23/iron"},
+                             signboard_shape())
+    out["signpost"] = shape({"wood": "backrooms:block/23/planks", "moss": "backrooms:block/23/moss-cushion"}, signpost_shape())
+    out["stone-fern"] = shape({"bark": "backrooms:block/23/bark-grey-2"}, stone_fern_shape())
     out["rootknuckle"] = shape({"root": "backrooms:block/23/root", "top": "backrooms:block/23/root"}, rootknuckle_shape())
     out["sunbeam"] = shape({"beam": "backrooms:block/23/sunbeam"}, sunbeam_shape())
     for part in ("base", "shaft", "capital", "broken"):

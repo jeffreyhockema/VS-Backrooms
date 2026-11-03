@@ -77,6 +77,30 @@ public sealed partial class WorldLayout
         return false;
     }
 
+    /// <summary>A stone mushroom's stem flaring at its foot: the air of a column at a height (its ground + 1) with a stem right behind it, and the way it faces (out).</summary>
+    public bool L23StemFootAt(int gx, int gz, int rel, out ArchPier facing)
+    {
+        facing = ArchPier.North;
+        double px = gx + 0.5, pz = gz + 0.5;
+        foreach (L23Feature f in L23FeaturesAround(gx, gz))
+        {
+            if (f.Kind != L23FeatureKind.Mushroom) continue;
+            for (int k = 0; k < f.Count; k++)
+            {
+                L23Mushroom(f, k, out double mx, out double mz, out double stem, out _, out _);
+                double dx = px - mx, dz = pz - mz;
+                if (dx * dx + dz * dz < stem * stem || dx * dx + dz * dz > (stem + 1.6) * (stem + 1.6)) continue;
+                ArchPier out1 = L23Cardinal(dx, dz);
+                var (fx, fz) = L23Step(out1);
+                double ix = dx - fx, iz = dz - fz;
+                if (ix * ix + iz * iz >= stem * stem) continue;
+                facing = out1;
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static bool L23Behind(in L23Trunk t, double px, double pz, int rel, out ArchPier facing)
     {
         facing = ArchPier.North;

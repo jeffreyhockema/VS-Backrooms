@@ -6,7 +6,8 @@
 			"code": "kind",
 			"states": [
 				"moss",
-				"green"
+				"green",
+				"stem"
 			]
 		},
 		{
@@ -100,6 +101,38 @@
 		"*-green-root-west": {
 			"base": "block/23/flare-root",
 			"rotateY": 90
+		},
+		"*-stem-full-north": {
+			"base": "block/23/flare-full",
+			"rotateY": 0
+		},
+		"*-stem-full-east": {
+			"base": "block/23/flare-full",
+			"rotateY": 270
+		},
+		"*-stem-full-south": {
+			"base": "block/23/flare-full",
+			"rotateY": 180
+		},
+		"*-stem-full-west": {
+			"base": "block/23/flare-full",
+			"rotateY": 90
+		},
+		"*-stem-root-north": {
+			"base": "block/23/flare-root",
+			"rotateY": 0
+		},
+		"*-stem-root-east": {
+			"base": "block/23/flare-root",
+			"rotateY": 270
+		},
+		"*-stem-root-south": {
+			"base": "block/23/flare-root",
+			"rotateY": 180
+		},
+		"*-stem-root-west": {
+			"base": "block/23/flare-root",
+			"rotateY": 90
 		}
 	},
 	"sidesolid": {
@@ -156,6 +189,22 @@
 			},
 			"side": {
 				"base": "block/23/bark-green"
+			}
+		},
+		"*-stem-full-*": {
+			"top": {
+				"base": "block/23/mushstem"
+			},
+			"side": {
+				"base": "block/23/mushstem"
+			}
+		},
+		"*-stem-root-*": {
+			"top": {
+				"base": "block/23/mushstem"
+			},
+			"side": {
+				"base": "block/23/mushstem"
 			}
 		}
 	},
