@@ -686,3 +686,9 @@ read heavy close up; the side corridors between the halls are plainer than the h
   is more of a landmark?
 - At the edge of the dark, one battery lamp still burns and a breaker is tagged DO NOT RESET (our invention, telling the
   power fault): keep it, or keep the edge a hard cut into black as the lore has it?
+
+**Checks** (2026-11-03). `expclash` clean; mod and mapgen build, 0 errors; `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash at
+layout versions 1 and 12: levels 0-20 and the `layout hash` line identical to main's saved files; `regions` 60/60 in
+Level 15; `15stats 4` OK (0 rooms cut off, 60/60 lit arrivals, dark 17.7%); headless dummy (port 43166) twice and a
+Robo-Man put down on it: 0 missing blocks, 0 error lines; no translucent texels in any opaque-pass texture of the level's
+blocks; `GATE_TAG=15g python tools/gate.py --fast --port-base 43160`: PASS (17257a86).
