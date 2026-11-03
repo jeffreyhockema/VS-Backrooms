@@ -694,3 +694,40 @@ basement has (the lead's notes).
 No new food, water, beds or safe rooms. New drops are small and follow the props: the laundry, TV, boiler, rails, duct run
 and shelving drop scrap metal and wire (the sump pipe nothing), the sofa carpet fibre, the cue rack and joists sticks, the bar an empty bottle now and then (half a bottle on average, in rec rooms only; a water container); the scum, slab edge,
 sump and laptop drop nothing. The halls' dead ends now hold shelving and boxes (boxes drop carpet fibre, as before).
+
+### What the shots showed (round 4)
+
+Three runs, all with a torch (`%TEMP%/backrooms-shots/basement-r4a`, `-r4b`, and the final `basement-r4c`, `sheet.jpg`
+there; 37-38 shots each, no unhandled exceptions).
+- **r4a:** the washer and dryer with their consoles and SUDZO shelf, the pool table with its racked balls, the cue rack,
+  the plaid sofa and its throw, the console TV with rabbit ears, the workbench with the modelled vice, tools and shop
+  light, the joists with their cable and junction boxes, the hall's duct and mains, the kraft-faced studs, the stairs'
+  rails with the leaning newel, the scum on the Flood all read. Wrong: every round body (furnace, heater, tins, cans) was
+  an eight-pointed star (a square plus the same square turned an eighth), so the labels broke up; the furnace's arms ended
+  in loose boxes under the ceiling; the crack's edge bristled with rebar; the pool lamps' brass rims hung under the shade;
+  the block walls were still bright under a torch. All fixed before r4b (true octagons from four bars, the arms running
+  into the ceiling under boots, one or two rebar ends a block, the rims on the shade's edge, darker block).
+- **r4b:** the round furnace with its plate and fire door, the sectional boiler, the bar with its COLD BEER neon and
+  stools, the heaped rubble, the stairwell's wall rail. Wrong: the store-shelves spot looked through a doorway at its
+  frame; one bar stood hard by a door, its casing cutting the mirror. Fixed (and a smaller bulb in the cage) before r4c.
+- **r4c (final):** as r4b with those fixed.
+
+**Still weak:** the furnace body is one block across (a real octopus furnace is wider); the slab edge's jagged steps
+repeat block to block round the crack; the shared stools, rug and floor textures are round 3's; the Flood's passages are
+still long and alike between the scum and the floating things.
+
+### Questions for the user (round 4)
+
+1. The home bar with its lit COLD BEER neon in about 70% of rec rooms: keep, or rarer (it is the brightest spot in the
+   Cellar)?
+2. The Basement's own washer, dryer, sofa, TV and boiler could replace the shared ones in other levels (Level 4's break
+   rooms, Level 11's flats): worth doing in a later round?
+3. The laptop on the bed of some Flood dead ends (the Wikidot account loses his to the water): keep?
+
+### Checks (round 4, commit b13e513b)
+
+`expclash` clean; mod and mapgen build with 0 errors; `layouthash` with `BACKROOMS_NO_EXP_ENTRANCES=1` at layout versions
+1 and 12: every line for levels 0-20 and the layout hash equal main's saved files; `regions` Basement 60/60;
+`basementstats` (seed 12345, and seed 777 `SPAWN=4000`) 100% of walkable tiles in one piece, 0 sealed, 60/60 arrivals;
+`featurecheck` 14/14 Basement features from every arrival; headless (port 43118) `blocksweep` 15778 blocks, 0 threw, a
+dummy placed in the Basement, 0 error lines, 0 missing blocks; `GATE_TAG=basementg gate.py --fast --port-base 43110` PASS.
