@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Backrooms.Entities;
 using Backrooms.Map;
+using Backrooms.Needs;
 using Backrooms.Salvage;
 using Backrooms.Thresholds;
 using Backrooms.Worldgen;
@@ -418,7 +419,7 @@ public class L974System : ModSystem
             }
 
             // DreamSleep: after the computer's dream is ready, a sleep in the bed steadies you (once a visit)
-            bool asleep = entity.MountedOn is BlockEntityBed;
+            bool asleep = EntityBehaviorFatigue.Sleeping(entity);
             if (asleep && entity.WatchedAttributes.GetInt(DreamKey) == visit && entity.WatchedAttributes.GetInt(DreamtKey) != visit)
             {
                 entity.WatchedAttributes.SetInt(DreamtKey, visit);
@@ -550,7 +551,7 @@ public class L974System : ModSystem
         if (s.OffendedUntil > Now)
         {
             // Offended: gone, but now and then glimpsed far off in the dark, to see you out
-            if (kitty != null && k.Mode == KittyMode.Watching && nowMs > k.ModeUntilMs) { Vanish(k); k.NextMs = nowMs + 90_000 + sapi.World.Rand.Next(120_000); }
+            if (kitty != null && (k.Mode != KittyMode.Watching || nowMs > k.ModeUntilMs)) { Vanish(k); k.NextMs = nowMs + 90_000 + sapi.World.Rand.Next(120_000); }
             else if (kitty == null && nowMs >= k.NextMs)
             {
                 IServerPlayer target = guests[sapi.World.Rand.Next(guests.Count)];
@@ -683,7 +684,7 @@ public class L974System : ModSystem
         IServerPlayer target = guests[sapi.World.Rand.Next(guests.Count)];
         EntityPlayer e = target.Entity;
         double yaw = e.Pos.Yaw;
-        // (A player looks along (-sin yaw, cos yaw)... behind them is the other way)
+        // (A player looks along (-sin yaw, -cos yaw)... behind them is the other way)
         Vec3d look = new Vec3d(-Math.Sin(yaw), 0, -Math.Cos(yaw));
         Vec3d behind = e.Pos.XYZ.AddCopy(-look.X * 1.75, 0, -look.Z * 1.75);
         behind.Y = FloorY;
@@ -775,7 +776,7 @@ public class L974System : ModSystem
         // It comes, from the nearest of its places that the caller cannot see, in a few seconds
         sapi.Event.RegisterCallback(_ =>
         {
-            if (player.Entity == null || !kitties.TryGetValue(house, out KittyState kk)) return;
+            if (player.Entity == null || StateOf(house).OffendedUntil > Now || !kitties.TryGetValue(house, out KittyState kk)) return;
             var guests = GuestsOf(house).ToList();
             var spot = SpotsOf(house).Where(p => p.Kind == WorldLayout.L974SpotKind.Watch)
                 .Select(p => new Vec3d(p.X + 0.5, FloorY, p.Z + 0.5))
@@ -1060,6 +1061,9 @@ public class L974System : ModSystem
 /// <summary>Kitty's fridge and pantry: one thing at a time, and they fill again by themselves.</summary>
 public class BlockL974Food : Block
 {
+    public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer) =>
+        new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l974-food", MouseButton = EnumMouseButton.Right } };
+
     public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
     {
         if (world.Side == EnumAppSide.Server && byPlayer is IServerPlayer player)
@@ -1097,6 +1101,9 @@ public class BlockL974Tap : Block
 /// <summary>The old computer on the desk: the Guest desktop (the e-mail, the Internet, DreamSleep).</summary>
 public class BlockL974Computer : Block
 {
+    public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer) =>
+        new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l974-computer", MouseButton = EnumMouseButton.Right } };
+
     private L974ComputerDialog dialog;
 
     public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
@@ -1115,6 +1122,9 @@ public class BlockL974Computer : Block
 /// <summary>The dresser in the open closet: cute clothes, in your size.</summary>
 public class BlockL974Dresser : Block
 {
+    public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer) =>
+        new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l974-dresser", MouseButton = EnumMouseButton.Right } };
+
     public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
     {
         if (world.Side == EnumAppSide.Server && byPlayer is IServerPlayer player)

@@ -156,6 +156,9 @@ public class EndSystem : ModSystem
             int x = (int)Math.Floor(pos.X), z = (int)Math.Floor(pos.Z);
             bool here = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)) == WorldLayout.TheEnd;
             if (!wanderers.TryGetValue(player.PlayerUID, out Wanderer w)) wanderers[player.PlayerUID] = w = new Wanderer { LastX = pos.X, LastZ = pos.Z };
+            double dx = pos.X - w.LastX, dz = pos.Z - w.LastZ;
+            w.LastX = pos.X;
+            w.LastZ = pos.Z;
             if (!here)
             {
                 w.EnteredHours = -1;
@@ -169,9 +172,6 @@ public class EndSystem : ModSystem
                 // The first lights-out waits a while, so that a first look round the store is in the light
                 w.NextLightsOutHours = now + 3 + sapi.World.Rand.NextDouble();
             }
-            double dx = pos.X - w.LastX, dz = pos.Z - w.LastZ;
-            w.LastX = pos.X;
-            w.LastZ = pos.Z;
 
             // (A player's walking into something is never seen as a collision on the server, whose physics only replays the
             // positions the client sends: pushing on without moving is how it shows)
@@ -444,7 +444,9 @@ public class BlockBehaviorEndTerminal : BlockBehavior
         BlockPos pos = blockSel.Position.Copy();
         if (block.Variant["state"] != "off")
         {
-            if (block.Variant["state"] == "dead") player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:endterminal-dead"), EnumChatType.Notification);
+            // (One left in the middle of its states, its chunk unloaded before the last swap, is as good as dead)
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:endterminal-dead"), EnumChatType.Notification);
+            if (block.Variant["state"] != "dead") SwapTo(sapi, pos, BlockCodes.WithVariant(block, "state", "dead").Path);
             return true;
         }
         var layout = EndSystem.SharedLayout(sapi);

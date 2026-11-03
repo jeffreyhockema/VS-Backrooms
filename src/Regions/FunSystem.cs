@@ -68,7 +68,7 @@ public class FunSystem : ModSystem
     private readonly Dictionary<long, (float Health, bool Treating)> lastHealth = new();
     private readonly Dictionary<long, double> lastHours = new(), lastDrank = new();
     /// <summary>Players wearing the disguise in the level now (told so when they put it on).</summary>
-    private readonly HashSet<long> disguised = new();
+    private readonly System.Collections.Concurrent.ConcurrentDictionary<long, byte> disguised = new(); // (also read by the Partygoers' AI)
 
     public override bool ShouldLoad(EnumAppSide side) => true;
 
@@ -120,7 +120,7 @@ public class FunSystem : ModSystem
         lastHealth.Remove(id);
         lastHours.Remove(id);
         lastDrank.Remove(id);
-        disguised.Remove(id);
+        disguised.TryRemove(id, out _);
     }
 
     private static void GiveBody(Entity entity)
@@ -156,9 +156,10 @@ public class FunSystem : ModSystem
                 string[] f = line.Split(' ');
                 if (f.Length == 4 && f[0] == "k") killed[long.Parse(f[1])] = (int.Parse(f[2]), double.Parse(f[3], System.Globalization.CultureInfo.InvariantCulture));
                 if (f.Length == 4 && f[0] == "s") stocked.Add((int.Parse(f[1]), int.Parse(f[2]), int.Parse(f[3])));
-                if (f.Length == 4 && f[0] == "g")
+                // (The fifth field is whether the guard still stands; the older four-field lines are all living guards)
+                if ((f.Length == 4 || f.Length == 5) && f[0] == "g")
                     guards.Add((double.Parse(f[1], System.Globalization.CultureInfo.InvariantCulture), double.Parse(f[2], System.Globalization.CultureInfo.InvariantCulture),
-                        double.Parse(f[3], System.Globalization.CultureInfo.InvariantCulture), true));
+                        double.Parse(f[3], System.Globalization.CultureInfo.InvariantCulture), f.Length == 4 || f[4].Trim() != "0"));
             }
         }
         catch (Exception e)
@@ -174,7 +175,8 @@ public class FunSystem : ModSystem
         double now = sapi.World.Calendar.TotalHours;
         foreach (var (key, (n, at)) in killed) if (at > now) sb.Append($"k {key} {n} {at.ToString(inv)}\n");
         foreach (var (x, y, z) in stocked) sb.Append($"s {x} {y} {z}\n");
-        foreach (var g in guards) if (g.Alive) sb.Append($"g {g.X.ToString(inv)} {g.Y.ToString(inv)} {g.Z.ToString(inv)}\n");
+        // (The dead ones too: a guard is keyed by its place in this list)
+        foreach (var g in guards) sb.Append($"g {g.X.ToString(inv)} {g.Y.ToString(inv)} {g.Z.ToString(inv)} {(g.Alive ? 1 : 0)}\n");
         sapi.WorldManager.SaveGame.StoreData(SaveKey, Encoding.UTF8.GetBytes(sb.ToString()));
     }
 
@@ -225,11 +227,11 @@ public class FunSystem : ModSystem
             bool here = layout.LevelAt(WorldLayout.MacroOf(x), WorldLayout.MacroOf(z)) == WorldLayout.FunLevel;
             if (here) PutDownGuests(player, x, z);
             // Dressed for the party: told so once each time they put the disguise together here
-            if (here && Disguised(entity))
+            if (here && Dressed(entity))
             {
-                if (disguised.Add(entity.EntityId)) Tell(player, "backrooms:fun-disguised");
+                if (disguised.TryAdd(entity.EntityId, 0)) Tell(player, "backrooms:fun-disguised");
             }
-            else disguised.Remove(entity.EntityId);
+            else disguised.TryRemove(entity.EntityId, out _);
             Fever(player, entity, here, now);
             // Let go: the arm that held you lets go
             if (latchedUntilMs.TryGetValue(entity.EntityId, out long until) && now >= until)
@@ -429,7 +431,8 @@ public class FunSystem : ModSystem
         if (fever >= 1)
         {
             entity.WatchedAttributes.SetDouble(FeverKey, 0);
-            sapi.BroadcastMessageToAllGroups(Lang.Get("backrooms:fun-joined", player.PlayerName), EnumChatType.Notification);
+            foreach (IPlayer other in sapi.World.AllOnlinePlayers)
+                if (other is IServerPlayer to) to.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(to, "backrooms:fun-joined", player.PlayerName), EnumChatType.Notification);
             entity.Die(EnumDespawnReason.Death, JoinedTheParty);
         }
     }
@@ -470,8 +473,12 @@ public class FunSystem : ModSystem
 
     // ================= The disguise, and what they notice =================
 
-    /// <summary>Whether someone wears a party hat and holds a red balloon. (Asked by every Partygoer that looks at them.)</summary>
-    public static bool Disguised(EntityAgent entity)
+    /// <summary>Whether someone wears a party hat and holds a red balloon. (Asked by every Partygoer that looks at them,
+    /// so the answer is the one the tick worked out up to half a second ago.)</summary>
+    public static bool Disguised(EntityAgent entity) =>
+        server != null ? server.disguised.ContainsKey(entity.EntityId) : Dressed(entity);
+
+    private static bool Dressed(EntityAgent entity)
     {
         // (A player entity without its player, still joining or just gone, has no hands to look at: this threw every
         // tick and kept a save from loading while someone stood in Level Fun)

@@ -84,6 +84,7 @@ public class RunSystem : ModSystem
     private sealed class Run
     {
         public int Lane;
+        public long NextFlames; // sign fire: the next burst of particles (ms)
         public WorldLayout.RunLane Plan;
         public RunChase Chase;
         public double P;
@@ -390,13 +391,13 @@ public class RunSystem : ModSystem
     {
         if (!runs.TryGetValue(uid, out Run run)) return;
         runs.Remove(uid);
-        claims.Remove(run.Lane);
+        if (claims.TryGetValue(run.Lane, out var claim) && claim.Uid == uid) claims.Remove(run.Lane);
         foreach (var h in run.Horde) Despawn(h.Entity);
         foreach (var c in run.Chasers) Despawn(c.Entity);
         if (sapi.World.PlayerByUid(uid) is IServerPlayer { Entity: { } e } player)
         {
             if (why == "died" && run.Caught)
-                player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:run-caught", player.PlayerName), EnumChatType.Notification);
+                player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:run-caught", player.PlayerName), EnumChatType.Notification);
             e.Stats.Remove("walkspeed", CaughtStat);
             e.Stats.Remove("walkspeed", TripStat);
             SetPhase(e, Phase.None, 999, null);
@@ -471,7 +472,7 @@ public class RunSystem : ModSystem
             if (!run.Rumbled && hours - run.SafeSince > 2)
             {
                 run.Rumbled = true;
-                player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:run-rumble"), EnumChatType.Notification);
+                player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:run-rumble"), EnumChatType.Notification);
             }
             if (hours - run.SafeSince > 3) chase.SafeBreached = true;
         }
@@ -790,7 +791,12 @@ public class RunSystem : ModSystem
                 return;
             }
             // The curtain of fire: three blocks deep, wall to wall
-            for (int k = -1; k <= 2; k++) Flames(Along(run, e.S + k, 0, 0));
+            // (Every 300 ms, with three times the particles and a longer life, rather than every tick)
+            if (now >= run.NextFlames)
+            {
+                run.NextFlames = now + 300;
+                for (int k = -1; k <= 2; k++) Flames(Along(run, e.S + k, 0, 0));
+            }
             if (p >= e.S - 1.5 && p <= e.S + 2.5 && player.Entity.Alive) player.Entity.Ignite();
         }
     }
@@ -805,8 +811,8 @@ public class RunSystem : ModSystem
 
     private void Flames(Vec3d at)
     {
-        var fire = new SimpleParticleProperties(6, 10, ColorUtil.ToRgba(220, 255, 140, 30), at.AddCopy(-2.4, -1, -0.5), at.AddCopy(2.4, 1.2, 0.5),
-            new Vec3f(-0.2f, 0.5f, -0.2f), new Vec3f(0.2f, 1.6f, 0.2f), 0.8f, -0.05f, 0.5f, 1.4f, EnumParticleModel.Quad);
+        var fire = new SimpleParticleProperties(18, 30, ColorUtil.ToRgba(220, 255, 140, 30), at.AddCopy(-2.4, -1, -0.5), at.AddCopy(2.4, 1.2, 0.5),
+            new Vec3f(-0.2f, 0.5f, -0.2f), new Vec3f(0.2f, 1.6f, 0.2f), 1.2f, -0.05f, 0.5f, 1.4f, EnumParticleModel.Quad);
         fire.VertexFlags = 200;
         fire.SelfPropelled = true;
         fire.OpacityEvolve = EvolvingNatFloat.create(EnumTransformFunction.LINEAR, -160);
@@ -835,7 +841,7 @@ public class RunSystem : ModSystem
         if (!run.Tripped)
         {
             run.Tripped = true;
-            player.SendIngameError("backrooms-run", Lang.Get("backrooms:run-trip"));
+            player.SendIngameError("backrooms-run", Say.T(player, "backrooms:run-trip"));
         }
     }
 
@@ -891,7 +897,7 @@ public class RunSystem : ModSystem
                 message = "backrooms:run-locked";
                 break;
         }
-        if (message != null) player.SendIngameError("backrooms-run", Lang.Get(message));
+        if (message != null) player.SendIngameError("backrooms-run", Say.T(player, message));
     }
 
     private void SetDoor(Run run, (int X, int Z) local, string code, ArchPier face) => SetDoor(run.Lane, local, code, face);
@@ -1037,7 +1043,7 @@ public class RunSystem : ModSystem
             Drop("game:gear-rusty", 25, at);
             Drop("game:gear-temporal", 2, at);
         }
-        if (player != null) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:run-prize-left"), EnumChatType.Notification);
+        if (player != null) player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:run-prize-left"), EnumChatType.Notification);
         sapi.Logger.Notification("[backrooms] prize given at {0} ({1})", pick, present != 0 ? "present block" : "loose items");
     }
 

@@ -81,6 +81,7 @@ public class MotionSystem : ModSystem
             api.Event.PlayerDisconnect += OnPlayerDisconnect;
             api.Event.PlayerDeath += OnPlayerDeath;
             api.Event.OnEntityDeath += OnEntityDeath;
+            api.Event.OnEntityLoaded += OnEntityLoaded;
             api.Event.DidBreakBlock += OnBroke;
             api.Event.DidUseBlock += OnUsed;
             api.Event.DidPlaceBlock += OnPlaced;
@@ -95,6 +96,7 @@ public class MotionSystem : ModSystem
         sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
         sapi.Event.PlayerDeath -= OnPlayerDeath;
         sapi.Event.OnEntityDeath -= OnEntityDeath;
+        sapi.Event.OnEntityLoaded -= OnEntityLoaded;
         sapi.Event.DidBreakBlock -= OnBroke;
         sapi.Event.DidUseBlock -= OnUsed;
         sapi.Event.DidPlaceBlock -= OnPlaced;
@@ -203,6 +205,13 @@ public class MotionSystem : ModSystem
     public static void LandSoftly(Entity entity, IWorldAccessor world) =>
         entity.Attributes.SetLong(SoftKey, world.ElapsedMilliseconds + 15000);
 
+    /// <summary>Whether the landing stamp is still running; a stamp more than 15 s ahead of the clock is left over from another uptime.</summary>
+    private bool IsSoft(Entity entity)
+    {
+        long ahead = entity.Attributes.GetLong(SoftKey, 0) - sapi.World.ElapsedMilliseconds;
+        return ahead > 0 && ahead <= 15000;
+    }
+
     // The players whose health this has hooked, by entity id (a second NowPlaying must not hook the same entity twice)
     private readonly HashSet<long> hooked = new();
 
@@ -215,15 +224,24 @@ public class MotionSystem : ModSystem
         if (player.Entity != null) hooked.Remove(player.Entity.EntityId);
     }
 
+    /// <summary>A nightmare is saved with its chunk but the trial is not: one loaded again is let go.</summary>
+    private void OnEntityLoaded(Entity e)
+    {
+        if (e.Attributes.GetString(NightmareKey) != null)
+            sapi.Event.RegisterCallback(_ => { if (e.State != EnumEntityState.Despawned) sapi.World.DespawnEntity(e, new EntityDespawnData { Reason = EnumDespawnReason.Expire }); }, 50);
+    }
+
     private void OnPlayerNowPlaying(IServerPlayer player)
     {
+        // The stamp is a server-uptime time and the uptime restarts with the server: nothing lands softly across a login
+        player.Entity?.Attributes.RemoveAttribute(SoftKey);
         if (player.Entity?.GetBehavior<EntityBehaviorHealth>() is not { } health || !hooked.Add(player.Entity.EntityId)) return;
         health.onDamaged += (damage, source) =>
         {
             Entity entity = player.Entity;
             if (entity == null) return damage;
             // A soft landing on the hills of Level 94
-            if (source.Source == EnumDamageSource.Fall && entity.Attributes.GetLong(SoftKey, 0) > sapi.World.ElapsedMilliseconds) return 0;
+            if (source.Source == EnumDamageSource.Fall && IsSoft(entity)) return 0;
             // What the King raised can only do what you think it can: steady, a quarter of its strength; shaken, twice
             Entity from = source.GetCauseEntity() ?? source.SourceEntity;
             if (from != null && from.Attributes.GetString(NightmareKey) == player.PlayerUID)
