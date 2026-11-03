@@ -425,3 +425,14 @@ All new models are in `tools/gen_14_r4.py` (called from `gen_14_props.py` and `g
   0.4 and glass shards; the lockers drop nothing. Drip stands, monitors and the lift drop nothing.
 - Every placement was added after the room's own draws (or with no draw), so supply boxes, links and the rooms' other props are
   where they were.
+
+### What the shots showed
+- **Run a** (`%TEMP%/backrooms-shots/14-r4a`, after the A items): the nurses' station with its back units, the lift, the
+  directory board, the gurney in the hall, the lockers, the surgery set's monitor and drip stand, the drip stands at the ICU
+  beds, the tufted padding, the biohazard sign and the gel dispenser on the contaminated door's wall all read at a glance;
+  the pale square beside the Hunter is gone; decorations sit on white and tile walls with no mint squares round them.
+  Weak: the torture chambers' floor blood was a vinyl tile with a blot on it (pasted on the marble); whole blocks of mould
+  among clean paint read as camouflage squares (reception); the revolving door's brushed bronze read as wood; the padded
+  cell was one bed in an empty room; the surgical light and the ICU monitor arms were out of every frame (new spots
+  `surgery-set`, `icu-bed`). The first shot (`hall-lit`) came out black (the client had not lit the chunk yet; the same
+  spot was lit in every earlier run).
