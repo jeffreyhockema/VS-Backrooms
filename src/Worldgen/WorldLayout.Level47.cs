@@ -786,7 +786,7 @@ public sealed partial class WorldLayout
     public bool L47CampFits(int ax, int az)
     {
         for (int z = -1; z <= 1; z++)
-            for (int x = -3; x <= 3; x++)
+            for (int x = -4; x <= 4; x++)
             {
                 Tile n = TileAt(ax + x, az + z);
                 if (n.Kind != TileKind.Floor || n.Zone != L47Forest || n.SupplyBox || n.Under != 0 || (n.Detail & L47OpenGround) != 0) return false;

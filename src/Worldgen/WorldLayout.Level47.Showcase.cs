@@ -185,8 +185,7 @@ public partial class WorldLayout
                     {
                         if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r || !L47CampAt(cx + dx, cz + dz, out int ax, out int az) || !L47CampFits(ax, az)) continue;
                         // (From along its row, east of it: the log, the fire and the bedroll in a line, nothing between)
-                        if (TileAt(ax + 4, az).Kind != TileKind.Floor || TileAt(ax + 5, az).Kind != TileKind.Floor) continue;
-                        spots.Add(new Showcase.Spot("camp", ax + 5.5, Feet(ax + 5, az), az + 0.5, 270, -18, Day));
+                        spots.Add(new Showcase.Spot("camp", ax + 4.5, Feet(ax + 4, az), az + 0.5, 270, -24, Day));
                         done = true;
                     }
         }

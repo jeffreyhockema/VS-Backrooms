@@ -354,8 +354,13 @@ public sealed partial class WorldGenerator
     {
         if (!layout.L47CampAt(Hashing.FloorDiv(gx, W.MacroSize), Hashing.FloorDiv(gz, W.MacroSize), out int ax, out int az)) return;
         int dx = gx - ax, dz = gz - az;
-        if (dz != 0 || dx is not (0 or 2 or -2) || !layout.L47CampFits(ax, az)) return;
+        if (Math.Abs(dz) > 1 || Math.Abs(dx) > 4 || !layout.L47CampFits(ax, az)) return;
+        // (The site trodden bare and cleared of ferns round the fire, so it reads as a camp)
         int at = ground + 1 - L47Low;
+        if (b[ground - L47Low] is var top && (top == l47Moss || top == l47Litter || top == l47Humus)) b[ground - L47Low] = l47Trail;
+        if (Array.IndexOf(l47Ferns, b[at]) >= 0 || b[at] == l47ShortGrass || b[at] == l47TallGrass || Array.IndexOf(l47Flowers, b[at]) >= 0
+            || Array.IndexOf(l47Mushrooms, b[at]) >= 0 || Array.IndexOf(l47Toadstools, b[at]) >= 0 || b[at] == l47Stick) b[at] = 0;
+        if (dz != 0 || dx is not (0 or 2 or -2)) return;
         b[at] = dx == 0 ? l47FireRing23 : dx == 2 ? l47Bedroll23[3] : l47Kind[W.L47LogOakZ];
     }
 
