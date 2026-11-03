@@ -237,7 +237,9 @@ public sealed partial class WorldGenerator
                 if (quad >= 0 && (row < 0 || row >= L36.L36ArtRows[t.Depth % L36.L36ArtKinds.Length])) return l36ColumnWall;
             }
             // (round 4) The gallery round the tall halls: a slab edge with its balustrade at 7, the upper level's glazing over it
-            if (rel is >= 7 and <= 9 && high >= 9 && t.Overhead == 0 && ((t.Detail & L36.L36StoneBit) != 0
+            // (a wall with a poster or a menu board below seven keeps it: the picture's own rows are lower)
+            bool lowArt = t.Overhead == Overheads.L36Art && !column && t.Stack + L36.L36ArtRows[t.Depth % L36.L36ArtKinds.Length] <= 7;
+            if (rel is >= 7 and <= 9 && high >= 9 && (t.Overhead == 0 || lowArt) && ((t.Detail & L36.L36StoneBit) != 0
                 || (t.Detail & L36.L36MatMask) is Mat.Glass or Mat.Plaster or Mat.Panel or Mat.ShopSign))
             {
                 int face = L36HallFace(gx, gz, high);
@@ -339,7 +341,7 @@ public sealed partial class WorldGenerator
     {
         // (not the Meeting Place: its round wall steps, and a stepped tile has two faces on the atrium)
         static bool Hall(in Tile n, int h) => n.Kind == TileKind.Floor && n.Height >= h && n.Zone is (byte)Zone.Concourse or (byte)Zone.CheckIn
-            or (byte)Zone.Junction or (byte)Zone.Pier or (byte)Zone.Street;
+            or (byte)Zone.Junction or (byte)Zone.Pier or (byte)Zone.Street or (byte)Zone.FoodCourt;
         int face = -1, count = 0;
         if (Hall(layout.TileAt(gx, gz - 1), high)) { face = Facing(ArchPier.North); count++; }
         if (Hall(layout.TileAt(gx + 1, gz), high)) { face = Facing(ArchPier.East); count++; }

@@ -555,7 +555,9 @@ made the block before. Element counts in brackets.
   windows and the plane at the gate have a **real mullion** standing proud at each block's edge. The roof lights down the
   duty-free streets and across the food courts are frame blocks whose deck is the glazing (`l36-framesky-*`), and every
   skylight now gives daylight (the Meeting Place's floor was dark under its own). The holdrooms' side walls take the
-  halls' travertine dado; the baggage wall carries posters between the carousels.
+  halls' travertine dado; the baggage wall carries posters between the carousels. The Meeting Place gets lights among its
+  skylight's panes (the floor round the marker was dark) and the marker's light is brighter; the Travel Agency's posters
+  on a kiosk's outer walls are on purple cubes (from inside the kiosk their backs read as grey boards).
 - **The carousel** as one object: the island is now an edge / corner / deck by its neighbours (`l36-carousel-island`,
   `-island-edge-*`, `-island-corner-*`): a skirt, a kick plate, a black rubber bumper over the belt, a plate sloping up to
   the deck with bolts; its mouth in the wall (`l36-carousel-flap-*`, 15) a steel portal with a hazard-striped lintel,
@@ -589,6 +591,12 @@ made the block before. Element counts in brackets.
   reads across the 14-high atrium) in a brushed aluminium frame along its outer edges (`l36-meetbox-*` now a model); the
   Travel Agency kiosks' canopy (`l36-canopy-{plain,lit}`) has a downlight every other block; the **station clocks**
   (`l36-wallclock-*`) stand out of the wall in a dark case with a steel bezel.
+- **Benches**: the level's own airport bench (`l36-bench-*`: oak slats on a steel rail, cast leg frames, a seat divider)
+  wherever the layout puts the shared bench (the Meeting Place's ring, the concourses, the services alcoves).
+- **Lost and Found**: the office under its own four-high tiled ceiling (it stood under the claim hall's seven) with its
+  lights, unclaimed luggage heaped between the shelves and the counter.
+- **Food courts**: the travertine dado and the gallery round their walls too (the stalls' menu boards keep their place
+  under it).
 - **The lounge**: its own cognac leather sofas (`l36-sofa-{left,right}-*`: plinth on chrome feet, a deep seat with its
   seam, a back cushion leaning on the padded back, a rolled arm) in place of Level 3999's purple couch halves.
 - **Smaller**: the restroom basins (free-standing in the pier restrooms) carry their mirror on a panel; the shoe-shine

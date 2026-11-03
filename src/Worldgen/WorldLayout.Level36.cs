@@ -308,9 +308,9 @@ public sealed partial class WorldLayout
                 Tile n = L36Raw(gx + dx, gz + dz);
                 if (n.Kind == TileKind.Wall) continue;
                 height = Math.Max(height, n.Height);
-                // (round 4: the holdrooms too, so their side walls are not bare panel)
+                // (round 4: the holdrooms and the food courts too, so their walls are not bare panel)
                 if ((L36Zone)n.Zone is L36Zone.Concourse or L36Zone.Junction or L36Zone.Pier or L36Zone.Street or L36Zone.Meeting or L36Zone.CheckIn
-                    or L36Zone.Baggage or L36Zone.Holdroom) toHall = true;
+                    or L36Zone.Baggage or L36Zone.Holdroom or L36Zone.FoodCourt) toHall = true;
                 var (r, m) = (L36Zone)n.Zone switch
                 {
                     L36Zone.Restroom => (6, L36Mat.WallTile),
@@ -422,9 +422,14 @@ public sealed partial class WorldLayout
                 }
                 t.Zone = (byte)L36Zone.LostFound;
                 t.Detail = L36Mat.CarpetGrey;
+                // (round 4) an office's ceiling, four high, not the claim hall's seven over a few shelves
+                t.Height = 4;
+                t.Ceiling = (u - 2) % 4 == 0 && k % 4 == 2 ? CeilingKind.LightOn : CeilingKind.L36Ceiling;
                 if (u == 1 && k % 2 == 0) { t.Variant = Props.L36LostFound; t.Pier = ArchPier.East; }
                 else if (u == 8 && k is >= 10 and <= 21 && k is not (15 or 16)) { t.Variant = Props.ReceptionDesk; t.Pier = ArchPier.East; }
                 else if (u is >= 3 and <= 6 && r < 0.18) { t.Variant = r < 0.12 ? Props.Suitcase : Props.Backpack; t.Pier = (ArchPier)(int)(r * 40 % 4); }
+                // (round 4) and heaps of the cases nobody claimed (decor: the ones you can open are the suitcases above)
+                else if (u is >= 2 and <= 7 && r < 0.42) { t.Variant = Props.L36Luggage; t.Stack = (byte)((int)(r * 997) % 5); t.Pier = (ArchPier)(int)(r * 7919 % 4); }
                 else if (u == 2 && k == 5) t.SupplyBox = true;
             }
             if (u == 12 && k == 15) { t.Overhead = Overheads.L36Sign; t.Depth = L36SBaggage; t.Pier = ArchPier.East; }
