@@ -1,4 +1,4 @@
-// Level 31: a countertop soda fountain on a counter base (a block tall); the taps face the side; dispenses Almond Water
+// Level 31: the food court's soda fountain on its counter section (a block tall and the tower over it), six valves under lit labels, the drip grate, ice lever, cups and straws; the valves face the side; dispenses Almond Water
 {
 	"code": "l31-fountain",
 	"variantgroups": [
@@ -57,36 +57,36 @@
 		"l31-fountain-north": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 1,
 			"y2": 1,
-			"z2": 0.9375
+			"z2": 1
 		},
 		"l31-fountain-east": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 1,
 			"y2": 1,
-			"z2": 0.9375,
+			"z2": 1,
 			"rotateY": 270
 		},
 		"l31-fountain-south": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 1,
 			"y2": 1,
-			"z2": 0.9375,
+			"z2": 1,
 			"rotateY": 180
 		},
 		"l31-fountain-west": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 1,
 			"y2": 1,
-			"z2": 0.9375,
+			"z2": 1,
 			"rotateY": 90
 		}
 	},
@@ -95,36 +95,36 @@
 		"l31-fountain-north": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 1,
 			"y2": 1,
-			"z2": 0.9375
+			"z2": 1
 		},
 		"l31-fountain-east": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 1,
 			"y2": 1,
-			"z2": 0.9375,
+			"z2": 1,
 			"rotateY": 270
 		},
 		"l31-fountain-south": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 1,
 			"y2": 1,
-			"z2": 0.9375,
+			"z2": 1,
 			"rotateY": 180
 		},
 		"l31-fountain-west": {
 			"x1": 0,
 			"y1": 0,
-			"z1": 0.0625,
+			"z1": 0.05,
 			"x2": 1,
 			"y2": 1,
-			"z2": 0.9375,
+			"z2": 1,
 			"rotateY": 90
 		}
 	},

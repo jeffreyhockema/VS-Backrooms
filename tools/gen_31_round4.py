@@ -6,7 +6,7 @@ Rebuilt (codes kept):  l31-skateshelf (real skates in two-by-three cubbies), l31
     with lit strips, a turntable, a mixer between CD decks), l31-speaker (a PA stack), l31-truss (a laced box truss with
     par cans on yokes), l31-discoball (the mirror ball's shape), l31-rinkwood's textures, l31-retrocab (1980s uprights
     in the classic profile), l31-photobooth, l31-dispenser (the green-card machine), l31-cinemabench, l31-mediacab,
-    l31-riser's shape (nosing and aisle lights), l31-table, l31-trophycase, l31-cctv, l31-stall, l31-vanity, l31-jukebox; and round 3's wall mounts get
+    l31-riser's shape (nosing and aisle lights), l31-table, l31-trophycase, l31-cctv, l31-fountain (the dispenser kept), l31-stall, l31-vanity, l31-jukebox; and round 3's wall mounts get
     their depth: the neon signs' tubes stand proud of their boards (the DJ sign's too:
     gen_31_walls.py's blocktype is patched for its dj kinds), the big TV gets a bezel, the dryer a real body, and the EXIT sign, extinguisher and fire alarm
     mounts take the mod's shared models (detail/exithanging, the Level 1 extinguisher and alarm bell)
@@ -1169,6 +1169,36 @@ def shared_fittings():
         write_json(os.path.join(SHAPES, f"l31-plate-{kind}.json"), data)
 
 
+def fountain():
+    """The food court's soda fountain (it pours Almond Water): a counter section in laminate with a stainless top, the
+    dispenser tower with six valves under their lit flavour labels (one of them ALMOND), the drip tray's grate, the
+    ice lever, a stack of cups and a straw box."""
+    lab = Image.new("RGBA", (64, 16), rgba((20, 20, 24)))
+    d = ImageDraw.Draw(lab)
+    cols = [(220, 30, 40), (40, 90, 220), (250, 200, 40), (60, 190, 80), (240, 120, 30), (236, 230, 200)]
+    for k, c in enumerate(cols):
+        d.rectangle([1 + k * 10 + k // 3, 2, 9 + k * 10 + k // 3, 13], fill=rgba(c))
+    text(lab, 52, 5, "AW", (60, 50, 30))
+    save_tex(lab, "r4-sodalabels")
+    els = [
+        B("Counter", (0, 0, 1.5), (16, 14, 16), "counter-front", up=("r4-steel", None)),
+        B("Kick", (0.2, 0, 1.2), (15.8, 1.0, 1.5), "r4-black", faces=without(DIRS, "south")),
+        B("Top", (-0.1, 14, 0.8), (16.1, 15, 16), "r4-steel"),
+        B("Tower", (1.5, 15, 7.5), (14.5, 25, 14.0), "r4-steel"),
+        B("Labels", (1.8, 21.0, 7.2), (14.2, 24.0, 7.5), "r4-black", faces=("north",), north=("r4-sodalabels", FULL, 200)),
+        B("Cap", (1.2, 25, 7.0), (14.8, 26.0, 14.4), "r4-black"),
+        B("Grate", (1.5, 15, 2.5), (14.5, 15.6, 7.5), "r4-grille"),
+        B("Ice", (7.1, 17.0, 6.6), (8.9, 19.6, 7.5), "r4-steel"),
+        B("IceLever", (7.7, 16.2, 5.8), (8.3, 18.0, 6.6), "r4-chrome"),
+        B("Cups", (14.6, 15, 1.4), (15.9, 19.5, 2.7), "plate-white"),
+        B("Straws", (0.1, 15, 1.2), (1.5, 17.2, 2.8), "r4-red"),
+    ]
+    for k, x in enumerate((2.0, 3.8, 5.6, 9.1, 10.9, 12.7)):
+        els += [B(f"Valve{k}", (x, 19.0, 6.8), (x + 1.3, 20.8, 7.5), "r4-chrome"),
+                B(f"Nozzle{k}", (x + 0.35, 18.2, 7.0), (x + 0.95, 19.0, 7.4), "r4-black")]
+    return shape("l31-fountain", els)
+
+
 # ======================================================================== Restrooms
 
 def stall():
@@ -1455,6 +1485,11 @@ def blocks():
     prop_block("l31-jukebox", "Level 31: a 1990s jukebox, wood under a stepped neon arch, the record window, selector keys, bubble tubes either side, a chrome grille, 22 units tall, toward the side",
                lambda k: ref, (0.03, 0, 0.21, 0.97, 1, 0.82), (0.03, 0, 0.21, 0.97, 1, 0.82), resistance=3, extra={"lightHsv": [50, 4, 6]})
     riser()
+    ref = fountain()
+    prop_block("l31-fountain", "Level 31: the food court's soda fountain on its counter section (a block tall and the tower over it), six valves under lit labels, the drip grate, ice lever, cups and straws; the valves face the side; dispenses Almond Water",
+               lambda k: ref, (0, 0, 0.05, 1, 1, 1), (0, 0, 0.05, 1, 1, 1), resistance=4,
+               extra={"class": "BackroomsDispenser", "entityClass": "BackroomsDispenser",
+                      "attributes": {"dispenses": ["backrooms:almondwater"], "restock": True, "liquidSource": True}})
     ref = cctv()
     prop_block("l31-cctv", "Level 31: a 1990s CCTV camera on a drop arm under the ceiling, in its sun hood, tilted down toward the side, a red LED",
                lambda k: ref, (0.36, 0.55, 0.18, 0.64, 1, 0.86), None, resistance=2)
