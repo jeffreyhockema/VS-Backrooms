@@ -984,6 +984,38 @@ def machine_shape(kind):
                        (face, top, trim, "bezel", "brushed", "steelgrey", "machine-burnt")})
 
 
+def stardoor_shape(part):
+    """The star door (round 4): a free-standing steel doorframe two blocks high, facing north and south, its posts with
+    flanges and bolt heads, base plates bolted to the floor, a threshold plate, a lintel with a stiffener; in it the night
+    sky with the blue star, a faint halo round the star standing in the opening."""
+    lower = part == "lower"
+    els = []
+    for side, x0 in (("L", 0.5), ("R", 13.5)):
+        els += [box(f"Post{side}", (x0, 0, 6.5), (x0 + 2, 16, 9.5), "steel"),
+                box(f"FlangeN{side}", (x0 - 0.25, 0, 6.25), (x0 + 2.25, 16, 6.5), "steel"),
+                box(f"FlangeS{side}", (x0 - 0.25, 0, 9.5), (x0 + 2.25, 16, 9.75), "steel")]
+        for y in ((2, 8, 14) if lower else (2, 8)):
+            els += [box(f"BoltN{side}{y}", (x0 + 0.75, y, 6.05), (x0 + 1.25, y + 0.5, 6.25), "dark", faces=("north",)),
+                    box(f"BoltS{side}{y}", (x0 + 0.75, y, 9.75), (x0 + 1.25, y + 0.5, 9.95), "dark", faces=("south",))]
+        if lower:
+            els.append(box(f"Base{side}", (x0 - 0.75, 0, 5), (x0 + 2.75, 0.5, 11), "steel"))
+    els.append(box("Sky", (2.5, 0, 7.75), (13.5, 16 if lower else 12, 8.25), "starfield", faces=("north", "south"), glow=120))
+    if lower:
+        els += [box("Sill", (2.5, 0, 6.5), (13.5, 0.5, 9.5), "steel", faces=("up", "north", "south")),
+                box("SillStrip", (2.5, 0.5, 7.5), (13.5, 0.6, 8.5), "dark", faces=("up",))]
+    else:
+        els += [box("Lintel", (0.25, 12, 6.25), (15.75, 15, 9.75), "steel"),
+                box("Stiffener", (7.5, 15, 7), (8.5, 16, 9), "steel"),
+                box("Star", (7.5, 2.5, 7.25), (8.5, 3.5, 8.75), "starglow", glow=255),
+                box("HaloN", (6.25, 1.25, 7.5), (9.75, 4.75, 7.6), "starhalo", faces=("north", "south"), glow=200),
+                box("HaloS", (6.25, 1.25, 8.4), (9.75, 4.75, 8.5), "starhalo", faces=("north", "south"), glow=200)]
+    for e in els:
+        if e["name"] in ("Sky", "HaloN", "HaloS"):
+            for f in e["faces"].values():
+                f["uv"] = [0, 0, 16, 16] if e["name"] != "Sky" else f["uv"]
+    return write_shape("l15-stardoor-" + part, els, {k: T(k) for k in ("steel", "dark", "starfield", "starglow", "starhalo")})
+
+
 def stool_shape():
     """A canteen's fixed stool: a floor flange, a steel column, a foot ring, a round seat (two crossed boxes and a cap)."""
     els = [box("Flange", (5.5, 0, 5.5), (10.5, 0.4, 10.5), "brushed"),
@@ -1124,6 +1156,23 @@ def glass_textures():
         M.grime(img, 0.05, seed=15850, color=(150, 160, 160))
         save(opaque(img), name)
     save(M.new((S, S), (140, 70, 20)), "amberglass")
+    # The star door's sky without its star (the star stands in the opening as a model): a night sky, small stars
+    sky = M.new((S, S), (4, 6, 14))
+    rng = random.Random(15516)
+    for _ in range(30):
+        x, y = rng.randint(0, 31), rng.randint(0, 31)
+        b = rng.randint(110, 240)
+        sky.putpixel((x, y), (b, b, min(255, b + 20), 255))
+    save(sky, "starfield")
+    # The blue star's halo: a soft ring of blue (a cut-out: opaque where it shows, gone outside it)
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    for y in range(S):
+        for x in range(S):
+            d = ((x - 15.5) ** 2 + (y - 15.5) ** 2) ** 0.5
+            if 9 <= d <= 15 and (x + y) % 2 == 0:
+                k = 1 - abs(d - 12) / 3
+                img.putpixel((x, y), (int(60 + 80 * k), int(110 + 100 * k), 255, 255))
+    save(img, "starhalo")
     # A second bundle's colours (greys, an orange fibre, a green earth)
     img = M.new((S, S), (28, 30, 32))
     for y in range(S):
@@ -1146,6 +1195,8 @@ def blocktypes():
     for k in ("plain", "sink", "equipment", "glassware"):
         labbench_shape(k)
     tray_shape()
+    for part in ("lower", "upper"):
+        stardoor_shape(part)
     for part in ("lower", "upper"):
         for st in ("closed", "ajar"):
             locker_shape(part, st)

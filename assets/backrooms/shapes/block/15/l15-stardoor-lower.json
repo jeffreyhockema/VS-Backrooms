@@ -1,225 +1,954 @@
 {
-	"textureWidth": 16,
-	"textureHeight": 16,
-	"textures": {
-		"starsky": "backrooms:block/15/starsky",
-		"steel": "backrooms:block/15/steel"
-	},
-	"elements": [
-		{
-			"name": "PostL",
-			"from": [
-				0.5,
-				0,
-				6.5
-			],
-			"to": [
-				2.5,
-				16,
-				9.5
-			],
-			"faces": {
-				"north": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						2.0,
-						16
-					]
-				},
-				"east": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						3.0,
-						16
-					]
-				},
-				"south": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						2.0,
-						16
-					]
-				},
-				"west": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						3.0,
-						16
-					]
-				},
-				"up": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						2.0,
-						3.0
-					]
-				},
-				"down": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						2.0,
-						3.0
-					]
-				}
-			}
-		},
-		{
-			"name": "PostR",
-			"from": [
-				13.5,
-				0,
-				6.5
-			],
-			"to": [
-				15.5,
-				16,
-				9.5
-			],
-			"faces": {
-				"north": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						2.0,
-						16
-					]
-				},
-				"east": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						3.0,
-						16
-					]
-				},
-				"south": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						2.0,
-						16
-					]
-				},
-				"west": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						3.0,
-						16
-					]
-				},
-				"up": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						2.0,
-						3.0
-					]
-				},
-				"down": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						2.0,
-						3.0
-					]
-				}
-			}
-		},
-		{
-			"name": "Sky",
-			"from": [
-				2.5,
-				0,
-				7.75
-			],
-			"to": [
-				13.5,
-				16,
-				8.25
-			],
-			"faces": {
-				"north": {
-					"texture": "#starsky",
-					"uv": [
-						0,
-						0,
-						11.0,
-						16
-					],
-					"glow": 120
-				},
-				"south": {
-					"texture": "#starsky",
-					"uv": [
-						0,
-						0,
-						11.0,
-						16
-					],
-					"glow": 120
-				}
-			}
-		},
-		{
-			"name": "Sill",
-			"from": [
-				2.5,
-				0,
-				6.5
-			],
-			"to": [
-				13.5,
-				0.5,
-				9.5
-			],
-			"faces": {
-				"up": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						11.0,
-						3.0
-					]
-				},
-				"north": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						11.0,
-						0.5
-					]
-				},
-				"south": {
-					"texture": "#steel",
-					"uv": [
-						0,
-						0,
-						11.0,
-						0.5
-					]
-				}
-			}
-		}
-	]
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "steel": "backrooms:block/15/steel",
+  "dark": "backrooms:block/15/dark",
+  "starfield": "backrooms:block/15/starfield",
+  "starglow": "backrooms:block/15/starglow",
+  "starhalo": "backrooms:block/15/starhalo"
+ },
+ "elements": [
+  {
+   "name": "PostL",
+   "from": [
+    0.5,
+    0,
+    6.5
+   ],
+   "to": [
+    2.5,
+    16,
+    9.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.0,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      3.0,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.0,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      3.0,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.0,
+      3.0
+     ]
+    },
+    "down": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.0,
+      3.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "FlangeNL",
+   "from": [
+    0.25,
+    0,
+    6.25
+   ],
+   "to": [
+    2.75,
+    16,
+    6.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "FlangeSL",
+   "from": [
+    0.25,
+    0,
+    9.5
+   ],
+   "to": [
+    2.75,
+    16,
+    9.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BoltNL2",
+   "from": [
+    1.25,
+    2,
+    6.05
+   ],
+   "to": [
+    1.75,
+    2.5,
+    6.25
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BoltSL2",
+   "from": [
+    1.25,
+    2,
+    9.75
+   ],
+   "to": [
+    1.75,
+    2.5,
+    9.95
+   ],
+   "faces": {
+    "south": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BoltNL8",
+   "from": [
+    1.25,
+    8,
+    6.05
+   ],
+   "to": [
+    1.75,
+    8.5,
+    6.25
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BoltSL8",
+   "from": [
+    1.25,
+    8,
+    9.75
+   ],
+   "to": [
+    1.75,
+    8.5,
+    9.95
+   ],
+   "faces": {
+    "south": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BoltNL14",
+   "from": [
+    1.25,
+    14,
+    6.05
+   ],
+   "to": [
+    1.75,
+    14.5,
+    6.25
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BoltSL14",
+   "from": [
+    1.25,
+    14,
+    9.75
+   ],
+   "to": [
+    1.75,
+    14.5,
+    9.95
+   ],
+   "faces": {
+    "south": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BaseL",
+   "from": [
+    -0.25,
+    0,
+    5
+   ],
+   "to": [
+    3.25,
+    0.5,
+    11
+   ],
+   "faces": {
+    "north": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      3.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      6,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      3.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      6,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      3.5,
+      6
+     ]
+    },
+    "down": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      3.5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "name": "PostR",
+   "from": [
+    13.5,
+    0,
+    6.5
+   ],
+   "to": [
+    15.5,
+    16,
+    9.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.0,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      3.0,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.0,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      3.0,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.0,
+      3.0
+     ]
+    },
+    "down": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.0,
+      3.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "FlangeNR",
+   "from": [
+    13.25,
+    0,
+    6.25
+   ],
+   "to": [
+    15.75,
+    16,
+    6.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "FlangeSR",
+   "from": [
+    13.25,
+    0,
+    9.5
+   ],
+   "to": [
+    15.75,
+    16,
+    9.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      0.5,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      2.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BoltNR2",
+   "from": [
+    14.25,
+    2,
+    6.05
+   ],
+   "to": [
+    14.75,
+    2.5,
+    6.25
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BoltSR2",
+   "from": [
+    14.25,
+    2,
+    9.75
+   ],
+   "to": [
+    14.75,
+    2.5,
+    9.95
+   ],
+   "faces": {
+    "south": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BoltNR8",
+   "from": [
+    14.25,
+    8,
+    6.05
+   ],
+   "to": [
+    14.75,
+    8.5,
+    6.25
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BoltSR8",
+   "from": [
+    14.25,
+    8,
+    9.75
+   ],
+   "to": [
+    14.75,
+    8.5,
+    9.95
+   ],
+   "faces": {
+    "south": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BoltNR14",
+   "from": [
+    14.25,
+    14,
+    6.05
+   ],
+   "to": [
+    14.75,
+    14.5,
+    6.25
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BoltSR14",
+   "from": [
+    14.25,
+    14,
+    9.75
+   ],
+   "to": [
+    14.75,
+    14.5,
+    9.95
+   ],
+   "faces": {
+    "south": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BaseR",
+   "from": [
+    12.75,
+    0,
+    5
+   ],
+   "to": [
+    16.25,
+    0.5,
+    11
+   ],
+   "faces": {
+    "north": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      3.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      6,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      3.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      6,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      3.5,
+      6
+     ]
+    },
+    "down": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      3.5,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "name": "Sky",
+   "from": [
+    2.5,
+    0,
+    7.75
+   ],
+   "to": [
+    13.5,
+    16,
+    8.25
+   ],
+   "faces": {
+    "north": {
+     "texture": "#starfield",
+     "uv": [
+      0,
+      0,
+      11.0,
+      16
+     ],
+     "glow": 120
+    },
+    "south": {
+     "texture": "#starfield",
+     "uv": [
+      0,
+      0,
+      11.0,
+      16
+     ],
+     "glow": 120
+    }
+   }
+  },
+  {
+   "name": "Sill",
+   "from": [
+    2.5,
+    0,
+    6.5
+   ],
+   "to": [
+    13.5,
+    0.5,
+    9.5
+   ],
+   "faces": {
+    "up": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      11.0,
+      3.0
+     ]
+    },
+    "north": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      11.0,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#steel",
+     "uv": [
+      0,
+      0,
+      11.0,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "SillStrip",
+   "from": [
+    2.5,
+    0.5,
+    7.5
+   ],
+   "to": [
+    13.5,
+    0.6,
+    8.5
+   ],
+   "faces": {
+    "up": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      11.0,
+      1.0
+     ]
+    }
+   }
+  }
+ ]
 }
