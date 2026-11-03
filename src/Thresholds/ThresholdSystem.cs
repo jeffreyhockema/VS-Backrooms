@@ -119,7 +119,8 @@ public partial class ThresholdSystem : ModSystem
             geometry = BackroomsWorld.CreateGeometry(api.World);
             network = new ThresholdNetwork(layout, geometry, api.WorldManager.Seed);
             byte[] saved = api.WorldManager.SaveGame.GetData(SaveKey);
-            if (!network.Load(saved))
+            bool linksRead = network.Load(saved);
+            if (!linksRead)
             {
                 // Keep what could not be read rather than lose it when the links are next saved (and keep the first
                 // such copy, should it happen again)
@@ -128,7 +129,7 @@ public partial class ThresholdSystem : ModSystem
                 api.Logger.Error("[backrooms] The saved threshold links could not all be read (kept as {0}-unreadable); {1} were, the rest will find their places again",
                     SaveKey, network.Count);
             }
-            LoadWayBacks(api);
+            LoadWayBacks(api, linksRead);
             thinSpotId = api.World.GetBlock(new AssetLocation("backrooms:thinspot"))?.BlockId ?? 0;
             api.Event.GameWorldSave += () =>
             {
@@ -199,12 +200,14 @@ public partial class ThresholdSystem : ModSystem
             busyUntilMs[player.PlayerUID] = sapi.World.ElapsedMilliseconds + 2000;
             return;
         }
-        if (passage.Sound != null) Play(pos, passage.Sound);
         if (kind != "elevator")
         {
             Go(player, passage, destination, kind is "thinspot" or "vent" or "endvent" ? "plain" : "door");
+            // (After, for the redirect may have taken the sound away: someone put down elsewhere hears no slam)
+            if (passage.Sound != null) Play(pos, passage.Sound);
             return;
         }
+        if (passage.Sound != null) Play(pos, passage.Sound);
 
         // Start loading where it goes while the car rides, and take everyone standing in it along
         Link arrival = destination.Value;
@@ -344,11 +347,14 @@ public partial class ThresholdSystem : ModSystem
     /// <summary>A fall while <see cref="FallGraceKey"/> lasts hurts as usual but leaves at least <see cref="FallGraceHealth"/>.</summary>
     private void SoftenFalls(IServerPlayer player)
     {
+        // (The stamp is an uptime, which starts again at each server start: one left over from an earlier session means nothing)
+        player.Entity?.Attributes.RemoveAttribute(FallGraceKey);
         if (player.Entity?.GetBehavior<Vintagestory.GameContent.EntityBehaviorHealth>() is not { } health) return;
         health.onDamaged += (damage, source) =>
         {
             if (source.Source != EnumDamageSource.Fall || player.Entity == null) return damage;
-            if (player.Entity.Attributes.GetLong(FallGraceKey, 0) <= sapi.World.ElapsedMilliseconds) return damage;
+            long now = sapi.World.ElapsedMilliseconds, until = player.Entity.Attributes.GetLong(FallGraceKey, 0);
+            if (until <= now || until > now + FallGraceMs) return damage;
             return Math.Min(damage, Math.Max(0f, health.Health - FallGraceHealth));
         };
     }
@@ -421,13 +427,13 @@ public partial class ThresholdSystem : ModSystem
     /// </summary>
     private void Remember(IServerPlayer player, Vec3d from, Link to, bool twoWay, bool arrived = true)
     {
-        string there = MapMarks.LevelName(layout, to.X, to.Z), here = MapMarks.LevelName(layout, from.X, from.Z);
+        string there = MapMarks.LevelName(player, layout, to.X, to.Z), here = MapMarks.LevelName(player, layout, from.X, from.Z);
         bool inside = there == here;
         string icon = inside ? MapMarks.InLevelIcon : "spiral";
         int toColor = inside ? MapMarks.InLevelColor : MapMarks.WayColorTo(layout, to.X, to.Z);
         int backColor = inside ? MapMarks.InLevelColor : MapMarks.WayColorTo(layout, from.X, from.Z);
-        MapMarks.Add(sapi, player, from, Lang.Get(twoWay ? "backrooms:waypoint-way" : "backrooms:waypoint-oneway", there), icon, toColor, 6, tell: false);
-        if (twoWay && arrived) MapMarks.Add(sapi, player, new Vec3d(to.X, to.Y, to.Z), Lang.Get("backrooms:waypoint-back", here), icon, backColor, 6, tell: false);
+        MapMarks.Add(sapi, player, from, Say.T(player, twoWay ? "backrooms:waypoint-way" : "backrooms:waypoint-oneway", there), icon, toColor, 6, tell: false);
+        if (twoWay && arrived) MapMarks.Add(sapi, player, new Vec3d(to.X, to.Y, to.Z), Say.T(player, "backrooms:waypoint-back", here), icon, backColor, 6, tell: false);
     }
 
     /// <summary>
@@ -444,9 +450,9 @@ public partial class ThresholdSystem : ModSystem
         double dx = pos.X - last.X, dz = pos.Z - last.Z;
         if (dx * dx + dz * dz > 6 * 6) return; // taken, not walked
         if (WorldLayout.IsOpenSky(level) && WorldLayout.IsOpenSky(last.Level)) return; // no wall there to have a gate in
-        string a = MapMarks.LevelName(layout, last.X, last.Z), b = MapMarks.LevelName(layout, pos.X, pos.Z);
+        string a = MapMarks.LevelName(player, layout, last.X, last.Z), b = MapMarks.LevelName(player, layout, pos.X, pos.Z);
         // (Marked just inside the level walked into, so it is the colour of the level it leads back to)
-        MapMarks.Add(sapi, player, pos.XYZ, Lang.Get("backrooms:waypoint-gate", a, b), "x", MapMarks.WayColorTo(last.Level), 16, tell: false);
+        MapMarks.Add(sapi, player, pos.XYZ, Say.T(player, "backrooms:waypoint-gate", a, b), "x", MapMarks.WayColorTo(last.Level), 16, tell: false);
     }
 
     /// <summary>
@@ -467,7 +473,7 @@ public partial class ThresholdSystem : ModSystem
     /// Puts a player down at a destination. <paramref name="source"/> is the threshold they came through, when they arrive
     /// where it leads (not redirected): a door or an elevator built there as its way back is seen to once they are.
     /// </summary>
-    private bool Arrive(IServerPlayer player, Link? destination, string style = null, (int X, int Z)? source = null)
+    private bool Arrive(IServerPlayer player, Link? destination, string style = null, (int X, int Z)? source = null, float? faceYaw = null)
     {
         if (destination is not { } link)
         {
@@ -536,13 +542,22 @@ public partial class ThresholdSystem : ModSystem
         player.Entity.TeleportToDouble(link.X, link.Y + drop, link.Z, () =>
         {
             SendTransition(player, TransitionPhase.End, style);
-            sapi.Logger.Debug("[backrooms] {0} put down at {1:0}, {2:0}, {3:0} after {4} ms ({5})", player.PlayerName, link.X, link.Y, link.Z,
-                sapi.World.ElapsedMilliseconds - startedMs, style ?? "plain");
-            if (link.Marker) LeaveThinSpot(link);
-            if (wayBack != null) BuildWayBack(player, source.Value);
-            if (onStairs) Face(player, DownFlight(onto.Pier));
-            else if (away is { } d) Face(player, (float)Math.Atan2(d.Dx, d.Dz));
-            else if (look is { } yaw) Face(player, yaw);
+            // (The game clears Teleporting only after this returns: a throw here would leave them unable to use anything)
+            try
+            {
+                sapi.Logger.Debug("[backrooms] {0} put down at {1:0}, {2:0}, {3:0} after {4} ms ({5})", player.PlayerName, link.X, link.Y, link.Z,
+                    sapi.World.ElapsedMilliseconds - startedMs, style ?? "plain");
+                if (link.Marker) LeaveThinSpot(link);
+                if (wayBack != null) BuildWayBack(player, source.Value);
+                if (faceYaw is { } spoke) Face(player, spoke);
+                else if (onStairs) Face(player, DownFlight(onto.Pier));
+                else if (away is { } d) Face(player, (float)Math.Atan2(d.Dx, d.Dz));
+                else if (look is { } yaw) Face(player, yaw);
+            }
+            catch (Exception e)
+            {
+                sapi.Logger.Error("[backrooms] Seeing to the arrival of {0} failed: {1}", player.PlayerName, e);
+            }
         });
         return true;
     }
@@ -610,7 +625,7 @@ public partial class ThresholdSystem : ModSystem
     }
 
     private bool IsBusy(IServerPlayer player) =>
-        busyUntilMs.TryGetValue(player.PlayerUID, out long until) && sapi.World.ElapsedMilliseconds < until;
+        player.Entity?.Teleporting == true || busyUntilMs.TryGetValue(player.PlayerUID, out long until) && sapi.World.ElapsedMilliseconds < until;
 
     private void Play(BlockPos pos, string sound)
     {

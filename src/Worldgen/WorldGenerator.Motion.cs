@@ -111,7 +111,7 @@ public sealed partial class WorldGenerator
         switch (t.Variant)
         {
             case Props.WaterTower:
-                int tower = towerFrame ? WaterTowerFrameBlock(t, c) : WaterTowerBlock(t.Stack, c);
+                int tower = towerFrame && layout.Version >= 14 ? WaterTowerFrameBlock(t, c) : WaterTowerBlock(t.Stack, c);
                 return tower == 0 && c == 1 ? UnderTowerGrass(t, gx, gz) : tower; // long grass round its legs
             case Props.AlmondFountain: return FountainBlock(t.Stack, c, out fluid);
         }
@@ -173,8 +173,9 @@ public sealed partial class WorldGenerator
     /// The water tower of the pictures (graphics pass D3), over the same five by five tiles and fourteen levels: four
     /// braced legs on footings, a riser over the tap, a plain round white tank with a catwalk and a cone of a roof. One
     /// block per tile and level (watertowerframe-x{i}z{j}y{level}, cut from one model by
-    /// tools/gen_motion.py); the tap at the foot of the riser is the old tower's. Placed in every world, since its tiles
-    /// are where the old tower stood: chunks generated before keep the old one.
+    /// tools/gen_motion.py); the tap at the foot of the riser is the old tower's. Placed from layout version 14, since its tiles
+    /// are where the old tower stood: a world of an earlier version keeps the old one throughout, so a tower never
+    /// stands half one and half the other across a chunk seam.
     /// </summary>
     private int WaterTowerFrameBlock(in Tile t, int c)
     {

@@ -14,6 +14,7 @@ import argparse
 import concurrent.futures as cf
 import datetime
 import glob
+import hashlib
 import json
 import math
 import os
@@ -32,7 +33,8 @@ STAGES = ["generators", "lang", "build", "boot", "mapgen", "scorecard", "oldworl
 FAST = ["generators", "lang", "build", "boot", "harness"]
 TAG = os.environ.get("GATE_TAG", "gate")  # (each parallel gate sets its own, so they do not share a build folder)
 HASH_VERSIONS = [1, 9, 10, 11, 12, 13]  # past layout versions, always checked; the current one is added
-DEFAULT_CONFIG = {"oldWorldSave": "C:/Users/icebu/AppData/Roaming/VintagestoryData/Saves/sunny cave tales.vcdbs"}
+RELEASED_THROUGH = 13                   # layout versions up to here are in saves: a changed hash FAILs. Bump at each release.
+DEFAULT_CONFIG = {"oldWorldSave": "C:/Users/icebu/AppData/Roaming/VintagestoryData/GateSaves/backrooms-0610.5-seed12345.vcdbs"}
 NEVER_TOUCH = ("creepy kingdom",)       # the user's live save
 SCRATCH = os.environ.get("BACKROOMS_SCRATCH") or os.path.join(os.environ.get("TEMP", tempfile.gettempdir()), "backrooms-build")
 WORK = os.path.join(os.environ.get("TEMP", tempfile.gettempdir()), "backrooms-gate")
@@ -92,7 +94,10 @@ def kill_tree(pid):
 
 
 def git_status():
-    return run(["git", "status", "--porcelain"], timeout=120)[1]
+    """A fingerprint of the working tree: the content of every tracked change plus the untracked file list."""
+    diff = run(["git", "diff", "HEAD"], timeout=120)[1]
+    untracked = run(["git", "ls-files", "--others", "--exclude-standard"], timeout=120)[1]
+    return hashlib.sha256((diff + "|" + untracked).encode("utf-8", "replace")).hexdigest()
 
 
 def current_version():
@@ -454,8 +459,9 @@ def parse_hash(out):
 HIGHER_BETTER = (" found", "walkable")
 
 
-def compare_metrics(kind, cur, base, problems, notes):
-    """FAIL-worthy: a bad count above its baseline (or a found count below). Improvements are noted."""
+def compare_metrics(kind, cur, base, problems, notes, update=False):
+    """FAIL-worthy: a bad count above its baseline (or a found count below). Improvements are noted. With --update-baselines
+    a worse figure is only noted (and recorded by the caller): look at it before running with that flag."""
     for k in base:
         if k not in cur and k != "walkable":
             problems.append("%s %s: missing from the output (baseline %s)" % (kind, k, base[k]))
@@ -469,7 +475,9 @@ def compare_metrics(kind, cur, base, problems, notes):
             worse, better = v < b, v > b
         else:
             worse, better = v > b, v < b
-        if worse:
+        if worse and update:
+            notes.append("%s %s worse, accepted by --update-baselines: %s (baseline %s)" % (kind, k, v, b))
+        elif worse:
             problems.append("%s %s: %s (baseline %s)" % (kind, k, v, b))
         elif better:
             notes.append("%s %s improved: %s (baseline %s)" % (kind, k, v, b))
@@ -510,8 +518,8 @@ def stage_mapgen(st, ctx):
                 bh[key] = cur
                 recorded.append("layout hash v%d" % v)
             elif rec != cur:
-                if v < cur_v:
-                    problems.append("layout hash v%d CHANGED: %s -> %s (a past version must stay byte-identical)" % (v, rec, cur))
+                if v <= RELEASED_THROUGH:
+                    problems.append("layout hash v%d CHANGED: %s -> %s (a released version must stay byte-identical)" % (v, rec, cur))
                 elif ctx["update"]:
                     bh[key] = cur
                     recorded.append("layout hash v%d updated" % v)
@@ -537,7 +545,7 @@ def stage_mapgen(st, ctx):
                 bv[key] = m
                 recorded.append("validate " + key)
             else:
-                compare_metrics("validatelevel %d" % lv, m, bv[key], problems, notes)
+                compare_metrics("validatelevel %d" % lv, m, bv[key], problems, notes, ctx["update"])
                 if ctx["update"]:
                     bv[key] = m
         st.note("validatelevel 0-20 (24 cells, SPAWN=16000, 2 arrivals): unreachable %d, doorways to nowhere %d, blocked %d, bad elevators %d, decor %d, no-arrival %d" % (
@@ -552,7 +560,7 @@ def stage_mapgen(st, ctx):
                 bv[key] = {k: v for k, v in m.items() if k != "walkable"}
                 recorded.append("validate spawn")
             else:
-                compare_metrics("validate (spawn window)", m, bv[key], problems, notes)
+                compare_metrics("validate (spawn window)", m, bv[key], problems, notes, ctx["update"])
                 if ctx["update"]:
                     bv[key] = {k: v for k, v in m.items() if k != "walkable"}
 
@@ -566,7 +574,7 @@ def stage_mapgen(st, ctx):
             new_base["deep"] = m
             recorded.append("deep")
         else:
-            compare_metrics("deep", m, bd, problems, notes)
+            compare_metrics("deep", m, bd, problems, notes, ctx["update"])
             if ctx["update"]:
                 new_base["deep"] = m
         st.note("deep (24 cells): %d figures" % len(m))
@@ -616,9 +624,8 @@ def stage_mapgen(st, ctx):
     for p in problems:
         st.note("PROBLEM " + p)
     if new_base != base and not problems:
-        with open(BASELINES, "w", encoding="utf-8", newline="\n") as f:
-            json.dump(new_base, f, indent=2, sort_keys=True)
-            f.write("\n")
+        # Written at the end of main(), and only if no stage failed.
+        ctx["pending_baselines"] = new_base
         ctx["baselines"] = new_base
     if problems:
         return FAIL, "%d problem(s): %s" % (len(problems), problems[0][:170])
@@ -1002,9 +1009,12 @@ def stage_harness(st, ctx):
     errors = re.search(r"log: \d+ lines, (\d+) backrooms error/exception", "\n".join(lines))
     nerr = int(errors.group(1)) if errors else None
     failed = [n for n, s in summary.items() if s == "FAIL"]
+    skipped = [n for n, s in summary.items() if s == "SKIPPED"]
     died = [l for l in lines if "SERVER DIED" in l]
     n = len(summary)
     st.note("%d cases%s; harness output %s" % (n, " (smoke only)" if ctx["smoke_only"] else "", log))
+    for n_ in skipped:
+        st.note("skipped: %s (could not set up; not counted as passed)" % n_)
     for n_ in reran:
         st.note("flaky: %s failed once and passed on the rerun" % n_)
     for l in lines:
@@ -1016,13 +1026,15 @@ def stage_harness(st, ctx):
         return FAIL, "no case results (harness exit %s)" % p.returncode
     if failed:
         return FAIL, "%d of %d case(s) failed after the rerun: %s" % (len(failed), n, ", ".join(failed))
+    if len(skipped) > 3:
+        return FAIL, "%d of %d cases ended skipped (more than 3): %s" % (len(skipped), n, ", ".join(skipped))
     if nerr is None:
         return FAIL, "the harness did not finish (no log summary, exit %s)" % p.returncode
     if nerr:
         st.note("backrooms error/exception lines: %d (see the harness output)" % nerr)
-        return FAIL, "all %d cases passed but the server log has %d backrooms error line(s)" % (n, nerr)
+        return FAIL, "all %d cases passed but the server log has %d backrooms error line(s)" % (n - len(skipped), nerr)
     flaky = " (%d passed on rerun: %s)" % (len(reran), ", ".join(reran)) if reran else ""
-    return PASS, "%d/%d cases passed, 0 backrooms error lines%s" % (n, n, flaky)
+    return PASS, "%d passed, %d skipped, 0 backrooms error lines%s" % (n - len(skipped), len(skipped), flaky)
 
 
 # ---- zip
@@ -1156,7 +1168,15 @@ def main():
         say("total: " + fmt(total))
         if not os.environ.get("GATE_KEEP_WORK"):
             shutil.rmtree(ctx["work"], ignore_errors=True)
-    return 1 if any(s.status == FAIL for s in stages) else 0
+    failed_any = any(s.status == FAIL for s in stages)
+    if ctx.get("pending_baselines") and not failed_any:
+        with open(BASELINES, "w", encoding="utf-8", newline="\n") as f:
+            json.dump(ctx["pending_baselines"], f, indent=2, sort_keys=True)
+            f.write("\n")
+        say("baselines written to " + BASELINES)
+    elif ctx.get("pending_baselines"):
+        say("a stage failed: new baselines NOT written")
+    return 1 if failed_any else 0
 
 
 if __name__ == "__main__":

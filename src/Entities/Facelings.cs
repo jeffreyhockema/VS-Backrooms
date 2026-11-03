@@ -44,6 +44,7 @@ public class EntityBehaviorFaceling : EntityBehavior
 
     public const double ShameAmount = 0.3, ShameMinutes = 10;
     private const long TantrumMs = 15_000, FollowMs = 60_000;
+    public const long FollowWindowMs = FollowMs;
 
     private long greetedAtMs = -100_000, nextHearMs, lastNoiseId = -1;
     private bool child, noHead;
@@ -151,7 +152,7 @@ public class EntityBehaviorFaceling : EntityBehavior
         get
         {
             long now = entity.World.ElapsedMilliseconds;
-            return entity.Attributes.GetLong(TantrumKey, 0) > now || entity.GetBehavior<EntityBehaviorMenace>()?.Kind is Encounter.Hunt or Encounter.Stalk && Provoked(entity);
+            return StampAhead(entity.Attributes.GetLong(TantrumKey, 0), now, TantrumMs) || entity.GetBehavior<EntityBehaviorMenace>()?.Kind is Encounter.Hunt or Encounter.Stalk && Provoked(entity);
         }
     }
 
@@ -249,9 +250,17 @@ public class EntityBehaviorFaceling : EntityBehavior
         if (menace.Kind != Encounter.Leave) menace.Kind = Encounter.Hunt;
     }
 
-    /// <summary>Whether something was wronged in the last minute and a half, and pays no mind to the safety of a place.</summary>
-    public static bool Provoked(Entity who) =>
-        who.Attributes.HasAttribute(ProvokedKey) && who.World.ElapsedMilliseconds - who.Attributes.GetLong(ProvokedKey) < 90_000;
+    /// <summary>Whether something was wronged in the last minute and a half, and pays no mind to the safety of a place.
+    /// The stamp is uptime and is saved with the chunk, so one from before a restart (ahead of now) is stale.</summary>
+    public static bool Provoked(Entity who)
+    {
+        if (!who.Attributes.HasAttribute(ProvokedKey)) return false;
+        long dt = who.World.ElapsedMilliseconds - who.Attributes.GetLong(ProvokedKey);
+        return dt >= 0 && dt < 90_000;
+    }
+
+    /// <summary>Whether a saved uptime stamp is still ahead of now, by no more than the window it was set with.</summary>
+    public static bool StampAhead(long stamp, long now, long window) => stamp > now && stamp - now <= window;
 }
 
 /// <summary>

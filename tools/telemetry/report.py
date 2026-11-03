@@ -67,6 +67,8 @@ def analyse(events):
     r["info"] = next((e for e in events if e["ev"] == "session" and e.get("state") == "start"), {})
     players = sorted({e["p"] for e in events if e["p"] != "-" and "#" not in e["p"]} or {e["p"] for e in events if e["p"] != "-"})
     r["players"] = players
+    only_dummies = bool(events) and not any(e["p"] != "-" and "#" not in e["p"] for e in events)   # a simulated-player session (tools/aitest/walk.py)
+    r["only_dummies"] = only_dummies
 
     # Time by (level, band), blocks walked by level, from a per-player timeline of the events that say where they are
     seconds = collections.defaultdict(float)          # (level, band) -> s
@@ -77,6 +79,8 @@ def analyse(events):
     for e in events:
         p, ev = e["p"], e["ev"]
         t = e["_t"]
+        if "#" in p and not only_dummies:
+            continue          # walker dummies next to a real player: their time would count while their spawns do not
         if ev in ("leave", "death", "respawn") and p in state:
             state.pop(p)
             continue
@@ -105,7 +109,6 @@ def analyse(events):
 
     # Spawns
     spawns = collections.Counter()
-    only_dummies = bool(events) and not any(e["p"] != "-" and "#" not in e["p"] for e in events)   # a simulated-player session (tools/aitest/walk.py)
     for e in events:
         if e["ev"] == "spawn" and ("#" not in e["p"] or only_dummies):
             spawns[(e["kind"], e["band"], e["code"])] += 1
@@ -361,10 +364,13 @@ def compare(spec_path, sessions):
                 wanted[key][1] += felt["target"] * (1 + felt["tol_pct"] / 100.0) * ratio * h
             else:
                 wanted[key][1] += row["bodies"]["target"] * (1 + row["bodies"]["tol_pct"] / 100.0) * ratio * h
+        only_dummies = r["only_dummies"]
         for e, lv, band in _levels_of(events):
             if lv is None:
                 continue
-            if e["ev"] == "spawn" and e.get("kind") in ("Glimpse", "Stalk", "Hunt") and not e.get("setpiece") and "#" not in e["p"]:
+            if "#" in e["p"] and not only_dummies:
+                continue
+            if e["ev"] == "spawn" and e.get("kind") in ("Glimpse", "Stalk", "Hunt") and not e.get("setpiece"):
                 count[(lv, _band_word(e.get("band", band)))] += 1
             elif e["ev"] == "damage" and str(e.get("src", "")).islower() and e.get("src") != "player" and e.get("amount", 0) > 0:
                 tier = e.get("armour", "none")

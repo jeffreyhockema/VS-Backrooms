@@ -72,9 +72,18 @@ public partial class MenaceSystem
             int max = a.Level == 11 ? FacelingMaxCity : a.Snackrooms ? FacelingMaxSnackrooms : FacelingMax;
             float radius = crowd ? FacelingRadiusCrowd : FacelingRadius;
             int facelings = sapi.World.GetEntitiesAround(target.Pos.XYZ, radius, 16, e => e.Alive && e.Code.Path.StartsWith("faceling", StringComparison.Ordinal)).Length;
-            if (facelings >= max) return;
+            if (facelings >= max)
+            {
+                ambientNextMs[target.EntityId] = now + CapBlockedRecheckMs;
+                return;
+            }
         }
-        if (!TrySpawn(target, a, entry, Encounter.Ambient)) return;
+        if (!TrySpawn(target, a, entry, Encounter.Ambient))
+        {
+            // (No spot: looking again every tick would repeat the search for nothing)
+            ambientNextMs[target.EntityId] = now + CapBlockedRecheckMs;
+            return;
+        }
         double minutes = a.Level == WorldLayout.Motion && !a.Castle && !Regions.MotionSystem.IsNight(sapi.World.Calendar) ? AmbientMinutesDay94
             : crowd ? AmbientMinutesCrowd : a.Level is 1 or 4 or 5 ? AmbientMinutesLived : AmbientMinutes;
         long wait = (long)(minutes * 60_000 * (AmbientJitterLow + (AmbientJitterHigh - AmbientJitterLow) * rand.NextDouble()));

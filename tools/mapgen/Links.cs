@@ -238,7 +238,7 @@ static class Links {
       if (net.WayBackOf((sx, sz)) is { } w) { ways++; if (copy.WayBackOf((sx, sz)) == w) sameWays++; } }
     Console.WriteLine($"\nsave/load: {(whole ? "read" : "NOT READ")}, {copy.Count} of {net.Count} links, {same}/{taken.Count} sources the same; ways back {(wholeWays ? "read" : "NOT READ")}, {copy.WayBackCount} of {net.WayBackCount}, {sameWays}/{ways} the same");
     // An older save (links only, no ways back saved): every link reads as before and no way back is made up; ways back
-    // saved without their links (as a damaged or mismatched save would have them) are left out
+    // saved without their links (as a damaged or mismatched save would have them) are left out, and the read says so (false) so the game keeps a copy of the data it could not use
     var older = new ThresholdNetwork(layout, geometry, seed);
     bool olderRead = older.Load(saved) && older.LoadWayBacks(null);
     var orphan = new ThresholdNetwork(layout, geometry, seed);
@@ -248,9 +248,9 @@ static class Links {
     byte[] newerWays = (byte[])savedWays.Clone(); newerWays[0] = 99;
     var futureWays = new ThresholdNetwork(layout, geometry, seed); futureWays.Load(saved);
     bool futureWaysRead = futureWays.LoadWayBacks(newerWays);
-    bool waysOk = olderRead && older.Count == net.Count && older.WayBackCount == 0 && orphanRead && orphan.WayBackCount == 0
+    bool waysOk = olderRead && older.Count == net.Count && older.WayBackCount == 0 && (net.WayBackCount == 0 || !orphanRead) && orphan.WayBackCount == 0
       && !cutWaysRead && cutWays.WayBackCount == Math.Max(0, net.WayBackCount - 1) && !futureWaysRead && futureWays.WayBackCount == 0;
-    Console.WriteLine($"ways back: older save (no ways back) read {olderRead} with {older.Count} links and {older.WayBackCount} ways back; ways back without links kept {orphan.WayBackCount}; "
+    Console.WriteLine($"ways back: older save (no ways back) read {olderRead} with {older.Count} links and {older.WayBackCount} ways back; ways back without links read {orphanRead}, kept {orphan.WayBackCount}; "
       + $"cut-off end kept {cutWays.WayBackCount}, newer version kept {futureWays.WayBackCount}: {(waysOk ? "ok" : "WRONG")}");
     // Damaged and foreign data: a cut-off end keeps every whole link before it, a newer version keeps nothing, and
     // neither is taken for a clean read

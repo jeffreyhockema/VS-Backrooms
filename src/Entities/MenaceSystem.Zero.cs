@@ -44,7 +44,7 @@ public partial class MenaceSystem
 
     private void ZeroHunterTry(Entity target, RosterEntry entry, int failed)
     {
-        if (!target.Alive) return;
+        if (!StillHere(target)) return;
         Assessment a = AssessmentOf(target);
         if (TrySpawn(target, a, entry, Encounter.Hunt, setPiece: true, failedTries: failed))
         {

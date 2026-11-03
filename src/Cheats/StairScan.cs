@@ -100,6 +100,9 @@ public partial class CheatSystem
         return picked.ToArray();
     }
 
+    /// <summary>A scan runs on the server thread, so a typed radius or site count is held to what finishes in reasonable time.</summary>
+    private const int MaxScanRadius = 128, MaxScanSites = 24;
+
     private TextCommandResult OnStairScan(TextCommandCallingArgs args)
     {
         if (layout == null) return TextCommandResult.Error("This is not a Backrooms world");
@@ -111,14 +114,14 @@ public partial class CheatSystem
         {
             var pos = args.Caller.Entity?.Pos;
             if (pos == null) return TextCommandResult.Error("From the console, use: stairscan at x z [radius]");
-            radius = a > 0 ? a : 24;
+            radius = Math.Min(a > 0 ? a : 24, MaxScanRadius);
             sites = new[] { ((int)Math.Floor(pos.X), (int)Math.Floor(pos.Z)) };
             level = layout.LevelAt(WorldLayout.MacroOf(sites[0].X), WorldLayout.MacroOf(sites[0].Z));
         }
         else if (what == "at")
         {
             if (a == -1 && b == -1) return TextCommandResult.Error("Use: stairscan at x z [radius]");
-            radius = c > 0 ? c : 40;
+            radius = Math.Min(c > 0 ? c : 40, MaxScanRadius);
             sites = new[] { (a, b) };
             level = layout.LevelAt(WorldLayout.MacroOf(a), WorldLayout.MacroOf(b));
         }
@@ -126,8 +129,8 @@ public partial class CheatSystem
         {
             level = WorldLayout.FromDisplayName(what);
             if (level < 0) return TextCommandResult.Error($"There is no Level {what} here ({BackroomsModSystem.LevelList})");
-            radius = b > 0 ? b : 40;
-            sites = StairScanSites(level, a > 0 ? a : 6, radius);
+            radius = Math.Min(b > 0 ? b : 40, MaxScanRadius);
+            sites = StairScanSites(level, Math.Min(a > 0 ? a : 6, MaxScanSites), radius);
             if (sites.Length == 0) return TextCommandResult.Error($"Found nowhere to look in Level {WorldLayout.DisplayNumber(level)}");
         }
 

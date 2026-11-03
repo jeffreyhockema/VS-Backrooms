@@ -518,14 +518,16 @@ public sealed partial class WorldLayout
     /// renewable resin; WorldGenerator.Vegetation.cs). It also gives stairs the headroom to climb them: Level 1's stairs to nowhere
     /// have the slab open over their second step and the concrete over the third cut a block higher, and Level 5's grand staircases
     /// open the ceiling from the second step, not the third (blocks only; the tiles, and so <c>layouthash</c>, are as in 12).</item>
-    /// <item><b>14</b>: the food props of Levels 1 to 5 are picked over as the boxes and crates are (food pressure, 2026-11): metal
+    /// <item><b>14</b>: the 2026-11 review's layout fixes (each gated on <c>Version &gt;= 14</c>; the list is kept in docs/DEVELOPING.md
+    /// under "Layout versions").</item>
+    /// <item><b>15</b>: the food props of Levels 1 to 5 are picked over as the boxes and crates are (food pressure, 2026-11): metal
     /// shelving, drums, cardboard boxes, fridges, kitchen cupboards and pantry shelves (<see cref="IsFoodProp"/>) are marked
     /// <see cref="Tile.Looted"/> at the level's <see cref="PickedOverShare"/> on a hash of their own (SaltStripped), never at
     /// spawn, behind a locked door or within three tiles of a camp, and the generator draws them as their stripped blocks, which
     /// give no food (WorldGenerator.Stripped.cs). Only Levels 1 to 5 move; the experimental levels keep their props.</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 14;
+    public const int CurrentVersion = 15;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;
@@ -1270,7 +1272,17 @@ public sealed partial class WorldLayout
     /// Any pocket of floor that can't be walked to from the cell's edges (a room whose door fell on a wall, a
     /// corner fenced in by furniture) is marked sealed, so nobody is ever put down there.
     /// </summary>
-    private static void SealPockets(Builder b, Edge east, Edge south)
+    private static bool HasOpenNeighbour(Builder b, int x, int z)
+    {
+        foreach ((int dx, int dz) in Steps)
+        {
+            int nx = x + dx, nz = z + dz;
+            if (nx >= 0 && nz >= 0 && nx < MacroSize && nz < MacroSize && IsWalkable(b.Tiles[TileIndex(nx, nz)])) return true;
+        }
+        return false;
+    }
+
+    private void SealPockets(Builder b, Edge east, Edge south)
     {
         var reached = new bool[MacroSize * MacroSize];
         var queue = new Queue<int>();
@@ -1284,8 +1296,9 @@ public sealed partial class WorldLayout
         for (int i = 0; i < MacroSize; i++)
         {
             // The west and north edges are this cell's own tiles; past the east and south ones, the neighbours' edges must be open
-            Seed(i, 0, true);
-            Seed(0, i, true);
+            // (From layout version 14, not where the tile's neighbours in the cell are all blocked: that is a one-tile pocket, not a passage)
+            Seed(i, 0, Version < 14 || HasOpenNeighbour(b, i, 0));
+            Seed(0, i, Version < 14 || HasOpenNeighbour(b, 0, i));
             Seed(i, MacroSize - 1, south.Tiles[i] != EdgeTile.Wall);
             Seed(MacroSize - 1, i, east.Tiles[i] != EdgeTile.Wall);
         }

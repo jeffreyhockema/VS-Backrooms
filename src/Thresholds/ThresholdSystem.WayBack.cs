@@ -20,8 +20,8 @@ public partial class ThresholdSystem
     /// <summary>Where the ways back are saved, beside the links (<see cref="SaveKey"/>, whose layout is unchanged).</summary>
     private const string WayBackSaveKey = "backrooms-thresholds-wayback";
 
-    /// <summary>How many times building a way back waits for its chunk to load, and how long each time.</summary>
-    private const int WayBackTries = 6, WayBackRetryMs = 500;
+    /// <summary>How many rounds of loading its chunk columns building a way back allows.</summary>
+    private const int WayBackTries = 6;
 
     /// <summary>
     /// <see cref="TunnelPaint"/> is the generator's own rule, so a built door is painted as the level's own (Level 2's steel
@@ -30,15 +30,16 @@ public partial class ThresholdSystem
     /// </summary>
     private const ulong PlaqueSalt = 0x7E11;
 
-    private void LoadWayBacks(ICoreServerAPI api)
+    private void LoadWayBacks(ICoreServerAPI api, bool linksRead)
     {
         byte[] saved = api.WorldManager.SaveGame.GetData(WayBackSaveKey);
-        if (network.LoadWayBacks(saved))
+        // (Links that could not be read leave every way back without its links: keep these as they are, too)
+        if (network.LoadWayBacks(saved) && linksRead)
         {
             api.Logger.Notification("[backrooms] {0} threshold links written down, {1} of them to doors and elevators built as ways back", network.Count, network.WayBackCount);
             return;
         }
-        if (api.WorldManager.SaveGame.GetData(WayBackSaveKey + "-unreadable") == null)
+        if (saved != null && api.WorldManager.SaveGame.GetData(WayBackSaveKey + "-unreadable") == null)
             api.WorldManager.SaveGame.StoreData(WayBackSaveKey + "-unreadable", saved);
         api.Logger.Warning("[backrooms] The saved ways back could not all be read (kept as {0}-unreadable); {1} were. The doors stand and lead back; the rest are only not rebuilt",
             WayBackSaveKey, network.WayBackCount);
@@ -124,18 +125,27 @@ public partial class ThresholdSystem
     /// Makes sure the door or elevator built as the way back of a threshold stands at its arrival (each time someone
     /// arrives that way: once built, nothing changes). Where the wall has been changed so that it cannot (a container
     /// put there, a claim), the way back becomes a thin spot on the arrival instead, for good. A chunk not yet loaded is
-    /// waited for a few times, then left until the next arrival.
+    /// loaded first (a few rounds at most, then left until the next arrival).
     /// </summary>
     private void BuildWayBack(IServerPlayer player, (int X, int Z) source, int tries = 0, Action<string> done = null)
     {
         if (network?.WayBackOf(source) is not { } way) { done?.Invoke("no way back built for it"); return; }
         IBlockAccessor blocks = sapi.World.BlockAccessor;
         List<(BlockPos Pos, Block Block)> plan = WayBackBlocks(way);
+        // The wall may be over a chunk column's edge from the arrival, which is all the teleport loads: load what is missing
+        // and build once it is (tries bounds the rounds, should a column not come)
+        var missing = new HashSet<(int, int)>();
         foreach ((BlockPos pos, _) in plan)
+            if (blocks.GetChunkAtBlockPos(pos) == null) missing.Add((pos.X / GlobalConstants.ChunkSize, pos.Z / GlobalConstants.ChunkSize));
+        if (missing.Count > 0)
         {
-            if (blocks.GetChunkAtBlockPos(pos) != null) continue;
-            if (tries + 1 < WayBackTries) sapi.Event.RegisterCallback(_ => BuildWayBack(player, source, tries + 1, done), WayBackRetryMs);
-            else done?.Invoke("its chunk is not loaded: left for the next arrival");
+            if (tries + 1 >= WayBackTries) { done?.Invoke("its chunk is not loaded: left for the next arrival"); return; }
+            int waiting = missing.Count;
+            foreach ((int cx, int cz) in missing)
+                sapi.WorldManager.LoadChunkColumnPriority(cx, cz, new ChunkLoadOptions
+                {
+                    OnLoaded = () => { if (--waiting == 0) BuildWayBack(player, source, tries + 1, done); },
+                });
             return;
         }
         string why = null;
@@ -180,7 +190,8 @@ public partial class ThresholdSystem
                 .WithDescription("(Dev test) Goes through the threshold block of a kind (door, elevator, tunneldoor, basement, ...) at x z as someone standing beside it would, the first time or again: "
                     + "then sees to the door or elevator built as its way back where it comes out (or the thin spot), tries that way back, and writes the blocks round the arrival to ModData/backrooms/wayback-<kind>-x-z.txt. "
                     + "Kind sim-door, sim-elevator or sim-vent with a level and a number instead of x z: a made-up door or elevator into that level (the harness's `wayback` mode), with the spawn as home; "
-                    + "simblocked-door, simblocked-elevator or simblocked-vent: the same with a chest put in the wall first, so the way back cannot be built")
+                    + "simblocked-door, simblocked-elevator or simblocked-vent: the same with a chest put in the wall first, so the way back cannot be built. "
+                    + "The sim kinds write their made-up links and ways back into the world's save: use them on a throwaway world")
                 .WithArgs(parsers.Word("kind"), parsers.Int("x"), parsers.Int("z"))
                 .HandleWith(args =>
                 {

@@ -93,8 +93,8 @@ public static class MapMarks
             {
                 double dx = at.X - player.Entity.Pos.X, dz = at.Z - player.Entity.Pos.Z;
                 if (dx * dx + dz * dz >= near * near)
-                    player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:mapmark-told", title,
-                        Lang.Get("backrooms:dir-" + MarkResolver.Direction(dx, dz)), MarkResolver.Paces(dx, dz)), EnumChatType.Notification);
+                    player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:mapmark-told", title,
+                        Say.T(player, "backrooms:dir-" + MarkResolver.Direction(dx, dz)), MarkResolver.Paces(dx, dz)), EnumChatType.Notification);
             }
             return false;
         }
@@ -118,15 +118,32 @@ public static class MapMarks
         return true;
     }
 
+    /// <summary>The name of <paramref name="level"/> in <paramref name="player"/>'s language (a server's plain <c>Lang.Get</c> is in the host's).</summary>
+    public static string LevelName(IServerPlayer player, int level)
+    {
+        string lang = player.LanguageCode;
+        // (The Snackrooms and the reservoir are parts of a level, told apart by place: use the overload with a layout for those)
+        if (level >= WorldLayout.RunLevel && level <= WorldLayout.Level47) return Lang.GetL(lang, "backrooms:levelname-" + level);
+        return Lang.GetL(lang, "backrooms:levelname", WorldLayout.DisplayNumber(level));
+    }
+
     /// <summary>A level's name as the waypoints give it: "Level 3", "Level 6.1" for the Snackrooms, "Level 37" for the Poolrooms, "The Hub".</summary>
-    public static string LevelName(WorldLayout layout, double x, double z)
+    public static string LevelName(WorldLayout layout, double x, double z) => Lang.Get(LevelNameKey(layout, x, z, out object arg), arg);
+
+    /// <summary>The same, in <paramref name="player"/>'s language (a server's plain <c>Lang.Get</c> is in the host's).</summary>
+    public static string LevelName(IServerPlayer player, WorldLayout layout, double x, double z)
+        => Lang.GetL(player.LanguageCode, LevelNameKey(layout, x, z, out object arg), arg);
+
+    private static string LevelNameKey(WorldLayout layout, double x, double z, out object arg)
     {
         int mx = WorldLayout.MacroOf((int)System.Math.Floor(x)), mz = WorldLayout.MacroOf((int)System.Math.Floor(z));
         int level = layout.LevelAt(mx, mz);
-        if (level == 6 && layout.IsSnackrooms(mx, mz)) return Lang.Get("backrooms:levelname-6.1");
-        if (level == WorldLayout.Poolrooms && layout.IsReservoir(mx, mz)) return Lang.Get("backrooms:levelname-37.1");
-        // Levels 14 to 20 (Level !, Fun, The End, The Hub, 974, 3999, 188) and the experimental 21 to 27 have names of their own: levelname-14 to levelname-27
-        if (level >= WorldLayout.RunLevel && level <= WorldLayout.Level47) return Lang.Get("backrooms:levelname-" + level);
-        return Lang.Get("backrooms:levelname", WorldLayout.DisplayNumber(level));
+        arg = null;
+        if (level == 6 && layout.IsSnackrooms(mx, mz)) return "backrooms:levelname-6.1";
+        if (level == WorldLayout.Poolrooms && layout.IsReservoir(mx, mz)) return "backrooms:levelname-37.1";
+        // Levels 14 to 20 (Level !, Fun, The End, The Hub, 974, 3999, 188) and the experimental 21 to 30 have names of their own: levelname-14 to levelname-30
+        if (level >= WorldLayout.RunLevel && level <= WorldLayout.Level47) return "backrooms:levelname-" + level;
+        arg = WorldLayout.DisplayNumber(level);
+        return "backrooms:levelname";
     }
 }

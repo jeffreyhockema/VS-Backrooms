@@ -71,6 +71,8 @@ public sealed partial class WorldGenerator
     // the chimney's cap by the side its other half is on (or none); the stairs' balustraded steps by step (foot, flight),
     // balustrade end and the way they climb
     private const int SuburbTop = 24;
+    /// <summary>Level 10 from layout version 14: its band reaches this far above the floor, so a 9-log pine keeps its tip (rel 11).</summary>
+    private const int Level10Top = 11;
     private static readonly string[] SuburbWindowParts =
         { "sashlower", "sashupper", "shutterlower", "shutterupper", "picwlower", "picmlower", "picelower", "picwupper", "picmupper", "piceupper" };
     private readonly int[,,] suburbWindowIds = new int[2, 10, 4];
@@ -796,10 +798,17 @@ public sealed partial class WorldGenerator
     /// <summary>Layout version 11: a column that floods (a pool column with no break-in-the-road passage beside it, which the water would pour into).</summary>
     private bool IsPoolCell(int gx, int gz)
     {
-        if (!IsPool(gx, gz)) return false;
-        foreach ((int dx, int dz) in Neighbours4)
-            if (caveColumns.Get(gx + dx, gz + dz).CrawlDepth != 0) return false;
-        return true;
+        CaveColumn col = caveColumns.Get(gx, gz);
+        // (worked out once per column: it depends on the column and its four neighbours only, not on the height)
+        if (col.PoolCell == 0)
+        {
+            bool pool = IsPool(gx, gz);
+            if (pool)
+                foreach ((int dx, int dz) in Neighbours4)
+                    if (caveColumns.Get(gx + dx, gz + dz).CrawlDepth != 0) { pool = false; break; }
+            col.PoolCell = (byte)(pool ? 2 : 1);
+        }
+        return col.PoolCell == 2;
     }
 
     // (no flooded pocket over the passage round a break in the road, which would pour in)

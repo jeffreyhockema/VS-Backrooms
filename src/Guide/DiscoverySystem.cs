@@ -36,6 +36,7 @@ public class DiscoverySystem : ModSystem
     private GuideTable table;
     /// <summary>How long (ms) each player has had each entity in view without a break: player uid to entity id to ms.</summary>
     private readonly Dictionary<string, Dictionary<long, int>> inView = new();
+    private readonly Dictionary<string, (string Raw, HashSet<string> Set)> metCache = new();
     /// <summary>Players whose health this system listens to (an entity is listened to once).</summary>
     private readonly ConditionalWeakTable<EntityPlayer, object> hooked = new();
 
@@ -55,7 +56,7 @@ public class DiscoverySystem : ModSystem
             api.Event.RegisterGameTickListener(OnTick, e => api.Logger.Error("[backrooms] discovery: {0}", e), TickMs, 1000);
             api.Event.PlayerNowPlaying += Hook;
             api.Event.PlayerRespawn += Hook;
-            api.Event.PlayerDisconnect += p => inView.Remove(p.PlayerUID);
+            api.Event.PlayerDisconnect += p => { inView.Remove(p.PlayerUID); metCache.Remove(p.PlayerUID); };
             api.Event.OnPlayerInteractEntity += OnInteractEntity;
             api.Event.OnEntityDeath += OnEntityDeath;
             foreach (IPlayer online in api.World.AllOnlinePlayers) if (online is IServerPlayer sp) Hook(sp);
@@ -87,10 +88,20 @@ public class DiscoverySystem : ModSystem
         if ((bits & (1 << level)) == 0) entity.WatchedAttributes.SetInt(Discovery.VisitedKey, bits | (1 << level));
     }
 
+    /// <summary>The creatures a player has met, parsed again only when the attribute string has changed. Not to be changed by the caller.</summary>
+    private HashSet<string> MetOf(string uid, Entity entity)
+    {
+        string raw = entity.WatchedAttributes.GetString(Discovery.MetKey) ?? "";
+        if (metCache.TryGetValue(uid, out var cached) && cached.Raw == raw) return cached.Set;
+        HashSet<string> set = Discovery.Met(entity);
+        metCache[uid] = (raw, set);
+        return set;
+    }
+
     /// <summary>What a player has had in view for a second, and the things that are not entities.</summary>
     private void Look(IServerPlayer player, EntityPlayer entity, int level)
     {
-        HashSet<string> met = Discovery.Met(entity);
+        HashSet<string> met = MetOf(player.PlayerUID, entity);
         foreach (GuideTable.Creature c in table.Entities)
             if (c.PlayerAttribute != null && !met.Contains(c.Code) && entity.WatchedAttributes.GetInt(c.PlayerAttribute) != 0)
                 Meet(entity, new[] { c.Code });

@@ -78,7 +78,7 @@ public partial class MenaceSystem
         string bandWord = args.Parsers[1].IsMissing ? a.Band.ToString().ToLowerInvariant() : ((string)args[1]).Trim().ToLowerInvariant();
         MenaceBand band = bandWord switch { "heartland" => MenaceBand.Heartland, "approach" => MenaceBand.Approach, "threshold" => MenaceBand.Threshold, _ => MenaceBand.Safe };
         if (band == MenaceBand.Safe) return TextCommandResult.Error("The band is heartland, approach or threshold (nothing is put down in Safe places)");
-        int tries = args.Parsers[2].IsMissing ? 60 : Math.Clamp((int)args[2], 1, 500);
+        int tries = args.Parsers[2].IsMissing ? 60 : Math.Clamp((int)args[2], 1, 200);
 
         RosterEntry[] roster = a.Snackrooms ? Roster.Snackrooms : a.Castle ? Roster.Castle : Roster.For(a.Level);
         var rates = new Dictionary<Encounter, double>();

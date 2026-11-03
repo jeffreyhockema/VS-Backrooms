@@ -91,6 +91,8 @@ public class MangledEvent : ModSystem
             director = api.ModLoader.GetModSystem<MenaceSystem>();
             tickListener = api.Event.RegisterGameTickListener(OnTick, e => api.Logger.Error("[backrooms] the Mangled: {0}", e), 1000, 1500);
         });
+        // (Nothing of an event outlives a restart: the fog starts at nothing)
+        api.Event.PlayerNowPlaying += OnNowPlaying;
         api.Event.PlayerDisconnect += OnPlayerDisconnect;
 
         api.ChatCommands.Get("backrooms")?
@@ -111,8 +113,11 @@ public class MangledEvent : ModSystem
 
     private long tickListener;
 
+    private static void OnNowPlaying(IServerPlayer player) => player.Entity?.WatchedAttributes.SetFloat(FogKey, 0);
+
     private void OnPlayerDisconnect(IServerPlayer player)
     {
+        player.Entity?.WatchedAttributes.SetFloat(FogKey, 0);
         long id = player.Entity?.EntityId ?? -1;
         if (events.TryGetValue(id, out Event e))
         {
@@ -128,6 +133,7 @@ public class MangledEvent : ModSystem
     {
         if (sapi != null)
         {
+            sapi.Event.PlayerNowPlaying -= OnNowPlaying;
             sapi.Event.PlayerDisconnect -= OnPlayerDisconnect;
             if (tickListener != 0) sapi.Event.UnregisterGameTickListener(tickListener);
         }

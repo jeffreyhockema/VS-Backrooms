@@ -1672,7 +1672,7 @@ BRIDGES["fishing"] = """
 
 TUTORIAL = [
     # 1 move
-    "Use {0} {1} {2} {3} to move around and your mouse to look around. {4} jumps and {5} sneaks. Hold {6} and {0} to sprint, but not here: in the Backrooms, running is heard.",
+    "Use {0} {1} {2} {3} to move around and your mouse to look around. {4} jumps and {5} sneaks. Tap {6} once to feel the pace, then stop: in the Backrooms, running is heard.",
     # 2 journal
     "There is a wanderer's note in your pocket. With it in your hand, <icon>rightmousebutton</icon> to read it: it marks the nearest unopened supply box on your map. Every note you read is kept in your journal; press {0} to open it.",
     # 3 boxes
@@ -1694,7 +1694,7 @@ TUTORIAL = [
     # 11 scraper
     "Craft an <itemstack type=\"item\">backrooms:scraper</itemstack> <a href=\"handbook://item-backrooms:scraper\">improvised scraper</a>: a <itemstack type=\"item\">backrooms:metalbracket</itemstack> metal bracket, a wallpaper strip and 2 carpet fibres. Brackets fall now and then from dead lights, ceiling tiles and supply boxes. Like the shiv it cuts two strips or fibres a block, and it lasts three times as long.",
     # 12 tinder
-    "Tinder: craft {0} <itemstack type=\"item\">drygrass</itemstack> <a href=\"handbook://item-drygrass\">dry grass</a> from 2 wallpaper strips. The Lobby has almost no firewood, and no flint either: dry grass and sticks are what fire starts with here.",
+    "Tinder: craft {0} <itemstack type=\"item\">drygrass</itemstack> <a href=\"handbook://item-drygrass\">dry grass</a> from 2 wallpaper strips; the torch in the next step needs two of them, so cut four strips. The Lobby has almost no firewood, and no flint either: dry grass and sticks are what fire starts with here.",
     # 13 torch
     "Craft a <itemstack type=\"block\">torch-basic-extinct-up</itemstack> torch: 2 dry grass above a stick. Sticks come from supply boxes, from rotten wood out of broken ceiling tiles, and now and then from a broken wall. Light it at a fire; a lit torch keeps things back where a candle only lights the dark.",
     # 14 map
@@ -1712,6 +1712,7 @@ TUTORIAL_MAP = {
 }
 
 TUTORIAL_STARTED = "Backrooms: First Steps is on screen. Hide it with .tutorial hud; find it again under Tutorials in the handbook (H)."
+TUTORIAL_RESUME = "Backrooms: First Steps is not finished. Find it under Tutorials in the handbook (H); .tutorial hud shows it on screen."
 
 
 # The levels as the markers name them, to the layout's ids (WorldLayout)
@@ -1834,6 +1835,7 @@ def fill():
     for n, text in TUTORIAL_MAP.items():
         LANG[f"tutorial-backrooms-{n}"] = text
     LANG["tutorial-backrooms-started"] = TUTORIAL_STARTED
+    LANG["tutorial-backrooms-resume"] = TUTORIAL_RESUME
 
 
 CONFIG_PATH = os.path.join(ASSETS, "config", "guide.json")

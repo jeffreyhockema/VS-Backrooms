@@ -44,7 +44,9 @@ public class ZeroSystem : ModSystem
     private WorldLayout layout;
     private WorldGeometry geometry;
     private readonly Dictionary<long, State> states = new();
-    private long lastMs;
+    private long lastMs, lastDummyMs;
+    private readonly List<Entity> dummies = new();
+    private readonly List<long> gone = new();
 
     public override void StartServerSide(ICoreServerAPI api)
     {
@@ -54,7 +56,7 @@ public class ZeroSystem : ModSystem
             if (api.WorldManager.SaveGame.WorldType != BackroomsWorld.WorldTypeCode) return;
             layout = BackroomsWorld.CreateLayout(api.World);
             geometry = BackroomsWorld.CreateGeometry(api.World);
-            lastMs = api.World.ElapsedMilliseconds;
+            lastMs = lastDummyMs = api.World.ElapsedMilliseconds;
             api.Event.RegisterGameTickListener(OnTick, e => api.Logger.Error("[backrooms] zero stability: {0}", e), 1000, 300);
         });
     }
@@ -78,12 +80,24 @@ public class ZeroSystem : ModSystem
             seen.Add(entity.EntityId);
             Step(entity, seconds);
         }
-        foreach (Entity dummy in sapi.World.LoadedEntities.Values.Where(e => e.Alive && Senses.IsTestTarget(e)).ToList())
+        // (Test dummies exist only in headless tests: the look through every loaded entity for them is made every 5 s)
+        if (now - lastDummyMs >= 5000)
         {
-            seen.Add(dummy.EntityId);
-            Step(dummy, seconds);
+            double dummySeconds = Math.Clamp((now - lastDummyMs) / 1000.0, 0, 5);
+            lastDummyMs = now;
+            dummies.Clear();
+            foreach (Entity e in sapi.World.LoadedEntities.Values)
+                if (e.Alive && Senses.IsTestTarget(e)) dummies.Add(e);
+            foreach (Entity dummy in dummies)
+            {
+                seen.Add(dummy.EntityId);
+                Step(dummy, dummySeconds);
+            }
+            gone.Clear();
+            foreach (long id in states.Keys)
+                if (!seen.Contains(id)) gone.Add(id);
+            foreach (long id in gone) states.Remove(id);
         }
-        foreach (long gone in states.Keys.Where(id => !seen.Contains(id)).ToList()) states.Remove(gone);
     }
 
     private void Step(Entity entity, double seconds)

@@ -79,6 +79,14 @@ internal sealed class CaveColumn
     /// <summary>Whether a block of the column lies in the passage round a break in the road: its height from the road's floor.</summary>
     public bool InCrawl(int rel) => CrawlDepth > 0 && rel > 1 - CrawlDepth && rel <= 5 - CrawlDepth;
 
+    /// <summary>
+    /// What the generator works out about the column once and keeps (Level 8's cave features): noises of its position
+    /// (NaN until worked out), and flags (0 until worked out, then 1 false or 2 true). Written without a lock: every
+    /// thread works out the same value.
+    /// </summary>
+    public double Density = double.NaN, RubbleNoise = double.NaN, GlowcapNoise = double.NaN, LichenNoise = double.NaN, FungusNoise = double.NaN;
+    public byte GlowSlotState, PoolCell;
+
     /// <summary>From layout version 9, how deep into a spider nest the column lies (1 at its heart, 0 outside one: WorldLayout.L8NestNear).</summary>
     public double Nest { get; set; }
 
@@ -161,18 +169,21 @@ internal sealed class CaveColumns
     private const int Capacity = 12000;
     private readonly Dictionary<long, CaveColumn> columns = new();
     private readonly Func<int, int, CaveColumn> build;
-    // The column asked about last: a block asks about its own column several times over (one reference, so a
-    // generator thread never sees a key with another's column)
-    private sealed record Hit(long Key, CaveColumn Column);
-    private Hit last;
+    // The columns asked about lately, direct-mapped by position in a small cache of each generator thread's own: a
+    // block asks about its own column and its four neighbours over and over, and these answer without the lock
+    private const int Slots = 16;
+    [ThreadStatic] private static Entry[] recent;
+    private struct Entry { public CaveColumns Owner; public long Key; public CaveColumn Column; }
 
     public CaveColumns(Func<int, int, CaveColumn> build) => this.build = build;
 
     public CaveColumn Get(int gx, int gz)
     {
         long key = ((long)gx << 32) | (uint)gz;
-        Hit hit = last;
-        if (hit != null && hit.Key == key) return hit.Column;
+        Entry[] cache = recent ??= new Entry[Slots];
+        int slot = (gx * 7 + gz * 13) & (Slots - 1);
+        ref Entry e = ref cache[slot];
+        if (e.Column != null && e.Key == key && ReferenceEquals(e.Owner, this)) return e.Column;
         CaveColumn column;
         lock (columns)
         {
@@ -187,7 +198,9 @@ internal sealed class CaveColumns
                 columns[key] = column;
             }
         }
-        last = new Hit(key, column);
+        e.Owner = this;
+        e.Key = key;
+        e.Column = column;
         return column;
     }
 }

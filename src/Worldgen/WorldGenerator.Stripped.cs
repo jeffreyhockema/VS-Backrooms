@@ -37,7 +37,7 @@ public sealed partial class WorldGenerator
         Pair("cardboardboxes", "cardboardflat");
     }
 
-    /// <summary>The block a tile of Levels 1 to 5 shows: its stripped prop if it was picked over (layout version 14 on), else <paramref name="block"/>.</summary>
+    /// <summary>The block a tile of Levels 1 to 5 shows: its stripped prop if it was picked over (layout version 15 on), else <paramref name="block"/>.</summary>
     private int Stripped(in Tile t, int block) =>
-        block != 0 && t.Looted && t.Level is >= 1 and <= 5 && layout.Version >= 14 && strippedIds.TryGetValue(block, out int bare) ? bare : block;
+        block != 0 && t.Looted && t.Level is >= 1 and <= 5 && layout.Version >= 15 && strippedIds.TryGetValue(block, out int bare) ? bare : block;
 }

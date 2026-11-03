@@ -28,6 +28,8 @@ public partial class MenaceSystem
         }
         Assessment a = watch.Now;
         if (a.Band == MenaceBand.Safe || a.Trial) return false;
+        // (Others sleeping in the same camp share the body clock, so a second sleeper does not get a visitor of their own)
+        foreach ((Entity _, Watch mate) in PartyAbout(target)) watch.LastBodyMs = System.Math.Max(watch.LastBodyMs, mate.LastBodyMs);
         if (!BodyAllowed(target, watch, a))
         {
             if (Logging) sapi.Logger.Notification("[backrooms] night visit for {0}: not now (something is about, or the hard gap)", player.PlayerName);
@@ -35,7 +37,7 @@ public partial class MenaceSystem
         }
         RosterEntry[] roster = a.Snackrooms ? Roster.Snackrooms : a.Castle ? Roster.Castle : Roster.For(a.Level);
         RosterEntry[] options = roster.Where(e => (e.Kinds & Encounters.Hunt) != 0 && e.MinBand <= a.Band && (!e.SubwayOnly || a.Subway) && (!e.ShiftOnly || a.Shift)
-            && (!e.LightsOutOnly || a.Worst || a.Shift) && !e.Aquatic && types.ContainsKey(e.Code)).ToArray();
+            && (!e.LightsOutOnly || a.Worst || a.Shift) && (!e.NeedsDark || a.Dark) && !e.Aquatic && types.ContainsKey(e.Code)).ToArray();
         if (Wretched(target)) options = options.Select(e => e.Code == Roster.Wretch ? e with { Weight = e.Weight * 3 } : e).ToArray();
         RosterEntry entry = Pick(options);
         if (entry == null) return false;

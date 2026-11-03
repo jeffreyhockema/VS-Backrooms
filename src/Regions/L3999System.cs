@@ -133,7 +133,7 @@ public class L3999System : ModSystem
     {
         nextSoothe.Remove(player.PlayerUID);
         blackoutWarned.Remove(player.PlayerUID);
-        BlockBehaviorL3999Cabinet.Forget(player.PlayerUID);
+        BlockBehaviorL3999Cabinet.ForgetPlayer(player.PlayerUID);
     }
 
     public override void StartClientSide(ICoreClientAPI api)
@@ -244,16 +244,17 @@ public class L3999System : ModSystem
         slot.MarkDirty();
     }
 
-    private static readonly Dictionary<int, int[]> tierCosts = new();
+    private static readonly Dictionary<string, int[]> tierCosts = new(); // (by block code: block ids differ between saves)
 
     /// <summary>The prices a prize block has tiers for, found once (the tiers are keyed by their price, which a JSON object can only be asked for by number).</summary>
     private static int[] TierCosts(Block block, JsonObject tiers)
     {
-        if (tierCosts.TryGetValue(block.BlockId, out int[] costs)) return costs;
+        string code = block.Code.ToString();
+        if (tierCosts.TryGetValue(code, out int[] costs)) return costs;
         var found = new List<int>();
         for (int cost = 1; cost <= 10_000; cost++)
             if (tiers[cost.ToString()].Exists) found.Add(cost);
-        return tierCosts[block.BlockId] = found.ToArray();
+        return tierCosts[code] = found.ToArray();
     }
 
     /// <summary>Trading tickets at a prize counter: the most the tier you can afford allows.</summary>
@@ -533,7 +534,9 @@ public class L3999System : ModSystem
         // (The client moves its own player: in 1.22 an entity has one position, Pos, on either side)
         EntityPos pos = e.Pos;
         Block block = capi.World.BlockAccessor.GetBlock(walkwayProbe.Set((int)Math.Floor(pos.X), (int)Math.Floor(pos.Y - 0.1), (int)Math.Floor(pos.Z)));
-        JsonObject cfg = block?.Attributes?["l3999walkway"];
+        // (Asking a block's attributes for a name makes a new object each time, and this runs fifty times a second in any world)
+        if (block?.Code is not { Domain: "backrooms" } code || !code.Path.StartsWith("l3999-walkway-")) return;
+        JsonObject cfg = block.Attributes?["l3999walkway"];
         if (cfg == null || !cfg.Exists) return;
         string flow = block.Code.Path.Substring(block.Code.Path.LastIndexOf('-') + 1);
         (double dx, double dz) = flow switch { "n" => (0.0, -1.0), "s" => (0.0, 1.0), "e" => (1.0, 0.0), "w" => (-1.0, 0.0), _ => (0.0, 0.0) };
@@ -601,6 +604,16 @@ public class BlockBehaviorL3999Cabinet : BlockBehavior
     /// <summary>Forgets a player's game (given up, or they left the server).</summary>
     public static void Forget(string uid) => playing.Remove(uid);
 
+    /// <summary>Forgets a player altogether (they left the server).</summary>
+    public static void ForgetPlayer(string uid)
+    {
+        playing.Remove(uid);
+        lastHoldHint.Remove(uid);
+    }
+
+    /// <summary>When each player was last told to hold to the end of the game (server clock, ms).</summary>
+    private static readonly Dictionary<string, long> lastHoldHint = new();
+
     public BlockBehaviorL3999Cabinet(Block block) : base(block)
     {
     }
@@ -640,6 +653,12 @@ public class BlockBehaviorL3999Cabinet : BlockBehavior
         bool held = secondsUsed >= Seconds - 0.1f;
         bool timed = world.ElapsedMilliseconds - game.StartMs >= (long)(Seconds * 1000) - LagSlackMs;
         if (held && timed && game.Pos.Equals(blockSel.Position)) L3999System.Finish(player, blockSel.Position.Copy(), block, Themed);
+        else if (!held && (!lastHoldHint.TryGetValue(player.PlayerUID, out long told) || world.ElapsedMilliseconds - told > 60_000))
+        {
+            // Let go early: nothing is paid, and it should be said why (once in a while, not at every try)
+            lastHoldHint[player.PlayerUID] = world.ElapsedMilliseconds;
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Backrooms.Say.T(player, "backrooms:l3999-cabinet-holdon"), EnumChatType.Notification);
+        }
     }
 
     public override bool OnBlockInteractCancel(float secondsUsed, IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel, ref EnumHandling handling)
@@ -765,6 +784,12 @@ public class EntityL3999Attendant : EntityAgent
 {
     public override bool StoreWithChunk => false;
     public override bool IsInteractable => true;
+
+    private static WorldInteraction[] help;
+
+    /// <summary>Right-click to ask the way.</summary>
+    public override WorldInteraction[] GetInteractionHelp(IClientWorldAccessor world, EntitySelection es, IClientPlayer player) =>
+        help ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:entityhelp-l3999-attendant", MouseButton = EnumMouseButton.Right } };
 
     public override bool ShouldReceiveDamage(DamageSource damageSource, float damage) => false;
 

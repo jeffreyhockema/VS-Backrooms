@@ -49,7 +49,7 @@ def lang():
         "l3999-staff-locked": "STAFF ONLY. It is locked.",
         "l3999-cabinet-played": "You've played this one today.",
         "l3999-cabinet-cap": "The machines seem to think you've had enough for today.",
-        "l3999-cabinet-win": "{0} tickets.",
+        "l3999-cabinet-win": "You won {0} ticket(s).",
         "l3999-cabinet-jackpot": "JACKPOT! {0} tickets.",
         "l3999-cabinet-lose": "GAME OVER.",
         "l3999-cabinet-plush": "The claw closes on something soft, and holds on.",

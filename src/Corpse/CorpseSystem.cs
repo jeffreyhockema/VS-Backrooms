@@ -158,8 +158,21 @@ public class CorpseSystem : ModSystem
         catch (Exception ex)
         {
             sapi.Logger.Error("[backrooms] could not read the corpse save data; starting afresh: {0}", ex);
+            KeepUnreadable();
             records = new();
         }
+    }
+
+    /// <summary>Keeps one copy of save data that would not parse, so the next save does not destroy it.</summary>
+    private void KeepUnreadable()
+    {
+        try
+        {
+            byte[] raw = sapi.WorldManager.SaveGame.GetData(SaveKey);
+            if (raw != null && sapi.WorldManager.SaveGame.GetData(SaveKey + "-unreadable") == null)
+                sapi.WorldManager.SaveGame.StoreData(SaveKey + "-unreadable", raw);
+        }
+        catch (Exception) { }
     }
 
     private void Save()
@@ -242,22 +255,45 @@ public class CorpseSystem : ModSystem
     {
         d.ConfirmQueued = false;
         var taken = new List<ItemStack>();
+        List<(Dying To, EntityItem Item)> handed = null;
         foreach (EntityItem item in d.Candidates)
         {
             if (!item.Alive || item.Itemstack == null) continue;
             string marked = item.ByPlayerUid;
             bool ours = marked == d.Uid;
+            string code = item.Itemstack.Collectible.Code.ToString();
+            int size = item.Itemstack.StackSize;
             if (!ours && marked == null)
             {
-                string code = item.Itemstack.Collectible.Code.ToString();
-                int i = d.Crafting.FindIndex(c => c.Code == code && c.Size == item.Itemstack.StackSize);
+                int i = d.Crafting.FindIndex(c => c.Code == code && c.Size == size);
                 if (i >= 0) { d.Crafting.RemoveAt(i); ours = true; }
             }
-            if (!ours) continue;
+            if (!ours)
+            {
+                // (Two deaths close together: the item was queued on the nearer one but may be the other's)
+                Dying other = null;
+                if (marked != null) dying.TryGetValue(marked, out other);
+                else
+                    foreach (Dying o in dying.Values)
+                        if (o != d && o.Pos.DistanceTo(item.Pos.XYZ) < 2.0 && o.Crafting.Exists(c => c.Code == code && c.Size == size)) { other = o; break; }
+                if (other != null && other != d) (handed ??= new()).Add((other, item));
+                continue;
+            }
             taken.Add(item.Itemstack.Clone());
             item.Die(EnumDespawnReason.Removed);
         }
         d.Candidates.Clear();
+        if (handed != null)
+        {
+            foreach (var (to, item) in handed) to.Candidates.Add(item);
+            foreach (Dying to in handed.Select(h => h.To).Distinct().ToList())
+            {
+                if (stopping) { Confirm(to, true); continue; }
+                if (to.ConfirmQueued) continue;
+                to.ConfirmQueued = true;
+                sapi.Event.EnqueueMainThreadTask(() => Confirm(to, false), "corpse");
+            }
+        }
         if (taken.Count == 0) return;
         if (d.Body != null && d.Body.Alive && !d.Body.Replaced)
         {
@@ -652,7 +688,7 @@ public class CorpseSystem : ModSystem
         if (layer == null) return;
         foreach (CorpseRecord other in records)
             if (other != r && other.Owner == r.Owner && Find(layer, other.WaypointGuid) is { } older) older.Pinned = false;
-        string level = MapMarks.LevelName(layout, r.X, r.Z);
+        string level = MapMarks.LevelName(owner, layout, r.X, r.Z);
         int day = (int)Math.Floor(sapi.World.Calendar.ElapsedDays) + 1;
         var waypoint = new Waypoint
         {

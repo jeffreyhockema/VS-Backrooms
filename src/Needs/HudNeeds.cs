@@ -152,7 +152,7 @@ public class HudNeeds : HudElement
         restBar = fatigue ? Composers["needs"].GetStatbar("restbar") : null;
         if (thirstBar != null)
         {
-            thirstBar.onGetStatbarValue = () => Lang.Get("backrooms:hud-hydration", (int)Math.Round(hydration), (int)Math.Round(maxHydration));
+            thirstBar.onGetStatbarValue = () => Lang.Get("backrooms:hud-hydration", (int)Math.Round(maxHydration > 0 ? hydration / maxHydration * 100f : 0f));
         }
         if (restBar != null)
         {

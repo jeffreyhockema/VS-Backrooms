@@ -226,7 +226,7 @@ public sealed partial class WorldLayout
     /// <param name="along">Step along the wall.</param>
     /// <param name="first">This cell's tile just inside the wall, at index 0 along it.</param>
     /// <param name="inward">Step away from the wall into this cell.</param>
-    private static void OpenGate(Builder b, Edge edge, (int X, int Z) along, (int X, int Z) first, (int X, int Z) inward)
+    private void OpenGate(Builder b, Edge edge, (int X, int Z) along, (int X, int Z) first, (int X, int Z) inward)
     {
         // Both cells must open the same doorway, or each might open a different one onto its own side and leave no way
         // through: the middle of the first run, which is also where the gate is said to be
@@ -240,6 +240,8 @@ public sealed partial class WorldLayout
             if (IsWalkable(t) && !t.Sealed) return;
             // Never through another level's wall, a lift, a stair, bars or a shaft
             if (t.Tall || t.Stair != 0 || t.Kind is TileKind.Bars or TileKind.Pit || t.Kind == TileKind.Door && t.Pattern == WallPattern.Elevator) return;
+            // (From layout version 14, nor through one tile of a prop that spans several: a car, a bed, the tram)
+            if (Version >= 14 && t.Kind == TileKind.Floor && t.Variant is Props.Car or Props.CarPart or Props.Bed or Props.HospitalBed or Props.Tram or Props.TramWagon) return;
             if (t.Kind is TileKind.Wall or TileKind.Door or TileKind.ArchWindow)
             {
                 BreakArchPair(b.At, MacroSize, x, z);

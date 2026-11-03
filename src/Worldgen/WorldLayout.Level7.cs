@@ -174,9 +174,16 @@ public sealed partial class WorldLayout
         bool eastWall = LevelAt(mx + 1, mz) != 7, southWall = LevelAt(mx, mz + 1) != 7, cornerWall = LevelAt(mx + 1, mz + 1) != 7;
         // (From layout version 9 this cell lines those walls with its own, a tile in: the ledge runs along the lining)
         bool eastLined = LinesWallTo(7, mx, mz, mx + 1, mz), southLined = LinesWallTo(7, mx, mz, mx, mz + 1);
+        // (From layout version 14 the west and north sides are judged by the neighbour's level too, so a ledge does not
+        // stop square at the boundary where a wall of another level ends)
+        bool Beyond(int x, int z) => LevelAt(mx + (x < 0 ? -1 : x >= MacroSize ? 1 : 0), mz + (z < 0 ? -1 : z >= MacroSize ? 1 : 0)) != 7;
         bool WallAt(int x, int z)
         {
-            if (x < 0 || z < 0) return false;
+            if (x < 0 || z < 0)
+            {
+                if (Version < 14) return false;
+                return Beyond(x, z);
+            }
             if (x == MacroSize - 1 && eastLined || z == MacroSize - 1 && southLined) return true;
             if (x >= MacroSize && z >= MacroSize) return cornerWall;
             if (x >= MacroSize) return eastWall;

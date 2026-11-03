@@ -436,6 +436,25 @@ public sealed partial class WorldLayout
             HubTrimStubs(plan);
             HubFindBends(plan);
         }
+        // (Layout version 14) the roundabout's quarters bulge out to the diagonals, past its stretches' own squares: bin the
+        // stretches there too, or a 128-block bin line through the gap leaves wall in the road
+        if (Version >= 14)
+            for (int i = 0; i < firstRing; i++)
+            {
+                HubSeg s = plan.Segs[i];
+                foreach (HubBend bend in new[] { s.BendLow, s.BendHigh })
+                {
+                    if (bend == null) continue;
+                    int x0 = (int)Math.Floor(Math.Min(bend.Ox, bend.Ex)), x1 = (int)Math.Floor(Math.Max(bend.Ox, bend.Ex));
+                    int z0 = (int)Math.Floor(Math.Min(bend.Oz, bend.Ez)), z1 = (int)Math.Floor(Math.Max(bend.Oz, bend.Ez));
+                    for (int bz = Hashing.FloorDiv(z0, HubBin); bz <= Hashing.FloorDiv(z1, HubBin); bz++)
+                        for (int bx = Hashing.FloorDiv(x0, HubBin); bx <= Hashing.FloorDiv(x1, HubBin); bx++)
+                        {
+                            if (!plan.Bins.TryGetValue((bx, bz), out var list)) plan.Bins[(bx, bz)] = list = new List<HubSeg>();
+                            if (!list.Contains(s)) list.Add(s);
+                        }
+                }
+            }
         PlaceHubFeatures(plan);
         return plan;
     }

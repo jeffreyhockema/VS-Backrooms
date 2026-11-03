@@ -50,7 +50,7 @@ public sealed partial class WorldLayout
         t.Kind == TileKind.Floor && t.Variant == 0 && t.Stack > 0 && !t.SupplyBox && level is 1 or 2 or 3 or 8;
 
     /// <summary>
-    /// The food props that, from layout version 14, are found stripped in Levels 1 to 5 as boxes and crates are found torn:
+    /// The food props that, from layout version 15, are found stripped in Levels 1 to 5 as boxes and crates are found torn:
     /// metal shelving, drums, cardboard boxes, fridges, kitchen cupboards and pantry shelves. A stripped one is the tile's
     /// <see cref="Tile.Looted"/> (the generator draws its emptied block, which gives no food: WorldGenerator.Stripped.cs).
     /// </summary>
@@ -72,7 +72,7 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>
-    /// Marks the boxes and crates of a cell that were picked over long ago, and from layout version 14 the food props of
+    /// Marks the boxes and crates of a cell that were picked over long ago, and from layout version 15 the food props of
     /// Levels 1 to 5 (<see cref="IsFoodProp"/>) at the same share, except in camps. Runs after the cell's pockets are sealed.
     /// </summary>
     private void MarkPickedOver(Builder b, int mx, int mz)
@@ -81,7 +81,7 @@ public sealed partial class WorldLayout
         if (b.IsSpawn || b.Level == 0 && (IsRedRoom(mx, mz) || IsManilaMacro(mx, mz))) return;
         if (b.Level == 6 && IsSnackrooms(mx, mz)) return;
         double share = PickedOverShare(b.Level, mx, mz);
-        bool props = Version >= 14 && b.Level is >= 1 and <= 5;
+        bool props = Version >= 15 && b.Level is >= 1 and <= 5;
         for (int lz = 0; lz < MacroSize; lz++)
             for (int lx = 0; lx < MacroSize; lx++)
             {

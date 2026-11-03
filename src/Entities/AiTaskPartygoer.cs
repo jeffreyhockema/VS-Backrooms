@@ -46,6 +46,7 @@ public class AiTaskPartygoer : AiTaskBase
     private Entity target;
     private Vec3d home, lastSeenAt;
     private float think, turnTo;
+    private Vec3d chasing;
     private long stateMs, lastSeenMs, attackStartMs = -1, lastAttackMs, lastPathMs, wardedSinceMs = -1;
 
     /// <summary>How long (ms) a hunt stands off from a target kept at bay by a fire before it is given up.</summary>
@@ -123,7 +124,8 @@ public class AiTaskPartygoer : AiTaskBase
         if (menace.Kind == Encounter.Leave)
         {
             // (Not every tick: with nowhere to go, each try is another path search)
-            if (!pathTraverser.Active && target != null && now - lastPathMs > 1500) MoveAway(target.Pos.XYZ);
+            Entity from = menace.Target ?? target;
+            if (!pathTraverser.Active && from != null && now - lastPathMs > 1500) MoveAway(from.Pos.XYZ);
             return true;
         }
 
@@ -353,7 +355,21 @@ public class AiTaskPartygoer : AiTaskBase
             return;
         }
         Vec3d goal = now - lastSeenMs < 500 ? target.Pos.XYZ : lastSeenAt;
-        if (goal != null && (!pathTraverser.Active || now - lastPathMs > 800)) Go(goal, runSpeed * (Berserk ? 1.15f : 1f), 0.9f);
+        if (goal == null) return;
+        // A new path when there is none or the prey has moved on; otherwise steer the old one at them
+        bool moved = chasing == null || chasing.SquareDistanceTo(goal) >= 9;
+        long sincePath = now - lastPathMs;
+        if (!pathTraverser.Active && sincePath > 600 || moved && sincePath > 750)
+        {
+            chasing = goal.Clone();
+            Go(chasing, runSpeed * (Berserk ? 1.15f : 1f), 0.9f);
+        }
+        else if (pathTraverser.Active && pathTraverser.CurrentTarget != null)
+        {
+            pathTraverser.CurrentTarget.X = goal.X;
+            pathTraverser.CurrentTarget.Y = goal.Y;
+            pathTraverser.CurrentTarget.Z = goal.Z;
+        }
     }
 
     private double Gap(Entity other) => entity.Pos.DistanceTo(other.Pos) - (entity.SelectionBox.XSize + other.SelectionBox.XSize) / 2;
@@ -491,7 +507,17 @@ public class EntityBehaviorPartygoer : EntityBehavior
 {
     public const string BerserkKey = "backrooms:berserk";
 
+    // (headDamageOpen in the entity file is not read: hits are not told apart by where they land)
+    private float fireClosed = 0.25f, fireOpen = 3f;
+
     public EntityBehaviorPartygoer(Entity entity) : base(entity) { }
+
+    public override void Initialize(EntityProperties properties, JsonObject attributes)
+    {
+        base.Initialize(properties, attributes);
+        fireClosed = entity.Properties.Attributes?["fireDamageClosed"].AsFloat(0.25f) ?? 0.25f;
+        fireOpen = entity.Properties.Attributes?["fireDamageOpen"].AsFloat(3f) ?? 3f;
+    }
 
     public override string PropertyName() => "backrooms-partygoer";
 
@@ -499,7 +525,7 @@ public class EntityBehaviorPartygoer : EntityBehavior
     {
         if (entity.World.Side != EnumAppSide.Server || damageSource.Type == EnumDamageType.Heal) return;
         bool open = entity.WatchedAttributes.GetBool(BerserkKey);
-        if (damageSource.Type == EnumDamageType.Fire) damage *= open ? 3f : 0.25f;
+        if (damageSource.Type == EnumDamageType.Fire) damage *= open ? fireOpen : fireClosed;
         if (damageSource.GetCauseEntity() is EntityPlayer player) FunSystem.Struck(player);
         if (open || entity.GetBehavior<EntityBehaviorHealth>() is not { } health) return;
         if (health.Health - damage < health.MaxHealth * 0.5f && health.Health - damage > 0)

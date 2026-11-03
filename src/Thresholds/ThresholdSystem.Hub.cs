@@ -123,7 +123,9 @@ public partial class ThresholdSystem
         double r = inside ? 28.5 : 15;
         Play(pos, "game:sounds/block/door");
         busyUntilMs[player.PlayerUID] = sapi.World.ElapsedMilliseconds + CooldownMs;
-        player.Entity.TeleportToDouble(ox + 0.5 + dx * r, geometry.FloorFor(WorldLayout.Hub) + 1.05, oz + 0.5 + dz * r);
+        // In they face the rotunda's middle, out they face along the spoke
+        float yaw = (float)System.Math.Atan2(inside ? dx : -dx, inside ? dz : -dz);
+        Arrive(player, new Link(ox + 0.5 + dx * r, geometry.FloorFor(WorldLayout.Hub) + 1.05, oz + 0.5 + dz * r, false), "door", faceYaw: yaw);
     }
 
     /// <summary>
@@ -164,6 +166,6 @@ public partial class ThresholdSystem
     /// </summary>
     private Link? HubRedirect(IServerPlayer player, Passage passage, Link destination) => null;
 
-    /// <summary>Whether a threshold someone has walked into lets them through now (Motion's gates open only at twilight).</summary>
+    /// <summary>Whether a threshold someone has walked into lets them through now (always: this level holds none of its thresholds shut).</summary>
     private bool HubMayPass(IServerPlayer player, Passage passage) => true;
 }

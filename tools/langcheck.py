@@ -331,7 +331,7 @@ def check_json_keys(idx, problems, stub):
         walk(doc, "", out)
         for v in out:
             m = re.fullmatch(r"backrooms:([a-z0-9._\-]+)", v)
-            if m and idx.match(m.group(1)) is None and m.group(1) not in ASSET_CODES:
+            if m and idx.match(m.group(1)) is None:
                 problems.append(("code", "%s: lang key %s has no entry in assets/backrooms/lang/en.json" % (rel, v)))
                 stub["code"].append(m.group(1))
 
@@ -380,6 +380,9 @@ LANGCTX = re.compile(r"(?<![a-z])(?:%s)(?![a-z])" % "|".join(w + "|" + w.capital
 ASSETCALL = re.compile(r'(?:AssetLocation|GetBlock|GetItem|GetEntityType|GetBlockId|BlockId|Id|Is|Ours|L3999Block|L188Sided)\s*\(\s*\$?$')
 
 
+TABLE_START = re.compile(r"(?:const|static|readonly)[^=;(]*string\s*\[\s*\]\s*(?:\[\s*\])?\s*\w+\s*=")
+
+
 def strip_comment(line):
     out, q, i = [], False, 0
     while i < len(line):
@@ -407,10 +410,16 @@ def check_code(en, idx, game_en, asset_codes, problems, stub):
     for f in sorted(glob.glob(os.path.join(REPO, "src", "**", "*.cs"), recursive=True)):
         rel = os.path.relpath(f, REPO).replace("\\", "/")
         lines = open(f, encoding="utf-8-sig", errors="replace").read().split("\n")
+        in_table = False   # inside a const/static string-array initialiser: its entries are text keys without a context word
         for n, raw in enumerate(lines, 1):
             line = strip_comment(raw)
             if not line.strip():
                 continue
+            if TABLE_START.search(line):
+                in_table = True
+            table_line = in_table
+            if in_table and ";" in line:
+                in_table = False
             # a) any "backrooms:key" literal must exist (a literal that is a prefix of a built key, or built with
             #    string concatenation/interpolation, must at least have a key under it)
             for m in DOMAINED.finditer(line):
@@ -421,7 +430,7 @@ def check_code(en, idx, game_en, asset_codes, problems, stub):
                 # lang keys are lower case without a path; attribute names have capitals, assets a slash
                 if not key or "/" in key or not re.fullmatch(r"[a-z0-9._\-]+", key) or ASSETCALL.search(line[:m.start()].rstrip("$")):
                     continue
-                if not (LANGCTX.search(line) or CALL.search(line)):
+                if not (table_line or LANGCTX.search(line) or CALL.search(line)):
                     continue   # an attribute name or an asset code (the capitals/slash/call rules above catch most), not text
                 if dynamic:
                     ok = any(k.startswith(key) for k in keys)

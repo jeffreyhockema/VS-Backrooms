@@ -17,7 +17,7 @@
     "Level 10 open trapped": 0,
     "Level 10 open wrong level": 0,
     "Snackrooms found": 150,
-    "Snackrooms trapped": 6
+    "Snackrooms trapped": 4
   },
   "layoutHashes": {
     "1": {
@@ -39,6 +39,10 @@
     "13": {
       "far": "8808cf5b8452ad21",
       "layout": "26f51e4b3d0326bf"
+    },
+    "14": {
+      "far": "3e65ca7a91c70454",
+      "layout": "f06ea88d3aebe806"
     },
     "9": {
       "far": "29d61d9ae6a6664e",
@@ -101,6 +105,34 @@
       "placards on L5 floors (plate 1)": 96,
       "placards on L6 floors (plate 2)": 8,
       "placards on L7 floors (plate 2)": 5
+    },
+    "v14": {
+      "L1 stair cores to Fun": 4,
+      "L1 stair flights down (to L2: 1 in 4 of the bottom floor's)": 292,
+      "L1 stair flights up (to L4: from the top floors)": 288,
+      "L2 steel doors: locked": 397,
+      "L2 steel doors: open to L1": 30,
+      "L2 steel doors: open to L3": 15,
+      "L2 steel doors: open to L4": 6,
+      "L3 elevators: to L3 (same level)": 115,
+      "L3 elevators: to L4": 16,
+      "L3 elevators: to L5": 10,
+      "L4 elevators: to L3": 24,
+      "L4 elevators: to L4 (same level)": 107,
+      "L4 elevators: to L5": 22,
+      "L6 tripwires": 42,
+      "L7 cave mouths": 11,
+      "L7 stone circles": 3,
+      "L7 tiled seabeds": 2,
+      "placards on L1 floors (plate 0)": 3,
+      "placards on L1 floors (plate 1)": 1,
+      "placards on L2 floors (plate 0)": 4,
+      "placards on L2 floors (plate 1)": 17,
+      "placards on L3 floors (plate 1)": 10,
+      "placards on L4 floors (plate 1)": 32,
+      "placards on L5 floors (plate 1)": 96,
+      "placards on L6 floors (plate 2)": 8,
+      "placards on L7 floors (plate 2)": 5
     }
   },
   "validate": {
@@ -111,7 +143,7 @@
       "doorsToNowhere": 0,
       "noArrival": 0,
       "unreachable": 0,
-      "walkable": 704746
+      "walkable": 704729
     },
     "L1": {
       "badElevators": 0,
@@ -120,7 +152,7 @@
       "doorsToNowhere": 0,
       "noArrival": 0,
       "unreachable": 3,
-      "walkable": 620954
+      "walkable": 620945
     },
     "L10": {
       "badElevators": 0,
@@ -129,16 +161,16 @@
       "doorsToNowhere": 0,
       "noArrival": 0,
       "unreachable": 15,
-      "walkable": 854570
+      "walkable": 854564
     },
     "L11": {
       "badElevators": 0,
       "decorFacingWalls": 0,
-      "doorsBlocked": 3,
+      "doorsBlocked": 1,
       "doorsToNowhere": 0,
       "noArrival": 0,
-      "unreachable": 14882,
-      "walkable": 672171
+      "unreachable": 14881,
+      "walkable": 672140
     },
     "L12": {
       "badElevators": 0,
@@ -147,7 +179,7 @@
       "doorsToNowhere": 0,
       "noArrival": 0,
       "unreachable": 295,
-      "walkable": 463431
+      "walkable": 463447
     },
     "L13": {
       "badElevators": 0,
@@ -155,8 +187,8 @@
       "doorsBlocked": 8,
       "doorsToNowhere": 0,
       "noArrival": 0,
-      "unreachable": 95,
-      "walkable": 914171
+      "unreachable": 69,
+      "walkable": 914121
     },
     "L14": {
       "badElevators": 0,
@@ -164,8 +196,8 @@
       "doorsBlocked": 0,
       "doorsToNowhere": 0,
       "noArrival": 0,
-      "unreachable": 46712,
-      "walkable": 43083
+      "unreachable": 47987,
+      "walkable": 42962
     },
     "L15": {
       "badElevators": 0,
@@ -173,8 +205,8 @@
       "doorsBlocked": 0,
       "doorsToNowhere": 0,
       "noArrival": 0,
-      "unreachable": 7358,
-      "walkable": 438164
+      "unreachable": 7238,
+      "walkable": 438144
     },
     "L16": {
       "badElevators": 0,
@@ -183,7 +215,7 @@
       "doorsToNowhere": 0,
       "noArrival": 0,
       "unreachable": 12,
-      "walkable": 831287
+      "walkable": 831286
     },
     "L17": {
       "badElevators": 0,
@@ -209,8 +241,8 @@
       "doorsBlocked": 0,
       "doorsToNowhere": 0,
       "noArrival": 0,
-      "unreachable": 721796,
-      "walkable": 691509
+      "unreachable": 721786,
+      "walkable": 691500
     },
     "L2": {
       "badElevators": 0,
@@ -219,7 +251,7 @@
       "doorsToNowhere": 0,
       "noArrival": 0,
       "unreachable": 0,
-      "walkable": 85278
+      "walkable": 85272
     },
     "L20": {
       "badElevators": 0,
@@ -251,20 +283,20 @@
     "L5": {
       "badElevators": 0,
       "decorFacingWalls": 0,
-      "doorsBlocked": 27,
+      "doorsBlocked": 26,
       "doorsToNowhere": 0,
       "noArrival": 0,
-      "unreachable": 28,
-      "walkable": 285669
+      "unreachable": 18,
+      "walkable": 285645
     },
     "L6": {
       "badElevators": 0,
       "decorFacingWalls": 0,
-      "doorsBlocked": 43,
+      "doorsBlocked": 42,
       "doorsToNowhere": 0,
       "noArrival": 0,
       "unreachable": 2350,
-      "walkable": 50888
+      "walkable": 50877
     },
     "L7": {
       "badElevators": 0,
@@ -273,7 +305,7 @@
       "doorsToNowhere": 0,
       "noArrival": 0,
       "unreachable": 15,
-      "walkable": 631907
+      "walkable": 631906
     },
     "L8": {
       "badElevators": 0,
@@ -282,16 +314,16 @@
       "doorsToNowhere": 0,
       "noArrival": 0,
       "unreachable": 0,
-      "walkable": 10935
+      "walkable": 10902
     },
     "L9": {
       "badElevators": 0,
-      "decorFacingWalls": 1,
+      "decorFacingWalls": 0,
       "doorsBlocked": 0,
       "doorsToNowhere": 0,
       "noArrival": 0,
-      "unreachable": 972,
-      "walkable": 572563
+      "unreachable": 633,
+      "walkable": 573592
     },
     "spawn": {
       "badElevators": 0,

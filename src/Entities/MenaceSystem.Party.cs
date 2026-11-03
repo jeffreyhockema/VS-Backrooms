@@ -88,20 +88,12 @@ public partial class MenaceSystem
     /// <summary>
     /// For the once-a-second set pieces rolled for each person on their own (the Beast of Level 5, the Mangled of Level 9): the share
     /// of their chance a person keeps so that the party between them rolls at <see cref="PartyFactor"/> of one person's chance, not N times it.
-    /// Counts the living, surviving players (and directed dummies) of the same level within <see cref="PartyRadius"/>, the person included; 1 when alone.
+    /// The party is the one <see cref="DirectByPlace"/> last made for them (the same chained rule, the people who can be hunted in
+    /// the same level), so the director and these agree; 1 when alone.
     /// </summary>
     internal double PartyShare(Entity who)
     {
-        if (layout == null) return 1;
-        int level = AssessmentOf(who).Level, n = 1;
-        foreach (Vintagestory.API.Common.IPlayer online in sapi.World.AllOnlinePlayers)
-        {
-            Vintagestory.API.Common.EntityPlayer other = online.Entity;
-            if (other == null || other == who || !other.Alive || other.Pos.Dimension != who.Pos.Dimension) continue;
-            if (online.WorldData.CurrentGameMode is Vintagestory.API.Common.EnumGameMode.Spectator or Vintagestory.API.Common.EnumGameMode.Creative) continue;
-            if (Math.Abs(other.Pos.Y - who.Pos.Y) > PartyHeight || !Within(other.Pos.X - who.Pos.X, other.Pos.Z - who.Pos.Z)) continue;
-            if (AssessmentOf(other) is { } o && o.Level == level && o.Band != MenaceBand.Safe) n++;
-        }
+        int n = layout != null && watches.TryGetValue(who.EntityId, out Watch watch) ? Math.Max(1, watch.PartySize) : 1;
         return PartyFactor(n) / n;
     }
 
@@ -155,7 +147,7 @@ public partial class MenaceSystem
             {
                 sinceBody += tick;
                 sinceSound += tick;
-                RollKind kind = EncounterRoll.Roll(band, level, menace, spawns, sinceBody, sinceSound, inDen, 0, false, rng);
+                RollKind kind = EncounterRoll.Roll(band, level, menace, spawns, sinceBody, sinceSound, inDen, () => 0, false, rng);
                 if (kind == RollKind.Nothing) continue;
                 if (kind == RollKind.Sound) { sinceSound = 0; sounds++; continue; }
                 sinceBody = 0;

@@ -322,6 +322,9 @@ public class BackroomsMapLayer : MapLayer
 
     private void RevealColumn(int x, int z, double distance)
     {
+        // (A column that already has a pixel is looked at again only every 4th pass, staggered by place: most do not change)
+        if (((pass + x + z) & 3) != 0 && store.TryGetChunk(x / ExploredMapStore.ChunkSize, z / ExploredMapStore.ChunkSize, out int[] pixels)
+            && pixels[(z % ExploredMapStore.ChunkSize) * ExploredMapStore.ChunkSize + (x % ExploredMapStore.ChunkSize)] != 0) return;
         IBlockAccessor blockAccessor = capi.World.BlockAccessor;
         int floor = FloorAt(x, z);
         int light = blockAccessor.GetLightLevel(tmpPos.Set(x, floor + 1, z), EnumLightLevelType.MaxLight);

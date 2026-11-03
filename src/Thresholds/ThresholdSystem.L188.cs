@@ -38,6 +38,6 @@ public partial class ThresholdSystem
     /// </summary>
     private Link? L188Redirect(IServerPlayer player, Passage passage, Link destination) => null;
 
-    /// <summary>Whether a threshold someone has walked into lets them through now (Motion's gates open only at twilight).</summary>
+    /// <summary>Whether a threshold someone has walked into lets them through now (always: this level holds none of its thresholds shut).</summary>
     private bool L188MayPass(IServerPlayer player, Passage passage) => true;
 }

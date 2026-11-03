@@ -332,7 +332,7 @@ public partial class HubSystem
     /// </summary>
     private void OnTowerBreak(IServerPlayer byPlayer, int oldblockId, BlockPos pos)
     {
-        if (byPlayer?.Entity == null || !InTower(pos)) return;
+        if (byPlayer?.Entity == null || byPlayer.WorldData.CurrentGameMode != EnumGameMode.Survival || !InTower(pos)) return;
         if (placedInTower.Remove(pos) || !IsTowerFabric(sapi.World.GetBlock(oldblockId))) return;
         if (!keymasters.ContainsKey(byPlayer.PlayerUID) && !byPlayer.Entity.WatchedAttributes.GetBool(GiftKey)) Summon(byPlayer);
         Say(byPlayer, "backrooms:hub-keymaster-angry");

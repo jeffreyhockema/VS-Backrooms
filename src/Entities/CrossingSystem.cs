@@ -25,8 +25,8 @@ public class CrossingSystem : ModSystem
     private readonly Dictionary<string, int> lastLevel = new();
     private readonly Dictionary<string, HashSet<int>> told = new();
 
-    /// <summary>What a piece of armour is made of, by its code, for "metal" (vanilla's tiers do not follow the material: linen is tier 2, copper lamellar tier 1).</summary>
-    private static readonly string[] Metals = { "copper", "bronze", "iron", "steel", "silver", "gold", "brass", "lead", "chain", "plate", "lamellar", "scale", "brigandine" };
+    /// <summary>What a piece of armour is made of, by a segment of its code, for "metal" (vanilla's tiers do not follow the material: linen is tier 2, copper lamellar tier 1).</summary>
+    private static readonly string[] Metals = { "copper", "bronze", "iron", "steel", "silver", "gold", "brass", "lead" };
 
     public override bool ShouldLoad(EnumAppSide side) => side == EnumAppSide.Server;
 
@@ -101,7 +101,7 @@ public class CrossingSystem : ModSystem
                 if (p == null || p.FlatDamageReduction <= 0 && p.RelativeProtection <= 0) continue;
                 any = true;
                 string path = thing.Code.Path;
-                if (Metals.Any(m => path.Contains(m))) metal = true;
+                if (path.Split('-').Any(part => Metals.Contains(part))) metal = true;
             }
         return !any ? "none" : metal ? "metal" : "light";
     }

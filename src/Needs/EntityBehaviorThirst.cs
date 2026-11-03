@@ -79,6 +79,15 @@ public class EntityBehaviorThirst : EntityBehavior
         }
 
         float fraction = now / Needs.MaxHydration;
+        // The one-time hint when the meter first falls below the slowing line, again after drinking back above it
+        bool hinted = tree.GetBool("hinted");
+        if (fraction >= NeedsMath.ThirstSlowFrom && hinted) tree.SetBool("hinted", false);
+        else if (fraction < NeedsMath.ThirstSlowFrom && !hinted)
+        {
+            tree.SetBool("hinted", true);
+            entity.WatchedAttributes.MarkPathDirty(Needs.ThirstTree);
+            if (player.Player is IServerPlayer thirsty) NeedsSystem.Tell(thirsty, "backrooms:thirst-hint");
+        }
         Needs.SetStat(entity, "walkspeed", WalkStat, NeedsMath.ThirstWalk(fraction));
         bool empty = now <= 0;
         Needs.SetStabilityOffset(entity, "needs:thirst", empty ? NeedsMath.EmptyStability : 0);

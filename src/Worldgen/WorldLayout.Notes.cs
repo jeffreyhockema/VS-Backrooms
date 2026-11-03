@@ -62,7 +62,7 @@ public sealed partial class WorldLayout
     /// </summary>
     public (int X, int Z)? NearestCache(int gx, int gz, int level, int radius, Func<int, int, bool> skip = null)
     {
-        (int X, int Z)? spawn = level == 0 ? spawnPoint ??= FindSpawn() : null;
+        (int X, int Z)? spawn = level == 0 ? SpawnPoint() : null;
         Func<int, int, bool> skipped = spawn is not { } s ? skip : (x, z) => Math.Abs(x - s.X) <= SpawnBoxReach && Math.Abs(z - s.Z) <= SpawnBoxReach || skip != null && skip(x, z);
         return NearestTile(gx, gz, level, radius, t => !t.Looted && (t.SupplyBox || IsCrate(t, t.Level)), min: 12, skip: skipped);
     }
@@ -70,6 +70,12 @@ public sealed partial class WorldLayout
     /// <summary>How far from the spawn point its supply boxes lie (<c>PlaceSpawnBox</c>: two to three blocks), with some to spare.</summary>
     private const int SpawnBoxReach = 4;
     private (int X, int Z)? spawnPoint;
+    private readonly object spawnPointLock = new();
+
+    private (int X, int Z)? SpawnPoint()
+    {
+        lock (spawnPointLock) return spawnPoint ??= FindSpawn();
+    }
 
     /// <summary>
     /// The nearest refuge: the Manila Room, a Sanctum, the Beverly Room, the Snackrooms, a wanderer who trades, the
@@ -155,6 +161,7 @@ public sealed partial class WorldLayout
                 int dx = bx * HallGrid + HallOffset + 2 + 6, dz = bz * HallGrid + HallOffset + 2;
                 int dmx = MacroOf(dx), dmz = MacroOf(dz);
                 if (LevelAt(dmx, dmz) != 1 || !IsLevel1Corridors(dmx, dmz) || RingFraction(dx, dz, 1) < 0.5) continue;
+                if (HallBlockPlan(bx, bz)[6].Kind != TileKind.Wall || LevelAt(MacroOf(dx), MacroOf(dz - 1)) != 1) continue;
                 if (skip != null && skip(dx, dz - 1)) continue;
                 long d = (long)(dx - gx) * (dx - gx) + (long)(dz - 1 - gz) * (dz - 1 - gz);
                 if (d < bestD) { bestD = d; best = (dx, dz - 1); }
@@ -205,7 +212,7 @@ public sealed partial class WorldLayout
 
         const int c = MacroSize / 2;
         // (Half the dens: the rest still have their caches, and a folded note may be in a box)
-        if (DenAt(mx, mz) != DenKind.None && Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltNoteSpot + 1)) < 0.5) Near(c, c, "folded", 6);
+        if (DenAt(mx, mz) != DenKind.None && (Version < 14 || DenAt(mx, mz) != DenKind.Nest) && Hashing.Unit(Hashing.Hash(seed, mx, mz, SaltNoteSpot + 1)) < 0.5) Near(c, c, "folded", 6);
         // The story note of the first gate into a higher survival class (layout version 12; the note's key is note-gate-class in
         // tools/gen_notes.py: it is the next folded note of the rare track, and a world without that story just gets a folded note)
         if (Version >= 12 && level is 1 or 2 && FirstClassGate() is { } classGate)
@@ -294,13 +301,19 @@ public sealed partial class WorldLayout
         long best = long.MaxValue;
         int sx = spawnMacroX * MacroSize, sz = spawnMacroZ * MacroSize;
         (int, int, int)? found = null;
-        foreach (int from in new[] { 1, 2 })
-            foreach (var (x, z, to) in GatesNear(sx, sz, from, 6000))
-            {
-                if (PlacardKind(from, to) == null) continue;
-                long d = (long)(x - sx) * (x - sx) + (long)(z - sz) * (z - sz);
-                if (d < best) { best = d; found = (x, z, from); }
-            }
+        // Growing radii: the nearest gate is usually close, and a wide scan builds thousands of gate blocks under the lock.
+        // A gate found within a radius is the nearest overall only if it lies within that radius itself (the square holds corners beyond it)
+        foreach (int radius in new[] { 1000, 2000, 4000, 6000 })
+        {
+            foreach (int from in new[] { 1, 2 })
+                foreach (var (x, z, to) in GatesNear(sx, sz, from, radius))
+                {
+                    if (PlacardKind(from, to) == null) continue;
+                    long d = (long)(x - sx) * (x - sx) + (long)(z - sz) * (z - sz);
+                    if (d < best) { best = d; found = (x, z, from); }
+                }
+            if (found != null && best <= (long)radius * radius) break;
+        }
         return found;
     }
 

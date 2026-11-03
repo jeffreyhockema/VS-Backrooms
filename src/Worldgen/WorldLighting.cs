@@ -17,6 +17,11 @@ namespace Backrooms.Worldgen;
 /// Light sources are also registered in each chunk's LightPositions, so the engine relights correctly when
 /// players later break or place blocks.
 ///
+/// A cell is lit over one band of heights (<see cref="WorldGeometry.BandBottomFor"/> up to the usual top), and a light
+/// outside it is neither lit nor registered. Level 8's caves go deeper than the band, so from layout version 14 the
+/// generator places no glowworms or glowcaps below it (rel -30, <see cref="WorldGeometry.ShaftDepth"/>); deeper
+/// down the caves are dark. Versions 13 and earlier still have such lights there.
+///
 /// What lighting needs of a cell (how much each block absorbs, and where its lights are) is worked out once and
 /// kept: every cell is wanted by the chunk it is in and by its eight neighbours, and the generator hands over what
 /// it has just built rather than having it computed again. Whichever of the two comes first is kept, so every chunk

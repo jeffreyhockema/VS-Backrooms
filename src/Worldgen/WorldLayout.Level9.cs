@@ -133,6 +133,7 @@ public sealed partial class WorldLayout
                 int sx = Hashing.Mod(gx, TownBlockX), sz = Hashing.Mod(gz, TownBlockZ);
                 t.Floor = FloorKind.Lawn;
                 if (sx >= 8 && sz >= 8) continue; // a lot; filled from its plan below
+                if (Version >= 14 && t.Kind != TileKind.Floor) continue; // an edge wall carries no street furniture
                 StreetTile(ref t, gx, gz, sx, sz);
             }
         }
@@ -304,6 +305,10 @@ public sealed partial class WorldLayout
     /// field, whose gate is in that fence), and a lot whose neighbour is not built keeps its own. A side fence begins
     /// where the earlier of the two lots' would.
     /// </summary>
+    /// <summary>Whether a field lot has its gate: always before layout version 12, then one lot in four.</summary>
+    private bool FieldHasGate(int lotX, int lotZ) =>
+        Version < 12 || Hashing.Unit(Hashing.Hash(seed, lotX, lotZ, SaltL9Lot + 50)) < 0.25;
+
     private bool SharedFenceAt(int lotX, int lotZ, int u, int v, Func<int, int, (bool Built, LotKind Kind)> lot)
     {
         const int w = LotWidth, d = LotDepth;
@@ -316,7 +321,12 @@ public sealed partial class WorldLayout
         {
             var back = lot(lotX, south ? lotZ - LotDepth : lotZ + LotDepth);
             bool ownsBack = south ? self.Kind == LotKind.Field || !back.Built : !(back.Built && back.Kind == LotKind.Field);
-            if (ownsBack) return !(self.Kind == LotKind.Field && u is 9 or 10); // (the gate to Level 10)
+            if (ownsBack)
+            {
+                // (The gate to Level 10: from layout version 14 only where the lot has one, see FieldHasGate)
+                bool gap = self.Kind == LotKind.Field && u is 9 or 10 && (Version < 14 || FieldHasGate(lotX, lotZ));
+                return !gap;
+            }
         }
         if (u == 0)
         {
@@ -430,7 +440,7 @@ public sealed partial class WorldLayout
         {
             case LotKind.House:
             {
-                var house = PlanHouse(tiles, w, ref rng, farmhouse: false, v5: Version >= 5,
+                var house = PlanHouse(tiles, w, ref rng, farmhouse: false, v5: Version >= 5, v14: Version >= 14,
                     v9: v9 ? Hashing.Hash(seed, lotX, lotZ, SaltL9Lot + 9) | 1 : 0);
                 PlanFrontYard(tiles, w, house, ref rng);
                 PlanBackyard(tiles, w, d, house, ref rng);
@@ -470,7 +480,7 @@ public sealed partial class WorldLayout
                             else if (rng.Chance(0.04)) { At(u, v).Variant = Props.Flowers; At(u, v).Stack = (byte)rng.Range(0, 7); }
                         }
                 // (From layout version 12 one field lot in four has its gate: the rest are fenced across the back)
-                bool hasGate = Version < 12 || Hashing.Unit(Hashing.Hash(seed, lotX, lotZ, SaltL9Lot + 50)) < 0.25;
+                bool hasGate = FieldHasGate(lotX, lotZ);
                 foreach (int u in hasGate ? new[] { 9, 10 } : System.Array.Empty<int>())
                 {
                     ref Tile gate = ref At(u, d - 1);
@@ -558,7 +568,7 @@ public sealed partial class WorldLayout
     /// others, brick chimneys with caps, a garage door cased in trim, and stairs open overhead all the way up with a
     /// balustrade on their open side (see <see cref="PlanExteriorV9"/>).
     /// </summary>
-    private static House PlanHouse(Tile[] tiles, int w, ref Rng rng, bool farmhouse, bool v5 = false, ulong v9 = 0, bool motion = false)
+    private static House PlanHouse(Tile[] tiles, int w, ref Rng rng, bool farmhouse, bool v5 = false, ulong v9 = 0, bool motion = false, bool v14 = false)
     {
         ref Tile At(int u, int v) => ref tiles[v * w + u];
         HousePlan kind = farmhouse ? HousePlan.Family : (HousePlan)rng.Range(0, 2);
@@ -813,18 +823,22 @@ public sealed partial class WorldLayout
                 Put(u0 + 5, v0 + 4, Props.WingChair, ArchPier.West);
                 for (int u = u0 + 2; u <= u0 + 4; u++) At(u, v0 + 3).Floor = FloorKind.HouseRug;
                 // Kitchen-diner
-                Put(u0 + 1, v1 - 1, Props.KitchenCabinet, ArchPier.North);
-                Put(u0 + 2, v1 - 1, Props.Stove, ArchPier.North);
+                // (From layout version 14 the stove is off the back door's column and one tile of the row of furniture
+                // across the kitchen is left free, so the stove and fridge can be reached)
+                bool kitchen14 = v14;
+                Put(u0 + 1, v1 - 1, kitchen14 ? Props.Stove : Props.KitchenCabinet, ArchPier.North);
+                Put(u0 + 2, v1 - 1, kitchen14 ? Props.KitchenCabinet : Props.Stove, ArchPier.North);
                 Put(u0 + 3, v1 - 1, Props.KitchenCounter, ArchPier.North, 1);
                 Put(u0 + 4, v1 - 1, Props.Fridge, ArchPier.North);
                 Put(u0 + 1, mid + 2, Props.KitchenCabinet, ArchPier.East);
                 Put(u0 + 3, mid + 2, Props.RoundTable, ArchPier.North);
                 Put(u0 + 4, mid + 2, Props.HotelChair, ArchPier.West);
-                Put(u0 + 2, mid + 2, Props.HotelChair, ArchPier.East);
+                if (!kitchen14) Put(u0 + 2, mid + 2, Props.HotelChair, ArchPier.East);
                 // Bathroom
                 Put(k1 + 1, v1 - 1, Props.Bathtub, ArchPier.East, 0);
                 Put(k1 + 2, v1 - 1, Props.Bathtub, ArchPier.East, 1);
-                Put(k1 + 2, mid + 2, Props.Toilet, ArchPier.West);
+                // (From layout version 14 the toilet is up by the door, so no tile of the bathroom is shut in)
+                Put(k1 + 2, v14 ? mid + 1 : mid + 2, Props.Toilet, ArchPier.West);
                 Put(k1 + 1, mid + 3, Props.MedCabinet, ArchPier.East);
                 // Bedroom
                 Put(bath1 + 2, v1 - 1, Props.Bed, ArchPier.North, 0);
@@ -925,9 +939,20 @@ public sealed partial class WorldLayout
                 // Bathroom, and the laundry in it
                 Put(k1 + 1, v1 - 1, Props.Bathtub, ArchPier.East, 0);
                 Put(k1 + 2, v1 - 1, Props.Bathtub, ArchPier.East, 1);
-                Put(k1 + 1, mid + 1, Props.Toilet, ArchPier.East);
-                Put(k1 + 2, mid + 3, Props.Laundry, ArchPier.West, (byte)rng.Range(0, 1));
-                Put(k1 + 1, mid + 3, Props.MedCabinet, ArchPier.East);
+                // (From layout version 14 the toilet is not beside the doorway, where it was cleared away, and the laundry
+                // and the cabinet are in different rows, so no tile of the bathroom is shut in)
+                if (v14)
+                {
+                    Put(k1 + 2, mid + 1, Props.Toilet, ArchPier.West);
+                    Put(k1 + 2, mid + 4, Props.Laundry, ArchPier.West, (byte)rng.Range(0, 1));
+                    Put(k1 + 1, mid + 4, Props.MedCabinet, ArchPier.East);
+                }
+                else
+                {
+                    Put(k1 + 1, mid + 1, Props.Toilet, ArchPier.East);
+                    Put(k1 + 2, mid + 3, Props.Laundry, ArchPier.West, (byte)rng.Range(0, 1));
+                    Put(k1 + 1, mid + 3, Props.MedCabinet, ArchPier.East);
+                }
                 // Main bedroom: the bed's head against the back wall
                 Put(l1 + 3, v1 - 1, Props.Bed, ArchPier.North, 0);
                 Put(l1 + 3, v1 - 2, Props.Bed, ArchPier.North, 1);

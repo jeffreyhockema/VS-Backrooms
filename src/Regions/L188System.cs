@@ -72,6 +72,8 @@ public class L188System : ModSystem
     private readonly Dictionary<string, int> blockIds = new();
     private readonly Dictionary<string, Grab> grabs = new();
     private readonly Dictionary<string, long> nearSinceMs = new();
+    /// <summary>Whoever broke free of an arm, and until when (ms) no arm reaches for them again.</summary>
+    private readonly Dictionary<string, long> noReachUntil = new();
     private readonly Dictionary<string, double> nextPeripheral = new();
     private readonly Dictionary<(int, int), long> lastWhisperMs = new();
     private readonly Random rand = new();
@@ -165,6 +167,7 @@ public class L188System : ModSystem
         ReleaseGrab(player, false);
         Retract(player.PlayerUID);
         nearSinceMs.Remove(player.PlayerUID);
+        noReachUntil.Remove(player.PlayerUID);
         nextPeripheral.Remove(player.PlayerUID);
     }
 
@@ -297,7 +300,10 @@ public class L188System : ModSystem
             ? $"l188-window-scene-{WorldLayout.L188SceneOf(scene)}-{part}-{side}"
             : $"l188-window-{state.ToString().ToLowerInvariant()}-{part}-{side}";
         var ll = new BlockPos(layout.L188BuildX0 + l.Bx, Floor + 4 * storey + 2, layout.L188BuildZ0 + l.Bz);
-        if (!IsLoaded(ll)) return;
+        // (All four blocks or none: one in a chunk that is not loaded would stay as it was and the window look done)
+        foreach (var (px, pz) in new[] { (l.Bx, l.Bz), (r.Bx, r.Bz) })
+            for (int up = 2; up <= 3; up++)
+                if (!IsLoaded(new BlockPos(layout.L188BuildX0 + px, Floor + 4 * storey + up, layout.L188BuildZ0 + pz))) return;
         IBlockAccessor ba = sapi.World.BlockAccessor;
         int want = Id(Code("ll"));
         if (want == 0 || ba.GetBlock(ll).BlockId == want) return;
@@ -533,7 +539,7 @@ public class L188System : ModSystem
                 Vec3d c = WindowCentre(best, storey);
                 sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/188/whisper"), c.X, c.Y, c.Z, null, false, 10, 0.8f);
             }
-            if (bestD > GrabReach) { nearSinceMs.Remove(uid); Retract(uid); continue; }
+            if (bestD > GrabReach || noReachUntil.TryGetValue(uid, out long free) && now < free) { nearSinceMs.Remove(uid); Retract(uid); continue; }
             if (!nearSinceMs.TryGetValue(uid, out long since))
             {
                 // The arm comes out of the glass, reaching, in the second's grace
@@ -636,7 +642,7 @@ public class L188System : ModSystem
         if (now >= grab.NextHitMs)
         {
             grab.NextHitMs += 1000;
-            entity.ReceiveDamage(new DamageSource { Source = EnumDamageSource.Internal, Type = EnumDamageType.Injury }, 1f);
+            entity.ReceiveDamage(ArmBlow(grab.Arm), 1f);
         }
         if (now >= grab.NextDragMs)
         {
@@ -660,12 +666,20 @@ public class L188System : ModSystem
         // Held at the glass long enough: pulled through
         if (now - grab.StartMs >= HeldMaxMs && d <= 1.4)
         {
+            DamageSource blow = ArmBlow(grab.Arm);
             ReleaseGrab(player, false);
             sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/188/grab"), c.X, c.Y, c.Z, null, false, 16);
             player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:l188-consumed", player.PlayerName), EnumChatType.Notification);
-            entity.ReceiveDamage(new DamageSource { Source = EnumDamageSource.Internal, Type = EnumDamageType.Injury }, 9999f);
+            entity.ReceiveDamage(blow, 9999f);
         }
     }
+
+    /// <summary>The arm's damage, with the arm as its source (it is still there for 300 ms after a release), so a death can say who.</summary>
+    private static DamageSource ArmBlow(Entity arm) => new()
+    {
+        Source = EnumDamageSource.Internal, Type = EnumDamageType.Injury,
+        SourceEntity = arm is { Alive: true } ? arm : null, CauseEntity = arm is { Alive: true } ? arm : null
+    };
 
     private void ReleaseGrab(IServerPlayer player, bool brokeFree)
     {
@@ -679,7 +693,12 @@ public class L188System : ModSystem
             sapi.World.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/188/recoil"), at.X, at.Y, at.Z, null, true, 16);
             sapi.Event.RegisterCallback(_ => { if (arm.Alive) arm.Die(EnumDespawnReason.Removed); }, 300);
         }
-        if (brokeFree) player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:l188-brokefree"), EnumChatType.Notification);
+        if (brokeFree)
+        {
+            // It lets go, and does not reach again for a while (else it would, a second later, being still at the glass)
+            noReachUntil[player.PlayerUID] = sapi.World.ElapsedMilliseconds + 8000;
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:l188-brokefree"), EnumChatType.Notification);
+        }
     }
 
     /// <summary>The arm was struck (two blows and it lets go).</summary>
@@ -1043,7 +1062,7 @@ public class BlockL188Dispenser : Block
         }
         parts[2] = (stage - 1).ToString();
         BlockBehaviorL188Door.Swap(world, blockSel.Position, string.Join("-", parts));
-        world.PlaySoundAt(new AssetLocation("game:sounds/player/collect"), blockSel.Position.X + 0.5, blockSel.Position.Y + 0.5, blockSel.Position.Z + 0.5, byPlayer, true, 8);
+        world.PlaySoundAt(new AssetLocation("game:sounds/player/collect*"), blockSel.Position.X + 0.5, blockSel.Position.Y + 0.5, blockSel.Position.Z + 0.5, byPlayer, true, 8);
         return true;
     }
 }

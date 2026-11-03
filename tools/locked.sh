@@ -21,10 +21,12 @@ take() {
         sleep 2; waited=$((waited + 2))
         [ $((waited % 60)) -eq 0 ] && echo "[locked.sh] still waiting for $1 lock (${waited}s)..." >&2
     done
-    # Heartbeat: a slow job (a chain of generators, a long build) keeps its lock fresh, so "old" means "dead"
-    ( while :; do sleep 60; touch "$lock" 2>/dev/null || exit; done ) &
+    # Heartbeat: a slow job (a chain of generators, a long build) keeps its lock fresh, so "old" means "dead".
+    # Its file descriptors are closed so an orphaned `sleep` cannot hold a caller's output pipe open (that stalled every
+    # piped locked.sh call for a full minute), and the trap kills the sleep as well as the loop.
+    ( while :; do sleep 60 & wait $!; touch "$lock" 2>/dev/null || exit; done ) >/dev/null 2>&1 </dev/null &
     local beat=$!
-    trap "kill $beat 2>/dev/null; rmdir '$lock' 2>/dev/null" EXIT
+    trap "pkill -P $beat 2>/dev/null; kill $beat 2>/dev/null; rmdir '$lock' 2>/dev/null" EXIT
 }
 
 mode="${1:-}"; shift || true

@@ -80,6 +80,12 @@ public class AiTaskScavenge : AiTaskBase
         menace ??= entity.GetBehavior<EntityBehaviorMenace>();
         if (menace == null || menace.Kind != Encounter.Ambient) return false;
         director ??= entity.Api.ModLoader.GetModSystem<MenaceSystem>();
+        // (Nobody within its food range: nothing to run from or to show off for, so it looks again only now and then)
+        if (entity.World.GetNearestEntity(entity.Pos.XYZ, foodRange, 6, PersonFilter) == null)
+        {
+            nextLookMs = now + 1000;
+            return false;
+        }
         Entity who = Threat();
         if (who != null)
         {
@@ -89,7 +95,11 @@ public class AiTaskScavenge : AiTaskBase
             return true;
         }
         food = FindFood(now);
-        if (food == null) return false;
+        if (food == null)
+        {
+            nextLookMs = now + 1000;
+            return false;
+        }
         mode = Mode.GoToFood;
         return true;
     }
@@ -100,7 +110,7 @@ public class AiTaskScavenge : AiTaskBase
         float reach = Math.Max(scatterRange, lightScatterRange);
         Entity nearest = null;
         double best = double.MaxValue;
-        foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, reach, 6, IsPerson))
+        foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, reach, 6, PersonFilter))
         {
             double d = entity.Pos.DistanceTo(e.Pos);
             float range = Walking(e) ? scatterRange : sneakScatterRange;
@@ -111,6 +121,10 @@ public class AiTaskScavenge : AiTaskBase
         }
         return nearest;
     }
+
+    private static readonly ActionConsumable<Entity> PersonFilter = IsPerson;
+    // (Instance, as it reads what this rat ignores; made once, not at every look)
+    private ActionConsumable<Entity> unignoredFoodFilter;
 
     private static bool IsPerson(Entity e) =>
         e.Alive && (Senses.IsTestTarget(e) || e is EntityPlayer && !Strike.IsSpectator(e));
@@ -174,7 +188,8 @@ public class AiTaskScavenge : AiTaskBase
         }
         Entity best = null;
         double bestDistance = double.MaxValue;
-        foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, foodRange, 6, IsUnignoredFood))
+        unignoredFoodFilter ??= IsUnignoredFood;
+        foreach (Entity e in entity.World.GetEntitiesAround(entity.Pos.XYZ, foodRange, 6, unignoredFoodFilter))
         {
             double d = entity.Pos.DistanceTo(e.Pos);
             if (d >= bestDistance) continue;
