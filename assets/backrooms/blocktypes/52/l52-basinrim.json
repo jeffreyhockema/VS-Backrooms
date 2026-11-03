@@ -1,0 +1,225 @@
+// Level 52: the courtyard fountain's coped precast rim (edge: the paving toward its side; corner: toward its side and to the left of it), wet below the water line inside
+{
+	"code": "l52-basinrim",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"edge",
+				"corner"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-basinrim-edge-north": {
+			"base": "backrooms:block/52/l52-basinrim-edge",
+			"rotateY": 0
+		},
+		"l52-basinrim-edge-east": {
+			"base": "backrooms:block/52/l52-basinrim-edge",
+			"rotateY": 270
+		},
+		"l52-basinrim-edge-south": {
+			"base": "backrooms:block/52/l52-basinrim-edge",
+			"rotateY": 180
+		},
+		"l52-basinrim-edge-west": {
+			"base": "backrooms:block/52/l52-basinrim-edge",
+			"rotateY": 90
+		},
+		"l52-basinrim-corner-north": {
+			"base": "backrooms:block/52/l52-basinrim-corner",
+			"rotateY": 0
+		},
+		"l52-basinrim-corner-east": {
+			"base": "backrooms:block/52/l52-basinrim-corner",
+			"rotateY": 270
+		},
+		"l52-basinrim-corner-south": {
+			"base": "backrooms:block/52/l52-basinrim-corner",
+			"rotateY": 180
+		},
+		"l52-basinrim-corner-west": {
+			"base": "backrooms:block/52/l52-basinrim-corner",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-basinrim-edge-north"
+		],
+		"backrooms": [
+			"l52-basinrim-edge-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"collisionboxByType": {
+		"l52-basinrim-edge-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.81
+		},
+		"l52-basinrim-edge-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.81,
+			"rotateY": 270
+		},
+		"l52-basinrim-edge-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.81,
+			"rotateY": 180
+		},
+		"l52-basinrim-edge-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.81,
+			"rotateY": 90
+		},
+		"l52-basinrim-corner-north": {
+			"x1": 0.19,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-basinrim-corner-east": {
+			"x1": 0.19,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-basinrim-corner-south": {
+			"x1": 0.19,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-basinrim-corner-west": {
+			"x1": 0.19,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l52-basinrim-edge-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.81
+		},
+		"l52-basinrim-edge-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.81,
+			"rotateY": 270
+		},
+		"l52-basinrim-edge-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.81,
+			"rotateY": 180
+		},
+		"l52-basinrim-edge-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.81,
+			"rotateY": 90
+		},
+		"l52-basinrim-corner-north": {
+			"x1": 0.19,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-basinrim-corner-east": {
+			"x1": 0.19,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-basinrim-corner-south": {
+			"x1": 0.19,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-basinrim-corner-west": {
+			"x1": 0.19,
+			"y1": 0,
+			"z1": 0.19,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

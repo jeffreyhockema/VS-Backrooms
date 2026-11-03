@@ -1,0 +1,132 @@
+// Level 52: a classroom's CRT television strapped on a tall AV cart with a VCR under it (off, like everything electrical in a classroom), its screen toward its side
+{
+	"code": "l52-tvcart",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-tvcart-north": {
+			"base": "backrooms:block/52/l52-tvcart",
+			"rotateY": 0
+		},
+		"l52-tvcart-east": {
+			"base": "backrooms:block/52/l52-tvcart",
+			"rotateY": 270
+		},
+		"l52-tvcart-south": {
+			"base": "backrooms:block/52/l52-tvcart",
+			"rotateY": 180
+		},
+		"l52-tvcart-west": {
+			"base": "backrooms:block/52/l52-tvcart",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-tvcart-north"
+		],
+		"backrooms": [
+			"l52-tvcart-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"l52-tvcart-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.91,
+			"y2": 1,
+			"z2": 0.88
+		},
+		"l52-tvcart-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.91,
+			"y2": 1,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"l52-tvcart-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.91,
+			"y2": 1,
+			"z2": 0.88,
+			"rotateY": 180
+		},
+		"l52-tvcart-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.91,
+			"y2": 1,
+			"z2": 0.88,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l52-tvcart-north": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.91,
+			"y2": 1,
+			"z2": 0.88
+		},
+		"l52-tvcart-east": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.91,
+			"y2": 1,
+			"z2": 0.88,
+			"rotateY": 270
+		},
+		"l52-tvcart-south": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.91,
+			"y2": 1,
+			"z2": 0.88,
+			"rotateY": 180
+		},
+		"l52-tvcart-west": {
+			"x1": 0.09,
+			"y1": 0,
+			"z1": 0.12,
+			"x2": 0.91,
+			"y2": 1,
+			"z2": 0.88,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

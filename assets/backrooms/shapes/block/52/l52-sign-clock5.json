@@ -2,8 +2,9 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"sign-clock5": "backrooms:block/52/sign-clock5",
-		"sign-edge-stone": "backrooms:block/52/sign-edge-stone"
+		"r4k-dialmetal": "backrooms:block/52/r4k-dialmetal",
+		"r4k-towerstone": "backrooms:block/52/r4k-towerstone",
+		"sign-clock5": "backrooms:block/52/sign-clock5"
 	},
 	"elements": [
 		{
@@ -27,44 +28,554 @@
 						16,
 						16
 					]
-				},
-				"east": {
-					"texture": "#sign-edge-stone",
+				}
+			}
+		},
+		{
+			"name": "Stone10",
+			"from": [
+				22.3935,
+				30.1,
+				14.0
+			],
+			"to": [
+				25.6065,
+				31.9,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-towerstone",
 					"uv": [
 						0,
 						0,
-						0.8,
-						16
-					]
-				},
-				"west": {
-					"texture": "#sign-edge-stone",
-					"uv": [
-						0,
-						0,
-						0.8,
-						16
+						3.213,
+						1.8
 					]
 				},
 				"up": {
-					"texture": "#sign-edge-stone",
+					"texture": "#r4k-towerstone",
 					"uv": [
 						0,
 						0,
-						16,
-						0.8
+						3.213,
+						2.0
 					]
 				},
 				"down": {
-					"texture": "#sign-edge-stone",
+					"texture": "#r4k-towerstone",
 					"uv": [
 						0,
 						0,
-						16,
-						0.8
+						3.213,
+						2.0
 					]
 				}
-			}
+			},
+			"rotationOrigin": [
+				24.0,
+				8.0,
+				15.5
+			],
+			"rotationZ": 75.0
+		},
+		{
+			"name": "Stone11",
+			"from": [
+				22.3935,
+				30.1,
+				14.0
+			],
+			"to": [
+				25.6065,
+				31.9,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-towerstone",
+					"uv": [
+						0,
+						0,
+						3.213,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-towerstone",
+					"uv": [
+						0,
+						0,
+						3.213,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#r4k-towerstone",
+					"uv": [
+						0,
+						0,
+						3.213,
+						2.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				24.0,
+				8.0,
+				15.5
+			],
+			"rotationZ": 82.5
+		},
+		{
+			"name": "Stone12",
+			"from": [
+				22.3935,
+				30.1,
+				14.0
+			],
+			"to": [
+				25.6065,
+				31.9,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-towerstone",
+					"uv": [
+						0,
+						0,
+						3.213,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-towerstone",
+					"uv": [
+						0,
+						0,
+						3.213,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#r4k-towerstone",
+					"uv": [
+						0,
+						0,
+						3.213,
+						2.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				24.0,
+				8.0,
+				15.5
+			],
+			"rotationZ": 90.0
+		},
+		{
+			"name": "Stone13",
+			"from": [
+				22.3935,
+				30.1,
+				14.0
+			],
+			"to": [
+				25.6065,
+				31.9,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-towerstone",
+					"uv": [
+						0,
+						0,
+						3.213,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-towerstone",
+					"uv": [
+						0,
+						0,
+						3.213,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#r4k-towerstone",
+					"uv": [
+						0,
+						0,
+						3.213,
+						2.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				24.0,
+				8.0,
+				15.5
+			],
+			"rotationZ": 97.5
+		},
+		{
+			"name": "Stone14",
+			"from": [
+				22.3935,
+				30.1,
+				14.0
+			],
+			"to": [
+				25.6065,
+				31.9,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-towerstone",
+					"uv": [
+						0,
+						0,
+						3.213,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-towerstone",
+					"uv": [
+						0,
+						0,
+						3.213,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#r4k-towerstone",
+					"uv": [
+						0,
+						0,
+						3.213,
+						2.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				24.0,
+				8.0,
+				15.5
+			],
+			"rotationZ": 105.0
+		},
+		{
+			"name": "Bezel10",
+			"from": [
+				22.5082,
+				28.9,
+				14.6
+			],
+			"to": [
+				25.4918,
+				30.15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				24.0,
+				8.0,
+				15.5
+			],
+			"rotationZ": 75.0
+		},
+		{
+			"name": "Bezel11",
+			"from": [
+				22.5082,
+				28.9,
+				14.6
+			],
+			"to": [
+				25.4918,
+				30.15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				24.0,
+				8.0,
+				15.5
+			],
+			"rotationZ": 82.5
+		},
+		{
+			"name": "Bezel12",
+			"from": [
+				22.5082,
+				28.9,
+				14.6
+			],
+			"to": [
+				25.4918,
+				30.15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				24.0,
+				8.0,
+				15.5
+			],
+			"rotationZ": 90.0
+		},
+		{
+			"name": "Bezel13",
+			"from": [
+				22.5082,
+				28.9,
+				14.6
+			],
+			"to": [
+				25.4918,
+				30.15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				24.0,
+				8.0,
+				15.5
+			],
+			"rotationZ": 97.5
+		},
+		{
+			"name": "Bezel14",
+			"from": [
+				22.5082,
+				28.9,
+				14.6
+			],
+			"to": [
+				25.4918,
+				30.15,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.25
+					]
+				},
+				"up": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.9836,
+						1.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				24.0,
+				8.0,
+				15.5
+			],
+			"rotationZ": 105.0
+		},
+		{
+			"name": "Baton3",
+			"from": [
+				23.45,
+				27.0,
+				14.85
+			],
+			"to": [
+				24.55,
+				29.0,
+				15.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						1.1,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						1.1,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						1.1,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				24.0,
+				8.0,
+				15.0
+			],
+			"rotationZ": 90
 		}
 	]
 }

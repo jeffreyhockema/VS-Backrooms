@@ -1,0 +1,33 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"mark": "backrooms:block/52/r4-mark-gym-k7_1"
+	},
+	"elements": [
+		{
+			"name": "Paint",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				0.12,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#mark",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

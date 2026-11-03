@@ -1,0 +1,148 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4-mat-upper": "backrooms:block/52/r4-mat-upper",
+		"r4-pad-blue": "backrooms:block/52/r4-pad-blue"
+	},
+	"elements": [
+		{
+			"name": "Pad",
+			"from": [
+				0.2,
+				0,
+				13.4
+			],
+			"to": [
+				15.8,
+				15.4,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-mat-upper",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						2.6,
+						15.4
+					]
+				},
+				"south": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						15.6,
+						15.4
+					]
+				},
+				"west": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						2.6,
+						15.4
+					]
+				},
+				"up": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						15.6,
+						2.6
+					]
+				},
+				"down": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						15.6,
+						2.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Roll",
+			"from": [
+				0.2,
+				15.4,
+				13.8
+			],
+			"to": [
+				15.8,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						15.6,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						15.6,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						15.6,
+						2.2
+					]
+				},
+				"down": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						15.6,
+						2.2
+					]
+				}
+			}
+		}
+	]
+}

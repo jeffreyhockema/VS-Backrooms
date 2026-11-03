@@ -1,0 +1,373 @@
+// Level 52: a gym's scoreboard, three blocks wide and two high, on the wall behind (part l, m, r as seen from in front; row lo, hi): HOME and GUEST at 00, the clock stopped at 3:52, lit
+{
+	"code": "l52-score",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"l",
+				"m",
+				"r"
+			]
+		},
+		{
+			"code": "row",
+			"states": [
+				"lo",
+				"hi"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-score-l-lo-north": {
+			"base": "backrooms:block/52/l52-score-l-lo",
+			"rotateY": 0
+		},
+		"l52-score-l-lo-east": {
+			"base": "backrooms:block/52/l52-score-l-lo",
+			"rotateY": 270
+		},
+		"l52-score-l-lo-south": {
+			"base": "backrooms:block/52/l52-score-l-lo",
+			"rotateY": 180
+		},
+		"l52-score-l-lo-west": {
+			"base": "backrooms:block/52/l52-score-l-lo",
+			"rotateY": 90
+		},
+		"l52-score-m-lo-north": {
+			"base": "backrooms:block/52/l52-score-m-lo",
+			"rotateY": 0
+		},
+		"l52-score-m-lo-east": {
+			"base": "backrooms:block/52/l52-score-m-lo",
+			"rotateY": 270
+		},
+		"l52-score-m-lo-south": {
+			"base": "backrooms:block/52/l52-score-m-lo",
+			"rotateY": 180
+		},
+		"l52-score-m-lo-west": {
+			"base": "backrooms:block/52/l52-score-m-lo",
+			"rotateY": 90
+		},
+		"l52-score-r-lo-north": {
+			"base": "backrooms:block/52/l52-score-r-lo",
+			"rotateY": 0
+		},
+		"l52-score-r-lo-east": {
+			"base": "backrooms:block/52/l52-score-r-lo",
+			"rotateY": 270
+		},
+		"l52-score-r-lo-south": {
+			"base": "backrooms:block/52/l52-score-r-lo",
+			"rotateY": 180
+		},
+		"l52-score-r-lo-west": {
+			"base": "backrooms:block/52/l52-score-r-lo",
+			"rotateY": 90
+		},
+		"l52-score-l-hi-north": {
+			"base": "backrooms:block/52/l52-score-l-hi",
+			"rotateY": 0
+		},
+		"l52-score-l-hi-east": {
+			"base": "backrooms:block/52/l52-score-l-hi",
+			"rotateY": 270
+		},
+		"l52-score-l-hi-south": {
+			"base": "backrooms:block/52/l52-score-l-hi",
+			"rotateY": 180
+		},
+		"l52-score-l-hi-west": {
+			"base": "backrooms:block/52/l52-score-l-hi",
+			"rotateY": 90
+		},
+		"l52-score-m-hi-north": {
+			"base": "backrooms:block/52/l52-score-m-hi",
+			"rotateY": 0
+		},
+		"l52-score-m-hi-east": {
+			"base": "backrooms:block/52/l52-score-m-hi",
+			"rotateY": 270
+		},
+		"l52-score-m-hi-south": {
+			"base": "backrooms:block/52/l52-score-m-hi",
+			"rotateY": 180
+		},
+		"l52-score-m-hi-west": {
+			"base": "backrooms:block/52/l52-score-m-hi",
+			"rotateY": 90
+		},
+		"l52-score-r-hi-north": {
+			"base": "backrooms:block/52/l52-score-r-hi",
+			"rotateY": 0
+		},
+		"l52-score-r-hi-east": {
+			"base": "backrooms:block/52/l52-score-r-hi",
+			"rotateY": 270
+		},
+		"l52-score-r-hi-south": {
+			"base": "backrooms:block/52/l52-score-r-hi",
+			"rotateY": 180
+		},
+		"l52-score-r-hi-west": {
+			"base": "backrooms:block/52/l52-score-r-hi",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-score-l-lo-north"
+		],
+		"backrooms": [
+			"l52-score-l-lo-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l52-score-l-lo-north": {
+			"x1": 0,
+			"y1": 0.1,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-score-l-lo-east": {
+			"x1": 0,
+			"y1": 0.1,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-score-l-lo-south": {
+			"x1": 0,
+			"y1": 0.1,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-score-l-lo-west": {
+			"x1": 0,
+			"y1": 0.1,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-score-m-lo-north": {
+			"x1": 0,
+			"y1": 0.1,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-score-m-lo-east": {
+			"x1": 0,
+			"y1": 0.1,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-score-m-lo-south": {
+			"x1": 0,
+			"y1": 0.1,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-score-m-lo-west": {
+			"x1": 0,
+			"y1": 0.1,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-score-r-lo-north": {
+			"x1": 0,
+			"y1": 0.1,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-score-r-lo-east": {
+			"x1": 0,
+			"y1": 0.1,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-score-r-lo-south": {
+			"x1": 0,
+			"y1": 0.1,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-score-r-lo-west": {
+			"x1": 0,
+			"y1": 0.1,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-score-l-hi-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l52-score-l-hi-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-score-l-hi-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-score-l-hi-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-score-m-hi-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l52-score-m-hi-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-score-m-hi-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-score-m-hi-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-score-r-hi-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1
+		},
+		"l52-score-r-hi-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-score-r-hi-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-score-r-hi-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.78,
+			"x2": 1,
+			"y2": 0.9,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"lightHsvByType": {
+		"*-m-*": [
+			6,
+			3,
+			5
+		]
+	},
+	"collisionbox": null
+}

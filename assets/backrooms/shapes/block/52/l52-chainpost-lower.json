@@ -1,0 +1,173 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chainlink-mesh": "backrooms:block/52/chainlink-mesh",
+		"r4-footing": "backrooms:block/52/r4-footing",
+		"r4-galv": "backrooms:block/52/r4-galv"
+	},
+	"elements": [
+		{
+			"name": "Mesh",
+			"from": [
+				7.8,
+				0,
+				0
+			],
+			"to": [
+				8.2,
+				16,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#chainlink-mesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#chainlink-mesh",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Post",
+			"from": [
+				7.1,
+				0,
+				7.1
+			],
+			"to": [
+				8.9,
+				16,
+				8.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-galv",
+					"uv": [
+						0,
+						0,
+						1.8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#r4-galv",
+					"uv": [
+						0,
+						0,
+						1.8,
+						16
+					]
+				},
+				"south": {
+					"texture": "#r4-galv",
+					"uv": [
+						0,
+						0,
+						1.8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#r4-galv",
+					"uv": [
+						0,
+						0,
+						1.8,
+						16
+					]
+				},
+				"up": {
+					"texture": "#r4-galv",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.8
+					]
+				},
+				"down": {
+					"texture": "#r4-galv",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Footing",
+			"from": [
+				6.4,
+				-0.01,
+				6.4
+			],
+			"to": [
+				9.6,
+				0.6,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-footing",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.61
+					]
+				},
+				"east": {
+					"texture": "#r4-footing",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.61
+					]
+				},
+				"south": {
+					"texture": "#r4-footing",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.61
+					]
+				},
+				"west": {
+					"texture": "#r4-footing",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.61
+					]
+				},
+				"up": {
+					"texture": "#r4-footing",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
+					]
+				}
+			}
+		}
+	]
+}

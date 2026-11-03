@@ -1,0 +1,96 @@
+// Level 52: a classroom's 2000s projector hung from the ceiling on a drop pole, its lens toward the board; off, like everything electrical in a classroom
+{
+	"code": "l52-projector",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-projector-north": {
+			"base": "backrooms:block/52/l52-projector",
+			"rotateY": 0
+		},
+		"l52-projector-east": {
+			"base": "backrooms:block/52/l52-projector",
+			"rotateY": 270
+		},
+		"l52-projector-south": {
+			"base": "backrooms:block/52/l52-projector",
+			"rotateY": 180
+		},
+		"l52-projector-west": {
+			"base": "backrooms:block/52/l52-projector",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-projector-north"
+		],
+		"backrooms": [
+			"l52-projector-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l52-projector-north": {
+			"x1": 0.25,
+			"y1": 0.3,
+			"z1": 0.15,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 0.85
+		},
+		"l52-projector-east": {
+			"x1": 0.25,
+			"y1": 0.3,
+			"z1": 0.15,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"l52-projector-south": {
+			"x1": 0.25,
+			"y1": 0.3,
+			"z1": 0.15,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"l52-projector-west": {
+			"x1": 0.25,
+			"y1": 0.3,
+			"z1": 0.15,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionbox": null
+}

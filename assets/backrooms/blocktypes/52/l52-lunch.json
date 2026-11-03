@@ -1,0 +1,225 @@
+// Level 52: a canteen's folding lunch table (table: the top on its folding frame, the rows of them making one long table; seat: the bench on the frame's arm, facing the table)
+{
+	"code": "l52-lunch",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"table",
+				"seat"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-lunch-table-north": {
+			"base": "backrooms:block/52/l52-lunch-table",
+			"rotateY": 0
+		},
+		"l52-lunch-table-east": {
+			"base": "backrooms:block/52/l52-lunch-table",
+			"rotateY": 270
+		},
+		"l52-lunch-table-south": {
+			"base": "backrooms:block/52/l52-lunch-table",
+			"rotateY": 180
+		},
+		"l52-lunch-table-west": {
+			"base": "backrooms:block/52/l52-lunch-table",
+			"rotateY": 90
+		},
+		"l52-lunch-seat-north": {
+			"base": "backrooms:block/52/l52-lunch-seat",
+			"rotateY": 0
+		},
+		"l52-lunch-seat-east": {
+			"base": "backrooms:block/52/l52-lunch-seat",
+			"rotateY": 270
+		},
+		"l52-lunch-seat-south": {
+			"base": "backrooms:block/52/l52-lunch-seat",
+			"rotateY": 180
+		},
+		"l52-lunch-seat-west": {
+			"base": "backrooms:block/52/l52-lunch-seat",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-lunch-table-north"
+		],
+		"backrooms": [
+			"l52-lunch-table-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"l52-lunch-table-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 0.95
+		},
+		"l52-lunch-table-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"l52-lunch-table-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"l52-lunch-table-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 0.95,
+			"rotateY": 90
+		},
+		"l52-lunch-seat-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.5
+		},
+		"l52-lunch-seat-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.5,
+			"rotateY": 270
+		},
+		"l52-lunch-seat-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.5,
+			"rotateY": 180
+		},
+		"l52-lunch-seat-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.5,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l52-lunch-table-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 0.95
+		},
+		"l52-lunch-table-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"l52-lunch-table-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"l52-lunch-table-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.05,
+			"x2": 1,
+			"y2": 0.75,
+			"z2": 0.95,
+			"rotateY": 90
+		},
+		"l52-lunch-seat-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.5
+		},
+		"l52-lunch-seat-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.5,
+			"rotateY": 270
+		},
+		"l52-lunch-seat-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.5,
+			"rotateY": 180
+		},
+		"l52-lunch-seat-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 0.45,
+			"z2": 0.5,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

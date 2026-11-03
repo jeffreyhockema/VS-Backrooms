@@ -1,0 +1,102 @@
+// Level 52: an entrance canopy's round column, three blocks high (base with its plinth and bolts, shaft, cap flaring to the soffit)
+{
+	"code": "l52-column",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"base",
+				"shaft",
+				"cap"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-column-base": {
+			"base": "backrooms:block/52/l52-column-base"
+		},
+		"l52-column-shaft": {
+			"base": "backrooms:block/52/l52-column-shaft"
+		},
+		"l52-column-cap": {
+			"base": "backrooms:block/52/l52-column-cap"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-column-base"
+		],
+		"backrooms": [
+			"l52-column-base"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"l52-column-base": {
+			"x1": 0.27,
+			"y1": 0,
+			"z1": 0.27,
+			"x2": 0.73,
+			"y2": 1,
+			"z2": 0.73
+		},
+		"l52-column-shaft": {
+			"x1": 0.27,
+			"y1": 0,
+			"z1": 0.27,
+			"x2": 0.73,
+			"y2": 1,
+			"z2": 0.73
+		},
+		"l52-column-cap": {
+			"x1": 0.27,
+			"y1": 0,
+			"z1": 0.27,
+			"x2": 0.73,
+			"y2": 1,
+			"z2": 0.73
+		}
+	},
+	"selectionboxByType": {
+		"l52-column-base": {
+			"x1": 0.16,
+			"y1": 0,
+			"z1": 0.16,
+			"x2": 0.84,
+			"y2": 1,
+			"z2": 0.84
+		},
+		"l52-column-shaft": {
+			"x1": 0.27,
+			"y1": 0,
+			"z1": 0.27,
+			"x2": 0.73,
+			"y2": 1,
+			"z2": 0.73
+		},
+		"l52-column-cap": {
+			"x1": 0.07,
+			"y1": 0,
+			"z1": 0.07,
+			"x2": 0.93,
+			"y2": 1,
+			"z2": 0.93
+		}
+	},
+	"drops": []
+}

@@ -1,0 +1,292 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4-steel-dark": "backrooms:block/52/r4-steel-dark",
+		"r4k-satin": "backrooms:block/52/r4k-satin"
+	},
+	"elements": [
+		{
+			"name": "Rail",
+			"from": [
+				1.4,
+				5.8,
+				-3.4
+			],
+			"to": [
+				2.6,
+				7.0,
+				19.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-steel-dark",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#r4-steel-dark",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#r4-steel-dark",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#r4-steel-dark",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#r4-steel-dark",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"down": {
+					"texture": "#r4-steel-dark",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				2.0,
+				6.4,
+				8
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Bracket",
+			"from": [
+				0.6,
+				4.6,
+				7.6
+			],
+			"to": [
+				1.6,
+				5.4,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Stem",
+			"from": [
+				1.7,
+				4.6,
+				7.6
+			],
+			"to": [
+				2.3,
+				5.9,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.3
+					]
+				},
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.3
+					]
+				},
+				"south": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.3
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.3
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Rosette",
+			"from": [
+				0.0,
+				3.8,
+				7.0
+			],
+			"to": [
+				0.6,
+				6.2,
+				9.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						2.0,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.6,
+						2.0
+					]
+				}
+			}
+		}
+	]
+}

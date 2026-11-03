@@ -1,0 +1,6054 @@
+// Level 52: a court's painted markings, a flat decal over the floor (the key, the free-throw circle, the three-point arc about a hoop: cells k<i>_<j>; the centre circle: c<i>_<j>); side: the way into the court from the hoop
+{
+	"code": "l52-mark",
+	"variantgroups": [
+		{
+			"code": "surf",
+			"states": [
+				"gym",
+				"yard"
+			]
+		},
+		{
+			"code": "cell",
+			"states": [
+				"c0_1",
+				"c0_2",
+				"c0_3",
+				"c1_0",
+				"c1_1",
+				"c1_3",
+				"c1_4",
+				"c2_0",
+				"c2_4",
+				"c3_0",
+				"c3_1",
+				"c3_3",
+				"c3_4",
+				"c4_1",
+				"c4_2",
+				"c4_3",
+				"k0_0",
+				"k0_1",
+				"k0_2",
+				"k0_3",
+				"k10_7",
+				"k11_6",
+				"k11_7",
+				"k12_5",
+				"k12_6",
+				"k13_3",
+				"k13_4",
+				"k13_5",
+				"k14_0",
+				"k14_1",
+				"k14_2",
+				"k14_3",
+				"k1_3",
+				"k1_4",
+				"k1_5",
+				"k2_5",
+				"k2_6",
+				"k3_6",
+				"k3_7",
+				"k4_7",
+				"k5_0",
+				"k5_1",
+				"k5_2",
+				"k5_3",
+				"k5_4",
+				"k5_5",
+				"k5_6",
+				"k5_7",
+				"k6_0",
+				"k6_1",
+				"k6_2",
+				"k6_3",
+				"k6_4",
+				"k6_5",
+				"k6_6",
+				"k6_7",
+				"k6_8",
+				"k7_0",
+				"k7_1",
+				"k7_2",
+				"k7_3",
+				"k7_4",
+				"k7_5",
+				"k7_6",
+				"k7_8",
+				"k8_0",
+				"k8_1",
+				"k8_2",
+				"k8_3",
+				"k8_4",
+				"k8_5",
+				"k8_6",
+				"k8_7",
+				"k8_8",
+				"k9_0",
+				"k9_1",
+				"k9_2",
+				"k9_3",
+				"k9_4",
+				"k9_5",
+				"k9_6",
+				"k9_7"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-mark-gym-c0_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c0_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c0_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c0_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c0_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c0_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c0_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c0_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c0_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c0_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c0_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c0_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c1_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c1_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c1_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c1_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c1_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c1_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c1_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c1_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c1_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c1_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c1_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c1_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c1_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c1_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c1_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c1_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c2_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c2_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c2_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c2_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c2_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c2_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c2_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c2_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c3_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c3_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c3_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c3_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c3_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c3_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c3_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c3_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c3_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c3_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c3_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c3_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c3_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c3_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c3_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c3_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c4_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c4_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c4_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c4_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c4_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c4_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c4_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c4_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-c4_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-c4_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-c4_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-c4_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k0_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k0_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k0_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k0_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k0_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k0_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k0_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k0_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k0_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k0_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k0_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k0_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k0_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k0_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k0_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k0_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k10_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k10_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k10_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k10_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k11_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k11_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k11_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k11_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k11_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k11_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k11_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k11_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k12_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k12_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k12_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k12_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k12_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k12_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k12_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k12_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k13_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k13_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k13_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k13_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k13_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k13_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k13_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k13_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k13_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k13_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k13_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k13_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k14_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k14_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k14_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k14_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k14_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k14_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k14_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k14_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k14_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k14_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k14_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k14_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k14_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k14_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k14_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k14_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k1_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k1_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k1_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k1_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k1_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k1_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k1_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k1_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k1_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k1_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k1_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k1_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k2_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k2_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k2_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k2_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k2_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k2_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k2_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k2_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k3_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k3_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k3_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k3_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k3_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k3_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k3_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k3_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k4_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k4_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k4_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k4_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k5_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k5_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k5_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k5_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k5_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k5_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k5_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k5_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k5_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k5_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k5_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k5_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k5_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k5_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k5_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k5_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k5_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k5_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k5_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k5_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k5_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k5_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k5_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k5_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k5_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k5_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k5_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k5_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k5_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k5_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k5_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k5_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k6_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k6_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k6_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k6_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k6_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k6_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k6_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k6_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k6_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k6_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k6_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k6_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k6_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k6_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k6_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k6_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k6_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k6_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k6_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k6_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k6_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k6_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k6_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k6_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k6_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k6_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k6_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k6_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k6_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k6_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k6_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k6_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k6_8-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k6_8-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k6_8-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k6_8-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k7_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k7_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k7_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k7_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k7_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k7_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k7_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k7_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k7_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k7_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k7_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k7_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k7_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k7_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k7_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k7_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k7_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k7_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k7_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k7_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k7_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k7_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k7_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k7_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k7_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k7_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k7_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k7_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k7_8-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k7_8-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k7_8-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k7_8-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k8_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k8_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k8_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k8_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k8_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k8_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k8_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k8_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k8_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k8_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k8_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k8_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k8_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k8_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k8_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k8_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k8_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k8_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k8_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k8_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k8_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k8_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k8_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k8_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k8_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k8_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k8_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k8_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k8_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k8_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k8_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k8_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k8_8-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k8_8-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k8_8-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k8_8-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k9_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k9_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k9_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k9_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k9_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k9_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k9_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k9_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k9_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k9_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k9_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k9_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k9_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k9_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k9_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k9_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k9_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k9_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k9_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k9_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k9_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k9_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k9_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k9_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k9_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k9_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k9_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k9_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-gym-k9_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-gym-k9_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-gym-k9_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-gym-k9_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c0_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c0_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c0_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c0_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c0_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c0_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c0_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c0_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c0_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c0_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c0_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c0_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c1_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c1_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c1_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c1_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c1_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c1_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c1_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c1_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c1_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c1_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c1_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c1_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c1_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c1_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c1_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c1_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c2_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c2_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c2_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c2_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c2_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c2_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c2_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c2_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c3_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c3_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c3_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c3_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c3_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c3_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c3_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c3_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c3_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c3_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c3_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c3_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c3_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c3_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c3_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c3_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c4_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c4_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c4_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c4_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c4_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c4_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c4_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c4_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-c4_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-c4_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-c4_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-c4_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k0_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k0_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k0_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k0_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k0_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k0_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k0_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k0_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k0_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k0_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k0_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k0_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k0_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k0_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k0_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k0_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k10_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k10_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k10_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k10_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k11_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k11_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k11_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k11_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k11_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k11_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k11_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k11_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k12_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k12_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k12_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k12_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k12_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k12_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k12_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k12_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k13_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k13_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k13_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k13_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k13_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k13_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k13_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k13_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k13_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k13_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k13_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k13_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k14_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k14_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k14_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k14_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k14_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k14_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k14_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k14_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k14_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k14_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k14_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k14_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k14_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k14_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k14_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k14_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k1_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k1_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k1_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k1_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k1_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k1_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k1_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k1_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k1_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k1_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k1_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k1_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k2_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k2_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k2_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k2_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k2_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k2_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k2_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k2_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k3_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k3_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k3_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k3_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k3_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k3_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k3_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k3_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k4_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k4_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k4_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k4_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k5_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k5_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k5_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k5_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k5_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k5_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k5_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k5_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k5_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k5_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k5_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k5_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k5_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k5_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k5_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k5_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k5_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k5_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k5_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k5_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k5_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k5_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k5_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k5_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k5_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k5_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k5_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k5_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k5_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k5_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k5_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k5_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k6_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k6_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k6_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k6_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k6_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k6_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k6_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k6_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k6_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k6_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k6_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k6_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k6_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k6_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k6_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k6_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k6_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k6_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k6_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k6_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k6_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k6_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k6_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k6_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k6_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k6_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k6_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k6_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k6_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k6_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k6_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k6_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k6_8-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k6_8-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k6_8-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k6_8-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k7_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k7_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k7_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k7_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k7_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k7_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k7_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k7_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k7_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k7_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k7_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k7_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k7_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k7_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k7_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k7_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k7_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k7_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k7_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k7_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k7_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k7_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k7_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k7_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k7_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k7_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k7_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k7_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k7_8-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k7_8-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k7_8-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k7_8-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k8_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k8_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k8_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k8_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k8_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k8_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k8_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k8_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k8_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k8_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k8_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k8_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k8_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k8_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k8_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k8_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k8_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k8_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k8_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k8_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k8_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k8_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k8_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k8_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k8_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k8_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k8_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k8_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k8_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k8_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k8_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k8_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k8_8-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k8_8-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k8_8-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k8_8-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k9_0-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k9_0-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k9_0-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k9_0-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k9_1-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k9_1-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k9_1-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k9_1-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k9_2-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k9_2-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k9_2-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k9_2-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k9_3-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k9_3-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k9_3-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k9_3-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k9_4-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k9_4-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k9_4-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k9_4-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k9_5-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k9_5-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k9_5-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k9_5-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k9_6-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k9_6-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k9_6-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k9_6-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		},
+		"l52-mark-yard-k9_7-north": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 0
+		},
+		"l52-mark-yard-k9_7-east": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 270
+		},
+		"l52-mark-yard-k9_7-south": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 180
+		},
+		"l52-mark-yard-k9_7-west": {
+			"base": "backrooms:block/52/l52-mark",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-mark-gym-k7_1-north"
+		],
+		"backrooms": [
+			"l52-mark-gym-k7_1-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"selectionboxByType": {
+		"*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.02,
+			"z2": 1
+		}
+	},
+	"drops": [],
+	"collisionbox": null,
+	"texturesByType": {
+		"l52-mark-gym-c0_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c0_1"
+			}
+		},
+		"l52-mark-gym-c0_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c0_1"
+			}
+		},
+		"l52-mark-gym-c0_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c0_1"
+			}
+		},
+		"l52-mark-gym-c0_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c0_1"
+			}
+		},
+		"l52-mark-gym-c0_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c0_2"
+			}
+		},
+		"l52-mark-gym-c0_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c0_2"
+			}
+		},
+		"l52-mark-gym-c0_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c0_2"
+			}
+		},
+		"l52-mark-gym-c0_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c0_2"
+			}
+		},
+		"l52-mark-gym-c0_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c0_3"
+			}
+		},
+		"l52-mark-gym-c0_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c0_3"
+			}
+		},
+		"l52-mark-gym-c0_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c0_3"
+			}
+		},
+		"l52-mark-gym-c0_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c0_3"
+			}
+		},
+		"l52-mark-gym-c1_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_0"
+			}
+		},
+		"l52-mark-gym-c1_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_0"
+			}
+		},
+		"l52-mark-gym-c1_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_0"
+			}
+		},
+		"l52-mark-gym-c1_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_0"
+			}
+		},
+		"l52-mark-gym-c1_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_1"
+			}
+		},
+		"l52-mark-gym-c1_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_1"
+			}
+		},
+		"l52-mark-gym-c1_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_1"
+			}
+		},
+		"l52-mark-gym-c1_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_1"
+			}
+		},
+		"l52-mark-gym-c1_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_3"
+			}
+		},
+		"l52-mark-gym-c1_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_3"
+			}
+		},
+		"l52-mark-gym-c1_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_3"
+			}
+		},
+		"l52-mark-gym-c1_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_3"
+			}
+		},
+		"l52-mark-gym-c1_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_4"
+			}
+		},
+		"l52-mark-gym-c1_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_4"
+			}
+		},
+		"l52-mark-gym-c1_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_4"
+			}
+		},
+		"l52-mark-gym-c1_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c1_4"
+			}
+		},
+		"l52-mark-gym-c2_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c2_0"
+			}
+		},
+		"l52-mark-gym-c2_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c2_0"
+			}
+		},
+		"l52-mark-gym-c2_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c2_0"
+			}
+		},
+		"l52-mark-gym-c2_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c2_0"
+			}
+		},
+		"l52-mark-gym-c2_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c2_4"
+			}
+		},
+		"l52-mark-gym-c2_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c2_4"
+			}
+		},
+		"l52-mark-gym-c2_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c2_4"
+			}
+		},
+		"l52-mark-gym-c2_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c2_4"
+			}
+		},
+		"l52-mark-gym-c3_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_0"
+			}
+		},
+		"l52-mark-gym-c3_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_0"
+			}
+		},
+		"l52-mark-gym-c3_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_0"
+			}
+		},
+		"l52-mark-gym-c3_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_0"
+			}
+		},
+		"l52-mark-gym-c3_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_1"
+			}
+		},
+		"l52-mark-gym-c3_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_1"
+			}
+		},
+		"l52-mark-gym-c3_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_1"
+			}
+		},
+		"l52-mark-gym-c3_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_1"
+			}
+		},
+		"l52-mark-gym-c3_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_3"
+			}
+		},
+		"l52-mark-gym-c3_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_3"
+			}
+		},
+		"l52-mark-gym-c3_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_3"
+			}
+		},
+		"l52-mark-gym-c3_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_3"
+			}
+		},
+		"l52-mark-gym-c3_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_4"
+			}
+		},
+		"l52-mark-gym-c3_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_4"
+			}
+		},
+		"l52-mark-gym-c3_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_4"
+			}
+		},
+		"l52-mark-gym-c3_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c3_4"
+			}
+		},
+		"l52-mark-gym-c4_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c4_1"
+			}
+		},
+		"l52-mark-gym-c4_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c4_1"
+			}
+		},
+		"l52-mark-gym-c4_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c4_1"
+			}
+		},
+		"l52-mark-gym-c4_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c4_1"
+			}
+		},
+		"l52-mark-gym-c4_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c4_2"
+			}
+		},
+		"l52-mark-gym-c4_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c4_2"
+			}
+		},
+		"l52-mark-gym-c4_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c4_2"
+			}
+		},
+		"l52-mark-gym-c4_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c4_2"
+			}
+		},
+		"l52-mark-gym-c4_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c4_3"
+			}
+		},
+		"l52-mark-gym-c4_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c4_3"
+			}
+		},
+		"l52-mark-gym-c4_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c4_3"
+			}
+		},
+		"l52-mark-gym-c4_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-c4_3"
+			}
+		},
+		"l52-mark-gym-k0_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_0"
+			}
+		},
+		"l52-mark-gym-k0_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_0"
+			}
+		},
+		"l52-mark-gym-k0_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_0"
+			}
+		},
+		"l52-mark-gym-k0_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_0"
+			}
+		},
+		"l52-mark-gym-k0_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_1"
+			}
+		},
+		"l52-mark-gym-k0_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_1"
+			}
+		},
+		"l52-mark-gym-k0_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_1"
+			}
+		},
+		"l52-mark-gym-k0_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_1"
+			}
+		},
+		"l52-mark-gym-k0_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_2"
+			}
+		},
+		"l52-mark-gym-k0_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_2"
+			}
+		},
+		"l52-mark-gym-k0_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_2"
+			}
+		},
+		"l52-mark-gym-k0_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_2"
+			}
+		},
+		"l52-mark-gym-k0_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_3"
+			}
+		},
+		"l52-mark-gym-k0_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_3"
+			}
+		},
+		"l52-mark-gym-k0_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_3"
+			}
+		},
+		"l52-mark-gym-k0_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k0_3"
+			}
+		},
+		"l52-mark-gym-k10_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k10_7"
+			}
+		},
+		"l52-mark-gym-k10_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k10_7"
+			}
+		},
+		"l52-mark-gym-k10_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k10_7"
+			}
+		},
+		"l52-mark-gym-k10_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k10_7"
+			}
+		},
+		"l52-mark-gym-k11_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k11_6"
+			}
+		},
+		"l52-mark-gym-k11_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k11_6"
+			}
+		},
+		"l52-mark-gym-k11_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k11_6"
+			}
+		},
+		"l52-mark-gym-k11_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k11_6"
+			}
+		},
+		"l52-mark-gym-k11_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k11_7"
+			}
+		},
+		"l52-mark-gym-k11_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k11_7"
+			}
+		},
+		"l52-mark-gym-k11_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k11_7"
+			}
+		},
+		"l52-mark-gym-k11_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k11_7"
+			}
+		},
+		"l52-mark-gym-k12_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k12_5"
+			}
+		},
+		"l52-mark-gym-k12_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k12_5"
+			}
+		},
+		"l52-mark-gym-k12_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k12_5"
+			}
+		},
+		"l52-mark-gym-k12_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k12_5"
+			}
+		},
+		"l52-mark-gym-k12_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k12_6"
+			}
+		},
+		"l52-mark-gym-k12_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k12_6"
+			}
+		},
+		"l52-mark-gym-k12_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k12_6"
+			}
+		},
+		"l52-mark-gym-k12_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k12_6"
+			}
+		},
+		"l52-mark-gym-k13_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k13_3"
+			}
+		},
+		"l52-mark-gym-k13_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k13_3"
+			}
+		},
+		"l52-mark-gym-k13_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k13_3"
+			}
+		},
+		"l52-mark-gym-k13_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k13_3"
+			}
+		},
+		"l52-mark-gym-k13_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k13_4"
+			}
+		},
+		"l52-mark-gym-k13_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k13_4"
+			}
+		},
+		"l52-mark-gym-k13_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k13_4"
+			}
+		},
+		"l52-mark-gym-k13_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k13_4"
+			}
+		},
+		"l52-mark-gym-k13_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k13_5"
+			}
+		},
+		"l52-mark-gym-k13_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k13_5"
+			}
+		},
+		"l52-mark-gym-k13_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k13_5"
+			}
+		},
+		"l52-mark-gym-k13_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k13_5"
+			}
+		},
+		"l52-mark-gym-k14_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_0"
+			}
+		},
+		"l52-mark-gym-k14_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_0"
+			}
+		},
+		"l52-mark-gym-k14_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_0"
+			}
+		},
+		"l52-mark-gym-k14_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_0"
+			}
+		},
+		"l52-mark-gym-k14_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_1"
+			}
+		},
+		"l52-mark-gym-k14_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_1"
+			}
+		},
+		"l52-mark-gym-k14_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_1"
+			}
+		},
+		"l52-mark-gym-k14_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_1"
+			}
+		},
+		"l52-mark-gym-k14_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_2"
+			}
+		},
+		"l52-mark-gym-k14_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_2"
+			}
+		},
+		"l52-mark-gym-k14_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_2"
+			}
+		},
+		"l52-mark-gym-k14_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_2"
+			}
+		},
+		"l52-mark-gym-k14_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_3"
+			}
+		},
+		"l52-mark-gym-k14_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_3"
+			}
+		},
+		"l52-mark-gym-k14_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_3"
+			}
+		},
+		"l52-mark-gym-k14_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k14_3"
+			}
+		},
+		"l52-mark-gym-k1_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k1_3"
+			}
+		},
+		"l52-mark-gym-k1_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k1_3"
+			}
+		},
+		"l52-mark-gym-k1_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k1_3"
+			}
+		},
+		"l52-mark-gym-k1_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k1_3"
+			}
+		},
+		"l52-mark-gym-k1_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k1_4"
+			}
+		},
+		"l52-mark-gym-k1_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k1_4"
+			}
+		},
+		"l52-mark-gym-k1_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k1_4"
+			}
+		},
+		"l52-mark-gym-k1_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k1_4"
+			}
+		},
+		"l52-mark-gym-k1_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k1_5"
+			}
+		},
+		"l52-mark-gym-k1_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k1_5"
+			}
+		},
+		"l52-mark-gym-k1_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k1_5"
+			}
+		},
+		"l52-mark-gym-k1_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k1_5"
+			}
+		},
+		"l52-mark-gym-k2_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k2_5"
+			}
+		},
+		"l52-mark-gym-k2_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k2_5"
+			}
+		},
+		"l52-mark-gym-k2_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k2_5"
+			}
+		},
+		"l52-mark-gym-k2_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k2_5"
+			}
+		},
+		"l52-mark-gym-k2_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k2_6"
+			}
+		},
+		"l52-mark-gym-k2_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k2_6"
+			}
+		},
+		"l52-mark-gym-k2_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k2_6"
+			}
+		},
+		"l52-mark-gym-k2_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k2_6"
+			}
+		},
+		"l52-mark-gym-k3_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k3_6"
+			}
+		},
+		"l52-mark-gym-k3_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k3_6"
+			}
+		},
+		"l52-mark-gym-k3_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k3_6"
+			}
+		},
+		"l52-mark-gym-k3_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k3_6"
+			}
+		},
+		"l52-mark-gym-k3_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k3_7"
+			}
+		},
+		"l52-mark-gym-k3_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k3_7"
+			}
+		},
+		"l52-mark-gym-k3_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k3_7"
+			}
+		},
+		"l52-mark-gym-k3_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k3_7"
+			}
+		},
+		"l52-mark-gym-k4_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k4_7"
+			}
+		},
+		"l52-mark-gym-k4_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k4_7"
+			}
+		},
+		"l52-mark-gym-k4_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k4_7"
+			}
+		},
+		"l52-mark-gym-k4_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k4_7"
+			}
+		},
+		"l52-mark-gym-k5_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_0"
+			}
+		},
+		"l52-mark-gym-k5_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_0"
+			}
+		},
+		"l52-mark-gym-k5_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_0"
+			}
+		},
+		"l52-mark-gym-k5_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_0"
+			}
+		},
+		"l52-mark-gym-k5_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_1"
+			}
+		},
+		"l52-mark-gym-k5_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_1"
+			}
+		},
+		"l52-mark-gym-k5_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_1"
+			}
+		},
+		"l52-mark-gym-k5_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_1"
+			}
+		},
+		"l52-mark-gym-k5_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_2"
+			}
+		},
+		"l52-mark-gym-k5_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_2"
+			}
+		},
+		"l52-mark-gym-k5_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_2"
+			}
+		},
+		"l52-mark-gym-k5_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_2"
+			}
+		},
+		"l52-mark-gym-k5_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_3"
+			}
+		},
+		"l52-mark-gym-k5_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_3"
+			}
+		},
+		"l52-mark-gym-k5_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_3"
+			}
+		},
+		"l52-mark-gym-k5_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_3"
+			}
+		},
+		"l52-mark-gym-k5_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_4"
+			}
+		},
+		"l52-mark-gym-k5_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_4"
+			}
+		},
+		"l52-mark-gym-k5_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_4"
+			}
+		},
+		"l52-mark-gym-k5_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_4"
+			}
+		},
+		"l52-mark-gym-k5_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_5"
+			}
+		},
+		"l52-mark-gym-k5_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_5"
+			}
+		},
+		"l52-mark-gym-k5_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_5"
+			}
+		},
+		"l52-mark-gym-k5_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_5"
+			}
+		},
+		"l52-mark-gym-k5_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_6"
+			}
+		},
+		"l52-mark-gym-k5_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_6"
+			}
+		},
+		"l52-mark-gym-k5_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_6"
+			}
+		},
+		"l52-mark-gym-k5_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_6"
+			}
+		},
+		"l52-mark-gym-k5_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_7"
+			}
+		},
+		"l52-mark-gym-k5_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_7"
+			}
+		},
+		"l52-mark-gym-k5_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_7"
+			}
+		},
+		"l52-mark-gym-k5_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k5_7"
+			}
+		},
+		"l52-mark-gym-k6_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_0"
+			}
+		},
+		"l52-mark-gym-k6_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_0"
+			}
+		},
+		"l52-mark-gym-k6_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_0"
+			}
+		},
+		"l52-mark-gym-k6_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_0"
+			}
+		},
+		"l52-mark-gym-k6_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_1"
+			}
+		},
+		"l52-mark-gym-k6_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_1"
+			}
+		},
+		"l52-mark-gym-k6_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_1"
+			}
+		},
+		"l52-mark-gym-k6_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_1"
+			}
+		},
+		"l52-mark-gym-k6_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_2"
+			}
+		},
+		"l52-mark-gym-k6_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_2"
+			}
+		},
+		"l52-mark-gym-k6_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_2"
+			}
+		},
+		"l52-mark-gym-k6_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_2"
+			}
+		},
+		"l52-mark-gym-k6_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_3"
+			}
+		},
+		"l52-mark-gym-k6_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_3"
+			}
+		},
+		"l52-mark-gym-k6_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_3"
+			}
+		},
+		"l52-mark-gym-k6_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_3"
+			}
+		},
+		"l52-mark-gym-k6_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_4"
+			}
+		},
+		"l52-mark-gym-k6_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_4"
+			}
+		},
+		"l52-mark-gym-k6_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_4"
+			}
+		},
+		"l52-mark-gym-k6_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_4"
+			}
+		},
+		"l52-mark-gym-k6_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_5"
+			}
+		},
+		"l52-mark-gym-k6_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_5"
+			}
+		},
+		"l52-mark-gym-k6_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_5"
+			}
+		},
+		"l52-mark-gym-k6_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_5"
+			}
+		},
+		"l52-mark-gym-k6_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_6"
+			}
+		},
+		"l52-mark-gym-k6_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_6"
+			}
+		},
+		"l52-mark-gym-k6_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_6"
+			}
+		},
+		"l52-mark-gym-k6_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_6"
+			}
+		},
+		"l52-mark-gym-k6_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_7"
+			}
+		},
+		"l52-mark-gym-k6_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_7"
+			}
+		},
+		"l52-mark-gym-k6_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_7"
+			}
+		},
+		"l52-mark-gym-k6_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_7"
+			}
+		},
+		"l52-mark-gym-k6_8-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_8"
+			}
+		},
+		"l52-mark-gym-k6_8-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_8"
+			}
+		},
+		"l52-mark-gym-k6_8-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_8"
+			}
+		},
+		"l52-mark-gym-k6_8-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k6_8"
+			}
+		},
+		"l52-mark-gym-k7_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_0"
+			}
+		},
+		"l52-mark-gym-k7_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_0"
+			}
+		},
+		"l52-mark-gym-k7_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_0"
+			}
+		},
+		"l52-mark-gym-k7_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_0"
+			}
+		},
+		"l52-mark-gym-k7_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_1"
+			}
+		},
+		"l52-mark-gym-k7_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_1"
+			}
+		},
+		"l52-mark-gym-k7_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_1"
+			}
+		},
+		"l52-mark-gym-k7_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_1"
+			}
+		},
+		"l52-mark-gym-k7_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_2"
+			}
+		},
+		"l52-mark-gym-k7_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_2"
+			}
+		},
+		"l52-mark-gym-k7_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_2"
+			}
+		},
+		"l52-mark-gym-k7_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_2"
+			}
+		},
+		"l52-mark-gym-k7_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_3"
+			}
+		},
+		"l52-mark-gym-k7_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_3"
+			}
+		},
+		"l52-mark-gym-k7_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_3"
+			}
+		},
+		"l52-mark-gym-k7_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_3"
+			}
+		},
+		"l52-mark-gym-k7_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_4"
+			}
+		},
+		"l52-mark-gym-k7_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_4"
+			}
+		},
+		"l52-mark-gym-k7_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_4"
+			}
+		},
+		"l52-mark-gym-k7_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_4"
+			}
+		},
+		"l52-mark-gym-k7_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_5"
+			}
+		},
+		"l52-mark-gym-k7_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_5"
+			}
+		},
+		"l52-mark-gym-k7_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_5"
+			}
+		},
+		"l52-mark-gym-k7_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_5"
+			}
+		},
+		"l52-mark-gym-k7_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_6"
+			}
+		},
+		"l52-mark-gym-k7_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_6"
+			}
+		},
+		"l52-mark-gym-k7_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_6"
+			}
+		},
+		"l52-mark-gym-k7_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_6"
+			}
+		},
+		"l52-mark-gym-k7_8-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_8"
+			}
+		},
+		"l52-mark-gym-k7_8-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_8"
+			}
+		},
+		"l52-mark-gym-k7_8-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_8"
+			}
+		},
+		"l52-mark-gym-k7_8-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k7_8"
+			}
+		},
+		"l52-mark-gym-k8_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_0"
+			}
+		},
+		"l52-mark-gym-k8_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_0"
+			}
+		},
+		"l52-mark-gym-k8_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_0"
+			}
+		},
+		"l52-mark-gym-k8_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_0"
+			}
+		},
+		"l52-mark-gym-k8_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_1"
+			}
+		},
+		"l52-mark-gym-k8_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_1"
+			}
+		},
+		"l52-mark-gym-k8_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_1"
+			}
+		},
+		"l52-mark-gym-k8_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_1"
+			}
+		},
+		"l52-mark-gym-k8_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_2"
+			}
+		},
+		"l52-mark-gym-k8_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_2"
+			}
+		},
+		"l52-mark-gym-k8_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_2"
+			}
+		},
+		"l52-mark-gym-k8_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_2"
+			}
+		},
+		"l52-mark-gym-k8_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_3"
+			}
+		},
+		"l52-mark-gym-k8_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_3"
+			}
+		},
+		"l52-mark-gym-k8_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_3"
+			}
+		},
+		"l52-mark-gym-k8_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_3"
+			}
+		},
+		"l52-mark-gym-k8_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_4"
+			}
+		},
+		"l52-mark-gym-k8_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_4"
+			}
+		},
+		"l52-mark-gym-k8_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_4"
+			}
+		},
+		"l52-mark-gym-k8_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_4"
+			}
+		},
+		"l52-mark-gym-k8_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_5"
+			}
+		},
+		"l52-mark-gym-k8_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_5"
+			}
+		},
+		"l52-mark-gym-k8_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_5"
+			}
+		},
+		"l52-mark-gym-k8_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_5"
+			}
+		},
+		"l52-mark-gym-k8_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_6"
+			}
+		},
+		"l52-mark-gym-k8_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_6"
+			}
+		},
+		"l52-mark-gym-k8_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_6"
+			}
+		},
+		"l52-mark-gym-k8_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_6"
+			}
+		},
+		"l52-mark-gym-k8_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_7"
+			}
+		},
+		"l52-mark-gym-k8_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_7"
+			}
+		},
+		"l52-mark-gym-k8_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_7"
+			}
+		},
+		"l52-mark-gym-k8_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_7"
+			}
+		},
+		"l52-mark-gym-k8_8-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_8"
+			}
+		},
+		"l52-mark-gym-k8_8-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_8"
+			}
+		},
+		"l52-mark-gym-k8_8-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_8"
+			}
+		},
+		"l52-mark-gym-k8_8-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k8_8"
+			}
+		},
+		"l52-mark-gym-k9_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_0"
+			}
+		},
+		"l52-mark-gym-k9_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_0"
+			}
+		},
+		"l52-mark-gym-k9_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_0"
+			}
+		},
+		"l52-mark-gym-k9_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_0"
+			}
+		},
+		"l52-mark-gym-k9_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_1"
+			}
+		},
+		"l52-mark-gym-k9_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_1"
+			}
+		},
+		"l52-mark-gym-k9_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_1"
+			}
+		},
+		"l52-mark-gym-k9_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_1"
+			}
+		},
+		"l52-mark-gym-k9_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_2"
+			}
+		},
+		"l52-mark-gym-k9_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_2"
+			}
+		},
+		"l52-mark-gym-k9_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_2"
+			}
+		},
+		"l52-mark-gym-k9_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_2"
+			}
+		},
+		"l52-mark-gym-k9_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_3"
+			}
+		},
+		"l52-mark-gym-k9_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_3"
+			}
+		},
+		"l52-mark-gym-k9_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_3"
+			}
+		},
+		"l52-mark-gym-k9_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_3"
+			}
+		},
+		"l52-mark-gym-k9_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_4"
+			}
+		},
+		"l52-mark-gym-k9_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_4"
+			}
+		},
+		"l52-mark-gym-k9_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_4"
+			}
+		},
+		"l52-mark-gym-k9_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_4"
+			}
+		},
+		"l52-mark-gym-k9_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_5"
+			}
+		},
+		"l52-mark-gym-k9_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_5"
+			}
+		},
+		"l52-mark-gym-k9_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_5"
+			}
+		},
+		"l52-mark-gym-k9_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_5"
+			}
+		},
+		"l52-mark-gym-k9_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_6"
+			}
+		},
+		"l52-mark-gym-k9_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_6"
+			}
+		},
+		"l52-mark-gym-k9_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_6"
+			}
+		},
+		"l52-mark-gym-k9_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_6"
+			}
+		},
+		"l52-mark-gym-k9_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_7"
+			}
+		},
+		"l52-mark-gym-k9_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_7"
+			}
+		},
+		"l52-mark-gym-k9_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_7"
+			}
+		},
+		"l52-mark-gym-k9_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-gym-k9_7"
+			}
+		},
+		"l52-mark-yard-c0_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c0_1"
+			}
+		},
+		"l52-mark-yard-c0_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c0_1"
+			}
+		},
+		"l52-mark-yard-c0_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c0_1"
+			}
+		},
+		"l52-mark-yard-c0_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c0_1"
+			}
+		},
+		"l52-mark-yard-c0_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c0_2"
+			}
+		},
+		"l52-mark-yard-c0_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c0_2"
+			}
+		},
+		"l52-mark-yard-c0_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c0_2"
+			}
+		},
+		"l52-mark-yard-c0_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c0_2"
+			}
+		},
+		"l52-mark-yard-c0_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c0_3"
+			}
+		},
+		"l52-mark-yard-c0_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c0_3"
+			}
+		},
+		"l52-mark-yard-c0_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c0_3"
+			}
+		},
+		"l52-mark-yard-c0_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c0_3"
+			}
+		},
+		"l52-mark-yard-c1_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_0"
+			}
+		},
+		"l52-mark-yard-c1_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_0"
+			}
+		},
+		"l52-mark-yard-c1_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_0"
+			}
+		},
+		"l52-mark-yard-c1_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_0"
+			}
+		},
+		"l52-mark-yard-c1_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_1"
+			}
+		},
+		"l52-mark-yard-c1_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_1"
+			}
+		},
+		"l52-mark-yard-c1_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_1"
+			}
+		},
+		"l52-mark-yard-c1_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_1"
+			}
+		},
+		"l52-mark-yard-c1_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_3"
+			}
+		},
+		"l52-mark-yard-c1_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_3"
+			}
+		},
+		"l52-mark-yard-c1_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_3"
+			}
+		},
+		"l52-mark-yard-c1_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_3"
+			}
+		},
+		"l52-mark-yard-c1_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_4"
+			}
+		},
+		"l52-mark-yard-c1_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_4"
+			}
+		},
+		"l52-mark-yard-c1_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_4"
+			}
+		},
+		"l52-mark-yard-c1_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c1_4"
+			}
+		},
+		"l52-mark-yard-c2_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c2_0"
+			}
+		},
+		"l52-mark-yard-c2_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c2_0"
+			}
+		},
+		"l52-mark-yard-c2_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c2_0"
+			}
+		},
+		"l52-mark-yard-c2_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c2_0"
+			}
+		},
+		"l52-mark-yard-c2_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c2_4"
+			}
+		},
+		"l52-mark-yard-c2_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c2_4"
+			}
+		},
+		"l52-mark-yard-c2_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c2_4"
+			}
+		},
+		"l52-mark-yard-c2_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c2_4"
+			}
+		},
+		"l52-mark-yard-c3_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_0"
+			}
+		},
+		"l52-mark-yard-c3_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_0"
+			}
+		},
+		"l52-mark-yard-c3_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_0"
+			}
+		},
+		"l52-mark-yard-c3_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_0"
+			}
+		},
+		"l52-mark-yard-c3_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_1"
+			}
+		},
+		"l52-mark-yard-c3_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_1"
+			}
+		},
+		"l52-mark-yard-c3_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_1"
+			}
+		},
+		"l52-mark-yard-c3_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_1"
+			}
+		},
+		"l52-mark-yard-c3_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_3"
+			}
+		},
+		"l52-mark-yard-c3_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_3"
+			}
+		},
+		"l52-mark-yard-c3_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_3"
+			}
+		},
+		"l52-mark-yard-c3_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_3"
+			}
+		},
+		"l52-mark-yard-c3_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_4"
+			}
+		},
+		"l52-mark-yard-c3_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_4"
+			}
+		},
+		"l52-mark-yard-c3_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_4"
+			}
+		},
+		"l52-mark-yard-c3_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c3_4"
+			}
+		},
+		"l52-mark-yard-c4_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c4_1"
+			}
+		},
+		"l52-mark-yard-c4_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c4_1"
+			}
+		},
+		"l52-mark-yard-c4_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c4_1"
+			}
+		},
+		"l52-mark-yard-c4_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c4_1"
+			}
+		},
+		"l52-mark-yard-c4_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c4_2"
+			}
+		},
+		"l52-mark-yard-c4_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c4_2"
+			}
+		},
+		"l52-mark-yard-c4_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c4_2"
+			}
+		},
+		"l52-mark-yard-c4_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c4_2"
+			}
+		},
+		"l52-mark-yard-c4_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c4_3"
+			}
+		},
+		"l52-mark-yard-c4_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c4_3"
+			}
+		},
+		"l52-mark-yard-c4_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c4_3"
+			}
+		},
+		"l52-mark-yard-c4_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-c4_3"
+			}
+		},
+		"l52-mark-yard-k0_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_0"
+			}
+		},
+		"l52-mark-yard-k0_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_0"
+			}
+		},
+		"l52-mark-yard-k0_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_0"
+			}
+		},
+		"l52-mark-yard-k0_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_0"
+			}
+		},
+		"l52-mark-yard-k0_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_1"
+			}
+		},
+		"l52-mark-yard-k0_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_1"
+			}
+		},
+		"l52-mark-yard-k0_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_1"
+			}
+		},
+		"l52-mark-yard-k0_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_1"
+			}
+		},
+		"l52-mark-yard-k0_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_2"
+			}
+		},
+		"l52-mark-yard-k0_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_2"
+			}
+		},
+		"l52-mark-yard-k0_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_2"
+			}
+		},
+		"l52-mark-yard-k0_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_2"
+			}
+		},
+		"l52-mark-yard-k0_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_3"
+			}
+		},
+		"l52-mark-yard-k0_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_3"
+			}
+		},
+		"l52-mark-yard-k0_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_3"
+			}
+		},
+		"l52-mark-yard-k0_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k0_3"
+			}
+		},
+		"l52-mark-yard-k10_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k10_7"
+			}
+		},
+		"l52-mark-yard-k10_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k10_7"
+			}
+		},
+		"l52-mark-yard-k10_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k10_7"
+			}
+		},
+		"l52-mark-yard-k10_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k10_7"
+			}
+		},
+		"l52-mark-yard-k11_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k11_6"
+			}
+		},
+		"l52-mark-yard-k11_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k11_6"
+			}
+		},
+		"l52-mark-yard-k11_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k11_6"
+			}
+		},
+		"l52-mark-yard-k11_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k11_6"
+			}
+		},
+		"l52-mark-yard-k11_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k11_7"
+			}
+		},
+		"l52-mark-yard-k11_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k11_7"
+			}
+		},
+		"l52-mark-yard-k11_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k11_7"
+			}
+		},
+		"l52-mark-yard-k11_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k11_7"
+			}
+		},
+		"l52-mark-yard-k12_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k12_5"
+			}
+		},
+		"l52-mark-yard-k12_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k12_5"
+			}
+		},
+		"l52-mark-yard-k12_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k12_5"
+			}
+		},
+		"l52-mark-yard-k12_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k12_5"
+			}
+		},
+		"l52-mark-yard-k12_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k12_6"
+			}
+		},
+		"l52-mark-yard-k12_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k12_6"
+			}
+		},
+		"l52-mark-yard-k12_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k12_6"
+			}
+		},
+		"l52-mark-yard-k12_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k12_6"
+			}
+		},
+		"l52-mark-yard-k13_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k13_3"
+			}
+		},
+		"l52-mark-yard-k13_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k13_3"
+			}
+		},
+		"l52-mark-yard-k13_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k13_3"
+			}
+		},
+		"l52-mark-yard-k13_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k13_3"
+			}
+		},
+		"l52-mark-yard-k13_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k13_4"
+			}
+		},
+		"l52-mark-yard-k13_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k13_4"
+			}
+		},
+		"l52-mark-yard-k13_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k13_4"
+			}
+		},
+		"l52-mark-yard-k13_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k13_4"
+			}
+		},
+		"l52-mark-yard-k13_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k13_5"
+			}
+		},
+		"l52-mark-yard-k13_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k13_5"
+			}
+		},
+		"l52-mark-yard-k13_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k13_5"
+			}
+		},
+		"l52-mark-yard-k13_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k13_5"
+			}
+		},
+		"l52-mark-yard-k14_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_0"
+			}
+		},
+		"l52-mark-yard-k14_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_0"
+			}
+		},
+		"l52-mark-yard-k14_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_0"
+			}
+		},
+		"l52-mark-yard-k14_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_0"
+			}
+		},
+		"l52-mark-yard-k14_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_1"
+			}
+		},
+		"l52-mark-yard-k14_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_1"
+			}
+		},
+		"l52-mark-yard-k14_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_1"
+			}
+		},
+		"l52-mark-yard-k14_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_1"
+			}
+		},
+		"l52-mark-yard-k14_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_2"
+			}
+		},
+		"l52-mark-yard-k14_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_2"
+			}
+		},
+		"l52-mark-yard-k14_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_2"
+			}
+		},
+		"l52-mark-yard-k14_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_2"
+			}
+		},
+		"l52-mark-yard-k14_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_3"
+			}
+		},
+		"l52-mark-yard-k14_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_3"
+			}
+		},
+		"l52-mark-yard-k14_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_3"
+			}
+		},
+		"l52-mark-yard-k14_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k14_3"
+			}
+		},
+		"l52-mark-yard-k1_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k1_3"
+			}
+		},
+		"l52-mark-yard-k1_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k1_3"
+			}
+		},
+		"l52-mark-yard-k1_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k1_3"
+			}
+		},
+		"l52-mark-yard-k1_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k1_3"
+			}
+		},
+		"l52-mark-yard-k1_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k1_4"
+			}
+		},
+		"l52-mark-yard-k1_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k1_4"
+			}
+		},
+		"l52-mark-yard-k1_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k1_4"
+			}
+		},
+		"l52-mark-yard-k1_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k1_4"
+			}
+		},
+		"l52-mark-yard-k1_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k1_5"
+			}
+		},
+		"l52-mark-yard-k1_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k1_5"
+			}
+		},
+		"l52-mark-yard-k1_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k1_5"
+			}
+		},
+		"l52-mark-yard-k1_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k1_5"
+			}
+		},
+		"l52-mark-yard-k2_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k2_5"
+			}
+		},
+		"l52-mark-yard-k2_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k2_5"
+			}
+		},
+		"l52-mark-yard-k2_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k2_5"
+			}
+		},
+		"l52-mark-yard-k2_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k2_5"
+			}
+		},
+		"l52-mark-yard-k2_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k2_6"
+			}
+		},
+		"l52-mark-yard-k2_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k2_6"
+			}
+		},
+		"l52-mark-yard-k2_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k2_6"
+			}
+		},
+		"l52-mark-yard-k2_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k2_6"
+			}
+		},
+		"l52-mark-yard-k3_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k3_6"
+			}
+		},
+		"l52-mark-yard-k3_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k3_6"
+			}
+		},
+		"l52-mark-yard-k3_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k3_6"
+			}
+		},
+		"l52-mark-yard-k3_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k3_6"
+			}
+		},
+		"l52-mark-yard-k3_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k3_7"
+			}
+		},
+		"l52-mark-yard-k3_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k3_7"
+			}
+		},
+		"l52-mark-yard-k3_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k3_7"
+			}
+		},
+		"l52-mark-yard-k3_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k3_7"
+			}
+		},
+		"l52-mark-yard-k4_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k4_7"
+			}
+		},
+		"l52-mark-yard-k4_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k4_7"
+			}
+		},
+		"l52-mark-yard-k4_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k4_7"
+			}
+		},
+		"l52-mark-yard-k4_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k4_7"
+			}
+		},
+		"l52-mark-yard-k5_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_0"
+			}
+		},
+		"l52-mark-yard-k5_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_0"
+			}
+		},
+		"l52-mark-yard-k5_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_0"
+			}
+		},
+		"l52-mark-yard-k5_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_0"
+			}
+		},
+		"l52-mark-yard-k5_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_1"
+			}
+		},
+		"l52-mark-yard-k5_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_1"
+			}
+		},
+		"l52-mark-yard-k5_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_1"
+			}
+		},
+		"l52-mark-yard-k5_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_1"
+			}
+		},
+		"l52-mark-yard-k5_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_2"
+			}
+		},
+		"l52-mark-yard-k5_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_2"
+			}
+		},
+		"l52-mark-yard-k5_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_2"
+			}
+		},
+		"l52-mark-yard-k5_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_2"
+			}
+		},
+		"l52-mark-yard-k5_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_3"
+			}
+		},
+		"l52-mark-yard-k5_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_3"
+			}
+		},
+		"l52-mark-yard-k5_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_3"
+			}
+		},
+		"l52-mark-yard-k5_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_3"
+			}
+		},
+		"l52-mark-yard-k5_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_4"
+			}
+		},
+		"l52-mark-yard-k5_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_4"
+			}
+		},
+		"l52-mark-yard-k5_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_4"
+			}
+		},
+		"l52-mark-yard-k5_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_4"
+			}
+		},
+		"l52-mark-yard-k5_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_5"
+			}
+		},
+		"l52-mark-yard-k5_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_5"
+			}
+		},
+		"l52-mark-yard-k5_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_5"
+			}
+		},
+		"l52-mark-yard-k5_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_5"
+			}
+		},
+		"l52-mark-yard-k5_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_6"
+			}
+		},
+		"l52-mark-yard-k5_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_6"
+			}
+		},
+		"l52-mark-yard-k5_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_6"
+			}
+		},
+		"l52-mark-yard-k5_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_6"
+			}
+		},
+		"l52-mark-yard-k5_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_7"
+			}
+		},
+		"l52-mark-yard-k5_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_7"
+			}
+		},
+		"l52-mark-yard-k5_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_7"
+			}
+		},
+		"l52-mark-yard-k5_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k5_7"
+			}
+		},
+		"l52-mark-yard-k6_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_0"
+			}
+		},
+		"l52-mark-yard-k6_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_0"
+			}
+		},
+		"l52-mark-yard-k6_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_0"
+			}
+		},
+		"l52-mark-yard-k6_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_0"
+			}
+		},
+		"l52-mark-yard-k6_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_1"
+			}
+		},
+		"l52-mark-yard-k6_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_1"
+			}
+		},
+		"l52-mark-yard-k6_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_1"
+			}
+		},
+		"l52-mark-yard-k6_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_1"
+			}
+		},
+		"l52-mark-yard-k6_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_2"
+			}
+		},
+		"l52-mark-yard-k6_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_2"
+			}
+		},
+		"l52-mark-yard-k6_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_2"
+			}
+		},
+		"l52-mark-yard-k6_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_2"
+			}
+		},
+		"l52-mark-yard-k6_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_3"
+			}
+		},
+		"l52-mark-yard-k6_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_3"
+			}
+		},
+		"l52-mark-yard-k6_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_3"
+			}
+		},
+		"l52-mark-yard-k6_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_3"
+			}
+		},
+		"l52-mark-yard-k6_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_4"
+			}
+		},
+		"l52-mark-yard-k6_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_4"
+			}
+		},
+		"l52-mark-yard-k6_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_4"
+			}
+		},
+		"l52-mark-yard-k6_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_4"
+			}
+		},
+		"l52-mark-yard-k6_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_5"
+			}
+		},
+		"l52-mark-yard-k6_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_5"
+			}
+		},
+		"l52-mark-yard-k6_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_5"
+			}
+		},
+		"l52-mark-yard-k6_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_5"
+			}
+		},
+		"l52-mark-yard-k6_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_6"
+			}
+		},
+		"l52-mark-yard-k6_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_6"
+			}
+		},
+		"l52-mark-yard-k6_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_6"
+			}
+		},
+		"l52-mark-yard-k6_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_6"
+			}
+		},
+		"l52-mark-yard-k6_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_7"
+			}
+		},
+		"l52-mark-yard-k6_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_7"
+			}
+		},
+		"l52-mark-yard-k6_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_7"
+			}
+		},
+		"l52-mark-yard-k6_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_7"
+			}
+		},
+		"l52-mark-yard-k6_8-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_8"
+			}
+		},
+		"l52-mark-yard-k6_8-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_8"
+			}
+		},
+		"l52-mark-yard-k6_8-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_8"
+			}
+		},
+		"l52-mark-yard-k6_8-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k6_8"
+			}
+		},
+		"l52-mark-yard-k7_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_0"
+			}
+		},
+		"l52-mark-yard-k7_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_0"
+			}
+		},
+		"l52-mark-yard-k7_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_0"
+			}
+		},
+		"l52-mark-yard-k7_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_0"
+			}
+		},
+		"l52-mark-yard-k7_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_1"
+			}
+		},
+		"l52-mark-yard-k7_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_1"
+			}
+		},
+		"l52-mark-yard-k7_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_1"
+			}
+		},
+		"l52-mark-yard-k7_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_1"
+			}
+		},
+		"l52-mark-yard-k7_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_2"
+			}
+		},
+		"l52-mark-yard-k7_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_2"
+			}
+		},
+		"l52-mark-yard-k7_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_2"
+			}
+		},
+		"l52-mark-yard-k7_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_2"
+			}
+		},
+		"l52-mark-yard-k7_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_3"
+			}
+		},
+		"l52-mark-yard-k7_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_3"
+			}
+		},
+		"l52-mark-yard-k7_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_3"
+			}
+		},
+		"l52-mark-yard-k7_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_3"
+			}
+		},
+		"l52-mark-yard-k7_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_4"
+			}
+		},
+		"l52-mark-yard-k7_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_4"
+			}
+		},
+		"l52-mark-yard-k7_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_4"
+			}
+		},
+		"l52-mark-yard-k7_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_4"
+			}
+		},
+		"l52-mark-yard-k7_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_5"
+			}
+		},
+		"l52-mark-yard-k7_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_5"
+			}
+		},
+		"l52-mark-yard-k7_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_5"
+			}
+		},
+		"l52-mark-yard-k7_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_5"
+			}
+		},
+		"l52-mark-yard-k7_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_6"
+			}
+		},
+		"l52-mark-yard-k7_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_6"
+			}
+		},
+		"l52-mark-yard-k7_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_6"
+			}
+		},
+		"l52-mark-yard-k7_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_6"
+			}
+		},
+		"l52-mark-yard-k7_8-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_8"
+			}
+		},
+		"l52-mark-yard-k7_8-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_8"
+			}
+		},
+		"l52-mark-yard-k7_8-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_8"
+			}
+		},
+		"l52-mark-yard-k7_8-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k7_8"
+			}
+		},
+		"l52-mark-yard-k8_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_0"
+			}
+		},
+		"l52-mark-yard-k8_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_0"
+			}
+		},
+		"l52-mark-yard-k8_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_0"
+			}
+		},
+		"l52-mark-yard-k8_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_0"
+			}
+		},
+		"l52-mark-yard-k8_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_1"
+			}
+		},
+		"l52-mark-yard-k8_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_1"
+			}
+		},
+		"l52-mark-yard-k8_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_1"
+			}
+		},
+		"l52-mark-yard-k8_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_1"
+			}
+		},
+		"l52-mark-yard-k8_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_2"
+			}
+		},
+		"l52-mark-yard-k8_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_2"
+			}
+		},
+		"l52-mark-yard-k8_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_2"
+			}
+		},
+		"l52-mark-yard-k8_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_2"
+			}
+		},
+		"l52-mark-yard-k8_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_3"
+			}
+		},
+		"l52-mark-yard-k8_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_3"
+			}
+		},
+		"l52-mark-yard-k8_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_3"
+			}
+		},
+		"l52-mark-yard-k8_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_3"
+			}
+		},
+		"l52-mark-yard-k8_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_4"
+			}
+		},
+		"l52-mark-yard-k8_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_4"
+			}
+		},
+		"l52-mark-yard-k8_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_4"
+			}
+		},
+		"l52-mark-yard-k8_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_4"
+			}
+		},
+		"l52-mark-yard-k8_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_5"
+			}
+		},
+		"l52-mark-yard-k8_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_5"
+			}
+		},
+		"l52-mark-yard-k8_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_5"
+			}
+		},
+		"l52-mark-yard-k8_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_5"
+			}
+		},
+		"l52-mark-yard-k8_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_6"
+			}
+		},
+		"l52-mark-yard-k8_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_6"
+			}
+		},
+		"l52-mark-yard-k8_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_6"
+			}
+		},
+		"l52-mark-yard-k8_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_6"
+			}
+		},
+		"l52-mark-yard-k8_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_7"
+			}
+		},
+		"l52-mark-yard-k8_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_7"
+			}
+		},
+		"l52-mark-yard-k8_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_7"
+			}
+		},
+		"l52-mark-yard-k8_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_7"
+			}
+		},
+		"l52-mark-yard-k8_8-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_8"
+			}
+		},
+		"l52-mark-yard-k8_8-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_8"
+			}
+		},
+		"l52-mark-yard-k8_8-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_8"
+			}
+		},
+		"l52-mark-yard-k8_8-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k8_8"
+			}
+		},
+		"l52-mark-yard-k9_0-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_0"
+			}
+		},
+		"l52-mark-yard-k9_0-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_0"
+			}
+		},
+		"l52-mark-yard-k9_0-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_0"
+			}
+		},
+		"l52-mark-yard-k9_0-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_0"
+			}
+		},
+		"l52-mark-yard-k9_1-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_1"
+			}
+		},
+		"l52-mark-yard-k9_1-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_1"
+			}
+		},
+		"l52-mark-yard-k9_1-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_1"
+			}
+		},
+		"l52-mark-yard-k9_1-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_1"
+			}
+		},
+		"l52-mark-yard-k9_2-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_2"
+			}
+		},
+		"l52-mark-yard-k9_2-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_2"
+			}
+		},
+		"l52-mark-yard-k9_2-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_2"
+			}
+		},
+		"l52-mark-yard-k9_2-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_2"
+			}
+		},
+		"l52-mark-yard-k9_3-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_3"
+			}
+		},
+		"l52-mark-yard-k9_3-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_3"
+			}
+		},
+		"l52-mark-yard-k9_3-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_3"
+			}
+		},
+		"l52-mark-yard-k9_3-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_3"
+			}
+		},
+		"l52-mark-yard-k9_4-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_4"
+			}
+		},
+		"l52-mark-yard-k9_4-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_4"
+			}
+		},
+		"l52-mark-yard-k9_4-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_4"
+			}
+		},
+		"l52-mark-yard-k9_4-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_4"
+			}
+		},
+		"l52-mark-yard-k9_5-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_5"
+			}
+		},
+		"l52-mark-yard-k9_5-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_5"
+			}
+		},
+		"l52-mark-yard-k9_5-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_5"
+			}
+		},
+		"l52-mark-yard-k9_5-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_5"
+			}
+		},
+		"l52-mark-yard-k9_6-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_6"
+			}
+		},
+		"l52-mark-yard-k9_6-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_6"
+			}
+		},
+		"l52-mark-yard-k9_6-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_6"
+			}
+		},
+		"l52-mark-yard-k9_6-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_6"
+			}
+		},
+		"l52-mark-yard-k9_7-north": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_7"
+			}
+		},
+		"l52-mark-yard-k9_7-east": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_7"
+			}
+		},
+		"l52-mark-yard-k9_7-south": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_7"
+			}
+		},
+		"l52-mark-yard-k9_7-west": {
+			"mark": {
+				"base": "block/52/r4-mark-yard-k9_7"
+			}
+		}
+	},
+	"replaceable": 5000
+}

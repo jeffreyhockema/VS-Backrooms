@@ -1,0 +1,226 @@
+// Level 52: a library's rolling ladder leaning on the stack behind it (oak rails and treads, brass rollers on the stack's rail)
+{
+	"code": "l52-ladder",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-ladder-lower-north": {
+			"base": "backrooms:block/52/l52-ladder-lower",
+			"rotateY": 0
+		},
+		"l52-ladder-lower-east": {
+			"base": "backrooms:block/52/l52-ladder-lower",
+			"rotateY": 270
+		},
+		"l52-ladder-lower-south": {
+			"base": "backrooms:block/52/l52-ladder-lower",
+			"rotateY": 180
+		},
+		"l52-ladder-lower-west": {
+			"base": "backrooms:block/52/l52-ladder-lower",
+			"rotateY": 90
+		},
+		"l52-ladder-upper-north": {
+			"base": "backrooms:block/52/l52-ladder-upper",
+			"rotateY": 0
+		},
+		"l52-ladder-upper-east": {
+			"base": "backrooms:block/52/l52-ladder-upper",
+			"rotateY": 270
+		},
+		"l52-ladder-upper-south": {
+			"base": "backrooms:block/52/l52-ladder-upper",
+			"rotateY": 180
+		},
+		"l52-ladder-upper-west": {
+			"base": "backrooms:block/52/l52-ladder-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-ladder-lower-north"
+		],
+		"backrooms": [
+			"l52-ladder-lower-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"l52-ladder-lower-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-ladder-lower-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-ladder-lower-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-ladder-lower-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-ladder-upper-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-ladder-upper-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-ladder-upper-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-ladder-upper-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l52-ladder-lower-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-ladder-lower-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-ladder-lower-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-ladder-lower-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-ladder-upper-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-ladder-upper-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-ladder-upper-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-ladder-upper-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0.3,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"climbable": true
+}

@@ -1,0 +1,363 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4k-colpaint": "backrooms:block/52/r4k-colpaint"
+	},
+	"elements": [
+		{
+			"name": "Shaft0",
+			"from": [
+				7.0054,
+				0,
+				4.4
+			],
+			"to": [
+				8.9946,
+				16,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-colpaint",
+					"uv": [
+						0,
+						0,
+						1.9892,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Shaft1",
+			"from": [
+				7.0054,
+				0,
+				4.4
+			],
+			"to": [
+				8.9946,
+				16,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-colpaint",
+					"uv": [
+						0,
+						0,
+						1.9892,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				8.0
+			],
+			"rotationY": 30.0
+		},
+		{
+			"name": "Shaft2",
+			"from": [
+				7.0054,
+				0,
+				4.4
+			],
+			"to": [
+				8.9946,
+				16,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-colpaint",
+					"uv": [
+						0,
+						0,
+						1.9892,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				8.0
+			],
+			"rotationY": 60.0
+		},
+		{
+			"name": "Shaft3",
+			"from": [
+				7.0054,
+				0,
+				4.4
+			],
+			"to": [
+				8.9946,
+				16,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-colpaint",
+					"uv": [
+						0,
+						0,
+						1.9892,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				8.0
+			],
+			"rotationY": 90.0
+		},
+		{
+			"name": "Shaft4",
+			"from": [
+				7.0054,
+				0,
+				4.4
+			],
+			"to": [
+				8.9946,
+				16,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-colpaint",
+					"uv": [
+						0,
+						0,
+						1.9892,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				8.0
+			],
+			"rotationY": 120.0
+		},
+		{
+			"name": "Shaft5",
+			"from": [
+				7.0054,
+				0,
+				4.4
+			],
+			"to": [
+				8.9946,
+				16,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-colpaint",
+					"uv": [
+						0,
+						0,
+						1.9892,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				8.0
+			],
+			"rotationY": 150.0
+		},
+		{
+			"name": "Shaft6",
+			"from": [
+				7.0054,
+				0,
+				4.4
+			],
+			"to": [
+				8.9946,
+				16,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-colpaint",
+					"uv": [
+						0,
+						0,
+						1.9892,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				8.0
+			],
+			"rotationY": 180.0
+		},
+		{
+			"name": "Shaft7",
+			"from": [
+				7.0054,
+				0,
+				4.4
+			],
+			"to": [
+				8.9946,
+				16,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-colpaint",
+					"uv": [
+						0,
+						0,
+						1.9892,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				8.0
+			],
+			"rotationY": 210.0
+		},
+		{
+			"name": "Shaft8",
+			"from": [
+				7.0054,
+				0,
+				4.4
+			],
+			"to": [
+				8.9946,
+				16,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-colpaint",
+					"uv": [
+						0,
+						0,
+						1.9892,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				8.0
+			],
+			"rotationY": 240.0
+		},
+		{
+			"name": "Shaft9",
+			"from": [
+				7.0054,
+				0,
+				4.4
+			],
+			"to": [
+				8.9946,
+				16,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-colpaint",
+					"uv": [
+						0,
+						0,
+						1.9892,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				8.0
+			],
+			"rotationY": 270.0
+		},
+		{
+			"name": "Shaft10",
+			"from": [
+				7.0054,
+				0,
+				4.4
+			],
+			"to": [
+				8.9946,
+				16,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-colpaint",
+					"uv": [
+						0,
+						0,
+						1.9892,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				8.0
+			],
+			"rotationY": 300.0
+		},
+		{
+			"name": "Shaft11",
+			"from": [
+				7.0054,
+				0,
+				4.4
+			],
+			"to": [
+				8.9946,
+				16,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-colpaint",
+					"uv": [
+						0,
+						0,
+						1.9892,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				8.0
+			],
+			"rotationY": 330.0
+		}
+	]
+}

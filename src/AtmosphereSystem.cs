@@ -120,8 +120,9 @@ public partial class AtmosphereSystem : ModSystem
         new(0.0035f, 0.10f, 0.03f, 0.035f, -0.12f, scene: 0.36f, clouds: 0f, cloudBrightness: 0f),
         // The Basement: close, cold blue-green dark (the Cellar's; the Flood's is thicker: AtmosphereSystem.Basement.cs)
         new(0.045f, 0.051f, 0.086f, 0.078f, 0f),
-        // Level 52: a thin, clear blue haze over the hills, a few white clouds, no day or night (its sky, its buildings: AtmosphereSystem.L52.cs)
-        new(0.0022f, 0.62f, 0.76f, 0.93f, 0f, clouds: 0.2f, cloudBrightness: 1.0f),
+        // Level 52: a thin, clear blue haze over the hills, no day or night (its sky, its buildings: AtmosphereSystem.L52.cs); (round 4)
+        // no clouds: the game's cloud layer showed as white slabs where it met the sky sphere, a seam over every open view
+        new(0.0022f, 0.62f, 0.76f, 0.93f, 0f, clouds: 0f, cloudBrightness: 1.0f),
         // Batch 2 (placeholders: a faint neutral haze)
         // Level 31: a thin indigo haze, tinted by the coloured tubes (its cinema and its empty rooms darker, its snack bar
         // warmer: AtmosphereSystem.L31.cs)

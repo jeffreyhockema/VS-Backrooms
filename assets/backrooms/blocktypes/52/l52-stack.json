@@ -1,0 +1,404 @@
+// Level 52: a library's double-sided steel bookstack, two blocks high, its shelves nearly bare (the dust shows where the books stood; a few left behind); a and b differ in what was left
+{
+	"code": "l52-stack",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"a",
+				"b"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-stack-a-lower-north": {
+			"base": "backrooms:block/52/l52-stack-lower",
+			"rotateY": 0
+		},
+		"l52-stack-a-lower-east": {
+			"base": "backrooms:block/52/l52-stack-lower",
+			"rotateY": 270
+		},
+		"l52-stack-a-lower-south": {
+			"base": "backrooms:block/52/l52-stack-lower",
+			"rotateY": 180
+		},
+		"l52-stack-a-lower-west": {
+			"base": "backrooms:block/52/l52-stack-lower",
+			"rotateY": 90
+		},
+		"l52-stack-a-upper-north": {
+			"base": "backrooms:block/52/l52-stack-upper",
+			"rotateY": 0
+		},
+		"l52-stack-a-upper-east": {
+			"base": "backrooms:block/52/l52-stack-upper",
+			"rotateY": 270
+		},
+		"l52-stack-a-upper-south": {
+			"base": "backrooms:block/52/l52-stack-upper",
+			"rotateY": 180
+		},
+		"l52-stack-a-upper-west": {
+			"base": "backrooms:block/52/l52-stack-upper",
+			"rotateY": 90
+		},
+		"l52-stack-b-lower-north": {
+			"base": "backrooms:block/52/l52-stack-lower-b",
+			"rotateY": 0
+		},
+		"l52-stack-b-lower-east": {
+			"base": "backrooms:block/52/l52-stack-lower-b",
+			"rotateY": 270
+		},
+		"l52-stack-b-lower-south": {
+			"base": "backrooms:block/52/l52-stack-lower-b",
+			"rotateY": 180
+		},
+		"l52-stack-b-lower-west": {
+			"base": "backrooms:block/52/l52-stack-lower-b",
+			"rotateY": 90
+		},
+		"l52-stack-b-upper-north": {
+			"base": "backrooms:block/52/l52-stack-upper-b",
+			"rotateY": 0
+		},
+		"l52-stack-b-upper-east": {
+			"base": "backrooms:block/52/l52-stack-upper-b",
+			"rotateY": 270
+		},
+		"l52-stack-b-upper-south": {
+			"base": "backrooms:block/52/l52-stack-upper-b",
+			"rotateY": 180
+		},
+		"l52-stack-b-upper-west": {
+			"base": "backrooms:block/52/l52-stack-upper-b",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-stack-a-lower-north"
+		],
+		"backrooms": [
+			"l52-stack-a-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"l52-stack-a-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875
+		},
+		"l52-stack-a-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 270
+		},
+		"l52-stack-a-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 180
+		},
+		"l52-stack-a-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 90
+		},
+		"l52-stack-a-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875
+		},
+		"l52-stack-a-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 270
+		},
+		"l52-stack-a-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 180
+		},
+		"l52-stack-a-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 90
+		},
+		"l52-stack-b-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875
+		},
+		"l52-stack-b-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 270
+		},
+		"l52-stack-b-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 180
+		},
+		"l52-stack-b-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 90
+		},
+		"l52-stack-b-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875
+		},
+		"l52-stack-b-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 270
+		},
+		"l52-stack-b-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 180
+		},
+		"l52-stack-b-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l52-stack-a-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875
+		},
+		"l52-stack-a-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 270
+		},
+		"l52-stack-a-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 180
+		},
+		"l52-stack-a-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 90
+		},
+		"l52-stack-a-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875
+		},
+		"l52-stack-a-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 270
+		},
+		"l52-stack-a-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 180
+		},
+		"l52-stack-a-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 90
+		},
+		"l52-stack-b-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875
+		},
+		"l52-stack-b-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 270
+		},
+		"l52-stack-b-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 180
+		},
+		"l52-stack-b-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 90
+		},
+		"l52-stack-b-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875
+		},
+		"l52-stack-b-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 270
+		},
+		"l52-stack-b-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 180
+		},
+		"l52-stack-b-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.125,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.875,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

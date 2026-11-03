@@ -530,3 +530,172 @@ tables; the lifts' doors (the lore has lifts; these do not run).
    university"; keep them all, or trim any that feel too much like a real campus and not enough like the Backrooms?
 3. **The lifts** are closed doors (the lore has lifts; DECISIONS says stairs first). Should they ever open?
 
+
+## Round 4 (2026-11-02): the asset-quality pass
+
+Looked at first: round 3's final sheet (`%TEMP%/backrooms-shots/final-r3/52/sheet.jpg`), the lead's round-4 notes, the
+"Still weak" of round 3, the brief and DECISIONS.md, and the props that set the bar (188's street furniture, the detail
+kit, 15's lab benches and seats, 31's lockers and trophy case, 14's hospital kit). Nearly every Level 52 shape was 1-5
+boxes (a plate with a picture); the gym showed no hoop at all from its spot (the shared `basketballhoop` is one block with
+a 12-px board). Lore guard rails kept: digits-only signage (names only on the M.E.G.'s boards), classrooms dark with
+their electrical gear off, libraries and labs "vacant and missing contents".
+
+### List
+Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: why]`.
+
+**1. Assets to rebuild to the bar**
+1. (A) `l52-desk` (student desk-and-chair, classrooms and lecture tiers): tube frame, moulded seat and back, desktop with lip, book rack under, glides. [done] (32 boxes: tube frame on glides, laminate top at 0.76 with edge band and pencil groove, book box, moulded seat at 0.5)
+2. (A) `l52-chalkboard-*` (keep the codes: the coloured-chalk system uses them): aluminium frame, chalk tray with chalk and a felt eraser, map rail on top, a board surface with ghosts of old writing. [done] (aluminium frame, chalk tray with sticks and an eraser, map rail with clips, a map roller case; the slate one 3x2 picture with eraser swirls and ghost sums; chalk drops kept in the generator)
+3. (A) `l52-locker-*` lockers: a JSON front in relief (door panels inset, louvre vents, a handle and a dial lock, number plates, hinges, kick base); the odd door ajar. [done] (JSON in relief: doors, latches, louvres, vents, number plates, hinges, top trim; `l52-lockerajar-*` with the middle door open on about one bank in fourteen)
+4. (A) `l52-fountain` drinking fountain: a stainless wall basin on a back plate, bubbler, push bar, drain, a refill spout. [done] (44 boxes: splash plate, stepped bowl, bubbler and guard, push bar, trap into the wall, bottle filler)
+5. (A) `l52-bleacher` (gym and courts): seat planks with gaps, foot planks, risers, aisle steps and a frame of uprights and braces; an end rail. [done] (seat boards, foot planks, kick plate, steel frames with diagonals and gussets)
+6. (A) `l52-sign-hose` / `l52-sign-ext` fire hose cabinet and extinguisher: a recessed cabinet with a glazed door and a coiled hose on a reel; the extinguisher on its bracket (or the shared ones if they meet the bar). [done] (the shared detail hose cabinet and extinguisher, without their wall cube, as Level 52's wall fittings; the reel rebuilt as a drum with coils)
+7. (A) `l52-sign-exit` EXIT: a lit box with a canopy mount (or the shared EXIT sign if it meets the bar; same vocabulary as the released levels). [done] (replaced by the mod's own hanging EXIT sign, `exithanging-*`, under the ceiling in front of the door: the released levels' vocabulary)
+8. (A) `l52-window-*`: frames, mullions, a transom, sill and the glass set in, not a pane with lines drawn on it. [done] (jambs, mullion, transom, beads, sill with drip ledge and window board, latches)
+9. (B) `l52-stall-*` restroom stall: a real pan (bowl, seat and lid), a flush valve, the partition with its door, hinges and latch, chrome feet. [done] (stepped pan, open seat, lid up, chrome flushometer, partition off the floor with shoe, roll holder, headrail, coat hook)
+10. (B) `l52-fumehood-*` fume hood: framed sash with a handle, baffle slots, cabinet doors with handles, a gas tap and the airflow gauge. [done]
+11. (B) `l52-sign-notice-*` notice boards: aluminium frame, cork, pinned sheets as raised layers, pins. [done]
+12. (B) `l52-sign-wallclock` and the tower's dials: a round body with a bezel and the hands as elements. [done] (the wall clock: bezel, hands at 3:52, red second hand; the tower's dials: a stone surround and bezel ring across the nine pieces, raised batons and hands)
+13. (B) `l52-goal-*` football goal: round-section posts (bevelled), stanchions and the ground frame behind, a net with depth. [done]
+14. (B) `l52-flagpole-*`: a plinth with a plaque, the pole's taper, a cleat and halyard, the flag cloth in folds (rotated elements). [done]
+15. (B) `l52-post-*` boards on posts: posts with caps and feet, a framed board with a canopy and bolts. [done]
+16. (B) `l52-vent` / `l52-hvac-*` roof plant: a gooseneck/mushroom vent; air handlers as one unit with louvres, fan shroud, access panels and a duct into the roof. [done] (the vent: a mushroom cap on a flashed curb; the air handlers in relief: louvres, posts, the fan shroud and grille)
+17. (C) `l52-jet` / courtyard fountain: a tiered bowl on a fluted column, the basin rim with coping. [done] (`l52-jet` rebuilt; `l52-basinrim-{edge,corner}-*`: a coped precast rim, wet and green at the water line inside)
+18. (C) `l52-bikerack-*`: fine as it is (16 boxes); leave. [skipped: already at the bar]
+
+**2. Multi-block set pieces**
+19. (A) **Basketball hoop, outdoor** (courtyard courts, J. Turner): a padded steel post on a base plate, a gooseneck arm, the backboard (1.8 blocks wide, its bottom padded, the shooter's square), the rim at 3 blocks with its bracket, the net hanging into the air block in front. Several blocks that read as one. [done] (`l52-hoop-pole-*`, `-board-yard`, `-rim-yard`: weathered green post on a base plate with gussets and a pad, parallel arms, a rust-streaked board, rim and torn net in front)
+20. (A) **Basketball hoop, gym**: wall-mounted on the end wall with a braced truss out to the board, the same board, rim and net; wall mats under it. [done] (`l52-hoop-truss-*`, `-brace`, `-board-gym`, `-rim-gym`: a three-block braced truss off the end wall, orange-framed board with a bottom pad)
+21. (A) Court markings: the key (painted lane), free-throw line and circle, the three-point arc and the centre circle, as flat decals on the court and on the gym floor. [done] (`l52-mark-{gym,yard}-*`: 82 cells about each hoop and the centre circle, painted key)
+22. (A) The gym's scoreboard on the long wall (lit digits, HOME / GUEST, PERIOD) and wall mats along the end walls. [done] (`l52-score-*`, lit, HOME 00 GUEST 00, clock 3:52; `l52-wallmat-*` either side of each hoop)
+23. (A) The outside courts fenced: chain-link round the courtyard court with a gap for the path. [done] (chain-link two tiles out, gaps mid-side)
+24. (B) The lecture theatre's seats: flip seats with a writing tablet on the arm, in rows on the tiers. [done] (`l52-lseat-*` on the tiers instead of the desks)
+25. (B) A ceiling projector in classrooms (off, as the lore's dark classrooms) on a drop pole, and a pull-down screen case over the board. [partly: `l52-projector-*` in every classroom, off; no pull-down screen case (the map roller on the board stands in)]
+26. (B) A dugout at the pitch: a bench under a curved shelter with a back wall. [done] (`l52-dugout-*` either side of the stand)
+27. (B) Entrance canopies with columns at their front corners. [done] (`l52-column-*` under the outer corners; `l52-planter` beside each canopy)
+28. (B) Stairwell handrails along the flights (a rail on posts), the treads' nosings. [done] (`l52-stairrail-{l,r}-*`: a steel rail at 45 degrees on brackets and rosettes, on the walls beside both flights, laid per storey in `L52LayStair`; nosings not done)
+29. (C) The trophy case rebuilt: glass, shelves, trophies (cups, a plate, a ball) and a light. [done] (`l52-trophy-*`, glass, cups, figures, medals, a lit header)
+30. (C) The library: a rolling ladder on the stacks; a few books left on the shelves (the lore's rooms are "vacant and missing contents", so a handful, not full shelves). [partly: the rolling ladder (`l52-ladder-*`, Props.L52Ladder); shelves stay empty (the lore)]
+
+**3. Level design**
+31. (A) The gym reads as a gym from its spot: hoops at both ends, the scoreboard, mats, the key on the floor, the bleachers. [done] (run 1: `gym` and `gym-hoop`; the façade's grey over the end doors now the room's paint inside)
+32. (A) The courtyard court as the heart of J. Turner (lore: "basketball court and courtyard at the core"): fenced, marked, hoops facing. [done] (fence with a post every third block, like the campus fences now)
+33. (B) The two-storey halls' upper string course showing inside (round 3's Still weak). [done] (no band at a hall's middle line; the room's paint inside)
+34. (B) The courtyard spot looks into the trees (round 3's Still weak): move the spot. [done] (from a corner along the diagonal)
+35. (B) The sky sphere's seam over the open pitch (round 3's Still weak): look at the sphere's radius against the view. [done] (it was the game's cloud layer meeting the sky sphere as white slabs: Level 52's clouds are off)
+36. (C) The roof: gravel patches by the plant, parapet caps. [partly: gravel patches; the parapets as they were]
+
+**4. Lore**
+37. (A) Keep digits-only signage: the scoreboard and court use numbers and generic words (HOME, GUEST), no campus or school names. [done]
+38. (B) Classrooms' 2000s audiovisual gear: the projector (item 25) and the corner TV on its wall bracket or cart (shared `Tv` today). [done] (the projector; the corner TV now a CRT strapped on an AV cart with a VCR, `l52-tvcart-*`, off; a poster on the back wall of half the classrooms)
+39. (C) The M.E.G.'s presence on the top floor: their placards (shared `megplacard`) by the outpost sign. [skipped: time]
+
+**5. Alignment with the other levels**
+40. (A) Shared EXIT signs, extinguishers and hose cabinets: use the mod's own where they meet the bar, else write them under "Shared assets below the bar" and keep ours. [done] (EXIT the shared hanging sign; hose cabinet and extinguisher are the shared detail shapes without their wall cube)
+41. (B) Lab benches: from `l15-labbench-sink` (Level 15), retinted to the campus's grey-white resin and steel (similar but unique: Level 15 is clean futurist white). [done] (`l52-labbench-{plain,sink,gas}`, Props.L52LabBench, instead of kitchen counters: Level 15's are 6-box blocks, so ours are new, grey cupboards and black epoxy)
+42. (B) Lockers: compared with `l15-locker-*` (ajar) and Level 31's; ours stay the campus's palette. [done]
+43. (B) Lecture seats: compared with `l15-seat-*` and Level 36's seat rows; ours a timber-and-steel flip seat with a tablet. [done]
+44. (A) Showcase spots and F7 entries for the new set pieces (gym hoop, court hoop, scoreboard, dugout); `featurecheck`. [done] (`gym-hoop`, `court-hoop`; F7 `l52court`)
+45. (B) Block names in en.json (Level 52's block) for every new code; pick-block; sounds by material. [done]
+
+### How it is built (round 4)
+- `tools/gen_52_r4.py` (new, called from `gen_52.py` after round 3): the hoops (`l52-hoop-{piece}-{side}`: pole-base/mid/neck/top,
+  board-yard, rim-yard; truss-wall, truss-mid, brace, board-gym, rim-gym), the court decals (`l52-mark-{gym,yard}-{cell}-{side}`, one
+  flat shape, the texture by type; the cells drawn from the court's geometry at 32 px a block), the scoreboard, wall mats, the
+  lockers in relief (they replace round 1's cube lockers under the same codes, plus `l52-lockerajar-*`), and the blocktypes of the
+  kit's new pieces. `tools/gen_52_r4_kit.py` (new; built by an Opus model worker to this round's bar and checked in
+  `preview_shapes.py` renders and `check_zfight`): 91 shapes and 139 `r4k-*` textures that override round 1-3's shapes of the same
+  names (desk, chalkboard, fountain, windows, stall, fume hood, bleacher, goal, flagpole, boards on posts, hose cabinet,
+  extinguisher, notice board, wall clock, mirror, pictograms, the tower dials, roof vent, air handler) and the new pieces
+  (lecture seat, projector, trophy case, dugout, canopy column, ladder, planter, lab benches).
+- The coloured-chalk drops (a2b5a948 edited the generated desk and chalkboard JSON by hand) are now written by `gen_52.py`
+  (`chalk_drops`), so regenerating keeps them.
+- Layout: `WorldLayout.Level52.Courts.cs` (new): `L52LayHoop`, `L52LayMarks`, `L52LayCentreCircle`, `L52LayYardCourt` (the
+  courtyard court's hoops, markings and fence), `L52LayGym` (hoops off the end walls, markings, mats, the scoreboard on a long wall
+  with no window behind it), `L52LayProjectors` (and the classroom posters), `L52LayCanopyColumns` (and the planters). In
+  `Detail.cs`: the EXIT signs are the shared `exithanging-*` (`L52Exit`), the trophy cases, the pitch's dugouts, the lecture seats.
+  In `WorldLayout.Level52.cs`: the library ladder (`Props.L52Ladder` 1106), the lab benches (`Props.L52LabBench` 1107), the gym's
+  old one-block hoops gone. In `WorldGenerator.L52.cs`: the ajar lockers (7%, the same on both halves), no string course inside a
+  two-storey hall, the ladder and lab bench props.
+
+### Inventions (round 4; not in the lore)
+The hoops' make (a weathered green post with parallel arms outdoors, a wall truss in the gym), the court markings' colours
+(a stained key in the gym, a green key on the red courts), the fence round the courtyard courts, the scoreboard (HOME/GUEST at
+00, its clock stopped at 3:52 like the tower's), the wall mats, the dugouts, the canopy columns and planters, the trophy
+case's contents, the library's rolling ladder, the classroom projectors (the lore's "audiovisual gear, mostly 2000s"), the
+classroom posters, the lab benches' gas taps and eyewash, a locker door left open now and then, the stair handrails.
+
+### Shared assets below the bar
+- `exithanging` (the shared EXIT sign, 5 boxes): now used on Level 52 too; a frame with a canopy mount and a lit diffuser
+  would lift it everywhere.
+- `detail/basketballhoop` (one block, a 12-unit board on a 3-block pole): Level 52 no longer uses it; if other levels do, the
+  `l52-hoop-*` pieces (yard set) could replace it.
+- The detail kit's `foldingtable`/`foldingchair`, `officechair`, `desk`, `bench`, `streetlight` and `tv` (Level 52's canteen,
+  offices, courtyards, classrooms' corner TV) are 6-15 boxes; they read, but sit below the new Level 52 pieces up close.
+- `l15-labbench-*` (6 boxes each) and `l31-trophycase` (box trophies, no glass): Level 52 made its own instead of reusing them;
+  the lead may want 15 and 31 to borrow `l52-labbench-*` / `l52-trophy-*` (retinted) or have them rebuilt.
+
+### Balance notes for the lead
+- No new food, water or loot source: the lab sinks, eyewash, trophy case, planters and dugouts are scenery; the drinking
+  fountain is rebuilt but still the same block (it dispenses as before). Ajar lockers are scenery (lockers were never containers).
+- The desk and chalkboard keep their coloured-chalk drops (now written by the generator).
+- The library ladder is climbable (a way onto the bookstacks' tops; no new place reached). No shortcut, threshold or safe room.
+
+Beyond the list (from run 1): the libraries' stacks were the shared office bookshelf seen from behind as blank slabs: now
+double-sided steel bookstacks (`l52-stack-{a,b}-*`, Props.L52Stack 1108), near bare with dust marks where the books stood; the
+front office's and library's counter was the hotel reception desk with WELCOME on it (words the lore does not allow): now
+`l52-counter-*`; the chain-link fences (campus and courts) get a galvanised post every third block (`l52-chainpost-*`); flat roofs
+get ballast gravel in patches (`l52-roofgravel`; item 36 after all); the gym's scoreboard, which found no window-free stretch of
+long wall, falls back to the changing rooms' cross wall beside the hoop (then over windows); a hall's interior walls are plain
+upper paint on their upper storey (the cross wall showed a second skirting band at the hoop's height); the canteens' folding
+tables and chairs became long folding lunch tables with their benches (`l52-lunch-{table,seat}-*`, Props.L52LunchTable 1109,
+L52LunchSeat 1110).
+
+### What the shots showed
+- **Run 1** (`%TEMP%/backrooms-shots/52-r4a`, `sheet.jpg`): the gym hoop (truss, orange-framed board with its pad, rim and
+  net, wall mats, the painted key) and the court hoop (green post with its pad, rusty board, torn net, the fence, the green key on
+  the red court) read as the real things; lockers in relief with a door open; the classroom's desks, board, projector and wall
+  clock; stair handrails; the hanging EXIT signs; lab benches and fume hoods; lecture seats; restroom stalls; columns and a planter
+  at the entrance; the dugout by the pitch. Wrong: the library's stacks (blank slabs: shared bookshelves seen from behind) and the
+  ladder standing clear of them; WELCOME on the front office counter; white cloud slabs over open views; the façade's grey
+  showing inside the gym over its end doors; the courtyard spot behind a lamp post; the pitch spot looking at empty turf.
+- **Run 2** (`%TEMP%/backrooms-shots/52-r4b`, `sheet.jpg`): the library's double-sided stacks with their few leftover books and
+  the ladder against them; the school counter (but its bell repeated on every block: now three variants); the trophy case in
+  Marshall David's worn lobby; the gym's scoreboard on the changing rooms' cross wall over the far hoop; the fence posts; the
+  pitch's goal with its net; the clouds gone (no more slabs in the sky). Wrong: the roof gravel's 8-block patches read as a
+  patchwork (now gravel all over, membrane walkways every eleventh block); two random arrivals stood inside a lawn tree's crown
+  (arrivals now on paths and corridors only; `regions` still 60/60).
+
+### Checks (round 4)
+- `python tools/expclash.py`: clean. Mod and mapgen build with 0 errors. `gen_52.py` check: 2552 codes defined and expected, 0
+  problems; `langcheck` clean.
+- layouthash (`BACKROOMS_NO_EXP_ENTRANCES=1`, versions 1 and 12): every line for levels 0-20 and the layout hash equal to
+  main's saved files.
+- `regions`: 60/60 for Level 52, none wrong or in pockets (full size and `SPAWN=1000`). `52stats 4`: 68 campuses, 305 buildings,
+  0 doorless rooms, 121 of about 1.94 million ground tiles unreached (single tiles boxed in by furniture), arrivals 60/60.
+  `featurecheck 2 52`: 17 of 17 features found from every arrival (the new `l52court`; `gym-hoop`, `court-hoop`, `trophy-case`
+  spots in their entries).
+- Headless (port 43128): `blocksweep` 16501 blocks, 0 threw; 0 missing blocks or items; `/backrooms dummy place 52 5` lands
+  at 565925,217,642287 with 0 error lines; `/backrooms showcase 52` lists every spot. (Four earlier blocksweeps with this
+  round's builds hit a crash in the game's own `Relight` thread (`ChunkIlluminator.UpdateLightAt`, a null light layer) while
+  the sweep set and cleared 16,000 blocks in one tick; two later sweeps of the same builds and the final one passed, and
+  swapping DLLs and assets between builds did not pin it on any block: a race in the engine under load, noted for the lead.)
+- `GATE_TAG=52g python tools/gate.py --fast --port-base 43120`: PASS at 90db15a3 (generators, lang, build, boot, harness).
+
+### Questions for the user
+1. **Clouds.** Level 52's few white clouds are off: the game's cloud layer met the blue sky sphere as white slabs over every
+   open view. The lore asks for "few clouds"; would you rather have them back (and the seam) or keep a clear sky?
+2. **Arrivals** now land on paths and in ground-floor corridors only (never on a lawn, where one stood inside a tree's
+   crown). Fine, or should some still land on the grass?
+3. **The libraries** stay nearly bare (the lore: "vacant and missing contents"), with dust marks where the books stood and a
+   few left behind. Should they hold more books, as a real school library would?
+- **Run 3, final** (`%TEMP%/backrooms-shots/52-r4c`, `sheet.jpg`): the canteen's long lunch tables with their orange benches on
+  folding frames; the classroom's CRT on its AV cart beside the teacher's desk; the courtyard fountain's coped rim; the roofs
+  gravelled with membrane walkways; everything from run 2 as it was; the arrivals in corridors, at a window and on a path. The rig
+  hit a `PermissionError` writing a file after the 30th spot, so `car-park`, `barry-sign`, `way-in-school` and `way-back-quad` are
+  missing from this run (they are in run 2's folder and did not change). Tally of the list: A 18 done; B 20 done, 1 partly
+  (the projector's screen case); C 2 done, 2 partly, 2 skipped (the bike rack already at the bar; the M.E.G. placards).
+- **Still weak:** the shared props Level 52 still uses (folding chairs in some rooms, office chairs, the staff room's sofa,
+  the street lights, benches and bins outdoors, the cars) are a step below the new pieces up close; the locker number plates
+  read as dark dots; the stair treads have no nosings; the courtyard's trees still crowd its lawns; the canteens' food stands
+  are the shared snack counter.

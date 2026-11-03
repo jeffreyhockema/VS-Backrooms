@@ -41,6 +41,10 @@ public sealed partial class WorldLayout
     private static void L52Sign(L52Campus c, int u, int v, string kind, ArchPier facing, int lo, int hi, bool every = false) =>
         L52Fix(c, u, v, $"l52-sign-{kind}-{L52Side(facing)}", lo, hi, every);
 
+    /// <summary>(Round 4) An EXIT sign: the mod's own hanging one (the released levels'), under the ceiling in front of the door.</summary>
+    private static void L52Exit(L52Campus c, int u, int v, ArchPier facing, bool every) =>
+        L52Fix(c, u, v, facing is ArchPier.North or ArchPier.South ? "exithanging-we" : "exithanging-ns", 3, 3, every);
+
     /// <summary>Whether a tile is free of fittings at a height (as rel, or as every storey's height).</summary>
     private static bool L52FixFree(L52Campus c, int u, int v, int lo, int hi)
     {
@@ -166,6 +170,7 @@ public sealed partial class WorldLayout
         L52LayTrophies(c);
         L52LaySkylight(c);
         L52LayTerrace(c);
+        L52LayCanopyColumns(c);
     }
 
     /// <summary>Outside a canteen's door on a long side, a few café tables with their chairs on the lawn: where people would eat in the sun.</summary>
@@ -251,7 +256,9 @@ public sealed partial class WorldLayout
                     int tu = fu + au * k, tv = fv + av * k;
                     if (c.At(tu, tv).Zone is (byte)L52Zone.Corridor or (byte)L52Zone.Lobby && c.At(tu - ou, tv - ov).Kind == TileKind.Wall && !c.HasFixture[tu + tv * c.W])
                     {
-                        L52Put(c, tu, tv, Props.CurioCabinet, e.Pier);
+                        // (Round 4) the school's own trophy case: glass, shelves of cups, a lit header
+                        L52Fix(c, tu, tv, $"l52-trophy-lower-{L52Side(e.Pier)}", 1, 1);
+                        L52Fix(c, tu, tv, $"l52-trophy-upper-{L52Side(e.Pier)}", 2, 2);
                         L52Fix(c, tu, tv, "l52-sign-exit-none", 99, 99); // (marks the tile taken: the corridor's things keep off it)
                     }
                 }
@@ -291,6 +298,9 @@ public sealed partial class WorldLayout
     {
         foreach (L52Room r in c.Rooms)
         {
+            // (Round 4) a gym's hoops, markings, mats and scoreboard
+            if (r.Kind == L52RoomKind.Gym) { L52LayGym(c, r); continue; }
+            L52LayProjectors(c, r);
             if (!r.HasDoor || r.DoorU < 0) continue;
             ArchPier side = r.DoorSide;
             var (su, sv) = L52Step(side);
@@ -421,7 +431,7 @@ public sealed partial class WorldLayout
                 if (Hall(-2, j))
                 {
                     var (u, v) = At(-2, j);
-                    L52Sign(c, u, v, "exit", outward, 3, 3, true);
+                    L52Exit(c, u, v, outward, true);
                 }
             if (Hall(-2, 1))
             {
@@ -475,7 +485,7 @@ public sealed partial class WorldLayout
                 if (!middle) continue;
                 int iu = u - ou, iv = v - ov;
                 if (c.InGrid(iu, iv) && c.At(iu, iv).Kind == TileKind.Floor && c.At(iu, iv).Zone != (byte)L52Zone.Stair && L52FixFree(c, iu, iv, 3, 3))
-                    L52Sign(c, iu, iv, "exit", L52Opposite(e.Pier), 3, 3);
+                    L52Exit(c, iu, iv, L52Opposite(e.Pier), false);
                 if (!c.InGrid(u + ou, v + ov) || c.At(u + ou, v + ov).Depth != 0) continue;
                 L52Building b = e.Detail > 0 && e.Detail <= c.Buildings.Count ? c.Buildings[e.Detail - 1] : null;
                 if (b == null) continue;
@@ -667,7 +677,14 @@ public sealed partial class WorldLayout
                 t.Floor = FloorKind.L52Paving;
                 if (r >= 4) continue;
                 t.Kind = TileKind.Wall; // (the rim, the water and the jet: not walked on)
-                if (r == 3) L52Fix(c, mu + du, mv + dv, "l52-coping", 1, 1);
+                if (r == 3)
+                {
+                    // (Round 4) the basin's rim: a coped precast wall, mitred at the corners
+                    bool corner = Math.Abs(du) == 3 && Math.Abs(dv) == 3;
+                    ArchPier rs = corner ? (du < 0 ? (dv < 0 ? ArchPier.North : ArchPier.West) : (dv < 0 ? ArchPier.East : ArchPier.South))
+                        : du == -3 ? ArchPier.West : du == 3 ? ArchPier.East : dv == -3 ? ArchPier.North : ArchPier.South;
+                    L52Fix(c, mu + du, mv + dv, $"l52-basinrim-{(corner ? "corner" : "edge")}-{L52Side(rs)}", 1, 1);
+                }
                 else if (r == 0) L52Fix(c, mu + du, mv + dv, "l52-jet", 1, 1);
                 else L52Fix(c, mu + du, mv + dv, "=water", 1, 1);
             }
@@ -931,6 +948,29 @@ public sealed partial class WorldLayout
                 if (row > 0) L52Fix(c, u, v, "l52-plinth", 1, row);
                 L52Fix(c, u, v, "l52-bleacher-" + L52Side(toPitch), row + 1, row + 1);
             }
+        // (Round 4) a dugout either side of the stand, just off the track, facing the pitch
+        foreach (int am0 in new[] { a0 + (a1 - a0) / 4 - 5, a1 - (a1 - a0) / 4 + 3 })
+        {
+            bool ok = true;
+            for (int k = 0; k < 3 && ok; k++)
+            {
+                var (u, v) = P(am0 + k, x1 + 2);
+                ok = c.InGrid(u, v) && c.At(u, v).Depth == 0 && c.At(u, v).Kind == TileKind.Floor && c.At(u, v).Zone == (byte)L52Zone.Lawn && L52FixFree(c, u, v, 1, 2);
+            }
+            if (!ok) continue;
+            var (mu, mv) = P(am0 + 1, x1 + 2);
+            string[] parts = { "l", "m", "r" };
+            for (int k = 0; k < 3; k++)
+            {
+                var (du, dv) = L52Right(mu, mv, toPitch, k - 1);
+                ref Tile t = ref c.At(du, dv);
+                t.Variant = 0;
+                t.Zone = (byte)L52Zone.Court;
+                t.Floor = FloorKind.L52Paving;
+                L52Fix(c, du, dv, $"l52-dugout-{parts[k]}-lower-{L52Side(toPitch)}", 1, 1);
+                L52Fix(c, du, dv, $"l52-dugout-{parts[k]}-upper-{L52Side(toPitch)}", 2, 2);
+            }
+        }
     }
 
     /// <summary>
@@ -961,7 +1001,7 @@ public sealed partial class WorldLayout
                     }
                     else L52Fix(c, u, v, "l52-slab-carpetgrey", 1, h);
                 }
-                if (!aisle && d >= 3 && d <= ld - 4 && (a - 6) % 3 == 1) L52Fix(c, u, v, "l52-desk-" + sf, h + 1, h + 1);
+                if (!aisle && d >= 3 && d <= ld - 4 && (a - 6) % 3 == 1) L52Fix(c, u, v, "l52-lseat-" + sf, h + 1, h + 1);
                 c.At(u, v).Variant = 0;
                 c.At(u, v).Ceiling = h >= 4 ? 0 : c.At(u, v).Ceiling;
             }

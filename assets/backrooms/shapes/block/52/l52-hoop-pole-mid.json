@@ -1,0 +1,218 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4-pad-black": "backrooms:block/52/r4-pad-black",
+		"r4-pad-blue": "backrooms:block/52/r4-pad-blue",
+		"r4-steel-green": "backrooms:block/52/r4-steel-green"
+	},
+	"elements": [
+		{
+			"name": "Post",
+			"from": [
+				6.4,
+				0,
+				6.4
+			],
+			"to": [
+				9.6,
+				16,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
+					]
+				},
+				"down": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Pad",
+			"from": [
+				5.6,
+				0.0,
+				5.6
+			],
+			"to": [
+				10.4,
+				10.0,
+				10.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						4.8,
+						10.0
+					]
+				},
+				"east": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						4.8,
+						10.0
+					]
+				},
+				"south": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						4.8,
+						10.0
+					]
+				},
+				"west": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						4.8,
+						10.0
+					]
+				},
+				"up": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						4.8,
+						4.8
+					]
+				},
+				"down": {
+					"texture": "#r4-pad-blue",
+					"uv": [
+						0,
+						0,
+						4.8,
+						4.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Strap",
+			"from": [
+				5.4,
+				7.6,
+				5.4
+			],
+			"to": [
+				10.6,
+				8.4,
+				10.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-pad-black",
+					"uv": [
+						0,
+						0,
+						5.2,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#r4-pad-black",
+					"uv": [
+						0,
+						0,
+						5.2,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#r4-pad-black",
+					"uv": [
+						0,
+						0,
+						5.2,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#r4-pad-black",
+					"uv": [
+						0,
+						0,
+						5.2,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#r4-pad-black",
+					"uv": [
+						0,
+						0,
+						5.2,
+						5.2
+					]
+				},
+				"down": {
+					"texture": "#r4-pad-black",
+					"uv": [
+						0,
+						0,
+						5.2,
+						5.2
+					]
+				}
+			}
+		}
+	]
+}

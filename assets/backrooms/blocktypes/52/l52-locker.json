@@ -1,4 +1,4 @@
-// Level 52: a bank of three steel lockers on the side face of a wall block (lower: latches, louvres, the kick base; upper: vents and number plates); its other faces are the palette's wall paint
+// Level 52: a bank of three steel lockers in a wall block, facing its side: the doors in relief over the carcass, latches, louvres and hinges (lower), vents, number plates and the top trim (upper); its other faces are the palette's wall paint
 {
 	"code": "l52-locker",
 	"variantgroups": [
@@ -28,665 +28,629 @@
 			]
 		}
 	],
-	"texturesByType": {
+	"shapeByType": {
 		"l52-locker-beige-lower-north": {
-			"north": {
-				"base": "block/52/locker-beige-lower"
-			},
-			"east": {
-				"base": "block/52/wall-beige-base"
-			},
-			"south": {
-				"base": "block/52/wall-beige-base"
-			},
-			"west": {
-				"base": "block/52/wall-beige-base"
-			},
-			"up": {
-				"base": "block/52/wall-beige-upper"
-			},
-			"down": {
-				"base": "block/52/wall-beige-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 0
 		},
 		"l52-locker-beige-lower-east": {
-			"north": {
-				"base": "block/52/wall-beige-base"
-			},
-			"east": {
-				"base": "block/52/locker-beige-lower"
-			},
-			"south": {
-				"base": "block/52/wall-beige-base"
-			},
-			"west": {
-				"base": "block/52/wall-beige-base"
-			},
-			"up": {
-				"base": "block/52/wall-beige-upper"
-			},
-			"down": {
-				"base": "block/52/wall-beige-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 270
 		},
 		"l52-locker-beige-lower-south": {
-			"north": {
-				"base": "block/52/wall-beige-base"
-			},
-			"east": {
-				"base": "block/52/wall-beige-base"
-			},
-			"south": {
-				"base": "block/52/locker-beige-lower"
-			},
-			"west": {
-				"base": "block/52/wall-beige-base"
-			},
-			"up": {
-				"base": "block/52/wall-beige-upper"
-			},
-			"down": {
-				"base": "block/52/wall-beige-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 180
 		},
 		"l52-locker-beige-lower-west": {
-			"north": {
-				"base": "block/52/wall-beige-base"
-			},
-			"east": {
-				"base": "block/52/wall-beige-base"
-			},
-			"south": {
-				"base": "block/52/wall-beige-base"
-			},
-			"west": {
-				"base": "block/52/locker-beige-lower"
-			},
-			"up": {
-				"base": "block/52/wall-beige-upper"
-			},
-			"down": {
-				"base": "block/52/wall-beige-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 90
 		},
 		"l52-locker-beige-upper-north": {
-			"north": {
-				"base": "block/52/locker-beige-upper"
-			},
-			"east": {
-				"base": "block/52/wall-beige-dado"
-			},
-			"south": {
-				"base": "block/52/wall-beige-dado"
-			},
-			"west": {
-				"base": "block/52/wall-beige-dado"
-			},
-			"up": {
-				"base": "block/52/wall-beige-upper"
-			},
-			"down": {
-				"base": "block/52/wall-beige-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 0
 		},
 		"l52-locker-beige-upper-east": {
-			"north": {
-				"base": "block/52/wall-beige-dado"
-			},
-			"east": {
-				"base": "block/52/locker-beige-upper"
-			},
-			"south": {
-				"base": "block/52/wall-beige-dado"
-			},
-			"west": {
-				"base": "block/52/wall-beige-dado"
-			},
-			"up": {
-				"base": "block/52/wall-beige-upper"
-			},
-			"down": {
-				"base": "block/52/wall-beige-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 270
 		},
 		"l52-locker-beige-upper-south": {
-			"north": {
-				"base": "block/52/wall-beige-dado"
-			},
-			"east": {
-				"base": "block/52/wall-beige-dado"
-			},
-			"south": {
-				"base": "block/52/locker-beige-upper"
-			},
-			"west": {
-				"base": "block/52/wall-beige-dado"
-			},
-			"up": {
-				"base": "block/52/wall-beige-upper"
-			},
-			"down": {
-				"base": "block/52/wall-beige-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 180
 		},
 		"l52-locker-beige-upper-west": {
-			"north": {
-				"base": "block/52/wall-beige-dado"
-			},
-			"east": {
-				"base": "block/52/wall-beige-dado"
-			},
-			"south": {
-				"base": "block/52/wall-beige-dado"
-			},
-			"west": {
-				"base": "block/52/locker-beige-upper"
-			},
-			"up": {
-				"base": "block/52/wall-beige-upper"
-			},
-			"down": {
-				"base": "block/52/wall-beige-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 90
 		},
 		"l52-locker-white-lower-north": {
-			"north": {
-				"base": "block/52/locker-white-lower"
-			},
-			"east": {
-				"base": "block/52/wall-white-base"
-			},
-			"south": {
-				"base": "block/52/wall-white-base"
-			},
-			"west": {
-				"base": "block/52/wall-white-base"
-			},
-			"up": {
-				"base": "block/52/wall-white-upper"
-			},
-			"down": {
-				"base": "block/52/wall-white-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 0
 		},
 		"l52-locker-white-lower-east": {
-			"north": {
-				"base": "block/52/wall-white-base"
-			},
-			"east": {
-				"base": "block/52/locker-white-lower"
-			},
-			"south": {
-				"base": "block/52/wall-white-base"
-			},
-			"west": {
-				"base": "block/52/wall-white-base"
-			},
-			"up": {
-				"base": "block/52/wall-white-upper"
-			},
-			"down": {
-				"base": "block/52/wall-white-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 270
 		},
 		"l52-locker-white-lower-south": {
-			"north": {
-				"base": "block/52/wall-white-base"
-			},
-			"east": {
-				"base": "block/52/wall-white-base"
-			},
-			"south": {
-				"base": "block/52/locker-white-lower"
-			},
-			"west": {
-				"base": "block/52/wall-white-base"
-			},
-			"up": {
-				"base": "block/52/wall-white-upper"
-			},
-			"down": {
-				"base": "block/52/wall-white-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 180
 		},
 		"l52-locker-white-lower-west": {
-			"north": {
-				"base": "block/52/wall-white-base"
-			},
-			"east": {
-				"base": "block/52/wall-white-base"
-			},
-			"south": {
-				"base": "block/52/wall-white-base"
-			},
-			"west": {
-				"base": "block/52/locker-white-lower"
-			},
-			"up": {
-				"base": "block/52/wall-white-upper"
-			},
-			"down": {
-				"base": "block/52/wall-white-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 90
 		},
 		"l52-locker-white-upper-north": {
-			"north": {
-				"base": "block/52/locker-white-upper"
-			},
-			"east": {
-				"base": "block/52/wall-white-dado"
-			},
-			"south": {
-				"base": "block/52/wall-white-dado"
-			},
-			"west": {
-				"base": "block/52/wall-white-dado"
-			},
-			"up": {
-				"base": "block/52/wall-white-upper"
-			},
-			"down": {
-				"base": "block/52/wall-white-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 0
 		},
 		"l52-locker-white-upper-east": {
-			"north": {
-				"base": "block/52/wall-white-dado"
-			},
-			"east": {
-				"base": "block/52/locker-white-upper"
-			},
-			"south": {
-				"base": "block/52/wall-white-dado"
-			},
-			"west": {
-				"base": "block/52/wall-white-dado"
-			},
-			"up": {
-				"base": "block/52/wall-white-upper"
-			},
-			"down": {
-				"base": "block/52/wall-white-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 270
 		},
 		"l52-locker-white-upper-south": {
-			"north": {
-				"base": "block/52/wall-white-dado"
-			},
-			"east": {
-				"base": "block/52/wall-white-dado"
-			},
-			"south": {
-				"base": "block/52/locker-white-upper"
-			},
-			"west": {
-				"base": "block/52/wall-white-dado"
-			},
-			"up": {
-				"base": "block/52/wall-white-upper"
-			},
-			"down": {
-				"base": "block/52/wall-white-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 180
 		},
 		"l52-locker-white-upper-west": {
-			"north": {
-				"base": "block/52/wall-white-dado"
-			},
-			"east": {
-				"base": "block/52/wall-white-dado"
-			},
-			"south": {
-				"base": "block/52/wall-white-dado"
-			},
-			"west": {
-				"base": "block/52/locker-white-upper"
-			},
-			"up": {
-				"base": "block/52/wall-white-upper"
-			},
-			"down": {
-				"base": "block/52/wall-white-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 90
 		},
 		"l52-locker-blue-lower-north": {
-			"north": {
-				"base": "block/52/locker-blue-lower"
-			},
-			"east": {
-				"base": "block/52/wall-blue-base"
-			},
-			"south": {
-				"base": "block/52/wall-blue-base"
-			},
-			"west": {
-				"base": "block/52/wall-blue-base"
-			},
-			"up": {
-				"base": "block/52/wall-blue-upper"
-			},
-			"down": {
-				"base": "block/52/wall-blue-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 0
 		},
 		"l52-locker-blue-lower-east": {
-			"north": {
-				"base": "block/52/wall-blue-base"
-			},
-			"east": {
-				"base": "block/52/locker-blue-lower"
-			},
-			"south": {
-				"base": "block/52/wall-blue-base"
-			},
-			"west": {
-				"base": "block/52/wall-blue-base"
-			},
-			"up": {
-				"base": "block/52/wall-blue-upper"
-			},
-			"down": {
-				"base": "block/52/wall-blue-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 270
 		},
 		"l52-locker-blue-lower-south": {
-			"north": {
-				"base": "block/52/wall-blue-base"
-			},
-			"east": {
-				"base": "block/52/wall-blue-base"
-			},
-			"south": {
-				"base": "block/52/locker-blue-lower"
-			},
-			"west": {
-				"base": "block/52/wall-blue-base"
-			},
-			"up": {
-				"base": "block/52/wall-blue-upper"
-			},
-			"down": {
-				"base": "block/52/wall-blue-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 180
 		},
 		"l52-locker-blue-lower-west": {
-			"north": {
-				"base": "block/52/wall-blue-base"
-			},
-			"east": {
-				"base": "block/52/wall-blue-base"
-			},
-			"south": {
-				"base": "block/52/wall-blue-base"
-			},
-			"west": {
-				"base": "block/52/locker-blue-lower"
-			},
-			"up": {
-				"base": "block/52/wall-blue-upper"
-			},
-			"down": {
-				"base": "block/52/wall-blue-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 90
 		},
 		"l52-locker-blue-upper-north": {
-			"north": {
-				"base": "block/52/locker-blue-upper"
-			},
-			"east": {
-				"base": "block/52/wall-blue-dado"
-			},
-			"south": {
-				"base": "block/52/wall-blue-dado"
-			},
-			"west": {
-				"base": "block/52/wall-blue-dado"
-			},
-			"up": {
-				"base": "block/52/wall-blue-upper"
-			},
-			"down": {
-				"base": "block/52/wall-blue-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 0
 		},
 		"l52-locker-blue-upper-east": {
-			"north": {
-				"base": "block/52/wall-blue-dado"
-			},
-			"east": {
-				"base": "block/52/locker-blue-upper"
-			},
-			"south": {
-				"base": "block/52/wall-blue-dado"
-			},
-			"west": {
-				"base": "block/52/wall-blue-dado"
-			},
-			"up": {
-				"base": "block/52/wall-blue-upper"
-			},
-			"down": {
-				"base": "block/52/wall-blue-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 270
 		},
 		"l52-locker-blue-upper-south": {
-			"north": {
-				"base": "block/52/wall-blue-dado"
-			},
-			"east": {
-				"base": "block/52/wall-blue-dado"
-			},
-			"south": {
-				"base": "block/52/locker-blue-upper"
-			},
-			"west": {
-				"base": "block/52/wall-blue-dado"
-			},
-			"up": {
-				"base": "block/52/wall-blue-upper"
-			},
-			"down": {
-				"base": "block/52/wall-blue-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 180
 		},
 		"l52-locker-blue-upper-west": {
-			"north": {
-				"base": "block/52/wall-blue-dado"
-			},
-			"east": {
-				"base": "block/52/wall-blue-dado"
-			},
-			"south": {
-				"base": "block/52/wall-blue-dado"
-			},
-			"west": {
-				"base": "block/52/locker-blue-upper"
-			},
-			"up": {
-				"base": "block/52/wall-blue-upper"
-			},
-			"down": {
-				"base": "block/52/wall-blue-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 90
 		},
 		"l52-locker-grey-lower-north": {
-			"north": {
-				"base": "block/52/locker-grey-lower"
-			},
-			"east": {
-				"base": "block/52/wall-grey-base"
-			},
-			"south": {
-				"base": "block/52/wall-grey-base"
-			},
-			"west": {
-				"base": "block/52/wall-grey-base"
-			},
-			"up": {
-				"base": "block/52/wall-grey-upper"
-			},
-			"down": {
-				"base": "block/52/wall-grey-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 0
 		},
 		"l52-locker-grey-lower-east": {
-			"north": {
-				"base": "block/52/wall-grey-base"
-			},
-			"east": {
-				"base": "block/52/locker-grey-lower"
-			},
-			"south": {
-				"base": "block/52/wall-grey-base"
-			},
-			"west": {
-				"base": "block/52/wall-grey-base"
-			},
-			"up": {
-				"base": "block/52/wall-grey-upper"
-			},
-			"down": {
-				"base": "block/52/wall-grey-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 270
 		},
 		"l52-locker-grey-lower-south": {
-			"north": {
-				"base": "block/52/wall-grey-base"
-			},
-			"east": {
-				"base": "block/52/wall-grey-base"
-			},
-			"south": {
-				"base": "block/52/locker-grey-lower"
-			},
-			"west": {
-				"base": "block/52/wall-grey-base"
-			},
-			"up": {
-				"base": "block/52/wall-grey-upper"
-			},
-			"down": {
-				"base": "block/52/wall-grey-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 180
 		},
 		"l52-locker-grey-lower-west": {
-			"north": {
-				"base": "block/52/wall-grey-base"
-			},
-			"east": {
-				"base": "block/52/wall-grey-base"
-			},
-			"south": {
-				"base": "block/52/wall-grey-base"
-			},
-			"west": {
-				"base": "block/52/locker-grey-lower"
-			},
-			"up": {
-				"base": "block/52/wall-grey-upper"
-			},
-			"down": {
-				"base": "block/52/wall-grey-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-lower",
+			"rotateY": 90
 		},
 		"l52-locker-grey-upper-north": {
-			"north": {
-				"base": "block/52/locker-grey-upper"
-			},
-			"east": {
-				"base": "block/52/wall-grey-dado"
-			},
-			"south": {
-				"base": "block/52/wall-grey-dado"
-			},
-			"west": {
-				"base": "block/52/wall-grey-dado"
-			},
-			"up": {
-				"base": "block/52/wall-grey-upper"
-			},
-			"down": {
-				"base": "block/52/wall-grey-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 0
 		},
 		"l52-locker-grey-upper-east": {
-			"north": {
-				"base": "block/52/wall-grey-dado"
-			},
-			"east": {
-				"base": "block/52/locker-grey-upper"
-			},
-			"south": {
-				"base": "block/52/wall-grey-dado"
-			},
-			"west": {
-				"base": "block/52/wall-grey-dado"
-			},
-			"up": {
-				"base": "block/52/wall-grey-upper"
-			},
-			"down": {
-				"base": "block/52/wall-grey-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 270
 		},
 		"l52-locker-grey-upper-south": {
-			"north": {
-				"base": "block/52/wall-grey-dado"
-			},
-			"east": {
-				"base": "block/52/wall-grey-dado"
-			},
-			"south": {
-				"base": "block/52/locker-grey-upper"
-			},
-			"west": {
-				"base": "block/52/wall-grey-dado"
-			},
-			"up": {
-				"base": "block/52/wall-grey-upper"
-			},
-			"down": {
-				"base": "block/52/wall-grey-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 180
 		},
 		"l52-locker-grey-upper-west": {
-			"north": {
-				"base": "block/52/wall-grey-dado"
-			},
-			"east": {
-				"base": "block/52/wall-grey-dado"
-			},
-			"south": {
-				"base": "block/52/wall-grey-dado"
-			},
-			"west": {
-				"base": "block/52/locker-grey-upper"
-			},
-			"up": {
-				"base": "block/52/wall-grey-upper"
-			},
-			"down": {
-				"base": "block/52/wall-grey-upper"
-			}
+			"base": "backrooms:block/52/l52-locker-upper",
+			"rotateY": 90
 		}
 	},
 	"creativeinventory": {
 		"general": [
-			"*"
+			"l52-locker-beige-lower-north"
 		],
 		"backrooms": [
-			"*"
+			"l52-locker-beige-lower-north"
 		]
 	},
 	"blockmaterial": "Metal",
-	"drawtype": "cube",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
 	"lightAbsorption": 99,
 	"resistance": 4,
-	"drops": [],
 	"sounds": {
 		"walk": "game:walk/stone*",
 		"place": "game:block/anvil1",
 		"break": "game:block/heavymetal-hit",
 		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"selectionboxByType": {
+		"*": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"drops": [],
+	"texturesByType": {
+		"l52-locker-beige-lower-north": {
+			"front": {
+				"base": "block/52/locker-beige-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-beige-base"
+			},
+			"top": {
+				"base": "block/52/wall-beige-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-beige-lower-east": {
+			"front": {
+				"base": "block/52/locker-beige-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-beige-base"
+			},
+			"top": {
+				"base": "block/52/wall-beige-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-beige-lower-south": {
+			"front": {
+				"base": "block/52/locker-beige-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-beige-base"
+			},
+			"top": {
+				"base": "block/52/wall-beige-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-beige-lower-west": {
+			"front": {
+				"base": "block/52/locker-beige-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-beige-base"
+			},
+			"top": {
+				"base": "block/52/wall-beige-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-beige-upper-north": {
+			"front": {
+				"base": "block/52/locker-beige-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-beige-dado"
+			},
+			"top": {
+				"base": "block/52/wall-beige-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-beige-upper-east": {
+			"front": {
+				"base": "block/52/locker-beige-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-beige-dado"
+			},
+			"top": {
+				"base": "block/52/wall-beige-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-beige-upper-south": {
+			"front": {
+				"base": "block/52/locker-beige-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-beige-dado"
+			},
+			"top": {
+				"base": "block/52/wall-beige-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-beige-upper-west": {
+			"front": {
+				"base": "block/52/locker-beige-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-beige-dado"
+			},
+			"top": {
+				"base": "block/52/wall-beige-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-white-lower-north": {
+			"front": {
+				"base": "block/52/locker-white-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-white-base"
+			},
+			"top": {
+				"base": "block/52/wall-white-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-white-lower-east": {
+			"front": {
+				"base": "block/52/locker-white-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-white-base"
+			},
+			"top": {
+				"base": "block/52/wall-white-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-white-lower-south": {
+			"front": {
+				"base": "block/52/locker-white-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-white-base"
+			},
+			"top": {
+				"base": "block/52/wall-white-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-white-lower-west": {
+			"front": {
+				"base": "block/52/locker-white-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-white-base"
+			},
+			"top": {
+				"base": "block/52/wall-white-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-white-upper-north": {
+			"front": {
+				"base": "block/52/locker-white-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-white-dado"
+			},
+			"top": {
+				"base": "block/52/wall-white-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-white-upper-east": {
+			"front": {
+				"base": "block/52/locker-white-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-white-dado"
+			},
+			"top": {
+				"base": "block/52/wall-white-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-white-upper-south": {
+			"front": {
+				"base": "block/52/locker-white-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-white-dado"
+			},
+			"top": {
+				"base": "block/52/wall-white-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-white-upper-west": {
+			"front": {
+				"base": "block/52/locker-white-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-white-dado"
+			},
+			"top": {
+				"base": "block/52/wall-white-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-blue-lower-north": {
+			"front": {
+				"base": "block/52/locker-blue-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-blue-base"
+			},
+			"top": {
+				"base": "block/52/wall-blue-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-blue-lower-east": {
+			"front": {
+				"base": "block/52/locker-blue-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-blue-base"
+			},
+			"top": {
+				"base": "block/52/wall-blue-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-blue-lower-south": {
+			"front": {
+				"base": "block/52/locker-blue-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-blue-base"
+			},
+			"top": {
+				"base": "block/52/wall-blue-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-blue-lower-west": {
+			"front": {
+				"base": "block/52/locker-blue-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-blue-base"
+			},
+			"top": {
+				"base": "block/52/wall-blue-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-blue-upper-north": {
+			"front": {
+				"base": "block/52/locker-blue-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-blue-dado"
+			},
+			"top": {
+				"base": "block/52/wall-blue-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-blue-upper-east": {
+			"front": {
+				"base": "block/52/locker-blue-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-blue-dado"
+			},
+			"top": {
+				"base": "block/52/wall-blue-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-blue-upper-south": {
+			"front": {
+				"base": "block/52/locker-blue-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-blue-dado"
+			},
+			"top": {
+				"base": "block/52/wall-blue-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-blue-upper-west": {
+			"front": {
+				"base": "block/52/locker-blue-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-blue-dado"
+			},
+			"top": {
+				"base": "block/52/wall-blue-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-grey-lower-north": {
+			"front": {
+				"base": "block/52/locker-grey-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-grey-base"
+			},
+			"top": {
+				"base": "block/52/wall-grey-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-grey-lower-east": {
+			"front": {
+				"base": "block/52/locker-grey-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-grey-base"
+			},
+			"top": {
+				"base": "block/52/wall-grey-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-grey-lower-south": {
+			"front": {
+				"base": "block/52/locker-grey-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-grey-base"
+			},
+			"top": {
+				"base": "block/52/wall-grey-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-grey-lower-west": {
+			"front": {
+				"base": "block/52/locker-grey-lower"
+			},
+			"wall": {
+				"base": "block/52/wall-grey-base"
+			},
+			"top": {
+				"base": "block/52/wall-grey-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-grey-upper-north": {
+			"front": {
+				"base": "block/52/locker-grey-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-grey-dado"
+			},
+			"top": {
+				"base": "block/52/wall-grey-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-grey-upper-east": {
+			"front": {
+				"base": "block/52/locker-grey-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-grey-dado"
+			},
+			"top": {
+				"base": "block/52/wall-grey-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-grey-upper-south": {
+			"front": {
+				"base": "block/52/locker-grey-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-grey-dado"
+			},
+			"top": {
+				"base": "block/52/wall-grey-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		},
+		"l52-locker-grey-upper-west": {
+			"front": {
+				"base": "block/52/locker-grey-upper"
+			},
+			"wall": {
+				"base": "block/52/wall-grey-dado"
+			},
+			"top": {
+				"base": "block/52/wall-grey-upper"
+			},
+			"inside": {
+				"base": "block/52/r4-locker-in"
+			}
+		}
 	}
 }

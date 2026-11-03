@@ -2,8 +2,8 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"sign-clock4": "backrooms:block/52/sign-clock4",
-		"sign-edge-stone": "backrooms:block/52/sign-edge-stone"
+		"r4k-dialmetal": "backrooms:block/52/r4k-dialmetal",
+		"sign-clock4": "backrooms:block/52/sign-clock4"
 	},
 	"elements": [
 		{
@@ -27,41 +27,449 @@
 						16,
 						16
 					]
-				},
-				"east": {
-					"texture": "#sign-edge-stone",
+				}
+			}
+		},
+		{
+			"name": "Hour",
+			"from": [
+				7.05,
+				5.5,
+				14.3
+			],
+			"to": [
+				8.95,
+				20.5,
+				14.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-dialmetal",
 					"uv": [
 						0,
 						0,
-						0.8,
+						1.9,
+						15.0
+					]
+				},
+				"east": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.0
+					]
+				},
+				"west": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						15.0
+					]
+				},
+				"up": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						1.9,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						1.9,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				14.7
+			],
+			"rotationZ": 116
+		},
+		{
+			"name": "HourTip",
+			"from": [
+				6.29,
+				18.1,
+				14.3
+			],
+			"to": [
+				9.71,
+				19.5,
+				14.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						3.42,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						3.42,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						3.42,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				14.7
+			],
+			"rotationZ": 116
+		},
+		{
+			"name": "Minute",
+			"from": [
+				7.4,
+				5.0,
+				13.9
+			],
+			"to": [
+				8.6,
+				26.0,
+				14.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
 						16
 					]
 				},
 				"west": {
-					"texture": "#sign-edge-stone",
+					"texture": "#r4k-dialmetal",
 					"uv": [
 						0,
 						0,
-						0.8,
+						0.5,
 						16
 					]
 				},
 				"up": {
-					"texture": "#sign-edge-stone",
+					"texture": "#r4k-dialmetal",
 					"uv": [
 						0,
 						0,
-						16,
-						0.8
+						1.2,
+						0.5
 					]
 				},
 				"down": {
-					"texture": "#sign-edge-stone",
+					"texture": "#r4k-dialmetal",
 					"uv": [
 						0,
 						0,
-						16,
-						0.8
+						1.2,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				14.3
+			],
+			"rotationZ": 312
+		},
+		{
+			"name": "MinuteTip",
+			"from": [
+				6.92,
+				23.6,
+				13.9
+			],
+			"to": [
+				9.08,
+				25.0,
+				14.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.16,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.16,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				8.0,
+				14.3
+			],
+			"rotationZ": 312
+		},
+		{
+			"name": "Bossa",
+			"from": [
+				7.0,
+				7.42,
+				13.6
+			],
+			"to": [
+				9.0,
+				8.58,
+				14.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.16
+					]
+				},
+				"east": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.7,
+						1.16
+					]
+				},
+				"west": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.7,
+						1.16
+					]
+				},
+				"up": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Bossb",
+			"from": [
+				7.42,
+				7.0,
+				13.612
+			],
+			"to": [
+				8.58,
+				9.0,
+				14.288
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						1.16,
+						2.0
+					]
+				},
+				"east": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.676,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.676,
+						2.0
+					]
+				},
+				"up": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						1.16,
+						0.676
+					]
+				},
+				"down": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						1.16,
+						0.676
+					]
+				}
+			}
+		},
+		{
+			"name": "Bossc",
+			"from": [
+				7.14,
+				7.14,
+				13.624
+			],
+			"to": [
+				8.86,
+				8.86,
+				14.276
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						1.72,
+						1.72
+					]
+				},
+				"east": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.652,
+						1.72
+					]
+				},
+				"west": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						0.652,
+						1.72
+					]
+				},
+				"up": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						1.72,
+						0.652
+					]
+				},
+				"down": {
+					"texture": "#r4k-dialmetal",
+					"uv": [
+						0,
+						0,
+						1.72,
+						0.652
 					]
 				}
 			}

@@ -111,10 +111,10 @@ public partial class WorldLayout
             if (best > 0) Add(md, "campus", bu, bv, 0, Heading((quad.U0 + quad.U1) / 2 - bu, (quad.V0 + quad.V1) / 2 - bv), 10);
         }
 
-        // 4. The courtyard: from the path round it, halfway along one side, across it
+        // 4. The courtyard: (round 4) from the path in one corner, along the diagonal to the far corner (over the lawns' trees, not into them)
         int cu0 = quad.U0 + 21, cv0 = quad.V0 + 21, cu1 = quad.U1 - 21, cv1 = quad.V1 - 21;
-        if (Near(md, (cu0 + cu1) / 2 + 5, cv0, Outdoors, 6) is { } cy)
-            Add(md, "courtyard", cy.U, cy.V, 0, Heading((cu0 + cu1) / 2 - cy.U, (cv0 + cv1) / 2 + 6 - cy.V), 2);
+        if (Near(md, cu0 + 5, cv0 + 1, Outdoors, 4) is { } cy)
+            Add(md, "courtyard", cy.U, cy.V, 0, Heading(cu1 - 3 - cy.U, cv1 - cy.V), 4);
 
         // 4b. The courtyard's fountain, from the paving round it
         {
@@ -302,6 +302,57 @@ public partial class WorldLayout
             break;
         }
 
+        // (Round 4) A hoop close: in Marshall David's gym from the court, and on J. Turner's courtyard court, each from about
+        // seven tiles out and two to the side, looking up at the board and rim
+        void HoopShot(L52Campus c, string kind, string name)
+        {
+            if (c == null) return;
+            foreach (var (i, list) in c.Fixtures)
+                foreach (L52Fixture f in list)
+                {
+                    if (!f.Code.StartsWith($"l52-hoop-board-{kind}-")) continue;
+                    ArchPier fp = f.Code.EndsWith("north") ? ArchPier.North : f.Code.EndsWith("south") ? ArchPier.South : f.Code.EndsWith("east") ? ArchPier.East : ArchPier.West;
+                    var (fu, fv) = L52Step(fp);
+                    var (ru, rv) = L52Step(L52RightOf(fp));
+                    int bu = i % c.W, bv = i / c.W, u = bu + fu * 7 + ru * 2, v = bv + fv * 7 + rv * 2;
+                    if (!c.InGrid(u, v)) continue;
+                    Add(c, name, u, v, 0, Heading(bu - u + 0.0, bv - v + 0.0), 14);
+                    return;
+                }
+        }
+        HoopShot(md, "gym", "gym-hoop");
+        // (Round 4) a trophy case in a quad's lobby (Marshall David's, or the nearest campus's), from a few tiles in front of it
+        bool trophyShot = false;
+        for (int r = 0; r <= 2 && !trophyShot; r++)
+            for (int dj = -r; dj <= r && !trophyShot; dj++)
+                for (int di = -r; di <= r && !trophyShot; di++)
+                {
+                    if (Math.Max(Math.Abs(di), Math.Abs(dj)) != r) continue;
+                    L52Campus tc = L52CampusOf(mi + di, mj + dj);
+                    if (tc == null) continue;
+                    foreach (var (i, list) in tc.Fixtures)
+                    {
+                        L52Fixture tf = list.Find(f => f.Code.StartsWith("l52-trophy-upper-"));
+                        if (tf.Code == null) continue;
+                        ArchPier tp = tf.Code.EndsWith("north") ? ArchPier.North : tf.Code.EndsWith("south") ? ArchPier.South : tf.Code.EndsWith("east") ? ArchPier.East : ArchPier.West;
+                        var (tdu, tdv) = L52Step(tp);
+                        var (rdu, rdv) = L52Step(L52RightOf(tp));
+                        foreach (var (f, k) in new[] { (3, 1), (3, -1), (3, 0), (2, 1), (2, 0) })
+                        {
+                            int tu = i % tc.W + tdu * f + rdu * k, tv = i / tc.W + tdv * f + rdv * k;
+                            if (!tc.InGrid(tu, tv) || tc.At(tu, tv).Kind != TileKind.Floor || tc.HasFixture[tu + tv * tc.W]) continue;
+                            Add(tc, "trophy-case", tu, tv, 0, Heading(i % tc.W - tu, i / tc.W - tv), -12);
+                            trophyShot = true;
+                            break;
+                        }
+                        if (trophyShot) break;
+                    }
+                }
+        {
+            var (tn, _) = L52Named;
+            HoopShot(L52CampusOf(tn.Ci, tn.Cj), "yard", "court-hoop");
+        }
+
         // A lecture theatre (Marshall David's, or the nearest campus's): from the front, by the board, up its tiers
         for (int r = 0; r <= 2; r++)
         {
@@ -375,7 +426,10 @@ public partial class WorldLayout
                     {
                         var (au, av) = goals[0];
                         var (bu, bv) = goals[1];
-                        Add(c, "pitch", (au + 2 * bu) / 3, (av + 2 * bv) / 3, 0, Heading(au - bu, av - bv), -3);
+                        // (Round 4) eight tiles out from one goal and three to the side, looking at it
+                        int du = Math.Sign(au - bu), dv = Math.Sign(av - bv);
+                        int pu = bu + du * 8 + (dv != 0 ? 3 : 0), pv = bv + dv * 8 + (du != 0 ? 3 : 0);
+                        Add(c, "pitch", pu, pv, 0, Heading(bu - pu, bv - pv), -4);
                         pitchShot = true;
                     }
                 }

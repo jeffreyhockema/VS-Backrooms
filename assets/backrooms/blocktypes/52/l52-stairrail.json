@@ -1,0 +1,154 @@
+// Level 52: a stairwell's handrail on the wall beside a flight (side: the way the flight climbs; hand: the wall on the climber's left or right), in the air over a step
+{
+	"code": "l52-stairrail",
+	"variantgroups": [
+		{
+			"code": "hand",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-stairrail-l-north": {
+			"base": "backrooms:block/52/l52-stairrail-l",
+			"rotateY": 0
+		},
+		"l52-stairrail-l-east": {
+			"base": "backrooms:block/52/l52-stairrail-l",
+			"rotateY": 270
+		},
+		"l52-stairrail-l-south": {
+			"base": "backrooms:block/52/l52-stairrail-l",
+			"rotateY": 180
+		},
+		"l52-stairrail-l-west": {
+			"base": "backrooms:block/52/l52-stairrail-l",
+			"rotateY": 90
+		},
+		"l52-stairrail-r-north": {
+			"base": "backrooms:block/52/l52-stairrail-r",
+			"rotateY": 0
+		},
+		"l52-stairrail-r-east": {
+			"base": "backrooms:block/52/l52-stairrail-r",
+			"rotateY": 270
+		},
+		"l52-stairrail-r-south": {
+			"base": "backrooms:block/52/l52-stairrail-r",
+			"rotateY": 180
+		},
+		"l52-stairrail-r-west": {
+			"base": "backrooms:block/52/l52-stairrail-r",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-stairrail-l-north"
+		],
+		"backrooms": [
+			"l52-stairrail-l-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l52-stairrail-l-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"l52-stairrail-l-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-stairrail-l-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-stairrail-l-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-stairrail-r-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1
+		},
+		"l52-stairrail-r-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-stairrail-r-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-stairrail-r-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionbox": null
+}

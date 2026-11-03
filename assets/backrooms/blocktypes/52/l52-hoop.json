@@ -1,0 +1,1008 @@
+// Level 52: a basketball hoop built of several blocks, the board facing the way of its side: outdoors a padded steel post (pole-base to pole-top) a block behind the board with two arms out to it; in a gym a braced truss off the end wall (truss-wall, truss-mid, brace); the board (board-*) a block up from the rim, the rim and net (rim-*) hanging in the air in front of the board, the rim at 3 blocks
+{
+	"code": "l52-hoop",
+	"variantgroups": [
+		{
+			"code": "piece",
+			"states": [
+				"rim-gym",
+				"rim-yard",
+				"board-gym",
+				"board-yard",
+				"truss-wall",
+				"truss-mid",
+				"brace",
+				"pole-base",
+				"pole-mid",
+				"pole-neck",
+				"pole-top"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-hoop-rim-gym-north": {
+			"base": "backrooms:block/52/l52-hoop-rim-gym",
+			"rotateY": 0
+		},
+		"l52-hoop-rim-gym-east": {
+			"base": "backrooms:block/52/l52-hoop-rim-gym",
+			"rotateY": 270
+		},
+		"l52-hoop-rim-gym-south": {
+			"base": "backrooms:block/52/l52-hoop-rim-gym",
+			"rotateY": 180
+		},
+		"l52-hoop-rim-gym-west": {
+			"base": "backrooms:block/52/l52-hoop-rim-gym",
+			"rotateY": 90
+		},
+		"l52-hoop-rim-yard-north": {
+			"base": "backrooms:block/52/l52-hoop-rim-yard",
+			"rotateY": 0
+		},
+		"l52-hoop-rim-yard-east": {
+			"base": "backrooms:block/52/l52-hoop-rim-yard",
+			"rotateY": 270
+		},
+		"l52-hoop-rim-yard-south": {
+			"base": "backrooms:block/52/l52-hoop-rim-yard",
+			"rotateY": 180
+		},
+		"l52-hoop-rim-yard-west": {
+			"base": "backrooms:block/52/l52-hoop-rim-yard",
+			"rotateY": 90
+		},
+		"l52-hoop-board-gym-north": {
+			"base": "backrooms:block/52/l52-hoop-board-gym",
+			"rotateY": 0
+		},
+		"l52-hoop-board-gym-east": {
+			"base": "backrooms:block/52/l52-hoop-board-gym",
+			"rotateY": 270
+		},
+		"l52-hoop-board-gym-south": {
+			"base": "backrooms:block/52/l52-hoop-board-gym",
+			"rotateY": 180
+		},
+		"l52-hoop-board-gym-west": {
+			"base": "backrooms:block/52/l52-hoop-board-gym",
+			"rotateY": 90
+		},
+		"l52-hoop-board-yard-north": {
+			"base": "backrooms:block/52/l52-hoop-board-yard",
+			"rotateY": 0
+		},
+		"l52-hoop-board-yard-east": {
+			"base": "backrooms:block/52/l52-hoop-board-yard",
+			"rotateY": 270
+		},
+		"l52-hoop-board-yard-south": {
+			"base": "backrooms:block/52/l52-hoop-board-yard",
+			"rotateY": 180
+		},
+		"l52-hoop-board-yard-west": {
+			"base": "backrooms:block/52/l52-hoop-board-yard",
+			"rotateY": 90
+		},
+		"l52-hoop-truss-wall-north": {
+			"base": "backrooms:block/52/l52-hoop-truss-wall",
+			"rotateY": 0
+		},
+		"l52-hoop-truss-wall-east": {
+			"base": "backrooms:block/52/l52-hoop-truss-wall",
+			"rotateY": 270
+		},
+		"l52-hoop-truss-wall-south": {
+			"base": "backrooms:block/52/l52-hoop-truss-wall",
+			"rotateY": 180
+		},
+		"l52-hoop-truss-wall-west": {
+			"base": "backrooms:block/52/l52-hoop-truss-wall",
+			"rotateY": 90
+		},
+		"l52-hoop-truss-mid-north": {
+			"base": "backrooms:block/52/l52-hoop-truss-mid",
+			"rotateY": 0
+		},
+		"l52-hoop-truss-mid-east": {
+			"base": "backrooms:block/52/l52-hoop-truss-mid",
+			"rotateY": 270
+		},
+		"l52-hoop-truss-mid-south": {
+			"base": "backrooms:block/52/l52-hoop-truss-mid",
+			"rotateY": 180
+		},
+		"l52-hoop-truss-mid-west": {
+			"base": "backrooms:block/52/l52-hoop-truss-mid",
+			"rotateY": 90
+		},
+		"l52-hoop-brace-north": {
+			"base": "backrooms:block/52/l52-hoop-brace",
+			"rotateY": 0
+		},
+		"l52-hoop-brace-east": {
+			"base": "backrooms:block/52/l52-hoop-brace",
+			"rotateY": 270
+		},
+		"l52-hoop-brace-south": {
+			"base": "backrooms:block/52/l52-hoop-brace",
+			"rotateY": 180
+		},
+		"l52-hoop-brace-west": {
+			"base": "backrooms:block/52/l52-hoop-brace",
+			"rotateY": 90
+		},
+		"l52-hoop-pole-base-north": {
+			"base": "backrooms:block/52/l52-hoop-pole-base",
+			"rotateY": 0
+		},
+		"l52-hoop-pole-base-east": {
+			"base": "backrooms:block/52/l52-hoop-pole-base",
+			"rotateY": 270
+		},
+		"l52-hoop-pole-base-south": {
+			"base": "backrooms:block/52/l52-hoop-pole-base",
+			"rotateY": 180
+		},
+		"l52-hoop-pole-base-west": {
+			"base": "backrooms:block/52/l52-hoop-pole-base",
+			"rotateY": 90
+		},
+		"l52-hoop-pole-mid-north": {
+			"base": "backrooms:block/52/l52-hoop-pole-mid",
+			"rotateY": 0
+		},
+		"l52-hoop-pole-mid-east": {
+			"base": "backrooms:block/52/l52-hoop-pole-mid",
+			"rotateY": 270
+		},
+		"l52-hoop-pole-mid-south": {
+			"base": "backrooms:block/52/l52-hoop-pole-mid",
+			"rotateY": 180
+		},
+		"l52-hoop-pole-mid-west": {
+			"base": "backrooms:block/52/l52-hoop-pole-mid",
+			"rotateY": 90
+		},
+		"l52-hoop-pole-neck-north": {
+			"base": "backrooms:block/52/l52-hoop-pole-neck",
+			"rotateY": 0
+		},
+		"l52-hoop-pole-neck-east": {
+			"base": "backrooms:block/52/l52-hoop-pole-neck",
+			"rotateY": 270
+		},
+		"l52-hoop-pole-neck-south": {
+			"base": "backrooms:block/52/l52-hoop-pole-neck",
+			"rotateY": 180
+		},
+		"l52-hoop-pole-neck-west": {
+			"base": "backrooms:block/52/l52-hoop-pole-neck",
+			"rotateY": 90
+		},
+		"l52-hoop-pole-top-north": {
+			"base": "backrooms:block/52/l52-hoop-pole-top",
+			"rotateY": 0
+		},
+		"l52-hoop-pole-top-east": {
+			"base": "backrooms:block/52/l52-hoop-pole-top",
+			"rotateY": 270
+		},
+		"l52-hoop-pole-top-south": {
+			"base": "backrooms:block/52/l52-hoop-pole-top",
+			"rotateY": 180
+		},
+		"l52-hoop-pole-top-west": {
+			"base": "backrooms:block/52/l52-hoop-pole-top",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l52-hoop-rim-gym-north"
+		],
+		"backrooms": [
+			"l52-hoop-rim-gym-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"l52-hoop-rim-gym-north": {
+			"x1": 0.25,
+			"y1": 0.9,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 0.98
+		},
+		"l52-hoop-rim-gym-east": {
+			"x1": 0.25,
+			"y1": 0.9,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 0.98,
+			"rotateY": 270
+		},
+		"l52-hoop-rim-gym-south": {
+			"x1": 0.25,
+			"y1": 0.9,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 0.98,
+			"rotateY": 180
+		},
+		"l52-hoop-rim-gym-west": {
+			"x1": 0.25,
+			"y1": 0.9,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 0.98,
+			"rotateY": 90
+		},
+		"l52-hoop-rim-yard-north": {
+			"x1": 0.25,
+			"y1": 0.9,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 0.98
+		},
+		"l52-hoop-rim-yard-east": {
+			"x1": 0.25,
+			"y1": 0.9,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 0.98,
+			"rotateY": 270
+		},
+		"l52-hoop-rim-yard-south": {
+			"x1": 0.25,
+			"y1": 0.9,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 0.98,
+			"rotateY": 180
+		},
+		"l52-hoop-rim-yard-west": {
+			"x1": 0.25,
+			"y1": 0.9,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 0.98,
+			"rotateY": 90
+		},
+		"l52-hoop-board-gym-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2
+		},
+		"l52-hoop-board-gym-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 270
+		},
+		"l52-hoop-board-gym-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 180
+		},
+		"l52-hoop-board-gym-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 90
+		},
+		"l52-hoop-board-yard-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2
+		},
+		"l52-hoop-board-yard-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 270
+		},
+		"l52-hoop-board-yard-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 180
+		},
+		"l52-hoop-board-yard-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 90
+		},
+		"l52-hoop-truss-wall-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-hoop-truss-wall-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-hoop-truss-wall-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-hoop-truss-wall-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-hoop-truss-mid-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-hoop-truss-mid-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-hoop-truss-mid-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-hoop-truss-mid-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-hoop-brace-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-hoop-brace-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-hoop-brace-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-hoop-brace-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-hoop-pole-base-north": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67
+		},
+		"l52-hoop-pole-base-east": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 270
+		},
+		"l52-hoop-pole-base-south": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 180
+		},
+		"l52-hoop-pole-base-west": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 90
+		},
+		"l52-hoop-pole-mid-north": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67
+		},
+		"l52-hoop-pole-mid-east": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 270
+		},
+		"l52-hoop-pole-mid-south": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 180
+		},
+		"l52-hoop-pole-mid-west": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 90
+		},
+		"l52-hoop-pole-neck-north": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67
+		},
+		"l52-hoop-pole-neck-east": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 270
+		},
+		"l52-hoop-pole-neck-south": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 180
+		},
+		"l52-hoop-pole-neck-west": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 90
+		},
+		"l52-hoop-pole-top-north": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67
+		},
+		"l52-hoop-pole-top-east": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 270
+		},
+		"l52-hoop-pole-top-south": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 180
+		},
+		"l52-hoop-pole-top-west": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l52-hoop-rim-gym-north": {
+			"x1": 0.25,
+			"y1": 0.5,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-hoop-rim-gym-east": {
+			"x1": 0.25,
+			"y1": 0.5,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-hoop-rim-gym-south": {
+			"x1": 0.25,
+			"y1": 0.5,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-hoop-rim-gym-west": {
+			"x1": 0.25,
+			"y1": 0.5,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-hoop-rim-yard-north": {
+			"x1": 0.25,
+			"y1": 0.5,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-hoop-rim-yard-east": {
+			"x1": 0.25,
+			"y1": 0.5,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-hoop-rim-yard-south": {
+			"x1": 0.25,
+			"y1": 0.5,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-hoop-rim-yard-west": {
+			"x1": 0.25,
+			"y1": 0.5,
+			"z1": 0.35,
+			"x2": 0.75,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-hoop-board-gym-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2
+		},
+		"l52-hoop-board-gym-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 270
+		},
+		"l52-hoop-board-gym-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 180
+		},
+		"l52-hoop-board-gym-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 90
+		},
+		"l52-hoop-board-yard-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2
+		},
+		"l52-hoop-board-yard-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 270
+		},
+		"l52-hoop-board-yard-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 180
+		},
+		"l52-hoop-board-yard-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 90
+		},
+		"l52-hoop-truss-wall-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-hoop-truss-wall-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-hoop-truss-wall-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-hoop-truss-wall-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-hoop-truss-mid-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-hoop-truss-mid-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-hoop-truss-mid-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-hoop-truss-mid-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-hoop-brace-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-hoop-brace-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-hoop-brace-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-hoop-brace-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-hoop-pole-base-north": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67
+		},
+		"l52-hoop-pole-base-east": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 270
+		},
+		"l52-hoop-pole-base-south": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 180
+		},
+		"l52-hoop-pole-base-west": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 90
+		},
+		"l52-hoop-pole-mid-north": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67
+		},
+		"l52-hoop-pole-mid-east": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 270
+		},
+		"l52-hoop-pole-mid-south": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 180
+		},
+		"l52-hoop-pole-mid-west": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 90
+		},
+		"l52-hoop-pole-neck-north": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67
+		},
+		"l52-hoop-pole-neck-east": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 270
+		},
+		"l52-hoop-pole-neck-south": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 180
+		},
+		"l52-hoop-pole-neck-west": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 90
+		},
+		"l52-hoop-pole-top-north": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67
+		},
+		"l52-hoop-pole-top-east": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 270
+		},
+		"l52-hoop-pole-top-south": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 180
+		},
+		"l52-hoop-pole-top-west": {
+			"x1": 0.33,
+			"y1": 0,
+			"z1": 0.33,
+			"x2": 0.67,
+			"y2": 1,
+			"z2": 0.67,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

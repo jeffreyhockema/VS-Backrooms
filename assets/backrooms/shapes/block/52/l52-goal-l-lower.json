@@ -2,141 +2,614 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"goal-net": "backrooms:block/52/goal-net",
-		"goal-white": "backrooms:block/52/goal-white"
+		"r4k-galv-peg": "backrooms:block/52/r4k-galv-peg",
+		"r4k-gnet": "backrooms:block/52/r4k-gnet",
+		"r4k-gnet-side-lower-w": "backrooms:block/52/r4k-gnet-side-lower-w",
+		"r4k-goal": "backrooms:block/52/r4k-goal"
 	},
 	"elements": [
 		{
-			"name": "NetBack",
+			"name": "Posta",
 			"from": [
-				0,
-				0,
-				15.9
+				14.2,
+				0.0,
+				1.536
 			],
 			"to": [
-				16,
-				16,
-				16
+				15.8,
+				16.0,
+				2.464
 			],
 			"faces": {
 				"north": {
-					"texture": "#goal-net",
+					"texture": "#r4k-goal",
 					"uv": [
 						0,
 						0,
-						16,
+						1.6,
+						16
+					]
+				},
+				"east": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						0.928,
 						16
 					]
 				},
 				"south": {
-					"texture": "#goal-net",
+					"texture": "#r4k-goal",
 					"uv": [
 						0,
 						0,
-						16,
+						1.6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						0.928,
 						16
 					]
 				}
 			}
 		},
 		{
-			"name": "Post",
+			"name": "Postb",
 			"from": [
-				14,
-				0,
-				1
+				14.536,
+				0.012,
+				1.2
 			],
 			"to": [
-				16,
-				16,
-				3
+				15.464,
+				15.988,
+				2.8
 			],
 			"faces": {
 				"north": {
-					"texture": "#goal-white",
+					"texture": "#r4k-goal",
 					"uv": [
 						0,
 						0,
-						2,
+						0.928,
+						15.976
+					]
+				},
+				"east": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.6,
+						15.976
+					]
+				},
+				"south": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						0.928,
+						15.976
+					]
+				},
+				"west": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.6,
+						15.976
+					]
+				}
+			}
+		},
+		{
+			"name": "Postc",
+			"from": [
+				14.312,
+				0.024,
+				1.312
+			],
+			"to": [
+				15.688,
+				15.976,
+				2.688
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.376,
+						15.952
+					]
+				},
+				"east": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.376,
+						15.952
+					]
+				},
+				"south": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.376,
+						15.952
+					]
+				},
+				"west": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.376,
+						15.952
+					]
+				}
+			}
+		},
+		{
+			"name": "BackBar",
+			"from": [
+				0,
+				0,
+				14.4
+			],
+			"to": [
+				15.5,
+				0.9,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						15.5,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.9
+					]
+				},
+				"south": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						15.5,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						15.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "SideBar",
+			"from": [
+				14.5,
+				0,
+				2.8
+			],
+			"to": [
+				15.5,
+				0.9,
+				14.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						11.6,
+						0.9
+					]
+				},
+				"south": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						11.6,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						11.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Corner",
+			"from": [
+				14.3,
+				0,
+				13.9
+			],
+			"to": [
+				15.7,
+				1.2,
+				15.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.7,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.7,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						1.4,
+						1.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Peg6",
+			"from": [
+				6,
+				0,
+				15.4
+			],
+			"to": [
+				6.4,
+				1.3,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.3
+					]
+				},
+				"east": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.3
+					]
+				},
+				"south": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.3
+					]
+				},
+				"west": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.3
+					]
+				},
+				"up": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PegHook6",
+			"from": [
+				5.8,
+				1.1,
+				15.0
+			],
+			"to": [
+				6.6,
+				1.4,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Stanchion",
+			"from": [
+				14.6,
+				0.2733,
+				11.3607
+			],
+			"to": [
+				15.4,
+				16.6267,
+				12.1607
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						0.8,
 						16
 					]
 				},
 				"east": {
-					"texture": "#goal-white",
+					"texture": "#r4k-goal",
 					"uv": [
 						0,
 						0,
-						2,
+						0.8,
 						16
 					]
 				},
 				"south": {
-					"texture": "#goal-white",
+					"texture": "#r4k-goal",
 					"uv": [
 						0,
 						0,
-						2,
+						0.8,
 						16
 					]
 				},
 				"west": {
-					"texture": "#goal-white",
+					"texture": "#r4k-goal",
 					"uv": [
 						0,
 						0,
-						2,
+						0.8,
 						16
 					]
 				},
 				"up": {
-					"texture": "#goal-white",
+					"texture": "#r4k-goal",
 					"uv": [
 						0,
 						0,
-						2,
-						2
+						0.8,
+						0.8
 					]
 				},
 				"down": {
-					"texture": "#goal-white",
+					"texture": "#r4k-goal",
 					"uv": [
 						0,
 						0,
-						2,
-						2
+						0.8,
+						0.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				15.0,
+				8.45,
+				11.7607
+			],
+			"rotationX": -22.577910516061326
+		},
+		{
+			"name": "SideNet",
+			"from": [
+				14.98,
+				0,
+				0
+			],
+			"to": [
+				15.02,
+				16,
+				16
+			],
+			"faces": {
+				"west": {
+					"texture": "#r4k-gnet-side-lower-w",
+					"uv": [
+						0,
+						0,
+						16,
+						16
 					]
 				}
 			}
 		},
 		{
-			"name": "NetSide",
+			"name": "Net",
 			"from": [
-				15.9,
 				0,
-				3
+				-0.2474,
+				12.2896
 			],
 			"to": [
-				16.0,
-				16,
-				15.9
+				15,
+				16.6474,
+				12.3396
 			],
 			"faces": {
-				"east": {
-					"texture": "#goal-net",
+				"north": {
+					"texture": "#r4k-gnet",
 					"uv": [
 						0,
 						0,
-						16,
+						15,
 						16
 					]
-				},
-				"west": {
-					"texture": "#goal-net",
+				}
+			},
+			"rotationOrigin": [
+				7.5,
+				8.2,
+				12.3146
+			],
+			"rotationX": -22.57791051606132
+		},
+		{
+			"name": "NetFoot",
+			"from": [
+				0,
+				0.15,
+				14.0
+			],
+			"to": [
+				15,
+				0.2,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#r4k-gnet",
 					"uv": [
 						0,
 						0,
-						16,
-						16
+						15,
+						2.0
 					]
 				}
 			}

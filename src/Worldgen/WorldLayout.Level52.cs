@@ -212,9 +212,10 @@ public sealed partial class WorldLayout
         return (MacroOf(x), MacroOf(z));
     }
 
-    /// <summary>Arriving: on a campus's paths and lawns, or in a corridor on the ground floor.</summary>
+    /// <summary>Arriving: on a campus's paths, or in a corridor on the ground floor ((round 4) not on the lawns, where an arrival
+    /// beside a tree stood inside its crown).</summary>
     private static bool IsL52ArrivalSpot(Tile t) =>
-        IsArrivalSpot(t) && t.Height == 0 && t.Zone is (byte)L52Zone.Corridor or (byte)L52Zone.Lobby or (byte)L52Zone.Path or (byte)L52Zone.Lawn;
+        IsArrivalSpot(t) && t.Height == 0 && t.Zone is (byte)L52Zone.Corridor or (byte)L52Zone.Lobby or (byte)L52Zone.Path;
 
     /// <summary>How high above the level's floor to put someone down on an arrival tile (see <see cref="ArrivalHeight"/>): on the ground.</summary>
     private static double L52ArrivalHeight(in Tile t, double stand) => t.Height + stand;
@@ -760,6 +761,28 @@ public sealed partial class WorldLayout
                 t.Ceiling = i == 3 && (j == 0 || j == 6) ? CeilingKind.LightOn : 0;
                 if (j >= 1 && j <= 4 && i != 3) t.Stair = 1;
             }
+        // (Round 4) handrails on the walls beside both flights, in the air over each step, storey by storey
+        if (c.Buildings.Count > 0)
+        {
+            int storeys = c.Buildings[^1].Storeys;
+            foreach (int i in new[] { 0, 2, 4, 6 })
+            {
+                bool flightA = i <= 2;
+                ArchPier climb = flightA ? L52Opposite(s.J) : s.J;
+                bool plusIRight = L52Step(L52RightOf(climb)) == L52Step(s.I);
+                bool wallPlusI = i == 2 || i == 6;
+                string hand = wallPlusI == plusIRight ? "r" : "l";
+                for (int j = 1; j <= 4; j++)
+                {
+                    int u = s.U + j * jdu + i * idu, v = s.V + j * jdv + i * idv;
+                    for (int sf = flightA ? 0 : 1; sf <= storeys - 2; sf += 2)
+                    {
+                        int rel = sf * L52Storey + (flightA ? 5 - j : j) + 1;
+                        L52Fix(c, u, v, $"l52-stairrail-{hand}-{L52Side(climb)}", rel, rel);
+                    }
+                }
+            }
+        }
         // The wall round it, and its doors
         for (int i = -1; i <= 7; i++)
             for (int j = -1; j <= 7; j++)
@@ -1134,8 +1157,8 @@ public sealed partial class WorldLayout
                     t.Floor = inside && (v == cv0 || v == cv1) ? FloorKind.L52CourtLineWE
                         : inside && (u == cu0 || u == cu1 || u == mu) ? FloorKind.L52CourtLineNS : FloorKind.L52Court;
                 }
-            L52Put(c, cu0, mv, Props.BasketballHoop, ArchPier.East);
-            L52Put(c, cu1, mv, Props.BasketballHoop, ArchPier.West);
+            // (Round 4) the hoops on their posts, the markings, a fence round it: WorldLayout.Level52.Courts.cs
+            L52LayYardCourt(c, cu0, cu1, cv0, cv1, mu, mv);
             // (Round 3) a stand of bleachers along one side, two rows, the back one a block up
             for (int u = cu0 + 2; u <= cu1 - 2; u++)
                 for (int row = 0; row < 2; row++)
@@ -1539,7 +1562,7 @@ public sealed partial class WorldLayout
             case L52RoomKind.Lab:
                 // Benches along both long walls (a sink now and then), fume hoods on the far one, islands down the middle
                 if (d == ld - 1 && a >= 1 && a <= la - 2 && a % 4 == 2) { facing = room.DoorSide; return Props.L52FumeHood; }
-                if ((d == 1 || d == ld - 1) && a >= 1 && a <= la - 2) { facing = d == 1 ? intoRoom : room.DoorSide; stack = (byte)(a % 5 == 3 ? 1 : 0); return Props.KitchenCounter; }
+                if ((d == 1 || d == ld - 1) && a >= 1 && a <= la - 2) { facing = d == 1 ? intoRoom : room.DoorSide; stack = (byte)(a % 5 == 3 ? 1 : a % 5 == 1 ? 2 : 0); return Props.L52LabBench; }
                 if (d == ld / 2 && ld >= 6 && a >= 2 && a <= la - 3 && a % 4 != 0) return Props.FoldingTable;
                 return 0;
             case L52RoomKind.Library:
@@ -1547,7 +1570,10 @@ public sealed partial class WorldLayout
                 // The stacks on one side, reading tables with chairs on the other, the issue desk by the door
                 int split = la * 3 / 5;
                 if (d == 1 && a == la - 2) { facing = room.DoorSide; return Props.ReceptionDesk; }
-                if (a < split && d >= 2 && d <= ld - 1 && a % 3 == 1) { facing = toLowA; return Props.OfficeBookshelf; }
+                // (Round 4) double-sided steel stacks, near bare (the lore's rooms are "vacant and missing contents")
+                if (a < split && d >= 2 && d <= ld - 1 && a % 3 == 1) { facing = toLowA; stack = (byte)((d + a / 3) & 1); return Props.L52Stack; }
+                // (Round 4) the rolling ladder left against the first stack
+                if (a == 3 && a + 1 < split && ld >= 5 && d == 2 + (int)((h >> 12) % (ulong)(ld - 3))) { facing = toLowA; return Props.L52Ladder; }
                 if (a > split && a <= la - 2 && d >= 3 && d <= ld - 2)
                 {
                     int row = (d - 3) % 3;
@@ -1611,9 +1637,7 @@ public sealed partial class WorldLayout
             case L52RoomKind.Gym:
             {
                 // (A hall's door side is its first long side: d across the hall, a along it)
-                bool across = d == ld / 2;
-                if (across && a == 0) { facing = toHighA; return Props.BasketballHoop; }
-                if (across && a == la - 1) { facing = toLowA; return Props.BasketballHoop; }
+                // (Round 4: the hoops are set pieces of several blocks, laid with the gym's fittings: L52LayGym)
                 if (d == 0 && a >= 4 && a <= la - 5 && a % 7 != 0) { facing = intoRoom; return Props.Bench; }
                 // A stand of bleachers along the far wall, two rows
                 if (d == ld - 2 && a >= 4 && a <= la - 5) { facing = room.DoorSide; stack = 0; return Props.L52Bleacher; }
@@ -1629,10 +1653,11 @@ public sealed partial class WorldLayout
                 if (d == 0 && a == 1) { facing = intoRoom; return Props.L52Fountain; }
                 if (d >= 3 && d <= ld - 4 && a >= 3 && a <= la - 4 && a % 9 != 0)
                 {
+                    // (Round 4) long folding lunch tables with their benches either side
                     int row = (d - 3) % 4;
-                    if (row == 1) return Props.FoldingTable;
-                    if (row == 0 && a % 2 == 0) { facing = intoRoom; return Props.FoldingChair; }
-                    if (row == 2 && a % 2 == 0) { facing = room.DoorSide; return Props.FoldingChair; }
+                    if (row == 1) { facing = intoRoom; return Props.L52LunchTable; }
+                    if (row == 0) { facing = intoRoom; return Props.L52LunchSeat; }
+                    if (row == 2) { facing = room.DoorSide; return Props.L52LunchSeat; }
                 }
                 return 0;
             }

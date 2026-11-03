@@ -1,0 +1,98 @@
+// Level 52: a chain-link panel with its galvanised post (every third block of a fence; axis as l52-chainlink)
+{
+	"code": "l52-chainpost",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"ns",
+				"we"
+			]
+		}
+	],
+	"shapeByType": {
+		"l52-chainpost-lower-ns": {
+			"base": "backrooms:block/52/l52-chainpost-lower"
+		},
+		"l52-chainpost-lower-we": {
+			"base": "backrooms:block/52/l52-chainpost-lower",
+			"rotateY": 90
+		},
+		"l52-chainpost-upper-ns": {
+			"base": "backrooms:block/52/l52-chainpost-upper"
+		},
+		"l52-chainpost-upper-we": {
+			"base": "backrooms:block/52/l52-chainpost-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-ns": {
+			"x1": 0.4375,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.5625,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-we": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4375,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.5625
+		}
+	},
+	"selectionboxByType": {
+		"*-ns": {
+			"x1": 0.4375,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.5625,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-we": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.4375,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.5625
+		}
+	},
+	"drops": [],
+	"renderpass": "OpaqueNoCull"
+}
