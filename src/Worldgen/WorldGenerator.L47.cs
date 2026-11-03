@@ -45,7 +45,8 @@ public sealed partial class WorldGenerator
     private readonly int[,,] l47Bookcase = new int[2, 2, 4];
     private readonly int[] l47Mush = new int[3], l47Fire = new int[4], l47Trestle = new int[3], l47Bench = new int[2], l47Sconce = new int[4];
     private readonly int[,] l47Spray = new int[3, 2];
-    private int l47SarsenTop;
+    private int l47SarsenTop, l47FireRing23;
+    private readonly int[] l47Bedroll23 = new int[4];
     private readonly int[] l47Offering = new int[3], l47PorchPost = new int[3];
     private readonly int[,] l47LampPost = new int[2, 4];
     private int l47RootEarth, l47Pot, l47Barrel23, l47Crate23, l47StepStone, l47RiverRock;
@@ -144,6 +145,9 @@ public sealed partial class WorldGenerator
         l47RootEarth = OptionalId("backrooms:l47-rootearth");
         l47Pot = OptionalId("backrooms:l47-chimneypot");
         l47SarsenTop = OptionalId("backrooms:l47-sarsentop");
+        // (A wanderer's camp: the Petrified Garden's fire ring and bedroll)
+        l47FireRing23 = OptionalId("backrooms:l23-firering");
+        for (int f = 0; f < 4; f++) l47Bedroll23[f] = OptionalId("backrooms:l23-bedroll-" + Sides[f]);
         string[] porch = { "base", "shaft", "head" };
         for (int k = 0; k < 3; k++) l47PorchPost[k] = OptionalId("backrooms:l47-porchpost-" + porch[k]);
         string[] offerings = { "bowl", "skull", "book" };
@@ -333,8 +337,27 @@ public sealed partial class WorldGenerator
                 else if (W.L47IsLeaf(below) && b[i - 1] == l47Kind[below] && L47Unit(gx, gz * 7 + rel, 31) < 0.3) b[i] = l47Spray[below - W.L47LeafOak, 1];
             }
 
+        // ---- Round 4: a wanderer's camp, left (one cell in sixteen): the fire still alight, a bedroll by it, a log to sit on ----
+        if (!glade && !water && !trail && l47FireRing23 != 0) L47Camp(b, gx, gz, ground);
+
         // ---- A supply box ----
         if (t.SupplyBox && !glade && ground + 1 <= W.L47Top) b[ground + 1 - L47Low] = BoxOf(t);
+    }
+
+    /// <summary>
+    /// A wanderer's camp in a cell, if it has one (round 4; Wikidot: "campfires or improvised tools and weapons will often
+    /// (though not always) vanish or revert" -- this one has not, yet): the fire ring alight with nobody at it, a bedroll
+    /// two blocks east of it with its head to the fire, a stub of log to sit on two blocks west; only on open forest floor
+    /// away from the arrival spots.
+    /// </summary>
+    private void L47Camp(int[] b, int gx, int gz, int ground)
+    {
+        if (!layout.L47CampAt(Hashing.FloorDiv(gx, W.MacroSize), Hashing.FloorDiv(gz, W.MacroSize), out int ax, out int az)) return;
+        int dx = gx - ax, dz = gz - az;
+        if (dz != 0 || dx is not (0 or 2 or -2) || !layout.L47CampFits(ax, az)) return;
+        int at = ground + 1 - L47Low;
+        if (b[at] != 0 && dx == 0) return;
+        b[at] = dx == 0 ? l47FireRing23 : dx == 2 ? l47Bedroll23[3] : l47Kind[W.L47LogOakZ];
     }
 
     /// <summary>Whether a bark block of a column is its mossy one: a block or three up from the foot, in patches higher (dead wood only at the foot).</summary>

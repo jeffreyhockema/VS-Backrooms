@@ -773,6 +773,27 @@ public sealed partial class WorldLayout
         return 2.6 + 1.6 * Hashing.Unit(Hashing.Mix(h));
     }
 
+    /// <summary>A wanderer's camp in a cell (round 4, one in sixteen): where its fire ring is (WorldGenerator.L47.cs draws it).</summary>
+    public bool L47CampAt(int mx, int mz, out int ax, out int az)
+    {
+        ulong h = Hashing.Hash(seed, mx, mz, 0x3010);
+        ax = mx * MacroSize + 6 + (int)(Hashing.Mix(h) % (MacroSize - 12));
+        az = mz * MacroSize + 6 + (int)(Hashing.Mix(h + 1) % (MacroSize - 12));
+        return Hashing.Unit(h) < 1 / 16.0;
+    }
+
+    /// <summary>Whether a camp fits round its fire: open forest floor three either side, no box, no hollow, away from the arrival spots.</summary>
+    public bool L47CampFits(int ax, int az)
+    {
+        for (int z = -1; z <= 1; z++)
+            for (int x = -3; x <= 3; x++)
+            {
+                Tile n = TileAt(ax + x, az + z);
+                if (n.Kind != TileKind.Floor || n.Zone != L47Forest || n.SupplyBox || n.Under != 0 || (n.Detail & L47OpenGround) != 0) return false;
+            }
+        return true;
+    }
+
     /// <summary>A boulder on its own lattice (19 blocks), if there is one: its middle, its radii, and the height of its middle.</summary>
     private bool L47BoulderAt(int i, int j, out double cx, out double cz, out double rx, out double rz, out double ry, out double cy)
     {

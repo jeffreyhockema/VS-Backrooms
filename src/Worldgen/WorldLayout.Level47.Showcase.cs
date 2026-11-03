@@ -164,6 +164,20 @@ public partial class WorldLayout
             if (best.D < 1e9)
                 spots.Add(new Showcase.Spot("mossy-oak", best.X + 0.5, Feet(best.X, best.Z), best.Z + 0.5, HeadingTo(best.X + 0.5, best.Z + 0.5, best.Tx, best.Tz), 12, Day));
         }
+        // (Round 4) A wanderer's camp, left with its fire alight: the nearest to a place out east of the glade, from the south
+        {
+            int cx = MacroOf(mx + 200), cz = MacroOf(mz);
+            bool done = false;
+            for (int r = 0; r <= 8 && !done; r++)
+                for (int dz = -r; dz <= r && !done; dz++)
+                    for (int dx = -r; dx <= r && !done; dx++)
+                    {
+                        if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r || !L47CampAt(cx + dx, cz + dz, out int ax, out int az) || !L47CampFits(ax, az)) continue;
+                        if (TileAt(ax, az + 4).Kind != TileKind.Floor) continue;
+                        spots.Add(new Showcase.Spot("camp", ax + 0.5, Feet(ax, az + 4), az + 4.5, 0, -14, Day));
+                        done = true;
+                    }
+        }
         // A dead tree's hollow (the nearest that leads out), from in front of its mouth
         foreach (var h in L47HollowTrees())
         {

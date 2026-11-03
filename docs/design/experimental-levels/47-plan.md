@@ -274,3 +274,13 @@ unseen is ours), the carved snake's head on the way-stones.
 Nothing the balance rests on changed: no new food, water or beds; the mushroom clumps drop nothing; the river stones and
 stepping stones only make the streams easier to cross; the great hall's fire gives light and no warmth beyond what the
 manor's 15 C already has. The loft's stores are props (chests, sacks, barrels, crates), not containers with loot.
+
+### What the shots showed (round 4)
+
+1. `%TEMP%/backrooms-shots/47-r4a` (after the A items): none of the new models were there. The generator looked the
+   mod's own new blocks up with `OptionalId("l47-...")`, which resolves to the game's domain, so every one was air (the
+   manor had no roof, the hall no hearth or table, the forest no fillets); only the new textures showed. Fixed with the
+   `backrooms:` domain on every lookup. What the textures showed: the oak bark read as brick courses (its plate breaks
+   were rows); the lichen rosettes on the alternates read as white polka dots; the stream spot stood on a dead root's cut
+   end and looked at a bank of moss, not along the water. Fixed: the oak's furrows ragged and its breaks short slanting
+   cracks, lichen fewer, smaller and greyer, the stream spot on clear ground looking along the brook.
