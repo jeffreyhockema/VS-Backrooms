@@ -305,7 +305,7 @@ manor's 15 C already has. The loft's stores are props (chests, sacks, barrels, c
 
 Tally: A 17/17 done; B 12 done, 2 partly; C 5 done, 2 skipped.
 
-### Checks (round 4, 2026-11-03 04:10)
+### Checks (round 4, 2026-11-03 04:10, again at 06:10 after the camp fix: all the same)
 
 expclash clean; mod and mapgen 0 errors; layouthash (seed 12345, 16000, `BACKROOMS_NO_EXP_ENTRANCES=1`, v1 and v12)
 identical to main for levels 0-20 and the layout hash; `regions` 60/60 in Level 47; `47stats` ok (2.7 ms a cell, the
