@@ -653,6 +653,7 @@ Tiers: A must, B should, C nice.
     rows of uprights and pinballs under dust sheets (`l31-covered`), an aisle down the middle.
 46. (B) [done] `l31-skatebench`: the rink's carpeted lacing-up bench (padded top, piping) in place of the shared slatted
     bench on the skirts and in Skate Rental (Level 31 only).
+47. (C) [done] Skate trainers (`l31-walker`, the PVC walker frames learners push) parked inside the barrier at the gaps.
 
 ### How it is built (round 4)
 

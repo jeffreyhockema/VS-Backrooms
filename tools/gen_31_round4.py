@@ -17,7 +17,7 @@ New:  l31-barrier (the rink's barrier: a thin padded wall along the boards' oute
     l31-locker (the rink's coin lockers, in place of Level 52's school lockers),
     l31-counter (the rental's and lobby's counter, in place of Level 3999's reception desk), l31-covered (the back
     arcade's machines under dust sheets, in half of the store rooms), l31-skatebench (the carpeted lacing-up bench, in
-    place of the shared slatted bench in Level 31)
+    place of the shared slatted bench in Level 31), l31-walker (skate trainers parked by the rink's gates)
 Reused from other levels, placed by the layout: Level 120's CRAC units in the HVAC rooms, Level 36's queue posts in
     Skate Rental.
 
@@ -1523,6 +1523,26 @@ def skatebench():
     return shape("l31-skatebench", els)
 
 
+def walker():
+    """A skate trainer (the PVC walker frame learners push round the rink): a U of white pipe on four feet with a
+    handlebar at waist height and grey elbows, parked inside the barrier by a gate."""
+    pvc = M.noise_hv((236, 236, 230), 2, 4340, S, 2, (8, 4))
+    save_tex(M.grime(pvc, 0.12, 4341, color=(120, 120, 110), bias="bottom"), "r4-pvc")
+    t = 0.9
+    els = []
+    for k, x in enumerate((2.0, 14.0 - t)):
+        els += [B(f"Post{k}a", (x, 0.6, 2.0), (x + t, 9.0, 2.0 + t), "r4-pvc", faces=without(DIRS, "up", "down")),
+                B(f"Post{k}b", (x, 0.6, 12.0), (x + t, 9.0, 12.0 + t), "r4-pvc", faces=without(DIRS, "up", "down")),
+                B(f"Rail{k}", (x, 9.0, 2.0), (x + t, 9.0 + t, 12.0 + t), "r4-pvc"),
+                B(f"Foot{k}", (x, 0.0, 2.0), (x + t, t, 12.0 + t), "r4-pvc"),
+                B(f"ElbowA{k}", (x - 0.15, 8.85, 1.85), (x + t + 0.15, 9.0 + t + 0.15, 2.0 + t + 0.15), "plate-chrome"),
+                B(f"ElbowB{k}", (x - 0.15, 8.85, 11.85), (x + t + 0.15, 9.0 + t + 0.15, 12.0 + t + 0.15), "plate-chrome")]
+    els += [B("Bar", (2.0 + t, 9.0, 12.0), (14.0 - t, 9.0 + t, 12.0 + t), "r4-pvc", faces=without(DIRS, "east", "west")),
+            B("Low", (2.0 + t, 3.0, 12.0), (14.0 - t, 3.0 + t, 12.0 + t), "r4-pvc", faces=without(DIRS, "east", "west")),
+            B("Grip", (5.0, 8.9, 11.9), (11.0, 10.0, 13.0), "r4-black")]
+    return shape("l31-walker", els)
+
+
 # ======================================================================== Block types
 
 def blocks():
@@ -1601,6 +1621,9 @@ def blocks():
     prop_block("l31-jukebox", "Level 31: a 1990s jukebox, wood under a stepped neon arch, the record window, selector keys, bubble tubes either side, a chrome grille, 22 units tall, toward the side",
                lambda k: ref, (0.03, 0, 0.21, 0.97, 1, 0.82), (0.03, 0, 0.21, 0.97, 1, 0.82), resistance=3, extra={"lightHsv": [50, 4, 6]})
     riser()
+    ref = walker()
+    prop_block("l31-walker", "Level 31: a skate trainer, the white PVC walker frame learners push round the rink, its handlebar toward the side; walk-through",
+               lambda k: ref, (0.1, 0, 0.1, 0.9, 0.65, 0.9), None, material="Wood", sounds=WOOD, resistance=1)
     ref = skatebench()
     prop_block("l31-skatebench", "Level 31: the rink's lacing-up bench, upholstered in the rink's dark carpet with a padded navy top and pink piping, a full block wide so a row joins; the sitter faces the side",
                lambda k: ref, (0, 0, 0.16, 1, 0.48, 0.84), (0, 0, 0.16, 1, 0.48, 0.84), material="Cloth", sounds=CLOTH, resistance=2)
@@ -1656,6 +1679,7 @@ LANG = {
     "block-l31-counter-*": "Counter",
     "block-l31-covered-*": "Covered Arcade Machine",
     "block-l31-skatebench-*": "Skate Bench",
+    "block-l31-walker-*": "Skate Trainer",
 }
 
 

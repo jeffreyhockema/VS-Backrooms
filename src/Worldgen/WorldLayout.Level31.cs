@@ -135,6 +135,8 @@ public sealed partial class WorldLayout
         public const ushort Stanchion = 740;
         /// <summary>Round 4: an arcade machine under a dust sheet in the back arcade (Stack 0 an upright, 1 a pinball).</summary>
         public const ushort Covered = 741;
+        /// <summary>Round 4: a skate trainer (a learner's walker frame) parked on the boards by a gate.</summary>
+        public const ushort Walker = 742;
     }
 
     /// <summary>
@@ -1217,6 +1219,15 @@ public sealed partial class WorldLayout
                 else if (!tiny && (p == o0 + 9 || p == o1 - 9) && q >= oq0 + radius && q <= oq1 - radius) sub = plan.AlongPIsX ? L31BoardStripeNS : L31BoardStripeWE;
                 t.Detail = (byte)(L31Hue.White | sub << L31SubShift);
             }
+        // (round 4) A skate trainer parked inside the barrier at the outer end of each gap
+        for (int q = s0; q <= s1; q++)
+            foreach (int p in new[] { 40, 80 })
+            {
+                if (plan.At(p, q).Variant != L31Props.Gate) continue;
+                int qi = q < (s0 + s1) / 2 ? q + 1 : q - 1, pi = p == 40 ? 39 : 81;
+                if (plan.At(pi, qi) is { Zone: (byte)L31Zone.Rink, Variant: 0 })
+                    L31Put(plan, pi, qi, L31Props.Walker, p == 40 ? ArchPier.East : ArchPier.West);
+            }
         // Doors from the corridor
         foreach (int p in new[] { 36, 37, 38, 82, 83, 84 }) L31Door(ref plan.At(p, s0 - 1), L31Zone.Skirt);
         for (int p = 59; p <= 61; p++) L31Door(ref plan.At(p, s1 + 1), L31Zone.Skirt);
@@ -1470,7 +1481,7 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>Which of the level's props (<see cref="Props.L31First"/>-<see cref="Props.L31Last"/>) people walk through: the rink's gates, and where the staff stand.</summary>
-    private static bool L31WalkThrough(ushort variant) => variant is L31Props.Gate or L31Props.StaffSpot;
+    private static bool L31WalkThrough(ushort variant) => variant is L31Props.Gate or L31Props.StaffSpot or L31Props.Walker;
 
     // ================= Air =================
 
