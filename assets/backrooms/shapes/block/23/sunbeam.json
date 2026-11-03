@@ -1,0 +1,120 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"beam": "backrooms:block/23/sunbeam"
+	},
+	"elements": [
+		{
+			"name": "PlaneA",
+			"from": [
+				-8,
+				0,
+				7.9
+			],
+			"to": [
+				24,
+				16,
+				8.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 40
+				},
+				"south": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 40
+				}
+			}
+		},
+		{
+			"name": "PlaneB",
+			"from": [
+				7.9,
+				0,
+				-8
+			],
+			"to": [
+				8.1,
+				16,
+				24
+			],
+			"faces": {
+				"east": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 40
+				},
+				"west": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 40
+				}
+			}
+		},
+		{
+			"name": "PlaneC",
+			"from": [
+				-8,
+				0,
+				7.9
+			],
+			"to": [
+				24,
+				16,
+				8.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 40
+				},
+				"south": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 40
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 45
+		}
+	]
+}

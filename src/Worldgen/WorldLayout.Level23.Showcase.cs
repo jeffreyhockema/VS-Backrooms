@@ -273,8 +273,82 @@ public partial class WorldLayout
             spots.Add(L23Spot("seedling-waysign", x, z, L23Ground(x, z) + 1, fy, kv.Key.Item1 + 0.5, kv.Key.Item2 + 0.5, 0, eyeAt: kv.Value.Board + 0.5));
             break;
         }
+        // Round 4: a thick trunk's foot up close (its bark in relief, its root flares) and the same trunk from further out,
+        // looking up its side (its broken limbs): the nearest to the middle with open ground before it
+        {
+            int ti0 = Hashing.FloorDiv(mx, L23Pitch), tj0 = Hashing.FloorDiv(mz, L23Pitch);
+            bool done = false;
+            for (int ring = 3; ring < 20 && !done; ring++)
+                for (int j = tj0 - ring; j <= tj0 + ring && !done; j++)
+                    for (int i = ti0 - ring; i <= ti0 + ring && !done; i++)
+                    {
+                        if (Math.Max(Math.Abs(i - ti0), Math.Abs(j - tj0)) != ring) continue;
+                        L23Trunk t = L23TrunkAt(i, j);
+                        if (!t.Exists || t.R < 3.5 || t.Hollow || t.Sentry || t.Snag) continue;
+                        for (int k = 0; k < 8 && !done; k++)
+                        {
+                            double a = bearing + k * Math.PI / 4, ca = Math.Cos(a), sa = Math.Sin(a);
+                            double reach = t.R * (1 + t.Ecc) + 1.5;
+                            int x = (int)Math.Floor(t.X + ca * (reach + 4)), z = (int)Math.Floor(t.Z + sa * (reach + 4));
+                            int x2 = (int)Math.Floor(t.X + ca * (reach + 9)), z2 = (int)Math.Floor(t.Z + sa * (reach + 9));
+                            int xm = (int)Math.Floor(t.X + ca * (reach + 2)), zm = (int)Math.Floor(t.Z + sa * (reach + 2));
+                            if (!L23ClearSurface(x, z) || !L23ClearSurface(x2, z2) || !L23ClearSurface(xm, zm)) continue;
+                            // (Round 4's first shots: the far camera stood under a root arch; nothing over it for fourteen up)
+                            if (!L23OpenOver(x2, z2, 14) || !L23SightClear(x2, z2, L23Ground(x2, z2) + 2.6, t.X, t.Z, t.Base + 11, reach)) continue;
+                            spots.Add(L23Spot("trunk-foot", x, z, L23Ground(x, z) + 1, fy, t.X, t.Z, 0, eyeAt: t.Base + 1.5));
+                            spots.Add(L23Spot("trunk-limbs", x2, z2, L23Ground(x2, z2) + 1, fy, t.X, t.Z, 0, eyeAt: t.Base + 11));
+                            done = true;
+                        }
+                    }
+        }
+        // Round 4: Base Seedling's wall tent from in front of its door, and the camp fire with its tripod
+        {
+            L23Cavern s = L23Specials[0];
+            (int X, int Z)[] tiles = L23TentTiles(2);
+            double tx = tiles.Average(p => p.X) + 0.5, tz = tiles.Average(p => p.Z) + 0.5;
+            var (dx, dz) = L23Step(L23Tents[2].Door);
+            int x = (int)Math.Floor(tx + dx * 5.5), z = (int)Math.Floor(tz + dz * 5.5);
+            if (L23Cave(x, z, out int f, out _, out _))
+                spots.Add(L23Spot("seedling-tent", x, z, f + 1, fy, tx, tz, 0, eyeAt: f + 1.4));
+            if (L23Cave(s.X - 2, s.Z + 13, out int ff, out _, out _))
+                spots.Add(L23Spot("seedling-fire", s.X - 2, s.Z + 13, ff + 1, fy, s.X - 4.5, s.Z + 10.5, 0, eyeAt: ff + 0.6));
+        }
+        // Round 4: a statue of an Architect at the Parthenon's way in, from in front of it
+        {
+            L23Cavern r = L23Specials[4];
+            // (from three steps off, a little to its side: round 4's first shot was far and had a supply box in front)
+            int x = r.X - 4, z = r.Z + 18;
+            if (L23Cave(x, z, out int f, out _, out _))
+                spots.Add(L23Spot("ruin-statue", x, z, f + 1, fy, r.X - 5.5, r.Z + 15.5, 0, eyeAt: r.Floor + 2.8));
+        }
         L23LinkSpots(spots, geometry);
         return spots;
+    }
+
+    /// <summary>Whether the line from an eye to a point on a trunk (stopping a reach short of its middle) passes no wood (round 4: the limbs' first spot looked into a root arch).</summary>
+    private bool L23SightClear(int x, int z, double eye, double tx, double tz, double ty, double reach)
+    {
+        double dx = tx - (x + 0.5), dz = tz - (z + 0.5), len = Math.Sqrt(dx * dx + dz * dz);
+        var kind = new byte[1];
+        for (double d = 1; d < len - reach; d += 0.5)
+        {
+            double f = d / len;
+            int cx = (int)Math.Floor(x + 0.5 + dx * f), cz = (int)Math.Floor(z + 0.5 + dz * f);
+            int y = (int)Math.Floor(eye + (ty - eye) * f);
+            L23Wood(cx, cz, y, kind);
+            if (kind[0] != 0) return false;
+        }
+        return true;
+    }
+
+    /// <summary>Whether a forest column has no wood over its ground for a height (round 4: a camera with nothing over it).</summary>
+    private bool L23OpenOver(int gx, int gz, int height)
+    {
+        int g = L23Ground(gx, gz);
+        var kinds = new byte[height];
+        L23Wood(gx, gz, g + 1, kinds);
+        foreach (byte k in kinds) if (k != 0) return false;
+        return true;
     }
 
     /// <summary>The compass heading from one column to another.</summary>

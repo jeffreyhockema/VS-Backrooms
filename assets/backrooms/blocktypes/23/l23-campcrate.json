@@ -1,0 +1,57 @@
+// Level 23 (round 4): an M.E.G. crate (boards, battens, corner irons, a lid)
+{
+	"code": "l23-campcrate",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/23/campcrate"
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-oak",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 0.93,
+		"z2": 0.97
+	},
+	"selectionbox": {
+		"x1": 0.03,
+		"y1": 0,
+		"z1": 0.03,
+		"x2": 0.97,
+		"y2": 0.93,
+		"z2": 0.97
+	}
+}

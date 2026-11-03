@@ -154,13 +154,16 @@ def planks(seed, base=(118, 92, 62)):
 
 def stencil(img, text, size, colour=(230, 228, 214), y=None, fnt="bahnschrift.ttf", alpha=230):
     """Spray-paints text across the middle of an image (M.E.G. stencil)."""
-    d = ImageDraw.Draw(img)
+    # (Round 4: drawn on a layer and laid over, so the paint's texels stay opaque: the opaque pass tints translucent ones)
+    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
     f = font(fnt, size)
     box = d.textbbox((0, 0), text, font=f)
     w, h = box[2] - box[0], box[3] - box[1]
     x = (img.width - w) // 2 - box[0]
     yy = (img.height - h) // 2 - box[1] if y is None else y - box[1]
     d.text((x, yy), text, font=f, fill=colour + (alpha,))
+    img.alpha_composite(layer)
     return img
 
 
@@ -625,7 +628,9 @@ def signs_block():
     shape_by, tex_by = {}, {}
     for t in texts:
         for side in SIDES:
-            shape_by[f"*-{t}-{side}"] = {"base": "block/23/signboard", "rotateY": ROT[side]}
+            # (round 4: the notice board and the Heart's warning under a little roof of their own, tools/gen_23_r4b.py)
+            roofed = t.startswith(("rules", "giants"))
+            shape_by[f"*-{t}-{side}"] = {"base": f"block/23/{'signboard-roofed' if roofed else 'signboard'}", "rotateY": ROT[side]}
         tex_by[f"*-{t}-*"] = {"face": {"base": f"block/23/sign-{t}"}}
     return ("// Level 23 (round 3): the M.E.G.'s painted boards (the camp's sign, its notice board, the way-signs, the warning at the Heart of Water, a plank by a sentry); each is a block of a board, on a post below", {
         "code": "l23-sign",

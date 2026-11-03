@@ -1,0 +1,235 @@
+// Level 23 (round 4): a robed Architect on a plinth (three blocks: plinth, lower, upper), facing out; green stones for eyes
+{
+	"code": "l23-statue",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"plinth",
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-plinth-north"
+		],
+		"backrooms": [
+			"*-plinth-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-plinth-north": {
+			"base": "block/23/statue-plinth",
+			"rotateY": 0
+		},
+		"*-plinth-east": {
+			"base": "block/23/statue-plinth",
+			"rotateY": 270
+		},
+		"*-plinth-south": {
+			"base": "block/23/statue-plinth",
+			"rotateY": 180
+		},
+		"*-plinth-west": {
+			"base": "block/23/statue-plinth",
+			"rotateY": 90
+		},
+		"*-lower-north": {
+			"base": "block/23/statue-lower",
+			"rotateY": 0
+		},
+		"*-lower-east": {
+			"base": "block/23/statue-lower",
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"base": "block/23/statue-lower",
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"base": "block/23/statue-lower",
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"base": "block/23/statue-upper",
+			"rotateY": 0
+		},
+		"*-upper-east": {
+			"base": "block/23/statue-upper",
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"base": "block/23/statue-upper",
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"base": "block/23/statue-upper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"resistance": 8,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"texturesByType": {
+		"*-plinth-*": {
+			"stone": {
+				"base": "block/23/ruinstone"
+			},
+			"robe": {
+				"base": "block/23/statue-robe"
+			},
+			"inscr": {
+				"base": "block/23/statue-inscription"
+			},
+			"eye": {
+				"base": "block/23/statue-eye"
+			},
+			"twig": {
+				"base": "block/23/bark-pale"
+			},
+			"leaf": {
+				"base": "block/23/leaves-0"
+			}
+		},
+		"*-lower-*": {
+			"stone": {
+				"base": "block/23/ruinstone"
+			},
+			"robe": {
+				"base": "block/23/statue-robe"
+			},
+			"inscr": {
+				"base": "block/23/statue-inscription"
+			},
+			"eye": {
+				"base": "block/23/statue-eye"
+			},
+			"twig": {
+				"base": "block/23/bark-pale"
+			},
+			"leaf": {
+				"base": "block/23/leaves-0"
+			}
+		},
+		"*-upper-*": {
+			"stone": {
+				"base": "block/23/ruinstone"
+			},
+			"robe": {
+				"base": "block/23/statue-robe"
+			},
+			"inscr": {
+				"base": "block/23/statue-inscription"
+			},
+			"eye": {
+				"base": "block/23/statue-eye"
+			},
+			"twig": {
+				"base": "block/23/bark-pale"
+			},
+			"leaf": {
+				"base": "block/23/leaves-0"
+			}
+		}
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	}
+}

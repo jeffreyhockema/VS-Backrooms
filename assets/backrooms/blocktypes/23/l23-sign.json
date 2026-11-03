@@ -86,35 +86,35 @@
 			"rotateY": 90
 		},
 		"*-rules-a-north": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 0
 		},
 		"*-rules-a-east": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 270
 		},
 		"*-rules-a-south": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 180
 		},
 		"*-rules-a-west": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 90
 		},
 		"*-rules-b-north": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 0
 		},
 		"*-rules-b-east": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 270
 		},
 		"*-rules-b-south": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 180
 		},
 		"*-rules-b-west": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 90
 		},
 		"*-trail-north": {
@@ -134,35 +134,35 @@
 			"rotateY": 90
 		},
 		"*-giants-a-north": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 0
 		},
 		"*-giants-a-east": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 270
 		},
 		"*-giants-a-south": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 180
 		},
 		"*-giants-a-west": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 90
 		},
 		"*-giants-b-north": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 0
 		},
 		"*-giants-b-east": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 270
 		},
 		"*-giants-b-south": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 180
 		},
 		"*-giants-b-west": {
-			"base": "block/23/signboard",
+			"base": "block/23/signboard-roofed",
 			"rotateY": 90
 		},
 		"*-dontsay-north": {

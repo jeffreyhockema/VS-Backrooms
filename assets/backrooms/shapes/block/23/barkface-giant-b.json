@@ -1,0 +1,379 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bark": "backrooms:block/23/bark-green",
+		"deep": "backrooms:block/23/barkdeep-green"
+	},
+	"elements": [
+		{
+			"name": "Core",
+			"from": [
+				0,
+				0,
+				3.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#deep",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						3.5,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						3.5,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						3.5,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						3.5,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Ridge0_0",
+			"from": [
+				0,
+				0,
+				0.0
+			],
+			"to": [
+				4.5,
+				3.4,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						12.6,
+						4.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#deep",
+					"uv": [
+						0.0,
+						12.6,
+						3.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#deep",
+					"uv": [
+						0.0,
+						12.6,
+						3.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#deep",
+					"uv": [
+						0,
+						0.0,
+						4.5,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#deep",
+					"uv": [
+						0,
+						0.0,
+						4.5,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Ridge0_1",
+			"from": [
+				0,
+				4,
+				0.6
+			],
+			"to": [
+				4.5,
+				16,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						4.5,
+						12
+					]
+				},
+				"east": {
+					"texture": "#deep",
+					"uv": [
+						0.6,
+						0,
+						3.5,
+						12
+					]
+				},
+				"west": {
+					"texture": "#deep",
+					"uv": [
+						0.6,
+						0,
+						3.5,
+						12
+					]
+				},
+				"up": {
+					"texture": "#deep",
+					"uv": [
+						0,
+						0.6,
+						4.5,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#deep",
+					"uv": [
+						0,
+						0.6,
+						4.5,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Ridge1_0",
+			"from": [
+				6.5,
+				0,
+				0.6
+			],
+			"to": [
+				10,
+				11.4,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						6.5,
+						4.6,
+						10,
+						16
+					]
+				},
+				"east": {
+					"texture": "#deep",
+					"uv": [
+						0.6,
+						4.6,
+						3.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#deep",
+					"uv": [
+						0.6,
+						4.6,
+						3.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#deep",
+					"uv": [
+						6.5,
+						0.6,
+						10,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#deep",
+					"uv": [
+						6.5,
+						0.6,
+						10,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Ridge1_1",
+			"from": [
+				6.5,
+				12,
+				0.0
+			],
+			"to": [
+				10,
+				16,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						6.5,
+						0,
+						10,
+						4
+					]
+				},
+				"east": {
+					"texture": "#deep",
+					"uv": [
+						0.0,
+						0,
+						3.5,
+						4
+					]
+				},
+				"west": {
+					"texture": "#deep",
+					"uv": [
+						0.0,
+						0,
+						3.5,
+						4
+					]
+				},
+				"up": {
+					"texture": "#deep",
+					"uv": [
+						6.5,
+						0.0,
+						10,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#deep",
+					"uv": [
+						6.5,
+						0.0,
+						10,
+						3.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Ridge2_0",
+			"from": [
+				12,
+				0,
+				0.0
+			],
+			"to": [
+				16,
+				16,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						12,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#deep",
+					"uv": [
+						0.0,
+						0,
+						3.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#deep",
+					"uv": [
+						0.0,
+						0,
+						3.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#deep",
+					"uv": [
+						12,
+						0.0,
+						16,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#deep",
+					"uv": [
+						12,
+						0.0,
+						16,
+						3.5
+					]
+				}
+			}
+		}
+	]
+}

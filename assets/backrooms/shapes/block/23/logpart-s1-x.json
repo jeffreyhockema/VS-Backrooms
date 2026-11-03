@@ -1,0 +1,595 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bark": "backrooms:block/23/bark-grey",
+		"ring": "backrooms:block/23/heartwood-grey",
+		"moss": "backrooms:block/23/moss-cushion"
+	},
+	"elements": [
+		{
+			"name": "Slab0",
+			"from": [
+				0,
+				0.0,
+				4.127
+			],
+			"to": [
+				16,
+				2.0,
+				11.873
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						14.0,
+						16,
+						16.0
+					],
+					"rotation": 90
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						14.0,
+						16,
+						16.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						4.127,
+						16,
+						11.873
+					],
+					"rotation": 90
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						4.127,
+						16,
+						11.873
+					],
+					"rotation": 90
+				},
+				"east": {
+					"texture": "#ring",
+					"uv": [
+						4.127,
+						14.0,
+						11.873,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						4.127,
+						14.0,
+						11.873,
+						16.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab1",
+			"from": [
+				0,
+				2.0,
+				1.755
+			],
+			"to": [
+				16,
+				4.0,
+				14.245
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						12.0,
+						16,
+						14.0
+					],
+					"rotation": 90
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						12.0,
+						16,
+						14.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						1.755,
+						16,
+						14.245
+					],
+					"rotation": 90
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						1.755,
+						16,
+						14.245
+					],
+					"rotation": 90
+				},
+				"east": {
+					"texture": "#ring",
+					"uv": [
+						1.755,
+						12.0,
+						14.245,
+						14.0
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						1.755,
+						12.0,
+						14.245,
+						14.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab2",
+			"from": [
+				0,
+				4.0,
+				0.584
+			],
+			"to": [
+				16,
+				6.0,
+				15.416
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						10.0,
+						16,
+						12.0
+					],
+					"rotation": 90
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						10.0,
+						16,
+						12.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0.584,
+						16,
+						15.416
+					],
+					"rotation": 90
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0.584,
+						16,
+						15.416
+					],
+					"rotation": 90
+				},
+				"east": {
+					"texture": "#ring",
+					"uv": [
+						0.584,
+						10.0,
+						15.416,
+						12.0
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						0.584,
+						10.0,
+						15.416,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab3",
+			"from": [
+				0,
+				6.0,
+				0.063
+			],
+			"to": [
+				16,
+				8.0,
+				15.937
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						8.0,
+						16,
+						10.0
+					],
+					"rotation": 90
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						8.0,
+						16,
+						10.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0.063,
+						16,
+						15.937
+					],
+					"rotation": 90
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0.063,
+						16,
+						15.937
+					],
+					"rotation": 90
+				},
+				"east": {
+					"texture": "#ring",
+					"uv": [
+						0.063,
+						8.0,
+						15.937,
+						10.0
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						0.063,
+						8.0,
+						15.937,
+						10.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab4",
+			"from": [
+				0,
+				8.0,
+				0.063
+			],
+			"to": [
+				16,
+				10.0,
+				15.937
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						6.0,
+						16,
+						8.0
+					],
+					"rotation": 90
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						6.0,
+						16,
+						8.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						0.063,
+						16,
+						15.937
+					],
+					"rotation": 90
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0.063,
+						16,
+						15.937
+					],
+					"rotation": 90
+				},
+				"east": {
+					"texture": "#ring",
+					"uv": [
+						0.063,
+						6.0,
+						15.937,
+						8.0
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						0.063,
+						6.0,
+						15.937,
+						8.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab5",
+			"from": [
+				0,
+				10.0,
+				0.584
+			],
+			"to": [
+				16,
+				12.0,
+				15.416
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						4.0,
+						16,
+						6.0
+					],
+					"rotation": 90
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						4.0,
+						16,
+						6.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						0.584,
+						16,
+						15.416
+					],
+					"rotation": 90
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0.584,
+						16,
+						15.416
+					],
+					"rotation": 90
+				},
+				"east": {
+					"texture": "#ring",
+					"uv": [
+						0.584,
+						4.0,
+						15.416,
+						6.0
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						0.584,
+						4.0,
+						15.416,
+						6.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab6",
+			"from": [
+				0,
+				12.0,
+				1.755
+			],
+			"to": [
+				16,
+				14.0,
+				14.245
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						2.0,
+						16,
+						4.0
+					],
+					"rotation": 90
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						2.0,
+						16,
+						4.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						1.755,
+						16,
+						14.245
+					],
+					"rotation": 90
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						1.755,
+						16,
+						14.245
+					],
+					"rotation": 90
+				},
+				"east": {
+					"texture": "#ring",
+					"uv": [
+						1.755,
+						2.0,
+						14.245,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						1.755,
+						2.0,
+						14.245,
+						4.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab7",
+			"from": [
+				0,
+				14.0,
+				4.127
+			],
+			"to": [
+				16,
+				16.0,
+				11.873
+			],
+			"faces": {
+				"north": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0.0,
+						16,
+						2.0
+					],
+					"rotation": 90
+				},
+				"south": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0.0,
+						16,
+						2.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						4.127,
+						16,
+						11.873
+					],
+					"rotation": 90
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						4.127,
+						16,
+						11.873
+					],
+					"rotation": 90
+				},
+				"east": {
+					"texture": "#ring",
+					"uv": [
+						4.127,
+						0.0,
+						11.873,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#ring",
+					"uv": [
+						4.127,
+						0.0,
+						11.873,
+						2.0
+					]
+				}
+			}
+		}
+	]
+}

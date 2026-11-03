@@ -1,0 +1,565 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bedcanvas": "backrooms:block/23/canvas",
+		"blanket": "backrooms:block/23/blanket",
+		"flannel": "backrooms:block/23/flannel",
+		"pole": "backrooms:block/23/tent-pole",
+		"quilt": "backrooms:block/23/quilt"
+	},
+	"elements": [
+		{
+			"name": "Mat",
+			"from": [
+				2,
+				0,
+				0.5
+			],
+			"to": [
+				14,
+				0.6,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#bedcanvas",
+					"uv": [
+						0,
+						0,
+						12,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#bedcanvas",
+					"uv": [
+						0,
+						0,
+						15.3,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#bedcanvas",
+					"uv": [
+						0,
+						0,
+						12,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#bedcanvas",
+					"uv": [
+						0,
+						0,
+						15.3,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#bedcanvas",
+					"uv": [
+						0,
+						0,
+						12,
+						15.3
+					]
+				},
+				"down": {
+					"texture": "#bedcanvas",
+					"uv": [
+						0,
+						0,
+						12,
+						15.3
+					]
+				}
+			}
+		},
+		{
+			"name": "Bag",
+			"from": [
+				3,
+				0.6,
+				3.5
+			],
+			"to": [
+				13,
+				2.2,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#quilt",
+					"uv": [
+						0,
+						0,
+						10,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#quilt",
+					"uv": [
+						0,
+						0,
+						11.9,
+						1.6
+					]
+				},
+				"south": {
+					"texture": "#quilt",
+					"uv": [
+						0,
+						0,
+						10,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#quilt",
+					"uv": [
+						0,
+						0,
+						11.9,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#quilt",
+					"uv": [
+						0,
+						0,
+						10,
+						11.9
+					]
+				},
+				"down": {
+					"texture": "#quilt",
+					"uv": [
+						0,
+						0,
+						10,
+						11.9
+					]
+				}
+			}
+		},
+		{
+			"name": "Turned",
+			"from": [
+				3,
+				2.2,
+				3.5
+			],
+			"to": [
+				13,
+				2.7,
+				7.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#flannel",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#flannel",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#flannel",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#flannel",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#flannel",
+					"uv": [
+						0,
+						0,
+						10,
+						4.0
+					]
+				},
+				"down": {
+					"texture": "#flannel",
+					"uv": [
+						0,
+						0,
+						10,
+						4.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Fold",
+			"from": [
+				2.9,
+				2.2,
+				7.4
+			],
+			"to": [
+				13.1,
+				3.2,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#quilt",
+					"uv": [
+						0,
+						0,
+						10.2,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#quilt",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#quilt",
+					"uv": [
+						0,
+						0,
+						10.2,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#quilt",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#quilt",
+					"uv": [
+						0,
+						0,
+						10.2,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#quilt",
+					"uv": [
+						0,
+						0,
+						10.2,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Pillow",
+			"from": [
+				4,
+				0.6,
+				0.8
+			],
+			"to": [
+				12,
+				3.2,
+				3.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#flannel",
+					"uv": [
+						0,
+						0,
+						8,
+						2.6
+					]
+				},
+				"east": {
+					"texture": "#flannel",
+					"uv": [
+						0,
+						0,
+						2.8,
+						2.6
+					]
+				},
+				"south": {
+					"texture": "#flannel",
+					"uv": [
+						0,
+						0,
+						8,
+						2.6
+					]
+				},
+				"west": {
+					"texture": "#flannel",
+					"uv": [
+						0,
+						0,
+						2.8,
+						2.6
+					]
+				},
+				"up": {
+					"texture": "#flannel",
+					"uv": [
+						0,
+						0,
+						8,
+						2.8
+					]
+				},
+				"down": {
+					"texture": "#flannel",
+					"uv": [
+						0,
+						0,
+						8,
+						2.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Roll",
+			"from": [
+				3.5,
+				0.6,
+				13.2
+			],
+			"to": [
+				12.5,
+				3.6,
+				15.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#blanket",
+					"uv": [
+						0,
+						0,
+						9.0,
+						3.0
+					]
+				},
+				"east": {
+					"texture": "#blanket",
+					"uv": [
+						0,
+						0,
+						2.6,
+						3.0
+					]
+				},
+				"south": {
+					"texture": "#blanket",
+					"uv": [
+						0,
+						0,
+						9.0,
+						3.0
+					]
+				},
+				"west": {
+					"texture": "#blanket",
+					"uv": [
+						0,
+						0,
+						2.6,
+						3.0
+					]
+				},
+				"up": {
+					"texture": "#blanket",
+					"uv": [
+						0,
+						0,
+						9.0,
+						2.6
+					]
+				},
+				"down": {
+					"texture": "#blanket",
+					"uv": [
+						0,
+						0,
+						9.0,
+						2.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Strap1",
+			"from": [
+				5,
+				0.55,
+				13.0
+			],
+			"to": [
+				5.8,
+				3.8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						0.8,
+						3.25
+					]
+				},
+				"east": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.25
+					]
+				},
+				"south": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						0.8,
+						3.25
+					]
+				},
+				"west": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.25
+					]
+				},
+				"up": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						0.8,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						0.8,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Strap2",
+			"from": [
+				10.2,
+				0.55,
+				13.0
+			],
+			"to": [
+				11,
+				3.8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						0.8,
+						3.25
+					]
+				},
+				"east": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.25
+					]
+				},
+				"south": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						0.8,
+						3.25
+					]
+				},
+				"west": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.25
+					]
+				},
+				"up": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						0.8,
+						3.0
+					]
+				},
+				"down": {
+					"texture": "#pole",
+					"uv": [
+						0,
+						0,
+						0.8,
+						3.0
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,508 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bark": "backrooms:block/23/bark-grey",
+		"ring": "backrooms:block/23/heartwood-grey",
+		"moss": "backrooms:block/23/moss-cushion"
+	},
+	"elements": [
+		{
+			"name": "Slab0",
+			"from": [
+				0,
+				2.0,
+				0
+			],
+			"to": [
+				3.619,
+				4.0,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						12.0,
+						16,
+						14.0
+					],
+					"rotation": 90
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						12.0,
+						16,
+						14.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						3.619,
+						16
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						3.619,
+						16
+					]
+				},
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						12.0,
+						3.619,
+						14.0
+					]
+				},
+				"south": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						12.0,
+						3.619,
+						14.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab1",
+			"from": [
+				0,
+				4.0,
+				0
+			],
+			"to": [
+				6.663,
+				6.0,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						10.0,
+						16,
+						12.0
+					],
+					"rotation": 90
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						10.0,
+						16,
+						12.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						6.663,
+						16
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						6.663,
+						16
+					]
+				},
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						10.0,
+						6.663,
+						12.0
+					]
+				},
+				"south": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						10.0,
+						6.663,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab2",
+			"from": [
+				0,
+				6.0,
+				0
+			],
+			"to": [
+				8.941,
+				8.0,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						8.0,
+						16,
+						10.0
+					],
+					"rotation": 90
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						8.0,
+						16,
+						10.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						8.941,
+						16
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						8.941,
+						16
+					]
+				},
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						8.0,
+						8.941,
+						10.0
+					]
+				},
+				"south": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						8.0,
+						8.941,
+						10.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab3",
+			"from": [
+				0,
+				8.0,
+				0
+			],
+			"to": [
+				10.735,
+				10.0,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						6.0,
+						16,
+						8.0
+					],
+					"rotation": 90
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						6.0,
+						16,
+						8.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						10.735,
+						16
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						10.735,
+						16
+					]
+				},
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						6.0,
+						10.735,
+						8.0
+					]
+				},
+				"south": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						6.0,
+						10.735,
+						8.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab4",
+			"from": [
+				0,
+				10.0,
+				0
+			],
+			"to": [
+				12.174,
+				12.0,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						4.0,
+						16,
+						6.0
+					],
+					"rotation": 90
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						4.0,
+						16,
+						6.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						12.174,
+						16
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						12.174,
+						16
+					]
+				},
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						4.0,
+						12.174,
+						6.0
+					]
+				},
+				"south": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						4.0,
+						12.174,
+						6.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab5",
+			"from": [
+				0,
+				12.0,
+				0
+			],
+			"to": [
+				13.331,
+				14.0,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						2.0,
+						16,
+						4.0
+					],
+					"rotation": 90
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						2.0,
+						16,
+						4.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						13.331,
+						16
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						13.331,
+						16
+					]
+				},
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						2.0,
+						13.331,
+						4.0
+					]
+				},
+				"south": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						2.0,
+						13.331,
+						4.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Slab6",
+			"from": [
+				0,
+				14.0,
+				0
+			],
+			"to": [
+				14.249,
+				16.0,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0.0,
+						16,
+						2.0
+					],
+					"rotation": 90
+				},
+				"west": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0.0,
+						16,
+						2.0
+					],
+					"rotation": 90
+				},
+				"up": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						14.249,
+						16
+					]
+				},
+				"down": {
+					"texture": "#bark",
+					"uv": [
+						0,
+						0,
+						14.249,
+						16
+					]
+				},
+				"north": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0.0,
+						14.249,
+						2.0
+					]
+				},
+				"south": {
+					"texture": "#ring",
+					"uv": [
+						0,
+						0.0,
+						14.249,
+						2.0
+					]
+				}
+			}
+		}
+	]
+}

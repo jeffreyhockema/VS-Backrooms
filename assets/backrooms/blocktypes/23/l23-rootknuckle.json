@@ -1,0 +1,107 @@
+// Level 23 (round 4): the rounded top of a root crawling out over the ground (bare or mossed)
+{
+	"code": "l23-rootknuckle",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"bare",
+				"moss"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-bare-north"
+		],
+		"backrooms": [
+			"*-bare-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-bare-north": {
+			"base": "block/23/rootknuckle",
+			"rotateY": 0
+		},
+		"*-bare-east": {
+			"base": "block/23/rootknuckle",
+			"rotateY": 270
+		},
+		"*-bare-south": {
+			"base": "block/23/rootknuckle",
+			"rotateY": 180
+		},
+		"*-bare-west": {
+			"base": "block/23/rootknuckle",
+			"rotateY": 90
+		},
+		"*-moss-north": {
+			"base": "block/23/rootknuckle",
+			"rotateY": 0
+		},
+		"*-moss-east": {
+			"base": "block/23/rootknuckle",
+			"rotateY": 270
+		},
+		"*-moss-south": {
+			"base": "block/23/rootknuckle",
+			"rotateY": 180
+		},
+		"*-moss-west": {
+			"base": "block/23/rootknuckle",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"resistance": 6,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 1,
+				"var": 1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/planks",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"texturesByType": {
+		"*-bare-*": {
+			"root": {
+				"base": "block/23/root"
+			},
+			"top": {
+				"base": "block/23/root"
+			}
+		},
+		"*-moss-*": {
+			"root": {
+				"base": "block/23/mossbark"
+			},
+			"top": {
+				"base": "block/23/moss-cushion"
+			}
+		}
+	}
+}

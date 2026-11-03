@@ -1,0 +1,302 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"top": "backrooms:block/23/mushcap-top",
+		"side": "backrooms:block/23/mushcap-side",
+		"gills": "backrooms:block/23/mushcap-gills"
+	},
+	"elements": [
+		{
+			"name": "Rim0",
+			"from": [
+				0,
+				2.0,
+				0
+			],
+			"to": [
+				16,
+				8.5,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#side",
+					"uv": [
+						0,
+						7.5,
+						16,
+						14.0
+					]
+				},
+				"east": {
+					"texture": "#side",
+					"uv": [
+						0,
+						7.5,
+						4,
+						14.0
+					]
+				},
+				"west": {
+					"texture": "#side",
+					"uv": [
+						0,
+						7.5,
+						4,
+						14.0
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"down": {
+					"texture": "#gills",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Rim1",
+			"from": [
+				0,
+				2.8,
+				4
+			],
+			"to": [
+				16,
+				11.5,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#side",
+					"uv": [
+						0,
+						4.5,
+						16,
+						13.2
+					]
+				},
+				"east": {
+					"texture": "#side",
+					"uv": [
+						4,
+						4.5,
+						8,
+						13.2
+					]
+				},
+				"west": {
+					"texture": "#side",
+					"uv": [
+						4,
+						4.5,
+						8,
+						13.2
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						4,
+						16,
+						8
+					]
+				},
+				"down": {
+					"texture": "#gills",
+					"uv": [
+						0,
+						4,
+						16,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Rim2",
+			"from": [
+				0,
+				3.4,
+				8
+			],
+			"to": [
+				16,
+				14,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#side",
+					"uv": [
+						0,
+						2,
+						16,
+						12.6
+					]
+				},
+				"east": {
+					"texture": "#side",
+					"uv": [
+						8,
+						2,
+						12,
+						12.6
+					]
+				},
+				"west": {
+					"texture": "#side",
+					"uv": [
+						8,
+						2,
+						12,
+						12.6
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						8,
+						16,
+						12
+					]
+				},
+				"down": {
+					"texture": "#gills",
+					"uv": [
+						0,
+						8,
+						16,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Rim3",
+			"from": [
+				0,
+				3.8,
+				12
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#side",
+					"uv": [
+						0,
+						0,
+						16,
+						12.2
+					]
+				},
+				"east": {
+					"texture": "#side",
+					"uv": [
+						12,
+						0,
+						16,
+						12.2
+					]
+				},
+				"west": {
+					"texture": "#side",
+					"uv": [
+						12,
+						0,
+						16,
+						12.2
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						12,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#gills",
+					"uv": [
+						0,
+						12,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Under",
+			"from": [
+				0,
+				0,
+				12
+			],
+			"to": [
+				16,
+				3.8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#gills",
+					"uv": [
+						0,
+						12.2,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#gills",
+					"uv": [
+						12,
+						12.2,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#gills",
+					"uv": [
+						12,
+						12.2,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#gills",
+					"uv": [
+						0,
+						12,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}
