@@ -603,3 +603,53 @@ block codes stay where they are (no save break), new blocks are added.
 43. (B) [partly: spots done; no new F7 entries (bulkheads are everywhere, not a place to go to)] Showcase spots and F7 entries for the bulkhead, the lift lobby, the console desk, the medical bed bay, the
     serving line, the hydroponics feed and the dark edge.
 44. (C) [done: rebuilt; `l120-tray` is its own level's, darker, so 15 keeps its own] Cable trays: compare with `l120-tray` and share the better one.
+
+### What was built (code)
+
+`tools/gen_15_r4.py` (run after `gen_15.py`, `gen_15_links.py`, `gen_15_r3.py`: it rewrites some of their shapes in place and
+post-edits `l15-machine.json` and `l15-serve.json`, so the codes stay; `gen_15.py`'s panel texture gained folded seams and
+corner fasteners, and every texture drawn on it was regenerated). Rebuilt shapes, same block codes: `l15-console`,
+`l15-dock` (the Robo-Man's eyes lit while the dock has power), `l15-seat`, `l15-riser` (aisle step light), `l15-serve`
+(now in the opaque pass, its guard a cut-out), `l15-growrack`, `l15-curtain`, `l15-hangsign`, `l15-labbench`,
+`l15-locker`, `l15-tray`, `l15-machine` (every casing kind a model), `l15-stardoor`, `l15-corpse`; the lab glassware and
+the spears' blades opaque (they were translucent in the opaque pass). New blocks: `l15-panel` (a white wall block with a
+model on its face: the extinguisher, the ESCAPE panel, the lift's leaves in a portal with its lit indicator and call
+panel, the big display's bezel, the wall displays in bezels, the hall wall lights in housings, the bulkheads' jambs and
+code plates, the hall tags, the battery emergency lamp, the tripped breaker, the MEDICAL CENTER door's surround),
+`l15-bulkhead`, `l15-glazing`, `l15-medmonitor`, `l15-lectern`, `l15-stool`, `l15-ctable`, `l15-ceiling-trough{ns,we}`.
+Generator (`WorldGenerator.L15.cs`, `InitL15Round4`, `L15WallRound4`): bulkheads on the rib every 32 blocks along the
+main halls (jambs, header, tread plate), a hall tag on one wall 4 blocks after each, the cable troughs along the halls'
+ceiling edges, the battery lamps and the breaker at the dark squares' edges (`L15DarkEdge`), the medical monitors over
+the beds' heads, stools and tables in canteens, the lectern; layout (`WorldLayout.Level15.cs`): only the lectern's flag
+on one stage tile. Showcase: `bulkhead`, `dark-edge`.
+
+### Inventions
+
+The bulkheads (the lore has white steel beams; a portal every 32 blocks is ours), the hall tags, the cable troughs, the
+battery emergency lamps and the tripped breaker tagged DO NOT RESET at the edge of the dark (the lore says lights fail
+and areas go black, not why), the vitals monitors (ASYSTOLE), the lectern, the canteen's stools and tables, the door
+surround of Level 14's door, the lift indicator's B3, the dead's ID cards and lanyards.
+
+### Shared assets below the bar (for the lead)
+
+- **Robo-Man** (`roboman`, shared with the Castle): one root element and its children, painted toy-robot boxes; the lead
+  asked for joints, panels and a lit eye. Rebuilding it would change the Castle's guard too, so it is left alone here;
+  what I would do: disc joints at shoulders, elbows, hips and knees, a riveted chest plate standing off the torso, the
+  key turning on its back, the eyes as emissive lenses (glow) with a visor, the antenna bulb glowing.
+- **Hospital bed, drip stand, crash cart, bedside cabinet** (`hospitalbed`, `run-ivstand`, `run-crashcart`,
+  `run-bedside`): they read well enough beside 15's new monitors and curtains; the bed's bedding is plain slabs (a
+  folded blanket and a dented pillow would lift it) and the drip stand's bag is small at a distance.
+- **Level 1's camp props** (tent, sleeping bag, cardboard boxes, folding chairs): the boxes are cubes with a picture of
+  tape on them (no flaps, no crushed corner); the tent is good.
+- **Level 3's pressure tanks** in the hydroponics bays: plain; a nutrient tank of its own (a sight glass, a level gauge,
+  a pump on a skid) would suit 15 better.
+
+### Balance notes for the lead
+
+- Light: the battery emergency lamps (`l15-panel-emerglit`, amber, light 11) stand in the dark halls within 16 blocks of
+  the lit side, in the wall lights' places (every 8 blocks along both walls); they light a few blocks round them at the very edge of the dark. The Robo-Man
+  needs the dark: these edges are a little less dark than before. The vitals monitors (light 4), the lectern's lamp (5)
+  and the door surround's cross (6) are in lit rooms.
+- Drops: the glazing drops shards as the old thick glass did; the new stools, tables, lectern and monitors a little scrap
+  wire or a bracket, like round 3's props; nothing edible or drinkable.
+- No bed, water or shortcut changed. The canteen's folding chairs became stools (no seat behaviour lost: neither sits).
