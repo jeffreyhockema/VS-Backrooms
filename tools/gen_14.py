@@ -1686,6 +1686,13 @@ def hangsign_shape(n):
     for i, x in enumerate((3.0, 13.0)):
         els.append(box(f"Rod{i}", (x - 0.3, 12.75, 7.7), (x + 0.3, 16.0, 8.3), "sign-rod", faces=("north", "south", "east", "west")))
         els.append(box(f"Plate{i}", (x - 1.0, 15.6, 7.0), (x + 1.0, 16.0, 9.0), "sign-rod", faces=("north", "south", "east", "west", "down")))
+        # round 4: a clamp where each rod takes the rail, and a turnbuckle half way up
+        els.append(box(f"Clamp{i}", (x - 0.7, 12.0, 7.0), (x + 0.7, 13.3, 9.0), "rail-steel", faces=("north", "south", "east", "west", "up")))
+        els.append(box(f"Buckle{i}", (x - 0.5, 14.0, 7.5), (x + 0.5, 14.9, 8.5), "rail-steel", faces=("north", "south", "east", "west")))
+    # round 4: an aluminium edge round the panel, proud of both faces
+    for nm, frm, to in (("EdgeB", (0.0, 3.6, 7.3), (16.0, 4.1, 8.7)), ("EdgeW", (0.0, 4.1, 7.3), (0.4, 12.0, 8.7)),
+                        ("EdgeE", (15.6, 4.1, 7.3), (16.0, 12.0, 8.7))):
+        els.append(box(nm, frm, to, "rail-steel"))
     els[0]["_uv"] = True
     return shape(f"l14-hangsign-{n}", finish(els))
 
