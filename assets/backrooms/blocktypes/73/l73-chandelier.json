@@ -1,0 +1,50 @@
+// Level 73: a wrought-iron ring chandelier of eight candles, hung in the top air cell of a room from the ceiling above
+{
+	"code": "l73-chandelier",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/73/chandelier"
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"selectionbox": {
+		"x1": 0.08,
+		"y1": 0.06,
+		"z1": 0.08,
+		"x2": 0.92,
+		"y2": 1,
+		"z2": 0.92
+	},
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": null,
+	"lightHsv": [
+		7,
+		4,
+		14
+	],
+	"renderpass": "OpaqueNoCull",
+	"attributes": {
+		"l73Fixed": true
+	},
+	"resistance": 1000
+}

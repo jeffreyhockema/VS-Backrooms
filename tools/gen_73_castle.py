@@ -15,7 +15,7 @@ Writes, under blocktypes/73, shapes/block/73 and textures/block/73:
                                in a wheat field, a pier at sunset, a lake under mountains, a diner's neon)
   l73-door-{shut,open}-{lb,rb,lm,rm,lt,rt}  the keep's door, two studded oak leaves three high (class BackroomsL73Door)
   l73-atticdoor-{lb,rb,lt,rt}  the attic's doors, chained and padlocked (the same class, locked)
-  l73-table-{set,bare}-*       the mahogany table, a place set (stew, bread, a glass of water) or cleared (BackroomsL73Table)
+  l73-table-{set,bare}-*       the mahogany table, a place set (stew, bread, a goblet of water) or cleared (BackroomsL73Table)
   l73-bath                     a barrel of warm water, steaming (BackroomsL73Bath)
 Every one of them is attribute l73Fixed (they never break: the castle is "impenetrable and invincible").
 """
@@ -516,45 +516,79 @@ def door_shape(part, state, attic=False):
 
 
 def table_shape(state):
-    """The mahogany table; the diner sits to the north (the model's front). Set: a plate of stew and bread, a fork and knife,
-    a glass of water. Cleared: the plate and the glass, empty."""
-    tex = {"wood": "backrooms:block/73/mahogany", "end": "backrooms:block/73/mahogany-end", "plate": "backrooms:block/73/plate",
-           "stew": "backrooms:block/73/stew", "bread": "backrooms:block/73/bread", "glass": "backrooms:block/73/glass-full",
-           "empty": "backrooms:block/73/glass-empty", "silver": "backrooms:block/73/silverware"}
-    els = [
-        box("Top", [0, 12.5, 0], [16, 14, 16], {"*": "#wood", "up": "#wood"}),
-        box("Apron", [0.5, 10.5, 0.5], [15.5, 12.5, 15.5], "#end"),
-        box("LegNW", [1, 0, 1], [2.5, 10.5, 2.5], "#end"),
-        box("LegNE", [13.5, 0, 1], [15, 10.5, 2.5], "#end"),
-        box("LegSW", [1, 0, 13.5], [2.5, 10.5, 15], "#end"),
-        box("LegSE", [13.5, 0, 13.5], [15, 10.5, 15], "#end"),
-        box("Plate", [4, 14, 2], [10.5, 14.4, 8.5], "#plate"),
-        box("Glass", [12, 14, 2.5], [13.6, 17.6, 4.1], "#glass" if state == "set" else "#empty"),
-    ]
+    """The mahogany table at 0.8; the diner sits to the north (the model's front). A carved apron, half a turned pier at
+    the back on a trestle foot (the hall's table is two rows back to back, so the piers pair up down its spine). The place: a pewter plate with a rim, a silver goblet (foot, knopped stem, bowl) at the diner's right
+    hand (west) with a knife and a spoon, a folded napkin in a ring at the left. Set: water in the goblet, a pewter bowl
+    of stew on the plate, a loaf beside it. Cleared: the plate and the goblet empty."""
+    import gen_73_r4_props as P
+    from gen_73_interior import bb, octo, rod
+    tex = {"top": "backrooms:block/73/mahogany", "wood": "backrooms:block/73/r4i-mahog-v", "rail": "backrooms:block/73/r4i-mahog-h",
+           "carved": "backrooms:block/73/r4i-carved", "gold": "backrooms:block/73/gold", "pewter": "backrooms:block/73/r4p-pewter",
+           "plate": "backrooms:block/73/r4p-plate", "silver": "backrooms:block/73/r4p-silver", "stew": "backrooms:block/73/stew",
+           "bread": "backrooms:block/73/bread", "water": "backrooms:block/73/r4p-bathwater", "linen": "backrooms:block/73/linen"}
+    Y = 12.8
+    # The table stands in a run (the hall's is twelve by two, the rows back to back): the top and a carved apron along
+    # the diner's edge run on from block to block; under the back edge, where the two rows meet, half of a turned pier
+    # (the other row's block carries the other half) on a trestle foot, a stretcher running along the spine.
+    els = [bb("Top", (0, 11.6, 0), (16, Y, 16), {"*": "#rail", "up": "#top", "down": "#rail"}),
+           bb("Apron", (0, 10.0, 0.7), (16, 11.6, 1.5), {"*": "#carved", "down": "#rail", "up": "#rail"}),
+           bb("ApronBead", (0, 9.7, 0.6), (16, 10.0, 1.6), "#gold"),
+           bb("Rail", (0, 10.6, 8.6), (16, 11.6, 9.6), "#rail"),
+           bb("Stretcher", (0, 1.4, 15.0), (16, 2.4, 16.0), "#rail", faces=("north", "up", "down", "east", "west")),
+           bb("Foot", (7.1, 0, 7.6), (8.9, 1.4, 16.0), {"*": "#rail", "up": "#carved"}, faces=("north", "east", "west", "up", "down")),
+           bb("FootScroll", (7.2, 0, 6.8), (8.8, 2.2, 7.8), "#carved")]
+    for i, (y0, y1, a, tx) in enumerate(((0.0, 1.2, 2.0, "#wood"), (1.2, 1.8, 1.6, "#carved"), (1.8, 5.6, 1.45, "#wood"),
+                                          (5.6, 6.2, 1.7, "#gold"), (6.2, 8.9, 0.95, "#wood"), (8.9, 9.9, 1.45, "#carved"),
+                                          (9.9, 11.6, 1.8, "#wood"))):
+        w = a * 0.62
+        els.append(bb(f"Pier{i}a", (8 - a, y0, 16 - w), (8 + a, y1, 16), tx, faces=("north", "east", "west", "up", "down")))
+        els.append(bb(f"Pier{i}b", (8 - w, y0 + 0.01, 16 - a), (8 + w, y1 - 0.01, 16), tx, faces=("north", "east", "west", "up", "down")))
+    # the plate, its rim standing up round the well
+    els += octo("Plate", "y", (8, 5.6), Y, Y + 0.2, 3.0, "#pewter", radial=3.0, endtex=("#pewter", "#plate"))
+    els += P.ring8("Rim", 8, 5.6, Y + 0.12, Y + 0.38, 2.75, 0.45, "#pewter")
+    # the goblet
+    gx, gz = 3.4, 9.0
+    els += octo("GobletFoot", "y", (gx, gz), Y, Y + 0.25, 0.85, "#silver", n=2)
+    els.append(bb("GobletStem", (gx - 0.2, Y + 0.25, gz - 0.2), (gx + 0.2, Y + 1.7, gz + 0.2), "#silver"))
+    els += octo("GobletKnop", "y", (gx, gz), Y + 0.75, Y + 1.1, 0.42, "#gold", n=2)
+    els.append(bb("GobletCup", (gx - 0.55, Y + 1.7, gz - 0.55), (gx + 0.55, Y + 2.1, gz + 0.55), "#silver"))
+    els += octo("GobletBowl", "y", (gx, gz), Y + 2.1, Y + 3.4, 0.85, "#silver", n=2,
+                endtex=("#silver", "#water" if state == "set" else "#silver"))
+    # the knife and the spoon at the right hand, the napkin at the left
+    els += [bb("KnifeBlade", (3.6, Y, 1.6), (3.95, Y + 0.12, 5.4), "#silver"),
+            bb("KnifeBolster", (3.5, Y, 5.4), (4.05, Y + 0.28, 5.8), "#gold"),
+            bb("KnifeHandle", (3.5, Y, 5.8), (4.05, Y + 0.3, 7.6), "#rail"),
+            bb("SpoonBowl", (1.8, Y, 1.7), (2.9, Y + 0.22, 3.5), "#silver"),
+            bb("SpoonTip", (2.05, Y, 1.4), (2.65, Y + 0.18, 1.7), "#silver"),
+            bb("SpoonHandle", (2.2, Y, 3.5), (2.5, Y + 0.14, 7.6), "#silver"),
+            bb("Napkin", (11.8, Y, 2.0), (14.4, Y + 0.3, 6.2), "#linen"),
+            bb("NapkinFold", (12.0, Y + 0.3, 2.2), (14.2, Y + 0.5, 4.4), "#linen"),
+            bb("NapkinRing", (12.7, Y, 3.9), (13.5, Y + 0.65, 4.7), "#silver")]
     if state == "set":
-        els += [
-            box("Stew", [5, 14.4, 3], [9.5, 15.4, 7.5], "#stew"),
-            box("Bread", [7.5, 14.4, 6.2], [10, 15.6, 8.2], "#bread"),
-            box("Fork", [2.6, 14, 3], [3.2, 14.25, 8], "#silver"),
-            box("Knife", [11, 14, 4.5], [11.6, 14.25, 9.5], "#silver"),
-        ]
+        els += octo("BowlFoot", "y", (8, 5.6), Y + 0.2, Y + 0.5, 1.2, "#pewter", n=2)
+        els += octo("Bowl", "y", (8, 5.6), Y + 0.5, Y + 1.3, 1.9, "#pewter", radial=1.9, endtex=("#pewter", "#stew"))
+        els += P.ring8("BowlRim", 8, 5.6, Y + 1.15, Y + 1.5, 1.8, 0.3, "#pewter")
+        els += rod("Loaf", "x", (Y + 0.85, 9.6), 11.0, 14.4, 0.85, "#bread", k=0.75)
+        els.append(bb("LoafScore", (11.6, Y + 1.55, 9.2), (13.8, Y + 1.75, 10.0), "#bread"))
     return shape(tex, els)
 
 
 def bath_shape():
-    """A big barrel: four walls of staves (open at the top, so the water shows), two iron bands, the steaming water."""
-    tex = {"staves": "backrooms:block/73/staves", "iron": "backrooms:block/73/sconce-iron", "water": "backrooms:block/73/warmwater",
-           "end": "backrooms:block/73/mahogany-end"}
-    sides = {"north": None, "south": None, "east": None, "west": None}
-    els = [
-        box("WallN", [1, 0, 1], [15, 14, 2], {"*": "#staves", "up": "#end", "down": "#end"}),
-        box("WallS", [1, 0, 14], [15, 14, 15], {"*": "#staves", "up": "#end", "down": "#end"}),
-        box("WallW", [1, 0, 2], [2, 14, 14], {"*": "#staves", "up": "#end", "down": "#end"}),
-        box("WallE", [14, 0, 2], [15, 14, 14], {"*": "#staves", "up": "#end", "down": "#end"}),
-        box("BandLow", [0.7, 2, 0.7], [15.3, 3, 15.3], "#iron", faces=sides),
-        box("BandHigh", [0.7, 11, 0.7], [15.3, 12, 15.3], "#iron", faces=sides),
-        box("Water", [2, 12.4, 2], [14, 12.8, 14], "#water", faces={"up": None}),
-    ]
+    """A great barrel of warm water: staves bulging to the middle (an octagon in five courses), four iron hoops, the
+    staves standing up round the top as the chime, the water sunk two px inside them (BackroomsL73Bath steams it)."""
+    from gen_73_interior import octo
+    import gen_73_r4_props as P
+    tex = {"staves": "backrooms:block/73/r4i-staves", "hoop": "backrooms:block/73/r4i-hoop", "end": "backrooms:block/73/r4i-barrelhead",
+           "water": "backrooms:block/73/r4p-bathwater"}
+    prof = [(0, 1.6, 6.6), (1.6, 4.0, 7.1), (4.0, 7.0, 7.4), (7.0, 10.0, 7.4), (10.0, 12.2, 7.1)]
+    els = []
+    for i, (y0, y1, a) in enumerate(prof):
+        last = i == len(prof) - 1
+        els += octo(f"Course{i}", "y", (8, 8), y0, y1, a, "#staves", cap0=(i == 0), cap1=last, endtex=("#end", "#water"))
+    els += P.ring8("Chime", 8, 8, 12.2, 14.0, 6.6, 1.0, "#staves")
+    for i, (y0, y1, a) in enumerate(((1.4, 2.3, 7.0), (6.0, 6.9, 7.55), (10.6, 11.5, 7.25))):
+        els += octo(f"Hoop{i}", "y", (8, 8), y0, y1, a, "#hoop", endtex="#hoop")
+    els += P.ring8("HoopTop", 8, 8, 12.9, 13.7, 7.1, 0.36, "#hoop")
     return shape(tex, els)
 
 
@@ -667,7 +701,7 @@ def blocktypes():
     out.append(("// Level 73: the attic's doors, chained and padlocked: CORAN has declared the attic off-limits", attic))
     out.append(oriented(
         "l73-table", "// Level 73: the grand mahogany table; a place set at it (the diner to the north for -north) refills by itself (Regions.L73System)",
-        None, "Wood", {"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 0.875, "z2": 1}, coll={"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 0.875, "z2": 1},
+        None, "Wood", {"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 0.8, "z2": 1}, coll={"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 0.8, "z2": 1},
         sounds=WOOD, extra_variants=[{"code": "state", "states": ["set", "bare"]}],
         shape_by={f"*-{st}-{s}": {"base": f"block/73/table-{st}", "rotateY": ROT[s]} for st in ("set", "bare") for s in SIDES},
         extra={"class": "BackroomsL73Table", "entityClass": "BackroomsL73Table"}, inv="*-set-north"))
@@ -681,8 +715,8 @@ def blocktypes():
         "sidesolid": {"all": False},
         "sideopaque": {"all": False},
         "lightAbsorption": 0,
-        "collisionbox": {"x1": 0.0625, "y1": 0, "z1": 0.0625, "x2": 0.9375, "y2": 0.875, "z2": 0.9375},
-        "selectionbox": {"x1": 0.0625, "y1": 0, "z1": 0.0625, "x2": 0.9375, "y2": 0.875, "z2": 0.9375},
+        "collisionbox": {"x1": 0.03, "y1": 0, "z1": 0.03, "x2": 0.97, "y2": 0.875, "z2": 0.97},
+        "selectionbox": {"x1": 0.03, "y1": 0, "z1": 0.03, "x2": 0.97, "y2": 0.875, "z2": 0.97},
         "attributes": {"liquidSource": False},
         "drops": [],
         "sounds": WOOD,
