@@ -548,3 +548,95 @@ revolving doors' TO LV screens (asked for by the lead).
    three metal benches, free. Built: a bigger TV and NOW SHOWING cases outside. Is a projector wanted anyway?
 3. Drinks fridges (restocking) at every food court and rink snack window add water to a level that already had the
    Almond Water fountain: keep, or make them look-only?
+
+## Round 4 (2026-11-02): the asset-quality pass
+
+The user: AAA assets, multi-block pieces read as one object, keep refining the level and its lore, share assets with the
+other levels where they fit. Looked at: round 3's final sheet and full shots (`%TEMP%/backrooms-shots/final-r3/31/`,
+`31-r3-final/scenario/`), the lead's notes, the brief, DECISIONS.md, the element counts of every `l31-` shape (round 3's
+"tall models" are 4-14 boxes: the speaker 4, the cinema bench 4, the media cabinet 4, the dispenser 4, the disco ball 6,
+the photo booth and jukebox 9, the stall 12, the DJ desks 13, the retro cabinets 14; the TV and the riser one box) and
+the other levels' folders for what can be shared (52's lockers already, 120's CRAC units, 36's stanchions, Level 3999's
+arcade, Level Fun's popcorn cart). Most rebuilds keep their block codes, so the layout does not move;
+`tools/gen_31_round4.py` owns them from now on (run after `gen_31.py`, `gen_31_props.py` and `gen_31_round3.py`; it
+overwrites their files for the codes it rebuilds).
+
+### List
+
+Tiers: A must, B should, C nice.
+
+**1. Assets to rebuild to the bar**
+1. (A) `l31-skateshelf`: the skates as a real model (boot with a padded collar and tongue, laces, a sole plate, two
+   trucks with four coloured wheels each, a toe stop), pairs in the cubbies, the odd pair lying on its side.
+2. (A) `l31-skatewall-dasher` (a full cube) -> `l31-barrier`: the rink's barrier as a thin padded wall along the
+   boards' edge (kick plate, panel body, a padded bumper on the rink side, a rounded padded top rail, stiles), with
+   straight, corner and post pieces chosen from the neighbours so the oval's stair-steps read as one continuous rail.
+3. (A) `l31-gate`: gates as real gates (end posts with caps, a hinged half-door with a padded top, a latch, swung open)
+   in the barrier's gaps.
+4. (A) `l31-djdesk` (deck, mixer): a booth fascia with a lit strip, turntables with platter, slipmat, tonearm and pitch
+   fader; a mixer with channel faders, knobs, VU LEDs; CD players beside the decks (1990s).
+5. (A) `l31-speaker` (4 boxes): a PA cabinet with woofers (cone, dust cap, surround), a horn, corner protectors,
+   handles, a grille band.
+6. (A) `l31-discoball` / `l31-mirror-ball`: a faceted mirror ball (stepped rings of facets) on a drop rod with a motor.
+7. (A) `l31-truss`: a box truss (four chords, rotated diagonal lacing), par cans on clamps and yokes with coloured,
+   glowing lenses, a cable loom.
+8. (A) `l31-rinkwood` (4 variants): maple strip floor at 32 px with lane sheen, board ends staggered, the lane stripe
+   and centre swirl as painted inlays with wear where skaters turn.
+9. (A) `l31-retrocab` (shooter, barrels, pyramid): 1980s uprights to the bar: side art, T-moulding, lit marquee in
+   its bezel, a recessed CRT with a bezel, a control panel with a ball-top joystick and buttons, a coin door with lit
+   coin slots, a kick plate.
+10. (A) `l31-pinball` (new; replaces Level 3999's 13-box pinball in the arcade): legs with levellers, a playfield
+    cabinet with lock-down bar and plunger, a lit backglass head on its neck, flipper buttons.
+11. (A) `l31-photobooth` (9 boxes): a booth with a curtain on a rail (folds), a lit sign, the camera window, a stool
+    inside, the photo-strip slot, the coin box.
+12. (A) `l31-cinemabench` (4 boxes): the lore's continuous metal bench with cup holders, a perforated seat and back,
+    legs bolted down; `l31-riser` with an amber aisle light strip on its nosing.
+13. (A) `l31-tv-*` and `l31-mediacab` (1 and 4 boxes): the big TV with a real bezel and depth, a speaker bar, and a
+    media cabinet with doors, a VCR and a DVD deck with lit displays.
+14. (A) HVAC air handler: the shared `acunit` (3 boxes) is round 3's "still weak"; reuse Level 120's CRAC unit
+    (`l120-crac-lower/upper`, two high, grilles and fans) along the far wall.
+15. (B) `l31-stall` (12) and `l31-vanity` (8): partition feet, a door with lock indicator and hinges, the toilet with
+    a lid and cistern; the vanity's basins with taps, soap pumps.
+16. (B) `l31-chair` / `l31-table`: food-court chair with a tube frame and moulded shell; table on a pedestal and a
+    cross foot, a napkin holder.
+17. (B) `l31-jukebox` (9): a 1990s neon-arch jukebox with bubble tubes, a selector window and grille.
+18. (B) `l31-dispenser` (4): the green-card machine with a lit header, a bill acceptor, buttons and a card tray.
+19. (B) `l31-fountain`: the Almond Water soda fountain with its tower, drip tray and taps (the level's own restocking
+    dispenser; the shared Almond Water fountain is a wall fountain, so it stays ours).
+20. (C) `l31-trophycase` (26), `l31-cctv` (7), `l31-monitors` (17): check up close, finish if they fall short.
+
+**2. Multi-block set pieces**
+21. (A) The DJ booth as one object: a raised deck under the desks, the fascia with a lit strip facing the rink, the
+    speaker stacks either side, the DJ sign over it on the wall.
+22. (A) The rink barrier and its gates as one continuous object round the oval (items 2-3).
+23. (A) The lighting rig: trusses, par cans and mirror balls read as one rig under the dark ceiling.
+24. (A) The snack bar: a slushie machine (`l31-slushie`, new: two bowls with augers, lit tops), a till (`l31-till`,
+    new: a 1990s register with a pole display), with the menu board and the popcorn cart as one counter.
+25. (B) The arcade's prize corner: Level 3999's prize cases and prize wall stay (they hold), plush on them, the PRIZES
+    sign; the photo booth beside them.
+26. (B) The cinema as one object: TV, speaker bar, media cabinet, three risers with aisle lights and the benches.
+27. (C) Restrooms: stalls, vanity and a hand-dryer model (`l31-dryer`, new) in place of the flat plate.
+
+**3. Level design**
+28. (A) The neon signs as emissive tubes: the rink's name and the DJ sign drawn as raised tube strokes with glow over a
+    dark backing, not a lit flat plate.
+29. (B) The DJ booth reads from across the rink (raised, lit fascia): today a dark strip on the far wall.
+30. (B) The rink floor carries the lit look: the lane sheen (item 8) under the ring lights' colours.
+31. (B) The cinema: a little more light on the benches (the aisle lights) so the room reads, still dark (lore).
+32. (C) Arrival views in the halls still face a wall at times; check after run 1.
+
+**4. Lore**
+33. (A) Keep: the star at the centre, the DJ on the south (a docile Faceling), the Coach behind the rental counter,
+    three stepped rows of continuous metal benches and one big TV, the green-card dispenser, free food. Nothing new
+    may contradict the lore.
+34. (B) The skates on the shelves (the "steal" way out) must read as skates: item 1.
+35. (C) The arcade's "few 1980s cabinets" (Q*bert, Donkey Kong, Space Invaders) stay as our look-alikes (pyramid,
+    barrels, shooter) at the bar of item 9.
+
+**5. Alignment with the other levels**
+36. (A) Reuse Level 120's CRAC unit (item 14) rather than a fork: the same make of machine in another building.
+37. (B) EXIT signs, extinguishers, placards, supply boxes, the Almond Water fountain stay the mod's shared ones; note
+    any below the bar under "Shared assets below the bar".
+38. (B) Queue posts in front of the rental and snack counters: Level 36's `l36-stanchion`, reused.
+39. (C) The lockers: Level 52's `l52-locker` stays (the school's and the rink's lockers are one family).
+40. (C) The Basement's duct (`basement-duct`) stays for the HVAC ceiling run.
