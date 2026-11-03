@@ -1,0 +1,83 @@
+// Level 15 (round 4): a projector hung from a lecture hall's ceiling, its lens toward its side
+{
+	"code": "l15-projector",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "backrooms:block/15/l15-projector",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "backrooms:block/15/l15-projector",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "backrooms:block/15/l15-projector",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "backrooms:block/15/l15-projector",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l15-projector-north"
+		],
+		"backrooms": [
+			"l15-projector-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.4
+			}
+		}
+	],
+	"collisionbox": {
+		"x1": 0.25,
+		"y1": 0.35,
+		"z1": 0.15,
+		"x2": 0.75,
+		"y2": 1,
+		"z2": 0.85
+	},
+	"selectionbox": {
+		"x1": 0.25,
+		"y1": 0.35,
+		"z1": 0.15,
+		"x2": 0.75,
+		"y2": 1,
+		"z2": 0.85
+	}
+}

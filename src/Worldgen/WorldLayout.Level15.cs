@@ -1305,7 +1305,8 @@ public sealed partial class WorldLayout
                         if (NearDoor(a, b, 2)) continue;
                         bool aisle = Math.Abs(k - mid) <= 1 || k == 0 || k == len - 1;
                         if (j == 0 && !aisle) Put(a, b, Props.L15Seat, toFront, (byte)tier);
-                        else if (tier > 0) Put(a, b, Props.L15Riser, toFront, (byte)tier);
+                        // (round 4: the projector hangs over the middle aisle's step at the fourth row: Detail 1)
+                        else if (tier > 0) Put(a, b, Props.L15Riser, toFront, (byte)tier, (byte)(k == mid && j == 1 && row == 10 ? 1 : 0));
                     }
         }
 

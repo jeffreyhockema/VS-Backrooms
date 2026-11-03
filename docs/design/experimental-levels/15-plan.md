@@ -569,8 +569,8 @@ block codes stay where they are (no save break), new blocks are added.
 25. (A, lead) [done] **Serving line** as one: counter run, guard, heat lamps, tray rail, the menu board over it (item 4).
 26. (B, lead) [partly: the console desks stand side by side as one run with their cheeks; no separate end caps] **Control desk run**: consoles side by side join into one desk (end caps at the row's ends), the big radar
     display over the panels (items 1, 10).
-27. (B) [partly: each rack has its feed and return lines; the tanks are still Level 3's pressure tanks] **Hydroponics feed**: the nutrient tank with a pipe run along the racks' ends (item 6).
-28. (C) [skipped: time; the lectern and the screen carry the stage] Lecture hall: a ceiling projector over the aisle aimed at the screen.
+27. (B) [done: feed and return lines on each rack; `l15-tank` in place of Level 3's pressure tanks in the bays] **Hydroponics feed**: the nutrient tank with a pipe run along the racks' ends (item 6).
+28. (C) [done: `l15-projector` over the middle aisle's fourth row] Lecture hall: a ceiling projector over the aisle aimed at the screen.
 
 **3. Level design**
 29. (A, lead) [done: bulkheads, and a hall tag on the band a few blocks past each] The main halls' rhythm: bulkheads (22) break the long runs; the colour band stops at the bulkheads and
@@ -616,7 +616,7 @@ the spears' blades opaque (they were translucent in the opaque pass). New blocks
 model on its face: the extinguisher, the ESCAPE panel, the lift's leaves in a portal with its lit indicator and call
 panel, the big display's bezel, the wall displays in bezels, the hall wall lights in housings, the bulkheads' jambs and
 code plates, the hall tags, the battery emergency lamp, the tripped breaker, the MEDICAL CENTER door's surround),
-`l15-bulkhead`, `l15-glazing`, `l15-medmonitor`, `l15-lectern`, `l15-stool`, `l15-ctable`, `l15-ceiling-trough{ns,we}`.
+`l15-bulkhead`, `l15-glazing`, `l15-medmonitor`, `l15-lectern`, `l15-projector`, `l15-tank`, `l15-stool`, `l15-ctable`, `l15-ceiling-trough{ns,we}`.
 Generator (`WorldGenerator.L15.cs`, `InitL15Round4`, `L15WallRound4`): bulkheads on the rib every 32 blocks along the
 main halls (jambs, header, tread plate), a hall tag on one wall 4 blocks after each, the cable troughs along the halls'
 ceiling edges, the battery lamps and the breaker at the dark squares' edges (`L15DarkEdge`), the medical monitors over
@@ -641,8 +641,6 @@ surround of Level 14's door, the lift indicator's B3, the dead's ID cards and la
   folded blanket and a dented pillow would lift it) and the drip stand's bag is small at a distance.
 - **Level 1's camp props** (tent, sleeping bag, cardboard boxes, folding chairs): the boxes are cubes with a picture of
   tape on them (no flaps, no crushed corner); the tent is good.
-- **Level 3's pressure tanks** in the hydroponics bays: plain; a nutrient tank of its own (a sight glass, a level gauge,
-  a pump on a skid) would suit 15 better.
 
 ### Balance notes for the lead
 

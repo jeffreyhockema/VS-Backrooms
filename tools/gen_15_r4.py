@@ -1120,6 +1120,21 @@ def tank_shape(part):
                                                                     "pipe", "ledred", "gaugeface")})
 
 
+def projector_shape():
+    """A ceiling projector over a lecture hall's middle aisle, its lens to the north (toward the stage): a ceiling plate,
+    a drop rod, a cradle, a white body with side vents, the lens barrel and its dark glass, a cable up the rod."""
+    els = [box("Plate", (5.5, 15.5, 5.5), (10.5, 16, 10.5), "brushed"),
+           box("Rod", (7.5, 10, 7.5), (8.5, 15.5, 8.5), "brushed"),
+           box("Cable", (8.5, 9, 8.75), (8.9, 15.5, 9.15), "dark"),
+           box("Cradle", (4.5, 9, 4.5), (11.5, 9.75, 12.5), "steelgrey"),
+           box("Body", (4, 6, 4), (12, 9, 13), {"all": "whitegloss", "east": "lockervents", "west": "lockervents"}),
+           box("Barrel", (6, 6.5, 2.5), (9.5, 8.75, 4), "bezel"),
+           box("Lens", (6.5, 7, 2.4), (9, 8.25, 2.5), "dark", faces=("north",)),
+           box("Led", (10.5, 8.25, 3.9), (11.25, 8.75, 4), "ledgreen", faces=("north",), glow=120)]
+    return write_shape("l15-projector", els, {k: T(k) for k in ("brushed", "dark", "steelgrey", "whitegloss", "lockervents", "bezel",
+                                                                 "ledgreen")})
+
+
 def stool_shape():
     """A canteen's fixed stool: a floor flange, a steel column, a foot ring, a round seat (two crossed boxes and a cap)."""
     els = [box("Flange", (5.5, 0, 5.5), (10.5, 0.4, 10.5), "brushed"),
@@ -1441,6 +1456,14 @@ def blocktypes():
     d["sidesolid"] = {"all": True}
     d["sideopaque"] = {"all": True}
     write_json(path, d, head[3:])
+
+    # l15-projector
+    base = projector_shape()
+    json_block("l15-projector", [{"code": "side", "states": SIDES}], {f"*-{s}": {"base": base, "rotateY": ROTATE[s]} for s in SIDES},
+               "Level 15 (round 4): a projector hung from a lecture hall's ceiling, its lens toward its side",
+               {"collisionbox": cuboid((0.25, 0.35, 0.15, 0.75, 1, 0.85)), "selectionbox": cuboid((0.25, 0.35, 0.15, 0.75, 1, 0.85))},
+               extra={"drops": [{"type": "item", "code": "scrapwire", "quantity": {"avg": 0.5, "var": 0.4}}]},
+               inventory="l15-projector-north")
 
     # l15-tank
     img = Image.new("RGBA", (S, S), (232, 230, 220, 255))

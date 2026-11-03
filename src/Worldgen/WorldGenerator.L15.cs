@@ -84,6 +84,7 @@ public sealed partial class WorldGenerator
     private readonly int[,,] l15Glazing = new int[2, 2, 2];
     private int l15Stool, l15CTable;
     private readonly int[,] l15Lectern = new int[2, 4], l15Tank = new int[2, 4];
+    private readonly int[] l15Projector = new int[4];
 
     private static readonly string[] L15PanelKinds = BuildL15PanelKinds();
 
@@ -127,6 +128,7 @@ public sealed partial class WorldGenerator
             l15Lectern[1, f] = L15Block($"l15-lectern-dead-{Sides[f]}");
             l15Tank[0, f] = L15Block($"l15-tank-lower-{Sides[f]}");
             l15Tank[1, f] = L15Block($"l15-tank-upper-{Sides[f]}");
+            l15Projector[f] = L15Block($"l15-projector-{Sides[f]}");
         }
         l15CTable = L15Block("l15-ctable");
     }
@@ -367,6 +369,7 @@ public sealed partial class WorldGenerator
             case Props.Shelf: return rel <= 2 ? shelfIds[Facing(Opposite(t.Pier))] : 0;
             // Round 3
             case Props.RunSafeCot when rel == 2 && L.L15ZoneOf(t) == L.L15Zone.Dorm: return l15Bunk[t.Stack == 0 ? 0 : 1, Facing(Opposite(t.Pier))];
+            case Props.L15Riser when rel == air && t.Detail == 1 && l15Projector[0] > 0: return l15Projector[facing];
             case Props.L15Seat or Props.L15Riser:
             {
                 int step = t.Stack, seatAt = step / 2 + 1; // full steps under it, then the seat (or the half step) on the next block
