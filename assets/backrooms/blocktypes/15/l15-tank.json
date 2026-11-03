@@ -1,0 +1,106 @@
+// Level 15 (round 4): a hydroponics bay's nutrient tank, two blocks high, its front toward its side
+{
+	"code": "l15-tank",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-lower-north": {
+			"base": "backrooms:block/15/l15-tank-lower",
+			"rotateY": 0
+		},
+		"*-lower-east": {
+			"base": "backrooms:block/15/l15-tank-lower",
+			"rotateY": 270
+		},
+		"*-lower-south": {
+			"base": "backrooms:block/15/l15-tank-lower",
+			"rotateY": 180
+		},
+		"*-lower-west": {
+			"base": "backrooms:block/15/l15-tank-lower",
+			"rotateY": 90
+		},
+		"*-upper-north": {
+			"base": "backrooms:block/15/l15-tank-upper",
+			"rotateY": 0
+		},
+		"*-upper-east": {
+			"base": "backrooms:block/15/l15-tank-upper",
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"base": "backrooms:block/15/l15-tank-upper",
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"base": "backrooms:block/15/l15-tank-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"l15-tank-lower-north"
+		],
+		"backrooms": [
+			"l15-tank-lower-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	],
+	"collisionbox": {
+		"x1": 0.05,
+		"y1": 0,
+		"z1": 0.05,
+		"x2": 0.95,
+		"y2": 1,
+		"z2": 0.95
+	},
+	"selectionbox": {
+		"x1": 0.05,
+		"y1": 0,
+		"z1": 0.05,
+		"x2": 0.95,
+		"y2": 1,
+		"z2": 0.95
+	}
+}

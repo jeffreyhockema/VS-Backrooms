@@ -83,7 +83,7 @@ public sealed partial class WorldGenerator
     /// <summary>The glazing [clear/cracked, lower/upper, we/ns].</summary>
     private readonly int[,,] l15Glazing = new int[2, 2, 2];
     private int l15Stool, l15CTable;
-    private readonly int[,] l15Lectern = new int[2, 4];
+    private readonly int[,] l15Lectern = new int[2, 4], l15Tank = new int[2, 4];
 
     private static readonly string[] L15PanelKinds = BuildL15PanelKinds();
 
@@ -125,6 +125,8 @@ public sealed partial class WorldGenerator
         {
             l15Lectern[0, f] = L15Block($"l15-lectern-lit-{Sides[f]}");
             l15Lectern[1, f] = L15Block($"l15-lectern-dead-{Sides[f]}");
+            l15Tank[0, f] = L15Block($"l15-tank-lower-{Sides[f]}");
+            l15Tank[1, f] = L15Block($"l15-tank-upper-{Sides[f]}");
         }
         l15CTable = L15Block("l15-ctable");
     }
@@ -381,6 +383,7 @@ public sealed partial class WorldGenerator
             case Props.HospitalBed when rel == 2 && t.Stack == 0 && L.L15ZoneOf(t) == L.L15Zone.Medical && l15MedMon[0, 0] > 0:
                 return l15MedMon[dark ? 1 : 0, facing];
             case Props.L15Stage when rel == 2 && t.Detail == 1: return l15Lectern[dark ? 1 : 0, facing];
+            case Props.PressureTank when L.L15ZoneOf(t) == L.L15Zone.Hydro && l15Tank[0, 0] > 0: return rel <= 2 ? l15Tank[rel - 1, facing] : 0;
             case Props.FoldingChair when L.L15ZoneOf(t) == L.L15Zone.Canteen && l15Stool > 0: return rel == 1 ? l15Stool : 0;
             case Props.FoldingTable when L.L15ZoneOf(t) == L.L15Zone.Canteen && l15CTable > 0: return rel == 1 ? l15CTable : 0;
         }

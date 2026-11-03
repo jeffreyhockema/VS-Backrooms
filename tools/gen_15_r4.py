@@ -1082,6 +1082,44 @@ def corpse_shape(pose, with_spear):
                         "pipe", "tape", "shard")})
 
 
+def tank_shape(part):
+    """A hydroponics bay's nutrient tank, two blocks high, its front to the north: on a steel skid, an octagonal white
+    tank (two boxes crossed at 45 degrees) with a sight glass showing a green line low down, a level gauge, a pump on the
+    skid with its outlet; the upper block the tank's shoulder and lid, a feed pipe rising with a flange and a valve."""
+    els = []
+    oct_ = lambda name, y0, y1, r, tex: [box(name + "A", (8 - r, y0, 8 - r * 0.42), (8 + r, y1, 8 + r * 0.42), tex),
+                                         box(name + "B", (8 - r * 0.42, y0, 8 - r), (8 + r * 0.42, y1, 8 + r), tex),
+                                         box(name + "C", (8 - r, y0, 8 - r * 0.42), (8 + r, y1, 8 + r * 0.42), tex,
+                                             rot=(0, 45, 0), origin=(8, y0, 8)),
+                                         box(name + "D", (8 - r * 0.42, y0, 8 - r), (8 + r * 0.42, y1, 8 + r), tex,
+                                             rot=(0, 45, 0), origin=(8, y0, 8))]
+    if part == "lower":
+        els += [box("Skid", (0.5, 0, 0.5), (15.5, 1, 15.5), "steelgrey"),
+                box("SkidRailW", (0.5, 0, 0.5), (1.5, 1.5, 15.5), "hazard"),
+                box("SkidRailE", (14.5, 0, 0.5), (15.5, 1.5, 15.5), "hazard")]
+        els += oct_("Tank", 1, 16, 6.5, "pvc")
+        els += [box("SightFrame", (7, 3, 1), (9, 15, 1.6), "brushed"),
+                box("Sight", (7.4, 3.4, 0.95), (8.6, 14.6, 1.05), "dark", faces=("north",)),
+                box("Level", (7.4, 3.4, 0.9), (8.6, 5.5, 0.95), "liquid", faces=("north",)),
+                box("PumpBody", (10.5, 1, 1), (14.5, 4.5, 4.5), "bezel"),
+                box("PumpMotor", (11, 1.5, 4.5), (14, 4, 7), "steelgrey"),
+                box("PumpOut", (12, 4.5, 2.25), (13, 7.5, 3.25), "pipe"),
+                box("PumpPipe", (8.5, 6.5, 2.25), (13, 7.5, 3.25), "pipe"),
+                box("Drain", (3, 1, 3), (4, 2.5, 4), "pipe")]
+    else:
+        els += oct_("Tank", 0, 8, 6.5, "pvc")
+        els += oct_("Shoulder", 8, 9.5, 5.5, "pvc")
+        els += oct_("Lid", 9.5, 10.25, 4, "brushed")
+        els += [box("GaugeDial", (3.5, 4, 1.4), (6, 6.5, 1.8), {"all": "bezel", "north": "gaugeface"}),
+                box("Riser", (7.5, 10.25, 7.5), (8.5, 16, 8.5), "pipe"),
+                box("Flange", (7, 15, 7), (9, 15.5, 9), "brushed"),
+                box("Valve", (8.5, 12.5, 7.75), (10, 13.25, 8.25), "ledred"),
+                box("ValveWheel", (10, 12, 7.25), (10.4, 13.75, 8.75), "ledred")]
+        els[-5]["faces"]["north"]["uv"] = [0, 0, 16, 16]
+    return write_shape("l15-tank-" + part, els, {k: T(k) for k in ("steelgrey", "hazard", "pvc", "brushed", "dark", "liquid", "bezel",
+                                                                    "pipe", "ledred", "gaugeface")})
+
+
 def stool_shape():
     """A canteen's fixed stool: a floor flange, a steel column, a foot ring, a round seat (two crossed boxes and a cap)."""
     els = [box("Flange", (5.5, 0, 5.5), (10.5, 0.4, 10.5), "brushed"),
@@ -1403,6 +1441,26 @@ def blocktypes():
     d["sidesolid"] = {"all": True}
     d["sideopaque"] = {"all": True}
     write_json(path, d, head[3:])
+
+    # l15-tank
+    img = Image.new("RGBA", (S, S), (232, 230, 220, 255))
+    d = ImageDraw.Draw(img)
+    d.ellipse((2, 2, 29, 29), outline=(40, 40, 44, 255))
+    for k in range(9):
+        a = math.radians(225 - k * 33.75)
+        d.point((int(15.5 + 11 * math.cos(a)), int(15.5 - 11 * math.sin(a))), fill=(40, 40, 44, 255))
+    d.line((15, 16, 8, 22), fill=(190, 30, 24, 255), width=1)
+    save(img, "gaugeface")
+    shapes = {}
+    for part in ("lower", "upper"):
+        base = tank_shape(part)
+        for s in SIDES:
+            shapes[f"*-{part}-{s}"] = {"base": base, "rotateY": ROTATE[s]}
+    json_block("l15-tank", [{"code": "part", "states": ["lower", "upper"]}, {"code": "side", "states": SIDES}], shapes,
+               "Level 15 (round 4): a hydroponics bay's nutrient tank, two blocks high, its front toward its side",
+               {"collisionbox": cuboid((0.05, 0, 0.05, 0.95, 1, 0.95)), "selectionbox": cuboid((0.05, 0, 0.05, 0.95, 1, 0.95))},
+               extra={"drops": [{"type": "item", "code": "metalbracket", "quantity": {"avg": 0.3, "var": 0.3}}]},
+               inventory="l15-tank-lower-north")
 
     # l15-stool, l15-ctable (one variant each)
     for code, shape_fn, coll, comment in (

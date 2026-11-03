@@ -2182,6 +2182,8 @@
 	"block-l15-medmonitor-*": "Vitals Monitor",
 	"blockdesc-l15-medmonitor-lit-*": "A flat green line, the numbers at nothing, ASYSTOLE in amber. Nobody came for that alarm.",
 	"block-l15-stool": "Canteen Stool",
+	"block-l15-tank-*": "Nutrient Tank",
+	"blockdesc-l15-tank-*": "The sight glass shows a green line a hand above the bottom. It has not moved.",
 	"block-l15-lectern-*": "Lectern",
 	"blockdesc-l15-lectern-*": "A lectern with a microphone that goes nowhere. On the desk, a ring where a cup stood a long time.",
 	"block-l15-ctable": "Canteen Table",
