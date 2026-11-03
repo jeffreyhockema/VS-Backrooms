@@ -6,7 +6,7 @@ Rebuilt (codes kept):  l31-skateshelf (real skates in two-by-three cubbies), l31
     with lit strips, a turntable, a mixer between CD decks), l31-speaker (a PA stack), l31-truss (a laced box truss with
     par cans on yokes), l31-discoball (the mirror ball's shape), l31-rinkwood's textures, l31-retrocab (1980s uprights
     in the classic profile), l31-photobooth, l31-dispenser (the green-card machine), l31-cinemabench, l31-mediacab,
-    l31-riser's shape (nosing and aisle lights), l31-table, l31-trophycase, l31-stall, l31-vanity, l31-jukebox; and round 3's wall mounts get
+    l31-riser's shape (nosing and aisle lights), l31-table, l31-trophycase, l31-cctv, l31-stall, l31-vanity, l31-jukebox; and round 3's wall mounts get
     their depth: the neon signs' tubes stand proud of their boards (the DJ sign's too:
     gen_31_walls.py's blocktype is patched for its dj kinds), the big TV gets a bezel, the dryer a real body
 New:  l31-barrier (the rink's barrier: a thin padded wall along the boards' outer edge; straight, corner and post
@@ -1118,6 +1118,28 @@ def trophycase():
     return shape("l31-trophycase", els)
 
 
+def cctv():
+    """A 1990s CCTV camera under the ceiling: a ceiling plate, a drop arm, the tilt head, the camera body in its sun hood
+    tilted down toward the side, the lens with a glint, a red LED and its cable looped back to the ceiling."""
+    disc_tex("r4-lens", 16, lambda d, x, y: (220, 230, 255) if (x, y) in ((6, 5), (6, 6), (7, 5)) else (14, 16, 24) if d < 0.62 else (60, 62, 70))
+    tilt = (18, 0, 0)
+    o = (8, 11.0, 9.0)
+    els = [
+        B("Plate", (6.0, 15.4, 9.0), (10.0, 16.0, 13.0), "plate-white", faces=without(DIRS, "up")),
+        B("Arm", (7.6, 12.0, 10.6), (8.4, 15.4, 11.4), "plate-white", faces=without(DIRS, "up", "down")),
+        B("Knuckle", (7.2, 11.2, 10.2), (8.8, 12.4, 11.8), "r4-black"),
+        B("Body", (6.4, 9.0, 4.0), (9.6, 11.6, 12.0), "plate-white", rot=tilt, origin=o),
+        B("Hood", (6.0, 11.6, 3.2), (10.0, 12.2, 12.4), "plate-white", rot=tilt, origin=o),
+        B("HoodL", (6.0, 9.4, 3.2), (6.4, 11.6, 5.0), "plate-white", rot=tilt, origin=o),
+        B("HoodR", (9.6, 9.4, 3.2), (10.0, 11.6, 5.0), "plate-white", rot=tilt, origin=o),
+        B("Lens", (6.9, 9.4, 3.4), (9.1, 11.2, 4.0), "r4-black", rot=tilt, origin=o, north=("r4-lens", FULL)),
+        B("Led", (8.8, 11.0, 3.8), (9.3, 11.4, 4.0), "cctv-led", glow=255, rot=tilt, origin=o, faces=("north",)),
+        B("Cable", (7.7, 9.6, 12.0), (8.3, 10.2, 13.6), "r4-black", rot=tilt, origin=o),
+        B("CableUp", (7.7, 10.2, 13.0), (8.3, 15.4, 13.6), "r4-black", faces=without(DIRS, "up", "down")),
+    ]
+    return shape("l31-cctv", els)
+
+
 # ======================================================================== Restrooms
 
 def stall():
@@ -1404,6 +1426,9 @@ def blocks():
     prop_block("l31-jukebox", "Level 31: a 1990s jukebox, wood under a stepped neon arch, the record window, selector keys, bubble tubes either side, a chrome grille, 22 units tall, toward the side",
                lambda k: ref, (0.03, 0, 0.21, 0.97, 1, 0.82), (0.03, 0, 0.21, 0.97, 1, 0.82), resistance=3, extra={"lightHsv": [50, 4, 6]})
     riser()
+    ref = cctv()
+    prop_block("l31-cctv", "Level 31: a 1990s CCTV camera on a drop arm under the ceiling, in its sun hood, tilted down toward the side, a red LED",
+               lambda k: ref, (0.36, 0.55, 0.18, 0.64, 1, 0.86), None, resistance=2)
     ref = trophycase()
     prop_block("l31-trophycase", "Level 31: the lobby's trophy case, 30 units tall: an oak base, a lit glass cabinet with chrome door frames and a mirror back, two shelves of cups, skater figures and plaques; open toward the side",
                lambda k: ref, (0, 0, 0.16, 1, 1, 0.96), (0, 0, 0.16, 1, 1, 0.96), material="Wood", sounds=WOOD, resistance=3, extra={"lightHsv": [8, 3, 5]})
