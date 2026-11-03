@@ -29,9 +29,9 @@ public sealed partial class WorldGenerator
     private int l52Grass, l52Soil, l52Rock, l52Gravel, l52Sand, l52Coping, l52Barrier, l52Roof, l52Plinth, l52Canopy;
     private readonly int[] l52Trim = new int[3];
     private readonly int[,] l52Wall = new int[4, 3], l52Light = new int[11, 4], l52Window = new int[2, 2], l52Chain = new int[2, 2];
-    private readonly int[,,] l52Locker = new int[4, 2, 4], l52Board = new int[2, 3, 4];
+    private readonly int[,,] l52Locker = new int[4, 2, 4], l52LockerAjar = new int[4, 2, 4], l52Board = new int[2, 3, 4];
     private readonly int[,,,] l52Plaque = new int[2, 10, 10, 4];
-    private readonly int[,] l52Stall = new int[2, 4], l52Hood = new int[2, 4];
+    private readonly int[,] l52Stall = new int[2, 4], l52Hood = new int[2, 4], l52Ladder = new int[2, 4], l52LabBench = new int[3, 4];
     private readonly int[] l52Bleacher = new int[4], l52PitchLine = new int[2], l52Track = new int[3];
     private readonly int[] l52Slab = new int[11], l52Facade = new int[5], l52Turf = new int[2], l52Court = new int[3], l52Paving = new int[2],
         l52GymLine = new int[3], l52Desk = new int[4], l52Fountain = new int[4];
@@ -59,7 +59,11 @@ public sealed partial class WorldGenerator
             string paint = WorldLayout.L52Paints[p];
             for (int k = 0; k < 3; k++) l52Wall[p, k] = L52Block($"l52-wall-{paint}-{parts[k]}", concreteId);
             for (int k = 0; k < 2; k++)
-                for (int f = 0; f < 4; f++) l52Locker[p, k, f] = L52Block($"l52-locker-{paint}-{halves[k]}-{Sides[f]}", l52Wall[p, k]);
+                for (int f = 0; f < 4; f++)
+                {
+                    l52Locker[p, k, f] = L52Block($"l52-locker-{paint}-{halves[k]}-{Sides[f]}", l52Wall[p, k]);
+                    l52LockerAjar[p, k, f] = L52Block($"l52-lockerajar-{paint}-{halves[k]}-{Sides[f]}", l52Locker[p, k, f]);
+                }
         }
         for (int i = 0; i < 5; i++) l52Facade[i] = L52Block("l52-facade-" + WorldLayout.L52Facades[i], concreteId);
         l52Coping = L52Block("l52-coping", l52Facade[0]);
@@ -105,8 +109,11 @@ public sealed partial class WorldGenerator
             {
                 l52Stall[k, f] = L52Block($"l52-stall-{halves[k]}-{Sides[f]}");
                 l52Hood[k, f] = L52Block($"l52-fumehood-{halves[k]}-{Sides[f]}");
+                l52Ladder[k, f] = L52Block($"l52-ladder-{halves[k]}-{Sides[f]}");
             }
             l52Bleacher[f] = L52Block("l52-bleacher-" + Sides[f]);
+            string[] benches = { "plain", "sink", "gas" };
+            for (int k = 0; k < 3; k++) l52LabBench[k, f] = L52Block($"l52-labbench-{benches[k]}-{Sides[f]}");
         }
         l52Skylight = L52Block("l52-skylight", l52Window[0, 0]);
         l52WallPatch = L52Block("l52-wallpatch", l52Wall[2, 1]);
@@ -347,6 +354,10 @@ public sealed partial class WorldGenerator
             if (rel < top && k is 2 or 3 && (t.Under == Unders.L52Window || entrance && s > 0))
                 return l52Window[k - 2, t.Pier is ArchPier.North or ArchPier.South ? 1 : 0];
             if (entrance && rel == 0) return l52Slab[0];
+            // (Round 4) a hall two storeys high has no floor at its middle line: no band there, the room's paint inside
+            if (bld != null && k == 0 && s >= 1 && rel < top && t.Zone == (byte)Zone.Ext
+                && bld.Kind is WorldLayout.L52BuildingKind.Gym or WorldLayout.L52BuildingKind.Canteen or WorldLayout.L52BuildingKind.Warehouse or WorldLayout.L52BuildingKind.Lecture)
+                return l52ExtWall[bld.Facade, paint, 2, Facing(t.Pier)];
             if (bld != null)
             {
                 // The cornice under the parapet, the bands at the floor lines, the base course
@@ -372,7 +383,9 @@ public sealed partial class WorldGenerator
         if (t.Kind == TileKind.Wall)
         {
             if (h == 0) return concreteId;
-            if (t.Under == Unders.L52Locker && h <= 2) return l52Locker[paint, h - 1, Facing(t.Pier)];
+            // (Round 4: now and then a bank's middle door stands open, the same on both its blocks)
+            if (t.Under == Unders.L52Locker && h <= 2)
+                return Hashing.Unit(Hashing.Hash(seed, gx, gz * 31 + storey, 0x2341)) < 0.07 ? l52LockerAjar[paint, h - 1, Facing(t.Pier)] : l52Locker[paint, h - 1, Facing(t.Pier)];
             // (J. Barry: the Crash's bullet holes filled and painted over, here and there)
             if (h == 2 && paint == 2 && c.Head.Kind == WorldLayout.L52CampusKind.JBarry && Hashing.Unit(Hashing.Hash(seed, gx, gz * 7 + storey, 0x2338)) < 0.06) return l52WallPatch;
             return l52Wall[paint, h - 1];
@@ -441,6 +454,8 @@ public sealed partial class WorldGenerator
             return h is 2 or 3 ? l52Board[h - 2, Math.Min((int)stack, 2), Facing(facing)] : 0;
         if (prop == Props.L52Stall) return h is 1 or 2 ? l52Stall[h - 1, Facing(facing)] : 0;
         if (prop == Props.L52FumeHood) return h is 1 or 2 ? l52Hood[h - 1, Facing(facing)] : 0;
+        if (prop == Props.L52Ladder) return h is 1 or 2 ? l52Ladder[h - 1, Facing(facing)] : 0;
+        if (prop == Props.L52LabBench) return h == 1 ? l52LabBench[Math.Min((int)stack, 2), Facing(facing)] : 0;
         if (prop == Props.L52Bleacher) return h == 1 + stack ? l52Bleacher[Facing(facing)] : h >= 1 && h <= stack ? l52Plinth : 0;
         if (h != 1) return 0;
         if (box)

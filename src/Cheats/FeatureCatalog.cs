@@ -299,6 +299,7 @@ public static class FeatureCatalog
         new(WorldLayout.Level52, "l52meg", "M.E.G. offices (top floor)", Region),
         new(WorldLayout.Level52, "l52canteen", "Canteen", Region),
         new(WorldLayout.Level52, "l52gym", "Gym", Region),
+        new(WorldLayout.Level52, "l52court", "Basketball court (outdoor hoops)", Region),
         new(WorldLayout.Level52, "l52lecture", "Lecture hall", Region),
         new(WorldLayout.Level52, "l52clock", "Clock tower", Region),
         new(WorldLayout.Level52, "l52gap", "Gap in the fence (boards)", Region),

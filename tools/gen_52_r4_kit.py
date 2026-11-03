@@ -358,6 +358,7 @@ def textures(save):
         section(s)
     textures2(s)
     textures3(s)
+    textures4(s)
 
 
 def tex_stall(s):
@@ -1048,6 +1049,7 @@ def shapes():
     out["l52-stall-upper"] = stall("upper")
     out.update(shapes2())
     out.update(shapes3())
+    out.update(shapes4())
     return out
 
 
@@ -1958,4 +1960,268 @@ def shapes3():
             out[f"l52-dugout-{e}-{p}"] = dugout(e, p)
     for p in ("base", "shaft", "cap"):
         out[f"l52-column-{p}"] = column(p)
+    return out
+
+
+# ======================================================================== batch 4 (2026-11-03): lab benches, air handler, tower dial
+#
+#   l52-labbench-{plain,sink,gas}   a chemistry lab bench against the wall (front north): grey-beige cabinets, a black
+#                                   epoxy top at 0.95 block with a drip edge and a back upstand; plain (drawers, doors),
+#                                   sink (a basin let into the top, a gooseneck with lever handles, an eyewash), gas (two
+#                                   turrets with yellow-tipped levers, a double socket box). Taps and the gooseneck stand
+#                                   up to 0.4 block above the block's top.
+#   l52-hvac-{body,top}             an air handler's casing in relief, still filling its block (stackable): corner posts,
+#                                   rails, seams and screws; louvres (body); a fan shroud with a grille over the blades and a
+#                                   lifting eye (top)
+#   l52-sign-clock0..8              the tower dial 3 x 3 in relief: the picture's plate, a raised stone surround and a dark
+#                                   bezel ring following the circle across the pieces, raised hour batons, the hands at
+#                                   3:52 on the centre piece
+#
+# textures() and shapes() above include these; textures4(save) and shapes4() are the batch on its own.
+
+def epoxy_top(seed):
+    """The bench top from above (full picture, top = north): black epoxy, dust, a faint ring stain, a few scratches."""
+    img = M.noise_hv((36, 38, 40), 2, seed, (64, 64), 2, (16, 8))
+    rng = random.Random(seed)
+    px = img.load()
+    for _ in range(260):   # dust
+        x, y = rng.randrange(64), rng.randrange(64)
+        px[x, y] = M.rgba(M.lift(px[x, y], rng.uniform(6, 14)))
+    d = ImageDraw.Draw(img)
+    d.ellipse((38, 30, 52, 44), outline=(58, 58, 56, 255), width=1)   # a ring stain
+    M.scratches(img, 6, seed + 1, (3, 8), 0.12)
+    return img
+
+
+def socket_face(seed):
+    img = M.noise_hv((234, 232, 224), 1, seed, (64, 64), 1, (16, 8))
+    d = ImageDraw.Draw(img)
+    for cx in (17, 47):
+        d.rounded_rectangle((cx - 12, 14, cx + 12, 50), radius=4, outline=(200, 198, 190, 255), width=2)
+        d.rectangle((cx - 5, 22, cx - 3, 30), fill=(40, 40, 44, 255))
+        d.rectangle((cx + 3, 22, cx + 5, 30), fill=(40, 40, 44, 255))
+        d.ellipse((cx - 2, 36, cx + 2, 41), fill=(40, 40, 44, 255))
+    M.ao_border(img, 3, 0.15)
+    return img
+
+
+def textures4(save):
+    s = save
+    s(enamel(8400, (196, 190, 174), grime=0.07, chips=2, bias="bottom"), "r4k-labcab")
+    s(epoxy_top(8401), "r4k-epoxy-top")
+    s(socket_face(8402), "r4k-socket")
+    s(plastic(8403, (60, 150, 80), 2), "r4k-eyewash")
+    # air handler
+    hp = M.painted_metal(8410, base=(176, 174, 164), panel=False, chips=4, under=(120, 116, 108))
+    M.grime(hp, amount=0.1, seed=8411, cover=0.45)
+    M.drips(hp, n=2, seed=8412, color=(120, 104, 84), length=(6, 14), strength=0.25)
+    s(hp, "r4k-hvac")
+    s(M.noise_hv((40, 42, 44), 2, 8413, (32, 32), 2, (16, 8)), "r4k-hvac-dark")
+    s(M.galvanised(8414, base=(160, 164, 166)), "r4k-hvac-galv")
+    # the tower dial's stone surround
+    st = M.concrete(8420, base=(194, 188, 174), aggregate=0.04, cracks=0)
+    M.grime(st, amount=0.1, seed=8421, cover=0.4)
+    s(st, "r4k-towerstone")
+    s(enamel(8422, (34, 36, 40), grime=0.03, chips=2), "r4k-dialmetal")
+
+
+# ---------------------------------------------------------------------- lab benches
+
+def labbench(kind):
+    cab, top, sat, ch = "r4k-labcab", "r4k-epoxy", "r4k-satin", "r4k-chrome"
+    T0, T1 = 14.0, 15.2   # the worktop: its underside and its top (0.95 block)
+    els = [box("Plinth", (0.6, 0, 3.4), (15.4, 1.2, 16), "r4k-black", faces=("north", "east", "west")),
+           box("Carcass", (0.3, 1.2, 2.6), (15.7, T0, 16), cab, faces=fs("south", "down", *(("up",) if kind == "sink" else ()))),
+           box("Drip", (0, T0 - 0.4, 1.6), (16, T0, 2.0), top, faces=("north", "down", "east", "west")),
+           box("Upstand", (0, T1, 15.0), (16, T1 + 1.6, 16), top, faces=fs("south", "down"))]
+    if kind == "sink":   # the top in four pieces round the basin let into it
+        bx0, bx1, bz0, bz1 = 4.6, 11.4, 5.0, 11.6
+        tt = {"top": top, "side": top}
+        els += [box("TopF", (0, T0, 1.6), (16, T1, bz0), tt, faces=fs("south")),
+                box("TopB", (0, T0, bz1), (16, T1, 15.0), tt, faces=fs("north")),
+                box("TopL", (0, T0, bz0), (bx0, T1, bz1), tt, faces=("up", "east", "west")),
+                box("TopR", (bx1, T0, bz0), (16, T1, bz1), tt, faces=("up", "east", "west")),
+                box("BasinFloor", (bx0, T0 - 3.0, bz0), (bx1, T0 - 2.6, bz1), top, faces=("up",)),
+                box("Drain", (7.4, T0 - 2.6, 7.7), (8.6, T0 - 2.55, 8.9), "r4k-satin", faces=("up",))]
+        # the basin's walls, their faces inward
+        els += [box("BasinN", (bx0, T0 - 2.6, bz0 - 0.1), (bx1, T0, bz0), top, faces=("south",)),
+                box("BasinS", (bx0, T0 - 2.6, bz1), (bx1, T0, bz1 + 0.1), top, faces=("north",)),
+                box("BasinW", (bx0 - 0.1, T0 - 2.6, bz0), (bx0, T0, bz1), top, faces=("east",)),
+                box("BasinE", (bx1, T0 - 2.6, bz0), (bx1 + 0.1, T0, bz1), top, faces=("west",))]
+        # the gooseneck on the upstand, its wrist-blade levers; an eyewash at the side
+        els += octo("Riser", (7.5, T1 + 1.6, 14.4), (8.5, T1 + 6.4, 15.4), ch)
+        els += [box("Neck", (7.55, T1 + 6.0, 9.6), (8.45, T1 + 6.9, 15.0), ch),
+                box("Spout", (7.55, T1 + 4.6, 9.6), (8.45, T1 + 6.0, 10.4), ch),
+                box("Nozzle", (7.7, T1 + 4.2, 9.75), (8.3, T1 + 4.6, 10.25), "r4k-black", faces=fs("up"))]
+        for sgn in (-1, 1):
+            x = 8 + sgn * 2.2
+            els += [box(f"Valve{sgn}", (x - 0.6, T1 + 1.8, 14.2), (x + 0.6, T1 + 3.0, 15.0), ch, faces=fs("south")),
+                    box(f"Blade{sgn}", (x - 0.25, T1 + 2.0, 11.4), (x + 0.25, T1 + 2.6, 14.2), ch)]
+        els += octo("Eyewash", (12.9, T1, 12.6), (13.7, T1 + 2.4, 13.4), "r4k-eyewash")
+        els += [box("EyewashHead", (12.5, T1 + 2.4, 12.2), (14.1, T1 + 2.9, 13.8), "r4k-eyewash"),
+                box("EyewashCap", (12.7, T1 + 2.9, 12.4), (13.9, T1 + 3.1, 13.6), "r4k-pin-yellow", faces=fs("down"))]
+        doors = ((0.6, 7.9, 1.6, 13.4), (8.1, 15.4, 1.6, 13.4))
+        drawers = ()
+    else:
+        t = box("Top", (0, T0, 1.6), (16, T1, 15.0), {"top": "r4k-epoxy-top", "side": top}, faces=fs("south"))
+        full_uv(t, "up")
+        els.append(t)
+        doors = ((0.6, 7.9, 1.6, 10.2), (8.1, 15.4, 1.6, 10.2))
+        drawers = ((0.6, 7.9, 10.6, 13.4), (8.1, 15.4, 10.6, 13.4))
+        if kind == "gas":
+            for k, x in enumerate((4.0, 12.0)):   # two turrets, each with two taps
+                els += octo(f"Flange{k}", (x - 0.9, T1, 12.6), (x + 0.9, T1 + 0.3, 14.4), ch)
+                els += octo(f"Turret{k}", (x - 0.5, T1 + 0.3, 13.0), (x + 0.5, T1 + 3.6, 14.0), ch)
+                els += [box(f"TurretCap{k}", (x - 0.6, T1 + 3.6, 12.9), (x + 0.6, T1 + 4.0, 14.1), ch)]
+                for sgn in (-1, 1):
+                    els += [box(f"Tap{k}{sgn}", (x - 0.25, T1 + 2.2 + (0.6 if sgn > 0 else 0), 11.6), (x + 0.25, T1 + 2.6 + (0.6 if sgn > 0 else 0), 13.0), ch),
+                            box(f"Lever{k}{sgn}", (x + sgn * 0.5 - (0.15 if sgn > 0 else 1.6), T1 + 1.0 + (0.6 if sgn > 0 else 0), 12.9),
+                                (x + sgn * 0.5 + (1.6 if sgn > 0 else 0.15), T1 + 1.4 + (0.6 if sgn > 0 else 0), 13.3), ch),
+                            box(f"LeverTip{k}{sgn}", (x + sgn * 1.9 - 0.3, T1 + 0.9 + (0.6 if sgn > 0 else 0), 12.8),
+                                (x + sgn * 1.9 + 0.3, T1 + 1.5 + (0.6 if sgn > 0 else 0), 13.4), "r4k-pin-yellow")]
+            sk = box("Socket", (6.0, T1 + 1.7, 14.4), (10.0, T1 + 3.7, 15.0), {"front": "r4k-socket", "side": "r4k-white-plastic"},
+                     faces=fs("south"))
+            full_uv(sk, "north")
+            els += [sk, box("Conduit", (9.6, T1 + 1.6, 14.6), (10.0, T1 + 1.7, 15.0), "r4k-white-plastic", faces=("north", "east"))]
+    for k, (x0, x1, y0, y1) in enumerate(doors):
+        els += [box(f"Door{k}", (x0, y0, 2.2), (x1, y1, 2.6), cab, faces=fs("south")),
+                box(f"DoorPanel{k}", (x0 + 0.9, y0 + 0.9, 2.05), (x1 - 0.9, y1 - 0.9, 2.2), cab, faces=fs("south"))]
+        hx = x1 - 0.9 if k == 0 else x0 + 0.5
+        els += [box(f"Pull{k}", (hx, y1 - 3.6, 1.4), (hx + 0.4, y1 - 0.8, 1.8), sat),
+                box(f"PullA{k}", (hx, y1 - 3.4, 1.8), (hx + 0.4, y1 - 3.1, 2.2), sat, faces=fs("north", "south")),
+                box(f"PullB{k}", (hx, y1 - 1.3, 1.8), (hx + 0.4, y1 - 1.0, 2.2), sat, faces=fs("north", "south"))]
+    for k, (x0, x1, y0, y1) in enumerate(drawers):
+        cx = (x0 + x1) / 2
+        els += [box(f"Drawer{k}", (x0, y0, 2.2), (x1, y1, 2.6), cab, faces=fs("south")),
+                box(f"DPull{k}", (cx - 1.6, y0 + 1.2, 1.5), (cx + 1.6, y0 + 1.6, 1.9), sat),
+                box(f"DPullA{k}", (cx - 1.6, y0 + 1.2, 1.9), (cx - 1.2, y0 + 1.6, 2.2), sat, faces=fs("north", "south")),
+                box(f"DPullB{k}", (cx + 1.2, y0 + 1.2, 1.9), (cx + 1.6, y0 + 1.6, 2.2), sat, faces=fs("north", "south"))]
+    return els
+
+
+# ---------------------------------------------------------------------- air handler
+
+def hvac_casing(part):
+    """The casing's four sides: corner posts and rails at the block's faces (so the block stays full), a recessed core
+    between them, a vertical seam strip and screws; louvre slats (body) or a plain panel (top)."""
+    hv, dk, gv = "r4k-hvac", "r4k-hvac-dark", "r4k-hvac-galv"
+    top = 14.5 if part == "top" else 15.95   # (the body's core stops a hair under the posts' tops)
+    core_tex = dk if part == "body" else hv
+    els = [box("Core", (0.6, 0, 0.6), (15.4, top, 15.4), core_tex, faces=fs("up") if part == "top" else ALL)]
+    for x in (0, 14.6):
+        for z in (0, 14.6):
+            els.append(box(f"Post{x}{z}", (x, 0, z), (x + 1.4, 16, z + 1.4), hv))
+    # rails top and bottom on each side (the side's faces at the block's face)
+    rails = [("N", (1.4, 0, 0), (14.6, 1.2, 0.6)), ("S", (1.4, 0, 15.4), (14.6, 1.2, 16)),
+             ("W", (0, 0, 1.4), (0.6, 1.2, 14.6)), ("E", (15.4, 0, 1.4), (16, 1.2, 14.6))]
+    for n, a, b in rails:
+        els.append(box(f"RailB{n}", a, b, hv, faces=fs("down")))
+        els.append(box(f"RailT{n}", (a[0], 14.8, a[2]), (b[0], 16, b[2]), hv, faces=fs("up") if part == "body" else ALL))
+    if part == "body":
+        # louvres: slats tilted down and out, across each side between the rails
+        for i, y in enumerate((2.6, 4.8, 7.0, 9.2, 11.4, 13.6)):
+            els += [box(f"LvN{i}", (1.4, y - 0.4, 0.1), (14.6, y + 0.4, 1.0), gv, rot=(-XSIGN * 35, 0, 0), origin=(8, y, 0.6)),
+                    box(f"LvS{i}", (1.4, y - 0.4, 15.0), (14.6, y + 0.4, 15.9), gv, rot=(XSIGN * 35, 0, 0), origin=(8, y, 15.4)),
+                    box(f"LvW{i}", (0.1, y - 0.4, 1.4), (1.0, y + 0.4, 14.6), gv, rot=(0, 0, ZROT * 35), origin=(0.6, y, 8)),
+                    box(f"LvE{i}", (15.0, y - 0.4, 1.4), (15.9, y + 0.4, 14.6), gv, rot=(0, 0, -ZROT * 35), origin=(15.4, y, 8))]
+    else:
+        for n, a, b in (("N", (7.6, 1.2, 0.2), (8.4, 14.8, 0.6)), ("S", (7.6, 1.2, 15.4), (8.4, 14.8, 15.8)),
+                        ("W", (0.2, 1.2, 7.6), (0.6, 14.8, 8.4)), ("E", (15.4, 1.2, 7.6), (15.8, 14.8, 8.4))):
+            els.append(box(f"Seam{n}", a, b, hv, faces=fs("up", "down")))
+    # screws along the rails, two per side
+    for x in (4.0, 11.6):
+        els += [box(f"ScrN{x}", (x, 13.6, -0.15), (x + 0.4, 14.0, 0.6), "r4k-bolt", faces=fs("south")),
+                box(f"ScrS{x}", (x, 13.6, 15.4), (x + 0.4, 14.0, 16.15), "r4k-bolt", faces=fs("north"))]
+    return els
+
+
+def hvac(part):
+    els = hvac_casing(part)
+    if part == "top":
+        # the deck rail round the top, the fan shroud ring, the grille over it, the blades and hub under it, a lifting eye
+        gv, dk = "r4k-hvac-galv", "r4k-hvac-dark"
+        els += [box("Pit", (2.2, 14.4, 2.2), (13.8, 14.5, 13.8), dk, faces=("up",))]
+        els += ring_y("Shroud", 8, 8, 14.5, 15.8, 5.6, 0.7, "r4k-hvac", n=16, faces=("north", "south", "up"))
+        for i, a in enumerate((0, 72, 144, 216, 288)):
+            els.append(box(f"Blade{i}", (7.4, 14.6, 3.4), (8.6, 14.9, 8.0), "r4k-hvac-galv", rot=(0, a, 0), origin=(8, 14.75, 8)))
+        els += octo("Hub", (7.0, 14.5, 7.0), (9.0, 15.1, 9.0), dk, faces=fs("down"))
+        for i, k in enumerate((-4.0, -2.0, 0.0, 2.0, 4.0)):
+            half = math.sqrt(max(0.0, 5.0 ** 2 - k ** 2))
+            els += [box(f"GrX{i}", (8 - half, 15.5, 8 + k - 0.15), (8 + half, 15.7, 8 + k + 0.15), gv, faces=fs("east", "west")),
+                    box(f"GrZ{i}", (8 + k - 0.15, 15.7, 8 - half), (8 + k + 0.15, 15.9, 8 + half), gv, faces=fs("north", "south"))]
+        els += [box("EyeL", (1.5, 14.5, 1.6), (1.9, 15.8, 2.0), gv, faces=fs("down")),
+                box("EyeR", (2.7, 14.5, 1.6), (3.1, 15.8, 2.0), gv, faces=fs("down")),
+                box("EyeTop", (1.5, 15.8, 1.6), (3.1, 16.0, 2.0), gv, faces=fs("down"))]
+    return els
+
+
+# ---------------------------------------------------------------------- tower dial
+
+DIAL_R = 21.0          # the white face's radius in units (84 px at 4 px a unit)
+
+
+def dial_piece_of(gx, gy):
+    """The piece index (0..8, row by row from the top, left to right seen from in front) for a point in the dial's frame
+    (units from the centre piece's origin; x grows to the +x side, which is the viewer's left)."""
+    dx, dy = math.floor(gx / 16), math.floor(gy / 16)
+    c, r = 1 - dx, 1 - dy
+    if 0 <= c <= 2 and 0 <= r <= 2:
+        return r * 3 + c
+    return None
+
+
+def tower_dial():
+    """The nine pieces of the tower clock's dial in relief. Built in the dial's frame (the centre piece's own units, the
+    centre at (8, 8)), each element given to the piece its middle falls in and moved into that piece's frame."""
+    pieces = {i: [] for i in range(9)}
+    cx, cy = 8.0, 8.0
+
+    def put(el, mx, my):
+        i = dial_piece_of(mx, my)
+        if i is None:
+            return
+        r, c = divmod(i, 3)
+        dx, dy = 1 - c, 1 - r
+        pieces[i].append(move([el], -16 * dx, -16 * dy, 0)[0])
+
+    def ring(prefix, r_out, t, z0, tex, n, faces):
+        L = 2 * r_out * math.tan(math.pi / n) + 0.08
+        for k in range(n):
+            a = k * 360 / n
+            el = box(f"{prefix}{k}", (cx - L / 2, cy + r_out - t, z0), (cx + L / 2, cy + r_out, 16), tex, faces=faces,
+                     rot=(0, 0, a) if k else None, origin=(cx, cy, 15.5))
+            ra = math.radians(a)
+            rm = r_out - t / 2
+            # rotationZ by a turns +y toward -x (the hands' convention: clockwise seen from the front)
+            put(el, cx - rm * math.sin(ra) * (-ZSIGN), cy + rm * math.cos(ra))
+
+    ring("Stone", 23.9, 1.8, 14.0, "r4k-towerstone", 48, ("north", "up", "down"))
+    ring("Bezel", 22.15, 1.25, 14.6, "r4k-dialmetal", 48, ("north", "up", "down"))
+    # the hour batons, raised
+    for h in range(12):
+        a = h * 30
+        el = box(f"Baton{h}", (cx - 0.55, cy + 19.0, 14.85), (cx + 0.55, cy + 21.0, 15.2), "r4k-dialmetal",
+                 faces=fs("south"), rot=(0, 0, a) if a else None, origin=(cx, cy, 15.0))
+        ra = math.radians(a)
+        put(el, cx - 20.0 * math.sin(ra) * (-ZSIGN), cy + 20.0 * math.cos(ra))
+    # the face plates with their pictures
+    for i in range(9):
+        p = box("Face", (0, 0, 15.2), (16, 16, 16), {"north": f"sign-clock{i}", "side": "r4k-towerstone"}, faces=("north",))
+        full_uv(p, "north")
+        pieces[i].insert(0, p)
+    # the hands at 3:52 on the centre piece (they reach over its edges), a counterweight tail, the boss
+    for name, ang, ln, tail, w, z in (("Hour", 116, 12.5, 2.5, 1.9, 14.7), ("Minute", 312, 18.0, 3.0, 1.2, 14.3)):
+        pieces[4].append(box(name, (cx - w / 2, cy - tail, z - 0.4), (cx + w / 2, cy + ln, z), "r4k-dialmetal",
+                             faces=fs("south"), rot=(0, 0, -ang * ZSIGN), origin=(cx, cy, z)))
+        pieces[4].append(box(name + "Tip", (cx - w * 0.9, cy + ln - 2.4, z - 0.4), (cx + w * 0.9, cy + ln - 1.0, z),
+                             "r4k-dialmetal", faces=fs("south"), rot=(0, 0, -ang * ZSIGN), origin=(cx, cy, z)))
+    pieces[4] += octo("Boss", (cx - 1.0, cy - 1.0, 13.6), (cx + 1.0, cy + 1.0, 14.3), "r4k-dialmetal", axis="z", faces=fs("south"))
+    return {f"l52-sign-clock{i}": els for i, els in pieces.items()}
+
+
+def shapes4():
+    out = {f"l52-labbench-{k}": labbench(k) for k in ("plain", "sink", "gas")}
+    out["l52-hvac-body"] = hvac("body")
+    out["l52-hvac-top"] = hvac("top")
+    out.update(tower_dial())
     return out

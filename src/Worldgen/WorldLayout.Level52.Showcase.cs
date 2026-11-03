@@ -111,10 +111,10 @@ public partial class WorldLayout
             if (best > 0) Add(md, "campus", bu, bv, 0, Heading((quad.U0 + quad.U1) / 2 - bu, (quad.V0 + quad.V1) / 2 - bv), 10);
         }
 
-        // 4. The courtyard: from the path round it, halfway along one side, across it
+        // 4. The courtyard: (round 4) from the path in one corner, along the diagonal to the far corner (over the lawns' trees, not into them)
         int cu0 = quad.U0 + 21, cv0 = quad.V0 + 21, cu1 = quad.U1 - 21, cv1 = quad.V1 - 21;
-        if (Near(md, (cu0 + cu1) / 2 + 5, cv0, Outdoors, 6) is { } cy)
-            Add(md, "courtyard", cy.U, cy.V, 0, Heading((cu0 + cu1) / 2 - cy.U, (cv0 + cv1) / 2 + 6 - cy.V), 2);
+        if (Near(md, cu0 + 1, cv0 + 1, Outdoors, 4) is { } cy)
+            Add(md, "courtyard", cy.U, cy.V, 0, Heading(cu1 - cy.U, cv1 - cy.V), 4);
 
         // 4b. The courtyard's fountain, from the paving round it
         {
@@ -300,6 +300,30 @@ public partial class WorldLayout
             if (Near(md, su, sv, t => t.Zone == (byte)L52Zone.Hall, 3) is { } p)
                 Add(md, "gym", p.U, p.V, 0, Heading(room.U1 - p.U, room.V1 - p.V), -6);
             break;
+        }
+
+        // (Round 4) A hoop close: in Marshall David's gym from the court, and on J. Turner's courtyard court, each from about
+        // seven tiles out and two to the side, looking up at the board and rim
+        void HoopShot(L52Campus c, string kind, string name)
+        {
+            if (c == null) return;
+            foreach (var (i, list) in c.Fixtures)
+                foreach (L52Fixture f in list)
+                {
+                    if (!f.Code.StartsWith($"l52-hoop-board-{kind}-")) continue;
+                    ArchPier fp = f.Code.EndsWith("north") ? ArchPier.North : f.Code.EndsWith("south") ? ArchPier.South : f.Code.EndsWith("east") ? ArchPier.East : ArchPier.West;
+                    var (fu, fv) = L52Step(fp);
+                    var (ru, rv) = L52Step(L52RightOf(fp));
+                    int bu = i % c.W, bv = i / c.W, u = bu + fu * 7 + ru * 2, v = bv + fv * 7 + rv * 2;
+                    if (!c.InGrid(u, v)) continue;
+                    Add(c, name, u, v, 0, Heading(bu - u + 0.0, bv - v + 0.0), 14);
+                    return;
+                }
+        }
+        HoopShot(md, "gym", "gym-hoop");
+        {
+            var (tn, _) = L52Named;
+            HoopShot(L52CampusOf(tn.Ci, tn.Cj), "yard", "court-hoop");
         }
 
         // A lecture theatre (Marshall David's, or the nearest campus's): from the front, by the board, up its tiers

@@ -760,6 +760,28 @@ public sealed partial class WorldLayout
                 t.Ceiling = i == 3 && (j == 0 || j == 6) ? CeilingKind.LightOn : 0;
                 if (j >= 1 && j <= 4 && i != 3) t.Stair = 1;
             }
+        // (Round 4) handrails on the walls beside both flights, in the air over each step, storey by storey
+        if (c.Buildings.Count > 0)
+        {
+            int storeys = c.Buildings[^1].Storeys;
+            foreach (int i in new[] { 0, 2, 4, 6 })
+            {
+                bool flightA = i <= 2;
+                ArchPier climb = flightA ? L52Opposite(s.J) : s.J;
+                bool plusIRight = L52Step(L52RightOf(climb)) == L52Step(s.I);
+                bool wallPlusI = i == 2 || i == 6;
+                string hand = wallPlusI == plusIRight ? "r" : "l";
+                for (int j = 1; j <= 4; j++)
+                {
+                    int u = s.U + j * jdu + i * idu, v = s.V + j * jdv + i * idv;
+                    for (int sf = flightA ? 0 : 1; sf <= storeys - 2; sf += 2)
+                    {
+                        int rel = sf * L52Storey + (flightA ? 5 - j : j) + 1;
+                        L52Fix(c, u, v, $"l52-stairrail-{hand}-{L52Side(climb)}", rel, rel);
+                    }
+                }
+            }
+        }
         // The wall round it, and its doors
         for (int i = -1; i <= 7; i++)
             for (int j = -1; j <= 7; j++)
@@ -1539,7 +1561,7 @@ public sealed partial class WorldLayout
             case L52RoomKind.Lab:
                 // Benches along both long walls (a sink now and then), fume hoods on the far one, islands down the middle
                 if (d == ld - 1 && a >= 1 && a <= la - 2 && a % 4 == 2) { facing = room.DoorSide; return Props.L52FumeHood; }
-                if ((d == 1 || d == ld - 1) && a >= 1 && a <= la - 2) { facing = d == 1 ? intoRoom : room.DoorSide; stack = (byte)(a % 5 == 3 ? 1 : 0); return Props.KitchenCounter; }
+                if ((d == 1 || d == ld - 1) && a >= 1 && a <= la - 2) { facing = d == 1 ? intoRoom : room.DoorSide; stack = (byte)(a % 5 == 3 ? 1 : a % 5 == 1 ? 2 : 0); return Props.L52LabBench; }
                 if (d == ld / 2 && ld >= 6 && a >= 2 && a <= la - 3 && a % 4 != 0) return Props.FoldingTable;
                 return 0;
             case L52RoomKind.Library:
@@ -1548,6 +1570,8 @@ public sealed partial class WorldLayout
                 int split = la * 3 / 5;
                 if (d == 1 && a == la - 2) { facing = room.DoorSide; return Props.ReceptionDesk; }
                 if (a < split && d >= 2 && d <= ld - 1 && a % 3 == 1) { facing = toLowA; return Props.OfficeBookshelf; }
+                // (Round 4) the rolling ladder left against the first stack
+                if (a == 3 && a + 1 < split && ld >= 5 && d == 2 + (int)((h >> 12) % (ulong)(ld - 3))) { facing = toLowA; return Props.L52Ladder; }
                 if (a > split && a <= la - 2 && d >= 3 && d <= ld - 2)
                 {
                     int row = (d - 3) % 3;

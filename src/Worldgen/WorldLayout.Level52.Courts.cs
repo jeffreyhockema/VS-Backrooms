@@ -174,4 +174,70 @@ public sealed partial class WorldLayout
                     return;
                 }
     }
+
+    /// <summary>
+    /// A projector hung from the ceiling in the middle of every classroom, storey by storey (a room is a classroom on some
+    /// storeys only), its lens toward the board: the board's end as L52Furnish picks it.
+    /// </summary>
+    private void L52LayProjectors(L52Campus c, L52Room r)
+    {
+        if (r.Kind is not (L52RoomKind.Classroom or L52RoomKind.Lodging) || r.Building < 1 || r.Building > c.Buildings.Count) return;
+        ArchPier side = r.DoorSide;
+        bool alongX = side is ArchPier.North or ArchPier.South;
+        int la = alongX ? r.U1 - r.U0 + 1 : r.V1 - r.V0 + 1, ld = alongX ? r.V1 - r.V0 + 1 : r.U1 - r.U0 + 1;
+        if (la < 6 || ld < 4) return;
+        ArchPier toLowA = alongX ? ArchPier.West : ArchPier.North, toHighA = L52Opposite(toLowA);
+        int storeys = c.Buildings[r.Building - 1].Storeys;
+        for (int storey = 0; storey < storeys; storey++)
+        {
+            if (L52KindOn(c, r, storey) != L52RoomKind.Classroom) continue;
+            ulong h = Hashing.Hash(seed, c.Head.X0 + r.U0 + storey * 131, c.Head.Z0 + r.V0, SaltL52Room);
+            bool boardLow = (h & 1) == 0;
+            int dEnd = Math.Min(ld - 2, 6), a = boardLow ? la / 2 - 1 : la - la / 2, d = (1 + dEnd + 1) / 2;
+            var (u, v) = L52RoomTile(r, side, a, d);
+            int rel = storey * L52Storey + 3;
+            if (L52FixFree(c, u, v, rel, rel)) L52Fix(c, u, v, $"l52-projector-{L52Side(boardLow ? toLowA : toHighA)}", rel, rel);
+            // A poster on the back wall, facing the board, in about half the classrooms
+            if ((h >> 40 & 1) == 0) continue;
+            int pa = boardLow ? la - 1 : 0, pd = ld / 2;
+            var (pu, pv) = L52RoomTile(r, side, pa, pd);
+            var (wu, wv) = L52RoomTile(r, side, boardLow ? la : -1, pd);
+            string poster = (h >> 41 & 3) switch { 0 => "run", 1 => "quiet", 2 => "fire", _ => "hands" };
+            if (c.InGrid(wu, wv) && c.At(wu, wv).Kind == TileKind.Wall && L52FixFree(c, pu, pv, storey * L52Storey + 2, storey * L52Storey + 2))
+                L52Fix(c, pu, pv, $"l52-sign-poster-{poster}-{L52Side(boardLow ? toLowA : toHighA)}", storey * L52Storey + 2, storey * L52Storey + 2);
+        }
+    }
+
+    /// <summary>
+    /// Columns under the outer corners of every entrance canopy (L52LayEntrances lays the canopy three tiles out, a tile
+    /// wider than the door each side): base, shaft and cap up to the canopy's soffit.
+    /// </summary>
+    private static void L52LayCanopyColumns(L52Campus c)
+    {
+        for (int v = 0; v < c.D; v++)
+            for (int u = 0; u < c.W; u++)
+            {
+                Tile e = c.At(u, v);
+                if (e.Zone != (byte)L52Zone.Entrance || e.Depth == 0) continue;
+                var (ou, ov) = L52Step(e.Pier);
+                if (!c.InGrid(u + ou, v + ov) || c.At(u + ou, v + ov).Depth != 0) continue;
+                var (au, av) = L52Step(L52LeftOf(e.Pier));
+                foreach (int l in new[] { -1, 1 })
+                {
+                    int pu = u + ou * 3 + au * l, pv = v + ov * 3 + av * l;
+                    if (!c.InGrid(pu, pv) || !c.InGrid(pu + au * l, pv + av * l) || !c.InGrid(pu + ou, pv + ov)) continue;
+                    Tile p = c.At(pu, pv);
+                    if (p.Overhead != Overheads.L52Canopy || c.At(pu + au * l, pv + av * l).Overhead == Overheads.L52Canopy
+                        || c.At(pu + ou, pv + ov).Overhead == Overheads.L52Canopy || !L52FixFree(c, pu, pv, 1, 3)) continue;
+                    L52Fix(c, pu, pv, "l52-column-base", 1, 1);
+                    L52Fix(c, pu, pv, "l52-column-shaft", 2, 2);
+                    L52Fix(c, pu, pv, "l52-column-cap", 3, 3);
+                    // A planter against the wall just beyond the canopy's side
+                    int qu = u + ou + au * l * 2, qv = v + ov + av * l * 2;
+                    if (c.InGrid(qu, qv) && c.At(qu, qv).Depth == 0 && c.At(qu, qv).Kind == TileKind.Floor && c.At(qu, qv).Overhead != Overheads.L52Canopy
+                        && c.At(qu, qv).Variant == 0 && L52FixFree(c, qu, qv, 1, 1) && c.At(qu - ou, qv - ov).Depth > 0)
+                        L52Fix(c, qu, qv, "l52-planter", 1, 1);
+                }
+            }
+    }
 }

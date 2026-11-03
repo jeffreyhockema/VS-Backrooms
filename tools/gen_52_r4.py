@@ -680,6 +680,8 @@ def expected():
             for e in "lmr":
                 codes.add(f"l52-dugout-{e}-{h}-{s}")
         codes.add(f"l52-projector-{s}")
+    codes |= {f"l52-labbench-{k}-{s}" for k in ("plain", "sink", "gas") for s in SIDES}
+    codes |= {f"l52-stairrail-{h}-{s}" for h in "lr" for s in SIDES}
     codes |= {"l52-column-base", "l52-column-shaft", "l52-column-cap", "l52-planter"}
     cells = sorted({c for surf in MARK_CELLS for c in MARK_CELLS[surf]})
     for surf in ("gym", "yard"):
@@ -755,6 +757,65 @@ def set_blocktypes():
                  creative=("*",), resistance=4)
 
 
+def plant_blocktypes():
+    """The labs' benches (kit shapes) and the roofs' air handlers, now JSON in relief (they still fill their block, so they stack)."""
+    sh = lambda n: "backrooms:block/52/" + n
+    R3.oriented("l52-labbench", [G.group("kind", ["plain", "sink", "gas"]), G.group("side", SIDES)],
+                {f"l52-labbench-{k}": sh(f"l52-labbench-{k}") for k in ("plain", "sink", "gas")},
+                "Level 52: a lab bench against the wall, black epoxy on grey cupboards: plain, a sink with a gooseneck and an eyewash, gas "
+                "taps and sockets (nothing on it: the labs are empty)", "Stone", G.STONE, lambda p: (0, 0, 0.1, 1, 0.95, 1),
+                sel=lambda p: (0, 0, 0.1, 1, 1, 1))
+    G.json_block("l52-hvac", [G.group("part", ["body", "top"])], {f"l52-hvac-{k}": {"base": sh(f"l52-hvac-{k}")} for k in ("body", "top")},
+                 "Level 52: an air-handling unit on a roof (body: casing and louvres; top: the fan shroud and grille), in relief; a block each",
+                 "Metal", G.METAL, {"*": G.cuboid((0, 0, 0, 1, 1, 1))}, {"*": G.cuboid((0, 0, 0, 1, 1, 1))}, creative=("*",), resistance=6,
+                 extra={"lightAbsorption": 99})
+
+
+def rail_shape(hand):
+    """A stair handrail on the wall beside a flight, in the air block over a step (the flight climbs north, one block a
+    block): a steel rail 0.9 block over the nosings' line, rising at 45 degrees, on a bracket and wall rosette (hand r: the wall
+    at +x, the climber's right; l: at -x)."""
+    st = "r4-steel-dark"
+    x0 = 13.4 if hand == "r" else 1.4
+    xw0, xw1 = (15.4, 16.0) if hand == "r" else (0.0, 0.6)
+    bx0, bx1 = (14.4, 15.4) if hand == "r" else (0.6, 1.6)
+    els = [box("Rail", (x0, 5.8, 8 - 11.4), (x0 + 1.2, 7.0, 8 + 11.4), st, rot=(45, 0, 0), origin=(x0 + 0.6, 6.4, 8)),
+           box("Bracket", (bx0, 4.6, 7.6), (bx1, 5.4, 8.4), "r4k-satin"),
+           box("Stem", (x0 + 0.3, 4.6, 7.6), (x0 + 0.9, 5.9, 8.4), "r4k-satin"),
+           box("Rosette", (xw0, 3.8, 7.0), (xw1, 6.2, 9.0), "r4k-satin")]
+    return els
+
+
+def rail_blocktypes():
+    shp = {f"l52-stairrail-{h}": G.shape(f"l52-stairrail-{h}", rail_shape(h)) for h in ("l", "r")}
+    R3.oriented("l52-stairrail", [G.group("hand", ["l", "r"]), G.group("side", SIDES)], shp,
+                "Level 52: a stairwell's handrail on the wall beside a flight (side: the way the flight climbs; hand: the wall on the "
+                "climber's left or right), in the air over a step", "Metal", G.METAL, None, sel=lambda p: (0, 0, 0, 1, 0.5, 1))
+
+
+def jet_shape():
+    """The courtyard fountain's middle (overrides round 3's): a fluted column on a plinth, a lipped bowl, a small upper bowl on a
+    stem, the jet and the water falling back in four sheets."""
+    st, w = "fountain-stone", "fountain-water"
+    els = [box("Plinth", (4.5, 0, 4.5), (11.5, 1.5, 11.5), st), box("Torus", (5.2, 1.5, 5.2), (10.8, 2.3, 10.8), st)]
+    for k in range(8):
+        els.append(box(f"Flute{k}", (7.2, 2.3, 5.4), (8.8, 8.0, 6.2), st, rot=(0, k * 45, 0) if k else None, origin=(8, 5, 8)))
+    els += [box("Core", (6.0, 2.3, 6.0), (10.0, 8.0, 10.0), st),
+            box("BowlFoot", (5.0, 8.0, 5.0), (11.0, 9.0, 11.0), st),
+            box("Bowl", (2.5, 9.0, 2.5), (13.5, 10.4, 13.5), st),
+            box("LipN", (2.0, 10.4, 2.0), (14.0, 11.4, 3.0), st), box("LipS", (2.0, 10.4, 13.0), (14.0, 11.4, 14.0), st),
+            box("LipW", (2.0, 10.4, 3.0), (3.0, 11.4, 13.0), st), box("LipE", (13.0, 10.4, 3.0), (14.0, 11.4, 13.0), st),
+            box("Water", (3.0, 11.0, 3.0), (13.0, 11.1, 13.0), w, faces=("up",)),
+            box("Stem", (7.2, 11.0, 7.2), (8.8, 13.0, 8.8), st),
+            box("Cup", (5.8, 13.0, 5.8), (10.2, 14.0, 10.2), st),
+            box("CupWater", (6.2, 14.0, 6.2), (9.8, 14.05, 9.8), w, faces=("up",)),
+            box("Jet", (7.5, 14.0, 7.5), (8.5, 16.0, 8.5), w)]
+    for nm, a, b in (("FallN", (6.0, 11.1, 5.6), (10.0, 13.6, 5.7)), ("FallS", (6.0, 11.1, 10.3), (10.0, 13.6, 10.4)),
+                     ("FallW", (5.6, 11.1, 6.0), (5.7, 13.6, 10.0)), ("FallE", (10.3, 11.1, 6.0), (10.4, 13.6, 10.0))):
+        els.append(box(nm, a, b, w, faces=("north", "south") if nm in ("FallN", "FallS") else ("east", "west")))
+    return els
+
+
 def build(gen):
     global G
     G = gen
@@ -765,3 +826,6 @@ def build(gen):
     locker_blocktypes()
     seat_blocktypes()
     set_blocktypes()
+    plant_blocktypes()
+    rail_blocktypes()
+    G.shape("l52-jet", jet_shape())

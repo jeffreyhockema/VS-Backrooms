@@ -1,0 +1,1312 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4k-black": "backrooms:block/52/r4k-black",
+		"r4k-epoxy": "backrooms:block/52/r4k-epoxy",
+		"r4k-epoxy-top": "backrooms:block/52/r4k-epoxy-top",
+		"r4k-labcab": "backrooms:block/52/r4k-labcab",
+		"r4k-satin": "backrooms:block/52/r4k-satin"
+	},
+	"elements": [
+		{
+			"name": "Plinth",
+			"from": [
+				0.6,
+				0,
+				3.4
+			],
+			"to": [
+				15.4,
+				1.2,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-black",
+					"uv": [
+						0,
+						0,
+						14.8,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#r4k-black",
+					"uv": [
+						0,
+						0,
+						12.6,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#r4k-black",
+					"uv": [
+						0,
+						0,
+						12.6,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Carcass",
+			"from": [
+				0.3,
+				1.2,
+				2.6
+			],
+			"to": [
+				15.7,
+				14.0,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						15.4,
+						12.8
+					]
+				},
+				"east": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						13.4,
+						12.8
+					]
+				},
+				"west": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						13.4,
+						12.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						15.4,
+						13.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Drip",
+			"from": [
+				0,
+				13.6,
+				1.6
+			],
+			"to": [
+				16,
+				14.0,
+				2.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-epoxy",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-epoxy",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4k-epoxy",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-epoxy",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Upstand",
+			"from": [
+				0,
+				15.2,
+				15.0
+			],
+			"to": [
+				16,
+				16.8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-epoxy",
+					"uv": [
+						0,
+						0,
+						16,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#r4k-epoxy",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#r4k-epoxy",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#r4k-epoxy",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				0,
+				14.0,
+				1.6
+			],
+			"to": [
+				16,
+				15.2,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-epoxy",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#r4k-epoxy",
+					"uv": [
+						0,
+						0,
+						13.4,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#r4k-epoxy",
+					"uv": [
+						0,
+						0,
+						13.4,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#r4k-epoxy-top",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#r4k-epoxy",
+					"uv": [
+						0,
+						0,
+						16,
+						13.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Door0",
+			"from": [
+				0.6,
+				1.6,
+				2.2
+			],
+			"to": [
+				7.9,
+				10.2,
+				2.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						7.3,
+						8.6
+					]
+				},
+				"east": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.6
+					]
+				},
+				"west": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.6
+					]
+				},
+				"up": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						7.3,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						7.3,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "DoorPanel0",
+			"from": [
+				1.5,
+				2.5,
+				2.05
+			],
+			"to": [
+				7.0,
+				9.3,
+				2.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						5.5,
+						6.8
+					]
+				},
+				"east": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.8
+					]
+				},
+				"west": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						5.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						5.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Pull0",
+			"from": [
+				7.0,
+				6.6,
+				1.4
+			],
+			"to": [
+				7.4,
+				9.4,
+				1.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"south": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PullA0",
+			"from": [
+				7.0,
+				6.8,
+				1.8
+			],
+			"to": [
+				7.4,
+				7.1,
+				2.2
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PullB0",
+			"from": [
+				7.0,
+				8.9,
+				1.8
+			],
+			"to": [
+				7.4,
+				9.2,
+				2.2
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Door1",
+			"from": [
+				8.1,
+				1.6,
+				2.2
+			],
+			"to": [
+				15.4,
+				10.2,
+				2.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						7.3,
+						8.6
+					]
+				},
+				"east": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.6
+					]
+				},
+				"west": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8.6
+					]
+				},
+				"up": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						7.3,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						7.3,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "DoorPanel1",
+			"from": [
+				9.0,
+				2.5,
+				2.05
+			],
+			"to": [
+				14.5,
+				9.3,
+				2.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						5.5,
+						6.8
+					]
+				},
+				"east": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.8
+					]
+				},
+				"west": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						5.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						5.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Pull1",
+			"from": [
+				8.6,
+				6.6,
+				1.4
+			],
+			"to": [
+				9.0,
+				9.4,
+				1.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"south": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PullA1",
+			"from": [
+				8.6,
+				6.8,
+				1.8
+			],
+			"to": [
+				9.0,
+				7.1,
+				2.2
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PullB1",
+			"from": [
+				8.6,
+				8.9,
+				1.8
+			],
+			"to": [
+				9.0,
+				9.2,
+				2.2
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Drawer0",
+			"from": [
+				0.6,
+				10.6,
+				2.2
+			],
+			"to": [
+				7.9,
+				13.4,
+				2.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						7.3,
+						2.8
+					]
+				},
+				"east": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"west": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						7.3,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						7.3,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "DPull0",
+			"from": [
+				2.65,
+				11.8,
+				1.5
+			],
+			"to": [
+				5.85,
+				12.2,
+				1.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "DPullA0",
+			"from": [
+				2.65,
+				11.8,
+				1.9
+			],
+			"to": [
+				3.05,
+				12.2,
+				2.2
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "DPullB0",
+			"from": [
+				5.45,
+				11.8,
+				1.9
+			],
+			"to": [
+				5.85,
+				12.2,
+				2.2
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Drawer1",
+			"from": [
+				8.1,
+				10.6,
+				2.2
+			],
+			"to": [
+				15.4,
+				13.4,
+				2.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						7.3,
+						2.8
+					]
+				},
+				"east": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"west": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						7.3,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-labcab",
+					"uv": [
+						0,
+						0,
+						7.3,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "DPull1",
+			"from": [
+				10.15,
+				11.8,
+				1.5
+			],
+			"to": [
+				13.35,
+				12.2,
+				1.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "DPullA1",
+			"from": [
+				10.15,
+				11.8,
+				1.9
+			],
+			"to": [
+				10.55,
+				12.2,
+				2.2
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "DPullB1",
+			"from": [
+				12.95,
+				11.8,
+				1.9
+			],
+			"to": [
+				13.35,
+				12.2,
+				2.2
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-satin",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}
