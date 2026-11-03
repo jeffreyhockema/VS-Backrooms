@@ -1092,7 +1092,9 @@ public sealed partial class WorldLayout
                             if (Math.Abs(2 * u - (across - 1)) <= 2) continue;
                             var (cp, cq) = At(u, v);
                             if (plan.At(cp, cq).SupplyBox) continue;
-                            Put(u, v, L31Props.Covered, (v / 3) % 2 == 0 ? toNear : toFar, (byte)((u * 7 + v) % 5 == 0 ? 1 : 0));
+                            // (one in eleven with its sheet pulled off: a dead upright, its screen dark)
+                            if ((u * 7 + v) % 11 == 3) Put(u, v, L31Props.DeadCabinet, (v / 3) % 2 == 0 ? toNear : toFar);
+                            else Put(u, v, L31Props.Covered, (v / 3) % 2 == 0 ? toNear : toFar, (byte)((u * 7 + v) % 5 == 0 ? 1 : 0));
                         }
                     break;
                 }
