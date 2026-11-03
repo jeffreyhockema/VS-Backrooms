@@ -59,6 +59,7 @@ public class ShotBotSystem : ModSystem, IRenderer
     DateTime shotAt;
     bool hudHidden;
     // Someone at the keyboard pressing Escape must win: stop auto-closing after a burst of repeats
+    bool keepMap;  // keepmap on: the world map dialog is left open (for a map screenshot)
     DateTime recoverBurstStart = DateTime.MinValue; int recoverBurst; DateTime recoverMutedUntil = DateTime.MinValue;
     // pending conditions
     Func<bool> condition; DateTime conditionTimeout; string conditionName; Action onConditionMet;
@@ -138,7 +139,7 @@ public class ShotBotSystem : ModSystem, IRenderer
         foreach (var g in capi.Gui.OpenedGuis.ToArray())
         {
             string name = g.GetType().Name;
-            if (name == "GuiDialogEscapeMenu" || name == "GuiDialogCreateCharacter" || name == "GuiDialogWorldMap")
+            if (name == "GuiDialogEscapeMenu" || name == "GuiDialogCreateCharacter" || (name == "GuiDialogWorldMap" && !keepMap))
             {
                 if (name == "GuiDialogCreateCharacter")
                 {
@@ -361,6 +362,9 @@ public class ShotBotSystem : ModSystem, IRenderer
                     capi.Input.GetHotKeyByCode("togglehud")?.Handler?.Invoke(new KeyCombination());
                 break;
             }
+            case "keepmap":
+                keepMap = p[1] == "on";
+                break;
             case "hotkey":
                 // hotkey <code>: runs a game hotkey's handler (e.g. worldmaphud, the minimap)
                 Log("hotkey " + p[1] + ": " + (capi.Input.GetHotKeyByCode(p[1])?.Handler?.Invoke(new KeyCombination()) ?? false));

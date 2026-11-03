@@ -155,7 +155,7 @@ public class RigCommands : ModSystem
             string[] symbols = { "left", "right", "cross", "circle" };
             for (int i = 0; i < 4; i++)
             {
-                BlockPos wallI = wall.AddCopy(across, i - 2);
+                BlockPos wallI = wall.AddCopy(across, i % 2).UpCopy(i / 2);
                 BlockPos air = wallI.AddCopy(side);
                 Block mark = sapi.World.GetBlock(new AssetLocation("backrooms", $"chalkmark-{prefix}{symbols[i]}-{side.Code}"));
                 if (mark == null) return TextCommandResult.Error("rig-error: no block chalkmark-" + prefix + symbols[i] + "-" + side.Code);
