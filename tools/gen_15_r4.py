@@ -718,6 +718,25 @@ def panel_shapes():
                     box("Screw3", (12, 5, -0.6), (12.5, 5.5, -0.5), "brushed", faces=("north",))]
             add(f"tag{c}{n}", els, {f"sign-band{c}": T(f"sign-band{c}"), "bezel": T("bezel"), f"tag{n}": T(f"tag{n}"), "brushed": T("brushed")})
 
+    # The surround of Level 14's MEDICAL CENTER door in a medical bay's wall (the block over the door; the door is Level
+    # 14's own): a white steel portal on both faces, its jambs reaching down past the door's sides, a lit strip under the
+    # head and a green cross lamp over the door (dead in the dark)
+    for lit in (True, False):
+        g = 220 if lit else 0
+        strip = "bh-light" if lit else "bh-lightdead"
+        cross = "medcross" if lit else "medcrossdead"
+        side = [box("Head", (-1.5, 0, -1.25), (17.5, 2.5, 0), "whitegloss"),
+                box("HeadStrip", (0, -0.1, -1), (16, 0, -0.25), strip, faces=("down",), glow=g),
+                box("JambW", (16, -32, -1.25), (17.5, 0, 0), "whitegloss"),
+                box("JambE", (-1.5, -32, -1.25), (0, 0, 0), "whitegloss"),
+                box("JambStripW", (16.25, -31, -1.3), (16.6, -1, -1.25), strip, faces=("north",), glow=g),
+                box("JambStripE", (-0.6, -31, -1.3), (-0.25, -1, -1.25), strip, faces=("north",), glow=g),
+                uvfull(box("Cross", (6.5, 4, -0.9), (9.5, 7, 0), {"all": "whitegloss", "north": cross}, glow=g), "north")]
+        from modelkit import turn
+        els = panel_els() + side + [dict(e, name=e["name"] + "S") for e in turn(side, 2)]
+        add("medhead" + ("lit" if lit else "dead"), els, {"whitegloss": T("whitegloss"), strip: T(strip), cross: T(cross)},
+            light=[23, 4, 6] if lit else None)
+
     # The big display's bezel (three wide, two high: row 0 the lower, i 0 the left as seen, its outer edge at x 16)
     for row in range(2):
         for i in range(3):
@@ -794,6 +813,12 @@ def panel_shapes():
 
 
 def panel_textures():
+    # A green cross lamp (lit, dead)
+    for name, (bg, c) in (("medcross", ((226, 240, 232), (40, 200, 90))), ("medcrossdead", ((150, 156, 152), (60, 90, 70)))):
+        img = M.new((S, S), bg)
+        rect(img, 12, 4, 19, 27, c)
+        rect(img, 4, 12, 27, 19, c)
+        save(img, name)
     # The halls' tags (64 x 64, the plate's 10 x 7 face drawn in its middle rows): HALL and the name, an arrow each way
     from gen_15_r3 import HALLS
     for n, code in enumerate(HALLS):

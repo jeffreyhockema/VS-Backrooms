@@ -58,6 +58,8 @@
 				"tag35",
 				"tag36",
 				"tag37",
+				"medheadlit",
+				"medheaddead",
 				"big00",
 				"big01",
 				"big02",
@@ -942,6 +944,38 @@
 			"base": "backrooms:block/15/l15-panel-tag37",
 			"rotateY": 90
 		},
+		"*-medheadlit-north": {
+			"base": "backrooms:block/15/l15-panel-medheadlit",
+			"rotateY": 0
+		},
+		"*-medheadlit-east": {
+			"base": "backrooms:block/15/l15-panel-medheadlit",
+			"rotateY": 270
+		},
+		"*-medheadlit-south": {
+			"base": "backrooms:block/15/l15-panel-medheadlit",
+			"rotateY": 180
+		},
+		"*-medheadlit-west": {
+			"base": "backrooms:block/15/l15-panel-medheadlit",
+			"rotateY": 90
+		},
+		"*-medheaddead-north": {
+			"base": "backrooms:block/15/l15-panel-medheaddead",
+			"rotateY": 0
+		},
+		"*-medheaddead-east": {
+			"base": "backrooms:block/15/l15-panel-medheaddead",
+			"rotateY": 270
+		},
+		"*-medheaddead-south": {
+			"base": "backrooms:block/15/l15-panel-medheaddead",
+			"rotateY": 180
+		},
+		"*-medheaddead-west": {
+			"base": "backrooms:block/15/l15-panel-medheaddead",
+			"rotateY": 90
+		},
 		"*-big00-north": {
 			"base": "backrooms:block/15/l15-panel-big00",
 			"rotateY": 0
@@ -1366,6 +1400,11 @@
 			34,
 			1,
 			12
+		],
+		"*-medheadlit-*": [
+			23,
+			4,
+			6
 		],
 		"*-emerglit-*": [
 			6,

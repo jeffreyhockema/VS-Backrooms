@@ -94,6 +94,8 @@ public sealed partial class WorldGenerator
             "lamplower", "lampupper", "lampon", "lamplowerdead", "lampupperdead" };
         for (int r = 1; r <= 5; r++) { kinds.Add($"jamb{r}"); kinds.Add($"jamb{r}e"); }
         for (int i = 0; i < 4; i++) kinds.Add($"jambplate{i}");
+        kinds.Add("medheadlit");
+        kinds.Add("medheaddead");
         for (int c = 0; c < 4; c++)
             for (int n = 0; n < L15Signs; n++) kinds.Add($"tag{c}{n}");
         return kinds.ToArray();
@@ -292,6 +294,10 @@ public sealed partial class WorldGenerator
         const int top = 8; // the tallest room's ceiling; walls are dressed up to it everywhere
         // The links: the doors that do not open, the ESCAPE panel and its gateway, the pane, the office and its stairs
         if (t.Under is >= Unders.L15First and <= Unders.L15Last && L15LinkBlock(t, gx, gz, rel) is int link and >= 0) return link;
+        // Round 4: the surround of Level 14's MEDICAL CENTER door (the look of the block over it is this level's)
+        if (rel == 3 && t.Under == Unders.L14MedDoor && t.Kind == TileKind.Wall
+            && L15Panel(L.L15IsDark(t) ? "medheaddead" : "medheadlit", Facing(t.Pier), 0) is int medHead and > 0)
+            return medHead;
         if (t.Under is >= Unders.L14First and <= Unders.L14Last && L14InL15Block(t, rel) is int l14 and >= 0) return l14; // (Level 14's MEDICAL CENTER door: WorldGenerator.L14.Links.cs)
         if (rel < 0 || rel > top) return concreteId;
         switch (t.Kind)
