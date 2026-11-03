@@ -109,7 +109,7 @@ Effective values (base x the level's danger multipliers of section 2; speed / da
 
 | Entity (base before, after) | Level | Before | After |
 | --- | --- | --- | --- |
-| Hound (run .046 -> .050, bite 3.5 -> 7.2, health 16 -> 26, cooldown 1.2 -> 1.1 s) | 1 | .048 / 4.0 / 19 | .052 / 8.2 / 30 (a wolf's bite and speed, twice its health) |
+| Hound (run .046 -> .050, and .062 since round 2, §3c; bite 3.5 -> 7.2, health 16 -> 26, cooldown 1.2 -> 1.1 s) | 1 | .048 / 4.0 / 19 | .052 / 8.2 / 30 (a wolf's bite and speed, twice its health) |
 | | 3 | .051 / 4.9 / 24 | .055 / 10.1 / 39 (a black bear: its bite and nearly its health, a brown bear's run) |
 | | 5 | .053 / 5.5 / 28 | .058 / 11.3 / 45 |
 | | 9 | .057 / 6.7 / 34 | .062 / 13.7 / 56 (tier 3; a brown bear) |

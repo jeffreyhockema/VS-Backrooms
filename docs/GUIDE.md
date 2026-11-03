@@ -27,7 +27,8 @@ The Backrooms are survived from a home, in expeditions.
 
 - **You wake where you last slept.** Die anywhere and you wake in the last bed you slept in, or in the Lobby if you have never slept in one. What you carried waits in your body where you fell, for as long as it takes (the map marks it, and it never despawns). A temporal gear moves where you wake, from any level, and is used up as it takes hold. Everything a home needs (a door, a chest, fire, seeds, soil) has to be brought back from deeper levels.
 - **The walls between levels are solid, but for gates.** A gate (a doorway through) comes every few hundred blocks along a boundary. Chalk arrows on the walls nearby point the way to one, and wanderers' notes tell of them. Walking the wall looking for one is walking the most dangerous ground of a level.
-- **Food is scarce.** Most supply boxes and crates were gone through long ago: a torn box or an emptied crate can be told from across the room and never holds food. Level 0's boxes were left in twos and threes in the corners of rooms, about one cell in six (one in three or four in the blackouts), plus the caches at the hearts of dens; a sealed box holds some five minutes of walking's food. The deeper the level, the less is picked over; rooms behind locked doors and the hearts of dens were never touched. Hunger runs at 125%.
+- **Food is scarce.** Most supply boxes and crates were gone through long ago: a torn box or an emptied crate can be told from across the room and holds no real food, only now and then a few food scraps (one break in four on Normal, a quarter of a cracker packet). In worlds made since 0.700 the food props of Levels 1 to 4 are picked over too: about three in four of Level 1's metal shelves, drums and cardboard boxes, and three in five of those and of the fridges in Levels 2 to 4, are found stripped (emptied shelving, open drums, flattened cardboard, a fridge door ajar) and give no food. Level 0's boxes were left in twos and threes in the corners of rooms, about one cell in six (one in three or four in the blackouts), plus the caches at the hearts of dens; a sealed box holds some five minutes of walking's food. The deeper the level, the less is picked over; rooms behind locked doors and the hearts of dens were never touched. Hunger runs at 125%.
+- **Playing together.** Food and drink go further in company: a box, crate, shelf, fridge or other store broken open with other players within 48 blocks in the same level gives 1.5 times its food and drink for two, twice for three, half as much again for each more (not dispensers or trade).
 - **Heat and cold.** From 30 °C up you go thirsty faster (or hungry, with Thirst turned off), up to half again as fast (Levels 2 and 3, Level 5's boiler halls). Levels 6 and 8 are cold enough to want clothes. Level 0's blackout zones are cold and damp, so food keeps there.
 - **Farming at home.** Crops grow in Level 0 under the ceiling lights (light 15 under a working troffer gives about 60% of daylight growth) on soil from potted plants, watered from a flooded room or a bucket. Seed packets come from Level 9's sheds and kitchens and, rarely, supply boxes.
 
@@ -37,7 +38,7 @@ The Backrooms are survived from a home, in expeditions.
 | Folded note | The rare paper: more exact information (routes, odds, rules), marked from twice as far | Deep caches, den hearts, Red Rooms, rooms behind locked doors, lost backpacks, bedrolls, tents, runners' remains, the far edge of a ring |
 | Pry bar (24 uses) | Hold right-click on a locked door for 4 s: it gives for good if there is a room behind it, and everything near hears | 2 metal brackets + iron nails and strips; tool shelves, toolboxes, workbenches |
 | Seed packet | 4 vanilla seeds, opened in the crafting grid | Tool shelves, kitchen cupboards, now and then a supply box |
-| Torn supply box, emptied crate | Picked over: scraps and boards, no food | Over half the boxes and crates in Level 0 (about a third in its blackouts), four in five in Level 1, fewer deeper |
+| Torn supply box, emptied crate | Picked over: scraps and boards, no real food (now and then food scraps) | Over half the boxes and crates in Level 0 (about a third in its blackouts), four in five in Level 1, fewer deeper |
 
 ### Notes and the journal
 
@@ -130,7 +131,7 @@ Water is a bar of its own, above the food bar. It runs down about as hunger does
 
 ### Rest
 
-The Rest bar sits above your health. It starts full at 48 minutes of play awake (a game hour is two real minutes here, and a day is 48), and it empties as you stay awake.
+The Rest bar sits above your health. It starts full at 48 minutes of play awake (a game hour is two real minutes here, and a day is 48), and it empties as you stay awake. Sprinting tires you four times as fast as walking.
 
 - **Rested** (0 to 48 minutes awake). Nothing. A bed will not take you yet: "not tired enough".
 - **Drowsy** (48 to 90 minutes). You can sleep, and you are told once: "You could sleep now". From about an hour awake Reality Stability starts to drain, a little.
@@ -166,7 +167,7 @@ Each level has a class, from 1 to 5, that says how hard it is. The M.E.G. put a 
 
 - **The classes.** Class 1: Levels 0, 1, 4 and 10. Class 2: Levels 5 and 11. Class 3: Levels 2 and 94. Class 4: Levels 3, 7 and 8. Class 5: Level 9. Level 6 is not classed yet.
 - **What the classes ask.** From Level 3 on, what lives there outruns a sprint and kills an unarmoured person in two blows (one or two by Level 8; a Hound in one at Level 9). Sewn leather halves a Level 3 blow. Copper or bronze lamellar stands three blows at Level 8, and iron plate many at Level 9. Pleather is thin and wears out fast, and does little. See [What Lives Here](#what-lives-here).
-- **Food and water.** From Class 3 down, caches, crates, supply boxes and the dispensers hold less food and Almond Water: seven tenths of their usual share in Class 3, half in Class 4 and a third in Class 5, on top of the world setting. Level 94, the Snackrooms, the Hub and Kitty's House keep theirs.
+- **Food and water.** From Class 3 down, caches, crates, supply boxes and the dispensers hold less food and Almond Water: seven tenths of their usual share in Class 3, half in Class 4 and about a third (0.35) in Class 5, on top of the world setting. Level 94, the Snackrooms, the Hub and Kitty's House keep theirs.
 - **Shortcuts.** Ways down to a higher level are about a quarter as common in new worlds, from stairwells, elevators, steel doors and the like. Ways back up are unchanged.
 - **The blackout.** At zero stability you black out after about a minute, from any cause: a dark pocket, a Reality Shift, or hunger and thirst. You wake a level back, with what you carried, and your stability at half.
 

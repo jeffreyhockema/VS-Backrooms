@@ -430,7 +430,7 @@ You go hungry a quarter faster than in an ordinary world. Moving burns food; spr
 Water is the bar above your food bar. It runs down about as hunger does: a full one lasts about 25 minutes of walking, or about 100 minutes standing still, and sprinting empties it faster. Heat makes you thirsty. From 30 °C up the water runs down faster, about 6% more for every degree, up to half again as fast. Level 2 (38 °C) and the boiler halls of Levels 3 and 5 (42 °C) are the worst; Level 3 (35 °C) is hot too{{level:3999}}, and so are Level 3999's natatoria (34 °C){{/level}}. Level 1 (28 °C) is warm but costs nothing extra.
 
 **Supplies by level**
-From Class 3 down, the levels hold less food and Almond Water. Caches, crates, supply boxes and the dispensers' stock come to seven tenths of their usual share in Class 3, half in Class 4 and a third in Class 5, on top of what the world setting gives. These keep theirs: the Snackrooms{{level:94}}; Level 94{{/level}}{{level:hub}}; the Hub{{/level}}{{level:974}}; Kitty's House{{/level}}.
+From Class 3 down, the levels hold less food and Almond Water. Caches, crates, supply boxes and the dispensers' stock come to seven tenths of their usual share in Class 3, half in Class 4 and about a third (0.35) in Class 5, on top of what the world setting gives. These keep theirs: the Snackrooms{{level:94}}; Level 94{{/level}}{{level:hub}}; the Hub{{/level}}{{level:974}}; Kitty's House{{/level}}.
 
 **Drinks**
 Drinks fill the water bar, and most of them feed you a little besides.
@@ -456,7 +456,8 @@ Murky water is the one to carry. Put a bottle of it in a lit [firepit](block-fir
 Below two-fifths of the water bar you slow down, more the drier you get: a quarter slower at empty. Below a fifth the bar flashes. At empty you waste away. You lose a little health every few seconds and your Reality Stability drains.{{met:wretch}} The Wretches come for the parched as they do for the starving.{{/met}} Hunger works the same way at empty.
 
 **What there is to eat and drink**
-Only sealed boxes and crates hold food, and most were found torn or prised open long ago. Rooms behind locked doors were never picked over (see the pry bar in [Finding the Way](backrooms-finding)), and neither were the hearts of dens.
+Sealed supply boxes and crates hold the most, and most of them were found torn or prised open long ago: a torn box or an emptied crate gives no real food, only now and then a few [food scraps](item-backrooms:foodscraps). Shelves, drums, cardboard boxes, fridges, cupboards and pantries hold food too, but in worlds made since version 0.700 many of those in Levels 1 to 5 have been stripped bare as well, and an emptied one shows it. Rooms behind locked doors were never picked over (see the pry bar in [Finding the Way](backrooms-finding)), and neither were the hearts of dens or the wanderers' camps.
+- **[Food scraps](item-backrooms:foodscraps):** torn supply boxes and emptied crates, about one in four on the usual setting. A bite, not a meal: a quarter of a packet of crackers.
 - **[Almond Water](item-backrooms:almondwater):** a drink (see above). Supply boxes, supply crates, drums; fountains, coolers and vending machines (Level 4, the city); seeps in the rock beside Level 8's road; the hand pumps on Level 10's farms; vendors' carts (the city){{level:94}}; the towns' fountains and the hilltop water towers of Level 94{{/level}}.
 - **[Crackers](item-backrooms:crackers), [canned beans](item-backrooms:cannedbeans):** supply boxes, crates, cardboard boxes, fridges, pantries.
 - **Fruit and cheese:** fridges (Levels 4, 9, the city). **Flour, salt, fat:** kitchen cupboards and pantries (Level 9, city groceries).
@@ -471,6 +472,9 @@ Only sealed boxes and crates hold food, and most were found torn or prised open 
 - {{level:hub}}**The Hub has nothing to eat.** Bring food, water and clothes.{{/level}}
 - {{level:3999}}**Level 3999:** [tray meals](item-backrooms:l3999-traymeal-burger) at the food stalls, 6 tickets each (burgers, pizza, noodles, tacos, ice cream, pretzels: filling, and they heal a little). The vending machines take one Almond Water for chips, a candy bar, popcorn, cotton candy, soda, cashew water or Paradise Pop, and never run out. See the tickets in [Salvage](backrooms-salvage).{{/level}}
 - {{level:188}}**Level 188:** the lobby's breakfast dispensers ({rightmouse}): [cereal](item-backrooms:l188-cereal) and [juice boxes](item-backrooms:l188-juicebox), three of each, then empty; the minibars in the rooms.{{/level}}
+
+**Playing together**
+Food and drink go further in company. When you break open a box, crate, shelf, fridge or any other store of the Backrooms with other players near you (within 48 blocks, in the same level), it gives more food and drink: half as much again for two of you, twice as much for three, and another half for each one more. Everything else it gives is the same, and so are the dispensers, the vending machines and the wanderers' trade.
 
 **Food and water that come back**
 See [Home and Expeditions](backrooms-home): fish, game, crops, livestock, the refilling dispensers, and a farm of your own. Everything else is finite: a level is a larder that empties. Drink dispensers that hand out water are one-time stock now; only the Level 8 seeps fill again, slowly (the Level 10 ponds are water, which you can drink from as it is).
@@ -488,7 +492,7 @@ PAGES["rest"] = ("Game Mechanic: Rest and Sleep", """
 *You can get about for an hour or two on your feet. The Backrooms count every minute of it.*
 
 **The Rest bar**
-The bar above your health is your rest. It starts full, at 48 minutes of play, and it empties as you stay awake. A game hour here is two minutes, and a day is 48. There are four stages:
+The bar above your health is your rest. It starts full, at 48 minutes of play, and it empties as you stay awake. Sprinting tires you four times as fast as walking. A game hour here is two minutes, and a day is 48. There are four stages:
 - **Rested** (the first 48 minutes awake): nothing. A bed will not take you yet; the game says you are not tired enough.
 - **Drowsy** (48 to 90 minutes): you can lie down and sleep, and the game tells you so once: "You could sleep now". From about an hour awake your Reality Stability starts to drain, a little at first.
 - **Exhausted** (90 to 120 minutes): you walk a tenth slower, your Reality Stability drains faster the longer you go without sleep, and the things that live here come to find you more often.
