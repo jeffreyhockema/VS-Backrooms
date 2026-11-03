@@ -26,15 +26,15 @@ public sealed partial class WorldGenerator
     private static readonly string[] L14DecoKinds = { "plate-ward", "plate-icu", "plate-surgery", "plate-maternity", "plate-psych", "plate-storage",
         "plate-reception", "plate-office", "plate-research", "plate-danger", "plate-biohazard", "sign-0", "sign-1", "sign-2", "sign-3", "sign-4", "sign-5",
         "sign-6", "sign-7", "poster-kid0", "poster-kid1", "poster-kid2", "poster-health0", "poster-health1", "clock", "whiteboard", "xray", "blood",
-        "blooddrip", "mould", "scratches", "exitsign", "sanitizer", "extinguisher", "trg", "directory-l", "directory-r" };
+        "blooddrip", "mould", "scratches", "exitsign", "sanitizer", "extinguisher", "trg", "directory-l", "directory-r", "monarm" };
     private const int L14DkPlate = 0, L14DkSign = 11, L14DkPoster = 19, L14DkClock = 24, L14DkBoard = 25, L14DkXray = 26, L14DkBlood = 27, L14DkDrip = 28,
-        L14DkMould = 29, L14DkScratches = 30, L14DkExit = 31, L14DkSanitizer = 32, L14DkExtinguisher = 33, L14DkTrg = 34, L14DkDirectory = 35;
+        L14DkMould = 29, L14DkScratches = 30, L14DkExit = 31, L14DkSanitizer = 32, L14DkExtinguisher = 33, L14DkTrg = 34, L14DkDirectory = 35, L14DkMonArm = 37;
     private const int L14WPaint = 0, L14WScuff = 1, L14WPaintBase = 2, L14WWhite = 3, L14WWhiteBase = 4, L14WTile = 5, L14WTileBase = 6, L14WPadded = 7,
         L14WCinder = 8, L14WPlywood = 9, L14WRust = 10, L14WRustBlood = 11, L14WTileBlood = 12, L14WMould = 13, L14WWhiteMoss = 14, L14WConcrete = 15, L14WLintel = 16;
 
     private readonly int[] l14Wall = new int[17], l14Floor = new int[21], l14Ceiling = new int[12];
     /// <summary>The wall decorations [kind, wall material (<see cref="L14DecoWalls"/>), side]: models on the wall's own material (round 4).</summary>
-    private readonly int[,,] l14Deco = new int[37, 10, 4];
+    private readonly int[,,] l14Deco = new int[38, 10, 4];
     /// <summary>The lift in a hall wall (round 4): [half l/r, part lower/upper/header, side].</summary>
     private readonly int[,,] l14Lift = new int[2, 3, 4];
     private readonly int[,] l14Rail = new int[2, 4];
@@ -375,6 +375,7 @@ public sealed partial class WorldGenerator
             case L.L14DTrg when rel == 2: return l14Deco[L14DkTrg, dw, f];
             case L.L14DDirectory when rel == 2: return l14Deco[L14DkDirectory + (t.Stack == 1 ? 1 : 0), dw, f];
             case L.L14DLift when rel <= 3: return l14Lift[t.Stack == 1 ? 1 : 0, rel - 1, f];
+            case L.L14DMonArm when rel == 3: return l14Deco[L14DkMonArm, dw, f];
         }
         // The handrail at the foot of a wall along a hall or corridor (under whatever hangs above it there)
         if (rel == 1 && t.Detail is L.L14DRail or L.L14DPlate or L.L14DSign or L.L14DClock or L.L14DExit or L.L14DSanitizer or L.L14DExtinguisher or L.L14DDirectory

@@ -41,7 +41,8 @@
 				"extinguisher",
 				"trg",
 				"directory-l",
-				"directory-r"
+				"directory-r",
+				"monarm"
 			]
 		},
 		{
@@ -670,6 +671,22 @@
 		},
 		"l14-walldeco-directory-r-*-west": {
 			"base": "backrooms:block/14/l14-walldeco-directory-r",
+			"rotateY": 90
+		},
+		"l14-walldeco-monarm-*-north": {
+			"base": "backrooms:block/14/l14-walldeco-monarm",
+			"rotateY": 0
+		},
+		"l14-walldeco-monarm-*-east": {
+			"base": "backrooms:block/14/l14-walldeco-monarm",
+			"rotateY": 270
+		},
+		"l14-walldeco-monarm-*-south": {
+			"base": "backrooms:block/14/l14-walldeco-monarm",
+			"rotateY": 180
+		},
+		"l14-walldeco-monarm-*-west": {
+			"base": "backrooms:block/14/l14-walldeco-monarm",
 			"rotateY": 90
 		}
 	},

@@ -1854,7 +1854,7 @@ def walldeco_shapes(bboxes):
     """Round 4: the wall decorations' models (gen_14_r4.deco_model), one a kind; returns {kind: shape path}."""
     out = {}
     ext = R4.ext_textures()
-    for name, bbox in bboxes.items():
+    for name, bbox in list(bboxes.items()) + [("deco-monarm", None)]:  # round 4: the ICU's monitor on its arm (no picture)
         kind = name[len("deco-"):]
         els = R4.deco_model(kind, bbox)
         keys = shape_keys(els)

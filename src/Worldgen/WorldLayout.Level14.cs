@@ -84,7 +84,7 @@ public sealed partial class WorldLayout
     /// </summary>
     public const byte L14DNone = 0, L14DRail = 1, L14DPlate = 2, L14DSign = 3, L14DPoster = 4, L14DClock = 5, L14DBoard = 6, L14DXray = 7,
         L14DBlood = 8, L14DBloodDrip = 9, L14DMould = 10, L14DScratches = 11, L14DExit = 12, L14DSanitizer = 13, L14DExtinguisher = 14, L14DTrg = 15,
-        L14DWindow = 16, L14DRevolving = 17, L14DDirectory = 18, L14DLift = 19;
+        L14DWindow = 16, L14DRevolving = 17, L14DDirectory = 18, L14DLift = 19, L14DMonArm = 20;
 
     /// <summary>The room plates (<see cref="L14DPlate"/>'s Stack), in the order of <c>l14-walldeco-plate-*</c>.</summary>
     public const byte L14PlateWard = 0, L14PlateIcu = 1, L14PlateSurgery = 2, L14PlateMaternity = 3, L14PlatePsych = 4, L14PlateStorage = 5,
@@ -1171,6 +1171,10 @@ public sealed partial class WorldLayout
                         // Round 4: a drip stand at the bed's side, as if still in use
                         var (da, db) = FromSide(r, s, k + 1, 1);
                         Put(da, db, Props.L14IvStand, Opp(into));
+                        // and a monitor on its arm over the bed's head, high on the wall behind it
+                        var (wdx, wdz) = Step(Opp(into));
+                        if (L14Plan.In(ha + wdx, hb + wdz) && At(ha + wdx, hb + wdz) is { Kind: TileKind.Wall, Detail: L14DNone or L14DRail })
+                            Decorate(ha + wdx, hb + wdz, L14DMonArm, into, 0);
                     }
                     else
                     {

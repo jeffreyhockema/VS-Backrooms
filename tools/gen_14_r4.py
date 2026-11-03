@@ -555,6 +555,8 @@ def deco_model(kind, bbox):
     type to the wall's own material) and the decoration on it."""
     key = "deco-" + kind
     els = [B("Wall", (0, 0, 0), (16, 16, 16), "wall")]
+    if kind == "monarm":
+        return els + monarm_model()
     x0, y0, x1, y1 = [v / 4 for v in bbox]
     xa, xb, ya, yb = 16 - x1, 16 - x0, 16 - y1, 16 - y0
     if kind.startswith("plate-"):
@@ -848,3 +850,24 @@ def locker_model(ajar_left):
 
 def locker(part, ajar):
     return clip_y(locker_model(ajar), part)
+
+
+def monarm_model():
+    """An ICU patient monitor on a wall arm, high over a bed's head (the top block of the wall): a wall plate, a first arm
+    out from the wall, an elbow, a second arm turned a little aside, the tilting mount and the monitor facing the room and
+    down a little, its traces lit; a cable looping back to the wall."""
+    W = "p-greyplastic"
+    els = [B("Plate", (5.5, 8.0, -0.5), (10.5, 14.0, 0), W),
+           B("ArmA", (7.4, 11.0, -6.0), (8.6, 12.2, -0.5), W),
+           B("Elbow", (7.0, 10.6, -7.2), (9.0, 12.6, -5.6), "p-darkplastic"),
+           B("ArmB", (7.5, 11.1, -10.5), (8.5, 12.1, -6.6), W, rot=(0, 18, 0), origin=(8, 11.6, -6.4)),
+           B("Mount", (7.2, 8.2, -11.0), (8.8, 11.2, -9.6), "p-darkplastic")]
+    head = [B("Case", (2.5, 2.4, -12.4), (13.5, 9.0, -9.8), W),
+            B("Bezel", (2.8, 2.7, -12.65), (13.2, 8.7, -12.4), "p-darkplastic", faces=no("south")),
+            pic(B("Screen", (3.4, 3.2, -12.75), (11.6, 8.2, -12.65), "p-black", faces=("north",)), "north", "p-monitoron", glow=200),
+            B("Knob", (12.0, 4.0, -12.9), (12.9, 4.9, -12.65), "p-greyplastic"),
+            B("Handle", (4.0, 9.0, -11.4), (12.0, 9.6, -10.6), "p-darkplastic")]
+    els += turned(head, rx=-12, origin=(8, 9.0, -10.4))
+    els += [B("Cable", (9.6, 3.0, -9.9), (10.0, 3.4, -0.2), "p-black"),
+            B("CableDrop", (9.6, 0.0, -0.6), (10.0, 3.4, -0.2), "p-black")]
+    return els
