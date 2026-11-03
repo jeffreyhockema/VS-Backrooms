@@ -653,3 +653,19 @@ surround of Level 14's door, the lift indicator's B3, the dead's ID cards and la
 - The service passages' lit lamps were the shared warm dim lamp; they are now `l15-cagelamp-lit` (cool white, light 13),
   so the passages are a little brighter where they had a lamp (the dead and failing ones stay dark).
 - No bed, water or shortcut changed. The canteen's folding chairs became stools (no seat behaviour lost: neither sits).
+
+### What the shots showed
+
+Three client-rig runs, no torch (the halls' own white): `%TEMP%/backrooms-shots/15-r4a`, `15-r4b`, final `15-r4c`.
+- **Run 1** (after the A items): the control room read at once as a room of operators' desks (monitors on necks, keyboards,
+  the radar in its bezel), the medical bay as a ward (monitors over the beds' heads, pleated curtains on their tracks), the
+  lift as a lift (portal, B3 lit, call panel), the bulkheads and the inset floor lights as the halls' new rhythm, the
+  dock's Robo-Man with its eyes lit, the framed glass along the corridors. Wrong: the serving line was ghostly white (the
+  whole block in the translucent pass) and its keyboard-like trays read as slabs; the consoles' keyboards were four big
+  keys (UV); the lift indicator was two boxes with a gap; the bulkhead header too like a rib; the battery lamps tiny.
+  Fixed: the serving line moved to the opaque pass with a cut-out guard, keyboards remapped, the indicator joined, the
+  header made deep with its hazard strip, the lamps larger.
+- **Run 2**: all those read; the hall tags, the troughs along the ceiling edges (coloured cables behind the grille), the
+  machine casings' relief (corner posts, louvres, bezels) and the lectern beside the screen showed. Wrong: the first
+  bays of the dark were lit amber from wall to wall by the battery lamps (the dark-hall spot was no longer dark). Fixed:
+  one lamp still burns on one wall at the very edge, light 7; the others have run flat.
