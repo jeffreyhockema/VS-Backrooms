@@ -16,7 +16,8 @@ New:  l31-barrier (the rink's barrier: a thin padded wall along the boards' oute
     the arcade), l31-slushie (the snack counters' slushie machine), l31-popcorn (in place of Level Fun's popcorn cart),
     l31-locker (the rink's coin lockers, in place of Level 52's school lockers),
     l31-counter (the rental's and lobby's counter, in place of Level 3999's reception desk), l31-covered (the back
-    arcade's machines under dust sheets, in half of the store rooms)
+    arcade's machines under dust sheets, in half of the store rooms), l31-skatebench (the carpeted lacing-up bench, in
+    place of the shared slatted bench in Level 31)
 Reused from other levels, placed by the layout: Level 120's CRAC units in the HVAC rooms, Level 36's queue posts in
     Skate Rental.
 
@@ -1505,6 +1506,23 @@ def covered(kind):
     return shape("l31-covered-" + kind, els)
 
 
+def skatebench():
+    """The rink's lacing-up bench (in place of the shared slatted bench on Level 31's skirts and in Skate Rental): a box
+    bench upholstered in the rink's dark carpet, a padded vinyl top with piping, a recessed black kick, scuffed by skate
+    wheels at its foot; a full block wide so a row joins into one long bench."""
+    carpet = M.carpet(seed=4330, base=(34, 30, 52), tone2=(70, 34, 92), mix2=0.3, pile=8)
+    M.grime(carpet, 0.16, 4331, color=(16, 16, 22), bias="bottom", cover=0.5)
+    save_tex(carpet, "r4-benchcarpet")
+    els = [
+        B("Body", (0, 1.2, 3.4), (16, 6.4, 12.6), "r4-benchcarpet", faces=without(DIRS, "up", "down")),
+        B("Kick", (0, 0, 4.0), (16, 1.2, 12.0), "r4-black", faces=without(DIRS, "up", "down")),
+        B("Seat", (0, 6.4, 2.8), (16, 7.6, 13.2), "r4-pad", faces=without(DIRS, "down")),
+        B("PipeF", (0, 6.3, 2.6), (16, 6.7, 3.0), "r4-padpink", faces=without(DIRS, "up", "east", "west")),
+        B("PipeB", (0, 6.3, 13.0), (16, 6.7, 13.4), "r4-padpink", faces=without(DIRS, "up", "east", "west")),
+    ]
+    return shape("l31-skatebench", els)
+
+
 # ======================================================================== Block types
 
 def blocks():
@@ -1583,6 +1601,9 @@ def blocks():
     prop_block("l31-jukebox", "Level 31: a 1990s jukebox, wood under a stepped neon arch, the record window, selector keys, bubble tubes either side, a chrome grille, 22 units tall, toward the side",
                lambda k: ref, (0.03, 0, 0.21, 0.97, 1, 0.82), (0.03, 0, 0.21, 0.97, 1, 0.82), resistance=3, extra={"lightHsv": [50, 4, 6]})
     riser()
+    ref = skatebench()
+    prop_block("l31-skatebench", "Level 31: the rink's lacing-up bench, upholstered in the rink's dark carpet with a padded navy top and pink piping, a full block wide so a row joins; the sitter faces the side",
+               lambda k: ref, (0, 0, 0.16, 1, 0.48, 0.84), (0, 0, 0.16, 1, 0.48, 0.84), material="Cloth", sounds=CLOTH, resistance=2)
     covered_textures()
     vrefs = {k: covered(k) for k in ("cabinet", "pinball")}
     prop_block("l31-covered", "Level 31: an arcade machine under a dusty sheet in the back arcade (Wikidot's covered machines): an upright (its marquee and panel under the folds) or a pinball (its head, the legs showing); the front faces the side",
@@ -1634,6 +1655,7 @@ LANG = {
     "block-l31-locker-*": "Coin Lockers",
     "block-l31-counter-*": "Counter",
     "block-l31-covered-*": "Covered Arcade Machine",
+    "block-l31-skatebench-*": "Skate Bench",
 }
 
 

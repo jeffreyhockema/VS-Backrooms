@@ -651,6 +651,8 @@ Tiers: A must, B should, C nice.
     laminate top with a pink nose, bell, size tags) in place of Level 3999's reception desk.
 45. (B) [done] Lore: Wikidot's "back arcade area with covered machines": half of the store rooms are now the back arcade,
     rows of uprights and pinballs under dust sheets (`l31-covered`), an aisle down the middle.
+46. (B) [done] `l31-skatebench`: the rink's carpeted lacing-up bench (padded top, piping) in place of the shared slatted
+    bench on the skirts and in Skate Rental (Level 31 only).
 
 ### How it is built (round 4)
 
