@@ -1,0 +1,532 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"dk-drawer": "backrooms:block/120/dk-drawer",
+		"du-galv": "backrooms:block/120/du-galv",
+		"du-tape": "backrooms:block/120/du-tape",
+		"rk-black": "backrooms:block/120/rk-black",
+		"rk-label": "backrooms:block/120/rk-label"
+	},
+	"elements": [
+		{
+			"name": "XBody",
+			"from": [
+				11,
+				9,
+				1.25
+			],
+			"to": [
+				16,
+				15.25,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						5,
+						6.25
+					]
+				},
+				"south": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						5,
+						6.25
+					]
+				},
+				"up": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						5,
+						9.75
+					]
+				},
+				"down": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						5,
+						9.75
+					]
+				},
+				"east": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						9.75,
+						6.25
+					]
+				},
+				"west": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						9.75,
+						6.25
+					]
+				}
+			}
+		},
+		{
+			"name": "XFlange",
+			"from": [
+				11,
+				8.6,
+				0.85
+			],
+			"to": [
+				11.6,
+				15.6,
+				11.4
+			],
+			"faces": {
+				"south": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						0.6,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						0.6,
+						10.55
+					]
+				},
+				"east": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.55,
+						7.0
+					]
+				},
+				"west": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.55,
+						7.0
+					]
+				},
+				"up": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						0.6,
+						10.55
+					]
+				}
+			}
+		},
+		{
+			"name": "XTape",
+			"from": [
+				11.6,
+				8.95,
+				1.2
+			],
+			"to": [
+				13.0,
+				15.3,
+				11.05
+			],
+			"faces": {
+				"south": {
+					"texture": "#du-tape",
+					"uv": [
+						0,
+						0,
+						1.4,
+						6.35
+					]
+				},
+				"down": {
+					"texture": "#du-tape",
+					"uv": [
+						0,
+						0,
+						1.4,
+						9.85
+					]
+				},
+				"up": {
+					"texture": "#du-tape",
+					"uv": [
+						0,
+						0,
+						1.4,
+						9.85
+					]
+				}
+			}
+		},
+		{
+			"name": "ZBody",
+			"from": [
+				1.25,
+				9,
+				11
+			],
+			"to": [
+				11,
+				15.25,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						5,
+						6.25
+					]
+				},
+				"west": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						5,
+						6.25
+					]
+				},
+				"up": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						9.75,
+						5
+					]
+				},
+				"down": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						9.75,
+						5
+					]
+				},
+				"south": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						9.75,
+						6.25
+					]
+				}
+			}
+		},
+		{
+			"name": "ZFlange",
+			"from": [
+				0.85,
+				8.6,
+				11.5
+			],
+			"to": [
+				11.4,
+				15.6,
+				12.1
+			],
+			"faces": {
+				"east": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						0.6,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.55,
+						0.6
+					]
+				},
+				"north": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.55,
+						7.0
+					]
+				},
+				"south": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.55,
+						7.0
+					]
+				},
+				"up": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.55,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "ZTape",
+			"from": [
+				1.2,
+				8.95,
+				12.1
+			],
+			"to": [
+				11.05,
+				15.3,
+				13.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#du-tape",
+					"uv": [
+						0,
+						0,
+						1.4,
+						6.35
+					]
+				},
+				"down": {
+					"texture": "#du-tape",
+					"uv": [
+						0,
+						0,
+						9.85,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#du-tape",
+					"uv": [
+						0,
+						0,
+						9.85,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Plenum",
+			"from": [
+				0.75,
+				8.5,
+				0.75
+			],
+			"to": [
+				11.5,
+				15.75,
+				11.5
+			],
+			"faces": {
+				"south": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.75,
+						7.25
+					]
+				},
+				"east": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.75,
+						7.25
+					]
+				},
+				"down": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.75,
+						10.75
+					]
+				},
+				"north": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.75,
+						7.25
+					]
+				},
+				"west": {
+					"texture": "#du-galv",
+					"uv": [
+						0,
+						0,
+						10.75,
+						7.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Access",
+			"from": [
+				4,
+				9.5,
+				11.5
+			],
+			"to": [
+				9,
+				14,
+				11.75
+			],
+			"faces": {
+				"south": {
+					"texture": "#dk-drawer",
+					"uv": [
+						0,
+						0,
+						5,
+						4.5
+					]
+				},
+				"east": {
+					"texture": "#dk-drawer",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.5
+					]
+				},
+				"west": {
+					"texture": "#dk-drawer",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4.5
+					]
+				},
+				"up": {
+					"texture": "#dk-drawer",
+					"uv": [
+						0,
+						0,
+						5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#dk-drawer",
+					"uv": [
+						0,
+						0,
+						5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Latch",
+			"from": [
+				8,
+				11.5,
+				11.75
+			],
+			"to": [
+				8.6,
+				12.5,
+				12.0
+			],
+			"faces": {
+				"south": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#rk-black",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Label",
+			"from": [
+				2,
+				9.2,
+				11.5
+			],
+			"to": [
+				4,
+				10.2,
+				11.6
+			],
+			"faces": {
+				"south": {
+					"texture": "#rk-label",
+					"uv": [
+						0,
+						0,
+						2,
+						1
+					]
+				}
+			}
+		}
+	]
+}

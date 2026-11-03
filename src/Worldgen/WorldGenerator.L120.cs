@@ -26,6 +26,7 @@ public sealed partial class WorldGenerator
     private readonly int[,] l120Terminal = new int[3, 4], l120Window = new int[2, 4], l120VoidDoor = new int[2, 2];
     private readonly int[] l120Toppled = new int[4];
     private readonly int[,] l120Torn = new int[2, 4];
+    private readonly int[] l120Duct = new int[3];
     private int l120Smashed, l120VoidFloor, l120VoidWall, l120VoidCeiling, l120VoidPanel, l120Black;
     private readonly HashSet<string> l120Missing = new();
 
@@ -85,6 +86,9 @@ public sealed partial class WorldGenerator
             l120VoidDoor[0, w] = L120Block($"l120-voiddoor-lower-{ways[w]}");
             l120VoidDoor[1, w] = L120Block($"l120-voiddoor-upper-{ways[w]}");
         }
+        l120Duct[0] = L120Block("l120-duct-we", pipeRunXId);
+        l120Duct[1] = L120Block("l120-duct-ns", pipeRunZId);
+        l120Duct[2] = L120Block("l120-duct-hub", pipeHubId);
         // The ways in and out (WorldGenerator.L120.Links.cs)
         InitL120Links();
         InitL120Dress();
@@ -178,9 +182,10 @@ public sealed partial class WorldGenerator
         if (rel == 3)
             switch (t.Pipe)
             {
-                case WorldLayout.L120DuctX: return pipeRunXId;
-                case WorldLayout.L120DuctZ: return pipeRunZId;
-                case WorldLayout.L120DuctHub: return pipeHubId;
+                // (Round 4: the level's own galvanised duct, not Level 2's pipes)
+                case WorldLayout.L120DuctX: return l120Duct[0];
+                case WorldLayout.L120DuctZ: return l120Duct[1];
+                case WorldLayout.L120DuctHub: return l120Duct[2];
             }
 
         int facing = Facing(t.Pier);

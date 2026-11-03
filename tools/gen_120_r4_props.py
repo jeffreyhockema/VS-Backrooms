@@ -777,6 +777,7 @@ def main():
     more_textures()
     blocktypes()
     blocktypes_more()
+    duct_blocktype()
 
 
 # ======================================================================== The walls, round 4
@@ -1024,3 +1025,45 @@ def blocktypes_more():
                "Level 120: a broken window at the edge of a pocket, black beyond it (two high): walk into it to go back to the terminal that brought you",
                {"collisionbox": None, "selectionbox": cuboid((0, 0, 0.3, 1, 1, 0.7))},
                extra={"resistance": 40}, inventory="l120-window-lower-north")
+
+
+# ======================================================================== The passages' duct (round 4)
+
+def duct_run(name, x0=0.0, x1=16.0):
+    """A galvanised supply duct along x by the north wall, under the ceiling: its body, a flange at the joint, a band of
+    foil tape, the hangers from the slab with the strap under it."""
+    return [b(name + "Body", (x0, 9, 1.25), (x1, 15.25, 11), "du-galv", faces=("north", "south", "up", "down", "east", "west")),
+            b(name + "Flange", (max(x0, 0), 8.6, 0.85), (max(x0, 0) + 0.6, 15.6, 11.4), "du-galv", faces=("south", "down", "east", "west", "up")),
+            b(name + "Tape", (max(x0, 0) + 0.6, 8.95, 1.2), (max(x0, 0) + 2.0, 15.3, 11.05), "du-tape", faces=("south", "down", "up"))]
+
+
+def duct_elements(kind):
+    if kind == "we":
+        els = duct_run("D")
+        els += [b("StrapU", (9, 8.5, 0.75), (9.75, 9, 11.5), "lr-galv", faces=("south", "down", "east", "west")),
+                b("RodS", (9.1, 9, 11.5), (9.6, 16, 12), "lr-galv", faces=("south", "east", "west", "north"))]
+        return els
+    # The hub: the run along x leaves east, the run along z leaves south, a plenum box where they meet with its access door
+    els = duct_run("X", 11, 16)
+    # (the run along z, by the west wall, leaving south)
+    els += [b("ZBody", (1.25, 9, 11), (11, 15.25, 16), "du-galv", faces=("east", "west", "up", "down", "south")),
+            b("ZFlange", (0.85, 8.6, 11.5), (11.4, 15.6, 12.1), "du-galv", faces=("east", "down", "north", "south", "up")),
+            b("ZTape", (1.2, 8.95, 12.1), (11.05, 15.3, 13.5), "du-tape", faces=("east", "down", "up"))]
+    els += [b("Plenum", (0.75, 8.5, 0.75), (11.5, 15.75, 11.5), "du-galv", faces=("south", "east", "down", "north", "west")),
+            b("Access", (4, 9.5, 11.5), (9, 14, 11.75), "dk-drawer", faces=("south", "east", "west", "up", "down")),
+            b("Latch", (8, 11.5, 11.75), (8.6, 12.5, 12.0), "rk-black", faces=("south", "east", "west")),
+            b("Label", (2, 9.2, 11.5), (4, 10.2, 11.6), "rk-label", faces=("south",), uv=(0, 0, 2, 1))]
+    return els
+
+
+def duct_blocktype():
+    run = shape("l120-duct-run", duct_elements("we"))
+    hub = shape("l120-duct-hub", duct_elements("hub"))
+    bx = (0, 0.53, 0.04, 1, 1, 0.72)
+    json_block("l120-duct", [{"code": "kind", "states": ["we", "ns", "hub"]}],
+               {"*-we": {"base": run}, "*-ns": {"base": run, "rotateY": 90}, "*-hub": {"base": hub}},
+               "Level 120: the passages' supply duct under the ceiling, galvanised, flanged and taped, on its hangers: along x (we), "
+               "along z (ns), or the plenum box where two meet",
+               {"collisionboxByType": {"*-we": cuboid(bx), "*-ns": cuboid(bx, 90), "*-hub": cuboid((0, 0.53, 0, 1, 1, 1))},
+                "selectionboxByType": {"*-we": cuboid(bx), "*-ns": cuboid(bx, 90), "*-hub": cuboid((0, 0.53, 0, 1, 1, 1))}},
+               extra={"drops": drops(("metalbracket", 0.3, 0.3))}, inventory="l120-duct-we")
