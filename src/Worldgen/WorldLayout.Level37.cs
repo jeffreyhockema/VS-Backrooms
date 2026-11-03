@@ -250,7 +250,6 @@ public sealed partial class WorldLayout
     private sealed class PoolPlanner
     {
         public readonly Tile[] Tiles = new Tile[PoolBlock * PoolBlock];
-        public readonly bool[] Reserved = new bool[PoolBlock * PoolBlock];
         /// <summary>Which room carved each floor tile (1-based), so corridors know when they have left their own.</summary>
         public readonly byte[] Owner = new byte[PoolBlock * PoolBlock];
         public Rng Rng;
@@ -321,7 +320,7 @@ public sealed partial class WorldLayout
         LightGalleries(p, x0, z0);
         PlaceCoping(p);
         PlacePoolDoors(p);
-        PlacePoolLeftovers(p);
+        PlacePoolLeftovers(p, bi, bj);
         if (p.Reservoir) MakeReservoir(p);
         // Level 3999's way in: glowing magenta tiles at the bottom of the deepest water, far out (its own salt; WorldLayout.Level3999.Ways.cs)
         if (L3999Entrances) PlaceL3999Magenta(p, bi, bj);
@@ -460,16 +459,11 @@ public sealed partial class WorldLayout
                 int axis = g == 1 ? 1 : 0;
                 var (_, deep) = GalleryStretch(gx, gz, axis);
                 p.Floor(u, v, deep && g != 2 ? 2 : 1, GalleryHeight, 0);
-                p.Reserved[v * PoolBlock + u] = true;
                 // Two-by-two pillars down the middle every nine blocks, far more of them than any hall would need
                 if (g == 2) continue;
                 int across = GalleryAcross(gx, gz, axis), along = axis == 0 ? gx - PoolOriginX : gz - PoolOriginZ;
                 if (across is -1 or 0 && Hashing.Mod(along, 9) is 0 or 1) p.Wall(u, v);
             }
-        // The ring round the galleries is kept clear of rooms
-        for (int v = 0; v < PoolBlock; v++)
-            for (int u = 0; u < PoolBlock; u++)
-                if (u < 10 || v < 10 || u >= PoolBlock - 10 || v >= PoolBlock - 10) p.Reserved[v * PoolBlock + u] = true;
     }
 
     /// <summary>
@@ -1128,15 +1122,15 @@ public sealed partial class WorldLayout
     /// What is left lying about: a towel, a flip-flop, a pool noodle on a deck now and then; and crusts of Epsom salt
     /// dried on the rims in the dark, where no slit's light reaches.
     /// </summary>
-    private static void PlacePoolLeftovers(PoolPlanner p)
+    private void PlacePoolLeftovers(PoolPlanner p, int bi, int bj)
     {
-        bool[] lit = PoolLightReach(p);
+        bool[] lit = Version >= 14 ? PoolLightReachAcross(p, bi, bj) : PoolLightReach(p);
         for (int v = 1; v < PoolBlock - 1; v++)
             for (int u = 1; u < PoolBlock - 1; u++)
             {
                 ref Tile t = ref p.At(u, v);
                 // The dark corners are marked, for the stability that drains there
-                if (t.Kind == TileKind.Floor && !lit[v * PoolBlock + u]) t.Detail = PoolDark;
+                if (t.Kind == TileKind.Floor && !lit[v * PoolBlock + u] && (Version < 14 || t.Detail == 0)) t.Detail = PoolDark;
                 if (t.Kind != TileKind.Floor || t.Depth != 0 || t.Variant != 0 || t.Under != 0 || t.Floor == FloorKind.OfficeCarpet) continue;
                 if (!lit[v * PoolBlock + u] && p.Rng.Chance(0.05)) t.Variant = Props.EpsomCrust;
                 else if (lit[v * PoolBlock + u] && p.Rng.Chance(0.004))
@@ -1186,6 +1180,87 @@ public sealed partial class WorldLayout
         var lit = new bool[dist.Length];
         for (int i = 0; i < dist.Length; i++) lit[i] = dist[i] != int.MaxValue;
         return lit;
+    }
+
+    /// <summary>
+    /// <see cref="PoolLightReach"/> for layout 14 and later: also counts the slits in the neighbouring blocks, so the half
+    /// of a gallery across a block line is lit by the slit wall that lies in the next plan. The slits there are a pure
+    /// function of absolute coordinates (see <see cref="LightGalleries"/>), so they are worked out here without the plan.
+    /// </summary>
+    private bool[] PoolLightReachAcross(PoolPlanner p, int bi, int bj)
+    {
+        const int M = 15, W = PoolBlock + 2 * M;
+        int x0 = PoolOriginX + bi * PoolBlock - M, z0 = PoolOriginZ + bj * PoolBlock - M;
+        var open = new bool[W * W];
+        for (int v = 0; v < W; v++)
+            for (int u = 0; u < W; u++)
+            {
+                int pu = u - M, pv = v - M;
+                if (PoolPlanner.In(pu, pv)) { open[v * W + u] = p.IsFloor(pu, pv); continue; }
+                int gx = x0 + u, gz = z0 + v, g = GalleryAt(gx, gz);
+                if (g < 0) continue;
+                bool pillar = false;
+                if (g != 2)
+                {
+                    int across = GalleryAcross(gx, gz, g == 1 ? 1 : 0), along = g == 1 ? gz - PoolOriginZ : gx - PoolOriginX;
+                    pillar = across is -1 or 0 && Hashing.Mod(along, 9) is 0 or 1;
+                }
+                open[v * W + u] = !pillar;
+            }
+        var dist = new int[W * W];
+        Array.Fill(dist, int.MaxValue);
+        var queue = new Queue<int>();
+        void Seed(int u, int v)
+        {
+            if (u < 0 || v < 0 || u >= W || v >= W || !open[v * W + u] || dist[v * W + u] == 0) return;
+            dist[v * W + u] = 0;
+            queue.Enqueue(v * W + u);
+        }
+        for (int v = 0; v < W; v++)
+            for (int u = 0; u < W; u++)
+            {
+                int pu = u - M, pv = v - M, gx = x0 + u, gz = z0 + v;
+                if (PoolPlanner.In(pu, pv))
+                {
+                    Tile t = p.At(pu, pv);
+                    if (t.Kind != TileKind.Wall || t.Variant is not (PoolWalls.Slit or PoolWalls.Arch or PoolWalls.ArchTall)) continue;
+                    var (du, dv) = FacingStep(t.Pier);
+                    if (p.IsFloor(pu + du, pv + dv)) Seed(u + du, v + dv);
+                    continue;
+                }
+                if (GalleryAt(gx, gz) >= 0) continue;
+                var (cbi, cbj) = PoolBlockOf(gx, gz);
+                foreach (var (du, dv, toward) in PoolSteps)
+                {
+                    int g = GalleryAt(gx + du, gz + dv);
+                    if (g is < 0 or 2) continue;
+                    if (g == 0 && du != 0 || g == 1 && dv != 0) continue;
+                    var (lit, _) = GalleryStretch(gx + du, gz + dv, g);
+                    int along = g == 0 ? gx - PoolOriginX : gz - PoolOriginZ;
+                    bool lowSide = toward is ArchPier.South or ArchPier.East;
+                    if (lowSide && lit && Hashing.Mod(along, NearReservoir(cbi, cbj) ? 8 : 4) == 0) Seed(u + du, v + dv);
+                    break;
+                }
+            }
+        while (queue.Count > 0)
+        {
+            int i = queue.Dequeue();
+            if (dist[i] >= 14) continue;
+            int u = i % W, v = i / W;
+            foreach (var (du, dv, _) in PoolSteps)
+            {
+                int nu = u + du, nv = v + dv;
+                if (nu < 0 || nv < 0 || nu >= W || nv >= W || !open[nv * W + nu]) continue;
+                int n = nv * W + nu;
+                if (dist[n] <= dist[i] + 1) continue;
+                dist[n] = dist[i] + 1;
+                queue.Enqueue(n);
+            }
+        }
+        var lit2 = new bool[PoolBlock * PoolBlock];
+        for (int v = 0; v < PoolBlock; v++)
+            for (int u = 0; u < PoolBlock; u++) lit2[v * PoolBlock + u] = dist[(v + M) * W + u + M] != int.MaxValue;
+        return lit2;
     }
 
     /// <summary>

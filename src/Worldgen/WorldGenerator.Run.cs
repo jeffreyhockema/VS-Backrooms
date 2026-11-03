@@ -235,6 +235,8 @@ public sealed partial class WorldGenerator
                 CeilingKind.LampRed => runRedLightId, // the start room's own red panel (brighter than the Red Rooms' lamp)
                 _ => runCeilingId,
             };
+        // The curtain's top part sits at rel 4; worlds made before layout 14 keep the three-high curtain
+        if (layout.Version >= 14 && t.Variant == Props.RunCurtain && rel <= 4) return runCurtainIds[rel - 1, t.Pier is ArchPier.North or ArchPier.South ? 1 : 0];
         if (rel == 4) return t.Ceiling == CeilingKind.RunExitSign ? runSignIds[(t.Detail & WorldLayout.RunSignWE) != 0 ? 1 : 0] : 0;
         if (t.Variant == Props.RunShelfStanding && rel <= 2) return runShelfIds[rel - 1, face];
         if (t.Variant == Props.RunCurtain && rel <= 4) return runCurtainIds[rel - 1, t.Pier is ArchPier.North or ArchPier.South ? 1 : 0];

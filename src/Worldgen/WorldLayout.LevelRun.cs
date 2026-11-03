@@ -752,12 +752,21 @@ public sealed partial class WorldLayout
         }
     }
 
+    /// <summary>Whether a hole at row <paramref name="h"/> would land on a door or shelf (layout 14: every row it could touch, not two).</summary>
+    private bool HoleBlocked(RunPlanner p, int h)
+    {
+        if (Version < 14) return p.Reserved.Contains(h - 5) || p.Reserved.Contains(h + 3);
+        for (int z = h - 6; z <= h + 4; z++)
+            if (p.Reserved.Contains(z)) return true;
+        return false;
+    }
+
     /// <summary>One lane in three has a hole in the dark last stretch, cracks in the floor before it.</summary>
     private void PlanRunHole(RunLane L, RunPlanner p, int c, int j2)
     {
         if (!L.HasHole) return;
         int h = p.Rng.Range(j2 + 40, RunExitAt - RunExitStretch - 12);
-        for (int tries = 0; tries < 10 && (p.Reserved.Contains(h - 5) || p.Reserved.Contains(h + 3)); tries++) h += 7;
+        for (int tries = 0; tries < 10 && HoleBlocked(p, h); tries++) h += 7;
         int side = p.Rng.Chance(0.5) ? -1 : 1;
         for (int z = h - 4; z <= h + 1; z++)
             for (int k = 1; k <= 2; k++)
@@ -813,7 +822,12 @@ public sealed partial class WorldLayout
         int third = 0;
         foreach (var (c, z0, z1) in straights)
         {
-            if (gauntlet) PlanRunGauntlet(L, p, rng, c, z0, z1, third);
+            if (gauntlet)
+            {
+                // From layout 14 the gauntlet's draws carry on into the next straight instead of being thrown away
+                Rng g = PlanRunGauntlet(L, p, rng, c, z0, z1, third);
+                if (Version >= 14) rng = g;
+            }
             int z = gauntlet ? z1 : z0 + rng.Range(4, 10);
             while (z < z1 - 2)
             {
@@ -1018,7 +1032,7 @@ public sealed partial class WorldLayout
     /// fallen shelving and rubble you can jump. Every piece is kept only if the straight can still be run at a sprint
     /// (<see cref="RunSprintable"/>).
     /// </summary>
-    private void PlanRunGauntlet(RunLane L, RunPlanner p, Rng rng, int c, int z0, int z1, int third)
+    private Rng PlanRunGauntlet(RunLane L, RunPlanner p, Rng rng, int c, int z0, int z1, int third)
     {
         var piece = new List<(int Dz, int K, ushort Prop, byte Stack, ArchPier Pier)>();
         int side = rng.Chance(0.5) ? 1 : -1;
@@ -1216,6 +1230,7 @@ public sealed partial class WorldLayout
             }
             z += len + gapRows;
         }
+        return rng;
     }
 
     /// <summary>
