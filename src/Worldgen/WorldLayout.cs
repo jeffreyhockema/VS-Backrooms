@@ -518,9 +518,14 @@ public sealed partial class WorldLayout
     /// renewable resin; WorldGenerator.Vegetation.cs). It also gives stairs the headroom to climb them: Level 1's stairs to nowhere
     /// have the slab open over their second step and the concrete over the third cut a block higher, and Level 5's grand staircases
     /// open the ceiling from the second step, not the third (blocks only; the tiles, and so <c>layouthash</c>, are as in 12).</item>
+    /// <item><b>14</b>: the food props of Levels 1 to 5 are picked over as the boxes and crates are (food pressure, 2026-11): metal
+    /// shelving, drums, cardboard boxes, fridges, kitchen cupboards and pantry shelves (<see cref="IsFoodProp"/>) are marked
+    /// <see cref="Tile.Looted"/> at the level's <see cref="PickedOverShare"/> on a hash of their own (SaltStripped), never at
+    /// spawn, behind a locked door or within three tiles of a camp, and the generator draws them as their stripped blocks, which
+    /// give no food (WorldGenerator.Stripped.cs). Only Levels 1 to 5 move; the experimental levels keep their props.</item>
     /// </list>
     /// </summary>
-    public const int CurrentVersion = 13;
+    public const int CurrentVersion = 14;
 
     /// <summary>The layout version this world was made with (see <see cref="CurrentVersion"/>).</summary>
     public readonly int Version;

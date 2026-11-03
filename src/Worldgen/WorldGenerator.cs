@@ -550,6 +550,7 @@ public sealed partial class WorldGenerator
         boxId = BlockId("backrooms:supplybox");
         boxTornId = BlockId("backrooms:supplybox-torn");
         crateOpenId = BlockId("backrooms:crate-open");
+        InitStripped();
         string[] sides = { "north", "east", "south", "west" };
         for (int symbol = 0; symbol < 4; symbol++)
             for (int side = 0; side < 4; side++) chalkIds[symbol, side] = BlockId($"backrooms:chalkmark-{ChalkBits.Symbols[symbol]}-{sides[side]}");
@@ -1209,6 +1210,8 @@ public sealed partial class WorldGenerator
             5 => Level5Block(t, rel, gx, gz),
             _ => Level6Block(t, rel),
         };
+        // (Layout version 14: a food prop others went through is its stripped block, WorldGenerator.Stripped.cs)
+        block = Stripped(t, block);
         // A chalk mark at eye height on the wall beside the tile, left by someone before
         if (block == 0 && fluid == 0 && rel == 2 && t.Chalk != 0) return ChalkMark(t.Chalk);
         return block;

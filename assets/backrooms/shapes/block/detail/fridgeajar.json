@@ -1,0 +1,1104 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"fridgewhite": "backrooms:block/detail/fridgewhite",
+		"steel": "backrooms:block/detail/steel",
+		"steeldark": "backrooms:block/detail/steeldark",
+		"inside": "backrooms:block/detail/fridgeinside"
+	},
+	"elements": [
+		{
+			"name": "Bottom",
+			"from": [
+				1.0,
+				0.0,
+				3.0
+			],
+			"to": [
+				15.0,
+				1.2,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						14.0,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						12.0,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						14.0,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						12.0,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#inside",
+					"uv": [
+						0,
+						0,
+						14.0,
+						12.0
+					]
+				},
+				"down": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						14.0,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				1.0,
+				28.8,
+				3.0
+			],
+			"to": [
+				15.0,
+				30.0,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						14.0,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						12.0,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						14.0,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						12.0,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						14.0,
+						12.0
+					]
+				},
+				"down": {
+					"texture": "#inside",
+					"uv": [
+						0,
+						0,
+						14.0,
+						12.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				1.0,
+				1.2,
+				14.0
+			],
+			"to": [
+				15.0,
+				28.8,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#inside",
+					"uv": [
+						0,
+						0,
+						14.0,
+						27.6
+					]
+				},
+				"east": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						27.6
+					]
+				},
+				"south": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						14.0,
+						27.6
+					]
+				},
+				"west": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						27.6
+					]
+				},
+				"up": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						14.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						14.0,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "SideW",
+			"from": [
+				1.0,
+				1.2,
+				3.0
+			],
+			"to": [
+				2.2,
+				28.8,
+				14.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						1.2,
+						27.6
+					]
+				},
+				"east": {
+					"texture": "#inside",
+					"uv": [
+						0,
+						0,
+						11.0,
+						27.6
+					]
+				},
+				"south": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						1.2,
+						27.6
+					]
+				},
+				"west": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						27.6
+					]
+				},
+				"up": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						1.2,
+						11.0
+					]
+				},
+				"down": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						1.2,
+						11.0
+					]
+				}
+			}
+		},
+		{
+			"name": "SideE",
+			"from": [
+				12.8,
+				1.2,
+				3.0
+			],
+			"to": [
+				15.0,
+				28.8,
+				14.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						2.2,
+						27.6
+					]
+				},
+				"east": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						11.0,
+						27.6
+					]
+				},
+				"south": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						2.2,
+						27.6
+					]
+				},
+				"west": {
+					"texture": "#inside",
+					"uv": [
+						0,
+						0,
+						11.0,
+						27.6
+					]
+				},
+				"up": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						2.2,
+						11.0
+					]
+				},
+				"down": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						2.2,
+						11.0
+					]
+				}
+			}
+		},
+		{
+			"name": "ShelfLow",
+			"from": [
+				2.2,
+				9.5,
+				3.6
+			],
+			"to": [
+				12.8,
+				10.0,
+				13.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.6,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.2,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.2,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						10.6,
+						10.2
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						10.6,
+						10.2
+					]
+				}
+			}
+		},
+		{
+			"name": "ShelfHigh",
+			"from": [
+				2.2,
+				19.0,
+				3.6
+			],
+			"to": [
+				12.8,
+				19.5,
+				13.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.6,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.2,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.2,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						10.6,
+						10.2
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						10.6,
+						10.2
+					]
+				}
+			}
+		},
+		{
+			"name": "ShelfTop",
+			"from": [
+				2.2,
+				25.0,
+				3.6
+			],
+			"to": [
+				12.8,
+				25.4,
+				13.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.6,
+						0.4
+					]
+				},
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.2,
+						0.4
+					]
+				},
+				"south": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.6,
+						0.4
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.2,
+						0.4
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						10.6,
+						10.2
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						10.6,
+						10.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Stain",
+			"from": [
+				4.0,
+				1.2,
+				6.0
+			],
+			"to": [
+				9.5,
+				1.25,
+				11.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Door",
+			"from": [
+				1.0,
+				0.0,
+				2.2
+			],
+			"to": [
+				15.0,
+				30.0,
+				3.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						14.0,
+						30.0
+					]
+				},
+				"east": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						30.0
+					]
+				},
+				"south": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						14.0,
+						30.0
+					]
+				},
+				"west": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						1.0,
+						30.0
+					]
+				},
+				"up": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						14.0,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#fridgewhite",
+					"uv": [
+						0,
+						0,
+						14.0,
+						1.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.0,
+				0.0,
+				3.0
+			],
+			"rotationY": 68
+		},
+		{
+			"name": "DoorLiner",
+			"from": [
+				2.2,
+				1.2,
+				3.2
+			],
+			"to": [
+				13.8,
+				28.8,
+				3.5
+			],
+			"faces": {
+				"east": {
+					"texture": "#inside",
+					"uv": [
+						0,
+						0,
+						0.3,
+						27.6
+					]
+				},
+				"south": {
+					"texture": "#inside",
+					"uv": [
+						0,
+						0,
+						11.6,
+						27.6
+					]
+				},
+				"west": {
+					"texture": "#inside",
+					"uv": [
+						0,
+						0,
+						0.3,
+						27.6
+					]
+				},
+				"up": {
+					"texture": "#inside",
+					"uv": [
+						0,
+						0,
+						11.6,
+						0.3
+					]
+				},
+				"down": {
+					"texture": "#inside",
+					"uv": [
+						0,
+						0,
+						11.6,
+						0.3
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.0,
+				0.0,
+				3.0
+			],
+			"rotationY": 68
+		},
+		{
+			"name": "DoorSeam",
+			"from": [
+				1.0,
+				18.0,
+				1.9
+			],
+			"to": [
+				15.0,
+				18.5,
+				2.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						0.3,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						0.3,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.3
+					]
+				},
+				"down": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						14.0,
+						0.3
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.0,
+				0.0,
+				3.0
+			],
+			"rotationY": 68
+		},
+		{
+			"name": "DoorHandle1",
+			"from": [
+				12.0,
+				20.0,
+				1.5
+			],
+			"to": [
+				13.0,
+				27.0,
+				2.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						7.0
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						7.0
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						7.0
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						7.0
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.0,
+				0.0,
+				3.0
+			],
+			"rotationY": 68
+		},
+		{
+			"name": "DoorHandle2",
+			"from": [
+				12.0,
+				9.0,
+				1.5
+			],
+			"to": [
+				13.0,
+				16.0,
+				2.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						7.0
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						7.0
+					]
+				},
+				"south": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						7.0
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.7,
+						7.0
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.7
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.0,
+				0.0,
+				3.0
+			],
+			"rotationY": 68
+		},
+		{
+			"name": "DoorBinLow",
+			"from": [
+				3.0,
+				8.0,
+				3.5
+			],
+			"to": [
+				13.0,
+				8.5,
+				4.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1.1,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1.1,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						10.0,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						10.0,
+						1.1
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.0,
+				0.0,
+				3.0
+			],
+			"rotationY": 68
+		},
+		{
+			"name": "DoorBinHigh",
+			"from": [
+				3.0,
+				17.0,
+				3.5
+			],
+			"to": [
+				13.0,
+				17.5,
+				4.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1.1,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						10.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#steeldark",
+					"uv": [
+						0,
+						0,
+						1.1,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						10.0,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						10.0,
+						1.1
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.0,
+				0.0,
+				3.0
+			],
+			"rotationY": 68
+		}
+	]
+}

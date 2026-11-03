@@ -14,6 +14,7 @@ public sealed partial class WorldLayout
 {
     private const ulong SaltPickedOver = 0x7A11;
     private const ulong SaltStash = 0x7A12;
+    private const ulong SaltStripped = 0x7A13;
 
     /// <summary>The share of boxes and crates in a cell that have already been gone through.</summary>
     private double PickedOverShare(int level, int mx, int mz) => level switch
@@ -48,17 +49,51 @@ public sealed partial class WorldLayout
     private static bool IsCrate(in Tile t, int level) =>
         t.Kind == TileKind.Floor && t.Variant == 0 && t.Stack > 0 && !t.SupplyBox && level is 1 or 2 or 3 or 8;
 
-    /// <summary>Marks the boxes and crates of a cell that were picked over long ago. Runs after the cell's pockets are sealed.</summary>
+    /// <summary>
+    /// The food props that, from layout version 14, are found stripped in Levels 1 to 5 as boxes and crates are found torn:
+    /// metal shelving, drums, cardboard boxes, fridges, kitchen cupboards and pantry shelves. A stripped one is the tile's
+    /// <see cref="Tile.Looted"/> (the generator draws its emptied block, which gives no food: WorldGenerator.Stripped.cs).
+    /// </summary>
+    internal static bool IsFoodProp(ushort variant) =>
+        variant is Props.Shelf or Props.Drum or Props.CardboardBoxes or Props.Fridge or Props.KitchenCabinet or Props.PantryShelf;
+
+    /// <summary>What marks a camp: a wanderer's spot (Level 4's outposts) or their bedding, lantern or shelter.</summary>
+    private static bool IsCampMark(in Tile t) =>
+        t.Level == 4 && t.Detail == L4CampSite
+        || t.Variant is Props.Bedroll or Props.SleepingBag or Props.ImprovBed or Props.Tent or Props.CampTent or Props.LeanTo or Props.Lantern;
+
+    /// <summary>Whether a tile is within three tiles of a camp (<see cref="IsCampMark"/>): what is kept there is the camper's, not picked over.</summary>
+    private static bool InCamp(Builder b, int lx, int lz)
+    {
+        for (int z = Math.Max(0, lz - 3); z <= Math.Min(MacroSize - 1, lz + 3); z++)
+            for (int x = Math.Max(0, lx - 3); x <= Math.Min(MacroSize - 1, lx + 3); x++)
+                if (IsCampMark(b.At(x, z))) return true;
+        return false;
+    }
+
+    /// <summary>
+    /// Marks the boxes and crates of a cell that were picked over long ago, and from layout version 14 the food props of
+    /// Levels 1 to 5 (<see cref="IsFoodProp"/>) at the same share, except in camps. Runs after the cell's pockets are sealed.
+    /// </summary>
     private void MarkPickedOver(Builder b, int mx, int mz)
     {
         // The first boxes a newcomer finds, and the places nobody dares go, are untouched
         if (b.IsSpawn || b.Level == 0 && (IsRedRoom(mx, mz) || IsManilaMacro(mx, mz))) return;
         if (b.Level == 6 && IsSnackrooms(mx, mz)) return;
         double share = PickedOverShare(b.Level, mx, mz);
+        bool props = Version >= 14 && b.Level is >= 1 and <= 5;
         for (int lz = 0; lz < MacroSize; lz++)
             for (int lx = 0; lx < MacroSize; lx++)
             {
                 ref Tile t = ref b.At(lx, lz);
+                // (Floor tiles only: on a wall a low Variant is its fitting, Props.Drum's 1 the wall pipes)
+                if (props && t.Kind == TileKind.Floor && !t.SupplyBox && IsFoodProp(t.Variant))
+                {
+                    // (A hash of its own, so the props' rolls are not the boxes')
+                    if (BehindLockedDoor(b, lx, lz) || InCamp(b, lx, lz)) continue;
+                    if (Hashing.Unit(Hashing.Hash(seed, mx * MacroSize + lx, mz * MacroSize + lz, SaltStripped)) < share) t.Looted = true;
+                    continue;
+                }
                 if (!t.SupplyBox && !IsCrate(t, b.Level)) continue;
                 if (BehindLockedDoor(b, lx, lz)) continue;
                 if (Hashing.Unit(Hashing.Hash(seed, mx * MacroSize + lx, mz * MacroSize + lz, SaltPickedOver)) < share) t.Looted = true;

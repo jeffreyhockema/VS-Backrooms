@@ -1,0 +1,850 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"l11a-bead": "backrooms:block/detail/l11a-bead",
+		"l11a-pine": "backrooms:block/detail/l11a-pine",
+		"l11a-pinev": "backrooms:block/detail/l11a-pinev",
+		"l11a-tinlid": "backrooms:block/detail/l11a-tinlid",
+		"l11a-tintomato": "backrooms:block/detail/l11a-tintomato"
+	},
+	"elements": [
+		{
+			"name": "UpL",
+			"from": [
+				0.5,
+				0,
+				7.5
+			],
+			"to": [
+				1.6,
+				27.2,
+				16.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-pinev",
+					"uv": [
+						0,
+						0,
+						1.1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#l11a-pinev",
+					"uv": [
+						0,
+						0,
+						8.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#l11a-pinev",
+					"uv": [
+						0,
+						0,
+						1.1,
+						16
+					]
+				},
+				"west": {
+					"texture": "#l11a-pinev",
+					"uv": [
+						0,
+						0,
+						8.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#l11a-pinev",
+					"uv": [
+						0,
+						0,
+						1.1,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "UpR",
+			"from": [
+				14.4,
+				0,
+				7.5
+			],
+			"to": [
+				15.5,
+				27.2,
+				16.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-pinev",
+					"uv": [
+						0,
+						0,
+						1.1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#l11a-pinev",
+					"uv": [
+						0,
+						0,
+						8.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#l11a-pinev",
+					"uv": [
+						0,
+						0,
+						1.1,
+						16
+					]
+				},
+				"west": {
+					"texture": "#l11a-pinev",
+					"uv": [
+						0,
+						0,
+						8.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#l11a-pinev",
+					"uv": [
+						0,
+						0,
+						1.1,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				1.6,
+				2.4,
+				15.4
+			],
+			"to": [
+				14.4,
+				27.2,
+				16.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-bead",
+					"uv": [
+						0,
+						0,
+						12.8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#l11a-bead",
+					"uv": [
+						0,
+						0,
+						0.6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#l11a-bead",
+					"uv": [
+						0,
+						0,
+						0.6,
+						16
+					]
+				},
+				"up": {
+					"texture": "#l11a-bead",
+					"uv": [
+						0,
+						0,
+						12.8,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Plinth",
+			"from": [
+				1.6,
+				0,
+				8.2
+			],
+			"to": [
+				14.4,
+				2.4,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						7.2,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						7.2,
+						2.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				0.5,
+				27.2,
+				7.5
+			],
+			"to": [
+				15.5,
+				28.0,
+				16.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						8.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						15.0,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						15.0,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Board0",
+			"from": [
+				1.6,
+				2.4,
+				7.8
+			],
+			"to": [
+				14.4,
+				3.2,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						7.6
+					]
+				},
+				"down": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						7.6
+					]
+				},
+				"east": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						7.6,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						7.6,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip0",
+			"from": [
+				1.6,
+				3.2,
+				7.8
+			],
+			"to": [
+				14.4,
+				3.8,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Board1",
+			"from": [
+				1.6,
+				9.6,
+				7.8
+			],
+			"to": [
+				14.4,
+				10.4,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						7.6
+					]
+				},
+				"down": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						7.6
+					]
+				},
+				"east": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						7.6,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						7.6,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip1",
+			"from": [
+				1.6,
+				10.4,
+				7.8
+			],
+			"to": [
+				14.4,
+				11.0,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Board2",
+			"from": [
+				1.6,
+				16.4,
+				7.8
+			],
+			"to": [
+				14.4,
+				17.2,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						7.6
+					]
+				},
+				"down": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						7.6
+					]
+				},
+				"east": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						7.6,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						7.6,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip2",
+			"from": [
+				1.6,
+				17.2,
+				7.8
+			],
+			"to": [
+				14.4,
+				17.8,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Board3",
+			"from": [
+				1.6,
+				22.8,
+				7.8
+			],
+			"to": [
+				14.4,
+				23.6,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						7.6
+					]
+				},
+				"down": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						7.6
+					]
+				},
+				"east": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						7.6,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						7.6,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip3",
+			"from": [
+				1.6,
+				23.6,
+				7.8
+			],
+			"to": [
+				14.4,
+				24.2,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						12.8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#l11a-pine",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "TippedTin",
+			"from": [
+				3.2,
+				3.2,
+				9.6
+			],
+			"to": [
+				7.4,
+				5.6,
+				12.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#l11a-tintomato",
+					"uv": [
+						0,
+						0,
+						4.2,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#l11a-tintomato",
+					"uv": [
+						0,
+						0,
+						4.2,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#l11a-tintomato",
+					"uv": [
+						0,
+						0,
+						4.2,
+						2.4
+					]
+				},
+				"down": {
+					"texture": "#l11a-tintomato",
+					"uv": [
+						0,
+						0,
+						4.2,
+						2.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				5.3,
+				4.4,
+				10.8
+			],
+			"rotationY": 23
+		},
+		{
+			"name": "TippedTinEnd",
+			"from": [
+				7.4,
+				3.2,
+				9.6
+			],
+			"to": [
+				7.45,
+				5.6,
+				12
+			],
+			"faces": {
+				"east": {
+					"texture": "#l11a-tinlid",
+					"uv": [
+						0,
+						0,
+						1.8,
+						2.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				5.3,
+				3.2,
+				10.8
+			],
+			"rotationY": 23
+		},
+		{
+			"name": "TinLid",
+			"from": [
+				9.8,
+				3.2,
+				10.6
+			],
+			"to": [
+				11.6,
+				3.3,
+				12.4
+			],
+			"faces": {
+				"up": {
+					"texture": "#l11a-tinlid",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.8
+					]
+				}
+			}
+		}
+	]
+}
