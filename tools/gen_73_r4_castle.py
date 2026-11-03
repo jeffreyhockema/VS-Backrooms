@@ -531,6 +531,9 @@ def dormer_roof_shape(front):
                                  "north": face("#slate", [0, 0, 16, 1.4]), "south": face("#slate", [0, 0, 16, 1.4]),
                                  side: face("#slate", [0, 0, 16, 1.4])}})
     els = planes + [box("RidgeRoll", [7.2, 11, z0], [8.8, 12.4, 16], "#iron")]
+    if not front:
+        # the main roof's slope carries on through the back cell: the dormer's roof runs into it (the valleys)
+        els += slope_els()
     if front:
         for i in range(5):
             w = 7.5 - 2 * i
@@ -866,3 +869,450 @@ def blocktypes():  # noqa: F811
 
 
 LANG.append(("block-l73-wreck-*", "Wreckage"))
+
+
+# ================= The keep door's hood (round 4) =================
+
+def hood_shape(side):
+    """Half of a gabled stone hood over the keep's door (two cells wide, the wall to the north): a slate plane from the
+    shared ridge (x 16 of the left cell, x 0 of the right) down to the outer edge, a stone barge and a carved bracket under
+    it, the front gable's half with its trefoil, a finial at the ridge."""
+    left = side == "l"
+    a = 16 * SQ2
+    rx = 16 if left else 0
+    plane = {"name": "Plane", "from": [rx - a, 12, 0] if left else [rx, 12, 0], "to": [rx, 13.6, 12] if left else [rx + a, 13.6, 12],
+             "rotationOrigin": [rx, 13.6, 0], "rotationZ": 45 if left else -45,
+             "faces": {"up": face("#slate", [0, 0, 16, 12]), "down": face("#coping", [0, 0, 16, 12]), "south": face("#coping", [0, 0, 16, 1.6]),
+                       ("west" if left else "east"): face("#coping", [0, 0, 12, 1.6])}}
+    els = [plane]
+    # the front gable under the plane: stepped stone, a dark trefoil in it
+    for i in range(7):
+        w = 15 - 2 * i
+        x0, x1 = (16 - w, 16) if left else (0, w)
+        els.append(sbox(f"Gable{i}", [x0, -2 + 2 * i, 10.5], [x1, 2 * i, 12], "#stone"))
+    tx = (11.5, 16) if left else (0, 4.5)
+    els += [sbox("Trefoil", [tx[0], 2.5, 12.0], [tx[1], 6.5, 12.1], "#dark"),
+            sbox("Bracket", [0, -4, 1] if left else [13, -4, 1], [3, 0, 11] if left else [16, 0, 11], "#stone"),
+            sbox("BracketFoot", [0.5, -7, 6] if left else [13.5, -7, 6], [2.5, -4, 11] if left else [15.5, -4, 11], "#stone")]
+    if left:
+        els += [sbox("Finial", [15, 13, 10.6], [17, 19.5, 12.6], "#coping"), sbox("Knop", [14.6, 19.5, 10.2], [17.4, 21, 13], "#coping")]
+    return shape(STONE_TEX, els)
+
+
+_shapes_wreck = shapes
+
+
+def shapes(write_json, shape_dir):  # noqa: F811
+    n = _shapes_wreck(write_json, shape_dir)
+    for k in ("l", "r"):
+        write_json(os.path.join(shape_dir, f"hood-{k}.json"), None, hood_shape(k))
+    return n + 2
+
+
+_blocktypes_wreck = blocktypes
+
+
+def blocktypes():  # noqa: F811
+    out = _blocktypes_wreck()
+    out.append(jsonblock("l73-hood", "// Level 73: the gabled stone hood over the keep's door, its left and right halves (the door in a south wall)",
+                         [{"code": "half", "states": ["l", "r"]}], {f"*-{k}": {"base": f"block/73/hood-{k}"} for k in ("l", "r")}, "*-l",
+                         coll=None, extra={"renderpass": "OpaqueNoCull"}))
+    return out
+
+
+LANG.append(("block-l73-hood-*", "Door Hood"))
+
+
+# ================= The castle's own seats and tables (round 4) =================
+# Gothic carved mahogany and red velvet in place of the Level 5 hotel's (which stay in the hotel). Front (the sitter's view,
+# the drawers) north for -north, the back to the south, like the hotel pieces they replace.
+
+FURN_TEX = {"wood": T + "mahogany", "end": T + "mahogany-end", "velvet": T + "velvet", "gold": T + "gold", "silver": T + "silverware",
+            "pages": T + "pages", "leather": T + "leather", "wax": T + "wax"}
+
+
+def turned(name, x, z, y0, y1, r=0.8, tex="#end"):
+    """A turned leg or post (x, z its middle): a shaft with a collar or two."""
+    els = [box(f"{name}", [x - r, y0, z - r], [x + r, y1, z + r], tex)]
+    h = y1 - y0
+    for i, f in enumerate((0.12, 0.5) if h > 6 else (0.3,)):
+        y = y0 + h * f
+        els.append(box(f"{name}C{i}", [x - r - 0.35, y, z - r - 0.35], [x + r + 0.35, y + 0.8, z + r + 0.35], tex))
+    return els
+
+
+def chair_shape():
+    """A carved side chair: turned legs on an H-stretcher, a velvet seat at 0.5, a tall back with a pointed crest and
+    finials, a velvet panel between its posts."""
+    els = []
+    for i, (x, z) in enumerate(((2.8, 2.8), (13.2, 2.8))):
+        els += turned(f"LegF{i}", x, z, 0, 7.2)
+    for i, x in enumerate((2.8, 13.2)):
+        els += turned(f"Post{i}", x, 13.2, 0, 24.5)
+        els += [box(f"Finial{i}", [x - 0.6, 24.5, 12.6], [x + 0.6, 26.5, 13.8], "#end"),
+                box(f"Knob{i}", [x - 0.9, 26.5, 12.3], [x + 0.9, 27.6, 14.1], "#gold")]
+    els += [box("StretchL", [2.3, 2.2, 3], [3.3, 3.0, 13], "#end"), box("StretchR", [12.7, 2.2, 3], [13.7, 3.0, 13], "#end"),
+            box("StretchX", [3.3, 2.4, 7.6], [12.7, 3.1, 8.4], "#end"),
+            box("SeatFrame", [1.6, 7.2, 1.6], [14.4, 8.6, 14.4], "#wood"),
+            box("Cushion", [2.2, 8.6, 2.0], [13.8, 9.9, 13.0], "#velvet"),
+            box("Piping", [2.0, 8.5, 1.8], [14.0, 8.9, 2.2], "#gold"),
+            box("RailLow", [3.6, 11, 12.8], [12.4, 12.2, 13.8], "#wood"),
+            box("Panel", [3.6, 12.2, 13.0], [12.4, 21, 13.6], "#velvet"),
+            box("RailTop", [3.6, 21, 12.6], [12.4, 23, 14.0], "#wood"),
+            box("Crest1", [5.2, 23, 12.8], [10.8, 24.4, 13.8], "#wood"),
+            box("Crest2", [6.6, 24.4, 12.8], [9.4, 25.8, 13.8], "#wood"),
+            box("Crest3", [7.5, 25.8, 12.9], [8.5, 27.4, 13.7], "#gold")]
+    return shape(FURN_TEX, els)
+
+
+def wingchair_shape():
+    """A wing chair in red velvet on a carved frame: bun feet, a deep seat, rolled arms, a high back with wings, brass studs."""
+    els = []
+    for i, (x, z) in enumerate(((2.2, 2.2), (13.8, 2.2), (2.2, 13.6), (13.8, 13.6))):
+        els += [box(f"Foot{i}", [x - 1.1, 0, z - 1.1], [x + 1.1, 1.8, z + 1.1], "#end"),
+                box(f"Leg{i}", [x - 0.7, 1.8, z - 0.7], [x + 0.7, 3.4, z + 0.7], "#end")]
+    els += [box("Base", [1, 3.4, 1], [15, 6.5, 15], "#velvet"), box("Apron", [0.8, 3.2, 0.8], [15.2, 4.0, 15.2], "#wood"),
+            box("Cushion", [3.2, 6.5, 1.6], [12.8, 8.6, 13], "#velvet"),
+            box("Back", [2.4, 6.5, 13], [13.6, 24, 15.2], "#velvet"), box("BackTop", [3, 24, 13.2], [13, 25.4, 15], "#velvet"),
+            box("WingL", [1, 12, 9.5], [3.2, 23, 15.2], "#velvet"), box("WingR", [12.8, 12, 9.5], [15, 23, 15.2], "#velvet"),
+            box("ArmL", [0.8, 6.5, 1.2], [3.4, 12.2, 13], "#velvet"), box("ArmR", [12.6, 6.5, 1.2], [15.2, 12.2, 13], "#velvet"),
+            box("RollL", [0.4, 10.4, 1.0], [3.8, 12.8, 3.2], "#velvet"), box("RollR", [12.2, 10.4, 1.0], [15.6, 12.8, 3.2], "#velvet")]
+    for i, y in enumerate((7.5, 9.5)):
+        els += [box(f"StudL{i}", [1.4, y, 0.7], [2.2, y + 0.7, 1.05], "#gold"), box(f"StudR{i}", [13.8, y, 0.7], [14.6, y + 0.7, 1.05], "#gold")]
+    return shape(FURN_TEX, els)
+
+
+def settee_shape(part):
+    """Half of a long carved settee (two cells): 'l' the left end as one sits on it (x low), 'r' the right; an arm at the
+    outer end, the back's carved top rail with a crest at the middle, a velvet seat and back, turned legs."""
+    left = part == "l"
+    outer = 0.0 if left else 16.0
+    s = 1 if left else -1
+    els = []
+    for i, z in enumerate((2.5, 13.5)):
+        els += turned(f"Leg{i}", outer + s * 2.2, z, 0, 4.6, r=0.9)
+    els += [box("Rail", [0, 4.6, 1.6], [16, 6.2, 15], "#wood"),
+            box("Seat", [0, 6.2, 2], [16, 8.6, 13.4], "#velvet"),
+            box("Back", [0, 6.2, 13.4], [16, 20, 15], "#velvet"),
+            box("TopRail", [0, 20, 13.2], [16, 21.6, 15.2], "#wood"),
+            box("Piping", [0, 8.4, 1.8], [16, 8.8, 2.2], "#gold")]
+    ax0, ax1 = (0.4, 3.0) if left else (13.0, 15.6)
+    px0, px1 = (0.2, 2.0) if left else (14.0, 15.8)
+    els += [box("Arm", [ax0, 6.2, 2], [ax1, 12, 13.4], "#velvet"), box("ArmTop", [ax0 - 0.3, 12, 1.4], [ax1 + 0.3, 13.2, 13.6], "#wood"),
+            box("ArmPost", [ax0, 4.6, 1.2], [ax1, 13.2, 2.4], "#wood"),
+            box("EndPost", [px0, 4.6, 13.2], [px1, 22.5, 15.2], "#end"),
+            box("EndFinial", [px0 + 0.2, 22.5, 13.5], [px1 - 0.2, 24, 14.9], "#gold")]
+    c0, c1 = (11, 16) if left else (0, 5)
+    d0, d1 = (14, 16) if left else (0, 2)
+    els += [box("Crest", [c0, 21.6, 13.4], [c1, 23.2, 15], "#wood"), box("Crest2", [d0, 23.2, 13.5], [d1, 24.8, 14.9], "#wood")]
+    return shape(FURN_TEX, els)
+
+
+def sideboard_shape():
+    """A carved mahogany sideboard against the wall (south): bracket feet, a plinth, two panelled doors and a drawer with
+    brass pulls, a moulded top; on it a silver tray, a decanter and two glasses, a candlestick."""
+    els = [box("Plinth", [0.6, 1.2, 3.4], [15.4, 2.2, 15.6], "#end")]
+    for i, x in enumerate((0.6, 13.6)):
+        for j, z in enumerate((3.4, 13.6)):
+            els.append(box(f"Foot{i}{j}", [x, 0, z], [x + 1.8, 1.2, z + 2.0], "#end"))
+    els += [box("Carcass", [0.8, 2.2, 4], [15.2, 12.6, 15.6], "#wood"),
+            box("Top", [0.2, 12.6, 3.2], [15.8, 13.6, 16], "#end"),
+            box("Drawer", [1.6, 10.2, 3.6], [14.4, 12.2, 4], "#wood"),
+            box("Pull", [7.0, 10.9, 3.2], [9.0, 11.5, 3.6], "#gold"),
+            box("DoorL", [1.6, 3, 3.6], [7.8, 9.8, 4], "#wood"), box("DoorR", [8.2, 3, 3.6], [14.4, 9.8, 4], "#wood"),
+            box("PanelL", [2.6, 4, 3.3], [6.8, 8.8, 3.6], "#end"), box("PanelR", [9.2, 4, 3.3], [13.4, 8.8, 3.6], "#end"),
+            box("KnobL", [6.8, 6.2, 3.0], [7.4, 6.8, 3.6], "#gold"), box("KnobR", [8.6, 6.2, 3.0], [9.2, 6.8, 3.6], "#gold"),
+            box("Tray", [3, 13.6, 7], [10, 14.0, 13], "#silver"),
+            box("Decanter", [4.2, 14.0, 8.6], [6.2, 17.2, 10.6], "#silver"), box("Neck", [4.8, 17.2, 9.2], [5.6, 19, 10.0], "#silver"),
+            box("Stopper", [4.6, 19, 9.0], [5.8, 19.8, 10.2], "#silver"),
+            box("Glass1", [7.2, 14.0, 8.8], [8.2, 16.0, 9.8], "#silver"), box("Glass2", [8.6, 14.0, 10.6], [9.6, 16.0, 11.6], "#silver"),
+            box("StickBase", [11.6, 13.6, 9.6], [13.6, 14.2, 11.6], "#gold"), box("Stick", [12.3, 14.2, 10.3], [12.9, 17.6, 10.9], "#gold"),
+            box("Candle", [12.2, 17.6, 10.2], [13.0, 20.6, 11.0], "#wax")]
+    return shape(FURN_TEX, els)
+
+
+def lowtable_shape():
+    """A low carved table before the fire: turned legs, a stretcher, a moulded top; a book open on it and a candlestick."""
+    els = []
+    for i, (x, z) in enumerate(((2.2, 3.2), (13.8, 3.2), (2.2, 12.8), (13.8, 12.8))):
+        els += turned(f"Leg{i}", x, z, 0, 6.6, r=0.8)
+    els += [box("StretchA", [2.2, 1.6, 7.6], [13.8, 2.3, 8.4], "#end"),
+            box("Apron", [1.4, 6.0, 2.4], [14.6, 7.0, 13.6], "#wood"),
+            box("Top", [0.6, 7.0, 1.6], [15.4, 8.0, 14.4], "#end"),
+            box("BookL", [3.5, 8.0, 5.5], [6.6, 8.6, 10.5], "#pages"), box("BookR", [6.6, 8.0, 5.5], [9.7, 8.6, 10.5], "#pages"),
+            box("Cover", [3.3, 7.95, 5.3], [9.9, 8.1, 10.7], "#leather"),
+            box("StickBase", [11.4, 8.0, 8.4], [13.2, 8.5, 10.2], "#gold"), box("Stick", [12.0, 8.5, 9.0], [12.6, 11.2, 9.6], "#gold"),
+            box("Candle", [11.9, 11.2, 8.9], [12.7, 13.6, 9.7], "#wax")]
+    return shape(FURN_TEX, els)
+
+
+FURNITURE = {"chair": chair_shape, "wingchair": wingchair_shape, "sideboard": sideboard_shape, "lowtable": lowtable_shape}
+
+_shapes_hood = shapes
+
+
+def shapes(write_json, shape_dir):  # noqa: F811
+    n = _shapes_hood(write_json, shape_dir)
+    for k, fn in FURNITURE.items():
+        write_json(os.path.join(shape_dir, f"{k}.json"), None, fn())
+    for p in ("l", "r"):
+        write_json(os.path.join(shape_dir, f"settee-{p}.json"), None, settee_shape(p))
+    return n + len(FURNITURE) + 2
+
+
+_blocktypes_hood = blocktypes
+
+FURN_SOUNDS = {"walk": "game:walk/wood", "place": "game:block/planks", "break": "game:block/planks", "hit": "game:block/planks"}
+
+
+def blocktypes():  # noqa: F811
+    out = _blocktypes_hood()
+    seat = {"x1": 0.1, "y1": 0, "z1": 0.1, "x2": 0.9, "y2": 0.6, "z2": 0.9}
+    for code, sel, coll, comment in (
+            ("chair", {"x1": 0.1, "y1": 0, "z1": 0.1, "x2": 0.9, "y2": 1.6, "z2": 0.9}, seat, "a carved side chair, velvet seat, tall pointed back"),
+            ("wingchair", {"x1": 0.05, "y1": 0, "z1": 0.05, "x2": 0.95, "y2": 1.6, "z2": 0.95}, seat, "a wing chair in red velvet"),
+            ("sideboard", {"x1": 0, "y1": 0, "z1": 0.2, "x2": 1, "y2": 0.85, "z2": 1}, {"x1": 0, "y1": 0, "z1": 0.2, "x2": 1, "y2": 0.85, "z2": 1},
+             "a carved sideboard against the wall, silver on it"),
+            ("lowtable", {"x1": 0.05, "y1": 0, "z1": 0.1, "x2": 0.95, "y2": 0.5, "z2": 0.9}, {"x1": 0.05, "y1": 0, "z1": 0.1, "x2": 0.95, "y2": 0.5, "z2": 0.9},
+             "a low carved table, a book and a candle on it")):
+        out.append(oriented(f"l73-{code}", f"// Level 73 (round 4): {comment} (front north for -north)", f"block/73/{code}", "Wood", sel,
+                            coll=coll, sounds=FURN_SOUNDS))
+    out.append(oriented("l73-settee", "// Level 73 (round 4): a long carved settee, its left (l) and right (r) halves as one sits on it (facing north for -north)",
+                        None, "Wood", {"x1": 0, "y1": 0, "z1": 0.1, "x2": 1, "y2": 1.4, "z2": 1}, coll=seat, sounds=FURN_SOUNDS,
+                        extra_variants=[{"code": "part", "states": ["l", "r"]}],
+                        shape_by={f"*-{p}-{s}": {"base": f"block/73/settee-{p}", "rotateY": ROT[s]} for p in ("l", "r") for s in SIDES},
+                        inv="*-l-north"))
+    return out
+
+
+LANG += [("block-l73-chair-*", "Carved Chair"), ("block-l73-wingchair-*", "Wing Chair"), ("block-l73-sideboard-*", "Sideboard"),
+         ("block-l73-lowtable-*", "Low Table"), ("block-l73-settee-*", "Settee")]
+
+
+# ---- More of the castle's own furniture (round 4): the armoire, the bedside cabinet, the chest of drawers, the writing desk ----
+
+FURN_TEX["mirror"] = T + "mirror"
+FURN_TEX["ink"] = T + "r4-dark"
+
+
+def armoire_shape():
+    """A tall carved armoire against the wall (south), near two blocks high: a plinth on bracket feet, two doors with
+    pointed-arch panels and brass handles, pilasters, a deep cornice with a crest."""
+    els = [box("Plinth", [0.4, 1, 1.6], [15.6, 2.6, 16], "#end")]
+    for i, x in enumerate((0.4, 13.8)):
+        els.append(box(f"Foot{i}", [x, 0, 1.6], [x + 1.8, 1, 3.6], "#end"))
+    els += [box("Carcass", [0.8, 2.6, 2.4], [15.2, 27, 16], "#wood"),
+            box("PilasterL", [0.4, 2.6, 2.0], [1.8, 27, 2.8], "#end"), box("PilasterR", [14.2, 2.6, 2.0], [15.6, 27, 2.8], "#end"),
+            box("Meeting", [7.6, 3.2, 2.0], [8.4, 26.2, 2.4], "#end"),
+            box("Cornice", [0, 27, 1.4], [16, 28.6, 16], "#end"), box("CorniceTop", [0.4, 28.6, 1.8], [15.6, 29.4, 16], "#wood"),
+            box("Crest", [5.5, 29.4, 2.2], [10.5, 30.6, 3.0], "#end"), box("Crest2", [7, 30.6, 2.2], [9, 31.6, 3.0], "#gold")]
+    for side, (x0, x1) in (("L", (2.6, 6.8)), ("R", (9.2, 13.4))):
+        els += [box(f"Panel{side}", [x0, 5, 2.1], [x1, 20, 2.4], "#end"),
+                box(f"Arch{side}", [x0 + 0.8, 20, 2.1], [x1 - 0.8, 22, 2.4], "#end"),
+                box(f"Arch2{side}", [x0 + 1.6, 22, 2.1], [x1 - 1.6, 23.2, 2.4], "#end"),
+                box(f"PanelLow{side}", [x0, 3.4, 2.1], [x1, 4.4, 2.4], "#end")]
+    els += [box("HandleL", [6.8, 13, 1.6], [7.4, 16, 2.4], "#gold"), box("HandleR", [8.6, 13, 1.6], [9.2, 16, 2.4], "#gold"),
+            box("Escutcheon", [7.7, 11.5, 1.8], [8.3, 12.5, 2.0], "#gold")]
+    return shape(FURN_TEX, els)
+
+
+def bedside_shape():
+    """A bedside cabinet: turned legs, a drawer and a cupboard door, a moulded top; a candlestick and a small book on it."""
+    els = []
+    for i, (x, z) in enumerate(((2.4, 3.4), (13.6, 3.4), (2.4, 14.2), (13.6, 14.2))):
+        els += turned(f"Leg{i}", x, z, 0, 3.0, r=0.8)
+    els += [box("Body", [1.6, 3, 2.6], [14.4, 11.6, 15], "#wood"),
+            box("Top", [1.0, 11.6, 2.0], [15.0, 12.6, 15.6], "#end"),
+            box("Drawer", [2.6, 9.0, 2.3], [13.4, 11.0, 2.6], "#end"), box("Pull", [7.2, 9.7, 1.9], [8.8, 10.3, 2.3], "#gold"),
+            box("Door", [2.6, 3.8, 2.3], [13.4, 8.4, 2.6], "#end"), box("Knob", [11.6, 5.8, 1.9], [12.2, 6.4, 2.3], "#gold"),
+            box("StickBase", [3.4, 12.6, 6], [5.4, 13.2, 8], "#gold"), box("Stick", [4.1, 13.2, 6.7], [4.7, 16.4, 7.3], "#gold"),
+            box("Candle", [4.0, 16.4, 6.6], [4.8, 18.8, 7.4], "#wax"),
+            box("Book", [8, 12.6, 6.5], [12.5, 13.6, 12], "#leather")]
+    return shape(FURN_TEX, els)
+
+
+def drawers_shape():
+    """A chest of drawers against the wall (south): bun feet, four drawers with brass pulls, a moulded top; a swing mirror
+    in a carved frame standing on it."""
+    els = []
+    for i, (x, z) in enumerate(((1.6, 4.0), (14.4, 4.0), (1.6, 14.4), (14.4, 14.4))):
+        els.append(box(f"Foot{i}", [x - 1.0, 0, z - 1.0], [x + 1.0, 1.4, z + 1.0], "#end"))
+    els += [box("Carcass", [0.6, 1.4, 3.6], [15.4, 13.4, 15.8], "#wood"),
+            box("Top", [0.2, 13.4, 3.0], [15.8, 14.4, 16], "#end")]
+    for k in range(4):
+        y = 2.0 + 2.8 * k
+        els += [box(f"Drawer{k}", [1.4, y, 3.3], [14.6, y + 2.4, 3.6], "#end"),
+                box(f"PullL{k}", [4.0, y + 0.9, 2.9], [5.4, y + 1.5, 3.3], "#gold"), box(f"PullR{k}", [10.6, y + 0.9, 2.9], [12.0, y + 1.5, 3.3], "#gold")]
+    els += [box("StandL", [3.6, 14.4, 11], [4.6, 22, 12], "#end"), box("StandR", [11.4, 14.4, 11], [12.4, 22, 12], "#end"),
+            box("Frame", [4.6, 15.4, 11.2], [11.4, 23.4, 12.0], "#end"),
+            box("Glass", [5.4, 16.2, 11.0], [10.6, 22.6, 11.2], "#mirror"),
+            box("FrameCrest", [6.6, 23.4, 11.2], [9.4, 24.6, 12.0], "#gold")]
+    return shape(FURN_TEX, els)
+
+
+def desk_shape():
+    """A writing desk against the wall (south): turned legs, a drawer, a leather-topped desk, a gallery of pigeonholes at
+    the back with letters in them, an inkwell and quill, papers."""
+    els = []
+    for i, (x, z) in enumerate(((1.8, 2.4), (14.2, 2.4), (1.8, 14.2), (14.2, 14.2))):
+        els += turned(f"Leg{i}", x, z, 0, 10.8, r=0.85)
+    els += [box("Apron", [1.0, 10.8, 1.6], [15.0, 12.2, 15.2], "#wood"),
+            box("Drawer", [5, 11.0, 1.3], [11, 12.0, 1.6], "#end"), box("Pull", [7.4, 11.3, 1.0], [8.6, 11.7, 1.3], "#gold"),
+            box("Top", [0.4, 12.2, 1.0], [15.6, 13.0, 15.8], "#end"),
+            box("Leather", [2.0, 13.0, 2.4], [14.0, 13.15, 10.4], "#leather"),
+            box("Gallery", [0.8, 13.0, 11.0], [15.2, 19.0, 15.6], "#wood"),
+            box("GalleryTop", [0.4, 19.0, 10.6], [15.6, 19.8, 15.8], "#end")]
+    for k in range(4):
+        x = 1.6 + 3.5 * k
+        els += [box(f"Hole{k}", [x, 13.8, 10.9], [x + 2.8, 18.2, 11.4], "#ink"),
+                box(f"Letter{k}", [x + 0.4, 13.8, 11.0], [x + 2.4, 16.4 + 0.6 * (k % 2), 11.6], "#pages")]
+    els += [box("Inkwell", [11.2, 13.0, 4.8], [12.6, 14.2, 6.2], "#ink"), box("Quill", [12.0, 14.2, 5.2], [12.3, 18.4, 5.5], "#pages"),
+            box("Paper", [4.0, 13.15, 4.0], [9.0, 13.3, 8.6], "#pages")]
+    return shape(FURN_TEX, els)
+
+
+FURNITURE2 = {"armoire": armoire_shape, "bedside": bedside_shape, "drawers": drawers_shape, "desk": desk_shape}
+
+_shapes_furn = shapes
+
+
+def shapes(write_json, shape_dir):  # noqa: F811
+    n = _shapes_furn(write_json, shape_dir)
+    for k, fn in FURNITURE2.items():
+        write_json(os.path.join(shape_dir, f"{k}.json"), None, fn())
+    return n + len(FURNITURE2)
+
+
+_blocktypes_furn = blocktypes
+
+
+def blocktypes():  # noqa: F811
+    out = _blocktypes_furn()
+    for code, h, comment in (("armoire", 1.95, "a tall carved armoire against the wall"), ("bedside", 0.8, "a bedside cabinet, a candle on it"),
+                             ("drawers", 0.9, "a chest of drawers, a swing mirror on it"), ("desk", 0.85, "a writing desk with its pigeonholes")):
+        box_ = {"x1": 0.02, "y1": 0, "z1": 0.08, "x2": 0.98, "y2": h, "z2": 1}
+        out.append(oriented(f"l73-{code}", f"// Level 73 (round 4): {comment} (front north for -north, the wall to the south)", f"block/73/{code}",
+                            "Wood", box_, coll=dict(box_, y2=min(1.0, h)), sounds=FURN_SOUNDS))
+    return out
+
+
+LANG += [("block-l73-armoire-*", "Armoire"), ("block-l73-bedside-*", "Bedside Cabinet"), ("block-l73-drawers-*", "Chest of Drawers"),
+         ("block-l73-desk-*", "Writing Desk")]
+
+
+# ---- The longcase clock in the main hall (round 4) ----
+
+def clock_dial(seed):
+    """A clock's dial: an aged cream face in a brass ring, twelve hour marks, the hands stopped near a quarter to twelve."""
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    px = img.load()
+    for y in range(S):
+        for x in range(S):
+            d = math.hypot(x - 15.5, y - 15.5)
+            if d <= 15.5:
+                px[x, y] = M.rgba((168, 132, 58)) if d > 13.5 else M.rgba(M.lift((214, 200, 168), -d * 0.8))
+            else:
+                px[x, y] = M.rgba((52, 22, 14))
+    for k in range(12):
+        a = k * math.pi / 6
+        for r in (11, 12):
+            x, y = int(round(15.5 + r * math.sin(a))), int(round(15.5 - r * math.cos(a)))
+            px[x, y] = M.rgba((30, 26, 24))
+    for r in range(1, 9):  # the minute hand (toward 11:45, the 9)
+        px[int(round(15.5 - r)), 15] = M.rgba((24, 20, 20))
+    for r in range(1, 6):  # the hour hand (toward 12)
+        px[15, int(round(15.5 - r))] = M.rgba((24, 20, 20))
+        px[16, int(round(15.5 - r))] = M.rgba((24, 20, 20))
+    M.grime(img, 0.15, seed=seed, color=(120, 100, 60), cover=0.4)
+    return img
+
+
+_textures_furn = textures
+
+
+def textures(save):  # noqa: F811
+    n = _textures_furn(save)
+    save(clock_dial(7720), "block/73/r4-dial")
+    return n + 1
+
+
+def clock_shape():
+    """A longcase clock against the wall (south), two blocks and more: a plinth, the waist with its door and a glass to
+    the brass pendulum, the hood with its dial under a broken pediment and finials."""
+    tex = dict(FURN_TEX, dial=T + "r4-dial", glass=T + "r4-leaded")
+    els = [box("Plinth", [2, 0, 6], [14, 7, 16], "#wood"), box("PlinthTop", [1.6, 7, 5.6], [14.4, 8, 16], "#end"),
+           box("Base", [1.6, 0, 5.6], [14.4, 1, 16], "#end"),
+           box("Waist", [3.4, 8, 7.4], [12.6, 22, 16], "#wood"),
+           box("Door", [4.4, 9, 7.0], [11.6, 21, 7.4], "#end"),
+           box("Window", [6, 12, 6.9], [10, 19, 7.0], "#glass"),
+           box("Bob", [7.2, 13, 6.85], [8.8, 14.6, 6.9], "#gold"), box("Rod", [7.8, 14.6, 6.85], [8.2, 19, 6.9], "#gold"),
+           box("Collar", [2.6, 22, 6.6], [13.4, 23.2, 16], "#end"),
+           box("Hood", [2.2, 23.2, 6.2], [13.8, 34, 16], "#wood"),
+           {"name": "Dial", "from": [3.6, 24.8, 6.1], "to": [12.4, 33.6, 6.2], "faces": {"north": face("#dial", [0, 0, 16, 16])}},
+           box("ColL", [2.0, 23.2, 5.8], [3.2, 34, 7.0], "#end"), box("ColR", [12.8, 23.2, 5.8], [14.0, 34, 7.0], "#end"),
+           box("Cornice", [1.6, 34, 5.6], [14.4, 35.4, 16], "#end"),
+           box("PedL", [1.8, 35.4, 6.0], [6.4, 37.4, 7.4], "#end"), box("PedR", [9.6, 35.4, 6.0], [14.2, 37.4, 7.4], "#end"),
+           box("Urn", [7.2, 35.4, 6.4], [8.8, 38.4, 8.0], "#gold"),
+           box("FinL", [2.2, 35.4, 7.6], [3.4, 38, 8.8], "#gold"), box("FinR", [12.6, 35.4, 7.6], [13.8, 38, 8.8], "#gold")]
+    return shape(tex, els)
+
+
+_shapes_furn2 = shapes
+
+
+def shapes(write_json, shape_dir):  # noqa: F811
+    n = _shapes_furn2(write_json, shape_dir)
+    write_json(os.path.join(shape_dir, "clock.json"), None, clock_shape())
+    return n + 1
+
+
+_blocktypes_furn2 = blocktypes
+
+
+def blocktypes():  # noqa: F811
+    out = _blocktypes_furn2()
+    sel = {"x1": 0.1, "y1": 0, "z1": 0.35, "x2": 0.9, "y2": 2.2, "z2": 1}
+    out.append(oriented("l73-clock", "// Level 73 (round 4): a longcase clock against the wall, stopped (front north for -north)", "block/73/clock",
+                        "Wood", sel, coll=dict(sel, y2=1.0), sounds=FURN_SOUNDS))
+    return out
+
+
+LANG.append(("block-l73-clock-*", "Longcase Clock"))
+
+
+# ---- The bathroom's close stool (round 4): a panelled mahogany box seat with a hinged lid, in place of the hotel's toilet ----
+
+def privy_shape():
+    els = [box("Plinth", [1.0, 0, 3.0], [15.0, 1.2, 15.6], "#end"),
+           box("Box", [1.4, 1.2, 3.4], [14.6, 7.6, 15.2], "#wood"),
+           box("PanelF", [3.0, 2.4, 3.1], [13.0, 6.4, 3.4], "#end"),
+           box("Seat", [1.0, 7.6, 3.0], [15.0, 8.6, 15.6], "#end"),
+           box("Lid", [2.0, 8.6, 13.0], [14.0, 17.0, 14.0], "#wood"),
+           box("LidPanel", [3.4, 10.0, 12.7], [12.6, 15.6, 13.0], "#end"),
+           box("HingeL", [3.6, 8.4, 13.6], [5.0, 9.2, 14.6], "#gold"), box("HingeR", [11.0, 8.4, 13.6], [12.4, 9.2, 14.6], "#gold"),
+           box("Back", [1.0, 7.6, 14.2], [15.0, 19.0, 15.8], "#wood"), box("BackCrest", [5.0, 19.0, 14.4], [11.0, 20.6, 15.6], "#end"),
+           box("Ewer", [12.4, 8.6, 4.6], [14.4, 11.6, 6.6], "#silver")]
+    return shape(FURN_TEX, els)
+
+
+_shapes_clock = shapes
+
+
+def shapes(write_json, shape_dir):  # noqa: F811
+    n = _shapes_clock(write_json, shape_dir)
+    write_json(os.path.join(shape_dir, "privy.json"), None, privy_shape())
+    return n + 1
+
+
+_blocktypes_clock = blocktypes
+
+
+def blocktypes():  # noqa: F811
+    out = _blocktypes_clock()
+    sel = {"x1": 0.06, "y1": 0, "z1": 0.18, "x2": 0.94, "y2": 1.25, "z2": 1}
+    out.append(oriented("l73-privy", "// Level 73 (round 4): the bathroom's close stool, a panelled box seat (front north for -north)", "block/73/privy",
+                        "Wood", sel, coll=dict(sel, y2=0.55), sounds=FURN_SOUNDS))
+    return out
+
+
+LANG.append(("block-l73-privy-*", "Close Stool"))

@@ -296,11 +296,17 @@ public sealed partial class WorldGenerator
                 // The M.E.G.'s plate beside the keep's door, the door that opens to banging
                 if (c == 2 && v == WorldLayout.L73KeepV0 + WorldLayout.L73KeepD && u - WorldLayout.L73KeepU0 == 19) return l73MegPlacard[Facing(ArchPier.South)];
                 // Buttresses against the keep's walls, between its windows, capped in slate
-                if (L73Buttress(u, v) && c <= 12) return c <= 1 ? l73Foot : c <= 11 ? l73Silver : l73Slate;
+                if (L73Buttress(u, v) && c <= 12)
+                {
+                    // (round 4: a sloped, coped weathering at the top, falling away from the wall)
+                    int bk = u - WorldLayout.L73KeepU0, bv = v - WorldLayout.L73KeepV0;
+                    int toWall = bv < 0 ? 2 : bv >= WorldLayout.L73KeepD ? 0 : bk < 0 ? 1 : 3;
+                    return c <= 1 ? l73Foot : c <= 11 ? l73Silver : l73Roof[L73RoofGable, toWall];
+                }
                 // A little slate canopy over the keep's door, pointed
-                if (v == WorldLayout.L73KeepV0 + WorldLayout.L73KeepD && u - WorldLayout.L73KeepU0 is >= 16 and <= 19
-                    && (c == 4 || c == 5 && u - WorldLayout.L73KeepU0 is 17 or 18))
-                    return l73Slate;
+                // (round 4: a gabled stone hood on brackets, l73-hood)
+                if (v == WorldLayout.L73KeepV0 + WorldLayout.L73KeepD && c == 4 && u - WorldLayout.L73KeepU0 is 17 or 18)
+                    return l73Hood[u - WorldLayout.L73KeepU0 - 17];
                 return WorldLayout.L73BannerAt(u, v) is { } banner && c == banner.Top ? l73Banner[Facing(banner.Facing)] : 0;
             case Part.Gate:
                 // The gateway, four wide and four high under a pointed arch, the portcullis raised (round 4)
@@ -643,24 +649,24 @@ public sealed partial class WorldGenerator
         return thing switch
         {
             Thing.Bookshelf => l73Bookcase[(int)(kind & 1), f],
-            Thing.Clock => Prop(Props.GrandfatherClock),
+            Thing.Clock => l73Clock[f],
             Thing.Candelabra => l73Candelabrum,
             Thing.HighChair => l73HighChair[f],
-            Thing.Chair => Prop(Props.HotelChair),
-            Thing.Toilet => Prop(Props.Toilet),
-            Thing.Dresser => Prop(Props.Dresser),
-            Thing.Desk => Prop(Props.WritingDesk),
+            Thing.Chair => l73Chair[f],
+            Thing.Toilet => l73Privy[f],
+            Thing.Dresser => l73Drawers[f],
+            Thing.Desk => l73Desk[f],
             Thing.RoundTable => Prop(Props.DiningTable),
-            Thing.SofaLeft => Prop(Props.LongSofa, 0),
-            Thing.SofaRight => Prop(Props.LongSofa, 1),
+            Thing.SofaLeft => l73Settee[0, f],
+            Thing.SofaRight => l73Settee[1, f],
             Thing.Crate => Prop(Props.WreckCrate),
             Thing.Bones => Prop(Props.BonePile),
             Thing.Ribcage => Prop(Props.Ribcage),
             Thing.Skull => Prop(Props.JawSkeleton),
             Thing.Pack => Prop(Props.Backpack),
-            Thing.WingChair => Prop(Props.WingChair),
-            Thing.CoffeeTable => Prop(Props.CoffeeTable),
-            Thing.ConsoleTable => Prop(Props.ConsoleTable),
+            Thing.WingChair => l73WingChair[f],
+            Thing.CoffeeTable => l73LowTable[f],
+            Thing.ConsoleTable => l73Sideboard[f],
             // (the castle's own shelves and sacks, fixed and empty: the food is the table's)
             Thing.PantryShelf => l73Larder[f],
             Thing.Sacks => l73Sacks[f],
@@ -677,8 +683,8 @@ public sealed partial class WorldGenerator
             // Beds are modelled head to the north; the facing points from the head toward the foot
             Thing.BedHead => bedHeadIds[Facing(Opposite(facing))],
             Thing.BedFoot => bedFootIds[Facing(Opposite(facing))],
-            Thing.Nightstand => nightstandIds[f],
-            Thing.Wardrobe => wardrobeIds[f],
+            Thing.Nightstand => l73Bedside[f],
+            Thing.Wardrobe => l73Armoire[f],
             _ => 0,
         };
     }

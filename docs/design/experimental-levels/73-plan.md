@@ -600,7 +600,7 @@ detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.
 13. [B] [done] `l73-deadwood` / `l73-deadbranch`: silhouettes with forking rotated branches and twigs.
 14. [B] [done] `l73-boulder`: faceted rocks of several boxes, a moss-dark foot.
 15. [B] [done] `l73-potrack`: copper pots and pans with handles and lids on hooks.
-16. [B] `l73-door`: iron strap hinges, studs and a ring pull as real boxes.
+16. [B] [done: straps, studs, ring pull] `l73-door`: iron strap hinges, studs and a ring pull as real boxes.
 17. [C] `l73-chest`, `l73-washstand`, `l73-well`: edge banding, straps, a windlass on the well.
 
 **2. Multi-block set pieces**
@@ -612,7 +612,7 @@ detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.
     caps, arrow slits in the towers.
 21. [A] [done] **The keep's front**: quoins, string courses, buttresses, the pointed window heads with the boards behind and
     a warm glow between the boards (see 28).
-22. [B] **A dry ditch and stone bridge** before the gate (inv.: the page has a gatehouse, no ditch).
+22. [B] [done] **A dry ditch and stone bridge** before the gate (inv.: the page has a gatehouse, no ditch).
 23. [B] [partly: conical roofs; the towers stay square] The corner towers round (drum) with conical slate roofs.
 24. [B] [done] The **dining hall** as one set: the high chair, the place settings, candelabra on the table, the hearth.
 25. [B] [done] The **chandeliers** hung on chains through the beams in the main hall and the dining hall.
@@ -633,7 +633,7 @@ detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.
 33. [A] [done: the banners were already on rods; two moved beside the drums] Coran's device on the gatehouse and keep: large banners (silver heart, ram's horns, black field) hung from
     poles with finials.
 34. [A] [done] The attic reads "off-limits" from the roof: the chained door, the balcony.
-35. [B] The paintings in real gilt frames with depth.
+35. [B] [done] The paintings in real gilt frames with depth.
 36. [B] [done] The table of plenty: "silverware at the grand mahogany table": silver plates and goblets.
 37. [C] The visitors' book readable.
 
@@ -645,7 +645,7 @@ detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.
     the shore).
 41. [B] [done] Coran stays to the lore (no arms but chains, blind): no lantern and no hood (the lead's note; a lantern
     outside breaks the light rule and he has no eyes); a mantle instead.
-42. [C] "Shared assets below the bar" written for the lead (the hotel chandelier, bookshelves, beds).
+42. [C] [done; and the hotel furniture replaced by the castle's own, beds and clock excepted] "Shared assets below the bar" written for the lead (the hotel chandelier, bookshelves, beds).
 
 ### What was built (round 4)
 
@@ -669,6 +669,10 @@ detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.
 - *The keep's windows* (`l73-window-{low,high}-*`): a stone reveal, a sill with its drip, a **pointed head** with a hood
   mould and keystone, the boards set back in it with the rooms' **warm light showing between them** (light 5 on the path
   and the courtyard; nothing outside the walls); iron **strap hinges**, studs and a ring pull on the keep's door leaves.
+- *The castle's own furniture* (`gen_73_r4_castle.py`) in place of the Level 5 hotel's: carved side chairs with pointed
+  backs at the table (24), settees, wing chairs, low tables, sideboards with silver on them, armoires, bedside cabinets,
+  chests of drawers with swing mirrors, writing desks with pigeonholes; a gabled stone hood on brackets over the keep's
+  door, coped weatherings on the buttresses, candle-sconces in the gate passage.
 - *Inside* (`tools/gen_73_r4_props.py`, rebuilt shapes in `gen_73_interior.py` / `gen_73_castle.py`): the castle's own
   **chandelier** (an iron ring of eight candles on a chain from a ceiling rose) and **candelabrum** (five-armed, on a
   tripod) in place of the hotel's crystal ones; the **sconce** a real candle-sconce; **fires** of round logs crossed on
@@ -700,10 +704,12 @@ the dead on the hill's flanks; Coran's mantle.
 
 ### Shared assets below the bar
 
-- The Level 5 hotel furniture the castle still borrows (`Props.HotelChair`, `LongSofa`, `WingChair`, `CoffeeTable`,
-  `ConsoleTable`, `Dresser`, `WritingDesk`, nightstands, wardrobes, the hotel beds under the canopies, the grandfather
-  clock): one-box legs and flat fronts next to round 4's castle pieces. The beds must stay the mod's sleepable beds (the
-  night's rest); a castle-style bed frame round them would need the bed block's shape to change for every level.
+- The Level 5 hotel pieces the castle still borrows: the beds under the canopies (they must stay the mod's sleepable
+  beds for the night's rest; a castle frame round them would need the shared bed shape to change), the grandfather
+  clock and the toilet. Round 4 replaced the rest with the castle's own (`l73-chair`, `-settee`, `-wingchair`,
+  `-lowtable`, `-sideboard`, `-armoire`, `-bedside`, `-drawers`, `-desk`, `-bookcase`, `-highchair`); the hotel's
+  versions (`hotelchair`, `longsofa`, `wingchair`, `coffeetable`, `consoletable`, `dresser`, `writingdesk`, `nightstand`,
+  `wardrobe`, `hotelbookshelf`) are one-box legs and flat fronts next to them, if Level 5 wants a pass.
 - The field bones (`Props.BonePile`, `Ribcage`, `JawSkeleton`) and `Props.WreckCrate`: low-detail boxes; a bone pile of
   several rotated bones and a skull would serve every level that uses them.
 - The hotel's crystal `chandelier` (top-level `shapes/block/chandelier.json`): no longer used here; still a flat ring.

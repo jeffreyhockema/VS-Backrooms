@@ -19,6 +19,11 @@ public sealed partial class WorldGenerator
         l73Window = new int[2, 4], l73Arch = new int[8, 2], l73Drum = new int[8, 5];
     private readonly int[] l73Slit = new int[4], l73Cone = new int[3];
     private readonly int[,] l73Wreck = new int[2, 4];
+    private readonly int[] l73Hood = new int[2];
+    // the castle's own chairs and tables (round 4, in place of the Level 5 hotel's)
+    private readonly int[] l73Chair = new int[4], l73WingChair = new int[4], l73LowTable = new int[4], l73Sideboard = new int[4];
+    private readonly int[,] l73Settee = new int[2, 4];
+    private readonly int[] l73Armoire = new int[4], l73Bedside = new int[4], l73Drawers = new int[4], l73Desk = new int[4], l73Clock = new int[4], l73Privy = new int[4];
 
     private const int L73Straight = 0, L73Corner = 1, L73MerlonPlain = 0, L73MerlonSlit = 1, L73MerlonCorner = 2;
     private const int L73RoofSlate = 0, L73RoofEave = 1, L73RoofRidge = 2, L73RoofGable = 3, L73RoofPeak = 4;
@@ -41,10 +46,24 @@ public sealed partial class WorldGenerator
             for (int k = 0; k < 3; k++) l73Dormer[k, f] = Id($"l73-dormer-{dormers[k]}-{Sides[f]}");
             for (int k = 0; k < 2; k++) l73Window[k, f] = Id($"l73-window-{windows[k]}-{Sides[f]}");
             l73Slit[f] = Id("l73-slit-" + Sides[f]);
+            l73Chair[f] = Id("l73-chair-" + Sides[f]);
+            l73WingChair[f] = Id("l73-wingchair-" + Sides[f]);
+            l73LowTable[f] = Id("l73-lowtable-" + Sides[f]);
+            l73Sideboard[f] = Id("l73-sideboard-" + Sides[f]);
+            l73Settee[0, f] = Id("l73-settee-l-" + Sides[f]);
+            l73Settee[1, f] = Id("l73-settee-r-" + Sides[f]);
+            l73Armoire[f] = Id("l73-armoire-" + Sides[f]);
+            l73Bedside[f] = Id("l73-bedside-" + Sides[f]);
+            l73Drawers[f] = Id("l73-drawers-" + Sides[f]);
+            l73Desk[f] = Id("l73-desk-" + Sides[f]);
+            l73Clock[f] = Id("l73-clock-" + Sides[f]);
+            l73Privy[f] = Id("l73-privy-" + Sides[f]);
             l73Wreck[0, f] = Id("l73-wreck-ribs-" + Sides[f]);
             l73Wreck[1, f] = Id("l73-wreck-planks-" + Sides[f]);
         }
         for (int k = 0; k < 3; k++) l73Cone[k] = Id("l73-cone-" + cones[k]);
+        l73Hood[0] = Id("l73-hood-l");
+        l73Hood[1] = Id("l73-hood-r");
         for (int col = 0; col < 4; col++)
             for (int row = 3; row <= 4; row++)
             {
@@ -185,6 +204,9 @@ public sealed partial class WorldGenerator
             if (c == 3 && col is 1 or 2) return 0;
             return l73Arch[col + 4 * (c - 3), v == d - 1 && c == 4 ? 1 : 0];
         }
+        // a candle-sconce on each side of the passage, on its inner half (the castle is "fully furnished and lit"; the glow
+        // shows through the gate from the bridge)
+        if (c == 2 && v == d - 2 && col is 0 or 3) return l73Sconce[col == 0 ? 1 : 3];
         if (c <= 4) return 0;
         if (c <= 6) return v == d - 1 && c == 6 ? l73Streak : l73Silver;
         if (c == 7) return v == d - 1 ? l73Corbel[L73Straight, 2] : l73Silver;
