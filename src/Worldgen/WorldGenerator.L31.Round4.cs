@@ -16,6 +16,7 @@ public sealed partial class WorldGenerator
     /// <summary>Level 120's CRAC unit by [part: lower, upper, duct; side]; the slushie machine by side.</summary>
     private readonly int[,] l31Crac = new int[3, 4];
     private readonly int[] l31Slushie = new int[4], l31Stanchion = new int[5];
+    private readonly int[,] l31Covered = new int[2, 4];
 
     private void InitL31Round4()
     {
@@ -30,6 +31,8 @@ public sealed partial class WorldGenerator
             l31Crac[1, f] = L31Block($"l120-crac-upper-{Sides[f]}");
             l31Crac[2, f] = L31Block($"l120-crac-duct-{Sides[f]}");
             l31Slushie[f] = L31Block($"l31-slushie-{Sides[f]}", propIds[Props.SnackCounter, 0, f]);
+            l31Covered[0, f] = L31Block($"l31-covered-cabinet-{Sides[f]}", propIds[Props.CardboardBoxes, 0, f]);
+            l31Covered[1, f] = L31Block($"l31-covered-pinball-{Sides[f]}", l31Covered[0, f]);
         }
     }
 

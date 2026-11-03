@@ -48,7 +48,7 @@ public partial class WorldLayout
             if (spot is { } s && !found.ContainsKey(name)) found[name] = s with { Name = name };
         }
 
-        for (int ring = 0; ring <= 5 && found.Count < 27; ring++)
+        for (int ring = 0; ring <= 5 && found.Count < 28; ring++)
             for (int wz = cz - ring; wz <= cz + ring; wz++)
                 for (int wx = cx - ring; wx <= cx + ring; wx++)
                 {
@@ -96,6 +96,18 @@ public partial class WorldLayout
                         if (room.Kind == L31Zone.Rental && room.Q1 <= 19)
                             Add("skates", Spot(plan, (room.P0 + room.P1) / 2 + 5, 5, (room.P0 + room.P1) / 2 + 5, 3, 0.8,
                                 p0: room.P0, q0: 4, p1: room.P1, q1: 5));
+                        if (room.Kind == L31Zone.Store && !found.ContainsKey("backarcade"))
+                        {
+                            // (round 4) The back arcade's covered machines, from the aisle beside the first of them
+                            for (int q = room.Q0; q <= room.Q1 && !found.ContainsKey("backarcade"); q++)
+                                for (int p = room.P0; p <= room.P1; p++)
+                                {
+                                    var (cx2, cz2) = plan.World(p, q);
+                                    if (TileAt(cx2, cz2).Variant != L31Props.Covered) continue;
+                                    Add("backarcade", Spot(plan, p, q + 1, p + 2, q, 1.4, p0: room.P0, q0: room.Q0, p1: room.P1, q1: room.Q1));
+                                    break;
+                                }
+                        }
                         if (room.Kind == L31Zone.Arcade && room.Q1 <= 19)
                             Add("pinball", Spot(plan, room.P0 + 6, room.Q0 + 2, room.P0 + 9, room.Q0, 1.3,
                                 p0: room.P0, q0: room.Q0 + 1, p1: room.P1, q1: room.Q0 + 2));
@@ -171,7 +183,7 @@ public partial class WorldLayout
                         Add("revolving", Spot(plan, L31RevolvingP + 1, L31RevolvingQ + 8, L31RevolvingP, L31RevolvingQ, 2.8, p0: 46, q0: 0, p1: 74, q1: 19));
                 }
 
-        foreach (string name in new[] { "rink", "rink-star", "dj", "djbooth", "gate", "skates", "pinball", "lobby", "lobby-front", "foodcourt", "rental", "coach", "arcade", "prizes", "cinema",
+        foreach (string name in new[] { "rink", "rink-star", "dj", "djbooth", "gate", "skates", "pinball", "backarcade", "lobby", "lobby-front", "foodcourt", "rental", "coach", "arcade", "prizes", "cinema",
             "lounge", "hvac", "bath", "restroom", "doorsign-rental", "doorsign-snack", "snackwindow", "corridor", "trophies", "glowroom", "emptiness", "hall", "lobbydoor", "revolving" })
             if (found.TryGetValue(name, out var s)) yield return s;
 

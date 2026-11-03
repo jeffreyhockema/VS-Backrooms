@@ -15,7 +15,8 @@ New:  l31-barrier (the rink's barrier: a thin padded wall along the boards' oute
     with a leaf swung open into the rink, left or right, or the sill between), l31-pinball (in place of Level 3999's in
     the arcade), l31-slushie (the snack counters' slushie machine), l31-popcorn (in place of Level Fun's popcorn cart),
     l31-locker (the rink's coin lockers, in place of Level 52's school lockers),
-    l31-counter (the rental's and lobby's counter, in place of Level 3999's reception desk)
+    l31-counter (the rental's and lobby's counter, in place of Level 3999's reception desk), l31-covered (the back
+    arcade's machines under dust sheets, in half of the store rooms)
 Reused from other levels, placed by the layout: Level 120's CRAC units in the HVAC rooms, Level 36's queue posts in
     Skate Rental.
 
@@ -1454,6 +1455,56 @@ def locker(part):
     return shape("l31-locker-" + part, els)
 
 
+# ======================================================================== The back arcade's covered machines (Wikidot)
+
+def covered_textures():
+    sheet = M.fabric(seed=4320, base=(214, 208, 192), weave="plain", contrast=6)
+    px = sheet.load()
+    for y in range(S):
+        for x in range(S):
+            r, g, b, a = px[x, y]
+            k = 1.0 + 0.10 * math.sin(x * 0.55) - (0.08 if x % 9 == 0 else 0)  # long folds
+            px[x, y] = (M.clamp(r * k), M.clamp(g * k), M.clamp(b * k), 255)
+    M.grime(sheet, 0.22, 4321, color=(120, 112, 96), bias="bottom", cover=0.6)
+    save_tex(sheet, "r4-dustsheet")
+    top = M.fabric(seed=4322, base=(186, 180, 166), weave="plain", contrast=5)
+    save_tex(M.grime(top, 0.35, 4323, color=(128, 120, 104), cover=0.8), "r4-dustsheet-top")
+
+
+def covered(kind):
+    """An arcade machine under a dust sheet, as the lore's back arcade keeps them: the sheet's folds and hem, the shape
+    of the thing under it (an upright's marquee and panel, or a pinball's head and legs), the dust on top."""
+    sh = {"top": "r4-dustsheet-top", "side": "r4-dustsheet", "front": "r4-dustsheet", "back": "r4-dustsheet", "bottom": "r4-dustsheet"}
+    if kind == "cabinet":
+        els = [
+            B("Plinth", (2.4, 0, 4.4), (13.6, 1.4, 14.6), "r4-black", faces=without(DIRS, "down", "up")),
+            B("Body", (1.8, 1.4, 4.0), (14.2, 26.0, 15.0), sh),
+            B("Hood", (1.6, 24.0, 3.4), (14.4, 30.2, 15.2), sh),
+            B("Panel", (1.4, 12.0, 1.2), (14.6, 15.4, 5.0), sh, rot=(-12, 0, 0), origin=(8, 13.7, 5.0)),
+            B("Drape", (1.4, 1.2, 3.0), (14.6, 12.4, 4.2), sh, rot=(4, 0, 0), origin=(8, 12.4, 4.0)),
+            B("HemL", (1.2, 1.0, 3.6), (1.9, 25.0, 15.4), sh),
+            B("HemR", (14.1, 1.0, 3.6), (14.8, 25.0, 15.4), sh),
+        ]
+        for k, x in enumerate((4.0, 8.5, 12.0)):
+            els.append(B(f"Fold{k}", (x, 1.4, 2.6), (x + 1.0, 11.6, 3.2), sh, rot=(4, (-6 if k % 2 else 6), 0), origin=(x + 0.5, 11.6, 3.6)))
+        els.append(B("Corner", (11.0, 0.6, 2.2), (14.0, 2.0, 4.0), sh, rot=(0, -20, 0), origin=(12.5, 1.3, 3.1)))
+    else:
+        els = []
+        for k, (x, z) in enumerate(((2.4, 1.6), (12.8, 1.6), (2.4, 13.4), (12.8, 13.4))):
+            els += [B(f"Leg{k}", (x, 0.4, z), (x + 0.8, 7.0, z + 0.8), "r4-chrome", faces=without(DIRS, "up", "down")),
+                    B(f"Foot{k}", (x - 0.2, 0, z - 0.2), (x + 1.0, 0.4, z + 1.0), "r4-black")]
+        els += [
+            B("Body", (1.6, 7.0, 0.6), (14.4, 13.4, 15.8), sh, rot=(-5, 0, 0), origin=(8, 7.0, 0.6)),
+            B("SkirtF", (1.4, 6.0, 0.3), (14.6, 9.0, 1.0), sh),
+            B("SkirtL", (1.2, 6.2, 0.6), (1.8, 10.0, 15.8), sh),
+            B("SkirtR", (14.2, 6.2, 0.6), (14.8, 10.0, 15.8), sh),
+            B("Head", (1.8, 13.8, 12.2), (14.2, 28.6, 16.0), sh),
+            B("HeadHem", (1.4, 12.6, 11.6), (14.6, 15.4, 16.0), sh),
+            B("Fold", (6.0, 15.0, 11.8), (7.2, 28.0, 12.3), sh, rot=(0, 0, 4), origin=(6.6, 28, 12.0)),
+        ]
+    return shape("l31-covered-" + kind, els)
+
+
 # ======================================================================== Block types
 
 def blocks():
@@ -1532,6 +1583,12 @@ def blocks():
     prop_block("l31-jukebox", "Level 31: a 1990s jukebox, wood under a stepped neon arch, the record window, selector keys, bubble tubes either side, a chrome grille, 22 units tall, toward the side",
                lambda k: ref, (0.03, 0, 0.21, 0.97, 1, 0.82), (0.03, 0, 0.21, 0.97, 1, 0.82), resistance=3, extra={"lightHsv": [50, 4, 6]})
     riser()
+    covered_textures()
+    vrefs = {k: covered(k) for k in ("cabinet", "pinball")}
+    prop_block("l31-covered", "Level 31: an arcade machine under a dusty sheet in the back arcade (Wikidot's covered machines): an upright (its marquee and panel under the folds) or a pinball (its head, the legs showing); the front faces the side",
+               lambda k: vrefs[k], lambda k: (0.08, 0, 0.06, 0.92, 1, 0.97) if k == "cabinet" else (0.07, 0, 0, 0.93, 1, 1),
+               lambda k: (0.08, 0, 0.06, 0.92, 1, 0.97) if k == "cabinet" else (0.07, 0, 0, 0.93, 0.85, 1),
+               kinds=["cabinet", "pinball"], kindgroup="machine", material="Cloth", sounds=CLOTH, resistance=2)
     counter_textures()
     crefs = {k: counter(k) for k in ("left", "mid", "right")}
     prop_block("l31-counter", "Level 31: the rental's and the lobby's counter, a laminate top with a rounded pink nose over a navy front in the rink's stripes, a chrome kick, a shelf on the staff side; left and right close the ends (seen from the customer's side), the middle has a bell and a tray of size tags; the front faces the side",
@@ -1576,6 +1633,7 @@ LANG = {
     "block-l31-popcorn-*": "Popcorn Machine",
     "block-l31-locker-*": "Coin Lockers",
     "block-l31-counter-*": "Counter",
+    "block-l31-covered-*": "Covered Arcade Machine",
 }
 
 

@@ -70,7 +70,7 @@ public sealed partial class FeatureFinder
         ["l31lobby"] = (WorldLayout.Level31, new[] { "lobby", "lobby-front" }),
         ["l31foodcourt"] = (WorldLayout.Level31, new[] { "foodcourt", "snackwindow" }),
         ["l31rental"] = (WorldLayout.Level31, new[] { "rental", "coach", "skates" }),
-        ["l31arcade"] = (WorldLayout.Level31, new[] { "arcade", "prizes", "pinball" }),
+        ["l31arcade"] = (WorldLayout.Level31, new[] { "arcade", "prizes", "pinball", "backarcade" }),
         ["l31cinema"] = (WorldLayout.Level31, new[] { "cinema" }),
         ["l31service"] = (WorldLayout.Level31, new[] { "corridor" }),
         ["l31lounge"] = (WorldLayout.Level31, new[] { "lounge" }),

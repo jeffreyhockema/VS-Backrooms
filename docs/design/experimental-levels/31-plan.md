@@ -649,6 +649,8 @@ Tiers: A must, B should, C nice.
 43. (C) [done] The DJ sign's tubes (gen_31_walls.py's cladding kinds `dj<c><r>`, patched by round 4).
 44. (B) [done] `l31-counter`: the rental's and lobby's counter in the rink's style (navy front in the rink's stripes, a
     laminate top with a pink nose, bell, size tags) in place of Level 3999's reception desk.
+45. (B) [done] Lore: Wikidot's "back arcade area with covered machines": half of the store rooms are now the back arcade,
+    rows of uprights and pinballs under dust sheets (`l31-covered`), an aisle down the middle.
 
 ### How it is built (round 4)
 

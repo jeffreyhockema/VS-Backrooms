@@ -36,7 +36,7 @@ public sealed partial class WorldLayout
 {
     /// <summary>Hash salts 0x2400-0x24BF are this level's (0x24C0-0x24FF its thresholds').</summary>
     private const ulong SaltL31Shape = 0x2401, SaltL31Complex = 0x2410, SaltL31Room = 0x2411, SaltL31Light = 0x2412, SaltL31Hall = 0x2413,
-        SaltL31Clad = 0x2416;
+        SaltL31Clad = 0x2416, SaltL31Back = 0x2430;
 
     /// <summary>The lattice: a neon hall every 128 blocks each way; a complex's inside is 121 square, its plan 123 with its walls.</summary>
     public const int L31Period = 128, L31Size = 121, L31Grid = 123;
@@ -133,6 +133,8 @@ public sealed partial class WorldLayout
         public const ushort AirHandler = 738, Slushie = 739;
         /// <summary>Round 4: a queue post (Level 36's stanchion; Stack 0 no belt, 1 a belt toward its Pier).</summary>
         public const ushort Stanchion = 740;
+        /// <summary>Round 4: an arcade machine under a dust sheet in the back arcade (Stack 0 an upright, 1 a pinball).</summary>
+        public const ushort Covered = 741;
     }
 
     /// <summary>
@@ -1061,7 +1063,21 @@ public sealed partial class WorldLayout
                 for (int k = rng.Range(1, 3); k > 0; k--) L31Put(plan, rng.Range(p0 + 3, p1 - 3), rng.Range(q0 + 3, q1 - 3), Props.CardboardBoxes, ArchPier.North);
                 // What the rink's staff kept back: a supply box or two
                 for (int k = rng.Range(0, 2); k > 0; k--) Box(rng.Range(2, across - 3), rng.Range(2, len - 3));
-                // (round 3) The skate-repair bench in the middle, its toolbox beside it
+                // (round 4) Half of them are the back arcade (Wikidot: "a back arcade area with covered machines"): the old
+                // machines in rows under dust sheets, an aisle down the middle (clear of the supply boxes); the rest keep
+                // round 3's skate-repair bench in the middle, its toolbox beside it
+                if (Hashing.Unit(Hashing.Hash(seed, wx0, wz0, SaltL31Back)) < 0.5)
+                {
+                    for (int v = 3; v <= len - 4; v += 3)
+                        for (int u = 2; u <= across - 3; u++)
+                        {
+                            if (Math.Abs(2 * u - (across - 1)) <= 2) continue;
+                            var (cp, cq) = At(u, v);
+                            if (plan.At(cp, cq).SupplyBox) continue;
+                            Put(u, v, L31Props.Covered, (v / 3) % 2 == 0 ? toNear : toFar, (byte)((u * 7 + v) % 5 == 0 ? 1 : 0));
+                        }
+                    break;
+                }
                 Put(across / 2, len / 2, Props.Workbench, toNear);
                 Put(across / 2 + 1, len / 2, Props.Toolbox, toNear);
                 break;
