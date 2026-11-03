@@ -34,7 +34,40 @@ import random
 from PIL import Image
 
 import matlib as M
-from gen_73_castle import ROT, SIDES, box, face, fixed, oriented, shape
+from gen_73_castle import ROT, SIDES, face, fixed, oriented, shape
+
+
+def _wrap(a, b):
+    """A face's texture range from its position range: kept where it lies if it fits in one 16 (shifted by whole 16s, so
+    neighbouring boxes still meet), else the last 16 (or all of it when wider), never collapsed to nothing at an edge (a
+    zero-size UV at the edge of the texture samples its neighbour in the atlas)."""
+    w = b - a
+    if w >= 16:
+        return 0.0, 16.0
+    k = math.floor(a / 16)
+    a2, b2 = a - 16 * k, b - 16 * k
+    if b2 > 16:
+        a2, b2 = 16 - w, 16.0
+    return round(a2, 3), round(b2, 3)
+
+
+def box(name, frm, to, tex, faces=None, uv=None, glow=0, **kw):  # (shadows gen_73_castle.box: elements here go outside the block)
+    x1, y1, z1 = frm
+    x2, y2, z2 = to
+    spans = {"north": ((16 - x2, 16 - x1), (16 - y2, 16 - y1)), "south": ((x1, x2), (16 - y2, 16 - y1)),
+             "east": ((16 - z2, 16 - z1), (16 - y2, 16 - y1)), "west": ((z1, z2), (16 - y2, 16 - y1)),
+             "up": ((x1, x2), (z1, z2)), "down": ((x1, x2), (16 - z2, 16 - z1))}
+    fs = {}
+    for k, (su, sv) in spans.items():
+        if faces is not None and k not in faces:
+            continue
+        t = tex if not isinstance(tex, dict) else tex.get(k, tex.get("*"))
+        u0, u1 = _wrap(*su)
+        v0, v1 = _wrap(*sv)
+        fs[k] = face(t, [u0, v0, u1, v1], **({"glow": glow} if glow else {}))
+    e = {"name": name, "from": [round(v, 3) for v in frm], "to": [round(v, 3) for v in to], "faces": fs}
+    e.update(kw)
+    return e
 
 S = 32
 T = "backrooms:block/73/"

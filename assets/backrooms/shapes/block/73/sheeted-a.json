@@ -91,36 +91,36 @@
 					"texture": "#sheet",
 					"uv": [
 						1,
-						0,
+						7,
 						15,
-						8
+						16.0
 					]
 				},
 				"south": {
 					"texture": "#sheet",
 					"uv": [
 						1,
-						0,
+						7,
 						15,
-						8
+						16.0
 					]
 				},
 				"east": {
 					"texture": "#sheet",
 					"uv": [
 						2,
-						0,
+						7,
 						6,
-						8
+						16.0
 					]
 				},
 				"west": {
 					"texture": "#sheet",
 					"uv": [
 						10,
-						0,
+						7,
 						14,
-						8
+						16.0
 					]
 				},
 				"up": {

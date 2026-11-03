@@ -413,6 +413,17 @@ def face(tex, uv, **kw):
     return f
 
 
+def _wrap(a, b):
+    w = b - a
+    if w >= 16:
+        return 0.0, 16.0
+    k = math.floor(a / 16)
+    a2, b2 = a - 16 * k, b - 16 * k
+    if b2 > 16:
+        a2, b2 = 16 - w, 16.0
+    return round(a2, 3), round(b2, 3)
+
+
 def box(name, frm, to, tex, faces=None, uv=None, glow=0, **kw):
     """A box with every face mapped by position (as a 16-unit block), unless faces gives its own."""
     x1, y1, z1 = frm
@@ -428,7 +439,14 @@ def box(name, frm, to, tex, faces=None, uv=None, glow=0, **kw):
             continue
         t = tex if not isinstance(tex, dict) else tex.get(k, tex.get("*"))
         u = (faces or {}).get(k) if isinstance(faces, dict) else None
-        fs[k] = face(t, [max(0, min(16, v)) for v in (u or a)], **({"glow": glow} if glow else {}))
+        if u:
+            fs[k] = face(t, [max(0, min(16, v)) for v in u], **({"glow": glow} if glow else {}))
+        else:
+            # (round 4) a span outside the block is shifted by whole 16s, never clamped to a zero-size UV (which samples the
+            # neighbouring texture in the atlas)
+            u0, u1 = _wrap(a[0], a[2])
+            v0, v1 = _wrap(a[1], a[3])
+            fs[k] = face(t, [u0, v0, u1, v1], **({"glow": glow} if glow else {}))
     e = {"name": name, "from": list(frm), "to": list(to), "faces": fs}
     e.update(kw)
     return e
