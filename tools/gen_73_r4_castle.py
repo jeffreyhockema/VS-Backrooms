@@ -1355,3 +1355,58 @@ def blocktypes():  # noqa: F811
 
 
 LANG.append(("block-l73-string-*", "String Course"))
+
+
+# ---- Bartizans (round 4): little round corbelled turrets with conical roofs at the corner towers' outer corners ----
+
+def bartizan_shape():
+    """At the outer corner of a corner tower's parapet (-north: the north-west corner, i.e. the corner variant's): a round
+    turret 1.1 blocks across standing out diagonally on a corbelled base, an arrow slit looking out along the diagonal, a
+    slate cone with an iron finial."""
+    cx = cz = 2.5
+    els = []
+
+    def ring(name, r, y0, y1, tex):
+        a, b, c = r, r * 0.42, r * 0.8
+        return [sbox(f"{name}A", [cx - a, y0, cz - b], [cx + a, y1, cz + b], tex),
+                sbox(f"{name}B", [cx - b, y0, cz - a], [cx + b, y1, cz + a], tex),
+                sbox(f"{name}C", [cx - c, y0, cz - c], [cx + c, y1, cz + c], tex)]
+    # the corbelled base, stepping out from the tower's corner
+    for i, (r, y0, y1) in enumerate(((3.5, -14, -10), (5.5, -10, -6), (7.5, -6, -2), (9, -2, 0))):
+        els += ring(f"Base{i}", r, y0, y1, "#stone")
+    els += ring("Body", 9, 0, 13, "#streak")
+    els += ring("Band", 9.6, 13, 14.4, "#coping")
+    slit = sbox("Slit", [cx - 0.9, 3, cz - 9.25], [cx + 0.9, 10, cz - 8.6], "#dark")
+    slit["rotationOrigin"], slit["rotationY"] = [cx, 0, cz], 45  # (turned to look out along the north-west diagonal)
+    els.append(slit)
+    n = 7
+    for i in range(n):
+        r = 10.4 * (1 - i / n) ** 1.05
+        y0, y1 = 14.4 + 3.6 * i, 14.4 + 3.6 * (i + 1)
+        els += ring(f"Cone{i}", max(r, 0.8), y0, y1, "#slate")
+    top = 14.4 + 3.6 * n
+    els += [sbox("Rod", [cx - 0.35, top, cz - 0.35], [cx + 0.35, top + 7, cz + 0.35], "#iron"),
+            sbox("Ball", [cx - 0.9, top + 2, cz - 0.9], [cx + 0.9, top + 3.8, cz + 0.9], "#iron")]
+    return shape(STONE_TEX, els)
+
+
+_shapes_string = shapes
+
+
+def shapes(write_json, shape_dir):  # noqa: F811
+    n = _shapes_string(write_json, shape_dir)
+    write_json(os.path.join(shape_dir, "bartizan.json"), None, bartizan_shape())
+    return n + 1
+
+
+_blocktypes_string = blocktypes
+
+
+def blocktypes():  # noqa: F811
+    out = _blocktypes_string()
+    out.append(oriented("l73-bartizan", "// Level 73: a bartizan, a corbelled round turret with a slate cone at a corner tower's outer corner (-north: the north-west)",
+                        "block/73/bartizan", "Stone", FULL, coll=FULL, sounds=STONE, extra={"renderpass": "OpaqueNoCull"}))
+    return out
+
+
+LANG.append(("block-l73-bartizan-*", "Bartizan"))
