@@ -1569,7 +1569,8 @@ public sealed partial class WorldLayout
                 // The stacks on one side, reading tables with chairs on the other, the issue desk by the door
                 int split = la * 3 / 5;
                 if (d == 1 && a == la - 2) { facing = room.DoorSide; return Props.ReceptionDesk; }
-                if (a < split && d >= 2 && d <= ld - 1 && a % 3 == 1) { facing = toLowA; return Props.OfficeBookshelf; }
+                // (Round 4) double-sided steel stacks, near bare (the lore's rooms are "vacant and missing contents")
+                if (a < split && d >= 2 && d <= ld - 1 && a % 3 == 1) { facing = toLowA; stack = (byte)((d + a / 3) & 1); return Props.L52Stack; }
                 // (Round 4) the rolling ladder left against the first stack
                 if (a == 3 && a + 1 < split && ld >= 5 && d == 2 + (int)((h >> 12) % (ulong)(ld - 3))) { facing = toLowA; return Props.L52Ladder; }
                 if (a > split && a <= la - 2 && d >= 3 && d <= ld - 2)

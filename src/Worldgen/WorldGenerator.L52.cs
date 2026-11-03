@@ -32,6 +32,8 @@ public sealed partial class WorldGenerator
     private readonly int[,,] l52Locker = new int[4, 2, 4], l52LockerAjar = new int[4, 2, 4], l52Board = new int[2, 3, 4];
     private readonly int[,,,] l52Plaque = new int[2, 10, 10, 4];
     private readonly int[,] l52Stall = new int[2, 4], l52Hood = new int[2, 4], l52Ladder = new int[2, 4], l52LabBench = new int[3, 4];
+    private readonly int[,,] l52Stack = new int[2, 2, 4];
+    private readonly int[] l52Counter = new int[4];
     private readonly int[] l52Bleacher = new int[4], l52PitchLine = new int[2], l52Track = new int[3];
     private readonly int[] l52Slab = new int[11], l52Facade = new int[5], l52Turf = new int[2], l52Court = new int[3], l52Paving = new int[2],
         l52GymLine = new int[3], l52Desk = new int[4], l52Fountain = new int[4];
@@ -114,6 +116,9 @@ public sealed partial class WorldGenerator
             l52Bleacher[f] = L52Block("l52-bleacher-" + Sides[f]);
             string[] benches = { "plain", "sink", "gas" };
             for (int k = 0; k < 3; k++) l52LabBench[k, f] = L52Block($"l52-labbench-{benches[k]}-{Sides[f]}");
+            l52Counter[f] = L52Block($"l52-counter-{Sides[f]}");
+            for (int k = 0; k < 2; k++)
+                for (int part = 0; part < 2; part++) l52Stack[k, part, f] = L52Block($"l52-stack-{(k == 0 ? "a" : "b")}-{halves[part]}-{Sides[f]}");
         }
         l52Skylight = L52Block("l52-skylight", l52Window[0, 0]);
         l52WallPatch = L52Block("l52-wallpatch", l52Wall[2, 1]);
@@ -355,7 +360,7 @@ public sealed partial class WorldGenerator
                 return l52Window[k - 2, t.Pier is ArchPier.North or ArchPier.South ? 1 : 0];
             if (entrance && rel == 0) return l52Slab[0];
             // (Round 4) a hall two storeys high has no floor at its middle line: no band there, the room's paint inside
-            if (bld != null && k == 0 && s >= 1 && rel < top && t.Zone == (byte)Zone.Ext
+            if (bld != null && s >= 1 && rel < top && (k == 0 && t.Zone == (byte)Zone.Ext || k <= 1 && entrance)
                 && bld.Kind is WorldLayout.L52BuildingKind.Gym or WorldLayout.L52BuildingKind.Canteen or WorldLayout.L52BuildingKind.Warehouse or WorldLayout.L52BuildingKind.Lecture)
                 return l52ExtWall[bld.Facade, paint, 2, Facing(t.Pier)];
             if (bld != null)
@@ -455,6 +460,7 @@ public sealed partial class WorldGenerator
         if (prop == Props.L52Stall) return h is 1 or 2 ? l52Stall[h - 1, Facing(facing)] : 0;
         if (prop == Props.L52FumeHood) return h is 1 or 2 ? l52Hood[h - 1, Facing(facing)] : 0;
         if (prop == Props.L52Ladder) return h is 1 or 2 ? l52Ladder[h - 1, Facing(facing)] : 0;
+        if (prop == Props.L52Stack) return h is 1 or 2 ? l52Stack[Math.Min((int)stack, 1), h - 1, Facing(facing)] : 0;
         if (prop == Props.L52LabBench) return h == 1 ? l52LabBench[Math.Min((int)stack, 2), Facing(facing)] : 0;
         if (prop == Props.L52Bleacher) return h == 1 + stack ? l52Bleacher[Facing(facing)] : h >= 1 && h <= stack ? l52Plinth : 0;
         if (h != 1) return 0;
@@ -470,6 +476,8 @@ public sealed partial class WorldGenerator
         {
             Props.L52Desk => l52Desk[f],
             Props.L52Fountain => l52Fountain[f],
+            // (Round 4) the school's own counter, not the hotel's reception desk with its WELCOME
+            Props.ReceptionDesk when l52Counter[f] != 0 => l52Counter[f],
             _ => AnyProp(new Tile { Kind = TileKind.Floor, Variant = prop, Pier = facing, Stack = stack, Level = t.Level }, 1),
         };
     }

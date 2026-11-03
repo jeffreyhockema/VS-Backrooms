@@ -674,9 +674,12 @@ def expected():
             for part in ("lower", "upper"):
                 codes.add(f"l52-lockerajar-{p}-{part}-{s}")
         codes.add(f"l52-lseat-{s}")
+        codes.add(f"l52-counter-{s}")
         for h in ("lower", "upper"):
             codes.add(f"l52-trophy-{h}-{s}")
             codes.add(f"l52-ladder-{h}-{s}")
+            codes.add(f"l52-stack-a-{h}-{s}")
+            codes.add(f"l52-stack-b-{h}-{s}")
             for e in "lmr":
                 codes.add(f"l52-dugout-{e}-{h}-{s}")
         codes.add(f"l52-projector-{s}")
@@ -700,6 +703,19 @@ def write_cells_table(path):
     return lines
 
 
+def move_z(els, dz):
+    out = []
+    for e in els:
+        e = dict(e)
+        e["from"] = [e["from"][0], e["from"][1], round(e["from"][2] + dz, 4)]
+        e["to"] = [e["to"][0], e["to"][1], round(e["to"][2] + dz, 4)]
+        if "rotationOrigin" in e:
+            o = e["rotationOrigin"]
+            e["rotationOrigin"] = [o[0], o[1], round(o[2] + dz, 4)]
+        out.append(e)
+    return out
+
+
 def kit_shapes():
     """The rebuilt props of tools/gen_52_r4_kit.py (stalls, fume hoods, bleachers, goals, flagpoles, boards on posts, the wall
     fittings; then the desks, boards, fountains, windows, seats, projectors, vents): they override round 1-3's shapes of
@@ -711,6 +727,10 @@ def kit_shapes():
     out = dict(K.shapes())
     if hasattr(K, "shapes2"):
         out.update(K.shapes2())
+    # (the ladder's hooks reach the block's edge; the library stack's face stands 2 units in from its own: lean it 2 further)
+    for k in ("l52-ladder-lower", "l52-ladder-upper"):
+        if k in out:
+            out[k] = move_z(out[k], 2.0)
     for name, els in sorted(out.items()):
         G.shape(name, els)
     return set(out)
@@ -751,6 +771,17 @@ def set_blocktypes():
                 {"l52-ladder-lower": sh("l52-ladder-lower"), "l52-ladder-upper": sh("l52-ladder-upper")},
                 "Level 52: a library's rolling ladder leaning on the stack behind it (oak rails and treads, brass rollers on the stack's rail)",
                 "Wood", G.WOOD, lambda p: (0.1, 0, 0.3, 0.9, 1, 1), extra={"climbable": True})
+    stk = {}
+    for kind in ("a", "b"):
+        for h in ("lower", "upper"):
+            stk[f"l52-stack-{kind}-{h}"] = sh(f"l52-stack-{h}" + ("-b" if kind == "b" else ""))
+    R3.oriented("l52-stack", [G.group("kind", ["a", "b"]), G.group("part", ["lower", "upper"]), G.group("side", SIDES)], stk,
+                "Level 52: a library's double-sided steel bookstack, two blocks high, its shelves nearly bare (the dust shows where the "
+                "books stood; a few left behind); a and b differ in what was left", "Metal", G.METAL, lambda p: (0, 0, 0.125, 1, 1, 0.875))
+    R3.oriented("l52-counter", [G.group("side", SIDES)], {"l52-counter": sh("l52-counter")},
+                "Level 52: a front office's or library's counter, the visitors' side toward its side: laminate front, a transaction "
+                "ledge, the staff worktop behind (a binder, a pen cup, a desk bell left on it)", "Wood", G.WOOD,
+                lambda p: (0, 0, 0, 1, 1, 0.36), sel=lambda p: (0, 0, 0, 1, 1, 1))
     G.json_block("l52-planter", [], {"*": {"base": sh("l52-planter")}},
                  "Level 52: a square concrete planter by an entrance, a clipped shrub in it (and the odd cigarette end), a corner chipped",
                  "Stone", G.STONE, {"*": G.cuboid((0.04, 0, 0.04, 0.96, 0.66, 0.96))}, {"*": G.cuboid((0.04, 0, 0.04, 0.96, 0.98, 0.96))},

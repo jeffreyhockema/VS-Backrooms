@@ -113,8 +113,8 @@ public partial class WorldLayout
 
         // 4. The courtyard: (round 4) from the path in one corner, along the diagonal to the far corner (over the lawns' trees, not into them)
         int cu0 = quad.U0 + 21, cv0 = quad.V0 + 21, cu1 = quad.U1 - 21, cv1 = quad.V1 - 21;
-        if (Near(md, cu0 + 1, cv0 + 1, Outdoors, 4) is { } cy)
-            Add(md, "courtyard", cy.U, cy.V, 0, Heading(cu1 - cy.U, cv1 - cy.V), 4);
+        if (Near(md, cu0 + 5, cv0 + 1, Outdoors, 4) is { } cy)
+            Add(md, "courtyard", cy.U, cy.V, 0, Heading(cu1 - 3 - cy.U, cv1 - cy.V), 4);
 
         // 4b. The courtyard's fountain, from the paving round it
         {
@@ -399,7 +399,10 @@ public partial class WorldLayout
                     {
                         var (au, av) = goals[0];
                         var (bu, bv) = goals[1];
-                        Add(c, "pitch", (au + 2 * bu) / 3, (av + 2 * bv) / 3, 0, Heading(au - bu, av - bv), -3);
+                        // (Round 4) eight tiles out from one goal and three to the side, looking at it
+                        int du = Math.Sign(au - bu), dv = Math.Sign(av - bv);
+                        int pu = bu + du * 8 + (dv != 0 ? 3 : 0), pv = bv + dv * 8 + (du != 0 ? 3 : 0);
+                        Add(c, "pitch", pu, pv, 0, Heading(bu - pu, bv - pv), -4);
                         pitchShot = true;
                     }
                 }

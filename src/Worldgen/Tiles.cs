@@ -1810,6 +1810,8 @@ public static class Props
     public const ushort L52Ladder = 1106;
     /// <summary>Level 52 (round 4): a lab bench, black top on grey cupboards (Pier its face; Stack 0 plain, 1 a sink, 2 gas taps).</summary>
     public const ushort L52LabBench = 1107;
+    /// <summary>Level 52 (round 4): a library's double-sided bookstack, two high (Pier its face; Stack 0 and 1 its two sets of leftovers).</summary>
+    public const ushort L52Stack = 1108;
     public const ushort L36First = 1200, L36Last = 1299;
     /// <summary>Level 36: a check-in desk (Stack 0 desk, 1 scale), a gate seat (Stack 0 blue, 1 grey, 2 a coat on it, 3 a bag), the gate podium, a queue stanchion (Stack 0 no belt, 1-4 its belt north, east, south, west), the scanner arch (two high, walked through), an X-ray machine (Stack 0 body, 1 belt), trays, the Travel Agency's booth (Stack 0 desk, 1 brochure rack), a perfume counter, a food-court table (Stack 0 tray, 1 cups, 2 plate, 3 bare), the meeting point (three high), a cabin seat, a Lost and Found shelf, a carousel's island, Level 3999's couch (Stack 0 left, 1 right), planter and bin. Pier their facing.</summary>
     public const ushort L36Checkin = 1200, L36Seat = 1201, L36GateDesk = 1202, L36Stanchion = 1203, L36Scanner = 1204, L36Xray = 1205, L36Trays = 1206,

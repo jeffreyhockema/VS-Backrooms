@@ -359,6 +359,8 @@ def textures(save):
     textures2(s)
     textures3(s)
     textures4(s)
+    textures5(s)
+    textures6(s)
 
 
 def tex_stall(s):
@@ -1050,6 +1052,8 @@ def shapes():
     out.update(shapes2())
     out.update(shapes3())
     out.update(shapes4())
+    out.update(shapes5())
+    out.update(shapes6())
     return out
 
 
@@ -2225,3 +2229,234 @@ def shapes4():
     out["l52-hvac-top"] = hvac("top")
     out.update(tower_dial())
     return out
+
+
+# ======================================================================== batch 5 (2026-11-03): the library stack
+#
+#   l52-stack-{lower,upper}       a freestanding double-sided steel library stack, one block wide, 0.75 deep (z 2..14),
+#                                 two high: plain slotted uprights at x 0..0.8 and 15.2..16 (a continuous run when
+#                                 repeated), a centre back panel, shelves with folded lips on both faces, a kick plate and
+#                                 base shelf (lower), a canopy (upper); mostly empty, dust and paler book footprints in the
+#                                 shelf pictures, a few leftovers (books lying flat, a leaning pair, bookends), a label
+#                                 holder. l52-stack-{lower,upper}-b: the same stack with other leftovers, to vary a row.
+#
+# textures() and shapes() above include these; textures5(save) and shapes5() are the batch on its own.
+
+def shelf_top(seed, n_books=10):
+    """A shelf seen from above (full picture over its top face, the picture's top at the shelf's front lip): warm
+    grey-beige enamel, dust, and paler rectangles where books stood against the back."""
+    img = M.noise_hv((190, 182, 164), 2, seed, (64, 64), 3, (16, 8))
+    rng = random.Random(seed)
+    px = img.load()
+    for _ in range(420):   # dust
+        x, y = rng.randrange(64), rng.randrange(64)
+        px[x, y] = M.rgba(M.lift(px[x, y], rng.uniform(-10, -4)))
+    M.grime(img, amount=0.16, seed=seed + 1, color=(150, 140, 120), cover=0.6)
+    x = rng.randint(1, 5)
+    while x < 60:   # book footprints: paler, clean, from the back (the picture's bottom) toward the front
+        w = rng.randint(3, 7)
+        depth = rng.randint(34, 52)
+        if rng.random() < 0.8:
+            for yy in range(64 - depth, 64):
+                for xx in range(x, min(64, x + w)):
+                    px[xx, yy] = M.rgba(M.lift(px[xx, yy], 12))
+        x += w + rng.choice((0, 0, 1, 4))
+    M.ao_border(img, 2, 0.15, sides="b")
+    return img
+
+
+def upright_tex(seed):
+    img = M.painted_metal(seed, base=(186, 178, 160), panel=False, chips=3, under=(120, 114, 104))
+    for y in range(2, 32, 4):   # the bracket slots up the upright's face
+        for x in (14, 15, 16, 17):
+            img.putpixel((x, y), M.rgba((52, 50, 46)))
+            img.putpixel((x, y + 1), M.rgba((52, 50, 46)))
+    M.grime(img, amount=0.08, seed=seed + 1, cover=0.4)
+    return img
+
+
+def label_tex(seed):
+    img = M.noise_hv((236, 232, 220), 1, seed, (32, 32), 2, (16, 8))
+    from PIL import ImageFont
+    ImageDraw.Draw(img).text((16, 16), "500", fill=(60, 60, 64, 255), anchor="mm", font=ImageFont.load_default(size=14))
+    M.ao_border(img, 2, 0.15)
+    return img
+
+
+def textures5(save):
+    s = save
+    for i in range(3):
+        s(shelf_top(8500 + i), f"r4k-shelf-{'abc'[i]}")
+        s(shelf_top(8500 + i).rotate(180), f"r4k-shelf-{'abc'[i]}s")   # for the south face's shelves
+    s(upright_tex(8510), "r4k-upright")
+    kick = M.painted_metal(8511, base=(176, 168, 150), panel=False, chips=6, under=(120, 114, 104))
+    M.grime(kick, amount=0.25, seed=8512, bias="bottom", cover=0.6)
+    M.scratches(kick, 6, 8513, (2, 6), 0.12)
+    s(kick, "r4k-kick")
+    s(enamel(8514, (190, 182, 164), grime=0.08, chips=2), "r4k-stackpaint")
+    back = enamel(8515, (150, 143, 128), grime=0.12, chips=1)
+    M.emboss_lines(back, xs=(0, 16), strength=0.15)
+    s(back, "r4k-stackback")
+    for i, c in enumerate(((128, 44, 40), (44, 66, 110), (54, 92, 62), (120, 90, 56))):
+        cover = M.fabric(8520 + i, base=c, weave="plain", contrast=4)
+        M.grime(cover, amount=0.1, seed=8530 + i, cover=0.5)
+        s(cover, f"r4k-book-{'rbgn'[i]}")
+    pages = M.noise_hv((226, 216, 190), 2, 8540, (32, 32), 2, (16, 8))
+    for y in range(0, 32, 2):
+        for x in range(32):
+            M.touch(pages, x, y, -0.05)
+    s(pages, "r4k-pages")
+    s(label_tex(8541), "r4k-label")
+
+
+def book(name, frm, to, cover, spine_face=None):
+    """A book as a box: covers top and bottom (or sides when standing), pages round the edges, the spine its own face."""
+    el = box(name, frm, to, {"top": cover, "bottom": cover, "side": "r4k-pages"}, faces=fs("down"))
+    if spine_face:
+        el["faces"][spine_face]["texture"] = "#" + cover
+    return el
+
+
+def stack(part, variant="a"):
+    """A block of the double-sided stack. North shelves hold z 2.4..7.7, south ones 8.3..13.6, the back panel between."""
+    paint, up = "r4k-stackpaint", "r4k-upright"
+    lo = part == "lower"
+    top = 16 if lo else 14.8
+    # (the uprights' end faces show at a row's ends; between neighbours they meet back to back, hidden)
+    els = [box("UprightW", (0, 0, 2.0), (0.8, top, 14.0), up, faces=fs("east", "down", "up") if lo else fs("east", "down")),
+           box("UprightE", (15.2, 0, 2.0), (16, top, 14.0), up, faces=fs("west", "down", "up") if lo else fs("west", "down")),
+           box("Back", (0.8, 0, 7.7), (15.2, top, 8.3), "r4k-stackback", faces=("north", "south"))]
+    levels = (2.3, 7.4, 12.4) if lo else (1.6, 6.8, 11.8)
+    shelf_keys = ("abc" if variant == "a" else "cab")
+    for i, y in enumerate(levels):
+        k = shelf_keys[i]
+        for side, (z0, z1), lip, tex in (("N", (2.4, 7.7), (2.0, 2.4), f"r4k-shelf-{k}"), ("S", (8.3, 13.6), (13.6, 14.0), f"r4k-shelf-{k}s")):
+            sh = box(f"Shelf{side}{i}", (0.8, y - 0.4, z0), (15.2, y, z1), {"top": tex, "side": paint}, faces=("up", "down"))
+            full_uv(sh, "up")
+            els.append(sh)
+            els.append(box(f"Lip{side}{i}", (0.8, y - 1.0, lip[0]), (15.2, y + 0.1, lip[1]), paint, faces=fs("east", "west")))
+    if lo:
+        els += [box("KickN", (0.8, 0, 2.0), (15.2, levels[0] - 1.0, 2.4), "r4k-kick", faces=("north", "up")),
+                box("KickS", (0.8, 0, 13.6), (15.2, levels[0] - 1.0, 14.0), "r4k-kick", faces=("south", "up"))]
+    else:
+        els += [box("Canopy", (-0.01, 14.8, 1.6), (16.01, 15.6, 14.4), paint, faces=fs("east", "west")),
+                box("CanopyLipN", (-0.01, 14.4, 1.6), (16.01, 14.8, 2.0), paint, faces=("north", "down")),
+                box("CanopyLipS", (-0.01, 14.4, 14.0), (16.01, 14.8, 14.4), paint, faces=("south", "down"))]
+    # the label holder on one shelf's lip
+    ly = levels[1]
+    els += [box("LabelHolder", (6.2, ly - 0.9, 1.75), (9.8, ly - 0.05, 2.0), "r4k-satin", faces=fs("south")),
+            full_uv(box("Label", (6.5, ly - 0.75, 1.7), (9.5, ly - 0.2, 1.75), "r4k-label", faces=("north",)), "north")]
+    # the leftovers, by block and face
+    y0, y1, y2 = levels
+
+    def flat(n, x, y, z, w, d, h, cover, spine="north"):
+        els.append(book(n, (x, y, z), (x + w, y + h, z + d), cover, spine))
+
+    def standing(n, x, y, z, t, d, h, cover, lean=0, spine="north"):
+        el = book(n, (x, y, z), (x + t, y + h, z + d), cover, spine)
+        el["faces"]["east"]["texture"] = el["faces"]["west"]["texture"] = "#" + cover
+        el["faces"]["up"]["texture"] = "#r4k-pages"
+        if lean:
+            el["rotationOrigin"] = [round(x if lean < 0 else x + t, 4), y, round(z + d / 2, 4)]
+            el["rotationZ"] = lean
+        els.append(el)
+
+    def bookend(n, x, y, z0, z1, facing_left):
+        els.append(box(n + "Base", (x - 1.2, y, z0), (x + 1.2, y + 0.2, z1), paint, faces=fs("down")))
+        xs = (x - 1.2, x - 0.95) if facing_left else (x + 0.95, x + 1.2)
+        els.append(box(n + "Leaf", (xs[0], y, z0 + 0.4), (xs[1], y + 4.2, z1 - 0.4), paint, faces=fs("down")))
+
+    if variant == "a" and lo:
+        flat("FlatN1", 2.0, y0, 3.4, 3.4, 4.2, 0.8, "r4k-book-r")
+        flat("FlatN2", 2.3, y0 + 0.8, 3.6, 3.0, 3.8, 0.7, "r4k-book-n")
+        bookend("EndN", 11.0, y1, 3.0, 7.4, True)
+        standing("LeanS1", 4.0, y1, 8.8, 0.9, 4.0, 4.6, "r4k-book-b", lean=-14, spine="south")
+        standing("LeanS2", 4.9, y1, 8.9, 0.9, 3.8, 4.4, "r4k-book-g", lean=-14, spine="south")
+    elif variant == "a":
+        flat("FlatN", 9.0, y1, 3.2, 3.2, 4.4, 0.8, "r4k-book-g")
+        bookend("EndS", 3.0, y0, 8.6, 13.0, False)
+        standing("LeanS", 4.2, y0, 9.15, 0.9, 3.9, 4.8, "r4k-book-r", lean=12, spine="south")
+    elif lo:
+        standing("LeanN1", 10.0, y0, 3.0, 0.9, 4.0, 4.6, "r4k-book-n", lean=14)
+        standing("LeanN2", 10.9, y0, 3.1, 0.9, 3.8, 4.4, "r4k-book-b", lean=14)
+        flat("FlatS", 3.0, y1, 9.0, 3.4, 4.2, 0.8, "r4k-book-g", spine="south")
+        bookend("EndS", 12.0, y2, 8.6, 13.0, True)
+    else:
+        bookend("EndN", 6.0, y1, 3.0, 7.4, False)
+        flat("FlatS1", 10.0, y0, 9.2, 3.2, 4.4, 0.8, "r4k-book-b", spine="south")
+        flat("FlatS2", 10.4, y0 + 0.8, 9.4, 2.8, 4.0, 0.7, "r4k-book-r", spine="south")
+    return els
+
+
+def shapes5():
+    out = {}
+    for p in ("lower", "upper"):
+        out[f"l52-stack-{p}"] = stack(p, "a")
+        out[f"l52-stack-{p}-b"] = stack(p, "b")
+    return out
+
+
+# ======================================================================== batch 6 (2026-11-03): the issue counter
+#
+#   l52-counter      a front-office / library issue counter, visitors to the north, staff to the south: a laminate
+#                    front (modesty) panel on a dark kick plinth with aluminium trims, a raised transaction ledge at
+#                    1.1 block (above the block's top) with a rounded nose, the staff worktop at 0.75 block on brackets,
+#                    a closed binder and a pen cup on the worktop, a desk bell on the ledge. Its ends at x 0 and 16 join
+#                    the next counter in a row (their faces meet back to back; at a row's end they show the section).
+#
+# textures() and shapes() above include these; textures6(save) and shapes6() are the batch on its own.
+
+def textures6(save):
+    s = save
+    s(laminate(8600, (200, 192, 174)), "r4k-counterface")
+    top = M.noise_hv((214, 190, 150), 2, 8601, (32, 32), 3, (16, 8), hue=1.0)
+    px = top.load()
+    for y in range(32):   # a pale maple print along x
+        f = math.sin(y * 0.8) * 3 + math.sin(y * 0.21 + 1) * 3
+        for x in range(32):
+            px[x, y] = M.rgba(M.lift(px[x, y], f))
+    M.scratches(top, 6, 8602, (3, 8), 0.1)
+    M.grime(top, amount=0.06, seed=8603, cover=0.4)
+    s(top, "r4k-countertop")
+    kick = M.rubber(8604, base=(58, 56, 54))
+    M.scratches(kick, 8, 8605, (2, 6), 0.15)
+    M.grime(kick, amount=0.15, seed=8606, bias="bottom", cover=0.6)
+    s(kick, "r4k-countkick")
+    s(plastic(8607, (44, 70, 124), 2), "r4k-binder")
+
+
+def counter():
+    face, top, alu, kick = "r4k-counterface", "r4k-countertop", "r4k-alu", "r4k-countkick"
+    els = [box("Kick", (0, 0, 1.2), (16, 1.2, 2.0), kick, faces=("north", "east", "west")),
+           box("Panel", (0, 1.2, 0.8), (16, 16.8, 2.0), face, faces=("north", "south", "east", "west")),
+           box("TrimLow", (0, 1.2, 0.6), (16, 1.6, 0.8), alu, faces=("north", "up", "down", "east", "west")),
+           box("TrimMid", (0, 9.0, 0.65), (16, 9.3, 0.8), alu, faces=("north", "up", "down", "east", "west")),
+           # the raised ledge on the visitors' side, its rounded nose and trim, the upstand behind it on the staff side
+           box("Ledge", (0, 16.8, 0.0), (16, 17.6, 5.6), top, faces=("up", "south", "down", "east", "west")),
+           box("LedgeNose", (0, 16.9, -0.4), (16, 17.5, 0.0), top, faces=("north", "up", "down", "east", "west")),
+           box("LedgeTrim", (0, 16.5, -0.2), (16, 16.8, 0.8), alu, faces=("north", "down", "east", "west")),
+           box("Upstand", (0, 12.0, 4.6), (16, 16.8, 5.6), face, faces=("south", "east", "west")),
+           box("Infill", (0, 12.0, 2.0), (16, 16.8, 4.6), face, faces=("east", "west")),
+           # the staff worktop on two brackets, its edge trim, a cable grommet
+           box("Worktop", (0, 11.4, 5.6), (16, 12.0, 15.6), top, faces=("up", "down", "east", "west")),
+           box("WorkEdge", (0, 11.3, 15.6), (16, 12.05, 15.9), alu, faces=("south", "up", "down", "east", "west")),
+           box("Grommet", (12.6, 11.99, 6.4), (14.0, 12.04, 7.8), "r4k-black", faces=("up",))]
+    for x in (3.0, 12.6):
+        els += [box(f"BracketArm{x}", (x, 10.4, 2.0), (x + 0.5, 11.4, 13.0), "r4k-steel", faces=fs("north", "up")),
+                box(f"BracketDrop{x}", (x, 6.4, 2.0), (x + 0.5, 10.4, 2.8), "r4k-steel", faces=fs("north"))]
+    # what was left: a closed binder and a pen cup on the worktop, a bell on the ledge
+    els += [box("Binder", (2.6, 12.0, 8.4), (7.0, 12.9, 13.8), {"side": "r4k-pages", "top": "r4k-binder", "bottom": "r4k-binder"},
+                faces=fs("down")),
+            box("BinderSpine", (2.4, 11.95, 8.4), (2.6, 12.95, 13.8), "r4k-binder", faces=fs("down", "east")),
+            box("BinderRing", (2.65, 12.3, 10.6), (3.0, 12.6, 11.6), "r4k-chrome", faces=("west", "up"))]
+    els += octo("PenCup", (10.2, 12.0, 9.2), (11.4, 13.6, 10.4), "r4k-black", faces=fs("down"))
+    els += [box("Pen1", (10.6, 12.2, 9.6), (10.85, 14.6, 9.85), "r4k-pin-blue", rot=(0, 0, 10), origin=(10.7, 12.2, 9.7)),
+            box("Pen2", (10.9, 12.2, 9.9), (11.15, 14.4, 10.15), "r4k-pin-red", rot=(0, 0, -12), origin=(11.0, 12.2, 10.0))]
+    els += octo("BellBase", (11.4, 17.6, 1.6), (13.0, 17.85, 3.2), "r4k-black", faces=fs("down"))
+    els += octo("BellDome", (11.6, 17.85, 1.8), (12.8, 18.5, 3.0), "r4k-chrome", faces=fs("down"))
+    els += [box("BellButton", (12.05, 18.5, 2.25), (12.35, 18.8, 2.55), "r4k-chrome", faces=fs("down"))]
+    return els
+
+
+def shapes6():
+    return {"l52-counter": counter()}
