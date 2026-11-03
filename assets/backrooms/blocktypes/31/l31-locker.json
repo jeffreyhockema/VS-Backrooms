@@ -1,4 +1,4 @@
-// Level 31: a bank of coin lockers set in the rink's wall (a full wall block), its doors toward the side: two across and two high, louvres, number plates, coin locks with keys on orange tags, one door ajar in the lower; lower (with the kick base) and upper
+// Level 31: a bank of coin lockers set in the rink's wall (a full wall block), its doors toward the side: two across and two high, louvres, number plates, coin locks with keys on orange tags, one door ajar in the lower; lower (with the kick base) and upper; staff: the Employees Lounge's grey lockers, padlock hasps instead of coin locks
 {
 	"code": "l31-locker",
 	"variantgroups": [
@@ -6,7 +6,9 @@
 			"code": "part",
 			"states": [
 				"lower",
-				"upper"
+				"upper",
+				"stafflower",
+				"staffupper"
 			]
 		},
 		{
@@ -48,6 +50,36 @@
 		},
 		"l31-locker-upper-west": {
 			"base": "backrooms:block/31/l31-locker-upper",
+			"rotateY": 90
+		},
+		"l31-locker-stafflower-north": {
+			"base": "backrooms:block/31/l31-locker-stafflower"
+		},
+		"l31-locker-stafflower-east": {
+			"base": "backrooms:block/31/l31-locker-stafflower",
+			"rotateY": 270
+		},
+		"l31-locker-stafflower-south": {
+			"base": "backrooms:block/31/l31-locker-stafflower",
+			"rotateY": 180
+		},
+		"l31-locker-stafflower-west": {
+			"base": "backrooms:block/31/l31-locker-stafflower",
+			"rotateY": 90
+		},
+		"l31-locker-staffupper-north": {
+			"base": "backrooms:block/31/l31-locker-staffupper"
+		},
+		"l31-locker-staffupper-east": {
+			"base": "backrooms:block/31/l31-locker-staffupper",
+			"rotateY": 270
+		},
+		"l31-locker-staffupper-south": {
+			"base": "backrooms:block/31/l31-locker-staffupper",
+			"rotateY": 180
+		},
+		"l31-locker-staffupper-west": {
+			"base": "backrooms:block/31/l31-locker-staffupper",
 			"rotateY": 90
 		}
 	},

@@ -20,7 +20,7 @@ public sealed partial class WorldGenerator
     private readonly int[] l31SkateBench = new int[4], l31Walker = new int[4];
     private readonly int[,] l31Litter = new int[4, 4], l31Pinball3 = new int[3, 4];
     private readonly int[] l31CounterBell = new int[4];
-    private readonly int[,] l31Gumball = new int[2, 4];
+    private readonly int[,] l31Gumball = new int[2, 4], l31StaffLocker = new int[2, 4];
 
     private void InitL31Round4()
     {
@@ -42,6 +42,8 @@ public sealed partial class WorldGenerator
             string[] games = { "stardust", "disco", "night" };
             for (int k = 0; k < 3; k++) l31Pinball3[k, f] = L31Block($"l31-pinball-{games[k]}-{Sides[f]}", l31Pinball[f]);
             l31CounterBell[f] = L31Block($"l31-counter-bell-{Sides[f]}", l31Counter[1, f]);
+            l31StaffLocker[0, f] = L31Block($"l31-locker-stafflower-{Sides[f]}", l31Locker[0, f]);
+            l31StaffLocker[1, f] = L31Block($"l31-locker-staffupper-{Sides[f]}", l31Locker[1, f]);
             l31Gumball[0, f] = L31Block($"l31-gumball-gum-{Sides[f]}");
             l31Gumball[1, f] = L31Block($"l31-gumball-candy-{Sides[f]}", l31Gumball[0, f]);
             string[] litter = { "skate", "cup", "popcorn", "tickets" };

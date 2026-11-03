@@ -1425,7 +1425,7 @@ def jukebox():
 # ======================================================================== The rink's coin lockers
 
 def locker_textures():
-    for n, c in (("blue", (40, 96, 190)), ("orange", (232, 120, 30))):
+    for n, c in (("blue", (40, 96, 190)), ("orange", (232, 120, 30)), ("grey", (120, 126, 132))):
         img = M.painted_metal(seed=4290 + len(n), base=c, panel=False, chips=4, under=(150, 150, 150))
         d = ImageDraw.Draw(img)
         for y in (4, 7, 10):
@@ -1447,6 +1447,8 @@ def locker(part):
     """One block of a bank of coin lockers set in the wall, its face north: two doors across and two high in it (four
     small lockers), each a door in its frame with louvres, a number plate, the coin lock with its key on an orange tag
     (the key gone and the door ajar on one); the lower block has the kick base. The block is a full cube: a wall."""
+    staff = part.startswith("staff")
+    name, part = part, part[5:] if staff else part
     els = [B("Body", (0, 0, 0.8), (16, 16, 16), "r4-lockerbody", north=("r4-black", None))]
     y0 = 1.6 if part == "lower" else 0.0
     if part == "lower":
@@ -1459,7 +1461,7 @@ def locker(part):
         ya = y0 + row * h + 0.3
         yb = ya + h - 0.6
         for col, (xa, xb) in enumerate(((0.4, 7.5), (8.5, 15.6))):
-            colour = "orange" if (row + col + (part == "upper")) % 3 == 0 else "blue"
+            colour = "grey" if staff else "orange" if (row + col + (part == "upper")) % 3 == 0 else "blue"
             ajar = part == "lower" and row == 1 and col == 0
             rot = (0, 35, 0) if ajar else None
             o = (xa, ya, 0.5)
@@ -1470,12 +1472,14 @@ def locker(part):
                   north=(f"r4-lockernum{(k + (4 if part == 'upper' else 0)) % 8}", (0, 0, 16, 8)), rot=rot, origin=o),
                 B(f"Lock{k}", (xb - 2.2, ya + 1.6, 0.0), (xb - 0.8, ya + 3.4, 0.3), "r4-chrome", faces=without(DIRS, "south"), rot=rot, origin=o),
             ]
-            if not ajar:
+            if staff and not ajar:
+                els.append(B(f"Hasp{k}", (xb - 1.6, ya + 4.0, -0.2), (xb - 0.8, ya + 5.2, 0.3), "r4-chrome", faces=without(DIRS, "south")))
+            elif not ajar:
                 els.append(B(f"Key{k}", (xb - 1.8, ya + 0.6, -0.3), (xb - 1.2, ya + 1.6, 0.0), "r4-lockertag", faces=without(DIRS, "south")))
             else:
                 els.append(B(f"Dark{k}", (xa + 0.2, ya + 0.2, 0.75), (xb - 0.2, yb - 0.2, 0.8), "r4-black", faces=("north",)))
             k += 1
-    return shape("l31-locker-" + part, els)
+    return shape("l31-locker-" + name, els)
 
 
 # ======================================================================== The back arcade's covered machines (Wikidot)
@@ -1761,16 +1765,18 @@ def blocks():
     prop_block("l31-trophycase", "Level 31: the lobby's trophy case, 30 units tall: an oak base, a lit glass cabinet with chrome door frames and a mirror back, two shelves of cups, skater figures and plaques; open toward the side",
                lambda k: ref, (0, 0, 0.16, 1, 1, 0.96), (0, 0, 0.16, 1, 1, 0.96), material="Wood", sounds=WOOD, resistance=3, extra={"lightHsv": [8, 3, 5]})
     locker_textures()
-    lrefs = {k: locker(k) for k in ("lower", "upper")}
-    data = {"code": "l31-locker", "variantgroups": [{"code": "part", "states": ["lower", "upper"]}, {"code": "side", "states": SIDES}],
+    lparts = ("lower", "upper", "stafflower", "staffupper")
+    lrefs = {k: locker(k) for k in lparts}
+    data = {"code": "l31-locker", "variantgroups": [{"code": "part", "states": list(lparts)}, {"code": "side", "states": SIDES}],
             "shapeByType": {f"l31-locker-{k}-{sd}": ({"base": lrefs[k], "rotateY": ROT[sd]} if ROT[sd] else {"base": lrefs[k]})
-                            for k in ("lower", "upper") for sd in SIDES},
+                            for k in lparts for sd in SIDES},
             "creativeinventory": {"general": ["*"], "backrooms": ["*"]},
             "blockmaterial": "Metal", "drawtype": "json", "sidesolid": {"all": True}, "sideopaque": {"all": True},
             "lightAbsorption": 99, "resistance": 6, "drops": [], "sounds": METAL}
     write_json(os.path.join(BLOCKS, "l31-locker.json"), data,
                "Level 31: a bank of coin lockers set in the rink's wall (a full wall block), its doors toward the side: two across and two high, "
-               "louvres, number plates, coin locks with keys on orange tags, one door ajar in the lower; lower (with the kick base) and upper")
+               "louvres, number plates, coin locks with keys on orange tags, one door ajar in the lower; lower (with the kick base) and upper; "
+               "staff: the Employees Lounge's grey lockers, padlock hasps instead of coin locks")
     ref = table()
     prop_block("l31-table", "Level 31: a cafe table, white laminate with a magenta edge band on a chrome column and cross foot, napkins, salt, pepper and ketchup on it (not oriented)", lambda k: ref,
                (0.05, 0, 0.05, 0.95, 0.75, 0.95), (0.05, 0, 0.05, 0.95, 0.75, 0.95), kinds=["plain"], oriented=False, resistance=2)

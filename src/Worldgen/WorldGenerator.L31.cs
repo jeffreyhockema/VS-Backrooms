@@ -367,7 +367,7 @@ public sealed partial class WorldGenerator
             L31.L31Wall.Glazed => l31Glazed,
             L31.L31Wall.Dark => l31Dark,
             L31.L31Wall.Chart => rel == 2 ? l31Chart : skate,
-            L31.L31Wall.Locker => rel <= 2 ? l31Locker[rel - 1, Facing(t.Pier)] : l31Plain,
+            L31.L31Wall.Locker => rel <= 2 ? (t.Zone == (byte)Zone.Lounge ? l31StaffLocker[rel - 1, Facing(t.Pier)] : l31Locker[rel - 1, Facing(t.Pier)]) : l31Plain,
             L31.L31Wall.Brick => l31Brick,
             _ => skate,
         };
