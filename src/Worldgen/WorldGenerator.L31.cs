@@ -465,6 +465,7 @@ public sealed partial class WorldGenerator
             L31.L31Props.Covered => l31Covered[t.Stack & 1, f],
             L31.L31Props.Walker => l31Walker[f],
             L31.L31Props.Litter => l31Litter[t.Stack & 3, f],
+            L31.L31Props.Gumball => l31Gumball[t.Stack & 1, f],
             // (round 4: the rink's carpeted bench in place of the shared slatted one, on this level only)
             Props.Bench => l31SkateBench[f],
             Props.Shelf => shelfIds[Facing(Opposite(t.Pier))],

@@ -1,0 +1,223 @@
+// Level 31: a lobby gumball machine, the glass globe on a cast body and fluted column (gum: red, candy: blue), its crank toward the side
+{
+	"code": "l31-gumball",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"gum",
+				"candy"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-gumball-gum-north": {
+			"base": "backrooms:block/31/l31-gumball-gum"
+		},
+		"l31-gumball-gum-east": {
+			"base": "backrooms:block/31/l31-gumball-gum",
+			"rotateY": 270
+		},
+		"l31-gumball-gum-south": {
+			"base": "backrooms:block/31/l31-gumball-gum",
+			"rotateY": 180
+		},
+		"l31-gumball-gum-west": {
+			"base": "backrooms:block/31/l31-gumball-gum",
+			"rotateY": 90
+		},
+		"l31-gumball-candy-north": {
+			"base": "backrooms:block/31/l31-gumball-candy"
+		},
+		"l31-gumball-candy-east": {
+			"base": "backrooms:block/31/l31-gumball-candy",
+			"rotateY": 270
+		},
+		"l31-gumball-candy-south": {
+			"base": "backrooms:block/31/l31-gumball-candy",
+			"rotateY": 180
+		},
+		"l31-gumball-candy-west": {
+			"base": "backrooms:block/31/l31-gumball-candy",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l31-gumball-gum-north": {
+			"x1": 0.22,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.78,
+			"y2": 0.95,
+			"z2": 0.78
+		},
+		"l31-gumball-gum-east": {
+			"x1": 0.22,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.78,
+			"y2": 0.95,
+			"z2": 0.78,
+			"rotateY": 270
+		},
+		"l31-gumball-gum-south": {
+			"x1": 0.22,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.78,
+			"y2": 0.95,
+			"z2": 0.78,
+			"rotateY": 180
+		},
+		"l31-gumball-gum-west": {
+			"x1": 0.22,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.78,
+			"y2": 0.95,
+			"z2": 0.78,
+			"rotateY": 90
+		},
+		"l31-gumball-candy-north": {
+			"x1": 0.22,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.78,
+			"y2": 0.95,
+			"z2": 0.78
+		},
+		"l31-gumball-candy-east": {
+			"x1": 0.22,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.78,
+			"y2": 0.95,
+			"z2": 0.78,
+			"rotateY": 270
+		},
+		"l31-gumball-candy-south": {
+			"x1": 0.22,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.78,
+			"y2": 0.95,
+			"z2": 0.78,
+			"rotateY": 180
+		},
+		"l31-gumball-candy-west": {
+			"x1": 0.22,
+			"y1": 0,
+			"z1": 0.22,
+			"x2": 0.78,
+			"y2": 0.95,
+			"z2": 0.78,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"l31-gumball-gum-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.95,
+			"z2": 0.75
+		},
+		"l31-gumball-gum-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.95,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"l31-gumball-gum-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.95,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"l31-gumball-gum-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.95,
+			"z2": 0.75,
+			"rotateY": 90
+		},
+		"l31-gumball-candy-north": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.95,
+			"z2": 0.75
+		},
+		"l31-gumball-candy-east": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.95,
+			"z2": 0.75,
+			"rotateY": 270
+		},
+		"l31-gumball-candy-south": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.95,
+			"z2": 0.75,
+			"rotateY": 180
+		},
+		"l31-gumball-candy-west": {
+			"x1": 0.25,
+			"y1": 0,
+			"z1": 0.25,
+			"x2": 0.75,
+			"y2": 0.95,
+			"z2": 0.75,
+			"rotateY": 90
+		}
+	}
+}

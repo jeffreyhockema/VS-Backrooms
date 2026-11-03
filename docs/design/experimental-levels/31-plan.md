@@ -656,6 +656,7 @@ Tiers: A must, B should, C nice.
 47. (C) [done] Skate trainers (`l31-walker`, the PVC walker frames learners push) parked inside the barrier at the gaps.
 48. (C) [done] Weathering that tells the story: things dropped on the skirts (a skate, a spilt soda, a popcorn bucket)
     and prize tickets in the arcade's aisles (`l31-litter`, rare, walked through).
+49. (C) [done] Gumball machines (`l31-gumball`, gum and candy) by the lobby's front doors.
 
 ### How it is built (round 4)
 

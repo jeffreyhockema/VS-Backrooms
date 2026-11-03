@@ -139,6 +139,8 @@ public sealed partial class WorldLayout
         public const ushort Walker = 742;
         /// <summary>Round 4: something dropped on the floor (Stack 0 a skate, 1 a spilt soda, 2 a popcorn bucket, 3 prize tickets).</summary>
         public const ushort Litter = 743;
+        /// <summary>Round 4: a gumball machine (Stack 0 gum, 1 candy).</summary>
+        public const ushort Gumball = 744;
     }
 
     /// <summary>
@@ -687,6 +689,8 @@ public sealed partial class WorldLayout
                 L31Put(plan, 47, 19, L31Props.Vending, ArchPier.North, 0);
                 L31Put(plan, 48, 19, L31Props.Vending, ArchPier.North, 1);
                 L31Put(plan, 47, 1, L31Props.Bin, ArchPier.North);
+                // (round 4) Gumball machines by the front doors, as every rink lobby has
+                for (int p = 64; p <= 66; p++) L31Put(plan, p, 0, L31Props.Gumball, ArchPier.South, (byte)(p == 65 ? 1 : 0));
                 // (round 3) The waiting corner's trophy cases and jukebox on the west wall; ADMISSION hung over the counter;
                 // EXIT over the front doors inside; the rink's events on the back wall
                 L31Put(plan, 46, 3, L31Props.TrophyCase, ArchPier.East);

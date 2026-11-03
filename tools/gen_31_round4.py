@@ -18,7 +18,7 @@ New:  l31-barrier (the rink's barrier: a thin padded wall along the boards' oute
     l31-counter (the rental's and lobby's counter, in place of Level 3999's reception desk), l31-covered (the back
     arcade's machines under dust sheets, in half of the store rooms), l31-skatebench (the carpeted lacing-up bench, in
     place of the shared slatted bench in Level 31), l31-walker (skate trainers parked by the rink's gates),
-    l31-litter (a dropped skate, a spilt soda, popcorn, prize tickets)
+    l31-litter (a dropped skate, a spilt soda, popcorn, prize tickets), l31-gumball (the lobby's gumball machines)
 Reused from other levels, placed by the layout: Level 120's CRAC units in the HVAC rooms, Level 36's queue posts in
     Skate Rental.
 
@@ -1611,6 +1611,41 @@ def litter(kind):
     return shape("l31-litter-" + kind, els)
 
 
+def gumball_textures():
+    rng = random.Random(4360)
+    for n, palette in (("gum", ((230, 40, 50), (250, 210, 40), (60, 170, 240), (80, 200, 90), (250, 250, 250), (240, 120, 200))),
+                       ("candy", ((250, 140, 40), (150, 80, 220), (240, 240, 120), (240, 70, 120), (90, 220, 210)))):
+        img = Image.new("RGBA", (S, S), rgba((220, 228, 236)))
+        d = ImageDraw.Draw(img)
+        for y in range(1, S, 4):
+            for x in range((y // 4) % 2 * 2, S, 4):
+                c = rng.choice(palette)
+                d.rectangle([x, y, x + 2, y + 2], fill=rgba(c))
+                d.point((x, y), fill=rgba(tuple(min(255, v + 70) for v in c)))
+                d.point((x + 2, y + 2), fill=rgba(tuple(int(v * 0.6) for v in c)))
+        save_tex(img, "r4-globe-" + n)
+
+
+def gumball(kind):
+    """A lobby gumball machine: a round foot and a fluted column, the cast body with its coin mech, crank and chute
+    flap, the glass globe of gumballs (stepped rings) and its cap; red for gum, blue for candy. 26 units tall."""
+    body = "cab-red" if kind == "gum" else "r4-lockerdoor-blue"
+    els = octo("Foot", (8, 8), 4.0, 0.0, 0.8, "y", "r4-chrome")
+    els += [B("Column", (7.0, 0.8, 7.0), (9.0, 9.0, 9.0), body, faces=without(DIRS, "up", "down"))]
+    els += octo("Body", (8, 8), 3.4, 9.0, 13.6, "y", body)
+    els += [
+        B("Mech", (6.2, 10.0, 4.3), (9.8, 12.8, 4.8), "r4-chrome", faces=without(DIRS, "south")),
+        B("Crank", (7.4, 11.0, 3.8), (8.6, 11.8, 4.3), "r4-chrome"),
+        B("Coin", (7.7, 12.2, 4.25), (8.3, 12.6, 4.3), "r4-black", faces=("north",)),
+        B("Flap", (7.2, 9.4, 4.4), (8.8, 10.0, 4.8), "r4-chrome"),
+    ]
+    for i, (y1, y2, r) in enumerate(((13.6, 15.0, 3.6), (15.0, 19.2, 4.4), (19.2, 20.8, 3.6))):
+        els += octo(f"Globe{i}", (8, 8), r, y1, y2, "y", "r4-globe-" + kind)
+    els += octo("Cap", (8, 8), 2.6, 20.8, 22.2, "y", body)
+    els += [B("Knob", (7.4, 22.2, 7.4), (8.6, 23.0, 8.6), "r4-chrome")]
+    return shape("l31-gumball-" + kind, els)
+
+
 # ======================================================================== Block types
 
 def blocks():
@@ -1690,6 +1725,10 @@ def blocks():
     prop_block("l31-jukebox", "Level 31: a 1990s jukebox, wood under a stepped neon arch, the record window, selector keys, bubble tubes either side, a chrome grille, 22 units tall, toward the side",
                lambda k: ref, (0.03, 0, 0.21, 0.97, 1, 0.82), (0.03, 0, 0.21, 0.97, 1, 0.82), resistance=3, extra={"lightHsv": [50, 4, 6]})
     riser()
+    gumball_textures()
+    grefs = {k: gumball(k) for k in ("gum", "candy")}
+    prop_block("l31-gumball", "Level 31: a lobby gumball machine, the glass globe on a cast body and fluted column (gum: red, candy: blue), its crank toward the side",
+               lambda k: grefs[k], (0.22, 0, 0.22, 0.78, 0.95, 0.78), (0.25, 0, 0.25, 0.75, 0.95, 0.75), kinds=list(grefs), kindgroup="kind", resistance=2)
     litter_textures()
     trefs = {k: litter(k) for k in ("skate", "cup", "popcorn", "tickets")}
     prop_block("l31-litter", "Level 31: what people dropped, flat on the floor: a skate on its side, a soda cup knocked over in its spill, a tipped popcorn bucket, a strip of prize tickets; walked through",
@@ -1754,6 +1793,7 @@ LANG = {
     "block-l31-skatebench-*": "Skate Bench",
     "block-l31-walker-*": "Skate Trainer",
     "block-l31-litter-*": "Litter",
+    "block-l31-gumball-*": "Gumball Machine",
 }
 
 
