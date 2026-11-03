@@ -96,7 +96,8 @@ def main():
     if a.out:
         with open(a.out, "w", encoding="utf-8") as f:
             f.write("\n".join(result) + "\n")
+    return 1 if any("FAIL" in l for l in result) else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

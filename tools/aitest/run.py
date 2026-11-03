@@ -1646,7 +1646,7 @@ def smoke(c):
     c.reset()
     c.srv.cmd("/backrooms dummies off")
     time.sleep(1)
-    bad = [l for l in c.srv.since(m) if re.search(r"error|exception", l, re.I)]
+    bad = [l for l in c.srv.since(m) if ERR_RE.search(l)]
     return not bad, "dummies on + Level 1 dummy for 60 s: %d error lines%s" % (len(bad), "".join("\n  " + b[:200] for b in bad[:3]))
 
 
@@ -1714,7 +1714,7 @@ def main():
             t0 = time.time()
             try:
                 if name == "p1-no-errors":
-                    bad = [l for l in srv.since(p1_start) if ERR_RE.search(l) and "perceive" not in l]
+                    bad = [l for l in srv.since(p1_start) if ERR_RE.search(l) and not (START_RE.search(l) or STEP_RE.search(l) or DONE_RE.search(l))]
                     ok, ev = not bad, "%d error/exception lines in the p1 run%s" % (len(bad), "".join("\n  " + b[:200] for b in bad[:5]))
                 else:
                     ok, ev = fn(c)
@@ -1735,7 +1735,7 @@ def main():
             fns = dict(CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES)
             fns["dummies-smoke"] = smoke
             for i, (name, ok0) in enumerate(list(results)):
-                if ok0 is not False or not fns.get(name):
+                if ok0 not in (False, None) or not fns.get(name):
                     continue
                 for attempt in range(1, a.rerun_failed + 1):
                     t0 = time.time()

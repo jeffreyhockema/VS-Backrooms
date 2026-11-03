@@ -226,7 +226,7 @@ def main():
     print(status or "(no status)")
     if not a.keep and not a.data:
         shutil.rmtree(data, ignore_errors=True)
-    return 1 if died else 0
+    return 1 if died or errors else 0
 
 
 if __name__ == "__main__":
