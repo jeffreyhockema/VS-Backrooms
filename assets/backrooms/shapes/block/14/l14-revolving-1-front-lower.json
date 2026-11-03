@@ -290,6 +290,230 @@
 			"rotationY": 45
 		},
 		{
+			"name": "Threshold0",
+			"from": [
+				4.7674,
+				0,
+				-0.3
+			],
+			"to": [
+				11.2326,
+				0.45,
+				0.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						6.4652,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						1.2,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						6.4652,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						1.2,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0,
+						6.4652,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0,
+						6.4652,
+						1.2
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				0,
+				16.0
+			],
+			"rotationY": 22.5
+		},
+		{
+			"name": "Threshold1",
+			"from": [
+				4.7674,
+				0,
+				-0.3
+			],
+			"to": [
+				11.2326,
+				0.45,
+				0.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#rev-bronze",
+					"uv": [
+						4.7674,
+						15.55,
+						11.2326,
+						16.0
+					]
+				},
+				"east": {
+					"texture": "#rev-bronze",
+					"uv": [
+						15.1,
+						15.55,
+						16.0,
+						16.0
+					]
+				},
+				"south": {
+					"texture": "#rev-bronze",
+					"uv": [
+						4.7674,
+						15.55,
+						11.2326,
+						16.0
+					]
+				},
+				"west": {
+					"texture": "#rev-bronze",
+					"uv": [
+						15.7,
+						15.55,
+						16.0,
+						16.0
+					]
+				},
+				"up": {
+					"texture": "#rev-bronze",
+					"uv": [
+						4.7674,
+						15.7,
+						11.2326,
+						16.0
+					]
+				},
+				"down": {
+					"texture": "#rev-bronze",
+					"uv": [
+						4.7674,
+						15.1,
+						11.2326,
+						16.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				24.0,
+				0,
+				16.0
+			]
+		},
+		{
+			"name": "Threshold2",
+			"from": [
+				4.7674,
+				0,
+				-0.3
+			],
+			"to": [
+				11.2326,
+				0.45,
+				0.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						6.4652,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						1.2,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						6.4652,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0.0,
+						1.2,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0,
+						6.4652,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#rev-bronze",
+					"uv": [
+						0,
+						0,
+						6.4652,
+						1.2
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				0,
+				16.0
+			],
+			"rotationY": -22.5
+		},
+		{
 			"name": "Post",
 			"from": [
 				6.7,

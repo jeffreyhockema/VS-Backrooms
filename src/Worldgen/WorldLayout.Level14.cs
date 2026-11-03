@@ -84,7 +84,7 @@ public sealed partial class WorldLayout
     /// </summary>
     public const byte L14DNone = 0, L14DRail = 1, L14DPlate = 2, L14DSign = 3, L14DPoster = 4, L14DClock = 5, L14DBoard = 6, L14DXray = 7,
         L14DBlood = 8, L14DBloodDrip = 9, L14DMould = 10, L14DScratches = 11, L14DExit = 12, L14DSanitizer = 13, L14DExtinguisher = 14, L14DTrg = 15,
-        L14DWindow = 16, L14DRevolving = 17;
+        L14DWindow = 16, L14DRevolving = 17, L14DDirectory = 18, L14DLift = 19, L14DMonArm = 20;
 
     /// <summary>The room plates (<see cref="L14DPlate"/>'s Stack), in the order of <c>l14-walldeco-plate-*</c>.</summary>
     public const byte L14PlateWard = 0, L14PlateIcu = 1, L14PlateSurgery = 2, L14PlateMaternity = 3, L14PlatePsych = 4, L14PlateStorage = 5,
@@ -300,6 +300,20 @@ public sealed partial class WorldLayout
             return;
         }
         if (p > 0.996 && across is 2 or 3) { t.Depth = L14FCracked; return; }
+        // A gurney left along a wall (round 4): two tiles, its head at an even step and its foot at the odd one after it
+        if (across is 1 or L14HallWidth && stretch is >= 12 and <= 53)
+        {
+            int a0 = along - Hashing.Mod(along, 2);
+            int hx = alongZ ? gx : a0, hz = alongZ ? a0 : gz, fx = alongZ ? gx : a0 + 1, fz = alongZ ? a0 + 1 : gz;
+            if (Hashing.Unit(Hashing.Hash(seed, hx, hz, SaltL14HallProp + 9)) < 0.03 && Hashing.Mod(a0, 8) != 4 && Hashing.Mod(a0 + 1, 8) != 4
+                && !L14DoorBeside(hx, hz, alongZ, across == 1) && !L14DoorBeside(fx, fz, alongZ, across == 1))
+            {
+                t.Variant = Props.L14Gurney;
+                t.Pier = alongZ ? ArchPier.South : ArchPier.East;
+                t.Stack = (byte)(along == a0 ? 0 : 1);
+                return;
+            }
+        }
         // What was left in the halls, against the walls: gurneys, wheelchairs, drip stands, linen carts, benches
         if (across is 1 or L14HallWidth && stretch is >= 10 and <= 55)
         {
@@ -308,8 +322,8 @@ public sealed partial class WorldLayout
             ArchPier into = alongZ ? (across == 1 ? ArchPier.East : ArchPier.West) : (across == 1 ? ArchPier.South : ArchPier.North);
             ArchPier run = alongZ ? ArchPier.South : ArchPier.East;
             if (L14DoorBeside(gx, gz, alongZ, across == 1)) return;
-            if (q < 0.006) { t.Variant = Props.RunWheelchair; t.Pier = (ArchPier)(Hashing.Mix(h) % 4); }
-            else if (q < 0.010) { t.Variant = Props.RunIvStand; t.Pier = into; }
+            if (q < 0.006) { t.Variant = Props.L14Wheelchair; t.Pier = (ArchPier)(Hashing.Mix(h) % 4); }
+            else if (q < 0.010) { t.Variant = Props.L14IvStand; t.Pier = into; }
             else if (q < 0.013) { t.Variant = Props.L14LinenCart; t.Pier = run; }
             else if (q < 0.017 && Hashing.Mod(along, 8) != 4) { t.Variant = Props.L14Bench; t.Pier = into; }
             else if (q < 0.020) { t.Variant = Props.RunCrashCart; t.Pier = into; }
@@ -355,6 +369,8 @@ public sealed partial class WorldLayout
         private Rng rng;
         private readonly List<(int X0, int Z0, int X1, int Z1)> leaves = new();
         private readonly List<RoomBox> rooms = new();
+        /// <summary>Round 4: what a room's furnishing adds after all of its draws (run by <see cref="Furnish"/> before Unblock).</summary>
+        private readonly List<Action> later = new();
 
         public L14Work(WorldLayout layout, L14Plan plan, ulong seed)
         {
@@ -379,6 +395,7 @@ public sealed partial class WorldLayout
             foreach (var r in rooms) Furnish(r);
             HallWalls();
             CorridorWalls();
+            HallFittings();
         }
 
         // ---------------- The cuts ----------------
@@ -465,7 +482,7 @@ public sealed partial class WorldLayout
             if (i != 1 && p < 0.012)
             {
                 double q = Hashing.Unit(Hashing.Mix(h + 3));
-                t.Variant = q < 0.35 ? Props.RunWheelchair : q < 0.65 ? Props.RunIvStand : q < 0.8 ? Props.L14LinenCart : Props.RunCrashCart;
+                t.Variant = q < 0.35 ? Props.L14Wheelchair : q < 0.65 ? Props.L14IvStand : q < 0.8 ? Props.L14LinenCart : Props.RunCrashCart;
                 t.Pier = alongZ ? (i == 0 ? ArchPier.East : ArchPier.West) : (i == 0 ? ArchPier.South : ArchPier.North);
             }
         }
@@ -672,6 +689,8 @@ public sealed partial class WorldLayout
             }
             if (inpatient) Windows(r);
             if (r.Contam) Contaminate(r);
+            foreach (var act in later) act();
+            later.Clear();
             Unblock(r);
         }
 
@@ -787,7 +806,7 @@ public sealed partial class WorldLayout
             t.Stack = 0;
             t.Detail = 0;
             t.SupplyBox = false;
-            if (v is not (Props.L14Bed or Props.L14StrapBed or Props.L14OpTable or Props.RunSafeCot)) return;
+            if (v is not (Props.L14Bed or Props.L14StrapBed or Props.L14OpTable or Props.RunSafeCot or Props.L14Gurney)) return;
             var (dx, dz) = Step(pier);
             int oa = stack == 0 ? a + dx : a - dx, ob = stack == 0 ? b + dz : b - dz;
             if (L14Plan.In(oa, ob) && At(oa, ob).Variant == v)
@@ -1113,6 +1132,17 @@ public sealed partial class WorldLayout
             foreach (var (a, b) in new[] { FromSide(r, doorSide, 0, 0), FromSide(r, doorSide, LenOf(r, doorSide) - 1, 0) })
                 if (Put(a, b, Props.L14FloorLamp, ArchPier.North, 0, 1)) break;
             WallDress(r, 0.08, (L14DPoster, 3), (L14DPoster, 4), (L14DClock, 0), (L14DSanitizer, 0));
+            // Round 4 (after the draws): the musty soft drinks came from somewhere: a dead vending machine (the mod's shape) against
+            // a side wall by the door, the first free of the two places
+            var spots = new[] { (back, 0), (back, LenOf(r, back) - 1), (sideA, 1), (sideB, 1), (sideA, LenOf(r, sideA) - 2) };
+            later.Add(() =>
+            {
+                foreach (var (s, k) in spots)
+                {
+                    var (a, b) = FromSide(r, s, k, 0);
+                    if (Put(a, b, Props.L14Vending, Into(s))) break;
+                }
+            });
         }
 
         // ---------------- Inpatient rooms ----------------
@@ -1146,16 +1176,37 @@ public sealed partial class WorldLayout
                     {
                         Put(ia, ib, Props.L14Monitor, into, 0, (byte)(r.Dark || rng.Chance(0.5) ? 1 : 0));
                         Put(ca, cb, Props.L14Ventilator, into);
+                        // Round 4: a drip stand at the bed's side, as if still in use, and a monitor on its arm over the bed's
+                        // head, high on the wall behind it (after the room's draws)
+                        var (da, db) = FromSide(r, s, k + 1, 1);
+                        var (wdx, wdz) = Step(Opp(into));
+                        int wa = ha + wdx, wb = hb + wdz;
+                        ArchPier bedInto = into;
+                        later.Add(() => { Put(da, db, Props.L14IvStand, Opp(bedInto)); Decorate(wa, wb, L14DMonArm, bedInto, 0); });
                     }
                     else
                     {
-                        if (rng.Chance(0.6)) Put(ia, ib, rng.Chance(0.6) ? Props.RunIvStand : Props.L14Monitor, into, 0, (byte)(r.Dark || rng.Chance(0.6) ? 1 : 0));
+                        if (rng.Chance(0.6)) Put(ia, ib, rng.Chance(0.6) ? Props.L14IvStand : Props.L14Monitor, into, 0, (byte)(r.Dark || rng.Chance(0.6) ? 1 : 0));
                         if (maternity) Put(ca, cb, Props.L14Crib, into);
                         else if (rng.Chance(0.6)) Put(ca, cb, Props.RunBedside, into);
                     }
                     var (oa, ob) = FromSide(r, s, k + 1, 1);
                     if (!icu && !maternity && rng.Chance(0.35)) Put(oa, ob, Props.L14Overbed, into);
                     if (maternity && rng.Chance(0.12)) { var (ta, tb) = FromSide(r, s, k, 2); Put(ta, tb, Props.L14Teddy, Opp(into)); }
+                    // Round 4: in intensive care, a curtain on its rail between each bay and the next (no draw)
+                    if (icu && k + 3 < len - 1)
+                    {
+                        var (na, nb) = FromSide(r, s, k + 3, 0);
+                        var (ma, mb) = FromSide(r, s, k + 2, 0);
+                        ArchPier edge = Toward(na - ma, nb - mb);
+                        for (int row = 0; row < 2; row++)
+                        {
+                            var (ta, tb) = FromSide(r, s, k + 2, row);
+                            if (!L14Plan.In(ta, tb) || At(ta, tb).Kind != TileKind.Floor) continue;
+                            At(ta, tb).Overhead = Overheads.L14Curtain;
+                            At(ta, tb).Roof = (byte)edge;
+                        }
+                    }
                     // A curtain on its rail between this bed and the next (the length of the bed), most of them drawn
                     if (!icu && k + 2 < len - 1 && rng.Chance(0.6))
                     {
@@ -1171,6 +1222,20 @@ public sealed partial class WorldLayout
                         }
                     }
                 }
+            }
+            // Round 4: a big intensive care unit has its station in the middle of the floor, facing the door (after the draws)
+            if (icu && r.W >= 8 && r.D >= 8)
+            {
+                int iback = Across(doorSide), il = LenOf(r, iback), irow = DepthOf(r, iback) / 2;
+                ArchPier iface = Into(iback);
+                later.Add(() =>
+                {
+                    for (int k = il / 2 - 1; k <= il / 2 + 1; k++)
+                    {
+                        var (a, b) = FromSide(r, iback, k, irow);
+                        Put(a, b, Props.L14Station, iface, (byte)(k == il / 2 ? 1 : 0));
+                    }
+                });
             }
             ArchPier fromDoor = Into(doorSide);
             int dl = LenOf(r, doorSide);
@@ -1204,6 +1269,10 @@ public sealed partial class WorldLayout
                     Put(fa, fb, Props.L14StrapBed, Into(back), 1);
                 }
                 WallDress(r, 0.05, (L14DScratches, 0));
+                // Round 4 (after the draws): a drip stand at the bed's side, a wheelchair left by the door
+                var (sa, sb) = FromSide(r, back, mid + 1, 1);
+                var (wa, wb) = FromSide(r, doorSide, 1, 1);
+                later.Add(() => { Put(sa, sb, Props.L14IvStand, Into(back)); Put(wa, wb, Props.L14Wheelchair, Into(doorSide)); });
                 return;
             }
             int[] sides = doorSide < 2 ? new[] { 2, 3 } : new[] { 0, 1 };
@@ -1220,6 +1289,16 @@ public sealed partial class WorldLayout
                 }
             }
             WallDress(r, 0.06, (L14DScratches, 0), (L14DClock, 0), (L14DBoard, 0));
+            // Round 4 (after the draws): the ward's night station in the middle, a desk facing the door, a wheelchair left by it
+            int ca = (r.X0 + r.X1) / 2, cb = (r.Z0 + r.Z1) / 2;
+            later.Add(() =>
+            {
+                if (Put(ca, cb, Props.L14Desk2, Into(Across(doorSide))))
+                {
+                    var (dx, dz) = Step(Into(Across(doorSide)));
+                    Put(ca - dz, cb + dx, Props.L14Wheelchair, Into(doorSide));
+                }
+            });
         }
 
         /// <summary>
@@ -1307,6 +1386,16 @@ public sealed partial class WorldLayout
             }
             if (rng.Chance(0.2)) WallDress(r, 0.12, (L14DPoster, 0), (L14DPoster, 1), (L14DPoster, 2));
             WallDress(r, 0.04, (L14DXray, 0), (L14DClock, 0));
+            // Round 4 (after the room's draws): the rest of the set round the table's head, as if the operation were still going
+            // on: a monitor on the other side of the head, a drip stand by the anaesthetist
+            var (ma, mb) = FromSide(r, back, mid + 1, dmid - 1);
+            var (ia, ib) = FromSide(r, back, mid - 1, dmid);
+            byte dark = (byte)(r.Dark ? 1 : 0);
+            later.Add(() =>
+            {
+                Put(ma, mb, Props.L14Monitor, toDoor, 0, dark);
+                Put(ia, ib, Props.L14IvStand, Opp(toDoor));
+            });
         }
 
         // ---------------- Storage ----------------
@@ -1346,7 +1435,7 @@ public sealed partial class WorldLayout
                 if (p < 0.18) Put(a, b, Props.CardboardBoxes, Opp(wall));
                 else if (p < 0.24) At(a, b).Stack = (byte)rng.Range(1, 2);
                 else if (p < 0.28) Put(a, b, Props.L14LinenCart, Opp(wall));
-                else if (p < 0.30) Put(a, b, Props.RunWheelchair, Opp(wall));
+                else if (p < 0.30) Put(a, b, Props.L14Wheelchair, Opp(wall));
                 else if (p < 0.33) Put(a, b, Props.L14Cabinet, Opp(wall));
             }
             if (rng.Chance(0.5)) SupplyBox(r);
@@ -1391,6 +1480,19 @@ public sealed partial class WorldLayout
                     if (rng.Chance(0.12)) At(a, b).Overhead = Overheads.L14Hook;
                     if (rng.Chance(0.1)) Put(a, b, Props.L14BloodPool);
                 }
+            // Round 4: "drag those who wander too close ... onto the beds": a gurney with restraints in the middle under a hook,
+            // blood under it (placed after the draws above, so the rest of the room is as it was)
+            int ga = (r.X0 + r.X1) / 2, gb = (r.Z0 + r.Z1) / 2;
+            later.Add(() =>
+            {
+                if (r.X1 - r.X0 >= 4 && Free(ga, gb) && Free(ga + 1, gb))
+                {
+                    Put(ga, gb, Props.L14Gurney, ArchPier.East, 0, 1);
+                    Put(ga + 1, gb, Props.L14Gurney, ArchPier.East, 1, 1);
+                    At(ga, gb).Overhead = Overheads.L14Hook;
+                    if (Free(ga, gb + 1)) Put(ga, gb + 1, Props.L14BloodPool);
+                }
+            });
         }
 
         // ---------------- The research group's remains ----------------
@@ -1452,17 +1554,24 @@ public sealed partial class WorldLayout
                 else if (p < 0.6) Put(a, b, Props.FilingCabinet, Opp(wall));
                 else if (p < 0.75) Put(a, b, Props.L14Cabinet, Opp(wall));
                 else if (p < 0.85) Put(a, b, Props.CardboardBoxes, Opp(wall));
+                // Round 4: staff lockers (no draw of their own: the same p), placed at the end
+                else if (p < 0.95) { int la = a, lb = b; ArchPier lf = Opp(wall); later.Add(() => Put(la, lb, Props.L14Locker, lf, 0, (byte)((la * 7 + lb * 3) % 4 == 0 ? 1 : 0))); }
             }
             if (r.W >= 6 && r.D >= 6 && rng.Chance(0.5))
             {
                 // A nurses' counter across the room, its computer in the middle, facing the door
                 int back = Across(doorSide);
-                ArchPier face = Into(doorSide);
+                ArchPier face = Into(back);   // its front (the ledge) toward the door, the nurse's side toward the back wall
                 int row = DepthOf(r, back) / 2, l = LenOf(r, back);
                 for (int k = 1; k < l - 1; k++)
                 {
                     var (a, b) = FromSide(r, back, k, row);
                     Put(a, b, Props.L14Station, face, (byte)(k == l / 2 ? 1 : 0));
+                    // Round 4: its back wall, against the room's back wall: cupboards and pigeonholes, a whiteboard of names
+                    // over the middle, chart racks either side (placed at the end)
+                    var (ba, bb) = FromSide(r, back, k, 0);
+                    byte kind = (byte)(Math.Abs(k - l / 2) <= 1 ? 0 : 1);
+                    if (row >= 2) later.Add(() => Put(ba, bb, Props.L14StationBack, face, 0, kind));
                 }
             }
             WallDress(r, 0.1, (L14DXray, 0), (L14DBoard, 0), (L14DClock, 0), (L14DPoster, 3), (L14DPoster, 4));
@@ -1475,7 +1584,7 @@ public sealed partial class WorldLayout
             for (int k = rng.Range(0, 2); k > 0; k--)
             {
                 int a = rng.Range(r.X0, r.X1), b = rng.Range(r.Z0, r.Z1);
-                Put(a, b, rng.Chance(0.5) ? Props.RunWheelchair : Props.RunIvStand, (ArchPier)rng.Range(0, 3));
+                Put(a, b, rng.Chance(0.5) ? Props.L14Wheelchair : Props.L14IvStand, (ArchPier)rng.Range(0, 3));
             }
             if (rng.Chance(0.25)) WallDress(r, 0.15, (L14DBlood, 0), (L14DMould, 0), (L14DScratches, 0));
         }
@@ -1515,6 +1624,43 @@ public sealed partial class WorldLayout
                     byte what = p < 0.01 ? L14DClock : p < 0.02 ? L14DSanitizer : p < 0.028 ? L14DExtinguisher : p < 0.034 ? L14DPoster : p < 0.038 ? L14DExit : L14DRail;
                     Decorate(a, b, what, face, (byte)(what == L14DPoster ? rng.Range(3, 4) : 0));
                 }
+        }
+
+        /// <summary>
+        /// Round 4 (after every other draw, so nothing else in the wing moves): a lift in one of the wing's hall walls in one wing
+        /// in three (two wide, its doors shut; our invention), and a directory board by a crossing in one wing in two (two wide,
+        /// at eye height). Stack 0 is the left half seen from the hall, 1 the right.
+        /// </summary>
+        private void HallFittings()
+        {
+            if (rng.Chance(0.34)) HallPair(rng.Range(0, 3), N / 2 - 1, L14DLift);
+            if (rng.Chance(0.5)) HallPair(rng.Range(0, 3), rng.Chance(0.5) ? 2 : N - 4, L14DDirectory);
+        }
+
+        private void HallPair(int side, int k0, byte what)
+        {
+            (int A, int B, ArchPier Face) Wall(int k) => side switch
+            {
+                0 => (-1, k, ArchPier.West), 1 => (N, k, ArchPier.East), 2 => (k, -1, ArchPier.North), _ => (k, N, ArchPier.South),
+            };
+            for (int k = k0 - 1; k <= k0 + 2; k++)
+            {
+                var (a, b, _) = Wall(k);
+                if (!L14Plan.In(a, b) || At(a, b).Kind != TileKind.Wall || At(a, b).Detail == L14DSign) return;
+                // nothing opens beside it on the wing's side
+                var (ia, ib) = side switch { 0 => (a + 1, b), 1 => (a - 1, b), 2 => (a, b + 1), _ => (a, b - 1) };
+                if (L14Plan.In(ia, ib) && At(ia, ib).Kind == TileKind.Doorway) return;
+            }
+            // seen from the hall: facing west (side 0) or south (side 3) the left is the lower k; facing east or north the higher
+            bool lowLeft = side is 0 or 3;
+            for (int i = 0; i < 2; i++)
+            {
+                var (a, b, face) = Wall(k0 + i);
+                ref Tile t = ref At(a, b);
+                t.Detail = what;
+                t.Pier = face;
+                t.Stack = (byte)((i == 0) == lowLeft ? 0 : 1);
+            }
         }
 
         private static byte SignOf(L14Dept d) => d switch

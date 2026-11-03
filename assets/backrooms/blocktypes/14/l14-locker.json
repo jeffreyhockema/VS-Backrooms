@@ -1,0 +1,402 @@
+// Level 14's staff rooms: a pair of grey-green staff lockers, two blocks high, fronts to <side>, louvred, one padlocked; ajar: the left one swung open, a shirt on its hook
+{
+	"code": "l14-locker",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "state",
+			"states": [
+				"closed",
+				"ajar"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-lower-closed-north": {
+			"base": "backrooms:block/14/l14-locker-lower-closed"
+		},
+		"*-lower-closed-east": {
+			"base": "backrooms:block/14/l14-locker-lower-closed",
+			"rotateY": 270
+		},
+		"*-lower-closed-south": {
+			"base": "backrooms:block/14/l14-locker-lower-closed",
+			"rotateY": 180
+		},
+		"*-lower-closed-west": {
+			"base": "backrooms:block/14/l14-locker-lower-closed",
+			"rotateY": 90
+		},
+		"*-lower-ajar-north": {
+			"base": "backrooms:block/14/l14-locker-lower-ajar"
+		},
+		"*-lower-ajar-east": {
+			"base": "backrooms:block/14/l14-locker-lower-ajar",
+			"rotateY": 270
+		},
+		"*-lower-ajar-south": {
+			"base": "backrooms:block/14/l14-locker-lower-ajar",
+			"rotateY": 180
+		},
+		"*-lower-ajar-west": {
+			"base": "backrooms:block/14/l14-locker-lower-ajar",
+			"rotateY": 90
+		},
+		"*-upper-closed-north": {
+			"base": "backrooms:block/14/l14-locker-upper-closed"
+		},
+		"*-upper-closed-east": {
+			"base": "backrooms:block/14/l14-locker-upper-closed",
+			"rotateY": 270
+		},
+		"*-upper-closed-south": {
+			"base": "backrooms:block/14/l14-locker-upper-closed",
+			"rotateY": 180
+		},
+		"*-upper-closed-west": {
+			"base": "backrooms:block/14/l14-locker-upper-closed",
+			"rotateY": 90
+		},
+		"*-upper-ajar-north": {
+			"base": "backrooms:block/14/l14-locker-upper-ajar"
+		},
+		"*-upper-ajar-east": {
+			"base": "backrooms:block/14/l14-locker-upper-ajar",
+			"rotateY": 270
+		},
+		"*-upper-ajar-south": {
+			"base": "backrooms:block/14/l14-locker-upper-ajar",
+			"rotateY": 180
+		},
+		"*-upper-ajar-west": {
+			"base": "backrooms:block/14/l14-locker-upper-ajar",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-lower-closed-north",
+			"*-upper-closed-north"
+		],
+		"backrooms": [
+			"*-lower-closed-north",
+			"*-upper-closed-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"*-lower-closed-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-lower-closed-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-lower-closed-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-lower-closed-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-lower-ajar-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-lower-ajar-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-lower-ajar-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-lower-ajar-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-upper-closed-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-upper-closed-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-upper-closed-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-upper-closed-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-upper-ajar-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-upper-ajar-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-upper-ajar-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-upper-ajar-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-lower-closed-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-lower-closed-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-lower-closed-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-lower-closed-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-lower-ajar-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-lower-ajar-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-lower-ajar-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-lower-ajar-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-upper-closed-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-upper-closed-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-upper-closed-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-upper-closed-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"*-upper-ajar-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-upper-ajar-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-upper-ajar-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-upper-ajar-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.17,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

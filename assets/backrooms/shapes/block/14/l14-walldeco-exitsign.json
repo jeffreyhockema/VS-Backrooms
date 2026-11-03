@@ -1,0 +1,319 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"deco-exitsign": "backrooms:block/14/deco-exitsign",
+		"p-liqred": "backrooms:block/14/p-liqred",
+		"p-white": "backrooms:block/14/p-white",
+		"wall": "backrooms:block/14/wall-paint"
+	},
+	"elements": [
+		{
+			"name": "Wall",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Housing",
+			"from": [
+				0.6,
+				4.1,
+				-2.2
+			],
+			"to": [
+				15.4,
+				11.9,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-white",
+					"uv": [
+						0,
+						0,
+						14.8,
+						7.8
+					]
+				},
+				"east": {
+					"texture": "#p-white",
+					"uv": [
+						0,
+						0,
+						2.2,
+						7.8
+					]
+				},
+				"south": {
+					"texture": "#p-white",
+					"uv": [
+						0,
+						0,
+						14.8,
+						7.8
+					]
+				},
+				"west": {
+					"texture": "#p-white",
+					"uv": [
+						0,
+						0,
+						2.2,
+						7.8
+					]
+				},
+				"up": {
+					"texture": "#p-white",
+					"uv": [
+						0,
+						0,
+						14.8,
+						2.2
+					]
+				},
+				"down": {
+					"texture": "#p-white",
+					"uv": [
+						0,
+						0,
+						14.8,
+						2.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Panel",
+			"from": [
+				1.0,
+				4.5,
+				-2.3
+			],
+			"to": [
+				15.0,
+				11.5,
+				-2.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#deco-exitsign",
+					"uv": [
+						1.0,
+						4.5,
+						15.0,
+						11.5
+					],
+					"glow": 170
+				}
+			}
+		},
+		{
+			"name": "Lip",
+			"from": [
+				0.4,
+				11.9,
+				-2.5
+			],
+			"to": [
+				15.6,
+				12.3,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-white",
+					"uv": [
+						0,
+						0,
+						15.2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#p-white",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#p-white",
+					"uv": [
+						0,
+						0,
+						15.2,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#p-white",
+					"uv": [
+						0,
+						0,
+						2.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#p-white",
+					"uv": [
+						0,
+						0,
+						15.2,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#p-white",
+					"uv": [
+						0,
+						0,
+						15.2,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Led",
+			"from": [
+				14.0,
+				4.15,
+				-2.35
+			],
+			"to": [
+				14.5,
+				4.45,
+				-2.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#p-liqred",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					],
+					"glow": 200
+				},
+				"east": {
+					"texture": "#p-liqred",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					],
+					"glow": 200
+				},
+				"south": {
+					"texture": "#p-liqred",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					],
+					"glow": 200
+				},
+				"west": {
+					"texture": "#p-liqred",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					],
+					"glow": 200
+				},
+				"up": {
+					"texture": "#p-liqred",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					],
+					"glow": 200
+				},
+				"down": {
+					"texture": "#p-liqred",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					],
+					"glow": 200
+				}
+			}
+		}
+	]
+}

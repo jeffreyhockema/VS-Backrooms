@@ -1,0 +1,73 @@
+// Level 14: a drip stand, a saline bag on its hook and the line to an infusion pump on the pole, the pump's panel to <side>
+{
+	"code": "l14-ivstand",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-north": {
+			"base": "backrooms:block/14/l14-ivstand"
+		},
+		"*-east": {
+			"base": "backrooms:block/14/l14-ivstand",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "backrooms:block/14/l14-ivstand",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "backrooms:block/14/l14-ivstand",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.4,
+		"y1": 0,
+		"z1": 0.4,
+		"x2": 0.6,
+		"y2": 1,
+		"z2": 0.6
+	},
+	"selectionbox": {
+		"x1": 0.15,
+		"y1": 0,
+		"z1": 0.15,
+		"x2": 0.85,
+		"y2": 1,
+		"z2": 0.85
+	},
+	"drops": []
+}

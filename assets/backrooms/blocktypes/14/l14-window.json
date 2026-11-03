@@ -17,6 +17,14 @@
 			]
 		},
 		{
+			"code": "wall",
+			"states": [
+				"paint",
+				"white",
+				"tile"
+			]
+		},
+		{
 			"code": "side",
 			"states": [
 				"north",
@@ -27,79 +35,141 @@
 		}
 	],
 	"shapeByType": {
-		"*-lower-broken-north": {
+		"*-lower-broken-*-north": {
 			"base": "backrooms:block/14/l14-window-lower-broken",
 			"rotateY": 0
 		},
-		"*-lower-broken-east": {
+		"*-lower-broken-*-east": {
 			"base": "backrooms:block/14/l14-window-lower-broken",
 			"rotateY": 270
 		},
-		"*-lower-broken-south": {
+		"*-lower-broken-*-south": {
 			"base": "backrooms:block/14/l14-window-lower-broken",
 			"rotateY": 180
 		},
-		"*-lower-broken-west": {
+		"*-lower-broken-*-west": {
 			"base": "backrooms:block/14/l14-window-lower-broken",
 			"rotateY": 90
 		},
-		"*-lower-shattered-north": {
+		"*-lower-shattered-*-north": {
 			"base": "backrooms:block/14/l14-window-lower-shattered",
 			"rotateY": 0
 		},
-		"*-lower-shattered-east": {
+		"*-lower-shattered-*-east": {
 			"base": "backrooms:block/14/l14-window-lower-shattered",
 			"rotateY": 270
 		},
-		"*-lower-shattered-south": {
+		"*-lower-shattered-*-south": {
 			"base": "backrooms:block/14/l14-window-lower-shattered",
 			"rotateY": 180
 		},
-		"*-lower-shattered-west": {
+		"*-lower-shattered-*-west": {
 			"base": "backrooms:block/14/l14-window-lower-shattered",
 			"rotateY": 90
 		},
-		"*-upper-broken-north": {
+		"*-upper-broken-*-north": {
 			"base": "backrooms:block/14/l14-window-upper-broken",
 			"rotateY": 0
 		},
-		"*-upper-broken-east": {
+		"*-upper-broken-*-east": {
 			"base": "backrooms:block/14/l14-window-upper-broken",
 			"rotateY": 270
 		},
-		"*-upper-broken-south": {
+		"*-upper-broken-*-south": {
 			"base": "backrooms:block/14/l14-window-upper-broken",
 			"rotateY": 180
 		},
-		"*-upper-broken-west": {
+		"*-upper-broken-*-west": {
 			"base": "backrooms:block/14/l14-window-upper-broken",
 			"rotateY": 90
 		},
-		"*-upper-shattered-north": {
+		"*-upper-shattered-*-north": {
 			"base": "backrooms:block/14/l14-window-upper-shattered",
 			"rotateY": 0
 		},
-		"*-upper-shattered-east": {
+		"*-upper-shattered-*-east": {
 			"base": "backrooms:block/14/l14-window-upper-shattered",
 			"rotateY": 270
 		},
-		"*-upper-shattered-south": {
+		"*-upper-shattered-*-south": {
 			"base": "backrooms:block/14/l14-window-upper-shattered",
 			"rotateY": 180
 		},
-		"*-upper-shattered-west": {
+		"*-upper-shattered-*-west": {
 			"base": "backrooms:block/14/l14-window-upper-shattered",
 			"rotateY": 90
 		}
 	},
+	"texturesByType": {
+		"*-paint-north": {
+			"wall-paint": {
+				"base": "block/14/wall-paint"
+			}
+		},
+		"*-paint-east": {
+			"wall-paint": {
+				"base": "block/14/wall-paint"
+			}
+		},
+		"*-paint-south": {
+			"wall-paint": {
+				"base": "block/14/wall-paint"
+			}
+		},
+		"*-paint-west": {
+			"wall-paint": {
+				"base": "block/14/wall-paint"
+			}
+		},
+		"*-white-north": {
+			"wall-paint": {
+				"base": "block/14/wall-white"
+			}
+		},
+		"*-white-east": {
+			"wall-paint": {
+				"base": "block/14/wall-white"
+			}
+		},
+		"*-white-south": {
+			"wall-paint": {
+				"base": "block/14/wall-white"
+			}
+		},
+		"*-white-west": {
+			"wall-paint": {
+				"base": "block/14/wall-white"
+			}
+		},
+		"*-tile-north": {
+			"wall-paint": {
+				"base": "block/14/wall-tile"
+			}
+		},
+		"*-tile-east": {
+			"wall-paint": {
+				"base": "block/14/wall-tile"
+			}
+		},
+		"*-tile-south": {
+			"wall-paint": {
+				"base": "block/14/wall-tile"
+			}
+		},
+		"*-tile-west": {
+			"wall-paint": {
+				"base": "block/14/wall-tile"
+			}
+		}
+	},
 	"creativeinventory": {
 		"general": [
-			"*-lower-broken-north",
-			"*-upper-broken-north"
+			"*-lower-broken-white-north",
+			"*-upper-broken-white-north"
 		],
 		"backrooms": [
-			"*-lower-broken-north",
-			"*-upper-broken-north"
+			"*-lower-broken-white-north",
+			"*-upper-broken-white-north"
 		]
 	},
 	"blockmaterial": "Stone",

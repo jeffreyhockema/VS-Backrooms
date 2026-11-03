@@ -271,6 +271,11 @@ TENTS = [
     Tent("TSL", "Chest", (1.4, 27.6, 3.0), -104, 122, [0, -8, -14, -18, -16, -12], RAISE_L, RAISE_W, "raised", phase=1.7),
     Tent("TSR", "Chest", (0.6, 27.8, -3.4), 112, 118, [0, -6, -14, -18, -16, -10], [l * 1.08 for l in RAISE_L], RAISE_W, "raised", phase=3.6),
     Tent("TK", "Chest", (3.0, 25.8, 0.0), 26, 112, [0, -6, -14, -20, -18, -12], [l * 1.1 for l in RAISE_L], RAISE_W, "raised", phase=5.0),
+    # round 4: three more from the back and the top of the mass ("numerous ... tentacles that extend in all directions"),
+    # rising and curling over
+    Tent("THL", "Chest", (3.4, 24.6, 2.6), -40, 132, [0, -10, -16, -20, -18, -14], [l * 0.9 for l in RAISE_L], RAISE_W, "raised", phase=2.3),
+    Tent("THR", "Chest", (3.4, 24.0, -2.8), 48, 128, [0, -8, -16, -22, -18, -12], [l * 0.85 for l in RAISE_L], RAISE_W, "raised", phase=4.4),
+    Tent("TMT", "Mass", (2.0, 12.5, 0.4), 4, 100, [0, -4, -10, -14, -12, -10], [l * 1.1 for l in RAISE_L], RAISE_W, "raised", phase=0.9),
     # reaching forward from the chest and the belly: its arms
     Tent("TAL", "Torso", (-3.2, 18.5, 4.0), -152, 98, [0, 6, 2, -6, -10, -12], ARM_L, ARM_W, "arm", phase=2.6),
     Tent("TAR", "Chest", (-2.6, 23.4, -4.0), 156, 92, [0, 4, 0, -8, -10, -12], ARM_L, ARM_W, "arm", phase=0.4),
