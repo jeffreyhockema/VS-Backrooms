@@ -212,9 +212,10 @@ public sealed partial class WorldLayout
         return (MacroOf(x), MacroOf(z));
     }
 
-    /// <summary>Arriving: on a campus's paths and lawns, or in a corridor on the ground floor.</summary>
+    /// <summary>Arriving: on a campus's paths, or in a corridor on the ground floor ((round 4) not on the lawns, where an arrival
+    /// beside a tree stood inside its crown).</summary>
     private static bool IsL52ArrivalSpot(Tile t) =>
-        IsArrivalSpot(t) && t.Height == 0 && t.Zone is (byte)L52Zone.Corridor or (byte)L52Zone.Lobby or (byte)L52Zone.Path or (byte)L52Zone.Lawn;
+        IsArrivalSpot(t) && t.Height == 0 && t.Zone is (byte)L52Zone.Corridor or (byte)L52Zone.Lobby or (byte)L52Zone.Path;
 
     /// <summary>How high above the level's floor to put someone down on an arrival tile (see <see cref="ArrivalHeight"/>): on the ground.</summary>
     private static double L52ArrivalHeight(in Tile t, double stand) => t.Height + stand;

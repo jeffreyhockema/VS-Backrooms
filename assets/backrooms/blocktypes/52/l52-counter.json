@@ -3,6 +3,14 @@
 	"code": "l52-counter",
 	"variantgroups": [
 		{
+			"code": "kind",
+			"states": [
+				"a",
+				"b",
+				"c"
+			]
+		},
+		{
 			"code": "side",
 			"states": [
 				"north",
@@ -13,29 +21,61 @@
 		}
 	],
 	"shapeByType": {
-		"l52-counter-north": {
+		"l52-counter-a-north": {
 			"base": "backrooms:block/52/l52-counter",
 			"rotateY": 0
 		},
-		"l52-counter-east": {
+		"l52-counter-a-east": {
 			"base": "backrooms:block/52/l52-counter",
 			"rotateY": 270
 		},
-		"l52-counter-south": {
+		"l52-counter-a-south": {
 			"base": "backrooms:block/52/l52-counter",
 			"rotateY": 180
 		},
-		"l52-counter-west": {
+		"l52-counter-a-west": {
 			"base": "backrooms:block/52/l52-counter",
+			"rotateY": 90
+		},
+		"l52-counter-b-north": {
+			"base": "backrooms:block/52/l52-counter-b",
+			"rotateY": 0
+		},
+		"l52-counter-b-east": {
+			"base": "backrooms:block/52/l52-counter-b",
+			"rotateY": 270
+		},
+		"l52-counter-b-south": {
+			"base": "backrooms:block/52/l52-counter-b",
+			"rotateY": 180
+		},
+		"l52-counter-b-west": {
+			"base": "backrooms:block/52/l52-counter-b",
+			"rotateY": 90
+		},
+		"l52-counter-c-north": {
+			"base": "backrooms:block/52/l52-counter-c",
+			"rotateY": 0
+		},
+		"l52-counter-c-east": {
+			"base": "backrooms:block/52/l52-counter-c",
+			"rotateY": 270
+		},
+		"l52-counter-c-south": {
+			"base": "backrooms:block/52/l52-counter-c",
+			"rotateY": 180
+		},
+		"l52-counter-c-west": {
+			"base": "backrooms:block/52/l52-counter-c",
 			"rotateY": 90
 		}
 	},
 	"creativeinventory": {
 		"general": [
-			"l52-counter-north"
+			"l52-counter-a-north"
 		],
 		"backrooms": [
-			"l52-counter-north"
+			"l52-counter-a-north"
 		]
 	},
 	"blockmaterial": "Wood",
@@ -55,7 +95,7 @@
 		"hit": "game:block/planks"
 	},
 	"collisionboxByType": {
-		"l52-counter-north": {
+		"l52-counter-a-north": {
 			"x1": 0,
 			"y1": 0,
 			"z1": 0,
@@ -63,7 +103,7 @@
 			"y2": 1,
 			"z2": 0.36
 		},
-		"l52-counter-east": {
+		"l52-counter-a-east": {
 			"x1": 0,
 			"y1": 0,
 			"z1": 0,
@@ -72,7 +112,7 @@
 			"z2": 0.36,
 			"rotateY": 270
 		},
-		"l52-counter-south": {
+		"l52-counter-a-south": {
 			"x1": 0,
 			"y1": 0,
 			"z1": 0,
@@ -81,7 +121,77 @@
 			"z2": 0.36,
 			"rotateY": 180
 		},
-		"l52-counter-west": {
+		"l52-counter-a-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.36,
+			"rotateY": 90
+		},
+		"l52-counter-b-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.36
+		},
+		"l52-counter-b-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.36,
+			"rotateY": 270
+		},
+		"l52-counter-b-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.36,
+			"rotateY": 180
+		},
+		"l52-counter-b-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.36,
+			"rotateY": 90
+		},
+		"l52-counter-c-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.36
+		},
+		"l52-counter-c-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.36,
+			"rotateY": 270
+		},
+		"l52-counter-c-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.36,
+			"rotateY": 180
+		},
+		"l52-counter-c-west": {
 			"x1": 0,
 			"y1": 0,
 			"z1": 0,
@@ -92,7 +202,7 @@
 		}
 	},
 	"selectionboxByType": {
-		"l52-counter-north": {
+		"l52-counter-a-north": {
 			"x1": 0,
 			"y1": 0,
 			"z1": 0,
@@ -100,7 +210,7 @@
 			"y2": 1,
 			"z2": 1
 		},
-		"l52-counter-east": {
+		"l52-counter-a-east": {
 			"x1": 0,
 			"y1": 0,
 			"z1": 0,
@@ -109,7 +219,7 @@
 			"z2": 1,
 			"rotateY": 270
 		},
-		"l52-counter-south": {
+		"l52-counter-a-south": {
 			"x1": 0,
 			"y1": 0,
 			"z1": 0,
@@ -118,7 +228,77 @@
 			"z2": 1,
 			"rotateY": 180
 		},
-		"l52-counter-west": {
+		"l52-counter-a-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-counter-b-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-counter-b-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-counter-b-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-counter-b-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l52-counter-c-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l52-counter-c-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l52-counter-c-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l52-counter-c-west": {
 			"x1": 0,
 			"y1": 0,
 			"z1": 0,

@@ -674,7 +674,8 @@ def expected():
             for part in ("lower", "upper"):
                 codes.add(f"l52-lockerajar-{p}-{part}-{s}")
         codes.add(f"l52-lseat-{s}")
-        codes.add(f"l52-counter-{s}")
+        for k in "abc":
+            codes.add(f"l52-counter-{k}-{s}")
         for h in ("lower", "upper"):
             codes.add(f"l52-trophy-{h}-{s}")
             codes.add(f"l52-ladder-{h}-{s}")
@@ -780,7 +781,15 @@ def set_blocktypes():
     R3.oriented("l52-stack", [G.group("kind", ["a", "b"]), G.group("part", ["lower", "upper"]), G.group("side", SIDES)], stk,
                 "Level 52: a library's double-sided steel bookstack, two blocks high, its shelves nearly bare (the dust shows where the "
                 "books stood; a few left behind); a and b differ in what was left", "Metal", G.METAL, lambda p: (0, 0, 0.125, 1, 1, 0.875))
-    R3.oriented("l52-counter", [G.group("side", SIDES)], {"l52-counter": sh("l52-counter")},
+    # (three counters: a with the binder, pens and bell; b bare; c the pen cup only, so a row does not repeat its bell)
+    import json as _json
+    import os as _os
+    with open(_os.path.join(G.SHAPES, "l52-counter.json"), encoding="utf-8") as f_:
+        full = _json.load(f_)["elements"]
+    G.shape("l52-counter-b", [e for e in full if not e["name"].startswith(("Binder", "Pen", "Bell"))])
+    G.shape("l52-counter-c", [e for e in full if not e["name"].startswith(("Binder", "Bell"))])
+    R3.oriented("l52-counter", [G.group("kind", ["a", "b", "c"]), G.group("side", SIDES)],
+                {"l52-counter-a": sh("l52-counter"), "l52-counter-b": sh("l52-counter-b"), "l52-counter-c": sh("l52-counter-c")},
                 "Level 52: a front office's or library's counter, the visitors' side toward its side: laminate front, a transaction "
                 "ledge, the staff worktop behind (a binder, a pen cup, a desk bell left on it)", "Wood", G.WOOD,
                 lambda p: (0, 0, 0, 1, 1, 0.36), sel=lambda p: (0, 0, 0, 1, 1, 1))
