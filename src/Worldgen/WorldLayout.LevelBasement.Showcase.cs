@@ -49,7 +49,7 @@ public partial class WorldLayout
     /// <summary>The spots, in the order a review reads best.</summary>
     private static readonly string[] ShowcaseOrder =
     {
-        "crack-room", "crack-up", "furnace", "heater", "fusebox", "laundry", "workshop", "rec-room", "tv", "cue-rack", "hall", "joists",
+        "crack-room", "crack-up", "furnace", "heater", "fusebox", "laundry", "workshop", "rec-room", "bar", "tv", "cue-rack", "hall", "joists",
         "root-cellar", "store-shelves",
         "finished", "utility", "store", "panel-door", "long-view", "stairwell-door", "stairwell-stairs",
         "dead", "lone-body", "flood-stairs", "flood-passage", "flood-figure", "dry-patch", "lift",
@@ -206,6 +206,7 @@ public partial class WorldLayout
         Prop("heater", t => t.Variant == Props.BasementHeater, 14);
         Prop("tv", t => t.Variant == Props.Tv && t.Overhead == 0, -2);
         Prop("cue-rack", t => t.Variant == Props.BasementCueRack, 10);
+        Prop("bar", t => t.Variant == Props.BasementBar, 8);
         // (the laundry: a washer with its dryer beside it)
         for (int z = 1; z < MacroSize - 1; z++)
             for (int x = 1; x < MacroSize - 1; x++)

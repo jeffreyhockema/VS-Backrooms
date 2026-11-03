@@ -1,0 +1,221 @@
+// The Basement: the rec room's home bar, two blocks long (half l, r): the counter in red vinyl (lower), the mirror, the shelves of bottles and the neon sign on the wall over it (upper, lit)
+{
+	"code": "basement-bar",
+	"variantgroups": [
+		{
+			"code": "half",
+			"states": [
+				"l",
+				"r"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-l-lower-north"
+		],
+		"decorative": [
+			"*-l-lower-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-l-lower-north": {
+			"base": "block/basement/bar-l-lower",
+			"rotateY": 0
+		},
+		"*-l-lower-east": {
+			"base": "block/basement/bar-l-lower",
+			"rotateY": 270
+		},
+		"*-l-lower-south": {
+			"base": "block/basement/bar-l-lower",
+			"rotateY": 180
+		},
+		"*-l-lower-west": {
+			"base": "block/basement/bar-l-lower",
+			"rotateY": 90
+		},
+		"*-r-lower-north": {
+			"base": "block/basement/bar-r-lower",
+			"rotateY": 0
+		},
+		"*-r-lower-east": {
+			"base": "block/basement/bar-r-lower",
+			"rotateY": 270
+		},
+		"*-r-lower-south": {
+			"base": "block/basement/bar-r-lower",
+			"rotateY": 180
+		},
+		"*-r-lower-west": {
+			"base": "block/basement/bar-r-lower",
+			"rotateY": 90
+		},
+		"*-l-upper-north": {
+			"base": "block/basement/bar-l-upper",
+			"rotateY": 0
+		},
+		"*-l-upper-east": {
+			"base": "block/basement/bar-l-upper",
+			"rotateY": 270
+		},
+		"*-l-upper-south": {
+			"base": "block/basement/bar-l-upper",
+			"rotateY": 180
+		},
+		"*-l-upper-west": {
+			"base": "block/basement/bar-l-upper",
+			"rotateY": 90
+		},
+		"*-r-upper-north": {
+			"base": "block/basement/bar-r-upper",
+			"rotateY": 0
+		},
+		"*-r-upper-east": {
+			"base": "block/basement/bar-r-upper",
+			"rotateY": 270
+		},
+		"*-r-upper-south": {
+			"base": "block/basement/bar-r-upper",
+			"rotateY": 180
+		},
+		"*-r-upper-west": {
+			"base": "block/basement/bar-r-upper",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"drops": [
+		{
+			"type": "item",
+			"code": "emptybottle",
+			"quantity": {
+				"avg": 0.5,
+				"var": 0.5
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"lightHsvByType": {
+		"*-upper-*": [
+			0,
+			5,
+			7
+		]
+	},
+	"collisionboxByType": {
+		"*-upper-*": null
+	},
+	"collisionSelectionBoxesByType": {
+		"*-lower-north": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.2,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1
+			}
+		],
+		"*-lower-east": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.2,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 270
+			}
+		],
+		"*-lower-south": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.2,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 180
+			}
+		],
+		"*-lower-west": [
+			{
+				"x1": 0,
+				"y1": 0,
+				"z1": 0.2,
+				"x2": 1,
+				"y2": 1,
+				"z2": 1,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionBoxByType": {
+		"*-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"*-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.75,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	}
+}

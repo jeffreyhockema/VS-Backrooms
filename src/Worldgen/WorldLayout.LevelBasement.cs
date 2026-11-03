@@ -1414,6 +1414,21 @@ public sealed partial class WorldLayout
                 if (took)
                     foreach (var (x, z, away) in Round())
                         if (Middling(x, z, away) && b.At(x, z).Overhead == 0 && Put(x, z, Props.BasementCueRack, away)) break;
+                // (Round 4) a home bar against a wall in most, a stool or two before it (the Wikidot clipping's bar cellar,
+                // as a family's rec room has one)
+                if (rng.Chance(0.7))
+                    foreach (var (x, z, away) in Round())
+                    {
+                        if (!Middling(x, z, away) || !Pair(x, z, Props.BasementBar, away)) continue;
+                        var (rx, rz) = BasementRightOf(away);
+                        var (dx, dz) = PierStep(away);
+                        foreach (int s in new[] { 0, 1 })
+                        {
+                            int sx = x + rx * s + dx, sz = z + rz * s + dz;
+                            if (sx >= x0 && sx <= x1 && sz >= z0 && sz <= z1 && rng.Chance(0.75)) Put(sx, sz, Props.BasementStool, away);
+                        }
+                        break;
+                    }
                 return took;
             }
             case BasementRoomKind.RootCellar:

@@ -51,6 +51,9 @@ public sealed partial class WorldGenerator
     private readonly int[] basementCueRackIds = new int[4], basementShopLightIds = new int[4], basementWallRailIds = new int[4], basementSumpIds = new int[4];
     /// <summary>[part (low, high), facing].</summary>
     private readonly int[,] basementSumpPipeIds = new int[2, 4], basementBoilerIds = new int[2, 4];
+    /// <summary>[half (l, r), part (lower, upper), facing].</summary>
+    private readonly int[,,] basementBarIds = new int[2, 2, 4];
+    private readonly int[] basementStoolIds = new int[4];
     /// <summary>[part (low, mid, top), axis (we, ns)].</summary>
     private readonly int[,] basementStudIds = new int[3, 2];
     /// <summary>[kind (plain, cable, box, bridge), axis (we, ns), light (dark, faint)].</summary>
@@ -144,6 +147,10 @@ public sealed partial class WorldGenerator
             basementSumpPipeIds[1, f] = Id("basement-sumppipe-high-" + Sides[f]);
             basementBoilerIds[0, f] = Id("basement-boiler-lower-" + Sides[f]);
             basementBoilerIds[1, f] = Id("basement-boiler-upper-" + Sides[f]);
+            basementStoolIds[f] = Id("basement-stool-" + Sides[f]);
+            for (int h = 0; h < 2; h++)
+                for (int p = 0; p < 2; p++)
+                    basementBarIds[h, p, f] = Id($"basement-bar-{(h == 0 ? "l" : "r")}-{(p == 0 ? "lower" : "upper")}-{Sides[f]}");
         }
         basementEarthId = Id("basement-earth");
         basementRugId = Id("basement-rug");
@@ -321,6 +328,7 @@ public sealed partial class WorldGenerator
                 case Props.BasementBoxes: return basementBoxesIds[t.Stack & 3, part, facing];
                 case Props.BasementWineRack: return basementWineIds[part, facing];
                 case Props.BasementBoiler when part == 0 || t.Overhead == 0: return basementBoilerIds[part, facing];
+                case Props.BasementBar when part == 0 || t.Overhead == 0: return basementBarIds[t.Stack & 1, part, facing];
                 case Props.BasementSump when part == 1 && t.Overhead == 0: return basementSumpPipeIds[1, BasementSumpCorner(gx, gz)];
                 // (Round 4: the house's own washer, dryer and tub, its TV; their upper part is the wall or the lid over them)
                 case Props.Laundry when part == 0 || t.Overhead == 0: return basementLaundryIds[t.Stack & 1, part, facing];
@@ -359,6 +367,7 @@ public sealed partial class WorldGenerator
             Props.BasementFallen => basementFallenIds[facing],
             Props.LongSofa => basementSofaIds[t.Stack & 1, facing],
             Props.BasementCueRack => basementCueRackIds[facing],
+            Props.BasementStool => basementStoolIds[facing],
             // (A body is an entity, laid down by Regions.BasementSystem; nothing of it is a block)
             Props.BasementBody => 0,
             // (Props of the other levels', reused: Level 0-11's furniture, bones, signs)

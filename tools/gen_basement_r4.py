@@ -50,7 +50,8 @@ NEW = ("galv", "foiltape", "castiron", "blackpipe", "redwheel", "yellowgrip", "e
        "chalk", "labels", "tin", "toolsteel", "grip", "handlewood", "pegwood", "vicepaint", "detergent", "jug", "lumber",
        "subfloor", "nmcable", "jbox", "newel", "railpipe", "slabbreak", "rebar", "scum-a", "scum-b", "scum-c", "soggy",
        "shoplight", "tube", "wallpaint", "ceiling-under", "dialface", "gauge-tag", "porcelain", "bulb-off", "filament",
-       "slime-bed", "pvc", "sumpwater", "grate", "floor-dry")
+       "slime-bed", "pvc", "sumpwater", "grate", "floor-dry", "barvinyl", "formica", "mirror", "neon", "glass-amber",
+       "glass-green")
 T = dict(R3.T)
 T.update({k: "backrooms:block/basement/" + k for k in NEW})
 T["dialface"] = "backrooms:block/detail/gauge"
@@ -497,6 +498,46 @@ def textures():
     d = ImageDraw.Draw(pv)
     d.line([0, 12, 31, 12], fill=(150, 60, 120))  # the purple primer at a joint
     save(pv, "pvc")
+    # The rec room's bar: tufted red vinyl with brass studs, a speckled formica top, a foxed mirror, a neon sign
+    bv = Image.new("RGBA", (32, 32), (0, 0, 0, 255))
+    p = bv.load()
+    for y in range(32):
+        for x in range(32):
+            u, v = (x + y) % 8, (x - y) % 8
+            d = min(u, 8 - u, v, 8 - v)  # distance to the diamond's seam
+            c = M.lift((132, 30, 28), (d - 2) * 6)
+            p[x, y] = tuple(int(q) for q in c[:3]) + (255,)
+    d = ImageDraw.Draw(bv)
+    for y in range(0, 32, 8):
+        for x in range(0, 32, 8):
+            d.point((x, y), fill=(210, 170, 80))
+    M.grime(bv, 0.3, seed=665, color=(70, 40, 34), cells=(8, 4), cover=0.5)
+    M.scratches(bv, n=5, seed=666, length=(2, 5), light=0.25)
+    save(bv, "barvinyl")
+    fm = M.noise_hv((128, 176, 160), 3, seed=667, mottle=4)
+    d = ImageDraw.Draw(fm)
+    for k in range(60):
+        x, y = (k * 37) % 32, (k * 53 + k // 3) % 32
+        d.point((x, y), fill=(60, 80, 74) if k % 2 else (220, 230, 220))
+    M.grime(fm, 0.25, seed=668, color=(90, 96, 80), cells=(8, 4), cover=0.5)
+    M.stain(fm, seed=669, radius=5, color=(100, 80, 50), strength=0.35, ring=0.8)  # a glass's ring
+    save(fm, "formica")
+    mr = M.noise_hv((92, 100, 104), 3, seed=670, mottle=5)
+    d = ImageDraw.Draw(mr)
+    for k in range(3):
+        d.line([4 + k * 10, 31, 14 + k * 10, 0], fill=(150, 160, 162), width=1)
+    M.grime(mr, 0.45, seed=671, color=(60, 54, 44), cells=(8, 4, 2), cover=0.5)  # the silvering gone
+    save(mr, "mirror")
+    ne = Image.new("RGBA", (64, 32), (16, 12, 12, 255))
+    write_text(ne, ["COLD BEER"], (3, 4, 61, 18), "arialbd.ttf", (255, 70, 60, 255), 14)
+    write_text(ne, ["ON TAP"], (14, 19, 50, 29), "segoeprb.ttf", (90, 200, 255, 255), 9)
+    save(ne, "neon")
+    for name, base in (("glass-amber", (120, 70, 24)), ("glass-green", (40, 84, 44))):
+        g2 = M.noise_hv(base, 3, seed=zlib.crc32(name.encode()) % 600, mottle=3)
+        d = ImageDraw.Draw(g2)
+        d.line([3, 0, 3, 31], fill=tuple(min(255, c + 80) for c in base))
+        d.rectangle([0, 12, 31, 22], fill=(214, 200, 160))  # the label
+        save(g2, name)
 
 
 # ======================================================================== Shapes
@@ -892,6 +933,58 @@ def poollamp():
            b("Cap", (6.5, 6.6, 7), (9.5, 7.4, 9), "brass"), b("Finial", (7.5, 7.4, 7.5), (8.5, 8.4, 8.5), "brass"),
            b("Chain", (7.8, 8.4, 7.8), (8.2, 16, 8.2), "metaldark"),
            b("RimN", (2.0, 2.0, 3.3), (14.0, 2.5, 3.8), "brass"), b("RimS", (2.0, 2.0, 12.2), (14.0, 2.5, 12.7), "brass")]
+    return els
+
+
+def bar(part):
+    """The rec room's home bar, two blocks long against a wall (to the south). Lower: the counter, its front in tufted red
+    vinyl with brass studs, a padded arm rail, a brass foot rail, the formica top with bottles, a glass and an ashtray on
+    it. Upper: on the wall, a mirror behind two glass shelves of bottles and glasses, the neon sign over it (lit)."""
+    if part == "lower":
+        els = [b("Body", (0.5, 0.5, 5), (31.5, 14.5, 15.5), {"north": "barvinyl", "all": "walnut"}),
+               b("Kick", (0.8, 0, 5.3), (31.2, 0.5, 15.5), "bakelite"),
+               b("Top", (0, 14.5, 3.5), (32, 15.5, 16), "formica"),
+               b("TopEdge", (0, 14.2, 3.2), (32, 15.6, 3.6), "chrome"),
+               b("ArmRail", (0, 15.5, 3.3), (32, 16.6, 5.0), "leather"),
+               b("ArmRailB", (0.1, 15.3, 3.1), (31.9, 16.4, 5.2), "leather"),
+               b("Trim", (0.5, 14.0, 4.8), (31.5, 14.5, 5.1), "chrome")]
+        for k, x in enumerate((1.5, 15.5, 29.5)):
+            els += [b(f"FootPost{k}", (x, 0, 2.6), (x + 0.8, 3.0, 3.4), "brass")]
+        els += rod_x("FootRail", 0.5, 31.5, 2.6, 2.4, 1.0, "brass")
+        # on the top: a bottle, a glass, an ashtray, a soda siphon
+        els += [b("Bottle", (5, 15.5, 9), (6.6, 20, 10.6), "glass-amber"), b("BottleNeck", (5.4, 20, 9.4), (6.2, 22, 10.2), "glass-amber"),
+                b("Glass", (9, 15.5, 7), (10.4, 17.5, 8.4), "glass-green"), b("Ashtray", (20, 15.5, 7), (22.5, 16.0, 9.5), "glass-amber"),
+                b("Butt", (20.6, 16.0, 7.8), (21.8, 16.3, 8.2), "ivory"),
+                b("Siphon", (26, 15.5, 11), (27.6, 20.5, 12.6), "chrome"), b("SiphonHead", (25.6, 20.5, 10.8), (28.4, 22, 12.8), "chrome")]
+        return cut2(els)
+    els = [b("Mirror", (2, 0.5, 15.5), (30, 13, 15.9), {"north": "mirror", "all": "walnut"}),
+           b("FrameT", (1.5, 13, 15.0), (30.5, 14, 16), "walnut"), b("FrameB", (1.5, -0.5, 15.0), (30.5, 0.5, 16), "walnut"),
+           b("FrameW", (1.5, 0.5, 15.0), (2.5, 13, 16), "walnut"), b("FrameE", (29.5, 0.5, 15.0), (30.5, 13, 16), "walnut")]
+    for k, y in enumerate((3.5, 8.5)):
+        els += [b(f"Shelf{k}", (3, y, 12.5), (29, y + 0.4, 15.5), "glass-green"), b(f"BracketW{k}", (3.5, y - 1, 15), (4.2, y, 15.5), "chrome"),
+                b(f"BracketE{k}", (27.8, y - 1, 15), (28.5, y, 15.5), "chrome")]
+        for j in range(6):
+            x = 4.5 + j * 4.0
+            tex = "glass-amber" if (j + k) % 3 else "glass-green"
+            if (j + k * 2) % 5 == 4:
+                els += [b(f"Tumbler{k}{j}", (x, y + 0.4, 13.2), (x + 1.4, y + 2.2, 14.6), "glass-green")]
+                continue
+            h = 3.4 if j % 2 else 4.0
+            els += [b(f"Bot{k}{j}", (x, y + 0.4, 13.0), (x + 1.6, y + 0.4 + h, 14.6), tex),
+                    b(f"Neck{k}{j}", (x + 0.4, y + 0.4 + h, 13.4), (x + 1.2, y + 1.6 + h, 14.2), tex)]
+    # the neon on its board over the mirror, lit
+    els += [b("NeonBoard", (6, 13.6, 14.6), (26, 15.6, 15.2), "bakelite"),
+            b("Neon", (6.2, 13.7, 14.4), (25.8, 15.5, 14.6), "neon", faces=("north",), uv=(0, 0, 16, 8), glow=255)]
+    return cut2(els)
+
+
+def stool():
+    """A chrome bar stool: its pedestal on a round foot, a foot ring, a red vinyl seat with a welt."""
+    els = oct_xz("Foot", 8, 8, 4.0, 0, 0.8, "chrome")
+    els += rod_y("Post", 0.8, 11.5, 8, 8, 1.4, "chrome")
+    els += ring_xz("Ring", 8, 5.5, 8, 3.6, 0.5, 0.5, "chrome")
+    els += oct_xz("Seat", 8, 8, 4.2, 11.5, 13.5, "barvinyl")
+    els += oct_xz("Welt", 8, 8, 4.35, 11.4, 11.8, "chrome")
     return els
 
 
@@ -1467,6 +1560,18 @@ def blocks():
              "The Basement: a console television on legs, its tube's hump behind; upper, the rabbit ears on its lid",
              box=(0.05, 0, 0.18, 0.95, 1, 0.98), drops=SCRAP, groups=[("part", ["lower", "upper"])])
     patch_upper_no_collide(os.path.join(BLOCKS, "basement-tv.json"), sel=(0.3, 0, 0.35, 0.7, 0.9, 0.7))
+    l, r = bar("lower")
+    ul, ur = bar("upper")
+    oriented("basement-bar", "Home bar", {("l", "lower"): shape("bar-l-lower", l), ("r", "lower"): shape("bar-r-lower", r),
+                                          ("l", "upper"): shape("bar-l-upper", ul), ("r", "upper"): shape("bar-r-upper", ur)},
+             "The Basement: the rec room's home bar, two blocks long (half l, r): the counter in red vinyl (lower), the mirror, "
+             "the shelves of bottles and the neon sign on the wall over it (upper, lit)", box=(0, 0, 0.2, 1, 1, 1),
+             drops=[{"type": "item", "code": "emptybottle", "quantity": {"avg": 0.5, "var": 0.5}}],
+             groups=[("half", ["l", "r"]), ("part", ["lower", "upper"])], light={"*-upper-*": [0, 5, 7]})
+    patch_upper_no_collide(os.path.join(BLOCKS, "basement-bar.json"), sel=(0, 0, 0.75, 1, 1, 1))
+    oriented("basement-stool", "Bar stool", {(): shape("stool", stool())},
+             "The Basement: a chrome bar stool with a red vinyl seat", material="Metal", sounds=METAL,
+             box=(0.25, 0, 0.25, 0.75, 0.85, 0.75), drops=SCRAP)
     oriented("basement-cuerack", "Cue rack", {(): shape("cuerack", cuerack())},
              "The Basement: the rec room's cue rack on the wall, four cues in it", box=(0.1, 0, 0.75, 0.9, 1, 1), drops=STICKS)
     oriented("basement-shoplight", "Shop light", {(): shape("shoplight", shoplight())},

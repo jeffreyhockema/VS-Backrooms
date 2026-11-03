@@ -39,7 +39,7 @@ public sealed partial class FeatureFinder
         ["bsmlaundry"] = (WorldLayout.Basement, new[] { "laundry" }),
         ["bsmworkshop"] = (WorldLayout.Basement, new[] { "workshop" }),
         ["bsmheater"] = (WorldLayout.Basement, new[] { "heater" }),
-        ["bsmrec"] = (WorldLayout.Basement, new[] { "rec-room", "tv", "cue-rack" }),
+        ["bsmrec"] = (WorldLayout.Basement, new[] { "rec-room", "bar", "tv", "cue-rack" }),
         ["bsmroot"] = (WorldLayout.Basement, new[] { "root-cellar" }),
         ["bsmstore"] = (WorldLayout.Basement, new[] { "store", "store-shelves" }),
         ["bsmfinished"] = (WorldLayout.Basement, new[] { "finished" }),

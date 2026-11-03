@@ -1402,6 +1402,8 @@
 	"block-basement-sump-*": "Sump Pit",
 	"block-basement-sumppipe-*": "Sump Pump Pipe",
 	"block-basement-boiler-*": "Old Boiler",
+	"block-basement-bar-*": "Home Bar",
+	"block-basement-stool-*": "Bar Stool",
 	"block-basement-wallthing-pegboard-*": "Pegboard of Tools",
 	"block-basement-wallthing-fusebox-*": "Fuse Box",
 	"block-basement-wallthing-conduit-*": "Conduit",
