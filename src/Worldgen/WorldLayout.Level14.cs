@@ -1223,6 +1223,20 @@ public sealed partial class WorldLayout
                     }
                 }
             }
+            // Round 4: a big intensive care unit has its station in the middle of the floor, facing the door (after the draws)
+            if (icu && r.W >= 8 && r.D >= 8)
+            {
+                int iback = Across(doorSide), il = LenOf(r, iback), irow = DepthOf(r, iback) / 2;
+                ArchPier iface = Into(iback);
+                later.Add(() =>
+                {
+                    for (int k = il / 2 - 1; k <= il / 2 + 1; k++)
+                    {
+                        var (a, b) = FromSide(r, iback, k, irow);
+                        Put(a, b, Props.L14Station, iface, (byte)(k == il / 2 ? 1 : 0));
+                    }
+                });
+            }
             ArchPier fromDoor = Into(doorSide);
             int dl = LenOf(r, doorSide);
             bool desk = false, cab = false, cart = !icu;
