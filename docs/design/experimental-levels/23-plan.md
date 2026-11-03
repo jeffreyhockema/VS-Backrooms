@@ -501,7 +501,7 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
 13. [B] [done] Bracket fungi with real shelf curves (several stepped half-discs, a pale rim, zoning bands on top).
 14. [B] [done: fern with pinnae, sapling tapering with branches and twigs, shrub with side twigs; the stump as round 3] Stone undergrowth (`l23-stoneplant-*`): more elements; rotated twigs on the sapling, frond curves on the fern.
 15. [B] [done: battens top and bottom, nails, a capped post with a mossy foot; the notice board and the warning under a pitched roof] The signs and the M.E.G. board: framed boards with bevels, nails and a little roof over the notice board.
-16. [C] The squirt-gun rack and ledger: more detail (trigger, tank, nozzle).
+16. [C] [partly: the guns with trigger, nozzle, pump and tank cap; the ledger as round 3] The squirt-gun rack and ledger: more detail (trigger, tank, nozzle).
 
 **2. Multi-block set pieces**
 17. [A] [done: `l23-flare`] Root flares: round every trunk's foot, wedge models in the air next to the bark (`l23-flare-<bark>-<side>`,
@@ -606,3 +606,12 @@ moves, so they stand still); the brazier on the Lighthouse (shared from Level 47
   ledger, statues, columns, lanterns, fire nothing (columns and statues are ruin stone: no drop).
 - The camp fire gives light 11 (round 3's ring 10); the lanterns the same as before; the Lighthouse's brazier is Level
   47's (light as there, drops nothing).
+
+### Questions for the user (round 4)
+
+1. The shafts of light under the holes in the lid are an invention (translucent planes that glow; they give no light):
+   keep them, keep them only over the glades and the Heart of Water, or drop them?
+2. The statues of Architects at the ruins' ways in (a robed figure with a sapling and green stones for eyes) are an
+   invention in the plaque's spirit: keep them?
+3. The bark is in relief from the ground to nine blocks up (above that the trunks are textured blocks, to keep the
+   chunk's model count down): enough, or take it higher at some cost to frame rate?

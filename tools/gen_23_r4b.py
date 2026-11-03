@@ -378,6 +378,25 @@ def stone_shrub_shape():
     return els
 
 
+# ---------------- The squirt-gun rack ----------------
+
+def squirtrack_shape():
+    """The M.E.G.'s Almond Water squirt guns, three on a pegged rack (facing north): each a body with a grip and a trigger,
+    a barrel with a nozzle, a tank of Almond Water on top with its cap, a pump handle under the barrel."""
+    els = [E("Back", (1, 0, 13), (15, 12, 14.5), every("#wood")), E("Shelf", (1, 0, 9), (15, 1, 14.5), every("#wood")),
+           E("Rail", (1, 9.5, 12.2), (15, 10.5, 13), every("#wood"))]
+    for k, x in enumerate((2.5, 7, 11.5)):
+        els += [E(f"Body{k}", (x, 1, 10), (x + 2.5, 3.6, 13), every("#orange")),
+                E(f"Grip{k}", (x + 0.6, 1, 12.4), (x + 1.9, 3.0, 13.4), every("#green")),
+                E(f"Trigger{k}", (x + 0.9, 1.4, 11.4), (x + 1.6, 2.2, 12.0), every("#green")),
+                E(f"Tank{k}", (x + 0.2, 3.6, 10.4), (x + 2.3, 7.4, 12.8), every("#green")),
+                E(f"TankCap{k}", (x + 0.8, 7.4, 11.0), (x + 1.7, 8.0, 11.9), every("#orange")),
+                E(f"Barrel{k}", (x + 0.8, 2.4, 6.6), (x + 1.7, 3.2, 10), every("#orange")),
+                E(f"Nozzle{k}", (x + 1.0, 2.6, 6.0), (x + 1.5, 3.0, 6.6), every("#green")),
+                E(f"Pump{k}", (x + 0.6, 1.6, 7.2), (x + 1.9, 2.4, 9.6), every("#green"))]
+    return els
+
+
 # ---------------- Pottery ----------------
 
 def amphora_shape():
@@ -488,6 +507,8 @@ def shapes():
     out["signpost"] = shape({"wood": "backrooms:block/23/planks", "moss": "backrooms:block/23/moss-cushion"}, signpost_shape())
     out["stone-sapling"] = shape({"bark": "backrooms:block/23/bark-pale"}, stone_sapling_shape())
     out["stone-shrub"] = shape({"bark": "backrooms:block/23/bark-grey"}, stone_shrub_shape())
+    out["squirtrack"] = shape({"wood": "backrooms:block/23/planks", "orange": "backrooms:block/23/plastic-orange",
+                               "green": "backrooms:block/23/plastic-green"}, squirtrack_shape())
     out["amphora"] = shape({"clay": "backrooms:block/23/terracotta"}, amphora_shape())
     out["stone-fern"] = shape({"bark": "backrooms:block/23/bark-grey-2"}, stone_fern_shape())
     out["frieze"] = shape({"stone": "backrooms:block/23/ruinstone", "moss": "backrooms:block/23/ruinmoss"}, frieze_shape())
