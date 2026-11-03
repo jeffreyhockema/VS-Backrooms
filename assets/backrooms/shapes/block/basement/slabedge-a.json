@@ -430,81 +430,6 @@
 		{
 			"name": "Rebar1",
 			"from": [
-				8.2,
-				11.7,
-				-2.5
-			],
-			"to": [
-				8.8,
-				12.3,
-				4.5
-			],
-			"faces": {
-				"north": {
-					"texture": "#rebar",
-					"uv": [
-						0,
-						0,
-						0.6,
-						0.6
-					]
-				},
-				"east": {
-					"texture": "#rebar",
-					"uv": [
-						0,
-						0,
-						7.0,
-						0.6
-					]
-				},
-				"south": {
-					"texture": "#rebar",
-					"uv": [
-						0,
-						0,
-						0.6,
-						0.6
-					]
-				},
-				"west": {
-					"texture": "#rebar",
-					"uv": [
-						0,
-						0,
-						7.0,
-						0.6
-					]
-				},
-				"up": {
-					"texture": "#rebar",
-					"uv": [
-						0,
-						0,
-						0.6,
-						7.0
-					]
-				},
-				"down": {
-					"texture": "#rebar",
-					"uv": [
-						0,
-						0,
-						0.6,
-						7.0
-					]
-				}
-			},
-			"rotationOrigin": [
-				8.5,
-				12,
-				3.5
-			],
-			"rotationX": -60
-		},
-		{
-			"name": "Rebar2",
-			"from": [
 				13.2,
 				7.7,
 				-5.0
@@ -575,7 +500,7 @@
 				8,
 				1.0
 			],
-			"rotationX": -20
+			"rotationX": -60
 		},
 		{
 			"name": "Spall",

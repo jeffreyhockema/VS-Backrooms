@@ -74,11 +74,22 @@ def b(name, frm, to, tex, faces=K.DIRS, rot=None, origin=None, uv=None, glow=0):
     return K.box(name, frm, to, tex, faces=faces, rot=rot, origin=origin, uv=uv, glow=glow)
 
 
-def oct_xz(name, cx, cz, r, y1, y2, tex, rot_tex=None):
-    """A round body standing up: a square and the same turned an eighth (set a hair smaller, so no face meets a face)."""
-    return [b(name + "A", (cx - r, y1, cz - r), (cx + r, y2, cz + r), tex),
-            b(name + "B", (cx - r + 0.05, y1 + 0.02, cz - r + 0.05), (cx + r - 0.05, y2 - 0.02, cz + r - 0.05), rot_tex or tex,
-              rot=(0, 45, 0), origin=(cx, (y1 + y2) / 2, cz))]
+def oct_xz(name, cx, cz, r, y1, y2, tex, rot_tex=None, front=None, uv=None):
+    """A round body standing up, as a regular octagon `r` from its middle to each flat: four bars as long as the octagon
+    is wide and as thick as one of its sides, two along the axes and two turned an eighth, so their ends are its eight
+    flats. (A square and the same square turned an eighth, round 3's way, make an eight-pointed star.) The turned bars sit
+    a hair lower at the top and higher at the bottom, so no two tops share a plane; `front` puts a texture on the north
+    flat only (a label), with `uv`."""
+    t = r * math.tan(math.radians(22.5))
+    o = (cx, (y1 + y2) / 2, cz)
+    ztex = {"north": front, "all": tex} if front else tex
+    els = [b(name + "Z", (cx - t, y1, cz - r), (cx + t, y2, cz + r), ztex),
+           b(name + "X", (cx - r, y1 + 0.005, cz - t), (cx + r, y2 - 0.005, cz + t), tex),
+           b(name + "D1", (cx - r, y1 + 0.01, cz - t), (cx + r, y2 - 0.01, cz + t), rot_tex or tex, rot=(0, 45, 0), origin=o),
+           b(name + "D2", (cx - r, y1 + 0.015, cz - t), (cx + r, y2 - 0.015, cz + t), rot_tex or tex, rot=(0, -45, 0), origin=o)]
+    if front and uv:
+        els[0]["faces"]["north"]["uv"] = list(uv)
+    return els
 
 
 def rod_x(name, x1, x2, cy, cz, d, tex):
@@ -544,25 +555,23 @@ def textures():
 
 # ---- The furnace ----
 
-def furnace_arm(name, cx, cz, by, L, w, theta, run=6.0):
+def furnace_arm(name, cx, cz, by, L, w, theta, run=None):
     """One of the octopus's arms in the north frame: a round lagged duct from its base on the bonnet (cx, by, cz),
-    climbing north at `theta` degrees from upright, banded at its joints, then turning level under the joists."""
+    climbing north at `theta` degrees from upright until it meets the ceiling (it runs on into the joists, cut by them),
+    banded at its joints with galvanised collars and a band of foil tape, a sheet-metal boot round it where it goes in."""
+    t = math.radians(theta)
+    L = (17.0 - by) / math.cos(t)
     o = (cx, by, cz)
     r = (-theta, 0, 0)
     n = 0.62 * w
     els = [b(name + "A", (cx - w / 2, by, cz - n / 2), (cx + w / 2, by + L, cz + n / 2), "lagging", rot=r, origin=o),
            b(name + "B", (cx - n / 2, by + 0.01, cz - w / 2), (cx + n / 2, by + L - 0.01, cz + w / 2), "lagging", rot=r, origin=o)]
     c = w + 0.6
-    for k, (y0, h, tex) in enumerate(((by + 0.2, 0.9, "galv"), (by + L * 0.5, 1.4, "foiltape"), (by + L - 1.0, 0.9, "galv"))):
+    for k, (y0, h, tex) in enumerate(((by + 0.2, 0.9, "galv"), (by + L * 0.45, 1.4, "foiltape"), (by + L * 0.78, 0.9, "galv"))):
         els += [b(f"{name}C{k}A", (cx - c / 2, y0, cz - c * 0.31), (cx + c / 2, y0 + h, cz + c * 0.31), tex, rot=r, origin=o),
                 b(f"{name}C{k}B", (cx - c * 0.31, y0 + 0.01, cz - c / 2), (cx + c * 0.31, y0 + h - 0.01, cz + c / 2), tex, rot=r, origin=o)]
-    t = math.radians(theta)
-    yt, zt = by + L * math.cos(t), cz - L * math.sin(t)
-    # (level under the joists: an elbow box, the run, its collar)
-    top = 15.9
-    els += [b(name + "Elbow", (cx - w / 2 - 0.2, yt - w / 2, zt - w / 2 - 0.4), (cx + w / 2 + 0.2, top, zt + w / 2), "galv"),
-            b(name + "Run", (cx - w / 2, top - w * 0.9, zt - w / 2 - run), (cx + w / 2, top, zt - w / 2 - 0.4), "lagging"),
-            b(name + "RunTape", (cx - w / 2 - 0.25, top - w * 0.9 - 0.25, zt - w / 2 - run * 0.55), (cx + w / 2 + 0.25, top, zt - w / 2 - run * 0.55 + 1.2), "foiltape")]
+    zt = cz - (15.6 - by) * math.tan(t)
+    els += [b(name + "Boot", (cx - w / 2 - 0.8, 15.4, zt - w / 2 - 1.6), (cx + w / 2 + 0.8, 16.0, zt + w / 2 + 0.6), "galv")]
     return els
 
 
@@ -572,7 +581,7 @@ def furnace(part):
         els = [b("Plinth", (0.5, 0, 1.25), (15.5, 1.5, 16), "castiron")]
         for k, (x, z) in enumerate(((0.5, 1.25), (13.5, 1.25), (0.5, 14), (13.5, 14))):
             els.append(b(f"Foot{k}", (x, -0.01, z), (x + 2, 0.6, z + 2), "castiron"))
-        els += R3.round_body("Body", cx, cz, 7.25, 1.5, 16, "furnace")
+        els += oct_xz("Body", cx, cz, 7.25, 1.5, 16, "furnace")
         els += [b("DoorFrame", (4.25, 3, 1.15), (11.75, 10.5, 1.6), "castiron"),
                 b("FireDoor", (4.75, 3.5, 0.75), (11.25, 10, 1.25), "furnacedoor"),
                 b("HingeT", (4.0, 8.25, 0.9), (5.0, 9.5, 1.4), "castiron"), b("HingeB", (4.0, 4.0, 0.9), (5.0, 5.25, 1.4), "castiron"),
@@ -581,13 +590,13 @@ def furnace(part):
                 b("AshDoor", (5.5, 1.6, 1.0), (10.5, 3, 1.5), "castiron"), b("AshHandle", (7.5, 2.1, 0.6), (8.5, 2.6, 1.0), "brass"),
                 b("Plate", (5, 11, 1.3), (11, 14, 1.9), "furnaceplate", uv=(0, 0, 16, 8))]
         for k, y in enumerate((1.5, 15)):
-            els.append(b(f"Band{k}", (cx - 7.5, y, cz - 7.5), (cx + 7.5, y + 1, cz + 7.5), "castiron", rot=(0, 45, 0), origin=(cx, y + 0.5, cz)))
+            els += oct_xz(f"Band{k}", cx, cz, 7.5, y, y + 1, "castiron")
         return els
     if part == "upper":
-        els = R3.round_body("Body", cx, cz, 7.25, 0, 7, "furnace")
-        els += R3.round_body("Shoulder", cx, cz, 6.5, 7, 10, "furnace")
-        els += [b("ShoulderBand", (cx - 6.9, 6.6, cz - 6.9), (cx + 6.9, 7.4, cz + 6.9), "castiron", rot=(0, 45, 0), origin=(cx, 7, cz)),
-                b("Bonnet", (3.5, 10, 4.5), (12.5, 16, 13), "lagging"),
+        els = oct_xz("Body", cx, cz, 7.25, 0, 7, "furnace")
+        els += oct_xz("Shoulder", cx, cz, 6.5, 7, 10, "furnace")
+        els += oct_xz("ShoulderBand", cx, cz, 7.45, 6.6, 7.4, "castiron")
+        els += [b("Bonnet", (3.5, 10, 4.5), (12.5, 16, 13), "lagging"),
                 b("BonnetBand", (3.3, 12.5, 4.3), (12.7, 13.5, 13.2), "galv"),
                 b("Sight", (6.75, 2.5, 1.3), (9.25, 5, 1.6), "castiron"), b("SightGlass", (7.25, 3.0, 1.2), (8.75, 4.5, 1.3), "bulb-lit", glow=60),
                 b("Limit", (10.5, 11, 3.8), (12.5, 14, 4.5), "castiron"), b("LimitDial", (11, 11.75, 3.6), (12, 12.75, 3.8), "brass"),
@@ -605,8 +614,8 @@ def furnace(part):
     arms = []
     arms += furnace_arm("ArmN", 8, 5.5, 2.0, 13.5, 3.2, 38)
     for k, (o, t) in enumerate(((5.5, 40), (10.5, 34))):
-        arms += K.turn(furnace_arm(f"ArmW{k}", o, 5.5, 2.0, 13.0 + k, 3.0, t, run=5), 3)
-        arms += K.turn(furnace_arm(f"ArmE{k}", o, 5.5, 2.0, 13.5 - k, 3.0, t + 2, run=5), 1)
+        arms += K.turn(furnace_arm(f"ArmW{k}", o, 5.5, 2.0, 13.0 + k, 3.0, t), 3)
+        arms += K.turn(furnace_arm(f"ArmE{k}", o, 5.5, 2.0, 13.5 - k, 3.0, t + 2), 1)
     return els + arms
 
 
@@ -615,7 +624,7 @@ def furnace(part):
 def heater(part):
     cx, cz = 8, 9.5
     if part == "lower":
-        els = R3.round_body("Tank", cx, cz, 5.5, 1.5, 16, "heater")
+        els = oct_xz("Tank", cx, cz, 5.5, 1.5, 16, "heater")
         for k, (x, z) in enumerate(((4, 5.5), (11, 5.5), (7.5, 14))):
             els.append(b(f"Leg{k}", (x, 0, z), (x + 1, 1.6, z + 1), "castiron"))
         els += [b("Seam", (11.5, 1.5, 4.3), (11.9, 16, 4.6), "heater", rot=(0, 45, 0), origin=(cx, 8, cz)),
@@ -633,8 +642,8 @@ def heater(part):
         els += rod_y("Discharge", 2.0, 16, 13.8, 9.5, 1.0, "copper")
         return els
     if part == "upper":
-        els = R3.round_body("Tank", cx, cz, 5.5, 0, 11, "heater")
-        els += R3.round_body("Dome", cx, cz, 4.8, 11, 12.5, "heater")
+        els = oct_xz("Tank", cx, cz, 5.5, 0, 11, "heater")
+        els += oct_xz("Dome", cx, cz, 4.8, 11, 12.5, "heater")
         els += [b("Relief", (12.8, 7.5, 8.75), (14.6, 9.5, 10.25), "brass"), b("ReliefLever", (13.6, 9.5, 9.25), (14.0, 11.5, 9.75), "brass")]
         els += rod_y("Discharge", 0, 8, 13.8, 9.5, 1.0, "copper")
         els += rod_y("GasRiser", 0, 16, 14.6, 3.6, 1.1, "blackpipe")
@@ -932,7 +941,7 @@ def poollamp():
            b("Glow", (3.4, 3.2, 4.6), (12.6, 3.25, 11.4), "bulb-lit", faces=("down",), glow=150),
            b("Cap", (6.5, 6.6, 7), (9.5, 7.4, 9), "brass"), b("Finial", (7.5, 7.4, 7.5), (8.5, 8.4, 8.5), "brass"),
            b("Chain", (7.8, 8.4, 7.8), (8.2, 16, 8.2), "metaldark"),
-           b("RimN", (2.0, 2.0, 3.3), (14.0, 2.5, 3.8), "brass"), b("RimS", (2.0, 2.0, 12.2), (14.0, 2.5, 12.7), "brass")]
+           b("RimN", (2.4, 2.75, 3.55), (13.6, 3.15, 4.0), "brass"), b("RimS", (2.4, 2.75, 12.0), (13.6, 3.15, 12.45), "brass")]
     return els
 
 
@@ -1000,10 +1009,14 @@ def tin(name, x, y, z, d, h, cell, lid="tin"):
     u, v = (cell % 4) * 4, (cell // 4) * 4
     r = d / 2
     cx, cz = x + r, z + r
-    return [b(name + "A", (x, y, z), (x + d, y + h, z + d), {"north": "labels", "south": "labels", "east": "labels", "west": "labels",
-                                                              "up": lid, "down": lid}, uv=(u, v, u + 4, v + 4)),
-            b(name + "B", (x + 0.05, y + 0.02, z + 0.05), (x + d - 0.05, y + h - 0.02, z + d - 0.05), "tin",
-              rot=(0, 45, 0), origin=(cx, y + h / 2, cz))]
+    els = oct_xz(name, cx, cz, r, y, y + h, "tin", front="labels", uv=(u + 1, v, u + 3, v + 4))
+    # (the label carries on round the turned flats either side of the front)
+    for e in els[2:]:
+        e["faces"]["north"] = dict(e["faces"]["north"], texture="#labels", uv=[u, v, u + 1, v + 4])
+        e["faces"]["south"] = dict(e["faces"]["south"], texture="#labels", uv=[u + 3, v, u + 4, v + 4])
+    for e in els:
+        e["faces"]["up"] = dict(e["faces"]["up"], texture="#" + lid)
+    return els
 
 
 def shelving(part, kind):
@@ -1461,10 +1474,10 @@ def slabedge(kind):
     if kind == "a":
         chunks = [((0, 0, 5), (16, 16, 16)), ((0, 5, 2), (6, 16, 5)), ((6, 9, 3.5), (11, 16, 5)), ((11, 3, 1), (16, 16, 5)),
                   ((2, 2, 4.2), (5, 5.01, 5))]
-        bars = [(3.5, 11, 0.0, -35), (8.5, 12, 3.5, -60), (13.5, 8, 1.0, -20)]
+        bars = [(3.5, 11, 0.0, -35), (13.5, 8, 1.0, -60)]
     else:
         chunks = [((0, 0, 4), (16, 16, 16)), ((0, 8, 0.5), (5, 16, 4)), ((5, 4, 2.5), (12, 16, 4)), ((12, 10, 1.5), (16, 16, 4))]
-        bars = [(2.5, 12.5, 0.5, -10), (7.0, 9.5, 2.5, -45), (10.5, 9.5, 2.5, -80), (14.0, 12.5, 1.5, -30)]
+        bars = [(7.0, 9.5, 2.5, -70)]
     els = [b(f"Slab{k}", f, t, under) for k, (f, t) in enumerate(chunks)]
     for k, (x, y, z0, a) in enumerate(bars):
         els.append(b(f"Rebar{k}", (x - 0.3, y - 0.3, z0 - 6.0), (x + 0.3, y + 0.3, z0 + 1.0), "rebar", rot=(a, 0, 0), origin=(x, y, z0)))

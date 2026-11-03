@@ -66,9 +66,9 @@ def wall(seed, stained=0.0, tide=False):
     # (Round 4: darker and more varied than round 3's, which was the brightest thing under a torch: old paint gone in
     # patches, whitewash left in others, white salt bloom wicking up from the floor, a water line or two where the
     # flood once stood, mortar washed out of the joints)
-    img = M.brick(seed=1100, base=(74, 82, 76), mortar=(58, 63, 60), course=8, length=16, chamfer=True, jitter=10, hue=4, pits=0.06,
+    img = M.brick(seed=1100, base=(62, 69, 64), mortar=(48, 52, 50), course=8, length=16, chamfer=True, jitter=10, hue=4, pits=0.06,
                   grain=5, mottle=8, tones=seed)
-    M.grime(img, 0.32, seed=seed + 7, color=(146, 148, 138), cells=(16, 8, 4), cover=0.22)  # whitewash left in patches
+    M.grime(img, 0.28, seed=seed + 7, color=(128, 130, 120), cells=(16, 8, 4), cover=0.2)  # whitewash left in patches
     M.grime(img, 0.18, seed=seed + 1, color=(52, 56, 50), cells=(8, 4), cover=0.45)  # soot and old grime
     M.grime(img, 0.12 + 0.22 * stained, seed=seed + 2, color=DAMP, cells=(8, 4, 2), cover=0.45 + 0.3 * stained)
     M.grime(img, 0.34, seed=seed + 8, color=(178, 178, 166), cells=(4, 2), cover=0.16)  # efflorescence
