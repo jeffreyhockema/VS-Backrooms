@@ -196,6 +196,9 @@ def textures():
         for part, x0 in (("l", 0), ("m", 64), ("r", 128)):
             s(sf.crop((x0, y0, x0 + 64, y0 + 56)).resize((64, 64), Image.LANCZOS), f"r4-score-{part}-{row}")
     s(steel_paint(7021, (34, 36, 40), chips=2), "r4-cabinet")
+    inside = M.painted_metal(7022, base=(70, 72, 74), panel=False, chips=2)
+    M.grime(inside, amount=0.25, seed=7023, cover=0.6)
+    s(inside, "r4-locker-in")
     for row in ("lower", "upper"):
         s(mat_face(row, 7030 + (row == "upper")), f"r4-mat-{row}")
     # Court markings: drawn per cell below (mark_textures)
@@ -558,6 +561,104 @@ def blocktypes():
                 G.STONE, lambda p: (0, 0, 0.84, 1, 1, 1))
 
 
+# ======================================================================== lockers in relief
+
+LOCKER_DOORS = ((0.5, 5.5), (6.0, 11.0), (11.5, 16.0))  # the three doors' x spans, from round 1's texture (px 1-10, 12-21, 23-31)
+
+
+def nuv(x0, y0, x1, y1):
+    """A north face's UV for the part of a full-block picture behind x0..x1, y0..y1 (the north face is seen from the north,
+    so +x is the viewer's left: u runs from x = 16 down)."""
+    return [round(16 - x1, 3), round(16 - y1, 3), round(16 - x0, 3), round(16 - y0, 3)]
+
+
+def locker_shape(part, ajar):
+    """A bank of three steel lockers in the wall block, their fronts in relief: the carcass a little back (its seams and kick
+    base show), the doors proud with the round-1 picture on them, lift latches, louvre slats and hinges (lower), the vent
+    slats, number plates and top trim (upper). ajar: the middle door stands open on its hinge, the locker behind it empty."""
+    lower = part == "lower"
+    y0d, y1d = (2.0, 16.0) if lower else (0.0, 15.0)
+    els = []
+    car = {"north": "front", "east": "wall", "west": "wall", "south": "wall", "up": "top", "down": "top"}
+    if ajar:
+        a0, a1 = LOCKER_DOORS[1]
+        for nm, x0, x1 in (("CarL", 0, a0), ("CarR", a1, 16)):
+            el = box(nm, (x0, 0, 0.6), (x1, 16, 16), car)
+            el["faces"]["north"]["uv"] = nuv(x0, 0, x1, 16)
+            if nm == "CarL":
+                el["faces"]["east"]["texture"] = "#inside"
+            else:
+                el["faces"]["west"]["texture"] = "#inside"
+            els.append(el)
+        els.append(box("CarBack", (a0, 0, 6.0), (a1, 16, 16), {"north": "inside", "south": "wall", "up": "top", "down": "top", "side": "inside"},
+                       faces=("north", "south", "up", "down")))
+        if lower:
+            els += [box("Floor", (a0, 0, 0.6), (a1, 2.0, 6.0), {"up": "inside", "north": "front", "side": "inside"}, faces=("up", "north"))]
+        else:
+            els += [box("Shelf", (a0, 8.0, 0.8), (a1, 8.6, 6.0), "inside"), box("Roof", (a0, 15.0, 0.6), (a1, 16, 6.0), {"down": "inside", "north": "front", "side": "inside"}, faces=("down", "north")),
+                    box("Hook", (8.2, 11.0, 4.6), (8.8, 13.0, 6.0), "r4k-chrome")]
+    else:
+        el = box("Carcass", (0, 0, 0.6), (16, 16, 16), car)
+        el["faces"]["north"]["uv"] = [0, 0, 16, 16]
+        els.append(el)
+    for k, (x0, x1) in enumerate(LOCKER_DOORS):
+        door = box(f"Door{k}", (x0, y0d, 0.05), (x1, y1d, 0.6), {"north": "front", "south": "inside", "side": "front", "up": "front", "down": "front"})
+        door["faces"]["north"]["uv"] = nuv(x0, y0d, x1, y1d)
+        bits = []
+        # hinges on the door's left as seen from in front (the +x side), the latch on its right
+        for hy in ((3.0, 13.0) if lower else (2.0, 12.0)):
+            bits.append(box(f"Hinge{k}{hy}", (x1 - 0.1, hy, -0.15), (x1 + 0.35, hy + 1.6, 0.6), "r4k-chrome"))
+        if lower:
+            bits.append(box(f"Latch{k}", (x0 + 0.6, 11.6, -0.55), (x0 + 1.5, 15.0, 0.05), "r4k-chrome"))
+            bits.append(box(f"LatchCup{k}", (x0 + 0.4, 11.2, -0.1), (x0 + 1.7, 15.4, 0.05), "front"))
+            for j, sy in enumerate((6.5, 5.5, 4.5)):
+                bits.append(box(f"Louvre{k}{j}", (x0 + 0.9, sy - 0.3, -0.3), (x1 - 0.9, sy + 0.25, 0.05), "front"))
+        else:
+            for j, sy in enumerate((14.0, 13.0, 12.0, 11.0)):
+                bits.append(box(f"Vent{k}{j}", (x0 + 0.9, sy - 0.3, -0.3), (x1 - 0.9, sy + 0.25, 0.05), "front"))
+            pl = box(f"Plate{k}", (x0 + 1.5, 6.0, -0.15), (x1 - 1.0, 8.0, 0.05), "front", faces=("north", "up", "down", "east", "west"))
+            pl["faces"]["north"]["uv"] = nuv(x0 + 1.5, 6.0, x1 - 1.0, 8.0)
+            bits.append(pl)
+        if ajar and k == 1:
+            # The door swung open on its hinges about 55 degrees, toward the viewer's left
+            group_ = [door] + bits
+            for e in group_:
+                e["rotationOrigin"] = [x1 + 0.1, 8, 0.3]
+                e["rotationY"] = -55
+            els += group_
+        else:
+            els += [door] + bits
+    if not lower:
+        trim = box("Trim", (0, 15.0, -0.2), (16, 16, 0.6), "front", faces=("north", "up", "down"))
+        trim["faces"]["north"]["uv"] = nuv(0, 15.0, 16, 16)
+        els.append(trim)
+    return els
+
+
+def locker_blocktypes():
+    sh = {}
+    for part in ("lower", "upper"):
+        sh[part] = G.shape(f"l52-locker-{part}", locker_shape(part, False), {"front": "locker-beige-lower", "wall": "wall-beige-base", "top": "wall-beige-upper", "inside": "r4-locker-in"})
+        sh[part + "-ajar"] = G.shape(f"l52-locker-{part}-ajar", locker_shape(part, True), {"front": "locker-beige-lower", "wall": "wall-beige-base", "top": "wall-beige-upper", "inside": "r4-locker-in"})
+    for code, ajar in (("l52-locker", False), ("l52-lockerajar", True)):
+        shape_by, tex_by = {}, {}
+        for p in G.PALETTES:
+            for part in ("lower", "upper"):
+                back = f"wall-{p}-base" if part == "lower" else f"wall-{p}-dado"
+                for side in SIDES:
+                    c = f"{code}-{p}-{part}-{side}"
+                    shape_by[c] = {"base": sh[part + ("-ajar" if ajar else "")], "rotateY": R3.ROTATE[side]}
+                    tex_by[c] = {"front": {"base": f"block/52/locker-{p}-{part}"}, "wall": {"base": f"block/52/{back}"},
+                                 "top": {"base": f"block/52/wall-{p}-upper"}, "inside": {"base": "block/52/r4-locker-in"}}
+        G.json_block(code, [G.group("palette", G.PALETTES), G.group("part", ["lower", "upper"]), G.group("side", SIDES)], shape_by,
+                     ("Level 52: a bank of three steel lockers in a wall block, facing its side: the doors in relief over the carcass, latches, "
+                      "louvres and hinges (lower), vents, number plates and the top trim (upper); its other faces are the palette's wall paint"
+                      + ("; the middle door standing open, the locker behind it empty" if ajar else "")),
+                     "Metal", G.METAL, {"*": G.cuboid((0, 0, 0, 1, 1, 1))}, {"*": G.cuboid((0, 0, 0, 1, 1, 1))},
+                     creative=(f"{code}-beige-lower-north",), resistance=4,
+                     extra={"texturesByType": tex_by, "lightAbsorption": 99, "sideopaque": {"all": False}})
+
+
 def expected():
     codes = set()
     pieces = ["rim-gym", "rim-yard", "board-gym", "board-yard", "truss-wall", "truss-mid", "brace", "pole-base", "pole-mid", "pole-neck", "pole-top"]
@@ -569,6 +670,17 @@ def expected():
                 codes.add(f"l52-score-{part}-{row}-{s}")
         for row in ("lower", "upper"):
             codes.add(f"l52-wallmat-{row}-{s}")
+        for p in G.PALETTES:
+            for part in ("lower", "upper"):
+                codes.add(f"l52-lockerajar-{p}-{part}-{s}")
+        codes.add(f"l52-lseat-{s}")
+        for h in ("lower", "upper"):
+            codes.add(f"l52-trophy-{h}-{s}")
+            codes.add(f"l52-ladder-{h}-{s}")
+            for e in "lmr":
+                codes.add(f"l52-dugout-{e}-{h}-{s}")
+        codes.add(f"l52-projector-{s}")
+    codes |= {"l52-column-base", "l52-column-shaft", "l52-column-cap", "l52-planter"}
     cells = sorted({c for surf in MARK_CELLS for c in MARK_CELLS[surf]})
     for surf in ("gym", "yard"):
         for c in cells:
@@ -602,6 +714,47 @@ def kit_shapes():
     return set(out)
 
 
+def seat_blocktypes():
+    """The lecture theatres' flip seats and the classrooms' ceiling projectors (their shapes are the kit's)."""
+    R3.oriented("l52-lseat", [G.group("side", SIDES)], {"l52-lseat": "backrooms:block/52/l52-lseat"},
+                "Level 52: a lecture theatre's flip seat (upholstered, a writing tablet stowed by its right arm), facing the way of its side",
+                "Cloth", G.WOOD, lambda p: (0.05, 0, 0.1, 0.95, 0.56, 0.95), sel=lambda p: (0, 0, 0.05, 1, 0.9, 1))
+    R3.oriented("l52-projector", [G.group("side", SIDES)], {"l52-projector": "backrooms:block/52/l52-projector"},
+                "Level 52: a classroom's 2000s projector hung from the ceiling on a drop pole, its lens toward the board; off, like everything "
+                "electrical in a classroom", "Metal", G.METAL, None, sel=lambda p: (0.25, 0.3, 0.15, 0.75, 1, 0.85))
+
+
+def set_blocktypes():
+    """Round 4's other set pieces (shapes from the kit): the trophy case, the pitch's dugout, the canopy columns, the
+    library ladder, the entrance planters."""
+    sh = lambda n: "backrooms:block/52/" + n
+    R3.oriented("l52-trophy", [G.group("part", ["lower", "upper"]), G.group("side", SIDES)],
+                {"l52-trophy-lower": sh("l52-trophy-lower"), "l52-trophy-upper": sh("l52-trophy-upper")},
+                "Level 52: the school's trophy case, two blocks high, its back to the wall: a laminate base with doors, the glass case over it "
+                "(cups, figures, a shield, a ball, medals on ribbons), a lit header", "Glass", G.GLASS, lambda p: (0, 0, 0.38, 1, 1, 1),
+                extra={"renderpass": "Transparent", "lightHsvByType": {"*-upper-*": [7, 2, 5]}})
+    dug = {f"l52-dugout-{e}-{h}": sh(f"l52-dugout-{e}-{h}") for e in "lmr" for h in ("lower", "upper")}
+
+    def dcoll(p):
+        return (0, 0, 0.62, 1, 0.5, 1) if p.endswith("lower") else (0, 0, 0.94, 1, 0.71, 1)
+    R3.oriented("l52-dugout", [G.group("part", ["l", "m", "r"]), G.group("half", ["lower", "upper"]), G.group("side", SIDES)], dug,
+                "Level 52: a pitch's dugout, three blocks wide and two high, open toward its side: ribbed steel back and ends, a bench, coat "
+                "hooks, a corrugated roof", "Metal", G.METAL, dcoll, sel=lambda p: (0, 0, 0, 1, 1, 1))
+    cols = {"base": (0.16, 0, 0.16, 0.84, 1, 0.84), "shaft": (0.27, 0, 0.27, 0.73, 1, 0.73), "cap": (0.07, 0, 0.07, 0.93, 1, 0.93)}
+    G.json_block("l52-column", [G.group("part", list(cols))], {f"l52-column-{k}": {"base": sh(f"l52-column-{k}")} for k in cols},
+                 "Level 52: an entrance canopy's round column, three blocks high (base with its plinth and bolts, shaft, cap flaring to the soffit)",
+                 "Metal", G.METAL, {f"l52-column-{k}": G.cuboid((0.27, 0, 0.27, 0.73, 1, 0.73)) for k in cols},
+                 {f"l52-column-{k}": G.cuboid(v) for k, v in cols.items()}, creative=("l52-column-base",), resistance=6)
+    R3.oriented("l52-ladder", [G.group("part", ["lower", "upper"]), G.group("side", SIDES)],
+                {"l52-ladder-lower": sh("l52-ladder-lower"), "l52-ladder-upper": sh("l52-ladder-upper")},
+                "Level 52: a library's rolling ladder leaning on the stack behind it (oak rails and treads, brass rollers on the stack's rail)",
+                "Wood", G.WOOD, lambda p: (0.1, 0, 0.3, 0.9, 1, 1), extra={"climbable": True})
+    G.json_block("l52-planter", [], {"*": {"base": sh("l52-planter")}},
+                 "Level 52: a square concrete planter by an entrance, a clipped shrub in it (and the odd cigarette end), a corner chipped",
+                 "Stone", G.STONE, {"*": G.cuboid((0.04, 0, 0.04, 0.96, 0.66, 0.96))}, {"*": G.cuboid((0.04, 0, 0.04, 0.96, 0.98, 0.96))},
+                 creative=("*",), resistance=4)
+
+
 def build(gen):
     global G
     G = gen
@@ -609,3 +762,6 @@ def build(gen):
     mark_textures()
     blocktypes()
     kit_shapes()
+    locker_blocktypes()
+    seat_blocktypes()
+    set_blocktypes()
