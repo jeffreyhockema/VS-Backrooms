@@ -435,43 +435,18 @@ public partial class CheatSystem : ModSystem
             if (level < 0) return TextCommandResult.Error($"There is no Level {number} here ({BackroomsModSystem.LevelList})");
         }
 
-        // The arrival search starts from a point picked by key, so a few keys find a few different places
-        ulong key = (ulong)sapi.World.Rand.NextInt64();
-        (int X, int Z)? arrival = null;
-        if (feature == "snackrooms")
-        {
-            level = 6;
-            for (int attempt = 0; attempt < 4 && arrival == null; attempt++, key = Hashing.Mix(key)) arrival = layout.FindSnackroomsArrival(key);
-        }
-        else if (feature == "entryroom")
-        {
-            level = 7;
-            arrival = layout.FindEntryRoomArrival(key);
-        }
-        else
-        {
-            System.Func<Tile, bool> anchor = feature switch
-            {
-                "elevator" => t => t.Kind == TileKind.Door && t.Pattern == WallPattern.Elevator,
-                "stairs" => t => t.Stair > 0 && t.Under == 0,
-                "pit" => t => t.Kind == TileKind.Pit,
-                _ => t => t.Under is >= Unders.Descent1 and <= Unders.Descent3,
-            };
-            // Without a match nearby, the search settles for any open floor: only take a spot that is beside one
-            for (int attempt = 0; attempt < 4 && arrival == null; attempt++, key = Hashing.Mix(key))
-            {
-                if (layout.FindArrival(level, key, anchor) is { } spot && Beside(spot.X, spot.Z, anchor)) arrival = spot;
-            }
-        }
-        if (arrival is not { } a) return TextCommandResult.Error($"Found no {feature} in Level {WorldLayout.DisplayNumber(level)} this time; try again, or another level");
+        if (feature == "snackrooms") level = 6;
+        else if (feature == "entryroom") level = 7;
+
+        // The finder's own searches, with no reach round you: a level-wide pick (the key varies it), as find always was
+        Entity entity = args.Caller.Entity;
+        FeatureFinder.Hit hit = finder.Feature(feature, (int)Math.Floor(entity.Pos.X), (int)Math.Floor(entity.Pos.Z), 0, level, (ulong)sapi.World.Rand.NextInt64());
+        if (hit?.Stand is not { } a) return TextCommandResult.Error(finder.Error ?? $"Found no {feature} in Level {WorldLayout.DisplayNumber(level)} this time; try again, or another level");
 
         Teleport((IServerPlayer)args.Caller.Player, a.X, a.Z, level);
         string name = Features.First(f => f.Code == feature).Name;
         return TextCommandResult.Success($"{name}, Level {WorldLayout.DisplayNumber(level)} ({FromSpawn(a.X, a.Z)})");
     }
-
-    private bool Beside(int x, int z, System.Func<Tile, bool> anchor) =>
-        anchor(layout.TileAt(x - 1, z)) || anchor(layout.TileAt(x + 1, z)) || anchor(layout.TileAt(x, z - 1)) || anchor(layout.TileAt(x, z + 1));
 
     private TextCommandResult OnFogSpellCommand(TextCommandCallingArgs args)
     {

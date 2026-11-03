@@ -183,7 +183,7 @@ public static class Breakdown
         EnumBlockMaterial.Wood => Timber,
         EnumBlockMaterial.Metal => Metal,
         EnumBlockMaterial.Glass => Glass,
-        EnumBlockMaterial.Cloth => Soft,
+        EnumBlockMaterial.Cloth or EnumBlockMaterial.Plant => Soft,
         EnumBlockMaterial.Soil or EnumBlockMaterial.Gravel or EnumBlockMaterial.Sand => Ground,
         EnumBlockMaterial.Ceramic or EnumBlockMaterial.Brick => Masonry,
         _ => Concrete,
@@ -329,7 +329,10 @@ public static class Breakdown
 
     /// <summary>The class a structural block breaks as.</summary>
     public static Class ClassOf(Block block) =>
-        Classes.TryGetValue(block.FirstCodePart(), out Class cls) ? cls : ByMaterial(block.BlockMaterial);
+        Classes.TryGetValue(block.FirstCodePart(), out Class cls) ? cls
+        // The acoustic ceiling tile is Plant material but breaks like the concrete it hangs under (see ByMaterial)
+        : block.Code.Path == "end-ceiling" ? Concrete
+        : ByMaterial(block.BlockMaterial);
 
     /// <summary>
     /// Gives every structural block of ours its class: material, tier, resistance and drops, and the bare-hands
@@ -409,10 +412,50 @@ public static class Breakdown
 /// </summary>
 public class BlockBehaviorWreck : BlockBehavior
 {
-    private const int MaxParts = 32;
-
     public BlockBehaviorWreck(Block block) : base(block)
     {
+    }
+
+    private static bool IsCarPart(Block b, string kind) => b.Code?.Domain == "backrooms" && b.FirstCodePart() == kind;
+
+    /// <summary>
+    /// The 2x4 footprint (min corner x/z) of the car that holds pos: the box whose one car block sits on the corner its
+    /// side says (min corner facing north, max corner facing south) and whose other tiles are all hull. The hull blocks
+    /// carry no facing, so every box around pos is tried; cars parked bumper to bumper stay apart.
+    /// </summary>
+    private bool FindFootprint(IBlockAccessor blocks, BlockPos pos, out int fx, out int fz)
+    {
+        fx = fz = 0;
+        for (int x0 = pos.X - 1; x0 <= pos.X; x0++)
+        {
+            for (int z0 = pos.Z - 3; z0 <= pos.Z; z0++)
+            {
+                int carCount = 0;
+                bool ok = true, anchorOk = false;
+                for (int dz = 0; dz < 4 && ok; dz++)
+                {
+                    for (int dx = 0; dx < 2; dx++)
+                    {
+                        var at = new BlockPos(x0 + dx, pos.Y, z0 + dz);
+                        Block part = at.Equals(pos) ? block : blocks.GetBlock(at);
+                        if (IsCarPart(part, "car"))
+                        {
+                            carCount++;
+                            string side = part.Variant?["side"];
+                            anchorOk = side == "south" ? dx == 1 && dz == 3 : dx == 0 && dz == 0;
+                        }
+                        else if (!IsCarPart(part, "carcollider")) { ok = false; break; }
+                    }
+                }
+                if (ok && carCount == 1 && anchorOk)
+                {
+                    fx = x0;
+                    fz = z0;
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public override void OnBlockBroken(IWorldAccessor world, BlockPos pos, IPlayer byPlayer, float dropQuantityMultiplier, ref EnumHandling handling)
@@ -421,24 +464,18 @@ public class BlockBehaviorWreck : BlockBehavior
         // (As the block's own drops: none in creative)
         bool drops = byPlayer?.WorldData.CurrentGameMode != EnumGameMode.Creative;
         IBlockAccessor blocks = world.BlockAccessor;
-        var seen = new HashSet<BlockPos> { pos };
-        var queue = new Queue<BlockPos>();
-        queue.Enqueue(pos);
-        while (queue.Count > 0 && seen.Count < MaxParts)
+        if (!FindFootprint(blocks, pos, out int fx, out int fz)) return;
+        for (int dz = 0; dz < 4; dz++)
         {
-            BlockPos at = queue.Dequeue();
-            foreach (BlockFacing face in BlockFacing.ALLFACES)
+            for (int dx = 0; dx < 2; dx++)
             {
-                BlockPos next = at.AddCopy(face);
-                if (seen.Contains(next)) continue;
+                var next = new BlockPos(fx + dx, pos.Y, fz + dz);
+                if (next.Equals(pos)) continue;
                 Block part = blocks.GetBlock(next);
-                if (part.Code?.Domain != "backrooms" || part.FirstCodePart() is not ("car" or "carcollider")) continue;
-                seen.Add(next);
                 // A car that straddles a claim's edge does not lose the part inside it to someone who may not build there
                 if (byPlayer != null && !world.Claims.TryAccess(byPlayer, next, EnumBlockAccessFlags.BuildOrBreak)) continue;
-                queue.Enqueue(next);
                 // The car block holds the scrap; the hull gives nothing
-                if (drops && part.FirstCodePart() == "car" && part.Drops != null)
+                if (drops && IsCarPart(part, "car") && part.Drops != null)
                     foreach (BlockDropItemStack drop in part.Drops)
                     {
                         ItemStack stack = drop.GetNextItemStack(dropQuantityMultiplier);

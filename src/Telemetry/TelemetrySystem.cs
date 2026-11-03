@@ -116,6 +116,7 @@ public class TelemetrySystem : ModSystem
     private readonly Dictionary<string, (long Second, int Count)> rates = new();
     private readonly Dictionary<string, int> dropped = new();
     private readonly HashSet<long> hooked = new();
+    private readonly HashSet<string> told = new();
     private int tickNo;
 
     // After BackroomsModSystem (1.0), which creates the /backrooms command
@@ -141,6 +142,7 @@ public class TelemetrySystem : ModSystem
     private bool SendMark(string text)
     {
         if (!BackroomsWorld.IsBackroomsClimate(capi.World.Config)) { capi.ShowChatMessage("This is not a Backrooms world"); return true; }
+        if (capi.World.Player?.HasPrivilege(Privilege.controlserver) != true) { capi.ShowChatMessage(Lang.Get("backrooms:mark-needs-privilege")); return true; }
         capi.SendChatMessage("/backrooms mark" + (string.IsNullOrWhiteSpace(text) ? "" : " " + text.Trim()));
         return true;
     }
@@ -229,8 +231,8 @@ public class TelemetrySystem : ModSystem
             "mod", Mod.Info.Version, "layout", w.Config.GetInt("backroomsLayoutVersion", 1),
             "backroomsMenace", w.Config.GetString("backroomsMenace", "normal"),
             "backroomsScarcity", w.Config.GetString(Salvage.ScarcitySystem.ConfigKey, "normal"),
-            "backroomsThirst", w.Config.GetString(Backrooms.Needs.Needs.ThirstSetting, "on"),
-            "backroomsFatigue", w.Config.GetString(Backrooms.Needs.Needs.FatigueSetting, "on"));
+            "backroomsThirst", Backrooms.Needs.Needs.ThirstOn(w) ? "on" : "off",
+            "backroomsFatigue", Backrooms.Needs.Needs.FatigueOn(w) ? "on" : "off");
         sapi.Logger.Notification("[backrooms] play telemetry is on: {0} (turn off with /backrooms telemetry off)", path);
     }
 
@@ -466,6 +468,9 @@ public class TelemetrySystem : ModSystem
 
     private void OnJoin(IServerPlayer player)
     {
+        // On a server the players are told once per session that a play log is kept
+        if (sapi.Server.IsDedicated && Enabled && told.Add(player.PlayerUID))
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.GetL(player.LanguageCode, "backrooms:telemetry-notice"), EnumChatType.Notification);
         PState s = StateOf(player);
         s.Level = int.MinValue;
         if (player.Entity != null) hooked.Remove(player.Entity.EntityId); // (a new entity object may have a new health behaviour)

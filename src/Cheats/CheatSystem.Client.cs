@@ -83,7 +83,8 @@ public partial class CheatSystem
     private bool ToggleDialog()
     {
         if (dialog.IsOpened()) dialog.TryClose();
-        else dialog.TryOpen();
+        else if (Privileged) dialog.TryOpen();
+        else capi.ShowChatMessage(Lang.Get("backrooms:cheats-needs-privilege"));
         return true;
     }
 
@@ -174,6 +175,8 @@ public partial class CheatSystem
 
     public override void Dispose()
     {
+        if (dialog?.IsOpened() == true) dialog.TryClose();
+        if (hud?.IsOpened() == true) hud.TryClose();
         dialog?.Dispose();
         hud?.Dispose();
     }

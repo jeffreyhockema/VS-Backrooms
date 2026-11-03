@@ -76,6 +76,12 @@ public class GuiDialogCheats : GuiDialog
     /// <summary>Keeps the status line current, and the Travel tab's feature list to the level you are in.</summary>
     private void OnStatusTick()
     {
+        // The role can change while the menu is open
+        if (!cheats.Privileged)
+        {
+            TryClose();
+            return;
+        }
         if (tab == 0 && cheats.CurrentLevel() != composedLevel)
         {
             Compose();
