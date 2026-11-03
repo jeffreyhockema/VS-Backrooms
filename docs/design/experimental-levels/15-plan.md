@@ -669,3 +669,12 @@ Three client-rig runs, no torch (the halls' own white): `%TEMP%/backrooms-shots/
   machine casings' relief (corner posts, louvres, bezels) and the lectern beside the screen showed. Wrong: the first
   bays of the dark were lit amber from wall to wall by the battery lamps (the dark-hall spot was no longer dark). Fixed:
   one lamp still burns on one wall at the very edge, light 7; the others have run flat.
+
+### Questions for the user
+
+- The Robo-Man is shared with the Castle: rebuild the one model for both (joints, panels, lit eyes), or give Level 15 a
+  service-robot look of its own and leave the Castle's toy robot as it is?
+- The bulkheads cross the main halls every 32 blocks: the right rhythm, or should they be rarer (every 64) so each one
+  is more of a landmark?
+- At the edge of the dark, one battery lamp still burns and a breaker is tagged DO NOT RESET (our invention, telling the
+  power fault): keep it, or keep the edge a hard cut into black as the lore has it?
