@@ -449,14 +449,15 @@ def terminal_elements(state):
     els = desk_elements()
     crt = [
         b("Stand", (5.5, 11.5, 5), (10.5, 11.9, 10), "crt-beige", faces=("north", "east", "west", "south", "up")),
-        b("Bezel", (3, 11.9, 3.5), (13, 16, 5), {"front": "crt-beige", "side": "crt-beige", "top": "crt-vent", "back": "crt-beige"}, faces=("east", "west", "up", "down")),
-        b("BezelL", (3, 11.9, 3.0), (4.25, 16, 3.5), "crt-beige", faces=("north", "east", "west", "up")),
-        b("BezelR", (11.75, 11.9, 3.0), (13, 16, 3.5), "crt-beige", faces=("north", "east", "west", "up")),
-        b("BezelT", (4.25, 15.0, 3.0), (11.75, 16, 3.5), "crt-beige", faces=("north", "up", "down")),
+        # (a 14" CRT is taller than the block's top: the case rises to 18, into the air over the desk)
+        b("Bezel", (3, 11.9, 3.5), (13, 18, 5), {"front": "crt-beige", "side": "crt-beige", "top": "crt-vent", "back": "crt-beige"}, faces=("east", "west", "up", "down")),
+        b("BezelL", (3, 11.9, 3.0), (4.25, 18, 3.5), "crt-beige", faces=("north", "east", "west", "up")),
+        b("BezelR", (11.75, 11.9, 3.0), (13, 18, 3.5), "crt-beige", faces=("north", "east", "west", "up")),
+        b("BezelT", (4.25, 17.0, 3.0), (11.75, 18, 3.5), "crt-beige", faces=("north", "up", "down")),
         b("BezelB", (4.25, 11.9, 3.0), (11.75, 12.75, 3.5), "crt-beige", faces=("north", "up")),
-        uvb("Screen", (4.25, 12.75, 3.4), (11.75, 15.0, 3.5), screen, (0, 0, 16, 6), glow=230 if state == "boot" else 0),
-        b("Back1", (3.75, 12.25, 5), (12.25, 15.6, 8.5), {"side": "crt-vent", "top": "crt-vent", "back": "crt-beige"}, faces=("east", "west", "up", "south")),
-        b("Back2", (5, 12.75, 8.5), (11, 15.0, 11.5), {"side": "crt-vent", "top": "crt-vent", "back": "crt-beige"}, faces=("east", "west", "up", "south")),
+        uvb("Screen", (4.25, 12.75, 3.4), (11.75, 17.0, 3.5), screen, (0, 0, 16, 9), glow=230 if state == "boot" else 0),
+        b("Back1", (3.75, 12.25, 5), (12.25, 17.5, 8.5), {"side": "crt-vent", "top": "crt-vent", "back": "crt-beige"}, faces=("east", "west", "up", "south")),
+        b("Back2", (5, 12.75, 8.5), (11, 16.5, 11.5), {"side": "crt-vent", "top": "crt-vent", "back": "crt-beige"}, faces=("east", "west", "up", "south")),
         b("Badge", (5, 12.1, 2.95), (6.5, 12.4, 3.0), "rk-chrome", faces=N_),
         b("Power", (10.5, 12.0, 2.9), (11.2, 12.5, 3.0), "rk-black", faces=N_),
     ]
