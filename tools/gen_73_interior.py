@@ -1988,7 +1988,8 @@ def blocktypes():
     out.append(plain("l73-potrack", "// Level 73: an iron rack of copper pots hung under the kitchen's ceiling", "block/73/potrack", "Metal",
                      sel={"x1": 0.05, "y1": 0.1, "z1": 0.08, "x2": 0.95, "y2": 1, "z2": 0.88}, sounds=METAL))
     out.append(multi("l73-lectern", "// Level 73: a lectern with the castle's book open on it", [("side", SIDES)], lambda s: "block/73/lectern", "Wood",
-                     {"x1": 0.12, "y1": 0, "z1": 0.18, "x2": 0.88, "y2": 0.92, "z2": 0.82}, coll={"x1": 0.3, "y1": 0, "z1": 0.3, "x2": 0.7, "y2": 0.9, "z2": 0.7}, inv="*-north"))
+                     {"x1": 0.12, "y1": 0, "z1": 0.18, "x2": 0.88, "y2": 0.92, "z2": 0.82}, coll={"x1": 0.3, "y1": 0, "z1": 0.3, "x2": 0.7, "y2": 0.9, "z2": 0.7}, inv="*-north",
+                     extra={"class": "BackroomsL73Lectern"}))  # (round 4: the visitors' book can be read)
     out.append(multi("l73-linen", "// Level 73: a drying rack hung with linen", [("side", SIDES)], lambda s: "block/73/linen", "Cloth",
                      {"x1": 0, "y1": 0, "z1": 0.4, "x2": 1, "y2": 1, "z2": 0.6}, coll={"x1": 0, "y1": 0, "z1": 0.4, "x2": 1, "y2": 1, "z2": 0.6}, sounds=CLOTH, inv="*-north"))
     out.append(multi("l73-bonejoint", "// Level 73: a bone of the Great Hound's skeleton, joined to its neighbours (the mask: n e s w u d)",

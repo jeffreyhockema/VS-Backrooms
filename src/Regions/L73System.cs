@@ -70,6 +70,7 @@ public partial class L73System : ModSystem
     {
         api.RegisterBlockClass("BackroomsL73Door", typeof(BlockL73Door));
         api.RegisterBlockClass("BackroomsL73Table", typeof(BlockL73Table));
+        api.RegisterBlockClass("BackroomsL73Lectern", typeof(BlockL73Lectern)); // (round 4: the visitors' book)
         api.RegisterBlockEntityClass("BackroomsL73Table", typeof(BlockEntityL73Table));
         api.RegisterBlockClass("BackroomsL73Bath", typeof(BlockL73Bath));
         api.RegisterEntity("BackroomsCoran", typeof(EntityCoran));
@@ -410,6 +411,25 @@ public class BlockL73Table : Block
     public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer) =>
         IsSet ? help ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l73-eat", MouseButton = EnumMouseButton.Right } }
             : Array.Empty<WorldInteraction>();
+}
+
+/// <summary>The lectern in the main hall with the castle's visitors' book (round 4): reading it turns to one of its pages.</summary>
+public class BlockL73Lectern : Block
+{
+    private const int Pages = 4;
+    private WorldInteraction[] help;
+
+    public override bool OnBlockInteractStart(IWorldAccessor world, IPlayer byPlayer, BlockSelection blockSel)
+    {
+        if (world.Side != EnumAppSide.Server || byPlayer is not IServerPlayer player) return true;
+        // (a page by the hour, so reading again later may find another)
+        int page = (int)(Math.Abs((long)Math.Floor(world.Calendar.TotalHours) + blockSel.Position.X + blockSel.Position.Z) % Pages) + 1;
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:l73-book-" + page), EnumChatType.Notification);
+        return true;
+    }
+
+    public override WorldInteraction[] GetPlacedBlockInteractionHelp(IWorldAccessor world, BlockSelection selection, IPlayer forPlayer) =>
+        help ??= new[] { new WorldInteraction { ActionLangCode = "backrooms:blockhelp-l73-read", MouseButton = EnumMouseButton.Right } };
 }
 
 /// <summary>When a place at the table was cleared, and when it is set again.</summary>

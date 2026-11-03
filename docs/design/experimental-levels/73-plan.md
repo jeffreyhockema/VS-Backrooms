@@ -635,7 +635,7 @@ detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.
 34. [A] [done] The attic reads "off-limits" from the roof: the chained door, the balcony.
 35. [B] [done] The paintings in real gilt frames with depth.
 36. [B] [done] The table of plenty: "silverware at the grand mahogany table": silver plates and goblets.
-37. [C] The visitors' book readable.
+37. [C] [done: four pages, right-click] The visitors' book readable.
 
 **5. Alignment with the other levels**
 38. [A] [done] Look for shared candles, lanterns, braziers, banners (Level 47's `candles`, `lantern`, `brazier`, `banner`) and
