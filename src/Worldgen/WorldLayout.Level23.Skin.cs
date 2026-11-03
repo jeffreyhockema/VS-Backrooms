@@ -37,6 +37,19 @@ public sealed partial class WorldLayout
         return false;
     }
 
+    /// <summary>Whether a column's wood at a height is in no trunk at all (a cypress knee, standing alone round a cypress's foot).</summary>
+    public bool L23OutsideTrunks(int gx, int gz, int rel)
+    {
+        double px = gx + 0.5, pz = gz + 0.5;
+        L23Trunk[] around = L23TrunksAround(Hashing.FloorDiv(gx, L23Pitch), Hashing.FloorDiv(gz, L23Pitch));
+        for (int k = 0; k < 9; k++)
+        {
+            L23Trunk t = around[(k / 3 + 1) * 6 + k % 3 + 1];
+            if (t.Exists && L23InTrunk(t, px, pz, rel, out _)) return false;
+        }
+        return true;
+    }
+
     private static bool L23Faces(in L23Trunk t, double px, double pz, int rel, out ArchPier facing)
     {
         facing = ArchPier.North;

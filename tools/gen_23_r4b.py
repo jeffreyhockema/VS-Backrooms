@@ -399,6 +399,19 @@ def smalltrunk_shape(part):
     return els
 
 
+# ---------------- Cypress knees ----------------
+
+def knee_shape(part):
+    """A cypress knee: a cone of root standing up out of the ground round a cypress's foot, its top rounded, moss at its
+    foot. "top" the cone; "base" (under a knee two high) a stout octagon with the moss."""
+    b, m = "#bark", "#moss"
+    if part == "base":
+        return octagon("Base", 0, 16, 10.0, b) + octagon("Moss", 0, 2.6, 12.0, m)
+    cone = (octagon("Lower", 0, 5, 9.4, b) + octagon("Mid", 5, 10, 7.2, b) + octagon("Upper", 10, 13.5, 5.0, b)
+            + octagon("Cap", 13.5, 14.6, 3.2, b))
+    return cone + octagon("Foot", 0, 1.8, 11.0, m) if part == "top" else cone
+
+
 # ---------------- The squirt-gun rack ----------------
 
 def squirtrack_shape():
@@ -516,6 +529,14 @@ def blocks():
         "lightAbsorption": 0, "resistance": 6, "drops": [G.drop("game:firewood", 0.4, 0.3)], "sounds": WOOD_SOUNDS,
         "collisionbox": {"x1": 0.25, "y1": 0, "z1": 0.25, "x2": 0.75, "y2": 1, "z2": 0.75},
         "selectionbox": {"x1": 0.25, "y1": 0, "z1": 0.25, "x2": 0.75, "y2": 1, "z2": 0.75}}))
+    out.append(("// Level 23 (round 4): a cypress knee round a dark cypress's foot (top: the cone; base: under a knee two high)", {
+        "code": "l23-knee", "variantgroups": [{"code": "part", "states": ["top", "tip", "base"]}],
+        "creativeinventory": {"general": ["*-top"], "backrooms": ["*-top"]}, "blockmaterial": "Wood", "drawtype": "json",
+        "shapeByType": {"*-top": {"base": "block/23/knee-top"}, "*-tip": {"base": "block/23/knee-tip"}, "*-base": {"base": "block/23/knee-base"}},
+        "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 6,
+        "drops": [G.drop("game:firewood", 0.4, 0.3)], "sounds": WOOD_SOUNDS,
+        "collisionbox": {"x1": 0.2, "y1": 0, "z1": 0.2, "x2": 0.8, "y2": 0.9, "z2": 0.8},
+        "selectionbox": {"x1": 0.2, "y1": 0, "z1": 0.2, "x2": 0.8, "y2": 0.9, "z2": 0.8}}))
     out.append(sided("l23-rootknuckle", "// Level 23 (round 4): the rounded top of a root crawling out over the ground (bare or mossed)",
                      [("kind", ["bare", "moss"])], lambda s: "rootknuckle",
                      lambda s: {"root": "backrooms:block/23/root" if s["kind"] == "bare" else "backrooms:block/23/mossbark",
@@ -544,6 +565,8 @@ def shapes():
     out["stone-shrub"] = shape({"bark": "backrooms:block/23/bark-grey"}, stone_shrub_shape())
     for part in ("foot", "mid", "top"):
         out[f"smalltrunk-{part}"] = shape({"bark": "backrooms:block/23/bark-grey"}, smalltrunk_shape(part))
+    for part in ("top", "tip", "base"):
+        out[f"knee-{part}"] = shape({"bark": "backrooms:block/23/bark-dark", "moss": "backrooms:block/23/moss-cushion"}, knee_shape(part))
     out["squirtrack"] = shape({"wood": "backrooms:block/23/planks", "orange": "backrooms:block/23/plastic-orange",
                                "green": "backrooms:block/23/plastic-green"}, squirtrack_shape())
     out["amphora"] = shape({"clay": "backrooms:block/23/terracotta"}, amphora_shape())
@@ -589,6 +612,7 @@ LANG = [
     ("block-l23-rootknuckle-*", "Petrified Root"),
     ("block-l23-frieze-*", "Carved Lintel"),
     ("block-l23-smalltrunk-*", "Little Petrified Tree"),
+    ("block-l23-knee-*", "Cypress Knee"),
     ("block-l23-nest", "Bird's Nest"),
     ("blockdesc-l23-nest", "Twigs of stone, woven tight. The eggs are cold. Whatever laid them is somewhere up in the dark."),
 ]

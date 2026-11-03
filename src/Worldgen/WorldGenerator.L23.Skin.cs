@@ -25,7 +25,7 @@ public sealed partial class WorldGenerator
     private readonly int[] l23Frieze = new int[4];
     /// <summary>The glow rooms' little trees' trunks by bark (grey, red, pale, dark, a mushroom's stem) and part (foot, middle, top).</summary>
     private readonly int[,] l23SmallTrunk = new int[5, 3];
-    private int l23LilyPad, l23Sunbeam, l23Brazier, l23Nest;
+    private int l23LilyPad, l23Sunbeam, l23Brazier, l23Nest, l23KneeTop, l23KneeTip, l23KneeBase;
     /// <summary>Root knuckles (bare, mossed), facing north only (they are the same every way).</summary>
     private readonly int[] l23RootKnuckle = new int[2];
 
@@ -35,6 +35,9 @@ public sealed partial class WorldGenerator
         l23Sunbeam = Id("l23-sunbeam");
         l23Brazier = OptionalId("backrooms:l47-brazier");
         l23Nest = Id("l23-nest");
+        l23KneeTop = Id("l23-knee-top");
+        l23KneeBase = Id("l23-knee-base");
+        l23KneeTip = Id("l23-knee-tip");
         string[] smallBarks = { "grey", "red", "pale", "dark", "stem" }, smallParts = { "foot", "mid", "top" };
         for (int k = 0; k < 5; k++)
             for (int p = 0; p < 3; p++)
@@ -128,7 +131,14 @@ public sealed partial class WorldGenerator
             if (bark < 0) continue;
             if (b[i] == l23MossBark) bark = 6;
             else if (b[i] != l23Bark[w]) continue;
-            if (!layout.L23SkinFace(gx, gz, rel, out ArchPier facing)) continue;
+            if (!layout.L23SkinFace(gx, gz, rel, out ArchPier facing))
+            {
+                // (a cypress knee, standing alone: a cone, on a stout base when two high)
+                if (w == WorldLayout.L23BarkDark && rel <= ground + 2 && layout.L23OutsideTrunks(gx, gz, rel))
+                    b[i] = i + 1 < L23Height && c.Wood[i + 1] == WorldLayout.L23BarkDark ? l23KneeBase
+                        : i > 0 && c.Wood[i - 1] == WorldLayout.L23BarkDark && rel > ground + 1 ? l23KneeTip : l23KneeTop;
+                continue;
+            }
             int pattern = (int)(L23Hash(gx, gz * 31 + rel, 40) & 1);
             b[i] = l23BarkFace[bark, pattern, Facing(facing)];
         }

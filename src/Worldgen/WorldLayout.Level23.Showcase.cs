@@ -294,7 +294,7 @@ public partial class WorldLayout
                             int xm = (int)Math.Floor(t.X + ca * (reach + 2)), zm = (int)Math.Floor(t.Z + sa * (reach + 2));
                             if (!L23ClearSurface(x, z) || !L23ClearSurface(x2, z2) || !L23ClearSurface(xm, zm)) continue;
                             // (Round 4's first shots: the far camera stood under a root arch; nothing over it for fourteen up)
-                            if (!L23OpenOver(x2, z2, 14)) continue;
+                            if (!L23OpenOver(x2, z2, 14) || !L23SightClear(x2, z2, L23Ground(x2, z2) + 2.6, t.X, t.Z, t.Base + 11, reach)) continue;
                             spots.Add(L23Spot("trunk-foot", x, z, L23Ground(x, z) + 1, fy, t.X, t.Z, 0, eyeAt: t.Base + 1.5));
                             spots.Add(L23Spot("trunk-limbs", x2, z2, L23Ground(x2, z2) + 1, fy, t.X, t.Z, 0, eyeAt: t.Base + 11));
                             done = true;
@@ -323,6 +323,22 @@ public partial class WorldLayout
         }
         L23LinkSpots(spots, geometry);
         return spots;
+    }
+
+    /// <summary>Whether the line from an eye to a point on a trunk (stopping a reach short of its middle) passes no wood (round 4: the limbs' first spot looked into a root arch).</summary>
+    private bool L23SightClear(int x, int z, double eye, double tx, double tz, double ty, double reach)
+    {
+        double dx = tx - (x + 0.5), dz = tz - (z + 0.5), len = Math.Sqrt(dx * dx + dz * dz);
+        var kind = new byte[1];
+        for (double d = 1; d < len - reach; d += 0.5)
+        {
+            double f = d / len;
+            int cx = (int)Math.Floor(x + 0.5 + dx * f), cz = (int)Math.Floor(z + 0.5 + dz * f);
+            int y = (int)Math.Floor(eye + (ty - eye) * f);
+            L23Wood(cx, cz, y, kind);
+            if (kind[0] != 0) return false;
+        }
+        return true;
     }
 
     /// <summary>Whether a forest column has no wood over its ground for a height (round 4: a camera with nothing over it).</summary>
