@@ -471,7 +471,7 @@ public sealed partial class WorldLayout
     // ================= Thresholds as features =================
 
     // Cells looked at lately on behalf of thresholds and entities (a flight of stairs or a lake bottom is asked about
-    // many times): the 48 built last, built outside any lock and looked up without one. The arrays are never written to.
+    // many times): the 64 built last, built outside any lock and looked up without one. The arrays are never written to.
     private readonly PlanCache<Tile[]> featureCells;
 
     /// <summary>The layout tile at a block position.</summary>

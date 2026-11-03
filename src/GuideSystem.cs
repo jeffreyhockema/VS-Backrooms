@@ -173,7 +173,7 @@ public class GuideSystem : ModSystem
                 if (capi.World?.Player == null || tutorials.CurrentTutorial != null) return;
                 if (capi.World.Player.WorldData.CurrentGameMode == EnumGameMode.Creative) return;
                 tutorials.GetTutorialProgress(BackroomsTutorial.Code);
-                if (!ours.Complete) capi.ShowChatMessage(Lang.Get("backrooms:tutorial-backrooms-started"));
+                if (!ours.Complete) capi.ShowChatMessage(Lang.Get("backrooms:tutorial-backrooms-resume"));
             }, 2500);
             return;
         }

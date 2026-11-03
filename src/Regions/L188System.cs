@@ -1062,7 +1062,7 @@ public class BlockL188Dispenser : Block
         }
         parts[2] = (stage - 1).ToString();
         BlockBehaviorL188Door.Swap(world, blockSel.Position, string.Join("-", parts));
-        world.PlaySoundAt(new AssetLocation("game:sounds/player/collect"), blockSel.Position.X + 0.5, blockSel.Position.Y + 0.5, blockSel.Position.Z + 0.5, byPlayer, true, 8);
+        world.PlaySoundAt(new AssetLocation("game:sounds/player/collect*"), blockSel.Position.X + 0.5, blockSel.Position.Y + 0.5, blockSel.Position.Z + 0.5, byPlayer, true, 8);
         return true;
     }
 }

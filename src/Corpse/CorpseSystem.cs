@@ -688,7 +688,7 @@ public class CorpseSystem : ModSystem
         if (layer == null) return;
         foreach (CorpseRecord other in records)
             if (other != r && other.Owner == r.Owner && Find(layer, other.WaypointGuid) is { } older) older.Pinned = false;
-        string level = MapMarks.LevelName(layout, r.X, r.Z);
+        string level = MapMarks.LevelName(owner, layout, r.X, r.Z);
         int day = (int)Math.Floor(sapi.World.Calendar.ElapsedDays) + 1;
         var waypoint = new Waypoint
         {
