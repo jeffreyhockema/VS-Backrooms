@@ -724,3 +724,12 @@ cup holders are on the bench backs), the DJ still on the south, the star at the 
   STARDUST (three backglasses now, by place); the rental counter had a bell on every section (one in five now);
   the popcorn heap was one block (mounds now); the back-arcade spot stood nose to a sheet (from the room's middle
   now). The Plastic block material of the first build failed to parse (Wood since; headless check clean after).
+
+### Questions for the user (round 4)
+
+1. The rink's barrier is a block high, as the old one was, so a player can hop over it anywhere; real rinks are like
+   that. Keep, or make it a block and a half so the boards are reached through the gates only?
+2. Wikidot's "back arcade area with covered machines" is now half of the store rooms (rows of machines under dust
+   sheets). Enough of them, or should it be a rarer room of its own?
+3. The level's lore calls the rink "freshly cleaned"; round 4 adds a little litter (a dropped skate, a spilt soda,
+   popcorn, prize tickets, about one tile in two hundred on the skirts). Keep it that light, more, or none?
