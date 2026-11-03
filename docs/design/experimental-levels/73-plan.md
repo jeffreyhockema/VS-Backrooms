@@ -733,3 +733,13 @@ the dead on the hill's flanks; Coran's mantle.
   it one deep?
 - The castle now borrows only the beds (sleepable), from the hotel: is a castle bed frame worth changing the shared bed
   shape for?
+
+### Checks (round 4)
+
+`expclash` clean; mod and mapgen build with 0 errors (tags 73, 73b, 73g); `layouthash` (`BACKROOMS_NO_EXP_ENTRANCES=1`) at
+layout versions 1 and 12: every line for levels 0-20 and the layout hash identical to main's saved files; `regions` 60/60
+in Level 73 (0 wrong, 0 in pockets); `featurecheck` 15/15 Level 73 features found from 3 arrivals; `73stats` OK (24 guest
+beds, 4 bath barrels, 24 places, 32 windows, 0 misplaced; 112 dead trees; 60 heaps of the dead, 96 ditch and bridge tiles,
+16 drum tiles; arrivals 58-133 from the gate); headless (port 43101, fresh world): a dummy placed in Level 73 with 0
+error lines, `blocksweep` 15829 blocks, 0 threw (one earlier run on a reused world stopped on an engine relight exception
+in `ChunkIlluminator.UpdateLightAt` during the sweep at the console spawn; it did not come back on a fresh world).
