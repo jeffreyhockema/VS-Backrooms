@@ -356,7 +356,6 @@ public sealed partial class WorldGenerator
         int dx = gx - ax, dz = gz - az;
         if (dz != 0 || dx is not (0 or 2 or -2) || !layout.L47CampFits(ax, az)) return;
         int at = ground + 1 - L47Low;
-        if (b[at] != 0 && dx == 0) return;
         b[at] = dx == 0 ? l47FireRing23 : dx == 2 ? l47Bedroll23[3] : l47Kind[W.L47LogOakZ];
     }
 

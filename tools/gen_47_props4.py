@@ -1093,9 +1093,9 @@ def blocktypes():
     win = {"lower": "leaded-lower", "upper": "leaded-upper", "single": "leaded-single"}
     out.append(("// Level 47 (round 4): the manor's leaded windows in their stone surrounds (part lower/upper/single, axis of the wall)", {
         "code": "l47-leaded", "variantgroups": [{"code": "part", "states": list(win)}, {"code": "axis", "states": ["ns", "ew"]}],
-        "creativeinventory": inv("*-ns"), "blockmaterial": "Glass", "drawtype": "json", "renderpass": "Transparent", "faceCullMode": "NeverCull",
+        "creativeinventory": inv("*-ns"), "blockmaterial": "Glass", "drawtype": "json", "renderpass": "OpaqueNoCull", "faceCullMode": "NeverCull",
         "shapeByType": {f"*-{p}-{a}": {"base": f"block/47/{v}", "rotateY": 0 if a == "ns" else 90} for p, v in win.items() for a in ("ns", "ew")},
-        "textures": {"stone": {"base": tex("manorstone-dressed")}, "glass": {"base": tex("window")}, "iron": {"base": tex("iron")}},
+        "textures": {"stone": {"base": tex("manorstone-dressed")}, "glass": {"base": tex("leaded-glass")}, "iron": {"base": tex("iron")}},
         "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 8, "drops": [],
         "sounds": {"walk": "game:walk/stone*", "place": "game:block/glass", "break": "game:block/glass", "hit": "game:block/glass"}}))
     leaves = [f"{p}-{l}" for p in ("near", "far") for l in ("lower", "mid", "upper")]
@@ -1240,7 +1240,7 @@ def shapes():
     out["waystone-lower"] = shape(waystone("lower"), ws)
     out["waystone-upper"] = shape(waystone("upper"), ws)
     for p in ("lower", "upper", "single"):
-        out[f"leaded-{p}"] = shape(leaded(p), {"stone": "manorstone-dressed", "glass": "window", "iron": "iron"})
+        out[f"leaded-{p}"] = shape(leaded(p), {"stone": "manorstone-dressed", "glass": "leaded-glass", "iron": "iron"})
     for lf in ("west", "east"):
         for pos in ("near", "far"):
             for lvl in ("lower", "mid", "upper"):
@@ -1321,10 +1321,29 @@ def textures(save):
             x += w + rng.randint(1, 2)
     d.ellipse([12, 12, 20, 20], outline=M.rgba((150, 24, 24)))
     save(script, "block/47/script")
+    # The leaded lights' glass, opaque (a window in the opaque pass: the translucent pass drew the stone round it as a
+    # ghost): old green-grey glass in diamond panes, each pane lit at its upper left and darker at its lower right, a
+    # bullseye here and there, the lead cames dark
+    lg = Image.new("RGBA", (S, S))
+    px = lg.load()
+    rng = random.Random(4871)
+    for y in range(S):
+        for x in range(S):
+            u, v = (x + y) % 8, (x - y) % 8
+            if u == 0 or v == 0:
+                px[x, y] = (34, 34, 38, 255)
+            else:
+                g = 22 * (1 - (u + (8 - v)) / 14) + rng.uniform(-5, 5)
+                px[x, y] = M.rgba(M.lift((70, 92, 86), g))
+    for _ in range(3):
+        cx, cy = rng.randrange(4, 28), rng.randrange(4, 28)
+        px[cx, cy] = M.rgba((150, 170, 150))
+        px[cx + 1, cy] = M.rgba((110, 130, 116))
+    save(lg, "block/47/leaded-glass")
     clay = M.noise_hv((150, 88, 62), 4, 4865, mottle=8)
     M.grime(clay, 0.3, seed=4866, color=(50, 44, 40), bias="top")
     save(clay, "block/47/clay")
-    beard = M.noise_hv((150, 162, 132), 6, 4859, mottle=8)
+    beard = M.noise_hv((104, 122, 86), 6, 4859, mottle=8)
     save(beard, "block/47/beard")
     # The ridge tiles: rounded clay-grey, a lit crown line
     ridge = M.noise_hv((84, 84, 88), 4, 4860, mottle=6)

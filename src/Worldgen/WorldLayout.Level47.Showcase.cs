@@ -105,7 +105,8 @@ public partial class WorldLayout
         // table; the door from the walk, open, in its frame; the library)
         spots.Add(new Showcase.Spot("great-hall", mx - 4.5, fy + 2, mz + 0.5, 270, -5, Day));
         spots.Add(new Showcase.Spot("hearth", mx - 6.5, fy + 2, mz - 2.5, HeadingTo(mx - 6.5, mz - 2.5, mx - 10.5, mz - 0.0), -4, Day));
-        spots.Add(new Showcase.Spot("tapestry", mx - 7.0, fy + 2, mz + 3.5, 0, 6, Day));
+        // (the south wall's: the north wall's is behind a trilithon from anywhere in the hall)
+        spots.Add(new Showcase.Spot("tapestry", mx - 5.0, fy + 2, mz + 2.5, HeadingTo(mx - 5.0, mz + 2.5, mx - 7.0, mz + 6.5), 8, Day));
         spots.Add(new Showcase.Spot("manor-door", mx + 0.5, fy + 2, mz + 11.5, 0, 6, Day));
         spots.Add(new Showcase.Spot("east-room", mx + 5.5, fy + 2, mz + 2.5, 95, -6, Day));
         spots.Add(new Showcase.Spot("entrance-hall", mx + 0.5, fy + 2, mz + 6.5, 0, -10, Day));
@@ -135,13 +136,23 @@ public partial class WorldLayout
                     if (!l.Exists || l.Plate <= 0) continue;
                     double len = Math.Sqrt((l.Bx - l.Ax) * (l.Bx - l.Ax) + (l.Bz - l.Az) * (l.Bz - l.Az));
                     double ux = (l.Bx - l.Ax) / len, uz = (l.Bz - l.Az) / len;
-                    // (Out in front of the plate, on the side away from the trunk, and a little to one side to see both)
-                    double fx = l.Ax - ux * 7 - uz * 3, fz = l.Az - uz * 7 + ux * 3;
-                    int ix = (int)Math.Floor(fx), iz = (int)Math.Floor(fz);
-                    Tile t = TileAt(ix, iz);
-                    if (t.Kind != TileKind.Floor || t.Zone != L47Forest) continue;
-                    double d = Math.Abs(l.Ax - (mx + 140)) + Math.Abs(l.Az - mz);
-                    if (d < best.D) best = (d, ix, iz, l.Ax, l.Az);
+                    // (Out in front of the plate, on the side away from the trunk, a little to one side to see both, with
+                    // nothing standing between: round 4's first shot looked at a dead tree)
+                    foreach (var (back, side) in new[] { (7.0, 3.0), (7.0, -3.0), (6.0, 5.0), (6.0, -5.0), (9.0, 0.0) })
+                    {
+                        double fx = l.Ax - ux * back - uz * side, fz = l.Az - uz * back + ux * side;
+                        int ix = (int)Math.Floor(fx), iz = (int)Math.Floor(fz);
+                        Tile t = TileAt(ix, iz);
+                        if (t.Kind != TileKind.Floor || t.Zone != L47Forest) continue;
+                        double len2 = Math.Sqrt((l.Ax - fx) * (l.Ax - fx) + (l.Az - fz) * (l.Az - fz));
+                        bool clear = true;
+                        for (double k = 1; k < len2 - 2.5 && clear; k += 0.5)
+                            clear = TileAt((int)Math.Floor(fx + (l.Ax - fx) * k / len2), (int)Math.Floor(fz + (l.Az - fz) * k / len2)).Kind == TileKind.Floor;
+                        if (!clear) continue;
+                        double d = Math.Abs(l.Ax - (mx + 140)) + Math.Abs(l.Az - mz);
+                        if (d < best.D) best = (d, ix, iz, l.Ax, l.Az);
+                        break;
+                    }
                 }
             if (best.D < 1e9)
                 spots.Add(new Showcase.Spot("root-plate", best.X + 0.5, Feet((int)best.X, (int)best.Z), best.Z + 0.5, HeadingTo(best.X + 0.5, best.Z + 0.5, best.Ax, best.Az), 8, Day));
@@ -173,8 +184,9 @@ public partial class WorldLayout
                     for (int dx = -r; dx <= r && !done; dx++)
                     {
                         if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r || !L47CampAt(cx + dx, cz + dz, out int ax, out int az) || !L47CampFits(ax, az)) continue;
-                        if (TileAt(ax, az + 4).Kind != TileKind.Floor) continue;
-                        spots.Add(new Showcase.Spot("camp", ax + 0.5, Feet(ax, az + 4), az + 4.5, 0, -14, Day));
+                        // (From along its row, east of it: the log, the fire and the bedroll in a line, nothing between)
+                        if (TileAt(ax + 4, az).Kind != TileKind.Floor || TileAt(ax + 5, az).Kind != TileKind.Floor) continue;
+                        spots.Add(new Showcase.Spot("camp", ax + 5.5, Feet(ax + 5, az), az + 0.5, 270, -18, Day));
                         done = true;
                     }
         }

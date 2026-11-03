@@ -3,7 +3,7 @@
 	"textureHeight": 16,
 	"textures": {
 		"stone": "backrooms:block/47/manorstone-dressed",
-		"glass": "backrooms:block/47/window",
+		"glass": "backrooms:block/47/leaded-glass",
 		"iron": "backrooms:block/47/iron"
 	},
 	"elements": [

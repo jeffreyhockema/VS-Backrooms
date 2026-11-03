@@ -233,10 +233,10 @@ def dead(seed, base=(152, 146, 134)):
     img = light(h, base, 6 * fbm(seed + 2, (2, 4)), relief=40, ao=60, grain=3, seed=seed + 3)
     px = img.load()
     r = random.Random(seed)
-    for _ in range(3):  # strips of bark, raised
-        x0, y0, hh, w = r.randrange(S), r.randrange(S), r.randint(7, 15), r.randint(3, 5)
+    for _ in range(2):  # strips of bark, raised, their edges torn
+        x0, y0, hh, w = r.randrange(S), r.randrange(S), r.randint(6, 13), r.randint(2, 4)
         for y in range(y0, y0 + hh):
-            for x in range(x0, x0 + w):
+            for x in range(x0 + r.choice((0, 0, 1)), x0 + w - r.choice((0, 0, 1))):
                 edge = x == x0 or y == y0
                 c = M.lift((72, 62, 52), r.uniform(-8, 6) + (14 if edge else 0))
                 px[x % S, y % S] = M.rgba(c)

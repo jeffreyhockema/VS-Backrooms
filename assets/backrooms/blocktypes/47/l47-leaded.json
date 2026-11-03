@@ -28,7 +28,7 @@
 	},
 	"blockmaterial": "Glass",
 	"drawtype": "json",
-	"renderpass": "Transparent",
+	"renderpass": "OpaqueNoCull",
 	"faceCullMode": "NeverCull",
 	"shapeByType": {
 		"*-lower-ns": {
@@ -61,7 +61,7 @@
 			"base": "backrooms:block/47/manorstone-dressed"
 		},
 		"glass": {
-			"base": "backrooms:block/47/window"
+			"base": "backrooms:block/47/leaded-glass"
 		},
 		"iron": {
 			"base": "backrooms:block/47/iron"
