@@ -33,7 +33,7 @@ public partial class WorldLayout
 
         static bool Stand(Tile t) => t.Kind == TileKind.Floor && t.Variant == 0 && !t.SupplyBox && t.Stack == 0;
         static bool Rack(Tile t) => t.Variant == L120Rack && t.Detail != L120RackGutted;
-        static bool Lit(Tile t) => t.Variant == L120Rack && t.Detail is >= L120RackLedA and <= L120RackBoth;
+        static bool Lit(Tile t) => t.Variant == L120Rack && L120RackLit(t.Detail);
         static bool Wreck(Tile t) => t.Variant is L120Wreck or Props.MachineParts or Props.ScrapMetal || t.Variant == L120Rack && t.Detail == L120RackGutted;
         static bool Terminal(Tile t) => t.Variant is L120Terminal or L120Chair;
         static bool Spill(Tile t) => t.Variant == L120Spill;
@@ -74,6 +74,19 @@ public partial class WorldLayout
         spots.Add(Spot("row-ends", L120Best(rings, Stand, (t, k, s) => t.Variant == L120RowEnd ? (k is >= 2 and <= 4 ? 4 : 1) : 0, 6, 8, line: 1), 4));
         spots.Add(Spot("storage", L120Best(rings, Stand, (t, k, s) => t.Variant == L120Shelf ? 1 : t.Variant is L120Kvm or L120Mop ? 2 : 0, 7, 8), -8));
         spots.Add(Spot("floor-hole", L120Best(rings, Stand, (t, k, s) => t.Depth == L120PanelHole && t.Variant == 0 && k == 2 && s == 0 ? 10 : t.Variant == L120Debris ? 1 : 0, 3, 10), -40));
+
+        // Round 4 (the asset-quality pass, tools/gen_120_r4*.py): racks up close behind their perforated doors, a storage array, a
+        // network rack's patch cords, down a hot aisle between the racks' backs, a rack torn open, the fire suppression bank, a
+        // tape library, the operators' desks with their monitors on arms
+        static bool Door(Tile t) => t.Variant == L120Rack && t.Detail <= L120RackBoth;
+        spots.Add(Spot("rack-doors", L120Best(rings, Stand, (t, k, s) => k == 2 && Math.Abs(s) <= 1 && Door(t) ? 2 : 0, 2, 6, line: 1), 6));
+        spots.Add(Spot("rack-storage", L120Best(rings, Stand, (t, k, s) => k == 2 && Math.Abs(s) <= 1 && t.Variant == L120Rack && t.Detail is L120RackStore or L120RackStoreLit ? 2 : 0, 2, 6, line: 1), 6));
+        spots.Add(Spot("rack-network", L120Best(rings, Stand, (t, k, s) => k == 2 && Math.Abs(s) <= 1 && t.Variant == L120Rack && t.Detail is L120RackNet or L120RackNetLit ? 2 : 0, 2, 6, line: 1), 6));
+        spots.Add(Spot("hot-aisle", L120Best(rings, t => Stand(t) && t.Zone == (byte)L120Zone.Hot, (t, k, s) => Math.Abs(s) == 1 && Rack(t) ? 1 : 0, 6, 10, line: 5), -2));
+        spots.Add(Spot("rack-torn", L120Best(rings, Stand, (t, k, s) => k == 2 && s == 0 && t.Variant == L120Wreck && t.Detail == L120WreckTorn ? 6 : k == 2 && Math.Abs(s) == 1 && t.Variant == L120Wreck ? 1 : 0, 2, 6, line: 1), 4));
+        spots.Add(Spot("fire-suppression", L120Best(rings, Stand, (t, k, s) => k is 2 or 3 && s == 0 && t.Variant == L120FireSup ? 10 : 0, 3, 10, line: 1), 14));
+        spots.Add(Spot("tape-library", L120Best(rings, Stand, (t, k, s) => k is 2 or 3 && Math.Abs(s) <= 1 && t.Variant == L120TapeLib ? 3 : 0, 3, 6, line: 1), 6));
+        spots.Add(Spot("noc-consoles", L120Best(rings, Stand, (t, k, s) => k <= 4 && t.Variant == L120Terminal && t.Detail is L120TermConsole or L120TermConsoleGlitch ? (t.Detail == L120TermConsoleGlitch ? 4 : 1) : 0, 4, 6, zone: L120Zone.Terminals), -18));
 
         // The nearest White Void: across a room to its black doors, a broken window, a Smiler lost in the light
         if (L120NearestPocket(chx, chz, L120HallKind.Void, 12) is { } v)

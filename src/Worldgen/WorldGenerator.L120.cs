@@ -20,9 +20,9 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private static readonly string[] L120RackStates = { "off", "leda", "ledb", "both", "gutted" };
+    private static readonly string[] L120RackStates = { "off", "leda", "ledb", "both", "gutted", "store", "storelit", "net", "netlit" };
     private readonly int[] l120Wall = new int[9], l120Floor = new int[6], l120Tray = new int[2], l120Ceil = new int[3], l120Spill = new int[2];
-    private readonly int[,,] l120Rack = new int[2, 5, 4];
+    private readonly int[,,] l120Rack = new int[2, 9, 4];
     private readonly int[,] l120Terminal = new int[3, 4], l120Window = new int[2, 4], l120VoidDoor = new int[2, 2];
     private readonly int[] l120Toppled = new int[4];
     private readonly int[,] l120Torn = new int[2, 4];
@@ -65,10 +65,10 @@ public sealed partial class WorldGenerator
         for (int f = 0; f < 4; f++)
         {
             int old = L120Block("serverrack-" + Sides[f]);
-            for (int s = 0; s < 5; s++)
+            for (int s = 0; s < 9; s++)
             {
-                l120Rack[0, s, f] = L120Block($"l120-rack-lower-{L120RackStates[s]}-{Sides[f]}", old);
-                l120Rack[1, s, f] = L120Block($"l120-rack-upper-{L120RackStates[s]}-{Sides[f]}");
+                l120Rack[0, s, f] = L120Block($"l120-rack-lower-{L120RackStates[s]}-{Sides[f]}", s >= 5 ? l120Rack[0, s is 6 or 8 ? 1 : 0, f] : old);
+                l120Rack[1, s, f] = L120Block($"l120-rack-upper-{L120RackStates[s]}-{Sides[f]}", s >= 5 ? l120Rack[1, s is 6 or 8 ? 1 : 0, f] : 0);
             }
             l120Terminal[0, f] = L120Block("l120-terminal-dead-" + Sides[f]);
             l120Terminal[1, f] = L120Block("l120-terminal-boot-" + Sides[f], l120Terminal[0, f]);
@@ -188,7 +188,7 @@ public sealed partial class WorldGenerator
         switch (t.Variant)
         {
             case WorldLayout.L120Rack:
-                return rel <= 2 ? l120Rack[rel - 1, t.Detail <= 4 ? t.Detail : 0, facing] : 0;
+                return rel <= 2 ? l120Rack[rel - 1, t.Detail <= 8 ? t.Detail : 0, facing] : 0;
             case WorldLayout.L120Wreck:
                 if (t.Detail == WorldLayout.L120WreckTorn) return rel <= 2 ? l120Torn[rel - 1, facing] : 0;
                 return rel == 1 ? l120Toppled[facing] : 0;
@@ -198,7 +198,9 @@ public sealed partial class WorldGenerator
         return t.Variant switch
         {
             0 => t.SupplyBox ? BoxOf(t) : t.Stack > 0 ? crateId : 0,
-            WorldLayout.L120Terminal => l120Terminal[t.Detail <= 2 ? t.Detail : 0, facing],
+            WorldLayout.L120Terminal => t.Detail is WorldLayout.L120TermConsole or WorldLayout.L120TermConsoleGlitch
+                ? l120Console[t.Detail - WorldLayout.L120TermConsole, facing]
+                : l120Terminal[t.Detail <= 2 ? t.Detail : 0, facing],
             WorldLayout.L120Chair => chairIds[facing],
             WorldLayout.L120Spill => l120Spill[(int)(Hashing.Hash(seed, gx, gz, 0x2622) & 1)],
             Props.Cabinet => cabinetIds[facing],
