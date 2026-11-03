@@ -563,7 +563,7 @@ Tiers: A must, B should, C nice.
 17. [B] [done] `l120-shelf`: shelving with uprights and beams, boxed drives with labels; `l120-mop`: a yellow mop bucket with casters and a wringer.
 18. [B] [done] `l120-wall`: wallpaper and rotting boards from matlib's paper and wood (seams, peel, damp tide line at the foot); skirting kept.
 19. [B] [done] `l120-window` (the voids' broken window, lead): a finished window: frame with stops, a sill, the glass shards translucent in the frame.
-20. [C] [skipped: round 3's tile already reads; time went to the racks] `l120-ceiling`: office tile via matlib's ceiling_tile (T-bar rails, fissured tile), stains, the broken-through tile with a jagged edge.
+20. [C] [done] `l120-ceiling`: office tile via matlib's ceiling_tile (T-bar rails, fissured tile), stains, the broken-through tile with a jagged edge.
 21. [C] [skipped: they read at floor scale] `l120-debris`, `l120-spill`: finer pieces (a bent T-bar, insulation).
 
 **2. Multi-block set pieces**
@@ -574,7 +574,7 @@ Tiers: A must, B should, C nice.
 26. [B] [done] **The CRAC with its duct** (7): unit, the duct, a ceiling collar, reading as one machine.
 27. [B] [done] **The NOC**: wall of screens (14) over the operators' desks (8, 9) with chairs.
 28. [C] [skipped: needs the paired banks in the plan; left for a later round] **Cold-aisle containment**: at some banks' ends, a containment door frame standing open across the cold aisle (invention).
-29. [C] [skipped] A floor-tile lifter (suction cups) beside some lifted panels.
+29. [C] [done] A floor-tile lifter (suction cups) beside some lifted panels.
 
 **3. Level design**
 30. [A] [done] Server rooms less samey: rack kinds by bank (servers / storage arrays with drive bays / network racks with patch panels), so a hall has rows that differ.
@@ -598,7 +598,7 @@ Tiers: A must, B should, C nice.
 44. [C] [done] Pick-block / HUD names for every new block; salvage as the racks'.
 
 **6. Checks**
-45. [A] [pending] expclash clean, layouthash 0-20 = main, regions 60/60, dummy and blocksweep 0 errors, F7 featurecheck, gate `--fast` with GATE_TAG=120g; three rig runs at most (`--torch`).
+45. [A] [done] expclash clean, layouthash 0-20 = main, regions 60/60, dummy and blocksweep 0 errors, F7 featurecheck, gate `--fast` with GATE_TAG=120g; three rig runs at most (`--torch`).
 
 ### Built (round 4)
 Assets: `tools/gen_120_r4.py` (materials, the rack, the wall dressings rebuilt; run from the end of `gen_120.py`, after
@@ -707,6 +707,17 @@ glow-in-the-dark plates. All from real data halls; the lore says only "massive b
   level); the CRT's new proportions; the cardboard boxes; the White Voids' black doors with panels and levers; the
   lifted floor panel. Wrong: the fire suppression spot stood behind a torn-open UPS whose hanging door hid the bank (only
   the riser showed); the floor-hole spot looked into a rack's side. Both spots fixed for run 3.
+
+- **Run 3, final** (`%TEMP%/backrooms-shots/120-r4c/`, `sheet.jpg`, 39 shots, no unknown blocks; one bot wait step hit a
+  Windows file lock and was skipped, every shot taken): the fire suppression bank seen whole (cylinders, valves and gauges,
+  manifold, riser to its nozzle beside the electrical panel), the finer perforation on the doors, the NOC, tape
+  libraries, storage arrays and network racks, the hot aisle, the operators' desks. Still weak: the floor-hole spot still
+  looks into a rack's side close to (the hole itself is fine in the cold-aisle shot); the rig's random arrivals look along
+  fixed headings, so one in four shows a wall close up; the passages read much as in round 3 apart from the new duct and
+  tray (the lore wants them plain); the Misglitch is round 1's model.
+- Also built after the shots: the passages' own galvanised duct (`l120-duct`: run and plenum hub, in place of Level 2's
+  pipe bundle), cable drops from the ladder rack into one rack top in four, the lifted floor panel with its lifter
+  (`l120-lifter`), matlib ceiling tiles.
 
 ### Checks (round 4)
 `expclash` clean; mod and mapgen 0 errors; `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash, versions 1 and 12: levels 0-20 and the
