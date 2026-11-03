@@ -657,3 +657,9 @@ upper paint on their upper storey (the cross wall showed a second skirting band 
   at the entrance; the dugout by the pitch. Wrong: the library's stacks (blank slabs: shared bookshelves seen from behind) and the
   ladder standing clear of them; WELCOME on the front office counter; white cloud slabs over open views; the façade's grey
   showing inside the gym over its end doors; the courtyard spot behind a lamp post; the pitch spot looking at empty turf.
+- **Run 2** (`%TEMP%/backrooms-shots/52-r4b`, `sheet.jpg`): the library's double-sided stacks with their few leftover books and
+  the ladder against them; the school counter (but its bell repeated on every block: now three variants); the trophy case in
+  Marshall David's worn lobby; the gym's scoreboard on the changing rooms' cross wall over the far hoop; the fence posts; the
+  pitch's goal with its net; the clouds gone (no more slabs in the sky). Wrong: the roof gravel's 8-block patches read as a
+  patchwork (now gravel all over, membrane walkways every eleventh block); two random arrivals stood inside a lawn tree's crown
+  (arrivals now on paths and corridors only; `regions` still 60/60).
