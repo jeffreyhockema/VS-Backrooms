@@ -707,3 +707,11 @@ glow-in-the-dark plates. All from real data halls; the lore says only "massive b
   level); the CRT's new proportions; the cardboard boxes; the White Voids' black doors with panels and levers; the
   lifted floor panel. Wrong: the fire suppression spot stood behind a torn-open UPS whose hanging door hid the bank (only
   the riser showed); the floor-hole spot looked into a rack's side. Both spots fixed for run 3.
+
+### Checks (round 4)
+`expclash` clean; mod and mapgen 0 errors; `BACKROOMS_NO_EXP_ENTRANCES=1` layouthash, versions 1 and 12: levels 0-20 and the
+layout hash identical to main's (only the far places hash moves); `120stats 3` OK (0 unreached, 60/60 arrivals, the lit
+share 3.6%); `featurecheck`: all 22 of Level 120's F7 entries found 3/3 (the four new: racks up close, fire suppression,
+tape library, operators' desks); headless dummy in Level 120 (port 43141) with 0 error lines and 0 missing blocks,
+`blocksweep` 15681 blocks, 0 threw; gate `--fast --port-base 43140` with `GATE_TAG=120g` PASS
+(`review/gate/`, commit 40f51421). Element counts: the busiest block (the network rack) 56.
