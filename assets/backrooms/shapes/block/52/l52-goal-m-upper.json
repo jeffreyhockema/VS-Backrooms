@@ -2,144 +2,433 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"goal-net": "backrooms:block/52/goal-net",
-		"goal-white": "backrooms:block/52/goal-white"
+		"r4k-gnet": "backrooms:block/52/r4k-gnet",
+		"r4k-goal": "backrooms:block/52/r4k-goal",
+		"r4k-white-plastic": "backrooms:block/52/r4k-white-plastic"
 	},
 	"elements": [
 		{
-			"name": "Bar",
+			"name": "Bara",
 			"from": [
-				0,
-				13,
-				1
+				0.0,
+				13.2,
+				1.536
 			],
 			"to": [
-				16,
-				15,
-				3
+				16.0,
+				14.8,
+				2.464
 			],
 			"faces": {
 				"north": {
-					"texture": "#goal-white",
+					"texture": "#r4k-goal",
 					"uv": [
 						0,
 						0,
 						16,
-						2
-					]
-				},
-				"east": {
-					"texture": "#goal-white",
-					"uv": [
-						0,
-						0,
-						2,
-						2
+						1.6
 					]
 				},
 				"south": {
-					"texture": "#goal-white",
+					"texture": "#r4k-goal",
 					"uv": [
 						0,
 						0,
 						16,
-						2
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						16,
+						0.928
+					]
+				},
+				"down": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						16,
+						0.928
+					]
+				}
+			}
+		},
+		{
+			"name": "Barb",
+			"from": [
+				0.012,
+				13.536,
+				1.2
+			],
+			"to": [
+				15.988,
+				14.464,
+				2.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						15.976,
+						0.928
+					]
+				},
+				"south": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						15.976,
+						0.928
+					]
+				},
+				"up": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						15.976,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						15.976,
+						1.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Barc",
+			"from": [
+				0.024,
+				13.312,
+				1.312
+			],
+			"to": [
+				15.976,
+				14.688,
+				2.688
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						15.952,
+						1.376
+					]
+				},
+				"south": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						15.952,
+						1.376
+					]
+				},
+				"up": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						15.952,
+						1.376
+					]
+				},
+				"down": {
+					"texture": "#r4k-goal",
+					"uv": [
+						0,
+						0,
+						15.952,
+						1.376
+					]
+				}
+			}
+		},
+		{
+			"name": "Clip2",
+			"from": [
+				2,
+				13.5,
+				2.8
+			],
+			"to": [
+				2.5,
+				14.5,
+				3.3
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
 					]
 				},
 				"west": {
-					"texture": "#goal-white",
+					"texture": "#r4k-white-plastic",
 					"uv": [
 						0,
 						0,
-						2,
-						2
+						0.5,
+						1.0
 					]
 				},
 				"up": {
-					"texture": "#goal-white",
+					"texture": "#r4k-white-plastic",
 					"uv": [
 						0,
 						0,
-						16,
-						2
+						0.5,
+						0.5
 					]
 				},
 				"down": {
-					"texture": "#goal-white",
+					"texture": "#r4k-white-plastic",
 					"uv": [
 						0,
 						0,
-						16,
-						2
+						0.5,
+						0.5
 					]
 				}
 			}
 		},
 		{
-			"name": "NetTop",
+			"name": "Clip6",
 			"from": [
-				0,
+				6,
+				13.5,
+				2.8
+			],
+			"to": [
+				6.5,
 				14.5,
-				3
-			],
-			"to": [
-				16,
-				14.6,
-				16
+				3.3
 			],
 			"faces": {
-				"up": {
-					"texture": "#goal-net",
+				"east": {
+					"texture": "#r4k-white-plastic",
 					"uv": [
 						0,
 						0,
-						16,
-						16
-					]
-				},
-				"down": {
-					"texture": "#goal-net",
-					"uv": [
-						0,
-						0,
-						16,
-						16
-					]
-				}
-			}
-		},
-		{
-			"name": "NetBack",
-			"from": [
-				0,
-				0,
-				15.9
-			],
-			"to": [
-				16,
-				15,
-				16
-			],
-			"faces": {
-				"north": {
-					"texture": "#goal-net",
-					"uv": [
-						0,
-						0,
-						16,
-						16
+						0.5,
+						1.0
 					]
 				},
 				"south": {
-					"texture": "#goal-net",
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Clip10",
+			"from": [
+				10,
+				13.5,
+				2.8
+			],
+			"to": [
+				10.5,
+				14.5,
+				3.3
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Clip14",
+			"from": [
+				14,
+				13.5,
+				2.8
+			],
+			"to": [
+				14.5,
+				14.5,
+				3.3
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-white-plastic",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Net",
+			"from": [
+				0,
+				-0.5976,
+				6.052499999999999
+			],
+			"to": [
+				16,
+				14.9976,
+				6.1025
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-gnet",
 					"uv": [
 						0,
 						0,
 						16,
-						16
+						15.595
 					]
 				}
-			}
+			},
+			"rotationOrigin": [
+				8.0,
+				7.2,
+				6.0775
+			],
+			"rotationX": -22.577910516061316
 		}
 	]
 }

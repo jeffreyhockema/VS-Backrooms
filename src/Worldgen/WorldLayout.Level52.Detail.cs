@@ -291,6 +291,8 @@ public sealed partial class WorldLayout
     {
         foreach (L52Room r in c.Rooms)
         {
+            // (Round 4) a gym's hoops, markings, mats and scoreboard
+            if (r.Kind == L52RoomKind.Gym) { L52LayGym(c, r); continue; }
             if (!r.HasDoor || r.DoorU < 0) continue;
             ArchPier side = r.DoorSide;
             var (su, sv) = L52Step(side);

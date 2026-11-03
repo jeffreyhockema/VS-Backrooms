@@ -1134,8 +1134,8 @@ public sealed partial class WorldLayout
                     t.Floor = inside && (v == cv0 || v == cv1) ? FloorKind.L52CourtLineWE
                         : inside && (u == cu0 || u == cu1 || u == mu) ? FloorKind.L52CourtLineNS : FloorKind.L52Court;
                 }
-            L52Put(c, cu0, mv, Props.BasketballHoop, ArchPier.East);
-            L52Put(c, cu1, mv, Props.BasketballHoop, ArchPier.West);
+            // (Round 4) the hoops on their posts, the markings, a fence round it: WorldLayout.Level52.Courts.cs
+            L52LayYardCourt(c, cu0, cu1, cv0, cv1, mu, mv);
             // (Round 3) a stand of bleachers along one side, two rows, the back one a block up
             for (int u = cu0 + 2; u <= cu1 - 2; u++)
                 for (int row = 0; row < 2; row++)
@@ -1611,9 +1611,7 @@ public sealed partial class WorldLayout
             case L52RoomKind.Gym:
             {
                 // (A hall's door side is its first long side: d across the hall, a along it)
-                bool across = d == ld / 2;
-                if (across && a == 0) { facing = toHighA; return Props.BasketballHoop; }
-                if (across && a == la - 1) { facing = toLowA; return Props.BasketballHoop; }
+                // (Round 4: the hoops are set pieces of several blocks, laid with the gym's fittings: L52LayGym)
                 if (d == 0 && a >= 4 && a <= la - 5 && a % 7 != 0) { facing = intoRoom; return Props.Bench; }
                 // A stand of bleachers along the far wall, two rows
                 if (d == ld - 2 && a >= 4 && a <= la - 5) { facing = room.DoorSide; stack = 0; return Props.L52Bleacher; }

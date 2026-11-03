@@ -1,0 +1,498 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4-steel-green": "backrooms:block/52/r4-steel-green"
+	},
+	"elements": [
+		{
+			"name": "Post",
+			"from": [
+				6.4,
+				0,
+				6.4
+			],
+			"to": [
+				9.6,
+				13.0,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						13.0
+					]
+				},
+				"east": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						13.0
+					]
+				},
+				"south": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						13.0
+					]
+				},
+				"west": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						13.0
+					]
+				},
+				"up": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
+					]
+				},
+				"down": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Cap",
+			"from": [
+				6.0,
+				13.0,
+				6.0
+			],
+			"to": [
+				10.0,
+				13.8,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4.0
+					]
+				},
+				"down": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4.0
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmT",
+			"from": [
+				7.1,
+				10.4,
+				0
+			],
+			"to": [
+				8.9,
+				12.2,
+				6.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.8
+					]
+				},
+				"east": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						6.4,
+						1.8
+					]
+				},
+				"south": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.8
+					]
+				},
+				"west": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						6.4,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.8,
+						6.4
+					]
+				},
+				"down": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.8,
+						6.4
+					]
+				}
+			}
+		},
+		{
+			"name": "ArmB",
+			"from": [
+				7.1,
+				2.4,
+				0
+			],
+			"to": [
+				8.9,
+				4.2,
+				6.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.8
+					]
+				},
+				"east": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						6.4,
+						1.8
+					]
+				},
+				"south": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.8
+					]
+				},
+				"west": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						6.4,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.8,
+						6.4
+					]
+				},
+				"down": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.8,
+						6.4
+					]
+				}
+			}
+		},
+		{
+			"name": "CollarT",
+			"from": [
+				6.0,
+				10.0,
+				6.0
+			],
+			"to": [
+				10.0,
+				12.6,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.6
+					]
+				},
+				"east": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.6
+					]
+				},
+				"south": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.6
+					]
+				},
+				"west": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.6
+					]
+				},
+				"up": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4.0
+					]
+				},
+				"down": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4.0
+					]
+				}
+			}
+		},
+		{
+			"name": "CollarB",
+			"from": [
+				6.0,
+				2.0,
+				6.0
+			],
+			"to": [
+				10.0,
+				4.6,
+				10.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.6
+					]
+				},
+				"east": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.6
+					]
+				},
+				"south": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.6
+					]
+				},
+				"west": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.6
+					]
+				},
+				"up": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4.0
+					]
+				},
+				"down": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Strut",
+			"from": [
+				7.4,
+				2.0,
+				2.5
+			],
+			"to": [
+				8.6,
+				12.0,
+				3.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.2,
+						10.0
+					]
+				},
+				"east": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10.0
+					]
+				},
+				"south": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.2,
+						10.0
+					]
+				},
+				"west": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.0,
+						10.0
+					]
+				},
+				"up": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				7.0,
+				3.0
+			],
+			"rotationX": 53.13010235415598
+		}
+	]
+}

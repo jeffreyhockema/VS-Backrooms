@@ -1,0 +1,164 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4-cabinet": "backrooms:block/52/r4-cabinet",
+		"r4-score-m-lo": "backrooms:block/52/r4-score-m-lo"
+	},
+	"elements": [
+		{
+			"name": "Case",
+			"from": [
+				0,
+				2.0,
+				12.8
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						3.2,
+						14.0
+					]
+				},
+				"west": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						3.2,
+						14.0
+					]
+				},
+				"up": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						16,
+						3.2
+					]
+				},
+				"down": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						16,
+						3.2
+					]
+				},
+				"south": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						16,
+						14.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Face",
+			"from": [
+				0,
+				2.0,
+				12.6
+			],
+			"to": [
+				16,
+				16,
+				12.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-score-m-lo",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 140
+				}
+			}
+		},
+		{
+			"name": "Lip",
+			"from": [
+				0,
+				1.4,
+				12.2
+			],
+			"to": [
+				16,
+				2.0,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						3.8,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						3.8,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						16,
+						3.8
+					]
+				},
+				"down": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						16,
+						3.8
+					]
+				}
+			}
+		}
+	]
+}

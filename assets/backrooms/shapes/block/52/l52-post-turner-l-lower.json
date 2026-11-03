@@ -3,7 +3,13 @@
 	"textureHeight": 16,
 	"textures": {
 		"board-turner-l-lower": "backrooms:block/52/board-turner-l-lower",
-		"post-steel": "backrooms:block/52/post-steel"
+		"post-steel": "backrooms:block/52/post-steel",
+		"r4k-bback-steel": "backrooms:block/52/r4k-bback-steel",
+		"r4k-bolt": "backrooms:block/52/r4k-bolt",
+		"r4k-frame-steel": "backrooms:block/52/r4k-frame-steel",
+		"r4k-galv-peg": "backrooms:block/52/r4k-galv-peg",
+		"r4k-plinth": "backrooms:block/52/r4k-plinth",
+		"r4k-steel": "backrooms:block/52/r4k-steel"
 	},
 	"elements": [
 		{
@@ -29,42 +35,636 @@
 					]
 				},
 				"south": {
-					"texture": "#post-steel",
+					"texture": "#r4k-bback-steel",
 					"uv": [
 						0,
 						0,
 						16,
-						16
-					]
-				},
-				"up": {
-					"texture": "#post-steel",
-					"uv": [
-						0,
-						0,
-						16,
-						2
-					]
-				},
-				"down": {
-					"texture": "#post-steel",
-					"uv": [
-						0,
-						0,
-						16,
-						2
-					]
-				},
-				"east": {
-					"texture": "#post-steel",
-					"uv": [
-						0,
-						0,
-						2,
 						16
 					]
 				}
 			}
+		},
+		{
+			"name": "FrameO",
+			"from": [
+				15.2,
+				0,
+				8.4
+			],
+			"to": [
+				16,
+				16,
+				11.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						2.9,
+						16
+					]
+				},
+				"south": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameB",
+			"from": [
+				0,
+				0,
+				8.4
+			],
+			"to": [
+				16,
+				0.8,
+				11.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						16,
+						2.9
+					]
+				}
+			}
+		},
+		{
+			"name": "Bolt0",
+			"from": [
+				3.75,
+				0.15,
+				8.1
+			],
+			"to": [
+				4.25,
+				0.65,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Bolt1",
+			"from": [
+				11.75,
+				0.15,
+				8.1
+			],
+			"to": [
+				12.25,
+				0.65,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Bolt2",
+			"from": [
+				15.35,
+				2.75,
+				8.1
+			],
+			"to": [
+				15.85,
+				3.25,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Bolt3",
+			"from": [
+				15.35,
+				12.75,
+				8.1
+			],
+			"to": [
+				15.85,
+				13.25,
+				8.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail0",
+			"from": [
+				0,
+				2.6,
+				11.0
+			],
+			"to": [
+				16,
+				3.8,
+				11.8
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Clamp0",
+			"from": [
+				12.7,
+				2.3,
+				13.0
+			],
+			"to": [
+				15.3,
+				4.1,
+				13.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8
+					]
+				},
+				"south": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.8
+					]
+				},
+				"west": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						2.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						2.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Rail1",
+			"from": [
+				0,
+				11.4,
+				11.0
+			],
+			"to": [
+				16,
+				12.6,
+				11.8
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Clamp1",
+			"from": [
+				12.7,
+				11.1,
+				13.0
+			],
+			"to": [
+				15.3,
+				12.9,
+				13.4
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8
+					]
+				},
+				"south": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						2.6,
+						1.8
+					]
+				},
+				"west": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						2.6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#r4k-galv-peg",
+					"uv": [
+						0,
+						0,
+						2.6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Brace",
+			"from": [
+				0.8149,
+				7.15,
+				11.05
+			],
+			"to": [
+				14.1851,
+				8.05,
+				11.65
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						13.3701,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.9
+					]
+				},
+				"south": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						13.3701,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						13.3701,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#r4k-frame-steel",
+					"uv": [
+						0,
+						0,
+						13.3701,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.5,
+				7.6,
+				11.35
+			],
+			"rotationZ": 34.640947511916295
 		},
 		{
 			"name": "Post",
@@ -114,23 +714,365 @@
 						2,
 						16
 					]
-				},
-				"up": {
-					"texture": "#post-steel",
+				}
+			}
+		},
+		{
+			"name": "Footing",
+			"from": [
+				11.6,
+				0,
+				9.6
+			],
+			"to": [
+				16.4,
+				0.5,
+				14.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-plinth",
 					"uv": [
 						0,
 						0,
-						2,
-						2
+						4.8,
+						0.5
 					]
 				},
-				"down": {
-					"texture": "#post-steel",
+				"east": {
+					"texture": "#r4k-plinth",
 					"uv": [
 						0,
 						0,
-						2,
-						2
+						4.8,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4k-plinth",
+					"uv": [
+						0,
+						0,
+						4.8,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-plinth",
+					"uv": [
+						0,
+						0,
+						4.8,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-plinth",
+					"uv": [
+						0,
+						0,
+						4.8,
+						4.8
+					]
+				}
+			}
+		},
+		{
+			"name": "BasePlate",
+			"from": [
+				12.3,
+				0.5,
+				10.3
+			],
+			"to": [
+				15.7,
+				0.85,
+				13.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-steel",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4k-steel",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4k-steel",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-steel",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-steel",
+					"uv": [
+						0,
+						0,
+						3.4,
+						3.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Nut-1.511.2",
+			"from": [
+				12.5,
+				0.85,
+				11.2
+			],
+			"to": [
+				12.9,
+				1.25,
+				11.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Nut-1.512.7",
+			"from": [
+				12.5,
+				0.85,
+				12.7
+			],
+			"to": [
+				12.9,
+				1.25,
+				13.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Nut1.111.2",
+			"from": [
+				15.1,
+				0.85,
+				11.2
+			],
+			"to": [
+				15.5,
+				1.25,
+				11.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Nut1.112.7",
+			"from": [
+				15.1,
+				0.85,
+				12.7
+			],
+			"to": [
+				15.5,
+				1.25,
+				13.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4k-bolt",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
 					]
 				}
 			}

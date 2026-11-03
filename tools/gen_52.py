@@ -29,6 +29,7 @@ from PIL import Image
 
 import gen_52_tex as T
 import gen_52_r3 as R3
+import gen_52_r4 as R4
 from modelkit import box
 from oggutil import write_ogg
 from gen_entity_sounds import RATE, band, reverb, seconds
@@ -623,7 +624,7 @@ def old_blocktypes():
             "collisionboxByType": {f"*-{s}": cuboid(box_, ROTATE[s]) for s in SIDES},
             "selectionboxByType": {f"*-{s}": cuboid(box_, ROTATE[s]) for s in SIDES},
             "drops": [{"type": "item", "code": "game:stick", "quantity": {"avg": 1, "var": 1}},
-                      {"type": "item", "code": "metalbracket", "quantity": {"avg": 0.3, "var": 0.3}}]}
+                      {"type": "item", "code": "metalbracket", "quantity": {"avg": 0.3, "var": 0.3}}] + chalk_drops(0.0075)}
     write_json(os.path.join(BLOCKS, "l52-desk.json"), data,
                "Level 52: a student desk with its chair joined on (light laminate, black tube, blue plastic); the student faces the side")
 
@@ -643,10 +644,17 @@ def old_blocktypes():
             "lightAbsorption": 0, "resistance": 1.5, "sounds": WOOD,
             "collisionboxByType": {f"*-{s}": cuboid(thin, ROTATE[s]) for s in SIDES},
             "selectionboxByType": {f"*-{s}": cuboid(thin, ROTATE[s]) for s in SIDES},
-            "drops": [{"type": "item", "code": "game:plank-aged", "quantity": {"avg": 0.5, "var": 0.5}}]}
+            # (the coloured chalk round, a2b5a948: a stick of coloured chalk now and then from the ledge)
+            "dropsByType": {"*-lower-*": [{"type": "item", "code": "game:plank-aged", "quantity": {"avg": 0.5, "var": 0.5}}] + chalk_drops(0.025),
+                            "*": [{"type": "item", "code": "game:plank-aged", "quantity": {"avg": 0.5, "var": 0.5}}]}}
     write_json(os.path.join(BLOCKS, "l52-chalkboard.json"), data,
                "Level 52: a piece of green chalkboard in a wooden frame, hung on the wall behind it (lower: the chalk ledge; upper; the left end, "
                "middle or right end as seen from in front)")
+
+
+def chalk_drops(avg):
+    """The coloured chalk sticks (red, blue, yellow, green) a desk or a board's ledge drops now and then (a2b5a948)."""
+    return [{"type": "item", "code": f"chalk-{c}", "quantity": {"avg": avg, "var": 0}} for c in ("red", "blue", "yellow", "green")]
 
 
 # ======================================================================== Sound
@@ -726,7 +734,7 @@ def expected_codes():
         codes.add(f"l52-exitsign-{s}")
         for k in "0123":
             codes.add(f"l52-schoolsign-{k}-{s}")
-    return codes | R3.expected()
+    return codes | R3.expected() | R4.expected()
 
 
 def strip_comment(text):
@@ -806,6 +814,7 @@ def main():
     link_textures()
     link_blocktypes()
     R3.build(__import__("sys").modules[__name__])
+    R4.build(__import__("sys").modules[__name__])
     bell()
     remove_stale()
     if not check():

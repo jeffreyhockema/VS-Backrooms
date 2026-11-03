@@ -1,0 +1,148 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4-galv": "backrooms:block/52/r4-galv",
+		"r4-steel-green": "backrooms:block/52/r4-steel-green"
+	},
+	"elements": [
+		{
+			"name": "Post",
+			"from": [
+				6.4,
+				0,
+				6.4
+			],
+			"to": [
+				9.6,
+				16,
+				9.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						16
+					]
+				},
+				"east": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						16
+					]
+				},
+				"west": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
+					]
+				},
+				"down": {
+					"texture": "#r4-steel-green",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Band",
+			"from": [
+				6.2,
+				6.0,
+				6.2
+			],
+			"to": [
+				9.8,
+				6.6,
+				9.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-galv",
+					"uv": [
+						0,
+						0,
+						3.6,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#r4-galv",
+					"uv": [
+						0,
+						0,
+						3.6,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#r4-galv",
+					"uv": [
+						0,
+						0,
+						3.6,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#r4-galv",
+					"uv": [
+						0,
+						0,
+						3.6,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#r4-galv",
+					"uv": [
+						0,
+						0,
+						3.6,
+						3.6
+					]
+				},
+				"down": {
+					"texture": "#r4-galv",
+					"uv": [
+						0,
+						0,
+						3.6,
+						3.6
+					]
+				}
+			}
+		}
+	]
+}

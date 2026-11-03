@@ -1,0 +1,164 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4-cabinet": "backrooms:block/52/r4-cabinet",
+		"r4-score-r-hi": "backrooms:block/52/r4-score-r-hi"
+	},
+	"elements": [
+		{
+			"name": "Case",
+			"from": [
+				0,
+				0,
+				12.8
+			],
+			"to": [
+				15.4,
+				14.0,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						3.2,
+						14.0
+					]
+				},
+				"west": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						3.2,
+						14.0
+					]
+				},
+				"up": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						15.4,
+						3.2
+					]
+				},
+				"down": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						15.4,
+						3.2
+					]
+				},
+				"south": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						15.4,
+						14.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Face",
+			"from": [
+				0,
+				0,
+				12.6
+			],
+			"to": [
+				15.4,
+				14.0,
+				12.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-score-r-hi",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 140
+				}
+			}
+		},
+		{
+			"name": "Hood",
+			"from": [
+				0,
+				14.0,
+				11.6
+			],
+			"to": [
+				15.4,
+				14.8,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						15.4,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						4.4,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						15.4,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						4.4,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						15.4,
+						4.4
+					]
+				},
+				"down": {
+					"texture": "#r4-cabinet",
+					"uv": [
+						0,
+						0,
+						15.4,
+						4.4
+					]
+				}
+			}
+		}
+	]
+}
