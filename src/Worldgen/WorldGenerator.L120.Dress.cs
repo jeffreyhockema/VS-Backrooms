@@ -13,6 +13,7 @@ public sealed partial class WorldGenerator
 {
     private readonly int[,,] l120Ups = new int[2, 2, 4];
     private readonly int[,] l120Battery = new int[2, 4], l120Crac = new int[4, 4], l120Shelf = new int[2, 4], l120RowEnd = new int[9, 4];
+    private readonly int[] l120Lifter = new int[4];
     private readonly int[] l120Kvm = new int[4], l120Mop = new int[4], l120Debris = new int[4], l120Paper = new int[4];
     private int l120FloorHole, l120VoidGlitch, l120VoidPanelDead;
     /// <summary>(Round 4) The desks with monitors on arms [dead/glitch, side], the fire suppression bank [lower/upper/pipe, side], tape libraries.</summary>
@@ -51,6 +52,7 @@ public sealed partial class WorldGenerator
             l120RowEnd[0, f] = L120Block("l120-rowend-lower-" + side);
             for (int c = 0; c < 8; c++) l120RowEnd[1 + c, f] = L120Block($"l120-rowend-{(char)('a' + c)}-{side}");
             l120Kvm[f] = L120Block("l120-kvm-" + side);
+            l120Lifter[f] = L120Block("l120-lifter-" + side);
             l120Console[0, f] = L120Block("l120-console-dead-" + side, L120Block("l120-terminal-dead-" + side));
             l120Console[1, f] = L120Block("l120-console-glitch-" + side, l120Console[0, f]);
             l120FireSup[0, f] = L120Block("l120-firesup-lower-" + side);
@@ -137,6 +139,7 @@ public sealed partial class WorldGenerator
             case WL.L120Paper: return rel == 1 ? l120Paper[f] : 0;
             case WL.L120FireSup: return rel <= 3 ? l120FireSup[rel - 1, f] : 0;
             case WL.L120TapeLib: return rel <= 2 ? l120TapeLib[rel - 1, f] : 0;
+            case WL.L120Lifter: return rel == 1 ? l120Lifter[f] : 0;
         }
         return -1;
     }

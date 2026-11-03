@@ -28,6 +28,9 @@ public sealed partial class WorldLayout
     /// <summary>(Round 4) The fire suppression bank against a wall (two high, its pipe a third), a tape library (two high).</summary>
     public const ushort L120FireSup = Props.L120First + 16, L120TapeLib = Props.L120First + 17;
 
+    /// <summary>(Round 4) A raised-floor panel lifted out and left beside its hole, the suction lifter on it (walked over).</summary>
+    public const ushort L120Lifter = Props.L120First + 18;
+
     /// <summary>Wall decorations (<see cref="Tile.Variant"/> of a wall, facing <see cref="Tile.Pier"/>).</summary>
     public const ushort L120DecoPlate = Decor.L120First, L120DecoAuth = Decor.L120First + 1, L120DecoNote = Decor.L120First + 2,
         L120DecoFire = Decor.L120First + 3, L120DecoCables = Decor.L120First + 4, L120DecoScreens = Decor.L120First + 5,
@@ -266,6 +269,19 @@ public sealed partial class WorldLayout
                 double v = rng.NextDouble();
                 if (v < 0.006) t.Variant = L120Debris;
                 else if (v < 0.011 && t.Depth is L120PanelClean or L120PanelDirty) t.Depth = L120PanelWet;
+            }
+
+        // (Round 4) Beside some holes in the raised floor, the panel that came out of it, the lifter still on it
+        (int, int, ArchPier)[] around = { (0, -1, ArchPier.South), (1, 0, ArchPier.West), (0, 1, ArchPier.North), (-1, 0, ArchPier.East) };
+        for (int q = 1; q < n - 1; q++)
+            for (int p = 1; p < n - 1; p++)
+            {
+                if (plan.At(p, q).Depth != L120PanelHole || plan.At(p, q).Kind != TileKind.Floor || !rng.Chance(0.6)) continue;
+                var (dp, dq, face) = around[rng.Range(0, 3)];
+                ref Tile t = ref plan.At(p + dp, q + dq);
+                if (t.Kind != TileKind.Floor || t.Variant != 0 || t.SupplyBox || t.Stack != 0 || t.Depth == L120PanelHole) continue;
+                t.Variant = L120Lifter;
+                t.Pier = face;
             }
 
         // A tile of the wall round the hall is dressed only if it is wall, and nothing is on it yet

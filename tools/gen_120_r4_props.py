@@ -782,6 +782,7 @@ def main():
     blocktypes_more()
     duct_blocktype()
     voiddoor_blocktype()
+    lifter_blocktype()
 
 
 # ======================================================================== The walls, round 4
@@ -1157,3 +1158,27 @@ def voiddoor_blocktype():
                "Level 120: a White Void's black door, standing open against the side of its doorway (two high; the way through along x or z)",
                {"collisionboxByType": {"*-we": cuboid(leaf), "*-ns": cuboid(leaf, 90)}, "selectionboxByType": {"*-we": cuboid(leaf), "*-ns": cuboid(leaf, 90)}},
                extra={"resistance": 40}, inventory="l120-voiddoor-lower-we")
+
+
+def lifter_elements():
+    """A raised-floor panel lifted out and left on the floor beside its hole (its front toward the hole, north), the
+    suction lifter still on it: two rubber cups and a handle."""
+    r = (0, 18, 0)
+    o = (8, 0, 9)
+    els = [b("Panel", (4, 0, 5), (12, 1.25, 13), {"top": "floor-dirty", "side": "dk-steel", "bottom": "dk-steel"}, faces=("up", "north", "south", "east", "west"),
+             rot=r, origin=o),
+           b("CupA", (5, 1.25, 8.2), (7, 1.85, 9.8), "rk-black", faces=("up", "north", "south", "east", "west"), rot=r, origin=o),
+           b("CupB", (9, 1.25, 8.2), (11, 1.85, 9.8), "rk-black", faces=("up", "north", "south", "east", "west"), rot=r, origin=o),
+           b("PostA", (5.75, 1.85, 8.75), (6.25, 3.3, 9.25), "rk-chrome", faces=("north", "south", "east", "west"), rot=r, origin=o),
+           b("PostB", (9.75, 1.85, 8.75), (10.25, 3.3, 9.25), "rk-chrome", faces=("north", "south", "east", "west"), rot=r, origin=o),
+           b("Grip", (5.5, 3.3, 8.6), (10.5, 3.9, 9.4), "fibre-y", faces=("up", "north", "south", "east", "west", "down"), rot=r, origin=o)]
+    els[0]["faces"]["up"]["uv"] = [0, 0, 8, 8]
+    return els
+
+
+def lifter_blocktype():
+    shapes = sided("l120-lifter", {"": shape("l120-lifter", lifter_elements())})
+    json_block("l120-lifter", SIDED, shapes,
+               "Level 120: a raised-floor panel lifted out and left beside its hole, the suction lifter still on it (walked over)",
+               {"collisionbox": None, "selectionbox": cuboid((0.2, 0, 0.2, 0.8, 0.25, 0.85))},
+               extra={"resistance": 1, "drops": drops(("metalbracket", 0.2, 0))}, inventory="l120-lifter-north")

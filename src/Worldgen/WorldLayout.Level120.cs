@@ -985,7 +985,7 @@ public sealed partial class WorldLayout
     public (int X, int Z) L120PocketArrival(int hx, int hz) => L120PlanOf(hx, hz).Arrival;
 
     /// <summary>Which of the level's props (<see cref="Props.L120First"/>-<see cref="Props.L120Last"/>) people walk through: the spilled cables, the broken windows, a fallen ceiling tile, a sheet of paper.</summary>
-    private static bool L120WalkThrough(ushort variant) => variant is L120Spill or L120Window or L120Debris or L120Paper;
+    private static bool L120WalkThrough(ushort variant) => variant is L120Spill or L120Window or L120Debris or L120Paper or L120Lifter;
 
     // ================= Air =================
 

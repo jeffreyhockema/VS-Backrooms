@@ -681,3 +681,14 @@ glow-in-the-dark plates. All from real data halls; the lore says only "massive b
   suppression bank are breakable salvage like the cabinets.
 - The toppled rack is now a full block high (was 0.56): a wrecked bank blocks as a standing one does; `120stats 3` still
   finds every walkable tile reached (0 unreached) and 60/60 arrivals.
+
+### What the shots showed (round 4, `--torch`)
+- **Run 1** (`%TEMP%/backrooms-shots/120-r4a/`, 39 shots, no unknown blocks): the cold aisle now reads as a data hall:
+  rows of cabinets with perforated doors and their swing handles, the ladder rack and yellow raceway overhead, perforated
+  floor tiles down the aisle, a gutted rack with its door hanging, torn racks with units hanging out, a toppled cabinet
+  with its mesh door up; the hot aisle between the calm rear doors; the storage arrays and network racks with their cords;
+  tape libraries with their smashed windows; the shared red EXIT signs over the doors (and over the doors back); the fire
+  suppression bank's cylinders and riser. Wrong: the battery cabinets' doors of bars read as prison cells; the asset label
+  on the top rail read as a white comb; the swing handles, hinges and feet in chrome read as pale tags in the dark; the
+  fire suppression and console spots looked along the wall / at the monitors' backs; the rack close-ups looked at the
+  trays; the cardboard boxes on the shelving were flat orange fills up close.

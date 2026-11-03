@@ -1831,6 +1831,7 @@
 	"block-l120-firesup-*": "Fire Suppression Bank",
 	"block-l120-tapelib-*": "Tape Library",
 	"block-l120-duct-*": "Supply Duct",
+	"block-l120-lifter-*": "Lifted Floor Panel",
 	"block-l120-rack-*-store-*": "Storage Array",
 	"block-l120-rack-*-storelit-*": "Storage Array",
 	"block-l120-rack-*-net-*": "Network Rack",
