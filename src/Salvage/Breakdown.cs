@@ -419,39 +419,52 @@ public class BlockBehaviorWreck : BlockBehavior
     private static bool IsCarPart(Block b, string kind) => b.Code?.Domain == "backrooms" && b.FirstCodePart() == kind;
 
     /// <summary>
-    /// The 2x4 footprint (min corner x/z) of the car that holds pos: the box whose one car block sits on the corner its
-    /// side says (min corner facing north, max corner facing south) and whose other tiles are all hull. The hull blocks
-    /// carry no facing, so every box around pos is tried; cars parked bumper to bumper stay apart.
+    /// The footprint (min corner x/z, and its size) of the car that holds pos: a car is 2 blocks wide and 4 long, laid
+    /// along z when it faces north or south and along x when it faces east or west, and its one car block sits on the
+    /// corner its side says (see blocktypes/level1/car.json: north at the north-west corner, south at the south-east,
+    /// east at its east end on its north side, west at its west end on its south side); every other tile is hull. The
+    /// hull blocks carry no facing, so every box of both shapes around pos is tried; cars parked bumper to bumper stay apart.
     /// </summary>
-    private bool FindFootprint(IBlockAccessor blocks, BlockPos pos, out int fx, out int fz)
+    private bool FindFootprint(IBlockAccessor blocks, BlockPos pos, out int fx, out int fz, out int sx, out int sz)
     {
-        fx = fz = 0;
-        for (int x0 = pos.X - 1; x0 <= pos.X; x0++)
+        fx = fz = sx = sz = 0;
+        foreach ((int w, int l) in new[] { (2, 4), (4, 2) })
         {
-            for (int z0 = pos.Z - 3; z0 <= pos.Z; z0++)
+            for (int x0 = pos.X - w + 1; x0 <= pos.X; x0++)
             {
-                int carCount = 0;
-                bool ok = true, anchorOk = false;
-                for (int dz = 0; dz < 4 && ok; dz++)
+                for (int z0 = pos.Z - l + 1; z0 <= pos.Z; z0++)
                 {
-                    for (int dx = 0; dx < 2; dx++)
+                    int carCount = 0;
+                    bool ok = true, anchorOk = false;
+                    for (int dz = 0; dz < l && ok; dz++)
                     {
-                        var at = new BlockPos(x0 + dx, pos.Y, z0 + dz);
-                        Block part = at.Equals(pos) ? block : blocks.GetBlock(at);
-                        if (IsCarPart(part, "car"))
+                        for (int dx = 0; dx < w; dx++)
                         {
-                            carCount++;
-                            string side = part.Variant?["side"];
-                            anchorOk = side == "south" ? dx == 1 && dz == 3 : dx == 0 && dz == 0;
+                            var at = new BlockPos(x0 + dx, pos.Y, z0 + dz);
+                            Block part = at.Equals(pos) ? block : blocks.GetBlock(at);
+                            if (IsCarPart(part, "car"))
+                            {
+                                carCount++;
+                                anchorOk = part.Variant?["side"] switch
+                                {
+                                    "north" => w == 2 && dx == 0 && dz == 0,
+                                    "south" => w == 2 && dx == 1 && dz == 3,
+                                    "east" => w == 4 && dx == 3 && dz == 0,
+                                    "west" => w == 4 && dx == 0 && dz == 1,
+                                    _ => false,
+                                };
+                            }
+                            else if (!IsCarPart(part, "carcollider")) { ok = false; break; }
                         }
-                        else if (!IsCarPart(part, "carcollider")) { ok = false; break; }
                     }
-                }
-                if (ok && carCount == 1 && anchorOk)
-                {
-                    fx = x0;
-                    fz = z0;
-                    return true;
+                    if (ok && carCount == 1 && anchorOk)
+                    {
+                        fx = x0;
+                        fz = z0;
+                        sx = w;
+                        sz = l;
+                        return true;
+                    }
                 }
             }
         }
@@ -464,10 +477,10 @@ public class BlockBehaviorWreck : BlockBehavior
         // (As the block's own drops: none in creative)
         bool drops = byPlayer?.WorldData.CurrentGameMode != EnumGameMode.Creative;
         IBlockAccessor blocks = world.BlockAccessor;
-        if (!FindFootprint(blocks, pos, out int fx, out int fz)) return;
-        for (int dz = 0; dz < 4; dz++)
+        if (!FindFootprint(blocks, pos, out int fx, out int fz, out int sx, out int sz)) return;
+        for (int dz = 0; dz < sz; dz++)
         {
-            for (int dx = 0; dx < 2; dx++)
+            for (int dx = 0; dx < sx; dx++)
             {
                 var next = new BlockPos(fx + dx, pos.Y, fz + dz);
                 if (next.Equals(pos)) continue;
