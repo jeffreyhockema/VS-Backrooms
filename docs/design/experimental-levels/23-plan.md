@@ -500,7 +500,7 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
 12. [B] [done: `l23-sentryface`] The sentry faces (`l23-sentry-*`) sculpted: brow, eye sockets, nose, open mouth in relief, bark folding round.
 13. [B] [done] Bracket fungi with real shelf curves (several stepped half-discs, a pale rim, zoning bands on top).
 14. [B] [done: fern with pinnae, sapling tapering with branches and twigs, shrub with side twigs; the stump as round 3] Stone undergrowth (`l23-stoneplant-*`): more elements; rotated twigs on the sapling, frond curves on the fern.
-15. [B] [partly: battens top and bottom, nails, a capped post with a mossy foot; no roof] The signs and the M.E.G. board: framed boards with bevels, nails and a little roof over the notice board.
+15. [B] [done: battens top and bottom, nails, a capped post with a mossy foot; the notice board and the warning under a pitched roof] The signs and the M.E.G. board: framed boards with bevels, nails and a little roof over the notice board.
 16. [C] The squirt-gun rack and ledger: more detail (trigger, tank, nozzle).
 
 **2. Multi-block set pieces**
@@ -516,7 +516,7 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
 22. [A] [done: lily pads; mossy stones along the water's edge] The Heart of Water: lily pads on the pool's edge water, and a stone rim of mossy blocks where shore meets water.
 23. [B] [partly: green-barked like the lore's hollow trees, their outside in relief; no lip at the mouth] The hollow trunks (the way in from Level 47 and out): a mouth with a lip of bark relief and flare blocks round
     it, moss at its sill, the inside lined with dark relief, so the arrival reads as stepping out of a tree.
-24. [B] The Heart's warning: the board framed, on two posts with a little roof, chained to a Giant's root (inv.).
+24. [B] [partly: framed, roofed, on its two posts; no chain] The Heart's warning: the board framed, on two posts with a little roof, chained to a Giant's root (inv.).
 25. [C] [done: Level 47's `l47-brazier`, shared] The Lighthouse's lamp as a brazier with a fire bowl on its top, not a lantern.
 
 **3. Level design**

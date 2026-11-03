@@ -272,6 +272,16 @@ def signboard_shape():
     return els
 
 
+def roofed_signboard_shape():
+    """The notice board's and the warning's boards with a little pitched roof of planks over them (shingles' edges lit)."""
+    w = "#wood"
+    els = signboard_shape()
+    els += [E("RoofN", (-0.5, 16.2, 3.6), (16.5, 16.9, 8.2), every(w), {"rotationOrigin": [8, 16.5, 8], "rotationX": -28}),
+            E("RoofS", (-0.5, 16.2, 7.8), (16.5, 16.9, 12.4), every(w), {"rotationOrigin": [8, 16.5, 8], "rotationX": 28}),
+            E("Ridge", (-0.6, 16.6, 7.4), (16.6, 17.6, 8.6), every(w))]
+    return els
+
+
 def signpost_shape():
     w = "#wood"
     return [E("Post", (6.5, 0, 6.5), (9.5, 16, 9.5), every(w)), E("Foot", (6.0, 0, 6.0), (10.0, 1.4, 10.0), every("#moss"))]
@@ -473,6 +483,8 @@ def shapes():
                            bracket_shape())
     out["signboard"] = shape({"face": "backrooms:block/23/sign-trail", "wood": "backrooms:block/23/planks", "nail": "backrooms:block/23/iron"},
                              signboard_shape())
+    out["signboard-roofed"] = shape({"face": "backrooms:block/23/sign-rules-a", "wood": "backrooms:block/23/planks", "nail": "backrooms:block/23/iron"},
+                                    roofed_signboard_shape())
     out["signpost"] = shape({"wood": "backrooms:block/23/planks", "moss": "backrooms:block/23/moss-cushion"}, signpost_shape())
     out["stone-sapling"] = shape({"bark": "backrooms:block/23/bark-pale"}, stone_sapling_shape())
     out["stone-shrub"] = shape({"bark": "backrooms:block/23/bark-grey"}, stone_shrub_shape())

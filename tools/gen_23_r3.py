@@ -628,7 +628,9 @@ def signs_block():
     shape_by, tex_by = {}, {}
     for t in texts:
         for side in SIDES:
-            shape_by[f"*-{t}-{side}"] = {"base": "block/23/signboard", "rotateY": ROT[side]}
+            # (round 4: the notice board and the Heart's warning under a little roof of their own, tools/gen_23_r4b.py)
+            roofed = t.startswith(("rules", "giants"))
+            shape_by[f"*-{t}-{side}"] = {"base": f"block/23/{'signboard-roofed' if roofed else 'signboard'}", "rotateY": ROT[side]}
         tex_by[f"*-{t}-*"] = {"face": {"base": f"block/23/sign-{t}"}}
     return ("// Level 23 (round 3): the M.E.G.'s painted boards (the camp's sign, its notice board, the way-signs, the warning at the Heart of Water, a plank by a sentry); each is a block of a board, on a post below", {
         "code": "l23-sign",
