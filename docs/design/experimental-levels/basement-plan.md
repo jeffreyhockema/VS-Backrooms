@@ -547,3 +547,69 @@ the Flood and the Dry Patch got only the sodden boxes this round.
 43114) `blocksweep` 11589 blocks, 0 threw, a dummy placed in the Basement, 0 error lines; `GATE_TAG=basement gate.py
 --fast --port-base 43110` PASS. The last two commits after the final shots (the earth's drop, the unsealing walk) change
 nothing that shows.
+
+## Round 4 (2026-11-02): the asset-quality pass
+
+The user asked for AAA assets, multi-block objects that read as one, more level-design refinement, lore and alignment
+with the other levels. Read against round 3's final sheet (`%TEMP%/backrooms-shots/final-r3/basement/sheet.jpg`), the
+lead's round-4 notes, the round-3 "Still weak" above, the briefs and the bar (Level 188's street furniture, Fun's set
+pieces, the detail kit, `modelkit`).
+
+### List
+
+Tiers: A must, B should, C nice. `[lead]` marks the lead's notes.
+
+**1. Assets to rebuild to the bar**
+1. (A) [lead] `basement-furnace` top: the arms as rotated round (octagonal) ducts climbing out of the bonnet at an angle, with collar flanges and foil tape at the joints, ending in the joists; the body's bands, a real fire door (hinges, latch handle, draft slide), a sight glass.
+2. (A) [lead] `basement-heater`: the tank's jacket seam and feet, the T&P valve with its discharge pipe down the side, the gas control (knob, pilot window), the draft hood and the flue rising, a shut-off valve (round handwheel) on the cold inlet, copper elbows up into the joists.
+3. (A) [lead] `basement-washer` / `basement-dryer` (new, replace the shared `laundry` in this level only): real appliances with a back console (dials, a chrome trim), the washer's lid and the dryer's round door with a drum window and handle, feet, the hoses (hot red, cold blue) to a hose bib on the wall, the dryer's foil vent duct up into the joists.
+4. (A) [lead] `basement-pooltable`: cushions (bevelled inner rails) with diamond sights, six pockets as cups with leather drops, a racked triangle of balls and a cue ball, turned legs; a cue rack on the wall (`basement-wallthing-cuerack`, cues and a chalk cube).
+5. (A) [lead] `basement-sofa` (new, two tiles, replaces the shared `longsofa` here): an old plaid sofa with arms, three seat cushions and three back cushions (sagging), a skirt, a crocheted throw.
+6. (A) [lead] `basement-tv` (new, replaces the shared `tv` here): a 1960s wooden console set on legs, its picture tube's back hump behind, a domed grey screen, the dial knobs and speaker grille, and a rabbit-ear aerial on top (two rotated rods).
+7. (A) [lead] `basement-shelving` jars and tins with real printed labels (PEACHES, PICKLES, TOMATOES '58, BEANS, COFFEE) as textures, jar lids, paint cans with labels and drips.
+8. (A) [lead] `basement-bench`: the vice modelled (jaws, slide, screw, T-handle), the pegboard's tools as models hanging on pegs (`basement-wallthing-pegboard-a/b`: hammer, saw, wrenches, screwdrivers, pliers, a coil of extension cord), not painted on.
+9. (A) [lead] `basement-overhead-line*`: the clothesline as a sagging line with wooden pegs, the washing with folds (several boxes), hooks into the joists at the ends.
+10. (A) [lead] The cinder wall (`basement-wall-plain/stained/tide`) and the stairwell brick (`basement-brick`): darker, more varied blocks with whitewash patches, white efflorescence bloom, water lines, mortar loss; no longer the brightest material under a torch.
+11. (A) [lead] `basement-studs`: kraft-paper facing on the batts with staple flanges, the studs' grain and a top/bottom plate, one bay with the batt sagging out.
+12. (A) [lead] The joists (`basement-ceiling-joists`, `-joistsfaint`): a modelled joist ceiling (subfloor boards over 2x8 joists with depth), with NM cable stapled along a joist, a junction box now and then, nail points through the subfloor.
+13. (A) [lead] The hall's pipe run (`basement-duct-*`): beside the duct a water main and a black gas pipe on hangers, with a gate valve (handwheel) and a pressure gauge on some blocks.
+14. (B) `basement-lamp`: porcelain socket, pull chain, cage wires round a glowing bulb with a filament; the dead one dusty.
+15. (B) `basement-door`: the door's panels, knob and escutcheon, hinges, scuffed paint at the lock edge and a gap at the foot.
+16. (B) `basement-boxes`: flaps, packing tape, a crushed corner, damp bottoms.
+17. (B) `basement-winerack`: bottles with labels and foil capsules, dust on the shoulders.
+18. (B) `basement-wallthing-fusebox`: the door as a hinged, opened element, breakers in rows, the conduit with straps.
+19. (B) `basement-sump`: the grate's bars, and a sump pump (float, discharge pipe up the wall).
+20. (B) `basement-wallthing-chute`: the coal chute's iron hatch with hinges and a handle, the trough.
+21. (C) `basement-poollamp`: the shade on chains, lit underside, a brass cap.
+22. (C) `basement-overhead-cobweb`: a sagging web with strands.
+23. (C) The floors (`basement-floor-*`): control joints, a floor drain now and then, oil stains by the furnace.
+
+**2. Multi-block set pieces**
+24. (A) [lead] The furnace room as one object: the furnace's arms ending in the joists in the furnace's own block, the heater beside it with its flue, both flues into a chimney thimble on the wall where they can.
+25. (A) [lead] The laundry as one: washer and dryer side by side, a concrete laundry tub on legs with its taps (`basement-sink`, new, replaces the shared sink here), hoses and the dryer's vent, the clothesline over the room.
+26. (A) [lead] The rec room as one: the pool table under its lamp on the rug, the cue rack on a wall, the sofa facing the TV.
+27. (A) [lead] The stairs into the Flood: a pipe handrail sloping down the stair on its wall side and a newel post at the top that leans (the wobbling post) (`basement-steps` rail parts).
+28. (A) [lead] The crack rooms: a sculpted edge of broken slab round the hole at the ceiling (jagged concrete, bent rebar ends hanging down) (`basement-slabedge`, new).
+29. (A) [lead] The Flood's surface: scum, floating boards, a floating box, a bottle and leaves on the water (`basement-scum`, new, walked and swum through).
+30. (B) The Escherian stairwell: a handrail on the core side of the steps.
+31. (B) The workbench as one: the bench, the two pegboards, a shop light hung on chains over it.
+32. (C) An oil tank on legs in the furnace room (275 gallons, its fill pipe through the wall).
+
+**3. Level design**
+33. (A) [lead] The Dry Patch stays bare (the lore's resting place): no new props there.
+34. (B) Halls that end flat on the cell's outer wall: end them on something (a stack of boxes, shelving, a swollen door).
+35. (B) The Flood's samey passages: the scum and the floating things (29) vary it; a submerged chair or a door frame now and then.
+36. (B) Lighting rhythm: the workbench's shop light, the pool lamps; dark store rooms stay dark.
+37. (C) The TV's screen faintly lit with snow in one rec room in a few (an invention; the house still has power).
+
+**4. Lore**
+38. (A) Keep the Fandom page's out-of-place things (ropes, purposeless wires, caution signs) and its sourceless light; no M.E.G. presence (each wanderer has their own instance: no outposts), as before.
+39. (B) The flood water "smells terrible": the scum and the stains carry it; no new mechanic.
+40. (C) The Wikidot clipping's laptop lost to the water: a laptop on the bed of one Flood dead end (an invention of placement).
+
+**5. Alignment with the other levels**
+41. (A) Shared things stay shared: supply boxes, notes, chalk, placards, the handbook voice; the Basement's own appliances are "similar but unique" copies (washer/dryer/sofa/TV/sink from the shared props, re-made here) and their source noted.
+42. (B) Look at 120's pipes, trays and fuse boxes and the detail kit's gauges and valves before making the hall's pipe run; reuse `modelkit.gauge`/`dial` rather than inventing.
+43. (B) "Shared assets below the bar" written for the lead: the Level 5 boiler, the Level 2 oil drum, the machine cabinet, the Level 1 metal shelf, the coal pile, the shared washer/dryer/TV/sofa, as used here.
+44. (A) Every new block named in en.json, drops like the released props (scrap, sticks, nothing for fixtures), sounds by material.
+45. (A) Showcase spots for the rebuilt set pieces (stairs into the Flood, the crack's edge, the Flood's surface, the laundry, the rec room) and F7 entries to match; `featurecheck` clean.
