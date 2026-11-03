@@ -747,7 +747,8 @@ Run 1 (`%TEMP%/backrooms-shots/73-r4a`, no torch, 36 shots; the lock came after 
   plates, the high chair; the rooms' chandeliers, armoires, wing chairs, settees, low tables, bookcases, the clock.
 - Wrong: the eave's fascia showed a strip of another texture (book spines) and the drums' curves fine vertical stripes:
   faces outside the block had been given zero-size UVs at the texture's edge; fixed (every shape regenerated).
-- Still weak: the grand stair's treads are the hotel's white stair blocks; the far fields and the random arrivals stay
+- Still weak: the grand stair's treads were the hotel's white marble (now the castle's own oak and velvet stairs, after
+  the run); the far fields and the random arrivals stay
   very dark (the lore's night, no torch); the skull is still boxy close to.
 
 ### Checks (round 4)
@@ -759,3 +760,4 @@ beds, 4 bath barrels, 24 places, 32 windows, 0 misplaced; 112 dead trees; 60 hea
 16 drum tiles; arrivals 58-133 from the gate); headless (port 43101, fresh world): a dummy placed in Level 73 with 0
 error lines, `blocksweep` 15829 blocks, 0 threw (one earlier run on a reused world stopped on an engine relight exception
 in `ChunkIlluminator.UpdateLightAt` during the sweep at the console spawn; it did not come back on a fresh world).
+`GATE_TAG=73g gate.py --fast --port-base 43100` PASS (generators, lang, build, boot, harness; commit 509b009b).
