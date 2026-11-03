@@ -1,8 +1,10 @@
 # Experimental levels (branch `experimental-levels`)
 
-Eight levels, built as prototypes and brought up to the released levels' quality in three detail rounds (rounds 2 and
-3 judged from screenshots in the real client; round 3, 2026-11-01, worked each level through a listed visual pass:
-rooms by function, multi-block objects, signs and text, and is written up in each `<tag>-plan.md` under "Round 3").
+Ten levels, built as prototypes and brought up to the released levels' quality in four detail rounds (rounds 2 to 4
+judged from screenshots in the real client; round 3, 2026-11-01, worked each level through a listed visual pass: rooms by
+function, multi-block objects, signs and text; round 4, 2026-11-03, the asset-quality pass: every prop rebuilt to the
+released levels' bar from real references, multi-block objects that read as one thing, shared assets reused or retinted;
+both are written up in each `<tag>-plan.md` under "Round 3" and "Round 4").
 `BALANCE.md` reviews how the eight sit against the released levels and records the balance changes made. Since the links round (2026-10-31) they are **connected**: each has the ways in and
 out its lore gives wherever the lore names a level this mod has (`LINKS.md`; the handbook's Ways Between Levels page
 lists them), and the rest are rumours in its notes. The cheats menu (F7) and `/backrooms goto
@@ -12,6 +14,12 @@ lists them), and the rest are rumours in its notes. The cheats menu (F7) and `/b
 This branch is not meant to merge into `main` for a long time. Each level is its own commit after the shared
 scaffolding commit, so one can be cherry-picked or reverted on its own. Levels 55 and 183 were built in batch 2 and
 dropped on 2026-10-30 (their plans are in `dropped/`); their ids 25 and 27 now hold Levels 36 and 15.
+
+**Layout versions.** Main's layout version 14 (the 2026-11 review's fixes, released as 0.611.0) is the released
+meaning of 14 everywhere. This branch's food round (the stripped food props of Levels 1 to 5, `WorldGenerator.Stripped.cs`,
+`WorldLayout.Loot.cs`) was first gated on 14 and moved to **15** when main was merged (0.700.0-pre.8, 2026-11-03), so
+`WorldLayout.CurrentVersion` is 15 here. A pre-release world made at the branch's old 14 generates its later chunks at
+the merged rules: the stripped-prop spots and main's v14 fixes differ from what it had, which is the price of a pre build.
 
 | Level | Internal id | Constant | Shown as | Tag (files, block codes) | Method infix | Region |
 |---|---|---|---|---|---|---|
