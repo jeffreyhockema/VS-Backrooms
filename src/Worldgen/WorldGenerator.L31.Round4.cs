@@ -18,7 +18,8 @@ public sealed partial class WorldGenerator
     private readonly int[] l31Slushie = new int[4], l31Stanchion = new int[5];
     private readonly int[,] l31Covered = new int[2, 4];
     private readonly int[] l31SkateBench = new int[4], l31Walker = new int[4];
-    private readonly int[,] l31Litter = new int[4, 4];
+    private readonly int[,] l31Litter = new int[4, 4], l31Pinball3 = new int[3, 4];
+    private readonly int[] l31CounterBell = new int[4];
 
     private void InitL31Round4()
     {
@@ -37,9 +38,21 @@ public sealed partial class WorldGenerator
             l31Covered[1, f] = L31Block($"l31-covered-pinball-{Sides[f]}", l31Covered[0, f]);
             l31SkateBench[f] = L31Block($"l31-skatebench-{Sides[f]}", propIds[Props.Bench, 0, f]);
             l31Walker[f] = L31Block($"l31-walker-{Sides[f]}");
+            string[] games = { "stardust", "disco", "night" };
+            for (int k = 0; k < 3; k++) l31Pinball3[k, f] = L31Block($"l31-pinball-{games[k]}-{Sides[f]}", l31Pinball[f]);
+            l31CounterBell[f] = L31Block($"l31-counter-bell-{Sides[f]}", l31Counter[1, f]);
             string[] litter = { "skate", "cup", "popcorn", "tickets" };
             for (int k = 0; k < 4; k++) l31Litter[k, f] = L31Block($"l31-litter-{litter[k]}-{Sides[f]}");
         }
+    }
+
+    /// <summary>Round 4's props that vary by place rather than by the tile (0 for none here): the pinball's game, and the
+    /// service bell on one counter section in five.</summary>
+    private int L31Round4Prop(in Tile t, int gx, int gz)
+    {
+        if (t.Variant == L31.L31Props.Pinball) return l31Pinball3[Hashing.Mod(gx * 7 + gz * 13, 3), Facing(t.Pier)];
+        if (t.Variant == L31.L31Props.Counter && t.Stack == 1 && Hashing.Mod(gx + gz, 5) == 0) return l31CounterBell[Facing(t.Pier)];
+        return 0;
     }
 
     private bool L31OnRink(int gx, int gz) => layout.TileAt(gx, gz) is { Kind: TileKind.Floor, Zone: (byte)Zone.Rink };

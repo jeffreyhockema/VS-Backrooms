@@ -4,7 +4,7 @@
 	"textures": {
 		"cab-coin": "backrooms:block/31/cab-coin",
 		"cab-red": "backrooms:block/31/cab-red",
-		"r4-backglass": "backrooms:block/31/r4-backglass",
+		"r4-backglass-disco": "backrooms:block/31/r4-backglass-disco",
 		"r4-black": "backrooms:block/31/r4-black",
 		"r4-chrome": "backrooms:block/31/r4-chrome",
 		"r4-pincab": "backrooms:block/31/r4-pincab",
@@ -1223,7 +1223,7 @@
 			],
 			"faces": {
 				"north": {
-					"texture": "#r4-backglass",
+					"texture": "#r4-backglass-disco",
 					"uv": [
 						0,
 						0,

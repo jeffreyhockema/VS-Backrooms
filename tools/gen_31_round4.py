@@ -716,26 +716,45 @@ def pinball_textures():
     d.line([(1, 2), (1, 30)], fill=rgba((200, 200, 210)))
     d.line([(28, 6), (28, 30)], fill=rgba((200, 200, 210)))
     d.ellipse([15, 22, 17, 24], fill=rgba((230, 230, 236)))  # the ball
-    save_tex(img, "r4-playfield")
-    # The backglass: STARDUST over a skater under a star, the score display under it
+    # (drawn with the flippers at the bottom; on the cabinet's up face the picture's top lies at the front, so flip it)
+    save_tex(img.transpose(Image.FLIP_TOP_BOTTOM), "r4-playfield")
+    # The backglasses: STARDUST under a star, DISCO FEVER under a mirror ball, NIGHT SKATE under a moon; the score display
     P = 64
-    bg = Image.new("RGBA", (P, P), rgba((10, 8, 40)))
-    d = ImageDraw.Draw(bg)
-    for y in range(P):
-        d.line([(0, y), (P - 1, y)], fill=rgba((10 + y // 2, 8, 40 + y)))
-    star = [(32 + 14 * math.cos(math.radians(a)) * (1 if i % 2 == 0 else 0.42), 24 + 14 * math.sin(math.radians(a)) * (1 if i % 2 == 0 else 0.42))
-            for i, a in enumerate(range(-90, 270, 36))]
-    d.polygon(star, fill=rgba((255, 220, 60)))
-    d.ellipse([28, 18, 36, 26], fill=rgba((255, 120, 200)))
-    ctext(bg, 32, 3, "STARDUST", (255, 255, 255), sx=2)
-    d.rectangle([6, 44, 57, 56], fill=rgba((20, 6, 0)))
-    ctext(bg, 32, 47, "1250000", (255, 140, 30), sx=1)
-    d.rectangle([2, 2, P - 3, P - 3], outline=rgba((255, 90, 200)))
-    save_tex(bg, "r4-backglass")
+    for game, title, top, bot, frame in (("stardust", "STARDUST", (10, 8, 40), (40, 8, 104), (255, 90, 200)),
+                                          ("disco", "DISCO", (60, 6, 50), (150, 20, 90), (90, 230, 255)),
+                                          ("night", "NITESKATE", (4, 14, 40), (10, 60, 110), (250, 210, 60))):
+        bg = Image.new("RGBA", (P, P), rgba(top))
+        d = ImageDraw.Draw(bg)
+        for y in range(P):
+            d.line([(0, y), (P - 1, y)], fill=rgba(tuple(int(top[i] + (bot[i] - top[i]) * y / P) for i in range(3))))
+        if game == "stardust":
+            star = [(32 + 14 * math.cos(math.radians(a)) * (1 if i % 2 == 0 else 0.42), 24 + 14 * math.sin(math.radians(a)) * (1 if i % 2 == 0 else 0.42))
+                    for i, a in enumerate(range(-90, 270, 36))]
+            d.polygon(star, fill=rgba((255, 220, 60)))
+            d.ellipse([28, 18, 36, 26], fill=rgba((255, 120, 200)))
+        elif game == "disco":
+            for yy in range(14, 36, 4):
+                for xx in range(20, 44, 4):
+                    if (xx - 32) ** 2 + (yy - 25) ** 2 < 130:
+                        d.rectangle([xx, yy, xx + 2, yy + 2], fill=rgba((220, 220, 240) if (xx + yy) % 8 else (120, 230, 255)))
+            for k in range(6):
+                ang = math.radians(k * 60 + 15)
+                d.line([(32, 25), (32 + 26 * math.cos(ang), 25 + 26 * math.sin(ang))], fill=rgba((255, 150, 220)))
+            ctext(bg, 32, 36, "FEVER", (255, 230, 90))
+        else:
+            d.ellipse([36, 12, 52, 28], fill=rgba((250, 246, 210)))
+            d.ellipse([40, 12, 56, 26], fill=rgba(top))
+            d.polygon([(10, 40), (22, 22), (26, 30), (34, 18), (46, 40)], fill=rgba((20, 30, 60)))
+            d.line([(14, 38), (30, 36)], fill=rgba((255, 120, 200)), width=2)
+        ctext(bg, 32, 3, title, (255, 255, 255), sx=2 if len(title) <= 8 else 1)
+        d.rectangle([6, 44, 57, 56], fill=rgba((20, 6, 0)))
+        ctext(bg, 32, 47, "1250000", (255, 140, 30), sx=1)
+        d.rectangle([2, 2, P - 3, P - 3], outline=rgba(frame))
+        save_tex(bg, "r4-backglass-" + game)
     save_tex(M.painted_metal(seed=4220, base=(40, 20, 90), panel=False, chips=2, under=(90, 90, 96)), "r4-pincab")
 
 
-def pinball():
+def pinball(game):
     """A pinball machine: four legs with levellers, the cabinet sloping up to the back, the playfield under its lock-
     down bar, flipper buttons, the plunger, a coin door, and the lit backglass head on its neck at the back."""
     els = []
@@ -756,12 +775,12 @@ def pinball():
         B("Plunger", (12.2, 10.6, 0.0), (12.8, 11.2, 1.0), "r4-chrome", rot=tilt, origin=o),
         B("PlungerKnob", (12.0, 10.4, -0.6), (13.0, 11.4, 0.0), "r4-black", rot=tilt, origin=o),
         B("Neck", (6.0, 13.5, 13.8), (10.0, 15.5, 15.4), "r4-pincab"),
-        B("Head", (2.2, 15.5, 12.8), (13.8, 28.5, 16.0), "r4-pincab", north=("r4-backglass", FULL, 200)),
+        B("Head", (2.2, 15.5, 12.8), (13.8, 28.5, 16.0), "r4-pincab", north=("r4-backglass-" + game, FULL, 200)),
         B("HeadTrim", (2.0, 28.5, 12.6), (14.0, 29.0, 16.0), "r4-chrome"),
         B("HeadFrameL", (2.0, 15.5, 12.6), (2.4, 28.5, 12.8), "r4-chrome", faces=without(DIRS, "south")),
         B("HeadFrameR", (13.6, 15.5, 12.6), (14.0, 28.5, 12.8), "r4-chrome", faces=without(DIRS, "south")),
     ]
-    return shape("l31-pinball", els)
+    return shape("l31-pinball-" + game, els)
 
 
 def photobooth():
@@ -1240,7 +1259,7 @@ def counter(kind):
         els.append(B("EndL", (14.8, 0, 3.0), (16, 14.0, 12.0), "r4-counterfront", faces=without(DIRS, "north", "up")))
     if kind == "right":
         els.append(B("EndR", (0, 0, 3.0), (1.2, 14.0, 12.0), "r4-counterfront", faces=without(DIRS, "north", "up")))
-    if kind == "mid":
+    if kind == "bell":
         els += [B("BellBase", (11.0, 15.0, 3.0), (13.0, 15.4, 5.0), "r4-black"),
                 B("Bell", (11.3, 15.4, 3.3), (12.7, 16.4, 4.7), "r4-gold"),
                 B("BellKnob", (11.85, 16.4, 3.85), (12.15, 16.8, 4.15), "r4-gold"),
@@ -1359,8 +1378,10 @@ def popcorn():
         B("CartPull", (11.6, 6.2, 1.3), (12.2, 8.0, 1.7), "r4-chrome"),
         B("Shelf", (1.4, 4.0, 1.8), (14.6, 4.4, 14.2), "r4-chrome", faces=("up",)),
         B("Floor", (2.0, 12.8, 2.6), (14.0, 13.4, 13.4), "r4-steel", faces=("up",)),
-        B("Heap", (2.4, 12.8, 3.0), (13.6, 16.6, 13.0), "r4-popcorn"),
-        B("HeapTop", (4.0, 16.6, 4.6), (12.0, 18.0, 11.4), "r4-popcorn", faces=without(DIRS, "down")),
+        B("Heap", (2.4, 12.8, 3.0), (13.6, 15.0, 13.0), "r4-popcorn"),
+        B("Mound1", (3.0, 15.0, 6.0), (8.4, 16.8, 12.4), "r4-popcorn", faces=without(DIRS, "down"), rot=(0, 12, 0)),
+        B("Mound2", (7.6, 15.0, 3.6), (13.0, 16.2, 9.0), "r4-popcorn", faces=without(DIRS, "down"), rot=(0, -20, 0)),
+        B("Mound3", (4.6, 16.8, 7.6), (7.0, 17.8, 10.6), "r4-popcorn", faces=without(DIRS, "down")),
         B("Kettle", (5.6, 21.2, 6.0), (10.4, 24.0, 10.8), "r4-steel"),
         B("KettleRod", (7.7, 24.2, 8.1), (8.3, 26.4, 8.7), "r4-chrome", faces=without(DIRS, "up", "down")),
         B("KettleLip", (5.2, 23.6, 5.6), (10.8, 24.2, 11.2), "r4-chrome"),
@@ -1637,9 +1658,10 @@ def blocks():
                lambda k: refs[k], (0.09, 0, 0.03, 0.91, 1, 0.97), (0.09, 0, 0.03, 0.91, 1, 0.97),
                kinds=list(GAMES), kindgroup="game", resistance=4, extra={"lightHsv": [40, 3, 4]})
     pinball_textures()
-    ref = pinball()
-    prop_block("l31-pinball", "Level 31: a pinball machine, its front (the flippers' end) toward the side: legs, the sloping cabinet and lit playfield, lock-down bar, plunger, coin door, the lit backglass head at the back (29 units tall)",
-               lambda k: ref, (0.1, 0, 0, 0.9, 1, 1), (0.1, 0, 0, 0.9, 0.85, 1), resistance=4, extra={"lightHsv": [50, 4, 6]})
+    prefs = {g: pinball(g) for g in ("stardust", "disco", "night")}
+    prop_block("l31-pinball", "Level 31: a pinball machine, its front (the flippers' end) toward the side: legs, the sloping cabinet and lit playfield, lock-down bar, plunger, coin door, the lit backglass head at the back (29 units tall); by game (STARDUST, DISCO FEVER, NITESKATE)",
+               lambda k: prefs[k], (0.1, 0, 0, 0.9, 1, 1), (0.1, 0, 0, 0.9, 0.85, 1), kinds=list(prefs), kindgroup="game", resistance=4,
+               extra={"lightHsv": [50, 4, 6]})
     ref = photobooth()
     prop_block("l31-photobooth", "Level 31: an arcade photo booth, 31 units tall: the curtain in folds over the left half, the lit PHOTO header, sample strips, coin box and print slot on the right, a stool and camera inside; toward the side",
                lambda k: ref, (0, 0, 0, 1, 1, 1), (0, 0, 0, 1, 1, 1), resistance=3, extra={"lightHsv": [8, 3, 5]})
@@ -1685,9 +1707,9 @@ def blocks():
                lambda k: (0.08, 0, 0.06, 0.92, 1, 0.97) if k == "cabinet" else (0.07, 0, 0, 0.93, 0.85, 1),
                kinds=["cabinet", "pinball"], kindgroup="machine", material="Cloth", sounds=CLOTH, resistance=2)
     counter_textures()
-    crefs = {k: counter(k) for k in ("left", "mid", "right")}
-    prop_block("l31-counter", "Level 31: the rental's and the lobby's counter, a laminate top with a rounded pink nose over a navy front in the rink's stripes, a chrome kick, a shelf on the staff side; left and right close the ends (seen from the customer's side), the middle has a bell and a tray of size tags; the front faces the side",
-               lambda k: crefs[k], (0, 0, 0.02, 1, 0.94, 0.75), (0, 0, 0.02, 1, 0.94, 0.75), kinds=["left", "mid", "right"], kindgroup="part", resistance=3)
+    crefs = {k: counter(k) for k in ("left", "mid", "right", "bell")}
+    prop_block("l31-counter", "Level 31: the rental's and the lobby's counter, a laminate top with a rounded pink nose over a navy front in the rink's stripes, a chrome kick, a shelf on the staff side; left and right close the ends (seen from the customer's side), bell is a middle piece with the service bell and a tray of size tags; the front faces the side",
+               lambda k: crefs[k], (0, 0, 0.02, 1, 0.94, 0.75), (0, 0, 0.02, 1, 0.94, 0.75), kinds=["left", "mid", "right", "bell"], kindgroup="part", resistance=3)
     ref = fountain()
     prop_block("l31-fountain", "Level 31: the food court's soda fountain on its counter section (a block tall and the tower over it), six valves under lit labels, the drip grate, ice lever, cups and straws; the valves face the side; dispenses Almond Water",
                lambda k: ref, (0, 0, 0.05, 1, 1, 1), (0, 0, 0.05, 1, 1, 1), resistance=4,

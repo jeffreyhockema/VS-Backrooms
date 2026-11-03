@@ -98,13 +98,14 @@ public partial class WorldLayout
                                 p0: room.P0, q0: 4, p1: room.P1, q1: 5));
                         if (room.Kind == L31Zone.Store && !found.ContainsKey("backarcade"))
                         {
-                            // (round 4) The back arcade's covered machines, from the aisle beside the first of them
+                            // (round 4) The back arcade's covered machines, from the middle of the room toward the first of them
                             for (int q = room.Q0; q <= room.Q1 && !found.ContainsKey("backarcade"); q++)
                                 for (int p = room.P0; p <= room.P1; p++)
                                 {
                                     var (cx2, cz2) = plan.World(p, q);
                                     if (TileAt(cx2, cz2).Variant != L31Props.Covered) continue;
-                                    Add("backarcade", Spot(plan, p, q + 1, p + 2, q, 1.4, p0: room.P0, q0: room.Q0, p1: room.P1, q1: room.Q1));
+                                    Add("backarcade", Spot(plan, (room.P0 + room.P1) / 2, (room.Q0 + room.Q1) / 2, p, q, 1.2,
+                                        p0: room.P0, q0: room.Q0, p1: room.P1, q1: room.Q1));
                                     break;
                                 }
                         }

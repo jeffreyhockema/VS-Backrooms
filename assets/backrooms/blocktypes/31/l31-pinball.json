@@ -1,7 +1,15 @@
-// Level 31: a pinball machine, its front (the flippers' end) toward the side: legs, the sloping cabinet and lit playfield, lock-down bar, plunger, coin door, the lit backglass head at the back (29 units tall)
+// Level 31: a pinball machine, its front (the flippers' end) toward the side: legs, the sloping cabinet and lit playfield, lock-down bar, plunger, coin door, the lit backglass head at the back (29 units tall); by game (STARDUST, DISCO FEVER, NITESKATE)
 {
 	"code": "l31-pinball",
 	"variantgroups": [
+		{
+			"code": "game",
+			"states": [
+				"stardust",
+				"disco",
+				"night"
+			]
+		},
 		{
 			"code": "side",
 			"states": [
@@ -13,19 +21,49 @@
 		}
 	],
 	"shapeByType": {
-		"l31-pinball-north": {
-			"base": "backrooms:block/31/l31-pinball"
+		"l31-pinball-stardust-north": {
+			"base": "backrooms:block/31/l31-pinball-stardust"
 		},
-		"l31-pinball-east": {
-			"base": "backrooms:block/31/l31-pinball",
+		"l31-pinball-stardust-east": {
+			"base": "backrooms:block/31/l31-pinball-stardust",
 			"rotateY": 270
 		},
-		"l31-pinball-south": {
-			"base": "backrooms:block/31/l31-pinball",
+		"l31-pinball-stardust-south": {
+			"base": "backrooms:block/31/l31-pinball-stardust",
 			"rotateY": 180
 		},
-		"l31-pinball-west": {
-			"base": "backrooms:block/31/l31-pinball",
+		"l31-pinball-stardust-west": {
+			"base": "backrooms:block/31/l31-pinball-stardust",
+			"rotateY": 90
+		},
+		"l31-pinball-disco-north": {
+			"base": "backrooms:block/31/l31-pinball-disco"
+		},
+		"l31-pinball-disco-east": {
+			"base": "backrooms:block/31/l31-pinball-disco",
+			"rotateY": 270
+		},
+		"l31-pinball-disco-south": {
+			"base": "backrooms:block/31/l31-pinball-disco",
+			"rotateY": 180
+		},
+		"l31-pinball-disco-west": {
+			"base": "backrooms:block/31/l31-pinball-disco",
+			"rotateY": 90
+		},
+		"l31-pinball-night-north": {
+			"base": "backrooms:block/31/l31-pinball-night"
+		},
+		"l31-pinball-night-east": {
+			"base": "backrooms:block/31/l31-pinball-night",
+			"rotateY": 270
+		},
+		"l31-pinball-night-south": {
+			"base": "backrooms:block/31/l31-pinball-night",
+			"rotateY": 180
+		},
+		"l31-pinball-night-west": {
+			"base": "backrooms:block/31/l31-pinball-night",
 			"rotateY": 90
 		}
 	},
@@ -54,7 +92,7 @@
 		"hit": "game:block/heavymetal-hit"
 	},
 	"selectionboxByType": {
-		"l31-pinball-north": {
+		"l31-pinball-stardust-north": {
 			"x1": 0.1,
 			"y1": 0,
 			"z1": 0,
@@ -62,7 +100,7 @@
 			"y2": 1,
 			"z2": 1
 		},
-		"l31-pinball-east": {
+		"l31-pinball-stardust-east": {
 			"x1": 0.1,
 			"y1": 0,
 			"z1": 0,
@@ -71,7 +109,7 @@
 			"z2": 1,
 			"rotateY": 270
 		},
-		"l31-pinball-south": {
+		"l31-pinball-stardust-south": {
 			"x1": 0.1,
 			"y1": 0,
 			"z1": 0,
@@ -80,7 +118,77 @@
 			"z2": 1,
 			"rotateY": 180
 		},
-		"l31-pinball-west": {
+		"l31-pinball-stardust-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-pinball-disco-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-pinball-disco-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-pinball-disco-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-pinball-disco-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-pinball-night-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-pinball-night-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-pinball-night-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-pinball-night-west": {
 			"x1": 0.1,
 			"y1": 0,
 			"z1": 0,
@@ -92,7 +200,7 @@
 	},
 	"drops": [],
 	"collisionboxByType": {
-		"l31-pinball-north": {
+		"l31-pinball-stardust-north": {
 			"x1": 0.1,
 			"y1": 0,
 			"z1": 0,
@@ -100,7 +208,7 @@
 			"y2": 0.85,
 			"z2": 1
 		},
-		"l31-pinball-east": {
+		"l31-pinball-stardust-east": {
 			"x1": 0.1,
 			"y1": 0,
 			"z1": 0,
@@ -109,7 +217,7 @@
 			"z2": 1,
 			"rotateY": 270
 		},
-		"l31-pinball-south": {
+		"l31-pinball-stardust-south": {
 			"x1": 0.1,
 			"y1": 0,
 			"z1": 0,
@@ -118,7 +226,77 @@
 			"z2": 1,
 			"rotateY": 180
 		},
-		"l31-pinball-west": {
+		"l31-pinball-stardust-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-pinball-disco-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"l31-pinball-disco-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-pinball-disco-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-pinball-disco-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l31-pinball-night-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"l31-pinball-night-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-pinball-night-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-pinball-night-west": {
 			"x1": 0.1,
 			"y1": 0,
 			"z1": 0,

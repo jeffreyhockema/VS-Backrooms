@@ -105,7 +105,7 @@ public sealed partial class WorldGenerator
                 l31Cabinet[c, f] = L31Block($"l3999-cabinet-{games[c]}-{side}");
             }
             l31DeadCab[f] = L31Block($"l3999-cabinet-dead-{side}");
-            l31Pinball[f] = L31Block($"l31-pinball-{side}", L31Block($"l3999-pinball-{side}"));
+            l31Pinball[f] = L31Block($"l3999-pinball-{side}");
             l31Claw[f] = L31Block($"l3999-claw-{side}");
             l31SkeeLane[f] = L31Block($"l3999-skeeball-lane-{side}");
             l31SkeeTarget[f] = L31Block($"l3999-skeeball-target-{side}");
@@ -308,6 +308,7 @@ public sealed partial class WorldGenerator
         if (t.SupplyBox) return BoxOf(t);
         // (round 4: the rink's barrier and gates, by their neighbours)
         if (t.Zone == (byte)Zone.Rink && L31BarrierBlock(t, gx, gz) is int bar and >= 0) return bar;
+        if (L31Round4Prop(t, gx, gz) is int r4 and > 0) return r4;
         if (t.Variant != 0) return L31Prop(t);
         if ((t.Detail & L31.L31RailBit) != 0 && t.Zone == (byte)Zone.Hall) return l31Rail[(t.Detail & L31.L31HueMask) % 6, Facing(t.Pier)];
         return 0;
