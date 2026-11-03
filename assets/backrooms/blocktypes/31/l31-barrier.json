@@ -75,7 +75,7 @@
 			"*"
 		]
 	},
-	"blockmaterial": "Plastic",
+	"blockmaterial": "Wood",
 	"drawtype": "json",
 	"sidesolid": {
 		"all": false
@@ -86,10 +86,10 @@
 	"lightAbsorption": 0,
 	"resistance": 3,
 	"sounds": {
-		"walk": "game:walk/stone*",
-		"place": "game:block/anvil1",
-		"break": "game:block/heavymetal-hit",
-		"hit": "game:block/heavymetal-hit"
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
 	},
 	"selectionboxByType": {
 		"l31-barrier-straight-north": {

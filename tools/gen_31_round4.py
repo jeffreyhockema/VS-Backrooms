@@ -1526,12 +1526,12 @@ def blocks():
     sel = {"straight": (0, 0, 0, 1, 1, 0.34), "corner": (0, 0, 0, 1, 1, 1), "post": (0, 0, 0, 0.34, 1, 0.34)}
     prop_block("l31-barrier", "Level 31: the rink's barrier along the boards' outer edge (the side named is the skirt's): a thin padded wall, white on the rink side, carpet on the skirt's, a bumper rail and a padded cap; straight, corner (that side and the one to its left) or post (the corner square where two runs meet)",
                lambda k: shapes[k], lambda k: sel[k], lambda k: (0, 0, 0, 1, 1, 0.3) if k == "straight" else sel[k],
-               kinds=list(shapes), kindgroup="piece", material="Plastic", resistance=3)
+               kinds=list(shapes), kindgroup="piece", material="Wood", sounds=WOOD, resistance=3)
     gshapes = {"leafl": shape("l31-rinkgate-leaf", gate_leaf()), "leafr": shape("l31-rinkgate-leafr", mirror_x(gate_leaf())),
                "sill": shape("l31-rinkgate-sill", gate_sill())}
     prop_block("l31-rinkgate", "Level 31: a gap in the rink's barrier (the side named is the skirt's): leafl / leafr, the end post (at the left or right end, seen from the rink) with the gate swung open into the rink on its hinges; sill, the aluminium threshold; walk-through",
                lambda k: gshapes[k], lambda k: (0, 0, 0, 0.15, 1, 0.3) if k == "leafl" else (0.85, 0, 0, 1, 1, 0.3) if k == "leafr" else (0, 0, 0, 1, 0.05, 0.25), None,
-               kinds=list(gshapes), kindgroup="piece", material="Plastic", resistance=2)
+               kinds=list(gshapes), kindgroup="piece", material="Wood", sounds=WOOD, resistance=2)
 
     refs = {"deck": djdesk_deck(), "mixer": djdesk_mixer()}
     prop_block("l31-djdesk", "Level 31: the DJ booth, one block of it: a black fascia with lit strips toward the side (the crowd), the desk top at 15 units with a turntable (deck) or the mixer between two CD decks (mixer); the DJ stands behind",
