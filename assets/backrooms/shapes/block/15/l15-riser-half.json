@@ -4,7 +4,8 @@
  "textures": {
   "carpet": "backrooms:block/15/floor-carpet",
   "dark": "backrooms:block/15/dark",
-  "steelgrey": "backrooms:block/15/steelgrey"
+  "steelgrey": "backrooms:block/15/steelgrey",
+  "bh-light": "backrooms:block/15/bh-light"
  },
  "elements": [
   {
@@ -106,6 +107,31 @@
       16,
       0.51
      ]
+    }
+   }
+  },
+  {
+   "name": "StepLight",
+   "from": [
+    6.5,
+    3,
+    -0.1
+   ],
+   "to": [
+    9.5,
+    4.25,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bh-light",
+     "uv": [
+      0,
+      0,
+      3.0,
+      1.25
+     ],
+     "glow": 180
     }
    }
   }

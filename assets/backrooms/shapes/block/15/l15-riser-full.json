@@ -4,7 +4,8 @@
  "textures": {
   "carpet": "backrooms:block/15/floor-carpet",
   "dark": "backrooms:block/15/dark",
-  "steelgrey": "backrooms:block/15/steelgrey"
+  "steelgrey": "backrooms:block/15/steelgrey",
+  "bh-light": "backrooms:block/15/bh-light"
  },
  "elements": [
   {

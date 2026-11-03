@@ -3,9 +3,16 @@
  "textureHeight": 16,
  "textures": {
   "steelgrey": "backrooms:block/15/steelgrey",
+  "white": "backrooms:block/15/white",
   "dark": "backrooms:block/15/dark",
+  "brushed": "backrooms:block/15/brushed",
+  "copper": "backrooms:block/15/copper",
+  "hazard": "backrooms:block/15/hazard",
   "docklit": "backrooms:block/15/docklit",
   "dockplate": "backrooms:block/15/dockplate",
+  "lockerdoor": "backrooms:block/15/lockerdoor",
+  "bezel": "backrooms:block/15/bezel",
+  "ledamber": "backrooms:block/15/ledamber",
   "skin": "backrooms:entity/roboman"
  },
  "elements": [
@@ -14,7 +21,7 @@
    "from": [
     1,
     0,
-    14
+    14.5
    ],
    "to": [
     15,
@@ -23,7 +30,7 @@
    ],
    "faces": {
     "north": {
-     "texture": "#steelgrey",
+     "texture": "#lockerdoor",
      "uv": [
       0,
       0,
@@ -36,7 +43,7 @@
      "uv": [
       0,
       0,
-      2,
+      1.5,
       16
      ]
     },
@@ -54,7 +61,7 @@
      "uv": [
       0,
       0,
-      2,
+      1.5,
       16
      ]
     },
@@ -64,7 +71,7 @@
       0,
       0,
       14,
-      2
+      1.5
      ]
     },
     "down": {
@@ -73,7 +80,7 @@
       0,
       0,
       14,
-      2
+      1.5
      ]
     }
    }
@@ -83,7 +90,7 @@
    "from": [
     0,
     0,
-    9
+    9.5
    ],
    "to": [
     1.5,
@@ -92,7 +99,7 @@
    ],
    "faces": {
     "north": {
-     "texture": "#steelgrey",
+     "texture": "#white",
      "uv": [
       0,
       0,
@@ -101,16 +108,16 @@
      ]
     },
     "east": {
-     "texture": "#steelgrey",
+     "texture": "#white",
      "uv": [
       0,
       0,
-      7,
+      6.5,
       16
      ]
     },
     "south": {
-     "texture": "#steelgrey",
+     "texture": "#white",
      "uv": [
       0,
       0,
@@ -119,30 +126,30 @@
      ]
     },
     "west": {
-     "texture": "#steelgrey",
+     "texture": "#white",
      "uv": [
       0,
       0,
-      7,
+      6.5,
       16
      ]
     },
     "up": {
-     "texture": "#steelgrey",
+     "texture": "#white",
      "uv": [
       0,
       0,
       1.5,
-      7
+      6.5
      ]
     },
     "down": {
-     "texture": "#steelgrey",
+     "texture": "#white",
      "uv": [
       0,
       0,
       1.5,
-      7
+      6.5
      ]
     }
    }
@@ -152,7 +159,7 @@
    "from": [
     14.5,
     0,
-    9
+    9.5
    ],
    "to": [
     16,
@@ -161,7 +168,7 @@
    ],
    "faces": {
     "north": {
-     "texture": "#steelgrey",
+     "texture": "#white",
      "uv": [
       0,
       0,
@@ -170,16 +177,16 @@
      ]
     },
     "east": {
-     "texture": "#steelgrey",
+     "texture": "#white",
      "uv": [
       0,
       0,
-      7,
+      6.5,
       16
      ]
     },
     "south": {
-     "texture": "#steelgrey",
+     "texture": "#white",
      "uv": [
       0,
       0,
@@ -188,45 +195,195 @@
      ]
     },
     "west": {
-     "texture": "#steelgrey",
+     "texture": "#white",
      "uv": [
       0,
       0,
-      7,
+      6.5,
       16
      ]
     },
     "up": {
-     "texture": "#steelgrey",
+     "texture": "#white",
      "uv": [
       0,
       0,
       1.5,
-      7
+      6.5
      ]
     },
     "down": {
-     "texture": "#steelgrey",
+     "texture": "#white",
      "uv": [
       0,
       0,
       1.5,
-      7
+      6.5
      ]
     }
    }
   },
   {
+   "name": "ChamferW",
+   "from": [
+    0.35,
+    0,
+    8.6
+   ],
+   "to": [
+    1.35,
+    16,
+    10.6
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      2.0,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      2.0,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.0
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.0
+     ]
+    }
+   },
+   "rotationOrigin": [
+    0.85,
+    8,
+    9.6
+   ],
+   "rotationY": 45
+  },
+  {
+   "name": "ChamferE",
+   "from": [
+    14.65,
+    0,
+    8.6
+   ],
+   "to": [
+    15.65,
+    16,
+    10.6
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      2.0,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      2.0,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.0
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      2.0
+     ]
+    }
+   },
+   "rotationOrigin": [
+    15.15,
+    8,
+    9.6
+   ],
+   "rotationY": -45
+  },
+  {
    "name": "StripW",
    "from": [
     1.5,
-    2,
-    13
+    1,
+    12.5
    ],
    "to": [
     1.75,
     16,
-    14
+    13.5
    ],
    "faces": {
     "east": {
@@ -234,8 +391,8 @@
      "uv": [
       0,
       0,
-      1,
-      14
+      1.0,
+      15
      ],
      "glow": 200
     }
@@ -245,13 +402,13 @@
    "name": "StripE",
    "from": [
     14.25,
-    2,
-    13
+    1,
+    12.5
    ],
    "to": [
     14.5,
     16,
-    14
+    13.5
    ],
    "faces": {
     "west": {
@@ -259,24 +416,24 @@
      "uv": [
       0,
       0,
-      1,
-      14
+      1.0,
+      15
      ],
      "glow": 200
     }
    }
   },
   {
-   "name": "Floor",
+   "name": "Conduit",
    "from": [
-    1,
+    14.5,
     0,
-    4
+    15.25
    ],
    "to": [
-    15,
-    0.5,
-    14
+    15.5,
+    16,
+    16.25
    ],
    "faces": {
     "north": {
@@ -284,8 +441,8 @@
      "uv": [
       0,
       0,
-      14,
-      0.5
+      1.0,
+      16
      ]
     },
     "east": {
@@ -293,8 +450,8 @@
      "uv": [
       0,
       0,
-      10,
-      0.5
+      1.0,
+      16
      ]
     },
     "south": {
@@ -302,8 +459,8 @@
      "uv": [
       0,
       0,
-      14,
-      0.5
+      1.0,
+      16
      ]
     },
     "west": {
@@ -311,164 +468,809 @@
      "uv": [
       0,
       0,
-      10,
-      0.5
+      1.0,
+      16
      ]
     },
+    "up": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "Pad",
+   "from": [
+    1.5,
+    0,
+    3
+   ],
+   "to": [
+    14.5,
+    0.6,
+    14.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.6
+     ]
+    },
+    "east": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      11.5,
+      0.6
+     ]
+    },
+    "south": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      11.5,
+      0.6
+     ]
+    },
+    "up": {
+     "texture": "#hazard",
+     "uv": [
+      0,
+      0,
+      13.0,
+      11.5
+     ]
+    },
+    "down": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      13.0,
+      11.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "PadInner",
+   "from": [
+    3,
+    0.6,
+    4.5
+   ],
+   "to": [
+    13,
+    0.7,
+    13.5
+   ],
+   "faces": {
     "up": {
      "texture": "#steelgrey",
      "uv": [
       0,
       0,
-      14,
-      10
-     ]
-    },
-    "down": {
-     "texture": "#dark",
-     "uv": [
-      0,
-      0,
-      14,
-      10
+      10,
+      9.0
      ]
     }
    }
   },
   {
-   "name": "ContactL",
+   "name": "RailW",
    "from": [
-    4,
-    8,
-    13.5
+    2,
+    0.6,
+    3.5
    ],
    "to": [
-    6,
-    12,
-    14
+    3,
+    1.4,
+    14.5
    ],
    "faces": {
     "north": {
-     "texture": "#dark",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      2,
-      4
+      1,
+      0.8
      ]
     },
     "east": {
-     "texture": "#dark",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      0.5,
-      4
+      11.0,
+      0.8
      ]
     },
     "south": {
-     "texture": "#dark",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      2,
-      4
+      1,
+      0.8
      ]
     },
     "west": {
-     "texture": "#dark",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      0.5,
-      4
+      11.0,
+      0.8
      ]
     },
     "up": {
-     "texture": "#dark",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      2,
-      0.5
+      1,
+      11.0
      ]
     },
     "down": {
-     "texture": "#dark",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      2,
-      0.5
+      1,
+      11.0
      ]
     }
    }
   },
   {
-   "name": "ContactR",
+   "name": "RailE",
    "from": [
-    10,
-    8,
-    13.5
+    13,
+    0.6,
+    3.5
    ],
    "to": [
-    12,
-    12,
-    14
+    14,
+    1.4,
+    14.5
    ],
    "faces": {
     "north": {
-     "texture": "#dark",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      2,
-      4
+      1,
+      0.8
      ]
     },
     "east": {
-     "texture": "#dark",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      0.5,
-      4
+      11.0,
+      0.8
      ]
     },
     "south": {
-     "texture": "#dark",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      2,
-      4
+      1,
+      0.8
      ]
     },
     "west": {
-     "texture": "#dark",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      0.5,
-      4
+      11.0,
+      0.8
      ]
     },
     "up": {
-     "texture": "#dark",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      2,
-      0.5
+      1,
+      11.0
      ]
     },
     "down": {
-     "texture": "#dark",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      2,
+      1,
+      11.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "StudW",
+   "from": [
+    5,
+    0.6,
+    9
+   ],
+   "to": [
+    6.5,
+    1.1,
+    10.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
       0.5
+     ]
+    },
+    "east": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "down": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "StudE",
+   "from": [
+    9.5,
+    0.6,
+    9
+   ],
+   "to": [
+    11,
+    1.1,
+    10.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "down": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "ArmW",
+   "from": [
+    3.25,
+    11,
+    11.5
+   ],
+   "to": [
+    4.25,
+    12,
+    14.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      3.0,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      3.0,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3.0
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "ArmE",
+   "from": [
+    11.75,
+    11,
+    11.5
+   ],
+   "to": [
+    12.75,
+    12,
+    14.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      3.0,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      3.0,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3.0
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      3.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "SpringW",
+   "from": [
+    3.4,
+    11.15,
+    12.5
+   ],
+   "to": [
+    4.1,
+    11.85,
+    13.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.7
+     ]
+    },
+    "east": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.7
+     ]
+    },
+    "south": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.7
+     ]
+    },
+    "west": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.7
+     ]
+    },
+    "up": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "SpringE",
+   "from": [
+    11.9,
+    11.15,
+    12.5
+   ],
+   "to": [
+    12.6,
+    11.85,
+    13.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.7
+     ]
+    },
+    "east": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.7
+     ]
+    },
+    "south": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.7
+     ]
+    },
+    "west": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.7
+     ]
+    },
+    "up": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.0
+     ]
+    },
+    "down": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.0
+     ]
+    }
+   }
+  },
+  {
+   "name": "PadW",
+   "from": [
+    3,
+    10.5,
+    10.9
+   ],
+   "to": [
+    4.5,
+    12.5,
+    11.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2.0
+     ]
+    },
+    "east": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      0.6,
+      2.0
+     ]
+    },
+    "south": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2.0
+     ]
+    },
+    "west": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      0.6,
+      2.0
+     ]
+    },
+    "up": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.6
+     ]
+    }
+   }
+  },
+  {
+   "name": "PadE",
+   "from": [
+    11.5,
+    10.5,
+    10.9
+   ],
+   "to": [
+    13,
+    12.5,
+    11.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2.0
+     ]
+    },
+    "east": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      0.6,
+      2.0
+     ]
+    },
+    "south": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2.0
+     ]
+    },
+    "west": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      0.6,
+      2.0
+     ]
+    },
+    "up": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#copper",
+     "uv": [
+      0,
+      0,
+      1.5,
+      0.6
      ]
     }
    }
@@ -477,12 +1279,12 @@
    "name": "RobotHips",
    "from": [
     4.25,
-    8.0,
+    8.25,
     5.5
    ],
    "to": [
     11.75,
-    10.25,
+    10.5,
     10.5
    ],
    "faces": {
@@ -546,12 +1348,12 @@
    "name": "RobotTorso",
    "from": [
     3.5,
-    10.0,
+    10.25,
     5.0
    ],
    "to": [
     12.5,
-    19.0,
+    19.25,
     11.0
    ],
    "faces": {
@@ -615,12 +1417,12 @@
    "name": "RobotPanel",
    "from": [
     5.25,
-    12.5,
+    12.75,
     4.55
    ],
    "to": [
     10.75,
-    17.0,
+    17.25,
     5.05
    ],
    "faces": {
@@ -684,12 +1486,12 @@
    "name": "RobotCollar",
    "from": [
     6.25,
-    19.0,
+    19.25,
     6.25
    ],
    "to": [
     9.75,
-    20.0,
+    20.25,
     9.75
    ],
    "faces": {
@@ -753,12 +1555,12 @@
    "name": "RobotHead",
    "from": [
     5.0,
-    20.0,
+    20.25,
     5.25
    ],
    "to": [
     11.0,
-    25.0,
+    25.25,
     10.75
    ],
    "faces": {
@@ -822,12 +1624,12 @@
    "name": "RobotEyeL",
    "from": [
     5.75,
-    22.1,
+    22.35,
     4.7
    ],
    "to": [
     7.65,
-    24.0,
+    24.25,
     5.3
    ],
    "faces": {
@@ -839,7 +1641,7 @@
       16.0,
       36.0
      ],
-     "glow": 60
+     "glow": 160
     },
     "south": {
      "texture": "#skin",
@@ -849,7 +1651,7 @@
       20.0,
       33.5
      ],
-     "glow": 60
+     "glow": 160
     },
     "west": {
      "texture": "#skin",
@@ -859,7 +1661,7 @@
       17.5,
       36.0
      ],
-     "glow": 60
+     "glow": 160
     },
     "north": {
      "texture": "#skin",
@@ -869,7 +1671,7 @@
       22.5,
       33.5
      ],
-     "glow": 60
+     "glow": 160
     },
     "up": {
      "texture": "#skin",
@@ -879,7 +1681,7 @@
       19.0,
       36.0
      ],
-     "glow": 60
+     "glow": 160
     },
     "down": {
      "texture": "#skin",
@@ -889,7 +1691,7 @@
       20.5,
       36.0
      ],
-     "glow": 60
+     "glow": 160
     }
    }
   },
@@ -897,12 +1699,12 @@
    "name": "RobotEarL",
    "from": [
     4.4,
-    21.5,
+    21.75,
     7.0
    ],
    "to": [
     5.1,
-    23.5,
+    23.75,
     9.0
    ],
    "faces": {
@@ -966,12 +1768,12 @@
    "name": "RobotAntenna",
    "from": [
     7.75,
-    25.0,
+    25.25,
     7.75
    ],
    "to": [
     8.25,
-    27.75,
+    28.0,
     8.25
    ],
    "faces": {
@@ -1035,12 +1837,12 @@
    "name": "RobotBulb",
    "from": [
     7.4,
-    27.6,
+    27.85,
     7.4
    ],
    "to": [
     8.6,
-    28.8,
+    29.05,
     8.6
    ],
    "faces": {
@@ -1052,7 +1854,7 @@
       13.5,
       38.0
      ],
-     "glow": 120
+     "glow": 160
     },
     "south": {
      "texture": "#skin",
@@ -1062,7 +1864,7 @@
       15.5,
       38.0
      ],
-     "glow": 120
+     "glow": 160
     },
     "west": {
      "texture": "#skin",
@@ -1072,7 +1874,7 @@
       17.5,
       38.0
      ],
-     "glow": 120
+     "glow": 160
     },
     "north": {
      "texture": "#skin",
@@ -1082,7 +1884,7 @@
       19.5,
       38.0
      ],
-     "glow": 120
+     "glow": 160
     },
     "up": {
      "texture": "#skin",
@@ -1092,7 +1894,7 @@
       21.5,
       38.0
      ],
-     "glow": 120
+     "glow": 160
     },
     "down": {
      "texture": "#skin",
@@ -1102,7 +1904,7 @@
       23.5,
       38.0
      ],
-     "glow": 120
+     "glow": 160
     }
    }
   },
@@ -1110,12 +1912,12 @@
    "name": "RobotEyeR",
    "from": [
     8.35,
-    22.1,
+    22.35,
     4.7
    ],
    "to": [
     10.25,
-    24.0,
+    24.25,
     5.3
    ],
    "faces": {
@@ -1127,7 +1929,7 @@
       49.0,
       36.0
      ],
-     "glow": 60
+     "glow": 160
     },
     "south": {
      "texture": "#skin",
@@ -1137,7 +1939,7 @@
       7.0,
       36.0
      ],
-     "glow": 60
+     "glow": 160
     },
     "west": {
      "texture": "#skin",
@@ -1147,7 +1949,7 @@
       50.5,
       36.0
      ],
-     "glow": 60
+     "glow": 160
     },
     "north": {
      "texture": "#skin",
@@ -1157,7 +1959,7 @@
       9.5,
       36.0
      ],
-     "glow": 60
+     "glow": 160
     },
     "up": {
      "texture": "#skin",
@@ -1167,7 +1969,7 @@
       52.0,
       36.0
      ],
-     "glow": 60
+     "glow": 160
     },
     "down": {
      "texture": "#skin",
@@ -1177,7 +1979,7 @@
       53.5,
       36.0
      ],
-     "glow": 60
+     "glow": 160
     }
    }
   },
@@ -1185,12 +1987,12 @@
    "name": "RobotEarR",
    "from": [
     10.9,
-    21.5,
+    21.75,
     7.0
    ],
    "to": [
     11.6,
-    23.5,
+    23.75,
     9.0
    ],
    "faces": {
@@ -1254,12 +2056,12 @@
    "name": "RobotKey",
    "from": [
     7.6,
-    14.1,
+    14.35,
     11.0
    ],
    "to": [
     8.4,
-    14.9,
+    15.15,
     12.8
    ],
    "faces": {
@@ -1323,12 +2125,12 @@
    "name": "RobotKeyBar",
    "from": [
     5.4,
-    13.9,
+    14.15,
     12.8
    ],
    "to": [
     10.600000000000001,
-    15.1,
+    15.35,
     13.3
    ],
    "faces": {
@@ -1392,12 +2194,12 @@
    "name": "RobotKeyLobeL",
    "from": [
     5.199999999999999,
-    13.0,
+    13.25,
     12.8
    ],
    "to": [
     6.9,
-    16.0,
+    16.25,
     13.3
    ],
    "faces": {
@@ -1461,12 +2263,12 @@
    "name": "RobotKeyLobeR",
    "from": [
     9.100000000000001,
-    13.0,
+    13.25,
     12.8
    ],
    "to": [
     10.8,
-    16.0,
+    16.25,
     13.3
    ],
    "faces": {
@@ -1530,12 +2332,12 @@
    "name": "RobotArmL",
    "from": [
     1.5,
-    14.0,
+    14.25,
     7.0
    ],
    "to": [
     3.5,
-    18.5,
+    18.75,
     9.0
    ],
    "faces": {
@@ -1599,12 +2401,12 @@
    "name": "RobotShoulderL",
    "from": [
     1.4000000000000004,
-    16.75,
+    17.0,
     6.75
    ],
    "to": [
     3.5999999999999996,
-    19.0,
+    19.25,
     9.25
    ],
    "faces": {
@@ -1668,12 +2470,12 @@
    "name": "RobotForearmL",
    "from": [
     1.6500000000000004,
-    10.5,
+    10.75,
     7.15
    ],
    "to": [
     3.3499999999999996,
-    14.5,
+    14.75,
     8.85
    ],
    "faces": {
@@ -1737,12 +2539,12 @@
    "name": "RobotHandL",
    "from": [
     1.25,
-    8.5,
+    8.75,
     6.75
    ],
    "to": [
     3.75,
-    10.75,
+    11.0,
     9.25
    ],
    "faces": {
@@ -1806,12 +2608,12 @@
    "name": "RobotPincerAL",
    "from": [
     1.5999999999999996,
-    6.7,
+    6.95,
     6.7
    ],
    "to": [
     3.4000000000000004,
-    8.6,
+    8.85,
     7.5
    ],
    "faces": {
@@ -1875,12 +2677,12 @@
    "name": "RobotPincerBL",
    "from": [
     1.5999999999999996,
-    6.7,
+    6.95,
     8.5
    ],
    "to": [
     3.4000000000000004,
-    8.6,
+    8.85,
     9.3
    ],
    "faces": {
@@ -1944,12 +2746,12 @@
    "name": "RobotArmR",
    "from": [
     12.5,
-    14.0,
+    14.25,
     7.0
    ],
    "to": [
     14.5,
-    18.5,
+    18.75,
     9.0
    ],
    "faces": {
@@ -2013,12 +2815,12 @@
    "name": "RobotShoulderR",
    "from": [
     12.4,
-    16.75,
+    17.0,
     6.75
    ],
    "to": [
     14.6,
-    19.0,
+    19.25,
     9.25
    ],
    "faces": {
@@ -2082,12 +2884,12 @@
    "name": "RobotForearmR",
    "from": [
     12.65,
-    10.5,
+    10.75,
     7.15
    ],
    "to": [
     14.35,
-    14.5,
+    14.75,
     8.85
    ],
    "faces": {
@@ -2151,12 +2953,12 @@
    "name": "RobotHandR",
    "from": [
     12.25,
-    8.5,
+    8.75,
     6.75
    ],
    "to": [
     14.75,
-    10.75,
+    11.0,
     9.25
    ],
    "faces": {
@@ -2220,12 +3022,12 @@
    "name": "RobotPincerAR",
    "from": [
     12.6,
-    6.7,
+    6.95,
     6.7
    ],
    "to": [
     14.4,
-    8.6,
+    8.85,
     7.5
    ],
    "faces": {
@@ -2289,12 +3091,12 @@
    "name": "RobotPincerBR",
    "from": [
     12.6,
-    6.7,
+    6.95,
     8.5
    ],
    "to": [
     14.4,
-    8.6,
+    8.85,
     9.3
    ],
    "faces": {
@@ -2358,12 +3160,12 @@
    "name": "RobotLegL",
    "from": [
     4.4,
-    2.5,
+    2.75,
     6.5
    ],
    "to": [
     7.4,
-    8.5,
+    8.75,
     9.5
    ],
    "faces": {
@@ -2427,12 +3229,12 @@
    "name": "RobotFootL",
    "from": [
     4.050000000000001,
-    0.5,
+    0.75,
     4.4
    ],
    "to": [
     7.75,
-    2.5,
+    2.75,
     10.0
    ],
    "faces": {
@@ -2496,12 +3298,12 @@
    "name": "RobotLegR",
    "from": [
     8.6,
-    2.5,
+    2.75,
     6.5
    ],
    "to": [
     11.6,
-    8.5,
+    8.75,
     9.5
    ],
    "faces": {
@@ -2565,12 +3367,12 @@
    "name": "RobotFootR",
    "from": [
     8.25,
-    0.5,
+    0.75,
     4.4
    ],
    "to": [
     11.95,
-    2.5,
+    2.75,
     10.0
    ],
    "faces": {

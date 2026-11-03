@@ -1,0 +1,451 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "bh-head": "backrooms:block/15/bh-head",
+  "wall-beam": "backrooms:block/15/wall-beam",
+  "brushed": "backrooms:block/15/brushed",
+  "bh-light": "backrooms:block/15/bh-light"
+ },
+ "elements": [
+  {
+   "name": "Beam",
+   "from": [
+    3,
+    6,
+    0
+   ],
+   "to": [
+    13,
+    16,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#bh-head",
+     "uv": [
+      0,
+      0,
+      16,
+      10
+     ]
+    },
+    "south": {
+     "texture": "#bh-head",
+     "uv": [
+      0,
+      0,
+      10,
+      10
+     ]
+    },
+    "west": {
+     "texture": "#bh-head",
+     "uv": [
+      0,
+      0,
+      16,
+      10
+     ]
+    },
+    "north": {
+     "texture": "#bh-head",
+     "uv": [
+      0,
+      0,
+      10,
+      10
+     ]
+    },
+    "up": {
+     "texture": "#wall-beam",
+     "uv": [
+      0,
+      0,
+      16,
+      10
+     ]
+    },
+    "down": {
+     "texture": "#wall-beam",
+     "uv": [
+      0,
+      0,
+      16,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "name": "FlangeN",
+   "from": [
+    13,
+    6,
+    0
+   ],
+   "to": [
+    13.5,
+    7,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      1
+     ]
+    },
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "FlangeS",
+   "from": [
+    2.5,
+    6,
+    0
+   ],
+   "to": [
+    3,
+    7,
+    16
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      1
+     ]
+    },
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "LightHousing",
+   "from": [
+    6,
+    5.25,
+    1
+   ],
+   "to": [
+    10,
+    6,
+    15
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      14,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      4,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      14,
+      0.75
+     ]
+    },
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      4,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      14,
+      4
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      14,
+      4
+     ]
+    }
+   }
+  },
+  {
+   "name": "Light",
+   "from": [
+    6.5,
+    5.15,
+    1.5
+   ],
+   "to": [
+    9.5,
+    5.25,
+    14.5
+   ],
+   "faces": {
+    "down": {
+     "texture": "#bh-light",
+     "uv": [
+      0,
+      0,
+      13.0,
+      3.0
+     ],
+     "glow": 220
+    }
+   }
+  },
+  {
+   "name": "StiffN",
+   "from": [
+    13,
+    7,
+    7.5
+   ],
+   "to": [
+    13.75,
+    16,
+    8.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      9
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.75,
+      9
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      9
+     ]
+    },
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.75,
+      9
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.75
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.75
+     ]
+    }
+   }
+  },
+  {
+   "name": "StiffS",
+   "from": [
+    2.25,
+    7,
+    7.5
+   ],
+   "to": [
+    3,
+    16,
+    8.5
+   ],
+   "faces": {
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      9
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.75,
+      9
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      9
+     ]
+    },
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.75,
+      9
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.75
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.0,
+      0.75
+     ]
+    }
+   }
+  }
+ ]
+}

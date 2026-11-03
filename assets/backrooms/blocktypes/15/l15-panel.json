@@ -1,0 +1,635 @@
+// Level 15 (round 4): a white wall block with a model on its face toward its side: the fire extinguisher, the ESCAPE panel, the lift (leaves in a portal, the lit indicator, the call panel), the big display's bezel, the bulkheads' jambs and code plates, the battery emergency lamp, the tripped breaker panel
+{
+	"code": "l15-panel",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"ext",
+				"escape",
+				"liftl0",
+				"liftl1",
+				"liftl2",
+				"liftr0",
+				"liftr1",
+				"liftr2",
+				"liftind0",
+				"liftind1",
+				"liftcall",
+				"big00",
+				"big01",
+				"big02",
+				"big10",
+				"big11",
+				"big12",
+				"jamb1",
+				"jamb1e",
+				"jamb2",
+				"jamb2e",
+				"jamb3",
+				"jamb3e",
+				"jamb4",
+				"jamb4e",
+				"jamb5",
+				"jamb5e",
+				"jambplate0",
+				"jambplate1",
+				"jambplate2",
+				"jambplate3",
+				"emerglit",
+				"emergdead",
+				"breaker"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"*-ext-north": {
+			"base": "backrooms:block/15/l15-panel-ext",
+			"rotateY": 0
+		},
+		"*-ext-east": {
+			"base": "backrooms:block/15/l15-panel-ext",
+			"rotateY": 270
+		},
+		"*-ext-south": {
+			"base": "backrooms:block/15/l15-panel-ext",
+			"rotateY": 180
+		},
+		"*-ext-west": {
+			"base": "backrooms:block/15/l15-panel-ext",
+			"rotateY": 90
+		},
+		"*-escape-north": {
+			"base": "backrooms:block/15/l15-panel-escape",
+			"rotateY": 0
+		},
+		"*-escape-east": {
+			"base": "backrooms:block/15/l15-panel-escape",
+			"rotateY": 270
+		},
+		"*-escape-south": {
+			"base": "backrooms:block/15/l15-panel-escape",
+			"rotateY": 180
+		},
+		"*-escape-west": {
+			"base": "backrooms:block/15/l15-panel-escape",
+			"rotateY": 90
+		},
+		"*-liftl0-north": {
+			"base": "backrooms:block/15/l15-panel-liftl0",
+			"rotateY": 0
+		},
+		"*-liftl0-east": {
+			"base": "backrooms:block/15/l15-panel-liftl0",
+			"rotateY": 270
+		},
+		"*-liftl0-south": {
+			"base": "backrooms:block/15/l15-panel-liftl0",
+			"rotateY": 180
+		},
+		"*-liftl0-west": {
+			"base": "backrooms:block/15/l15-panel-liftl0",
+			"rotateY": 90
+		},
+		"*-liftl1-north": {
+			"base": "backrooms:block/15/l15-panel-liftl1",
+			"rotateY": 0
+		},
+		"*-liftl1-east": {
+			"base": "backrooms:block/15/l15-panel-liftl1",
+			"rotateY": 270
+		},
+		"*-liftl1-south": {
+			"base": "backrooms:block/15/l15-panel-liftl1",
+			"rotateY": 180
+		},
+		"*-liftl1-west": {
+			"base": "backrooms:block/15/l15-panel-liftl1",
+			"rotateY": 90
+		},
+		"*-liftl2-north": {
+			"base": "backrooms:block/15/l15-panel-liftl2",
+			"rotateY": 0
+		},
+		"*-liftl2-east": {
+			"base": "backrooms:block/15/l15-panel-liftl2",
+			"rotateY": 270
+		},
+		"*-liftl2-south": {
+			"base": "backrooms:block/15/l15-panel-liftl2",
+			"rotateY": 180
+		},
+		"*-liftl2-west": {
+			"base": "backrooms:block/15/l15-panel-liftl2",
+			"rotateY": 90
+		},
+		"*-liftr0-north": {
+			"base": "backrooms:block/15/l15-panel-liftr0",
+			"rotateY": 0
+		},
+		"*-liftr0-east": {
+			"base": "backrooms:block/15/l15-panel-liftr0",
+			"rotateY": 270
+		},
+		"*-liftr0-south": {
+			"base": "backrooms:block/15/l15-panel-liftr0",
+			"rotateY": 180
+		},
+		"*-liftr0-west": {
+			"base": "backrooms:block/15/l15-panel-liftr0",
+			"rotateY": 90
+		},
+		"*-liftr1-north": {
+			"base": "backrooms:block/15/l15-panel-liftr1",
+			"rotateY": 0
+		},
+		"*-liftr1-east": {
+			"base": "backrooms:block/15/l15-panel-liftr1",
+			"rotateY": 270
+		},
+		"*-liftr1-south": {
+			"base": "backrooms:block/15/l15-panel-liftr1",
+			"rotateY": 180
+		},
+		"*-liftr1-west": {
+			"base": "backrooms:block/15/l15-panel-liftr1",
+			"rotateY": 90
+		},
+		"*-liftr2-north": {
+			"base": "backrooms:block/15/l15-panel-liftr2",
+			"rotateY": 0
+		},
+		"*-liftr2-east": {
+			"base": "backrooms:block/15/l15-panel-liftr2",
+			"rotateY": 270
+		},
+		"*-liftr2-south": {
+			"base": "backrooms:block/15/l15-panel-liftr2",
+			"rotateY": 180
+		},
+		"*-liftr2-west": {
+			"base": "backrooms:block/15/l15-panel-liftr2",
+			"rotateY": 90
+		},
+		"*-liftind0-north": {
+			"base": "backrooms:block/15/l15-panel-liftind0",
+			"rotateY": 0
+		},
+		"*-liftind0-east": {
+			"base": "backrooms:block/15/l15-panel-liftind0",
+			"rotateY": 270
+		},
+		"*-liftind0-south": {
+			"base": "backrooms:block/15/l15-panel-liftind0",
+			"rotateY": 180
+		},
+		"*-liftind0-west": {
+			"base": "backrooms:block/15/l15-panel-liftind0",
+			"rotateY": 90
+		},
+		"*-liftind1-north": {
+			"base": "backrooms:block/15/l15-panel-liftind1",
+			"rotateY": 0
+		},
+		"*-liftind1-east": {
+			"base": "backrooms:block/15/l15-panel-liftind1",
+			"rotateY": 270
+		},
+		"*-liftind1-south": {
+			"base": "backrooms:block/15/l15-panel-liftind1",
+			"rotateY": 180
+		},
+		"*-liftind1-west": {
+			"base": "backrooms:block/15/l15-panel-liftind1",
+			"rotateY": 90
+		},
+		"*-liftcall-north": {
+			"base": "backrooms:block/15/l15-panel-liftcall",
+			"rotateY": 0
+		},
+		"*-liftcall-east": {
+			"base": "backrooms:block/15/l15-panel-liftcall",
+			"rotateY": 270
+		},
+		"*-liftcall-south": {
+			"base": "backrooms:block/15/l15-panel-liftcall",
+			"rotateY": 180
+		},
+		"*-liftcall-west": {
+			"base": "backrooms:block/15/l15-panel-liftcall",
+			"rotateY": 90
+		},
+		"*-big00-north": {
+			"base": "backrooms:block/15/l15-panel-big00",
+			"rotateY": 0
+		},
+		"*-big00-east": {
+			"base": "backrooms:block/15/l15-panel-big00",
+			"rotateY": 270
+		},
+		"*-big00-south": {
+			"base": "backrooms:block/15/l15-panel-big00",
+			"rotateY": 180
+		},
+		"*-big00-west": {
+			"base": "backrooms:block/15/l15-panel-big00",
+			"rotateY": 90
+		},
+		"*-big01-north": {
+			"base": "backrooms:block/15/l15-panel-big01",
+			"rotateY": 0
+		},
+		"*-big01-east": {
+			"base": "backrooms:block/15/l15-panel-big01",
+			"rotateY": 270
+		},
+		"*-big01-south": {
+			"base": "backrooms:block/15/l15-panel-big01",
+			"rotateY": 180
+		},
+		"*-big01-west": {
+			"base": "backrooms:block/15/l15-panel-big01",
+			"rotateY": 90
+		},
+		"*-big02-north": {
+			"base": "backrooms:block/15/l15-panel-big02",
+			"rotateY": 0
+		},
+		"*-big02-east": {
+			"base": "backrooms:block/15/l15-panel-big02",
+			"rotateY": 270
+		},
+		"*-big02-south": {
+			"base": "backrooms:block/15/l15-panel-big02",
+			"rotateY": 180
+		},
+		"*-big02-west": {
+			"base": "backrooms:block/15/l15-panel-big02",
+			"rotateY": 90
+		},
+		"*-big10-north": {
+			"base": "backrooms:block/15/l15-panel-big10",
+			"rotateY": 0
+		},
+		"*-big10-east": {
+			"base": "backrooms:block/15/l15-panel-big10",
+			"rotateY": 270
+		},
+		"*-big10-south": {
+			"base": "backrooms:block/15/l15-panel-big10",
+			"rotateY": 180
+		},
+		"*-big10-west": {
+			"base": "backrooms:block/15/l15-panel-big10",
+			"rotateY": 90
+		},
+		"*-big11-north": {
+			"base": "backrooms:block/15/l15-panel-big11",
+			"rotateY": 0
+		},
+		"*-big11-east": {
+			"base": "backrooms:block/15/l15-panel-big11",
+			"rotateY": 270
+		},
+		"*-big11-south": {
+			"base": "backrooms:block/15/l15-panel-big11",
+			"rotateY": 180
+		},
+		"*-big11-west": {
+			"base": "backrooms:block/15/l15-panel-big11",
+			"rotateY": 90
+		},
+		"*-big12-north": {
+			"base": "backrooms:block/15/l15-panel-big12",
+			"rotateY": 0
+		},
+		"*-big12-east": {
+			"base": "backrooms:block/15/l15-panel-big12",
+			"rotateY": 270
+		},
+		"*-big12-south": {
+			"base": "backrooms:block/15/l15-panel-big12",
+			"rotateY": 180
+		},
+		"*-big12-west": {
+			"base": "backrooms:block/15/l15-panel-big12",
+			"rotateY": 90
+		},
+		"*-jamb1-north": {
+			"base": "backrooms:block/15/l15-panel-jamb1",
+			"rotateY": 0
+		},
+		"*-jamb1-east": {
+			"base": "backrooms:block/15/l15-panel-jamb1",
+			"rotateY": 270
+		},
+		"*-jamb1-south": {
+			"base": "backrooms:block/15/l15-panel-jamb1",
+			"rotateY": 180
+		},
+		"*-jamb1-west": {
+			"base": "backrooms:block/15/l15-panel-jamb1",
+			"rotateY": 90
+		},
+		"*-jamb1e-north": {
+			"base": "backrooms:block/15/l15-panel-jamb1e",
+			"rotateY": 0
+		},
+		"*-jamb1e-east": {
+			"base": "backrooms:block/15/l15-panel-jamb1e",
+			"rotateY": 270
+		},
+		"*-jamb1e-south": {
+			"base": "backrooms:block/15/l15-panel-jamb1e",
+			"rotateY": 180
+		},
+		"*-jamb1e-west": {
+			"base": "backrooms:block/15/l15-panel-jamb1e",
+			"rotateY": 90
+		},
+		"*-jamb2-north": {
+			"base": "backrooms:block/15/l15-panel-jamb2",
+			"rotateY": 0
+		},
+		"*-jamb2-east": {
+			"base": "backrooms:block/15/l15-panel-jamb2",
+			"rotateY": 270
+		},
+		"*-jamb2-south": {
+			"base": "backrooms:block/15/l15-panel-jamb2",
+			"rotateY": 180
+		},
+		"*-jamb2-west": {
+			"base": "backrooms:block/15/l15-panel-jamb2",
+			"rotateY": 90
+		},
+		"*-jamb2e-north": {
+			"base": "backrooms:block/15/l15-panel-jamb2e",
+			"rotateY": 0
+		},
+		"*-jamb2e-east": {
+			"base": "backrooms:block/15/l15-panel-jamb2e",
+			"rotateY": 270
+		},
+		"*-jamb2e-south": {
+			"base": "backrooms:block/15/l15-panel-jamb2e",
+			"rotateY": 180
+		},
+		"*-jamb2e-west": {
+			"base": "backrooms:block/15/l15-panel-jamb2e",
+			"rotateY": 90
+		},
+		"*-jamb3-north": {
+			"base": "backrooms:block/15/l15-panel-jamb3",
+			"rotateY": 0
+		},
+		"*-jamb3-east": {
+			"base": "backrooms:block/15/l15-panel-jamb3",
+			"rotateY": 270
+		},
+		"*-jamb3-south": {
+			"base": "backrooms:block/15/l15-panel-jamb3",
+			"rotateY": 180
+		},
+		"*-jamb3-west": {
+			"base": "backrooms:block/15/l15-panel-jamb3",
+			"rotateY": 90
+		},
+		"*-jamb3e-north": {
+			"base": "backrooms:block/15/l15-panel-jamb3e",
+			"rotateY": 0
+		},
+		"*-jamb3e-east": {
+			"base": "backrooms:block/15/l15-panel-jamb3e",
+			"rotateY": 270
+		},
+		"*-jamb3e-south": {
+			"base": "backrooms:block/15/l15-panel-jamb3e",
+			"rotateY": 180
+		},
+		"*-jamb3e-west": {
+			"base": "backrooms:block/15/l15-panel-jamb3e",
+			"rotateY": 90
+		},
+		"*-jamb4-north": {
+			"base": "backrooms:block/15/l15-panel-jamb4",
+			"rotateY": 0
+		},
+		"*-jamb4-east": {
+			"base": "backrooms:block/15/l15-panel-jamb4",
+			"rotateY": 270
+		},
+		"*-jamb4-south": {
+			"base": "backrooms:block/15/l15-panel-jamb4",
+			"rotateY": 180
+		},
+		"*-jamb4-west": {
+			"base": "backrooms:block/15/l15-panel-jamb4",
+			"rotateY": 90
+		},
+		"*-jamb4e-north": {
+			"base": "backrooms:block/15/l15-panel-jamb4e",
+			"rotateY": 0
+		},
+		"*-jamb4e-east": {
+			"base": "backrooms:block/15/l15-panel-jamb4e",
+			"rotateY": 270
+		},
+		"*-jamb4e-south": {
+			"base": "backrooms:block/15/l15-panel-jamb4e",
+			"rotateY": 180
+		},
+		"*-jamb4e-west": {
+			"base": "backrooms:block/15/l15-panel-jamb4e",
+			"rotateY": 90
+		},
+		"*-jamb5-north": {
+			"base": "backrooms:block/15/l15-panel-jamb5",
+			"rotateY": 0
+		},
+		"*-jamb5-east": {
+			"base": "backrooms:block/15/l15-panel-jamb5",
+			"rotateY": 270
+		},
+		"*-jamb5-south": {
+			"base": "backrooms:block/15/l15-panel-jamb5",
+			"rotateY": 180
+		},
+		"*-jamb5-west": {
+			"base": "backrooms:block/15/l15-panel-jamb5",
+			"rotateY": 90
+		},
+		"*-jamb5e-north": {
+			"base": "backrooms:block/15/l15-panel-jamb5e",
+			"rotateY": 0
+		},
+		"*-jamb5e-east": {
+			"base": "backrooms:block/15/l15-panel-jamb5e",
+			"rotateY": 270
+		},
+		"*-jamb5e-south": {
+			"base": "backrooms:block/15/l15-panel-jamb5e",
+			"rotateY": 180
+		},
+		"*-jamb5e-west": {
+			"base": "backrooms:block/15/l15-panel-jamb5e",
+			"rotateY": 90
+		},
+		"*-jambplate0-north": {
+			"base": "backrooms:block/15/l15-panel-jambplate0",
+			"rotateY": 0
+		},
+		"*-jambplate0-east": {
+			"base": "backrooms:block/15/l15-panel-jambplate0",
+			"rotateY": 270
+		},
+		"*-jambplate0-south": {
+			"base": "backrooms:block/15/l15-panel-jambplate0",
+			"rotateY": 180
+		},
+		"*-jambplate0-west": {
+			"base": "backrooms:block/15/l15-panel-jambplate0",
+			"rotateY": 90
+		},
+		"*-jambplate1-north": {
+			"base": "backrooms:block/15/l15-panel-jambplate1",
+			"rotateY": 0
+		},
+		"*-jambplate1-east": {
+			"base": "backrooms:block/15/l15-panel-jambplate1",
+			"rotateY": 270
+		},
+		"*-jambplate1-south": {
+			"base": "backrooms:block/15/l15-panel-jambplate1",
+			"rotateY": 180
+		},
+		"*-jambplate1-west": {
+			"base": "backrooms:block/15/l15-panel-jambplate1",
+			"rotateY": 90
+		},
+		"*-jambplate2-north": {
+			"base": "backrooms:block/15/l15-panel-jambplate2",
+			"rotateY": 0
+		},
+		"*-jambplate2-east": {
+			"base": "backrooms:block/15/l15-panel-jambplate2",
+			"rotateY": 270
+		},
+		"*-jambplate2-south": {
+			"base": "backrooms:block/15/l15-panel-jambplate2",
+			"rotateY": 180
+		},
+		"*-jambplate2-west": {
+			"base": "backrooms:block/15/l15-panel-jambplate2",
+			"rotateY": 90
+		},
+		"*-jambplate3-north": {
+			"base": "backrooms:block/15/l15-panel-jambplate3",
+			"rotateY": 0
+		},
+		"*-jambplate3-east": {
+			"base": "backrooms:block/15/l15-panel-jambplate3",
+			"rotateY": 270
+		},
+		"*-jambplate3-south": {
+			"base": "backrooms:block/15/l15-panel-jambplate3",
+			"rotateY": 180
+		},
+		"*-jambplate3-west": {
+			"base": "backrooms:block/15/l15-panel-jambplate3",
+			"rotateY": 90
+		},
+		"*-emerglit-north": {
+			"base": "backrooms:block/15/l15-panel-emerglit",
+			"rotateY": 0
+		},
+		"*-emerglit-east": {
+			"base": "backrooms:block/15/l15-panel-emerglit",
+			"rotateY": 270
+		},
+		"*-emerglit-south": {
+			"base": "backrooms:block/15/l15-panel-emerglit",
+			"rotateY": 180
+		},
+		"*-emerglit-west": {
+			"base": "backrooms:block/15/l15-panel-emerglit",
+			"rotateY": 90
+		},
+		"*-emergdead-north": {
+			"base": "backrooms:block/15/l15-panel-emergdead",
+			"rotateY": 0
+		},
+		"*-emergdead-east": {
+			"base": "backrooms:block/15/l15-panel-emergdead",
+			"rotateY": 270
+		},
+		"*-emergdead-south": {
+			"base": "backrooms:block/15/l15-panel-emergdead",
+			"rotateY": 180
+		},
+		"*-emergdead-west": {
+			"base": "backrooms:block/15/l15-panel-emergdead",
+			"rotateY": 90
+		},
+		"*-breaker-north": {
+			"base": "backrooms:block/15/l15-panel-breaker",
+			"rotateY": 0
+		},
+		"*-breaker-east": {
+			"base": "backrooms:block/15/l15-panel-breaker",
+			"rotateY": 270
+		},
+		"*-breaker-south": {
+			"base": "backrooms:block/15/l15-panel-breaker",
+			"rotateY": 180
+		},
+		"*-breaker-west": {
+			"base": "backrooms:block/15/l15-panel-breaker",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": true
+	},
+	"sideopaque": {
+		"all": true
+	},
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"lightHsvByType": {
+		"*-emerglit-*": [
+			6,
+			4,
+			9
+		]
+	},
+	"emitSideAo": {
+		"all": false
+	}
+}

@@ -2,25 +2,31 @@
  "textureWidth": 16,
  "textureHeight": 16,
  "textures": {
-  "steelgrey": "backrooms:block/15/steelgrey",
+  "sinksteel": "backrooms:block/15/sinksteel",
   "lockerdoor": "backrooms:block/15/lockerdoor",
   "dark": "backrooms:block/15/dark",
-  "sinksteel": "backrooms:block/15/sinksteel",
-  "epoxy": "backrooms:block/15/epoxy",
-  "console-dead": "backrooms:block/15/console-dead",
-  "guardglass": "backrooms:block/15/guardglass"
+  "brushed": "backrooms:block/15/brushed",
+  "trayred": "backrooms:block/15/trayred",
+  "traygrey": "backrooms:block/15/traygrey",
+  "bezel": "backrooms:block/15/bezel",
+  "keys": "backrooms:block/15/keys",
+  "steelgrey": "backrooms:block/15/steelgrey",
+  "cscreen-dead": "backrooms:block/15/cscreen-dead",
+  "guardglass": "backrooms:block/15/guardglass",
+  "heatlamp": "backrooms:block/15/heatlamp",
+  "heatlampoff": "backrooms:block/15/heatlampoff"
  },
  "elements": [
   {
    "name": "Body",
    "from": [
     0,
-    0,
-    2.5
+    1,
+    3
    ],
    "to": [
     16,
-    13,
+    12.5,
     16
    ],
    "faces": {
@@ -30,52 +36,52 @@
       0,
       0,
       16,
-      13
+      11.5
      ]
     },
     "east": {
-     "texture": "#steelgrey",
+     "texture": "#sinksteel",
      "uv": [
       0,
       0,
-      13.5,
-      13
+      13,
+      11.5
      ]
     },
     "south": {
-     "texture": "#steelgrey",
+     "texture": "#sinksteel",
      "uv": [
       0,
       0,
       16,
-      13
+      11.5
      ]
     },
     "west": {
-     "texture": "#steelgrey",
+     "texture": "#sinksteel",
      "uv": [
       0,
       0,
-      13.5,
-      13
+      13,
+      11.5
      ]
     },
     "up": {
-     "texture": "#steelgrey",
+     "texture": "#sinksteel",
      "uv": [
       0,
       0,
       16,
-      13.5
+      13
      ]
     },
     "down": {
-     "texture": "#steelgrey",
+     "texture": "#sinksteel",
      "uv": [
       0,
       0,
       16,
-      13.5
+      13
      ]
     }
    }
@@ -83,14 +89,14 @@
   {
    "name": "Kick",
    "from": [
+    0.5,
     0,
-    0,
-    2
+    3.5
    ],
    "to": [
-    16,
+    15.5,
     1,
-    2.5
+    15.5
    ],
    "faces": {
     "north": {
@@ -98,8 +104,53 @@
      "uv": [
       0,
       0,
-      16,
+      15.0,
       1
+     ]
+    },
+    "east": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      12.0,
+      1
+     ]
+    },
+    "south": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      15.0,
+      1
+     ]
+    },
+    "west": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      12.0,
+      1
+     ]
+    },
+    "up": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      15.0,
+      12.0
+     ]
+    },
+    "down": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      15.0,
+      12.0
      ]
     }
    }
@@ -108,12 +159,12 @@
    "name": "Top",
    "from": [
     0,
-    13,
-    2
+    12.5,
+    2.5
    ],
    "to": [
     16,
-    14,
+    13.5,
     16
    ],
    "faces": {
@@ -123,7 +174,7 @@
       0,
       0,
       16,
-      1
+      1.0
      ]
     },
     "east": {
@@ -131,8 +182,8 @@
      "uv": [
       0,
       0,
-      14,
-      1
+      13.5,
+      1.0
      ]
     },
     "south": {
@@ -141,7 +192,7 @@
       0,
       0,
       16,
-      1
+      1.0
      ]
     },
     "west": {
@@ -149,8 +200,8 @@
      "uv": [
       0,
       0,
-      14,
-      1
+      13.5,
+      1.0
      ]
     },
     "up": {
@@ -159,7 +210,7 @@
       0,
       0,
       16,
-      14
+      13.5
      ]
     },
     "down": {
@@ -168,104 +219,71 @@
       0,
       0,
       16,
-      14
+      13.5
      ]
     }
    }
   },
   {
-   "name": "Slide",
+   "name": "Lip",
    "from": [
     0,
-    11.5,
-    0
+    12.75,
+    2.25
    ],
    "to": [
     16,
-    12.25,
-    2.5
+    13.75,
+    2.75
    ],
    "faces": {
     "north": {
-     "texture": "#sinksteel",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
       16,
-      0.75
+      1.0
      ]
     },
     "east": {
-     "texture": "#sinksteel",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      2.5,
-      0.75
+      0.5,
+      1.0
      ]
     },
     "south": {
-     "texture": "#sinksteel",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
       16,
-      0.75
+      1.0
      ]
     },
     "west": {
-     "texture": "#sinksteel",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
-      2.5,
-      0.75
+      0.5,
+      1.0
      ]
     },
     "up": {
-     "texture": "#sinksteel",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
       16,
-      2.5
+      0.5
      ]
     },
     "down": {
-     "texture": "#sinksteel",
-     "uv": [
-      0,
-      0,
-      16,
-      2.5
-     ]
-    }
-   }
-  },
-  {
-   "name": "SlideRail0",
-   "from": [
-    0,
-    11.75,
-    0.25
-   ],
-   "to": [
-    16,
-    12.5,
-    0.75
-   ],
-   "faces": {
-    "north": {
-     "texture": "#steelgrey",
-     "uv": [
-      0,
-      0,
-      16,
-      0.75
-     ]
-    },
-    "up": {
-     "texture": "#steelgrey",
+     "texture": "#brushed",
      "uv": [
       0,
       0,
@@ -276,52 +294,490 @@
    }
   },
   {
+   "name": "BracketW",
+   "from": [
+    2,
+    10.25,
+    0.5
+   ],
+   "to": [
+    2.75,
+    11.25,
+    3
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.75,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.75,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.75,
+      2.5
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.75,
+      2.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "BracketE",
+   "from": [
+    13.25,
+    10.25,
+    0.5
+   ],
+   "to": [
+    14,
+    11.25,
+    3
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.75,
+      1.0
+     ]
+    },
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.0
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.75,
+      1.0
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      2.5,
+      1.0
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.75,
+      2.5
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.75,
+      2.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Slide0",
+   "from": [
+    0,
+    11.25,
+    0.25
+   ],
+   "to": [
+    16,
+    11.85,
+    0.85
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.6
+     ]
+    },
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.6
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.6
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.6
+     ]
+    }
+   }
+  },
+  {
+   "name": "Slide1",
+   "from": [
+    0,
+    11.25,
+    1.05
+   ],
+   "to": [
+    16,
+    11.85,
+    1.65
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.6
+     ]
+    },
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.6
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.6
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.6
+     ]
+    }
+   }
+  },
+  {
+   "name": "Slide2",
+   "from": [
+    0,
+    11.25,
+    1.85
+   ],
+   "to": [
+    16,
+    11.85,
+    2.45
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.6
+     ]
+    },
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.6
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.6
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.6
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      16,
+      0.6
+     ]
+    }
+   }
+  },
+  {
    "name": "Till",
    "from": [
     4,
-    14,
-    7
+    13.5,
+    6
    ],
    "to": [
     12,
-    17,
+    16,
     13
    ],
    "faces": {
     "north": {
-     "texture": "#dark",
+     "texture": "#bezel",
      "uv": [
       0,
       0,
       8,
-      3
+      2.5
      ]
     },
     "east": {
-     "texture": "#dark",
+     "texture": "#bezel",
      "uv": [
       0,
       0,
-      6,
-      3
+      7,
+      2.5
      ]
     },
     "south": {
-     "texture": "#dark",
+     "texture": "#bezel",
      "uv": [
       0,
       0,
       8,
-      3
+      2.5
      ]
     },
     "west": {
-     "texture": "#dark",
+     "texture": "#bezel",
      "uv": [
       0,
       0,
-      6,
-      3
+      7,
+      2.5
+     ]
+    },
+    "up": {
+     "texture": "#keys",
+     "uv": [
+      0,
+      0,
+      8,
+      7
+     ]
+    },
+    "down": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      8,
+      7
+     ]
+    }
+   }
+  },
+  {
+   "name": "Drawer",
+   "from": [
+    4.25,
+    13.6,
+    5.75
+   ],
+   "to": [
+    11.75,
+    15,
+    6
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      7.5,
+      1.4
+     ]
+    }
+   }
+  },
+  {
+   "name": "TillNeck",
+   "from": [
+    7.25,
+    16,
+    11
+   ],
+   "to": [
+    8.75,
+    17.5,
+    12
+   ],
+   "faces": {
+    "north": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "east": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      1,
+      1.5
+     ]
+    },
+    "south": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      1.5,
+      1.5
+     ]
+    },
+    "west": {
+     "texture": "#steelgrey",
+     "uv": [
+      0,
+      0,
+      1,
+      1.5
      ]
     },
     "up": {
@@ -329,17 +785,17 @@
      "uv": [
       0,
       0,
-      8,
-      6
+      1.5,
+      1
      ]
     },
     "down": {
-     "texture": "#dark",
+     "texture": "#steelgrey",
      "uv": [
       0,
       0,
-      8,
-      6
+      1.5,
+      1
      ]
     }
    }
@@ -347,71 +803,182 @@
   {
    "name": "TillScreen",
    "from": [
-    5,
+    4.5,
     17,
-    11
+    10.75
    ],
    "to": [
-    11,
-    21,
+    11.5,
+    21.5,
     12
    ],
    "faces": {
     "north": {
-     "texture": "#console-dead",
+     "texture": "#bezel",
      "uv": [
       0,
       0,
-      6,
-      4
+      7.0,
+      4.5
      ]
     },
     "east": {
-     "texture": "#dark",
+     "texture": "#bezel",
      "uv": [
       0,
       0,
-      1,
-      4
+      1.25,
+      4.5
      ]
     },
     "south": {
-     "texture": "#dark",
+     "texture": "#bezel",
      "uv": [
       0,
       0,
-      6,
-      4
+      7.0,
+      4.5
      ]
     },
     "west": {
-     "texture": "#dark",
+     "texture": "#bezel",
      "uv": [
       0,
       0,
-      1,
-      4
+      1.25,
+      4.5
      ]
     },
     "up": {
-     "texture": "#dark",
+     "texture": "#bezel",
      "uv": [
       0,
       0,
-      6,
-      1
+      7.0,
+      1.25
      ]
     },
     "down": {
-     "texture": "#dark",
+     "texture": "#bezel",
      "uv": [
       0,
       0,
-      6,
-      1
+      7.0,
+      1.25
      ]
     }
-   }
+   },
+   "rotationOrigin": [
+    8,
+    17,
+    11.5
+   ],
+   "rotationX": -18
+  },
+  {
+   "name": "TillGlass",
+   "from": [
+    5,
+    17.5,
+    10.65
+   ],
+   "to": [
+    11,
+    21,
+    10.75
+   ],
+   "faces": {
+    "north": {
+     "texture": "#cscreen-dead",
+     "uv": [
+      0,
+      0,
+      16,
+      10
+     ]
+    }
+   },
+   "rotationOrigin": [
+    8,
+    17,
+    11.5
+   ],
+   "rotationX": -18
+  },
+  {
+   "name": "Reader",
+   "from": [
+    12.5,
+    13.5,
+    4
+   ],
+   "to": [
+    14.5,
+    15.5,
+    5.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      2.0,
+      2.0
+     ]
+    },
+    "east": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2.0
+     ]
+    },
+    "south": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      2.0,
+      2.0
+     ]
+    },
+    "west": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      1.5,
+      2.0
+     ]
+    },
+    "up": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.5
+     ]
+    },
+    "down": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      2.0,
+      1.5
+     ]
+    }
+   },
+   "rotationOrigin": [
+    13.5,
+    13.5,
+    5
+   ],
+   "rotationX": 20
   }
  ]
 }

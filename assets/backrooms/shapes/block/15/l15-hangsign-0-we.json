@@ -4,7 +4,9 @@
  "textures": {
   "front": "backrooms:block/15/hang0-lit-0",
   "back": "backrooms:block/15/hang0-lit-0",
-  "rim": "backrooms:block/15/dark"
+  "rim": "backrooms:block/15/dark",
+  "frame": "backrooms:block/15/brushed",
+  "edge": "backrooms:block/15/bh-light"
  },
  "elements": [
   {
@@ -77,10 +79,265 @@
    }
   },
   {
+   "name": "FrameTop",
+   "from": [
+    0,
+    14,
+    7.15
+   ],
+   "to": [
+    16,
+    14.75,
+    8.85
+   ],
+   "faces": {
+    "north": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      16,
+      0.75
+     ]
+    },
+    "east": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      1.7,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      16,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      1.7,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      16,
+      1.7
+     ]
+    },
+    "down": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      16,
+      1.7
+     ]
+    }
+   }
+  },
+  {
+   "name": "FrameBot",
+   "from": [
+    0,
+    3.25,
+    7.15
+   ],
+   "to": [
+    16,
+    4,
+    8.85
+   ],
+   "faces": {
+    "north": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      16,
+      0.75
+     ]
+    },
+    "east": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      1.7,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      16,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      1.7,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      16,
+      1.7
+     ]
+    },
+    "down": {
+     "texture": "#edge",
+     "uv": [
+      0,
+      0,
+      16,
+      1.7
+     ]
+    }
+   }
+  },
+  {
+   "name": "EdgeN",
+   "from": [
+    0,
+    3.5,
+    7.05
+   ],
+   "to": [
+    16,
+    3.9,
+    7.15
+   ],
+   "faces": {
+    "north": {
+     "texture": "#edge",
+     "uv": [
+      0,
+      0,
+      16,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "EdgeS",
+   "from": [
+    0,
+    3.5,
+    8.85
+   ],
+   "to": [
+    16,
+    3.9,
+    8.95
+   ],
+   "faces": {
+    "south": {
+     "texture": "#edge",
+     "uv": [
+      0,
+      0,
+      16,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CapW",
+   "from": [
+    -0.4,
+    3.25,
+    7.15
+   ],
+   "to": [
+    0.35,
+    14.75,
+    8.85
+   ],
+   "faces": {
+    "north": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      0.75,
+      11.5
+     ]
+    },
+    "east": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      1.7,
+      11.5
+     ]
+    },
+    "south": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      0.75,
+      11.5
+     ]
+    },
+    "west": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      1.7,
+      11.5
+     ]
+    },
+    "up": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      0.75,
+      1.7
+     ]
+    },
+    "down": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      0.75,
+      1.7
+     ]
+    }
+   }
+  },
+  {
    "name": "Rod",
    "from": [
     3.75,
-    14,
+    14.75,
     7.75
    ],
    "to": [
@@ -90,57 +347,195 @@
    ],
    "faces": {
     "north": {
-     "texture": "#rim",
+     "texture": "#frame",
      "uv": [
       0,
       0,
-      16,
-      16
+      0.5,
+      1.25
      ]
     },
     "east": {
-     "texture": "#rim",
+     "texture": "#frame",
      "uv": [
       0,
       0,
-      16,
-      16
+      0.5,
+      1.25
      ]
     },
     "south": {
-     "texture": "#rim",
+     "texture": "#frame",
      "uv": [
       0,
       0,
-      16,
-      16
+      0.5,
+      1.25
      ]
     },
     "west": {
-     "texture": "#rim",
+     "texture": "#frame",
      "uv": [
       0,
       0,
-      16,
-      16
+      0.5,
+      1.25
      ]
     },
     "up": {
-     "texture": "#rim",
+     "texture": "#frame",
      "uv": [
       0,
       0,
-      16,
-      16
+      0.5,
+      0.5
      ]
     },
     "down": {
-     "texture": "#rim",
+     "texture": "#frame",
      "uv": [
       0,
       0,
-      16,
-      16
+      0.5,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "CeilPlate",
+   "from": [
+    3,
+    15.7,
+    7
+   ],
+   "to": [
+    5,
+    16,
+    9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      2,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      2,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      2,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      2,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    },
+    "down": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      2,
+      2
+     ]
+    }
+   }
+  },
+  {
+   "name": "Clamp",
+   "from": [
+    3.4,
+    14.6,
+    7.4
+   ],
+   "to": [
+    4.6,
+    15.1,
+    8.6
+   ],
+   "faces": {
+    "north": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      1.2,
+      0.5
+     ]
+    },
+    "east": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      1.2,
+      0.5
+     ]
+    },
+    "south": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      1.2,
+      0.5
+     ]
+    },
+    "west": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      1.2,
+      0.5
+     ]
+    },
+    "up": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#frame",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1.2
      ]
     }
    }

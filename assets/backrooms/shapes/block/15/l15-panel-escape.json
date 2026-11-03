@@ -1,0 +1,729 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "deco-escape": "backrooms:block/15/deco-escape",
+  "bezel": "backrooms:block/15/bezel",
+  "yellowcollar": "backrooms:block/15/yellowcollar",
+  "redbutton": "backrooms:block/15/redbutton",
+  "dark": "backrooms:block/15/dark",
+  "brushed": "backrooms:block/15/brushed",
+  "wall": "backrooms:block/15/wall-panel"
+ },
+ "elements": [
+  {
+   "name": "Wall",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#deco-escape",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelT",
+   "from": [
+    1.5,
+    14,
+    -0.6
+   ],
+   "to": [
+    14.5,
+    14.75,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.75
+     ]
+    },
+    "east": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.6
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelB",
+   "from": [
+    1.5,
+    1.25,
+    -0.6
+   ],
+   "to": [
+    14.5,
+    2,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.75
+     ]
+    },
+    "east": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.6,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      13.0,
+      0.6
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelW",
+   "from": [
+    14,
+    2,
+    -0.6
+   ],
+   "to": [
+    14.75,
+    14,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      12
+     ]
+    },
+    "east": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.6,
+      12
+     ]
+    },
+    "south": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      12
+     ]
+    },
+    "west": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.6,
+      12
+     ]
+    },
+    "up": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.6
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelE",
+   "from": [
+    1.25,
+    2,
+    -0.6
+   ],
+   "to": [
+    2,
+    14,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      12
+     ]
+    },
+    "east": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.6,
+      12
+     ]
+    },
+    "south": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      12
+     ]
+    },
+    "west": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.6,
+      12
+     ]
+    },
+    "up": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.6
+     ]
+    },
+    "down": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.6
+     ]
+    }
+   }
+  },
+  {
+   "name": "Collar",
+   "from": [
+    5.4,
+    3.6,
+    -0.7
+   ],
+   "to": [
+    10.6,
+    9.2,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#yellowcollar",
+     "uv": [
+      0,
+      0,
+      5.2,
+      5.6
+     ]
+    },
+    "east": {
+     "texture": "#yellowcollar",
+     "uv": [
+      0,
+      0,
+      0.7,
+      5.6
+     ]
+    },
+    "south": {
+     "texture": "#yellowcollar",
+     "uv": [
+      0,
+      0,
+      5.2,
+      5.6
+     ]
+    },
+    "west": {
+     "texture": "#yellowcollar",
+     "uv": [
+      0,
+      0,
+      0.7,
+      5.6
+     ]
+    },
+    "up": {
+     "texture": "#yellowcollar",
+     "uv": [
+      0,
+      0,
+      5.2,
+      0.7
+     ]
+    },
+    "down": {
+     "texture": "#yellowcollar",
+     "uv": [
+      0,
+      0,
+      5.2,
+      0.7
+     ]
+    }
+   }
+  },
+  {
+   "name": "Button",
+   "from": [
+    6.1,
+    4.3,
+    -1.9
+   ],
+   "to": [
+    9.9,
+    8.5,
+    -0.7
+   ],
+   "faces": {
+    "north": {
+     "texture": "#redbutton",
+     "uv": [
+      0,
+      0,
+      3.8,
+      4.2
+     ]
+    },
+    "east": {
+     "texture": "#redbutton",
+     "uv": [
+      0,
+      0,
+      1.2,
+      4.2
+     ]
+    },
+    "south": {
+     "texture": "#redbutton",
+     "uv": [
+      0,
+      0,
+      3.8,
+      4.2
+     ]
+    },
+    "west": {
+     "texture": "#redbutton",
+     "uv": [
+      0,
+      0,
+      1.2,
+      4.2
+     ]
+    },
+    "up": {
+     "texture": "#redbutton",
+     "uv": [
+      0,
+      0,
+      3.8,
+      1.2
+     ]
+    },
+    "down": {
+     "texture": "#redbutton",
+     "uv": [
+      0,
+      0,
+      3.8,
+      1.2
+     ]
+    }
+   }
+  },
+  {
+   "name": "ButtonCap",
+   "from": [
+    6.6,
+    4.8,
+    -2.3
+   ],
+   "to": [
+    9.4,
+    8.0,
+    -1.9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#redbutton",
+     "uv": [
+      0,
+      0,
+      2.8,
+      3.2
+     ]
+    },
+    "east": {
+     "texture": "#redbutton",
+     "uv": [
+      0,
+      0,
+      0.5,
+      3.2
+     ]
+    },
+    "south": {
+     "texture": "#redbutton",
+     "uv": [
+      0,
+      0,
+      2.8,
+      3.2
+     ]
+    },
+    "west": {
+     "texture": "#redbutton",
+     "uv": [
+      0,
+      0,
+      0.5,
+      3.2
+     ]
+    },
+    "up": {
+     "texture": "#redbutton",
+     "uv": [
+      0,
+      0,
+      2.8,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#redbutton",
+     "uv": [
+      0,
+      0,
+      2.8,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Lamp",
+   "from": [
+    3.3,
+    3.7,
+    -0.5
+   ],
+   "to": [
+    4.5,
+    4.9,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1.2
+     ]
+    },
+    "east": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.2
+     ]
+    },
+    "south": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1.2
+     ]
+    },
+    "west": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      1.2
+     ]
+    },
+    "up": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      1.2,
+      0.5
+     ]
+    },
+    "down": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      1.2,
+      0.5
+     ]
+    }
+   }
+  },
+  {
+   "name": "Key",
+   "from": [
+    11.6,
+    3.8,
+    -0.7
+   ],
+   "to": [
+    12.8,
+    5.0,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1.2
+     ]
+    },
+    "east": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.2
+     ]
+    },
+    "south": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.2,
+      1.2
+     ]
+    },
+    "west": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.2
+     ]
+    },
+    "up": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.2,
+      0.7
+     ]
+    },
+    "down": {
+     "texture": "#brushed",
+     "uv": [
+      0,
+      0,
+      1.2,
+      0.7
+     ]
+    }
+   }
+  },
+  {
+   "name": "KeySlot",
+   "from": [
+    12.05,
+    4.1,
+    -0.75
+   ],
+   "to": [
+    12.35,
+    4.7,
+    -0.7
+   ],
+   "faces": {
+    "north": {
+     "texture": "#dark",
+     "uv": [
+      0,
+      0,
+      0.5,
+      0.6
+     ]
+    }
+   }
+  }
+ ]
+}

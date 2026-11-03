@@ -181,8 +181,20 @@ def panel_wall(seed, plate=False):
     """White panelled concrete: a smooth cool-white ground, a recessed panel joint round the block (so blocks meet at a
     groove), a faint horizontal reveal at mid-height; the plate variant has a small screwed service plate."""
     img = M.concrete(seed=seed, base=WHITE, grain=2, mottle=3, aggregate=0.0, pores=0.004, hue=1.0)
-    M.emboss_lines(img, xs=(0,), ys=(0,), strength=0.16)
+    M.emboss_lines(img, xs=(0,), ys=(0,), strength=0.2)
     M.emboss_lines(img, ys=(16,), strength=0.05)
+    # Round 4: the panel's edge folded back (a lit lip inside the joint, a shaded one at the far side), a recessed fastener
+    # in each corner, a breath of dust settled on the lips
+    for k in range(2, 30):
+        M.touch(img, k, 2, 0.07)
+        M.touch(img, 2, k, 0.05)
+        M.touch(img, k, 30, -0.06)
+        M.touch(img, 30, k, -0.05)
+    for fx, fy in ((4, 4), (27, 4), (4, 27), (27, 27)):
+        M.touch(img, fx, fy, -0.2)
+        M.touch(img, fx + 1, fy, -0.12)
+        M.touch(img, fx, fy + 1, -0.1)
+        M.touch(img, fx + 1, fy + 1, 0.1)
     if plate:
         x0, y0 = 9, 19
         rect(img, x0, y0, x0 + 13, y0 + 8, M.lift(WHITE, -6))

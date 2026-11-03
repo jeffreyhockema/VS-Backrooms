@@ -1,0 +1,57 @@
+// Level 15 (round 4): a canteen's fixed stool
+{
+	"code": "l15-stool",
+	"shape": {
+		"base": "backrooms:block/15/l15-stool"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0.22,
+		"y1": 0,
+		"z1": 0.22,
+		"x2": 0.78,
+		"y2": 0.53,
+		"z2": 0.78
+	},
+	"selectionbox": {
+		"x1": 0.22,
+		"y1": 0,
+		"z1": 0.22,
+		"x2": 0.78,
+		"y2": 0.53,
+		"z2": 0.78
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	]
+}
