@@ -348,16 +348,19 @@ public sealed partial class WorldLayout
     {
         public readonly int U0, V0, U1, V1, Index;
         public readonly bool AlongX;
-        public FunFrame(int u0, int v0, int u1, int v1, int index)
+        /// <summary>Counts "along" from the far end (the service stairs, when their one door is at the other end).</summary>
+        public readonly bool Reverse;
+        public FunFrame(int u0, int v0, int u1, int v1, int index, bool reverse = false)
         {
-            U0 = u0; V0 = v0; U1 = u1; V1 = v1; Index = index;
+            U0 = u0; V0 = v0; U1 = u1; V1 = v1; Index = index; Reverse = reverse;
             AlongX = u1 - u0 >= v1 - v0;
         }
         public int Long => AlongX ? U1 - U0 + 1 : V1 - V0 + 1;
         public int Short => AlongX ? V1 - V0 + 1 : U1 - U0 + 1;
-        public (int U, int V) P(int a, int s) => AlongX ? (U0 + a, V0 + s) : (U0 + s, V0 + a);
+        public (int U, int V) P(int a, int s) =>
+            AlongX ? (Reverse ? U1 - a : U0 + a, V0 + s) : (U0 + s, Reverse ? V1 - a : V0 + a);
         /// <summary>The way "along" (a growing), and the way "across" (s growing).</summary>
-        public ArchPier AlongDir => AlongX ? ArchPier.East : ArchPier.South;
+        public ArchPier AlongDir => AlongX ? (Reverse ? ArchPier.West : ArchPier.East) : (Reverse ? ArchPier.North : ArchPier.South);
         public ArchPier AcrossDir => AlongX ? ArchPier.South : ArchPier.East;
     }
 
@@ -484,7 +487,7 @@ public sealed partial class WorldLayout
     /// Opens a door from a room through the walls to the nearest corridor on one side, at the place along that side
     /// nearest its middle where a corridor can be reached within eight blocks. False if there is none.
     /// </summary>
-    private static bool OpenFunDoor(FunPlanner p, FunRoom room, FunFrame f, ArchPier side, int width)
+    private static bool OpenFunDoor(FunPlanner p, FunRoom room, FunFrame f, ArchPier side, int width, int clearEnd = 0)
     {
         var (du, dv) = FacingStep(side);
         bool alongU = du == 0; // the side runs along u
@@ -493,6 +496,8 @@ public sealed partial class WorldLayout
         {
             int pos = mid + (k % 2 == 0 ? k / 2 : -(k + 1) / 2);
             if (pos < lo || pos > hi) continue;
+            // (The last few tiles along the room's long axis are not for doors: the service stairs rise there)
+            if (clearEnd > 0 && alongU == f.AlongX && (f.Reverse ? hi + width - 1 - pos : pos - lo) >= f.Long - clearEnd) continue;
             int reach = -1;
             for (int lane = 0; lane < width; lane++)
             {
@@ -544,7 +549,7 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>Opens a room onto the corridors: on one or two of the sides it may, the others tried in turn if those fail.</summary>
-    private static void OpenFunRoom(FunPlanner p, FunRoom room, FunFrame f, ArchPier[] sides, int doors, int width, ref Rng rng)
+    private static int OpenFunRoom(FunPlanner p, FunRoom room, FunFrame f, ArchPier[] sides, int doors, int width, ref Rng rng, int clearEnd = 0)
     {
         var order = new List<ArchPier>(sides);
         for (int i = order.Count - 1; i > 0; i--)
@@ -556,8 +561,9 @@ public sealed partial class WorldLayout
         foreach (ArchPier side in order)
         {
             if (opened >= doors) break;
-            if (OpenFunDoor(p, room, f, side, width)) opened++;
+            if (OpenFunDoor(p, room, f, side, width, clearEnd)) opened++;
         }
+        return opened;
     }
 
     private static readonly ArchPier[] AllSides = { ArchPier.North, ArchPier.East, ArchPier.South, ArchPier.West };
@@ -651,7 +657,19 @@ public sealed partial class WorldLayout
             int height = kind == FunZone.Waiting ? FunCorridorHeight : FunRoomHeight;
             FunRoom room = AddFunRoom(p, kind, a0, b0, a1, b1, height, floor, palette);
             var f = new FunFrame(a0, b0, a1, b1, p.Rooms.Count - 1);
-            OpenFunRoom(p, room, f, outer, kind == FunZone.Party && rng.Chance(0.3) ? 2 : 1, 1, ref rng);
+            // (The steps rise at the far end of the room; a door there would open onto a raised step)
+            if (Version >= 14 && kind == FunZone.Stair)
+            {
+                ArchPier stairEnd = f.AlongDir;
+                var open = Array.FindAll(outer, side => side != stairEnd);
+                // (If no other side takes a door, the steps go at the other end and the door at this one)
+                if (OpenFunRoom(p, room, f, open, 1, 1, ref rng, 3) == 0 && Array.IndexOf(outer, stairEnd) >= 0)
+                {
+                    f = new FunFrame(a0, b0, a1, b1, p.Rooms.Count - 1, true);
+                    OpenFunRoom(p, room, f, new[] { stairEnd }, 1, 1, ref rng, 3);
+                }
+            }
+            else OpenFunRoom(p, room, f, outer, kind == FunZone.Party && rng.Chance(0.3) ? 2 : 1, 1, ref rng);
             switch (kind)
             {
                 case FunZone.Party: FurnishFunParty(p, room, f, ref rng, false); break;
@@ -1596,7 +1614,7 @@ public sealed partial class WorldLayout
                 for (int di = -r; di <= r; di++)
                 {
                     if (Math.Max(Math.Abs(di), Math.Abs(dj)) != r || !FunBlockHas(kind, bi0 + di, bj0 + dj)) continue;
-                    foreach (FunRoom room in FunPlan(bi0 + di, bj0 + dj).Rooms)
+                    foreach (FunRoom room in funRooms.Get(bi0 + di, bj0 + dj))
                     {
                         if (room.Kind != kind || !room.Threshold) continue;
                         // Not cut off by the rim
