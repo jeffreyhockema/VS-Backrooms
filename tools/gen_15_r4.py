@@ -892,6 +892,46 @@ def tray_shape():
     return write_shape("l15-tray", els, {k: T(k) for k in ("brushed", "cables", "cablesb", "dark", "steelgrey")})
 
 
+MACHINE_KINDS = ["panel", "vent", "screen", "screenlit", "lights", "lightslit", "hatch", "warning", "furnace", "press", "burnt", "burntvent"]
+
+
+def machine_shape(kind):
+    """A machine's casing block (round 4): the cube with its face on all four sides as before, and on each side the
+    relief of what the face shows: steel corner posts at the four edges (so a stack reads as one cabinet), louvres
+    standing out of a vent, a bezel round a screen and its buttons, a frame round a lamp bank, a hatch's handle and
+    hinges, a frame round an incinerator's mouth. Modelled on the north side and turned to the other three."""
+    burnt = kind.startswith("burnt")
+    face = "machine-" + kind
+    top = "machine-burnttop" if burnt else "machine-top"
+    trim = "machine-burnt" if burnt else "steelgrey"
+    els = [box("Body", (0, 0, 0), (16, 16, 16), {"all": face, "up": top, "down": top})]
+    side = [box("Post", (-0.35, 0, -0.35), (1, 16, 1), trim)]
+    if kind in ("vent", "burntvent"):
+        for k, y in enumerate((13.5, 12, 10.5, 9, 7.5, 6, 4.5, 3)):
+            side.append(box(f"Louvre{k}", (2, y - 0.6, -0.8), (14, y, 0), trim, rot=(35, 0, 0), origin=(8, y, 0)))
+    elif kind in ("screen", "screenlit"):
+        side += [box("BezelT", (1.25, 13.5, -0.6), (14.75, 14.25, 0), "bezel"), box("BezelB", (1.25, 4.25, -0.6), (14.75, 5, 0), "bezel"),
+                 box("BezelW", (14, 5, -0.6), (14.75, 13.5, 0), "bezel"), box("BezelE", (1.25, 5, -0.6), (2, 13.5, 0), "bezel")]
+        for k, px in enumerate(range(6, 26, 4)):
+            side.append(box(f"Btn{k}", (16 - (px + 3) / 2 + 0.1, 2.6, -0.45), (16 - px / 2 - 0.1, 3.4, 0), "bezel"))
+    elif kind in ("lights", "lightslit"):
+        side += [box("FrameT", (1.5, 13.75, -0.5), (14.5, 14.25, 0), "bezel"), box("FrameB", (1.5, 1.75, -0.5), (14.5, 2.25, 0), "bezel"),
+                 box("FrameW", (14, 2.25, -0.5), (14.5, 13.75, 0), "bezel"), box("FrameE", (1.5, 2.25, -0.5), (2, 13.75, 0), "bezel")]
+    elif kind == "hatch":
+        side += [box("Handle", (4, 6.5, -0.9), (5.25, 9.5, -0.2), "brushed"), box("HandleBase", (3.75, 6, -0.25), (5.5, 10, 0), "steelgrey"),
+                 box("Hinge0", (12.6, 3, -0.6), (13.4, 5, 0), "brushed"), box("Hinge1", (12.6, 10.5, -0.6), (13.4, 12.5, 0), "brushed")]
+    elif kind == "furnace":
+        side += [box("MouthT", (2, 12, -0.8), (14, 12.75, 0), "machine-burnt"), box("MouthB", (2, 2.25, -0.8), (14, 3, 0), "machine-burnt"),
+                 box("MouthW", (13.25, 3, -0.8), (14, 12, 0), "machine-burnt"), box("MouthE", (2, 3, -0.8), (2.75, 12, 0), "machine-burnt")]
+    from modelkit import turn
+    for t in range(4):
+        for e in turn(side, t):
+            e["name"] = f"{e['name']}{t}"
+            els.append(e)
+    return write_shape("l15-machine-" + kind, els, {k: T(k) for k in
+                       (face, top, trim, "bezel", "brushed", "steelgrey", "machine-burnt")})
+
+
 def stool_shape():
     """A canteen's fixed stool: a floor flange, a steel column, a foot ring, a round seat (two crossed boxes and a cap)."""
     els = [box("Flange", (5.5, 0, 5.5), (10.5, 0.4, 10.5), "brushed"),
@@ -1166,6 +1206,18 @@ def blocktypes():
                extra={"lightHsvByType": {"*-lit-*": [8, 3, 5]},
                       "drops": [{"type": "item", "code": "metalbracket", "quantity": {"avg": 0.3, "var": 0.3}}]},
                inventory="l15-lectern-lit-north")
+
+    # l15-machine as models (round 4): the same block codes, textures, light, sounds and drops; the shapes add the relief
+    path = os.path.join(BLOCKS, "l15-machine.json")
+    with open(path, encoding="utf-8") as fh:
+        head, body = fh.read().split("\n", 1)
+    d = json.loads(body)
+    d.pop("texturesByType", None)
+    d["drawtype"] = "json"
+    d["shapeByType"] = {f"*-{k}": {"base": machine_shape(k)} for k in MACHINE_KINDS}
+    d["sidesolid"] = {"all": True}
+    d["sideopaque"] = {"all": True}
+    write_json(path, d, head[3:])
 
     # l15-stool, l15-ctable (one variant each)
     for code, shape_fn, coll, comment in (
