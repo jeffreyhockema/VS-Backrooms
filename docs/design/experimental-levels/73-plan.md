@@ -601,7 +601,7 @@ detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.
 14. [B] [done] `l73-boulder`: faceted rocks of several boxes, a moss-dark foot.
 15. [B] [done] `l73-potrack`: copper pots and pans with handles and lids on hooks.
 16. [B] [done: straps, studs, ring pull] `l73-door`: iron strap hinges, studs and a ring pull as real boxes.
-17. [C] `l73-chest`, `l73-washstand`, `l73-well`: edge banding, straps, a windlass on the well.
+17. [C] [skipped: time] `l73-chest`, `l73-washstand`, `l73-well`: edge banding, straps, a windlass on the well.
 
 **2. Multi-block set pieces**
 18. [A] [done] **The attic** (the lead: "fix that first"): a pitched slate roof with gables, a ridge with cresting, dormers
@@ -613,10 +613,10 @@ detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.
 21. [A] [done] **The keep's front**: quoins, string courses, buttresses, the pointed window heads with the boards behind and
     a warm glow between the boards (see 28).
 22. [B] [done] **A dry ditch and stone bridge** before the gate (inv.: the page has a gatehouse, no ditch).
-23. [B] [partly: conical roofs; the towers stay square] The corner towers round (drum) with conical slate roofs.
+23. [B] [partly: conical roofs and corbelled bartizans at the four outer corners; the towers stay square] The corner towers round (drum) with conical slate roofs.
 24. [B] [done] The **dining hall** as one set: the high chair, the place settings, candelabra on the table, the hearth.
 25. [B] [done] The **chandeliers** hung on chains through the beams in the main hall and the dining hall.
-26. [C] The well with a windlass and bucket; the cart with spoked wheels.
+26. [C] [skipped: the well already had its windlass] The well with a windlass and bucket; the cart with spoked wheels.
 
 **3. Level design**
 27. [A] [done: scene 0.44 / 0.40] **The island at night**: keep the lore's dark but let things read: a faint moon rim (scene brightness a shade
@@ -626,8 +626,8 @@ detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.
 29. [B] [done] **The shore**: black rocks at the waterline and wreckage (ribs of a boat, planks, a crate) on the beaches.
 30. [B] [done] **Heaps of the dead** on the fields sculpted (bones, rags, a pack), near the castle's hill where Coran leaves
     them.
-31. [B] The arrival view: the castle's outline and glow read from 60-120 blocks.
-32. [C] A guard room in a gatehouse tower (racks, a bench, a brazier) (inv.).
+31. [B] [done: the outline, cones and glow read from the run (the-run, coran shots)] The arrival view: the castle's outline and glow read from 60-120 blocks.
+32. [C] [skipped: time] A guard room in a gatehouse tower (racks, a bench, a brazier) (inv.).
 
 **4. Lore**
 33. [A] [done: the banners were already on rods; two moved beside the drums] Coran's device on the gatehouse and keep: large banners (silver heart, ram's horns, black field) hung from
@@ -640,7 +640,7 @@ detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.
 **5. Alignment with the other levels**
 38. [A] [done] Look for shared candles, lanterns, braziers, banners (Level 47's `candles`, `lantern`, `brazier`, `banner`) and
     the Hub's / 188's lights; reuse or retint before building new.
-39. [B] Barrels and crates: share with 23/47 where theirs are better; else 73's to the bar.
+39. [B] [done: 73's own barrels rebuilt with hoops and a bulge] Barrels and crates: share with 23/47 where theirs are better; else 73's to the bar.
 40. [B] [done] Showcase spots and F7 entries for the rebuilt set pieces (attic, gatehouse, chandelier, the Hound up close,
     the shore).
 41. [B] [done] Coran stays to the lore (no arms but chains, blind): no lantern and no hood (the lead's note; a lantern
