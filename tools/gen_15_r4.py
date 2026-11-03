@@ -742,6 +742,22 @@ def panel_shapes():
     els[0]["faces"]["north"]["uv"] = [0, 0, 16, 16]
     add("scrawl", els, {"scrawl": T("scrawl")})
 
+    # The white steel pilasters as I-section columns standing off the wall: two flanges, the web between them (etched:
+    # the lore's symbols cut into it), a plinth at the foot with a chamfered top
+    for kind, web, foot in (("pil1", "wall-beam", True), ("pil", "wall-beam", False), ("pile", "wall-etched", False)):
+        els = panel_els() + [
+            box("FlangeW", (13, 0, -1.5), (14.5, 16, 0), "brushedv"),
+            box("FlangeE", (1.5, 0, -1.5), (3, 16, 0), "brushedv"),
+            box("Web", (3, 0, -0.6), (13, 16, 0), {"all": "brushedv", "north": web}),
+            box("FlangeLipW", (12.75, 0, -1.6), (14.75, 16, -1.5), "brushedv", faces=("north",)),
+            box("FlangeLipE", (1.25, 0, -1.6), (3.25, 16, -1.5), "brushedv", faces=("north",))]
+        els[3]["faces"]["north"]["uv"] = [0, 0, 16, 16]
+        if foot:
+            els += [box("Plinth", (0.75, 0, -2.5), (15.25, 2.5, 0), "steelgrey"),
+                    box("PlinthTop", (1.25, 2.5, -2), (14.75, 3, 0), "steelgrey"),
+                    box("Kick", (0.75, 0, -2.6), (15.25, 0.75, -2.5), "dark", faces=("north",))]
+        add(kind, els, {"brushedv": T("brushedv"), web: T(web), "steelgrey": T("steelgrey"), "dark": T("dark")})
+
     # The big display's bezel (three wide, two high: row 0 the lower, i 0 the left as seen, its outer edge at x 16)
     for row in range(2):
         for i in range(3):

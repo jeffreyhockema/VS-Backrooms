@@ -548,7 +548,7 @@ block codes stay where they are (no save break), new blocks are added.
     plates and a cable, read both ways.
 12. (A, lead) [done: `l15-glazing`] Glass walls with frames: `l15-glass` (clear, cracked) gets a steel sill, a head rail and a mullion every
     block, glass kept translucent.
-13. (A, lead) [partly: seams folded back and corner fasteners on the panel (every texture drawn on it regenerated); pilasters unchanged, the bulkheads carry the shaped columns] `l15-wall` panels: real panel seams (bevelled joints, recessed fasteners), scuffs at hand height, grime at
+13. (A, lead) [done: seams folded back and corner fasteners on the panel (every texture drawn on it regenerated); the pilasters as I-section columns with a plinth (`l15-panel-pil*`)] `l15-wall` panels: real panel seams (bevelled joints, recessed fasteners), scuffs at hand height, grime at
     the foot; the pilaster as a shaped column (chamfers, a plinth).
 14. (B) [done] `l15-labbench`: lab benches with a reagent-shelf upright, gas taps, a gooseneck tap over the sink, drawer fronts
     with pulls.

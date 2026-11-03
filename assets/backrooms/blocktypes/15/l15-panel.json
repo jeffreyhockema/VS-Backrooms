@@ -61,6 +61,9 @@
 				"medheadlit",
 				"medheaddead",
 				"scrawl",
+				"pil1",
+				"pil",
+				"pile",
 				"big00",
 				"big01",
 				"big02",
@@ -991,6 +994,54 @@
 		},
 		"*-scrawl-west": {
 			"base": "backrooms:block/15/l15-panel-scrawl",
+			"rotateY": 90
+		},
+		"*-pil1-north": {
+			"base": "backrooms:block/15/l15-panel-pil1",
+			"rotateY": 0
+		},
+		"*-pil1-east": {
+			"base": "backrooms:block/15/l15-panel-pil1",
+			"rotateY": 270
+		},
+		"*-pil1-south": {
+			"base": "backrooms:block/15/l15-panel-pil1",
+			"rotateY": 180
+		},
+		"*-pil1-west": {
+			"base": "backrooms:block/15/l15-panel-pil1",
+			"rotateY": 90
+		},
+		"*-pil-north": {
+			"base": "backrooms:block/15/l15-panel-pil",
+			"rotateY": 0
+		},
+		"*-pil-east": {
+			"base": "backrooms:block/15/l15-panel-pil",
+			"rotateY": 270
+		},
+		"*-pil-south": {
+			"base": "backrooms:block/15/l15-panel-pil",
+			"rotateY": 180
+		},
+		"*-pil-west": {
+			"base": "backrooms:block/15/l15-panel-pil",
+			"rotateY": 90
+		},
+		"*-pile-north": {
+			"base": "backrooms:block/15/l15-panel-pile",
+			"rotateY": 0
+		},
+		"*-pile-east": {
+			"base": "backrooms:block/15/l15-panel-pile",
+			"rotateY": 270
+		},
+		"*-pile-south": {
+			"base": "backrooms:block/15/l15-panel-pile",
+			"rotateY": 180
+		},
+		"*-pile-west": {
+			"base": "backrooms:block/15/l15-panel-pile",
 			"rotateY": 90
 		},
 		"*-big00-north": {

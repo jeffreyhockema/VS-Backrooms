@@ -96,6 +96,9 @@ public sealed partial class WorldGenerator
         for (int r = 1; r <= 5; r++) { kinds.Add($"jamb{r}"); kinds.Add($"jamb{r}e"); }
         for (int i = 0; i < 4; i++) kinds.Add($"jambplate{i}");
         kinds.Add("scrawl");
+        kinds.Add("pil1");
+        kinds.Add("pil");
+        kinds.Add("pile");
         kinds.Add("medheadlit");
         kinds.Add("medheaddead");
         for (int c = 0; c < 4; c++)
@@ -463,8 +466,9 @@ public sealed partial class WorldGenerator
             return dressed;
         switch (t.Detail)
         {
-            case L.L15WallPilaster: return l15Wall[6];
-            case L.L15WallEtched: return l15Wall[rel == 2 ? 7 : 6];
+            // (round 4: the pilasters as I-section columns, a plinth at the foot)
+            case L.L15WallPilaster: return L15Panel(rel == 1 ? "pil1" : "pil", f, l15Wall[6]);
+            case L.L15WallEtched: return L15Panel(rel == 1 ? "pil1" : rel == 2 ? "pile" : "pil", f, l15Wall[rel == 2 ? 7 : 6]);
             case L.L15WallGlass or L.L15WallGlassCracked when rel is 2 or 3:
                 return l15Glass[0] == 0 ? L15WallBase(t, gx, gz, rel) : l15Glass[t.Detail == L.L15WallGlassCracked && rel == 2 ? 1 : 0];
             case L.L15WallScanner when rel == 2: return l15Deco[L15DScanner, f];
