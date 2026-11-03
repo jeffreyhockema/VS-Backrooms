@@ -78,7 +78,7 @@ public sealed partial class WorldGenerator
             l23Bracket[f] = Id("l23-bracket-" + Sides[f]);
             l23Fresco[f] = Id("l23-fresco-" + Sides[f]);
             l23SentryBody[f] = Id("l23-sentrybody-" + Sides[f]);
-            l23Bedroll[f] = Id("l23-bedroll-" + Sides[f]);
+            l23Bedroll[f] = Id("l23-campbed-" + Sides[f]); // (round 4: the bedroll rebuilt; l23-bedroll stays registered)
         }
         foreach (string text in new[] { "camp-a", "camp-b", "camp-c", "rules-a", "rules-b", "trail", "giants-a", "giants-b", "dontsay" })
         {
@@ -87,9 +87,10 @@ public sealed partial class WorldGenerator
             l23Signs[text] = ids;
         }
         l23SignPost = Id("l23-signpost");
-        l23Barrel = Id("l23-barrel");
-        l23Crate = Id("l23-crate");
-        l23FireRing = Id("l23-firering");
+        // (Round 4: Base Seedling's things rebuilt to the asset bar, tools/gen_23_r4_camp.py; round 3's blocks stay registered)
+        l23Barrel = Id("l23-campbarrel");
+        l23Crate = Id("l23-campcrate");
+        l23FireRing = Id("l23-campfire");
         l23Ledger = Id("l23-ledger");
         l23Cloth = Id("l23-cloth");
         l23Flagstone = Id("l23-flagstone");
@@ -107,7 +108,8 @@ public sealed partial class WorldGenerator
         l23RuinStone = Id("l23-ruinstone");
         l23RuinMoss = Id("l23-ruinmoss");
         l23Plaque = Id("l23-plaque");
-        for (int f = 0; f < 4; f++) l23Sentry[f] = Id("l23-sentry-" + Sides[f]);
+        // (Round 4: the faces sculpted, l23-sentryface; round 1's l23-sentry stays registered, and L23Sentries finds both by their code's start)
+        for (int f = 0; f < 4; f++) l23Sentry[f] = Id("l23-sentryface-grey-" + Sides[f]);
         string[] latin = { "a", "b", "c", "d" };
         for (int k = 0; k < 4; k++) l23Latin[k] = Id("l23-latin-" + latin[k]);
         l23Pottery[0] = Id("l23-pottery-amphora");
@@ -123,7 +125,7 @@ public sealed partial class WorldGenerator
         l23Gravel = GameId("game:gravel-granite", "game:gravel-basalt");
         // (Round 3, the balance review: the level's own lantern, not the vanilla one a player could pick up for free light;
         // it gives the same light and breaks to nothing)
-        l23Lantern = Id("l23-lantern");
+        l23Lantern = Id("l23-camplamp");
         l23Table = OptionalId("game:table-normal");
         l23Stick = OptionalId("game:loosestick-free");
         l23TallGrass = GameId("game:tallgrass-medium-free", "game:tallgrass-short-free");
@@ -228,6 +230,9 @@ public sealed partial class WorldGenerator
         if (core && ground < WorldLayout.L23PoolSurface)
         {
             for (int rel = ground + 1; rel <= WorldLayout.L23PoolSurface; rel++) c.Water[rel - L23Low] = true;
+            // (Round 4: lily pads on the shallows, over the water)
+            if (ground >= WorldLayout.L23PoolSurface - 4 && L23Unit(gx, gz, 41) < 0.2 && Noise2(gx / 5.0, gz / 5.0, SaltL23Mat + 17) > 0.1)
+                b[WorldLayout.L23PoolSurface + 1 - L23Low] = l23LilyPad;
             // (Round 3: mossy stones in the shallows round the edge, a few standing out of the water)
             if (ground >= WorldLayout.L23PoolSurface - 3 && Noise2(gx / 3.0, gz / 3.0, SaltL23Mat + 16) > 0.55)
                 for (int rel = ground + 1; rel <= WorldLayout.L23PoolSurface + 1; rel++)
@@ -285,6 +290,11 @@ public sealed partial class WorldGenerator
                 int i = rel - L23Low;
                 if (b[i] == 0) b[i] = rel >= denseFrom ? l23LeavesDense : l23Leaves;
             }
+        // Round 4: shafts of light under the holes in the lid, a slice a block from high up down to a few over the ground, in
+        // a scatter of the hole's columns (the lore's star never moves: they stand still)
+        if (hole && (L23Mod(gx * 7 + gz * 13, 6) == 0) && l23Sunbeam != 0)
+            for (int rel = Math.Max(ground, WorldLayout.L23PoolSurface) + 4; rel <= WorldLayout.L23Top - 4; rel++)
+                if (b[rel - L23Low] == 0 && !c.Water[rel - L23Low]) b[rel - L23Low] = l23Sunbeam;
         // Lichen hanging from the lid, now and then; long roots from the vault over the pool
         if (!hole && b[lidBottom - 1 - L23Low] == 0)
         {
@@ -376,6 +386,8 @@ public sealed partial class WorldGenerator
             if (at > L23Low && at <= WorldLayout.L23Top)
             {
                 int thing = t.SupplyBox ? BoxOf(t) : PropBlock(t);
+                // (Round 4: Base Seedling's tents are the M.E.G.'s wall tents of the level's own, on the same four tiles)
+                if (!t.SupplyBox && t.Variant == Props.CampTent) thing = l23Tent[Math.Min((int)t.Stack, 3), Facing(propHeadFirst[t.Variant] ? Opposite(t.Pier) : t.Pier)];
                 if (thing != 0)
                 {
                     b[at - L23Low] = thing;
@@ -613,6 +625,12 @@ public sealed partial class WorldGenerator
             }
             b[rel - L23Low] = block;
         }
+        // Round 4: two statues of Architects flanking the way in from the south, on their plinths, facing out
+        if ((u == -6 || u == 6) && v == 15 && floor + 3 < ceiling)
+        {
+            for (int k = 0; k < 3; k++) b[floor + 1 + k - L23Low] = l23Statue[k, Facing(ArchPier.South)];
+            return;
+        }
         // Pottery: on the plaza and in the rooms, on the first floor up; and the fungi the lore says overgrow the ruins,
         // glowcaps of the room's colour come up through the moss on the paving (round 2: the plazas were black without them)
         double d = Math.Sqrt(u * u + v * v);
@@ -727,7 +745,9 @@ public sealed partial class WorldGenerator
         if (h == 2) return dmin >= 1 ? l23RuinStone : -1;
         if (h <= 8)
         {
-            if (dmin >= 1.5 && dmin < 2.5) return L23Mod((int)Math.Round(along), 3) == 0 ? l23RuinStone : 0;
+            // (Round 4: the colonnade's columns as columns, a base, a fluted shaft and a capital; mossy at their feet)
+            if (dmin >= 1.5 && dmin < 2.5)
+                return L23Mod((int)Math.Round(along), 3) != 0 ? 0 : h == 2 ? l23RuinStone : l23Column[h == 3 ? 0 : h == 8 ? 2 : 1, h <= 4 ? 1 : 0, 0];
             if (dmin >= 5 && dmin < 6)
             {
                 if (south && Math.Abs(u) <= 1 && h <= 5) return 0;
@@ -773,10 +793,10 @@ public sealed partial class WorldGenerator
         }
         foreach (var (bu, bv, head) in L23Bedrolls)
             if (bu == u && bv == v) { b[on] = l23Bedroll[Facing(head)]; return; }
-        // The quartermaster's counter, his ledger, the stores behind it
-        if (v == 6 && u >= -4 && u <= -2 && l23Table != 0)
+        // The quartermaster's counter (round 4: one piece of three blocks, its front south to the camp), his ledger, the stores behind it
+        if (v == 6 && u >= -4 && u <= -2)
         {
-            b[on] = l23Table;
+            b[on] = l23Counter[-2 - u, Facing(ArchPier.South)];
             if (u == -3) b[on + 1] = l23Ledger;
             return;
         }

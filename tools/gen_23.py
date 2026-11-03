@@ -508,7 +508,7 @@ def sorry_strand(seed):
     for y in range(S):
         for x in range(S):
             r, g, b, a = px[x, y]
-            px[x, y] = (r, g, b, 210)
+            px[x, y] = (r, g, b, 255)  # (round 4: opaque; the opaque pass tints translucent texels with the sky's colour)
     return img
 
 
@@ -806,7 +806,9 @@ def lang_entries():
     """Every key of the level's block: the ones above and the notes' track (the handbook page is gen_guide.py's LEVELS row 28)."""
     import gen_23_r3
     import gen_23_r4
-    entries = list(LANG) + list(gen_23_r3.LANG) + list(gen_23_r4.LANG)
+    import gen_23_r4_camp
+    import gen_23_r4b
+    entries = list(LANG) + list(gen_23_r3.LANG) + list(gen_23_r4.LANG) + list(gen_23_r4_camp.LANG) + list(gen_23_r4b.LANG)
     import gen_notes
     for t in gen_notes.TRACKS:
         if t.level == gen_notes.L23:
@@ -942,6 +944,12 @@ def main():
     import gen_23_r4
     gen_23_r4.textures(save)
     blocks += gen_23_r4.blocks()
+    import gen_23_r4_camp
+    gen_23_r4_camp.textures(save)
+    blocks += gen_23_r4_camp.blocks()
+    import gen_23_r4b
+    gen_23_r4b.textures(save)
+    blocks += gen_23_r4b.blocks()
     bt = os.path.join(ASSETS, "blocktypes", "23")
     for comment, b in blocks:
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
@@ -955,6 +963,11 @@ def main():
     for name, shp in gen_23_r3.shapes().items():
         write_json(os.path.join(sh, name + ".json"), None, shp)
     for name, shp in gen_23_r4.shapes().items():
+        write_json(os.path.join(sh, name + ".json"), None, shp)
+    for name, shp in gen_23_r4_camp.shapes().items():
+        write_json(os.path.join(sh, name + ".json"), None, shp)
+    # (round 4's glowcaps, as clusters, replace round 1's shapes of the same names)
+    for name, shp in gen_23_r4b.shapes().items():
         write_json(os.path.join(sh, name + ".json"), None, shp)
     write_lang()
     print(f"gen_23: {len(blocks)} blocktypes, shapes, textures, lang")

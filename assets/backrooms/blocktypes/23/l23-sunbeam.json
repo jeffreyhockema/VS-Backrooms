@@ -1,0 +1,36 @@
+// Level 23 (round 4): a slice of a shaft of light under a hole in the lid (translucent, glows, gives no light, nothing to hit)
+{
+	"code": "l23-sunbeam",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Air",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/23/sunbeam"
+	},
+	"renderpass": "BlendNoCull",
+	"faceCullMode": "NeverCull",
+	"emitSideAo": {
+		"all": false
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0,
+	"replaceable": 9000,
+	"collisionbox": null,
+	"selectionbox": null,
+	"rainPermeable": true,
+	"drops": [],
+	"sounds": {}
+}

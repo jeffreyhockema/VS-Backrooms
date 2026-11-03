@@ -1,0 +1,97 @@
+// Level 23 (round 4): a bedroll by the tents at Base Seedling (only looks)
+{
+	"code": "l23-campbed",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-north": {
+			"base": "block/23/campbed",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/23/campbed",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/23/campbed",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/23/campbed",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/cloth*",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.2,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.2,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.2,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.12,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.88,
+			"y2": 0.2,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null
+}

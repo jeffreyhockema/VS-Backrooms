@@ -1,0 +1,80 @@
+// Level 23 (round 4): a buried sentry's face sculpted out of the bark (the face on the -side); says nothing until someone says it
+{
+	"code": "l23-sentryface",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"grey"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-grey-north"
+		],
+		"backrooms": [
+			"*-grey-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-grey-north": {
+			"base": "block/23/sentryface",
+			"rotateY": 0
+		},
+		"*-grey-east": {
+			"base": "block/23/sentryface",
+			"rotateY": 270
+		},
+		"*-grey-south": {
+			"base": "block/23/sentryface",
+			"rotateY": 180
+		},
+		"*-grey-west": {
+			"base": "block/23/sentryface",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"resistance": 9,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/planks",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"texturesByType": {
+		"*-grey-*": {
+			"bark": {
+				"base": "block/23/bark-grey"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-grey"
+			},
+			"skin": {
+				"base": "block/23/sentry-skin"
+			},
+			"mouth": {
+				"base": "block/23/sentry-mouth"
+			}
+		}
+	},
+	"lightAbsorption": 99
+}

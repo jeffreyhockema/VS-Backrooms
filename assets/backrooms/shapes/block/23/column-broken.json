@@ -1,0 +1,430 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"stone": "backrooms:block/23/ruinstone",
+		"flute": "backrooms:block/23/flute-clean"
+	},
+	"elements": [
+		{
+			"name": "ShaftA",
+			"from": [
+				2.7,
+				0,
+				5.805
+			],
+			"to": [
+				13.3,
+				9,
+				10.195
+			],
+			"faces": {
+				"north": {
+					"texture": "#flute",
+					"uv": [
+						2.7,
+						7,
+						13.3,
+						16
+					]
+				},
+				"east": {
+					"texture": "#flute",
+					"uv": [
+						5.805,
+						7,
+						10.195,
+						16
+					]
+				},
+				"south": {
+					"texture": "#flute",
+					"uv": [
+						2.7,
+						7,
+						13.3,
+						16
+					]
+				},
+				"west": {
+					"texture": "#flute",
+					"uv": [
+						5.805,
+						7,
+						10.195,
+						16
+					]
+				},
+				"up": {
+					"texture": "#flute",
+					"uv": [
+						2.7,
+						5.805,
+						13.3,
+						10.195
+					]
+				},
+				"down": {
+					"texture": "#flute",
+					"uv": [
+						2.7,
+						5.805,
+						13.3,
+						10.195
+					]
+				}
+			}
+		},
+		{
+			"name": "ShaftB",
+			"from": [
+				5.805,
+				0,
+				2.7
+			],
+			"to": [
+				10.195,
+				9,
+				13.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#flute",
+					"uv": [
+						5.805,
+						7,
+						10.195,
+						16
+					]
+				},
+				"east": {
+					"texture": "#flute",
+					"uv": [
+						2.7,
+						7,
+						13.3,
+						16
+					]
+				},
+				"south": {
+					"texture": "#flute",
+					"uv": [
+						5.805,
+						7,
+						10.195,
+						16
+					]
+				},
+				"west": {
+					"texture": "#flute",
+					"uv": [
+						2.7,
+						7,
+						13.3,
+						16
+					]
+				},
+				"up": {
+					"texture": "#flute",
+					"uv": [
+						5.805,
+						2.7,
+						10.195,
+						13.3
+					]
+				},
+				"down": {
+					"texture": "#flute",
+					"uv": [
+						5.805,
+						2.7,
+						10.195,
+						13.3
+					]
+				}
+			}
+		},
+		{
+			"name": "ShaftC",
+			"from": [
+				4.268,
+				0,
+				4.268
+			],
+			"to": [
+				11.732,
+				9,
+				11.732
+			],
+			"faces": {
+				"north": {
+					"texture": "#flute",
+					"uv": [
+						4.268,
+						7,
+						11.732,
+						16
+					]
+				},
+				"east": {
+					"texture": "#flute",
+					"uv": [
+						4.268,
+						7,
+						11.732,
+						16
+					]
+				},
+				"south": {
+					"texture": "#flute",
+					"uv": [
+						4.268,
+						7,
+						11.732,
+						16
+					]
+				},
+				"west": {
+					"texture": "#flute",
+					"uv": [
+						4.268,
+						7,
+						11.732,
+						16
+					]
+				},
+				"up": {
+					"texture": "#flute",
+					"uv": [
+						4.268,
+						4.268,
+						11.732,
+						11.732
+					]
+				},
+				"down": {
+					"texture": "#flute",
+					"uv": [
+						4.268,
+						4.268,
+						11.732,
+						11.732
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Jag1",
+			"from": [
+				4,
+				9,
+				5
+			],
+			"to": [
+				9,
+				12.5,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						3.5,
+						9,
+						7
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						5,
+						3.5,
+						11,
+						7
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						3.5,
+						9,
+						7
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						5,
+						3.5,
+						11,
+						7
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						5,
+						9,
+						11
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						5,
+						9,
+						11
+					]
+				}
+			}
+		},
+		{
+			"name": "Jag2",
+			"from": [
+				8,
+				9,
+				4
+			],
+			"to": [
+				12,
+				10.8,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						5.2,
+						12,
+						7
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						5.2,
+						10,
+						7
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						5.2,
+						12,
+						7
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						5.2,
+						10,
+						7
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						4,
+						12,
+						10
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						4,
+						12,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Chip",
+			"from": [
+				6,
+				9,
+				9
+			],
+			"to": [
+				11,
+				11.4,
+				12.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						6,
+						4.6,
+						11,
+						7
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						9,
+						4.6,
+						12.5,
+						7
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						6,
+						4.6,
+						11,
+						7
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						9,
+						4.6,
+						12.5,
+						7
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						6,
+						9,
+						11,
+						12.5
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						6,
+						9,
+						11,
+						12.5
+					]
+				}
+			}
+		}
+	]
+}

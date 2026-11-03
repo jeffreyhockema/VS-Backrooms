@@ -1,0 +1,327 @@
+// Level 23 (round 4): the Parthenon's columns (base, fluted shaft, Doric capital, a broken stump), clean or mossy
+{
+	"code": "l23-column",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"base",
+				"shaft",
+				"capital",
+				"broken"
+			]
+		},
+		{
+			"code": "moss",
+			"states": [
+				"clean",
+				"mossy"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-base-clean-north"
+		],
+		"backrooms": [
+			"*-base-clean-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-base-clean-north": {
+			"base": "block/23/column-base",
+			"rotateY": 0
+		},
+		"*-base-clean-east": {
+			"base": "block/23/column-base",
+			"rotateY": 270
+		},
+		"*-base-clean-south": {
+			"base": "block/23/column-base",
+			"rotateY": 180
+		},
+		"*-base-clean-west": {
+			"base": "block/23/column-base",
+			"rotateY": 90
+		},
+		"*-base-mossy-north": {
+			"base": "block/23/column-base",
+			"rotateY": 0
+		},
+		"*-base-mossy-east": {
+			"base": "block/23/column-base",
+			"rotateY": 270
+		},
+		"*-base-mossy-south": {
+			"base": "block/23/column-base",
+			"rotateY": 180
+		},
+		"*-base-mossy-west": {
+			"base": "block/23/column-base",
+			"rotateY": 90
+		},
+		"*-shaft-clean-north": {
+			"base": "block/23/column-shaft",
+			"rotateY": 0
+		},
+		"*-shaft-clean-east": {
+			"base": "block/23/column-shaft",
+			"rotateY": 270
+		},
+		"*-shaft-clean-south": {
+			"base": "block/23/column-shaft",
+			"rotateY": 180
+		},
+		"*-shaft-clean-west": {
+			"base": "block/23/column-shaft",
+			"rotateY": 90
+		},
+		"*-shaft-mossy-north": {
+			"base": "block/23/column-shaft",
+			"rotateY": 0
+		},
+		"*-shaft-mossy-east": {
+			"base": "block/23/column-shaft",
+			"rotateY": 270
+		},
+		"*-shaft-mossy-south": {
+			"base": "block/23/column-shaft",
+			"rotateY": 180
+		},
+		"*-shaft-mossy-west": {
+			"base": "block/23/column-shaft",
+			"rotateY": 90
+		},
+		"*-capital-clean-north": {
+			"base": "block/23/column-capital",
+			"rotateY": 0
+		},
+		"*-capital-clean-east": {
+			"base": "block/23/column-capital",
+			"rotateY": 270
+		},
+		"*-capital-clean-south": {
+			"base": "block/23/column-capital",
+			"rotateY": 180
+		},
+		"*-capital-clean-west": {
+			"base": "block/23/column-capital",
+			"rotateY": 90
+		},
+		"*-capital-mossy-north": {
+			"base": "block/23/column-capital",
+			"rotateY": 0
+		},
+		"*-capital-mossy-east": {
+			"base": "block/23/column-capital",
+			"rotateY": 270
+		},
+		"*-capital-mossy-south": {
+			"base": "block/23/column-capital",
+			"rotateY": 180
+		},
+		"*-capital-mossy-west": {
+			"base": "block/23/column-capital",
+			"rotateY": 90
+		},
+		"*-broken-clean-north": {
+			"base": "block/23/column-broken",
+			"rotateY": 0
+		},
+		"*-broken-clean-east": {
+			"base": "block/23/column-broken",
+			"rotateY": 270
+		},
+		"*-broken-clean-south": {
+			"base": "block/23/column-broken",
+			"rotateY": 180
+		},
+		"*-broken-clean-west": {
+			"base": "block/23/column-broken",
+			"rotateY": 90
+		},
+		"*-broken-mossy-north": {
+			"base": "block/23/column-broken",
+			"rotateY": 0
+		},
+		"*-broken-mossy-east": {
+			"base": "block/23/column-broken",
+			"rotateY": 270
+		},
+		"*-broken-mossy-south": {
+			"base": "block/23/column-broken",
+			"rotateY": 180
+		},
+		"*-broken-mossy-west": {
+			"base": "block/23/column-broken",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"resistance": 8,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"texturesByType": {
+		"*-base-clean-*": {
+			"stone": {
+				"base": "block/23/ruinstone"
+			},
+			"flute": {
+				"base": "block/23/flute-clean"
+			}
+		},
+		"*-base-mossy-*": {
+			"stone": {
+				"base": "block/23/ruinmoss"
+			},
+			"flute": {
+				"base": "block/23/flute-mossy"
+			}
+		},
+		"*-shaft-clean-*": {
+			"stone": {
+				"base": "block/23/ruinstone"
+			},
+			"flute": {
+				"base": "block/23/flute-clean"
+			}
+		},
+		"*-shaft-mossy-*": {
+			"stone": {
+				"base": "block/23/ruinmoss"
+			},
+			"flute": {
+				"base": "block/23/flute-mossy"
+			}
+		},
+		"*-capital-clean-*": {
+			"stone": {
+				"base": "block/23/ruinstone"
+			},
+			"flute": {
+				"base": "block/23/flute-clean"
+			}
+		},
+		"*-capital-mossy-*": {
+			"stone": {
+				"base": "block/23/ruinmoss"
+			},
+			"flute": {
+				"base": "block/23/flute-mossy"
+			}
+		},
+		"*-broken-clean-*": {
+			"stone": {
+				"base": "block/23/ruinstone"
+			},
+			"flute": {
+				"base": "block/23/flute-clean"
+			}
+		},
+		"*-broken-mossy-*": {
+			"stone": {
+				"base": "block/23/ruinmoss"
+			},
+			"flute": {
+				"base": "block/23/flute-mossy"
+			}
+		}
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.15,
+			"y1": 0,
+			"z1": 0.15,
+			"x2": 0.85,
+			"y2": 1,
+			"z2": 0.85,
+			"rotateY": 90
+		}
+	}
+}

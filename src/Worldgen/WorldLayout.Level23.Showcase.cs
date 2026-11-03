@@ -273,6 +273,51 @@ public partial class WorldLayout
             spots.Add(L23Spot("seedling-waysign", x, z, L23Ground(x, z) + 1, fy, kv.Key.Item1 + 0.5, kv.Key.Item2 + 0.5, 0, eyeAt: kv.Value.Board + 0.5));
             break;
         }
+        // Round 4: a thick trunk's foot up close (its bark in relief, its root flares) and the same trunk from further out,
+        // looking up its side (its broken limbs): the nearest to the middle with open ground before it
+        {
+            int ti0 = Hashing.FloorDiv(mx, L23Pitch), tj0 = Hashing.FloorDiv(mz, L23Pitch);
+            bool done = false;
+            for (int ring = 3; ring < 20 && !done; ring++)
+                for (int j = tj0 - ring; j <= tj0 + ring && !done; j++)
+                    for (int i = ti0 - ring; i <= ti0 + ring && !done; i++)
+                    {
+                        if (Math.Max(Math.Abs(i - ti0), Math.Abs(j - tj0)) != ring) continue;
+                        L23Trunk t = L23TrunkAt(i, j);
+                        if (!t.Exists || t.R < 3.5 || t.Hollow || t.Sentry || t.Snag) continue;
+                        for (int k = 0; k < 8 && !done; k++)
+                        {
+                            double a = bearing + k * Math.PI / 4, ca = Math.Cos(a), sa = Math.Sin(a);
+                            double reach = t.R * (1 + t.Ecc) + 1.5;
+                            int x = (int)Math.Floor(t.X + ca * (reach + 4)), z = (int)Math.Floor(t.Z + sa * (reach + 4));
+                            int x2 = (int)Math.Floor(t.X + ca * (reach + 9)), z2 = (int)Math.Floor(t.Z + sa * (reach + 9));
+                            int xm = (int)Math.Floor(t.X + ca * (reach + 2)), zm = (int)Math.Floor(t.Z + sa * (reach + 2));
+                            if (!L23ClearSurface(x, z) || !L23ClearSurface(x2, z2) || !L23ClearSurface(xm, zm)) continue;
+                            spots.Add(L23Spot("trunk-foot", x, z, L23Ground(x, z) + 1, fy, t.X, t.Z, 0, eyeAt: t.Base + 1.5));
+                            spots.Add(L23Spot("trunk-limbs", x2, z2, L23Ground(x2, z2) + 1, fy, t.X, t.Z, 0, eyeAt: t.Base + 11));
+                            done = true;
+                        }
+                    }
+        }
+        // Round 4: Base Seedling's wall tent from in front of its door, and the camp fire with its tripod
+        {
+            L23Cavern s = L23Specials[0];
+            (int X, int Z)[] tiles = L23TentTiles(2);
+            double tx = tiles.Average(p => p.X) + 0.5, tz = tiles.Average(p => p.Z) + 0.5;
+            var (dx, dz) = L23Step(L23Tents[2].Door);
+            int x = (int)Math.Floor(tx + dx * 5.5), z = (int)Math.Floor(tz + dz * 5.5);
+            if (L23Cave(x, z, out int f, out _, out _))
+                spots.Add(L23Spot("seedling-tent", x, z, f + 1, fy, tx, tz, 0, eyeAt: f + 1.4));
+            if (L23Cave(s.X - 2, s.Z + 13, out int ff, out _, out _))
+                spots.Add(L23Spot("seedling-fire", s.X - 2, s.Z + 13, ff + 1, fy, s.X - 4.5, s.Z + 10.5, 0, eyeAt: ff + 0.6));
+        }
+        // Round 4: a statue of an Architect at the Parthenon's way in, from in front of it
+        {
+            L23Cavern r = L23Specials[4];
+            int x = r.X - 4, z = r.Z + 19;
+            if (L23Cave(x, z, out int f, out _, out _))
+                spots.Add(L23Spot("ruin-statue", x, z, f + 1, fy, r.X - 5.5, r.Z + 15.5, 0, eyeAt: r.Floor + 3.2));
+        }
         L23LinkSpots(spots, geometry);
         return spots;
     }

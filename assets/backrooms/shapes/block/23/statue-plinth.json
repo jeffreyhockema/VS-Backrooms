@@ -1,0 +1,290 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"stone": "backrooms:block/23/ruinstone",
+		"robe": "backrooms:block/23/statue-robe",
+		"inscr": "backrooms:block/23/statue-inscription",
+		"eye": "backrooms:block/23/statue-eye",
+		"twig": "backrooms:block/23/bark-pale",
+		"leaf": "backrooms:block/23/leaves-0"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				3,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						13,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						13,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						13,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						13,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Die",
+			"from": [
+				1.5,
+				3,
+				1.5
+			],
+			"to": [
+				14.5,
+				12.5,
+				14.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#inscr",
+					"uv": [
+						1.5,
+						3.5,
+						14.5,
+						13
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						1.5,
+						3.5,
+						14.5,
+						13
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						1.5,
+						3.5,
+						14.5,
+						13
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						1.5,
+						3.5,
+						14.5,
+						13
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						1.5,
+						1.5,
+						14.5,
+						14.5
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						1.5,
+						1.5,
+						14.5,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Cornice",
+			"from": [
+				0.6,
+				12.5,
+				0.6
+			],
+			"to": [
+				15.4,
+				14.2,
+				15.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0.6,
+						1.8,
+						15.4,
+						3.5
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0.6,
+						1.8,
+						15.4,
+						3.5
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0.6,
+						1.8,
+						15.4,
+						3.5
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0.6,
+						1.8,
+						15.4,
+						3.5
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0.6,
+						0.6,
+						15.4,
+						15.4
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0.6,
+						0.6,
+						15.4,
+						15.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				1.2,
+				14.2,
+				1.2
+			],
+			"to": [
+				14.8,
+				16,
+				14.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						1.2,
+						0,
+						14.8,
+						1.8
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						1.2,
+						0,
+						14.8,
+						1.8
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						1.2,
+						0,
+						14.8,
+						1.8
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						1.2,
+						0,
+						14.8,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						1.2,
+						1.2,
+						14.8,
+						14.8
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						1.2,
+						1.2,
+						14.8,
+						14.8
+					]
+				}
+			}
+		}
+	]
+}

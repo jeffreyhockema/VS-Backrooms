@@ -17,9 +17,21 @@ public sealed partial class WorldGenerator
     /// <summary>Fallen logs' pieces by bark (as limbs), part (WorldLayout.L23LogPiece) and axis (x, z).</summary>
     private readonly int[,,] l23LogPart = new int[5, 11, 2];
     private readonly int[,] l23CapRim = new int[4, 4], l23BoulderPart = new int[3, 4];
+    /// <summary>Base Seedling's wall tents by part (nw, ne, sw, se as the detail kit's camptent) and facing; its counter by part (l, m, r) and facing.</summary>
+    private readonly int[,] l23Tent = new int[4, 4], l23Counter = new int[3, 4];
+    /// <summary>The Parthenon's columns by part (base, shaft, capital, broken), moss (clean, mossy) and facing; the statues by part (plinth, lower, upper) and facing; lily pads.</summary>
+    private readonly int[,,] l23Column = new int[4, 2, 4];
+    private readonly int[,] l23Statue = new int[3, 4];
+    private int l23LilyPad, l23Sunbeam;
+    /// <summary>Root knuckles (bare, mossed), facing north only (they are the same every way).</summary>
+    private readonly int[] l23RootKnuckle = new int[2];
 
     private void InitL23Skin()
     {
+        l23LilyPad = Id("l23-lilypad");
+        l23Sunbeam = Id("l23-sunbeam");
+        l23RootKnuckle[0] = Id("l23-rootknuckle-bare-north");
+        l23RootKnuckle[1] = Id("l23-rootknuckle-moss-north");
         string[] faceBarks = { "grey", "red", "pale", "dark", "green", "aspen", "moss" };
         string[] logBarks = { "grey", "red", "pale", "dark", "aspen" };
         string[] logParts = { "s1", "s2a", "s2b", "s2c", "s2d", "s3a", "s3b", "s3c", "s3d", "s3e", "s3f" };
@@ -38,6 +50,14 @@ public sealed partial class WorldGenerator
                     l23Limb[b, k, f] = Id($"l23-limb-{logBarks[b]}-{(k == 0 ? "stub" : "limb")}-{Sides[f]}");
             for (int p = 0; p < 4; p++) l23CapRim[p, f] = Id($"l23-caprim-{capParts[p]}-{Sides[f]}");
             for (int p = 0; p < 3; p++) l23BoulderPart[p, f] = Id($"l23-boulderpart-{boulderParts[p]}-{Sides[f]}");
+            string[] tentParts = { "nw", "ne", "sw", "se" }, counterParts = { "l", "m", "r" };
+            for (int p = 0; p < 4; p++) l23Tent[p, f] = Id($"l23-tent-{tentParts[p]}-{Sides[f]}");
+            for (int p = 0; p < 3; p++) l23Counter[p, f] = Id($"l23-counter-{counterParts[p]}-{Sides[f]}");
+            string[] columnParts = { "base", "shaft", "capital", "broken" }, statueParts = { "plinth", "lower", "upper" };
+            for (int p = 0; p < 4; p++)
+                for (int m = 0; m < 2; m++)
+                    l23Column[p, m, f] = Id($"l23-column-{columnParts[p]}-{(m == 0 ? "clean" : "mossy")}-{Sides[f]}");
+            for (int p = 0; p < 3; p++) l23Statue[p, f] = Id($"l23-statue-{statueParts[p]}-{Sides[f]}");
         }
         for (int b = 0; b < 5; b++)
             for (int p = 0; p < logParts.Length; p++)
@@ -83,6 +103,13 @@ public sealed partial class WorldGenerator
             if (w == WorldLayout.L23Boulder)
             {
                 if (b[i] == l23Bark[w] && layout.L23BoulderPiece(gx, gz, rel, out int part, out ArchPier f)) b[i] = l23BoulderPart[part, Facing(f)];
+                continue;
+            }
+            // A root's top near the ground, rounded (air over it)
+            if (w == WorldLayout.L23RootWood)
+            {
+                if (rel <= ground + 3 && i + 1 < L23Height && c.Wood[i + 1] == 0 && (b[i] == l23Root || b[i] == l23MossBark))
+                    b[i] = l23RootKnuckle[b[i] == l23MossBark ? 1 : 0];
                 continue;
             }
             if (rel > ground + WorldLayout.L23SkinHeight) continue;

@@ -1,0 +1,327 @@
+// Level 23 (round 4): the quartermaster's counter at Base Seedling, three blocks (l, m, r from the west, front north)
+{
+	"code": "l23-counter",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"l",
+				"m",
+				"r"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-l-north"
+		],
+		"backrooms": [
+			"*-l-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-l-north": {
+			"base": "block/23/counter-l",
+			"rotateY": 0
+		},
+		"*-l-east": {
+			"base": "block/23/counter-l",
+			"rotateY": 270
+		},
+		"*-l-south": {
+			"base": "block/23/counter-l",
+			"rotateY": 180
+		},
+		"*-l-west": {
+			"base": "block/23/counter-l",
+			"rotateY": 90
+		},
+		"*-m-north": {
+			"base": "block/23/counter-m",
+			"rotateY": 0
+		},
+		"*-m-east": {
+			"base": "block/23/counter-m",
+			"rotateY": 270
+		},
+		"*-m-south": {
+			"base": "block/23/counter-m",
+			"rotateY": 180
+		},
+		"*-m-west": {
+			"base": "block/23/counter-m",
+			"rotateY": 90
+		},
+		"*-r-north": {
+			"base": "block/23/counter-r",
+			"rotateY": 0
+		},
+		"*-r-east": {
+			"base": "block/23/counter-r",
+			"rotateY": 270
+		},
+		"*-r-south": {
+			"base": "block/23/counter-r",
+			"rotateY": 180
+		},
+		"*-r-west": {
+			"base": "block/23/counter-r",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 1.5,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:plank-oak",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"*-l-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 0
+		},
+		"*-l-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"*-l-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"*-l-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 90
+		},
+		"*-m-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 0
+		},
+		"*-m-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"*-m-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"*-m-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 90
+		},
+		"*-r-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 0
+		},
+		"*-r-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"*-r-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"*-r-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-l-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 0
+		},
+		"*-l-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"*-l-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"*-l-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 90
+		},
+		"*-m-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 0
+		},
+		"*-m-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"*-m-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"*-m-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 90
+		},
+		"*-r-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 0
+		},
+		"*-r-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"*-r-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"*-r-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 0.95,
+			"rotateY": 90
+		}
+	}
+}
