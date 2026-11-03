@@ -25,7 +25,19 @@ public partial class WorldLayout
         };
 
         // The halls: a lit stretch down its length from a crossing, and a stretch whose lights are dead
-        spots.Add(new Showcase.Spot("hall-lit", hcx * L14Period + 3.5, feet, hcz * L14Period + 11.5, 180, -4));
+        // (round 4: from just short of the first stretch whose next two troffers both give light, so the shot is lit)
+        double litZ = hcz * L14Period + 11.5;
+        for (int gz = hcz * L14Period + 10; gz < hcz * L14Period + 50; gz++)
+        {
+            if (Hashing.Mod(gz, 8) != 4) continue;
+            var t1 = new Tile { Kind = TileKind.Floor };
+            var t2 = new Tile { Kind = TileKind.Floor };
+            int gx = hcx * L14Period + 2;
+            L14HallTile(ref t1, gx, gz, 2, Hashing.Mod(gz, L14Period));
+            L14HallTile(ref t2, gx, gz + 8, 2, Hashing.Mod(gz + 8, L14Period));
+            if (t1.Ceiling == CeilingKind.L14LightOn && t2.Ceiling == CeilingKind.L14LightOn) { litZ = gz - 2.5; break; }
+        }
+        spots.Add(new Showcase.Spot("hall-lit", hcx * L14Period + 3.5, feet, litZ, 180, -4));
         for (int r = 3; r < 12 && spots.Count < 2; r++)
             for (int k = -r; k <= r && spots.Count < 2; k++)
                 if (L14DarkStretch(true, hcx + k, hcz + r) && L14In((hcx + k) * L14Period + 2, (hcz + r) * L14Period + 32))
@@ -133,7 +145,7 @@ public partial class WorldLayout
                                 if (L14Plan.In(sa, sb) && plan.AtAB(sa, sb) is { Kind: TileKind.Floor, Variant: 0 })
                                 {
                                     var (x, zz) = plan.World(sa, sb);
-                                    spots.Add(new Showcase.Spot("surgery-set", x + 0.5, feet, zz + 0.5, Heading(-ox, -oz), -12));
+                                    spots.Add(new Showcase.Spot("surgery-set", x + 0.5, feet, zz + 0.5, Heading(-ox, -oz), 4));
                                     surg = true;
                                 }
                             }

@@ -327,7 +327,8 @@ public sealed partial class WorldGenerator
             case L.L14MPlywood: return l14Wall[foot ? L14WCinder : L14WPlywood];
             case L.L14MRust: return l14Wall[(Hashing.Hash(seed, gx, gz * 16 + rel, 0x2921) % 3) == 0 ? L14WRustBlood : L14WRust];
             case L.L14MTileBlood: return l14Wall[rel >= 3 || (Hashing.Hash(seed, gx, gz, 0x2922) & 1) == 0 ? L14WTileBlood : L14WTile];
-            case L.L14MMould: return l14Wall[foot ? L14WPaintBase : L14WMould];
+            // (round 4: the blooms at eye height and here and there above, not a column of the same bloom up the wall)
+            case L.L14MMould: return l14Wall[foot ? L14WPaintBase : rel == 2 || (Hashing.Hash(seed, gx, gz * 16 + rel, 0x2924) & 1) == 0 ? L14WMould : L14WPaint];
             case L.L14MConcrete: return l14Wall[L14WConcrete];
         }
         if (foot) return l14Wall[L14WPaintBase];

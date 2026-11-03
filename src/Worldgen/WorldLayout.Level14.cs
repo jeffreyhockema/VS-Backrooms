@@ -1134,7 +1134,7 @@ public sealed partial class WorldLayout
             WallDress(r, 0.08, (L14DPoster, 3), (L14DPoster, 4), (L14DClock, 0), (L14DSanitizer, 0));
             // Round 4 (after the draws): the musty soft drinks came from somewhere: a dead vending machine (the mod's shape) against
             // a side wall by the door, the first free of the two places
-            var spots = new[] { (sideA, 1), (sideB, 1), (sideA, LenOf(r, sideA) - 2) };
+            var spots = new[] { (back, 0), (back, LenOf(r, back) - 1), (sideA, 1), (sideB, 1), (sideA, LenOf(r, sideA) - 2) };
             later.Add(() =>
             {
                 foreach (var (s, k) in spots)
