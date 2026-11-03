@@ -566,77 +566,84 @@ overwrites their files for the codes it rebuilds).
 Tiers: A must, B should, C nice.
 
 **1. Assets to rebuild to the bar**
-1. (A) `l31-skateshelf`: the skates as a real model (boot with a padded collar and tongue, laces, a sole plate, two
+1. (A) [done] `l31-skateshelf`: the skates as a real model (boot with a padded collar and tongue, laces, a sole plate, two
    trucks with four coloured wheels each, a toe stop), pairs in the cubbies, the odd pair lying on its side.
-2. (A) `l31-skatewall-dasher` (a full cube) -> `l31-barrier`: the rink's barrier as a thin padded wall along the
+2. (A) [done] `l31-skatewall-dasher` (a full cube) -> `l31-barrier`: the rink's barrier as a thin padded wall along the
    boards' edge (kick plate, panel body, a padded bumper on the rink side, a rounded padded top rail, stiles), with
    straight, corner and post pieces chosen from the neighbours so the oval's stair-steps read as one continuous rail.
-3. (A) `l31-gate`: gates as real gates (end posts with caps, a hinged half-door with a padded top, a latch, swung open)
+3. (A) [done: the leaf swung open at each end of a gap, the sill between] `l31-gate`: gates as real gates (end posts with caps, a hinged half-door with a padded top, a latch, swung open)
    in the barrier's gaps.
-4. (A) `l31-djdesk` (deck, mixer): a booth fascia with a lit strip, turntables with platter, slipmat, tonearm and pitch
+4. (A) [done] `l31-djdesk` (deck, mixer): a booth fascia with a lit strip, turntables with platter, slipmat, tonearm and pitch
    fader; a mixer with channel faders, knobs, VU LEDs; CD players beside the decks (1990s).
-5. (A) `l31-speaker` (4 boxes): a PA cabinet with woofers (cone, dust cap, surround), a horn, corner protectors,
+5. (A) [done] `l31-speaker` (4 boxes): a PA cabinet with woofers (cone, dust cap, surround), a horn, corner protectors,
    handles, a grille band.
-6. (A) `l31-discoball` / `l31-mirror-ball`: a faceted mirror ball (stepped rings of facets) on a drop rod with a motor.
-7. (A) `l31-truss`: a box truss (four chords, rotated diagonal lacing), par cans on clamps and yokes with coloured,
+6. (A) [done] `l31-discoball` / `l31-mirror-ball`: a faceted mirror ball (stepped rings of facets) on a drop rod with a motor.
+7. (A) [done] `l31-truss`: a box truss (four chords, rotated diagonal lacing), par cans on clamps and yokes with coloured,
    glowing lenses, a cable loom.
-8. (A) `l31-rinkwood` (4 variants): maple strip floor at 32 px with lane sheen, board ends staggered, the lane stripe
+8. (A) [done] `l31-rinkwood` (4 variants): maple strip floor at 32 px with lane sheen, board ends staggered, the lane stripe
    and centre swirl as painted inlays with wear where skaters turn.
-9. (A) `l31-retrocab` (shooter, barrels, pyramid): 1980s uprights to the bar: side art, T-moulding, lit marquee in
+9. (A) [done] `l31-retrocab` (shooter, barrels, pyramid): 1980s uprights to the bar: side art, T-moulding, lit marquee in
    its bezel, a recessed CRT with a bezel, a control panel with a ball-top joystick and buttons, a coin door with lit
    coin slots, a kick plate.
-10. (A) `l31-pinball` (new; replaces Level 3999's 13-box pinball in the arcade): legs with levellers, a playfield
+10. (A) [done] `l31-pinball` (new; replaces Level 3999's 13-box pinball in the arcade): legs with levellers, a playfield
     cabinet with lock-down bar and plunger, a lit backglass head on its neck, flipper buttons.
-11. (A) `l31-photobooth` (9 boxes): a booth with a curtain on a rail (folds), a lit sign, the camera window, a stool
+11. (A) [done] `l31-photobooth` (9 boxes): a booth with a curtain on a rail (folds), a lit sign, the camera window, a stool
     inside, the photo-strip slot, the coin box.
-12. (A) `l31-cinemabench` (4 boxes): the lore's continuous metal bench with cup holders, a perforated seat and back,
+12. (A) [done] `l31-cinemabench` (4 boxes): the lore's continuous metal bench with cup holders, a perforated seat and back,
     legs bolted down; `l31-riser` with an amber aisle light strip on its nosing.
-13. (A) `l31-tv-*` and `l31-mediacab` (1 and 4 boxes): the big TV with a real bezel and depth, a speaker bar, and a
+13. (A) [done: the 5 x 3 TV mount gets a bezel; the media cabinet rebuilt] `l31-tv-*` and `l31-mediacab` (1 and 4 boxes): the big TV with a real bezel and depth, a speaker bar, and a
     media cabinet with doors, a VCR and a DVD deck with lit displays.
-14. (A) HVAC air handler: the shared `acunit` (3 boxes) is round 3's "still weak"; reuse Level 120's CRAC unit
+14. (A) [done] HVAC air handler: the shared `acunit` (3 boxes) is round 3's "still weak"; reuse Level 120's CRAC unit
     (`l120-crac-lower/upper`, two high, grilles and fans) along the far wall.
-15. (B) `l31-stall` (12) and `l31-vanity` (8): partition feet, a door with lock indicator and hinges, the toilet with
+15. (B) [done] `l31-stall` (12) and `l31-vanity` (8): partition feet, a door with lock indicator and hinges, the toilet with
     a lid and cistern; the vanity's basins with taps, soap pumps.
-16. (B) `l31-chair` / `l31-table`: food-court chair with a tube frame and moulded shell; table on a pedestal and a
+16. (B) [done: the table; the chair kept (it holds)] `l31-chair` / `l31-table`: food-court chair with a tube frame and moulded shell; table on a pedestal and a
     cross foot, a napkin holder.
-17. (B) `l31-jukebox` (9): a 1990s neon-arch jukebox with bubble tubes, a selector window and grille.
-18. (B) `l31-dispenser` (4): the green-card machine with a lit header, a bill acceptor, buttons and a card tray.
-19. (B) `l31-fountain`: the Almond Water soda fountain with its tower, drip tray and taps (the level's own restocking
+17. (B) [done] `l31-jukebox` (9): a 1990s neon-arch jukebox with bubble tubes, a selector window and grille.
+18. (B) [done] `l31-dispenser` (4): the green-card machine with a lit header, a bill acceptor, buttons and a card tray.
+19. (B) [done: dispenser kept] `l31-fountain`: the Almond Water soda fountain with its tower, drip tray and taps (the level's own restocking
     dispenser; the shared Almond Water fountain is a wall fountain, so it stays ours).
-20. (C) `l31-trophycase` (26), `l31-cctv` (7), `l31-monitors` (17): check up close, finish if they fall short.
+20. (C) [done: trophy case and CCTV rebuilt; the security desk kept] `l31-trophycase` (26), `l31-cctv` (7), `l31-monitors` (17): check up close, finish if they fall short.
 
 **2. Multi-block set pieces**
-21. (A) The DJ booth as one object: a raised deck under the desks, the fascia with a lit strip facing the rink, the
+21. (A) [partly: lit fascia, decks, mixer, CD decks, stacks; no raised deck (the DJ would float)] The DJ booth as one object: a raised deck under the desks, the fascia with a lit strip facing the rink, the
     speaker stacks either side, the DJ sign over it on the wall.
-22. (A) The rink barrier and its gates as one continuous object round the oval (items 2-3).
-23. (A) The lighting rig: trusses, par cans and mirror balls read as one rig under the dark ceiling.
-24. (A) The snack bar: a slushie machine (`l31-slushie`, new: two bowls with augers, lit tops), a till (`l31-till`,
+22. (A) [done] The rink barrier and its gates as one continuous object round the oval (items 2-3).
+23. (A) [done] The lighting rig: trusses, par cans and mirror balls read as one rig under the dark ceiling.
+24. (A) [done: the till is the shared register, already there] The snack bar: a slushie machine (`l31-slushie`, new: two bowls with augers, lit tops), a till (`l31-till`,
     new: a 1990s register with a pole display), with the menu board and the popcorn cart as one counter.
-25. (B) The arcade's prize corner: Level 3999's prize cases and prize wall stay (they hold), plush on them, the PRIZES
+25. (B) [done: kept] The arcade's prize corner: Level 3999's prize cases and prize wall stay (they hold), plush on them, the PRIZES
     sign; the photo booth beside them.
-26. (B) The cinema as one object: TV, speaker bar, media cabinet, three risers with aisle lights and the benches.
-27. (C) Restrooms: stalls, vanity and a hand-dryer model (`l31-dryer`, new) in place of the flat plate.
+26. (B) [done] The cinema as one object: TV, speaker bar, media cabinet, three risers with aisle lights and the benches.
+27. (C) [done] Restrooms: stalls, vanity and a hand-dryer model (`l31-dryer`, new) in place of the flat plate.
 
 **3. Level design**
-28. (A) The neon signs as emissive tubes: the rink's name and the DJ sign drawn as raised tube strokes with glow over a
+28. (A) [done: the rink's name, Arcade, Prizes, Snack Bar and the DJ sign] The neon signs as emissive tubes: the rink's name and the DJ sign drawn as raised tube strokes with glow over a
     dark backing, not a lit flat plate.
-29. (B) The DJ booth reads from across the rink (raised, lit fascia): today a dark strip on the far wall.
-30. (B) The rink floor carries the lit look: the lane sheen (item 8) under the ring lights' colours.
-31. (B) The cinema: a little more light on the benches (the aisle lights) so the room reads, still dark (lore).
-32. (C) Arrival views in the halls still face a wall at times; check after run 1.
+29. (B) [done: the fascia's lit strips] The DJ booth reads from across the rink (raised, lit fascia): today a dark strip on the far wall.
+30. (B) [done] The rink floor carries the lit look: the lane sheen (item 8) under the ring lights' colours.
+31. (B) [done] The cinema: a little more light on the benches (the aisle lights) so the room reads, still dark (lore).
+32. (C) [skipped: arrivals are the links' (settled)] Arrival views in the halls still face a wall at times; check after run 1.
 
 **4. Lore**
-33. (A) Keep: the star at the centre, the DJ on the south (a docile Faceling), the Coach behind the rental counter,
+33. (A) [done] Keep: the star at the centre, the DJ on the south (a docile Faceling), the Coach behind the rental counter,
     three stepped rows of continuous metal benches and one big TV, the green-card dispenser, free food. Nothing new
     may contradict the lore.
-34. (B) The skates on the shelves (the "steal" way out) must read as skates: item 1.
-35. (C) The arcade's "few 1980s cabinets" (Q*bert, Donkey Kong, Space Invaders) stay as our look-alikes (pyramid,
+34. (B) [done] The skates on the shelves (the "steal" way out) must read as skates: item 1.
+35. (C) [done] The arcade's "few 1980s cabinets" (Q*bert, Donkey Kong, Space Invaders) stay as our look-alikes (pyramid,
     barrels, shooter) at the bar of item 9.
 
 **5. Alignment with the other levels**
-36. (A) Reuse Level 120's CRAC unit (item 14) rather than a fork: the same make of machine in another building.
-37. (B) EXIT signs, extinguishers, placards, supply boxes, the Almond Water fountain stay the mod's shared ones; note
+36. (A) [done] Reuse Level 120's CRAC unit (item 14) rather than a fork: the same make of machine in another building.
+37. (B) [done: the EXIT, extinguisher and alarm mounts now use the shared models] EXIT signs, extinguishers, placards, supply boxes, the Almond Water fountain stay the mod's shared ones; note
     any below the bar under "Shared assets below the bar".
-38. (B) Queue posts in front of the rental and snack counters: Level 36's `l36-stanchion`, reused.
-39. (C) The lockers: Level 52's `l52-locker` stays (the school's and the rink's lockers are one family).
-40. (C) The Basement's duct (`basement-duct`) stays for the HVAC ceiling run.
+38. (B) [done] Queue posts in front of the rental and snack counters: Level 36's `l36-stanchion`, reused.
+39. (C) [changed: the rink's own coin lockers, l31-locker] The lockers: Level 52's `l52-locker` stays (the school's and the rink's lockers are one family).
+40. (C) [done: kept] The Basement's duct (`basement-duct`) stays for the HVAC ceiling run.
+
+**Added during the round**
+41. (B) [done] `l31-popcorn`: the rink's own kettle popcorn machine (case, kettle, heap, lit header) in place of Level
+    Fun's cart, similar but the rink's.
+42. (B) [done] `l31-locker`: coin lockers set in the rink's walls (doors in frames, louvres, numbers, keys on tags, one
+    ajar) in place of Level 52's school lockers.
+43. (C) [done] The DJ sign's tubes (gen_31_walls.py's cladding kinds `dj<c><r>`, patched by round 4).
