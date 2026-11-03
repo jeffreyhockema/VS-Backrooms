@@ -340,9 +340,9 @@ reused hospital props (`tools/preview_shapes.py`). Tiers: A must, B should, C ni
 **3. Level design**
 29. (A) [done] Halls clutter: gurneys, wheelchairs and drip stands parked along walls as if left mid-use (items 1-3), so the
     long views have silhouettes.
-30. (B) [done: a drip stand at each bed] ICU: bed bays (bed, monitor, drip stand, ventilator), less empty white floor.
+30. (B) [done: a drip stand at each bed, a monitor on a wall arm over each bed's head, curtains between the bays, a station in the middle of a big unit] ICU: bed bays (bed, monitor, drip stand, ventilator), less empty white floor.
 31. (B) [done: monitor and drip stand at the table] Surgery rooms: shelves of old equipment and kid posters along the walls; mould and vines in the old ones.
-32. (B) [done: night desk and wheelchair] Psychiatry: strap beds in the padded cells, a desk in the day room; not one cart in a white field.
+32. (B) [done: night desk and wheelchair in the wards; a drip stand and wheelchair in the cells] Psychiatry: strap beds in the padded cells, a desk in the day room; not one cart in a white field.
 33. (B) [done: as l14-vending, the mod's shape without its food] A vending machine (the mod's own) in some reception rooms or hall alcoves.
 34. (C) [partly: mould decals now sit on the wall] Reception: fewer mould wall patches; the magazine table with the chairs.
 35. (C) [skipped: already thrown together] Storage: asymmetric shelving as the lore's "thrown together".
@@ -403,8 +403,11 @@ All new models are in `tools/gen_14_r4.py` (called from `gen_14_props.py` and `g
   directory board by a crossing in one wing in two (`HallFittings`, after all other draws).
 - **The Hunter**: the pale square beside it in the last sheet was the cold-breath puff (a few big quads in front of the
   eye): now a fine mist of small motes (`AtmosphereSystem.L14.cs`). Its model is unchanged.
-- Showcase spots added: `gurney-hall`, `nurses-station`, `lift`, `directory`; F7 entries `l14station`, `l14gurney`,
-  `l14lift`, `l14directory`.
+- **Later in the round**: `l14-walldeco-monarm` (an ICU monitor on a wall arm over each bed's head), curtains between the
+  ICU bays and a station in the middle of a big ICU, the Hunter's three extra tentacles (back and crown), framed hanging
+  signs (aluminium edge, clamps, turnbuckles), paler stretcher canvas.
+- Showcase spots added: `gurney-hall`, `nurses-station`, `surgery-set`, `icu-bed`, `lift`, `directory` (and `hall-lit` moved
+  to where its troffers give light); F7 entries `l14station`, `l14gurney`, `l14lift`, `l14directory`.
 
 ### Inventions (round 4, ours)
 - The lift (out of order, taped) and the hospital directory board in the halls; the staff lockers; the night desk in the
@@ -436,3 +439,10 @@ All new models are in `tools/gen_14_r4.py` (called from `gen_14_props.py` and `g
   cell was one bed in an empty room; the surgical light and the ICU monitor arms were out of every frame (new spots
   `surgery-set`, `icu-bed`). The first shot (`hall-lit`) came out black (the client had not lit the chunk yet; the same
   spot was lit in every earlier run).
+- **Run b** (`%TEMP%/backrooms-shots/14-r4b`): the surgery set (trolley, table, drip stand and pump), the ICU bed with its
+  monitor on the wall arm, the floor blood soaked into the marble, the finer mould and the lit lift/directory/station all
+  hold up. Still weak: `hall-lit` black again: not the client: the first stretch of that hall has its troffers dead (the
+  42% dead from round 1), so the spot now stands where the next two troffers give light; the surgical light was above the
+  frame (the `surgery-set` spot now looks up a little); the reception's vending machine never found a free place (the
+  chairs line the side walls: now the back corners first); mould blocks stacked up a wall repeated their bloom (now only
+  at eye height and here and there above); a big ICU's middle was empty white (a station there now).
