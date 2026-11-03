@@ -709,3 +709,17 @@ cup holders are on the bench backs), the DJ still on the south, the star at the 
 - No new food, water, beds or safe rooms: the slushie and popcorn machines and the till are look-only; the soda
   fountain (Almond Water) and the drinks fridges are unchanged. The rink's barrier is thinner than the old cube
   (the boards' edge tiles are now walkable inside it), with the same gaps.
+
+### What the shots showed (round 4)
+
+- **Run 1** (`%TEMP%/backrooms-shots/31-r4a/`, 33 spots + arrivals; the rig counts 32 of 33 as it did in round 3):
+  the barrier reads as one padded rail round the boards, its stair-steps joined, the gates' leaves standing open at
+  the gaps; the DJ booth reads from the boards (fascia strips lit, decks, mixer, CD decks, the PA stacks either
+  side); the skates read as skates in their cubbies (tan, white, black boots, coloured wheels, size tags); the
+  Level 120 CRAC units and their ducts carry the HVAC room; the restroom's stalls and vanities, the cinema's TV
+  bezel and benches, the snack window's popcorn machine, till, slushie and fridge, the trophy case, the rental's
+  counter in the rink's stripes, the pinball row, the neon tubes over PRIZES and the rink's name all hold.
+  Wrong, fixed since: the pinball playfield was back to front (flippers at the backglass) and every machine showed
+  STARDUST (three backglasses now, by place); the rental counter had a bell on every section (one in five now);
+  the popcorn heap was one block (mounds now); the back-arcade spot stood nose to a sheet (from the room's middle
+  now). The Plastic block material of the first build failed to parse (Wood since; headless check clean after).
