@@ -12,7 +12,7 @@
   "keys": "backrooms:block/15/keys",
   "steelgrey": "backrooms:block/15/steelgrey",
   "cscreen-dead": "backrooms:block/15/cscreen-dead",
-  "guardglass": "backrooms:block/15/guardglass",
+  "guardcut": "backrooms:block/15/guardcut",
   "heatlamp": "backrooms:block/15/heatlamp",
   "heatlampoff": "backrooms:block/15/heatlampoff"
  },
@@ -1870,66 +1870,30 @@
    "from": [
     1,
     16,
-    4
+    4.1
    ],
    "to": [
     15,
     22.5,
-    4.5
+    4.4
    ],
    "faces": {
     "north": {
-     "texture": "#guardglass",
+     "texture": "#guardcut",
      "uv": [
       0,
       0,
-      14,
-      6.5
-     ]
-    },
-    "east": {
-     "texture": "#guardglass",
-     "uv": [
-      0,
-      0,
-      0.5,
-      6.5
+      16,
+      16
      ]
     },
     "south": {
-     "texture": "#guardglass",
+     "texture": "#guardcut",
      "uv": [
       0,
       0,
-      14,
-      6.5
-     ]
-    },
-    "west": {
-     "texture": "#guardglass",
-     "uv": [
-      0,
-      0,
-      0.5,
-      6.5
-     ]
-    },
-    "up": {
-     "texture": "#guardglass",
-     "uv": [
-      0,
-      0,
-      14,
-      0.5
-     ]
-    },
-    "down": {
-     "texture": "#guardglass",
-     "uv": [
-      0,
-      0,
-      14,
-      0.5
+      16,
+      16
      ]
     }
    },

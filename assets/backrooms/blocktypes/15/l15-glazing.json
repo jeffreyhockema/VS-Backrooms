@@ -84,8 +84,8 @@
 			"type": "item",
 			"code": "glassshard",
 			"quantity": {
-				"avg": 0.5,
-				"var": 0.5
+				"avg": 2,
+				"var": 1
 			}
 		}
 	],

@@ -49,7 +49,7 @@ public sealed partial class WorldGenerator
     }
 
     private readonly int[] l15Wall = new int[16], l15Floor = new int[13], l15Machine = new int[12], l15Glass = new int[2], l15Rib = new int[2], l15OddBeam = new int[2];
-    private readonly int[] l15Ceiling = new int[7];
+    private readonly int[] l15Ceiling = new int[9];
     private int l15Gate, l15Stage;
     private readonly int[,] l15Deco = new int[L15DecoKinds.Length, 4];
     private readonly int[,] l15Console = new int[3, 4], l15Bench = new int[4, 4], l15Corpse = new int[6, 4], l15StarDoor = new int[2, 4];
@@ -83,13 +83,15 @@ public sealed partial class WorldGenerator
     /// <summary>The glazing [clear/cracked, lower/upper, we/ns].</summary>
     private readonly int[,,] l15Glazing = new int[2, 2, 2];
     private int l15Stool, l15CTable;
+    private readonly int[,] l15Lectern = new int[2, 4];
 
     private static readonly string[] L15PanelKinds = BuildL15PanelKinds();
 
     private static string[] BuildL15PanelKinds()
     {
         var kinds = new List<string> { "ext", "escape", "liftl0", "liftl1", "liftl2", "liftr0", "liftr1", "liftr2", "liftind0", "liftind1", "liftcall",
-            "big00", "big01", "big02", "big10", "big11", "big12", "emerglit", "emergdead", "breaker", "display", "radar", "view0", "view1", "view2" };
+            "big00", "big01", "big02", "big10", "big11", "big12", "emerglit", "emergdead", "breaker", "display", "radar", "view0", "view1", "view2",
+            "lamplower", "lampupper", "lampon", "lamplowerdead", "lampupperdead" };
         for (int r = 1; r <= 5; r++) { kinds.Add($"jamb{r}"); kinds.Add($"jamb{r}e"); }
         for (int i = 0; i < 4; i++) kinds.Add($"jambplate{i}");
         return kinds.ToArray();
@@ -115,6 +117,11 @@ public sealed partial class WorldGenerator
         for (int l = 0; l < 2; l++)
             for (int f = 0; f < 4; f++) l15MedMon[l, f] = L15Block($"l15-medmonitor-{st[l]}-{Sides[f]}");
         l15Stool = L15Block("l15-stool");
+        for (int f = 0; f < 4; f++)
+        {
+            l15Lectern[0, f] = L15Block($"l15-lectern-lit-{Sides[f]}");
+            l15Lectern[1, f] = L15Block($"l15-lectern-dead-{Sides[f]}");
+        }
         l15CTable = L15Block("l15-ctable");
     }
 
@@ -241,8 +248,8 @@ public sealed partial class WorldGenerator
         int plainWall = BlockId("backrooms:concretewall-plain"), plainFloor = BlockId("backrooms:concretefloor-plain");
         for (int i = 0; i < l15Wall.Length; i++) l15Wall[i] = L15Block("l15-wall-" + L15WallKinds[i], plainWall);
         for (int i = 0; i < l15Floor.Length; i++) l15Floor[i] = L15Block("l15-floor-" + L15FloorKinds[i], plainFloor);
-        string[] ceilings = { "panel", "on", "lit", "flicker", "off", "service", "vent" };
-        int[] fallbacks = { concreteCeilingId, lightOnId, lightLitId, lightFlickerId, lightOffId, concreteCeilingId, concreteCeilingId };
+        string[] ceilings = { "panel", "on", "lit", "flicker", "off", "service", "vent", "troughns", "troughwe" };
+        int[] fallbacks = { concreteCeilingId, lightOnId, lightLitId, lightFlickerId, lightOffId, concreteCeilingId, concreteCeilingId, 0, 0 };
         for (int i = 0; i < ceilings.Length; i++) l15Ceiling[i] = L15Block("l15-ceiling-" + ceilings[i], fallbacks[i]);
         for (int i = 0; i < l15Machine.Length; i++) l15Machine[i] = L15Block("l15-machine-" + L15MachineKinds[i], plainWall);
         l15Glass[0] = L15Block("l15-glass-clear");
@@ -313,7 +320,15 @@ public sealed partial class WorldGenerator
             int finish = t.Depth is < 10 or L.L15FloorVinyl or L.L15FloorTerrazzo ? t.Depth : 0;
             return l15Floor[finish == L.L15FloorStrip && dark ? 10 : finish];
         }
-        if (rel == air + 1) return L15CeilingBlock(t, dark);
+        if (rel == air + 1)
+        {
+            int ceiling = L15CeilingBlock(t, dark);
+            // Round 4: a cable trough along each edge of a main hall's ceiling (the trays seen through a grille)
+            if (ceiling == l15Ceiling[0] && L.L15ZoneOf(t) == L.L15Zone.Hall && L15HallPlace(gx, gz) is { } hp && hp.Across is 1 or L.L15HallWidth
+                && l15Ceiling[hp.AlongZ ? 7 : 8] > 0)
+                return l15Ceiling[hp.AlongZ ? 7 : 8];
+            return ceiling;
+        }
         if (rel > air) return concreteId;
 
         // Round 3: a medical bay's curtain between its beds (rel 2-3, along the edge in Roof)
@@ -357,6 +372,7 @@ public sealed partial class WorldGenerator
             // Round 4: a vitals monitor on its arm over a medical bed's head; the canteen's tables and stools
             case Props.HospitalBed when rel == 2 && t.Stack == 0 && L.L15ZoneOf(t) == L.L15Zone.Medical && l15MedMon[0, 0] > 0:
                 return l15MedMon[dark ? 1 : 0, facing];
+            case Props.L15Stage when rel == 2 && t.Detail == 1: return l15Lectern[dark ? 1 : 0, facing];
             case Props.FoldingChair when L.L15ZoneOf(t) == L.L15Zone.Canteen && l15Stool > 0: return rel == 1 ? l15Stool : 0;
             case Props.FoldingTable when L.L15ZoneOf(t) == L.L15Zone.Canteen && l15CTable > 0: return rel == 1 ? l15CTable : 0;
         }
@@ -542,14 +558,16 @@ public sealed partial class WorldGenerator
             case 3 when t.Detail is not (L.L15WallCode or L.L15WallScanner) && stretch is 11 or 123:
                 // The hall's sign: its letter from the line it runs along, its number from the stretch it is in
                 return l15Deco[L15DSign + L15HallSign(hall.Line, hall.Along), f];
-            case 3 when bay == 4 && t.Detail is not (L.L15WallCode or L.L15WallWoodDoor): return l15Deco[dark ? L15DLampLowerDead : L15DLampLower, f];
+            case 3 when bay == 4 && t.Detail is not (L.L15WallCode or L.L15WallWoodDoor):
+                return L15Panel(dark ? "lamplowerdead" : "lamplower", f, l15Deco[dark ? L15DLampLowerDead : L15DLampLower, f]);
             case 4 when bay == 4 && t.Detail != L.L15WallWoodDoor:
                 // Round 4: near the lit side the dead light's place takes a battery emergency lamp, still burning amber
                 if (dark && L15DarkEdge(gx, gz, hall.Face is ArchPier.East or ArchPier.West) is 1 or 2)
                     return L15Panel("emerglit", f, l15Deco[L15DLampUpperDead, f]);
-                if (dark) return l15Deco[L15DLampUpperDead, f];
+                if (dark) return L15Panel("lampupperdead", f, l15Deco[L15DLampUpperDead, f]);
                 bool turn = hall.Face is ArchPier.East or ArchPier.South;
-                return l15Deco[Hashing.Mod(hall.Along, 16) == (turn ? 4 : 12) ? L15DLampOn : L15DLampUpper, f];
+                bool on = Hashing.Mod(hall.Along, 16) == (turn ? 4 : 12);
+                return L15Panel(on ? "lampon" : "lampupper", f, l15Deco[on ? L15DLampOn : L15DLampUpper, f]);
             case L.L15HallHeight: return l15Deco[L15DCornice, f];
         }
         return 0;

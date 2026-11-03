@@ -21,6 +21,11 @@
 				"view0",
 				"view1",
 				"view2",
+				"lamplower",
+				"lampupper",
+				"lampon",
+				"lamplowerdead",
+				"lampupperdead",
 				"big00",
 				"big01",
 				"big02",
@@ -311,6 +316,86 @@
 		},
 		"*-view2-west": {
 			"base": "backrooms:block/15/l15-panel-view2",
+			"rotateY": 90
+		},
+		"*-lamplower-north": {
+			"base": "backrooms:block/15/l15-panel-lamplower",
+			"rotateY": 0
+		},
+		"*-lamplower-east": {
+			"base": "backrooms:block/15/l15-panel-lamplower",
+			"rotateY": 270
+		},
+		"*-lamplower-south": {
+			"base": "backrooms:block/15/l15-panel-lamplower",
+			"rotateY": 180
+		},
+		"*-lamplower-west": {
+			"base": "backrooms:block/15/l15-panel-lamplower",
+			"rotateY": 90
+		},
+		"*-lampupper-north": {
+			"base": "backrooms:block/15/l15-panel-lampupper",
+			"rotateY": 0
+		},
+		"*-lampupper-east": {
+			"base": "backrooms:block/15/l15-panel-lampupper",
+			"rotateY": 270
+		},
+		"*-lampupper-south": {
+			"base": "backrooms:block/15/l15-panel-lampupper",
+			"rotateY": 180
+		},
+		"*-lampupper-west": {
+			"base": "backrooms:block/15/l15-panel-lampupper",
+			"rotateY": 90
+		},
+		"*-lampon-north": {
+			"base": "backrooms:block/15/l15-panel-lampon",
+			"rotateY": 0
+		},
+		"*-lampon-east": {
+			"base": "backrooms:block/15/l15-panel-lampon",
+			"rotateY": 270
+		},
+		"*-lampon-south": {
+			"base": "backrooms:block/15/l15-panel-lampon",
+			"rotateY": 180
+		},
+		"*-lampon-west": {
+			"base": "backrooms:block/15/l15-panel-lampon",
+			"rotateY": 90
+		},
+		"*-lamplowerdead-north": {
+			"base": "backrooms:block/15/l15-panel-lamplowerdead",
+			"rotateY": 0
+		},
+		"*-lamplowerdead-east": {
+			"base": "backrooms:block/15/l15-panel-lamplowerdead",
+			"rotateY": 270
+		},
+		"*-lamplowerdead-south": {
+			"base": "backrooms:block/15/l15-panel-lamplowerdead",
+			"rotateY": 180
+		},
+		"*-lamplowerdead-west": {
+			"base": "backrooms:block/15/l15-panel-lamplowerdead",
+			"rotateY": 90
+		},
+		"*-lampupperdead-north": {
+			"base": "backrooms:block/15/l15-panel-lampupperdead",
+			"rotateY": 0
+		},
+		"*-lampupperdead-east": {
+			"base": "backrooms:block/15/l15-panel-lampupperdead",
+			"rotateY": 270
+		},
+		"*-lampupperdead-south": {
+			"base": "backrooms:block/15/l15-panel-lampupperdead",
+			"rotateY": 180
+		},
+		"*-lampupperdead-west": {
+			"base": "backrooms:block/15/l15-panel-lampupperdead",
 			"rotateY": 90
 		},
 		"*-big00-north": {
@@ -699,6 +784,11 @@
 		"all": true
 	},
 	"lightAbsorption": 99,
+	"lightAbsorptionByType": {
+		"*-lampon-*": 0,
+		"*-emerglit-*": 0,
+		"*": 99
+	},
 	"resistance": 6,
 	"drops": [],
 	"sounds": {
@@ -728,10 +818,15 @@
 			4,
 			4
 		],
+		"*-lampon-*": [
+			34,
+			1,
+			12
+		],
 		"*-emerglit-*": [
 			6,
-			4,
-			9
+			5,
+			11
 		]
 	},
 	"emitSideAo": {

@@ -67,14 +67,24 @@ def textures():
     save(M.painted_metal(seed=15803, base=(232, 234, 234), panel=False, chips=0), "whitegloss")
     # Keyboard: keycaps in rows on a dark tray, a lighter space bar
     img = M.new((S, S), (30, 32, 36))
-    for row, y in enumerate(range(3, 27, 5)):
-        x = 2 + (row % 2) * 2
-        while x < 29:
-            w = 3 if not (row == 4 and 9 <= x <= 16) else 12
-            rect(img, x, y, min(29, x + w - 1), y + 3, (92, 96, 102))
-            rect(img, x, y, min(29, x + w - 1), y, (128, 132, 138))
+    for row, y in enumerate(range(1, 15, 3)):
+        x = 1 + (row % 2)
+        while x < 30:
+            w = 2 if not (row == 4 and 9 <= x <= 20) else 10
+            rect(img, x, y, min(30, x + w - 1), y + 1, (92, 96, 102))
+            rect(img, x, y, min(30, x + w - 1), y, (132, 136, 142))
             x += w + 1
     save(img, "keys")
+    # The sneeze guard's glass as a cut-out (alpha 0 or 255): its edges and a few diagonal glints, nothing between
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    for k in range(S):
+        for x, y in ((k, 0), (k, 31), (0, k), (31, k)):
+            img.putpixel((x, y), (214, 232, 236, 255))
+    for x0 in (4, 9, 22):
+        for k in range(10):
+            if 0 <= x0 + k < S and 3 + k < S:
+                img.putpixel((x0 + k, 3 + k), (236, 248, 252, 255))
+    save(img, "guardcut")
     # The consoles' screens at 64 px, the picture in the top 40 rows (the screens are 16:10)
     for name, kind in (("cscreen-dead", 0), ("cscreen-denied", 1), ("cscreen-radar", 2)):
         img = Image.new("RGBA", (B, B), (0, 0, 0, 255))
@@ -276,7 +286,8 @@ def console_shape(state):
         box("CheekE", (15, 0, 1), (16, 9.5, 16), "steelgrey"),
         box("Top", (1, 8, 1), (15, 9, 16), {"all": "steelgrey", "top": "epoxy"}),
         box("Lip", (1, 8.25, 0.25), (15, 9.25, 1.25), "bezel"),
-        box("Keyboard", (3, 9, 2), (11.5, 9.5, 6), {"all": "bezel", "top": "keys"}, rot=(6, 0, 0), origin=(7, 9, 6)),
+        box("Keyboard", (3, 9, 2), (11.5, 9.5, 6), {"all": "bezel", "top": "keys"}, rot=(6, 0, 0), origin=(7, 9, 6),
+            uv=None),
         box("BallBase", (12.25, 9, 2.5), (14.5, 9.5, 5), "bezel"),
         box("Ball", (12.85, 9.5, 3.1), (13.9, 10.2, 4.15), "ledred" if lit else "dark", glow=60 if lit else 0),
         box("Foot", (5.5, 9, 10.5), (10.5, 9.4, 14), "bezel"),
@@ -288,6 +299,7 @@ def console_shape(state):
         box("Led", (12.5, 6, 2.4), (13.25, 6.75, 2.5), "ledgreen" if lit else "dark", faces=("north",), glow=200 if lit else 0),
     ]
     els[13]["faces"]["north"]["uv"] = [0, 0, 16, 10]
+    els[6]["faces"]["up"]["uv"] = [0, 0, 16, 8]
     return write_shape("l15-console-" + state, els, {k: T(k) for k in
                        ("dark", "white", "lockervents", "steelgrey", "epoxy", "bezel", "keys", "ledred", "ledgreen", screen)})
 
@@ -451,11 +463,11 @@ def serve_shape(kind):
                 box("Shelf", (0, 23.5, 3), (16, 24.25, 10), "sinksteel"),
                 box("ShelfLip", (0, 23.25, 2.75), (16, 24.5, 3.25), "brushed"),
                 box("HeatLamp", (1.5, 23, 5), (14.5, 23.5, 8.5), {"all": "dark", "down": "heatlampoff"}),
-                box("Guard", (1, 16, 4), (15, 22.5, 4.5), "guardglass", **guard),
+                uvfull(box("Guard", (1, 16, 4.1), (15, 22.5, 4.4), "guardcut", faces=("north", "south"), **guard)),
                 box("GuardRail", (1, 22.25, 3.75), (15, 22.75, 4.75), "brushed", **guard),
                 box("GuardEdge", (1, 15.75, 3.75), (15, 16.25, 4.75), "brushed", **guard)]
     return write_shape("l15-serve-" + kind, els, {k: T(k) for k in ("sinksteel", "lockerdoor", "dark", "brushed", "trayred", "traygrey",
-                                                                     "bezel", "keys", "steelgrey", "cscreen-dead", "guardglass",
+                                                                     "bezel", "keys", "steelgrey", "cscreen-dead", "guardcut",
                                                                      "heatlamp", "heatlampoff")})
 
 
@@ -636,7 +648,7 @@ def panel_shapes():
                                           "brushed": T("brushed"), "bezel": T("bezel"), "dark": T("dark")})
     for half in (0, 1):
         els = panel_els() + [box("PortalHead", (-0.75 if half else 0, 0, -1), (16 if half else 16.75, 4, 0), "brushed")]
-        dx = (0.5, 7) if half == 0 else (9, 15.5)
+        dx = (0, 7) if half == 0 else (9, 16)
         els += [box("DispHousing", (dx[0], 5.5, -1.1), (dx[1], 11.5, 0), "bezel"),
                 uvfull(box("Disp", (dx[0] + 0.5, 6, -1.2), (dx[1] - 0.5, 11, -1.1), f"liftdisp{half}", faces=("north",), glow=220), "north")]
         add(f"liftind{half}", els, {"brushed": T("brushed"), "bezel": T("bezel"), f"liftdisp{half}": T(f"liftdisp{half}")})
@@ -666,6 +678,31 @@ def panel_shapes():
                 box("Led", (x0 + 0.75, y0 - 0.9, -0.8), (x0 + 1.4, y0 - 0.4, -0.7), "ledgreen" if glow else "dark", faces=("north",),
                     glow=200 if glow else 0)]
         add(kind, els, {"deco-" + kind: T("deco-" + kind), "bezel": T("bezel"), "ledgreen": T("ledgreen"), "dark": T("dark")}, light=lt)
+
+    # The halls' tall wall lights (two blocks: lower, upper; lit-looking, giving light (on), dead): the lens in a white
+    # steel housing standing off the wall, a reveal round it, the fixing screws
+    for kind, tex_, part, glow in (("lamplower", "deco-lamplower", "lower", 160), ("lampupper", "deco-lampupper", "upper", 160),
+                                   ("lampon", "deco-lampupper", "upper", 160), ("lamplowerdead", "deco-lamplowerdead", "lower", 0),
+                                   ("lampupperdead", "deco-lampupperdead", "upper", 0)):
+        els = [box("Body", (0, 0, 0), (16, 16, 16), {"all": "wall", "north": tex_})]
+        els[0]["faces"]["north"]["uv"] = [0, 0, 16, 16]
+        if glow:
+            els[0]["faces"]["north"]["glow"] = glow
+        lo, hi = (1, 16) if part == "lower" else (0, 15)
+        els += [box("HousingW", (13, lo, -1.25), (14.25, hi, 0), "whitegloss"),
+                box("HousingE", (1.75, lo, -1.25), (3, hi, 0), "whitegloss"),
+                box("RevealW", (12.75, lo, -1.3), (13, hi, -1.25), "bezel", faces=("north",)),
+                box("RevealE", (3, lo, -1.3), (3.25, hi, -1.25), "bezel", faces=("north",))]
+        if part == "lower":
+            els += [box("HousingB", (1.75, 0, -1.25), (14.25, 1, 0), "whitegloss"),
+                    box("Screw0", (2.1, 0.3, -1.35), (2.6, 0.8, -1.25), "bezel", faces=("north",)),
+                    box("Screw1", (13.4, 0.3, -1.35), (13.9, 0.8, -1.25), "bezel", faces=("north",))]
+        else:
+            els += [box("HousingT", (1.75, 15, -1.25), (14.25, 16, 0), "whitegloss"),
+                    box("Screw0", (2.1, 15.2, -1.35), (2.6, 15.7, -1.25), "bezel", faces=("north",)),
+                    box("Screw1", (13.4, 15.2, -1.35), (13.9, 15.7, -1.25), "bezel", faces=("north",))]
+        add(kind, els, {tex_: T(tex_), "whitegloss": T("whitegloss"), "bezel": T("bezel")},
+            light=[34, 1, 12] if kind == "lampon" else None)
 
     # The big display's bezel (three wide, two high: row 0 the lower, i 0 the left as seen, its outer edge at x 16)
     for row in range(2):
@@ -722,14 +759,14 @@ def panel_shapes():
             box("Box", (3, 3, -2.5), (13, 8, 0), {"all": "whitegloss", "north": "whitegloss"}),
             box("Grille", (5, 3.5, -2.55), (11, 5, -2.5), "dark", faces=("north",)),
             box("Led", (11.5, 4, -2.6), (12.25, 4.75, -2.5), "ledgreen" if lit else "dark", faces=("north",), glow=200 if lit else 0),
-            box("HeadW", (3.5, 8, -3.5), (6.5, 10.5, -0.5), {"all": "whitegloss", "north": lens}, rot=(-20, 0, 0), origin=(5, 8, -2)),
-            box("HeadE", (9.5, 8, -3.5), (12.5, 10.5, -0.5), {"all": "whitegloss", "north": lens}, rot=(-20, 0, 0), origin=(11, 8, -2)),
+            box("HeadW", (2.5, 8, -4), (7, 11.5, -0.5), {"all": "whitegloss", "north": lens}, rot=(-20, 0, 0), origin=(4.75, 8, -2)),
+            box("HeadE", (9, 8, -4), (13.5, 11.5, -0.5), {"all": "whitegloss", "north": lens}, rot=(-20, 0, 0), origin=(11.25, 8, -2)),
         ]
         if lit:
             for e in els[-2:]:
                 e["faces"]["north"]["glow"] = 230
         add("emerg" + ("lit" if lit else "dead"), els, {"whitegloss": T("whitegloss"), "dark": T("dark"), "ledgreen": T("ledgreen"),
-                                                        lens: T(lens)}, light=[6, 4, 9] if lit else None)
+                                                        lens: T(lens)}, light=[6, 5, 11] if lit else None)
     # The breaker panel by the dark: its door swung open, the breakers inside, one tripped, a tag on the door
     els = panel_els() + [
         box("Box", (3, 1, -1.5), (13, 14, 0), {"all": "steelgrey", "north": "breakers"}),
@@ -756,13 +793,13 @@ def bulkhead_shape(axis, lit):
     """A bulkhead's header across a main hall (in the top block of air, under the ceiling): a deep white steel beam with
     a hazard strip along its foot both ways, a light bar under it, stiffeners. Modelled across x (we)."""
     light = "bh-light" if lit else "bh-lightdead"
-    els = [box("Beam", (0, 6, 3), (16, 16, 13), {"all": "bh-head", "up": "wall-beam", "down": "wall-beam"}),
-           box("FlangeN", (0, 6, 2.5), (16, 7, 3), "brushed"),
-           box("FlangeS", (0, 6, 13), (16, 7, 13.5), "brushed"),
-           box("LightHousing", (1, 5.25, 6), (15, 6, 10), "brushed"),
-           box("Light", (1.5, 5.15, 6.5), (14.5, 5.25, 9.5), light, faces=("down",), glow=220 if lit else 0),
-           box("StiffN", (7.5, 7, 2.25), (8.5, 16, 3), "brushed"),
-           box("StiffS", (7.5, 7, 13), (8.5, 16, 13.75), "brushed")]
+    els = [box("Beam", (0, 2, 2), (16, 16, 14), {"all": "bh-head", "up": "wall-beam", "down": "wall-beam"}),
+           box("FlangeN", (0, 2, 1.25), (16, 3, 2), "brushed"),
+           box("FlangeS", (0, 2, 14), (16, 3, 14.75), "brushed"),
+           box("LightHousing", (1, 1.25, 5.5), (15, 2, 10.5), "brushed"),
+           box("Light", (1.5, 1.15, 6), (14.5, 1.25, 10), light, faces=("down",), glow=220 if lit else 0),
+           box("StiffN", (7.5, 3, 1.25), (8.5, 16, 2), "brushed"),
+           box("StiffS", (7.5, 3, 14), (8.5, 16, 14.75), "brushed")]
     if axis == "ns":
         from modelkit import turn
         els = turn(els, 1)
@@ -811,6 +848,48 @@ def medmonitor_shape(lit):
     els[-4]["faces"]["north"]["uv"] = [0, 0, 16, 16]
     return write_shape(f"l15-medmonitor-{'lit' if lit else 'dead'}", els,
                        {k: T(k) for k in ("whitegloss", "headwall", "brushed", "steelgrey", "bezel", "dark", sc)})
+
+
+def lectern_shape(lit):
+    """A lectern on the lecture hall's half-block stage (its base 8 below the block), its audience side to the north: a
+    plinth, a white body with the hall line's stripe and a steel kick, a desk sloping toward the speaker, a gooseneck
+    microphone and a reading lamp (lit, or dead in the dark)."""
+    slope = dict(rot=(14, 0, 0), origin=(8, 6, 8))
+    els = [box("Plinth", (3, -8, 4), (13, -7, 12.5), "bezel"),
+           box("Body", (4, -7, 5), (12, 5.5, 11.5), {"all": "whitegloss", "north": "lecternfront"}),
+           box("Kick", (4.25, -7, 4.75), (11.75, -6, 5), "brushed", faces=("north",)),
+           box("Desk", (3.25, 5.5, 3.5), (12.75, 6.5, 12.5), {"all": "whitegloss", "top": "epoxy"}, **slope),
+           box("Ledge", (3.25, 6.5, 12), (12.75, 7.25, 12.5), "brushed", **slope),
+           box("MicBase", (5, 6.25, 5), (6, 6.75, 6), "bezel"),
+           box("MicNeck", (5.3, 6.75, 5.3), (5.7, 11, 5.7), "bezel", rot=(20, 0, 0), origin=(5.5, 6.75, 5.5)),
+           box("MicHead", (5.1, 10.4, 6.5), (5.9, 11.4, 7.6), "bezel"),
+           box("LampNeck", (10.3, 6.5, 6.3), (10.7, 10.5, 6.7), "brushed", rot=(25, 0, 0), origin=(10.5, 6.5, 6.5)),
+           box("LampHead", (9.5, 10, 7.5), (11.5, 11, 10), "brushed"),
+           box("LampLens", (9.75, 9.9, 7.75), (11.25, 10, 9.75), "ledamber" if lit else "dark", faces=("down",), glow=200 if lit else 0)]
+    els[1]["faces"]["north"]["uv"] = [0, 0, 16, 16]
+    return write_shape(f"l15-lectern-{'lit' if lit else 'dead'}", els,
+                       {k: T(k) for k in ("bezel", "whitegloss", "lecternfront", "brushed", "epoxy", "ledamber", "dark")})
+
+
+def tray_shape():
+    """A ladder cable tray along x near the top of a side corridor (round 4): two side rails, rungs, three bundles of
+    cables in their colours with ties, carried on two trapezes (a strut channel under it on threaded rods to the
+    ceiling)."""
+    els = [box("RailN", (0, 10, 4), (16, 12, 4.5), "brushed"),
+           box("RailS", (0, 10, 11.5), (16, 12, 12), "brushed")]
+    for x in (1, 5, 9, 13):
+        els.append(box(f"Rung{x}", (x, 10, 4.5), (x + 1, 10.4, 11.5), "brushed"))
+    for i, (z0, z1, h, tx) in enumerate(((5, 7, 1.6, "cables"), (7.25, 9, 1.3, "cablesb"), (9.25, 11.25, 1.8, "cables"))):
+        els.append(box(f"Bundle{i}", (0, 10.4, z0), (16, 10.4 + h, z1), tx))
+        for x in (3.5, 11.5):
+            els.append(box(f"Tie{i}{x}", (x, 10.35, z0 - 0.1), (x + 0.4, 10.5 + h, z1 + 0.1), "dark"))
+    for x in (2.5, 12.5):
+        els += [box(f"Strut{x}", (x, 9.25, 3), (x + 1, 10, 13), "steelgrey"),
+                box(f"RodN{x}", (x + 0.35, 10, 3.35), (x + 0.65, 16, 3.65), "brushed"),
+                box(f"RodS{x}", (x + 0.35, 10, 12.35), (x + 0.65, 16, 12.65), "brushed"),
+                box(f"NutN{x}", (x + 0.2, 9.0, 3.2), (x + 0.8, 9.25, 3.8), "dark"),
+                box(f"NutS{x}", (x + 0.2, 9.0, 12.2), (x + 0.8, 9.25, 12.8), "dark")]
+    return write_shape("l15-tray", els, {k: T(k) for k in ("brushed", "cables", "cablesb", "dark", "steelgrey")})
 
 
 def stool_shape():
@@ -953,6 +1032,13 @@ def glass_textures():
         M.grime(img, 0.05, seed=15850, color=(150, 160, 160))
         save(opaque(img), name)
     save(M.new((S, S), (140, 70, 20)), "amberglass")
+    # A second bundle's colours (greys, an orange fibre, a green earth)
+    img = M.new((S, S), (28, 30, 32))
+    for y in range(S):
+        c = [(70, 72, 76), (230, 120, 30), (28, 30, 32), (60, 140, 70), (90, 92, 96), (28, 30, 32), (220, 220, 210), (50, 52, 56)][y // 4]
+        for x in range(S):
+            img.putpixel((x, y), tuple(int(v * (0.8 + 0.2 * ((y % 4) in (1, 2)))) for v in c) + (255,))
+    save(img, "cablesb")
     save(M.new((S, S), (120, 200, 160)), "liquid")
 
 
@@ -967,6 +1053,7 @@ def blocktypes():
         console_shape(st)
     for k in ("plain", "sink", "equipment", "glassware"):
         labbench_shape(k)
+    tray_shape()
     for part in ("lower", "upper"):
         for st in ("closed", "ajar"):
             locker_shape(part, st)
@@ -1000,7 +1087,8 @@ def blocktypes():
     data = {"code": "l15-panel", "variantgroups": [{"code": "kind", "states": kinds}, {"code": "side", "states": SIDES}],
             "shapeByType": sbt, "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
             "blockmaterial": "Stone", "drawtype": "json", "sidesolid": {"all": True}, "sideopaque": {"all": True},
-            "lightAbsorption": 99, "resistance": 6, "drops": [], "sounds": STONE, "lightHsvByType": light,
+            "lightAbsorption": 99, "lightAbsorptionByType": {"*-lampon-*": 0, "*-emerglit-*": 0, "*": 99},
+            "resistance": 6, "drops": [], "sounds": STONE, "lightHsvByType": light,
             "emitSideAo": {"all": False}}
     write_json(os.path.join(BLOCKS, "l15-panel.json"), data,
                "Level 15 (round 4): a white wall block with a model on its face toward its side: the fire extinguisher, the ESCAPE "
@@ -1014,8 +1102,16 @@ def blocktypes():
             sbt[f"*-{'lit' if lit else 'dead'}-{axis}"] = {"base": bulkhead_shape(axis, lit)}
     json_block("l15-bulkhead", [{"code": "state", "states": ["lit", "dead"]}, {"code": "axis", "states": ["we", "ns"]}], sbt,
                "Level 15 (round 4): a bulkhead's deep header across a main hall, a light bar under it (lit, dead)",
-               {"collisionbox": cuboid((0, 0.35, 0, 1, 1, 1)), "selectionbox": cuboid((0, 0.35, 0, 1, 1, 1))},
+               {"collisionbox": cuboid((0, 0.1, 0, 1, 1, 1)), "selectionbox": cuboid((0, 0.1, 0, 1, 1, 1))},
                inventory="l15-bulkhead-lit-we")
+
+    # The serving line in the opaque pass now (its guard a cut-out): round 3's blocktype without its Transparent pass
+    path = os.path.join(BLOCKS, "l15-serve.json")
+    with open(path, encoding="utf-8") as fh:
+        head, body = fh.read().split("\n", 1)
+    d = json.loads(body)
+    d.pop("renderpass", None)
+    write_json(path, d, head[3:])
 
     # l15-glazing
     sbt = {}
@@ -1030,7 +1126,7 @@ def blocktypes():
             "shapeByType": sbt, "creativeinventory": {"general": ["*-lower-we"], "backrooms": ["*-lower-we"]},
             "blockmaterial": "Glass", "drawtype": "json", "renderpass": "Transparent", "sidesolid": {"all": False},
             "sideopaque": {"all": False}, "lightAbsorption": 1, "resistance": 4, "sounds": GLASS,
-            "drops": [{"type": "item", "code": "glassshard", "quantity": {"avg": 0.5, "var": 0.5}}],
+            "drops": [{"type": "item", "code": "glassshard", "quantity": {"avg": 2, "var": 1}}],  # as l15-glass
             "collisionboxByType": {"*-we": cuboid((0, 0, 0.15, 1, 1, 0.85)), "*": cuboid((0.15, 0, 0, 0.85, 1, 1))},
             "selectionboxByType": {"*-we": cuboid((0, 0, 0.15, 1, 1, 0.85)), "*": cuboid((0.15, 0, 0, 0.85, 1, 1))}}
     write_json(os.path.join(BLOCKS, "l15-glazing.json"), data,
@@ -1051,6 +1147,25 @@ def blocktypes():
                extra={"lightHsvByType": {"*-lit-*": [10, 3, 4]},
                       "drops": [{"type": "item", "code": "scrapwire", "quantity": {"avg": 0.6, "var": 0.4}}]},
                inventory="l15-medmonitor-lit-north")
+
+    # l15-lectern
+    img = Image.new("RGBA", (B, B), (232, 234, 234, 255))
+    rect(img, 6, 14, B - 7, 17, LINE_COLOURS[0])
+    draw_text(img, (6, 22, B - 6, 34), "LEVEL 15", (60, 66, 74), 7, condensed=True)
+    draw_text(img, (6, 36, B - 6, 44), "LECTURE HALL", (110, 116, 124), 4, condensed=True)
+    M.grime(img, 0.05, seed=15860, color=(170, 170, 166), bias="bottom")
+    save(img, "lecternfront")
+    shapes = {}
+    for lit in (True, False):
+        base = lectern_shape(lit)
+        for s in SIDES:
+            shapes[f"*-{'lit' if lit else 'dead'}-{s}"] = {"base": base, "rotateY": ROTATE[s]}
+    json_block("l15-lectern", [{"code": "state", "states": ["lit", "dead"]}, {"code": "side", "states": SIDES}], shapes,
+               "Level 15 (round 4): a lectern on a lecture hall's stage, facing its side, its reading lamp lit or dead",
+               {"collisionbox": cuboid((0.2, -0.5, 0.25, 0.8, 0.45, 0.8)), "selectionbox": cuboid((0.2, -0.5, 0.25, 0.8, 0.5, 0.8))},
+               extra={"lightHsvByType": {"*-lit-*": [8, 3, 5]},
+                      "drops": [{"type": "item", "code": "metalbracket", "quantity": {"avg": 0.3, "var": 0.3}}]},
+               inventory="l15-lectern-lit-north")
 
     # l15-stool, l15-ctable (one variant each)
     for code, shape_fn, coll, comment in (

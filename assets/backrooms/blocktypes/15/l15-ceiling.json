@@ -11,7 +11,9 @@
 				"flicker",
 				"off",
 				"service",
-				"vent"
+				"vent",
+				"troughns",
+				"troughwe"
 			]
 		}
 	],
@@ -64,6 +66,22 @@
 			},
 			"down": {
 				"base": "block/15/ceiling-vent"
+			}
+		},
+		"*-troughns": {
+			"all": {
+				"base": "block/15/ceiling-panel"
+			},
+			"down": {
+				"base": "block/15/ceiling-troughns"
+			}
+		},
+		"*-troughwe": {
+			"all": {
+				"base": "block/15/ceiling-panel"
+			},
+			"down": {
+				"base": "block/15/ceiling-troughwe"
 			}
 		}
 	},

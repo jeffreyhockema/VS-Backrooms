@@ -1278,7 +1278,8 @@ public sealed partial class WorldLayout
                 for (int k = 0; k < len; k++)
                 {
                     var (a, b) = FromSide(r, front, k, row);
-                    if (!NextToDoor(a, b)) Put(a, b, Props.L15Stage);
+                    // (round 4: a lectern on the stage beside the screen, facing the seats: Detail 1)
+                    if (!NextToDoor(a, b)) Put(a, b, Props.L15Stage, Opp(toFront), 0, (byte)(row == 1 && k == len / 2 + 3 && len > 8 ? 1 : 0));
                 }
             // The projection screen over the stage, three wide (round 3): its parts left to right as the seats see it
             {

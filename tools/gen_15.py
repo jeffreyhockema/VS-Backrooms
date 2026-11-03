@@ -586,6 +586,22 @@ def ceiling_textures():
     for y in range(5, 27, 3):
         rect(vent, 5, y, 26, y, (30, 34, 38))
     save(vent, "ceiling-vent")
+    # Round 4: the halls' cable troughs along the edges of the ceiling: a steel grille of slots across the run, the tray
+    # of cables seen through them (running along the hall: ns along the texture's v, we along its u)
+    tr = M.new((S, S), (20, 22, 26))
+    cols = [(40, 70, 140), (28, 30, 32), (200, 170, 40), (60, 62, 66), (120, 30, 30), (28, 30, 32), (70, 120, 70), (50, 52, 56)]
+    for x in range(4, 28):
+        c = cols[(x - 4) // 3]
+        for y in range(S):
+            tr.putpixel((x, y), tuple(int(v * (0.75 + 0.25 * ((x - 4) % 3 == 1))) for v in c) + (255,))
+    for y in range(0, S, 4):
+        rect(tr, 2, y, 29, y + 1, (186, 192, 198))
+        M.touch(tr, 2, y, 0.2)
+    rect(tr, 0, 0, 1, S - 1, (206, 211, 216))
+    rect(tr, 30, 0, 31, S - 1, (206, 211, 216))
+    M.emboss_lines(tr, xs=(1, 29), strength=0.2)
+    save(tr, "ceiling-troughns")
+    save(tr.rotate(90), "ceiling-troughwe")
 
 
 def steel_textures():
@@ -1036,12 +1052,14 @@ def blocktypes():
                extra={"vertexFlagsByType": {"*-strip": {"glowLevel": 200}},
                       "soundsByType": {"*-carpet": CLOTH, "*-grating": METAL, "*-track": METAL, "*": STONE}})
 
-    ceil = {"code": "l15-ceiling", "variantgroups": [{"code": "kind", "states": ["panel", "on", "lit", "flicker", "off", "service", "vent"]}],
+    ceil = {"code": "l15-ceiling", "variantgroups": [{"code": "kind", "states": ["panel", "on", "lit", "flicker", "off", "service", "vent", "troughns", "troughwe"]}],
             "texturesByType": {"*-panel": {"all": tex("ceiling-panel")}, "*-on": {"all": tex("ceiling-panel"), "down": tex("ceiling-led")},
                                "*-lit": {"all": tex("ceiling-panel"), "down": tex("ceiling-led")},
                                "*-flicker": {"all": tex("ceiling-panel"), "down": tex("ceiling-led")},
                                "*-off": {"all": tex("ceiling-panel"), "down": tex("ceiling-off")},
-                               "*-service": {"all": tex("ceiling-service")}, "*-vent": {"all": tex("ceiling-panel"), "down": tex("ceiling-vent")}},
+                               "*-service": {"all": tex("ceiling-service")}, "*-vent": {"all": tex("ceiling-panel"), "down": tex("ceiling-vent")},
+                               "*-troughns": {"all": tex("ceiling-panel"), "down": tex("ceiling-troughns")},
+                               "*-troughwe": {"all": tex("ceiling-panel"), "down": tex("ceiling-troughwe")}},
             "creativeinventory": {"general": ["*"], "backrooms": ["*"]}, "blockmaterial": "Stone", "drawtype": "cube", "resistance": 2,
             # The cool white of the halls: one panel in six gives light; the rest only look lit, so lighting stays cheap
             "lightHsvByType": {"*-on": [34, 1, 18]},
