@@ -524,15 +524,15 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
     the floor, so the glades and holes read as columns of light from afar (inv.: the lore's star never moves).
 27. [B] [partly: patches of bare stone through the humus; no drifts against the trunks] Ground variety: stone outcrops (bare petrified stone patches), leaf drifts against the trunks' windward side,
     more red litter, puddles in hollows.
-28. [B] Far trunks fading in steps: the fog's density and colour tuned so the near, mid and far trunks separate.
-29. [B] Arrivals keep their open floor; the first view takes in a flared, relief trunk close by.
-30. [C] The glow rooms' floors: a few lit pools of light under the Sorries; moss carpets with glowing specks.
+28. [B] [skipped: the fog is already thin (0.0056); the shafts and the relief do the separating] Far trunks fading in steps: the fog's density and colour tuned so the near, mid and far trunks separate.
+29. [B] [done: unchanged arrivals; the trunks round them now in relief with flares] Arrivals keep their open floor; the first view takes in a flared, relief trunk close by.
+30. [C] [partly: glowcap clusters drop glowing spores round them; no pools of light] The glow rooms' floors: a few lit pools of light under the Sorries; moss carpets with glowing specks.
 
 **4. Lore**
 31. [B] [done: `l23-nest` on about one long limb in six] Curabitur birds' nests (twigs in the limbs) as a sign of the birds the lore lists (inv.: nest only).
-32. [B] Base Seedling's Almond Water: a water butt with a tap by the spring labelled for squirt-gun refills (looks only).
+32. [B] [skipped: the barrels are labelled DRINKING WATER; a butt would be one more look-only drink] Base Seedling's Almond Water: a water butt with a tap by the spring labelled for squirt-gun refills (looks only).
 33. [C] [done: the amphora in octagonal bands with handles; no bowl] Pottery: the amphora with handles and a neck, painted bands; a bowl.
-34. [C] Cloth rags hung over stones, not only on the floor.
+34. [C] [skipped: time] Cloth rags hung over stones, not only on the floor.
 
 **5. Alignment with the other levels**
 35. [A] [done: trunk-foot, trunk-limbs, seedling-tent, seedling-fire, ruin-statue; F7 entries] Showcase spots and F7 entries for the new and rebuilt pieces (tent, fire ring, counter, columns, statue, lily
