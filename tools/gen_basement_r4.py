@@ -1276,9 +1276,10 @@ def lamp(lit):
     els += [b("SocketRing", (6.5, 8.0, 6.5), (9.5, 8.4, 9.5), "brass"),
             b("Chain", (9.2, 4.5, 7.9), (9.4, 9.0, 8.1), "brass"), b("ChainBead", (9.0, 4.0, 7.7), (9.6, 4.6, 8.3), "brass")]
     # the bulb: a neck and a round body, the filament glowing inside when lit
-    els += [b("Neck", (7.2, 6.8, 7.2), (8.8, 8.0, 8.8), bulb, glow=g)]
-    els += oct_xz("Bulb", 8, 8, 1.6, 4.0, 6.8, bulb)
-    for e in els[-2:]:
+    els += [b("Neck", (7.4, 6.6, 7.4), (8.6, 8.0, 8.6), bulb, glow=g)]
+    els += oct_xz("Bulb", 8, 8, 1.3, 4.4, 6.6, bulb)
+    els += oct_xz("BulbTip", 8, 8, 0.8, 4.0, 4.4, bulb)
+    for e in els[-8:]:
         for f in e["faces"].values():
             if g:
                 f["glow"] = g
@@ -1580,7 +1581,7 @@ def blocks():
              "The Basement: the rec room's home bar, two blocks long (half l, r): the counter in red vinyl (lower), the mirror, "
              "the shelves of bottles and the neon sign on the wall over it (upper, lit)", box=(0, 0, 0.2, 1, 1, 1),
              drops=[{"type": "item", "code": "emptybottle", "quantity": {"avg": 0.5, "var": 0.5}}],
-             groups=[("half", ["l", "r"]), ("part", ["lower", "upper"])], light={"*-upper-*": [0, 5, 7]})
+             groups=[("half", ["l", "r"]), ("part", ["lower", "upper"])], light={"*-upper-*": [0, 5, 9]})
     patch_upper_no_collide(os.path.join(BLOCKS, "basement-bar.json"), sel=(0, 0, 0.75, 1, 1, 1))
     oriented("basement-stool", "Bar stool", {(): shape("stool", stool())},
              "The Basement: a chrome bar stool with a red vinyl seat", material="Metal", sounds=METAL,

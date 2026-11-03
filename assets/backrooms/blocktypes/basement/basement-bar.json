@@ -130,7 +130,7 @@
 		"*-upper-*": [
 			0,
 			5,
-			7
+			9
 		]
 	},
 	"collisionboxByType": {
