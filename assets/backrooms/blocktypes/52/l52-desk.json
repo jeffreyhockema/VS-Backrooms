@@ -144,6 +144,38 @@
 				"avg": 0.3,
 				"var": 0.3
 			}
+		},
+		{
+			"type": "item",
+			"code": "chalk-red",
+			"quantity": {
+				"avg": 0.0075,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "chalk-blue",
+			"quantity": {
+				"avg": 0.0075,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "chalk-yellow",
+			"quantity": {
+				"avg": 0.0075,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
+			"code": "chalk-green",
+			"quantity": {
+				"avg": 0.0075,
+				"var": 0
+			}
 		}
 	]
 }

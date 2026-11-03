@@ -74,7 +74,7 @@ public class ItemChalk : Item
         string side;
         if (IsMark(clicked))
         {
-            // Clicking an existing mark changes it in place
+            // Clicking an existing mark changes it in place (to the colour of the stick in hand)
             at = blockSel.Position.Copy();
             side = clicked.Variant["side"];
         }
@@ -97,7 +97,10 @@ public class ItemChalk : Item
         if (player != null && !world.Claims.TryAccess(player, at, EnumBlockAccessFlags.BuildOrBreak)) return;
 
         string symbol = Symbols[Math.Clamp(GetToolMode(slot, player, blockSel), 0, Symbols.Length - 1)];
-        Block mark = world.GetBlock(new AssetLocation("backrooms", $"chalkmark-{symbol}-{side}"));
+        // White chalk (backrooms:chalk) keeps the original mark codes; a coloured stick (chalk-red...) places chalkmark-{colour}-...
+        string stick = slot.Itemstack?.Collectible?.Code?.Path ?? "chalk";
+        string colour = stick.StartsWith("chalk-", StringComparison.Ordinal) ? stick.Substring(6) + "-" : "";
+        Block mark = world.GetBlock(new AssetLocation("backrooms", $"chalkmark-{colour}{symbol}-{side}"));
         if (mark == null || mark.BlockId == world.BlockAccessor.GetBlock(at).BlockId) return;
         world.BlockAccessor.SetBlock(mark.BlockId, at);
         world.PlaySoundAt(new AssetLocation("backrooms:sounds/effect/chalk"), at.X + 0.5, at.Y + 0.5, at.Z + 0.5, null, randomizePitch: true, range: 8);
