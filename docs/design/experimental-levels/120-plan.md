@@ -692,3 +692,12 @@ glow-in-the-dark plates. All from real data halls; the lore says only "massive b
   on the top rail read as a white comb; the swing handles, hinges and feet in chrome read as pale tags in the dark; the
   fire suppression and console spots looked along the wall / at the monitors' backs; the rack close-ups looked at the
   trays; the cardboard boxes on the shelving were flat orange fills up close.
+
+### Questions for the user (round 4)
+1. Most server racks now stand behind perforated doors (as real ones do), so a row reads as a dark mesh wall with its LEDs
+   through it; one bank in five is a doorless storage array and one in five a network rack with its cords. More doorless
+   racks (more to see by torchlight), or keep the doors?
+2. The passages' duct is now the level's own galvanised duct, not Level 2's pipe bundle: keep it, or keep the pipes as a
+   tie to Level 2?
+3. The fire suppression bank, tape libraries and the newer desks with monitors on arms are inventions from real data
+   halls (the lore only says "massive blocks of computers ripped apart"): keep, or keep the level closer to the bare lore?
