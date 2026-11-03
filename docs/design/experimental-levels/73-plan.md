@@ -734,6 +734,22 @@ the dead on the hill's flanks; Coran's mantle.
 - The castle now borrows only the beds (sleepable), from the hotel: is a castle bed frame worth changing the shared bed
   shape for?
 
+### What the shots showed (round 4)
+
+Run 1 (`%TEMP%/backrooms-shots/73-r4a`, no torch, 36 shots; the lock came after three and a half hours of queue):
+- The castle reads as a castle at last: the two drum towers with their conical roofs either side of the pointed arch,
+  the portcullis's spiked grid overhead in the arch, machicolations and capped merlons along every wall, the corner
+  towers' steep cones, slits with their cross-arms, the keep's front with buttresses, framed windows glowing between
+  their boards, string courses, the gabled hood over the door; the attic is a coped, crossed gable and a slate roof with
+  dormers and cresting.
+- The Great Hound reads as a beast's skeleton (skull, open jaw, the arched spine and its processes, ribs to the ground,
+  legs and claws); Coran in plate with ring chains and the glowing heart; the dining hall's carved chairs, goblets and
+  plates, the high chair; the rooms' chandeliers, armoires, wing chairs, settees, low tables, bookcases, the clock.
+- Wrong: the eave's fascia showed a strip of another texture (book spines) and the drums' curves fine vertical stripes:
+  faces outside the block had been given zero-size UVs at the texture's edge; fixed (every shape regenerated).
+- Still weak: the grand stair's treads are the hotel's white stair blocks; the far fields and the random arrivals stay
+  very dark (the lore's night, no torch); the skull is still boxy close to.
+
 ### Checks (round 4)
 
 `expclash` clean; mod and mapgen build with 0 errors (tags 73, 73b, 73g); `layouthash` (`BACKROOMS_NO_EXP_ENTRANCES=1`) at
