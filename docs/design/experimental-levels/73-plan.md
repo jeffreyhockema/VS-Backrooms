@@ -562,3 +562,87 @@ arrivals 57-133 from the gate); headless (port 43102) dummy placed in Level 73 w
   in `Regions/L73System.cs`, which this round did not touch.
 - The far fields stay as dark as the lore asks (no light outside): is that the look you want in screenshots, or should
   the moonlight be a shade brighter away from the castle?
+
+## Round 4 (2026-11-02): the asset-quality pass
+
+From the round-3 final sheet (`%TEMP%/backrooms-shots/final-r3/73/sheet.jpg`), the lead's round-4 notes, round 3's
+"Still weak", the brief and DECISIONS.md, and the released levels' best props (188's street kit, Fun's set pieces, the
+detail kit, the Hub). Tier A must, B should, C nice. Inventions are marked (inv.).
+
+### List
+
+**1. Assets to rebuild to the bar**
+1. [A] `l73-sconce`: a real wall candle-lamp (back plate, curled iron arm, drip pan, candle with wax drips, a flame
+   that glows) instead of a box with a picture.
+2. [A] A real **chandelier** (`l73-chandelier`: an iron ring of candles with drip cups and flames, a central boss,
+   hung on a chain from a ceiling rose) and a floor **candelabrum** (`l73-candelabrum`) for the halls, replacing the
+   hotel's crystal ones the castle borrowed.
+3. [A] `l73-fire`: logs crossed on firedogs as rotated round logs (bark, cut ends), layered flame planes with glow,
+   embers bright only where they burn; the dining hearth's and the kitchen's as the same family.
+4. [A] `l73-tapestry`: cloth hung from an iron rod on brackets with finials, a hem and a fringe, a slight belly, not a
+   flat painted board.
+5. [A] `l73-canopy`: four-posters with turned posts (bases, collars, finials), a carved tester, drapes in folds held
+   by tie-backs.
+6. [A] `l73-table` (set): pewter plates with rims, goblets with stems, a candlestick in the middle, knife and spoon;
+   a carved **high chair** (`l73-highchair`) at the head of the table (Coran's place, inv.).
+7. [A] `l73-barrel` / `l73-bath`: staved barrels with a bulge, three iron hoops and a chime; the bath's water sunk
+   inside the rim.
+8. [A] `l73-bone` (the Great Hound): sculpted skull with jaw, teeth, sockets and brow, vertebrae with processes,
+   ribs as rotated curved segments, limb bones with knuckled ends, as one multi-block piece.
+9. [A] Coran's model (`gen_73_coran.py`): more elements: chain links with depth, gauntlets with knuckles, fingers and
+   spikes, the eye necklace, a tattered mantle (see 41 on the lantern and hood).
+10. [A] `l73-silverwall`: masonry with wear: weathering variants for the plinth course (moss, damp), streaks under
+    the crenels, quoins at the corners in a paler dressed stone.
+11. [B] A **bookcase** of the castle's own (`l73-bookcase`): shelves with spines of varied height, colour and lean,
+    a book lying flat, for the library and the solar (the hotel's shelves are a picture).
+12. [B] `l73-hookmeat` / `l73-carcass`: an iron rail with S-hooks and sculpted carcasses (ribs, hide, a limb); heaps
+    of the dead as bones and rags, not blocks.
+13. [B] `l73-deadwood` / `l73-deadbranch`: silhouettes with forking rotated branches and twigs.
+14. [B] `l73-boulder`: faceted rocks of several boxes, a moss-dark foot.
+15. [B] `l73-potrack`: copper pots and pans with handles and lids on hooks.
+16. [B] `l73-door`: iron strap hinges, studs and a ring pull as real boxes.
+17. [C] `l73-chest`, `l73-washstand`, `l73-well`: edge banding, straps, a windlass on the well.
+
+**2. Multi-block set pieces**
+18. [A] **The attic** (the lead: "fix that first"): a pitched slate roof with gables, a ridge with cresting, dormers
+    with leaded windows, the balcony with a stone balustrade and its door, the chimney stacks rising through it.
+19. [A] **The gatehouse**: two drum towers (round in plan), a pointed arch with a **portcullis** hanging into it,
+    machicolations over the gate, arrow slits, banners on the towers.
+20. [A] **Machicolations and crenels**: corbelled parapets on the curtain wall's towers and the keep, merlons with
+    caps, arrow slits in the towers.
+21. [A] **The keep's front**: quoins, string courses, buttresses, the pointed window heads with the boards behind and
+    a warm glow between the boards (see 28).
+22. [B] **A dry ditch and stone bridge** before the gate (inv.: the page has a gatehouse, no ditch).
+23. [B] The corner towers round (drum) with conical slate roofs.
+24. [B] The **dining hall** as one set: the high chair, the place settings, candelabra on the table, the hearth.
+25. [B] The **chandeliers** hung on chains through the beams in the main hall and the dining hall.
+26. [C] The well with a windlass and bucket; the cart with spoked wheels.
+
+**3. Level design**
+27. [A] **The island at night**: keep the lore's dark but let things read: a faint moon rim (scene brightness a shade
+    up on the fields, lighter top texels on ridges and rocks), the castle as the one warm thing.
+28. [A] **Windows glow**: light leaks between the boards of the keep's windows (emissive cracks, a low warm light on
+    the outside face) so the path and courtyard read; no lamp outside (the lore).
+29. [B] **The shore**: black rocks at the waterline and wreckage (ribs of a boat, planks, a crate) on the beaches.
+30. [B] **Heaps of the dead** on the fields sculpted (bones, rags, a pack), near the castle's hill where Coran leaves
+    them.
+31. [B] The arrival view: the castle's outline and glow read from 60-120 blocks.
+32. [C] A guard room in a gatehouse tower (racks, a bench, a brazier) (inv.).
+
+**4. Lore**
+33. [A] Coran's device on the gatehouse and keep: large banners (silver heart, ram's horns, black field) hung from
+    poles with finials.
+34. [A] The attic reads "off-limits" from the roof: the chained door, the balcony.
+35. [B] The paintings in real gilt frames with depth.
+36. [B] The table of plenty: "silverware at the grand mahogany table": silver plates and goblets.
+37. [C] The visitors' book readable.
+
+**5. Alignment with the other levels**
+38. [A] Look for shared candles, lanterns, braziers, banners (Level 47's `candles`, `lantern`, `brazier`, `banner`) and
+    the Hub's / 188's lights; reuse or retint before building new.
+39. [B] Barrels and crates: share with 23/47 where theirs are better; else 73's to the bar.
+40. [B] Showcase spots and F7 entries for the rebuilt set pieces (attic, gatehouse, chandelier, the Hound up close,
+    the shore).
+41. [B] Coran stays to the lore (no arms but chains, blind): no lantern and no hood (the lead's note; a lantern
+    outside breaks the light rule and he has no eyes); a mantle instead.
+42. [C] "Shared assets below the bar" written for the lead (the hotel chandelier, bookshelves, beds).
