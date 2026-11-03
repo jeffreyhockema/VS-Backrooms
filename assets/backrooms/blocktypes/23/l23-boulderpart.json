@@ -1,0 +1,114 @@
+// Level 23 (round 4): a boulder's rounded top and edges, mossed on top
+{
+	"code": "l23-boulderpart",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"cap",
+				"edge",
+				"corner"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-cap-north"
+		],
+		"backrooms": [
+			"*-cap-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-cap-north": {
+			"base": "block/23/boulder-cap",
+			"rotateY": 0
+		},
+		"*-cap-east": {
+			"base": "block/23/boulder-cap",
+			"rotateY": 270
+		},
+		"*-cap-south": {
+			"base": "block/23/boulder-cap",
+			"rotateY": 180
+		},
+		"*-cap-west": {
+			"base": "block/23/boulder-cap",
+			"rotateY": 90
+		},
+		"*-edge-north": {
+			"base": "block/23/boulder-edge",
+			"rotateY": 0
+		},
+		"*-edge-east": {
+			"base": "block/23/boulder-edge",
+			"rotateY": 270
+		},
+		"*-edge-south": {
+			"base": "block/23/boulder-edge",
+			"rotateY": 180
+		},
+		"*-edge-west": {
+			"base": "block/23/boulder-edge",
+			"rotateY": 90
+		},
+		"*-corner-north": {
+			"base": "block/23/boulder-corner",
+			"rotateY": 0
+		},
+		"*-corner-east": {
+			"base": "block/23/boulder-corner",
+			"rotateY": 270
+		},
+		"*-corner-south": {
+			"base": "block/23/boulder-corner",
+			"rotateY": 180
+		},
+		"*-corner-west": {
+			"base": "block/23/boulder-corner",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"resistance": 4,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stone-granite",
+			"quantity": {
+				"avg": 2,
+				"var": 1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"textures": {
+		"stone": {
+			"base": "block/23/boulder"
+		},
+		"moss": {
+			"base": "block/23/moss-cushion"
+		}
+	}
+}

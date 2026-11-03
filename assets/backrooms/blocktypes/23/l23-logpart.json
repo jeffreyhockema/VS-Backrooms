@@ -1,0 +1,198 @@
+// Level 23 (round 4): a fallen log's cell, a slice of its round section (one, two or three blocks across), rings on its ends
+{
+	"code": "l23-logpart",
+	"variantgroups": [
+		{
+			"code": "bark",
+			"states": [
+				"grey",
+				"red",
+				"pale",
+				"dark",
+				"aspen"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"s1",
+				"s2a",
+				"s2b",
+				"s2c",
+				"s2d",
+				"s3a",
+				"s3b",
+				"s3c",
+				"s3d",
+				"s3e",
+				"s3f"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"x",
+				"z"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-s1-x"
+		],
+		"backrooms": [
+			"*-s1-x"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-s1-x": {
+			"base": "block/23/logpart-s1-x"
+		},
+		"*-s1-z": {
+			"base": "block/23/logpart-s1-z"
+		},
+		"*-s2a-x": {
+			"base": "block/23/logpart-s2a-x"
+		},
+		"*-s2a-z": {
+			"base": "block/23/logpart-s2a-z"
+		},
+		"*-s2b-x": {
+			"base": "block/23/logpart-s2b-x"
+		},
+		"*-s2b-z": {
+			"base": "block/23/logpart-s2b-z"
+		},
+		"*-s2c-x": {
+			"base": "block/23/logpart-s2c-x"
+		},
+		"*-s2c-z": {
+			"base": "block/23/logpart-s2c-z"
+		},
+		"*-s2d-x": {
+			"base": "block/23/logpart-s2d-x"
+		},
+		"*-s2d-z": {
+			"base": "block/23/logpart-s2d-z"
+		},
+		"*-s3a-x": {
+			"base": "block/23/logpart-s3a-x"
+		},
+		"*-s3a-z": {
+			"base": "block/23/logpart-s3a-z"
+		},
+		"*-s3b-x": {
+			"base": "block/23/logpart-s3b-x"
+		},
+		"*-s3b-z": {
+			"base": "block/23/logpart-s3b-z"
+		},
+		"*-s3c-x": {
+			"base": "block/23/logpart-s3c-x"
+		},
+		"*-s3c-z": {
+			"base": "block/23/logpart-s3c-z"
+		},
+		"*-s3d-x": {
+			"base": "block/23/logpart-s3d-x"
+		},
+		"*-s3d-z": {
+			"base": "block/23/logpart-s3d-z"
+		},
+		"*-s3e-x": {
+			"base": "block/23/logpart-s3e-x"
+		},
+		"*-s3e-z": {
+			"base": "block/23/logpart-s3e-z"
+		},
+		"*-s3f-x": {
+			"base": "block/23/logpart-s3f-x"
+		},
+		"*-s3f-z": {
+			"base": "block/23/logpart-s3f-z"
+		}
+	},
+	"texturesByType": {
+		"*-grey-*": {
+			"bark": {
+				"base": "block/23/bark-grey"
+			},
+			"ring": {
+				"base": "block/23/heartwood-grey"
+			},
+			"moss": {
+				"base": "block/23/moss-cushion"
+			}
+		},
+		"*-red-*": {
+			"bark": {
+				"base": "block/23/bark-red"
+			},
+			"ring": {
+				"base": "block/23/heartwood-red"
+			},
+			"moss": {
+				"base": "block/23/moss-cushion"
+			}
+		},
+		"*-pale-*": {
+			"bark": {
+				"base": "block/23/bark-pale"
+			},
+			"ring": {
+				"base": "block/23/heartwood-pale"
+			},
+			"moss": {
+				"base": "block/23/moss-cushion"
+			}
+		},
+		"*-dark-*": {
+			"bark": {
+				"base": "block/23/bark-dark"
+			},
+			"ring": {
+				"base": "block/23/heartwood-dark"
+			},
+			"moss": {
+				"base": "block/23/moss-cushion"
+			}
+		},
+		"*-aspen-*": {
+			"bark": {
+				"base": "block/23/bark-aspen"
+			},
+			"ring": {
+				"base": "block/23/heartwood-aspen"
+			},
+			"moss": {
+				"base": "block/23/moss-cushion"
+			}
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 7,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/planks",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

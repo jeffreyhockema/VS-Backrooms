@@ -1,0 +1,790 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"stone": "backrooms:block/23/boulder",
+		"moss": "backrooms:block/23/moss-cushion"
+	},
+	"elements": [
+		{
+			"name": "Step00",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				4,
+				4.5,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						11.5,
+						4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						11.5,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						11.5,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						11.5,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Step01",
+			"from": [
+				0,
+				0,
+				4
+			],
+			"to": [
+				4,
+				8.5,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						7.5,
+						4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						7.5,
+						8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						7.5,
+						8,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						7.5,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						4,
+						4,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Step02",
+			"from": [
+				0,
+				0,
+				8
+			],
+			"to": [
+				4,
+				11.5,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						4.5,
+						4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						4.5,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						4.5,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						4.5,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						8,
+						4,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Step03",
+			"from": [
+				0,
+				0,
+				12
+			],
+			"to": [
+				4,
+				13.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						2.5,
+						4,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						2.5,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						2.5,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						2.5,
+						4,
+						16
+					]
+				},
+				"up": {
+					"texture": "#moss",
+					"uv": [
+						0,
+						12,
+						4,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Step10",
+			"from": [
+				4,
+				0,
+				0
+			],
+			"to": [
+				8,
+				4.5,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						11.5,
+						8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						11.5,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						11.5,
+						4,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						11.5,
+						8,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						0,
+						8,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Step11",
+			"from": [
+				4,
+				0,
+				4
+			],
+			"to": [
+				8,
+				8.5,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						7.5,
+						8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						7.5,
+						8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						7.5,
+						8,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						7.5,
+						8,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						4,
+						8,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Step12",
+			"from": [
+				4,
+				0,
+				8
+			],
+			"to": [
+				8,
+				11.5,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						4.5,
+						8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						4.5,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						4.5,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						4.5,
+						8,
+						16
+					]
+				},
+				"up": {
+					"texture": "#moss",
+					"uv": [
+						4,
+						8,
+						8,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Step13",
+			"from": [
+				4,
+				0,
+				12
+			],
+			"to": [
+				8,
+				11.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						4.5,
+						8,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						4.5,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						4.5,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						4.5,
+						8,
+						16
+					]
+				},
+				"up": {
+					"texture": "#moss",
+					"uv": [
+						4,
+						12,
+						8,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Step21",
+			"from": [
+				8,
+				0,
+				4
+			],
+			"to": [
+				12,
+				4.5,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						11.5,
+						12,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						11.5,
+						8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						4,
+						11.5,
+						8,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						11.5,
+						12,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						4,
+						12,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Step22",
+			"from": [
+				8,
+				0,
+				8
+			],
+			"to": [
+				12,
+				8.5,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						7.5,
+						12,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						7.5,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						7.5,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						7.5,
+						12,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						8,
+						12,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Step23",
+			"from": [
+				8,
+				0,
+				12
+			],
+			"to": [
+				12,
+				8.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						7.5,
+						12,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						7.5,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						7.5,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						7.5,
+						12,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						12,
+						12,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Step32",
+			"from": [
+				12,
+				0,
+				8
+			],
+			"to": [
+				16,
+				4.5,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						11.5,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						11.5,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						8,
+						11.5,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						11.5,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						8,
+						16,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Step33",
+			"from": [
+				12,
+				0,
+				12
+			],
+			"to": [
+				16,
+				4.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						11.5,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						11.5,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						11.5,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						11.5,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						12,
+						12,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

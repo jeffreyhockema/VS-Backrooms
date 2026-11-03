@@ -805,7 +805,8 @@ LANG = [
 def lang_entries():
     """Every key of the level's block: the ones above and the notes' track (the handbook page is gen_guide.py's LEVELS row 28)."""
     import gen_23_r3
-    entries = list(LANG) + list(gen_23_r3.LANG)
+    import gen_23_r4
+    entries = list(LANG) + list(gen_23_r3.LANG) + list(gen_23_r4.LANG)
     import gen_notes
     for t in gen_notes.TRACKS:
         if t.level == gen_notes.L23:
@@ -937,6 +938,10 @@ def main():
     import gen_23_r3
     gen_23_r3.textures(save)
     blocks += gen_23_r3.blocks()
+    # Round 4 (2026-11-02): the trunks' skin, root flares, limbs, round logs, caps' rims, boulders' tops (tools/gen_23_r4.py)
+    import gen_23_r4
+    gen_23_r4.textures(save)
+    blocks += gen_23_r4.blocks()
     bt = os.path.join(ASSETS, "blocktypes", "23")
     for comment, b in blocks:
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
@@ -948,6 +953,8 @@ def main():
     write_json(os.path.join(sh, "amphora.json"), None, amphora_shape())
     write_json(os.path.join(sh, "shards.json"), None, shards_shape())
     for name, shp in gen_23_r3.shapes().items():
+        write_json(os.path.join(sh, name + ".json"), None, shp)
+    for name, shp in gen_23_r4.shapes().items():
         write_json(os.path.join(sh, name + ".json"), None, shp)
     write_lang()
     print(f"gen_23: {len(blocks)} blocktypes, shapes, textures, lang")

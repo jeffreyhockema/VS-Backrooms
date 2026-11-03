@@ -142,6 +142,7 @@ public sealed partial class WorldGenerator
         floorIds[(int)FloorKind.L23Earth] = l23Earth;
         floorIds[(int)FloorKind.L23Bark] = l23Bark[WorldLayout.L23BarkGrey];
         floorIds[(int)FloorKind.L23Water] = l23Gravel;
+        InitL23Skin();
     }
 
     /// <summary>One column of the level, worked out whole: its block and fluid at every height from <see cref="L23Low"/> up.</summary>
@@ -273,6 +274,8 @@ public sealed partial class WorldGenerator
         // Round 3: bracket fungi up the trunks' sides
         if (!core && layout.L23BracketAt(gx, gz, out int brRel, out ArchPier brFacing) && brRel > ground && brRel - L23Low < L23Height && b[brRel - L23Low] == 0)
             b[brRel - L23Low] = l23Bracket[Facing(brFacing)];
+        // Round 4: the trunks' outer bark in relief, the logs', caps' and boulders' rounded pieces (WorldGenerator.L23.Skin.cs)
+        L23DressWood(c, gx, gz, ground);
 
         // ---- The lid ----
         int lidBottom = layout.L23LidBottom(gx, gz), denseFrom = layout.L23DenseFrom(gx, gz);
@@ -329,10 +332,12 @@ public sealed partial class WorldGenerator
             L23Carve(c, gx, gz, f, ceil, cave);
         }
         // ---- The tunnels ----
+        bool inTunnel = false;
         if (layout.L23Tunnel(gx, gz, out int tf, out int tc, out double off, out CaveKind tunnelTo))
         {
             if (off < 1)
             {
+                inTunnel = true;
                 for (int rel = tf + 1; rel < tc; rel++)
                 {
                     int i = rel - L23Low;
@@ -360,6 +365,9 @@ public sealed partial class WorldGenerator
                     b[tf + 2 - L23Low] = l23Latin[(int)(L23Hash(gx, gz, 25) % 4)];
             }
         }
+
+        // Round 4: root flares at the trunks' feet, limbs out of their sides (WorldGenerator.L23.Skin.cs)
+        if (!core || ground > WorldLayout.L23PoolSurface) L23DressAir(c, gx, gz, ground, inTunnel);
 
         // ---- What stands on the floor: Base Seedling's tents and stores, the supply boxes ----
         if (t.Variant != 0 || t.SupplyBox)

@@ -1,0 +1,239 @@
+// Level 23 (round 4): a root flare at a trunk's foot (the trunk on its back), its slope mossed; a step
+{
+	"code": "l23-flare",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"moss",
+				"green"
+			]
+		},
+		{
+			"code": "form",
+			"states": [
+				"full",
+				"root"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-moss-full-north"
+		],
+		"backrooms": [
+			"*-moss-full-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-moss-full-north": {
+			"base": "block/23/flare-full",
+			"rotateY": 0
+		},
+		"*-moss-full-east": {
+			"base": "block/23/flare-full",
+			"rotateY": 270
+		},
+		"*-moss-full-south": {
+			"base": "block/23/flare-full",
+			"rotateY": 180
+		},
+		"*-moss-full-west": {
+			"base": "block/23/flare-full",
+			"rotateY": 90
+		},
+		"*-moss-root-north": {
+			"base": "block/23/flare-root",
+			"rotateY": 0
+		},
+		"*-moss-root-east": {
+			"base": "block/23/flare-root",
+			"rotateY": 270
+		},
+		"*-moss-root-south": {
+			"base": "block/23/flare-root",
+			"rotateY": 180
+		},
+		"*-moss-root-west": {
+			"base": "block/23/flare-root",
+			"rotateY": 90
+		},
+		"*-green-full-north": {
+			"base": "block/23/flare-full",
+			"rotateY": 0
+		},
+		"*-green-full-east": {
+			"base": "block/23/flare-full",
+			"rotateY": 270
+		},
+		"*-green-full-south": {
+			"base": "block/23/flare-full",
+			"rotateY": 180
+		},
+		"*-green-full-west": {
+			"base": "block/23/flare-full",
+			"rotateY": 90
+		},
+		"*-green-root-north": {
+			"base": "block/23/flare-root",
+			"rotateY": 0
+		},
+		"*-green-root-east": {
+			"base": "block/23/flare-root",
+			"rotateY": 270
+		},
+		"*-green-root-south": {
+			"base": "block/23/flare-root",
+			"rotateY": 180
+		},
+		"*-green-root-west": {
+			"base": "block/23/flare-root",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"resistance": 7,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.3,
+				"var": 0.3
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/planks",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"texturesByType": {
+		"*-moss-full-*": {
+			"top": {
+				"base": "block/23/moss"
+			},
+			"side": {
+				"base": "block/23/mossbark"
+			}
+		},
+		"*-moss-root-*": {
+			"top": {
+				"base": "block/23/moss"
+			},
+			"side": {
+				"base": "block/23/mossbark"
+			}
+		},
+		"*-green-full-*": {
+			"top": {
+				"base": "block/23/moss-2"
+			},
+			"side": {
+				"base": "block/23/bark-green"
+			}
+		},
+		"*-green-root-*": {
+			"top": {
+				"base": "block/23/moss-2"
+			},
+			"side": {
+				"base": "block/23/bark-green"
+			}
+		}
+	},
+	"collisionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.35,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.35,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.35,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.35,
+			"x2": 1,
+			"y2": 0.5,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 0.6,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"lightAbsorption": 0
+}

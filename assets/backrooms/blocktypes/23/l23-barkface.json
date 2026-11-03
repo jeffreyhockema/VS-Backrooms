@@ -1,0 +1,420 @@
+// Level 23 (round 4): a trunk's outer bark near eye height in relief (fissures, ridges, plates), facing out; the trunk's own block
+{
+	"code": "l23-barkface",
+	"variantgroups": [
+		{
+			"code": "bark",
+			"states": [
+				"grey",
+				"red",
+				"pale",
+				"dark",
+				"green",
+				"aspen",
+				"moss"
+			]
+		},
+		{
+			"code": "pattern",
+			"states": [
+				"a",
+				"b"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-grey-a-north"
+		],
+		"backrooms": [
+			"*-grey-a-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-grey-a-north": {
+			"base": "block/23/barkface-furrow-a",
+			"rotateY": 0
+		},
+		"*-grey-a-east": {
+			"base": "block/23/barkface-furrow-a",
+			"rotateY": 270
+		},
+		"*-grey-a-south": {
+			"base": "block/23/barkface-furrow-a",
+			"rotateY": 180
+		},
+		"*-grey-a-west": {
+			"base": "block/23/barkface-furrow-a",
+			"rotateY": 90
+		},
+		"*-grey-b-north": {
+			"base": "block/23/barkface-furrow-b",
+			"rotateY": 0
+		},
+		"*-grey-b-east": {
+			"base": "block/23/barkface-furrow-b",
+			"rotateY": 270
+		},
+		"*-grey-b-south": {
+			"base": "block/23/barkface-furrow-b",
+			"rotateY": 180
+		},
+		"*-grey-b-west": {
+			"base": "block/23/barkface-furrow-b",
+			"rotateY": 90
+		},
+		"*-red-a-north": {
+			"base": "block/23/barkface-fibre-a",
+			"rotateY": 0
+		},
+		"*-red-a-east": {
+			"base": "block/23/barkface-fibre-a",
+			"rotateY": 270
+		},
+		"*-red-a-south": {
+			"base": "block/23/barkface-fibre-a",
+			"rotateY": 180
+		},
+		"*-red-a-west": {
+			"base": "block/23/barkface-fibre-a",
+			"rotateY": 90
+		},
+		"*-red-b-north": {
+			"base": "block/23/barkface-fibre-b",
+			"rotateY": 0
+		},
+		"*-red-b-east": {
+			"base": "block/23/barkface-fibre-b",
+			"rotateY": 270
+		},
+		"*-red-b-south": {
+			"base": "block/23/barkface-fibre-b",
+			"rotateY": 180
+		},
+		"*-red-b-west": {
+			"base": "block/23/barkface-fibre-b",
+			"rotateY": 90
+		},
+		"*-pale-a-north": {
+			"base": "block/23/barkface-plate-a",
+			"rotateY": 0
+		},
+		"*-pale-a-east": {
+			"base": "block/23/barkface-plate-a",
+			"rotateY": 270
+		},
+		"*-pale-a-south": {
+			"base": "block/23/barkface-plate-a",
+			"rotateY": 180
+		},
+		"*-pale-a-west": {
+			"base": "block/23/barkface-plate-a",
+			"rotateY": 90
+		},
+		"*-pale-b-north": {
+			"base": "block/23/barkface-plate-b",
+			"rotateY": 0
+		},
+		"*-pale-b-east": {
+			"base": "block/23/barkface-plate-b",
+			"rotateY": 270
+		},
+		"*-pale-b-south": {
+			"base": "block/23/barkface-plate-b",
+			"rotateY": 180
+		},
+		"*-pale-b-west": {
+			"base": "block/23/barkface-plate-b",
+			"rotateY": 90
+		},
+		"*-dark-a-north": {
+			"base": "block/23/barkface-string-a",
+			"rotateY": 0
+		},
+		"*-dark-a-east": {
+			"base": "block/23/barkface-string-a",
+			"rotateY": 270
+		},
+		"*-dark-a-south": {
+			"base": "block/23/barkface-string-a",
+			"rotateY": 180
+		},
+		"*-dark-a-west": {
+			"base": "block/23/barkface-string-a",
+			"rotateY": 90
+		},
+		"*-dark-b-north": {
+			"base": "block/23/barkface-string-b",
+			"rotateY": 0
+		},
+		"*-dark-b-east": {
+			"base": "block/23/barkface-string-b",
+			"rotateY": 270
+		},
+		"*-dark-b-south": {
+			"base": "block/23/barkface-string-b",
+			"rotateY": 180
+		},
+		"*-dark-b-west": {
+			"base": "block/23/barkface-string-b",
+			"rotateY": 90
+		},
+		"*-green-a-north": {
+			"base": "block/23/barkface-giant-a",
+			"rotateY": 0
+		},
+		"*-green-a-east": {
+			"base": "block/23/barkface-giant-a",
+			"rotateY": 270
+		},
+		"*-green-a-south": {
+			"base": "block/23/barkface-giant-a",
+			"rotateY": 180
+		},
+		"*-green-a-west": {
+			"base": "block/23/barkface-giant-a",
+			"rotateY": 90
+		},
+		"*-green-b-north": {
+			"base": "block/23/barkface-giant-b",
+			"rotateY": 0
+		},
+		"*-green-b-east": {
+			"base": "block/23/barkface-giant-b",
+			"rotateY": 270
+		},
+		"*-green-b-south": {
+			"base": "block/23/barkface-giant-b",
+			"rotateY": 180
+		},
+		"*-green-b-west": {
+			"base": "block/23/barkface-giant-b",
+			"rotateY": 90
+		},
+		"*-aspen-a-north": {
+			"base": "block/23/barkface-smooth-a",
+			"rotateY": 0
+		},
+		"*-aspen-a-east": {
+			"base": "block/23/barkface-smooth-a",
+			"rotateY": 270
+		},
+		"*-aspen-a-south": {
+			"base": "block/23/barkface-smooth-a",
+			"rotateY": 180
+		},
+		"*-aspen-a-west": {
+			"base": "block/23/barkface-smooth-a",
+			"rotateY": 90
+		},
+		"*-aspen-b-north": {
+			"base": "block/23/barkface-smooth-b",
+			"rotateY": 0
+		},
+		"*-aspen-b-east": {
+			"base": "block/23/barkface-smooth-b",
+			"rotateY": 270
+		},
+		"*-aspen-b-south": {
+			"base": "block/23/barkface-smooth-b",
+			"rotateY": 180
+		},
+		"*-aspen-b-west": {
+			"base": "block/23/barkface-smooth-b",
+			"rotateY": 90
+		},
+		"*-moss-a-north": {
+			"base": "block/23/barkface-furrow-moss-a",
+			"rotateY": 0
+		},
+		"*-moss-a-east": {
+			"base": "block/23/barkface-furrow-moss-a",
+			"rotateY": 270
+		},
+		"*-moss-a-south": {
+			"base": "block/23/barkface-furrow-moss-a",
+			"rotateY": 180
+		},
+		"*-moss-a-west": {
+			"base": "block/23/barkface-furrow-moss-a",
+			"rotateY": 90
+		},
+		"*-moss-b-north": {
+			"base": "block/23/barkface-furrow-moss-b",
+			"rotateY": 0
+		},
+		"*-moss-b-east": {
+			"base": "block/23/barkface-furrow-moss-b",
+			"rotateY": 270
+		},
+		"*-moss-b-south": {
+			"base": "block/23/barkface-furrow-moss-b",
+			"rotateY": 180
+		},
+		"*-moss-b-west": {
+			"base": "block/23/barkface-furrow-moss-b",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"resistance": 7,
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/planks",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"texturesByType": {
+		"*-grey-a-*": {
+			"bark": {
+				"base": "block/23/bark-grey"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-grey"
+			}
+		},
+		"*-grey-b-*": {
+			"bark": {
+				"base": "block/23/bark-grey"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-grey"
+			}
+		},
+		"*-red-a-*": {
+			"bark": {
+				"base": "block/23/bark-red"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-red"
+			}
+		},
+		"*-red-b-*": {
+			"bark": {
+				"base": "block/23/bark-red"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-red"
+			}
+		},
+		"*-pale-a-*": {
+			"bark": {
+				"base": "block/23/bark-pale"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-pale"
+			}
+		},
+		"*-pale-b-*": {
+			"bark": {
+				"base": "block/23/bark-pale"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-pale"
+			}
+		},
+		"*-dark-a-*": {
+			"bark": {
+				"base": "block/23/bark-dark"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-dark"
+			}
+		},
+		"*-dark-b-*": {
+			"bark": {
+				"base": "block/23/bark-dark"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-dark"
+			}
+		},
+		"*-green-a-*": {
+			"bark": {
+				"base": "block/23/bark-green"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-green"
+			}
+		},
+		"*-green-b-*": {
+			"bark": {
+				"base": "block/23/bark-green"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-green"
+			}
+		},
+		"*-aspen-a-*": {
+			"bark": {
+				"base": "block/23/bark-aspen"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-aspen"
+			},
+			"eye": {
+				"base": "block/23/aspen-eye"
+			}
+		},
+		"*-aspen-b-*": {
+			"bark": {
+				"base": "block/23/bark-aspen"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-aspen"
+			},
+			"eye": {
+				"base": "block/23/aspen-eye"
+			}
+		},
+		"*-moss-a-*": {
+			"bark": {
+				"base": "block/23/mossbark"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-moss"
+			},
+			"moss": {
+				"base": "block/23/moss-cushion"
+			}
+		},
+		"*-moss-b-*": {
+			"bark": {
+				"base": "block/23/mossbark"
+			},
+			"deep": {
+				"base": "block/23/barkdeep-moss"
+			},
+			"moss": {
+				"base": "block/23/moss-cushion"
+			}
+		}
+	},
+	"lightAbsorption": 99
+}

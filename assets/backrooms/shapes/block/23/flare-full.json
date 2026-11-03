@@ -1,0 +1,367 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"top": "backrooms:block/23/moss",
+		"side": "backrooms:block/23/mossbark"
+	},
+	"elements": [
+		{
+			"name": "Slope1",
+			"from": [
+				0,
+				0,
+				2
+			],
+			"to": [
+				16,
+				0.891,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#side",
+					"uv": [
+						0,
+						15.109,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						2,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#side",
+					"uv": [
+						2,
+						15.109,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#side",
+					"uv": [
+						2,
+						15.109,
+						4,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Slope2",
+			"from": [
+				0,
+				0,
+				4
+			],
+			"to": [
+				16,
+				2.104,
+				6
+			],
+			"faces": {
+				"north": {
+					"texture": "#side",
+					"uv": [
+						0,
+						13.896,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						4,
+						16,
+						6
+					]
+				},
+				"east": {
+					"texture": "#side",
+					"uv": [
+						4,
+						13.896,
+						6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#side",
+					"uv": [
+						4,
+						13.896,
+						6,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Slope3",
+			"from": [
+				0,
+				0,
+				6
+			],
+			"to": [
+				16,
+				3.792,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#side",
+					"uv": [
+						0,
+						12.208,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						6,
+						16,
+						8
+					]
+				},
+				"east": {
+					"texture": "#side",
+					"uv": [
+						6,
+						12.208,
+						8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#side",
+					"uv": [
+						6,
+						12.208,
+						8,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Slope4",
+			"from": [
+				0,
+				0,
+				8
+			],
+			"to": [
+				16,
+				5.942,
+				10
+			],
+			"faces": {
+				"north": {
+					"texture": "#side",
+					"uv": [
+						0,
+						10.058,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						8,
+						16,
+						10
+					]
+				},
+				"east": {
+					"texture": "#side",
+					"uv": [
+						8,
+						10.058,
+						10,
+						16
+					]
+				},
+				"west": {
+					"texture": "#side",
+					"uv": [
+						8,
+						10.058,
+						10,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Slope5",
+			"from": [
+				0,
+				0,
+				10
+			],
+			"to": [
+				16,
+				8.543,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#side",
+					"uv": [
+						0,
+						7.457,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						10,
+						16,
+						12
+					]
+				},
+				"east": {
+					"texture": "#side",
+					"uv": [
+						10,
+						7.457,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#side",
+					"uv": [
+						10,
+						7.457,
+						12,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Slope6",
+			"from": [
+				0,
+				0,
+				12
+			],
+			"to": [
+				16,
+				11.586,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#side",
+					"uv": [
+						0,
+						4.414,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						12,
+						16,
+						14
+					]
+				},
+				"east": {
+					"texture": "#side",
+					"uv": [
+						12,
+						4.414,
+						14,
+						16
+					]
+				},
+				"west": {
+					"texture": "#side",
+					"uv": [
+						12,
+						4.414,
+						14,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Slope7",
+			"from": [
+				0,
+				0,
+				14
+			],
+			"to": [
+				16,
+				15.063,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#side",
+					"uv": [
+						0,
+						0.937,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#top",
+					"uv": [
+						0,
+						14,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#side",
+					"uv": [
+						14,
+						0.937,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#side",
+					"uv": [
+						14,
+						0.937,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}
