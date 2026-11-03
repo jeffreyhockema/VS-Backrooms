@@ -435,3 +435,101 @@ edge); headless (port 43157): `/backrooms dummy place 36 5` lands (light 12), 0 
    this round's. Should they become linked sinks later (many more ways to the Poolrooms)?
 3. The Meeting Place's sign is the real airports' meeting-point cube. The lore's "47 positions, one place" could also be
    shown (a placard naming the position, "MEETING PLACE 23 OF 47"): wanted?
+
+## Round 4 (2026-11-02): the asset-quality pass
+
+The user: "another in depth visual pass ... multi block elements where necessary ... high quality, AAA quality, assets ...
+continue refining level design ... general Backrooms lore, specific lore ... aligning to our other levels (sharing assets
+where possible ...)". The lead's notes on round 3's sheet: seat rows with armrests, legs and a beam; check-in counters with
+monitors, scales, belts; security's X-ray with belt and curtains, an arch, trays; the carousel with a sloped belt and bags; the
+jet bridge as a run of elements with a glazed side; the information desk with a screen; trolleys with baskets; shops with
+goods behind glass, a till, a lit fascia; cafe counters with coffee machines, a display case, stools; vending; planters; the
+prayer room's mats; restroom cubicles and basins; the big halls' structure (a space frame or coffers with skylights, clad
+columns, a floor pattern that breaks the field, hanging wayfinding, a mezzanine edge); the meeting-point sign tall enough for
+the atrium; the kiosk's canopy; the departures boards lit.
+
+Round 3's own "still weak": the concourse walls above the shopfronts are plain panel; the halls evenly bright; the meeting
+point small in its atrium; the information desk framed from the side.
+
+### List
+
+Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: why]`. Element counts are round 3's.
+
+**1. Assets to rebuild to the bar**
+1. (A) `l36-carousel-island` (1 box): the carousel's centre as a real object: a stainless hood with a sloped top, a raised
+   spine, a black rubber bumper at the belt, a kick plate, bolted seams, rounded end caps.
+2. (A) `l36-belt-run/still-*`: the belt as overlapping crescent plates (rubber seams, scuffs, a sheen), not stripes.
+3. (A) `l36-carousel-flap-*` (6): the belt's mouth in the wall: a steel portal with a hazard-striped lintel and a curtain of
+   separate rubber strips (one swung aside).
+4. (A) `l36-checkin-desk-*` / `l36-checkin-scale-*` (23 / 15): bevelled laminate front with a stainless kick and top rail,
+   the agent's monitor on a stand (lit screen, back), a boarding-pass printer, the bag belt behind under its hood, the
+   scale's lit weight display on its stalk.
+5. (A) `l36-xray-body/belt-*` (23 / 19): the tunnel with lead curtain strips at both mouths, the rounded hood, a warning
+   label, the operator's monitor on an arm; the roller bed as separate rollers on side rails.
+6. (A) `l36-scanner-*` (9 / 11): the arch with LED zone bars on its uprights, a crown housing with a lit status lamp, foot
+   plates.
+7. (A) `l36-seat-*` (16-31): seat pans with a seam and a perforated back, armrests on posts between the seats, the beam
+   with end caps, splayed legs with feet; `-coat` a draped jacket (sleeves, collar) instead of a beige box; `-bag` a real
+   backpack (pocket, straps).
+8. (A) Shops: `l36-gondola` (27) as shelving with rows of goods (bottles, boxes, packets) and price rails; a till counter
+   `l36-till` (register, card reader, bag hooks); goods behind the glass front.
+9. (A) Cafe: a coffee machine (group heads, steam wand, cups on top), a glass pastry case (translucent, cakes inside), bar
+   stools; reuse Level 15's `l15-appliance-coffee` if it meets the bar, else `l36-coffee` / `l36-pastry` / `l36-stool`.
+10. (A) Fascias `l36-shopsign-*` (1 box): a light box with depth, an edge frame and a lit face only where the letters are.
+11. (A) Hanging signs and screens `l36-sign-*`, `l36-fids-*`, `l36-fidspole` (1-3 boxes): a housing with depth, a back,
+    hanger rods to the ceiling; the screens lit, the bezels dark.
+12. (B) `l36-gatedesk-*` (25): a boarding-pass reader with its LED, a phone, the screen lit.
+13. (B) `l36-payphone-*` (8), `l36-atm-*` (6): a hood, the handset on its cord, keypad, coin slot; the ATM with a screen
+    recess, keypad shelf, card slot and canopy.
+14. (B) `l36-fountain-*` (9): the stainless bi-level fountain with bubblers and push bars.
+15. (B) `l36-charger` (3): a post with sockets, USB ports and a lit ring.
+16. (B) `l36-stanchion-*`, `l36-trays`: weighted bases, chrome posts, belt cassettes; trays with lips.
+17. (B) `l36-gatedoor-*` (15/16): a frame, a push bar, a wired-glass vision panel, a card reader with its LED.
+18. (B) Trolleys with baskets: a luggage trolley `l36-trolley` (frame, handle, basket, wheels) for the claim hall's bays,
+    unless a shared one meets the bar.
+19. (B) Restrooms: cubicle partitions with doors, legs and locks; basins `l36-sink-*` with a mirror over them.
+20. (B) The information desk: a counter with the "i" totem and a lit screen.
+21. (C) Prayer room: mats laid in rows and a rolled one, a shoe rack.
+22. (C) `l36-wallclock-*`: a bezel with depth.
+23. (C) `l36-lostfound-*`, `l36-booth-rack-*`: check them against the bar; touch up.
+
+**2. Multi-block set pieces**
+24. (A) The carousel as one object: island (1), belt (2), flap (3), its number hung over it on rods, bags on the plates.
+25. (A) The jet bridge: the bridge between the gate door and the cabin dressed as a bridge: ribbed tunnel walls, a glazed
+    side (window strips onto the grey apron), the floor's tread strips, a lit ceiling strip, the cabin door's frame
+    (`l36-bridge-*`).
+26. (A) The security lane as one object: X-ray (5), roller tables, curtains, the arch (6), the tray stack, the podium.
+27. (A) The check-in island: desks back to back with the bag belt's hood between them, the flight screens on their pole.
+28. (A) The big halls' ceiling: a space frame (tubes, nodes, diagonals under a dark deck, a 2 x 2 module) over the claim
+    hall, security and the concourses (`l36-frame-*`); coffers kept in check-in and the junctions.
+29. (A) The meeting-point sign tall enough for the 14-high atrium (post and cube raised, the cube framed).
+30. (B) Clad columns in the claim hall, check-in and the food court: a stainless plinth, a capital flaring into the ceiling
+    (`l36-column-*`).
+31. (B) A mezzanine edge round the tall halls (check-in, the Meeting Place): a slab lip with a glass balustrade and
+    handrail, the band above dark glass (`l36-mezz-*`).
+32. (B) The Travel Agency kiosk's canopy: a fascia edge with downlights.
+33. (C) The departures board on a two-legged totem at the junctions.
+
+**3. Level design**
+34. (A) Floor pattern: dark marble inlay bands across the claim hall and check-in at each module, a border round each
+    carousel and island, so the white field breaks.
+35. (B) The concourse walls above the shopfronts (round 3's weak point): the mezzanine band (31) or a clerestory.
+36. (B) Light rhythm: the space-frame halls lit from the frame (pendants on the nodes), the strip between darker.
+37. (B) The information desk's showcase spot frames it from the front.
+38. (C) Skylights in the claim hall.
+
+**4. Lore**
+39. (B) "MEETING PLACE n OF 47" placard at the marker (round 3's question 3; lore phrasing only).
+40. (B) Wanderer touches: taped notes and chalk on the bridge walls ("do not board"), a sleeping bag under a seat row.
+41. (C) The clocks with no hands as a real wall clock with a bezel (22).
+
+**5. Alignment with the other levels**
+42. (A) Shared kit kept: EXIT signs, extinguishers, hose cabinets, placards, supply boxes, the Almond Water coolers;
+    check the concourses carry the mod's EXIT signs and extinguishers like the released levels; add where missing.
+43. (B) Reuse: Level 15's coffee machine and serving line, Level 31's condiments and stools, Level 52's fountain, the
+    detail kit's trolleys, cafe chairs and drink fridges where they meet the bar; note the family in "Shared assets".
+44. (B) Level 4's vending machine / water cooler as placed here: check against the bar; note under "Shared assets below
+    the bar" if not.
+45. (A) Showcase spots for every rebuilt set piece (carousel, check-in, security, bridge, cafe, shop, frame, meeting
+    point) and the F7 entries to match.
+46. (A) HUD names (en.json) and creative-inventory entries for every new block.
