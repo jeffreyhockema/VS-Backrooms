@@ -724,6 +724,11 @@ cup holders are on the bench backs), the DJ still on the south, the star at the 
   STARDUST (three backglasses now, by place); the rental counter had a bell on every section (one in five now);
   the popcorn heap was one block (mounds now); the back-arcade spot stood nose to a sheet (from the room's middle
   now). The Plastic block material of the first build failed to parse (Wood since; headless check clean after).
+- **Run 2** (`%TEMP%/backrooms-shots/31-r4b/`, from the second gate's build): the pinballs now face the right way
+  with three backglasses along a row; a skate trainer stands inside the barrier by the gate; the gumball machines
+  by the lobby's revolving door with the shared hanging EXIT box over the way out; the back arcade reads as rows
+  of sheeted machines down an aisle (one in eleven since stands uncovered, a dead upright, and the sheets have
+  deeper folds); the Employees Lounge's grey staff lockers; the rental counter's bell on one section. Nothing broken.
 
 ### Questions for the user (round 4)
 
