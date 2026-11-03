@@ -25,7 +25,7 @@ public sealed partial class WorldLayout
         // (Round 4: the manor's models; their part in L47GladePart)
         L47GRoofSlope = 20, L47GRoofEave = 21, L47GRoofRidge = 22, L47GRoofGable = 23, L47GLeaded = 24, L47GDoor = 25, L47GJamb = 26,
         L47GBookcase = 27, L47GFire = 28, L47GMantel = 29, L47GTrestle = 30, L47GBench = 31, L47GTapestry = 32, L47GSconce = 33,
-        L47GStore = 34, L47GPot = 35, L47GSarsenTop = 36, L47GLampPost = 37, L47GOffering = 38;
+        L47GStore = 34, L47GPot = 35, L47GSarsenTop = 36, L47GLampPost = 37, L47GOffering = 38, L47GPorchPost = 39;
 
     /// <summary>Where the lamp posts stand beside the walk up to the manor (round 4): either side, every eight blocks.</summary>
     private static bool L47LampPostAt(int au, int v) => au == 3 && v is 16 or 24 or 32 or 40;
@@ -119,7 +119,7 @@ public sealed partial class WorldLayout
         }
         // (The walk in, and the braziers and banner poles beside it, are kept clear of anything put down)
         if (Math.Abs(u) <= 1 && v > L47HouseV) t.Floor = FloorKind.L47Trail;
-        if (Math.Abs(u) == 3 && (v == 9 || v == 44) || L47LampPostAt(Math.Abs(u), v))
+        if (Math.Abs(u) == 3 && (v == 9 || v == 44) || L47LampPostAt(Math.Abs(u), v) || Math.Abs(u) == 2 && v == 9)
         {
             t.Kind = TileKind.Wall;
             t.Pattern = WallPattern.L47Wall;
@@ -147,6 +147,13 @@ public sealed partial class WorldLayout
         // The Altar Stone, lying in the entrance hall; offerings on it (round 4: a bowl, a snake's skull, an open book)
         if (au <= 2 && v is -1 or 0 && rel == 2) return L47GAltar;
         if (rel == 3 && (u, v) is (-1, -1) or (1, 0) or (0, -1)) return L47GP(L47GOffering, ArchPier.South, u == -1 ? 0 : u == 1 ? 1 : 2);
+        // (Round 4) The porch over the front door: a pent roof of slate from over the door's lintel out to a beam on two oak posts
+        if (v is 8 or 9 && au <= 2)
+        {
+            if (v == 9 && au == 2 && rel is >= 2 and <= 4) return L47GP(L47GPorchPost, ArchPier.North, rel - 2);
+            if (v == 8 && rel == 6) return L47GF(L47GRoofSlope, ArchPier.South);
+            if (v == 9 && rel == 5) return L47GF(L47GRoofEave, ArchPier.South);
+        }
         // Outside the manor: the walk, the braziers by the door, the banner poles where the walk leaves the trail
         if (au > L47HouseU + 1 || av > L47HouseV + 1)
         {

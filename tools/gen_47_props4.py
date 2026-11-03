@@ -969,6 +969,21 @@ def offering(kind):
             B("Ribbon", (7.8, 0.6, 12.4), (8.4, 0.9, 15.0), "cloth")]
 
 
+def porchpost(part):
+    """An oak post of the porch (round 4): a stone pad at its foot, chamfered arrises, at its head a capital and curved
+    braces out to the beam both ways along it (east-west) and back to the wall (north)."""
+    p = "post"
+    els = [B("Post", (5.5, 0, 5.5), (10.5, 16, 10.5), p), B("ArrisA", (5.2, 0.5, 5.2), (6.0, 15.5, 6.0), p), B("ArrisB", (10.0, 0.5, 10.0), (10.8, 15.5, 10.8), p)]
+    if part == "base":
+        els += [B("Pad", (3.5, 0, 3.5), (12.5, 2.0, 12.5), {"all": "stone", "top": "moss"}), B("Plinth", (5.0, 2.0, 5.0), (11.0, 3.2, 11.0), p)]
+    if part == "head":
+        els += [B("Capital", (4.5, 13.0, 4.5), (11.5, 16, 11.5), "beam"),
+                B("BraceE", (8.0, 10.5, 7.0), (16.5, 12.0, 9.0), "beam", rot=(0, 0, 35), origin=(10.5, 8.0, 8)),
+                B("BraceW", (-0.5, 10.5, 7.0), (8.0, 12.0, 9.0), "beam", rot=(0, 0, -35), origin=(5.5, 8.0, 8)),
+                B("BraceN", (7.0, 10.5, -0.5), (9.0, 12.0, 8.0), "beam", rot=(35, 0, 0), origin=(8, 8.0, 5.5))]
+    return els
+
+
 def sconce():
     """An iron candle sconce on the wall to the south (faces north): a back plate, a scrolled arm, a drip pan, a candle
     and its flame."""
@@ -1067,8 +1082,7 @@ def blocktypes():
                            "*-honey": {"cap": {"base": tex("honey-cap")}, "gill": {"base": tex("fungus-under")}, "stem": {"base": tex("honey-stem")}},
                            "*-inkcap": {"cap": {"base": tex("inkcap")}, "stem": {"base": tex("stem")}}},
         "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 0.2, "collisionbox": None,
-        "selectionbox": {"x1": 0.1, "y1": 0, "z1": 0.1, "x2": 0.9, "y2": 0.5, "z2": 0.9}, "replaceable": 3000, "drops": [], "sounds": PLANT,
-        "vertexFlags": {"windMode": "None"}}))
+        "selectionbox": {"x1": 0.1, "y1": 0, "z1": 0.1, "x2": 0.9, "y2": 0.5, "z2": 0.9}, "replaceable": 3000, "drops": [], "sounds": PLANT}))
     # ---- Way-stone ----
     out.append(bt_side("l47-waystone2", "// Level 47 (round 4): the Order's way-stone, a dressed granite post with the snake carved coiling up it, its head over the top (our invention)",
                        {"*-lower": "waystone-lower", "*-upper": "waystone-upper"},
@@ -1183,6 +1197,13 @@ def blocktypes():
                        {"beam": "oak-beam", "post": "oak-post", "stone": "manorstone-dressed", "iron": "wrought", "glass": "lantern-glass", "moss": "moss"}, "Wood", WOOD, 4,
                        {"x1": 0.3, "y1": 0, "z1": 0.3, "x2": 0.7, "y2": 1, "z2": 0.7}, coll={"x1": 0.3, "y1": 0, "z1": 0.3, "x2": 0.7, "y2": 1, "z2": 0.7},
                        groups=[{"code": "part", "states": ["lower", "upper"]}], extra={"lightHsvByType": {"*-upper-*": [7, 4, 13]}}))
+    out.append(("// Level 47 (round 4): an oak post of the porch over the manor's door (base/shaft/head)", {
+        "code": "l47-porchpost", "variantgroups": [{"code": "part", "states": ["base", "shaft", "head"]}], "creativeinventory": inv(), "blockmaterial": "Wood",
+        "drawtype": "json", "shapeByType": {f"*-{k}": {"base": f"block/47/porchpost-{k}"} for k in ("base", "shaft", "head")},
+        "textures": {"post": {"base": tex("oak-post")}, "beam": {"base": tex("oak-beam")}, "stone": {"base": tex("manorstone-dressed")}, "moss": {"base": tex("moss")}},
+        "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 5,
+        "collisionbox": {"x1": 0.3, "y1": 0, "z1": 0.3, "x2": 0.7, "y2": 1, "z2": 0.7}, "selectionbox": {"x1": 0.3, "y1": 0, "z1": 0.3, "x2": 0.7, "y2": 1, "z2": 0.7},
+        "drops": [{"type": "item", "code": "game:firewood", "quantity": {"avg": 1, "var": 0.5}}], "sounds": WOOD}))
     offk = ["bowl", "skull", "book"]
     out.append(("// Level 47 (round 4): the offerings on the Altar Stone (a bowl with a shed skin, a snake's skull, the Order's book)", {
         "code": "l47-offering", "variantgroups": [{"code": "kind", "states": offk}], "creativeinventory": inv(), "blockmaterial": "Wood", "drawtype": "json",
@@ -1251,6 +1272,8 @@ def shapes():
     out["sconce"] = shape(sconce(), {"iron": "wrought", "wax": "wax", "glow": "flame"})
     for p in ("lower", "upper"):
         out[f"lamppost-{p}"] = shape(lamppost(p), {"beam": "oak-beam", "post": "oak-post", "stone": "manorstone-dressed", "iron": "wrought", "glass": "lantern-glass", "moss": "moss"})
+    for k in ("base", "shaft", "head"):
+        out[f"porchpost-{k}"] = shape(porchpost(k), {"post": "oak-post", "beam": "oak-beam", "stone": "manorstone-dressed", "moss": "moss"})
     for k in ("bowl", "skull", "book"):
         out[f"offering-{k}"] = shape(offering(k), {"bronze": "bronze", "dark": "hearth", "skin": "parchment", "cloth": "gold", "bone": "bone",
                                                    "leather": "leather", "pages": "parchment", "script": "script"})

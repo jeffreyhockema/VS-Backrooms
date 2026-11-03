@@ -113,31 +113,45 @@ def tint_mix(img, colour, mask, seed=0, var=10):
 
 # ---------------- Bark ----------------
 
-def oak(seed, base=(96, 84, 68)):
-    """Old oak: deep vertical furrows, the ridges between them broken across into blocky plates; grey-brown, the
-    ridges' faces paler and greyer (weathered), the furrows near black-brown."""
+def oak(seed, base=(108, 96, 80)):
+    """Old oak: deep, meandering vertical furrows; the ridges between them rough and broken into long, irregular plates
+    (their breaks soft and slanting, never a course of bricks); grey-brown, the ridges' faces paler and greyer
+    (weathered), the furrows near black-brown."""
     rng = np.random.default_rng(seed)
-    cols = 4
+    cols = 5
     xx = np.arange(S)
-    ridge = np.zeros((S, S))
-    # Each ridge a band between furrows; furrow width varies
     ph = rng.uniform(0, 1)
+    # Ridge widths vary: a wandering phase per row
     u = (xx / S * cols + ph) % 1.0
-    prof = np.clip(np.sin(u * math.pi) * 1.5, 0, 1) ** 0.6
-    ridge[:] = prof[None, :]
-    ridge = warp_x(ridge, 2.2, seed + 1)
-    # Plates: breaks across each ridge at random heights (a ridge's column of plates)
-    col_of = ((np.arange(S)[None, :] / S * cols + ph + 0.0 * np.zeros((S, 1))) % cols).astype(int)
-    breaks = np.ones((S, S))
+    prof = np.clip(np.sin(u * math.pi) * 1.6, 0, 1) ** 0.5
+    ridge = np.repeat(prof[None, :], S, axis=0)
+    # (a ragged wander, not a wave: the furrows split and jog)
+    wob = fbm(seed + 1, (4, 8, 16), 0.7) * 2.6
+    out = np.empty_like(ridge)
+    for y in range(S):
+        for x in range(S):
+            sx = (x + wob[y, x]) % S
+            x0 = int(sx)
+            f = sx - x0
+            out[y, x] = ridge[y, x0] * (1 - f) + ridge[y, (x0 + 1) % S] * f
+    ridge = out
+    # Plates: each ridge's height wanders along it, and now and then a short slanting crack
+    along = 0.75 + 0.25 * fbm(seed + 2, (2, 4, 8))
+    h = ridge * along
+    col_of = ((np.arange(S)[None, :] / S * cols + ph) % cols).astype(int).repeat(S, 0)
     for c in range(cols):
-        ys = sorted(rng.choice(S, size=rng.integers(1, 3), replace=False))
-        for y0 in ys:
-            for dy, k in ((0, 0.3), (1, 0.8)):
-                yy = (y0 + dy) % S
-                breaks[yy, col_of[yy] == c] = np.minimum(breaks[yy, col_of[yy] == c], k)
-    h = ridge * breaks * (0.85 + 0.15 * fbm(seed + 2, (4, 8)))
-    alb = 10 * fbm(seed + 3, (2, 4)) + 8 * (h > 0.7)
-    img = light(h, base, alb, relief=70, ao=46, grain=4, seed=seed + 4)
+        if rng.random() < 0.6:
+            y0 = rng.integers(0, S)
+            for k in range(3):
+                yy = (y0 + k) % S
+                m = col_of[yy] == c
+                xs = np.where(m)[0]
+                if len(xs):
+                    x = xs[min(len(xs) - 1, k * len(xs) // 3)]
+                    h[yy, x] *= 0.35
+                    h[yy, (x + 1) % S] *= 0.55
+    alb = 10 * fbm(seed + 3, (2, 4)) + 9 * (h > 0.72) - 4 * (h < 0.3)
+    img = light(h, base, alb, relief=72, ao=50, grain=4, seed=seed + 4)
     M.hue_jitter(img, 3, seed + 5)
     return img
 
@@ -307,7 +321,7 @@ def lichen(img, seed, colour=(168, 176, 132), n=4, rad=(2.0, 4.5)):
                 if d < 0.7:
                     c = M.lift(colour, -12 + rng.uniform(-6, 6))
                 elif d < 1.0:
-                    c = M.lift(colour, 10 + rng.uniform(-4, 6))
+                    c = M.lift(colour, 4 + rng.uniform(-4, 4))
                 else:
                     continue
                 px[x % S, y % S] = M.rgba(c)
@@ -333,7 +347,7 @@ def granite(seed, base=(118, 116, 110)):
             a += rng.uniform(-0.5, 0.5)
             x, y = x + math.cos(a), y + math.sin(a)
             M.touch(img, int(x) % S, int(y) % S, -0.28)
-    return lichen(img, seed + 3, (176, 180, 136), n=3)
+    return lichen(img, seed + 3, (150, 156, 120), n=2, rad=(1.5, 3.0))
 
 
 def rgba_save_ok(img):

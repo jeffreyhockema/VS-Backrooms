@@ -46,7 +46,7 @@ public sealed partial class WorldGenerator
     private readonly int[] l47Mush = new int[3], l47Fire = new int[4], l47Trestle = new int[3], l47Bench = new int[2], l47Sconce = new int[4];
     private readonly int[,] l47Spray = new int[3, 2];
     private int l47SarsenTop;
-    private readonly int[] l47Offering = new int[3];
+    private readonly int[] l47Offering = new int[3], l47PorchPost = new int[3];
     private readonly int[,] l47LampPost = new int[2, 4];
     private int l47RootEarth, l47Pot, l47Barrel23, l47Crate23, l47StepStone, l47RiverRock;
     private readonly int[] l47Chest73 = new int[4], l47Sacks73 = new int[4];
@@ -111,50 +111,52 @@ public sealed partial class WorldGenerator
         // Round 4
         string[] corners = { "ne", "se", "sw", "nw" };
         for (int k = 0; k < L47FilletBarks.Length; k++)
-            for (int c = 0; c < 4; c++) l47Fillet[k, c] = OptionalId($"l47-fillet-{L47FilletBarks[k]}-{corners[c]}");
+            for (int c = 0; c < 4; c++) l47Fillet[k, c] = OptionalId($"backrooms:l47-fillet-{L47FilletBarks[k]}-{corners[c]}");
         string[] ab = { "a", "b" }, brackets = { "zoned", "sulphur" }, parts2 = { "lower", "upper" };
         for (int f = 0; f < 4; f++)
         {
             for (int k = 0; k < 2; k++)
             {
-                l47Drape[k, f] = OptionalId($"l47-mossdrape-{ab[k]}-{Sides[f]}");
-                l47Bracket[k, f] = OptionalId($"l47-bracket-{brackets[k]}-{Sides[f]}");
-                l47Waystone[k, f] = OptionalId($"l47-waystone2-{parts2[k]}-{Sides[f]}");
-                for (int d = 0; d < 2; d++) l47Bookcase[k, d, f] = OptionalId($"l47-bookcase-{parts2[k]}-{ab[d]}-{Sides[f]}");
+                l47Drape[k, f] = OptionalId($"backrooms:l47-mossdrape-{ab[k]}-{Sides[f]}");
+                l47Bracket[k, f] = OptionalId($"backrooms:l47-bracket-{brackets[k]}-{Sides[f]}");
+                l47Waystone[k, f] = OptionalId($"backrooms:l47-waystone2-{parts2[k]}-{Sides[f]}");
+                for (int d = 0; d < 2; d++) l47Bookcase[k, d, f] = OptionalId($"backrooms:l47-bookcase-{parts2[k]}-{ab[d]}-{Sides[f]}");
             }
-            l47Fire[f] = OptionalId("l47-fire-" + Sides[f]);
-            l47Sconce[f] = OptionalId("l47-sconce-" + Sides[f]);
+            l47Fire[f] = OptionalId("backrooms:l47-fire-" + Sides[f]);
+            l47Sconce[f] = OptionalId("backrooms:l47-sconce-" + Sides[f]);
             string[] mantel = { "l", "m", "r" }, cells = { "tl", "tr", "bl", "br" };
-            for (int k = 0; k < 3; k++) l47Mantel[k, f] = OptionalId($"l47-mantel-{mantel[k]}-{Sides[f]}");
-            for (int k = 0; k < 4; k++) l47Tapestry[k, f] = OptionalId($"l47-tapestry-{cells[k]}-{Sides[f]}");
+            for (int k = 0; k < 3; k++) l47Mantel[k, f] = OptionalId($"backrooms:l47-mantel-{mantel[k]}-{Sides[f]}");
+            for (int k = 0; k < 4; k++) l47Tapestry[k, f] = OptionalId($"backrooms:l47-tapestry-{cells[k]}-{Sides[f]}");
         }
         string[] mush = { "agaric", "honey", "inkcap" }, wins = { "lower", "upper", "single" }, axes = { "ns", "ew" }, leaves = { "west", "east" },
             pieces = { "near-lower", "near-mid", "near-upper", "far-lower", "far-mid", "far-upper" }, roofs = { "slope", "eave", "ridge", "gable" }, ns = { "north", "south" },
             trestles = { "end", "mid", "centre" }, benches = { "end", "mid" };
-        for (int k = 0; k < 3; k++) l47Mush[k] = OptionalId("l47-mushclump-" + mush[k]);
-        for (int k = 0; k < 3; k++) for (int a = 0; a < 2; a++) l47Leaded[k, a] = OptionalId($"l47-leaded-{wins[k]}-{axes[a]}");
+        for (int k = 0; k < 3; k++) l47Mush[k] = OptionalId("backrooms:l47-mushclump-" + mush[k]);
+        for (int k = 0; k < 3; k++) for (int a = 0; a < 2; a++) l47Leaded[k, a] = OptionalId($"backrooms:l47-leaded-{wins[k]}-{axes[a]}");
         for (int k = 0; k < 2; k++)
         {
-            for (int p = 0; p < 6; p++) l47Door[k, p] = OptionalId($"l47-door-{leaves[k]}-{pieces[p]}");
-            for (int p = 0; p < 2; p++) l47Jamb[k, p] = OptionalId($"l47-doorjamb-{leaves[k]}-{parts2[p]}");
+            for (int p = 0; p < 6; p++) l47Door[k, p] = OptionalId($"backrooms:l47-door-{leaves[k]}-{pieces[p]}");
+            for (int p = 0; p < 2; p++) l47Jamb[k, p] = OptionalId($"backrooms:l47-doorjamb-{leaves[k]}-{parts2[p]}");
         }
-        for (int k = 0; k < 4; k++) for (int f = 0; f < 2; f++) l47Roof[k, f] = OptionalId($"l47-roof-{roofs[k]}-{ns[f]}");
-        for (int k = 0; k < 3; k++) l47Trestle[k] = OptionalId("l47-table-" + trestles[k]);
-        for (int k = 0; k < 2; k++) l47Bench[k] = OptionalId("l47-bench-" + benches[k]);
-        l47RootEarth = OptionalId("l47-rootearth");
-        l47Pot = OptionalId("l47-chimneypot");
-        l47SarsenTop = OptionalId("l47-sarsentop");
+        for (int k = 0; k < 4; k++) for (int f = 0; f < 2; f++) l47Roof[k, f] = OptionalId($"backrooms:l47-roof-{roofs[k]}-{ns[f]}");
+        for (int k = 0; k < 3; k++) l47Trestle[k] = OptionalId("backrooms:l47-table-" + trestles[k]);
+        for (int k = 0; k < 2; k++) l47Bench[k] = OptionalId("backrooms:l47-bench-" + benches[k]);
+        l47RootEarth = OptionalId("backrooms:l47-rootearth");
+        l47Pot = OptionalId("backrooms:l47-chimneypot");
+        l47SarsenTop = OptionalId("backrooms:l47-sarsentop");
+        string[] porch = { "base", "shaft", "head" };
+        for (int k = 0; k < 3; k++) l47PorchPost[k] = OptionalId("backrooms:l47-porchpost-" + porch[k]);
         string[] offerings = { "bowl", "skull", "book" };
-        for (int k = 0; k < 3; k++) l47Offering[k] = OptionalId("l47-offering-" + offerings[k]);
-        for (int f = 0; f < 4; f++) { l47LampPost[0, f] = OptionalId("l47-lamppost-lower-" + Sides[f]); l47LampPost[1, f] = OptionalId("l47-lamppost-upper-" + Sides[f]); }
+        for (int k = 0; k < 3; k++) l47Offering[k] = OptionalId("backrooms:l47-offering-" + offerings[k]);
+        for (int f = 0; f < 4; f++) { l47LampPost[0, f] = OptionalId("backrooms:l47-lamppost-lower-" + Sides[f]); l47LampPost[1, f] = OptionalId("backrooms:l47-lamppost-upper-" + Sides[f]); }
         string[] sprayLeaves = { "oak", "beech", "needle" };
-        for (int k = 0; k < 3; k++) { l47Spray[k, 0] = OptionalId($"l47-leafspray-{sprayLeaves[k]}-hang"); l47Spray[k, 1] = OptionalId($"l47-leafspray-{sprayLeaves[k]}-tuft"); }
-        l47StepStone = OptionalId("l47-streamstone-step");
-        l47RiverRock = OptionalId("l47-streamstone-rock");
+        for (int k = 0; k < 3; k++) { l47Spray[k, 0] = OptionalId($"backrooms:l47-leafspray-{sprayLeaves[k]}-hang"); l47Spray[k, 1] = OptionalId($"backrooms:l47-leafspray-{sprayLeaves[k]}-tuft"); }
+        l47StepStone = OptionalId("backrooms:l47-streamstone-step");
+        l47RiverRock = OptionalId("backrooms:l47-streamstone-rock");
         // (Shared with the other levels: the Redlands' chests and sacks, the Petrified Garden's barrels and crates)
-        for (int f = 0; f < 4; f++) { l47Chest73[f] = OptionalId("l73-chest-" + Sides[f]); l47Sacks73[f] = OptionalId("l73-sacks-" + Sides[f]); }
-        l47Barrel23 = OptionalId("l23-barrel");
-        l47Crate23 = OptionalId("l23-crate");
+        for (int f = 0; f < 4; f++) { l47Chest73[f] = OptionalId("backrooms:l73-chest-" + Sides[f]); l47Sacks73[f] = OptionalId("backrooms:l73-sacks-" + Sides[f]); }
+        l47Barrel23 = OptionalId("backrooms:l23-barrel");
+        l47Crate23 = OptionalId("backrooms:l23-crate");
         l47Kind[W.L47RootEarth] = l47RootEarth != 0 ? l47RootEarth : l47Earth;
         string[] lichenParts = { "top", "segment", "bottom" };
         for (int p = 0; p < 3; p++) l47Lichen[p] = OptionalId("game:hanginglichen-oldmans-" + lichenParts[p]);
@@ -556,6 +558,7 @@ public sealed partial class WorldGenerator
             W.L47GTapestry => l47Tapestry[W.L47GladePart(code) & 3, f],
             W.L47GSconce => l47Sconce[f],
             W.L47GPot => l47Pot,
+            W.L47GPorchPost => l47PorchPost[Math.Min(2, W.L47GladePart(code))],
             W.L47GOffering => l47Offering[Math.Min(2, W.L47GladePart(code))],
             W.L47GLampPost => l47LampPost[Math.Min(1, W.L47GladePart(code)), f],
             W.L47GSarsenTop => l47SarsenTop != 0 ? l47SarsenTop : l47Megalith,

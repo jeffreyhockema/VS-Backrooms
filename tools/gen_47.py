@@ -848,7 +848,7 @@ def block_lang():
         ("block-l47-mantel-*", "Mantel"), ("block-l47-table-*", "Trestle Table"), ("block-l47-bench-*", "Bench"),
         ("block-l47-tapestry-*", "The Order's Tapestry"),
         ("blockdesc-l47-tapestry-*", "A red serpent coiled round a dark world, its tail in its mouth. The Order call it the World Snake, and say the Great Old Adder is a scale of it."),
-        ("block-l47-sconce-*", "Sconce"), ("block-l47-rootearth", "Root Plate"), ("block-l47-chimneypot", "Chimney Pot"), ("block-l47-streamstone-step", "Stepping Stone"), ("block-l47-streamstone-rock", "River Stone"), ("block-l47-sarsentop", "Standing Stone"), ("block-l47-lamppost-*", "Lamp Post"), ("block-l47-offering-bowl", "Offering Bowl"),
+        ("block-l47-sconce-*", "Sconce"), ("block-l47-rootearth", "Root Plate"), ("block-l47-chimneypot", "Chimney Pot"), ("block-l47-streamstone-step", "Stepping Stone"), ("block-l47-streamstone-rock", "River Stone"), ("block-l47-sarsentop", "Standing Stone"), ("block-l47-lamppost-*", "Lamp Post"), ("block-l47-porchpost-*", "Porch Post"), ("block-l47-offering-bowl", "Offering Bowl"),
         ("blockdesc-l47-offering-bowl", "Dark water, and a snake's shed skin laid over the rim. Not left for you."), ("block-l47-offering-skull", "Snake Skull"),
         ("block-l47-offering-book", "The Order's Book"), ("blockdesc-l47-offering-book", "The writing is not in any alphabet you know. One word is circled, again and again, in red."),
         ("block-l47-leafspray-oak-*", "Oak Leaves"), ("block-l47-leafspray-beech-*", "Beech Leaves"), ("block-l47-leafspray-needle-*", "Needles"),
@@ -917,14 +917,14 @@ def main():
     relief = {"oak": T4.oak, "beech": T4.beech, "fir": T4.fir, "spruce": T4.spruce, "dead": T4.dead, "green": T4.green}
     for k, fn in relief.items():
         seed = 4700 + len(k) * 13
-        lichen = (150, 160, 128) if k != "dead" else (176, 180, 150)
+        lichen = (122, 134, 104) if k != "dead" else (150, 154, 128)
         save(fn(seed), f"block/47/bark-{k}")
-        save(T4.lichen(fn(seed + 1), seed + 2, lichen, n=5), f"block/47/bark-{k}-2")
+        save(T4.lichen(fn(seed + 1), seed + 2, lichen, n=2, rad=(1.5, 3.0)), f"block/47/bark-{k}-2")
         save(T4.overgrow(fn(seed), seed + 3, cover=0.5 if k != "green" else 0.6), f"block/47/mossbark-{k}")
         save(T4.overgrow(fn(seed + 1), seed + 4, cover=0.62, top_bias=0.4), f"block/47/mossbark-{k}-2")
         save(rings(RINGS[k], seed + 5), f"block/47/rings-{k}")
     # (A fallen trunk's furrows run along it: the bark turned a quarter)
-    save(T4.lichen(T4.oak(4790), 4791, (150, 170, 110), n=5).transpose(Image.Transpose.ROTATE_90), "block/47/log-oak")
+    save(T4.lichen(T4.oak(4790), 4791, (122, 140, 96), n=2, rad=(1.5, 3.0)).transpose(Image.Transpose.ROTATE_90), "block/47/log-oak")
     save(T4.overgrow(T4.oak(4792).transpose(Image.Transpose.ROTATE_90), 4793, cover=0.75), "block/47/logtop-oak")
     save(T4.dead(4794).transpose(Image.Transpose.ROTATE_90), "block/47/log-dead")
     save(T4.overgrow(T4.dead(4795).transpose(Image.Transpose.ROTATE_90), 4796, cover=0.45), "block/47/logtop-dead")

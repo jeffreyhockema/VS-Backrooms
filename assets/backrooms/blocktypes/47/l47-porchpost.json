@@ -1,0 +1,89 @@
+// Level 47 (round 4): an oak post of the porch over the manor's door (base/shaft/head)
+{
+	"code": "l47-porchpost",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"base",
+				"shaft",
+				"head"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-base": {
+			"base": "block/47/porchpost-base"
+		},
+		"*-shaft": {
+			"base": "block/47/porchpost-shaft"
+		},
+		"*-head": {
+			"base": "block/47/porchpost-head"
+		}
+	},
+	"textures": {
+		"post": {
+			"base": "backrooms:block/47/oak-post"
+		},
+		"beam": {
+			"base": "backrooms:block/47/oak-beam"
+		},
+		"stone": {
+			"base": "backrooms:block/47/manorstone-dressed"
+		},
+		"moss": {
+			"base": "backrooms:block/47/moss"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 5,
+	"collisionbox": {
+		"x1": 0.3,
+		"y1": 0,
+		"z1": 0.3,
+		"x2": 0.7,
+		"y2": 1,
+		"z2": 0.7
+	},
+	"selectionbox": {
+		"x1": 0.3,
+		"y1": 0,
+		"z1": 0.3,
+		"x2": 0.7,
+		"y2": 1,
+		"z2": 0.7
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

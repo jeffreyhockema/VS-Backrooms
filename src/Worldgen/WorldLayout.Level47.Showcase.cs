@@ -78,13 +78,23 @@ public partial class WorldLayout
                             int bx = wx + dx * d, bz = wz + dz * d;
                             Tile t = TileAt(bx, bz);
                             if (t.Kind != TileKind.Floor || t.Zone != L47Forest || L47InWater(bx, bz)) continue;
-                            // (Nothing standing at the feet: round 4's camera stood on a log's end)
-                            L47Wood(bx, bz, L47Ground(bx, bz) + 1, feet);
-                            if (feet[0] != 0 || feet[1] != 0) continue;
+                            // (Nothing standing at the feet, nor under them: the camera stood on a log's end, then on a root)
+                            L47Wood(bx, bz, L47Ground(bx, bz), feet);
+                            if (feet[0] != 0 || feet[1] != 0 || feet[2] != 0) continue;
                             found = (bx, bz, wx, wz); any = true; break;
                         }
                 }
-            if (any) spots.Add(new Showcase.Spot("stream", found.X + 0.5, Feet(found.X, found.Z), found.Z + 0.5, HeadingTo(found.X, found.Z, found.Wx, found.Wz), -12, Day));
+            if (any)
+            {
+                // (Round 4: look along the brook, turned a little toward it, so it runs away into the fog between its banks)
+                double gx = L47Stream(found.Wx + 1, found.Wz) - L47Stream(found.Wx - 1, found.Wz), gz = L47Stream(found.Wx, found.Wz + 1) - L47Stream(found.Wx, found.Wz - 1);
+                double tx = -gz, tz = gx, tl = Math.Sqrt(tx * tx + tz * tz);
+                double h = tl > 1e-9 ? HeadingTo(0, 0, tx, tz) : HeadingTo(found.X, found.Z, found.Wx, found.Wz);
+                double toWater = HeadingTo(found.X, found.Z, found.Wx, found.Wz);
+                double diff = ((toWater - h + 540) % 360) - 180;
+                if (Math.Abs(diff) > 90) { h = (h + 180) % 360; diff = ((toWater - h + 540) % 360) - 180; }
+                spots.Add(new Showcase.Spot("stream", found.X + 0.5, Feet(found.X, found.Z), found.Z + 0.5, (h + Math.Sign(diff) * 20 + 360) % 360, -10, Day));
+            }
         }
         // The glade from the walk in: the manor, and the stones round it and through it
         spots.Add(new Showcase.Spot("glade", mx + 0.5, fy + 2, mz + 38.5, 0, 6, Day));
