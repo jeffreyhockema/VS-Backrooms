@@ -715,7 +715,7 @@ glow-in-the-dark plates. All from real data halls; the lore says only "massive b
   looks into a rack's side close to (the hole itself is fine in the cold-aisle shot); the rig's random arrivals look along
   fixed headings, so one in four shows a wall close up; the passages read much as in round 3 apart from the new duct and
   tray (the lore wants them plain); the Misglitch is round 1's model.
-- Also built after the shots: the passages' own galvanised duct (`l120-duct`: run and plenum hub, in place of Level 2's
+- New since run 1 (in runs 2 and 3): the passages' own galvanised duct (`l120-duct`: run and plenum hub, in place of Level 2's
   pipe bundle), cable drops from the ladder rack into one rack top in four, the lifted floor panel with its lifter
   (`l120-lifter`), matlib ceiling tiles.
 
