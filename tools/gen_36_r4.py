@@ -401,15 +401,15 @@ def bridge(part):
             els.append(B(f"Bracket{i}", (x - 0.5, 12.5, 1.25), (x + 0.5, 13.25, 2), "chrome", faces=no("south")))
         return els
     if part == "glass":
-        pane = P.transparent(B("Pane", (0.75, 2, 7.5), (16, 14, 8), "r4-glass", faces=("north", "south")))
-        return [B("View", (0, 0, 15.5), (16, 16, 16), "r4-bridgeview", faces=("north",)),
-                B("Sill", (0, 0, 1.5), (16, 2, 16), "r4-bridgepanel", faces=("north", "up")),
-                B("SillCap", (0, 1.75, 1), (16, 2.25, 8), "darksteel", faces=("north", "up")),
-                B("Header", (0, 14, 1.5), (16, 16, 16), "r4-bridgepanel", faces=("north", "down")),
-                B("Mullion", (0, 2, 1.5), (0.75, 14, 7.5), "darksteel", faces=("north", "east", "west")),
-                B("BeadT", (0.75, 13.5, 7), (16, 14, 7.5), "darksteel", faces=("north", "down")),
-                B("BeadB", (0.75, 2, 7), (16, 2.5, 7.5), "darksteel", faces=("north", "up")),
-                B("JambIn", (0, 2, 8), (16, 14, 15.5), "darksteel", faces=("up",)), pane]
+        # (round 4, after the shots: shallow, the view just behind the pane; a deep recess read as grey boxes down the run)
+        pane = P.transparent(B("Pane", (0.75, 2, 2.75), (16, 14, 3.25), "r4-glass", faces=("north", "south")))
+        return [B("View", (0, 2, 4.5), (16, 14, 5), "r4-bridgeview", faces=("north",)),
+                B("Sill", (0, 0, 1.5), (16, 2, 5), "r4-bridgepanel", faces=("north", "up")),
+                B("SillCap", (0, 1.75, 1), (16, 2.25, 3.25), "darksteel", faces=("north", "up")),
+                B("Header", (0, 14, 1.5), (16, 16, 5), "r4-bridgepanel", faces=("north", "down")),
+                B("Mullion", (0, 2, 1.5), (0.75, 14, 4.5), "darksteel", faces=("north", "east", "west")),
+                B("BeadT", (0.75, 13.5, 2.25), (16, 14, 2.75), "darksteel", faces=("north", "down")),
+                B("BeadB", (0.75, 2, 2.25), (16, 2.5, 2.75), "darksteel", faces=("north", "up")), pane]
     return [B("Panel", (0, 0, 2), (16, 16, 16), "r4-bridgepanel", faces=("north",)),
             B("Cove", (0, 13.5, 0.5), (16, 14.5, 2), "darksteel", faces=("north", "down")),
             P.glow([B("Led", (0, 14.5, 1.25), (16, 15, 2), "r4-led", faces=("north", "down"))], 220)[0],

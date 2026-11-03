@@ -442,6 +442,20 @@ def surface_blocks():
               "blockmaterial": "Glass", "drawtype": "json", "sidesolid": {"all": True}, "sideopaque": {"all": True},
               "lightHsv": [20, 1, 7], "lightAbsorption": 0, "resistance": 6, "sounds": GS.GLASS, "attributes": dict(GS.STRUCT)})
 
+    # (round 4) the Agency's posters on a kiosk's outer walls: purple on every other face (from inside the kiosk the
+    # poster's back read as blank grey boards)
+    sh = GS.faced_cube("l36-kioskposter", 140, "l36-art-p0-0-0", "l36-wall-purple")
+    GS.block("l36-kioskposter", "Level 36 (round 4): a Travel Agency kiosk's wall cube with one of the Agency's posters (p0-p2) "
+             "on its <side> face, the kiosk's purple on the others (row 0 the lower half)",
+             {"variantgroups": [{"code": "poster", "states": ["p0", "p1", "p2"]}, {"code": "row", "states": ["0", "1"]},
+                                {"code": "side", "states": SIDES}],
+              "shapeByType": GS.rotated_shapes("*", sh),
+              "texturesByType": {f"l36-kioskposter-{p}-{r}-*": {"front": GS.tex(f"l36-art-{p}-0-{r}"), "side": GS.tex("l36-wall-purple")}
+                                 for p in ("p0", "p1", "p2") for r in "01"},
+              "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
+              "blockmaterial": "Stone", "drawtype": "json", "sidesolid": {"all": True}, "sideopaque": {"all": True},
+              "lightAbsorption": 0, "resistance": 6, "sounds": GS.STONE, "attributes": dict(GS.STRUCT)})
+
     GS.cube("l36-colposter", [{"code": "n", "states": ["p0", "p3", "p5", "p6"]}, {"code": "row", "states": ["0", "1"]}],
             {f"*-{n}-{r}": {"all": GS.tex(f"l36-art-{n}-0-{r}"), "up": GS.tex("l36-wall-column"), "down": GS.tex("l36-wall-column")}
              for n in ("p0", "p3", "p5", "p6") for r in "01"},
@@ -485,7 +499,7 @@ def surface_blocks():
              "frame (round 4)",
              {"variantgroups": [{"code": "quad", "states": quads}, {"code": "row", "states": ["lower", "upper"]}],
               "shapeByType": shapes_, "texturesByType": ftex, "blockmaterial": "Glass", "drawtype": "json",
-              "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightHsv": [8, 1, 12], "lightAbsorption": 0,
+              "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightHsv": [8, 1, 18], "lightAbsorption": 0,
               "resistance": 6, "sounds": GS.GLASS, "attributes": dict(GS.STRUCT)})
 
     kinds = ["coffer", "wood", "stone", "stonetop", "skylight"]
@@ -791,6 +805,7 @@ NAMES = {
     "block-l36-art-*": "Poster",
     "block-l36-apron-*": "Runway Window",
     "block-l36-colposter-*": "Column Poster",
+    "block-l36-kioskposter-*": "Travel Agency Poster",
     "block-l36-meetbox-*": "Meeting Point Sign",
     "block-l36-meetpost-*": "Meeting Point Sign Post",
     "block-l36-finish-coffer": "Coffered Ceiling",

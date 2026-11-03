@@ -1282,6 +1282,8 @@ public sealed partial class WorldLayout
                 // (round 3) coffered, a skylight over the marker
                 t.Ceiling = d < 9 ? CeilingKind.L36Skylight : CeilingKind.L36Coffer;
                 if (p % 4 == 2 && q % 4 == 2 && d >= 9) t.Ceiling = CeilingKind.LightOn;
+                // (round 4) lights among the skylight's panes too: the floor round the marker was dark
+                else if (p % 4 == 0 && q % 4 == 0 && d is >= 2.5 and < 9) t.Ceiling = CeilingKind.LightOn;
                 else if ((d is > 13.5 and < 14.5 || d is > 25.5 and < 26.5 || d is > 37.5 and < 38.5) && (p + q) % 3 == 0) t.Ceiling = CeilingKind.LightLit;
             }
         // (round 2) A ring of eight columns round the atrium, between the planters and the outer lights

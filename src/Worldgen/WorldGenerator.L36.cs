@@ -45,6 +45,7 @@ public sealed partial class WorldGenerator
     private int l36BridgeFloor, l36BridgeCeil, l36Stool, l36Canopy, l36CanopyLit, l36ColumnWall;
     private readonly int[,] l36Gallery = new int[2, 4], l36FrameLight = new int[4, 4];
     private readonly int[] l36FrameSky = new int[4];
+    private readonly int[,,] l36KioskPoster = new int[3, 2, 4];
     private readonly int[] l36MagRack = new int[4], l36FireCab = new int[4], l36InfoPylon = new int[4];
     private readonly int[,] l36PrayerMat = new int[2, 4], l36Luggage = new int[5, 4];
     private readonly HashSet<string> l36Missing = new();
@@ -143,6 +144,8 @@ public sealed partial class WorldGenerator
             l36CabinSeat[f] = L36Block($"l36-cabinseat-{side}");
             l36LostFound[f] = L36Block($"l36-lostfound-{side}");
             // (round 4) the lounge's own cognac leather sofas (Level 3999's couch halves as the stand-in)
+            for (int k = 0; k < 3; k++)
+                for (int r = 0; r < 2; r++) l36KioskPoster[k, r, f] = L36Block($"l36-kioskposter-p{k}-{r}-{side}", l36Purple);
             l36Couch[f] = L36Block($"l36-sofa-left-{side}", L36Block($"l3999-couch-left-{side}"));
             l36Couch[4 + f] = L36Block($"l36-sofa-right-{side}", L36Block($"l3999-couch-right-{side}"));
             l36Shutter[f] = L36Block($"l3999-shutter-lower-{side}", l36Panel);
@@ -306,7 +309,8 @@ public sealed partial class WorldGenerator
         int c = L36Ceiling(t);
         // a kiosk's canopy: a downlight every other block each way
         if (c == l36Canopy && (gx & 1) == 0 && (gz & 1) == 0) return l36CanopyLit;
-        if (t.Zone is (byte)Zone.Baggage or (byte)Zone.Concourse or (byte)Zone.Pier or (byte)Zone.FoodCourt or (byte)Zone.Street)
+        if (t.Zone is (byte)Zone.Baggage or (byte)Zone.Concourse or (byte)Zone.Pier or (byte)Zone.FoodCourt or (byte)Zone.Street
+            or (byte)Zone.Holdroom)
         {
             int q = (gx & 1) + 2 * (gz & 1);
             if (c == l36CeilSteel) return l36Frame[q];
@@ -348,7 +352,7 @@ public sealed partial class WorldGenerator
     private bool L36FrameBeside(int gx, int gz, int high)
     {
         static bool F(in Tile n, int h) => n.Kind == TileKind.Floor && n.Height == h
-            && n.Zone is (byte)Zone.Baggage or (byte)Zone.Concourse or (byte)Zone.Pier or (byte)Zone.FoodCourt or (byte)Zone.Street;
+            && n.Zone is (byte)Zone.Baggage or (byte)Zone.Concourse or (byte)Zone.Pier or (byte)Zone.FoodCourt or (byte)Zone.Street or (byte)Zone.Holdroom;
         return F(layout.TileAt(gx + 1, gz), high) || F(layout.TileAt(gx - 1, gz), high) || F(layout.TileAt(gx, gz + 1), high) || F(layout.TileAt(gx, gz - 1), high);
     }
 
@@ -474,7 +478,12 @@ public sealed partial class WorldGenerator
             case Props.L36MeetingPoint: return rel == 1 ? l36MeetPost[0, t.Stack & 3] : rel <= 7 ? l36MeetPost[1, t.Stack & 3] : rel <= 9 ? l36MeetBox[t.Stack & 3, rel - 8] : 0;
             case Props.L36KioskWall:
                 if (rel > 5) return 0;
-                if (t.Stack > 0 && rel is 2 or 3) return l36Art[(t.Stack - 1) % L36.L36ArtKinds.Length, 0, rel - 2, f];
+                // (round 4: the Agency's posters on a purple cube, so the kiosk's inside is purple behind them)
+                if (t.Stack > 0 && rel is 2 or 3)
+                {
+                    int pk = t.Stack - 1 - L36.L36ArtPoster;
+                    return pk is >= 0 and < 3 ? l36KioskPoster[pk, rel - 2, f] : l36Art[(t.Stack - 1) % L36.L36ArtKinds.Length, 0, rel - 2, f];
+                }
                 return l36Purple;
             case Props.L36Stall: return rel <= 2 ? l36Stall[rel - 1, f] : 0;
         }
