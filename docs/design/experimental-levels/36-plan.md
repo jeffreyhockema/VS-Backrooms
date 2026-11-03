@@ -633,3 +633,45 @@ None of round 4's blocks is a source of anything: the luggage, the tills, pastry
 racks, fire cabinets and prayer mats are decor (no drops, no containers). The drinking fountains keep the coolers'
 dispenser (unchanged count). The claim hall's lone benches became rows of three gate seats (seats, not beds). No safe
 rooms, beds, water or food were added; no loot table or supply rate moved.
+
+### What the shots showed (round 4)
+
+- Run 1 (`%TEMP%/backrooms-shots/36-r4a`, after the A items): the space frame changes the halls most (the claim hall, the
+  concourses, the piers, the food courts read as a terminal's roof now), with the clad columns, the gallery's dark band
+  over the concourses and check-in, the floor bands, the carousel's rim and belt mouth, the cafe stalls (pastry cases,
+  tills, espresso counters, stools), the fire cabinets, the trolleys. Wrong: the frame is not a full cube, so the wall's
+  block at its height showed concrete as a grey strip under the deck, and the capitals sat a block under it; the Meeting
+  Place's round wall got the gallery in single stepped blocks (little dark windows); the jet bridge's glazing was a
+  deep recess whose sides read as grey boxes down the run; the kiosk canopy had a downlight in every block (polka dots);
+  the floor under the meeting point was dark; the restroom basins stand free in the room (the mirror would have floated);
+  the skylight bands were flat white planes in the frame; the holdroom walls bare panel; the lounge's 3999 couches.
+- Run 2 (`36-r4b`): the walls dressed under the frame, the capitals under the deck, the roof lights glazed into the
+  frame, the cognac sofas, the clocks, the holdrooms' dado; still the kiosk's posters' backs grey inside the kiosk, the
+  floor round the meeting point dark (the skylight's light is 14 up), the bridge's grey boxes.
+- Run 3 (`36-r4c`, final, sheet `%TEMP%/backrooms-shots/36-r4c/sheet.jpg`): the holdrooms under the frame with the
+  dado, the food courts with the gallery's glazing over the stalls and their menu boards, the Lost and Found an office
+  heaped with hard shells, duffels and garment bags, the airport benches round the meeting point, the floor round it lit,
+  the jet bridge's glazing flush with the wall and the parked plane's flank beyond, the kiosk posters on purple.
+
+**Still weak** (after round 4): the halls are still evenly bright (round 2's choice, the frame's pendants do not change
+it); the Meeting Place's round wall is stepped plain cladding (the gallery could not follow its curve); the gate seats
+read heavy from behind (their backs are flat shells); the Lost and Found's lootable suitcases (the shared `detail/suitcase`)
+stand beside the new luggage and look cruder; the restrooms are large tiled boxes (cubicles along one wall only); the
+blackout and the service maze were not touched this round.
+
+### Questions for the user (round 4)
+
+1. The space frame now roofs the claim hall, the concourses, the piers, the holdrooms, the streets and the food courts
+   (check-in and the junctions keep their coffers). Is one structural language through the airside right, or should
+   some halls keep a different ceiling for variety?
+2. The gallery shows an upper level behind dark glass that nobody can reach. Keep it as a sight only, or should a later
+   round open some of it (a mezzanine lounge, a viewing deck)?
+3. Round 3's question 3 is still open: a "MEETING PLACE n OF 47" placard at the marker?
+
+### Checks (round 4)
+
+`expclash` clean; mod and mapgen build, 0 errors; `layouthash` (12345, 16000; layout versions 1 and 12;
+`BACKROOMS_NO_EXP_ENTRANCES=1`): every line for levels 0-20 and the `layout hash` line identical to main's saved files;
+`regions` 60/60 in Level 36; `featurecheck 3 36`: 18/18 features found from every arrival (new: `l36bridge`, `l36cafe`);
+headless (port 43157): `/backrooms dummy place 36 5` lands (light 10), 0 error lines, 0 missing blocks, `blocksweep`
+15769 blocks, 0 threw; `GATE_TAG=36g gate.py --fast --port-base 43150`: PASS (5e22690a).
