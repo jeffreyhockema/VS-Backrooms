@@ -1,0 +1,384 @@
+{
+ "textureWidth": 16,
+ "textureHeight": 16,
+ "textures": {
+  "deco-view2": "backrooms:block/15/deco-view2",
+  "bezel": "backrooms:block/15/bezel",
+  "ledgreen": "backrooms:block/15/ledgreen",
+  "dark": "backrooms:block/15/dark",
+  "wall": "backrooms:block/15/wall-panel"
+ },
+ "elements": [
+  {
+   "name": "Body",
+   "from": [
+    0,
+    0,
+    0
+   ],
+   "to": [
+    16,
+    16,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#deco-view2",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ],
+     "glow": 60
+    },
+    "east": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#wall",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelT",
+   "from": [
+    0.5,
+    13.5,
+    -0.7
+   ],
+   "to": [
+    15.5,
+    14.25,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      15.0,
+      0.75
+     ]
+    },
+    "east": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.75
+     ]
+    },
+    "south": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      15.0,
+      0.75
+     ]
+    },
+    "west": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.7,
+      0.75
+     ]
+    },
+    "up": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      15.0,
+      0.7
+     ]
+    },
+    "down": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      15.0,
+      0.7
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelB",
+   "from": [
+    0.5,
+    1.75,
+    -0.7
+   ],
+   "to": [
+    15.5,
+    3,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      15.0,
+      1.25
+     ]
+    },
+    "east": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.25
+     ]
+    },
+    "south": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      15.0,
+      1.25
+     ]
+    },
+    "west": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.7,
+      1.25
+     ]
+    },
+    "up": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      15.0,
+      0.7
+     ]
+    },
+    "down": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      15.0,
+      0.7
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelW",
+   "from": [
+    0.5,
+    3,
+    -0.7
+   ],
+   "to": [
+    1.25,
+    13.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      10.5
+     ]
+    },
+    "east": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.7,
+      10.5
+     ]
+    },
+    "south": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      10.5
+     ]
+    },
+    "west": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.7,
+      10.5
+     ]
+    },
+    "up": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.7
+     ]
+    },
+    "down": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.7
+     ]
+    }
+   }
+  },
+  {
+   "name": "BezelE",
+   "from": [
+    14.75,
+    3,
+    -0.7
+   ],
+   "to": [
+    15.5,
+    13.5,
+    0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      10.5
+     ]
+    },
+    "east": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.7,
+      10.5
+     ]
+    },
+    "south": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      10.5
+     ]
+    },
+    "west": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.7,
+      10.5
+     ]
+    },
+    "up": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.7
+     ]
+    },
+    "down": {
+     "texture": "#bezel",
+     "uv": [
+      0,
+      0,
+      0.75,
+      0.7
+     ]
+    }
+   }
+  },
+  {
+   "name": "Led",
+   "from": [
+    1.75,
+    2.1,
+    -0.8
+   ],
+   "to": [
+    2.4,
+    2.6,
+    -0.7
+   ],
+   "faces": {
+    "north": {
+     "texture": "#ledgreen",
+     "uv": [
+      0,
+      0,
+      0.65,
+      0.5
+     ],
+     "glow": 200
+    }
+   }
+  }
+ ]
+}

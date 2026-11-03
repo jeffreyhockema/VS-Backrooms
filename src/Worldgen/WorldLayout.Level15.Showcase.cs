@@ -67,7 +67,11 @@ public partial class WorldLayout
         {
             Add("dark-hall", dark.X, dark.Z, 0, 0);
             Add("roboman", dark.X, dark.Z - 10, 0, 0, $"/backrooms l15 roboman {dark.X} {dark.Z - 18}");
+            // Round 4: the edge of the dark from the lit side: the battery lamps still burning amber, the tripped breaker
+            Add("dark-edge", dark.X, dark.Z + 12, 0, 2);
         }
+        // Round 4: a bulkhead across the main hall (its jambs, code plate, knee braces, the header's light bar, the tread plate)
+        Add("bulkhead", hcx * L15Period + 2, hcz * L15Period + 23, 22, 10);
         if (L15FindStarDoor() is { } star) Add("star-door", star.X, star.Z, star.Heading, 6);
         // The links: the ways in, in Levels 10 and 3, the door that does not open, and the ways out (WorldLayout.Level15.Links.cs)
         spots.AddRange(L15LinkSpots(geometry));

@@ -16,6 +16,11 @@
 				"liftind0",
 				"liftind1",
 				"liftcall",
+				"display",
+				"radar",
+				"view0",
+				"view1",
+				"view2",
 				"big00",
 				"big01",
 				"big02",
@@ -226,6 +231,86 @@
 		},
 		"*-liftcall-west": {
 			"base": "backrooms:block/15/l15-panel-liftcall",
+			"rotateY": 90
+		},
+		"*-display-north": {
+			"base": "backrooms:block/15/l15-panel-display",
+			"rotateY": 0
+		},
+		"*-display-east": {
+			"base": "backrooms:block/15/l15-panel-display",
+			"rotateY": 270
+		},
+		"*-display-south": {
+			"base": "backrooms:block/15/l15-panel-display",
+			"rotateY": 180
+		},
+		"*-display-west": {
+			"base": "backrooms:block/15/l15-panel-display",
+			"rotateY": 90
+		},
+		"*-radar-north": {
+			"base": "backrooms:block/15/l15-panel-radar",
+			"rotateY": 0
+		},
+		"*-radar-east": {
+			"base": "backrooms:block/15/l15-panel-radar",
+			"rotateY": 270
+		},
+		"*-radar-south": {
+			"base": "backrooms:block/15/l15-panel-radar",
+			"rotateY": 180
+		},
+		"*-radar-west": {
+			"base": "backrooms:block/15/l15-panel-radar",
+			"rotateY": 90
+		},
+		"*-view0-north": {
+			"base": "backrooms:block/15/l15-panel-view0",
+			"rotateY": 0
+		},
+		"*-view0-east": {
+			"base": "backrooms:block/15/l15-panel-view0",
+			"rotateY": 270
+		},
+		"*-view0-south": {
+			"base": "backrooms:block/15/l15-panel-view0",
+			"rotateY": 180
+		},
+		"*-view0-west": {
+			"base": "backrooms:block/15/l15-panel-view0",
+			"rotateY": 90
+		},
+		"*-view1-north": {
+			"base": "backrooms:block/15/l15-panel-view1",
+			"rotateY": 0
+		},
+		"*-view1-east": {
+			"base": "backrooms:block/15/l15-panel-view1",
+			"rotateY": 270
+		},
+		"*-view1-south": {
+			"base": "backrooms:block/15/l15-panel-view1",
+			"rotateY": 180
+		},
+		"*-view1-west": {
+			"base": "backrooms:block/15/l15-panel-view1",
+			"rotateY": 90
+		},
+		"*-view2-north": {
+			"base": "backrooms:block/15/l15-panel-view2",
+			"rotateY": 0
+		},
+		"*-view2-east": {
+			"base": "backrooms:block/15/l15-panel-view2",
+			"rotateY": 270
+		},
+		"*-view2-south": {
+			"base": "backrooms:block/15/l15-panel-view2",
+			"rotateY": 180
+		},
+		"*-view2-west": {
+			"base": "backrooms:block/15/l15-panel-view2",
 			"rotateY": 90
 		},
 		"*-big00-north": {
@@ -623,6 +708,26 @@
 		"hit": "game:block/rock-hit-pickaxe"
 	},
 	"lightHsvByType": {
+		"*-radar-*": [
+			24,
+			4,
+			4
+		],
+		"*-view0-*": [
+			10,
+			3,
+			4
+		],
+		"*-view1-*": [
+			36,
+			2,
+			3
+		],
+		"*-view2-*": [
+			9,
+			4,
+			4
+		],
 		"*-emerglit-*": [
 			6,
 			4,

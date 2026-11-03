@@ -650,6 +650,23 @@ def panel_shapes():
     ]
     add("liftcall", els, {"brushedv": T("brushedv"), "brushed": T("brushed"), "ledamber": T("ledamber"), "bezel": T("bezel"), "dark": T("dark")})
 
+    # The wall displays (dead, the radar, the three views of elsewhere): the picture on the panel framed by a bezel that
+    # stands off the wall, a chin with a power LED
+    for kind, (x0, x1, y0, y1), glow, lt in (("display", (1.5, 14.5, 4, 13), 0, None), ("radar", (1, 15, 2.5, 14), 60, [24, 4, 4]),
+                                             ("view0", (1, 15, 3, 13.5), 60, [10, 3, 4]), ("view1", (1, 15, 3, 13.5), 50, [36, 2, 3]),
+                                             ("view2", (1, 15, 3, 13.5), 60, [9, 4, 4])):
+        els = [box("Body", (0, 0, 0), (16, 16, 16), {"all": "wall", "north": "deco-" + kind})]
+        els[0]["faces"]["north"]["uv"] = [0, 0, 16, 16]
+        if glow:
+            els[0]["faces"]["north"]["glow"] = glow
+        els += [box("BezelT", (x0 - 0.5, y1, -0.7), (x1 + 0.5, y1 + 0.75, 0), "bezel"),
+                box("BezelB", (x0 - 0.5, y0 - 1.25, -0.7), (x1 + 0.5, y0, 0), "bezel"),
+                box("BezelW", (x0 - 0.5, y0, -0.7), (x0 + 0.25, y1, 0), "bezel"),
+                box("BezelE", (x1 - 0.25, y0, -0.7), (x1 + 0.5, y1, 0), "bezel"),
+                box("Led", (x0 + 0.75, y0 - 0.9, -0.8), (x0 + 1.4, y0 - 0.4, -0.7), "ledgreen" if glow else "dark", faces=("north",),
+                    glow=200 if glow else 0)]
+        add(kind, els, {"deco-" + kind: T("deco-" + kind), "bezel": T("bezel"), "ledgreen": T("ledgreen"), "dark": T("dark")}, light=lt)
+
     # The big display's bezel (three wide, two high: row 0 the lower, i 0 the left as seen, its outer edge at x 16)
     for row in range(2):
         for i in range(3):
@@ -822,6 +839,123 @@ def ctable_shape():
     return write_shape("l15-ctable", els, {k: T(k) for k in ("brushed", "laminate", "steelgrey", "bezel")})
 
 
+def labbench_shape(kind):
+    """A lab bench (round 4), its front to the north: a white carcase on a recessed kick, two cabinet doors with bar
+    pulls, a black epoxy top; at the back a service spine (a gas tap with its yellow handle, a socket box) and a reagent
+    shelf on two posts; on top a sink with a gooseneck tap and wrist handles, a microscope and an analyser, or glassware
+    (flasks, beakers, a rack of test tubes, bottles on the shelf). The glass is opaque (no translucent texels here)."""
+    els = [box("Kick", (1, 0, 2.5), (15, 1.5, 15), "dark"),
+           box("Carcase", (0.5, 1.5, 2), (15.5, 13, 15.5), "white"),
+           box("DoorW", (8.25, 2, 1.5), (15, 12.5, 2), "whitegloss"),
+           box("DoorE", (1, 2, 1.5), (7.75, 12.5, 2), "whitegloss"),
+           box("PullW", (8.75, 8.5, 1.0), (9.25, 11.5, 1.5), "brushed"),
+           box("PullE", (6.75, 8.5, 1.0), (7.25, 11.5, 1.5), "brushed"),
+           box("Top", (0, 13, 0.5), (16, 14.5, 16), "epoxy"),
+           box("SpineW", (1, 14.5, 14), (1.75, 24, 15), "brushed"),
+           box("SpineE", (14.25, 14.5, 14), (15, 24, 15), "brushed"),
+           box("Shelf", (0.5, 21, 12.5), (15.5, 21.75, 15.5), "whitegloss"),
+           box("GasTap", (3, 14.5, 13.5), (4, 16.25, 14.5), "brushed"),
+           box("GasHandle", (2.5, 16, 12.5), (4.5, 16.5, 13.75), "yellowcollar"),
+           box("Socket", (10, 14.5, 14.5), (13, 16.75, 15.5), {"all": "whitegloss", "north": "bezel"})]
+    if kind == "sink":
+        els += [box("Basin", (4, 14.4, 4), (12, 14.5, 11), "dark", faces=("up",)),
+                box("RimN", (3.5, 14.5, 3.5), (12.5, 14.75, 4), "sinksteel"), box("RimS", (3.5, 14.5, 11), (12.5, 14.75, 11.5), "sinksteel"),
+                box("RimW", (3.5, 14.5, 4), (4, 14.75, 11), "sinksteel"), box("RimE", (12, 14.5, 4), (12.5, 14.75, 11), "sinksteel"),
+                box("Riser", (7.5, 14.5, 12.5), (8.5, 21, 13.5), "sinksteel"),
+                box("Neck", (7.5, 20, 9), (8.5, 21, 13.5), "sinksteel"),
+                box("Spout", (7.6, 18.5, 9), (8.4, 20, 9.8), "sinksteel"),
+                box("WristW", (8.5, 16.5, 12.75), (11, 17, 13.25), "sinksteel"),
+                box("WristE", (5, 16.5, 12.75), (7.5, 17, 13.25), "sinksteel")]
+    elif kind == "equipment":
+        tube = dict(rot=(25, 0, 0), origin=(5.5, 19, 9))
+        els += [box("ScopeBase", (3, 14.5, 7), (8, 15.25, 12), "whitegloss"),
+                box("ScopeArm", (4.75, 15.25, 10.5), (6.25, 21, 12), "whitegloss"),
+                box("ScopeStage", (3.5, 17, 6.5), (7.5, 17.5, 10), "bezel"),
+                box("ScopeHead", (4.5, 20, 8), (6.5, 22, 11.5), "whitegloss"),
+                box("ScopeTube", (4.9, 18, 7.2), (6.1, 23.5, 8.4), "bezel", **tube),
+                box("Analyser", (9, 14.5, 5), (14.5, 19.5, 12), {"all": "white", "north": "machine-lights", "top": "steelgrey"}),
+                box("AnalyserLid", (9.5, 19.5, 6), (14, 20, 11.5), "steelgrey")]
+    elif kind == "glassware":
+        for i, (x, z, h) in enumerate(((3, 5, 4), (12, 9.5, 5))):
+            els += [box(f"Flask{i}", (x, 14.5, z), (x + 2.6, 16, z + 2.6), "flask"),
+                    box(f"FlaskMid{i}", (x + 0.5, 16, z + 0.5), (x + 2.1, 16.8, z + 2.1), "flask"),
+                    box(f"FlaskNeck{i}", (x + 0.9, 16.8, z + 0.9), (x + 1.7, 14.5 + h, z + 1.7), "flask")]
+        for i, (x, z) in enumerate(((6.5, 8), (9, 4.5))):
+            els += [box(f"Beaker{i}", (x, 14.5, z), (x + 2, 17, z + 2), "flask"),
+                    box(f"Liquid{i}", (x - 0.01, 14.6, z - 0.01), (x + 2.01, 15.6, z + 2.01), "liquid" if i else "flask")]
+        els += [box("Rack", (3, 14.5, 9.5), (8, 15.5, 11.5), "steelgrey"), box("RackTop", (3, 16.5, 9.5), (8, 17, 11.5), "steelgrey")]
+        for k in range(4):
+            els.append(box(f"Tube{k}", (3.6 + k * 1.15, 15.5, 10.1), (4.2 + k * 1.15, 18.5, 10.9), "flask"))
+        els += [box("Bottle0", (2, 21.75, 13), (3.5, 24, 14.5), "amberglass"), box("Bottle1", (5, 21.75, 13), (6.5, 23.5, 14.5), "flask"),
+                box("Bottle2", (11, 21.75, 13), (12.5, 24.25, 14.5), "amberglass")]
+    return write_shape("l15-labbench-" + kind, els, {k: T(k) for k in
+                       ("dark", "white", "whitegloss", "brushed", "epoxy", "yellowcollar", "bezel", "sinksteel", "machine-lights",
+                        "steelgrey", "flask", "liquid", "amberglass")})
+
+
+def locker_shape(part, state):
+    """Two steel lockers side by side (round 4), two blocks high, their doors to the north: each door in its frame,
+    louvres, a lift handle and a number plate; ajar: the left door swung open on its hinges, inside a shelf and a rail
+    (upper) and a lab coat left hanging (lower); the carcase on a plinth, a sloped top."""
+    lower = part == "lower"
+    top = 16 if lower else 14.5
+    if state == "ajar":
+        # The left locker hollow (its back, its outer side, its floor), the right one solid
+        els = [box("Carcase", (8.25, 0, 2), (15.5, top, 15.5), "steelgrey"),
+               box("BackL", (0.5, 0, 14.5), (8.25, top, 15.5), "steelgrey"),
+               box("SideL", (0.5, 0, 2), (1, top, 14.5), "steelgrey"),
+               box("FloorL", (1, 0, 2), (8.25, 1, 14.5), "steelgrey") if lower else box("CeilL", (1, top - 0.5, 2), (8.25, top, 14.5), "steelgrey")]
+    else:
+        els = [box("Carcase", (0.5, 0, 2), (15.5, top, 15.5), "steelgrey")]
+    if lower:
+        els.append(box("Plinth", (0.5, 0, 1.4), (15.5, 1, 2), "dark", faces=("north", "east", "west")))
+    else:
+        els += [box("Top", (0.25, 14.5, 1.5), (15.75, 15.25, 15.75), "steelgrey"),
+                box("Slope", (0.5, 14.5, 4), (15.5, 15.5, 15.5), "steelgrey", rot=(-12, 0, 0), origin=(8, 15.25, 15.5))]
+    els.append(box("Stile", (7.5, 1 if lower else 0, 1.5), (8.5, 16 if lower else 14.5, 2), "steelgrey"))
+    y0, y1 = (1, 16) if lower else (0, 14.25)
+    for i, x0 in enumerate((0.75, 8.5)):
+        open_ = state == "ajar" and i == 0
+        tex = {"all": "steelgrey", "north": "lockervents" if (not lower) else "lockerdoor"}
+        door = [box(f"Door{i}", (x0, y0, 1.5), (x0 + 6.75, y1, 2), tex)]
+        if lower:
+            door += [box(f"Handle{i}", (x0 + 5.25, 12, 1.0), (x0 + 6, 15.5, 1.5), "brushed"),
+                     box(f"Vents{i}", (x0 + 1, 2, 1.45), (x0 + 5.75, 4, 1.5), "lockervents", faces=("north",))]
+        else:
+            door += [uvfull(box(f"Number{i}", (x0 + 2.5, 11, 1.4), (x0 + 4.25, 12, 1.5), "brushed", faces=("north",)), "north")]
+        if open_:
+            for e in door:
+                e["rotationOrigin"] = [x0, 8, 1.75]
+                e["rotationY"] = 70
+            els += [box("Inside", (1, 0, 14.4), (8.25, top, 14.5), "dark", faces=("north",))]
+            if not lower:
+                els += [box("Shelf", (x0, 8, 2.2), (x0 + 6.75, 8.5, 15), "steelgrey"),
+                        box("Rail", (x0, 6, 8), (x0 + 6.75, 6.4, 8.4), "brushed")]
+            else:
+                els += [box("Coat", (x0 + 1.5, 3, 9), (x0 + 5.5, 16, 12.5), "labcoat"),
+                        box("Hanger", (x0 + 1, 15.25, 10.5), (x0 + 6, 15.75, 11), "brushed")]
+        els += door
+    return write_shape(f"l15-locker-{part}-{state}", els, {k: T(k) for k in
+                       ("steelgrey", "dark", "lockerdoor", "lockervents", "brushed", "labcoat")})
+
+
+def glass_textures():
+    """The bench glassware and the spears' blades as opaque glass looks (pale, a bright edge, a highlight): the labs'
+    benches and the dead are in the opaque pass, where translucent texels take the sky's tint."""
+    for name, base in (("flask", (196, 222, 226)), ("shard", (190, 214, 218))):
+        img = M.new((S, S), base)
+        for y in range(S):
+            for x in range(S):
+                if x in (0, 31) or y in (0, 31):
+                    blend(img, x, y, (240, 252, 255), 0.6)
+                if 4 <= x <= 6 and 3 <= y <= 26:
+                    blend(img, x, y, (250, 255, 255), 0.55)
+        M.grime(img, 0.05, seed=15850, color=(150, 160, 160))
+        save(opaque(img), name)
+    save(M.new((S, S), (140, 70, 20)), "amberglass")
+    save(M.new((S, S), (120, 200, 160)), "liquid")
+
+
 # ======================================================================== Block types
 
 def blocktypes():
@@ -831,6 +965,11 @@ def blocktypes():
     # these shape files; their textures come with each shape)
     for st in ("dead", "denied", "radar"):
         console_shape(st)
+    for k in ("plain", "sink", "equipment", "glassware"):
+        labbench_shape(k)
+    for part in ("lower", "upper"):
+        for st in ("closed", "ajar"):
+            locker_shape(part, st)
     for part in ("lower", "upper"):
         for lit in (True, False):
             dock_shape(part, lit)
@@ -951,6 +1090,7 @@ def blocktypes():
 def main():
     textures()
     panel_textures()
+    glass_textures()
     blocktypes()
     print("Level 15 round 4: textures, shapes and blocktypes written")
 
