@@ -361,6 +361,8 @@ def textures(save):
     textures4(s)
     textures5(s)
     textures6(s)
+    textures7(s)
+    textures8(s)
 
 
 def tex_stall(s):
@@ -1054,6 +1056,8 @@ def shapes():
     out.update(shapes4())
     out.update(shapes5())
     out.update(shapes6())
+    out.update(shapes7())
+    out.update(shapes8())
     return out
 
 
@@ -2460,3 +2464,235 @@ def counter():
 
 def shapes6():
     return {"l52-counter": counter()}
+
+
+# ======================================================================== batch 7 (2026-11-03): cafeteria tables, fountain rim
+#
+#   l52-lunch-table       the middle tile of a cafeteria table row: a laminate top at 0.75 block with a T-mould edge on a
+#                         folding steel undercarriage (spine along x, a centre frame on a foot with glides, braces, the
+#                         arms out to both z edges at 0.3 block); its ends at x 0 / 16 join the next tile
+#   l52-lunch-seat        the bench tile beside it (facing north, the table the next tile north): the arm coming in from
+#                         the table at z 0, a muted orange bench plank at 0.45 block on its post and bracket
+#   l52-basinrim-edge     a precast fountain rim wall, paving to the north, water to the south: the wall, a coping
+#                         overhanging both faces with a chamfered top, a bead and chamfer at the outer foot, a wet band
+#                         and algae line on the inner face at the water line (y 14)
+#   l52-basinrim-corner   its outer corner (paving north and west, water south-east), the coping in two pieces
+#
+# textures() and shapes() above include these; textures7(save) and shapes7() are the batch on its own.
+
+def textures7(save):
+    s = save
+    top = M.noise_hv((206, 200, 186), 2, 8700, (32, 32), 2, (16, 8), hue=0.6)
+    rng = random.Random(8701)
+    px = top.load()
+    for _ in range(80):   # the fleck of a canteen laminate
+        x, y = rng.randrange(32), rng.randrange(32)
+        px[x, y] = M.rgba(M.lift(px[x, y], rng.choice((-14, -9, 8))))
+    M.scratches(top, 8, 8702, (3, 9), 0.12)
+    M.grime(top, amount=0.06, seed=8703, cover=0.4)
+    s(top, "r4k-lunchtop")
+    s(plastic(8704, (58, 60, 62), 2), "r4k-tmould")
+    s(enamel(8705, (96, 98, 100), grime=0.1, chips=5), "r4k-lunchframe")
+    bench = plastic(8706, (190, 116, 62), 3)
+    M.grime(bench, amount=0.08, seed=8707, cover=0.4)
+    s(bench, "r4k-lunchbench")
+    # precast stone: walls, the coping, the outer face (grime low, drips from the coping), the inner face (wet, algae)
+    pc = M.concrete(8710, base=(188, 182, 168), aggregate=0.1, pores=0.02)
+    s(pc, "r4k-precast")
+    cop = M.concrete(8711, base=(198, 192, 178), aggregate=0.08, pores=0.015)
+    M.grime(cop, amount=0.08, seed=8712, cover=0.4)
+    s(cop, "r4k-coping")
+    out = M.concrete(8713, base=(186, 180, 166), aggregate=0.1, pores=0.02)
+    M.drips(out, n=4, seed=8714, color=(120, 112, 96), length=(6, 16), strength=0.3, start=0)
+    M.grime(out, amount=0.18, seed=8715, bias="bottom", cover=0.6)
+    s(out, "r4k-precast-out")
+    inner = M.concrete(8716, base=(150, 146, 134), aggregate=0.1, pores=0.02)
+    ip = inner.load()
+    for y in range(32):
+        for x in range(32):
+            c = ip[x, y]
+            if y <= 1:      # just above the water line: damp
+                ip[x, y] = M.rgba(M.lift(c, 10))
+            elif y <= 3:    # the algae line at the water line
+                ip[x, y] = M.rgba(M.mix(c, (82, 104, 66), 0.55 if (x * 7 + y * 3) % 5 else 0.35))
+            else:           # wet below
+                ip[x, y] = M.rgba(M.lift(M.mix(c, (96, 104, 96), 0.25), -12 - min(10, y // 3)))
+    s(inner, "r4k-precast-in")
+
+
+# ---------------------------------------------------------------------- cafeteria table and bench
+
+def lunch_table():
+    fr, ew = "r4k-lunchframe", ("east", "west")
+    els = [box("Top", (0, 11.4, 1.0), (16, 12.0, 15.0), {"top": "r4k-lunchtop", "bottom": "r4k-lunchtop", "side": "r4k-tmould"},
+               faces=fs(*ew)),
+           box("TmouldN", (0, 11.25, 0.75), (16, 12.15, 1.0), "r4k-tmould", faces=fs(*ew)),
+           box("TmouldS", (0, 11.25, 15.0), (16, 12.15, 15.25), "r4k-tmould", faces=fs(*ew)),
+           box("RailN", (0, 10.8, 3.0), (16, 11.4, 3.6), fr, faces=fs(*ew, "up")),
+           box("RailS", (0, 10.8, 12.4), (16, 11.4, 13.0), fr, faces=fs(*ew, "up")),
+           box("Spine", (0, 9.0, 7.3), (16, 10.4, 8.7), fr, faces=fs(*ew)),
+           box("Gum", (11.2, 11.15, 5.4), (11.9, 11.4, 6.1), "r4k-gum", faces=fs("up"))]
+    # the centre frame: a post from the spine to a foot along z with glides, arms out to both z edges at 0.3 block,
+    # braces from the spine down to the arms, cross plates up to the rails
+    x0, x1 = 7.5, 8.5
+    els += [box("Post", (x0, 1.0, 7.4), (x1, 9.0, 8.6), fr),
+            box("Foot", (x0 - 0.1, 0.3, 4.0), (x1 + 0.1, 1.0, 12.0), fr),
+            box("GlideN", (x0 - 0.2, 0, 4.0), (x1 + 0.2, 0.3, 5.0), "r4k-black", faces=fs("down")),
+            box("GlideS", (x0 - 0.2, 0, 11.0), (x1 + 0.2, 0.3, 12.0), "r4k-black", faces=fs("down")),
+            box("ArmN", (x0, 4.2, 0), (x1, 4.8, 7.4), fr, faces=fs("north")),
+            box("ArmS", (x0, 4.2, 8.6), (x1, 4.8, 16), fr, faces=fs("south")),
+            bar("BraceN", (8, 9.0, 7.0), (8, 4.8, 2.0), 0.6, fr),
+            bar("BraceS", (8, 9.0, 9.0), (8, 4.8, 14.0), 0.6, fr),
+            box("CrossN", (x0 - 0.05, 9.0, 3.0), (x1 + 0.05, 10.8, 3.6), fr, faces=fs("up")),
+            box("CrossS", (x0 - 0.05, 9.0, 12.4), (x1 + 0.05, 10.8, 13.0), fr, faces=fs("up")),
+            box("Hinge", (x0 - 0.3, 9.2, 6.9), (x1 + 0.3, 10.2, 9.1), "r4k-steel")]
+    return els
+
+
+def lunch_seat():
+    fr, ew = "r4k-lunchframe", ("east", "west")
+    x0, x1 = 7.5, 8.5
+    els = [box("Arm", (x0, 4.2, 0), (x1, 4.8, 9.6), fr, faces=fs("north")),
+           box("ArmEnd", (x0 - 0.1, 3.9, 9.6), (x1 + 0.1, 5.1, 10.0), "r4k-black"),
+           box("Post", (x0 + 0.1, 4.8, 4.0), (x1 - 0.1, 6.2, 5.0), fr, faces=fs("down")),
+           box("Bracket", (x0 - 1.2, 5.8, 2.6), (x1 + 1.2, 6.2, 7.4), fr, faces=fs("down")),
+           box("Bench", (0, 6.2, 1.8), (16, 7.2, 7.8), "r4k-lunchbench", faces=fs(*ew)),
+           box("BenchNoseN", (0, 6.0, 1.6), (16, 7.0, 1.8), "r4k-lunchbench", faces=fs(*ew, "south")),
+           box("BenchNoseS", (0, 6.0, 7.8), (16, 7.0, 8.0), "r4k-lunchbench", faces=fs(*ew, "north"))]
+    for x in (4.0, 11.6):   # the screws through the bracket into the plank, seen from under
+        els.append(box(f"Screw{x}", (x, 6.15, 3.6), (x + 0.4, 6.2, 4.0), "r4k-bolt", faces=("down",)))
+    return els
+
+
+# ---------------------------------------------------------------------- fountain rim
+
+def basinrim(kind):
+    """The rim wall z 4..12 (edge: along x, its ends joining the next; corner: an L with arms to +x and +z), the coping
+    overhanging both faces by 1 with a chamfered top, the bead and chamfer at the outer foot."""
+    pc, out, inn, cop = "r4k-precast", "r4k-precast-out", "r4k-precast-in", "r4k-coping"
+    W0, W1, CT = 4.0, 12.0, 14.4   # the wall's faces and the coping's underside
+    if kind == "edge":
+        return [box("Wall", (0, 0, W0), (16, CT, W1), {"front": out, "back": inn, "side": pc}, faces=("north", "south")),
+                box("Coping", (0, CT, W0 - 1), (16, 15.6, W1 + 1), cop, faces=("north", "south", "down")),
+                box("CopingTop", (0, 15.6, W0 - 0.7), (16, 16, W1 + 0.7), cop, faces=("north", "south", "up")),
+                box("Bead", (0, 0, W0 - 0.8), (16, 1.0, W0), out, faces=("north", "up")),
+                box("Chamfer", (0, 1.0, W0 - 0.4), (16, 1.4, W0), out, faces=("north", "up"))]
+    # the corner: the x arm (x W0..16), the z arm (z W0..16), the square where they meet
+    return [box("WallX", (W0, 0, W0), (16, CT, W1), {"front": out, "back": inn, "side": out}, faces=("north", "west")),
+            box("WallXIn", (W1, 0, W1 - 0.01), (16, CT, W1), inn, faces=("south",)),
+            box("WallZ", (W0, 0, W1), (W1, CT, 16), {"side": out, "back": inn}, faces=("west",)),
+            box("WallZIn", (W1 - 0.01, 0, W1), (W1, CT, 16), inn, faces=("east",)),
+            box("CopingX", (W0 - 1, CT, W0 - 1), (16, 15.6, W1 + 1), cop, faces=("north", "south", "west", "down")),
+            box("CopingZ", (W0 - 1, CT, W1 + 1), (W1 + 1, 15.6, 16), cop, faces=("east", "west", "down")),
+            box("CopingTopX", (W0 - 0.7, 15.6, W0 - 0.7), (16, 16, W1 + 0.7), cop, faces=("north", "south", "west", "up")),
+            box("CopingTopZ", (W0 - 0.7, 15.6, W1 + 0.7), (W1 + 0.7, 16, 16), cop, faces=("east", "west", "up")),
+            box("BeadX", (W0 - 0.8, 0, W0 - 0.8), (16, 1.0, W0), out, faces=("north", "west", "up")),
+            box("BeadZ", (W0 - 0.8, 0, W0), (W0, 1.0, 16), out, faces=("west", "up")),
+            box("ChamferX", (W0 - 0.4, 1.0, W0 - 0.4), (16, 1.4, W0), out, faces=("north", "west", "up")),
+            box("ChamferZ", (W0 - 0.4, 1.0, W0), (W0, 1.4, 16), out, faces=("west", "up"))]
+
+
+def shapes7():
+    return {"l52-lunch-table": lunch_table(), "l52-lunch-seat": lunch_seat(),
+            "l52-basinrim-edge": basinrim("edge"), "l52-basinrim-corner": basinrim("corner")}
+
+
+# ======================================================================== batch 8 (2026-11-03): the TV cart
+#
+#   l52-tvcart      a 2000s classroom CRT television (off) on a tall black steel AV cart, screen north: four corner posts,
+#                   three shelves (the top at 1.05 block), four casters, a VCR on the middle shelf, a power strip and a
+#                   coiled cable on the bottom shelf, the CRT up to 1.6 block with a bulged dark screen, buttons, a back
+#                   vent grille, a strap round it
+#
+# textures() and shapes() above include these; textures8(save) and shapes8() are the batch on its own.
+
+def vcr_face(seed):
+    img = M.noise_hv((50, 52, 56), 2, seed, (64, 64), 2, (16, 8))
+    d = ImageDraw.Draw(img)
+    d.rectangle((6, 22, 36, 30), fill=(18, 18, 20, 255), outline=(80, 82, 86, 255))   # the tape slot's flap
+    d.rectangle((42, 20, 58, 30), fill=(20, 26, 24, 255))                             # the display, dark
+    for x in (8, 15, 22, 29):
+        d.rectangle((x, 38, x + 4, 42), fill=(96, 98, 104, 255))
+    d.ellipse((50, 38, 55, 43), fill=(110, 112, 116, 255))
+    M.ao_border(img, 3, 0.2)
+    return img
+
+
+def crt_screen(seed):
+    img = M.noise_hv((40, 46, 44), 2, seed, (32, 32), 2, (16, 8))
+    px = img.load()
+    for y in range(32):   # a dull curved reflection and darker corners
+        for x in range(32):
+            d = math.hypot(x - 11, y - 9)
+            px[x, y] = M.rgba(M.lift(px[x, y], 10 if d < 5 else 4 if d < 9 else 0))
+            if min(x, y, 31 - x, 31 - y) < 2:
+                px[x, y] = M.rgba(M.lift(px[x, y], -8))
+    return img
+
+
+def textures8(save):
+    s = save
+    crt = plastic(8800, (194, 188, 170), 2)
+    M.grime(crt, amount=0.08, seed=8801, cover=0.4)
+    s(crt, "r4k-crt")
+    s(crt_screen(8802), "r4k-crtscreen")
+    s(plastic(8803, (52, 54, 58), 2), "r4k-vcr")
+    s(vcr_face(8804), "r4k-vcr-face")
+    st = M.painted_metal(8805, base=(36, 36, 38), panel=False, chips=6, under=(110, 108, 104))
+    M.grime(st, amount=0.06, seed=8806, cover=0.4)
+    s(st, "r4k-cartsteel")
+    sh = plastic(8807, (30, 30, 32), 2)
+    M.grime(sh, amount=0.12, seed=8808, color=(120, 114, 100), cover=0.5)   # dust on the shelves
+    s(sh, "r4k-cartshelf")
+
+
+def tvcart():
+    st, sh, crt = "r4k-cartsteel", "r4k-cartshelf", "r4k-crt"
+    els = []
+    # the cart: posts, three shelves with front and back lips, casters
+    for x in (1.5, 13.7):
+        for z in (2.0, 13.2):
+            els.append(box(f"Post{x}{z}", (x, 1.4, z), (x + 0.8, 16.9, z + 0.8), st))
+            cx, cz = x + 0.4, z + 0.4
+            els += [box(f"Plate{x}{z}", (cx - 0.7, 1.2, cz - 0.7), (cx + 0.7, 1.4, cz + 0.7), st),
+                    box(f"Fork{x}{z}", (cx - 0.5, 0.6, cz - 0.7), (cx + 0.5, 1.2, cz + 0.7), st, faces=fs("down"))]
+            els += octo(f"Wheel{x}{z}", (cx - 0.3, 0, cz - 0.6), (cx + 0.3, 1.2, cz + 0.6), "r4k-rubber", axis="x")
+    for i, y in enumerate((2.6, 9.6, 17.2)):
+        els += [box(f"Shelf{i}", (1.6, y - 0.6, 2.1), (14.4, y, 13.9), sh, faces=fs()),
+                box(f"LipN{i}", (2.3, y, 2.1), (13.7, y + 0.5, 2.5), sh, faces=fs("east", "west")),
+                box(f"LipS{i}", (2.3, y, 13.5), (13.7, y + 0.5, 13.9), sh, faces=fs("east", "west"))]
+    # the VCR on the middle shelf
+    vf = box("Vcr", (3.0, 9.6, 4.0), (13.0, 11.1, 11.6), {"front": "r4k-vcr-face", "side": "r4k-vcr"}, faces=fs("down"))
+    full_uv(vf, "north")
+    els.append(vf)
+    for x in (3.6, 11.8):
+        els.append(box(f"VcrFoot{x}", (x, 9.6, 4.6), (x + 0.6, 9.75, 5.2), "r4k-black", faces=("north", "east", "west")))
+    # the power strip and a coiled cable on the bottom shelf, its lead up a post
+    els += [box("Strip", (4.0, 2.6, 9.6), (10.0, 3.3, 10.8), "r4k-white-plastic", faces=fs("down")),
+            box("StripSwitch", (9.2, 3.3, 9.9), (9.7, 3.5, 10.5), "r4k-hand-red", faces=fs("down")),
+            box("Plug", (5.0, 3.3, 9.8), (6.0, 4.2, 10.6), "r4k-black", faces=fs("down"))]
+    els += ring_y("Coil", 9.0, 6.2, 2.6, 3.0, 1.8, 0.35, "r4k-cable", n=8, faces=("north", "up"))
+    els += ring_y("CoilB", 9.0, 6.2, 3.0, 3.4, 1.4, 0.35, "r4k-cable", n=8, faces=("north", "up"), phase=22.5)
+    els += [box("Lead", (13.5, 3.3, 13.3), (13.7, 16.6, 13.5), "r4k-cable", faces=fs("up", "down"))]
+    # the CRT on the top shelf: the front bezel, the tapering back, the rear with its vent grille
+    y0 = 17.2
+    els += [box("Bezel", (2.4, y0, 3.0), (13.6, y0 + 8.4, 8.0), crt, faces=fs("down")),
+            box("Body", (3.4, y0 + 0.4, 8.0), (12.6, y0 + 7.6, 11.0), crt, faces=fs("down", "north")),
+            box("Rear", (5.0, y0 + 1.4, 11.0), (11.0, y0 + 6.4, 13.2), {"back": "r4k-vent", "side": crt}, faces=fs("down", "north")),
+            box("Screen", (3.4, y0 + 1.4, 2.75), (12.6, y0 + 7.6, 3.0), "r4k-crtscreen", faces=("north", "up", "down", "east", "west")),
+            box("Bulge", (4.2, y0 + 2.1, 2.55), (11.8, y0 + 6.9, 2.75), "r4k-crtscreen", faces=("north", "up", "down", "east", "west")),
+            box("Foot", (4.0, y0, 4.0), (12.0, y0 + 0.2, 10.0), "r4k-black", faces=("north", "east", "west", "south"))]
+    for i, x in enumerate((9.0, 9.9, 10.8, 11.7)):   # the front buttons and a dark power lamp
+        els.append(box(f"Btn{i}", (x, y0 + 0.4, 2.85), (x + 0.6, y0 + 0.9, 3.0), "r4k-vcr", faces=fs("south")))
+    els += [box("Power", (3.6, y0 + 0.4, 2.8), (4.6, y0 + 1.0, 3.0), "r4k-vcr", faces=fs("south")),
+            box("Lamp", (5.0, y0 + 0.55, 2.9), (5.3, y0 + 0.85, 3.0), "r4k-led-off", faces=("north",))]
+    # the strap over the set, side to side, its buckle
+    els += [box("StrapTop", (2.3, y0 + 8.4, 6.6), (13.7, y0 + 8.6, 7.4), "r4k-black", faces=fs("down")),
+            box("StrapL", (13.6, y0, 6.6), (13.8, y0 + 8.4, 7.4), "r4k-black", faces=fs("west")),
+            box("StrapR", (2.2, y0, 6.6), (2.4, y0 + 8.4, 7.4), "r4k-black", faces=fs("east")),
+            box("Buckle", (13.75, y0 + 3.0, 6.4), (13.95, y0 + 4.2, 7.6), "r4k-satin", faces=fs("west"))]
+    return els
+
+
+def shapes8():
+    return {"l52-tvcart": tvcart()}

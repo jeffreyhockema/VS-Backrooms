@@ -33,7 +33,8 @@ public sealed partial class WorldGenerator
     private readonly int[,,,] l52Plaque = new int[2, 10, 10, 4];
     private readonly int[,] l52Stall = new int[2, 4], l52Hood = new int[2, 4], l52Ladder = new int[2, 4], l52LabBench = new int[3, 4];
     private readonly int[,,] l52Stack = new int[2, 2, 4];
-    private readonly int[,] l52Counter = new int[3, 4];
+    private readonly int[,] l52Counter = new int[3, 4], l52Lunch = new int[2, 4];
+    private readonly int[] l52TvCart = new int[4];
     private readonly int[] l52Bleacher = new int[4], l52PitchLine = new int[2], l52Track = new int[3];
     private readonly int[] l52Slab = new int[11], l52Facade = new int[5], l52Turf = new int[2], l52Court = new int[3], l52Paving = new int[2],
         l52GymLine = new int[3], l52Desk = new int[4], l52Fountain = new int[4];
@@ -119,6 +120,9 @@ public sealed partial class WorldGenerator
             string[] benches = { "plain", "sink", "gas" };
             for (int k = 0; k < 3; k++) l52LabBench[k, f] = L52Block($"l52-labbench-{benches[k]}-{Sides[f]}");
             for (int k = 0; k < 3; k++) l52Counter[k, f] = L52Block($"l52-counter-{"abc"[k]}-{Sides[f]}");
+            l52TvCart[f] = L52Block($"l52-tvcart-{Sides[f]}");
+            l52Lunch[0, f] = L52Block($"l52-lunch-table-{Sides[f]}");
+            l52Lunch[1, f] = L52Block($"l52-lunch-seat-{Sides[f]}");
             for (int k = 0; k < 2; k++)
                 for (int part = 0; part < 2; part++) l52Stack[k, part, f] = L52Block($"l52-stack-{(k == 0 ? "a" : "b")}-{halves[part]}-{Sides[f]}");
         }
@@ -484,6 +488,10 @@ public sealed partial class WorldGenerator
         {
             Props.L52Desk => l52Desk[f],
             Props.L52Fountain => l52Fountain[f],
+            Props.L52LunchTable => l52Lunch[0, f],
+            // (Round 4) the classroom's television is a CRT on an AV cart
+            Props.Tv when l52TvCart[f] != 0 => l52TvCart[f],
+            Props.L52LunchSeat => l52Lunch[1, f],
             // (Round 4) the school's own counter, not the hotel's reception desk with its WELCOME
             Props.ReceptionDesk when l52Counter[0, f] != 0 => l52Counter[(int)(Hashing.Hash(seed, gx, gz, 0x2344) % 5) switch { 0 => 0, 1 or 2 => 1, _ => 2 }, f],
             _ => AnyProp(new Tile { Kind = TileKind.Floor, Variant = prop, Pier = facing, Stack = stack, Level = t.Level }, 1),

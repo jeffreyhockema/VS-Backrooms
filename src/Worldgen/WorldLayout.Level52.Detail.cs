@@ -677,7 +677,14 @@ public sealed partial class WorldLayout
                 t.Floor = FloorKind.L52Paving;
                 if (r >= 4) continue;
                 t.Kind = TileKind.Wall; // (the rim, the water and the jet: not walked on)
-                if (r == 3) L52Fix(c, mu + du, mv + dv, "l52-coping", 1, 1);
+                if (r == 3)
+                {
+                    // (Round 4) the basin's rim: a coped precast wall, mitred at the corners
+                    bool corner = Math.Abs(du) == 3 && Math.Abs(dv) == 3;
+                    ArchPier rs = corner ? (du < 0 ? (dv < 0 ? ArchPier.North : ArchPier.West) : (dv < 0 ? ArchPier.East : ArchPier.South))
+                        : du == -3 ? ArchPier.West : du == 3 ? ArchPier.East : dv == -3 ? ArchPier.North : ArchPier.South;
+                    L52Fix(c, mu + du, mv + dv, $"l52-basinrim-{(corner ? "corner" : "edge")}-{L52Side(rs)}", 1, 1);
+                }
                 else if (r == 0) L52Fix(c, mu + du, mv + dv, "l52-jet", 1, 1);
                 else L52Fix(c, mu + du, mv + dv, "=water", 1, 1);
             }

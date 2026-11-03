@@ -560,7 +560,7 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
 14. (B) `l52-flagpole-*`: a plinth with a plaque, the pole's taper, a cleat and halyard, the flag cloth in folds (rotated elements). [done]
 15. (B) `l52-post-*` boards on posts: posts with caps and feet, a framed board with a canopy and bolts. [done]
 16. (B) `l52-vent` / `l52-hvac-*` roof plant: a gooseneck/mushroom vent; air handlers as one unit with louvres, fan shroud, access panels and a duct into the roof. [partly: the vent rebuilt (mushroom cap on a flashed curb); the air handlers see the list's end]
-17. (C) `l52-jet` / courtyard fountain: a tiered bowl on a fluted column, the basin rim with coping. [skipped: time]
+17. (C) `l52-jet` / courtyard fountain: a tiered bowl on a fluted column, the basin rim with coping. [done] (`l52-jet` rebuilt; `l52-basinrim-{edge,corner}-*`: a coped precast rim, wet and green at the water line inside)
 18. (C) `l52-bikerack-*`: fine as it is (16 boxes); leave. [skipped: already at the bar]
 
 **2. Multi-block set pieces**
@@ -587,7 +587,7 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
 
 **4. Lore**
 37. (A) Keep digits-only signage: the scoreboard and court use numbers and generic words (HOME, GUEST), no campus or school names. [done]
-38. (B) Classrooms' 2000s audiovisual gear: the projector (item 25) and the corner TV on its wall bracket or cart (shared `Tv` today). [partly: the projector; the corner TV is the shared one; a poster on the back wall of half the classrooms]
+38. (B) Classrooms' 2000s audiovisual gear: the projector (item 25) and the corner TV on its wall bracket or cart (shared `Tv` today). [done] (the projector; the corner TV now a CRT strapped on an AV cart with a VCR, `l52-tvcart-*`, off; a poster on the back wall of half the classrooms)
 39. (C) The M.E.G.'s presence on the top floor: their placards (shared `megplacard`) by the outpost sign. [skipped: time]
 
 **5. Alignment with the other levels**
@@ -647,7 +647,9 @@ front office's and library's counter was the hotel reception desk with WELCOME o
 `l52-counter-*`; the chain-link fences (campus and courts) get a galvanised post every third block (`l52-chainpost-*`); flat roofs
 get ballast gravel in patches (`l52-roofgravel`; item 36 after all); the gym's scoreboard, which found no window-free stretch of
 long wall, falls back to the changing rooms' cross wall beside the hoop (then over windows); a hall's interior walls are plain
-upper paint on their upper storey (the cross wall showed a second skirting band at the hoop's height).
+upper paint on their upper storey (the cross wall showed a second skirting band at the hoop's height); the canteens' folding
+tables and chairs became long folding lunch tables with their benches (`l52-lunch-{table,seat}-*`, Props.L52LunchTable 1109,
+L52LunchSeat 1110).
 
 ### What the shots showed
 - **Run 1** (`%TEMP%/backrooms-shots/52-r4a`, `sheet.jpg`): the gym hoop (truss, orange-framed board with its pad, rim and

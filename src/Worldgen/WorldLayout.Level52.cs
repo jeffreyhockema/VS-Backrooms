@@ -1653,10 +1653,11 @@ public sealed partial class WorldLayout
                 if (d == 0 && a == 1) { facing = intoRoom; return Props.L52Fountain; }
                 if (d >= 3 && d <= ld - 4 && a >= 3 && a <= la - 4 && a % 9 != 0)
                 {
+                    // (Round 4) long folding lunch tables with their benches either side
                     int row = (d - 3) % 4;
-                    if (row == 1) return Props.FoldingTable;
-                    if (row == 0 && a % 2 == 0) { facing = intoRoom; return Props.FoldingChair; }
-                    if (row == 2 && a % 2 == 0) { facing = room.DoorSide; return Props.FoldingChair; }
+                    if (row == 1) { facing = intoRoom; return Props.L52LunchTable; }
+                    if (row == 0) { facing = intoRoom; return Props.L52LunchSeat; }
+                    if (row == 2) { facing = room.DoorSide; return Props.L52LunchSeat; }
                 }
                 return 0;
             }

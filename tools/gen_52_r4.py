@@ -676,6 +676,8 @@ def expected():
         codes.add(f"l52-lseat-{s}")
         for k in "abc":
             codes.add(f"l52-counter-{k}-{s}")
+        codes.add(f"l52-tvcart-{s}")
+        codes |= {f"l52-lunch-table-{s}", f"l52-lunch-seat-{s}", f"l52-basinrim-edge-{s}", f"l52-basinrim-corner-{s}"}
         for h in ("lower", "upper"):
             codes.add(f"l52-trophy-{h}-{s}")
             codes.add(f"l52-ladder-{h}-{s}")
@@ -793,6 +795,20 @@ def set_blocktypes():
                 "Level 52: a front office's or library's counter, the visitors' side toward its side: laminate front, a transaction "
                 "ledge, the staff worktop behind (a binder, a pen cup, a desk bell left on it)", "Wood", G.WOOD,
                 lambda p: (0, 0, 0, 1, 1, 0.36), sel=lambda p: (0, 0, 0, 1, 1, 1))
+    R3.oriented("l52-lunch", [G.group("part", ["table", "seat"]), G.group("side", SIDES)],
+                {"l52-lunch-table": sh("l52-lunch-table"), "l52-lunch-seat": sh("l52-lunch-seat")},
+                "Level 52: a canteen's folding lunch table (table: the top on its folding frame, the rows of them making one long table; "
+                "seat: the bench on the frame's arm, facing the table)", "Wood", G.WOOD,
+                lambda p: (0, 0, 0.05, 1, 0.75, 0.95) if p.endswith("table") else (0, 0, 0.1, 1, 0.45, 0.5))
+    R3.oriented("l52-basinrim", [G.group("part", ["edge", "corner"]), G.group("side", SIDES)],
+                {"l52-basinrim-edge": sh("l52-basinrim-edge"), "l52-basinrim-corner": sh("l52-basinrim-corner")},
+                "Level 52: the courtyard fountain's coped precast rim (edge: the paving toward its side; corner: toward its side and to the "
+                "left of it), wet below the water line inside", "Stone", G.STONE,
+                lambda p: (0, 0, 0.19, 1, 1, 0.81) if p.endswith("edge") else (0.19, 0, 0.19, 1, 1, 1), resistance=6)
+    R3.oriented("l52-tvcart", [G.group("side", SIDES)], {"l52-tvcart": sh("l52-tvcart")},
+                "Level 52: a classroom's CRT television strapped on a tall AV cart with a VCR under it (off, like everything electrical in "
+                "a classroom), its screen toward its side", "Metal", G.METAL, lambda p: (0.09, 0, 0.12, 0.91, 1, 0.88),
+                sel=lambda p: (0.09, 0, 0.12, 0.91, 1, 0.88))
     G.json_block("l52-planter", [], {"*": {"base": sh("l52-planter")}},
                  "Level 52: a square concrete planter by an entrance, a clipped shrub in it (and the odd cigarette end), a corner chipped",
                  "Stone", G.STONE, {"*": G.cuboid((0.04, 0, 0.04, 0.96, 0.66, 0.96))}, {"*": G.cuboid((0.04, 0, 0.04, 0.96, 0.98, 0.96))},
