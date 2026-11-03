@@ -66,6 +66,16 @@ public static class NeedsMath
     public static float FatigueStability(float awake, bool caffeinated) =>
         caffeinated ? 0f : StabilityAtDead * Math.Clamp((awake - StabilityFromHours) / (Needs.DeadHours - StabilityFromHours), 0f, 1f);
 
+    /// <summary>How much faster awake time runs while sprinting (2026-11): ten minutes of sprinting are forty awake minutes.</summary>
+    public const float SprintTiring = 4f;
+
+    /// <summary>
+    /// Awake hours gained over <paramref name="hours"/> game hours awake, <paramref name="sprintShare"/> of them (0 to 1) spent
+    /// sprinting: an hour each walking or standing, <see cref="SprintTiring"/> each sprinting.
+    /// </summary>
+    public static float AwakeGain(float hours, float sprintShare) =>
+        hours * (1f + (SprintTiring - 1f) * Math.Clamp(sprintShare, 0f, 1f));
+
     /// <summary>Awake hours one slept game hour removes in a bed of this quality (1: 60 hours in 8).</summary>
     public static float RestPerHour(float quality) => Needs.RestPerSleptHour * quality;
 
@@ -145,6 +155,10 @@ public static class NeedsMath
         Check("fatigue: vanilla gate open at 24.1 h", Tiredness(24.1f) > 8 ? 1 : 0, 1, 0);
         Check("fatigue: tiredness at 60 h", Tiredness(60), 12, 1e-5);
         Check("fatigue: tiredness at 84 h (capped)", Tiredness(84), 12, 1e-5);
+        Check("fatigue: an hour walking adds an awake hour", AwakeGain(1, 0), 1, 1e-6);
+        Check("fatigue: an hour sprinting adds four", AwakeGain(1, 1), 4, 1e-6);
+        Check("fatigue: ten minutes sprinting add forty awake minutes", AwakeGain(10 / 60f, 1) * 60, 40, 1e-4);
+        Check("fatigue: a quarter of the time sprinting adds 1.75", AwakeGain(1, 0.25f), 1.75, 1e-6);
         Check("fatigue: walkspeed at 44.9 h", FatigueWalk(44.9f, false), 0, 1e-6);
         Check("fatigue: walkspeed at 45 h", FatigueWalk(45, false), -0.1, 1e-6);
         Check("fatigue: walkspeed at 60 h", FatigueWalk(60, false), -0.2, 1e-6);

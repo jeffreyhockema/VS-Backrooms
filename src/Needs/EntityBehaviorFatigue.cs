@@ -10,7 +10,8 @@ namespace Backrooms.Needs;
 
 /// <summary>
 /// Fatigue and sleep (docs/design/needs/README.md, section 4). Awake hours in the watched tree <see cref="Needs.FatigueTree"/>
-/// grow by one a game hour awake (by the calendar, so a changed day length or the sleep clock behave), pause while
+/// grow by one a game hour awake (by the calendar, so a changed day length or the sleep clock behave; four an hour sprinting,
+/// <see cref="NeedsMath.AwakeGain"/>), pause while
 /// caffeinated (and land all at once, 8 a cup, when it wears off), and fall while the player sleeps in a bed, by
 /// <see cref="Needs.RestPerSleptHour"/> times the bed's quality per slept hour. They set vanilla's <c>tiredness</c> (so its
 /// bed gate opens at 24), the walkspeed and stability penalties, and, per slept hour outside a safe place, the chance of a
@@ -28,7 +29,7 @@ public class EntityBehaviorFatigue : EntityBehavior
     private const float OffRestPerHour = 1.5f, OffSleepHours = 8f;
 
     private double lastHours = -1;
-    private float counter;
+    private float counter, sprintCounter;
     private float lastSynced = -1;
     private double sleptAcc, sleptTotal;
     private string pendingWake;
@@ -88,10 +89,12 @@ public class EntityBehaviorFatigue : EntityBehavior
             pendingWake = null;
             sleeping = false;
         }
+        // (Sprinting tires: the share of the second spent sprinting runs the awake hours at NeedsMath.SprintTiring)
+        if (player.Controls is { TriesToMove: true, Sprint: true }) sprintCounter += deltaTime;
         counter += deltaTime;
         if (counter < 1f) return;
-        float seconds = counter;
-        counter = 0;
+        float seconds = counter, sprintShare = Math.Min(1f, sprintCounter / seconds);
+        counter = sprintCounter = 0;
 
         IWorldAccessor world = entity.World;
         double now = world.Calendar.TotalHours;
@@ -150,7 +153,7 @@ public class EntityBehaviorFatigue : EntityBehavior
                 sleeping = false;
             }
         }
-        else if (!caffeinated) awake += hours;
+        else if (!caffeinated) awake += NeedsMath.AwakeGain(hours, sprintShare);
         awake = GameMath.Clamp(awake, 0, Needs.CapHours);
         tree.SetFloat("awakeHours", awake);
 
