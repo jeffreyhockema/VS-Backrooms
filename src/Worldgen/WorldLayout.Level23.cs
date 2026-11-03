@@ -397,6 +397,9 @@ public sealed partial class WorldLayout
             t.SentryFacing = Math.Abs(ca) > Math.Abs(sa) ? (ca > 0 ? ArchPier.East : ArchPier.West) : (sa > 0 ? ArchPier.South : ArchPier.North);
         }
         L23MaybeHollow(ref t, i, j);
+        // (Round 4, the look only: a hollow trunk, a way in, is green-barked like the Green Giants and the hollow trees of
+        // Levels 37 and 47 the lore names)
+        if (t.Hollow) t.Kind = L23BarkGreen;
         return t;
     }
 

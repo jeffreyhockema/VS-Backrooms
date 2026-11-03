@@ -405,6 +405,8 @@ public sealed partial class WorldGenerator
         {
             // (The well at the bottom of the pool, where the reservoir goes on down: dark roots, no gravel)
             if (ground == WorldLayout.L23WellFloor) return l23Tangle;
+            // (Round 4: the water's edge rimmed with mossy stones, most of the way round)
+            if (ground == WorldLayout.L23PoolSurface && Noise2(gx / 4.0, gz / 4.0, SaltL23Mat + 18) > -0.35) return l23Bark[WorldLayout.L23Boulder];
             if (fromMid < WorldLayout.L23PoolRadius) return Noise2(gx / 6.0, gz / 6.0, SaltL23Mat + 1) > 0.1 ? l23Gravel : l23Sand;
             if (fromMid < WorldLayout.L23PoolRadius + 3) return l23Gravel;
             return Noise2(gx / 9.0, gz / 9.0, SaltL23Mat + 2) > -0.2 ? l23Moss : l23Humus;
@@ -412,6 +414,8 @@ public sealed partial class WorldGenerator
         // (Round 3: the M.E.G.'s trails out from Base Seedling's tunnels, trodden bare)
         if (layout.L23OnTrail(gx, gz)) return L23Unit(gx, gz, 26) < 0.25 ? l23Litter : l23Earth;
         if (hole) return l23Moss;
+        // (Round 4: bare petrified stone breaking through the humus in patches here and there)
+        if (Noise2(gx / 17.0, gz / 17.0, SaltL23Mat + 19) > 0.62) return l23Bark[WorldLayout.L23Boulder];
         double n = Noise2(gx / 13.0, gz / 13.0, SaltL23Mat + 3);
         if (n > 0.35) return l23Moss;
         if (n < -0.4) return l23Litter;
@@ -635,9 +639,9 @@ public sealed partial class WorldGenerator
         // (and on the Parthenon's plaza, two columns that stood apart, one broken off at the height of a man, one a stump)
         if (cave.Ruin == Ruin.Parthenon && (u, v) is (-10, 9) or (10, 10) && floor + 3 < ceiling)
         {
-            b[floor + 1 - L23Low] = l23Column[0, 1, 0];
-            b[floor + 2 - L23Low] = l23Column[u < 0 ? 1 : 3, 1, 0];
-            if (u < 0) b[floor + 3 - L23Low] = l23Column[3, 0, 0];
+            b[floor + 1 - L23Low] = l23Pillar[0, 1, 0];
+            b[floor + 2 - L23Low] = l23Pillar[u < 0 ? 1 : 3, 1, 0];
+            if (u < 0) b[floor + 3 - L23Low] = l23Pillar[3, 0, 0];
             return;
         }
         // Pottery: on the plaza and in the rooms, on the first floor up; and the fungi the lore says overgrow the ruins,
@@ -757,10 +761,12 @@ public sealed partial class WorldGenerator
         {
             // (Round 4: the colonnade's columns as columns, a base, a fluted shaft and a capital; mossy at their feet)
             if (dmin >= 1.5 && dmin < 2.5)
-                return L23Mod((int)Math.Round(along), 3) != 0 ? 0 : h == 2 ? l23RuinStone : l23Column[h == 3 ? 0 : h == 8 ? 2 : 1, h <= 4 ? 1 : 0, 0];
+                return L23Mod((int)Math.Round(along), 3) != 0 ? 0 : h == 2 ? l23RuinStone : l23Pillar[h == 3 ? 0 : h == 8 ? 2 : 1, h <= 4 ? 1 : 0, 0];
             if (dmin >= 5 && dmin < 6)
             {
                 if (south && Math.Abs(u) <= 1 && h <= 5) return 0;
+                // (Round 4: a carved lintel over the door)
+                if (south && Math.Abs(u) <= 1 && h == 6) return l23Frieze[Facing(ArchPier.South)];
                 if (south && h == 4 && Math.Abs(u) == 3) return l23Latin[Math.Sign(u) > 0 ? 1 : 2];
                 return l23RuinStone;
             }

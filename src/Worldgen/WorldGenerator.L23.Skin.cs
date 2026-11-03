@@ -20,9 +20,10 @@ public sealed partial class WorldGenerator
     /// <summary>Base Seedling's wall tents by part (nw, ne, sw, se as the detail kit's camptent) and facing; its counter by part (l, m, r) and facing.</summary>
     private readonly int[,] l23Tent = new int[4, 4], l23Counter = new int[3, 4];
     /// <summary>The Parthenon's columns by part (base, shaft, capital, broken), moss (clean, mossy) and facing; the statues by part (plinth, lower, upper) and facing; lily pads.</summary>
-    private readonly int[,,] l23Column = new int[4, 2, 4];
+    private readonly int[,,] l23Pillar = new int[4, 2, 4];
     private readonly int[,] l23Statue = new int[3, 4];
-    private int l23LilyPad, l23Sunbeam, l23Brazier;
+    private readonly int[] l23Frieze = new int[4];
+    private int l23LilyPad, l23Sunbeam, l23Brazier, l23Nest;
     /// <summary>Root knuckles (bare, mossed), facing north only (they are the same every way).</summary>
     private readonly int[] l23RootKnuckle = new int[2];
 
@@ -31,6 +32,7 @@ public sealed partial class WorldGenerator
         l23LilyPad = Id("l23-lilypad");
         l23Sunbeam = Id("l23-sunbeam");
         l23Brazier = OptionalId("backrooms:l47-brazier");
+        l23Nest = Id("l23-nest");
         l23RootKnuckle[0] = Id("l23-rootknuckle-bare-north");
         l23RootKnuckle[1] = Id("l23-rootknuckle-moss-north");
         string[] faceBarks = { "grey", "red", "pale", "dark", "green", "aspen", "moss" };
@@ -58,8 +60,9 @@ public sealed partial class WorldGenerator
             string[] columnParts = { "base", "shaft", "capital", "broken" }, statueParts = { "plinth", "lower", "upper" };
             for (int p = 0; p < 4; p++)
                 for (int m = 0; m < 2; m++)
-                    l23Column[p, m, f] = Id($"l23-column-{columnParts[p]}-{(m == 0 ? "clean" : "mossy")}-{Sides[f]}");
+                    l23Pillar[p, m, f] = Id($"l23-column-{columnParts[p]}-{(m == 0 ? "clean" : "mossy")}-{Sides[f]}");
             for (int p = 0; p < 3; p++) l23Statue[p, f] = Id($"l23-statue-{statueParts[p]}-{Sides[f]}");
+            l23Frieze[f] = Id($"l23-frieze-clean-{Sides[f]}");
         }
         for (int b = 0; b < 5; b++)
             for (int p = 0; p < logParts.Length; p++)
@@ -138,6 +141,10 @@ public sealed partial class WorldGenerator
             b[on] = l23Flare[2, 0, Facing(sf)];
         if (layout.L23LimbAt(gx, gz, out int rel, out ArchPier lf, out byte bark, out bool longLimb) && rel - L23Low is > 0 and < L23Height
             && b[rel - L23Low] == 0 && c.Wood[rel - L23Low] == 0)
+        {
             b[rel - L23Low] = l23Limb[L23LogBark(bark), longLimb ? 1 : 0, Facing(lf)];
+            // (now and then a bird's nest on a long one)
+            if (longLimb && rel + 1 - L23Low < L23Height && b[rel + 1 - L23Low] == 0 && L23Unit(gx, gz, 43) < 0.18) b[rel + 1 - L23Low] = l23Nest;
+        }
     }
 }

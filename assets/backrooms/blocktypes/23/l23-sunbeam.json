@@ -14,7 +14,7 @@
 	"shape": {
 		"base": "block/23/sunbeam"
 	},
-	"renderpass": "BlendNoCull",
+	"renderpass": "Transparent",
 	"faceCullMode": "NeverCull",
 	"emitSideAo": {
 		"all": false

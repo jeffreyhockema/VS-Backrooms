@@ -292,6 +292,99 @@ def stone_fern_shape():
     return els
 
 
+# ---------------- A carved lintel ----------------
+
+def frieze_shape():
+    """A carved lintel over a door (front north): the stone set back two px, a cornice over it, a row of dentils under
+    it, a garland of carved leaves swagged across, a rosette in its middle; fits side by side into a lintel."""
+    s = "#stone"
+    els = [E("Core", (0, 0, 2), (16, 16, 16), every(s)),
+           E("Cornice", (0, 13.4, 0), (16, 15.0, 2), every(s)), E("CorniceTop", (0, 15.0, 0.8), (16, 16, 2), every(s)),
+           E("Fascia", (0, 1.6, 1.2), (16, 3.0, 2), every(s))]
+    for k in range(8):
+        els.append(E(f"Dentil{k}", (k * 2 + 0.3, 3.0, 1.0), (k * 2 + 1.3, 4.2, 2), every(s)))
+    # The swag: leaves stepping down to the middle and up again
+    for k in range(8):
+        x = 1 + k * 1.8
+        y = 9.6 - 2.6 * math.sin(math.pi * (k + 0.5) / 8)
+        els.append(E(f"Leaf{k}", (x, y, 0.8), (x + 2.0, y + 1.6, 2), every("#moss" if k % 3 == 0 else s),
+                     {"rotationOrigin": [x + 1, y + 0.8, 1.4], "rotationZ": 25 if k < 4 else -25}))
+    els += [E("Rosette", (6.6, 8.4, 0.4), (9.4, 11.2, 2), every(s)), E("RosetteEye", (7.4, 9.2, 0.0), (8.6, 10.4, 0.4), every(s))]
+    return els
+
+
+# ---------------- A bird's nest ----------------
+
+def nest_shape():
+    """A nest of twigs on a limb (the block over the limb, the trunk south): a ring of twigs crossing at angles round a
+    bowl, three pale eggs. The lore's Curabitur Birds live in the Garden; nobody has seen one up close."""
+    els = [E("Bowl", (5.2, 0, 6.2), (10.8, 1.2, 11.8), every("#twig"))]
+    for k in range(10):
+        a = k * 36
+        els.append(E(f"Twig{k}", (3.2, 0.6 + (k % 3) * 0.5, 8.6), (12.8, 1.3 + (k % 3) * 0.5, 9.4), every("#twig"),
+                     {"rotationOrigin": [8, 1, 9], "rotationY": a, "rotationZ": 6 if k % 2 else -6}))
+    for k, (x, z) in enumerate(((6.8, 8.2), (8.6, 9.6), (7.0, 10.0))):
+        els.append(E(f"Egg{k}", (x, 1.0, z), (x + 1.3, 2.4, z + 1.0), every("#egg")))
+    return els
+
+
+# ---------------- Stone sapling and shrub ----------------
+
+def stone_sapling_shape():
+    """A young tree gone to stone: a trunk narrowing in three lengths with a little lean, a flare at its foot, five
+    branches spiralling up it (lifted about z, swung about y), each with a side twig, the leader snapped off at the top."""
+    rng = random.Random(12)
+    b = "#bark"
+    els = [E("Foot", (6.6, 0, 6.6), (9.4, 1.2, 9.4), every(b)),
+           E("Trunk1", (7.2, 0, 7.2), (8.8, 6, 8.8), every(b), {"rotationOrigin": [8, 0, 8], "rotationZ": 3}),
+           E("Trunk2", (7.4, 5.6, 7.4), (8.6, 11, 8.6), every(b), {"rotationOrigin": [8, 0, 8], "rotationZ": 4}),
+           E("Trunk3", (7.6, 10.6, 7.6), (8.4, 15.4, 8.4), every(b), {"rotationOrigin": [8, 0, 8], "rotationZ": 5}),
+           E("Snap", (7.5, 15.2, 7.7), (8.1, 16.4, 8.3), every(b), {"rotationOrigin": [8, 0, 8], "rotationZ": 9})]
+    for k in range(5):
+        y = 5 + k * 2.1
+        yaw = k * 137 + rng.uniform(-15, 15)
+        length = 6.5 - k * 0.8
+        rot = {"rotationOrigin": [8, y, 8], "rotationZ": rng.uniform(18, 34), "rotationY": yaw}
+        els.append(E(f"Branch{k}", (8, y, 7.65), (8 + length, y + 0.7, 8.35), every(b), rot))
+        rot2 = {"rotationOrigin": [8, y, 8], "rotationZ": rng.uniform(40, 55), "rotationY": yaw + 35}
+        els.append(E(f"Twig{k}", (8 + length * 0.5, y, 7.75), (8 + length * 0.5 + 2.6, y + 0.5, 8.25), every(b), rot2))
+    return els
+
+
+def stone_shrub_shape():
+    """A shrub gone to stone: seven stems fanning from a knot at the ground, each with two side twigs."""
+    rng = random.Random(11)
+    b = "#bark"
+    els = [E("Knot", (5.6, 0, 5.6), (10.4, 1.6, 10.4), every(b))]
+    for k in range(7):
+        yaw = k * 51 + rng.uniform(-10, 10)
+        lift = rng.uniform(52, 72)
+        length = rng.uniform(7, 11)
+        rot = {"rotationOrigin": [8, 0.8, 8], "rotationZ": lift, "rotationY": yaw}
+        els.append(E(f"Stem{k}", (8, 0.8, 7.6), (8 + length, 1.6, 8.4), every(b), rot))
+        for n, d in enumerate((0.45, 0.75)):
+            r2 = {"rotationOrigin": [8, 0.8, 8], "rotationZ": lift - 22 + n * 40, "rotationY": yaw + (25 if n else -25)}
+            els.append(E(f"Side{k}_{n}", (8 + length * d, 0.8, 7.7), (8 + length * d + 3, 1.4, 8.3), every(b), r2))
+    return els
+
+
+# ---------------- Pottery ----------------
+
+def amphora_shape():
+    """The Architects' amphora: a foot, a body swelling and narrowing in octagonal bands, a shoulder, a neck and a lip,
+    two handles from the neck down to the shoulder; chipped at the lip."""
+    c = "#clay"
+    els = (octagon("Foot", 0, 1.0, 3.6, c) + octagon("Lower", 1.0, 3.0, 5.4, c) + octagon("Belly", 3.0, 7.0, 7.4, c)
+           + octagon("Upper", 7.0, 8.6, 6.4, c) + octagon("Shoulder", 8.6, 9.6, 4.6, c) + octagon("Neck", 9.6, 12.4, 2.8, c)
+           + octagon("Lip", 12.4, 13.2, 3.8, c))
+    for k, sx in enumerate((-1, 1)):
+        x0 = 8 + sx * 1.4
+        x1 = 8 + sx * 3.4
+        els += [E(f"HandleTop{k}", (min(x0, x1), 11.2, 7.6), (max(x0, x1), 11.9, 8.4), every(c)),
+                E(f"HandleSide{k}", (min(x1, x1 + sx * 0.7), 8.8, 7.6), (max(x1, x1 + sx * 0.7), 11.9, 8.4), every(c))]
+    return els
+
+
 # ---------------- Light shafts ----------------
 
 def sunbeam_shape():
@@ -350,6 +443,15 @@ def blocks():
         "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 0.3, "replaceable": 3000,
         "collisionbox": None, "selectionbox": {"x1": 0.1, "y1": 0, "z1": 0.1, "x2": 0.9, "y2": 0.1, "z2": 0.9}, "drops": [],
         "sounds": {"walk": "game:walk/grass*", "place": "game:block/plant", "break": "game:block/plant", "hit": "game:block/plant"}}))
+    out.append(sided("l23-frieze", "// Level 23 (round 4): a carved lintel over a ruin's door (cornice, dentils, a garland and a rosette), front on the -side",
+                     [("moss", ["clean"])], lambda s: "frieze", lambda s: {"stone": "backrooms:block/23/ruinstone", "moss": "backrooms:block/23/ruinmoss"},
+                     "Stone", STONE_SOUNDS, extra={"resistance": 8, "lightAbsorption": 99}))
+    out.append(("// Level 23 (round 4): a bird's nest on a limb (the lore's Curabitur Birds; an invention: the nest alone)", {
+        "code": "l23-nest", "creativeinventory": {"general": ["*"], "backrooms": ["*"]}, "blockmaterial": "Plant", "drawtype": "json",
+        "shape": {"base": "block/23/nest"}, "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0,
+        "resistance": 0.5, "collisionbox": None, "selectionbox": {"x1": 0.2, "y1": 0, "z1": 0.3, "x2": 0.8, "y2": 0.2, "z2": 0.8},
+        "drops": [G.drop("game:stick", 1, 1)],
+        "sounds": {"walk": "game:walk/grass*", "place": "game:block/plant", "break": "game:block/plant", "hit": "game:block/plant"}}))
     out.append(sided("l23-rootknuckle", "// Level 23 (round 4): the rounded top of a root crawling out over the ground (bare or mossed)",
                      [("kind", ["bare", "moss"])], lambda s: "rootknuckle",
                      lambda s: {"root": "backrooms:block/23/root" if s["kind"] == "bare" else "backrooms:block/23/mossbark",
@@ -357,7 +459,7 @@ def blocks():
                      "Wood", WOOD_SOUNDS, drops=[G.drop("game:stick", 1, 1)], extra={"resistance": 6}))
     out.append(("// Level 23 (round 4): a slice of a shaft of light under a hole in the lid (translucent, glows, gives no light, nothing to hit)", {
         "code": "l23-sunbeam", "creativeinventory": {"general": ["*"], "backrooms": ["*"]}, "blockmaterial": "Air", "drawtype": "json",
-        "shape": {"base": "block/23/sunbeam"}, "renderpass": "BlendNoCull", "faceCullMode": "NeverCull", "emitSideAo": {"all": False},
+        "shape": {"base": "block/23/sunbeam"}, "renderpass": "Transparent", "faceCullMode": "NeverCull", "emitSideAo": {"all": False},
         "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "resistance": 0, "replaceable": 9000,
         "collisionbox": None, "selectionbox": None, "rainPermeable": True, "drops": [], "sounds": {}}))
     return out
@@ -372,7 +474,12 @@ def shapes():
     out["signboard"] = shape({"face": "backrooms:block/23/sign-trail", "wood": "backrooms:block/23/planks", "nail": "backrooms:block/23/iron"},
                              signboard_shape())
     out["signpost"] = shape({"wood": "backrooms:block/23/planks", "moss": "backrooms:block/23/moss-cushion"}, signpost_shape())
+    out["stone-sapling"] = shape({"bark": "backrooms:block/23/bark-pale"}, stone_sapling_shape())
+    out["stone-shrub"] = shape({"bark": "backrooms:block/23/bark-grey"}, stone_shrub_shape())
+    out["amphora"] = shape({"clay": "backrooms:block/23/terracotta"}, amphora_shape())
     out["stone-fern"] = shape({"bark": "backrooms:block/23/bark-grey-2"}, stone_fern_shape())
+    out["frieze"] = shape({"stone": "backrooms:block/23/ruinstone", "moss": "backrooms:block/23/ruinmoss"}, frieze_shape())
+    out["nest"] = shape({"twig": "backrooms:block/23/bark-pale", "egg": "backrooms:block/23/lilyflower"}, nest_shape())
     out["rootknuckle"] = shape({"root": "backrooms:block/23/root", "top": "backrooms:block/23/root"}, rootknuckle_shape())
     out["sunbeam"] = shape({"beam": "backrooms:block/23/sunbeam"}, sunbeam_shape())
     for part in ("base", "shaft", "capital", "broken"):
@@ -410,4 +517,7 @@ LANG = [
     ("block-l23-lilypad", "Lily Pads"),
     ("block-l23-sunbeam", "Shaft of Light"),
     ("block-l23-rootknuckle-*", "Petrified Root"),
+    ("block-l23-frieze-*", "Carved Lintel"),
+    ("block-l23-nest", "Bird's Nest"),
+    ("blockdesc-l23-nest", "Twigs of stone, woven tight. The eggs are cold. Whatever laid them is somewhere up in the dark."),
 ]

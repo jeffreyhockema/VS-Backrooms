@@ -481,7 +481,7 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
    furrows, aspen smooth with eyes), the outward side only, so the silhouette breaks; five barks plus the green.
 2. [A] [done: `l23-logpart`, eleven slices of 1-3 wide sections] Fallen logs rounded: one-high logs as an octagonal/round section model with the rings on its ends and moss on
    top (`l23-loground-<bark>-<axis>`); the thick logs' corner cells as quarter-rounds, so no log reads as a box.
-3. [A] [done: `l23-caprim` side/corner/upper; the stem's foot not flared] Stone mushroom caps: the cap's rim cells as rounded, drooping edge models with gills under (`l23-caprim-<side>`),
+3. [A] [done: `l23-caprim` side/corner/upper; the stems' feet flared (`l23-flare-stem`)] Stone mushroom caps: the cap's rim cells as rounded, drooping edge models with gills under (`l23-caprim-<side>`),
    the stem's foot flared.
 4. [A] [done: `l23-boulderpart` cap/edge/corner] Boulders: the outer cells as rounded, chunky stone models (several rotated lumps, a moss cap) instead of cubes
    (`l23-boulderlump`).
@@ -499,7 +499,7 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
     ledger open on it, a cash tin and a scale (inv.), replacing the vanilla tables.
 12. [B] [done: `l23-sentryface`] The sentry faces (`l23-sentry-*`) sculpted: brow, eye sockets, nose, open mouth in relief, bark folding round.
 13. [B] [done] Bracket fungi with real shelf curves (several stepped half-discs, a pale rim, zoning bands on top).
-14. [B] [partly: the fern rebuilt with pinnae; shrub, sapling, stump as round 3] Stone undergrowth (`l23-stoneplant-*`): more elements; rotated twigs on the sapling, frond curves on the fern.
+14. [B] [done: fern with pinnae, sapling tapering with branches and twigs, shrub with side twigs; the stump as round 3] Stone undergrowth (`l23-stoneplant-*`): more elements; rotated twigs on the sapling, frond curves on the fern.
 15. [B] [partly: battens top and bottom, nails, a capped post with a mossy foot; no roof] The signs and the M.E.G. board: framed boards with bevels, nails and a little roof over the notice board.
 16. [C] The squirt-gun rack and ledger: more detail (trigger, tank, nozzle).
 
@@ -510,37 +510,37 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
     (`l23-limb-<bark>-<side>`), so the trunks have branches under the canopy.
 19. [B] [done: `l23-rootknuckle`, the roots' tops near the ground] Buttress roots: the roots crawling out from the foot get a rounded top (half-round root caps, `l23-roottop`)
     where they are one high, so they read as roots and not steps of cubes.
-20. [A] [partly: columns (base, fluted shaft, capital) and two broken ones on the plaza; no carved lintel] The ruins: Parthenon columns as fluted drums with a capital and base (`l23-column-*`), a carved lintel/frieze
+20. [A] [done: columns (base, fluted shaft, capital), two broken ones on the plaza, a carved lintel (`l23-frieze`) over the cella's door] The ruins: Parthenon columns as fluted drums with a capital and base (`l23-column-*`), a carved lintel/frieze
     over the cella door, a fallen column on the plaza.
 21. [B] [done: `l23-statue`, two at each ruin's way in] A statue in the ruins: a weathered robed figure on a plinth (two blocks), mossed, one arm broken (inv.).
-22. [A] [partly: lily pads; no stone rim] The Heart of Water: lily pads on the pool's edge water, and a stone rim of mossy blocks where shore meets water.
-23. [B] The hollow trunks (the way in from Level 47 and out): a mouth with a lip of bark relief and flare blocks round
+22. [A] [done: lily pads; mossy stones along the water's edge] The Heart of Water: lily pads on the pool's edge water, and a stone rim of mossy blocks where shore meets water.
+23. [B] [partly: green-barked like the lore's hollow trees, their outside in relief; no lip at the mouth] The hollow trunks (the way in from Level 47 and out): a mouth with a lip of bark relief and flare blocks round
     it, moss at its sill, the inside lined with dark relief, so the arrival reads as stepping out of a tree.
 24. [B] The Heart's warning: the board framed, on two posts with a little roof, chained to a Giant's root (inv.).
-25. [C] The Lighthouse's lamp as a brazier with a fire bowl on its top, not a lantern.
+25. [C] [done: Level 47's `l47-brazier`, shared] The Lighthouse's lamp as a brazier with a fire bowl on its top, not a lantern.
 
 **3. Level design**
 26. [A] [done: `l23-sunbeam`, translucent] Light shafts under the holes: pale translucent sun-beam planes (`l23-sunbeam`) hanging from the lid's holes to
     the floor, so the glades and holes read as columns of light from afar (inv.: the lore's star never moves).
-27. [B] Ground variety: stone outcrops (bare petrified stone patches), leaf drifts against the trunks' windward side,
+27. [B] [partly: patches of bare stone through the humus; no drifts against the trunks] Ground variety: stone outcrops (bare petrified stone patches), leaf drifts against the trunks' windward side,
     more red litter, puddles in hollows.
 28. [B] Far trunks fading in steps: the fog's density and colour tuned so the near, mid and far trunks separate.
 29. [B] Arrivals keep their open floor; the first view takes in a flared, relief trunk close by.
 30. [C] The glow rooms' floors: a few lit pools of light under the Sorries; moss carpets with glowing specks.
 
 **4. Lore**
-31. [B] Curabitur birds' nests (twigs in the limbs) as a sign of the birds the lore lists (inv.: nest only).
+31. [B] [done: `l23-nest` on about one long limb in six] Curabitur birds' nests (twigs in the limbs) as a sign of the birds the lore lists (inv.: nest only).
 32. [B] Base Seedling's Almond Water: a water butt with a tap by the spring labelled for squirt-gun refills (looks only).
-33. [C] Pottery: the amphora with handles and a neck, painted bands; a bowl.
+33. [C] [done: the amphora in octagonal bands with handles; no bowl] Pottery: the amphora with handles and a neck, painted bands; a bowl.
 34. [C] Cloth rags hung over stones, not only on the floor.
 
 **5. Alignment with the other levels**
 35. [A] [done: trunk-foot, trunk-limbs, seedling-tent, seedling-fire, ruin-statue; F7 entries] Showcase spots and F7 entries for the new and rebuilt pieces (tent, fire ring, counter, columns, statue, lily
     pads, a flared trunk, a limb, a fallen log, the sunbeam), from the layout.
 36. [A] [done] Lang names for every new block (HUD), drops as round 3 (bark firewood, stone stones, camp things nothing).
-37. [B] Level 47 shares the forest kind: note for the lead which of my relief/flare/limb blocks 47's giants could take.
-38. [B] Shared things kept shared: supply boxes, notes, placards, chalk, Almond Water: unchanged.
-39. [C] Shared assets below the bar: write up Level 8's `camptent` and anything else seen.
+37. [B] [done: in Shared assets below] Level 47 shares the forest kind: note for the lead which of my relief/flare/limb blocks 47's giants could take.
+38. [B] [done] Shared things kept shared: supply boxes, notes, placards, chalk, Almond Water: unchanged.
+39. [C] [done] Shared assets below the bar: write up Level 8's `camptent` and anything else seen.
 40. [A] [done: also fixed round 3's crate, barrel and the Sorries' strands] Opaque textures with no translucent texels (alpha 0 or 255 only) except the sunbeam and the lantern's glass.
 
 ### What was built (round 4)
