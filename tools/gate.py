@@ -34,7 +34,7 @@ FAST = ["generators", "lang", "build", "boot", "harness"]
 TAG = os.environ.get("GATE_TAG", "gate")  # (each parallel gate sets its own, so they do not share a build folder)
 HASH_VERSIONS = [1, 9, 10, 11, 12, 13]  # past layout versions, always checked; the current one is added
 RELEASED_THROUGH = 13                   # layout versions up to here are in saves: a changed hash FAILs. Bump at each release.
-DEFAULT_CONFIG = {"oldWorldSave": "C:/Users/icebu/AppData/Roaming/VintagestoryData/Saves/vintage cave valley.vcdbs"}
+DEFAULT_CONFIG = {"oldWorldSave": "C:/Users/icebu/AppData/Roaming/VintagestoryData/GateSaves/backrooms-0610.5-seed12345.vcdbs"}
 NEVER_TOUCH = ("creepy kingdom",)       # the user's live save
 SCRATCH = os.environ.get("BACKROOMS_SCRATCH") or os.path.join(os.environ.get("TEMP", tempfile.gettempdir()), "backrooms-build")
 WORK = os.path.join(os.environ.get("TEMP", tempfile.gettempdir()), "backrooms-gate")
@@ -459,8 +459,9 @@ def parse_hash(out):
 HIGHER_BETTER = (" found", "walkable")
 
 
-def compare_metrics(kind, cur, base, problems, notes):
-    """FAIL-worthy: a bad count above its baseline (or a found count below). Improvements are noted."""
+def compare_metrics(kind, cur, base, problems, notes, update=False):
+    """FAIL-worthy: a bad count above its baseline (or a found count below). Improvements are noted. With --update-baselines
+    a worse figure is only noted (and recorded by the caller): look at it before running with that flag."""
     for k in base:
         if k not in cur and k != "walkable":
             problems.append("%s %s: missing from the output (baseline %s)" % (kind, k, base[k]))
@@ -474,7 +475,9 @@ def compare_metrics(kind, cur, base, problems, notes):
             worse, better = v < b, v > b
         else:
             worse, better = v > b, v < b
-        if worse:
+        if worse and update:
+            notes.append("%s %s worse, accepted by --update-baselines: %s (baseline %s)" % (kind, k, v, b))
+        elif worse:
             problems.append("%s %s: %s (baseline %s)" % (kind, k, v, b))
         elif better:
             notes.append("%s %s improved: %s (baseline %s)" % (kind, k, v, b))
@@ -542,7 +545,7 @@ def stage_mapgen(st, ctx):
                 bv[key] = m
                 recorded.append("validate " + key)
             else:
-                compare_metrics("validatelevel %d" % lv, m, bv[key], problems, notes)
+                compare_metrics("validatelevel %d" % lv, m, bv[key], problems, notes, ctx["update"])
                 if ctx["update"]:
                     bv[key] = m
         st.note("validatelevel 0-20 (24 cells, SPAWN=16000, 2 arrivals): unreachable %d, doorways to nowhere %d, blocked %d, bad elevators %d, decor %d, no-arrival %d" % (
@@ -557,7 +560,7 @@ def stage_mapgen(st, ctx):
                 bv[key] = {k: v for k, v in m.items() if k != "walkable"}
                 recorded.append("validate spawn")
             else:
-                compare_metrics("validate (spawn window)", m, bv[key], problems, notes)
+                compare_metrics("validate (spawn window)", m, bv[key], problems, notes, ctx["update"])
                 if ctx["update"]:
                     bv[key] = {k: v for k, v in m.items() if k != "walkable"}
 
@@ -571,7 +574,7 @@ def stage_mapgen(st, ctx):
             new_base["deep"] = m
             recorded.append("deep")
         else:
-            compare_metrics("deep", m, bd, problems, notes)
+            compare_metrics("deep", m, bd, problems, notes, ctx["update"])
             if ctx["update"]:
                 new_base["deep"] = m
         st.note("deep (24 cells): %d figures" % len(m))
