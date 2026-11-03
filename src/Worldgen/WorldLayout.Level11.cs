@@ -1569,7 +1569,7 @@ public sealed partial class WorldLayout
         }
         // Against the buildings
         if (a == 22 && side > 0.55) { t.Variant = Props.Vending; t.Pier = s.Roadward; }
-        else if (a == 50 && side < 0.3) { t.Variant = Props.TrashBags; }
+        else if (a == (Version >= 14 ? 48 : 50) && side < 0.3) { t.Variant = Props.TrashBags; } // (from 14 clear of a corner building's side doorway)
     }
 
     private bool IsStreetTree(Sidewalk s)
