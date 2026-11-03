@@ -738,3 +738,11 @@ cup holders are on the bench backs), the DJ still on the south, the star at the 
    sheets). Enough of them, or should it be a rarer room of its own?
 3. The level's lore calls the rink "freshly cleaned"; round 4 adds a little litter (a dropped skate, a spilt soda,
    popcorn, prize tickets, about one tile in two hundred on the skirts). Keep it that light, more, or none?
+
+### Checks (round 4, on b1049db1)
+
+`expclash` clean; layouthash (seed 12345, 16000, `BACKROOMS_NO_EXP_ENTRANCES=1`, layout versions 1 and 12): every
+line for levels 0-20 and the layout hash identical to main's; `regions` 60/60 arrivals in Level 31; `featurecheck`
+all 14 Level 31 entries found 3/3 (the new spots djbooth, gate, skates, pinball, backarcade under them); headless
+(port 43132, the gate's build): a dummy placed in Level 31, `blocksweep` 15728 blocks, 0 threw, 0 error lines;
+`GATE_TAG=31g python tools/gate.py --fast --port-base 43130` passes (generators, lang, build, boot, harness).
