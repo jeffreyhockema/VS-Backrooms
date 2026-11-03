@@ -589,8 +589,16 @@ def xray_body():
         els += [B("TrimT" + s, (1.5, 21, z1), (14.5, 22, z2), "darksteel", faces=(f, "down", "up", "east", "west")),
                 B("TrimW" + s, (1.5, 12, z1), (2.5, 21, z2), "darksteel", faces=(f, "east", "west")),
                 B("TrimE" + s, (13.5, 12, z1), (14.5, 21, z2), "darksteel", faces=(f, "east", "west")),
-                B("Curtain" + s, (2.5, 12, z1 + 1.0 if s == "N" else z2 - 1.25), (13.5, 21, z1 + 1.25 if s == "N" else z2 - 1.0), "curtain",
-                  faces=("north", "south"), uv=(0, 0, 11, 16))]
+                ]
+        # (round 4) the lead curtain as separate strips, one pushed back by the last bag through
+        cz1, cz2 = (z1 + 1.0, z1 + 1.25) if s == "N" else (z2 - 1.25, z2 - 1.0)
+        for i in range(5):
+            x = 2.6 + i * 2.2
+            strip = B(f"Curtain{s}{i}", (x, 12.5 + (i % 2) * 0.4, cz1), (x + 2.0, 21, cz2), "curtain", faces=("north", "south", "down"), uv=(0, 0, 2, 16))
+            if i == 3:
+                strip["rotationOrigin"] = [x + 1, 21, (cz1 + cz2) / 2]
+                strip["rotationX"] = 22 if s == "N" else -22
+            els.append(strip)
     els += [B("Gloom", (2.5, 12, 7.9), (13.5, 21, 8.1), "black", faces=("north", "south"))]
     # the yellow radiation sticker on the front, a panel seam
     els.append(pic(B("Sticker", (10.75, 22.25, 0.25), (12.75, 23.75, 0.4), body, faces=("north",)), "north", "radsticker"))
@@ -1067,7 +1075,12 @@ def sink(state):
            # the tap
            B("TapPost", (7.25, 12.5, 13.5), (8.75, 15.25, 15), "chrome", faces=no("down", "south")),
            B("Spout", (7.5, 14.5, 10.25), (8.5, 15.25, 13.5), "chrome", faces=no("south")),
-           B("Lever", (7.75, 15.25, 13.75), (8.25, 15.75, 14.75), "chrome", faces=no("down"))]
+           B("Lever", (7.75, 15.25, 13.75), (8.25, 15.75, 14.75), "chrome", faces=no("down")),
+           # (round 4) the mirror over it on the wall, in a steel frame, a soap dispenser beside the tap
+           B("MirrorFrame", (1, 18, 15.25), (15, 31, 16), "chrome", faces=("north", "up", "down", "east", "west")),
+           B("Mirror", (1.75, 18.75, 15.1), (14.25, 30.25, 15.25), "r4-mirror", faces=("north",)),
+           B("Soap", (11.5, 17, 14.25), (13.5, 21, 15.25), "white", faces=no("south")),
+           B("SoapNozzle", (12.25, 16.5, 13.5), (12.75, 17, 14.5), "chrome", faces=no("south"))]
     if state == "overflow":
         els += [B("Water", (4.25, 15.25, 5.75), (11.75, 15.35, 12.25), "water", faces=("up",)),
                 B("Stream", (7.6, 13.25, 10.3), (8.4, 14.5, 11.1), "waterfall", faces=("north", "east", "west")),

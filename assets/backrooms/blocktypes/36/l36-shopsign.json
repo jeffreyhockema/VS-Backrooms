@@ -48,19 +48,49 @@
 		}
 	],
 	"shapeByType": {
-		"*-north": {
-			"base": "backrooms:block/36/l36-shopsign"
+		"*-l-north": {
+			"base": "backrooms:block/36/l36-shopsign-l"
 		},
-		"*-east": {
-			"base": "backrooms:block/36/l36-shopsign",
+		"*-l-east": {
+			"base": "backrooms:block/36/l36-shopsign-l",
 			"rotateY": 270
 		},
-		"*-south": {
-			"base": "backrooms:block/36/l36-shopsign",
+		"*-l-south": {
+			"base": "backrooms:block/36/l36-shopsign-l",
 			"rotateY": 180
 		},
-		"*-west": {
-			"base": "backrooms:block/36/l36-shopsign",
+		"*-l-west": {
+			"base": "backrooms:block/36/l36-shopsign-l",
+			"rotateY": 90
+		},
+		"*-m-north": {
+			"base": "backrooms:block/36/l36-shopsign-m"
+		},
+		"*-m-east": {
+			"base": "backrooms:block/36/l36-shopsign-m",
+			"rotateY": 270
+		},
+		"*-m-south": {
+			"base": "backrooms:block/36/l36-shopsign-m",
+			"rotateY": 180
+		},
+		"*-m-west": {
+			"base": "backrooms:block/36/l36-shopsign-m",
+			"rotateY": 90
+		},
+		"*-r-north": {
+			"base": "backrooms:block/36/l36-shopsign-r"
+		},
+		"*-r-east": {
+			"base": "backrooms:block/36/l36-shopsign-r",
+			"rotateY": 270
+		},
+		"*-r-south": {
+			"base": "backrooms:block/36/l36-shopsign-r",
+			"rotateY": 180
+		},
+		"*-r-west": {
+			"base": "backrooms:block/36/l36-shopsign-r",
 			"rotateY": 90
 		}
 	},

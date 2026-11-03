@@ -1,0 +1,121 @@
+// Level 36 (round 4): a jet bridge's wall, the bridge to <side>: lower (corrugated panel, a handrail on brackets, a rubber skirting), glass (the glazed band, the apron and the plane's flank beyond), upper (panel, an LED cove)
+{
+	"code": "l36-bridge",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"glass",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-bridge-lower-north": {
+			"base": "backrooms:block/36/l36-bridge-lower"
+		},
+		"l36-bridge-lower-east": {
+			"base": "backrooms:block/36/l36-bridge-lower",
+			"rotateY": 270
+		},
+		"l36-bridge-lower-south": {
+			"base": "backrooms:block/36/l36-bridge-lower",
+			"rotateY": 180
+		},
+		"l36-bridge-lower-west": {
+			"base": "backrooms:block/36/l36-bridge-lower",
+			"rotateY": 90
+		},
+		"l36-bridge-glass-north": {
+			"base": "backrooms:block/36/l36-bridge-glass"
+		},
+		"l36-bridge-glass-east": {
+			"base": "backrooms:block/36/l36-bridge-glass",
+			"rotateY": 270
+		},
+		"l36-bridge-glass-south": {
+			"base": "backrooms:block/36/l36-bridge-glass",
+			"rotateY": 180
+		},
+		"l36-bridge-glass-west": {
+			"base": "backrooms:block/36/l36-bridge-glass",
+			"rotateY": 90
+		},
+		"l36-bridge-upper-north": {
+			"base": "backrooms:block/36/l36-bridge-upper"
+		},
+		"l36-bridge-upper-east": {
+			"base": "backrooms:block/36/l36-bridge-upper",
+			"rotateY": 270
+		},
+		"l36-bridge-upper-south": {
+			"base": "backrooms:block/36/l36-bridge-upper",
+			"rotateY": 180
+		},
+		"l36-bridge-upper-west": {
+			"base": "backrooms:block/36/l36-bridge-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"drops": [],
+	"attributes": {
+		"l36structure": true
+	},
+	"lightHsvByType": {
+		"*-upper-*": [
+			8,
+			1,
+			9
+		]
+	}
+}

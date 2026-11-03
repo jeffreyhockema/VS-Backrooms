@@ -38,6 +38,14 @@ public sealed partial class WorldGenerator
     private readonly int[,] l36ColPoster = new int[4, 2], l36MeetBox = new int[4, 2], l36MeetPost = new int[2, 4], l36Stall = new int[2, 4];
     private readonly int[] l36Gondola = new int[4], l36Phone = new int[4], l36Atm = new int[4], l36Fountain = new int[4], l36ShoeShine = new int[4];
     private int l36Coffer, l36Wood, l36Stone, l36StoneTop, l36Skylight, l36Charger;
+    // (round 4) the space frame, the columns' plinths and capitals, the carousel island's rim, the jet bridge, new props
+    private readonly int[] l36Frame = new int[4], l36ColFoot = new int[4], l36ColHead = new int[4], l36Coffee = new int[4], l36Pastry = new int[4],
+        l36Till = new int[4], l36Trolley = new int[4];
+    private readonly int[,] l36IslandRim = new int[2, 4], l36BridgeWall = new int[3, 4];
+    private int l36BridgeFloor, l36BridgeCeil, l36Stool, l36Canopy;
+    private readonly int[,] l36Gallery = new int[2, 4], l36FrameLight = new int[4, 4];
+    private readonly int[] l36MagRack = new int[4], l36FireCab = new int[4], l36InfoPylon = new int[4];
+    private readonly int[,] l36PrayerMat = new int[2, 4], l36Luggage = new int[5, 4];
     private readonly HashSet<string> l36Missing = new();
 
     /// <summary>A block of this mod's, or <paramref name="fallback"/> if it is not there (logged once).</summary>
@@ -84,6 +92,20 @@ public sealed partial class WorldGenerator
         l36StoneTop = L36Block("l36-finish-stonetop", l36Panel);
         l36Skylight = L36Block("l36-finish-skylight", l36CeilTile);
         l36Charger = L36Block("l36-charger");
+        // (round 4)
+        string[] parity = { "ee", "oe", "eo", "oo" }, quarters = { "nw", "ne", "sw", "se" }, bridgeParts = { "lower", "glass", "upper" };
+        for (int i = 0; i < 4; i++)
+        {
+            l36Frame[i] = L36Block("l36-frame-" + parity[i], l36CeilSteel);
+            string[] lightStates = { "on", "high", "lit", "off" };
+            for (int k = 0; k < 4; k++) l36FrameLight[i, k] = L36Block($"l36-framelight-{parity[i]}-{lightStates[k]}", l36Light[0]);
+            l36ColFoot[i] = L36Block("l36-colfoot-" + quarters[i], l36Panel);
+            l36ColHead[i] = L36Block("l36-colhead-" + quarters[i], l36Panel);
+        }
+        l36BridgeFloor = L36Block("l36-bridgefloor", l36Carpet[3]);
+        l36BridgeCeil = L36Block("l36-bridgeceil", l36CeilTile);
+        l36Stool = L36Block("l36-stool");
+        l36Canopy = L36Block("l36-canopy", l36Purple);
         string[] quads = { "nw", "ne", "sw", "se" }, colPosters = { "p0", "p3", "p5", "p6" }, boxRows = { "lower", "upper" };
         for (int q = 0; q < 4; q++)
         {
@@ -152,6 +174,23 @@ public sealed partial class WorldGenerator
             l36ShoeShine[f] = L36Block($"l36-shoeshine-{side}");
             l36Stall[0, f] = L36Block($"l36-stall-lower-{side}");
             l36Stall[1, f] = L36Block($"l36-stall-upper-{side}");
+            // (round 4)
+            l36IslandRim[0, f] = L36Block($"l36-carousel-island-edge-{side}", l36Island);
+            l36IslandRim[1, f] = L36Block($"l36-carousel-island-corner-{side}", l36Island);
+            for (int i = 0; i < 3; i++) l36BridgeWall[i, f] = L36Block($"l36-bridge-{bridgeParts[i]}-{side}", l36Stainless);
+            l36Coffee[f] = L36Block($"l36-coffee-{side}");
+            l36Pastry[f] = L36Block($"l36-pastry-{side}");
+            l36Till[f] = L36Block($"l36-till-{side}");
+            l36Trolley[f] = L36Block($"l36-trolley-{side}");
+            l36Gallery[0, f] = L36Block($"l36-gallery-lip-{side}", l36Panel);
+            l36Gallery[1, f] = L36Block($"l36-gallery-glass-{side}", l36Panel);
+            l36MagRack[f] = L36Block($"l36-magrack-{side}");
+            l36InfoPylon[f] = L36Block($"l36-infopylon-{side}");
+            l36PrayerMat[0, f] = L36Block($"l36-prayermat-laid-{side}");
+            l36PrayerMat[1, f] = L36Block($"l36-prayermat-rolled-{side}");
+            string[] bags = { "spin0", "spin1", "duffel", "garment", "upright" };
+            for (int i = 0; i < 5; i++) l36Luggage[i, f] = L36Block($"l36-luggage-{bags[i]}-{side}");
+            l36FireCab[f] = L36Block($"l36-firecab-{side}", l36Stone);
         }
     }
 
@@ -168,11 +207,36 @@ public sealed partial class WorldGenerator
             if (t.Zone == 0) return rel <= 15 ? l36Static[noise] : concreteId;
             int high = t.Height > 0 ? t.Height : 9;
             if (rel == 0 || rel > high) return concreteId;
-            return stat ? l36Static[noise] : L36Wall(t, rel);
+            if (stat) return l36Static[noise];
+            // (round 4) A column's foot and head; the jet bridge's walls, faced toward the bridge
+            if (t.Overhead == Overheads.L36Art && t.Roof == L36.L36OnAllFaces && (rel == 1 || rel == high))
+            {
+                int quad = L36ColumnQuad(gx, gz);
+                if (quad >= 0) return rel == 1 ? l36ColFoot[quad] : l36ColHead[quad];
+            }
+            // (round 4) The gallery round the tall halls: a slab edge with its balustrade at 7, the upper level's glazing over it
+            if (rel is >= 7 and <= 9 && high >= 9 && (t.Detail & L36.L36StoneBit) != 0 && t.Overhead == 0)
+            {
+                int face = L36HallFace(gx, gz, high);
+                if (face >= 0) return l36Gallery[rel == 7 ? 0 : 1, face];
+            }
+            // (round 4) A fire cabinet in the travertine dado of a public hall's wall, about one wall block in forty
+            if (rel == 2 && (t.Detail & L36.L36StoneBit) != 0 && t.Overhead == 0 && (t.Detail & L36.L36MatMask) == Mat.Panel
+                && Hashing.Mod((int)(Hashing.Hash(seed, gx, gz, 0x2540) & 0x7fffffff), 40) == 0)
+            {
+                int face = L36HallFace(gx, gz, 1);
+                if (face >= 0) return l36FireCab[face];
+            }
+            if ((t.Detail & L36.L36MatMask) == Mat.Stainless && rel <= 3)
+            {
+                int face = L36BridgeFace(gx, gz);
+                if (face >= 0) return l36BridgeWall[rel - 1, face];
+            }
+            return L36Wall(t, rel);
         }
         int air = t.Height > 0 ? t.Height : 4;
-        if (rel == 0) return stat ? l36Static[noise] : L36Floor(t);
-        if (rel == air + 1) return stat ? l36Static[noise] : L36Ceiling(t);
+        if (rel == 0) return stat ? l36Static[noise] : L36FloorAt(t, gx, gz);
+        if (rel == air + 1) return stat ? l36Static[noise] : L36CeilingAt(t, gx, gz);
         if (rel > air + 1)
         {
             // Over a low opening between taller rooms: the wall it is cut in (a shop's fascia over its way in)
@@ -199,7 +263,86 @@ public sealed partial class WorldGenerator
                 case Overheads.L36BoothSign: return l36Booth[2 + t.Roof % 3, f];
             }
         }
+        if (t.Variant == Props.L36CarouselIsland) return rel == 1 ? L36IslandAt(gx, gz) : 0;
         return t.Variant == 0 ? 0 : L36Prop(t, rel);
+    }
+
+    /// <summary>(round 4) The floor, with the jet bridge's rubber and, across the claim hall and check-in, a charcoal inlay band on
+    /// every module line and every eighth row, so the white field breaks into bays.</summary>
+    private int L36FloorAt(in Tile t, int gx, int gz)
+    {
+        if (t.Zone == (byte)Zone.Bridge) return l36BridgeFloor;
+        if ((t.Detail & L36.L36MatMask) == Mat.Marble && t.Zone is (byte)Zone.Baggage or (byte)Zone.CheckIn)
+        {
+            int u = gx - layout.L36WallX, k = Hashing.Mod(gz - layout.L36LineZ, 16);
+            if (k == 8 || Hashing.Mod(u, 8) == 5) return l36Marble[2];
+        }
+        return L36Floor(t);
+    }
+
+    /// <summary>(round 4) The ceiling: the space frame over the big halls (not where lights, coffers or skylights are laid out).</summary>
+    private int L36CeilingAt(in Tile t, int gx, int gz)
+    {
+        if (t.Zone == (byte)Zone.Bridge) return t.Ceiling == CeilingKind.L36Ceiling || t.Ceiling == 0 ? l36BridgeCeil : L36Ceiling(t);
+        int c = L36Ceiling(t);
+        if (t.Zone is (byte)Zone.Baggage or (byte)Zone.Concourse or (byte)Zone.Pier or (byte)Zone.FoodCourt or (byte)Zone.Street)
+        {
+            int q = (gx & 1) + 2 * (gz & 1);
+            if (c == l36CeilSteel) return l36Frame[q];
+            // the panels as pendants hung from the frame
+            if (c == l36Light[0]) return l36FrameLight[q, 0];
+            if (c == l36LightHigh) return l36FrameLight[q, 1];
+            if (c == l36Light[1]) return l36FrameLight[q, 2];
+            if (c == l36Light[3]) return l36FrameLight[q, 3];
+        }
+        return c;
+    }
+
+    /// <summary>(round 4) Which corner of a 2 x 2 column a wall tile is (0 nw, 1 ne, 2 sw, 3 se), from its neighbours; -1 if it is not one.</summary>
+    private int L36ColumnQuad(int gx, int gz)
+    {
+        static bool Col(in Tile n) => n.Kind != TileKind.Floor && n.Overhead == Overheads.L36Art && n.Roof == L36.L36OnAllFaces;
+        bool e = Col(layout.TileAt(gx + 1, gz)), w = Col(layout.TileAt(gx - 1, gz)), s = Col(layout.TileAt(gx, gz + 1)), n = Col(layout.TileAt(gx, gz - 1));
+        if (e == w || n == s) return -1;
+        return (e ? 0 : 1) + (s ? 0 : 2);
+    }
+
+    /// <summary>(round 4) The face of a hall's wall toward a hall at least <paramref name="high"/> tall (a facing index), or -1 (none, or more than one).</summary>
+    private int L36HallFace(int gx, int gz, int high)
+    {
+        static bool Hall(in Tile n, int h) => n.Kind == TileKind.Floor && n.Height >= h && n.Zone is (byte)Zone.Concourse or (byte)Zone.CheckIn
+            or (byte)Zone.Meeting or (byte)Zone.Junction or (byte)Zone.Pier or (byte)Zone.Street;
+        int face = -1, count = 0;
+        if (Hall(layout.TileAt(gx, gz - 1), high)) { face = Facing(ArchPier.North); count++; }
+        if (Hall(layout.TileAt(gx + 1, gz), high)) { face = Facing(ArchPier.East); count++; }
+        if (Hall(layout.TileAt(gx, gz + 1), high)) { face = Facing(ArchPier.South); count++; }
+        if (Hall(layout.TileAt(gx - 1, gz), high)) { face = Facing(ArchPier.West); count++; }
+        return count == 1 ? face : -1;
+    }
+
+    /// <summary>(round 4) The face of a jet-bridge wall toward the bridge (a facing index), or -1 (a corner, or no bridge beside it).</summary>
+    private int L36BridgeFace(int gx, int gz)
+    {
+        static bool Br(in Tile n) => n.Kind == TileKind.Floor && n.Zone == (byte)Zone.Bridge;
+        if (Br(layout.TileAt(gx, gz - 1))) return Facing(ArchPier.North);
+        if (Br(layout.TileAt(gx + 1, gz))) return Facing(ArchPier.East);
+        if (Br(layout.TileAt(gx, gz + 1))) return Facing(ArchPier.South);
+        if (Br(layout.TileAt(gx - 1, gz))) return Facing(ArchPier.West);
+        return -1;
+    }
+
+    /// <summary>(round 4) A carousel island's block: its rim (edge or corner) where the belt runs beside it, the deck inside.</summary>
+    private int L36IslandAt(int gx, int gz)
+    {
+        // (the wall the island runs into counts as island: no bumper against it)
+        static bool Isl(in Tile n) => n.Kind != TileKind.Floor || n.Variant == Props.L36CarouselIsland;
+        bool n = !Isl(layout.TileAt(gx, gz - 1)), e = !Isl(layout.TileAt(gx + 1, gz)), s = !Isl(layout.TileAt(gx, gz + 1)), w = !Isl(layout.TileAt(gx - 1, gz));
+        int open = (n ? 1 : 0) + (e ? 1 : 0) + (s ? 1 : 0) + (w ? 1 : 0);
+        if (open == 1) return l36IslandRim[0, Facing(n ? ArchPier.North : e ? ArchPier.East : s ? ArchPier.South : ArchPier.West)];
+        if (open == 2 && n != s)
+            // a corner: the belt to <side> and the side clockwise from it
+            return l36IslandRim[1, Facing(n && e ? ArchPier.North : e && s ? ArchPier.East : s && w ? ArchPier.South : ArchPier.West)];
+        return l36Island;
     }
 
     private int L36Floor(in Tile t)
@@ -244,7 +387,7 @@ public sealed partial class WorldGenerator
             (byte)Zone.CheckIn or (byte)Zone.Junction or (byte)Zone.Meeting => l36Coffer,
             (byte)Zone.Lounge => l36Wood,
             // (round 3: a kiosk's canopy purple, as its walls)
-            (byte)Zone.Booth => l36Purple,
+            (byte)Zone.Booth => l36Canopy,
             (byte)Zone.Restroom or (byte)Zone.Lounge or (byte)Zone.Shop or (byte)Zone.LostFound or (byte)Zone.Bridge => l36CeilTile,
             (byte)Zone.Service or (byte)Zone.Vent => l36CeilDark,
             (byte)Zone.Cabin => l36CeilCabin,
@@ -295,7 +438,8 @@ public sealed partial class WorldGenerator
         {
             case Props.L36Scanner: return rel <= 2 ? l36Scanner[(rel - 1) * 4 + f] : 0;
             // (round 3: the meeting-point sign, a lit cube on a post, a quarter of it in each of four blocks)
-            case Props.L36MeetingPoint: return rel == 1 ? l36MeetPost[0, t.Stack & 3] : rel <= 3 ? l36MeetPost[1, t.Stack & 3] : rel <= 5 ? l36MeetBox[t.Stack & 3, rel - 4] : 0;
+            // (round 4: the post up to seven, the cube at eight and nine, so it reads across the 14-high atrium)
+            case Props.L36MeetingPoint: return rel == 1 ? l36MeetPost[0, t.Stack & 3] : rel <= 7 ? l36MeetPost[1, t.Stack & 3] : rel <= 9 ? l36MeetBox[t.Stack & 3, rel - 8] : 0;
             case Props.L36KioskWall:
                 if (rel > 5) return 0;
                 if (t.Stack > 0 && rel is 2 or 3) return l36Art[(t.Stack - 1) % L36.L36ArtKinds.Length, 0, rel - 2, f];
@@ -327,6 +471,15 @@ public sealed partial class WorldGenerator
             Props.L36Atm => l36Atm[f],
             Props.L36Fountain => l36Fountain[f],
             Props.L36ShoeShine => l36ShoeShine[f],
+            Props.L36Coffee => l36Coffee[f],
+            Props.L36Pastry => l36Pastry[f],
+            Props.L36Till => l36Till[f],
+            Props.L36Stool => l36Stool,
+            Props.L36Trolley => l36Trolley[f],
+            Props.L36MagRack => l36MagRack[f],
+            Props.L36PrayerMat => l36PrayerMat[t.Stack & 1, f],
+            Props.L36InfoPylon => l36InfoPylon[f],
+            Props.L36Luggage => l36Luggage[t.Stack % 5, f],
             Props.Vending => vendingIds[f],
             Props.Cooler => coolerIds[f],
             Props.Shelf => shelfIds[Facing(Opposite(t.Pier))],

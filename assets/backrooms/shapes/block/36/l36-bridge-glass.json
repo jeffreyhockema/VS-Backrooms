@@ -1,0 +1,301 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"darksteel": "backrooms:block/36/props/darksteel",
+		"r4-bridgepanel": "backrooms:block/36/props/r4-bridgepanel",
+		"r4-bridgeview": "backrooms:block/36/props/r4-bridgeview",
+		"r4-glass": "backrooms:block/36/props/r4-glass"
+	},
+	"elements": [
+		{
+			"name": "View",
+			"from": [
+				0,
+				0,
+				15.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-bridgeview",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sill",
+			"from": [
+				0,
+				0,
+				1.5
+			],
+			"to": [
+				16,
+				2,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-bridgepanel",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"up": {
+					"texture": "#r4-bridgepanel",
+					"uv": [
+						0,
+						0,
+						16,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "SillCap",
+			"from": [
+				0,
+				1.75,
+				1
+			],
+			"to": [
+				16,
+				2.25,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				}
+			}
+		},
+		{
+			"name": "Header",
+			"from": [
+				0,
+				14,
+				1.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-bridgepanel",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#r4-bridgepanel",
+					"uv": [
+						0,
+						0,
+						16,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion",
+			"from": [
+				0,
+				2,
+				1.5
+			],
+			"to": [
+				0.75,
+				14,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						12
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14.0,
+						12
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						14.0,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "BeadT",
+			"from": [
+				0.75,
+				13.5,
+				7
+			],
+			"to": [
+				16,
+				14,
+				7.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						15.25,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						15.25,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BeadB",
+			"from": [
+				0.75,
+				2,
+				7
+			],
+			"to": [
+				16,
+				2.5,
+				7.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						15.25,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						15.25,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "JambIn",
+			"from": [
+				0,
+				2,
+				8
+			],
+			"to": [
+				16,
+				14,
+				15.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						7.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Pane",
+			"from": [
+				0.75,
+				2,
+				7.5
+			],
+			"to": [
+				16,
+				14,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-glass",
+					"uv": [
+						0,
+						0,
+						15.25,
+						12
+					]
+				},
+				"south": {
+					"texture": "#r4-glass",
+					"uv": [
+						0,
+						0,
+						15.25,
+						12
+					]
+				}
+			},
+			"renderPass": 3
+		}
+	]
+}

@@ -1,0 +1,131 @@
+// Level 36 (round 4): a shop's till counter: the register, its screen toward the clerk, a card reader, carrier bags
+{
+	"code": "l36-till",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-till-north": {
+			"base": "backrooms:block/36/l36-till"
+		},
+		"l36-till-east": {
+			"base": "backrooms:block/36/l36-till",
+			"rotateY": 270
+		},
+		"l36-till-south": {
+			"base": "backrooms:block/36/l36-till",
+			"rotateY": 180
+		},
+		"l36-till-west": {
+			"base": "backrooms:block/36/l36-till",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	},
+	"collisionboxByType": {
+		"l36-till-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.94,
+			"z2": 1
+		},
+		"l36-till-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-till-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-till-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 0.94,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l36-till-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1
+		},
+		"l36-till-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-till-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-till-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.03,
+			"x2": 1,
+			"y2": 1.5,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

@@ -1,0 +1,130 @@
+// Level 36 (round 4): a space-frame ceiling block with a linear pendant light hung from it (on: gives light; high: brighter, for the tall halls; lit: looks on, gives none; off: dead)
+{
+	"code": "l36-framelight",
+	"variantgroups": [
+		{
+			"code": "q",
+			"states": [
+				"ee",
+				"oe",
+				"eo",
+				"oo"
+			]
+		},
+		{
+			"code": "state",
+			"states": [
+				"on",
+				"high",
+				"lit",
+				"off"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-framelight-ee-on": {
+			"base": "backrooms:block/36/l36-framelight-ee-on"
+		},
+		"l36-framelight-ee-high": {
+			"base": "backrooms:block/36/l36-framelight-ee-high"
+		},
+		"l36-framelight-ee-lit": {
+			"base": "backrooms:block/36/l36-framelight-ee-lit"
+		},
+		"l36-framelight-ee-off": {
+			"base": "backrooms:block/36/l36-framelight-ee-off"
+		},
+		"l36-framelight-oe-on": {
+			"base": "backrooms:block/36/l36-framelight-oe-on"
+		},
+		"l36-framelight-oe-high": {
+			"base": "backrooms:block/36/l36-framelight-oe-high"
+		},
+		"l36-framelight-oe-lit": {
+			"base": "backrooms:block/36/l36-framelight-oe-lit"
+		},
+		"l36-framelight-oe-off": {
+			"base": "backrooms:block/36/l36-framelight-oe-off"
+		},
+		"l36-framelight-eo-on": {
+			"base": "backrooms:block/36/l36-framelight-eo-on"
+		},
+		"l36-framelight-eo-high": {
+			"base": "backrooms:block/36/l36-framelight-eo-high"
+		},
+		"l36-framelight-eo-lit": {
+			"base": "backrooms:block/36/l36-framelight-eo-lit"
+		},
+		"l36-framelight-eo-off": {
+			"base": "backrooms:block/36/l36-framelight-eo-off"
+		},
+		"l36-framelight-oo-on": {
+			"base": "backrooms:block/36/l36-framelight-oo-on"
+		},
+		"l36-framelight-oo-high": {
+			"base": "backrooms:block/36/l36-framelight-oo-high"
+		},
+		"l36-framelight-oo-lit": {
+			"base": "backrooms:block/36/l36-framelight-oo-lit"
+		},
+		"l36-framelight-oo-off": {
+			"base": "backrooms:block/36/l36-framelight-oo-off"
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"drops": [],
+	"attributes": {
+		"l36structure": true
+	},
+	"lightHsvByType": {
+		"*-on": [
+			8,
+			1,
+			18
+		],
+		"*-high": [
+			8,
+			1,
+			20
+		]
+	}
+}

@@ -2,12 +2,12 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"islandside": "backrooms:block/36/l36-carousel-side",
+		"darksteel": "backrooms:block/36/props/darksteel",
 		"top": "backrooms:block/36/l36-carousel-top"
 	},
 	"elements": [
 		{
-			"name": "Island",
+			"name": "Deck",
 			"from": [
 				0,
 				0,
@@ -15,46 +15,10 @@
 			],
 			"to": [
 				16,
-				10,
+				12.5,
 				16
 			],
 			"faces": {
-				"north": {
-					"texture": "#islandside",
-					"uv": [
-						0,
-						0,
-						16,
-						10
-					]
-				},
-				"east": {
-					"texture": "#islandside",
-					"uv": [
-						0,
-						0,
-						16,
-						10
-					]
-				},
-				"south": {
-					"texture": "#islandside",
-					"uv": [
-						0,
-						0,
-						16,
-						10
-					]
-				},
-				"west": {
-					"texture": "#islandside",
-					"uv": [
-						0,
-						0,
-						16,
-						10
-					]
-				},
 				"up": {
 					"texture": "#top",
 					"uv": [
@@ -63,14 +27,47 @@
 						16,
 						16
 					]
+				}
+			}
+		},
+		{
+			"name": "Seam",
+			"from": [
+				7.75,
+				12.5,
+				0
+			],
+			"to": [
+				8.25,
+				12.75,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
 				},
-				"down": {
-					"texture": "#islandside",
+				"east": {
+					"texture": "#darksteel",
 					"uv": [
 						0,
 						0,
 						16,
-						16
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
 					]
 				}
 			}

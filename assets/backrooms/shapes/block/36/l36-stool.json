@@ -1,0 +1,800 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/36/props/black",
+		"chrome": "backrooms:block/36/props/chrome",
+		"r4-redvinyl": "backrooms:block/36/props/r4-redvinyl"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				4,
+				0,
+				4
+			],
+			"to": [
+				12,
+				0.75,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8,
+						8
+					]
+				}
+			}
+		},
+		{
+			"name": "Post",
+			"from": [
+				7.25,
+				0.75,
+				7.25
+			],
+			"to": [
+				8.75,
+				11,
+				8.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						10.25
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						10.25
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						10.25
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.5,
+						10.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Ring",
+			"from": [
+				4.5,
+				5,
+				4.5
+			],
+			"to": [
+				11.5,
+				5.5,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						7.0,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						7.0,
+						7.0
+					]
+				}
+			}
+		},
+		{
+			"name": "RingHole",
+			"from": [
+				5,
+				4.9,
+				5
+			],
+			"to": [
+				11,
+				5.6,
+				11
+			],
+			"faces": {
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Seat0",
+			"from": [
+				3.75,
+				11.0,
+				6.2396
+			],
+			"to": [
+				12.25,
+				12.75,
+				9.7604
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.75
+					]
+				},
+				"east": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						3.5208,
+						1.75
+					]
+				},
+				"south": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.75
+					]
+				},
+				"west": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						3.5208,
+						1.75
+					]
+				},
+				"up": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						8.5,
+						3.5208
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						8.5,
+						3.5208
+					]
+				}
+			}
+		},
+		{
+			"name": "Seat1",
+			"from": [
+				6.2396,
+				11.02,
+				3.75
+			],
+			"to": [
+				9.7604,
+				12.73,
+				12.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						3.5208,
+						1.71
+					]
+				},
+				"east": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.71
+					]
+				},
+				"south": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						3.5208,
+						1.71
+					]
+				},
+				"west": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.71
+					]
+				},
+				"up": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						3.5208,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						3.5208,
+						8.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Seat2",
+			"from": [
+				3.75,
+				11.04,
+				6.2396
+			],
+			"to": [
+				12.25,
+				12.71,
+				9.7604
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.67
+					]
+				},
+				"east": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						3.5208,
+						1.67
+					]
+				},
+				"south": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.67
+					]
+				},
+				"west": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						3.5208,
+						1.67
+					]
+				},
+				"up": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						8.5,
+						3.5208
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						8.5,
+						3.5208
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				11,
+				8
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Seat3",
+			"from": [
+				6.2396,
+				11.06,
+				3.75
+			],
+			"to": [
+				9.7604,
+				12.69,
+				12.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						3.5208,
+						1.63
+					]
+				},
+				"east": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.63
+					]
+				},
+				"south": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						3.5208,
+						1.63
+					]
+				},
+				"west": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						8.5,
+						1.63
+					]
+				},
+				"up": {
+					"texture": "#r4-redvinyl",
+					"uv": [
+						0,
+						0,
+						3.5208,
+						8.5
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						3.5208,
+						8.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				11,
+				8
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "SeatRim0",
+			"from": [
+				3.6,
+				10.5,
+				6.1775
+			],
+			"to": [
+				12.4,
+				11.25,
+				9.8225
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.8,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6451,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.8,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6451,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.8,
+						3.6451
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.8,
+						3.6451
+					]
+				}
+			}
+		},
+		{
+			"name": "SeatRim1",
+			"from": [
+				6.1775,
+				10.53,
+				3.6
+			],
+			"to": [
+				9.8225,
+				11.22,
+				12.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6451,
+						0.69
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.8,
+						0.69
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6451,
+						0.69
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.8,
+						0.69
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6451,
+						8.8
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6451,
+						8.8
+					]
+				}
+			}
+		},
+		{
+			"name": "SeatRim2",
+			"from": [
+				3.6,
+				10.56,
+				6.1775
+			],
+			"to": [
+				12.4,
+				11.19,
+				9.8225
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.8,
+						0.63
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6451,
+						0.63
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.8,
+						0.63
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6451,
+						0.63
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.8,
+						3.6451
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.8,
+						3.6451
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				10.5,
+				8
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "SeatRim3",
+			"from": [
+				6.1775,
+				10.59,
+				3.6
+			],
+			"to": [
+				9.8225,
+				11.16,
+				12.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6451,
+						0.57
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.8,
+						0.57
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6451,
+						0.57
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						8.8,
+						0.57
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6451,
+						8.8
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.6451,
+						8.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				10.5,
+				8
+			],
+			"rotationY": 45
+		}
+	]
+}

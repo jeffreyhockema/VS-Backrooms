@@ -1,4 +1,4 @@
-// Level 36: the meeting-point sign, a lit 2 x 2 x 2 cube on a post over the Meeting Place (quad: the block's corner of it; row lower/upper): the yellow pictogram and MEETING POINT on its four faces
+// Level 36: the meeting-point sign, a lit 2 x 2 x 2 cube on a post over the Meeting Place (quad: the block's corner of it; row lower/upper): the yellow pictogram and MEETING POINT on its four faces, in an aluminium frame (round 4)
 {
 	"code": "l36-meetbox",
 	"variantgroups": [
@@ -19,170 +19,207 @@
 			]
 		}
 	],
+	"shapeByType": {
+		"*-nw-lower": {
+			"base": "backrooms:block/36/l36-meetbox-nw-lower"
+		},
+		"*-nw-upper": {
+			"base": "backrooms:block/36/l36-meetbox-nw-upper"
+		},
+		"*-ne-lower": {
+			"base": "backrooms:block/36/l36-meetbox-ne-lower"
+		},
+		"*-ne-upper": {
+			"base": "backrooms:block/36/l36-meetbox-ne-upper"
+		},
+		"*-sw-lower": {
+			"base": "backrooms:block/36/l36-meetbox-sw-lower"
+		},
+		"*-sw-upper": {
+			"base": "backrooms:block/36/l36-meetbox-sw-upper"
+		},
+		"*-se-lower": {
+			"base": "backrooms:block/36/l36-meetbox-se-lower"
+		},
+		"*-se-upper": {
+			"base": "backrooms:block/36/l36-meetbox-se-upper"
+		}
+	},
 	"texturesByType": {
 		"*-nw-lower": {
-			"north": {
+			"fn": {
 				"base": "backrooms:block/36/l36-meet-r-lower"
 			},
-			"south": {
+			"fe": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"west": {
+			"fs": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"fw": {
 				"base": "backrooms:block/36/l36-meet-l-lower"
 			},
-			"east": {
+			"fu": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"up": {
-				"base": "backrooms:block/36/l36-meet-inner"
-			},
-			"down": {
+			"fd": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			}
 		},
 		"*-nw-upper": {
-			"north": {
+			"fn": {
 				"base": "backrooms:block/36/l36-meet-r-upper"
 			},
-			"south": {
+			"fe": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"west": {
+			"fs": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"fw": {
 				"base": "backrooms:block/36/l36-meet-l-upper"
 			},
-			"east": {
+			"fu": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"up": {
-				"base": "backrooms:block/36/l36-meet-inner"
-			},
-			"down": {
+			"fd": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			}
 		},
 		"*-ne-lower": {
-			"north": {
+			"fn": {
 				"base": "backrooms:block/36/l36-meet-l-lower"
 			},
-			"south": {
-				"base": "backrooms:block/36/l36-meet-inner"
-			},
-			"west": {
-				"base": "backrooms:block/36/l36-meet-inner"
-			},
-			"east": {
+			"fe": {
 				"base": "backrooms:block/36/l36-meet-r-lower"
 			},
-			"up": {
+			"fs": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"down": {
+			"fw": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"fu": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"fd": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			}
 		},
 		"*-ne-upper": {
-			"north": {
+			"fn": {
 				"base": "backrooms:block/36/l36-meet-l-upper"
 			},
-			"south": {
-				"base": "backrooms:block/36/l36-meet-inner"
-			},
-			"west": {
-				"base": "backrooms:block/36/l36-meet-inner"
-			},
-			"east": {
+			"fe": {
 				"base": "backrooms:block/36/l36-meet-r-upper"
 			},
-			"up": {
+			"fs": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"down": {
+			"fw": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"fu": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"fd": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			}
 		},
 		"*-sw-lower": {
-			"north": {
+			"fn": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"south": {
+			"fe": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"fs": {
 				"base": "backrooms:block/36/l36-meet-l-lower"
 			},
-			"west": {
+			"fw": {
 				"base": "backrooms:block/36/l36-meet-r-lower"
 			},
-			"east": {
+			"fu": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"up": {
-				"base": "backrooms:block/36/l36-meet-inner"
-			},
-			"down": {
+			"fd": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			}
 		},
 		"*-sw-upper": {
-			"north": {
+			"fn": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"south": {
+			"fe": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"fs": {
 				"base": "backrooms:block/36/l36-meet-l-upper"
 			},
-			"west": {
+			"fw": {
 				"base": "backrooms:block/36/l36-meet-r-upper"
 			},
-			"east": {
+			"fu": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"up": {
-				"base": "backrooms:block/36/l36-meet-inner"
-			},
-			"down": {
+			"fd": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			}
 		},
 		"*-se-lower": {
-			"north": {
+			"fn": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"south": {
-				"base": "backrooms:block/36/l36-meet-r-lower"
-			},
-			"west": {
-				"base": "backrooms:block/36/l36-meet-inner"
-			},
-			"east": {
+			"fe": {
 				"base": "backrooms:block/36/l36-meet-l-lower"
 			},
-			"up": {
+			"fs": {
+				"base": "backrooms:block/36/l36-meet-r-lower"
+			},
+			"fw": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"down": {
+			"fu": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"fd": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			}
 		},
 		"*-se-upper": {
-			"north": {
+			"fn": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"south": {
-				"base": "backrooms:block/36/l36-meet-r-upper"
-			},
-			"west": {
-				"base": "backrooms:block/36/l36-meet-inner"
-			},
-			"east": {
+			"fe": {
 				"base": "backrooms:block/36/l36-meet-l-upper"
 			},
-			"up": {
+			"fs": {
+				"base": "backrooms:block/36/l36-meet-r-upper"
+			},
+			"fw": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			},
-			"down": {
+			"fu": {
+				"base": "backrooms:block/36/l36-meet-inner"
+			},
+			"fd": {
 				"base": "backrooms:block/36/l36-meet-inner"
 			}
 		}
 	},
 	"blockmaterial": "Glass",
-	"drawtype": "cube",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightHsv": [
+		8,
+		1,
+		12
+	],
 	"lightAbsorption": 0,
 	"resistance": 6,
 	"sounds": {
@@ -193,14 +230,6 @@
 	},
 	"attributes": {
 		"l36structure": true
-	},
-	"lightHsv": [
-		8,
-		1,
-		12
-	],
-	"vertexFlags": {
-		"glowLevel": 200
 	},
 	"creativeinventory": {
 		"general": [

@@ -1,0 +1,136 @@
+// Level 36 (round 4): a cafe's front counter, a lit glass case of cakes and pastries on it (they have not gone stale; they have not changed at all)
+{
+	"code": "l36-pastry",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-pastry-north": {
+			"base": "backrooms:block/36/l36-pastry"
+		},
+		"l36-pastry-east": {
+			"base": "backrooms:block/36/l36-pastry",
+			"rotateY": 270
+		},
+		"l36-pastry-south": {
+			"base": "backrooms:block/36/l36-pastry",
+			"rotateY": 180
+		},
+		"l36-pastry-west": {
+			"base": "backrooms:block/36/l36-pastry",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Glass",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/glass",
+		"break": "game:block/glass",
+		"hit": "game:block/glass"
+	},
+	"collisionboxByType": {
+		"l36-pastry-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1
+		},
+		"l36-pastry-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-pastry-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-pastry-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"l36-pastry-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1
+		},
+		"l36-pastry-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-pastry-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-pastry-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 1,
+			"y2": 1.08,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"lightHsv": [
+		8,
+		1,
+		7
+	]
+}

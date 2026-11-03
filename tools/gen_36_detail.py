@@ -427,7 +427,11 @@ def surface_blocks():
               "lightHsvByType": {f"l36-art-{k}-*": v for k, v in ART_LIGHT.items()},
               "lightAbsorption": 0, "resistance": 6, "sounds": GS.STONE, "attributes": dict(GS.STRUCT)})
 
-    sh = GS.faced_cube("l36-apron", 70, "l36-apron-0-0", "l36-wall-plaster")
+    # (round 4) with the runway windows' mullion standing proud at each block's edge
+    win = GS.box("Cube", (0, 0, 0), (16, 16, 16), {"front": "front", "all": "side"})
+    win["faces"]["north"]["glow"] = 70
+    sh = GS.shape("l36-apron", [win, GS.box("Mullion", (0, 0, -0.75), (0.75, 16, 0), "darksteel", faces=("north", "east", "west"))],
+                  {"front": "l36-apron-0-0", "side": "l36-wall-plaster"})
     pieces = [f"{c}-{r}" for c in range(APRON_COLS) for r in range(APRON_ROWS)]
     GS.block("l36-apron", "Level 36: the window wall round a jet-bridge door, painted as one picture 9 x 5 (piece <col>-<row>): "
              "the runway view, a jet bridge running out to a parked airliner's nose; unbreakable glass, lit as the windows",
@@ -460,11 +464,29 @@ def surface_blocks():
             t["up"] = GS.tex("l36-meet-inner")
             t["down"] = GS.tex("l36-meet-inner")
             tex[f"*-{q}-{row}"] = t
-    GS.cube("l36-meetbox", [{"code": "quad", "states": quads}, {"code": "row", "states": ["lower", "upper"]}], tex,
-            "Level 36: the meeting-point sign, a lit 2 x 2 x 2 cube on a post over the Meeting Place (quad: the block's corner "
-            "of it; row lower/upper): the yellow pictogram and MEETING POINT on its four faces",
-            material="Glass", sounds=GS.GLASS, by_type=True,
-            extra={"lightHsv": [8, 1, 12], "vertexFlags": {"glowLevel": 200}, "lightAbsorption": 0})
+    # (round 4) a model, not a cube: the lit faces in a brushed aluminium frame standing proud along the cube's outer edges
+    shapes_, ftex = {}, {}
+    for q in quads:
+        ox, oz = (0 if q[1] == "w" else 16), (0 if q[0] == "n" else 16)
+        for row in ("lower", "upper"):
+            cube_ = GS.box("Cube", (0, 0, 0), (16, 16, 16), {f: "f" + f[0] for f in ("north", "east", "south", "west", "up", "down")})
+            for f in ("north", "east", "south", "west"):
+                cube_["faces"][f]["glow"] = 200
+            bars = [GS.box("Edge", (ox - 0.75 if ox == 0 else 15.25, 0, oz - 0.75 if oz == 0 else 15.25),
+                           (0.75 if ox == 0 else 16.75, 16, 0.75 if oz == 0 else 16.75), "alu")]
+            y1, y2 = (15, 16.75) if row == "upper" else (-0.75, 1)
+            bars += [GS.box("RimX", (-0.75 if ox == 0 else 0, y1, oz - 0.75 if oz == 0 else 15.25), (16 if ox == 0 else 16.75, y2, 0.75 if oz == 0 else 16.75), "alu"),
+                     GS.box("RimZ", (ox - 0.75 if ox == 0 else 15.25, y1, 0), (0.75 if ox == 0 else 16.75, y2, 16), "alu")]
+            shapes_[f"*-{q}-{row}"] = {"base": GS.shape(f"l36-meetbox-{q}-{row}", [cube_] + bars, {"alu": "props/r4-alu"})}
+            t = tex[f"*-{q}-{row}"]
+            ftex[f"*-{q}-{row}"] = {"f" + f[0]: t[f] for f in ("north", "east", "south", "west", "up", "down")}
+    GS.block("l36-meetbox", "Level 36: the meeting-point sign, a lit 2 x 2 x 2 cube on a post over the Meeting Place (quad: the "
+             "block's corner of it; row lower/upper): the yellow pictogram and MEETING POINT on its four faces, in an aluminium "
+             "frame (round 4)",
+             {"variantgroups": [{"code": "quad", "states": quads}, {"code": "row", "states": ["lower", "upper"]}],
+              "shapeByType": shapes_, "texturesByType": ftex, "blockmaterial": "Glass", "drawtype": "json",
+              "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightHsv": [8, 1, 12], "lightAbsorption": 0,
+              "resistance": 6, "sounds": GS.GLASS, "attributes": dict(GS.STRUCT)})
 
     kinds = ["coffer", "wood", "stone", "stonetop", "skylight"]
     GS.cube("l36-finish", [{"code": "kind", "states": kinds}],
@@ -566,54 +588,111 @@ def charger():
 
 
 def payphone():
-    # against the wall behind it (south); the hood, the phone, a shelf
-    els = [B("Hood", (1, 9, 6), (15, 26, 16), "r3-steel", faces=no("north")),
-           B("HoodLip", (1, 25, 4), (15, 26, 6), "r3-steel"),
-           B("HoodSign", (2, 25.1, 3.9), (14, 25.9, 4), "r3-steel", faces=("north",)),
-           B("Back", (2, 9, 15), (14, 25, 15.5), "r3-dark", faces=("north",)),
-           B("Body", (4, 12, 12), (12, 23, 15), {"front": "r3-keypad", "side": "r3-dark", "top": "r3-dark", "bottom": "r3-dark", "back": "r3-dark"}),
-           B("Handset", (4.5, 16, 11), (6, 23, 12), "r3-black"),
-           B("Shelf", (1, 9, 4), (15, 10, 16), "r3-dark"),
-           B("Leg", (7, 0, 13), (9, 9, 15), "r3-steel", faces=no("down"))]
-    P.pic(els[2], "north", "r3-phonesign", glow=120)
+    """(round 4) A payphone against the wall behind it (south): a stainless hood with side cheeks and a lit PHONE header,
+    the phone body (keypad, coin slot, coin return, the instruction card), the handset in its cradle on an armoured cord,
+    a directory shelf with its binder, all on a post."""
+    els = [B("HoodBack", (1, 9, 15), (15, 27, 16), "r3-steel", faces=("north", "up")),
+           B("CheekL", (1, 9, 5), (1.75, 27, 15), "r3-steel", faces=no("down")),
+           B("CheekR", (14.25, 9, 5), (15, 27, 15), "r3-steel", faces=no("down")),
+           B("Roof", (1, 26, 4), (15, 27.5, 16), "r3-steel", faces=no()),
+           B("Header", (1.75, 24.5, 4.25), (14.25, 26, 5), "r3-steel", faces=no("up")),
+           B("Body", (4, 12.5, 12), (12, 23.5, 15), {"front": "r3-dark", "side": "r3-dark", "top": "r3-dark", "bottom": "r3-dark", "back": "r3-dark"}),
+           B("Keys", (6.5, 14.5, 11.75), (10, 19, 12), "r3-keypad", faces=("north",)),
+           B("CoinSlot", (9, 21, 11.6), (10.5, 22.5, 12), "r3-steel", faces=no("south")),
+           B("Return", (8, 13, 11.25), (10.5, 14, 12), "r3-steel", faces=no("south")),
+           B("Card", (4.5, 19.75, 11.9), (8.5, 22.75, 12), "r3-white", faces=("north",)),
+           B("Cradle", (4.25, 15, 11), (5.75, 22, 12), "r3-steel", faces=no("south")),
+           B("Handset", (4.3, 14.5, 10.25), (5.7, 22.5, 11), "r3-black"),
+           B("Ear", (4.1, 21, 9.75), (5.9, 22.75, 10.5), "r3-black"),
+           B("Mouth", (4.1, 14.25, 9.75), (5.9, 16, 10.5), "r3-black"),
+           B("Cord", (5.75, 9.5, 10.5), (6.5, 14.5, 11.25), "r3-steel"),
+           B("CordLoop", (6.5, 8.5, 10.5), (9, 9.25, 11.25), "r3-steel"),
+           B("CordUp", (8.5, 9.75, 10.5), (9.25, 12.5, 11.25), "r3-steel"),
+           B("Shelf", (1.75, 9, 3.5), (14.25, 10, 15), "r3-dark", faces=no()),
+           B("ShelfLip", (1.75, 8.5, 3.25), (14.25, 10.25, 3.75), "r3-steel", faces=no("south")),
+           B("Binder", (10.5, 10, 5.5), (13.5, 11.25, 10.5), "r3-blue"),
+           B("Post", (7, 0, 13), (9, 9, 15), "r3-steel", faces=no("down")),
+           B("Foot", (6, 0, 12), (10, 0.5, 16), "r3-dark", faces=no("down"))]
+    P.pic(els[4], "north", "r3-phonesign", glow=140)
     return els
 
 
 def atm():
-    els = [B("Surround", (0, 0, 8), (16, 30, 16), "r3-dark", faces=no("down")),
-           B("Body", (2, 0, 5), (14, 18, 8), "r3-steel", faces=no("down", "south")),
-           B("Fascia", (2, 18, 4), (14, 22, 8), "r3-steel", faces=no("south")),
-           B("Screen", (4, 12, 4.5), (12, 17.5, 5), "r3-black", faces=("north",)),
-           B("Keys", (4, 8, 3), (12, 9, 5), "r3-steel", faces=no("down")),
-           B("Topper", (1, 24, 7.5), (15, 29, 8), "r3-dark", faces=("north",))]
-    P.pic(els[3], "north", "r3-atmscreen", glow=140)
-    P.pic(els[5], "north", "r3-atmsign", glow=120)
+    """(round 4) A cash machine in its dark surround: a privacy hood over an inset screen (lit) with side keys, a sloping
+    keypad shelf, the card slot with its green LED, the receipt and cash slots, the lit ATM topper."""
+    els = [B("Surround", (0, 0, 9), (16, 31, 16), "r3-dark", faces=no("down", "south")),
+           B("Plinth", (1.5, 0, 6), (14.5, 1.5, 9), "r3-black", faces=no("down", "south")),
+           B("Body", (2, 1.5, 6.5), (14, 13, 9), "r3-steel", faces=no("down", "south")),
+           B("Fascia", (2, 13, 5.5), (14, 24, 9), "r3-steel", faces=no("south", "down")),
+           B("Bezel", (3.5, 15, 5.25), (12.5, 22, 5.5), "r3-black", faces=("north",)),
+           B("Screen", (4.5, 16, 5.1), (11.5, 21, 5.25), "r3-black", faces=("north",)),
+           B("HoodTop", (2, 24, 2.5), (14, 24.75, 9), "r3-dark", faces=no("south")),
+           B("HoodL", (2, 14, 2.5), (2.75, 24, 5.5), "r3-dark", faces=no("south")),
+           B("HoodR", (13.25, 14, 2.5), (14, 24, 5.5), "r3-dark", faces=no("south")),
+           B("CardSlot", (11, 11.25, 5.75), (13, 12.25, 6.5), "r3-black", faces=no("south")),
+           B("CardLed", (11.25, 12.25, 5.85), (11.75, 12.6, 6.25), "r3-blue", faces=no("south"), glow=200),
+           B("Receipt", (3, 11.5, 6.25), (6, 12, 6.5), "r3-black", faces=("north",)),
+           B("Cash", (4, 4, 6.25), (12, 5.5, 6.5), "r3-black", faces=("north",)),
+           B("Topper", (1, 25.5, 8), (15, 30, 9), "r3-dark", faces=no("south"))]
+    for i in range(4):
+        for side, x in (("L", 2.75), ("R", 12.5)):
+            els.append(B(f"Key{side}{i}", (x, 16 + i * 1.5, 5.0), (x + 0.75, 16.75 + i * 1.5, 5.5), "r3-white", faces=no("south")))
+    els += P.turned([B("Shelf", (3, 13, 2), (13, 13.75, 6), {"top": "r3-keypad", "side": "r3-steel", "front": "r3-steel", "bottom": "r3-steel", "back": "r3-steel"})],
+                    rx=18, origin=(8, 13, 6))
+    P.pic(els[5], "north", "r3-atmscreen", glow=150)
+    P.pic(els[-2], "north", "r3-atmsign", glow=130)
     return els
 
 
 def fountain():
-    els = [B("Back", (1, 4, 14), (15, 18, 16), "r3-steel", faces=no("down", "south")),
-           B("BowlHi", (8, 12, 4), (15, 14, 14), "r3-steel"),
-           B("BowlLo", (1, 9, 4), (8, 11, 14), "r3-steel"),
-           B("BasinHi", (9, 13.9, 5), (14, 14.1, 12), "r3-black", faces=("up",)),
-           B("BasinLo", (2, 10.9, 5), (7, 11.1, 12), "r3-black", faces=("up",)),
-           B("Spout1", (11, 14, 10), (12, 15.5, 11), "r3-steel"),
-           B("Spout2", (4, 11, 10), (5, 12.5, 11), "r3-steel"),
-           B("Button", (14.9, 12.5, 7), (15.4, 13.5, 9), "r3-blue"),
-           B("Skirt", (3, 0, 13), (13, 9, 15), "r3-steel", faces=no("down", "south"))]
+    """(round 4) A stainless bi-level drinking fountain against the wall: two basins with rounded fronts on brackets, a
+    bubbler and a push bar each, a bottle filler above with its lit panel, the back plate down to the floor."""
+    els = [B("Back", (1, 0, 14.5), (15, 26, 16), "r3-steel", faces=("north", "up", "east", "west")),
+           B("Filler", (3, 18, 12), (13, 25.5, 14.5), "r3-steel", faces=no("south")),
+           B("FillerPanel", (4.5, 21.5, 11.75), (11.5, 24.5, 12), "r3-blue", faces=("north",), glow=120),
+           B("FillerSpout", (7.25, 20.5, 11), (8.75, 21.5, 12.5), "r3-steel", faces=no("south")),
+           B("FillerTray", (4.5, 18, 10.75), (11.5, 18.5, 12), "r3-black", faces=no("south"))]
+    for name, x1, x2, y in (("Hi", 8.25, 15, 13.5), ("Lo", 1, 7.75, 10.5)):
+        els += [B(f"Basin{name}", (x1, y - 2, 4.5), (x2, y, 14.5), "r3-steel", faces=no("south")),
+                B(f"Nose{name}", (x1 + 0.75, y - 2.5, 3.5), (x2 - 0.75, y - 0.25, 4.5), "r3-steel", faces=no("south")),
+                B(f"Bowl{name}", (x1 + 0.75, y - 0.5, 5.25), (x2 - 0.75, y + 0.05, 13.75), "r3-black", faces=("up",)),
+                B(f"Bubbler{name}", ((x1 + x2) / 2 - 0.75, y, 11), ((x1 + x2) / 2 + 0.75, y + 1.5, 12.5), "r3-steel", faces=no("down")),
+                B(f"Bar{name}", (x1 + 1, y - 3.25, 2.75), (x2 - 1, y - 2.5, 3.5), "r3-steel"),
+                B(f"Bracket{name}", ((x1 + x2) / 2 - 1, 2, 12.5), ((x1 + x2) / 2 + 1, y - 2, 14.5), "r3-steel", faces=no("up", "south"))]
     return els
 
 
 def shoeshine():
-    els = [B("Platform", (0, 0, 0), (16, 6, 16), {"top": "r3-wood", "side": "r3-wood", "front": "r3-wood", "back": "r3-wood", "bottom": "r3-wood"}),
-           B("Seat", (2, 13, 6), (14, 16, 15), "r3-leather"),
-           B("SeatBase", (3, 6, 7), (13, 13, 14), "r3-wood"),
-           B("Back", (2, 16, 14), (14, 30, 16), "r3-leather"),
-           B("ArmL", (1, 16, 6), (3, 22, 16), "r3-wood"),
-           B("ArmR", (13, 16, 6), (15, 22, 16), "r3-wood"),
-           B("RestL", (3, 6, 0), (6, 9, 4), "r3-steel"),
-           B("RestR", (10, 6, 0), (13, 9, 4), "r3-steel"),
-           B("RestPost", (7, 0, 1), (9, 8, 3), "r3-steel", faces=no("down"))]
+    """(round 4) A shoe-shine chair, raised on its wooden platform: a step at the front, a buttoned red leather seat and
+    back on a wooden frame with brass-capped arms, two chrome shoe rests on posts, the shiner's kit box with brushes and
+    tins on the platform's edge."""
+    wood = "r3-wood"
+    els = [B("Platform", (0, 1.5, 3), (16, 6, 16), wood),
+           B("PlatformTrim", (-0.25, 5.5, 2.75), (16.25, 6.25, 16.25), "r3-steel", faces=no("down")),
+           B("Step", (1, 0, 0), (15, 3, 3), {"top": "r3-steel", "all": wood}),
+           B("Toe", (0.5, 0, 3), (15.5, 1.5, 15.5), "r3-black", faces=("north", "east", "west")),
+           B("Base", (3, 6, 7.5), (13, 11, 14.5), wood),
+           B("Seat", (2.5, 11, 6.5), (13.5, 13.5, 14.5), "r3-leather"),
+           B("SeatRoll", (2.5, 10.5, 5.75), (13.5, 13, 6.5), "r3-leather", faces=no("south")),
+           B("BackFrame", (2, 11, 14.5), (14, 29, 16), wood),
+           B("Back", (2.75, 13.5, 13.25), (13.25, 28, 14.5), "r3-leather", faces=no("south")),
+           B("BackTop", (2, 29, 13.5), (14, 30, 16), wood)]
+    for i, (x, y) in enumerate(((5, 17), (8, 17), (11, 17), (6.5, 22), (9.5, 22))):
+        els.append(B(f"Button{i}", (x - 0.25, y - 0.25, 13), (x + 0.25, y + 0.25, 13.25), "r3-black", faces=("north",)))
+    for side, x in (("L", 1), ("R", 13)):
+        els += [B(f"Arm{side}", (x, 17, 6), (x + 2, 18.5, 15), wood),
+                B(f"Cap{side}", (x - 0.1, 17.5, 5.5), (x + 2.1, 18.75, 6.5), "r3-steel"),
+                B(f"ArmPost{side}", (x + 0.5, 11, 6.75), (x + 1.5, 17, 7.75), wood, faces=no("up", "down")),
+                B(f"ArmSide{side}", (x, 11, 7.75), (x + 2, 17, 14.5), "r3-leather", faces=no("up", "down"))]
+    for side, x in (("L", 4.5), ("R", 10)):
+        els += [B(f"Post{side}", (x + 0.5, 6, 1.5), (x + 1.25, 9, 2.25), "r3-steel", faces=no("down")),
+                B(f"Rest{side}", (x - 0.25, 9, 0), (x + 2, 9.75, 4.5), "r3-steel"),
+                B(f"Heel{side}", (x - 0.25, 9.75, 3.25), (x + 2, 11, 4.5), "r3-steel", faces=no("down"))]
+    els += [B("Kit", (12.5, 6, 3.25), (15.5, 8.5, 6.25), wood),
+            B("KitHandle", (13.75, 8.5, 4.5), (14.25, 10, 5), "r3-steel", faces=no("down")),
+            B("Brush", (12.75, 8.5, 3.5), (13.5, 9.25, 6), "r3-black", faces=no("down")),
+            B("Tin0", (1.5, 6, 3.75), (3, 6.75, 5.25), "r3-steel", faces=no("down")),
+            B("Tin1", (1.75, 6.75, 4), (2.75, 7, 5), "r3-black", faces=("up",))]
     return els
 
 

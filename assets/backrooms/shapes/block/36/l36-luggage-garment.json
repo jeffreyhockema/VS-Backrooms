@@ -1,0 +1,266 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"chrome": "backrooms:block/36/props/chrome",
+		"r4-garment": "backrooms:block/36/props/r4-garment",
+		"r4-tag": "backrooms:block/36/props/r4-tag"
+	},
+	"elements": [
+		{
+			"name": "Bag",
+			"from": [
+				1.5,
+				0,
+				2
+			],
+			"to": [
+				14.5,
+				2.25,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-garment",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2.25
+					]
+				},
+				"east": {
+					"texture": "#r4-garment",
+					"uv": [
+						0,
+						0,
+						12,
+						2.25
+					]
+				},
+				"south": {
+					"texture": "#r4-garment",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2.25
+					]
+				},
+				"west": {
+					"texture": "#r4-garment",
+					"uv": [
+						0,
+						0,
+						12,
+						2.25
+					]
+				},
+				"up": {
+					"texture": "#r4-garment",
+					"uv": [
+						0,
+						0,
+						13.0,
+						12
+					]
+				},
+				"down": {
+					"texture": "#r4-garment",
+					"uv": [
+						0,
+						0,
+						13.0,
+						12
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 14
+		},
+		{
+			"name": "Fold",
+			"from": [
+				1.5,
+				2.25,
+				2
+			],
+			"to": [
+				14.5,
+				3,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-garment",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.75
+					]
+				},
+				"east": {
+					"texture": "#r4-garment",
+					"uv": [
+						0,
+						0,
+						5,
+						0.75
+					]
+				},
+				"south": {
+					"texture": "#r4-garment",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.75
+					]
+				},
+				"west": {
+					"texture": "#r4-garment",
+					"uv": [
+						0,
+						0,
+						5,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#r4-garment",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5
+					]
+				},
+				"down": {
+					"texture": "#r4-garment",
+					"uv": [
+						0,
+						0,
+						13.0,
+						5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 14
+		},
+		{
+			"name": "Hook",
+			"from": [
+				7.5,
+				0.5,
+				14
+			],
+			"to": [
+				8.5,
+				1.5,
+				16.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						2.5,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 14
+		},
+		{
+			"name": "Tag",
+			"from": [
+				3,
+				3,
+				3
+			],
+			"to": [
+				5.5,
+				3.1,
+				5.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#r4-tag",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				8
+			],
+			"rotationY": 14
+		}
+	]
+}

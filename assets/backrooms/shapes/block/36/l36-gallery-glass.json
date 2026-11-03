@@ -1,0 +1,142 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"darksteel": "backrooms:block/36/props/darksteel",
+		"r4-gallery": "backrooms:block/36/props/r4-gallery"
+	},
+	"elements": [
+		{
+			"name": "Glazing",
+			"from": [
+				0,
+				0,
+				1
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-gallery",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Mullion",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0.75,
+				16,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						16
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Transom",
+			"from": [
+				0,
+				0,
+				0.25
+			],
+			"to": [
+				16,
+				0.75,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [
+				0,
+				15.25,
+				0.25
+			],
+			"to": [
+				16,
+				16,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						16,
+						0.75
+					]
+				}
+			}
+		}
+	]
+}

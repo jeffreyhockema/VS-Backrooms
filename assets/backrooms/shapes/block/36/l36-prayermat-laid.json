@@ -1,0 +1,136 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4-prayermat": "backrooms:block/36/props/r4-prayermat",
+		"worktop": "backrooms:block/36/props/worktop"
+	},
+	"elements": [
+		{
+			"name": "Mat",
+			"from": [
+				2.5,
+				0,
+				0.5
+			],
+			"to": [
+				13.5,
+				0.35,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4-prayermat",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FringeN",
+			"from": [
+				3,
+				0,
+				0
+			],
+			"to": [
+				13,
+				0.2,
+				0.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#worktop",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"north": {
+					"texture": "#worktop",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "FringeS",
+			"from": [
+				3,
+				0,
+				15.5
+			],
+			"to": [
+				13,
+				0.2,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#worktop",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#worktop",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}
