@@ -84,7 +84,22 @@ def load_json(*rel):
     return json.loads(text)
 
 
+def fit_uvs(elements, size=16):
+    """A face UV past the texture's 16 units samples whatever lies beside it in the game's atlas (the client showed other
+    blocks' textures on the fridge's tall faces): scale any such UV back into 0..16, keeping its aspect."""
+    for e in elements:
+        for face in e.get("faces", {}).values():
+            uv = face.get("uv")
+            if uv and (max(uv) > size + 0.001 or min(uv) < -0.001):
+                lo = min(uv)
+                k = size / max(1e-9, max(uv) - min(0, lo))
+                face["uv"] = [round((v - min(0, lo)) * k, 4) for v in uv]
+        fit_uvs(e.get("children", []), size)
+
+
 def write_json(data, rel, comment):
+    if isinstance(data, dict) and "elements" in data:
+        fit_uvs(data["elements"], data.get("textureWidth", 16))
     path = os.path.join(ASSETS, *rel)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     text = json.dumps(data, indent="\t", ensure_ascii=False) + NL
@@ -291,9 +306,16 @@ def oildrum(base):
         if e["name"].startswith("Wall"):
             i = copy.deepcopy(e)
             i["name"] = "In" + e["name"]
-            i["from"] = [e["from"][0], r(13.5 - sink - 0.5), 2.06]
-            i["to"] = [e["to"][0], 13.5, 2.07]
-            i["faces"] = {"south": {"texture": "#opentop", "uv": [6, 6, 10, 9]}}
+            (x1, _, z1), (x2, _, z2) = e["from"], e["to"]
+            y1 = r(13.5 - sink - 0.5)
+            # each wall panel is thin along x or z: a sliver just inside it, its face turned inward
+            if z2 - z1 < 0.1:
+                face, (z1, z2) = ("south", (z2, z2 + 0.01)) if z1 < 8 else ("north", (z1 - 0.01, z1))
+            else:
+                face, (x1, x2) = ("east", (x2, x2 + 0.01)) if x1 < 8 else ("west", (x1 - 0.01, x1))
+            i["from"] = [r(x1), y1, r(z1)]
+            i["to"] = [r(x2), 13.5, r(z2)]
+            i["faces"] = {face: {"texture": "#opentop", "uv": [6, 6, 10, 9]}}
             inner.append(i)
     els = els + inner
     return keep_only_used(shape_file(tex, els, base))
