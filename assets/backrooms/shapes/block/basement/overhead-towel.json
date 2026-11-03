@@ -2,8 +2,10 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
+		"cloth-shirt": "backrooms:block/basement/cloth-shirt",
 		"cloth-towel": "backrooms:block/basement/cloth-towel",
-		"panel": "backrooms:block/basement/panel",
+		"metal": "backrooms:block/props/metal",
+		"pegwood": "backrooms:block/basement/pegwood",
 		"rope": "backrooms:block/basement/rope"
 	},
 	"elements": [
@@ -11,13 +13,13 @@
 			"name": "Line",
 			"from": [
 				0,
-				11.75,
+				12.1,
 				7.85
 			],
 			"to": [
 				16,
-				12.15,
-				8.15
+				12.45,
+				8.2
 			],
 			"faces": {
 				"north": {
@@ -77,208 +79,1036 @@
 			}
 		},
 		{
-			"name": "Towel",
+			"name": "Front",
 			"from": [
 				5,
-				5,
-				7.6
-			],
-			"to": [
-				11,
-				12,
-				8.4
-			],
-			"faces": {
-				"north": {
-					"texture": "#cloth-towel",
-					"uv": [
-						0,
-						0,
-						6,
-						7
-					]
-				},
-				"east": {
-					"texture": "#cloth-towel",
-					"uv": [
-						0,
-						0,
-						0.8,
-						7
-					]
-				},
-				"south": {
-					"texture": "#cloth-towel",
-					"uv": [
-						0,
-						0,
-						6,
-						7
-					]
-				},
-				"west": {
-					"texture": "#cloth-towel",
-					"uv": [
-						0,
-						0,
-						0.8,
-						7
-					]
-				},
-				"up": {
-					"texture": "#cloth-towel",
-					"uv": [
-						0,
-						0,
-						6,
-						0.8
-					]
-				},
-				"down": {
-					"texture": "#cloth-towel",
-					"uv": [
-						0,
-						0,
-						6,
-						0.8
-					]
-				}
-			}
-		},
-		{
-			"name": "Peg0",
-			"from": [
 				4.5,
-				11,
-				7.6
+				7.35
 			],
 			"to": [
-				5.1,
-				13,
-				8.4
+				11,
+				12.3,
+				7.8
 			],
 			"faces": {
 				"north": {
-					"texture": "#panel",
+					"texture": "#cloth-towel",
 					"uv": [
 						0,
 						0,
-						0.6,
-						2
+						6,
+						7.8
 					]
 				},
 				"east": {
-					"texture": "#panel",
+					"texture": "#cloth-towel",
 					"uv": [
 						0,
 						0,
-						0.8,
-						2
+						0.5,
+						7.8
 					]
 				},
 				"south": {
-					"texture": "#panel",
+					"texture": "#cloth-towel",
 					"uv": [
 						0,
 						0,
-						0.6,
-						2
+						6,
+						7.8
 					]
 				},
 				"west": {
-					"texture": "#panel",
+					"texture": "#cloth-towel",
 					"uv": [
 						0,
 						0,
-						0.8,
-						2
+						0.5,
+						7.8
 					]
 				},
 				"up": {
-					"texture": "#panel",
+					"texture": "#cloth-towel",
 					"uv": [
 						0,
 						0,
-						0.6,
-						0.8
+						6,
+						0.5
 					]
 				},
 				"down": {
-					"texture": "#panel",
+					"texture": "#cloth-towel",
 					"uv": [
 						0,
 						0,
-						0.6,
-						0.8
+						6,
+						0.5
 					]
 				}
 			}
 		},
 		{
-			"name": "Peg1",
+			"name": "Rear",
 			"from": [
-				11.5,
-				11,
-				7.6
+				5,
+				6.4,
+				8.25
 			],
 			"to": [
-				12.1,
-				13,
-				8.4
+				11,
+				12.3,
+				8.7
 			],
 			"faces": {
 				"north": {
-					"texture": "#panel",
+					"texture": "#cloth-towel",
 					"uv": [
 						0,
 						0,
-						0.6,
-						2
+						6,
+						5.9
 					]
 				},
 				"east": {
-					"texture": "#panel",
+					"texture": "#cloth-towel",
 					"uv": [
 						0,
 						0,
-						0.8,
-						2
+						0.5,
+						5.9
 					]
 				},
 				"south": {
-					"texture": "#panel",
+					"texture": "#cloth-towel",
 					"uv": [
 						0,
 						0,
-						0.6,
-						2
+						6,
+						5.9
 					]
 				},
 				"west": {
-					"texture": "#panel",
+					"texture": "#cloth-towel",
 					"uv": [
 						0,
 						0,
-						0.8,
-						2
+						0.5,
+						5.9
 					]
 				},
 				"up": {
-					"texture": "#panel",
+					"texture": "#cloth-towel",
 					"uv": [
 						0,
 						0,
-						0.6,
-						0.8
+						6,
+						0.5
 					]
 				},
 				"down": {
-					"texture": "#panel",
+					"texture": "#cloth-towel",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Fold",
+			"from": [
+				5,
+				12.3,
+				7.35
+			],
+			"to": [
+				11,
+				12.75,
+				8.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#cloth-towel",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#cloth-towel",
+					"uv": [
+						0,
+						0,
+						1.35,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#cloth-towel",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#cloth-towel",
+					"uv": [
+						0,
+						0,
+						1.35,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#cloth-towel",
+					"uv": [
+						0,
+						0,
+						6,
+						1.35
+					]
+				},
+				"down": {
+					"texture": "#cloth-towel",
+					"uv": [
+						0,
+						0,
+						6,
+						1.35
+					]
+				}
+			}
+		},
+		{
+			"name": "Fringe",
+			"from": [
+				5,
+				4.0,
+				7.4
+			],
+			"to": [
+				11,
+				4.5,
+				7.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						6,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Sock1",
+			"from": [
+				12.5,
+				7.0,
+				7.7
+			],
+			"to": [
+				13.6,
+				12.2,
+				8.35
+			],
+			"faces": {
+				"north": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						1.1,
+						5.2
+					]
+				},
+				"east": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						0.65,
+						5.2
+					]
+				},
+				"south": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						1.1,
+						5.2
+					]
+				},
+				"west": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						0.65,
+						5.2
+					]
+				},
+				"up": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						1.1,
+						0.65
+					]
+				},
+				"down": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						1.1,
+						0.65
+					]
+				}
+			}
+		},
+		{
+			"name": "Sock1Foot",
+			"from": [
+				12.5,
+				7.0,
+				7.7
+			],
+			"to": [
+				14.8,
+				8.2,
+				8.35
+			],
+			"faces": {
+				"north": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						2.3,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						0.65,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						2.3,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						0.65,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						2.3,
+						0.65
+					]
+				},
+				"down": {
+					"texture": "#cloth-shirt",
+					"uv": [
+						0,
+						0,
+						2.3,
+						0.65
+					]
+				}
+			}
+		},
+		{
+			"name": "PegAF",
+			"from": [
+				5.5,
+				10.6,
+				7.45
+			],
+			"to": [
+				6.0,
+				13.0,
+				7.85
+			],
+			"faces": {
+				"north": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PegAB",
+			"from": [
+				5.5,
+				10.6,
+				8.2
+			],
+			"to": [
+				6.0,
+				13.0,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PegAS",
+			"from": [
+				5.45,
+				11.7,
+				7.4
+			],
+			"to": [
+				6.05,
+				12.1,
+				8.65
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
 					"uv": [
 						0,
 						0,
 						0.6,
-						0.8
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.25
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.25
+					]
+				}
+			}
+		},
+		{
+			"name": "PegBF",
+			"from": [
+				10.0,
+				10.6,
+				7.45
+			],
+			"to": [
+				10.5,
+				13.0,
+				7.85
+			],
+			"faces": {
+				"north": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PegBB",
+			"from": [
+				10.0,
+				10.6,
+				8.2
+			],
+			"to": [
+				10.5,
+				13.0,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PegBS",
+			"from": [
+				9.95,
+				11.7,
+				7.4
+			],
+			"to": [
+				10.55,
+				12.1,
+				8.65
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.25
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.25
+					]
+				}
+			}
+		},
+		{
+			"name": "PegCF",
+			"from": [
+				12.8,
+				10.6,
+				7.45
+			],
+			"to": [
+				13.3,
+				13.0,
+				7.85
+			],
+			"faces": {
+				"north": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PegCB",
+			"from": [
+				12.8,
+				10.6,
+				8.2
+			],
+			"to": [
+				13.3,
+				13.0,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"east": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"south": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"west": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.4
+					]
+				},
+				"up": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#pegwood",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PegCS",
+			"from": [
+				12.75,
+				11.7,
+				7.4
+			],
+			"to": [
+				13.35,
+				12.1,
+				8.65
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.25,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.25
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.25
 					]
 				}
 			}

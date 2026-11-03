@@ -63,11 +63,17 @@ def save(img, name):
 # ======================================================================== Textures
 
 def wall(seed, stained=0.0, tide=False):
-    img = M.brick(seed=1100, base=CINDER, mortar=MORTAR, course=8, length=16, chamfer=True, jitter=7, hue=3, pits=0.04,
-                  grain=4, mottle=6, tones=seed)
-    # Old paint gone chalky in patches, damp creeping up from below
-    M.grime(img, 0.18, seed=seed + 1, color=(118, 124, 116), cells=(8, 4), cover=0.35)
-    M.grime(img, 0.12 + 0.2 * stained, seed=seed + 2, color=DAMP, cells=(8, 4, 2), cover=0.45 + 0.3 * stained)
+    # (Round 4: darker and more varied than round 3's, which was the brightest thing under a torch: old paint gone in
+    # patches, whitewash left in others, white salt bloom wicking up from the floor, a water line or two where the
+    # flood once stood, mortar washed out of the joints)
+    img = M.brick(seed=1100, base=(62, 69, 64), mortar=(48, 52, 50), course=8, length=16, chamfer=True, jitter=10, hue=4, pits=0.06,
+                  grain=5, mottle=8, tones=seed)
+    M.grime(img, 0.28, seed=seed + 7, color=(128, 130, 120), cells=(16, 8, 4), cover=0.2)  # whitewash left in patches
+    M.grime(img, 0.18, seed=seed + 1, color=(52, 56, 50), cells=(8, 4), cover=0.45)  # soot and old grime
+    M.grime(img, 0.12 + 0.22 * stained, seed=seed + 2, color=DAMP, cells=(8, 4, 2), cover=0.45 + 0.3 * stained)
+    M.grime(img, 0.34, seed=seed + 8, color=(178, 178, 166), cells=(4, 2), cover=0.16)  # efflorescence
+    if seed % 3 == 0:  # (a water line in some alternates only, so it never bands every block)
+        M.tideline(img, 18 + seed % 9, seed=seed + 9, color=(46, 52, 46), amount=0.28, wave=1.4, below=0.45)
     # Rust runs from the ties, down the face
     M.drips(img, n=1 + int(3 * stained), seed=seed + 3, color=RUST, length=(8, 22), strength=0.35 + 0.2 * stained)
     if stained:
@@ -173,6 +179,8 @@ def textures():
     link_textures()
     import gen_basement_r3 as R3
     R3.textures()
+    import gen_basement_r4 as R4
+    R4.textures()
     print("textures:", len(os.listdir(TEX)))
 
 
@@ -326,6 +334,8 @@ def blocks():
     link_blocks()
     import gen_basement_r3 as R3
     R3.blocks()
+    import gen_basement_r4 as R4
+    R4.blocks()
     print("blocktypes:", sorted(os.listdir(BLOCKS)))
 
 
@@ -421,10 +431,14 @@ def panel_tex(seed, stained=False):
 
 def brick_tex(seed):
     # (Round 3: an old sooty brown-grey brick, toned to the level's cold palette; the red stood out from everything)
-    img = M.brick(seed=1300, base=(80, 68, 60), mortar=(78, 78, 72), course=8, length=16, jitter=6, hue=2, pits=0.05,
-                  grain=5, mottle=8, tones=seed)
-    M.grime(img, 0.32, seed=seed + 1, color=(44, 44, 42), cells=(8, 4, 2), cover=0.6)
-    M.grime(img, 0.12, seed=seed + 2, color=(150, 146, 132), cells=(4, 2), cover=0.25)  # efflorescence
+    # (Round 4: darker still, sooty, salt bloom low down and a water line; it was still the brightest under a torch)
+    img = M.brick(seed=1300, base=(66, 54, 48), mortar=(64, 62, 58), course=8, length=16, jitter=9, hue=3, pits=0.07,
+                  grain=5, mottle=9, tones=seed)
+    M.grime(img, 0.38, seed=seed + 1, color=(36, 34, 32), cells=(8, 4, 2), cover=0.6)
+    M.grime(img, 0.3, seed=seed + 2, color=(150, 146, 132), cells=(4, 2), cover=0.16)  # efflorescence
+    M.grime(img, 0.2, seed=seed + 3, color=(120, 116, 104), cells=(16, 8), cover=0.15)  # old whitewash
+    if seed % 2 == 0:
+        M.tideline(img, 20 + seed % 7, seed=seed + 4, color=(40, 38, 34), amount=0.25, wave=1.4, below=0.4)
     return img
 
 
@@ -721,7 +735,8 @@ def detail_blocks():
         "sounds": {"place": "game:block/cloth", "break": "game:block/cloth", "hit": "game:block/cloth"},
     }, "The Basement: the frayed end of a rope hanging high in the crack, cut or worn through")
 
-    # Round 2: the heating duct under the ceiling
+    # Round 2: the heating duct under the ceiling (Level 31 reuses it; the Basement's halls have round 4's
+    # basement-ductrun, the mains beside it)
     write_shape("duct", duct_model(), {"duct": "backrooms:block/basement/duct"})
     write_json(os.path.join(BLOCKS, "basement-duct.json"), {
         "code": "basement-duct",

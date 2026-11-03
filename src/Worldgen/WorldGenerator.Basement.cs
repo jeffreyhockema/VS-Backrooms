@@ -17,11 +17,12 @@ namespace Backrooms.Worldgen;
 /// </summary>
 public sealed partial class WorldGenerator
 {
-    private int basementFloorDryId, basementFloorDampId, basementFloorPatchId, basementCeilingId, basementCeilingStainedId, basementJoistsId, basementFaintId, basementJoistsFaintId, basementShaftId;
+    private int basementFloorDryId, basementFloorDampId, basementFloorPatchId, basementCeilingId, basementCeilingStainedId, basementFaintId, basementShaftId;
     private int basementWallId, basementWallStainedId, basementWallTideId, basementSlimeWallId, basementSlimeBedId;
     private int basementLampOnId, basementLampOffId, basementLampFlickerId, basementLampDimId, basementLampBrightId, basementPumpId;
     private int basementCarpetOliveId, basementCarpetBrownId, basementPanelId, basementPanelStainedId, basementBrickId;
-    private int basementDuctWeId, basementDuctNsId;
+    /// <summary>Round 4: the hall's duct with the mains beside it, [fit (plain, valve, gauge), axis (we, ns)].</summary>
+    private readonly int[,] basementDuctIds = new int[3, 2];
     private int basementWireId, basementRopeHangId, basementRopeEndId, basementLobbyCarpetId, basementLobbyWallId, basementLobbyCeilingId, basementLobbyLightId;
     private readonly int[] basementStepIds = new int[4], basementBrickStepIds = new int[4], basementLadderIds = new int[4];
     /// <summary>[state (closed, open, jammed), hinge (w, e), part (lower, upper), facing].</summary>
@@ -30,7 +31,7 @@ public sealed partial class WorldGenerator
     /// <summary>[part (lower, upper, dial), leaf (l, r), facing].</summary>
     private readonly int[,,] basementLiftIds = new int[3, 2, 4];
     // Round 3: the house's things of several blocks, and what hangs on its walls and from its joists
-    private int basementStudsId, basementEarthId, basementRugId, basementSumpId;
+    private int basementEarthId, basementRugId;
     /// <summary>[part (lower, upper, top), facing].</summary>
     private readonly int[,] basementFurnaceIds = new int[3, 4], basementHeaterIds = new int[3, 4];
     /// <summary>[half (l, r), facing].</summary>
@@ -41,6 +42,24 @@ public sealed partial class WorldGenerator
     /// <summary>[thing (BasementWallThings), facing]; [hang (line, shirt, sheet, towel, cobweb), facing].</summary>
     private readonly int[,] basementWallThingIds = new int[9, 4], basementOverheadIds = new int[5, 4];
     private readonly int[] basementPoolLampIds = new int[4], basementFallenIds = new int[4];
+    // Round 4: the basement's own appliances and furniture (similar to the shared props, made for this house), the joists
+    // as a model, the stairs' rail, the crack's broken edge, the Flood's scum, the stud wall's plates
+    /// <summary>[kind (washer, dryer, tub), part (lower, upper), facing].</summary>
+    private readonly int[,,] basementLaundryIds = new int[3, 2, 4];
+    /// <summary>[half (l, r) or part (lower, upper), facing].</summary>
+    private readonly int[,] basementSofaIds = new int[2, 4], basementTvIds = new int[2, 4], basementRailIds = new int[2, 4], basementSlabEdgeIds = new int[2, 4];
+    private readonly int[] basementCueRackIds = new int[4], basementShopLightIds = new int[4], basementWallRailIds = new int[4], basementSumpIds = new int[4];
+    /// <summary>[part (low, high), facing].</summary>
+    private readonly int[,] basementSumpPipeIds = new int[2, 4], basementBoilerIds = new int[2, 4];
+    /// <summary>[half (l, r), part (lower, upper), facing].</summary>
+    private readonly int[,,] basementBarIds = new int[2, 2, 4];
+    private readonly int[] basementStoolIds = new int[4];
+    /// <summary>[part (low, mid, top), axis (we, ns)].</summary>
+    private readonly int[,] basementStudIds = new int[3, 2];
+    /// <summary>[kind (plain, cable, box, bridge), axis (we, ns), light (dark, faint)].</summary>
+    private readonly int[,,] basementJoistIds = new int[4, 2, 2];
+    /// <summary>[what (a, b, c films, board, box, bottle, chair, laptop), facing].</summary>
+    private readonly int[,] basementScumIds = new int[8, 4];
     private static readonly string[] BasementWallThings = { "pegboard-a", "pegboard-b", "fusebox", "conduit", "sign-caution", "sign-head", "sign-water", "calendar", "chute" };
 
     /// <summary>The level's block ids (called from the constructor).</summary>
@@ -51,9 +70,7 @@ public sealed partial class WorldGenerator
         basementFloorPatchId = Id("basement-floor-patch");
         basementCeilingId = Id("basement-ceiling-plain");
         basementCeilingStainedId = Id("basement-ceiling-stained");
-        basementJoistsId = Id("basement-ceiling-joists");
         basementFaintId = Id("basement-ceiling-faint");
-        basementJoistsFaintId = Id("basement-ceiling-joistsfaint");
         basementShaftId = Id("basement-ceiling-shaft");
         basementWallId = Id("basement-wall-plain");
         basementWallStainedId = Id("basement-wall-stained");
@@ -72,8 +89,10 @@ public sealed partial class WorldGenerator
         basementPanelStainedId = Id("basement-panel-stained");
         basementBrickId = Id("basement-brick-plain");
         basementWireId = Id("wiredroop");
-        basementDuctWeId = Id("basement-duct-we");
-        basementDuctNsId = Id("basement-duct-ns");
+        string[] fits = { "plain", "valve", "gauge" }, axes = { "we", "ns" };
+        for (int k = 0; k < 3; k++)
+            for (int a = 0; a < 2; a++)
+                basementDuctIds[k, a] = Id($"basement-ductrun-{fits[k]}-{axes[a]}");
         basementRopeHangId = Id("basement-rope-hang");
         basementRopeEndId = Id("basement-rope-end");
         basementLobbyCarpetId = Id("carpet-soaked");
@@ -97,10 +116,44 @@ public sealed partial class WorldGenerator
                 for (int l = 0; l < 2; l++)
                     basementLiftIds[p, l, f] = Id($"basement-lift-{lift[p]}-{leaves[l]}-{Sides[f]}");
         }
-        basementStudsId = Id("basement-studs");
+        string[] studParts = { "low", "mid", "top" };
+        for (int k = 0; k < 3; k++)
+            for (int a = 0; a < 2; a++)
+                basementStudIds[k, a] = Id($"basement-studs-{studParts[k]}-{axes[a]}");
+        string[] joistKinds = { "plain", "cable", "box", "bridge" }, lights = { "dark", "faint" };
+        for (int k = 0; k < 4; k++)
+            for (int a = 0; a < 2; a++)
+                for (int l = 0; l < 2; l++)
+                    basementJoistIds[k, a, l] = Id($"basement-joists-{joistKinds[k]}-{axes[a]}-{lights[l]}");
+        string[] laundry = { "washer", "dryer", "tub" }, scums = { "a", "b", "c", "board", "box", "bottle", "chair", "laptop" };
+        for (int f = 0; f < 4; f++)
+        {
+            for (int k = 0; k < 3; k++)
+                for (int p = 0; p < 2; p++)
+                    basementLaundryIds[k, p, f] = Id($"basement-laundry-{laundry[k]}-{(p == 0 ? "lower" : "upper")}-{Sides[f]}");
+            for (int p = 0; p < 2; p++)
+            {
+                basementSofaIds[p, f] = Id($"basement-sofa-{(p == 0 ? "l" : "r")}-{Sides[f]}");
+                basementTvIds[p, f] = Id($"basement-tv-{(p == 0 ? "lower" : "upper")}-{Sides[f]}");
+                basementRailIds[p, f] = Id($"basement-rail-{(p == 0 ? "l" : "r")}-{Sides[f]}");
+                basementSlabEdgeIds[p, f] = Id($"basement-slabedge-{(p == 0 ? "a" : "b")}-{Sides[f]}");
+            }
+            for (int k = 0; k < scums.Length; k++) basementScumIds[k, f] = Id($"basement-scum-{scums[k]}-{Sides[f]}");
+            basementCueRackIds[f] = Id("basement-cuerack-" + Sides[f]);
+            basementShopLightIds[f] = Id("basement-shoplight-" + Sides[f]);
+            basementWallRailIds[f] = Id("basement-wallrail-" + Sides[f]);
+            basementSumpIds[f] = Id("basement-sump-" + Sides[f]);
+            basementSumpPipeIds[0, f] = Id("basement-sumppipe-low-" + Sides[f]);
+            basementSumpPipeIds[1, f] = Id("basement-sumppipe-high-" + Sides[f]);
+            basementBoilerIds[0, f] = Id("basement-boiler-lower-" + Sides[f]);
+            basementBoilerIds[1, f] = Id("basement-boiler-upper-" + Sides[f]);
+            basementStoolIds[f] = Id("basement-stool-" + Sides[f]);
+            for (int h = 0; h < 2; h++)
+                for (int p = 0; p < 2; p++)
+                    basementBarIds[h, p, f] = Id($"basement-bar-{(h == 0 ? "l" : "r")}-{(p == 0 ? "lower" : "upper")}-{Sides[f]}");
+        }
         basementEarthId = Id("basement-earth");
         basementRugId = Id("basement-rug");
-        basementSumpId = Id("basement-sump");
         string[] three = { "lower", "upper", "top" }, two = { "lower", "upper" }, halves = { "l", "r" };
         string[] loads = { "boxes", "jars", "paint", "odds" }, labels = { "xmas", "taxes", "moms", "keep" }, hangs = { "line", "shirt", "sheet", "towel", "cobweb" };
         for (int f = 0; f < 4; f++)
@@ -136,7 +189,7 @@ public sealed partial class WorldGenerator
         fluid = 0;
         const int ceiling = WorldGeometry.RoomHeight + 1;
         if (t.Detail == WorldLayout.BasementTower) return BasementTowerBlock(t, rel);
-        if (rel > ceiling) return BasementAbove(t, rel);
+        if (rel > ceiling) return BasementAbove(t, rel, gx, gz);
         if (rel < -2) return concreteId;
         if (t.Kind == TileKind.Wall)
         {
@@ -150,7 +203,7 @@ public sealed partial class WorldGenerator
                 WallPattern.BasementStained => basementWallStainedId,
                 WallPattern.BasementPanel => (gx * 7 + gz * 13) % 5 == 0 ? basementPanelStainedId : basementPanelId,
                 WallPattern.BasementLift => basementLiftIds[rel - 1, t.Stack & 1, Facing(t.Pier)],
-                WallPattern.BasementStuds => basementStudsId,
+                WallPattern.BasementStuds => basementStudIds[rel == 1 ? 0 : rel == WorldGeometry.RoomHeight ? 2 : 1, BasementStudAxis(gx, gz)],
                 _ => basementWallId,
             };
         }
@@ -165,20 +218,22 @@ public sealed partial class WorldGenerator
             {
                 WallPattern.BasementPanel => basementPanelId,
                 WallPattern.BasementStained => basementWallStainedId,
-                WallPattern.BasementStuds => basementStudsId,
+                WallPattern.BasementStuds => basementStudIds[2, BasementStudAxis(gx, gz)],
                 _ => basementWallId,
             };
         }
         if (rel == ceiling)
         {
             if (t.Ceiling == CeilingKind.BasementOpen) return 0;
+            // (Round 4: the slab broken back round the crack, its rebar bent down into the hole)
+            if (t.Overhead == Overheads.BasementCrackRim && BasementSlabEdge(gx, gz) is var edge and not 0) return edge;
             // About one ceiling block in seven gives off a faint light, looking like every other: "a light which has no
             // determined source" (Fandom)
             bool faint = ((gx * 3 + gz * 5) % 7 + 7) % 7 == 0;
             return t.Ceiling switch
             {
                 CeilingKind.BasementStained => basementCeilingStainedId,
-                CeilingKind.BasementJoists => faint ? basementJoistsFaintId : basementJoistsId,
+                CeilingKind.BasementJoists => BasementJoists(gx, gz, faint),
                 _ => faint ? basementFaintId : basementCeilingId,
             };
         }
@@ -198,6 +253,9 @@ public sealed partial class WorldGenerator
                 _ => 0,
             };
             if (lamp != 0) return lamp;
+            // (Round 4: the shop light over the workbench, hung from the left half's joists, along the bench)
+            if (t.Kind == TileKind.Floor && t.Variant == Props.BasementBench && (t.Stack & 1) == 0 && t.Pipe == 0)
+                return basementShopLightIds[Facing(t.Pier)];
             if (t.Kind == TileKind.Floor && t.Pipe == 0)
                 switch (t.Overhead)
                 {
@@ -214,8 +272,8 @@ public sealed partial class WorldGenerator
                 Pipes.BasementPipeNS => pipeRunZId,
                 Pipes.BasementLeakWE => pipeLeakXId,
                 Pipes.BasementLeakNS => pipeLeakZId,
-                Pipes.BasementDuctWE => basementDuctWeId,
-                Pipes.BasementDuctNS => basementDuctNsId,
+                Pipes.BasementDuctWE => basementDuctIds[BasementDuctFit(gx, gz), 0],
+                Pipes.BasementDuctNS => basementDuctIds[BasementDuctFit(gx, gz), 1],
                 _ => 0,
             };
         }
@@ -231,13 +289,19 @@ public sealed partial class WorldGenerator
             if (rel == -2) return basementSlimeBedId;
             // (Round 3: sodden boxes drifted into a dead end, awash, their tops just out of the water)
             if (t.Variant == Props.BasementBoxes && rel == 0) { fluid = waterId; return basementBoxesIds[t.Stack & 3, 0, Facing(t.Pier)]; }
+            // (Round 4: under some of the sodden boxes, on the bed, a laptop: the clipping's, lost to the water)
+            if (t.Variant == Props.BasementBoxes && rel == -1 && BasementHash(gx, gz) % 3 == 0) { fluid = waterId; return basementScumIds[7, Facing(t.Pier)]; }
+            // (Round 4: scum on the surface, now and then something floating in it)
+            if (rel == 0 && t.Height == 0) { fluid = waterId; return BasementScum(gx, gz); }
             if (rel <= 0) { fluid = waterId; return 0; }
+            // (Round 4: the upper step's handrail, on the side with a wall)
+            if (rel == 1 && t.Height == 2) return BasementRail(t, gx, gz);
             return 0;
         }
         // The dry floor (the Cellar, the Dry Patch, a doorway), and what stands on it
         if (rel < 0) return concreteId;
         if (rel == 0)
-            return t.Kind == TileKind.Floor && t.Variant == Props.BasementSump ? basementSumpId : t.Floor switch
+            return t.Kind == TileKind.Floor && t.Variant == Props.BasementSump ? basementSumpIds[BasementSumpCorner(gx, gz)] : t.Floor switch
             {
                 FloorKind.BasementEarth => basementEarthId,
                 FloorKind.BasementRug => basementRugId,
@@ -263,6 +327,13 @@ public sealed partial class WorldGenerator
                 case Props.BasementShelving: return basementShelvingIds[t.Stack & 3, part, facing];
                 case Props.BasementBoxes: return basementBoxesIds[t.Stack & 3, part, facing];
                 case Props.BasementWineRack: return basementWineIds[part, facing];
+                case Props.BasementBoiler when part == 0 || t.Overhead == 0: return basementBoilerIds[part, facing];
+                case Props.BasementBar when part == 0 || t.Overhead == 0: return basementBarIds[t.Stack & 1, part, facing];
+                case Props.BasementSump when part == 1 && t.Overhead == 0: return basementSumpPipeIds[1, BasementSumpCorner(gx, gz)];
+                // (Round 4: the house's own washer, dryer and tub, its TV; their upper part is the wall or the lid over them)
+                case Props.Laundry when part == 0 || t.Overhead == 0: return basementLaundryIds[t.Stack & 1, part, facing];
+                case Props.KitchenCounter when t.Stack == 1 && (part == 0 || t.Overhead == 0): return basementLaundryIds[2, part, facing];
+                case Props.Tv when part == 0 || t.Overhead == 0: return basementTvIds[part, facing];
             }
         }
         if (rel == 2)
@@ -292,8 +363,11 @@ public sealed partial class WorldGenerator
             Props.BasementJunk => basementJunkIds[t.Stack & 3, facing],
             Props.BasementBench => basementBenchIds[t.Stack & 1, facing],
             Props.BasementPoolTable => basementPoolIds[t.Stack & 1, facing],
-            Props.BasementSump => 0,
+            Props.BasementSump => basementSumpPipeIds[0, BasementSumpCorner(gx, gz)],
             Props.BasementFallen => basementFallenIds[facing],
+            Props.LongSofa => basementSofaIds[t.Stack & 1, facing],
+            Props.BasementCueRack => basementCueRackIds[facing],
+            Props.BasementStool => basementStoolIds[facing],
             // (A body is an entity, laid down by Regions.BasementSystem; nothing of it is a block)
             Props.BasementBody => 0,
             // (Props of the other levels', reused: Level 0-11's furniture, bones, signs)
@@ -303,6 +377,78 @@ public sealed partial class WorldGenerator
 
     /// <summary>A small hash of a column, for picking among looks that do not matter to the layout.</summary>
     private static int BasementHash(int gx, int gz) => (int)((uint)(gx * 73856093 ^ gz * 19349663) >> 7);
+
+    /// <summary>
+    /// Round 4: a joist ceiling's block. The joists run one way across a cell and the other way in the next; a whole joist
+    /// line in a cell carries the cable or not, now and then a junction box on it; bridging between bare joists here and there.
+    /// </summary>
+    private int BasementJoists(int gx, int gz, bool faint)
+    {
+        int axis = ((gx >> 5) + (gz >> 5)) & 1;
+        int across = axis == 0 ? gz : gx, along = axis == 0 ? gx : gz;
+        int kind = BasementHash(across * 5 + 1, (along >> 5) * 11 + 7) % 10 < 3 ? 1 : 0;
+        if (kind == 1 && BasementHash(gx * 3 + 2, gz * 7 + 1) % 7 == 0) kind = 2;
+        else if (kind == 0 && BasementHash(gx * 5 + 3, gz * 3 + 2) % 9 == 0) kind = 3;
+        return basementJoistIds[kind, axis, faint ? 1 : 0];
+    }
+
+    /// <summary>Round 4: which way a stud wall runs (1 north-south where the wall goes on north or south of it), so its studs face the room.</summary>
+    private int BasementStudAxis(int gx, int gz) =>
+        layout.TileAt(gx, gz - 1).Kind is TileKind.Wall or TileKind.Doorway || layout.TileAt(gx, gz + 1).Kind is TileKind.Wall or TileKind.Doorway ? 1 : 0;
+
+    /// <summary>
+    /// Round 4: which way the sump's model turns: its walls are to the north and west of the north variant, so the corner
+    /// between walls north and east is the east variant, south and east the south, south and west the west.
+    /// </summary>
+    private int BasementSumpCorner(int gx, int gz)
+    {
+        bool n = layout.TileAt(gx, gz - 1).Kind == TileKind.Wall, s = layout.TileAt(gx, gz + 1).Kind == TileKind.Wall;
+        bool e = layout.TileAt(gx + 1, gz).Kind == TileKind.Wall, w = layout.TileAt(gx - 1, gz).Kind == TileKind.Wall;
+        ArchPier p = n && e ? ArchPier.East : s && e ? ArchPier.South : s && w ? ArchPier.West : ArchPier.North;
+        return Facing(p);
+    }
+
+    /// <summary>Round 4: what a block of the hall's duct and mains carries: mostly nothing, now and then a valve or a gauge.</summary>
+    private static int BasementDuctFit(int gx, int gz) => (BasementHash(gx * 7 + 5, gz * 13 + 3) % 18) switch { 0 => 1, 1 => 2, _ => 0 };
+
+    /// <summary>Round 4: the Flood's surface over a tile: scum on about a quarter, rarely a board, a sodden box or a bottle.</summary>
+    private int BasementScum(int gx, int gz)
+    {
+        int h = BasementHash(gx * 3 + 1, gz * 5 + 2) % 100, f = BasementHash(gx + 9, gz + 4) & 3;
+        return h switch
+        {
+            < 27 => basementScumIds[h % 3, f],
+            27 => basementScumIds[3, f],
+            28 => basementScumIds[4, f],
+            29 => basementScumIds[5, f],
+            30 => basementScumIds[6, f],
+            _ => 0,
+        };
+    }
+
+    /// <summary>
+    /// Round 4: the upper step of a stair down into the Flood (climbing toward Pier) gets a handrail on its left, or its
+    /// right, where a wall is beside it.
+    /// </summary>
+    private int BasementRail(in Tile t, int gx, int gz)
+    {
+        var (dx, dz) = t.Pier switch { ArchPier.North => (0, -1), ArchPier.South => (0, 1), ArchPier.East => (1, 0), _ => (-1, 0) };
+        int lx = dz, lz = -dx; // (to the left, facing up the stair)
+        if (layout.TileAt(gx + lx, gz + lz).Kind == TileKind.Wall) return basementRailIds[0, Facing(t.Pier)];
+        if (layout.TileAt(gx - lx, gz - lz).Kind == TileKind.Wall) return basementRailIds[1, Facing(t.Pier)];
+        return 0;
+    }
+
+    /// <summary>Round 4: a ring tile of the crack beside its hole: the broken slab facing the hole, or 0 at a corner.</summary>
+    private int BasementSlabEdge(int gx, int gz)
+    {
+        foreach (var (dx, dz, toward) in new[] { (0, -1, ArchPier.North), (1, 0, ArchPier.East), (0, 1, ArchPier.South), (-1, 0, ArchPier.West) })
+        {
+            Tile n = layout.TileAt(gx + dx, gz + dz);
+            if (n.Ceiling == CeilingKind.BasementOpen && n.Kind != TileKind.Water) return basementSlabEdgeIds[BasementHash(gx, gz) & 1, Facing(toward)];
+        }
+        return 0;
+    }
 
     /// <summary>A part of a Basement door: <paramref name="part"/> 0 the lower block, 1 the upper.</summary>
     private int BasementDoorPart(in Tile t, int part, int state = -1)
@@ -315,7 +461,7 @@ public sealed partial class WorldGenerator
     /// Over the ceiling: solid, but for the crack (open to its top, the Lobby's lit ceiling there, its torn carpet round the
     /// hole, its wallpaper round that) and the rope's frayed end hanging in it, out of reach.
     /// </summary>
-    private int BasementAbove(in Tile t, int rel)
+    private int BasementAbove(in Tile t, int rel, int gx, int gz)
     {
         const int top = WorldLayout.BasementCrackTop;
         if (rel > top) return concreteId;
@@ -330,6 +476,8 @@ public sealed partial class WorldGenerator
             if (rel == top) return basementLobbyCeilingId;
             if (rel > top - 4) return 0;
             if (rel == top - 4) return basementLobbyCarpetId;
+            // (Round 4: the slab's broken edge a block up too, so the break is two blocks deep)
+            if (rel == WorldGeometry.RoomHeight + 2 && BasementSlabEdge(gx, gz) is var edge and not 0) return edge;
             // (The broken slab lining the crack, lit by the room above: the light comes down it to the floor)
             if (rel > WorldGeometry.RoomHeight + 1) return basementShaftId;
         }
@@ -364,6 +512,8 @@ public sealed partial class WorldGenerator
         // (Every place a step, the landing by the door too: a full block there would be a whole block up from the step before it)
         if (m == 0) return basementBrickStepIds[Facing(t.Pier)];
         if (place == 4 && m == rise - 1) return basementLampDimId;
+        // (Round 4: a handrail on the outer wall, to the left of the way up, over every step but the landing by the door)
+        if (m == 1 && place != 0) return basementWallRailIds[Facing(t.Pier)];
         return 0;
     }
 }

@@ -1,0 +1,111 @@
+// The Basement: a heating duct under the joists with a water main and a gas line beside it (fit: plain, a gate valve, a gauge; axis we or ns)
+{
+	"code": "basement-ductrun",
+	"variantgroups": [
+		{
+			"code": "fit",
+			"states": [
+				"plain",
+				"valve",
+				"gauge"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"we",
+				"ns"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-plain-we"
+		],
+		"decorative": [
+			"*-plain-we"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-plain-we": {
+			"base": "block/basement/ductrun-plain",
+			"rotateY": 0
+		},
+		"*-plain-ns": {
+			"base": "block/basement/ductrun-plain",
+			"rotateY": 90
+		},
+		"*-valve-we": {
+			"base": "block/basement/ductrun-valve",
+			"rotateY": 0
+		},
+		"*-valve-ns": {
+			"base": "block/basement/ductrun-valve",
+			"rotateY": 90
+		},
+		"*-gauge-we": {
+			"base": "block/basement/ductrun-gauge",
+			"rotateY": 0
+		},
+		"*-gauge-ns": {
+			"base": "block/basement/ductrun-gauge",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"collisionSelectionBoxesByType": {
+		"*-we": [
+			{
+				"x1": 0,
+				"y1": 0.42,
+				"z1": 0.06,
+				"x2": 1,
+				"y2": 1,
+				"z2": 0.97
+			}
+		],
+		"*-ns": [
+			{
+				"x1": 0.03,
+				"y1": 0.42,
+				"z1": 0,
+				"x2": 0.97,
+				"y2": 1,
+				"z2": 1
+			}
+		]
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "metalbracket",
+			"quantity": {
+				"avg": 0.6,
+				"var": 0.4
+			}
+		},
+		{
+			"type": "item",
+			"code": "scrapwire",
+			"quantity": {
+				"avg": 0.4,
+				"var": 0.4
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	}
+}

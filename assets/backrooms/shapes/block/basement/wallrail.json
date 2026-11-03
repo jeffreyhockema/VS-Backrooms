@@ -1,0 +1,436 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"castiron": "backrooms:block/basement/castiron",
+		"railpipe": "backrooms:block/basement/railpipe"
+	},
+	"elements": [
+		{
+			"name": "Rail",
+			"from": [
+				1.0,
+				13.6,
+				-4.7
+			],
+			"to": [
+				1.8,
+				14.4,
+				20.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.8,
+						16
+					]
+				},
+				"down": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.8,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.4,
+				14,
+				8
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "RailB",
+			"from": [
+				1.15,
+				13.45,
+				-4.65
+			],
+			"to": [
+				1.65,
+				14.55,
+				20.65
+			],
+			"faces": {
+				"north": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"east": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						16,
+						1.1
+					]
+				},
+				"south": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.1
+					]
+				},
+				"west": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						16,
+						1.1
+					]
+				},
+				"up": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"down": {
+					"texture": "#railpipe",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				1.4,
+				14,
+				8
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Arm0",
+			"from": [
+				0,
+				17.3,
+				3.2
+			],
+			"to": [
+				1.4,
+				17.9,
+				3.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate0",
+			"from": [
+				0,
+				16.6,
+				2.7
+			],
+			"to": [
+				0.3,
+				18.2,
+				4.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.6
+					]
+				},
+				"south": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Arm1",
+			"from": [
+				0,
+				8.3,
+				12.2
+			],
+			"to": [
+				1.4,
+				8.9,
+				12.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.4,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate1",
+			"from": [
+				0,
+				7.6,
+				11.7
+			],
+			"to": [
+				0.3,
+				9.2,
+				13.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.6
+					]
+				},
+				"south": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.6
+					]
+				}
+			}
+		}
+	]
+}

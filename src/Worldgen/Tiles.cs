@@ -1799,6 +1799,10 @@ public static class Props
         BasementBoxes = 1016, BasementWineRack = 1017, BasementSump = 1018;
     /// <summary>The Basement, round 3: a broken joist come down through the crack, leaning in the rubble (walked through).</summary>
     public const ushort BasementFallen = 1019;
+    /// <summary>The Basement, round 4: the rec room's cue rack, standing against a wall (Pier its face).</summary>
+    public const ushort BasementCueRack = 1020;
+    /// <summary>The Basement, round 4: the rec room's home bar, two tiles long against a wall (Stack 0 left, 1 right; Pier its face), and a bar stool before it.</summary>
+    public const ushort BasementBar = 1021, BasementStool = 1022;
     public const ushort L52First = 1100, L52Last = 1199;
     /// <summary>Level 52: a student desk with its chair (Pier the way the student faces), a piece of chalkboard on the wall behind it (Pier its face; Stack 0 left end, 1 middle, 2 right end; walked through).</summary>
     public const ushort L52Desk = 1100, L52Chalkboard = 1101;

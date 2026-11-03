@@ -1,0 +1,193 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bottle": "backrooms:block/basement/bottle",
+		"scum-a": "backrooms:block/basement/scum-a"
+	},
+	"elements": [
+		{
+			"name": "Film",
+			"from": [
+				0,
+				14.3,
+				0
+			],
+			"to": [
+				16,
+				14.35,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#scum-a",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#scum-a",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Bottle",
+			"from": [
+				6.5,
+				13.7,
+				6
+			],
+			"to": [
+				8.3,
+				15.2,
+				11
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						1.8,
+						5
+					]
+				},
+				"down": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						1.8,
+						5
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.4,
+				14.3,
+				8.5
+			],
+			"rotationY": 30
+		},
+		{
+			"name": "Neck",
+			"from": [
+				7.0,
+				14.0,
+				3.8
+			],
+			"to": [
+				7.8,
+				14.8,
+				6.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						2.2,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2.2
+					]
+				},
+				"down": {
+					"texture": "#bottle",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2.2
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.4,
+				14.3,
+				8.5
+			],
+			"rotationY": 30
+		}
+	]
+}

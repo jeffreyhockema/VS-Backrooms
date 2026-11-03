@@ -1,0 +1,286 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"foilduct": "backrooms:block/basement/foilduct",
+		"galv": "backrooms:block/basement/galv"
+	},
+	"elements": [
+		{
+			"name": "Vent",
+			"from": [
+				9.5,
+				0,
+				15.0
+			],
+			"to": [
+				13.5,
+				6,
+				16.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#foilduct",
+					"uv": [
+						0,
+						0,
+						4.0,
+						6
+					]
+				},
+				"east": {
+					"texture": "#foilduct",
+					"uv": [
+						0,
+						0,
+						1.4,
+						6
+					]
+				},
+				"south": {
+					"texture": "#foilduct",
+					"uv": [
+						0,
+						0,
+						4.0,
+						6
+					]
+				},
+				"west": {
+					"texture": "#foilduct",
+					"uv": [
+						0,
+						0,
+						1.4,
+						6
+					]
+				},
+				"up": {
+					"texture": "#foilduct",
+					"uv": [
+						0,
+						0,
+						4.0,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#foilduct",
+					"uv": [
+						0,
+						0,
+						4.0,
+						1.4
+					]
+				}
+			}
+		},
+		{
+			"name": "VentBend",
+			"from": [
+				9.5,
+				5.5,
+				13.4
+			],
+			"to": [
+				13.5,
+				9.5,
+				16.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#foilduct",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4.0
+					]
+				},
+				"east": {
+					"texture": "#foilduct",
+					"uv": [
+						0,
+						0,
+						2.8,
+						4.0
+					]
+				},
+				"south": {
+					"texture": "#foilduct",
+					"uv": [
+						0,
+						0,
+						4.0,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#foilduct",
+					"uv": [
+						0,
+						0,
+						2.8,
+						4.0
+					]
+				},
+				"up": {
+					"texture": "#foilduct",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.8
+					]
+				},
+				"down": {
+					"texture": "#foilduct",
+					"uv": [
+						0,
+						0,
+						4.0,
+						2.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Hood",
+			"from": [
+				8.5,
+				4.5,
+				15.6
+			],
+			"to": [
+				14.5,
+				10.5,
+				16.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#galv",
+					"uv": [
+						0,
+						0,
+						6.0,
+						6.0
+					]
+				},
+				"east": {
+					"texture": "#galv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"south": {
+					"texture": "#galv",
+					"uv": [
+						0,
+						0,
+						6.0,
+						6.0
+					]
+				},
+				"west": {
+					"texture": "#galv",
+					"uv": [
+						0,
+						0,
+						0.5,
+						6.0
+					]
+				},
+				"up": {
+					"texture": "#galv",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#galv",
+					"uv": [
+						0,
+						0,
+						6.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "HoodClamp",
+			"from": [
+				9.3,
+				6.8,
+				13.2
+			],
+			"to": [
+				13.7,
+				7.6,
+				15.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#galv",
+					"uv": [
+						0,
+						0,
+						4.4,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#galv",
+					"uv": [
+						0,
+						0,
+						2.4,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#galv",
+					"uv": [
+						0,
+						0,
+						4.4,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#galv",
+					"uv": [
+						0,
+						0,
+						2.4,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#galv",
+					"uv": [
+						0,
+						0,
+						4.4,
+						2.4
+					]
+				},
+				"down": {
+					"texture": "#galv",
+					"uv": [
+						0,
+						0,
+						4.4,
+						2.4
+					]
+				}
+			}
+		}
+	]
+}

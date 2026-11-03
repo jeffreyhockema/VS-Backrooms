@@ -1,0 +1,106 @@
+// The Basement: bare joists under the floor above, as a model (kind plain, cable, box, bridge; axis the joists run; light faint gives off the light nobody can find the source of)
+{
+	"code": "basement-joists",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"cable",
+				"box",
+				"bridge"
+			]
+		},
+		{
+			"code": "axis",
+			"states": [
+				"we",
+				"ns"
+			]
+		},
+		{
+			"code": "light",
+			"states": [
+				"dark",
+				"faint"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-plain-we-dark"
+		],
+		"construction": [
+			"*-plain-we-dark"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-plain-we-*": {
+			"base": "block/basement/joists-plain",
+			"rotateY": 0
+		},
+		"*-plain-ns-*": {
+			"base": "block/basement/joists-plain",
+			"rotateY": 90
+		},
+		"*-cable-we-*": {
+			"base": "block/basement/joists-cable",
+			"rotateY": 0
+		},
+		"*-cable-ns-*": {
+			"base": "block/basement/joists-cable",
+			"rotateY": 90
+		},
+		"*-box-we-*": {
+			"base": "block/basement/joists-box",
+			"rotateY": 0
+		},
+		"*-box-ns-*": {
+			"base": "block/basement/joists-box",
+			"rotateY": 90
+		},
+		"*-bridge-we-*": {
+			"base": "block/basement/joists-bridge",
+			"rotateY": 0
+		},
+		"*-bridge-ns-*": {
+			"base": "block/basement/joists-bridge",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false,
+		"up": true
+	},
+	"sideopaque": {
+		"all": false,
+		"up": true
+	},
+	"lightAbsorption": 0,
+	"resistance": 3,
+	"lightHsvByType": {
+		"*-faint": [
+			8,
+			2,
+			5
+		]
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:stick",
+			"quantity": {
+				"avg": 1.5,
+				"var": 1
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

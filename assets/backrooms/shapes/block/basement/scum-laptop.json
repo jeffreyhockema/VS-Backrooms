@@ -1,0 +1,217 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bakelite": "backrooms:block/basement/bakelite",
+		"castiron": "backrooms:block/basement/castiron",
+		"slime-bed": "backrooms:block/basement/slime-bed",
+		"tvscreen": "backrooms:block/basement/tvscreen"
+	},
+	"elements": [
+		{
+			"name": "Base",
+			"from": [
+				3,
+				0,
+				4.5
+			],
+			"to": [
+				13,
+				0.8,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						10,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						10,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						7.0,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						10,
+						7.0
+					]
+				},
+				"down": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						10,
+						7.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				0.4,
+				8.0
+			],
+			"rotationY": 12
+		},
+		{
+			"name": "Keys",
+			"from": [
+				3.8,
+				0.8,
+				5.2
+			],
+			"to": [
+				12.2,
+				0.85,
+				9.0
+			],
+			"faces": {
+				"up": {
+					"texture": "#bakelite",
+					"uv": [
+						0,
+						0,
+						8.4,
+						3.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0.4,
+				8
+			],
+			"rotationY": 12
+		},
+		{
+			"name": "Lid",
+			"from": [
+				3,
+				0.8,
+				10.7
+			],
+			"to": [
+				13,
+				7.6,
+				11.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#tvscreen",
+					"uv": [
+						0,
+						0,
+						10,
+						6.8
+					]
+				},
+				"east": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.8,
+						6.8
+					]
+				},
+				"south": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						10,
+						6.8
+					]
+				},
+				"west": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						0.8,
+						6.8
+					]
+				},
+				"up": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						10,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#castiron",
+					"uv": [
+						0,
+						0,
+						10,
+						0.8
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0.8,
+				11.1
+			],
+			"rotationX": -18,
+			"rotationY": 12
+		},
+		{
+			"name": "Silt",
+			"from": [
+				2,
+				0,
+				2
+			],
+			"to": [
+				14,
+				0.3,
+				14
+			],
+			"faces": {
+				"up": {
+					"texture": "#slime-bed",
+					"uv": [
+						0,
+						0,
+						12,
+						12
+					]
+				}
+			}
+		}
+	]
+}

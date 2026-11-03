@@ -1,0 +1,42 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"scum-b": "backrooms:block/basement/scum-b"
+	},
+	"elements": [
+		{
+			"name": "Film",
+			"from": [
+				0,
+				14.3,
+				0
+			],
+			"to": [
+				16,
+				14.35,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#scum-b",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#scum-b",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

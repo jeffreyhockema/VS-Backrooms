@@ -1,0 +1,119 @@
+// The Basement: the sump pump's discharge pipe up a room's corner and into the wall (part low, high; the walls to the north and west of the north variant)
+{
+	"code": "basement-sumppipe",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"low",
+				"high"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-low-north"
+		],
+		"decorative": [
+			"*-low-north"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-low-north": {
+			"base": "block/basement/sumppipe-low",
+			"rotateY": 0
+		},
+		"*-low-east": {
+			"base": "block/basement/sumppipe-low",
+			"rotateY": 270
+		},
+		"*-low-south": {
+			"base": "block/basement/sumppipe-low",
+			"rotateY": 180
+		},
+		"*-low-west": {
+			"base": "block/basement/sumppipe-low",
+			"rotateY": 90
+		},
+		"*-high-north": {
+			"base": "block/basement/sumppipe-high",
+			"rotateY": 0
+		},
+		"*-high-east": {
+			"base": "block/basement/sumppipe-high",
+			"rotateY": 270
+		},
+		"*-high-south": {
+			"base": "block/basement/sumppipe-high",
+			"rotateY": 180
+		},
+		"*-high-west": {
+			"base": "block/basement/sumppipe-high",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.4,
+			"y2": 1,
+			"z2": 0.4
+		},
+		"*-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.4,
+			"y2": 1,
+			"z2": 0.4,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.4,
+			"y2": 1,
+			"z2": 0.4,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.4,
+			"y2": 1,
+			"z2": 0.4,
+			"rotateY": 90
+		}
+	}
+}

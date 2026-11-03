@@ -277,6 +277,7 @@ public static class FeatureCatalog
         // ===== The Basement =====
         new(WorldLayout.Basement, "bsmcrack", "Under the crack (way in)", Region),
         new(WorldLayout.Basement, "bsmfurnace", "Furnace room", Region),
+        new(WorldLayout.Basement, "bsmheater", "Water heater", Region),
         new(WorldLayout.Basement, "bsmlaundry", "Laundry", Region),
         new(WorldLayout.Basement, "bsmworkshop", "Workshop", Region),
         new(WorldLayout.Basement, "bsmrec", "Rec room (pool table)", Region),

@@ -1,0 +1,358 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"handlewood": "backrooms:block/basement/handlewood",
+		"ivory": "backrooms:block/basement/ivory",
+		"metal": "backrooms:block/props/metal",
+		"rope": "backrooms:block/basement/rope",
+		"tub": "backrooms:block/basement/tub"
+	},
+	"elements": [
+		{
+			"name": "Dish",
+			"from": [
+				3,
+				1.5,
+				14
+			],
+			"to": [
+				6,
+				2.3,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#tub",
+					"uv": [
+						0,
+						0,
+						3,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#tub",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#tub",
+					"uv": [
+						0,
+						0,
+						3,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#tub",
+					"uv": [
+						0,
+						0,
+						2,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#tub",
+					"uv": [
+						0,
+						0,
+						3,
+						2
+					]
+				},
+				"down": {
+					"texture": "#tub",
+					"uv": [
+						0,
+						0,
+						3,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Soap",
+			"from": [
+				3.5,
+				2.3,
+				14.4
+			],
+			"to": [
+				5.5,
+				3.1,
+				15.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#ivory",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#ivory",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#ivory",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#ivory",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#ivory",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#ivory",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Nail",
+			"from": [
+				10.8,
+				6.5,
+				15.0
+			],
+			"to": [
+				11.2,
+				6.9,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Brush",
+			"from": [
+				9.5,
+				2.5,
+				15.0
+			],
+			"to": [
+				12.5,
+				6.5,
+				15.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						3.0,
+						4.0
+					]
+				},
+				"east": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.0
+					]
+				},
+				"south": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						3.0,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.0
+					]
+				},
+				"up": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#handlewood",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Bristles",
+			"from": [
+				9.6,
+				2.5,
+				14.4
+			],
+			"to": [
+				12.4,
+				6.4,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						2.8,
+						3.9
+					]
+				},
+				"east": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3.9
+					]
+				},
+				"south": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						2.8,
+						3.9
+					]
+				},
+				"west": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						0.6,
+						3.9
+					]
+				},
+				"up": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						2.8,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#rope",
+					"uv": [
+						0,
+						0,
+						2.8,
+						0.6
+					]
+				}
+			}
+		}
+	]
+}

@@ -2,13 +2,15 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
+		"labels": "backrooms:block/basement/labels",
 		"metal": "backrooms:block/props/metal",
 		"metaldark": "backrooms:block/props/metal-dark",
-		"paintcan": "backrooms:block/basement/paintcan"
+		"rug": "backrooms:block/basement/rug",
+		"tin": "backrooms:block/basement/tin"
 	},
 	"elements": [
 		{
-			"name": "Post0",
+			"name": "PostA0",
 			"from": [
 				0.5,
 				0,
@@ -17,7 +19,7 @@
 			"to": [
 				1.5,
 				16,
-				4
+				3.35
 			],
 			"faces": {
 				"north": {
@@ -34,7 +36,7 @@
 					"uv": [
 						0,
 						0,
-						1,
+						0.5,
 						16
 					]
 				},
@@ -52,7 +54,7 @@
 					"uv": [
 						0,
 						0,
-						1,
+						0.5,
 						16
 					]
 				},
@@ -62,7 +64,7 @@
 						0,
 						0,
 						1.0,
-						1
+						0.5
 					]
 				},
 				"down": {
@@ -71,15 +73,153 @@
 						0,
 						0,
 						1.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PostB0",
+			"from": [
+				0.5,
+				0,
+				3
+			],
+			"to": [
+				0.85,
+				16,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
 						1
 					]
 				}
 			}
 		},
 		{
-			"name": "Post1",
+			"name": "PostA1",
 			"from": [
 				14.5,
+				0,
+				3
+			],
+			"to": [
+				15.5,
+				16,
+				3.35
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PostB1",
+			"from": [
+				15.15,
 				0,
 				3
 			],
@@ -94,7 +234,7 @@
 					"uv": [
 						0,
 						0,
-						1.0,
+						0.5,
 						16
 					]
 				},
@@ -112,7 +252,7 @@
 					"uv": [
 						0,
 						0,
-						1.0,
+						0.5,
 						16
 					]
 				},
@@ -130,7 +270,7 @@
 					"uv": [
 						0,
 						0,
-						1.0,
+						0.5,
 						1
 					]
 				},
@@ -139,14 +279,14 @@
 					"uv": [
 						0,
 						0,
-						1.0,
+						0.5,
 						1
 					]
 				}
 			}
 		},
 		{
-			"name": "Post2",
+			"name": "PostA2",
 			"from": [
 				0.5,
 				0,
@@ -155,7 +295,7 @@
 			"to": [
 				1.5,
 				16,
-				15.5
+				14.85
 			],
 			"faces": {
 				"north": {
@@ -172,7 +312,7 @@
 					"uv": [
 						0,
 						0,
-						1.0,
+						0.5,
 						16
 					]
 				},
@@ -190,7 +330,7 @@
 					"uv": [
 						0,
 						0,
-						1.0,
+						0.5,
 						16
 					]
 				},
@@ -200,7 +340,7 @@
 						0,
 						0,
 						1.0,
-						1.0
+						0.5
 					]
 				},
 				"down": {
@@ -209,15 +349,153 @@
 						0,
 						0,
 						1.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PostB2",
+			"from": [
+				0.5,
+				0,
+				14.5
+			],
+			"to": [
+				0.85,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
 						1.0
 					]
 				}
 			}
 		},
 		{
-			"name": "Post3",
+			"name": "PostA3",
 			"from": [
 				14.5,
+				0,
+				14.5
+			],
+			"to": [
+				15.5,
+				16,
+				14.85
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						16
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PostB3",
+			"from": [
+				15.15,
 				0,
 				14.5
 			],
@@ -232,7 +510,7 @@
 					"uv": [
 						0,
 						0,
-						1.0,
+						0.5,
 						16
 					]
 				},
@@ -250,7 +528,7 @@
 					"uv": [
 						0,
 						0,
-						1.0,
+						0.5,
 						16
 					]
 				},
@@ -268,7 +546,7 @@
 					"uv": [
 						0,
 						0,
-						1.0,
+						0.5,
 						1.0
 					]
 				},
@@ -277,7 +555,7 @@
 					"uv": [
 						0,
 						0,
-						1.0,
+						0.5,
 						1.0
 					]
 				}
@@ -292,7 +570,7 @@
 			],
 			"to": [
 				15.5,
-				1.75,
+				1.5,
 				15.5
 			],
 			"faces": {
@@ -302,7 +580,7 @@
 						0,
 						0,
 						15.0,
-						0.75
+						0.5
 					]
 				},
 				"east": {
@@ -311,7 +589,7 @@
 						0,
 						0,
 						12.5,
-						0.75
+						0.5
 					]
 				},
 				"south": {
@@ -320,7 +598,7 @@
 						0,
 						0,
 						15.0,
-						0.75
+						0.5
 					]
 				},
 				"west": {
@@ -329,7 +607,7 @@
 						0,
 						0,
 						12.5,
-						0.75
+						0.5
 					]
 				},
 				"up": {
@@ -348,6 +626,75 @@
 						0,
 						15.0,
 						12.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip0",
+			"from": [
+				0.5,
+				0.6,
+				2.9
+			],
+			"to": [
+				15.5,
+				1.5,
+				3.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.9
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.5
 					]
 				}
 			}
@@ -361,7 +708,7 @@
 			],
 			"to": [
 				15.5,
-				8.75,
+				8.5,
 				15.5
 			],
 			"faces": {
@@ -371,7 +718,7 @@
 						0,
 						0,
 						15.0,
-						0.75
+						0.5
 					]
 				},
 				"east": {
@@ -380,7 +727,7 @@
 						0,
 						0,
 						12.5,
-						0.75
+						0.5
 					]
 				},
 				"south": {
@@ -389,7 +736,7 @@
 						0,
 						0,
 						15.0,
-						0.75
+						0.5
 					]
 				},
 				"west": {
@@ -398,7 +745,7 @@
 						0,
 						0,
 						12.5,
-						0.75
+						0.5
 					]
 				},
 				"up": {
@@ -422,139 +769,922 @@
 			}
 		},
 		{
-			"name": "Can00",
+			"name": "Lip1",
 			"from": [
+				0.5,
+				7.6,
+				2.9
+			],
+			"to": [
+				15.5,
+				8.5,
+				3.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.9
+					]
+				},
+				"east": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.9
+					]
+				},
+				"south": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.9
+					]
+				},
+				"west": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.9
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						15.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Can00Z",
+			"from": [
+				2.513,
 				1.5,
-				1.75,
-				5
+				4.8
 			],
 			"to": [
-				5.5,
-				6.25,
-				9
+				4.087,
+				5.9,
+				8.6
 			],
 			"faces": {
 				"north": {
-					"texture": "#paintcan",
+					"texture": "#labels",
 					"uv": [
-						0,
-						4,
-						4,
-						8.5
+						1,
+						12,
+						3,
+						16
 					]
 				},
 				"east": {
-					"texture": "#paintcan",
+					"texture": "#tin",
 					"uv": [
 						0,
-						4,
-						4,
-						8.5
+						0,
+						3.8,
+						4.4
 					]
 				},
 				"south": {
-					"texture": "#paintcan",
+					"texture": "#tin",
 					"uv": [
 						0,
-						4,
-						4,
-						8.5
+						0,
+						1.574,
+						4.4
 					]
 				},
 				"west": {
-					"texture": "#paintcan",
+					"texture": "#tin",
 					"uv": [
 						0,
-						4,
-						4,
-						8.5
+						0,
+						3.8,
+						4.4
 					]
 				},
 				"up": {
-					"texture": "#paintcan",
+					"texture": "#metal",
 					"uv": [
 						0,
-						4,
-						4,
-						8.5
+						0,
+						1.574,
+						3.8
 					]
 				},
 				"down": {
-					"texture": "#paintcan",
+					"texture": "#tin",
 					"uv": [
 						0,
-						4,
-						4,
-						8.5
+						0,
+						1.574,
+						3.8
 					]
 				}
 			}
 		},
 		{
-			"name": "Can01",
+			"name": "Can00X",
 			"from": [
-				6.1,
-				1.75,
-				5
+				1.4,
+				1.505,
+				5.913
 			],
 			"to": [
-				10.1,
-				6.25,
-				9
+				5.2,
+				5.895,
+				7.487
 			],
 			"faces": {
 				"north": {
-					"texture": "#paintcan",
+					"texture": "#tin",
 					"uv": [
-						4,
-						4,
-						8,
-						8.5
+						0,
+						0,
+						3.8,
+						4.39
 					]
 				},
 				"east": {
-					"texture": "#paintcan",
+					"texture": "#tin",
 					"uv": [
-						4,
-						4,
-						8,
-						8.5
+						0,
+						0,
+						1.574,
+						4.39
 					]
 				},
 				"south": {
-					"texture": "#paintcan",
+					"texture": "#tin",
 					"uv": [
-						4,
-						4,
-						8,
-						8.5
+						0,
+						0,
+						3.8,
+						4.39
 					]
 				},
 				"west": {
-					"texture": "#paintcan",
+					"texture": "#tin",
 					"uv": [
-						4,
-						4,
-						8,
-						8.5
+						0,
+						0,
+						1.574,
+						4.39
 					]
 				},
 				"up": {
-					"texture": "#paintcan",
+					"texture": "#metal",
 					"uv": [
-						4,
-						4,
-						8,
-						8.5
+						0,
+						0,
+						3.8,
+						1.574
 					]
 				},
 				"down": {
-					"texture": "#paintcan",
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				}
+			}
+		},
+		{
+			"name": "Can00D1",
+			"from": [
+				1.4,
+				1.51,
+				5.913
+			],
+			"to": [
+				5.2,
+				5.89,
+				7.487
+			],
+			"faces": {
+				"north": {
+					"texture": "#labels",
+					"uv": [
+						0,
+						12,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.38
+					]
+				},
+				"south": {
+					"texture": "#labels",
+					"uv": [
+						3,
+						12,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.38
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				},
+				"down": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				}
+			},
+			"rotationOrigin": [
+				3.3,
+				3.7,
+				6.7
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Can00D2",
+			"from": [
+				1.4,
+				1.515,
+				5.913
+			],
+			"to": [
+				5.2,
+				5.885,
+				7.487
+			],
+			"faces": {
+				"north": {
+					"texture": "#labels",
+					"uv": [
+						0,
+						12,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.37
+					]
+				},
+				"south": {
+					"texture": "#labels",
+					"uv": [
+						3,
+						12,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.37
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				},
+				"down": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				}
+			},
+			"rotationOrigin": [
+				3.3,
+				3.7,
+				6.7
+			],
+			"rotationY": -45
+		},
+		{
+			"name": "Bail00",
+			"from": [
+				1.6,
+				5.9,
+				6.5
+			],
+			"to": [
+				5.0,
+				6.7,
+				6.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LidRim00",
+			"from": [
+				1.7,
+				5.9,
+				5.1
+			],
+			"to": [
+				4.9,
+				6.2,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Can01Z",
+			"from": [
+				7.113,
+				1.5,
+				4.8
+			],
+			"to": [
+				8.687,
+				5.9,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#labels",
+					"uv": [
+						5,
+						12,
+						7,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.4
+					]
+				},
+				"west": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.574,
+						3.8
+					]
+				},
+				"down": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						3.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Can01X",
+			"from": [
+				6.0,
+				1.505,
+				5.913
+			],
+			"to": [
+				9.8,
+				5.895,
+				7.487
+			],
+			"faces": {
+				"north": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						4.39
+					]
+				},
+				"east": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.39
+					]
+				},
+				"south": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						4.39
+					]
+				},
+				"west": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.39
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				},
+				"down": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				}
+			}
+		},
+		{
+			"name": "Can01D1",
+			"from": [
+				6.0,
+				1.51,
+				5.913
+			],
+			"to": [
+				9.8,
+				5.89,
+				7.487
+			],
+			"faces": {
+				"north": {
+					"texture": "#labels",
 					"uv": [
 						4,
-						4,
+						12,
+						5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.38
+					]
+				},
+				"south": {
+					"texture": "#labels",
+					"uv": [
+						7,
+						12,
 						8,
-						8.5
+						16
+					]
+				},
+				"west": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.38
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				},
+				"down": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.9,
+				3.7,
+				6.7
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Can01D2",
+			"from": [
+				6.0,
+				1.515,
+				5.913
+			],
+			"to": [
+				9.8,
+				5.885,
+				7.487
+			],
+			"faces": {
+				"north": {
+					"texture": "#labels",
+					"uv": [
+						4,
+						12,
+						5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.37
+					]
+				},
+				"south": {
+					"texture": "#labels",
+					"uv": [
+						7,
+						12,
+						8,
+						16
+					]
+				},
+				"west": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.37
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				},
+				"down": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				}
+			},
+			"rotationOrigin": [
+				7.9,
+				3.7,
+				6.7
+			],
+			"rotationY": -45
+		},
+		{
+			"name": "Bail01",
+			"from": [
+				6.2,
+				5.9,
+				6.5
+			],
+			"to": [
+				9.6,
+				6.7,
+				6.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LidRim01",
+			"from": [
+				6.3,
+				5.9,
+				5.1
+			],
+			"to": [
+				9.5,
+				6.2,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
 					]
 				}
 			}
@@ -563,12 +1693,12 @@
 			"name": "Tray0",
 			"from": [
 				2,
-				1.75,
+				1.5,
 				10
 			],
 			"to": [
 				13,
-				2.75,
+				2.5,
 				14
 			],
 			"faces": {
@@ -629,139 +1759,922 @@
 			}
 		},
 		{
-			"name": "Can10",
+			"name": "Roller0",
 			"from": [
-				1.5,
-				8.75,
-				5
+				3,
+				2.5,
+				11
 			],
 			"to": [
-				5.5,
-				13.25,
-				9
+				9,
+				3.7,
+				12.2
 			],
 			"faces": {
 				"north": {
-					"texture": "#paintcan",
+					"texture": "#rug",
 					"uv": [
-						8,
-						4,
-						12,
-						8.5
+						0,
+						0,
+						6,
+						1.2
 					]
 				},
 				"east": {
-					"texture": "#paintcan",
+					"texture": "#rug",
 					"uv": [
-						8,
-						4,
-						12,
-						8.5
+						0,
+						0,
+						1.2,
+						1.2
 					]
 				},
 				"south": {
-					"texture": "#paintcan",
+					"texture": "#rug",
 					"uv": [
-						8,
-						4,
-						12,
-						8.5
+						0,
+						0,
+						6,
+						1.2
 					]
 				},
 				"west": {
-					"texture": "#paintcan",
+					"texture": "#rug",
 					"uv": [
-						8,
-						4,
-						12,
-						8.5
+						0,
+						0,
+						1.2,
+						1.2
 					]
 				},
 				"up": {
-					"texture": "#paintcan",
+					"texture": "#rug",
 					"uv": [
-						8,
-						4,
-						12,
-						8.5
+						0,
+						0,
+						6,
+						1.2
 					]
 				},
 				"down": {
-					"texture": "#paintcan",
+					"texture": "#rug",
 					"uv": [
-						8,
-						4,
-						12,
-						8.5
+						0,
+						0,
+						6,
+						1.2
 					]
 				}
 			}
 		},
 		{
-			"name": "Can12",
+			"name": "Can10Z",
 			"from": [
-				10.7,
-				8.75,
-				5
+				2.513,
+				8.5,
+				4.8
 			],
 			"to": [
-				14.7,
-				13.25,
-				9
+				4.087,
+				12.9,
+				8.6
 			],
 			"faces": {
 				"north": {
-					"texture": "#paintcan",
+					"texture": "#labels",
 					"uv": [
-						0,
-						4,
-						4,
-						8.5
+						9,
+						12,
+						11,
+						16
 					]
 				},
 				"east": {
-					"texture": "#paintcan",
+					"texture": "#tin",
 					"uv": [
 						0,
-						4,
-						4,
-						8.5
+						0,
+						3.8,
+						4.4
 					]
 				},
 				"south": {
-					"texture": "#paintcan",
+					"texture": "#tin",
 					"uv": [
 						0,
-						4,
-						4,
-						8.5
+						0,
+						1.574,
+						4.4
 					]
 				},
 				"west": {
-					"texture": "#paintcan",
+					"texture": "#tin",
 					"uv": [
 						0,
-						4,
-						4,
-						8.5
+						0,
+						3.8,
+						4.4
 					]
 				},
 				"up": {
-					"texture": "#paintcan",
+					"texture": "#metal",
 					"uv": [
 						0,
-						4,
-						4,
-						8.5
+						0,
+						1.574,
+						3.8
 					]
 				},
 				"down": {
-					"texture": "#paintcan",
+					"texture": "#tin",
 					"uv": [
 						0,
+						0,
+						1.574,
+						3.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Can10X",
+			"from": [
+				1.4,
+				8.505,
+				5.913
+			],
+			"to": [
+				5.2,
+				12.895,
+				7.487
+			],
+			"faces": {
+				"north": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						4.39
+					]
+				},
+				"east": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.39
+					]
+				},
+				"south": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						4.39
+					]
+				},
+				"west": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.39
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				},
+				"down": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				}
+			}
+		},
+		{
+			"name": "Can10D1",
+			"from": [
+				1.4,
+				8.51,
+				5.913
+			],
+			"to": [
+				5.2,
+				12.89,
+				7.487
+			],
+			"faces": {
+				"north": {
+					"texture": "#labels",
+					"uv": [
+						8,
+						12,
+						9,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.38
+					]
+				},
+				"south": {
+					"texture": "#labels",
+					"uv": [
+						11,
+						12,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.38
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				},
+				"down": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				}
+			},
+			"rotationOrigin": [
+				3.3,
+				10.7,
+				6.7
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Can10D2",
+			"from": [
+				1.4,
+				8.515,
+				5.913
+			],
+			"to": [
+				5.2,
+				12.885,
+				7.487
+			],
+			"faces": {
+				"north": {
+					"texture": "#labels",
+					"uv": [
+						8,
+						12,
+						9,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.37
+					]
+				},
+				"south": {
+					"texture": "#labels",
+					"uv": [
+						11,
+						12,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.37
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				},
+				"down": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				}
+			},
+			"rotationOrigin": [
+				3.3,
+				10.7,
+				6.7
+			],
+			"rotationY": -45
+		},
+		{
+			"name": "Bail10",
+			"from": [
+				1.6,
+				12.9,
+				6.5
+			],
+			"to": [
+				5.0,
+				13.7,
+				6.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LidRim10",
+			"from": [
+				1.7,
+				12.9,
+				5.1
+			],
+			"to": [
+				4.9,
+				13.2,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Can12Z",
+			"from": [
+				11.713,
+				8.5,
+				4.8
+			],
+			"to": [
+				13.287,
+				12.9,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#labels",
+					"uv": [
+						1,
+						12,
+						3,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						4.4
+					]
+				},
+				"south": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.4
+					]
+				},
+				"west": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						4.4
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						1.574,
+						3.8
+					]
+				},
+				"down": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						3.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Can12X",
+			"from": [
+				10.6,
+				8.505,
+				5.913
+			],
+			"to": [
+				14.4,
+				12.895,
+				7.487
+			],
+			"faces": {
+				"north": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						4.39
+					]
+				},
+				"east": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.39
+					]
+				},
+				"south": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						4.39
+					]
+				},
+				"west": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.39
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				},
+				"down": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				}
+			}
+		},
+		{
+			"name": "Can12D1",
+			"from": [
+				10.6,
+				8.51,
+				5.913
+			],
+			"to": [
+				14.4,
+				12.89,
+				7.487
+			],
+			"faces": {
+				"north": {
+					"texture": "#labels",
+					"uv": [
+						0,
+						12,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.38
+					]
+				},
+				"south": {
+					"texture": "#labels",
+					"uv": [
+						3,
+						12,
 						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.38
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				},
+				"down": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.5,
+				10.7,
+				6.7
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Can12D2",
+			"from": [
+				10.6,
+				8.515,
+				5.913
+			],
+			"to": [
+				14.4,
+				12.885,
+				7.487
+			],
+			"faces": {
+				"north": {
+					"texture": "#labels",
+					"uv": [
+						0,
+						12,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.37
+					]
+				},
+				"south": {
+					"texture": "#labels",
+					"uv": [
+						3,
+						12,
 						4,
-						8.5
+						16
+					]
+				},
+				"west": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						1.574,
+						4.37
+					]
+				},
+				"up": {
+					"texture": "#metal",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				},
+				"down": {
+					"texture": "#tin",
+					"uv": [
+						0,
+						0,
+						3.8,
+						1.574
+					]
+				}
+			},
+			"rotationOrigin": [
+				12.5,
+				10.7,
+				6.7
+			],
+			"rotationY": -45
+		},
+		{
+			"name": "Bail12",
+			"from": [
+				10.8,
+				12.9,
+				6.5
+			],
+			"to": [
+				14.2,
+				13.7,
+				6.9
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "LidRim12",
+			"from": [
+				10.9,
+				12.9,
+				5.1
+			],
+			"to": [
+				14.1,
+				13.2,
+				8.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						3.2,
+						3.2
 					]
 				}
 			}
@@ -770,12 +2683,12 @@
 			"name": "Tray1",
 			"from": [
 				2,
-				8.75,
+				8.5,
 				10
 			],
 			"to": [
 				13,
-				9.75,
+				9.5,
 				14
 			],
 			"faces": {
@@ -831,6 +2744,75 @@
 						0,
 						11,
 						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Roller1",
+			"from": [
+				3,
+				9.5,
+				11
+			],
+			"to": [
+				9,
+				10.7,
+				12.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#rug",
+					"uv": [
+						0,
+						0,
+						6,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#rug",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#rug",
+					"uv": [
+						0,
+						0,
+						6,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#rug",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#rug",
+					"uv": [
+						0,
+						0,
+						6,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#rug",
+					"uv": [
+						0,
+						0,
+						6,
+						1.2
 					]
 				}
 			}

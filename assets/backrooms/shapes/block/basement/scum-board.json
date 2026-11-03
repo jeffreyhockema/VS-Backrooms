@@ -1,0 +1,194 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"metaldark": "backrooms:block/props/metal-dark",
+		"panel": "backrooms:block/basement/panel",
+		"scum-a": "backrooms:block/basement/scum-a"
+	},
+	"elements": [
+		{
+			"name": "Film",
+			"from": [
+				0,
+				14.3,
+				0
+			],
+			"to": [
+				16,
+				14.35,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#scum-a",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#scum-a",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Board",
+			"from": [
+				1.5,
+				13.3,
+				5.5
+			],
+			"to": [
+				14.5,
+				14.8,
+				9.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						3.5,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						3.5,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3.5
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						3.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8.0,
+				14.05,
+				7.25
+			],
+			"rotationY": 18
+		},
+		{
+			"name": "Nail",
+			"from": [
+				12.2,
+				14.8,
+				6.8
+			],
+			"to": [
+				12.6,
+				15.2,
+				7.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#metaldark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				14.3,
+				7.25
+			],
+			"rotationY": 18
+		}
+	]
+}

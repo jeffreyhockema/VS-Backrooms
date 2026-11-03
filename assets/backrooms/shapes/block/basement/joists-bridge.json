@@ -1,0 +1,551 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"cobweb": "backrooms:block/basement/cobweb",
+		"lumber": "backrooms:block/basement/lumber",
+		"subfloor": "backrooms:block/basement/subfloor"
+	},
+	"elements": [
+		{
+			"name": "Subfloor",
+			"from": [
+				0,
+				14.5,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#subfloor",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"east": {
+					"texture": "#subfloor",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"south": {
+					"texture": "#subfloor",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"west": {
+					"texture": "#subfloor",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#subfloor",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#subfloor",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Joist0",
+			"from": [
+				0,
+				9.75,
+				3.0
+			],
+			"to": [
+				16,
+				14.5,
+				4.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						16,
+						4.75
+					]
+				},
+				"east": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						1.75,
+						4.75
+					]
+				},
+				"south": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						16,
+						4.75
+					]
+				},
+				"west": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						1.75,
+						4.75
+					]
+				},
+				"up": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						16,
+						1.75
+					]
+				},
+				"down": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						16,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Joist1",
+			"from": [
+				0,
+				9.75,
+				11.0
+			],
+			"to": [
+				16,
+				14.5,
+				12.75
+			],
+			"faces": {
+				"north": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						16,
+						4.75
+					]
+				},
+				"east": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						1.75,
+						4.75
+					]
+				},
+				"south": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						16,
+						4.75
+					]
+				},
+				"west": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						1.75,
+						4.75
+					]
+				},
+				"up": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						16,
+						1.75
+					]
+				},
+				"down": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						16,
+						1.75
+					]
+				}
+			}
+		},
+		{
+			"name": "Bridge0",
+			"from": [
+				12.6,
+				10.0,
+				7.0
+			],
+			"to": [
+				13.4,
+				14.3,
+				7.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4.3
+					]
+				},
+				"east": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.3
+					]
+				},
+				"south": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4.3
+					]
+				},
+				"west": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.3
+					]
+				},
+				"up": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				13.0,
+				12.15,
+				7.85
+			],
+			"rotationX": 40
+		},
+		{
+			"name": "BridgeB0",
+			"from": [
+				12.6,
+				10.0,
+				8.1
+			],
+			"to": [
+				13.4,
+				14.3,
+				8.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4.3
+					]
+				},
+				"east": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.3
+					]
+				},
+				"south": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4.3
+					]
+				},
+				"west": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.3
+					]
+				},
+				"up": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				13.0,
+				12.15,
+				7.85
+			],
+			"rotationX": -40
+		},
+		{
+			"name": "Bridge1",
+			"from": [
+				12.6,
+				10.0,
+				7.0
+			],
+			"to": [
+				13.4,
+				14.3,
+				7.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4.3
+					]
+				},
+				"east": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.3
+					]
+				},
+				"south": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4.3
+					]
+				},
+				"west": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.3
+					]
+				},
+				"up": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				13.0,
+				12.15,
+				7.85
+			],
+			"rotationX": -40
+		},
+		{
+			"name": "BridgeB1",
+			"from": [
+				12.6,
+				10.0,
+				8.1
+			],
+			"to": [
+				13.4,
+				14.3,
+				8.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4.3
+					]
+				},
+				"east": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.3
+					]
+				},
+				"south": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4.3
+					]
+				},
+				"west": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.6,
+						4.3
+					]
+				},
+				"up": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#lumber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.6
+					]
+				}
+			},
+			"rotationOrigin": [
+				13.0,
+				12.15,
+				7.85
+			],
+			"rotationX": 40
+		},
+		{
+			"name": "Cobweb",
+			"from": [
+				9,
+				10.2,
+				4.8
+			],
+			"to": [
+				9.05,
+				14.5,
+				11.0
+			],
+			"faces": {
+				"east": {
+					"texture": "#cobweb",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cobweb",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}
