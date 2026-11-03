@@ -1,0 +1,138 @@
+// Level 47 (round 4): bracket fungus on a trunk (zoned: turkey-tail browns; sulphur: chicken-of-the-woods)
+{
+	"code": "l47-bracket",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"zoned",
+				"sulphur"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Plant",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.4,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/grass*",
+		"place": "game:block/plant",
+		"break": "game:block/plant",
+		"hit": "game:block/plant"
+	},
+	"shapeByType": {
+		"*-zoned-north": {
+			"base": "block/47/bracket-zoned",
+			"rotateY": 0
+		},
+		"*-zoned-east": {
+			"base": "block/47/bracket-zoned",
+			"rotateY": 270
+		},
+		"*-zoned-south": {
+			"base": "block/47/bracket-zoned",
+			"rotateY": 180
+		},
+		"*-zoned-west": {
+			"base": "block/47/bracket-zoned",
+			"rotateY": 90
+		},
+		"*-sulphur-north": {
+			"base": "block/47/bracket-sulphur",
+			"rotateY": 0
+		},
+		"*-sulphur-east": {
+			"base": "block/47/bracket-sulphur",
+			"rotateY": 270
+		},
+		"*-sulphur-south": {
+			"base": "block/47/bracket-sulphur",
+			"rotateY": 180
+		},
+		"*-sulphur-west": {
+			"base": "block/47/bracket-sulphur",
+			"rotateY": 90
+		}
+	},
+	"selectionboxByType": {
+		"*-north": {
+			"x1": 0.15,
+			"y1": 0.15,
+			"z1": 0.6,
+			"x2": 0.85,
+			"y2": 0.95,
+			"z2": 1,
+			"rotateY": 0
+		},
+		"*-east": {
+			"x1": 0.15,
+			"y1": 0.15,
+			"z1": 0.6,
+			"x2": 0.85,
+			"y2": 0.95,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"*-south": {
+			"x1": 0.15,
+			"y1": 0.15,
+			"z1": 0.6,
+			"x2": 0.85,
+			"y2": 0.95,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"*-west": {
+			"x1": 0.15,
+			"y1": 0.15,
+			"z1": 0.6,
+			"x2": 0.85,
+			"y2": 0.95,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"collisionbox": null,
+	"texturesByType": {
+		"*-zoned-*": {
+			"ftop": {
+				"base": "backrooms:block/47/fungus-top"
+			},
+			"funder": {
+				"base": "backrooms:block/47/fungus-under"
+			}
+		},
+		"*-sulphur-*": {
+			"ftop": {
+				"base": "backrooms:block/47/sulphur"
+			},
+			"funder": {
+				"base": "backrooms:block/47/sulphur"
+			}
+		}
+	}
+}

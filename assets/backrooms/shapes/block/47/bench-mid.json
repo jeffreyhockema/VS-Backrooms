@@ -1,0 +1,148 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"oak": "backrooms:block/47/oak-top",
+		"beam": "backrooms:block/47/oak-beam"
+	},
+	"elements": [
+		{
+			"name": "Seat",
+			"from": [
+				0,
+				7.0,
+				5.0
+			],
+			"to": [
+				16,
+				8.6,
+				11.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#oak",
+					"uv": [
+						0,
+						0,
+						16,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#oak",
+					"uv": [
+						0,
+						0,
+						6.0,
+						1.6
+					]
+				},
+				"south": {
+					"texture": "#oak",
+					"uv": [
+						0,
+						0,
+						16,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#oak",
+					"uv": [
+						0,
+						0,
+						6.0,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#oak",
+					"uv": [
+						0,
+						0,
+						16,
+						6.0
+					]
+				},
+				"down": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						6.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Stretcher",
+			"from": [
+				0,
+				2.5,
+				7.4
+			],
+			"to": [
+				16,
+				3.7,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				}
+			}
+		}
+	]
+}

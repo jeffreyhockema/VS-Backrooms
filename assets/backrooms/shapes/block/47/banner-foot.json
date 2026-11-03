@@ -3,26 +3,27 @@
 	"textureHeight": 16,
 	"textures": {
 		"cloth": "backrooms:block/47/banner-foot",
-		"wood": "backrooms:block/47/timber"
+		"iron": "backrooms:block/47/wrought",
+		"gold": "backrooms:block/47/gold"
 	},
 	"elements": [
 		{
-			"name": "Cloth",
+			"name": "Fold0",
 			"from": [
 				1,
 				0,
-				15
+				15.0
 			],
 			"to": [
-				15,
+				5.8,
 				16,
-				15.6
+				15.5
 			],
 			"faces": {
 				"north": {
 					"texture": "#cloth",
 					"uv": [
-						1,
+						10.2,
 						0,
 						15,
 						16
@@ -31,46 +32,406 @@
 				"south": {
 					"texture": "#cloth",
 					"uv": [
-						15,
-						0,
 						1,
+						0,
+						5.8,
 						16
 					]
 				},
 				"east": {
 					"texture": "#cloth",
 					"uv": [
-						15,
 						0,
-						15.6,
+						0,
+						0.5,
 						16
 					]
 				},
 				"west": {
 					"texture": "#cloth",
 					"uv": [
-						15,
 						0,
-						15.6,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Fold1",
+			"from": [
+				5.4,
+				0,
+				14.5
+			],
+			"to": [
+				10.6,
+				16,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#cloth",
+					"uv": [
+						5.4,
+						0,
+						10.6,
 						16
 					]
 				},
-				"up": {
+				"south": {
+					"texture": "#cloth",
+					"uv": [
+						5.4,
+						0,
+						10.6,
+						16
+					]
+				},
+				"east": {
+					"texture": "#cloth",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cloth",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Fold2",
+			"from": [
+				10.2,
+				0,
+				15.0
+			],
+			"to": [
+				15,
+				16,
+				15.5
+			],
+			"faces": {
+				"north": {
 					"texture": "#cloth",
 					"uv": [
 						1,
+						0,
+						5.800000000000001,
+						16
+					]
+				},
+				"south": {
+					"texture": "#cloth",
+					"uv": [
+						10.2,
+						0,
 						15,
-						15,
-						15.6
+						16
+					]
+				},
+				"east": {
+					"texture": "#cloth",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#cloth",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Tassel0",
+			"from": [
+				5.6,
+				-2.2,
+				14.9
+			],
+			"to": [
+				6.4,
+				0.4,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						5.6,
+						15.6,
+						6.4,
+						18.2
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						5.6,
+						15.6,
+						6.4,
+						18.2
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						14.9,
+						15.6,
+						15.5,
+						18.2
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						14.9,
+						15.6,
+						15.5,
+						18.2
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						5.6,
+						14.9,
+						6.4,
+						15.5
 					]
 				},
 				"down": {
-					"texture": "#cloth",
+					"texture": "#gold",
 					"uv": [
-						1,
-						15,
-						15,
-						15.6
+						5.6,
+						14.9,
+						6.4,
+						15.5
+					]
+				}
+			}
+		},
+		{
+			"name": "TasselHead0",
+			"from": [
+				5.3,
+				-0.6,
+				14.7
+			],
+			"to": [
+				6.7,
+				0.4,
+				15.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						5.3,
+						15.6,
+						6.7,
+						16.6
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						5.3,
+						15.6,
+						6.7,
+						16.6
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						14.7,
+						15.6,
+						15.7,
+						16.6
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						14.7,
+						15.6,
+						15.7,
+						16.6
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						5.3,
+						14.7,
+						6.7,
+						15.7
+					]
+				},
+				"down": {
+					"texture": "#gold",
+					"uv": [
+						5.3,
+						14.7,
+						6.7,
+						15.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Tassel1",
+			"from": [
+				9.6,
+				-2.2,
+				14.9
+			],
+			"to": [
+				10.4,
+				0.4,
+				15.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						9.6,
+						15.6,
+						10.4,
+						18.2
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						9.6,
+						15.6,
+						10.4,
+						18.2
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						14.9,
+						15.6,
+						15.5,
+						18.2
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						14.9,
+						15.6,
+						15.5,
+						18.2
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						9.6,
+						14.9,
+						10.4,
+						15.5
+					]
+				},
+				"down": {
+					"texture": "#gold",
+					"uv": [
+						9.6,
+						14.9,
+						10.4,
+						15.5
+					]
+				}
+			}
+		},
+		{
+			"name": "TasselHead1",
+			"from": [
+				9.3,
+				-0.6,
+				14.7
+			],
+			"to": [
+				10.7,
+				0.4,
+				15.7
+			],
+			"faces": {
+				"north": {
+					"texture": "#gold",
+					"uv": [
+						9.3,
+						15.6,
+						10.7,
+						16.6
+					]
+				},
+				"south": {
+					"texture": "#gold",
+					"uv": [
+						9.3,
+						15.6,
+						10.7,
+						16.6
+					]
+				},
+				"east": {
+					"texture": "#gold",
+					"uv": [
+						14.7,
+						15.6,
+						15.7,
+						16.6
+					]
+				},
+				"west": {
+					"texture": "#gold",
+					"uv": [
+						14.7,
+						15.6,
+						15.7,
+						16.6
+					]
+				},
+				"up": {
+					"texture": "#gold",
+					"uv": [
+						9.3,
+						14.7,
+						10.7,
+						15.7
+					]
+				},
+				"down": {
+					"texture": "#gold",
+					"uv": [
+						9.3,
+						14.7,
+						10.7,
+						15.7
 					]
 				}
 			}

@@ -1,0 +1,521 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"slate": "backrooms:block/47/roofslate",
+		"boards": "backrooms:block/47/boards",
+		"beam": "backrooms:block/47/oak-beam",
+		"iron": "backrooms:block/47/wrought",
+		"ridge": "backrooms:block/47/ridge",
+		"wall": "backrooms:block/47/manorstone"
+	},
+	"elements": [
+		{
+			"name": "Slates",
+			"from": [
+				0,
+				8,
+				-3.3137
+			],
+			"to": [
+				16,
+				10,
+				19.3137
+			],
+			"faces": {
+				"north": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"east": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"south": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"west": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"up": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#boards",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8,
+				8
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Sarking",
+			"from": [
+				0.01,
+				6.6,
+				-3.3137
+			],
+			"to": [
+				15.99,
+				7.6,
+				19.3137
+			],
+			"faces": {
+				"north": {
+					"texture": "#boards",
+					"uv": [
+						0,
+						0,
+						15.98,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#boards",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#boards",
+					"uv": [
+						0,
+						0,
+						15.98,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#boards",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#boards",
+					"uv": [
+						0,
+						0,
+						15.98,
+						16
+					]
+				},
+				"down": {
+					"texture": "#boards",
+					"uv": [
+						0,
+						0,
+						15.98,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8,
+				8
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Course0",
+			"from": [
+				0,
+				10,
+				3.0
+			],
+			"to": [
+				16,
+				10.6,
+				5.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8,
+				8
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Course1",
+			"from": [
+				0,
+				10,
+				11.0
+			],
+			"to": [
+				16,
+				10.6,
+				13.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				},
+				"east": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.6
+					]
+				},
+				"south": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				},
+				"west": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						2.0,
+						0.6
+					]
+				},
+				"up": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				},
+				"down": {
+					"texture": "#slate",
+					"uv": [
+						0,
+						0,
+						16,
+						2.0
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8,
+				8
+			],
+			"rotationX": 45
+		},
+		{
+			"name": "Infill0",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				12,
+				4
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"east": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						4,
+						12
+					]
+				},
+				"south": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				},
+				"west": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						4,
+						12
+					]
+				},
+				"up": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"down": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Infill1",
+			"from": [
+				0,
+				0,
+				4
+			],
+			"to": [
+				16,
+				8,
+				8
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"east": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"south": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						8
+					]
+				},
+				"west": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						4,
+						8
+					]
+				},
+				"up": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"down": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "Infill2",
+			"from": [
+				0,
+				0,
+				8
+			],
+			"to": [
+				16,
+				4,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"east": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"south": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"west": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						4,
+						4
+					]
+				},
+				"up": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"down": {
+					"texture": "#wall",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				}
+			}
+		}
+	]
+}

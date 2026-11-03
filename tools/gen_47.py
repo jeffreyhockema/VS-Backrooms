@@ -24,6 +24,8 @@ from PIL import Image, ImageDraw
 sys.path.insert(0, os.path.dirname(__file__))
 import matlib as M  # noqa: E402
 import gen_23 as G  # noqa: E402  (the sibling forest's bark, leaf and ground painters, used read-only)
+import gen_47_tex4 as T4  # noqa: E402  (round 4: the surfaces as lit relief)
+import gen_47_props4 as P4  # noqa: E402  (round 4: the models, their textures and blocktypes)
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 ASSETS = os.path.join(ROOT, "assets", "backrooms")
@@ -587,10 +589,32 @@ def box(name, frm, to, tex, faces="nsewud", uvs=None, glow=0):
 
 
 def banner_shape(part):
+    """The Order's banner (round 4): the cloth in three folds (each strip at its own depth, so it hangs, not a board), on
+    the top piece an iron rod with ball finials and the cord up to its hook, on the foot gold tassels at its points."""
     t = "#cloth"
-    return {"textureWidth": 16, "textureHeight": 16, "textures": {"cloth": f"backrooms:block/47/banner-{part}", "wood": "backrooms:block/47/timber"},
-            "elements": [box("Cloth", [1, 0, 15], [15, 16, 15.6], t, uvs={"north": [1, 0, 15, 16], "south": [15, 0, 1, 16]})]
-            + ([box("Rod", [0, 15, 14.8], [16, 16, 15.8], "#wood")] if part == "top" else [])}
+    els = []
+    for k, (a, b_, z) in enumerate(((1, 5.8, 15.0), (5.4, 10.6, 14.5), (10.2, 15, 15.0))):
+        y0, y1 = (0, 15) if part == "top" else (0, 16)
+        el = box(f"Fold{k}", [a, y0, z], [b_, y1, z + 0.5], t, faces="nsew")
+        # (A face's UV as seen from outside it: on the north face the viewer's left is x = 16)
+        el["faces"]["north"]["uv"] = [16 - b_, 16 - y1, 16 - a, 16 - y0]
+        el["faces"]["south"]["uv"] = [a, 16 - y1, b_, 16 - y0]
+        el["faces"]["east"]["uv"] = [0, 16 - y1, 0.5, 16 - y0]
+        el["faces"]["west"]["uv"] = [0, 16 - y1, 0.5, 16 - y0]
+        els.append(el)
+    if part == "top":
+        els += [box("Rod", [0, 15, 14.6], [16, 16, 15.6], "#iron"),
+                box("FinialW", [-0.8, 14.7, 14.3], [0.6, 16.3, 15.9], "#iron"), box("FinialE", [15.4, 14.7, 14.3], [16.8, 16.3, 15.9], "#iron"),
+                box("CordW", [1.5, 16, 15.0], [8.2, 16.5, 15.4], "#gold"), box("CordE", [7.8, 16, 15.0], [14.5, 16.5, 15.4], "#gold"),
+                box("Hook", [7.5, 15.6, 15.4], [8.5, 16.6, 16], "#iron")]
+        els[-3]["rotationOrigin"], els[-3]["rotationZ"] = [8, 16, 15.2], 0
+    else:
+        for k, x in enumerate((6, 10)):
+            els += [box(f"Tassel{k}", [x - 0.4, -2.2, 14.9], [x + 0.4, 0.4, 15.5], "#gold"),
+                    box(f"TasselHead{k}", [x - 0.7, -0.6, 14.7], [x + 0.7, 0.4, 15.7], "#gold")]
+    return {"textureWidth": 16, "textureHeight": 16, "textures": {"cloth": f"backrooms:block/47/banner-{part}", "iron": "backrooms:block/47/wrought",
+                                                                  "gold": "backrooms:block/47/gold"},
+            "elements": els}
 
 
 def brazier_shape():
@@ -605,10 +629,19 @@ def brazier_shape():
 
 
 def candles_shape():
-    els = [box("Plate", [3, 0, 3], [13, 0.5, 13], "#iron")]
+    """A dish of candles (round 4): an iron dish with its rim and a ring handle, candles of every height burnt down
+    unevenly, wax run down their sides and pooled in the dish, each flame a lit tongue over a dark wick."""
+    els = [box("Dish", [2.5, 0, 2.5], [13.5, 0.6, 13.5], "#iron"),
+           box("RimN", [2.5, 0.6, 2.5], [13.5, 1.3, 3.1], "#iron"), box("RimS", [2.5, 0.6, 12.9], [13.5, 1.3, 13.5], "#iron"),
+           box("RimW", [2.5, 0.6, 3.1], [3.1, 1.3, 12.9], "#iron"), box("RimE", [12.9, 0.6, 3.1], [13.5, 1.3, 12.9], "#iron"),
+           box("Handle", [13.5, 0.4, 7.2], [15.2, 0.9, 8.8], "#iron"),
+           box("Pool", [3.1, 0.6, 3.1], [12.9, 0.9, 12.9], "#wax", faces="u")]
     for k, (x, z, h) in enumerate([(4, 5, 5), (7, 8, 7), (10, 4, 4), (9, 10, 6), (5, 10, 3)]):
-        els.append(box(f"Wax{k}", [x, 0.5, z], [x + 1.6, 0.5 + h, z + 1.6], "#wax"))
-        els.append(box(f"Wick{k}", [x + 0.5, 0.5 + h, z + 0.5], [x + 1.1, 1.6 + h, z + 1.1], "#flame", glow=255))
+        els.append(box(f"Wax{k}", [x, 0.6, z], [x + 1.6, 0.6 + h, z + 1.6], "#wax"))
+        els.append(box(f"Drip{k}", [x - 0.3, 0.6 + h * 0.3, z + 0.4], [x, 0.6 + h - 0.2, z + 0.9], "#wax", faces="nsewd"))
+        els.append(box(f"Lip{k}", [x - 0.1, 0.6 + h - 0.4, z - 0.1], [x + 1.7, 0.6 + h - 0.05, z + 1.7], "#wax", faces="nsewd"))
+        els.append(box(f"Wick{k}", [x + 0.65, 0.6 + h, z + 0.65], [x + 0.95, 1.0 + h, z + 0.95], "#iron"))
+        els.append(box(f"Flame{k}", [x + 0.5, 1.0 + h, z + 0.5], [x + 1.1, 2.2 + h, z + 1.1], "#flame", glow=255))
     return {"textureWidth": 16, "textureHeight": 16, "textures": {"iron": "backrooms:block/47/iron", "wax": "backrooms:block/47/wax", "flame": "backrooms:block/47/flame"},
             "elements": els}
 
@@ -800,6 +833,26 @@ def block_lang():
         ("block-l47-lantern", "Lantern"), ("block-l47-brazier", "Brazier"), ("block-l47-candles", "Candles"),
         ("block-l47-banner-*", "The Order's Banner"),
         ("blockdesc-l47-banner-*", "Crimson cloth, a gold snake eating its own tail. The Ophion Occult Order's sign."),
+        # (Round 4)
+        ("block-l47-fillet-*", "Bark"), ("block-l47-fillet-granite-*", "Granite Boulder"), ("block-l47-fillet-granitemoss-*", "Mossy Boulder"),
+        ("block-l47-mossdrape-*", "Moss"), ("blockdesc-l47-mossdrape-*", "Thick and wet, and heavier on the north side. Wanderers say the moss is the only compass that works here, and that it is wrong."),
+        ("block-l47-bracket-zoned-*", "Bracket Fungus"), ("block-l47-bracket-sulphur-*", "Sulphur Shelf"),
+        ("block-l47-mushclump-agaric", "Fly Agarics"), ("block-l47-mushclump-honey", "Honey Fungus"), ("block-l47-mushclump-inkcap", "Shaggy Ink Caps"),
+        ("blockdesc-l47-mushclump-*", "Not the ones you came for. Pick the ones on their own."),
+        ("block-l47-waystone2-*", "Way-Stone"),
+        ("blockdesc-l47-waystone2-*", "A post of dark granite by the trail, a snake carved coiling up it, its head lifted over the top to watch the way. Someone keeps the moss off the carving."),
+        ("block-l47-leaded-*", "Leaded Window"), ("block-l47-door-*", "Oak Door"), ("block-l47-doorjamb-*", "Door Frame"),
+        ("block-l47-roof-*", "Slate Roof"), ("block-l47-bookcase-*", "The Order's Shelves"),
+        ("blockdesc-l47-bookcase-*", "Old books in no language you know, scrolls tied with red cord, jars of something pale, a snake's skull, very large, polished by handling."),
+        ("block-l47-fire-*", "Hearth Fire"), ("blockdesc-l47-fire-*", "Somebody keeps it fed. You never see them do it."),
+        ("block-l47-mantel-*", "Mantel"), ("block-l47-table-*", "Trestle Table"), ("block-l47-bench-*", "Bench"),
+        ("block-l47-tapestry-*", "The Order's Tapestry"),
+        ("blockdesc-l47-tapestry-*", "A red serpent coiled round a dark world, its tail in its mouth. The Order call it the World Snake, and say the Great Old Adder is a scale of it."),
+        ("block-l47-sconce-*", "Sconce"), ("block-l47-rootearth", "Root Plate"), ("block-l47-chimneypot", "Chimney Pot"), ("block-l47-streamstone-step", "Stepping Stone"), ("block-l47-streamstone-rock", "River Stone"), ("block-l47-sarsentop", "Standing Stone"), ("block-l47-lamppost-*", "Lamp Post"), ("block-l47-offering-bowl", "Offering Bowl"),
+        ("blockdesc-l47-offering-bowl", "Dark water, and a snake's shed skin laid over the rim. Not left for you."), ("block-l47-offering-skull", "Snake Skull"),
+        ("block-l47-offering-book", "The Order's Book"), ("blockdesc-l47-offering-book", "The writing is not in any alphabet you know. One word is circled, again and again, in red."),
+        ("block-l47-leafspray-oak-*", "Oak Leaves"), ("block-l47-leafspray-beech-*", "Beech Leaves"), ("block-l47-leafspray-needle-*", "Needles"),
+        ("blockdesc-l47-rootearth", "A giant's roots torn up with the earth still in them. Whatever felled it, it did not happen while anyone was looking."),
     ]
     return out
 
@@ -860,24 +913,28 @@ def write_lang():
 
 
 def main():
-    for k, fn in BARKS.items():
+    # (Round 4: the barks as lit relief, moss as cushions with their shadow, lichen as rosettes: gen_47_tex4.py)
+    relief = {"oak": T4.oak, "beech": T4.beech, "fir": T4.fir, "spruce": T4.spruce, "dead": T4.dead, "green": T4.green}
+    for k, fn in relief.items():
         seed = 4700 + len(k) * 13
+        lichen = (150, 160, 128) if k != "dead" else (176, 180, 150)
         save(fn(seed), f"block/47/bark-{k}")
-        save(G.lichened(fn(seed + 1), seed + 2, (150, 160, 128) if k != "dead" else (176, 180, 150)), f"block/47/bark-{k}-2")
-        save(mossed(fn(seed), seed + 3, cover=0.55), f"block/47/mossbark-{k}")
-        save(mossed(fn(seed + 1), seed + 4, cover=0.7), f"block/47/mossbark-{k}-2")
+        save(T4.lichen(fn(seed + 1), seed + 2, lichen, n=5), f"block/47/bark-{k}-2")
+        save(T4.overgrow(fn(seed), seed + 3, cover=0.5 if k != "green" else 0.6), f"block/47/mossbark-{k}")
+        save(T4.overgrow(fn(seed + 1), seed + 4, cover=0.62, top_bias=0.4), f"block/47/mossbark-{k}-2")
         save(rings(RINGS[k], seed + 5), f"block/47/rings-{k}")
-    save(G.lichened(oakbark(4790), 4791, (120, 150, 80), n=3), "block/47/log-oak")
-    save(mossed(oakbark(4792), 4793, cover=0.85), "block/47/logtop-oak")
-    save(deadbark(4794).transpose(Image.Transpose.ROTATE_90), "block/47/log-dead")
-    save(mossed(deadbark(4795), 4796, cover=0.5), "block/47/logtop-dead")
+    # (A fallen trunk's furrows run along it: the bark turned a quarter)
+    save(T4.lichen(T4.oak(4790), 4791, (150, 170, 110), n=5).transpose(Image.Transpose.ROTATE_90), "block/47/log-oak")
+    save(T4.overgrow(T4.oak(4792).transpose(Image.Transpose.ROTATE_90), 4793, cover=0.75), "block/47/logtop-oak")
+    save(T4.dead(4794).transpose(Image.Transpose.ROTATE_90), "block/47/log-dead")
+    save(T4.overgrow(T4.dead(4795).transpose(Image.Transpose.ROTATE_90), 4796, cover=0.45), "block/47/logtop-dead")
     for k, tint in LEAVES.items():
         save(leafmass(tint, 4710 + len(k), k == "needle"), f"block/47/leaves-{k}")
         save(leafmass(M.lift(tint, -8), 4720 + len(k), k == "needle"), f"block/47/leaves-{k}-2")
     save(G.humus(4730), "block/47/humus")
     save(G.humus(4731), "block/47/humus-2")
-    save(mossed(G.moss(4732), 4733, cover=0.8), "block/47/moss")
-    save(mossed(G.moss(4734), 4735, cover=0.7, colour=(80, 112, 44)), "block/47/moss-2")
+    save(T4.moss(4732), "block/47/moss")
+    save(T4.moss(4734, (80, 112, 44)), "block/47/moss-2")
     save(G.litter(4736, [(110, 84, 50), (140, 104, 60), (96, 70, 44), (76, 82, 52), (150, 120, 70)]), "block/47/litter")
     save(G.litter(4737, [(120, 72, 40), (104, 88, 56), (90, 96, 60), (60, 70, 46), (140, 110, 64)]), "block/47/litter-2")
     save(G.earth(4738), "block/47/earth")
@@ -885,9 +942,9 @@ def main():
     save(trail(4740), "block/47/trail")
     save(trail(4741), "block/47/trail-2")
     save(pebbles(4742), "block/47/pebbles")
-    save(granite(4743), "block/47/granite")
-    save(granite(4744), "block/47/granite-2")
-    save(mossed(granite(4745), 4746, cover=0.45, top_bias=0.8), "block/47/granite-moss")
+    save(T4.granite(4743), "block/47/granite")
+    save(T4.granite(4744), "block/47/granite-2")
+    save(T4.overgrow(T4.granite(4745), 4746, cover=0.45, top_bias=0.8), "block/47/granite-moss")
     save(waystone(4747), "block/47/waystone")
     save(manorstone(4750), "block/47/manorstone")
     save(manorstone(4750, tones=4751), "block/47/manorstone-2")
@@ -919,7 +976,8 @@ def main():
     stars(4781).save(os.path.join(env, "l47-stars.png"))
     aurora(4782).save(os.path.join(env, "l47-aurora.png"))
 
-    out = blocks()
+    P4.textures(save)
+    out = blocks() + P4.blocktypes()
     bt = os.path.join(ASSETS, "blocktypes", "47")
     for comment, b in out:
         write_json(os.path.join(bt, b["code"] + ".json"), comment, b)
@@ -929,6 +987,8 @@ def main():
     write_json(os.path.join(sh, "brazier.json"), None, brazier_shape())
     write_json(os.path.join(sh, "candles.json"), None, candles_shape())
     write_json(os.path.join(sh, "lantern.json"), None, lantern_shape())
+    for name, shp in P4.shapes().items():
+        write_json(os.path.join(sh, name + ".json"), None, shp)
     if "nolang" not in sys.argv:
         write_lang()
     print(f"gen_47: {len(out)} blocktypes, shapes, textures, lang")

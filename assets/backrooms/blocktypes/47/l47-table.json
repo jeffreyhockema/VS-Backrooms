@@ -1,0 +1,107 @@
+// Level 47 (round 4): the great hall's trestle table, set (along x: end with a candlestick, mid with plates, centre with a candelabrum)
+{
+	"code": "l47-table",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"end",
+				"mid",
+				"centre"
+			]
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Wood",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-end": {
+			"base": "block/47/table-end"
+		},
+		"*-mid": {
+			"base": "block/47/table-mid"
+		},
+		"*-centre": {
+			"base": "block/47/table-centre"
+		}
+	},
+	"textures": {
+		"oak": {
+			"base": "backrooms:block/47/oak-top"
+		},
+		"beam": {
+			"base": "backrooms:block/47/oak-beam"
+		},
+		"pewter": {
+			"base": "backrooms:block/47/pewter"
+		},
+		"wax": {
+			"base": "backrooms:block/47/wax"
+		},
+		"glow": {
+			"base": "backrooms:block/47/flame"
+		},
+		"bread": {
+			"base": "backrooms:block/47/bread"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 4,
+	"lightHsvByType": {
+		"*-end": [
+			8,
+			5,
+			9
+		],
+		"*-centre": [
+			8,
+			5,
+			11
+		]
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0.1,
+		"x2": 1,
+		"y2": 0.9,
+		"z2": 0.9
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0.1,
+		"x2": 1,
+		"y2": 0.9,
+		"z2": 0.9
+	},
+	"drops": [
+		{
+			"type": "item",
+			"code": "game:firewood",
+			"quantity": {
+				"avg": 1,
+				"var": 0.5
+			}
+		}
+	],
+	"sounds": {
+		"walk": "game:walk/wood*",
+		"place": "game:block/planks",
+		"break": "game:block/planks",
+		"hit": "game:block/planks"
+	}
+}

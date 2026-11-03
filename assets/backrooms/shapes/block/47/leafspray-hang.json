@@ -1,0 +1,87 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"leaf": "backrooms:block/47/leaves-oak"
+	},
+	"elements": [
+		{
+			"name": "Sheet0",
+			"from": [
+				-3.3,
+				2.5,
+				8
+			],
+			"to": [
+				19.3,
+				16,
+				8.01
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaf",
+					"uv": [
+						0,
+						0,
+						16,
+						13.5
+					]
+				},
+				"south": {
+					"texture": "#leaf",
+					"uv": [
+						0,
+						0,
+						16,
+						13.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8,
+				8
+			],
+			"rotationY": 45
+		},
+		{
+			"name": "Sheet1",
+			"from": [
+				-3.3,
+				2.5,
+				8
+			],
+			"to": [
+				19.3,
+				16,
+				8.01
+			],
+			"faces": {
+				"north": {
+					"texture": "#leaf",
+					"uv": [
+						0,
+						0,
+						16,
+						13.5
+					]
+				},
+				"south": {
+					"texture": "#leaf",
+					"uv": [
+						0,
+						0,
+						16,
+						13.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				8,
+				8
+			],
+			"rotationY": -45
+		}
+	]
+}

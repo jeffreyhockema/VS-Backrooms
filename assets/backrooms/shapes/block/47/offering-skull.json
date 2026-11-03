@@ -1,0 +1,568 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"bronze": "backrooms:block/47/bronze",
+		"dark": "backrooms:block/47/hearth",
+		"skin": "backrooms:block/47/parchment",
+		"cloth": "backrooms:block/47/gold",
+		"bone": "backrooms:block/47/bone",
+		"leather": "backrooms:block/47/leather",
+		"pages": "backrooms:block/47/parchment",
+		"script": "backrooms:block/47/script"
+	},
+	"elements": [
+		{
+			"name": "Cloth",
+			"from": [
+				2.5,
+				0,
+				3
+			],
+			"to": [
+				13.5,
+				0.3,
+				13
+			],
+			"faces": {
+				"north": {
+					"texture": "#cloth",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#cloth",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#cloth",
+					"uv": [
+						0,
+						0,
+						11.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#cloth",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#cloth",
+					"uv": [
+						0,
+						0,
+						11.0,
+						10
+					]
+				},
+				"down": {
+					"texture": "#cloth",
+					"uv": [
+						0,
+						0,
+						11.0,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Cranium",
+			"from": [
+				5,
+				0.3,
+				6
+			],
+			"to": [
+				11,
+				3.6,
+				12
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						3.3
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						3.3
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						3.3
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						3.3
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6,
+						6
+					]
+				}
+			}
+		},
+		{
+			"name": "Snout",
+			"from": [
+				6.2,
+				0.3,
+				2.4
+			],
+			"to": [
+				9.8,
+				2.2,
+				6.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						3.6,
+						1.9
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						3.6,
+						1.9
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						3.6,
+						1.9
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						3.6,
+						1.9
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						3.6,
+						3.6
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						3.6,
+						3.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Orbit",
+			"from": [
+				4.6,
+				2.0,
+				6.4
+			],
+			"to": [
+				11.4,
+				3.2,
+				8.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						1.8,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.8
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						6.8,
+						1.8
+					]
+				}
+			}
+		},
+		{
+			"name": "JawL",
+			"from": [
+				5.0,
+				0.3,
+				3.0
+			],
+			"to": [
+				5.8,
+				1.0,
+				11.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.7
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.8,
+						8.0
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.8,
+						8.0
+					]
+				}
+			}
+		},
+		{
+			"name": "JawR",
+			"from": [
+				10.2,
+				0.3,
+				3.0
+			],
+			"to": [
+				11.0,
+				1.0,
+				11.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.7
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.7
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						8.0,
+						0.7
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.8,
+						8.0
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.8,
+						8.0
+					]
+				}
+			}
+		},
+		{
+			"name": "FangL",
+			"from": [
+				6.6,
+				-0.6,
+				2.8
+			],
+			"to": [
+				7.2,
+				0.6,
+				3.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "FangR",
+			"from": [
+				8.8,
+				-0.6,
+				2.8
+			],
+			"to": [
+				9.4,
+				0.6,
+				3.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.6,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#bone",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,40 @@
+// Level 47 (round 4): a standing stone's weathered, rounded top
+{
+	"code": "l47-sarsentop",
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"shape": {
+		"base": "block/47/sarsentop"
+	},
+	"textures": {
+		"stone": {
+			"base": "backrooms:block/47/megalith"
+		},
+		"lichen": {
+			"base": "backrooms:block/47/megalith-moss"
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 20,
+	"drops": [],
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/rock-hit-pickaxe",
+		"break": "game:block/rock-hit-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	}
+}

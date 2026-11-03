@@ -1,0 +1,218 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"beam": "backrooms:block/47/oak-beam",
+		"post": "backrooms:block/47/oak-post",
+		"stone": "backrooms:block/47/manorstone-dressed"
+	},
+	"elements": [
+		{
+			"name": "Post",
+			"from": [
+				0,
+				0,
+				2
+			],
+			"to": [
+				2.5,
+				16,
+				14
+			],
+			"faces": {
+				"north": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						2.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						2.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						12,
+						16
+					]
+				},
+				"up": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						2.5,
+						12
+					]
+				},
+				"down": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						2.5,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Stop",
+			"from": [
+				2.5,
+				0,
+				5
+			],
+			"to": [
+				3.2,
+				16,
+				7
+			],
+			"faces": {
+				"north": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.7,
+						16
+					]
+				},
+				"east": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"south": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.7,
+						16
+					]
+				},
+				"west": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						2,
+						16
+					]
+				},
+				"up": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2
+					]
+				},
+				"down": {
+					"texture": "#post",
+					"uv": [
+						0,
+						0,
+						0.7,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "Plinth",
+			"from": [
+				-0.2,
+				0,
+				1.6
+			],
+			"to": [
+				2.9,
+				1.4,
+				14.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						3.1,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						12.8,
+						1.4
+					]
+				},
+				"south": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						3.1,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						12.8,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						3.1,
+						12.8
+					]
+				},
+				"down": {
+					"texture": "#stone",
+					"uv": [
+						0,
+						0,
+						3.1,
+						12.8
+					]
+				}
+			}
+		}
+	]
+}

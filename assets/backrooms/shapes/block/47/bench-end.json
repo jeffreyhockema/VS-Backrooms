@@ -1,0 +1,367 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"oak": "backrooms:block/47/oak-top",
+		"beam": "backrooms:block/47/oak-beam"
+	},
+	"elements": [
+		{
+			"name": "Seat",
+			"from": [
+				0,
+				7.0,
+				5.0
+			],
+			"to": [
+				16,
+				8.6,
+				11.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#oak",
+					"uv": [
+						0,
+						0,
+						16,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#oak",
+					"uv": [
+						0,
+						0,
+						6.0,
+						1.6
+					]
+				},
+				"south": {
+					"texture": "#oak",
+					"uv": [
+						0,
+						0,
+						16,
+						1.6
+					]
+				},
+				"west": {
+					"texture": "#oak",
+					"uv": [
+						0,
+						0,
+						6.0,
+						1.6
+					]
+				},
+				"up": {
+					"texture": "#oak",
+					"uv": [
+						0,
+						0,
+						16,
+						6.0
+					]
+				},
+				"down": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						6.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Stretcher",
+			"from": [
+				0,
+				2.5,
+				7.4
+			],
+			"to": [
+				16,
+				3.7,
+				8.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				},
+				"south": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				}
+			}
+		},
+		{
+			"name": "LegN",
+			"from": [
+				7.2,
+				0,
+				5.6
+			],
+			"to": [
+				8.8,
+				7.2,
+				7.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.6,
+						7.2
+					]
+				},
+				"east": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.4,
+						7.2
+					]
+				},
+				"south": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.6,
+						7.2
+					]
+				},
+				"west": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.4,
+						7.2
+					]
+				},
+				"up": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				7,
+				6.3
+			],
+			"rotationX": -10
+		},
+		{
+			"name": "LegS",
+			"from": [
+				7.2,
+				0,
+				9.0
+			],
+			"to": [
+				8.8,
+				7.2,
+				10.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.6,
+						7.2
+					]
+				},
+				"east": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.4,
+						7.2
+					]
+				},
+				"south": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.6,
+						7.2
+					]
+				},
+				"west": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.4,
+						7.2
+					]
+				},
+				"up": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.4
+					]
+				},
+				"down": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.4
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				7,
+				9.7
+			],
+			"rotationX": 10
+		},
+		{
+			"name": "Rail",
+			"from": [
+				7.0,
+				5.6,
+				5.4
+			],
+			"to": [
+				9.0,
+				7.0,
+				10.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.4
+					]
+				},
+				"east": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						5.2,
+						1.4
+					]
+				},
+				"south": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						2.0,
+						1.4
+					]
+				},
+				"west": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						5.2,
+						1.4
+					]
+				},
+				"up": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						2.0,
+						5.2
+					]
+				},
+				"down": {
+					"texture": "#beam",
+					"uv": [
+						0,
+						0,
+						2.0,
+						5.2
+					]
+				}
+			}
+		}
+	]
+}
