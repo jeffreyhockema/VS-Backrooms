@@ -206,11 +206,14 @@ def mould_wall(seed):
     M.tideline(img, 22, seed=seed + 1, color=(130, 132, 100), amount=0.25)
     M.grime(img, 0.18, seed=seed + 2, color=(150, 150, 110), cells=(16, 8), cover=0.6)
     px = img.load()
-    # colonies cluster round a few centres
-    centres = [(rng.randrange(S), rng.randrange(S)) for _ in range(3)]
-    for _ in range(46):
+    # colonies cluster round the block's middle (round 4: thinning toward the edges, so the block reads as a bloom on
+    # the paint, not a square of mould)
+    centres = [(16 + rng.uniform(-4, 4), 16 + rng.uniform(-4, 4)) for _ in range(3)]
+    for _ in range(40):
         cx, cy = rng.choice(centres)
-        x, y = cx + rng.gauss(0, 6), cy + rng.gauss(0, 6)
+        x, y = cx + rng.gauss(0, 5), cy + rng.gauss(0, 5)
+        if min(x, y, S - 1 - x, S - 1 - y) < 3:
+            continue
         r = rng.choice((0.6, 0.8, 1.0, 1.2, 1.6, 2.2, 3.0))
         for yy in range(int(y - r - 2), int(y + r + 3)):
             for xx in range(int(x - r - 2), int(x + r + 3)):
@@ -222,7 +225,9 @@ def mould_wall(seed):
                     blend(img, X, Y, MOULD_DK, 0.75)
                 elif d < 1.45 and rng.random() < 0.7:
                     blend(img, X, Y, MOULD, 0.4)
-    speckle(img, seed + 3, 0.02, [MOULD_DK, (24, 26, 22)])
+    for _ in range(26):  # spores flung wider
+        x, y = int(rng.gauss(16, 7)) % S, int(rng.gauss(16, 7)) % S
+        blend(img, x, y, MOULD_DK, 0.7)
     return img
 
 
@@ -989,10 +994,11 @@ def floor_textures():
                 blend(ms, x + dx, y + dy, (24, 22, 20), 0.95)
     M.grime(ms, 0.12, seed=14320, color=(110, 96, 80), cells=(8, 4))
     save(ms, "floor-marbleshattered")
-    bl = load("floor-vinylworn")
-    # a dried pool, and a broad smear dragged away from it, streaky with the fingers that made it
-    blotch(bl, 14321, (10, 12), 7, BLOOD, 0.85, rough=0.9, fuzz=False)
-    blotch(bl, 14322, (9, 12), 4, (60, 4, 6), 0.5, rough=0.6, fuzz=False)
+    bl = load("floor-marbleshattered")
+    # round 4: on the torture chambers' shattered marble (the only floor it lies on): dried, dark, soaked into the cracks,
+    # a smear dragged away; wrapped so it runs on into the next tile (a dark patch, not a stamp)
+    blotch(bl, 14321, (12, 14), 5.5, (74, 10, 12), 0.7, rough=0.9, fuzz=True, wrap=True)
+    blotch(bl, 14322, (11, 14), 3, (52, 6, 8), 0.45, rough=0.6, fuzz=True, wrap=True)
     rng = random.Random(14323)
     for k in range(6):
         y0 = 12 + k * 1.6 + rng.uniform(-0.5, 0.5)
@@ -1256,9 +1262,14 @@ def stained_glass(seed, W=80, H=80, panes=5):
 def revolving_textures():
     save(stained_glass(1), "rev-glasse")
     save(stained_glass(4), "rev-glassw")
-    br = M.brushed_metal(seed=14600, base=(166, 126, 66), direction="v", streak=6, sheen=16)
-    M.grime(br, 0.16, seed=14601, color=(58, 86, 70), cells=(8, 4, 2), cover=0.4)  # verdigris in the corners of years
-    M.scratches(br, 4, seed=14605, light=0.18)
+    # round 4: cast bronze, polished where hands went, dark and green in the recesses (brushed streaks read as wood)
+    br = M.noise_hv((150, 112, 54), 3, 14600, S, 4, (16, 8))
+    for y in range(S):
+        for x in range(S):
+            t = math.exp(-(((x - 10) / 9.0) ** 2 + ((y - 8) / 7.0) ** 2))
+            M.touch(br, x, y, 0.16 * t - 0.03)
+    M.grime(br, 0.2, seed=14601, color=(52, 92, 72), cells=(8, 4, 2), cover=0.35)  # verdigris
+    M.scratches(br, 4, seed=14605, light=0.2)
     save(br, "rev-bronze")
     # round 4: the canopy's frieze: a raised bronze meander between two beads, verdigris in the recesses
     fr = M.brushed_metal(seed=14606, base=(120, 90, 48), direction="h", streak=5, sheen=8)

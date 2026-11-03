@@ -1241,6 +1241,10 @@ public sealed partial class WorldLayout
                     Put(fa, fb, Props.L14StrapBed, Into(back), 1);
                 }
                 WallDress(r, 0.05, (L14DScratches, 0));
+                // Round 4 (after the draws): a drip stand at the bed's side, a wheelchair left by the door
+                var (sa, sb) = FromSide(r, back, mid + 1, 1);
+                var (wa, wb) = FromSide(r, doorSide, 1, 1);
+                later.Add(() => { Put(sa, sb, Props.L14IvStand, Into(back)); Put(wa, wb, Props.L14Wheelchair, Into(doorSide)); });
                 return;
             }
             int[] sides = doorSide < 2 ? new[] { 2, 3 } : new[] { 0, 1 };
