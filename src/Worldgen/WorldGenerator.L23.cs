@@ -727,6 +727,8 @@ public sealed partial class WorldGenerator
             if (!wall) return 0;
             if (h <= 3 && !pier) return 0;
             if (h == 2 && m == 8 && along == 0) return l23Latin[au > av ? (u > 0 ? 0 : 1) : (v > 0 ? 2 : 3)];
+            // (Round 4: the outer arcade's piers as columns, base, shaft and capital, mossy below)
+            if (m == 12 && au != av && h <= 3) return l23Pillar[h == 1 ? 0 : h == 3 ? 2 : 1, h <= 2 ? 1 : 0, 0];
             return l23RuinStone;
         }
         if (collapsed) return 0;
@@ -735,6 +737,7 @@ public sealed partial class WorldGenerator
         {
             if (!wall) return 0;
             if (h <= 8 && !pier) return 0;
+            if (m == 12 && au != av && h >= 6 && h <= 8) return l23Pillar[h == 6 ? 0 : h == 8 ? 2 : 1, 0, 0];
             return l23RuinStone;
         }
         if (h == 10 && m == 12) return (along & 1) == 0 ? l23RuinStone : 0;

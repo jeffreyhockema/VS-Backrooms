@@ -510,7 +510,7 @@ Tiers: A must, B should, C nice. Inventions are marked (inv.).
     (`l23-limb-<bark>-<side>`), so the trunks have branches under the canopy.
 19. [B] [done: `l23-rootknuckle`, the roots' tops near the ground] Buttress roots: the roots crawling out from the foot get a rounded top (half-round root caps, `l23-roottop`)
     where they are one high, so they read as roots and not steps of cubes.
-20. [A] [done: columns (base, fluted shaft, capital), two broken ones on the plaza, a carved lintel (`l23-frieze`) over the cella's door] The ruins: Parthenon columns as fluted drums with a capital and base (`l23-column-*`), a carved lintel/frieze
+20. [A] [done: columns (base, fluted shaft, capital), two broken ones on the plaza, a carved lintel (`l23-frieze`) over the cella's door; the Colosseum's outer arcade on columns, both tiers] The ruins: Parthenon columns as fluted drums with a capital and base (`l23-column-*`), a carved lintel/frieze
     over the cella door, a fallen column on the plaza.
 21. [B] [done: `l23-statue`, two at each ruin's way in] A statue in the ruins: a weathered robed figure on a plinth (two blocks), mossed, one arm broken (inv.).
 22. [A] [done: lily pads; mossy stones along the water's edge] The Heart of Water: lily pads on the pool's edge water, and a stone rim of mossy blocks where shore meets water.
