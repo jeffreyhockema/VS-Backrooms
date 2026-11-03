@@ -125,14 +125,16 @@ def materials():
     # Painted steel of the racks: matte charcoal with a few worn spots; a panelled side with its seam and screws
     save(M.grime(M.painted_metal(401, base=CHAR, panel=False, chips=5, under=(92, 94, 96)), 0.08, 402), "rk-paint")
     save(M.grime(M.painted_metal(403, base=shade3(CHAR, 1.08), panel=True, chips=3, under=(92, 94, 96), screws=True), 0.1, 404, bias="bottom"), "rk-side")
-    # The perforated door: 1 px holes (cut out) on a 2 px pitch, staggered row by row (a fine hex perforation), each
+    # The perforated door: 1 px holes (cut out), staggered row by row (a fine hex perforation), each
     # hole's lower lip lit
     mesh = M.painted_metal(405, base=shade3(CHAR, 1.12), panel=False, chips=2, under=(90, 92, 94))
     M.grime(mesh, 0.06, 406)
     p = mesh.load()
-    holes = [(x + (y // 2 % 2), y) for y in range(0, S, 2) for x in range(0, S, 2)]
+    # (round 4, after the first shots: a hole every 4 px, rows 2 px apart and staggered by 2, a diamond lattice with more
+    # land round each hole, as a perforated sheet; a 2 px checker read as a coarse grille close to)
+    holes = [(x + (2 if (y // 2) % 2 else 0), y) for y in range(0, S, 2) for x in range(0, S, 4)]
     for (x, y) in holes:
-        M.touch(mesh, x % S, (y + 1) % S, 0.16)
+        M.touch(mesh, x % S, (y + 1) % S, 0.05)
     for (x, y) in holes:
         p[x % S, y] = (0, 0, 0, 0)
     save(cutout(mesh), "rk-mesh")
