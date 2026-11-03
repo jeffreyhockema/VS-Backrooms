@@ -78,7 +78,9 @@ def sentryface_shape():
             E("CheekL", (4.5, 5.4, z - 1.3), (6.7, 7.6, z), face), E("CheekR", (9.3, 5.4, z - 1.3), (11.5, 7.6, z), face),
             E("Nose", (7.2, 6.0, z - 2.6), (8.8, 9.4, z), face), E("NoseTip", (6.9, 5.6, z - 3.0), (9.1, 6.8, z - 0.8), face),
             E("LipTop", (5.9, 4.8, z - 1.5), (10.1, 5.6, z), face),
-            E("Mouth", (6.2, 1.6, z - 0.05), (9.8, 4.8, z), {"north": mo}),
+            E("Mouth", (6.6, 2.0, z - 0.05), (9.4, 4.6, z), {"north": mo}),
+            E("MouthCornerL", (6.2, 2.6, z - 0.6), (6.6, 4.2, z), face), E("MouthCornerR", (9.4, 2.6, z - 0.6), (9.8, 4.2, z), face),
+            E("Lower", (6.2, 1.6, z - 0.7), (9.8, 2.0, z), face),
             E("LipBottom", (6.0, 1.0, z - 1.3), (10.0, 1.8, z), face),
             E("JawL", (4.6, 1.0, z - 1.0), (6.2, 5.4, z), face), E("JawR", (9.8, 1.0, z - 1.0), (11.4, 5.4, z), face),
             E("Chin", (6.6, 0.2, z - 1.5), (9.4, 1.2, z), face)]

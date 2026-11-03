@@ -144,7 +144,7 @@ CORE = 3.5  # the fissures' floor (z); ridges come out to 0
 def ridges_of(profile):
     """The ridges of a relief profile as (x1, x2, depth, [breaks]) with depth how far proud of the floor (to CORE)."""
     if profile == "furrow":  # grey: broad ridges interlacing, plates broken across now and then
-        return [(0, 2.5, 3.0, [11]), (4, 7.5, 3.5, [5]), (9, 11, 2.5, []), (12.5, 16, 3.2, [9])]
+        return [(0, 2.5, 3.0, []), (4, 7.5, 3.5, [5]), (9, 11, 2.2, []), (12.5, 16, 3.0, [])]
     if profile == "fibre":  # redwood: many narrow soft ridges, shallow fissures, no plates
         return [(0, 1.5, 2.5, []), (2.5, 4.5, 3.0, []), (5.5, 6.5, 2.0, []), (7.5, 10, 3.2, []), (11, 12.5, 2.2, []), (13.5, 16, 2.8, [])]
     if profile == "plate":  # oak: blocky plates, broken across into short tiles
@@ -173,7 +173,8 @@ def barkface_shape(profile, bark, flip=False):
                 els.append(E(f"Ridge{k}_{n}", (x1, y, CORE - dd), (x2, y2, CORE),
                              {"north": "#bark", "east": "#deep", "west": "#deep", "up": "#deep", "down": "#deep"}))
                 # A plate's top edge chipped back (the light catches it)
-                if c < 16 and profile in ("plate", "furrow", "giant"):
+                # (round 4's first shots: on the furrowed barks the lit lips read as courses of masonry; the oak's plates keep them)
+                if c < 16 and profile == "plate":
                     els.append(E(f"Lip{k}_{n}", (x1 + 0.4, y2 - 0.8, CORE - dd - 0.4), (x2 - 0.4, y2, CORE - dd),
                                  {"north": "#bark", "up": "#bark", "east": "#deep", "west": "#deep"}))
             y = c
