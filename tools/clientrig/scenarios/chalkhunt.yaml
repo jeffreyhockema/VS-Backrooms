@@ -1,0 +1,34 @@
+description: Scan for generated chalk marks around spawn.
+steps:
+  - bot: closeguis
+  - bot: hud off
+  - bot: tp 511896 217 512016
+  - bot: wait 4000
+  - cmd: /backrooms rig chalkscan
+  - bot: tp 512136 217 512016
+  - bot: wait 4000
+  - cmd: /backrooms rig chalkscan
+  - bot: tp 512016 217 512136
+  - bot: wait 4000
+  - cmd: /backrooms rig chalkscan
+  - bot: tp 512016 217 511896
+  - bot: wait 4000
+  - cmd: /backrooms rig chalkscan
+  - bot: tp 511896 217 511896
+  - bot: wait 4000
+  - cmd: /backrooms rig chalkscan
+  - bot: tp 512136 217 512136
+  - bot: wait 4000
+  - cmd: /backrooms rig chalkscan
+  - bot: tp 511896 217 512136
+  - bot: wait 4000
+  - cmd: /backrooms rig chalkscan
+  - bot: tp 512136 217 511896
+  - bot: wait 4000
+  - cmd: /backrooms rig chalkscan
+  - bot: tp 511776 217 512016
+  - bot: wait 4000
+  - cmd: /backrooms rig chalkscan
+  - bot: tp 512256 217 512016
+  - bot: wait 4000
+  - cmd: /backrooms rig chalkscan
