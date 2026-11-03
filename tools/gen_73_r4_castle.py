@@ -1443,3 +1443,47 @@ def blocktypes():  # noqa: F811
 
 
 LANG.append(("block-l73-bartizan-*", "Bartizan"))
+
+
+# ---- The castle's stairs (round 4): the hotel's grand stair's geometry in dark oak with a red velvet runner and gilt rods ----
+
+_HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def stairs_shape():
+    import json
+    with open(os.path.join(_HERE, "..", "assets", "backrooms", "shapes", "block", "hotelstairs-runner.json"), encoding="utf-8") as f:
+        s = json.load(f)
+    s["textures"] = {"marble": T + "mahogany-end", "carpet": T + "velvet", "brass": T + "gold"}
+    return s
+
+
+_shapes_bart = shapes
+
+
+def shapes(write_json, shape_dir):  # noqa: F811
+    n = _shapes_bart(write_json, shape_dir)
+    write_json(os.path.join(shape_dir, "stairs.json"), None, stairs_shape())
+    return n + 1
+
+
+_blocktypes_bart = blocktypes
+
+
+def blocktypes():  # noqa: F811
+    out = _blocktypes_bart()
+    boxes = {"north": [{"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 0.5, "z2": 1}, {"x1": 0, "y1": 0.5, "z1": 0, "x2": 1, "y2": 1, "z2": 0.5}],
+             "east": [{"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 0.5, "z2": 1}, {"x1": 0.5, "y1": 0.5, "z1": 0, "x2": 1, "y2": 1, "z2": 1}],
+             "south": [{"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 0.5, "z2": 1}, {"x1": 0, "y1": 0.5, "z1": 0.5, "x2": 1, "y2": 1, "z2": 1}],
+             "west": [{"x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 0.5, "z2": 1}, {"x1": 0, "y1": 0.5, "z1": 0, "x2": 0.5, "y2": 1, "z2": 1}]}
+    out.append(("// Level 73 (round 4): the castle's oak stairs with a red velvet runner, climbing toward the variant's side (the hotel stair's geometry)", fixed({
+        "code": "l73-stairs", "variantgroups": [{"code": "side", "states": SIDES}],
+        "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]}, "blockmaterial": "Wood", "drawtype": "json",
+        "shapeByType": {f"*-{s}": {"base": "block/73/stairs", "rotateY": ROT[s]} for s in SIDES},
+        "collisionSelectionBoxesByType": {f"*-{s}": boxes[s] for s in SIDES},
+        "sidesolid": {"all": False}, "sideopaque": {"all": False}, "lightAbsorption": 0, "drops": [],
+        "sounds": {"walk": "game:walk/wood", "place": "game:block/planks", "break": "game:block/planks", "hit": "game:block/planks"}})))
+    return out
+
+
+LANG.append(("block-l73-stairs-*", "Oak Stairs"))

@@ -21,7 +21,7 @@ public sealed partial class WorldGenerator
     private readonly int[,] l73Wreck = new int[2, 4];
     private readonly int[] l73Hood = new int[2];
     private readonly int[,] l73String = new int[2, 4];
-    private readonly int[] l73Bartizan = new int[4];
+    private readonly int[] l73Bartizan = new int[4], l73Stairs = new int[4];
     // the castle's own chairs and tables (round 4, in place of the Level 5 hotel's)
     private readonly int[] l73Chair = new int[4], l73WingChair = new int[4], l73LowTable = new int[4], l73Sideboard = new int[4];
     private readonly int[,] l73Settee = new int[2, 4];
@@ -50,6 +50,7 @@ public sealed partial class WorldGenerator
             for (int k = 0; k < 2; k++) l73Window[k, f] = Id($"l73-window-{windows[k]}-{Sides[f]}");
             l73Slit[f] = Id("l73-slit-" + Sides[f]);
             l73Bartizan[f] = Id("l73-bartizan-" + Sides[f]);
+            l73Stairs[f] = Id("l73-stairs-" + Sides[f]);
             l73Chair[f] = Id("l73-chair-" + Sides[f]);
             l73WingChair[f] = Id("l73-wingchair-" + Sides[f]);
             l73LowTable[f] = Id("l73-lowtable-" + Sides[f]);

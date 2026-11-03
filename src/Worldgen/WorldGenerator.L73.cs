@@ -375,7 +375,7 @@ public sealed partial class WorldGenerator
         {
             if (WorldLayout.L73MainDoor(ku, kv)) return l73Ashlar;
             if (WorldLayout.L73CellarStep(ku, kv) > 0) return 0; // (the stairwell down to the cellar)
-            if (ku == 34 && kv == 9) return hotelStairIds[0, Facing(ArchPier.East)]; // (its head: the first half step down)
+            if (ku == 34 && kv == 9) return l73Stairs[Facing(ArchPier.East)]; // (its head: the first half step down)
             if (ring) return l73Foot;
             if (WorldLayout.L73HearthAt(ku, kv) > 0) return l73Silver;
             return L73FloorOf(ku, kv, 0, WorldLayout.L73RoomAt(ku, kv, 0));
@@ -386,7 +386,7 @@ public sealed partial class WorldGenerator
             int below = c / storey - 1, above = below + 1;
             if (ring) return L73KeepRingCourse(ku, kv, c); // (a string course at every floor; the machicolations at the terrace)
             int step = WorldLayout.L73StairStep(ku, kv, below);
-            if (step == 5) return hotelStairIds[0, Facing(WorldLayout.L73StairRise(below))];
+            if (step == 5) return l73Stairs[Facing(WorldLayout.L73StairRise(below))];
             // (the balustrade's last length, over the flight's top step, stands in the hole at the floor above)
             if (step == 4) return kv == 13 ? l73StairRail[WorldLayout.L73StairRise(below) == ArchPier.East ? 0 : 1] : 0;
             if (step > 0) return 0;
@@ -446,7 +446,7 @@ public sealed partial class WorldGenerator
         {
             // The flight: panelled under its treads, a balustrade along its open side (south)
             if (h < st) return l73Lined[0, 4];
-            if (h == st) return hotelStairIds[0, Facing(WorldLayout.L73StairRise(s))];
+            if (h == st) return l73Stairs[Facing(WorldLayout.L73StairRise(s))];
             if (h == st + 1 && kv == 13) return l73StairRail[WorldLayout.L73StairRise(s) == ArchPier.East ? 0 : 1];
             return 0;
         }
@@ -482,7 +482,7 @@ public sealed partial class WorldGenerator
         if (step > 0)
         {
             int tread = -step; // (the step's block lies this far under the ground floor's slab)
-            return c < tread ? l73Lined[0, 4] : c == tread ? hotelStairIds[0, Facing(ArchPier.East)] : 0;
+            return c < tread ? l73Lined[0, 4] : c == tread ? l73Stairs[Facing(ArchPier.East)] : 0;
         }
         if (h == 1)
         {
