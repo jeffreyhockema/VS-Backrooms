@@ -527,6 +527,8 @@ public sealed partial class WorldLayout
                         // (a stretch further along the line is at least 11 blocks off, or 6 and more the further along it is, for a
                         // bend sharp enough that its two sides stand at depths a step apart)
                         double along = arc[j2] - arc[i], need = along > 22 ? 11 : along > 12 ? Math.Max(6.5, 0.5 * along) : 0;
+                        // (From layout version 14 a kink of under 12 blocks of line counts too: its two sides would stand 2 blocks apart)
+                        if (Version >= 14 && along > 4 && along <= 12) need = 0.5 * along;
                         if (need > 0 && (wx[i] - wx[j2]) * (wx[i] - wx[j2]) + (wz[i] - wz[j2]) * (wz[i] - wz[j2]) < need * need) folded = true;
                     }
                 // The passage's ends are shallow (a depth of 0.3 per block along, under 5 for the first and last 16 blocks), and

@@ -648,6 +648,18 @@ public sealed partial class WorldLayout
             }
         }
 
+        bool FacesLoneDoorway(int x, int z)
+        {
+            foreach ((int dx, int dz) in new[] { (0, -1), (0, 1), (-1, 0), (1, 0) })
+            {
+                int nx = x + dx, nz = z + dz;
+                if (nx < 0 || nz < 0 || nx >= MacroSize || nz >= MacroSize || b.At(nx, nz).Kind != TileKind.Doorway) continue;
+                // A doorway is lone when its neighbours along the front are not doorways too (a restaurant's front is open)
+                if (b.At(Math.Max(nx - Math.Abs(dz), 0), nz - Math.Abs(dx) < 0 ? 0 : nz - Math.Abs(dx)).Kind != TileKind.Doorway
+                    && b.At(Math.Min(nx + Math.Abs(dz), MacroSize - 1), Math.Min(nz + Math.Abs(dx), MacroSize - 1)).Kind != TileKind.Doorway) return true;
+            }
+            return false;
+        }
         // Tables and chairs down the halls, bins and plants, vending machines against the walls
         for (int k = 3; k <= 28; k += 5)
         {
@@ -655,7 +667,12 @@ public sealed partial class WorldLayout
             PlaceCafeTable(b, k, 15);
             PlaceCafeTable(b, 15, k);
         }
-        foreach ((int x, int z) in new[] { (hall0, 3), (hall1, 28), (3, hall0), (28, hall1) }) b.At(x, z).Variant = Props.Ficus;
+        foreach ((int x, int z) in new[] { (hall0, 3), (hall1, 28), (3, hall0), (28, hall1) })
+        {
+            // (From layout version 14 a plant does not stand before a lone doorway, a store's only way in)
+            if (Version >= 14 && FacesLoneDoorway(x, z)) continue;
+            b.At(x, z).Variant = Props.Ficus;
+        }
         foreach ((int x, int z) in new[] { (hall0, 8), (hall1, 23), (8, hall1), (23, hall0) }) b.At(x, z).Variant = Props.TrashCan;
         foreach ((int x, int z, ArchPier f) in new[] { (hall0, 24, ArchPier.East), (hall1, 6, ArchPier.West) })
         {

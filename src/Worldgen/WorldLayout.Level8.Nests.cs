@@ -48,6 +48,7 @@ public sealed partial class WorldLayout
         // (DenNear's scan, over cells' dens remembered: a den is a pure function of its cell, and DenAt works out the level's
         // depth before it rolls, so asking it nine times for every column of a chunk was most of what Level 8 cost to build)
         int mx0 = MacroOf(gx), mz0 = MacroOf(gz);
+        double deepest = 0;
         for (int mz = mz0 - 1; mz <= mz0 + 1; mz++)
             for (int mx = mx0 - 1; mx <= mx0 + 1; mx++)
             {
@@ -55,11 +56,14 @@ public sealed partial class WorldLayout
                 if (kind == DenKind.None) continue;
                 int cx = mx * MacroSize + MacroSize / 2, cz = mz * MacroSize + MacroSize / 2;
                 if ((cx - gx) * (cx - gx) + (cz - gz) * (cz - gz) > DenRadius * DenRadius) continue;
-                if (kind != DenKind.Nest) return 0;
+                // (From layout version 14 a den that is not a nest no longer hides a nest whose rim overlaps it: the deepest wins)
+                if (kind != DenKind.Nest) { if (Version >= 14) continue; return 0; }
                 double d = Math.Sqrt((cx - gx) * (cx - gx) + (cz - gz) * (cz - gz));
-                return Math.Clamp(1 - d / DenRadius, 0, 1);
+                double depth = Math.Clamp(1 - d / DenRadius, 0, 1);
+                if (Version < 14) return depth;
+                deepest = Math.Max(deepest, depth);
             }
-        return 0;
+        return deepest;
     }
 
     private LatticeMemo<DenKind> l8Dens;
