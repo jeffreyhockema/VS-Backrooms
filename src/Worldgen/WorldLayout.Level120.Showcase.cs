@@ -73,7 +73,7 @@ public partial class WorldLayout
         spots.Add(Spot("crac", L120Best(rings, Stand, (t, k, s) => t.Variant == L120Crac && s == 0 && k is >= 3 and <= 4 ? 10 : Rack(t) && Math.Abs(s) == 1 ? 0.3 : 0, 5, 10, line: 2), -4));
         spots.Add(Spot("row-ends", L120Best(rings, Stand, (t, k, s) => t.Variant == L120RowEnd ? (k is >= 2 and <= 4 ? 4 : 1) : 0, 6, 8, line: 1), 4));
         spots.Add(Spot("storage", L120Best(rings, Stand, (t, k, s) => t.Variant == L120Shelf ? 1 : t.Variant is L120Kvm or L120Mop ? 2 : 0, 7, 8), -8));
-        spots.Add(Spot("floor-hole", L120Best(rings, Stand, (t, k, s) => t.Depth == L120PanelHole && t.Variant == 0 && k == 2 && s == 0 ? 10 : t.Variant == L120Lifter && k <= 3 ? 4 : t.Variant == L120Debris ? 1 : 0, 3, 10), -40));
+        spots.Add(Spot("floor-hole", L120Best(rings, Stand, (t, k, s) => t.Depth == L120PanelHole && t.Variant == 0 && k == 2 && s == 0 ? 10 : t.Variant == L120Lifter && k <= 3 ? 4 : t.Variant == L120Debris ? 1 : 0, 3, 10, line: 3), -35));
 
         // Round 4 (the asset-quality pass, tools/gen_120_r4*.py): racks up close behind their perforated doors, a storage array, a
         // network rack's patch cords, down a hot aisle between the racks' backs, a rack torn open, the fire suppression bank, a
@@ -84,7 +84,7 @@ public partial class WorldLayout
         spots.Add(Spot("rack-network", L120Best(rings, Stand, (t, k, s) => k == 2 && Math.Abs(s) <= 1 && t.Variant == L120Rack && t.Detail is L120RackNet or L120RackNetLit ? 2 : 0, 2, 6, line: 1), -8));
         spots.Add(Spot("hot-aisle", L120Best(rings, t => Stand(t) && t.Zone == (byte)L120Zone.Hot, (t, k, s) => Math.Abs(s) == 1 && Rack(t) ? 1 : 0, 6, 10, line: 5), -2));
         spots.Add(Spot("rack-torn", L120Best(rings, Stand, (t, k, s) => k == 2 && s == 0 && t.Variant == L120Wreck && t.Detail == L120WreckTorn ? 6 : k == 2 && Math.Abs(s) == 1 && t.Variant == L120Wreck ? 1 : 0, 2, 6, line: 1), 4));
-        spots.Add(Spot("fire-suppression", L120FacingView(rings, t => t.Variant == L120FireSup, 3), 12));
+        spots.Add(Spot("fire-suppression", L120FacingView(rings, t => t.Variant == L120FireSup, 2), 6));
         spots.Add(Spot("tape-library", L120Best(rings, Stand, (t, k, s) => k is 2 or 3 && Math.Abs(s) <= 1 && t.Variant == L120TapeLib ? 3 : 0, 3, 6, line: 1), 6));
         spots.Add(Spot("noc-consoles", L120FacingView(rings, t => t.Variant == L120Terminal && t.Detail == L120TermConsoleGlitch, 3)
             ?? L120FacingView(rings, t => t.Variant == L120Terminal && t.Detail == L120TermConsole, 3), -14));
