@@ -136,11 +136,11 @@ def textures():
     TX.save(_img(v), "r4-bridgeview")
     gl = np.zeros((S, S, 4))
     gl[..., :3] = (170, 196, 204)
-    gl[..., 3] = 70
-    for k in range(0, S, 1):
-        x = (k * 3) % S
-        gl[k, x:x + 2, :3] += 40
-        gl[k, x:x + 2, 3] = 110
+    gl[..., 3] = 60
+    for k in range(0, S):   # one soft diagonal sheen, not streaks
+        x = (k + 6) % S
+        gl[k, x:x + 3, :3] += 30
+        gl[k, x:x + 3, 3] = 84
     TX.save(Image.fromarray(np.clip(gl, 0, 255).astype(np.uint8), "RGBA"), "r4-glass")
     led = Image.new("RGBA", (S, S), (250, 246, 226, 255))
     TX.save(led, "r4-led")
@@ -256,6 +256,12 @@ def textures():
     for y in (13, 18, 23):
         d.rectangle((3, y, 28, y + 1), fill=(60, 60, 64, 255))
     TX.save(tag, "r4-tag")
+    # a first-class lounge's cognac leather: a soft grain, a little shine on the top edge, darker in the creases
+    lea = M.noise_hv((132, 74, 40), 4, s + 70, S, 5, (8, 4))
+    a = _arr(lea)
+    a[0:2, :, :3] += 16
+    a[30:32, :, :3] -= 18
+    TX.save(_img(a), "r4-cognac")
     # a restroom mirror: the cool grey of the room behind, a pale diagonal sheen, a little desilvering at the foot
     mi = np.zeros((S, S, 4))
     mi[..., 3] = 255
@@ -275,6 +281,12 @@ def textures():
     a[0, :, :3] -= 20
     a[:, 0, :3] -= 20
     TX.save(_img(a), "r4-canopy")
+    a = _arr(M.noise_hv((92, 44, 142), 2, s + 41, S, 3, (16, 8)))
+    a[0, :, :3] -= 20
+    a[:, 0, :3] -= 20
+    TX.save(_img(a), "r4-canopyplain")
+    # the roof lights between the frame's tubes: gen_36_detail.py's overcast skylight, its mullions as the deck's
+    TX.save(Image.open(os.path.join(os.path.dirname(TX.TEX), "l36-finish-skylight.png")).convert("RGBA"), "r4-skydeck")
     # the hall's travertine (gen_36_detail.py's l36-finish-stone), for the fire cabinet's wall cube
     TX.save(Image.open(os.path.join(os.path.dirname(TX.TEX), "l36-finish-stone.png")).convert("RGBA"), "r4-stone")
 
@@ -322,6 +334,13 @@ def frame(q):
     diag["rotationZ"] = round(tilt, 3)
     diag["rotationY"] = round(yaw, 3)
     els.append(diag)
+    return els
+
+
+def framesky(q):
+    """(round 4) A space-frame block whose deck is a roof light: the overcast sky through the glazing, glowing."""
+    els = frame(q)
+    els[0] = B("Deck", (0, 13, 0), (16, 16, 16), "r4-skydeck", faces=("down",), glow=120)
     return els
 
 
@@ -387,7 +406,7 @@ def bridge(part):
                 B("Sill", (0, 0, 1.5), (16, 2, 16), "r4-bridgepanel", faces=("north", "up")),
                 B("SillCap", (0, 1.75, 1), (16, 2.25, 8), "darksteel", faces=("north", "up")),
                 B("Header", (0, 14, 1.5), (16, 16, 16), "r4-bridgepanel", faces=("north", "down")),
-                B("Mullion", (0, 2, 1.5), (0.75, 14, 15.5), "darksteel", faces=("north", "east", "west")),
+                B("Mullion", (0, 2, 1.5), (0.75, 14, 7.5), "darksteel", faces=("north", "east", "west")),
                 B("BeadT", (0.75, 13.5, 7), (16, 14, 7.5), "darksteel", faces=("north", "down")),
                 B("BeadB", (0.75, 2, 7), (16, 2.5, 7.5), "darksteel", faces=("north", "up")),
                 B("JambIn", (0, 2, 8), (16, 14, 15.5), "darksteel", faces=("up",)), pane]
@@ -514,6 +533,22 @@ def luggage(kind):
             B("Wheel0", (3.5, 0, 9.5), (5, 1, 11), "rubber"), B("Wheel1", (11, 0, 9.5), (12.5, 1, 11), "rubber"),
             B("Wheel2", (3.5, 0, 5), (5, 1, 6.5), "rubber"), B("Wheel3", (11, 0, 5), (12.5, 1, 6.5), "rubber"),
             B("Tag", (8, 11, 4.85), (10, 13.5, 5), "r4-tag", faces=("north", "south"))]
+
+
+def sofa(part):
+    """(round 4) Half of a first-class lounge sofa, the sitter facing north: cognac leather, a plinth on chrome feet, a deep
+    seat cushion and a back cushion leaning on the padded back, the arm at the outer end (left: the arm east, right: west)."""
+    els = [B("Plinth", (0, 1.5, 3), (16, 4, 15.5), "black", faces=no("up")),
+           B("Seat", (0, 4, 2), (16, 8.5, 13), {"top": "r4-cognac", "all": "r4-cognac"}),
+           B("SeatSeam", (7.85, 8.5, 2.5), (8.15, 8.6, 12.5), "black", faces=("up",)),
+           B("Back", (0, 4, 13), (16, 18, 16), "r4-cognac"),
+           B("BackPiping", (0, 18, 13.25), (16, 18.5, 15.75), "black", faces=no("down"))]
+    els += P.turned([B("BackCushion", (0.25, 8.5, 10.5), (15.75, 17, 13), "r4-cognac")], rx=-8, origin=(8, 8.5, 13))
+    for i, (x, z) in enumerate(((1, 3.5), (14, 3.5), (1, 13.5), (14, 13.5))):
+        els.append(B(f"Foot{i}", (x, 0, z), (x + 1, 1.5, z + 1), "chrome", faces=no("down")))
+    arm = [B("Arm", (13, 4, 2), (16, 12.5, 16), "r4-cognac"),
+           B("ArmRoll", (13.25, 12.5, 2.25), (15.75, 13.25, 15.75), "r4-cognac", faces=no("down"))]
+    return els + (arm if part == "left" else P.mirror_x(arm))
 
 
 def coffee():
@@ -646,6 +681,9 @@ def blocks():
             "Level 36 (round 4): a space-frame ceiling block with a linear pendant light hung from it (on: gives light; high: "
             "brighter, for the tall halls; lit: looks on, gives none; off: dead)", boxes=full, rot="none", material="Metal",
             sounds=P.METAL, data={"attributes": {"l36structure": True}, "lightHsvByType": {"*-on": [8, 1, 18], "*-high": [8, 1, 20]}})
+    P.block("l36-framesky", [("q", ("ee", "oe", "eo", "oo"))], lambda v: framesky(v["q"]),
+            "Level 36 (round 4): a space-frame ceiling block whose deck is a roof light (overcast sky, glowing)",
+            boxes=full, rot="none", material="Glass", sounds=P.GLASS, data={"attributes": {"l36structure": True}, "lightHsv": [5, 1, 13]})
     for code, fn, what in (("l36-colfoot", colfoot, "a stainless plinth at its foot"), ("l36-colhead", colhead, "a stepped capital flaring into the ceiling")):
         P.block(code, [("quad", ("nw", "ne", "sw", "se"))], lambda v, fn=fn: fn(v["quad"]),
                 f"Level 36 (round 4): a 2 x 2 column's clad block with {what} on its two outer faces (quad: the block's corner "
@@ -671,6 +709,9 @@ def blocks():
             "a canvas duffel, a folded garment bag, a spinner standing with its handle out (nothing in them: the cases you can "
             "open are the mod's own suitcases)", boxes=lambda v: [(0.1, 0, 0.1, 0.9, 0.95 if v["kind"] == "upright" else 0.45, 0.9)],
             material="Cloth", sounds=P.CLOTH)
+    P.block("l36-sofa", [("part", ("left", "right")), ("side", SIDES)], lambda v: sofa(v["part"]),
+            "Level 36 (round 4): half of a first-class lounge sofa in cognac leather (left / right as Level 3999's couch halves)",
+            boxes=[(0, 0, 0.12, 1, 0.53, 1), (0, 0, 0.8, 1, 1.1, 1)], sel=[(0, 0, 0.12, 1, 1.15, 1)], material="Cloth", sounds=P.CLOTH)
     P.block("l36-magrack", [("side", SIDES)], lambda v: magrack(),
             "Level 36 (round 4): a newsstand's magazine rack, four sloping tiers of covers (every one of them the same week's)",
             boxes=[(0, 0, 0.25, 1, 1.6, 1)], material="Metal", sounds=P.METAL)
@@ -696,9 +737,11 @@ def blocks():
             "the way it points (the handle behind)", boxes=[(0.15, 0, 0, 0.85, 0.6, 1)], sel=[(0.15, 0, 0, 0.85, 1.15, 1)],
             material="Metal", sounds=P.METAL)
     tex = lambda n: {"base": "backrooms:block/36/props/" + n}
-    cube_block("l36-canopy", [], {"all": {"base": "backrooms:block/36/l36-wall-purple"}, "down": tex("r4-canopy")},
-               "Level 36 (round 4): a Travel Agency kiosk's canopy, purple gloss, a downlight in its soffit",
-               extra={"lightHsv": [8, 2, 11], "lightAbsorption": 0})
+    cube_block("l36-canopy", [{"code": "kind", "states": ["plain", "lit"]}],
+               {"*-plain": {"all": {"base": "backrooms:block/36/l36-wall-purple"}, "down": tex("r4-canopyplain")},
+                "*-lit": {"all": {"base": "backrooms:block/36/l36-wall-purple"}, "down": tex("r4-canopy")}},
+               "Level 36 (round 4): a Travel Agency kiosk's canopy, purple gloss (plain), a downlight in its soffit every other block (lit)",
+               extra={"lightHsvByType": {"*-lit": [8, 2, 11]}, "lightAbsorption": 0})
     cube_block("l36-bridgefloor", [], {"all": tex("r4-bridgefloor")},
                "Level 36 (round 4): a jet bridge's studded rubber floor", extra={"sounds": P.CLOTH})
     cube_block("l36-bridgeceil", [], {"all": tex("r4-bridgeceil")},
@@ -708,14 +751,16 @@ def blocks():
 NAMES = {
     "block-l36-frame-*": "Space-frame Ceiling",
     "block-l36-framelight-*": "Space-frame Light",
+    "block-l36-framesky-*": "Space-frame Roof Light",
     "block-l36-colfoot-*": "Column Plinth",
     "block-l36-colhead-*": "Column Capital",
     "block-l36-bridge-*": "Jet Bridge Wall",
     "block-l36-bridgefloor": "Jet Bridge Floor",
-    "block-l36-canopy": "Kiosk Canopy",
+    "block-l36-canopy-*": "Kiosk Canopy",
     "block-l36-bridgeceil": "Jet Bridge Ceiling",
     "block-l36-gallery-*": "Upper Gallery",
     "block-l36-magrack-*": "Magazine Rack",
+    "block-l36-sofa-*": "Lounge Sofa",
     "block-l36-luggage-*": "Unclaimed Luggage",
     "block-l36-prayermat-*": "Prayer Mat",
     "block-l36-infopylon-*": "Information Pylon",

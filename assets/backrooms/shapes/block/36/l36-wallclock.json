@@ -1,0 +1,351 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"clock": "backrooms:block/36/l36-wallclock-stopped",
+		"darksteel": "backrooms:block/36/props/darksteel",
+		"panel": "backrooms:block/36/l36-wall-panel",
+		"steel": "backrooms:block/36/props/steel"
+	},
+	"elements": [
+		{
+			"name": "Cube",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"south": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#panel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Face",
+			"from": [
+				1.5,
+				1.5,
+				-1.25
+			],
+			"to": [
+				14.5,
+				14.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#clock",
+					"uv": [
+						1.5,
+						1.5,
+						14.5,
+						14.5
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.25,
+						13.0
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.25,
+						13.0
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.25
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.25
+					]
+				}
+			}
+		},
+		{
+			"name": "BezelT",
+			"from": [
+				1.25,
+				14.5,
+				-1.5
+			],
+			"to": [
+				14.75,
+				14.75,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BezelB",
+			"from": [
+				1.25,
+				1.25,
+				-1.5
+			],
+			"to": [
+				14.75,
+				1.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.5,
+						1.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.5,
+						1.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BezelL",
+			"from": [
+				1.25,
+				1.5,
+				-1.5
+			],
+			"to": [
+				1.5,
+				14.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13.0
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						13.0
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						13.0
+					]
+				}
+			}
+		},
+		{
+			"name": "BezelR",
+			"from": [
+				14.5,
+				1.5,
+				-1.5
+			],
+			"to": [
+				14.75,
+				14.5,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						13.0
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						13.0
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						1.5,
+						13.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Hanger",
+			"from": [
+				7,
+				14.75,
+				-0.75
+			],
+			"to": [
+				9,
+				16,
+				0
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						2,
+						1.25
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						1.25
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.75,
+						1.25
+					]
+				}
+			}
+		}
+	]
+}

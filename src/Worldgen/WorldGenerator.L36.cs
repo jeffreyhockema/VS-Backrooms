@@ -42,8 +42,9 @@ public sealed partial class WorldGenerator
     private readonly int[] l36Frame = new int[4], l36ColFoot = new int[4], l36ColHead = new int[4], l36Coffee = new int[4], l36Pastry = new int[4],
         l36Till = new int[4], l36Trolley = new int[4];
     private readonly int[,] l36IslandRim = new int[2, 4], l36BridgeWall = new int[3, 4];
-    private int l36BridgeFloor, l36BridgeCeil, l36Stool, l36Canopy;
+    private int l36BridgeFloor, l36BridgeCeil, l36Stool, l36Canopy, l36CanopyLit, l36ColumnWall;
     private readonly int[,] l36Gallery = new int[2, 4], l36FrameLight = new int[4, 4];
+    private readonly int[] l36FrameSky = new int[4];
     private readonly int[] l36MagRack = new int[4], l36FireCab = new int[4], l36InfoPylon = new int[4];
     private readonly int[,] l36PrayerMat = new int[2, 4], l36Luggage = new int[5, 4];
     private readonly HashSet<string> l36Missing = new();
@@ -97,6 +98,7 @@ public sealed partial class WorldGenerator
         for (int i = 0; i < 4; i++)
         {
             l36Frame[i] = L36Block("l36-frame-" + parity[i], l36CeilSteel);
+            l36FrameSky[i] = L36Block("l36-framesky-" + parity[i], l36Skylight);
             string[] lightStates = { "on", "high", "lit", "off" };
             for (int k = 0; k < 4; k++) l36FrameLight[i, k] = L36Block($"l36-framelight-{parity[i]}-{lightStates[k]}", l36Light[0]);
             l36ColFoot[i] = L36Block("l36-colfoot-" + quarters[i], l36Panel);
@@ -105,7 +107,9 @@ public sealed partial class WorldGenerator
         l36BridgeFloor = L36Block("l36-bridgefloor", l36Carpet[3]);
         l36BridgeCeil = L36Block("l36-bridgeceil", l36CeilTile);
         l36Stool = L36Block("l36-stool");
-        l36Canopy = L36Block("l36-canopy", l36Purple);
+        l36Canopy = L36Block("l36-canopy-plain", l36Purple);
+        l36CanopyLit = L36Block("l36-canopy-lit", l36Purple);
+        l36ColumnWall = L36Block("l36-wall-column", l36Panel);
         string[] quads = { "nw", "ne", "sw", "se" }, colPosters = { "p0", "p3", "p5", "p6" }, boxRows = { "lower", "upper" };
         for (int q = 0; q < 4; q++)
         {
@@ -138,8 +142,9 @@ public sealed partial class WorldGenerator
             l36Perfume[f] = L36Block($"l36-perfume-{side}");
             l36CabinSeat[f] = L36Block($"l36-cabinseat-{side}");
             l36LostFound[f] = L36Block($"l36-lostfound-{side}");
-            l36Couch[f] = L36Block($"l3999-couch-left-{side}");
-            l36Couch[4 + f] = L36Block($"l3999-couch-right-{side}");
+            // (round 4) the lounge's own cognac leather sofas (Level 3999's couch halves as the stand-in)
+            l36Couch[f] = L36Block($"l36-sofa-left-{side}", L36Block($"l3999-couch-left-{side}"));
+            l36Couch[4 + f] = L36Block($"l36-sofa-right-{side}", L36Block($"l3999-couch-right-{side}"));
             l36Shutter[f] = L36Block($"l3999-shutter-lower-{side}", l36Panel);
             l36Shutter[4 + f] = L36Block($"l3999-shutter-upper-{side}", l36Panel);
             // (links) The door under the airplane sign, in the baggage wall and in Levels 9 and 11; the restroom sink
@@ -206,16 +211,30 @@ public sealed partial class WorldGenerator
             // The region's rim (no zone of ours): the Absolute Limit, static from the floor to well over any ceiling
             if (t.Zone == 0) return rel <= 15 ? l36Static[noise] : concreteId;
             int high = t.Height > 0 ? t.Height : 9;
-            if (rel == 0 || rel > high) return concreteId;
+            if (rel == 0) return concreteId;
+            bool column = t.Overhead == Overheads.L36Art && t.Roof == L36.L36OnAllFaces;
+            if (rel > high)
+            {
+                // (round 4) Beside a space frame (not a full cube) the wall's block at the frame's height shows: dress it, and
+                // a column's capital goes there, under the deck
+                if (rel != high + 1 || stat || !L36FrameBeside(gx, gz, high)) return concreteId;
+                if (column && L36ColumnQuad(gx, gz) is int cq and >= 0) return l36ColHead[cq];
+                return column ? l36ColumnWall : l36Panel;
+            }
             if (stat) return l36Static[noise];
-            // (round 4) A column's foot and head; the jet bridge's walls, faced toward the bridge
-            if (t.Overhead == Overheads.L36Art && t.Roof == L36.L36OnAllFaces && (rel == 1 || rel == high))
+            // (round 4) A column's foot and head (white cladding between, round its posters); the jet bridge's walls, faced
+            // toward the bridge
+            if (column)
             {
                 int quad = L36ColumnQuad(gx, gz);
-                if (quad >= 0) return rel == 1 ? l36ColFoot[quad] : l36ColHead[quad];
+                if (quad >= 0 && rel == 1) return l36ColFoot[quad];
+                if (quad >= 0 && rel == high && !L36FrameBeside(gx, gz, high)) return l36ColHead[quad];
+                int row = rel - t.Stack;
+                if (quad >= 0 && (row < 0 || row >= L36.L36ArtRows[t.Depth % L36.L36ArtKinds.Length])) return l36ColumnWall;
             }
             // (round 4) The gallery round the tall halls: a slab edge with its balustrade at 7, the upper level's glazing over it
-            if (rel is >= 7 and <= 9 && high >= 9 && (t.Detail & L36.L36StoneBit) != 0 && t.Overhead == 0)
+            if (rel is >= 7 and <= 9 && high >= 9 && t.Overhead == 0 && ((t.Detail & L36.L36StoneBit) != 0
+                || (t.Detail & L36.L36MatMask) is Mat.Glass or Mat.Plaster or Mat.Panel or Mat.ShopSign))
             {
                 int face = L36HallFace(gx, gz, high);
                 if (face >= 0) return l36Gallery[rel == 7 ? 0 : 1, face];
@@ -285,10 +304,13 @@ public sealed partial class WorldGenerator
     {
         if (t.Zone == (byte)Zone.Bridge) return t.Ceiling == CeilingKind.L36Ceiling || t.Ceiling == 0 ? l36BridgeCeil : L36Ceiling(t);
         int c = L36Ceiling(t);
+        // a kiosk's canopy: a downlight every other block each way
+        if (c == l36Canopy && (gx & 1) == 0 && (gz & 1) == 0) return l36CanopyLit;
         if (t.Zone is (byte)Zone.Baggage or (byte)Zone.Concourse or (byte)Zone.Pier or (byte)Zone.FoodCourt or (byte)Zone.Street)
         {
             int q = (gx & 1) + 2 * (gz & 1);
             if (c == l36CeilSteel) return l36Frame[q];
+            if (c == l36Skylight) return l36FrameSky[q];
             // the panels as pendants hung from the frame
             if (c == l36Light[0]) return l36FrameLight[q, 0];
             if (c == l36LightHigh) return l36FrameLight[q, 1];
@@ -310,14 +332,24 @@ public sealed partial class WorldGenerator
     /// <summary>(round 4) The face of a hall's wall toward a hall at least <paramref name="high"/> tall (a facing index), or -1 (none, or more than one).</summary>
     private int L36HallFace(int gx, int gz, int high)
     {
+        // (not the Meeting Place: its round wall steps, and a stepped tile has two faces on the atrium)
         static bool Hall(in Tile n, int h) => n.Kind == TileKind.Floor && n.Height >= h && n.Zone is (byte)Zone.Concourse or (byte)Zone.CheckIn
-            or (byte)Zone.Meeting or (byte)Zone.Junction or (byte)Zone.Pier or (byte)Zone.Street;
+            or (byte)Zone.Junction or (byte)Zone.Pier or (byte)Zone.Street;
         int face = -1, count = 0;
         if (Hall(layout.TileAt(gx, gz - 1), high)) { face = Facing(ArchPier.North); count++; }
         if (Hall(layout.TileAt(gx + 1, gz), high)) { face = Facing(ArchPier.East); count++; }
         if (Hall(layout.TileAt(gx, gz + 1), high)) { face = Facing(ArchPier.South); count++; }
         if (Hall(layout.TileAt(gx - 1, gz), high)) { face = Facing(ArchPier.West); count++; }
         return count == 1 ? face : -1;
+    }
+
+    /// <summary>(round 4) Whether a hall roofed by the space frame lies beside a wall (a floor tile beside it <paramref name="high"/> tall in
+    /// one of the frame's zones): the frame hangs inside the ceiling block, so the wall's block at that height shows.</summary>
+    private bool L36FrameBeside(int gx, int gz, int high)
+    {
+        static bool F(in Tile n, int h) => n.Kind == TileKind.Floor && n.Height == h
+            && n.Zone is (byte)Zone.Baggage or (byte)Zone.Concourse or (byte)Zone.Pier or (byte)Zone.FoodCourt or (byte)Zone.Street;
+        return F(layout.TileAt(gx + 1, gz), high) || F(layout.TileAt(gx - 1, gz), high) || F(layout.TileAt(gx, gz + 1), high) || F(layout.TileAt(gx, gz - 1), high);
     }
 
     /// <summary>(round 4) The face of a jet-bridge wall toward the bridge (a facing index), or -1 (a corner, or no bridge beside it).</summary>

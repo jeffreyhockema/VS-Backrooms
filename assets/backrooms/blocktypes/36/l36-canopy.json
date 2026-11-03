@@ -1,12 +1,31 @@
-// Level 36 (round 4): a Travel Agency kiosk's canopy, purple gloss, a downlight in its soffit
+// Level 36 (round 4): a Travel Agency kiosk's canopy, purple gloss (plain), a downlight in its soffit every other block (lit)
 {
 	"code": "l36-canopy",
-	"textures": {
-		"all": {
-			"base": "backrooms:block/36/l36-wall-purple"
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"plain",
+				"lit"
+			]
+		}
+	],
+	"texturesByType": {
+		"*-plain": {
+			"all": {
+				"base": "backrooms:block/36/l36-wall-purple"
+			},
+			"down": {
+				"base": "backrooms:block/36/props/r4-canopyplain"
+			}
 		},
-		"down": {
-			"base": "backrooms:block/36/props/r4-canopy"
+		"*-lit": {
+			"all": {
+				"base": "backrooms:block/36/l36-wall-purple"
+			},
+			"down": {
+				"base": "backrooms:block/36/props/r4-canopy"
+			}
 		}
 	},
 	"blockmaterial": "Stone",
@@ -22,11 +41,13 @@
 	"attributes": {
 		"l36structure": true
 	},
-	"lightHsv": [
-		8,
-		2,
-		11
-	],
+	"lightHsvByType": {
+		"*-lit": [
+			8,
+			2,
+			11
+		]
+	},
 	"creativeinventory": {
 		"general": [
 			"*"

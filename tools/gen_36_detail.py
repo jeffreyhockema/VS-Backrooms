@@ -496,7 +496,9 @@ def surface_blocks():
             "Level 36: round 3's finishes: coffer (a coffered ceiling), wood (oak slats), stone (a travertine dado on the "
             "walls of the public halls) and stonetop (its top course under a steel trim), skylight (overcast sky through "
             "the mullions of a roof light, glowing)", by_type=True,
-            extra={"vertexFlagsByType": {"*-skylight": {"glowLevel": 120}}})
+            extra={"vertexFlagsByType": {"*-skylight": {"glowLevel": 120}},
+                   # (round 4) daylight through the roof lights (the Meeting Place's floor was dark under its skylight)
+                   "lightHsvByType": {"*-skylight": [5, 1, 13]}})
 
 
 # ======================================================================== Props

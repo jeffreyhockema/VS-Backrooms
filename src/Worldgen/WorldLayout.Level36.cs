@@ -308,8 +308,9 @@ public sealed partial class WorldLayout
                 Tile n = L36Raw(gx + dx, gz + dz);
                 if (n.Kind == TileKind.Wall) continue;
                 height = Math.Max(height, n.Height);
+                // (round 4: the holdrooms too, so their side walls are not bare panel)
                 if ((L36Zone)n.Zone is L36Zone.Concourse or L36Zone.Junction or L36Zone.Pier or L36Zone.Street or L36Zone.Meeting or L36Zone.CheckIn
-                    or L36Zone.Baggage) toHall = true;
+                    or L36Zone.Baggage or L36Zone.Holdroom) toHall = true;
                 var (r, m) = (L36Zone)n.Zone switch
                 {
                     L36Zone.Restroom => (6, L36Mat.WallTile),
@@ -353,6 +354,8 @@ public sealed partial class WorldLayout
             // (links) Every fourth module a door under an airplane sign, out to the city or the Suburbs (locked, but for one
             // somebody has come in by)
             else if (k == 24 && Hashing.Mod(module, 4) == 3 && L36IsCarousel(module)) { w.Detail = L36Mat.LandDoor; w.Pier = ArchPier.East; }
+            // (round 4) posters along the baggage wall between the carousels (the Agency's, the ads, the baggage notice)
+            else if (k is 4 or 19) L36WallArt(ref w, ArchPier.East, 0, (byte)(L36ArtPoster + Hashing.Mod(module * 5 + k, 8)), 2);
             return w;
         }
         if (u <= L36BaggageEnd) return L36Baggage(gx, gz, u, k, module, r);

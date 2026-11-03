@@ -407,14 +407,24 @@ def blocktypes(sh):
            "blockmaterial": "Stone", "sidesolid": {"all": True}, "sideopaque": {"all": True},
            "lightAbsorption": 99, "resistance": 3, "sounds": STONE, "attributes": dict(STRUCT)})
 
-    kt = {}
-    for k in ("nohands", "stopped"):
-        for s in SIDES:
-            kt[f"*-{k}-{s}"] = {"all": tex("l36-wall-panel"), s: tex("l36-wallclock-" + k)}
-    cube("l36-wallclock", [{"code": "kind", "states": ["nohands", "stopped"]}, {"code": "side", "states": SIDES}], kt,
-         "Level 36: a panel wall with a round station clock on its <side> face: no hands at all, or stopped at 3:47 "
-         "under cracked glass (clocks here freeze)", by_type=True,
-         extra={"creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]}})
+    # (round 4) the clock stands out of the wall: its face in a dark case 1.25 deep, a steel bezel round it, the hanger above
+    face = box("Face", (1.5, 1.5, -1.25), (14.5, 14.5, 0), {"front": "clock", "all": "darksteel"}, faces=("north", "east", "west", "up", "down"))
+    face["faces"]["north"]["uv"] = [1.5, 1.5, 14.5, 14.5]
+    clock = shape("l36-wallclock", [box("Cube", (0, 0, 0), (16, 16, 16), {"all": "panel"}), face,
+                                    box("BezelT", (1.25, 14.5, -1.5), (14.75, 14.75, 0), "steel", faces=("north", "up", "down")),
+                                    box("BezelB", (1.25, 1.25, -1.5), (14.75, 1.5, 0), "steel", faces=("north", "up", "down")),
+                                    box("BezelL", (1.25, 1.5, -1.5), (1.5, 14.5, 0), "steel", faces=("north", "east", "west")),
+                                    box("BezelR", (14.5, 1.5, -1.5), (14.75, 14.5, 0), "steel", faces=("north", "east", "west")),
+                                    box("Hanger", (7, 14.75, -0.75), (9, 16, 0), "darksteel", faces=("north", "east", "west"))],
+                  {"clock": "l36-wallclock-stopped"})
+    block("l36-wallclock", "Level 36: a panel wall with a station clock standing out of its <side> face: no hands at all, or "
+          "stopped at 3:47 under cracked glass (clocks here freeze)",
+          {"variantgroups": [{"code": "kind", "states": ["nohands", "stopped"]}, {"code": "side", "states": SIDES}],
+           "shapeByType": rotated_shapes("*", clock),
+           "texturesByType": {f"*-{k}-*": {"clock": tex("l36-wallclock-" + k)} for k in ("nohands", "stopped")},
+           "creativeinventory": {"general": ["*-north"], "backrooms": ["*-north"]},
+           "blockmaterial": "Stone", "drawtype": "json", "sidesolid": {"all": True}, "sideopaque": {"all": True},
+           "lightAbsorption": 99, "resistance": 3, "sounds": STONE, "attributes": dict(STRUCT)})
 
     cube("l36-ceiling", [{"code": "kind", "states": ["steel", "tile", "dark", "cabin"]}], {"all": tex("l36-ceiling-{kind}")},
          "Level 36: ceilings (steel: the concourses' linear metal baffles; tile: offices and restrooms; dark: the open black "

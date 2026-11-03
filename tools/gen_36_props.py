@@ -1077,7 +1077,9 @@ def sink(state):
            B("Spout", (7.5, 14.5, 10.25), (8.5, 15.25, 13.5), "chrome", faces=no("south")),
            B("Lever", (7.75, 15.25, 13.75), (8.25, 15.75, 14.75), "chrome", faces=no("down")),
            # (round 4) the mirror over it on the wall, in a steel frame, a soap dispenser beside the tap
-           B("MirrorFrame", (1, 18, 15.25), (15, 31, 16), "chrome", faces=("north", "up", "down", "east", "west")),
+           # (the basins stand free in the middle of the restrooms: the mirror is on a panel standing up from the splashback)
+           B("MirrorPanel", (0.5, 16, 15.5), (15.5, 31.75, 16), "white-side", faces=("south", "east", "west", "up")),
+           B("MirrorFrame", (1, 18, 15.25), (15, 31, 15.5), "chrome", faces=("north", "up", "down", "east", "west")),
            B("Mirror", (1.75, 18.75, 15.1), (14.25, 30.25, 15.25), "r4-mirror", faces=("north",)),
            B("Soap", (11.5, 17, 14.25), (13.5, 21, 15.25), "white", faces=no("south")),
            B("SoapNozzle", (12.25, 16.5, 13.5), (12.75, 17, 14.5), "chrome", faces=no("south"))]
