@@ -1,4 +1,4 @@
-// Level 31: the arcade's green-card dispenser: a purple metal box on a short post, a big blue button over a card catcher; faces the side
+// Level 31: the arcade's green-card machine: a purple cabinet under a lit GREEN CARDS header, a bill acceptor, a big lit button over the card tray; faces the side
 {
 	"code": "l31-dispenser",
 	"variantgroups": [
@@ -55,77 +55,82 @@
 	},
 	"selectionboxByType": {
 		"l31-dispenser-north": {
-			"x1": 0.125,
+			"x1": 0.19,
 			"y1": 0,
-			"z1": 0.3,
-			"x2": 0.875,
+			"z1": 0.25,
+			"x2": 0.81,
 			"y2": 1,
-			"z2": 0.7
+			"z2": 0.72
 		},
 		"l31-dispenser-east": {
-			"x1": 0.125,
+			"x1": 0.19,
 			"y1": 0,
-			"z1": 0.3,
-			"x2": 0.875,
+			"z1": 0.25,
+			"x2": 0.81,
 			"y2": 1,
-			"z2": 0.7,
+			"z2": 0.72,
 			"rotateY": 270
 		},
 		"l31-dispenser-south": {
-			"x1": 0.125,
+			"x1": 0.19,
 			"y1": 0,
-			"z1": 0.3,
-			"x2": 0.875,
+			"z1": 0.25,
+			"x2": 0.81,
 			"y2": 1,
-			"z2": 0.7,
+			"z2": 0.72,
 			"rotateY": 180
 		},
 		"l31-dispenser-west": {
-			"x1": 0.125,
+			"x1": 0.19,
 			"y1": 0,
-			"z1": 0.3,
-			"x2": 0.875,
+			"z1": 0.25,
+			"x2": 0.81,
 			"y2": 1,
-			"z2": 0.7,
+			"z2": 0.72,
 			"rotateY": 90
 		}
 	},
 	"drops": [],
 	"collisionboxByType": {
 		"l31-dispenser-north": {
-			"x1": 0.125,
+			"x1": 0.19,
 			"y1": 0,
-			"z1": 0.3,
-			"x2": 0.875,
+			"z1": 0.25,
+			"x2": 0.81,
 			"y2": 1,
-			"z2": 0.7
+			"z2": 0.72
 		},
 		"l31-dispenser-east": {
-			"x1": 0.125,
+			"x1": 0.19,
 			"y1": 0,
-			"z1": 0.3,
-			"x2": 0.875,
+			"z1": 0.25,
+			"x2": 0.81,
 			"y2": 1,
-			"z2": 0.7,
+			"z2": 0.72,
 			"rotateY": 270
 		},
 		"l31-dispenser-south": {
-			"x1": 0.125,
+			"x1": 0.19,
 			"y1": 0,
-			"z1": 0.3,
-			"x2": 0.875,
+			"z1": 0.25,
+			"x2": 0.81,
 			"y2": 1,
-			"z2": 0.7,
+			"z2": 0.72,
 			"rotateY": 180
 		},
 		"l31-dispenser-west": {
-			"x1": 0.125,
+			"x1": 0.19,
 			"y1": 0,
-			"z1": 0.3,
-			"x2": 0.875,
+			"z1": 0.25,
+			"x2": 0.81,
 			"y2": 1,
-			"z2": 0.7,
+			"z2": 0.72,
 			"rotateY": 90
 		}
-	}
+	},
+	"lightHsv": [
+		22,
+		4,
+		4
+	]
 }

@@ -2,76 +2,129 @@
 	"textureWidth": 16,
 	"textureHeight": 16,
 	"textures": {
-		"cinema-top": "backrooms:block/31/cinema-top",
-		"mat-dark": "backrooms:block/31/mat-dark",
-		"mat-gunmetal": "backrooms:block/31/mat-gunmetal"
+		"r4-blackmetal": "backrooms:block/31/r4-blackmetal",
+		"r4-chrome": "backrooms:block/31/r4-chrome",
+		"r4-gunmetal": "backrooms:block/31/r4-gunmetal",
+		"r4-holder": "backrooms:block/31/r4-holder",
+		"r4-perf": "backrooms:block/31/r4-perf"
 	},
 	"elements": [
 		{
 			"name": "Seat",
 			"from": [
 				0,
-				6,
-				3
+				6.2,
+				3.4
 			],
 			"to": [
 				16,
-				7,
-				11
+				7.0,
+				11.4
 			],
 			"faces": {
 				"north": {
-					"texture": "#mat-gunmetal",
+					"texture": "#r4-gunmetal",
 					"uv": [
 						0,
 						0,
 						16,
-						1
+						0.8
 					]
 				},
 				"east": {
-					"texture": "#mat-gunmetal",
+					"texture": "#r4-gunmetal",
 					"uv": [
 						0,
 						0,
-						8,
-						1
+						8.0,
+						0.8
 					]
 				},
 				"south": {
-					"texture": "#mat-gunmetal",
+					"texture": "#r4-gunmetal",
 					"uv": [
 						0,
 						0,
 						16,
-						1
+						0.8
 					]
 				},
 				"west": {
-					"texture": "#mat-gunmetal",
+					"texture": "#r4-gunmetal",
 					"uv": [
 						0,
 						0,
-						8,
-						1
+						8.0,
+						0.8
 					]
 				},
 				"up": {
-					"texture": "#cinema-top",
+					"texture": "#r4-perf",
 					"uv": [
 						0,
 						0,
 						16,
-						8
+						8.0
 					]
 				},
 				"down": {
-					"texture": "#mat-gunmetal",
+					"texture": "#r4-gunmetal",
 					"uv": [
 						0,
 						0,
 						16,
-						8
+						8.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Roll",
+			"from": [
+				0,
+				5.6,
+				2.8
+			],
+			"to": [
+				16,
+				6.9,
+				3.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						1.3
+					]
+				},
+				"south": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						1.3
+					]
+				},
+				"up": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
 					]
 				}
 			}
@@ -80,196 +133,583 @@
 			"name": "Back",
 			"from": [
 				0,
-				7,
-				11
+				7.6,
+				11.0
 			],
 			"to": [
 				16,
-				11,
-				12
+				14.0,
+				11.8
 			],
 			"faces": {
 				"north": {
-					"texture": "#mat-gunmetal",
+					"texture": "#r4-perf",
 					"uv": [
 						0,
 						0,
 						16,
-						4
-					]
-				},
-				"east": {
-					"texture": "#mat-gunmetal",
-					"uv": [
-						0,
-						0,
-						1,
-						4
+						6.4
 					]
 				},
 				"south": {
-					"texture": "#mat-gunmetal",
+					"texture": "#r4-gunmetal",
 					"uv": [
 						0,
 						0,
 						16,
-						4
-					]
-				},
-				"west": {
-					"texture": "#mat-gunmetal",
-					"uv": [
-						0,
-						0,
-						1,
-						4
+						6.4
 					]
 				},
 				"up": {
-					"texture": "#mat-gunmetal",
+					"texture": "#r4-gunmetal",
 					"uv": [
 						0,
 						0,
 						16,
-						1
+						0.8
 					]
 				},
 				"down": {
-					"texture": "#mat-gunmetal",
+					"texture": "#r4-gunmetal",
 					"uv": [
 						0,
 						0,
 						16,
-						1
+						0.8
 					]
 				}
-			}
+			},
+			"rotationOrigin": [
+				8,
+				7.6,
+				11.4
+			],
+			"rotationX": 10
 		},
 		{
-			"name": "Ped",
+			"name": "BackRail",
 			"from": [
-				5,
-				0.6,
-				5
-			],
-			"to": [
-				11,
-				6,
-				10
-			],
-			"faces": {
-				"north": {
-					"texture": "#mat-gunmetal",
-					"uv": [
-						0,
-						0,
-						6,
-						5.4
-					]
-				},
-				"east": {
-					"texture": "#mat-gunmetal",
-					"uv": [
-						0,
-						0,
-						5,
-						5.4
-					]
-				},
-				"south": {
-					"texture": "#mat-gunmetal",
-					"uv": [
-						0,
-						0,
-						6,
-						5.4
-					]
-				},
-				"west": {
-					"texture": "#mat-gunmetal",
-					"uv": [
-						0,
-						0,
-						5,
-						5.4
-					]
-				},
-				"down": {
-					"texture": "#mat-gunmetal",
-					"uv": [
-						0,
-						0,
-						6,
-						5
-					]
-				}
-			}
-		},
-		{
-			"name": "PedFoot",
-			"from": [
-				4,
 				0,
-				4
+				13.6,
+				11.2
 			],
 			"to": [
-				12,
-				0.6,
-				11
+				16,
+				14.6,
+				12.4
 			],
 			"faces": {
 				"north": {
-					"texture": "#mat-dark",
+					"texture": "#r4-chrome",
 					"uv": [
 						0,
 						0,
-						8,
+						16,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#r4-chrome",
+					"uv": [
+						0,
+						0,
+						16,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#r4-chrome",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#r4-chrome",
+					"uv": [
+						0,
+						0,
+						16,
+						1.2
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				7.6,
+				11.4
+			],
+			"rotationX": 10
+		},
+		{
+			"name": "Post",
+			"from": [
+				7.4,
+				0.6,
+				6.6
+			],
+			"to": [
+				8.6,
+				6.2,
+				7.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						1.2,
+						5.6
+					]
+				},
+				"east": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						1.2,
+						5.6
+					]
+				},
+				"south": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						1.2,
+						5.6
+					]
+				},
+				"west": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						1.2,
+						5.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Arm",
+			"from": [
+				7.5,
+				5.4,
+				3.8
+			],
+			"to": [
+				8.5,
+				6.2,
+				11.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						7.8,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						7.8,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						7.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Strut",
+			"from": [
+				7.5,
+				6.2,
+				10.4
+			],
+			"to": [
+				8.5,
+				8.4,
+				11.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.2
+					]
+				},
+				"east": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2.2
+					]
+				},
+				"south": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.2
+					]
+				},
+				"west": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						0.8,
+						2.2
+					]
+				}
+			}
+		},
+		{
+			"name": "Foot",
+			"from": [
+				5.6,
+				0,
+				4.6
+			],
+			"to": [
+				10.4,
+				0.6,
+				9.8
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-blackmetal",
+					"uv": [
+						0,
+						0,
+						4.8,
 						0.6
 					]
 				},
 				"east": {
-					"texture": "#mat-dark",
+					"texture": "#r4-blackmetal",
 					"uv": [
 						0,
 						0,
-						7,
+						5.2,
 						0.6
 					]
 				},
 				"south": {
-					"texture": "#mat-dark",
+					"texture": "#r4-blackmetal",
 					"uv": [
 						0,
 						0,
-						8,
+						4.8,
 						0.6
 					]
 				},
 				"west": {
-					"texture": "#mat-dark",
+					"texture": "#r4-blackmetal",
 					"uv": [
 						0,
 						0,
-						7,
+						5.2,
 						0.6
 					]
 				},
 				"up": {
-					"texture": "#mat-dark",
+					"texture": "#r4-blackmetal",
 					"uv": [
 						0,
 						0,
-						8,
-						7
+						4.8,
+						5.2
+					]
+				}
+			}
+		},
+		{
+			"name": "BoltA",
+			"from": [
+				6.0,
+				0.6,
+				5.0
+			],
+			"to": [
+				6.6,
+				0.9,
+				5.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "BoltB",
+			"from": [
+				9.4,
+				0.6,
+				8.8
+			],
+			"to": [
+				10.0,
+				0.9,
+				9.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4-chrome",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Holder",
+			"from": [
+				6.6,
+				9.4,
+				12.6
+			],
+			"to": [
+				9.4,
+				10.2,
+				15.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						2.8,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						2.4,
+						0.8
+					]
+				},
+				"south": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						2.8,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						2.4,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#r4-holder",
+					"uv": [
+						0,
+						0,
+						16,
+						16
 					]
 				},
 				"down": {
-					"texture": "#mat-dark",
+					"texture": "#r4-gunmetal",
 					"uv": [
 						0,
 						0,
-						8,
-						7
+						2.8,
+						2.4
+					]
+				}
+			}
+		},
+		{
+			"name": "HolderArm",
+			"from": [
+				7.6,
+				8.4,
+				11.6
+			],
+			"to": [
+				8.4,
+				9.4,
+				13.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.0
+					]
+				},
+				"south": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.0
+					]
+				},
+				"down": {
+					"texture": "#r4-gunmetal",
+					"uv": [
+						0,
+						0,
+						0.8,
+						1.6
 					]
 				}
 			}

@@ -104,7 +104,7 @@ public sealed partial class WorldGenerator
                 l31Cabinet[c, f] = L31Block($"l3999-cabinet-{games[c]}-{side}");
             }
             l31DeadCab[f] = L31Block($"l3999-cabinet-dead-{side}");
-            l31Pinball[f] = L31Block($"l3999-pinball-{side}");
+            l31Pinball[f] = L31Block($"l31-pinball-{side}", L31Block($"l3999-pinball-{side}"));
             l31Claw[f] = L31Block($"l3999-claw-{side}");
             l31SkeeLane[f] = L31Block($"l3999-skeeball-lane-{side}");
             l31SkeeTarget[f] = L31Block($"l3999-skeeball-target-{side}");
@@ -122,6 +122,7 @@ public sealed partial class WorldGenerator
         }
         InitL31Detail();
         InitL31Round3();
+        InitL31Round4();
         InitL31Links();
     }
 
@@ -197,7 +198,7 @@ public sealed partial class WorldGenerator
             l31Juke[f] = L31Block($"l31-jukebox-{side}");
             l31Trophy[f] = L31Block($"l31-trophycase-{side}");
             l31MediaCab[f] = L31Block($"l31-mediacab-{side}");
-            l31Popcorn[f] = L31Block($"fun-popcorncart-{side}");
+            l31Popcorn[f] = L31Block($"l31-popcorn-{side}", L31Block($"fun-popcorncart-{side}"));
             l31PrizeCase[f] = L31Block($"l3999-prizecase-{side}", l31Prize[f]);
             l31PrizeWall[f] = L31Block($"l3999-prizewall-{side}");
             for (int k = 0; k < 4; k++) l31Plush[k, f] = L31Block($"l3999-plush-{plush[k]}-{side}");
@@ -289,6 +290,8 @@ public sealed partial class WorldGenerator
         if (t.Variant == L31.L31Props.Screen) return rel == air ? l31Screen[System.Math.Min((int)t.Stack, 2), Facing(t.Pier)] : 0;
         // The cinema's big TV on the wall, its top row at rel 3 and its bottom at rel 2
         if (t.Variant == L31.L31Props.Tv) return rel is 2 or 3 ? l31Tv[(rel == 3 ? 0 : 3) + System.Math.Min((int)t.Stack, 2), Facing(t.Pier)] : 0;
+        // (round 4) Level 120's CRAC unit, two high, its duct up to the ceiling
+        if (t.Variant == L31.L31Props.AirHandler && rel >= 1) return l31Crac[System.Math.Min(rel - 1, 2), Facing(t.Pier)];
         int sub = (t.Detail & L31.L31SubMask) >> L31.L31SubShift;
         // A cinema row raised a step or three; a flooded HVAC room's water over its wet floor
         int lift = t.Zone == (byte)Zone.Cinema ? sub : 0;
@@ -302,6 +305,8 @@ public sealed partial class WorldGenerator
         if (rel == 2 + lift && t.Variant == L31.L31Props.PrizeCase && t.Stack is >= 1 and <= 4) return l31Plush[t.Stack - 1, Facing(t.Pier)];
         if (rel != 1 + lift) return 0;
         if (t.SupplyBox) return BoxOf(t);
+        // (round 4: the rink's barrier and gates, by their neighbours)
+        if (t.Zone == (byte)Zone.Rink && L31BarrierBlock(t, gx, gz) is int bar and >= 0) return bar;
         if (t.Variant != 0) return L31Prop(t);
         if ((t.Detail & L31.L31RailBit) != 0 && t.Zone == (byte)Zone.Hall) return l31Rail[(t.Detail & L31.L31HueMask) % 6, Facing(t.Pier)];
         return 0;
@@ -453,6 +458,7 @@ public sealed partial class WorldGenerator
             L31.L31Props.Popcorn => l31Popcorn[f],
             L31.L31Props.PrizeCase => l31PrizeCase[f],
             L31.L31Props.PrizeWall => l31PrizeWall[f],
+            L31.L31Props.Slushie => l31Slushie[f],
             Props.Shelf => shelfIds[Facing(Opposite(t.Pier))],
             >= 40 and < Props.Limit => PropBlock(t),
             _ => 0,

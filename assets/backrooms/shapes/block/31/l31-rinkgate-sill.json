@@ -1,0 +1,130 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"r4-alu": "backrooms:block/31/r4-alu",
+		"r4-rubber": "backrooms:block/31/r4-rubber"
+	},
+	"elements": [
+		{
+			"name": "Sill",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				0.35,
+				4.0
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4-alu",
+					"uv": [
+						0,
+						0,
+						16,
+						4.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Strip",
+			"from": [
+				0,
+				0.35,
+				1.6
+			],
+			"to": [
+				16,
+				0.45,
+				2.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#r4-rubber",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#r4-rubber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#r4-rubber",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#r4-rubber",
+					"uv": [
+						0,
+						0,
+						0.8,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#r4-rubber",
+					"uv": [
+						0,
+						0,
+						16,
+						0.8
+					]
+				}
+			}
+		}
+	]
+}

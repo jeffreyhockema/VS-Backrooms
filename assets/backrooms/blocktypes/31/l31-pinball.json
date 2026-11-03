@@ -1,0 +1,136 @@
+// Level 31: a pinball machine, its front (the flippers' end) toward the side: legs, the sloping cabinet and lit playfield, lock-down bar, plunger, coin door, the lit backglass head at the back (29 units tall)
+{
+	"code": "l31-pinball",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l31-pinball-north": {
+			"base": "backrooms:block/31/l31-pinball"
+		},
+		"l31-pinball-east": {
+			"base": "backrooms:block/31/l31-pinball",
+			"rotateY": 270
+		},
+		"l31-pinball-south": {
+			"base": "backrooms:block/31/l31-pinball",
+			"rotateY": 180
+		},
+		"l31-pinball-west": {
+			"base": "backrooms:block/31/l31-pinball",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 4,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"selectionboxByType": {
+		"l31-pinball-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1
+		},
+		"l31-pinball-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-pinball-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-pinball-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"collisionboxByType": {
+		"l31-pinball-north": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1
+		},
+		"l31-pinball-east": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l31-pinball-south": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l31-pinball-west": {
+			"x1": 0.1,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.9,
+			"y2": 0.85,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"lightHsv": [
+		50,
+		4,
+		6
+	]
+}

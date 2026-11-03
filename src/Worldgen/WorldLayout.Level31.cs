@@ -128,6 +128,9 @@ public sealed partial class WorldLayout
         /// machine, Level 3999's prize case (Stack 1-4: a plush on it, Level 3999's kinds) and prize wall.</summary>
         public const ushort Stall = 729, Vanity = 730, PhotoBooth = 731, Jukebox = 732, TrophyCase = 733, MediaCab = 734, Popcorn = 735,
             PrizeCase = 736, PrizeWall = 737;
+        /// <summary>Round 4: an air handler (Level 120's CRAC unit, two high with its duct up to the ceiling), a slushie machine on
+        /// its cabinet.</summary>
+        public const ushort AirHandler = 738, Slushie = 739;
     }
 
     /// <summary>
@@ -734,7 +737,8 @@ public sealed partial class WorldLayout
                     Sign(1, -1, L31Sign.StaffDoor, toNear);
                     for (int u = mid - 2; u <= mid + 2; u++) Sign(u, -1, L31Sign.Menu, toNear);
                     for (int u = 2; u <= across - 3; u++)
-                        Put(u, 2, u == mid + 3 ? L31Props.Fountain : Props.SnackCounter, toNear, (byte)(u == mid + 3 ? 0 : u == 3 ? 1 : u % 4 == 1 ? 2 : 0));
+                        Put(u, 2, u == mid + 3 ? L31Props.Fountain : u == mid - 3 && u > 3 ? L31Props.Slushie : Props.SnackCounter, toNear,
+                            (byte)(u == mid + 3 ? 0 : u == 3 ? 1 : u % 4 == 1 ? 2 : 0));
                     Put(mid, 1, L31Props.StaffSpot, toNear, L31Server);
                     Put(2, 4, L31Props.Condiments, toHighU);
                     // (round 3) The popcorn machine at the counter's end, a drinks fridge at the other, a second condiment
@@ -1007,7 +1011,8 @@ public sealed partial class WorldLayout
                     // (round 3) The plant itself along the far wall: the air handlers side by side, the pressure tanks, the
                     // water heater, under the pipe run
                     int hm = across / 2;
-                    for (int u = hm - 2; u <= hm + 1; u++) Put(u, 1, Props.AcUnit, toNear);
+                    // (round 4: two of Level 120's CRAC units with their ducts up into the ceiling, in place of four low AC boxes)
+                    foreach (int u in new[] { hm - 2, hm + 1 }) Put(u, 1, L31Props.AirHandler, toNear);
                     Put(hm + 3, 1, Props.PressureTank, toNear, 1);
                     Put(hm + 4, 1, Props.PressureTank, toNear);
                     Put(hm - 4, 1, Props.PressureTank, toNear, 1);
@@ -1258,7 +1263,8 @@ public sealed partial class WorldLayout
         foreach (int p in new[] { 58, 62 }) L31MountRun(plan, p, s1, p, s1, "norun", ArchPier.North);
         L31MountRun(plan, r0, 57, r0, 57, "norun", ArchPier.East);
         L31MountRun(plan, r1, 61, r1, 61, "norun", ArchPier.West);
-        for (int p = 70; p <= 73; p++) L31Put(plan, p, north, Props.SnackCounter, toWall, (byte)(p == 70 ? 1 : 0));
+        for (int p = 70; p <= 72; p++) L31Put(plan, p, north, Props.SnackCounter, toWall, (byte)(p == 70 ? 1 : 0));
+        L31Put(plan, 73, north, L31Props.Slushie, toWall);
         L31Put(plan, 69, north, L31Props.Popcorn, toWall);
         L31Put(plan, 74, north, Props.DrinkFridge, toWall);
         L31MountRun(plan, 71, north, 72, north, "snackwin", toWall);

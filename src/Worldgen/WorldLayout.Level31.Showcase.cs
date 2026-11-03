@@ -48,7 +48,7 @@ public partial class WorldLayout
             if (spot is { } s && !found.ContainsKey(name)) found[name] = s with { Name = name };
         }
 
-        for (int ring = 0; ring <= 5 && found.Count < 23; ring++)
+        for (int ring = 0; ring <= 5 && found.Count < 27; ring++)
             for (int wz = cz - ring; wz <= cz + ring; wz++)
                 for (int wx = cx - ring; wx <= cx + ring; wx++)
                 {
@@ -68,6 +68,13 @@ public partial class WorldLayout
                         Add("rink-star", Spot(plan, 40, 44, 60, 60, 7.0));
                         int south = plan.Mirror ? 26 : 94, inward = plan.Mirror ? 1 : -1, desk = south + 3 * inward;
                         Add("dj", Spot(plan, 60, desk + 9 * inward, 60, desk, 2.2, setup: Staff));
+                        // (round 4) The booth close up from the boards' edge (decks, mixer, the speaker stacks); a gate in the
+                        // barrier from the boards (the north straight's west gap)
+                        Add("djbooth", Spot(plan, 63, desk + 3 * inward, 60, desk, 0.9, setup: Staff, p0: 62, q0: Math.Min(desk + 2 * inward, desk + 3 * inward),
+                            p1: 65, q1: Math.Max(desk + 2 * inward, desk + 3 * inward)));
+                        int edgeN = plan.Mirror ? 88 : 32;
+                        Add("gate", Spot(plan, 44, edgeN - 4 * inward, 41, edgeN, 0.6, p0: 43, q0: Math.Min(edgeN - 3 * inward, edgeN - 5 * inward),
+                            p1: 46, q1: Math.Max(edgeN - 3 * inward, edgeN - 5 * inward)));
                         // The lobby through its front doors, from the hall
                         Add("lobby", Spot(plan, 60, -4, 54, 14, 1.0));
                         // A neon hall: down the hall west of the complex towards a crossing, a Faceling about
@@ -86,6 +93,12 @@ public partial class WorldLayout
                         if (room.Kind == L31Zone.Rental && room.Q1 <= 19)
                             Add("coach", Spot(plan, (room.P0 + room.P1) / 2 - 2, 9, (room.P0 + room.P1) / 2, 2, 1.9, setup: Staff,
                                 p0: room.P0, q0: 6, p1: room.P1, q1: 10));
+                        if (room.Kind == L31Zone.Rental && room.Q1 <= 19)
+                            Add("skates", Spot(plan, (room.P0 + room.P1) / 2 + 5, 5, (room.P0 + room.P1) / 2 + 5, 3, 0.8,
+                                p0: room.P0, q0: 4, p1: room.P1, q1: 5));
+                        if (room.Kind == L31Zone.Arcade && room.Q1 <= 19)
+                            Add("pinball", Spot(plan, room.P0 + 6, room.Q0 + 2, room.P0 + 9, room.Q0, 1.3,
+                                p0: room.P0, q0: room.Q0 + 1, p1: room.P1, q1: room.Q0 + 2));
                         if (room.Kind == L31Zone.Arcade && room.Q1 <= 19)
                             Add("prizes", Spot(plan, room.P1 - 7, room.Q0 + 8, room.P1, room.Q0 + 3, 2.0, p0: room.P0, q0: room.Q0, p1: room.P1, q1: room.Q1));
                         if (room.Kind == L31Zone.Bath && room.DoorP > -9)
@@ -158,7 +171,7 @@ public partial class WorldLayout
                         Add("revolving", Spot(plan, L31RevolvingP + 1, L31RevolvingQ + 8, L31RevolvingP, L31RevolvingQ, 2.8, p0: 46, q0: 0, p1: 74, q1: 19));
                 }
 
-        foreach (string name in new[] { "rink", "rink-star", "dj", "lobby", "lobby-front", "foodcourt", "rental", "coach", "arcade", "prizes", "cinema",
+        foreach (string name in new[] { "rink", "rink-star", "dj", "djbooth", "gate", "skates", "pinball", "lobby", "lobby-front", "foodcourt", "rental", "coach", "arcade", "prizes", "cinema",
             "lounge", "hvac", "bath", "restroom", "doorsign-rental", "doorsign-snack", "snackwindow", "corridor", "trophies", "glowroom", "emptiness", "hall", "lobbydoor", "revolving" })
             if (found.TryGetValue(name, out var s)) yield return s;
 
