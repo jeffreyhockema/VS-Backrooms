@@ -281,82 +281,147 @@ reused hospital props (`tools/preview_shapes.py`). Tiers: A must, B should, C ni
 ### List
 
 **1. Assets to rebuild to the bar**
-1. (A) `l14-gurney-{head|foot}-{side}` (new, replaces Level !'s `run-gurney` family in our halls): a two-block stretcher
+1. (A) [done] `l14-gurney-{head|foot}-{side}` (new, replaces Level !'s `run-gurney` family in our halls): a two-block stretcher
    trolley, tubular frame, swivel castors on forks, mattress with a rumpled sheet and pillow, one side rail up and one
    folded, a push bar at the head, rust at the joints. Our "similar but unique" version of `run-gurney`.
-2. (A) `l14-wheelchair-{side}` (new, replaces `run-wheelchair`, whose wheels read as jagged stars): big wheels as rings
+2. (A) [done] `l14-wheelchair-{side}` (new, replaces `run-wheelchair`, whose wheels read as jagged stars): big wheels as rings
    with push rims and spokes, small front castors, sling seat and back in cracked vinyl, armrests, footplates, handles.
-3. (A) `l14-ivstand` (new, replaces `run-ivstand`): five-castor base, pole with a hook crown, a saline bag with its line,
+3. (A) [done] `l14-ivstand` (new, replaces `run-ivstand`): five-castor base, pole with a hook crown, a saline bag with its line,
    an infusion pump clamped to the pole, rust at the foot.
-4. (A) `l14-monitor-{on|off}-{side}`: rebuild as a vital-signs monitor on a wheeled stand with a tilting screen in a
+4. (A) [done] `l14-monitor-{on|off}-{side}`: rebuild as a vital-signs monitor on a wheeled stand with a tilting screen in a
    bezel, cables to a probe basket, a lit screen whose glow is only the traces.
-5. (A) `l14-walldeco-{sanitizer|clock|extinguisher|exitsign|xray|whiteboard}`: from flat pictures on a wall cube to JSON
+5. (A) [done] `l14-walldeco-{sanitizer|clock|extinguisher|exitsign|xray|whiteboard}`: from flat pictures on a wall cube to JSON
    models proud of the wall (a gel dispenser with pump and drip tray; a stopped clock with bezel, glass and hands; an
    extinguisher on its bracket with the sign above, geometry from the mod's `concretedeco-extinguisher`; an EXIT box sign
    standing off the wall, lit; an X-ray light box in a steel frame, lit, films clipped on; a whiteboard with frame,
    marker tray and markers).
-6. (A) `l14-surglamp`: a real surgical light: ceiling canopy, a central post, two articulated arms (rotated elements)
+6. (A) [done] `l14-surglamp`: a real surgical light: ceiling canopy, a central post, two articulated arms (rotated elements)
    with spring housings, two domed heads with lit lenses and handles.
-7. (A) `l14-optable-{head|foot}`: one table over two blocks: the pedestal column on a base plate, the tilted top with its
+7. (A) [done] `l14-optable-{head|foot}`: one table over two blocks: the pedestal column on a base plate, the tilted top with its
    pads continuous across the joint, a headrest, arm boards, restraint straps.
-8. (A) `l14-stretchers-{lower|upper}`: rusted steel stretchers stacked askew (tubular frames, legs and castors, torn and
+8. (A) [done] `l14-stretchers-{lower|upper}`: rusted steel stretchers stacked askew (tubular frames, legs and castors, torn and
    stained pads), not the brown slats that read as wooden pallets.
-9. (A) Terrazzo (`l14-floor-terrazzo`): real chips (marble and glass aggregate of mixed size in a cement matrix,
+9. (A) [done] Terrazzo (`l14-floor-terrazzo`): real chips (marble and glass aggregate of mixed size in a cement matrix,
    polished, brass divider strips), not the coarse pixel noise.
-10. (A) Wall tile (`l14-wall-tile`, `tilebase`, `tileblood`): glazed ceramic tiles with thin grout and soft glaze
+10. (A) [done] Wall tile (`l14-wall-tile`, `tilebase`, `tileblood`): glazed ceramic tiles with thin grout and soft glaze
     highlights, not the pillowed "bubble" look.
-11. (A) Blood (`l14-bloodpool`, `l14-floor-blood`, `walldeco-blood|blooddrip`, `ceiling-blood`): organic pools with
+11. (A) [done: wall runs, pool turned by place; floor-blood as it was] Blood (`l14-bloodpool`, `l14-floor-blood`, `walldeco-blood|blooddrip`, `ceiling-blood`): organic pools with
     darker dried rims, spatter and drag marks, runs that start at the top; never a square stamp.
-12. (A) The biohazard symbol on `plate-biohazard` and the contaminated door: the real symbol (three crescents round a
+12. (A) [done] The biohazard symbol on `plate-biohazard` and the contaminated door: the real symbol (three crescents round a
     ring), not three circles; check the radiation trefoil plate.
-13. (A) Mint patches in white and tile walls (doorway heads and decorations painted mint whatever the wall): use the
+13. (A) [done: decorations and windows carry the wall's own material] Mint patches in white and tile walls (doorway heads and decorations painted mint whatever the wall): use the
     wall's own material above doorways and behind decorations.
-14. (B) `l14-wall-mould`: mould spreading from the wainscot and corners with feathered edges and spore spots, not
+14. (B) [done: colonies] `l14-wall-mould`: mould spreading from the wainscot and corners with feathered edges and spore spots, not
     camouflage blotches.
-15. (B) `l14-floor-marbleshattered`, `l14-floor-marble`: veined white marble (`texlib.marble`) with real fracture lines
+15. (B) [done: shattered] `l14-floor-marbleshattered`, `l14-floor-marble`: veined white marble (`texlib.marble`) with real fracture lines
     (chipped light edges beside dark cracks).
-16. (B) `l14-wall-padded`: button-tufted quilted vinyl with seams and stains.
-17. (B) `l14-crate`: a T.14.R.G. crate with battens, rope handles, a readable stencil.
-18. (B) `l14-wall-rust` / `rustblood`: corroded steel panels with rivets and streaks from bolts, blood runs from the top.
-19. (B) The Hunter (`gen_14_hunter.py`): check its model against File 14-E (amorphous black mass, many tapering
+16. (B) [done] `l14-wall-padded`: button-tufted quilted vinyl with seams and stains.
+17. (B) [skipped: already battened, roped and stencilled] `l14-crate`: a T.14.R.G. crate with battens, rope handles, a readable stencil.
+18. (B) [partly: blood runs; the plate as it was] `l14-wall-rust` / `rustblood`: corroded steel panels with rivets and streaks from bolts, blood runs from the top.
+19. (B) [partly: the pale square was the cold-breath puff, now a fine mist; model unchanged] The Hunter (`gen_14_hunter.py`): check its model against File 14-E (amorphous black mass, many tapering
     tentacles with toothed mouths, light-absorbing); find and fix the pale square seen beside it in the last sheet.
-20. (C) `l14-floorlamp`: a turned brass pole with a collar, a pleated shade with a finial.
-21. (C) `l14-window-*`: jagged shards with edge highlights, a crack web on the unbroken pane.
+20. (C) [done: tapered shade] `l14-floorlamp`: a turned brass pole with a collar, a pleated shade with a finial.
+21. (C) [partly: the wall round them in its own material; shards as they were] `l14-window-*`: jagged shards with edge highlights, a crack web on the unbroken pane.
 
 **2. Multi-block set pieces**
-22. (A) The stained-glass revolving door (`l14-revolving-*`, 3 x 2 x 3): a real drum: curved stained-glass walls as ring
+22. (A) [partly: threshold ring, frieze, brighter bronze; the drum and wings were already modelled] The stained-glass revolving door (`l14-revolving-*`, 3 x 2 x 3): a real drum: curved stained-glass walls as ring
     segments with lead lines, a canopy with a cornice and a brass band, the central post with four glazed wings, a floor
     ring and push bars; through the glass only black.
-23. (A) The nurses' station (`l14-station-*`): counter with a raised ledge and kick plate, and its back wall
+23. (A) [done] The nurses' station (`l14-station-*`): counter with a raised ledge and kick plate, and its back wall
     (`l14-stationwall-*`: a whiteboard of names, a chart rack, pigeonholes), placed with the counter as one object.
-24. (A) The surgery set: the op table under the surgical light on its arm, the anaesthesia machine and a laid trolley at
+24. (A) [done] The surgery set: the op table under the surgical light on its arm, the anaesthesia machine and a laid trolley at
     its head, in every surgery room.
-25. (B) A hospital lift in the halls (`l14-lift-*`: brushed steel doors shut, a frame, a dead floor indicator above and
+25. (B) [done] A hospital lift in the halls (`l14-lift-*`: brushed steel doors shut, a frame, a dead floor indicator above and
     a call panel beside). Invention (marked); not usable.
-26. (B) A directory board at hall crossings (two blocks wide): the departments with arrows, "YOU ARE HERE" with no map.
-27. (B) Torture chamber set: a gurney with restraints under a hook, stretcher stacks, knife cabinets in a row.
-28. (C) Reception: the revolving door's canopy reading over the room's back wall (a recess).
+26. (B) [done] A directory board at hall crossings (two blocks wide): the departments with arrows, "YOU ARE HERE" with no map.
+27. (B) [done] Torture chamber set: a gurney with restraints under a hook, stretcher stacks, knife cabinets in a row.
+28. (C) [skipped: time] Reception: the revolving door's canopy reading over the room's back wall (a recess).
 
 **3. Level design**
-29. (A) Halls clutter: gurneys, wheelchairs and drip stands parked along walls as if left mid-use (items 1-3), so the
+29. (A) [done] Halls clutter: gurneys, wheelchairs and drip stands parked along walls as if left mid-use (items 1-3), so the
     long views have silhouettes.
-30. (B) ICU: bed bays (bed, monitor, drip stand, ventilator), less empty white floor.
-31. (B) Surgery rooms: shelves of old equipment and kid posters along the walls; mould and vines in the old ones.
-32. (B) Psychiatry: strap beds in the padded cells, a desk in the day room; not one cart in a white field.
-33. (B) A vending machine (the mod's own) in some reception rooms or hall alcoves.
-34. (C) Reception: fewer mould wall patches; the magazine table with the chairs.
-35. (C) Storage: asymmetric shelving as the lore's "thrown together".
+30. (B) [done: a drip stand at each bed] ICU: bed bays (bed, monitor, drip stand, ventilator), less empty white floor.
+31. (B) [done: monitor and drip stand at the table] Surgery rooms: shelves of old equipment and kid posters along the walls; mould and vines in the old ones.
+32. (B) [done: night desk and wheelchair] Psychiatry: strap beds in the padded cells, a desk in the day room; not one cart in a white field.
+33. (B) [done: as l14-vending, the mod's shape without its food] A vending machine (the mod's own) in some reception rooms or hall alcoves.
+34. (C) [partly: mould decals now sit on the wall] Reception: fewer mould wall patches; the magazine table with the chairs.
+35. (C) [skipped: already thrown together] Storage: asymmetric shelving as the lore's "thrown together".
 
 **4. Lore**
-36. (A) "Equipment is situated as if while being used": monitors on beside beds, a drip stand at each occupied bed, the
+36. (A) [done] "Equipment is situated as if while being used": monitors on beside beds, a drip stand at each occupied bed, the
     trolley laid out beside the op table (items 24, 29, 30).
-37. (B) The T.14.R.G. stockpile: crates stacked with stencils (item 17) beside the research room's desks.
-38. (C) No M.E.G. in the lore (the T.14.R.G. is the level's group): keep the stencils and the placard as they are.
+37. (B) [skipped: as it was] The T.14.R.G. stockpile: crates stacked with stencils (item 17) beside the research room's desks.
+38. (C) [done: nothing added] No M.E.G. in the lore (the T.14.R.G. is the level's group): keep the stencils and the placard as they are.
 
 **5. Alignment with the other levels**
-39. (A) Gurney, wheelchair, drip stand: ours, from `run-gurney`, `run-wheelchair`, `run-ivstand` (Level !), re-detailed
+39. (A) [done] Gurney, wheelchair, drip stand: ours, from `run-gurney`, `run-wheelchair`, `run-ivstand` (Level !), re-detailed
     and rusted; Level !'s wheelchair goes in "Shared assets below the bar".
-40. (A) Extinguisher and EXIT sign: the mod's geometry (`concretedeco-extinguisher`, `run-exitsign-wall-*`) on our wall,
+40. (A) [done: the extinguisher is the mod's; the EXIT sign a box sign of ours] Extinguisher and EXIT sign: the mod's geometry (`concretedeco-extinguisher`, `run-exitsign-wall-*`) on our wall,
     not new designs.
-41. (B) Vending: the mod's own; lockers: Level 15's `l15-locker` as is, if placed.
-42. (C) Level 15's medical bays and our wards: note the family (15 clean white, ours rust and moss).
+41. (B) [done: vending reused; our own lockers (Level 15's are below the bar)] Vending: the mod's own; lockers: Level 15's `l15-locker` as is, if placed.
+42. (C) [done: noted] Level 15's medical bays and our wards: note the family (15 clean white, ours rust and moss).
+
+### What was built (round 4)
+
+All new models are in `tools/gen_14_r4.py` (called from `gen_14_props.py` and `gen_14.py`); previews were judged offline with
+`tools/preview_shapes.py` before the client shots.
+
+- **New props**: `l14-gurney-{head|foot}-{plain|strap}-{side}` (two blocks: swivel castors, base frame, hydraulic columns in
+  rubber bellows, the back rest raised on its strut, a rumpled sheet hanging over one side, one rail up and one folded, push
+  bar; strap: restraints, blood); `l14-wheelchair-{side}` (14-segment tyres, rims and push rims as rings of turned boxes,
+  six spokes, castors, X brace, cracked black vinyl sling, arm pads, one footplate folded); `l14-ivstand-{side}` (five-castor
+  base, a pole two blocks high with a hook crown, a saline bag in the translucent pass, drip chamber, the line to an infusion
+  pump clamped on the pole); `l14-stationback-{lower|upper}-{board|files}-{side}` (the nurses' station's back wall: cupboards,
+  worktop with a phone and charts, pigeonholes; a whiteboard of names with its tray or a rack of chart binders, a cornice);
+  `l14-lift-{l|r}-{lower|upper|header}-{side}` (a lift two wide and three high in a hall wall: brushed steel doors shut, an
+  OUT OF ORDER notice, the call panel, a dead floor indicator over the meeting); `l14-locker-{lower|upper}-{closed|ajar}-{side}`
+  (staff lockers two high, louvred, a padlock, one standing open with a shirt on its hook); `l14-vending-{side}` (the mod's
+  broken vending machine shape as a block of ours that drops only a stale soda); the directory board
+  (`l14-walldeco-directory-{l|r}`).
+- **Rebuilt**: `l14-surglamp` (canopy, drop tube, two arms with spring housings, yokes, domed heads of octagonal tiers with
+  lit lenses and sterile handles); `l14-optable` (one table across two blocks on a column at the joint, both halves turned
+  about one pivot, arm boards with cuffs, headrest, straps); `l14-stretchers` (tubular steel stretchers with stirrup legs and
+  split stained pads, stacked askew); `l14-monitor` (tilting head in its bezel, carry handle, module rack, coloured leads,
+  basket with a cuff; only the traces glow); the floor lamp's shade tapered.
+- **Wall decorations as models on the wall's own material**: `l14-walldeco-{kind}-{wall}-{side}` (wall: paint, white, tile,
+  tileblood, rust, mould, cinder, concrete, plywood, padded; the last seven for decals only, `allowedVariants`). Every picture is
+  cut out of its mint background (drawn twice, on the wall and on its inverse, and un-mixed), so plates, signs and posters
+  stand proud of the wall at their own size, and blood, mould, scratches and the stencil are decals over the real wall. The
+  clock (bezel ring, dial, stopped hands), whiteboard (frame, tray, markers), X-ray box (steel box, lit film, clips), EXIT
+  box sign (lit), hand gel dispenser (body, window, lever, nozzle, stained drip tray) and the extinguisher (the mod's own
+  `concretedeco-extinguisher` geometry and textures) are models. Windows likewise carry their wall (paint, white, tile).
+- **Surfaces**: terrazzo (marble chips of mixed size in a cream matrix, polish, brass divider strips), flat glazed wall tile,
+  blood runs that go the whole height and meet the block above and below, a darker rimmed blood pool turned by place, black
+  mould in colonies, hairline fractures in the shattered marble, button-tufted padding, the biohazard symbol drawn right.
+- **The revolving door**: a bronze threshold ring across its open front, a meander frieze round the canopy, brighter
+  bronze.
+- **Placement** (`WorldLayout.Level14.cs`, each addition made after the room's own draws so nothing else moves): gurneys in
+  pairs along the halls' walls; our wheelchair and drip stand everywhere Level !'s were; the surgery set (a monitor and a
+  drip stand round the table's head); a drip stand at each ICU bed; a restraint gurney under a hook in each torture chamber;
+  the night desk and a wheelchair in a big psychiatric ward; the nurses' station turned to face the door with its back unit
+  against the back wall; staff lockers in offices; a dead vending machine in each reception; a lift in one wing in three and a
+  directory board by a crossing in one wing in two (`HallFittings`, after all other draws).
+- **The Hunter**: the pale square beside it in the last sheet was the cold-breath puff (a few big quads in front of the
+  eye): now a fine mist of small motes (`AtmosphereSystem.L14.cs`). Its model is unchanged.
+- Showcase spots added: `gurney-hall`, `nurses-station`, `lift`, `directory`; F7 entries `l14station`, `l14gurney`,
+  `l14lift`, `l14directory`.
+
+### Inventions (round 4, ours)
+- The lift (out of order, taped) and the hospital directory board in the halls; the staff lockers; the night desk in the
+  psychiatric ward; the vending machine in the reception rooms (the lore's "musty soft drink bottles" had to come from
+  somewhere).
+- The restraint gurney under a hook in each torture chamber (the lore's "drag ... onto the beds").
+
+### Shared assets below the bar (for the lead)
+- Level !'s `run-wheelchair`: its wheels are crossed boxes that read as jagged stars from most angles; `l14-wheelchair`'s
+  rings of turned boxes (`gen_14_r4.ring_x`, 14 segments, push rims, spokes) would lift it. `run-gurney`: one box mattress
+  on a slab, no columns or rails worth the name (see `l14-gurney`). `run-ivstand` is fine.
+- Level 15's `l15-locker`: 4-6 boxes a block with the louvres painted on; `l14-locker` models them.
+- The mod's `brokenvending` is good, but drops a meal (chips, candy, crackers, soda, almond water): we reuse its shape in
+  `l14-vending`, which drops only a stale soda now and then.
+
+### Balance notes for the lead
+- No new beds, water or food. The gurneys are not beds. `l14-vending` (one in each reception room) drops a stale soda at
+  0.4 and glass shards; the lockers drop nothing. Drip stands, monitors and the lift drop nothing.
+- Every placement was added after the room's own draws (or with no draw), so supply boxes, links and the rooms' other props are
+  where they were.
