@@ -21,7 +21,7 @@ namespace Backrooms.Worldgen;
 public sealed partial class WorldGenerator
 {
     private static readonly string[] L120RackStates = { "off", "leda", "ledb", "both", "gutted", "store", "storelit", "net", "netlit" };
-    private readonly int[] l120Wall = new int[9], l120Floor = new int[6], l120Tray = new int[2], l120Ceil = new int[3], l120Spill = new int[2];
+    private readonly int[] l120Wall = new int[9], l120Floor = new int[6], l120Tray = new int[4], l120Ceil = new int[3], l120Spill = new int[2];
     private readonly int[,,] l120Rack = new int[2, 9, 4];
     private readonly int[,] l120Terminal = new int[3, 4], l120Window = new int[2, 4], l120VoidDoor = new int[2, 2];
     private readonly int[] l120Toppled = new int[4];
@@ -53,6 +53,8 @@ public sealed partial class WorldGenerator
         for (int i = 0; i < 6; i++) l120Floor[i] = L120Block("l120-floor-" + panels[i], i >= 4 ? l120Floor[1] : concrete);
         l120Tray[0] = L120Block("l120-tray-we");
         l120Tray[1] = L120Block("l120-tray-ns");
+        l120Tray[2] = L120Block("l120-tray-wedrop", l120Tray[0]);
+        l120Tray[3] = L120Block("l120-tray-nsdrop", l120Tray[1]);
         string[] ceilings = { "tile", "stained", "broken" };
         for (int i = 0; i < 3; i++) l120Ceil[i] = L120Block("l120-ceiling-" + ceilings[i], officeCeilingId);
         l120Smashed = L120Block("l120-ceiling-smashed", lightOffId);
@@ -177,6 +179,9 @@ public sealed partial class WorldGenerator
         if (rel == 3 && t.Overhead != 0)
         {
             int tray = t.Overhead - WorldLayout.L120TrayX;
+            // (Round 4: over a standing rack, one tray in four drops a bundle of cables into its top)
+            if (tray is 0 or 1 && t.Variant == WorldLayout.L120Rack && t.Detail != WorldLayout.L120RackGutted
+                && (Hashing.Hash(seed, gx, gz, 0x2624) & 3) == 0 && l120Tray[2 + tray] != 0) return l120Tray[2 + tray];
             if (tray is 0 or 1) return l120Tray[tray];
         }
         if (rel == 3)

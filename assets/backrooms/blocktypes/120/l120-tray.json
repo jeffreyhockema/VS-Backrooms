@@ -1,4 +1,4 @@
-// Level 120: an overhead ladder rack on trapeze hangers, cable looms tied along it, the yellow fibre raceway beside it; along x (we) or z (ns)
+// Level 120: an overhead ladder rack on trapeze hangers, cable looms tied along it, the yellow fibre raceway beside it; along x (we) or z (ns); over a bank now and then a drop of cables into the rack below
 {
 	"code": "l120-tray",
 	"variantgroups": [
@@ -6,7 +6,9 @@
 			"code": "kind",
 			"states": [
 				"we",
-				"ns"
+				"ns",
+				"wedrop",
+				"nsdrop"
 			]
 		}
 	],
@@ -16,6 +18,13 @@
 		},
 		"*-ns": {
 			"base": "backrooms:block/120/l120-tray",
+			"rotateY": 90
+		},
+		"*-wedrop": {
+			"base": "backrooms:block/120/l120-tray-drop"
+		},
+		"*-nsdrop": {
+			"base": "backrooms:block/120/l120-tray-drop",
 			"rotateY": 90
 		}
 	},
@@ -54,7 +63,7 @@
 		}
 	],
 	"collisionboxByType": {
-		"*-we": {
+		"*-we*": {
 			"x1": 0,
 			"y1": 0.7,
 			"z1": 0.04,
@@ -62,7 +71,7 @@
 			"y2": 1,
 			"z2": 0.8
 		},
-		"*-ns": {
+		"*-ns*": {
 			"x1": 0,
 			"y1": 0.7,
 			"z1": 0.04,
@@ -73,7 +82,7 @@
 		}
 	},
 	"selectionboxByType": {
-		"*-we": {
+		"*-we*": {
 			"x1": 0,
 			"y1": 0.7,
 			"z1": 0.04,
@@ -81,7 +90,7 @@
 			"y2": 1,
 			"z2": 0.8
 		},
-		"*-ns": {
+		"*-ns*": {
 			"x1": 0,
 			"y1": 0.7,
 			"z1": 0.04,

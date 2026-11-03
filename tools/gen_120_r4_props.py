@@ -738,12 +738,19 @@ def blocktypes():
                       "drops": drops(("glassshard", 0.5, 0.4), ("scrapwire", 0.3, 0.3))}, inventory="l120-console-dead-north")
 
     tray = shape("l120-tray", tray_elements())
+    # Over a bank, now and then a waterfall of cables drops from the ladder rack into the cabinet's top through its brush
+    drop = shape("l120-tray-drop", tray_elements() + [
+        b("DropA", (6.6, 0, 7.4), (8.0, 12, 8.8), "cb-blue", faces=("north", "south", "east", "west")),
+        b("DropB", (8.2, 0, 7.6), (9.2, 12, 8.6), "cb-grey", faces=("north", "south", "east", "west")),
+        b("DropTie", (6.4, 6, 7.2), (9.4, 6.5, 9.0), "rk-black", faces=("north", "south", "east", "west", "up", "down")),
+        b("Bend", (6.6, 12, 7.0), (9.2, 12.6, 9.0), "cb-blue", faces=("north", "south", "east", "west", "up"))])
     tb = (0, 0.7, 0.04, 1, 1, 0.8)
-    json_block("l120-tray", [{"code": "kind", "states": ["we", "ns"]}], {"*-we": {"base": tray}, "*-ns": {"base": tray, "rotateY": 90}},
+    kinds = {"*-we": {"base": tray}, "*-ns": {"base": tray, "rotateY": 90}, "*-wedrop": {"base": drop}, "*-nsdrop": {"base": drop, "rotateY": 90}}
+    json_block("l120-tray", [{"code": "kind", "states": ["we", "ns", "wedrop", "nsdrop"]}], kinds,
                "Level 120: an overhead ladder rack on trapeze hangers, cable looms tied along it, the yellow fibre raceway beside it; along x "
-               "(we) or z (ns)",
-               {"collisionboxByType": {"*-we": cuboid(tb), "*-ns": cuboid(tb, 90)},
-                "selectionboxByType": {"*-we": cuboid(tb), "*-ns": cuboid(tb, 90)}},
+               "(we) or z (ns); over a bank now and then a drop of cables into the rack below",
+               {"collisionboxByType": {"*-we*": cuboid(tb), "*-ns*": cuboid(tb, 90)},
+                "selectionboxByType": {"*-we*": cuboid(tb), "*-ns*": cuboid(tb, 90)}},
                extra={"drops": drops(("scrapwire", 0.5, 0.4))}, inventory="l120-tray-we")
 
     one = (0.1, 0, 0.1, 0.9, 1, 0.9)
