@@ -43,6 +43,11 @@ public class WaterSystem : ModSystem
         api.Logger.Notification("[backrooms] {0} liquid blocks can be drunk from ({1} side)", count, api.Side);
     }
 
+    public override void StartServerSide(ICoreServerAPI api)
+    {
+        api.Event.PlayerDisconnect += BlockBehaviorDrinkable.Forget;
+    }
+
     public override void StartClientSide(ICoreClientAPI api)
     {
         capi = api;
@@ -87,6 +92,12 @@ public class BlockBehaviorDrinkable : BlockBehavior
 
     /// <summary>Server: when each drinker began (the client's count of seconds is not taken on trust).</summary>
     private static readonly Dictionary<string, (BlockPos Pos, long StartMs)> drinking = new();
+
+    /// <summary>Server: a player who leaves mid-drink is no longer drinking.</summary>
+    public static void Forget(IServerPlayer player)
+    {
+        lock (drinking) drinking.Remove(player.PlayerUID);
+    }
 
     public BlockBehaviorDrinkable(Block block) : base(block)
     {

@@ -31,6 +31,7 @@ public class BlockBehaviorSuburbDoor : BlockBehavior
         handling = EnumHandling.PreventDefault;
         if (world.Side != EnumAppSide.Server) return true;
         BlockPos pos = blockSel.Position;
+        if (!world.Claims.TryAccess(byPlayer, pos, EnumBlockAccessFlags.Use)) return true;
         string state = block.Variant["state"], part = block.Variant["part"];
         if (state == "locked")
         {

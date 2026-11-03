@@ -137,6 +137,13 @@ public partial class NoteSystem : ModSystem
         catch (Exception ex)
         {
             sapi.Logger.Error("[backrooms] could not read the notes save data; starting afresh: {0}", ex);
+            try
+            {
+                byte[] raw = sapi.WorldManager.SaveGame.GetData(SaveKey);
+                if (raw != null && sapi.WorldManager.SaveGame.GetData(SaveKey + "-unreadable") == null)
+                    sapi.WorldManager.SaveGame.StoreData(SaveKey + "-unreadable", raw);
+            }
+            catch (Exception) { }
             logs = new();
         }
         LoadSpots();
@@ -177,7 +184,7 @@ public partial class NoteSystem : ModSystem
         {
             // (With no room in their pockets, it is at their feet)
             if (GiveOrDrop(player, new ItemStack(note)))
-                player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:note-pocket-given"), EnumChatType.Notification);
+                player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:note-pocket-given"), EnumChatType.Notification);
         }
         if (!log.PocketGiven) { log.PocketGiven = true; dirty = true; }
         // Directions notes that told of nothing, read just before they left: theirs to read again (see ApplyMarks)
@@ -246,7 +253,7 @@ public partial class NoteSystem : ModSystem
         string uid = player.PlayerUID;
         if (ItemWandererNote.ReadBy(slot.Itemstack, uid))
         {
-            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:note-read-already"), EnumChatType.Notification);
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:note-read-already"), EnumChatType.Notification);
             return;
         }
         if (!Read(player, note.Kind)) return;
@@ -426,7 +433,8 @@ public partial class NoteSystem : ModSystem
     private void ApplyMarks(MarkRequest request, List<MarkSlot> slots)
     {
         if (layout == null || marks == null) return; // (the world is closing)
-        System.Func<int, int, bool> skip = SkipOf(request.Taken);
+        // (The live log, not the snapshot: another note of this reader may have marked a place since this one was read)
+        System.Func<int, int, bool> skip = SkipOf(TakenOf(LogOf(request.Uid)));
         foreach (MarkSlot slot in slots)
             if (slot.Found == null && slot.Defer != MarkDefer.None)
                 slot.Found = marks.Resolve(slot.Kind, request.X, request.Y, request.Z, request.Level, slot.Far,
@@ -461,7 +469,7 @@ public partial class NoteSystem : ModSystem
                     dirty = true;
                     return;
                 }
-                player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:note-nothing"), EnumChatType.Notification);
+                player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:note-nothing"), EnumChatType.Notification);
                 HandBack(player, request.Kind);
                 return;
             }
@@ -479,12 +487,12 @@ public partial class NoteSystem : ModSystem
             MapMarks.Add(sapi, player, new Vec3d(m.X + 0.5, player.Entity.Pos.Y, m.Z + 0.5), m.Title, m.Icon, rare ? RareColor : MapMarks.NoteColor, 4, tell: false);
         SendLog(player);
         foreach (NoteMark m in found)
-            player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get(m.Ps, Lang.Get("backrooms:dir-" + m.Dir), m.Paces), EnumChatType.Notification);
+            player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, m.Ps, Say.T(player, "backrooms:dir-" + m.Dir), m.Paces), EnumChatType.Notification);
         // ("Marked: ...", now that the marks are on the map, a moment after the note itself)
         if (request.ReadId > 0)
         {
             if (MapSetting.Waypoints(sapi.World.Config))
-                foreach (NoteMark m in found) player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:journal-marked", m.Title), EnumChatType.Notification);
+                foreach (NoteMark m in found) player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:journal-marked", m.Title), EnumChatType.Notification);
         }
         else
         {
@@ -553,7 +561,7 @@ public partial class NoteSystem : ModSystem
         NoteMark m = ms[packet.Mark];
         bool rare = read.Kind == "folded";
         MapMarks.Add(sapi, player, new Vec3d(m.X + 0.5, player.Entity.Pos.Y, m.Z + 0.5), m.Title, m.Icon, rare ? RareColor : MapMarks.NoteColor, 4);
-        player.SendMessage(GlobalConstants.GeneralChatGroup, Lang.Get("backrooms:note-marked-again"), EnumChatType.Notification);
+        player.SendMessage(GlobalConstants.GeneralChatGroup, Say.T(player, "backrooms:note-marked-again"), EnumChatType.Notification);
     }
 
     // ================= Commands =================

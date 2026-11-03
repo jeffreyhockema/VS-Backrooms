@@ -32,7 +32,7 @@ public static class Drinks
     public static void AddStability(Entity entity, double amount)
     {
         double stability = entity.WatchedAttributes.GetDouble("temporalStability", 1);
-        entity.WatchedAttributes.SetDouble("temporalStability", Math.Min(1, stability + amount));
+        entity.WatchedAttributes.SetDouble("temporalStability", Math.Clamp(Math.Min(1, stability + amount), 0, 1.5));
     }
 
     /// <summary>Server: hydrates the drinker by the stack's own <c>hydration</c> (no-op for an item without one, or with thirst off).</summary>

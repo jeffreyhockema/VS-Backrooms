@@ -185,7 +185,9 @@ public class BlockTar : Block
         base.OnEntityCollide(world, entity, pos, facing, collideSpeed, isImpact);
         if (world.Side != EnumAppSide.Server || entity is not EntityAgent) return;
         long now = world.ElapsedMilliseconds;
-        if (now - entity.Attributes.GetLong("backroomsTarBurn") < 1000) return;
+        // (The stamp is server uptime saved with the entity: one from an earlier session is ahead of now)
+        long last = entity.Attributes.GetLong("backroomsTarBurn");
+        if (now >= last && now - last < 1000) return;
         entity.Attributes.SetLong("backroomsTarBurn", now);
         entity.ReceiveDamage(new DamageSource { Source = EnumDamageSource.Block, SourceBlock = this, Type = EnumDamageType.Fire, SourcePos = pos.ToVec3d() }, 1.5f);
     }
