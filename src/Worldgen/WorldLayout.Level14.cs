@@ -1193,6 +1193,20 @@ public sealed partial class WorldLayout
                     var (oa, ob) = FromSide(r, s, k + 1, 1);
                     if (!icu && !maternity && rng.Chance(0.35)) Put(oa, ob, Props.L14Overbed, into);
                     if (maternity && rng.Chance(0.12)) { var (ta, tb) = FromSide(r, s, k, 2); Put(ta, tb, Props.L14Teddy, Opp(into)); }
+                    // Round 4: in intensive care, a curtain on its rail between each bay and the next (no draw)
+                    if (icu && k + 3 < len - 1)
+                    {
+                        var (na, nb) = FromSide(r, s, k + 3, 0);
+                        var (ma, mb) = FromSide(r, s, k + 2, 0);
+                        ArchPier edge = Toward(na - ma, nb - mb);
+                        for (int row = 0; row < 2; row++)
+                        {
+                            var (ta, tb) = FromSide(r, s, k + 2, row);
+                            if (!L14Plan.In(ta, tb) || At(ta, tb).Kind != TileKind.Floor) continue;
+                            At(ta, tb).Overhead = Overheads.L14Curtain;
+                            At(ta, tb).Roof = (byte)edge;
+                        }
+                    }
                     // A curtain on its rail between this bed and the next (the length of the bed), most of them drawn
                     if (!icu && k + 2 < len - 1 && rng.Chance(0.6))
                     {

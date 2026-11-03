@@ -57,7 +57,7 @@ def textures():
     M.grime(img, 0.12, seed=sd("tubesG"), color=(80, 70, 56))
     TX.save(img, "tubes")
     # The stretchers' pads: grey-green vinyl, split, stained with rust and old blood
-    img = M.noise_hv((92, 104, 92), 3, sd("stretchpad"), S, mottle=6, hue=1)
+    img = M.noise_hv((156, 150, 128), 3, sd("stretchpad"), S, mottle=6, hue=1)
     M.emboss_lines(img, ys=(15,), strength=0.18)
     M.stain(img, seed=sd("stretchpadS"), radius=9, color=(70, 44, 26), strength=0.45, at=(10, 20))
     TX.blood(img, sd("stretchpadB"), 6, (1, 3))
