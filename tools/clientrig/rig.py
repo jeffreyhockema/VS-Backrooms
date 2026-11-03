@@ -46,6 +46,15 @@ RIG_ROOT = os.path.join(os.environ.get("LOCALAPPDATA", os.path.expanduser("~")),
 MUTED = ("masterSoundLevel", "soundLevel", "entitySoundLevel", "ambientSoundLevel", "weatherSoundLevel", "musicLevel")
 
 
+def running_clients():
+    """Process ids of every game client (Vintagestory.exe) running on this machine."""
+    try:
+        out = subprocess.run(["tasklist", "/FI", "IMAGENAME eq Vintagestory.exe", "/FO", "CSV", "/NH"], capture_output=True, text=True, timeout=30).stdout
+    except (OSError, subprocess.SubprocessError):
+        return []
+    return [line.split('","')[1] for line in out.splitlines() if line.lower().startswith('"vintagestory.exe"')]
+
+
 def log(msg):
     print(time.strftime("%H:%M:%S"), msg, flush=True)
 
@@ -278,6 +287,16 @@ class Run:
         self.fore = user32.GetForegroundWindow()  # (the user's terminal: focus goes back to it)
         env = dict(os.environ, SHOTBOT_DIR=self.botdir)
         args = [CLIENT, "--dataPath", self.cdata, "--addModPath", a.mods, "-c", f"localhost:{a.port}"]
+        # The game client is single-instance: a second Vintagestory.exe hands its arguments to the one already running
+        # (which then leaves its own server for ours) and exits with code 0. Wait for any other client (another rig,
+        # another session) to close first.
+        t_wait = time.time()
+        while running_clients():
+            if time.time() - t_wait > 1800:
+                raise RuntimeError("another game client kept running for 30 minutes; it would be taken over by ours")
+            if int(time.time() - t_wait) % 60 < 5:
+                log("another game client is running (the client is single-instance); waiting for it to close")
+            time.sleep(5)
         log("starting the client (its window takes focus once; it is moved off-screen when the world has loaded)")
         self.client = subprocess.Popen(args, env=env, cwd=GAME, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         # in the world = the bot has written ready.txt (the level finalized; status.txt only appears after its first command)
