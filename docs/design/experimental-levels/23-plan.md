@@ -615,3 +615,17 @@ moves, so they stand still); the brazier on the Lighthouse (shared from Level 47
    invention in the plaque's spirit: keep them?
 3. The bark is in relief from the ground to nine blocks up (above that the trunks are textured blocks, to keep the
    chunk's model count down): enough, or take it higher at some cost to frame rate?
+
+### What the shots showed (round 4)
+
+Run A (`%TEMP%/backrooms-shots/23-r4a`, with a torch, after the A items):
+- Read well: the Parthenon's colonnade (bases, fluted shafts, capitals under the entablature) is the best ruin shot yet; the
+  sentry's face reads as a face pushed out of the bark from the spot; the bark in relief breaks the trunks' faces into
+  ridges and plates (best on the dark and grey barks); stone mushrooms' caps have rims; Base Seedling reads as a working
+  outpost (wall tents, the counter with tins, cash tin and balance under the quartermaster, barrels, the tripod and pot
+  over the fire, hurricane lanterns, the hollow tree); the glow rooms' little trees have real trunks and the glowcaps
+  glow as clusters; the shafts of light over a glade read as god rays.
+- Fixed after it: the root flares were stepped and read as stairs up to every trunk (now two planks along the slope's
+  chords, the steps only a fill under them); the shafts were hard-edged one-block strips (now two blocks wide, soft,
+  fainter: at the Heart of Water they were a white curtain); the limbs' spot stood under a root arch (now a camera with
+  nothing over it); the statue's spot was far, a supply box in front (now three steps off).

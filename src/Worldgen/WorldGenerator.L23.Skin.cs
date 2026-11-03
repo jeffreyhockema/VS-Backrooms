@@ -116,10 +116,10 @@ public sealed partial class WorldGenerator
                 if (b[i] == l23Bark[w] && layout.L23BoulderPiece(gx, gz, rel, out int part, out ArchPier f)) b[i] = l23BoulderPart[part, Facing(f)];
                 continue;
             }
-            // A root's top near the ground, rounded (air over it)
+            // A root's top, rounded (air over it): the roots crawling out over the ground and the arches between the trees
             if (w == WorldLayout.L23RootWood)
             {
-                if (rel <= ground + 3 && i + 1 < L23Height && c.Wood[i + 1] == 0 && (b[i] == l23Root || b[i] == l23MossBark))
+                if (i + 1 < L23Height && c.Wood[i + 1] == 0 && (b[i] == l23Root || b[i] == l23MossBark))
                     b[i] = l23RootKnuckle[b[i] == l23MossBark ? 1 : 0];
                 continue;
             }
