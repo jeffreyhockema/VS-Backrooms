@@ -729,6 +729,12 @@ cup holders are on the bench backs), the DJ still on the south, the star at the 
   by the lobby's revolving door with the shared hanging EXIT box over the way out; the back arcade reads as rows
   of sheeted machines down an aisle (one in eleven since stands uncovered, a dead upright, and the sheets have
   deeper folds); the Employees Lounge's grey staff lockers; the rental counter's bell on one section. Nothing broken.
+- **Run 3** (final, `%TEMP%/backrooms-shots/31-r4c/`, `sheet.jpg`, from the final gate's build at b1049db1): as run 2,
+  the dust sheets' folds deeper; nothing broken. **Still weak:** the rink's long view stays dark overhead (the
+  trusses read as thin rigs with coloured dots from the floor; the mirror balls carry it); the back arcade's sheets
+  read as sheeted shapes rather than arcade machines until close; the glowing-carpet and emptiness rooms and the
+  hall arrivals are unchanged (bare as the lore wants; the arrivals are the links'); the main arcade's cabinets,
+  prize cases and neon hall rails are still Level 3999's (they hold at the bar).
 
 ### Questions for the user (round 4)
 
