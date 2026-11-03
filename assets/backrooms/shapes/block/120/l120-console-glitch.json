@@ -12,7 +12,7 @@
 		"mon-black": "backrooms:block/120/mon-black",
 		"mon-dead": "backrooms:block/120/mon-dead",
 		"mon-glitch": "backrooms:block/120/mon-glitch",
-		"pl-ups": "backrooms:block/120/pl-ups",
+		"paper-sheet": "backrooms:block/120/paper-sheet",
 		"rk-black": "backrooms:block/120/rk-black",
 		"rk-chrome": "backrooms:block/120/rk-chrome"
 	},
@@ -1457,11 +1457,11 @@
 			],
 			"faces": {
 				"up": {
-					"texture": "#pl-ups",
+					"texture": "#paper-sheet",
 					"uv": [
 						0,
-						8,
-						8,
+						0,
+						16,
 						16
 					]
 				}

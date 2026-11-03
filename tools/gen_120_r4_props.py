@@ -507,7 +507,7 @@ def console_elements(state):
         b("Mouse", (13, 11.5, 1.6), (13.9, 11.85, 3.0), "mon-black", faces=("north", "east", "west", "up", "south")),
         b("Mug", (1.5, 11.5, 2.5), (2.6, 12.9, 3.6), "bk-white", faces=("north", "east", "west", "south", "up")),
         b("MugIn", (1.7, 12.9, 2.7), (2.4, 12.95, 3.4), "rk-black", faces=("up",)),
-        b("Papers", (1, 11.5, 5), (4.5, 11.6, 9.5), "pl-ups", faces=("up",), uv=(0, 8, 8, 16), rot=(0, -12, 0)),
+        b("Papers", (1, 11.5, 5), (4.5, 11.6, 9.5), "paper-sheet", faces=("up",), uv=(0, 0, 16, 16), rot=(0, -12, 0)),
     ]
     return els
 
