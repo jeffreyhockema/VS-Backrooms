@@ -1,0 +1,189 @@
+// Level 36 (cabin pass): the cabin's sidewall with its porthole facing the cabin (<side>): the reveal, a raised bezel, the blind up, the pane's picture by the flight's phase (apron: parked at the gate; roll: the runway rushing past; climb: the ground falling away under a wing tip; cruise: cloud tops and a low sun; descent: grey cloud and rain; ground: the taxiway's lights at dusk), glowing, a little daylight through it; the flight's logic swaps them
+{
+	"code": "l36-cabinwindow",
+	"variantgroups": [
+		{
+			"code": "phase",
+			"states": [
+				"apron",
+				"roll",
+				"climb",
+				"cruise",
+				"descent",
+				"ground"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-cabinwindow-apron-north": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-apron"
+		},
+		"l36-cabinwindow-apron-east": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-apron",
+			"rotateY": 270
+		},
+		"l36-cabinwindow-apron-south": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-apron",
+			"rotateY": 180
+		},
+		"l36-cabinwindow-apron-west": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-apron",
+			"rotateY": 90
+		},
+		"l36-cabinwindow-roll-north": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-roll"
+		},
+		"l36-cabinwindow-roll-east": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-roll",
+			"rotateY": 270
+		},
+		"l36-cabinwindow-roll-south": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-roll",
+			"rotateY": 180
+		},
+		"l36-cabinwindow-roll-west": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-roll",
+			"rotateY": 90
+		},
+		"l36-cabinwindow-climb-north": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-climb"
+		},
+		"l36-cabinwindow-climb-east": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-climb",
+			"rotateY": 270
+		},
+		"l36-cabinwindow-climb-south": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-climb",
+			"rotateY": 180
+		},
+		"l36-cabinwindow-climb-west": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-climb",
+			"rotateY": 90
+		},
+		"l36-cabinwindow-cruise-north": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-cruise"
+		},
+		"l36-cabinwindow-cruise-east": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-cruise",
+			"rotateY": 270
+		},
+		"l36-cabinwindow-cruise-south": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-cruise",
+			"rotateY": 180
+		},
+		"l36-cabinwindow-cruise-west": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-cruise",
+			"rotateY": 90
+		},
+		"l36-cabinwindow-descent-north": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-descent"
+		},
+		"l36-cabinwindow-descent-east": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-descent",
+			"rotateY": 270
+		},
+		"l36-cabinwindow-descent-south": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-descent",
+			"rotateY": 180
+		},
+		"l36-cabinwindow-descent-west": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-descent",
+			"rotateY": 90
+		},
+		"l36-cabinwindow-ground-north": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-ground"
+		},
+		"l36-cabinwindow-ground-east": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-ground",
+			"rotateY": 270
+		},
+		"l36-cabinwindow-ground-south": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-ground",
+			"rotateY": 180
+		},
+		"l36-cabinwindow-ground-west": {
+			"base": "backrooms:block/36/cabin/l36-cabinwindow-ground",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"drops": [],
+	"lightHsvByType": {
+		"*-apron-*": [
+			36,
+			1,
+			6
+		],
+		"*-roll-*": [
+			36,
+			1,
+			6
+		],
+		"*-climb-*": [
+			36,
+			1,
+			8
+		],
+		"*-cruise-*": [
+			36,
+			1,
+			10
+		],
+		"*-descent-*": [
+			36,
+			1,
+			4
+		]
+	},
+	"attributes": {
+		"l36structure": true
+	}
+}

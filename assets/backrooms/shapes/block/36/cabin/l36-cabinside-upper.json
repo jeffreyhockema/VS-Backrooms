@@ -1,0 +1,64 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-ceil": "backrooms:block/36/cabin/c-ceil",
+		"c-panel": "backrooms:block/36/cabin/c-panel"
+	},
+	"elements": [
+		{
+			"name": "Curve",
+			"from": [
+				0,
+				0,
+				1.5
+			],
+			"to": [
+				16,
+				16.6,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				1.5
+			],
+			"rotationX": 22.5
+		},
+		{
+			"name": "Top",
+			"from": [
+				0,
+				15.2,
+				-4.9
+			],
+			"to": [
+				16,
+				16,
+				1.5
+			],
+			"faces": {
+				"down": {
+					"texture": "#c-ceil",
+					"uv": [
+						0,
+						0,
+						16,
+						6.4
+					]
+				}
+			}
+		}
+	]
+}

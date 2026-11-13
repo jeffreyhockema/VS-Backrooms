@@ -633,7 +633,7 @@ def ceilings():
         d.rectangle(((cx - 3) * K, 17 * K, (cx + 3) * K, 19 * K), fill=(176, 176, 172, 255))  # the call/seat-belt sign slot
     cab.alpha_composite(shrink(big, (S, S)))
     M.emboss_lines(cab, ys=(10, 21), strength=0.14)
-    save(cab, "l36-ceiling-cabin")
+    # (cabin pass, 2026-11-13: l36-ceiling-cabin is now the aisle's lit diffuser, painted by tools/gen_36_cabin.py)
 
 
 def lights():

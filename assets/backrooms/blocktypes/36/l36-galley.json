@@ -1,0 +1,169 @@
+// Level 36 (cabin pass): a galley unit (carts: two trolleys in their bay; cartswaste: a trolley and the waste flap; oven; coffee: two beverage makers and a pot; counter: cups, a tray, a pot; stow: standard containers and the work light)
+{
+	"code": "l36-galley",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"carts",
+				"cartswaste",
+				"oven",
+				"coffee",
+				"counter",
+				"stow"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-galley-carts-north": {
+			"base": "backrooms:block/36/cabin/l36-galley-carts"
+		},
+		"l36-galley-carts-east": {
+			"base": "backrooms:block/36/cabin/l36-galley-carts",
+			"rotateY": 270
+		},
+		"l36-galley-carts-south": {
+			"base": "backrooms:block/36/cabin/l36-galley-carts",
+			"rotateY": 180
+		},
+		"l36-galley-carts-west": {
+			"base": "backrooms:block/36/cabin/l36-galley-carts",
+			"rotateY": 90
+		},
+		"l36-galley-cartswaste-north": {
+			"base": "backrooms:block/36/cabin/l36-galley-cartswaste"
+		},
+		"l36-galley-cartswaste-east": {
+			"base": "backrooms:block/36/cabin/l36-galley-cartswaste",
+			"rotateY": 270
+		},
+		"l36-galley-cartswaste-south": {
+			"base": "backrooms:block/36/cabin/l36-galley-cartswaste",
+			"rotateY": 180
+		},
+		"l36-galley-cartswaste-west": {
+			"base": "backrooms:block/36/cabin/l36-galley-cartswaste",
+			"rotateY": 90
+		},
+		"l36-galley-oven-north": {
+			"base": "backrooms:block/36/cabin/l36-galley-oven"
+		},
+		"l36-galley-oven-east": {
+			"base": "backrooms:block/36/cabin/l36-galley-oven",
+			"rotateY": 270
+		},
+		"l36-galley-oven-south": {
+			"base": "backrooms:block/36/cabin/l36-galley-oven",
+			"rotateY": 180
+		},
+		"l36-galley-oven-west": {
+			"base": "backrooms:block/36/cabin/l36-galley-oven",
+			"rotateY": 90
+		},
+		"l36-galley-coffee-north": {
+			"base": "backrooms:block/36/cabin/l36-galley-coffee"
+		},
+		"l36-galley-coffee-east": {
+			"base": "backrooms:block/36/cabin/l36-galley-coffee",
+			"rotateY": 270
+		},
+		"l36-galley-coffee-south": {
+			"base": "backrooms:block/36/cabin/l36-galley-coffee",
+			"rotateY": 180
+		},
+		"l36-galley-coffee-west": {
+			"base": "backrooms:block/36/cabin/l36-galley-coffee",
+			"rotateY": 90
+		},
+		"l36-galley-counter-north": {
+			"base": "backrooms:block/36/cabin/l36-galley-counter"
+		},
+		"l36-galley-counter-east": {
+			"base": "backrooms:block/36/cabin/l36-galley-counter",
+			"rotateY": 270
+		},
+		"l36-galley-counter-south": {
+			"base": "backrooms:block/36/cabin/l36-galley-counter",
+			"rotateY": 180
+		},
+		"l36-galley-counter-west": {
+			"base": "backrooms:block/36/cabin/l36-galley-counter",
+			"rotateY": 90
+		},
+		"l36-galley-stow-north": {
+			"base": "backrooms:block/36/cabin/l36-galley-stow"
+		},
+		"l36-galley-stow-east": {
+			"base": "backrooms:block/36/cabin/l36-galley-stow",
+			"rotateY": 270
+		},
+		"l36-galley-stow-south": {
+			"base": "backrooms:block/36/cabin/l36-galley-stow",
+			"rotateY": 180
+		},
+		"l36-galley-stow-west": {
+			"base": "backrooms:block/36/cabin/l36-galley-stow",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"drops": [],
+	"lightHsvByType": {
+		"*-stow-*": [
+			8,
+			1,
+			5
+		]
+	},
+	"attributes": {
+		"l36structure": true
+	}
+}

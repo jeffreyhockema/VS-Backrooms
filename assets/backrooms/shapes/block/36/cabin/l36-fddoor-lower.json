@@ -1,0 +1,184 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-fddoor": "backrooms:block/36/cabin/c-fddoor",
+		"c-grey": "backrooms:block/36/cabin/c-grey",
+		"c-louvre": "backrooms:block/36/cabin/c-louvre",
+		"c-trim": "backrooms:block/36/cabin/c-trim",
+		"steel": "backrooms:block/36/props/steel"
+	},
+	"elements": [
+		{
+			"name": "FrameL",
+			"from": [
+				0,
+				0,
+				-0.5
+			],
+			"to": [
+				1.5,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameR",
+			"from": [
+				14.5,
+				0,
+				-0.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaf",
+			"from": [
+				1.5,
+				0,
+				0.5
+			],
+			"to": [
+				14.5,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-fddoor",
+					"uv": [
+						0,
+						0,
+						13.0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				1.5,
+				0,
+				0.2
+			],
+			"to": [
+				14.5,
+				2,
+				0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						2
+					]
+				},
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Louvre",
+			"from": [
+				3,
+				3,
+				0.3
+			],
+			"to": [
+				13,
+				8,
+				0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-louvre",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Seam",
+			"from": [
+				1.5,
+				15.6,
+				0.3
+			],
+			"to": [
+				14.5,
+				16,
+				0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						13.0,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,288 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-grey": "backrooms:block/36/cabin/c-grey",
+		"c-louvre": "backrooms:block/36/cabin/c-louvre",
+		"c-panel": "backrooms:block/36/cabin/c-panel",
+		"c-trim": "backrooms:block/36/cabin/c-trim"
+	},
+	"elements": [
+		{
+			"name": "FrameL",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				1,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameR",
+			"from": [
+				15,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						1,
+						16
+					]
+				},
+				"east": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafA",
+			"from": [
+				1,
+				0,
+				1.2
+			],
+			"to": [
+				8,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						7,
+						16
+					]
+				},
+				"up": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						7,
+						14.8
+					]
+				},
+				"down": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						7,
+						14.8
+					]
+				}
+			}
+		},
+		{
+			"name": "LeafB",
+			"from": [
+				8,
+				0,
+				1.0
+			],
+			"to": [
+				15,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						7,
+						16
+					]
+				},
+				"up": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						7,
+						15.0
+					]
+				},
+				"down": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						7,
+						15.0
+					]
+				},
+				"west": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						15.0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Fold",
+			"from": [
+				7.8,
+				0,
+				0.9
+			],
+			"to": [
+				8.2,
+				16,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Louvre",
+			"from": [
+				2.5,
+				1.5,
+				0.95
+			],
+			"to": [
+				6.5,
+				6,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-louvre",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				0,
+				0,
+				-0.1
+			],
+			"to": [
+				16,
+				1,
+				1
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				},
+				"up": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						16,
+						1.1
+					]
+				}
+			}
+		}
+	]
+}

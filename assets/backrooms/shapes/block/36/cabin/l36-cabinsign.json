@@ -1,0 +1,194 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-dark": "backrooms:block/36/cabin/c-dark",
+		"c-trim": "backrooms:block/36/cabin/c-trim",
+		"chrome": "backrooms:block/36/props/chrome",
+		"sign-exit": "backrooms:block/36/cabin/sign-exit"
+	},
+	"elements": [
+		{
+			"name": "Box",
+			"from": [
+				3,
+				9.5,
+				6.75
+			],
+			"to": [
+				13,
+				13.5,
+				9.25
+			],
+			"faces": {
+				"east": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						2.5,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						2.5,
+						4.0
+					]
+				},
+				"down": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						10,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						10,
+						2.5
+					]
+				},
+				"north": {
+					"texture": "#sign-exit",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				},
+				"south": {
+					"texture": "#sign-exit",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Stem",
+			"from": [
+				7.5,
+				13.5,
+				7.5
+			],
+			"to": [
+				8.5,
+				16,
+				8.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.0,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Plate",
+			"from": [
+				6,
+				15.6,
+				6.5
+			],
+			"to": [
+				10,
+				16,
+				9.5
+			],
+			"faces": {
+				"down": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						4,
+						3.0
+					]
+				},
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						4,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						4,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						3.0,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

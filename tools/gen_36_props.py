@@ -1152,7 +1152,7 @@ def main():
     perfumes()
     meal_tables()
     meetings()
-    cabin_seats()
+    # (cabin pass, 2026-11-13: the economy seat is rebuilt in tools/gen_36_cabin.py)
     lost_founds()
     link_blocks()
     ok = check()

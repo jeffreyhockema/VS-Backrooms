@@ -1,0 +1,222 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-grey": "backrooms:block/36/cabin/c-grey",
+		"c-panel": "backrooms:block/36/cabin/c-panel",
+		"c-skinband": "backrooms:block/36/cabin/c-skinband",
+		"c-trim": "backrooms:block/36/cabin/c-trim",
+		"canopy": "backrooms:block/36/cabin/canopy",
+		"placard-safety": "backrooms:block/36/cabin/placard-safety",
+		"rubber": "backrooms:block/36/props/rubber"
+	},
+	"elements": [
+		{
+			"name": "InPanel",
+			"from": [
+				0,
+				0,
+				1.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "InSeam",
+			"from": [
+				0,
+				0,
+				1.25
+			],
+			"to": [
+				0.4,
+				16,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Safety",
+			"from": [
+				4,
+				4,
+				1.2
+			],
+			"to": [
+				12,
+				12,
+				1.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						8,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8
+					]
+				},
+				"west": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						8
+					]
+				},
+				"north": {
+					"texture": "#placard-safety",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Skin",
+			"from": [
+				0,
+				0,
+				15
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"south": {
+					"texture": "#c-skinband",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Bellows",
+			"from": [
+				12,
+				0,
+				16
+			],
+			"to": [
+				16.5,
+				16,
+				20
+			],
+			"faces": {
+				"south": {
+					"texture": "#canopy",
+					"uv": [
+						0,
+						0,
+						4.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#canopy",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#canopy",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib",
+			"from": [
+				12,
+				0,
+				16
+			],
+			"to": [
+				12.6,
+				16,
+				20.4
+			],
+			"faces": {
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4.5,
+						16
+					]
+				}
+			}
+		}
+	]
+}

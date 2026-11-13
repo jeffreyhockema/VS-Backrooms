@@ -1,0 +1,190 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-ceil": "backrooms:block/36/cabin/c-ceil",
+		"c-panel": "backrooms:block/36/cabin/c-panel",
+		"canopy": "backrooms:block/36/cabin/canopy",
+		"rubber": "backrooms:block/36/props/rubber",
+		"skin": "backrooms:block/36/cabin/skin"
+	},
+	"elements": [
+		{
+			"name": "InCurve",
+			"from": [
+				0,
+				0,
+				1.5
+			],
+			"to": [
+				16,
+				16.6,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				1.5
+			],
+			"rotationX": 22.5
+		},
+		{
+			"name": "InTop",
+			"from": [
+				0,
+				15.2,
+				-4.9
+			],
+			"to": [
+				16,
+				16,
+				1.5
+			],
+			"faces": {
+				"down": {
+					"texture": "#c-ceil",
+					"uv": [
+						0,
+						0,
+						16,
+						6.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Skin",
+			"from": [
+				0,
+				0,
+				15
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"south": {
+					"texture": "#skin",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Bellows",
+			"from": [
+				-0.5,
+				0,
+				16
+			],
+			"to": [
+				4,
+				16,
+				20
+			],
+			"faces": {
+				"south": {
+					"texture": "#canopy",
+					"uv": [
+						0,
+						0,
+						4.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#canopy",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#canopy",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib",
+			"from": [
+				3.4,
+				0,
+				16
+			],
+			"to": [
+				4,
+				16,
+				20.4
+			],
+			"faces": {
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "CanopyTop",
+			"from": [
+				-0.5,
+				9,
+				16
+			],
+			"to": [
+				16.5,
+				16,
+				20
+			],
+			"faces": {
+				"south": {
+					"texture": "#canopy",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				},
+				"down": {
+					"texture": "#canopy",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				}
+			}
+		}
+	]
+}

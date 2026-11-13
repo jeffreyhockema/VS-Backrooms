@@ -1,0 +1,350 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/36/props/black",
+		"c-grey": "backrooms:block/36/cabin/c-grey",
+		"c-red": "backrooms:block/36/cabin/c-red",
+		"galley-cart": "backrooms:block/36/cabin/galley-cart",
+		"galley-waste": "backrooms:block/36/cabin/galley-waste",
+		"steel": "backrooms:block/36/props/steel"
+	},
+	"elements": [
+		{
+			"name": "PostL",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0.6,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PostR",
+			"from": [
+				15.4,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0.6,
+				0,
+				15
+			],
+			"to": [
+				15.4,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						14.8,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "CartA",
+			"from": [
+				0.9,
+				0.3,
+				1.2
+			],
+			"to": [
+				7.8,
+				15,
+				15
+			],
+			"faces": {
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						6.9,
+						13.8
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.8,
+						14.7
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						13.8,
+						14.7
+					]
+				},
+				"north": {
+					"texture": "#galley-cart",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				0.6,
+				0,
+				0.3
+			],
+			"to": [
+				15.4,
+				0.3,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						14.8,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						14.8,
+						14.7
+					]
+				}
+			}
+		},
+		{
+			"name": "Lip",
+			"from": [
+				0.6,
+				15,
+				0.3
+			],
+			"to": [
+				15.4,
+				16,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						14.8,
+						1
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						14.8,
+						14.7
+					]
+				}
+			}
+		},
+		{
+			"name": "LatchA",
+			"from": [
+				3.3,
+				13.2,
+				0.7
+			],
+			"to": [
+				5.4,
+				14.0,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-red",
+					"uv": [
+						0,
+						0,
+						2.1,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#c-red",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#c-red",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#c-red",
+					"uv": [
+						0,
+						0,
+						2.1,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#c-red",
+					"uv": [
+						0,
+						0,
+						2.1,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Waste",
+			"from": [
+				8.2,
+				0.3,
+				0.8
+			],
+			"to": [
+				15.1,
+				15,
+				15
+			],
+			"faces": {
+				"up": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						6.9,
+						14.2
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						14.2,
+						14.7
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						14.2,
+						14.7
+					]
+				},
+				"north": {
+					"texture": "#galley-waste",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,31 @@
+// Level 36 (cabin pass): the cabin's carpet in the door rows
+{
+	"code": "l36-cabinfloor-plain",
+	"textures": {
+		"all": {
+			"base": "backrooms:block/36/cabin/c-carpet"
+		}
+	},
+	"blockmaterial": "Stone",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"attributes": {
+		"l36structure": true
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"drops": []
+}

@@ -1,0 +1,279 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-grey": "backrooms:block/36/cabin/c-grey",
+		"c-led": "backrooms:block/36/cabin/c-led",
+		"c-trim": "backrooms:block/36/cabin/c-trim",
+		"galley-stow": "backrooms:block/36/cabin/galley-stow",
+		"steel": "backrooms:block/36/props/steel"
+	},
+	"elements": [
+		{
+			"name": "PostL",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				0.6,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "PostR",
+			"from": [
+				15.4,
+				0,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						0.6,
+						16
+					]
+				},
+				"east": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Back",
+			"from": [
+				0.6,
+				0,
+				15
+			],
+			"to": [
+				15.4,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						14.8,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Stow",
+			"from": [
+				0.6,
+				1.2,
+				0.8
+			],
+			"to": [
+				15.4,
+				8,
+				15
+			],
+			"faces": {
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						14.8,
+						14.2
+					]
+				},
+				"north": {
+					"texture": "#galley-stow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Stow2",
+			"from": [
+				0.6,
+				8.3,
+				0.8
+			],
+			"to": [
+				15.4,
+				15.1,
+				15
+			],
+			"faces": {
+				"north": {
+					"texture": "#galley-stow",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Top",
+			"from": [
+				0,
+				15.1,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						0.9
+					]
+				},
+				"down": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Work",
+			"from": [
+				1,
+				0.6,
+				1
+			],
+			"to": [
+				15,
+				1.2,
+				2.2
+			],
+			"faces": {
+				"down": {
+					"texture": "#c-led",
+					"uv": [
+						0,
+						0,
+						14,
+						1.2
+					],
+					"glow": 180
+				},
+				"north": {
+					"texture": "#c-led",
+					"uv": [
+						0,
+						0,
+						14,
+						0.6
+					],
+					"glow": 180
+				}
+			}
+		},
+		{
+			"name": "WorkHood",
+			"from": [
+				0.6,
+				1.2,
+				0.6
+			],
+			"to": [
+				15.4,
+				1.5,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						14.8,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#steel",
+					"uv": [
+						0,
+						0,
+						14.8,
+						2.4
+					]
+				}
+			}
+		}
+	]
+}

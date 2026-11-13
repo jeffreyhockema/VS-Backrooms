@@ -426,10 +426,10 @@ def blocktypes(sh):
            "blockmaterial": "Stone", "drawtype": "json", "sidesolid": {"all": True}, "sideopaque": {"all": True},
            "lightAbsorption": 99, "resistance": 3, "sounds": STONE, "attributes": dict(STRUCT)})
 
-    cube("l36-ceiling", [{"code": "kind", "states": ["steel", "tile", "dark", "cabin"]}], {"all": tex("l36-ceiling-{kind}")},
+    cube("l36-ceiling", [{"code": "kind", "states": ["steel", "tile", "dark"]}], {"all": tex("l36-ceiling-{kind}")},
          "Level 36: ceilings (steel: the concourses' linear metal baffles; tile: offices and restrooms; dark: the open black "
-         "ceiling of the service areas; cabin: the plane's, with reading lights and air nozzles)", material="Metal",
-         sounds=METAL)
+         "ceiling of the service areas; the cabin's, l36-ceiling-cabin, is tools/gen_36_cabin.py's since the cabin pass)",
+         material="Metal", sounds=METAL)
 
     # The ceiling lights, as l31-tube does its states
     states = ["on", "lit", "flicker", "off", "high"]

@@ -342,6 +342,9 @@ public static class FeatureCatalog
         new(WorldLayout.Level36, "l36service", "Back of house", Region),
         new(WorldLayout.Level36, "l36blackout", "Blacked-out concourse", Region),
         new(WorldLayout.Level36, "l36limit", "The Absolute Limit", Region),
+        new(WorldLayout.Level36, "l36cabin", "Plane cabin (economy)", Region),
+        new(WorldLayout.Level36, "l36galley", "Plane galley and flight deck door", Region),
+        new(WorldLayout.Level36, "l36planedoor", "Plane door (end of the jet bridge)", Region),
         // ===== Level 120, Broken Servos =====
         new(WorldLayout.Level120, "l120aisle", "Server room (racks)", Region),
         new(WorldLayout.Level120, "l120terminal", "Terminal (BOOT screen)", Region),

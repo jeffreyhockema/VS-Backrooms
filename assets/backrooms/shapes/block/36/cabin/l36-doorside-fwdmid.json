@@ -1,0 +1,222 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-grey": "backrooms:block/36/cabin/c-grey",
+		"c-panel": "backrooms:block/36/cabin/c-panel",
+		"c-skinband": "backrooms:block/36/cabin/c-skinband",
+		"c-trim": "backrooms:block/36/cabin/c-trim",
+		"canopy": "backrooms:block/36/cabin/canopy",
+		"panel-attendant": "backrooms:block/36/cabin/panel-attendant",
+		"rubber": "backrooms:block/36/props/rubber"
+	},
+	"elements": [
+		{
+			"name": "InPanel",
+			"from": [
+				0,
+				0,
+				1.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "InSeam",
+			"from": [
+				0,
+				0,
+				1.25
+			],
+			"to": [
+				0.4,
+				16,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						0.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Attendant",
+			"from": [
+				3,
+				3,
+				0.8
+			],
+			"to": [
+				13,
+				13,
+				1.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						10,
+						0.7
+					]
+				},
+				"down": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						10,
+						0.7
+					]
+				},
+				"east": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						0.7,
+						10
+					]
+				},
+				"west": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						0.7,
+						10
+					]
+				},
+				"north": {
+					"texture": "#panel-attendant",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Skin",
+			"from": [
+				0,
+				0,
+				15
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"south": {
+					"texture": "#c-skinband",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Bellows",
+			"from": [
+				-0.5,
+				0,
+				16
+			],
+			"to": [
+				4,
+				16,
+				20
+			],
+			"faces": {
+				"south": {
+					"texture": "#canopy",
+					"uv": [
+						0,
+						0,
+						4.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#canopy",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				},
+				"west": {
+					"texture": "#canopy",
+					"uv": [
+						0,
+						0,
+						4,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Rib",
+			"from": [
+				3.4,
+				0,
+				16
+			],
+			"to": [
+				4,
+				16,
+				20.4
+			],
+			"faces": {
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						4.5,
+						16
+					]
+				}
+			}
+		}
+	]
+}

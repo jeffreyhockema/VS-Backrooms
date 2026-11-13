@@ -1,0 +1,162 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-grey": "backrooms:block/36/cabin/c-grey",
+		"c-grille": "backrooms:block/36/cabin/c-grille",
+		"c-panel": "backrooms:block/36/cabin/c-panel",
+		"c-trim": "backrooms:block/36/cabin/c-trim"
+	},
+	"elements": [
+		{
+			"name": "Panel",
+			"from": [
+				0,
+				1.5,
+				1.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						16,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				0,
+				0,
+				0.75
+			],
+			"to": [
+				16,
+				1.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						16,
+						15.25
+					]
+				}
+			}
+		},
+		{
+			"name": "Grille",
+			"from": [
+				1.5,
+				2.5,
+				1.2
+			],
+			"to": [
+				14.5,
+				4.5,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-grille",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"up": {
+					"texture": "#c-grille",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#c-grille",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"east": {
+					"texture": "#c-grille",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"west": {
+					"texture": "#c-grille",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Seam",
+			"from": [
+				0,
+				15.5,
+				1.25
+			],
+			"to": [
+				16,
+				16,
+				1.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

@@ -951,6 +951,9 @@ public static class Overheads
     public const ushort L36GateSign = 416, L36Sign = 417, L36Fids = 418, L36BoothSign = 419;
     /// <summary>Level 36 (round 3), on a wall tile: a wall picture on its Pier face (Depth its kind, WorldLayout.L36Art; Roof its column, 0 the leftmost seen from in front; Stack the height of its lowest row above the floor); the plane at the gate painted over a runway window or a jet-bridge door's wall (Roof its column, 0-8).</summary>
     public const ushort L36Art = 420, L36Apron = 421;
+    /// <summary>Level 36 (cabin pass), on a cabin floor tile, in its top block: the passenger service unit under the outer bin (Pier toward the
+    /// aisle), an overhead bin (Depth: bits 0-3 its row label, bits 4-5 open with a bag / a coat), an EXIT sign hung over the aisle (Pier along it).</summary>
+    public const ushort L36Psu = 422, L36CabinBin = 423, L36CabinSign = 424;
     public const ushort L15First = 448, L15Last = 479;
     /// <summary>Level 15: a steel rib across the top of a hall (along the way it spans: west-east, north-south); a beam set in at a wrong angle.</summary>
     public const ushort L15RibWE = 448, L15RibNS = 449, L15OddBeam = 450;
@@ -1835,6 +1838,9 @@ public static class Props
         L36PrayerMat = 1232, L36InfoPylon = 1233,
         /// <summary>(round 4) decorative unclaimed luggage (Stack its kind 0-4: two spinners, a duffel, a garment bag, a spinner standing).</summary>
         L36Luggage = 1234;
+    /// <summary>(cabin pass, 2026-11-13) a fitting of the plane's cabin, up to three blocks tall (Stack its kind, WorldLayout.L36Cab: galley
+    /// units, lavatories, the jump seat, the galley curtain, the boarding door at the bridge's end).</summary>
+    public const ushort L36CabinFit = 1235;
     public const ushort L15First = 1300, L15Last = 1399;
     /// <summary>
     /// Level 15 (see WorldLayout.Level15.cs): a machine's casing (Stack its height, Detail its state), a console, a lab bench, a

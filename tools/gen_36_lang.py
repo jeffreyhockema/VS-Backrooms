@@ -75,7 +75,7 @@ def owned(key):
 
 def block_names():
     names = {}
-    for mod in ("gen_36_surfaces", "gen_36_props", "gen_36_detail", "gen_36_r4"):
+    for mod in ("gen_36_surfaces", "gen_36_props", "gen_36_detail", "gen_36_r4", "gen_36_cabin"):
         names.update(__import__(mod).NAMES)
     return names
 

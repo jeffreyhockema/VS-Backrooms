@@ -1,0 +1,309 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"curtain": "backrooms:block/36/cabin/curtain"
+	},
+	"elements": [
+		{
+			"name": "Pleat0",
+			"from": [
+				0.2,
+				0,
+				0.6
+			],
+			"to": [
+				2.4,
+				16,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#curtain",
+					"uv": [
+						0,
+						0,
+						3,
+						16
+					]
+				},
+				"south": {
+					"texture": "#curtain",
+					"uv": [
+						0,
+						0,
+						3,
+						16
+					]
+				},
+				"east": {
+					"texture": "#curtain",
+					"uv": [
+						0,
+						0,
+						3,
+						16
+					]
+				},
+				"west": {
+					"texture": "#curtain",
+					"uv": [
+						0,
+						0,
+						3,
+						16
+					]
+				},
+				"down": {
+					"texture": "#curtain",
+					"uv": [
+						0,
+						0,
+						3,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Pleat1",
+			"from": [
+				2.2,
+				0,
+				1.6
+			],
+			"to": [
+				4.4,
+				16,
+				2.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#curtain",
+					"uv": [
+						3,
+						0,
+						6,
+						16
+					]
+				},
+				"south": {
+					"texture": "#curtain",
+					"uv": [
+						3,
+						0,
+						6,
+						16
+					]
+				},
+				"east": {
+					"texture": "#curtain",
+					"uv": [
+						3,
+						0,
+						6,
+						16
+					]
+				},
+				"west": {
+					"texture": "#curtain",
+					"uv": [
+						3,
+						0,
+						6,
+						16
+					]
+				},
+				"down": {
+					"texture": "#curtain",
+					"uv": [
+						3,
+						0,
+						6,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Pleat2",
+			"from": [
+				4.2,
+				0,
+				0.6
+			],
+			"to": [
+				6.4,
+				16,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#curtain",
+					"uv": [
+						6,
+						0,
+						9,
+						16
+					]
+				},
+				"south": {
+					"texture": "#curtain",
+					"uv": [
+						6,
+						0,
+						9,
+						16
+					]
+				},
+				"east": {
+					"texture": "#curtain",
+					"uv": [
+						6,
+						0,
+						9,
+						16
+					]
+				},
+				"west": {
+					"texture": "#curtain",
+					"uv": [
+						6,
+						0,
+						9,
+						16
+					]
+				},
+				"down": {
+					"texture": "#curtain",
+					"uv": [
+						6,
+						0,
+						9,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Pleat3",
+			"from": [
+				6.2,
+				0,
+				1.6
+			],
+			"to": [
+				8.4,
+				16,
+				2.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#curtain",
+					"uv": [
+						9,
+						0,
+						12,
+						16
+					]
+				},
+				"south": {
+					"texture": "#curtain",
+					"uv": [
+						9,
+						0,
+						12,
+						16
+					]
+				},
+				"east": {
+					"texture": "#curtain",
+					"uv": [
+						9,
+						0,
+						12,
+						16
+					]
+				},
+				"west": {
+					"texture": "#curtain",
+					"uv": [
+						9,
+						0,
+						12,
+						16
+					]
+				},
+				"down": {
+					"texture": "#curtain",
+					"uv": [
+						9,
+						0,
+						12,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Pleat4",
+			"from": [
+				8.2,
+				0,
+				0.6
+			],
+			"to": [
+				10.4,
+				16,
+				1.2
+			],
+			"faces": {
+				"north": {
+					"texture": "#curtain",
+					"uv": [
+						12,
+						0,
+						15,
+						16
+					]
+				},
+				"south": {
+					"texture": "#curtain",
+					"uv": [
+						12,
+						0,
+						15,
+						16
+					]
+				},
+				"east": {
+					"texture": "#curtain",
+					"uv": [
+						12,
+						0,
+						15,
+						16
+					]
+				},
+				"west": {
+					"texture": "#curtain",
+					"uv": [
+						12,
+						0,
+						15,
+						16
+					]
+				},
+				"down": {
+					"texture": "#curtain",
+					"uv": [
+						12,
+						0,
+						15,
+						16
+					]
+				}
+			}
+		}
+	]
+}

@@ -1,4 +1,4 @@
-// Level 36: ceilings (steel: the concourses' linear metal baffles; tile: offices and restrooms; dark: the open black ceiling of the service areas; cabin: the plane's, with reading lights and air nozzles)
+// Level 36: ceilings (steel: the concourses' linear metal baffles; tile: offices and restrooms; dark: the open black ceiling of the service areas; the cabin's, l36-ceiling-cabin, is tools/gen_36_cabin.py's since the cabin pass)
 {
 	"code": "l36-ceiling",
 	"variantgroups": [
@@ -7,8 +7,7 @@
 			"states": [
 				"steel",
 				"tile",
-				"dark",
-				"cabin"
+				"dark"
 			]
 		}
 	],

@@ -1,0 +1,67 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-grey": "backrooms:block/36/cabin/c-grey",
+		"c-panel": "backrooms:block/36/cabin/c-panel"
+	},
+	"elements": [
+		{
+			"name": "Panel",
+			"from": [
+				0,
+				1.5,
+				0.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						16,
+						14.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Kick",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				1.5,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						16,
+						1.5
+					]
+				},
+				"up": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

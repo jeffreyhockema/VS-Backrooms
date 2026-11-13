@@ -880,24 +880,30 @@ public sealed partial class WorldLayout
                 w.Roof = L36Part(w.Pier, L36Upward(plan, pa0 + 6, Q(83), p - (pa0 + 6), 9), 9);
             }
         }
-        // The bridge and the cabin (rows of seats either side of an aisle, facing the nose)
+        // The bridge and the cabin (cabin pass, 2026-11-13, layout 16: a narrow-body's cabin, the bridge meeting it at the front
+        // left door; WorldLayout.Level36.Cabin.cs)
         L36Fill(plan, pa0 + 9, Q(71), pa0 + 11, Q(82), L36Zone.Bridge, 3, L36Mat.CarpetGrey);
-        for (int p = pa0 + 9; p <= pa0 + 11; p++)
-            if (p != pa0 + 10) plan.At(p, Q(71)) = L36Solid();
         // (round 4) In one bridge in four a wanderer's chalk cross on the wall, just inside the door (the lore: the flights do
         // not come back)
         {
             var (bx, bz) = plan.World(pa0 + 9, Q(81));
             if (Hashing.Unit(Hashing.Hash(seed, bx, bz, SaltL36Prop + 9)) < 0.25) plan.At(pa0 + 9, Q(81)).Chalk = ChalkBits.Make(plan.Dir(ArchPier.West), 2);
         }
-        for (int q = 66; q <= 70; q++)
-            for (int p = pa0 + 1; p <= pa0 + 19; p++)
-            {
-                ref Tile c = ref plan.At(p, Q(q));
-                c = L36Air(L36Zone.Cabin, 3, L36Mat.CarpetBlue);
-                if (q != 68 && p >= pa0 + 4 && p != pa0 + 10) { c.Variant = Props.L36CabinSeat; c.Pier = plan.Dir(ArchPier.West); }
-                if (q == 68 && (p - pa0) % 4 == 1) c.Ceiling = CeilingKind.LightOn;
-            }
+        if (Version >= 16) L36LayCabin(plan, pa0, side);
+        else
+        {
+            // (layout 15 and before, the released pre-releases: the old cabin, rows either side of an aisle, the door mid-cabin)
+            for (int p = pa0 + 9; p <= pa0 + 11; p++)
+                if (p != pa0 + 10) plan.At(p, Q(71)) = L36Solid();
+            for (int q = 66; q <= 70; q++)
+                for (int p = pa0 + 1; p <= pa0 + 19; p++)
+                {
+                    ref Tile c = ref plan.At(p, Q(q));
+                    c = L36Air(L36Zone.Cabin, 3, L36Mat.CarpetBlue);
+                    if (q != 68 && p >= pa0 + 4 && p != pa0 + 10) { c.Variant = Props.L36CabinSeat; c.Pier = plan.Dir(ArchPier.West); }
+                    if (q == 68 && (p - pa0) % 4 == 1) c.Ceiling = CeilingKind.LightOn;
+                }
+        }
         // The seats: rows facing the window, an aisle down the middle; (round 3) in one holdroom in four, coats and bags left
         // over the seats all over (Fandom: "clothing laying all over the chairs, and luggage seemingly abandoned")
         var (gx0, gz0) = plan.World(pa0, Q(84));

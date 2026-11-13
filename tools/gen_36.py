@@ -4,6 +4,8 @@
                          walls, clocks, gate and wayfinding signs, shop fascias, flight screens, the Absolute Limit's static
     gen_36_detail.py     (round 3) departures boards, posters, menus, the plane at the gate, the meeting-point sign,
                          coffers, skylights, travertine; charging posts, payphones, ATMs, fountains, shoe-shine chairs, cubicles
+    gen_36_cabin.py      (cabin pass) the plane's cabin (sidewalls and windows by flight phase, bins, service units, seats,
+                         galleys, lavatories, doors, the flight deck's door) and the fuselage at the jet bridge's end
     gen_36_r4.py         (round 4) the space-frame ceiling, column plinths and capitals, the jet bridge's walls, floor and
                          ceiling, espresso counters, pastry cases, tills, bar stools, luggage trolleys
     gen_36_props.py      check-in desks, gate seats and podiums, jet-bridge doors, queue barriers, the security lane, the
@@ -20,6 +22,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 
+import gen_36_cabin  # noqa: E402
 import gen_36_detail  # noqa: E402
 import gen_36_lang  # noqa: E402
 import gen_36_props  # noqa: E402
@@ -33,6 +36,7 @@ def main():
     gen_36_props.main()
     gen_36_detail.main()   # (round 3: the wall pictures, the plane at the gate, the meeting-point sign, finishes, new props)
     gen_36_r4.main()   # (round 4: the space frame, column cladding, the jet bridge, cafe counters, tills, stools, trolleys)
+    gen_36_cabin.main()   # (cabin pass, 2026-11-13: the plane's cabin, the bridge's end; after props: its seat replaces theirs)
     if "--no-sounds" not in sys.argv:
         import gen_36_sounds
         gen_36_sounds.main()

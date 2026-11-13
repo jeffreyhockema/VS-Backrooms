@@ -100,6 +100,9 @@ public sealed partial class FeatureFinder
         ["l36service"] = (WorldLayout.Level36, new[] { "service" }),
         ["l36blackout"] = (WorldLayout.Level36, new[] { "blackout" }),
         ["l36limit"] = (WorldLayout.Level36, new[] { "limit" }),
+        ["l36cabin"] = (WorldLayout.Level36, new[] { "cabin-door", "cabin-aisle", "cabin-window", "cabin-rear" }),
+        ["l36galley"] = (WorldLayout.Level36, new[] { "cabin-galley" }),
+        ["l36planedoor"] = (WorldLayout.Level36, new[] { "bridge-end" }),
         // ----- Level 120, Broken Servos -----
         ["l120aisle"] = (WorldLayout.Level120, new[] { "server-aisle", "cold-aisle", "lit-rack", "wrecked-bank", "row-ends" }),
         ["l120terminal"] = (WorldLayout.Level120, new[] { "boot-screen", "terminal-room", "noc-screens" }),

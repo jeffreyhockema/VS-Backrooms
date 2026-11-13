@@ -1,0 +1,335 @@
+// Level 36 (cabin pass): the plane's boarding door (L1) where the jet bridge ends, two blocks high (lower / upper), facing the cabin: its frame, sill and assist handle; open, the leaf swung forward against the skin with its slide bustle showing (walk through); closed, the leaf in the frame (the flight's logic closes it at departure)
+{
+	"code": "l36-planedoor",
+	"variantgroups": [
+		{
+			"code": "state",
+			"states": [
+				"open",
+				"closed"
+			]
+		},
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"upper"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-planedoor-open-lower-north": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-open-lower"
+		},
+		"l36-planedoor-open-lower-east": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-open-lower",
+			"rotateY": 270
+		},
+		"l36-planedoor-open-lower-south": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-open-lower",
+			"rotateY": 180
+		},
+		"l36-planedoor-open-lower-west": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-open-lower",
+			"rotateY": 90
+		},
+		"l36-planedoor-open-upper-north": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-open-upper"
+		},
+		"l36-planedoor-open-upper-east": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-open-upper",
+			"rotateY": 270
+		},
+		"l36-planedoor-open-upper-south": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-open-upper",
+			"rotateY": 180
+		},
+		"l36-planedoor-open-upper-west": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-open-upper",
+			"rotateY": 90
+		},
+		"l36-planedoor-closed-lower-north": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-closed-lower"
+		},
+		"l36-planedoor-closed-lower-east": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-closed-lower",
+			"rotateY": 270
+		},
+		"l36-planedoor-closed-lower-south": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-closed-lower",
+			"rotateY": 180
+		},
+		"l36-planedoor-closed-lower-west": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-closed-lower",
+			"rotateY": 90
+		},
+		"l36-planedoor-closed-upper-north": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-closed-upper"
+		},
+		"l36-planedoor-closed-upper-east": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-closed-upper",
+			"rotateY": 270
+		},
+		"l36-planedoor-closed-upper-south": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-closed-upper",
+			"rotateY": 180
+		},
+		"l36-planedoor-closed-upper-west": {
+			"base": "backrooms:block/36/cabin/l36-planedoor-closed-upper",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionboxByType": {
+		"l36-planedoor-open-lower-north": null,
+		"l36-planedoor-open-lower-east": null,
+		"l36-planedoor-open-lower-south": null,
+		"l36-planedoor-open-lower-west": null,
+		"l36-planedoor-open-upper-north": null,
+		"l36-planedoor-open-upper-east": null,
+		"l36-planedoor-open-upper-south": null,
+		"l36-planedoor-open-upper-west": null,
+		"l36-planedoor-closed-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-planedoor-closed-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-planedoor-closed-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-planedoor-closed-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-planedoor-closed-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-planedoor-closed-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-planedoor-closed-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-planedoor-closed-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		}
+	},
+	"selectionboxByType": {
+		"l36-planedoor-open-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-planedoor-open-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-planedoor-open-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-planedoor-open-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l36-planedoor-open-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-planedoor-open-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-planedoor-open-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-planedoor-open-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l36-planedoor-closed-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-planedoor-closed-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-planedoor-closed-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-planedoor-closed-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		},
+		"l36-planedoor-closed-upper-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1
+		},
+		"l36-planedoor-closed-upper-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 270
+		},
+		"l36-planedoor-closed-upper-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 180
+		},
+		"l36-planedoor-closed-upper-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0.1,
+			"x2": 1,
+			"y2": 1,
+			"z2": 1,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"attributes": {
+		"l36structure": true
+	}
+}
