@@ -248,6 +248,43 @@ kinds may be about together in Classes 3 to 5 (2, 3, 7, 8, 9, 94, Fun). Levels 3
 the class table (section 2 of `dialin.md`). The Flickering starts only with nothing menacing about
 and outside the hard gap; its Hounds still always come.
 
+## 3e. One Hound pack at a time (2026-11 feedback round, package "late")
+
+A player gave up in Level 9: "every 30 seconds another wolf enemy spawns on top of me", and endless packs in Level 8's
+caves. Changes (all runtime, every world):
+
+- **Share halved:** Level 9's Hound row 1.0 to 0.5, Level 8's 0.5 to 0.25 (`Roster.cs`).
+- **One pack at a time** in Levels 8 and 9 (`MenaceSystem.HoundPacks.cs`): per player (a party counts as one), no Hound is
+  sent while a pack sent for them is still about and stalking or hunting. When it has left or died, a quiet follows:
+  `U(3, 5) real minutes x sqrt(5.5 / spawns) / PartyFactor(party)`: 3 to 5 min on Normal, 3.8 to 6.3 on Low, 5 to 8.3 on
+  Very low, 2.4 to 4 on High, 2 to 3.3 on Very high; a party of two (factor 1.25) 2.4 to 4 on Normal. Thirst and fatigue
+  do not shorten it (they still bring more rolls of everything).
+- **A second pack** while one hunts only in Level 8's far dark (DarkPlace.Worst, over 18 blocks off the 9th Road) and Level
+  9's threshold band and dens, 5 % of the Hounds that come up there (`SecondPackChance`); never a third.
+- **Held back is a body that did not come:** a Hound that comes up and is held back stamps no clock, so the rolls do not
+  pass to the other creatures. (The halved row does shift their share of the picks slightly: about 10 % more of each.)
+- **A full cap sends nothing** (`TrySpawn`): the director's packs used to be clipped to `max(1, cap - present)`, so one
+  always came even at the cap. Set pieces (the Flickering, the Screaming) and `/backrooms encounter` still send one.
+
+**Measured** (headless, `tools/aitest/houndrate.py`, seed 12345, Normal, a straw dummy standing still per spot, the director
+directing it; headless Hounds never reach their dummy, so a pack lives its whole 150 to 300 s and leaves). Before: the
+branch head fe3d83ec, 100 min; after: this package, 60 min. Per 10 real minutes, Hound packs / all bodies (glimpses,
+stalkers, hunters and packs, set pieces left out):
+
+| Spot | Band | Before | After |
+| --- | --- | --- | --- |
+| Level 3, approach (unchanged rules: a control) | Approach | 1.30 / 6.7 | 1.83 / 5.3 |
+| Level 8, 7 to 12 blocks off the road | Heartland | 0 / 1.6 | 0 / 0.7 |
+| Level 8, off the road (Worst) | Threshold | 1.10 / 9.8 | 0.33 / 8.5 |
+| Level 9, approach | Approach | 1.80 / 8.6 | 0.67 / 7.3 |
+| Level 9, threshold | Threshold | 1.70 / 9.6 | 0.83 / 8.5 |
+
+The other creatures (bodies less the Hounds') keep their rates: Level 8 off-road 8.0 before and after, Level 9 approach
+6.5 and 6.0, Level 9 threshold 7.4 and 7.5. The Level 3 control's swing (1.3 against 1.8, 13 and 11 packs) is the noise of
+counts this small. A real player meets fewer packs than the table's ceiling again: a pack that catches or is killed ends
+sooner, but the quiet then runs from that moment. (A first after-run, 40 min, started the quiet only when a Hound next came
+up, so too late: 0.50 / 0.50 / 0.75 packs; fixed by updating the clocks every director tick.)
+
 ## 4. Skill: what keeps you alive now
 
 - **Running only works early.** From Level 3 a Hound outruns you, and running is what turns a stalker into a hunter.
