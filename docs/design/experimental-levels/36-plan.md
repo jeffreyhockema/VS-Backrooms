@@ -738,6 +738,9 @@ Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: wh
 
 ### What was built (cabin pass)
 
+- **Layout 16 only.** The new cabin is laid out for worlds made at layout 16 (this branch's unreleased version); worlds
+  of layout 15 and before (the uploaded pre-releases) keep the old cabin's tiles (the gate's "far places" hash of the
+  released versions must not move), drawn with the new seat and the new lit ceiling.
 - **The plan.** Behind every gate a narrow-body's economy cabin (`WorldLayout.Level36.Cabin.cs`, `L36Cab` constants), the
   nose put west or east by the gate's side, the plan's mirror and its flip so every plane has the same hand and boards by
   its front left door (L1) where the bridge ends (p pa0+10). From the nose: the forward bulkhead with the flight deck's
@@ -795,6 +798,8 @@ at 32 px; the cabin is shorter than the old one (the gate's bounds).
 
 ### Checks (cabin pass)
 
-See the report: expclash, builds, layout hashes (0-20 identical to main; Level 36's own baseline updated for v16 with
-`--update-baselines`: the cabin's layout changed), regions, featurecheck, headless dummy and blocksweep, textures,
-lang / guide / notes, the gate.
+`expclash` clean; mod and mapgen build, 0 errors; gate `--only mapgen --update-baselines`: hashes of v1, 9-16 match (levels
+0-20 identical to main's without the ways in), the v16 "far places" hash recorded anew (the cabin, layout 16 only);
+`regions` 60/60 in Level 36; `featurecheck 3 36`: 21/21 (new `l36cabin`, `l36galley`, `l36planedoor`); headless (43157):
+`/backrooms dummy place 36 5` lands (light 10), 0 missing blocks, `blocksweep` 19031 blocks, 0 threw; no translucent texels
+in the cabin's textures; `gen_guide --check`, `gen_notes --check` clean; `GATE_TAG=36f gate.py --fast --port-base 43150`: PASS.
