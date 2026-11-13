@@ -55,6 +55,7 @@ SIDES = P.SIDES
 DIRS = MK.DIRS
 no = P.no
 PHASES = ("apron", "roll", "climb", "cruise", "descent", "ground")
+PHASE_LIGHT = {"apron": 6, "roll": 6, "climb": 8, "cruise": 10, "descent": 4, "ground": 0}
 PHASE_GLOW = {"apron": 90, "roll": 100, "climb": 140, "cruise": 180, "descent": 70, "ground": 40}
 ROWS = (10, 11, 12, 14, 15, 16, 17, 18)
 
@@ -180,7 +181,7 @@ def materials():
                 a[t + 2, :, :3] = (60, 62, 68)
                 a[t:t + 2, ::4, :3] = (90, 92, 98)
         _save(_img(a), f"c-track-{axis}")
-    aisle = M.carpet(seed=sd + 12, base=(70, 76, 110), tone2=(52, 58, 88), mix2=0.35, pile=6, grain=3, mottle=4)
+    aisle = M.carpet(seed=sd + 12, base=(86, 92, 130), tone2=(66, 72, 106), mix2=0.35, pile=6, grain=3, mottle=4)
     _save(aisle, "c-aisle")
     a = _arr(M.noise_hv((150, 152, 150), 3, sd + 13, S, 4))
     rng = np.random.default_rng(sd)
@@ -771,7 +772,8 @@ def blocks():
         "Level 36 (cabin pass): the cabin's sidewall with its porthole facing the cabin (<side>): the reveal, a raised bezel, the "
         "blind up, the pane's picture by the flight's phase (apron: parked at the gate; roll: the runway rushing past; climb: the "
         "ground falling away under a wing tip; cruise: cloud tops and a low sun; descent: grey cloud and rain; ground: the "
-        "taxiway's lights at dusk), glowing; the flight's logic swaps them", boxes=FULL, material="Stone", sounds=P.STONE, data=STRUCT)
+        "taxiway's lights at dusk), glowing, a little daylight through it; the flight's logic swaps them", boxes=FULL, material="Stone",
+        sounds=P.STONE, data={"lightHsvByType": {f"*-{k}-*": [36, 1, v] for k, v in PHASE_LIGHT.items() if v}, **STRUCT})
     blk("l36-cabinblind", side, lambda v: porthole(shut=True),
         "Level 36 (cabin pass): a cabin window with its blind pulled down", boxes=FULL, material="Stone", sounds=P.STONE, data=STRUCT)
     blk("l36-cabinside", [("part", ("lower", "plain", "upper"))] + side,
@@ -848,13 +850,15 @@ def blocks():
     cube_block("l36-cabinfloor-track", [{"code": "axis", "states": ["ns", "we"]}],
                {"*-ns": {"all": tex("c-track-ns")}, "*-we": {"all": tex("c-track-we")}},
                "Level 36 (cabin pass): the cabin's carpet with the seats' aluminium tracks in it", extra={"sounds": P.CLOTH})
+    cube_block("l36-cabinfloor-plain", [], {"all": tex("c-carpet")}, "Level 36 (cabin pass): the cabin's carpet in the door rows",
+               extra={"sounds": P.CLOTH})
     cube_block("l36-cabinfloor-vinyl", [], {"all": tex("c-vinyl")}, "Level 36 (cabin pass): the galleys' grey non-slip vinyl")
     cube_block("l36-ceiling-cabin", [], {"all": {"base": "backrooms:block/36/l36-ceiling-cabin"}},
                "Level 36 (cabin pass): the cabin's lit ceiling over the aisle and the door rows (it gives the cabin its light; it "
-               "was a state of l36-ceiling)", extra={"lightHsv": [8, 1, 17], "blockmaterial": "Metal", "vertexFlags": {"glowLevel": 90}})
+               "was a state of l36-ceiling)", extra={"lightHsv": [8, 1, 22], "blockmaterial": "Metal", "vertexFlags": {"glowLevel": 120}})
     cube_block("l36-ceiling-cabin-dim", [], {"all": {"base": "backrooms:block/36/l36-ceiling-cabin-dim"}},
                "Level 36 (cabin pass): the cabin's ceiling over the aisle with its lights down for takeoff and landing (night blue)",
-               extra={"lightHsv": [38, 3, 7], "blockmaterial": "Metal", "vertexFlags": {"glowLevel": 30}})
+               extra={"lightHsv": [38, 3, 9], "blockmaterial": "Metal", "vertexFlags": {"glowLevel": 30}})
 
 
 NAMES = {
@@ -880,6 +884,7 @@ NAMES = {
     "block-l36-cabinfloor-aisle-*": "Cabin Aisle",
     "block-l36-cabinfloor-track-*": "Cabin Carpet",
     "block-l36-cabinfloor-vinyl": "Galley Floor",
+    "block-l36-cabinfloor-plain": "Cabin Carpet",
     "block-l36-ceiling-cabin-dim": "Cabin Ceiling (Lights Down)",
 }
 

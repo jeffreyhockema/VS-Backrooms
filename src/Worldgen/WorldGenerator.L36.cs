@@ -55,7 +55,7 @@ public sealed partial class WorldGenerator
     private readonly int[,] l36CabSide = new int[3, 4], l36CabBin = new int[10, 4], l36PlaneDoor = new int[2, 4], l36DoorSide = new int[6, 4],
         l36CabDoor = new int[4, 4], l36CabExit = new int[2, 4], l36Bulkhead = new int[4, 4], l36FdDoor = new int[2, 4], l36Galley = new int[6, 4],
         l36Lav = new int[5, 4], l36Curtain = new int[3, 4], l36CabSeat2 = new int[5, 4], l36CabFloor = new int[2, 2];
-    private int l36CabVinyl;
+    private int l36CabVinyl, l36CabCarpet;
 
     /// <summary>A block of this mod's, or <paramref name="fallback"/> if it is not there (logged once).</summary>
     private int L36Block(string code, int fallback = 0)
@@ -239,6 +239,7 @@ public sealed partial class WorldGenerator
             l36CabFloor[1, i] = L36Block($"l36-cabinfloor-aisle-{axes[i]}", l36Carpet[0]);
         }
         l36CabVinyl = L36Block("l36-cabinfloor-vinyl", l36Carpet[3]);
+        l36CabCarpet = L36Block("l36-cabinfloor-plain", l36Carpet[0]);
     }
 
     /// <summary>One block of a column of the level, <paramref name="rel"/> above its floor.</summary>
@@ -360,7 +361,7 @@ public sealed partial class WorldGenerator
                 L36Cab.FloorTrack => l36CabFloor[0, axis],
                 L36Cab.FloorAisle => l36CabFloor[1, axis],
                 L36Cab.FloorVinyl => l36CabVinyl,
-                _ => l36Carpet[0],
+                _ => l36CabCarpet,
             };
         }
         if ((t.Detail & L36.L36MatMask) == Mat.Marble && t.Zone is (byte)Zone.Baggage or (byte)Zone.CheckIn)

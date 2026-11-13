@@ -1,4 +1,4 @@
-// Level 36 (cabin pass): the cabin's sidewall with its porthole facing the cabin (<side>): the reveal, a raised bezel, the blind up, the pane's picture by the flight's phase (apron: parked at the gate; roll: the runway rushing past; climb: the ground falling away under a wing tip; cruise: cloud tops and a low sun; descent: grey cloud and rain; ground: the taxiway's lights at dusk), glowing; the flight's logic swaps them
+// Level 36 (cabin pass): the cabin's sidewall with its porthole facing the cabin (<side>): the reveal, a raised bezel, the blind up, the pane's picture by the flight's phase (apron: parked at the gate; roll: the runway rushing past; climb: the ground falling away under a wing tip; cruise: cloud tops and a low sun; descent: grey cloud and rain; ground: the taxiway's lights at dusk), glowing, a little daylight through it; the flight's logic swaps them
 {
 	"code": "l36-cabinwindow",
 	"variantgroups": [
@@ -156,6 +156,33 @@
 		"z2": 1
 	},
 	"drops": [],
+	"lightHsvByType": {
+		"*-apron-*": [
+			36,
+			1,
+			6
+		],
+		"*-roll-*": [
+			36,
+			1,
+			6
+		],
+		"*-climb-*": [
+			36,
+			1,
+			8
+		],
+		"*-cruise-*": [
+			36,
+			1,
+			10
+		],
+		"*-descent-*": [
+			36,
+			1,
+			4
+		]
+	},
 	"attributes": {
 		"l36structure": true
 	}
