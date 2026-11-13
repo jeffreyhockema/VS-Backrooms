@@ -16,7 +16,7 @@ static partial class LevelModes
         || L73Modes(layout, args[2], args) || BasementModes(layout, args[2], args) || L52Modes(layout, args[2], args)
         || L31Modes(layout, args[2], args) || L120Modes(layout, args[2], args)
         || L36Modes(layout, args[2], args) || L15Modes(layout, args[2], args) || L23Modes(layout, args[2], args)
-        || L14Modes(layout, args[2], args) || L47Modes(layout, args[2], args);
+        || L14Modes(layout, args[2], args) || L47Modes(layout, args[2], args) || GenModes(layout, args[2], args);
 
     /// <summary>For the links mode: what to call a threshold of one of the seven that is walked into, by its tile; null if it is none of theirs.</summary>
     public static string LinkLabel(Tile t) => RunLinkLabel(t) ?? FunLinkLabel(t) ?? EndLinkLabel(t) ?? HubLinkLabel(t) ?? L974LinkLabel(t)

@@ -81,17 +81,19 @@ public sealed partial class WorldLayout
         if (b.IsSpawn || b.Level == 0 && (IsRedRoom(mx, mz) || IsManilaMacro(mx, mz))) return;
         if (b.Level == 6 && IsSnackrooms(mx, mz)) return;
         double share = PickedOverShare(b.Level, mx, mz);
-        bool props = Version >= 15 && b.Level is >= 1 and <= 5;
+        bool props = Version >= 15 && b.Level is >= 1 and <= 5 || Version >= 16 && b.Level is Basement or Level52;
+        // (Layout version 16: Level 52's food props are found stripped at Level 4's share, its boxes keep the level's own)
+        double propShare = b.Level == Level52 ? 0.6 : share;
         for (int lz = 0; lz < MacroSize; lz++)
             for (int lx = 0; lx < MacroSize; lx++)
             {
                 ref Tile t = ref b.At(lx, lz);
                 // (Floor tiles only: on a wall a low Variant is its fitting, Props.Drum's 1 the wall pipes)
-                if (props && t.Kind == TileKind.Floor && !t.SupplyBox && IsFoodProp(t.Variant))
+                if (props && t.Kind == TileKind.Floor && !t.SupplyBox && (IsFoodProp(t.Variant) || b.Level == Basement && t.Variant is Props.Icebox or Props.BasementShelf))
                 {
                     // (A hash of its own, so the props' rolls are not the boxes')
                     if (BehindLockedDoor(b, lx, lz) || InCamp(b, lx, lz)) continue;
-                    if (Hashing.Unit(Hashing.Hash(seed, mx * MacroSize + lx, mz * MacroSize + lz, SaltStripped)) < share) t.Looted = true;
+                    if (Hashing.Unit(Hashing.Hash(seed, mx * MacroSize + lx, mz * MacroSize + lz, SaltStripped)) < propShare) t.Looted = true;
                     continue;
                 }
                 if (!t.SupplyBox && !IsCrate(t, b.Level)) continue;

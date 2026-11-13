@@ -352,7 +352,8 @@ public sealed partial class WorldGenerator
             return thing >= 0 ? basementWallThingIds[thing, facing] : 0;
         }
         if (rel != 1) return 0;
-        return t.Variant switch
+        // (Layout version 16: the pantry shelves, iceboxes, shelves and boxes others went through are drawn stripped)
+        return Stripped(t, t.Variant switch
         {
             Props.BasementBoiler => boilerIds[facing],
             Props.BasementDrum => drumId,
@@ -372,7 +373,7 @@ public sealed partial class WorldGenerator
             Props.BasementBody => 0,
             // (Props of the other levels', reused: Level 0-11's furniture, bones, signs)
             _ => t.Variant >= 40 && t.Variant < Props.RunFirst ? PropBlock(t) : 0,
-        };
+        });
     }
 
     /// <summary>A small hash of a column, for picking among looks that do not matter to the layout.</summary>
