@@ -5,7 +5,7 @@
 - tables: no startup errors; /backrooms armourtest for carpet vs gambeson (sewn-linen) vs leather vs none; /backrooms clanktest
   (how far a Hound hears a runner, jumper and walker in no armour, chain, lamellar and plate).
 - recipes: /backrooms rig craft needs a player, so this only checks the log has no recipe errors and the item types loaded.
-- conversion: a world made WITHOUT config/remaps.json holds pleather and pleather armour in a chest (/backrooms rig stash put);
+- conversion: a world made WITHOUT config/remaps.json holds pleather and pleather armour in a chest (/backrooms stash put);
   the same world is then loaded WITH it, and the chest must hold carpet squares and the same pieces of carpet armour, nothing lost.
 """
 import argparse
@@ -68,7 +68,7 @@ def tables(mods, work, port):
               and float(re.search(r"plate\s+x2\.0.*?runner heard from ([\d.]+)", text).group(1)) > float(re.search(r"chain\s+x1\.4.*?runner heard from ([\d.]+)", text).group(1))
               > float(re.search(r"none\s+x1\.0.*?runner heard from ([\d.]+)", text).group(1)))
         out = say(srv, "/backrooms blocksweep", 25)
-        check("blocksweep", any("0 problems" in l or "no problems" in l.lower() for l in out), "\n".join(out[-3:]))
+        check("blocksweep", any("0 threw" in l for l in out), "\n".join(out[-3:]))
     finally:
         srv.stop()
 
@@ -81,15 +81,16 @@ def conversion(mods, work, port):
     removed = 0
     for root, _dirs, files in os.walk(old):
         for f in files:
-            if f == "remaps.json":
+            # (What 0.611 had: no remaps, no carpet squares, no carpet armour, and the recipes that use them gone)
+            if f in ("remaps.json", "carpetsquare.json", "armor-carpet.json", "carpetarmor.json", "carpetarmorrepair.json", "carpetbedroll.json"):
                 os.remove(os.path.join(root, f))
                 removed += 1
-    check("the no-remap copy of the mod has no remaps.json", removed == 1, "removed %d" % removed)
+    check("the old-style copy of the mod has no remaps.json, carpet squares or carpet armour", removed == 6, "removed %d" % removed)
     srv = boot(old, data, port)
     try:
-        out = say(srv, "/backrooms rig stash put", 4)
+        out = say(srv, "/backrooms stash put", 4)
         check("phase 1: stash put", any("rig-stash put" in l for l in out), "\n".join(out[-2:]))
-        out = say(srv, "/backrooms rig stash read", 4)
+        out = say(srv, "/backrooms stash read", 4)
         before = [l for l in out if "rig-stash read" in l]
         print("   before: " + (before[-1] if before else "?"))
         check("phase 1: the chest holds pleather", bool(before) and "backrooms:pleather x7" in before[-1])
@@ -99,11 +100,11 @@ def conversion(mods, work, port):
     try:
         log = "\n".join(srv.since(0))
         print("   " + "\n   ".join(l for l in log.split("\n") if "emap" in l)[:600])
-        out = say(srv, "/backrooms rig stash read", 4)
+        out = say(srv, "/backrooms stash read", 4)
         after = [l for l in out if "rig-stash read" in l]
         print("   after:  " + (after[-1] if after else "?"))
         a = after[-1] if after else ""
-        check("phase 2: pleather is carpet squares, 7 and 3 more (two stacks)", "backrooms:carpetsquare x7" in a and "backrooms:carpetsquare x3" in a and "pleather x" not in a.replace("armor-pleather", ""))
+        check("phase 2: the 7 pleather are 7 carpet squares", "backrooms:carpetsquare x7" in a and "pleather x" not in a.replace("armor-pleather", ""))
         check("phase 2: each pleather piece is the same piece of carpet armour", all(p in a for p in ("armor-carpet-body x1 dur 100", "armor-carpet-head x1", "armor-carpet-legs x1 dur 40")))
         check("phase 2: other things in the chest are untouched", "game:armor-body-sewn-leather x1 dur 500" in a)
         check("phase 2: no pleather left", "armor-pleather" not in a and "backrooms:pleather" not in a)

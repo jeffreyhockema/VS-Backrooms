@@ -58,16 +58,18 @@ public class RigCommands : ModSystem
             if (be == null) return TextCommandResult.Error("rig-error: no chest block entity");
             ItemStack Stack(string code, int size, int durability = -1)
             {
-                var s = new ItemStack(sapi.World.GetItem(new AssetLocation(code)), size);
+                Item item = sapi.World.GetItem(new AssetLocation(code));
+                if (item == null) return null;
+                var s = new ItemStack(item, size);
                 if (durability >= 0) s.Attributes.SetInt("durability", durability);
                 return s;
             }
             ItemStack[] put =
             {
                 Stack("backrooms:pleather", 7), Stack("backrooms:armor-pleather-body", 1, 100), Stack("backrooms:armor-pleather-head", 1),
-                Stack("backrooms:armor-pleather-legs", 1, 40), Stack("backrooms:carpetsquare", 3), Stack("game:armor-body-sewn-leather", 1, 500),
+                Stack("backrooms:armor-pleather-legs", 1, 40), Stack("backrooms" + ":carpetsquare", 3), Stack("game:armor-body-sewn-leather", 1, 500),
             };
-            for (int i = 0; i < put.Length; i++) be.Inventory[i].Itemstack = put[i];
+            for (int i = 0; i < put.Length; i++) be.Inventory[i].Itemstack = put[i]; // (null where an item is not in this version)
             be.MarkDirty(true);
             return TextCommandResult.Success($"rig-stash put at {pos.X} {pos.Y} {pos.Z}");
         }
@@ -169,6 +171,7 @@ public class RigCommands : ModSystem
             case "cut": return Cut(player, arg);
             case "have": return Have(player);
             case "craft": return Craft(player, arg);
+            case "tooltip": return Tooltip(player, arg);
             default: return TextCommandResult.Error("rig-error: equip, sleep, face, walk, hurt, classdrops or place");
         }
     }
@@ -180,17 +183,23 @@ public class RigCommands : ModSystem
     TextCommandResult Cut(IServerPlayer player, string arg)
     {
         bool sneak = arg == "sneak";
+        for (int i = 0; i < 10; i++)
+            if (player.InventoryManager.GetHotbarInventory()[i]?.Itemstack?.Collectible?.Code?.Path is "scraper" or "glassshiv")
+            {
+                player.InventoryManager.ActiveHotbarSlotNumber = i;
+                break;
+            }
         BlockPos pos = player.Entity.Pos.AsBlockPos.DownCopy();
         Block before = sapi.World.BlockAccessor.GetBlock(pos);
         int Count(string code) { int n = 0; foreach (var inv in player.InventoryManager.Inventories.Values) foreach (ItemSlot s in inv) if (s?.Itemstack?.Collectible?.Code?.ToString() == code) n += s.Itemstack.StackSize; return n; }
-        int squares = Count("backrooms:carpetsquare"), fibre = Count("backrooms:carpetfibre");
+        int squares = Count("backrooms" + ":carpetsquare"), fibre = Count("backrooms" + ":carpetfibre");
         bool was = player.Entity.Controls.ShiftKey;
         player.Entity.Controls.ShiftKey = sneak;
         var sel = new BlockSelection { Position = pos, Face = BlockFacing.UP, HitPosition = new Vec3d(0.5, 1, 0.5) };
         bool handled = before.OnBlockInteractStart(sapi.World, player, sel);
         player.Entity.Controls.ShiftKey = was;
         Block after = sapi.World.BlockAccessor.GetBlock(pos);
-        return TextCommandResult.Success($"rig-cut {(sneak ? "crouched" : "standing")}: {before.Code} -> {after.Code}, handled {handled}, squares +{Count("backrooms:carpetsquare") - squares}, fibre +{Count("backrooms:carpetfibre") - fibre}");
+        return TextCommandResult.Success($"rig-cut {(sneak ? "crouched" : "standing")}: {before.Code} -> {after.Code}, handled {handled}, squares +{Count("backrooms" + ":carpetsquare") - squares}, fibre +{Count("backrooms" + ":carpetfibre") - fibre}");
     }
 
     /// <summary>
@@ -232,6 +241,16 @@ public class RigCommands : ModSystem
         if (found == 0) return TextCommandResult.Error("rig-error: no grid recipe makes " + want);
         text.Append(bad == 0 ? " ok" : " PROBLEM");
         return bad == 0 ? TextCommandResult.Success(text.ToString()) : TextCommandResult.Error(text.ToString());
+    }
+
+    /// <summary>tooltip code: the info lines the game builds for an item (what the hover tooltip shows), as this server's collectible says them.</summary>
+    TextCommandResult Tooltip(IServerPlayer player, string arg)
+    {
+        Item item = sapi.World.GetItem(new AssetLocation(arg != null && arg.Contains(':') ? arg : "game:" + arg));
+        if (item == null) return TextCommandResult.Error("rig-error: no item " + arg);
+        var sb = new System.Text.StringBuilder();
+        item.GetHeldItemInfo(new DummySlot(new ItemStack(item)), sb, sapi.World, false);
+        return TextCommandResult.Success("rig-tooltip " + item.Code + ": " + sb.ToString().Replace("\r", "").Replace("\n", " | "));
     }
 
     /// <summary>have: every stack of ours or armour in every inventory of the player, by inventory (the conversion test reads it).</summary>

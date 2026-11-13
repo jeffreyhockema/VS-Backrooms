@@ -89,7 +89,7 @@ public class CrossingSystem : ModSystem
         player.SendMessage(GlobalConstants.GeneralChatGroup, line, EnumChatType.Notification);
     }
 
-    /// <summary>What the player wears, by its best piece: <c>none</c>, <c>light</c> (leather, pleather) or <c>metal</c>.</summary>
+    /// <summary>What the player wears, by its best piece: <c>none</c>, <c>light</c> (carpet, leather) or <c>metal</c>.</summary>
     public static string ArmourTier(IServerPlayer player)
     {
         bool any = false, metal = false;

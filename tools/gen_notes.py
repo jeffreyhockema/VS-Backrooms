@@ -87,8 +87,8 @@ and that lasts three times as long. Either one peels clean, two to a cut. Keep i
 — Dez""", w="dez"),
     E("m03", "Wallpaper and carpet", """
 Blade in hand, right-click the yellow wallpaper, then the dry carpet. Strips and fibres. Two strips twist into dry
-grass. Three fibres make twine. Five fibres and a twine make a carpet bag, three slots. Make four before you go
-anywhere: that's thirty-two fibres, sixteen cuts with a shiv. The floor won't mind.
+grass. Eighteen fibres make twine, so don't burn them. Crouch and cut the carpet and you lift a whole square instead,
+and that's what armour is sewn from. Five fibres and a twine make a carpet bag, four slots. The floor won't mind.
 — Dez""", w="dez"),
     E("m04", "Fire", """
 Flint is rare in the boxes here; Level 1's crates and floors have it. With two: sneak, right-click one onto the floor, knap. Knife blade first, then an
@@ -1581,12 +1581,12 @@ waiting room in Level 14, a Class 4 level, and could not return the way they cam
 # Each must appear (case-insensitively) in the handbook text (gen_guide.py), README.md or docs/GUIDE.md, so that a change there makes
 # this check fail until the notes are looked at again.
 FACTS = [
-    "5 carpet fibres + 1 flax twine", "2 wallpaper strips", "3 carpet fibres", "glass shard + wallpaper strip + carpet fibre", "glass shard + carpet fibre + stick",
+    "5 carpet fibres + 1 flax twine", "2 wallpaper strips", "18 carpet fibres", "glass shard + wallpaper strip + carpet fibre", "glass shard + carpet fibre + stick",
     "metal bracket + wallpaper strip + 2 carpet fibres", "1 dry grass + 2 sticks", "2 dry grass + 1 stick",
     "8 planks + 1 nails and strips", "2 metal brackets", "each bottle restores 15%", "salt + powdered sulfur = 2",
     "20 metal bits = 1 ingot", "10 scrap wire = 1 copper ingot", "within 3 blocks of water", "flax twine + linen",
     "one steel tunnel door in 40", "one locked room in 150", "1 in 20", "8 blocks of concrete", "9 ingots for an anvil",
-    "a temporal gear", "Almond Water", "Firesalt", "16 carpet fibres + 2 flax twine + 4 wallpaper strips",
+    "a temporal gear", "Almond Water", "Firesalt", "6 carpet squares + 2 flax twine + 4 wallpaper strips",
     "40 tickets a day", "200 tickets", "costs 6 tickets", "three days", "six seconds at the glass",
 ]
 
