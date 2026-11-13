@@ -1,0 +1,696 @@
+// Level 36's plane cabin: an economy seat with something left behind (a folded blanket, a pillow, a backpack under it, the magazine dropped on the floor) or an exit row's seat with its placard (decor: nothing in them)
+{
+	"code": "l36-cabinseat2",
+	"variantgroups": [
+		{
+			"code": "kind",
+			"states": [
+				"blanket",
+				"pillow",
+				"bag",
+				"magazine",
+				"exitrow"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-cabinseat2-blanket-north": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-blanket"
+		},
+		"l36-cabinseat2-blanket-east": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-blanket",
+			"rotateY": 270
+		},
+		"l36-cabinseat2-blanket-south": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-blanket",
+			"rotateY": 180
+		},
+		"l36-cabinseat2-blanket-west": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-blanket",
+			"rotateY": 90
+		},
+		"l36-cabinseat2-pillow-north": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-pillow"
+		},
+		"l36-cabinseat2-pillow-east": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-pillow",
+			"rotateY": 270
+		},
+		"l36-cabinseat2-pillow-south": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-pillow",
+			"rotateY": 180
+		},
+		"l36-cabinseat2-pillow-west": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-pillow",
+			"rotateY": 90
+		},
+		"l36-cabinseat2-bag-north": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-bag"
+		},
+		"l36-cabinseat2-bag-east": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-bag",
+			"rotateY": 270
+		},
+		"l36-cabinseat2-bag-south": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-bag",
+			"rotateY": 180
+		},
+		"l36-cabinseat2-bag-west": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-bag",
+			"rotateY": 90
+		},
+		"l36-cabinseat2-magazine-north": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-magazine"
+		},
+		"l36-cabinseat2-magazine-east": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-magazine",
+			"rotateY": 270
+		},
+		"l36-cabinseat2-magazine-south": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-magazine",
+			"rotateY": 180
+		},
+		"l36-cabinseat2-magazine-west": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-magazine",
+			"rotateY": 90
+		},
+		"l36-cabinseat2-exitrow-north": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-exitrow"
+		},
+		"l36-cabinseat2-exitrow-east": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-exitrow",
+			"rotateY": 270
+		},
+		"l36-cabinseat2-exitrow-south": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-exitrow",
+			"rotateY": 180
+		},
+		"l36-cabinseat2-exitrow-west": {
+			"base": "backrooms:block/36/cabin/l36-cabinseat2-exitrow",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionboxesByType": {
+		"l36-cabinseat2-blanket-north": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95
+			}
+		],
+		"l36-cabinseat2-blanket-east": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 270
+			}
+		],
+		"l36-cabinseat2-blanket-south": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 180
+			}
+		],
+		"l36-cabinseat2-blanket-west": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 90
+			}
+		],
+		"l36-cabinseat2-pillow-north": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95
+			}
+		],
+		"l36-cabinseat2-pillow-east": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 270
+			}
+		],
+		"l36-cabinseat2-pillow-south": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 180
+			}
+		],
+		"l36-cabinseat2-pillow-west": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 90
+			}
+		],
+		"l36-cabinseat2-bag-north": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95
+			}
+		],
+		"l36-cabinseat2-bag-east": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 270
+			}
+		],
+		"l36-cabinseat2-bag-south": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 180
+			}
+		],
+		"l36-cabinseat2-bag-west": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 90
+			}
+		],
+		"l36-cabinseat2-magazine-north": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95
+			}
+		],
+		"l36-cabinseat2-magazine-east": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 270
+			}
+		],
+		"l36-cabinseat2-magazine-south": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 180
+			}
+		],
+		"l36-cabinseat2-magazine-west": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 90
+			}
+		],
+		"l36-cabinseat2-exitrow-north": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95
+			}
+		],
+		"l36-cabinseat2-exitrow-east": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 270
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 270
+			}
+		],
+		"l36-cabinseat2-exitrow-south": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 180
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 180
+			}
+		],
+		"l36-cabinseat2-exitrow-west": [
+			{
+				"x1": 0.03,
+				"y1": 0,
+				"z1": 0.06,
+				"x2": 0.97,
+				"y2": 0.56,
+				"z2": 0.8,
+				"rotateY": 90
+			},
+			{
+				"x1": 0.06,
+				"y1": 0,
+				"z1": 0.72,
+				"x2": 0.94,
+				"y2": 1.5,
+				"z2": 0.95,
+				"rotateY": 90
+			}
+		]
+	},
+	"selectionboxByType": {
+		"l36-cabinseat2-blanket-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95
+		},
+		"l36-cabinseat2-blanket-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"l36-cabinseat2-blanket-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"l36-cabinseat2-blanket-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 90
+		},
+		"l36-cabinseat2-pillow-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95
+		},
+		"l36-cabinseat2-pillow-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"l36-cabinseat2-pillow-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"l36-cabinseat2-pillow-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 90
+		},
+		"l36-cabinseat2-bag-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95
+		},
+		"l36-cabinseat2-bag-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"l36-cabinseat2-bag-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"l36-cabinseat2-bag-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 90
+		},
+		"l36-cabinseat2-magazine-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95
+		},
+		"l36-cabinseat2-magazine-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"l36-cabinseat2-magazine-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"l36-cabinseat2-magazine-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 90
+		},
+		"l36-cabinseat2-exitrow-north": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95
+		},
+		"l36-cabinseat2-exitrow-east": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 270
+		},
+		"l36-cabinseat2-exitrow-south": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 180
+		},
+		"l36-cabinseat2-exitrow-west": {
+			"x1": 0.03,
+			"y1": 0,
+			"z1": 0.06,
+			"x2": 0.97,
+			"y2": 1.5,
+			"z2": 0.95,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

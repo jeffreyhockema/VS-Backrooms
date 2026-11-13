@@ -1,0 +1,39 @@
+// Level 36 (cabin pass): the cabin's lit ceiling over the aisle and the door rows (it gives the cabin its light; it was a state of l36-ceiling)
+{
+	"code": "l36-ceiling-cabin",
+	"textures": {
+		"all": {
+			"base": "backrooms:block/36/l36-ceiling-cabin"
+		}
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "cube",
+	"lightAbsorption": 99,
+	"resistance": 6,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/loosestone*",
+		"break": "game:block/rock-break-pickaxe",
+		"hit": "game:block/rock-hit-pickaxe"
+	},
+	"attributes": {
+		"l36structure": true
+	},
+	"lightHsv": [
+		8,
+		1,
+		17
+	],
+	"vertexFlags": {
+		"glowLevel": 90
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"drops": []
+}

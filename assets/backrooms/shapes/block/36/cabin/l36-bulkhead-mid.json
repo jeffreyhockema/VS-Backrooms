@@ -1,0 +1,95 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-grey": "backrooms:block/36/cabin/c-grey",
+		"c-panel": "backrooms:block/36/cabin/c-panel",
+		"placard-safety": "backrooms:block/36/cabin/placard-safety"
+	},
+	"elements": [
+		{
+			"name": "Panel",
+			"from": [
+				0,
+				0,
+				0.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Safety",
+			"from": [
+				3,
+				2,
+				0.2
+			],
+			"to": [
+				13,
+				12,
+				0.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						10,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"west": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						0.5,
+						10
+					]
+				},
+				"north": {
+					"texture": "#placard-safety",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}

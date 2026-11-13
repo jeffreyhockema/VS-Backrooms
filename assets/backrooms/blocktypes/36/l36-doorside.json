@@ -1,0 +1,162 @@
+// Level 36 (cabin pass): the fuselage beside the boarding door: the cabin's sidewall inside (the crew's panel forward, a safety placard aft), the white skin with the airline's cheatline and the jet bridge's canopy outside
+{
+	"code": "l36-doorside",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"fwdlow",
+				"fwdmid",
+				"fwdtop",
+				"aftlow",
+				"aftmid",
+				"afttop"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-doorside-fwdlow-north": {
+			"base": "backrooms:block/36/cabin/l36-doorside-fwdlow"
+		},
+		"l36-doorside-fwdlow-east": {
+			"base": "backrooms:block/36/cabin/l36-doorside-fwdlow",
+			"rotateY": 270
+		},
+		"l36-doorside-fwdlow-south": {
+			"base": "backrooms:block/36/cabin/l36-doorside-fwdlow",
+			"rotateY": 180
+		},
+		"l36-doorside-fwdlow-west": {
+			"base": "backrooms:block/36/cabin/l36-doorside-fwdlow",
+			"rotateY": 90
+		},
+		"l36-doorside-fwdmid-north": {
+			"base": "backrooms:block/36/cabin/l36-doorside-fwdmid"
+		},
+		"l36-doorside-fwdmid-east": {
+			"base": "backrooms:block/36/cabin/l36-doorside-fwdmid",
+			"rotateY": 270
+		},
+		"l36-doorside-fwdmid-south": {
+			"base": "backrooms:block/36/cabin/l36-doorside-fwdmid",
+			"rotateY": 180
+		},
+		"l36-doorside-fwdmid-west": {
+			"base": "backrooms:block/36/cabin/l36-doorside-fwdmid",
+			"rotateY": 90
+		},
+		"l36-doorside-fwdtop-north": {
+			"base": "backrooms:block/36/cabin/l36-doorside-fwdtop"
+		},
+		"l36-doorside-fwdtop-east": {
+			"base": "backrooms:block/36/cabin/l36-doorside-fwdtop",
+			"rotateY": 270
+		},
+		"l36-doorside-fwdtop-south": {
+			"base": "backrooms:block/36/cabin/l36-doorside-fwdtop",
+			"rotateY": 180
+		},
+		"l36-doorside-fwdtop-west": {
+			"base": "backrooms:block/36/cabin/l36-doorside-fwdtop",
+			"rotateY": 90
+		},
+		"l36-doorside-aftlow-north": {
+			"base": "backrooms:block/36/cabin/l36-doorside-aftlow"
+		},
+		"l36-doorside-aftlow-east": {
+			"base": "backrooms:block/36/cabin/l36-doorside-aftlow",
+			"rotateY": 270
+		},
+		"l36-doorside-aftlow-south": {
+			"base": "backrooms:block/36/cabin/l36-doorside-aftlow",
+			"rotateY": 180
+		},
+		"l36-doorside-aftlow-west": {
+			"base": "backrooms:block/36/cabin/l36-doorside-aftlow",
+			"rotateY": 90
+		},
+		"l36-doorside-aftmid-north": {
+			"base": "backrooms:block/36/cabin/l36-doorside-aftmid"
+		},
+		"l36-doorside-aftmid-east": {
+			"base": "backrooms:block/36/cabin/l36-doorside-aftmid",
+			"rotateY": 270
+		},
+		"l36-doorside-aftmid-south": {
+			"base": "backrooms:block/36/cabin/l36-doorside-aftmid",
+			"rotateY": 180
+		},
+		"l36-doorside-aftmid-west": {
+			"base": "backrooms:block/36/cabin/l36-doorside-aftmid",
+			"rotateY": 90
+		},
+		"l36-doorside-afttop-north": {
+			"base": "backrooms:block/36/cabin/l36-doorside-afttop"
+		},
+		"l36-doorside-afttop-east": {
+			"base": "backrooms:block/36/cabin/l36-doorside-afttop",
+			"rotateY": 270
+		},
+		"l36-doorside-afttop-south": {
+			"base": "backrooms:block/36/cabin/l36-doorside-afttop",
+			"rotateY": 180
+		},
+		"l36-doorside-afttop-west": {
+			"base": "backrooms:block/36/cabin/l36-doorside-afttop",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"drops": [],
+	"attributes": {
+		"l36structure": true
+	}
+}

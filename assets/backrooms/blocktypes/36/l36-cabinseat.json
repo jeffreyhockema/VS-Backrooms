@@ -1,4 +1,4 @@
-// Level 36's plane cabin: an airline economy seat (navy cloth, white headrest cover, armrests, a folded tray table on its back, the seatbelt buckled across the seat); side = the way a sitter faces
+// Level 36's plane cabin: an economy seat (navy cloth, a white headrest cover, armrests shared with the next seat, the tray and its latch, the pocket with the safety card and the in-flight magazine, the life-vest pouch, the belt buckled across); side = the way a sitter faces
 {
 	"code": "l36-cabinseat",
 	"variantgroups": [
@@ -14,18 +14,18 @@
 	],
 	"shapeByType": {
 		"l36-cabinseat-north": {
-			"base": "backrooms:block/36/l36-cabinseat"
+			"base": "backrooms:block/36/cabin/l36-cabinseat"
 		},
 		"l36-cabinseat-east": {
-			"base": "backrooms:block/36/l36-cabinseat",
+			"base": "backrooms:block/36/cabin/l36-cabinseat",
 			"rotateY": 270
 		},
 		"l36-cabinseat-south": {
-			"base": "backrooms:block/36/l36-cabinseat",
+			"base": "backrooms:block/36/cabin/l36-cabinseat",
 			"rotateY": 180
 		},
 		"l36-cabinseat-west": {
-			"base": "backrooms:block/36/l36-cabinseat",
+			"base": "backrooms:block/36/cabin/l36-cabinseat",
 			"rotateY": 90
 		}
 	},

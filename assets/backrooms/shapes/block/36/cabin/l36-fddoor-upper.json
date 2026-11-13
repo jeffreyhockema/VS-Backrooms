@@ -1,0 +1,512 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/36/props/black",
+		"c-dark": "backrooms:block/36/cabin/c-dark",
+		"c-fddoor": "backrooms:block/36/cabin/c-fddoor",
+		"c-grey": "backrooms:block/36/cabin/c-grey",
+		"c-red": "backrooms:block/36/cabin/c-red",
+		"c-trim": "backrooms:block/36/cabin/c-trim",
+		"chrome": "backrooms:block/36/props/chrome",
+		"placard-flightdeck": "backrooms:block/36/cabin/placard-flightdeck"
+	},
+	"elements": [
+		{
+			"name": "FrameL",
+			"from": [
+				0,
+				0,
+				-0.5
+			],
+			"to": [
+				1.5,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameR",
+			"from": [
+				14.5,
+				0,
+				-0.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Leaf",
+			"from": [
+				1.5,
+				0,
+				0.5
+			],
+			"to": [
+				14.5,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-fddoor",
+					"uv": [
+						0,
+						0,
+						13.0,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "FrameT",
+			"from": [
+				0,
+				14,
+				-0.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					]
+				},
+				"down": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Lever",
+			"from": [
+				2.5,
+				0.2,
+				-1.2
+			],
+			"to": [
+				6.5,
+				1.0,
+				0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						4.0,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.7,
+						0.8
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						4.0,
+						1.7
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						4.0,
+						1.7
+					]
+				}
+			}
+		},
+		{
+			"name": "LeverHub",
+			"from": [
+				2.4,
+				-0.4,
+				-0.6
+			],
+			"to": [
+				3.6,
+				1.4,
+				0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.8
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.8
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.1,
+						1.8
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.1
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.1
+					]
+				}
+			}
+		},
+		{
+			"name": "Peep",
+			"from": [
+				7.4,
+				7.4,
+				0.1
+			],
+			"to": [
+				8.6,
+				8.6,
+				0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.2
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.2
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1.2
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "PeepGlass",
+			"from": [
+				7.7,
+				7.7,
+				0.05
+			],
+			"to": [
+				8.3,
+				8.3,
+				0.1
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.6,
+						0.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Placard",
+			"from": [
+				3.5,
+				10.5,
+				0.2
+			],
+			"to": [
+				12.5,
+				12.5,
+				0.5
+			],
+			"faces": {
+				"up": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						9.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						9.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"west": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						2.0
+					]
+				},
+				"north": {
+					"texture": "#placard-flightdeck",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Keypad",
+			"from": [
+				14.7,
+				3,
+				-1
+			],
+			"to": [
+				15.9,
+				7,
+				-0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						1.2,
+						4
+					]
+				},
+				"east": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4
+					]
+				},
+				"west": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						0.5,
+						4
+					]
+				},
+				"up": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						1.2,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Keys",
+			"from": [
+				14.85,
+				3.4,
+				-1.1
+			],
+			"to": [
+				15.75,
+				6.2,
+				-1
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						0.9,
+						2.8
+					]
+				}
+			}
+		},
+		{
+			"name": "KeyLed",
+			"from": [
+				15.1,
+				6.4,
+				-1.1
+			],
+			"to": [
+				15.5,
+				6.8,
+				-1
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-red",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					],
+					"glow": 200
+				}
+			}
+		}
+	]
+}

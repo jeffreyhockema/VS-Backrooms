@@ -1,0 +1,332 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-grey": "backrooms:block/36/cabin/c-grey",
+		"c-panel": "backrooms:block/36/cabin/c-panel",
+		"c-trim": "backrooms:block/36/cabin/c-trim",
+		"chrome": "backrooms:block/36/props/chrome",
+		"door-lining": "backrooms:block/36/cabin/door-lining",
+		"tread": "backrooms:block/36/props/tread"
+	},
+	"elements": [
+		{
+			"name": "JambF",
+			"from": [
+				0,
+				0,
+				1.5
+			],
+			"to": [
+				1.5,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"east": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						14.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "JambA",
+			"from": [
+				14.5,
+				0,
+				1.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						1.5,
+						16
+					]
+				},
+				"west": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						14.5,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Sill",
+			"from": [
+				0,
+				0,
+				1.5
+			],
+			"to": [
+				16,
+				1,
+				16
+			],
+			"faces": {
+				"up": {
+					"texture": "#tread",
+					"uv": [
+						0,
+						0,
+						16,
+						14.5
+					]
+				},
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						1
+					]
+				}
+			}
+		},
+		{
+			"name": "SillCap",
+			"from": [
+				1.5,
+				1,
+				4
+			],
+			"to": [
+				14.5,
+				1.15,
+				14
+			],
+			"faces": {
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						13.0,
+						10
+					]
+				}
+			}
+		},
+		{
+			"name": "Lining",
+			"from": [
+				1.5,
+				1,
+				3
+			],
+			"to": [
+				14.5,
+				16,
+				4.2
+			],
+			"faces": {
+				"east": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						15
+					]
+				},
+				"west": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						1.2,
+						15
+					]
+				},
+				"up": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						13.0,
+						1.2
+					]
+				},
+				"north": {
+					"texture": "#door-lining",
+					"uv": [
+						0,
+						8,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Bustle",
+			"from": [
+				1.9,
+				1,
+				1.4
+			],
+			"to": [
+				14.1,
+				7.6,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						12.2,
+						6.6
+					]
+				},
+				"up": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						12.2,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						1.6,
+						6.6
+					]
+				},
+				"west": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						1.6,
+						6.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Girt",
+			"from": [
+				1.9,
+				6.2,
+				1.3
+			],
+			"to": [
+				14.1,
+				6.9,
+				1.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#door-lining",
+					"uv": [
+						0,
+						15,
+						16,
+						15.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Handle",
+			"from": [
+				4.5,
+				13.2,
+				1.8
+			],
+			"to": [
+				11.5,
+				14.2,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.2,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.2
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						7.0,
+						1.2
+					]
+				}
+			}
+		}
+	]
+}

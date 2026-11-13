@@ -1,0 +1,97 @@
+// Level 36 (cabin pass): an EXIT sign hung over the aisle, lit on both faces
+{
+	"code": "l36-cabinsign",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-cabinsign-north": {
+			"base": "backrooms:block/36/cabin/l36-cabinsign"
+		},
+		"l36-cabinsign-east": {
+			"base": "backrooms:block/36/cabin/l36-cabinsign",
+			"rotateY": 270
+		},
+		"l36-cabinsign-south": {
+			"base": "backrooms:block/36/cabin/l36-cabinsign",
+			"rotateY": 180
+		},
+		"l36-cabinsign-west": {
+			"base": "backrooms:block/36/cabin/l36-cabinsign",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"l36-cabinsign-north": {
+			"x1": 0.18,
+			"y1": 0.55,
+			"z1": 0.4,
+			"x2": 0.82,
+			"y2": 1,
+			"z2": 0.6
+		},
+		"l36-cabinsign-east": {
+			"x1": 0.18,
+			"y1": 0.55,
+			"z1": 0.4,
+			"x2": 0.82,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 270
+		},
+		"l36-cabinsign-south": {
+			"x1": 0.18,
+			"y1": 0.55,
+			"z1": 0.4,
+			"x2": 0.82,
+			"y2": 1,
+			"z2": 0.6
+		},
+		"l36-cabinsign-west": {
+			"x1": 0.18,
+			"y1": 0.55,
+			"z1": 0.4,
+			"x2": 0.82,
+			"y2": 1,
+			"z2": 0.6,
+			"rotateY": 90
+		}
+	},
+	"drops": [],
+	"attributes": {
+		"l36structure": true
+	}
+}

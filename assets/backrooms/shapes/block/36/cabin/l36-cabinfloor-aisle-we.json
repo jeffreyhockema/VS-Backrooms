@@ -1,0 +1,218 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-aisle": "backrooms:block/36/cabin/c-aisle",
+		"c-grey": "backrooms:block/36/cabin/c-grey",
+		"c-strip": "backrooms:block/36/cabin/c-strip"
+	},
+	"elements": [
+		{
+			"name": "Carpet",
+			"from": [
+				0,
+				0,
+				0
+			],
+			"to": [
+				16,
+				15.9,
+				16
+			],
+			"faces": {
+				"east": {
+					"texture": "#c-aisle",
+					"uv": [
+						0,
+						0,
+						16,
+						15.9
+					]
+				},
+				"south": {
+					"texture": "#c-aisle",
+					"uv": [
+						0,
+						0,
+						16,
+						15.9
+					]
+				},
+				"west": {
+					"texture": "#c-aisle",
+					"uv": [
+						0,
+						0,
+						16,
+						15.9
+					]
+				},
+				"north": {
+					"texture": "#c-aisle",
+					"uv": [
+						0,
+						0,
+						16,
+						15.9
+					]
+				},
+				"up": {
+					"texture": "#c-aisle",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				},
+				"down": {
+					"texture": "#c-aisle",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "StripW",
+			"from": [
+				0,
+				15.9,
+				1.2
+			],
+			"to": [
+				16,
+				16.05,
+				1.8
+			],
+			"faces": {
+				"south": {
+					"texture": "#c-strip",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					],
+					"glow": 200
+				},
+				"north": {
+					"texture": "#c-strip",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					],
+					"glow": 200
+				},
+				"up": {
+					"texture": "#c-strip",
+					"uv": [
+						0,
+						0,
+						0.6,
+						16
+					],
+					"glow": 200
+				}
+			}
+		},
+		{
+			"name": "StripE",
+			"from": [
+				0,
+				15.9,
+				14.2
+			],
+			"to": [
+				16,
+				16.05,
+				14.8
+			],
+			"faces": {
+				"south": {
+					"texture": "#c-strip",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					],
+					"glow": 200
+				},
+				"north": {
+					"texture": "#c-strip",
+					"uv": [
+						0,
+						0,
+						16,
+						0.5
+					],
+					"glow": 200
+				},
+				"up": {
+					"texture": "#c-strip",
+					"uv": [
+						0,
+						0,
+						0.6,
+						16
+					],
+					"glow": 200
+				}
+			}
+		},
+		{
+			"name": "EdgeW",
+			"from": [
+				0,
+				15.9,
+				0.9
+			],
+			"to": [
+				16,
+				15.95,
+				2.1
+			],
+			"faces": {
+				"up": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "EdgeE",
+			"from": [
+				0,
+				15.9,
+				13.9
+			],
+			"to": [
+				16,
+				15.95,
+				15.1
+			],
+			"faces": {
+				"up": {
+					"texture": "#c-grey",
+					"uv": [
+						0,
+						0,
+						1.2,
+						16
+					]
+				}
+			}
+		}
+	]
+}

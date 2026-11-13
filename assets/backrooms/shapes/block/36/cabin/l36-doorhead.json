@@ -1,0 +1,220 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-ceil": "backrooms:block/36/cabin/c-ceil",
+		"c-dark": "backrooms:block/36/cabin/c-dark",
+		"c-panel": "backrooms:block/36/cabin/c-panel",
+		"canopy": "backrooms:block/36/cabin/canopy",
+		"rubber": "backrooms:block/36/props/rubber",
+		"sign-exit": "backrooms:block/36/cabin/sign-exit",
+		"skin": "backrooms:block/36/cabin/skin"
+	},
+	"elements": [
+		{
+			"name": "Curve",
+			"from": [
+				0,
+				0,
+				1.5
+			],
+			"to": [
+				16,
+				16.6,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				0,
+				1.5
+			],
+			"rotationX": 22.5
+		},
+		{
+			"name": "Top",
+			"from": [
+				0,
+				15.2,
+				-4.9
+			],
+			"to": [
+				16,
+				16,
+				1.5
+			],
+			"faces": {
+				"down": {
+					"texture": "#c-ceil",
+					"uv": [
+						0,
+						0,
+						16,
+						6.4
+					]
+				}
+			}
+		},
+		{
+			"name": "Exit",
+			"from": [
+				4,
+				2.5,
+				-0.4
+			],
+			"to": [
+				12,
+				6.5,
+				1.2
+			],
+			"faces": {
+				"up": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						8,
+						1.6
+					]
+				},
+				"down": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						8,
+						1.6
+					]
+				},
+				"east": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						1.6,
+						4.0
+					]
+				},
+				"west": {
+					"texture": "#c-dark",
+					"uv": [
+						0,
+						0,
+						1.6,
+						4.0
+					]
+				},
+				"north": {
+					"texture": "#sign-exit",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"glow": 255
+				}
+			}
+		},
+		{
+			"name": "Skin",
+			"from": [
+				0,
+				0,
+				15
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"south": {
+					"texture": "#skin",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Canopy",
+			"from": [
+				-0.5,
+				9,
+				16
+			],
+			"to": [
+				16.5,
+				16,
+				20
+			],
+			"faces": {
+				"south": {
+					"texture": "#canopy",
+					"uv": [
+						0,
+						0,
+						16,
+						7
+					]
+				},
+				"down": {
+					"texture": "#canopy",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				}
+			}
+		},
+		{
+			"name": "CanopyRib",
+			"from": [
+				-0.5,
+				8.4,
+				16
+			],
+			"to": [
+				16.5,
+				9,
+				20.4
+			],
+			"faces": {
+				"south": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						16,
+						0.6
+					]
+				},
+				"down": {
+					"texture": "#rubber",
+					"uv": [
+						0,
+						0,
+						16,
+						4.4
+					]
+				}
+			}
+		}
+	]
+}

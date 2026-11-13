@@ -1,0 +1,73 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"c-ceil": "backrooms:block/36/cabin/c-ceil",
+		"c-panel": "backrooms:block/36/cabin/c-panel"
+	},
+	"elements": [
+		{
+			"name": "Panel",
+			"from": [
+				0,
+				0,
+				0.5
+			],
+			"to": [
+				16,
+				12,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						16,
+						12
+					]
+				}
+			}
+		},
+		{
+			"name": "Cove",
+			"from": [
+				0,
+				12,
+				0.5
+			],
+			"to": [
+				16,
+				16,
+				3
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-ceil",
+					"uv": [
+						0,
+						0,
+						16,
+						4
+					]
+				},
+				"down": {
+					"texture": "#c-ceil",
+					"uv": [
+						0,
+						0,
+						16,
+						2.5
+					]
+				}
+			},
+			"rotationOrigin": [
+				8,
+				12,
+				0.5
+			],
+			"rotationX": 30
+		}
+	]
+}

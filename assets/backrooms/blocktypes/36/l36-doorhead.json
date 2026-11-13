@@ -1,0 +1,76 @@
+// Level 36 (cabin pass): over a plane door: the lit EXIT sign inside, the fuselage's skin and the bridge's canopy outside
+{
+	"code": "l36-doorhead",
+	"variantgroups": [
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-doorhead-north": {
+			"base": "backrooms:block/36/cabin/l36-doorhead"
+		},
+		"l36-doorhead-east": {
+			"base": "backrooms:block/36/cabin/l36-doorhead",
+			"rotateY": 270
+		},
+		"l36-doorhead-south": {
+			"base": "backrooms:block/36/cabin/l36-doorhead",
+			"rotateY": 180
+		},
+		"l36-doorhead-west": {
+			"base": "backrooms:block/36/cabin/l36-doorhead",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/stone*",
+		"place": "game:block/anvil1",
+		"break": "game:block/heavymetal-hit",
+		"hit": "game:block/heavymetal-hit"
+	},
+	"collisionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"selectionbox": {
+		"x1": 0,
+		"y1": 0,
+		"z1": 0,
+		"x2": 1,
+		"y2": 1,
+		"z2": 1
+	},
+	"drops": [],
+	"attributes": {
+		"l36structure": true
+	}
+}

@@ -1,0 +1,203 @@
+// Level 36 (cabin pass): the galley's curtain on its rail, drawn half across
+{
+	"code": "l36-curtain",
+	"variantgroups": [
+		{
+			"code": "part",
+			"states": [
+				"lower",
+				"mid",
+				"top"
+			]
+		},
+		{
+			"code": "side",
+			"states": [
+				"north",
+				"east",
+				"south",
+				"west"
+			]
+		}
+	],
+	"shapeByType": {
+		"l36-curtain-lower-north": {
+			"base": "backrooms:block/36/cabin/l36-curtain-lower"
+		},
+		"l36-curtain-lower-east": {
+			"base": "backrooms:block/36/cabin/l36-curtain-lower",
+			"rotateY": 270
+		},
+		"l36-curtain-lower-south": {
+			"base": "backrooms:block/36/cabin/l36-curtain-lower",
+			"rotateY": 180
+		},
+		"l36-curtain-lower-west": {
+			"base": "backrooms:block/36/cabin/l36-curtain-lower",
+			"rotateY": 90
+		},
+		"l36-curtain-mid-north": {
+			"base": "backrooms:block/36/cabin/l36-curtain-mid"
+		},
+		"l36-curtain-mid-east": {
+			"base": "backrooms:block/36/cabin/l36-curtain-mid",
+			"rotateY": 270
+		},
+		"l36-curtain-mid-south": {
+			"base": "backrooms:block/36/cabin/l36-curtain-mid",
+			"rotateY": 180
+		},
+		"l36-curtain-mid-west": {
+			"base": "backrooms:block/36/cabin/l36-curtain-mid",
+			"rotateY": 90
+		},
+		"l36-curtain-top-north": {
+			"base": "backrooms:block/36/cabin/l36-curtain-top"
+		},
+		"l36-curtain-top-east": {
+			"base": "backrooms:block/36/cabin/l36-curtain-top",
+			"rotateY": 270
+		},
+		"l36-curtain-top-south": {
+			"base": "backrooms:block/36/cabin/l36-curtain-top",
+			"rotateY": 180
+		},
+		"l36-curtain-top-west": {
+			"base": "backrooms:block/36/cabin/l36-curtain-top",
+			"rotateY": 90
+		}
+	},
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Cloth",
+	"drawtype": "json",
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 2,
+	"sounds": {
+		"walk": "game:walk/cloth",
+		"place": "game:block/cloth",
+		"break": "game:block/cloth",
+		"hit": "game:block/cloth"
+	},
+	"collisionbox": null,
+	"selectionboxByType": {
+		"l36-curtain-lower-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 0.2
+		},
+		"l36-curtain-lower-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 270
+		},
+		"l36-curtain-lower-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 180
+		},
+		"l36-curtain-lower-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 90
+		},
+		"l36-curtain-mid-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 0.2
+		},
+		"l36-curtain-mid-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 270
+		},
+		"l36-curtain-mid-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 180
+		},
+		"l36-curtain-mid-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 90
+		},
+		"l36-curtain-top-north": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 0.2
+		},
+		"l36-curtain-top-east": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 270
+		},
+		"l36-curtain-top-south": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 180
+		},
+		"l36-curtain-top-west": {
+			"x1": 0,
+			"y1": 0,
+			"z1": 0,
+			"x2": 0.65,
+			"y2": 1,
+			"z2": 0.2,
+			"rotateY": 90
+		}
+	},
+	"drops": []
+}

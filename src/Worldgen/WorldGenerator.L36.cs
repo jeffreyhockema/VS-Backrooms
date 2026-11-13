@@ -49,6 +49,13 @@ public sealed partial class WorldGenerator
     private readonly int[] l36MagRack = new int[4], l36FireCab = new int[4], l36InfoPylon = new int[4], l36Bench = new int[4];
     private readonly int[,] l36PrayerMat = new int[2, 4], l36Luggage = new int[5, 4];
     private readonly HashSet<string> l36Missing = new();
+    // (cabin pass, 2026-11-13) the plane's cabin (tools/gen_36_cabin.py); WorldLayout.Level36.Cabin.cs lays it out
+    private readonly int[] l36CabWindow = new int[4], l36CabBlind = new int[4], l36Psu = new int[4], l36CabSign = new int[4], l36JumpSeat = new int[4],
+        l36DoorHead = new int[4];
+    private readonly int[,] l36CabSide = new int[3, 4], l36CabBin = new int[10, 4], l36PlaneDoor = new int[2, 4], l36DoorSide = new int[6, 4],
+        l36CabDoor = new int[4, 4], l36CabExit = new int[2, 4], l36Bulkhead = new int[4, 4], l36FdDoor = new int[2, 4], l36Galley = new int[6, 4],
+        l36Lav = new int[5, 4], l36Curtain = new int[3, 4], l36CabSeat2 = new int[5, 4], l36CabFloor = new int[2, 2];
+    private int l36CabVinyl;
 
     /// <summary>A block of this mod's, or <paramref name="fallback"/> if it is not there (logged once).</summary>
     private int L36Block(string code, int fallback = 0)
@@ -200,7 +207,38 @@ public sealed partial class WorldGenerator
             string[] bags = { "spin0", "spin1", "duffel", "garment", "upright" };
             for (int i = 0; i < 5; i++) l36Luggage[i, f] = L36Block($"l36-luggage-{bags[i]}-{side}");
             l36FireCab[f] = L36Block($"l36-firecab-{side}", l36Stone);
+            // (cabin pass)
+            l36CabWindow[f] = L36Block($"l36-cabinwindow-apron-{side}", l36CabinWall[1, f]);
+            l36CabBlind[f] = L36Block($"l36-cabinblind-{side}", l36CabWindow[f]);
+            l36Psu[f] = L36Block($"l36-psu-off-{side}", l36CabinWall[2, f]);
+            l36CabSign[f] = L36Block($"l36-cabinsign-{side}");
+            l36JumpSeat[f] = L36Block($"l36-jumpseat-{side}");
+            l36DoorHead[f] = L36Block($"l36-doorhead-{side}", l36CabinWall[0, f]);
+            string[] sideParts = { "lower", "plain", "upper" }, binStates = { "r10", "r11", "r12", "r14", "r15", "r16", "r17", "r18", "openbag", "opencoat" },
+                doorSides = { "fwdlow", "fwdmid", "fwdtop", "aftlow", "aftmid", "afttop" }, cabDoors = { "port-lower", "port-upper", "stbd-lower", "stbd-upper" },
+                bulk = { "low", "mid", "midext", "top" }, galley = { "carts", "cartswaste", "oven", "coffee", "counter", "stow" },
+                lav = { "doorlow", "doorocc", "doorvac", "top", "body" }, seat2 = { "blanket", "pillow", "bag", "magazine", "exitrow" },
+                curtain = { "lower", "mid", "top" };
+            for (int i = 0; i < 3; i++) l36CabSide[i, f] = L36Block($"l36-cabinside-{sideParts[i]}-{side}", l36CabinWall[0, f]);
+            for (int i = 0; i < 10; i++) l36CabBin[i, f] = L36Block($"l36-cabinbin-{binStates[i]}-{side}", l36CabinWall[2, f]);
+            for (int i = 0; i < 2; i++) l36PlaneDoor[i, f] = L36Block($"l36-planedoor-open-{(i == 0 ? "lower" : "upper")}-{side}");
+            for (int i = 0; i < 6; i++) l36DoorSide[i, f] = L36Block($"l36-doorside-{doorSides[i]}-{side}", l36CabinWall[0, f]);
+            for (int i = 0; i < 4; i++) l36CabDoor[i, f] = L36Block($"l36-cabindoor-{cabDoors[i]}-{side}", l36CabinWall[0, f]);
+            for (int i = 0; i < 2; i++) l36CabExit[i, f] = L36Block($"l36-cabinexit-{(i == 0 ? "lower" : "upper")}-{side}", l36CabinWall[0, f]);
+            for (int i = 0; i < 4; i++) l36Bulkhead[i, f] = L36Block($"l36-bulkhead-{bulk[i]}-{side}", l36CabinWall[0, f]);
+            for (int i = 0; i < 2; i++) l36FdDoor[i, f] = L36Block($"l36-fddoor-{(i == 0 ? "lower" : "upper")}-{side}", l36CabinWall[0, f]);
+            for (int i = 0; i < 6; i++) l36Galley[i, f] = L36Block($"l36-galley-{galley[i]}-{side}");
+            for (int i = 0; i < 5; i++) l36Lav[i, f] = L36Block($"l36-lav-{lav[i]}-{side}");
+            for (int i = 0; i < 3; i++) l36Curtain[i, f] = L36Block($"l36-curtain-{curtain[i]}-{side}");
+            for (int i = 0; i < 5; i++) l36CabSeat2[i, f] = L36Block($"l36-cabinseat2-{seat2[i]}-{side}", l36CabinSeat[f]);
         }
+        string[] axes = { "ns", "we" };
+        for (int i = 0; i < 2; i++)
+        {
+            l36CabFloor[0, i] = L36Block($"l36-cabinfloor-track-{axes[i]}", l36Carpet[0]);
+            l36CabFloor[1, i] = L36Block($"l36-cabinfloor-aisle-{axes[i]}", l36Carpet[0]);
+        }
+        l36CabVinyl = L36Block("l36-cabinfloor-vinyl", l36Carpet[3]);
     }
 
     /// <summary>One block of a column of the level, <paramref name="rel"/> above its floor.</summary>
@@ -257,6 +295,13 @@ public sealed partial class WorldGenerator
                 int face = L36BridgeFace(gx, gz);
                 if (face >= 0) return l36BridgeWall[rel - 1, face];
             }
+            // (cabin pass) a cabin wall by its kind; about one window in seven with its blind down
+            if ((t.Detail & L36.L36MatMask) == Mat.CabinWall && t.Roof != 0)
+            {
+                int cf = Facing(t.Pier);
+                if (t.Roof == L36Cab.WallWindow && rel == 2 && Hashing.Unit(Hashing.Hash(seed, gx, gz, 0x2541)) < 0.15) return l36CabBlind[cf];
+                return L36CabWall(t, rel, cf);
+            }
             return L36Wall(t, rel);
         }
         int air = t.Height > 0 ? t.Height : 4;
@@ -286,6 +331,15 @@ public sealed partial class WorldGenerator
                 case Overheads.L36Sign: return l36Sign[t.Depth % L36.L36SignGlyphs.Length, f];
                 case Overheads.L36Fids: return l36Fids[t.Depth % L36.L36FidsTexts.Length, t.Roof & 1, f];
                 case Overheads.L36BoothSign: return l36Booth[2 + t.Roof % 3, f];
+                // (cabin pass) over the seats, facing the aisle (to a left-hand seat's right, a right-hand seat's left); the EXIT
+                // signs hung along the aisle
+                case Overheads.L36Psu: return l36Psu[Facing(L36CabAisleward(t))];
+                case Overheads.L36CabinBin:
+                {
+                    int open = (t.Depth >> 4) & 3;
+                    return l36CabBin[open == L36Cab.BinBag ? 8 : open == L36Cab.BinCoat ? 9 : System.Math.Min(t.Depth & 15, 7), Facing(L36CabAisleward(t))];
+                }
+                case Overheads.L36CabinSign: return l36CabSign[f];
             }
         }
         if (t.Variant == Props.L36CarouselIsland) return rel == 1 ? L36IslandAt(gx, gz) : 0;
@@ -297,6 +351,18 @@ public sealed partial class WorldGenerator
     private int L36FloorAt(in Tile t, int gx, int gz)
     {
         if (t.Zone == (byte)Zone.Bridge) return l36BridgeFloor;
+        // (cabin pass) the seats' tracks and the aisle's lights run toward the nose (Pier)
+        if (t.Zone == (byte)Zone.Cabin && t.Roof != 0)
+        {
+            int axis = t.Pier is ArchPier.North or ArchPier.South ? 0 : 1;
+            return t.Roof switch
+            {
+                L36Cab.FloorTrack => l36CabFloor[0, axis],
+                L36Cab.FloorAisle => l36CabFloor[1, axis],
+                L36Cab.FloorVinyl => l36CabVinyl,
+                _ => l36Carpet[0],
+            };
+        }
         if ((t.Detail & L36.L36MatMask) == Mat.Marble && t.Zone is (byte)Zone.Baggage or (byte)Zone.CheckIn)
         {
             int u = gx - layout.L36WallX, k = Hashing.Mod(gz - layout.L36LineZ, 16);
@@ -309,6 +375,9 @@ public sealed partial class WorldGenerator
     private int L36CeilingAt(in Tile t, int gx, int gz)
     {
         if (t.Zone == (byte)Zone.Bridge) return t.Ceiling == CeilingKind.L36Ceiling || t.Ceiling == 0 ? l36BridgeCeil : L36Ceiling(t);
+        // (cabin pass) the lit ceiling over the aisle and the open rows; a plain block over the bins and the fittings
+        if (t.Zone == (byte)Zone.Cabin && t.Roof != 0 && (t.Overhead is Overheads.L36Psu or Overheads.L36CabinBin || t.Variant == Props.L36CabinFit))
+            return l36CabinWall[0, 0];
         int c = L36Ceiling(t);
         // a kiosk's canopy: a downlight every other block each way
         if (c == l36Canopy && (gx & 1) == 0 && (gz & 1) == 0) return l36CanopyLit;
@@ -489,6 +558,7 @@ public sealed partial class WorldGenerator
                 }
                 return l36Purple;
             case Props.L36Stall: return rel <= 2 ? l36Stall[rel - 1, f] : 0;
+            case Props.L36CabinFit: return rel <= 3 ? L36CabFit(t.Stack, rel, f) : 0;
         }
         if (rel != 1) return 0;
         return t.Variant switch
@@ -502,7 +572,7 @@ public sealed partial class WorldGenerator
             Props.L36Booth => l36Booth[t.Stack & 1, f],
             Props.L36Perfume => l36Perfume[f],
             Props.L36MealTable => l36Meal[t.Stack & 3],
-            Props.L36CabinSeat => l36CabinSeat[f],
+            Props.L36CabinSeat => (t.Stack & 7) is >= 1 and <= 5 ? l36CabSeat2[(t.Stack & 7) - 1, f] : l36CabinSeat[f],
             Props.L36LostFound => l36LostFound[f],
             Props.L36CarouselIsland => l36Island,
             Props.L36Couch => l36Couch[(t.Stack & 1) * 4 + f],
@@ -530,6 +600,58 @@ public sealed partial class WorldGenerator
             Props.Cooler => coolerIds[f],
             Props.Shelf => shelfIds[Facing(Opposite(t.Pier))],
             >= 40 and < Props.L36First => PropBlock(t),
+            _ => 0,
+        };
+    }
+
+    /// <summary>(cabin pass) The way a seat's overhead faces: toward the aisle (a left-hand seat's right, a right-hand seat's left).</summary>
+    private static ArchPier L36CabAisleward(in Tile t)
+    {
+        bool right = (t.Stack & 8) != 0;
+        return t.Pier switch
+        {
+            ArchPier.North => right ? ArchPier.West : ArchPier.East,
+            ArchPier.East => right ? ArchPier.North : ArchPier.South,
+            ArchPier.South => right ? ArchPier.East : ArchPier.West,
+            _ => right ? ArchPier.South : ArchPier.North,
+        };
+    }
+
+    /// <summary>(cabin pass) A cabin wall's block by its kind (<see cref="Tile.Roof"/>), <paramref name="rel"/> 1-3 above the floor, facing the cabin.</summary>
+    private int L36CabWall(in Tile t, int rel, int f)
+    {
+        int r = System.Math.Clamp(rel, 1, 3) - 1;
+        return t.Roof switch
+        {
+            L36Cab.WallWindow => r == 1 ? l36CabWindow[f] : l36CabSide[r == 0 ? 0 : 2, f],
+            L36Cab.WallPlain => l36CabSide[r, f],
+            L36Cab.WallDoorFwd => l36DoorSide[r, f],
+            L36Cab.WallDoorAft => l36DoorSide[3 + r, f],
+            L36Cab.WallDoorPort => r == 2 ? l36DoorHead[f] : l36CabDoor[r, f],
+            L36Cab.WallDoorStbd => r == 2 ? l36DoorHead[f] : l36CabDoor[2 + r, f],
+            L36Cab.WallExit => r == 2 ? l36CabSide[2, f] : l36CabExit[r, f],
+            L36Cab.WallBulkhead => l36Bulkhead[r == 0 ? 0 : r == 1 ? 1 : 3, f],
+            L36Cab.WallBulkheadExt => l36Bulkhead[r == 0 ? 0 : r == 1 ? 2 : 3, f],
+            L36Cab.WallFlightDeck => r == 2 ? l36Bulkhead[3, f] : l36FdDoor[r, f],
+            _ => l36CabinWall[0, f],
+        };
+    }
+
+    /// <summary>(cabin pass) A cabin fitting's block, <paramref name="rel"/> 1-3 above the floor.</summary>
+    private int L36CabFit(int kind, int rel, int f)
+    {
+        int r = rel - 1;
+        return kind switch
+        {
+            L36Cab.FitGalleyOven => l36Galley[r == 0 ? 0 : r == 1 ? 2 : 5, f],
+            L36Cab.FitGalleyCoffee => l36Galley[r == 0 ? 0 : r == 1 ? 3 : 5, f],
+            L36Cab.FitGalleyCounter => l36Galley[r == 0 ? 1 : r == 1 ? 4 : 5, f],
+            L36Cab.FitLavOccupied => l36Lav[r == 0 ? 0 : r == 1 ? 1 : 3, f],
+            L36Cab.FitLavVacant => l36Lav[r == 0 ? 0 : r == 1 ? 2 : 3, f],
+            L36Cab.FitLavBody => l36Lav[4, f],
+            L36Cab.FitJumpSeat => r == 0 ? l36JumpSeat[f] : 0,
+            L36Cab.FitCurtain => l36Curtain[r, f],
+            L36Cab.FitPlaneDoor => r == 2 ? l36DoorHead[f] : l36PlaneDoor[r, f],
             _ => 0,
         };
     }

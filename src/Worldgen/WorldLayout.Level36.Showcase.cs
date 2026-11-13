@@ -196,6 +196,24 @@ public partial class WorldLayout
             var at = level == Poolrooms ? FindArrival(level, key, spot: IsL36DryPoolSpot) : FindArrival(level, key);
             if (at is { } a) spots.Add(new Showcase.Spot("landing-" + L36FlightTo(shownGate), a.X + 0.5, geometry.FloorFor(level) + ArrivalHeight(a.X, a.Z), a.Z + 0.5, 0, 0));
         }
+        // (cabin pass, 2026-11-13) The shown gate's plane: the cabin from the boarding door, down the aisle to the nose, a window
+        // seat, the forward galley and the flight deck's door, the rear, and the bridge's end at the plane's door. The nose is
+        // the way the aisle's tiles face; the door is on the bridge's side (the gate's facing)
+        if (shownGate != null && L36Raw(shownGate.AisleX, shownGate.AisleZ).Zone == (byte)L36Zone.Cabin)
+        {
+            L36Gate g = shownGate;
+            var (nx, nz) = FacingStep(L36Raw(g.AisleX, g.AisleZ).Pier);
+            int lx = g.Facing switch { ArchPier.East => 1, ArchPier.West => -1, _ => 0 }, lz2 = g.Facing switch { ArchPier.South => 1, ArchPier.North => -1, _ => 0 };
+            void AddCab(string name, double a, double side, double vn, double vl, double pitch) =>
+                Add(name, g.AisleX - nx * a + lx * side + 0.5, g.AisleZ - nz * a + lz2 * side + 0.5,
+                    Math.Atan2(nx * vn + lx * vl, -(nz * vn + lz2 * vl)) * 180 / Math.PI, pitch);
+            AddCab("cabin-door", 0, 2, -1, -0.8, -6);
+            AddCab("cabin-aisle", 8, 0, 1, 0, -3);
+            AddCab("cabin-window", 3, 0, -0.25, 1, -14);
+            AddCab("cabin-galley", 1, 0, 1, -0.3, 2);
+            AddCab("cabin-rear", 2, 0, -1, 0, -3);
+            AddCab("bridge-end", 0, 6, 0, -1, -2);
+        }
         if (shownSink is { } sk && FindArrival(Poolrooms, Hashing.Hash(seed, sk.X, sk.Z, L36SinkKeySalt)) is { } up)
             spots.Add(new Showcase.Spot("sink-landing", up.X + 0.5, geometry.FloorFor(Poolrooms) + ArrivalHeight(up.X, up.Z), up.Z + 0.5, 0, 0));
         return spots;

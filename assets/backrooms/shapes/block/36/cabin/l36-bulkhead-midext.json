@@ -1,0 +1,386 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"black": "backrooms:block/36/props/black",
+		"c-panel": "backrooms:block/36/cabin/c-panel",
+		"c-red": "backrooms:block/36/cabin/c-red",
+		"c-trim": "backrooms:block/36/cabin/c-trim",
+		"chrome": "backrooms:block/36/props/chrome",
+		"darksteel": "backrooms:block/36/props/darksteel"
+	},
+	"elements": [
+		{
+			"name": "Panel",
+			"from": [
+				0,
+				0,
+				0.5
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-panel",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		},
+		{
+			"name": "Bracket",
+			"from": [
+				5.5,
+				1,
+				0.1
+			],
+			"to": [
+				10.5,
+				2,
+				0.5
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						5.0,
+						1
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						0.5,
+						1
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						5.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "Bottle",
+			"from": [
+				6.5,
+				2,
+				-2.6
+			],
+			"to": [
+				9.5,
+				10.5,
+				0.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-red",
+					"uv": [
+						0,
+						0,
+						3.0,
+						8.5
+					]
+				},
+				"east": {
+					"texture": "#c-red",
+					"uv": [
+						0,
+						0,
+						3.0,
+						8.5
+					]
+				},
+				"west": {
+					"texture": "#c-red",
+					"uv": [
+						0,
+						0,
+						3.0,
+						8.5
+					]
+				},
+				"up": {
+					"texture": "#c-red",
+					"uv": [
+						0,
+						0,
+						3.0,
+						3.0
+					]
+				}
+			}
+		},
+		{
+			"name": "Neck",
+			"from": [
+				7.2,
+				10.5,
+				-1.9
+			],
+			"to": [
+				8.8,
+				11.5,
+				-0.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.0
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.0
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.0
+					]
+				},
+				"up": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						1.6,
+						1.6
+					]
+				}
+			}
+		},
+		{
+			"name": "Lever",
+			"from": [
+				7,
+				11.5,
+				-2.2
+			],
+			"to": [
+				10.5,
+				12,
+				-0.3
+			],
+			"faces": {
+				"north": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.5,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.9,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						1.9,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.5,
+						1.9
+					]
+				},
+				"down": {
+					"texture": "#chrome",
+					"uv": [
+						0,
+						0,
+						3.5,
+						1.9
+					]
+				}
+			}
+		},
+		{
+			"name": "Hose",
+			"from": [
+				9.5,
+				7,
+				-1.4
+			],
+			"to": [
+				10.2,
+				11,
+				-0.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.7,
+						4
+					]
+				},
+				"east": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4
+					]
+				},
+				"west": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.8,
+						4
+					]
+				},
+				"up": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.8
+					]
+				},
+				"down": {
+					"texture": "#black",
+					"uv": [
+						0,
+						0,
+						0.7,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Strap",
+			"from": [
+				6.3,
+				6,
+				-2.8
+			],
+			"to": [
+				9.7,
+				6.8,
+				0.4
+			],
+			"faces": {
+				"north": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.4,
+						0.8
+					]
+				},
+				"east": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.8
+					]
+				},
+				"west": {
+					"texture": "#darksteel",
+					"uv": [
+						0,
+						0,
+						3.2,
+						0.8
+					]
+				}
+			}
+		},
+		{
+			"name": "Label",
+			"from": [
+				6.6,
+				4,
+				-2.7
+			],
+			"to": [
+				9.4,
+				6,
+				-2.6
+			],
+			"faces": {
+				"north": {
+					"texture": "#c-trim",
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					]
+				}
+			}
+		}
+	]
+}
