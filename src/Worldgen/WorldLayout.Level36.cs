@@ -132,6 +132,8 @@ public sealed partial class WorldLayout
         public bool SupportGroup => Letter == 'C' && Number == 32;
         public string Code => Letter + Number.ToString();
         public bool Contains(int x, int z) => x >= X0 && x <= X1 && z >= Z0 && z <= Z1;
+        /// <summary>(Flight status pass) The bridge's start just inside the door, and its end where it meets the cabin; set at the end of L36LayGate.</summary>
+        public int BridgeX, BridgeZ, BridgeEndX, BridgeEndZ;
     }
 
     /// <summary>The plan of one superblock in its own coordinates (P, Q); in the world (A east, B south) the same, Q mirrored, then transposed.</summary>
@@ -958,6 +960,8 @@ public sealed partial class WorldLayout
         gate.DoorX = dx; gate.DoorZ = dz; gate.FrontX = fx; gate.FrontZ = fz; gate.AisleX = ax; gate.AisleZ = az;
         gate.Facing = plan.Dir(fromWindow);
         gate.X0 = Math.Min(cx0, cx1); gate.X1 = Math.Max(cx0, cx1); gate.Z0 = Math.Min(cz0, cz1); gate.Z1 = Math.Max(cz0, cz1);
+        (gate.BridgeX, gate.BridgeZ) = plan.World(pa0 + 10, Q(82));
+        (gate.BridgeEndX, gate.BridgeEndZ) = plan.World(pa0 + 10, Q(71));
         plan.Gates.Add(gate);
     }
 

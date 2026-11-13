@@ -1,0 +1,41 @@
+description: Level 36, a whole flight as a survival player, the HUD status line and chat at boarding, final call, doors closed, takeoff, cruise, descent and landed.
+steps:
+  - expect_no_startup_issues: ""
+  - bot: closeguis
+  - bot: cmd /backrooms goto 36
+  - bot: movewait
+  - bot: ready 48
+  - bot: wait 3000
+  - cmd: /backrooms l36 count 70
+  - cmd: /backrooms l36 front
+  - bot: wait 3500
+  - shot: l36-1-scheduled-or-boarding
+  - cmd: /backrooms l36 board
+  - bot: wait 3500
+  - shot: l36-2-boarding-bridge
+  - expect_chat: You board flight
+  - cmd: /backrooms l36 fly 26
+  - bot: wait 3500
+  - shot: l36-3-boarding-cabin
+  - bot: wait 6000
+  - shot: l36-4-finalcall
+  - expect_chat: Final call
+  - bot: wait 16000
+  - shot: l36-5-doorsclosed
+  - expect_chat: Doors closed
+  - cmd: /backrooms l36 phase takeoff
+  - bot: wait 2500
+  - shot: l36-6-takeoff
+  - cmd: /backrooms l36 phase cruise
+  - bot: wait 2500
+  - shot: l36-7-cruise
+  - cmd: /backrooms l36 phase descent
+  - bot: wait 2500
+  - shot: l36-8-descent
+  - cmd: /backrooms l36 phase landed
+  - bot: wait 2000
+  - shot: l36-9-landed
+  - expect_chat: airport is not there any more timeout=20
+  - bot: wait 3000
+  - shot: l36-10-arrived
+  - expect_no_log: Unhandled exception

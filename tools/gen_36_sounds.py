@@ -3,11 +3,12 @@
 ambient/36/: hum (terminal bed), belt (baggage carousel), static (the Absolute Limit), cabin (inside a plane), service
 (back-of-house ducts). All five are seamless loops (circular filtering, whole cycles, wrapped events).
 effect/36/: chime1/2 (the PA chime), pa1-3 (distant unintelligible announcements), jet1/2 (take-off, landing), clunk
-(carousel), ding (seatbelt sign), touchdown, boarding.
+(carousel), ding (seatbelt sign), touchdown, boarding, pushback, takeoff (flight status pass).
 
 Run:  bash tools/locked.sh run python tools/gen_36_sounds.py
 """
 import os
+import sys
 
 import numpy as np
 from oggutil import write_ogg
@@ -351,12 +352,49 @@ def mech():
     write("effect/36", "boarding", hall(out, 2.0, 0.45, tail=0.5, seed=41)[:int(5.2 * RATE)], 0.42)
 
 
+def flight():
+    """(Flight status pass) pushback: the tug's low diesel rumble, a clank at the start and a lurch at the end (7 s);
+    takeoff: the engines spool up, the roll rises to a full roar, the wheels leave, the roar settles to cruise (16 s)."""
+    rng = np.random.default_rng(3650)
+    n = int(7 * RATE)
+    t = np.arange(n) / RATE
+    rumble = lp(pink(n, rng), 140, 3)
+    rumble /= np.std(rumble)
+    f = 38 + 5 * np.sin(TAU * 0.7 * t)
+    diesel = np.sin(TAU * np.cumsum(f) / RATE) + 0.6 * np.sin(TAU * np.cumsum(2 * f) / RATE) + 0.3 * np.sin(TAU * np.cumsum(3.02 * f) / RATE)
+    diesel *= 0.7 + 0.3 * np.sin(TAU * 9 * t)
+    out = (0.8 * rumble + 0.5 * diesel / np.std(diesel)) * np.clip(t / 0.6, 0, 1) * np.clip((7 - t) / 1.2, 0, 1)
+    for at in (0.1, 6.2):
+        tt = seconds(0.4)
+        place(out, 1.4 * (np.sin(TAU * 70 * tt * (1 - 0.3 * tt)) * np.exp(-tt * 12) + 0.4 * band(rng.normal(size=len(tt)), 120, 1800) * np.exp(-tt * 30)), at)
+    write("effect/36", "pushback", hall(lp(out, 600, 3), 0.9, 0.2, tail=0.2), 0.5)
+    n = int(16 * RATE)
+    t = np.arange(n) / RATE
+    spool = np.clip(t / 5.0, 0, 1) ** 1.6
+    f = 180 + 520 * spool
+    whine = np.sin(TAU * np.cumsum(f) / RATE) + 0.45 * np.sin(TAU * np.cumsum(f * 2.01) / RATE) + 0.2 * np.sin(TAU * np.cumsum(f * 3.03) / RATE)
+    roar = lp(pink(n, rng), 1500, 2)
+    roar /= np.std(roar)
+    level = (0.15 + 0.85 * spool) * np.where(t < 11.5, 1.0, np.exp(-(t - 11.5) / 3.0) * 0.5 + 0.5)
+    rolling = 0.25 * band(rng.normal(size=n), 40, 220) / 0.3 * np.clip((t - 4) / 2, 0, 1) * np.clip((9.5 - t) / 0.6, 0, 1)
+    out = level * (roar + 0.10 * whine / np.std(whine) * spool) + rolling
+    tt = seconds(0.5)
+    place(out, 0.9 * np.sin(TAU * 55 * tt * (1 - 0.3 * tt)) * np.exp(-tt * 9), 9.5)  # the wheels leave: a last thump
+    write("effect/36", "takeoff", hall(lp(out, 1600, 2), 1.4, 0.25, tail=0.5), 0.5)
+
+
 def main():
+    if sys.argv[1:] == ["flight"]:
+        flight()
+        for name, d, pk, rms, seam in STATS:
+            print(f"{name:28s} {d:6.2f} {pk:6.3f} {rms:6.3f}")
+        return
     ambients()
     chimes()
     pas()
     jets()
     mech()
+    flight()
     print(f"{'file':28s} {'sec':>6s} {'peak':>6s} {'rms':>6s}  seam(jump/std-step)")
     for name, d, pk, rms, seam in STATS:
         print(f"{name:28s} {d:6.2f} {pk:6.3f} {rms:6.3f}  {'' if seam is None else round(seam, 2)}")
