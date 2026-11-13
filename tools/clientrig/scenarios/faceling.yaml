@@ -1,0 +1,21 @@
+description: A Faceling child beside a grown one (do they render at their own sizes?), and the Faceling's warning before it shoves (the straw dummy stands in for the player; the rig's player is in creative, which Facelings ignore).
+steps:
+  - expect_no_startup_issues: ""
+  - bot: closeguis
+  - bot: hud off
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms heal
+  - cmd: /backrooms director off
+  - cmd: /backrooms encounter faceling ambient
+  - cmd: /backrooms encounter faceling-child ambient
+  - bot: wait 1500
+  - bot: approach faceling-child 6
+  - bot: lookat faceling-child
+  - bot: wait 1500
+  - shot: faceling-child-and-adult
+  - bot: approach faceling 6
+  - bot: lookat faceling
+  - bot: wait 1500
+  - shot: faceling-adult-close
+  - expect_no_log: Unhandled exception

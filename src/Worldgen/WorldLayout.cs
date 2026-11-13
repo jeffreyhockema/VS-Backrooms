@@ -529,7 +529,9 @@ public sealed partial class WorldLayout
     /// isn't quite there (<see cref="NoclipBarnShare"/>; 11 % in 12 to 15), and only one city rowhouse front door in four opens into
     /// the Suburbs (<see cref="RowhousePortalShare"/>): the rest are marked <see cref="RowhouseDoorPlain"/> and drawn as the city's
     /// own locked front door (citydoor), while the ones that lead away wear the Suburbs' red door with its porch glow (in every
-    /// world, since before 16 every rowhouse door leads away).</item>
+    /// world, since before 16 every rowhouse door leads away). Level 8 also holds more borax ore (vanilla's flux): vanilla's own
+    /// deposits, which run in Level 8 in every world, lay it mostly in chert and conglomerate, so a quarter of a hundredth of the
+    /// ore cells are now borax in claystone, sandstone, shale, limestone and chalk (WorldGenerator.Deep.cs RockAt; blocks only, not tiles).</item>
     /// </list>
     /// </summary>
     public const int CurrentVersion = 16;

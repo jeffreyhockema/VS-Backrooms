@@ -1345,7 +1345,11 @@ def refinements():
     name("laundry-dryer-*", "Tumble Dryer")  # (before the general name, which would otherwise match first)
     prop("laundry", "Washing Machine", {"washer": laundry, "dryer": laundry},
          box=(0.06, 0, 0.12, 0.94, 0.94, 0.94), material="Metal", sounds=METAL,
-         extra={"drops": drops(("metalbracket", 1, 0.5), ("scrapwire", 1, 0.5), ("game:cloth-plain", 0.4, 0.4))})
+         extra={"dropsByType": {
+             # (A washer, not a dryer, holds "a box of laundry booster": borax, about 0.15 a washer, as two rolls of 0.1 and 0.05)
+             "*-washer-*": drops(("metalbracket", 1, 0.5), ("scrapwire", 1, 0.5), ("game:cloth-plain", 0.4, 0.4),
+                                 ("game:powder-borax", 0.1, 0), ("game:powder-borax", 0.05, 0)),
+             "*": drops(("metalbracket", 1, 0.5), ("scrapwire", 1, 0.5), ("game:cloth-plain", 0.4, 0.4))}})
     prop("toybox", "Toy Box", [
         bx("Box", (2, 0, 4), (14, 8, 12), "toybox", faces=("north", "south")), bx("Sides", (2, 0, 4), (14, 8, 12), "wood", faces=("east", "west", "down")),
         bx("Lid", (1.5, 8, 3.5), (14.5, 9, 12.5), "wood")],

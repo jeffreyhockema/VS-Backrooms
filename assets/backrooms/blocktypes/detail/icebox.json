@@ -133,23 +133,15 @@
 			"type": "item",
 			"code": "game:cheese-cheddar-1slice",
 			"quantity": {
-				"avg": 0.8,
-				"var": 0.6
-			}
-		},
-		{
-			"type": "item",
-			"code": "game:butter-salted",
-			"quantity": {
-				"avg": 0.5,
-				"var": 0.4
+				"avg": 1.2,
+				"var": 0.8
 			}
 		},
 		{
 			"type": "item",
 			"code": "almondmilk",
 			"quantity": {
-				"avg": 0.6,
+				"avg": 0.9,
 				"var": 0.4
 			}
 		},

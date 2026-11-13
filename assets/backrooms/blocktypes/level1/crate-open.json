@@ -34,6 +34,14 @@
 		},
 		{
 			"type": "item",
+			"code": "game:rot",
+			"quantity": {
+				"avg": 0.17,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
 			"code": "game:plank-aged",
 			"quantity": {
 				"avg": 1.5,

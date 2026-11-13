@@ -49,6 +49,14 @@
 		},
 		{
 			"type": "item",
+			"code": "game:rot",
+			"quantity": {
+				"avg": 0.17,
+				"var": 0
+			}
+		},
+		{
+			"type": "item",
 			"code": "carpetfibre",
 			"quantity": {
 				"avg": 0.6,
