@@ -47,20 +47,21 @@ static class RigSpots {
       Console.WriteLine($"barnwall {w.X} {w.Z}  stand {w.X + 30} {w.Z} looking west (heading 270)");
     if (l.FindArrival(11, 99991UL) is not { } a11) return;
     int portals = 0, plain = 0;
-    for (int r = 0; r < 600 && (portals < 3 || plain < 2); r++)
+    for (int r = 0; r < 600 && (portals < 6 || plain < 2); r++)
       for (int dz = -r; dz <= r; dz++) for (int dx = -r; dx <= r; dx++) {
         if (Math.Max(Math.Abs(dx), Math.Abs(dz)) != r) continue;
         int x = a11.X + dx, z = a11.Z + dz;
         var t = l.TileAt(x, z);
         if (t.Kind != TileKind.Door || t.Level != 11 || t.Zone != (byte)CityKind.Rowhouse) continue;
         bool portal = WorldLayout.IsRowhousePortal(t);
-        if (portal ? portals >= 3 : plain >= 2) continue;
+        if (portal ? portals >= 6 : plain >= 2) continue;
         // The street side: the way out of the wall with open floor for 6 blocks
         foreach ((int sx, int sz, int heading) in new[] { (0, -1, 180), (0, 1, 0), (1, 0, 270), (-1, 0, 90) }) {
           bool open = true;
-          for (int k = 1; k <= 6 && open; k++) { var n = l.TileAt(x + sx * k, z + sz * k); open = n.Kind is TileKind.Floor or TileKind.Doorway; }
+          for (int k = 1; k <= 6 && open; k++) { var n = l.TileAt(x + sx * k, z + sz * k); open = n.Kind is TileKind.Floor or TileKind.Doorway && n.Floor != FloorKind.HouseWood; } // (not the house's own dark inside)
           if (!open) continue;
-          Console.WriteLine($"rowhouse {(portal ? "portal" : "plain ")} {x} {z}  stand {x + sx * 9} {z + sz * 9} looking at it (heading {heading})");
+          string path = string.Join(" ", Enumerable.Range(1, 9).Select(k => { var n = l.TileAt(x + sx * k, z + sz * k); return $"{n.Kind}/{n.Floor}/{(CityKind)n.Zone}"; }));
+          Console.WriteLine($"rowhouse {(portal ? "portal" : "plain ")} {x} {z}  stand {x + sx * 9} {z + sz * 9} looking at it (heading {heading}); {path}");
           if (portal) portals++; else plain++;
           break;
         }

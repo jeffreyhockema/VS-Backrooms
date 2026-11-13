@@ -1872,7 +1872,10 @@ def facades():
         "collisionbox": None, "lightAbsorption": 99, "resistance": 4,
         # (Feedback round 2026-11) The tell, from a distance: the city's traffic heard through it (within 30 blocks or so,
         # the game's ambient scan) and its sodium light glowing faintly through the slats at night
-        "sounds": dict(WOOD, ambient="backrooms:ambient/cityhum", ambientBlockCount=2), "lightHsv": [4, 7, 7],
+        # (the rig's first night shots showed nothing at all at 7: the boards glow a little themselves, so the orange seams
+        # read from across a dark farmyard, and the light reaches the grass in front)
+        "sounds": dict(WOOD, ambient="backrooms:ambient/cityhum", ambientBlockCount=2), "lightHsv": [4, 7, 10],
+        "vertexFlags": {"glowLevel": 48},
         "particleProperties": [{
             "hsvaColor": [{"avg": 30, "var": 10}, {"avg": 40, "var": 20}, {"avg": 200, "var": 30}, {"avg": 90, "var": 30}],
             "gravityEffect": {"avg": 0, "var": 0.01}, "posOffset": [{"avg": 0, "var": 0.5}, {"avg": 0, "var": 0.5}, {"avg": 0, "var": 0.5}],

@@ -35,8 +35,11 @@
 	"lightHsv": [
 		4,
 		7,
-		7
+		10
 	],
+	"vertexFlags": {
+		"glowLevel": 48
+	},
 	"particleProperties": [
 		{
 			"hsvaColor": [
