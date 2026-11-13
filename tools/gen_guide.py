@@ -806,7 +806,7 @@ A service corridor runs round every rink. Off it: bathrooms; store rooms (supply
 In the dark rooms you may see a black figure standing still at the edge of the light. It is gone when you come close, and it has never been seen to move. Paranoia, the M.E.G. say.
 
 **Ways in and out**
-In: a wooden door where no door should be, in the tunnels of Level 2, the brick of Level 3 or the dark of Level 6 (rarer there), with bubblegum pop playing faintly behind it. You hear it before you see it. It opens on one of the rink's lobbies, beside a wooden door that takes you back the way you came. Out: the **Revolving Door** in the front of some lobbies, to the Suburbs, the fields of Level 10 or the Endless City (each door always to the same one, and no way back through it); ask the Coach the way out and he marks the nearest on your map. **Do not steal the skates:** walk out of Skate Rental with a pair from the cubbies, or leave the level by any way wearing the Coach's, and you noclip into the Lobby, without them. Wanderers also tell of stairs up from Level 30, a white door marked 70 behind the arcades, an EMPLOYEES ONLY door in the food court and an arcade that goes on until it is Level 25; none of them has been found to open.
+In: a wooden door where no door should be, in the tunnels of Level 2, the brick of Level 3 or the dark of Level 6 (rarer there), with bubblegum pop playing faintly behind it. You hear it before you see it. It opens on one of the rink's lobbies, beside a wooden door that takes you back the way you came. Out: the **Revolving Door** in the front of a few lobbies (one in fifty or so), to the Suburbs, the fields of Level 10 or the Endless City (each door always to the same one, and no way back through it); ask the Coach the way out and he marks the nearest on your map. **Do not steal the skates:** walk out of Skate Rental with a pair from the cubbies, or leave the level by any way wearing the Coach's, and you noclip into the Lobby, without them. Wanderers also tell of stairs up from Level 30, a white door marked 70 behind the arcades, an EMPLOYEES ONLY door in the food court and an arcade that goes on until it is Level 25; none of them has been found to open.
 """),
     (25, "Level 36, the Airport", """
 *An endless terminal, empty and spotless, where every level is one flight away.*
@@ -818,7 +818,7 @@ Most come in like luggage, on a baggage carousel in the claim hall. Behind it is
 East of the claim hall: check-in, rows of desks under flight screens with queue barriers before them, then the old security checkpoint, its scanners dead. Past it the concourses: wide halls every 256 blocks each way, with moving walkways down the north-south ones (some stopped), seats, vending machines and Almond Water fountains along their sides. Between them lie the terminal's wings (a letter A to Z over each one's mouth, its gates numbered within 1 to 60), duty-free streets, food courts, first-class lounges, the Meeting Place, and doors into the back of house: dim service corridors that end nowhere, and vents with fans in them.
 
 **Reading the screens**
-A flight screen gives a flight number, a level, a gate and a count in no unit at all. {rightmouse} a screen for the flights of the gates nearest it. The screen at each gate names the level its flights go to, and it is always the same level for that gate: the city, the Suburbs, the Poolrooms, Level 3999, Level 188 or the fields of Level 10.
+A flight screen gives a flight number, a level, a gate and a count in no unit at all. {rightmouse} a screen for the flights of the gates nearest it. The screen at each gate names the level its flights go to, and it is always the same level for that gate: the city, the Suburbs, the Poolrooms, Level 3999, Level 188 or the fields of Level 10. Most fly back to the Suburbs or the Poolrooms; few go on to the fields or the city.
 
 **Flights**
 When a gate's count falls under 1000 it is boarding: {rightmouse} the jet-bridge door in the gate's window wall and you are aboard the plane parked behind it. The same door lets you off again until it leaves. Stay aboard when the count reaches nothing and you fly for about a minute, land, and step off in the level on the gate's screen, on your feet, and always in the same place for that gate. There is no flight back: to return, find your own way in again. The flight at gate C32 of a C wing has been delayed for longer than anyone has counted.
@@ -894,10 +894,10 @@ Where the power is out, and only there, a Robo-Man walks now and then: slow, met
 The level is hard to get into, and harder to leave. Rarely, out in Level 10's fields, an immense white wall rises across the crops, the halls' own wall seen from outside, running out of sight both ways, with one small reinforced door in it under a lit lintel. And very rarely one of Level 3's walls has a steel door in it that should not be there, cold white light under it; its handle gives you a shock. Either way you come to in a lit main hall, beside a small steel door that does not open from this side. There is one like it in the wall of nearly every block of halls, and none of them open.{{level:14}} And out of Level 14, the hospital, a rare futuristic door opens onto one of these main halls too; it does not open back.{{/level}}
 
 **Ways out**
-Every way out goes one way, and they are few: one block of halls in twenty or so has one, and nothing marks which.
+Every way out goes one way, and they are few: one block of halls in forty or so has one, and nothing marks which.
 - In a few control rooms, one panel on the wall of displays has its red button lit, under the word ESCAPE, a green lamp beside it. Press it, and a locked security gateway in the same room rolls up onto the dark. Walk into it: Level 3.
-- Now and then a pane of a machine room's thick glass glows orange, as if a street lay behind it. Break it: you fall through onto a sidewalk of Level 11.
-- Somewhere there is an office that does not belong here, Level 4's carpet and filing cabinets, with a staircase going down through its floor. Go down it: Level 4.
+- Rarely, a pane of a machine room's thick glass glows orange, as if a street lay behind it. Break it: you fall through onto a sidewalk of Level 11.
+- Rarely, somewhere, there is an office that does not belong here, Level 4's carpet and filing cabinets, with a staircase going down through its floor. Go down it: Level 4.
 - Very rarely, in a medical bay's wall, a white door with MEDICAL CENTER over it and a red cross beside. Go through it: a reception room of Level 14, the hospital, and the door is not behind you.
 The wanderers talk of other doors (a blue door, a hospital door, one marked THE ARCHIVES); nobody who tells it has seen one.
 
@@ -1149,8 +1149,8 @@ An elevator arrives beside another elevator, a stairwell beside a stairwell, a d
 - @27 Level 15, a white door marked MEDICAL CENTER in a medical bay's wall: Level 14, a reception room.
 - @0 Level 0, a rare EMERGENCY EXIT door in a Lobby wall that smells of antiseptic: Level 14, a reception room, its stained-glass revolving door showing nothing.
 - @29 Level 14, a rare futuristic door: a main hall of Level 15. A rare red exit door: Level !. Very rarely, a cracked patch of floor that gives way: Level 73's Redlands.
-- @25 Level 36, a gate's flight when its countdown runs out: the level on the gate's screen (11, 9, 37, 3999, 188 or 10). A restroom sink left to overflow, your head under: Level 37.
-- @24 Level 31, the revolving door in the front of some lobbies: Level 9, 10 or 11. Walking out of Skate Rental with a pair from the cubbies, or out of the level in the Coach's: the Lobby, without them.
+- @25 Level 36, a gate's flight when its countdown runs out: the level on the gate's screen (11, 9, 37, 3999, 188 or 10; few to 10 or 11). A restroom sink left to overflow, your head under: Level 37.
+- @24 Level 31, the revolving door in the front of a few lobbies: Level 9, 10 or 11. Walking out of Skate Rental with a pair from the cubbies, or out of the level in the Coach's: the Lobby, without them.
 - @26 Level 120, a steel door with warm light under it, in a server room or a Pitch-Black Hallway: Level 4, out of a locked office door.
 - @12 Level 37, a huge hollow tree of green bark growing up through the tiles: Level 23, out of a hollow trunk in the forest.
 - @28 Level 23, the well at the bottom of the Heart of Water: Level 7's open sea.

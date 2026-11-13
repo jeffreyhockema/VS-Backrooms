@@ -15,8 +15,9 @@ namespace Backrooms.Worldgen;
 /// it faces); nothing else in the host moves (its own salts).</item>
 /// <item><b>The lobby's wooden door</b> (<see cref="Unders.L31LobbyDoor"/>), in every lobby's back wall: where a wooden door
 /// opens, and the way back through it.</item>
-/// <item><b>Out: the Revolving Door</b> (Fandom), in the front wall of one lobby in twelve, beside the front doors: to Level
-/// 9, 10 or 11, each always the same one (<see cref="L31RevolvingTarget"/>).</item>
+/// <item><b>Out: the Revolving Door</b> (Fandom), in the front wall of one lobby in twelve (from layout version 16 one in 48:
+/// <see cref="L31RevolvingChance"/>), beside the front doors: to Level 9, 10 or 11, each always the same one
+/// (<see cref="L31RevolvingTarget"/>).</item>
 /// </list>
 /// </summary>
 public sealed partial class WorldLayout
@@ -26,8 +27,15 @@ public sealed partial class WorldLayout
     /// <summary>The share of the cells of Levels 2 and 3 that hold a wooden door into the rink, and of Level 6's (half as many).</summary>
     public const double L31DoorShare = 1.0 / 1200, L31DoorShareL6 = 1.0 / 2400;
 
-    /// <summary>The share of the lobbies with a revolving door.</summary>
+    /// <summary>The share of the lobbies with a revolving door (worlds made before layout version 16).</summary>
     public const double L31RevolvingShare = 1.0 / 12;
+
+    /// <summary>
+    /// The share of the lobbies with a revolving door in this world: from layout version 16 a quarter of it, one lobby in 48
+    /// (the progression rule, decision 20: a way from a Level 2 door on to Level 9, 10 or 11 is a shortcut, a quarter as
+    /// common; the kept ones are the same doors, the lowest rolls).
+    /// </summary>
+    public double L31RevolvingChance => Version >= 16 ? L31RevolvingShare / 4 : L31RevolvingShare;
 
     /// <summary>Where in a complex's plan the lobby's wooden door is (in its back wall, onto the service corridor), and the
     /// revolving door's three tiles (in its front wall, east of the front doors; the middle one at <see cref="L31RevolvingP"/>).</summary>
@@ -53,11 +61,11 @@ public sealed partial class WorldLayout
         return r < 1 / 3.0 ? 9 : r < 2 / 3.0 ? 10 : 11;
     }
 
-    /// <summary>Whether a complex's lobby has a revolving door (one in twelve, and only where the complex is all the level's).</summary>
+    /// <summary>Whether a complex's lobby has a revolving door (<see cref="L31RevolvingChance"/>, and only where the complex is all the level's).</summary>
     public bool L31HasRevolving(int wx, int wz) => L31RevolvingRoll(wx, wz) && L31PlanOf(wx, wz).Kind == L31Kind.Rinks;
 
     /// <summary>Whether a complex would have a revolving door if it has a lobby (read while its plan is made, so not from the plan).</summary>
-    private bool L31RevolvingRoll(int wx, int wz) => Hashing.Unit(Hashing.Hash(seed, wx, wz, SaltL31RevolvingRoll)) < L31RevolvingShare && L31ComplexInside(wx, wz);
+    private bool L31RevolvingRoll(int wx, int wz) => Hashing.Unit(Hashing.Hash(seed, wx, wz, SaltL31RevolvingRoll)) < L31RevolvingChance && L31ComplexInside(wx, wz);
 
     /// <summary>The middle tile of a complex's revolving door, if it has one.</summary>
     public (int X, int Z)? L31RevolvingOf(int wx, int wz) => L31HasRevolving(wx, wz) ? L31PlanOf(wx, wz).World(L31RevolvingP, L31RevolvingQ) : null;
@@ -84,8 +92,8 @@ public sealed partial class WorldLayout
     }
 
     /// <summary>
-    /// A complex's ways out and back (called at the end of its plan): the lobby's wooden door in its back wall, and in one
-    /// lobby in twelve the revolving door in its front wall (the lobby's mural stops above them: WorldGenerator.L31Cladding).
+    /// A complex's ways out and back (called at the end of its plan): the lobby's wooden door in its back wall, and in some
+    /// lobbies (<see cref="L31RevolvingChance"/>) the revolving door in its front wall (the lobby's mural stops above them: WorldGenerator.L31Cladding).
     /// </summary>
     private void L31LayLinks(L31Plan plan)
     {
