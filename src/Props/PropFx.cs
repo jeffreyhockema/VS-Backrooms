@@ -31,11 +31,11 @@ public partial class PropSystem
         var drops = new SimpleParticleProperties
         {
             MinQuantity = 3, AddQuantity = 3,
-            Color = ColorUtil.ToRgba(220, 205, 220, 240),
+            Color = ColorUtil.ToRgba(230, 170, 200, 235),
             AddPos = new Vec3d(0.3, 0, 0.3),
             MinVelocity = new Vec3f(-1.6f, -1.2f, -1.6f), AddVelocity = new Vec3f(3.2f, 0.6f, 3.2f),
             LifeLength = 1.1f, GravityEffect = 0.9f,
-            MinSize = 0.18f, MaxSize = 0.32f,
+            MinSize = 0.45f, MaxSize = 0.75f,
             ParticleModel = EnumParticleModel.Quad,
             ShouldDieInLiquid = true,
             WithTerrainCollision = true,
@@ -43,7 +43,7 @@ public partial class PropSystem
         var mist = new SimpleParticleProperties
         {
             MinQuantity = 0, AddQuantity = 1,
-            Color = ColorUtil.ToRgba(60, 220, 225, 235),
+            Color = ColorUtil.ToRgba(90, 215, 225, 235),
             AddPos = new Vec3d(1.6, 0.4, 1.6),
             MinVelocity = new Vec3f(-0.2f, -0.5f, -0.2f), AddVelocity = new Vec3f(0.4f, 0.3f, 0.4f),
             LifeLength = 2.2f, GravityEffect = 0.02f,
@@ -65,7 +65,7 @@ public partial class PropSystem
                 if (rand.NextDouble() > chance) continue;
                 drops.MinPos = head.AddCopy(-0.15, 0, -0.15);
                 manager.Spawn(drops);
-                if (rand.NextDouble() < 0.08)
+                if (rand.NextDouble() < 0.2)
                 {
                     mist.MinPos = head.AddCopy(-0.8, -1.5, -0.8);
                     manager.Spawn(mist);

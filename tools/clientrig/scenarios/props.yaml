@@ -18,6 +18,10 @@ steps:
   - face: ceilingalt-sprinkler
   - bot: wait 500
   - shot: sprinklers-spraying
+  - bot: look 0 8
+  - shot: sprinklers-room-north
+  - bot: look 180 8
+  - shot: sprinklers-room-south
   - expect_log: "props: firealarm at"
   # ---- Breaker: Level 1's maintenance halls have breaker panels and power boxes
   - cmd: /backrooms goto 1
@@ -44,6 +48,7 @@ steps:
   - cmd: /backrooms goto 2
   - bot: wait 3000
   - bot: ready 48
+  - cmd: /backrooms light lantern
   - cmd: /backrooms prop find valve
   - expect_chat: prop-found
   - face: valve

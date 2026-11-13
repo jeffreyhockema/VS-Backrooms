@@ -76,7 +76,7 @@ public partial class PropSystem
                 {
                     case BlockBehaviorFireAlarm: PullAlarm(pos, player); break;
                     case BlockBehaviorSteamValve: TurnValve(pos, player); break;
-                    case BlockBehaviorBreaker: UseBreaker(pos, player, rest.Length > 3 && rest[3] == "fuse"); break;
+                    case BlockBehaviorBreaker: UseBreaker(pos, player, rest.Contains("fuse")); break;
                     case BlockBehaviorCarAlarm: StrikeCar(pos, player); break;
                     case BlockBehaviorRadio: SwitchRadio(pos, block, player); break;
                     default:
