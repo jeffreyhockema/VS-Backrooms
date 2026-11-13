@@ -675,3 +675,63 @@ blackout and the service maze were not touched this round.
 `regions` 60/60 in Level 36; `featurecheck 3 36`: 18/18 features found from every arrival (new: `l36bridge`, `l36cafe`);
 headless (port 43157): `/backrooms dummy place 36 5` lands (light 10), 0 error lines, 0 missing blocks, `blocksweep`
 15769 blocks, 0 threw; `GATE_TAG=36g gate.py --fast --port-base 43150`: PASS (5e22690a).
+
+## Cabin pass (2026-11-13)
+
+The user: "improve the visuals and experience of boarding and flying the plane in Level 36. The main thing that needs
+improvement is the inside of the plane itself. I want high quality, AAA quality, assets." This pass is the assets (the
+plane's cabin, the bridge's end); the boarding, status and flight logic is a second builder's on its own branch, and the
+two meet only at the block names below (the contract). Generator: `tools/gen_36_cabin.py` (models, blocktypes) and
+`tools/gen_36_cabin_tex.py` (pictures); layout in `L36LayGate` ("The bridge and the cabin"); blocks chosen in
+`WorldGenerator.L36.cs`.
+
+**Layout decisions.** The cabin stays inside the gate's bounds (`L36Gate.X0..X1`, p pa0-1..pa0+21: the flight logic
+finds a player's gate by them) and the bridge stays where it is (p pa0+9..11), so the boarding door (L1) is at p pa0+10.
+For L1 to be the plane's front left door the nose is put on the side that keeps every plane the same hand (a plane
+boards on its left): toward plan west or east by the gate's side and the plan's mirror and flip. Forward of L1: three
+rows (the forward galley on the right, the lavatory and the crew jump seat on the left, the flight-deck door in the
+forward bulkhead); aft: eight seat rows (2-2, numbered 10 to 18 without 13; the overwing exit row the fifth), the aft
+vestibule (L2 / R2 doors) and the aft galley between two lavatories. 5 wide, 3 high as before; the bins, the PSU strip
+and the ceiling's coves sit in the top block over the seats.
+
+### List
+
+Tiers: A must, B should, C nice. Ticks: `[done]`, `[partly: ...]`, `[skipped: why]`.
+
+**A. The cabin**
+1. (A) Contract blocks: `l36-cabinwindow-{apron,roll,climb,cruise,descent,ground}-{side}` (the sidewall block with the
+   porthole: reveal, frame, blind up; the pane's picture glowing per phase), `l36-psu-{off,on}-{side}`,
+   `l36-ceiling-cabin` (lit) / `l36-ceiling-cabin-dim`, `l36-planedoor-{open,closed}-{lower,upper}-{side}`; the old
+   `l36-cabinwall-*` stay registered for old worlds.
+2. (A) The cross-section: lower sidewall with the dado and air grille, the window panel leaning in, the upper sidewall
+   curving into the bins; the bins a 3D row (doors, latches, row numbers on the lip, the ceiling's cove), some open with
+   a bag or a coat; the PSU under them; a lit ceiling strip down the aisle.
+3. (A) Floors: seat-track carpet, the aisle carpet with its floor-path light strips (glowing, also when the lights are
+   down), galley vinyl.
+4. (A) The seat rebuilt (armrests, tray and latch, pocket with the safety card and the magazine, headrest cover, belt,
+   life-vest pouch), and seats with things left behind (`l36-cabinseat2-*`: a blanket, a pillow, a bag under the seat, a
+   magazine dropped, an exit-row seat with its placard).
+5. (A) The nose: the flight-deck door (peephole, keypad, FLIGHT DECK placard) in a forward bulkhead with placards; the
+   forward galley (carts, ovens, coffee makers and pots, stowage units, a curtain); the forward lavatory (door with
+   OCCUPIED / VACANT); a crew jump seat; the L1 door (frame, sill, assist handle, the open leaf's inner face with its slide
+   bustle, the EXIT sign over it); the R1 door opposite.
+6. (A) The rear: the aft galley across the back, two lavatories, the L2 / R2 doors.
+7. (A) The overwing exit row: exit hatches both sides, hanging EXIT signs in the aisle, FASTEN SEAT BELT / NO SMOKING on
+   the PSU, safety placards (life vest, exit row).
+8. (B) Blinds down on some windows (`l36-cabinblind-*`, not swapped by phase).
+9. (B) Lighting with rhythm: a continuous lit strip down the aisle, the vestibules brighter, the floor path amber.
+
+**B. The bridge's end**
+10. (A) The fuselage at the bridge's end: the white skin with the airline's cheatline round the door, the door's cut-out
+    frame and sill, the bridge's canopy (bellows) hugging it, the open door leaf against the skin forward of the door, the
+    cabin's light through it (`l36-doorside-*`, `l36-doorhead-*`).
+11. (B) The closed door's outer face (skin, outline, window, handle flap) for when the logic closes it.
+
+**C. Round the set piece**
+12. (C) The painted plane in the holdroom's runway window seen from the seats; the gate podium (look, take what is cheap).
+
+**Checks and shots**
+13. (A) Showcase spots and F7 entries: the cabin from the L1 door, the aisle to the nose, a window seat, the galley and
+    flight-deck door, the rear, the bridge's end at the plane door; the six window phases shot.
+14. (A) Gate, layout hashes (0-20 identical to main; Level 36's own baseline moved and updated), regions, featurecheck,
+    headless dummy and blocksweep, translucent texels, lang / guide / notes checks.
