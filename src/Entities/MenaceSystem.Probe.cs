@@ -81,7 +81,7 @@ public partial class MenaceSystem
         {
             if (online.Entity is not EntityPlayer player || !player.Alive) continue;
             bool jump = player.ServerControls.Jump;
-            if (jump && !jumping.GetValueOrDefault(player.EntityId)) RaiseNoise(player.Pos.XYZ, JumpLoudness * (Senses.Sneaking(player) ? 0.5 : 1), "jump", player);
+            if (jump && !jumping.GetValueOrDefault(player.EntityId)) RaiseNoise(player.Pos.XYZ, JumpLoudness * (Senses.Sneaking(player) ? 0.5 : 1) * Senses.ArmourNoise(player), "jump", player);
             jumping[player.EntityId] = jump;
         }
 

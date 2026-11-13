@@ -1,0 +1,11 @@
+{
+	// Feedback round 2026-11: pleather is gone. The game applies these once to a saved world (RemappingsAppliedByCode), at load,
+	// before anything is read: every stack of the old code, wherever it is (worn, hotbar, backpack, bags, chests, the ground,
+	// held in a container), becomes the new one, one for one, with its attributes (so a worn piece keeps its remaining uses).
+	"backrooms:pleather-to-carpet": [
+		"/iir remapq backrooms:carpetsquare backrooms:pleather force",
+		"/iir remapq backrooms:armor-carpet-head backrooms:armor-pleather-head force",
+		"/iir remapq backrooms:armor-carpet-body backrooms:armor-pleather-body force",
+		"/iir remapq backrooms:armor-carpet-legs backrooms:armor-pleather-legs force"
+	]
+}

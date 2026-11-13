@@ -81,7 +81,7 @@ For real stone tools you need [flint](item-flint), and flint is a Level 1 find: 
 Two [supply boxes](block-backrooms:supplybox) stand beside where you woke. Break them (hold {leftmouse}): a sealed box, its lid still taped down, holds a few of Almond Water, crackers, canned beans, carpet fibres, wallpaper strips, a glass shard, sticks and dry grass, and now and then a candle, a metal bracket, a wanderer's note, a seed packet, a rusty gear, a ready-made shiv or, rarely, a flint. A torn box, lid hanging open, was gone through long ago: scraps and paper, never food, and you can tell from across the room. Sealed boxes and crates show red on your map. Boxes were left in twos and threes at the inside corners of rooms, about one room in six, and over half of them were torn open before you came. Rooms papered in red and the hearts of dens hold boxes nobody dared to touch (see [What Lives Here](backrooms-entities)).
 
 **Expanding inventory**
-Your starting inventory has 10 slots, and you can carry up to 4 bags. There are no cattails here for a hand basket; the Lobby's bag is the [carpet bag](item-backrooms:carpetbag) (3 slots): 5 carpet fibres + 1 flax twine, and 3 carpet fibres make the twine. Hold a blade and {rightmouse} the dry carpet for a [carpet fibre](item-backrooms:carpetfibre) per block, two with a shiv or a scraper (the block is left bare). Four bags cost 32 carpet fibres, 16 cuts with a shiv: make them before you go anywhere. Later, a [linen sack](search:linen sack) (5 slots) is flax twine + linen from hotel beds and tents, and a [chest](search:chest) is 8 planks + 1 nails and strips, with planks from Level 1's crates.
+Your starting inventory has 10 slots, and you can carry up to 4 bags. There are no cattails here for a hand basket; the Lobby's bag is the [carpet bag](item-backrooms:carpetbag) (4 slots): 5 carpet fibres + 1 flax twine, and 18 carpet fibres make the twine (twine is hard-won here: crates, tents and wanderers give it too). Hold a blade and {rightmouse} the dry carpet for a [carpet fibre](item-backrooms:carpetfibre) per block, two with a shiv or a scraper (the block is left threadbare). Crouched ({sneak}), the same cut lifts a whole [carpet square](item-backrooms:carpetsquare) instead and leaves the bare floor under it, for good: squares are what the Lobby's first armour and its bedroll are sewn from. Later, a [linen sack](search:linen sack) (5 slots) is flax twine + linen from hotel beds and tents, and a [chest](search:chest) is 8 planks + 1 nails and strips, with planks from Level 1's crates.
 
 **Finding food**
 Food in the Lobby is what is in the sealed boxes, and nothing else. [Almond Water](item-backrooms:almondwater) quenches your thirst, heals 1 and steadies you, but gives no food (see [Reality Stability](gamemechanicinfo-temporalstability)); [crackers](item-backrooms:crackers) and [canned beans](item-backrooms:cannedbeans) fill you properly. You burn food and water walking, more running, and hardly at all standing still, so do not wander for the sake of it. The nearest plentiful food is Level 1's sealed crates: the first expedition out is for those. The dark, cold blackout zones of Level 0 keep food fresh (10 °C), so store it there. See [Food and Water](backrooms-food).
@@ -114,7 +114,7 @@ Each level has a class, from 1 to 5, and the M.E.G.'s placards beside the gates 
 The materials climb the same way. {{unvisited:any}}The deeper levels hold the metals; the handbook fills this in as you reach them.{{/unvisited}} {{level:1,2}}The first copper is in Levels 1 and 2.{{/level}} {{level:3}}Copper, clay and coal are in Level 3 and its tunnels.{{/level}} {{level:4,5}}Pottery shards are in Levels 4 and 5.{{/level}} {{level:8}}The tin is a dash off the 9th Road in Level 8, whose lamps keep your stability up.{{/level}} {{level:94}}Level 94 has the fire clay that iron needs.{{/level}} {{level:7}}Level 7's sea has the sand.{{/level}} {{level:3}}The intended first expeditions are a raid into Level 3 for clay and coal (in, dig, and out before your stability runs out){{level:8}} and the tin dash off the 9th Road{{/level}}.{{/level}} A raid is not a stay: the classes are the reason for the trips.
 
 **Scavenger Age**
-Supply boxes, a glass shiv and a scraper, wallpaper strips and carpet fibres, four carpet bags, a torch: see the [Starter Survival Guide](craftinginfo-starterguide). Then the first expedition, to Level 1: bring back flint, planks and food, and [make a home](backrooms-home) of the Lobby.
+Supply boxes, a glass shiv and a scraper, wallpaper strips and carpet fibres, a carpet bag, a torch: see the [Starter Survival Guide](craftinginfo-starterguide). Then the first expedition, to Level 1: bring back flint, planks and food, and [make a home](backrooms-home) of the Lobby.
 
 **Stone Age**
 [Knap](craftinginfo-knapping) a knife, an axe, a spear and a shovel from flint{{level:1}} (Level 1's crates and floors), or from the chert, andesite and granite lying loose on Level 1's concrete{{/level}}. Keep the shiv or the scraper for the wallpaper and carpet: they cut twice what a flint knife does. {{level:1}}Level 1's crates, pallets, plywood and workbenches are your first planks: split them for firewood, build a firepit and cook.{{/level}} Build a chest. Wood is the shortage of the early levels: there are no trees until the open-sky levels, and firewood comes from rotten wood (Level 0's ceiling voids){{level:1}}, planks (furniture, from Level 1 on){{/level}}{{level:7}} and driftwood (Level 7){{/level}}.
@@ -306,8 +306,8 @@ Supply boxes, crates, furniture, machines, ceiling tiles and light fixtures brea
 **Cutting (hold a blade, {rightmouse})**
 With any knife in hand (a [glass shiv](item-backrooms:glassshiv), an [improvised scraper](item-backrooms:scraper) or a flint knife), {rightmouse} a block to cut it, and it is left bare. The shiv, the scraper and any knife of copper or better (a blade that holds an edge) cut cleanly and give two of the item; a flint or bone knife tears off one. A bare [glass shard](item-backrooms:glassshard) works too (one item), but snaps one time in four.
 - Level 0's wallpaper (yellow, pale, dotted, manila or red): a [wallpaper strip](item-backrooms:wallpaperstrip).
-- Level 0's dry carpet (normal or stained; not the soaked carpet of the blackouts, nor threadbare carpet): [carpet fibres](item-backrooms:carpetfibre).
-- {{level:end}}The End's carpet: carpet fibres.{{/level}}
+- Level 0's dry carpet (normal or stained; not the soaked carpet of the blackouts, nor threadbare carpet): [carpet fibres](item-backrooms:carpetfibre); crouched ({sneak}), one [carpet square](item-backrooms:carpetsquare) instead (a quiet cut, and the carpet is gone: the damp concrete under it stays bare).
+- {{level:end}}The End's carpet: carpet fibres, or a carpet square crouched.{{/level}}
 Other levels' walls and floors cannot be cut; they break instead.
 
 **Breaking the building**
@@ -344,8 +344,9 @@ What you make comes back whole: break a block you crafted (an axe or bare hands 
 - [Glass spear](item-backrooms:glassspear) (spear, 12 uses, thrown or in the hand) = glass shard + carpet fibre + stick, one above the other
 - [Improvised scraper](item-backrooms:scraper) (knife, 180 uses, cuts two a block) = metal bracket + wallpaper strip + 2 carpet fibres
 - 1 dry grass = 2 wallpaper strips
-- 1 flax twine = 3 carpet fibres
-- [Carpet bag](item-backrooms:carpetbag) (3 slots) = 5 carpet fibres + 1 flax twine
+- 1 flax twine = 18 carpet fibres
+- [Carpet bag](item-backrooms:carpetbag) (4 slots) = 5 carpet fibres + 1 flax twine
+- Carpet armour (see [What lives here](backrooms-entities)): a [cap](item-backrooms:armor-carpet-head) is 4 [carpet squares](item-backrooms:carpetsquare) + 1 flax twine + 2 carpet fibres; a [jerkin](item-backrooms:armor-carpet-body) 6 squares + 2 twine + 4 fibres; [leggings](item-backrooms:armor-carpet-legs) 6 squares + 1 twine + 2 fibres. A worn piece is mended with a square.
 - 2 sticks = 1 rotten wood, or 1 plank + a knife
 - 1 firewood = 2 rotten wood, or 3 planks + an axe
 - 1 iron nails and strips = 2 metal brackets
@@ -381,7 +382,7 @@ Knives and axes are not used up by these, only worn.
 - **Nails and strips:** barrels of nails (2), workbenches, pallets, toolboxes, opened crates; sealed Level 1 crates hold copper nails.
 - **Rotten wood:** trash cans, wastebaskets, wheelie bins, dumpsters, televisions. Rarely above ceiling tiles.
 - **Sticks and dry grass:** supply boxes, supply crates. Sticks also from potted plants, coat stands, broken drywall and under the trees of the open-sky levels; dry grass from cardboard boxes, bedrolls, sleeping bags, makeshift beds and (with a knife) the tall grass of those levels.
-- **Pleather:** the seats of Level 1's wrecked cars, Level 4's office chairs and Level 5's hotel chairs and sofas, one or two a piece. It is thin and fragile, and it is armour of its own (see [What lives here](backrooms-entities)), but it is never leather: no recipe takes it for leather, so tanned hides ({{met:deathrat}}rats', {{/met}}Level 9's wildlife's) are still the road to leather.
+- **Cloth from seats:** the seats of Level 1's wrecked cars, Level 4's office chairs and Level 5's chairs and sofas give a piece or two of cloth each, as upholstery always did (the vinyl they once gave is gone).
 - **Cloth:** sofas, wing chairs, office chairs, partitions, bedrolls, sleeping bags, tents, makeshift beds, lean-tos, suitcases, laundry carts. **Linen:** hotel beds (the foot end), tents, hotel dining tables.
 - **Clothes:** wardrobes, suitcases, dressers, clothes racks.
 - **Paper:** desks, filing cabinets, photocopiers, bookshelves, mailboxes, newspaper boxes.
@@ -511,7 +512,7 @@ Any bed will do, and some do better.
 - **Makeshift beds and bedrolls** of the camps (Levels 1, 4, 7 and 8) are the least. A poor bed refills you more slowly: from dead on your feet it takes more than half a game day to make you fully rested.
 
 **The carpet bedroll**
-The one bed you can make yourself is the [carpet bedroll](block-backrooms:carpetbedroll-north), from 16 carpet fibres + 2 flax twine + 4 wallpaper strips, in a grid two wide and three tall: a stack of 8 fibres in each top slot, a twine in each middle slot, 2 strips in each bottom slot (3 carpet fibres make a twine). It is enough to sleep on, not enough to sleep well. Put it down anywhere, and when you pick it up again it comes back whole.
+The one bed you can make yourself is the [carpet bedroll](block-backrooms:carpetbedroll-north), from 6 [carpet squares](item-backrooms:carpetsquare) + 2 flax twine + 4 wallpaper strips, in a grid two wide and three tall: a stack of 3 squares in each top slot, a twine in each middle slot, 2 strips in each bottom slot. It is enough to sleep on, not enough to sleep well. Put it down anywhere, and when you pick it up again it comes back whole.
 
 **What wakes you**
 You wake rested ("You wake rested"), or sooner for one of these, and the game says which:
@@ -1188,7 +1189,7 @@ PAGES["entities"] = ("What Lives Here", """
 - **And pays better.** A deep level's boxes, crates and cupboards are fuller, and often hold something extra: medicine and rusty gears, then copper, then bronze and iron, very rarely a temporal gear. What you kill there carries a bounty of rusty gears, the wanderers' coin.
 - **Nothing chases for ever.** A hunter that has not drawn blood for twenty seconds or so (longer, deeper down) gives up, falls back to following at a distance, and does not come for you again for a while. Keep out of reach, behind doors and fire, and it tires first.
 - **Dodge.** Every blow is wound up first: step back out of reach as it comes and it misses.
-- **Armour.** Unarmoured, a catch takes you in about two blows at Level 3, one or two by Level 8, and the worst of them kill in one at Level 9. Sewn leather about halves the blow. Copper or bronze lamellar stands three blows at Level 8, and iron plate stands many (seven to eleven) at Level 9. Armour wears fast against deep hitters: pleather lasts a hit or two against Level 9's hunters, sewn leather about six. Pleather, salvaged from car seats and chairs, is armour too, but it turns a blow only a little under half as well as leather. Most hunters outrun a sprint from Level 3 on, so from there armour and fire are the answer, not running. Some things ambush or reach for you rather than chase, and a sprint is not what they are answered with.
+- **Armour.** Unarmoured, a catch takes you in about two blows at Level 3, one or two by Level 8, and the worst of them kill in one at Level 9. Sewn leather about halves the blow. Copper or bronze lamellar stands three blows at Level 8, and iron plate stands many (seven to eleven) at Level 9. Armour wears fast against deep hitters: carpet armour a few against Level 9's hunters, sewn leather about six. The Lobby's own armour is [carpet armour](item-backrooms:armor-carpet-body) sewn from carpet squares (it stops as much as a leather jerkin, tier 1, and makes no sound); sewn linen (gambeson) comes after it, from twine and linen, and leather and metal after that. Armour is a trade-off, not a must: chain, lamellar, brigandine and scale make you somewhat louder as you move (things hear you from 40 per cent farther), plate much louder (twice as far); sneaking halves the clank, and cloth, carpet and leather are silent. Most hunters outrun a sprint from Level 3 on, so from there armour and fire are the answer, not running. Some things ambush or reach for you rather than chase, and a sprint is not what they are answered with.
 - **Fire wards.** A lit firepit, burning [Firesalt](block-backrooms:firesalt) or an angel statue keeps most hunters out to 8 blocks; a hunter that minds fire will not close on anyone within 9 blocks of one. Not everything minds fire: some things mind light instead, and some mind neither. Each creature's page says which.
 - **Safe places.** Some places nothing hostile enters: a refuge room here and there, a whole level now and then. They are listed below, for the levels you have been to.
 - A closed door behind you stops whatever cannot find a way round it, but not everything: some things have hands. A door barred from the inside holds them.
@@ -1207,7 +1208,7 @@ Eyes and a grin in the dark. They cannot be killed; struck, they withdraw.
 - Held in your gaze, while you neither run nor look away, a Smiler freezes, and after a few seconds goes.
 - They come for people alone in the dark, and turn to the hunt when you run, or your stability is low. Carry a torch, and do not run. A Smiler always outruns you in the dark.
 - In Level 0 they come only when the lights fail in a Reality Shift, and then they watch even the heart of the Lobby from the dark: there they only follow; in the Red Rooms they hunt. A door and a light at home keep them out.
-- At Level 3 one hits for 8 unarmoured; pleather lasts a hit or two against one in Level 9.
+- At Level 3 one hits for 8 unarmoured; carpet armour lasts only a few blows against one in Level 9.
 """),
     ("bacteria", "Bacteria", [0, 22], """
 *(the outer reaches of Level 0{{level:basement}}; far off down the flooded passages of the Basement{{/level}})*
@@ -1347,7 +1348,7 @@ A balloon floating at chest height, tied to nothing, on a curly ribbon. Walk int
 People like you, who have lasted. Nothing hostile closes in on you while you keep company with a wanderer, and a minute beside one is a rest. They are few, friendly and never fight back. Talk to one ({rightmouse}): they will tell you what lives where they keep, where the water is, how to sleep safely and where the ways out are, and they trade, for rusty gears. Each deals in what its place has and buys what it lacks.
 - Level 1's crate-pickers sell Almond Water, crackers and beans, candles, Firesalt, bandages, twine and flax and cabbage seeds, for salvage (brackets, wire, glass, cloth, copper bits) and raw hides; they, the outposts, the road, the city and the Hub's doorstep also sell a temporal gear for 6 rusty gears.
 - The M.E.G.'s outposts in Level 4 sell water (the Blue and Green kinds too) and empty bottles, bandages and poultices, Firesalt and seeds, and buy salvage, paper, silver and specimens (Deathmoth quills, moth jelly, Clump sinew).
-- The camps of the 9th Road sell food, rope, torches, a lantern, bronze tools and weapons and sewn linen armour, and buy hides, cloth and spider silk.
+- The camps of the 9th Road sell food, rope, torches, a lantern, bronze tools and weapons, and buy hides, cloth and spider silk.
 - The B.N.T.G.'s vendors in the city sell candy, the coloured Almond Waters, Firesalt, bronze and chalk, and buy rare things from other levels.
 - The Hub's two camps sell field supplies (Camp Amber, by the Level 1 door, cheap basics for the Lobby's scraps) and buy salvage (the M.E.G.'s also has two Level Keys a week); Level 3999's campers sell the mall's food and prizes and buy tickets.
 - Water is never plentiful: a few bottles a week at most.
@@ -1598,7 +1599,7 @@ BRIDGES["prospecting"] = """
 """
 
 BRIDGES["armor"] = """
-**In the Backrooms:** improvised armour is sticks and twine as usual; leather comes from the hides of Level 9's wildlife{{met:hound}}, Hounds{{/met}}{{met:skinstealer}}, Skin-Stealers{{/met}}{{met:deathrat}}, rats{{/met}}; wanderers sell sewn linen armour; iron and steel wait on a bloomery, whose fire clay lies in one level only{{level:94}} (Level 94){{/level}}. From Level 6 down, what hunts you hits through one more grade of armour than it would nearer the Lobby{{level:!}}, and in Level ! armour's weight slows you with a horde at your back{{/level}}.{{level:fun}} A party hat and a red balloon are the only armour that works in Level Fun.{{/level}}
+**In the Backrooms:** improvised armour is sticks and twine as usual; leather comes from the hides of Level 9's wildlife{{met:hound}}, Hounds{{/met}}{{met:skinstealer}}, Skin-Stealers{{/met}}{{met:deathrat}}, rats{{/met}}; wanderers sell no finished armour; carpet armour from squares and gambeson from linen are the early rungs; metal armour makes you louder; iron and steel wait on a bloomery, whose fire clay lies in one level only{{level:94}} (Level 94){{/level}}. From Level 6 down, what hunts you hits through one more grade of armour than it would nearer the Lobby{{level:!}}, and in Level ! armour's weight slows you with a horde at your back{{/level}}.{{level:fun}} A party hat and a red balloon are the only armour that works in Level Fun.{{/level}}
 """
 
 BRIDGES["mechanicalpower"] = """
@@ -1688,15 +1689,15 @@ TUTORIAL = [
     # 5 strip
     "With the shard in your hand, <icon>rightmousebutton</icon> the yellow wallpaper to cut {0} <itemstack type=\"item\">backrooms:wallpaperstrip</itemstack> <a href=\"handbook://item-backrooms:wallpaperstrip\">wallpaper strip</a>. A bare shard snaps one time in four, so cut carefully.",
     # 6 fibre
-    "Now <icon>rightmousebutton</icon> the carpet for {0} <itemstack type=\"item\">backrooms:carpetfibre</itemstack> <a href=\"handbook://item-backrooms:carpetfibre\">carpet fibre</a>. Dry carpet cuts; the soaked carpet of the dark zones does not.",
+    "Now <icon>rightmousebutton</icon> the carpet for {0} <itemstack type=\"item\">backrooms:carpetfibre</itemstack> <a href=\"handbook://item-backrooms:carpetfibre\">carpet fibre</a>. Dry carpet cuts; the soaked carpet of the dark zones does not. (Crouched, <hk>sneak</hk>, the same cut lifts a whole carpet square instead, which makes armour and bedrolls later, and leaves the bare floor.)",
     # 7 shiv
     "Craft a <itemstack type=\"item\">backrooms:glassshiv</itemstack> <a href=\"handbook://item-backrooms:glassshiv\">glass shiv</a> in your crafting grid (open your inventory with <hk>inventorydialog</hk>): a glass shard, a wallpaper strip and a carpet fibre. It is a knife, and it does not snap.",
     # 8 fibres
     "Bags next. With the shiv, cut {0} more <itemstack type=\"item\">backrooms:carpetfibre</itemstack> carpet fibres from the carpet. It cuts cleanly: two fibres a block.",
     # 9 twine
-    "Craft <itemstack type=\"item\">flaxtwine</itemstack> <a href=\"handbook://item-flaxtwine\">twine</a> from 3 carpet fibres.",
+    "Craft <itemstack type=\"item\">flaxtwine</itemstack> <a href=\"handbook://item-flaxtwine\">twine</a> from 18 carpet fibres. Twine is hard-won here: it also turns up in crates, tents and with wanderers, but this is the way you can always make it.",
     # 10 bag
-    "Craft a <itemstack type=\"item\">backrooms:carpetbag</itemstack> <a href=\"handbook://item-backrooms:carpetbag\">carpet bag</a>: 5 carpet fibres and the twine. Put it in one of the 4 bag slots on the right of your inventory. You will want four of them, which is 32 carpet fibres.",
+    "Craft a <itemstack type=\"item\">backrooms:carpetbag</itemstack> <a href=\"handbook://item-backrooms:carpetbag\">carpet bag</a>: 5 carpet fibres and the twine. Put it in one of the 4 bag slots on the right of your inventory. It holds 4 stacks of things, and you can wear four bags at once.",
     # 11 scraper
     "Craft an <itemstack type=\"item\">backrooms:scraper</itemstack> <a href=\"handbook://item-backrooms:scraper\">improvised scraper</a>: a <itemstack type=\"item\">backrooms:metalbracket</itemstack> metal bracket, a wallpaper strip and 2 carpet fibres. Brackets fall now and then from dead lights, ceiling tiles and supply boxes. Like the shiv it cuts two strips or fibres a block, and it lasts three times as long.",
     # 12 tinder

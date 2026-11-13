@@ -68,7 +68,9 @@
 			"name": "BackroomsStrippable",
 			"properties": {
 				"result": "end-carpet-worn",
-				"item": "carpetfibre"
+				"item": "carpetfibre",
+				"square": "carpetsquare",
+				"squareResult": "end-concrete-plain"
 			}
 		}
 	]

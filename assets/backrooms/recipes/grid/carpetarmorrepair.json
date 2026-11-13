@@ -5,11 +5,11 @@
 		"ingredients": {
 			"A": {
 				"type": "item",
-				"code": "armor-pleather-head"
+				"code": "armor-carpet-head"
 			},
 			"L": {
 				"type": "item",
-				"code": "pleather"
+				"code": "carpetsquare"
 			}
 		},
 		"width": 1,
@@ -17,10 +17,10 @@
 		"shapeless": true,
 		"copyAttributesFrom": "A",
 		"averageDurability": false,
-		"name": "pleather head repair",
+		"name": "carpet head repair",
 		"output": {
 			"type": "item",
-			"code": "armor-pleather-head"
+			"code": "armor-carpet-head"
 		}
 	},
 	{
@@ -29,11 +29,11 @@
 		"ingredients": {
 			"A": {
 				"type": "item",
-				"code": "armor-pleather-body"
+				"code": "armor-carpet-body"
 			},
 			"L": {
 				"type": "item",
-				"code": "pleather"
+				"code": "carpetsquare"
 			}
 		},
 		"width": 1,
@@ -41,10 +41,10 @@
 		"shapeless": true,
 		"copyAttributesFrom": "A",
 		"averageDurability": false,
-		"name": "pleather body repair",
+		"name": "carpet body repair",
 		"output": {
 			"type": "item",
-			"code": "armor-pleather-body"
+			"code": "armor-carpet-body"
 		}
 	},
 	{
@@ -53,11 +53,11 @@
 		"ingredients": {
 			"A": {
 				"type": "item",
-				"code": "armor-pleather-legs"
+				"code": "armor-carpet-legs"
 			},
 			"L": {
 				"type": "item",
-				"code": "pleather"
+				"code": "carpetsquare"
 			}
 		},
 		"width": 1,
@@ -65,10 +65,10 @@
 		"shapeless": true,
 		"copyAttributesFrom": "A",
 		"averageDurability": false,
-		"name": "pleather legs repair",
+		"name": "carpet legs repair",
 		"output": {
 			"type": "item",
-			"code": "armor-pleather-legs"
+			"code": "armor-carpet-legs"
 		}
 	}
 ]

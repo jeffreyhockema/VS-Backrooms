@@ -42,7 +42,7 @@ import batch  # noqa: E402  (make_sheet, save_shot, the game paths)
 
 GAME = batch.GAME
 CLIENT, SERVER = batch.CLIENT, batch.SERVER
-RIG_ROOT = os.path.join(os.environ.get("LOCALAPPDATA", os.path.expanduser("~")), "backrooms-clientrig")
+RIG_ROOT = os.environ.get("BACKROOMS_RIG_ROOT") or os.path.join(os.environ.get("LOCALAPPDATA", os.path.expanduser("~")), "backrooms-clientrig")
 MUTED = ("masterSoundLevel", "soundLevel", "entitySoundLevel", "ambientSoundLevel", "weatherSoundLevel", "musicLevel")
 
 

@@ -112,7 +112,7 @@ And nine more, beyond the rings, waiting to be discovered.
 
 **Reality Stability.** Vintage Story's temporal stability, with the Backrooms' own geography: each area has its own, low places drain yours, and when yours is low the world distorts. Almond Water restores it. Now and then the lights fail for a few hours in a Reality Shift, and stability drains everywhere.
 
-**The climb.** Each level has a class, from 1 to 5, and an M.E.G. placard beside every gate into a higher one. From Level 3 on, what lives there outruns a sprint, and armour is the answer: pleather, then leather, lamellar and plate. Ore is only in Level 8, so copper otherwise comes from salvage. At zero stability you black out and wake a level back.
+**The climb.** Each level has a class, from 1 to 5, and an M.E.G. placard beside every gate into a higher one. From Level 3 on, what lives there outruns a sprint, and armour is the answer: carpet armour, then gambeson and leather, lamellar and plate (metal armour is louder). Ore is only in Level 8, so copper otherwise comes from salvage. At zero stability you black out and wake a level back.
 
 **The people.** Wanderers who trade keep to camps and outposts with an identity from the lore, each selling what its place has. They talk usefully, about what lives there, water, safe sleep and the ways out, and take rusty gears as coin.
 

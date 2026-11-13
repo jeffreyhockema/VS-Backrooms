@@ -1,0 +1,10 @@
+// Metal is loud: every vanilla armour piece gets a behaviour that adds a tooltip line to chain, lamellar, brigandine, scale and plate
+// (src/Entities/ArmourNoise.cs; the noise itself is Senses.ArmourNoise)
+[
+	{
+		"op": "add",
+		"path": "/behaviors/-",
+		"value": { "name": "BackroomsClank" },
+		"file": "game:itemtypes/wearable/seraph/armor.json"
+	}
+]

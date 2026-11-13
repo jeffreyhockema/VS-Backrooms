@@ -364,7 +364,7 @@ public static class Perception
         NoiseEvent? heard = null;
         if (!p.Water) heard = bus?.Loudest(ears, p.Hearing, now, who.EntityId);
         // Running is heard as it happens (the director's own running noise comes only every two seconds)
-        if (heard == null && p.HearsRunning && !p.Water && Senses.Running(who) && who.Pos.DistanceTo(ears) <= p.Hearing * 0.4)
+        if (heard == null && p.HearsRunning && !p.Water && Senses.Running(who) && who.Pos.DistanceTo(ears) <= p.Hearing * 0.4 * Senses.ArmourNoise(who))
             heard = new NoiseEvent(0, who.Pos.XYZ, 0.4, "run", who.EntityId, now);
         if (heard == null && p.Water && InWater(who) && Moving(who) && who.Pos.DistanceTo(ears) <= p.Hearing)
             heard = new NoiseEvent(0, who.Pos.XYZ, 0.5, "swim", who.EntityId, now);

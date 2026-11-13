@@ -469,7 +469,12 @@ public partial class MenaceSystem : ModSystem
         if (target is EntityAgent agent && Senses.Running(agent))
         {
             watch.Noise = Math.Min(1, watch.Noise + RunNoisePerSecond * seconds);
-            RaiseNoise(target.Pos.XYZ, RunLoudness, "run", target);
+            RaiseNoise(target.Pos.XYZ, RunLoudness * Senses.ArmourNoise(target), "run", target);
+        }
+        else if (target is EntityPlayer walker && walker.ServerControls.TriesToMove && Senses.ClankLoudness(target) is > 0 and double clank)
+        {
+            // Armour of metal clanks as it walks (and the more of it, the more): a noise of its own
+            RaiseNoise(target.Pos.XYZ, clank, "clank", target);
         }
         watch.Noise = Math.Max(0, watch.Noise - NoiseDecay * seconds);
 

@@ -32,7 +32,7 @@ public class BackroomsTutorial : TutorialBase
     private static string Text(string n) => "backrooms:tutorial-backrooms-" + n;
 
     // What the bag takes (recipes/grid/carpetbag.json and twine-from-carpet.json, and the texts of steps 9 and 10)
-    private const int TwineFibres = 3, CarpetBagFibres = 5;
+    private const int TwineFibres = 18, CarpetBagFibres = 5;
 
     private static bool Is(ItemStack stack, string domain, string path)
         => stack?.Collectible?.Code != null && stack.Collectible.Code.Domain == domain && stack.Collectible.Code.Path == path;
@@ -100,7 +100,7 @@ public class BackroomsTutorial : TutorialBase
             TutorialStepBase.Collect(capi, "cutfibre", Text(6), s => Ours(s, "carpetfibre"), 1),
             // 7. A real blade
             craftShiv,
-            // 8. More carpet, for a bag: 3 for the twine and 5 for the bag, in hand once the shiv is made (the fibre cut
+            // 8. More carpet, for a bag: 18 for the twine and 5 for the bag, in hand once the shiv is made (the fibre cut
             // in step 6 went into the shiv, so it must not count). Steps run side by side, so a player who makes the
             // twine first needs only the bag's 5, and one who has made the bag is done
             new TutorialStepHold(capi, "cutfibres", Text(8), s => Ours(s, "carpetfibre"),

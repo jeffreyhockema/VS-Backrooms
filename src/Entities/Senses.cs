@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Vintagestory.API.Common;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.Config;
 using Vintagestory.API.MathTools;
 
 namespace Backrooms.Entities;
@@ -209,6 +210,44 @@ public static class Senses
     /// <summary>Whether someone is sneaking (crouched, creeping).</summary>
     public static bool Sneaking(Entity who) =>
         who is EntityAgent agent && agent.ServerControls.Sneak || IsTestTarget(who) && who.WatchedAttributes.GetBool(TestSneakKey);
+
+    /// <summary>
+    /// How much louder worn armour makes someone's movement (feedback round 2026-11: metal is loud): 1 in cloth, carpet or
+    /// leather, <see cref="ChainClank"/> in chain, lamellar, brigandine or scale, <see cref="PlateClank"/> in plate, by the loudest piece
+    /// worn. It multiplies how far a running or jumping player is heard; and while they walk it is a quiet noise of its own
+    /// (<see cref="ClankLoudness"/>, halved when sneaking, none when still). Cached for a second a player.
+    /// </summary>
+    public static double ArmourNoise(Entity who)
+    {
+        if (who is not EntityPlayer { Player: { } player }) return 1;
+        long now = who.World.ElapsedMilliseconds;
+        if (clankCache.TryGetValue(who.EntityId, out (long At, double Factor) hit) && now - hit.At < 1000 && now >= hit.At) return hit.Factor;
+        double factor = 1;
+        if (player.InventoryManager?.GetOwnInventory(GlobalConstants.characterInvClassName) is { } worn)
+            foreach (ItemSlot slot in worn)
+                if (slot?.Itemstack?.Collectible?.Code is { Domain: "game" } code && code.Path.StartsWith("armor-", StringComparison.Ordinal))
+                    factor = Math.Max(factor, ClankOf(code.Path));
+        clankCache[who.EntityId] = (now, factor);
+        return factor;
+    }
+
+    /// <summary>How loud an armour item (by its code path, <c>armor-body-chain-copper</c>) is: see <see cref="ArmourNoise"/>.</summary>
+    public static double ClankOf(string path)
+    {
+        string[] parts = path.Split('-');
+        if (Array.IndexOf(parts, "plate") >= 0) return PlateClank;
+        return Array.IndexOf(parts, "chain") >= 0 || Array.IndexOf(parts, "lamellar") >= 0 || Array.IndexOf(parts, "brigandine") >= 0 || Array.IndexOf(parts, "scale") >= 0 ? ChainClank : 1;
+    }
+
+    public const double ChainClank = 1.4, PlateClank = 2.0;
+    private static readonly Dictionary<long, (long At, double Factor)> clankCache = new();
+
+    /// <summary>The noise someone walking in loud armour makes (nothing in quiet armour); sneaking halves it.</summary>
+    public static double ClankLoudness(Entity who)
+    {
+        double extra = ArmourNoise(who) - 1;
+        return extra <= 0 ? 0 : 0.3 * extra * (Sneaking(who) ? 0.5 : 1);
+    }
 
     /// <summary>A player's Reality Stability (1 is steady, 0 is coming apart).</summary>
     public static double Stability(Entity player) => player.WatchedAttributes.GetDouble("temporalStability", 1);

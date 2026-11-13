@@ -215,6 +215,8 @@
 			"properties": {
 				"result": "end-carpet-worn",
 				"item": "carpetfibre",
+				"square": "carpetsquare",
+				"squareResult": "end-concrete-plain",
 				"variant": "kind",
 				"allowed": [
 					"plain",

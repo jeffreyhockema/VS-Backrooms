@@ -1,0 +1,77 @@
+[
+	{
+		"ingredientPattern": "SFS,STS",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "carpetsquare"
+			},
+			"F": {
+				"type": "item",
+				"code": "carpetfibre",
+				"quantity": 2
+			},
+			"T": {
+				"type": "item",
+				"code": "game:flaxtwine"
+			}
+		},
+		"width": 3,
+		"height": 2,
+		"name": "carpet head",
+		"output": {
+			"type": "item",
+			"code": "armor-carpet-head"
+		}
+	},
+	{
+		"ingredientPattern": "STS,SFS,STS",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "carpetsquare"
+			},
+			"F": {
+				"type": "item",
+				"code": "carpetfibre",
+				"quantity": 4
+			},
+			"T": {
+				"type": "item",
+				"code": "game:flaxtwine"
+			}
+		},
+		"width": 3,
+		"height": 3,
+		"name": "carpet body",
+		"output": {
+			"type": "item",
+			"code": "armor-carpet-body"
+		}
+	},
+	{
+		"ingredientPattern": "SFS,STS,S_S",
+		"ingredients": {
+			"S": {
+				"type": "item",
+				"code": "carpetsquare"
+			},
+			"F": {
+				"type": "item",
+				"code": "carpetfibre",
+				"quantity": 2
+			},
+			"T": {
+				"type": "item",
+				"code": "game:flaxtwine"
+			}
+		},
+		"width": 3,
+		"height": 3,
+		"name": "carpet legs",
+		"output": {
+			"type": "item",
+			"code": "armor-carpet-legs"
+		}
+	}
+]

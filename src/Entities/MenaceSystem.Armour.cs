@@ -29,10 +29,10 @@ public partial class MenaceSystem
     private static readonly double[] HitZones = { 0.2, 0.5, 0.3 };
     private static readonly string[] ZoneParts = { "head", "body", "legs" };
 
-    /// <summary>The sets worth comparing: construction-material (game:armor-{head|body|legs}-...), as the plan's ladder goes.</summary>
+    /// <summary>The sets worth comparing: construction-material (game:armor-{head|body|legs}-...), as the plan's ladder goes, and our own carpet set (backrooms:armor-carpet-...).</summary>
     private static readonly string[] ArmourSets =
     {
-        "none", "jerkin-leather", "sewn-leather", "lamellar-copper", "lamellar-tinbronze", "chain-copper", "chain-tinbronze",
+        "none", "carpet", "jerkin-leather", "sewn-leather", "sewn-linen", "lamellar-copper", "lamellar-tinbronze", "chain-copper", "chain-tinbronze",
         "plate-copper", "plate-tinbronze", "chain-iron", "plate-iron",
     };
 
@@ -41,10 +41,44 @@ public partial class MenaceSystem
         var parsers = api.ChatCommands.Parsers;
         command
             .BeginSubCommand("armourtest")
-                .WithDescription("What one blow of an entity does to a player (15 health) in vanilla armour at a level, and how many blows it takes, by the game's own armour rules (a dummy cannot wear any). Args: entity, level, set (e.g. sewn-leather, lamellar-tinbronze, plate-iron, none; default all of a ladder)")
+                .WithDescription("What one blow of an entity does to a player (15 health) in vanilla armour at a level, and how many blows it takes, by the game's own armour rules (a dummy cannot wear any). Args: entity, level, set (e.g. carpet, sewn-linen (gambeson), sewn-leather, lamellar-tinbronze, plate-iron, none; default all of a ladder)")
                 .WithArgs(parsers.Word("entity"), parsers.Word("level"), parsers.OptionalWord("set"))
                 .HandleWith(OnArmourTestCommand)
+            .EndSubCommand()
+            .BeginSubCommand("clanktest")
+                .WithDescription("How far an entity hears a player running, jumping or walking in no armour, chain and plate (metal armour is loud: Senses.ArmourNoise), from its own senses profile. Args: entity")
+                .WithArgs(parsers.Word("entity"))
+                .HandleWith(OnClankTestCommand)
             .EndSubCommand();
+    }
+
+    private TextCommandResult OnClankTestCommand(TextCommandCallingArgs args)
+    {
+        string code = ((string)args[0]).Trim();
+        if (!code.Contains(':')) code = "backrooms:" + code;
+        EntityProperties type = types.GetValueOrDefault(code) ?? sapi.World.GetEntityType(new AssetLocation(code));
+        if (type == null) return TextCommandResult.Error("No such entity: " + code);
+        SenseProfile profile = null;
+        foreach (JsonObject behaviour in type.Server?.BehaviorsAsJsonObj ?? Array.Empty<JsonObject>())
+        {
+            if (behaviour["code"].AsString() != "taskai") continue;
+            foreach (JsonObject task in behaviour["aitasks"].AsArray() ?? Array.Empty<JsonObject>())
+                if ((profile = SenseProfile.Parse(task["senses"])) != null) break;
+            if (profile != null) break;
+        }
+        profile ??= SenseProfile.Default;
+        var text = new StringBuilder();
+        text.AppendFormat(CultureInfo.InvariantCulture, "clanktest {0}: hearing {1:0.#}", code.Replace("backrooms:", ""), profile.Hearing);
+        foreach ((string label, string path) in new[] { ("none", "armor-body-sewn-linen"), ("chain", "armor-body-chain-copper"), ("lamellar", "armor-body-lamellar-tinbronze"), ("plate", "armor-body-plate-iron") })
+        {
+            double f = Senses.ClankOf(path);
+            double run = profile.Hearing * RunLoudness * f, jump = profile.Hearing * JumpLoudness * f;
+            double walk = f > 1 ? profile.Hearing * 0.3 * (f - 1) : 0;
+            text.AppendFormat(CultureInfo.InvariantCulture, "\n  {0,-9} x{1:0.0}: runner heard from {2:0.0} blocks, jump {3:0.0}, walking {4}, sneaking {5}", label, f, run, jump,
+                walk > 0 ? walk.ToString("0.0", CultureInfo.InvariantCulture) + " blocks" : "silent", walk > 0 ? (walk / 2).ToString("0.0", CultureInfo.InvariantCulture) + " blocks" : "silent");
+        }
+        sapi.Logger.Notification("[backrooms] " + text);
+        return TextCommandResult.Success(text.ToString());
     }
 
     /// <summary>The base damage and damage tier the entity's task deals (the first of its tasks that has a damage).</summary>
@@ -124,7 +158,7 @@ public partial class MenaceSystem
             ProtectionModifiers p = null;
             if (set != "none")
             {
-                Item item = sapi.World.GetItem(new AssetLocation("game:armor-" + ZoneParts[zone] + "-" + set));
+                Item item = sapi.World.GetItem(new AssetLocation(set == "carpet" ? "backrooms:armor-carpet-" + ZoneParts[zone] : "game:armor-" + ZoneParts[zone] + "-" + set));
                 if (item == null) missing.Add(ZoneParts[zone]);
                 else p = item.GetCollectibleInterface<IWearableStatsSupplier>()?.GetProtectionModifiers(new DummySlot(new ItemStack(item)));
             }

@@ -1,0 +1,70 @@
+description: Carpet squares and carpet armour (feedback round 2026-11, exp/fb-armour). A scraper cuts fibre standing and a square crouched (the floor left bare), every new recipe matches by the game's own rule, carpet armour worn in third person, the loud-armour tooltip, and the handbook pages. Read the shots by eye.
+steps:
+  - bot: closeguis
+  - bot: hud off
+  - bot: wait 3000
+  - bot: cmd /giveitem backrooms:scraper 1
+  - bot: wait 700
+  - bot: cmd /giveitem backrooms:carpetsquare 20
+  - bot: wait 700
+  - bot: cmd /giveitem backrooms:carpetfibre 40
+  - bot: wait 700
+  - bot: cmd /giveitem game:flaxtwine 12
+  - bot: wait 700
+  - cmd: /backrooms rig have
+  - expect_chat: carpetsquare
+  - note: "Standing: fibre and a threadbare block. Crouched on the threadbare block: nothing (it gives no square). Two blocks on, crouched: one square and the bare concrete."
+  - cmd: /backrooms rig cut stand
+  - expect_chat: "carpet-threadbare"
+  - cmd: /backrooms rig cut sneak
+  - expect_chat: "squares +0"
+  - cmd: /backrooms rig walk 2
+  - cmd: /backrooms rig cut sneak
+  - expect_chat: "squares +1"
+  - bot: look 0 230
+  - bot: wait 800
+  - shot: carpet-cut-floor
+  - expect_shot: carpet-cut-floor
+  - cmd: /backrooms rig craft armor-carpet-head
+  - expect_chat: "rig-craft backrooms:armor-carpet-head"
+  - cmd: /backrooms rig craft armor-carpet-body
+  - cmd: /backrooms rig craft armor-carpet-legs
+  - cmd: /backrooms rig craft carpetbag
+  - cmd: /backrooms rig craft carpetbedroll-north
+  - cmd: /backrooms rig craft game:flaxtwine
+  - cmd: /backrooms rig tooltip backrooms:armor-carpet-body
+  - cmd: /backrooms rig tooltip armor-body-chain-copper
+  - cmd: /backrooms rig tooltip armor-body-plate-iron
+  - cmd: /backrooms rig tooltip armor-body-sewn-linen
+  - cmd: /backrooms rig equip carpet
+  - expect_chat: rig-equip
+  - bot: look 90 180
+  - bot: hotkey cyclecamera
+  - bot: wait 1200
+  - shot: carpet-armour-third-e
+  - bot: look 270 180
+  - bot: wait 800
+  - shot: carpet-armour-third-w
+  - bot: look 0 180
+  - bot: wait 800
+  - shot: carpet-armour-third-n
+  - bot: look 180 180
+  - bot: wait 800
+  - shot: carpet-armour-third-s
+  - bot: hotkey cyclecamera
+  - bot: hotkey cyclecamera
+  - bot: wait 800
+  - bot: hud on
+  - bot: handbook item-backrooms:armor-carpet-body
+  - bot: wait 1500
+  - shot: handbook-carpet-armour
+  - bot: handbook item-backrooms:carpetsquare
+  - bot: wait 1500
+  - shot: handbook-carpet-square
+  - bot: handbook item-armor-body-plate-iron
+  - bot: wait 1500
+  - shot: handbook-plate-armour
+  - bot: closeguis
+  - bot: hud off
+  - cmd: /backrooms rig have
+  - expect_no_log: "Exception:"

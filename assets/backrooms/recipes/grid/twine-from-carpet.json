@@ -1,18 +1,18 @@
+// Twine is hard-won: 18 fibres of carpet twist into one length (a recipe of one slot holding 18)
 {
- "ingredientPattern": "AAA",
- "ingredients": {
-  "A": {
-   "type": "item",
-   "code": "carpetfibre",
-   "quantity": 1
-  }
- },
- "width": 3,
- "height": 1,
- "shapeless": true,
- "output": {
-  "type": "item",
-  "code": "game:flaxtwine",
-  "quantity": 1
- }
+	"ingredientPattern": "A",
+	"ingredients": {
+		"A": {
+			"type": "item",
+			"code": "carpetfibre",
+			"quantity": 18
+		}
+	},
+	"width": 1,
+	"height": 1,
+	"output": {
+		"type": "item",
+		"code": "game:flaxtwine",
+		"quantity": 1
+	}
 }
