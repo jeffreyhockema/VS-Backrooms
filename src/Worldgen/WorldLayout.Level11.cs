@@ -221,6 +221,15 @@ public sealed partial class WorldLayout
                 if (BlockW - (x + w) < min) w = BlockW - x;
                 Spec spec = ChooseSpec(district, w, ref rng);
                 PlanBuilding(tiles, x, x + w - 1, z0, z1, half == 0, x == 0, x + w == BlockW, true, spec, ref rng);
+                // (Layout version 16) Only one rowhouse front door in four opens into the Suburbs; the rest are ordinary
+                // front doors, locked. By the lot's own hash, so the lots after it come out as they always have
+                if (spec.Kind == CityKind.Rowhouse && Version >= 16
+                    && Hashing.Unit(Hashing.Hash(seed, bi * 128 + x, bj * 2 + half, SaltCityBlock + 41)) >= RowhousePortalShare)
+                {
+                    // (The door is in the middle of the front, behind the yard: PlanBuilding's Rowhouse case)
+                    ref Tile door = ref new Frame(tiles, x, x + w - 1, z0, z1, half == 0).At((w - 1) / 2, RowhouseYard);
+                    if (door.Kind == TileKind.Door) door.Variant = RowhouseDoorPlain;
+                }
                 // A few lots are something else: planned again over the top, on their own, so the lots after them
                 // come out as they always have
                 if (OddLot(district, spec, w, bi, bj, x, half) is { } odd)
@@ -313,6 +322,18 @@ public sealed partial class WorldLayout
             : r < 0.72 ? CityKind.Hardware : r < 0.86 ? CityKind.Clothing : CityKind.Laundromat;
     }
 
+    /// <summary>Layout version 16: the share of rowhouse front doors that open into the Suburbs (before, every one did).</summary>
+    public const double RowhousePortalShare = 0.25;
+
+    /// <summary>A rowhouse front door tile's variant when it is an ordinary, locked front door (layout version 16 on), not a way into the Suburbs.</summary>
+    public const ushort RowhouseDoorPlain = 1;
+
+    /// <summary>How deep a rowhouse's railed front yard is: its front door stands this far back from the street.</summary>
+    private const int RowhouseYard = 2;
+
+    /// <summary>Whether a city tile is a rowhouse front door that opens into the Suburbs (every one before layout version 16, one in four after).</summary>
+    public static bool IsRowhousePortal(in Tile t) => t.Kind == TileKind.Door && t.Level == 11 && t.Zone == (byte)CityKind.Rowhouse && t.Variant != RowhouseDoorPlain;
+
     public static bool CityEnterable(CityKind kind) => kind is not (CityKind.Sealed or CityKind.Rowhouse or CityKind.Substation or CityKind.Rim or CityKind.None or CityKind.Baths);
 
     /// <summary>
@@ -375,7 +396,7 @@ public sealed partial class WorldLayout
                               Spec spec, ref Rng rng)
     {
         // A rowhouse stands back behind a little railed yard; a substation's switchyard is in front of it
-        int yard = spec.Kind == CityKind.Rowhouse ? 2 : spec.Kind == CityKind.Substation ? Math.Min(6, (z1 - z0) / 3) : 0;
+        int yard = spec.Kind == CityKind.Rowhouse ? RowhouseYard : spec.Kind == CityKind.Substation ? Math.Min(6, (z1 - z0) / 3) : 0;
         var lot = new Frame(tiles, x0, x1, z0, z1, frontNorth);
         if (yard > 0) Yard(lot, yard, spec, ref rng);
         if (frontNorth) z0 += yard; else z1 -= yard;

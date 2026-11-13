@@ -299,6 +299,15 @@ def street_textures():
     img = Image.blend(barn, ghost, 0.45)
     d = ImageDraw.Draw(img)
     d.line([0, 13, S - 1, 13], fill=(170, 80, 70, 255))
+    # (Feedback round 2026-11) The city showing through: the darkest seams between the boards lit a faint sodium orange,
+    # brighter where the boards are furthest out of true, and the block itself gives off a low orange light (lightHsv)
+    p = img.load()
+    cols = sorted(range(S), key=lambda x: sum(barn.getpixel((x, y))[0] for y in range(S)))[:3]
+    for x in cols:
+        for y in range(S):
+            glow = 0.32 + 0.3 * math.sin(y * 0.45 + x) ** 2 if y != 13 else 0.2
+            r, g, b, a = p[x, y]
+            p[x, y] = (int(r + (255 - r) * glow), int(g + (150 - g) * glow), int(b + (60 - b) * glow), 255)
     save(img, "barnwall-noclip")
 
 
@@ -1529,6 +1538,44 @@ def b12_posters():
         save(img, f"adpillar-{PILLARS[k]}")
 
 
+def suburbs_rowhouse_door():
+    """(Feedback round 2026-11) A rowhouse front door that opens into the Suburbs wears the Suburbs' look: a house's red
+    panelled door in its white casing (deep_textures' housedoor), and behind the glass a hall lamp lit, warm, the porch
+    light's glow of Level 9 leaking into the city. The block gives off a little warm light too (its lightHsv), so the
+    doors that lead away can be told from the street, day or night."""
+    trim_c = (236, 234, 226)
+    for part in ("lower", "upper"):
+        img = M.noise_hv((136, 48, 36), amp=3, seed=seed_of("rowsuburbdoor" + part), mottle=4, hue=2)
+        trim = M.noise_hv(trim_c, amp=2, seed=seed_of("rowsuburbtrim" + part), mottle=2, hue=1)
+        for y in range(S):
+            for x in list(range(0, 2)) + list(range(S - 2, S)):
+                img.putpixel((x, y), trim.getpixel((x, y)))
+        if part == "upper":
+            for x in range(S):
+                for y in (0, 1):
+                    img.putpixel((x, y), trim.getpixel((x, y)))
+        M.inset(img, (2, 0 if part == "lower" else 2, S - 2, S), strength=0.3)
+        panels = ((5, 3, 15, 28), (17, 3, 27, 28)) if part == "lower" else ((5, 18, 15, 30), (17, 18, 27, 30))
+        for box in panels:
+            M.inset(img, box, strength=0.24)
+            M.bevel(img, (box[0] + 1, box[1] + 1, box[2] - 1, box[3] - 1), strength=0.14)
+        if part == "lower":
+            for x, y, f in ((22, 1, 0.5), (23, 1, 0.7), (22, 2, 0.3), (23, 2, 0.2), (24, 2, 0.0), (23, 3, -0.2)):
+                img.putpixel((x, y), M.rgba(M.shade_px((200, 160, 70), f)))
+        else:
+            # The glass, lit from inside: a warm lamp glow, brightest at its middle, the glazing bar across it
+            glass = Image.new("RGBA", (12, 10))
+            for y in range(10):
+                for x in range(12):
+                    d = math.hypot((x - 5.5) / 6, (y - 4.5) / 5)
+                    glass.putpixel((x, y), M.rgba(M.mix((255, 214, 140), (196, 120, 52), min(1.0, d))))
+            for x in range(12):
+                glass.putpixel((x, 5), M.rgba((120, 46, 34)))
+            img.paste(glass, (10, 5))
+            M.inset(img, (9, 4, 23, 16), strength=0.3)
+        save(img, f"rowhousedoor-{part}")
+
+
 def b12_doors():
     """The row-house door and the steel doors (still cubes, as the old ones): panels shaded as raised fields in their
     frames, a brass knob and knocker with highlights; steel doors in worn paint with their stencils in a pixel face."""
@@ -1554,7 +1601,8 @@ def b12_doors():
             for (dx, dy, c) in ((0, 0, (236, 206, 120)), (1, 0, (214, 176, 84)), (2, 0, (190, 150, 64)),
                                 (0, 1, (200, 160, 70)), (1, 1, (170, 130, 56)), (2, 1, (132, 98, 40))):
                 p[15 + dx, 15 + dy] = M.rgba(c)  # the knocker
-        save(img, f"rowhousedoor-{part}")
+        save(img, f"citydoor-{part}")
+    suburbs_rowhouse_door()
     for code, colour, label, danger in (("substationdoor", (106, 110, 104), None, True),
                                         ("maintenancedoor", (94, 106, 98), ["STAFF", "ONLY"], False)):
         for part in ("lower", "upper"):
@@ -1821,7 +1869,10 @@ def facades():
     block("noclipwall", {
         "variantgroups": [{"code": "kind", "states": ["barn"]}], "creativeinventory": {"general": ["*"]},
         "blockmaterial": "Wood", "drawtype": "cube", "textures": {"all": {"base": "block/detail/barnwall-noclip"}},
-        "collisionbox": None, "lightAbsorption": 99, "resistance": 4, "sounds": WOOD,
+        "collisionbox": None, "lightAbsorption": 99, "resistance": 4,
+        # (Feedback round 2026-11) The tell, from a distance: the city's traffic heard through it (within 30 blocks or so,
+        # the game's ambient scan) and its sodium light glowing faintly through the slats at night
+        "sounds": dict(WOOD, ambient="backrooms:ambient/cityhum", ambientBlockCount=2), "lightHsv": [4, 7, 7],
         "particleProperties": [{
             "hsvaColor": [{"avg": 30, "var": 10}, {"avg": 40, "var": 20}, {"avg": 200, "var": 30}, {"avg": 90, "var": 30}],
             "gravityEffect": {"avg": 0, "var": 0.01}, "posOffset": [{"avg": 0, "var": 0.5}, {"avg": 0, "var": 0.5}, {"avg": 0, "var": 0.5}],
@@ -1858,8 +1909,20 @@ def facades():
             "textures": {"all": {"base": f"block/detail/{code}-{{part}}"}},
             "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": sounds, "behaviors": threshold(kind),
         }
+        if code == "rowhousedoor":
+            # (Feedback round 2026-11) The lamp lit behind the Suburbs door's glass: a little warm light on the step
+            data["lightHsvByType"] = {"*-upper": [6, 4, 8]}
         block(code, data, english)
         name(f"{code}-*", english)
+    # (Layout version 16) A rowhouse front door that leads nowhere: the city's own green door, locked
+    block("citydoor", {
+        "variantgroups": [{"code": "part", "states": ["lower", "upper"]}],
+        "creativeinventory": {"general": ["*"], "construction": ["*"]},
+        "blockmaterial": "Wood", "drawtype": "cube",
+        "textures": {"all": {"base": "block/detail/citydoor-{part}"}},
+        "lightAbsorption": 99, "resistance": 4, "drops": [], "sounds": WOOD, "behaviors": threshold("locked"),
+    }, "A rowhouse front door that is only a front door, locked")
+    name("citydoor-*", "Front Door")
 
 
 def decorations():

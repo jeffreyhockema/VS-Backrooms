@@ -28,8 +28,15 @@
 		"walk": "game:walk/wood",
 		"place": "game:block/planks",
 		"break": "game:block/planks",
-		"hit": "game:block/planks"
+		"hit": "game:block/planks",
+		"ambient": "backrooms:ambient/cityhum",
+		"ambientBlockCount": 2
 	},
+	"lightHsv": [
+		4,
+		7,
+		7
+	],
 	"particleProperties": [
 		{
 			"hsvaColor": [

@@ -59,6 +59,12 @@ if (args.Length > 2 && args[2] == "posts") { Posts.Run(layout, m0x, m0z, n); ret
 if (args.Length > 2 && args[2] == "overview") { Overview.Run(layout, smx, smz, int.Parse(args[1]), "overview.bin", args.Length > 3 ? int.Parse(args[3]) : 1); return; }
 if (args.Length > 2 && args[2] == "citymap") { CityMap.Run(layout, n, args.Length > 3 ? int.Parse(args[3]) : 0, args.Length > 4 ? int.Parse(args[4]) : 0); return; }
 if (args.Length > 2 && args[2] == "noclip") { NoclipFind.Run(layout, smx, smz); return; }
+// barnwalls [n]: how often the notes' barn-wall mark finds one, by search radius (BarnWalls.cs)
+// bandspots <level> [n]: open floor spots by the director's band, for headless director measurements (BandSpots.cs)
+if (args.Length > 3 && args[2] == "bandspots") { BandSpots.Run(layout, smx, smz, int.Parse(args[3]), args.Length > 4 ? int.Parse(args[4]) : 3); return; }
+// rigspots: coordinates for the client rig's shots of the barn wall and the rowhouse doors (BandSpots.cs)
+if (args.Length > 2 && args[2] == "rigspots") { RigSpots.Run(layout); return; }
+if (args.Length > 2 && args[2] == "barnwalls") { BarnWalls.Run(layout, args.Length > 3 ? int.Parse(args[3]) : 200); return; }
 // elevsides [level ...]: what stands beside every elevator along its wall round a level's arrivals (ElevSides.cs; DUMP=1 for a plan)
 if (args.Length > 2 && args[2] == "elevsides") { ElevSides.Run(layout, args, n); return; }
 if (args.Length > 2 && args[2] == "shortcuts") { Shortcuts.Run(layout, seed, smx, smz); return; }

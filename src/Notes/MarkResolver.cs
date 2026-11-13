@@ -44,6 +44,15 @@ public sealed class MarkResolver
     }
 
     /// <summary>
+    /// How far (blocks) a note looks for the nearest barn wall that isn't quite there (doubled for a fair copy). It was 480,
+    /// which from layout version 12 (a barn in nine has one) found one from 14 % of Level 10's arrivals (35 % for a fair
+    /// copy). At 2000: 78 % in layouts 12 to 15, 99 % from 16 (a barn in five), 100 % in the first worlds, and a fair copy
+    /// 100 % everywhere (tools/mapgen barnwalls, seed 12345). The search goes field by field (WorldLayout.BarnWallsNear),
+    /// under a millisecond.
+    /// </summary>
+    private const int BarnWallReach = 2000;
+
+    /// <summary>
     /// The place a mark of this kind points at, from (x, z) in the given level (its id, not the 6.1 key), or null.
     /// <paramref name="far"/> doubles the search (a folded note's careful directions); <paramref name="skip"/> names
     /// places not to point at.
@@ -129,7 +138,7 @@ public sealed class MarkResolver
                 ps = "way";
                 break;
             case "barnwall":
-                at = level == 10 ? layout.NearestBarnWall(x, z, 480 * k, skip) : null;
+                at = level == 10 ? layout.NearestBarnWall(x, z, BarnWallReach * k, skip) : null;
                 title = Lang.Get("backrooms:waypoint-note-barnwall");
                 icon = "spiral";
                 ps = "way";

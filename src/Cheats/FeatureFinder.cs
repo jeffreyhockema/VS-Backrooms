@@ -227,7 +227,8 @@ public sealed partial class FeatureFinder
             // ----- Level 10 -----
             case "l10scarecrow": return TileHit(t => t.Kind == TileKind.Floor && t.Variant == Worldgen.Props.Scarecrow);
             case "l10farm": return TileHit(t => t.Kind == TileKind.Wall && t.Pattern == WallPattern.BarnRed);
-            case "l10noclip": return TileHit(t => t.Under == Unders.Noclip);
+            // (Field by field: cheap however far, WorldLayout.BarnWallsNear)
+            case "l10noclip": return Points(layout.BarnWallsNear(gx, gz, radius));
             case "l10pond": return TileHit(t => t.Under == Unders.LakeRim);
             case "l10pasture": return TileAtHit((t, x, z) => t.Kind == TileKind.Floor && layout.IsPasture(x, z));
             case "l10arcade": return Points(Arcades(gx, gz, radius));
@@ -243,6 +244,8 @@ public sealed partial class FeatureFinder
             case "l11cinema": return CityDoor(gx, gz, radius, CityKind.Cinema);
             case "l11baths": return CityDoor(gx, gz, radius, CityKind.Baths);
             case "l11substation": return CityDoor(gx, gz, radius, CityKind.Substation);
+            // (Every rowhouse front door before layout version 16; one in four after, the ones with the Suburbs' red door)
+            case "l11rowhouse": return TileHit(t => WorldLayout.IsRowhousePortal(t));
             case "l11bookstore": return TileHit(t => t.Under == Unders.EndBookstore);
             case "l11garage": return TileHit(t => t.Under == Unders.GarageRamp);
             case "l11mascot": return TileHit(t => t.Under == Unders.FunMascotDoor);
