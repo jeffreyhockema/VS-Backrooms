@@ -262,7 +262,7 @@ def pleather_armour():
 # Lobby's first armour (jerkin-like: 0.4 relative, 0.25 flat, tier 1, 250 durability), bedrolls and repairs.
 
 # (name, Spanish, pattern, fibres in the F slot): head 4 squares + 1 twine + 2 fibres; body 6 squares + 2 twine + 4 fibres;
-# legs 5 squares + 1 twine + 2 fibres. A set is 15 squares, 4 twine and 8 fibres.
+# legs 6 squares + 1 twine + 2 fibres. A set is 16 squares, 4 twine and 8 fibres.
 CARPET_PARTS = {"head": ("Carpet Cap", "Gorra de Alfombra", "SFS,STS", 2),
                 "body": ("Carpet Jerkin", "Jubón de Alfombra", "STS,SFS,STS", 4),
                 "legs": ("Carpet Leggings", "Polainas de Alfombra", "SFS,STS,S_S", 2)}

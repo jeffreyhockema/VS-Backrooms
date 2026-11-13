@@ -38,13 +38,20 @@ steps:
   - cmd: /backrooms rig tooltip armor-body-sewn-linen
   - cmd: /backrooms rig equip carpet
   - expect_chat: rig-equip
+  - bot: look 90 180
+  - bot: hotkey cyclecamera
+  - bot: wait 1200
+  - shot: carpet-armour-third-e
+  - bot: look 270 180
+  - bot: wait 800
+  - shot: carpet-armour-third-w
   - bot: look 0 180
+  - bot: wait 800
+  - shot: carpet-armour-third-n
+  - bot: look 180 180
+  - bot: wait 800
+  - shot: carpet-armour-third-s
   - bot: hotkey cyclecamera
-  - bot: wait 1200
-  - shot: carpet-armour-third-1
-  - bot: hotkey cyclecamera
-  - bot: wait 1200
-  - shot: carpet-armour-third-2
   - bot: hotkey cyclecamera
   - bot: wait 800
   - bot: hud on

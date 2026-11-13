@@ -346,7 +346,7 @@ What you make comes back whole: break a block you crafted (an axe or bare hands 
 - 1 dry grass = 2 wallpaper strips
 - 1 flax twine = 18 carpet fibres
 - [Carpet bag](item-backrooms:carpetbag) (4 slots) = 5 carpet fibres + 1 flax twine
-- Carpet armour (see [What lives here](backrooms-entities)): a [cap](item-backrooms:armor-carpet-head) is 4 [carpet squares](item-backrooms:carpetsquare) + 1 flax twine + 2 carpet fibres; a [jerkin](item-backrooms:armor-carpet-body) 6 squares + 2 twine + 4 fibres; [leggings](item-backrooms:armor-carpet-legs) 5 squares + 1 twine + 2 fibres. A worn piece is mended with a square.
+- Carpet armour (see [What lives here](backrooms-entities)): a [cap](item-backrooms:armor-carpet-head) is 4 [carpet squares](item-backrooms:carpetsquare) + 1 flax twine + 2 carpet fibres; a [jerkin](item-backrooms:armor-carpet-body) 6 squares + 2 twine + 4 fibres; [leggings](item-backrooms:armor-carpet-legs) 6 squares + 1 twine + 2 fibres. A worn piece is mended with a square.
 - 2 sticks = 1 rotten wood, or 1 plank + a knife
 - 1 firewood = 2 rotten wood, or 3 planks + an axe
 - 1 iron nails and strips = 2 metal brackets

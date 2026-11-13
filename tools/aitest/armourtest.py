@@ -82,7 +82,7 @@ def conversion(mods, work, port):
     for root, _dirs, files in os.walk(old):
         for f in files:
             # (What 0.611 had: no remaps, no carpet squares, no carpet armour, and the recipes that use them gone)
-            if f in ("remaps.json", "carpetsquare.json", "armor-carpet.json", "carpetarmor.json", "carpetarmorrepair.json", "carpetbedroll.json"):
+            if f in ("remaps.json", "carpetsquare.json", "armor-carpet.json", "carpetarmor.json", "carpetarmorrepair.json") or f == "carpetbedroll.json" and "recipes" in root:
                 os.remove(os.path.join(root, f))
                 removed += 1
     check("the old-style copy of the mod has no remaps.json, carpet squares or carpet armour", removed == 6, "removed %d" % removed)

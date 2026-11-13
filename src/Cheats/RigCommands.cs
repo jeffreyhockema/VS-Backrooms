@@ -191,7 +191,7 @@ public class RigCommands : ModSystem
             }
         BlockPos pos = player.Entity.Pos.AsBlockPos.DownCopy();
         Block before = sapi.World.BlockAccessor.GetBlock(pos);
-        int Count(string code) { int n = 0; foreach (var inv in player.InventoryManager.Inventories.Values) foreach (ItemSlot s in inv) if (s?.Itemstack?.Collectible?.Code?.ToString() == code) n += s.Itemstack.StackSize; return n; }
+        int Count(string code) { int n = 0; foreach (var inv in player.InventoryManager.Inventories.Values.Where(i => i.ClassName != "creative")) foreach (ItemSlot s in inv) if (s?.Itemstack?.Collectible?.Code?.ToString() == code) n += s.Itemstack.StackSize; return n; }
         int squares = Count("backrooms" + ":carpetsquare"), fibre = Count("backrooms" + ":carpetfibre");
         bool was = player.Entity.Controls.ShiftKey;
         player.Entity.Controls.ShiftKey = sneak;
@@ -257,10 +257,10 @@ public class RigCommands : ModSystem
     TextCommandResult Have(IServerPlayer player)
     {
         var text = new System.Text.StringBuilder("rig-have");
-        foreach (var inv in player.InventoryManager.Inventories.Values)
+        foreach (var inv in player.InventoryManager.Inventories.Values.Where(i => i.ClassName != "creative"))
             foreach (ItemSlot s in inv)
                 if (s?.Itemstack?.Collectible?.Code is { } code && (code.Path.Contains("pleather") || code.Path.Contains("carpet")))
-                    text.Append($" [{inv.ClassName}] {code.Path} x{s.Itemstack.StackSize} dur {s.Itemstack.Attributes.GetInt("durability", -1)};");
+                    text.Append($" [{inv.ClassName}] {code.Path} x{s.Itemstack.StackSize} dur {(s.Itemstack.Attributes?.GetInt("durability", -1) ?? -1)};");
         return TextCommandResult.Success(text.ToString());
     }
 
