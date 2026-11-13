@@ -1,0 +1,355 @@
+{
+	"textureWidth": 16,
+	"textureHeight": 16,
+	"textures": {
+		"body": "backrooms:item/fuse-body",
+		"cap": "backrooms:item/fuse-cap"
+	},
+	"elements": [
+		{
+			"name": "Body",
+			"from": [
+				5,
+				0.25,
+				7
+			],
+			"to": [
+				11,
+				2.25,
+				9
+			],
+			"faces": {
+				"north": {
+					"texture": "#body",
+					"uv": [
+						0,
+						0,
+						6,
+						2
+					]
+				},
+				"east": {
+					"texture": "#body",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"south": {
+					"texture": "#body",
+					"uv": [
+						0,
+						0,
+						6,
+						2
+					]
+				},
+				"west": {
+					"texture": "#body",
+					"uv": [
+						0,
+						0,
+						2,
+						2
+					]
+				},
+				"up": {
+					"texture": "#body",
+					"uv": [
+						0,
+						0,
+						6,
+						2
+					]
+				},
+				"down": {
+					"texture": "#body",
+					"uv": [
+						0,
+						0,
+						6,
+						2
+					]
+				}
+			}
+		},
+		{
+			"name": "CapWest",
+			"from": [
+				3.5,
+				0.0,
+				6.75
+			],
+			"to": [
+				5,
+				2.5,
+				9.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "CapEast",
+			"from": [
+				11,
+				0.0,
+				6.75
+			],
+			"to": [
+				12.5,
+				2.5,
+				9.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"east": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"south": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"west": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						2.5,
+						2.5
+					]
+				},
+				"up": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				},
+				"down": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.5,
+						2.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BladeWest",
+			"from": [
+				2.5,
+				1.0,
+				7.75
+			],
+			"to": [
+				3.5,
+				1.5,
+				8.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			}
+		},
+		{
+			"name": "BladeEast",
+			"from": [
+				12.5,
+				1.0,
+				7.75
+			],
+			"to": [
+				13.5,
+				1.5,
+				8.25
+			],
+			"faces": {
+				"north": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"east": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"south": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"west": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						0.5,
+						0.5
+					]
+				},
+				"up": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				},
+				"down": {
+					"texture": "#cap",
+					"uv": [
+						0,
+						0,
+						1.0,
+						0.5
+					]
+				}
+			}
+		}
+	]
+}

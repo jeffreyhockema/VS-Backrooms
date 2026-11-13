@@ -1,0 +1,77 @@
+description: The working props (src/Props/), each before and while it works - a fire alarm and its sprinklers (Level 4), a steam valve's jet (Level 2), a breaker thrown and its section dark, then a fuse fitted (Level 1's maintenance halls), a car alarm (the city); and the steam jet on a player (health falls).
+steps:
+  - bot: closeguis
+  - bot: hud off
+  - cmd: /backrooms director off
+  # ---- Fire alarm and sprinklers: Level 4's offices have pull stations and ceiling heads
+  - cmd: /backrooms goto 4
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms prop find firealarm
+  - expect_chat: prop-found
+  - face: deco-alarm
+  - shot: alarm-before
+  - cmd: /backrooms prop use last
+  - expect_chat: prop-used
+  - bot: wait 2500
+  - shot: alarm-ringing
+  - face: ceilingalt-sprinkler
+  - bot: wait 500
+  - shot: sprinklers-spraying
+  - expect_log: props: firealarm at
+  # ---- Breaker: Level 1's maintenance halls have breaker panels and power boxes
+  - cmd: /backrooms feature l1halls
+  - bot: wait 4000
+  - bot: ready 48
+  - cmd: /backrooms prop find breaker
+  - expect_chat: prop-found
+  - face: deco-breaker
+  - bot: wait 1000
+  - shot: breaker-lit
+  - cmd: /backrooms prop use last
+  - expect_chat: lights die
+  - bot: wait 2500
+  - shot: breaker-dark
+  - expect_log: tripped
+  - cmd: /backrooms prop use last fuse
+  - expect_chat: flicker back on
+  - bot: wait 2500
+  - shot: breaker-restored
+  # ---- Steam valve: Level 2's valve wheels
+  - cmd: /backrooms goto 2
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms prop find valve
+  - expect_chat: prop-found
+  - face: valve
+  - shot: valve-before
+  - cmd: /backrooms prop use last
+  - bot: wait 1800
+  - shot: valve-jet
+  - bot: look 0 60
+  - shot: valve-jet-up
+  # ---- The jet on a player: a test scene 5 blocks ahead (a leaking pipe over the spot, its valve beside); stand in it
+  - cmd: /backrooms heal
+  - cmd: /backrooms prop scene steam here
+  - expect_chat: prop-scene
+  - shot: steam-scene
+  - cmd: /backrooms prop use last
+  - bot: wait 1500
+  - shot: steam-scene-jet
+  - note: "The player then walks into the jet: rig walk 5 puts them under the pipe"
+  - cmd: /backrooms rig walk 5
+  - bot: wait 3000
+  - shot: steam-on-player
+  - expect_log: hurt player
+  # ---- Car alarm: the city's parked cars
+  - cmd: /backrooms goto 11
+  - bot: wait 3000
+  - bot: ready 48
+  - cmd: /backrooms prop find car
+  - expect_chat: prop-found
+  - face: car-
+  - shot: car-before
+  - cmd: /backrooms prop use last
+  - bot: wait 1500
+  - shot: car-ringing
+  - expect_log: props: caralarm at

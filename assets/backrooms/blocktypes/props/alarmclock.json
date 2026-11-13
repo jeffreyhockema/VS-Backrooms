@@ -1,0 +1,123 @@
+// A wind-up alarm clock (src/Props/AlarmClock.cs): set it down, wind and set it, and it rings a while later; a lure left behind
+{
+	"code": "alarmclock",
+	"class": "BackroomsAlarmClock",
+	"entityClass": "BackroomsAlarmClock",
+	"variantgroups": [
+		{
+			"code": "side",
+			"loadFromProperties": "abstract/horizontalorientation"
+		}
+	],
+	"behaviors": [
+		{
+			"name": "HorizontalOrientable"
+		}
+	],
+	"creativeinventory": {
+		"general": [
+			"*-north"
+		],
+		"backrooms": [
+			"*-north"
+		]
+	},
+	"blockmaterial": "Metal",
+	"drawtype": "json",
+	"shapeByType": {
+		"*-north": {
+			"base": "block/props/alarmclock",
+			"rotateY": 0
+		},
+		"*-east": {
+			"base": "block/props/alarmclock",
+			"rotateY": 270
+		},
+		"*-south": {
+			"base": "block/props/alarmclock",
+			"rotateY": 180
+		},
+		"*-west": {
+			"base": "block/props/alarmclock",
+			"rotateY": 90
+		}
+	},
+	"sidesolid": {
+		"all": false
+	},
+	"sideopaque": {
+		"all": false
+	},
+	"lightAbsorption": 0,
+	"resistance": 0.4,
+	"maxStackSize": 4,
+	"replaceable": 100,
+	"collisionbox": {
+		"x1": 0.3,
+		"y1": 0,
+		"z1": 0.375,
+		"x2": 0.7,
+		"y2": 0.6,
+		"z2": 0.625
+	},
+	"selectionbox": {
+		"x1": 0.25,
+		"y1": 0,
+		"z1": 0.35,
+		"x2": 0.75,
+		"y2": 0.625,
+		"z2": 0.65
+	},
+	"sounds": {
+		"place": "game:block/ingot",
+		"break": "game:block/ingot",
+		"hit": "game:block/ingot"
+	},
+	"guiTransform": {
+		"rotation": {
+			"x": -22,
+			"y": -45,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.3,
+			"z": 0.5
+		},
+		"scale": 2.4
+	},
+	"fpHandTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0.2,
+			"z": 0.3
+		},
+		"rotation": {
+			"x": 0,
+			"y": -40,
+			"z": 0
+		},
+		"scale": 1.6
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.9,
+			"y": -0.4,
+			"z": -0.6
+		},
+		"rotation": {
+			"x": 0,
+			"y": -45,
+			"z": 0
+		},
+		"scale": 0.7
+	},
+	"groundTransform": {
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 2.4
+	}
+}

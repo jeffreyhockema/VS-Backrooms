@@ -33,8 +33,9 @@ class ServerDied(Exception):
 
 
 class Server:
-    def __init__(self, mods, data, port=42733):
-        self.lines = []
+    def __init__(self, mods, data, port=42733, lines=None):
+        self.args = (mods, data, port)
+        self.lines = list(lines or [])
         self.lock = threading.Lock()
         self.ready = threading.Event()
         exe = self.find_server()
@@ -55,7 +56,7 @@ class Server:
             s = raw.decode("utf-8", "replace").rstrip()
             with self.lock:
                 self.lines.append(s)
-            if "Dedicated Server now running" in s or "Server running" in s:
+            if ("Dedicated Server now running" in s or "Server running" in s) and not self.ready.is_set():
                 if not self.ready.is_set(): self.boot_end = len(self.lines)
                 self.ready.set()
 
@@ -164,6 +165,17 @@ class Ctx:
     def __init__(self, srv):
         self.srv = srv
         self.good = {}        # distance -> dummy key giving a clear line at that distance
+
+    def restart(self):
+        """Stops the server (it saves the world) and starts it again on the same data; the new one's lines follow the old ones'."""
+        old = self.srv
+        old.stop()
+        with old.lock:
+            lines = list(old.lines) + [">>> (restart)"]
+        self.srv = Server(*old.args, lines=lines)
+        if not self.srv.ready.wait(900):
+            raise ServerDied("the server did not come back after the restart")
+        time.sleep(5)
 
     def reset(self):
         self.srv.cmd("/backrooms perceive stop")
@@ -1650,6 +1662,130 @@ def smoke(c):
     return not bad, "dummies on + Level 1 dummy for 60 s: %d error lines%s" % (len(bad), "".join("\n  " + b[:200] for b in bad[:3]))
 
 
+
+# ---- The working props (src/Props/): lures, sprinklers, steam, breakers (`--only props`)
+
+PROP_RE = re.compile(r"prop-(\w+) (.*)")
+
+
+def _ask(c, command, pattern, timeout=15):
+    """Sends a command and returns the first match of pattern in a line after it (or None)."""
+    m = c.srv.mark()
+    c.srv.cmd(command)
+    return c.srv.wait(lambda l: re.search(pattern, l), m, timeout)
+
+
+def _last_dummy(c):
+    """(x, y, z) of the dummy placed last."""
+    with c.srv.lock:
+        lines = list(c.srv.lines)
+    for l in reversed(lines):
+        mm = DUMMY_RE.search(l)
+        if mm:
+            return int(mm.group(2)), int(mm.group(3)), int(mm.group(4))
+    raise RuntimeError("no dummy placed")
+
+
+def _lure_case(kind, scene=False, wait=12):
+    def case(c):
+        # A Hound stalking a dummy 20 blocks off hears the lure 4 blocks the other side of the dummy, goes to see
+        # ("hears <kind> at"): the noise is on the bus and pulls it. With scene, a real alarm clock is put down and wound
+        # (it rings 20 s later), so the clock's own timer is tested too.
+        e = Enc(c, "hound", "stalk", 20)
+        x, y, z = _last_dummy(c)
+        time.sleep(2)
+        if scene:
+            r = _ask(c, "/backrooms prop scene clock %d %d %d" % (x + 4, y, z), r"prop-(scene|error).*")
+        else:
+            r = _ask(c, "/backrooms prop ring %s %d %d %d" % (kind, x + 4, y, z), r"prop-(ringing|error).*")
+        ok1 = e.wait_for(lambda: e.has("Stalk", "Investigate") and any(("hears " + kind) in l for l in e.lines()), wait + (22 if scene else 0))
+        heard = [l for l in e.lines() if l.startswith("hears")]
+        ring = c.srv.wait(lambda l: ("props: %s at" % kind) in l and l, e.mark, 2)
+        ev = "%s; %s; changes %s; heard %s" % (r.group(0) if r else "no reply", ring or "no ring line", e.changes(), heard[:2])
+        e.finish()
+        c.srv.cmd("/backrooms prop status")
+        return bool(ok1), ev
+    return case
+
+
+def t_props_sprinkler(c):
+    """A fire alarm pulled: the sprinkler head over the scene sprays, and the lit firepit and the torch under it go out."""
+    c.place(None, LEVEL)
+    x, y, z = _last_dummy(c)
+    c.reset()
+    r = _ask(c, "/backrooms prop scene sprinkler %d %d %d" % (x, y, z), r"prop-(scene|error).*")
+    if not r or r.group(1) != "scene":
+        return False, "scene: %s" % (r.group(0) if r else "no reply")
+    time.sleep(1)
+    before = [_ask(c, "/backrooms prop block %d %d %d" % (x + dx, y, z), r"prop-block .*= (\S+)") for dx in (1, -1)]
+    before = [b.group(1) if b else "?" for b in before]
+    u = _ask(c, "/backrooms prop use %d %d %d" % (x, y, z + 2), r"prop-(used|error).*")
+    time.sleep(5)
+    after = [_ask(c, "/backrooms prop block %d %d %d" % (x + dx, y, z), r"prop-block .*= (\S+)") for dx in (1, -1)]
+    after = [a.group(1) if a else "?" for a in after]
+    ok = before[0].startswith("game:firepit-lit") and before[1].startswith("game:torch-basic-lit") \
+        and not after[0].startswith("game:firepit-lit") and "extinct" in after[1]
+    return ok, "%s; firepit %s -> %s, torch %s -> %s" % (u.group(0) if u else "no reply", before[0], after[0], before[1], after[1])
+
+
+def t_props_steam(c):
+    """A valve turned: after the hiss the leaking pipe over the dummy blasts it, and its health falls (logged as hurt)."""
+    c.place(None, LEVEL)
+    x, y, z = _last_dummy(c)
+    r = _ask(c, "/backrooms prop scene steam %d %d %d" % (x, y, z), r"prop-(scene|error).*")
+    if not r or r.group(1) != "scene":
+        return False, "scene: %s" % (r.group(0) if r else "no reply")
+    time.sleep(1)
+    h0 = _ask(c, "/backrooms prop health %d %d %d" % (x, y, z), r"prop-health (\S+) = ([\d.\-]+)")
+    m = c.srv.mark()
+    u = _ask(c, "/backrooms prop use %d %d %d" % (x, y, z + 3), r"prop-(used|error).*")
+    time.sleep(4)
+    h1 = _ask(c, "/backrooms prop health %d %d %d" % (x, y, z), r"prop-health (\S+) = ([\d.\-]+)")
+    turned = c.srv.wait(lambda l: "props: valve at" in l and l, m, 3)
+    stop = c.srv.wait(lambda l: "props: the steam from" in l and l, m, 6)
+    hp0, hp1 = (float(h0.group(2)) if h0 else -1), (float(h1.group(2)) if h1 else -1)
+    hurt = bool(stop and re.search(r"hurt strawdummy#\d+ [\d.]+ HP", stop))
+    ok = bool(turned) and (hp1 < hp0 or hurt)
+    return ok, "%s; %s; health %s -> %s; %s" % (u.group(0) if u else "no reply", turned, hp0, hp1, stop)
+
+
+def t_props_breaker(c):
+    """A breaker thrown: the light under the two lamps falls; after a restart the section is still dark; a fuse brings it back."""
+    k, _ = c.place(None, LEVEL)
+    x, y, z = _last_dummy(c)
+    r = _ask(c, "/backrooms prop scene breaker %d %d %d" % (x, y, z), r"prop-(scene|error).*")
+    if not r or r.group(1) != "scene":
+        return False, "scene: %s" % (r.group(0) if r else "no reply")
+    time.sleep(2)
+    light = lambda: _ask(c, "/backrooms prop light %d %d %d" % (x, y, z), r"prop-light .*= (\d+)")
+    l0 = light()
+    u = _ask(c, "/backrooms prop use %d %d %d" % (x, y, z + 3), r"prop-(used|error).*")
+    time.sleep(2)
+    l1 = light()
+    c.srv.cmd("/autosavenow")
+    time.sleep(3)
+    c.restart()
+    c.place(k, LEVEL)
+    time.sleep(2)
+    st = _ask(c, "/backrooms prop status", r"prop-status .*")
+    l2 = light()
+    lamp = _ask(c, "/backrooms prop block %d %d %d" % (x, y + 2, z), r"prop-block .*= (\S+)")
+    f = _ask(c, "/backrooms prop use %d %d %d fuse" % (x, y, z + 3), r"prop-(used|error).*")
+    time.sleep(2)
+    l3 = light()
+    lamp2 = _ask(c, "/backrooms prop block %d %d %d" % (x, y + 2, z), r"prop-block .*= (\S+)")
+    v = [int(a.group(1)) if a else -1 for a in (l0, l1, l2, l3)]
+    ok = v[0] >= 8 and v[1] <= v[0] - 6 and v[2] <= v[0] - 6 and v[3] >= v[0] - 1 and lamp and "off" in lamp.group(1) \
+        and lamp2 and lamp2.group(1).endswith("hanginglight-on-we")
+    return ok, "light %s -> tripped %s -> after restart %s (%s; lamp %s) -> fuse %s (lamp %s); %s" % (
+        v[0], v[1], v[2], st.group(0) if st else "no status", lamp.group(1) if lamp else "?", v[3], lamp2.group(1) if lamp2 else "?",
+        f.group(0) if f else "no reply")
+
+
+PROPS_CASES = [("props-lure-firealarm", _lure_case("firealarm")), ("props-lure-caralarm", _lure_case("caralarm")),
+               ("props-lure-radio", _lure_case("radio")), ("props-lure-clock", _lure_case("alarmclock", scene=True)),
+               ("props-sprinkler", t_props_sprinkler), ("props-steam", t_props_steam), ("props-breaker", t_props_breaker)]
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mods", required=True)
@@ -1690,11 +1826,13 @@ def main():
         only = (only - {"world"}) | {n for n, _ in WORLD_CASES}
     if only and "walk" in only:
         only = (only - {"walk"}) | {n for n, _ in WALK_CASES}
+    if only and "props" in only:
+        only = (only - {"props"}) | {n for n, _ in PROPS_CASES}
     if only and "iso-hound" in only:
         only = (only - {"iso-hound"}) | {n for n, _ in ISO_HOUND_CASES}
     if only:
         # A mistyped name would otherwise boot the server (up to 15 minutes), run nothing and exit 0
-        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES} | {"p1-no-errors", "dummies-smoke"}
+        known = {n for n, _ in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES + PROPS_CASES} | {"p1-no-errors", "dummies-smoke"}
         if only - known:
             sys.exit("unknown case(s): " + ", ".join(sorted(only - known)))
     started = time.time()
@@ -1708,7 +1846,7 @@ def main():
         time.sleep(5)
         c = Ctx(srv)
         p1_start = srv.mark()
-        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES:
+        for name, fn in CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES + PROPS_CASES:
             if only and name not in only:
                 continue
             t0 = time.time()
@@ -1732,7 +1870,7 @@ def main():
             results.append(("dummies-smoke", ok))
             print("%s dummies-smoke: %s" % ("PASS" if ok else "FAIL", ev), flush=True)
         if a.rerun_failed and not died:
-            fns = dict(CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES)
+            fns = dict(CASES + P1_CASES + P26_CASES + P7_CASES + ISO_CASES + ISO_HOUND_CASES + FLICKER_CASES + STEALER_CASES + FELT_CASES + NEEDS_CASES + PATH_CASES + WORLD_CASES + PROG_CASES + WALK_CASES + PROPS_CASES)
             fns["dummies-smoke"] = smoke
             for i, (name, ok0) in enumerate(list(results)):
                 if ok0 not in (False, None) or not fns.get(name):
@@ -1761,6 +1899,9 @@ def main():
         died = str(e)
         print("FAIL SERVER DIED: " + died, flush=True)
     finally:
+        # (A case may have restarted the server: the context holds the one running now)
+        if "c" in locals():
+            srv = c.srv
         srv.stop()
         with open(os.path.join(data, "aitest.log"), "w", encoding="utf-8") as f:
             f.write("\n".join(srv.lines))

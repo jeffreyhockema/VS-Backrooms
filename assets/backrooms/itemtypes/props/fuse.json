@@ -1,0 +1,83 @@
+// A fuse (src/Props/Breakers.cs): fitted in a tripped breaker box or electrical panel, it brings that section's lights back on
+{
+	"code": "fuse",
+	"maxstacksize": 8,
+	"shape": {
+		"base": "item/fuse"
+	},
+	"creativeinventory": {
+		"general": [
+			"*"
+		],
+		"items": [
+			"*"
+		],
+		"backrooms": [
+			"*"
+		]
+	},
+	"materialDensity": 2000,
+	"behaviors": [
+		{
+			"name": "GroundStorable",
+			"properties": {
+				"layout": "Quadrants",
+				"collisionBox": {
+					"x1": 0,
+					"y1": 0,
+					"z1": 0,
+					"x2": 1,
+					"y2": 0.125,
+					"z2": 1
+				}
+			}
+		}
+	],
+	"guiTransform": {
+		"rotation": {
+			"x": -30,
+			"y": 30,
+			"z": 0
+		},
+		"origin": {
+			"x": 0.5,
+			"y": 0.1,
+			"z": 0.5
+		},
+		"scale": 3.2
+	},
+	"fpHandTransform": {
+		"translation": {
+			"x": 0,
+			"y": 0.2,
+			"z": 0.3
+		},
+		"rotation": {
+			"x": 0,
+			"y": 60,
+			"z": -20
+		},
+		"scale": 2.2
+	},
+	"tpHandTransform": {
+		"translation": {
+			"x": -0.8,
+			"y": -0.2,
+			"z": -0.6
+		},
+		"rotation": {
+			"x": 0,
+			"y": 0,
+			"z": -60
+		},
+		"scale": 0.8
+	},
+	"groundTransform": {
+		"origin": {
+			"x": 0.5,
+			"y": 0,
+			"z": 0.5
+		},
+		"scale": 3.0
+	}
+}
