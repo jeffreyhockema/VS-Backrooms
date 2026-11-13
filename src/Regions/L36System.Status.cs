@@ -243,7 +243,7 @@ public partial class L36System
     }
 
     private bool SwapBlocksExist() => swapBlocksExist ??=
-        Swap("l36-cabinwindow-roll-north") != null || Swap("l36-psu-on-north") != null || Swap("l36-ceiling-cabin-dim") != null || Swap("l36-planedoor-closed-north") != null;
+        Swap("l36-cabinwindow-roll-north") != null || Swap("l36-psu-on-north") != null || Swap("l36-ceiling-cabin-dim") != null || Swap("l36-planedoor-closed-lower-north") != null;
 
     private Block Swap(string code)
     {
@@ -283,7 +283,8 @@ public partial class L36System
                     string side = path.Substring(path.LastIndexOf('-') + 1);
                     if (path.StartsWith("l36-cabinwindow-") || path.StartsWith("l36-cabinwall-window-")) cabin.Windows.Add((pos.Copy(), side));
                     else if (path.StartsWith("l36-psu-")) cabin.Psu.Add((pos.Copy(), side));
-                    else if (path.StartsWith("l36-planedoor-")) cabin.Doors.Add((pos.Copy(), side));
+                    // (The plane door is two blocks, l36-planedoor-<state>-<part>-<side>: its part and side are kept together)
+                    else if (path.StartsWith("l36-planedoor-")) { string rest = path.Substring("l36-planedoor-".Length); cabin.Doors.Add((pos.Copy(), rest.Substring(rest.IndexOf('-') + 1))); }
                     else if (path == "l36-ceiling-cabin" || path == "l36-ceiling-cabin-dim") cabin.Ceiling.Add(pos.Copy());
                 }
             }
