@@ -157,6 +157,21 @@ public partial class ThresholdSystem : ModSystem
     /// <summary>Whether using the threshold block at a position would take someone somewhere (rather than being locked, out of order or nowhere).</summary>
     public bool LeadsSomewhere(BlockPos pos, string kind) => network != null && network.Used(pos.X, pos.Z, kind, out _) != null;
 
+    /// <summary>Whether a way (a link) is written down at a block's column: a threshold that has led somewhere, or a way back to one.</summary>
+    public bool RecordedAt(BlockPos pos) => network != null && network.Recorded(pos.X, pos.Z);
+
+    /// <summary>
+    /// The kind of threshold a block is used as when right-clicked, or null for none: a threshold block's own kind, and a locked
+    /// Suburbs house door's (layout version 9 on, <see cref="Deep.BlockBehaviorSuburbDoor"/>), which opens onto a way back
+    /// written onto it. The way-back test (/backrooms wayback) asks this too, so it tries the way back as a player would.
+    /// </summary>
+    public static string UseKindOf(Block block)
+    {
+        if (block?.GetBehavior<BlockBehaviorThreshold>() is { } threshold) return threshold.Kind;
+        if (block?.Code?.Domain == "backrooms" && block.FirstCodePart() == "suburbdoor" && block.Variant["state"] == "locked") return ThresholdNetwork.SuburbDoorKind;
+        return null;
+    }
+
     // ================= Thresholds you use =================
 
     /// <summary>Called when a player uses a threshold block (an elevator, a door, a vent, a thin spot).</summary>

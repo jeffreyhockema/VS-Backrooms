@@ -67,17 +67,9 @@ public class PrySystem : ModSystem
         // Not in somebody else's claim (TryAccess tells the player why)
         if (!sapi.World.Claims.TryAccess(player, pos, EnumBlockAccessFlags.BuildOrBreak)) return false;
 
-        // A door that goes somewhere is not locked
-        if (door.GetBehavior<BlockBehaviorThreshold>() is { } threshold
-            && sapi.ModLoader.GetModSystem<ThresholdSystem>().LeadsSomewhere(pos, threshold.Kind))
+        if (Refusal(pos) is { } why)
         {
-            player.SendIngameError("backrooms-pry", Lang.Get("backrooms:pry-notlocked"));
-            return false;
-        }
-        // Only a door with a room behind it gives; most are set in solid wall
-        if (!RoomBehind(pos.X, pos.Z))
-        {
-            player.SendIngameError("backrooms-pry", Lang.Get("backrooms:pry-solid"));
+            player.SendIngameError("backrooms-pry", Lang.Get(why));
             return false;
         }
 
@@ -97,6 +89,20 @@ public class PrySystem : ModSystem
         slot.Itemstack?.Collectible.DamageItem(sapi.World, player.Entity, slot);
         slot.MarkDirty();
         return true;
+    }
+
+    /// <summary>
+    /// Why the locked door at a position does not give to a pry bar (a lang key), or null if it does. A door that goes
+    /// somewhere is not locked, nor is one a way is written onto (the way back of a door someone came through: the locked
+    /// Suburbs door you arrive beside from a city rowhouse), and neither is ever broken; most others are set in solid wall.
+    /// (Public for the way-back test, /backrooms wayback.)
+    /// </summary>
+    public string Refusal(BlockPos pos)
+    {
+        Block door = sapi.World.BlockAccessor.GetBlock(pos);
+        ThresholdSystem thresholds = sapi.ModLoader.GetModSystem<ThresholdSystem>();
+        if (ThresholdSystem.UseKindOf(door) is { } kind && thresholds.LeadsSomewhere(pos, kind) || thresholds.RecordedAt(pos)) return "backrooms:pry-notlocked";
+        return layout != null && RoomBehind(pos.X, pos.Z) ? null : "backrooms:pry-solid";
     }
 
     private static readonly (int Dx, int Dz)[] Sides = { (1, 0), (-1, 0), (0, 1), (0, -1) };

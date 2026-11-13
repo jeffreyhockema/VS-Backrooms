@@ -28,7 +28,7 @@ public class RigCommands : ModSystem
         var parsers = api.ChatCommands.Parsers;
         api.ChatCommands.Get("backrooms")?
             .BeginSubCommand("rig")
-                .WithDescription("Client test rig helpers: equip <set> (wear game:armor-head/body/legs-<set>, e.g. sewn-leather), sleep (put a hotel bed beside you if there is none and lie down in it), face <text> (reports the heading and pitch to the nearest block whose code contains text, within 16 blocks), walk <blocks> (moves you that far along the way you face, one block at a time, over a floor and through free air), hurt <amount> (a blow from nothing in particular), classdrops <block> (the drops of a block such as supplybox rolled 400 times as if it stood where you do), place <code@dx,dz> (sets a block at your feet height dx, dz off, clearing the one above)")
+                .WithDescription("Client test rig helpers: equip <set> (wear game:armor-head/body/legs-<set>, e.g. sewn-leather), sleep (put a hotel bed beside you if there is none and lie down in it), face <text> (reports the heading and pitch to the nearest block whose code contains text, within 16 blocks), walk <blocks> (moves you that far along the way you face, one block at a time, over a floor and through free air), hurt <amount> (a blow from nothing in particular), classdrops <block> (the drops of a block such as supplybox rolled 400 times as if it stood where you do), place <code@dx,dz> (sets a block at your feet height dx, dz off, clearing the one above), use <text> (right-clicks the nearest block whose code contains text, within 16 blocks, as you would: its own behaviours run, so a door opens or takes you through), pry <text> (leans a pry bar on the nearest such block: says whether it gave, or why not)")
                 .RequiresPlayer()
                 .WithArgs(parsers.Word("what"), parsers.OptionalWord("arg"))
                 .HandleWith(Handle)
@@ -128,7 +128,9 @@ public class RigCommands : ModSystem
                 return r.Status == EnumCommandStatus.Success ? TextCommandResult.Success("rig-classdrops " + r.StatusMessage) : r;
             }
             case "place": return Place(player, arg);
-            default: return TextCommandResult.Error("rig-error: equip, sleep, face, walk, hurt, classdrops or place");
+            case "use": return Use(player, arg);
+            case "pry": return PryAt(player, arg);
+            default: return TextCommandResult.Error("rig-error: equip, sleep, face, walk, hurt, classdrops, place, use or pry");
         }
     }
 
@@ -147,6 +149,47 @@ public class RigCommands : ModSystem
         sapi.World.BlockAccessor.SetBlock(block.Id, pos);
         sapi.World.BlockAccessor.SetBlock(0, pos.UpCopy());
         return TextCommandResult.Success($"rig-place {block.Code} at {pos.X} {pos.Y} {pos.Z}");
+    }
+
+    /// <summary>The nearest block (within 16 blocks of the player, 4 down to 6 up) whose code contains the text, or null.</summary>
+    BlockPos Nearest(IServerPlayer player, string text)
+    {
+        var blocks = sapi.World.BlockAccessor;
+        BlockPos at = player.Entity.Pos.AsBlockPos, best = null;
+        double bestD = 1e9;
+        for (int dx = -16; dx <= 16; dx++)
+            for (int dz = -16; dz <= 16; dz++)
+                for (int dy = -4; dy <= 6; dy++)
+                {
+                    var p = at.AddCopy(dx, dy, dz);
+                    if (blocks.GetBlock(p).Code?.Path is not { } code || !code.Contains(text)) continue;
+                    double d = dx * dx + dz * dz + dy * dy;
+                    if (d < bestD) { bestD = d; best = p; }
+                }
+        return best;
+    }
+
+    /// <summary>use &lt;text&gt;: right-clicks the nearest block whose code contains the text, through the block's own interaction (its behaviours, on the server), as the player would.</summary>
+    TextCommandResult Use(IServerPlayer player, string text)
+    {
+        if (string.IsNullOrEmpty(text)) return TextCommandResult.Error("rig-error: use <text>");
+        if (Nearest(player, text) is not { } pos) return TextCommandResult.Error("rig-use none " + text);
+        Block block = sapi.World.BlockAccessor.GetBlock(pos);
+        var sel = new BlockSelection { Position = pos, Face = BlockFacing.UP, HitPosition = new Vec3d(0.5, 0.5, 0.5) };
+        bool handled = block.OnBlockInteractStart(sapi.World, player, sel);
+        return TextCommandResult.Success(string.Format(CultureInfo.InvariantCulture, "rig-use {0} at {1} {2} {3}: {4}", block.Code.Path, pos.X, pos.Y, pos.Z, handled ? "used" : "nothing"));
+    }
+
+    /// <summary>pry &lt;text&gt;: a full lean of a pry bar on the nearest block whose code contains the text (PrySystem.Pry), and what came of it.</summary>
+    TextCommandResult PryAt(IServerPlayer player, string text)
+    {
+        if (string.IsNullOrEmpty(text)) return TextCommandResult.Error("rig-error: pry <text>");
+        if (Nearest(player, text) is not { } pos) return TextCommandResult.Error("rig-pry none " + text);
+        var pry = sapi.ModLoader.GetModSystem<Backrooms.Salvage.PrySystem>();
+        string code = sapi.World.BlockAccessor.GetBlock(pos).Code.Path, why = pry?.Refusal(pos);
+        bool gave = pry?.Pry(player, pos, player.InventoryManager.ActiveHotbarSlot) == true;
+        return TextCommandResult.Success(string.Format(CultureInfo.InvariantCulture, "rig-pry {0} at {1} {2} {3}: {4}", code, pos.X, pos.Y, pos.Z,
+            gave ? "it gave (" + sapi.World.BlockAccessor.GetBlock(pos).Code?.Path + " there now)" : "refused, " + (why ?? "not a locked door")));
     }
 
     /// <summary>chalk [colour]: gives the four coloured sticks (hotbar), and puts the four marks of the colour (white by default) on the wall ahead.</summary>

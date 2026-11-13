@@ -232,6 +232,10 @@ public partial class ThresholdSystem
         }
         else
         {
+            // (A rowhouse door: x z may be anywhere in the city, for the harness; the nearest rowhouse door that leads away is taken)
+            if (kind == "rowhouse" && layout.TileAt(x, z) is not { Kind: TileKind.Door, Level: 11 }
+                && new Cheats.FeatureFinder(layout, geometry).Feature("l11rowhouse", x, z, 1024, 11, 1) is { } door)
+                (x, z) = (door.X, door.Z);
             passage = network.Used(x, z, kind, out string refusal);
             if (passage == null) return TextCommandResult.Error($"The {kind} at {x}, {z} leads nowhere ({refusal})");
             int from = geometry.FloorFor(layout.TileAt(x, z).Level);
@@ -322,6 +326,31 @@ public partial class ThresholdSystem
             int x = (int)Math.Floor(to.X), z = (int)Math.Floor(to.Z);
             Passage spot = network.Used(x, z, "thinspot", out _);
             return spot != null && network.Take(spot, null) == home ? "way back: the thin spot leads home" : "way back: the thin spot does NOT lead home";
+        }
+        if (passage.TwoWay)
+        {
+            // Beside a threshold of its kind (a city rowhouse's door puts you beside a Suburbs house's locked front door): the
+            // way back is written onto that one. Not only written down: the block standing there must be one a player can use,
+            // and using it must lead home (layouts 9 to 15 left a Suburbs door there that only ever said it was locked)
+            int ax = (int)Math.Floor(to.X), az = (int)Math.Floor(to.Z);
+            var results = new List<string>();
+            foreach ((int x, int z) in network.LinksTo(home, ax, az, 12))
+            {
+                if ((x, z) == passage.Source) continue;
+                int level = layout.TileAt(x, z).Level;
+                for (int rel = 1; rel <= 2; rel++)
+                {
+                    var pos = new BlockPos(x, geometry.FloorFor(level) + rel, z);
+                    Block block = sapi.World.BlockAccessor.GetBlock(pos);
+                    if (UseKindOf(block) is not { } kind) { results.Add($"{x},{z} rel {rel} ({block.Code?.Path ?? "nothing"}) is NOT usable"); continue; }
+                    Passage back = network.Used(x, z, kind, out string refusal);
+                    Link? there = back == null ? null : network.Take(back, null);
+                    // (And a pry bar must never break it: PrySystem refuses a door a way is written onto)
+                    string pry = sapi.ModLoader.GetModSystem<Salvage.PrySystem>()?.Refusal(pos) == "backrooms:pry-notlocked" ? "the pry bar refuses" : "the pry bar would BREAK it";
+                    results.Add(there == home ? $"{x},{z} rel {rel} ({block.Code.Path}, {kind}) leads home, {pry}" : $"{x},{z} rel {rel} ({block.Code.Path}, {kind}) leads to {there?.ToString() ?? refusal}, NOT home, {pry}");
+                }
+            }
+            return results.Count == 0 ? "way back: NOT written down beside the arrival" : "way back beside: " + string.Join(", ", results);
         }
         return "way back: (none to try here)";
     }
